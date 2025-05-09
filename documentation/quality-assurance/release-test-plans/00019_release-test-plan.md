@@ -27,7 +27,7 @@ This release primarily focuses on implementing Front Door redirection changes re
 
 ## Test Strategy
 
-- Functional Testing: Check the revenue reserve figures are computed and updated correctly.
+- Sanity Testing: Check the revenue reserve figures are computed and updated correctly.
 - Smoke Testing: Execute smoke tests to validate the basic functionality of the application post-deployment.
 
 ## Entry and Exit Criteria
@@ -54,7 +54,7 @@ This release primarily focuses on implementing Front Door redirection changes re
 ## Risk Analysis
 
 - **Risk:** Making DNS changes for SFB in production carries potential risks, as testing is only feasible within the live environment.  
-  - **Mitigation:** Front door services have been tested using feature environments. If any issues arise, redirects will be manually rolled back to minimise impact. 
+  - **Mitigation:** Front door services have been tested using feature environments. If any issues arise, redirects will be manually rolled back to minimise impact.
 
 - **Risk:** Bugs & Defects in Production. Unexpected software defects can cause system crashes, data corruption, or functional failures.
   - **Mitigation:** Conduct thorough testing (unit, integration, regression testing). Implement automated testing to catch issues early.
@@ -99,11 +99,11 @@ This release primarily focuses on implementing Front Door redirection changes re
 
 **Summary of results:**
 
-| Test Category     | Total Tests | Passed | Failed | Pass Rate |
-|-------------------|:-----------:|:------:|:------:|:---------:|
-| Smoke Tests       |      X      |   X    |   0    |    X%     |
-| Functional Tests  |      X      |   X    |   0    |    X%     |
-| Total             |      X      |   X    |   0    |    X%     |
+| Test Category | Total Tests | Passed | Failed | Pass Rate |
+|---------------|:-----------:|:------:|:------:|:---------:|
+| Smoke Tests   |      X      |   X    |   0    |    X%     |
+| Sanity Tests  |      X      |   X    |   0    |    X%     |
+| Total         |      X      |   X    |   0    |    X%     |
 
 <!-- Leave the rest of this page blank -->
 \newpage
