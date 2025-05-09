@@ -65,6 +65,13 @@
       commit-message:
         prefix: "[nuget] "
 
+    - package-ecosystem: "npm"
+      directory: "/platform/src/apis/Platform.Api.ChartRendering"
+      schedule:
+        interval: "monthly"
+      commit-message:
+        prefix: "[npm] "
+
     - package-ecosystem: "nuget"
       directory: "/platform/src/apis/Platform.Api.Establishment"
       schedule:
@@ -74,6 +81,20 @@
 
     - package-ecosystem: "nuget"
       directory: "/platform/src/apis/Platform.Api.Insight"
+      schedule:
+        interval: "monthly"
+      commit-message:
+        prefix: "[nuget] "
+
+    - package-ecosystem: "nuget"
+      directory: "/platform/src/apis/Platform.Api.LocalAuthorityFinances"
+      schedule:
+        interval: "monthly"
+      commit-message:
+        prefix: "[nuget] "
+
+    - package-ecosystem: "nuget"
+      directory: "/platform/src/apis/Platform.Api.NonFinancial"
       schedule:
         interval: "monthly"
       commit-message:

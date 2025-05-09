@@ -1,0 +1,16 @@
+parameters:
+  ProjectDirectory: ''
+
+steps:
+  - task: Npm@1
+    displayName: 'Restore npm packages'
+    inputs:
+      command: 'install'
+      workingDir: '${{ parameters.ProjectDirectory }}'
+
+  - task: Npm@1
+    displayName: 'Run npm lint'
+    inputs:
+      command: 'custom'
+      customCommand: 'run lint'
+      workingDir: '${{ parameters.ProjectDirectory }}'

@@ -174,6 +174,15 @@ stages:
       - job: BuildPlatform
         displayName: 'Platform : Build'
         steps:
+          - task: Npm@1
+            displayName: 'Update ChartRendering version number'
+            condition: and(succeeded(), eq(variables['ShouldDeploy'],'true'))
+            inputs:
+              command: 'custom'
+              customCommand: 'version $(Version.BuildVersion)'
+              workingDir: 'platform/src/apis/Platform.Api.ChartRendering'
+              verbose: false
+
           - template: ../platform/steps/build.yaml
             parameters:
               BuildVersion: $(Version.BuildVersion)
