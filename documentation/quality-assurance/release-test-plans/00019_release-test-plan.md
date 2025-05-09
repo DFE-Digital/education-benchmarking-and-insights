@@ -79,10 +79,10 @@ This release primarily focuses on implementing Front Door redirection changes re
 **Release Overview:**
 
 The High Needs feature flag was found to be disabled in code in version 2025.05.0. As a result, that release was abandoned, and an update was included in version 2025.05.1.
-- 
+
 - **Original Planned Release:** 2025.05.0
 - **New Release Version:** 2025.05.1
-- **Hotfixes Included:** HighNeeds Feature flag was enabled in code. 
+- **Hotfixes Included:** HighNeeds Feature flag was enabled in code.
 - **Current Release (2025.05.1):** Contains the necessary hotfix.
 - **Testing Impact:** No impact to the release testing plan.
 
