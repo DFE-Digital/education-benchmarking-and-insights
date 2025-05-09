@@ -113,9 +113,9 @@ The High Needs feature flag was found to be disabled in code in version 2025.05.
 
 | Test Category | Total Tests | Passed | Failed | Pass Rate |
 |---------------|:-----------:|:------:|:------:|:---------:|
-| Smoke Tests   |      X      |   X    |   0    |    X%     |
+| Smoke Tests   |      1      |   1    |   0    |   100%    |
 | Sanity Tests  |      1      |   1    |   0    |   100%    |
-| Total         |      X      |   X    |   0    |    X%     |
+| Total         |      X      |   X    |   0    |   100%    |
 
 <!-- Leave the rest of this page blank -->
 \newpage
