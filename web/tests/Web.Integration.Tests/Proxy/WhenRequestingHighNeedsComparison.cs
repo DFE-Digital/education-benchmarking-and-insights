@@ -14,7 +14,7 @@ public class WhenRequestingHighNeedsComparison(SchoolBenchmarkingWebAppClient cl
     [Fact]
     public async Task CanReturnCorrectResponse()
     {
-        const string code = nameof(code);
+        const string code = "123";
         var set = new[] { "code2", "code3" };
 
         var localAuthorities = new[] { code }
@@ -51,7 +51,7 @@ public class WhenRequestingHighNeedsComparison(SchoolBenchmarkingWebAppClient cl
     [Fact]
     public async Task CanReturnNotFoundWhenComparatorSetDoesNotExist()
     {
-        const string code = nameof(code);
+        const string code = "123";
         string[] set = [];
 
         var response = await client
@@ -63,8 +63,8 @@ public class WhenRequestingHighNeedsComparison(SchoolBenchmarkingWebAppClient cl
     [Fact]
     public async Task CanReturnInternalServerError()
     {
-        const string code = nameof(code);
-        var set = new[] { "code2", "code3" };
+        const string code = "123";
+        var set = new[] { "456", "789" };
 
         var response = await client
             .SetupLocalAuthoritiesWithException()

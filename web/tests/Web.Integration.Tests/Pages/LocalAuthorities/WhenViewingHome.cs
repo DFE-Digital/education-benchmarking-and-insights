@@ -117,6 +117,17 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
     }
 
     [Fact]
+    public async Task CanDisplayBadRequest()
+    {
+        const string code = "1234";
+        var page = await Client
+            .Navigate(Paths.LocalAuthorityHome(code));
+
+        PageAssert.IsNotFoundPage(page);
+        DocumentAssert.AssertPageUrl(page, Paths.LocalAuthorityHome(code).ToAbsolute(), HttpStatusCode.BadRequest);
+    }
+
+    [Fact]
     public async Task CanDisplayProblemWithService()
     {
         const string code = "123";
@@ -130,6 +141,7 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
     private async Task<(IHtmlDocument page, LocalAuthority authority, LocalAuthoritySchool[] schools)> SetupNavigateInitPage(bool filteredSearchFeatureEnabled = false, params string[] phaseTypes)
     {
         var authority = Fixture.Build<LocalAuthority>()
+            .With(a => a.Code, "123")
             .Create();
 
         string[] disabledFlags = [];

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
+using Web.App.Attributes;
 using Web.App.Controllers.Api.Mappers;
 using Web.App.Controllers.Api.Responses;
 using Web.App.Domain.LocalAuthorities;
@@ -23,6 +24,7 @@ public class HighNeedsProxyController(
     [ProducesResponseType<LocalAuthorityHighNeedsComparisonResponse[]>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     [Route("comparison")]
+    [ValidateLaCode]
     public async Task<IActionResult> Comparison([FromQuery] string code, [FromQuery] string[]? set = null, CancellationToken cancellationToken = default)
     {
         try
@@ -53,6 +55,7 @@ public class HighNeedsProxyController(
     [ProducesResponseType<LocalAuthorityHighNeedsHistoryResponse[]>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     [Route("history")]
+    [ValidateLaCode]
     public async Task<IActionResult> History([FromQuery] string code, CancellationToken cancellationToken = default)
     {
         try

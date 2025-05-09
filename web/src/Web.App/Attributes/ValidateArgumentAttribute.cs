@@ -37,7 +37,11 @@ public static partial class ValidateArgumentAttributeRegex
 
     [GeneratedRegex(@"^\d{8}$")]
     public static partial Regex CompanyNumberRegex();
+
+    [GeneratedRegex(@"^\d{3}$")]
+    public static partial Regex LaCodeRegex();
 }
 
 public class ValidateUrnAttribute() : ValidateArgumentAttribute("urn", ValidateArgumentAttributeRegex.UrnRegex());
 public class ValidateCompanyNumberAttribute() : ValidateArgumentAttribute("companyNumber", ValidateArgumentAttributeRegex.CompanyNumberRegex());
+public class ValidateLaCodeAttribute() : ValidateArgumentAttribute("code", ValidateArgumentAttributeRegex.LaCodeRegex());
