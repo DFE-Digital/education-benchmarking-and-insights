@@ -53,6 +53,9 @@ This release primarily focuses on implementing Front Door redirection changes re
 
 ## Risk Analysis
 
+- **Risk:** Making DNS changes for SFB in production carries potential risks, as testing is only feasible within the live environment.  
+  - **Mitigation:** Front door services have been tested using feature environments. If any issues arise, redirects will be manually rolled back to minimise impact. 
+
 - **Risk:** Bugs & Defects in Production. Unexpected software defects can cause system crashes, data corruption, or functional failures.
   - **Mitigation:** Conduct thorough testing (unit, integration, regression testing). Implement automated testing to catch issues early.
 
