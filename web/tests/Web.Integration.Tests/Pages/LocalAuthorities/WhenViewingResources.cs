@@ -54,6 +54,7 @@ public class WhenViewingResources(SchoolBenchmarkingWebAppClient client) : PageB
     private async Task<(IHtmlDocument page, LocalAuthority authority)> SetupNavigateInitPage()
     {
         var authority = Fixture.Build<LocalAuthority>()
+            .With(a => a.Code, "123")
             .Create();
 
         var page = await Client.SetupEstablishment(authority)

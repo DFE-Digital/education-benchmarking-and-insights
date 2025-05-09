@@ -37,7 +37,55 @@ public static partial class ValidateArgumentAttributeRegex
 
     [GeneratedRegex(@"^\d{8}$")]
     public static partial Regex CompanyNumberRegex();
+
+    [GeneratedRegex(@"^\d{3}$")]
+    public static partial Regex LaCodeRegex();
 }
 
-public class ValidateUrnAttribute() : ValidateArgumentAttribute("urn", ValidateArgumentAttributeRegex.UrnRegex());
-public class ValidateCompanyNumberAttribute() : ValidateArgumentAttribute("companyNumber", ValidateArgumentAttributeRegex.CompanyNumberRegex());
+public class ValidateUrnAttribute(string argumentName = "urn") : ValidateArgumentAttribute(argumentName, ValidateArgumentAttributeRegex.UrnRegex());
+
+public class ValidateCompanyNumberAttribute(string argumentName = "companyNumber") : ValidateArgumentAttribute(argumentName, ValidateArgumentAttributeRegex.CompanyNumberRegex());
+
+public class ValidateLaCodeAttribute(string argumentName = "code") : ValidateArgumentAttribute(argumentName, ValidateArgumentAttributeRegex.LaCodeRegex());
+
+public class ValidateIdAttribute(string argumentName = "id", string typeArgumentName = "type") : ActionFilterAttribute
+{
+    public override void OnActionExecuting(ActionExecutingContext context)
+    {
+        if (context.ActionArguments.TryGetValue(argumentName, out var idValue))
+        {
+            var id = idValue?.ToString();
+
+            // Only attempt to validate if non-null or empty value. This _should_ always be the case,
+            // otherwise ASP.NET action binding would fail and a `404` would be served by ASP.NET anyway.
+            if (!string.IsNullOrWhiteSpace(id))
+            {
+                if (context.ActionArguments.TryGetValue(typeArgumentName, out var typeValue))
+                {
+                    var type = typeValue?.ToString();
+                    if (!string.IsNullOrWhiteSpace(type))
+                    {
+                        var isMatch = type.ToLower() switch
+                        {
+                            OrganisationTypes.School => ValidateArgumentAttributeRegex.UrnRegex().IsMatch(id),
+                            OrganisationTypes.Trust => ValidateArgumentAttributeRegex.CompanyNumberRegex().IsMatch(id),
+                            OrganisationTypes.LocalAuthority => ValidateArgumentAttributeRegex.LaCodeRegex().IsMatch(id),
+                            _ => false
+                        };
+
+                        if (!isMatch)
+                        {
+                            context.Result = new ViewResult
+                            {
+                                ViewName = "../Error/NotFound",
+                                StatusCode = (int)HttpStatusCode.BadRequest
+                            };
+                        }
+                    }
+                }
+            }
+        }
+
+        base.OnActionExecuting(context);
+    }
+}

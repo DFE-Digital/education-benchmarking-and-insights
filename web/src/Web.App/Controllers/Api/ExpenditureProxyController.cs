@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
+using Web.App.Attributes;
 using Web.App.Domain;
 using Web.App.Infrastructure.Apis;
 using Web.App.Infrastructure.Apis.Establishment;
@@ -32,6 +33,8 @@ public class ExpenditureProxyController(
     [ProducesResponseType<SchoolExpenditure[]>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ValidateId]
     public async Task<IActionResult> Query(
         [FromQuery] string type,
         [FromQuery] string id,
@@ -79,7 +82,9 @@ public class ExpenditureProxyController(
     [Produces("application/json")]
     [ProducesResponseType<ExpenditureHistoryRows>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [Route("history")]
+    [ValidateId]
     public async Task<IActionResult> History(
         [FromQuery] string type,
         [FromQuery] string id,
@@ -121,7 +126,9 @@ public class ExpenditureProxyController(
     [Produces("application/json")]
     [ProducesResponseType<HistoryComparison<ExpenditureHistory>>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [Route("history/comparison")]
+    [ValidateId]
     public async Task<IActionResult> HistoryComparison(
         [FromQuery] string type,
         [FromQuery] string id,
@@ -171,7 +178,9 @@ public class ExpenditureProxyController(
     [ProducesResponseType<TrustExpenditure[]>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [Authorize]
+    [ValidateId]
     public async Task<IActionResult> UserDefined(
         [FromQuery] string type,
         [FromQuery] string id,

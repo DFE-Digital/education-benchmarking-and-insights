@@ -17,10 +17,11 @@ public class BudgetForecastProxyController(ILogger<BudgetForecastProxyController
     /// <param name="companyNumber" example="07465701"></param>
     /// <param name="cancellationToken"></param>
     [HttpGet]
-    [ValidateCompanyNumber]
     [Produces("application/json")]
     [ProducesResponseType<BudgetForecastReturn[]>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ValidateCompanyNumber]
     public async Task<IActionResult> Index([FromQuery] string companyNumber, CancellationToken cancellationToken = default)
     {
         using (logger.BeginScope(new

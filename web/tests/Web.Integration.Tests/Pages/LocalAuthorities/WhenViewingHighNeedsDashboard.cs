@@ -108,6 +108,7 @@ public class WhenViewingHighNeeds(SchoolBenchmarkingWebAppClient client) : PageB
         bool notInRanking = false)
     {
         var authority = Fixture.Build<LocalAuthority>()
+            .With(a => a.Code, "123")
             .Create();
 
         var rankings = Fixture.Build<LocalAuthorityRank>()
