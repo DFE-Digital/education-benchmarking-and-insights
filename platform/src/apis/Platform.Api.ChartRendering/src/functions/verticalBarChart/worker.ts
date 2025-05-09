@@ -1,5 +1,5 @@
 import { v4 as uuidv4 } from "uuid";
-import VerticalBarChartBuilder from "./verticalBarChartBuilder.js";
+import VerticalBarChartBuilder from "./builder";
 import { ChartDefinition } from "..";
 
 const builder = new VerticalBarChartBuilder();

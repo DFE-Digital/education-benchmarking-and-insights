@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "build": "tsc && tsc-alias",
+    "build": "tsc && tsc-alias && npm run spec",
     "build-ci": "npm run prestart && copyfiles *.json -e tsconfig.json out && copyfiles -u 1 \"dist/**/*\" out/dist && copyfiles -u 1 \"node_modules/**/*\" out/node_modules",
     "watch": "tsc -w",
     "clean": "rimraf dist && rimraf out",
@@ -13,7 +13,8 @@
     "test": "jest",
     "test-ci": "jest --coverage --coverageDirectory=tests/out",
     "lint": "eslint . --ext .ts",
-    "lint-fix": "eslint . --ext .ts --fix"
+    "lint-fix": "eslint . --ext .ts --fix",
+    "spec": "ts-oas ./src/api.ts /^\\w+Api$/ -o dist/api.json"
   },
   "dependencies": {
     "@azure/functions": "^4.0.0",
@@ -41,9 +42,10 @@
     "prettier": "^3.5.3",
     "rimraf": "^6.0.1",
     "ts-jest": "^29.3.2",
+    "ts-oas": "^0.5.1",
     "tsc-alias": "^1.8.16",
     "typescript": "^5.8.2"
   },
-  "main": "dist/src/index.js",
+  "main": "dist/src/{index.js,functions/**/route.js}",
   "type": "module"
 }
