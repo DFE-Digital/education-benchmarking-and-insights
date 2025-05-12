@@ -1,7 +1,10 @@
 import { ApiMapper } from "ts-oas";
 
+/**
+ * @tags Health Check
+ */
 export type GetHealthApi = ApiMapper<{
-  path: "/health";
+  path: "/api/health";
   method: "GET";
   responses: {
     /**
