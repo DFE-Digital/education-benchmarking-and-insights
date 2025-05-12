@@ -1,3 +1,6 @@
+/**
+ * @examples require('../openapi/verticalBarChart/examples.ts').examples
+ */
 export type ChartDefinition = Pick<ChartBuilderOptions<unknown>, "data"> &
   Partial<
     Pick<
