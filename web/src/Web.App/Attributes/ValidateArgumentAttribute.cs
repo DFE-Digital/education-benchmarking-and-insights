@@ -1,28 +1,85 @@
-using System.Net;
-using System.Text.RegularExpressions;
+using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
+using Web.App.Validators;
 
 namespace Web.App.Attributes;
 
 [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
-public class ValidateArgumentAttribute(string argumentName, Regex regex) : ActionFilterAttribute
+public abstract class ValidateArgumentAttribute : TypeFilterAttribute
+{
+    protected ValidateArgumentAttribute(string argumentName, string type) : this(argumentName, type, string.Empty)
+    {
+    }
+
+    protected ValidateArgumentAttribute(string argumentName, string type, string typeName) : base(typeof(ValidateArgumentFilter))
+    {
+        ArgumentName = argumentName;
+        Type = type;
+        TypeName = typeName;
+
+        // arguments list must match the `ValidateArgument` constructor arguments
+        Arguments =
+        [
+            ArgumentName,
+            Type,
+            TypeName
+        ];
+    }
+
+    internal string ArgumentName { get; }
+    internal string Type { get; }
+    internal string TypeName { get; }
+}
+
+internal class ValidateArgumentFilter(
+    ILogger<ValidateArgumentFilter> logger,
+    IValidator<OrganisationIdentifier> validator,
+    string argumentName,
+    string type,
+    string typeName) : ActionFilterAttribute
 {
     public override void OnActionExecuting(ActionExecutingContext context)
     {
-        if (context.ActionArguments.TryGetValue(argumentName, out var value))
+        if (context.ActionArguments.TryGetValue(argumentName, out var identifierValue))
         {
-            var parsed = value?.ToString();
+            var parsed = identifierValue?.ToString();
 
             // Only attempt to validate if non-null or empty value. This _should_ always be the case,
             // otherwise ASP.NET action binding would fail and a `404` would be served by ASP.NET anyway.
-            if (!string.IsNullOrWhiteSpace(parsed) && !regex.IsMatch(parsed))
+            if (!string.IsNullOrWhiteSpace(parsed))
             {
-                context.Result = new ViewResult
+                var parsedType = type;
+                if (string.IsNullOrWhiteSpace(parsedType) && !string.IsNullOrWhiteSpace(typeName))
                 {
-                    ViewName = "../Error/NotFound",
-                    StatusCode = (int)HttpStatusCode.BadRequest
-                };
+                    if (context.ActionArguments.TryGetValue(typeName, out var typeValue))
+                    {
+                        parsedType = typeValue?.ToString();
+                    }
+                }
+
+                // no type provided, so unable to validate identifier
+                if (string.IsNullOrWhiteSpace(parsedType))
+                {
+                    logger.LogDebug("Unable to validate identifier {Identifier} because organisation type could not be resolved", parsed);
+                    context.Result = new NotFoundResult();
+                }
+                else
+                {
+                    var identifier = new OrganisationIdentifier
+                    {
+                        Value = parsed,
+                        Type = parsedType
+                    };
+
+                    var result = validator.Validate(identifier);
+
+                    logger.LogDebug("Validation of identifier {Identifier} of type {Type} returned {ErrorCount} error(s)", identifier.Value, identifier.Type, result.Errors.Count);
+                    if (!result.IsValid)
+                    {
+                        context.Result = new NotFoundResult();
+                    }
+                }
             }
         }
 
@@ -30,18 +87,8 @@ public class ValidateArgumentAttribute(string argumentName, Regex regex) : Actio
     }
 }
 
-public static partial class ValidateArgumentAttributeRegex
-{
-    [GeneratedRegex(@"^\d{6}$")]
-    public static partial Regex UrnRegex();
+public class ValidateUrnAttribute() : ValidateArgumentAttribute("urn", OrganisationTypes.School);
 
-    [GeneratedRegex(@"^\d{8}$")]
-    public static partial Regex CompanyNumberRegex();
+public class ValidateCompanyNumberAttribute() : ValidateArgumentAttribute("companyNumber", OrganisationTypes.Trust);
 
-    [GeneratedRegex(@"^\d{3}$")]
-    public static partial Regex LaCodeRegex();
-}
-
-public class ValidateUrnAttribute() : ValidateArgumentAttribute("urn", ValidateArgumentAttributeRegex.UrnRegex());
-public class ValidateCompanyNumberAttribute() : ValidateArgumentAttribute("companyNumber", ValidateArgumentAttributeRegex.CompanyNumberRegex());
-public class ValidateLaCodeAttribute() : ValidateArgumentAttribute("code", ValidateArgumentAttributeRegex.LaCodeRegex());
+public class ValidateLaCodeAttribute() : ValidateArgumentAttribute("code", OrganisationTypes.LocalAuthority);
