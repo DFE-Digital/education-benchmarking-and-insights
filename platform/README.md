@@ -159,7 +159,7 @@ Add configuration in `local.settings.json` for `Platform.Api.ChartRendering`
 #### Orchestrator Function App
 
 For local development it's assumed Azurite will be used. More information can be
-found [here](https://learn.microsoft.com/en-us/azure/storage/common/storage-use-azurite?tabs=visual-studio%2Cblob-storage).
+found [in Microsoft docs](https://learn.microsoft.com/en-us/azure/storage/common/storage-use-azurite?tabs=visual-studio%2Cblob-storage).
 
 Add configuration in `local.settings.json` for `Platform.Orchestrator`
 
@@ -195,7 +195,7 @@ Add configuration in `local.settings.json` for `Platform.Orchestrator`
 #### User Data Cleanup Function App
 
 For local development it's assumed Azurite will be used. More information can be
-found [here](https://learn.microsoft.com/en-us/azure/storage/common/storage-use-azurite?tabs=visual-studio%2Cblob-storage).
+found [in Microsoft docs](https://learn.microsoft.com/en-us/azure/storage/common/storage-use-azurite?tabs=visual-studio%2Cblob-storage).
 
 Add configuration in `local.settings.json` for `Platform.UserDataCleanUp`
 

@@ -100,5 +100,21 @@ describe("vertical bar chart", () => {
         expect(validatePayload(payload)).toStrictEqual(expected);
       });
     });
+
+    describe("with undefined payload", () => {
+      test("returns error", () => {
+        const expected: string[] = ["Invalid payload"];
+        expect(validatePayload(undefined)).toStrictEqual(expected);
+      });
+    });
+
+    describe("with unsupported payload", () => {
+      test("returns error", () => {
+        const expected: string[] = ["Missing chart data"];
+        expect(validatePayload({} as VerticalBarChartPayload)).toStrictEqual(
+          expected,
+        );
+      });
+    });
   });
 });

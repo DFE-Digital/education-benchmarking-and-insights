@@ -6,7 +6,11 @@ export default {
     // eslint-disable-next-line no-useless-escape
     "^.+\.tsx?$": ["ts-jest", { diagnostics: { ignoreCodes: ["TS151001"] } }],
   },
-  modulePathIgnorePatterns: ["<rootDir>/node_modules", "<rootDir>/out"],
+  modulePathIgnorePatterns: [
+    "<rootDir>/node_modules",
+    "<rootDir>/out",
+    "<rootDir>/src/openapi",
+  ],
   reporters: [
     "default",
     [
