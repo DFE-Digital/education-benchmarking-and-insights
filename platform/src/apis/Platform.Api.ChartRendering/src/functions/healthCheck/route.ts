@@ -3,6 +3,6 @@ import { healthCheck } from "./function";
 
 app.http("health", {
   methods: ["GET"],
-  authLevel: "anonymous",
+  authLevel: "admin",
   handler: healthCheck,
 });

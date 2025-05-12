@@ -3,6 +3,6 @@ import { verticalBarChart } from "./function";
 
 app.http("verticalBarChart", {
   methods: ["POST"],
-  authLevel: "anonymous",
+  authLevel: "admin",
   handler: verticalBarChart,
 });

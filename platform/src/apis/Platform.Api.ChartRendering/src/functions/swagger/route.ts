@@ -4,13 +4,13 @@ import { openApi, swagger } from "./function";
 app.http("openapi", {
   route: "openapi.json",
   methods: ["GET"],
-  authLevel: "anonymous",
+  authLevel: "admin",
   handler: openApi,
 });
 
 app.http("swagger", {
   route: "swagger/{*swaggerAsset}",
   methods: ["GET"],
-  authLevel: "anonymous",
+  authLevel: "admin",
   handler: swagger,
 });
