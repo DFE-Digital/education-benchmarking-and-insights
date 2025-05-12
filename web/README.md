@@ -33,7 +33,7 @@ In a console window:
 > run `dotnet user-secrets set "PLACEHOLDER" "PLACEHOLDER".` This will create a `secrets.json` file in the folder
 > location
 >
-described [here](https://learn.microsoft.com/en-us/aspnet/core/security/app-secrets?view=aspnetcore-8.0&tabs=linux#how-the-secret-manager-tool-works).
+described [in Microsoft docs](https://learn.microsoft.com/en-us/aspnet/core/security/app-secrets?view=aspnetcore-8.0&tabs=linux#how-the-secret-manager-tool-works).
 > At this point `secrets.json` can be updated manually with the settings described below.
 
 #### Platform APIs

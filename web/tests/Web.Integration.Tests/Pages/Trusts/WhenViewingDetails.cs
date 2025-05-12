@@ -40,14 +40,14 @@ public class WhenViewingDetails(SchoolBenchmarkingWebAppClient client) : PageBas
     }
 
     [Fact]
-    public async Task CanDisplayBadRequest()
+    public async Task CanDisplayNotFoundForBadIdentifier()
     {
         const string companyName = nameof(companyName);
         var page = await Client
             .Navigate(Paths.TrustDetails(companyName));
 
         PageAssert.IsNotFoundPage(page);
-        DocumentAssert.AssertPageUrl(page, Paths.TrustDetails(companyName).ToAbsolute(), HttpStatusCode.BadRequest);
+        DocumentAssert.AssertPageUrl(page, Paths.TrustDetails(companyName).ToAbsolute(), HttpStatusCode.NotFound);
     }
 
     [Fact]

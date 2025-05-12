@@ -117,14 +117,14 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
     }
 
     [Fact]
-    public async Task CanDisplayBadRequest()
+    public async Task CanDisplayNotFoundForBadIdentifier()
     {
         const string code = "1234";
         var page = await Client
             .Navigate(Paths.LocalAuthorityHome(code));
 
         PageAssert.IsNotFoundPage(page);
-        DocumentAssert.AssertPageUrl(page, Paths.LocalAuthorityHome(code).ToAbsolute(), HttpStatusCode.BadRequest);
+        DocumentAssert.AssertPageUrl(page, Paths.LocalAuthorityHome(code).ToAbsolute(), HttpStatusCode.NotFound);
     }
 
     [Fact]

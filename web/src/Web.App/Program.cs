@@ -16,7 +16,6 @@ using Web.App.HealthChecks;
 using Web.App.Middleware;
 using Web.App.Services;
 using Web.App.Telemetry;
-using Web.App.Validators;
 
 [assembly: InternalsVisibleTo("Web.Tests")]
 
@@ -40,12 +39,12 @@ builder.Services
     .AddScoped<ISchoolComparatorSetService, SchoolComparatorSetService>()
     .AddScoped<ITrustComparatorSetService, TrustComparatorSetService>()
     .AddScoped<ISuggestService, SuggestService>()
-    .AddScoped<IFinancialPlanStageValidator, FinancialPlanStageValidator>()
     .AddScoped<ICustomDataService, CustomDataService>()
     .AddScoped<IUserDataService, UserDataService>()
     .AddScoped<IClaimsIdentifierService, ClaimsIdentifierService>()
     .AddScoped<ILocalAuthorityComparatorSetService, LocalAuthorityComparatorSetService>()
     .AddScoped<ISearchService, SearchService>()
+    .AddValidation()
     .AddActionResults();
 
 builder.Services.AddHealthChecks()

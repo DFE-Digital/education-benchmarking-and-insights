@@ -1,34 +1,40 @@
-﻿using System.Net;
+﻿using FluentValidation;
+using FluentValidation.Results;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Abstractions;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Routing;
+using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
+using Web.App;
 using Web.App.Attributes;
+using Web.App.Validators;
 using Xunit;
 
 namespace Web.Tests.Attributes;
 
 public class GivenAValidateCompanyNumberAttribute
 {
+    private readonly Mock<IValidator<OrganisationIdentifier>> _validator = new();
+
     [Theory]
     [InlineData("companyNumber", "12345678")]
     [InlineData("companyNumber", "")]
     [InlineData("companyNumber", null)]
     [InlineData("other", "abc")]
-    public void ReturnsOkWhenValidCompanyNumberProvidedOrMissing(string argument, object? companyNumber)
+    public void ReturnsOkWhenValidCompanyNumberProvidedOrMissing(string argument, string? companyNumber)
     {
         // arrange
-        var attribute = new ValidateCompanyNumberAttribute();
-        var context = BuildContext(new Dictionary<string, object?>
-        {
-            { argument, companyNumber }
-        });
+        var validationResult = new ValidationResult();
+        _validator.Setup(v => v.Validate(It.Is<OrganisationIdentifier>(i => i.Value == companyNumber && i.Type == OrganisationTypes.Trust)))
+            .Returns(validationResult);
+
+        var (filter, context) = BuildFilterAndContext(argument, companyNumber);
 
         // act
-        attribute.OnActionExecuting(context);
+        filter.OnActionExecuting(context);
 
         // assert
         Assert.NotNull(context.Result);
@@ -36,29 +42,32 @@ public class GivenAValidateCompanyNumberAttribute
     }
 
     [Theory]
-    [InlineData("companyNumber", "1234567")]
-    [InlineData("companyNumber", "abcdef")]
-    public void ReturnsBadRequestWhenInvalidCompanyNumberProvided(string argument, object? companyNumber)
+    [InlineData("companyNumber", "invalid")]
+    public void ReturnsNotFoundWhenCompanyNumberValidationFails(string argument, string? companyNumber)
     {
         // arrange
-        var attribute = new ValidateCompanyNumberAttribute();
-        var context = BuildContext(new Dictionary<string, object?>
-        {
-            { argument, companyNumber }
-        });
+        var validationResult = new ValidationResult([new ValidationFailure("companyNumber", "Company number is invalid")]);
+        _validator.Setup(v => v.Validate(It.Is<OrganisationIdentifier>(i => i.Value == companyNumber && i.Type == OrganisationTypes.Trust)))
+            .Returns(validationResult);
+
+        var (filter, context) = BuildFilterAndContext(argument, companyNumber);
 
         // act
-        attribute.OnActionExecuting(context);
+        filter.OnActionExecuting(context);
 
         // assert
         Assert.NotNull(context.Result);
-        var result = Assert.IsType<ViewResult>(context.Result);
-        Assert.Equal((int)HttpStatusCode.BadRequest, result.StatusCode);
+        Assert.IsType<NotFoundResult>(context.Result);
     }
 
-    private static ActionExecutingContext BuildContext(Dictionary<string, object?> actionArguments)
+    private (ValidateArgumentFilter filter, ActionExecutingContext context) BuildFilterAndContext(string argument, object? companyNumber)
     {
-        return new ActionExecutingContext(
+        var actionArguments = new Dictionary<string, object?>
+        {
+            { argument, companyNumber }
+        };
+
+        var context = new ActionExecutingContext(
             new ActionContext(
                 Mock.Of<HttpContext>(),
                 Mock.Of<RouteData>(),
@@ -71,5 +80,15 @@ public class GivenAValidateCompanyNumberAttribute
         {
             Result = new OkResult()
         };
+
+        var attribute = new ValidateCompanyNumberAttribute();
+        var filter = new ValidateArgumentFilter(
+            new NullLogger<ValidateArgumentFilter>(),
+            _validator.Object,
+            attribute.ArgumentName,
+            attribute.Type,
+            attribute.TypeName);
+
+        return (filter, context);
     }
 }
