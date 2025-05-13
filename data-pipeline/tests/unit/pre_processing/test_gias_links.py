@@ -27,7 +27,12 @@ def test_no_match():
 
 def test_complete_match():
     df = pd.DataFrame({"URN": [4, 5, 6]})
-    linkable = pd.DataFrame({"URN": [1, 2, 3]}).set_index("URN")
+    linkable = pd.DataFrame(
+        {
+            "URN": [1, 2, 3],
+            "data": [1.0, 2.0, 3.0],
+        }
+    ).set_index("URN")
     gias_links = pd.DataFrame({"URN": [4, 5, 6], "LinkURN": [1, 2, 3]})
 
     result = gias.link_data(df, linkable, gias_links)
@@ -38,7 +43,12 @@ def test_complete_match():
 
 def test_partial_match():
     df = pd.DataFrame({"URN": [4, 5, 6]})
-    linkable = pd.DataFrame({"URN": [3, 4, 5]}).set_index("URN")
+    linkable = pd.DataFrame(
+        {
+            "URN": [3, 4, 5],
+            "data": [1.0, 2.0, 3.0],
+        }
+    ).set_index("URN")
     gias_links = pd.DataFrame({"URN": [4, 5, 6], "LinkURN": [1, 2, 3]})
 
     result = gias.link_data(df, linkable, gias_links)

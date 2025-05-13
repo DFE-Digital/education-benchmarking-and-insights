@@ -30,15 +30,18 @@ from pipeline.database import (
 )
 from pipeline.log import setup_logger
 from pipeline.message import MessageType, get_message_type
+from pipeline.part_year.common import map_has_pupil_comparator_data
 from pipeline.pre_processing import (
     build_academy_data,
     build_bfr_data,
     build_bfr_historical_data,
     build_cfo_data,
+    build_ilr_data,
     build_local_authorities,
     build_maintained_school_data,
     build_trust_data,
     map_academy_data,
+    patch_missing_sixth_form_data,
     predecessor_links,
     prepare_aar_data,
     prepare_cdc_data,
@@ -223,6 +226,34 @@ def pre_process_gias_links(run_type: str, year: int, run_id: str) -> pd.DataFram
     )
 
     return gias_links
+
+
+def pre_process_ilr_data(
+    run_type: str,
+    year: int,
+    run_id: str,
+    schools: pd.DataFrame,
+) -> pd.DataFrame | None:
+    """
+    Process ILR data.
+
+    :param run_type: should only be "default"
+    :param run_id: unique identifer for data-writes
+    :param year: financial year in question
+    :param schools: data containing URN/UKPRN mappings
+    :return: ILR data, if present for the year in question
+    """
+    if ilr_data := try_get_blob(
+        raw_container,
+        f"{run_type}/{year}/ILR R06 cut with FSM and EHCP.xlsx",
+    ):
+        return build_ilr_data(
+            ilr_data,
+            schools,
+            year,
+        )
+
+    return None
 
 
 def pre_process_cfo(run_type: str, year: int, run_id: str) -> pd.DataFrame:
@@ -651,7 +682,7 @@ def _get_ancillary_data(
     worker_client: Client,
     run_id: str,
     year: int,
-) -> tuple:
+) -> tuple:  # TODO: better data structure for ancillary data.
     """
     Retrieve and process supporting data files.
 
@@ -741,7 +772,7 @@ def pre_process_data(
     start_time = time.time()
     logger.info(f"Pre-processing data {run_type} - {run_id}")
 
-    academy_data_ref = maintained_data_ref = _get_ancillary_data(
+    academies_data_ref = maintained_data_ref = _get_ancillary_data(
         worker_client,
         run_id,
         aar_year,
@@ -756,7 +787,7 @@ def pre_process_data(
                 run_type,
                 run_id,
                 aar_year,
-                academy_data_ref,
+                academies_data_ref,
             ),
             worker_client.submit(
                 pre_process_maintained_schools_data,
@@ -767,6 +798,43 @@ def pre_process_data(
             ),
         ]
     )
+
+    if (
+        academies_ilr_data := worker_client.submit(
+            pre_process_ilr_data,
+            run_type,
+            run_id,
+            aar_year,
+            academies_data_ref[0],
+        ).result()
+    ) is not None:
+        academies = worker_client.submit(
+            patch_missing_sixth_form_data,
+            academies,
+            academies_ilr_data,
+            academies_data_ref[9],
+        ).result()
+
+    if (
+        maintained_ilr_data := worker_client.submit(
+            pre_process_ilr_data,
+            run_type,
+            run_id,
+            cfr_year,
+            maintained_data_ref[0],
+        ).result()
+    ) is not None:
+        maintained_schools = worker_client.submit(
+            patch_missing_sixth_form_data,
+            maintained_schools,
+            maintained_ilr_data,
+            maintained_data_ref[9],
+        ).result()
+
+    # TODO: this is a repeat of an earlier step.
+    academies = map_has_pupil_comparator_data(academies)
+    maintained_schools = map_has_pupil_comparator_data(maintained_schools)
+
     trusts = pre_process_trust_data(run_type, run_id, academies)
 
     pre_process_all_schools(
