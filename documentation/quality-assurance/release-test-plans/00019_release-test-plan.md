@@ -115,7 +115,7 @@ The High Needs feature flag was found to be disabled in code in version 2025.05.
 |---------------|:-----------:|:------:|:------:|:---------:|
 | Smoke Tests   |      1      |   1    |   0    |   100%    |
 | Sanity Tests  |      1      |   1    |   0    |   100%    |
-| Total         |      X      |   X    |   0    |   100%    |
+| Total         |      2      |   2    |   0    |   100%    |
 
 <!-- Leave the rest of this page blank -->
 \newpage
