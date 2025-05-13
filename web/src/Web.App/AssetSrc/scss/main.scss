@@ -709,3 +709,17 @@ table#current-comparators-la {
     width: 586px;
   }
 }
+
+.ssr-chart {
+  .chart-cell {
+    &.chart-cell__series-0 {
+      fill: govuk-colour("mid-grey");
+      stroke: govuk-colour("mid-grey");
+    }
+
+    &.chart-cell__highlight {
+      fill: govuk-colour("dark-blue");
+      stroke: govuk-colour("dark-blue");
+    }
+  }
+}

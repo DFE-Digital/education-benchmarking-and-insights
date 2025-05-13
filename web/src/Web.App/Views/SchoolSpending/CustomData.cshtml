@@ -1,22 +1,21 @@
-﻿@using Web.App.ViewModels
-@model Web.App.ViewModels.SchoolSpendingViewModel
+﻿@model Web.App.ViewModels.SchoolSpendingViewModel
 @{
     ViewData[ViewDataKeys.Title] = PageTitles.Spending;
 }
 
 @await Component.InvokeAsync("EstablishmentHeading", new
-    {
-        title = PageTitles.Spending,
-        name = Model.Name,
-        id = Model.Urn,
-        kind = OrganisationTypes.School
-    })
+{
+    title = PageTitles.Spending,
+    name = Model.Name,
+    id = Model.Urn,
+    kind = OrganisationTypes.School
+})
 
 @await Component.InvokeAsync("CustomDataBanner", new
-    {
-        name = Model.Name,
-        id = Model.Urn,
-    })
+{
+    name = Model.Name,
+    id = Model.Urn
+})
 
 @if (Model.HighPriorityCosts.Any() || Model.MediumPriorityCosts.Any())
 {
@@ -26,24 +25,24 @@
             <p class="govuk-body">This shows where spending is different to similar schools.</p>
         </div>
     </div>
-    
-    @await Html.PartialAsync("_Costs", new CostsViewModel
+
+    @await Component.InvokeAsync("SchoolSpendingCosts", new
     {
-        Costs = Model.HighPriorityCosts,
-        Id = "high-priority",
-        Urn = Model.Urn,
-        IsCustomData = true,
-        IsPartOfTrust = Model.IsPartOfTrust
-            
+        costs = Model.HighPriorityCosts,
+        id = "high-priority",
+        urn = Model.Urn,
+        isCustomData = true,
+        isPartOfTrust = Model.IsPartOfTrust
+
     })
-    
-    @await Html.PartialAsync("_Costs", new CostsViewModel
+
+    @await Component.InvokeAsync("SchoolSpendingCosts", new
     {
-        Costs = Model.MediumPriorityCosts,
-        Id = "medium-priority",
-        Urn = Model.Urn,
-        IsCustomData = true,
-        IsPartOfTrust = Model.IsPartOfTrust
+        costs = Model.MediumPriorityCosts,
+        id = "medium-priority",
+        urn = Model.Urn,
+        isCustomData = true,
+        isPartOfTrust = Model.IsPartOfTrust
     })
 }
 
@@ -55,25 +54,25 @@
             <p class="govuk-body">This shows where spending is close to similar schools.</p>
         </div>
     </div>
-    
-    @await Html.PartialAsync("_Costs", new CostsViewModel
+
+    @await Component.InvokeAsync("SchoolSpendingCosts", new
     {
-        Costs = Model.LowPriorityCosts,
-        Id = "low-priority",
-        Urn = Model.Urn,
-        IsCustomData = true,
-        IsPartOfTrust = Model.IsPartOfTrust
+        costs = Model.LowPriorityCosts,
+        id = "low-priority",
+        urn = Model.Urn,
+        isCustomData = true,
+        isPartOfTrust = Model.IsPartOfTrust
     })
 }
 
 @await Component.InvokeAsync("CustomDataFinanceTools", new
+{
+    identifier = Model.Urn,
+    tools = new[]
     {
-        identifier = Model.Urn,
-        tools = new[]
-                        {
         FinanceTools.SpendingComparison,
         FinanceTools.CompareYourCosts,
         FinanceTools.BenchmarkCensus
     }
-    })
+})
 
