@@ -94,6 +94,11 @@ public static class ApiResultExtensions
             };
         }
 
+        if (result is CancelledApiResult)
+        {
+            return default!;
+        }
+
         throw new ArgumentNullException();
     }
 
@@ -105,7 +110,7 @@ public static class ApiResultExtensions
         }
 
         result.EnsureSuccess();
-        return Array.Empty<byte>();
+        return [];
     }
 
     public static async Task<byte[]> GetBodyOrThrow(this Task<ApiResult> result)

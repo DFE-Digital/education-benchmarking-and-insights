@@ -24,6 +24,7 @@ public class GivenAHttpResponseMessage
     [InlineData(HttpStatusCode.OK)]
     [InlineData(HttpStatusCode.Created)]
     [InlineData(HttpStatusCode.Accepted)]
+    [InlineData((HttpStatusCode)499)]
     public async Task ShouldNotThrow(HttpStatusCode code)
     {
         var result = await CreateMessage(code, new JsonContent(new
@@ -92,14 +93,15 @@ public class GivenAHttpResponseMessage
     }
 
     [Fact]
-    public async Task ShouldReturn499WhenRequestCancelled()
+    public async Task ShouldReturnEmpty499WhenRequestCancelled()
     {
         var cancellationToken = new CancellationTokenSource(TimeSpan.Zero).Token;
-
         var result = await CreateMessage(cancellationToken).ToApiResult(cancellationToken);
 
-        var exception = Assert.Throws<StatusCodeException>(() => result.EnsureSuccess());
-        Assert.Equal(499, (int)exception.Status);
-        Assert.Equal("The API returned `Client Closed Request` (underlying status code 499)", exception.Message);
+        var exception = Record.Exception(() => result.EnsureSuccess());
+
+        Assert.Null(exception);
+        Assert.Equal(499, (int)result.Status);
+        Assert.Null(result.GetResultOrThrow<string>());
     }
 }

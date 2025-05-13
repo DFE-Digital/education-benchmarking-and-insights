@@ -22,7 +22,7 @@ public abstract class ApiResult(HttpStatusCode status)
 
     public static ApiResult Conflict(ConflictData conflict) => new ConflictApiResult(new JsonResponseBody(conflict));
 
-    public static ApiResult Cancelled() => new ErrorApiResult((HttpStatusCode)499);
+    public static ApiResult Cancelled() => new CancelledApiResult();
 
     public bool EnsureSuccess()
     {
@@ -39,6 +39,13 @@ public abstract class ApiResult(HttpStatusCode status)
         if (this is ConflictApiResult c)
         {
             throw new DataConflictException(c.Details);
+        }
+
+        // do not trigger exception handler for 499 Client Closed Request where
+        // the original request would have already been discarded by the client
+        if (this is CancelledApiResult)
+        {
+            return true;
         }
 
         throw new StatusCodeException(Status);
@@ -72,6 +79,13 @@ public abstract class ApiResult(HttpStatusCode status)
         if ((int)response.StatusCode >= 500)
         {
             return new ErrorApiResult(response.StatusCode);
+        }
+
+        // do not trigger exception handler for 499 Client Closed Request where
+        // the original request would have already been discarded by the client
+        if ((int)response.StatusCode == 499)
+        {
+            return new CancelledApiResult();
         }
 
         throw new StatusCodeException(response.StatusCode);
