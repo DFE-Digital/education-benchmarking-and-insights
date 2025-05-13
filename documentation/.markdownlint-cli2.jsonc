@@ -8,7 +8,8 @@
         "line-length": false,
         "no-duplicate-heading": {
             "siblings_only": true
-        }
+        },
+        "descriptive-link-text": false
     },
     // Define glob expressions to ignore
     "ignores": [
