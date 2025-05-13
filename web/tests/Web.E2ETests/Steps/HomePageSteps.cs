@@ -1,5 +1,4 @@
-﻿using Microsoft.Playwright;
-using Web.E2ETests.Drivers;
+﻿using Web.E2ETests.Drivers;
 using Web.E2ETests.Pages;
 using Xunit;
 
@@ -11,14 +10,13 @@ public class HomePageSteps(PageDriver driver)
 {
     private FindOrganisationPage? _findOrganisationPage;
     private HomePage? _homePage;
-    private IResponse? _response;
 
     [Given("I am on home page")]
     public async Task GivenIAmOnHomePage()
     {
         var url = HomePageUrl();
         var page = await driver.Current;
-        _response = await page.GotoAndWaitForLoadAsync(url);
+        await page.GotoAndWaitForLoadAsync(url);
 
         _homePage = new HomePage(page);
         await _homePage.IsDisplayed();
@@ -36,15 +34,6 @@ public class HomePageSteps(PageDriver driver)
     {
         Assert.NotNull(_findOrganisationPage);
         await _findOrganisationPage.IsDisplayed();
-    }
-
-    [Then("the canonical link should be present in headers")]
-    public async Task ThenTheCanonicalLinkShouldBePresentInHeaders()
-    {
-        Assert.NotNull(_homePage);
-        Assert.NotNull(_response);
-        var linkHeader = await _response.HeaderValueAsync("Link");
-        Assert.Equal($"<{HomePageUrl()}>; rel=\"canonical\"", linkHeader);
     }
 
     private static string HomePageUrl()

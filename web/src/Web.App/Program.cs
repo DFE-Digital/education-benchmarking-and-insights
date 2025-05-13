@@ -68,10 +68,6 @@ builder.Services.Configure<CacheOptions>(builder.Configuration.GetSection("Cache
 
 builder.AddSessionService();
 
-builder.Services
-    .Configure<MiddlewareOptions>(builder.Configuration.GetSection("Middleware"))
-    .AddTransient<CanonicalHeaderMiddleware>();
-
 if (!builder.Environment.IsIntegration())
 {
     builder.Services.AddDfeSignIn(options =>
@@ -146,7 +142,6 @@ app
     })
     .UseForwardedHeaders()
     .UseMiddleware<CustomResponseHeadersMiddleware>()
-    .UseMiddleware<CanonicalHeaderMiddleware>()
     .UseStatusCodePagesWithReExecute("/error/{0}")
     .UseHttpsRedirection()
     .UseRouting()
