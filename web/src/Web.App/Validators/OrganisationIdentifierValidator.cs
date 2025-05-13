@@ -23,21 +23,24 @@ public class OrganisationIdentifierValidator : AbstractValidator<OrganisationIde
 
         RuleFor(p => p.Value)
             .Length(6)
+            .Must(p => p.All(char.IsDigit))
             .When(p => p.Type == OrganisationTypes.School)
             .When(p => p.ValueAsInt != null)
-            .WithMessage("School URN must be 6 characters");
+            .Configure(rule => rule.MessageBuilder = _ => "School URN must be 6 digits");
 
         RuleFor(p => p.Value)
             .Length(8)
+            .Must(p => p.All(char.IsDigit))
             .When(p => p.Type == OrganisationTypes.Trust)
             .When(p => p.ValueAsInt != null)
-            .WithMessage("Trust company number must be 8 characters");
+            .Configure(rule => rule.MessageBuilder = _ => "Trust company number must be 8 digits");
 
         RuleFor(p => p.Value)
             .Length(3)
+            .Must(p => p.All(char.IsDigit))
             .When(p => p.Type == OrganisationTypes.LocalAuthority)
             .When(p => p.ValueAsInt != null)
-            .WithMessage("Local authority code must be 3 characters");
+            .Configure(rule => rule.MessageBuilder = _ => "Local authority code must be 3 digits");
 
         RuleFor(p => p.ValueAsInt)
             .NotEmpty()

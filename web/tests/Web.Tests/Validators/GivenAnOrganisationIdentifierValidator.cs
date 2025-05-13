@@ -72,6 +72,7 @@ public class GivenAnOrganisationIdentifierValidator
 
     [Theory]
     [InlineData("1234")]
+    [InlineData("-12345")]
     public void ShouldFailValidationIfUrnInvalid(string urn)
     {
         var identifier = new OrganisationIdentifier
@@ -82,7 +83,7 @@ public class GivenAnOrganisationIdentifierValidator
 
         string[] expected =
         [
-            "School URN must be 6 characters"
+            "School URN must be 6 digits"
         ];
 
         var results = _validator.Validate(identifier);
@@ -94,6 +95,7 @@ public class GivenAnOrganisationIdentifierValidator
 
     [Theory]
     [InlineData("1234")]
+    [InlineData("-1234567")]
     public void ShouldFailValidationIfCompanyNumberInvalid(string companyNumber)
     {
         var identifier = new OrganisationIdentifier
@@ -104,7 +106,7 @@ public class GivenAnOrganisationIdentifierValidator
 
         string[] expected =
         [
-            "Trust company number must be 8 characters"
+            "Trust company number must be 8 digits"
         ];
 
         var results = _validator.Validate(identifier);
@@ -116,6 +118,7 @@ public class GivenAnOrganisationIdentifierValidator
 
     [Theory]
     [InlineData("1234")]
+    [InlineData("-12")]
     public void ShouldFailValidationIfLaCodeInvalid(string code)
     {
         var identifier = new OrganisationIdentifier
@@ -126,7 +129,7 @@ public class GivenAnOrganisationIdentifierValidator
 
         string[] expected =
         [
-            "Local authority code must be 3 characters"
+            "Local authority code must be 3 digits"
         ];
 
         var results = _validator.Validate(identifier);
