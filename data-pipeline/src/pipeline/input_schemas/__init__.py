@@ -24,6 +24,18 @@ from .census_workforce import (  # noqa
 )
 from .cfo import cfo, cfo_column_eval, cfo_column_mappings  # noqa
 from .gias import gias, gias_index_col  # noqa
+from .ilr import (
+    ilr_column_mappings,
+    ilr_ehcp,
+    ilr_ehcp_column_eval,
+    ilr_ehcp_header,
+    ilr_ehcp_sheet_name,
+    ilr_fsm,
+    ilr_fsm_column_eval,
+    ilr_fsm_header,
+    ilr_fsm_sheet_name,
+    ilr_index,
+)
 from .local_authority import (  # noqa
     la_budget,
     la_budget_column_eval,

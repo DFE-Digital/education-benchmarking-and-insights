@@ -89,5 +89,7 @@ def link_data(
         .drop(columns=["URN_census", "LinkURN"])
         .drop(columns=["index"], errors="ignore")
     )
+    if linked.empty:
+        return linkable
 
     return pd.concat([linkable, linked])
