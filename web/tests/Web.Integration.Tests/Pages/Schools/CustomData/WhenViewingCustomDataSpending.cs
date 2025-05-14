@@ -3,6 +3,7 @@ using AngleSharp.Html.Dom;
 using AutoFixture;
 using Web.App;
 using Web.App.Domain;
+using Web.App.ViewComponents;
 using Xunit;
 namespace Web.Integration.Tests.Pages.Schools.CustomData;
 
@@ -49,12 +50,32 @@ public class WhenViewingCustomDataSpending(SchoolBenchmarkingWebAppClient client
             "Catering staff and supplies", "catering-staff-and-supplies"
         }
     };
+
+    [Theory]
+    [InlineData(true, false)]
+    [InlineData(false, false)]
+    [InlineData(true, true)]
+    [InlineData(false, true)]
+    public async Task CanDisplay(bool withUserData, bool ssrFeatureEnabled)
+    {
+        var (page, school) = await SetupNavigateInitPage(withUserData, ssrFeatureEnabled);
+
+        if (withUserData)
+        {
+            AssertPageLayout(page, school, ssrFeatureEnabled);
+        }
+        else
+        {
+            DocumentAssert.AssertPageUrl(page, Paths.SchoolHome(school.URN).ToAbsolute());
+        }
+    }
+
     [Theory]
     [InlineData(true)]
     [InlineData(false)]
-    public async Task CanDisplay(bool withUserData)
+    public async Task CanDisplayNonSsrChartsWhenChartApiFails(bool withUserData)
     {
-        var (page, school) = await SetupNavigateInitPage(withUserData);
+        var (page, school) = await SetupNavigateInitPage(withUserData, true, true);
 
         if (withUserData)
         {
@@ -142,7 +163,7 @@ public class WhenViewingCustomDataSpending(SchoolBenchmarkingWebAppClient client
             HttpStatusCode.InternalServerError);
     }
 
-    private async Task<(IHtmlDocument page, School school)> SetupNavigateInitPage(bool withUserData, bool ssrFeatureEnabled = false)
+    private async Task<(IHtmlDocument page, School school)> SetupNavigateInitPage(bool withUserData, bool ssrFeatureEnabled = false, bool chartApiException = false)
     {
         var school = Fixture.Build<School>()
             .With(x => x.URN, "123456")
@@ -166,15 +187,24 @@ public class WhenViewingCustomDataSpending(SchoolBenchmarkingWebAppClient client
         var rating = CreateRagRatings(school.URN);
 
         var expenditure = Fixture.Build<SchoolExpenditure>().Create();
+        var verticalBarChart = new ChartResponse { Html = "<svg />" };
 
         IHtmlDocument page;
+
+        Client
+            .SetupDisableFeatureFlags(ssrFeatureEnabled ? [] : [FeatureFlags.SchoolSpendingPrioritiesSsrCharts])
+            .SetupEstablishment(school)
+            .SetupInsights()
+            .SetupChartRendering<PriorityCostCategoryDatum>(verticalBarChart);
+
+        if (chartApiException)
+        {
+            Client.SetupChartRenderingWithException<PriorityCostCategoryDatum>();
+        }
 
         if (withUserData)
         {
             page = await Client
-                .SetupDisableFeatureFlags(ssrFeatureEnabled ? [] : [FeatureFlags.SchoolSpendingPrioritiesSsrCharts])
-                .SetupEstablishment(school)
-                .SetupInsights()
                 .SetupUserData(userData)
                 .SetupMetricRagRatingIncCustom(customDataId, rating)
                 .SetupExpenditureForCustomData(school, customDataId, expenditure)
@@ -182,9 +212,7 @@ public class WhenViewingCustomDataSpending(SchoolBenchmarkingWebAppClient client
         }
         else
         {
-            page = await Client.SetupEstablishment(school)
-                .SetupDisableFeatureFlags(ssrFeatureEnabled ? [] : [FeatureFlags.SchoolSpendingPrioritiesSsrCharts])
-                .SetupInsights()
+            page = await Client
                 .SetupUserData()
                 .SetupMetricRagRating(rating)
                 .SetupExpenditure(school, expenditure)
@@ -194,7 +222,7 @@ public class WhenViewingCustomDataSpending(SchoolBenchmarkingWebAppClient client
         return (page, school);
     }
 
-    private static void AssertPageLayout(IHtmlDocument page, School school)
+    private static void AssertPageLayout(IHtmlDocument page, School school, bool ssrCharts = false)
     {
         DocumentAssert.AssertPageUrl(page, Paths.SchoolSpendingCustomData(school.URN).ToAbsolute());
         DocumentAssert.TitleAndH1(page, "Spending priorities for this school - Financial Benchmarking and Insights Tool - GOV.UK",
@@ -207,6 +235,20 @@ public class WhenViewingCustomDataSpending(SchoolBenchmarkingWebAppClient client
             var sectionHeading = section.QuerySelector("h3")?.TextContent;
 
             Assert.NotEqual(Category.Other, sectionHeading);
+
+            var chartSvg = section.QuerySelector(".ssr-chart");
+            var chartContainer = section.QuerySelector(".composed-container");
+
+            if (ssrCharts)
+            {
+                Assert.NotNull(chartSvg);
+                Assert.Null(chartContainer);
+            }
+            else
+            {
+                Assert.NotNull(chartContainer);
+                Assert.Null(chartSvg);
+            }
         }
     }
 

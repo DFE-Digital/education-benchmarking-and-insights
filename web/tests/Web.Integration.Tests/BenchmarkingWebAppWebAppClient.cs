@@ -653,13 +653,21 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
         return this;
     }
 
-    public BenchmarkingWebAppClient SetupChartRendering<T>(
-        ChartResponse? verticalBarChart = null,
-        ChartResponse[]? verticalBarCharts = null)
+    public BenchmarkingWebAppClient SetupChartRendering<T>(ChartResponse verticalBarChart)
     {
+        ChartResponse[] verticalBarCharts = [];
         ChartRenderingApi.Reset();
+        ChartRenderingApi
+            .Setup(api => api.PostVerticalBarCharts(It.IsAny<PostVerticalBarChartsRequest<T>>(), It.IsAny<CancellationToken>()))
+            .Callback<PostVerticalBarChartsRequest<T>, CancellationToken>((request, _) =>
+            {
+                // cross-reference POST-ed Id with response Id
+                verticalBarCharts = request
+                    .Select(r => new ChartResponse { Id = r.Id, Html = verticalBarChart.Html })
+                    .ToArray();
+            })
+            .ReturnsAsync(() => ApiResult.Ok(verticalBarCharts));
         ChartRenderingApi.Setup(api => api.PostVerticalBarChart(It.IsAny<PostVerticalBarChartRequest<T>>(), It.IsAny<CancellationToken>())).ReturnsAsync(ApiResult.Ok(verticalBarChart));
-        ChartRenderingApi.Setup(api => api.PostVerticalBarCharts(It.IsAny<PostVerticalBarChartsRequest<T>>(), It.IsAny<CancellationToken>())).ReturnsAsync(ApiResult.Ok(verticalBarCharts ?? []));
         return this;
     }
 
