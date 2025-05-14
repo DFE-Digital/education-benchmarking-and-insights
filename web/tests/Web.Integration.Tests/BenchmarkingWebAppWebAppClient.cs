@@ -8,12 +8,14 @@ using Web.App.Domain.LocalAuthorities;
 using Web.App.Domain.NonFinancial;
 using Web.App.Infrastructure.Apis;
 using Web.App.Infrastructure.Apis.Benchmark;
+using Web.App.Infrastructure.Apis.ChartRendering;
 using Web.App.Infrastructure.Apis.Establishment;
 using Web.App.Infrastructure.Apis.Insight;
 using Web.App.Infrastructure.Apis.LocalAuthorities;
 using Web.App.Infrastructure.Apis.NonFinancial;
 using Web.App.Infrastructure.Storage;
 using Web.App.Services;
+using Web.App.ViewComponents;
 using Xunit.Abstractions;
 using File = Web.App.Domain.File;
 
@@ -55,6 +57,7 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
     public Mock<ILocalAuthoritiesApi> LocalAuthoritiesApi { get; } = new();
     public Mock<IEducationHealthCarePlansApi> EducationHealthCarePlansApi { get; } = new();
     public Mock<ILocalAuthorityComparatorSetService> LocalAuthorityComparatorSetService { get; } = new();
+    public Mock<IChartRenderingApi> ChartRenderingApi { get; } = new();
 
     protected override void Configure(IServiceCollection services)
     {
@@ -81,6 +84,7 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
         services.AddSingleton(LocalAuthoritiesApi.Object);
         services.AddSingleton(EducationHealthCarePlansApi.Object);
         services.AddSingleton(LocalAuthorityComparatorSetService.Object);
+        services.AddSingleton(ChartRenderingApi.Object);
 
         EnableFeatures();
     }
@@ -646,6 +650,24 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
     {
         LocalAuthorityComparatorSetService.Reset();
         LocalAuthorityComparatorSetService.Setup(s => s.ReadUserDefinedComparatorSetFromSession(code)).Returns(new UserDefinedLocalAuthorityComparatorSet { Set = set });
+        return this;
+    }
+
+    public BenchmarkingWebAppClient SetupChartRendering<T>(
+        ChartResponse? verticalBarChart = null,
+        ChartResponse[]? verticalBarCharts = null)
+    {
+        ChartRenderingApi.Reset();
+        ChartRenderingApi.Setup(api => api.PostVerticalBarChart(It.IsAny<PostVerticalBarChartRequest<T>>(), It.IsAny<CancellationToken>())).ReturnsAsync(ApiResult.Ok(verticalBarChart));
+        ChartRenderingApi.Setup(api => api.PostVerticalBarCharts(It.IsAny<PostVerticalBarChartsRequest<T>>(), It.IsAny<CancellationToken>())).ReturnsAsync(ApiResult.Ok(verticalBarCharts ?? []));
+        return this;
+    }
+
+    public BenchmarkingWebAppClient SetupChartRenderingWithException<T>()
+    {
+        CensusApi.Reset();
+        ChartRenderingApi.Setup(api => api.PostVerticalBarChart(It.IsAny<PostVerticalBarChartRequest<T>>(), It.IsAny<CancellationToken>())).Throws(new Exception());
+        ChartRenderingApi.Setup(api => api.PostVerticalBarCharts(It.IsAny<PostVerticalBarChartsRequest<T>>(), It.IsAny<CancellationToken>())).Throws(new Exception());
         return this;
     }
 

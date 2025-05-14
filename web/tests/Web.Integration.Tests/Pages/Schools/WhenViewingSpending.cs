@@ -3,6 +3,7 @@ using AngleSharp.Html.Dom;
 using AutoFixture;
 using FluentValidation;
 using Moq;
+using Web.App;
 using Web.App.Domain;
 using Web.App.Infrastructure.Apis;
 using Xunit;
@@ -53,6 +54,7 @@ public class WhenViewingSpending(SchoolBenchmarkingWebAppClient client)
             "Catering staff and supplies", "catering-staff-and-supplies"
         }
     };
+
     [Theory]
     [InlineData(EstablishmentTypes.Academies)]
     [InlineData(EstablishmentTypes.Maintained)]
@@ -150,7 +152,7 @@ public class WhenViewingSpending(SchoolBenchmarkingWebAppClient client)
         AssertPageLayout(page, school, financeType);
     }
 
-    private async Task<(IHtmlDocument page, School school)> SetupNavigateInitPage(string financeType, SchoolComparatorSet? comparatorSet = null)
+    private async Task<(IHtmlDocument page, School school)> SetupNavigateInitPage(string financeType, SchoolComparatorSet? comparatorSet = null, bool ssrFeatureEnabled = false)
     {
         var school = Fixture.Build<School>()
             .With(x => x.URN, "123456")
@@ -164,7 +166,9 @@ public class WhenViewingSpending(SchoolBenchmarkingWebAppClient client)
 
         var expenditures = Fixture.Build<SchoolExpenditure>().CreateMany().ToArray();
 
-        var client = Client.SetupEstablishment(school)
+        var client = Client
+            .SetupDisableFeatureFlags(ssrFeatureEnabled ? [] : [FeatureFlags.SchoolSpendingPrioritiesSsrCharts])
+            .SetupEstablishment(school)
             .SetupInsights()
             .SetupUserData()
             .SetupMetricRagRating(rating);

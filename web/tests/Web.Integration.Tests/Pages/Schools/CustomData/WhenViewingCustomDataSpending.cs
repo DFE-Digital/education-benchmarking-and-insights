@@ -1,6 +1,7 @@
 using System.Net;
 using AngleSharp.Html.Dom;
 using AutoFixture;
+using Web.App;
 using Web.App.Domain;
 using Xunit;
 namespace Web.Integration.Tests.Pages.Schools.CustomData;
@@ -141,7 +142,7 @@ public class WhenViewingCustomDataSpending(SchoolBenchmarkingWebAppClient client
             HttpStatusCode.InternalServerError);
     }
 
-    private async Task<(IHtmlDocument page, School school)> SetupNavigateInitPage(bool withUserData)
+    private async Task<(IHtmlDocument page, School school)> SetupNavigateInitPage(bool withUserData, bool ssrFeatureEnabled = false)
     {
         var school = Fixture.Build<School>()
             .With(x => x.URN, "123456")
@@ -170,7 +171,9 @@ public class WhenViewingCustomDataSpending(SchoolBenchmarkingWebAppClient client
 
         if (withUserData)
         {
-            page = await Client.SetupEstablishment(school)
+            page = await Client
+                .SetupDisableFeatureFlags(ssrFeatureEnabled ? [] : [FeatureFlags.SchoolSpendingPrioritiesSsrCharts])
+                .SetupEstablishment(school)
                 .SetupInsights()
                 .SetupUserData(userData)
                 .SetupMetricRagRatingIncCustom(customDataId, rating)
@@ -180,6 +183,7 @@ public class WhenViewingCustomDataSpending(SchoolBenchmarkingWebAppClient client
         else
         {
             page = await Client.SetupEstablishment(school)
+                .SetupDisableFeatureFlags(ssrFeatureEnabled ? [] : [FeatureFlags.SchoolSpendingPrioritiesSsrCharts])
                 .SetupInsights()
                 .SetupUserData()
                 .SetupMetricRagRating(rating)
