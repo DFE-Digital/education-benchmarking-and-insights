@@ -722,4 +722,9 @@ table#current-comparators-la {
       stroke: govuk-colour("dark-blue");
     }
   }
+  
+  > svg {
+    max-width: 100%;
+    height: auto;
+  }
 }

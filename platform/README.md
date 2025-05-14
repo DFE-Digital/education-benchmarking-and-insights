@@ -5,9 +5,11 @@ Each .NET project is deployed as an independent Azure Function App.
 
 ## Prerequisites
 
-1. Install .NET 8 SDK (Platform)
-2. Install Visual Studio 2022 Professional (with C# and Azure Workflows) or Rider 2024
-3. Clone the project `git clone https://github.com/DFE-Digital/education-benchmarking-and-insights.git`
+1. Install [.NET 8.0 SDK](https://dotnet.microsoft.com/en-us/download/dotnet/8.0)
+2. Install [Node 22](https://nodejs.org/en/download) and/or switch to that version
+   using [nvm](https://github.com/nvm-sh/nvm)
+3. Install Visual Studio 2022 Professional (with C# and Azure Workflows) or Rider 2025
+4. Clone the project `git clone https://github.com/DFE-Digital/education-benchmarking-and-insights.git`
 
 > **Note:** Ensure that, if cloning to a DfE user area, the root folder is outside any of the 'OneDrive'
 > folders to prevent 'too long path name' errors at build time.
