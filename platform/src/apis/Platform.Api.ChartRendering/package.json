@@ -52,5 +52,8 @@
   "type": "module",
   "scarfSettings": {
     "enabled": false
+  },
+  "engines": {
+    "node": ">=22"
   }
 }

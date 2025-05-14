@@ -132,7 +132,7 @@ variable "os-type" {
 
 variable "node-version" {
   type    = string
-  default = "20"
+  default = "22"
 }
 
 variable "maximum-elastic-worker-count" {

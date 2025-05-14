@@ -58,7 +58,6 @@ export default class VerticalBarChartBuilder {
       .attr("width", width)
       .attr("height", height)
       .attr("viewBox", `0 0 ${width} ${height}`)
-      .attr("style", "max-width: 100%; height: auto;")
       .attr("data-chart-id", id);
 
     // Add a rect for each bar.
@@ -78,7 +77,8 @@ export default class VerticalBarChartBuilder {
         }),
       );
 
+    const html = svg.node()?.toString() || undefined;
     console.timeEnd(timerMessage);
-    return { id, html: svg.node()?.toString() || undefined };
+    return { id, html };
   }
 }
