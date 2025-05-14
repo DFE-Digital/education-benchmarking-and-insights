@@ -113,15 +113,11 @@ public class EstablishmentComparatorsSteps(EstablishmentApiDriver api)
 
         Assert.Equal(total, result.TotalTrusts.ToString());
 
-        var set = new List<dynamic>();
-        foreach (var companyNumber in result.Trusts)
+        var set = result.Trusts.Select(trust => new
         {
-            set.Add(new
-            {
-                CompanyNumber = companyNumber
-            });
-        }
+            CompanyNumber = trust
+        });
 
-        table.CompareToDynamicSet(set, false);
+        table.CompareToSet(set);
     }
 }
