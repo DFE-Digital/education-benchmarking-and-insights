@@ -17,12 +17,12 @@ Feature: Establishment trusts endpoints
         Then the trust result should be not found
 
     Scenario: Sending a valid suggest trust request with exact code
-        Given a valid trust suggest request with searchText '7539918'
+        Given a valid trust suggest request with searchText '07539918'
         When I submit the trust request
         Then the trust suggest result should be ok and have the following values:
           | Field         | Value                 |
-          | Text          | *7539918*             |
-          | CompanyNumber | 7539918               |
+          | Text          | *07539918*            |
+          | CompanyNumber | 07539918              |
           | TrustName     | Test Company/Trust  1 |
 
     Scenario: Sending a valid suggest trust request with partial name
@@ -30,11 +30,11 @@ Feature: Establishment trusts endpoints
         When I submit the trust request
         Then the trust suggest result should be ok and have the following multiple values:
           | Text                      | TrustName               | CompanyNumber |
-          | *Test* Company/Trust  334 | Test Company/Trust  334 | 10038640      |
-          | *Test* Company/Trust  262 | Test Company/Trust  262 | 10264735      |
-          | *Test* Company/Trust  301 | Test Company/Trust  301 | 4464331       |
-          | *Test* Company/Trust  56  | Test Company/Trust  56  | 6897239       |
-          | *Test* Company/Trust  286 | Test Company/Trust  286 | 7465701       |
+          | *Test* Company/Trust  301 | Test Company/Trust  301 | 04464331      |
+          | *Test* Company/Trust  214 | Test Company/Trust  214 | 07185046      |
+          | *Test* Company/Trust  10  | Test Company/Trust  10  | 07353824      |
+          | *Test* Company/Trust  147 | Test Company/Trust  147 | 07451568      |
+          | *Test* Company/Trust  42  | Test Company/Trust  42  | 07452885      |
 
     Scenario: Sending a valid suggest trust request
         Given a valid trust suggest request with searchText 'willNotBeFound'
@@ -72,11 +72,11 @@ Feature: Establishment trusts endpoints
           | 368          | 1    | 5        | 74        |
         And the results should include the following trusts:
           | CompanyNumber | TrustName               | TotalPupils | SchoolsInTrust |
-          | 10038640      | Test Company/Trust  334 | 1207        | 1              |
-          | 10264735      | Test Company/Trust  262 | 468         | 1              |
-          | 4464331       | Test Company/Trust  301 | 448         | 1              |
-          | 6897239       | Test Company/Trust  56  | 518         | 1              |
-          | 7465701       | Test Company/Trust  286 | 207         | 1              |
+          | 04464331      | Test Company/Trust  301 | 448         | 1              |
+          | 07185046      | Test Company/Trust  214 | 286         | 1              |
+          | 07353824      | Test Company/Trust  10  | 791         | 1              |
+          | 07451568      | Test Company/Trust  147 | 1433        | 1              |
+          | 07452885      | Test Company/Trust  42  | 1542        | 2              |
 
     Scenario: Sending a valid search trusts request with order by ascending
         Given a valid trusts search request with searchText 'Test' page '1' size '5' orderByField 'TrustNameSortable' orderByValue 'asc'
@@ -86,11 +86,11 @@ Feature: Establishment trusts endpoints
           | 368          | 1    | 5        | 74        |
         And the results should include the following trusts:
           | CompanyNumber | TrustName               | TotalPupils | SchoolsInTrust |
-          | 7539918       | Test Company/Trust  1   |             |                |
-          | 7353824       | Test Company/Trust  10  | 791         | 1              |
-          | 8599329       | Test Company/Trust  102 | 330         | 1              |
-          | 9187505       | Test Company/Trust  103 | 318         | 1              |
-          | 8341194       | Test Company/Trust  104 | 424         | 1              |
+          | 07539918      | Test Company/Trust  1   |             |                |
+          | 07353824      | Test Company/Trust  10  | 791         | 1              |
+          | 08599329      | Test Company/Trust  102 | 330         | 1              |
+          | 09187505      | Test Company/Trust  103 | 318         | 1              |
+          | 08341194      | Test Company/Trust  104 | 424         | 1              |
 
     Scenario: Sending a valid search trusts request with order by descending
         Given a valid trusts search request with searchText 'Test' page '1' size '5' orderByField 'TrustNameSortable' orderByValue 'desc'
@@ -100,11 +100,11 @@ Feature: Establishment trusts endpoints
           | 368          | 1    | 5        | 74        |
         And the results should include the following trusts:
           | CompanyNumber | TrustName              | TotalPupils | SchoolsInTrust |
-          | 8833418       | Test Company/Trust  99 |             |                |
-          | 9662303       | Test Company/Trust  97 | 588         | 1              |
-          | 8028084       | Test Company/Trust  96 |             |                |
-          | 8010464       | Test Company/Trust  95 | 651         | 1              |
-          | 9918358       | Test Company/Trust  94 | 482         | 1              |
+          | 08833418      | Test Company/Trust  99 |             |                |
+          | 09662303      | Test Company/Trust  97 | 588         | 1              |
+          | 08028084      | Test Company/Trust  96 |             |                |
+          | 08010464      | Test Company/Trust  95 | 651         | 1              |
+          | 09918358      | Test Company/Trust  94 | 482         | 1              |
 
     Scenario: Sending a valid search trusts request
         Given a valid trusts search request with searchText 'willNotBeFound' page '1' size '5'

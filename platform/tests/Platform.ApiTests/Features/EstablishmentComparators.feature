@@ -40,12 +40,12 @@
         When I submit the comparator trusts request
         Then the comparator trusts should total '25' and contain:
           | CompanyNumber |
-          | 7185046       |
-          | 7694547       |
-          | 8053276       |
-          | 7930340       |
-          | 7452885       |
-          | 7747126       |
-          | 7695504       |
-          | 7388635       |
-          | 7703941       |
+          | 07185046      |
+          | 07694547      |
+          | 07930340      |
+          | 07452885      |
+          | 07695504      |
+          | 07703941      |
+          | 07751232      |
+          | 09896221      |
+          | 08085503      |

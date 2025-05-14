@@ -45,7 +45,7 @@
           | Test school 224 | Local authority nursery school | Isle of Wight        | 2.00           | 0.00                     | 1.00                              | 4.00             | 136.00   | 1.00              | 86.00       | 990002 | 15.00     | 20.00              |
 
     Scenario: Sending a valid school census query request with company number and phase
-        Given a valid school census query request with company number '8104190' and phase 'Secondary'
+        Given a valid school census query request with company number '08104190' and phase 'Secondary'
         When I submit the insights census request
         Then the census query result should be ok and contain:
           | SchoolName             | SchoolType        | LAName                 | AuxiliaryStaff | NonClassroomSupportStaff | PercentTeacherWithQualifiedStatus | SeniorLeadership | Teachers | TeachingAssistant | TotalPupils | URN    | Workforce | WorkforceHeadcount |

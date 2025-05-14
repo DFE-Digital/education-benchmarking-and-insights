@@ -25,7 +25,7 @@
           | 777042 | Utilities                                  | Total       | 9.08    | 10.45   | -1.37      | -15.12      | 39.00      | 3.00   | amber |
 
     Scenario: Sending a valid default metric rag rating with company number and phase and default options
-        Given a valid default metric rag rating with categories '' and statuses '' with company number '8104190'
+        Given a valid default metric rag rating with categories '' and statuses '' with company number '08104190'
         When I submit the metric rag rating request
         Then the metric rag rating result should be ok and contain:
           | URN    | Category                                   | SubCategory | Value    | Median  | DiffMedian | PercentDiff | Percentile | Decile | RAG   |
