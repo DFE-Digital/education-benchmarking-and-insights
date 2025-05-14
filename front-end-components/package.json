@@ -63,7 +63,7 @@
     "jest-environment-jsdom": "^29.7.0",
     "jest-theories": "^1.5.1",
     "prettier": "^3.2.5",
-    "prettier-eslint": "^16.4.1",
+    "prettier-eslint": "^16.4.2",
     "sass-embedded": "^1.87.0",
     "typescript": "^5.7.2",
     "typescript-eslint": "^8.31.1",
