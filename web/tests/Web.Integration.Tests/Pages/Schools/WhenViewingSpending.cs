@@ -6,6 +6,7 @@ using Moq;
 using Web.App;
 using Web.App.Domain;
 using Web.App.Infrastructure.Apis;
+using Web.App.ViewComponents;
 using Xunit;
 
 namespace Web.Integration.Tests.Pages.Schools;
@@ -56,11 +57,23 @@ public class WhenViewingSpending(SchoolBenchmarkingWebAppClient client)
     };
 
     [Theory]
+    [InlineData(EstablishmentTypes.Academies, true)]
+    [InlineData(EstablishmentTypes.Maintained, true)]
+    [InlineData(EstablishmentTypes.Academies, false)]
+    [InlineData(EstablishmentTypes.Maintained, false)]
+    public async Task CanDisplay(string financeType, bool ssrFeatureEnabled)
+    {
+        var (page, school) = await SetupNavigateInitPage(financeType, ssrFeatureEnabled: ssrFeatureEnabled);
+
+        AssertPageLayout(page, school, financeType, ssrFeatureEnabled);
+    }
+
+    [Theory]
     [InlineData(EstablishmentTypes.Academies)]
     [InlineData(EstablishmentTypes.Maintained)]
-    public async Task CanDisplay(string financeType)
+    public async Task CanDisplayNonSsrChartsWhenChartApiFails(string financeType)
     {
-        var (page, school) = await SetupNavigateInitPage(financeType);
+        var (page, school) = await SetupNavigateInitPage(financeType, ssrFeatureEnabled: true, chartApiException: true);
 
         AssertPageLayout(page, school, financeType);
     }
@@ -152,7 +165,11 @@ public class WhenViewingSpending(SchoolBenchmarkingWebAppClient client)
         AssertPageLayout(page, school, financeType);
     }
 
-    private async Task<(IHtmlDocument page, School school)> SetupNavigateInitPage(string financeType, SchoolComparatorSet? comparatorSet = null, bool ssrFeatureEnabled = false)
+    private async Task<(IHtmlDocument page, School school)> SetupNavigateInitPage(
+        string financeType,
+        SchoolComparatorSet? comparatorSet = null,
+        bool ssrFeatureEnabled = false,
+        bool chartApiException = false)
     {
         var school = Fixture.Build<School>()
             .With(x => x.URN, "123456")
@@ -165,13 +182,20 @@ public class WhenViewingSpending(SchoolBenchmarkingWebAppClient client)
         var rating = CreateRagRatings(school.URN);
 
         var expenditures = Fixture.Build<SchoolExpenditure>().CreateMany().ToArray();
+        var verticalBarChart = new ChartResponse { Html = "<svg />" };
 
         var client = Client
             .SetupDisableFeatureFlags(ssrFeatureEnabled ? [] : [FeatureFlags.SchoolSpendingPrioritiesSsrCharts])
             .SetupEstablishment(school)
             .SetupInsights()
             .SetupUserData()
-            .SetupMetricRagRating(rating);
+            .SetupMetricRagRating(rating)
+            .SetupChartRendering<PriorityCostCategoryDatum>(verticalBarChart);
+
+        if (chartApiException)
+        {
+            Client.SetupChartRenderingWithException<PriorityCostCategoryDatum>();
+        }
 
         if (comparatorSet != null)
         {
@@ -197,7 +221,7 @@ public class WhenViewingSpending(SchoolBenchmarkingWebAppClient client)
         return (page, school);
     }
 
-    private static void AssertPageLayout(IHtmlDocument page, School school, string financeType)
+    private static void AssertPageLayout(IHtmlDocument page, School school, string financeType, bool ssrCharts = false)
     {
         DocumentAssert.AssertPageUrl(page, Paths.SchoolSpending(school.URN).ToAbsolute());
         DocumentAssert.TitleAndH1(page, "Spending priorities for this school - Financial Benchmarking and Insights Tool - GOV.UK",
@@ -228,6 +252,20 @@ public class WhenViewingSpending(SchoolBenchmarkingWebAppClient client)
             Assert.Equal(expectedCostCodeList[sectionHeading], costCodeList.ChildElementCount);
 
             Assert.NotEqual(Category.Other, sectionHeading);
+
+            var chartSvg = section.QuerySelector(".ssr-chart");
+            var chartContainer = section.QuerySelector(".composed-container");
+
+            if (ssrCharts)
+            {
+                Assert.NotNull(chartSvg);
+                Assert.Null(chartContainer);
+            }
+            else
+            {
+                Assert.NotNull(chartContainer);
+                Assert.Null(chartSvg);
+            }
         }
     }
 

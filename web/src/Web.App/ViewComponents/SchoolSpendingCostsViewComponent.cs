@@ -4,6 +4,7 @@ using Web.App.Infrastructure.Apis;
 using Web.App.Infrastructure.Apis.ChartRendering;
 using Web.App.Infrastructure.Extensions;
 using Web.App.ViewModels.Components;
+// ReSharper disable PropertyCanBeMadeInitOnly.Global
 // ReSharper disable UnusedAutoPropertyAccessor.Global
 
 namespace Web.App.ViewComponents;
@@ -90,7 +91,7 @@ public class PriorityCostCategoryDatum
     public decimal? Amount { get; init; }
 }
 
-public abstract class ChartResponse
+public class ChartResponse
 {
     public string? Id { get; set; }
     public string? Html { get; set; }
