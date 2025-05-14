@@ -4,6 +4,8 @@ This project provides components to be consumed by the front-end ASP.NET Core we
 
 ## Pre-requisites
 
+- Install [Node 22](https://nodejs.org/en/download) and/or switch to this version using [nvm](https://github.com/nvm-sh/nvm)
+
 When developing this application in Visual Studio Code, the following extensions are recommended:
 
 - [ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint)
