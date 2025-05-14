@@ -56,7 +56,8 @@
         costs = Model.HighPriorityCosts,
         id = "high-priority",
         urn = Model.Urn,
-        isPartOfTrust = Model.IsPartOfTrust
+        isPartOfTrust = Model.IsPartOfTrust,
+        renderSsrCharts = Model.RenderSsrCharts
     })
 
     @await Component.InvokeAsync("SchoolSpendingCosts", new
@@ -64,7 +65,8 @@
         costs = Model.MediumPriorityCosts,
         id = "medium-priority",
         urn = Model.Urn,
-        isPartOfTrust = Model.IsPartOfTrust
+        isPartOfTrust = Model.IsPartOfTrust,
+        renderSsrCharts = Model.RenderSsrCharts
     })
 }
 
@@ -82,6 +84,7 @@
         costs = Model.LowPriorityCosts,
         id = "low-priority",
         urn = Model.Urn,
-        isPartOfTrust = Model.IsPartOfTrust
+        isPartOfTrust = Model.IsPartOfTrust,
+        renderSsrCharts = Model.RenderSsrCharts
     })
 }

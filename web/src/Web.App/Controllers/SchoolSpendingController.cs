@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.FeatureManagement;
 using Microsoft.FeatureManagement.Mvc;
 using Web.App.Attributes;
 using Web.App.Attributes.RequestTelemetry;
@@ -22,7 +23,8 @@ public class SchoolSpendingController(
     IExpenditureApi expenditureApi,
     ISchoolComparatorSetService schoolComparatorSetService,
     IMetricRagRatingApi metricRagRatingApi,
-    IUserDataService userDataService)
+    IUserDataService userDataService,
+    IFeatureManager featureManager)
     : Controller
 {
     [HttpGet]
@@ -69,8 +71,9 @@ public class SchoolSpendingController(
                     }
                 }
 
+                var renderSsrCharts = await featureManager.IsEnabledAsync(FeatureFlags.SchoolSpendingPrioritiesSsrCharts);
                 var viewModel = new SchoolSpendingViewModel(school, ratings, pupilExpenditure, areaExpenditure,
-                    userData.ComparatorSet, userData.CustomData);
+                    userData.ComparatorSet, userData.CustomData, renderSsrCharts);
 
                 return View(viewModel);
             }
@@ -129,7 +132,8 @@ public class SchoolSpendingController(
                 var pupilExpenditure = defaultPupilResult.Append(customPupilResult);
                 var areaExpenditure = defaultAreaResult.Append(customAreaResult);
 
-                var viewModel = new SchoolSpendingViewModel(school, rating, pupilExpenditure, areaExpenditure);
+                var renderSsrCharts = await featureManager.IsEnabledAsync(FeatureFlags.SchoolSpendingPrioritiesSsrCharts);
+                var viewModel = new SchoolSpendingViewModel(school, rating, pupilExpenditure, areaExpenditure, renderSsrCharts: renderSsrCharts);
 
                 return View(viewModel);
             }

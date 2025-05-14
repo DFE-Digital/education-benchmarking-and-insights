@@ -1,14 +1,14 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.FeatureManagement;
 using Web.App.Domain;
 using Web.App.Infrastructure.Apis;
 using Web.App.Infrastructure.Apis.ChartRendering;
 using Web.App.Infrastructure.Extensions;
 using Web.App.ViewModels.Components;
+// ReSharper disable UnusedAutoPropertyAccessor.Global
 
 namespace Web.App.ViewComponents;
 
-public class SchoolSpendingCostsViewComponent(IChartRenderingApi chartRenderingApi, IFeatureManager featureManager) : ViewComponent
+public class SchoolSpendingCostsViewComponent(IChartRenderingApi chartRenderingApi, ILogger<SchoolSpendingCostsViewComponent> logger) : ViewComponent
 {
     public async Task<IViewComponentResult> InvokeAsync(
         IEnumerable<CostCategory> costs,
@@ -16,7 +16,8 @@ public class SchoolSpendingCostsViewComponent(IChartRenderingApi chartRenderingA
         string urn,
         bool hasIncompleteData,
         bool isCustomData,
-        bool isPartOfTrust)
+        bool isPartOfTrust,
+        bool renderSsrCharts)
     {
         var categories = new List<SchoolSpendingCostsViewModelCostCategory<PriorityCostCategoryDatum>>();
         var requests = new List<PostVerticalBarChartRequest<PriorityCostCategoryDatum>>();
@@ -34,29 +35,33 @@ public class SchoolSpendingCostsViewComponent(IChartRenderingApi chartRenderingA
                 HasNegativeOrZeroValues = hasNegativeOrZeroValues,
                 Data = filteredData
             });
-            requests.Add(new PostVerticalBarChartRequest<PriorityCostCategoryDatum>
+
+            if (renderSsrCharts)
             {
-                Data = filteredData,
-                Height = 200,
-                HighlightKey = urn,
-                Id = uuid,
-                KeyField = nameof(PriorityCostCategoryDatum.Urn).ToLower(),
-                Sort = "asc",
-                Width = 630,
-                ValueField = nameof(PriorityCostCategoryDatum.Amount).ToLower()
-            });
+                // build collection of chart definitions to be resolved in a single API call
+                requests.Add(new SchoolSpendingCostsVerticalBarChartRequest(uuid, urn, filteredData));
+            }
         }
 
-        if (await featureManager.IsEnabledAsync(FeatureFlags.SchoolSpendingPrioritiesSsrCharts))
+        ChartResponse[] charts = [];
+        if (renderSsrCharts)
         {
-            var charts = await chartRenderingApi.PostVerticalBarCharts(new PostVerticalBarChartsRequest<PriorityCostCategoryDatum>(requests)).GetResultOrDefault<ChartResponse[]>() ?? [];
-            foreach (var chart in charts)
+            try
             {
-                var category = categories.FirstOrDefault(r => r.Uuid == chart.Id);
-                if (category != null)
-                {
-                    category.ChartSvg = chart.Html;
-                }
+                charts = await chartRenderingApi.PostVerticalBarCharts(new PostVerticalBarChartsRequest<PriorityCostCategoryDatum>(requests)).GetResultOrDefault<ChartResponse[]>() ?? [];
+            }
+            catch (Exception e)
+            {
+                logger.LogWarning(e, "Unable to load charts from API");
+            }
+        }
+
+        foreach (var chart in charts)
+        {
+            var category = categories.FirstOrDefault(r => r.Uuid == chart.Id);
+            if (category != null)
+            {
+                category.ChartSvg = chart.Html;
             }
         }
 
@@ -64,13 +69,28 @@ public class SchoolSpendingCostsViewComponent(IChartRenderingApi chartRenderingA
     }
 }
 
-public class PriorityCostCategoryDatum
+public record SchoolSpendingCostsVerticalBarChartRequest : PostVerticalBarChartRequest<PriorityCostCategoryDatum>
 {
-    public string? Urn { get; set; }
-    public decimal? Amount { get; set; }
+    public SchoolSpendingCostsVerticalBarChartRequest(string uuid, string urn, PriorityCostCategoryDatum[] filteredData)
+    {
+        Data = filteredData;
+        Height = 200;
+        HighlightKey = urn;
+        Id = uuid;
+        KeyField = nameof(PriorityCostCategoryDatum.Urn).ToLower();
+        Sort = "asc";
+        Width = 630;
+        ValueField = nameof(PriorityCostCategoryDatum.Amount).ToLower();
+    }
 }
 
-public class ChartResponse
+public class PriorityCostCategoryDatum
+{
+    public string? Urn { get; init; }
+    public decimal? Amount { get; init; }
+}
+
+public abstract class ChartResponse
 {
     public string? Id { get; set; }
     public string? Html { get; set; }

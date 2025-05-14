@@ -7,13 +7,15 @@ public class SchoolSpendingViewModel(
     IEnumerable<SchoolExpenditure> pupilExpenditure,
     IEnumerable<SchoolExpenditure> areaExpenditure,
     string? userDefinedSetId = null,
-    string? customDataId = null)
+    string? customDataId = null,
+    bool? renderSsrCharts = null)
 {
     private readonly CostCategory[] _categories = CategoryBuilder.Build(ratings, pupilExpenditure, areaExpenditure).ToArray();
 
     public string? Name => school.SchoolName;
     public string? Urn => school.URN;
     public bool IsPartOfTrust => school.IsPartOfTrust;
+    public bool RenderSsrCharts => renderSsrCharts == true;
     public string? UserDefinedSetId => userDefinedSetId;
 
     public string? CustomDataId => customDataId;
