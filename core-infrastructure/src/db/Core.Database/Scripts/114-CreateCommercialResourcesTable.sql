@@ -4,12 +4,14 @@ IF NOT EXISTS(SELECT *
 BEGIN
 CREATE TABLE [dbo].[CommercialResources]
 (
-    ResourceID   INT IDENTITY(1,1) PRIMARY KEY,
+    Id          integer identity (1,1) NOT NULL,
     Category    nvarchar(50)   NOT NULL,
     SubCategory nvarchar(50)   NOT NULL,
     Title       nvarchar(255)  NOT NULL,
     Url         nvarchar(2000)  NOT NULL,
     ValidFrom   datetimeoffset NOT NULL DEFAULT GETUTCDATE(),
     ValidTo     datetimeoffset NULL
+
+    CONSTRAINT PK_CommercialResources PRIMARY KEY (Id),
     );
 END
