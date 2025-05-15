@@ -59,6 +59,10 @@ public static class Paths
     {
         return $"/trust/{companyNumber}/forecast";
     }
+    public static string TrustResources(string? companyNumber)
+    {
+        return $"/trust/{companyNumber}/find-ways-to-spend-less";
+    }
     public static string SchoolComparatorSet(string? urn, string referrer)
     {
         return $"/school/{urn}/comparator-set?referrer={referrer}";

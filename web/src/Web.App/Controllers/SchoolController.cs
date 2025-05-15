@@ -23,7 +23,8 @@ public class SchoolController(
     IBalanceApi balanceApi,
     IMetricRagRatingApi metricRagRatingApi,
     IUserDataService userDataService,
-    ICensusApi censusApi)
+    ICensusApi censusApi,
+    ICommercialResourcesApi commercialResourcesApi)
     : Controller
 {
     [HttpGet]
@@ -142,7 +143,11 @@ public class SchoolController(
 
                 await Task.WhenAll(school, ratings);
 
-                var viewModel = new SchoolResourcesViewModel(school.Result, ratings.Result);
+                var allResources = await commercialResourcesApi
+                    .GetCommercialResources()
+                    .GetResultOrDefault<CommercialResources[]>() ?? [];
+
+                var viewModel = new SchoolResourcesViewModel(school.Result, ratings.Result, allResources);
                 return View(viewModel);
             }
             catch (Exception e)
