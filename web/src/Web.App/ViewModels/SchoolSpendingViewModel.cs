@@ -6,11 +6,13 @@ public class SchoolSpendingViewModel(
     IEnumerable<RagRating> ratings,
     IEnumerable<SchoolExpenditure> pupilExpenditure,
     IEnumerable<SchoolExpenditure> areaExpenditure,
+    IEnumerable<CommercialResources> resources,
     string? userDefinedSetId = null,
     string? customDataId = null,
     bool? renderSsrCharts = null)
 {
     private readonly CostCategory[] _categories = CategoryBuilder.Build(ratings, pupilExpenditure, areaExpenditure).ToArray();
+    public IEnumerable<GroupedResources> GroupedResources => CommercialResourcesBuilder.GroupByValidCategory(resources);
 
     public string? Name => school.SchoolName;
     public string? Urn => school.URN;
@@ -34,6 +36,14 @@ public class SchoolSpendingViewModel(
 
     public IEnumerable<CostCategory> LowPriorityCosts => Costs
         .Where(x => x.Rating.RAG is "green");
+
+    public IEnumerable<GroupedResources> HighPriorityResources => GroupedResources
+        .Where(g => HighPriorityCosts.Any(x => x.Rating.Category == g.Category))
+        .ToList();
+
+    public IEnumerable<GroupedResources> MediumPriorityResources => GroupedResources
+        .Where(g => MediumPriorityCosts.Any(x => x.Rating.Category == g.Category))
+        .ToList();
 
     public static ChartStatsViewModel Stats(RagRating rating) => new()
     {

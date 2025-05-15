@@ -32,42 +32,54 @@
           | Name                                | Resource                                                                                                  |
           | Teaching and Teaching support staff | Supply teachers and temporary staffing (STaTS)                                                            |
           | Teaching and Teaching support staff | Temporary and permanent staffing                                                                          |
-          | Non-educational support staff       | Audit services                                                                                            |
-          | Non-educational support staff       | Specialist professional services                                                                          |
-          | Non-educational support staff       | Legal services                                                                                            |
+          | Non-educational support staff       | Audit and financial services                                                                    |
+          | Non-educational support staff       | Audit and financial services                                                                    |
           | Non-educational support staff       | HR, payroll and employee screening services                                                               |
+          | Non-educational support staff       | Legal services                                                                                            |
+          | Non-educational support staff       | Specialist professional services                                                                          |
           | Administrative supplies             | Communications solutions                                                                                  |
           | Administrative supplies             | Communications solutions and associated telephony services                                                |
           | Administrative supplies             | Corporate software and related products and services                                                      |
           | Administrative supplies             | Cyber security services 3                                                                                 |
-          | Administrative supplies             | Digital marketplace (G-Cloud 13)                                                                          |
           | Administrative supplies             | Education management systems                                                                              |
           | Administrative supplies             | Everything ICT                                                                                            |
+          | Administrative supplies             | G-Cloud 14                                                                                                |
           | Administrative supplies             | ICT networking and storage solutions                                                                      |
           | Administrative supplies             | IT hardware                                                                                               |
           | Administrative supplies             | Multi-functional devices and digital solutions                                                            |
-          | Administrative supplies             | Multifunctional devices and digital transformation solutions                                              |
           | Administrative supplies             | Multifunctional devices, print and digital workflow software services and managed print service provision |
           | Administrative supplies             | Outsourced ICT                                                                                            |
           | Administrative supplies             | Print marketplace                                                                                         |
           | Administrative supplies             | Software licences and associated services for academies and schools                                       |
+          | Administrative supplies             | Stationery, paper and education supplies                                                                  |
           | Administrative supplies             | Technology products & associated services 2                                                               |
-          | Educational supplies                | Books for schools                                                                                         |
+          | Educational supplies                | Musical instruments, equipment and technology framework                                                   |
+          | Educational supplies                | Print books framework                                                                                     |
           | Catering staff and supplies         | Catering services                                                                                         |
           | Catering staff and supplies         | Catering services                                                                                         |
           | Catering staff and supplies         | Commercial catering equipment                                                                             |
+          | Catering staff and supplies         | Facilities management and workplace services                                                              |
+          | Catering staff and supplies         | Food and drink                                                                                            |
+          | Catering staff and supplies         | Food and drink - dynamic purchasing system (DPS)                                                          |
           | Catering staff and supplies         | Grocery, fresh, chilled and frozen foods                                                                  |
           | Catering staff and supplies         | Outsourced catering services                                                                              |
-          | Catering staff and supplies         | Facilities management and workplace services                                                              |
+          | Catering staff and supplies         | Sandwiches and food to go                                                                                 |
           | Premises staff and services         | Building cleaning                                                                                         |
+          | Premises staff and services         | Building in use - support services                                                                        |
           | Premises staff and services         | Cleaning services                                                                                         |
-          | Premises staff and services         | Total cleaning service solutions                                                                          |
+          | Premises staff and services         | Facilities management and workplace services                                                              |
+          | Premises staff and services         | Air cleaning                                                                                              |
+          | Premises staff and services         | Building in use - support services                                                                        |
           | Premises staff and services         | Facilities management and workplace services                                                              |
           | Premises staff and services         | Internal fit-out and maintenance                                                                          |
+          | Premises staff and services         | LED lighting                                                                                              |
           | Premises staff and services         | Building in use - support services                                                                        |
           | Utilities                           | Debt resolution services                                                                                  |
+          | Utilities                           | Education decarbonisation                                                                                 |
           | Utilities                           | Electricity (for supply during 2020 - 2028)                                                               |
           | Utilities                           | Energy cost recovery services                                                                             |
+          | Utilities                           | Fixed and flexible electricity                                                                            |
+          | Utilities                           | Fixed and flexible gas                                                                                    |
           | Utilities                           | Flexible electricity                                                                                      |
           | Utilities                           | Flexible gas                                                                                              |
           | Utilities                           | Liquid fuels                                                                                              |
@@ -75,8 +87,7 @@
           | Utilities                           | Liquified petroleum gas and other liquified fuels                                                         |
           | Utilities                           | Mains gas 2023                                                                                            |
           | Utilities                           | Supply of energy 2                                                                                        |
-          | Utilities                           | Water, wastewater and ancillary services                                                                  |
-          | Utilities                           | Water, wastewater and ancillary services                                                                  |
+          | Utilities                           | Utilities supplies and services                                                                           |
 
     Scenario: Categories have the correct category commentary
         Given I am on spending and costs page for school with URN '777042'

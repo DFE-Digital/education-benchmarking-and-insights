@@ -11,6 +11,9 @@ public class GivenASchoolResourcesViewModel
         .Build<School>()
         .With(s => s.URN, URN)
         .Create();
+    private readonly CommercialResources[] _resources = new Fixture()
+        .Build<CommercialResources>()
+        .CreateMany().ToArray();
 
     public static TheoryData<IEnumerable<RagRating>, IEnumerable<CostCategory>> WhenRagRatingsAreData
     {
@@ -64,7 +67,7 @@ public class GivenASchoolResourcesViewModel
     public void WhenRagRatingsAre(
         IEnumerable<RagRating> ratings, IEnumerable<CostCategory> expectedCostCategories)
     {
-        var actual = new SchoolResourcesViewModel(_school, ratings);
+        var actual = new SchoolResourcesViewModel(_school, ratings, _resources);
         Assert.Equal(expectedCostCategories.Select(c => c.Rating), actual.CostCategories.Select(c => c.Rating));
     }
 }

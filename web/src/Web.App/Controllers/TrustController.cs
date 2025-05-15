@@ -20,7 +20,8 @@ public class TrustController(
     ILogger<TrustController> logger,
     IEstablishmentApi establishmentApi,
     IBalanceApi balanceApi,
-    IMetricRagRatingApi metricRagRatingApi)
+    IMetricRagRatingApi metricRagRatingApi,
+    ICommercialResourcesApi commercialResourcesApi)
     : Controller
 {
     [HttpGet]
@@ -121,7 +122,11 @@ public class TrustController(
 
                 var trust = await Trust(companyNumber);
 
-                var viewModel = new TrustViewModel(trust);
+                var allResources = await commercialResourcesApi
+                    .GetCommercialResources()
+                    .GetResultOrDefault<CommercialResources[]>() ?? [];
+
+                var viewModel = new TrustResourcesViewModel(trust, allResources);
                 return View(viewModel);
             }
             catch (Exception e)

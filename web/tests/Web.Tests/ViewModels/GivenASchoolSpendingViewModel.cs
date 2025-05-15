@@ -11,6 +11,9 @@ public class GivenASchoolSpendingViewModel
         .Build<School>()
         .With(s => s.URN, URN)
         .Create();
+    private readonly CommercialResources[] _resources = new Fixture()
+        .Build<CommercialResources>()
+        .CreateMany().ToArray();
 
     public static TheoryData<
         IEnumerable<RagRating>,
@@ -85,7 +88,7 @@ public class GivenASchoolSpendingViewModel
         IEnumerable<CostCategory> expectedMediumPriorityCosts,
         IEnumerable<CostCategory> expectedLowPriorityCosts)
     {
-        var actual = new SchoolSpendingViewModel(_school, ratings, pupilExpenditure, areaExpenditure);
+        var actual = new SchoolSpendingViewModel(_school, ratings, pupilExpenditure, areaExpenditure, _resources);
         Assert.Equal(expectedHighPriorityCosts.Select(c => c.Rating), actual.HighPriorityCosts.Select(c => c.Rating));
         Assert.Equal(expectedMediumPriorityCosts.Select(c => c.Rating), actual.MediumPriorityCosts.Select(c => c.Rating));
         Assert.Equal(expectedLowPriorityCosts.Select(c => c.Rating), actual.LowPriorityCosts.Select(c => c.Rating));
