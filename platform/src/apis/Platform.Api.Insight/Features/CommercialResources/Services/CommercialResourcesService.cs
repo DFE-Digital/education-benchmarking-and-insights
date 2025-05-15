@@ -10,13 +10,13 @@ namespace Platform.Api.Insight.Features.CommercialResources.Services;
 
 public interface ICommercialResourcesService
 {
-    Task<IEnumerable<CommercialResourcesResponse>> GetCommercialResourcesByCategory(CancellationToken cancellationToken = default, params string[] categories);
+    Task<IEnumerable<CommercialResourcesResponse>> GetCommercialResourcesByCategory(string[] categories, CancellationToken cancellationToken = default);
 }
 
 [ExcludeFromCodeCoverage]
 public class CommercialResourcesService(IDatabaseFactory dbFactory) : ICommercialResourcesService
 {
-    public async Task<IEnumerable<CommercialResourcesResponse>> GetCommercialResourcesByCategory(CancellationToken cancellationToken = default, params string[] categories)
+    public async Task<IEnumerable<CommercialResourcesResponse>> GetCommercialResourcesByCategory(string[] categories, CancellationToken cancellationToken = default)
     {
         using var conn = await dbFactory.GetConnection();
 

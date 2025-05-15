@@ -40,7 +40,7 @@ public class WhenCommercialResourcesServiceQueriesAsync
             })
             .ReturnsAsync(results);
 
-        var actual = await _service.GetCommercialResourcesByCategory(CancellationToken.None, categories);
+        var actual = await _service.GetCommercialResourcesByCategory(categories, CancellationToken.None);
 
         Assert.Equal(results, actual);
         Assert.Equal("SELECT * FROM VW_CommercialResources", actualSql);
@@ -61,7 +61,7 @@ public class WhenCommercialResourcesServiceQueriesAsync
             })
             .ReturnsAsync(results);
 
-        var actual = await _service.GetCommercialResourcesByCategory(CancellationToken.None, categories);
+        var actual = await _service.GetCommercialResourcesByCategory(categories, CancellationToken.None);
 
         Assert.Equal(results, actual);
         Assert.Equal("SELECT * FROM VW_CommercialResources WHERE Category IN @Categories", actualSql);

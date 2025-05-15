@@ -1,5 +1,6 @@
 using System.Collections.Specialized;
 using Platform.Functions;
+using Platform.Functions.Extensions;
 
 namespace Platform.Api.Insight.Features.CommercialResources.Parameters;
 
@@ -9,6 +10,6 @@ public record CommercialResourcesParameters : QueryParameters
 
     public override void SetValues(NameValueCollection query)
     {
-        Categories = query["categories"]?.Split(',') ?? [];
+        Categories = query.ToStringArray("categories");
     }
 }

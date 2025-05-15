@@ -45,8 +45,8 @@ public class GetCommercialResourcesFunctionTests : FunctionsTestBase
 
         _service
             .Setup(x => x.GetCommercialResourcesByCategory(
-                It.IsAny<CancellationToken>(),
-                It.IsAny<string[]>()))
+                It.IsAny<string[]>(),
+                It.IsAny<CancellationToken>()))
             .ReturnsAsync(models);
 
         var query = new Dictionary<string, StringValues>
@@ -85,6 +85,6 @@ public class GetCommercialResourcesFunctionTests : FunctionsTestBase
         Assert.Contains(values, p => p.PropertyName == nameof(CommercialResourcesParameters.Categories));
 
         _service
-            .Verify(d => d.GetCommercialResourcesByCategory(It.IsAny<CancellationToken>(), It.IsAny<string[]>()), Times.Never);
+            .Verify(d => d.GetCommercialResourcesByCategory(It.IsAny<string[]>(), It.IsAny<CancellationToken>()), Times.Never);
     }
 }

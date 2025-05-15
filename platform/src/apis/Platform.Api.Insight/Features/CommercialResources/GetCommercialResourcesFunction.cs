@@ -36,7 +36,7 @@ public class GetCommercialResourcesFunction(ICommercialResourcesService service,
             return await req.CreateValidationErrorsResponseAsync(validationResult.Errors, cancellationToken: cancellationToken);
         }
 
-        var result = await service.GetCommercialResourcesByCategory(cancellationToken, queryParams.Categories);
+        var result = await service.GetCommercialResourcesByCategory(queryParams.Categories, cancellationToken);
         return await req.CreateJsonResponseAsync(result, cancellationToken: cancellationToken);
     }
 }
