@@ -29,17 +29,17 @@ public static class Lookups
         { Category.Other, "Pupil" }
     };
 
-    public static Dictionary<string, string> CategoryResourcePartialMap => new()
+    public static Dictionary<string, int> CategoryOrderMap => new()
     {
-        { Category.TeachingStaff, "CommercialResource/_TeachingStaff" },
-        { Category.NonEducationalSupportStaff, "CommercialResource/_NonEducationalSupportStaff" },
-        { Category.EducationalSupplies, "CommercialResource/_EducationalSupplies" },
-        { Category.EducationalIct, "CommercialResource/_EducationalIct" },
-        { Category.PremisesStaffServices, "CommercialResource/_PremisesStaffServices" },
-        { Category.Utilities, "CommercialResource/_Utilities" },
-        { Category.AdministrativeSupplies, "CommercialResource/_AdministrativeSupplies" },
-        { Category.CateringStaffServices, "CommercialResource/_CateringStaffServices" },
-        { Category.Other, "CommercialResource/_OtherCosts" }
+        { Category.TeachingStaff, 1 },
+        { Category.NonEducationalSupportStaff, 2 },
+        { Category.EducationalSupplies, 3 },
+        { Category.EducationalIct, 4 },
+        { Category.PremisesStaffServices, 5 },
+        { Category.Utilities, 6 },
+        { Category.AdministrativeSupplies, 7 },
+        { Category.CateringStaffServices, 8 },
+        { Category.Other, 9 }
     };
 
     public static Dictionary<string, string> CategoryUnitMap => new()

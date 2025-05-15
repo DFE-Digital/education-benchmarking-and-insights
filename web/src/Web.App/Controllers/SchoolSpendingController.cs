@@ -24,6 +24,7 @@ public class SchoolSpendingController(
     ISchoolComparatorSetService schoolComparatorSetService,
     IMetricRagRatingApi metricRagRatingApi,
     IUserDataService userDataService,
+    ICommercialResourcesService commercialResourcesService,
     IFeatureManager featureManager)
     : Controller
 {
@@ -71,8 +72,11 @@ public class SchoolSpendingController(
                     }
                 }
 
+                var allResources = await commercialResourcesService
+                    .GetResources();
+
                 var renderSsrCharts = await featureManager.IsEnabledAsync(FeatureFlags.SchoolSpendingPrioritiesSsrCharts);
-                var viewModel = new SchoolSpendingViewModel(school, ratings, pupilExpenditure, areaExpenditure,
+                var viewModel = new SchoolSpendingViewModel(school, ratings, pupilExpenditure, areaExpenditure, allResources,
                     userData.ComparatorSet, userData.CustomData, renderSsrCharts);
 
                 // todo: return non-/ssr view here rather than conditional in view/component itself (#261663)
@@ -133,8 +137,11 @@ public class SchoolSpendingController(
                 var pupilExpenditure = defaultPupilResult.Append(customPupilResult);
                 var areaExpenditure = defaultAreaResult.Append(customAreaResult);
 
+                var allResources = await commercialResourcesService
+                    .GetResources();
+
                 var renderSsrCharts = await featureManager.IsEnabledAsync(FeatureFlags.SchoolSpendingPrioritiesSsrCharts);
-                var viewModel = new SchoolSpendingViewModel(school, rating, pupilExpenditure, areaExpenditure, renderSsrCharts: renderSsrCharts);
+                var viewModel = new SchoolSpendingViewModel(school, rating, pupilExpenditure, areaExpenditure, allResources, renderSsrCharts: renderSsrCharts);
 
                 // todo: return non-/ssr view here rather than conditional in view/component itself (#261663)
                 return View(viewModel);

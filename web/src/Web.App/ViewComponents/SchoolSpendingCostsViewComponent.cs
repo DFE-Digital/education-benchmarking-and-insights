@@ -15,6 +15,7 @@ public class SchoolSpendingCostsViewComponent(IChartRenderingApi chartRenderingA
 {
     public async Task<IViewComponentResult> InvokeAsync(
         IEnumerable<CostCategory> costs,
+        IEnumerable<GroupedResources> resources,
         string? id,
         string urn,
         bool hasIncompleteData,
@@ -68,7 +69,7 @@ public class SchoolSpendingCostsViewComponent(IChartRenderingApi chartRenderingA
             }
         }
 
-        return View(new SchoolSpendingCostsViewModel(id, urn, isPartOfTrust, isCustomData, hasIncompleteData, categories));
+        return View(new SchoolSpendingCostsViewModel(id, urn, isPartOfTrust, isCustomData, hasIncompleteData, categories, resources));
     }
 }
 

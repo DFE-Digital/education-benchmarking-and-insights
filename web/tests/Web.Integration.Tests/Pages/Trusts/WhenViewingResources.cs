@@ -1,61 +1,48 @@
-﻿using System.Net;
+using System.Net;
 using AngleSharp.Dom;
 using AngleSharp.Html.Dom;
 using AutoFixture;
 using Web.App.Domain;
 using Xunit;
 
-namespace Web.Integration.Tests.Pages.LocalAuthorities;
+namespace Web.Integration.Tests.Pages.Trusts;
 
 public class WhenViewingResources(SchoolBenchmarkingWebAppClient client) : PageBase<SchoolBenchmarkingWebAppClient>(client)
 {
     [Fact]
     public async Task CanDisplay()
     {
-        var (page, authority, resources) = await SetupNavigateInitPage();
+        var (page, trust, resources) = await SetupNavigateInitPage();
 
-        AssertPageLayout(page, authority, resources);
+        AssertPageLayout(page, trust, resources);
     }
-
-    /*[Fact]
-    public async Task CanNavigateBack()
-    {
-        /*
-        See decision log: temp remove navigation to be review post private beta
-        var (page, authority) = await SetupNavigateInitPage();
-
-        var anchor = page.QuerySelector(".govuk-back-link");
-        page = await Client.Follow(anchor);
-
-        DocumentAssert.AssertPageUrl(page, Paths.LocalAuthorityHome(authority.Code).ToAbsolute());#1#
-    }*/
 
     [Fact]
     public async Task CanDisplayNotFound()
     {
-        const string code = "123";
+        const string companyName = "12345678";
         var page = await Client.SetupEstablishmentWithNotFound()
-            .Navigate(Paths.LocalAuthorityResources(code));
+            .Navigate(Paths.TrustResources(companyName));
 
         PageAssert.IsNotFoundPage(page);
-        DocumentAssert.AssertPageUrl(page, Paths.LocalAuthorityResources(code).ToAbsolute(), HttpStatusCode.NotFound);
+        DocumentAssert.AssertPageUrl(page, Paths.TrustResources(companyName).ToAbsolute(), HttpStatusCode.NotFound);
     }
 
     [Fact]
     public async Task CanDisplayProblemWithService()
     {
-        const string code = "123";
+        const string companyName = "12345678";
         var page = await Client.SetupEstablishmentWithException()
-            .Navigate(Paths.LocalAuthorityResources(code));
+            .Navigate(Paths.TrustResources(companyName));
 
         PageAssert.IsProblemPage(page);
-        DocumentAssert.AssertPageUrl(page, Paths.LocalAuthorityResources(code).ToAbsolute(), HttpStatusCode.InternalServerError);
+        DocumentAssert.AssertPageUrl(page, Paths.TrustResources(companyName).ToAbsolute(), HttpStatusCode.InternalServerError);
     }
 
-    private async Task<(IHtmlDocument page, LocalAuthority authority, CommercialResources[] resources)> SetupNavigateInitPage()
+    private async Task<(IHtmlDocument page, Trust trust, CommercialResources[] resources)> SetupNavigateInitPage()
     {
-        var authority = Fixture.Build<LocalAuthority>()
-            .With(a => a.Code, "123")
+        var trust = Fixture.Build<Trust>()
+            .With(t => t.CompanyNumber, "12345678")
             .Create();
 
         var arrangeResources = new List<CommercialResources>();
@@ -79,18 +66,17 @@ public class WhenViewingResources(SchoolBenchmarkingWebAppClient client) : PageB
 
         var resources = arrangeResources.ToArray();
 
-        var page = await Client.SetupEstablishment(authority)
+        var page = await Client.SetupEstablishment(trust)
             .SetupInsights()
             .SetupInsightsCommercialResources(resources)
-            .Navigate(Paths.LocalAuthorityResources(authority.Code));
+            .Navigate(Paths.TrustResources(trust.CompanyNumber));
 
-        return (page, authority, resources);
+        return (page, trust, resources);
     }
 
-    private static void AssertPageLayout(IHtmlDocument page, LocalAuthority authority, CommercialResources[] resources)
+    private static void AssertPageLayout(IHtmlDocument page, Trust trust, CommercialResources[] resources)
     {
-        DocumentAssert.AssertPageUrl(page, Paths.LocalAuthorityResources(authority.Code).ToAbsolute());
-        DocumentAssert.BackLink(page, "Back", Paths.LocalAuthorityHome(authority.Code).ToAbsolute());
+        DocumentAssert.AssertPageUrl(page, Paths.TrustResources(trust.CompanyNumber).ToAbsolute());
 
         DocumentAssert.TitleAndH1(page, "Find ways to spend less - Financial Benchmarking and Insights Tool - GOV.UK", "Find ways to spend less");
 
@@ -130,7 +116,7 @@ public class WhenViewingResources(SchoolBenchmarkingWebAppClient client) : PageB
                 foreach (var link in resourceLinks)
                 {
                     var actualTitle = link.TextContent.Trim().Replace(" Opens in a new window", "");
-
+                    ;
                     var actualUrl = link.GetAttribute("href");
 
                     var matchingResource = expectedResources.FirstOrDefault(r => r.Title == actualTitle);
