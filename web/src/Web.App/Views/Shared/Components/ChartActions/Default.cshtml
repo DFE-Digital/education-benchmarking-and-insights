@@ -1,0 +1,24 @@
+@using Newtonsoft.Json
+@using Web.App.Extensions
+@model Web.App.ViewModels.Components.ChartActionsViewModel
+
+<div class="chart-actions-wrapper">
+    <div class="chart-actions">
+        @if (Model.ProgressivelyEnhance)
+        {
+            // todo
+        }
+        else
+        {
+            <div
+                data-share-content-by-element-id
+                data-element-id="@Model.ElementId"
+                data-title="@Model.Title"
+                data-show-title="@Model.ShowTitle.ToString().ToLower()"
+                data-copy-event-id="@Model.CopyEventId"
+                data-save-event-id="@Model.SaveEventId"
+                data-cost-codes="@Model.CostCodes.ToJson(Formatting.None)">
+            </div>
+        }
+    </div>
+</div>
