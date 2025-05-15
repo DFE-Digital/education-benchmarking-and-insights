@@ -123,7 +123,7 @@
     /* Skip type checking all .d.ts files. */
   },
   "include": [
-    "AssetSrc/ts/*.ts",
+    "AssetSrc/ts/**/*.ts",
     "types/*.d.ts"
   ]
 }
