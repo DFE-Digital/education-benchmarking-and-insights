@@ -1,17 +1,6 @@
 import accessibleAutocomplete from "accessible-autocomplete";
 import debounce from "lodash.debounce";
 
-interface SuggestResult<T> {
-  text: string;
-  document: T;
-}
-
-interface ApiError {
-  error?: Error;
-}
-
-type ApiResponse<T> = T[] | ApiError;
-
 export function suggester<T>(
   type: "school" | "trust" | "local-authority",
   inputElementId: string,
