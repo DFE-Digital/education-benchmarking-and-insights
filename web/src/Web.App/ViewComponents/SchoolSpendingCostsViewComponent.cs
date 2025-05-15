@@ -4,6 +4,8 @@ using Web.App.Infrastructure.Apis;
 using Web.App.Infrastructure.Apis.ChartRendering;
 using Web.App.Infrastructure.Extensions;
 using Web.App.ViewModels.Components;
+
+// ReSharper disable ClassNeverInstantiated.Global
 // ReSharper disable PropertyCanBeMadeInitOnly.Global
 // ReSharper disable UnusedAutoPropertyAccessor.Global
 

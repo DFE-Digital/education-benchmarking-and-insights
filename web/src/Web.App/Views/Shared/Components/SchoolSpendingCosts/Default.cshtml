@@ -31,6 +31,7 @@
             .ToList() ?? [];
 
         var uuid = Guid.NewGuid();
+        var renderSsChart = !string.IsNullOrWhiteSpace(cost?.ChartSvg);
 
         <section id="spending-priorities-@category?.Rating.CostCategoryAnchorId">
             <div class="govuk-grid-row govuk-!-margin-bottom-2"
@@ -41,15 +42,13 @@
                 @if (!Model.IsCustomData)
                 {
                     <div class="govuk-grid-column-one-third">
-                        <div
-                            data-share-content-by-element-id
-                            data-element-id="@uuid"
-                            data-title="@categoryHeading"
-                            data-show-title="true"
-                            data-copy-event-id="copy-chart-as-image"
-                            data-save-event-id="save-chart-as-image"
-                            data-cost-codes="@costCodes.ToJson(Formatting.None)">
-                        </div>
+                        @await Component.InvokeAsync("ChartActions", new
+                        {
+                            elementId = uuid.ToString(),
+                            title = categoryHeading,
+                            costCodes,
+                            progressivelyEnhance = renderSsChart
+                        })
                     </div>
                 }
 
@@ -95,7 +94,7 @@
                             </div>
                         }
 
-                        @if (!string.IsNullOrWhiteSpace(cost?.ChartSvg))
+                        @if (renderSsChart)
                         {
                             <div class="govuk-!-margin-bottom-2 ssr-chart">
                                 @Html.Raw(cost.ChartSvg)

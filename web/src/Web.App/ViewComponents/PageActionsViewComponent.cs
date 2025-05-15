@@ -13,8 +13,10 @@ public class PageActionsViewComponent : ViewComponent
         string? saveTitleAttr,
         string? costCodesAttr,
         string? waitForEventType,
-        string? downloadLink)
-        => View(new PageActionsViewModel(
+        string? downloadLink,
+        bool? progressivelyEnhance)
+    {
+        return View(new PageActionsViewModel(
             saveButtonVisible,
             downloadButtonVisible,
             saveClassName,
@@ -22,5 +24,7 @@ public class PageActionsViewComponent : ViewComponent
             saveTitleAttr,
             costCodesAttr,
             waitForEventType,
-            downloadLink));
+            downloadLink,
+            progressivelyEnhance));
+    }
 }
