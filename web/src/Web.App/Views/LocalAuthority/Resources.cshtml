@@ -1,17 +1,33 @@
 ﻿@using Web.App.TagHelpers
-@model Web.App.ViewModels.LocalAuthorityViewModel
+@model Web.App.ViewModels.LocalAuthorityResourcesViewModel
 @{
     ViewData[ViewDataKeys.Title] = PageTitles.Resources;
 }
 
 @await Component.InvokeAsync("EstablishmentHeading", new { title = ViewData[ViewDataKeys.Title], name = Model.Name, id = Model.Code, kind = OrganisationTypes.LocalAuthority })
 
-
-<div class="govuk-grid-row">
-    <div class="govuk-grid-column-two-thirds">
-        @await Html.PartialAsync("CommercialResource/AllResources")
+@if (Model.GroupedResources.Any())
+{
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            @await Html.PartialAsync("CommercialResource/AllResources")
+        </div>
     </div>
-</div>
+}
+else
+{
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <div class="govuk-warning-text">
+                <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
+                <strong class="govuk-warning-text__text">
+                    <span class="govuk-visually-hidden">Warning</span>
+                        No resources available.
+                </strong>
+            </div>
+        </div>
+    </div>
+}
 
 @section scripts
 {

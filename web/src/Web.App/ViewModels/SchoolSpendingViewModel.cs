@@ -7,6 +7,7 @@ public class SchoolSpendingViewModel(
     IEnumerable<RagRating> ratings,
     IEnumerable<SchoolExpenditure> pupilExpenditure,
     IEnumerable<SchoolExpenditure> areaExpenditure,
+    IEnumerable<CommercialResources> resources,
     string? userDefinedSetId = null,
     string? customDataId = null)
 {
@@ -25,6 +26,8 @@ public class SchoolSpendingViewModel(
         .ThenByDescending(x => x.Rating.Decile)
         .ThenByDescending(x => x.Rating.Value);
 
+    private IEnumerable<GroupedResources> GroupedResources => CommercialResourcesBuilder.GroupByValidCategory(resources);
+
     public IEnumerable<CostCategory> HighPriorityCosts => Costs
         .Where(x => x.Rating.RAG is "red");
 
@@ -33,6 +36,15 @@ public class SchoolSpendingViewModel(
 
     public IEnumerable<CostCategory> LowPriorityCosts => Costs
         .Where(x => x.Rating.RAG is "green");
+
+
+    public IEnumerable<GroupedResources> HighPriorityResources => GroupedResources
+        .Where(g => HighPriorityCosts.Any(x => x.Rating.Category == g.Category))
+        .ToList();
+
+    public IEnumerable<GroupedResources> MediumPriorityResources => GroupedResources
+        .Where(g => MediumPriorityCosts.Any(x => x.Rating.Category == g.Category))
+        .ToList();
 
     public static ChartStatsViewModel Stats(RagRating rating)
     {

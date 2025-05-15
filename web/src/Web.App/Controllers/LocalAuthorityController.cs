@@ -7,6 +7,7 @@ using Web.App.Domain;
 using Web.App.Infrastructure.Apis;
 using Web.App.Infrastructure.Apis.Establishment;
 using Web.App.Infrastructure.Extensions;
+using Web.App.Services;
 using Web.App.TagHelpers;
 using Web.App.ViewModels;
 namespace Web.App.Controllers;
@@ -17,7 +18,8 @@ namespace Web.App.Controllers;
 [ValidateLaCode]
 public class LocalAuthorityController(
     ILogger<LocalAuthorityController> logger,
-    IEstablishmentApi establishmentApi)
+    IEstablishmentApi establishmentApi,
+    ICommercialResourcesService commercialResourcesService)
     : Controller
 {
 
@@ -61,7 +63,12 @@ public class LocalAuthorityController(
                 ViewData[ViewDataKeys.Backlink] = HomeLink(code);
 
                 var authority = await LocalAuthority(code);
-                var viewModel = new LocalAuthorityViewModel(authority);
+
+                var allResources = await commercialResourcesService
+                    .GetResources();
+
+                var viewModel = new LocalAuthorityResourcesViewModel(authority, allResources);
+
                 return View(viewModel);
             }
             catch (Exception e)

@@ -14,6 +14,19 @@ public class Category(decimal value)
     public const string CateringStaffServices = "Catering staff and supplies";
     public const string Other = "Other costs";
 
+    public static readonly string[] All =
+    [
+        TeachingStaff,
+        NonEducationalSupportStaff,
+        EducationalSupplies,
+        EducationalIct,
+        PremisesStaffServices,
+        Utilities,
+        AdministrativeSupplies,
+        CateringStaffServices,
+        Other
+    ];
+
     public static readonly string[] InvertRagValueCategories = [TeachingStaff, EducationalSupplies, EducationalIct];
 
     public decimal Value => value;

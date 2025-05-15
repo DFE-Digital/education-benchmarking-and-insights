@@ -10,7 +10,7 @@ public class CommercialResourcesPage(IPage page)
 
     private ILocator PriorityTags => page.Locator($"{Selectors.MainContent} {Selectors.GovukTag}");
     private ILocator AllResourcesTab => page.Locator(Selectors.AllResourcesTab);
-    private ILocator AllResourcesHeadings => page.Locator($"{Selectors.AllResources} {Selectors.H2}");
+    private ILocator AllResourcesHeadings => page.Locator($"{Selectors.AllResources} {Selectors.H2}, {Selectors.AllResources} {Selectors.H3}");
     private ILocator ShowHideAllSectionsLink => page.Locator(Selectors.GovShowAllLinkText);
     private ILocator Sections => page.Locator(Selectors.GovAccordionSection);
     private ILocator AllCommercialLinks => page.Locator(Selectors.AllCommercialLinks);

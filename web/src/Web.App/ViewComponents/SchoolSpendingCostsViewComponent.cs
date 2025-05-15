@@ -8,6 +8,7 @@ public class SchoolSpendingCostsViewComponent : ViewComponent
 {
     public IViewComponentResult Invoke(
         IEnumerable<CostCategory> costs,
+        IEnumerable<GroupedResources> resources,
         string? id,
         string urn,
         bool hasIncompleteData,
@@ -31,6 +32,6 @@ public class SchoolSpendingCostsViewComponent : ViewComponent
             });
         }
 
-        return View(new SchoolSpendingCostsViewModel(id, urn, isPartOfTrust, isCustomData, hasIncompleteData, categories));
+        return View(new SchoolSpendingCostsViewModel(id, urn, isPartOfTrust, isCustomData, hasIncompleteData, categories, resources));
     }
 }

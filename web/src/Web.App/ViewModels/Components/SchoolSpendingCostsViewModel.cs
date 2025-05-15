@@ -9,7 +9,8 @@ public class SchoolSpendingCostsViewModel(
     bool isPartOfTrust,
     bool isCustomData,
     bool hasIncompleteData,
-    List<SchoolSpendingCostsViewModelCostCategory<PriorityCostCategoryDatum>> categories)
+    List<SchoolSpendingCostsViewModelCostCategory<PriorityCostCategoryDatum>> categories,
+    IEnumerable<GroupedResources>? resources = null)
 {
     public List<SchoolSpendingCostsViewModelCostCategory<PriorityCostCategoryDatum>> Costs => categories;
     public string? Id => id;
@@ -18,6 +19,7 @@ public class SchoolSpendingCostsViewModel(
     public bool IsCustomData => isCustomData;
     public bool IsPartOfTrust => isPartOfTrust;
     public CostCodes CostCodes => new(IsPartOfTrust);
+    public IEnumerable<GroupedResources>? Resources => resources;
 }
 
 public class SchoolSpendingCostsViewModelCostCategory<T>

@@ -44,6 +44,7 @@ builder.Services
     .AddScoped<IClaimsIdentifierService, ClaimsIdentifierService>()
     .AddScoped<ILocalAuthorityComparatorSetService, LocalAuthorityComparatorSetService>()
     .AddScoped<ISearchService, SearchService>()
+    .AddScoped<ICommercialResourcesService, CommercialResourcesService>()
     .AddValidation()
     .AddActionResults();
 

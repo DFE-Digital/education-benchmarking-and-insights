@@ -25,6 +25,11 @@ public static class Api
         public static string SchoolHistoryComparatorSetAverage(string? urn) => $"api/census/{urn}/history/comparator-set-average"; // proposed endpoint
     }
 
+    public static class CommercialResources
+    {
+        public static string Resources => "api/commercial-resources";
+    }
+
     public static class Expenditure
     {
         public static string Schools => "api/expenditure/schools";

@@ -8,6 +8,7 @@ using Web.App.Infrastructure.Apis;
 using Web.App.Infrastructure.Apis.Establishment;
 using Web.App.Infrastructure.Apis.Insight;
 using Web.App.Infrastructure.Extensions;
+using Web.App.Services;
 using Web.App.TagHelpers;
 using Web.App.ViewModels;
 namespace Web.App.Controllers;
@@ -20,7 +21,8 @@ public class TrustController(
     ILogger<TrustController> logger,
     IEstablishmentApi establishmentApi,
     IBalanceApi balanceApi,
-    IMetricRagRatingApi metricRagRatingApi)
+    IMetricRagRatingApi metricRagRatingApi,
+    ICommercialResourcesService commercialResourcesService)
     : Controller
 {
     [HttpGet]
@@ -121,7 +123,10 @@ public class TrustController(
 
                 var trust = await Trust(companyNumber);
 
-                var viewModel = new TrustViewModel(trust);
+                var allResources = await commercialResourcesService
+                    .GetResources();
+
+                var viewModel = new TrustResourcesViewModel(trust, allResources);
                 return View(viewModel);
             }
             catch (Exception e)
