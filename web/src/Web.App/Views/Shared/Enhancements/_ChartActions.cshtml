@@ -1,0 +1,30 @@
+@using Web.App.Extensions
+@model Web.App.ViewModels.Enhancements.ChartActionsViewModel
+
+<script type="module" add-nonce="true">
+    import {ChartActions} from "@Html.FileVersionedPath("/js/main.min.js")";
+
+    const copyEventId = "@(Model.CopyEventId)";
+    const saveEventId = "@(Model.SaveEventId)";
+    const showCopy = @(Model.ShowCopy == true ? "true" : "false");
+    const showSave = @(Model.ShowSave == true ? "true" : "false");
+    const showTitle =  @(Model.ShowTitle == true ? "true" : "false");
+    const elements = document.querySelectorAll("[data-@Model.DataSetAttribute]");
+
+    elements.forEach(element => {
+        const costCodes = JSON.parse(element.getAttribute("data-cost-codes") ?? []);
+        const elementId = element.getAttribute("data-element-id");
+        const title = showTitle && element.getAttribute("data-title");
+        ChartActions({
+            placeholderElement: element,
+            elementId,
+            copyEventId,
+            costCodes,
+            saveEventId,
+            showCopy,
+            showSave,
+            showTitle,
+            title
+        });
+    });
+</script>

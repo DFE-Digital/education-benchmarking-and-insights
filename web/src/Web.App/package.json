@@ -6,13 +6,18 @@
   "dependencies": {
     "accessible-autocomplete": "^3.0.0",
     "async": "^3.2.5",
+    "classnames": "^2.5.1",
+    "file-saver": "^2.0.5",
     "front-end": "^1.0.0",
     "govuk-frontend": "^5.7.0",
+    "html-to-image": "1.11.11",
+    "jszip": "^3.10.1",
     "lodash.debounce": "^4.0.8"
   },
   "devDependencies": {
     "@eslint/js": "^9.25.1",
     "@swc/core": "^1.11.21",
+    "@types/file-saver": "^2.0.7",
     "@types/lodash.debounce": "^4.0.9",
     "@typescript-eslint/parser": "^8.31.1",
     "eslint": "^8.57.1",

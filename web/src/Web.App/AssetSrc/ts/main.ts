@@ -1,3 +1,4 @@
-import { suggester } from "./suggester/component.ts";
+import { ChartActions } from "./components/chart-actions/ChartActions.ts";
+import { Suggester } from "./components/suggester/Suggester.ts";
 
-export { suggester };
+export { ChartActions, Suggester };

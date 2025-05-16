@@ -6,7 +6,12 @@
     <div class="chart-actions">
         @if (Model.ProgressivelyEnhance)
         {
-            // todo
+            <div
+                data-chart-actions
+                data-element-id="@Model.ElementId"
+                data-title="@Model.Title"
+                data-cost-codes="@Model.CostCodes.ToJson(Formatting.None)">
+            </div>
         }
         else
         {

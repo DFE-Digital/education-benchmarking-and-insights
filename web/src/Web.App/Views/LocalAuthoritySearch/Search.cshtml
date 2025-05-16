@@ -71,7 +71,7 @@
 
 @section scripts
 {
-    @await Html.PartialAsync("Enhancements/_SuggestScripts", new SuggestScriptsViewModel
+    @await Html.PartialAsync("Enhancements/_Suggester", new SuggesterViewModel
     {
         InputElementId = nameof(ISearchTermViewModel.Term),
         SelectedEstablishmentField = nameof(ISearchTermViewModel.EstablishmentId),
