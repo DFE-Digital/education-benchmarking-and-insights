@@ -1,4 +1,5 @@
-﻿@model Web.App.ViewModels.SchoolSpendingViewModel
+﻿@using Web.App.ViewModels.Enhancements
+@model Web.App.ViewModels.SchoolSpendingViewModel
 @{
     ViewData[ViewDataKeys.Title] = PageTitles.Spending;
 }
@@ -87,5 +88,16 @@
         urn = Model.Urn,
         isPartOfTrust = Model.IsPartOfTrust,
         renderSsrCharts = Model.RenderSsrCharts
+    })
+}
+
+@section scripts
+{
+    @await Html.PartialAsync("Enhancements/_ChartActions", new ChartActionsViewModel
+    {
+        DataSetAttribute = "chart-actions",
+        ShowCopy = true,
+        ShowSave = true,
+        ShowTitle = true
     })
 }

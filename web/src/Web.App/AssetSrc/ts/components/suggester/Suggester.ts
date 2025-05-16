@@ -1,13 +1,13 @@
 import accessibleAutocomplete from "accessible-autocomplete";
 import debounce from "lodash.debounce";
 
-export function suggester<T>(
-  type: "school" | "trust" | "local-authority",
-  inputElementId: string,
-  targetElementId: string,
-  documentKey: keyof T,
-  exclude?: string[]
-): void {
+export function Suggester<T>({
+  type,
+  inputElementId,
+  targetElementId,
+  documentKey,
+  exclude,
+}: SuggesterProps<T>): void {
   let abortController = new AbortController();
 
   const handleSuggest = async (query: string): Promise<SuggestResult<T>[]> => {

@@ -75,6 +75,7 @@ public class SchoolSpendingController(
                 var viewModel = new SchoolSpendingViewModel(school, ratings, pupilExpenditure, areaExpenditure,
                     userData.ComparatorSet, userData.CustomData, renderSsrCharts);
 
+                // todo: return non-/ssr view here rather than conditional in view/component itself (#261663)
                 return View(viewModel);
             }
             catch (Exception e)
@@ -135,6 +136,7 @@ public class SchoolSpendingController(
                 var renderSsrCharts = await featureManager.IsEnabledAsync(FeatureFlags.SchoolSpendingPrioritiesSsrCharts);
                 var viewModel = new SchoolSpendingViewModel(school, rating, pupilExpenditure, areaExpenditure, renderSsrCharts: renderSsrCharts);
 
+                // todo: return non-/ssr view here rather than conditional in view/component itself (#261663)
                 return View(viewModel);
             }
             catch (Exception e)
