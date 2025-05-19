@@ -12,7 +12,6 @@ public class SchoolSpendingViewModel(
     bool? renderSsrCharts = null)
 {
     private readonly CostCategory[] _categories = CategoryBuilder.Build(ratings, pupilExpenditure, areaExpenditure).ToArray();
-    public IEnumerable<GroupedResources> GroupedResources => CommercialResourcesBuilder.GroupByValidCategory(resources);
 
     public string? Name => school.SchoolName;
     public string? Urn => school.URN;
@@ -27,6 +26,8 @@ public class SchoolSpendingViewModel(
         .OrderBy(x => Lookups.StatusOrderMap[x.Rating.RAG ?? string.Empty])
         .ThenByDescending(x => x.Rating.Decile)
         .ThenByDescending(x => x.Rating.Value);
+
+    private IEnumerable<GroupedResources> GroupedResources => CommercialResourcesBuilder.GroupByValidCategory(resources);
 
     public IEnumerable<CostCategory> HighPriorityCosts => Costs
         .Where(x => x.Rating.RAG is "red");

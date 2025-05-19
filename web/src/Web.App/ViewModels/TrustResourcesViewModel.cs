@@ -8,5 +8,4 @@ public class TrustResourcesViewModel(Trust trust, IEnumerable<CommercialResource
     public string? Name => trust.TrustName;
 
     public IEnumerable<GroupedResources> GroupedResources => CommercialResourcesBuilder.GroupByValidCategory(resources);
-    public (string? Title, string? Url)? AllResourcesFramework => CommercialResourcesBuilder.GetFindAFrameworkLink(resources);
 }

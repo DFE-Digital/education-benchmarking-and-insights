@@ -17,5 +17,4 @@ public class SchoolResourcesViewModel(School school, IEnumerable<RagRating> rati
         .ThenByDescending(x => x.Rating.Value);
 
     public IEnumerable<GroupedResources> GroupedResources => CommercialResourcesBuilder.GroupByValidCategory(resources);
-    public (string? Title, string? Url)? AllResourcesFramework => CommercialResourcesBuilder.GetFindAFrameworkLink(resources);
 }

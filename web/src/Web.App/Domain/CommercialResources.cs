@@ -11,7 +11,6 @@ public record CommercialResources
 public static class CommercialResourcesBuilder
 {
     public static IEnumerable<GroupedResources> GroupByValidCategory(IEnumerable<CommercialResources> resources) => resources
-        .Where(r => Category.All.Contains(r.Category))
         .GroupBy(r => r.Category)
         .OrderBy(g => Lookups.CategoryOrderMap[g.Key ?? string.Empty])
         .Select(g => new GroupedResources
@@ -31,11 +30,6 @@ public static class CommercialResourcesBuilder
                 .ToList()
         })
         .ToList();
-
-    public static (string? Title, string? Url)? GetFindAFrameworkLink(IEnumerable<CommercialResources> resources) => resources
-        .FirstOrDefault(r => r is { Category: CommercialResourcesConstants.AllFrameworksCategory, Title: not null, Url: not null }) is { } resource
-        ? (resource.Title, resource.Url)
-        : null;
 }
 
 public record GroupedResources

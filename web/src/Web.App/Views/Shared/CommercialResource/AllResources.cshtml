@@ -6,18 +6,16 @@
     Use these resources to help reduce your spending and costs.
 </p>
 
-@if (Model.AllResourcesFramework is (string title, string url))
-{
-    <p class="govuk-body">
-        You can also @Html.TrackedAnchor(
-                         TrackedLinks.CommercialResource,
-                         url,
-                         title,
-                         "(opens in a new window)",
-                         "_blank",
-                         ["noopener", "noreferrer", "external"]).
-    </p>
-}
+<p class="govuk-body">
+    You can also @Html.TrackedAnchor(
+                     TrackedLinks.CommercialResource,
+                     "https://www.gov.uk/guidance/find-a-dfe-approved-framework-for-your-school",
+                     "find a framework agreement for goods or services",
+                     "(opens in a new window)",
+                     "_blank",
+                     ["noopener", "noreferrer", "external"]).
+</p>
+
 
 
 <div class="govuk-accordion" data-module="govuk-accordion" id="accordion-resources">
