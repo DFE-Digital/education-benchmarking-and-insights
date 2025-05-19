@@ -5,6 +5,7 @@ parameters:
   cipEnvironment: ''
   workspaceDir: '$(Pipeline.Workspace)'
   dependsOn: []
+  deployRedirectWeb: ''
 
 jobs:
   - deployment: WebDeployment
@@ -41,6 +42,18 @@ jobs:
                 deployToSlotOrASE: true
                 ResourceGroupName: '${{ parameters.environmentPrefix }}-ebis-web'
                 packageForLinux: '${{ parameters.workspaceDir }}/web/Web.App.zip'
+                enableCustomDeployment: true
+                DeploymentType: 'zipDeploy'
+
+            - task: AzureRmWebAppDeployment@4
+              displayName: 'Deploy redirect website'
+              condition: and(succeeded(), eq('${{ parameters.deployRedirectWeb }}', 'true'))
+              inputs:
+                azureSubscription: ${{ parameters.subscription }}
+                WebAppName: '${{ parameters.environmentPrefix }}-redirect'
+                deployToSlotOrASE: true
+                ResourceGroupName: '${{ parameters.environmentPrefix }}-ebis-web'
+                packageForLinux: '${{ parameters.workspaceDir }}/web/Web.Redirect.zip'
                 enableCustomDeployment: true
                 DeploymentType: 'zipDeploy'
 
