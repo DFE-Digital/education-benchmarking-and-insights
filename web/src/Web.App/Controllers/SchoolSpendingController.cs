@@ -24,7 +24,7 @@ public class SchoolSpendingController(
     ISchoolComparatorSetService schoolComparatorSetService,
     IMetricRagRatingApi metricRagRatingApi,
     IUserDataService userDataService,
-    ICommercialResourcesApi commercialResourcesApi,
+    ICommercialResourcesService commercialResourcesService,
     IFeatureManager featureManager)
     : Controller
 {
@@ -72,9 +72,8 @@ public class SchoolSpendingController(
                     }
                 }
 
-                var allResources = await commercialResourcesApi
-                    .GetCommercialResources()
-                    .GetResultOrDefault<CommercialResources[]>() ?? [];
+                var allResources = await commercialResourcesService
+                    .GetResources();
 
                 var renderSsrCharts = await featureManager.IsEnabledAsync(FeatureFlags.SchoolSpendingPrioritiesSsrCharts);
                 var viewModel = new SchoolSpendingViewModel(school, ratings, pupilExpenditure, areaExpenditure, allResources,
@@ -137,9 +136,8 @@ public class SchoolSpendingController(
                 var pupilExpenditure = defaultPupilResult.Append(customPupilResult);
                 var areaExpenditure = defaultAreaResult.Append(customAreaResult);
 
-                var allResources = await commercialResourcesApi
-                    .GetCommercialResources()
-                    .GetResultOrDefault<CommercialResources[]>() ?? [];
+                var allResources = await commercialResourcesService
+                    .GetResources();
 
                 var renderSsrCharts = await featureManager.IsEnabledAsync(FeatureFlags.SchoolSpendingPrioritiesSsrCharts);
                 var viewModel = new SchoolSpendingViewModel(school, rating, pupilExpenditure, areaExpenditure, allResources, renderSsrCharts: renderSsrCharts);

@@ -24,7 +24,7 @@ public class SchoolController(
     IMetricRagRatingApi metricRagRatingApi,
     IUserDataService userDataService,
     ICensusApi censusApi,
-    ICommercialResourcesApi commercialResourcesApi)
+    ICommercialResourcesService commercialResourcesService)
     : Controller
 {
     [HttpGet]
@@ -143,9 +143,8 @@ public class SchoolController(
 
                 await Task.WhenAll(school, ratings);
 
-                var allResources = await commercialResourcesApi
-                    .GetCommercialResources()
-                    .GetResultOrDefault<CommercialResources[]>() ?? [];
+                var allResources = await commercialResourcesService
+                    .GetResources();
 
                 var viewModel = new SchoolResourcesViewModel(school.Result, ratings.Result, allResources);
                 return View(viewModel);
