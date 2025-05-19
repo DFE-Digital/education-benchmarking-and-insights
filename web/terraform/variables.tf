@@ -10,6 +10,7 @@ variable "configuration" {
     worker_count           = number
     front_door_sku_name    = string
     waf_mode               = string
+    redirect_app_service   = bool
     features = object({
       CurriculumFinancialPlanning          = bool
       CustomData                           = bool
@@ -39,6 +40,7 @@ variable "configuration" {
       worker_count           = 1
       front_door_sku_name    = "Standard_AzureFrontDoor"
       waf_mode               = "Detection"
+      redirect_app_service   = false
       features = {
         Trusts                               = true
         CurriculumFinancialPlanning          = true
@@ -67,6 +69,7 @@ variable "configuration" {
       worker_count           = 1
       front_door_sku_name    = "Standard_AzureFrontDoor"
       waf_mode               = "Detection"
+      redirect_app_service   = false
       features = {
         Trusts                               = true
         CurriculumFinancialPlanning          = true
@@ -95,6 +98,7 @@ variable "configuration" {
       worker_count           = 1
       front_door_sku_name    = "Standard_AzureFrontDoor"
       waf_mode               = "Prevention"
+      redirect_app_service   = false
       features = {
         Trusts                               = true
         CurriculumFinancialPlanning          = true
@@ -123,6 +127,7 @@ variable "configuration" {
       worker_count           = 1
       front_door_sku_name    = "Standard_AzureFrontDoor"
       waf_mode               = "Detection"
+      redirect_app_service   = true
       features = {
         Trusts                               = true
         CurriculumFinancialPlanning          = true
@@ -151,6 +156,7 @@ variable "configuration" {
       worker_count           = 1
       front_door_sku_name    = "Standard_AzureFrontDoor"
       waf_mode               = "Prevention"
+      redirect_app_service   = false
       features = {
         Trusts                               = true
         CurriculumFinancialPlanning          = true
@@ -179,6 +185,7 @@ variable "configuration" {
       worker_count           = 1
       front_door_sku_name    = "Standard_AzureFrontDoor"
       waf_mode               = "Prevention"
+      redirect_app_service   = true
       features = {
         Trusts                               = true
         CurriculumFinancialPlanning          = true
