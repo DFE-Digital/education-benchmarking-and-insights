@@ -270,6 +270,7 @@ stages:
           environment: $(Pipeline.Environment)
           cipEnvironment: 'Dev'
           dependsOn: [ ZipStaticWebArtifacts, BuildWeb ]
+          deployRedirectWeb: true
 
   - stage: DeploySupportAnalytics
     dependsOn: [ BuildNumber, DeployCore, BuildPlatform, BuildWeb ]

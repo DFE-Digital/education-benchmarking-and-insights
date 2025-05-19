@@ -47,7 +47,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "common", "common", "{561EA6
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "redirect", "redirect", "{C94633E4-D624-4B1F-BE88-486C63AA2AC6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Web.Redirect", "Web.Redirect\Web.Redirect.csproj", "{348EB1BF-40CA-49A6-92DA-25CC4F1D11B6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Web.Redirect", "src\Web.Redirect\Web.Redirect.csproj", "{348EB1BF-40CA-49A6-92DA-25CC4F1D11B6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

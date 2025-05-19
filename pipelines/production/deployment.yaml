@@ -5,6 +5,7 @@ parameters:
   cipEnvironment: ''
   pipelineBuildNumber: ''
   supportAlertEmail: ''
+  deployRedirectWeb: ''
 
 jobs:
   - job: SetBuildNumber
@@ -49,3 +50,4 @@ jobs:
       environmentPrefix: ${{ parameters.environmentPrefix }}
       environment: ${{ parameters.environment }}
       cipEnvironment: ${{ parameters.cipEnvironment }}
+      deployRedirectWeb: ${{ parameters.deployRedirectWeb }}

@@ -190,3 +190,4 @@ stages:
           cipEnvironment: 'Prod'
           pipelineBuildNumber: ${{ parameters.pipelineVersion }}
           supportAlertEmail: $(support-alert-email)
+          deployRedirectWeb: true

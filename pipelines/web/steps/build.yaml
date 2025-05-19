@@ -72,6 +72,17 @@ steps:
       zipAfterPublish: true
       modifyOutputPath: true
 
+  - task: DotNetCoreCLI@2
+    displayName: 'Build web redirect'
+    inputs:
+      command: publish
+      publishWebProjects: false
+      packagesDirectory: $(WEB_NUGET_CACHE)
+      projects: 'web/src/Web.Redirect/Web.Redirect.csproj'
+      arguments: '-c Release -r linux-x64 -p:PublishReadyToRun=true -o $(Build.ArtifactStagingDirectory)/web /p:Version=${{ parameters.BuildVersion }} /p:InformationalVersion=${{ parameters.BuildNumber }}'
+      zipAfterPublish: true
+      modifyOutputPath: true
+
   - publish: $(build.artifactstagingdirectory)/web
     displayName: 'Publish web artifacts'
     artifact: web
