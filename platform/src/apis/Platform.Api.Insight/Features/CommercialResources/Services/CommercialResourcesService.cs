@@ -2,7 +2,8 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Threading;
 using System.Threading.Tasks;
-using Platform.Api.Insight.Features.CommercialResources.Responses;
+using Dapper;
+using Platform.Api.Insight.Features.CommercialResources.Models;
 using Platform.Sql;
 using Platform.Sql.QueryBuilders;
 
@@ -10,18 +11,25 @@ namespace Platform.Api.Insight.Features.CommercialResources.Services;
 
 public interface ICommercialResourcesService
 {
-    Task<IEnumerable<CommercialResourcesResponse>> GetCommercialResourcesByCategory(string[] categories, CancellationToken cancellationToken = default);
+    Task<IEnumerable<CommercialResourcesResponse>> GetCommercialResources(CancellationToken cancellationToken = default);
 }
 
 [ExcludeFromCodeCoverage]
-public class CommercialResourcesService(IDatabaseFactory dbFactory) : ICommercialResourcesService
+public class CommercialResourcesService : ICommercialResourcesService
 {
-    public async Task<IEnumerable<CommercialResourcesResponse>> GetCommercialResourcesByCategory(string[] categories, CancellationToken cancellationToken = default)
+    private readonly IDatabaseFactory _dbFactory;
+
+    public CommercialResourcesService(IDatabaseFactory dbFactory)
     {
-        using var conn = await dbFactory.GetConnection();
+        _dbFactory = dbFactory;
+        SqlMapper.AddTypeHandler(new CommercialResourcesListTypeHandler());
+    }
 
-        var builder = new CommercialResourcesQuery().WhereCategoryIn(categories);
+    public async Task<IEnumerable<CommercialResourcesResponse>> GetCommercialResources(CancellationToken cancellationToken = default)
+    {
+        var query = new CommercialResourcesQuery();
+        using var conn = await _dbFactory.GetConnection();
 
-        return await conn.QueryAsync<CommercialResourcesResponse>(builder, cancellationToken);
+        return await conn.QueryAsync<CommercialResourcesResponse>(query, cancellationToken);
     }
 }

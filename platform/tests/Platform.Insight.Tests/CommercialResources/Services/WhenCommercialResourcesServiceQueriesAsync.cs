@@ -1,6 +1,6 @@
 ﻿using AutoFixture;
 using Moq;
-using Platform.Api.Insight.Features.CommercialResources.Responses;
+using Platform.Api.Insight.Features.CommercialResources.Models;
 using Platform.Api.Insight.Features.CommercialResources.Services;
 using Platform.Domain;
 using Platform.Sql;
@@ -26,9 +26,8 @@ public class WhenCommercialResourcesServiceQueriesAsync
     }
 
     [Fact]
-    public async Task ShouldQueryAsyncWhenGetAll()
+    public async Task ShouldQueryAsync()
     {
-        string[] categories = [];
         var results = _fixture.Build<CommercialResourcesResponse>().CreateMany().ToArray();
         string? actualSql = null;
 
@@ -40,30 +39,9 @@ public class WhenCommercialResourcesServiceQueriesAsync
             })
             .ReturnsAsync(results);
 
-        var actual = await _service.GetCommercialResourcesByCategory(categories, CancellationToken.None);
+        var actual = await _service.GetCommercialResources(CancellationToken.None);
 
         Assert.Equal(results, actual);
         Assert.Equal("SELECT * FROM VW_CommercialResources", actualSql);
-    }
-
-    [Fact]
-    public async Task ShouldQueryAsyncWhenGetCategories()
-    {
-        string[] categories = [CostCategories.TeachingStaff, CostCategories.EducationalSupplies];
-        var results = _fixture.Build<CommercialResourcesResponse>().CreateMany().ToArray();
-        string? actualSql = null;
-
-        _connection
-            .Setup(c => c.QueryAsync<CommercialResourcesResponse>(It.IsAny<PlatformQuery>(), It.IsAny<CancellationToken>()))
-            .Callback<PlatformQuery, CancellationToken>((query, _) =>
-            {
-                actualSql = query.QueryTemplate.RawSql.Trim();
-            })
-            .ReturnsAsync(results);
-
-        var actual = await _service.GetCommercialResourcesByCategory(categories, CancellationToken.None);
-
-        Assert.Equal(results, actual);
-        Assert.Equal("SELECT * FROM VW_CommercialResources WHERE Category IN @Categories", actualSql);
     }
 }

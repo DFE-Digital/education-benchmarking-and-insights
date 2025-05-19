@@ -257,19 +257,4 @@ public abstract class PlatformQuery : SqlBuilder
         Where(sql);
         return this;
     }
-
-    public PlatformQuery WhereCategoryIn(params string[] categories)
-    {
-        if (categories.Length > 0)
-        {
-            const string sql = "Category IN @Categories";
-            var parameters = new
-            {
-                Categories = categories
-            };
-
-            Where(sql, parameters);
-        }
-        return this;
-    }
 }
