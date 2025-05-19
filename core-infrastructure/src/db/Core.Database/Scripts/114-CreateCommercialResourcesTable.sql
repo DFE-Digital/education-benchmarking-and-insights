@@ -224,13 +224,13 @@ IF NOT EXISTS(SELECT *
         (
             'Utilities',
             'Energy',
-            'Liquid fuels',
+            'Liquid fuels - ESPO framework',
             'https://find-dfe-approved-framework.service.gov.uk/list/liquid-fuel-espo'
         ),
         (
             'Utilities',
             'Energy',
-            'Liquid fuels',
+            'Liquid fuels - NEPO framework',
             'https://find-dfe-approved-framework.service.gov.uk/list/liquid-fuel-nepo'
         ),
         (
@@ -374,13 +374,13 @@ IF NOT EXISTS(SELECT *
         (
             'Catering staff and supplies',
             'Catering supplies',
-            'Catering services',
+            'Catering services - ESPO framework',
             'https://find-dfe-approved-framework.service.gov.uk/list/outsourced-catering'
         ),
         (
             'Catering staff and supplies',
             'Catering supplies',
-            'Catering services',
+            'Catering services - the EB framework',
             'https://find-dfe-approved-framework.service.gov.uk/list/catering-services'
         ),
         (
@@ -434,8 +434,8 @@ IF NOT EXISTS(SELECT *
         (
             'Other costs',
             'Special facilities',
-            'Synthetic sports facilities',
-            'https://find-dfe-approved-framework.service.gov.uk/list/synth-sports'
+            'Sports facilities installation, refurbishment, and maintenance',
+            'https://find-dfe-approved-framework.service.gov.uk/list/sports-facilities-installation-refurbishment-and-maintenance'
         ),
         (
             'Other costs',
