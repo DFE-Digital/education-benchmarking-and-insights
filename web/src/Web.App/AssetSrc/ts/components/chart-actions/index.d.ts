@@ -1,9 +1,8 @@
-interface ChartActionsProps {
+export interface ChartActionsProps {
   copyEventId?: string;
   costCodes?: string[];
   disabled?: boolean;
   elementId: string;
-  placeholderElement: HTMLElement;
   saveEventId?: string;
   showCopy?: boolean;
   showSave?: boolean;

@@ -37,12 +37,13 @@
   @extend .govuk-button--inverse;
   @extend .govuk-button;
   border: 1px solid #505a5f;
-  background: url('/assets/images/icon-print.png') no-repeat 10px 50%;
+  background: url("/assets/images/icon-print.png") no-repeat 10px 50%;
   background-size: 16px 18px;
   padding: 9px 11px 8px 37px;
 
-  &:active, &:hover {
-    color: $govuk-inverse-button-text-colour
+  &:active,
+  &:hover {
+    color: $govuk-inverse-button-text-colour;
   }
 }
 
@@ -58,7 +59,8 @@
     }
   }
 
-  &.medium, &.low {
+  &.medium,
+  &.low {
     border: 1px solid $govuk-border-colour;
   }
 
@@ -112,7 +114,7 @@ p.priority .govuk-tag {
 
 .top-categories {
   div {
-    background-color: #EEEFEF;
+    background-color: #eeefef;
     padding: 20px;
     margin-bottom: 20px;
   }
@@ -212,7 +214,7 @@ p.priority .govuk-tag {
 }
 
 .govuk-caption-l a {
-  color: $govuk-secondary-text-colour
+  color: $govuk-secondary-text-colour;
 }
 
 .govuk-table.table-custom-data {
@@ -341,7 +343,7 @@ form.characteristics {
     gap: 140px;
 
     @media print {
-      gap: 60px
+      gap: 60px;
     }
 
     > div {
@@ -354,7 +356,7 @@ form.characteristics {
         margin-bottom: 0;
 
         &::after {
-          content: '';
+          content: "";
           position: absolute;
           right: -70px;
           top: 1px;
@@ -363,7 +365,7 @@ form.characteristics {
           background-color: $govuk-border-colour;
 
           @media print {
-            right: -30px
+            right: -30px;
           }
         }
       }
@@ -379,7 +381,8 @@ form.characteristics {
   @media print {
     break-after: page;
 
-    & ~ h2, & ~ section {
+    & ~ h2,
+    & ~ section {
       margin-top: 1em;
     }
   }
@@ -394,7 +397,7 @@ hr.govuk-section-break--print {
 .app-resources {
   margin-top: govuk-spacing(6);
 
-  @include govuk-media-query('tablet') {
+  @include govuk-media-query("tablet") {
     margin-top: 0;
   }
 }
@@ -402,7 +405,7 @@ hr.govuk-section-break--print {
 .app-resources-warning-spacing {
   padding-top: 0;
 
-  @include govuk-media-query('tablet') {
+  @include govuk-media-query("tablet") {
     padding-top: govuk-spacing(2);
   }
 }
@@ -722,9 +725,31 @@ table#current-comparators-la {
       stroke: govuk-colour("dark-blue");
     }
   }
-  
+
   > svg {
     max-width: 100%;
     height: auto;
   }
+}
+
+.share-buttons {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+  margin-bottom: 15px;
+  flex-flow: column;
+
+  @include govuk-media-query($from: tablet) {
+    flex-flow: row;
+  }
+}
+
+button.govuk-button.share-button {
+  margin: 0;
+  width: auto;
+}
+
+div[data-share-content-by-element-id],
+div[data-share-content-by-element-class-name] {
+  min-height: 40px;
 }
