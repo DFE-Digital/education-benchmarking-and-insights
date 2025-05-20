@@ -12,27 +12,28 @@ export default defineConfig({
   plugins: [vue(), vueJsx(), vueDevTools()],
   resolve: {
     alias: {
-      "@": fileURLToPath(new URL("./ts", import.meta.url)),
+      "@": fileURLToPath(new URL("./AssetSrc/ts", import.meta.url)),
     },
   },
   build: {
     lib: {
-      entry: resolve(__dirname, 'ts/src/index.ts'),
-      name: 'main',
+      entry: resolve(__dirname, "AssetSrc/ts/main.ts"),
+      name: "main",
       // the proper extensions will be added
-      fileName: 'main',
+      fileName: "main",
     },
     rollupOptions: {
       // make sure to externalize deps that shouldn't be bundled into your library
-      external: ['vue'],
+      external: [],
       output: {
         // Provide global variables to use in the UMD build for externalized deps
-        globals: {
-          vue: 'Vue',
-        },
+        globals: {},
       },
     },
     sourcemap: true,
     outDir: "dist/vite"
   },
+  define: {
+    "process.env.NODE_ENV": JSON.stringify(process.env.NODE_ENV),
+  }
 });

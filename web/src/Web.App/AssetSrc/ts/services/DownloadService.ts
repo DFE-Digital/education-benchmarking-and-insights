@@ -1,13 +1,11 @@
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/no-unsafe-call */
 import saveAs from "file-saver";
-import {
+import type {
   CopyImageToClipboardProps,
   DownloadPngImageOptions,
   ImageOptions,
   SaveImageToBrowserProps,
-} from "./types.js";
-import { ImageService } from "./ImageService.ts";
+} from "./types";
+import { ImageService } from "./ImageService";
 
 const imageTitleHeight = 50;
 const type = "image/png";
@@ -15,10 +13,7 @@ const backgroundColor = "#fff";
 const costCodesListHeight = 50;
 
 export class DownloadService {
-  static saveImageToBrowser({
-    triggerElement,
-    ...rest
-  }: SaveImageToBrowserProps) {
+  static saveImageToBrowser({ triggerElement, ...rest }: SaveImageToBrowserProps) {
     triggerElement.disabled = true;
 
     DownloadService.downloadPngImage({ mode: "save", ...rest })
@@ -35,10 +30,7 @@ export class DownloadService {
       });
   }
 
-  static copyImageToClipboard({
-    triggerElement,
-    ...rest
-  }: CopyImageToClipboardProps) {
+  static copyImageToClipboard({ triggerElement, ...rest }: CopyImageToClipboardProps) {
     triggerElement.disabled = true;
     const originalHtml = triggerElement.innerHTML;
 

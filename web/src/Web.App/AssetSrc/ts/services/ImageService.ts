@@ -1,7 +1,7 @@
-import { applyStyle } from "html-to-image/lib/apply-style.js";
-import { cloneNode } from "html-to-image/lib/clone-node.js";
-import { embedImages } from "html-to-image/lib/embed-images.js";
-import { embedWebFonts } from "html-to-image/lib/embed-webfonts.js";
+import { applyStyle } from "html-to-image/lib/apply-style";
+import { cloneNode } from "html-to-image/lib/clone-node";
+import { embedImages } from "html-to-image/lib/embed-images";
+import { embedWebFonts } from "html-to-image/lib/embed-webfonts";
 import {
   getImageSize,
   getPixelRatio,
@@ -9,16 +9,13 @@ import {
   canvasToBlob,
   nodeToDataURL,
   checkCanvasDimensions,
-} from "html-to-image/lib/util.js";
-import { ImageOptions } from "./types.js";
+} from "html-to-image/lib/util";
+import type { ImageOptions } from "./types";
 
 // below merged in from https://github.com/bubkoo/html-to-image/blob/master/src/index.ts
 // with the addition of the onCloned() callback as added to the extended `Options` object
 export class ImageService {
-  static async toSvg<T extends HTMLElement>(
-    node: T,
-    options: ImageOptions = {}
-  ): Promise<string> {
+  static async toSvg<T extends HTMLElement>(node: T, options: ImageOptions = {}): Promise<string> {
     const { width, height } = getImageSize(node, options);
     const clonedNode = (await cloneNode(node, options, true)) as HTMLElement;
     if (options.onCloned) {

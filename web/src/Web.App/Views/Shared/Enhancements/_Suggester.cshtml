@@ -2,11 +2,19 @@
 @model Web.App.ViewModels.Enhancements.SuggesterViewModel
 
 <script type="module" add-nonce="true">
-    import {Suggester} from "@Html.FileVersionedPath("/js/main.min.js")";
+    import {Suggester} from "@Html.FileVersionedPath("/js/main.js")";
 
     Suggester({
         type: "@Model.Type",
         inputElementId: "@Model.InputElementId",
         targetElementId: "@Model.SelectedEstablishmentField",
-        documentKey: "@Model.IdField"});
+        documentKey: "@Model.IdField"
+    });
+</script>
+
+<div id="testing-1-2-3"></div>
+<script type="module" add-nonce="true">
+    import {createApp, HelloWorld} from "@Html.FileVersionedPath("/js/main.js")";
+    const app = createApp(HelloWorld);
+    app.mount("#testing-1-2-3");
 </script>

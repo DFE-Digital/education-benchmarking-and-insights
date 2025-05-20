@@ -1,4 +1,4 @@
-import { DownloadService } from "./DownloadService.ts";
-import { ImageService } from "./ImageService.ts";
+import { DownloadService } from "./DownloadService";
+import { ImageService } from "./ImageService";
 
 export { DownloadService, ImageService };
