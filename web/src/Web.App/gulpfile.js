@@ -4,7 +4,6 @@ const async = require("async");
 const cleanCSS = require("gulp-clean-css");
 const sourcemaps = require("gulp-sourcemaps");
 const rename = require("gulp-rename");
-const webpack = require("webpack-stream");
 
 const buildSass = () =>
   gulp
@@ -14,12 +13,6 @@ const buildSass = () =>
     .pipe(cleanCSS())
     .pipe(sourcemaps.write("./"))
     .pipe(gulp.dest("wwwroot/css"));
-
-const buildTs = () =>
-  gulp
-    .src("AssetSrc/ts/*.ts")
-    .pipe(webpack(require("./webpack.config.cjs")))
-    .pipe(gulp.dest("wwwroot/js"));
 
 const copyStaticAssets = () =>
   gulp
@@ -76,6 +69,11 @@ const copyStaticAssets = () =>
       gulp
         .src(["AssetSrc/images/*"], { encoding: false })
         .pipe(gulp.dest("wwwroot/assets/images"))
+    )
+    .on("end", () =>
+      gulp
+        .src(["dist/vite/*"], { encoding: false })
+        .pipe(gulp.dest("wwwroot/assets/js"))
     );
 
 gulp.task("build-fe", () => {
