@@ -69,6 +69,19 @@ This plan defines the approach for testing release `2025.05.2`, covering the nec
 - [254608 - Route parameter validation](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_workitems/edit/254608)
 - [260643 - Prevent 500 errors from 499 API responses from throwing exceptions and logging to App Insights](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_workitems/edit/260643)
 - [260832 - Remove redundant code changes made to set the redirects)](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_workitems/edit/260832)
+- [261678 - Create standalone app service and plan to manage SFB redirects](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_workitems/edit/261678)
+
+## Appendix
+
+### Test Summary Report
+
+**Summary of results:**
+
+| Test Category          | Total Tests | Passed | Failed | Pass Rate |
+|------------------------|:-----------:|:------:|:------:|:---------:|
+| Smoke Tests - Pre prod |      1      |   1    |   0    |   100%    |
+| Sanity Tests - Prod    |      1      |   1    |   0    |   100%    |
+| Total                  |      2      |   2    |   0    |   100%    |
 
 <!-- Leave the rest of this page blank -->
 \newpage
