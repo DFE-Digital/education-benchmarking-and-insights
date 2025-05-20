@@ -70,6 +70,5 @@ This plan defines the approach for testing release `2025.05.2`, covering the nec
 - [260643 - Prevent 500 errors from 499 API responses from throwing exceptions and logging to App Insights](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_workitems/edit/260643)
 - [260832 - Remove redundant code changes made to set the redirects)](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_workitems/edit/260832)
 
-
 <!-- Leave the rest of this page blank -->
 \newpage
