@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import { DownloadService } from "../../services/index.ts";
+import { DownloadService } from "../../services/index";
 
 // todo: migrate to Vue.js component (#261747)
 export function ChartActions({
@@ -17,10 +17,7 @@ export function ChartActions({
 
   if (placeholderElement) {
     const buttonsElement = document.createElement("div");
-    placeholderElement.parentNode?.insertBefore(
-      buttonsElement,
-      placeholderElement
-    );
+    placeholderElement.parentNode?.insertBefore(buttonsElement, placeholderElement);
     buttonsElement.className = "share-buttons";
     const elementSelector = () => document.getElementById(elementId);
 
@@ -31,10 +28,7 @@ export function ChartActions({
       saveButton.className = classNames(classes, "share-button--save");
       saveButton.setAttribute("data-module", "govuk-button");
       saveButton.setAttribute("data-prevent-double-click", "true");
-      saveButton.setAttribute(
-        "data-custom-event-chart-name",
-        (saveEventId && title) ?? ""
-      );
+      saveButton.setAttribute("data-custom-event-chart-name", (saveEventId && title) ?? "");
       saveButton.setAttribute("data-custom-event-id", saveEventId ?? "");
       saveButton.addEventListener("click", (ev: MouseEvent) => {
         DownloadService.saveImageToBrowser({
@@ -57,10 +51,7 @@ export function ChartActions({
       copyButton.className = classNames(classes, "share-button--copy");
       copyButton.setAttribute("data-module", "govuk-button");
       copyButton.setAttribute("data-prevent-double-click", "true");
-      copyButton.setAttribute(
-        "data-custom-event-chart-name",
-        (copyEventId && title) ?? ""
-      );
+      copyButton.setAttribute("data-custom-event-chart-name", (copyEventId && title) ?? "");
       copyButton.setAttribute("data-custom-event-id", copyEventId ?? "");
       copyButton.addEventListener("click", (ev: MouseEvent) => {
         DownloadService.copyImageToClipboard({

@@ -59,9 +59,7 @@ export function Suggester<T>({
   }
 
   function onConfirm(item: SuggestResult<T>) {
-    const targetElement = document.getElementById(
-      targetElementId
-    ) as HTMLInputElement;
+    const targetElement = document.getElementById(targetElementId) as HTMLInputElement;
 
     // set the output (e.g. EstablishmentId) field to the selected item value
     if (targetElement) {
@@ -100,9 +98,7 @@ export function Suggester<T>({
     500
   ) as SourceFunction;
 
-  const inputElement = document.getElementById(
-    inputElementId
-  ) as HTMLInputElement;
+  const inputElement = document.getElementById(inputElementId) as HTMLInputElement;
   if (inputElement) {
     // create placeholder element to render the autocomplete within
     const element = document.createElement("div");

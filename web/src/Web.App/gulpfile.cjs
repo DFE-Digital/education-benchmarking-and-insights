@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-require-imports */
 const gulp = require("gulp");
 const sass = require("gulp-dart-sass");
 const async = require("async");
@@ -73,13 +74,12 @@ const copyStaticAssets = () =>
     .on("end", () =>
       gulp
         .src(["dist/vite/*"], { encoding: false })
-        .pipe(gulp.dest("wwwroot/assets/js"))
+        .pipe(gulp.dest("wwwroot/js/"))
     );
 
 gulp.task("build-fe", () => {
   return async.series([
     (next) => buildSass().on("end", next),
-    (next) => copyStaticAssets().on("end", next),
-    (next) => buildTs().on("end", next),
+    (next) => copyStaticAssets().on("end", next)
   ]);
 });
