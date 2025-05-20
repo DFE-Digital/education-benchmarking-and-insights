@@ -123,7 +123,7 @@ public class WhenViewingResources(SchoolBenchmarkingWebAppClient client) : PageB
                 foreach (var link in resourceLinks)
                 {
                     var actualTitle = link.TextContent.Trim().Replace(" Opens in a new window", "");
-                    ;
+
                     var actualUrl = link.GetAttribute("href");
 
                     var matchingResource = expectedResources.FirstOrDefault(r => r.Title == actualTitle);
