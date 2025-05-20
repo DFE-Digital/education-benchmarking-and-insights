@@ -1,7 +1,6 @@
 import React, { PropsWithChildren } from "react";
 import { ShareContentProps } from "./types";
 import classNames from "classnames";
-import "./styles.scss";
 
 export const ShareContent: React.FC<PropsWithChildren<ShareContentProps>> = ({
   children,

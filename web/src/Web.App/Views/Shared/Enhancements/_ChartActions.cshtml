@@ -2,7 +2,7 @@
 @model Web.App.ViewModels.Enhancements.ChartActionsViewModel
 
 <script type="module" add-nonce="true">
-    import {ChartActions} from "@Html.FileVersionedPath("/js/main.js")";
+    import {createApp, ChartActions} from "@Html.FileVersionedPath("/js/main.js")";
 
     const copyEventId = "@(Model.CopyEventId)";
     const saveEventId = "@(Model.SaveEventId)";
@@ -15,8 +15,8 @@
         const costCodes = JSON.parse(element.getAttribute("data-cost-codes") ?? []);
         const elementId = element.getAttribute("data-element-id");
         const title = showTitle && element.getAttribute("data-title");
-        ChartActions({
-            placeholderElement: element,
+
+        const chartActions = createApp(ChartActions, {
             elementId,
             copyEventId,
             costCodes,
@@ -26,5 +26,7 @@
             showTitle,
             title
         });
+
+        chartActions.mount(element);
     });
 </script>
