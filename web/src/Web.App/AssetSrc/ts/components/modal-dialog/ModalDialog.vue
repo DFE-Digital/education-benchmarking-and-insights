@@ -1,8 +1,12 @@
 <script setup lang="ts">
-import { onMounted, onUnmounted } from "vue";
+import { onMounted, onUnmounted, ref } from "vue";
 import type { ModalDialogProps } from ".";
+
 const { overlayContentId } = defineProps<ModalDialogProps>();
-const emit = defineEmits(["cancel", "close", "ok"]);
+const emit = defineEmits(["cancel", "close", "closed", "ok"]);
+defineOptions({
+  inheritAttrs: false,
+});
 
 const overlayClass = "modal-content-overlay";
 const content = overlayContentId ? document.getElementById(overlayContentId) : null;
@@ -38,17 +42,28 @@ onUnmounted(() => {
   });
 
   document.body.removeEventListener("keydown", closeOnEscapeKey);
+  emit("closed");
 });
+
+const okButton = ref<HTMLButtonElement>();
+const focusOKButton = () => {
+  okButton.value?.focus();
+};
+
+defineExpose({ focusOKButton });
 </script>
 
 <template>
   <div className="modal-overlay">
     <div
-      className="modal"
-      role="alertdialog"
       aria-modal
       aria-labelledby="dialog-title"
+      className="modal"
+      role="alertdialog"
       tabIndex="0"
+      :aria-busy="ariaBusy"
+      :aria-describedby="ariaDescribedBy"
+      :aria-live="ariaLive"
     >
       <div role="document">
         <h1 id="dialog-title" className="govuk-heading-m">
@@ -57,10 +72,14 @@ onUnmounted(() => {
         <div className="govuk-body"><slot></slot></div>
         <div className="govuk-button-group">
           <button
+            ref="okButton"
             v-if="ok"
+            v-bind="$attrs"
             className="govuk-button govuk-button--ok"
             data-module="govuk-button"
             data-prevent-double-click="true"
+            :aria-disabled="okDisabled"
+            :disabled="okDisabled"
             @click="$emit('ok')"
           >
             {{ okLabel || "OK" }}

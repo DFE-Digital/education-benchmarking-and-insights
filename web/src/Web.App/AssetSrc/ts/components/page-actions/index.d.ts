@@ -1,4 +1,5 @@
 export interface PageActionsProps {
+  all?: boolean;
   buttonLabel?: string;
   costCodesAttr?: string;
   elementClassName: string;
@@ -9,4 +10,8 @@ export interface PageActionsProps {
   saveEventId?: string;
   showProgress?: boolean;
   showTitles?: boolean;
+}
+
+export interface ElementSelectorProps {
+  elements: ElementAndAttributes[];
 }
