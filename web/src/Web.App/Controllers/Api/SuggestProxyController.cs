@@ -2,6 +2,7 @@
 using Web.App.Domain;
 using Web.App.Infrastructure.Apis;
 using Web.App.Services;
+
 namespace Web.App.Controllers.Api;
 
 [ApiController]
@@ -45,6 +46,10 @@ public class SuggestProxyController(
                     default:
                         throw new ArgumentOutOfRangeException(nameof(type));
                 }
+            }
+            catch (TaskCanceledException)
+            {
+                return StatusCode(499);
             }
             catch (Exception e)
             {

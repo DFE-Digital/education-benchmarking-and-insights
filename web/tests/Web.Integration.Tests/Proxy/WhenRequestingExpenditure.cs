@@ -15,4 +15,15 @@ public class WhenRequestingExpenditure(SchoolBenchmarkingWebAppClient client) : 
 
         Assert.Equal(HttpStatusCode.InternalServerError, response.StatusCode);
     }
+
+    [Fact]
+    public async Task CanReturnClientClosedRequest()
+    {
+        const string urn = "123456";
+        var response = await client
+            .SetupComparatorSetApiWithTaskCanceledException()
+            .Get(Paths.ApiExpenditure("school", urn, "dummy", "dummy"));
+
+        Assert.Equal((HttpStatusCode)499, response.StatusCode);
+    }
 }

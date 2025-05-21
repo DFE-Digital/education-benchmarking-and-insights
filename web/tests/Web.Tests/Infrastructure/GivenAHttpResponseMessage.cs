@@ -5,6 +5,7 @@ using Newtonsoft.Json.Linq;
 using Web.App.Infrastructure.Apis;
 using Web.App.Infrastructure.Extensions;
 using Xunit;
+
 namespace Web.Tests.Infrastructure;
 
 public class GivenAHttpResponseMessage
@@ -12,13 +13,17 @@ public class GivenAHttpResponseMessage
     private readonly Fixture _fixture = new();
 
     private static Task<HttpResponseMessage> CreateMessage(HttpStatusCode statusCode, HttpContent? content = null)
-        => Task.FromResult(new HttpResponseMessage(statusCode)
+    {
+        return Task.FromResult(new HttpResponseMessage(statusCode)
         {
             Content = content
         });
+    }
 
     private static Task<HttpResponseMessage> CreateMessage(CancellationToken cancellationToken)
-        => Task.FromCanceled<HttpResponseMessage>(cancellationToken);
+    {
+        return Task.FromCanceled<HttpResponseMessage>(cancellationToken);
+    }
 
     [Theory]
     [InlineData(HttpStatusCode.OK)]
@@ -93,7 +98,7 @@ public class GivenAHttpResponseMessage
     }
 
     [Fact]
-    public async Task ShouldReturnEmpty499WhenRequestCancelled()
+    public async Task ShouldReturn499AndThrowExceptionWhenRequestCancelled()
     {
         var cancellationToken = new CancellationTokenSource(TimeSpan.Zero).Token;
         var result = await CreateMessage(cancellationToken).ToApiResult(cancellationToken);
@@ -102,6 +107,6 @@ public class GivenAHttpResponseMessage
 
         Assert.Null(exception);
         Assert.Equal(499, (int)result.Status);
-        Assert.Null(result.GetResultOrThrow<string>());
+        Assert.Throws<TaskCanceledException>(() => result.GetResultOrThrow<string>());
     }
 }

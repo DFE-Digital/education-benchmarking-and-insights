@@ -34,7 +34,10 @@ public static class ApiResultExtensions
     public static async Task<TRet?> GetResult<TRet>(this Task<ApiResult> result, Func<ApiResult, TRet> onError)
     {
         var rs = await result;
-        if (rs is not SuccessApiResult s) return onError(rs);
+        if (rs is not SuccessApiResult s)
+        {
+            return onError(rs);
+        }
 
         return s.Body switch
         {
@@ -47,7 +50,10 @@ public static class ApiResultExtensions
     public static async Task<string> GetString(this Task<ApiResult> result, Func<ApiResult, string> onError)
     {
         var rs = await result;
-        if (rs is not SuccessApiResult s) return onError(rs);
+        if (rs is not SuccessApiResult s)
+        {
+            return onError(rs);
+        }
 
         return s.Body switch
         {
@@ -71,7 +77,11 @@ public static class ApiResultExtensions
 
     public static T? GetResultOrDefault<T>(this ApiResult result, T? defaultValue = default)
     {
-        if (result is not SuccessApiResult s) return defaultValue;
+        if (result is not SuccessApiResult s)
+        {
+            return defaultValue;
+        }
+
         return s.Body switch
         {
             JsonResponseBody j => j.ReadAs<T>(),
@@ -96,7 +106,7 @@ public static class ApiResultExtensions
 
         if (result is CancelledApiResult)
         {
-            return default!;
+            throw new TaskCanceledException("The request was cancelled");
         }
 
         throw new ArgumentNullException();

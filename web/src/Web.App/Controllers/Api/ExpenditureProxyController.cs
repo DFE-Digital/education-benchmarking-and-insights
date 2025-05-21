@@ -66,6 +66,10 @@ public class ExpenditureProxyController(
                         throw new ArgumentOutOfRangeException(nameof(type));
                 }
             }
+            catch (TaskCanceledException)
+            {
+                return StatusCode(499);
+            }
             catch (Exception e)
             {
                 logger.LogError(e, "An error getting expenditure data: {DisplayUrl}", Request.GetDisplayUrl());
