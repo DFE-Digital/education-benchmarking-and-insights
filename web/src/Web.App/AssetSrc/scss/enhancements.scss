@@ -1,7 +1,32 @@
+@import "../../node_modules/govuk-frontend/dist/govuk/settings/index";
+@import "../../node_modules/govuk-frontend/dist/govuk/helpers/index";
+
+.share-buttons {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+  margin-bottom: 15px;
+  flex-flow: column;
+
+  @include govuk-media-query($from: tablet) {
+    flex-flow: row;
+  }
+}
+
+button.govuk-button.share-button {
+  margin: 0;
+  width: auto;
+}
+
+div[data-share-content-by-element-id],
+div[data-share-content-by-element-class-name] {
+  min-height: 40px;
+}
+
 .modal-overlay {
   position: fixed;
   inset: 0; /* inset sets all 4 values (top right bottom left) much like how we set padding, margin etc., */
-  background-color: rgba(0, 0, 0, .8);
+  background-color: rgba(0, 0, 0, 0.8);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -16,7 +41,7 @@
   position: relative;
 
   @include govuk-responsive-padding(6);
-  
+
   width: 100%;
   max-width: 454px;
   @include govuk-media-query($from: tablet) {
@@ -76,4 +101,3 @@
   overflow: hidden;
   overscroll-behavior: none;
 }
-
