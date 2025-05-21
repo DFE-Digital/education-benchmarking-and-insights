@@ -1,6 +1,6 @@
 namespace Web.App.ViewModels.Enhancements;
 
-public class ChartActionsViewModel
+public record ChartActionsViewModel
 {
     public string CopyEventId { get; init; } = "copy-chart-as-image";
     public string? DataSetAttribute { get; init; }

@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import type { ChartActionsProps } from ".";
 import { DownloadService } from "../../services";
-const props = defineProps<ChartActionsProps>();
-const elementSelector = () => document.getElementById(props.elementId);
+const { elementId } = defineProps<ChartActionsProps>();
+const elementSelector = () => document.getElementById(elementId);
 </script>
 
 <template>

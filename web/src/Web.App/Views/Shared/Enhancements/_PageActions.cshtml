@@ -1,0 +1,23 @@
+@using Web.App.Extensions
+@model Web.App.ViewModels.Enhancements.PageActionsViewModel
+
+<script type="module" add-nonce="true">
+    import {createApp, PageActions} from "@Html.FileVersionedPath("/js/main.js")";
+
+    const element = document.getElementById("@Model.ElementId");
+
+    const pageActions = createApp(PageActions, {
+        buttonLabel: "Save chart images",
+        costCodesAttr: "@Model.CostCodesAttr",
+        elementClassName: "@Model.SaveClassName",
+        elementTitleAttr: "@Model.SaveTitleAttr",
+        fileName: "@Model.SaveFileName",
+        modalTitle: "Save chart images",
+        overlayContentId: "main-content",
+        saveEventId: "@Model.SaveEventId",
+        showProgress: true,
+        showTitles: true
+    });
+
+    pageActions.mount(element);
+</script>
