@@ -10,7 +10,6 @@ import {
   useRef,
   useState,
 } from "react";
-import "src/components/modals/modal/styles.scss";
 
 const overlayClass = "modal-content-overlay";
 
