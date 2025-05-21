@@ -1,13 +1,204 @@
-using Newtonsoft.Json.Linq;
 using System.Net;
+using Newtonsoft.Json.Linq;
+using Web.App;
+using Web.App.Domain;
 using Web.App.Infrastructure.Apis;
 using Xunit;
-using Web.App.Domain;
 
 namespace Web.Integration.Tests.Proxy;
 
 public class WhenRequestingSuggest(SchoolBenchmarkingWebAppClient client) : IClassFixture<SchoolBenchmarkingWebAppClient>
 {
+    public static IEnumerable<object[]> TrustTestData =>
+        new List<object[]>
+        {
+            new object[]
+            {
+                "Test",
+                new SuggestOutput<Trust>
+                {
+                    Results =
+                    [
+                        new SuggestValue<Trust>
+                        {
+                            Text = "*Test* Trust",
+                            Document = new Trust
+                            {
+                                CompanyNumber = "12345678",
+                                TrustName = "Test Trust"
+                            }
+                        }
+                    ]
+                },
+                new SuggestOutput<Trust>
+                {
+                    Results =
+                    [
+                        new SuggestValue<Trust>
+                        {
+                            Text = "*Test* Trust (12345678)",
+                            Document = new Trust
+                            {
+                                CompanyNumber = "12345678",
+                                TrustName = "Test Trust"
+                            }
+                        }
+                    ]
+                }
+            },
+            new object[]
+            {
+                "123",
+                new SuggestOutput<Trust>
+                {
+                    Results =
+                    [
+                        new SuggestValue<Trust>
+                        {
+                            Text = "*123*45678",
+                            Document = new Trust
+                            {
+                                CompanyNumber = "12345678",
+                                TrustName = "Test Trust"
+                            }
+                        }
+                    ]
+                },
+                new SuggestOutput<Trust>
+                {
+                    Results =
+                    [
+                        new SuggestValue<Trust>
+                        {
+                            Text = "Test Trust (*123*45678)",
+                            Document = new Trust
+                            {
+                                CompanyNumber = "12345678",
+                                TrustName = "Test Trust"
+                            }
+                        }
+                    ]
+                }
+            },
+            new object[]
+            {
+                "Test",
+                new SuggestOutput<Trust>
+                {
+                    Results =
+                    [
+                        new SuggestValue<Trust>
+                        {
+                            Text = "*Test* Trust",
+                            Document = new Trust
+                            {
+                                CompanyNumber = "12345678",
+                                TrustName = "Test Trust"
+                            }
+                        },
+                        new SuggestValue<Trust>
+                        {
+                            Text = "Another *Test* Trust",
+                            Document = new Trust
+                            {
+                                CompanyNumber = "87654321",
+                                TrustName = "Another Test Trust"
+                            }
+                        }
+
+                    ]
+                },
+                new SuggestOutput<Trust>
+                {
+                    Results =
+                    [
+                        new SuggestValue<Trust>
+                        {
+                            Text = "*Test* Trust (12345678)",
+                            Document = new Trust
+                            {
+                                CompanyNumber = "12345678",
+                                TrustName = "Test Trust"
+                            }
+                        },
+                        new SuggestValue<Trust>
+                        {
+                            Text = "Another *Test* Trust (87654321)",
+                            Document = new Trust
+                            {
+                                CompanyNumber = "87654321",
+                                TrustName = "Another Test Trust"
+                            }
+                        }
+                    ]
+                }
+            },
+            new object[]
+            {
+                "123",
+                new SuggestOutput<Trust>
+                {
+                    Results =
+                    [
+                        new SuggestValue<Trust>
+                        {
+                            Text = "*123*45678",
+                            Document = new Trust
+                            {
+                                CompanyNumber = "12345678",
+                                TrustName = "Test Trust"
+                            }
+                        },
+                        new SuggestValue<Trust>
+                        {
+                            Text = "*123*45679",
+                            Document = new Trust
+                            {
+                                CompanyNumber = "12345679",
+                                TrustName = "Another Test Trust"
+                            }
+                        }
+                    ]
+                },
+                new SuggestOutput<Trust>
+                {
+                    Results =
+                    [
+                        new SuggestValue<Trust>
+                        {
+                            Text = "Test Trust (*123*45678)",
+                            Document = new Trust
+                            {
+                                CompanyNumber = "12345678",
+                                TrustName = "Test Trust"
+                            }
+                        },
+                        new SuggestValue<Trust>
+                        {
+                            Text = "Another Test Trust (*123*45679)",
+                            Document = new Trust
+                            {
+                                CompanyNumber = "12345679",
+                                TrustName = "Another Test Trust"
+                            }
+                        }
+                    ]
+                }
+            },
+            new object[]
+            {
+                "Test",
+                new SuggestOutput<Trust>
+                {
+                    Results = []
+                },
+                new SuggestOutput<Trust>
+                {
+                    Results = []
+                }
+            }
+        };
+
     [Theory]
     [InlineData("school")]
     [InlineData("trust")]
@@ -62,193 +253,13 @@ public class WhenRequestingSuggest(SchoolBenchmarkingWebAppClient client) : ICla
         }
     }
 
-    public static IEnumerable<object[]> TrustTestData =>
-        new List<object[]>
-        {
-            new object[]
-            {
-                "Test",
-                new SuggestOutput<Trust>
-                {
-                    Results =
-                    [
-                        new SuggestValue<Trust>
-                        {
-                            Text = "*Test* Trust",
-                            Document = new Trust
-                            {
-                                CompanyNumber = "12345678",
-                                TrustName = "Test Trust"
-                            }
-                        }
-                    ]
-                },
-                new SuggestOutput<Trust>
-                {
-                    Results =
-                    [
-                        new SuggestValue<Trust>
-                         {
-                             Text = "*Test* Trust (12345678)",
-                             Document = new Trust
-                             {
-                                 CompanyNumber = "12345678",
-                                 TrustName = "Test Trust"
-                             }
-                         }
-                    ]
-                }
-            },
-            new object[]
-            {
-                "123",
-                new SuggestOutput<Trust>
-                {
-                    Results =
-                    [
-                        new SuggestValue<Trust>
-                        {
-                            Text = "*123*45678",
-                            Document = new Trust
-                            {
-                                CompanyNumber = "12345678",
-                                TrustName = "Test Trust"
-                            }
-                        }
-                    ]
-                },
-                new SuggestOutput<Trust>
-                {
-                    Results =
-                    [
-                    new SuggestValue<Trust>
-                     {
-                         Text = "Test Trust (*123*45678)",
-                         Document = new Trust
-                         {
-                             CompanyNumber = "12345678",
-                             TrustName = "Test Trust"
-                         }
-                     }
-                    ]
-                }
-            },
-            new object[]
-            {
-                "Test",
-                new SuggestOutput<Trust>
-                {
-                    Results =
-                    [
-                        new SuggestValue<Trust>
-                        {
-                            Text = "*Test* Trust",
-                            Document = new Trust
-                            {
-                                CompanyNumber = "12345678",
-                                TrustName = "Test Trust"
-                            }
-                        },
-                        new SuggestValue<Trust>
-                        {
-                            Text = "Another *Test* Trust",
-                            Document = new Trust
-                            {
-                                CompanyNumber = "87654321",
-                                TrustName = "Another Test Trust"
-                            }
-                        },
+    [Fact]
+    public async Task CanReturnClientClosedRequest()
+    {
+        const string urn = "123456";
+        var response = await client.SetupEstablishmentWithTaskCanceledException()
+            .Get(Paths.ApiSuggest(urn, OrganisationTypes.School));
 
-                    ]
-                },
-                new SuggestOutput<Trust>
-                {
-                    Results =
-                    [
-                         new SuggestValue<Trust>
-                         {
-                             Text = "*Test* Trust (12345678)",
-                             Document = new Trust
-                             {
-                                 CompanyNumber = "12345678",
-                                 TrustName = "Test Trust"
-                             }
-                         },
-                         new SuggestValue<Trust>
-                         {
-                             Text = "Another *Test* Trust (87654321)",
-                             Document = new Trust
-                             {
-                                 CompanyNumber = "87654321",
-                                 TrustName = "Another Test Trust"
-                             }
-                         }
-                     ]
-                }
-            },
-            new object[]
-            {
-                "123",
-                new SuggestOutput<Trust>
-                {
-                    Results =
-                    [
-                        new SuggestValue<Trust>
-                        {
-                            Text = "*123*45678",
-                            Document = new Trust
-                            {
-                                CompanyNumber = "12345678",
-                                TrustName = "Test Trust"
-                            }
-                        },
-                        new SuggestValue<Trust>
-                        {
-                            Text = "*123*45679",
-                            Document = new Trust
-                            {
-                                CompanyNumber = "12345679",
-                                TrustName = "Another Test Trust"
-                            }
-                        },
-                    ]
-                },
-                new SuggestOutput<Trust>
-                {
-                    Results =
-                    [
-                         new SuggestValue<Trust>
-                         {
-                             Text = "Test Trust (*123*45678)",
-                             Document = new Trust
-                             {
-                                 CompanyNumber = "12345678",
-                                 TrustName = "Test Trust"
-                             }
-                         },
-                         new SuggestValue<Trust>
-                         {
-                             Text = "Another Test Trust (*123*45679)",
-                             Document = new Trust
-                             {
-                                 CompanyNumber = "12345679",
-                                 TrustName = "Another Test Trust"
-                             }
-                         }
-                    ]
-                }
-            },
-            new object[]
-            {
-                "Test",
-                new SuggestOutput<Trust>
-                {
-                    Results = []
-                },
-                new SuggestOutput<Trust>
-                {
-                    Results = []
-                },
-            },
-        };
+        Assert.Equal((HttpStatusCode)499, response.StatusCode);
+    }
 }

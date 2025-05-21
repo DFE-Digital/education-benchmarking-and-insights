@@ -243,6 +243,15 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
         return this;
     }
 
+    public BenchmarkingWebAppClient SetupEstablishmentWithTaskCanceledException()
+    {
+        EstablishmentApi.Reset();
+        EstablishmentApi
+            .Setup(api => api.SuggestSchools(It.IsAny<string>(), It.IsAny<string[]?>(), It.IsAny<bool?>(), It.IsAny<CancellationToken>()))
+            .Throws(new TaskCanceledException());
+        return this;
+    }
+
     public BenchmarkingWebAppClient SetupEstablishment(SearchResponse<SchoolSummary> schools)
     {
         EstablishmentApi.Reset();
@@ -535,6 +544,13 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
     {
         ComparatorSetApi.Reset();
         ComparatorSetApi.Setup(api => api.GetDefaultSchoolAsync(It.IsAny<string>(), It.IsAny<CancellationToken>())).Throws(new Exception());
+        return this;
+    }
+
+    public BenchmarkingWebAppClient SetupComparatorSetApiWithTaskCanceledException()
+    {
+        ComparatorSetApi.Reset();
+        ComparatorSetApi.Setup(api => api.GetDefaultSchoolAsync(It.IsAny<string>(), It.IsAny<CancellationToken>())).Throws(new TaskCanceledException());
         return this;
     }
 
