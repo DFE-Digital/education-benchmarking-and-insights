@@ -1,8 +1,64 @@
 <script setup lang="ts">
+import { ref } from "vue";
 import type { ChartActionsProps } from ".";
 import { DownloadService } from "../../services";
-const { elementId } = defineProps<ChartActionsProps>();
+
+const { costCodes, elementId, showTitle, title } = defineProps<ChartActionsProps>();
+const saving = ref(false);
+const copying = ref(false);
+const copied = ref(false);
+
 const elementSelector = () => document.getElementById(elementId);
+
+const saveImage = () => {
+  saving.value = true;
+
+  DownloadService.downloadPngImage({
+    costCodes,
+    elementSelector,
+    mode: "save",
+    showTitle,
+    title,
+  })
+    .then(
+      () => {
+        console.debug("Image saved successfully");
+      },
+      (err: Error) => {
+        console.warn("Unable to save image", err);
+      }
+    )
+    .finally(() => {
+      saving.value = false;
+    });
+};
+
+const copyImage = () => {
+  copying.value = true;
+
+  DownloadService.downloadPngImage({
+    costCodes,
+    elementSelector,
+    mode: "copy",
+    showTitle,
+    title,
+  })
+    .then(
+      () => {
+        console.debug("Image copied successfully");
+        copied.value = true;
+        setTimeout(() => {
+          copied.value = false;
+        }, 2000);
+      },
+      (err: Error) => {
+        console.warn("Unable to copy image", err);
+      }
+    )
+    .finally(() => {
+      copying.value = false;
+    });
+};
 </script>
 
 <template>
@@ -14,19 +70,9 @@ const elementSelector = () => document.getElementById(elementId);
       data-prevent-double-click="true"
       :data-custom-event-chart-name="saveEventId && title"
       :data-custom-event-id="saveEventId"
-      :disabled="disabled"
-      :aria-disabled="disabled"
-      @click="
-        (ev) => {
-          DownloadService.saveImageToBrowser({
-            costCodes,
-            elementSelector,
-            showTitle,
-            title,
-            triggerElement: ev.target as HTMLButtonElement,
-          });
-        }
-      "
+      :disabled="saving"
+      :aria-disabled="saving"
+      @click="saveImage()"
     >
       Save <span v-if="title" class="govuk-visually-hidden">{{ title }}</span> as image
     </button>
@@ -37,21 +83,14 @@ const elementSelector = () => document.getElementById(elementId);
       data-prevent-double-click="true"
       :data-custom-event-chart-name="copyEventId && title"
       :data-custom-event-id="copyEventId"
-      :disabled="disabled"
-      :aria-disabled="disabled"
-      @click="
-        (ev) => {
-          DownloadService.copyImageToClipboard({
-            costCodes,
-            elementSelector,
-            showTitle,
-            title,
-            triggerElement: ev.target as HTMLButtonElement,
-          });
-        }
-      "
+      :disabled="copying"
+      :aria-disabled="copying"
+      @click="copyImage()"
     >
-      Copy <span v-if="title" class="govuk-visually-hidden">{{ title }}</span> image
+      <template v-if="!copied">
+        Copy <span v-if="title" class="govuk-visually-hidden">{{ title }}</span> image
+      </template>
+      <template v-if="copied"> Copied</template>
     </button>
   </div>
 </template>

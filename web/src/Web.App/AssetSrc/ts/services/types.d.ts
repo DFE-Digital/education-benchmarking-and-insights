@@ -34,11 +34,3 @@ interface DownloadPngImagesOptions extends DownloadOptions {
   showTitles?: boolean;
   signal?: AbortSignal;
 }
-
-type SaveImageToBrowserProps = {
-  triggerElement: HTMLButtonElement;
-} & Omit<DownloadPngImageOptions, "mode" | "onCopied" | "onSaved">;
-
-type CopyImageToClipboardProps = {
-  triggerElement: HTMLButtonElement;
-} & Omit<DownloadPngImageOptions, "mode" | "onCopied" | "onSaved">;

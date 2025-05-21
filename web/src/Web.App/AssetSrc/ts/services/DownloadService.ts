@@ -1,11 +1,11 @@
 import saveAs from "file-saver";
+import JSZip from "jszip";
 import type {
-  CopyImageToClipboardProps,
   DownloadPngImageOptions,
+  DownloadPngImagesOptions,
   ImageOptions,
-  SaveImageToBrowserProps,
 } from "./types";
-import { ImageService } from "./ImageService";
+import { ImageService } from "./index";
 
 const imageTitleHeight = 50;
 const type = "image/png";
@@ -13,45 +13,6 @@ const backgroundColor = "#fff";
 const costCodesListHeight = 50;
 
 export class DownloadService {
-  static saveImageToBrowser({ triggerElement, ...rest }: SaveImageToBrowserProps) {
-    triggerElement.disabled = true;
-
-    DownloadService.downloadPngImage({ mode: "save", ...rest })
-      .then(
-        () => {
-          console.debug("Image saved successfully");
-        },
-        (err: Error) => {
-          console.warn("Unable to save image", err);
-        }
-      )
-      .finally(() => {
-        triggerElement.disabled = false;
-      });
-  }
-
-  static copyImageToClipboard({ triggerElement, ...rest }: CopyImageToClipboardProps) {
-    triggerElement.disabled = true;
-    const originalHtml = triggerElement.innerHTML;
-
-    DownloadService.downloadPngImage({ mode: "copy", ...rest })
-      .then(
-        () => {
-          console.debug("Image copied successfully");
-          triggerElement.innerHTML = "Copied";
-          setTimeout(() => {
-            triggerElement.innerHTML = originalHtml;
-          }, 2000);
-        },
-        (err: Error) => {
-          console.warn("Unable to copy image", err);
-        }
-      )
-      .finally(() => {
-        triggerElement.disabled = false;
-      });
-  }
-
   static async downloadPngImage({
     costCodes,
     elementSelector,
@@ -144,6 +105,88 @@ export class DownloadService {
       } else {
         await download();
       }
+    }
+  }
+
+  static async downloadPngImages({
+    elementsSelector,
+    fileName: fileNameProp,
+    filter,
+    onImagesLoading,
+    onProgress,
+    showTitles,
+    signal,
+  }: DownloadPngImagesOptions) {
+    const fileName = fileNameProp ?? "download.zip";
+    const elements = elementsSelector();
+    if (!elements?.length) {
+      return;
+    }
+
+    const download = async () => {
+      const zip = new JSZip();
+
+      for (let i = 0; i < elements.length; i++) {
+        const { element, title, costCodes } = elements[i];
+        if (onProgress) {
+          onProgress(((i + 1) / elements.length) * 100);
+        }
+
+        const blob = await new Promise<Blob | null>((resolve, reject) => {
+          signal?.addEventListener("abort", () => {
+            reject(new Error("Download aborted at user request"));
+          });
+          ImageService.toBlob(
+            element,
+            getImageOptions(element, type, title, showTitles, costCodes, filter)
+          ).then(
+            (value) => resolve(value),
+            (reason: Error) => reject(reason)
+          );
+        });
+
+        if (blob) {
+          zip.file(getFileName(title ?? `${element.tagName}-${i}`), blob);
+        }
+      }
+
+      const blob = await zip.generateAsync({ type: "blob" });
+      if (blob) {
+        if (window.saveAs) {
+          window.saveAs(blob, fileName);
+        } else {
+          saveAs.saveAs(blob, fileName);
+        }
+      }
+    };
+
+    if (onImagesLoading) {
+      onImagesLoading(true);
+
+      // If loader event is subscribed, allow it to be triggered before the actual generate and download PNG process
+      // due to the latter performing a synchronous XMLHttpRequest on the main thread which is documented as being
+      // detrimental effects to the end user's experience (see `Issues` in browser DevTools for more information).
+      setTimeout(() => {
+        download()
+          .then(
+            () => {
+              console.debug("Downloaded successfully");
+            },
+            (err) => {
+              const message = "Unable to download images";
+              if (signal?.aborted) {
+                console.warn(message, err);
+              } else {
+                console.error(message, err);
+              }
+            }
+          )
+          .finally(() => {
+            onImagesLoading(false);
+          });
+      }, 100);
+    } else {
+      await download();
     }
   }
 }
