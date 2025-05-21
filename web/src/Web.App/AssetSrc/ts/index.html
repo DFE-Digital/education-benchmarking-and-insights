@@ -5,21 +5,35 @@
     <title>FBIT Progressive Enhancements Playground</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="../scss/main.scss" />
+    <link rel="stylesheet" href="../scss/enhancements.scss" />
   </head>
   <body>
     <div id="chart-actions"></div>
-    <div id="test-source-element" class="govuk-tag">Save or copy me! 🥳</div>
+    <div id="page-actions"></div>
+    <div id="test-source-element" class="govuk-tag test-source-class">
+      Save or copy me! 🥳
+    </div>
 
     <script type="module">
       import { createApp } from "vue";
       import { ChartActions } from "./main.ts";
-      const app = createApp(ChartActions, {
+      const chartActions = createApp(ChartActions, {
         elementId: "test-source-element",
         showSave: true,
         showCopy: true,
         title: "test-action",
       });
-      app.mount("#chart-actions");
+      chartActions.mount("#chart-actions");
+    </script>
+
+    <script type="module">
+      import { createApp } from "vue";
+      import { PageActions } from "./main.ts";
+      const pageActions = createApp(PageActions, {
+        elementClassName: "test-source-class",
+        modalTitle: "test-action",
+      });
+      pageActions.mount("#page-actions");
     </script>
   </body>
 </html>

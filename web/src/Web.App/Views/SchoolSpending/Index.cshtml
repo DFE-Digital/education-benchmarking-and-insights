@@ -93,6 +93,15 @@
 
 @section scripts
 {
+    @await Html.PartialAsync("Enhancements/_PageActions", new PageActionsViewModel
+    {
+        CostCodesAttr = "data-cost-codes",
+        ElementId = "page-actions-button",
+        SaveClassName = "costs-chart-wrapper",
+        SaveFileName = $"spending-priorities-{Model.Urn}.zip",
+        SaveTitleAttr = "data-title"
+    })
+
     @await Html.PartialAsync("Enhancements/_ChartActions", new ChartActionsViewModel
     {
         DataSetAttribute = "chart-actions",

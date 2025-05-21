@@ -1,6 +1,6 @@
 namespace Web.App.ViewModels.Enhancements;
 
-public class SuggesterViewModel
+public record SuggesterViewModel
 {
     public string? InputElementId { get; init; }
     public string? SelectedEstablishmentField { get; init; }
