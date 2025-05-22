@@ -7,6 +7,7 @@ parameters:
   location: 'westeurope'
   disablePurgeProtection: ''
   resourceGroupSuffix: ''
+  supportAlertEmail: ''
 
 steps:
   - task: AzureCLI@1
@@ -22,6 +23,7 @@ steps:
         echo "##vso[task.setvariable variable=location]${{ parameters.location }}"
         echo "##vso[task.setvariable variable=azureRmStorageAccountName]$storageAccountName"
         echo "##vso[task.setvariable variable=disablePurgeProtection]${{ parameters.disablePurgeProtection }}"
+        echo "##vso[task.setvariable variable=supportAlertEmail]${{ parameters.supportAlertEmail }}"
 
         resourceGroupSuffix=${{ parameters.module }}
         if [[ "${{ parameters.resourceGroupSuffix }}" != "" ]]; then

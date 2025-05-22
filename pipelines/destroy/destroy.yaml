@@ -101,3 +101,5 @@ jobs:
       environment: ${{ parameters.environment }}
       pipelineEnvironment: ${{ parameters.pipelineEnvironment }}
       cipEnvironment: ${{ parameters.cipEnvironment }}
+      supportAlertEmail: ${{ parameters.supportAlertEmail }}
+

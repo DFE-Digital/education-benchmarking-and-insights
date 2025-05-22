@@ -6,6 +6,7 @@ parameters:
   cipEnvironment: ''
   workspaceDir: '$(Pipeline.Workspace)'
   dependsOn: []
+  supportAlertEmail: ''
 
 jobs:
   - job: CoreDestroyManualValidation
@@ -39,3 +40,4 @@ jobs:
                 cipEnvironment: ${{ parameters.cipEnvironment }}
                 module: 'core'
                 deleteStorageAccount: true
+                supportAlertEmail: ${{ parameters.supportAlertEmail }}
