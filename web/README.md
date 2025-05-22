@@ -145,7 +145,7 @@ Having initialised the secret storage, add the following section to `secrets.jso
 
 #### Build the front-end assets
 
-To use the GOV.UK Design System and front-end components locally:
+To use the GOV.UK Design System, progressive enhancements and front-end components locally:
 
 - Browse to
   the [private package repository](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_artifacts/feed/education-benchmarking) >
@@ -161,6 +161,8 @@ To use the GOV.UK Design System and front-end components locally:
 > when attempting an `npm i`.
 
 > **💡 Tip**: To find the location of your user `.npmrc` file use the `npm config -ls l` command.
+
+For more information on managing the progressive enhancements please refer to the [documented feature](../documentation/features/8_Progressive_Enhancements.md).
 
 #### Run the application
 
