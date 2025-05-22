@@ -1,10 +1,6 @@
 import saveAs from "file-saver";
 import JSZip from "jszip";
-import type {
-  DownloadPngImageOptions,
-  DownloadPngImagesOptions,
-  ImageOptions,
-} from "./types";
+import type { DownloadPngImageOptions, DownloadPngImagesOptions, ImageOptions } from "./types";
 import { ImageService } from "./index";
 
 const imageTitleHeight = 50;

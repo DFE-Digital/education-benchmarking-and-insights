@@ -1,5 +1,6 @@
 @import "../../node_modules/govuk-frontend/dist/govuk/settings/index";
 @import "../../node_modules/govuk-frontend/dist/govuk/helpers/index";
+@import "variables";
 
 .share-buttons {
   display: flex;
@@ -100,4 +101,29 @@ div[data-share-content-by-element-class-name] {
   -webkit-overflow-scrolling: none;
   overflow: hidden;
   overscroll-behavior: none;
+}
+
+.govuk-checkboxes--elements {
+  max-height: 260px;
+  overflow-y: auto;
+}
+
+.progress-wrapper {
+  display: block;
+  max-width: 80%;
+  max-height: 250px;
+
+  .progress-circle {
+    stroke: $spinner-colour;
+    fill: none;
+    stroke-width: 6;
+    stroke-linecap: round;
+    animation: progress 1s ease-out forwards;
+  }
+}
+
+@keyframes progress {
+  0% {
+    stroke-dasharray: 0 100;
+  }
 }

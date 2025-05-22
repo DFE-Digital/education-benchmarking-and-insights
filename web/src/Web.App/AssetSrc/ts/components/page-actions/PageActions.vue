@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { onMounted, onUnmounted, ref, useTemplateRef, watchEffect } from "vue";
 import type { PageActionsProps } from ".";
-import { ModalDialog } from "@/main";
+import { ModalDialog, ProgressIndicator } from "@/main";
 import ElementSelector from "./ElementSelector.vue";
 import { DownloadService } from "@/services";
 import type { ElementAndAttributes } from "@/services/types";
@@ -156,7 +156,7 @@ onUnmounted(() => {
       :data-custom-event-chart-name="saveEventId && modalTitle ? modalTitle : undefined"
       :data-custom-event-id="saveEventId"
       :ok="true"
-      :ok-label="'Start'"
+      :ok-label="cancelMode ? 'OK' : 'Start'"
       :ok-disabled="!cancelMode && (imagesLoading || progress === 100)"
       :title="modalTitle"
       @cancel="cancel()"
@@ -189,9 +189,12 @@ onUnmounted(() => {
           :elements="allElements"
           :showValidationError="showValidationError"
         />
-        <ProgressWithAria
+        <ProgressIndicator
           v-if="showProgress && !!progress"
           complete-message="Your file has been saved and downloaded successfully."
+          :percentage="progress"
+          :progressId="progressId"
+          :size="100"
         />
       </template>
     </ModalDialog>

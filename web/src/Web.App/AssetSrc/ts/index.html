@@ -10,7 +10,11 @@
   <body>
     <div id="chart-actions"></div>
     <div id="page-actions"></div>
-    <div id="test-source-element" class="govuk-tag test-source-class">
+    <div
+      id="test-source-element"
+      class="govuk-tag test-source-class"
+      title="Testing"
+    >
       Save or copy me! 🥳
     </div>
 
@@ -31,8 +35,16 @@
       import { createApp } from "vue";
       import { PageActions } from "./main.ts";
       const pageActions = createApp(PageActions, {
+        buttonLabel: "Save images",
+        costCodesAttr: "data-cost-codes",
         elementClassName: "test-source-class",
-        modalTitle: "test-action",
+        elementTitleAttr: "data-title",
+        fileName: "testing.zip",
+        modalTitle: "Save images",
+        overlayContentId: "main-content",
+        saveEventId: "save-chart-as-image",
+        showProgress: true,
+        showTitles: true,
       });
       pageActions.mount("#page-actions");
     </script>
