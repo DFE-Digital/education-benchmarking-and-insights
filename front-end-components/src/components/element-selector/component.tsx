@@ -1,6 +1,5 @@
 import { ElementAndAttributes } from "src/hooks/useDownloadImage";
 import { ElementSelectorProps } from "./types";
-import "./styles.scss";
 import classNames from "classnames";
 
 export function ElementSelector({
