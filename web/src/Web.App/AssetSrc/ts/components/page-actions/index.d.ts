@@ -14,4 +14,5 @@ export interface PageActionsProps {
 
 export interface ElementSelectorProps {
   elements: ElementAndAttributes[];
+  showValidationError?: boolean;
 }

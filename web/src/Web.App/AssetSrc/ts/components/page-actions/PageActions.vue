@@ -12,12 +12,13 @@ const { all, costCodesAttr, elementClassName, elementTitleAttr, fileName, showTi
 const open = ref(false);
 const button = ref<HTMLButtonElement>();
 const progress = ref<number | undefined>(undefined);
-const modal = useTemplateRef("modal");
-const elementSelector = useTemplateRef("elementSelector");
+const modalTemplate = useTemplateRef("modal");
+const elementSelectorTemplate = useTemplateRef("elementSelector");
 const cancelMode = ref(false);
 const imagesLoading = ref(false);
 const selectedElements = ref<ElementAndAttributes[]>([]);
 const allElements = ref<ElementAndAttributes[]>([]);
+const showValidationError = ref(false);
 
 const progressId = "save-progress";
 let abortController = new AbortController();
@@ -25,7 +26,7 @@ let autoCloseTimeout: NodeJS.Timeout | undefined;
 
 watchEffect(() => {
   if (cancelMode.value) {
-    modal.value?.focusOKButton();
+    modalTemplate.value?.focusOKButton();
   }
 });
 
@@ -55,6 +56,14 @@ const startDownload = () => {
   );
 };
 
+const validated = () => {
+  const valid =
+    !!elementSelectorTemplate.value &&
+    elementSelectorTemplate.value.selectedElementIndexes.length > 0;
+  showValidationError.value = !valid;
+  return valid;
+};
+
 const abort = () => {
   abortController.abort();
   abortController = new AbortController();
@@ -68,6 +77,7 @@ const close = (shouldAbort: boolean) => {
   progress.value = undefined;
   cancelMode.value = false;
   open.value = false;
+  showValidationError.value = false;
 };
 
 const ok = () => {
@@ -77,12 +87,11 @@ const ok = () => {
   }
 
   selectedElements.value =
-    elementSelector.value?.selectedElementIndexes.map((i) => allElements.value[i]) ?? [];
+    elementSelectorTemplate.value?.selectedElementIndexes.map((i) => allElements.value[i]) ?? [];
 
-  // todo: validation
-  //if (validated()) {
-  startDownload();
-  //}
+  if (validated()) {
+    startDownload();
+  }
 };
 
 const cancel = () => {
@@ -174,7 +183,12 @@ onUnmounted(() => {
             This may take a few minutes to complete.
           </span>
         </div>
-        <ElementSelector v-if="!all && !progress" ref="elementSelector" :elements="allElements" />
+        <ElementSelector
+          v-if="!all && !progress"
+          ref="elementSelector"
+          :elements="allElements"
+          :showValidationError="showValidationError"
+        />
         <ProgressWithAria
           v-if="showProgress && !!progress"
           complete-message="Your file has been saved and downloaded successfully."
