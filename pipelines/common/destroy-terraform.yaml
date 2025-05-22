@@ -6,6 +6,7 @@ parameters:
   module: ''
   location: 'westeurope'
   deleteStorageAccount: false
+  supportAlertEmail: ''
 
 steps:
   - task: AzureCLI@1
