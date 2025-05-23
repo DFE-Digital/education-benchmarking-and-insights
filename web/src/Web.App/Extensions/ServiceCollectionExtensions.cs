@@ -75,6 +75,7 @@ public static class ServiceCollectionExtensions
 
         services.AddHttpClient<IInsightApi, InsightApi>().Configure<InsightApi>(section);
         services.AddHttpClient<ICensusApi, CensusApi>().Configure<CensusApi>(section);
+        services.AddHttpClient<ICommercialResourcesApi, CommercialResourcesApi>().Configure<CommercialResourcesApi>(section);
         services.AddHttpClient<IIncomeApi, IncomeApi>().Configure<IncomeApi>(section);
         services.AddHttpClient<IBalanceApi, BalanceApi>().Configure<BalanceApi>(section);
         services.AddHttpClient<IExpenditureApi, ExpenditureApi>().Configure<ExpenditureApi>(section);

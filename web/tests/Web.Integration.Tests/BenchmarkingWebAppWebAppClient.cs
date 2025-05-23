@@ -58,6 +58,7 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
     public Mock<IEducationHealthCarePlansApi> EducationHealthCarePlansApi { get; } = new();
     public Mock<ILocalAuthorityComparatorSetService> LocalAuthorityComparatorSetService { get; } = new();
     public Mock<IChartRenderingApi> ChartRenderingApi { get; } = new();
+    public Mock<ICommercialResourcesApi> CommercialResourcesInsight { get; } = new();
 
     protected override void Configure(IServiceCollection services)
     {
@@ -85,6 +86,7 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
         services.AddSingleton(EducationHealthCarePlansApi.Object);
         services.AddSingleton(LocalAuthorityComparatorSetService.Object);
         services.AddSingleton(ChartRenderingApi.Object);
+        services.AddSingleton(CommercialResourcesInsight.Object);
 
         EnableFeatures();
     }
@@ -684,6 +686,16 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
             })
             .ReturnsAsync(() => ApiResult.Ok(verticalBarCharts));
         ChartRenderingApi.Setup(api => api.PostVerticalBarChart(It.IsAny<PostVerticalBarChartRequest<T>>(), It.IsAny<CancellationToken>())).ReturnsAsync(ApiResult.Ok(verticalBarChart));
+        return this;
+    }
+
+    //TODO: what kind of assertions are needed
+    public BenchmarkingWebAppClient SetupInsightsCommercialResources(CommercialResources[] resources)
+    {
+        CommercialResourcesInsight.Reset();
+
+        CommercialResourcesInsight.Setup(api => api.GetCommercialResources()).ReturnsAsync(ApiResult.Ok(resources));
+
         return this;
     }
 

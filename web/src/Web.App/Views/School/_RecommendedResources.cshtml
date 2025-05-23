@@ -24,5 +24,19 @@
         </div>
     </div>
 
-    @await Html.PartialAsync(category.Rating.ResourcePartial, new ResourceViewModel(false))
+    var resourceGroup = Model.GroupedResources
+        .FirstOrDefault(g => g.Category == category.Rating.Category);
+
+    if (resourceGroup != null)
+    {
+        @foreach (var section in resourceGroup.Sections)
+        {
+            @await Component.InvokeAsync("CommercialResource", new
+            {
+                section = section.Section,
+                links = section.Links,
+                displayHeading = false
+            })
+        }
+    }
 }
