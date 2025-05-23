@@ -71,11 +71,11 @@ public class WhenViewingSpending(SchoolBenchmarkingWebAppClient client)
     [Theory]
     [InlineData(EstablishmentTypes.Academies)]
     [InlineData(EstablishmentTypes.Maintained)]
-    public async Task CanDisplayNonSsrChartsWhenChartApiFails(string financeType)
+    public async Task CanDisplayChartWarningWhenChartApiFails(string financeType)
     {
         var (page, school) = await SetupNavigateInitPage(financeType, ssrFeatureEnabled: true, chartApiException: true);
 
-        AssertPageLayout(page, school, financeType);
+        AssertPageLayout(page, school, financeType, true, true);
     }
 
     [Theory]
@@ -221,7 +221,7 @@ public class WhenViewingSpending(SchoolBenchmarkingWebAppClient client)
         return (page, school);
     }
 
-    private static void AssertPageLayout(IHtmlDocument page, School school, string financeType, bool ssrCharts = false)
+    private static void AssertPageLayout(IHtmlDocument page, School school, string financeType, bool ssrCharts = false, bool chartError = false)
     {
         DocumentAssert.AssertPageUrl(page, Paths.SchoolSpending(school.URN).ToAbsolute());
         DocumentAssert.TitleAndH1(page, "Spending priorities for this school - Financial Benchmarking and Insights Tool - GOV.UK",
@@ -254,16 +254,28 @@ public class WhenViewingSpending(SchoolBenchmarkingWebAppClient client)
             Assert.NotEqual(Category.Other, sectionHeading);
 
             var chartSvg = section.QuerySelector(".ssr-chart");
+            var chartWarning = section.QuerySelector(".ssr-chart-warning");
             var chartContainer = section.QuerySelector(".composed-container");
 
             if (ssrCharts)
             {
-                Assert.NotNull(chartSvg);
+                if (chartError)
+                {
+                    Assert.NotNull(chartWarning);
+                    Assert.Null(chartSvg);
+                }
+                else
+                {
+                    Assert.NotNull(chartSvg);
+                    Assert.Null(chartWarning);
+                }
+
                 Assert.Null(chartContainer);
             }
             else
             {
                 Assert.NotNull(chartContainer);
+                Assert.Null(chartWarning);
                 Assert.Null(chartSvg);
             }
         }
