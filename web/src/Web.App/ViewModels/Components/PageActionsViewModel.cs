@@ -11,8 +11,7 @@ public class PageActionsViewModel(
     string? saveTitleAttr,
     string? costCodesAttr,
     string? waitForEventType,
-    string? downloadLink,
-    bool? progressivelyEnhance)
+    string? downloadLink)
 {
     public bool SaveButtonVisible { get; init; } = saveButtonVisible == true;
     public bool DownloadButtonVisible { get; init; } = downloadButtonVisible == true;
@@ -27,6 +26,4 @@ public class PageActionsViewModel(
     private Uri? DownloadLink { get; } = string.IsNullOrWhiteSpace(downloadLink) ? null : new Uri(downloadLink);
     public string DownloadAction => DownloadLink?.GetLeftPart(UriPartial.Path) ?? "#";
     public Dictionary<string, StringValues> DownloadParameters => QueryHelpers.ParseQuery(DownloadLink?.Query);
-
-    public bool ProgressivelyEnhance { get; init; } = progressivelyEnhance == true;
 }

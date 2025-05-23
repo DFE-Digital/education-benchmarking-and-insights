@@ -73,10 +73,9 @@ public class SchoolSpendingController(
 
                 var renderSsrCharts = await featureManager.IsEnabledAsync(FeatureFlags.SchoolSpendingPrioritiesSsrCharts);
                 var viewModel = new SchoolSpendingViewModel(school, ratings, pupilExpenditure, areaExpenditure,
-                    userData.ComparatorSet, userData.CustomData, renderSsrCharts);
+                    userData.ComparatorSet, userData.CustomData);
 
-                // todo: return non-/ssr view here rather than conditional in view/component itself (#261663)
-                return View(viewModel);
+                return View(renderSsrCharts ? $"{nameof(Index)}Ssr" : nameof(Index), viewModel);
             }
             catch (Exception e)
             {
@@ -134,10 +133,9 @@ public class SchoolSpendingController(
                 var areaExpenditure = defaultAreaResult.Append(customAreaResult);
 
                 var renderSsrCharts = await featureManager.IsEnabledAsync(FeatureFlags.SchoolSpendingPrioritiesSsrCharts);
-                var viewModel = new SchoolSpendingViewModel(school, rating, pupilExpenditure, areaExpenditure, renderSsrCharts: renderSsrCharts);
+                var viewModel = new SchoolSpendingViewModel(school, rating, pupilExpenditure, areaExpenditure);
 
-                // todo: return non-/ssr view here rather than conditional in view/component itself (#261663)
-                return View(viewModel);
+                return View(renderSsrCharts ? $"{nameof(CustomData)}Ssr" : nameof(CustomData), viewModel);
             }
             catch (Exception e)
             {

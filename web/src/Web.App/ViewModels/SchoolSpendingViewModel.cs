@@ -1,4 +1,5 @@
 using Web.App.Domain;
+
 namespace Web.App.ViewModels;
 
 public class SchoolSpendingViewModel(
@@ -7,15 +8,13 @@ public class SchoolSpendingViewModel(
     IEnumerable<SchoolExpenditure> pupilExpenditure,
     IEnumerable<SchoolExpenditure> areaExpenditure,
     string? userDefinedSetId = null,
-    string? customDataId = null,
-    bool? renderSsrCharts = null)
+    string? customDataId = null)
 {
     private readonly CostCategory[] _categories = CategoryBuilder.Build(ratings, pupilExpenditure, areaExpenditure).ToArray();
 
     public string? Name => school.SchoolName;
     public string? Urn => school.URN;
     public bool IsPartOfTrust => school.IsPartOfTrust;
-    public bool RenderSsrCharts => renderSsrCharts == true;
     public string? UserDefinedSetId => userDefinedSetId;
 
     public string? CustomDataId => customDataId;
@@ -35,17 +34,20 @@ public class SchoolSpendingViewModel(
     public IEnumerable<CostCategory> LowPriorityCosts => Costs
         .Where(x => x.Rating.RAG is "green");
 
-    public static ChartStatsViewModel Stats(RagRating rating) => new()
+    public static ChartStatsViewModel Stats(RagRating rating)
     {
-        Average = rating.Median,
-        Difference = rating.DiffMedian,
-        PercentDifference = rating.Median switch
+        return new ChartStatsViewModel
         {
-            null => null,
-            0 => 0,
-            _ => rating.DiffMedian / rating.Median * 100
-        }
-    };
+            Average = rating.Median,
+            Difference = rating.DiffMedian,
+            PercentDifference = rating.Median switch
+            {
+                null => null,
+                0 => 0,
+                _ => rating.DiffMedian / rating.Median * 100
+            }
+        };
+    }
 }
 
 public class ChartStatsViewModel

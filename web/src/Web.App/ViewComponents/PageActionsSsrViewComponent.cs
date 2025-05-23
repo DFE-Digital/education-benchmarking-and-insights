@@ -3,7 +3,7 @@ using Web.App.ViewModels.Components;
 
 namespace Web.App.ViewComponents;
 
-public class PageActionsViewComponent : ViewComponent
+public class PageActionsSsrViewComponent : ViewComponent
 {
     public IViewComponentResult Invoke(
         bool? saveButtonVisible,

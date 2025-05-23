@@ -41,7 +41,7 @@
                 @if (!Model.IsCustomData)
                 {
                     <div class="govuk-grid-column-one-third">
-                        @await Component.InvokeAsync("ChartActions", new
+                        @await Component.InvokeAsync("ChartActionsSsr", new
                         {
                             elementId = uuid.ToString(),
                             title = categoryHeading,
@@ -81,26 +81,33 @@
                 <div class="govuk-grid-column-two-thirds">
                     <div id="@uuid" class="costs-chart-wrapper" data-title="@categoryHeading"
                          data-cost-codes="@costCodes.ToJson(Formatting.None)">
-                        @if (cost?.HasNegativeOrZeroValues == true)
+                        @if (string.IsNullOrWhiteSpace(cost?.ChartSvg))
                         {
-                            <div class="govuk-warning-text">
+                            <div class="govuk-warning-text govuk-!-margin-top-2 govuk-!-margin-bottom-2">
                                 <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
                                 <strong class="govuk-warning-text__text">
                                     <span class="govuk-visually-hidden">Warning</span>
-                                    Only displaying schools with positive expenditure.
+                                    Unable to display chart
                                 </strong>
                             </div>
                         }
+                        else
+                        {
+                            @if (cost.HasNegativeOrZeroValues)
+                            {
+                                <div class="govuk-warning-text">
+                                    <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
+                                    <strong class="govuk-warning-text__text">
+                                        <span class="govuk-visually-hidden">Warning</span>
+                                        Only displaying schools with positive expenditure.
+                                    </strong>
+                                </div>
+                            }
 
-                        <div class="govuk-!-margin-bottom-2 composed-container"
-                             data-spending-and-costs-composed
-                             data-json="@cost?.Data.ToJson(Formatting.None)"
-                             data-highlight="@Model.Urn"
-                             data-suffix="@category?.Rating.Unit"
-                             data-sort-direction="asc"
-                             data-stats="@(category?.Rating == null ? string.Empty : SchoolSpendingViewModel.Stats(category.Rating).ToJson(Formatting.None))"
-                             data-has-incomplete-data="@Model.HasIncompleteData"
-                        ></div>
+                            <div class="govuk-!-margin-bottom-2 ssr-chart">
+                                @Html.Raw(cost.ChartSvg)
+                            </div>
+                        }
                     </div>
 
                     @{
