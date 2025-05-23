@@ -1,11 +1,12 @@
-﻿@model Web.App.ViewModels.SchoolSpendingViewModel
+﻿@using Web.App.ViewModels.Enhancements
+@model Web.App.ViewModels.SchoolSpendingViewModel
 @{
     ViewData[ViewDataKeys.Title] = PageTitles.Spending;
 }
 
 @if (Model.HighPriorityCosts.Any() || Model.MediumPriorityCosts.Any())
 {
-    @await Component.InvokeAsync("PageActions", new
+    @await Component.InvokeAsync("PageActionsSsr", new
     {
         saveButtonVisible = true,
         saveClassName = "costs-chart-wrapper",
@@ -51,7 +52,7 @@
         </div>
     </div>
 
-    @await Component.InvokeAsync("SchoolSpendingCosts", new
+    @await Component.InvokeAsync("SchoolSpendingCostsSsr", new
     {
         costs = Model.HighPriorityCosts,
         id = "high-priority",
@@ -59,7 +60,7 @@
         isPartOfTrust = Model.IsPartOfTrust
     })
 
-    @await Component.InvokeAsync("SchoolSpendingCosts", new
+    @await Component.InvokeAsync("SchoolSpendingCostsSsr", new
     {
         costs = Model.MediumPriorityCosts,
         id = "medium-priority",
@@ -77,11 +78,31 @@
         </div>
     </div>
 
-    @await Component.InvokeAsync("SchoolSpendingCosts", new
+    @await Component.InvokeAsync("SchoolSpendingCostsSsr", new
     {
         costs = Model.LowPriorityCosts,
         id = "low-priority",
         urn = Model.Urn,
         isPartOfTrust = Model.IsPartOfTrust
+    })
+}
+
+@section scripts
+{
+    @await Html.PartialAsync("Enhancements/_PageActions", new PageActionsViewModel
+    {
+        CostCodesAttr = "data-cost-codes",
+        ElementId = "page-actions-button",
+        SaveClassName = "costs-chart-wrapper",
+        SaveFileName = $"spending-priorities-{Model.Urn}.zip",
+        SaveTitleAttr = "data-title"
+    })
+
+    @await Html.PartialAsync("Enhancements/_ChartActions", new ChartActionsViewModel
+    {
+        DataSetAttribute = "chart-actions",
+        ShowCopy = true,
+        ShowSave = true,
+        ShowTitle = true
     })
 }

@@ -3,7 +3,7 @@ using Web.App.ViewModels.Components;
 
 namespace Web.App.ViewComponents;
 
-public class ChartActionsViewComponent : ViewComponent
+public class ChartActionsSsrViewComponent : ViewComponent
 {
     public IViewComponentResult Invoke(
         string? elementId,
