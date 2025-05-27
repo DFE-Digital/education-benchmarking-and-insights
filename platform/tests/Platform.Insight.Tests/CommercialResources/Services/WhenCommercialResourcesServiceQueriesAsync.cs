@@ -2,7 +2,6 @@
 using Moq;
 using Platform.Api.Insight.Features.CommercialResources.Models;
 using Platform.Api.Insight.Features.CommercialResources.Services;
-using Platform.Domain;
 using Platform.Sql;
 using Platform.Sql.QueryBuilders;
 using Xunit;
@@ -28,11 +27,11 @@ public class WhenCommercialResourcesServiceQueriesAsync
     [Fact]
     public async Task ShouldQueryAsync()
     {
-        var results = _fixture.Build<CommercialResourcesResponse>().CreateMany().ToArray();
+        var results = _fixture.Build<CommercialResource>().CreateMany().ToArray();
         string? actualSql = null;
 
         _connection
-            .Setup(c => c.QueryAsync<CommercialResourcesResponse>(It.IsAny<PlatformQuery>(), It.IsAny<CancellationToken>()))
+            .Setup(c => c.QueryAsync<CommercialResource>(It.IsAny<PlatformQuery>(), It.IsAny<CancellationToken>()))
             .Callback<PlatformQuery, CancellationToken>((query, _) =>
             {
                 actualSql = query.QueryTemplate.RawSql.Trim();

@@ -1,12 +1,12 @@
-using Xunit;
 using Platform.Api.Insight.Features.CommercialResources.Models;
+using Xunit;
 using Platform.Api.Insight.Features.CommercialResources.Services;
 
 namespace Platform.Insight.Tests.CommercialResources.TypeHandlers;
 
-public class WhenCommercialResourcesListTypeHandlerParses
+public class WhenCategoryCollectionTypeHandlerParses
 {
-    private readonly CommercialResourcesListTypeHandler _handler = new();
+    private readonly CategoryCollectionTypeHandler _handler = new();
 
     [Fact]
     public void ShouldReturnListWhenValidSingleElementJsonProvided()
@@ -16,9 +16,9 @@ public class WhenCommercialResourcesListTypeHandlerParses
         var result = _handler.Parse(jsonInput);
 
         Assert.NotNull(result);
-        Assert.IsType<CommercialResourcesList>(result);
-        Assert.Single(result);
-        Assert.Equal("Item1", result[0]);
+        Assert.IsType<CategoryCollection>(result);
+        Assert.Single(result.Items);
+        Assert.Equal("Item1", result.Items[0]);
     }
 
     [Fact]
@@ -29,11 +29,11 @@ public class WhenCommercialResourcesListTypeHandlerParses
         var result = _handler.Parse(jsonInput);
 
         Assert.NotNull(result);
-        Assert.IsType<CommercialResourcesList>(result);
-        Assert.Equal(3, result.Count);
-        Assert.Contains("Item1", result);
-        Assert.Contains("Item2", result);
-        Assert.Contains("Item3", result);
+        Assert.IsType<CategoryCollection>(result);
+        Assert.Equal(3, result.Items.Length);
+        Assert.Contains("Item1", result.Items);
+        Assert.Contains("Item2", result.Items);
+        Assert.Contains("Item3", result.Items);
     }
 
     [Fact]
@@ -44,7 +44,7 @@ public class WhenCommercialResourcesListTypeHandlerParses
         var result = _handler.Parse(jsonInput);
 
         Assert.NotNull(result);
-        Assert.Empty(result);
+        Assert.Empty(result.Items);
     }
 }
 

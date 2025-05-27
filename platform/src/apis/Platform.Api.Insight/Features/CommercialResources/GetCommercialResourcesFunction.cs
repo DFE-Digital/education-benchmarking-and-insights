@@ -17,7 +17,7 @@ public class GetCommercialResourcesFunction(ICommercialResourcesService service)
     [Function(nameof(GetCommercialResourcesFunction))]
     [OpenApiSecurityHeader]
     [OpenApiOperation(nameof(GetCommercialResourcesFunction), Constants.Features.CommercialResources)]
-    [OpenApiResponseWithBody(HttpStatusCode.OK, ContentType.ApplicationJson, typeof(CommercialResourcesResponse[]))]
+    [OpenApiResponseWithBody(HttpStatusCode.OK, ContentType.ApplicationJson, typeof(CommercialResource[]))]
     public async Task<HttpResponseData> RunAsync(
         [HttpTrigger(AuthorizationLevel.Admin, MethodType.Get, Route = Routes.CommercialResources)] HttpRequestData req,
         CancellationToken cancellationToken = default)

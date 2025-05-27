@@ -28,7 +28,7 @@ public class GetCommercialResourcesFunctionTests : FunctionsTestBase
     public async Task ShouldReturn200OnValidRequest()
     {
         var models = _fixture
-            .Build<CommercialResourcesResponse>()
+            .Build<CommercialResource>()
             .CreateMany()
             .ToArray();
 
@@ -43,7 +43,7 @@ public class GetCommercialResourcesFunctionTests : FunctionsTestBase
         Assert.Equal(HttpStatusCode.OK, result.StatusCode);
         Assert.Equal(ContentType.ApplicationJson, result.ContentType());
 
-        var body = await result.ReadAsJsonAsync<CommercialResourcesResponse[]>();
+        var body = await result.ReadAsJsonAsync<CommercialResource[]>();
         Assert.NotNull(body);
         Assert.Equivalent(models, body);
     }

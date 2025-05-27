@@ -11,7 +11,7 @@ namespace Platform.Api.Insight.Features.CommercialResources.Services;
 
 public interface ICommercialResourcesService
 {
-    Task<IEnumerable<CommercialResourcesResponse>> GetCommercialResources(CancellationToken cancellationToken = default);
+    Task<IEnumerable<CommercialResource>> GetCommercialResources(CancellationToken cancellationToken = default);
 }
 
 [ExcludeFromCodeCoverage]
@@ -22,14 +22,14 @@ public class CommercialResourcesService : ICommercialResourcesService
     public CommercialResourcesService(IDatabaseFactory dbFactory)
     {
         _dbFactory = dbFactory;
-        SqlMapper.AddTypeHandler(new CommercialResourcesListTypeHandler());
+        SqlMapper.AddTypeHandler(new CategoryCollectionTypeHandler());
     }
 
-    public async Task<IEnumerable<CommercialResourcesResponse>> GetCommercialResources(CancellationToken cancellationToken = default)
+    public async Task<IEnumerable<CommercialResource>> GetCommercialResources(CancellationToken cancellationToken = default)
     {
         var query = new CommercialResourcesQuery();
         using var conn = await _dbFactory.GetConnection();
 
-        return await conn.QueryAsync<CommercialResourcesResponse>(query, cancellationToken);
+        return await conn.QueryAsync<CommercialResource>(query, cancellationToken);
     }
 }
