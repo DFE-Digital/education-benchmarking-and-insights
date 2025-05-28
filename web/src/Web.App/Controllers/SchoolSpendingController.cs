@@ -76,7 +76,7 @@ public class SchoolSpendingController(
                     .GetResources();
 
                 var renderSsrCharts = await featureManager.IsEnabledAsync(FeatureFlags.SchoolSpendingPrioritiesSsrCharts);
-                
+
                 var viewModel = new SchoolSpendingViewModel(school, ratings, pupilExpenditure, areaExpenditure, allResources,
                     userData.ComparatorSet, userData.CustomData);
 
