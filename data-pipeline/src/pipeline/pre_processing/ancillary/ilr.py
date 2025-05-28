@@ -2,6 +2,7 @@ import pandas as pd
 from pandas._typing import FilePath, ReadCsvBuffer
 
 from pipeline import input_schemas, log
+from pipeline.part_year.common import map_has_pupil_comparator_data
 
 from . import gias
 
@@ -162,6 +163,9 @@ def patch_missing_sixth_form_data(
     """
     Patch any missing sixth-form census data with ILR.
 
+    Note: the value of `Pupil Comparator Data Present` is recalculated
+    due to the update.
+
     :param df: dataset to be patched (Academy or Maintained)
     :param ilr: ILR data
     :param gias_links: GIAS-links data for predecessor lookups
@@ -194,4 +198,4 @@ def patch_missing_sixth_form_data(
     )
     sixth_form_schools.update(ilr_linked.set_index("URN"), overwrite=False)
 
-    return df.combine_first(sixth_form_schools)
+    return map_has_pupil_comparator_data(df.combine_first(sixth_form_schools))

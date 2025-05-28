@@ -30,7 +30,6 @@ from pipeline.database import (
 )
 from pipeline.log import setup_logger
 from pipeline.message import MessageType, get_message_type
-from pipeline.part_year.common import map_has_pupil_comparator_data
 from pipeline.pre_processing import (
     build_academy_data,
     build_bfr_data,
@@ -682,7 +681,7 @@ def _get_ancillary_data(
     worker_client: Client,
     run_id: str,
     year: int,
-) -> tuple:  # TODO: better data structure for ancillary data.
+) -> tuple:
     """
     Retrieve and process supporting data files.
 
@@ -830,10 +829,6 @@ def pre_process_data(
             maintained_ilr_data,
             maintained_data_ref[9],
         ).result()
-
-    # TODO: this is a repeat of an earlier step.
-    academies = map_has_pupil_comparator_data(academies)
-    maintained_schools = map_has_pupil_comparator_data(maintained_schools)
 
     trusts = pre_process_trust_data(run_type, run_id, academies)
 
