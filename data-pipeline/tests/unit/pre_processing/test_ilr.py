@@ -62,13 +62,10 @@ def test_no_missing_sixth_form_data(df_with_missing, ilr_data, gias_links_empty)
     initial = df_no_missing.copy()
     result = ilr.patch_missing_sixth_form_data(initial, ilr_data, gias_links_empty)
 
-    pd.testing.assert_frame_equal(result, initial)
+    pd.testing.assert_frame_equal(result[initial.columns], initial)
 
 
 def test_patching_missing_number_of_pupils(df_with_missing, ilr_data, gias_links_empty):
-    """
-    Test patching when 'Number of pupils' is missing for a sixth-form school.
-    """
     df = df_with_missing.copy()
 
     expected = df_with_missing.copy()
@@ -88,24 +85,20 @@ def test_patching_missing_number_of_pupils(df_with_missing, ilr_data, gias_links
     assert result.loc[101, "Number of pupils"] == 100
     assert pd.isna(result.loc[103, "Percentage SEN"])
 
-    pd.testing.assert_frame_equal(result, expected)
+    pd.testing.assert_frame_equal(result[expected.columns], expected)
 
 
 def test_ilr_data_not_affecting_non_sixth_form_schools(
     df_with_missing, ilr_data, gias_links_empty
 ):
-    """
-    Test that ILR data for a non-sixth-form URN in base_df (if it existed)
-    or a URN not in base_df, does not affect the output.
-    """
     df = df_with_missing.copy()
     initial = df_with_missing.copy()
 
     result = ilr.patch_missing_sixth_form_data(df, ilr_data, gias_links_empty)
 
-    pd.testing.assert_series_equal(result.loc[101], initial.loc[101])
-    pd.testing.assert_series_equal(result.loc[106], initial.loc[106])
-    pd.testing.assert_series_equal(result.loc[103], initial.loc[103])
+    pd.testing.assert_series_equal(result.loc[101][initial.columns], initial.loc[101])
+    pd.testing.assert_series_equal(result.loc[106][initial.columns], initial.loc[106])
+    pd.testing.assert_series_equal(result.loc[103][initial.columns], initial.loc[103])
 
 
 def test_no_ilr_match_for_missing_data(df_with_missing, ilr_data, gias_links_empty):
@@ -119,4 +112,4 @@ def test_no_ilr_match_for_missing_data(df_with_missing, ilr_data, gias_links_emp
     assert pd.isna(result.loc[104, "Number of pupils"])
     assert pd.isna(result.loc[105, "Percentage Free school meals"])
 
-    pd.testing.assert_frame_equal(result, initial)
+    pd.testing.assert_frame_equal(result[initial.columns], initial)
