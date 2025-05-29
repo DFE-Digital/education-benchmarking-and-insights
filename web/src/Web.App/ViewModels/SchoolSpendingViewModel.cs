@@ -1,4 +1,5 @@
 using Web.App.Domain;
+using Web.App.Services;
 
 namespace Web.App.ViewModels;
 
@@ -7,6 +8,7 @@ public class SchoolSpendingViewModel(
     IEnumerable<RagRating> ratings,
     IEnumerable<SchoolExpenditure> pupilExpenditure,
     IEnumerable<SchoolExpenditure> areaExpenditure,
+    Dictionary<string, CommercialResourceLink[]> resources,
     string? userDefinedSetId = null,
     string? customDataId = null)
 {
@@ -16,7 +18,6 @@ public class SchoolSpendingViewModel(
     public string? Urn => school.URN;
     public bool IsPartOfTrust => school.IsPartOfTrust;
     public string? UserDefinedSetId => userDefinedSetId;
-
     public string? CustomDataId => customDataId;
 
     private IEnumerable<CostCategory> Costs => _categories
@@ -24,6 +25,8 @@ public class SchoolSpendingViewModel(
         .OrderBy(x => Lookups.StatusOrderMap[x.Rating.RAG ?? string.Empty])
         .ThenByDescending(x => x.Rating.Decile)
         .ThenByDescending(x => x.Rating.Value);
+
+    public Dictionary<string, CommercialResourceLink[]> Resources => resources;
 
     public IEnumerable<CostCategory> HighPriorityCosts => Costs
         .Where(x => x.Rating.RAG is "red");
@@ -33,6 +36,7 @@ public class SchoolSpendingViewModel(
 
     public IEnumerable<CostCategory> LowPriorityCosts => Costs
         .Where(x => x.Rating.RAG is "green");
+
 
     public static ChartStatsViewModel Stats(RagRating rating)
     {

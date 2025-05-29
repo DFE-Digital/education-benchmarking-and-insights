@@ -7,8 +7,10 @@ using Web.App.Domain;
 using Web.App.Infrastructure.Apis;
 using Web.App.Infrastructure.Apis.Establishment;
 using Web.App.Infrastructure.Extensions;
+using Web.App.Services;
 using Web.App.TagHelpers;
 using Web.App.ViewModels;
+
 namespace Web.App.Controllers;
 
 [Controller]
@@ -17,7 +19,8 @@ namespace Web.App.Controllers;
 [ValidateLaCode]
 public class LocalAuthorityController(
     ILogger<LocalAuthorityController> logger,
-    IEstablishmentApi establishmentApi)
+    IEstablishmentApi establishmentApi,
+    ICommercialResourcesService commercialResourcesService)
     : Controller
 {
 
@@ -25,10 +28,7 @@ public class LocalAuthorityController(
     [LocalAuthorityRequestTelemetry(TrackedRequestFeature.Home)]
     public async Task<IActionResult> Index(string code)
     {
-        using (logger.BeginScope(new
-        {
-            code
-        }))
+        using (logger.BeginScope(new { code }))
         {
             try
             {
@@ -51,17 +51,17 @@ public class LocalAuthorityController(
     [LocalAuthorityRequestTelemetry(TrackedRequestFeature.Resources)]
     public async Task<IActionResult> Resources(string code)
     {
-        using (logger.BeginScope(new
-        {
-            code
-        }))
+        using (logger.BeginScope(new { code }))
         {
             try
             {
                 ViewData[ViewDataKeys.Backlink] = HomeLink(code);
 
                 var authority = await LocalAuthority(code);
-                var viewModel = new LocalAuthorityViewModel(authority);
+                var resources = await commercialResourcesService.GetSubCategoryLinks();
+
+                var viewModel = new LocalAuthorityResourcesViewModel(authority, resources);
+
                 return View(viewModel);
             }
             catch (Exception e)
@@ -76,8 +76,5 @@ public class LocalAuthorityController(
         .GetLocalAuthority(code)
         .GetResultOrThrow<LocalAuthority>();
 
-    private BacklinkInfo HomeLink(string code) => new(Url.Action("Index", new
-    {
-        code
-    }));
+    private BacklinkInfo HomeLink(string code) => new(Url.Action("Index", new { code }));
 }

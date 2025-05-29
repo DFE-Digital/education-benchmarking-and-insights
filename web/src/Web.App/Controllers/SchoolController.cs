@@ -23,7 +23,8 @@ public class SchoolController(
     IBalanceApi balanceApi,
     IMetricRagRatingApi metricRagRatingApi,
     IUserDataService userDataService,
-    ICensusApi censusApi)
+    ICensusApi censusApi,
+    ICommercialResourcesService commercialResourcesService)
     : Controller
 {
     [HttpGet]
@@ -139,10 +140,20 @@ public class SchoolController(
 
                 var school = School(urn);
                 var ratings = RagRatingsDefault(urn);
+                var catResources = commercialResourcesService.GetCategoryLinks();
+                var subCatResources = commercialResourcesService.GetSubCategoryLinks();
 
-                await Task.WhenAll(school, ratings);
+                await Task.WhenAll(school, ratings, catResources);
 
-                var viewModel = new SchoolResourcesViewModel(school.Result, ratings.Result);
+                var parameters = new SchoolResourcesViewModelParams
+                {
+                    School = school.Result,
+                    Ratings = ratings.Result,
+                    CategoryResources = catResources.Result,
+                    SubCategoryResources = subCatResources.Result
+                };
+
+                var viewModel = new SchoolResourcesViewModel(parameters);
                 return View(viewModel);
             }
             catch (Exception e)

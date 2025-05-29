@@ -1,33 +1,31 @@
 ﻿@using Web.App.Extensions
 @model Web.App.ViewModels.Components.CommercialResourceViewModel
 
-@if (Model.DisplayHeading)
-{
-    <h2 class="govuk-heading-s">
-        @Model.Section
-    </h2>
-}
-
 @if (Model.Links.Any())
 {
+    @if (Model.DisplayHeading)
+    {
+        <h3 class="govuk-heading-s">
+            @Model.Section
+        </h3>
+    }
+    
     <ul class="@(Model.DisplayHeading ? "govuk-list": "govuk-list govuk-!-margin-bottom-0")">
         @foreach (var link in Model.Links)
         {
-            <li>
-                @Html.TrackedAnchor(
-                    TrackedLinks.CommercialResource,
-                    link.Url,
-                    link.Title,
-                    "Opens in a new window",
-                    "_blank",
-                    ["noopener", "noreferrer", "external"])
-            </li>
+            if (link is { Title: not null, Url: not null })
+            {
+                <li>
+                    @Html.TrackedAnchor(
+                        TrackedLinks.CommercialResource,
+                        link.Url,
+                        link.Title,
+                        "Opens in a new window",
+                        "_blank",
+                        ["noopener", "noreferrer", "external"])
+                </li>
+            }
+                
         }
     </ul>    
-}
-else
-{
-    <p class="govuk-body">
-        No resources available
-    </p>
 }

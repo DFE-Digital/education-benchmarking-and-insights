@@ -1,34 +1,56 @@
 ﻿@using Web.App.Domain
 @using Web.App.Extensions
-@using Web.App.ViewModels
+
 <p class="govuk-body">
     Use these resources to help reduce your spending and costs.
 </p>
 
 <p class="govuk-body">
     You can also @Html.TrackedAnchor(
-                     TrackedLinks.CommercialResource,
-                     "https://www.gov.uk/guidance/find-a-dfe-approved-framework-for-your-school",
-                     "find a framework agreement for goods or services",
-                     "(opens in a new window)",
-                     "_blank",
-                     ["noopener", "noreferrer", "external"]).
+                         TrackedLinks.CommercialResource,
+                         "https://www.gov.uk/guidance/find-a-dfe-approved-framework-for-your-school",
+                         "find a framework agreement for goods or services",
+                         "(opens in a new window)",
+                         "_blank",
+                         ["noopener", "noreferrer", "external"]).
 </p>
 
 <div class="govuk-accordion" data-module="govuk-accordion" id="accordion-resources">
-    @for (var i = 0; i < Lookups.CategoryResourcePartialMap.Count; i++)
+    @foreach (var (category, i) in Category.All.OrderBy(x => Lookups.CategoryOrderMap[x]).Select((category, i) => (category, i)))
     {
-        var j = i + 1;
+        var accordionIndex = i + 1;
+        var subCategories = Lookups.CategorySubCategoryMap[category];
+
         <div class="govuk-accordion__section">
             <div class="govuk-accordion__section-header">
                 <h2 class="govuk-accordion__section-heading">
-                    <span class="govuk-accordion__section-button" id="accordion-resources-heading-@j">
-                        @Lookups.CategoryResourcePartialMap.ElementAt(i).Key
+                    <span class="govuk-accordion__section-button" id="accordion-resources-heading-@accordionIndex">
+                        @category
                     </span>
                 </h2>
             </div>
-            <div id="accordion-resources-content-@j" class="govuk-accordion__section-content">
-                @await Html.PartialAsync(Lookups.CategoryResourcePartialMap.ElementAt(i).Value, new ResourceViewModel())
+            <div id="accordion-resources-content-@accordionIndex" class="govuk-accordion__section-content">
+                @if (subCategories.Any(x => Model.Resources.ContainsKey(x)))
+                {
+                    @foreach (var subCategory in subCategories)
+                    {
+                        if (Model.Resources.ContainsKey(subCategory))
+                        {
+                            @await Component.InvokeAsync("CommercialResource", new
+                            {
+                                section = subCategory,
+                                links = Model.Resources[subCategory],
+                                displayHeading = true
+                            })
+                        }
+                    }
+                }
+                else
+                {
+                    <p class="govuk-body">
+                        No resources available
+                    </p>
+                }
             </div>
         </div>
     }

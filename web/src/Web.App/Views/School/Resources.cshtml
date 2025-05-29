@@ -11,6 +11,7 @@
     id = Model.Urn,
     kind = OrganisationTypes.School
 })
+
 @if (Model.HasMetricRag)
 {
     <div class="govuk-grid-row">
@@ -58,11 +59,11 @@ else
     </div>
 }
 
-
 @section scripts
 {
     <script type="module" add-nonce="true">
-      import { initAll } from '/js/govuk-frontend.min.js'
-      initAll()
+        import {initAll} from '/js/govuk-frontend.min.js'
+
+        initAll()
     </script>
 }

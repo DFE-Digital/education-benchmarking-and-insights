@@ -31,6 +31,10 @@ variable "configuration" {
         SlidingExpiration  = number
         AbsoluteExpiration = number
       })
+      CommercialResources = object({
+        SlidingExpiration  = number
+        AbsoluteExpiration = number
+      })
     })
   }))
   default = {
@@ -58,6 +62,10 @@ variable "configuration" {
       },
       CacheOptions = {
         ReturnYears = {
+          SlidingExpiration  = 10
+          AbsoluteExpiration = 60
+        },
+        CommercialResources = {
           SlidingExpiration  = 10
           AbsoluteExpiration = 60
         }
@@ -89,6 +97,10 @@ variable "configuration" {
         ReturnYears = {
           SlidingExpiration  = 10
           AbsoluteExpiration = 60
+        },
+        CommercialResources = {
+          SlidingExpiration  = 10
+          AbsoluteExpiration = 60
         }
       }
     }
@@ -116,6 +128,10 @@ variable "configuration" {
       },
       CacheOptions = {
         ReturnYears = {
+          SlidingExpiration  = 10
+          AbsoluteExpiration = 60
+        },
+        CommercialResources = {
           SlidingExpiration  = 10
           AbsoluteExpiration = 60
         }
@@ -147,6 +163,10 @@ variable "configuration" {
         ReturnYears = {
           SlidingExpiration  = 10
           AbsoluteExpiration = 60
+        },
+        CommercialResources = {
+          SlidingExpiration  = 10
+          AbsoluteExpiration = 60
         }
       }
     }
@@ -176,6 +196,10 @@ variable "configuration" {
         ReturnYears = {
           SlidingExpiration  = 10
           AbsoluteExpiration = 60
+        },
+        CommercialResources = {
+          SlidingExpiration  = 10
+          AbsoluteExpiration = 60
         }
       }
     }
@@ -203,6 +227,10 @@ variable "configuration" {
       },
       CacheOptions = {
         ReturnYears = {
+          SlidingExpiration  = 10
+          AbsoluteExpiration = 60
+        },
+        CommercialResources = {
           SlidingExpiration  = 10
           AbsoluteExpiration = 60
         }

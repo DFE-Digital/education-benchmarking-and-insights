@@ -18,7 +18,6 @@ public record RagRating
     public string CostCategoryAnchorId => string.IsNullOrWhiteSpace(Category) ? string.Empty : Category.ToSlug();
 
     public (TagColour Colour, string DisplayText, string Class)? PriorityTag => Lookups.StatusPriorityMap[RAG ?? string.Empty];
-    public string ResourcePartial => Lookups.CategoryResourcePartialMap[Category ?? string.Empty];
     public string Unit => Lookups.CategoryUnitMap[Category ?? string.Empty];
 }
 

@@ -1,8 +1,10 @@
-﻿namespace Web.App.ViewModels.Components;
+﻿using Web.App.Domain;
 
-public class CommercialResourceViewModel(string section, (string Title, string Link)[]? links, bool displayHeading = true)
+namespace Web.App.ViewModels.Components;
+
+public class CommercialResourceViewModel(string section, IEnumerable<CommercialResourceLink> links, bool displayHeading = true)
 {
     public string Section => section;
     public bool DisplayHeading => displayHeading;
-    public (string Title, string Url)[] Links => links ?? Array.Empty<(string, string)>();
+    public IEnumerable<CommercialResourceLink> Links => links;
 }

@@ -16,14 +16,8 @@
             : category?.Rating.Category;
 
         var categoryUri = Model.IsCustomData
-            ? Url.Action("CustomData", "SchoolComparison", new
-            {
-                urn = Model.Urn
-            })
-            : Url.Action("Index", "SchoolComparison", new
-            {
-                urn = Model.Urn
-            });
+            ? Url.Action("CustomData", "SchoolComparison", new { urn = Model.Urn })
+            : Url.Action("Index", "SchoolComparison", new { urn = Model.Urn });
 
         var costCodes = category?.SubCategories
             .Select(c => Model.CostCodes.GetCostCode(c))
@@ -132,6 +126,7 @@
                                 {
                                     subCategory = $"{(subCategories.Length > 1 ? "and " : string.Empty)} {subCategory}.";
                                 }
+
                                 <span>@subCategory</span>
                             }
                         }
@@ -140,12 +135,24 @@
                 <div class="govuk-grid-column-one-third">
                     @if (category?.CanShowCommercialResources == true)
                     {
+                        var heading = category.Rating.Category ?? "";
+                        var resources = Model.Resources.ContainsKey(heading)
+                            ? Model.Resources[heading]
+                            : [];
+
                         <div
                             class="app-resources @(cost?.HasNegativeOrZeroValues == true ? "app-resources-warning-spacing" : "")">
                             <h4 class="govuk-heading-s">
                                 Find ways to spend less
                             </h4>
-                            @await Html.PartialAsync(category.Rating.ResourcePartial, new ResourceViewModel(false))
+                            
+                            @await Component.InvokeAsync("CommercialResource", new
+                            {
+                                section = heading,
+                                links = resources,
+                                displayHeading = false
+                            })
+      
                         </div>
                     }
                 </div>

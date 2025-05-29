@@ -137,7 +137,20 @@
                             <h4 class="govuk-heading-s">
                                 Find ways to spend less
                             </h4>
-                            @await Html.PartialAsync(category.Rating.ResourcePartial, new ResourceViewModel(false))
+                            @{
+                                var heading = category.Rating.Category ?? "";
+                                var resources = Model.Resources.ContainsKey(heading) 
+                                    ? Model.Resources[heading] 
+                                    : [];
+
+                                @await Component.InvokeAsync("CommercialResource", new
+                                {
+                                    section = heading,
+                                    links = resources,
+                                    displayHeading = false
+                                })
+                            }
+                            
                         </div>
                     }
                 </div>
