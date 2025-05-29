@@ -32,8 +32,7 @@
           | Name                                | Resource                                                                                                  |
           | Teaching and Teaching support staff | Supply teachers and temporary staffing (STaTS)                                                            |
           | Teaching and Teaching support staff | Temporary and permanent staffing                                                                          |
-          | Non-educational support staff       | Audit and financial services                                                                    |
-          | Non-educational support staff       | Audit and financial services                                                                    |
+          | Non-educational support staff       | Audit and financial services                                                                              |
           | Non-educational support staff       | HR, payroll and employee screening services                                                               |
           | Non-educational support staff       | Legal services                                                                                            |
           | Non-educational support staff       | Specialist professional services                                                                          |
@@ -55,8 +54,8 @@
           | Administrative supplies             | Technology products & associated services 2                                                               |
           | Educational supplies                | Musical instruments, equipment and technology framework                                                   |
           | Educational supplies                | Print books framework                                                                                     |
-          | Catering staff and supplies         | Catering services                                                                                         |
-          | Catering staff and supplies         | Catering services                                                                                         |
+          | Catering staff and supplies         | Catering services - ESPO framework                                                                        |
+          | Catering staff and supplies         | Catering services - the EB framework                                                                      |
           | Catering staff and supplies         | Commercial catering equipment                                                                             |
           | Catering staff and supplies         | Facilities management and workplace services                                                              |
           | Catering staff and supplies         | Food and drink                                                                                            |
@@ -64,16 +63,13 @@
           | Catering staff and supplies         | Grocery, fresh, chilled and frozen foods                                                                  |
           | Catering staff and supplies         | Outsourced catering services                                                                              |
           | Catering staff and supplies         | Sandwiches and food to go                                                                                 |
+          | Premises staff and services         | Air cleaning                                                                                              |
           | Premises staff and services         | Building cleaning                                                                                         |
           | Premises staff and services         | Building in use - support services                                                                        |
           | Premises staff and services         | Cleaning services                                                                                         |
           | Premises staff and services         | Facilities management and workplace services                                                              |
-          | Premises staff and services         | Air cleaning                                                                                              |
-          | Premises staff and services         | Building in use - support services                                                                        |
-          | Premises staff and services         | Facilities management and workplace services                                                              |
           | Premises staff and services         | Internal fit-out and maintenance                                                                          |
           | Premises staff and services         | LED lighting                                                                                              |
-          | Premises staff and services         | Building in use - support services                                                                        |
           | Utilities                           | Debt resolution services                                                                                  |
           | Utilities                           | Education decarbonisation                                                                                 |
           | Utilities                           | Electricity (for supply during 2020 - 2028)                                                               |
@@ -82,8 +78,8 @@
           | Utilities                           | Fixed and flexible gas                                                                                    |
           | Utilities                           | Flexible electricity                                                                                      |
           | Utilities                           | Flexible gas                                                                                              |
-          | Utilities                           | Liquid fuels                                                                                              |
-          | Utilities                           | Liquid fuels                                                                                              |
+          | Utilities                           | Liquid fuels - ESPO framework                                                                             |
+          | Utilities                           | Liquid fuels - NEPO framework                                                                            |
           | Utilities                           | Liquified petroleum gas and other liquified fuels                                                         |
           | Utilities                           | Mains gas 2023                                                                                            |
           | Utilities                           | Supply of energy 2                                                                                        |

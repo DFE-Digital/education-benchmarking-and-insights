@@ -91,17 +91,19 @@ public class CommercialResourcesPage(IPage page)
     public async Task AreCorrectLinksDisplayed(List<(string text, string href, string target)> expectedElements)
     {
         var elements = await AllCommercialLinks.AllAsync();
-        Assert.Equal(expectedElements.Count, elements.Count);
 
-        for (var i = 0; i < elements.Count; i++)
+        for (var i = 1; i < elements.Count; i++)
         {
-            var element = elements[i];
-            var actualText = await element.InnerTextAsync();
-            Assert.Contains(expectedElements[i].text, actualText.Trim());
-            var actualHref = await element.GetAttributeAsync("href");
-            Assert.Equal(expectedElements[i].href, actualHref);
-            var actualTarget = await element.GetAttributeAsync("target");
-            Assert.Equal(expectedElements[i].target, actualTarget);
+            var actual = elements[i];
+            var expected = expectedElements[i - 1];
+
+            var actualText = await actual.InnerTextAsync();
+            var actualHref = await actual.GetAttributeAsync("href");
+            var actualTarget = await actual.GetAttributeAsync("target");
+
+            Assert.Equal($"{expected.text}\n Opens in a new window", actualText.Trim());
+            Assert.Equal(expected.href, actualHref);
+            Assert.Equal(expected.target, actualTarget);
         }
     }
 
