@@ -1,19 +1,20 @@
 ﻿@using Web.App.ViewModels
 @model Web.App.ViewModels.SchoolResourcesViewModel
 
-
 <p class="govuk-body">
     Based on how spending and costs compare to similar schools.
 </p>
 
 @foreach (var category in Model.CostCategories)
 {
+    var categoryHeading = category.Rating.Category ?? "";
+
     <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
 
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-two-thirds">
             <h2 class="govuk-heading-s">
-                @category.Rating.Category
+                @categoryHeading
             </h2>
         </div>
         <div class="govuk-grid-column-one-third">
@@ -23,20 +24,20 @@
             })
         </div>
     </div>
-
-    var resourceGroup = Model.GroupedResources
-        .FirstOrDefault(g => g.Category == category.Rating.Category);
-
-    if (resourceGroup != null)
+    
+    @if (Model.CategoryResources.ContainsKey(categoryHeading))
     {
-        @foreach (var section in resourceGroup.Sections)
+        @await Component.InvokeAsync("CommercialResource", new
         {
-            @await Component.InvokeAsync("CommercialResource", new
-            {
-                section = section.Section,
-                links = section.Links,
-                displayHeading = false
-            })
-        }
+            section = categoryHeading,
+            links = Model.CategoryResources[categoryHeading],
+            displayHeading = false
+        })
+    }
+    else
+    {
+        <p class="govuk-body">
+            No resources available
+        </p>
     }
 }

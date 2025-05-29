@@ -72,21 +72,15 @@ public class SchoolSpendingController(
                     }
                 }
 
-                var allResources = await commercialResourcesService
-                    .GetResources();
+                var resources = await commercialResourcesService.GetCategoryLinks();
+                var viewModel = new SchoolSpendingViewModel(school, ratings, pupilExpenditure, areaExpenditure, resources, userData.ComparatorSet, userData.CustomData);
+                var viewName = await GetViewName(nameof(Index));
 
-                var renderSsrCharts = await featureManager.IsEnabledAsync(FeatureFlags.SchoolSpendingPrioritiesSsrCharts);
-
-                var viewModel = new SchoolSpendingViewModel(school, ratings, pupilExpenditure, areaExpenditure, allResources,
-                    userData.ComparatorSet, userData.CustomData);
-
-
-                return View(renderSsrCharts ? $"{nameof(Index)}Ssr" : nameof(Index), viewModel);
+                return View(viewName, viewModel);
             }
             catch (Exception e)
             {
-                logger.LogError(e, "An error displaying school spending and costs: {DisplayUrl}",
-                    Request.GetDisplayUrl());
+                logger.LogError(e, "An error displaying school spending and costs: {DisplayUrl}", Request.GetDisplayUrl());
                 return e is StatusCodeException s ? StatusCode((int)s.Status) : StatusCode(500);
             }
         }
@@ -109,10 +103,7 @@ public class SchoolSpendingController(
                 var userCustomData = await userDataService.GetCustomDataActiveAsync(User, urn);
                 if (userCustomData?.Status != Pipeline.JobStatus.Complete)
                 {
-                    return RedirectToAction("Index", "School", new
-                    {
-                        urn
-                    });
+                    return RedirectToAction("Index", "School", new { urn });
                 }
 
                 var customDataId = userCustomData.Id!;
@@ -138,21 +129,24 @@ public class SchoolSpendingController(
                 var pupilExpenditure = defaultPupilResult.Append(customPupilResult);
                 var areaExpenditure = defaultAreaResult.Append(customAreaResult);
 
-                var allResources = await commercialResourcesService
-                    .GetResources();
+                var resources = await commercialResourcesService.GetCategoryLinks();
+                var viewModel = new SchoolSpendingViewModel(school, rating, pupilExpenditure, areaExpenditure, resources);
+                var viewName = await GetViewName(nameof(CustomData));
 
-                var renderSsrCharts = await featureManager.IsEnabledAsync(FeatureFlags.SchoolSpendingPrioritiesSsrCharts);
-                var viewModel = new SchoolSpendingViewModel(school, rating, pupilExpenditure, areaExpenditure, allResources);
-
-                return View(renderSsrCharts ? $"{nameof(CustomData)}Ssr" : nameof(CustomData), viewModel);
+                return View(viewName, viewModel);
             }
             catch (Exception e)
             {
-                logger.LogError(e, "An error displaying custom school spending and costs: {DisplayUrl}",
-                    Request.GetDisplayUrl());
+                logger.LogError(e, "An error displaying custom school spending and costs: {DisplayUrl}", Request.GetDisplayUrl());
                 return e is StatusCodeException s ? StatusCode((int)s.Status) : StatusCode(500);
             }
         }
+    }
+
+    private async Task<string> GetViewName(string baseViewName)
+    {
+        var useSsr = await featureManager.IsEnabledAsync(FeatureFlags.SchoolSpendingPrioritiesSsrCharts);
+        return useSsr ? $"{baseViewName}Ssr" : baseViewName;
     }
 
     private static ApiQuery BuildQuery(IEnumerable<string> urns)

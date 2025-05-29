@@ -33,7 +33,7 @@
         urn = Model.Urn,
         isCustomData = true,
         isPartOfTrust = Model.IsPartOfTrust,
-        resources = Model.HighPriorityResources
+        resources = Model.Resources
     })
 
     @await Component.InvokeAsync("SchoolSpendingCosts", new
@@ -43,7 +43,7 @@
         urn = Model.Urn,
         isCustomData = true,
         isPartOfTrust = Model.IsPartOfTrust,
-        resources = Model.MediumPriorityResources
+        resources = Model.Resources
     })
 }
 

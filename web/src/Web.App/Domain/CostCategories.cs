@@ -250,17 +250,23 @@ public static class CategoryBuilder
         return (pupil, area);
     }
 
+    public static IEnumerable<CostCategory> Build(IEnumerable<RagRating> ratings)
+    {
+        var (pupil, area) = CategoriesFromRatings(ratings);
+        return pupil.Concat(area);
+    }
+
     public static IEnumerable<CostCategory> Build(IEnumerable<RagRating> ratings,
         IEnumerable<SchoolExpenditure> pupilExpenditure, IEnumerable<SchoolExpenditure> areaExpenditure)
     {
-        var categories = CategoriesFromRatings(ratings);
+        var (pupil, area) = CategoriesFromRatings(ratings);
 
         foreach (var expenditure in pupilExpenditure)
         {
             var urn = expenditure.URN;
             ArgumentNullException.ThrowIfNull(urn);
 
-            foreach (var category in categories.Pupil)
+            foreach (var category in pupil)
             {
                 category.Add(urn, expenditure);
             }
@@ -271,13 +277,13 @@ public static class CategoryBuilder
             var urn = expenditure.URN;
             ArgumentNullException.ThrowIfNull(urn);
 
-            foreach (var category in categories.Area)
+            foreach (var category in area)
             {
                 category.Add(urn, expenditure);
             }
         }
 
-        return categories.Pupil.Concat(categories.Area);
+        return pupil.Concat(area);
     }
 }
 

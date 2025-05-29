@@ -11,6 +11,7 @@ using Web.App.Infrastructure.Extensions;
 using Web.App.Services;
 using Web.App.TagHelpers;
 using Web.App.ViewModels;
+
 namespace Web.App.Controllers;
 
 [Controller]
@@ -30,10 +31,7 @@ public class TrustController(
     public async Task<IActionResult> Index(string companyNumber,
         [FromQuery(Name = "comparator-reverted")] bool? comparatorReverted)
     {
-        using (logger.BeginScope(new
-        {
-            companyNumber
-        }))
+        using (logger.BeginScope(new { companyNumber }))
         {
             try
             {
@@ -59,10 +57,7 @@ public class TrustController(
     [TrustRequestTelemetry(TrackedRequestFeature.Details)]
     public async Task<IActionResult> Details(string companyNumber)
     {
-        using (logger.BeginScope(new
-        {
-            companyNumber
-        }))
+        using (logger.BeginScope(new { companyNumber }))
         {
             try
             {
@@ -85,10 +80,7 @@ public class TrustController(
     [TrustRequestTelemetry(TrackedRequestFeature.History)]
     public async Task<IActionResult> History(string companyNumber)
     {
-        using (logger.BeginScope(new
-        {
-            companyNumber
-        }))
+        using (logger.BeginScope(new { companyNumber }))
         {
             try
             {
@@ -112,21 +104,16 @@ public class TrustController(
     [TrustRequestTelemetry(TrackedRequestFeature.Resources)]
     public async Task<IActionResult> Resources(string companyNumber)
     {
-        using (logger.BeginScope(new
-        {
-            companyNumber
-        }))
+        using (logger.BeginScope(new { companyNumber }))
         {
             try
             {
                 ViewData[ViewDataKeys.Backlink] = HomeLink(companyNumber);
 
                 var trust = await Trust(companyNumber);
+                var resources = await commercialResourcesService.GetSubCategoryLinks();
 
-                var allResources = await commercialResourcesService
-                    .GetResources();
-
-                var viewModel = new TrustResourcesViewModel(trust, allResources);
+                var viewModel = new TrustResourcesViewModel(trust, resources);
                 return View(viewModel);
             }
             catch (Exception e)
@@ -156,8 +143,5 @@ public class TrustController(
         .GetTrust(companyNumber)
         .GetResultOrThrow<Trust>();
 
-    private BacklinkInfo HomeLink(string companyNumber) => new(Url.Action("Index", new
-    {
-        companyNumber
-    }));
+    private BacklinkInfo HomeLink(string companyNumber) => new(Url.Action("Index", new { companyNumber }));
 }

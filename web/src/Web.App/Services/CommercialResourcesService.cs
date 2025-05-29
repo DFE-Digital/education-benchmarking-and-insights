@@ -9,7 +9,8 @@ namespace Web.App.Services;
 
 public interface ICommercialResourcesService
 {
-    Task<CommercialResources[]> GetResources();
+    Task<Dictionary<string, CommercialResourceLink[]>> GetSubCategoryLinks();
+    Task<Dictionary<string, CommercialResourceLink[]>> GetCategoryLinks();
 }
 
 public class CommercialResourcesService(
@@ -17,29 +18,79 @@ public class CommercialResourcesService(
     IMemoryCache memoryCache,
     IOptions<CacheOptions> options) : ICommercialResourcesService
 {
-    private readonly int _sliding = options.Value.ReturnYears.SlidingExpiration ?? 10;
-    private readonly int _absolute = options.Value.ReturnYears.AbsoluteExpiration ?? 60;
+    private readonly int _sliding = options.Value.CommercialResources.SlidingExpiration ?? 10;
+    private readonly int _absolute = options.Value.CommercialResources.AbsoluteExpiration ?? 60;
     private const string CacheKey = "commercial-resources";
 
-    public async Task<CommercialResources[]> GetResources()
+
+    public async Task<Dictionary<string, CommercialResourceLink[]>> GetSubCategoryLinks()
     {
-        if (memoryCache.TryGetValue(CacheKey, out var cached) && cached is CommercialResources[] resources)
+        var resources = await GetCommercialResources();
+
+        var expanded = resources
+            .SelectMany(res => res.SubCategory.Items.Select(cat => new
+            {
+                SubCategory = cat,
+                Resource = (CommercialResourceLink)res
+            }));
+
+        return expanded
+            .GroupBy(x => x.SubCategory)
+            .ToDictionary(
+                g => g.Key,
+                g => g.Select(x => x.Resource).ToArray()
+            );
+    }
+
+    public async Task<Dictionary<string, CommercialResourceLink[]>> GetCategoryLinks()
+    {
+        var resources = await GetCommercialResources();
+
+        var expanded = resources
+            .SelectMany(res => res.Category.Items.Select(cat => new
+            {
+                Category = cat,
+                Resource = (CommercialResourceLink)res
+            }));
+
+        return expanded
+            .GroupBy(x => x.Category)
+            .ToDictionary(
+                g => g.Key,
+                g => g.Select(x => x.Resource).ToArray()
+            );
+    }
+
+    private async Task<CommercialResourceCategorised[]> GetCommercialResources()
+    {
+        if (memoryCache.TryGetValue(CacheKey, out var cached) && cached is CommercialResourceCategorised[] resources)
         {
             return resources;
         }
 
+        var data = await GetData();
+        var options = CreateMemoryCacheEntryOptions();
+
+        memoryCache.Set(CacheKey, data, options);
+
+        return data;
+    }
+
+    private async Task<CommercialResourceCategorised[]> GetData()
+    {
         var data = await commercialResourcesApi
             .GetCommercialResources()
-            .GetResultOrDefault<CommercialResources[]>() ?? [];
+            .GetResultOrDefault<CommercialResourceCategorised[]>() ?? [];
 
-        MemoryCacheEntryOptions cacheEntryOptions = new()
+        return data;
+    }
+
+    private MemoryCacheEntryOptions CreateMemoryCacheEntryOptions()
+    {
+        return new MemoryCacheEntryOptions
         {
             SlidingExpiration = TimeSpan.FromMinutes(_sliding),
             AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(_absolute)
         };
-
-        memoryCache.Set(CacheKey, data, cacheEntryOptions);
-
-        return data;
     }
 }

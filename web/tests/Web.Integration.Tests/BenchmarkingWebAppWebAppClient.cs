@@ -690,7 +690,7 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
     }
 
     //TODO: what kind of assertions are needed
-    public BenchmarkingWebAppClient SetupInsightsCommercialResources(CommercialResources[] resources)
+    public BenchmarkingWebAppClient SetupInsightsCommercialResources(CommercialResourceCategorised[] resources)
     {
         CommercialResourcesInsight.Reset();
 

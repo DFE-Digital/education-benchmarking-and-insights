@@ -11,9 +11,9 @@ public class GivenASchoolSpendingViewModel
         .Build<School>()
         .With(s => s.URN, URN)
         .Create();
-    private readonly CommercialResources[] _resources = new Fixture()
-        .Build<CommercialResources>()
-        .CreateMany().ToArray();
+    private readonly Dictionary<string, CommercialResourceLink[]> _resources = new Fixture()
+        .Build<Dictionary<string, CommercialResourceLink[]>>()
+        .Create();
 
     public static TheoryData<
         IEnumerable<RagRating>,

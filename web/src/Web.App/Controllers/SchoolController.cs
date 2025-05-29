@@ -140,13 +140,20 @@ public class SchoolController(
 
                 var school = School(urn);
                 var ratings = RagRatingsDefault(urn);
+                var catResources = commercialResourcesService.GetCategoryLinks();
+                var subCatResources = commercialResourcesService.GetSubCategoryLinks();
 
-                await Task.WhenAll(school, ratings);
+                await Task.WhenAll(school, ratings, catResources);
 
-                var allResources = await commercialResourcesService
-                    .GetResources();
+                var parameters = new SchoolResourcesViewModelParams
+                {
+                    School = school.Result,
+                    Ratings = ratings.Result,
+                    CategoryResources = catResources.Result,
+                    SubCategoryResources = subCatResources.Result
+                };
 
-                var viewModel = new SchoolResourcesViewModel(school.Result, ratings.Result, allResources);
+                var viewModel = new SchoolResourcesViewModel(parameters);
                 return View(viewModel);
             }
             catch (Exception e)

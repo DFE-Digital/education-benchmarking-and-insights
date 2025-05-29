@@ -3,6 +3,7 @@ using Web.App.Domain;
 using Web.App.Infrastructure.Apis;
 using Web.App.Infrastructure.Apis.ChartRendering;
 using Web.App.Infrastructure.Extensions;
+using Web.App.Services;
 using Web.App.ViewModels.Components;
 
 // ReSharper disable ClassNeverInstantiated.Global
@@ -19,7 +20,8 @@ public class SchoolSpendingCostsSsrViewComponent(IChartRenderingApi chartRenderi
         string urn,
         bool hasIncompleteData,
         bool isCustomData,
-        bool isPartOfTrust)
+        bool isPartOfTrust,
+        Dictionary<string, CommercialResourceLink[]> resources)
     {
         var categories = new List<SchoolSpendingCostsViewModelCostCategory<PriorityCostCategoryDatum>>();
         var requests = new List<PostVerticalBarChartRequest<PriorityCostCategoryDatum>>();
@@ -61,7 +63,7 @@ public class SchoolSpendingCostsSsrViewComponent(IChartRenderingApi chartRenderi
             }
         }
 
-        return View(new SchoolSpendingCostsViewModel(id, urn, isPartOfTrust, isCustomData, hasIncompleteData, categories));
+        return View(new SchoolSpendingCostsViewModel(id, urn, isPartOfTrust, isCustomData, hasIncompleteData, categories, resources));
     }
 }
 

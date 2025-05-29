@@ -1,4 +1,5 @@
 using Web.App.Domain;
+using Web.App.Services;
 
 namespace Web.App.ViewModels;
 
@@ -7,7 +8,7 @@ public class SchoolSpendingViewModel(
     IEnumerable<RagRating> ratings,
     IEnumerable<SchoolExpenditure> pupilExpenditure,
     IEnumerable<SchoolExpenditure> areaExpenditure,
-    IEnumerable<CommercialResources> resources,
+    Dictionary<string, CommercialResourceLink[]> resources,
     string? userDefinedSetId = null,
     string? customDataId = null)
 {
@@ -17,7 +18,6 @@ public class SchoolSpendingViewModel(
     public string? Urn => school.URN;
     public bool IsPartOfTrust => school.IsPartOfTrust;
     public string? UserDefinedSetId => userDefinedSetId;
-
     public string? CustomDataId => customDataId;
 
     private IEnumerable<CostCategory> Costs => _categories
@@ -26,7 +26,7 @@ public class SchoolSpendingViewModel(
         .ThenByDescending(x => x.Rating.Decile)
         .ThenByDescending(x => x.Rating.Value);
 
-    private IEnumerable<GroupedResources> GroupedResources => CommercialResourcesBuilder.GroupByValidCategory(resources);
+    public Dictionary<string, CommercialResourceLink[]> Resources => resources;
 
     public IEnumerable<CostCategory> HighPriorityCosts => Costs
         .Where(x => x.Rating.RAG is "red");
@@ -37,14 +37,6 @@ public class SchoolSpendingViewModel(
     public IEnumerable<CostCategory> LowPriorityCosts => Costs
         .Where(x => x.Rating.RAG is "green");
 
-
-    public IEnumerable<GroupedResources> HighPriorityResources => GroupedResources
-        .Where(g => HighPriorityCosts.Any(x => x.Rating.Category == g.Category))
-        .ToList();
-
-    public IEnumerable<GroupedResources> MediumPriorityResources => GroupedResources
-        .Where(g => MediumPriorityCosts.Any(x => x.Rating.Category == g.Category))
-        .ToList();
 
     public static ChartStatsViewModel Stats(RagRating rating)
     {

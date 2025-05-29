@@ -138,19 +138,19 @@
                                 Find ways to spend less
                             </h4>
                             @{
-                                var resources = Model.Resources?
-                                    .FirstOrDefault(r => r.Category == category.Rating.Category);
-                                  
-                                foreach (var section in resources?.Sections ?? [])
+                                var heading = category.Rating.Category ?? "";
+                                var resources = Model.Resources.ContainsKey(heading) 
+                                    ? Model.Resources[heading] 
+                                    : [];
+
+                                @await Component.InvokeAsync("CommercialResource", new
                                 {
-                                    @await Component.InvokeAsync("CommercialResource", new
-                                    {
-                                        section = section.Section,
-                                        links = section.Links,
-                                        displayHeading = false
-                                    })
-                                }
+                                    section = heading,
+                                    links = resources,
+                                    displayHeading = false
+                                })
                             }
+                            
                         </div>
                     }
                 </div>
