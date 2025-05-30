@@ -60,15 +60,13 @@ def map_has_building_comparator_data(
     Whether the maintained school data has all the necessary data to
     create a building comparator group.
 
-    Specifically, this is the CDC data.
-
     :param maintained_schools: maintained schools data
     :return: updated DataFrame
     """
-    building_comparator_columns = list(config.cdc_generated_columns)
+    building_comparator_columns = ["Total Internal Floor Area", "Age Average Score"]
 
     maintained_schools["Building Comparator Data Present"] = (
-        ~maintained_schools[building_comparator_columns].isna().all(axis=1)
+        ~maintained_schools[building_comparator_columns].isna().any(axis=1)
     )
 
     return maintained_schools
