@@ -151,7 +151,12 @@ To run the pipeline locally, follow these steps:
     sqlcmd -S tcp:127.0.0.1,1433 -U sa -P 'mystrong!Pa55word' -Q 'CREATE DATABASE data;'
     ```
 
-    Then, apply migration scripts using the [core-infrastructure project](../core-infrastructure/README.md) to set up the required tables.
+    Then, apply migration scripts using the [core-infrastructure project](../core-infrastructure/README.md) to set up the required tables. cd into Scripts, then use this shell script to run all the migrations:
+    ```sh
+    for file in *.sql; do
+        sqlcmd -S localhost,1433 -d data -U SA -P "mystrong\!Pa55word" -C -i "$file"
+    done
+    ```
 
     Set the following program arguments to target this instance:
 
@@ -186,7 +191,7 @@ To run the pipeline locally, follow these steps:
     poetry run python -m pipeline.main
     ```
 
-    Once the pipeline is running, start processing files placed in the `raw` container by adding the following message to the `data-pipeline-job-default-start` queue:
+    Once the pipeline is running, start processing files placed in the `raw` container by adding the following message to the `data-pipeline-job-default-start` queue as UTF8:
 
     ```json
     {
