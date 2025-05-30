@@ -57,7 +57,7 @@ variable "configuration" {
         FinancialBenchmarkingInsightsSummary = true
         HistoricalTrends                     = true
         HighNeeds                            = true
-        FilteredSearch                       = false
+        FilteredSearch                       = true
         SchoolSpendingPrioritiesSsrCharts    = false
       },
       CacheOptions = {
@@ -90,7 +90,7 @@ variable "configuration" {
         FinancialBenchmarkingInsightsSummary = true
         HistoricalTrends                     = true
         HighNeeds                            = true
-        FilteredSearch                       = false
+        FilteredSearch                       = true
         SchoolSpendingPrioritiesSsrCharts    = false
       },
       CacheOptions = {
@@ -123,7 +123,7 @@ variable "configuration" {
         FinancialBenchmarkingInsightsSummary = true
         HistoricalTrends                     = true
         HighNeeds                            = true
-        FilteredSearch                       = false
+        FilteredSearch                       = true
         SchoolSpendingPrioritiesSsrCharts    = false
       },
       CacheOptions = {
@@ -189,7 +189,7 @@ variable "configuration" {
         FinancialBenchmarkingInsightsSummary = true
         HistoricalTrends                     = true
         HighNeeds                            = true
-        FilteredSearch                       = false
+        FilteredSearch                       = true
         SchoolSpendingPrioritiesSsrCharts    = false
       }
       CacheOptions = {
@@ -222,7 +222,7 @@ variable "configuration" {
         FinancialBenchmarkingInsightsSummary = true
         HistoricalTrends                     = true
         HighNeeds                            = true
-        FilteredSearch                       = false
+        FilteredSearch                       = true
         SchoolSpendingPrioritiesSsrCharts    = false
       },
       CacheOptions = {
