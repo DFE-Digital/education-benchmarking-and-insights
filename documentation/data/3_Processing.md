@@ -296,7 +296,7 @@ flowchart TD
             select_top_60 --> select_region
             select_region -- < 30 --> select_N --> comparator_Set
             select_region -- = 30 --> comparator_Set
-            select_region -- > 30 --> select_closest_30 --> comparator_Set
+            select_region -- &gt; 30 --> select_closest_30 --> comparator_Set
         end 
 
         dist -- Non PFI/Boarding school --> select_top_60
@@ -370,7 +370,7 @@ flowchart TD
             select_top_60 --> select_region
             select_region -- < 30 --> select_N --> comparator_Set
             select_region -- = 30 --> comparator_Set
-            select_region -- > 30 --> select_closest_30 --> comparator_Set
+            select_region -- &gt; 30 --> select_closest_30 --> comparator_Set
         end
 
         dist --> select_top_60
