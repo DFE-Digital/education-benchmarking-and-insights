@@ -3,6 +3,41 @@ import pandas as pd
 from pipeline import config
 
 
+def _has_pupil_comparator_data(row: pd.Series) -> bool:
+    """
+    Whether the row is sufficiently populated.
+
+    This follows the logic from
+    `pipeline.comparator_sets.compute_pupils_comparator`. _All_
+    required columns must be non-null.
+
+    :param row: single academy/school data
+    :return: whether the row is sufficiently populated
+    """
+    columns = [
+        "Number of pupils",
+        "Percentage Free school meals",
+    ]
+
+    if row["SchoolPhaseType"].lower() == "special":
+        columns += [
+            "Percentage Primary Need SPLD",
+            "Percentage Primary Need MLD",
+            "Percentage Primary Need PMLD",
+            "Percentage Primary Need SEMH",
+            "Percentage Primary Need SLCN",
+            "Percentage Primary Need HI",
+            "Percentage Primary Need MSI",
+            "Percentage Primary Need PD",
+            "Percentage Primary Need ASD",
+            "Percentage Primary Need OTH",
+        ]
+    else:
+        columns += ["Percentage SEN"]
+
+    return ~row[columns].isna().any()
+
+
 def map_has_pupil_comparator_data(df: pd.DataFrame) -> pd.DataFrame:
     """
     Whether the data is sufficiently populated to create a pupil
@@ -13,13 +48,7 @@ def map_has_pupil_comparator_data(df: pd.DataFrame) -> pd.DataFrame:
     :param df: academy/school data
     :return: updated DataFrame
     """
-    pupil_comparator_columns = list(
-        set(list(config.census_column_map.values()) + config.sen_generated_columns)
-    )
-
-    df["Pupil Comparator Data Present"] = (
-        ~df[pupil_comparator_columns].isna().all(axis=1)
-    )
+    df["Pupil Comparator Data Present"] = df.apply(_has_pupil_comparator_data, axis=1)
 
     return df
 
