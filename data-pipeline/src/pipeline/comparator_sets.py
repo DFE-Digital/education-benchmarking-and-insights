@@ -6,56 +6,6 @@ import pandas as pd
 logger = logging.getLogger("fbit-data-pipeline")
 
 
-# TODO: This should be moved to pre-processing really
-def fillna_median(data):
-    return data.fillna(data.median())
-
-
-def prepare_data(data):
-    data["Boarders (name)"] = data["Boarders (name)"].map(
-        lambda x: "Not Boarding" if x == "Unknown" else x
-    )
-    data["Number of pupils"] = fillna_median(data["Number of pupils"])
-    data["Percentage Free school meals"] = fillna_median(
-        data["Percentage Free school meals"]
-    )
-    data["Percentage SEN"] = fillna_median(data["Percentage SEN"])
-    data["Percentage Primary Need SPLD"] = fillna_median(
-        data["Percentage Primary Need SPLD"]
-    )
-    data["Percentage Primary Need MLD"] = fillna_median(
-        data["Percentage Primary Need MLD"]
-    )
-    data["Percentage Primary Need PMLD"] = fillna_median(
-        data["Percentage Primary Need PMLD"]
-    )
-    data["Percentage Primary Need SEMH"] = fillna_median(
-        data["Percentage Primary Need SEMH"]
-    )
-    data["Percentage Primary Need SLCN"] = fillna_median(
-        data["Percentage Primary Need SLCN"]
-    )
-    data["Percentage Primary Need HI"] = fillna_median(
-        data["Percentage Primary Need HI"]
-    )
-    data["Percentage Primary Need MSI"] = fillna_median(
-        data["Percentage Primary Need MSI"]
-    )
-    data["Percentage Primary Need PD"] = fillna_median(
-        data["Percentage Primary Need PD"]
-    )
-    data["Percentage Primary Need ASD"] = fillna_median(
-        data["Percentage Primary Need ASD"]
-    )
-    data["Percentage Primary Need OTH"] = fillna_median(
-        data["Percentage Primary Need OTH"]
-    )
-    data["Total Internal Floor Area"] = fillna_median(data["Total Internal Floor Area"])
-    data["Age Average Score"] = fillna_median(data["Age Average Score"])
-
-    return data.sort_index()
-
-
 def _delta_range_ratio(input: np.array) -> np.array:
     """
     Calculate the ratio of input delta to its range.

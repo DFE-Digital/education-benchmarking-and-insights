@@ -3,7 +3,6 @@ import pathlib
 import pandas as pd
 import pytest
 
-from pipeline.comparator_sets import prepare_data
 from pipeline.rag import compute_user_defined_rag
 
 msg_payload = {
@@ -60,7 +59,7 @@ def test_run_user_defined_rag():
     all_schools = (
         pathlib.Path(__file__).parent.parent.parent.parent / "all_schools.parquet"
     )
-    all_schools = prepare_data(pd.read_parquet(all_schools))
+    all_schools = pd.read_parquet(all_schools)
 
     result = list(
         compute_user_defined_rag(
