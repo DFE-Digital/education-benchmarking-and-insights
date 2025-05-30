@@ -3,6 +3,33 @@ import pytest
 
 from pipeline.pre_processing.ancillary import ilr
 
+# TODO: these do not factor into comparator-sets and should be removed.
+_extraneous_columns = [
+    "NonClassroomSupportStaffFTE",
+    "NonClassroomSupportStaffHeadcount",
+    "Percentage Primary Need SLD",
+    "Percentage Primary Need SPLD",
+    "Percentage Primary Need VI",
+    "Percentage Primary Need PD",
+    "EHC plan",
+    "Percentage Primary Need SLCN",
+    "Percentage Primary Need OTH",
+    "Percentage with EHC",
+    "Percentage Primary Need ASD",
+    "Percentage Primary Need SEMH",
+    "Percentage without EHC",
+    "Percentage Primary Need PMLD",
+    "Percentage Primary Need HI",
+    "Percentage Primary Need MLD",
+    "Number of pupils (headcount)",
+    "Percentage Primary Need MSI",
+    "SEN support",
+]
+
+
+def _add_extraneous_columns(count: int) -> dict:
+    return {column: [pd.NA] * count for column in _extraneous_columns}
+
 
 @pytest.fixture
 def df_with_missing():
@@ -19,7 +46,8 @@ def df_with_missing():
             "Number of pupils": [100, pd.NA, 500, pd.NA, 200, 300],
             "Percentage Free school meals": [10.5, pd.NA, 15.0, 20.0, pd.NA, 5.0],
             "Percentage SEN": [2.0, 3.5, pd.NA, pd.NA, 4.0, 1.0],
-        },
+        }
+        | _add_extraneous_columns(6),
         index=pd.Index([101, 102, 103, 104, 105, 106], name="URN"),
     )
 
@@ -39,6 +67,7 @@ def ilr_data():
             "Percentage Free school meals": [12.0, 18.0, 22.0, 10.0],
             "Percentage SEN": [2.5, 3.0, 4.5, 5.0],
         }
+        | _add_extraneous_columns(4)
     )
 
 
