@@ -151,12 +151,19 @@ To run the pipeline locally, follow these steps:
     sqlcmd -S tcp:127.0.0.1,1433 -U sa -P 'mystrong!Pa55word' -Q 'CREATE DATABASE data;'
     ```
 
-    Then, apply migration scripts using the [core-infrastructure project](../core-infrastructure/README.md) to set up the required tables.
-
-    Set the following program arguments to target this instance:
+    The C# project to run the db migrations uses .NET SDK 8, so download it if you've not got it:
 
     ```sh
-    -c "Server=localhost,1433;Database=data;User Id=SA;Password=mystrong!Pa55word;Encrypt=False;
+    # Download .NET SDK 8 on mac
+    brew install dotnet@8
+    brew link --overwrite dotnet@8
+    dotnet --list-sdks
+    ```
+
+    Apply the db migration scripts using the [core-infrastructure project](../core-infrastructure/README.md) to set up the required tables:
+
+    ```sh
+    dotnet run -- -c "Server=localhost,1433;Database=data;User Id=SA;Password=mystrong\!Pa55word;Encrypt=False;"
     ```
 
 4. Create an `.env` file:
@@ -186,7 +193,7 @@ To run the pipeline locally, follow these steps:
     poetry run python -m pipeline.main
     ```
 
-    Once the pipeline is running, start processing files placed in the `raw` container by adding the following message to the `data-pipeline-job-default-start` queue:
+    Once the pipeline is running, start processing files placed in the `raw` container by adding the following message to the `data-pipeline-job-default-start` queue as UTF-8:
 
     ```json
     {
