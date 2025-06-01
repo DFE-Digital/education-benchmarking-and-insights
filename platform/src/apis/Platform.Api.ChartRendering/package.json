@@ -42,7 +42,7 @@
     "jest-junit": "^16.0.0",
     "prettier": "^3.5.3",
     "rimraf": "^6.0.1",
-    "swagger-ui-dist": "^5.21.0",
+    "swagger-ui-dist": "^5.22.0",
     "ts-jest": "^29.3.2",
     "ts-oas": "^0.5.1",
     "tsc-alias": "^1.8.16",
