@@ -9,7 +9,7 @@
     "file-saver": "^2.0.5",
     "front-end": "^1.1.0",
     "govuk-frontend": "^5.7.0",
-    "html-to-image": "1.11.11",
+    "html-to-image": "1.11.13",
     "jszip": "^3.10.1",
     "lodash.debounce": "^4.0.8",
     "pinia": "^3.0.1",
