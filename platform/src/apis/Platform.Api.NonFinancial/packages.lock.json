@@ -93,12 +93,12 @@
       },
       "Microsoft.Azure.Functions.Worker.Sdk": {
         "type": "Direct",
-        "requested": "[2.0.2, )",
-        "resolved": "2.0.2",
-        "contentHash": "aqgGbPHUwIYb83Y8u5GAy4C02WxKbFMvO1457okqfkyyhcUNcO9Hb8hxGDkXEXEh4F6HtmsjGYnIad2LaQmo9Q==",
+        "requested": "[2.0.4, )",
+        "resolved": "2.0.4",
+        "contentHash": "gnHCJBvo3hEfrsfNmEGI8jbZpSOj1QqDoekT5Yjo4wLS4MONlix18lq+DTxW8AXJCeXyA9I1KYJM2E9V9RFjvA==",
         "dependencies": {
           "Microsoft.Azure.Functions.Worker.Sdk.Analyzers": "1.2.2",
-          "Microsoft.Azure.Functions.Worker.Sdk.Generators": "1.3.4"
+          "Microsoft.Azure.Functions.Worker.Sdk.Generators": "1.3.5"
         }
       },
       "Azure.Core": {
@@ -463,8 +463,8 @@
       },
       "Microsoft.Azure.Functions.Worker.Sdk.Generators": {
         "type": "Transitive",
-        "resolved": "1.3.4",
-        "contentHash": "viNRmVxE5Woviu/kQem3M6qujauuRjbgGbnrrYvXNVdck2opsmhcpr8DfZx9hWzkImsAxLUBy9UTVsaeLCX/yw=="
+        "resolved": "1.3.5",
+        "contentHash": "lq0D0xjO4rQvIePxtTjgiSiGRpCl7HVvPSBSwsRG62YVRY9kbfDPb4ANnP/zxjtuTvER0QCtZoECbbsIzFF7Ow=="
       },
       "Microsoft.Azure.WebJobs.Core": {
         "type": "Transitive",
