@@ -141,5 +141,23 @@ ORDER BY [URN], [Year]
 Ensure the `PivotTables` sheet has updated and then copy the values into the relevant section in `Summary`.
 Also update the totals from the fourth PivotTable in the same `Summary` section.
 
+## SFB Decommissioning
+
+On `p01` Log Analytics workspace, run the following query to cover whole of the year up to the end of the last month:
+
+```kql
+let time_start = startofmonth(datetime(now), -12); 
+let time_end = endofmonth(datetime(now), -1);
+GetSfbReferrerRequests
+| where
+    TimeGenerated between (time_start .. time_end)
+| project 
+    TimeGenerated, 
+    IsDeepLink
+| summarize 
+    Visits=count()
+    by IsDeepLink
+```
+
 <!-- Leave the rest of this page blank -->
 \newpage
