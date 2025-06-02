@@ -56,3 +56,18 @@ resource "azurerm_windows_web_app" "redirect" {
     "APPLICATIONINSIGHTS_CONNECTION_STRING" = data.azurerm_application_insights.application-insights.connection_string
   }
 }
+
+resource "azurerm_monitor_diagnostic_setting" "redirect-diagnostics" {
+  count                      = var.configuration[var.environment].redirect_app_service ? 1 : 0
+  name                       = "${var.environment-prefix}-redirect-diagnostics"
+  target_resource_id         = azurerm_windows_web_app.redirect[0].id
+  log_analytics_workspace_id = data.azurerm_log_analytics_workspace.application-insights-workspace.id
+
+  enabled_log {
+    category = "AppServiceHTTPLogs"
+  }
+
+  enabled_log {
+    category = "AppServiceAppLogs"
+  }
+}
