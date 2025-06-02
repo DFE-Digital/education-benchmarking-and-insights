@@ -1,0 +1,12 @@
+let sfb = "https://schools-financial-benchmarking.service.gov.uk";
+AzureDiagnostics
+| where isempty(action_s)
+| where referer_s startswith sfb
+| project
+    TimeGenerated,
+    Method = httpMethod_s,
+    Uri = requestUri_s,
+    Referrer = referer_s,
+    UserAgent = userAgent_s,
+    IsBrowser = userAgent_s startswith "Mozilla" or userAgent_s startswith "\"Google Chrome\"",
+    IsDeepLink = strlen(referer_s) > strlen(sfb) + 1
