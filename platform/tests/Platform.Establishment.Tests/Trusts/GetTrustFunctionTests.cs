@@ -2,6 +2,7 @@ using System.Net;
 using AutoFixture;
 using Moq;
 using Platform.Api.Establishment.Features.Trusts;
+using Platform.Api.Establishment.Features.Trusts.Functions;
 using Platform.Api.Establishment.Features.Trusts.Models;
 using Platform.Api.Establishment.Features.Trusts.Services;
 using Platform.Functions;

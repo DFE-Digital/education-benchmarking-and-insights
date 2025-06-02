@@ -9,6 +9,14 @@ namespace Platform.Functions.Extensions;
 [ExcludeFromCodeCoverage]
 public static class HttpRequestDataExtensions
 {
+    
+    public static string? ReadVersion(this HttpRequestData request)
+    {
+        return request.Headers.TryGetValues(Constants.ApiVersion, out var values) 
+            ? values.FirstOrDefault() 
+            : null;
+    }
+    
     public static Guid GetCorrelationId(this HttpRequestData req)
     {
         if (req.Headers.TryGetValues(Constants.CorrelationIdHeader, out var values))
@@ -67,6 +75,12 @@ public static class HttpRequestDataExtensions
         return response;
     }
 
+    public static async Task<HttpResponseData> CreateUnsupportedVersionResponseAsync(this HttpRequestData request)
+    {
+        const string text = "Unsupported API version";
+        return await request.CreateObjectResponseAsync(text, HttpStatusCode.BadRequest);
+    }
+    
     public static async Task<HttpResponseData> CreateObjectResponseAsync(
         this HttpRequestData req,
         object obj,
