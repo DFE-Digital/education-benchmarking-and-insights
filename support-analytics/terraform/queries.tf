@@ -604,3 +604,14 @@ resource "azurerm_log_analytics_query_pack_query" "search-results" {
     establishmentType = each.key
   })
 }
+
+resource "azurerm_log_analytics_saved_search" "get-sfb-referrer-requests" {
+  name                       = "GetSfbReferrerRequests"
+  log_analytics_workspace_id = data.azurerm_log_analytics_workspace.application-insights-workspace.id
+  category                   = "Function"
+  display_name               = "GetSfbReferrerRequests"
+  function_alias             = "GetSfbReferrerRequests"
+  tags                       = local.query-tags
+
+  query = file("${path.module}/queries/functions/get-sfb-referrer-requests.kql")
+}
