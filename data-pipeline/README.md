@@ -151,7 +151,7 @@ To run the pipeline locally, follow these steps:
     sqlcmd -S tcp:127.0.0.1,1433 -U sa -P 'mystrong!Pa55word' -Q 'CREATE DATABASE data;'
     ```
 
-    The C# project to run the db migrations uses .NET SDK 8, so download it if you've not got it:
+    The C# project to run the db migrations uses .NET SDK 8. MacOS users can install it with homebrew:
 
     ```sh
     # Download .NET SDK 8 on mac
