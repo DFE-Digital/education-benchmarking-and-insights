@@ -13,10 +13,17 @@ def _delta_range_ratio(input: np.array) -> np.array:
     Determine the matrix of absolute differences between all
     combinations in the input, divided by the range of the input.
 
+    Note:
+
+    - any `pandas.NA` values must be converted to `np.nan`
+    - any `np.nan` must be ignored in the range calculation
+
     :param input: array of data
     :return: the ratio of the delta to the data range
     """
-    input_range = np.ptp(input)
+    input = np.array([np.nan if pd.isna(i) else i for i in input], dtype="float64")
+
+    input_range = np.ptp(input[~np.isnan(input)])
 
     input_column_vector = input[:, None]
     input_row_vector = input[None, :]
