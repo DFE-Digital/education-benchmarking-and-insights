@@ -2,6 +2,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Net;
 using System.Text;
 using FluentValidation.Results;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.Functions.Worker.Http;
 
 namespace Platform.Functions.Extensions;
@@ -74,11 +75,20 @@ public static class HttpRequestDataExtensions
         await response.WriteAsJsonAsync(obj, cancellationToken);
         return response;
     }
-
-    public static async Task<HttpResponseData> CreateUnsupportedVersionResponseAsync(this HttpRequestData request)
+    
+    public static async Task<HttpResponseData> CreateUnsupportedVersionResponseAsync(this HttpRequestData request, CancellationToken cancellationToken = default)
     {
-        const string text = "Unsupported API version";
-        return await request.CreateObjectResponseAsync(text, HttpStatusCode.BadRequest);
+        var problem = new ProblemDetails
+        {
+            Title = "Unsupported API version",
+            Status = (int)HttpStatusCode.BadRequest,
+            Detail = "The API version specified in the 'x-api-version' header is not supported.",
+            Instance = request.Url.AbsolutePath
+        };
+
+        var response = request.CreateResponse(HttpStatusCode.BadRequest);
+        await response.WriteAsJsonAsync(problem, ContentType.ApplicationJsonProblem, cancellationToken);
+        return response;
     }
     
     public static async Task<HttpResponseData> CreateObjectResponseAsync(

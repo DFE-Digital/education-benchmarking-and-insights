@@ -1,6 +1,7 @@
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Attributes;
@@ -19,7 +20,7 @@ public class GetTrustFunction(IVersionedHandlerDispatcher<IGetTrustHandler> disp
     [OpenApiOperation(nameof(GetTrustFunction), Constants.Features.Trusts)]
     [OpenApiParameter("identifier", Type = typeof(string), Required = true)]
     [OpenApiResponseWithBody(HttpStatusCode.OK, ContentType.ApplicationJson, typeof(Trust))]
-    [OpenApiResponseWithBody(HttpStatusCode.BadRequest, ContentType.TextPlain, typeof(string))]
+    [OpenApiResponseWithBody(HttpStatusCode.BadRequest, ContentType.ApplicationJsonProblem, typeof(ProblemDetails))]
     [OpenApiResponseWithoutBody(HttpStatusCode.NotFound)]
     public async Task<HttpResponseData> RunAsync(
         [HttpTrigger(AuthorizationLevel.Admin, MethodType.Get, Route = Routes.Trust)] HttpRequestData req,
@@ -31,7 +32,7 @@ public class GetTrustFunction(IVersionedHandlerDispatcher<IGetTrustHandler> disp
 
         if (handler == null)
         {
-            return await req.CreateUnsupportedVersionResponseAsync();
+            return await req.CreateUnsupportedVersionResponseAsync(cancellationToken);
         }
 
         return await handler.HandleAsync(req, identifier, cancellationToken);
