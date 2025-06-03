@@ -1,13 +1,11 @@
 ﻿namespace Platform.Functions;
 
-public interface IVersionedHandlerDispatcher<out THandler>
-    where THandler : class, IVersionedHandler
+public interface IVersionedHandlerDispatcher<out THandler> where THandler : class, IVersionedHandler
 {
     THandler? GetHandler(string? version);
 }
 
-public class VersionedHandlerDispatcher<THandler> : IVersionedHandlerDispatcher<THandler>
-    where THandler : class, IVersionedHandler
+public class VersionedHandlerDispatcher<THandler> : IVersionedHandlerDispatcher<THandler> where THandler : class, IVersionedHandler
 {
     private readonly Dictionary<string, THandler> _handlers;
     private readonly THandler? _latestHandler;

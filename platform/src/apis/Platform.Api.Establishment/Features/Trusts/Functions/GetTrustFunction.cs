@@ -13,7 +13,7 @@ using Platform.Functions.OpenApi;
 
 namespace Platform.Api.Establishment.Features.Trusts.Functions;
 
-public class GetTrustFunction(IVersionedHandlerDispatcher<IGetTrustHandler> dispatcher) : VersionedFunctionBase<IGetTrustHandler, string>(dispatcher)
+public class GetTrustFunction(IVersionedHandlerDispatcher<IGetTrustHandler> dispatcher) : VersionedFunctionBase<IGetTrustHandler>(dispatcher)
 {
     [Function(nameof(GetTrustFunction))]
     [OpenApiSecurityHeader]
@@ -26,8 +26,12 @@ public class GetTrustFunction(IVersionedHandlerDispatcher<IGetTrustHandler> disp
     public Task<HttpResponseData> RunAsync(
         [HttpTrigger(AuthorizationLevel.Admin, MethodType.Get, Route = Routes.Trust)] HttpRequestData req,
         string identifier,
-        CancellationToken cancellationToken = default)
+        CancellationToken token = default)
     {
-        return HandleAsync(req, identifier, (h, r, i, t) => h.HandleAsync(r, i, t), cancellationToken);
+        
+        return WithHandlerAsync(
+            req,
+            handler => handler.HandleAsync(req, identifier, token),
+            token);
     }
 }

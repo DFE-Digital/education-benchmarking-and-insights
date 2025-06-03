@@ -9,19 +9,19 @@ namespace Platform.Api.Establishment.Features.Trusts.Handlers;
 
 public interface IGetTrustHandler : IVersionedHandler
 {
-    Task<HttpResponseData> HandleAsync(HttpRequestData request, string identifier, CancellationToken cancellationToken);
+    Task<HttpResponseData> HandleAsync(HttpRequestData request, string identifier, CancellationToken token);
 }
 
 public class GetTrustV1Handler(ITrustsService service) : IGetTrustHandler
 {
     public string Version => "1.0";
 
-    public async Task<HttpResponseData> HandleAsync(HttpRequestData request, string identifier, CancellationToken cancellationToken)
+    public async Task<HttpResponseData> HandleAsync(HttpRequestData request, string identifier, CancellationToken token)
     {
-        var response = await service.GetAsync(identifier, cancellationToken);
+        var response = await service.GetAsync(identifier, token);
 
         return response == null
             ? request.CreateNotFoundResponse()
-            : await request.CreateJsonResponseAsync(response, cancellationToken);
+            : await request.CreateJsonResponseAsync(response, token);
     }
 }
