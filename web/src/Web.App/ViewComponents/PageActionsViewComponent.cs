@@ -6,8 +6,7 @@ namespace Web.App.ViewComponents;
 public class PageActionsViewComponent : ViewComponent
 {
     public IViewComponentResult Invoke(
-        bool? saveButtonVisible,
-        bool? downloadButtonVisible,
+        PageActions[]? actions,
         string? saveClassName,
         string? saveFileName,
         string? saveTitleAttr,
@@ -16,8 +15,7 @@ public class PageActionsViewComponent : ViewComponent
         string? downloadLink)
     {
         return View(new PageActionsViewModel(
-            saveButtonVisible,
-            downloadButtonVisible,
+            actions,
             saveClassName,
             saveFileName,
             saveTitleAttr,
