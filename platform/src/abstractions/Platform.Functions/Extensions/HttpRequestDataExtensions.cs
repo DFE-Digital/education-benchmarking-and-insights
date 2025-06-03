@@ -10,14 +10,14 @@ namespace Platform.Functions.Extensions;
 [ExcludeFromCodeCoverage]
 public static class HttpRequestDataExtensions
 {
-    
+
     public static string? ReadVersion(this HttpRequestData request)
     {
-        return request.Headers.TryGetValues(Constants.ApiVersion, out var values) 
-            ? values.FirstOrDefault() 
+        return request.Headers.TryGetValues(Constants.ApiVersion, out var values)
+            ? values.FirstOrDefault()
             : null;
     }
-    
+
     public static Guid GetCorrelationId(this HttpRequestData req)
     {
         if (req.Headers.TryGetValues(Constants.CorrelationIdHeader, out var values))
@@ -75,7 +75,7 @@ public static class HttpRequestDataExtensions
         await response.WriteAsJsonAsync(obj, cancellationToken);
         return response;
     }
-    
+
     public static async Task<HttpResponseData> CreateUnsupportedVersionResponseAsync(this HttpRequestData request, CancellationToken cancellationToken = default)
     {
         var problem = new ProblemDetails
@@ -90,7 +90,7 @@ public static class HttpRequestDataExtensions
         await response.WriteAsJsonAsync(problem, ContentType.ApplicationJsonProblem, cancellationToken);
         return response;
     }
-    
+
     public static async Task<HttpResponseData> CreateObjectResponseAsync(
         this HttpRequestData req,
         object obj,

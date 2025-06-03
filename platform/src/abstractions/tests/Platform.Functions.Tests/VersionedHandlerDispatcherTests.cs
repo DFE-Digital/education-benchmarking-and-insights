@@ -39,9 +39,9 @@ public class VersionedHandlerDispatcherTests
         var v1 = new TestHandler("1.0");
         var v2 = new TestHandler("2.0");
         var dispatcher = new VersionedHandlerDispatcher<TestHandler>([v1, v2]);
-        
+
         var result = dispatcher.GetHandler(null);
-        
+
         Assert.NotNull(result);
         Assert.Equal("2.0", result.Version);
     }
@@ -52,9 +52,9 @@ public class VersionedHandlerDispatcherTests
         var v1 = new TestHandler("1.0");
         var v3 = new TestHandler("3.0");
         var dispatcher = new VersionedHandlerDispatcher<TestHandler>([v1, v3]);
-        
+
         var result = dispatcher.GetHandler("");
-        
+
         Assert.NotNull(result);
         Assert.Equal("3.0", result.Version);
     }
@@ -71,9 +71,9 @@ public class VersionedHandlerDispatcherTests
         };
 
         var dispatcher = new VersionedHandlerDispatcher<TestHandler>(handlers);
-        
+
         var latest = dispatcher.GetHandler(null);
-        
+
         Assert.NotNull(latest);
         Assert.Equal("2.0", latest.Version);
     }

@@ -15,7 +15,7 @@ public class VersionedHandlerDispatcher<THandler> : IVersionedHandlerDispatcher<
     public VersionedHandlerDispatcher(IEnumerable<THandler> handlers)
     {
         var versionedHandlers = handlers as THandler[] ?? handlers.ToArray();
-        
+
         _handlers = versionedHandlers.ToDictionary(h => h.Version);
         _latestHandler = versionedHandlers
             .OrderByDescending(h => Version.Parse(h.Version))
@@ -29,8 +29,8 @@ public class VersionedHandlerDispatcher<THandler> : IVersionedHandlerDispatcher<
             return _latestHandler;
         }
 
-        return _handlers.TryGetValue(version, out var handler) 
-            ? handler 
+        return _handlers.TryGetValue(version, out var handler)
+            ? handler
             : null;
     }
 }

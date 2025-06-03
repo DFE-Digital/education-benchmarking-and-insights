@@ -18,9 +18,9 @@ public class WhenHttpRequestDataCreateUnsupportedVersion
         Assert.Equal(HttpStatusCode.BadRequest, result.StatusCode);
         Assert.True(result.Headers.TryGetValues("Content-Type", out var contentType));
         Assert.Contains("application/problem+json", contentType);
-        
+
         result.Body.Position = 0;
-        
+
         var problem = await JsonSerializer.DeserializeAsync<ProblemDetails>(result.Body, new JsonSerializerOptions
         {
             PropertyNameCaseInsensitive = true
