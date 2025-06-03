@@ -75,7 +75,7 @@ public static class HttpRequestDataExtensions
         await response.WriteAsJsonAsync(obj, cancellationToken);
         return response;
     }
-    
+
     public static async Task<HttpResponseData> CreateJsonResponseAsync(
         this HttpRequestData req,
         object obj,
