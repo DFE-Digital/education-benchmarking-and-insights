@@ -26,6 +26,7 @@
 
         var schoolData = cost?.Data?.SingleOrDefault(d => d.Urn == Model.Urn);
         var chartStats = category == null ? null : SchoolSpendingViewModel.Stats(category.Rating);
+        var unit = category == null ? null : Lookups.CategoryUnitMap[category.Rating.Category ?? string.Empty];
 
         var uuid = Guid.NewGuid();
 
@@ -109,47 +110,28 @@
                     </div>
 
                     <div class="chart-stat-summary govuk-!-margin-bottom-5">
-                        <div class="chart-stat-highlight chart-stat-wrapper" aria-label="This school spends"
-                             role="note">
-                            <div class="chart-stat-label">This school spends</div>
-                            <div class="chart-stat-value">
-                                <span>@schoolData?.Amount.ToCurrency(0)</span>
-                            </div>
-                            <div class="chart-stat-suffix">
-                                <span class="govuk-body-s">per pupil</span>
-                            </div>
-                        </div>
-                        <div class="chart-stat-wrapper" aria-label="Similar schools spend" role="note">
-                            <div class="chart-stat-label">Similar schools spend</div>
-                            <div class="chart-stat-value">
-                                <span>@chartStats?.Average.ToCurrency(0)</span>
-                            </div>
-                            <div class="chart-stat-suffix">
-                                <span class="govuk-body-s">per pupil, on average</span>
-                            </div>
-                        </div>
+                        @await Html.PartialAsync("_ChartStat", new ChartStatViewModel
+                        {
+                            Label = "This school spends",
+                            Value = schoolData?.Amount.ToCurrency(0),
+                            Suffix = unit,
+                            Highlight = true
+                        })
+                        @await Html.PartialAsync("_ChartStat", new ChartStatViewModel
+                        {
+                            Label = "Similar schools spend",
+                            Value = chartStats?.Average.ToCurrency(0),
+                            Suffix = $"{unit}, on average"
+                        })
                         @if (chartStats?.Difference != null)
                         {
-                            <div class="chart-stat-wrapper" aria-label="This school spends" role="note">
-                                <div class="chart-stat-label">This school spends</div>
-                                <div class="chart-stat-value">
-                                    <span>@Math.Abs(chartStats.Difference.Value).ToCurrency(0)</span>
-                                    @if (chartStats.PercentDifference != null)
-                                    {
-                                        <span class="chart-stat-value-suffix">
-                                            (@Math.Abs(chartStats.PercentDifference.Value).ToString("F1")%)
-                                        </span>
-                                    }
-                                </div>
-                                <div class="chart-stat-suffix">
-                                    <span class="govuk-body-s">
-                                        <span>
-                                            <strong>@(chartStats.Difference < 0 ? "less" : "more")</strong> 
-                                            per pupil
-                                        </span>
-                                    </span>
-                                </div>
-                            </div>
+                            @await Html.PartialAsync("_ChartStat", new ChartStatViewModel
+                            {
+                                Label = "This school spends",
+                                Value = Math.Abs(chartStats.Difference.Value).ToCurrency(0),
+                                ValueSuffix = chartStats.PercentDifference != null ? $"({Math.Abs(chartStats.PercentDifference.Value):F1}%)" : null,
+                                Suffix = $"<strong>{(chartStats.Difference < 0 ? "less" : "more")}</strong> {unit}"
+                            })
                         }
                     </div>
 
