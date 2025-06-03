@@ -1,5 +1,4 @@
 ﻿using Web.App.Domain;
-using Web.App.Services;
 using Web.App.ViewComponents;
 
 namespace Web.App.ViewModels.Components;
@@ -15,7 +14,7 @@ public class SchoolSpendingCostsViewModel(
 {
     public List<SchoolSpendingCostsViewModelCostCategory<PriorityCostCategoryDatum>> Costs => categories;
     public string? Id => id;
-    public string? Urn => urn;
+    public string Urn => urn;
     public bool HasIncompleteData => hasIncompleteData;
     public bool IsCustomData => isCustomData;
     public bool IsPartOfTrust => isPartOfTrust;

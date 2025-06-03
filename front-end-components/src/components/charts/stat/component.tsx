@@ -1,7 +1,6 @@
 import { StatProps } from "src/components/charts/stat";
 import { ChartDataSeries } from "src/components";
 import classNames from "classnames";
-import "./styles.scss";
 
 export function Stat<TData extends ChartDataSeries>({
   chartTitle,

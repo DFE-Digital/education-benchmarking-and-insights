@@ -731,3 +731,75 @@ table#current-comparators-la {
     height: auto;
   }
 }
+
+.chart-stat-wrapper {
+  margin-top: govuk-spacing(2);
+
+  .chart-stat-label {
+    @include govuk-font(16);
+  }
+
+  .chart-stat-value {
+    margin-top: govuk-spacing(1);
+    @include govuk-font(24, bold);
+  }
+
+  &.chart-stat-wrapper__small {
+    .chart-stat-label {
+      font-size: 0.9rem;
+    }
+
+    .chart-stat-value {
+      margin-top: govuk-spacing(0);
+    }
+  }
+}
+
+.chart-stat-summary {
+  display: grid;
+  grid-template-columns: calc(calc(100% - 30px) / 3) calc(calc(100% - 30px) / 3) calc(
+      calc(100% - 30px) / 3
+    );
+  margin-top: govuk-spacing(3);
+  padding: govuk-spacing(0);
+  gap: govuk-spacing(3);
+  width: 100%;
+
+  .chart-stat-wrapper {
+    background-color: $grid-colour-light;
+    padding: govuk-spacing(2);
+
+    .chart-stat-value {
+      margin-top: 0.1rem;
+      margin-bottom: 0.1rem;
+      overflow-wrap: break-word;
+
+      .chart-stat-value-suffix {
+        margin-left: govuk-spacing(1);
+        font-size: 0.8rem;
+      }
+    }
+
+    .govuk-body-s,
+    .govuk-body-m,
+    .govuk-body-l {
+      color: inherit;
+    }
+
+    &.chart-stat-line-chart .chart-stat-value {
+      color: $series-highlight-colour;
+    }
+
+    &.chart-stat-highlight {
+      color: $series-highlight-colour;
+
+      .chart-stat-value {
+        font-weight: 700;
+      }
+    }
+  }
+}
+
+.chart-stat-title {
+  @include govuk-font(16);
+}
