@@ -24,6 +24,9 @@
             .Where(x => !string.IsNullOrWhiteSpace(x))
             .ToList() ?? [];
 
+        var schoolData = cost?.Data?.SingleOrDefault(d => d.Urn == Model.Urn);
+        var chartStats = category == null ? null : SchoolSpendingViewModel.Stats(category.Rating);
+
         var uuid = Guid.NewGuid();
 
         <section id="spending-priorities-@category?.Rating.CostCategoryAnchorId">
@@ -105,6 +108,51 @@
                         }
                     </div>
 
+                    <div class="chart-stat-summary govuk-!-margin-bottom-5">
+                        <div class="chart-stat-highlight chart-stat-wrapper" aria-label="This school spends"
+                             role="note">
+                            <div class="chart-stat-label">This school spends</div>
+                            <div class="chart-stat-value">
+                                <span>@schoolData?.Amount.ToCurrency(0)</span>
+                            </div>
+                            <div class="chart-stat-suffix">
+                                <span class="govuk-body-s">per pupil</span>
+                            </div>
+                        </div>
+                        <div class="chart-stat-wrapper" aria-label="Similar schools spend" role="note">
+                            <div class="chart-stat-label">Similar schools spend</div>
+                            <div class="chart-stat-value">
+                                <span>@chartStats?.Average.ToCurrency(0)</span>
+                            </div>
+                            <div class="chart-stat-suffix">
+                                <span class="govuk-body-s">per pupil, on average</span>
+                            </div>
+                        </div>
+                        @if (chartStats?.Difference != null)
+                        {
+                            <div class="chart-stat-wrapper" aria-label="This school spends" role="note">
+                                <div class="chart-stat-label">This school spends</div>
+                                <div class="chart-stat-value">
+                                    <span>@Math.Abs(chartStats.Difference.Value).ToCurrency(0)</span>
+                                    @if (chartStats.PercentDifference != null)
+                                    {
+                                        <span class="chart-stat-value-suffix">
+                                            (@Math.Abs(chartStats.PercentDifference.Value).ToString("F1")%)
+                                        </span>
+                                    }
+                                </div>
+                                <div class="chart-stat-suffix">
+                                    <span class="govuk-body-s">
+                                        <span>
+                                            <strong>@(chartStats.Difference < 0 ? "less" : "more")</strong> 
+                                            per pupil
+                                        </span>
+                                    </span>
+                                </div>
+                            </div>
+                        }
+                    </div>
+
                     @{
                         var subCategories = category?.SubCategories ?? [];
                     }
@@ -145,14 +193,14 @@
                             <h4 class="govuk-heading-s">
                                 Find ways to spend less
                             </h4>
-                            
+
                             @await Component.InvokeAsync("CommercialResource", new
                             {
                                 section = heading,
                                 links = resources,
                                 displayHeading = false
                             })
-      
+
                         </div>
                     }
                 </div>

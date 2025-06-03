@@ -26,10 +26,10 @@ export default class VerticalBarChartBuilder {
     const d3 = await _d3;
 
     // Declare the chart dimensions and margins.
-    const marginTop = 5;
-    const marginRight = 5;
-    const marginBottom = 5;
-    const marginLeft = 5;
+    const marginTop = 20;
+    const marginRight = 3;
+    const marginBottom = 0;
+    const marginLeft = 3;
 
     // Declare the x (horizontal position) scale.
     const x = d3
