@@ -1,0 +1,28 @@
+@model Web.App.ViewModels.ChartStatViewModel
+
+@if (string.IsNullOrWhiteSpace(Model.Value))
+{
+    return;
+}
+
+<div class="@(Model.Highlight == true ? "chart-stat-highlight " : string.Empty) chart-stat-wrapper"
+     aria-label="@Model.Label" role="note">
+    <div class="chart-stat-label">@Model.Label</div>
+    <div class="chart-stat-value">
+        <span>@Model.Value</span>
+        @if (!string.IsNullOrWhiteSpace(Model.ValueSuffix))
+        {
+            <span class="chart-stat-value-suffix">
+                @Model.ValueSuffix
+            </span>
+        }
+    </div>
+    @if (!string.IsNullOrWhiteSpace(Model.Suffix))
+    {
+        <div class="chart-stat-suffix">
+            <span class="govuk-body-s">
+                @Html.Raw(Model.Suffix)
+            </span>
+        </div>
+    }
+</div>
