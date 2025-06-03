@@ -11,9 +11,11 @@ namespace Platform.Test.Mocks;
 
 public abstract class MockHttpRequestData
 {
-    public static HttpRequestData Create(Dictionary<string, StringValues>? query = null) => Create<string>("", query);
 
-    public static HttpRequestData Create<T>(T requestData, Dictionary<string, StringValues>? query = null) where T : class
+
+    public static HttpRequestData Create(Dictionary<string, StringValues>? query = null, HttpHeadersCollection? headers = null) => Create<string>("", query, headers);
+
+    public static HttpRequestData Create<T>(T requestData, Dictionary<string, StringValues>? query = null, HttpHeadersCollection? headers = null) where T : class
     {
         var serviceCollection = new ServiceCollection();
         serviceCollection.AddFunctionsWorkerDefaults();
@@ -39,7 +41,7 @@ public abstract class MockHttpRequestData
         var request = new Mock<HttpRequestData>(context.Object);
         request.Setup(r => r.Url).Returns(new Uri("http://localhost"));
         request.Setup(r => r.Body).Returns(bodyDataStream);
-        request.Setup(r => r.Headers).Returns([]);
+        request.Setup(r => r.Headers).Returns(headers ?? []);
         request.Setup(r => r.Query).Returns(queryCollection);
         request.Setup(r => r.CreateResponse()).Returns(new MockHttpResponseData(context.Object));
 

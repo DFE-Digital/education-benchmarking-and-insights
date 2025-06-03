@@ -30,11 +30,8 @@ public class GetTrustFunction(IVersionedHandlerDispatcher<IGetTrustHandler> disp
         var version = req.ReadVersion();
         var handler = dispatcher.GetHandler(version);
 
-        if (handler == null)
-        {
-            return await req.CreateUnsupportedVersionResponseAsync(cancellationToken);
-        }
-
-        return await handler.HandleAsync(req, identifier, cancellationToken);
+        return handler == null
+            ? await req.CreateUnsupportedVersionResponseAsync(cancellationToken)
+            : await handler.HandleAsync(req, identifier, cancellationToken);
     }
 }

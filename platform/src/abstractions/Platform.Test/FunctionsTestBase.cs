@@ -12,9 +12,9 @@ public class FunctionsTestBase
         return reqMock;
     }
 
-    protected static HttpRequestData CreateHttpRequestData(Dictionary<string, StringValues>? query = null)
+    protected static HttpRequestData CreateHttpRequestData(Dictionary<string, StringValues>? query = null, HttpHeadersCollection? headers = null)
     {
-        var reqMock = MockHttpRequestData.Create(query);
+        var reqMock = MockHttpRequestData.Create(query, headers);
         return reqMock;
     }
 }
