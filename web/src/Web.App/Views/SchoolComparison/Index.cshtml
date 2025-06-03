@@ -1,6 +1,5 @@
 ﻿@using Newtonsoft.Json
 @using Web.App.Extensions
-
 @model Web.App.ViewModels.SchoolComparisonViewModel
 @{
     ViewData[ViewDataKeys.Title] = PageTitles.Comparison;
@@ -19,8 +18,7 @@
 {
     @await Component.InvokeAsync("PageActions", new
     {
-        saveButtonVisible = true,
-        downloadButtonVisible = true,
+        actions = new[] { PageActions.SaveChartImages, PageActions.DownloadData },
         saveClassName = "costs-chart-wrapper",
         saveTitleAttr = "data-title",
         saveFileName = $"benchmark-spending-{Model.Urn}.zip",

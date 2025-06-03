@@ -8,7 +8,7 @@
 {
     @await Component.InvokeAsync("PageActionsSsr", new
     {
-        saveButtonVisible = true,
+        actions = new[] { PageActions.SaveChartImages },
         saveClassName = "costs-chart-wrapper",
         saveFileName = $"spending-priorities-{Model.Urn}.zip",
         saveTitleAttr = "data-title",

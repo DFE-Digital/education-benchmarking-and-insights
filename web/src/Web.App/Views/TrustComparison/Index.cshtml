@@ -8,7 +8,7 @@
 
 @await Component.InvokeAsync("PageActions", new
 {
-    saveButtonVisible = true,
+    actions = new[] { PageActions.SaveChartImages },
     saveFileName = $"benchmark-spending-{Model.CompanyNumber}.zip",
     saveClassName = "costs-chart-wrapper",
     saveTitleAttr = "data-title",
@@ -44,7 +44,7 @@
 
 @await Component.InvokeAsync("TrustFinanceTools", new
 {
-    identifier = Model.CompanyNumber, 
+    identifier = Model.CompanyNumber,
     tools = new[]
     {
         FinanceTools.BenchmarkCensus,

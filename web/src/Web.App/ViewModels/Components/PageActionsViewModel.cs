@@ -4,8 +4,7 @@ using Microsoft.Extensions.Primitives;
 namespace Web.App.ViewModels.Components;
 
 public class PageActionsViewModel(
-    bool? saveButtonVisible,
-    bool? downloadButtonVisible,
+    PageActions[]? actions,
     string? saveClassName,
     string? saveFileName,
     string? saveTitleAttr,
@@ -13,8 +12,7 @@ public class PageActionsViewModel(
     string? waitForEventType,
     string? downloadLink)
 {
-    public bool SaveButtonVisible { get; init; } = saveButtonVisible == true;
-    public bool DownloadButtonVisible { get; init; } = downloadButtonVisible == true;
+    public PageActions[] Actions => actions ?? [];
 
     public string SaveClassName { get; init; } = saveClassName ?? "chart-wrapper";
     public string SaveFileName { get; init; } = saveFileName ?? "charts.zip";

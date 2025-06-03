@@ -2,9 +2,15 @@
 
 <div class="page-actions-wrapper">
     <div class="page-actions">
-        @if (Model.SaveButtonVisible)
+        @* ReSharper disable once SwitchStatementHandlesSomeKnownEnumValuesWithDefault *@
+        @foreach (var action in Model.Actions)
         {
-            <div id="page-actions-button"></div>
+            switch (action)
+            {
+                case PageActions.SaveChartImages:
+                    <div id="page-actions-button"></div>
+                    break;
+            }
         }
     </div>
 </div>

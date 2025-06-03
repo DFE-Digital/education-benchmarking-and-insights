@@ -11,7 +11,7 @@
 {
     @await Component.InvokeAsync("PageActions", new
     {
-        downloadButtonVisible = true,
+        actions = new[] { PageActions.DownloadData },
         downloadLink = Url.ActionLink("Download", "SchoolCensus", new
         {
             urn = Model.Urn,
