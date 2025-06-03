@@ -75,8 +75,18 @@ public static class HttpRequestDataExtensions
         await response.WriteAsJsonAsync(obj, cancellationToken);
         return response;
     }
+    
+    public static async Task<HttpResponseData> CreateJsonResponseAsync(
+        this HttpRequestData req,
+        object obj,
+        CancellationToken cancellationToken)
+    {
+        var response = req.CreateResponse(HttpStatusCode.OK);
+        await response.WriteAsJsonAsync(obj, cancellationToken);
+        return response;
+    }
 
-    public static async Task<HttpResponseData> CreateUnsupportedVersionResponseAsync(this HttpRequestData request, CancellationToken cancellationToken = default)
+    public static async Task<HttpResponseData> CreateUnsupportedVersionResponseAsync(this HttpRequestData request, CancellationToken cancellationToken)
     {
         var problem = new ProblemDetails
         {

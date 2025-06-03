@@ -13,7 +13,7 @@ public class WhenHttpRequestDataCreateUnsupportedVersion
     public async Task ReturnsExpectedProblemDetailsResponse()
     {
         var request = MockHttpRequestData.Create();
-        var result = await request.CreateUnsupportedVersionResponseAsync();
+        var result = await request.CreateUnsupportedVersionResponseAsync(CancellationToken.None);
 
         Assert.Equal(HttpStatusCode.BadRequest, result.StatusCode);
         Assert.True(result.Headers.TryGetValues("Content-Type", out var contentType));

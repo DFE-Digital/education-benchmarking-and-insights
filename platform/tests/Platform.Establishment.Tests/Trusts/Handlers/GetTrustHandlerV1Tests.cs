@@ -44,7 +44,7 @@ public class GetTrustV1HandlerTests : HandlerTestBase
             .ReturnsAsync(_trust);
 
         var request = CreateHttpRequestData();
-        var response = await _handler.HandleAsync(request, _companyNumber);
+        var response = await _handler.HandleAsync(request, _companyNumber, CancellationToken.None);
 
         Assert.NotNull(response);
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);
@@ -64,7 +64,7 @@ public class GetTrustV1HandlerTests : HandlerTestBase
 
         var request = CreateHttpRequestData();
 
-        var response = await _handler.HandleAsync(request, _companyNumber);
+        var response = await _handler.HandleAsync(request, _companyNumber, CancellationToken.None);
 
         Assert.NotNull(response);
         Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
