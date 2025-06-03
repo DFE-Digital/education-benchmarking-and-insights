@@ -3,5 +3,4 @@
 public interface IVersionedHandler
 {
     string Version { get; }
-    
 }
