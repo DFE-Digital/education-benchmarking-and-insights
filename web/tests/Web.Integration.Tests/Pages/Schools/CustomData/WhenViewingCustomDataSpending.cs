@@ -1,8 +1,10 @@
 using System.Net;
+using AngleSharp.Dom;
 using AngleSharp.Html.Dom;
 using AutoFixture;
 using Web.App;
 using Web.App.Domain;
+using Web.App.Extensions;
 using Web.App.ViewComponents;
 using Xunit;
 namespace Web.Integration.Tests.Pages.Schools.CustomData;
@@ -58,11 +60,11 @@ public class WhenViewingCustomDataSpending(SchoolBenchmarkingWebAppClient client
     [InlineData(false, true)]
     public async Task CanDisplay(bool withUserData, bool ssrFeatureEnabled)
     {
-        var (page, school) = await SetupNavigateInitPage(withUserData, ssrFeatureEnabled);
+        var (page, school, ratings, expenditure) = await SetupNavigateInitPage(withUserData, ssrFeatureEnabled);
 
         if (withUserData)
         {
-            AssertPageLayout(page, school, ssrFeatureEnabled);
+            AssertPageLayout(page, school, ratings, expenditure, ssrFeatureEnabled);
         }
         else
         {
@@ -75,11 +77,11 @@ public class WhenViewingCustomDataSpending(SchoolBenchmarkingWebAppClient client
     [InlineData(false)]
     public async Task CanDisplayChartWarningWhenChartApiFails(bool withUserData)
     {
-        var (page, school) = await SetupNavigateInitPage(withUserData, true, true);
+        var (page, school, ratings, expenditure) = await SetupNavigateInitPage(withUserData, true, true);
 
         if (withUserData)
         {
-            AssertPageLayout(page, school, true, true);
+            AssertPageLayout(page, school, ratings, expenditure, true, true);
         }
         else
         {
@@ -90,7 +92,7 @@ public class WhenViewingCustomDataSpending(SchoolBenchmarkingWebAppClient client
     [Fact]
     public async Task CanNavigateUsingViewAllCategories()
     {
-        var (page, school) = await SetupNavigateInitPage(true);
+        var (page, school, _, _) = await SetupNavigateInitPage(true);
 
         var categorySections = page.QuerySelectorAll("section");
 
@@ -163,7 +165,7 @@ public class WhenViewingCustomDataSpending(SchoolBenchmarkingWebAppClient client
             HttpStatusCode.InternalServerError);
     }
 
-    private async Task<(IHtmlDocument page, School school)> SetupNavigateInitPage(bool withUserData, bool ssrFeatureEnabled = false, bool chartApiException = false)
+    private async Task<(IHtmlDocument page, School school, RagRating[] ratings, SchoolExpenditure? expenditure)> SetupNavigateInitPage(bool withUserData, bool ssrFeatureEnabled = false, bool chartApiException = false)
     {
         var school = Fixture.Build<School>()
             .With(x => x.URN, "123456")
@@ -186,7 +188,10 @@ public class WhenViewingCustomDataSpending(SchoolBenchmarkingWebAppClient client
 
         var rating = CreateRagRatings(school.URN);
 
-        var expenditure = Fixture.Build<SchoolExpenditure>().Create();
+        var expenditure = Fixture.Build<SchoolExpenditure>()
+            .With(e => e.URN, school.URN)
+            .Create();
+
         var verticalBarChart = new ChartResponse { Html = "<svg />" };
 
         IHtmlDocument page;
@@ -219,10 +224,10 @@ public class WhenViewingCustomDataSpending(SchoolBenchmarkingWebAppClient client
                 .Navigate(Paths.SchoolSpendingCustomData(school.URN));
         }
 
-        return (page, school);
+        return (page, school, rating, expenditure);
     }
 
-    private static void AssertPageLayout(IHtmlDocument page, School school, bool ssrCharts = false, bool chartError = false)
+    private static void AssertPageLayout(IHtmlDocument page, School school, RagRating[] ratings, SchoolExpenditure? expenditure, bool ssrCharts = false, bool chartError = false)
     {
         DocumentAssert.AssertPageUrl(page, Paths.SchoolSpendingCustomData(school.URN).ToAbsolute());
         DocumentAssert.TitleAndH1(page, "Spending priorities for this school - Financial Benchmarking and Insights Tool - GOV.UK",
@@ -254,6 +259,7 @@ public class WhenViewingCustomDataSpending(SchoolBenchmarkingWebAppClient client
                 }
 
                 Assert.Null(chartContainer);
+                AssertChartStats(section, ratings.SingleOrDefault(r => section.Id?.EndsWith(r.CostCategoryAnchorId) == true), expenditure);
             }
             else
             {
@@ -262,6 +268,44 @@ public class WhenViewingCustomDataSpending(SchoolBenchmarkingWebAppClient client
                 Assert.Null(chartSvg);
             }
         }
+    }
+
+    private static void AssertChartStats(IElement section, RagRating? rating, SchoolExpenditure? expenditure)
+    {
+        var chartStats = section.QuerySelector(".chart-stat-summary");
+        Assert.NotNull(chartStats);
+
+        var wrappers = chartStats.QuerySelectorAll(".chart-stat-wrapper");
+        Assert.Equal(expenditure == null ? 2 : 3, wrappers.Length);
+
+        var stat1 = expenditure == null ? null : wrappers.ElementAt(0).TextContent.Trim();
+        var stat2 = wrappers.ElementAt(expenditure == null ? 0 : 1).TextContent.Trim();
+        var stat3 = wrappers.ElementAt(expenditure == null ? 1 : 2).TextContent.Trim();
+        var unit = string.IsNullOrWhiteSpace(rating?.Category) ? string.Empty : Lookups.CategoryUnitMap[rating.Category];
+
+        if (expenditure != null)
+        {
+            var sectionHeading = section.QuerySelector("h3")?.TextContent!;
+            var expectedTotalsList = new Dictionary<string, decimal?>
+            {
+                { Category.TeachingStaff, expenditure.TotalTeachingSupportStaffCosts },
+                { "Non-educational support staff", expenditure.TotalNonEducationalSupportStaffCosts },
+                { Category.EducationalSupplies, expenditure.TotalEducationalSuppliesCosts },
+                { Category.EducationalIct, expenditure.LearningResourcesIctCosts },
+                { Category.PremisesStaffServices, expenditure.TotalPremisesStaffServiceCosts },
+                { Category.Utilities, expenditure.TotalUtilitiesCosts },
+                { Category.AdministrativeSupplies, expenditure.AdministrativeSuppliesNonEducationalCosts },
+                { Category.CateringStaffServices, expenditure.TotalGrossCateringCosts }
+            };
+
+            var total = expectedTotalsList[sectionHeading];
+            Assert.Equal($"This school spends\n    \n        {total?.ToCurrency(0)}\n    \n        \n            \n                {unit}", stat1);
+        }
+
+        Assert.Equal($"Similar schools spend\n    \n        {rating?.Median.ToCurrency(0)}\n    \n        \n            \n                {unit}, on average", stat2);
+
+        var percentage = (rating?.DiffMedian ?? 0) / (rating?.Median ?? 1) * 100;
+        Assert.Equal($"This school spends\n    \n        {rating?.DiffMedian.ToCurrency(0)}\n            \n                ({percentage:F1}%)\n            \n    \n        \n            \n                more {unit}", stat3);
     }
 
     private RagRating[] CreateRagRatings(string urn)
