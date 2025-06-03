@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Attributes;
+using Microsoft.OpenApi.Models;
 using Platform.Api.Establishment.Features.Trusts.Handlers;
 using Platform.Api.Establishment.Features.Trusts.Models;
 using Platform.Functions;
@@ -19,6 +20,7 @@ public class GetTrustFunction(IVersionedHandlerDispatcher<IGetTrustHandler> disp
     [OpenApiSecurityHeader]
     [OpenApiOperation(nameof(GetTrustFunction), Constants.Features.Trusts)]
     [OpenApiParameter("identifier", Type = typeof(string), Required = true)]
+    [OpenApiParameter(Platform.Functions.Constants.ApiVersion, Type = typeof(string), Required = false, In = ParameterLocation.Header)]
     [OpenApiResponseWithBody(HttpStatusCode.OK, ContentType.ApplicationJson, typeof(Trust))]
     [OpenApiResponseWithBody(HttpStatusCode.BadRequest, ContentType.ApplicationJsonProblem, typeof(ProblemDetails))]
     [OpenApiResponseWithoutBody(HttpStatusCode.NotFound)]
