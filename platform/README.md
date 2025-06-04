@@ -313,18 +313,32 @@ Add configuration in `appsetings.local.json` for `Platform.ApiTests`
 
 ```json
 {
-    "Insight": {
-      "Host": "[INSERT URL OF INSIGHT API UNDER TEST]",
-      "Key": "[INSERT INSIGHT API KEY]"
-    },
-    "Benchmark": {
-      "Host": "[INSERT URL OF BENCHMARK API UNDER TEST]",
-      "Key": "[INSERT BENCHMARK API KEY]"
-    },
-    "Establishment": {
-      "Host": "[INSERT URL OF ESTABLISHMENT API UNDER TEST]",
-      "Key": "[INSERT ESTABLISHMENT API KEY]"
-    }
+   "OutputPageResponse": true,
+   "Headless": false,
+   "Insight": {
+      "Host": "http://localhost:7071",
+      "Key": "xxx"
+   },
+   "Benchmark": {
+      "Host": "http://localhost:7072",
+      "Key": "xxx"
+   },
+   "Establishment": {
+      "Host": "http://localhost:7073",
+      "Key": "xxx"
+   },
+   "LocalAuthorityFinances": {
+      "Host": "http://localhost:7074",
+      "Key": "xxx"
+   },
+   "NonFinancial": {
+      "Host": "http://localhost:7075",
+      "Key": "xxx"
+   },
+   "ChartRendering": {
+      "Host": "http://localhost:7076",
+      "Key": "xxx"
+   }
 }
 ```
 

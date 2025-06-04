@@ -11,6 +11,7 @@
     </PropertyGroup>
     <ItemGroup>
         <Using Include="Reqnroll"/>
+        <PackageReference Include="AngleSharp"/>
         <PackageReference Include="AutoFixture"/>
         <PackageReference Include="Dynamitey"/>
         <PackageReference Include="Microsoft.NET.Test.Sdk"/>
