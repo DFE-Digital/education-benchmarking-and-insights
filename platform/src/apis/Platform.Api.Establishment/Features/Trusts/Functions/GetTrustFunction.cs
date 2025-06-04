@@ -9,12 +9,11 @@ using Microsoft.OpenApi.Models;
 using Platform.Api.Establishment.Features.Trusts.Handlers;
 using Platform.Api.Establishment.Features.Trusts.Models;
 using Platform.Functions;
-using Platform.Functions.Extensions;
 using Platform.Functions.OpenApi;
 
 namespace Platform.Api.Establishment.Features.Trusts.Functions;
 
-public class GetTrustFunction(IVersionedHandlerDispatcher<IGetTrustHandler> dispatcher)
+public class GetTrustFunction(IVersionedHandlerDispatcher<IGetTrustHandler> dispatcher) : VersionedFunctionBase<IGetTrustHandler>(dispatcher)
 {
     [Function(nameof(GetTrustFunction))]
     [OpenApiSecurityHeader]
@@ -27,13 +26,11 @@ public class GetTrustFunction(IVersionedHandlerDispatcher<IGetTrustHandler> disp
     public async Task<HttpResponseData> RunAsync(
         [HttpTrigger(AuthorizationLevel.Admin, MethodType.Get, Route = Routes.Trust)] HttpRequestData req,
         string identifier,
-        CancellationToken cancellationToken = default)
+        CancellationToken token = default)
     {
-        var version = req.ReadVersion();
-        var handler = dispatcher.GetHandler(version);
-
-        return handler == null
-            ? await req.CreateUnsupportedVersionResponseAsync(cancellationToken)
-            : await handler.HandleAsync(req, identifier, cancellationToken);
+        return await WithHandlerAsync(
+            req,
+            handler => handler.HandleAsync(req, identifier, token),
+            token);
     }
 }
