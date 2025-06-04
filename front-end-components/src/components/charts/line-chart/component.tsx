@@ -29,6 +29,7 @@ import { useDownloadPngImage } from "src/hooks/useDownloadImage";
 import { LineChartDot } from "../line-chart-dot";
 import { DownloadMode } from "src/services";
 import "../styles.scss";
+import { AxisDomain } from "recharts/types/util/types";
 
 function LineChartInner<TData extends ChartDataSeries>(
   {
@@ -197,6 +198,45 @@ function LineChartInner<TData extends ChartDataSeries>(
     );
   };
 
+  // AB#233948
+  const domain: AxisDomain = useMemo(() => {
+    if (data && seriesConfig) {
+      const visibleValueFields = (
+        Object.keys(seriesConfig) as (keyof TData)[]
+      ).filter((f) => !!seriesConfig[f]?.visible);
+
+      // customise domain if one a single visible data point is being rendered...
+      if (visibleValueFields.length === 1) {
+        const values = data
+          .map((d) => d[visibleValueFields[0]])
+          .filter((v) => !!v && !isNaN(v as number));
+
+        // ...and one or zero values are resolved based on that data point
+        if (values.length <= 1) {
+          const singleYAxisValue = (values[0] as number) ?? 0;
+
+          // `auto` used instead of `singleYAxisValue`, `dataMax` or `dataMin` to prevent recharts from rendering
+          // axis incorrectly by skipping ticks it cannot easily determine based on dividing the resolved value
+          // by the number of ticks that may fit on the axis (in most cases: 4). The effect of this is to add or
+          // subtract from the resolved single value to round to a figure that _can_ be divided by the number of
+          // ticks. The single 'dot' will potentially not be exactly on the first or last line in this case.
+          if (singleYAxisValue > 0) {
+            return [0, "auto"];
+          }
+
+          if (singleYAxisValue < 0) {
+            return ["auto", 0];
+          }
+
+          // use arbitrary max figure of `100` for value of zero
+          return [0, 100];
+        }
+      }
+    }
+
+    return ["auto", "auto"];
+  }, [data, seriesConfig]);
+
   return (
     // a11y: https://github.com/recharts/recharts/issues/3816
     <div
@@ -241,7 +281,7 @@ function LineChartInner<TData extends ChartDataSeries>(
                 ? valueUnit
                 : undefined
             }
-            domain={["auto", "auto"]}
+            domain={domain}
             tickFormatter={(value) =>
               valueFormatter
                 ? valueFormatter(value, { valueUnit })
