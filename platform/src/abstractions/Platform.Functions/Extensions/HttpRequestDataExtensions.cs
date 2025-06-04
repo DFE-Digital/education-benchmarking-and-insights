@@ -81,9 +81,7 @@ public static class HttpRequestDataExtensions
         object obj,
         CancellationToken cancellationToken)
     {
-        var response = req.CreateResponse(HttpStatusCode.OK);
-        await response.WriteAsJsonAsync(obj, cancellationToken);
-        return response;
+        return await req.CreateJsonResponseAsync(obj, HttpStatusCode.OK, cancellationToken);
     }
 
     public static async Task<HttpResponseData> CreateUnsupportedVersionResponseAsync(this HttpRequestData request, CancellationToken cancellationToken)
