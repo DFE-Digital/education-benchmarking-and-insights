@@ -1,4 +1,5 @@
-﻿using Microsoft.Playwright;
+﻿using System.Text.RegularExpressions;
+using Microsoft.Playwright;
 using Xunit;
 
 namespace Web.E2ETests.Pages.School;
@@ -39,8 +40,8 @@ public partial class SpendingCostsPage(IPage page)
             });
 
     private ILocator PageH3Headings => page.Locator(Selectors.H3);
-    private ILocator AllCharts => page.Locator(Selectors.ReactChartContainer);
-    private ILocator AllChartsStats => page.Locator(Selectors.ReactChartStats);
+    private ILocator AllCharts => page.Locator(Selectors.ChartContainer);
+    private ILocator AllChartsStats => page.Locator(Selectors.ChartStats);
 
     private ILocator TeachingAndTeachingSupplyStaffLink => page.Locator(Selectors.GovLink,
         new PageLocatorOptions
@@ -261,6 +262,12 @@ public partial class SpendingCostsPage(IPage page)
             var suffixElement = wrapper.Locator(".chart-stat-suffix");
             var label = (await labelElement.TextContentAsync())?.Trim();
             var value = (await valueElement.TextContentAsync())?.Trim();
+
+            if (!string.IsNullOrWhiteSpace(value))
+            {
+                value = MultipleWhitespaceRegex().Replace(value, string.Empty);
+            }
+
             var suffix = (await suffixElement.TextContentAsync())?.Trim();
             if (!string.IsNullOrEmpty(label) && value != null && suffix != null)
             {
@@ -313,4 +320,7 @@ public partial class SpendingCostsPage(IPage page)
             Assert.Contains(expectedHeading, allContent);
         }
     }
+
+    [GeneratedRegex("\\s{2,}")]
+    private static partial Regex MultipleWhitespaceRegex();
 }

@@ -28,7 +28,7 @@ public class TrustBenchmarkSpendingPage(IPage page)
     private ILocator CateringServicesDimension => page.Locator(Selectors.CateringServicesDimension);
     private ILocator OtherDimension => page.Locator(Selectors.OtherDimension);
     private ILocator Sections => page.Locator(Selectors.GovAccordionSection);
-    private ILocator AllCharts => page.Locator(Selectors.ReactChartContainer);
+    private ILocator AllCharts => page.Locator(Selectors.ChartContainer);
     private ILocator ViewAsTableRadio => page.Locator(Selectors.SpendingModeTable);
     private ILocator ExcludeCentralSpendingRadio => page.Locator(Selectors.CentralSpendingModeExclude);
     private ILocator TrustComparisonTitles => page.Locator(Selectors.TrustComparisonTitles);
