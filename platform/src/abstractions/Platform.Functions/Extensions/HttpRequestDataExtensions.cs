@@ -2,6 +2,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Net;
 using System.Text;
 using FluentValidation.Results;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.Functions.Worker.Http;
 
 namespace Platform.Functions.Extensions;
@@ -9,6 +10,14 @@ namespace Platform.Functions.Extensions;
 [ExcludeFromCodeCoverage]
 public static class HttpRequestDataExtensions
 {
+
+    public static string? ReadVersion(this HttpRequestData request)
+    {
+        return request.Headers.TryGetValues(Constants.ApiVersion, out var values)
+            ? values.FirstOrDefault()
+            : null;
+    }
+
     public static Guid GetCorrelationId(this HttpRequestData req)
     {
         if (req.Headers.TryGetValues(Constants.CorrelationIdHeader, out var values))
@@ -64,6 +73,31 @@ public static class HttpRequestDataExtensions
     {
         var response = req.CreateResponse(statusCode);
         await response.WriteAsJsonAsync(obj, cancellationToken);
+        return response;
+    }
+
+    public static async Task<HttpResponseData> CreateJsonResponseAsync(
+        this HttpRequestData req,
+        object obj,
+        CancellationToken cancellationToken)
+    {
+        var response = req.CreateResponse(HttpStatusCode.OK);
+        await response.WriteAsJsonAsync(obj, cancellationToken);
+        return response;
+    }
+
+    public static async Task<HttpResponseData> CreateUnsupportedVersionResponseAsync(this HttpRequestData request, CancellationToken cancellationToken)
+    {
+        var problem = new ProblemDetails
+        {
+            Title = "Unsupported API version",
+            Status = (int)HttpStatusCode.BadRequest,
+            Detail = "The API version specified in the 'x-api-version' header is not supported.",
+            Instance = request.Url.AbsolutePath
+        };
+
+        var response = request.CreateResponse(HttpStatusCode.BadRequest);
+        await response.WriteAsJsonAsync(problem, ContentType.ApplicationJsonProblem, cancellationToken);
         return response;
     }
 
