@@ -1,4 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
+using Web.App.ViewModels;
+
 namespace Web.App.Controllers;
 
 [Controller]
@@ -56,5 +58,15 @@ public class StaticContentController : Controller
 
     [HttpGet]
     [Route("guidance/cost-categories")]
-    public IActionResult CostCategories() => View();
+    public IActionResult CostCategories()
+    {
+        return View();
+    }
+
+    [HttpGet]
+    [Route("guidance/high-needs-glossary")]
+    public IActionResult HighNeedsGlossary()
+    {
+        return View(new HighNeedsGlossaryViewModel());
+    }
 }

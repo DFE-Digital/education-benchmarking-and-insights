@@ -1,0 +1,36 @@
+﻿@using Web.App.Extensions
+@model Web.App.ViewModels.HighNeedsGlossaryViewModel
+@{
+    ViewData[ViewDataKeys.Title] = PageTitles.HighNeedsGlossary;
+}
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
+        <h1 class="govuk-heading-l">@PageTitles.HighNeedsGlossary</h1>
+
+        <p class="govuk-body">
+            The table details some of the terms used in the high needs benchmarking service.
+        </p>
+
+        <table class="govuk-table">
+            <caption class="govuk-table__caption govuk-table__caption--m govuk-visually-hidden">High needs benchmarking
+                glossary
+            </caption>
+            <thead class="govuk-table__head">
+            <tr class="govuk-table__row">
+                <th scope="col" class="govuk-table__header">Term</th>
+                <th scope="col" class="govuk-table__header">Meaning</th>
+            </tr>
+            </thead>
+            <tbody class="govuk-table__body">
+            @foreach (var item in Model.Glossary)
+            {
+                <tr class="govuk-table__row" id="high-needs-glossary-@item.Term?.ToSlug()">
+                    <td class="govuk-table__cell">@item.Term</td>
+                    <td class="govuk-table__cell">@item.Meaning</td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    </div>
+</div>
