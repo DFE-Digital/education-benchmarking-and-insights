@@ -7,7 +7,7 @@ terraform {
     }
     azapi = {
       source  = "azure/azapi"
-      version = "~> 2.3.0"
+      version = "~> 2.4.0"
     }
     mssql = {
       source  = "betr-io/mssql"
