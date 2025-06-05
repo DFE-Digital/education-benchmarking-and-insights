@@ -1,3 +1,4 @@
+@using Web.App.ViewModels
 @model Web.App.ViewModels.SchoolFinancialBenchmarkingInsightsSummaryViewModel
 
 <section id="compared-with-section" aria-labelledby="compared-with">
@@ -14,16 +15,15 @@
     <div class="two-halves-with-divider">
         <div>
             <p class="govuk-body">
-                <strong>Running cost categories</strong> i.e. those that relate to the educational operations of the school
-                include staffing (excluding premises staff), ICT, consultancy and catering.
+                <strong>Running cost categories</strong> i.e. those that relate to the educational operations of the
+                school include staffing (excluding premises staff), ICT, consultancy and catering.
             </p>
-            <p class="govuk-body">We choose these schools based on:</p>
-            @await Html.PartialAsync("_RunningCostCategoriesList")
+            @await Html.PartialAsync("_ComparatorCharacteristicsCommentary", new ComparatorCharacteristicsCommentaryViewModel(Model.OverallPhase))
         </div>
         <div>
             <p class="govuk-body">
-                <strong>Building cost categories</strong> i.e. those that relate to the upkeep of the school premises, such
-                as utilities, cleaning and maintenance costs.
+                <strong>Building cost categories</strong> i.e. those that relate to the upkeep of the school premises,
+                such as utilities, cleaning and maintenance costs.
             </p>
             <p class="govuk-body">We choose these schools based on:</p>
             @await Html.PartialAsync("_BuildingCostCategoriesList")

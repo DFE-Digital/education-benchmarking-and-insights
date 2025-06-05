@@ -1,0 +1,30 @@
+@model Web.App.ViewModels.ComparatorCharacteristicsCommentaryViewModel
+@if (Model.ShowTitle)
+{
+    <h2 class="govuk-heading-m">How we chose these schools</h2>
+}
+
+<p class="govuk-body">We chose these schools based on:</p>
+<ul class="govuk-list govuk-list--bullet">
+    <li>school phase or type</li>
+    <li>region</li>
+    <li>number of pupils</li>
+    @if (Model.HasSendCharacteristics)
+    {
+        <li>pupils eligible for free school meals (FSM)</li>
+        <li>
+            pupils with special educational needs (SEN), or proportion of various SEN provisions for special schools
+        </li>
+    }
+</ul>
+
+@if (Model.HasSendCharacteristics)
+{
+    <p class="govuk-body">SEN characteristics will be taken into account when comparators are chosen, these include:</p>
+    <ul class="govuk-list govuk-list--bullet">
+        <li>communication and interaction</li>
+        <li>cognition and learning</li>
+        <li>social, emotional, and mental health (SEMH)</li>
+        <li>sensory and/or physical needs</li>
+    </ul>
+}

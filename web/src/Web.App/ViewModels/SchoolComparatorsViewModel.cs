@@ -1,7 +1,9 @@
+using System.Diagnostics.CodeAnalysis;
 using Web.App.Domain;
 
 namespace Web.App.ViewModels;
 
+[ExcludeFromCodeCoverage]
 public class SchoolComparatorsViewModel(
     School school,
     string? by = null,
@@ -16,6 +18,7 @@ public class SchoolComparatorsViewModel(
     public string? By => by;
     public string? UserDefinedSetId => userDefinedSetId;
     public bool HasCustomData => hasCustomData;
+    public string? OverallPhase => school.OverallPhase;
     public IEnumerable<SchoolCharacteristicPupil> PupilSchools => pupil ?? [];
     public IEnumerable<SchoolCharacteristicBuilding> BuildingSchools => building ?? [];
     public IEnumerable<SchoolCharacteristicUserDefined> UserDefinedSchools => userDefined ?? [];
