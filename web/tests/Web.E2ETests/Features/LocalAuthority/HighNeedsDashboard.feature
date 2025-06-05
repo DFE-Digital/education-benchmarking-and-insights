@@ -17,3 +17,9 @@
         Given I am on local authority high needs dashboard for local authority with code '204'
         When I click on view historic data
         Then the historic data page is displayed
+
+    @HighNeedsFlagEnabled
+    Scenario: Go to glossary of terms
+        Given I am on local authority high needs dashboard for local authority with code '204'
+        When I click on Glossary of terms link
+        Then the high needs glossary page is displayed

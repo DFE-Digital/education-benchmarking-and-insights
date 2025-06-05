@@ -1,4 +1,5 @@
 using Web.E2ETests.Drivers;
+using Web.E2ETests.Pages;
 using Web.E2ETests.Pages.LocalAuthority;
 using Xunit;
 
@@ -9,6 +10,7 @@ namespace Web.E2ETests.Steps.LocalAuthority;
 public class HighNeedsBenchmarkingDashboardSteps(PageDriver driver)
 {
     private HighNeedsDashboardPage? _highNeedsBenchmarkingPage;
+    private HighNeedsGlossaryPage? _highNeedsGlossaryPage;
     private HighNeedsHistoricDataPage? _highNeedsHistoricDataPage;
     private HighNeedsNationalRankingsPage? _highNeedsNationalRankingsPage;
     private HighNeedsStartBenchmarkingPage? _highNeedsStartBenchmarkingPage;
@@ -45,6 +47,13 @@ public class HighNeedsBenchmarkingDashboardSteps(PageDriver driver)
         _highNeedsHistoricDataPage = await _highNeedsBenchmarkingPage.ClickViewHistoricData();
     }
 
+    [When("I click on Glossary of terms link")]
+    public async Task WhenIClickOnGlossaryOfTermsLink()
+    {
+        Assert.NotNull(_highNeedsBenchmarkingPage);
+        _highNeedsGlossaryPage = await _highNeedsBenchmarkingPage.ClickOnHighNeedsGlossaryLink();
+    }
+
     [Then("the start benchmarking page is displayed")]
     public async Task ThenTheStartBenchmarkingPageIsDisplayed()
     {
@@ -64,6 +73,13 @@ public class HighNeedsBenchmarkingDashboardSteps(PageDriver driver)
     {
         Assert.NotNull(_highNeedsHistoricDataPage);
         await _highNeedsHistoricDataPage.IsDisplayed();
+    }
+
+    [Then("the high needs glossary page is displayed")]
+    public async Task ThenTheHighNeedsGlossaryPageIsDisplayed()
+    {
+        Assert.NotNull(_highNeedsGlossaryPage);
+        await _highNeedsGlossaryPage.IsDisplayed();
     }
 
     private static string LocalAuthorityHighNeedsDashboardUrl(string laCode)
