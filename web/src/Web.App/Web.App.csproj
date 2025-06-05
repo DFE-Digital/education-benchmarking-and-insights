@@ -16,7 +16,6 @@
         <PackageReference Include="Azure.Storage.Blobs"/>
         <PackageReference Include="CorrelationId"/>
         <PackageReference Include="FluentValidation"/>
-        <PackageReference Include="FluentValidation.AspNetCore"/>
         <PackageReference Include="IdentityModel"/>
         <PackageReference Include="JsonSubTypes"/>
         <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore"/>
