@@ -1,4 +1,3 @@
-using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.FeatureManagement.Mvc;

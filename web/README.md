@@ -11,7 +11,7 @@ with any static pages that need serving
 1. Install .NET 8 SDK
 2. Install Visual Studio 2022 Professional (with C#, Node and Azure Workflows) or Rider 2024
 3. ADO private artefact access to install published Front-end components package
-4. Install Node 20.11.1 (if necessary use nvm to switch to this version nvm use 20.11.1)
+4. Install Node 22 (if necessary, use nvm to switch to this version with `nvm use 22`)
 5. Clone the project `git clone https://github.com/DFE-Digital/education-benchmarking-and-insights.git`
 
 > **Note:** Ensure that, if cloning to a DfE user area, the root folder is outside any of the 'OneDrive' folders to
@@ -154,7 +154,7 @@ To use the GOV.UK Design System, progressive enhancements and front-end componen
   and follow the _instructions for using a Personal Access Token to authenticate_
 - Navigate to the root of the Web APP `.\web\src\Web.App`
 - Install the required packages `npm i`
-- Run the gulp script to build ssas and copy assets `npm run-script build`
+- Run the gulp script to build ssas and copy assets `npm run build`
 
 > **NOTE**: When using a PAT to authenticate with npm, ensure the old domain `dfe-ssp.visualstudio.com` is used instead
 > of `dev.azure.com` so that it matches the paths present in package.lock.json. Otherwise, you may receive `401` errors
