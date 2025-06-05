@@ -1,7 +1,5 @@
-using System.Diagnostics.CodeAnalysis;
 namespace Web.App.Domain;
 
-[ExcludeFromCodeCoverage]
 public static class OverallPhaseTypes
 {
     public const string Primary = "Primary";
@@ -36,5 +34,12 @@ public static class OverallPhaseTypes
         PostSixteen,
         AlternativeProvision,
         UniversityTechnicalCollege
+    ];
+
+    public static string[] SendCharacteristicsPhases =>
+    [
+        Special,
+        PupilReferralUnit,
+        AlternativeProvision
     ];
 }
