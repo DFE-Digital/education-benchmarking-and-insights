@@ -75,4 +75,11 @@ public class HighNeedsDashboardPage(IPage page)
         await ViewHistoricDataButton.Click();
         return new HighNeedsHistoricDataPage(page);
     }
+
+    public async Task<HighNeedsGlossaryPage> ClickOnHighNeedsGlossaryLink()
+    {
+        await page.Locator("#high-needs-glossary").ClickAsync();
+        await page.BringToFrontAsync();
+        return new HighNeedsGlossaryPage(page);
+    }
 }
