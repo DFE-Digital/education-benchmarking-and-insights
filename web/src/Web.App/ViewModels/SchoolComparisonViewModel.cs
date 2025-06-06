@@ -2,7 +2,7 @@
 namespace Web.App.ViewModels;
 
 public class SchoolComparisonViewModel(
-    School school,
+    SchoolStatus school,
     string? userDefinedSetId = null,
     string? customDataId = null,
     SchoolExpenditure? expenditure = null,
