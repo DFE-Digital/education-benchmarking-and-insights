@@ -16,7 +16,6 @@ namespace Web.Integration.Tests.Pages.Schools;
 public class WhenViewingSpending(SchoolBenchmarkingWebAppClient client)
     : PageBase<SchoolBenchmarkingWebAppClient>(client)
 {
-
     private static readonly List<string> AllCostCategories =
     [
         Category.TeachingStaff,
@@ -59,33 +58,35 @@ public class WhenViewingSpending(SchoolBenchmarkingWebAppClient client)
     };
 
     [Theory]
-    [InlineData(EstablishmentTypes.Academies, true)]
-    [InlineData(EstablishmentTypes.Maintained, true)]
-    [InlineData(EstablishmentTypes.Academies, false)]
-    [InlineData(EstablishmentTypes.Maintained, false)]
-    public async Task CanDisplay(string financeType, bool ssrFeatureEnabled)
+    [InlineData(true, true, true)]
+    [InlineData(true, false, true)]
+    [InlineData(false, false, true)]
+    [InlineData(true, true, false)]
+    [InlineData(true, false, false)]
+    [InlineData(false, false, false)]
+    public async Task CanDisplay(bool isPartOfTrust, bool isMat, bool ssrFeatureEnabled)
     {
-        var (page, school, ratings, expenditure) = await SetupNavigateInitPage(financeType, ssrFeatureEnabled: ssrFeatureEnabled);
+        var (page, school, ratings, expenditure) = await SetupNavigateInitPage(isPartOfTrust, isMat, ssrFeatureEnabled: ssrFeatureEnabled);
 
-        AssertPageLayout(page, school, ratings, expenditure, financeType, ssrFeatureEnabled);
+        AssertPageLayout(page, school, ratings, expenditure, isPartOfTrust, isMat, ssrFeatureEnabled);
     }
 
     [Theory]
-    [InlineData(EstablishmentTypes.Academies)]
-    [InlineData(EstablishmentTypes.Maintained)]
-    public async Task CanDisplayChartWarningWhenChartApiFails(string financeType)
+    [InlineData(true)]
+    [InlineData(false)]
+    public async Task CanDisplayChartWarningWhenChartApiFails(bool isPartOfTrust)
     {
-        var (page, school, ratings, expenditure) = await SetupNavigateInitPage(financeType, ssrFeatureEnabled: true, chartApiException: true);
+        var (page, school, ratings, expenditure) = await SetupNavigateInitPage(isPartOfTrust, ssrFeatureEnabled: true, chartApiException: true);
 
-        AssertPageLayout(page, school, ratings, expenditure, financeType, true, true);
+        AssertPageLayout(page, school, ratings, expenditure, isPartOfTrust, false, true, true);
     }
 
     [Theory]
-    [InlineData(EstablishmentTypes.Academies)]
-    [InlineData(EstablishmentTypes.Maintained)]
-    public async Task CanNavigateUsingViewAllCategories(string financeType)
+    [InlineData(true)]
+    [InlineData(false)]
+    public async Task CanNavigateUsingViewAllCategories(bool isPartOfTrust)
     {
-        var (page, school, _, _) = await SetupNavigateInitPage(financeType);
+        var (page, school, _, _) = await SetupNavigateInitPage(isPartOfTrust);
 
         var categorySections = page.QuerySelectorAll("section");
 
@@ -112,11 +113,11 @@ public class WhenViewingSpending(SchoolBenchmarkingWebAppClient client)
     }
 
     [Theory]
-    [InlineData(EstablishmentTypes.Academies)]
-    [InlineData(EstablishmentTypes.Maintained)]
-    public async Task CanNavigateToCustomData(string financeType)
+    [InlineData(true)]
+    [InlineData(false)]
+    public async Task CanNavigateToCustomData(bool isPartOfTrust)
     {
-        var (page, school, _, _) = await SetupNavigateInitPage(financeType);
+        var (page, school, _, _) = await SetupNavigateInitPage(isPartOfTrust);
 
         var anchor = page.QuerySelector("#custom-data-link");
         Assert.NotNull(anchor);
@@ -150,36 +151,47 @@ public class WhenViewingSpending(SchoolBenchmarkingWebAppClient client)
     }
 
     [Theory]
-    [InlineData(EstablishmentTypes.Academies, true, true, false)]
-    [InlineData(EstablishmentTypes.Maintained, true, true, false)]
-    [InlineData(EstablishmentTypes.Academies, true, true, true)]
-    [InlineData(EstablishmentTypes.Maintained, true, true, true)]
-    [InlineData(EstablishmentTypes.Maintained, true, false, false)]
-    [InlineData(EstablishmentTypes.Maintained, false, true, false)]
-    [InlineData(EstablishmentTypes.Maintained, false, false, false)]
-    public async Task CanDisplayWithComparatorSet(string financeType, bool pupilSet, bool buildingSet, bool ssrFeatureEnabled)
+    [InlineData(true, true, true, true, false)]
+    [InlineData(true, false, true, true, false)]
+    [InlineData(false, false, true, true, false)]
+    [InlineData(true, true, true, true, true)]
+    [InlineData(true, false, true, true, true)]
+    [InlineData(false, false, true, true, true)]
+    [InlineData(false, false, true, false, false)]
+    [InlineData(false, false, false, true, false)]
+    [InlineData(false, false, false, false, false)]
+    public async Task CanDisplayWithComparatorSet(bool isPartOfTrust, bool isMat, bool pupilSet, bool buildingSet, bool ssrFeatureEnabled)
     {
         var comparatorSet = new SchoolComparatorSet
         {
             Building = buildingSet ? Fixture.CreateMany<string>().ToArray() : [],
             Pupil = pupilSet ? Fixture.CreateMany<string>().ToArray() : []
         };
-        var (page, school, ratings, expenditure) = await SetupNavigateInitPage(financeType, comparatorSet, ssrFeatureEnabled);
+        var (page, school, ratings, expenditure) = await SetupNavigateInitPage(isPartOfTrust, isMat, comparatorSet, ssrFeatureEnabled);
 
-        AssertPageLayout(page, school, ratings, expenditure, financeType, ssrFeatureEnabled);
+        AssertPageLayout(page, school, ratings, expenditure, isPartOfTrust, isMat, ssrFeatureEnabled);
     }
 
     private async Task<(IHtmlDocument page, School school, RagRating[] ratings, SchoolExpenditure? expenditure)> SetupNavigateInitPage(
-        string financeType,
+        bool isPartOfTrust,
+        bool isMat = false,
         SchoolComparatorSet? comparatorSet = null,
         bool ssrFeatureEnabled = false,
         bool chartApiException = false)
     {
         var school = Fixture.Build<School>()
             .With(x => x.URN, "123456")
-            .With(x => x.FinanceType, financeType)
-            .With(x => x.TrustCompanyNumber, financeType == EstablishmentTypes.Academies ? "1223545" : "")
+            .With(x => x.FinanceType, isPartOfTrust ? EstablishmentTypes.Academies : EstablishmentTypes.Maintained)
+            .With(x => x.TrustCompanyNumber, isPartOfTrust ? "1223545" : "")
             .Create();
+
+        var schoolStatus = new SchoolStatus
+        {
+            URN = school.URN,
+            SchoolName = school.SchoolName,
+            IsPartOfTrust = isPartOfTrust,
+            IsMat = isMat
+        };
 
         Assert.NotNull(school.URN);
 
@@ -192,7 +204,7 @@ public class WhenViewingSpending(SchoolBenchmarkingWebAppClient client)
 
         var client = Client
             .SetupDisableFeatureFlags(ssrFeatureEnabled ? [] : [FeatureFlags.SchoolSpendingPrioritiesSsrCharts])
-            .SetupEstablishment(school)
+            .SetupEstablishment(school, schoolStatus)
             .SetupInsights()
             .SetupUserData()
             .SetupMetricRagRating(rating)
@@ -228,7 +240,7 @@ public class WhenViewingSpending(SchoolBenchmarkingWebAppClient client)
         return (page, school, rating, comparatorSet == null ? null : expenditures.First());
     }
 
-    private static void AssertPageLayout(IHtmlDocument page, School school, RagRating[] ratings, SchoolExpenditure? expenditure, string financeType, bool ssrCharts = false, bool chartError = false)
+    private static void AssertPageLayout(IHtmlDocument page, School school, RagRating[] ratings, SchoolExpenditure? expenditure, bool isPartOfTrust, bool isMat, bool ssrCharts = false, bool chartError = false)
     {
         DocumentAssert.AssertPageUrl(page, Paths.SchoolSpending(school.URN).ToAbsolute());
         DocumentAssert.TitleAndH1(page, "Spending priorities for this school - Financial Benchmarking and Insights Tool - GOV.UK",
@@ -245,7 +257,7 @@ public class WhenViewingSpending(SchoolBenchmarkingWebAppClient client)
             var expectedCostCodeList = new Dictionary<string, int>
             {
                 { "Teaching and Teaching support staff", 5 },
-                { "Non-educational support staff", financeType == EstablishmentTypes.Maintained ? 3 : 4 },
+                { "Non-educational support staff", isPartOfTrust ? 4 : 3 },
                 { "Educational supplies", 2 },
                 { "Educational ICT", 1 },
                 { "Premises staff and services", 4 },
