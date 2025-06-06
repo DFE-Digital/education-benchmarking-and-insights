@@ -7,11 +7,11 @@ namespace Web.Tests.ViewModels;
 public class GivenASchoolComparisonViewModel
 {
     private readonly Fixture _fixture = new();
-    private readonly School _school;
+    private readonly SchoolStatus _school;
 
     public GivenASchoolComparisonViewModel()
     {
-        _school = _fixture.Create<School>();
+        _school = _fixture.Create<SchoolStatus>();
     }
 
     public static TheoryData<SchoolExpenditure?, int?> ExpenditureInput =>
