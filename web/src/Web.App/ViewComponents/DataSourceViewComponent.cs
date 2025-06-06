@@ -40,7 +40,8 @@ public class DataSourceViewComponent(IFinanceService financeService) : ViewCompo
         {
             OrganisationTypes.School when isPartOfTrust =>
             [
-                $"This school's data covers the financial year September {years.Aar - 1} to August {years.Aar} academies accounts return (AAR)."
+                $"This school's data covers the financial year September {years.Aar - 1} to August {years.Aar} academies accounts return (AAR).",
+                "Data for academies in a Multi-Academy Trust (MAT) includes a share of MAT central finance."
             ],
             OrganisationTypes.School when !isPartOfTrust =>
             [

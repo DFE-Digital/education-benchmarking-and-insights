@@ -186,16 +186,17 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
             DocumentAssert.Heading2(page, $"Part of {school.TrustName}");
         }
 
-        var dataSourceElement = page.QuerySelector("main > div > div:nth-child(3) > div > p");
+        var dataSourceElement = page.QuerySelectorAll("main > div > div:nth-child(3) > div > p");
         Assert.NotNull(dataSourceElement);
 
         if (school.IsPartOfTrust)
         {
-            DocumentAssert.TextEqual(dataSourceElement, "This school's data covers the financial year September 2021 to August 2022 academies accounts return (AAR).");
+            DocumentAssert.TextEqual(dataSourceElement.ElementAt(0), "This school's data covers the financial year September 2021 to August 2022 academies accounts return (AAR).");
+            DocumentAssert.TextEqual(dataSourceElement.ElementAt(1), "Data for academies in a Multi-Academy Trust (MAT) includes a share of MAT central finance.");
         }
         else
         {
-            DocumentAssert.TextEqual(dataSourceElement, "This school's data covers the financial year April 2020 to March 2021 consistent financial reporting return (CFR).");
+            DocumentAssert.TextEqual(dataSourceElement.ElementAt(0), "This school's data covers the financial year April 2020 to March 2021 consistent financial reporting return (CFR).");
         }
 
         var changeLinkElement = page.QuerySelectorAll("a").FirstOrDefault(x => x.TextContent.Trim() == "Change school");
