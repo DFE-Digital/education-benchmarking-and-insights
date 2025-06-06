@@ -18,3 +18,8 @@ public class SchoolQuery : PlatformQuery
         return fields.Length == 0 ? SqlAll : SqlFields;
     }
 }
+
+public class SchoolStatusQuery() : PlatformQuery(SqlAll)
+{
+    private const string SqlAll = "SELECT * FROM VW_SchoolStatus /**where**/";
+}

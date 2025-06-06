@@ -6,4 +6,5 @@ public static class Routes
     public const string School = "school/{identifier}";
     public const string SchoolComparators = "school/{identifier}/comparators";
     public const string SchoolsSearch = "schools/search";
+    public const string SchoolStatus = "school/{identifier}/status";
 }

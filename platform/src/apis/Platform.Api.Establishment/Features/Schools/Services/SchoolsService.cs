@@ -13,8 +13,9 @@ namespace Platform.Api.Establishment.Features.Schools.Services;
 
 public interface ISchoolsService
 {
-    Task<SuggestResponse<SchoolSummary>> SchoolsSuggestAsync(SchoolSuggestRequest request, CancellationToken cancellationToken = default);
     Task<School?> GetAsync(string urn, CancellationToken cancellationToken = default);
+    Task<SchoolStatus?> GetSchoolStatusAsync(string urn, CancellationToken cancellationToken = default);
+    Task<SuggestResponse<SchoolSummary>> SchoolsSuggestAsync(SchoolSuggestRequest request, CancellationToken cancellationToken = default);
     Task<SearchResponse<SchoolSummary>> SchoolsSearchAsync(SearchRequest request, CancellationToken cancellationToken = default);
 }
 
@@ -43,6 +44,15 @@ public class SchoolsService(
         school.FederationSchools = await conn.QueryAsync<School>(childSchoolsBuilder, cancellationToken);
 
         return school;
+    }
+
+    public async Task<SchoolStatus?> GetSchoolStatusAsync(string urn, CancellationToken cancellationToken = default)
+    {
+        var schoolBuilder = new SchoolStatusQuery()
+            .WhereUrnEqual(urn);
+
+        using var conn = await dbFactory.GetConnection();
+        return await conn.QueryFirstOrDefaultAsync<SchoolStatus>(schoolBuilder, cancellationToken);
     }
 
     public Task<SuggestResponse<SchoolSummary>> SchoolsSuggestAsync(SchoolSuggestRequest request, CancellationToken cancellationToken = default)
