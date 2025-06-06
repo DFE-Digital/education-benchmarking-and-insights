@@ -7,8 +7,8 @@ namespace Web.Tests.ViewModels;
 public class GivenASchoolSpendingViewModel
 {
     private const string URN = nameof(URN);
-    private readonly School _school = new Fixture()
-        .Build<School>()
+    private readonly SchoolStatus _school = new Fixture()
+        .Build<SchoolStatus>()
         .With(s => s.URN, URN)
         .Create();
     private readonly Dictionary<string, CommercialResourceLink[]> _resources = new Fixture()
