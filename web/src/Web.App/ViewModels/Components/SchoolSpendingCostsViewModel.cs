@@ -30,3 +30,25 @@ public class SchoolSpendingCostsViewModelCostCategory<T>
     public bool HasNegativeOrZeroValues { get; set; }
     public T[]? Data { get; set; }
 }
+
+public class SchoolSpendingCostsViewModelCostCategories : List<SchoolSpendingCostsViewModelCostCategory<PriorityCostCategoryDatum>>
+{
+    public SchoolSpendingCostsViewModelCostCategories(string urn, IEnumerable<CostCategory> costs)
+    {
+        foreach (var costCategory in costs)
+        {
+            var data = costCategory.Values.Select(x => new PriorityCostCategoryDatum { Urn = x.Key, Amount = x.Value.Value }).ToArray();
+            var filteredData = data.Where(x => x.Urn == urn || x.Amount > 0).ToArray();
+            var hasNegativeOrZeroValues = data.Length > filteredData.Length;
+            var uuid = Guid.NewGuid().ToString();
+
+            Add(new SchoolSpendingCostsViewModelCostCategory<PriorityCostCategoryDatum>
+            {
+                Uuid = uuid,
+                Category = costCategory,
+                HasNegativeOrZeroValues = hasNegativeOrZeroValues,
+                Data = filteredData
+            });
+        }
+    }
+}

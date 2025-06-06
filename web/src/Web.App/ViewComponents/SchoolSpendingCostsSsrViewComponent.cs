@@ -3,7 +3,6 @@ using Web.App.Domain;
 using Web.App.Infrastructure.Apis;
 using Web.App.Infrastructure.Apis.ChartRendering;
 using Web.App.Infrastructure.Extensions;
-using Web.App.Services;
 using Web.App.ViewModels.Components;
 
 // ReSharper disable ClassNeverInstantiated.Global
@@ -21,28 +20,12 @@ public class SchoolSpendingCostsSsrViewComponent(IChartRenderingApi chartRenderi
         bool hasIncompleteData,
         bool isCustomData,
         bool isPartOfTrust,
+        bool isMat,
         Dictionary<string, CommercialResourceLink[]> resources)
     {
-        var categories = new List<SchoolSpendingCostsViewModelCostCategory<PriorityCostCategoryDatum>>();
-        var requests = new List<PostVerticalBarChartRequest<PriorityCostCategoryDatum>>();
-        foreach (var costCategory in costs)
-        {
-            var data = costCategory.Values.Select(x => new PriorityCostCategoryDatum { Urn = x.Key, Amount = x.Value.Value }).ToArray();
-            var filteredData = data.Where(x => x.Urn == urn || x.Amount > 0).ToArray();
-            var hasNegativeOrZeroValues = data.Length > filteredData.Length;
-            var uuid = Guid.NewGuid().ToString();
-
-            categories.Add(new SchoolSpendingCostsViewModelCostCategory<PriorityCostCategoryDatum>
-            {
-                Uuid = uuid,
-                Category = costCategory,
-                HasNegativeOrZeroValues = hasNegativeOrZeroValues,
-                Data = filteredData
-            });
-
-            // build collection of chart definitions to be resolved in a single API call
-            requests.Add(new SchoolSpendingCostsVerticalBarChartRequest(uuid, urn, filteredData));
-        }
+        var categories = new SchoolSpendingCostsViewModelCostCategories(urn, costs);
+        var requests = categories
+            .Select(c => new SchoolSpendingCostsVerticalBarChartRequest(c.Uuid!, urn, c.Data!));
 
         ChartResponse[] charts = [];
         try

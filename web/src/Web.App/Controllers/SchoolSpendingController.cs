@@ -41,7 +41,7 @@ public class SchoolSpendingController(
             {
                 ViewData[ViewDataKeys.BreadcrumbNode] = BreadcrumbNodes.SchoolSpending(urn);
 
-                var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
+                var school = await establishmentApi.GetSchoolStatus(urn).GetResultOrThrow<SchoolStatus>();
                 var userData = await userDataService.GetSchoolDataAsync(User, urn);
                 RagRating[] ratings;
                 SchoolExpenditure[] pupilExpenditure = [];
@@ -109,7 +109,7 @@ public class SchoolSpendingController(
                 var customDataId = userCustomData.Id!;
                 ViewData[ViewDataKeys.BreadcrumbNode] = BreadcrumbNodes.SchoolCustomisedDataSpending(urn);
 
-                var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
+                var school = await establishmentApi.GetSchoolStatus(urn).GetResultOrThrow<SchoolStatus>();
 
                 var rating = await metricRagRatingApi.CustomAsync(customDataId).GetResultOrThrow<RagRating[]>();
 
