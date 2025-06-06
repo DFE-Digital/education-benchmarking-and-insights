@@ -13,6 +13,27 @@ Feature: Establishment schools endpoints
         When I submit the schools request
         Then the school result should be not found
 
+    Scenario: Sending a valid school status request
+        Given a valid school status request with id '<URN>'
+        When I submit the schools request
+        Then the school status result should be ok and have the following values:
+          | Field         | Value           |
+          | URN           | <URN>           |
+          | SchoolName    | <SchoolName>    |
+          | IsPartOfTrust | <IsPartOfTrust> |
+          | IsMat         | <IsMat>         |
+
+    Examples:
+      | URN    | SchoolName              | IsPartOfTrust | IsMat |
+      | 777042 | Test school 102         | false         | false |
+      | 990315 | Test academy school 285 | true          | false |
+      | 990541 | Test academy school 242 | true          | true  |
+
+    Scenario: Sending an invalid school status request should return not found
+        Given an invalid school status request with id '999999'
+        When I submit the schools request
+        Then the school status result should be not found
+
     Scenario: Sending a valid suggest schools request with exact URN
         Given a valid schools suggest request with searchText '777042'
         When I submit the schools request
@@ -42,19 +63,19 @@ Feature: Establishment schools endpoints
         Given an invalid schools suggest request with '<SearchText>' and '<Size>'
         When I submit the schools request
         Then the schools suggest result should be bad request and have the following validation errors:
-          | PropertyName  | ErrorMessage                |
-          | SearchText    | <SearchTextErrorMessage>    |
-          | Size          | <SizeErrorMessage>          |
+          | PropertyName | ErrorMessage             |
+          | SearchText   | <SearchTextErrorMessage> |
+          | Size         | <SizeErrorMessage>       |
 
     Examples:
-      | SuggesterName | SearchText                                                                                                    | Size | SuggesterNameErrorMessage           | SearchTextErrorMessage                                                                   | SizeErrorMessage                             |
-      | suggester     | te                                                                                                            | 5    |                                     | The length of 'Search Text' must be at least 3 characters. You entered 2 characters.     |                                              |
-      | suggester     | 0123456789_0123456789_0123456789_0123456789_0123456789_0123456789_0123456789_0123456789_0123456789_0123456789 | 5    |                                     | The length of 'Search Text' must be 100 characters or fewer. You entered 109 characters. |                                              |
+      | SuggesterName | SearchText                                                                                                    | Size | SuggesterNameErrorMessage | SearchTextErrorMessage                                                                   | SizeErrorMessage |
+      | suggester     | te                                                                                                            | 5    |                           | The length of 'Search Text' must be at least 3 characters. You entered 2 characters.     |                  |
+      | suggester     | 0123456789_0123456789_0123456789_0123456789_0123456789_0123456789_0123456789_0123456789_0123456789_0123456789 | 5    |                           | The length of 'Search Text' must be 100 characters or fewer. You entered 109 characters. |                  |
 
     Scenario: Sending a valid search schools request with URN
         Given a valid schools search request with searchText '777042' page '1' size '5'
         When I submit the schools request
-        Then the search schools response should be ok and have the following values:  
+        Then the search schools response should be ok and have the following values:
           | TotalResults | Page | PageSize | PageCount |
           | 1            | 1    | 5        | 1         |
         And the results should include the following schools:
@@ -64,9 +85,9 @@ Feature: Establishment schools endpoints
     Scenario: Sending a valid search schools request with search text
         Given a valid schools search request with searchText 'Test' page '1' size '5'
         When I submit the schools request
-        Then the search schools response should be ok and have the following values:  
+        Then the search schools response should be ok and have the following values:
           | TotalResults | Page | PageSize | PageCount |
-          | 763            | 1    | 5        | 153     |
+          | 763          | 1    | 5        | 153       |
         And the results should include the following schools:
           | Urn    | SchoolName             | AddressStreet | AddressLocality | AddressLine3 | AddressTown | AddressCounty | AddressPostcode | OverallPhase | PeriodCoveredByReturn | TotalPupils |
           | 777054 | Test academy school 92 | address 281   | Brixton         |              | London      |               | ABC403          | Secondary    | 3                     | 216         |
@@ -81,16 +102,16 @@ Feature: Establishment schools endpoints
           | OverallPhase | Primary |
         And a valid schools search request with searchText 'Test' page '1' size '5'
         When I submit the schools request
-        Then the search schools response should be ok and have the following values:  
+        Then the search schools response should be ok and have the following values:
           | TotalResults | Page | PageSize | PageCount |
-          | 299          | 1    | 5        | 60       |
+          | 299          | 1    | 5        | 60        |
         And the results should include the following schools:
-          | Urn    | SchoolName     | AddressStreet | AddressLocality         | AddressLine3                         | AddressTown | AddressCounty | AddressPostcode | OverallPhase | PeriodCoveredByReturn | TotalPupils |
-          | 990031 | Test school 26 | address 179   | Upper Street            |                                      | London      |               | ABC301          | Primary      | 12                    | 769         |
-          | 990104 | Test school 64 | address 239   | Kensington and Chelsea  | Our Lady of Victories Primary School | London      |               | ABC361          | Primary      | 12                    | 191         |
-          | 990111 | Test school 94 | address 272   | Lambeth                 | Kennington                           | London      |               | ABC394          | Primary      | 12                    | 1040        |
-          | 990155 | Test school 81 | address 258   | Brixton                 |                                      | London      |               | ABC380          | Primary      | 12                    | 303         |
-          | 990163 | Test school 47 | address 220   |                         |                                      | London      |               | ABC342          | Primary      | 12                    | 260         |
+          | Urn    | SchoolName     | AddressStreet | AddressLocality        | AddressLine3                         | AddressTown | AddressCounty | AddressPostcode | OverallPhase | PeriodCoveredByReturn | TotalPupils |
+          | 990031 | Test school 26 | address 179   | Upper Street           |                                      | London      |               | ABC301          | Primary      | 12                    | 769         |
+          | 990104 | Test school 64 | address 239   | Kensington and Chelsea | Our Lady of Victories Primary School | London      |               | ABC361          | Primary      | 12                    | 191         |
+          | 990111 | Test school 94 | address 272   | Lambeth                | Kennington                           | London      |               | ABC394          | Primary      | 12                    | 1040        |
+          | 990155 | Test school 81 | address 258   | Brixton                |                                      | London      |               | ABC380          | Primary      | 12                    | 303         |
+          | 990163 | Test school 47 | address 220   |                        |                                      | London      |               | ABC342          | Primary      | 12                    | 260         |
 
     Scenario: Sending a valid search schools request with many filters
         Given I have the following filters:
@@ -99,9 +120,9 @@ Feature: Establishment schools endpoints
           | OverallPhase | Secondary |
         And a valid schools search request with searchText 'Test' page '1' size '5'
         When I submit the schools request
-        Then the search schools response should be ok and have the following values:  
+        Then the search schools response should be ok and have the following values:
           | TotalResults | Page | PageSize | PageCount |
-          | 424          | 1    | 5        | 85       |
+          | 424          | 1    | 5        | 85        |
         And the results should include the following schools:
           | Urn    | SchoolName             | AddressStreet | AddressLocality        | AddressLine3                         | AddressTown | AddressCounty | AddressPostcode | OverallPhase | PeriodCoveredByReturn | TotalPupils |
           | 777054 | Test academy school 92 | address 281   | Brixton                |                                      | London      |               | ABC403          | Secondary    | 3                     | 216         |
@@ -113,10 +134,10 @@ Feature: Establishment schools endpoints
     Scenario: Sending a valid search schools request with order by ascending
         Given a valid schools search request with searchText 'Test' page '1' size '5' orderByField 'SchoolNameSortable' orderByValue 'asc'
         When I submit the schools request
-        Then the search schools response should be ok and have the following values:  
+        Then the search schools response should be ok and have the following values:
           | TotalResults | Page | PageSize | PageCount |
-          | 763            | 1    | 5        | 153     |
-        And the results should include the following schools:  
+          | 763          | 1    | 5        | 153       |
+        And the results should include the following schools:
           | Urn    | SchoolName              | AddressStreet | AddressLocality     | AddressLine3 | AddressTown | AddressCounty      | AddressPostcode | OverallPhase        | PeriodCoveredByReturn | TotalPupils |
           | 990324 | Test academy school 1   | address 293   | Brixton             |              | Manchester  | Greater Manchester | ABC415          | Primary             | 12                    | 270         |
           | 990372 | Test academy school 10  | address 291   | Brixton             |              | Manchester  | Greater Manchester | ABC413          | Primary             | 12                    | 114         |
@@ -127,16 +148,16 @@ Feature: Establishment schools endpoints
     Scenario: Sending a valid search schools request with order by descending
         Given a valid schools search request with searchText 'Test' page '1' size '5' orderByField 'SchoolNameSortable' orderByValue 'desc'
         When I submit the schools request
-        Then the search schools response should be ok and have the following values:  
+        Then the search schools response should be ok and have the following values:
           | TotalResults | Page | PageSize | PageCount |
-          | 763            | 1    | 5        | 153     |
+          | 763          | 1    | 5        | 153       |
         And the results should include the following schools:
-          | Urn    | SchoolName                           | AddressStreet | AddressLocality     | AddressLine3 | AddressTown    | AddressCounty | AddressPostcode | OverallPhase | PeriodCoveredByReturn | TotalPupils |
-          | 990754 | Test school with missing census data | address 754   | Chalk Road          |              | Rotherham      |               | ABC754          | Secondary    | 12                    |             |
-          | 990035 | Test school 98                       | address 276   | Camberwell New Road |              | London         |               | ABC398          | Primary      | 12                    | 769         |
-          | 990170 | Test school 97                       | address 275   | Stockwell           |              | London         |               | ABC397          | Primary      | 12                    | 1045        |
-          | 990095 | Test school 96                       | address 274   | Clapham             |              |                |               | ABC396          | Primary      | 12                    | 1135        |
-          | 990219 | Test school 95                       | address 273   | North Brixton       |              | London         |               | ABC395          | Primary      | 12                    | 1326        |
+          | Urn    | SchoolName                           | AddressStreet | AddressLocality     | AddressLine3 | AddressTown | AddressCounty | AddressPostcode | OverallPhase | PeriodCoveredByReturn | TotalPupils |
+          | 990754 | Test school with missing census data | address 754   | Chalk Road          |              | Rotherham   |               | ABC754          | Secondary    | 12                    |             |
+          | 990035 | Test school 98                       | address 276   | Camberwell New Road |              | London      |               | ABC398          | Primary      | 12                    | 769         |
+          | 990170 | Test school 97                       | address 275   | Stockwell           |              | London      |               | ABC397          | Primary      | 12                    | 1045        |
+          | 990095 | Test school 96                       | address 274   | Clapham             |              |             |               | ABC396          | Primary      | 12                    | 1135        |
+          | 990219 | Test school 95                       | address 273   | North Brixton       |              | London      |               | ABC395          | Primary      | 12                    | 1326        |
 
     Scenario: Sending a valid search schools request with many filters and order by ascending
         Given I have the following filters:
@@ -146,9 +167,9 @@ Feature: Establishment schools endpoints
           | OverallPhase | All-through |
         Given a valid schools search request with searchText 'Test' page '1' size '5' orderByField 'SchoolNameSortable' orderByValue 'asc'
         When I submit the schools request
-        Then the search schools response should be ok and have the following values:  
+        Then the search schools response should be ok and have the following values:
           | TotalResults | Page | PageSize | PageCount |
-          | 500            | 1    | 5        | 100     |
+          | 500          | 1    | 5        | 100       |
         And the results should include the following schools:
           | Urn    | SchoolName              | AddressStreet | AddressLocality     | AddressLine3 | AddressTown | AddressCounty      | AddressPostcode | OverallPhase | PeriodCoveredByReturn | TotalPupils |
           | 990324 | Test academy school 1   | address 293   | Brixton             |              | Manchester  | Greater Manchester | ABC415          | Primary      | 12                    | 270         |
@@ -161,7 +182,7 @@ Feature: Establishment schools endpoints
         Given a valid schools search request with searchText 'willNotBeFound' page '1' size '5'
         When I submit the schools request
         Then the schools search result should be empty
-        
+
     Scenario: Sending an invalid search schools request
         Given an invalid schools search request
         When I submit the schools request

@@ -13,6 +13,7 @@ namespace Platform.ApiTests.Steps;
 public class EstablishmentSchoolsSteps(EstablishmentApiDriver api)
 {
     private const string RequestKey = "get-school";
+    private const string StatusRequestKey = "get-school-status";
     private const string SuggestRequestKey = "suggest-school";
     private const string SearchRequestKey = "search-school";
     private List<FilterCriteria> _filters = [];
@@ -33,6 +34,26 @@ public class EstablishmentSchoolsSteps(EstablishmentApiDriver api)
         api.CreateRequest(RequestKey, new HttpRequestMessage
         {
             RequestUri = new Uri($"/api/school/{id}", UriKind.Relative),
+            Method = HttpMethod.Get
+        });
+    }
+
+    [Given("a valid school status request with id '(.*)'")]
+    private void GivenAValidSchoolStatusRequestWithId(string id)
+    {
+        api.CreateRequest(StatusRequestKey, new HttpRequestMessage
+        {
+            RequestUri = new Uri($"/api/school/{id}/status", UriKind.Relative),
+            Method = HttpMethod.Get
+        });
+    }
+
+    [Given("an invalid school status request with id '(.*)'")]
+    private void GivenAnInvalidSchoolStatusRequestWithId(string id)
+    {
+        api.CreateRequest(StatusRequestKey, new HttpRequestMessage
+        {
+            RequestUri = new Uri($"/api/school/{id}/status", UriKind.Relative),
             Method = HttpMethod.Get
         });
     }
@@ -85,7 +106,7 @@ public class EstablishmentSchoolsSteps(EstablishmentApiDriver api)
 
     [Given(
         "a valid schools search request with searchText '(.*)' page '(.*)' size '(.*)' orderByField '(.*)' orderByValue '(.*)'")]
-    private void GivenAValidSchoolsSearchRequest(
+    private void GivenAValidSchoolsSearchRequestWithSearchTextPageSizeOrderByFieldOrderByValue(
         string searchText,
         int page,
         int size,
@@ -116,9 +137,9 @@ public class EstablishmentSchoolsSteps(EstablishmentApiDriver api)
     }
 
     [Given("a valid schools search request with searchText '(.*)' page '(.*)' size '(.*)'")]
-    private void GivenSearchRequestWithoutOrderBy(string searchText, int page, int size)
+    private void GivenAValidSchoolsSearchRequestWithSearchTextPageSize(string searchText, int page, int size)
     {
-        GivenAValidSchoolsSearchRequest(searchText, page, size, null, null);
+        GivenAValidSchoolsSearchRequestWithSearchTextPageSizeOrderByFieldOrderByValue(searchText, page, size, null, null);
     }
 
     [Given("an invalid schools search request")]
@@ -166,7 +187,7 @@ public class EstablishmentSchoolsSteps(EstablishmentApiDriver api)
         AssertHttpResponse.IsOk(response);
 
         var content = await response.Content.ReadAsByteArrayAsync();
-        var result = content.FromJson<SchoolSummary>();
+        var result = content.FromJson<School>();
 
         table.CompareToInstance(result);
     }
@@ -175,6 +196,24 @@ public class EstablishmentSchoolsSteps(EstablishmentApiDriver api)
     private void ThenTheSchoolResultShouldBeNotFound()
     {
         AssertHttpResponse.IsNotFound(api[RequestKey].Response);
+    }
+
+    [Then("the school status result should be ok and have the following values:")]
+    private async Task ThenTheSchoolStatusResultShouldBeOkAndHaveTheFollowingValues(DataTable table)
+    {
+        var response = api[StatusRequestKey].Response;
+        AssertHttpResponse.IsOk(response);
+
+        var content = await response.Content.ReadAsByteArrayAsync();
+        var result = content.FromJson<SchoolStatus>();
+
+        table.CompareToInstance(result);
+    }
+
+    [Then("the school status result should be not found")]
+    private void ThenTheSchoolStatusResultShouldBeNotFound()
+    {
+        AssertHttpResponse.IsNotFound(api[StatusRequestKey].Response);
     }
 
     [Then("the school suggest result should be ok and have the following values:")]
