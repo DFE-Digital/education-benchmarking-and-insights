@@ -22,3 +22,15 @@ public class SchoolQueryTests
 
     private static SchoolQuery Create(params string[] fields) => new(fields);
 }
+
+public class SchoolStatusQueryTests
+{
+    [Fact]
+    public void ShouldReturnSql()
+    {
+        var builder = Create();
+        Assert.Equal("SELECT * FROM VW_SchoolStatus ", builder.QueryTemplate.RawSql);
+    }
+
+    private static SchoolStatusQuery Create() => new();
+}

@@ -1,4 +1,3 @@
-using System.Diagnostics.CodeAnalysis;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
@@ -19,7 +18,6 @@ public interface ISchoolsService
     Task<SearchResponse<SchoolSummary>> SchoolsSearchAsync(SearchRequest request, CancellationToken cancellationToken = default);
 }
 
-[ExcludeFromCodeCoverage]
 public class SchoolsService(
     [FromKeyedServices(ResourceNames.Search.Indexes.School)] IIndexClient client,
     IDatabaseFactory dbFactory)
