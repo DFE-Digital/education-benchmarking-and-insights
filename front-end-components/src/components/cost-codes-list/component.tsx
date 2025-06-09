@@ -2,10 +2,16 @@ import { CostCodesListProps } from "src/components/cost-codes-list";
 import { ContextCodesList } from "src/components/context-codes-list";
 import { useCostCodeMapContext } from "src/contexts/hooks";
 
-export const CostCodesList: React.FC<CostCodesListProps> = (props) => {
-  const { category } = props;
+export const CostCodesList: React.FC<CostCodesListProps> = ({ category }) => {
+  const { categoryCostCodes, tags } = useCostCodeMapContext(category);
 
-  const { categoryCostCodes } = useCostCodeMapContext(category);
-
-  return categoryCostCodes && <ContextCodesList codes={categoryCostCodes} />;
+  return (
+    categoryCostCodes && (
+      <ContextCodesList
+        codes={categoryCostCodes.concat(
+          categoryCostCodes.length > 0 && tags ? tags : []
+        )}
+      />
+    )
+  );
 };

@@ -136,31 +136,33 @@ const compareCostsElement = document.getElementById(CompareCostsElementId);
 
 if (compareCostsElement) {
   const {
+    costCodeMap,
     customDataId,
     dispatchEventType,
     id,
+    isMat,
     phases,
     suppressNegativeOrZero,
     type,
-    costCodeMap,
   } = compareCostsElement.dataset;
   if (type && id) {
     const root = ReactDOM.createRoot(compareCostsElement);
     const phasesParsed = phases ? (JSON.parse(phases) as string[]) : null;
     const costCodeMapParsed = costCodeMap
       ? (JSON.parse(costCodeMap) as Record<string, string>)
-      : null;
+      : undefined;
 
     root.render(
       <React.StrictMode>
         <CompareYourCosts
+          costCodeMap={costCodeMapParsed}
           customDataId={customDataId}
           dispatchEventType={dispatchEventType}
           id={id}
           phases={phasesParsed}
           suppressNegativeOrZero={suppressNegativeOrZero === "true"}
+          tags={isMat === "true" ? ["% of central services"] : undefined}
           type={type as "school" | "trust"}
-          costCodeMap={costCodeMapParsed}
         />
       </React.StrictMode>
     );
