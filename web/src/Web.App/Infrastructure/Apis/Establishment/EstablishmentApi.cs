@@ -7,11 +7,6 @@ public class EstablishmentApi(HttpClient httpClient, string? key = default) : Ap
         return GetAsync(Api.Establishment.School(identifier), cancellationToken);
     }
 
-    public Task<ApiResult> GetSchoolStatus(string? identifier, CancellationToken cancellationToken = default)
-    {
-        return GetAsync(Api.Establishment.SchoolStatus(identifier), cancellationToken);
-    }
-
     public Task<ApiResult> GetTrust(string? identifier, CancellationToken cancellationToken = default)
     {
         return GetAsync(Api.Establishment.Trust(identifier), cancellationToken);
@@ -107,7 +102,6 @@ public class EstablishmentApi(HttpClient httpClient, string? key = default) : Ap
 public interface IEstablishmentApi
 {
     Task<ApiResult> GetSchool(string? identifier, CancellationToken cancellationToken = default);
-    Task<ApiResult> GetSchoolStatus(string? identifier, CancellationToken cancellationToken = default);
     Task<ApiResult> GetTrust(string? identifier, CancellationToken cancellationToken = default);
     Task<ApiResult> GetLocalAuthority(string? identifier, CancellationToken cancellationToken = default);
     Task<ApiResult> GetLocalAuthorityStatisticalNeighbours(string? identifier, CancellationToken cancellationToken = default);

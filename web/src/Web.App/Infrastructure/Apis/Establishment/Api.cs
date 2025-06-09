@@ -17,10 +17,6 @@ public static class Api
         {
             return $"api/school/{identifier}";
         }
-        public static string SchoolStatus(string? identifier)
-        {
-            return $"api/school/{identifier}/status";
-        }
         public static string Trust(string? identifier)
         {
             return $"api/trust/{identifier}";

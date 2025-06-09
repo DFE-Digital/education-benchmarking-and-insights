@@ -10,7 +10,6 @@ public class DataSourceViewComponent(IFinanceService financeService) : ViewCompo
         string organisationType,
         string sourceType,
         bool? isPartOfTrust,
-        bool? isMat,
         string[]? additionText,
         string? pageTitle,
         string wrapperClassName = "govuk-grid-row",
@@ -20,7 +19,7 @@ public class DataSourceViewComponent(IFinanceService financeService) : ViewCompo
         var dataSource = sourceType switch
         {
             DataSourceTypes.Spending =>
-                await GetSpendingDataSource(organisationType, isPartOfTrust == true, isMat == true),
+                await GetSpendingDataSource(organisationType, isPartOfTrust == true),
             DataSourceTypes.Census =>
             [
                 "Workforce data is taken from the workforce census.",
@@ -33,7 +32,7 @@ public class DataSourceViewComponent(IFinanceService financeService) : ViewCompo
         return View(new DataSourceViewModel(dataSource, additionText, wrapperClassName, className));
     }
 
-    private async Task<string[]> GetSpendingDataSource(string organisationType, bool isPartOfTrust, bool isMat)
+    private async Task<string[]> GetSpendingDataSource(string organisationType, bool isPartOfTrust)
     {
         var years = await financeService.GetYears();
         var aarDataSource = $"This {organisationType.ToLower()}'s data covers the financial year September {years.Aar - 1} to August {years.Aar} academies accounts return (AAR).";
@@ -50,14 +49,10 @@ public class DataSourceViewComponent(IFinanceService financeService) : ViewCompo
             [
                 $"This school's data covers the financial year April {years.Cfr - 1} to March {years.Cfr} consistent financial reporting return (CFR)."
             ],
-            OrganisationTypes.Trust when isMat =>
+            OrganisationTypes.Trust =>
             [
                 aarDataSource,
                 matDataSource
-            ],
-            OrganisationTypes.Trust when !isMat =>
-            [
-                aarDataSource
             ],
             OrganisationTypes.LocalAuthority =>
             [

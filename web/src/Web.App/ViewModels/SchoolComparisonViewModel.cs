@@ -3,7 +3,7 @@
 namespace Web.App.ViewModels;
 
 public class SchoolComparisonViewModel(
-    SchoolStatus school,
+    School school,
     string? userDefinedSetId = null,
     string? customDataId = null,
     SchoolExpenditure? expenditure = null,
@@ -12,7 +12,6 @@ public class SchoolComparisonViewModel(
     public string? Urn => school.URN;
     public string? Name => school.SchoolName;
     public bool IsPartOfTrust => school.IsPartOfTrust;
-    public bool IsMat => school.IsMat;
     public string? UserDefinedSetId => userDefinedSetId;
     public string? CustomDataId => customDataId;
     public int? PeriodCoveredByReturn => expenditure?.PeriodCoveredByReturn;

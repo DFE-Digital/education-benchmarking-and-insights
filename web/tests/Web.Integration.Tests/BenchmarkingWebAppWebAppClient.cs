@@ -159,13 +159,10 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
         return this;
     }
 
-    public BenchmarkingWebAppClient SetupEstablishment(School school, SchoolStatus? schoolStatus = null)
+    public BenchmarkingWebAppClient SetupEstablishment(School school)
     {
         EstablishmentApi.Reset();
         EstablishmentApi.Setup(api => api.GetSchool(school.URN, It.IsAny<CancellationToken>())).ReturnsAsync(ApiResult.Ok(school));
-        EstablishmentApi
-            .Setup(api => api.GetSchoolStatus(school.URN, It.IsAny<CancellationToken>()))
-            .ReturnsAsync(ApiResult.Ok(schoolStatus ?? new SchoolStatus { URN = school.URN, SchoolName = school.SchoolName, IsPartOfTrust = school.IsPartOfTrust }));
         return this;
     }
 
@@ -225,7 +222,6 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
     {
         EstablishmentApi.Reset();
         EstablishmentApi.Setup(api => api.GetSchool(It.IsAny<string>(), It.IsAny<CancellationToken>())).ReturnsAsync(ApiResult.NotFound);
-        EstablishmentApi.Setup(api => api.GetSchoolStatus(It.IsAny<string>(), It.IsAny<CancellationToken>())).ReturnsAsync(ApiResult.NotFound);
         EstablishmentApi.Setup(api => api.GetTrust(It.IsAny<string>(), It.IsAny<CancellationToken>())).ReturnsAsync(ApiResult.NotFound);
         EstablishmentApi.Setup(api => api.GetLocalAuthority(It.IsAny<string>(), It.IsAny<CancellationToken>())).ReturnsAsync(ApiResult.NotFound);
         EstablishmentApi.Setup(api => api.GetLocalAuthorityStatisticalNeighbours(It.IsAny<string>(), It.IsAny<CancellationToken>())).ReturnsAsync(ApiResult.NotFound);
@@ -236,7 +232,6 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
     {
         EstablishmentApi.Reset();
         EstablishmentApi.Setup(api => api.GetSchool(It.IsAny<string>(), It.IsAny<CancellationToken>())).Throws(new Exception());
-        EstablishmentApi.Setup(api => api.GetSchoolStatus(It.IsAny<string>(), It.IsAny<CancellationToken>())).Throws(new Exception());
         EstablishmentApi.Setup(api => api.GetTrust(It.IsAny<string>(), It.IsAny<CancellationToken>())).Throws(new Exception());
         EstablishmentApi.Setup(api => api.GetLocalAuthority(It.IsAny<string>(), It.IsAny<CancellationToken>())).Throws(new Exception());
         EstablishmentApi.Setup(api => api.GetLocalAuthorityStatisticalNeighbours(It.IsAny<string>(), It.IsAny<CancellationToken>())).Throws(new Exception());

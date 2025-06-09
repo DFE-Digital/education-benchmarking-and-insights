@@ -7,7 +7,6 @@ public class TrustComparisonViewModel(Trust trust)
     public string? CompanyNumber => trust.CompanyNumber;
     public string? Name => trust.TrustName;
     public int NumberOfSchools => trust.Schools.Length;
-    public bool IsMat => NumberOfSchools > 1;
     public string[] Phases => trust.Schools
         .GroupBy(x => x.OverallPhase)
         .OrderByDescending(x => x.Count())

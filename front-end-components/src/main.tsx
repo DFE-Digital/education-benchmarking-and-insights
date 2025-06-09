@@ -140,7 +140,7 @@ if (compareCostsElement) {
     customDataId,
     dispatchEventType,
     id,
-    isMat,
+    isPartOfTrust,
     phases,
     suppressNegativeOrZero,
     type,
@@ -161,7 +161,9 @@ if (compareCostsElement) {
           id={id}
           phases={phasesParsed}
           suppressNegativeOrZero={suppressNegativeOrZero === "true"}
-          tags={isMat === "true" ? ["% of central services"] : undefined}
+          tags={
+            isPartOfTrust === "true" ? ["% of central services"] : undefined
+          }
           type={type as "school" | "trust"}
         />
       </React.StrictMode>

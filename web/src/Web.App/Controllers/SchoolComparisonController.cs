@@ -40,7 +40,7 @@ public class SchoolComparisonController(
             {
                 ViewData[ViewDataKeys.BreadcrumbNode] = BreadcrumbNodes.SchoolComparison(urn);
 
-                var school = await establishmentApi.GetSchoolStatus(urn).GetResultOrThrow<SchoolStatus>();
+                var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
                 var expenditure = await expenditureApi.School(urn).GetResultOrDefault<SchoolExpenditure>();
                 var defaultComparatorSet = await comparatorSetApi.GetDefaultSchoolAsync(urn).GetResultOrDefault<SchoolComparatorSet>();
                 var userData = await userDataService.GetSchoolDataAsync(User, urn);
@@ -81,7 +81,7 @@ public class SchoolComparisonController(
 
                 ViewData[ViewDataKeys.BreadcrumbNode] = BreadcrumbNodes.SchoolCustomisedDataComparison(urn);
 
-                var school = await establishmentApi.GetSchoolStatus(urn).GetResultOrThrow<SchoolStatus>();
+                var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
 
                 var viewModel = new SchoolComparisonViewModel(school, customDataId: userCustomData.Id);
 
