@@ -28,7 +28,6 @@
     organisationType = OrganisationTypes.Trust,
     sourceType = DataSourceTypes.Spending,
     isPartOfTrust = true,
-    isMat = Model.NumberOfSchools > 1,
     additionText = new[] { "View the spending between schools in this trust." }
 })
 
@@ -40,7 +39,7 @@
          data-phases="@Model.Phases.ToJson(Formatting.None)"
          data-dispatch-event-type="@eventType"
          data-cost-code-map="@Model.CostCodeMap.ToJson(Formatting.None)"
-         data-is-mat="@Model.IsMat.ToString().ToLower()">
+         data-is-part-of-trust="true">
     </div>
 }
 

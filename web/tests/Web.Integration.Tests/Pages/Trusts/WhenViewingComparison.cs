@@ -11,12 +11,10 @@ namespace Web.Integration.Tests.Pages.Trusts;
 
 public class WhenViewingComparison(SchoolBenchmarkingWebAppClient client) : PageBase<SchoolBenchmarkingWebAppClient>(client)
 {
-    [Theory]
-    [InlineData(true)]
-    [InlineData(false)]
-    public async Task CanDisplay(bool isMat)
+    [Fact]
+    public async Task CanDisplay()
     {
-        var (page, trust) = await SetupNavigateInitPage(isMat);
+        var (page, trust) = await SetupNavigateInitPage();
 
         AssertPageLayout(page, trust);
     }
@@ -57,7 +55,7 @@ public class WhenViewingComparison(SchoolBenchmarkingWebAppClient client) : Page
         DocumentAssert.AssertPageUrl(page, Paths.TrustComparison(companyNumber).ToAbsolute(), HttpStatusCode.InternalServerError);
     }
 
-    private async Task<(IHtmlDocument page, Trust trust)> SetupNavigateInitPage(bool isMat = true)
+    private async Task<(IHtmlDocument page, Trust trust)> SetupNavigateInitPage()
     {
         var trust = Fixture.Build<Trust>()
             .With(x => x.CompanyNumber, "12345678")
@@ -65,11 +63,11 @@ public class WhenViewingComparison(SchoolBenchmarkingWebAppClient client) : Page
 
         var primarySchools = Fixture.Build<TrustSchool>()
             .With(x => x.OverallPhase, OverallPhaseTypes.Primary)
-            .CreateMany(isMat ? 9 : 1);
+            .CreateMany(9);
 
         var secondarySchools = Fixture.Build<TrustSchool>()
             .With(x => x.OverallPhase, OverallPhaseTypes.Secondary)
-            .CreateMany(isMat ? 11 : 0);
+            .CreateMany(11);
 
         var schools = primarySchools.Concat(secondarySchools).ToArray();
 
@@ -95,11 +93,7 @@ public class WhenViewingComparison(SchoolBenchmarkingWebAppClient client) : Page
         var dataSourceElement = page.QuerySelectorAll("main > div > div:nth-child(3) > div > p");
         Assert.NotNull(dataSourceElement);
         DocumentAssert.TextEqual(dataSourceElement.ElementAt(1), "This trust's data covers the financial year September 2021 to August 2022 academies accounts return (AAR).");
-
-        if (trust.Schools.Length > 1)
-        {
-            DocumentAssert.TextEqual(dataSourceElement.ElementAt(2), "Data for academies in a Multi-Academy Trust (MAT) includes a share of MAT central finance.");
-        }
+        DocumentAssert.TextEqual(dataSourceElement.ElementAt(2), "Data for academies in a Multi-Academy Trust (MAT) includes a share of MAT central finance.");
 
         var component = page.GetElementById("compare-your-costs");
         Assert.NotNull(component);

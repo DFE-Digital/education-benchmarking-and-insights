@@ -58,17 +58,15 @@ public class WhenViewingSpending(SchoolBenchmarkingWebAppClient client)
     };
 
     [Theory]
-    [InlineData(true, true, true)]
-    [InlineData(true, false, true)]
-    [InlineData(false, false, true)]
-    [InlineData(true, true, false)]
-    [InlineData(true, false, false)]
-    [InlineData(false, false, false)]
-    public async Task CanDisplay(bool isPartOfTrust, bool isMat, bool ssrFeatureEnabled)
+    [InlineData(true, true)]
+    [InlineData(false, true)]
+    [InlineData(true, false)]
+    [InlineData(false, false)]
+    public async Task CanDisplay(bool isPartOfTrust, bool ssrFeatureEnabled)
     {
-        var (page, school, ratings, expenditure) = await SetupNavigateInitPage(isPartOfTrust, isMat, ssrFeatureEnabled: ssrFeatureEnabled);
+        var (page, school, ratings, expenditure) = await SetupNavigateInitPage(isPartOfTrust, ssrFeatureEnabled: ssrFeatureEnabled);
 
-        AssertPageLayout(page, school, ratings, expenditure, isPartOfTrust, isMat, ssrFeatureEnabled);
+        AssertPageLayout(page, school, ratings, expenditure, isPartOfTrust, ssrFeatureEnabled);
     }
 
     [Theory]
@@ -78,7 +76,7 @@ public class WhenViewingSpending(SchoolBenchmarkingWebAppClient client)
     {
         var (page, school, ratings, expenditure) = await SetupNavigateInitPage(isPartOfTrust, ssrFeatureEnabled: true, chartApiException: true);
 
-        AssertPageLayout(page, school, ratings, expenditure, isPartOfTrust, false, true, true);
+        AssertPageLayout(page, school, ratings, expenditure, isPartOfTrust, true, true);
     }
 
     [Theory]
@@ -151,30 +149,27 @@ public class WhenViewingSpending(SchoolBenchmarkingWebAppClient client)
     }
 
     [Theory]
-    [InlineData(true, true, true, true, false)]
-    [InlineData(true, false, true, true, false)]
-    [InlineData(false, false, true, true, false)]
-    [InlineData(true, true, true, true, true)]
-    [InlineData(true, false, true, true, true)]
-    [InlineData(false, false, true, true, true)]
-    [InlineData(false, false, true, false, false)]
-    [InlineData(false, false, false, true, false)]
-    [InlineData(false, false, false, false, false)]
-    public async Task CanDisplayWithComparatorSet(bool isPartOfTrust, bool isMat, bool pupilSet, bool buildingSet, bool ssrFeatureEnabled)
+    [InlineData(true, true, true, false)]
+    [InlineData(false, true, true, false)]
+    [InlineData(true, true, true, true)]
+    [InlineData(false, true, true, true)]
+    [InlineData(false, true, false, false)]
+    [InlineData(false, false, true, false)]
+    [InlineData(false, false, false, false)]
+    public async Task CanDisplayWithComparatorSet(bool isPartOfTrust, bool pupilSet, bool buildingSet, bool ssrFeatureEnabled)
     {
         var comparatorSet = new SchoolComparatorSet
         {
             Building = buildingSet ? Fixture.CreateMany<string>().ToArray() : [],
             Pupil = pupilSet ? Fixture.CreateMany<string>().ToArray() : []
         };
-        var (page, school, ratings, expenditure) = await SetupNavigateInitPage(isPartOfTrust, isMat, comparatorSet, ssrFeatureEnabled);
+        var (page, school, ratings, expenditure) = await SetupNavigateInitPage(isPartOfTrust, comparatorSet, ssrFeatureEnabled);
 
-        AssertPageLayout(page, school, ratings, expenditure, isPartOfTrust, isMat, ssrFeatureEnabled);
+        AssertPageLayout(page, school, ratings, expenditure, isPartOfTrust, ssrFeatureEnabled);
     }
 
     private async Task<(IHtmlDocument page, School school, RagRating[] ratings, SchoolExpenditure? expenditure)> SetupNavigateInitPage(
         bool isPartOfTrust,
-        bool isMat = false,
         SchoolComparatorSet? comparatorSet = null,
         bool ssrFeatureEnabled = false,
         bool chartApiException = false)
@@ -184,14 +179,6 @@ public class WhenViewingSpending(SchoolBenchmarkingWebAppClient client)
             .With(x => x.FinanceType, isPartOfTrust ? EstablishmentTypes.Academies : EstablishmentTypes.Maintained)
             .With(x => x.TrustCompanyNumber, isPartOfTrust ? "1223545" : "")
             .Create();
-
-        var schoolStatus = new SchoolStatus
-        {
-            URN = school.URN,
-            SchoolName = school.SchoolName,
-            IsPartOfTrust = isPartOfTrust,
-            IsMat = isMat
-        };
 
         Assert.NotNull(school.URN);
 
@@ -204,7 +191,7 @@ public class WhenViewingSpending(SchoolBenchmarkingWebAppClient client)
 
         var client = Client
             .SetupDisableFeatureFlags(ssrFeatureEnabled ? [] : [FeatureFlags.SchoolSpendingPrioritiesSsrCharts])
-            .SetupEstablishment(school, schoolStatus)
+            .SetupEstablishment(school)
             .SetupInsights()
             .SetupUserData()
             .SetupMetricRagRating(rating)
@@ -246,7 +233,6 @@ public class WhenViewingSpending(SchoolBenchmarkingWebAppClient client)
         RagRating[] ratings,
         SchoolExpenditure? expenditure,
         bool isPartOfTrust,
-        bool isMat,
         bool ssrCharts = false,
         bool chartError = false)
     {
@@ -291,7 +277,7 @@ public class WhenViewingSpending(SchoolBenchmarkingWebAppClient client)
             Assert.NotNull(sectionHeading);
 
             var expectedCount = expectedCostCodeList[sectionHeading];
-            if (isMat)
+            if (school.IsPartOfTrust)
             {
                 expectedCount++;
                 Assert.Equal("% of central services", costCodeList.LastElementChild?.TextContent);

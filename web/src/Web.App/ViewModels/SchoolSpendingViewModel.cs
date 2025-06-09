@@ -3,7 +3,7 @@ using Web.App.Domain;
 namespace Web.App.ViewModels;
 
 public class SchoolSpendingViewModel(
-    SchoolStatus school,
+    School school,
     IEnumerable<RagRating> ratings,
     IEnumerable<SchoolExpenditure> pupilExpenditure,
     IEnumerable<SchoolExpenditure> areaExpenditure,
@@ -16,7 +16,6 @@ public class SchoolSpendingViewModel(
     public string? Name => school.SchoolName;
     public string? Urn => school.URN;
     public bool IsPartOfTrust => school.IsPartOfTrust;
-    public bool IsMat => school.IsMat;
     public string? UserDefinedSetId => userDefinedSetId;
     public string? CustomDataId => customDataId;
 

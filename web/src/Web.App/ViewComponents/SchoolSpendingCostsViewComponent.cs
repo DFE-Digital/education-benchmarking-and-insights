@@ -13,10 +13,9 @@ public class SchoolSpendingCostsViewComponent : ViewComponent
         string urn,
         bool hasIncompleteData,
         bool isCustomData,
-        bool isPartOfTrust,
-        bool isMat)
+        bool isPartOfTrust)
     {
         var categories = new SchoolSpendingCostsViewModelCostCategories(urn, costs);
-        return View(new SchoolSpendingCostsViewModel(id, urn, isPartOfTrust, isMat, isCustomData, hasIncompleteData, categories, resources));
+        return View(new SchoolSpendingCostsViewModel(id, urn, isPartOfTrust, isCustomData, hasIncompleteData, categories, resources));
     }
 }

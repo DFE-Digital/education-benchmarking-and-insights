@@ -20,7 +20,6 @@ public class SchoolSpendingCostsSsrViewComponent(IChartRenderingApi chartRenderi
         bool hasIncompleteData,
         bool isCustomData,
         bool isPartOfTrust,
-        bool isMat,
         Dictionary<string, CommercialResourceLink[]> resources)
     {
         var categories = new SchoolSpendingCostsViewModelCostCategories(urn, costs);
@@ -46,7 +45,7 @@ public class SchoolSpendingCostsSsrViewComponent(IChartRenderingApi chartRenderi
             }
         }
 
-        return View(new SchoolSpendingCostsViewModel(id, urn, isPartOfTrust, isMat, isCustomData, hasIncompleteData, categories, resources));
+        return View(new SchoolSpendingCostsViewModel(id, urn, isPartOfTrust, isCustomData, hasIncompleteData, categories, resources));
     }
 }
 

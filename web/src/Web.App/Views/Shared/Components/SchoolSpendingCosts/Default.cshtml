@@ -30,7 +30,7 @@
             .Where(x => !string.IsNullOrWhiteSpace(x))
             .ToList() ?? [];
 
-        if (Model.IsMat)
+        if (Model.IsPartOfTrust)
         {
             costCodes.Add("% of central services");
         }
