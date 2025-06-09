@@ -10,6 +10,7 @@ public class DataSourceViewComponent(IFinanceService financeService) : ViewCompo
         string organisationType,
         string sourceType,
         bool? isPartOfTrust,
+        bool? isMat,
         string[]? additionText,
         string? pageTitle,
         string wrapperClassName = "govuk-grid-row",
@@ -19,7 +20,7 @@ public class DataSourceViewComponent(IFinanceService financeService) : ViewCompo
         var dataSource = sourceType switch
         {
             DataSourceTypes.Spending =>
-                await GetSpendingDataSource(organisationType, isPartOfTrust == true),
+                await GetSpendingDataSource(organisationType, isPartOfTrust == true, isMat == true),
             DataSourceTypes.Census =>
             [
                 "Workforce data is taken from the workforce census.",
@@ -32,24 +33,31 @@ public class DataSourceViewComponent(IFinanceService financeService) : ViewCompo
         return View(new DataSourceViewModel(dataSource, additionText, wrapperClassName, className));
     }
 
-    private async Task<string[]> GetSpendingDataSource(string organisationType, bool isPartOfTrust)
+    private async Task<string[]> GetSpendingDataSource(string organisationType, bool isPartOfTrust, bool isMat)
     {
         var years = await financeService.GetYears();
+        var aarDataSource = $"This {organisationType.ToLower()}'s data covers the financial year September {years.Aar - 1} to August {years.Aar} academies accounts return (AAR).";
+        const string matDataSource = "Data for academies in a Multi-Academy Trust (MAT) includes a share of MAT central finance.";
 
         return organisationType switch
         {
             OrganisationTypes.School when isPartOfTrust =>
             [
-                $"This school's data covers the financial year September {years.Aar - 1} to August {years.Aar} academies accounts return (AAR).",
-                "Data for academies in a Multi-Academy Trust (MAT) includes a share of MAT central finance."
+                aarDataSource,
+                matDataSource
             ],
             OrganisationTypes.School when !isPartOfTrust =>
             [
                 $"This school's data covers the financial year April {years.Cfr - 1} to March {years.Cfr} consistent financial reporting return (CFR)."
             ],
-            OrganisationTypes.Trust =>
+            OrganisationTypes.Trust when isMat =>
             [
-                $"This trust's data covers the financial year September {years.Aar - 1} to August {years.Aar} academies accounts return (AAR)."
+                aarDataSource,
+                matDataSource
+            ],
+            OrganisationTypes.Trust when !isMat =>
+            [
+                aarDataSource
             ],
             OrganisationTypes.LocalAuthority =>
             [
