@@ -26,7 +26,8 @@
     data-id="@Model.Urn"
     data-custom-data-id="@Model.CustomDataId"
     data-suppress-negative-or-zero="true"
-    data-cost-code-map="@Model.CostCodeMap.ToJson(Formatting.None)">
+    data-cost-code-map="@Model.CostCodeMap.ToJson(Formatting.None)"
+    data-is-mat="@Model.IsMat.ToString().ToLower()">
 </div>
 
 @await Component.InvokeAsync("CustomDataFinanceTools", new

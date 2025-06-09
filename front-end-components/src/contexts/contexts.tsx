@@ -41,12 +41,17 @@ export const SuppressNegativeOrZeroContext =
     message: "",
   });
 
-export const CostCodeMapContext = createContext<Record<string, string> | null>(
-  null
-);
+export const CostCodeMapContext = createContext<
+  CostCodeMapContextValue | undefined
+>(undefined);
+
+export interface CostCodeMapContextValue {
+  costCodeMap?: Record<string, string>;
+  getCostCodes: (category: string) => string[];
+  tags?: string[];
+}
 
 export interface CostCodeMapContextValues {
-  costCodeMap: Record<string, string> | null;
-  getCostCodes: (category: string) => string[];
   categoryCostCodes: string[];
+  tags?: string[];
 }

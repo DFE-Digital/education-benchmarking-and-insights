@@ -68,7 +68,8 @@
          data-id="@Model.Urn"
          data-suppress-negative-or-zero="true"
          data-dispatch-event-type="@eventType"
-         data-cost-code-map="@Model.CostCodeMap.ToJson(Formatting.None)">
+         data-cost-code-map="@Model.CostCodeMap.ToJson(Formatting.None)"
+         data-is-mat="@Model.IsMat.ToString().ToLower()">
     </div>
 }
 

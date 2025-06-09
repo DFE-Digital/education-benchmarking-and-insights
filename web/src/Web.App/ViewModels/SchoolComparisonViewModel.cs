@@ -1,4 +1,5 @@
 ﻿using Web.App.Domain;
+
 namespace Web.App.ViewModels;
 
 public class SchoolComparisonViewModel(
@@ -11,6 +12,7 @@ public class SchoolComparisonViewModel(
     public string? Urn => school.URN;
     public string? Name => school.SchoolName;
     public bool IsPartOfTrust => school.IsPartOfTrust;
+    public bool IsMat => school.IsMat;
     public string? UserDefinedSetId => userDefinedSetId;
     public string? CustomDataId => customDataId;
     public int? PeriodCoveredByReturn => expenditure?.PeriodCoveredByReturn;
