@@ -101,7 +101,7 @@ public partial class WhenViewingComparators(SchoolBenchmarkingWebAppClient clien
         var howList = tab.QuerySelectorAll(".govuk-list").ElementAtOrDefault(0);
         Assert.NotNull(howList);
         var howListItems = howList.QuerySelectorAll("li");
-        Assert.Equal(OverallPhaseTypes.SendCharacteristicsPhases.Contains(school.OverallPhase) ? 5 : 3, howListItems.Length);
+        Assert.Equal(5, howListItems.Length);
 
         var senList = tab.QuerySelectorAll(".govuk-list").ElementAtOrDefault(1);
         if (OverallPhaseTypes.SendCharacteristicsPhases.Contains(school.OverallPhase))
