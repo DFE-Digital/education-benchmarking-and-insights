@@ -17,6 +17,6 @@ public class SchoolSpendingCostsViewComponent : ViewComponent
         bool isMat)
     {
         var categories = new SchoolSpendingCostsViewModelCostCategories(urn, costs);
-        return View(new SchoolSpendingCostsViewModel(id, urn, isPartOfTrust, isCustomData, hasIncompleteData, categories, resources));
+        return View(new SchoolSpendingCostsViewModel(id, urn, isPartOfTrust, isMat, isCustomData, hasIncompleteData, categories, resources));
     }
 }

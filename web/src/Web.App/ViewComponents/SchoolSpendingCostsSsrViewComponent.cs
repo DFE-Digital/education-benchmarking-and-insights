@@ -46,7 +46,7 @@ public class SchoolSpendingCostsSsrViewComponent(IChartRenderingApi chartRenderi
             }
         }
 
-        return View(new SchoolSpendingCostsViewModel(id, urn, isPartOfTrust, isCustomData, hasIncompleteData, categories, resources));
+        return View(new SchoolSpendingCostsViewModel(id, urn, isPartOfTrust, isMat, isCustomData, hasIncompleteData, categories, resources));
     }
 }
 

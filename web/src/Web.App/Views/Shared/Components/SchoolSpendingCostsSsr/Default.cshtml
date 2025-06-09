@@ -24,6 +24,11 @@
             .Where(x => !string.IsNullOrWhiteSpace(x))
             .ToList() ?? [];
 
+        if (Model.IsMat)
+        {
+            costCodes.Add("% of central services");
+        }
+
         var schoolData = cost?.Data?.SingleOrDefault(d => d.Urn == Model.Urn);
         var chartStats = category == null ? null : SchoolSpendingViewModel.Stats(category.Rating);
         var unit = category == null ? null : Lookups.CategoryUnitMap[category.Rating.Category ?? string.Empty];

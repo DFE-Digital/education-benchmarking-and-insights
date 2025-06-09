@@ -30,6 +30,11 @@
             .Where(x => !string.IsNullOrWhiteSpace(x))
             .ToList() ?? [];
 
+        if (Model.IsMat)
+        {
+            costCodes.Add("% of central services");
+        }
+
         var uuid = Guid.NewGuid();
 
         <section id="spending-priorities-@category?.Rating.CostCategoryAnchorId">
@@ -139,8 +144,8 @@
                             </h4>
                             @{
                                 var heading = category.Rating.Category ?? "";
-                                var resources = Model.Resources.ContainsKey(heading) 
-                                    ? Model.Resources[heading] 
+                                var resources = Model.Resources.ContainsKey(heading)
+                                    ? Model.Resources[heading]
                                     : [];
 
                                 @await Component.InvokeAsync("CommercialResource", new
@@ -150,7 +155,7 @@
                                     displayHeading = false
                                 })
                             }
-                            
+
                         </div>
                     }
                 </div>
