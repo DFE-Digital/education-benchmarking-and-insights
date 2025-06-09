@@ -7,6 +7,7 @@ public class SchoolSpendingCostsViewModel(
     string? id,
     string urn,
     bool isPartOfTrust,
+    bool isMat,
     bool isCustomData,
     bool hasIncompleteData,
     List<SchoolSpendingCostsViewModelCostCategory<PriorityCostCategoryDatum>> categories,
@@ -18,6 +19,7 @@ public class SchoolSpendingCostsViewModel(
     public bool HasIncompleteData => hasIncompleteData;
     public bool IsCustomData => isCustomData;
     public bool IsPartOfTrust => isPartOfTrust;
+    public bool IsMat => isMat;
     public CostCodes CostCodes => new(IsPartOfTrust);
     public Dictionary<string, CommercialResourceLink[]> Resources => resources;
 }

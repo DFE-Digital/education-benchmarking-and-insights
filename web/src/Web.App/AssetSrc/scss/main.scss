@@ -444,6 +444,10 @@ hr.govuk-section-break--print {
   flex-wrap: wrap;
   list-style: none;
   padding: 0;
+
+  .govuk-tag {
+    max-width: none;
+  }
 }
 
 .dashboard-row {

@@ -240,7 +240,15 @@ public class WhenViewingSpending(SchoolBenchmarkingWebAppClient client)
         return (page, school, rating, comparatorSet == null ? null : expenditures.First());
     }
 
-    private static void AssertPageLayout(IHtmlDocument page, School school, RagRating[] ratings, SchoolExpenditure? expenditure, bool isPartOfTrust, bool isMat, bool ssrCharts = false, bool chartError = false)
+    private static void AssertPageLayout(
+        IHtmlDocument page,
+        School school,
+        RagRating[] ratings,
+        SchoolExpenditure? expenditure,
+        bool isPartOfTrust,
+        bool isMat,
+        bool ssrCharts = false,
+        bool chartError = false)
     {
         DocumentAssert.AssertPageUrl(page, Paths.SchoolSpending(school.URN).ToAbsolute());
         DocumentAssert.TitleAndH1(page, "Spending priorities for this school - Financial Benchmarking and Insights Tool - GOV.UK",
@@ -281,7 +289,14 @@ public class WhenViewingSpending(SchoolBenchmarkingWebAppClient client)
 
             Assert.NotNull(costCodeList);
             Assert.NotNull(sectionHeading);
-            Assert.Equal(expectedCostCodeList[sectionHeading], costCodeList.ChildElementCount);
+
+            var expectedCount = expectedCostCodeList[sectionHeading];
+            if (isMat)
+            {
+                expectedCount++;
+                Assert.Equal("% of central services", costCodeList.LastElementChild?.TextContent);
+            }
+            Assert.Equal(expectedCount, costCodeList.ChildElementCount);
 
             Assert.NotEqual(Category.Other, sectionHeading);
 
