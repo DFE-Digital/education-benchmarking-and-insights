@@ -1,6 +1,5 @@
 ﻿@using Newtonsoft.Json
 @using Web.App.Extensions
-
 @model Web.App.ViewModels.SchoolComparisonViewModel
 @{
     ViewData[ViewDataKeys.Title] = PageTitles.Comparison;
@@ -17,7 +16,7 @@
 @await Component.InvokeAsync("CustomDataBanner", new
 {
     name = Model.Name,
-    id = Model.Urn,
+    id = Model.Urn
 })
 
 <div
@@ -27,7 +26,7 @@
     data-custom-data-id="@Model.CustomDataId"
     data-suppress-negative-or-zero="true"
     data-cost-code-map="@Model.CostCodeMap.ToJson(Formatting.None)"
-    data-is-part-pf-trust="@Model.IsPartOfTrust.ToString().ToLower()">
+    data-is-part-of-trust="@Model.IsPartOfTrust.ToString().ToLower()">
 </div>
 
 @await Component.InvokeAsync("CustomDataFinanceTools", new

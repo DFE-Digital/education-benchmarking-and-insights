@@ -24,11 +24,11 @@ public class SchoolSpendingCostsViewModel(
 
 public class SchoolSpendingCostsViewModelCostCategory<T>
 {
-    public string? Uuid { get; set; }
-    public CostCategory? Category { get; set; }
+    public string? Uuid { get; init; }
+    public CostCategory? Category { get; init; }
     public string? ChartSvg { get; set; }
-    public bool HasNegativeOrZeroValues { get; set; }
-    public T[]? Data { get; set; }
+    public bool HasNegativeOrZeroValues { get; init; }
+    public T[]? Data { get; init; }
 }
 
 public class SchoolSpendingCostsViewModelCostCategories : List<SchoolSpendingCostsViewModelCostCategory<PriorityCostCategoryDatum>>
