@@ -37,7 +37,7 @@ To ensure that features are properly tested before they are live, we should foll
 
 Below is a list of feature flags currently implemented in our service at the time of writing this document:
 
-```
+``` text
 FeatureManagement__CurriculumFinancialPlanning  
 FeatureManagement__CustomData  
 FeatureManagement__DisableOrganisationClaimCheck  
@@ -90,6 +90,7 @@ We use feature flags to control the execution of E2E, accessibility (a11y), and 
 
 In E2E tests, we apply a category tag using the `Xunit.TraitAttribute`:
 adding @{featureflagTag} automatically adds the below in the code
+
 ```csharp
 [Xunit.TraitAttribute("Category", "{Tag Name}")]
 ```
