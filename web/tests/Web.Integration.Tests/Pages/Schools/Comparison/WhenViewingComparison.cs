@@ -125,6 +125,19 @@ public class WhenViewingComparison(SchoolBenchmarkingWebAppClient client)
         DocumentAssert.TitleAndH1(page, "Benchmark spending - Financial Benchmarking and Insights Tool - GOV.UK",
             "Benchmark spending");
 
+        var dataSourceElement = page.QuerySelectorAll("main > div > div:nth-child(3) > div > p");
+        Assert.NotNull(dataSourceElement);
+
+        if (school.IsPartOfTrust)
+        {
+            DocumentAssert.TextEqual(dataSourceElement.ElementAt(1), "This school's data covers the financial year September 2021 to August 2022 academies accounts return (AAR).");
+            DocumentAssert.TextEqual(dataSourceElement.ElementAt(2), "Data for academies in a Multi-Academy Trust (MAT) includes a share of MAT central finance.");
+        }
+        else
+        {
+            DocumentAssert.TextEqual(dataSourceElement.ElementAt(1), "This school's data covers the financial year April 2020 to March 2021 consistent financial reporting return (CFR).");
+        }
+
         var comparisonComponent = page.GetElementById("compare-your-costs");
         Assert.NotNull(comparisonComponent);
 

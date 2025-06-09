@@ -1,7 +1,6 @@
 ﻿using System.Net;
 using AngleSharp.Dom;
 using AngleSharp.Html.Dom;
-using AngleSharp.XPath;
 using AutoFixture;
 using Newtonsoft.Json;
 using Web.App;
@@ -12,10 +11,12 @@ namespace Web.Integration.Tests.Pages.Trusts;
 
 public class WhenViewingComparison(SchoolBenchmarkingWebAppClient client) : PageBase<SchoolBenchmarkingWebAppClient>(client)
 {
-    [Fact]
-    public async Task CanDisplay()
+    [Theory]
+    [InlineData(true)]
+    [InlineData(false)]
+    public async Task CanDisplay(bool isMat)
     {
-        var (page, trust) = await SetupNavigateInitPage();
+        var (page, trust) = await SetupNavigateInitPage(isMat);
 
         AssertPageLayout(page, trust);
     }
@@ -56,7 +57,7 @@ public class WhenViewingComparison(SchoolBenchmarkingWebAppClient client) : Page
         DocumentAssert.AssertPageUrl(page, Paths.TrustComparison(companyNumber).ToAbsolute(), HttpStatusCode.InternalServerError);
     }
 
-    private async Task<(IHtmlDocument page, Trust trust)> SetupNavigateInitPage()
+    private async Task<(IHtmlDocument page, Trust trust)> SetupNavigateInitPage(bool isMat = true)
     {
         var trust = Fixture.Build<Trust>()
             .With(x => x.CompanyNumber, "12345678")
@@ -64,11 +65,11 @@ public class WhenViewingComparison(SchoolBenchmarkingWebAppClient client) : Page
 
         var primarySchools = Fixture.Build<TrustSchool>()
             .With(x => x.OverallPhase, OverallPhaseTypes.Primary)
-            .CreateMany(9);
+            .CreateMany(isMat ? 9 : 1);
 
         var secondarySchools = Fixture.Build<TrustSchool>()
             .With(x => x.OverallPhase, OverallPhaseTypes.Secondary)
-            .CreateMany(11);
+            .CreateMany(isMat ? 11 : 0);
 
         var schools = primarySchools.Concat(secondarySchools).ToArray();
 
@@ -91,6 +92,15 @@ public class WhenViewingComparison(SchoolBenchmarkingWebAppClient client) : Page
         DocumentAssert.Breadcrumbs(page, expectedBreadcrumbs);
         DocumentAssert.TitleAndH1(page, "View school spending - Financial Benchmarking and Insights Tool - GOV.UK", "View school spending");
 
+        var dataSourceElement = page.QuerySelectorAll("main > div > div:nth-child(3) > div > p");
+        Assert.NotNull(dataSourceElement);
+        DocumentAssert.TextEqual(dataSourceElement.ElementAt(1), "This trust's data covers the financial year September 2021 to August 2022 academies accounts return (AAR).");
+
+        if (trust.Schools.Length > 1)
+        {
+            DocumentAssert.TextEqual(dataSourceElement.ElementAt(2), "Data for academies in a Multi-Academy Trust (MAT) includes a share of MAT central finance.");
+        }
+
         var component = page.GetElementById("compare-your-costs");
         Assert.NotNull(component);
 
@@ -104,7 +114,7 @@ public class WhenViewingComparison(SchoolBenchmarkingWebAppClient client) : Page
 
         var dataPhases = component.GetAttribute("data-phases");
         Assert.NotNull(dataPhases);
-        string[] expectedPhases = [OverallPhaseTypes.Secondary, OverallPhaseTypes.Primary];
+        string[] expectedPhases = trust.Schools.Length > 1 ? [OverallPhaseTypes.Secondary, OverallPhaseTypes.Primary] : [OverallPhaseTypes.Primary];
         Assert.Equal(expectedPhases.ToJson(Formatting.None), dataPhases);
 
         var toolsSection = page.GetElementById("benchmarking-and-planning-tools");

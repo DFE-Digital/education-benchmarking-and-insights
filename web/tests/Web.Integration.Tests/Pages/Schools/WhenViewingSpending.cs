@@ -246,6 +246,19 @@ public class WhenViewingSpending(SchoolBenchmarkingWebAppClient client)
         DocumentAssert.TitleAndH1(page, "Spending priorities for this school - Financial Benchmarking and Insights Tool - GOV.UK",
             "Spending priorities for this school");
 
+        var dataSourceElement = page.QuerySelectorAll("main > div > div:nth-child(3) > div > p");
+        Assert.NotNull(dataSourceElement);
+
+        if (school.IsPartOfTrust)
+        {
+            DocumentAssert.TextEqual(dataSourceElement.ElementAt(0), "This school's data covers the financial year September 2021 to August 2022 academies accounts return (AAR).");
+            DocumentAssert.TextEqual(dataSourceElement.ElementAt(1), "Data for academies in a Multi-Academy Trust (MAT) includes a share of MAT central finance.");
+        }
+        else
+        {
+            DocumentAssert.TextEqual(dataSourceElement.ElementAt(0), "This school's data covers the financial year April 2020 to March 2021 consistent financial reporting return (CFR).");
+        }
+
         var categorySections = page.QuerySelectorAll("section");
 
         foreach (var section in categorySections)
