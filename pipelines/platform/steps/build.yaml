@@ -54,6 +54,7 @@ steps:
         platform/src/apis/Platform.Api.Establishment/Platform.Api.Establishment.csproj
         platform/src/apis/Platform.Api.LocalAuthorityFinances/Platform.Api.LocalAuthorityFinances.csproj
         platform/src/apis/Platform.Api.NonFinancial/Platform.Api.NonFinancial.csproj
+        platform/src/apis/Platform.Api.Content/Platform.Api.Content.csproj
         platform/src/apis/Platform.Orchestrator/Platform.Orchestrator.csproj
         platform/src/apis/Platform.UserDataCleanUp/Platform.UserDataCleanUp.csproj
       arguments: '-c Release -r win-x64 -f net8.0 -p:PublishReadyToRun=true -o $(Build.ArtifactStagingDirectory)/platform-apis /p:Version=${{ parameters.BuildVersion }} /p:InformationalVersion=${{ parameters.BuildNumber }}'

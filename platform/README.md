@@ -158,6 +158,28 @@ Add configuration in `local.settings.json` for `Platform.Api.ChartRendering`
 }
 ```
 
+#### Content Function App
+
+Add configuration in `local.settings.json` for `Platform.Api.Content`
+
+```json
+{
+  "IsEncrypted": false,
+  "Values": {
+    "FUNCTIONS_WORKER_RUNTIME": "dotnet-isolated",
+    "ASPNETCORE_ENVIRONMENT": "Development",
+    "Sql__ConnectionString": "[INSERT CONNECTION STRING VALUE]",
+    "Sql__TelemetryEnabled": true,
+    "AzureFunctionsJobHost__logging__logLevel__default": "Information",
+    "AzureFunctionsJobHost__logging__logLevel__Function": "Information"
+  },
+  "Host": {
+    "CORS": "*",
+    "LocalHttpPort": 7077
+  }
+}
+```
+
 #### Orchestrator Function App
 
 For local development it's assumed Azurite will be used. More information can be

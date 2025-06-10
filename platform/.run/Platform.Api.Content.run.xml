@@ -1,0 +1,21 @@
+﻿<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Platform.Api.Content" type="AzureFunctionAppRun" factoryName="Azure - Run Function">
+    <option name="PROJECT_FILE_PATH" value="$PROJECT_DIR$/src/apis/Platform.Api.Content/Platform.Api.Content.csproj" />
+    <option name="LAUNCH_PROFILE_NAME" value="Platform.Api.Content" />
+    <option name="PROJECT_TFM" value="net8.0" />
+    <option name="FUNCTION_NAMES" value="" />
+    <option name="PROJECT_ARGUMENTS_TRACKING" value="0" />
+    <option name="PROGRAM_PARAMETERS" value="host start --pause-on-error --port 7077" />
+    <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
+    <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/src/apis/Platform.Api.Content/bin/Debug/net8.0/win-x64" />
+    <option name="TRACK_ENVS" value="1" />
+    <option name="USE_EXTERNAL_CONSOLE" value="0" />
+    <option name="TRACK_URL" value="0" />
+    <option name="TRACK_BROWSER_LAUNCH" value="1" />
+    <browser url="http://localhost:7077" />
+    <method v="2">
+      <option name="Build" />
+      <option name="RunAzuriteTask" enabled="true" />
+    </method>
+  </configuration>
+</component>

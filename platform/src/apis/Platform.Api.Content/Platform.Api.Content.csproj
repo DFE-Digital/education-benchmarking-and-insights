@@ -1,0 +1,34 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <AzureFunctionsVersion>v4</AzureFunctionsVersion>
+        <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
+        <RuntimeIdentifier>win-x64</RuntimeIdentifier>
+        <Nullable>enable</Nullable>
+        <OutputType>Exe</OutputType>
+        <ImplicitUsings>enabled</ImplicitUsings>
+        <PlatformTarget>AnyCPU</PlatformTarget>
+        <Product>Content API</Product>
+        <Description>This API manages 'static' pages or CMS managed content across the Web application</Description>
+    </PropertyGroup>
+    <ItemGroup>
+        <None Update="host.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="local.settings.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+            <CopyToPublishDirectory>Never</CopyToPublishDirectory>
+        </None>
+        <PackageReference Include="Microsoft.ApplicationInsights.WorkerService"/>
+        <PackageReference Include="Microsoft.Azure.Functions.Worker"/>
+        <PackageReference Include="Microsoft.Azure.Functions.Worker.ApplicationInsights"/>
+        <PackageReference Include="Microsoft.Azure.Functions.Worker.Extensions.OpenApi"/>
+        <PackageReference Include="Microsoft.Azure.Functions.Worker.Extensions.Storage"/>
+        <PackageReference Include="Microsoft.Azure.Functions.Worker.Extensions.Http"/>
+        <PackageReference Include="Microsoft.Azure.Functions.Worker.Sdk"/>
+        <ProjectReference Include="..\..\abstractions\Platform.Functions\Platform.Functions.csproj"/>
+        <ProjectReference Include="..\..\abstractions\Platform.Infrastructure\Platform.Infrastructure.csproj"/>
+        <ProjectReference Include="..\..\abstractions\Platform.Json\Platform.Json.csproj"/>
+        <ProjectReference Include="..\..\abstractions\Platform.Sql\Platform.Sql.csproj"/>
+    </ItemGroup>
+</Project>

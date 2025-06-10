@@ -118,6 +118,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Platform.Api.ChartRendering
 		src\apis\Platform.Api.ChartRendering\package.json = src\apis\Platform.Api.ChartRendering\package.json
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Platform.Api.Content", "src\apis\Platform.Api.Content\Platform.Api.Content.csproj", "{31A72885-478F-4DBF-AF91-2BAACD149026}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Platform.Content.Tests", "tests\Platform.Content.Tests\Platform.Content.Tests.csproj", "{1FF9C5EA-6BC9-40FF-9343-10CF36392D8E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -244,6 +248,14 @@ Global
 		{DAD6EED2-DAB5-46D4-BFF9-F5BEFA23B2B4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DAD6EED2-DAB5-46D4-BFF9-F5BEFA23B2B4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DAD6EED2-DAB5-46D4-BFF9-F5BEFA23B2B4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{31A72885-478F-4DBF-AF91-2BAACD149026}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{31A72885-478F-4DBF-AF91-2BAACD149026}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{31A72885-478F-4DBF-AF91-2BAACD149026}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{31A72885-478F-4DBF-AF91-2BAACD149026}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1FF9C5EA-6BC9-40FF-9343-10CF36392D8E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1FF9C5EA-6BC9-40FF-9343-10CF36392D8E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1FF9C5EA-6BC9-40FF-9343-10CF36392D8E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1FF9C5EA-6BC9-40FF-9343-10CF36392D8E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -283,5 +295,7 @@ Global
 		{87DF095C-99A1-485F-84F1-AB24D3891D66} = {88E9B775-3937-45F6-9899-F0ECDD635145}
 		{DAD6EED2-DAB5-46D4-BFF9-F5BEFA23B2B4} = {88E9B775-3937-45F6-9899-F0ECDD635145}
 		{74022F75-3843-48DF-9FB5-D88A0BCD2E7E} = {80C48401-A0AA-4707-B26A-332240A6C214}
+		{31A72885-478F-4DBF-AF91-2BAACD149026} = {80C48401-A0AA-4707-B26A-332240A6C214}
+		{1FF9C5EA-6BC9-40FF-9343-10CF36392D8E} = {88E9B775-3937-45F6-9899-F0ECDD635145}
 	EndGlobalSection
 EndGlobal
