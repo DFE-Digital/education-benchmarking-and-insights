@@ -9,6 +9,7 @@ using Web.App.Domain.NonFinancial;
 using Web.App.Infrastructure.Apis;
 using Web.App.Infrastructure.Apis.Benchmark;
 using Web.App.Infrastructure.Apis.ChartRendering;
+using Web.App.Infrastructure.Apis.Content;
 using Web.App.Infrastructure.Apis.Establishment;
 using Web.App.Infrastructure.Apis.Insight;
 using Web.App.Infrastructure.Apis.LocalAuthorities;
@@ -18,6 +19,8 @@ using Web.App.Services;
 using Web.App.ViewComponents;
 using Xunit.Abstractions;
 using File = Web.App.Domain.File;
+// ReSharper disable MemberCanBePrivate.Global
+// ReSharper disable ClassNeverInstantiated.Global
 
 namespace Web.Integration.Tests;
 
@@ -35,7 +38,7 @@ public class SchoolBenchmarkingWebAppClient : BenchmarkingWebAppClient
 public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<TestAuthOptions>? authCfg = null)
     : WebAppClientBase<Program>(messageSink, authCfg)
 {
-    public Mock<IInsightApi> InsightApi { get; } = new();
+    public Mock<IYearsApi> YearsApi { get; } = new();
     public Mock<IEstablishmentApi> EstablishmentApi { get; } = new();
     public Mock<IFinancialPlanApi> FinancialPlanApi { get; } = new();
     public Mock<IComparatorApi> ComparatorApi { get; } = new();
@@ -63,7 +66,7 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
     protected override void Configure(IServiceCollection services)
     {
         services.AddDistributedMemoryCache();
-        services.AddSingleton(InsightApi.Object);
+        services.AddSingleton(YearsApi.Object);
         services.AddSingleton(EstablishmentApi.Object);
         services.AddSingleton(FinancialPlanApi.Object);
         services.AddSingleton(ComparatorApi.Object);
@@ -381,9 +384,9 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
 
     public BenchmarkingWebAppClient SetupInsights()
     {
-        InsightApi.Reset();
+        YearsApi.Reset();
 
-        InsightApi.Setup(api => api.GetCurrentReturnYears()).ReturnsAsync(ApiResult.Ok(new FinanceYears
+        YearsApi.Setup(api => api.GetCurrentReturnYears()).ReturnsAsync(ApiResult.Ok(new FinanceYears
         {
             Aar = 2022,
             Cfr = 2021,

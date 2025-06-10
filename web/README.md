@@ -77,6 +77,11 @@ following section to `secrets.json`, with URLs and keys obtained from Key Vault.
     {
       "Url": "[INSERT URL VALUE]",
       "Key": "[INSERT KEY VALUE]"
+    },
+    "Content":
+    {
+      "Url": "[INSERT URL VALUE]",
+      "Key": "[INSERT KEY VALUE]"
     }
   }
 }

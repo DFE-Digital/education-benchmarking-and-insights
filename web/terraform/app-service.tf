@@ -91,6 +91,8 @@ resource "azurerm_windows_web_app" "education-benchmarking-as" {
     "Apis__NonFinancial__Key"                                 = "@Microsoft.KeyVault(SecretUri=${data.azurerm_key_vault_secret.non-financial-api-key.versionless_id})"
     "Apis__ChartRendering__Url"                               = "@Microsoft.KeyVault(SecretUri=${data.azurerm_key_vault_secret.chart-rendering-api-host.versionless_id})"
     "Apis__ChartRendering__Key"                               = "@Microsoft.KeyVault(SecretUri=${data.azurerm_key_vault_secret.chart-rendering-api-key.versionless_id})"
+    "Apis__Content__Url"                                      = "@Microsoft.KeyVault(SecretUri=${data.azurerm_key_vault_secret.content-api-host.versionless_id})"
+    "Apis__Content__Key"                                      = "@Microsoft.KeyVault(SecretUri=${data.azurerm_key_vault_secret.content-api-key.versionless_id})"
     "DFESignInSettings__APISecret"                            = "@Microsoft.KeyVault(SecretUri=${azurerm_key_vault_secret.dfe-signin-api-secret.versionless_id})"
     "DFESignInSettings__APIUri"                               = var.dfe-signin.api-uri
     "DFESignInSettings__Audience"                             = var.dfe-signin.audience

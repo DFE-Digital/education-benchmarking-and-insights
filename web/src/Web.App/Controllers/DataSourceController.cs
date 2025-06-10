@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
-using Web.App.Infrastructure.Apis.Insight;
+using Web.App.Infrastructure.Apis.Content;
 using Web.App.Infrastructure.Extensions;
 using Web.App.Infrastructure.Storage;
 using Web.App.ViewModels;

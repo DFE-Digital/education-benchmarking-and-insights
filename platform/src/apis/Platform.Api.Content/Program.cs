@@ -11,9 +11,6 @@ var hostBuilder = new HostBuilder()
 
 hostBuilder.Build().Run();
 
-namespace Platform.Api.Content
-{
-    [ExcludeFromCodeCoverage]
-    // ReSharper disable once ClassNeverInstantiated.Global
-    public partial class Program;
-}
+[ExcludeFromCodeCoverage]
+// ReSharper disable once ClassNeverInstantiated.Global
+public partial class Program;

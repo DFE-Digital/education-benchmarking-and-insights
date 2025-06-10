@@ -112,6 +112,7 @@ if (!builder.Environment.IsIntegration())
         .AddLocalAuthorityFinancesApi()
         .AddNonFinancialApi()
         .AddChartRenderingApi()
+        .AddContentApi()
         .AddStorage();
 
     builder.AddSwaggerService();

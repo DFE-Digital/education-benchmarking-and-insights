@@ -1,4 +1,4 @@
-namespace Web.App.Infrastructure.Apis.Insight;
+namespace Web.App.Infrastructure.Apis.Content;
 
 public interface ICommercialResourcesApi
 {
