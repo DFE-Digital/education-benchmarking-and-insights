@@ -2004,6 +2004,22 @@
           "Platform.Sql": "[1.0.0, )"
         }
       },
+      "platform.api.content": {
+        "type": "Project",
+        "dependencies": {
+          "Microsoft.ApplicationInsights.WorkerService": "[2.23.0, )",
+          "Microsoft.Azure.Functions.Worker": "[2.0.0, )",
+          "Microsoft.Azure.Functions.Worker.ApplicationInsights": "[2.0.0, )",
+          "Microsoft.Azure.Functions.Worker.Extensions.Http": "[3.3.0, )",
+          "Microsoft.Azure.Functions.Worker.Extensions.OpenApi": "[1.5.1, )",
+          "Microsoft.Azure.Functions.Worker.Extensions.Storage": "[6.7.0, )",
+          "Microsoft.Azure.Functions.Worker.Sdk": "[2.0.4, )",
+          "Platform.Functions": "[1.0.0, )",
+          "Platform.Infrastructure": "[1.0.0, )",
+          "Platform.Json": "[1.0.0, )",
+          "Platform.Sql": "[1.0.0, )"
+        }
+      },
       "platform.api.establishment": {
         "type": "Project",
         "dependencies": {

@@ -257,4 +257,13 @@ public abstract class PlatformQuery : SqlBuilder
         Where(sql);
         return this;
     }
+
+    public PlatformQuery WhereNameEqual(string name)
+    {
+        const string sql = "Name = @Name";
+        var parameters = new { Name = name };
+
+        Where(sql, parameters);
+        return this;
+    }
 }

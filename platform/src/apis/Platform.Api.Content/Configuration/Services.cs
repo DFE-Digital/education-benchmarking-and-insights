@@ -4,6 +4,9 @@ using System.Text.Json;
 using Microsoft.ApplicationInsights.DependencyCollector;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Extensions.DependencyInjection;
+using Platform.Api.Content.Features.CommercialResources;
+using Platform.Api.Content.Features.Files;
+using Platform.Api.Content.Features.Years;
 using Platform.Functions;
 using Platform.Json;
 using Platform.Sql;
@@ -65,6 +68,9 @@ internal static class Services
 
     private static IServiceCollection AddFeatures(this IServiceCollection serviceCollection)
     {
-        return serviceCollection;
+        return serviceCollection
+            .AddCommercialResourcesFeature()
+            .AddFilesFeature()
+            .AddYearsFeature();
     }
 }

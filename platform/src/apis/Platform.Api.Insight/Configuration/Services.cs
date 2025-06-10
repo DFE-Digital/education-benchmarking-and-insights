@@ -7,9 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Platform.Api.Insight.Features.Balance;
 using Platform.Api.Insight.Features.BudgetForecast;
 using Platform.Api.Insight.Features.Census;
-using Platform.Api.Insight.Features.CommercialResources;
 using Platform.Api.Insight.Features.Expenditure;
-using Platform.Api.Insight.Features.Files;
 using Platform.Api.Insight.Features.Income;
 using Platform.Api.Insight.Features.MetricRagRatings;
 using Platform.Api.Insight.Features.Schools;
@@ -77,10 +75,8 @@ internal static class Services
         .AddBudgetForecastFeature()
         .AddCensusFeature()
         .AddExpenditureFeature()
-        .AddFilesFeature()
         .AddIncomeFeature()
         .AddMetricRagRatingsFeature()
         .AddSchoolsFeature()
-        .AddTrustsFeature()
-        .AddCommercialResourcesFeature();
+        .AddTrustsFeature();
 }
