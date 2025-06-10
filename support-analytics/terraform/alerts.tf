@@ -296,6 +296,30 @@ resource "azurerm_monitor_metric_alert" "chart_rendering_api_error_alert" {
   }
 }
 
+resource "azurerm_monitor_metric_alert" "content_api_error_alert" {
+  name                = "content-api-error-alert"
+  resource_group_name = azurerm_resource_group.resource-group.name
+  scopes              = [data.azurerm_windows_function_app.content-api.id]
+  description         = "Alert if HTTP 5xx error count exceeds ${var.configuration[var.environment].thresholds.error}"
+  severity            = 0
+  frequency           = "PT1M"
+  window_size         = "PT30M"
+  enabled             = var.configuration[var.environment].alerts_enabled
+  tags                = local.common-tags
+
+  criteria {
+    metric_namespace = "Microsoft.Web/sites"
+    metric_name      = "Http5xx"
+    aggregation      = "Total"
+    operator         = "GreaterThan"
+    threshold        = var.configuration[var.environment].thresholds.error
+  }
+
+  action {
+    action_group_id = azurerm_monitor_action_group.service-support-action.id
+  }
+}
+
 resource "azurerm_monitor_scheduled_query_rules_alert_v2" "failed-finished-pipeline-messages" {
   name                    = "failed-finished-pipeline-messages-alert"
   resource_group_name     = azurerm_resource_group.resource-group.name

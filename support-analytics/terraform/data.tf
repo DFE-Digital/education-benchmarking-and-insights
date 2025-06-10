@@ -50,6 +50,11 @@ data "azurerm_service_plan" "chart-rendering-asp" {
   resource_group_name = "${var.environment-prefix}-ebis-platform"
 }
 
+data "azurerm_windows_function_app" "content-api" {
+  name                = "${var.environment-prefix}-ebis-content-fa"
+  resource_group_name = "${var.environment-prefix}-ebis-platform"
+}
+
 data "azurerm_log_analytics_workspace" "application-insights-workspace" {
   name                = "${var.environment-prefix}-ebis-aiw"
   resource_group_name = "${var.environment-prefix}-ebis-core"
