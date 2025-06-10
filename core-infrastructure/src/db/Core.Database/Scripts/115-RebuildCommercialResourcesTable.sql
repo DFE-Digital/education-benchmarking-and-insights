@@ -109,12 +109,6 @@ IF NOT EXISTS(
                 (
                     '["Educational ICT", "Administrative supplies"]',
                     '["ICT learning resources", "Administrative supplies (non-educational)"]',
-                    'Outsourced ICT',
-                    'https://find-dfe-approved-framework.service.gov.uk/list/outsourced-ict'
-                ),
-                (
-                    '["Educational ICT", "Administrative supplies"]',
-                    '["ICT learning resources", "Administrative supplies (non-educational)"]',
                     'Print marketplace',
                     'https://find-dfe-approved-framework.service.gov.uk/list/print-marketplace'
                 ),
@@ -164,7 +158,7 @@ IF NOT EXISTS(
                     '["Premises staff and services"]',
                     '["Maintenance of premises"]',
                     'LED lighting',
-                    'https://find-dfe-approved-framework.service.gov.uk/list/led-lights'
+                    'https://find-dfe-approved-framework.service.gov.uk/list/led-lighting'
                 ),
                 (
                     '["Premises staff and services"]',
@@ -289,12 +283,6 @@ IF NOT EXISTS(
                 (
                     '["Administrative supplies"]',
                     '["Administrative supplies (non-educational)"]',
-                    'Education management systems',
-                    'https://find-dfe-approved-framework.service.gov.uk/list/education-management-systems'
-                ),
-                (
-                    '["Administrative supplies"]',
-                    '["Administrative supplies (non-educational)"]',
                     'ICT networking and storage solutions',
                     'https://find-dfe-approved-framework.service.gov.uk/list/ict-storage-network'
                 ),
@@ -369,11 +357,5 @@ IF NOT EXISTS(
                     '["Other insurance premiums"]',
                     'Risk protection arrangement – alternative to commercial insurance',
                     'https://find-dfe-approved-framework.service.gov.uk/list/rpa'
-                ),
-                (
-                    '["Other costs"]',
-                    '["Supply teacher insurance"]',
-                    'Staff absence protection and reimbursement',
-                    'https://find-dfe-approved-framework.service.gov.uk/list/staff-absence'
                 );
     END
