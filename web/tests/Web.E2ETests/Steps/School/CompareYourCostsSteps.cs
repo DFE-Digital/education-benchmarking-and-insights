@@ -333,7 +333,7 @@ public class CompareYourCostsSteps(PageDriver driver)
     }
 
     [Then("the message stating reason for less schools is visible in '(.*)' section")]
-    public async Task ThenTheMessageStatingReasonForLessSchoolsIsVisible(string subCategorySection)
+    public async Task ThenTheMessageStatingReasonForLessSchoolsIsVisibleInSection(string subCategorySection)
     {
         Assert.NotNull(_comparisonPage);
         await _comparisonPage.IsWarningTextVisible(subCategorySection);
@@ -394,14 +394,16 @@ public class CompareYourCostsSteps(PageDriver driver)
         Assert.Equal(fileName, downloadedFilePath);
     }
 
-    [Then("the cost codes are present")]
-    public async Task ThenTheCostCodesArePresent()
+    [Then("all sections on the page have the correct cost codes:")]
+    public async Task ThenAllSectionsOnThePageHaveTheCorrectCostCodes(DataTable table)
     {
         Assert.NotNull(_comparisonPage);
 
-        await _comparisonPage.CostCodesArePresent();
+        foreach (var row in table.Rows)
+        {
+            await _comparisonPage.HasCostCodesForChart(row["Chart name"], row["Cost codes"].Split(",", StringSplitOptions.TrimEntries));
+        }
     }
-
 
     private void ChartDownloaded(string chartName)
     {

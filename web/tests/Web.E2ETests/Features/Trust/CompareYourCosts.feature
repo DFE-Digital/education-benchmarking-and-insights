@@ -150,3 +150,46 @@ Feature: Trust compare your costs
         Then the save chart images button is visible
         When I click the save chart images button
         Then the save chart images modal is visible
+
+    Scenario: Cost codes are displayed
+        Given I am on compare your costs page for trust with company number '10074054'
+        Then all sections on the page have the correct cost codes:
+          | Chart name                                      | Cost codes                                                                                                    |
+          | Total teaching and teaching support staff costs | BAE010, BAE020, BAE240, BAE030, BAE230, % of central services                                                 |
+          | Teaching staff costs                            | BAE010, % of central services                                                                                 |
+          | Supply teaching staff costs                     | BAE020, % of central services                                                                                 |
+          | Educational consultancy costs                   | BAE230, % of central services                                                                                 |
+          | Educational support staff costs                 | BAE030, % of central services                                                                                 |
+          | Agency supply teaching staff costs              | BAE240, % of central services                                                                                 |
+          | Total non-educational support staff costs       | BAE040, BAE260, BAE070, BAE300, % of central services                                                         |
+          | Administrative and clerical staff costs         | BAE040, % of central services                                                                                 |
+          | Auditors costs                                  | BAE260, % of central services                                                                                 |
+          | Other staff costs                               | BAE070, % of central services                                                                                 |
+          | Professional services (non-curriculum) costs    | BAE300, % of central services                                                                                 |
+          | Total educational supplies costs                | BAE220, BAE200, % of central services                                                                         |
+          | Examination fees costs                          | BAE220, % of central services                                                                                 |
+          | Learning resources (not ICT equipment) costs    | BAE200, % of central services                                                                                 |
+          | Educational learning resources costs            | BAE210, % of central services                                                                                 |
+          | Total premises staff and service costs          | BAE130, BAE120, BAE180, BAE050, % of central services                                                         |
+          | Cleaning and caretaking costs                   | BAE130, % of central services                                                                                 |
+          | Maintenance of premises costs                   | BAE120, % of central services                                                                                 |
+          | Other occupation costs                          | BAE180, % of central services                                                                                 |
+          | Premises staff costs                            | BAE050, % of central services                                                                                 |
+          | Total utilities costs                           | BAE150, BAE140, % of central services                                                                         |
+          | Energy costs                                    | BAE150, % of central services                                                                                 |
+          | Water and sewerage costs                        | BAE140, % of central services                                                                                 |
+          | Administrative supplies (Non-educational)       | BAE280, % of central services                                                                                 |
+          | Total catering costs (gross)                    | BAE060, BAE250, % of central services                                                                         |
+          | Catering staff costs                            | BAE060, % of central services                                                                                 |
+          | Catering supplies costs                         | BAE250, % of central services                                                                                 |
+          | Total other costs                               | BAE290, BAE320, BAE080, BAE320, BAE270, BAE310, BAE160, BAE190, BAE090, BAE110, BAE100, % of central services |
+          | Direct revenue financing costs                  | BAE290, % of central services                                                                                 |
+          | Ground maintenance costs                        | BAE320, % of central services                                                                                 |
+          | Indirect employee expenses                      | BAE080, % of central services                                                                                 |
+          | Interest charges for loan and bank              | BAE320, % of central services                                                                                 |
+          | PFI charges                                     | BAE310, % of central services                                                                                 |
+          | Rent and rates costs                            | BAE160, % of central services                                                                                 |
+          | Special facilities costs                        | BAE190, % of central services                                                                                 |
+          | Staff development and training costs            | BAE090, % of central services                                                                                 |
+          | Staff-related insurance costs                   | BAE110, % of central services                                                                                 |
+          | Supply teacher insurance costs                  | BAE100, % of central services                                                                                 |

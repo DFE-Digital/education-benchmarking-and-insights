@@ -318,6 +318,12 @@ public class CompareYourCostsPage(IPage page)
         await SaveImagesModal.ShouldBeVisible();
     }
 
+    public async Task HasCostCodesForChart(string chartName, string[] expected)
+    {
+        var costCodes = await page.Locator($"#{chartName.ToSlug()}-tags .govuk-tag").AllTextContentsAsync();
+        Assert.True(expected.SequenceEqual(costCodes), $"Test fails on {chartName}. Expected: {string.Join(", ", expected)}, Actual: {string.Join(", ", costCodes)}");
+    }
+
     private async Task IsSectionContentVisible(ComparisonChartNames chartName, bool visibility, string chartMode)
     {
         var contentLocator = chartName switch

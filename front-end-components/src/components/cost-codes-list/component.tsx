@@ -8,6 +8,7 @@ export const CostCodesList: React.FC<CostCodesListProps> = ({ category }) => {
   return (
     categoryCostCodes && (
       <ContextCodesList
+        category={category}
         codes={categoryCostCodes.concat(
           categoryCostCodes.length > 0 && tags ? tags : []
         )}
