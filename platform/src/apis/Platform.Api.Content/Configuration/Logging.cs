@@ -9,6 +9,6 @@ internal static class Logging
 {
     internal static void Configure(ILoggingBuilder builder)
     {
-        builder.Services.Configure<LoggerFilterOptions>(_ => {});
+        builder.Services.Configure<LoggerFilterOptions>(_ => { });
     }
 }

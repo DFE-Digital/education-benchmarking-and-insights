@@ -4,13 +4,13 @@
 | Name | Version |
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.9.8 |
-| <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm) | ~> 4.28.0 |
+| <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm) | ~> 4.31.0 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| <a name="provider_azurerm"></a> [azurerm](#provider\_azurerm) | 4.27.0 |
+| <a name="provider_azurerm"></a> [azurerm](#provider\_azurerm) | 4.31.0 |
 | <a name="provider_external"></a> [external](#provider\_external) | 2.3.5 |
 
 ## Modules
@@ -19,6 +19,7 @@
 |------|--------|---------|
 | <a name="module_benchmark-fa"></a> [benchmark-fa](#module\_benchmark-fa) | ./modules/functions | n/a |
 | <a name="module_chart-rendering-fa"></a> [chart-rendering-fa](#module\_chart-rendering-fa) | ./modules/functions | n/a |
+| <a name="module_content-fa"></a> [content-fa](#module\_content-fa) | ./modules/functions | n/a |
 | <a name="module_data-clean-up-fa"></a> [data-clean-up-fa](#module\_data-clean-up-fa) | ./modules/functions | n/a |
 | <a name="module_establishment-fa"></a> [establishment-fa](#module\_establishment-fa) | ./modules/functions | n/a |
 | <a name="module_insight-fa"></a> [insight-fa](#module\_insight-fa) | ./modules/functions | n/a |
