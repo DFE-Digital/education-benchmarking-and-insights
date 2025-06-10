@@ -127,6 +127,19 @@ jobs:
                 slotName: production
 
             - task: AzureFunctionApp@2
+              displayName: 'Deploy content app'
+              inputs:
+                azureSubscription: ${{ parameters.subscription }}
+                appType: functionApp
+                appName: '${{ parameters.environmentPrefix }}-ebis-content-fa'
+                deployToSlotOrASE: true
+                resourceGroupName: '${{ parameters.environmentPrefix }}-ebis-platform'
+                package: '${{ parameters.workspaceDir }}/platform-apis/Platform.Api.Content.zip'
+                slotName: production
+                appSettings: '-WEBSITE_RUN_FROM_PACKAGE 1'
+                deploymentMethod: 'runFromPackage'
+
+            - task: AzureFunctionApp@2
               displayName: 'Deploy orchestrator function app'
               inputs:
                 azureSubscription: ${{ parameters.subscription }}
@@ -170,6 +183,8 @@ jobs:
           alias: 'nonfinancial'
         - name: '${{ parameters.environmentPrefix }}-ebis-chart-rendering-fa'
           alias: 'chartrendering'
+        - name: '${{ parameters.environmentPrefix }}-ebis-content-fa'
+          alias: 'content'
         - name: '${{ parameters.environmentPrefix }}-ebis-orchestrator-fa'
           alias: 'orchestrator'
         - name: '${{ parameters.environmentPrefix }}-ebis-clean-up-fa'
