@@ -38,19 +38,19 @@ To ensure that features are properly tested before they are live, we should foll
 Below is a list of feature flags currently implemented in our service at the time of writing this document:
 
 ``` text
-FeatureManagement__CurriculumFinancialPlanning  
-FeatureManagement__CustomData  
-FeatureManagement__DisableOrganisationClaimCheck  
-FeatureManagement__FilteredSearch  
-FeatureManagement__FinancialBenchmarkingInsightsSummary  
-FeatureManagement__ForecastRisk  
-FeatureManagement__HighNeeds  
-FeatureManagement__HistoricalTrends  
-FeatureManagement__LocalAuthorities  
-FeatureManagement__SchoolSpendingPrioritiesSsrCharts  
-FeatureManagement__TrustComparison  
-FeatureManagement__Trusts  
-FeatureManagement__UserDefinedComparators  
+CurriculumFinancialPlanning  
+CustomData  
+DisableOrganisationClaimCheck  
+FilteredSearch  
+FinancialBenchmarkingInsightsSummary  
+ForecastRisk  
+HighNeeds  
+HistoricalTrends  
+LocalAuthorities  
+SchoolSpendingPrioritiesSsrCharts  
+TrustComparison  
+Trusts  
+UserDefinedComparators  
 ```
 
 These flags are typically managed via App Service configuration.
