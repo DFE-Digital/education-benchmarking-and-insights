@@ -20,6 +20,7 @@ public static class TestConfiguration
     public static ApiEndpoint LocalAuthorityFinances => Instance.GetSection(nameof(LocalAuthorityFinances)).Get<ApiEndpoint>() ?? throw new ArgumentNullException(nameof(LocalAuthorityFinances));
     public static ApiEndpoint NonFinancial => Instance.GetSection(nameof(NonFinancial)).Get<ApiEndpoint>() ?? throw new ArgumentNullException(nameof(NonFinancial));
     public static ApiEndpoint ChartRendering => Instance.GetSection(nameof(ChartRendering)).Get<ApiEndpoint>() ?? throw new ArgumentNullException(nameof(ChartRendering));
+    public static ApiEndpoint Content => Instance.GetSection(nameof(Content)).Get<ApiEndpoint>() ?? throw new ArgumentNullException(nameof(Content));
 
 
 #nullable disable warnings
