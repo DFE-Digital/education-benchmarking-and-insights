@@ -283,6 +283,17 @@ public class CompareYourCostsSteps(PageDriver driver)
         await _comparisonPage.IsSaveImagesModalDisplayed();
     }
 
+    [Then("all sections on the page have the correct cost codes:")]
+    public async Task ThenAllSectionsOnThePageHaveTheCorrectCostCodes(DataTable table)
+    {
+        Assert.NotNull(_comparisonPage);
+
+        foreach (var row in table.Rows)
+        {
+            await _comparisonPage.HasCostCodesForChart(row["Chart name"], row["Cost codes"].Split(",", StringSplitOptions.TrimEntries));
+        }
+    }
+
     private void ChartDownloaded(string chartName)
     {
         Assert.NotNull(_download);

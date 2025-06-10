@@ -473,20 +473,10 @@ public class CompareYourCostsPage(IPage page)
         Assert.True(expected.SequenceEqual(actual), $"Test fails on {chartName}. Expected: {string.Join(", ", expected)}, Actual: {string.Join(", ", actual)}");
     }
 
-    public async Task CostCodesArePresent()
+    public async Task HasCostCodesForChart(string chartName, string[] expected)
     {
-        var costCodes = await page.Locator(Selectors.CostCodesList).AllAsync();
-        Assert.Equal(42, costCodes.Count);
-
-        var costCodesWithLiChildren = await page.Locator(Selectors.CostCodesList)
-            .Filter(new() { Has = page.Locator("li") })
-            .AllAsync();
-        Assert.Equal(40, costCodesWithLiChildren.Count);
-
-        foreach (var costCodeList in costCodesWithLiChildren)
-        {
-            await costCodeList.IsVisibleAsync();
-        }
+        var costCodes = await page.Locator($"#{chartName.ToSlug()}-tags .govuk-tag").AllTextContentsAsync();
+        Assert.True(expected.SequenceEqual(costCodes), $"Test fails on {chartName}. Expected: {string.Join(", ", expected)}, Actual: {string.Join(", ", costCodes)}");
     }
 
     private ILocator ChartTable(ComparisonChartNames chartName)
