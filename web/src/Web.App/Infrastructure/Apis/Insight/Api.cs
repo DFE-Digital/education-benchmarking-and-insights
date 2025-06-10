@@ -25,11 +25,6 @@ public static class Api
         public static string SchoolHistoryComparatorSetAverage(string? urn) => $"api/census/{urn}/history/comparator-set-average"; // proposed endpoint
     }
 
-    public static class CommercialResources
-    {
-        public static string Resources => "api/commercial-resources";
-    }
-
     public static class Expenditure
     {
         public static string Schools => "api/expenditure/schools";
@@ -43,21 +38,11 @@ public static class Api
         public static string TrustHistory(string? companyNo) => $"api/expenditure/trust/{companyNo}/history";
     }
 
-    public static class Files
-    {
-        public static string Transparency => "api/files/transparency";
-    }
-
     public static class Income
     {
         public static string School(string? urn) => $"api/income/school/{urn}";
         public static string SchoolHistory(string? urn) => $"api/income/school/{urn}/history";
         public static string TrustHistory(string? companyNo) => $"api/income/trust/{companyNo}/history";
-    }
-
-    public static class Insight
-    {
-        public static string CurrentReturnYears => "api/current-return-years";
     }
 
     public static class MetricRagRating

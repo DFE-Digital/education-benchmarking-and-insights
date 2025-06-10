@@ -1,4 +1,5 @@
 using Web.App.Infrastructure.Apis;
+using Web.App.Infrastructure.Apis.Content;
 using Web.App.Infrastructure.Apis.Insight;
 using Xunit;
 using Xunit.Abstractions;
@@ -9,14 +10,14 @@ public class GivenAnInsightApi(ITestOutputHelper testOutputHelper) : ApiClientTe
     [Fact]
     public void SetsFunctionKeyIfProvided()
     {
-        _ = new InsightApi(HttpClient, "my-key");
+        _ = new YearsApi(HttpClient, "my-key");
         Assert.Equal("my-key", HttpClient.DefaultRequestHeaders.GetValues("x-functions-key").First());
     }
 
     [Fact]
     public async Task GetFinanceYearsShouldCallCorrectUrl()
     {
-        var api = new InsightApi(HttpClient);
+        var api = new YearsApi(HttpClient);
 
         await api.GetCurrentReturnYears();
 

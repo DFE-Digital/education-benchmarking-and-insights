@@ -4,7 +4,7 @@ using Moq;
 using Web.App.Cache;
 using Web.App.Domain;
 using Web.App.Infrastructure.Apis;
-using Web.App.Infrastructure.Apis.Insight;
+using Web.App.Infrastructure.Apis.Content;
 using Web.App.Services;
 using Xunit;
 
@@ -12,7 +12,7 @@ namespace Web.Tests.Services;
 
 public class WhenFinanceServiceIsCalled
 {
-    private readonly Mock<IInsightApi> _api = new();
+    private readonly Mock<IYearsApi> _api = new();
     private readonly FinanceYears _financeYears = new() { Aar = 2023, Cfr = 2023, S251 = 2024 };
 
     private const string CacheKey = "return-years";

@@ -2,7 +2,7 @@ using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Options;
 using Web.App.Cache;
 using Web.App.Domain;
-using Web.App.Infrastructure.Apis.Insight;
+using Web.App.Infrastructure.Apis.Content;
 using Web.App.Infrastructure.Extensions;
 
 namespace Web.App.Services;
@@ -13,7 +13,7 @@ public interface IFinanceService
 }
 
 public class FinanceService(
-    IInsightApi insightApi,
+    IYearsApi yearsApi,
     IMemoryCache memoryCache,
     IOptions<CacheOptions> options) : IFinanceService
 {
@@ -28,7 +28,7 @@ public class FinanceService(
             return financeYears;
         }
 
-        var data = await insightApi.GetCurrentReturnYears().GetResultOrThrow<FinanceYears>();
+        var data = await yearsApi.GetCurrentReturnYears().GetResultOrThrow<FinanceYears>();
 
         MemoryCacheEntryOptions cacheEntryOptions = new()
         {

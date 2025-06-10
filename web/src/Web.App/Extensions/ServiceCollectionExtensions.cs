@@ -13,6 +13,7 @@ using Web.App.Identity.Models;
 using Web.App.Infrastructure.Apis;
 using Web.App.Infrastructure.Apis.Benchmark;
 using Web.App.Infrastructure.Apis.ChartRendering;
+using Web.App.Infrastructure.Apis.Content;
 using Web.App.Infrastructure.Apis.Establishment;
 using Web.App.Infrastructure.Apis.Insight;
 using Web.App.Infrastructure.Apis.LocalAuthorities;
@@ -73,9 +74,7 @@ public static class ServiceCollectionExtensions
     {
         const string section = "Apis:Insight";
 
-        services.AddHttpClient<IInsightApi, InsightApi>().Configure<InsightApi>(section);
         services.AddHttpClient<ICensusApi, CensusApi>().Configure<CensusApi>(section);
-        services.AddHttpClient<ICommercialResourcesApi, CommercialResourcesApi>().Configure<CommercialResourcesApi>(section);
         services.AddHttpClient<IIncomeApi, IncomeApi>().Configure<IncomeApi>(section);
         services.AddHttpClient<IBalanceApi, BalanceApi>().Configure<BalanceApi>(section);
         services.AddHttpClient<IExpenditureApi, ExpenditureApi>().Configure<ExpenditureApi>(section);
@@ -84,7 +83,6 @@ public static class ServiceCollectionExtensions
         services.AddHttpClient<ITrustInsightApi, TrustInsightApi>().Configure<TrustInsightApi>(section);
         services.AddHttpClient<IBudgetForecastApi, BudgetForecastApi>().Configure<BudgetForecastApi>(section);
         services.AddHttpClient<IHealthApi, HealthApi>(section).Configure<HealthApi>(section);
-        services.AddHttpClient<IFilesApi, FilesApi>().Configure<FilesApi>(section);
 
         return services;
     }
@@ -115,6 +113,18 @@ public static class ServiceCollectionExtensions
 
         services.AddHttpClient<IHealthApi, HealthApi>(section).Configure<HealthApi>(section);
         services.AddHttpClient<IChartRenderingApi, ChartRenderingApi>().Configure<ChartRenderingApi>(section);
+
+        return services;
+    }
+
+    public static IServiceCollection AddContentApi(this IServiceCollection services)
+    {
+        const string section = "Apis:Content";
+
+        services.AddHttpClient<IHealthApi, HealthApi>(section).Configure<HealthApi>(section);
+        services.AddHttpClient<ICommercialResourcesApi, CommercialResourcesApi>().Configure<CommercialResourcesApi>(section);
+        services.AddHttpClient<IFilesApi, FilesApi>().Configure<FilesApi>(section);
+        services.AddHttpClient<IYearsApi, YearsApi>().Configure<YearsApi>(section);
 
         return services;
     }

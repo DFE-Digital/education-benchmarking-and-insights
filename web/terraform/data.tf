@@ -78,3 +78,13 @@ data "azurerm_key_vault_secret" "chart-rendering-api-host" {
   name         = "chart-rendering-host"
   key_vault_id = data.azurerm_key_vault.key-vault.id
 }
+
+data "azurerm_key_vault_secret" "content-api-key" {
+  name         = "content-host-key"
+  key_vault_id = data.azurerm_key_vault.key-vault.id
+}
+
+data "azurerm_key_vault_secret" "content-api-host" {
+  name         = "content-host"
+  key_vault_id = data.azurerm_key_vault.key-vault.id
+}
