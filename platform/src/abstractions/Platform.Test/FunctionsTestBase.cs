@@ -17,4 +17,15 @@ public class FunctionsTestBase
         var reqMock = MockHttpRequestData.Create(query, headers);
         return reqMock;
     }
+
+    protected static HttpHeadersCollection CreateVersionedHeader(string? version)
+    {
+        if (string.IsNullOrWhiteSpace(version))
+        {
+            return [];
+        }
+
+        var kvp = new KeyValuePair<string, string>("x-api-version", version);
+        return new HttpHeadersCollection([kvp]);
+    }
 }

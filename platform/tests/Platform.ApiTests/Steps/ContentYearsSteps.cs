@@ -1,7 +1,7 @@
-﻿using Platform.ApiTests.Assertion;
+﻿using Platform.Api.Content.Features.Years.Models;
+using Platform.ApiTests.Assertion;
 using Platform.ApiTests.Drivers;
 using Platform.Json;
-using Xunit;
 
 namespace Platform.ApiTests.Steps;
 
@@ -21,19 +21,35 @@ public class ContentYearsSteps(ContentApiDriver api)
         });
     }
 
+    [Given("a current return years request with API version '(.*)'")]
+    public void GivenACurrentReturnYearsRequestWithApiVersion(string version)
+    {
+        GivenACurrentReturnYearsRequest();
+        api[Key].Request.Headers.Add("x-api-version", version);
+    }
+
     [When("I submit the request")]
     public async Task WhenISubmitTheRequest()
     {
         await api.Send();
     }
 
-    [Then("the current return years result should be ok")]
-    public async Task ThenTheCurrentReturnYearsResultShouldBeOk()
+    [Then("the current return years result should be:")]
+    public async Task ThenTheCurrentReturnYearsResultShouldBe(DataTable table)
     {
         var response = api[Key].Response;
         AssertHttpResponse.IsOk(response);
 
         var content = await response.Content.ReadAsStringAsync();
-        Assert.Equal(new { aar = "2022", cfr = "2022", s251 = "2024" }.ToJson(), content);
+        var result = content.FromJson<FinanceYears>();
+
+        table.CompareToInstance(result);
+    }
+
+    [Then("the current return years result should be bad request")]
+    public void ThenTheCurrentReturnYearsResultShouldBeBadRequest()
+    {
+        var response = api[Key].Response;
+        AssertHttpResponse.IsBadRequest(response);
     }
 }

@@ -21,6 +21,13 @@ public class ContentFilesSteps(ContentApiDriver api)
         });
     }
 
+    [Given("a transparency files request with API version '(.*)'")]
+    public void GivenATransparencyFilesRequestWithApiVersion(string version)
+    {
+        GivenATransparencyFilesRequest();
+        api[FilesKey].Request.Headers.Add("x-api-version", version);
+    }
+
     [When("I submit the files request")]
     public async Task WhenISubmitTheFilesRequest()
     {
@@ -36,5 +43,12 @@ public class ContentFilesSteps(ContentApiDriver api)
         var content = await response.Content.ReadAsByteArrayAsync();
         var result = content.FromJson<FileResponse[]>();
         table.CompareToSet(result);
+    }
+
+    [Then("the result should be bad request")]
+    public void ThenTheResultShouldBeBadRequest()
+    {
+        var response = api[FilesKey].Response;
+        AssertHttpResponse.IsBadRequest(response);
     }
 }
