@@ -22,6 +22,13 @@ public class ContentCommercialResourceSteps(ContentApiDriver api)
         });
     }
 
+    [Given("a valid request with API version '(.*)'")]
+    public void GivenAValidRequestWithApiVersion(string version)
+    {
+        GivenAValidRequest();
+        api[Key].Request.Headers.Add("x-api-version", version);
+    }
+
     [When("I submit the request")]
     public async Task WhenISubmitTheRequest()
     {
@@ -40,6 +47,13 @@ public class ContentCommercialResourceSteps(ContentApiDriver api)
         var expected = GetArrayData("CommercialResources.json");
 
         Assert.True(JToken.DeepEquals(expected, actual));
+    }
+
+    [Then("the result should be bad request")]
+    public void ThenTheResultShouldBeBadRequest()
+    {
+        var response = api[Key].Response;
+        AssertHttpResponse.IsBadRequest(response);
     }
 
     private static JArray GetArrayData(string file)

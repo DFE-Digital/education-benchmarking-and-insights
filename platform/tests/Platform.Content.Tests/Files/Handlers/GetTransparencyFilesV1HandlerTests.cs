@@ -1,7 +1,7 @@
 using System.Net;
 using AutoFixture;
 using Moq;
-using Platform.Api.Content.Features.Files;
+using Platform.Api.Content.Features.Files.Handlers;
 using Platform.Api.Content.Features.Files.Models;
 using Platform.Api.Content.Features.Files.Responses;
 using Platform.Api.Content.Features.Files.Services;
@@ -10,19 +10,19 @@ using Platform.Test;
 using Platform.Test.Extensions;
 using Xunit;
 
-namespace Platform.Content.Tests.Files;
+namespace Platform.Content.Tests.Files.Handlers;
 
-public class GetTransparencyFilesFunctionTests : FunctionsTestBase
+public class GetTransparencyFilesV1HandlerTests : FunctionsTestBase
 {
     private readonly Fixture _fixture;
-    private readonly GetTransparencyFilesFunction _function;
+    private readonly GetTransparencyFilesV1Handler _handler;
     private readonly Mock<IFilesService> _service;
 
-    public GetTransparencyFilesFunctionTests()
+    public GetTransparencyFilesV1HandlerTests()
     {
         _service = new Mock<IFilesService>();
         _fixture = new Fixture();
-        _function = new GetTransparencyFilesFunction(_service.Object);
+        _handler = new GetTransparencyFilesV1Handler(_service.Object);
     }
 
     [Fact]
@@ -34,7 +34,7 @@ public class GetTransparencyFilesFunctionTests : FunctionsTestBase
             .Setup(d => d.GetActiveFilesByType(It.IsAny<CancellationToken>(), "transparency-aar", "transparency-cfr"))
             .ReturnsAsync(models);
 
-        var result = await _function.RunAsync(CreateHttpRequestData());
+        var result = await _handler.HandleAsync(CreateHttpRequestData(), CancellationToken.None);
 
         Assert.NotNull(result);
         Assert.Equal(HttpStatusCode.OK, result.StatusCode);

@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using System.Threading;
 using System.Threading.Tasks;
 using Platform.Api.Content.Features.Files.Models;
@@ -13,7 +12,6 @@ public interface IFilesService
     Task<IEnumerable<FileModel>> GetActiveFilesByType(CancellationToken cancellationToken = default, params string[] types);
 }
 
-[ExcludeFromCodeCoverage]
 public class FilesService(IDatabaseFactory dbFactory) : IFilesService
 {
     public async Task<IEnumerable<FileModel>> GetActiveFilesByType(CancellationToken cancellationToken = default, params string[] types)
