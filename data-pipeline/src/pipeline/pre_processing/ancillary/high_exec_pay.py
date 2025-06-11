@@ -21,7 +21,9 @@ def build_high_exec_pay_data(
         dtype=high_exec_pay["default"],
     )
 
-    high_exec_pay_data = high_exec_pay_data_raw.rename(columns=high_exec_pay_column_mappings["default"])
+    high_exec_pay_data = high_exec_pay_data_raw.rename(
+        columns=high_exec_pay_column_mappings["default"]
+    )
 
     # The raw file has a "C" preceding all CRNs which will intefere with joins
     high_exec_pay_data["Company Registration Number"] = high_exec_pay_data[
