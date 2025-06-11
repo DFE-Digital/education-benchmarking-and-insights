@@ -10,6 +10,7 @@ from .ancillary import (
     build_bfr_data,
     build_bfr_historical_data,
     build_cfo_data,
+    build_high_exec_pay_data,
     build_ilr_data,
     patch_missing_sixth_form_data,
     predecessor_links,
