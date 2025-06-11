@@ -1,4 +1,5 @@
 import pandas as pd
+import numpy as np
 
 import pipeline.config as config
 import pipeline.mappings as mappings
@@ -21,7 +22,7 @@ def build_trust_data(
             [
                 c
                 for c in config.trust_db_projections.keys()
-                if c != "Trust Financial Position"
+                if c != "Trust Financial Position" and c != "EMLBand"
             ]
         ]
         .groupby("Company Registration Number")
@@ -38,4 +39,5 @@ def build_trust_data(
         )
         return trust_data_with_high_exec_pay
 
+    trust_data["EMLBand"] = np.nan
     return trust_data

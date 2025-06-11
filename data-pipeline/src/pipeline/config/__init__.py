@@ -779,4 +779,5 @@ trust_db_projections = {
     "Income_Pre Post 16_CS": "PrePost16FundingCS",
     "Income_Pre Post 16": "PrePost16Funding",
     "Other costs_Grounds maintenance_CS": "GroundsMaintenanceCostsCS",
+    "EMLBand": "EMLBand",
 }

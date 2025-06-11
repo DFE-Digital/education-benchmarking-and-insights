@@ -15,14 +15,19 @@ def build_high_exec_pay_data(
     :param year: financial year in question
     :return: high exec pay data
     """
+    relevant_high_exec_pay_dtypes = high_exec_pay.get(year, high_exec_pay["default"])
+    relevant_high_exec_pay_column_mappings = high_exec_pay_column_mappings.get(
+        year, high_exec_pay_column_mappings["default"]
+    )
+
     high_exec_pay_data_raw = pd.read_csv(
         filepath_or_buffer,
-        usecols=high_exec_pay["default"].keys(),
-        dtype=high_exec_pay["default"],
+        usecols=relevant_high_exec_pay_dtypes.keys(),
+        dtype=relevant_high_exec_pay_dtypes,
     )
 
     high_exec_pay_data = high_exec_pay_data_raw.rename(
-        columns=high_exec_pay_column_mappings["default"]
+        columns=relevant_high_exec_pay_column_mappings
     )
 
     # The raw file has a "C" preceding all CRNs which will intefere with joins
