@@ -5,7 +5,7 @@ import pipeline.mappings as mappings
 
 
 def build_trust_data(
-    academies: pd.DataFrame, high_exec_pay_per_trust: pd.DataFrame
+    academies: pd.DataFrame, high_exec_pay_per_trust: pd.DataFrame | None
 ) -> pd.DataFrame:
     """
     Build Trust financial information.
@@ -32,8 +32,10 @@ def build_trust_data(
         mappings.map_is_surplus_deficit
     )
 
-    trust_data_with_high_exec_pay = trust_data.merge(
-        high_exec_pay_per_trust, on="Company Registration Number", how="left"
-    )
+    if high_exec_pay_per_trust is not None:
+        trust_data_with_high_exec_pay = trust_data.merge(
+            high_exec_pay_per_trust, on="Company Registration Number", how="left"
+        )
+        return trust_data_with_high_exec_pay
 
-    return trust_data_with_high_exec_pay
+    return trust_data

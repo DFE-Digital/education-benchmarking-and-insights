@@ -411,7 +411,7 @@ def pre_process_trust_data(
     run_type: str,
     run_id: str,
     academies: pd.DataFrame,
-    high_exec_pay_per_trust: pd.DataFrame,
+    high_exec_pay_per_trust: pd.DataFrame | None,
 ) -> pd.DataFrame:
     """
     Build and store Trust financial information.
