@@ -1,0 +1,12 @@
+# yaml-language-server: $schema=https://json.schemastore.org/pre-commit-config.json
+repos:
+  - repo: local
+    hooks:
+      - id: pnpm-lint-ci
+        name: Run npm lint
+        description: Run the npm lint script.
+        entry: npm run lint -- --no-warn-ignored
+        language: system
+        types_or:
+          - ts
+          - javascript
