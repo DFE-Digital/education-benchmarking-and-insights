@@ -8,10 +8,10 @@ from pipeline.pre_processing import build_high_exec_pay_data
 
 @pytest.fixture
 def test_output() -> pd.DataFrame:
-    test_data = (
+    test_data = StringIO(
         """EntityHierarchy,EMLBand\nC07682294,EMLBANDS200\nC08619729,EMLBANDS130"""
     )
-    return build_high_exec_pay_data(StringIO(test_data), 2024)
+    return build_high_exec_pay_data(test_data, 2024)
 
 
 def test_high_exec_pay_column_names(test_output):

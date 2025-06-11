@@ -271,7 +271,7 @@ def pre_process_high_exec_pay(
     """
     if high_exec_pay_data := try_get_blob(
         raw_container,
-        f"{run_type}/{year}/HExP_24.csv",
+        f"{run_type}/{year}/HExP.csv",
     ):
         return build_high_exec_pay_data(
             high_exec_pay_data,
