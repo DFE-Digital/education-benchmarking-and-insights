@@ -1,8 +1,37 @@
+# yaml-language-server: $schema=https://json.schemastore.org/pre-commit-config.json
 repos:
-  - repo: https://github.com/psf/black
-    rev: 24.4.2
+  # built-in hooks run repo-wide
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v2.3.0
     hooks:
-      - id: black
-        args:
-          - --check
-        files: ^data-pipeline/.+\.py$
+      - id: end-of-file-fixer
+      - id: no-commit-to-branch
+        args: [
+            "-p",
+            # regex negates that defined in ./pipelines/common/validate-branch.yaml
+            "^(?!(refs\/heads\/)?main$|(refs\/heads\/)?(feature|bugfix|hotfix|exp|tech-debt|doc|prototype|dependabot|chore)\/(\\d+\/){0,1}[a-z0-9-]+).*$",
+          ]
+      - id: trailing-whitespace
+
+  # hooks-per-project in monorepo using sub-re-commit
+  - repo: https://github.com/ddanier/sub-pre-commit.git
+    rev: v4.2.0 # MUST match your pre-commit version
+    hooks:
+      - id: sub-pre-commit
+        alias: data-pipeline
+        name: "pre-commit for data-pipeline"
+        args: ["-p", "data-pipeline"]
+        files: "^data-pipeline/.*"
+        stages: ["pre-commit"]
+      - id: sub-pre-commit
+        alias: web
+        name: "pre-commit for web"
+        args: ["-p", "web"]
+        files: "^web/.*"
+        stages: ["pre-commit"]
+      - id: sub-pre-commit
+        alias: front-end-components
+        name: "pre-commit for front-end-components"
+        args: ["-p", "front-end-components"]
+        files: "^front-end-components/.*"
+        stages: ["pre-commit"]

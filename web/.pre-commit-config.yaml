@@ -1,0 +1,17 @@
+# yaml-language-server: $schema=https://json.schemastore.org/pre-commit-config.json
+repos:
+  - repo: local
+    hooks:
+      - id: dotnet-lint
+        name: Lint dotnet files
+        entry: dotnet format --verify-no-changes
+        language: system
+        types:
+          - c#
+        pass_filenames: false
+      - id: terraform-fmt
+        name: Format terraform files
+        entry: terraform fmt -recursive -check
+        language: system
+        types:
+          - terraform
