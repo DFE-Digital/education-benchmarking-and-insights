@@ -35,6 +35,7 @@ from pipeline.pre_processing import (
     build_bfr_data,
     build_bfr_historical_data,
     build_cfo_data,
+    build_high_exec_pay_data,
     build_ilr_data,
     build_local_authorities,
     build_maintained_school_data,
@@ -255,6 +256,31 @@ def pre_process_ilr_data(
     return None
 
 
+def pre_process_high_exec_pay(
+    run_type: str,
+    year: int,
+    run_id: str,
+) -> pd.DataFrame | None:
+    """
+    Process high exec pay data.
+
+    :param run_type: should only be "default"
+    :param run_id: unique identifer for data-writes
+    :param year: financial year in question
+    :return: High exec pay data, if present for the year in question
+    """
+    if high_exec_pay_data := try_get_blob(
+        raw_container,
+        f"{run_type}/{year}/HExP.csv",
+    ):
+        return build_high_exec_pay_data(
+            high_exec_pay_data,
+            year,
+        )
+
+    return None
+
+
 def pre_process_cfo(run_type: str, year: int, run_id: str) -> pd.DataFrame:
     logger.info(f"Processing CFO Data: {run_type}/{year}/cfo.xlsx")
 
@@ -310,6 +336,7 @@ def pre_process_academies_data(
         cfo,
         central_services,
         gias_links,
+        high_exec_pay,
     ) = data_ref
 
     logger.info(f"Processing AAR data - {run_id} - {year}.")
@@ -356,6 +383,7 @@ def pre_process_maintained_schools_data(
         cfo,
         central_services,
         gias_links,
+        high_exec_pay,
     ) = data_ref
 
     logger.info(f"Processing CFR data - {run_id} - {year}.")
@@ -383,6 +411,7 @@ def pre_process_trust_data(
     run_type: str,
     run_id: str,
     academies: pd.DataFrame,
+    high_exec_pay_per_trust: pd.DataFrame | None,
 ) -> pd.DataFrame:
     """
     Build and store Trust financial information.
@@ -394,7 +423,7 @@ def pre_process_trust_data(
     """
     logger.info("Building Trust data.")
 
-    trusts = build_trust_data(academies)
+    trusts = build_trust_data(academies, high_exec_pay_per_trust)
 
     write_blob(
         "pre-processed",
@@ -705,6 +734,7 @@ def _get_ancillary_data(
         cfo,
         central_services,
         gias_links,
+        high_exec_pay,
     ) = worker_client.gather(
         [
             worker_client.submit(pre_process_cdc, run_type, year, run_id),
@@ -717,6 +747,7 @@ def _get_ancillary_data(
             worker_client.submit(pre_process_cfo, run_type, year, run_id),
             worker_client.submit(pre_process_central_services, run_type, year, run_id),
             worker_client.submit(pre_process_gias_links, run_type, year, run_id),
+            worker_client.submit(pre_process_high_exec_pay, run_type, year, run_id),
         ]
     )
 
@@ -732,6 +763,7 @@ def _get_ancillary_data(
             cfo,
             central_services,
             gias_links,
+            high_exec_pay,
         )
     )
 
@@ -830,7 +862,13 @@ def pre_process_data(
             maintained_data_ref[9],
         ).result()
 
-    trusts = pre_process_trust_data(run_type, run_id, academies)
+    trusts = worker_client.submit(
+        pre_process_trust_data,
+        run_type,
+        run_id,
+        academies,
+        academies_data_ref[10],
+    ).result()
 
     pre_process_all_schools(
         run_type,

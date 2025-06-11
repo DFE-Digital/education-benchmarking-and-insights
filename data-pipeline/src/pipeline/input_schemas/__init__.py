@@ -24,6 +24,7 @@ from .census_workforce import (  # noqa
 )
 from .cfo import cfo, cfo_column_eval, cfo_column_mappings  # noqa
 from .gias import gias, gias_index_col  # noqa
+from .high_exec_pay import high_exec_pay, high_exec_pay_column_mappings  # noqa
 from .ilr import (
     ilr_column_mappings,
     ilr_ehcp,
