@@ -2,7 +2,6 @@ locals {
   host_name = (lower(var.environment) == "production" ? azurerm_cdn_frontdoor_custom_domain.web-app-custom-domain[0].host_name : azurerm_cdn_frontdoor_endpoint.web-app-front-door-endpoint.host_name)
   custom-domain-ids = (lower(var.environment) == "production" ? [
     azurerm_cdn_frontdoor_custom_domain.web-app-custom-domain[0].id,
-    azurerm_cdn_frontdoor_custom_domain.web-app-custom-domain-sfb[0].id,
   ] : [])
 }
 
@@ -59,7 +58,7 @@ resource "azurerm_cdn_frontdoor_route" "web-app-front-door-route" {
   cdn_frontdoor_endpoint_id     = azurerm_cdn_frontdoor_endpoint.web-app-front-door-endpoint.id
   cdn_frontdoor_origin_group_id = azurerm_cdn_frontdoor_origin_group.web-app-front-door-origin-group.id
   cdn_frontdoor_origin_ids      = [azurerm_cdn_frontdoor_origin.web-app-front-door-origin-app-service.id]
-  cdn_frontdoor_rule_set_ids    = [azurerm_cdn_frontdoor_rule_set.web-app-rules.id]
+  cdn_frontdoor_rule_set_ids    = []
   enabled                       = true
 
   forwarding_protocol    = "MatchRequest"
@@ -191,24 +190,6 @@ resource "azurerm_cdn_frontdoor_custom_domain_association" "web-app-custom-domai
   cdn_frontdoor_route_ids        = [azurerm_cdn_frontdoor_route.web-app-front-door-route.id]
 }
 
-resource "azurerm_cdn_frontdoor_custom_domain" "web-app-custom-domain-sfb" {
-  count                    = lower(var.environment) == "production" ? 1 : 0
-  name                     = "${var.environment-prefix}-custom-domain-sfb"
-  cdn_frontdoor_profile_id = azurerm_cdn_frontdoor_profile.web-app-front-door-profile.id
-  host_name                = "schools-financial-benchmarking.service.gov.uk"
-
-  tls {
-    certificate_type    = "ManagedCertificate"
-    minimum_tls_version = "TLS12"
-  }
-}
-
-resource "azurerm_cdn_frontdoor_custom_domain_association" "web-app-custom-domain-sfb" {
-  count                          = lower(var.environment) == "production" ? 1 : 0
-  cdn_frontdoor_custom_domain_id = azurerm_cdn_frontdoor_custom_domain.web-app-custom-domain-sfb[0].id
-  cdn_frontdoor_route_ids        = [azurerm_cdn_frontdoor_route.web-app-front-door-route.id]
-}
-
 resource "random_uuid" "idgen" {
 }
 
@@ -260,41 +241,5 @@ resource "azurerm_monitor_diagnostic_setting" "front-door-analytics" {
 
   metric {
     category = "AllMetrics"
-  }
-}
-
-resource "azurerm_cdn_frontdoor_rule_set" "web-app-rules" {
-  name                     = "${var.environment-prefix}ruleset"
-  cdn_frontdoor_profile_id = azurerm_cdn_frontdoor_profile.web-app-front-door-profile.id
-}
-
-resource "azurerm_cdn_frontdoor_rule" "web-app-redirect-rule" {
-  depends_on = [
-    azurerm_cdn_frontdoor_origin_group.web-app-front-door-origin-group,
-    azurerm_cdn_frontdoor_origin.web-app-front-door-origin-app-service
-  ]
-
-  name                      = "${var.environment-prefix}redirectrule"
-  cdn_frontdoor_rule_set_id = azurerm_cdn_frontdoor_rule_set.web-app-rules.id
-  order                     = 1
-  behavior_on_match         = "Stop"
-
-  conditions {
-    host_name_condition {
-      operator         = "Equal"
-      negate_condition = true
-      match_values     = [local.host_name]
-      transforms       = ["Lowercase", "Trim"]
-    }
-  }
-
-  actions {
-    url_redirect_action {
-      redirect_type        = "TemporaryRedirect"
-      redirect_protocol    = "MatchRequest"
-      destination_hostname = local.host_name
-      destination_path     = "/"
-      query_string         = "redirect=true" // leaving blank will preserve original query string
-    }
   }
 }
