@@ -155,6 +155,25 @@ export const NonEducationalSupportStaff: React.FC<{
       };
     }, [data, tableHeadings]);
 
+    const mockData: HorizontalBarChartWrapperData<NonEducationalSupportStaffData> =
+    useMemo(() => {
+      return {
+        dataPoints:
+          data && Array.isArray(data)
+            ? data.map((trust) => {
+                return {
+                  ...trust,
+                  //totalValue: Math.floor(Math.random() * ((390 - 70) / 10 + 1)) * 10,
+                  totalValue: 150,
+                  schoolValue: undefined,
+                  centralValue: undefined,
+                };
+              })
+            : [],
+        tableHeadings: ["Trust name", "Highest emolument band"],
+      };
+    }, [data]);
+
   return (
     <AccordionSection
       charts={[
@@ -177,6 +196,10 @@ export const NonEducationalSupportStaff: React.FC<{
         {
           data: professionalServicesBarData,
           title: "Professional services (non-curriculum) costs",
+        },
+        {
+          data: mockData,
+          title: "High executive pay",
         },
       ]}
       dimension={dimension}
