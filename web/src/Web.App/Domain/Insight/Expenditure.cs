@@ -150,6 +150,8 @@ public record TrustExpenditure : ExpenditureBase
     public decimal? SchoolStaffDevelopmentTrainingCosts { get; set; }
     public decimal? SchoolStaffRelatedInsuranceCosts { get; set; }
     public decimal? SchoolSupplyTeacherInsurableCosts { get; set; }
+
+    public int? HighestSalaryEmolumentBandValue { get; set; }
 }
 
 public record ExpenditureHistory : ExpenditureBase
