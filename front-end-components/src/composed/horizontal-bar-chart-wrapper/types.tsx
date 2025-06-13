@@ -22,6 +22,7 @@ export type HorizontalBarChartWrapperProps<
   localAuthority?: boolean;
   tooltip?: boolean;
   xAxisLabel?: string;
+  highExecutivePay?: boolean;
 };
 
 export type HorizontalBarChartWrapperPropsData<

@@ -155,7 +155,7 @@ export const NonEducationalSupportStaff: React.FC<{
       };
     }, [data, tableHeadings]);
 
-    const mockData: HorizontalBarChartWrapperData<NonEducationalSupportStaffData> =
+  const mockData: HorizontalBarChartWrapperData<NonEducationalSupportStaffData> =
     useMemo(() => {
       return {
         dataPoints:
@@ -200,6 +200,7 @@ export const NonEducationalSupportStaff: React.FC<{
         {
           data: mockData,
           title: "High executive pay",
+          highExecutivePay: true,
         },
       ]}
       dimension={dimension}

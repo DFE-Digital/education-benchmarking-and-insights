@@ -18,6 +18,7 @@ import { ChartModeChart, ChartModeTable } from "src/components";
 import {
   chartSeriesComparer,
   shortValueFormatter,
+  payBandFormatter,
 } from "src/components/charts/utils";
 import { EstablishmentTick } from "src/components/charts/establishment-tick";
 import { SchoolDataTooltip } from "src/components/charts/school-data-tooltip";
@@ -49,6 +50,7 @@ export function HorizontalBarChartWrapper<
   trust,
   valueUnit,
   xAxisLabel,
+  highExecutivePay,
 }: HorizontalBarChartWrapperProps<TData>) {
   const { chartMode } = useChartModeContext();
   const dimension = useContext(ChartDimensionContext);
@@ -65,12 +67,21 @@ export function HorizontalBarChartWrapper<
   const seriesConfig: { [key: string]: ChartSeriesConfigItem } = {
     [trust ? "totalValue" : "value"]: {
       visible: true,
-      valueFormatter: (v) =>
-        shortValueFormatter(v, {
-          valueUnit: valueUnit ?? dimension.unit,
-        }),
+      valueFormatter: highExecutivePay
+        ? (v) => payBandFormatter(v)
+        : (v) =>
+            shortValueFormatter(v, {
+              valueUnit: valueUnit ?? dimension.unit,
+            }),
     },
   };
+
+  console.log(highExecutivePay);
+
+  if (highExecutivePay) {
+    valueUnit = "amount";
+    xAxisLabel = "Highest emolument band";
+  }
 
   // if a `sort` is not provided, the default sorting method will be used (value DESC)
   const sortedDataPoints = useMemo(() => {
