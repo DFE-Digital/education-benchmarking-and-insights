@@ -102,6 +102,7 @@ Feature flags may also be defined in the `FeatureManagement` section:
 | `DisableOrganisationClaimCheck`        | Disables organisation and school level claims checks against the authenticated user                                                |
 | `FinancialBenchmarkingInsightsSummary` | Toggles the Financial Benchmarking Insights Summary feature                                                                        |
 | `HistoricalTrends`                     | Toggles the Benchmarking Historical trends feature, which affects the Financial History pages                                      |
+| `HighExecutivePay`                     | Toggles the High Executive Pay feature, which affects the Trust to Trust comparison page                                           |
 | `HighNeeds`                            | Toggles the High Needs feature, which affects the Local Authority pages                                                            |
 | `FilteredSearch`                       | Replaces the single page autocomplete version of organisation search with accessible version                                       |
 | `SchoolSpendingPrioritiesSsrCharts`    | Replaces the client rendered React/Recharts-derived charts on the School Spending Priorities page with server side rendered charts |
