@@ -91,4 +91,6 @@ public record ExpenditureTrustModel : ExpenditureModel
     public decimal? StaffDevelopmentTrainingCostsSchool { get; set; }
     public decimal? StaffRelatedInsuranceCostsSchool { get; set; }
     public decimal? SupplyTeacherInsurableCostsSchool { get; set; }
+
+    public string? EmlBand { get; set; }
 }

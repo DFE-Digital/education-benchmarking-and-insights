@@ -150,7 +150,8 @@ SELECT RunId,
        PremisesStaffCosts - ISNULL(PremisesStaffCostsCS, 0) AS 'PremisesStaffCostsSchool',
        TotalUtilitiesCosts - ISNULL(TotalUtilitiesCostsCS, 0) AS 'TotalUtilitiesCostsSchool',
        EnergyCosts - ISNULL(EnergyCostsCS, 0) AS 'EnergyCostsSchool',
-       WaterSewerageCosts - ISNULL(WaterSewerageCostsCS, 0) AS 'WaterSewerageCostsSchool'
+       WaterSewerageCosts - ISNULL(WaterSewerageCostsCS, 0) AS 'WaterSewerageCostsSchool',
+       EMLBand
 FROM TrustFinancial
 WHERE RunType = 'default'
 GO

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using Platform.Api.Insight.Features.Expenditure.Models;
 using Platform.Api.Insight.Features.Expenditure.Responses;
@@ -9,14 +8,15 @@ using Platform.Domain;
 
 namespace Platform.Api.Insight.Features.Expenditure;
 
-//TODO: Consider adding unit test coverage for mapper
-[ExcludeFromCodeCoverage]
+// todo: unit tests
 public static class Mapper
 {
     public static ExpenditureSchoolResponse MapToApiResponse(this ExpenditureSchoolModel model, string? category = null)
     {
         if (model == null)
+        {
             throw new ArgumentNullException(nameof(model), "Model cannot be null.");
+        }
 
         var response = new ExpenditureSchoolResponse
         {
@@ -134,7 +134,9 @@ public static class Mapper
     public static ExpenditureTrustResponse MapToApiResponse(this ExpenditureTrustModel model, string? category = null, bool excludeCentralService = false)
     {
         if (model == null)
+        {
             throw new ArgumentNullException(nameof(model), "Model cannot be null.");
+        }
 
         var response = new ExpenditureTrustResponse
         {
@@ -142,7 +144,7 @@ public static class Mapper
             CompanyNumber = model.CompanyNumber,
             TotalExpenditure = excludeCentralService ? model.TotalExpenditureSchool : model.TotalExpenditure,
             CentralTotalExpenditure = excludeCentralService ? null : model.TotalExpenditureCS,
-            SchoolTotalExpenditure = excludeCentralService ? null : model.TotalExpenditureSchool,
+            SchoolTotalExpenditure = excludeCentralService ? null : model.TotalExpenditureSchool
         };
 
         if (ShouldDisplay(category, Categories.Cost.TeachingTeachingSupportStaff))
@@ -188,6 +190,12 @@ public static class Mapper
             response.SchoolAuditorsCosts = excludeCentralService ? null : model.AuditorsCostsSchool;
             response.SchoolOtherStaffCosts = excludeCentralService ? null : model.OtherStaffCostsSchool;
             response.SchoolProfessionalServicesNonCurriculumCosts = excludeCentralService ? null : model.ProfessionalServicesNonCurriculumCostsSchool;
+
+            // attempt to parse value `###` from string of the format `EMLBANDS###` as an int
+            if (!string.IsNullOrWhiteSpace(model.EmlBand) && int.TryParse(model.EmlBand["EMLBANDS".Length..], out var bandValue))
+            {
+                response.HighestSalaryEmolumentBandValue = bandValue;
+            }
         }
 
         if (ShouldDisplay(category, Categories.Cost.EducationalSupplies))
@@ -326,7 +334,9 @@ public static class Mapper
     private static ExpenditureHistoryRowResponse MapToApiResponse(this ExpenditureHistoryModel model)
     {
         if (model == null)
+        {
             throw new ArgumentNullException(nameof(model), "Model cannot be null.");
+        }
 
         return new ExpenditureHistoryRowResponse
         {
