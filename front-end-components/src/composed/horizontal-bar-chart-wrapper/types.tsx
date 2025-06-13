@@ -4,6 +4,7 @@ import {
   SchoolChartData,
   TrustChartData,
 } from "src/components/charts/table-chart";
+import { DimensionChartOverride } from "src/composed/dimensioned-chart/types";
 
 export type HorizontalBarChartWrapperProps<
   TData extends SchoolChartData | TrustChartData | LaChartData,
@@ -22,7 +23,7 @@ export type HorizontalBarChartWrapperProps<
   localAuthority?: boolean;
   tooltip?: boolean;
   xAxisLabel?: string;
-  highExecutivePay?: boolean;
+  override?: DimensionChartOverride;
 };
 
 export type HorizontalBarChartWrapperPropsData<

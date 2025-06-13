@@ -18,7 +18,6 @@ import { ChartModeChart, ChartModeTable } from "src/components";
 import {
   chartSeriesComparer,
   shortValueFormatter,
-  payBandFormatter,
 } from "src/components/charts/utils";
 import { EstablishmentTick } from "src/components/charts/establishment-tick";
 import { SchoolDataTooltip } from "src/components/charts/school-data-tooltip";
@@ -51,7 +50,7 @@ export function HorizontalBarChartWrapper<
   trust,
   valueUnit,
   xAxisLabel,
-  highExecutivePay,
+  override,
 }: HorizontalBarChartWrapperProps<TData>) {
   const { chartMode } = useChartModeContext();
   const dimension = useContext(ChartDimensionContext);
@@ -68,8 +67,8 @@ export function HorizontalBarChartWrapper<
   const seriesConfig: { [key: string]: ChartSeriesConfigItem } = {
     [trust ? "totalValue" : "value"]: {
       visible: true,
-      valueFormatter: !!highExecutivePay
-        ? (v) => payBandFormatter(v)
+      valueFormatter: override?.valueFormatter
+        ? override.valueFormatter
         : (v) =>
             shortValueFormatter(v, {
               valueUnit: valueUnit ?? dimension.unit,
@@ -77,10 +76,8 @@ export function HorizontalBarChartWrapper<
     },
   };
 
-  if (highExecutivePay) {
-    valueUnit = "amount";
-    xAxisLabel = "Highest emolument band";
-  }
+  const valueLabel = override?.valueLabel ?? xAxisLabel ?? dimension.label;
+  const resolvedValueUnit = override?.valueUnit ?? valueUnit ?? dimension.unit;
 
   // if a `sort` is not provided, the default sorting method will be used (value DESC)
   const sortedDataPoints = useMemo(() => {
@@ -181,14 +178,8 @@ export function HorizontalBarChartWrapper<
       payloadProps.payload = [{ payload }];
     }
 
-    if (highExecutivePay) {
-      return (
-        <PayBandDataTooltip
-          {...props}
-          {...payloadProps}
-          valueFormatter={payBandFormatter}
-        />
-      );
+    if (override) {
+      return <PayBandDataTooltip {...props} {...payloadProps} />;
     }
 
     return trust ? (
@@ -306,8 +297,8 @@ export function HorizontalBarChartWrapper<
                   }
                   trust={trust}
                   valueFormatter={shortValueFormatter}
-                  valueLabel={xAxisLabel ?? dimension.label}
-                  valueUnit={valueUnit ?? dimension.unit}
+                  valueLabel={valueLabel}
+                  valueUnit={resolvedValueUnit}
                 />
               )}
               <div
@@ -322,7 +313,7 @@ export function HorizontalBarChartWrapper<
                   linkToEstablishment={linkToEstablishment}
                   tableHeadings={data.tableHeadings}
                   trust={trust}
-                  valueUnit={valueUnit ?? dimension.unit}
+                  valueUnit={resolvedValueUnit}
                 />
               </div>
             </>
