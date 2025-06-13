@@ -1,6 +1,6 @@
 import React from "react";
 import { CostCategories, ChartDimensions } from "src/components";
-import { ChartDimensionContext } from "src/contexts";
+import { ChartDimensionContext, SuppressNegativeOrZeroContext } from "src/contexts";
 import { HorizontalBarChartWrapper } from "src/composed/horizontal-bar-chart-wrapper";
 import { ErrorBanner } from "src/components/error-banner";
 import {
@@ -45,7 +45,13 @@ export function DimensionedChart<
 
       return (
         <ChartDimensionContext.Provider key={chartId} value={dimension}>
-          <HorizontalBarChartWrapper
+          <SuppressNegativeOrZeroContext.Provider
+                value={{
+                suppressNegativeOrZero: override?.suppressNegativeOrZero ?? false, 
+                message: override?.suppressNegativeOrZeroMessage ?? "",
+              }}
+              >
+            <HorizontalBarChartWrapper
             chartTitle={title}
             data={data}
             linkToEstablishment
@@ -68,6 +74,7 @@ export function DimensionedChart<
                 />
               ))}
           </HorizontalBarChartWrapper>
+          </SuppressNegativeOrZeroContext.Provider>
         </ChartDimensionContext.Provider>
       );
     })
