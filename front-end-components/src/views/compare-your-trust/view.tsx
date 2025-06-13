@@ -35,22 +35,22 @@ export const CompareYourTrust: React.FC<CompareYourTrustViewProps> = ({
         </li>
       </ul>
       <SuppressNegativeOrZeroContext.Provider
-                      value={{ suppressNegativeOrZero: true, message: message }}
-                    >
-      <SelectedEstablishmentContext.Provider value={id}>
-        <ChartModeProvider initialValue={ChartModeChart}>
-          <BreakdownProvider initialValue={BreakdownInclude}>
-            <div className="govuk-tabs__panel" id="spending">
-              <SpendingSection id={id} />
-            </div>
-          </BreakdownProvider>
-          <BreakdownProvider initialValue={BreakdownInclude}>
-            <div className="govuk-tabs__panel" id="balance">
-              <BalanceSection id={id} />
-            </div>
-          </BreakdownProvider>
-        </ChartModeProvider>
-      </SelectedEstablishmentContext.Provider>
+        value={{ suppressNegativeOrZero: true, message: message }}
+      >
+        <SelectedEstablishmentContext.Provider value={id}>
+          <ChartModeProvider initialValue={ChartModeChart}>
+            <BreakdownProvider initialValue={BreakdownInclude}>
+              <div className="govuk-tabs__panel" id="spending">
+                <SpendingSection id={id} />
+              </div>
+            </BreakdownProvider>
+            <BreakdownProvider initialValue={BreakdownInclude}>
+              <div className="govuk-tabs__panel" id="balance">
+                <BalanceSection id={id} />
+              </div>
+            </BreakdownProvider>
+          </ChartModeProvider>
+        </SelectedEstablishmentContext.Provider>
       </SuppressNegativeOrZeroContext.Provider>
     </div>
   );

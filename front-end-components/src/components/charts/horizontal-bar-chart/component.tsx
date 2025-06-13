@@ -342,8 +342,8 @@ function HorizontalBarChartInner<TData extends ChartDataSeries>(
                 tickFormatter={(value) =>
                   valueFormatter
                     ? valueFormatter(value, { valueUnit })
-                    // ? payBandFormatter(value)
-                    : String(value)
+                    : // ? payBandFormatter(value)
+                      String(value)
                 }
                 padding={{ left: 3 }}
               >
