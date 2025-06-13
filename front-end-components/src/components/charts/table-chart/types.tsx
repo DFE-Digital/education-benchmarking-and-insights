@@ -1,4 +1,4 @@
-import { ChartSeriesValueUnit } from "src/components/charts/types";
+import { ChartSeriesValueUnit, ValueFormatterType } from "src/components/charts/types";
 import { TableCellEstablishmentNameProps } from "./partials";
 
 export type TableChartProps<
@@ -10,6 +10,7 @@ export type TableChartProps<
   tableHeadings: string[];
   trust?: boolean;
   valueUnit?: ChartSeriesValueUnit | undefined;
+  valueFormatter?: ValueFormatterType;
 };
 
 export type SchoolChartData = {

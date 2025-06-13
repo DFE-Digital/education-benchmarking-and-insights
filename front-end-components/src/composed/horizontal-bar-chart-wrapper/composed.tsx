@@ -78,6 +78,8 @@ export function HorizontalBarChartWrapper<
 
   const valueLabel = override?.valueLabel ?? xAxisLabel ?? dimension.label;
   const resolvedValueUnit = override?.valueUnit ?? valueUnit ?? dimension.unit;
+  //TODO: this could be clearer - comment?
+  const resolvedValueFormatter = override?.valueFormatter;
 
   // if a `sort` is not provided, the default sorting method will be used (value DESC)
   const sortedDataPoints = useMemo(() => {
@@ -314,6 +316,7 @@ export function HorizontalBarChartWrapper<
                   tableHeadings={data.tableHeadings}
                   trust={trust}
                   valueUnit={resolvedValueUnit}
+                  valueFormatter={resolvedValueFormatter}
                 />
               </div>
             </>
