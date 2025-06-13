@@ -68,7 +68,7 @@ export function HorizontalBarChartWrapper<
   const seriesConfig: { [key: string]: ChartSeriesConfigItem } = {
     [trust ? "totalValue" : "value"]: {
       visible: true,
-      valueFormatter: highExecutivePay
+      valueFormatter: !!highExecutivePay
         ? (v) => payBandFormatter(v)
         : (v) =>
             shortValueFormatter(v, {
@@ -76,8 +76,6 @@ export function HorizontalBarChartWrapper<
             }),
     },
   };
-
-  console.log(highExecutivePay);
 
   if (highExecutivePay) {
     valueUnit = "amount";
