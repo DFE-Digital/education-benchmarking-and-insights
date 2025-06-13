@@ -8,7 +8,6 @@ using Platform.Domain;
 
 namespace Platform.Api.Insight.Features.Expenditure;
 
-// todo: unit tests
 public static class Mapper
 {
     public static ExpenditureSchoolResponse MapToApiResponse(this ExpenditureSchoolModel model, string? category = null)
@@ -192,7 +191,10 @@ public static class Mapper
             response.SchoolProfessionalServicesNonCurriculumCosts = excludeCentralService ? null : model.ProfessionalServicesNonCurriculumCostsSchool;
 
             // attempt to parse value `###` from string of the format `EMLBANDS###` as an int
-            if (!string.IsNullOrWhiteSpace(model.EmlBand) && int.TryParse(model.EmlBand["EMLBANDS".Length..], out var bandValue))
+            const string emlBandsPrefix = "EMLBANDS";
+            if (!string.IsNullOrWhiteSpace(model.EmlBand)
+                && model.EmlBand.Length > emlBandsPrefix.Length
+                && int.TryParse(model.EmlBand[emlBandsPrefix.Length..], out var bandValue))
             {
                 response.HighestSalaryEmolumentBandValue = bandValue;
             }
@@ -330,7 +332,6 @@ public static class Mapper
         return response;
     }
 
-
     private static ExpenditureHistoryRowResponse MapToApiResponse(this ExpenditureHistoryModel model)
     {
         if (model == null)
@@ -383,12 +384,9 @@ public static class Mapper
             StaffRelatedInsuranceCosts = model.StaffRelatedInsuranceCosts,
             SupplyTeacherInsurableCosts = model.SupplyTeacherInsurableCosts,
             CommunityFocusedSchoolStaff = model.CommunityFocusedSchoolStaff,
-            CommunityFocusedSchoolCosts = model.CommunityFocusedSchoolCosts,
+            CommunityFocusedSchoolCosts = model.CommunityFocusedSchoolCosts
         };
     }
 
-    private static bool ShouldDisplay(string? category, string match)
-    {
-        return string.IsNullOrEmpty(category) || category == match;
-    }
+    private static bool ShouldDisplay(string? category, string match) => string.IsNullOrEmpty(category) || category == match;
 }
