@@ -1,6 +1,9 @@
 import React from "react";
 import { CostCategories, ChartDimensions } from "src/components";
-import { ChartDimensionContext, SuppressNegativeOrZeroContext } from "src/contexts";
+import {
+  ChartDimensionContext,
+  SuppressNegativeOrZeroContext,
+} from "src/contexts";
 import { HorizontalBarChartWrapper } from "src/composed/horizontal-bar-chart-wrapper";
 import { ErrorBanner } from "src/components/error-banner";
 import {
@@ -46,34 +49,36 @@ export function DimensionedChart<
       return (
         <ChartDimensionContext.Provider key={chartId} value={dimension}>
           <SuppressNegativeOrZeroContext.Provider
-                value={{
-                suppressNegativeOrZero: override?.suppressNegativeOrZero ?? false, 
-                message: override?.suppressNegativeOrZeroMessage ?? "",
-              }}
-              >
-            <HorizontalBarChartWrapper
-            chartTitle={title}
-            data={data}
-            linkToEstablishment
-            tooltip
-            override={override}
-            {...props}
+            value={{
+              suppressNegativeOrZero: override?.suppressNegativeOrZero ?? false,
+              message: override?.suppressNegativeOrZeroMessage ?? "",
+            }}
           >
-            {topLevel ? (
-              <h2 className="govuk-heading-m">{title}</h2>
-            ) : (
-              <h3 className="govuk-heading-s">{title}</h3>
-            )}
-            {(i === 0 || selector) &&
-              (options ?? (
-                <ChartDimensions
-                  dimensions={chart.dimensions || dimensions || CostCategories}
-                  elementId={chartId}
-                  handleChange={handleSelectChange}
-                  value={dimension.value}
-                />
-              ))}
-          </HorizontalBarChartWrapper>
+            <HorizontalBarChartWrapper
+              chartTitle={title}
+              data={data}
+              linkToEstablishment
+              tooltip
+              override={override}
+              {...props}
+            >
+              {topLevel ? (
+                <h2 className="govuk-heading-m">{title}</h2>
+              ) : (
+                <h3 className="govuk-heading-s">{title}</h3>
+              )}
+              {(i === 0 || selector) &&
+                (options ?? (
+                  <ChartDimensions
+                    dimensions={
+                      chart.dimensions || dimensions || CostCategories
+                    }
+                    elementId={chartId}
+                    handleChange={handleSelectChange}
+                    value={dimension.value}
+                  />
+                ))}
+            </HorizontalBarChartWrapper>
           </SuppressNegativeOrZeroContext.Provider>
         </ChartDimensionContext.Provider>
       );

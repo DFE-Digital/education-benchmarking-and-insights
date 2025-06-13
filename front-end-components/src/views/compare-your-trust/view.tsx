@@ -17,8 +17,6 @@ export const CompareYourTrust: React.FC<CompareYourTrustViewProps> = ({
 }) => {
   useGovUk();
 
-  const message = "Only displaying trusts with positive expenditure.";
-
   return (
     <div className="govuk-tabs" data-module="govuk-tabs">
       <ul className="govuk-tabs__list">
@@ -33,20 +31,20 @@ export const CompareYourTrust: React.FC<CompareYourTrustViewProps> = ({
           </a>
         </li>
       </ul>
-        <SelectedEstablishmentContext.Provider value={id}>
-          <ChartModeProvider initialValue={ChartModeChart}>
-            <BreakdownProvider initialValue={BreakdownInclude}>
-              <div className="govuk-tabs__panel" id="spending">
-                <SpendingSection id={id} />
-              </div>
-            </BreakdownProvider>
-            <BreakdownProvider initialValue={BreakdownInclude}>
-              <div className="govuk-tabs__panel" id="balance">
-                <BalanceSection id={id} />
-              </div>
-            </BreakdownProvider>
-          </ChartModeProvider>
-        </SelectedEstablishmentContext.Provider>
+      <SelectedEstablishmentContext.Provider value={id}>
+        <ChartModeProvider initialValue={ChartModeChart}>
+          <BreakdownProvider initialValue={BreakdownInclude}>
+            <div className="govuk-tabs__panel" id="spending">
+              <SpendingSection id={id} />
+            </div>
+          </BreakdownProvider>
+          <BreakdownProvider initialValue={BreakdownInclude}>
+            <div className="govuk-tabs__panel" id="balance">
+              <BalanceSection id={id} />
+            </div>
+          </BreakdownProvider>
+        </ChartModeProvider>
+      </SelectedEstablishmentContext.Provider>
     </div>
   );
 };

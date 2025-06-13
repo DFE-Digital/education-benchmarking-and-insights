@@ -206,7 +206,8 @@ export const NonEducationalSupportStaff: React.FC<{
             valueLabel: "Highest emolument band",
             valueFormatter: payBandFormatter,
             suppressNegativeOrZero: true,
-            suppressNegativeOrZeroMessage: "Only displaying trusts with pay band data."
+            suppressNegativeOrZeroMessage:
+              "Only displaying trusts with pay band data.",
           },
         },
       ]}
