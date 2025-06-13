@@ -1,7 +1,16 @@
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import React, {
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 import { NonEducationalSupportStaffData } from "src/views/compare-your-trust/partials/accordion-sections/types";
 import { CostCategories, PoundsPerPupil } from "src/components";
-import { useCentralServicesBreakdownContext } from "src/contexts";
+import {
+  useCentralServicesBreakdownContext,
+  ShowHighExecutivePayContext,
+} from "src/contexts";
 import { HorizontalBarChartWrapperData } from "src/composed/horizontal-bar-chart-wrapper";
 import {
   ExpenditureApi,
@@ -13,12 +22,14 @@ import {
 } from "src/components/central-services-breakdown";
 import { AccordionSection } from "src/composed/accordion-section";
 import { useAbort } from "src/hooks/useAbort";
+import { payBandFormatter } from "src/components/charts/utils";
 
 export const NonEducationalSupportStaff: React.FC<{
   id: string;
 }> = ({ id }) => {
   const [dimension, setDimension] = useState(PoundsPerPupil);
   const { breakdown } = useCentralServicesBreakdownContext(true);
+  const showHighExecutivePay = useContext(ShowHighExecutivePayContext);
   const [data, setData] = useState<
     NonEducationalSupportStaffTrustExpenditure[] | null
   >();
@@ -155,30 +166,67 @@ export const NonEducationalSupportStaff: React.FC<{
       };
     }, [data, tableHeadings]);
 
+  const highestSalaryBandBarData: HorizontalBarChartWrapperData<NonEducationalSupportStaffData> =
+    useMemo(() => {
+      return {
+        dataPoints:
+          data && Array.isArray(data)
+            ? data.map((trust) => {
+                return {
+                  ...trust,
+                  totalValue: trust.highestSalaryEmolumentBandValue,
+                  schoolValue: undefined,
+                  centralValue: undefined,
+                };
+              })
+            : [],
+        tableHeadings: ["Trust name", "Highest emolument band"],
+      };
+    }, [data]);
+
+  const charts = [
+    {
+      data: totalNonEducationalBarData,
+      title: "Total non-educational support staff costs",
+    },
+    {
+      data: administrativeClericalBarData,
+      title: "Administrative and clerical staff costs",
+    },
+    {
+      data: auditorsCostsBarData,
+      title: "Auditors costs",
+    },
+    {
+      data: otherStaffCostsBarData,
+      title: "Other staff costs",
+    },
+    {
+      data: professionalServicesBarData,
+      title: "Professional services (non-curriculum) costs",
+    },
+  ];
+
+  const highExecutivePayChart = {
+    data: highestSalaryBandBarData,
+    title: "High executive pay",
+    override: {
+      valueUnit: "amount",
+      valueLabel: "Highest emolument band",
+      valueFormatter: payBandFormatter,
+      suppressNegativeOrZero: true,
+      suppressNegativeOrZeroMessage:
+        "Only displaying trusts with pay band data.",
+    },
+  };
+
+  if (showHighExecutivePay) {
+    charts.push(highExecutivePayChart);
+  }
+
   return (
     <AccordionSection
-      charts={[
-        {
-          data: totalNonEducationalBarData,
-          title: "Total non-educational support staff costs",
-        },
-        {
-          data: administrativeClericalBarData,
-          title: "Administrative and clerical staff costs",
-        },
-        {
-          data: auditorsCostsBarData,
-          title: "Auditors costs",
-        },
-        {
-          data: otherStaffCostsBarData,
-          title: "Other staff costs",
-        },
-        {
-          data: professionalServicesBarData,
-          title: "Professional services (non-curriculum) costs",
-        },
-      ]}
+      charts={charts}
       dimension={dimension}
       handleDimensionChange={handleDimensionChange}
       hasNoData={data?.length === 0}

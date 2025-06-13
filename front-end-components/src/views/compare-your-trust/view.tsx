@@ -9,11 +9,13 @@ import {
   ChartModeProvider,
   BreakdownProvider,
   SelectedEstablishmentContext,
+  ShowHighExecutivePayContext,
 } from "src/contexts";
 import "./styles.scss";
 
 export const CompareYourTrust: React.FC<CompareYourTrustViewProps> = ({
   id,
+  showHighExecutivePay,
 }) => {
   useGovUk();
 
@@ -35,7 +37,11 @@ export const CompareYourTrust: React.FC<CompareYourTrustViewProps> = ({
         <ChartModeProvider initialValue={ChartModeChart}>
           <BreakdownProvider initialValue={BreakdownInclude}>
             <div className="govuk-tabs__panel" id="spending">
-              <SpendingSection id={id} />
+              <ShowHighExecutivePayContext.Provider
+                value={showHighExecutivePay}
+              >
+                <SpendingSection id={id} />
+              </ShowHighExecutivePayContext.Provider>
             </div>
           </BreakdownProvider>
           <BreakdownProvider initialValue={BreakdownInclude}>

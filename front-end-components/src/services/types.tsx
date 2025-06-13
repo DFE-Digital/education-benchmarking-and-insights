@@ -175,6 +175,8 @@ type NonEducationalSupportStaffTrustExpenditureBase =
     centralAuditorsCosts: number;
     centralOtherStaffCosts: number;
     centralProfessionalServicesNonCurriculumCosts: number;
+
+    highestSalaryEmolumentBandValue: number;
   };
 
 export type NonEducationalSupportStaffTrustExpenditure = TrustExpenditure &

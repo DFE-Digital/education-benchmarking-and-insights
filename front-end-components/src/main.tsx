@@ -174,13 +174,16 @@ if (compareCostsElement) {
 const compareCostsTrustElement = document.getElementById(CompareTrustElementId);
 
 if (compareCostsTrustElement) {
-  const { id } = compareCostsTrustElement.dataset;
+  const { id, highExec } = compareCostsTrustElement.dataset;
+  const parsed = highExec ? JSON.parse(highExec) : undefined;
+  const showHighExecutivePay = (parsed?.showHighExec as boolean) ?? undefined;
+
   if (id) {
     const root = ReactDOM.createRoot(compareCostsTrustElement);
 
     root.render(
       <React.StrictMode>
-        <CompareYourTrust id={id} />
+        <CompareYourTrust id={id} showHighExecutivePay={showHighExecutivePay} />
       </React.StrictMode>
     );
   }

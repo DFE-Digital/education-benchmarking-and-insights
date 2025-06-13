@@ -55,3 +55,7 @@ export interface CostCodeMapContextValues {
   categoryCostCodes: string[];
   tags?: string[];
 }
+
+export const ShowHighExecutivePayContext = createContext<boolean | undefined>(
+  undefined
+);
