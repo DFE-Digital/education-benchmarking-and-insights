@@ -26,12 +26,15 @@ export const TableChart: React.FC<
   tableHeadings,
   trust,
   valueUnit,
+  valueFormatter,
 }) => {
   const selectedEstablishment = useContext(SelectedEstablishmentContext);
   const { breakdown } = useCentralServicesBreakdownContext();
   const { suppressNegativeOrZero, message } = useContext(
     SuppressNegativeOrZeroContext
   );
+
+  const resolvedValueFormatter = valueFormatter ?? fullValueFormatter;
 
   const dataPointKey = (trust ? "totalValue" : "value") as keyof (
     | SchoolChartData
@@ -121,7 +124,7 @@ export const TableChart: React.FC<
                   {trust ? (
                     <>
                       <td className="govuk-table__cell table-cell-value">
-                        {fullValueFormatter(totalValue, {
+                        {resolvedValueFormatter(totalValue, {
                           valueUnit,
                         })}
                       </td>
