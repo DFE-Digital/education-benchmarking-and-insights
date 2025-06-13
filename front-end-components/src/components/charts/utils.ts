@@ -122,3 +122,17 @@ export function fullValueFormatter(
     .format(options?.valueUnit === "%" ? value / 100 : value)
     .toLowerCase();
 }
+
+export function payBandFormatter(value: ValueFormatterValue): string {
+  if (typeof value !== "number") {
+    return value ? String(value) : "";
+  }
+
+  if (value >= 380) {
+    return "380+";
+  }
+  if (value === 0) {
+    return "0-10";
+  }
+  return `${value - 10}-${value}`;
+}
