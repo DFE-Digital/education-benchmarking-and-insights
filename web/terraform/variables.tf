@@ -22,6 +22,7 @@ variable "configuration" {
       TrustComparison                      = bool
       FinancialBenchmarkingInsightsSummary = bool
       HistoricalTrends                     = bool
+      HighExecutivePay                     = bool
       HighNeeds                            = bool
       FilteredSearch                       = bool
       SchoolSpendingPrioritiesSsrCharts    = bool
@@ -56,6 +57,7 @@ variable "configuration" {
         TrustComparison                      = true
         FinancialBenchmarkingInsightsSummary = true
         HistoricalTrends                     = true
+        HighExecutivePay                     = true
         HighNeeds                            = true
         FilteredSearch                       = true
         SchoolSpendingPrioritiesSsrCharts    = true
@@ -89,6 +91,7 @@ variable "configuration" {
         TrustComparison                      = true
         FinancialBenchmarkingInsightsSummary = true
         HistoricalTrends                     = true
+        HighExecutivePay                     = true
         HighNeeds                            = true
         FilteredSearch                       = true
         SchoolSpendingPrioritiesSsrCharts    = true
@@ -122,6 +125,7 @@ variable "configuration" {
         TrustComparison                      = true
         FinancialBenchmarkingInsightsSummary = true
         HistoricalTrends                     = true
+        HighExecutivePay                     = false
         HighNeeds                            = true
         FilteredSearch                       = true
         SchoolSpendingPrioritiesSsrCharts    = true
@@ -155,6 +159,7 @@ variable "configuration" {
         TrustComparison                      = true
         FinancialBenchmarkingInsightsSummary = true
         HistoricalTrends                     = true
+        HighExecutivePay                     = true
         HighNeeds                            = true
         FilteredSearch                       = true
         SchoolSpendingPrioritiesSsrCharts    = true
@@ -188,6 +193,7 @@ variable "configuration" {
         TrustComparison                      = true
         FinancialBenchmarkingInsightsSummary = true
         HistoricalTrends                     = true
+        HighExecutivePay                     = false
         HighNeeds                            = true
         FilteredSearch                       = true
         SchoolSpendingPrioritiesSsrCharts    = true
@@ -221,6 +227,7 @@ variable "configuration" {
         TrustComparison                      = true
         FinancialBenchmarkingInsightsSummary = true
         HistoricalTrends                     = true
+        HighExecutivePay                     = false
         HighNeeds                            = true
         FilteredSearch                       = true
         SchoolSpendingPrioritiesSsrCharts    = true

@@ -1,3 +1,6 @@
+@using Microsoft.FeatureManagement.Mvc.TagHelpers
+@using Newtonsoft.Json
+@using Web.App.Extensions
 @model Web.App.ViewModels.TrustToTrustViewModel
 @{
     ViewData[ViewDataKeys.Title] = PageTitles.TrustToTrustHome;
@@ -58,4 +61,10 @@
     className = "govuk-grid-column-full"
 })
 
-<div id="compare-your-trust" data-id="@Model.CompanyNumber"></div>
+<feature name="@FeatureFlags.HighExecutivePay">
+    <div id="compare-your-trust" data-id="@Model.CompanyNumber" data-high-exec="@(new { showHighExec = true }.ToJson(Formatting.None))"></div>
+</feature>
+
+<feature negate="true" name="@FeatureFlags.HighExecutivePay">
+    <div id="compare-your-trust" data-id="@Model.CompanyNumber"></div>
+</feature>
