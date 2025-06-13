@@ -13,7 +13,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-from pipeline.comparator_sets import compute_comparator_set, prepare_data
+from pipeline.comparator_sets import compute_comparator_set
 from pipeline.database import (
     insert_bfr,
     insert_bfr_metrics,
@@ -1028,17 +1028,13 @@ def compute_comparator_sets(
     start_time = time.time()
     logger.info("Computing comparator sets")
 
-    academies = prepare_data(
-        pd.read_parquet(
-            get_blob("pre-processed", f"{run_type}/{run_id}/academies.parquet")
-        )
+    academies = pd.read_parquet(
+        get_blob("pre-processed", f"{run_type}/{run_id}/academies.parquet")
     )
-    maintained = prepare_data(
-        pd.read_parquet(
-            get_blob(
-                "pre-processed",
-                f"{run_type}/{run_id}/maintained_schools.parquet",
-            )
+    maintained = pd.read_parquet(
+        get_blob(
+            "pre-processed",
+            f"{run_type}/{run_id}/maintained_schools.parquet",
         )
     )
 
@@ -1217,10 +1213,8 @@ def run_user_defined_rag(
     """
     run_type = "default"
 
-    all_schools = prepare_data(
-        pd.read_parquet(
-            get_blob("pre-processed", f"{run_type}/{year}/all_schools.parquet")
-        )
+    all_schools = pd.read_parquet(
+        get_blob("pre-processed", f"{run_type}/{year}/all_schools.parquet")
     )
 
     st = time.time()
