@@ -24,6 +24,8 @@ export type DimensionChartOverride = {
   valueUnit: ChartSeriesValueUnit;
   valueLabel: string;
   valueFormatter: ValueFormatterType;
+  suppressNegativeOrZero: boolean;
+  suppressNegativeOrZeroMessage: string;
 };
 
 export type DimensionedChartProps<
