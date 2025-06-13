@@ -23,6 +23,7 @@ import {
 import { EstablishmentTick } from "src/components/charts/establishment-tick";
 import { SchoolDataTooltip } from "src/components/charts/school-data-tooltip";
 import { TrustDataTooltip } from "src/components/charts/trust-data-tooltip";
+import { PayBandDataTooltip } from "src/components/charts/pay-band-tooltip";
 import { CartesianTickItem } from "recharts/types/util/types";
 import { TooltipProps } from "recharts";
 import {
@@ -180,6 +181,16 @@ export function HorizontalBarChartWrapper<
       }
 
       payloadProps.payload = [{ payload }];
+    }
+
+    if (highExecutivePay) {
+      return (
+        <PayBandDataTooltip
+          {...props}
+          {...payloadProps}
+          valueFormatter={payBandFormatter}
+        />
+      );
     }
 
     return trust ? (
