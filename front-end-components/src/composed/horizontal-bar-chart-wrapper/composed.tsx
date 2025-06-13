@@ -17,6 +17,7 @@ import { HorizontalBarChartWrapperProps } from "src/composed/horizontal-bar-char
 import { ChartModeChart, ChartModeTable } from "src/components";
 import {
   chartSeriesComparer,
+  fullValueFormatter,
   shortValueFormatter,
 } from "src/components/charts/utils";
 import { EstablishmentTick } from "src/components/charts/establishment-tick";
@@ -78,8 +79,9 @@ export function HorizontalBarChartWrapper<
 
   const valueLabel = override?.valueLabel ?? xAxisLabel ?? dimension.label;
   const resolvedValueUnit = override?.valueUnit ?? valueUnit ?? dimension.unit;
-  //TODO: this could be clearer - comment?
-  const resolvedValueFormatter = override?.valueFormatter;
+
+  const tableValueFormatter = override?.valueFormatter ?? fullValueFormatter;
+  const chartValueFormatter = override?.valueFormatter ?? shortValueFormatter;
 
   // if a `sort` is not provided, the default sorting method will be used (value DESC)
   const sortedDataPoints = useMemo(() => {
@@ -298,7 +300,7 @@ export function HorizontalBarChartWrapper<
                       : renderTooltip(p)
                   }
                   trust={trust}
-                  valueFormatter={shortValueFormatter}
+                  valueFormatter={chartValueFormatter}
                   valueLabel={valueLabel}
                   valueUnit={resolvedValueUnit}
                 />
@@ -316,7 +318,7 @@ export function HorizontalBarChartWrapper<
                   tableHeadings={data.tableHeadings}
                   trust={trust}
                   valueUnit={resolvedValueUnit}
-                  valueFormatter={resolvedValueFormatter}
+                  valueFormatter={tableValueFormatter}
                 />
               </div>
             </>
