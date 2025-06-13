@@ -9,6 +9,7 @@ import {
   ChartModeProvider,
   BreakdownProvider,
   SelectedEstablishmentContext,
+  SuppressNegativeOrZeroContext,
 } from "src/contexts";
 import "./styles.scss";
 
@@ -16,6 +17,8 @@ export const CompareYourTrust: React.FC<CompareYourTrustViewProps> = ({
   id,
 }) => {
   useGovUk();
+
+  const message = "Only displaying trusts with positive expenditure.";
 
   return (
     <div className="govuk-tabs" data-module="govuk-tabs">
@@ -31,6 +34,9 @@ export const CompareYourTrust: React.FC<CompareYourTrustViewProps> = ({
           </a>
         </li>
       </ul>
+      <SuppressNegativeOrZeroContext.Provider
+                      value={{ suppressNegativeOrZero: true, message: message }}
+                    >
       <SelectedEstablishmentContext.Provider value={id}>
         <ChartModeProvider initialValue={ChartModeChart}>
           <BreakdownProvider initialValue={BreakdownInclude}>
@@ -45,6 +51,7 @@ export const CompareYourTrust: React.FC<CompareYourTrustViewProps> = ({
           </BreakdownProvider>
         </ChartModeProvider>
       </SelectedEstablishmentContext.Provider>
+      </SuppressNegativeOrZeroContext.Provider>
     </div>
   );
 };

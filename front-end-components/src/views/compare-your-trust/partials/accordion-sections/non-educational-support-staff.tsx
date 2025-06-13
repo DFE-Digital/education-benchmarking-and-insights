@@ -164,9 +164,7 @@ export const NonEducationalSupportStaff: React.FC<{
             ? data.map((trust) => {
                 return {
                   ...trust,
-                  totalValue:
-                    Math.floor(Math.random() * ((390 - 70) / 10 + 1)) * 10,
-                  // totalValue: 150,
+                  totalValue: Math.floor(Math.random() * ((390 - 70) / 10 + 1)) * 10,
                   schoolValue: undefined,
                   centralValue: undefined,
                 };
