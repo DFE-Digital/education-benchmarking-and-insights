@@ -35,7 +35,7 @@ export function DimensionedChart<
       message="There isn't enough information available to create a set of similar schools."
     />
   ) : (
-    charts.map(({ data, selector, title, highExecutivePay, ...chart }, i) => {
+    charts.map(({ data, selector, title, override, ...chart }, i) => {
       const chartId = title
         .toLowerCase()
         .replace(/\W/g, " ")
@@ -50,7 +50,7 @@ export function DimensionedChart<
             data={data}
             linkToEstablishment
             tooltip
-            highExecutivePay={highExecutivePay}
+            override={override}
             {...props}
           >
             {topLevel ? (

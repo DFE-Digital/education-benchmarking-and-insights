@@ -13,6 +13,7 @@ import {
 } from "src/components/central-services-breakdown";
 import { AccordionSection } from "src/composed/accordion-section";
 import { useAbort } from "src/hooks/useAbort";
+import { payBandFormatter } from "src/components/charts/utils";
 
 export const NonEducationalSupportStaff: React.FC<{
   id: string;
@@ -163,7 +164,8 @@ export const NonEducationalSupportStaff: React.FC<{
             ? data.map((trust) => {
                 return {
                   ...trust,
-                  totalValue: Math.floor(Math.random() * ((390 - 70) / 10 + 1)) * 10,
+                  totalValue:
+                    Math.floor(Math.random() * ((390 - 70) / 10 + 1)) * 10,
                   // totalValue: 150,
                   schoolValue: undefined,
                   centralValue: undefined,
@@ -200,7 +202,11 @@ export const NonEducationalSupportStaff: React.FC<{
         {
           data: mockData,
           title: "High executive pay",
-          highExecutivePay: true,
+          override: {
+            valueUnit: "amount",
+            valueLabel: "Highest emolument band",
+            valueFormatter: payBandFormatter,
+          },
         },
       ]}
       dimension={dimension}

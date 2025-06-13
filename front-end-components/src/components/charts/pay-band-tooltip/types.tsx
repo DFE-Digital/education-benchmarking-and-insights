@@ -9,6 +9,5 @@ export interface PayBandDataTooltipProps<
   TValue extends ValueType,
   TName extends NameType,
 > extends TooltipProps<TValue, TName> {
-  valueFormatter: (value: ValueType) => string;
   valueUnit?: ChartSeriesValueUnit;
 }

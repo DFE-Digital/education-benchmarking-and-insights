@@ -1,5 +1,9 @@
 import { ReactNode } from "react";
-import { Dimension } from "src/components";
+import {
+  ChartSeriesValueUnit,
+  Dimension,
+  ValueFormatterType,
+} from "src/components";
 import {
   SchoolChartData,
   TrustChartData,
@@ -13,7 +17,13 @@ type DimensionedChart<TData extends SchoolChartData | TrustChartData> = Pick<
   selector?: boolean;
   title: string;
   dimensions?: Dimension[];
-  highExecutivePay?: boolean;
+  override?: DimensionChartOverride;
+};
+
+export type DimensionChartOverride = {
+  valueUnit: ChartSeriesValueUnit;
+  valueLabel: string;
+  valueFormatter: ValueFormatterType;
 };
 
 export type DimensionedChartProps<
