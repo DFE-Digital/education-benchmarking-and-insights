@@ -50,7 +50,6 @@ import { Props } from "recharts/types/component/Label";
 import { CartesianViewBox } from "recharts/types/util/types";
 import { DownloadMode } from "src/services";
 import "../styles.scss";
-import { payBandFormatter } from "../utils";
 
 function HorizontalBarChartInner<TData extends ChartDataSeries>(
   props: HorizontalBarChartProps<TData>,
@@ -342,8 +341,7 @@ function HorizontalBarChartInner<TData extends ChartDataSeries>(
                 tickFormatter={(value) =>
                   valueFormatter
                     ? valueFormatter(value, { valueUnit })
-                    : // ? payBandFormatter(value)
-                      String(value)
+                    : String(value)
                 }
                 padding={{ left: 3 }}
               >
