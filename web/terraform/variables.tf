@@ -58,7 +58,7 @@ variable "configuration" {
         HistoricalTrends                     = true
         HighNeeds                            = true
         FilteredSearch                       = true
-        SchoolSpendingPrioritiesSsrCharts    = false
+        SchoolSpendingPrioritiesSsrCharts    = true
       },
       CacheOptions = {
         ReturnYears = {
@@ -91,7 +91,7 @@ variable "configuration" {
         HistoricalTrends                     = true
         HighNeeds                            = true
         FilteredSearch                       = true
-        SchoolSpendingPrioritiesSsrCharts    = false
+        SchoolSpendingPrioritiesSsrCharts    = true
       },
       CacheOptions = {
         ReturnYears = {
@@ -124,7 +124,7 @@ variable "configuration" {
         HistoricalTrends                     = true
         HighNeeds                            = true
         FilteredSearch                       = true
-        SchoolSpendingPrioritiesSsrCharts    = false
+        SchoolSpendingPrioritiesSsrCharts    = true
       },
       CacheOptions = {
         ReturnYears = {
@@ -190,7 +190,7 @@ variable "configuration" {
         HistoricalTrends                     = true
         HighNeeds                            = true
         FilteredSearch                       = true
-        SchoolSpendingPrioritiesSsrCharts    = false
+        SchoolSpendingPrioritiesSsrCharts    = true
       }
       CacheOptions = {
         ReturnYears = {
@@ -223,7 +223,7 @@ variable "configuration" {
         HistoricalTrends                     = true
         HighNeeds                            = true
         FilteredSearch                       = true
-        SchoolSpendingPrioritiesSsrCharts    = false
+        SchoolSpendingPrioritiesSsrCharts    = true
       },
       CacheOptions = {
         ReturnYears = {
