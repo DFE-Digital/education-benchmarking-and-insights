@@ -125,7 +125,7 @@ variable "configuration" {
         TrustComparison                      = true
         FinancialBenchmarkingInsightsSummary = true
         HistoricalTrends                     = true
-        HighExecutivePay                     = false
+        HighExecutivePay                     = true
         HighNeeds                            = true
         FilteredSearch                       = true
         SchoolSpendingPrioritiesSsrCharts    = true
