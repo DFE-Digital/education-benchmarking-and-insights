@@ -18,11 +18,67 @@ repos:
     rev: v4.2.0 # MUST match your pre-commit version
     hooks:
       - id: sub-pre-commit
+        alias: core-infrastructure
+        name: "pre-commit for core-infrastructure"
+        args: ["-p", "core-infrastructure"]
+        files: "^core-infrastructure/.*"
+        stages: ["pre-commit"]
+
+      - id: sub-pre-commit
         alias: data-pipeline
         name: "pre-commit for data-pipeline"
         args: ["-p", "data-pipeline"]
         files: "^data-pipeline/.*"
         stages: ["pre-commit"]
+
+      - id: sub-pre-commit
+        alias: documentation
+        name: "pre-commit for documentation"
+        args: ["-p", "documentation"]
+        files: "^documentation/.*"
+        stages: ["pre-commit"]
+
+      - id: sub-pre-commit
+        alias: front-end-components
+        name: "pre-commit for front-end-components"
+        args: ["-p", "front-end-components"]
+        files: "^front-end-components/.*"
+        stages: ["pre-commit"]
+
+      - id: sub-pre-commit
+        alias: pipelines
+        name: "pre-commit for pipelines"
+        args: ["-p", "pipelines"]
+        files: "^pipelines/.*"
+        stages: ["pre-commit"]
+
+      - id: sub-pre-commit
+        alias: platform
+        name: "pre-commit for platform"
+        args: ["-p", "platform"]
+        files: "^platform/.*"
+        stages: ["pre-commit"]
+
+      - id: sub-pre-commit
+        alias: prototype
+        name: "pre-commit for prototype"
+        args: ["-p", "prototype"]
+        files: "^prototype/(?!src).*"
+        stages: ["pre-commit"]
+      - id: sub-pre-commit
+        alias: prototype-app
+        name: "pre-commit for prototype/src"
+        args: ["-p", "prototype/src"]
+        files: "^prototype/src.*"
+        stages: ["pre-commit"]
+
+      - id: sub-pre-commit
+        alias: support-analytics
+        name: "pre-commit for support-analytics"
+        args: ["-p", "support-analytics"]
+        files: "^support-analytics/.*"
+        stages: ["pre-commit"]
+
       - id: sub-pre-commit
         alias: web
         name: "pre-commit for web"
@@ -34,10 +90,4 @@ repos:
         name: "pre-commit for web/src/Web.App"
         args: ["-p", "web/src/Web.App"]
         files: "^web/src/Web.App.*"
-        stages: ["pre-commit"]
-      - id: sub-pre-commit
-        alias: front-end-components
-        name: "pre-commit for front-end-components"
-        args: ["-p", "front-end-components"]
-        files: "^front-end-components/.*"
         stages: ["pre-commit"]
