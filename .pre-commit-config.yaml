@@ -27,7 +27,13 @@ repos:
         alias: web
         name: "pre-commit for web"
         args: ["-p", "web"]
-        files: "^web/.*"
+        files: "^web/(?!src/Web.App).*"
+        stages: ["pre-commit"]
+      - id: sub-pre-commit
+        alias: web-app
+        name: "pre-commit for web/src/Web.App"
+        args: ["-p", "web/src/Web.App"]
+        files: "^web/src/Web.App.*"
         stages: ["pre-commit"]
       - id: sub-pre-commit
         alias: front-end-components
