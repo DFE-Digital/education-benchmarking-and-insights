@@ -8,7 +8,9 @@ from azure.storage.blob import BlobServiceClient
 from azure.storage.queue import QueueClient, QueueServiceClient
 
 azure_logger = logging.getLogger("azure")
-azure_logger.setLevel(logging.INFO)
+logger = logging.getLogger("fbit-data-pipeline")
+azure_logger.setLevel(logging.WARNING)
+
 
 conn_str = os.getenv("STORAGE_CONNECTION_STRING")
 worker_queue_name = os.getenv("WORKER_QUEUE_NAME", "data-pipeline-job-default-start")
@@ -37,7 +39,7 @@ def connect_to_queue(queue_name) -> QueueClient:
 def create_container(container_name):
     with suppress(ResourceExistsError):
         blob_service_client.create_container(container_name)
-        azure_logger.info(f"Created blob container: {container_name}")
+        logger.info(f"Created blob container: {container_name}")
 
     return blob_service_client.get_container_client(container_name)
 
@@ -49,11 +51,11 @@ def get_blob(container_name, blob_name, encoding=None):
     with blob_client as blob:
         if encoding is None:
             content = blob.download_blob(encoding=encoding).readall()
-            azure_logger.info(f"Downloaded blob: {blob_name}")
+            logger.info(f"Downloaded blob: {blob_name}")
             return BytesIO(content)
 
         content = blob.download_blob(encoding=encoding).readall()
-        azure_logger.info(f"Downloaded blob: {blob_name}")
+        logger.info(f"Downloaded blob: {blob_name}")
         return StringIO(content)
 
 
@@ -65,14 +67,14 @@ def try_get_blob(container_name, blob_name, encoding=None):
         if blob_client.exists():
             if encoding is None:
                 content = blob.download_blob(encoding=encoding).readall()
-                azure_logger.info(f"Downloaded blob: {blob_name}")
+                logger.info(f"Downloaded blob: {blob_name}")
                 return BytesIO(content)
 
             content = blob.download_blob(encoding=encoding).readall()
-            azure_logger.info(f"Downloaded blob: {blob_name}")
+            logger.info(f"Downloaded blob: {blob_name}")
             return StringIO(content)
         else:
-            azure_logger.info(f"Cannot get blob {blob_name}, as it does not exist")
+            logger.info(f"Cannot get blob {blob_name}, as it does not exist")
             return None
 
 
@@ -82,4 +84,4 @@ def write_blob(container_name, blob_name, data):
         blob_client = container_client.get_blob_client(blob_name)
         with blob_client as blob:
             blob.upload_blob(data, encoding="utf-8", overwrite=True)
-        azure_logger.info(f"Written to blob {container_name}/{blob_name}")
+        logger.info(f"Written to blob {container_name}/{blob_name}")
