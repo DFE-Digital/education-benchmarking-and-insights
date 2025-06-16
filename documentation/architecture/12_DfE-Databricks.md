@@ -113,7 +113,9 @@ Source data from and perform up until the gold layer of compute in Databricks. C
 
 * **Stray files not in databricks** We might need to still drag and drop new releases into databricks to make it all work, like we do with the current pipeline.
 * **Architectural Complexity:** The pipeline logic is now split across two systems (Databricks and FBIT). This can make orchestration, end-to-end monitoring, and debugging more complex.
-**Recommendation**
+
+## Recommendation
+
 Option 2: Change all data sources we can to Databricks -lots of our current ancillary data is on there already.
 Low risk and easy. Not to rule out option 3 - When the databricks instance is used more and DfE have a vision for it to start handling transformation workloads we can start to think about migrating data pipelines on to it.
 For our multiple data sources we can migrate them at different times based on if they are in databricks:
