@@ -133,12 +133,12 @@ export const TableChart: React.FC<
                         centralValue !== undefined && (
                           <>
                             <td className="govuk-table__cell table-cell-value">
-                              {fullValueFormatter(schoolValue, {
+                              {resolvedValueFormatter(schoolValue, {
                                 valueUnit,
                               })}
                             </td>
                             <td className="govuk-table__cell table-cell-value">
-                              {fullValueFormatter(centralValue, {
+                              {resolvedValueFormatter(centralValue, {
                                 valueUnit,
                               })}
                             </td>
@@ -148,26 +148,26 @@ export const TableChart: React.FC<
                   ) : localAuthority ? (
                     <>
                       <td className="govuk-table__cell table-cell-value">
-                        {fullValueFormatter(value, {
+                        {resolvedValueFormatter(value, {
                           valueUnit,
                         })}
                       </td>
                       {budget !== undefined && (
                         <td className="govuk-table__cell table-cell-value">
-                          {fullValueFormatter(budget, {
+                          {resolvedValueFormatter(budget, {
                             valueUnit,
                           })}
                         </td>
                       )}
                       <td className="govuk-table__cell table-cell-value">
-                        {fullValueFormatter(population, {
+                        {resolvedValueFormatter(population, {
                           valueUnit: "amount",
                         })}
                       </td>
                     </>
                   ) : (
                     <td className="govuk-table__cell table-cell-value">
-                      {fullValueFormatter(value, {
+                      {resolvedValueFormatter(value, {
                         valueUnit,
                       })}
                     </td>
