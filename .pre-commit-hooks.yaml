@@ -1,6 +1,9 @@
 # yaml-language-server: $schema=https://json.schemastore.org/pre-commit-hooks.json
 # common hooks for consumption by other projects
-# tag or SHA containing stable version of this file should be updated everywhere after changes made and pushed
+#
+# NOTE: `rev` SHA containing stable version of this file should be updated across
+#       all dependent `.pre-commit-config.yaml` files after changes made and pushed
+#
 - id: dotnet-lint
   name: Format dotnet files
   description: Run the "dotnet format" command, fixing any issues.

@@ -3,5 +3,4 @@ repos:
   - repo: https://github.com/DFE-Digital/education-benchmarking-and-insights.git
     rev: 79b0a9516b31727f087f2deb2f5af475ff041511
     hooks:
-      - id: dotnet-lint
-      - id: terraform-lint
+      - id: npm-format
