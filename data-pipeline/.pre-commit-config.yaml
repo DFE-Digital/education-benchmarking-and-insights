@@ -7,6 +7,6 @@ repos:
         args:
           - --check
   - repo: https://github.com/DFE-Digital/education-benchmarking-and-insights.git
-    rev: 79b0a9516b31727f087f2deb2f5af475ff041511
+    rev: 377a32d02773decea22439c7ddc4ca8da20a2c56
     hooks:
       - id: terraform-lint

@@ -44,7 +44,16 @@ The Financial Benchmarking and Insights Tool (FBIT) is to provide a single servi
 
 ### pre-commit
 
-0. Python/pip
+This solution has been configured with numerous [pre-commit hooks](./documentation/developers/14_Pre-Commit.md) to perform early quality assurance over commits in the repo.
+To ensure these run correctly make sure the following CLI tools are available:
+
+1. python
+2. dotnet
+3. node
+4. terraform
+
+Then perform the following steps to install and register `pre-commit`:
+
 1. `pip install -r requirements.txt`
 2. `pre-commit install`
 3. `pre-commit run --all-files` (optional)
