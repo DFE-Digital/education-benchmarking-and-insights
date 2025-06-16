@@ -1294,7 +1294,7 @@ def handle_msg(
                 logger.info("Default pipeline run completed!")
 
             case MessageType.DefaultUserDefined:
-                logger.info("Starting default user defined RAG pipeline run...")
+                logger.info("Starting user defined RAG pipeline run...")
                 msg_payload["rag_duration"] = run_user_defined_rag(
                     year=msg_payload["year"],
                     run_id=msg_payload["runId"],
