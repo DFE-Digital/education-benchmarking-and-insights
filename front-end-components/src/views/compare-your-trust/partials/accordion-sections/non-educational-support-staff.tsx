@@ -165,12 +165,12 @@ export const NonEducationalSupportStaff: React.FC<{
         tableHeadings,
       };
     }, [data, tableHeadings]);
-
+  
   const highestSalaryBandBarData: HorizontalBarChartWrapperData<NonEducationalSupportStaffData> =
     useMemo(() => {
       return {
         dataPoints:
-          data && Array.isArray(data)
+          data && Array.isArray(data) && !!showHighExecutivePay
             ? data.map((trust) => {
                 return {
                   ...trust,
@@ -182,7 +182,7 @@ export const NonEducationalSupportStaff: React.FC<{
             : [],
         tableHeadings: ["Trust name", "Highest emolument band"],
       };
-    }, [data]);
+    }, [data, showHighExecutivePay]);
 
   const charts = [
     {
@@ -207,7 +207,9 @@ export const NonEducationalSupportStaff: React.FC<{
     },
   ];
 
-  const highExecutivePayChart = {
+  if (showHighExecutivePay) {
+
+    const highExecutivePayChart = {
     data: highestSalaryBandBarData,
     title: "High executive pay",
     override: {
@@ -218,11 +220,9 @@ export const NonEducationalSupportStaff: React.FC<{
         suppressNegativeOrZero: true,
         message: "Only displaying trusts with pay band data.",
       },
-      customTooltip: "HighExec",
-    },
-  };
-
-  if (showHighExecutivePay) {
+      customTooltip: "highExec",
+      },
+    };
     charts.push(highExecutivePayChart);
   }
 
