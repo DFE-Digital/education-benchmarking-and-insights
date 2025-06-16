@@ -1,3 +1,4 @@
+@using Microsoft.FeatureManagement.Mvc.TagHelpers
 @model Web.App.ViewModels.TrustToTrustViewModel
 @{
     ViewData[ViewDataKeys.Title] = PageTitles.TrustToTrustHome;
@@ -58,4 +59,10 @@
     className = "govuk-grid-column-full"
 })
 
-<div id="compare-your-trust" data-id="@Model.CompanyNumber"></div>
+<feature name="@FeatureFlags.HighExecutivePay">
+    <div id="compare-your-trust" data-id="@Model.CompanyNumber" data-show-high-exec="true"></div>
+</feature>
+
+<feature negate="true" name="@FeatureFlags.HighExecutivePay">
+    <div id="compare-your-trust" data-id="@Model.CompanyNumber"></div>
+</feature>
