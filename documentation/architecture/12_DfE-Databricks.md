@@ -17,8 +17,54 @@ DfE's SQL server databases are being turned off and migrated to Databricks by th
 ## Considered Options
 
 A basic structure of the data pipeline illustrates the degrees of databricks involvement:
-Database data / Static data -> filtered, etc. -> merged/processed -> comparator-sets -> RAG
-Bronze                         silver            gold                data-mart
+
+```mermaid
+flowchart LR
+    %% Data Sources
+    DB[(Database Data)]
+    STATIC[(Static Data)]
+    
+    %% Bronze Layer
+    subgraph BRONZE ["🥉 BRONZE LAYER"]
+        RAW[Raw Data]
+    end
+    
+    %% Silver Layer
+    subgraph SILVER ["🥈 SILVER LAYER"]
+        MERGE[Merged/Processed Data]
+    end
+    
+    %% Gold Layer
+    subgraph GOLD ["🥇 GOLD LAYER"]
+        AGGR[Aggregated Views]
+    end
+    
+    %% Data Mart
+    subgraph MART ["📊 DATA MART"]
+        COMP[Comparator Sets]
+        RAG[RAG System]
+    end
+    
+    %% Flow connections with transformation labels
+    DB -->|Ingest & Filter| BRONZE
+    STATIC -->|Ingest & Clean| BRONZE
+    BRONZE -->|Merge & Transform| SILVER
+    SILVER -->|Aggregate & Compare| GOLD
+    GOLD -->|Serve & Index| MART
+    
+    %% Styling
+    classDef bronzeStyle fill:#CD7F32,stroke:#8B4513,stroke-width:2px,color:#fff
+    classDef silverStyle fill:#C0C0C0,stroke:#808080,stroke-width:2px,color:#000
+    classDef goldStyle fill:#FFD700,stroke:#DAA520,stroke-width:2px,color:#000
+    classDef martStyle fill:#4CAF50,stroke:#2E7D32,stroke-width:2px,color:#fff
+    
+    class BRONZE bronzeStyle
+    class SILVER silverStyle
+    class GOLD goldStyle
+    class MART martStyle
+```
+
+> Note: only the stages up to and including merged/processed are currently under consideration in any of the > below options. The latter stages integrate with the operational activities of the service and as such, are > not consistent with the intentions of DfE's Databricks platform.
 
 ### **Option 1: Change database sources to Databricks**
 
