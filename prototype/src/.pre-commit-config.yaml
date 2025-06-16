@@ -1,6 +1,0 @@
-# yaml-language-server: $schema=https://json.schemastore.org/pre-commit-config.json
-repos:
-  - repo: https://github.com/DFE-Digital/education-benchmarking-and-insights.git
-    rev: 79b0a9516b31727f087f2deb2f5af475ff041511
-    hooks:
-      - id: npm-format

@@ -1,13 +1,6 @@
 # yaml-language-server: $schema=https://json.schemastore.org/pre-commit-config.json
 repos:
-  - repo: local
+  - repo: https://github.com/DFE-Digital/education-benchmarking-and-insights.git
+    rev: 377a32d02773decea22439c7ddc4ca8da20a2c56
     hooks:
       - id: npm-lint
-        name: Run npm lint
-        description: Run the npm lint script
-        entry: npm run lint -- --no-warn-ignored
-        language: system
-        types_or:
-          - javascript
-          - ts
-          - tsx

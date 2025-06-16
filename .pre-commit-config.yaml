@@ -63,13 +63,7 @@ repos:
         alias: prototype
         name: "pre-commit for prototype"
         args: ["-p", "prototype"]
-        files: "^prototype/(?!src).*"
-        stages: ["pre-commit"]
-      - id: sub-pre-commit
-        alias: prototype-app
-        name: "pre-commit for prototype/src"
-        args: ["-p", "prototype/src"]
-        files: "^prototype/src.*"
+        files: "^prototype/.*"
         stages: ["pre-commit"]
 
       - id: sub-pre-commit
