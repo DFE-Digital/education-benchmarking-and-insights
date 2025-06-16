@@ -1,0 +1,38 @@
+# yaml-language-server: $schema=https://json.schemastore.org/pre-commit-hooks.json
+# common hooks for consumption by other projects
+# tag or SHA containing stable version of this file should be updated everywhere after changes made and pushed
+- id: dotnet-lint
+  name: Format dotnet files
+  description: Run the "dotnet format" command, fixing any issues.
+  entry: dotnet format --verify-no-changes
+  language: system
+  types:
+    - c#
+  pass_filenames: false
+- id: terraform-lint
+  name: Format terraform files
+  entry: terraform fmt -recursive -check
+  language: system
+  types:
+    - terraform
+  pass_filenames: false
+- id: npm-lint
+  name: Run npm lint
+  description: Run the npm lint script
+  entry: npm run lint -- --no-warn-ignored
+  language: system
+  types_or:
+    - javascript
+    - ts
+    - tsx
+  pass_filenames: false
+- id: npm-format
+  name: Run npm format
+  description: Run the npm format script
+  entry: npm run format
+  language: system
+  types_or:
+    - javascript
+    - ts
+    - tsx
+  pass_filenames: false
