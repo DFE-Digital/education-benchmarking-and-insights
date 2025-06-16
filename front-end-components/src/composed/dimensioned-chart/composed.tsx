@@ -50,8 +50,10 @@ export function DimensionedChart<
         <ChartDimensionContext.Provider key={chartId} value={dimension}>
           <SuppressNegativeOrZeroContext.Provider
             value={{
-              suppressNegativeOrZero: override?.suppressNegativeOrZero ?? false,
-              message: override?.suppressNegativeOrZeroMessage ?? "",
+              suppressNegativeOrZero:
+                override?.suppressNegativeOrZero?.suppressNegativeOrZero ??
+                false,
+              message: override?.suppressNegativeOrZero?.message ?? "",
             }}
           >
             <HorizontalBarChartWrapper

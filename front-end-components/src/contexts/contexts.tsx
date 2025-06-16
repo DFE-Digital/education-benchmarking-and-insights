@@ -30,7 +30,7 @@ export const CentralServicesBreakdownContext = createContext<
 
 export const CustomDataContext = createContext<string | undefined>(undefined);
 
-type SuppressNegativeOrZero = {
+export type SuppressNegativeOrZero = {
   suppressNegativeOrZero: boolean;
   message: string;
 };

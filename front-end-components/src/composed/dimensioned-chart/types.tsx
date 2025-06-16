@@ -9,6 +9,7 @@ import {
   TrustChartData,
 } from "src/components/charts/table-chart";
 import { HorizontalBarChartWrapperProps } from "src/composed/horizontal-bar-chart-wrapper";
+import { SuppressNegativeOrZero } from "src/contexts";
 
 type DimensionedChart<TData extends SchoolChartData | TrustChartData> = Pick<
   HorizontalBarChartWrapperProps<TData>,
@@ -24,8 +25,7 @@ export type DimensionChartOverride = {
   valueUnit: ChartSeriesValueUnit;
   valueLabel: string;
   valueFormatter: ValueFormatterType;
-  suppressNegativeOrZero: boolean;
-  suppressNegativeOrZeroMessage: string;
+  suppressNegativeOrZero: SuppressNegativeOrZero;
   customTooltip?: "HighExec";
 };
 

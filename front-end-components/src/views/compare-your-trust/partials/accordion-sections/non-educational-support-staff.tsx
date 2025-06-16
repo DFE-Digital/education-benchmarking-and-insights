@@ -214,9 +214,10 @@ export const NonEducationalSupportStaff: React.FC<{
       valueUnit: "amount",
       valueLabel: "Highest emolument band",
       valueFormatter: payBandFormatter,
-      suppressNegativeOrZero: true,
-      suppressNegativeOrZeroMessage:
-        "Only displaying trusts with pay band data.",
+      suppressNegativeOrZero: {
+        suppressNegativeOrZero: true,
+        message: "Only displaying trusts with pay band data.",
+      },
       customTooltip: "HighExec",
     },
   };
