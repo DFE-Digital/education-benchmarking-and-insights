@@ -33,6 +33,8 @@ public class TrustBenchmarkSpendingPage(IPage page)
     private ILocator ExcludeCentralSpendingRadio => page.Locator(Selectors.CentralSpendingModeExclude);
     private ILocator TrustComparisonTitles => page.Locator(Selectors.TrustComparisonTitles);
     private ILocator ComparisonTables => page.Locator(Selectors.TrustComparisonTables);
+    private ILocator SubChartTable(string dataTitle) => page.Locator($"[data-title='{dataTitle}'] table.govuk-table");
+    private ILocator SubChartWarning(string dataTitle) => page.Locator($"[data-title='{dataTitle}'] {Selectors.GovWarning}");
 
     public async Task IsDisplayed()
     {
@@ -69,6 +71,11 @@ public class TrustBenchmarkSpendingPage(IPage page)
         await ExcludeCentralSpendingRadio.Click();
     }
 
+    public async Task ClickShowAllSections()
+    {
+        await ShowHideAllSectionsLink.Click();
+    }
+
     public async Task TableContainsValues(string category, DataTable expected)
     {
         var titles = await TrustComparisonTitles.AllInnerTextsAsync();
@@ -85,6 +92,32 @@ public class TrustBenchmarkSpendingPage(IPage page)
         var actual = await dropdown.EvaluateAsync<string[]>(exp);
 
         Assert.True(expected.SequenceEqual(actual), $"Test fails on {chartName}. Expected: {string.Join(", ", expected)}, Actual: {string.Join(", ", actual)}");
+    }
+
+    public async Task HighExecutivePaySubChartTableHasExpectedValues(string subChartName, DataTable expected)
+    {
+        var highExecutivePayTable = SubChartTable(subChartName);
+        var set = new List<dynamic>();
+        var rows = await highExecutivePayTable.Locator("tbody tr").AllAsync();
+        foreach (var row in rows)
+        {
+            var cells = await row.Locator("td").AllAsync();
+
+            set.Add(new
+            {
+                TrustName = await cells.ElementAt(0).InnerTextAsync(),
+                HighestEmolumentBand = await cells.ElementAt(1).InnerTextAsync()
+            });
+        }
+
+        expected.CompareToDynamicSet(set, false);
+    }
+
+    public async Task IsSubChartNameWarningTextVisible(string subChartName)
+    {
+        var highExecutivePayTableWarning = SubChartWarning(subChartName).First;
+
+        await highExecutivePayTableWarning.ShouldBeVisible();
     }
 
     private static async Task AssertExpenditure(ILocator expenditureTable, DataTable expected)

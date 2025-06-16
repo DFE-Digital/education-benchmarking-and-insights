@@ -82,6 +82,13 @@ public class ComparatorsSteps(PageDriver driver)
         await _trustBenchmarkSpendingPage.ClickExcludeCentralSpending();
     }
 
+    [When("I click on show all sections")]
+    public async Task WhenIClickOnShowAllSections()
+    {
+        Assert.NotNull(_trustBenchmarkSpendingPage);
+        await _trustBenchmarkSpendingPage.ClickShowAllSections();
+    }
+
     [Then("the table for '(.*)' contains the following:")]
     public async Task ThenTheTableForContainsTheFollowing(string category, DataTable table)
     {
@@ -99,6 +106,20 @@ public class ComparatorsSteps(PageDriver driver)
             var chartName = Enum.Parse<ComparisonChartNames>(row["Chart name"]);
             await _trustBenchmarkSpendingPage.HasDimensionValuesForChart(chartName, row["Options"].Split(",", StringSplitOptions.TrimEntries));
         }
+    }
+
+    [Then("the '(.*)' chart table contains the following:")]
+    public async Task ThenSubChartTableContainsTheFollowing(string subChartName, DataTable table)
+    {
+        Assert.NotNull(_trustBenchmarkSpendingPage);
+        await _trustBenchmarkSpendingPage.HighExecutivePaySubChartTableHasExpectedValues(subChartName, table);
+    }
+
+    [Then("the '(.*)' chart table has a warning message stating reason for less rows is visible")]
+    public async Task ThenSubChartTableHasWarning(string subChartName)
+    {
+        Assert.NotNull(_trustBenchmarkSpendingPage);
+        await _trustBenchmarkSpendingPage.IsSubChartNameWarningTextVisible(subChartName);
     }
 
     private static string RevertComparatorsUrl(string urn)

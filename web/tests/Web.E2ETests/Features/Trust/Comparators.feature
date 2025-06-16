@@ -42,3 +42,12 @@ Feature: View Trust comparator set
           | AdministrativeSupplies         | £ per pupil, actuals, percentage of expenditure, percentage of income |
           | CateringStaffAndServices       | £ per pupil, actuals, percentage of expenditure, percentage of income |
           | Other                          | £ per pupil, actuals, percentage of expenditure, percentage of income |
+         
+    @HighExecutivePayFlagEnabled
+    Scenario: High executive pay chart table is displayed and correct and only shows rows where pay band data is available
+        When I click on show all sections
+        Then the 'High executive pay' chart table contains the following:
+          | TrustName                | HighestEmolumentBand |
+          | Test Company/Trust 108   | 230-240              |
+          | FBIT Multi Academy Trust | 60-70                |
+        And the 'High executive pay' chart table has a warning message stating reason for less rows is visible
