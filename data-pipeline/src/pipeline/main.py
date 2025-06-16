@@ -1274,6 +1274,7 @@ def handle_msg(
     try:
         match get_message_type(message=msg_payload):
             case MessageType.Default:
+                logger.info("Starting default pipeline run...")
                 msg_payload["pre_process_duration"] = pre_process_data(
                     worker_client=worker_client,
                     run_id=str(msg_payload["runId"]),
@@ -1290,16 +1291,20 @@ def handle_msg(
                     run_type=run_type,
                     run_id=str(msg_payload["runId"]),
                 )
+                logger.info("Default pipeline run completed!")
 
             case MessageType.DefaultUserDefined:
+                logger.info("Starting default user defined RAG pipeline run...")
                 msg_payload["rag_duration"] = run_user_defined_rag(
                     year=msg_payload["year"],
                     run_id=msg_payload["runId"],
                     target_urn=int(msg_payload["urn"]),
                     comparator_set=list(map(int, msg_payload["payload"]["set"])),
-                )
+                ) 
+                logger.info("User defined RAG pipeline run completed!")
 
             case MessageType.Custom:
+                logger.info("Starting custom pipeline run...")
                 msg_payload["pre_process_duration"] = pre_process_custom_data(
                     run_id=msg_payload["runId"],
                     year=msg_payload["year"],
@@ -1318,6 +1323,7 @@ def handle_msg(
                     run_id=msg_payload["runId"],
                     target_urn=int(msg_payload["urn"]),
                 )
+                logger.info("Custom pipeline run completed!")
 
         msg_payload["success"] = True
     except Exception as error:
