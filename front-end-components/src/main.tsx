@@ -181,7 +181,10 @@ if (compareCostsTrustElement) {
 
     root.render(
       <React.StrictMode>
-        <CompareYourTrust id={id} showHighExecutivePay={showHighExec === "true"} />
+        <CompareYourTrust
+          id={id}
+          showHighExecutivePay={showHighExec === "true"}
+        />
       </React.StrictMode>
     );
   }
