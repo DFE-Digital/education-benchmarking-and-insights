@@ -217,6 +217,7 @@ export const NonEducationalSupportStaff: React.FC<{
       suppressNegativeOrZero: true,
       suppressNegativeOrZeroMessage:
         "Only displaying trusts with pay band data.",
+      customTooltip: "HighExec",
     },
   };
 

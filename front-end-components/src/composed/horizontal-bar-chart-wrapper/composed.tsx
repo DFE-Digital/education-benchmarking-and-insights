@@ -182,7 +182,7 @@ export function HorizontalBarChartWrapper<
       payloadProps.payload = [{ payload }];
     }
 
-    if (override) {
+    if (override?.customTooltip === "HighExec") {
       return <PayBandDataTooltip {...props} {...payloadProps} />;
     }
 
