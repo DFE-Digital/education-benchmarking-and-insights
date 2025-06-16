@@ -1,4 +1,4 @@
-import React from "react";
+import { useContext } from "react";
 import { CostCategories, ChartDimensions } from "src/components";
 import {
   ChartDimensionContext,
@@ -24,6 +24,10 @@ export function DimensionedChart<
   topLevel,
   ...props
 }: DimensionedChartProps<TData>) {
+  const { suppressNegativeOrZero, message } = useContext(
+    SuppressNegativeOrZeroContext
+  );
+
   const handleSelectChange: React.ChangeEventHandler<HTMLSelectElement> = (
     event
   ) => {
@@ -52,8 +56,8 @@ export function DimensionedChart<
             value={{
               suppressNegativeOrZero:
                 override?.suppressNegativeOrZero?.suppressNegativeOrZero ??
-                false,
-              message: override?.suppressNegativeOrZero?.message ?? "",
+                suppressNegativeOrZero,
+              message: override?.suppressNegativeOrZero?.message ?? message,
             }}
           >
             <HorizontalBarChartWrapper
