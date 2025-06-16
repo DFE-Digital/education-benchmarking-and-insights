@@ -17,11 +17,13 @@ import { HorizontalBarChartWrapperProps } from "src/composed/horizontal-bar-char
 import { ChartModeChart, ChartModeTable } from "src/components";
 import {
   chartSeriesComparer,
+  fullValueFormatter,
   shortValueFormatter,
 } from "src/components/charts/utils";
 import { EstablishmentTick } from "src/components/charts/establishment-tick";
 import { SchoolDataTooltip } from "src/components/charts/school-data-tooltip";
 import { TrustDataTooltip } from "src/components/charts/trust-data-tooltip";
+import { PayBandDataTooltip } from "src/components/charts/pay-band-tooltip";
 import { CartesianTickItem } from "recharts/types/util/types";
 import { TooltipProps } from "recharts";
 import {
@@ -49,6 +51,7 @@ export function HorizontalBarChartWrapper<
   trust,
   valueUnit,
   xAxisLabel,
+  override,
 }: HorizontalBarChartWrapperProps<TData>) {
   const { chartMode } = useChartModeContext();
   const dimension = useContext(ChartDimensionContext);
@@ -65,12 +68,20 @@ export function HorizontalBarChartWrapper<
   const seriesConfig: { [key: string]: ChartSeriesConfigItem } = {
     [trust ? "totalValue" : "value"]: {
       visible: true,
-      valueFormatter: (v) =>
-        shortValueFormatter(v, {
-          valueUnit: valueUnit ?? dimension.unit,
-        }),
+      valueFormatter: override?.valueFormatter
+        ? override.valueFormatter
+        : (v) =>
+            shortValueFormatter(v, {
+              valueUnit: valueUnit ?? dimension.unit,
+            }),
     },
   };
+
+  const valueLabel = override?.valueLabel ?? xAxisLabel ?? dimension.label;
+  const resolvedValueUnit = override?.valueUnit ?? valueUnit ?? dimension.unit;
+
+  const tableValueFormatter = override?.valueFormatter ?? fullValueFormatter;
+  const chartValueFormatter = override?.valueFormatter ?? shortValueFormatter;
 
   // if a `sort` is not provided, the default sorting method will be used (value DESC)
   const sortedDataPoints = useMemo(() => {
@@ -169,6 +180,10 @@ export function HorizontalBarChartWrapper<
       }
 
       payloadProps.payload = [{ payload }];
+    }
+
+    if (override?.customTooltip === "highExec") {
+      return <PayBandDataTooltip {...props} {...payloadProps} />;
     }
 
     return trust ? (
@@ -285,9 +300,9 @@ export function HorizontalBarChartWrapper<
                       : renderTooltip(p)
                   }
                   trust={trust}
-                  valueFormatter={shortValueFormatter}
-                  valueLabel={xAxisLabel ?? dimension.label}
-                  valueUnit={valueUnit ?? dimension.unit}
+                  valueFormatter={chartValueFormatter}
+                  valueLabel={valueLabel}
+                  valueUnit={resolvedValueUnit}
                 />
               )}
               <div
@@ -302,7 +317,8 @@ export function HorizontalBarChartWrapper<
                   linkToEstablishment={linkToEstablishment}
                   tableHeadings={data.tableHeadings}
                   trust={trust}
-                  valueUnit={valueUnit ?? dimension.unit}
+                  valueUnit={resolvedValueUnit}
+                  valueFormatter={tableValueFormatter}
                 />
               </div>
             </>

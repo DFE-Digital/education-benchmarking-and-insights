@@ -9,6 +9,7 @@ import {
   shortValueFormatter,
   statValueFormatter,
   fullValueFormatter,
+  payBandFormatter,
 } from "./utils";
 
 describe("Chart utils", () => {
@@ -397,6 +398,45 @@ describe("Chart utils", () => {
             expect(result).toBe(expected);
           }
         );
+      });
+    });
+  });
+
+  describe("payBandFormatter()", () => {
+    describe("when given a non-number", () => {
+      describe("and it's truthy", () => {
+        it("returns the string version of the value", () => {
+          expect(payBandFormatter("Band A")).toBe("Band A");
+        });
+      });
+
+      describe("and it's falsy", () => {
+        it("returns an empty string", () => {
+          expect(payBandFormatter(undefined)).toBe("");
+        });
+      });
+    });
+
+    describe("when given a number", () => {
+      describe("and value is 0", () => {
+        it("returns '0-10'", () => {
+          expect(payBandFormatter(0)).toBe("0-10");
+        });
+      });
+
+      describe("and value is greater than or equal to 380", () => {
+        it("returns '380+'", () => {
+          expect(payBandFormatter(380)).toBe("380+");
+          expect(payBandFormatter(400)).toBe("380+");
+        });
+      });
+
+      describe("and value is between 1 and 379", () => {
+        it("returns a range in the format 'x-380'", () => {
+          expect(payBandFormatter(10)).toBe("0-10");
+          expect(payBandFormatter(50)).toBe("40-50");
+          expect(payBandFormatter(379)).toBe("369-379");
+        });
       });
     });
   });

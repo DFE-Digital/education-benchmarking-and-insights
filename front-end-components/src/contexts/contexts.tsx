@@ -30,7 +30,7 @@ export const CentralServicesBreakdownContext = createContext<
 
 export const CustomDataContext = createContext<string | undefined>(undefined);
 
-type SuppressNegativeOrZero = {
+export type SuppressNegativeOrZero = {
   suppressNegativeOrZero: boolean;
   message: string;
 };
@@ -55,3 +55,7 @@ export interface CostCodeMapContextValues {
   categoryCostCodes: string[];
   tags?: string[];
 }
+
+export const ShowHighExecutivePayContext = createContext<boolean | undefined>(
+  undefined
+);
