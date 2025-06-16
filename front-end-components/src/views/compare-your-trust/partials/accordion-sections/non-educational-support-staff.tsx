@@ -165,7 +165,7 @@ export const NonEducationalSupportStaff: React.FC<{
         tableHeadings,
       };
     }, [data, tableHeadings]);
-  
+
   const highestSalaryBandBarData: HorizontalBarChartWrapperData<NonEducationalSupportStaffData> =
     useMemo(() => {
       return {
@@ -208,19 +208,18 @@ export const NonEducationalSupportStaff: React.FC<{
   ];
 
   if (showHighExecutivePay) {
-
     const highExecutivePayChart = {
-    data: highestSalaryBandBarData,
-    title: "High executive pay",
-    override: {
-      valueUnit: "amount",
-      valueLabel: "Highest emolument band",
-      valueFormatter: payBandFormatter,
-      suppressNegativeOrZero: {
-        suppressNegativeOrZero: true,
-        message: "Only displaying trusts with pay band data.",
-      },
-      customTooltip: "highExec",
+      data: highestSalaryBandBarData,
+      title: "High executive pay",
+      override: {
+        valueUnit: "amount",
+        valueLabel: "Highest emolument band",
+        valueFormatter: payBandFormatter,
+        suppressNegativeOrZero: {
+          suppressNegativeOrZero: true,
+          message: "Only displaying trusts with pay band data.",
+        },
+        customTooltip: "highExec",
       },
     };
     charts.push(highExecutivePayChart);
