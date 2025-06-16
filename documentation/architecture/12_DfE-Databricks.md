@@ -64,7 +64,7 @@ flowchart LR
     class MART martStyle
 ```
 
-> Note: only the stages up to and including merged/processed are currently under consideration in any of the > below options. The latter stages integrate with the operational activities of the service and as such, are > not consistent with the intentions of DfE's Databricks platform.
+> Note: only the stages up to and including merged/processed are currently under consideration in any of the below options. The latter stages integrate with the operational activities of the service and as such, are not consistent with the intentions of DfE's Databricks platform.
 
 ### **Option 1: Change database sources to Databricks**
 
