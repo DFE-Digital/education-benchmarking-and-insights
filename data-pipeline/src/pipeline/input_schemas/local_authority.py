@@ -381,39 +381,39 @@ la_section_251_column_eval = {
     }
 }
 
-la_budget_default_columns = [
-    "TotalHighNeeds",
-    "TotalPlaceFunding",
-    "TotalTopUpFundingMaintained",
-    "TotalTopUpFundingNonMaintained",
-    "TotalSenServices",
-    "TotalAlternativeProvisionServices",
-    "TotalHospitalServices",
-    "TotalOtherHealthServices",
-    "TopFundingMaintainedEarlyYears",
-    "TopFundingMaintainedPrimary",
-    "TopFundingMaintainedSecondary",
-    "TopFundingMaintainedSpecial",
-    "TopFundingMaintainedAlternativeProvision",
-    "TopFundingMaintainedPostSchool",
-    "TopFundingMaintainedIncome",
-    "TopFundingNonMaintainedEarlyYears",
-    "TopFundingNonMaintainedPrimary",
-    "TopFundingNonMaintainedSecondary",
-    "TopFundingNonMaintainedSpecial",
-    "TopFundingNonMaintainedAlternativeProvision",
-    "TopFundingNonMaintainedPostSchool",
-    "TopFundingNonMaintainedIncome",
-    "PlaceFundingPrimary",
-    "PlaceFundingSecondary",
-    "PlaceFundingSpecial",
-    "PlaceFundingAlternativeProvision",
-]
-la_outturn_default_columns = la_budget_default_columns.copy() + [
-    "CarriedForwardBalance"
-]
-la_budget_columns = {"default": la_budget_default_columns}
-la_outturn_columns = {"default": la_outturn_default_columns}
+la_budget_columns = {
+    "default": [
+        "TotalHighNeeds",
+        "TotalPlaceFunding",
+        "TotalTopUpFundingMaintained",
+        "TotalTopUpFundingNonMaintained",
+        "TotalSenServices",
+        "TotalAlternativeProvisionServices",
+        "TotalHospitalServices",
+        "TotalOtherHealthServices",
+        "TopFundingMaintainedEarlyYears",
+        "TopFundingMaintainedPrimary",
+        "TopFundingMaintainedSecondary",
+        "TopFundingMaintainedSpecial",
+        "TopFundingMaintainedAlternativeProvision",
+        "TopFundingMaintainedPostSchool",
+        "TopFundingMaintainedIncome",
+        "TopFundingNonMaintainedEarlyYears",
+        "TopFundingNonMaintainedPrimary",
+        "TopFundingNonMaintainedSecondary",
+        "TopFundingNonMaintainedSpecial",
+        "TopFundingNonMaintainedAlternativeProvision",
+        "TopFundingNonMaintainedPostSchool",
+        "TopFundingNonMaintainedIncome",
+        "PlaceFundingPrimary",
+        "PlaceFundingSecondary",
+        "PlaceFundingSpecial",
+        "PlaceFundingAlternativeProvision",
+    ],
+}
+la_outturn_columns = {
+    "default": la_budget_columns["default"] + ["CarriedForwardBalance"]
+}
 
 # The raw data used to process the statistical neighbours
 # contains duplicate column names.
