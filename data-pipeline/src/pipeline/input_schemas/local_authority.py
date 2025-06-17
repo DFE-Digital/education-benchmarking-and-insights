@@ -68,6 +68,7 @@ la_section_251_category_prefixes = {
         "1.2.8 ",
         "1.2.8 ",
         "1.2.9 ",
+        "1.9.3 ",
     )
 }
 la_budget_pivot = {
@@ -362,6 +363,7 @@ la_section_251_column_mappings = {
         "1.0.2 Secondary": "PlaceFundingSecondary",
         "1.0.2 SENSpecial": "PlaceFundingSpecial",
         "1.0.2 APPRU": "PlaceFundingAlternativeProvision",
+        "1.9.3 Dedicated Schools Grant carried forward to next year__gross_expenditure": "CarriedForwardBalance"
     },
 }
 
@@ -379,8 +381,7 @@ la_section_251_column_eval = {
     }
 }
 
-la_section_251_columns = {
-    "default": [
+la_budget_default_columns = [
         "TotalHighNeeds",
         "TotalPlaceFunding",
         "TotalTopUpFundingMaintained",
@@ -408,7 +409,9 @@ la_section_251_columns = {
         "PlaceFundingSpecial",
         "PlaceFundingAlternativeProvision",
     ]
-}
+la_outturn_default_columns = la_budget_default_columns.copy() + ["CarriedForwardBalance"]
+la_budget_columns = {"default": la_budget_default_columns}
+la_outturn_columns = {"default": la_outturn_default_columns}
 
 # The raw data used to process the statistical neighbours
 # contains duplicate column names.

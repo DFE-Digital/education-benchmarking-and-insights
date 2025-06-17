@@ -127,8 +127,8 @@ def _build_section_251_data(
         la_budget_data[column] = la_budget_data.eval(eval_)
 
     la_budget_data = la_budget_data[
-        input_schemas.la_section_251_columns.get(
-            year, input_schemas.la_section_251_columns["default"]
+        input_schemas.la_budget_columns.get(
+            year, input_schemas.la_budget_columns["default"]
         )
     ].add_prefix("Budget")
 
@@ -169,8 +169,8 @@ def _build_section_251_data(
         la_outturn_data[column] = la_outturn_data.eval(eval_)
 
     la_outturn_data = la_outturn_data[
-        input_schemas.la_section_251_columns.get(
-            year, input_schemas.la_section_251_columns["default"]
+        input_schemas.la_outturn_columns.get(
+            year, input_schemas.la_outturn_columns["default"]
         )
     ].add_prefix("Outturn")
 
