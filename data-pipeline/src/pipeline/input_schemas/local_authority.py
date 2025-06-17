@@ -11,7 +11,6 @@ la_budget = {
         "la_name": "string",
         "old_la_code": "Int64",
         "new_la_code": "string",
-        "main_category_planned_expenditure": "string",
         "category_of_planned_expenditure": "string",
         "early_years_establishments": "float",
         "primary_schools": "float",
@@ -37,7 +36,6 @@ la_outturn = {
         "la_name": "string",
         "old_la_code": "Int64",
         "new_la_code": "string",
-        "main_category": "string",
         "category_of_expenditure": "string",
         "early_years_establishments": "float",
         "primary_schools": "float",
@@ -84,7 +82,6 @@ la_budget_pivot = {
             "la_name",
             "old_la_code",
             "new_la_code",
-            "main_category_planned_expenditure",
         ],
         "columns": ["category_of_planned_expenditure"],
         "values": [
@@ -114,7 +111,6 @@ la_outturn_pivot = {
             "la_name",
             "old_la_code",
             "new_la_code",
-            "main_category",
         ],
         "columns": ["category_of_expenditure"],
         "values": [
