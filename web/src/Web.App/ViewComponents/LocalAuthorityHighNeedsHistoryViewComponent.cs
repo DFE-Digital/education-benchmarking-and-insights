@@ -11,7 +11,7 @@ public class LocalAuthorityHighNeedsHistoryViewComponent(
     ILocalAuthoritiesApi localAuthoritiesApi,
     ILogger<LocalAuthorityHighNeedsHistoryViewComponent> logger) : ViewComponent
 {
-    public async Task<IViewComponentResult> InvokeAsync(string identifier, string? commentary, CancellationToken cancellationToken = default)
+    public async Task<IViewComponentResult> InvokeAsync(string identifier, CancellationToken cancellationToken = default)
     {
         var query = BuildQuery(identifier, "Actuals");
         var history = await localAuthoritiesApi
@@ -20,7 +20,7 @@ public class LocalAuthorityHighNeedsHistoryViewComponent(
 
         if (history is { Outturn.Length: > 0, Budget.Length: > 0 })
         {
-            return View(new LocalAuthorityHighNeedsHistoryViewModel(identifier, history, commentary));
+            return View(new LocalAuthorityHighNeedsHistoryViewModel(identifier, history));
         }
 
         logger.LogWarning("Local authority high needs history could not be displayed for {Code}", identifier);

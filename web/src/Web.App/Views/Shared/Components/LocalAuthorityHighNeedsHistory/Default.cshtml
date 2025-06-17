@@ -1,72 +1,67 @@
-@using Web.App.Controllers.Api.Responses
-@using Web.App.ViewModels
 @model Web.App.ViewModels.Components.LocalAuthorityHighNeedsHistoryViewModel
 
-<table class="govuk-table govuk-table--small">
-    <caption class="govuk-table__caption govuk-visually-hidden">Budget vs outturn (historical view)</caption>
-    <thead class="govuk-table__head">
-    <tr class="govuk-table__row">
-        <th scope="col" class="govuk-table__header govuk-!-width-one-quarter">
-            Year
-        </th>
-        <th scope="col" class="govuk-table__header govuk-!-width-one-half">
-            Finances
-        </th>
-        <th scope="col" class="govuk-table__header govuk-!-width-one-quarter govuk-table__header--numeric">
-            Net position
-        </th>
-    </tr>
-    </thead>
-    <tbody class="govuk-table__body">
-    @for (var i = Model.History.Count() - 1; i >= 0; i--)
-    {
-        var rank = Model.History.ElementAt(i);
-        LocalAuthorityHighNeedsHistoryDashboardResponse? nextRank = null;
-        if (i > 0)
-        {
-            nextRank = Model.History.ElementAtOrDefault(i - 1);
-        }
+<div class="govuk-tabs" data-module="govuk-tabs">
+    <ul class="govuk-tabs__list">
+        <li class="govuk-tabs__list-item govuk-tabs__list-item--selected">
+            <a class="govuk-tabs__tab" href="#expenditure-vs-outturn">
+                Planned expenditure vs. outturn
+            </a>
+        </li>
+    </ul>
+    <div class="govuk-tabs__panel" id="expenditure-vs-outturn">
+        <p class="govuk-body-s">
+            Outturn figures are pre-recoupment.
+        </p>
 
-        var nextValue = nextRank?.Balance;
+        <table class="govuk-table govuk-table--small">
+            <caption class="govuk-table__caption govuk-visually-hidden">
+                Planned expenditure vs. outturn (historical view)
+            </caption>
+            <thead class="govuk-table__head">
+            <tr class="govuk-table__row">
+                <th scope="col" class="govuk-table__header">
+                    Year
+                </th>
+                <th scope="col" class="govuk-table__header govuk-table__header--numeric">
+                    Planned expenditure
+                </th>
+                <th scope="col" class="govuk-table__header govuk-table__header--numeric">
+                    Outturn
+                </th>
+                <th scope="col" class="govuk-table__header govuk-table__header--numeric">
+                    Difference
+                </th>
+            </tr>
+            </thead>
+            <tbody class="govuk-table__body">
+            @for (var i = Model.History.Count() - 1; i >= 0; i--)
+            {
+                var rank = Model.History.ElementAt(i);
+                <tr class="govuk-table__row">
+                    <td class="govuk-table__cell">
+                        @(rank.Year - 1)
+                        to
+                        @(rank.Year)
+                    </td>
+                    <td class="govuk-table__cell govuk-table__cell--numeric">
+                        @(rank.Budget?.ToString("C0"))
+                    </td>
+                    <td class="govuk-table__cell govuk-table__cell--numeric">
+                        @(rank.Outturn?.ToString("C0"))
+                    </td>
+                    <td class="govuk-table__cell govuk-table__cell--numeric">
+                        @(rank.Balance?.ToString("C0"))
+                    </td>
+                </tr>
+            }
+            </tbody>
+        </table>
 
-        <tr class="govuk-table__row">
-            <td class="govuk-table__cell">
-                @(rank.Year - 1)
-                to
-                @(rank.Year)
-            </td>
-            <td class="govuk-table__cell">
-                <ul class="govuk-list govuk-!-static-margin-bottom-0">
-                    @if (rank.Budget.HasValue)
-                    {
-                        <li>
-                            <span class="govuk-!-font-weight-bold">Budget:</span>
-                            <span class="govuk-!-font-tabular-numbers">@(rank.Budget?.ToString("C0"))</span>
-                        </li>
-                    }
-                    @if (rank.Outturn.HasValue)
-                    {
-                        <li>
-                            <span class="govuk-!-font-weight-bold">Outturn:</span>
-                            <span class="govuk-!-font-tabular-numbers">@(rank.Outturn?.ToString("C0"))</span>
-                        </li>
-                    }
-                </ul>
-            </td>
-            <td class="govuk-table__cell govuk-table__cell--numeric govuk-table__cell--nowrap">
-                @(rank.Balance?.ToString("C0"))
-            </td>
-        </tr>
-    }
-    </tbody>
-</table>
+        <a
+            href="@Url.Action("Index", "LocalAuthorityHighNeedsHistoricData", new { code = Model.Code })"
+            role="button"
+            class="govuk-button govuk-button--secondary govuk-!-margin-bottom-1"
+            data-module="govuk-button">View full historic data</a>
+    </div>
+</div>
 
-<p class="govuk-body">
-    @Model.Commentary
-</p>
-
-<a
-    href="@Url.Action("Index", "LocalAuthorityHighNeedsHistoricData", new { code = Model.Code })"
-    role="button"
-    class="govuk-button govuk-button--secondary"
-    data-module="govuk-button">View full historic data</a>

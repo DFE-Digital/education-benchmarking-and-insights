@@ -24,35 +24,23 @@ public class HighNeedsDashboardPage(IPage page)
             HasText = "Benchmark high needs data"
         })
     });
-    private ILocator HeadlineFiguresCard => page.Locator(Selectors.GovSummaryCard, new PageLocatorOptions
+    private ILocator KeyInformationCard => page.Locator(Selectors.GovSummaryCard, new PageLocatorOptions
     {
         Has = page.Locator(Selectors.GovSummaryCardTitle, new PageLocatorOptions
         {
-            HasText = "Total number of EHC plans"
+            HasText = "Key information"
         })
     });
-    private ILocator NationalRankingsCard => page.Locator(Selectors.GovSummaryCard, new PageLocatorOptions
-    {
-        Has = page.Locator(Selectors.GovSummaryCardTitle, new PageLocatorOptions
-        {
-            HasText = "National view"
-        })
-    });
-    private ILocator HistoricDataCard => page.Locator(Selectors.GovSummaryCard, new PageLocatorOptions
-    {
-        Has = page.Locator(Selectors.GovSummaryCardTitle, new PageLocatorOptions
-        {
-            HasText = "Historical spending"
-        })
-    });
+    private ILocator NationalViewSection => page.Locator(Selectors.NationalView);
+    private ILocator HistoricDataSection => page.Locator(Selectors.HistoricalSpending);
 
     public async Task IsDisplayed()
     {
         await PageH1Heading.ShouldBeVisible();
         await BenchmarkHighNeedsCard.ShouldBeVisible();
-        await HeadlineFiguresCard.ShouldBeVisible();
-        await NationalRankingsCard.ShouldBeVisible();
-        await HistoricDataCard.ShouldBeVisible();
+        await KeyInformationCard.ShouldBeVisible();
+        await NationalViewSection.ShouldBeVisible();
+        await HistoricDataSection.ShouldBeVisible();
         await StartBenchmarkingButton.ShouldBeVisible();
         await ViewHistoricDataButton.ShouldBeVisible();
         await ViewNationalRankingsButton.ShouldBeVisible();

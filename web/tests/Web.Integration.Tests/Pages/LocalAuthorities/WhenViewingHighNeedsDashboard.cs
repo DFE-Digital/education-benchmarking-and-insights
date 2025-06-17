@@ -187,28 +187,28 @@ public class WhenViewingHighNeeds(SchoolBenchmarkingWebAppClient client) : PageB
 
         var cards = page.QuerySelectorAll(".govuk-summary-card");
 
-        var headlinesCard = cards.FirstOrDefault(c => c.TextContent.Contains("Total number of EHC plans"));
-        AssertHeadlinesCard(headlinesCard, highNeeds, plans);
+        var keyInformationCard = cards.FirstOrDefault(c => c.TextContent.Contains("Key information"));
+        AssertKeyInformationCard(keyInformationCard, highNeeds, plans);
 
-        var nationalRankingCard = cards.FirstOrDefault(c => c.TextContent.Contains("National view"));
-        AssertNationalRankingCard(nationalRankingCard, rankings, authority);
+        var nationalViewSection = page.QuerySelector("#national-view");
+        AssertNationalViewSection(nationalViewSection, rankings, authority);
 
-        var budgetSpendHistoryCard = cards.FirstOrDefault(c => c.TextContent.Contains("Historical spending"));
-        AssertBudgetSpendHistoryCard(budgetSpendHistoryCard, history);
+        var historicalSpendingSection = page.QuerySelector("#historical-spending");
+        AssertHistoricalSpendingSection(historicalSpendingSection, history);
     }
 
-    private static void AssertHeadlinesCard(IElement? headlinesCard, LocalAuthority<HighNeeds>? highNeeds, LocalAuthorityNumberOfPlans? plans)
+    private static void AssertKeyInformationCard(IElement? keyInformationCard, LocalAuthority<HighNeeds>? highNeeds, LocalAuthorityNumberOfPlans? plans)
     {
-        Assert.NotNull(headlinesCard);
+        Assert.NotNull(keyInformationCard);
 
         if (highNeeds == null || plans == null)
         {
-            var content = headlinesCard.QuerySelector(".govuk-summary-card__content");
+            var content = keyInformationCard.QuerySelector(".govuk-summary-card__content");
             DocumentAssert.AssertNodeText(content, "!\n    \n        Warning\n        Headlines could not be displayed.");
         }
         else
         {
-            var table = headlinesCard.QuerySelector("table");
+            var table = keyInformationCard.QuerySelector("table");
             Assert.NotNull(table);
 
             var bodyRows = table.QuerySelectorAll("tbody > tr");
@@ -217,24 +217,24 @@ public class WhenViewingHighNeeds(SchoolBenchmarkingWebAppClient client) : PageB
         }
     }
 
-    private static void AssertNationalRankingCard(IElement? nationalRankingCard, LocalAuthorityRank[] rankings, LocalAuthority authority)
+    private static void AssertNationalViewSection(IElement? nationalViewSection, LocalAuthorityRank[] rankings, LocalAuthority authority)
     {
-        Assert.NotNull(nationalRankingCard);
+        Assert.NotNull(nationalViewSection);
 
         if (rankings.Length == 0)
         {
-            var content = nationalRankingCard.QuerySelector(".govuk-summary-card__content");
-            DocumentAssert.AssertNodeText(content, "!\n    \n        Warning\n        National view could not be displayed.");
+            var content = nationalViewSection.QuerySelector(".govuk-warning-text");
+            DocumentAssert.AssertNodeText(content, "!  Warning\n        National view could not be displayed.");
         }
         else
         {
             if (rankings.All(r => r.Code != authority.Code))
             {
-                var warning = nationalRankingCard.QuerySelector(".govuk-warning-text");
+                var warning = nationalViewSection.QuerySelector(".govuk-warning-text");
                 DocumentAssert.AssertNodeText(warning, "!  Warning\n            There isn't enough information available to rank the current local authority.");
             }
 
-            var table = nationalRankingCard.QuerySelector("table");
+            var table = nationalViewSection.QuerySelector("table");
             Assert.NotNull(table);
 
             var headerRow = table.QuerySelector("thead > tr");
@@ -246,41 +246,41 @@ public class WhenViewingHighNeeds(SchoolBenchmarkingWebAppClient client) : PageB
             for (var i = 0; i < bodyRows.Length; i++)
             {
                 var ranking = rankings.ElementAt(i);
-                DocumentAssert.AssertNodeText(bodyRows.ElementAt(i), $"{ranking.Rank}.  {ranking.Name}  {ranking.Value?.ToString("#.#")}%");
+                DocumentAssert.AssertNodeText(bodyRows.ElementAt(i), $"{ranking.Rank}.\n                {ranking.Name}  {ranking.Value?.ToString("#.#")}%");
             }
         }
     }
 
-    private static void AssertBudgetSpendHistoryCard(IElement? budgetSpendHistoryCard, HighNeedsHistory<HighNeedsYear> history)
+    private static void AssertHistoricalSpendingSection(IElement? historicalSpendingSection, HighNeedsHistory<HighNeedsYear> history)
     {
-        Assert.NotNull(budgetSpendHistoryCard);
+        Assert.NotNull(historicalSpendingSection);
 
         if (history.Budget == null || history.Outturn == null)
         {
-            var content = budgetSpendHistoryCard.QuerySelector(".govuk-summary-card__content");
-            DocumentAssert.AssertNodeText(content, "!\n    \n        Warning\n        Budget vs outturn (historical view) could not be displayed.");
+            var content = historicalSpendingSection.QuerySelector(".govuk-warning-text");
+            DocumentAssert.AssertNodeText(content, "!  Warning\n        Budget vs outturn (historical view) could not be displayed.");
         }
         else
         {
-            var table = budgetSpendHistoryCard.QuerySelector("table");
+            var table = historicalSpendingSection.QuerySelector("table");
             Assert.NotNull(table);
 
             var headerRow = table.QuerySelector("thead > tr");
             Assert.NotNull(headerRow);
-            DocumentAssert.AssertNodeText(headerRow, "Year  Finances  Net position");
+            DocumentAssert.AssertNodeText(headerRow, "Year  Planned expenditure  Outturn  Difference");
 
             var bodyRows = table.QuerySelectorAll("tbody > tr");
             Assert.Equal(history.EndYear - history.StartYear + 1 ?? 0, bodyRows.Length);
-            var year = history.StartYear;
-            for (var i = bodyRows.Length - 1; i <= 0; i--)
+            var year = history.EndYear;
+            for (var i = 0; i < bodyRows.Length; i++)
             {
                 var outturn = history.Outturn.Single(o => o.Year == year);
                 var budget = history.Budget.Single(o => o.Year == year);
                 var outturnValue = outturn.Total;
                 var budgetValue = budget.Total;
                 var balanceValue = budgetValue - outturnValue;
-                DocumentAssert.AssertNodeText(bodyRows.ElementAt(i), $"{year}  Outturn:\n                            {outturnValue?.ToString("C0")}\n                        \n                        \n                            Budget:\n                            {budgetValue?.ToString("C0")}  {balanceValue?.ToString("C0")}");
-                year++;
+                DocumentAssert.AssertNodeText(bodyRows.ElementAt(i), $"{year - 1}\n                        to\n                        {year}  {budgetValue?.ToString("C0")}  {outturnValue?.ToString("C0")}  {balanceValue?.ToString("C0")}");
+                year--;
             }
         }
     }

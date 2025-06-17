@@ -510,6 +510,13 @@ hr.govuk-section-break--print {
           background-color: $table-cell-highlight-colour;
         }
       }
+
+      > .govuk-table__cell {
+        .govuk-table__cell__value--numeric {
+          display: inline-block;
+          min-width: 1.3rem;
+        }
+      }
     }
   }
 
