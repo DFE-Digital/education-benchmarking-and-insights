@@ -55,21 +55,37 @@ Feature: Establishment local authorities endpoints
       | suggester     | 0123456789_0123456789_0123456789_0123456789_0123456789_0123456789_0123456789_0123456789_0123456789_0123456789 | 5    |                           | The length of 'Search Text' must be 100 characters or fewer. You entered 109 characters. |                  |
 
     @HighNeedsFlagEnabled
-    Scenario: Sending a valid local authorities national rank request
-        Given a valid local authorities national rank request with sort order 'asc'
+    Scenario: Sending a valid local authorities national rank request for spend as percentage of funding
+        Given a valid local authorities national rank request with ranking 'SpendAsPercentageOfFunding' and sort order 'asc'
         When I submit the local authorities request
         Then the local authorities national rank result should contain the following:
-          | Code | Name                   | Value                | Rank |
-          | 201  | City of London         | 74.3672386895475819  | 1    |
-          | 206  | Islington              | 83.7501920181560312  | 2    |
-          | 203  | Greenwich              | 90.5839754210040574  | 3    |
-          | 205  | Hammersmith and Fulham | 97.4210777406673857  | 4    |
-          | 202  | Camden                 | 97.4536443741161516  | 5    |
-          | 210  | Southwark              | 97.4805362985510873  | 6    |
-          | 208  | Lambeth                | 98.5012502020260697  | 7    |
-          | 207  | Kensington and Chelsea | 100.3117545663038258 | 8    |
-          | 209  | Lewisham               | 105.2993762770436369 | 9    |
-          | 204  | Hackney                | 109.1145986925620464 | 10   |
+          | Code | Name                   | Value               | Rank |
+          | 202  | Camden                 | 93.602178152550296  | 1    |
+          | 206  | Islington              | 95.704037281657559  | 2    |
+          | 203  | Greenwich              | 101.877068056785594 | 3    |
+          | 208  | Lambeth                | 104.596270742532209 | 4    |
+          | 210  | Southwark              | 107.484200648362127 | 5    |
+          | 205  | Hammersmith and Fulham | 110.371610996985841 | 6    |
+          | 207  | Kensington and Chelsea | 110.886039077630293 | 7    |
+          | 204  | Hackney                | 111.846404579665456 | 8    |
+          | 209  | Lewisham               | 112.952490665122826 | 9    |
+
+    @HighNeedsFlagEnabled
+    Scenario: Sending a valid local authorities national rank request for spend as percentage of budget
+        Given a valid local authorities national rank request with ranking 'SpendAsPercentageOfBudget' and sort order 'asc'
+        When I submit the local authorities request
+        Then the local authorities national rank result should contain the following:
+          | Code | Name                   | Value               | Rank |
+          | 201  | City of London         | 74.367238689547582  | 1    |
+          | 206  | Islington              | 92.714508964623552  | 2    |
+          | 210  | Southwark              | 101.987468222083613 | 3    |
+          | 203  | Greenwich              | 102.495379482050979 | 4    |
+          | 202  | Camden                 | 104.134436741405488 | 5    |
+          | 208  | Lambeth                | 104.440663885153251 | 6    |
+          | 209  | Lewisham               | 106.226108779660468 | 7    |
+          | 204  | Hackney                | 109.935057417333181 | 8    |
+          | 207  | Kensington and Chelsea | 110.293383893581714 | 9    |
+          | 205  | Hammersmith and Fulham | 114.090669685354537 | 10   |
 
     @HighNeedsFlagEnabled
     Scenario: Sending a valid local authorities statistical neighbours request
