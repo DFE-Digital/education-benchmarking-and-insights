@@ -8,6 +8,8 @@ AS
         LaCode,
         Population2To18,
         CarriedForwardBalance,
+        DsgFunding,
+        AcademyRecoupment,
         OutturnTotalHighNeeds,
         OutturnTotalPlaceFunding,
         OutturnTotalTopUpFundingMaintained,
@@ -73,6 +75,8 @@ AS
         LaCode,
         Population2To18,
         CarriedForwardBalance,
+        DsgFunding,
+        AcademyRecoupment,
         IIF(Population2To18 > 0.0, OutturnTotalHighNeeds / Population2To18, NULL) AS OutturnTotalHighNeeds,
         IIF(Population2To18 > 0.0, OutturnTotalPlaceFunding / Population2To18, NULL) AS OutturnTotalPlaceFunding,
         IIF(Population2To18 > 0.0, OutturnTotalTopUpFundingMaintained / Population2To18, NULL) AS OutturnTotalTopUpFundingMaintained,
@@ -181,12 +185,27 @@ GO
 
 CREATE VIEW VW_LocalAuthorityFinancialDefaultCurrentSpendAsPercentageOfBudget
 AS
-    SELECT c.[LaCode],
+    SELECT c.[LaCode],  
         l.[Name],
-        c.[OutturnTotalHighNeeds] / c.[BudgetTotalHighNeeds] * 100 AS [Value]
+        (c.[OutturnTotalHighNeeds] + ISNULL(c.[AcademyRecoupment], 0)) / IIF(c.[BudgetTotalHighNeeds] = 0, NULL, c.[BudgetTotalHighNeeds]) * 100 AS [Value]
     FROM [LocalAuthority] l
         LEFT JOIN [VW_LocalAuthorityFinancialDefaultActual] c ON c.[LaCode] = l.[Code]
     WHERE c.[RunId] = (SELECT [Value]
     FROM [Parameters]
     WHERE [Name] = 'CurrentYear')
+GO
+
+DROP VIEW IF EXISTS VW_LocalAuthorityFinancialDefaultCurrentSpendAsPercentageOfFunding
+GO
+
+CREATE VIEW VW_LocalAuthorityFinancialDefaultCurrentSpendAsPercentageOfFunding
+AS
+SELECT c.[LaCode],
+       l.[Name],
+       (c.[OutturnTotalHighNeeds] + ISNULL(c.[AcademyRecoupment], 0)) / IIF(c.[DsgFunding] = 0, NULL, c.[DsgFunding]) * 100 AS [Value]
+FROM [LocalAuthority] l
+         LEFT JOIN [VW_LocalAuthorityFinancialDefaultActual] c ON c.[LaCode] = l.[Code]
+WHERE c.[RunId] = (SELECT [Value]
+                   FROM [Parameters]
+                   WHERE [Name] = 'CurrentYear')
 GO
