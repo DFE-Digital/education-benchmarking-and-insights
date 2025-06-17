@@ -133,6 +133,8 @@ public static class Selectors
     public const string Send2Tab = "#tab_send-2";
     public const string Send2ModeTable = "#send-2-mode-table";
     public const string Send2ModeChart = "#send-2-mode-chart";
+    public const string NationalView = "#national-view";
+    public const string HistoricalSpending = "#historical-spending";
 
     public const string IncomeDimension = "#income-dimension";
     public const string BalanceDimension = "#balance-dimension";

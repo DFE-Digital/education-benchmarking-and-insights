@@ -1,5 +1,4 @@
-﻿@using Web.App.TagHelpers
-@model Web.App.ViewModels.LocalAuthorityHighNeedsViewModel
+﻿@model Web.App.ViewModels.LocalAuthorityHighNeedsViewModel
 @{
     ViewData[ViewDataKeys.Title] = PageTitles.LocalAuthorityHighNeeds;
 }
@@ -41,46 +40,13 @@
     <div class="dashboard-column-one-half">
         <div class="govuk-summary-card">
             <div class="govuk-summary-card__title-wrapper">
-                <h2 class="govuk-summary-card__title">Total number of EHC plans</h2>
+                <h2 class="govuk-summary-card__title">Key information</h2>
             </div>
             <div class="govuk-summary-card__content">
                 @await Component.InvokeAsync("LocalAuthorityHighNeedsHeadlines", new
                 {
                     identifier = Model.Code,
-                    commentary = $"Taken from SEN data for January {Model.Section251Year}."
-                })
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="dashboard-row">
-    <div class="dashboard-column-one-half">
-        <div class="govuk-summary-card">
-            <div class="govuk-summary-card__title-wrapper">
-                <h2 class="govuk-summary-card__title">National view</h2>
-            </div>
-            <div class="govuk-summary-card__content">
-                @await Component.InvokeAsync("LocalAuthorityHighNeedsNationalRankings", new
-                {
-                    identifier = Model.Code,
-                    ranking = "SpendAsPercentageOfBudget",
-                    commentary = $"Local authorities ranked based on outturn compared to budget as a percentage using {Model.Section251Year-1}-{Model.Section251Year} data.",
-                    valueLabel = "Outturn as percentage of budget"
-                })
-            </div>
-        </div>
-    </div>
-    <div class="dashboard-column-one-half">
-        <div class="govuk-summary-card">
-            <div class="govuk-summary-card__title-wrapper">
-                <h2 class="govuk-summary-card__title">Historical spending</h2>
-            </div>
-            <div class="govuk-summary-card__content">
-                @await Component.InvokeAsync("LocalAuthorityHighNeedsHistory", new
-                {
-                    identifier = Model.Code,
-                    commentary = "This data displays only budget vs outturn, funding vs outturn is not available. Outturn does not include place funding for pupils with special educational needs taught in academies."
+                    commentary = $"Taken from section 251 and SEN2 data for {Model.Section251Year - 1}-{Model.Section251Year}."
                 })
             </div>
         </div>
@@ -89,9 +55,32 @@
 
 <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
 
-@await Component.InvokeAsync("LocalAuthorityHighNeedsHelp")
+<div class="govuk-grid-row" id="national-view">
+    <div class="govuk-grid-column-full">
+        <h2 class="govuk-heading-m">National view</h2>
+        @await Component.InvokeAsync("LocalAuthorityHighNeedsNationalRankings", new
+        {
+            identifier = Model.Code,
+            ranking = "SpendAsPercentageOfBudget",
+            commentary = $"Local authorities ranked based on outturn compared to budget as a percentage using {Model.Section251Year - 1}-{Model.Section251Year} data.",
+            valueLabel = "Outturn as percentage of budget"
+        })
+    </div>
+</div>
 
-<hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+<hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible govuk-!-margin-top-1">
+
+<div class="govuk-grid-row" id="historical-spending">
+    <div class="govuk-grid-column-full">
+        <h2 class="govuk-heading-m">Historical spending</h2>
+        @await Component.InvokeAsync("LocalAuthorityHighNeedsHistory", new
+        {
+            identifier = Model.Code
+        })
+    </div>
+</div>
+
+<hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible govuk-!-margin-top-1">
 
 @await Component.InvokeAsync("LocalAuthorityFinanceTools", new
 {
@@ -99,11 +88,6 @@
     tools = new[] { FinanceTools.CompareYourCosts, FinanceTools.BenchmarkCensus }
 })
 
-@section scripts
-{
-    <script type="module" add-nonce="true">
-        import {initAll} from '/js/govuk-frontend.min.js'
+<hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible govuk-!-margin-top-1">
 
-        initAll()
-    </script>
-}
+@await Component.InvokeAsync("LocalAuthorityHighNeedsHelp")

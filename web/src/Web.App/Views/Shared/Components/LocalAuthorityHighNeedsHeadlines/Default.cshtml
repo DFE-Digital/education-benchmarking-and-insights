@@ -6,9 +6,9 @@
     @if (Model.TotalPlans != null)
     {
         <tr class="govuk-table__row">
-            <td class="govuk-table__cell">
+            <th scope="row" class="govuk-table__header">
                 Total number of EHC plans
-            </td>
+            </th>
             <td class="govuk-table__cell govuk-table__cell--numeric">
                 @Model.TotalPlans?.ToString("N0")
             </td>
