@@ -1,3 +1,3 @@
 ALTER TABLE LocalAuthorityFinancial
-    ADD OutturnCarriedForwardBalance decimal NULL;
+    ADD CarriedForwardBalance decimal NULL;
     

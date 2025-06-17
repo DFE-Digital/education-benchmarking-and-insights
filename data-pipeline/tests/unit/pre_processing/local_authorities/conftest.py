@@ -82,6 +82,7 @@ def la_outturn() -> pd.DataFrame:
         "1.2.10 PFI/ BSF costs at special schools, AP/ PRUs and Post 16 institutions only",
         "1.2.11 Direct payments (SEN and disability)",
         "1.2.13 Therapies and other health related services",
+        "1.9.3 Dedicated Schools Grant carried forward to next year",
     ]
 
     def _get_str(value: str) -> list[str]:
