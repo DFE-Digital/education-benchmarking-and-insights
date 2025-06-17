@@ -7,15 +7,15 @@
         Then the national rankings table is displayed with the following values:
           | Name                   | Value  |
           | City of London         | 74.4%  |
-          | Islington              | 83.8%  |
-          | Greenwich              | 90.6%  |
-          | Hammersmith and Fulham | 97.4%  |
-          | Camden                 | 97.5%  |
-          | Southwark              | 97.5%  |
-          | Lambeth                | 98.5%  |
-          | Kensington and Chelsea | 100.3% |
-          | Lewisham               | 105.3% |
-          | Hackney                | 109.1% |
+          | Islington              | 92.7%  |
+          | Southwark              | 102%   |
+          | Greenwich              | 102.5% |
+          | Camden                 | 104.1% |
+          | Lambeth                | 104.4% |
+          | Lewisham               | 106.2% |
+          | Hackney                | 109.9% |
+          | Kensington and Chelsea | 110.3% |
+          | Hammersmith and Fulham | 114.1% |
 
     @HighNeedsFlagEnabled
     Scenario: Warning banner not displayed if current local authority is in rankings
@@ -24,7 +24,7 @@
 
     @HighNeedsFlagEnabled
     Scenario: Warning banner displayed if current local authority is not in rankings
-        Given I am on local authority high needs national rankings for local authority with code '942'
+        Given I am on local authority high needs national rankings for local authority with code '211'
         Then the missing ranking warning message should be displayed
 
     @HighNeedsFlagEnabled

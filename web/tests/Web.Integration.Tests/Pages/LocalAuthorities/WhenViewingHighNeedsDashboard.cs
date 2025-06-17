@@ -240,7 +240,7 @@ public class WhenViewingHighNeeds(SchoolBenchmarkingWebAppClient client) : PageB
 
             var headerRow = table.QuerySelector("thead > tr");
             Assert.NotNull(headerRow);
-            DocumentAssert.AssertNodeText(headerRow, "Local authority  Outturn as percentage of budget");
+            DocumentAssert.AssertNodeText(headerRow, "Local authority  Outturn as percentage of funding");
 
             var bodyRows = table.QuerySelectorAll("tbody > tr");
             Assert.Equal(rankings.Length, bodyRows.Length);
