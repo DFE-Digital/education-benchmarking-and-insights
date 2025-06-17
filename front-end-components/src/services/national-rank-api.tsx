@@ -1,9 +1,13 @@
 import { LocalAuthorityRanking } from "src/services/types";
 import { v4 as uuidv4 } from "uuid";
 
+export type LocalAuthorityNationalRanking =
+  | "SpendAsPercentageOfBudget"
+  | "SpendAsPercentageOfFunding";
+
 export class NationalRankApi {
   static async get(
-    ranking: "SpendAsPercentageOfBudget",
+    ranking: LocalAuthorityNationalRanking,
     sort?: "asc" | "desc",
     signals?: AbortSignal[]
   ): Promise<LocalAuthorityRanking> {

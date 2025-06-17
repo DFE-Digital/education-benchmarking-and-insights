@@ -23,7 +23,7 @@ public class LocalAuthorityHighNeedsNationalRankingsViewComponent(
             return View(new LocalAuthorityHighNeedsNationalRankingsViewModel(identifier, commentary, valueLabel, result, count));
         }
 
-        logger.LogWarning("Local authority national rankings could not be displayed for {Code}", identifier);
+        logger.LogWarning("Local authority national view could not be displayed for {Code}", identifier);
         return View("MissingData");
     }
 
