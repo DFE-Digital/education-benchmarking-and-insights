@@ -363,7 +363,7 @@ la_section_251_column_mappings = {
         "1.0.2 Secondary": "PlaceFundingSecondary",
         "1.0.2 SENSpecial": "PlaceFundingSpecial",
         "1.0.2 APPRU": "PlaceFundingAlternativeProvision",
-        "1.9.3 Dedicated Schools Grant carried forward to next year__gross_expenditure": "CarriedForwardBalance"
+        "1.9.3 Dedicated Schools Grant carried forward to next year__gross_expenditure": "CarriedForwardBalance",
     },
 }
 
@@ -382,34 +382,36 @@ la_section_251_column_eval = {
 }
 
 la_budget_default_columns = [
-        "TotalHighNeeds",
-        "TotalPlaceFunding",
-        "TotalTopUpFundingMaintained",
-        "TotalTopUpFundingNonMaintained",
-        "TotalSenServices",
-        "TotalAlternativeProvisionServices",
-        "TotalHospitalServices",
-        "TotalOtherHealthServices",
-        "TopFundingMaintainedEarlyYears",
-        "TopFundingMaintainedPrimary",
-        "TopFundingMaintainedSecondary",
-        "TopFundingMaintainedSpecial",
-        "TopFundingMaintainedAlternativeProvision",
-        "TopFundingMaintainedPostSchool",
-        "TopFundingMaintainedIncome",
-        "TopFundingNonMaintainedEarlyYears",
-        "TopFundingNonMaintainedPrimary",
-        "TopFundingNonMaintainedSecondary",
-        "TopFundingNonMaintainedSpecial",
-        "TopFundingNonMaintainedAlternativeProvision",
-        "TopFundingNonMaintainedPostSchool",
-        "TopFundingNonMaintainedIncome",
-        "PlaceFundingPrimary",
-        "PlaceFundingSecondary",
-        "PlaceFundingSpecial",
-        "PlaceFundingAlternativeProvision",
-    ]
-la_outturn_default_columns = la_budget_default_columns.copy() + ["CarriedForwardBalance"]
+    "TotalHighNeeds",
+    "TotalPlaceFunding",
+    "TotalTopUpFundingMaintained",
+    "TotalTopUpFundingNonMaintained",
+    "TotalSenServices",
+    "TotalAlternativeProvisionServices",
+    "TotalHospitalServices",
+    "TotalOtherHealthServices",
+    "TopFundingMaintainedEarlyYears",
+    "TopFundingMaintainedPrimary",
+    "TopFundingMaintainedSecondary",
+    "TopFundingMaintainedSpecial",
+    "TopFundingMaintainedAlternativeProvision",
+    "TopFundingMaintainedPostSchool",
+    "TopFundingMaintainedIncome",
+    "TopFundingNonMaintainedEarlyYears",
+    "TopFundingNonMaintainedPrimary",
+    "TopFundingNonMaintainedSecondary",
+    "TopFundingNonMaintainedSpecial",
+    "TopFundingNonMaintainedAlternativeProvision",
+    "TopFundingNonMaintainedPostSchool",
+    "TopFundingNonMaintainedIncome",
+    "PlaceFundingPrimary",
+    "PlaceFundingSecondary",
+    "PlaceFundingSpecial",
+    "PlaceFundingAlternativeProvision",
+]
+la_outturn_default_columns = la_budget_default_columns.copy() + [
+    "CarriedForwardBalance"
+]
 la_budget_columns = {"default": la_budget_default_columns}
 la_outturn_columns = {"default": la_outturn_default_columns}
 
