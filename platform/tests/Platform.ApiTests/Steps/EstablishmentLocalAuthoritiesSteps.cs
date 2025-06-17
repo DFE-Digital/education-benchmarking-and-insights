@@ -83,12 +83,12 @@ public class EstablishmentLocalAuthoritiesSteps(EstablishmentApiDriver api)
         });
     }
 
-    [Given("a valid local authorities national rank request with sort order '(.*)'")]
-    private void GivenAValidLocalAuthoritiesNationalRankRequestWithSortOrder(string sort)
+    [Given("a valid local authorities national rank request with ranking '(.*)' and sort order '(.*)'")]
+    private void GivenAValidLocalAuthoritiesNationalRankRequestWithRankingAndSortOrder(string ranking, string sort)
     {
         api.CreateRequest(NationalRankRequestKey, new HttpRequestMessage
         {
-            RequestUri = new Uri($"/api/local-authorities/national-rank?sort={sort}", UriKind.Relative),
+            RequestUri = new Uri($"/api/local-authorities/national-rank?ranking={ranking}&sort={sort}", UriKind.Relative),
             Method = HttpMethod.Get
         });
     }

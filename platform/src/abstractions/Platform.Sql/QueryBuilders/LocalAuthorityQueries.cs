@@ -99,6 +99,7 @@ public class LocalAuthorityFinancialDefaultCurrentRankingQuery : PlatformQuery
         return ranking switch
         {
             Ranking.LocalAuthorityNationalRanking.SpendAsPercentageOfBudget => "SELECT /**select**/ FROM VW_LocalAuthorityFinancialDefaultCurrentSpendAsPercentageOfBudget /**where**/",
+            Ranking.LocalAuthorityNationalRanking.SpendAsPercentageOfFunding => "SELECT /**select**/ FROM VW_LocalAuthorityFinancialDefaultCurrentSpendAsPercentageOfFunding /**where**/",
             _ => throw new ArgumentOutOfRangeException(nameof(ranking), "Unknown ranking")
         };
     }

@@ -6,10 +6,12 @@ public static class Ranking
     public static class LocalAuthorityNationalRanking
     {
         public const string SpendAsPercentageOfBudget = nameof(SpendAsPercentageOfBudget);
+        public const string SpendAsPercentageOfFunding = nameof(SpendAsPercentageOfFunding);
 
         public static readonly string[] All =
         [
             SpendAsPercentageOfBudget,
+            SpendAsPercentageOfFunding
         ];
 
         public static bool IsValid(string? ranking) => All.Any(a => a == ranking);

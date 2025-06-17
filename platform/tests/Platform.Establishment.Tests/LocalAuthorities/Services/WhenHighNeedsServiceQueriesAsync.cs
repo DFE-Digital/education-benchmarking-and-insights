@@ -25,11 +25,12 @@ public class WhenLocalAuthorityRankingServiceQueriesAsync
         _service = new LocalAuthorityRankingService(dbFactory.Object);
     }
 
-    [Fact]
-    public async Task ShouldQueryAsyncWhenGetAll()
+    [Theory]
+    [InlineData(Ranking.LocalAuthorityNationalRanking.SpendAsPercentageOfBudget, "VW_LocalAuthorityFinancialDefaultCurrentSpendAsPercentageOfBudget")]
+    [InlineData(Ranking.LocalAuthorityNationalRanking.SpendAsPercentageOfFunding, "VW_LocalAuthorityFinancialDefaultCurrentSpendAsPercentageOfFunding")]
+    public async Task ShouldQueryAsyncWhenGetRanking(string ranking, string expectedView)
     {
         // arrange
-        const string ranking = Ranking.LocalAuthorityNationalRanking.SpendAsPercentageOfBudget;
         const string sort = Ranking.Sort.Asc;
         var results = _fixture.Build<LocalAuthorityRank>().CreateMany().ToArray();
         string? actualSql = null;
@@ -47,6 +48,6 @@ public class WhenLocalAuthorityRankingServiceQueriesAsync
 
         // assert
         Assert.Equal(results, actual.Ranking);
-        Assert.Equal("SELECT LaCode AS Code , Name , Value , RANK() OVER (ORDER BY Value) AS [Rank]\n FROM VW_LocalAuthorityFinancialDefaultCurrentSpendAsPercentageOfBudget WHERE Value IS NOT NULL", actualSql);
+        Assert.Equal($"SELECT LaCode AS Code , Name , Value , RANK() OVER (ORDER BY Value) AS [Rank]\n FROM {expectedView} WHERE Value IS NOT NULL", actualSql);
     }
 }
