@@ -29,6 +29,7 @@ la_db_financial_projections = {
     "OutturnPlaceFundingSecondary": "OutturnPlaceFundingSecondary",
     "OutturnPlaceFundingSpecial": "OutturnPlaceFundingSpecial",
     "OutturnPlaceFundingAlternativeProvision": "OutturnPlaceFundingAlternativeProvision",
+    "OutturnCarriedForwardBalance": "CarriedForwardBalance",
     "BudgetTotalHighNeeds": "BudgetTotalHighNeeds",
     "BudgetTotalPlaceFunding": "BudgetTotalPlaceFunding",
     "BudgetTotalTopUpFundingMaintained": "BudgetTotalTopUpFundingMaintained",

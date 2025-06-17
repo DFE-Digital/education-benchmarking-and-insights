@@ -46,7 +46,6 @@ def la_budget() -> pd.DataFrame:
         "la_name": _get_str("West Yorkshire"),
         "old_la_code": _get_str("101"),
         "new_la_code": _get_str("E10000000"),
-        "main_category_planned_expenditure": _get_str("Section A: Schools"),
         "category_of_planned_expenditure": category_of_planned_expenditure,
         "early_years_establishments": _get_float(),
         "primary_schools": _get_float(),
@@ -82,6 +81,7 @@ def la_outturn() -> pd.DataFrame:
         "1.2.10 PFI/ BSF costs at special schools, AP/ PRUs and Post 16 institutions only",
         "1.2.11 Direct payments (SEN and disability)",
         "1.2.13 Therapies and other health related services",
+        "1.9.3 Dedicated Schools Grant carried forward to next year",
     ]
 
     def _get_str(value: str) -> list[str]:
@@ -103,7 +103,6 @@ def la_outturn() -> pd.DataFrame:
         "la_name": _get_str("West Yorkshire"),
         "old_la_code": _get_str("101"),
         "new_la_code": _get_str("E10000000"),
-        "main_category": _get_str("Section A: Schools"),
         "category_of_expenditure": category_of_expenditure,
         "early_years_establishments": _get_float(),
         "primary_schools": _get_float(),

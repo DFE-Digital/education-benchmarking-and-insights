@@ -11,7 +11,6 @@ la_budget = {
         "la_name": "string",
         "old_la_code": "Int64",
         "new_la_code": "string",
-        "main_category_planned_expenditure": "string",
         "category_of_planned_expenditure": "string",
         "early_years_establishments": "float",
         "primary_schools": "float",
@@ -37,7 +36,6 @@ la_outturn = {
         "la_name": "string",
         "old_la_code": "Int64",
         "new_la_code": "string",
-        "main_category": "string",
         "category_of_expenditure": "string",
         "early_years_establishments": "float",
         "primary_schools": "float",
@@ -68,6 +66,7 @@ la_section_251_category_prefixes = {
         "1.2.8 ",
         "1.2.8 ",
         "1.2.9 ",
+        "1.9.3 ",
     )
 }
 la_budget_pivot = {
@@ -83,7 +82,6 @@ la_budget_pivot = {
             "la_name",
             "old_la_code",
             "new_la_code",
-            "main_category_planned_expenditure",
         ],
         "columns": ["category_of_planned_expenditure"],
         "values": [
@@ -113,7 +111,6 @@ la_outturn_pivot = {
             "la_name",
             "old_la_code",
             "new_la_code",
-            "main_category",
         ],
         "columns": ["category_of_expenditure"],
         "values": [
@@ -362,6 +359,7 @@ la_section_251_column_mappings = {
         "1.0.2 Secondary": "PlaceFundingSecondary",
         "1.0.2 SENSpecial": "PlaceFundingSpecial",
         "1.0.2 APPRU": "PlaceFundingAlternativeProvision",
+        "1.9.3 Dedicated Schools Grant carried forward to next year__gross_expenditure": "CarriedForwardBalance",
     },
 }
 
@@ -379,7 +377,7 @@ la_section_251_column_eval = {
     }
 }
 
-la_section_251_columns = {
+la_budget_columns = {
     "default": [
         "TotalHighNeeds",
         "TotalPlaceFunding",
@@ -407,7 +405,10 @@ la_section_251_columns = {
         "PlaceFundingSecondary",
         "PlaceFundingSpecial",
         "PlaceFundingAlternativeProvision",
-    ]
+    ],
+}
+la_outturn_columns = {
+    "default": la_budget_columns["default"] + ["CarriedForwardBalance"]
 }
 
 # The raw data used to process the statistical neighbours
