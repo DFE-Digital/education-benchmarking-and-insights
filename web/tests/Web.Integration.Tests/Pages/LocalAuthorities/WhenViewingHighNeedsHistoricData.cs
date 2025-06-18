@@ -71,7 +71,7 @@ public class WhenViewingHighNeedsHistoricData(SchoolBenchmarkingWebAppClient cli
         DocumentAssert.Breadcrumbs(page, expectedBreadcrumbs);
 
         Assert.NotNull(authority.Name);
-        DocumentAssert.TitleAndH1(page, "High needs historic data - Financial Benchmarking and Insights Tool - GOV.UK", "High needs historic data");
+        DocumentAssert.TitleAndH1(page, "High needs historical spending - Financial Benchmarking and Insights Tool - GOV.UK", "High needs historical spending");
 
         var warning = page.QuerySelector(".govuk-warning-text");
         if (highNeeds != null && highNeeds.Length != 0)

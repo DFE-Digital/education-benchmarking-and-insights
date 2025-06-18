@@ -68,7 +68,7 @@ public static class PageTitles
     public const string LocalAuthorityHighNeeds = "High needs benchmarking overview";
     public const string LocalAuthorityHighNeedsBenchmarking = "Benchmark High needs";
     public const string LocalAuthorityHighNeedsStartBenchmarking = "Choose local authorities to benchmark against";
-    public const string LocalAuthorityHighNeedsHistoricData = "High needs historic data";
+    public const string LocalAuthorityHighNeedsHistoricData = "High needs historical spending";
     public const string LocalAuthorityHighNeedsNationalRankings = "High needs national view";
     public const string TrustSpending = "Spending priorities for this trust";
     public const string TrustComparatorsCreateBy = "How do you want to choose your own set of trusts?";
