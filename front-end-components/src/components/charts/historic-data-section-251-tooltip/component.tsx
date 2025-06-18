@@ -53,7 +53,7 @@ export function HistoricDataSection251Tooltip<
           </tr>
           <tr className="govuk-table__row">
             <th scope="row" className="govuk-table__header">
-              Budget
+              Planned expenditure
             </th>
             <td className="govuk-table__cell">
               {budget === undefined
