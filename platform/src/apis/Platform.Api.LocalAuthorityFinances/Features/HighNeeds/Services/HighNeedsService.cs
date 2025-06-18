@@ -25,6 +25,7 @@ public class HighNeedsService(IDatabaseFactory dbFactory) : IHighNeedsService
             "LaCode AS [Code]",
             "[Name]",
             "[Population2To18]",
+            "[CarriedForwardBalance]",
             // HighNeedsBase
             "OutturnTotalHighNeeds AS [Total]",
             // HighNeedsAmount

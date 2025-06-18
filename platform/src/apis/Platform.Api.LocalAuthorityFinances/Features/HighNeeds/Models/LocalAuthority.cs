@@ -13,4 +13,5 @@ public record LocalAuthorityBase
     public string? Code { get; set; }
     public string? Name { get; set; }
     public double? Population2To18 { get; set; }
+    public decimal? CarriedForwardBalance { get; set; }
 }
