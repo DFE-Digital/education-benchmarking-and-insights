@@ -16,14 +16,14 @@ export function Stat<TData extends ChartDataSeries>({
 }: StatProps<TData>) {
   return (
     <div
-      className={classNames(className, "chart-stat-wrapper", {
+      className={classNames("chart-stat-wrapper", {
         "chart-stat-wrapper__small": small,
       })}
       aria-label={chartTitle}
       role="note"
     >
       <div className="chart-stat-label">{label}</div>
-      <div className="chart-stat-value">
+      <div className={classNames(className, "chart-stat-value")}>
         {compactValue ? (
           <span
             aria-label={

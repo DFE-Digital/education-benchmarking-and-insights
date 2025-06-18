@@ -747,6 +747,7 @@ table#current-comparators-la {
   margin-top: govuk-spacing(2);
 
   .chart-stat-label {
+    color: govuk-colour("dark-grey");
     @include govuk-font(16);
   }
 
@@ -757,6 +758,7 @@ table#current-comparators-la {
 
   &.chart-stat-wrapper__small {
     .chart-stat-label {
+      color: govuk-colour("dark-grey");
       font-size: 0.9rem;
     }
 

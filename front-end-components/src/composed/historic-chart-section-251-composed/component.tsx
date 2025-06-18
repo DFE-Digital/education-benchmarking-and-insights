@@ -76,7 +76,7 @@ export function HistoricChartSection251<
       visible: true,
     },
     budget: {
-      label: "Budget",
+      label: "Planned expenditure",
       visible: true,
     },
   };
@@ -196,7 +196,7 @@ export function HistoricChartSection251<
             />
             <ResolvedStat
               valueField="budget"
-              {...statProps("Budget", "chart-stat-series-1")}
+              {...statProps("Planned expenditure", "chart-stat-series-1")}
             />
           </aside>
         </div>
@@ -213,7 +213,7 @@ export function HistoricChartSection251<
                     Outturn
                   </th>
                   <th className="govuk-table__header govuk-!-width-one-quarter">
-                    Budget
+                    Planned expenditure
                   </th>
                 </tr>
               </thead>
