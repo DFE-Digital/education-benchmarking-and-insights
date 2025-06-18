@@ -336,7 +336,10 @@ $grid-colour-light: #f0f0f0;
   height: 100%;
 }
 
-.chart-stat-wrapper.chart-stat-line-chart {
+
+.chart-stat-value {
+  color: $chart-series-0-colour;
+
  &.chart-stat-series-0 * {
    color: $chart-series-0-colour !important;
  }
