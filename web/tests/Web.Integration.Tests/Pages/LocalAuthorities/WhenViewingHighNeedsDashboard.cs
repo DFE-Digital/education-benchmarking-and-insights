@@ -204,7 +204,7 @@ public class WhenViewingHighNeeds(SchoolBenchmarkingWebAppClient client) : PageB
         if (highNeeds == null || plans == null)
         {
             var content = keyInformationCard.QuerySelector(".govuk-summary-card__content");
-            DocumentAssert.AssertNodeText(content, "!\n    \n        Warning\n        Headlines could not be displayed.");
+            DocumentAssert.AssertNodeText(content, "!\n    \n        Warning\n        Key information could not be displayed.");
         }
         else
         {
@@ -212,8 +212,9 @@ public class WhenViewingHighNeeds(SchoolBenchmarkingWebAppClient client) : PageB
             Assert.NotNull(table);
 
             var bodyRows = table.QuerySelectorAll("tbody > tr");
-            Assert.Equal(1, bodyRows.Length);
-            DocumentAssert.AssertNodeText(bodyRows.ElementAt(0), $"Total number of EHC plans  {plans.Total ?? 0:N0}");
+            Assert.Equal(2, bodyRows.Length);
+            DocumentAssert.AssertNodeText(bodyRows.ElementAt(0), $"Total DSG position carried forward  {highNeeds.CarriedForwardBalance ?? 0:C0}");
+            DocumentAssert.AssertNodeText(bodyRows.ElementAt(1), $"Total number of EHC plans  {plans.Total ?? 0:N0}");
         }
     }
 
