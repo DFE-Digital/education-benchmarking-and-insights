@@ -14,6 +14,7 @@ def build_local_authorities(
     ),
     ons_filepath_or_buffer: FilePath | ReadCsvBuffer[bytes] | ReadCsvBuffer[str],
     sen2_filepath_or_buffer: FilePath | ReadCsvBuffer[bytes] | ReadCsvBuffer[str],
+    dsg_filepath_or_buffer: FilePath | ReadCsvBuffer[bytes] | ReadCsvBuffer[str],
     year: int,
 ):
     """
@@ -24,6 +25,7 @@ def build_local_authorities(
     :param statistical_neighbours_filepath: source for LA statistical neighbours data
     :param ons_filepath_or_buffer: source for ONS LA data
     :param sen2_filepath_or_buffer: source for LA SEN2 data
+    :param dsg_filepath_or_buffer: source for LA DSG data
     :param year: financial year in question
     :return: Local Authority data
     """
@@ -41,6 +43,10 @@ def build_local_authorities(
     )
     sen_2_data = _prepare_sen2_la_data(
         sen2_filepath_or_buffer,
+        year,
+    )
+    dsg_data = _prepare_dsg_data(
+        dsg_filepath_or_buffer,
         year,
     )
 
@@ -61,6 +67,12 @@ def build_local_authorities(
         )
         .merge(
             sen_2_data,
+            left_index=True,
+            right_index=True,
+            how="left",
+        )
+        .merge(
+            dsg_data,
             left_index=True,
             right_index=True,
             how="left",
@@ -402,3 +414,64 @@ def _prepare_sen2_la_data(
         df[column] = df.eval(eval_)
 
     return df.set_index(input_schemas.la_sen2_index_column)
+
+
+def _prepare_dsg_data(
+    dsg_filepath_or_buffer: FilePath | ReadCsvBuffer[bytes] | ReadCsvBuffer[str],
+    year: int,
+) -> pd.DataFrame:
+    """
+    Parse Local Authority Dedicated Schools Grant (DSG) data.
+
+    Columns of interest are:
+
+    - `Total high needs block before deductions (£s)` in the `High_needs_block`
+      worksheet
+    - `Total deduction to high needs block for direct funding of places (£s)`
+      in the `High_needs_deductions` worksheet
+
+    The returned `DataFrame` will be indexed on `old_la_code`.
+
+    :param dsg_filepath_or_buffer: source for LA DSG data
+    :param year: financial year in question
+    :return: Local Authority DSG data
+    """
+    _high_needs_block = pd.read_excel(
+        dsg_filepath_or_buffer,
+        engine="odf",
+        sheet_name="High_needs_block",
+        usecols=input_schemas.la_dsg_block[year].keys(),
+        dtype=str,
+    ).rename(columns=input_schemas.la_dsg_block_mappings[year])
+
+    _high_needs_block = _high_needs_block[
+        pd.to_numeric(_high_needs_block["old_la_code"], errors="coerce").notna()
+    ]
+
+    dtypes = {
+        to_: input_schemas.la_dsg_block[year][from_]
+        for from_, to_ in input_schemas.la_dsg_block_mappings[year].items()
+    }
+    _high_needs_block = _high_needs_block.astype(dtypes).set_index("old_la_code")
+
+    _high_needs_deductions = pd.read_excel(
+        dsg_filepath_or_buffer,
+        engine="odf",
+        sheet_name="High_needs_deductions",
+        usecols=input_schemas.la_dsg_deductions_mappings[year].keys(),
+        dtype=str,
+    ).rename(columns=input_schemas.la_dsg_deductions_mappings[year])
+
+    _high_needs_deductions = _high_needs_deductions[
+        pd.to_numeric(_high_needs_deductions["old_la_code"], errors="coerce").notna()
+    ]
+
+    dtypes = {
+        to_: input_schemas.la_dsg_deductions[year][from_]
+        for from_, to_ in input_schemas.la_dsg_deductions_mappings[year].items()
+    }
+    _high_needs_deductions = _high_needs_deductions.astype(dtypes).set_index(
+        "old_la_code"
+    )
+
+    return _high_needs_block.join(_high_needs_deductions, how="outer")
