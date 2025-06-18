@@ -1,3 +1,5 @@
+import { HorizontalBarChartWrapperData } from "src/composed/horizontal-bar-chart-wrapper";
+
 export type LocalAuthorityRankData = {
   laCode: string;
   laName: string;
@@ -6,4 +8,9 @@ export type LocalAuthorityRankData = {
 
 export type LaNationalRankChartProps = {
   title: string;
+  summary: string;
+  prefix: string;
+  valueLabel: string;
+  chartData: HorizontalBarChartWrapperData<LocalAuthorityRankData>;
+  notInRanking: boolean;
 };
