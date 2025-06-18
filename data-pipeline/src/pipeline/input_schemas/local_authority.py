@@ -1,3 +1,5 @@
+# TODO: tickets 243783/249841 should make this redundant (filenames will be
+# held in the DB.)
 la_dsg_filename = {
     2021: "dedicated-schools-grant_2020-to-2021_published-16-03-2021.ods",
     2022: "dedicated-schools-grant_2021-to-2022_published-17-03-2022.ods",
@@ -57,6 +59,8 @@ la_outturn = {
         "net_per_capita_expenditure": "float",
     }
 }
+# TODO: the ID column here changes year-on-year; can be resolved should the
+# config. herein move out of the codebase.
 la_dsg_block = {
     2021: {
         "Dedicated schools grant: 2020 to 2021 provisional high needs block allocations": "Int64",
