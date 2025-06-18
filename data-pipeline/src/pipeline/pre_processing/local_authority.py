@@ -73,7 +73,7 @@ def build_local_authorities(
         )
         .merge(
             dsg_data,
-            left_index=True,
+            left_on="old_la_code",
             right_index=True,
             how="left",
         )

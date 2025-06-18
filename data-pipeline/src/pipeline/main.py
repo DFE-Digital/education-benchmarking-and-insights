@@ -678,7 +678,7 @@ def pre_process_local_authorities(
     logger.info(f"Reading LA DSG data: default/{year}/{_la_dsg_filename}")
     la_dsg_data = get_blob(
         raw_container,
-        f"default/{year}/_la_dsg_filename",
+        f"default/{year}/{_la_dsg_filename}",
     )
 
     logger.info("Processing Local Authority data.")

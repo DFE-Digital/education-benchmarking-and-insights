@@ -397,3 +397,43 @@ def la_sen2() -> pd.DataFrame:
         "pc_caseload": [1.0] * len(establishment_types),
     }
     return pd.DataFrame(sen2)
+
+
+def _la_dsg_block() -> pd.DataFrame:
+    data = {
+        "Dedicated schools grant: 2023 to 2024 provisional high needs block allocations": list(
+            map(str, range(100, 111))
+        ),
+        "Total high needs block before deductions (£s)": list(
+            map(float, range(100, 111))
+        ),
+    }
+
+    return pd.DataFrame(data)
+
+
+def _la_dsg_deductions() -> pd.DataFrame:
+    data = {
+        "Dedicated schools grant: 2023 to 2024 high needs block deductions": list(
+            map(str, range(100, 111))
+        ),
+        "Total deduction to high needs block for direct funding of places (£s)": list(
+            map(float, range(100, 111))
+        ),
+    }
+
+    return pd.DataFrame(data)
+
+
+@pytest.fixture
+def la_dsg() -> io.BytesIO:
+    data = io.BytesIO()
+
+    with pd.ExcelWriter(data, engine="odf") as writer:
+        _la_dsg_block().to_excel(writer, sheet_name="High_needs_block", index=False)
+        _la_dsg_deductions().to_excel(
+            writer, sheet_name="High_needs_deductions", index=False
+        )
+
+    data.seek(0)
+    return data
