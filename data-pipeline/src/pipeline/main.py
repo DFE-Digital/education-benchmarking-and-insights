@@ -28,6 +28,7 @@ from pipeline.database import (
     insert_trust_financial_data,
     insert_trusts,
 )
+from pipeline.input_schemas import la_dsg_filename
 from pipeline.log import setup_logger
 from pipeline.message import MessageType, get_message_type
 from pipeline.pre_processing import (
@@ -673,6 +674,13 @@ def pre_process_local_authorities(
         f"default/{year}/sen2_estab_caseload.csv",
     )
 
+    _la_dsg_filename = la_dsg_filename[year]
+    logger.info(f"Reading LA DSG data: default/{year}/{_la_dsg_filename}")
+    la_dsg_data = get_blob(
+        raw_container,
+        f"default/{year}/{_la_dsg_filename}",
+    )
+
     logger.info("Processing Local Authority data.")
     local_authorities = build_local_authorities(
         la_expenditure_data,
@@ -680,6 +688,7 @@ def pre_process_local_authorities(
         la_statistical_neighbours_data,
         la_ons_data,
         la_sen2_data,
+        la_dsg_data,
         year,
     )
 

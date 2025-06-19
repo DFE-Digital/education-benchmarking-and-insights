@@ -1,3 +1,13 @@
+# TODO: tickets 243783/249841 should make this redundant (filenames will be
+# held in the DB.)
+la_dsg_filename = {
+    2021: "dedicated-schools-grant_2020-to-2021_published-16-03-2021.ods",
+    2022: "dedicated-schools-grant_2021-to-2022_published-17-03-2022.ods",
+    2023: "dedicated-schools-grant_2022-to-2023_published-16-03-2023.ods",
+    2024: "dedicated-schools-grant_2023-to-2024_published-18-03-2024.ods",
+    2025: "dedicated-schools-grant_2024-to-2025_published-31-03-2025.ods",
+}
+
 la_section_251_index_column = ["new_la_code", "old_la_code"]
 la_budget = {
     "default": {
@@ -48,6 +58,44 @@ la_outturn = {
         "net_expenditure": "float",
         "net_per_capita_expenditure": "float",
     }
+}
+# TODO: the ID column here changes year-on-year; can be resolved should the
+# config. herein move out of the codebase.
+la_dsg_block = {
+    2021: {
+        "Dedicated schools grant: 2020 to 2021 provisional high needs block allocations": "Int64",
+        "Total high needs block before deductions (£s)": "float",
+    },
+    2022: {
+        "Dedicated schools grant: 2021 to 2022 provisional high needs block allocations": "Int64",
+        "Total high needs block before deductions (£s)": "float",
+    },
+    2023: {
+        "Dedicated schools grant: 2022 to 2023 provisional high needs block allocations": "Int64",
+        "Total high needs block before deductions (£s)": "float",
+    },
+    2024: {
+        "Dedicated schools grant: 2023 to 2024 provisional high needs block allocations": "Int64",
+        "Total high needs block before deductions (£s)": "float",
+    },
+}
+la_dsg_deductions = {
+    2021: {
+        "Dedicated schools grant: 2020 to 2021 high needs block deductions": "Int64",
+        "Total deduction to high needs block for direct funding of places (£s)": "float",
+    },
+    2022: {
+        "Dedicated schools grant: 2021 to 2022 high needs block deductions": "Int64",
+        "Total deduction to high needs block for direct funding of places (£s)": "float",
+    },
+    2023: {
+        "Dedicated schools grant: 2022 to 2023 high needs block deductions": "Int64",
+        "Total deduction to high needs block for direct funding of places (£s)": "float",
+    },
+    2024: {
+        "Dedicated schools grant: 2023 to 2024 high needs block deductions": "Int64",
+        "Total deduction to high needs block for direct funding of places (£s)": "float",
+    },
 }
 la_section_251_na_values = {"default": ["c", "x", "z", ":"]}
 la_section_251_category_prefixes = {
@@ -213,6 +261,42 @@ la_outturn_column_mappings = {
         "1.2.2 Top-up funding – academies, free schools and colleges__net_expenditure": "1.2.2 Top-up funding - academies, free schools and colleges__net_expenditure",
         "1.2.2 Top-up funding – academies, free schools and colleges__net_per_capita_expenditure": "1.2.2 Top-up funding - academies, free schools and colleges__net_per_capita_expenditure",
     }
+}
+la_dsg_block_mappings = {
+    2021: {
+        "Dedicated schools grant: 2020 to 2021 provisional high needs block allocations": "old_la_code",
+        "Total high needs block before deductions (£s)": "DsgFunding",
+    },
+    2022: {
+        "Dedicated schools grant: 2021 to 2022 provisional high needs block allocations": "old_la_code",
+        "Total high needs block before deductions (£s)": "DsgFunding",
+    },
+    2023: {
+        "Dedicated schools grant: 2022 to 2023 provisional high needs block allocations": "old_la_code",
+        "Total high needs block before deductions (£s)": "DsgFunding",
+    },
+    2024: {
+        "Dedicated schools grant: 2023 to 2024 provisional high needs block allocations": "old_la_code",
+        "Total high needs block before deductions (£s)": "DsgFunding",
+    },
+}
+la_dsg_deductions_mappings = {
+    2021: {
+        "Dedicated schools grant: 2020 to 2021 high needs block deductions": "old_la_code",
+        "Total deduction to high needs block for direct funding of places (£s)": "AcademyRecoupment",
+    },
+    2022: {
+        "Dedicated schools grant: 2021 to 2022 high needs block deductions": "old_la_code",
+        "Total deduction to high needs block for direct funding of places (£s)": "AcademyRecoupment",
+    },
+    2023: {
+        "Dedicated schools grant: 2022 to 2023 high needs block deductions": "old_la_code",
+        "Total deduction to high needs block for direct funding of places (£s)": "AcademyRecoupment",
+    },
+    2024: {
+        "Dedicated schools grant: 2023 to 2024 high needs block deductions": "old_la_code",
+        "Total deduction to high needs block for direct funding of places (£s)": "AcademyRecoupment",
+    },
 }
 
 la_budget_column_eval = {
