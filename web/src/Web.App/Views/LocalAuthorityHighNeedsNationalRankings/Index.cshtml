@@ -1,7 +1,6 @@
 @model Web.App.ViewModels.LocalAuthorityHighNeedsViewModel
 @{
     ViewData[ViewDataKeys.Title] = PageTitles.LocalAuthorityHighNeedsNationalRankings;
-    var chartTitle = $"National view {Model.Section251YearRange}";
 }
 
 @await Component.InvokeAsync("EstablishmentHeading", new
@@ -27,4 +26,4 @@
     </div>
 </div>
 
-<div id="la-national-rank" data-code="@Model.Code" data-title="@chartTitle"></div>
+<div id="la-national-rank" data-code="@Model.Code" data-title="@Model.ChartTitle" data-year="@Model.Section251Year"></div>
