@@ -16,6 +16,7 @@ import { useGovUk } from "src/hooks/useGovUk";
 export const LaNationalRankView: React.FC<LaNationalRankViewProps> = ({
   code,
   title,
+  year,
 }) => {
   useGovUk();
 
@@ -40,7 +41,7 @@ export const LaNationalRankView: React.FC<LaNationalRankViewProps> = ({
             <div className="govuk-tabs__panel" id="funding">
               <LaNationalRankChart
                 title={fundingTitle}
-                summary={fundingSummary}
+                summary={fundingSummary(year)}
                 prefix={fundingTitle}
                 valueLabel={fundingValueLabel}
                 rankingApiParam="SpendAsPercentageOfFunding"
@@ -52,7 +53,7 @@ export const LaNationalRankView: React.FC<LaNationalRankViewProps> = ({
             >
               <LaNationalRankChart
                 title={plannedExpenditureTitle}
-                summary={plannedExpenditureSummary}
+                summary={plannedExpenditureSummary(year)}
                 prefix={plannedExpenditureTitle}
                 valueLabel={plannedExpenditureValueLabel}
                 rankingApiParam="SpendAsPercentageOfBudget"
