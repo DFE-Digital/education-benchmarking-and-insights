@@ -43,7 +43,7 @@ public static class Mapper
         };
     }
 
-    public static (HighNeedsYear outturn, HighNeedsYear budget) MultiMapToHighNeedsYear(object[] objects)
+    public static (HighNeedsYear outturn, HighNeedsYear budget, HighNeedsDsgYear dsg) MultiMapToHighNeedsYear(object[] objects)
     {
         var highNeedsYear = objects[0] as HighNeedsYearBase;
         var outturn = objects[1] as HighNeedsBase;
@@ -83,6 +83,12 @@ public static class Mapper
                 Maintained = budgetTopFundingMaintained,
                 NonMaintained = budgetTopFundingNonMaintained,
                 PlaceFunding = budgetPlaceFunding
+            }, new HighNeedsDsgYear
+            {
+                Code = highNeedsYear?.Code,
+                Year = year,
+                DsgFunding = highNeedsYear?.DsgFunding,
+                AcademyRecoupment = highNeedsYear?.AcademyRecoupment,
             });
     }
 }

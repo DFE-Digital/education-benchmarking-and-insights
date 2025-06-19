@@ -134,6 +134,8 @@ public class HighNeedsService(IDatabaseFactory dbFactory) : IHighNeedsService
             // HighNeedsYearBase
             "LaCode AS [Code]",
             "[RunId]",
+            "[DsgFunding]",
+            "[AcademyRecoupment]",
             // HighNeedsBase
             "OutturnTotalHighNeeds AS [Total]",
             // HighNeedsAmount
@@ -244,7 +246,8 @@ public class HighNeedsService(IDatabaseFactory dbFactory) : IHighNeedsService
             StartYear = years.StartYear,
             EndYear = years.EndYear,
             Outturn = results.Select(r => r.outturn).ToArray(),
-            Budget = results.Select(r => r.budget).ToArray()
+            Budget = results.Select(r => r.budget).ToArray(),
+            Dsg = results.Select(r => r.dsg).ToArray(),
         };
     }
 }

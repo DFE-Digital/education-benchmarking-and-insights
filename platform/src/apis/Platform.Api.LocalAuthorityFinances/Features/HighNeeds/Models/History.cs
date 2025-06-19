@@ -8,4 +8,5 @@ public record History<T>
     public int? EndYear { get; set; }
     public T[]? Outturn { get; set; } = [];
     public T[]? Budget { get; set; } = [];
+    public HighNeedsDsgYear[]? Dsg { get; set; } = [];
 }

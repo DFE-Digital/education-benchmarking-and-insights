@@ -93,7 +93,7 @@ public class WhenHighNeedsMapperMaps
         ];
 
         // act
-        var (outturnYear, budgetYear) = Mapper.MultiMapToHighNeedsYear(objects);
+        var (outturnYear, budgetYear, dsgYear) = Mapper.MultiMapToHighNeedsYear(objects);
 
         // assert
         Assert.Equal(highNeedsYear.Code, outturnYear.Code);
@@ -103,10 +103,16 @@ public class WhenHighNeedsMapperMaps
         Assert.Equal(outturnTopFundingMaintained, outturnYear.Maintained);
         Assert.Equal(outturnTopFundingNonMaintained, outturnYear.NonMaintained);
         Assert.Equal(outturnPlaceFunding, outturnYear.PlaceFunding);
+        Assert.Equal(highNeedsYear.Code, budgetYear.Code);
+        Assert.Equal(highNeedsYear.RunId, budgetYear.Year.ToString());
         Assert.Equal(budget.Total, budgetYear.Total);
         Assert.Equal(budgetHighNeedsAmount, budgetYear.HighNeedsAmount);
         Assert.Equal(budgetTopFundingMaintained, budgetYear.Maintained);
         Assert.Equal(budgetTopFundingNonMaintained, budgetYear.NonMaintained);
         Assert.Equal(budgetPlaceFunding, budgetYear.PlaceFunding);
+        Assert.Equal(highNeedsYear.Code, dsgYear.Code);
+        Assert.Equal(highNeedsYear.RunId, dsgYear.Year.ToString());
+        Assert.Equal(highNeedsYear.DsgFunding, dsgYear.DsgFunding);
+        Assert.Equal(highNeedsYear.AcademyRecoupment, dsgYear.AcademyRecoupment);
     }
 }

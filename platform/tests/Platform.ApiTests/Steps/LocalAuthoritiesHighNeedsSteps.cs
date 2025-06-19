@@ -267,6 +267,14 @@ public class LocalAuthoritiesHighNeedsSteps(LocalAuthorityFinancesApiDriver api)
         table.CompareToInstance(placeFunding);
     }
 
+    [Then("the high needs history result should contain the following DSG values for '(.*)':")]
+    public void ThenTheHighNeedsHistoryResultShouldContainTheFollowingDsgValuesFor(string code, DataTable table)
+    {
+        var dsg = DsgResultForYear(code);
+        Assert.NotNull(dsg);
+        table.CompareToInstance(dsg);
+    }
+
     [Then("the high needs history result should be bad request")]
     public void ThenTheHighNeedsHistoryResultShouldBeBadRequest()
     {
@@ -297,5 +305,10 @@ public class LocalAuthoritiesHighNeedsSteps(LocalAuthorityFinancesApiDriver api)
     private HighNeeds? BudgetResultForCode(string code)
     {
         return _results.SingleOrDefault(r => r.Code == code)?.Budget;
+    }
+
+    private HighNeedsDsgYear? DsgResultForYear(string year)
+    {
+        return _historyResult?.Dsg?.SingleOrDefault(o => o.Year.ToString() == year);
     }
 }
