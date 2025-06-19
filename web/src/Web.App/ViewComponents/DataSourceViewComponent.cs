@@ -76,10 +76,6 @@ public class DataSourceViewComponent(IFinanceService financeService) : ViewCompo
             [
                 $"This data includes section 251 data (s251) for period {years.S251 - 1}-{years.S251} and special educational needs (SEN2) data for January {years.S251}."
             ],
-            PageTitles.LocalAuthorityHighNeedsNationalRankings =>
-            [
-                $"This data includes section 251 data (s251) for period {years.S251 - 1}-{years.S251}. The outturn does not include place funding for pupils with special educational needs taught in academies."
-            ],
             _ => throw new ArgumentOutOfRangeException(nameof(pageTitle))
 
         };
