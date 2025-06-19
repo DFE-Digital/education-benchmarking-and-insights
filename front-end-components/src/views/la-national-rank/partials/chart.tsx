@@ -5,29 +5,40 @@ import React, {
   useMemo,
   useState,
 } from "react";
-import {
-  SelectedEstablishmentContext,
-  useChartModeContext,
-} from "src/contexts";
-import {
-  HorizontalBarChartWrapper,
-  HorizontalBarChartWrapperData,
-} from "src/composed/horizontal-bar-chart-wrapper";
-import { NationalRankApi, LocalAuthorityRank } from "src/services";
+import { useChartModeContext } from "src/contexts";
+import { HorizontalBarChartWrapper } from "src/composed/horizontal-bar-chart-wrapper";
 import { ChartMode } from "src/components";
 import { ErrorBanner } from "src/components/error-banner";
-import { LocalAuthorityRankData, LaNationalRankChartProps } from "./types";
+import { LaNationalRankChartProps } from "./types";
+import { SelectedEstablishmentContext } from "src/contexts";
+import { HorizontalBarChartWrapperData } from "src/composed/horizontal-bar-chart-wrapper";
+import { NationalRankApi, LocalAuthorityRank } from "src/services";
+import { LocalAuthorityRankData } from "./types";
+import { Loading } from "src/components/loading";
+import { DataWarning } from "src/components/charts/data-warning";
 
 export const LaNationalRankChart: React.FC<LaNationalRankChartProps> = ({
   title,
+  summary,
+  prefix,
+  valueLabel,
+  rankingApiParam,
 }) => {
-  const selectedEstablishment = useContext(SelectedEstablishmentContext);
   const { chartMode, setChartMode } = useChartModeContext();
+  const selectedEstablishment = useContext(SelectedEstablishmentContext);
   const [data, setData] = useState<LocalAuthorityRank[] | null>();
+  const [loadError, setLoadError] = useState<string>();
+
   const getData = useCallback(async () => {
     setData(null);
-    return await NationalRankApi.get("SpendAsPercentageOfBudget");
-  }, []);
+    setLoadError(undefined);
+    const response = await NationalRankApi.get(rankingApiParam);
+
+    if (!response.ranking) {
+      setLoadError("Unable to load national ranking data");
+    }
+    return response;
+  }, [rankingApiParam]);
 
   useEffect(() => {
     getData().then((result) => {
@@ -35,7 +46,6 @@ export const LaNationalRankChart: React.FC<LaNationalRankChartProps> = ({
     });
   }, [getData]);
 
-  const valueLabel = "Spend as percentage of budget";
   const chartData: HorizontalBarChartWrapperData<
     Omit<LocalAuthorityRankData, "rank">
   > = useMemo(() => {
@@ -52,7 +62,7 @@ export const LaNationalRankChart: React.FC<LaNationalRankChartProps> = ({
         }) ?? [],
       tableHeadings,
     };
-  }, [data]);
+  }, [data, valueLabel]);
 
   const notInRanking = useMemo(() => {
     if (!data) {
@@ -64,32 +74,41 @@ export const LaNationalRankChart: React.FC<LaNationalRankChartProps> = ({
 
   return (
     <>
-      <div className="govuk-grid-row">
-        <div className="govuk-grid-column-two-thirds">&nbsp;</div>
-        <div className="govuk-grid-column-one-third">
-          <ChartMode chartMode={chartMode} handleChange={setChartMode} />
-        </div>
-      </div>
-      <div>
-        {data?.length && (
-          <HorizontalBarChartWrapper
-            chartTitle={title}
-            data={chartData}
-            localAuthority
-            showCopyImageButton
-            valueUnit="%"
-            xAxisLabel={valueLabel}
-          >
-            <h2 className="govuk-heading-m">{title}</h2>
-            {notInRanking && (
-              <ErrorBanner
-                isRendered
-                message="There isn't enough information available to rank the current local authority."
+      {data?.length ? (
+        <>
+          <div className="govuk-grid-row">
+            <div className="govuk-grid-column-full">
+              <p className="govuk-body">{summary}</p>
+            </div>
+          </div>
+          <div>
+            <HorizontalBarChartWrapper
+              chartTitle={title}
+              data={chartData}
+              localAuthority
+              showCopyImageButton
+              valueUnit="%"
+              xAxisLabel={valueLabel}
+            >
+              <ChartMode
+                chartMode={chartMode}
+                handleChange={setChartMode}
+                prefix={prefix}
               />
-            )}
-          </HorizontalBarChartWrapper>
-        )}
-      </div>
+              {notInRanking && (
+                <ErrorBanner
+                  isRendered
+                  message="There isn't enough information available to rank the current local authority."
+                />
+              )}
+            </HorizontalBarChartWrapper>
+          </div>
+        </>
+      ) : loadError ? (
+        <DataWarning>{loadError}</DataWarning>
+      ) : (
+        <Loading />
+      )}
     </>
   );
 };
