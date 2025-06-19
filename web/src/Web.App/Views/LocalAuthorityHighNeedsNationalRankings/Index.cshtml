@@ -1,7 +1,7 @@
 @model Web.App.ViewModels.LocalAuthorityHighNeedsViewModel
 @{
     ViewData[ViewDataKeys.Title] = PageTitles.LocalAuthorityHighNeedsNationalRankings;
-    var chartTitle = $"National view {Model.Section251Year - 1}-{Model.Section251Year}";
+    var chartTitle = $"National view {Model.Section251YearRange}";
 }
 
 @await Component.InvokeAsync("EstablishmentHeading", new
@@ -12,12 +12,19 @@
     kind = OrganisationTypes.LocalAuthority
 })
 
-@await Component.InvokeAsync("DataSource", new
-{
-organisationType = OrganisationTypes.LocalAuthority,
-sourceType = DataSourceTypes.HighNeeds,
-additionText = new[] { "This data shows local authorities ranked based on budget vs outturn, funding vs outturn is not available." },
-pageTitle = ViewData[ViewDataKeys.Title]
-})
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        <p class="govuk-body">
+            Local authorities ranked based on:
+        </p>
+        <ul class="govuk-list govuk-list--bullet">
+            <li>outturn compared to DSG high needs funding</li>
+            <li>outturn compared to planned expenditure</li>
+        </ul>
+        <p class="govuk-body">
+            These are shown as a percentage using @Model.Section251YearRange data.
+        </p>
+    </div>
+</div>
 
 <div id="la-national-rank" data-code="@Model.Code" data-title="@chartTitle"></div>

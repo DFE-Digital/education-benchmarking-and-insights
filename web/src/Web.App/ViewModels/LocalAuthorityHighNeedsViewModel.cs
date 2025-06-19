@@ -6,4 +6,5 @@ public class LocalAuthorityHighNeedsViewModel(LocalAuthority localAuthority, Fin
     public string? Code => localAuthority.Code;
     public string? Name => localAuthority.Name;
     public int? Section251Year => years.S251;
+    public string Section251YearRange => $"{Section251Year - 1}-{Section251Year}";
 }
