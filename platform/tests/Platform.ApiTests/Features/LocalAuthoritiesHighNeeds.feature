@@ -129,6 +129,40 @@ Feature: Local authorities high needs endpoints
           | AlternativeProvision | 0     |
 
     @HighNeedsFlagEnabled
+    Scenario: Sending a valid high needs history request returns the expected DSG values
+        Given a valid high needs history request with LA codes:
+          | Code |
+          | 204  |
+        When I submit the high needs request
+        Then the high needs history result should be ok and have the following values:
+          | Start year | End year |
+          | 2020       | 2024     |
+        And the high needs history result should contain the following DSG values for '2021':
+          | Field             | Value |
+          | Year              | 2021  |
+          | Code              | 204   |
+          | DsgFunding        |       |
+          | AcademyRecoupment |       |
+        And the high needs history result should contain the following DSG values for '2022':
+          | Field             | Value    |
+          | Year              | 2022     |
+          | Code              | 204      |
+          | DsgFunding        | 52612402 |
+          | AcademyRecoupment | 439168   |
+        And the high needs history result should contain the following DSG values for '2023':
+          | Field             | Value    |
+          | Year              | 2023     |
+          | Code              | 204      |
+          | DsgFunding        | 59437759 |
+          | AcademyRecoupment | 666834   |
+        And the high needs history result should contain the following DSG values for '2024':
+          | Field             | Value    |
+          | Year              | 2024     |
+          | Code              | 204      |
+          | DsgFunding        | 65085589 |
+          | AcademyRecoupment | 842334   |
+
+    @HighNeedsFlagEnabled
     Scenario: Sending an invalid high needs history request
         Given an invalid high needs history request
         When I submit the high needs request
