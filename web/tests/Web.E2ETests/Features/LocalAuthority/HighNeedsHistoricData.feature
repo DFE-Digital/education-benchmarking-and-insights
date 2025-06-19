@@ -39,7 +39,7 @@
         Given I am on 'section 251' high needs history page for local authority with code '201'
         Then the expected categories should be displayed on 'section 251':
           | Category                                                                                                                                                                                                          |
-          | High needs amount per head of 2 to 18 population                                                                                                                                                                |
+          | High needs amount per head of 2 to 18 population                                                                                                                                                                  |
           | High needs amount per head of 2 to 18 population: place funding split by phase (for mainstream) and type of institution (for specialist provision)                                                                |
           | High needs amount per head of 2 to 18 population: top up funding (maintained schools, academies, free schools and colleges) split by phase (for mainstream) and type of institution (for specialist provision)    |
           | High needs amount per head of 2 to 18 population: top up funding (non-maintained schools and independent schools and colleges) split by phase (for mainstream) and type of institution (for specialist provision) |
@@ -81,8 +81,8 @@
         Then the '<tab>' tab '<chart>' chart shows the legend '<legend>' using separator ','
 
         Examples:
-          | tab         | chart                                               | legend          |
-          | section 251 | Total place funding for special schools and AP/PRUs | Outturn, Budget |
+          | tab         | chart                                               | legend                       |
+          | section 251 | Total place funding for special schools and AP/PRUs | Outturn, Planned expenditure |
 
     @HighNeedsFlagEnabled
     Scenario: Viewing data in table view section 251
@@ -90,12 +90,12 @@
         And all sections are shown on 'section 251'
         When I click on view as table on 'section 251' tab
         Then the table on the 'section 251' tab 'Primary place funding per head 2-18 population' chart contains:
-          | Year         | Outturn | Budget |
-          | 2019 to 2020 |         |        |
-          | 2020 to 2021 | £6.44   |        |
-          | 2021 to 2022 | £8.82   | £7.74  |
-          | 2022 to 2023 | £8.02   | £7.82  |
-          | 2023 to 2024 | £11.38  | £7.82  |
+          | Year         | Outturn | PlannedExpenditure |
+          | 2019 to 2020 |         |                    |
+          | 2020 to 2021 | £6.44   |                    |
+          | 2021 to 2022 | £8.82   | £7.74              |
+          | 2022 to 2023 | £8.02   | £7.82              |
+          | 2023 to 2024 | £11.38  | £7.82              |
 
     @HighNeedsFlagEnabled
     Scenario: Show all should expand all sections on Send 2 tab

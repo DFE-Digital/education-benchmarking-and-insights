@@ -74,7 +74,7 @@ public class DataSourceViewComponent(IFinanceService financeService) : ViewCompo
             ],
             PageTitles.LocalAuthorityHighNeeds =>
             [
-                $"This data includes section 251 data (s251) for period {years.S251 - 1}-{years.S251} and special educational needs (SEN2) data for January {years.S251}."
+                $"This data includes section 251 data (s251) for period {years.S251 - 1}-{years.S251}, special educational needs (SEN2) data for January {years.S251} and DSG funding allocation data for the year ending March {years.S251}."
             ],
             _ => throw new ArgumentOutOfRangeException(nameof(pageTitle))
 

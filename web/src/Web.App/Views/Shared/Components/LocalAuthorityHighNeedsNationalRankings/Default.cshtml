@@ -1,8 +1,11 @@
 @model Web.App.ViewModels.Components.LocalAuthorityHighNeedsNationalRankingsViewModel
 
-<p class="govuk-body">
-    @Model.Commentary
-</p>
+@foreach (var commentary in Model.Commentary)
+{
+    <p class="govuk-body">
+        @commentary
+    </p>
+}
 
 @if (Model.NotInRanking)
 {
