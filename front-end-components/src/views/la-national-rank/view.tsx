@@ -1,8 +1,16 @@
 import React from "react";
-import { LaNationalRankViewProps } from "src/views";
+import { LaNationalRankChart } from "./partials";
+import {
+  LaNationalRankViewProps,
+  plannedExpenditureTitle,
+  plannedExpenditureSummary,
+  plannedExpenditureValueLabel,
+  fundingTitle,
+  fundingSummary,
+  fundingValueLabel,
+} from "src/views";
 import { ChartModeChart } from "src/components";
 import { SelectedEstablishmentContext, ChartModeProvider } from "src/contexts";
-import { FundingSection, PlannedExpenditureSection } from "./partials";
 import { useGovUk } from "src/hooks/useGovUk";
 
 export const LaNationalRankView: React.FC<LaNationalRankViewProps> = ({
@@ -30,13 +38,25 @@ export const LaNationalRankView: React.FC<LaNationalRankViewProps> = ({
         <SelectedEstablishmentContext.Provider value={code}>
           <ChartModeProvider initialValue={ChartModeChart}>
             <div className="govuk-tabs__panel" id="funding">
-              <FundingSection />
+              <LaNationalRankChart
+                title={fundingTitle}
+                summary={fundingSummary}
+                prefix={fundingTitle}
+                valueLabel={fundingValueLabel}
+                rankingApiParam="SpendAsPercentageOfFunding"
+              />
             </div>
             <div
               className="govuk-tabs__panel govuk-tabs__panel--hidden"
               id="planned-expenditure"
             >
-              <PlannedExpenditureSection />
+              <LaNationalRankChart
+                title={plannedExpenditureTitle}
+                summary={plannedExpenditureSummary}
+                prefix={plannedExpenditureTitle}
+                valueLabel={plannedExpenditureValueLabel}
+                rankingApiParam="SpendAsPercentageOfBudget"
+              />
             </div>
           </ChartModeProvider>
         </SelectedEstablishmentContext.Provider>
