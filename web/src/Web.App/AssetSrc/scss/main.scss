@@ -556,6 +556,16 @@ hr.govuk-section-break--print {
       }
     }
   }
+
+  .govuk-table__head {
+    .govuk-table__header {
+      &.govuk-table__header--nowrap {
+        @include govuk-media-query($from: tablet) {
+          white-space: nowrap;
+        }
+      }
+    }
+  }
 }
 
 .trend-indicator {

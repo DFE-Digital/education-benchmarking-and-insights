@@ -1,0 +1,46 @@
+@model Web.App.ViewModels.Components.LocalAuthorityHighNeedsHistoryTableViewModel
+
+<table class="govuk-table govuk-table--small">
+    <caption class="govuk-table__caption govuk-visually-hidden">
+        @Model.Heading vs. outturn (historical view)
+    </caption>
+    <thead class="govuk-table__head">
+    <tr class="govuk-table__row">
+        <th scope="col" class="govuk-table__header">
+            Year
+        </th>
+        <th scope="col"
+            class="govuk-table__header govuk-table__header--numeric govuk-table__header--nowrap">
+            @Model.Heading
+        </th>
+        <th scope="col" class="govuk-table__header govuk-!-width-one-quarter govuk-table__header--numeric">
+            Outturn
+        </th>
+        <th scope="col" class="govuk-table__header govuk-!-width-one-quarter govuk-table__header--numeric">
+            Difference
+        </th>
+    </tr>
+    </thead>
+    <tbody class="govuk-table__body">
+    @for (var i = Model.History.Count() - 1; i >= 0; i--)
+    {
+        var rank = Model.History.ElementAt(i);
+        <tr class="govuk-table__row">
+            <td class="govuk-table__cell">
+                @(rank.Year - 1)
+                to
+                @(rank.Year)
+            </td>
+            <td class="govuk-table__cell govuk-table__cell--numeric">
+                @Model.ValueFunc.Invoke(rank)?.ToString("C0")
+            </td>
+            <td class="govuk-table__cell govuk-table__cell--numeric">
+                @(rank.Outturn?.ToString("C0"))
+            </td>
+            <td class="govuk-table__cell govuk-table__cell--numeric">
+                @Model.DifferenceFunc.Invoke(rank)?.ToString("C0")
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>

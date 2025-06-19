@@ -92,3 +92,12 @@
 <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible govuk-!-margin-top-1">
 
 @await Component.InvokeAsync("LocalAuthorityHighNeedsHelp")
+
+@section scripts
+{
+    <script type="module" add-nonce="true">
+        import {initAll} from '/js/govuk-frontend.min.js'
+
+        initAll()
+    </script>
+}

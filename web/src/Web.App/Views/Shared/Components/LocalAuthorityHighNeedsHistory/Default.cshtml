@@ -1,66 +1,43 @@
+@using Web.App.ViewModels.Components
 @model Web.App.ViewModels.Components.LocalAuthorityHighNeedsHistoryViewModel
 
 <div class="govuk-tabs" data-module="govuk-tabs">
     <ul class="govuk-tabs__list">
         <li class="govuk-tabs__list-item govuk-tabs__list-item--selected">
+            <a class="govuk-tabs__tab" href="#funding-vs-outturn">
+                DSG high needs funding allocation vs. outturn
+            </a>
+        </li>
+        <li class="govuk-tabs__list-item">
             <a class="govuk-tabs__tab" href="#expenditure-vs-outturn">
                 Planned expenditure vs. outturn
             </a>
         </li>
     </ul>
-    <div class="govuk-tabs__panel" id="expenditure-vs-outturn">
+    <div class="govuk-tabs__panel" id="funding-vs-outturn">
         <p class="govuk-body-s">
-            Outturn figures are pre-recoupment.
+            Outturn includes recoupment for the financial year ending March.
         </p>
 
-        <table class="govuk-table govuk-table--small">
-            <caption class="govuk-table__caption govuk-visually-hidden">
-                Planned expenditure vs. outturn (historical view)
-            </caption>
-            <thead class="govuk-table__head">
-            <tr class="govuk-table__row">
-                <th scope="col" class="govuk-table__header">
-                    Year
-                </th>
-                <th scope="col" class="govuk-table__header govuk-table__header--numeric">
-                    Planned expenditure
-                </th>
-                <th scope="col" class="govuk-table__header govuk-table__header--numeric">
-                    Outturn
-                </th>
-                <th scope="col" class="govuk-table__header govuk-table__header--numeric">
-                    Difference
-                </th>
-            </tr>
-            </thead>
-            <tbody class="govuk-table__body">
-            @for (var i = Model.History.Count() - 1; i >= 0; i--)
-            {
-                var rank = Model.History.ElementAt(i);
-                <tr class="govuk-table__row">
-                    <td class="govuk-table__cell">
-                        @(rank.Year - 1)
-                        to
-                        @(rank.Year)
-                    </td>
-                    <td class="govuk-table__cell govuk-table__cell--numeric">
-                        @(rank.Budget?.ToString("C0"))
-                    </td>
-                    <td class="govuk-table__cell govuk-table__cell--numeric">
-                        @(rank.Outturn?.ToString("C0"))
-                    </td>
-                    <td class="govuk-table__cell govuk-table__cell--numeric">
-                        @(rank.Balance?.ToString("C0"))
-                    </td>
-                </tr>
-            }
-            </tbody>
-        </table>
+        @await Html.PartialAsync("Components/LocalAuthorityHighNeedsHistory/_HistoryTable", new LocalAuthorityHighNeedsHistoryTableViewModel("DSG high needs funding allocation", Model.History, x => x.Funding, x => x.FundingDifference))
 
         <a
             href="@Url.Action("Index", "LocalAuthorityHighNeedsHistoricData", new { code = Model.Code })"
             role="button"
-            class="govuk-button govuk-button--secondary govuk-!-margin-bottom-1"
+            class="govuk-button govuk-button--secondary"
+            data-module="govuk-button">View full historical spending</a>
+    </div>
+    <div class="govuk-tabs__panel" id="expenditure-vs-outturn">
+        <p class="govuk-body-s">
+            Outturn includes recoupment for the financial year ending March.
+        </p>
+
+        @await Html.PartialAsync("Components/LocalAuthorityHighNeedsHistory/_HistoryTable", new LocalAuthorityHighNeedsHistoryTableViewModel("Planned expenditure", Model.History, x => x.Budget, x => x.BudgetDifference))
+
+        <a
+            href="@Url.Action("Index", "LocalAuthorityHighNeedsHistoricData", new { code = Model.Code })"
+            role="button"
+            class="govuk-button govuk-button--secondary"
             data-module="govuk-button">View full historic data</a>
     </div>
 </div>

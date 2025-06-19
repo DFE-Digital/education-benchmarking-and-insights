@@ -131,6 +131,7 @@ public class WhenViewingHighNeeds(SchoolBenchmarkingWebAppClient client) : PageB
         {
             var outturn = new List<HighNeedsYear>();
             var budget = new List<HighNeedsYear>();
+            var dsg = new List<HighNeedsDsgYear>();
             for (var year = startYear; year <= endYear; year++)
             {
                 outturn.Add(Fixture
@@ -143,12 +144,18 @@ public class WhenViewingHighNeeds(SchoolBenchmarkingWebAppClient client) : PageB
                     .With(h => h.Year, year)
                     .With(h => h.Code, authority.Code)
                     .Create());
+                dsg.Add(Fixture
+                    .Build<HighNeedsDsgYear>()
+                    .With(h => h.Year, year)
+                    .With(h => h.Code, authority.Code)
+                    .Create());
             }
 
             history.StartYear = startYear;
             history.EndYear = endYear;
             history.Outturn = outturn.ToArray();
             history.Budget = budget.ToArray();
+            history.Dsg = dsg.ToArray();
         }
 
         Assert.NotNull(authority.Name);
@@ -263,25 +270,46 @@ public class WhenViewingHighNeeds(SchoolBenchmarkingWebAppClient client) : PageB
         }
         else
         {
-            var table = historicalSpendingSection.QuerySelector("table");
-            Assert.NotNull(table);
+            var tables = historicalSpendingSection.QuerySelectorAll("table");
+            Assert.Equal(2, tables.Length);
 
-            var headerRow = table.QuerySelector("thead > tr");
-            Assert.NotNull(headerRow);
-            DocumentAssert.AssertNodeText(headerRow, "Year  Planned expenditure  Outturn  Difference");
+            var fundingTable = tables.ElementAt(0);
+            var fundingHeaderRow = fundingTable.QuerySelector("thead > tr");
+            Assert.NotNull(fundingHeaderRow);
+            DocumentAssert.AssertNodeText(fundingHeaderRow, "Year  DSG high needs funding allocation  Outturn  Difference");
 
-            var bodyRows = table.QuerySelectorAll("tbody > tr");
-            Assert.Equal(history.EndYear - history.StartYear + 1 ?? 0, bodyRows.Length);
-            var year = history.EndYear;
-            for (var i = 0; i < bodyRows.Length; i++)
+            var fundingBodyRows = fundingTable.QuerySelectorAll("tbody > tr");
+            Assert.Equal(history.EndYear - history.StartYear + 1 ?? 0, fundingBodyRows.Length);
+            var fundingYear = history.EndYear;
+            for (var i = 0; i < fundingBodyRows.Length; i++)
             {
-                var outturn = history.Outturn.Single(o => o.Year == year);
-                var budget = history.Budget.Single(o => o.Year == year);
+                var outturn = history.Outturn.Single(o => o.Year == fundingYear);
+                var dsg = history.Dsg?.SingleOrDefault(o => o.Year == fundingYear);
+                var outturnValue = outturn.Total;
+                var dsgFunding = dsg?.DsgFunding;
+                var differenceValue = dsgFunding - (outturnValue + dsg?.AcademyRecoupment);
+                DocumentAssert.AssertNodeText(fundingBodyRows.ElementAt(i), $"{fundingYear - 1}\n                to\n                {fundingYear}  {dsgFunding?.ToString("C0")}  {outturnValue?.ToString("C0")}  {differenceValue?.ToString("C0")}");
+                fundingYear--;
+            }
+
+            var expenditureTable = tables.ElementAt(1);
+            var expenditureRow = expenditureTable.QuerySelector("thead > tr");
+            Assert.NotNull(expenditureRow);
+            DocumentAssert.AssertNodeText(expenditureRow, "Year  Planned expenditure  Outturn  Difference");
+
+            var expenditureBodyRows = expenditureTable.QuerySelectorAll("tbody > tr");
+            Assert.Equal(history.EndYear - history.StartYear + 1 ?? 0, expenditureBodyRows.Length);
+            var expenditureYear = history.EndYear;
+            for (var i = 0; i < expenditureBodyRows.Length; i++)
+            {
+                var outturn = history.Outturn.Single(o => o.Year == expenditureYear);
+                var budget = history.Budget.Single(o => o.Year == expenditureYear);
+                var dsg = history.Dsg?.SingleOrDefault(o => o.Year == expenditureYear);
                 var outturnValue = outturn.Total;
                 var budgetValue = budget.Total;
-                var balanceValue = budgetValue - outturnValue;
-                DocumentAssert.AssertNodeText(bodyRows.ElementAt(i), $"{year - 1}\n                        to\n                        {year}  {budgetValue?.ToString("C0")}  {outturnValue?.ToString("C0")}  {balanceValue?.ToString("C0")}");
-                year--;
+                var differenceValue = budgetValue - (outturnValue + dsg?.AcademyRecoupment ?? 0);
+                DocumentAssert.AssertNodeText(expenditureBodyRows.ElementAt(i), $"{expenditureYear - 1}\n                to\n                {expenditureYear}  {budgetValue?.ToString("C0")}  {outturnValue?.ToString("C0")}  {differenceValue?.ToString("C0")}");
+                expenditureYear--;
             }
         }
     }
