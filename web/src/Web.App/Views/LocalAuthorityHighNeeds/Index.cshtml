@@ -63,7 +63,11 @@
         {
             identifier = Model.Code,
             ranking = LocalAuthorityNationalRanking.SpendAsPercentageOfFunding,
-            commentary = $"Local authorities ranked based on outturn compared to DSG high needs funding as a percentage using {Model.Section251Year - 1}-{Model.Section251Year} data. DSG funding and outturn are pre-recoupment figures.",
+            commentary = new[]
+            {
+                $"Local authorities ranked based on outturn compared to DSG high needs funding as a percentage using {Model.Section251Year - 1}-{Model.Section251Year} data. Outturn includes recoupment for the financial year ending March {Model.Section251Year}.",
+                "Outturn more than 100% indicates that spend is greater than the funding allocation."
+            },
             valueLabel = "Outturn as percentage of funding"
         })
     </div>
