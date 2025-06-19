@@ -13,6 +13,10 @@ public class HighNeedsDashboardPage(IPage page)
     {
         HasText = "View full national view"
     });
+    private ILocator ViewHistoricSpendingButton => page.Locator(Selectors.CtaButton, new PageLocatorOptions
+    {
+        HasText = "View full historical spending"
+    });
     private ILocator ViewHistoricDataButton => page.Locator(Selectors.CtaButton, new PageLocatorOptions
     {
         HasText = "View full historic data"
@@ -33,6 +37,11 @@ public class HighNeedsDashboardPage(IPage page)
     });
     private ILocator NationalViewSection => page.Locator(Selectors.NationalView);
     private ILocator HistoricDataSection => page.Locator(Selectors.HistoricalSpending);
+    private ILocator HistoricalFundingVsOutturnTab => page.Locator(Selectors.HistoricalFundingVsOutturnTab);
+    private ILocator HistoricalFundingVsOutturnTabPanel => page.Locator(Selectors.HistoricalFundingVsOutturnTabPanel);
+
+    private ILocator HistoricalExpenditureVsOutturnTab => page.Locator(Selectors.HistoricalExpenditureVsOutturnTab);
+    private ILocator HistoricalExpenditureVsOutturnTabPanel => page.Locator(Selectors.HistoricalExpenditureVsOutturnTabPanel);
 
     public async Task IsDisplayed()
     {
@@ -42,7 +51,12 @@ public class HighNeedsDashboardPage(IPage page)
         await NationalViewSection.ShouldBeVisible();
         await HistoricDataSection.ShouldBeVisible();
         await StartBenchmarkingButton.ShouldBeVisible();
-        await ViewHistoricDataButton.ShouldBeVisible();
+        await ViewHistoricSpendingButton.ShouldBeVisible();
+        await HistoricalFundingVsOutturnTab.ShouldBeVisible();
+        await HistoricalFundingVsOutturnTabPanel.ShouldBeVisible();
+        await HistoricalExpenditureVsOutturnTab.ShouldBeVisible();
+        await HistoricalExpenditureVsOutturnTabPanel.ShouldNotBeVisible();
+        await ViewHistoricDataButton.ShouldNotBeVisible();
         await ViewNationalRankingsButton.ShouldBeVisible();
     }
 
@@ -60,7 +74,7 @@ public class HighNeedsDashboardPage(IPage page)
 
     public async Task<HighNeedsHistoricDataPage> ClickViewHistoricData()
     {
-        await ViewHistoricDataButton.Click();
+        await ViewHistoricSpendingButton.Click();
         return new HighNeedsHistoricDataPage(page);
     }
 

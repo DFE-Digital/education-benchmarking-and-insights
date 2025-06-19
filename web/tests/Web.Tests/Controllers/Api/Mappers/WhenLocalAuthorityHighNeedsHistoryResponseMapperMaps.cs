@@ -49,6 +49,26 @@ public abstract class WhenLocalAuthorityHighNeedsHistoryResponseMapperMaps
         .With(o => o.Year, 2024)
         .With(o => o.Code, Code)
         .Create();
+    protected static readonly HighNeedsDsgYear Dsg2021 = Fixture
+        .Build<HighNeedsDsgYear>()
+        .With(o => o.Year, 2021)
+        .With(o => o.Code, Code)
+        .Create();
+    protected static readonly HighNeedsDsgYear Dsg2022 = Fixture
+        .Build<HighNeedsDsgYear>()
+        .With(o => o.Year, 2022)
+        .With(o => o.Code, Code)
+        .Create();
+    protected static readonly HighNeedsDsgYear Dsg2023 = Fixture
+        .Build<HighNeedsDsgYear>()
+        .With(o => o.Year, 2023)
+        .With(o => o.Code, Code)
+        .Create();
+    protected static readonly HighNeedsDsgYear Dsg2024 = Fixture
+        .Build<HighNeedsDsgYear>()
+        .With(o => o.Year, 2024)
+        .With(o => o.Code, Code)
+        .Create();
 
     protected readonly HighNeedsHistory<HighNeedsYear> History = new()
     {
@@ -83,7 +103,22 @@ public abstract class WhenLocalAuthorityHighNeedsHistoryResponseMapperMaps
             {
                 Code = Code
             }
-        ]
+        ],
+        Dsg =
+        [
+            Dsg2021,
+            Dsg2022,
+            Dsg2023,
+            Dsg2024,
+            new HighNeedsDsgYear
+            {
+                Year = EndYear
+            },
+            new HighNeedsDsgYear
+            {
+                Code = Code
+            }
+        ],
     };
 
     protected readonly HighNeedsHistory<HighNeedsYear> TruncatedHistory = new()
@@ -99,6 +134,11 @@ public abstract class WhenLocalAuthorityHighNeedsHistoryResponseMapperMaps
         [
             Budget2021,
             Budget2023
+        ],
+        Dsg =
+        [
+            Dsg2021,
+            Dsg2023
         ]
     };
 
@@ -117,6 +157,12 @@ public abstract class WhenLocalAuthorityHighNeedsHistoryResponseMapperMaps
             Budget2021,
             Budget2022,
             Budget2023
+        ],
+        Dsg =
+        [
+            Dsg2022,
+            Dsg2023,
+            Dsg2024
         ]
     };
 }

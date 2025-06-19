@@ -52,6 +52,7 @@ public static class LocalAuthorityHighNeedsResponseMapper
         {
             var outturn = history.Outturn.MapToTotal(code, year);
             var budget = history.Budget.MapToTotal(code, year);
+            var (dsgFunding, academyRecoupment) = history.Dsg.MapToValues(code, year);
 
             // exclude part or missing years at start of range
             if (outturn == null || budget == null)
@@ -67,7 +68,9 @@ public static class LocalAuthorityHighNeedsResponseMapper
                 Year = year,
                 Outturn = outturn,
                 Budget = budget,
-                Balance = budget - outturn
+                Funding = dsgFunding,
+                BudgetDifference = budget - (outturn + academyRecoupment ?? 0),
+                FundingDifference = dsgFunding == null ? null : dsgFunding - (outturn + academyRecoupment ?? 0)
             });
         }
 
@@ -145,5 +148,14 @@ public static class LocalAuthorityHighNeedsResponseMapper
             .Where(o => o.Year == year)
             .SingleOrDefault(o => o.Code == code)
             ?.Total;
+    }
+
+    private static (decimal? dsgFunding, decimal? academyRecoupment) MapToValues(this HighNeedsDsgYear[]? highNeedsDsg, string code, int year)
+    {
+        var dsg = highNeedsDsg?
+            .Where(o => o.Year == year)
+            .SingleOrDefault(o => o.Code == code);
+
+        return (dsg?.DsgFunding, dsg?.AcademyRecoupment);
     }
 }

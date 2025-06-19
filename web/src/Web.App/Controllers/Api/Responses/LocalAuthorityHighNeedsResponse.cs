@@ -55,6 +55,10 @@ public record LocalAuthorityHighNeedsHistoryDashboardResponse
 {
     public int? Year { get; internal set; }
     public decimal? Outturn { get; init; }
+
     public decimal? Budget { get; init; }
-    public decimal? Balance { get; init; }
+    public decimal? BudgetDifference { get; init; }
+
+    public decimal? Funding { get; init; }
+    public decimal? FundingDifference { get; init; }
 }

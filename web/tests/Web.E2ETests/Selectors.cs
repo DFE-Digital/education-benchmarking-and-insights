@@ -127,6 +127,7 @@ public static class Selectors
     public const string BalanceModeChart = "#balance-mode-chart";
     public const string CensusModeTable = "#census-mode-table";
     public const string CensusModeChart = "#census-mode-chart";
+
     public const string Section251Tab = "#tab_section-251";
     public const string Section251ModeTable = "#section-251-mode-table";
     public const string Section251ModeChart = "#section-251-mode-chart";
@@ -135,6 +136,10 @@ public static class Selectors
     public const string Send2ModeChart = "#send-2-mode-chart";
     public const string NationalView = "#national-view";
     public const string HistoricalSpending = "#historical-spending";
+    public const string HistoricalFundingVsOutturnTab = "#tab_funding-vs-outturn";
+    public const string HistoricalFundingVsOutturnTabPanel = "#funding-vs-outturn";
+    public const string HistoricalExpenditureVsOutturnTab = "#tab_expenditure-vs-outturn";
+    public const string HistoricalExpenditureVsOutturnTabPanel = "#expenditure-vs-outturn";
 
     public const string IncomeDimension = "#income-dimension";
     public const string BalanceDimension = "#balance-dimension";
