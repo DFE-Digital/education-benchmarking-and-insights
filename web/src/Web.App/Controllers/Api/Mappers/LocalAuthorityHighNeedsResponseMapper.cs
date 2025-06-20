@@ -63,14 +63,15 @@ public static class LocalAuthorityHighNeedsResponseMapper
                 }
             }
 
+            outturn += academyRecoupment ?? 0;
             results.Add(new LocalAuthorityHighNeedsHistoryDashboardResponse
             {
                 Year = year,
                 Outturn = outturn,
                 Budget = budget,
                 Funding = dsgFunding,
-                BudgetDifference = budget - (outturn + academyRecoupment ?? 0),
-                FundingDifference = dsgFunding == null ? null : dsgFunding - (outturn + academyRecoupment ?? 0)
+                BudgetDifference = budget - outturn,
+                FundingDifference = dsgFunding - outturn
             });
         }
 

@@ -285,9 +285,9 @@ public class WhenViewingHighNeeds(SchoolBenchmarkingWebAppClient client) : PageB
             {
                 var outturn = history.Outturn.Single(o => o.Year == fundingYear);
                 var dsg = history.Dsg?.SingleOrDefault(o => o.Year == fundingYear);
-                var outturnValue = outturn.Total;
+                var outturnValue = outturn.Total + dsg?.AcademyRecoupment;
                 var dsgFunding = dsg?.DsgFunding;
-                var differenceValue = dsgFunding - (outturnValue + dsg?.AcademyRecoupment);
+                var differenceValue = dsgFunding - outturnValue;
                 DocumentAssert.AssertNodeText(fundingBodyRows.ElementAt(i), $"{fundingYear - 1}\n                to\n                {fundingYear}  {dsgFunding?.ToString("C0")}  {outturnValue?.ToString("C0")}  {differenceValue?.ToString("C0")}");
                 fundingYear--;
             }
@@ -305,9 +305,9 @@ public class WhenViewingHighNeeds(SchoolBenchmarkingWebAppClient client) : PageB
                 var outturn = history.Outturn.Single(o => o.Year == expenditureYear);
                 var budget = history.Budget.Single(o => o.Year == expenditureYear);
                 var dsg = history.Dsg?.SingleOrDefault(o => o.Year == expenditureYear);
-                var outturnValue = outturn.Total;
+                var outturnValue = outturn.Total + dsg?.AcademyRecoupment;
                 var budgetValue = budget.Total;
-                var differenceValue = budgetValue - (outturnValue + dsg?.AcademyRecoupment ?? 0);
+                var differenceValue = budgetValue - outturnValue;
                 DocumentAssert.AssertNodeText(expenditureBodyRows.ElementAt(i), $"{expenditureYear - 1}\n                to\n                {expenditureYear}  {budgetValue?.ToString("C0")}  {outturnValue?.ToString("C0")}  {differenceValue?.ToString("C0")}");
                 expenditureYear--;
             }
