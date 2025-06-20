@@ -831,6 +831,18 @@ table#current-comparators-la {
   @include govuk-font(16);
 }
 
+.markdown {
+  > p {
+    &:first-of-type {
+      margin-top: govuk-spacing(0);
+    }
+
+    &:last-of-type {
+      margin-bottom: govuk-spacing(0);
+    }
+  }
+}
+
 .govuk-body {
   &.govuk-body--pretty {
     text-wrap: pretty;

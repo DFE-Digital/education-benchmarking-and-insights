@@ -1,4 +1,5 @@
 ﻿@using Web.App.Extensions
+@using Westwind.AspNetCore.Markdown
 @model Web.App.ViewModels.HighNeedsGlossaryViewModel
 @{
     ViewData[ViewDataKeys.Title] = PageTitles.HighNeedsGlossary;
@@ -9,25 +10,47 @@
         <h1 class="govuk-heading-l">@PageTitles.HighNeedsGlossary</h1>
 
         <p class="govuk-body">
-            The table details some of the terms used in the high needs benchmarking service.
+            These are terms which are used in the Financial Benchmarking and Insights Tool which will help you
+            understand and use the tool more effectively.
         </p>
 
         <table class="govuk-table">
-            <caption class="govuk-table__caption govuk-table__caption--m govuk-visually-hidden">High needs benchmarking
-                glossary
+            <caption class="govuk-table__caption govuk-table__caption--m">
+                High needs glossary
             </caption>
             <thead class="govuk-table__head">
             <tr class="govuk-table__row">
-                <th scope="col" class="govuk-table__header">Term</th>
-                <th scope="col" class="govuk-table__header">Meaning</th>
+                <th scope="col" class="govuk-table__header govuk-!-width-one-third">Term</th>
+                <th scope="col" class="govuk-table__header govuk-!-width-two-thirds">Meaning</th>
             </tr>
             </thead>
             <tbody class="govuk-table__body">
-            @foreach (var item in Model.Glossary)
+            @foreach (var item in Model.HighNeedsGlossary)
             {
                 <tr class="govuk-table__row" id="high-needs-glossary-@item.Term?.ToSlug()">
                     <td class="govuk-table__cell">@item.Term</td>
-                    <td class="govuk-table__cell">@item.Meaning</td>
+                    <td class="govuk-table__cell markdown">@Markdown.ParseHtmlString(item.Meaning)</td>
+                </tr>
+            }
+            </tbody>
+        </table>
+
+        <table class="govuk-table">
+            <caption class="govuk-table__caption govuk-table__caption--m">
+                Other terms used in the Financial Benchmarking and Insights Tool
+            </caption>
+            <thead class="govuk-table__head">
+            <tr class="govuk-table__row">
+                <th scope="col" class="govuk-table__header govuk-!-width-one-third">Term</th>
+                <th scope="col" class="govuk-table__header govuk-!-width-two-thirds">Meaning</th>
+            </tr>
+            </thead>
+            <tbody class="govuk-table__body">
+            @foreach (var item in Model.GeneralGlossary)
+            {
+                <tr class="govuk-table__row" id="general-glossary-@item.Term?.ToSlug()">
+                    <td class="govuk-table__cell">@item.Term</td>
+                    <td class="govuk-table__cell markdown">@Markdown.ParseHtmlString(item.Meaning)</td>
                 </tr>
             }
             </tbody>
