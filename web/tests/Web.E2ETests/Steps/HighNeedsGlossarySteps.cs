@@ -21,11 +21,18 @@ public class HighNeedsGlossarySteps(PageDriver driver)
         await _highNeedsGlossaryPage.IsDisplayed();
     }
 
-    [Then("there are (.*) items in the glossary")]
-    public async Task ThenThereAreItemsInTheGlossary(int count)
+    [Then("there are (.*) items in the high needs glossary")]
+    public async Task ThenThereAreItemsInTheHighNeedsGlossary(int count)
     {
         Assert.NotNull(_highNeedsGlossaryPage);
-        await _highNeedsGlossaryPage.AssertGlossary(count);
+        await _highNeedsGlossaryPage.AssertHighNeedsGlossary(count);
+    }
+
+    [Then("there are (.*) items in the general glossary")]
+    public async Task ThenThereAreItemsInTheGeneralGlossary(int count)
+    {
+        Assert.NotNull(_highNeedsGlossaryPage);
+        await _highNeedsGlossaryPage.AssertGeneralGlossary(count);
     }
 
     private static string HighNeedsGlossaryUrl()
