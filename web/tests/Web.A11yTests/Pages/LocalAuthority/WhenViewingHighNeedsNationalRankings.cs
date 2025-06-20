@@ -12,10 +12,16 @@ public class WhenViewingHighNeedsNationalRankings(
 {
     protected override string PageUrl => $"/local-authority/{TestConfiguration.LocalAuthority}/high-needs/national-rank";
 
-    [Fact]
-    public async Task ThenThereAreNoAccessibilityIssues()
+    [Theory]
+    [InlineData("funding", "funding-mode-chart")]
+    [InlineData("funding", "funding-mode-table")]
+    [InlineData("planned-expenditure", "planned-expenditure-mode-chart")]
+    [InlineData("planned-expenditure", "planned-expenditure-mode-table")]
+    public async Task ThenThereAreNoAccessibilityIssues(string tab, string chartTableMode)
     {
         await GoToPage();
+        await Page.Locator($"#tab_{tab}").ClickAsync();
+        await Page.Locator($"#{chartTableMode}").ClickAsync();
         await EvaluatePage();
     }
 }
