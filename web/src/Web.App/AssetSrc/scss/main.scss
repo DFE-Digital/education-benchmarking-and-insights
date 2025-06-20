@@ -807,3 +807,15 @@ table#current-comparators-la {
 .chart-stat-title {
   @include govuk-font(16);
 }
+
+.markdown {
+  > p {
+    &:first-of-type {
+      margin-top: govuk-spacing(0);
+    }
+
+    &:last-of-type {
+      margin-bottom: govuk-spacing(0);
+    }
+  }
+}

@@ -34,5 +34,6 @@
         <PackageReference Include="Serilog.Sinks.ApplicationInsights"/>
         <PackageReference Include="SmartBreadcrumbs"/>
         <PackageReference Include="Swashbuckle.AspNetCore"/>
+        <PackageReference Include="Westwind.AspNetCore.Markdown"/>
     </ItemGroup>
 </Project>

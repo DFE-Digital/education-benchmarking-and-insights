@@ -16,6 +16,7 @@ using Web.App.HealthChecks;
 using Web.App.Middleware;
 using Web.App.Services;
 using Web.App.Telemetry;
+using Westwind.AspNetCore.Markdown;
 
 [assembly: InternalsVisibleTo("Web.Tests")]
 
@@ -46,7 +47,8 @@ builder.Services
     .AddScoped<ISearchService, SearchService>()
     .AddScoped<ICommercialResourcesService, CommercialResourcesService>()
     .AddValidation()
-    .AddActionResults();
+    .AddActionResults()
+    .AddMarkdown();
 
 builder.Services.AddHealthChecks()
     .AddCheck<ApiHealthCheck>("API Health Check");
@@ -148,7 +150,8 @@ app
     .UseHttpsRedirection()
     .UseRouting()
     .UseAuthorization()
-    .UseSession();
+    .UseSession()
+    .UseMarkdown();
 
 app.MapHealthChecks(
     "/health",
