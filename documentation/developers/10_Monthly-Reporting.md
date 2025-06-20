@@ -1,6 +1,28 @@
 # Monthly FBIT Analytics Reporting
 
-Report location:  [DfE Sharepoint](https://educationgovuk.sharepoint.com/:f:/r/sites/DfEFinancialBenchmarking/Shared%20Documents/FBIT%20Product/Analytics)
+## Overview
+There is capability to report user interactions based on visited school pages within the FBIT service by harnessing transactional data from Azure monitor logs (via a log analytics workspace) and realtional store in Azure SQL databse. An automated ETL process implemented in Excel's Get & Transform (Power Query) facilitates the production of a monthly summary report for intended skeholders.
+
+## Refresh Query
+1. Locate the [FBIT Report TEMPLATE](https://educationgovuk.sharepoint.com/:x:/r/sites/DfEFinancialBenchmarking/Shared%20Documents/FBIT%20Product/Analytics/FBIT%20Report%20-%20TEMPLATE.xlsx?d=w52e2c483bb034e69a5cb70a0996f9ac3&csf=1&web=1&e=5A6PSg) file found in this [DfE Sharepoint Location](https://educationgovuk.sharepoint.com/:f:/r/sites/DfEFinancialBenchmarking/Shared%20Documents/FBIT%20Product/Analytics).
+2. Make a copy of the file and save in the same location.
+   - Rename file to match ```FBIT Report - yyyy-mm```, for instance, if reporting for the month of June in the year 2025, file name should be ```FBIT Report - 2025-05```
+3. Open the ```FBIT Report - yyyy-mm``` with the in app option and not the browser option.
+4. In the Data Ribbon of excel, locate Get Data button, click on the drop down to select Data Source Settings.
+5. As seen below, select edit permission and provide credentials for access to data source. Use organization account for log analytics and database for Azure SQL connection.
+![image](https://github.com/user-attachments/assets/01735fd7-35d9-4d0a-ba67-f5744e82c884)
+6. Upon successful credential log-in, still on the Data ribbon, locate and select the Queris & Connections button.
+7. Confirm the seven queries in the Queris & Connection view by the right hand side of excel work book.
+
+   _The image below signifies successful access to the data sources_
+
+   ![image](https://github.com/user-attachments/assets/ae4ac219-0c98-43b4-a6cf-d9063b706677)
+8. On the Data ribbon, locate and select the Refesh All button to refresh the queries applied.
+9. Confirm refresh by hovering on each query to see ```Last refreshed``` timestamp, ignore ```Load staus``` and ```Data Sources``` values as it has no correlation with the data refresh status.
+
+## Prepare Report
+10. Navigate to the end of the table in ```SpendingPrioritiesRequestData``` and select any empty cell specifically in column F.
+11. 
 
 ## School engagement
 
