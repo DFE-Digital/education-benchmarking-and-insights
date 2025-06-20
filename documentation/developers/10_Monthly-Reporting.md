@@ -17,7 +17,7 @@ There is capability to report user interactions based on visited school pages wi
    _The image below signifies successful access to the data sources_
 
    ![image](https://github.com/user-attachments/assets/ae4ac219-0c98-43b4-a6cf-d9063b706677)
-8. On the Data ribbon, locate and select the ```Refesh All``` button to refresh the queries applied.
+8. On the Data ribbon, locate and select the ```Refesh All``` button to refresh all seven queries.
 9. Confirm refresh by hovering on each query to see ```Last refreshed``` timestamp, ignore ```Load staus``` and ```Data Sources``` values as it has no correlation with the data refresh status.
 
 ## Prepare Report
