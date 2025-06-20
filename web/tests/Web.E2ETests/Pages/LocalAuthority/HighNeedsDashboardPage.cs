@@ -11,15 +11,11 @@ public class HighNeedsDashboardPage(IPage page)
     });
     private ILocator ViewNationalRankingsButton => page.Locator(Selectors.CtaButton, new PageLocatorOptions
     {
-        HasText = "View full national view"
+        HasText = "View full national data"
     });
     private ILocator ViewHistoricSpendingButton => page.Locator(Selectors.CtaButton, new PageLocatorOptions
     {
         HasText = "View full historical spending"
-    });
-    private ILocator ViewHistoricDataButton => page.Locator(Selectors.CtaButton, new PageLocatorOptions
-    {
-        HasText = "View full historic data"
     });
     private ILocator BenchmarkHighNeedsCard => page.Locator(Selectors.GovSummaryCard, new PageLocatorOptions
     {
@@ -51,12 +47,12 @@ public class HighNeedsDashboardPage(IPage page)
         await NationalViewSection.ShouldBeVisible();
         await HistoricDataSection.ShouldBeVisible();
         await StartBenchmarkingButton.ShouldBeVisible();
-        await ViewHistoricSpendingButton.ShouldBeVisible();
+        await ViewHistoricSpendingButton.First.ShouldBeVisible();
         await HistoricalFundingVsOutturnTab.ShouldBeVisible();
         await HistoricalFundingVsOutturnTabPanel.ShouldBeVisible();
+        await ViewHistoricSpendingButton.Last.ShouldNotBeVisible();
         await HistoricalExpenditureVsOutturnTab.ShouldBeVisible();
         await HistoricalExpenditureVsOutturnTabPanel.ShouldNotBeVisible();
-        await ViewHistoricDataButton.ShouldNotBeVisible();
         await ViewNationalRankingsButton.ShouldBeVisible();
     }
 
@@ -74,7 +70,7 @@ public class HighNeedsDashboardPage(IPage page)
 
     public async Task<HighNeedsHistoricDataPage> ClickViewHistoricData()
     {
-        await ViewHistoricSpendingButton.Click();
+        await ViewHistoricSpendingButton.First.Click();
         return new HighNeedsHistoricDataPage(page);
     }
 
