@@ -413,6 +413,8 @@ la_outturn_column_eval = {
             "`1.2.8 Support for inclusion__net_expenditure`.fillna(0.0) + "
             "`1.2.9 Special schools and PRUs in financial difficulty__net_expenditure`.fillna(0.0)"
         ),
+        # https://www.gov.uk/government/publications/section-251-2025-to-2026/section-251-budget-guidance#dsg-carry-forward-to-2026-to-2027
+        "CarriedForwardBalance": "-1.0 * `1.9.3 Dedicated Schools Grant carried forward to next year__gross_expenditure`",
     },
 }
 
@@ -443,7 +445,6 @@ la_section_251_column_mappings = {
         "1.0.2 Secondary": "PlaceFundingSecondary",
         "1.0.2 SENSpecial": "PlaceFundingSpecial",
         "1.0.2 APPRU": "PlaceFundingAlternativeProvision",
-        "1.9.3 Dedicated Schools Grant carried forward to next year__gross_expenditure": "CarriedForwardBalance",
     },
 }
 
