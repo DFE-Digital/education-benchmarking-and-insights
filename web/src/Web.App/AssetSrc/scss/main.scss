@@ -516,6 +516,10 @@ hr.govuk-section-break--print {
           display: inline-block;
           min-width: 1.3rem;
         }
+
+        &.govuk-table__cell--nowrap {
+          white-space: nowrap;
+        }
       }
     }
   }
