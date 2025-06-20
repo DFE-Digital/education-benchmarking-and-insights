@@ -229,6 +229,15 @@
           "Swashbuckle.AspNetCore.SwaggerUI": "8.1.4"
         }
       },
+      "Westwind.AspNetCore.Markdown": {
+        "type": "Direct",
+        "requested": "[3.23.0, )",
+        "resolved": "3.23.0",
+        "contentHash": "2EoMkcJkG7VINFPU0wG9ihQI4Y7t2zUnbfIaSmD2dJChoorwXbmFDlUuF1bNCtIB7n47c7ckp8L8RrhvNApAAQ==",
+        "dependencies": {
+          "Markdig": "0.40.0"
+        }
+      },
       "Azure.Core": {
         "type": "Transitive",
         "resolved": "1.46.1",
@@ -247,6 +256,11 @@
           "Azure.Core": "1.44.1",
           "System.IO.Hashing": "6.0.0"
         }
+      },
+      "Markdig": {
+        "type": "Transitive",
+        "resolved": "0.40.0",
+        "contentHash": "4ve14zs+gt1irldTQE3y5FLAHuzmhW7T99lAAvVipe/q2LWT/nUCO0iICb9TXGvMX6n7Z1OZroFXkdSy91rO8w=="
       },
       "Microsoft.ApplicationInsights": {
         "type": "Transitive",

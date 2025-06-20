@@ -12,9 +12,16 @@ public class HighNeedsGlossaryPage(IPage page) : BasePage(page)
         await PageH1Heading.ShouldBeVisible();
     }
 
-    public async Task AssertGlossary(int count)
+    public async Task AssertHighNeedsGlossary(int count)
     {
         var glossaryRows = _page.Locator("[id^=high-needs-glossary-]");
+        var actualCount = await glossaryRows.CountAsync();
+        Assert.Equal(count, actualCount);
+    }
+
+    public async Task AssertGeneralGlossary(int count)
+    {
+        var glossaryRows = _page.Locator("[id^=general-glossary-]");
         var actualCount = await glossaryRows.CountAsync();
         Assert.Equal(count, actualCount);
     }
