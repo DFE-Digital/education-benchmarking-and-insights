@@ -6,27 +6,30 @@ namespace Web.E2ETests.Pages.LocalAuthority;
 public class HighNeedsNationalRankingsPage(IPage page)
 {
     private ILocator PageH1Heading => page.Locator($"main {Selectors.H1}");
-    private ILocator ViewAsTableRadio => page.Locator(Selectors.ModeTable);
-    private ILocator Table => page.Locator($"#la-national-rank {Selectors.GovTable}");
-    private ILocator SaveImageButton => page.Locator("xpath=//*[contains(@data-custom-event-chart-name, 'National view')][@data-custom-event-id='save-chart-as-image']");
-    private ILocator CopyImageButton => page.Locator("xpath=//*[contains(@data-custom-event-chart-name, 'National view')][@data-custom-event-id='copy-chart-as-image']");
-    private ILocator WarningMessage => page.Locator(Selectors.GovWarning);
+    private ILocator ViewAsTableRadio(string prefix) => page.Locator($"input[id='{prefix}-mode-table']");
+    private ILocator Table(string chartName) => page.Locator($"div.costs-chart-wrapper[data-title='{chartName}'] {Selectors.GovTable}");
+    private ILocator SaveImageButton(string chartName) =>
+        page.Locator($"button[data-custom-event-chart-name='{chartName}'][data-custom-event-id='save-chart-as-image']");
+    private ILocator CopyImageButton(string chartName) =>
+        page.Locator($"button[data-custom-event-chart-name='{chartName}'][data-custom-event-id='copy-chart-as-image']");
+
+    private ILocator WarningMessage(string tab) => page.Locator($"div.govuk-tabs__panel[id='{tab}'] {Selectors.GovWarning}");
 
     public async Task IsDisplayed()
     {
         await PageH1Heading.ShouldBeVisible();
     }
 
-    public async Task ClickViewAsTable()
+    public async Task ClickViewAsTable(string prefix)
     {
-        await ViewAsTableRadio.ShouldBeVisible();
-        await ViewAsTableRadio.ClickAsync();
+        await ViewAsTableRadio(prefix).ShouldBeVisible();
+        await ViewAsTableRadio(prefix).ClickAsync();
     }
 
-    public async Task TableContainsValues(DataTable table)
+    public async Task TableContainsValues(string chartName, DataTable table)
     {
-        await Table.ShouldBeVisible();
-        var rows = await Table.Locator("> tbody > tr").AllAsync();
+        await Table(chartName).ShouldBeVisible();
+        var rows = await Table(chartName).Locator("> tbody > tr").AllAsync();
         var set = new List<dynamic>();
 
         foreach (var row in rows)
@@ -41,24 +44,30 @@ public class HighNeedsNationalRankingsPage(IPage page)
         table.CompareToDynamicSet(set, false);
     }
 
-    public async Task ClickSaveAsImage()
+    public async Task ClickSaveAsImage(string chartName)
     {
-        await SaveImageButton.Click();
+        await SaveImageButton(chartName).Click();
     }
 
-    public async Task ClickCopyImage()
+    public async Task ClickCopyImage(string chartName)
     {
-        await CopyImageButton.Click();
+        await CopyImageButton(chartName).Click();
     }
 
-    public async Task DoesNotContainWarningMessage()
+    public async Task DoesNotContainWarningMessage(string chartName)
     {
-        await WarningMessage.ShouldNotBeVisible();
+        await WarningMessage(chartName).ShouldNotBeVisible();
     }
 
-    public async Task ContainsWarningMessage(string message)
+    public async Task ContainsWarningMessage(string chartName, string message)
     {
-        await WarningMessage.ShouldBeVisible();
-        await WarningMessage.ShouldContainText(message);
+        await WarningMessage(chartName).ShouldBeVisible();
+        await WarningMessage(chartName).ShouldContainText(message);
+    }
+
+    public async Task ClickTab(string tab)
+    {
+        var tabButton = page.Locator($"a.govuk-tabs__tab[href='#{tab}']");
+        await tabButton.ClickAsync();
     }
 }

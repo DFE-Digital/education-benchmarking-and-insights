@@ -23,42 +23,50 @@ public class HighNeedsNationalRankingsSteps(PageDriver driver)
         await _highNeedsNationalRankingsPage.IsDisplayed();
     }
 
-    [When("I click on table view")]
-    public async Task WhenIClickOnTableView()
+    [When("I click on table view for '(.*)'")]
+    public async Task WhenIClickOnTableView(string chartName)
     {
         Assert.NotNull(_highNeedsNationalRankingsPage);
-        await _highNeedsNationalRankingsPage.ClickViewAsTable();
+        await _highNeedsNationalRankingsPage.ClickTab(chartName);
+        await _highNeedsNationalRankingsPage.ClickViewAsTable(chartName);
     }
 
-    [Then("the national rankings table is displayed with the following values:")]
-    public async Task ThenTheNationalRankingsTableIsDisplayedWithTheFollowingValues(DataTable table)
+    [When("I click on tab '(.*)'")]
+    public async Task WhenIClickOnTab(string tab)
     {
         Assert.NotNull(_highNeedsNationalRankingsPage);
-        await _highNeedsNationalRankingsPage.TableContainsValues(table);
+        await _highNeedsNationalRankingsPage.ClickTab(tab);
     }
 
-    [When("I click on save as image")]
-    public async Task WhenIClickOnSaveAsImage()
+    [Then("the national rankings table for '(.*)' is displayed with the following values:")]
+    public async Task ThenTheNationalRankingsTableIsDisplayedWithTheFollowingValues(string chartName, DataTable table)
+    {
+        Assert.NotNull(_highNeedsNationalRankingsPage);
+        await _highNeedsNationalRankingsPage.TableContainsValues(chartName, table);
+    }
+
+    [When("I click on save as image for '(.*)'")]
+    public async Task WhenIClickOnSaveAsImage(string chartName)
     {
         Assert.NotNull(_highNeedsNationalRankingsPage);
         var page = await driver.Current;
-        _download = await page.RunAndWaitForDownloadAsync(() => _highNeedsNationalRankingsPage.ClickSaveAsImage());
+        _download = await page.RunAndWaitForDownloadAsync(() => _highNeedsNationalRankingsPage.ClickSaveAsImage(chartName));
     }
 
-    [Then("the chart image is downloaded")]
-    public void ThenTheChartImageIsDownloaded()
+    [Then("the chart image is downloaded for '(.*)'")]
+    public void ThenTheChartImageIsDownloaded(string chartName)
     {
         Assert.NotNull(_highNeedsNationalRankingsPage);
         Assert.NotNull(_download);
         var downloadedFilePath = _download.SuggestedFilename;
-        Assert.Matches("national-view.*\\.png$", downloadedFilePath);
+        Assert.Matches($"{chartName}.*\\.png$", downloadedFilePath);
     }
 
-    [When("I click on copy image")]
-    public async Task WhenIClickOnCopyImage()
+    [When("I click on copy image for '(.*)'")]
+    public async Task WhenIClickOnCopyImage(string chartName)
     {
         Assert.NotNull(_highNeedsNationalRankingsPage);
-        await _highNeedsNationalRankingsPage.ClickCopyImage();
+        await _highNeedsNationalRankingsPage.ClickCopyImage(chartName);
     }
 
     [Then("the chart image is copied")]
@@ -72,18 +80,18 @@ public class HighNeedsNationalRankingsSteps(PageDriver driver)
         Assert.Single(actual);
     }
 
-    [Then("the missing ranking warning message should not be displayed")]
-    public async Task ThenTheMissingRankingWarningMessageShouldNotBeDisplayed()
+    [Then("the missing ranking warning message should not be displayed for '(.*)'")]
+    public async Task ThenTheMissingRankingWarningMessageShouldNotBeDisplayed(string chartName)
     {
         Assert.NotNull(_highNeedsNationalRankingsPage);
-        await _highNeedsNationalRankingsPage.DoesNotContainWarningMessage();
+        await _highNeedsNationalRankingsPage.DoesNotContainWarningMessage(chartName);
     }
 
-    [Then("the missing ranking warning message should be displayed")]
-    public async Task ThenTheMissingRankingWarningMessageShouldBeDisplayed()
+    [Then("the missing ranking warning message should be displayed for '(.*)'")]
+    public async Task ThenTheMissingRankingWarningMessageShouldBeDisplayed(string chartName)
     {
         Assert.NotNull(_highNeedsNationalRankingsPage);
-        await _highNeedsNationalRankingsPage.ContainsWarningMessage("There isn't enough information available to rank the current local authority.");
+        await _highNeedsNationalRankingsPage.ContainsWarningMessage(chartName, "There isn't enough information available to rank the current local authority.");
     }
 
     private static string LocalAuthorityHighNeedsNationalRankingsUrl(string laCode)
