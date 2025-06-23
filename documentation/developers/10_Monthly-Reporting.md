@@ -5,25 +5,43 @@ There is capability to report user interactions based on visited school pages wi
 
 ## Refresh Query
 1. Locate the [FBIT Report TEMPLATE](https://educationgovuk.sharepoint.com/:x:/r/sites/DfEFinancialBenchmarking/Shared%20Documents/FBIT%20Product/Analytics/FBIT%20Report%20-%20TEMPLATE.xlsx?d=w52e2c483bb034e69a5cb70a0996f9ac3&csf=1&web=1&e=5A6PSg) file found in this [DfE Sharepoint Location](https://educationgovuk.sharepoint.com/:f:/r/sites/DfEFinancialBenchmarking/Shared%20Documents/FBIT%20Product/Analytics).
-2. Make a copy of the file and save in the same location.
-   - Rename file to match ```FBIT Report - yyyy-mm```, for instance, if reporting for the month of June in the year 2025, file name should be ```FBIT Report - 2025-05```
-3. Open the ```FBIT Report - yyyy-mm``` with the in app option and not the browser option.
-4. In the Data Ribbon of excel, locate ```Get Data``` button, click on the drop down to select ```Data Source Settings```.
-5. As seen below, select edit permission and provide credentials for access to data source. Use organization account for log analytics and database for Azure SQL connection.
+2. Open the report with the `Open in app` option and not the browser option.
+3. In the Data Ribbon of excel, locate `Get Data` button, click on the drop down to select `Data Source Settings`.
+4. As seen below, select edit permission and provide credentials for access to data source. Use organization account for log analytics and database for Azure SQL connection.
 ![image](https://github.com/user-attachments/assets/01735fd7-35d9-4d0a-ba67-f5744e82c884)
-6. Upon successful credential log-in, still on the Data ribbon, locate and select the ```Queris & Connections``` button.
-7. Confirm the seven queries in the Queris & Connection view by the right hand side of excel work book.
+5. Upon successful credential log-in, still on the Data ribbon, locate and select the `Queris & Connections` button.
+6. Confirm the seven queries in the Queris & Connection view by the right hand side of excel work book.
 
    _The image below signifies successful access to the data sources_
 
    ![image](https://github.com/user-attachments/assets/ae4ac219-0c98-43b4-a6cf-d9063b706677)
-8. On the Data ribbon, locate and select the ```Refesh All``` button to refresh all seven queries.
-9. Confirm refresh by hovering on each query to see ```Last refreshed``` timestamp, ignore ```Load staus``` and ```Data Sources``` values as it has no correlation with the data refresh status.
+7. On the Data ribbon, locate and select the `Refesh All` button to refresh all seven queries.
+8. Confirm refresh by hovering on each query to see `Last refreshed` timestamp, ignore `Load staus` and `Data Sources` values as it has no correlation with the data refresh status.
 
 ## Prepare Report
-10. Navigate to the end of the table in ```SpendingPrioritiesRequestData``` and select any empty cell specifically in column F.
-11. 
+#### Total Schools
+The workbook's `SchoolData` sheet is updated and loaded (overwrite) after a successful refresh. The `school` table in the `data` SQL database is updated after a new academic/financial year, it is typical to have the same records of school data loaded through out an academic/finacial year.
 
+#### CFP Completion
+The workbook's `CfpData` sheet is updated and loaded (overwrite) after a successful refresh.
+
+#### School engagement
+9. In the `SpendingPrioritiesRequestData` sheet of the workbook, navigate to the end of the existing `SpendingPrioritiesRequestData` table and select an empty cell preferably in column F.
+10. Load the `SchoolEngaement` query to the existing worksheet.
+   - _To achieve this step, right click on the `SchoolEngaement` query under the `Queries & Connections` view,_
+   - _Select `Load to`,_
+   - _In the Import Data pop-up view, select the options as shown in the below image and click on the ```OK``` button to initiate load_
+   ![image](https://github.com/user-attachments/assets/04647b06-36be-4f9e-a9db-e8ad5bbfc855)
+
+11. Copy the loaded data exculding headers and paste value at the end of existing table to append data.
+12. Delete the loaded data after append.
+13. In the `PivotTables` sheet of the workbook, refresh all four pivot tables.
+
+#### Summary
+14. 
+15. Save the Excel workbook.
+16. Make a copy of the saved file and save to the same [DfE Sharepoint Location](https://educationgovuk.sharepoint.com/:f:/r/sites/DfEFinancialBenchmarking/Shared%20Documents/FBIT%20Product/Analytics).
+   - _Rename file to match `FBIT Report - yyyy-mm``, for instance, if reporting for the month of June in the year 2025, file name should be `FBIT Report - 2025-05`_
 ## School engagement
 
 On `p01` Log Analytics workspace, run the following query to cover whole of the last month. The maximum number of rows being shown needs to be updated in the query results in order for them to not be truncated.
