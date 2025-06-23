@@ -63,9 +63,9 @@ public class HighNeedsGlossaryViewModel : GlossaryViewModel
         },
         new()
         {
-            Term = "National Funding",
+            Term = "National Funding Formula",
             Meaning = """
-                      Formula The methodology used by the DfE to determine the per 
+                      The methodology used by the DfE to determine the per 
                       pupil amount allocated to the schools block for each local 
                       authority.  
                       """
