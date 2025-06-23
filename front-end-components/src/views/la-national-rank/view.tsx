@@ -22,7 +22,9 @@ export const LaNationalRankView: React.FC<LaNationalRankViewProps> = ({
 
   return (
     <>
-      <h2 className="govuk-heading-m">{title}</h2>
+      <h2 className="govuk-heading-m govuk-!-margin-top-4 govuk-!-margin-bottom-5">
+        {title}
+      </h2>
       <div className="govuk-tabs" data-module="govuk-tabs">
         <ul className="govuk-tabs__list">
           <li className="govuk-tabs__list-item govuk-tabs__list-item--selected">
