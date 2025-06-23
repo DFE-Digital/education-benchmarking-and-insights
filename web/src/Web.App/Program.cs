@@ -3,6 +3,7 @@ using System.Globalization;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using CorrelationId.DependencyInjection;
+using Markdig;
 using Microsoft.ApplicationInsights.Extensibility;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.HttpOverrides;
@@ -14,6 +15,7 @@ using Web.App.Extensions;
 using Web.App.Handlers;
 using Web.App.HealthChecks;
 using Web.App.Middleware;
+using Web.App.Middleware.Markdown;
 using Web.App.Services;
 using Web.App.Telemetry;
 using Westwind.AspNetCore.Markdown;
@@ -47,8 +49,7 @@ builder.Services
     .AddScoped<ISearchService, SearchService>()
     .AddScoped<ICommercialResourcesService, CommercialResourcesService>()
     .AddValidation()
-    .AddActionResults()
-    .AddMarkdown();
+    .AddActionResults();
 
 builder.Services.AddHealthChecks()
     .AddCheck<ApiHealthCheck>("API Health Check");
@@ -70,6 +71,13 @@ builder.Services.AddMemoryCache();
 builder.Services.Configure<CacheOptions>(builder.Configuration.GetSection("CacheOptions"));
 
 builder.AddSessionService();
+
+builder.Services
+    .AddMarkdown(config => config.ConfigureMarkdigPipeline = b =>
+    {
+        b.Extensions.AddIfNotAlready<GdsMarkdownExtension>();
+        b.DisableHtml();
+    });
 
 if (!builder.Environment.IsIntegration())
 {

@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.TestHost;
 using Xunit;
 using Xunit.Abstractions;
+
 namespace Web.Integration.Tests;
 
 public abstract class WebAppClientBase<TStartup> : WebApplicationFactory<TStartup> where TStartup : class
@@ -40,7 +41,10 @@ public abstract class WebAppClientBase<TStartup> : WebApplicationFactory<TStartu
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     {
         builder.ConfigureServices(_ => { });
-        builder.UseEnvironment("Integration");
+        builder.UseEnvironment("Integration")
+            // prevent `ArgumentNullException` from test run in ADO pipeline in
+            // Westwind.AspNetCore.Markdown.MarkdownPageProcessorMiddleware
+            .UseWebRoot($"{builder.GetSetting("contentRoot")}/wwwroot");
     }
 
     protected abstract void Configure(IServiceCollection services);
