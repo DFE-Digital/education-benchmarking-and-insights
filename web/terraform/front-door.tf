@@ -1,6 +1,9 @@
 locals {
-  host_name = (lower(var.environment) == "production" ? azurerm_cdn_frontdoor_custom_domain.web-app-custom-domain[0].host_name : azurerm_cdn_frontdoor_endpoint.web-app-front-door-endpoint.host_name)
-  custom-domain-ids = (lower(var.environment) == "production" ? [
+  is_production = lower(var.environment) == "feature"
+  host_name = (local.is_production ?
+    azurerm_cdn_frontdoor_custom_domain.web-app-custom-domain[0].host_name :
+  azurerm_cdn_frontdoor_endpoint.web-app-front-door-endpoint.host_name)
+  custom-domain-ids = (local.is_production ? [
     azurerm_cdn_frontdoor_custom_domain.web-app-custom-domain[0].id,
   ] : [])
 }
@@ -11,6 +14,11 @@ resource "azurerm_cdn_frontdoor_profile" "web-app-front-door-profile" {
   tags                = local.common-tags
 
   sku_name = var.configuration[var.environment].front_door_sku_name
+
+  lifecycle {
+    prevent_destroy = true
+    ignore_changes  = [sku_name]
+  }
 }
 
 resource "azurerm_cdn_frontdoor_origin_group" "web-app-front-door-origin-group" {
@@ -75,7 +83,7 @@ resource "azurerm_cdn_frontdoor_firewall_policy" "web-app-front-door-waf-policy"
   enabled             = true
   tags                = local.common-tags
 
-  sku_name = azurerm_cdn_frontdoor_profile.web-app-front-door-profile.sku_name
+  sku_name = "Standard_AzureFrontDoor"
   mode     = var.configuration[var.environment].waf_mode
 
   custom_rule {
@@ -125,22 +133,46 @@ resource "azurerm_cdn_frontdoor_firewall_policy" "web-app-front-door-waf-policy"
     }
   }
 
-  dynamic "managed_rule" {
-    for_each = (azurerm_cdn_frontdoor_profile.web-app-front-door-profile.sku_name == "Premium_AzureFrontDoor" ? ["apply"] : [])
-    content {
-      type    = "DefaultRuleSet"
-      version = "1.0"
-      action  = "Block"
+  lifecycle {
+    ignore_changes = [sku_name]
+  }
+}
+
+# deploy new WAF policy in production, but do not wire up until after in-place upgrade complete
+resource "azurerm_cdn_frontdoor_firewall_policy" "web-app-front-door-waf-policy-premium" {
+  count               = (local.is_production ? 1 : 0)
+  name                = "${var.environment-prefix}wafpolicypremium"
+  resource_group_name = azurerm_resource_group.resource-group.name
+  enabled             = true
+  tags                = local.common-tags
+
+  sku_name = "Premium_AzureFrontDoor"
+  mode     = var.configuration[var.environment].waf_mode
+
+  custom_rule {
+    name     = "blockrequestmethod"
+    action   = "Block"
+    priority = 100
+    type     = "MatchRule"
+
+    match_condition {
+      match_variable     = "RequestMethod"
+      operator           = "Equal"
+      negation_condition = true
+      match_values       = ["GET", "POST"]
     }
   }
 
-  dynamic "managed_rule" {
-    for_each = (azurerm_cdn_frontdoor_profile.web-app-front-door-profile.sku_name == "Premium_AzureFrontDoor" ? ["apply"] : [])
-    content {
-      type    = "Microsoft_BotManagerRuleSet"
-      version = "1.0"
-      action  = "Log"
-    }
+  managed_rule {
+    type    = "DefaultRuleSet"
+    version = "1.0"
+    action  = "Block"
+  }
+
+  managed_rule {
+    type    = "Microsoft_BotManagerRuleSet"
+    version = "1.0"
+    action  = "Log"
   }
 }
 
@@ -155,7 +187,6 @@ resource "azurerm_cdn_frontdoor_security_policy" "web-app-front-door-security-po
       association {
         domain {
           cdn_frontdoor_domain_id = azurerm_cdn_frontdoor_endpoint.web-app-front-door-endpoint.id
-
         }
 
         dynamic "domain" {
@@ -169,13 +200,18 @@ resource "azurerm_cdn_frontdoor_security_policy" "web-app-front-door-security-po
       }
     }
   }
+
+  lifecycle {
+    prevent_destroy = true
+    ignore_changes  = ["security_policies[0].firewall[0].cdn_frontdoor_firewall_policy_id"]
+  }
 }
 
 resource "azurerm_cdn_frontdoor_custom_domain" "web-app-custom-domain" {
-  count                    = lower(var.environment) == "production" ? 1 : 0
+  count                    = local.is_production ? 1 : 0
   name                     = "${var.environment-prefix}-custom-domain"
   cdn_frontdoor_profile_id = azurerm_cdn_frontdoor_profile.web-app-front-door-profile.id
-  host_name                = "financial-benchmarking-and-insights-tool.education.gov.uk"
+  host_name                = "adf-upgrade-264358.example.com"
 
   tls {
     certificate_type    = "ManagedCertificate"
@@ -184,7 +220,7 @@ resource "azurerm_cdn_frontdoor_custom_domain" "web-app-custom-domain" {
 }
 
 resource "azurerm_cdn_frontdoor_custom_domain_association" "web-app-custom-domain" {
-  count                          = lower(var.environment) == "production" ? 1 : 0
+  count                          = local.is_production ? 1 : 0
   cdn_frontdoor_custom_domain_id = azurerm_cdn_frontdoor_custom_domain.web-app-custom-domain[0].id
   cdn_frontdoor_route_ids        = [azurerm_cdn_frontdoor_route.web-app-front-door-route.id]
 }
