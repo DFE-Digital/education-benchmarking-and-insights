@@ -830,3 +830,19 @@ table#current-comparators-la {
 .chart-stat-title {
   @include govuk-font(16);
 }
+
+.govuk-body {
+  &.govuk-body--pretty {
+    text-wrap: pretty;
+  }
+}
+
+#funding-vs-outturn, #expenditure-vs-outturn {
+  .govuk-table {
+    .govuk-table__header--numeric, .govuk-table__cell--numeric {
+      &:not(:last-of-type) {
+        text-align: left;
+      }
+    }
+  }
+}
