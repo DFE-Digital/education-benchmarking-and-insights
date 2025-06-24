@@ -1,0 +1,190 @@
+# Azure Front Door Upgrade
+
+Spike [#264358](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_workitems/edit/264358) was to
+research and document the various upgrade paths for the FBIT Application Front Door (AFD) and Web Application
+Firewall (WAF) from Standard to the Premium tier. This requirement arose due to the initial private beta release
+being more than capable of filtering unwanted traffic based on `geolocation` rules in AFD Standard, but since
+then this rule has been observed to be blocking genuine traffic from schools routing from outside the UK.
+Managed rules in AFD Premium enable more enhanced traffic management that will allow this rule to be dropped,
+or potentially detected/logged rather than block traffic in the Production environment.
+
+## Considerations
+
+1. Availability impact
+    - Minimal acceptable downtime
+    - If unavoidable then out-of-hours release may be planned instead, but this would be a drain on resources
+    - If unavoidable then suitable holding page/pattern should be introduced
+2. Custom domain validation via `TXT` records
+    - DNS record changes are difficult to sync with IT Helpdesk and may take time to propagate
+    - Significant downtime may arise if validation fails, although documentation suggests that
+    [`TXT` record validation](https://learn.microsoft.com/en-us/azure/frontdoor/domain#txt-record-validation)
+    is a one-off task
+3. Terraform state consistency
+    - Process entirely handled by Terraform to support future replay-ability
+    - If not possible then Terraform state should eventually match infrastructure after any manual intervention
+    - Ideally using Terraform import should be avoided due to additional complexity
+
+## Recommended process
+
+1. Provision Premium WAF policy in Production using Terraform
+2. Upgrade AFD to Premium tier within Azure Portal, selecting the above provisioned policy during the process
+3. Update Terraform to match Production manually upgraded infrastructure
+
+### Details
+
+#### Provision Premium WAF policy
+
+Either define a new variable or else use a conditional check on `lower(var.environment) == "production"` to
+determine whether to provision a Premium WAF policy:
+
+```tf
+resource "azurerm_cdn_frontdoor_firewall_policy" "web-app-front-door-waf-policy-premium" {
+  count               = lower(var.environment) == "production" ? 1 : 0
+  name                = "${var.environment-prefix}wafpolicypremium"
+  resource_group_name = azurerm_resource_group.resource-group.name
+  enabled             = true
+  tags                = local.common-tags
+
+  sku_name = "Premium_AzureFrontDoor"
+  mode     = var.configuration[var.environment].waf_mode
+
+  # ... `custom_rule`s and `managed_rule`s ...
+}
+```
+
+Along with the above, the dynamic `managed_rule` blocks on the pre-existing `azurerm_cdn_frontdoor_firewall_policy`
+may be dropped and the `sku_name` set to `Standard_AzureFrontDoor`:
+
+```tf
+resource "azurerm_cdn_frontdoor_firewall_policy" "web-app-front-door-waf-policy" {
+  name                = "${var.environment-prefix}wafpolicy"
+  resource_group_name = azurerm_resource_group.resource-group.name
+  enabled             = true
+  tags                = local.common-tags
+
+  sku_name = "Standard_AzureFrontDoor"
+  mode     = var.configuration[var.environment].waf_mode
+
+  # ... `custom_rule`s ...
+}
+```
+
+As mentioned below, the `prevent_destroy` `lifecycle` block should also be added to `web-app-front-door-profile`:
+
+```tf
+resource "azurerm_cdn_frontdoor_profile" "web-app-front-door-profile" {
+  name                = "${var.environment-prefix}-education-benchmarking-fd-profile"
+  resource_group_name = azurerm_resource_group.resource-group.name
+  tags                = local.common-tags
+
+  sku_name = var.configuration[var.environment].front_door_sku_name
+
+  lifecycle {
+    prevent_destroy = true
+  }
+}
+```
+
+The above changes should then be deployed to Production before the next step becomes unblocked.
+
+#### Upgrade AFD in the Portal
+
+Submit Privileged Identity Management (PIM) request for Contributor access to Production subscription and await
+response.
+
+In Azure Portal, locate the `s198p01-education-benchmarking-fd-profile` resource and select the Upgrade option:
+
+![Upgrade link](./images/afd-premium-upgrade-001.png)
+
+Confirm the upgrade tier:
+
+![Upgrade tier](./images/afd-premium-upgrade-002.png)
+
+Choose the newly created Premium WAF policy name:
+
+![WAF policy](./images/afd-premium-upgrade-003.png)
+
+Confirm the process:
+
+![Upgrade confirm](./images/afd-premium-upgrade-004.png)
+
+Wait for the update process to complete, usually within a couple of minutes. Then verify FBIT remains accessible.
+If something has gone wrong at this stage there is little option that to provision a new AFD as a downgrade from
+Premium to Standard [is not supported](https://learn.microsoft.com/en-us/azure/frontdoor/tier-upgrade).
+
+#### Update Terraform
+
+Add a conditional to the security policy to ensure the new Premium WAF policy is linked by `id` when the Premium
+SKU has been set.
+
+```tf
+resource "azurerm_cdn_frontdoor_security_policy" "web-app-front-door-security-policy" {
+  name                     = "${var.environment-prefix}-education-benchmarking-fd-security-policy"
+  cdn_frontdoor_profile_id = azurerm_cdn_frontdoor_profile.web-app-front-door-profile.id
+
+  security_policies {
+    firewall {
+      cdn_frontdoor_firewall_policy_id = (
+        azurerm_cdn_frontdoor_profile.web-app-front-door-profile.sku_name == "Premium_AzureFrontDoor" 
+          ? azurerm_cdn_frontdoor_firewall_policy.web-app-front-door-waf-policy-premium[0].id 
+          : azurerm_cdn_frontdoor_firewall_policy.web-app-front-door-waf-policy.id
+        )
+
+      association {
+        # ... no further changes ...
+      }
+    }
+  }
+}
+```
+
+Modify the variables to set the new SKU for the `production` environment:
+
+```tf
+production = {
+  # ...
+  front_door_sku_name = "Premium_AzureFrontDoor"
+  # ... other environment-specific config ...
+}
+```
+
+The above changes should then match what has been manually upgraded in Azure portal and Terraform
+should not detect any changes on its next `plan`:
+
+![No changes](./images/afd-premium-upgrade-005.png)
+
+### Pros 🙂
+
+✅ No detectable downtime
+
+✅ No DNS changes required
+
+### Cons 🙁
+
+❌ Manual intervention required
+
+❌ Multiple releases to ensure eventual consistency
+
+## Alternative process
+
+1. Bump AFD tier in Terraform alone to destroy existing Standard resources in Production and recreate as Premium
+
+### Pros 🙂
+
+✅ Terraform-only change
+
+✅ Single release
+
+### Cons 🙁
+
+❌ 5-10 minutes downtime while resources destroyed, recreated, and application deployed
+
+❌ DNS changes required
+
+> ⚠️ These negative impacts would potentially cause such significant disruption to users that it is recommended
+> that as part of this effort
+> [`prevent_destroy`](https://developer.hashicorp.com/terraform/language/meta-arguments/lifecycle#prevent_destroy)
+> lifecycle meta-arguments are added as necessary to avoid accidental resource destruction (at least by Terraform).
+
+<!-- Leave the rest of this page blank -->
+\newpage
