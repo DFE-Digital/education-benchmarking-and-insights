@@ -13,14 +13,15 @@ There is capability to report user interactions based on visited school pages wi
 1. Locate the [FBIT Report TEMPLATE](https://educationgovuk.sharepoint.com/:x:/r/sites/DfEFinancialBenchmarking/Shared%20Documents/FBIT%20Product/Analytics/FBIT%20Report%20-%20TEMPLATE.xlsx?d=w52e2c483bb034e69a5cb70a0996f9ac3&csf=1&web=1&e=5A6PSg) file found in this [DfE Sharepoint Location](https://educationgovuk.sharepoint.com/:f:/r/sites/DfEFinancialBenchmarking/Shared%20Documents/FBIT%20Product/Analytics).
 2. Open the report with the `Open in app` option and not the browser option.
 3. In the `Data` Ribbon of excel, locate `Get Data` button, click on the drop down to select `Data Source Settings`.
-4. As seen below, select edit permission and provide credentials for access to data source.
+4. As seen below, select `Edit Permissions` and provide credentials for access to data source.
 
-    - Use organization account for log analytics and database for Azure SQL connection.
+    - _Use `organization account` for log analytics and `database` for Azure SQL connection_
 
     ![Data source settings](./images/monthly-data-source-settings.png)
 
 5. Upon successful credential log-in, still on the `Data` ribbon, locate and select the `Queries & Connections` button.
 6. Confirm the seven queries in the `Queries & Connections` view by the right hand side of excel work book.
+
    _The image below signifies successful access to the data sources_
 
    ![Queries & Connections](./images/monthly-queries-and-connections.png)
@@ -234,8 +235,8 @@ GetSfbReferrerRequests
 
 _**TIPS!!**_
 
-_To integrate, update or change log analytics query in Excel see [Reference](https://learn.microsoft.com/en-us/azure/azure-monitor/logs/log-excel)_
+_To integrate, update or change log analytics query in Excel see [External Reference](https://learn.microsoft.com/en-us/azure/azure-monitor/logs/log-excel)_
 
-_To integrate, update or change SQL query in Excel see [Reference](https://learn.microsoft.com/en-us/power-query/power-query-ui)_
+_To integrate, update or change SQL query in Excel see [External Reference](https://learn.microsoft.com/en-us/power-query/power-query-ui)_
 <!-- Leave the rest of this page blank -->
 \newpage
