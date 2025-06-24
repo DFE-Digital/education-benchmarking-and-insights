@@ -182,7 +182,10 @@ resource "azurerm_cdn_frontdoor_security_policy" "web-app-front-door-security-po
 
   security_policies {
     firewall {
-      cdn_frontdoor_firewall_policy_id = azurerm_cdn_frontdoor_firewall_policy.web-app-front-door-waf-policy.id
+      cdn_frontdoor_firewall_policy_id = (
+        azurerm_cdn_frontdoor_profile.web-app-front-door-profile.sku_name == "Premium_AzureFrontDoor" ?
+        azurerm_cdn_frontdoor_firewall_policy.web-app-front-door-waf-policy-premium[0].id :
+      azurerm_cdn_frontdoor_firewall_policy.web-app-front-door-waf-policy.id)
 
       association {
         domain {
@@ -203,7 +206,6 @@ resource "azurerm_cdn_frontdoor_security_policy" "web-app-front-door-security-po
 
   lifecycle {
     prevent_destroy = true
-    ignore_changes  = ["security_policies[0].firewall[0].cdn_frontdoor_firewall_policy_id"]
   }
 }
 
