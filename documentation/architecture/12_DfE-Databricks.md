@@ -1,4 +1,4 @@
-# Decision - 0011 - Data pipeline Databricks conversion
+# Data pipeline Databricks conversion
 
 ## Context and Problem Statement
 
@@ -64,7 +64,7 @@ flowchart LR
     class MART martStyle
 ```
 
-> Note: As custom comparator set calculations are made in FBIT, only up until the gold layer is being considered for Databricks.
+> Note: Only up until the gold layer is being considered for Databricks. Custom comparator set calculations are made dynamically in response to users in FBIT and it would be complicated to run those calculations remotely in Databricks.
 
 ### **Option 1: Change database sources to Databricks**
 
