@@ -1,6 +1,9 @@
 locals {
-  host_name = (lower(var.environment) == "production" ? azurerm_cdn_frontdoor_custom_domain.web-app-custom-domain[0].host_name : azurerm_cdn_frontdoor_endpoint.web-app-front-door-endpoint.host_name)
-  custom-domain-ids = (lower(var.environment) == "production" ? [
+  is_production = lower(var.environment) == "feature"
+  host_name     = (local.is_production ?
+    azurerm_cdn_frontdoor_custom_domain.web-app-custom-domain[0].host_name :
+    azurerm_cdn_frontdoor_endpoint.web-app-front-door-endpoint.host_name)
+  custom-domain-ids = (local.is_production ? [
     azurerm_cdn_frontdoor_custom_domain.web-app-custom-domain[0].id,
   ] : [])
 }
@@ -57,13 +60,13 @@ resource "azurerm_cdn_frontdoor_route" "web-app-front-door-route" {
   name                          = "${var.environment-prefix}-education-benchmarking-fd-route"
   cdn_frontdoor_endpoint_id     = azurerm_cdn_frontdoor_endpoint.web-app-front-door-endpoint.id
   cdn_frontdoor_origin_group_id = azurerm_cdn_frontdoor_origin_group.web-app-front-door-origin-group.id
-  cdn_frontdoor_origin_ids      = [azurerm_cdn_frontdoor_origin.web-app-front-door-origin-app-service.id]
+  cdn_frontdoor_origin_ids = [azurerm_cdn_frontdoor_origin.web-app-front-door-origin-app-service.id]
   enabled                       = true
 
   forwarding_protocol    = "MatchRequest"
   https_redirect_enabled = true
-  patterns_to_match      = ["/*"]
-  supported_protocols    = ["Http", "Https"]
+  patterns_to_match = ["/*"]
+  supported_protocols = ["Http", "Https"]
 
   cdn_frontdoor_custom_domain_ids = local.custom-domain-ids
   link_to_default_domain          = true
@@ -88,7 +91,7 @@ resource "azurerm_cdn_frontdoor_firewall_policy" "web-app-front-door-waf-policy"
       match_variable     = "RequestMethod"
       operator           = "Equal"
       negation_condition = true
-      match_values       = ["GET", "POST"]
+      match_values = ["GET", "POST"]
     }
   }
 
@@ -102,7 +105,7 @@ resource "azurerm_cdn_frontdoor_firewall_policy" "web-app-front-door-waf-policy"
       match_variable     = "SocketAddr"
       operator           = "GeoMatch"
       negation_condition = true
-      match_values       = ["GB"]
+      match_values = ["GB"]
     }
   }
 
@@ -155,7 +158,6 @@ resource "azurerm_cdn_frontdoor_security_policy" "web-app-front-door-security-po
       association {
         domain {
           cdn_frontdoor_domain_id = azurerm_cdn_frontdoor_endpoint.web-app-front-door-endpoint.id
-
         }
 
         dynamic "domain" {
@@ -172,10 +174,10 @@ resource "azurerm_cdn_frontdoor_security_policy" "web-app-front-door-security-po
 }
 
 resource "azurerm_cdn_frontdoor_custom_domain" "web-app-custom-domain" {
-  count                    = lower(var.environment) == "production" ? 1 : 0
+  count                    = local.is_production ? 1 : 0
   name                     = "${var.environment-prefix}-custom-domain"
   cdn_frontdoor_profile_id = azurerm_cdn_frontdoor_profile.web-app-front-door-profile.id
-  host_name                = "financial-benchmarking-and-insights-tool.education.gov.uk"
+  host_name                = "adf-upgrade-264358.example.com"
 
   tls {
     certificate_type    = "ManagedCertificate"
@@ -184,9 +186,9 @@ resource "azurerm_cdn_frontdoor_custom_domain" "web-app-custom-domain" {
 }
 
 resource "azurerm_cdn_frontdoor_custom_domain_association" "web-app-custom-domain" {
-  count                          = lower(var.environment) == "production" ? 1 : 0
+  count                          = local.is_production ? 1 : 0
   cdn_frontdoor_custom_domain_id = azurerm_cdn_frontdoor_custom_domain.web-app-custom-domain[0].id
-  cdn_frontdoor_route_ids        = [azurerm_cdn_frontdoor_route.web-app-front-door-route.id]
+  cdn_frontdoor_route_ids = [azurerm_cdn_frontdoor_route.web-app-front-door-route.id]
 }
 
 resource "random_uuid" "idgen" {
@@ -206,7 +208,7 @@ resource "azurerm_application_insights_web_test" "web_app_test" {
   timeout                 = 60
   enabled                 = true
   retry_enabled           = true
-  geo_locations           = ["emea-se-sto-edge", "emea-ru-msa-edge"]
+  geo_locations = ["emea-se-sto-edge", "emea-ru-msa-edge"]
 
   lifecycle {
     ignore_changes = [tags]
