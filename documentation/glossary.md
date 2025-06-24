@@ -9,7 +9,7 @@
 | CDC  | Condition Data Collection                   |
 | CFO  | Chief Financial Officer                     |
 | CFR  | Consistent Financial Reporting              |
-| EHCP | Education, Health and Care Plan             |
+| EHCP | Education Health and Care Plan              |
 | FBIS | Financial Benchmarking and Insights Summary |
 | FBIT | Financial Benchmarking and Insights Tool    |
 | GIAS | Get Information About Schools               |
