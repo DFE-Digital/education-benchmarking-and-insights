@@ -23,7 +23,7 @@ There is capability to report user interactions based on visited school pages wi
 6. Confirm the seven queries in the `Queries & Connections` view by the right hand side of excel work book.
    _The image below signifies successful access to the data sources_
 
-   ![image](https://github.com/user-attachments/assets/ae4ac219-0c98-43b4-a6cf-d9063b706677)
+   ![Queries & Connections](./images/monthly-queries-and-connections.png)
 7. On the Data ribbon, locate and select the `Refresh All` button to refresh all seven queries.
 8. Confirm refresh by hovering on each query to see `Last refreshed` timestamp, ignore `Load status` and `Data Sources` values as it has no correlation with the data refresh status.
 
@@ -42,10 +42,11 @@ The workbook's `CfpData` sheet is updated and loaded (overwrite) after a success
 9. In the `SpendingPrioritiesRequestData` sheet of the workbook, navigate to the end of the existing `SpendingPrioritiesRequestData` table and select an empty cell preferably in column F.
 10. Load the `SchoolEngagement` query to the existing worksheet.
 
-- _To achieve this step, right click on the `SchoolEngagement` query under the `Queries & Connections` view,_
-- _Select `Load to`,_
-- _In the Import Data pop-up view, select the options as shown in the below image and click on the `OK` button to initiate load_
-   ![image](https://github.com/user-attachments/assets/04647b06-36be-4f9e-a9db-e8ad5bbfc855)
+    - _To achieve this step, right click on the `SchoolEngagement` query under the `Queries & Connections` view,_
+    - _Select `Load to`,_
+    - _In the Import Data pop-up view, select the options as shown in the below image and click on the `OK` button to initiate load_
+
+   ![Load SchoolEngagement](./images/monthly-load-school-engagement.png)
 
 11. Copy the loaded data excluding headers and paste value at the end of existing table to append data.
 12. Delete the loaded data after append.
@@ -65,20 +66,21 @@ The workbook's `CfpData` sheet is updated and loaded (overwrite) after a success
 #### School Features, Trust Features, LA Features and SfpData
 
 16. In the `Summary` sheet of the workbook, select preferably cell `H4`.
-17. Load the `SchoolFeature` query to the existing worksheet.
+17. Load the `SchoolFeatures` query to the existing worksheet.
 
-- _To achieve this step, right click on the `SchoolFeature` query under the `Queries & Connections` view,_
-- _Select `Load to`,_
-- _In the Import Data pop-up view, select the options as shown in the below image and click on the `OK` button to initiate load_
-   ![image](https://github.com/user-attachments/assets/d99b9b4e-beff-40a4-bd4f-cd4f44d58eeb)
+    - _To achieve this step, right click on the `SchoolFeatures` query under the `Queries & Connections` view,_
+    - _Select `Load to`,_
+    - _In the Import Data pop-up view, select the options as shown in the below image and click on the `OK` button to initiate load_
 
-18. Repeat steps 14 and 15 to load `TrustFeatures`, `LAFeatures` and `SfpData` respectively.
+   ![Load SchoolFeatures](./images/monthly-load-school-features.png)
+
+18. Repeat steps 16 and 17 to load `TrustFeatures`, `LAFeatures` and `SfpData` respectively.
 19. Copy the loaded data excluding headers and paste values to overwrite the respective existing summary report.
 20. Upon overwrite completion, delete the loaded data (columns H to J)
 21. Save the Excel workbook.
 22. Make a copy of the saved file and save to the same [DfE Sharepoint Location](https://educationgovuk.sharepoint.com/:f:/r/sites/DfEFinancialBenchmarking/Shared%20Documents/FBIT%20Product/Analytics).
 
-- _Rename file to match `FBIT Report - yyyy-mm`, for instance, if reporting for the month of June in the year 2025, file name should be `FBIT Report - 2025-05`_
+    - _Rename file to match `FBIT Report - yyyy-mm`, for instance, if reporting for the month of June in the year 2025, file name should be `FBIT Report - 2025-05`_
 
 23. Inform / share report with stakeholder(s).
 
