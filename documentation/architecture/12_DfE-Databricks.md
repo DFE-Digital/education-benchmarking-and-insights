@@ -36,7 +36,7 @@ flowchart LR
     
     %% Gold Layer
     subgraph GOLD ["🥇 GOLD LAYER"]
-        AGGR[Lowest Grain Data]
+        AGGR[Lowest grain user-ready data]
     end
     
     %% Data Mart
