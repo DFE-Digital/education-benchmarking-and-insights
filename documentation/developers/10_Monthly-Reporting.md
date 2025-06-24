@@ -17,7 +17,7 @@ There is capability to report user interactions based on visited school pages wi
 
     - Use organization account for log analytics and database for Azure SQL connection.
 
-    ![image](https://github.com/user-attachments/assets/01735fd7-35d9-4d0a-ba67-f5744e82c884)
+    ![Data source settings](./images/monthly-data-source-settings.png)
 
 5. Upon successful credential log-in, still on the `Data` ribbon, locate and select the `Queries & Connections` button.
 6. Confirm the seven queries in the `Queries & Connections` view by the right hand side of excel work book.
@@ -39,48 +39,48 @@ The workbook's `CfpData` sheet is updated and loaded (overwrite) after a success
 
 #### School Engagement
 
-10. In the `SpendingPrioritiesRequestData` sheet of the workbook, navigate to the end of the existing `SpendingPrioritiesRequestData` table and select an empty cell preferably in column F.
-11. Load the `SchoolEngagement` query to the existing worksheet.
+9. In the `SpendingPrioritiesRequestData` sheet of the workbook, navigate to the end of the existing `SpendingPrioritiesRequestData` table and select an empty cell preferably in column F.
+10. Load the `SchoolEngagement` query to the existing worksheet.
 
 - _To achieve this step, right click on the `SchoolEngagement` query under the `Queries & Connections` view,_
 - _Select `Load to`,_
 - _In the Import Data pop-up view, select the options as shown in the below image and click on the `OK` button to initiate load_
    ![image](https://github.com/user-attachments/assets/04647b06-36be-4f9e-a9db-e8ad5bbfc855)
 
-12. Copy the loaded data excluding headers and paste value at the end of existing table to append data.
-13. Delete the loaded data after append.
+11. Copy the loaded data excluding headers and paste value at the end of existing table to append data.
+12. Delete the loaded data after append.
 
 #### Pivot Tables
 
-14. In the `PivotTables` sheet of the workbook, refresh all four pivot tables.
-15. In the `Summary` sheet of the workbook, insert a row above `Total Unique Schools` of the School Engagement summary.
-16. Copy the values from `PivotTables` sheet into the relevant section in `Summary`
+13. In the `PivotTables` sheet of the workbook, refresh all four pivot tables.
+14. In the `Summary` sheet of the workbook, insert a row above `Total Unique Schools` of the School Engagement summary.
+15. Copy the values from `PivotTables` sheet into the relevant section in `Summary`
 
    > **NOTE:**
-   > 
+   >
    > For School Engagement summary, `FBIT Total Schools (all time)` and `Percentage of FBIT engaged` are calculated rows, do not overwrite but update formula if required.
-   > 
+   >
    > For CFP completion summary, `Total plans created` and `# Schools with plans` are calculated rows, do not overwrite but update formula if required.
 
 #### School Features, Trust Features, LA Features and SfpData
 
-17. In the `Summary` sheet of the workbook, select preferably cell `H4`.
-18. Load the `SchoolFeature` query to the existing worksheet.
+16. In the `Summary` sheet of the workbook, select preferably cell `H4`.
+17. Load the `SchoolFeature` query to the existing worksheet.
 
 - _To achieve this step, right click on the `SchoolFeature` query under the `Queries & Connections` view,_
 - _Select `Load to`,_
 - _In the Import Data pop-up view, select the options as shown in the below image and click on the `OK` button to initiate load_
    ![image](https://github.com/user-attachments/assets/d99b9b4e-beff-40a4-bd4f-cd4f44d58eeb)
 
-19. Repeat steps 14 and 15 to load `TrustFeatures`, `LAFeatures` and `SfpData` respectively.
-20. Copy the loaded data excluding headers and paste values to overwrite the respective existing summary report.
-21. Upon overwrite completion, delete the loaded data (columns H to J)
-22. Save the Excel workbook.
-23. Make a copy of the saved file and save to the same [DfE Sharepoint Location](https://educationgovuk.sharepoint.com/:f:/r/sites/DfEFinancialBenchmarking/Shared%20Documents/FBIT%20Product/Analytics).
+18. Repeat steps 14 and 15 to load `TrustFeatures`, `LAFeatures` and `SfpData` respectively.
+19. Copy the loaded data excluding headers and paste values to overwrite the respective existing summary report.
+20. Upon overwrite completion, delete the loaded data (columns H to J)
+21. Save the Excel workbook.
+22. Make a copy of the saved file and save to the same [DfE Sharepoint Location](https://educationgovuk.sharepoint.com/:f:/r/sites/DfEFinancialBenchmarking/Shared%20Documents/FBIT%20Product/Analytics).
 
-- _Rename file to match `FBIT Report - yyyy-mm`, for instance, if reporting for the month of June in the year 2025, file name should be` FBIT Report - 2025-05`_
+- _Rename file to match `FBIT Report - yyyy-mm`, for instance, if reporting for the month of June in the year 2025, file name should be `FBIT Report - 2025-05`_
 
-24. Inform / share report with stakeholder(s).
+23. Inform / share report with stakeholder(s).
 
 ### Report Queries
 
