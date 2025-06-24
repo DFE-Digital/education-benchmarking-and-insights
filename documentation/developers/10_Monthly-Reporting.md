@@ -15,16 +15,17 @@ There is capability to report user interactions based on visited school pages wi
 3. In the `Data` Ribbon of excel, locate `Get Data` button, click on the drop down to select `Data Source Settings`.
 4. As seen below, select edit permission and provide credentials for access to data source.
 
-- Use organization account for log analytics and database for Azure SQL connection.
+    - Use organization account for log analytics and database for Azure SQL connection.
 
-![image](https://github.com/user-attachments/assets/01735fd7-35d9-4d0a-ba67-f5744e82c884)
-6. Upon successful credential log-in, still on the `Data` ribbon, locate and select the `Queries & Connections` button.
-7. Confirm the seven queries in the `Queries & Connections` view by the right hand side of excel work book.
+    ![image](https://github.com/user-attachments/assets/01735fd7-35d9-4d0a-ba67-f5744e82c884)
+
+5. Upon successful credential log-in, still on the `Data` ribbon, locate and select the `Queries & Connections` button.
+6. Confirm the seven queries in the `Queries & Connections` view by the right hand side of excel work book.
    _The image below signifies successful access to the data sources_
 
    ![image](https://github.com/user-attachments/assets/ae4ac219-0c98-43b4-a6cf-d9063b706677)
-8. On the Data ribbon, locate and select the `Refresh All` button to refresh all seven queries.
-9. Confirm refresh by hovering on each query to see `Last refreshed` timestamp, ignore `Load status` and `Data Sources` values as it has no correlation with the data refresh status.
+7. On the Data ribbon, locate and select the `Refresh All` button to refresh all seven queries.
+8. Confirm refresh by hovering on each query to see `Last refreshed` timestamp, ignore `Load status` and `Data Sources` values as it has no correlation with the data refresh status.
 
 ### Prepare Report
 
