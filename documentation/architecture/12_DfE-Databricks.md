@@ -6,10 +6,10 @@ DfE's SQL server databases are being turned off and migrated to Databricks by th
 
 ## Decision Drivers
 
-* The SQL server databases are being turned off and migrated to Databricks by the end of 2026.
+* SQL Server databases (including AnM) are being decommissioned by end of 2026
 * A lot of our source data including ancillary data is on Databricks already. More is scheduled to be added and we can request missing data.
-* The current SQL to extract data will need to be rewritten to t-SQL as a Databricks job.
-* We will have access to Databricks compute; although there are pre-allocated tokens allocated for funding, there are open questions around how this will be managed in the longer term.
+* The current SQL to extract data will need to be rewritten to Databricks SQL syntax as a Databricks job.
+* We will have access to Databricks compute. There are pre-allocated tokens allocated for funding, there are open questions around how this will be managed in the longer term.
 * The FBIT service can work from a csv pushed by a job from Databricks, or the Databricks API allows the FBIT application to trigger an export job.
 * Data export is currently tracked by Databricks unity catalogue, and is unrestricted.
 * Our data size is not large, the pipeline is not run often, and it doesn't take a lot of time to run. So the performance and scalability of the transformations in Databricks, while an improvement, isn't very relevant.
@@ -36,7 +36,7 @@ flowchart LR
     
     %% Gold Layer
     subgraph GOLD ["🥇 GOLD LAYER"]
-        AGGR[Aggregated Views]
+        AGGR[Lowest Grain Data]
     end
     
     %% Data Mart
@@ -49,7 +49,7 @@ flowchart LR
     DB -->|Ingest & Filter| BRONZE
     STATIC -->|Ingest & Clean| BRONZE
     BRONZE -->|Merge & Transform| SILVER
-    SILVER -->|Aggregate & Compare| GOLD
+    SILVER -->|Link| GOLD
     GOLD -->|Serve & Index| MART
     
     %% Styling
@@ -100,7 +100,7 @@ Change all data sources to Databricks (static files/ancillary data included) wit
 
 ### **Option 3: Preprocess data in Databricks**
 
-Source data from and perform up until the gold layer of compute in Databricks. Calculate comparator sets in FBIT.
+Source data from and perform up until the gold layer of compute in Databricks. Calculate comparator sets and RAG scores in FBIT.
 
 #### Pros
 
@@ -116,9 +116,22 @@ Source data from and perform up until the gold layer of compute in Databricks. C
 
 ## Recommendation
 
-Option 2: Change all data sources we can to Databricks -lots of our current ancillary data is on there already.
-Low risk and easy. Not to rule out option 3 - When the databricks instance is used more and DfE have a vision for it to start handling transformation workloads we can start to think about migrating data pipelines on to it.
-For our multiple data sources we can migrate them at different times based on if they are in databricks:
+**Option 2, lay groundwork for Option 3** - Migrate all available data sources to Databricks. It is low risk, sources can be migrated as they become available in Databricks, and establishes a foundation for Option 3 when DfE's Databricks transformation strategy matures.
 
-* Anything that is already in databricks we will look to clone extract logic asap - as new data drops come in through the year we can then validate that the migrated pipeline produces the same extract as the old pipeline and change it over.
-* Anything not already in databricks will of course have to wait for this same process. If data sources we use are not in the ADA migration roadmap, we'll have to try to get them to add it to their migration roadmap.
+### Implementation Strategy
+
+#### Data Source Migration Approach
+
+Each data source will be assessed and migrated using one of four pathways:
+
+1. **Ready for Migration:** Data already exists in Databricks in compatible format - migrate extraction logic immediately
+2. **ADA Partnership:** Data not in Databricks but ADA team can ingest and maintain it as a managed dataset
+3. **FBIT Ownership:** Data not in Databricks but FBIT takes responsibility for ingestion and maintenance
+4. **Status Quo:** Data remains outside Databricks where migration is not feasible
+
+#### Parallel Architecture Preparation
+
+To prepare for future Option 3 adoption, we will refactor the current pipeline architecture:
+
+* Separate preprocessing pipeline from comparator sets and RAG functionality
+* Enable independent triggering of each pipeline component
