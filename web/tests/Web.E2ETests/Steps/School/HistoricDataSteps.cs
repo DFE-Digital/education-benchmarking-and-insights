@@ -2,6 +2,7 @@
 using Web.E2ETests.Drivers;
 using Web.E2ETests.Pages.School;
 using Xunit;
+
 namespace Web.E2ETests.Steps.School;
 
 [Binding]
@@ -71,6 +72,13 @@ public class HistoricDataSteps(PageDriver driver)
     {
         Assert.NotNull(_historicDataPage);
         await _historicDataPage.HasChartCount(TabNamesFromFriendlyNames(tab), int.Parse(count));
+    }
+
+    [Then("there should be '(.*)' warnings displayed on '(.*)'")]
+    public async Task ThenThereShouldBeWarningsDisplayedOn(string count, string tab)
+    {
+        Assert.NotNull(_historicDataPage);
+        await _historicDataPage.HasWarningCount(TabNamesFromFriendlyNames(tab), int.Parse(count));
     }
 
     [Then("are showing table view on '(.*)' tab")]
