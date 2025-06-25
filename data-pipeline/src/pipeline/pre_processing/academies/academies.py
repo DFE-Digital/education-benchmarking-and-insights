@@ -8,7 +8,7 @@ from pipeline import config, input_schemas, mappings, part_year
 from pipeline.log import setup_logger
 from pipeline.pre_processing.ancillary import gias
 
-logger = setup_logger("fbit-data-pipeline")
+logger = getLogger("fbit-data-pipeline")
 
 simplefilter(action="ignore", category=pd.errors.PerformanceWarning)
 simplefilter(action="ignore", category=FutureWarning)

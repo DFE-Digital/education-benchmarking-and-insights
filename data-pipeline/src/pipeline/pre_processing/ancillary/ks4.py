@@ -3,7 +3,7 @@ import pandas as pd
 import pipeline.input_schemas as input_schemas
 from pipeline.log import setup_logger
 
-logger = setup_logger("fbit-data-pipeline")
+logger = getLogger("fbit-data-pipeline")
 
 
 def prepare_ks4_data(ks4_path):

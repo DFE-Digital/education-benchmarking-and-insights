@@ -4,7 +4,7 @@ from pandas._typing import FilePath, ReadCsvBuffer
 from pipeline.input_schemas import high_exec_pay, high_exec_pay_column_mappings
 from pipeline.log import setup_logger
 
-logger = setup_logger("fbit-data-pipeline")
+logger = getLogger("fbit-data-pipeline")
 
 
 def build_high_exec_pay_data(

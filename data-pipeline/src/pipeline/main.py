@@ -717,7 +717,6 @@ def pre_process_local_authorities(
 
 
 def _get_ancillary_data(
-    worker_client: Client,
     run_id: str,
     year: int,
 ) -> tuple:
@@ -726,7 +725,6 @@ def _get_ancillary_data(
 
     Note: `run_type` is _always_ "default".
 
-    :param worker_client: Dask client
     :param run_id: unique identifier (used for write target)
     :param year: financial year in question
     :return: tuple of supporting datasets
@@ -745,24 +743,21 @@ def _get_ancillary_data(
         central_services,
         gias_links,
         high_exec_pay,
-    ) = worker_client.gather(
-        [
-            worker_client.submit(pre_process_cdc, run_type, year, run_id),
-            worker_client.submit(pre_process_census, run_type, year, run_id),
-            worker_client.submit(pre_process_sen, run_type, year, run_id),
-            worker_client.submit(pre_process_ks2, run_type, year, run_id),
-            worker_client.submit(pre_process_ks4, run_type, year, run_id),
-            worker_client.submit(pre_process_academy_ar, run_type, year, run_id),
-            worker_client.submit(pre_process_schools, run_type, year, run_id),
-            worker_client.submit(pre_process_cfo, run_type, year, run_id),
-            worker_client.submit(pre_process_central_services, run_type, year, run_id),
-            worker_client.submit(pre_process_gias_links, run_type, year, run_id),
-            worker_client.submit(pre_process_high_exec_pay, run_type, year, run_id),
-        ]
+    ) = (
+        pre_process_cdc(run_type, year, run_id),
+        pre_process_census(run_type, year, run_id),
+        pre_process_sen(run_type, year, run_id),
+        pre_process_ks2(run_type, year, run_id),
+        pre_process_ks4(run_type, year, run_id),
+        pre_process_academy_ar(run_type, year, run_id),
+        pre_process_schools(run_type, year, run_id),
+        pre_process_cfo(run_type, year, run_id),
+        pre_process_central_services(run_type, year, run_id),
+        pre_process_gias_links(run_type, year, run_id),
+        pre_process_high_exec_pay(run_type, year, run_id),
     )
 
-    return worker_client.scatter(
-        (
+    return (
             schools,
             census,
             sen,
@@ -775,7 +770,6 @@ def _get_ancillary_data(
             gias_links,
             high_exec_pay,
         )
-    )
 
 
 def pre_process_data(
@@ -813,57 +807,36 @@ def pre_process_data(
     start_time = time.time()
     logger.info(f"Pre-processing data {run_type} - {run_id}")
 
-    academies_data_ref = maintained_data_ref = _get_ancillary_data(
-        worker_client,
-        run_id,
-        aar_year,
-    )
+    academies_data_ref = maintained_data_ref = _get_ancillary_data(run_id, aar_year)
     if cfr_year != aar_year:
-        maintained_data_ref = _get_ancillary_data(worker_client, run_id, cfr_year)
+        maintained_data_ref = _get_ancillary_data(run_id, cfr_year)
 
-    academies, maintained_schools = worker_client.gather(
-        [
-            worker_client.submit(
-                pre_process_academies_data,
-                run_type,
-                run_id,
-                aar_year,
-                academies_data_ref,
-            ),
-            worker_client.submit(
-                pre_process_maintained_schools_data,
-                run_type,
-                run_id,
-                cfr_year,
-                maintained_data_ref,
-            ),
-        ]
+    academies, maintained_schools = (
+        pre_process_academies_data(run_type, run_id, aar_year, academies_data_ref),
+        pre_process_maintained_schools_data(run_type, run_id, cfr_year, maintained_data_ref)
     )
 
     if (
-        academies_ilr_data := worker_client.submit(
-            pre_process_ilr_data,
+        academies_ilr_data := pre_process_ilr_data(
             run_type,
-            run_id,
             aar_year,
+            run_id,
             academies_data_ref[0],
-        ).result()
+        )
     ) is not None:
-        academies = worker_client.submit(
-            patch_missing_sixth_form_data,
+        academies = patch_missing_sixth_form_data(
             academies,
             academies_ilr_data,
             academies_data_ref[9],
-        ).result()
+        )
 
     if (
-        maintained_ilr_data := worker_client.submit(
-            pre_process_ilr_data,
+        maintained_ilr_data := pre_process_ilr_data(
             run_type,
-            run_id,
             cfr_year,
+            run_id,
             maintained_data_ref[0],
-        ).result()
+        )
     ) is not None:
         maintained_schools = worker_client.submit(
             patch_missing_sixth_form_data,
@@ -872,19 +845,9 @@ def pre_process_data(
             maintained_data_ref[9],
         ).result()
 
-    trusts = worker_client.submit(
-        pre_process_trust_data,
-        run_type,
-        run_id,
-        academies,
-        academies_data_ref[10],
-    ).result()
+    trusts = pre_process_trust_data(run_type, run_id, academies, academies_data_ref[10])
 
-    pre_process_all_schools(
-        run_type,
-        run_id,
-        (academies, maintained_schools, trusts),
-    )
+    pre_process_all_schools(run_type, run_id, (academies, maintained_schools, trusts))
 
     pre_process_bfr(run_id, bfr_year)
 

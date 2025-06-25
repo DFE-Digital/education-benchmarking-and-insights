@@ -4,7 +4,7 @@ import pipeline.config as config
 import pipeline.input_schemas as input_schemas
 from pipeline.log import setup_logger
 
-logger = setup_logger("fbit-data-pipeline")
+logger = getLogger("fbit-data-pipeline")
 
 
 def prepare_sen_data(sen_path):
