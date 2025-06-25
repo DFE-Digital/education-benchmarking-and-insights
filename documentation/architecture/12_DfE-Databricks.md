@@ -2,7 +2,7 @@
 
 ## Context and Problem Statement
 
-DfE's SQL server databases are being turned off and migrated to Databricks by the end of 2026. Our data pipelines consume some of this data, so we will have to adapt our pipelines to consume from Databricks. The presence of databricks allows an opportunity for updating of our pipelines - we could offload compute into databricks as an example of a good databricks pipeline for DfE.
+DfE's SQL server databases are being turned off and migrated to Databricks by the end of 2026. Our data pipelines consume some of this data, so we will have to adapt our pipelines to consume from Databricks. The presence of Databricks allows an opportunity for updating of our pipelines - we could offload compute into Databricks as an example of a good Databricks pipeline for DfE.
 
 ## Decision Drivers
 
@@ -10,13 +10,13 @@ DfE's SQL server databases are being turned off and migrated to Databricks by th
 * A lot of our source data including ancillary data is on Databricks already. More is scheduled to be added and we can request missing data.
 * The current SQL to extract data will need to be rewritten to Databricks SQL syntax as a Databricks job.
 * We will have access to Databricks compute. There are pre-allocated tokens allocated for funding, there are open questions around how this will be managed in the longer term.
-* The FBIT service can work from a csv pushed by a job from Databricks, or the Databricks API allows the FBIT application to trigger an export job.
+* The FBIT service can work from a CSV pushed by a job from Databricks, or the Databricks API allows the FBIT application to trigger an export job.
 * Data export is currently tracked by Databricks unity catalogue, and is unrestricted.
 * Our data size is not large, the pipeline is not run often, and it doesn't take a lot of time to run. So the performance and scalability of the transformations in Databricks, while an improvement, isn't very relevant.
 
 ## Considered Options
 
-A basic structure of the data pipeline illustrates the degrees of databricks involvement:
+A basic structure of the data pipeline illustrates the degrees of Databricks involvement:
 
 ```mermaid
 flowchart LR
@@ -68,7 +68,7 @@ flowchart LR
 
 ### **Option 1: Change database sources to Databricks**
 
-Change the existing database data sources to Databricks with no changes to the rest of the pipeline. This will need to happen at the very least, as the old databases are getting switched off and migrated to Databricks (as far as we know, this is just AnM). The SQL to extract pipeline data for us will need to be rewritten to t-SQL (this might not be a large task).
+Change the existing database data sources to Databricks with no changes to the rest of the pipeline. This will need to happen at the very least, as the old databases are getting switched off and migrated to Databricks (as far as we know, this is just AnM). The SQL to extract pipeline data for us will need to be rewritten to Databricks SQL (this might not be a large task).
 
 #### Pros
 
@@ -85,7 +85,7 @@ Change the existing database data sources to Databricks with no changes to the r
 
 ### **Option 2: Change all data sources to Databricks**
 
-Change all data sources to Databricks (static files/ancillary data included) with no changes to the rest of the pipeline. We've seen a list of the data sources to be uploaded to databricks and the large majority of our ancillary data will be available. There might still be a few sources which are uploaded through blob storage, or re need to request to be made available in databricks.
+Change all data sources to Databricks (static files/ancillary data included) with no changes to the rest of the pipeline. We've seen a list of the data sources to be uploaded to Databricks and the large majority of our ancillary data will be available. There might still be a few sources which are uploaded through blob storage, or re need to request to be made available in Databricks.
 
 #### Pros
 
@@ -111,7 +111,7 @@ Source data from and perform up until the gold layer of compute in Databricks. C
 
 #### Cons
 
-* **Stray files not in databricks** We might need to still drag and drop new releases into databricks to make it all work, like we do with the current pipeline.
+* **Stray files not in Databricks** We might need to still drag and drop new releases into Databricks to make it all work, like we do with the current pipeline.
 * **Architectural Complexity:** The pipeline logic is now split across two systems (Databricks and FBIT). This can make orchestration, end-to-end monitoring, and debugging more complex.
 
 ## Recommendation
