@@ -28,13 +28,14 @@
         Given I am on '<tab>' history page for school with URN '777042'
         And all sections are shown on '<tab>'
         Then there should be '<charts>' charts displayed on '<tab>'
+        And there should be '<warnings>' warnings displayed on '<tab>'
 
         Examples:
-          | tab      | charts |
-          | spending | 42     |
-          | income   | 17     |
-          | balance  | 2      |
-          | census   | 9      |
+          | tab      | charts | warnings |
+          | spending | 33     | 9        |
+          | income   | 11     | 6        |
+          | balance  | 2      | 0        |
+          | census   | 8      | 1        |
 
     Scenario Outline: Change all charts to table view
         Given I am on '<tab>' history page for school with URN '777042'
