@@ -3,7 +3,10 @@ import os
 from contextlib import suppress
 from io import BytesIO, StringIO
 
-from azure.core.exceptions import ResourceExistsError
+from azure.core.exceptions import (
+    ResourceExistsError,
+    ResourceNotFoundError
+)
 from azure.storage.blob import BlobServiceClient
 from azure.storage.queue import QueueClient, QueueServiceClient
 
@@ -44,38 +47,27 @@ def create_container(container_name):
     return blob_service_client.get_container_client(container_name)
 
 
-def get_blob(container_name, blob_name, encoding=None):
+def get_blob(container_name: str, blob_name: str, encoding=None) -> BytesIO | StringIO:
     container_client = blob_service_client.get_container_client(container_name)
     blob_client = container_client.get_blob_client(blob_name)
 
-    with blob_client as blob:
-        if encoding is None:
-            content = blob.download_blob(encoding=encoding).readall()
-            logger.info(f"Downloaded blob: {blob_name}")
-            return BytesIO(content)
+    content = blob_client.download_blob(encoding=encoding).readall()
+    properties = blob_client.get_blob_properties()
+    size = properties.size
+    name = properties.name
+    md5_hash = properties.content_settings.content_md5.hex()
+    logger.info(f"Downloaded blob: {name=} {size=} {md5_hash=}")
 
-        content = blob.download_blob(encoding=encoding).readall()
-        logger.info(f"Downloaded blob: {blob_name}")
-        return StringIO(content)
+    return BytesIO(content) if encoding is None else StringIO(content)
 
-
-def try_get_blob(container_name, blob_name, encoding=None):
-    container_client = blob_service_client.get_container_client(container_name)
-    blob_client = container_client.get_blob_client(blob_name)
-
-    with blob_client as blob:
-        if blob_client.exists():
-            if encoding is None:
-                content = blob.download_blob(encoding=encoding).readall()
-                logger.info(f"Downloaded blob: {blob_name}")
-                return BytesIO(content)
-
-            content = blob.download_blob(encoding=encoding).readall()
-            logger.info(f"Downloaded blob: {blob_name}")
-            return StringIO(content)
-        else:
-            logger.info(f"Cannot get blob {blob_name}, as it does not exist")
-            return None
+def try_get_blob(container_name: str, blob_name: str, encoding=None)-> None | BytesIO | StringIO:
+    """For some blobs, we want to return None if it doesn't exist."""
+    try:
+        io_blob_content = get_blob(container_name, blob_name, encoding)
+        return io_blob_content
+    except ResourceNotFoundError:
+        logger.info(f"'{blob_name=}' does not exist, skipping download")
+        return None
 
 
 def write_blob(container_name, blob_name, data):
