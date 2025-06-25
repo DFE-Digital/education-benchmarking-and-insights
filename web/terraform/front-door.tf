@@ -13,7 +13,7 @@ resource "azurerm_cdn_frontdoor_profile" "web-app-front-door-profile" {
   resource_group_name = azurerm_resource_group.resource-group.name
   tags                = local.common-tags
 
-  sku_name = var.configuration[var.environment].front_door_sku_name
+  sku_name = var.configuration[var.environment].front_door_profile_sku_name
 }
 
 resource "azurerm_cdn_frontdoor_origin_group" "web-app-front-door-origin-group" {
@@ -72,6 +72,7 @@ resource "azurerm_cdn_frontdoor_route" "web-app-front-door-route" {
   link_to_default_domain          = true
 }
 
+# this policy will be tidied up in a future release
 resource "azurerm_cdn_frontdoor_firewall_policy" "web-app-front-door-waf-policy" {
   name                = "${var.environment-prefix}wafpolicy"
   resource_group_name = azurerm_resource_group.resource-group.name
@@ -138,7 +139,86 @@ resource "azurerm_cdn_frontdoor_firewall_policy" "web-app-front-door-waf-policy"
   }
 
   dynamic "managed_rule" {
-    for_each = (azurerm_cdn_frontdoor_profile.web-app-front-door-profile.sku_name == "Premium_AzureFrontDoor" ? ["apply"] : [])
+    for_each = (azurerm_cdn_frontdoor_profile.web-app-front-door-profile.sku_name == "Premium_AzureFrontDoor" ?
+    ["apply"] : [])
+    content {
+      type    = "Microsoft_BotManagerRuleSet"
+      version = "1.0"
+      action  = "Log"
+    }
+  }
+}
+
+# new policy, intentionally orphaned in the initial release
+resource "azurerm_cdn_frontdoor_firewall_policy" "web-app-front-door-waf" {
+  name                = "${var.environment-prefix}waf"
+  resource_group_name = azurerm_resource_group.resource-group.name
+  enabled             = true
+  tags                = local.common-tags
+
+  sku_name = var.configuration[var.environment].front_door_waf_policy_sku_name
+  mode     = var.configuration[var.environment].waf_mode
+
+  custom_rule {
+    name     = "blockrequestmethod"
+    action   = "Block"
+    priority = 100
+    type     = "MatchRule"
+
+    match_condition {
+      match_variable     = "RequestMethod"
+      operator           = "Equal"
+      negation_condition = true
+      match_values       = ["GET", "POST"]
+    }
+  }
+
+  custom_rule {
+    name     = "blockgeolocation"
+    action   = "Block"
+    priority = 200
+    type     = "MatchRule"
+
+    match_condition {
+      match_variable     = "SocketAddr"
+      operator           = "GeoMatch"
+      negation_condition = true
+      match_values       = ["GB"]
+    }
+  }
+
+  dynamic "custom_rule" {
+    for_each = var.environment == "test" ? ["apply"] : []
+
+    content {
+      name     = "allowsynthetictraffic"
+      action   = "Allow"
+      priority = 50
+      type     = "MatchRule"
+
+      match_condition {
+        match_variable     = "RequestHeader"
+        selector           = "x-synthetic-source"
+        operator           = "Equal"
+        negation_condition = false
+        match_values       = ["load-tests"]
+      }
+    }
+  }
+
+  dynamic "managed_rule" {
+    for_each = (var.configuration[var.environment].front_door_waf_policy_sku_name == "Premium_AzureFrontDoor" ?
+    ["apply"] : [])
+    content {
+      type    = "DefaultRuleSet"
+      version = "1.0"
+      action  = "Block"
+    }
+  }
+
+  dynamic "managed_rule" {
+    for_each = (var.configuration[var.environment].front_door_waf_policy_sku_name == "Premium_AzureFrontDoor" ?
+    ["apply"] : [])
     content {
       type    = "Microsoft_BotManagerRuleSet"
       version = "1.0"
