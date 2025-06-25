@@ -8,7 +8,7 @@ then this rule has been observed to be blocking genuine traffic from schools rou
 Managed rules in AFD Premium enable more enhanced traffic management that will allow this rule to be dropped,
 or potentially detected/logged rather than block traffic in the Production environment.
 
-## Considerations
+## Considerations 🤔
 
 1. Availability impact
     - Minimal acceptable downtime
@@ -27,7 +27,7 @@ or potentially detected/logged rather than block traffic in the Production envir
     - Ideally each environment should end up in a consistent state in comparison to one another, without having
       to conditionally manage resources based on (e.g.) environment-specific configuration values
 
-## Recommended process
+## Recommended process 🚀
 
 1. Provision new Premium/Standard WAF policies as defined in configuration in all environments using Terraform
 2. Upgrade AFD to Premium tier within Azure Portal, selecting the above provisioned policy during the process
@@ -38,7 +38,7 @@ or potentially detected/logged rather than block traffic in the Production envir
 #### Provision new WAF policies
 
 Define a new configuration variable in order to configure the new WAF policy SKU in each environment. The
-ADF profile variable may also be renamed for consistency:
+AFD profile variable may also be renamed for consistency:
 
 ```tf
 variable "configuration" {
@@ -161,7 +161,7 @@ should not detect any changes on its next `plan`, bar the removal of the orphane
 
 ✅ No DNS changes required
 
-✅ Consistent ADF-related resources across environments (albeit at different SKUs)
+✅ Consistent AFD-related resources across environments (albeit at different SKUs)
 
 ### Cons 🙁
 
@@ -171,7 +171,7 @@ should not detect any changes on its next `plan`, bar the removal of the orphane
 
 ❌ Multiple WAF policies in each environment between releases may cause confusion, but should not incur charges
 
-## Alternative similar process
+## Alternative similar process 👌
 
 1. Provision new Premium WAF policy in Production only using Terraform
 2. Upgrade AFD to Premium tier within Azure Portal, selecting the above provisioned policy during the process
@@ -292,11 +292,11 @@ should not detect any changes on its next `plan`:
 
 ❌ Multiple releases to ensure eventual consistency
 
-❌ Inconsistent ADF-related resources across environments
+❌ Inconsistent AFD-related resources across environments
 
 ❌ Orphaned 'Standard' WAF policy requires manual removal, or future Terraform update to remove
 
-## Alternative risky process
+## Alternative risky process 😨
 
 1. Bump AFD tier in Terraform alone to destroy existing Standard resources in Production and recreate as Premium
 
@@ -317,9 +317,42 @@ should not detect any changes on its next `plan`:
 > [`prevent_destroy`](https://developer.hashicorp.com/terraform/language/meta-arguments/lifecycle#prevent_destroy)
 > lifecycle meta-arguments are added as necessary to avoid accidental resource destruction (at least by Terraform).
 
-## Rollback strategy
+## Rollback strategy 🚨
 
-TODO
+It is not possible to downgrade Azure Front Door back to Standard from Premium. If something goes drastically wrong
+during the upgrade then it is recommended to manually create a new AFD profile in the same resource group as the
+failed AFD (along with the provisioned Premium WAF policy) while investigation into what went wrong takes place:
+
+![New profile](./images/afd-premium-upgrade-008.png)
+
+Verify that everything is working as expected using the `azurefd.net` domain. Then manually add the custom domain,
+after first disassociating from the failed upgraded AFD:
+
+![Custom domain](./images/afd-premium-upgrade-009.png)
+
+If the disassociation is not done first then the following error will be returned:
+
+![Custom domain error](./images/afd-premium-upgrade-010.png)
+
+A DNS change request with the newly generated `TXT` record may then be submitted as an urgent request to avoid
+lengthy downtime.
+
+The manually added domain may then be associated with the route:
+
+![Associate domain 1](./images/afd-premium-upgrade-011.png)
+
+![Associate domain 2](./images/afd-premium-upgrade-012.png)
+
+Once access has been restored to FBIT using the manually created AFD fixes to the original one may be made, or
+investigation begun. This could include:
+
+1. Manually destroying the failing Front Door profile and re-running a Terraform deployment to recreate everything
+in the Premium tier
+2. Manually destroying the failing Front Door profile and recreating manually everything in the Premium tier to
+match what Terraform would next provision according to the chosen approach from above
+
+In both of the above cases custom domain disassociation/reassociation will be required, and DNS change request(s)
+made which may lead to additional downtime.
 
 <!-- Leave the rest of this page blank -->
 \newpage
