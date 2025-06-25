@@ -14,12 +14,13 @@ It also includes some manual tasks related to SFB decommissioning due to restric
 **In-scope:**
 
 - New features
-  - Server side rendered charts
+  - Server side rendered charts is implemented on school spending priorities page
 - Enhancements
-  - Data driven commercial resources
-  - Content updates
+  - Commercial resources are now data driven
+  - Content updates in multiple areas
   - API refactor to prepare for CMS-lite functionality
-  - ILR data
+  - New ILR data file for Post-16 and sixth form schools census data ingested
+  - High executives pay data is now displayed in trust benchmarking
 - Bug fixes
   - Logging of requests to temporary SFB redirect app service
   - Fix to y-axis for single value line charts
@@ -33,6 +34,7 @@ It also includes some manual tasks related to SFB decommissioning due to restric
 ## Test Strategy
 
 - Smoke Testing: Execute smoke tests to validate the basic functionality of the application post-deployment.
+- Sanity Testing: Check the High executes pay is displayed as expected. 
 - Manual validation: Due to issue documented in work item [#263444](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_workitems/edit/263444), a manual disassociation of the only Front Door ruleset must be validated.
 
 ## Entry and Exit Criteria
@@ -92,6 +94,8 @@ It also includes some manual tasks related to SFB decommissioning due to restric
 - [263341 - Dependabot updates - June 2025](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_workitems/edit/263341)
 - [264107 - Content end point consolidation](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_workitems/edit/264107)
 - [263444 - Remove redundant SFB decommissioning changes from WAF](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_workitems/edit/263444)
+- [261891 - Ingest and Display High Exec Pay data](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_workitems/edit/261891)
+- [260084 - 6th form Data Source Update](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_workitems/edit/260084)
 
 ## Appendix
 
