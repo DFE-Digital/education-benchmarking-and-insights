@@ -1,3 +1,5 @@
+import logging
+
 import pandas as pd
 
 import pipeline.config as config
@@ -5,7 +7,7 @@ import pipeline.input_schemas as input_schemas
 import pipeline.mappings as mappings
 from pipeline.log import setup_logger
 
-logger = getLogger("fbit-data-pipeline")
+logger = logging.getLogger("fbit-data-pipeline")
 
 
 def prepare_cdc_data(cdc_file_path, current_year):

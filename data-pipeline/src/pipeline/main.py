@@ -758,18 +758,18 @@ def _get_ancillary_data(
     )
 
     return (
-            schools,
-            census,
-            sen,
-            cdc,
-            aar,
-            ks2,
-            ks4,
-            cfo,
-            central_services,
-            gias_links,
-            high_exec_pay,
-        )
+        schools,
+        census,
+        sen,
+        cdc,
+        aar,
+        ks2,
+        ks4,
+        cfo,
+        central_services,
+        gias_links,
+        high_exec_pay,
+    )
 
 
 def pre_process_data(
@@ -813,7 +813,9 @@ def pre_process_data(
 
     academies, maintained_schools = (
         pre_process_academies_data(run_type, run_id, aar_year, academies_data_ref),
-        pre_process_maintained_schools_data(run_type, run_id, cfr_year, maintained_data_ref)
+        pre_process_maintained_schools_data(
+            run_type, run_id, cfr_year, maintained_data_ref
+        ),
     )
 
     if (

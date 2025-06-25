@@ -1,9 +1,11 @@
+import logging
+
 import pandas as pd
 
 from pipeline import input_schemas
 from pipeline.log import setup_logger
 
-logger = getLogger("fbit-data-pipeline")
+logger = logging.getLogger("fbit-data-pipeline")
 
 
 def build_cfo_data(cfo_data_path, year: int) -> pd.DataFrame:

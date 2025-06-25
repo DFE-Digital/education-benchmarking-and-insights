@@ -1,10 +1,12 @@
+import logging
+
 import pandas as pd
 
 import pipeline.config as config
 import pipeline.input_schemas as input_schemas
 from pipeline.log import setup_logger
 
-logger = getLogger("fbit-data-pipeline")
+logger = logging.getLogger("fbit-data-pipeline")
 
 
 # noinspection PyTypeChecker
