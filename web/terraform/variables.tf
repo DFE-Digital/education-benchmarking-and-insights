@@ -149,7 +149,7 @@ variable "configuration" {
       sku_name                       = "B1"
       zone_balancing_enabled         = false
       worker_count                   = 1
-      front_door_profile_sku_name    = "Standard_AzureFrontDoor"
+      front_door_profile_sku_name    = "Premium_AzureFrontDoor"
       front_door_waf_policy_sku_name = "Premium_AzureFrontDoor"
       waf_mode                       = "Detection"
       redirect_app_service           = true
