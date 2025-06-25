@@ -519,6 +519,7 @@ def pre_process_bfr(run_id: str, year: int):
             "Total pupils in trust",
         ],
     )
+    logger.info(f"Academies preprocessed {year=} shape: {academies.shape}")
 
     # Conditionally read in academy/SOFA files, skipping unnecessary data…
     # TODO: "Company Reg…" isn't referenced for historic data; we can drop the
@@ -537,6 +538,7 @@ def pre_process_bfr(run_id: str, year: int):
                 # "Total pupils in trust",  # SOFA, EFALineNo == 999 (Y1P2)
             ],
         )
+        logger.info(f"Academies Y2 preprocessed {year=} shape: {academies_y2.shape}")
 
         if bfr_sofa_year_minus_two_file := try_get_blob(
             raw_container,
@@ -559,6 +561,7 @@ def pre_process_bfr(run_id: str, year: int):
                 )
                 .query("EFALineNo in (430, 999,)")
             )
+            logger.info(f"BFR sofa year minus two preprocessed {year=} shape: {bfr_sofa_year_minus_two.shape}")
 
     academies_y1 = None
     bfr_sofa_year_minus_one = None
@@ -574,6 +577,8 @@ def pre_process_bfr(run_id: str, year: int):
                 # "Total pupils in trust",  # SOFA, EFALineNo == 999 (Y1P2)
             ],
         )
+        logger.info(f"Academies Y1 preprocessed {year=} shape: {academies_y1.shape}")
+        
 
         if bfr_sofa_year_minus_one_file := try_get_blob(
             raw_container,
@@ -596,6 +601,7 @@ def pre_process_bfr(run_id: str, year: int):
                 )
                 .query("EFALineNo in (430, 999,)")
             )
+            logger.info(f"BFR sofa year minus one preprocessed {year=} shape: {bfr_sofa_year_minus_one.shape}")
 
     # Process BFR data…
     academies_y2 = build_bfr_historical_data(
@@ -692,6 +698,7 @@ def pre_process_local_authorities(
         la_sen2_data,
         year,
     )
+    logger.info(f"Local Authorities preprocessed' {year=} shape: {local_authorities.shape}")
 
     write_blob(
         "pre-processed",
@@ -1010,7 +1017,7 @@ def compute_comparator_set_for(
     st = time.time()
     logger.info(f"Computing {data_type} set")
     result = compute_comparator_set(data, target_urn=target_urn)
-    logger.info(f"Computing {data_type} set. Done in {time.time() - st:.2f} seconds")
+    logger.info(f"Computing {data_type} set shape={result.shape}. Done in {time.time() - st:.2f} seconds")
 
     st = time.time()
     write_blob(
@@ -1138,7 +1145,7 @@ def compute_rag_for(
             compute_rag(data, comparators, target_urn=target_urn)
         ).set_index("URN")
 
-    logger.info(f"Computing {data_type} RAG. Done in {time.time() - st:.2f} seconds")
+    logger.info(f"Computing {data_type} RAG shape={df.shape}. Done in {time.time() - st:.2f} seconds")
 
     write_blob(
         "metric-rag",
