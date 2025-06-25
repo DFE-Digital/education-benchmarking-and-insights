@@ -1,4 +1,12 @@
-# Azure Front Door Upgrade
+# Decision - 0011 - Azure Front Door Upgrade
+
+Date: 2025-06-25
+
+## Status
+
+Pending Decision
+
+## Context
 
 Spike [#264358](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_workitems/edit/264358) was to
 research and document the various upgrade paths for the FBIT Application Front Door (AFD) and Web Application
@@ -8,7 +16,7 @@ then this rule has been observed to be blocking genuine traffic from schools rou
 Managed rules in AFD Premium enable more enhanced traffic management that will allow this rule to be dropped,
 or potentially detected/logged rather than block traffic in the Production environment.
 
-## Considerations 🤔
+## Considerations
 
 1. Availability impact
     - Minimal acceptable downtime
@@ -27,15 +35,17 @@ or potentially detected/logged rather than block traffic in the Production envir
     - Ideally each environment should end up in a consistent state in comparison to one another, without having
       to conditionally manage resources based on (e.g.) environment-specific configuration values
 
-## Recommended process 🚀
+## Options Considered
+
+### Option 1: Two deployments, with new WAF policies for all environments
 
 1. Provision new Premium/Standard WAF policies as defined in configuration in all environments using Terraform
 2. Upgrade AFD to Premium tier within Azure Portal, selecting the above provisioned policy during the process
 3. Update Terraform to assign all AFD profiles to their respective new WAF policies and drop orphaned WAF policy
 
-### Details
+#### Details
 
-#### Provision new WAF policies
+##### Provision new WAF policies
 
 Define a new configuration variable in order to configure the new WAF policy SKU in each environment. The
 AFD profile variable may also be renamed for consistency:
@@ -90,7 +100,7 @@ resource "azurerm_cdn_frontdoor_profile" "web-app-front-door-profile" {
 
 The above changes should then be deployed to all environments before the next step becomes unblocked.
 
-#### Upgrade AFD in the Portal
+##### Upgrade AFD in the Portal
 
 Submit Privileged Identity Management (PIM) request for Contributor access to Production subscription and await
 response.
@@ -113,9 +123,10 @@ Confirm the process:
 
 Wait for the update process to complete, usually within a couple of minutes. Then verify FBIT remains accessible.
 If something has gone wrong at this stage there is little option that to provision a new AFD as a downgrade from
-Premium to Standard [is not supported](https://learn.microsoft.com/en-us/azure/frontdoor/tier-upgrade).
+Premium to Standard [is not supported](https://learn.microsoft.com/en-us/azure/frontdoor/tier-upgrade). See
+'rollback' section below for more details.
 
-#### Update Terraform
+##### Update Terraform
 
 Update the security policy to associate the new WAF with the AFD profile to ensure for the upgraded AFD that
 this now matches infrastructure. For unchanged AFD (i.e. all non-production environments) the new policy is
@@ -155,7 +166,7 @@ should not detect any changes on its next `plan`, bar the removal of the orphane
 
 ![No changes](./images/afd-premium-upgrade-007.png)
 
-### Pros 🙂
+#### Pros
 
 ✅ No detectable downtime
 
@@ -163,7 +174,7 @@ should not detect any changes on its next `plan`, bar the removal of the orphane
 
 ✅ Consistent AFD-related resources across environments (albeit at different SKUs)
 
-### Cons 🙁
+#### Cons
 
 ❌ Manual intervention required
 
@@ -171,16 +182,16 @@ should not detect any changes on its next `plan`, bar the removal of the orphane
 
 ❌ Multiple WAF policies in each environment between releases may cause confusion, but should not incur charges
 
-## Alternative similar process 👌
+### Option 2: Two deployments, with new WAF policy for production environment only
 
 1. Provision new Premium WAF policy in Production only using Terraform
 2. Upgrade AFD to Premium tier within Azure Portal, selecting the above provisioned policy during the process
 3. Update Terraform to match Production manually upgraded infrastructure
 4. Tidy up orphaned Standard WAF policy in Production
 
-### Details
+#### Details
 
-#### Provision Premium WAF policy
+##### Provision Premium WAF policy
 
 Either define a new variable or else use a conditional check on `lower(var.environment) == "production"` to
 determine whether to provision a Premium WAF policy:
@@ -235,11 +246,11 @@ resource "azurerm_cdn_frontdoor_profile" "web-app-front-door-profile" {
 
 The above changes should then be deployed to Production before the next step becomes unblocked.
 
-#### Upgrade AFD in the Portal
+##### Upgrade AFD in the Portal
 
 As documented above.
 
-#### Update Terraform
+##### Update Terraform
 
 Add a conditional to the security policy to ensure the new Premium WAF policy is linked by `id` when the Premium
 SKU has been set.
@@ -280,13 +291,13 @@ should not detect any changes on its next `plan`:
 
 ![No changes](./images/afd-premium-upgrade-005.png)
 
-### Pros 🙂
+#### Pros
 
 ✅ No detectable downtime
 
 ✅ No DNS changes required
 
-### Cons 🙁
+#### Cons
 
 ❌ Manual intervention required
 
@@ -296,17 +307,20 @@ should not detect any changes on its next `plan`:
 
 ❌ Orphaned 'Standard' WAF policy requires manual removal, or future Terraform update to remove
 
-## Alternative risky process 😨
+### Option 3: Manage upgrade via Terraform in single release
 
 1. Bump AFD tier in Terraform alone to destroy existing Standard resources in Production and recreate as Premium
+2. Issue change request to add new `TXT` record for custom domain validation
 
-### Pros 🙂
+#### Pros
 
 ✅ Terraform-only change
 
 ✅ Single release
 
-### Cons 🙁
+✅ Non-production environments unaffected
+
+#### Cons
 
 ❌ 5-10 minutes downtime while resources destroyed, recreated, and application deployed
 
@@ -317,7 +331,13 @@ should not detect any changes on its next `plan`:
 > [`prevent_destroy`](https://developer.hashicorp.com/terraform/language/meta-arguments/lifecycle#prevent_destroy)
 > lifecycle meta-arguments are added as necessary to avoid accidental resource destruction (at least by Terraform).
 
-## Rollback strategy 🚨
+## Recommendation
+
+Preferred Approach is Option 1 (two deployments, with new WAF policies for all environments) because it ensures
+all environments remain consistent with one another, while allowing the manual upgrade in Azure Portal to reduce
+platform downtime.
+
+## Rollback considerations
 
 It is not possible to downgrade Azure Front Door back to Standard from Premium. If something goes drastically wrong
 during the upgrade then it is recommended to manually create a new AFD profile in the same resource group as the
