@@ -85,7 +85,8 @@ def build_bfr_data(
         dtype=input_schemas.bfr_sofa_cols,
         usecols=input_schemas.bfr_sofa_cols.keys(),
     ).rename(columns={"TrustUPIN": "Trust UPIN", "Title": "Category"})
-    logger.info
+    logger.info(f"BFR sofa raw shape: {bfr_sofa.shape}")
+
     bfr_sofa = bfr_sofa[
         bfr_sofa["EFALineNo"].isin(
             [298, 430, 335, 380, 211, 220, 199, 200, 205, 210, 999]
@@ -120,6 +121,7 @@ def build_bfr_data(
         dtype=input_schemas.bfr_3y_cols,
         usecols=input_schemas.bfr_3y_cols.keys(),
     ).rename(columns={"TrustUPIN": "Trust UPIN"})
+    logger.info(f"BFR 3y raw shape: {bfr_3y.shape}")
 
     bfr_3y[["Y2", "Y3", "Y4"]] = bfr_3y[["Y2", "Y3", "Y4"]].apply(
         lambda x: x * 1000, axis=1
