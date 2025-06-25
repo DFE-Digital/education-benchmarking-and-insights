@@ -2,6 +2,7 @@
 using Microsoft.Playwright;
 using Web.E2ETests.Assist;
 using Xunit;
+
 namespace Web.E2ETests.Pages.School;
 
 public enum HistoryTabs
@@ -187,8 +188,17 @@ public class HistoricDataPage(IPage page)
     private ILocator BalanceChartsStats => BalanceTabContent.Locator(Selectors.LineChartStats);
     private ILocator AllCensusCharts => CensusTabContent.Locator(Selectors.Charts);
     private ILocator CensusChartsStats => CensusTabContent.Locator(Selectors.LineChartStats);
-    private ILocator SaveAsImageButtons(string elementId) =>
-        page.Locator($"#{elementId}").Locator(".share-button--save");
+    private ILocator SaveAsImageButtons(string elementId)
+    {
+        return page.Locator($"#{elementId}").Locator(".share-button--save");
+    }
+    private ILocator WarningMessages(string elementId)
+    {
+        return page.Locator($"#{elementId}").Locator(Selectors.GovWarning, new LocatorLocatorOptions
+        {
+            HasText = "No data available for this category."
+        });
+    }
 
     public async Task IsDisplayed(HistoryTabs? tab = null)
     {
@@ -212,7 +222,7 @@ public class HistoricDataPage(IPage page)
                 await SpendingChartsStats.First.ShouldBeVisible();
                 await AssertCategoryNames(_spendingCategories, selectedTab);
                 await ExpenditureDimension.ShouldHaveSelectedOption("actuals");
-                await AreSaveAsImageButtonsPresent(HistoryTabs.Spending, 42);
+                await AreSaveAsImageButtonsPresent(HistoryTabs.Spending, 33);
                 break;
             case HistoryTabs.Income:
                 await IncomeDimension.ShouldBeVisible();
@@ -229,7 +239,7 @@ public class HistoricDataPage(IPage page)
                 await AllIncomeCharts.First.ShouldBeVisible();
                 await IncomeChartsStats.First.ShouldBeVisible();
                 await AssertCategoryNames(_incomeCategories, selectedTab);
-                await AreSaveAsImageButtonsPresent(HistoryTabs.Income, 17);
+                await AreSaveAsImageButtonsPresent(HistoryTabs.Income, 11);
                 break;
             case HistoryTabs.Balance:
                 await BalanceDimension.ShouldBeVisible();
@@ -261,7 +271,7 @@ public class HistoricDataPage(IPage page)
                 await AreChartStatsVisible(selectedTab);
                 await AreChartsVisible(selectedTab);
                 await AssertCategoryNames(_censusCategories, selectedTab);
-                await AreSaveAsImageButtonsPresent(HistoryTabs.Census, 9);
+                await AreSaveAsImageButtonsPresent(HistoryTabs.Census, 8);
                 break;
         }
     }
@@ -278,11 +288,14 @@ public class HistoricDataPage(IPage page)
         };
 
         var buttons = await SaveAsImageButtons(elementId).AllAsync();
-
-        var firstButton = buttons[0];
-        Assert.NotNull(firstButton);
-        await firstButton.ShouldBeVisible();
         Assert.Equal(expected, buttons.Count);
+
+        if (expected > 0)
+        {
+            var firstButton = buttons[0];
+            Assert.NotNull(firstButton);
+            await firstButton.ShouldBeVisible();
+        }
     }
 
     public async Task SelectDimension(HistoryTabs tab, string dimensionValue)
@@ -370,6 +383,21 @@ public class HistoricDataPage(IPage page)
         };
 
         Assert.Equal(count, await charts.Count());
+    }
+
+    public async Task HasWarningCount(HistoryTabs tab, int count)
+    {
+        var elementId = tab switch
+        {
+            HistoryTabs.Spending => "spending",
+            HistoryTabs.Income => "income",
+            HistoryTabs.Balance => "balance",
+            HistoryTabs.Census => "census",
+            _ => throw new ArgumentOutOfRangeException(nameof(tab))
+        };
+
+        var warnings = await WarningMessages(elementId).AllAsync();
+        Assert.Equal(count, warnings.Count);
     }
 
     public async Task AreTablesShown(HistoryTabs tab)
