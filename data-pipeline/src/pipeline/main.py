@@ -1283,6 +1283,7 @@ def handle_msg(
     taken place for the year in question, failing if that does not hold
     true.
 
+    :param worker_client: Dask client
     :param msg: incoming message, triggering this process
     :param worker_queue: incoming message queue (for deletion)
     :param complete_queue: outcoming message queue (for completion)
