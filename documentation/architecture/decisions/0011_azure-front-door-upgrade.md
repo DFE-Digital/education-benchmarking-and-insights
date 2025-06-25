@@ -81,8 +81,8 @@ resource "azurerm_cdn_frontdoor_firewall_policy" "web-app-front-door-waf" {
 }
 ```
 
-As mentioned below, the `prevent_destroy` `lifecycle` block should also be added to `web-app-front-door-profile`
-along with the renamed `front_door_profile_sku_name` configuration variable:
+The `web-app-front-door-profile` should be updated with the renamed `front_door_profile_sku_name` configuration
+variable:
 
 ```tf
 resource "azurerm_cdn_frontdoor_profile" "web-app-front-door-profile" {
@@ -91,10 +91,6 @@ resource "azurerm_cdn_frontdoor_profile" "web-app-front-door-profile" {
   tags                = local.common-tags
 
   sku_name = var.configuration[var.environment].front_door_profile_sku_name
-
-  lifecycle {
-    prevent_destroy = true
-  }
 }
 ```
 
@@ -228,22 +224,6 @@ resource "azurerm_cdn_frontdoor_firewall_policy" "web-app-front-door-waf-policy"
 }
 ```
 
-As mentioned below, the `prevent_destroy` `lifecycle` block should also be added to `web-app-front-door-profile`:
-
-```tf
-resource "azurerm_cdn_frontdoor_profile" "web-app-front-door-profile" {
-  name                = "${var.environment-prefix}-education-benchmarking-fd-profile"
-  resource_group_name = azurerm_resource_group.resource-group.name
-  tags                = local.common-tags
-
-  sku_name = var.configuration[var.environment].front_door_sku_name
-
-  lifecycle {
-    prevent_destroy = true
-  }
-}
-```
-
 The above changes should then be deployed to Production before the next step becomes unblocked.
 
 ##### Upgrade AFD in the Portal
@@ -326,22 +306,25 @@ should not detect any changes on its next `plan`:
 
 ❌ DNS changes required
 
-> ⚠️ These negative impacts would potentially cause such significant disruption to users that it is recommended
-> that as part of this effort
-> [`prevent_destroy`](https://developer.hashicorp.com/terraform/language/meta-arguments/lifecycle#prevent_destroy)
-> lifecycle meta-arguments are added as necessary to avoid accidental resource destruction (at least by Terraform).
-
 ## Recommendation
 
 Preferred Approach is Option 1 (two deployments, with new WAF policies for all environments) because it ensures
 all environments remain consistent with one another, while allowing the manual upgrade in Azure Portal to reduce
 platform downtime.
 
-## Rollback considerations
+## Failure considerations
+
+### Shutter site
 
 It is not possible to downgrade Azure Front Door back to Standard from Premium. If something goes drastically wrong
-during the upgrade then it is recommended to manually create a new AFD profile in the same resource group as the
-failed AFD (along with the provisioned Premium WAF policy) while investigation into what went wrong takes place:
+during the upgrade it is recommended that the site be shuttered while investigation proceeds and a resolution is
+implemented. As such, any above implementations should not take place until
+[#227179](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_workitems/edit/227179) has been completed.
+
+### Manually provision temporary infrastructure
+
+Another option would be to manually create a new AFD profile in the same resource group as the failed AFD (along
+with the provisioned Premium WAF policy) while investigation into what went wrong takes place:
 
 ![New profile](./images/afd-premium-upgrade-008.png)
 
