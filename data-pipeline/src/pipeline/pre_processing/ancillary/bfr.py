@@ -85,6 +85,7 @@ def build_bfr_data(
         dtype=input_schemas.bfr_sofa_cols,
         usecols=input_schemas.bfr_sofa_cols.keys(),
     ).rename(columns={"TrustUPIN": "Trust UPIN", "Title": "Category"})
+    logger.info
     bfr_sofa = bfr_sofa[
         bfr_sofa["EFALineNo"].isin(
             [298, 430, 335, 380, 211, 220, 199, 200, 205, 210, 999]

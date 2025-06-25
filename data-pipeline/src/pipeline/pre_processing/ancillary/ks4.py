@@ -1,7 +1,9 @@
 import pandas as pd
 
 import pipeline.input_schemas as input_schemas
+from pipeline.log import setup_logger
 
+logger = setup_logger("fbit-data-pipeline")
 
 def prepare_ks4_data(ks4_path):
     if ks4_path is not None:
@@ -12,6 +14,7 @@ def prepare_ks4_data(ks4_path):
             na_values=["NP", "NE", "SUPP", "LOWCOV"],
             engine="calamine",
         )
+        logger.info(f"KS4 Data raw shape: {ks4.shape}")
         ks4["ATT8SCR"] = ks4["ATT8SCR"].astype(float).fillna(0)
         ks4["P8MEA"] = ks4["P8MEA"].astype(float).fillna(0)
 

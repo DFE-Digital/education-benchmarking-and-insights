@@ -6,6 +6,9 @@ import pandas as pd
 
 from pipeline import config, input_schemas, mappings, part_year
 from pipeline.pre_processing.ancillary import gias
+from pipeline.log import setup_logger
+
+logger = setup_logger("fbit-data-pipeline")
 
 simplefilter(action="ignore", category=pd.errors.PerformanceWarning)
 simplefilter(action="ignore", category=FutureWarning)
@@ -44,8 +47,9 @@ def prepare_aar_data(aar_path, year: int):
                 year, input_schemas.aar_academies_column_mappings["default"]
             ),
         )
-        .dropna(subset=[input_schemas.aar_academies_index_col])
     )
+    logger.info(f"AAR Data raw {year=} shape: {aar.shape}")
+    aar = aar.dropna(subset=[input_schemas.aar_academies_index_col])
 
     for column, eval_ in input_schemas.aar_academies_column_eval.get(
         year, input_schemas.aar_academies_column_eval["default"]

@@ -3,6 +3,9 @@ import pandas as pd
 import pipeline.config as config
 import pipeline.input_schemas as input_schemas
 import pipeline.mappings as mappings
+from pipeline.log import setup_logger
+
+logger = setup_logger("fbit-data-pipeline")
 
 
 def prepare_cdc_data(cdc_file_path, current_year):
@@ -13,6 +16,7 @@ def prepare_cdc_data(cdc_file_path, current_year):
         usecols=input_schemas.cdc.keys(),
         dtype=input_schemas.cdc,
     )
+    logger.info(f"CDC Data raw {current_year=} shape: {cdc.shape}")
 
     cdc["Total Internal Floor Area"] = cdc.groupby(by=["URN"])["GIFA"].sum()
     cdc["Proportion Area"] = cdc["GIFA"] / cdc["Total Internal Floor Area"]

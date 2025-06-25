@@ -80,7 +80,7 @@ def pre_process_cdc(run_type: str, year: int, run_id: str) -> pd.DataFrame:
     cdc_data = get_blob(raw_container, f"{run_type}/{year}/cdc.csv", encoding="utf-8")
 
     cdc = prepare_cdc_data(cdc_data, year)
-    logger.info(f"CDC Data shape: {cdc.shape}")
+    logger.info(f"CDC Data preprocessed {year=} shape: {cdc.shape}")
 
     write_blob("pre-processed", f"{run_type}/{run_id}/cdc.parquet", cdc.to_parquet())
 
@@ -102,7 +102,7 @@ def pre_process_census(run_type: str, year: int, run_id: str) -> pd.DataFrame:
         pupil_census_data,
         year,
     )
-    logger.info(f"Census Data shape: {census.shape}")
+    logger.info(f"Census Data preprocessed {year=} shape: {census.shape}")
 
     write_blob(
         "pre-processed",
@@ -119,7 +119,7 @@ def pre_process_sen(run_type: str, year: int, run_id: str) -> pd.DataFrame:
     sen_data = get_blob(raw_container, f"{run_type}/{year}/sen.csv", encoding="cp1252")
 
     sen = prepare_sen_data(sen_data)
-    logger.info(f"SEN Data shape: {sen.shape}")
+    logger.info(f"SEN Data preprocessed {year=} shape: {sen.shape}")
 
     write_blob("pre-processed", f"{run_type}/{run_id}/sen.parquet", sen.to_parquet())
 
@@ -132,7 +132,7 @@ def pre_process_ks2(run_type: str, year: int, run_id: str) -> pd.DataFrame:
     ks2_data = try_get_blob(raw_container, f"{run_type}/{year}/ks2.xlsx")
 
     ks2 = prepare_ks2_data(ks2_data)
-    logger.info(f"KS2 Data shape: {ks2.shape}")
+    logger.info(f"KS2 Data preprocessed {year=} shape: {ks2.shape}")
 
     write_blob("pre-processed", f"{run_type}/{run_id}/ks2.parquet", ks2.to_parquet())
 
@@ -145,7 +145,7 @@ def pre_process_ks4(run_type: str, year: int, run_id: str) -> pd.DataFrame:
     ks4_data = try_get_blob(raw_container, f"{run_type}/{year}/ks4.xlsx")
 
     ks4 = prepare_ks4_data(ks4_data)
-    logger.info(f"KS4 Data shape: {ks4.shape}")
+    logger.info(f"KS4 Data preprocessed {year=} shape: {ks4.shape}")
 
     write_blob("pre-processed", f"{run_type}/{run_id}/ks4.parquet", ks4.to_parquet())
 
@@ -172,7 +172,7 @@ def pre_process_academy_ar(
         logger.info(f"Processing Academy AR Data: {run_type}/{year}/aar.csv")
 
         aar = prepare_aar_data(academy_ar_data, year)
-        logger.info(f"AAR Data shape: {aar.shape}")
+        logger.info(f"AAR Data preprocessed {year=} shape: {aar.shape}")
 
         write_blob(
             "pre-processed",
@@ -196,7 +196,7 @@ def pre_process_schools(run_type: str, year: int, run_id: str) -> pd.DataFrame:
     )
 
     schools = prepare_schools_data(gias_data, gias_links_data, year)
-    logger.info(f"Schools Data shape: {schools.shape}")
+    logger.info(f"Schools Data preprocessed {year=} shape: {schools.shape}")
 
     write_blob(
         "pre-processed",
@@ -313,7 +313,7 @@ def pre_process_central_services(
         raw_container, f"{run_type}/{year}/aar_cs.csv", encoding="utf-8"
     ):
         central_services = prepare_central_services_data(academies_data, year)
-        logger.info(f"Central Services Data shape: {central_services.shape}")
+        logger.info(f"Central Services Data preprocessed {year=} shape: {central_services.shape}")
 
         write_blob(
             "pre-processed",
@@ -1041,7 +1041,7 @@ def compute_comparator_sets(
             get_blob("pre-processed", f"{run_type}/{run_id}/academies.parquet")
         )
     )
-    logger.info(f"Academies Data shape: {academies.shape}")
+    logger.info(f"Academies Data preprocessed shape: {academies.shape}")
     maintained = prepare_data(
         pd.read_parquet(
             get_blob(
@@ -1050,7 +1050,7 @@ def compute_comparator_sets(
             )
         )
     )
-    logger.info(f"Maintained Data shape: {maintained.shape}")
+    logger.info(f"Maintained Data preprocessed shape: {maintained.shape}")
 
     academies_comparators = compute_comparator_set_for(
         data_type="academy_comparators",
@@ -1059,7 +1059,7 @@ def compute_comparator_sets(
         run_id=run_id,
         target_urn=target_urn,
     )
-    logger.info(f"Academies Comparators shape: {academies_comparators.shape}")
+    logger.info(f"Academies Comparators preprocessed shape: {academies_comparators.shape}")
     maintained_comparators = compute_comparator_set_for(
         data_type="maintained_schools_comparators",
         run_type=run_type,
@@ -1067,7 +1067,7 @@ def compute_comparator_sets(
         run_id=run_id,
         target_urn=target_urn,
     )
-    logger.info(f"Maintained Comparators shape: {maintained_comparators.shape}")
+    logger.info(f"Maintained Comparators preprocessed shape: {maintained_comparators.shape}")
 
     write_blob(
         "comparator-sets",
@@ -1236,7 +1236,7 @@ def run_user_defined_rag(
             get_blob("pre-processed", f"{run_type}/{year}/all_schools.parquet")
         )
     )
-    logger.info(f"All Schools Data shape: {all_schools.shape}")
+    logger.info(f"All Schools Data preprocessed {year=} shape: {all_schools.shape}")
 
     st = time.time()
     logger.info(f"Computing user-defined RAG ({run_id}).")

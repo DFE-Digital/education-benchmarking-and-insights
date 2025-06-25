@@ -3,6 +3,9 @@ import pandas as pd
 import pipeline.config as config
 import pipeline.input_schemas as input_schemas
 import pipeline.mappings as mappings
+from pipeline.log import setup_logger
+
+logger = setup_logger("fbit-data-pipeline")
 
 
 def prepare_central_services_data(cs_path, year: int):
@@ -22,8 +25,10 @@ def prepare_central_services_data(cs_path, year: int):
                 year, input_schemas.aar_central_services_column_mappings["default"]
             ),
         )
-        .dropna(subset=[input_schemas.aar_central_services_index_col])
     )
+    logger.info(f"Central Services Data raw {year=} shape: {central_services_financial.shape}")
+    central_services_financial = central_services_financial.dropna(subset=[input_schemas.aar_central_services_index_col])
+
 
     for column, eval_ in input_schemas.aar_central_services_column_eval.get(
         year, input_schemas.aar_central_services_column_eval["default"]

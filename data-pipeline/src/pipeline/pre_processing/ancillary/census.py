@@ -2,7 +2,9 @@ import pandas as pd
 
 import pipeline.config as config
 import pipeline.input_schemas as input_schemas
+from pipeline.log import setup_logger
 
+logger = setup_logger("fbit-data-pipeline")
 
 # noinspection PyTypeChecker
 def prepare_census_data(
@@ -42,6 +44,10 @@ def prepare_census_data(
                 year, input_schemas.workforce_census_column_mappings["default"]
             ),
         )
+    )
+    logger.info(f"School workforce census raw {year=} shape: {school_workforce_census.shape}")
+    school_workforce_census = (
+        school_workforce_census
         .dropna(subset=[input_schemas.workforce_census_index_col])
         .drop_duplicates()
         .set_index(input_schemas.workforce_census_index_col)
@@ -70,6 +76,10 @@ def prepare_census_data(
                 year, input_schemas.pupil_census_column_mappings["default"]
             ),
         )
+    )
+    logger.info(f"School pupil census raw {year=} shape: {school_pupil_census.shape}")
+    school_pupil_census = (
+        school_pupil_census
         .dropna(subset=[input_schemas.pupil_census_index_col])
         .drop_duplicates()
         .set_index(input_schemas.pupil_census_index_col)

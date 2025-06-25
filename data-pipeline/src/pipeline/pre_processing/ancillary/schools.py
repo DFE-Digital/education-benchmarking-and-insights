@@ -2,6 +2,9 @@ import pandas as pd
 
 import pipeline.input_schemas as input_schemas
 import pipeline.mappings as mappings
+from pipeline.log import setup_logger
+
+logger = setup_logger("fbit-data-pipeline")
 
 
 def prepare_schools_data(base_data_path, links_data_path, year: int):
@@ -19,6 +22,7 @@ def prepare_schools_data(base_data_path, links_data_path, year: int):
         usecols=input_schemas.gias.get(year, input_schemas.gias["default"]).keys(),
         dtype=input_schemas.gias.get(year, input_schemas.gias["default"]),
     )
+    logger.info(f"GIAS Data raw {year=} shape: {gias.shape}")
 
     gias_links = pd.read_csv(
         links_data_path,
@@ -27,6 +31,7 @@ def prepare_schools_data(base_data_path, links_data_path, year: int):
         usecols=input_schemas.gias_links.keys(),
         dtype=input_schemas.gias_links,
     )
+    logger.info(f"GIAS links Data raw {year=} shape: {gias_links.shape}")
 
     # GIAS transformations
     gias["LA Establishment Number"] = (
