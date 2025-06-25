@@ -12,7 +12,7 @@ BFR data is submitted around August, and provides a forecasted return for academ
 
 AAR data is submitted in January when Academies complete their financial returns. This return covers a period of September to August of the respective submission year.
 
-The table below provides an overview of the 5 financial data files used within the FBIT service.
+The table below provides an overview of the financial data files used within the FBIT service.
 
 | raw file name | raw file description | source | update frequency | access instructions |
 |---------------|----------------------|--------|------------------|----------------------|
@@ -23,6 +23,7 @@ The table below provides an overview of the 5 financial data files used within t
 | maintained_schools_master_list.csv | Contains financial returns of maintained schools                                                                                                     | Sourced from downstream in the DfE (Provided by Julie Glenndenning) | Yearly (September as part of the CFR release)        | File is received from Julie Glenndenning via email at the time of the LA maintained schools' financial returns                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
 | plannedexpenditure_schools_other_education_la_unrounded_data.csv | S251 Expenditure (budget) values for the last 6 years | Sourced from gov.uk | Yearly (June or July) | Contained in the ZIP file obtained here: _[Schools, other education and community - unrounded data](https://explore-education-statistics.service.gov.uk/data-catalogue/data-set/031ae956-10e9-4908-8236-937bdebefb71)_ |
 | s251_alleducation_la_regional_national.csv | S251 Expenditure (outturn) values for the last 6 years | Sourced from gov.uk | Yearly (June or July) | Contained in the ZIP file obtained here: _[LA and school expenditure](https://explore-education-statistics.service.gov.uk/find-statistics/la-and-school-expenditure)_ |
+| dedicated-schools-grant_{YYYY}-to-{YYYY}_published-{DD-MM-YYYY}.ods | Dedicated schools grant funding allocations values for local authorities | Sourced from gov.uk | Yearly (June or July) | Open access from website [skills funding view latest funding](https://skillsfunding.service.gov.uk/view-latest-funding). File can be obtained from Start now > At national level > Dedicated schools grant then see Historic funding allocations for the required date range. |
 
 ## Non-Financial Data
 
