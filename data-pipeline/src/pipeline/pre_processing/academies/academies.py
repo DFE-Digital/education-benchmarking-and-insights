@@ -5,8 +5,8 @@ import numpy as np
 import pandas as pd
 
 from pipeline import config, input_schemas, mappings, part_year
-from pipeline.pre_processing.ancillary import gias
 from pipeline.log import setup_logger
+from pipeline.pre_processing.ancillary import gias
 
 logger = setup_logger("fbit-data-pipeline")
 
@@ -31,22 +31,19 @@ def prepare_aar_data(aar_path, year: int):
     :param year: year in question
     :return: processed AAR data
     """
-    aar = (
-        pd.read_csv(
-            aar_path,
-            encoding="utf-8",
-            usecols=input_schemas.aar_academies.get(
-                year, input_schemas.aar_academies["default"]
-            ).keys(),
-            dtype=input_schemas.aar_academies.get(
-                year, input_schemas.aar_academies["default"]
-            ),
-        )
-        .rename(
-            columns=input_schemas.aar_academies_column_mappings.get(
-                year, input_schemas.aar_academies_column_mappings["default"]
-            ),
-        )
+    aar = pd.read_csv(
+        aar_path,
+        encoding="utf-8",
+        usecols=input_schemas.aar_academies.get(
+            year, input_schemas.aar_academies["default"]
+        ).keys(),
+        dtype=input_schemas.aar_academies.get(
+            year, input_schemas.aar_academies["default"]
+        ),
+    ).rename(
+        columns=input_schemas.aar_academies_column_mappings.get(
+            year, input_schemas.aar_academies_column_mappings["default"]
+        ),
     )
     logger.info(f"AAR Data raw {year=} shape: {aar.shape}")
     aar = aar.dropna(subset=[input_schemas.aar_academies_index_col])

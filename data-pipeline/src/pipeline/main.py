@@ -313,7 +313,9 @@ def pre_process_central_services(
         raw_container, f"{run_type}/{year}/aar_cs.csv", encoding="utf-8"
     ):
         central_services = prepare_central_services_data(academies_data, year)
-        logger.info(f"Central Services Data preprocessed {year=} shape: {central_services.shape}")
+        logger.info(
+            f"Central Services Data preprocessed {year=} shape: {central_services.shape}"
+        )
 
         write_blob(
             "pre-processed",
@@ -1059,7 +1061,9 @@ def compute_comparator_sets(
         run_id=run_id,
         target_urn=target_urn,
     )
-    logger.info(f"Academies Comparators preprocessed shape: {academies_comparators.shape}")
+    logger.info(
+        f"Academies Comparators preprocessed shape: {academies_comparators.shape}"
+    )
     maintained_comparators = compute_comparator_set_for(
         data_type="maintained_schools_comparators",
         run_type=run_type,
@@ -1067,7 +1071,9 @@ def compute_comparator_sets(
         run_id=run_id,
         target_urn=target_urn,
     )
-    logger.info(f"Maintained Comparators preprocessed shape: {maintained_comparators.shape}")
+    logger.info(
+        f"Maintained Comparators preprocessed shape: {maintained_comparators.shape}"
+    )
 
     write_blob(
         "comparator-sets",
@@ -1315,7 +1321,7 @@ def handle_msg(
                     run_id=msg_payload["runId"],
                     target_urn=int(msg_payload["urn"]),
                     comparator_set=list(map(int, msg_payload["payload"]["set"])),
-                ) 
+                )
                 logger.info("User defined RAG pipeline run completed!")
 
             case MessageType.Custom:

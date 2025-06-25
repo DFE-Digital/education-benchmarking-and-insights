@@ -3,10 +3,7 @@ import os
 from contextlib import suppress
 from io import BytesIO, StringIO
 
-from azure.core.exceptions import (
-    ResourceExistsError,
-    ResourceNotFoundError
-)
+from azure.core.exceptions import ResourceExistsError, ResourceNotFoundError
 from azure.storage.blob import BlobServiceClient
 from azure.storage.queue import QueueClient, QueueServiceClient
 
@@ -60,7 +57,10 @@ def get_blob(container_name: str, blob_name: str, encoding=None) -> BytesIO | St
 
     return BytesIO(content) if encoding is None else StringIO(content)
 
-def try_get_blob(container_name: str, blob_name: str, encoding=None)-> None | BytesIO | StringIO:
+
+def try_get_blob(
+    container_name: str, blob_name: str, encoding=None
+) -> None | BytesIO | StringIO:
     """For some blobs, we want to return None if it doesn't exist."""
     try:
         io_blob_content = get_blob(container_name, blob_name, encoding)

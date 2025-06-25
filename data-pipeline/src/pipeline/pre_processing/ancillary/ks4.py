@@ -5,6 +5,7 @@ from pipeline.log import setup_logger
 
 logger = setup_logger("fbit-data-pipeline")
 
+
 def prepare_ks4_data(ks4_path):
     if ks4_path is not None:
         ks4 = pd.read_excel(

@@ -9,26 +9,26 @@ logger = setup_logger("fbit-data-pipeline")
 
 
 def prepare_central_services_data(cs_path, year: int):
-    central_services_financial = (
-        pd.read_csv(
-            cs_path,
-            encoding="utf-8",
-            usecols=input_schemas.aar_central_services.get(
-                year, input_schemas.aar_central_services["default"]
-            ).keys(),
-            dtype=input_schemas.aar_central_services.get(
-                year, input_schemas.aar_central_services["default"]
-            ),
-        )
-        .rename(
-            columns=input_schemas.aar_central_services_column_mappings.get(
-                year, input_schemas.aar_central_services_column_mappings["default"]
-            ),
-        )
+    central_services_financial = pd.read_csv(
+        cs_path,
+        encoding="utf-8",
+        usecols=input_schemas.aar_central_services.get(
+            year, input_schemas.aar_central_services["default"]
+        ).keys(),
+        dtype=input_schemas.aar_central_services.get(
+            year, input_schemas.aar_central_services["default"]
+        ),
+    ).rename(
+        columns=input_schemas.aar_central_services_column_mappings.get(
+            year, input_schemas.aar_central_services_column_mappings["default"]
+        ),
     )
-    logger.info(f"Central Services Data raw {year=} shape: {central_services_financial.shape}")
-    central_services_financial = central_services_financial.dropna(subset=[input_schemas.aar_central_services_index_col])
-
+    logger.info(
+        f"Central Services Data raw {year=} shape: {central_services_financial.shape}"
+    )
+    central_services_financial = central_services_financial.dropna(
+        subset=[input_schemas.aar_central_services_index_col]
+    )
 
     for column, eval_ in input_schemas.aar_central_services_column_eval.get(
         year, input_schemas.aar_central_services_column_eval["default"]
