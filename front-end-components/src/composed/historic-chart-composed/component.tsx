@@ -12,6 +12,7 @@ import { ResolvedStat } from "src/components/charts/resolved-stat";
 import { ChartDataSeries } from "src/components/charts/types";
 import { ChartDimensionContext, useChartModeContext } from "src/contexts";
 import { ShareContent } from "src/components/share-content";
+import { DataWarning } from "src/components/charts/data-warning";
 
 export function HistoricChart<TData extends ChartDataSeries>({
   axisLabel,
@@ -36,6 +37,18 @@ export function HistoricChart<TData extends ChartDataSeries>({
       setImageCopied(false);
     }, 2000);
   };
+
+  const hasOwnData = data.some((d) => !!d[valueField]);
+  if (!hasOwnData) {
+    return (
+      <div className="govuk-grid-row govuk-!-margin-bottom-5">
+        <div className="govuk-grid-column-full">{children}</div>
+        <div className="govuk-grid-column-full">
+          <DataWarning>No data available for this category.</DataWarning>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <>
