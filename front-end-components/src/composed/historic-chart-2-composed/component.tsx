@@ -16,6 +16,7 @@ import { HistoryBase } from "src/services";
 import { HistoricDataTooltip } from "src/components/charts/historic-data-tooltip";
 import { ResolvedStat } from "src/components/charts/resolved-stat";
 import { ShareContent } from "src/components/share-content";
+import { DataWarning } from "src/components/charts/data-warning";
 
 export function HistoricChart2<TData extends HistoryBase>({
   axisLabel,
@@ -109,6 +110,18 @@ export function HistoricChart2<TData extends HistoryBase>({
       setImageCopied(false);
     }, 2000);
   };
+
+  const hasOwnData = mergedData.some((d) => !!d.school);
+  if (!hasOwnData) {
+    return (
+      <div className="govuk-grid-row govuk-!-margin-bottom-5">
+        <div className="govuk-grid-column-full">{children}</div>
+        <div className="govuk-grid-column-full">
+          <DataWarning>No data available for this category.</DataWarning>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <>
