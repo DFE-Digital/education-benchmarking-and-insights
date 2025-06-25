@@ -2,6 +2,9 @@ import pandas as pd
 from pandas._typing import FilePath, ReadCsvBuffer
 
 from pipeline.input_schemas import high_exec_pay, high_exec_pay_column_mappings
+from pipeline.log import setup_logger
+
+logger = setup_logger("fbit-data-pipeline")
 
 
 def build_high_exec_pay_data(
@@ -25,6 +28,7 @@ def build_high_exec_pay_data(
         usecols=relevant_high_exec_pay_dtypes.keys(),
         dtype=relevant_high_exec_pay_dtypes,
     )
+    logger.info(f"High exec pay raw {year=} shape: {high_exec_pay_data_raw.shape}")
 
     high_exec_pay_data = high_exec_pay_data_raw.rename(
         columns=relevant_high_exec_pay_column_mappings
