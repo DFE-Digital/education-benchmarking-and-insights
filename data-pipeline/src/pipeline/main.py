@@ -8,7 +8,6 @@ import pandas as pd
 import tornado.iostream
 from azure.core.exceptions import ResourceNotFoundError
 from azure.storage.queue import QueueClient, QueueMessage
-from dask.distributed import Client
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -794,7 +793,6 @@ def pre_process_data(
 
     Note: `run_type` is _always_ "default".
 
-    :param worker_client: Dask client
     :param run_id: unique identifier (used for write target)
     :param aar_year: Academy financial year/source
     :param cfr_year: Maintained School financial year/source
@@ -1248,7 +1246,6 @@ def handle_msg(
     taken place for the year in question, failing if that does not hold
     true.
 
-    :param worker_client: Dask client
     :param msg: incoming message, triggering this process
     :param worker_queue: incoming message queue (for deletion)
     :param complete_queue: outcoming message queue (for completion)

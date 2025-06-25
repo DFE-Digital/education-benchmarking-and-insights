@@ -1,10 +1,11 @@
+import logging
+
 import pandas as pd
 
 import pipeline.input_schemas as input_schemas
 import pipeline.mappings as mappings
-from pipeline.log import setup_logger
 
-logger = getLogger("fbit-data-pipeline")
+logger = logging.getLogger("fbit-data-pipeline")
 
 
 def prepare_schools_data(base_data_path, links_data_path, year: int):
