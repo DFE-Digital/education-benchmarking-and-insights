@@ -4,7 +4,13 @@ Date: 2025-06-25
 
 ## Status
 
-Pending Decision
+Accepted
+
+Related work items:
+
+- [266317 - FBIT AFD/WAF Upgrade - Provision new WAF policy](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_workitems/edit/266317)
+- [266318 - FBIT AFD/WAF Upgrade - Manually upgrade infrastructure](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_workitems/edit/266318)
+- [266319 - FBIT AFD/WAF Upgrade - Remove orphaned WAF policy](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_workitems/edit/266319)
 
 ## Context
 
