@@ -5,7 +5,6 @@ import numpy as np
 import pandas as pd
 
 from pipeline import config, input_schemas, mappings, part_year
-from pipeline.log import setup_logger
 from pipeline.pre_processing.ancillary import gias
 
 logger = logging.getLogger("fbit-data-pipeline")
