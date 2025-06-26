@@ -50,6 +50,13 @@ public class HighNeedsHistoricDataPage(IPage page)
     {
         return page.Locator($"#{elementId}").Locator(".share-button--save");
     }
+    private ILocator WarningMessages(string elementId)
+    {
+        return page.Locator($"#{elementId}").Locator(Selectors.GovWarning, new LocatorLocatorOptions
+        {
+            HasText = "No data available for this category."
+        });
+    }
 
     public async Task IsDisplayed(HighNeedsHistoryTabs? tab = null)
     {
@@ -140,6 +147,19 @@ public class HighNeedsHistoricDataPage(IPage page)
         };
 
         Assert.Equal(count, await charts.Count());
+    }
+
+    public async Task HasWarningCount(HighNeedsHistoryTabs tab, int count)
+    {
+        var elementId = tab switch
+        {
+            HighNeedsHistoryTabs.Section251 => "section-251",
+            HighNeedsHistoryTabs.Send2 => "send-2",
+            _ => throw new ArgumentOutOfRangeException(nameof(tab))
+        };
+
+        var warnings = await WarningMessages(elementId).AllAsync();
+        Assert.Equal(count, warnings.Count);
     }
 
     public async Task AreTablesShown(HighNeedsHistoryTabs tab)
@@ -361,22 +381,5 @@ public class HighNeedsHistoricDataPage(IPage page)
         {
             await element.ShouldBeVisible();
         }
-    }
-
-    public async Task AreSaveAsImageButtonsPresent(HighNeedsHistoryTabs tab, int expected)
-    {
-        var elementId = tab switch
-        {
-            HighNeedsHistoryTabs.Section251 => "section-251",
-            HighNeedsHistoryTabs.Send2 => "send-2",
-            _ => throw new ArgumentOutOfRangeException(nameof(tab))
-        };
-
-        var buttons = await SaveAsImageButtons(elementId).AllAsync();
-
-        var firstButton = buttons[0];
-        Assert.NotNull(firstButton);
-        await firstButton.ShouldBeVisible();
-        Assert.Equal(expected, buttons.Count);
     }
 }

@@ -39,7 +39,7 @@
         Given I am on 'section 251' high needs history page for local authority with code '201'
         Then the expected categories should be displayed on 'section 251':
           | Category                                                                                                                                                                                                          |
-          | High needs amount per head of 2 to 18 population                                                                                                                                                                |
+          | High needs amount per head of 2 to 18 population                                                                                                                                                                  |
           | High needs amount per head of 2 to 18 population: place funding split by phase (for mainstream) and type of institution (for specialist provision)                                                                |
           | High needs amount per head of 2 to 18 population: top up funding (maintained schools, academies, free schools and colleges) split by phase (for mainstream) and type of institution (for specialist provision)    |
           | High needs amount per head of 2 to 18 population: top up funding (non-maintained schools and independent schools and colleges) split by phase (for mainstream) and type of institution (for specialist provision) |
@@ -49,11 +49,12 @@
         Given I am on '<tab>' high needs history page for local authority with code '201'
         And all sections are shown on '<tab>'
         Then there should be '<charts>' charts displayed on '<tab>'
+        And there should be '<warnings>' warnings displayed on '<tab>'
 
         Examples:
-          | tab         | charts |
-          | section 251 | 25     |
-          | send 2      | 8      |
+          | tab         | charts | warnings |
+          | section 251 | 25     | 0        |
+          | send 2      | 7      | 1        |
 
     @HighNeedsFlagEnabled
     Scenario Outline: Change all charts to table view
