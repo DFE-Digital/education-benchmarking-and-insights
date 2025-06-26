@@ -52,7 +52,8 @@ def get_blob(container_name: str, blob_name: str, encoding=None) -> BytesIO | St
     properties = blob_client.get_blob_properties()
     size = properties.size
     name = properties.name
-    md5_hash = properties.content_settings.content_md5.hex()
+    content_md5 = properties.content_settings.content_md5
+    md5_hash = content_md5.hex() if content_md5 else "None"
     logger.info(f"Downloaded blob: {name=} {size=} {md5_hash=}")
 
     return BytesIO(content) if encoding is None else StringIO(content)
