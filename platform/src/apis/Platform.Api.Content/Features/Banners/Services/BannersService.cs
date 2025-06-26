@@ -9,16 +9,16 @@ namespace Platform.Api.Content.Features.Banners.Services;
 
 public interface IBannersService
 {
-    Task<Banner?> GetBannerOrDefault(string bannerType, CancellationToken cancellationToken = default);
+    Task<Banner?> GetBannerOrDefault(string target, CancellationToken cancellationToken = default);
 }
 
 [ExcludeFromCodeCoverage]
 public class BannersService(IDatabaseFactory dbFactory) : IBannersService
 {
-    public async Task<Banner?> GetBannerOrDefault(string bannerType, CancellationToken cancellationToken = default)
+    public async Task<Banner?> GetBannerOrDefault(string target, CancellationToken cancellationToken = default)
     {
-        var query = new BannersQuery()
-            .WhereValueEqual(bannerType)
+        var query = new ActiveBannersQuery()
+            .WhereValueEqual(target)
             .OrderBy("ValidFrom DESC");
         using var conn = await dbFactory.GetConnection();
 

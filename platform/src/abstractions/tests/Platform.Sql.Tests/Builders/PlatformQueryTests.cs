@@ -414,6 +414,41 @@ public class PlatformQueryTests
         Assert.Equal(expectedSql, builder.QueryTemplate.RawSql);
     }
 
+    [Fact]
+    public void ShouldAddNameEqualParameter()
+    {
+        const string expectedParam = "Name";
+        const string expectedValue = "name";
+        var expectedSql = BuildExpectedQuery("WHERE Name = @Name");
+
+        var builder = new MockPlatformQuery().WhereNameEqual(expectedValue);
+        var parameters = builder.QueryTemplate.Parameters?.GetTemplateParameters(expectedParam);
+
+        Assert.NotNull(parameters);
+        Assert.Single(parameters);
+        Assert.Contains(expectedParam, parameters.Keys);
+        Assert.Equal(expectedValue, parameters[expectedParam]);
+        Assert.Equal(expectedSql, builder.QueryTemplate.RawSql);
+    }
+
+    [Fact]
+    public void ShouldAddValueEqualParameter()
+    {
+        const string expectedParam = "Value";
+        const string expectedValue = "value";
+        var expectedSql = BuildExpectedQuery("WHERE Value = @Value");
+
+        var builder = new MockPlatformQuery().WhereValueEqual(expectedValue);
+        var parameters = builder.QueryTemplate.Parameters?.GetTemplateParameters(expectedParam);
+
+        Assert.NotNull(parameters);
+        Assert.Single(parameters);
+        Assert.Contains(expectedParam, parameters.Keys);
+        Assert.Equal(expectedValue, parameters[expectedParam]);
+        Assert.Equal(expectedSql, builder.QueryTemplate.RawSql);
+    }
+
+
     private static string BuildExpectedQuery(string wherePart, string? orderByPart = null) =>
         $"{MockPlatformQuery.Sql
             .Replace("/**where**/", wherePart)
