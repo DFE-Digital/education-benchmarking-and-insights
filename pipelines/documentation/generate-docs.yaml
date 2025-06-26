@@ -2,7 +2,17 @@ parameters:
   folder: ''
 
 steps:
-  - bash: ./tools/build-docs.sh ${{ parameters.folder }} ${{ parameters.folder }}.pdf build --strip-comments --toc -f markdown -t pdf --pdf-engine=pdflatex --wrap=preserve --data-dir=$(DataDir) --template=pdf-template
+  - bash: |
+      ./tools/build-docs.sh ${{ parameters.folder }} ${{ parameters.folder }}.pdf build --strip-comments --toc -f markdown -t pdf --pdf-engine=pdflatex --wrap=preserve --data-dir=$(DataDir) --template=pdf-template
+      
+      output="./build/${{ parameters.folder }}.pdf"
+      if [ ! -f "$output" ]; then
+        echo "Documentation PDF not generated for folder: ${{ parameters.folder }}"
+        echo "Expected at: $output"
+        exit 1
+      else
+        echo "Documentation PDF generated for folder: ${{ parameters.folder }}"
+      fi
     displayName: 'Generate ${{ parameters.folder }} docs'
     workingDirectory: $(WorkingDir)
 
