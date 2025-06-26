@@ -4,6 +4,7 @@ using System.Text.Json;
 using Microsoft.ApplicationInsights.DependencyCollector;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Extensions.DependencyInjection;
+using Platform.Api.Content.Features.Banners;
 using Platform.Api.Content.Features.CommercialResources;
 using Platform.Api.Content.Features.Files;
 using Platform.Api.Content.Features.Years;
@@ -60,17 +61,12 @@ internal static class Services
         return serviceCollection;
     }
 
-    private static IServiceCollection AddPlatformServices(this IServiceCollection serviceCollection)
-    {
-        return serviceCollection
-            .AddPlatformSql();
-    }
+    private static IServiceCollection AddPlatformServices(this IServiceCollection serviceCollection) => serviceCollection
+        .AddPlatformSql();
 
-    private static IServiceCollection AddFeatures(this IServiceCollection serviceCollection)
-    {
-        return serviceCollection
-            .AddCommercialResourcesFeature()
-            .AddFilesFeature()
-            .AddYearsFeature();
-    }
+    private static IServiceCollection AddFeatures(this IServiceCollection serviceCollection) => serviceCollection
+        .AddBannersFeature()
+        .AddCommercialResourcesFeature()
+        .AddFilesFeature()
+        .AddYearsFeature();
 }
