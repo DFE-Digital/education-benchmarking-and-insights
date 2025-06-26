@@ -70,6 +70,13 @@ public class HighNeedsHistoricDataSteps(PageDriver driver)
         await _highNeedsHistoricDataPage.HasChartCount(TabNamesFromFriendlyNames(tab), int.Parse(count));
     }
 
+    [Then("there should be '(.*)' warnings displayed on '(.*)'")]
+    public async Task ThenThereShouldBeWarningsDisplayedOn(string count, string tab)
+    {
+        Assert.NotNull(_highNeedsHistoricDataPage);
+        await _highNeedsHistoricDataPage.HasWarningCount(TabNamesFromFriendlyNames(tab), int.Parse(count));
+    }
+
     [Then("are showing table view on '(.*)' tab")]
     public async Task ThenAreShowingTableViewOnTab(string tab)
     {

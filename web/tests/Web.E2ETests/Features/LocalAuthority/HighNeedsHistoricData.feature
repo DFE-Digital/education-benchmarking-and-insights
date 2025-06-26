@@ -49,11 +49,12 @@
         Given I am on '<tab>' high needs history page for local authority with code '201'
         And all sections are shown on '<tab>'
         Then there should be '<charts>' charts displayed on '<tab>'
+        And there should be '<warnings>' warnings displayed on '<tab>'
 
         Examples:
-          | tab         | charts |
-          | section 251 | 25     |
-          | send 2      | 8      |
+          | tab         | charts | warnings |
+          | section 251 | 25     | 0        |
+          | send 2      | 7      | 1        |
 
     @HighNeedsFlagEnabled
     Scenario Outline: Change all charts to table view
