@@ -47,9 +47,9 @@ Use system-assigned or user-assigned Managed Identities for authentication, rely
 
 - **DfE constraint:** Only a limited, centrally controlled set of roles can be assigned by default
 - **Manual role assignment is possible but:**
-   - Operationally brittle
-   - Difficult to scale
-   - Incompatible with automated deployments
+  - Operationally brittle
+  - Difficult to scale
+  - Incompatible with automated deployments
 - Risk of delayed deployments due to role approval bottlenecks
 - Requires applications to be tightly coupled to Azure RBAC/AD model
 
