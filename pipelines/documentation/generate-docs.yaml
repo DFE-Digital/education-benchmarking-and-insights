@@ -9,3 +9,14 @@ steps:
   - bash: cp -a build/. pub
     displayName: 'Copy ${{ parameters.folder }} output'
     workingDirectory: $(WorkingDir)
+
+  - bash: |
+      output="./pub/${{ parameters.folder }}.pdf"
+      if [ ! -f "$output" ]; then
+        echo "Documentation PDF not generated for folder: ${{ parameters.folder }}"
+        echo "Expected at: $output"
+        exit 1
+      else
+        echo "Found PDF output at: $output"
+    displayName: 'Verify ${{ parameters.folder }} output'
+    workingDirectory: $(WorkingDir)
