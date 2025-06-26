@@ -4,13 +4,17 @@ There are two main data types used in the Financial Benchmarking and Insights To
 
 ## Financial Data
 
-FBIT performs three data releases each submission year. These are the Consistent Financial Reporting (CFR) for Local Authority Maintained Schools, Budget Forecast Returns (BFR)S for Academy Trusts, and Academy Account Returns (AAR) also for Academy Trusts.
+FBIT performs four data releases each submission year. These are the Consistent Financial Reporting (CFR) for Local Authority Maintained Schools, Budget Forecast Returns (BFR)S for Academy Trusts, Academy Account Returns (AAR) also for Academy Trusts, and Local Authority High Needs using Section 251 (S251) expenditure and budget values and Dedicated schools grant funding (DSG) values.
 
 CFR data is typically received in September when Local Authorities require schools to complete their financial returns. These returns cover the period of April to March of the respective submission year.
 
 BFR data is submitted around August, and provides a forecasted return for academies for the following 3 years.
 
 AAR data is submitted in January when Academies complete their financial returns. This return covers a period of September to August of the respective submission year.
+
+S251 data is received in June or July and contains values for the for the last 6 years.
+
+DSG data is published in March at the period end for the given financial year. There will be two March publications for any given financial year; one before the financial year starts, and one just before the year ends.
 
 The table below provides an overview of the financial data files used within the FBIT service.
 
