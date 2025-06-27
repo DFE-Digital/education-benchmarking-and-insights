@@ -52,6 +52,7 @@ from pipeline.pre_processing import (
     prepare_ks4_data,
     prepare_schools_data,
     prepare_sen_data,
+    total_per_unit,
     update_custom_data,
 )
 from pipeline.rag import compute_rag, compute_user_defined_rag
@@ -854,6 +855,7 @@ def pre_process_data(
             academies_ilr_data,
             academies_data_ref[9],
         ).result()
+        academies = total_per_unit.calculate_total_per_unit_costs(academies)
 
     if (
         maintained_ilr_data := worker_client.submit(
@@ -870,6 +872,9 @@ def pre_process_data(
             maintained_ilr_data,
             maintained_data_ref[9],
         ).result()
+        maintained_schools = total_per_unit.calculate_total_per_unit_costs(
+            maintained_schools
+        )
 
     trusts = worker_client.submit(
         pre_process_trust_data,

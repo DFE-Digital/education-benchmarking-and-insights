@@ -116,6 +116,7 @@ def update_custom_data(
     return existing_data
 
 
+# TODO: this could be replaced by `pipeline.pre_processing.total_per_unit`.
 def _post_process_custom(
     target_data: pd.DataFrame,
 ) -> pd.DataFrame:
