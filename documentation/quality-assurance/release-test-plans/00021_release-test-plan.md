@@ -96,6 +96,7 @@ It also includes some manual tasks related to SFB decommissioning due to restric
 - [263444 - Remove redundant SFB decommissioning changes from WAF](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_workitems/edit/263444)
 - [261891 - Ingest and Display High Exec Pay data](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_workitems/edit/261891)
 - [260084 - 6th form Data Source Update](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_workitems/edit/260084)
+- [217962 - Display informative message when historic data is missing](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_workitems/edit/217962)
 
 ## Appendix
 
