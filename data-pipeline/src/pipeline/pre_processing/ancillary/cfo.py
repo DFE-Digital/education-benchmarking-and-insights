@@ -1,6 +1,10 @@
+import logging
+
 import pandas as pd
 
 from pipeline import input_schemas
+
+logger = logging.getLogger("fbit-data-pipeline")
 
 
 def build_cfo_data(cfo_data_path, year: int) -> pd.DataFrame:
@@ -23,6 +27,7 @@ def build_cfo_data(cfo_data_path, year: int) -> pd.DataFrame:
             year, input_schemas.cfo_column_mappings["default"]
         ),
     )
+    logger.info(f"CFO raw {year=} data shape: {cfo_data.shape}")
 
     for column, eval_ in input_schemas.cfo_column_eval.get(
         year, input_schemas.cfo_column_eval["default"]

@@ -1,7 +1,11 @@
+import logging
+
 import pandas as pd
 
 import pipeline.config as config
 import pipeline.input_schemas as input_schemas
+
+logger = logging.getLogger("fbit-data-pipeline")
 
 
 # noinspection PyTypeChecker
@@ -21,28 +25,32 @@ def prepare_census_data(
     :param pupil_census_path: readable source for pupil census
     :param year: financial year in question
     """
+    school_workforce_census = pd.read_excel(
+        workforce_census_path,
+        header=input_schemas.workforce_census_header_row.get(
+            year, input_schemas.workforce_census_header_row["default"]
+        ),
+        usecols=input_schemas.workforce_census.get(
+            year, input_schemas.workforce_census["default"]
+        ).keys(),
+        dtype=input_schemas.workforce_census.get(
+            year, input_schemas.workforce_census["default"]
+        ),
+        na_values=["x", "u", "c", "z", ":"],
+        keep_default_na=True,
+        engine="calamine",
+    ).rename(
+        columns=input_schemas.workforce_census_column_mappings.get(
+            year, input_schemas.workforce_census_column_mappings["default"]
+        ),
+    )
+    logger.info(
+        f"School workforce census raw {year=} shape: {school_workforce_census.shape}"
+    )
     school_workforce_census = (
-        pd.read_excel(
-            workforce_census_path,
-            header=input_schemas.workforce_census_header_row.get(
-                year, input_schemas.workforce_census_header_row["default"]
-            ),
-            usecols=input_schemas.workforce_census.get(
-                year, input_schemas.workforce_census["default"]
-            ).keys(),
-            dtype=input_schemas.workforce_census.get(
-                year, input_schemas.workforce_census["default"]
-            ),
-            na_values=["x", "u", "c", "z", ":"],
-            keep_default_na=True,
-            engine="calamine",
+        school_workforce_census.dropna(
+            subset=[input_schemas.workforce_census_index_col]
         )
-        .rename(
-            columns=input_schemas.workforce_census_column_mappings.get(
-                year, input_schemas.workforce_census_column_mappings["default"]
-            ),
-        )
-        .dropna(subset=[input_schemas.workforce_census_index_col])
         .drop_duplicates()
         .set_index(input_schemas.workforce_census_index_col)
     )
@@ -52,25 +60,25 @@ def prepare_census_data(
     ).items():
         school_workforce_census[column] = school_workforce_census.eval(eval_)
 
+    school_pupil_census = pd.read_csv(
+        pupil_census_path,
+        encoding="cp1252",
+        usecols=input_schemas.pupil_census.get(
+            year, input_schemas.pupil_census["default"]
+        ).keys(),
+        dtype=input_schemas.pupil_census.get(
+            year, input_schemas.pupil_census["default"]
+        ),
+        na_values=["x", "u", "c", "z"],
+        keep_default_na=True,
+    ).rename(
+        columns=input_schemas.pupil_census_column_mappings.get(
+            year, input_schemas.pupil_census_column_mappings["default"]
+        ),
+    )
+    logger.info(f"School pupil census raw {year=} shape: {school_pupil_census.shape}")
     school_pupil_census = (
-        pd.read_csv(
-            pupil_census_path,
-            encoding="cp1252",
-            usecols=input_schemas.pupil_census.get(
-                year, input_schemas.pupil_census["default"]
-            ).keys(),
-            dtype=input_schemas.pupil_census.get(
-                year, input_schemas.pupil_census["default"]
-            ),
-            na_values=["x", "u", "c", "z"],
-            keep_default_na=True,
-        )
-        .rename(
-            columns=input_schemas.pupil_census_column_mappings.get(
-                year, input_schemas.pupil_census_column_mappings["default"]
-            ),
-        )
-        .dropna(subset=[input_schemas.pupil_census_index_col])
+        school_pupil_census.dropna(subset=[input_schemas.pupil_census_index_col])
         .drop_duplicates()
         .set_index(input_schemas.pupil_census_index_col)
     )

@@ -37,6 +37,7 @@ def _build_ilr_fsm_data(
         ),
         engine="calamine",
     )
+    logger.info(f"ILR FSM raw {year=} shape: {ilr_fsm.shape}")
     # fix the multi-index columns.
     ilr_fsm.columns = [
         b if not b.startswith("Unnamed") else a for a, b in ilr_fsm.columns
@@ -90,6 +91,7 @@ def _build_ilr_ehcp_data(
         ),
         engine="calamine",
     )
+    logger.info(f"ILR EHCP raw {year=} shape: {ilr_ehcp.shape}")
     # fix the multi-index columns.
     ilr_ehcp.columns = [
         b if not b.startswith("Unnamed") else a for a, b in ilr_ehcp.columns
