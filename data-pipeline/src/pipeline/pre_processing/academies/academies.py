@@ -361,6 +361,8 @@ def build_academy_data(
             )
         ]
 
+        # TODO: basis data should not be pro-rata (however, this won't manifest
+        # as we don't generate RAG ratings for part-year Academies.)
         basis_data = academies[
             (
                 "Number of pupils_pro_rata"
