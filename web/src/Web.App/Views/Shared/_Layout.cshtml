@@ -90,6 +90,7 @@
 
 <main class="govuk-main-wrapper" id="main-content" role="main">
     <div class="govuk-width-container">
+        @await Component.InvokeAsync("Banner")
         @RenderBody()
     </div>
 </main>

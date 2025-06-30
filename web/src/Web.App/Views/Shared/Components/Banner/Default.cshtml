@@ -1,0 +1,25 @@
+﻿@using Westwind.AspNetCore.Markdown
+@model Web.App.ViewModels.Components.BannerViewModel
+
+@if (Model.Heading == null)
+{
+    return;
+}
+
+<div class="govuk-notification-banner" role="region" aria-labelledby="govuk-notification-banner-title"
+     data-module="govuk-notification-banner">
+    <div class="govuk-notification-banner__header">
+        <h2 class="govuk-notification-banner__title markdown" id="govuk-notification-banner-title">
+            @(Model.Title ?? "Important")
+        </h2>
+    </div>
+    <div class="govuk-notification-banner__content markdown">
+        <div class="govuk-notification-banner__heading">
+            @Markdown.ParseHtmlString(Model.Heading)
+        </div>
+        @if (Model.Body != null)
+        {
+            @Markdown.ParseHtmlString(Model.Body)
+        }
+    </div>
+</div>
