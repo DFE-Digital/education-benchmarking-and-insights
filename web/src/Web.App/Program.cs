@@ -48,6 +48,7 @@ builder.Services
     .AddScoped<ILocalAuthorityComparatorSetService, LocalAuthorityComparatorSetService>()
     .AddScoped<ISearchService, SearchService>()
     .AddScoped<ICommercialResourcesService, CommercialResourcesService>()
+    .AddScoped<IBannerService, BannerService>()
     .AddValidation()
     .AddActionResults();
 
@@ -159,7 +160,8 @@ app
     .UseRouting()
     .UseAuthorization()
     .UseSession()
-    .UseMarkdown();
+    .UseMarkdown()
+    .UseServiceBanner();
 
 app.MapHealthChecks(
     "/health",

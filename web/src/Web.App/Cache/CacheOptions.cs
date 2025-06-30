@@ -4,6 +4,7 @@ public record CacheOptions
 {
     public CacheSettings ReturnYears { get; set; } = new();
     public CacheSettings CommercialResources { get; set; } = new();
+    public CacheSettings Banner { get; set; } = new();
 }
 
 public record CacheSettings

@@ -817,3 +817,19 @@ table#current-comparators-la {
     }
   }
 }
+
+.govuk-notification-banner {
+  .markdown {
+    .govuk-notification-banner__heading > p {
+      font-size: inherit;
+      line-height: inherit;
+      font-weight: inherit;
+      margin: inherit;
+      padding: inherit;
+
+      &:not(:first-child) {
+        margin-top: govuk-spacing(4);
+      }
+    }
+  }
+}

@@ -122,6 +122,7 @@ public static class ServiceCollectionExtensions
         const string section = "Apis:Content";
 
         services.AddHttpClient<IHealthApi, HealthApi>(section).Configure<HealthApi>(section);
+        services.AddHttpClient<IBannerApi, BannerApi>().Configure<BannerApi>(section);
         services.AddHttpClient<ICommercialResourcesApi, CommercialResourcesApi>().Configure<CommercialResourcesApi>(section);
         services.AddHttpClient<IFilesApi, FilesApi>().Configure<FilesApi>(section);
         services.AddHttpClient<IYearsApi, YearsApi>().Configure<YearsApi>(section);

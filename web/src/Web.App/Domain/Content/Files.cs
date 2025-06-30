@@ -1,4 +1,4 @@
-﻿namespace Web.App.Domain;
+﻿namespace Web.App.Domain.Content;
 
 public record File
 {

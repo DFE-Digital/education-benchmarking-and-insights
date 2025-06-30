@@ -1,4 +1,4 @@
-namespace Web.App.Domain;
+namespace Web.App.Domain.Content;
 
 public record CommercialResourceCategorised : CommercialResourceLink
 {
@@ -16,4 +16,3 @@ public record CommercialResourceLink
     public string? Title { get; set; }
     public string? Url { get; set; }
 }
-
