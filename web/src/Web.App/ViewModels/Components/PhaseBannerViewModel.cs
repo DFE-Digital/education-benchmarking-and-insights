@@ -1,6 +1,6 @@
 ﻿namespace Web.App.ViewModels.Components;
 
-public class BannerViewModel
+public class PhaseBannerViewModel
 {
     public string? Organisation { get; set; }
 }
