@@ -26,6 +26,7 @@ public class LocalAuthorityController(
 
     [HttpGet]
     [LocalAuthorityRequestTelemetry(TrackedRequestFeature.Home)]
+    [ServiceBanner(BannerTargets.LocalAuthorityHome)]
     public async Task<IActionResult> Index(string code)
     {
         using (logger.BeginScope(new { code }))
@@ -72,9 +73,15 @@ public class LocalAuthorityController(
         }
     }
 
-    private async Task<LocalAuthority> LocalAuthority(string code) => await establishmentApi
-        .GetLocalAuthority(code)
-        .GetResultOrThrow<LocalAuthority>();
+    private async Task<LocalAuthority> LocalAuthority(string code)
+    {
+        return await establishmentApi
+            .GetLocalAuthority(code)
+            .GetResultOrThrow<LocalAuthority>();
+    }
 
-    private BacklinkInfo HomeLink(string code) => new(Url.Action("Index", new { code }));
+    private BacklinkInfo HomeLink(string code)
+    {
+        return new BacklinkInfo(Url.Action("Index", new { code }));
+    }
 }

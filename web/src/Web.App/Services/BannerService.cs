@@ -14,15 +14,16 @@ public interface IBannerService
 
 public class BannerService(IBannerApi bannerApi, IMemoryCache memoryCache, IOptions<CacheOptions> options) : IBannerService
 {
-    private const string CacheKey = "banner";
+    private const string CacheKeyFormat = "Banner__{0}";
     private readonly int _absolute = options.Value.Banner.AbsoluteExpiration ?? 60;
     private readonly int _sliding = options.Value.Banner.SlidingExpiration ?? 10;
 
     public async Task<Banner?> GetBannerOrDefault(string target)
     {
-        if (memoryCache.TryGetValue(CacheKey, out var cached) && cached is Banner banner)
+        var cacheKey = string.Format(CacheKeyFormat, target);
+        if (memoryCache.TryGetValue(cacheKey, out var cached))
         {
-            return banner;
+            return cached as Banner;
         }
 
         var data = await bannerApi
@@ -34,7 +35,7 @@ public class BannerService(IBannerApi bannerApi, IMemoryCache memoryCache, IOpti
             AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(_absolute)
         };
 
-        memoryCache.Set(CacheKey, data, options);
+        memoryCache.Set(cacheKey, data, options);
         return data;
     }
 }
