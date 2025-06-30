@@ -29,6 +29,7 @@ public class SchoolController(
 {
     [HttpGet]
     [SchoolRequestTelemetry(TrackedRequestFeature.Home)]
+    [ServiceBanner(BannerTargets.SchoolHomePrefix)]
     public async Task<IActionResult> Index(
         string urn,
         [FromQuery(Name = "comparator-generated")] bool? comparatorGenerated,
@@ -44,6 +45,10 @@ public class SchoolController(
                 ViewData[ViewDataKeys.BreadcrumbNode] = BreadcrumbNodes.SchoolHome(urn);
 
                 var school = await School(urn);
+
+                // the following entry is required when used with `ServiceBanner(BannerTargets.SchoolHomePrefix)]`
+                ViewData[ViewDataKeys.IsPartOfTrust] = school.IsPartOfTrust;
+
                 var isNonLeadFederation = !string.IsNullOrEmpty(school.FederationLeadURN) && school.FederationLeadURN != urn;
 
                 if (isNonLeadFederation)

@@ -28,6 +28,7 @@ public class TrustController(
 {
     [HttpGet]
     [TrustRequestTelemetry(TrackedRequestFeature.Home)]
+    [ServiceBanner(BannerTargets.TrustHome)]
     public async Task<IActionResult> Index(string companyNumber,
         [FromQuery(Name = "comparator-reverted")] bool? comparatorReverted)
     {
@@ -131,17 +132,29 @@ public class TrustController(
         return query;
     }
 
-    private async Task<RagRating[]?> RagRatings(string companyNumber) => await metricRagRatingApi
-        .GetDefaultAsync(BuildQuery(companyNumber))
-        .GetResultOrDefault<RagRating[]>();
+    private async Task<RagRating[]?> RagRatings(string companyNumber)
+    {
+        return await metricRagRatingApi
+            .GetDefaultAsync(BuildQuery(companyNumber))
+            .GetResultOrDefault<RagRating[]>();
+    }
 
-    private async Task<TrustBalance?> TrustBalance(string companyNumber) => await balanceApi
-        .Trust(companyNumber)
-        .GetResultOrDefault<TrustBalance>();
+    private async Task<TrustBalance?> TrustBalance(string companyNumber)
+    {
+        return await balanceApi
+            .Trust(companyNumber)
+            .GetResultOrDefault<TrustBalance>();
+    }
 
-    private async Task<Trust> Trust(string companyNumber) => await establishmentApi
-        .GetTrust(companyNumber)
-        .GetResultOrThrow<Trust>();
+    private async Task<Trust> Trust(string companyNumber)
+    {
+        return await establishmentApi
+            .GetTrust(companyNumber)
+            .GetResultOrThrow<Trust>();
+    }
 
-    private BacklinkInfo HomeLink(string companyNumber) => new(Url.Action("Index", new { companyNumber }));
+    private BacklinkInfo HomeLink(string companyNumber)
+    {
+        return new BacklinkInfo(Url.Action("Index", new { companyNumber }));
+    }
 }
