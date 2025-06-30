@@ -4,11 +4,11 @@ using Web.App.ViewModels.Components;
 
 namespace Web.App.ViewComponents;
 
-public class BannerViewComponent : ViewComponent
+public class PhaseBannerViewComponent : ViewComponent
 {
     public IViewComponentResult Invoke()
     {
-        var vm = new BannerViewModel();
+        var vm = new PhaseBannerViewModel();
 
         if (UserClaimsPrincipal.Claims.Any())
         {
