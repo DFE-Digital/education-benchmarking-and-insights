@@ -4,6 +4,7 @@ using Microsoft.FeatureManagement;
 using Moq;
 using Web.App;
 using Web.App.Domain;
+using Web.App.Domain.Content;
 using Web.App.Domain.LocalAuthorities;
 using Web.App.Domain.NonFinancial;
 using Web.App.Infrastructure.Apis;
@@ -18,7 +19,7 @@ using Web.App.Infrastructure.Storage;
 using Web.App.Services;
 using Web.App.ViewComponents;
 using Xunit.Abstractions;
-using File = Web.App.Domain.File;
+using File = Web.App.Domain.Content.File;
 // ReSharper disable MemberCanBePrivate.Global
 // ReSharper disable ClassNeverInstantiated.Global
 

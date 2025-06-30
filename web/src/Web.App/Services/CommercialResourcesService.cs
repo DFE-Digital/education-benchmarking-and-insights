@@ -2,6 +2,7 @@ using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Options;
 using Web.App.Cache;
 using Web.App.Domain;
+using Web.App.Domain.Content;
 using Web.App.Infrastructure.Apis.Content;
 using Web.App.Infrastructure.Extensions;
 

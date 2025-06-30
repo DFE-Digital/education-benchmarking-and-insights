@@ -1,5 +1,6 @@
 using AutoFixture;
 using Web.App.Domain;
+using Web.App.Domain.Content;
 using Web.App.ViewModels;
 using Xunit;
 

@@ -4,7 +4,7 @@ using Web.App.Infrastructure.Apis.Content;
 using Web.App.Infrastructure.Extensions;
 using Web.App.Infrastructure.Storage;
 using Web.App.ViewModels;
-using File = Web.App.Domain.File;
+using File = Web.App.Domain.Content.File;
 
 namespace Web.App.Controllers;
 

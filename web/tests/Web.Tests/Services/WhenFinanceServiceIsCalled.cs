@@ -3,6 +3,7 @@ using Microsoft.Extensions.Options;
 using Moq;
 using Web.App.Cache;
 using Web.App.Domain;
+using Web.App.Domain.Content;
 using Web.App.Infrastructure.Apis;
 using Web.App.Infrastructure.Apis.Content;
 using Web.App.Services;

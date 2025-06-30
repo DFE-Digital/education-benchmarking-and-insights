@@ -1,4 +1,6 @@
 using Web.App.Domain;
+using Web.App.Domain.Content;
+
 namespace Web.App.ViewModels;
 
 public class LocalAuthorityHighNeedsViewModel(LocalAuthority localAuthority, FinanceYears years)

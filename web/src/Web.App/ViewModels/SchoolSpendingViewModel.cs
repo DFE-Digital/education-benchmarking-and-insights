@@ -1,4 +1,5 @@
 using Web.App.Domain;
+using Web.App.Domain.Content;
 using Web.App.Services;
 
 namespace Web.App.ViewModels;

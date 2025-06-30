@@ -1,5 +1,5 @@
 ﻿using Xunit;
-using File = Web.App.Domain.File;
+using File = Web.App.Domain.Content.File;
 
 namespace Web.Integration.Tests.Pages;
 
