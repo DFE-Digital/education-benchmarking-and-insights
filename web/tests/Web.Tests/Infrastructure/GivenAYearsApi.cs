@@ -1,11 +1,10 @@
-using Web.App.Infrastructure.Apis;
 using Web.App.Infrastructure.Apis.Content;
-using Web.App.Infrastructure.Apis.Insight;
 using Xunit;
 using Xunit.Abstractions;
+
 namespace Web.Tests.Infrastructure;
 
-public class GivenAnInsightApi(ITestOutputHelper testOutputHelper) : ApiClientTestBase(testOutputHelper)
+public class GivenAYearsApi(ITestOutputHelper testOutputHelper) : ApiClientTestBase(testOutputHelper)
 {
     [Fact]
     public void SetsFunctionKeyIfProvided()
