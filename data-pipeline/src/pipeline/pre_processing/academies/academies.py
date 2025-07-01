@@ -7,6 +7,8 @@ import pandas as pd
 from pipeline import config, input_schemas, mappings, part_year
 from pipeline.pre_processing.ancillary import gias
 
+logger = logging.getLogger("fbit-data-pipeline")
+
 simplefilter(action="ignore", category=pd.errors.PerformanceWarning)
 simplefilter(action="ignore", category=FutureWarning)
 
@@ -28,24 +30,22 @@ def prepare_aar_data(aar_path, year: int):
     :param year: year in question
     :return: processed AAR data
     """
-    aar = (
-        pd.read_csv(
-            aar_path,
-            encoding="utf-8",
-            usecols=input_schemas.aar_academies.get(
-                year, input_schemas.aar_academies["default"]
-            ).keys(),
-            dtype=input_schemas.aar_academies.get(
-                year, input_schemas.aar_academies["default"]
-            ),
-        )
-        .rename(
-            columns=input_schemas.aar_academies_column_mappings.get(
-                year, input_schemas.aar_academies_column_mappings["default"]
-            ),
-        )
-        .dropna(subset=[input_schemas.aar_academies_index_col])
+    aar = pd.read_csv(
+        aar_path,
+        encoding="utf-8",
+        usecols=input_schemas.aar_academies.get(
+            year, input_schemas.aar_academies["default"]
+        ).keys(),
+        dtype=input_schemas.aar_academies.get(
+            year, input_schemas.aar_academies["default"]
+        ),
+    ).rename(
+        columns=input_schemas.aar_academies_column_mappings.get(
+            year, input_schemas.aar_academies_column_mappings["default"]
+        ),
     )
+    logger.info(f"AAR Data raw {year=} shape: {aar.shape}")
+    aar = aar.dropna(subset=[input_schemas.aar_academies_index_col])
 
     for column, eval_ in input_schemas.aar_academies_column_eval.get(
         year, input_schemas.aar_academies_column_eval["default"]

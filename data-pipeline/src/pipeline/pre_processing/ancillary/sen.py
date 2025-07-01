@@ -1,7 +1,11 @@
+import logging
+
 import pandas as pd
 
 import pipeline.config as config
 import pipeline.input_schemas as input_schemas
+
+logger = logging.getLogger("fbit-data-pipeline")
 
 
 def prepare_sen_data(sen_path):
@@ -12,6 +16,8 @@ def prepare_sen_data(sen_path):
         dtype=input_schemas.sen,
         usecols=input_schemas.sen.keys(),
     )
+    logger.info(f"SEN data raw shape: {sen.shape}")
+
     sen["Percentage SEN"] = (
         ((sen["EHC plan"] + sen["SEN support"]) / sen["Total pupils"]) * 100.0
     ).fillna(0)
