@@ -1,6 +1,10 @@
+import logging
+
 import pandas as pd
 
 import pipeline.input_schemas as input_schemas
+
+logger = logging.getLogger("fbit-data-pipeline")
 
 
 def prepare_ks2_data(ks2_path):
@@ -11,6 +15,7 @@ def prepare_ks2_data(ks2_path):
             dtype=input_schemas.ks2,
             engine="calamine",
         )
+        logger.info(f"KS2 Data raw shape: {ks2.shape}")
         ks2["READPROG"] = ks2["READPROG"].replace({"SUPP": "0", "LOWCOV": "0"})
         ks2["MATPROG"] = ks2["MATPROG"].replace({"SUPP": "0", "LOWCOV": "0"})
         ks2["WRITPROG"] = ks2["WRITPROG"].replace({"SUPP": "0", "LOWCOV": "0"})
