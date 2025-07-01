@@ -1,11 +1,11 @@
-# Release Test Plan - 2025.06.X
+# Release Test Plan - 2025.07.1
 
-**Release Date:** XX/06/2025
-**Release Label:** 2025.06.X
+**Release Date:** 02/07/2025
+**Release Label:** 2025.07.01
 
 ## Introduction
 
-This plan defines the approach for testing release `2025.06.X`, covering all functional and smoke testing necessary.
+This plan defines the approach for testing release `2025.07.01`, covering all functional and smoke testing necessary.
 It includes a new feature to begin the move to server-side rendered charts, data-driven commercial resources, as well as various content updates and bug fixes.
 It also includes some manual tasks related to SFB decommissioning due to restrictions in Terraform when managing Front Door configuration.
 
@@ -34,7 +34,7 @@ It also includes some manual tasks related to SFB decommissioning due to restric
 ## Test Strategy
 
 - Smoke Testing: Execute smoke tests to validate the basic functionality of the application post-deployment.
-- Sanity Testing: Check the High executes pay is displayed as expected. 
+- Sanity Testing: Check the changes have been deployed to pre-production are as expected. 
 - Manual validation: Due to issue documented in work item [#263444](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_workitems/edit/263444), a manual disassociation of the only Front Door ruleset must be validated.
 
 ## Entry and Exit Criteria
@@ -43,7 +43,7 @@ It also includes some manual tasks related to SFB decommissioning due to restric
 
 - All code changes for the release are completed and deployed to the pre-production environment.
   - Manual infrastructure changes made to Front Door in pre-production environment (see [#264856](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_workitems/edit/264856))
-- Pipeline run is completed.
+- Pipeline run is completed with the new ILR file in the storage.
 
 **Exit Criteria:**
 
@@ -104,11 +104,11 @@ It also includes some manual tasks related to SFB decommissioning due to restric
 
 **Summary of results:**
 
-| Test Category          | Total Tests | Passed | Failed | Pass Rate |
-|------------------------|:-----------:|:------:|:------:|:---------:|
-| Smoke Tests - Pre prod |      X      |   X    |   0    |   100%    |
-| Sanity Tests - Prod    |      X      |   X    |   0    |   100%    |
-| Total                  |      X      |   X    |   0    |   100%    |
+| Test Category           | Total Tests | Passed | Failed | Pass Rate |
+|-------------------------|:-----------:|:------:|:------:|:---------:|
+| Smoke Tests - Prod      |      X      |   X    |   0    |   100%    |
+| Sanity Tests - Pre Prod |      X      |   X    |   0    |   100%    |
+| Total                   |      X      |   X    |   0    |   100%    |
 
 <!-- Leave the rest of this page blank -->
 \newpage
