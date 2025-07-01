@@ -109,7 +109,7 @@ Feature flags may also be defined in the `FeatureManagement` section:
 
 #### CacheOptions
 
-In memory cache is used in the web app for `FinanceService.GetYears()`
+In-memory cache is used in the web app for the current return years, commercial resources and page notification banners.
 
 Cache options can be set in the `CacheOptions` section. Currently defaults to the below values (in minutes), these can
 be amended when running locally if desired by adding the following to `secrets.json` and setting the values as required.
@@ -176,7 +176,8 @@ To use the GOV.UK Design System, progressive enhancements and front-end componen
 
 > **💡 Tip**: To find the location of your user `.npmrc` file use the `npm config -ls l` command.
 
-For more information on managing the progressive enhancements please refer to the [documented feature](../documentation/features/8_Progressive_Enhancements.md).
+For more information on managing the progressive enhancements please refer to
+the [documented feature](../documentation/features/8_Progressive_Enhancements.md).
 
 #### Run the application
 

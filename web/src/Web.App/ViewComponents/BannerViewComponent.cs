@@ -14,14 +14,14 @@ public class BannerViewComponent(IBannerService service) : ViewComponent
             || target is not string parsedTarget
             || string.IsNullOrWhiteSpace(parsedTarget))
         {
-            return await Task.FromResult(new EmptyContentView());
+            return new EmptyContentView();
         }
 
         if (parsedTarget == BannerTargets.SchoolHomePrefix)
         {
             if (!ViewData.TryGetValue(ViewDataKeys.IsPartOfTrust, out var isPartOfTrust))
             {
-                return await Task.FromResult(new EmptyContentView());
+                return new EmptyContentView();
             }
 
             parsedTarget = $"{BannerTargets.SchoolHomePrefix}{(isPartOfTrust is true ? "Academy" : "Maintained")}";
@@ -29,6 +29,6 @@ public class BannerViewComponent(IBannerService service) : ViewComponent
 
         var banner = await service.GetBannerOrDefault(parsedTarget);
         var vm = new BannerViewModel(banner);
-        return await Task.FromResult(View(vm));
+        return View(vm);
     }
 }

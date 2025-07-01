@@ -1,7 +1,6 @@
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Options;
 using Web.App.Cache;
-using Web.App.Domain;
 using Web.App.Domain.Content;
 using Web.App.Infrastructure.Apis.Content;
 using Web.App.Infrastructure.Extensions;
@@ -19,10 +18,9 @@ public class CommercialResourcesService(
     IMemoryCache memoryCache,
     IOptions<CacheOptions> options) : ICommercialResourcesService
 {
-    private readonly int _sliding = options.Value.CommercialResources.SlidingExpiration ?? 10;
-    private readonly int _absolute = options.Value.CommercialResources.AbsoluteExpiration ?? 60;
     private const string CacheKey = "commercial-resources";
-
+    private readonly int _absolute = options.Value.CommercialResources.AbsoluteExpiration ?? 60;
+    private readonly int _sliding = options.Value.CommercialResources.SlidingExpiration ?? 10;
 
     public async Task<Dictionary<string, CommercialResourceLink[]>> GetSubCategoryLinks()
     {
