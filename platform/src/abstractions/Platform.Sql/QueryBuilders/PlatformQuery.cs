@@ -281,4 +281,16 @@ public abstract class PlatformQuery : SqlBuilder
         Where(sql, parameters);
         return this;
     }
+
+    public PlatformQuery WhereTargetEqual(string target)
+    {
+        const string sql = "Target = @Target";
+        var parameters = new
+        {
+            Target = target
+        };
+
+        Where(sql, parameters);
+        return this;
+    }
 }

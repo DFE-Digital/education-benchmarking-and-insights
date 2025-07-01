@@ -9,7 +9,7 @@ public class ActiveBannersQueryTests
     public void ShouldReturnSql()
     {
         var builder = Create();
-        Assert.Equal("SELECT * FROM VW_ActiveBanners CROSS APPLY OPENJSON([Target], '$')  ", builder.QueryTemplate.RawSql);
+        Assert.Equal("SELECT * FROM VW_ActiveBanners  ", builder.QueryTemplate.RawSql);
     }
 
     private static ActiveBannersQuery Create() => new();

@@ -37,17 +37,17 @@ public class WhenBannersServiceQueriesAsync
             .Callback<PlatformQuery, CancellationToken>((query, _) =>
             {
                 actualSql = query.QueryTemplate.RawSql.Trim();
-                actualParams = query.QueryTemplate.Parameters?.GetTemplateParameters("Value");
+                actualParams = query.QueryTemplate.Parameters?.GetTemplateParameters("Target");
             })
             .ReturnsAsync(result);
 
         var actual = await _service.GetBannerOrDefault(target, CancellationToken.None);
 
         Assert.Equal(result, actual);
-        Assert.Equal("SELECT * FROM VW_ActiveBanners CROSS APPLY OPENJSON([Target], '$') WHERE Value = @Value\n ORDER BY ValidFrom DESC", actualSql);
+        Assert.Equal("SELECT * FROM VW_ActiveBanners WHERE Target = @Target\n ORDER BY ValidFrom DESC", actualSql);
         Assert.Equal(new Dictionary<string, object>
         {
-            { "Value", target }
+            { "Target", target }
         }, actualParams);
     }
 }
