@@ -36,6 +36,10 @@ variable "configuration" {
         SlidingExpiration  = number
         AbsoluteExpiration = number
       })
+      Banners = object({
+        SlidingExpiration  = number
+        AbsoluteExpiration = number
+      })
     })
   }))
   default = {
@@ -68,6 +72,10 @@ variable "configuration" {
           AbsoluteExpiration = 60
         },
         CommercialResources = {
+          SlidingExpiration  = 10
+          AbsoluteExpiration = 60
+        },
+        Banners = {
           SlidingExpiration  = 10
           AbsoluteExpiration = 60
         }
@@ -104,6 +112,10 @@ variable "configuration" {
         CommercialResources = {
           SlidingExpiration  = 10
           AbsoluteExpiration = 60
+        },
+        Banners = {
+          SlidingExpiration  = 10
+          AbsoluteExpiration = 60
         }
       }
     }
@@ -136,6 +148,10 @@ variable "configuration" {
           AbsoluteExpiration = 60
         },
         CommercialResources = {
+          SlidingExpiration  = 10
+          AbsoluteExpiration = 60
+        },
+        Banners = {
           SlidingExpiration  = 10
           AbsoluteExpiration = 60
         }
@@ -172,6 +188,10 @@ variable "configuration" {
         CommercialResources = {
           SlidingExpiration  = 10
           AbsoluteExpiration = 60
+        },
+        Banners = {
+          SlidingExpiration  = 10
+          AbsoluteExpiration = 60
         }
       }
     }
@@ -206,6 +226,10 @@ variable "configuration" {
         CommercialResources = {
           SlidingExpiration  = 10
           AbsoluteExpiration = 60
+        },
+        Banners = {
+          SlidingExpiration  = 10
+          AbsoluteExpiration = 60
         }
       }
     }
@@ -238,6 +262,10 @@ variable "configuration" {
           AbsoluteExpiration = 60
         },
         CommercialResources = {
+          SlidingExpiration  = 10
+          AbsoluteExpiration = 60
+        },
+        Banners = {
           SlidingExpiration  = 10
           AbsoluteExpiration = 60
         }
