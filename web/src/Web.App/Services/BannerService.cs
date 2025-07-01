@@ -15,8 +15,8 @@ public interface IBannerService
 public class BannerService(IBannerApi bannerApi, IMemoryCache memoryCache, IOptions<CacheOptions> options) : IBannerService
 {
     private const string CacheKeyFormat = "Banner__{0}";
-    private readonly int _absolute = options.Value.Banner.AbsoluteExpiration ?? 60;
-    private readonly int _sliding = options.Value.Banner.SlidingExpiration ?? 10;
+    private readonly int _absolute = options.Value.Banners.AbsoluteExpiration ?? 60;
+    private readonly int _sliding = options.Value.Banners.SlidingExpiration ?? 10;
 
     public async Task<Banner?> GetBannerOrDefault(string target)
     {

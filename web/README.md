@@ -111,7 +111,7 @@ Feature flags may also be defined in the `FeatureManagement` section:
 
 In memory cache is used in the web app for `FinanceService.GetYears()`
 
-Cache options can be set in the `CacheOptions` section. Currently defaults to the below values (in seconds), these can
+Cache options can be set in the `CacheOptions` section. Currently defaults to the below values (in minutes), these can
 be amended when running locally if desired by adding the following to `secrets.json` and setting the values as required.
 
 ```json
@@ -119,8 +119,16 @@ be amended when running locally if desired by adding the following to `secrets.j
   "CacheOptions": 
   {
     "ReturnYears": {
-      "SlidingExpiration": 60,
-      "AbsoluteExpiration": 3600
+      "SlidingExpiration": 10,
+      "AbsoluteExpiration": 60
+    },
+    "CommercialResources": {
+      "SlidingExpiration": 10,
+      "AbsoluteExpiration": 60
+    },
+    "Banners": {
+      "SlidingExpiration": 10,
+      "AbsoluteExpiration": 60
     }
   }
 }
