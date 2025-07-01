@@ -34,7 +34,7 @@ It also includes some manual tasks related to SFB decommissioning due to restric
 ## Test Strategy
 
 - Smoke Testing: Execute smoke tests to validate the basic functionality of the application post-deployment.
-- Sanity Testing: Check the changes have been deployed to pre-production are as expected. 
+- Sanity Testing: Check the changes have been deployed to pre-production are as expected.
 - Manual validation: Due to issue documented in work item [#263444](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_workitems/edit/263444), a manual disassociation of the only Front Door ruleset must be validated.
 
 ## Entry and Exit Criteria
