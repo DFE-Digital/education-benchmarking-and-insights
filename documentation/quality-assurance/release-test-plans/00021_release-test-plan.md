@@ -1,11 +1,11 @@
-# Release Test Plan - 2025.07.1
+# Release Test Plan - 2025.07.0
 
 **Release Date:** 02/07/2025
-**Release Label:** 2025.07.01
+**Release Label:** 2025.07.0
 
 ## Introduction
 
-This plan defines the approach for testing release `2025.07.01`, covering all functional and smoke testing necessary.
+This plan defines the approach for testing release `2025.07.0`, covering all functional and smoke testing necessary.
 It includes a new feature to begin the move to server-side rendered charts, data-driven commercial resources, as well as various content updates and bug fixes.
 It also includes some manual tasks related to SFB decommissioning due to restrictions in Terraform when managing Front Door configuration.
 
