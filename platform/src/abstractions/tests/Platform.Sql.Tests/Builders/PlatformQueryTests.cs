@@ -448,6 +448,22 @@ public class PlatformQueryTests
         Assert.Equal(expectedSql, builder.QueryTemplate.RawSql);
     }
 
+    [Fact]
+    public void ShouldAddTargetEqualParameter()
+    {
+        const string expectedParam = "Target";
+        const string expectedValue = "target";
+        var expectedSql = BuildExpectedQuery("WHERE Target = @Target");
+
+        var builder = new MockPlatformQuery().WhereTargetEqual(expectedValue);
+        var parameters = builder.QueryTemplate.Parameters?.GetTemplateParameters(expectedParam);
+
+        Assert.NotNull(parameters);
+        Assert.Single(parameters);
+        Assert.Contains(expectedParam, parameters.Keys);
+        Assert.Equal(expectedValue, parameters[expectedParam]);
+        Assert.Equal(expectedSql, builder.QueryTemplate.RawSql);
+    }
 
     private static string BuildExpectedQuery(string wherePart, string? orderByPart = null) =>
         $"{MockPlatformQuery.Sql

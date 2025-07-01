@@ -18,7 +18,7 @@ public class BannersService(IDatabaseFactory dbFactory) : IBannersService
     public async Task<Banner?> GetBannerOrDefault(string target, CancellationToken cancellationToken = default)
     {
         var query = new ActiveBannersQuery()
-            .WhereValueEqual(target)
+            .WhereTargetEqual(target)
             .OrderBy("ValidFrom DESC");
         using var conn = await dbFactory.GetConnection();
 
