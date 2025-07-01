@@ -154,7 +154,7 @@ app
         }
     })
     .UseForwardedHeaders()
-    .UseMiddleware<CustomResponseHeadersMiddleware>()
+    .UseCustomResponseHeaders()
     .UseStatusCodePagesWithReExecute("/error/{0}")
     .UseHttpsRedirection()
     .UseRouting()

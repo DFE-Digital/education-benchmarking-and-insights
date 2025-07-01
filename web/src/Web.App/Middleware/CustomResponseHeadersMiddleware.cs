@@ -1,5 +1,7 @@
-﻿using System.Security.Cryptography;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Security.Cryptography;
 using System.Text;
+
 namespace Web.App.Middleware;
 
 public class CustomResponseHeadersMiddleware(RequestDelegate next)
@@ -28,5 +30,14 @@ public class CustomResponseHeadersMiddleware(RequestDelegate next)
         context.Response.Headers.XXSSProtection = "0";
 
         await _next(context);
+    }
+}
+
+[ExcludeFromCodeCoverage]
+public static class CustomResponseHeadersMiddlewareExtensions
+{
+    public static IApplicationBuilder UseCustomResponseHeaders(this IApplicationBuilder builder)
+    {
+        return builder.UseMiddleware<CustomResponseHeadersMiddleware>();
     }
 }
