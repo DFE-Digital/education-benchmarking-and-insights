@@ -4,6 +4,7 @@ using AngleSharp.Html.Dom;
 using AutoFixture;
 using Web.App;
 using Web.App.Domain;
+using Web.App.Domain.Content;
 using Xunit;
 namespace Web.Integration.Tests.Pages.Trusts;
 
@@ -40,12 +41,14 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
         }
     };
 
-    [Fact]
-    public async Task CanDisplay()
+    [Theory]
+    [InlineData(true)]
+    [InlineData(false)]
+    public async Task CanDisplay(bool showBanner)
     {
-        var (page, trust, balance, ratings, schools) = await SetupNavigateInitPage();
+        var (page, trust, balance, ratings, schools, banner) = await SetupNavigateInitPage(showBanner: showBanner);
 
-        AssertPageLayout(page, trust, balance, ratings, schools);
+        AssertPageLayout(page, trust, balance, ratings, schools, banner);
     }
 
     [Fact]
@@ -73,9 +76,9 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
     [Fact]
     public async Task CanDisplayMissingSubmission()
     {
-        var (page, trust, balance, ratings, schools) = await SetupNavigateInitPage(false, false, false);
+        var (page, trust, balance, ratings, schools, banner) = await SetupNavigateInitPage(false, false, false);
 
-        AssertPageLayout(page, trust, balance, ratings, schools);
+        AssertPageLayout(page, trust, balance, ratings, schools, banner);
     }
 
     [Theory]
@@ -83,7 +86,7 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
     [InlineData(false)]
     public async Task CanNavigateToChangeTrust(bool filteredSearchFeatureEnabled)
     {
-        var (page, _, _, _, _) = await SetupNavigateInitPage(filteredSearchFeatureEnabled: filteredSearchFeatureEnabled);
+        var (page, _, _, _, _, _) = await SetupNavigateInitPage(filteredSearchFeatureEnabled: filteredSearchFeatureEnabled);
 
         var anchor = page.QuerySelectorAll("a").FirstOrDefault(x => x.TextContent.Trim() == "Change trust");
         Assert.NotNull(anchor);
@@ -95,7 +98,12 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
             : $"{Paths.FindOrganisation.ToAbsolute()}?method=trust");
     }
 
-    private async Task<(IHtmlDocument page, Trust trust, TrustBalance? balance, RagRating[] ratings, TrustSchool[] schools)> SetupNavigateInitPage(bool includeRatings = true, bool includeSchools = true, bool includeBalance = true, bool filteredSearchFeatureEnabled = false)
+    private async Task<(IHtmlDocument page, Trust trust, TrustBalance? balance, RagRating[] ratings, TrustSchool[] schools, Banner? banner)> SetupNavigateInitPage(
+        bool includeRatings = true,
+        bool includeSchools = true,
+        bool includeBalance = true,
+        bool filteredSearchFeatureEnabled = false,
+        bool showBanner = false)
     {
         var random = new Random();
 
@@ -142,21 +150,26 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
 
         var balance = includeBalance ? Fixture.Create<TrustBalance>() : null;
 
+        var banner = showBanner
+            ? Fixture.Create<Banner>()
+            : null;
+
         var client = Client
             .SetupDisableFeatureFlags(disabledFlags)
             .SetupEstablishment(trust, schools)
             .SetupInsights()
-            .SetupMetricRagRating(ratings);
+            .SetupMetricRagRating(ratings)
+            .SetupBanner(banner);
         if (balance != null)
         {
             client.SetupBalance(trust, balance);
         }
 
         var page = await client.Navigate(Paths.TrustHome(trust.CompanyNumber));
-        return (page, trust, balance, ratings, schools);
+        return (page, trust, balance, ratings, schools, banner);
     }
 
-    private static void AssertPageLayout(IHtmlDocument page, Trust trust, TrustBalance? balance, RagRating[] ratings, TrustSchool[] schools)
+    private static void AssertPageLayout(IHtmlDocument page, Trust trust, TrustBalance? balance, RagRating[] ratings, TrustSchool[] schools, Banner? banner)
     {
         var expectedBreadcrumbs = new[]
         {
@@ -168,7 +181,7 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
 
         if (balance != null)
         {
-            var dataSourceElement = page.QuerySelector("main > div > div:nth-child(2) > div > p");
+            var dataSourceElement = page.QuerySelector($"main > div > div:nth-child({(banner == null ? "2" : "3")}) > div > p");
             Assert.NotNull(dataSourceElement);
 
             DocumentAssert.TextEqual(dataSourceElement, "This trust's data covers the financial year September 2021 to August 2022 academies accounts return (AAR).");
@@ -228,5 +241,7 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
             var universityTechnicalCollegeRagRows = universityTechnicalCollegeRag?.Bodies.First().Rows;
             Assert.Equal(schools.Count(s => s.OverallPhase == OverallPhaseTypes.UniversityTechnicalCollege), universityTechnicalCollegeRagRows?.Length ?? 0);
         }
+
+        DocumentAssert.Banner(page, banner);
     }
 }

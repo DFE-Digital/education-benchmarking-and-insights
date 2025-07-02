@@ -36,7 +36,7 @@ public static class DocumentAssert
     {
         Assert.NotNull(doc);
 
-        var h2 = doc.QuerySelector("main h2");
+        var h2 = doc.QuerySelector("main h2:not(.govuk-notification-banner__title)");
         AssertNodeText(h2, header2);
     }
 

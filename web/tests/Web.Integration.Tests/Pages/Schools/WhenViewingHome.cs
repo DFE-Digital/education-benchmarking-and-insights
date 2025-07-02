@@ -5,6 +5,7 @@ using AngleSharp.XPath;
 using AutoFixture;
 using Web.App;
 using Web.App.Domain;
+using Web.App.Domain.Content;
 using Xunit;
 
 namespace Web.Integration.Tests.Pages.Schools;
@@ -12,14 +13,16 @@ namespace Web.Integration.Tests.Pages.Schools;
 public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<SchoolBenchmarkingWebAppClient>(client)
 {
     [Theory]
-    [InlineData(EstablishmentTypes.Academies, true)]
-    [InlineData(EstablishmentTypes.Academies, false)]
-    [InlineData(EstablishmentTypes.Maintained, false)]
-    public async Task CanDisplay(string financeType, bool isPartOfTrust)
+    [InlineData(EstablishmentTypes.Academies, true, false)]
+    [InlineData(EstablishmentTypes.Academies, false, false)]
+    [InlineData(EstablishmentTypes.Academies, true, true)]
+    [InlineData(EstablishmentTypes.Maintained, false, false)]
+    [InlineData(EstablishmentTypes.Maintained, false, true)]
+    public async Task CanDisplay(string financeType, bool isPartOfTrust, bool showBanner)
     {
-        var (page, school, _) = await SetupNavigateInitPage(financeType, isPartOfTrust);
+        var (page, school, _, banner) = await SetupNavigateInitPage(financeType, isPartOfTrust, showBanner: showBanner);
 
-        AssertPageLayout(page, school);
+        AssertPageLayout(page, school, banner);
     }
 
     [Theory]
@@ -27,7 +30,7 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
     [InlineData(EstablishmentTypes.Maintained)]
     public async Task CanNavigateToCompareYourCosts(string financeType)
     {
-        var (page, school, _) = await SetupNavigateInitPage(financeType);
+        var (page, school, _, _) = await SetupNavigateInitPage(financeType);
 
         var liElements = page.QuerySelectorAll("ul.app-links > li");
         var anchor = liElements[0].QuerySelector("h3 > a");
@@ -43,7 +46,7 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
     [InlineData(EstablishmentTypes.Maintained)]
     public async Task CanNavigateToCurriculumPlanning(string financeType)
     {
-        var (page, school, _) = await SetupNavigateInitPage(financeType);
+        var (page, school, _, _) = await SetupNavigateInitPage(financeType);
 
         var liElements = page.QuerySelectorAll("ul.app-links > li");
         var anchor = liElements[1].QuerySelector("h3 > a");
@@ -59,7 +62,7 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
     [InlineData(EstablishmentTypes.Maintained)]
     public async Task CanNavigateToCensusBenchmark(string financeType)
     {
-        var (page, school, _) = await SetupNavigateInitPage(financeType);
+        var (page, school, _, _) = await SetupNavigateInitPage(financeType);
 
         var liElements = page.QuerySelectorAll("ul.app-links > li");
         var anchor = liElements[2].QuerySelector("h3 > a");
@@ -75,7 +78,7 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
     [InlineData(EstablishmentTypes.Maintained)]
     public async Task CanNavigateToFinancialBenchmarkingInsightsSummary(string financeType)
     {
-        var (page, school, _) = await SetupNavigateInitPage(financeType);
+        var (page, school, _, _) = await SetupNavigateInitPage(financeType);
 
         var liElements = page.QuerySelectorAll("ul.app-links > li");
         var anchor = liElements[7].QuerySelector("h3 > a");
@@ -91,7 +94,7 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
     [InlineData(false)]
     public async Task CanNavigateToChangeSchool(bool filteredSearchFeatureEnabled)
     {
-        var (page, _, _) = await SetupNavigateInitPage(EstablishmentTypes.Academies, false, filteredSearchFeatureEnabled);
+        var (page, _, _, _) = await SetupNavigateInitPage(EstablishmentTypes.Academies, false, filteredSearchFeatureEnabled);
 
         var anchor = page.QuerySelectorAll("a").FirstOrDefault(x => x.TextContent.Trim() == "Change school");
         Assert.NotNull(anchor);
@@ -130,11 +133,15 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
     [InlineData(EstablishmentTypes.Maintained)]
     public async Task CanDisplayAppHeadlines(string financeType)
     {
-        var (page, school, balance) = await SetupNavigateInitPage(financeType);
+        var (page, school, balance, _) = await SetupNavigateInitPage(financeType);
         AssertAppHeadlines(page, school, balance);
     }
 
-    private async Task<(IHtmlDocument page, School school, SchoolBalance balance)> SetupNavigateInitPage(string financeType, bool isPartOfTrust = false, bool filteredSearchFeatureEnabled = false)
+    private async Task<(IHtmlDocument page, School school, SchoolBalance balance, Banner? banner)> SetupNavigateInitPage(
+        string financeType,
+        bool isPartOfTrust = false,
+        bool filteredSearchFeatureEnabled = false,
+        bool showBanner = false)
     {
         var school = Fixture.Build<School>()
             .With(x => x.URN, "123456")
@@ -150,6 +157,10 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
             .With(x => x.PeriodCoveredByReturn, 12)
             .Create();
 
+        var banner = showBanner
+            ? Fixture.Create<Banner>()
+            : null;
+
         string[] disabledFlags = [];
         if (!filteredSearchFeatureEnabled)
         {
@@ -164,12 +175,13 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
             .SetupExpenditure(school)
             .SetupBalance(balance)
             .SetupUserData()
+            .SetupBanner(banner)
             .Navigate(Paths.SchoolHome(school.URN));
 
-        return (page, school, balance);
+        return (page, school, balance, banner);
     }
 
-    private static void AssertPageLayout(IHtmlDocument page, School school)
+    private static void AssertPageLayout(IHtmlDocument page, School school, Banner? banner)
     {
         var expectedBreadcrumbs = new[]
         {
@@ -186,7 +198,7 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
             DocumentAssert.Heading2(page, $"Part of {school.TrustName}");
         }
 
-        var dataSourceElement = page.QuerySelectorAll("main > div > div:nth-child(3) > div > p");
+        var dataSourceElement = page.QuerySelectorAll($"main > div > div:nth-child({(banner == null ? "3" : "4")}) > div > p");
         Assert.NotNull(dataSourceElement);
 
         if (school.IsPartOfTrust)
@@ -213,6 +225,8 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
         DocumentAssert.Link(toolsLinks?.ElementAtOrDefault(0), "Benchmark spending", Paths.SchoolComparison(school.URN).ToAbsolute());
         DocumentAssert.Link(toolsLinks?.ElementAtOrDefault(1), "Curriculum and financial planning", Paths.SchoolFinancialPlanning(school.URN).ToAbsolute());
         DocumentAssert.Link(toolsLinks?.ElementAtOrDefault(2), "Benchmark pupil and workforce data", Paths.SchoolCensus(school.URN).ToAbsolute());
+
+        DocumentAssert.Banner(page, banner);
     }
 
     private static void AssertAppHeadlines(IHtmlDocument page, School school, SchoolBalance balance)
