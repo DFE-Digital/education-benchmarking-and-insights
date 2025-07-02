@@ -4,6 +4,7 @@ import pandas as pd
 from pandas._typing import FilePath, ReadCsvBuffer
 
 from pipeline.input_schemas import high_exec_pay, high_exec_pay_column_mappings
+from pipeline.stats_collector import stats_collector
 
 logger = logging.getLogger("fbit-data-pipeline")
 
@@ -39,5 +40,7 @@ def build_high_exec_pay_data(
     high_exec_pay_data["Company Registration Number"] = high_exec_pay_data[
         "Company Registration Number"
     ].str[1:]
+
+    stats_collector.log_preprocessed_ancillary_data_shape("high_exex_pay", high_exec_pay_data.shape)
 
     return high_exec_pay_data

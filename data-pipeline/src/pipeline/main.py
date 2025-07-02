@@ -9,6 +9,8 @@ from azure.core.exceptions import ResourceNotFoundError
 from azure.storage.queue import QueueClient, QueueMessage
 from dotenv import load_dotenv
 
+from pipeline.stats_collector import StatsCollector
+
 load_dotenv()
 
 from pipeline.comparator_sets import compute_comparator_set, prepare_data
@@ -472,6 +474,7 @@ def pre_process_all_schools(run_type, run_id, data_ref):
     all_schools = pd.concat([academies, maintained_schools], axis=0)
     # TODO: Shouldn't need to filter this out
     all_schools = all_schools[~all_schools["Financial Position"].isna()]
+    stats_collector.log_combined_school_counts(all_schools)
 
     write_blob(
         "pre-processed",
@@ -837,6 +840,8 @@ def pre_process_data(
             maintained_data_ref,
         ),
     )
+    stats_collector.log_academy_counts(academies)
+    stats_collector.log_la_maintained_school_counts(maintained_schools)
 
     if (
         academies_ilr_data := pre_process_ilr_data(
@@ -950,6 +955,9 @@ def pre_process_custom_data(
         custom_data=custom_data,
         target_urn=target_urn,
     )
+    stats_collector.log_academy_counts(academies)
+    stats_collector.log_la_maintained_school_counts(maintained)
+    stats_collector.log_combined_school_counts(all_schools)
 
     write_blob(
         "pre-processed",
@@ -1310,6 +1318,7 @@ def handle_msg(
                     run_type=run_type,
                     run_id=str(msg_payload["runId"]),
                 )
+                msg_payload["stats"] = stats_collector.get_stats()
                 logger.info("Default pipeline run completed!")
 
             case MessageType.DefaultUserDefined:
@@ -1342,6 +1351,7 @@ def handle_msg(
                     run_id=msg_payload["runId"],
                     target_urn=int(msg_payload["urn"]),
                 )
+                msg_payload["stats"] = stats_collector.get_stats()
                 logger.info("Custom pipeline run completed!")
 
         msg_payload["success"] = True
@@ -1445,6 +1455,7 @@ def receive_messages():
                         )
 
                         logger.info(f"received message {msg.content}")
+                        stats_collector.start_pipeline_run()
                         msg = handle_msg(
                             msg, worker_queue, complete_queue
                         )
@@ -1459,7 +1470,12 @@ def receive_messages():
 
 
 if __name__ == "__main__":
-    if os.getenv("ENV") == "dev":
-        receive_messages()
-    else:
-        receive_one_message()
+    with suppress(tornado.iostream.StreamClosedError):
+        with Client(memory_limit="16GB", heartbeat_interval=None) as client:
+            try:
+                if os.getenv("ENV") == "dev":
+                    receive_messages(client)
+                else:
+                    receive_one_message(client)
+            finally:
+                client.close()

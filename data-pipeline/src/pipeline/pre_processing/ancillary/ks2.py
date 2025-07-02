@@ -3,6 +3,7 @@ import logging
 import pandas as pd
 
 import pipeline.input_schemas as input_schemas
+from pipeline.stats_collector import stats_collector
 
 logger = logging.getLogger("fbit-data-pipeline")
 
@@ -30,4 +31,8 @@ def prepare_ks2_data(ks2_path):
         ks2 = pd.DataFrame(
             {"URN": pd.Series(dtype="Int64"), "Ks2Progress": pd.Series(dtype="float")}
         )
-    return ks2.set_index("URN")
+
+    ks2_with_index = ks2.set_index("URN")
+    stats_collector.log_preprocessed_ancillary_data_shape("ks2", ks2_with_index.shape)
+
+    return ks2_with_index

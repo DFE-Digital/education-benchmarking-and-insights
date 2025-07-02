@@ -5,6 +5,7 @@ import pandas as pd
 import pipeline.config as config
 import pipeline.input_schemas as input_schemas
 import pipeline.mappings as mappings
+from pipeline.stats_collector import stats_collector
 
 logger = logging.getLogger("fbit-data-pipeline")
 
@@ -29,6 +30,9 @@ def prepare_cdc_data(cdc_file_path, current_year):
     cdc["Building Age"] = (
         cdc.groupby(by=["URN"])["Indicative Age"].mean().astype("Int64")
     )
-    result = cdc[config.cdc_generated_columns]
+    cdc_generated = cdc[config.cdc_generated_columns]
+    cdc_generated_no_dupes = cdc_generated[~cdc_generated.index.duplicated(keep="first")]
 
-    return result[~result.index.duplicated(keep="first")]
+    stats_collector.log_preprocessed_ancillary_data_shape("cdc", cdc_generated_no_dupes.shape)
+
+    return cdc_generated_no_dupes
