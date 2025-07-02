@@ -1,8 +1,10 @@
 using System.Collections.Concurrent;
 using System.Diagnostics.CodeAnalysis;
+using Microsoft.Extensions.Options;
 using Microsoft.FeatureManagement;
 using Moq;
 using Web.App;
+using Web.App.Cache;
 using Web.App.Domain;
 using Web.App.Domain.Content;
 using Web.App.Domain.LocalAuthorities;
@@ -64,6 +66,12 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
     public Mock<IChartRenderingApi> ChartRenderingApi { get; } = new();
     public Mock<ICommercialResourcesApi> CommercialResourcesApi { get; } = new();
     public Mock<IBannerApi> BannerApi { get; } = new();
+    public IOptions<CacheOptions> CacheOptions { get; } = Options.Create(new CacheOptions
+    {
+        ReturnYears = new CacheSettings { SlidingExpiration = 0, AbsoluteExpiration = 0 },
+        CommercialResources = new CacheSettings { SlidingExpiration = 0, AbsoluteExpiration = 0 },
+        Banners = new CacheSettings { SlidingExpiration = 0, AbsoluteExpiration = 0 }
+    });
 
     protected override void Configure(IServiceCollection services)
     {
@@ -93,6 +101,7 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
         services.AddSingleton(ChartRenderingApi.Object);
         services.AddSingleton(CommercialResourcesApi.Object);
         services.AddSingleton(BannerApi.Object);
+        services.AddSingleton(CacheOptions);
 
         EnableFeatures();
     }
@@ -697,12 +706,17 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
     }
 
     //TODO: what kind of assertions are needed
-    public BenchmarkingWebAppClient SetupInsightsCommercialResources(CommercialResourceCategorised[] resources)
+    public BenchmarkingWebAppClient SetupCommercialResources(CommercialResourceCategorised[] resources)
     {
         CommercialResourcesApi.Reset();
-
         CommercialResourcesApi.Setup(api => api.GetCommercialResources()).ReturnsAsync(ApiResult.Ok(resources));
+        return this;
+    }
 
+    public BenchmarkingWebAppClient SetupBanner(Banner? banner)
+    {
+        BannerApi.Reset();
+        BannerApi.Setup(api => api.GetBanner(It.IsAny<string>())).ReturnsAsync(banner == null ? ApiResult.NotFound() : ApiResult.Ok(banner));
         return this;
     }
 

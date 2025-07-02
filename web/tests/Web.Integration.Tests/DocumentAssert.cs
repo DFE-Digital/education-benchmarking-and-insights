@@ -3,6 +3,7 @@ using System.Net;
 using System.Text.RegularExpressions;
 using AngleSharp.Dom;
 using AngleSharp.Html.Dom;
+using Web.App.Domain.Content;
 using Xunit;
 namespace Web.Integration.Tests;
 
@@ -230,6 +231,23 @@ public static class DocumentAssert
 
         var elementText = string.Join(" ", node.ChildNodes.Select(n => n.TextContent.Trim())).Trim();
         Assert.Equal(text, elementText);
+    }
+
+    public static void Banner(IHtmlDocument? doc, Banner? banner)
+    {
+        Assert.NotNull(doc);
+
+        var notification = doc.QuerySelector(".govuk-notification-banner");
+        if (banner == null)
+        {
+            Assert.Null(notification);
+            return;
+        }
+
+        Assert.NotNull(notification);
+        AssertNodeText(notification.QuerySelector(".govuk-notification-banner__title"), banner.Title ?? "");
+        AssertNodeText(notification.QuerySelector(".govuk-notification-banner__heading"), banner.Heading ?? "");
+        AssertNodeText(notification.QuerySelector(".govuk-notification-banner__content > p"), banner.Body ?? "");
     }
 
     [SuppressMessage("ReSharper", "ParameterOnlyUsedForPreconditionCheck.Local")]
