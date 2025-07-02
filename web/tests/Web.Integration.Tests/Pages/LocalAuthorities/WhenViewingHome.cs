@@ -4,6 +4,7 @@ using AngleSharp.Html.Dom;
 using AutoFixture;
 using Web.App;
 using Web.App.Domain;
+using Web.App.Domain.Content;
 using Xunit;
 
 namespace Web.Integration.Tests.Pages.LocalAuthorities;
@@ -11,20 +12,21 @@ namespace Web.Integration.Tests.Pages.LocalAuthorities;
 public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<SchoolBenchmarkingWebAppClient>(client)
 {
     [Theory]
-    [InlineData(OverallPhaseTypes.Primary, OverallPhaseTypes.Secondary, OverallPhaseTypes.Special, OverallPhaseTypes.PupilReferralUnit, OverallPhaseTypes.AllThrough, OverallPhaseTypes.Nursery)]
-    [InlineData(OverallPhaseTypes.Primary, OverallPhaseTypes.Secondary, OverallPhaseTypes.PupilReferralUnit, OverallPhaseTypes.AllThrough, OverallPhaseTypes.Nursery)]
-    [InlineData(OverallPhaseTypes.Primary, OverallPhaseTypes.Secondary, OverallPhaseTypes.Special, OverallPhaseTypes.AllThrough, OverallPhaseTypes.Nursery)]
-    [InlineData(OverallPhaseTypes.Primary, OverallPhaseTypes.Secondary, OverallPhaseTypes.Special, OverallPhaseTypes.PupilReferralUnit, OverallPhaseTypes.Nursery)]
-    [InlineData(OverallPhaseTypes.Primary, OverallPhaseTypes.Secondary, OverallPhaseTypes.Special, OverallPhaseTypes.PupilReferralUnit, OverallPhaseTypes.AllThrough)]
-    [InlineData(OverallPhaseTypes.Secondary, OverallPhaseTypes.Special, OverallPhaseTypes.PupilReferralUnit, OverallPhaseTypes.AllThrough, OverallPhaseTypes.Nursery)]
-    [InlineData(OverallPhaseTypes.Primary, OverallPhaseTypes.Special, OverallPhaseTypes.PupilReferralUnit, OverallPhaseTypes.AllThrough, OverallPhaseTypes.Nursery)]
-    [InlineData(OverallPhaseTypes.Primary, OverallPhaseTypes.Secondary, OverallPhaseTypes.AllThrough, OverallPhaseTypes.Nursery)]
-    [InlineData(OverallPhaseTypes.Primary, OverallPhaseTypes.Secondary, OverallPhaseTypes.Special, OverallPhaseTypes.PupilReferralUnit)]
-    public async Task CanDisplay(params string[] phaseTypes)
+    [InlineData(false, OverallPhaseTypes.Primary, OverallPhaseTypes.Secondary, OverallPhaseTypes.Special, OverallPhaseTypes.PupilReferralUnit, OverallPhaseTypes.AllThrough, OverallPhaseTypes.Nursery)]
+    [InlineData(false, OverallPhaseTypes.Primary, OverallPhaseTypes.Secondary, OverallPhaseTypes.PupilReferralUnit, OverallPhaseTypes.AllThrough, OverallPhaseTypes.Nursery)]
+    [InlineData(false, OverallPhaseTypes.Primary, OverallPhaseTypes.Secondary, OverallPhaseTypes.Special, OverallPhaseTypes.AllThrough, OverallPhaseTypes.Nursery)]
+    [InlineData(false, OverallPhaseTypes.Primary, OverallPhaseTypes.Secondary, OverallPhaseTypes.Special, OverallPhaseTypes.PupilReferralUnit, OverallPhaseTypes.Nursery)]
+    [InlineData(false, OverallPhaseTypes.Primary, OverallPhaseTypes.Secondary, OverallPhaseTypes.Special, OverallPhaseTypes.PupilReferralUnit, OverallPhaseTypes.AllThrough)]
+    [InlineData(false, OverallPhaseTypes.Secondary, OverallPhaseTypes.Special, OverallPhaseTypes.PupilReferralUnit, OverallPhaseTypes.AllThrough, OverallPhaseTypes.Nursery)]
+    [InlineData(false, OverallPhaseTypes.Primary, OverallPhaseTypes.Special, OverallPhaseTypes.PupilReferralUnit, OverallPhaseTypes.AllThrough, OverallPhaseTypes.Nursery)]
+    [InlineData(false, OverallPhaseTypes.Primary, OverallPhaseTypes.Secondary, OverallPhaseTypes.AllThrough, OverallPhaseTypes.Nursery)]
+    [InlineData(false, OverallPhaseTypes.Primary, OverallPhaseTypes.Secondary, OverallPhaseTypes.Special, OverallPhaseTypes.PupilReferralUnit)]
+    [InlineData(true, OverallPhaseTypes.Primary, OverallPhaseTypes.Secondary, OverallPhaseTypes.Special, OverallPhaseTypes.PupilReferralUnit)]
+    public async Task CanDisplay(bool showBanner, params string[] phaseTypes)
     {
-        var (page, authority, schools) = await SetupNavigateInitPage(false, phaseTypes);
+        var (page, authority, schools, banner) = await SetupNavigateInitPage(false, showBanner, phaseTypes);
 
-        AssertPageLayout(page, authority, schools);
+        AssertPageLayout(page, authority, schools, banner); ;
     }
 
     [Theory]
@@ -32,7 +34,7 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
     [InlineData(false)]
     public async Task CanNavigateToChangeAuthority(bool filteredSearchFeatureEnabled)
     {
-        var (page, _, _) = await SetupNavigateInitPage(filteredSearchFeatureEnabled);
+        var (page, _, _, _) = await SetupNavigateInitPage(filteredSearchFeatureEnabled);
 
         var anchor = page.QuerySelectorAll("a").FirstOrDefault(x => x.TextContent.Trim() == "Change local authority");
         Assert.NotNull(anchor);
@@ -47,7 +49,7 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
     [Fact]
     public async Task CanNavigateToResources()
     {
-        var (page, authority, _) = await SetupNavigateInitPage();
+        var (page, authority, _, _) = await SetupNavigateInitPage();
 
         var anchor = page.QuerySelectorAll("a").FirstOrDefault(x => x.TextContent.Trim() == "Find ways to spend less");
         Assert.NotNull(anchor);
@@ -59,7 +61,7 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
     [Fact]
     public async Task CanNavigateToHighNeeds()
     {
-        var (page, authority, _) = await SetupNavigateInitPage();
+        var (page, authority, _, _) = await SetupNavigateInitPage();
 
         var anchor = page.QuerySelectorAll("a").FirstOrDefault(x => x.TextContent.Trim() == "High needs benchmarking");
         Assert.NotNull(anchor);
@@ -138,7 +140,7 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
         DocumentAssert.AssertPageUrl(page, Paths.LocalAuthorityHome(code).ToAbsolute(), HttpStatusCode.InternalServerError);
     }
 
-    private async Task<(IHtmlDocument page, LocalAuthority authority, LocalAuthoritySchool[] schools)> SetupNavigateInitPage(bool filteredSearchFeatureEnabled = false, params string[] phaseTypes)
+    private async Task<(IHtmlDocument page, LocalAuthority authority, LocalAuthoritySchool[] schools, Banner? banner)> SetupNavigateInitPage(bool filteredSearchFeatureEnabled = false, bool showBanner = false, params string[] phaseTypes)
     {
         var authority = Fixture.Build<LocalAuthority>()
             .With(a => a.Code, "123")
@@ -153,13 +155,18 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
         Assert.NotNull(authority.Name);
         var schools = phaseTypes.SelectMany(phaseType => GenerateSchools(phaseType)).ToArray();
 
+        var banner = showBanner
+            ? Fixture.Create<Banner>()
+            : null;
+
         var page = await Client
             .SetupDisableFeatureFlags(disabledFlags)
             .SetupEstablishment(authority, schools)
             .SetupInsights()
+            .SetupBanner(banner)
             .Navigate(Paths.LocalAuthorityHome(authority.Code));
 
-        return (page, authority, schools);
+        return (page, authority, schools, banner);
     }
 
     private LocalAuthoritySchool[] GenerateSchools(string phaseType)
@@ -170,7 +177,7 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
             .ToArray();
     }
 
-    private static void AssertPageLayout(IHtmlDocument page, LocalAuthority authority, LocalAuthoritySchool[] schools)
+    private static void AssertPageLayout(IHtmlDocument page, LocalAuthority authority, LocalAuthoritySchool[] schools, Banner? banner)
     {
         DocumentAssert.AssertPageUrl(page, Paths.LocalAuthorityHome(authority.Code).ToAbsolute());
 
@@ -180,7 +187,7 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
         Assert.NotNull(authority.Name);
         DocumentAssert.TitleAndH1(page, "Your local authority - Financial Benchmarking and Insights Tool - GOV.UK", authority.Name);
 
-        var dataSourceElement = page.QuerySelector("main > div > div:nth-child(2) > div > p");
+        var dataSourceElement = page.QuerySelector($"main > div > div:nth-child({(banner == null ? "2" : "3")}) > div > p");
         Assert.NotNull(dataSourceElement);
 
         DocumentAssert.TextEqual(dataSourceElement, "This data covers the financial year April 2020 to March 2021 consistent financial reporting return (CFR).");
@@ -202,6 +209,8 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
 
             AssertAccordionContent(contentElement, schools, headingText);
         }
+
+        DocumentAssert.Banner(page, banner);
     }
 
     private static void AssertAccordionContent(IElement element, LocalAuthoritySchool[] schools, string expectedPhaseType)
