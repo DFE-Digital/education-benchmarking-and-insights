@@ -1,5 +1,4 @@
 @using Web.App.Extensions
-@using Web.App.TagHelpers
 @using Web.App.ViewModels
 @using Web.App.ViewModels.Components
 @model Web.App.ViewModels.SchoolViewModel
@@ -155,4 +154,15 @@
 
         initAll()
     </script>
+}
+
+@section banner {
+    @if (string.IsNullOrEmpty(Model.CustomDataId)
+         && Model.ComparatorReverted != true
+         && Model is not { ComparatorGenerated: not null, HasMetricRag: true }
+         && !(!Model.HasMetricRag && !string.IsNullOrEmpty(Model.UserDefinedSetId)))
+    {
+        var target = Model.IsPartOfTrust ? BannerTargets.SchoolHomeAcademy : BannerTargets.SchoolHomeMaintained;
+        @await Component.InvokeAsync("Banner", new { target })
+    }
 }

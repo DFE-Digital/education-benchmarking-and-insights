@@ -209,3 +209,10 @@ else
 <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
 
 @await Component.InvokeAsync("GetHelp") *@
+
+@section banner {
+    @if (Model.ComparatorReverted != true)
+    {
+        @await Component.InvokeAsync("Banner", new { target = BannerTargets.TrustHome })
+    }
+}

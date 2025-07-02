@@ -160,8 +160,7 @@ app
     .UseRouting()
     .UseAuthorization()
     .UseSession()
-    .UseMarkdown()
-    .UseServiceBanner();
+    .UseMarkdown();
 
 app.MapHealthChecks(
     "/health",

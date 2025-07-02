@@ -1,5 +1,4 @@
-﻿@using Web.App.TagHelpers
-@using Web.App.ViewModels
+﻿@using Web.App.ViewModels
 @using Web.App.ViewModels.Components
 @model Web.App.ViewModels.LocalAuthorityViewModel
 @{
@@ -68,4 +67,8 @@
 
         initAll()
     </script>
+}
+
+@section banner {
+    @await Component.InvokeAsync("Banner", new { target = BannerTargets.LocalAuthorityHome })
 }
