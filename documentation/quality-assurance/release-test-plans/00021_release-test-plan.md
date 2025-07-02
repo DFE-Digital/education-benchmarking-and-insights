@@ -79,6 +79,14 @@ It also includes some manual tasks related to SFB decommissioning due to restric
 
 ## Notes
 
+**Release OverView**
+
+During testing, an issue was identified on the Spending Priorities page where the downloaded image was incomplete. Investigation revealed that this was caused by server-side rendering (SSR) affecting the image output.
+
+It was agreed to temporarily disable the SSR feature in production, as this has no adverse impact on the front-end experience. A permanent fix is planned for implementation in the next release.
+
+**[Azure Test Plan](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_testPlans/execute?planId=267044&suiteId=267045)**
+
 **Azure DevOps tickets:**
 
 - [261909 - Prevent 500 errors from null Search Suggest responses after TaskCanceledException](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_workitems/edit/261909)
@@ -106,9 +114,9 @@ It also includes some manual tasks related to SFB decommissioning due to restric
 
 | Test Category           | Total Tests | Passed | Failed | Pass Rate |
 |-------------------------|:-----------:|:------:|:------:|:---------:|
-| Smoke Tests - Prod      |      X      |   X    |   0    |   100%    |
-| Sanity Tests - Pre Prod |      X      |   X    |   0    |   100%    |
-| Total                   |      X      |   X    |   0    |   100%    |
+| Smoke Tests - Prod      |      1      |   0    |   1    |    0%     |
+| Sanity Tests - Pre Prod |      4      |   4    |   0    |   100%    |
+| Total                   |      5      |   4    |   1    |    80%    |
 
 <!-- Leave the rest of this page blank -->
 \newpage
