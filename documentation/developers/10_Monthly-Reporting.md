@@ -226,11 +226,11 @@ GetSfbReferrerRequests
 | where
     TimeGenerated between (time_start .. time_end)
 | project 
-    TimeGenerated, 
+    TimeGenerated,
     IsDeepLink
 | summarize 
     Visits=count()
-    by IsDeepLink
+    by IsDeepLink, Month = format_datetime(startofmonth(TimeGenerated),'yyyy/MM')
 ```
 
 _**TIPS!!**_
