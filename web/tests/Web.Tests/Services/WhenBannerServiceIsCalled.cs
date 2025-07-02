@@ -30,7 +30,9 @@ public class WhenBannerServiceIsCalled
             .Returns(_cacheEntry.Object);
         _options = Options.Create(new CacheOptions
         {
-            Banners = _fixture.Create<CacheSettings>()
+            Banners = _fixture.Build<CacheSettings>()
+                .Without(c => c.Disabled)
+                .Create()
         });
         _service = new BannerService(_bannerApi.Object, _memoryCache.Object, _options);
     }
@@ -148,16 +150,12 @@ public class WhenBannerServiceIsCalled
     }
 
     [Fact]
-    public async Task ShouldNotAddBannerToCacheFromApiIfNotInCacheButInvalidOptions()
+    public async Task ShouldNotAddBannerToCacheFromApiIfNotInCacheButCacheDisabled()
     {
         // arrange
         const string target = nameof(target);
         object? nothing = null;
         var banner = _fixture.Create<Banner>();
-
-        _memoryCache
-            .Setup(c => c.TryGetValue(It.IsAny<string>(), out nothing))
-            .Returns(false);
 
         _bannerApi.Setup(b => b.GetBanner(target)).ReturnsAsync(ApiResult.Ok(banner));
 
@@ -165,8 +163,7 @@ public class WhenBannerServiceIsCalled
         {
             Banners = new CacheSettings
             {
-                AbsoluteExpiration = 0,
-                SlidingExpiration = 0
+                Disabled = true
             }
         }));
 
@@ -174,6 +171,7 @@ public class WhenBannerServiceIsCalled
         await service.GetBannerOrDefault(target);
 
         // assert
+        _memoryCache.Verify(c => c.TryGetValue(It.IsAny<string>(), out nothing), Times.Never);
         _memoryCache.Verify(c => c.CreateEntry(It.IsAny<string>()), Times.Never);
     }
 }

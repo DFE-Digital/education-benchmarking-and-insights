@@ -1,7 +1,6 @@
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Options;
 using Web.App.Cache;
-using Web.App.Domain;
 using Web.App.Domain.Content;
 using Web.App.Infrastructure.Apis.Content;
 using Web.App.Infrastructure.Extensions;
@@ -20,17 +19,20 @@ public class FinanceService(
 {
     private readonly int _sliding = options.Value.ReturnYears.SlidingExpiration ?? 10;
     private readonly int _absolute = options.Value.ReturnYears.AbsoluteExpiration ?? 60;
+    private readonly bool _cacheDisabled = options.Value.Banners.Disabled.GetValueOrDefault();
     private const string CacheKey = "return-years";
 
     public async Task<FinanceYears> GetYears()
     {
-        if (memoryCache.TryGetValue(CacheKey, out var cached) && cached is FinanceYears financeYears)
+        if (!_cacheDisabled
+            && memoryCache.TryGetValue(CacheKey, out var cached)
+            && cached is FinanceYears financeYears)
         {
             return financeYears;
         }
 
         var data = await yearsApi.GetCurrentReturnYears().GetResultOrThrow<FinanceYears>();
-        if (_sliding <= 0 || _absolute <= 0)
+        if (_cacheDisabled)
         {
             return data;
         }

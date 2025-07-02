@@ -113,6 +113,7 @@ In-memory cache is used in the web app for the current return years, commercial 
 
 Cache options can be set in the `CacheOptions` section. Currently defaults to the below values (in minutes), these can
 be amended when running locally if desired by adding the following to `secrets.json` and setting the values as required.
+The cache for each type may also be bypassed by setting `"Disabled": true`.
 
 ```json
 {

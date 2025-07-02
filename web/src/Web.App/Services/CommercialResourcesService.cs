@@ -20,6 +20,7 @@ public class CommercialResourcesService(
 {
     private const string CacheKey = "commercial-resources";
     private readonly int _absolute = options.Value.CommercialResources.AbsoluteExpiration ?? 60;
+    private readonly bool _cacheDisabled = options.Value.CommercialResources.Disabled.GetValueOrDefault();
     private readonly int _sliding = options.Value.CommercialResources.SlidingExpiration ?? 10;
 
     public async Task<Dictionary<string, CommercialResourceLink[]>> GetSubCategoryLinks()
@@ -62,13 +63,15 @@ public class CommercialResourcesService(
 
     private async Task<CommercialResourceCategorised[]> GetCommercialResources()
     {
-        if (memoryCache.TryGetValue(CacheKey, out var cached) && cached is CommercialResourceCategorised[] resources)
+        if (!_cacheDisabled
+            && memoryCache.TryGetValue(CacheKey, out var cached)
+            && cached is CommercialResourceCategorised[] resources)
         {
             return resources;
         }
 
         var data = await GetData();
-        if (_sliding <= 0 || _absolute <= 0)
+        if (_cacheDisabled)
         {
             return data;
         }
