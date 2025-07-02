@@ -68,6 +68,11 @@ public class CommercialResourcesService(
         }
 
         var data = await GetData();
+        if (_sliding <= 0 || _absolute <= 0)
+        {
+            return data;
+        }
+
         var options = CreateMemoryCacheEntryOptions();
 
         memoryCache.Set(CacheKey, data, options);

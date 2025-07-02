@@ -30,6 +30,10 @@ public class FinanceService(
         }
 
         var data = await yearsApi.GetCurrentReturnYears().GetResultOrThrow<FinanceYears>();
+        if (_sliding <= 0 || _absolute <= 0)
+        {
+            return data;
+        }
 
         MemoryCacheEntryOptions cacheEntryOptions = new()
         {

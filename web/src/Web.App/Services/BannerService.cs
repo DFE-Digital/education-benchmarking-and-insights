@@ -29,6 +29,11 @@ public class BannerService(IBannerApi bannerApi, IMemoryCache memoryCache, IOpti
         var data = await bannerApi
             .GetBanner(target)
             .GetResultOrDefault<Banner>();
+        if (_sliding <= 0 || _absolute <= 0)
+        {
+            return data;
+        }
+
         var options = new MemoryCacheEntryOptions
         {
             SlidingExpiration = TimeSpan.FromMinutes(_sliding),

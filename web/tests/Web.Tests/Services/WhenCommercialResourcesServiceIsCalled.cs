@@ -11,7 +11,7 @@ using Xunit;
 
 namespace Web.Tests.Services;
 
-public class WhenCommercialResourcesServiceGetsCategoryLinks
+public class WhenCommercialResourcesServiceIsCalled
 {
     private const string Category1 = "category1";
     private const string Category2 = "category2";
@@ -28,7 +28,7 @@ public class WhenCommercialResourcesServiceGetsCategoryLinks
     private readonly CommercialResourceCategorised[] _resources;
     private readonly CommercialResourcesService _service;
 
-    public WhenCommercialResourcesServiceGetsCategoryLinks()
+    public WhenCommercialResourcesServiceIsCalled()
     {
         _commercialResourcesApi = new Mock<ICommercialResourcesApi>();
         _cacheEntry = new Mock<ICacheEntry>();
@@ -166,6 +166,34 @@ public class WhenCommercialResourcesServiceGetsCategoryLinks
     }
 
     [Fact]
+    public async Task ShouldNotAddResourcesToCacheFromApiIfNotInCacheWhenGettingCategoryLinksButInvalidOptions()
+    {
+        // arrange
+        object? nothing = null;
+
+        _memoryCache
+            .Setup(c => c.TryGetValue(It.IsAny<string>(), out nothing))
+            .Returns(false);
+
+        _commercialResourcesApi.Setup(b => b.GetCommercialResources()).ReturnsAsync(ApiResult.Ok(_resources));
+
+        var service = new CommercialResourcesService(_commercialResourcesApi.Object, _memoryCache.Object, Options.Create(new CacheOptions
+        {
+            CommercialResources = new CacheSettings
+            {
+                AbsoluteExpiration = 0,
+                SlidingExpiration = 0
+            }
+        }));
+
+        // act
+        await service.GetCategoryLinks();
+
+        // assert
+        _memoryCache.Verify(c => c.CreateEntry(It.IsAny<string>()), Times.Never);
+    }
+
+    [Fact]
     public async Task ShouldGetAndProjectResourcesFromCacheIfPresentWhenGettingSubCategoryLinks()
     {
         // arrange
@@ -239,5 +267,33 @@ public class WhenCommercialResourcesServiceGetsCategoryLinks
         _cacheEntry.VerifySet(c => c.Value = It.Is<CommercialResourceCategorised[]>(o => o.Length == _resources.Length));
         _cacheEntry.VerifySet(c => c.AbsoluteExpirationRelativeToNow = It.Is<TimeSpan>(o => Convert.ToInt32(o.TotalMinutes) == _options.Value.CommercialResources.AbsoluteExpiration));
         _cacheEntry.VerifySet(c => c.SlidingExpiration = It.Is<TimeSpan>(o => Convert.ToInt32(o.TotalMinutes) == _options.Value.CommercialResources.SlidingExpiration));
+    }
+
+    [Fact]
+    public async Task ShouldNotAddResourcesToCacheFromApiIfNotInCacheWhenGettingSubCategoryLinksButInvalidOptions()
+    {
+        // arrange
+        object? nothing = null;
+
+        _memoryCache
+            .Setup(c => c.TryGetValue(It.IsAny<string>(), out nothing))
+            .Returns(false);
+
+        _commercialResourcesApi.Setup(b => b.GetCommercialResources()).ReturnsAsync(ApiResult.Ok(_resources));
+
+        var service = new CommercialResourcesService(_commercialResourcesApi.Object, _memoryCache.Object, Options.Create(new CacheOptions
+        {
+            CommercialResources = new CacheSettings
+            {
+                AbsoluteExpiration = 0,
+                SlidingExpiration = 0
+            }
+        }));
+
+        // act
+        await service.GetSubCategoryLinks();
+
+        // assert
+        _memoryCache.Verify(c => c.CreateEntry(It.IsAny<string>()), Times.Never);
     }
 }

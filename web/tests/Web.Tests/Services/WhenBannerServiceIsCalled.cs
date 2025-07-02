@@ -146,4 +146,34 @@ public class WhenBannerServiceIsCalled
         _cacheEntry.VerifySet(c => c.AbsoluteExpirationRelativeToNow = It.Is<TimeSpan>(o => Convert.ToInt32(o.TotalMinutes) == _options.Value.Banners.AbsoluteExpiration));
         _cacheEntry.VerifySet(c => c.SlidingExpiration = It.Is<TimeSpan>(o => Convert.ToInt32(o.TotalMinutes) == _options.Value.Banners.SlidingExpiration));
     }
+
+    [Fact]
+    public async Task ShouldNotAddBannerToCacheFromApiIfNotInCacheButInvalidOptions()
+    {
+        // arrange
+        const string target = nameof(target);
+        object? nothing = null;
+        var banner = _fixture.Create<Banner>();
+
+        _memoryCache
+            .Setup(c => c.TryGetValue(It.IsAny<string>(), out nothing))
+            .Returns(false);
+
+        _bannerApi.Setup(b => b.GetBanner(target)).ReturnsAsync(ApiResult.Ok(banner));
+
+        var service = new BannerService(_bannerApi.Object, _memoryCache.Object, Options.Create(new CacheOptions
+        {
+            Banners = new CacheSettings
+            {
+                AbsoluteExpiration = 0,
+                SlidingExpiration = 0
+            }
+        }));
+
+        // act
+        await service.GetBannerOrDefault(target);
+
+        // assert
+        _memoryCache.Verify(c => c.CreateEntry(It.IsAny<string>()), Times.Never);
+    }
 }
