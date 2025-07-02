@@ -1,6 +1,3 @@
-using Web.App.Attributes;
-using Web.App.ViewComponents;
-
 namespace Web.App;
 
 public static class BannerTargets
@@ -11,10 +8,14 @@ public static class BannerTargets
     public const string LocalAuthorityHome = nameof(LocalAuthorityHome);
 
     /// <summary>
-    ///     Corresponds to banner to show on Academy or Maintained school home page.
-    ///     Must be used in conjunction with <c>ViewData[ViewDataKeys.IsPartOfTrust]</c>.
+    ///     Corresponds to banner to show on Academy home page.
     /// </summary>
-    public const string SchoolHomePrefix = "SchoolHome-";
+    public const string SchoolHomeAcademy = nameof(SchoolHomeAcademy);
+
+    /// <summary>
+    ///     Corresponds to banner to show on Maintained school home page.
+    /// </summary>
+    public const string SchoolHomeMaintained = nameof(SchoolHomeMaintained);
 
     /// <summary>
     ///     Corresponds to banner to show on service home page.
@@ -25,10 +26,4 @@ public static class BannerTargets
     ///     Corresponds to banner to show on Trust home page.
     /// </summary>
     public const string TrustHome = nameof(TrustHome);
-
-    /// <summary>
-    ///     Used to pass value from <see cref="ServiceBannerAttribute.Target" /> in middleware
-    ///     to context, for consumption by <see cref="BannerViewComponent" />.
-    /// </summary>
-    public const string Key = "__BannerTarget";
 }

@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Mvc;
 using SmartBreadcrumbs.Attributes;
-using Web.App.Attributes;
 
 namespace Web.App.Controllers;
 
@@ -14,7 +13,6 @@ public class HomeController : Controller
 
     [HttpGet]
     [DefaultBreadcrumb(PageTitles.ServiceHome)]
-    [ServiceBanner(BannerTargets.ServiceHome)]
     public IActionResult Index()
     {
         return View();
