@@ -242,8 +242,3 @@ resource "azurerm_monitor_diagnostic_setting" "front-door-analytics" {
     category = "AllMetrics"
   }
 }
-
-resource "azurerm_cdn_frontdoor_rule_set" "web-app-rules" {
-  name                     = "${var.environment-prefix}ruleset"
-  cdn_frontdoor_profile_id = azurerm_cdn_frontdoor_profile.web-app-front-door-profile.id
-}
