@@ -22,6 +22,7 @@ using Web.App.Services;
 using Web.App.ViewComponents;
 using Xunit.Abstractions;
 using File = Web.App.Domain.Content.File;
+
 // ReSharper disable MemberCanBePrivate.Global
 // ReSharper disable ClassNeverInstantiated.Global
 
@@ -68,9 +69,9 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
     public Mock<IBannerApi> BannerApi { get; } = new();
     public IOptions<CacheOptions> CacheOptions { get; } = Options.Create(new CacheOptions
     {
-        ReturnYears = new CacheSettings { SlidingExpiration = 0, AbsoluteExpiration = 0 },
-        CommercialResources = new CacheSettings { SlidingExpiration = 0, AbsoluteExpiration = 0 },
-        Banners = new CacheSettings { SlidingExpiration = 0, AbsoluteExpiration = 0 }
+        ReturnYears = new CacheSettings { Disabled = true },
+        CommercialResources = new CacheSettings { Disabled = true },
+        Banners = new CacheSettings { Disabled = true }
     });
 
     protected override void Configure(IServiceCollection services)

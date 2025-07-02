@@ -38,7 +38,9 @@ public class WhenCommercialResourcesServiceIsCalled
             .Returns(_cacheEntry.Object);
         _options = Options.Create(new CacheOptions
         {
-            CommercialResources = _fixture.Create<CacheSettings>()
+            CommercialResources = _fixture.Build<CacheSettings>()
+                .Without(c => c.Disabled)
+                .Create()
         });
         _service = new CommercialResourcesService(_commercialResourcesApi.Object, _memoryCache.Object, _options);
 
@@ -166,14 +168,10 @@ public class WhenCommercialResourcesServiceIsCalled
     }
 
     [Fact]
-    public async Task ShouldNotAddResourcesToCacheFromApiIfNotInCacheWhenGettingCategoryLinksButInvalidOptions()
+    public async Task ShouldNotAddResourcesToCacheFromApiIfNotInCacheWhenGettingCategoryLinksButCacheDisabled()
     {
         // arrange
         object? nothing = null;
-
-        _memoryCache
-            .Setup(c => c.TryGetValue(It.IsAny<string>(), out nothing))
-            .Returns(false);
 
         _commercialResourcesApi.Setup(b => b.GetCommercialResources()).ReturnsAsync(ApiResult.Ok(_resources));
 
@@ -181,8 +179,7 @@ public class WhenCommercialResourcesServiceIsCalled
         {
             CommercialResources = new CacheSettings
             {
-                AbsoluteExpiration = 0,
-                SlidingExpiration = 0
+                Disabled = true
             }
         }));
 
@@ -190,6 +187,7 @@ public class WhenCommercialResourcesServiceIsCalled
         await service.GetCategoryLinks();
 
         // assert
+        _memoryCache.Verify(c => c.TryGetValue(It.IsAny<string>(), out nothing), Times.Never);
         _memoryCache.Verify(c => c.CreateEntry(It.IsAny<string>()), Times.Never);
     }
 
@@ -270,14 +268,10 @@ public class WhenCommercialResourcesServiceIsCalled
     }
 
     [Fact]
-    public async Task ShouldNotAddResourcesToCacheFromApiIfNotInCacheWhenGettingSubCategoryLinksButInvalidOptions()
+    public async Task ShouldNotAddResourcesToCacheFromApiIfNotInCacheWhenGettingSubCategoryLinksButCacheDisabled()
     {
         // arrange
         object? nothing = null;
-
-        _memoryCache
-            .Setup(c => c.TryGetValue(It.IsAny<string>(), out nothing))
-            .Returns(false);
 
         _commercialResourcesApi.Setup(b => b.GetCommercialResources()).ReturnsAsync(ApiResult.Ok(_resources));
 
@@ -285,8 +279,7 @@ public class WhenCommercialResourcesServiceIsCalled
         {
             CommercialResources = new CacheSettings
             {
-                AbsoluteExpiration = 0,
-                SlidingExpiration = 0
+                Disabled = true
             }
         }));
 
@@ -294,6 +287,7 @@ public class WhenCommercialResourcesServiceIsCalled
         await service.GetSubCategoryLinks();
 
         // assert
+        _memoryCache.Verify(c => c.TryGetValue(It.IsAny<string>(), out nothing), Times.Never);
         _memoryCache.Verify(c => c.CreateEntry(It.IsAny<string>()), Times.Never);
     }
 }

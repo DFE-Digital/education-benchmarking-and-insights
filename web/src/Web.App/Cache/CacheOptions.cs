@@ -12,4 +12,9 @@ public record CacheSettings
 {
     public int? SlidingExpiration { get; set; }
     public int? AbsoluteExpiration { get; set; }
+
+    /// <summary>
+    ///     If set, ignores sliding/absolute values to disable management of cache items
+    /// </summary>
+    public bool? Disabled { get; set; }
 }
