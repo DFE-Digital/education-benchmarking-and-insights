@@ -9,7 +9,7 @@ from azure.core.exceptions import ResourceNotFoundError
 from azure.storage.queue import QueueClient, QueueMessage
 from dotenv import load_dotenv
 
-from pipeline.stats_collector import StatsCollector
+from pipeline.stats_collector import stats_collector
 
 load_dotenv()
 
@@ -1456,9 +1456,7 @@ def receive_messages():
 
                         logger.info(f"received message {msg.content}")
                         stats_collector.start_pipeline_run()
-                        msg = handle_msg(
-                            msg, worker_queue, complete_queue
-                        )
+                        msg = handle_msg(msg, worker_queue, complete_queue)
                         logger.info(f"processed msg response: {msg}")
                     else:
                         time.sleep(1)
@@ -1470,12 +1468,7 @@ def receive_messages():
 
 
 if __name__ == "__main__":
-    with suppress(tornado.iostream.StreamClosedError):
-        with Client(memory_limit="16GB", heartbeat_interval=None) as client:
-            try:
-                if os.getenv("ENV") == "dev":
-                    receive_messages(client)
-                else:
-                    receive_one_message(client)
-            finally:
-                client.close()
+    if os.getenv("ENV") == "dev":
+        receive_messages()
+    else:
+        receive_one_message()

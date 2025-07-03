@@ -61,61 +61,8 @@ class StatsCollector:
         return self.stats
 
 
-# class StatsCollector(logging.LoggerAdapter):
-#     """Stats collector using LoggerAdapter for thread-safe operation"""
-
-#     _instance = None
-
-#     def __new__(cls):
-#         if cls._instance is None:
-#             # Create the base logger
-#             logger = logging.getLogger('pipeline_stats')
-#             logger.setLevel(logging.INFO)
-
-#             # Create the adapter instance
-#             cls._instance = super().__new__(cls)
-#             cls._instance.__init__(logger, {})
-#             cls._instance._initialized = True
-#             cls._instance.reset()
-#         return cls._instance
-
-#     def __init__(self, logger, extra):
-#         if not hasattr(self, '_initialized'):
-#             super().__init__(logger, extra)
-
-#     def reset(self):
-#         """Reset stats for new pipeline run"""
-#         self.stats = {
-#             "school_counts": {},
-#             "linked_data_school_counts": {},
-#             "row_counts": {},
-#         }
-#         self.run_id = None
-#         self.pipeline_start_time = None
-
-#     def start_pipeline_run(self, run_id: Optional[str] = None) -> str:
-#         """Start a new pipeline run"""
-#         self.reset()
-#         self.run_id = run_id or str(uuid.uuid4())
-#         self.pipeline_start_time = datetime.now()
-#         self.info(f"Started pipeline run: {self.run_id}")
-#         return self.run_id
-
-#     def log_academy_counts(self, academies_data_preprocessed):
-#         """Log academy counts"""
-#         count = self._generate_school_counts(academies_data_preprocessed)
-#         self.stats["school_counts"]["academies"] = count
-#         self.info(f"Academy counts logged: {count}")
-
-#     def log_preprocessed_ancillary_data_shape(self, name: str, shape: tuple[int, int]):
-#         """Log preprocessed ancillary data shape"""
-#         if name not in self.stats["linked_data_school_counts"]:
-#             self.stats["linked_data_school_counts"][name] = {}
-#         self.stats["linked_data_school_counts"][name]["total"] = shape[0]
-#         self.info(f"Ancillary data shape logged - {name}: {shape}")
-
-#     def get_stats(self) -> Dict[str, Any]:
-#         """Get all collected statistics"""
+stats_collector = StatsCollector()
+     """Get all collected statistics"""
 #         stats = {}
 #         stats.update(self.stats)
 
@@ -134,6 +81,3 @@ class StatsCollector:
 #     def process(self, msg, kwargs):
 #         """Process log messages (required by LoggerAdapter)"""
 #         return f"[STATS] {msg}", kwargs
-
-
-stats_collector = StatsCollector()
