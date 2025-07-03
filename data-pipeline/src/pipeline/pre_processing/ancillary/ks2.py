@@ -33,6 +33,6 @@ def prepare_ks2_data(ks2_path):
         )
 
     ks2_with_index = ks2.set_index("URN")
-    stats_collector.log_preprocessed_ancillary_data_shape("ks2", ks2_with_index.shape)
+    stats_collector.collect_preprocessed_ancillary_data_shape("ks2", ks2_with_index.shape)
 
     return ks2_with_index

@@ -85,6 +85,6 @@ def prepare_sen_data(sen_path):
         (sen["Primary Need OTH"] / sen["Total pupils"]) * 100.0
     ).fillna(0)
 
-    stats_collector.log_preprocessed_ancillary_data_shape("sen", sen.shape)
+    stats_collector.collect_preprocessed_ancillary_data_shape("sen", sen.shape)
 
     return sen[config.sen_generated_columns]

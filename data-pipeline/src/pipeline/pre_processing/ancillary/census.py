@@ -61,7 +61,7 @@ def prepare_census_data(
     ).items():
         school_workforce_census[column] = school_workforce_census.eval(eval_)
 
-    stats_collector.log_preprocessed_ancillary_data_shape(
+    stats_collector.collect_preprocessed_ancillary_data_shape(
         "census_workforce", school_workforce_census.shape
     )
 
@@ -92,7 +92,7 @@ def prepare_census_data(
         "Pupil Dual Registrations", pd.Series(0, index=school_pupil_census.index)
     ).fillna(0)
 
-    stats_collector.log_preprocessed_ancillary_data_shape(
+    stats_collector.collect_preprocessed_ancillary_data_shape(
         "census_pupil", school_pupil_census.shape
     )
 

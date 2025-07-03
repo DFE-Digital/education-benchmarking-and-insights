@@ -474,7 +474,7 @@ def pre_process_all_schools(run_type, run_id, data_ref):
     all_schools = pd.concat([academies, maintained_schools], axis=0)
     # TODO: Shouldn't need to filter this out
     all_schools = all_schools[~all_schools["Financial Position"].isna()]
-    stats_collector.log_combined_school_counts(all_schools)
+    stats_collector.collect_combined_school_counts(all_schools)
 
     write_blob(
         "pre-processed",
@@ -840,8 +840,8 @@ def pre_process_data(
             maintained_data_ref,
         ),
     )
-    stats_collector.log_academy_counts(academies)
-    stats_collector.log_la_maintained_school_counts(maintained_schools)
+    stats_collector.collect_academy_counts(academies)
+    stats_collector.collect_la_maintained_school_counts(maintained_schools)
 
     if (
         academies_ilr_data := pre_process_ilr_data(
@@ -955,9 +955,9 @@ def pre_process_custom_data(
         custom_data=custom_data,
         target_urn=target_urn,
     )
-    stats_collector.log_academy_counts(academies)
-    stats_collector.log_la_maintained_school_counts(maintained)
-    stats_collector.log_combined_school_counts(all_schools)
+    stats_collector.collect_academy_counts(academies)
+    stats_collector.collect_la_maintained_school_counts(maintained)
+    stats_collector.collect_combined_school_counts(all_schools)
 
     write_blob(
         "pre-processed",

@@ -156,7 +156,7 @@ def build_ilr_data(
         )
         .rename(columns=columns)[columns.values()]
     )
-    stats_collector.log_preprocessed_ancillary_data_shape(
+    stats_collector.collect_preprocessed_ancillary_data_shape(
         "ilr", combined_ilr_data.shape
     )
 

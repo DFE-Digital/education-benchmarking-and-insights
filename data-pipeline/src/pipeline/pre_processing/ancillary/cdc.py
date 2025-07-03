@@ -35,7 +35,7 @@ def prepare_cdc_data(cdc_file_path, current_year):
         ~cdc_generated.index.duplicated(keep="first")
     ]
 
-    stats_collector.log_preprocessed_ancillary_data_shape(
+    stats_collector.collect_preprocessed_ancillary_data_shape(
         "cdc", cdc_generated_no_dupes.shape
     )
 

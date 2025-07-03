@@ -81,9 +81,9 @@ class TestStatsCollector:
                 sample_school_df, phase_col="NonExistent"
             )
 
-    def test_log_academy_counts(self, stats_collector, sample_school_df):
+    def test_collect_academy_counts(self, stats_collector, sample_school_df):
         stats_collector.stats["school_counts"] = {}
-        stats_collector.log_academy_counts(sample_school_df)
+        stats_collector.collect_academy_counts(sample_school_df)
 
         expected = {
             "total": 4,
@@ -91,16 +91,16 @@ class TestStatsCollector:
         }
         assert stats_collector.stats["school_counts"]["academies"] == expected
 
-    def test_log_academy_counts_keyerror(self, stats_collector, not_school_df):
+    def test_collect_academy_counts_keyerror(self, stats_collector, not_school_df):
         """Test logging academy counts when school_counts key doesn't exist."""
         with pytest.raises(KeyError):
-            stats_collector.log_academy_counts(not_school_df)
+            stats_collector.collect_academy_counts(not_school_df)
 
-    def test_log_la_maintained_school_counts(self, stats_collector, sample_school_df):
+    def test_collect_la_maintained_school_counts(self, stats_collector, sample_school_df):
         """Test logging LA maintained school counts."""
         stats_collector.stats["school_counts"] = {}
 
-        stats_collector.log_la_maintained_school_counts(sample_school_df)
+        stats_collector.collect_la_maintained_school_counts(sample_school_df)
 
         expected = {
             "total": 4,
@@ -110,9 +110,9 @@ class TestStatsCollector:
             stats_collector.stats["school_counts"]["la_maintained_schools"] == expected
         )
 
-    def test_log_combined_school_counts(self, stats_collector, sample_school_df):
+    def test_collect_combined_school_counts(self, stats_collector, sample_school_df):
         stats_collector.stats["school_counts"] = {}
-        stats_collector.log_combined_school_counts(sample_school_df)
+        stats_collector.collect_combined_school_counts(sample_school_df)
 
         expected = {
             "total": 4,
@@ -121,9 +121,9 @@ class TestStatsCollector:
         assert stats_collector.stats["school_counts"]["combined_schools"] == expected
 
     @patch("pipeline.stats_collector.stats_logger")
-    def test_log_preprocessed_ancillary_data_shape(self, mock_logger, stats_collector):
+    def test_collect_preprocessed_ancillary_data_shape(self, mock_logger, stats_collector):
         name, shape = "test_data", (100, 5)
-        stats_collector.log_preprocessed_ancillary_data_shape(name, shape)
+        stats_collector.collect_preprocessed_ancillary_data_shape(name, shape)
 
         # Check logging call
         mock_logger.info.assert_called_once_with(f"{name=} preprocessed with {shape=}")
@@ -134,12 +134,12 @@ class TestStatsCollector:
         assert stats_collector.stats["linked_data_school_counts"][name]["total"] == 100
 
     @patch("pipeline.stats_collector.stats_logger")
-    def test_log_preprocessed_ancillary_data_shape_multiple_calls(
+    def test_collect_preprocessed_ancillary_data_shape_multiple_calls(
         self, mock_logger, stats_collector
     ):
-        """Test multiple calls to log_preprocessed_ancillary_data_shape."""
-        stats_collector.log_preprocessed_ancillary_data_shape("data1", (50, 3))
-        stats_collector.log_preprocessed_ancillary_data_shape("data2", (75, 4))
+        """Test multiple calls to collect_preprocessed_ancillary_data_shape."""
+        stats_collector.collect_preprocessed_ancillary_data_shape("data1", (50, 3))
+        stats_collector.collect_preprocessed_ancillary_data_shape("data2", (75, 4))
 
         expected_stats = {
             "linked_data_school_counts": {
@@ -207,15 +207,15 @@ class TestStatsCollector:
                 "Overall Phase": ["Primary", "Secondary"],
             }
         )
-        stats_collector.log_academy_counts(academy_df)
+        stats_collector.collect_academy_counts(academy_df)
 
         la_df = pd.DataFrame(
             {"School Name": ["LA School A"], "Overall Phase": ["Primary"]}
         )
-        stats_collector.log_la_maintained_school_counts(la_df)
+        stats_collector.collect_la_maintained_school_counts(la_df)
 
         with patch("pipeline.stats_collector.stats_logger"):
-            stats_collector.log_preprocessed_ancillary_data_shape(
+            stats_collector.collect_preprocessed_ancillary_data_shape(
                 "pupil_data", (1000, 10)
             )
 

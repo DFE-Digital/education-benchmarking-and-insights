@@ -46,6 +46,6 @@ def prepare_ks4_data(ks4_path):
         )
 
     ks4_with_index = ks4.set_index("URN")
-    stats_collector.log_preprocessed_ancillary_data_shape("ks4", ks4_with_index.shape)
+    stats_collector.collect_preprocessed_ancillary_data_shape("ks4", ks4_with_index.shape)
 
     return ks4_with_index
