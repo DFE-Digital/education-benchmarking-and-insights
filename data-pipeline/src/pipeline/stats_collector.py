@@ -62,22 +62,3 @@ class StatsCollector:
 
 
 stats_collector = StatsCollector()
-     """Get all collected statistics"""
-#         stats = {}
-#         stats.update(self.stats)
-
-#         if self.pipeline_start_time:
-#             stats['_pipeline_duration'] = (datetime.now() - self.pipeline_start_time).total_seconds()
-#             stats['_run_id'] = self.run_id
-#             stats['_start_time'] = self.pipeline_start_time.isoformat()
-
-#         self.info(f"Stats retrieved: {len(stats)} categories")
-#         return stats
-
-#     def _generate_school_counts(self, data):
-#         """Generate school counts from data"""
-#         return len(data) if hasattr(data, '__len__') else 0
-
-#     def process(self, msg, kwargs):
-#         """Process log messages (required by LoggerAdapter)"""
-#         return f"[STATS] {msg}", kwargs
