@@ -6,7 +6,7 @@ namespace Web.App.ViewComponents;
 
 public class BannerViewComponent(IBannerService service) : ViewComponent
 {
-    public async Task<IViewComponentResult> InvokeAsync(string target)
+    public async Task<IViewComponentResult> InvokeAsync(string target, string? columnClass = null)
     {
         if (string.IsNullOrWhiteSpace(target))
         {
@@ -14,7 +14,7 @@ public class BannerViewComponent(IBannerService service) : ViewComponent
         }
 
         var banner = await service.GetBannerOrDefault(target);
-        var vm = new BannerViewModel(banner);
+        var vm = new BannerViewModel(banner, columnClass);
         return View(vm);
     }
 }

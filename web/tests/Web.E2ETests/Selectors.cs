@@ -24,6 +24,10 @@ public static class Selectors
     public const string GovErrorSummary = ".govuk-error-summary";
     public const string GovSummaryCard = ".govuk-summary-card";
     public const string GovSummaryCardTitle = ".govuk-summary-card__title";
+    public const string GovNotificationBanner = ".govuk-notification-banner";
+    public const string GovNotificationBannerTitle = $"{GovNotificationBanner} .govuk-notification-banner__title";
+    public const string GovNotificationBannerHeading = $"{GovNotificationBanner} .govuk-notification-banner__heading";
+    public const string GovNotificationBannerBody = $"{GovNotificationBanner} .govuk-notification-banner__content > p";
 
     public const string ModeChart = "#mode-chart";
     public const string ModeTable = "#mode-table";
