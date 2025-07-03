@@ -18,6 +18,10 @@ public class HomePage(IPage page)
         HasText = "High needs benchmarking"
     });
     private ILocator CookieBanner => page.Locator(Selectors.CookieBanner);
+    private ILocator Banner => page.Locator(Selectors.GovNotificationBanner);
+    private ILocator BannerTitle => page.Locator(Selectors.GovNotificationBannerTitle);
+    private ILocator BannerHeading => page.Locator(Selectors.GovNotificationBannerHeading);
+    private ILocator BannerBody => page.Locator(Selectors.GovNotificationBannerBody);
 
     public async Task IsDisplayed()
     {
@@ -46,5 +50,19 @@ public class HomePage(IPage page)
     {
         await HighNeedsBenchmarkingLink.Click();
         return new HighNeedsDashboardPage(page);
+    }
+
+    public async Task HasBanner(string title, string heading, string body)
+    {
+        await Banner.ShouldBeVisible();
+
+        await BannerTitle.ShouldBeVisible();
+        await BannerTitle.ShouldContainText(title);
+
+        await BannerHeading.ShouldBeVisible();
+        await BannerHeading.ShouldContainText(heading);
+
+        await BannerBody.ShouldBeVisible();
+        await BannerBody.ShouldContainText(body);
     }
 }

@@ -55,6 +55,10 @@ public class HomePage(IPage page)
 
     private ILocator CookieBanner => page.Locator(Selectors.CookieBanner);
     private ILocator RagGuidance => page.Locator("#rag-guidance");
+    private ILocator Banner => page.Locator(Selectors.GovNotificationBanner);
+    private ILocator BannerTitle => page.Locator(Selectors.GovNotificationBannerTitle);
+    private ILocator BannerHeading => page.Locator(Selectors.GovNotificationBannerHeading);
+    private ILocator BannerBody => page.Locator(Selectors.GovNotificationBannerBody);
 
     public async Task IsDisplayed(
         bool isPartYear = false,
@@ -173,5 +177,19 @@ public class HomePage(IPage page)
     public async Task AssertRagGuidance()
     {
         await RagGuidance.ShouldBeVisible();
+    }
+
+    public async Task HasBanner(string title, string heading, string body)
+    {
+        await Banner.ShouldBeVisible();
+
+        await BannerTitle.ShouldBeVisible();
+        await BannerTitle.ShouldContainText(title);
+
+        await BannerHeading.ShouldBeVisible();
+        await BannerHeading.ShouldContainText(heading);
+
+        await BannerBody.ShouldBeVisible();
+        await BannerBody.ShouldContainText(body);
     }
 }

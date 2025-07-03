@@ -1,6 +1,6 @@
 ﻿using Microsoft.Playwright;
-using Web.E2ETests.Pages.Trust.Benchmarking;
 using Xunit;
+
 namespace Web.E2ETests.Pages.Trust;
 
 public class HomePage(IPage page)
@@ -32,6 +32,10 @@ public class HomePage(IPage page)
         new PageLocatorOptions { HasText = "Curriculum and financial planning" });
 
     private ILocator CookieBanner => page.Locator(Selectors.CookieBanner);
+    private ILocator Banner => page.Locator(Selectors.GovNotificationBanner);
+    private ILocator BannerTitle => page.Locator(Selectors.GovNotificationBannerTitle);
+    private ILocator BannerHeading => page.Locator(Selectors.GovNotificationBannerHeading);
+    private ILocator BannerBody => page.Locator(Selectors.GovNotificationBannerBody);
 
     public async Task IsDisplayed()
     {
@@ -88,5 +92,19 @@ public class HomePage(IPage page)
     {
         await CurriculumFinancialPlanningLink.Click();
         return new CurriculumFinancialPlanningPage(page);
+    }
+
+    public async Task HasBanner(string title, string heading, string body)
+    {
+        await Banner.ShouldBeVisible();
+
+        await BannerTitle.ShouldBeVisible();
+        await BannerTitle.ShouldContainText(title);
+
+        await BannerHeading.ShouldBeVisible();
+        await BannerHeading.ShouldContainText(heading);
+
+        await BannerBody.ShouldBeVisible();
+        await BannerBody.ShouldContainText(body);
     }
 }
