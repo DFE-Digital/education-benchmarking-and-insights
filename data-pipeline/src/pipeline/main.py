@@ -1303,6 +1303,7 @@ def handle_msg(
         match get_message_type(message=msg_payload):
             case MessageType.Default:
                 logger.info("Starting default pipeline run...")
+                stats_collector.start_pipeline_run()
                 msg_payload["pre_process_duration"] = pre_process_data(
                     run_id=str(msg_payload["runId"]),
                     aar_year=msg_payload["year"]["aar"],
@@ -1333,6 +1334,7 @@ def handle_msg(
 
             case MessageType.Custom:
                 logger.info("Starting custom pipeline run...")
+                stats_collector.start_pipeline_run()
                 msg_payload["pre_process_duration"] = pre_process_custom_data(
                     run_id=msg_payload["runId"],
                     year=msg_payload["year"],
@@ -1455,7 +1457,6 @@ def receive_messages():
                         )
 
                         logger.info(f"received message {msg.content}")
-                        stats_collector.start_pipeline_run()
                         msg = handle_msg(msg, worker_queue, complete_queue)
                         logger.info(f"processed msg response: {msg}")
                     else:
