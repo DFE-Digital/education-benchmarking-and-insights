@@ -31,8 +31,12 @@ def prepare_cdc_data(cdc_file_path, current_year):
         cdc.groupby(by=["URN"])["Indicative Age"].mean().astype("Int64")
     )
     cdc_generated = cdc[config.cdc_generated_columns]
-    cdc_generated_no_dupes = cdc_generated[~cdc_generated.index.duplicated(keep="first")]
+    cdc_generated_no_dupes = cdc_generated[
+        ~cdc_generated.index.duplicated(keep="first")
+    ]
 
-    stats_collector.log_preprocessed_ancillary_data_shape("cdc", cdc_generated_no_dupes.shape)
+    stats_collector.log_preprocessed_ancillary_data_shape(
+        "cdc", cdc_generated_no_dupes.shape
+    )
 
     return cdc_generated_no_dupes

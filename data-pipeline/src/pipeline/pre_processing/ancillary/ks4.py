@@ -44,7 +44,7 @@ def prepare_ks4_data(ks4_path):
                 "Progress8Banding": pd.Series(dtype="string"),
             }
         )
-    
+
     ks4_with_index = ks4.set_index("URN")
     stats_collector.log_preprocessed_ancillary_data_shape("ks4", ks4_with_index.shape)
 
