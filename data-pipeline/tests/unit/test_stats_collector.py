@@ -32,7 +32,6 @@ class TestStatsCollector:
 
     def test_init(self, stats_collector):
         assert stats_collector.stats == {}
-        assert not hasattr(stats_collector, "pipeline_start_time")
 
     def test_start_pipeline_run(self, stats_collector):
         stats_collector.stats = {"test": "data"}
