@@ -5,10 +5,8 @@ import time
 from contextlib import suppress
 
 import pandas as pd
-import tornado.iostream
 from azure.core.exceptions import ResourceNotFoundError
 from azure.storage.queue import QueueClient, QueueMessage
-from dask.distributed import Client
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -562,7 +560,9 @@ def pre_process_bfr(run_id: str, year: int):
                 )
                 .query("EFALineNo in (430, 999,)")
             )
-            logger.info(f"BFR sofa year minus two preprocessed {year=} shape: {bfr_sofa_year_minus_two.shape}")
+            logger.info(
+                f"BFR sofa year minus two preprocessed {year=} shape: {bfr_sofa_year_minus_two.shape}"
+            )
 
     academies_y1 = None
     bfr_sofa_year_minus_one = None
@@ -579,7 +579,6 @@ def pre_process_bfr(run_id: str, year: int):
             ],
         )
         logger.info(f"Academies Y1 preprocessed {year=} shape: {academies_y1.shape}")
-        
 
         if bfr_sofa_year_minus_one_file := try_get_blob(
             raw_container,
@@ -602,7 +601,9 @@ def pre_process_bfr(run_id: str, year: int):
                 )
                 .query("EFALineNo in (430, 999,)")
             )
-            logger.info(f"BFR sofa year minus one preprocessed {year=} shape: {bfr_sofa_year_minus_one.shape}")
+            logger.info(
+                f"BFR sofa year minus one preprocessed {year=} shape: {bfr_sofa_year_minus_one.shape}"
+            )
 
     # Process BFR data…
     academies_y2 = build_bfr_historical_data(
@@ -699,7 +700,9 @@ def pre_process_local_authorities(
         la_sen2_data,
         year,
     )
-    logger.info(f"Local Authorities preprocessed' {year=} shape: {local_authorities.shape}")
+    logger.info(
+        f"Local Authorities preprocessed' {year=} shape: {local_authorities.shape}"
+    )
 
     write_blob(
         "pre-processed",
@@ -725,7 +728,6 @@ def pre_process_local_authorities(
 
 
 def _get_ancillary_data(
-    worker_client: Client,
     run_id: str,
     year: int,
 ) -> tuple:
@@ -734,7 +736,6 @@ def _get_ancillary_data(
 
     Note: `run_type` is _always_ "default".
 
-    :param worker_client: Dask client
     :param run_id: unique identifier (used for write target)
     :param year: financial year in question
     :return: tuple of supporting datasets
@@ -753,41 +754,36 @@ def _get_ancillary_data(
         central_services,
         gias_links,
         high_exec_pay,
-    ) = worker_client.gather(
-        [
-            worker_client.submit(pre_process_cdc, run_type, year, run_id),
-            worker_client.submit(pre_process_census, run_type, year, run_id),
-            worker_client.submit(pre_process_sen, run_type, year, run_id),
-            worker_client.submit(pre_process_ks2, run_type, year, run_id),
-            worker_client.submit(pre_process_ks4, run_type, year, run_id),
-            worker_client.submit(pre_process_academy_ar, run_type, year, run_id),
-            worker_client.submit(pre_process_schools, run_type, year, run_id),
-            worker_client.submit(pre_process_cfo, run_type, year, run_id),
-            worker_client.submit(pre_process_central_services, run_type, year, run_id),
-            worker_client.submit(pre_process_gias_links, run_type, year, run_id),
-            worker_client.submit(pre_process_high_exec_pay, run_type, year, run_id),
-        ]
+    ) = (
+        pre_process_cdc(run_type, year, run_id),
+        pre_process_census(run_type, year, run_id),
+        pre_process_sen(run_type, year, run_id),
+        pre_process_ks2(run_type, year, run_id),
+        pre_process_ks4(run_type, year, run_id),
+        pre_process_academy_ar(run_type, year, run_id),
+        pre_process_schools(run_type, year, run_id),
+        pre_process_cfo(run_type, year, run_id),
+        pre_process_central_services(run_type, year, run_id),
+        pre_process_gias_links(run_type, year, run_id),
+        pre_process_high_exec_pay(run_type, year, run_id),
     )
 
-    return worker_client.scatter(
-        (
-            schools,
-            census,
-            sen,
-            cdc,
-            aar,
-            ks2,
-            ks4,
-            cfo,
-            central_services,
-            gias_links,
-            high_exec_pay,
-        )
+    return (
+        schools,
+        census,
+        sen,
+        cdc,
+        aar,
+        ks2,
+        ks4,
+        cfo,
+        central_services,
+        gias_links,
+        high_exec_pay,
     )
 
 
 def pre_process_data(
-    worker_client: Client,
     run_id: str,
     aar_year: int,
     cfr_year: int,
@@ -808,7 +804,6 @@ def pre_process_data(
 
     Note: `run_type` is _always_ "default".
 
-    :param worker_client: Dask client
     :param run_id: unique identifier (used for write target)
     :param aar_year: Academy financial year/source
     :param cfr_year: Maintained School financial year/source
@@ -822,75 +817,65 @@ def pre_process_data(
     logger.info(f"Pre-processing data {run_type} - {run_id}")
 
     academies_data_ref = maintained_data_ref = _get_ancillary_data(
-        worker_client,
         run_id,
         aar_year,
     )
     if cfr_year != aar_year:
-        maintained_data_ref = _get_ancillary_data(worker_client, run_id, cfr_year)
+        maintained_data_ref = _get_ancillary_data(run_id, cfr_year)
 
-    academies, maintained_schools = worker_client.gather(
-        [
-            worker_client.submit(
-                pre_process_academies_data,
-                run_type,
-                run_id,
-                aar_year,
-                academies_data_ref,
-            ),
-            worker_client.submit(
-                pre_process_maintained_schools_data,
-                run_type,
-                run_id,
-                cfr_year,
-                maintained_data_ref,
-            ),
-        ]
-    )
-
-    if (
-        academies_ilr_data := worker_client.submit(
-            pre_process_ilr_data,
+    academies, maintained_schools = (
+        pre_process_academies_data(
             run_type,
             run_id,
             aar_year,
-            academies_data_ref[0],
-        ).result()
-    ) is not None:
-        academies = worker_client.submit(
-            patch_missing_sixth_form_data,
-            academies,
-            academies_ilr_data,
-            academies_data_ref[9],
-        ).result()
-        academies = total_per_unit.calculate_total_per_unit_costs(academies)
-
-    if (
-        maintained_ilr_data := worker_client.submit(
-            pre_process_ilr_data,
+            academies_data_ref,
+        ),
+        pre_process_maintained_schools_data(
             run_type,
             run_id,
             cfr_year,
-            maintained_data_ref[0],
-        ).result()
+            maintained_data_ref,
+        ),
+    )
+
+    if (
+        academies_ilr_data := pre_process_ilr_data(
+            run_type,
+            aar_year,
+            run_id,
+            academies_data_ref[0],
+        )
     ) is not None:
-        maintained_schools = worker_client.submit(
-            patch_missing_sixth_form_data,
+        academies = patch_missing_sixth_form_data(
+            academies,
+            academies_ilr_data,
+            academies_data_ref[9],
+        )
+        academies = total_per_unit.calculate_total_per_unit_costs(academies)
+
+    if (
+        maintained_ilr_data := pre_process_ilr_data(
+            run_type,
+            cfr_year,
+            run_id,
+            maintained_data_ref[0],
+        )
+    ) is not None:
+        maintained_schools = patch_missing_sixth_form_data(
             maintained_schools,
             maintained_ilr_data,
             maintained_data_ref[9],
-        ).result()
+        )
         maintained_schools = total_per_unit.calculate_total_per_unit_costs(
             maintained_schools
         )
 
-    trusts = worker_client.submit(
-        pre_process_trust_data,
+    trusts = pre_process_trust_data(
         run_type,
         run_id,
         academies,
         academies_data_ref[10],
-    ).result()
+    )
 
     pre_process_all_schools(
         run_type,
@@ -1022,7 +1007,9 @@ def compute_comparator_set_for(
     st = time.time()
     logger.info(f"Computing {data_type} set")
     result = compute_comparator_set(data, target_urn=target_urn)
-    logger.info(f"Computing {data_type} set shape={result.shape}. Done in {time.time() - st:.2f} seconds")
+    logger.info(
+        f"Computing {data_type} set shape={result.shape}. Done in {time.time() - st:.2f} seconds"
+    )
 
     st = time.time()
     write_blob(
@@ -1150,7 +1137,9 @@ def compute_rag_for(
             compute_rag(data, comparators, target_urn=target_urn)
         ).set_index("URN")
 
-    logger.info(f"Computing {data_type} RAG shape={df.shape}. Done in {time.time() - st:.2f} seconds")
+    logger.info(
+        f"Computing {data_type} RAG shape={df.shape}. Done in {time.time() - st:.2f} seconds"
+    )
 
     write_blob(
         "metric-rag",
@@ -1283,7 +1272,6 @@ def run_user_defined_rag(
 
 
 def handle_msg(
-    worker_client: Client,
     msg: QueueMessage,
     worker_queue: QueueClient,
     complete_queue: QueueClient,
@@ -1295,7 +1283,6 @@ def handle_msg(
     taken place for the year in question, failing if that does not hold
     true.
 
-    :param worker_client: Dask client
     :param msg: incoming message, triggering this process
     :param worker_queue: incoming message queue (for deletion)
     :param complete_queue: outcoming message queue (for completion)
@@ -1309,7 +1296,6 @@ def handle_msg(
             case MessageType.Default:
                 logger.info("Starting default pipeline run...")
                 msg_payload["pre_process_duration"] = pre_process_data(
-                    worker_client=worker_client,
                     run_id=str(msg_payload["runId"]),
                     aar_year=msg_payload["year"]["aar"],
                     cfr_year=msg_payload["year"]["cfr"],
@@ -1413,7 +1399,7 @@ def _check_msg_dequeue(
     )
 
 
-def receive_one_message(worker_client):
+def receive_one_message():
     try:
         with blob_service_client, queue_service_client:
             worker_queue = connect_to_queue(worker_queue_name)
@@ -1430,7 +1416,7 @@ def receive_one_message(worker_client):
                     )
 
                     logger.info(f"received message {msg.content}")
-                    msg = handle_msg(worker_client, msg, worker_queue, complete_queue)
+                    msg = handle_msg(msg, worker_queue, complete_queue)
                     exit(0) if msg["success"] else exit(1)
                 else:
                     logger.info("no messages received")
@@ -1442,7 +1428,7 @@ def receive_one_message(worker_client):
         exit(-1)
 
 
-def receive_messages(worker_client):
+def receive_messages():
     try:
         with blob_service_client, queue_service_client:
             worker_queue = connect_to_queue(worker_queue_name)
@@ -1460,7 +1446,7 @@ def receive_messages(worker_client):
 
                         logger.info(f"received message {msg.content}")
                         msg = handle_msg(
-                            worker_client, msg, worker_queue, complete_queue
+                            msg, worker_queue, complete_queue
                         )
                         logger.info(f"processed msg response: {msg}")
                     else:
@@ -1473,12 +1459,7 @@ def receive_messages(worker_client):
 
 
 if __name__ == "__main__":
-    with suppress(tornado.iostream.StreamClosedError):
-        with Client(memory_limit="16GB", heartbeat_interval=None) as client:
-            try:
-                if os.getenv("ENV") == "dev":
-                    receive_messages(client)
-                else:
-                    receive_one_message(client)
-            finally:
-                client.close()
+    if os.getenv("ENV") == "dev":
+        receive_messages()
+    else:
+        receive_one_message()
