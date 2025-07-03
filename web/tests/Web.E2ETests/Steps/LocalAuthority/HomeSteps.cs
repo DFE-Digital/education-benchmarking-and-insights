@@ -66,6 +66,13 @@ public class HomeSteps(PageDriver driver)
         await _highNeedsBenchmarkingPage.IsDisplayed();
     }
 
+    [Then("the service banner displays the title '(.*)', heading '(.*)' and body '(.*)'")]
+    public async Task ThenTheServiceBannerDisplaysTheTitleHeadingAndBody(string title, string heading, string body)
+    {
+        Assert.NotNull(_localAuthorityHomePage);
+        await _localAuthorityHomePage.HasBanner(title, heading, body);
+    }
+
     private static string LocalAuthorityHomeUrl(string laCode)
     {
         return $"{TestConfiguration.ServiceUrl}/local-authority/{laCode}";

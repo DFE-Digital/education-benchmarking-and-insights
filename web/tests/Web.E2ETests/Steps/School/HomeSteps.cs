@@ -39,6 +39,17 @@ public class HomeSteps(PageDriver driver)
         await _schoolHomePage.IsDisplayed(true);
     }
 
+    [Given("I am on academy homepage for school with urn '(.*)' and trust name '(.*)'")]
+    public async Task GivenIAmOnAcademyHomepageForSchoolWithUrnAndTrustName(string urn, string trustName)
+    {
+        var url = SchoolHomeUrl(urn);
+        var page = await driver.Current;
+        await page.GotoAndWaitForLoadAsync(url);
+
+        _schoolHomePage = new HomePage(page);
+        await _schoolHomePage.IsDisplayed(trustName: trustName);
+    }
+
     [When("I click on school details")]
     public async Task WhenIClickOnSchoolDetails()
     {
@@ -176,5 +187,12 @@ public class HomeSteps(PageDriver driver)
     {
         Assert.NotNull(_schoolHomePage);
         await _schoolHomePage.AssertRagGuidance();
+    }
+
+    [Then("the service banner displays the title '(.*)', heading '(.*)' and body '(.*)'")]
+    public async Task ThenTheServiceBannerDisplaysTheTitleHeadingAndBody(string title, string heading, string body)
+    {
+        Assert.NotNull(_schoolHomePage);
+        await _schoolHomePage.HasBanner(title, heading, body);
     }
 }

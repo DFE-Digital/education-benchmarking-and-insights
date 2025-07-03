@@ -7,3 +7,7 @@ Id,Title,Heading,Body,Target,ValidFrom,ValidTo
 6,Title 6,Heading 6,Body 6,"[""target-3""]",2025-01-08 00:00:00.0000000 +00:00,2025-01-09 00:00:00.0000000 +00:00
 7,Title 7,Heading 7,Body 7,"[""target-4"",""target-5"",""target-6""]",2025-01-10 00:00:00.0000000 +00:00,
 8,Home page,Banner on home page,This banner has been configured on the automated test environment for the **home page** only,"[""ServiceHome""]",2025-07-01 00:00:00.0000000 +00:00,
+9,Local authority home page,Banner on local authority home page,This banner has been configured on the automated test environment for the **local authority home page** only,"[""LocalAuthorityHome""]",2025-07-01 00:00:00.0000000 +00:00,
+10,Academy home page,Banner on academy home page,This banner has been configured on the automated test environment for the **academy home page** only,"[""SchoolHomeAcademy""]",2025-07-01 00:00:00.0000000 +00:00,
+11,Maintained school home page,Banner on maintained school home page,This banner has been configured on the automated test environment for the **maintained school home page** only,"[""SchoolHomeMaintained""]",2025-07-01 00:00:00.0000000 +00:00,
+12,Trust home page,Banner on trust home page,This banner has been configured on the automated test environment for the **trust home page** only,"[""TrustHome""]",2025-07-01 00:00:00.0000000 +00:00,

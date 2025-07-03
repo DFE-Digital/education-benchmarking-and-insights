@@ -10,10 +10,10 @@ public class HomeSteps(PageDriver driver)
 {
     private BenchmarkCensusPage? _benchmarkCensusPage;
     private CompareYourCostsPage? _compareYourCostsPage;
-    private SpendingCostsPage? _spendingCostsPage;
-    private HomePage? _trustHomePage;
     private CurriculumFinancialPlanningPage? _curriculumFinancialPlanningPage;
+    private SpendingCostsPage? _spendingCostsPage;
     private TrustForecastPage? _trustForecastPage;
+    private HomePage? _trustHomePage;
 
     [Given("I am on trust homepage for trust with company number '(.*)'")]
     public async Task GivenIAmOnTrustHomepageForTrustWithCompanyNumber(string companyNumber)
@@ -133,6 +133,15 @@ public class HomeSteps(PageDriver driver)
         await _trustForecastPage.IsTableDataDisplayed(expected);
     }
 
-    private static string TrustHomeUrl(string companyNumber) => $"{TestConfiguration.ServiceUrl}/trust/{companyNumber}";
+    [Then("the service banner displays the title '(.*)', heading '(.*)' and body '(.*)'")]
+    public async Task ThenTheServiceBannerDisplaysTheTitleHeadingAndBody(string title, string heading, string body)
+    {
+        Assert.NotNull(_trustHomePage);
+        await _trustHomePage.HasBanner(title, heading, body);
+    }
 
+    private static string TrustHomeUrl(string companyNumber)
+    {
+        return $"{TestConfiguration.ServiceUrl}/trust/{companyNumber}";
+    }
 }

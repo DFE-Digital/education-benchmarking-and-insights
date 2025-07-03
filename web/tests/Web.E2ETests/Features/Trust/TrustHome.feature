@@ -59,3 +59,7 @@
           | 31 Aug 2023     | £608,000          |                 |            |                     |                                 |
           | 31 Aug 2024     | £547,000          |                 |            |                     |                                 |
           | 31 Aug 2025     | £490,000          |                 |            |                     |                                 |
+
+    Scenario: Service banner is displayed
+        Given I am on trust homepage for trust with company number '00000001'
+        Then the service banner displays the title 'Trust home page', heading 'Banner on trust home page' and body 'This banner has been configured on the automated test environment for the trust home page only'
