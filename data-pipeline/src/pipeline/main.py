@@ -5,7 +5,6 @@ import time
 from contextlib import suppress
 
 import pandas as pd
-import tornado.iostream
 from azure.core.exceptions import ResourceNotFoundError
 from azure.storage.queue import QueueClient, QueueMessage
 from dotenv import load_dotenv
