@@ -36,6 +36,13 @@ public class HomePageSteps(PageDriver driver)
         await _findOrganisationPage.IsDisplayed();
     }
 
+    [Then("the service banner displays the title '(.*)', heading '(.*)' and body '(.*)'")]
+    public async Task ThenTheServiceBannerDisplaysTheTitleHeadingAndBody(string title, string heading, string body)
+    {
+        Assert.NotNull(_homePage);
+        await _homePage.HasBanner(title, heading, body);
+    }
+
     private static string HomePageUrl()
     {
         return $"{TestConfiguration.ServiceUrl}/";

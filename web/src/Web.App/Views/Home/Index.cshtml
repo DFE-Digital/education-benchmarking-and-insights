@@ -75,5 +75,9 @@
 </div>
 
 @section banner {
-    @await Component.InvokeAsync("Banner", new { target = BannerTargets.ServiceHome })
+    @await Component.InvokeAsync("Banner", new
+    {
+        target = BannerTargets.ServiceHome, 
+        columnClass = "govuk-grid-column-two-thirds"
+    })
 }
