@@ -31,7 +31,9 @@ class StatsCollector:
             academies_data_preprocessed
         )
 
-    def collect_la_maintained_school_counts(self, la_maintained_schools_data_preprocessed):
+    def collect_la_maintained_school_counts(
+        self, la_maintained_schools_data_preprocessed
+    ):
         self.stats.setdefault("school_counts", {})
         self.stats["school_counts"]["la_maintained_schools"] = (
             self._generate_school_counts(la_maintained_schools_data_preprocessed)
@@ -43,7 +45,9 @@ class StatsCollector:
             combined_schools_data_preprocessed
         )
 
-    def collect_preprocessed_ancillary_data_shape(self, name: str, shape: tuple[int, int]):
+    def collect_preprocessed_ancillary_data_shape(
+        self, name: str, shape: tuple[int, int]
+    ):
         stats_logger.info(f"{name=} preprocessed with {shape=}")
         self.stats.setdefault("linked_data_school_counts", {})
         self.stats["linked_data_school_counts"].setdefault(name, {})

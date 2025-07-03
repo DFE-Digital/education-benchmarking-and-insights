@@ -96,7 +96,9 @@ class TestStatsCollector:
         with pytest.raises(KeyError):
             stats_collector.collect_academy_counts(not_school_df)
 
-    def test_collect_la_maintained_school_counts(self, stats_collector, sample_school_df):
+    def test_collect_la_maintained_school_counts(
+        self, stats_collector, sample_school_df
+    ):
         """Test logging LA maintained school counts."""
         stats_collector.stats["school_counts"] = {}
 
@@ -121,7 +123,9 @@ class TestStatsCollector:
         assert stats_collector.stats["school_counts"]["combined_schools"] == expected
 
     @patch("pipeline.stats_collector.stats_logger")
-    def test_collect_preprocessed_ancillary_data_shape(self, mock_logger, stats_collector):
+    def test_collect_preprocessed_ancillary_data_shape(
+        self, mock_logger, stats_collector
+    ):
         name, shape = "test_data", (100, 5)
         stats_collector.collect_preprocessed_ancillary_data_shape(name, shape)
 
