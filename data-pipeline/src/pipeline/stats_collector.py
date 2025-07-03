@@ -23,11 +23,11 @@ class StatsCollector:
         self, school_df: pd.DataFrame, phase_col: str = "Overall Phase"
     ) -> dict:
         unique_school_count: int = school_df.shape[0]
-        unique_schools_per_phase_dict: dict[str, int] = (
+        unique_schools_per_phase: dict[str, int] = (
             school_df[phase_col].value_counts().to_dict()
         )
 
-        return {"total": unique_school_count, "by_phase": unique_schools_per_phase_dict}
+        return {"total": unique_school_count, "by_phase": unique_schools_per_phase}
 
     def collect_academy_counts(self, academies_data_preprocessed):
         self.stats.setdefault("school_counts", {})
