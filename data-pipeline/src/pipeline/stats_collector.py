@@ -1,8 +1,8 @@
-import logging
-
 import pandas as pd
 
-stats_logger = logging.getLogger("stats")
+from pipeline.log import setup_logger
+
+stats_logger = setup_logger("stats")
 
 
 class StatsCollector:
@@ -48,7 +48,7 @@ class StatsCollector:
     def collect_preprocessed_ancillary_data_shape(
         self, name: str, shape: tuple[int, int]
     ):
-        stats_logger.info(f"{name=} preprocessed with {shape=}")
+        stats_logger.info(f"Ancillary file {name=} preprocessed with {shape=}")
         self.stats.setdefault("linked_data_school_counts", {})
         self.stats["linked_data_school_counts"].setdefault(name, {})
         self.stats["linked_data_school_counts"][name]["total"] = shape[0]
