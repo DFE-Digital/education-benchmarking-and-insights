@@ -9,6 +9,8 @@ from azure.core.exceptions import ResourceNotFoundError
 from azure.storage.queue import QueueClient, QueueMessage
 from dotenv import load_dotenv
 
+from pipeline.stats_collector import stats_collector
+
 load_dotenv()
 
 from pipeline.comparator_sets import compute_comparator_set, prepare_data
@@ -472,6 +474,7 @@ def pre_process_all_schools(run_type, run_id, data_ref):
     all_schools = pd.concat([academies, maintained_schools], axis=0)
     # TODO: Shouldn't need to filter this out
     all_schools = all_schools[~all_schools["Financial Position"].isna()]
+    stats_collector.collect_combined_school_counts(all_schools)
 
     write_blob(
         "pre-processed",
@@ -837,6 +840,8 @@ def pre_process_data(
             maintained_data_ref,
         ),
     )
+    stats_collector.collect_academy_counts(academies)
+    stats_collector.collect_la_maintained_school_counts(maintained_schools)
 
     if (
         academies_ilr_data := pre_process_ilr_data(
@@ -950,6 +955,9 @@ def pre_process_custom_data(
         custom_data=custom_data,
         target_urn=target_urn,
     )
+    stats_collector.collect_academy_counts(academies)
+    stats_collector.collect_la_maintained_school_counts(maintained)
+    stats_collector.collect_combined_school_counts(all_schools)
 
     write_blob(
         "pre-processed",
@@ -1295,6 +1303,7 @@ def handle_msg(
         match get_message_type(message=msg_payload):
             case MessageType.Default:
                 logger.info("Starting default pipeline run...")
+                stats_collector.start_pipeline_run()
                 msg_payload["pre_process_duration"] = pre_process_data(
                     run_id=str(msg_payload["runId"]),
                     aar_year=msg_payload["year"]["aar"],
@@ -1310,6 +1319,7 @@ def handle_msg(
                     run_type=run_type,
                     run_id=str(msg_payload["runId"]),
                 )
+                msg_payload["stats"] = stats_collector.get_stats()
                 logger.info("Default pipeline run completed!")
 
             case MessageType.DefaultUserDefined:
@@ -1324,6 +1334,7 @@ def handle_msg(
 
             case MessageType.Custom:
                 logger.info("Starting custom pipeline run...")
+                stats_collector.start_pipeline_run()
                 msg_payload["pre_process_duration"] = pre_process_custom_data(
                     run_id=msg_payload["runId"],
                     year=msg_payload["year"],
@@ -1342,6 +1353,7 @@ def handle_msg(
                     run_id=msg_payload["runId"],
                     target_urn=int(msg_payload["urn"]),
                 )
+                msg_payload["stats"] = stats_collector.get_stats()
                 logger.info("Custom pipeline run completed!")
 
         msg_payload["success"] = True
@@ -1445,9 +1457,7 @@ def receive_messages():
                         )
 
                         logger.info(f"received message {msg.content}")
-                        msg = handle_msg(
-                            msg, worker_queue, complete_queue
-                        )
+                        msg = handle_msg(msg, worker_queue, complete_queue)
                         logger.info(f"processed msg response: {msg}")
                     else:
                         time.sleep(1)

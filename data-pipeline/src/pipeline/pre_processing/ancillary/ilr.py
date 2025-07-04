@@ -3,6 +3,7 @@ from pandas._typing import FilePath, ReadCsvBuffer
 
 from pipeline import input_schemas, log
 from pipeline.part_year.common import map_has_pupil_comparator_data
+from pipeline.stats_collector import stats_collector
 
 from . import gias
 
@@ -138,7 +139,7 @@ def build_ilr_data(
         year, input_schemas.ilr_column_mappings["default"]
     )
 
-    return (
+    combined_ilr_data = (
         _build_ilr_fsm_data(filepath_or_buffer, year)
         .join(
             _build_ilr_ehcp_data(filepath_or_buffer, year),
@@ -155,6 +156,11 @@ def build_ilr_data(
         )
         .rename(columns=columns)[columns.values()]
     )
+    stats_collector.collect_preprocessed_ancillary_data_shape(
+        "ilr", combined_ilr_data.shape
+    )
+
+    return combined_ilr_data
 
 
 def patch_missing_sixth_form_data(

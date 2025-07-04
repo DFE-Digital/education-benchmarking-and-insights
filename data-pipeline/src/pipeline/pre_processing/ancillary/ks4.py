@@ -3,6 +3,7 @@ import logging
 import pandas as pd
 
 import pipeline.input_schemas as input_schemas
+from pipeline.stats_collector import stats_collector
 
 logger = logging.getLogger("fbit-data-pipeline")
 
@@ -44,4 +45,9 @@ def prepare_ks4_data(ks4_path):
             }
         )
 
-    return ks4.set_index("URN")
+    ks4_with_index = ks4.set_index("URN")
+    stats_collector.collect_preprocessed_ancillary_data_shape(
+        "ks4", ks4_with_index.shape
+    )
+
+    return ks4_with_index

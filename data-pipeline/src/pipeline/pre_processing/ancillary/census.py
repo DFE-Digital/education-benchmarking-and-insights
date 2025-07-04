@@ -4,6 +4,7 @@ import pandas as pd
 
 import pipeline.config as config
 import pipeline.input_schemas as input_schemas
+from pipeline.stats_collector import stats_collector
 
 logger = logging.getLogger("fbit-data-pipeline")
 
@@ -60,6 +61,10 @@ def prepare_census_data(
     ).items():
         school_workforce_census[column] = school_workforce_census.eval(eval_)
 
+    stats_collector.collect_preprocessed_ancillary_data_shape(
+        "census_workforce", school_workforce_census.shape
+    )
+
     school_pupil_census = pd.read_csv(
         pupil_census_path,
         encoding="cp1252",
@@ -86,6 +91,10 @@ def prepare_census_data(
     school_pupil_census["Pupil Dual Registrations"] = school_pupil_census.get(
         "Pupil Dual Registrations", pd.Series(0, index=school_pupil_census.index)
     ).fillna(0)
+
+    stats_collector.collect_preprocessed_ancillary_data_shape(
+        "census_pupil", school_pupil_census.shape
+    )
 
     census = school_pupil_census.join(
         school_workforce_census,

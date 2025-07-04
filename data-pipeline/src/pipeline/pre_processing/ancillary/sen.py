@@ -4,6 +4,7 @@ import pandas as pd
 
 import pipeline.config as config
 import pipeline.input_schemas as input_schemas
+from pipeline.stats_collector import stats_collector
 
 logger = logging.getLogger("fbit-data-pipeline")
 
@@ -83,5 +84,7 @@ def prepare_sen_data(sen_path):
     sen["Percentage Primary Need OTH"] = (
         (sen["Primary Need OTH"] / sen["Total pupils"]) * 100.0
     ).fillna(0)
+
+    stats_collector.collect_preprocessed_ancillary_data_shape("sen", sen.shape)
 
     return sen[config.sen_generated_columns]

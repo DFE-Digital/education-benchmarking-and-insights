@@ -3,6 +3,7 @@ from pandas._typing import FilePath, ReadCsvBuffer
 
 import pipeline.input_schemas as input_schemas
 from pipeline import log
+from pipeline.stats_collector import stats_collector
 
 logger = log.setup_logger(__name__)
 
@@ -28,6 +29,9 @@ def predecessor_links(
 
     predecessors = gias_links[gias_links["LinkType"] == "Predecessor"]
 
+    stats_collector.collect_preprocessed_ancillary_data_shape(
+        "gias", predecessors.shape
+    )
     logger.info(f"Read {len(predecessors.index):,} predecessor GIAS-links records.")
 
     return predecessors

@@ -3,6 +3,7 @@ import logging
 import pandas as pd
 
 from pipeline import input_schemas
+from pipeline.stats_collector import stats_collector
 
 logger = logging.getLogger("fbit-data-pipeline")
 
@@ -33,5 +34,7 @@ def build_cfo_data(cfo_data_path, year: int) -> pd.DataFrame:
         year, input_schemas.cfo_column_eval["default"]
     ).items():
         cfo_data[column] = cfo_data.eval(eval_)
+
+    stats_collector.collect_preprocessed_ancillary_data_shape("cfo", cfo_data.shape)
 
     return cfo_data[["Companies House Number", "CFO name", "CFO email"]]
