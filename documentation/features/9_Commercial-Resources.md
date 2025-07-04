@@ -77,7 +77,7 @@ The `VW_CommercialResources` view filters and displays only active resources wit
 
 ### API Reference
 
-API call to Insight: Retrieves commercial resources.
+API call to Content: Retrieves commercial resources.
 
 Endpoint: `api/commercial-resources`
 
