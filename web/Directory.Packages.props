@@ -20,7 +20,7 @@
         <PackageVersion Include="Westwind.AspNetCore.Markdown" Version="3.23.0"/>
         <PackageVersion Include="xunit" Version="2.9.3"/>
         <PackageVersion Include="xunit.abstractions" Version="2.0.3"/>
-        <PackageVersion Include="xunit.runner.visualstudio" Version="3.1.0">
+        <PackageVersion Include="xunit.runner.visualstudio" Version="3.1.1">
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
             <PrivateAssets>all</PrivateAssets>
         </PackageVersion>
@@ -43,10 +43,10 @@
         <PackageVersion Include="Serilog.Sinks.ApplicationInsights" Version="4.0.0"/>
         <PackageVersion Include="SmartBreadcrumbs" Version="3.6.1"/>
         <PackageVersion Include="Deque.AxeCore.Playwright" Version="4.10.1"/>
-        <PackageVersion Include="Microsoft.Extensions.Configuration" Version="9.0.5"/>
-        <PackageVersion Include="Microsoft.Extensions.Configuration.Binder" Version="9.0.5"/>
-        <PackageVersion Include="Microsoft.Extensions.Configuration.Json" Version="9.0.5"/>
-        <PackageVersion Include="Microsoft.Playwright" Version="1.52.0"/>
+        <PackageVersion Include="Microsoft.Extensions.Configuration" Version="9.0.6"/>
+        <PackageVersion Include="Microsoft.Extensions.Configuration.Binder" Version="9.0.6"/>
+        <PackageVersion Include="Microsoft.Extensions.Configuration.Json" Version="9.0.6"/>
+        <PackageVersion Include="Microsoft.Playwright" Version="1.53.0"/>
         <PackageVersion Include="Reqnroll" Version="2.4.1"/>
         <PackageVersion Include="Reqnroll.xUnit" Version="2.4.1"/>
         <PackageVersion Include="xunit.assert" Version="2.9.3"/>
