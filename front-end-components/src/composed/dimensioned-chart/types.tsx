@@ -27,6 +27,7 @@ export type DimensionChartOverride = {
   valueFormatter: ValueFormatterType;
   suppressNegativeOrZero: SuppressNegativeOrZero;
   customTooltip?: "highExec";
+  summary: string;
 };
 
 export type DimensionedChartProps<

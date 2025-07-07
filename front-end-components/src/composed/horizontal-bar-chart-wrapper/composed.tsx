@@ -79,6 +79,7 @@ export function HorizontalBarChartWrapper<
 
   const valueLabel = override?.valueLabel ?? xAxisLabel ?? dimension.label;
   const resolvedValueUnit = override?.valueUnit ?? valueUnit ?? dimension.unit;
+  const summary = override?.summary;
 
   const tableValueFormatter = override?.valueFormatter ?? fullValueFormatter;
   const chartValueFormatter = override?.valueFormatter ?? shortValueFormatter;
@@ -245,6 +246,11 @@ export function HorizontalBarChartWrapper<
               showTitle
               title={chartTitle}
             />
+          </div>
+        )}
+        {summary && (
+          <div className="govuk-grid-column-two-thirds">
+            <p className="govuk-body">{summary}</p>
           </div>
         )}
       </div>

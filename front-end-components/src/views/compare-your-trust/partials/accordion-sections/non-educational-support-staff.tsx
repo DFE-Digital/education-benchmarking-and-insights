@@ -220,6 +220,8 @@ export const NonEducationalSupportStaff: React.FC<{
           message: "Only displaying trusts with pay band data.",
         },
         customTooltip: "highExec",
+        summary:
+          "Emoluments are payments made to executive members of staff. The figure noted includes salary, other taxable benefits in cash or in kind, termination payments and employer pension as reported by the trust in the AAR.",
       },
     };
     charts.push(highExecutivePayChart);
