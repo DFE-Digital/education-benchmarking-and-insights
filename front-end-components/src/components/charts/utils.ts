@@ -128,11 +128,11 @@ export function payBandFormatter(value: ValueFormatterValue): string {
     return value ? String(value) : "";
   }
 
-  if (value >= 380) {
-    return "380+";
+  if (value > 380) {
+    return "£380k+";
   }
-  if (value === 0) {
-    return "0-10";
+  if (value <= 10) {
+    return "£0-£10k";
   }
-  return `${value - 10}-${value}`;
+  return `£${value - 10}k-£${value}k`;
 }

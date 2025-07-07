@@ -418,24 +418,25 @@ describe("Chart utils", () => {
     });
 
     describe("when given a number", () => {
-      describe("and value is 0", () => {
-        it("returns '0-10'", () => {
-          expect(payBandFormatter(0)).toBe("0-10");
+      describe("and value is less than or equal to 10", () => {
+        it("returns '£0-£10k'", () => {
+          expect(payBandFormatter(0)).toBe("£0-£10k");
+          expect(payBandFormatter(10)).toBe("£0-£10k");
         });
       });
 
-      describe("and value is greater than or equal to 380", () => {
-        it("returns '380+'", () => {
-          expect(payBandFormatter(380)).toBe("380+");
-          expect(payBandFormatter(400)).toBe("380+");
+      describe("and value is greater than 380", () => {
+        it("returns '£380k+'", () => {
+          expect(payBandFormatter(390)).toBe("£380k+");
+          expect(payBandFormatter(400)).toBe("£380k+");
         });
       });
 
-      describe("and value is between 1 and 379", () => {
-        it("returns a range in the format 'x-380'", () => {
-          expect(payBandFormatter(10)).toBe("0-10");
-          expect(payBandFormatter(50)).toBe("40-50");
-          expect(payBandFormatter(379)).toBe("369-379");
+      describe("and value is between 11 and 380", () => {
+        it("returns a range in the format '£{x-10}k-{x}k'", () => {
+          expect(payBandFormatter(11)).toBe("£1k-£11k");
+          expect(payBandFormatter(50)).toBe("£40k-£50k");
+          expect(payBandFormatter(380)).toBe("£370k-£380k");
         });
       });
     });
