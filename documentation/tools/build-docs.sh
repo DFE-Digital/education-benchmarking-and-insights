@@ -31,6 +31,10 @@ done
 cp -a images/. work/images
 cd work
 workfiles=$(find . -name '*.md' -and ! -name '*.md.exclude' | sort -V)
+
+echo "[DEBUG] Markdown files passed to Pandoc:"
+echo "$workfiles"
+
 pandoc "${@:4}" --verbose  -s $workfiles  -o "$output"
 cd ..
 rm -rf work
