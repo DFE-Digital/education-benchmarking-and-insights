@@ -210,7 +210,7 @@ export const NonEducationalSupportStaff: React.FC<{
   if (showHighExecutivePay) {
     const highExecutivePayChart = {
       data: highestSalaryBandBarData,
-      title: "High executive pay",
+      title: "Highest paid individual at a Trust (FTE equivalent)",
       override: {
         valueUnit: "amount",
         valueLabel: "Highest emolument band",
