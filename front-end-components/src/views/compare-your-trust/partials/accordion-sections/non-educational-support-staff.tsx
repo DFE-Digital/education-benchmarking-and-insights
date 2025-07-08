@@ -210,16 +210,19 @@ export const NonEducationalSupportStaff: React.FC<{
   if (showHighExecutivePay) {
     const highExecutivePayChart = {
       data: highestSalaryBandBarData,
-      title: "High executive pay",
+      title: "Highest paid individual at a Trust (FTE equivalent)",
       override: {
         valueUnit: "amount",
         valueLabel: "Highest emolument band",
         valueFormatter: payBandFormatter,
         suppressNegativeOrZero: {
           suppressNegativeOrZero: true,
-          message: "Only displaying trusts with pay band data.",
+          message:
+            "Only data for Trusts with pay bands above £60,000 is shown.",
         },
         customTooltip: "highExec",
+        summary:
+          "Emoluments are payments made to executive members of staff. The figure noted includes salary, other taxable benefits in cash or in kind, termination payments and employer pension as reported by the trust in the AAR.",
       },
     };
     charts.push(highExecutivePayChart);
