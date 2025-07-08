@@ -170,7 +170,8 @@ public partial class SpendingCostsPage(IPage page)
         var resourcesSection = categorySection.Locator(".app-resources");
 
         var resources = await resourcesSection.Locator("ul li").AllTextContentsAsync();
-        Assert.Equal(commercialResources, resources.Select(r => r.Replace("Opens in a new window", string.Empty).Trim()));
+        var expected = resources.Select(r => r.Replace("Opens in a new window", string.Empty).Trim()).ToArray();
+        Assert.Equal(commercialResources, expected);
     }
 
     public async Task AssertCategoryCommentary(string categoryName, string commentary)
