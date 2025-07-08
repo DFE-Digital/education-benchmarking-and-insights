@@ -127,7 +127,8 @@ SELECT CompanyNumber,
        TotalUtilitiesCostsSchool,
        EnergyCostsSchool,
        WaterSewerageCostsSchool,
-       EMLBand
+       EMLBand,
+       TotalPupils
 FROM VW_TrustFinancialDefault
 GO
 
@@ -260,7 +261,8 @@ SELECT CompanyNumber,
        IIF(TotalExpenditureSchool != 0, (TotalUtilitiesCostsSchool / TotalExpenditureSchool) * 100, NULL) AS 'TotalUtilitiesCostsSchool',
        IIF(TotalExpenditureSchool != 0, (EnergyCostsSchool / TotalExpenditureSchool) * 100, NULL) AS 'EnergyCostsSchool',
        IIF(TotalExpenditureSchool != 0, (WaterSewerageCostsSchool / TotalExpenditureSchool) * 100, NULL) AS 'WaterSewerageCostsSchool',
-       EMLBand
+       EMLBand,
+       TotalPupils
 FROM VW_TrustFinancialDefault
 GO
 
@@ -393,7 +395,8 @@ SELECT CompanyNumber,
        IIF(TotalIncomeSchool != 0, (TotalUtilitiesCostsSchool / TotalIncomeSchool) * 100, NULL) AS 'TotalUtilitiesCostsSchool',
        IIF(TotalIncomeSchool != 0, (EnergyCostsSchool / TotalIncomeSchool) * 100, NULL) AS 'EnergyCostsSchool',
        IIF(TotalIncomeSchool != 0, (WaterSewerageCostsSchool / TotalIncomeSchool) * 100, NULL) AS 'WaterSewerageCostsSchool',
-       EMLBand
+       EMLBand,
+       TotalPupils
 FROM VW_TrustFinancialDefault
 GO
 
@@ -526,7 +529,8 @@ SELECT CompanyNumber,
        IIF(TotalInternalFloorArea != 0, TotalUtilitiesCostsSchool / TotalInternalFloorArea, NULL) AS 'TotalUtilitiesCostsSchool',
        IIF(TotalInternalFloorArea != 0, EnergyCostsSchool / TotalInternalFloorArea, NULL) AS 'EnergyCostsSchool',
        IIF(TotalInternalFloorArea != 0, WaterSewerageCostsSchool / TotalInternalFloorArea, NULL) AS 'WaterSewerageCostsSchool',
-       EMLBand
+       EMLBand,
+       TotalPupils
 FROM VW_TrustFinancialDefault
 GO
 
