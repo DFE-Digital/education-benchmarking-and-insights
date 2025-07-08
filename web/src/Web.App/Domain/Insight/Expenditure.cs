@@ -152,6 +152,7 @@ public record TrustExpenditure : ExpenditureBase
     public decimal? SchoolSupplyTeacherInsurableCosts { get; set; }
 
     public int? HighestSalaryEmolumentBandValue { get; set; }
+    public decimal? TotalPupils { get; set; }
 }
 
 public record ExpenditureHistory : ExpenditureBase
