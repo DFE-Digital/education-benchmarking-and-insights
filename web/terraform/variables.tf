@@ -5,12 +5,13 @@ variable "location" {}
 
 variable "configuration" {
   type = map(object({
-    sku_name               = string
-    zone_balancing_enabled = bool
-    worker_count           = number
-    front_door_sku_name    = string
-    waf_mode               = string
-    redirect_app_service   = bool
+    sku_name                       = string
+    zone_balancing_enabled         = bool
+    worker_count                   = number
+    front_door_profile_sku_name    = string
+    front_door_waf_policy_sku_name = string
+    waf_mode                       = string
+    redirect_app_service           = bool
     features = object({
       CurriculumFinancialPlanning          = bool
       CustomData                           = bool
@@ -44,12 +45,13 @@ variable "configuration" {
   }))
   default = {
     development = {
-      sku_name               = "B1"
-      zone_balancing_enabled = false
-      worker_count           = 1
-      front_door_sku_name    = "Standard_AzureFrontDoor"
-      waf_mode               = "Detection"
-      redirect_app_service   = false
+      sku_name                       = "B1"
+      zone_balancing_enabled         = false
+      worker_count                   = 1
+      front_door_profile_sku_name    = "Standard_AzureFrontDoor"
+      front_door_waf_policy_sku_name = "Standard_AzureFrontDoor"
+      waf_mode                       = "Detection"
+      redirect_app_service           = false
       features = {
         Trusts                               = true
         CurriculumFinancialPlanning          = true
@@ -82,12 +84,13 @@ variable "configuration" {
       }
     }
     automated-test = {
-      sku_name               = "B1"
-      zone_balancing_enabled = false
-      worker_count           = 1
-      front_door_sku_name    = "Standard_AzureFrontDoor"
-      waf_mode               = "Detection"
-      redirect_app_service   = false
+      sku_name                       = "B1"
+      zone_balancing_enabled         = false
+      worker_count                   = 1
+      front_door_profile_sku_name    = "Standard_AzureFrontDoor"
+      front_door_waf_policy_sku_name = "Standard_AzureFrontDoor"
+      waf_mode                       = "Detection"
+      redirect_app_service           = false
       features = {
         Trusts                               = true
         CurriculumFinancialPlanning          = true
@@ -120,12 +123,13 @@ variable "configuration" {
       }
     }
     test = {
-      sku_name               = "P0v3"
-      zone_balancing_enabled = false
-      worker_count           = 1
-      front_door_sku_name    = "Standard_AzureFrontDoor"
-      waf_mode               = "Prevention"
-      redirect_app_service   = false
+      sku_name                       = "P0v3"
+      zone_balancing_enabled         = false
+      worker_count                   = 1
+      front_door_profile_sku_name    = "Standard_AzureFrontDoor"
+      front_door_waf_policy_sku_name = "Standard_AzureFrontDoor"
+      waf_mode                       = "Prevention"
+      redirect_app_service           = false
       features = {
         Trusts                               = true
         CurriculumFinancialPlanning          = true
@@ -158,12 +162,13 @@ variable "configuration" {
       }
     }
     feature = {
-      sku_name               = "B1"
-      zone_balancing_enabled = false
-      worker_count           = 1
-      front_door_sku_name    = "Standard_AzureFrontDoor"
-      waf_mode               = "Detection"
-      redirect_app_service   = true
+      sku_name                       = "B1"
+      zone_balancing_enabled         = false
+      worker_count                   = 1
+      front_door_profile_sku_name    = "Standard_AzureFrontDoor"
+      front_door_waf_policy_sku_name = "Standard_AzureFrontDoor"
+      waf_mode                       = "Detection"
+      redirect_app_service           = true
       features = {
         Trusts                               = true
         CurriculumFinancialPlanning          = true
@@ -196,12 +201,13 @@ variable "configuration" {
       }
     }
     pre-production = {
-      sku_name               = "P0v3"
-      zone_balancing_enabled = false
-      worker_count           = 1
-      front_door_sku_name    = "Standard_AzureFrontDoor"
-      waf_mode               = "Prevention"
-      redirect_app_service   = false
+      sku_name                       = "P0v3"
+      zone_balancing_enabled         = false
+      worker_count                   = 1
+      front_door_profile_sku_name    = "Standard_AzureFrontDoor"
+      front_door_waf_policy_sku_name = "Standard_AzureFrontDoor"
+      waf_mode                       = "Prevention"
+      redirect_app_service           = false
       features = {
         Trusts                               = true
         CurriculumFinancialPlanning          = true
@@ -234,12 +240,13 @@ variable "configuration" {
       }
     }
     production = {
-      sku_name               = "P1v3"
-      zone_balancing_enabled = false
-      worker_count           = 1
-      front_door_sku_name    = "Standard_AzureFrontDoor"
-      waf_mode               = "Prevention"
-      redirect_app_service   = true
+      sku_name                       = "P1v3"
+      zone_balancing_enabled         = false
+      worker_count                   = 1
+      front_door_profile_sku_name    = "Standard_AzureFrontDoor"
+      front_door_waf_policy_sku_name = "Premium_AzureFrontDoor"
+      waf_mode                       = "Prevention"
+      redirect_app_service           = true
       features = {
         Trusts                               = true
         CurriculumFinancialPlanning          = true
