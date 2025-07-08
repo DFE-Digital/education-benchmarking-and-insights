@@ -54,7 +54,7 @@ This feature has monorepo dependencies on:
 
 - Web app
 - Establishment API
-- Insight API
+- Content API
 - Front-end components
 
 ## Usage
@@ -121,7 +121,7 @@ Spending Priorities.
 - [View Model](../../web/src/Web.App/ViewModels/SchoolSpendingViewModel.cs)
 - [View](../../web/src/Web.App/Views/SchoolSpending/Index.cshtml)
 
-Resources retrieved via the Insight API call ([see API Reference](#api-reference)) are cached in-memory, as they are infrequently updated. See `CommercialResourcesService` [here](../../web/src/Web.App/Services/CommercialResourcesService.cs)
+Resources retrieved via the Content API call ([see API Reference](#api-reference)) are cached in-memory, as they are infrequently updated. See `CommercialResourcesService` [here](../../web/src/Web.App/Services/CommercialResourcesService.cs)
 
 `CommercialResourcesBuilder` groups and sorts the resources. See [here](../../web/src/Web.App/Domain/CommercialResources.cs#L11)
 
@@ -135,5 +135,11 @@ Resources for each category are managed using view components, view models, and 
 -[View Component](../../web/src/Web.App/ViewComponents/CommercialResourceViewComponent.cs)
 -[View Model](../../web/src/Web.App/ViewModels/Components/CommercialResourceViewModel.cs)
 -[View Component](../../web/src/Web.App/Views/Shared/Components/CommercialResource/Default.cshtml)
+
+## Updating resources
+
+From time-to-time the commercial resources will need to be updated. In order to track the history of updates, relevant SQL scripts should be persisted to the repo in the [scripts/content](../../scripts/content) folder.
+
+In the future the management of commercial resources, and other resources handled by the Content API, will be done by an administrative front-end. This supports self-service of parts of the platform via a paired-down CMS to reduce the dependency on the development team.
 
 \newpage
