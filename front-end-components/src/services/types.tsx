@@ -177,6 +177,7 @@ type NonEducationalSupportStaffTrustExpenditureBase =
     centralProfessionalServicesNonCurriculumCosts: number;
 
     highestSalaryEmolumentBandValue: number;
+    totalPupils: number;
   };
 
 export type NonEducationalSupportStaffTrustExpenditure = TrustExpenditure &
