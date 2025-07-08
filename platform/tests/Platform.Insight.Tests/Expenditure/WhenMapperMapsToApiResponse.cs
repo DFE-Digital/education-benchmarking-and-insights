@@ -71,6 +71,7 @@ public class WhenMapperMapsToApiResponse
         Assert.Equal(model.TotalExpenditure, result.TotalExpenditure);
         Assert.Equal(model.TotalExpenditureCS, result.CentralTotalExpenditure);
         Assert.Equal(model.TotalExpenditureSchool, result.SchoolTotalExpenditure);
+        Assert.Equal(model.TotalPupils, result.TotalPupils);
     }
 
     [Theory]
