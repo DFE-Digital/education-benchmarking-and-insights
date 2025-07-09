@@ -1,16 +1,11 @@
 {
   "name": "shutter",
-  "version": "1.0.0",
-  "main": "index.js",
+  "version": "0.0.0",
   "scripts": {
     "build": "gulp build",
     "dev": "cross-env ASSETS_PATH=assets MARKDOWN_CONTENT=\"Custom message for **local development**.\" gulp",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "description": "",
   "dependencies": {
     "cross-env": "^7.0.3",
     "del": "^8.0.0",

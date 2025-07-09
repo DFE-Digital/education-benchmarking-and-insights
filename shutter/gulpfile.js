@@ -1,14 +1,14 @@
-const { src, dest, series, watch } = require("gulp");
-const del = require("del");
-const nunjucksRender = require("gulp-nunjucks-render");
-const beautify = require("gulp-beautify");
-const copy = require("gulp-copy");
-const markdown = require("marked");
-const DOMPurify = require("isomorphic-dompurify");
-const replace = require("gulp-replace");
+import { src, dest, series, watch } from "gulp";
+import { deleteAsync } from "del";
+import nunjucksRender from "gulp-nunjucks-render";
+import beautify from "gulp-beautify";
+import copy from "gulp-copy";
+import { use as useMarkdownExtension, parse as parseMarkdown } from "marked";
+import DOMPurify from "isomorphic-dompurify";
+import replace from "gulp-replace";
 
 function clean() {
-  return del.deleteAsync(["dist"]);
+  return deleteAsync(["dist"]);
 }
 
 const assetsPath = process.env.ASSETS_PATH ?? "/assets";
@@ -33,11 +33,11 @@ const renderer = {
   },
 };
 
-markdown.use({ renderer });
+useMarkdownExtension({ renderer });
 
 const data = {
   markdown_content: process.env.MARKDOWN_CONTENT
-    ? DOMPurify.sanitize(markdown.parse(process.env.MARKDOWN_CONTENT))
+    ? DOMPurify.sanitize(parseMarkdown(process.env.MARKDOWN_CONTENT))
     : undefined,
 };
 
@@ -83,5 +83,6 @@ function watchFiles() {
   watch("src/templates/**/*", html);
 }
 
-exports.build = series(clean, html, assets, stylesheets);
-exports.default = series(clean, html, assets, stylesheets, watchFiles);
+export const build = series(clean, html, assets, stylesheets);
+export const _default = series(clean, html, assets, stylesheets, watchFiles);
+export { _default as default };
