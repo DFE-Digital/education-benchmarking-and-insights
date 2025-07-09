@@ -1,7 +1,7 @@
 ﻿[
   {
-    "title": "Air cleaning",
-    "url": "https://find-dfe-approved-framework.service.gov.uk/list/air-cleaning",
+    "title": "Air cleaning units for education and childcare settings",
+    "url": "https://get-help-buying-for-schools.education.gov.uk/solutions/air-cleaning",
     "category": {
       "items": [
         "Premises staff and services"
@@ -15,7 +15,7 @@
   },
   {
     "title": "Audit and financial services",
-    "url": "https://find-dfe-approved-framework.service.gov.uk/list/audit-and-financial-services",
+    "url": "https://get-help-buying-for-schools.education.gov.uk/solutions/audit-and-financial-services",
     "category": {
       "items": [
         "Non-educational support staff and services"
@@ -29,7 +29,7 @@
   },
   {
     "title": "Building cleaning",
-    "url": "https://find-dfe-approved-framework.service.gov.uk/list/building-cleaning",
+    "url": "https://get-help-buying-for-schools.education.gov.uk/solutions/building-cleaning",
     "category": {
       "items": [
         "Premises staff and services"
@@ -43,7 +43,7 @@
   },
   {
     "title": "Building in use - support services",
-    "url": "https://find-dfe-approved-framework.service.gov.uk/list/fm-support-service",
+    "url": "https://get-help-buying-for-schools.education.gov.uk/solutions/fm-support-service",
     "category": {
       "items": [
         "Premises staff and services"
@@ -56,22 +56,8 @@
     }
   },
   {
-    "title": "Catering services - ESPO framework",
-    "url": "https://find-dfe-approved-framework.service.gov.uk/list/outsourced-catering",
-    "category": {
-      "items": [
-        "Catering staff and supplies"
-      ]
-    },
-    "subCategory": {
-      "items": [
-        "Catering supplies"
-      ]
-    }
-  },
-  {
-    "title": "Catering services - the EB framework",
-    "url": "https://find-dfe-approved-framework.service.gov.uk/list/catering-services",
+    "title": "Catering services",
+    "url": "https://get-help-buying-for-schools.education.gov.uk/solutions/outsourced-catering",
     "category": {
       "items": [
         "Catering staff and supplies"
@@ -85,7 +71,7 @@
   },
   {
     "title": "Cleaning services",
-    "url": "https://find-dfe-approved-framework.service.gov.uk/list/cleaning-services",
+    "url": "https://get-help-buying-for-schools.education.gov.uk/solutions/cleaning-services",
     "category": {
       "items": [
         "Premises staff and services"
@@ -99,7 +85,7 @@
   },
   {
     "title": "Commercial catering equipment",
-    "url": "https://find-dfe-approved-framework.service.gov.uk/list/commercial-catering-equipment",
+    "url": "https://get-help-buying-for-schools.education.gov.uk/solutions/commercial-catering-equipment",
     "category": {
       "items": [
         "Catering staff and supplies"
@@ -113,7 +99,7 @@
   },
   {
     "title": "Communications solutions",
-    "url": "https://find-dfe-approved-framework.service.gov.uk/list/communications-solutions",
+    "url": "https://get-help-buying-for-schools.education.gov.uk/solutions/communications-solutions",
     "category": {
       "items": [
         "Administrative supplies"
@@ -127,7 +113,7 @@
   },
   {
     "title": "Communications solutions and associated telephony services",
-    "url": "https://find-dfe-approved-framework.service.gov.uk/list/communications-telephony",
+    "url": "https://get-help-buying-for-schools.education.gov.uk/solutions/communications-telephony",
     "category": {
       "items": [
         "Administrative supplies"
@@ -141,7 +127,7 @@
   },
   {
     "title": "Corporate software and related products and services",
-    "url": "https://find-dfe-approved-framework.service.gov.uk/list/corporate-software",
+    "url": "https://get-help-buying-for-schools.education.gov.uk/solutions/corporate-software",
     "category": {
       "items": [
         "Administrative supplies"
@@ -155,7 +141,7 @@
   },
   {
     "title": "Cyber security services 3",
-    "url": "https://find-dfe-approved-framework.service.gov.uk/list/cyber-security",
+    "url": "https://get-help-buying-for-schools.education.gov.uk/solutions/cyber-security",
     "category": {
       "items": [
         "Administrative supplies"
@@ -169,7 +155,7 @@
   },
   {
     "title": "Debt resolution services",
-    "url": "https://find-dfe-approved-framework.service.gov.uk/list/debt-resolution-services",
+    "url": "https://get-help-buying-for-schools.education.gov.uk/solutions/debt-resolution-services",
     "category": {
       "items": [
         "Utilities"
@@ -183,7 +169,7 @@
   },
   {
     "title": "Education decarbonisation",
-    "url": "https://find-dfe-approved-framework.service.gov.uk/list/education-decarbonisation",
+    "url": "https://get-help-buying-for-schools.education.gov.uk/solutions/education-decarbonisation",
     "category": {
       "items": [
         "Utilities"
@@ -197,7 +183,7 @@
   },
   {
     "title": "Education management systems",
-    "url": "https://find-dfe-approved-framework.service.gov.uk/list/education-management-systems",
+    "url": "https://get-help-buying-for-schools.education.gov.uk/solutions/education-management-systems",
     "category": {
       "items": [
         "Administrative supplies"
@@ -210,8 +196,8 @@
     }
   },
   {
-    "title": "Electricity (for supply during 2020 - 2028)",
-    "url": "https://find-dfe-approved-framework.service.gov.uk/list/electricity-espo",
+    "title": "Electricity (for supply during 2024-2028)",
+    "url": "https://get-help-buying-for-schools.education.gov.uk/solutions/electricity-espo",
     "category": {
       "items": [
         "Utilities"
@@ -224,8 +210,8 @@
     }
   },
   {
-    "title": "Energy cost recovery services",
-    "url": "https://find-dfe-approved-framework.service.gov.uk/list/energy-cost-recovery-services",
+    "title": "Energy cost recovery services for schools",
+    "url": "https://get-help-buying-for-schools.education.gov.uk/solutions/energy-cost-recovery-services",
     "category": {
       "items": [
         "Utilities"
@@ -239,39 +225,39 @@
   },
   {
     "title": "Everything ICT",
-    "url": "https://find-dfe-approved-framework.service.gov.uk/list/ict-procurement",
+    "url": "https://get-help-buying-for-schools.education.gov.uk/solutions/ict-procurement",
     "category": {
       "items": [
-        "Educational ICT",
-        "Administrative supplies"
+        "Administrative supplies",
+        "Educational ICT"
       ]
     },
     "subCategory": {
       "items": [
-        "ICT learning resources",
-        "Administrative supplies (non-educational)"
+        "Administrative supplies (non-educational)",
+        "ICT learning resources"
       ]
     }
   },
   {
     "title": "Facilities management and workplace services",
-    "url": "https://find-dfe-approved-framework.service.gov.uk/list/fm-workplace-dps",
+    "url": "https://get-help-buying-for-schools.education.gov.uk/solutions/fm-workplace-dps",
     "category": {
       "items": [
-        "Premises staff and services",
-        "Catering staff and supplies"
+        "Catering staff and supplies",
+        "Premises staff and services"
       ]
     },
     "subCategory": {
       "items": [
-        "Maintenance of premises",
-        "Catering supplies"
+        "Catering supplies",
+        "Maintenance of premises"
       ]
     }
   },
   {
     "title": "Fixed and flexible electricity",
-    "url": "https://find-dfe-approved-framework.service.gov.uk/list/fixed-and-flexible-electricity",
+    "url": "https://get-help-buying-for-schools.education.gov.uk/solutions/fixed-and-flexible-electricity",
     "category": {
       "items": [
         "Utilities"
@@ -285,7 +271,7 @@
   },
   {
     "title": "Fixed and flexible gas",
-    "url": "https://find-dfe-approved-framework.service.gov.uk/list/fixed-and-flexible-gas",
+    "url": "https://get-help-buying-for-schools.education.gov.uk/solutions/fixed-and-flexible-gas",
     "category": {
       "items": [
         "Utilities"
@@ -299,7 +285,7 @@
   },
   {
     "title": "Flexible electricity",
-    "url": "https://find-dfe-approved-framework.service.gov.uk/list/flex-electricity",
+    "url": "https://get-help-buying-for-schools.education.gov.uk/solutions/flex-electricity",
     "category": {
       "items": [
         "Utilities"
@@ -313,7 +299,7 @@
   },
   {
     "title": "Flexible gas",
-    "url": "https://find-dfe-approved-framework.service.gov.uk/list/flex-gas",
+    "url": "https://get-help-buying-for-schools.education.gov.uk/solutions/flex-gas",
     "category": {
       "items": [
         "Utilities"
@@ -326,8 +312,8 @@
     }
   },
   {
-    "title": "Food and drink",
-    "url": "https://find-dfe-approved-framework.service.gov.uk/list/food-and-drink-framework",
+    "title": "Food and drink - dynamic purchasing system",
+    "url": "https://get-help-buying-for-schools.education.gov.uk/solutions/food-and-drink-dynamic-purchasing-system-dps",
     "category": {
       "items": [
         "Catering staff and supplies"
@@ -340,8 +326,8 @@
     }
   },
   {
-    "title": "Food and drink - dynamic purchasing system (DPS)",
-    "url": "https://find-dfe-approved-framework.service.gov.uk/list/food-and-drink-dynamic-purchasing-system-dps",
+    "title": "Food and drink - framework",
+    "url": "https://get-help-buying-for-schools.education.gov.uk/solutions/food-and-drink-framework",
     "category": {
       "items": [
         "Catering staff and supplies"
@@ -355,23 +341,23 @@
   },
   {
     "title": "G-Cloud 14",
-    "url": "https://find-dfe-approved-framework.service.gov.uk/list/g-cloud",
+    "url": "https://get-help-buying-for-schools.education.gov.uk/solutions/g-cloud",
     "category": {
       "items": [
-        "Educational ICT",
-        "Administrative supplies"
+        "Administrative supplies",
+        "Educational ICT"
       ]
     },
     "subCategory": {
       "items": [
-        "ICT learning resources",
-        "Administrative supplies (non-educational)"
+        "Administrative supplies (non-educational)",
+        "ICT learning resources"
       ]
     }
   },
   {
     "title": "Grocery, fresh, chilled and frozen foods",
-    "url": "https://find-dfe-approved-framework.service.gov.uk/list/grocery-fresh-chilled-and-frozen-foods",
+    "url": "https://get-help-buying-for-schools.education.gov.uk/solutions/grocery-fresh-chilled-and-frozen-foods",
     "category": {
       "items": [
         "Catering staff and supplies"
@@ -385,7 +371,7 @@
   },
   {
     "title": "HR, payroll and employee screening services",
-    "url": "https://find-dfe-approved-framework.service.gov.uk/list/hr-payroll-and-employee-screening",
+    "url": "https://get-help-buying-for-schools.education.gov.uk/solutions/hr-payroll-and-employee-screening",
     "category": {
       "items": [
         "Non-educational support staff and services"
@@ -399,7 +385,7 @@
   },
   {
     "title": "ICT networking and storage solutions",
-    "url": "https://find-dfe-approved-framework.service.gov.uk/list/ict-storage-network",
+    "url": "https://get-help-buying-for-schools.education.gov.uk/solutions/ict-storage-network",
     "category": {
       "items": [
         "Administrative supplies"
@@ -413,7 +399,7 @@
   },
   {
     "title": "Internal fit-out and maintenance",
-    "url": "https://find-dfe-approved-framework.service.gov.uk/list/internal-maintenance-ypo",
+    "url": "https://get-help-buying-for-schools.education.gov.uk/solutions/internal-maintenance-ypo",
     "category": {
       "items": [
         "Premises staff and services"
@@ -426,24 +412,24 @@
     }
   },
   {
-    "title": "IT hardware",
-    "url": "https://find-dfe-approved-framework.service.gov.uk/list/it-hardware",
+    "title": "IT Hardware",
+    "url": "https://get-help-buying-for-schools.education.gov.uk/solutions/it-hardware",
     "category": {
       "items": [
-        "Educational ICT",
-        "Administrative supplies"
+        "Administrative supplies",
+        "Educational ICT"
       ]
     },
     "subCategory": {
       "items": [
-        "ICT learning resources",
-        "Administrative supplies (non-educational)"
+        "Administrative supplies (non-educational)",
+        "ICT learning resources"
       ]
     }
   },
   {
-    "title": "LED lighting",
-    "url": "https://find-dfe-approved-framework.service.gov.uk/list/led-lights",
+    "title": "LED Lighting",
+    "url": "https://get-help-buying-for-schools.education.gov.uk/solutions/led-lights",
     "category": {
       "items": [
         "Premises staff and services"
@@ -456,22 +442,8 @@
     }
   },
   {
-    "title": "Legal services",
-    "url": "https://find-dfe-approved-framework.service.gov.uk/list/legal",
-    "category": {
-      "items": [
-        "Non-educational support staff and services"
-      ]
-    },
-    "subCategory": {
-      "items": [
-        "Professional services (non-curriculum)"
-      ]
-    }
-  },
-  {
-    "title": "Liquid fuels - ESPO framework",
-    "url": "https://find-dfe-approved-framework.service.gov.uk/list/liquid-fuel-espo",
+    "title": "Liquid fuels",
+    "url": "https://get-help-buying-for-schools.education.gov.uk/solutions/liquid-fuel-nepo",
     "category": {
       "items": [
         "Utilities"
@@ -484,8 +456,8 @@
     }
   },
   {
-    "title": "Liquid fuels - NEPO framework",
-    "url": "https://find-dfe-approved-framework.service.gov.uk/list/liquid-fuel-nepo",
+    "title": "Liquid fuels (ESPO)",
+    "url": "https://get-help-buying-for-schools.education.gov.uk/solutions/liquid-fuel-espo",
     "category": {
       "items": [
         "Utilities"
@@ -499,7 +471,7 @@
   },
   {
     "title": "Liquified petroleum gas and other liquified fuels",
-    "url": "https://find-dfe-approved-framework.service.gov.uk/list/liquid-fuel-other",
+    "url": "https://get-help-buying-for-schools.education.gov.uk/solutions/liquid-fuel-other",
     "category": {
       "items": [
         "Utilities"
@@ -513,7 +485,7 @@
   },
   {
     "title": "Mains gas 2023",
-    "url": "https://find-dfe-approved-framework.service.gov.uk/list/mains-gas-espo",
+    "url": "https://get-help-buying-for-schools.education.gov.uk/solutions/mains-gas-espo",
     "category": {
       "items": [
         "Utilities"
@@ -526,40 +498,40 @@
     }
   },
   {
-    "title": "Multi-functional devices and digital solutions",
-    "url": "https://find-dfe-approved-framework.service.gov.uk/list/mfd-digital-solutions",
+    "title": "Multifunctional devices and digital transformation solutions",
+    "url": "https://get-help-buying-for-schools.education.gov.uk/solutions/mfd-digi-transform",
     "category": {
       "items": [
-        "Educational ICT",
-        "Administrative supplies"
+        "Administrative supplies",
+        "Educational ICT"
       ]
     },
     "subCategory": {
       "items": [
-        "ICT learning resources",
-        "Administrative supplies (non-educational)"
+        "Administrative supplies (non-educational)",
+        "ICT learning resources"
       ]
     }
   },
   {
     "title": "Multifunctional devices, print and digital workflow software services and managed print service provision",
-    "url": "https://find-dfe-approved-framework.service.gov.uk/list/printing-services",
+    "url": "https://get-help-buying-for-schools.education.gov.uk/solutions/printing-services",
     "category": {
       "items": [
-        "Educational ICT",
-        "Administrative supplies"
+        "Administrative supplies",
+        "Educational ICT"
       ]
     },
     "subCategory": {
       "items": [
-        "ICT learning resources",
-        "Administrative supplies (non-educational)"
+        "Administrative supplies (non-educational)",
+        "ICT learning resources"
       ]
     }
   },
   {
-    "title": "Musical instruments, equipment and technology framework",
-    "url": "https://find-dfe-approved-framework.service.gov.uk/list/musical-equipment",
+    "title": "Musical instruments, equipment and technology",
+    "url": "https://get-help-buying-for-schools.education.gov.uk/solutions/musical-instruments-equipment-and-technology",
     "category": {
       "items": [
         "Educational supplies"
@@ -573,7 +545,7 @@
   },
   {
     "title": "National professional qualification",
-    "url": "https://find-dfe-approved-framework.service.gov.uk/list/npq",
+    "url": "https://get-help-buying-for-schools.education.gov.uk/solutions/npq",
     "category": {
       "items": [
         "Other costs"
@@ -587,7 +559,7 @@
   },
   {
     "title": "Outsourced catering services",
-    "url": "https://find-dfe-approved-framework.service.gov.uk/list/outsourced-catering-cpc",
+    "url": "https://get-help-buying-for-schools.education.gov.uk/solutions/outsourced-catering-cpc",
     "category": {
       "items": [
         "Catering staff and supplies"
@@ -596,22 +568,6 @@
     "subCategory": {
       "items": [
         "Catering supplies"
-      ]
-    }
-  },
-  {
-    "title": "Outsourced ICT",
-    "url": "https://find-dfe-approved-framework.service.gov.uk/list/outsourced-ict",
-    "category": {
-      "items": [
-        "Educational ICT",
-        "Administrative supplies"
-      ]
-    },
-    "subCategory": {
-      "items": [
-        "ICT learning resources",
-        "Administrative supplies (non-educational)"
       ]
     }
   },
@@ -630,8 +586,8 @@
     }
   },
   {
-    "title": "Print books framework",
-    "url": "https://find-dfe-approved-framework.service.gov.uk/list/print-books",
+    "title": "Print books",
+    "url": "https://get-help-buying-for-schools.education.gov.uk/solutions/print-books",
     "category": {
       "items": [
         "Educational supplies"
@@ -644,24 +600,24 @@
     }
   },
   {
-    "title": "Print marketplace",
-    "url": "https://find-dfe-approved-framework.service.gov.uk/list/print-marketplace",
+    "title": "Print Marketplace 2",
+    "url": "https://get-help-buying-for-schools.education.gov.uk/solutions/print-marketplace-2",
     "category": {
       "items": [
-        "Educational ICT",
-        "Administrative supplies"
+        "Administrative supplies",
+        "Educational ICT"
       ]
     },
     "subCategory": {
       "items": [
-        "ICT learning resources",
-        "Administrative supplies (non-educational)"
+        "Administrative supplies (non-educational)",
+        "ICT learning resources"
       ]
     }
   },
   {
-    "title": "Risk protection arrangement \u2013 alternative to commercial insurance",
-    "url": "https://find-dfe-approved-framework.service.gov.uk/list/rpa",
+    "title": "Risk protection arrangement - alternative to commercial insurance",
+    "url": "https://get-help-buying-for-schools.education.gov.uk/solutions/rpa",
     "category": {
       "items": [
         "Other costs"
@@ -669,13 +625,13 @@
     },
     "subCategory": {
       "items": [
-        "Other insurance premiums"
+        "Other insurance premiums "
       ]
     }
   },
   {
     "title": "Sandwiches and food to go",
-    "url": "https://find-dfe-approved-framework.service.gov.uk/list/sandwiches-and-food-to-go",
+    "url": "https://get-help-buying-for-schools.education.gov.uk/solutions/sandwiches-and-food-to-go",
     "category": {
       "items": [
         "Catering staff and supplies"
@@ -688,24 +644,24 @@
     }
   },
   {
-    "title": "Software licences and associated services for academies and schools",
-    "url": "https://find-dfe-approved-framework.service.gov.uk/list/software-licenses",
+    "title": "Software licenses and associated services for academies and schools",
+    "url": "https://get-help-buying-for-schools.education.gov.uk/solutions/software-licenses",
     "category": {
       "items": [
-        "Educational ICT",
-        "Administrative supplies"
+        "Administrative supplies",
+        "Educational ICT"
       ]
     },
     "subCategory": {
       "items": [
-        "ICT learning resources",
-        "Administrative supplies (non-educational)"
+        "Administrative supplies (non-educational)",
+        "ICT learning resources"
       ]
     }
   },
   {
     "title": "Specialist professional services",
-    "url": "https://find-dfe-approved-framework.service.gov.uk/list/specialist-professional-services",
+    "url": "https://get-help-buying-for-schools.education.gov.uk/solutions/specialist-professional-services",
     "category": {
       "items": [
         "Non-educational support staff and services"
@@ -718,8 +674,8 @@
     }
   },
   {
-    "title": "Sports facilities installation, refurbishment, and maintenance",
-    "url": "https://find-dfe-approved-framework.service.gov.uk/list/sports-facilities-installation-refurbishment-and-maintenance",
+    "title": "Sports facilities installation, refurbishment and maintenance",
+    "url": "https://get-help-buying-for-schools.education.gov.uk/solutions/sports-facilities-installation-refurbishment-and-maintenance",
     "category": {
       "items": [
         "Other costs"
@@ -727,27 +683,13 @@
     },
     "subCategory": {
       "items": [
-        "Special facilities"
-      ]
-    }
-  },
-  {
-    "title": "Staff absence protection and reimbursement",
-    "url": "https://find-dfe-approved-framework.service.gov.uk/list/staff-absence",
-    "category": {
-      "items": [
-        "Other costs"
-      ]
-    },
-    "subCategory": {
-      "items": [
-        "Supply teacher insurance"
+        "Special facilities "
       ]
     }
   },
   {
     "title": "Stationery, paper and education supplies",
-    "url": "https://find-dfe-approved-framework.service.gov.uk/list/office-and-education-supplies",
+    "url": "https://get-help-buying-for-schools.education.gov.uk/solutions/office-and-education-supplies",
     "category": {
       "items": [
         "Administrative supplies"
@@ -761,7 +703,7 @@
   },
   {
     "title": "Supply of energy 2",
-    "url": "https://find-dfe-approved-framework.service.gov.uk/list/energy-ancillary",
+    "url": "https://get-help-buying-for-schools.education.gov.uk/solutions/energy-ancillary",
     "category": {
       "items": [
         "Utilities"
@@ -774,8 +716,8 @@
     }
   },
   {
-    "title": "Supply teachers and temporary staffing (STaTS)",
-    "url": "https://find-dfe-approved-framework.service.gov.uk/list/supply-teachers",
+    "title": "Supply teachers and temporary staffing",
+    "url": "https://get-help-buying-for-schools.education.gov.uk/solutions/supply-teachers",
     "category": {
       "items": [
         "Teaching and Teaching support staff"
@@ -783,29 +725,29 @@
     },
     "subCategory": {
       "items": [
-        "Supply teaching staff"
+        "Supply Teaching Staff"
       ]
     }
   },
   {
-    "title": "Technology products \u0026 associated services 2",
-    "url": "https://find-dfe-approved-framework.service.gov.uk/list/technology-products-and-associated-services",
+    "title": "Technology products & associated services 2",
+    "url": "https://get-help-buying-for-schools.education.gov.uk/solutions/technology-products-and-associated-services-2",
     "category": {
       "items": [
-        "Educational ICT",
-        "Administrative supplies"
+        "Administrative supplies",
+        "Educational ICT"
       ]
     },
     "subCategory": {
       "items": [
-        "ICT learning resources",
-        "Administrative supplies (non-educational)"
+        "Administrative supplies (non-educational)",
+        "ICT learning resources"
       ]
     }
   },
   {
     "title": "Temporary and permanent staffing",
-    "url": "https://find-dfe-approved-framework.service.gov.uk/list/temporary-and-permanent-staffing",
+    "url": "https://get-help-buying-for-schools.education.gov.uk/solutions/temporary-and-permanent-staffing",
     "category": {
       "items": [
         "Teaching and Teaching support staff"
@@ -813,13 +755,27 @@
     },
     "subCategory": {
       "items": [
-        "Supply teaching staff"
+        "Supply Teaching Staff"
+      ]
+    }
+  },
+  {
+    "title": "Total cleaning service solutions",
+    "url": "https://get-help-buying-for-schools.education.gov.uk/solutions/total-cleaning-service-solutions",
+    "category": {
+      "items": [
+        "Premises staff and services"
+      ]
+    },
+    "subCategory": {
+      "items": [
+        "Cleaning and caretaking"
       ]
     }
   },
   {
     "title": "Utilities supplies and services",
-    "url": "https://find-dfe-approved-framework.service.gov.uk/list/utilities-supplies-and-services",
+    "url": "https://get-help-buying-for-schools.education.gov.uk/solutions/utilities-supply-services",
     "category": {
       "items": [
         "Utilities"
@@ -827,7 +783,8 @@
     },
     "subCategory": {
       "items": [
-        "Energy"
+        "Energy",
+        "Water and Sewerage"
       ]
     }
   }
