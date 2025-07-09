@@ -129,6 +129,23 @@ public class InsightExpenditureSteps(InsightApiDriver api)
         });
     }
 
+    [Given("a valid trust expenditure query request for category '(.*)', dimension '(.*)', excludeCentralServices '(.*)', with company numbers:")]
+    public void GivenAValidTrustExpenditureQueryRequestWithCompanyNumbersAndOtherParams(
+        string category,
+        string dimension,
+        string excludeCentralServices,
+        DataTable table
+        )
+    {
+        var companyNumbers = GetFirstColumnsFromTableRowsAsString(table);
+        api.CreateRequest(TrustExpenditureKey, new HttpRequestMessage
+        {
+            RequestUri = new Uri($"/api/expenditure/trusts?companyNumbers={string.Join(",", companyNumbers)}&category={category}&dimension={dimension}&excludeCentralServices={excludeCentralServices}",
+                UriKind.Relative),
+            Method = HttpMethod.Get
+        });
+    }
+
     [Given("a school average across comparator set expenditure history request with urn '(.*)' and dimension '(.*)'")]
     public void GivenASchoolAverageAcrossComparatorSetExpenditureHistoryRequestWithUrnAndDimension(string urn, string dimension)
     {
