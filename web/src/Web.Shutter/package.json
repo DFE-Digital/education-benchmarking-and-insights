@@ -1,0 +1,40 @@
+{
+  "name": "shutter",
+  "version": "0.0.0",
+  "main": "dist/src/index.js",
+  "files": [
+    "src"
+  ],
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "gts lint",
+    "clean": "gts clean",
+    "compile": "tsc",
+    "fix": "gts fix",
+    "assets": "shx mkdir -p src/assets && shx cp -r node_modules/govuk-frontend/dist/govuk/assets src && shx mkdir -p src/assets/styles && shx cp node_modules/govuk-frontend/dist/govuk/govuk-frontend.min.css* src/assets/styles",
+    "build": "npm run clean && npm run compile && npm run assets && shx cp -r src/views dist/src/views && shx cp -r src/assets dist/src/assets",
+    "start": "node dist/src/index.js",
+    "dev": "npm run assets && nodemon src/index.ts"
+  },
+  "dependencies": {
+    "chokidar": "^3.6.0",
+    "dotenv": "^17.1.0",
+    "express": "^5.1.0",
+    "govuk-frontend": "^5.11.0",
+    "isomorphic-dompurify": "^2.26.0",
+    "marked": "^16.0.0",
+    "nunjucks": "^3.2.4"
+  },
+  "devDependencies": {
+    "@types/dotenv": "^6.1.1",
+    "@types/express": "^5.0.3",
+    "@types/node": "^22.16.2",
+    "@types/nunjucks": "^3.2.6",
+    "@types/trusted-types": "^2.0.7",
+    "gts": "^6.0.2",
+    "nodemon": "^3.1.10",
+    "shx": "^0.4.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.6.3"
+  }
+}

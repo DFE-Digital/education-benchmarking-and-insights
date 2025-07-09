@@ -442,3 +442,7 @@ web/src/Web.App/Web.App.sln
 # TypeScript output
 dist
 out
+
+# Shutter output
+web/src/**/*.env
+web/src/Web.Shutter/src/assets
