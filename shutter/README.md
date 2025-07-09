@@ -9,6 +9,7 @@ This project contains Nunjucks templates that may be used to build and deploy a 
 ### VS Code Extensions
 
 1. [Nunjucks Template](https://marketplace.visualstudio.com/items?itemName=eseom.nunjucks-template)
+2. [Prettier](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode)
 
 ## Build
 
