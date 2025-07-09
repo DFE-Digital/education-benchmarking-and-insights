@@ -67,7 +67,7 @@ stages:
   - stage: GenerateDocumentation
     dependsOn: [ Validate ]
     displayName: 'Generate'
-    condition: and(succeeded(), eq(variables['ShouldDeploy'],'true'))
+    # condition: and(succeeded(), eq(variables['ShouldDeploy'],'true'))
     jobs:
       - job: BuildDocumentation
         displayName: 'Build and publish documentation'
@@ -115,24 +115,24 @@ stages:
             parameters:
               folder: 'data'
 
-          - task: PublishPipelineArtifact@1
-            displayName: 'Publish artifacts'
-            inputs:
-              targetPath: '$(WorkingDir)/pub'
-              artifact: 'docs'
-              publishLocation: 'pipeline'
+      #     - task: PublishPipelineArtifact@1
+      #       displayName: 'Publish artifacts'
+      #       inputs:
+      #         targetPath: '$(WorkingDir)/pub'
+      #         artifact: 'docs'
+      #         publishLocation: 'pipeline'
               
-      - job: SharePointPublish
-        displayName: 'Publish artifacts to SharePoint'
-        dependsOn: [ BuildDocumentation ]
-        steps:
-          - checkout: self
+      # - job: SharePointPublish
+      #   displayName: 'Publish artifacts to SharePoint'
+      #   dependsOn: [ BuildDocumentation ]
+      #   steps:
+      #     - checkout: self
 
-          - template: ..\common\publish-sharepoint-artifacts.yaml
-            parameters:
-              ArtifactName: 'docs'
-              ArtifactPattern: '**/*.pdf'
-              TargetPath: 'FBIT support\Documentation'
-              SiteUrl: $(SharePoint_SiteUrl)
-              ClientId: $(SharePoint_ClientId)
-              ClientSecret: $(SharePoint_ClientSecret)
+      #     - template: ..\common\publish-sharepoint-artifacts.yaml
+      #       parameters:
+      #         ArtifactName: 'docs'
+      #         ArtifactPattern: '**/*.pdf'
+      #         TargetPath: 'FBIT support\Documentation'
+      #         SiteUrl: $(SharePoint_SiteUrl)
+      #         ClientId: $(SharePoint_ClientId)
+      #         ClientSecret: $(SharePoint_ClientSecret)
