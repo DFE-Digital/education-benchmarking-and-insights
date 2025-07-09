@@ -65,7 +65,7 @@ Ensure that updates to dynamic content such as banners and commercial resource l
 
 ## 6. Script Management
 
-After the script is executed in Production, the executed version of the script is stored in the repository.
+The script will be stored in the repository.
 
 A simple changelog should be maintained in the scripts folder, capturing:
 
