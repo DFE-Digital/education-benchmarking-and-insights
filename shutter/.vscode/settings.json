@@ -2,5 +2,7 @@
     "cSpell.words": [
         "govuk",
         "stylesheet"
-    ]
+    ],
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
 }

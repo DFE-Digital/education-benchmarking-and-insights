@@ -1,7 +1,7 @@
 /**
  * @import {RendererObject} from "marked"
  */
-import { use, parse,  } from "marked";
+import { use, parse } from "marked";
 import DOMPurify from "isomorphic-dompurify";
 
 export const options = (markdown, assetsPath) => ({

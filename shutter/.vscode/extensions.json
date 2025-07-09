@@ -1,5 +1,6 @@
 {
     "recommendations": [
-        "eseom.nunjucks-template"
+        "eseom.nunjucks-template",
+        "esbenp.prettier-vscode"
     ]
 }
