@@ -16,7 +16,8 @@ export function PayBandDataTooltip<
     return null;
   }
 
-  const { trustName, totalValue, totalPupils } = payload[0].payload as TrustChartData;
+  const { trustName, totalValue, totalPupils } = payload[0]
+    .payload as TrustChartData;
   const label = "Highest emolument band";
   return (
     totalValue && (
