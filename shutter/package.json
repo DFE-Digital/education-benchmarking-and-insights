@@ -1,0 +1,26 @@
+{
+  "name": "shutter",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "build": "gulp build",
+    "dev": "cross-env ASSETS_PATH=assets MARKDOWN_CONTENT=\"Custom message for **local development**.\" gulp",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "cross-env": "^7.0.3",
+    "del": "^8.0.0",
+    "govuk-frontend": "^5.11.0",
+    "gulp": "^5.0.1",
+    "gulp-beautify": "^3.0.0",
+    "gulp-copy": "^5.0.0",
+    "gulp-nunjucks-render": "^2.2.3",
+    "gulp-replace": "^1.1.4",
+    "isomorphic-dompurify": "^2.26.0",
+    "marked": "^16.0.0"
+  }
+}
