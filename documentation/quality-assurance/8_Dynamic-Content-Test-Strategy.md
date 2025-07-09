@@ -67,12 +67,8 @@ Ensure that updates to dynamic content such as banners and commercial resource l
 
 The script will be stored in the repository.
 
-A simple changelog should be maintained in the scripts folder, capturing:
-
-- Script name/ID
-- Content type (banner, links)
-- Deployment date
-- Approver name
+At the beginning of each script, a comment must include:
+- Date, summary and associated work item (e.g. DevOps work item)
 
 ## 7. Summary
 
