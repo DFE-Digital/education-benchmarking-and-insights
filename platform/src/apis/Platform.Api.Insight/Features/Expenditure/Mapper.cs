@@ -198,6 +198,8 @@ public static class Mapper
             {
                 response.HighestSalaryEmolumentBandValue = bandValue;
             }
+
+            response.TotalPupils = model.TotalPupils;
         }
 
         if (ShouldDisplay(category, Categories.Cost.EducationalSupplies))

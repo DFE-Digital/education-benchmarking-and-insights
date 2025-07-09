@@ -17,6 +17,7 @@ export type NonEducationalSupportStaffData = {
   otherStaffCosts: number;
   professionalServicesNonCurriculumCosts: number;
   trustName: string;
+  totalPupils: number;
 };
 
 export type EducationalSuppliesData = {

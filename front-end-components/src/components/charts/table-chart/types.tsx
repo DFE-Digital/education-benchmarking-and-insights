@@ -32,6 +32,7 @@ export type TrustChartData = {
   schoolValue?: number;
   centralValue?: number;
   totalValue?: number;
+  totalPupils?: number;
   type?: "expenditure" | "balance";
 };
 
