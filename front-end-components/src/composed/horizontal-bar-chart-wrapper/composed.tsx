@@ -92,7 +92,10 @@ export function HorizontalBarChartWrapper<
       | LaChartData
     );
     if (trust) {
-      dataPoint = "totalValue" as keyof (SchoolChartData | TrustChartData);
+      dataPoint = "totalValue" as keyof (
+        | SchoolChartData
+        | Omit<TrustChartData, "totalPupils">
+      );
     }
 
     if (localAuthority) {
