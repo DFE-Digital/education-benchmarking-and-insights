@@ -1,0 +1,21 @@
+{% extends "govuk/template.njk" %}
+{% block pageTitle %}There is a problem with the service - Financial Benchmarking and Insights Tool - GOV.UK{% endblock %}
+{% block head %}
+    <link rel="stylesheet" href="{{ assetPath }}/styles/govuk-frontend.min.css">
+    {% endblock %}
+    {% block header %}
+        {{ govukHeader({ serviceName: "Financial Benchmarking and Insights Tool" }) }}
+    {% endblock %}
+    {% set mainClasses = "govuk-main-wrapper--l" %}
+    {% block content %}
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-two-thirds">
+                <h1 class="govuk-heading-l">Sorry, there is a problem with the service</h1>
+                {% if markdown_content %}
+                    {{ markdown_content | safe }}
+                {% else %}
+                    <p class="govuk-body">Try again later.</p>
+                {% endif %}
+            </div>
+        </div>
+    {% endblock %}
