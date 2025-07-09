@@ -6,9 +6,10 @@ import copy from "gulp-copy";
 import { use as useMarkdownExtension, parse as parseMarkdown } from "marked";
 import DOMPurify from "isomorphic-dompurify";
 import replace from "gulp-replace";
+const output = "dist";
 
 function clean() {
-  return deleteAsync(["dist"]);
+  return deleteAsync([output]);
 }
 
 const assetsPath = process.env.ASSETS_PATH ?? "/assets";
@@ -42,17 +43,17 @@ const data = {
 };
 
 function html() {
-  return src("src/templates/pages/*.+(njk)")
+  return src("views/*.+(njk)")
     .pipe(
       nunjucksRender({
-        path: ["node_modules/govuk-frontend/dist", "src/templates"],
+        path: ["node_modules/govuk-frontend/dist", "views"],
         ext: ".html",
         data,
         manageEnv,
       })
     )
     .pipe(beautify.html({ indent_size: 4, preserve_newlines: false }))
-    .pipe(dest("dist"));
+    .pipe(dest(output));
 }
 
 // https://frontend.design-system.service.gov.uk/import-font-and-images-assets/#copy-the-font-and-image-files-into-your-application
@@ -63,7 +64,7 @@ function assets() {
     "node_modules/govuk-frontend/dist/govuk/assets/manifest.json",
     "node_modules/govuk-frontend/dist/govuk/assets/rebrand/**",
   ]).pipe(
-    copy("dist/assets", {
+    copy(`${output}/assets`, {
       prefix: 5,
     })
   );
@@ -72,15 +73,15 @@ function assets() {
 function stylesheets() {
   return src(["node_modules/govuk-frontend/dist/govuk/govuk-frontend.min.css*"])
     .pipe(
-      copy("dist/assets/styles", {
+      copy(`${output}/assets/styles`, {
         prefix: 4,
-      })
-    .pipe(replace("url(/assets", `url(../../${assetsPath}`)))
-    .pipe(dest("dist/assets/styles"));
+      }).pipe(replace("url(/assets", `url(../../${assetsPath}`))
+    )
+    .pipe(dest(`${output}/assets/styles`));
 }
 
 function watchFiles() {
-  watch("src/templates/**/*", html);
+  watch("views/**/*", html);
 }
 
 export const build = series(clean, html, assets, stylesheets);

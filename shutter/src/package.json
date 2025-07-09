@@ -1,6 +1,7 @@
 {
   "name": "shutter",
   "version": "0.0.0",
+  "type": "module",
   "scripts": {
     "build": "gulp build",
     "dev": "cross-env ASSETS_PATH=assets MARKDOWN_CONTENT=\"Custom message for **local development**.\" gulp",
