@@ -49,6 +49,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "redirect", "redirect", "{C9
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Web.Redirect", "src\Web.Redirect\Web.Redirect.csproj", "{348EB1BF-40CA-49A6-92DA-25CC4F1D11B6}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "shutter", "shutter", "{31D764E0-F8A5-4321-9944-B5A11E463802}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Web.Shutter", "Web.Shutter", "{7897402F-A2C4-444A-B70B-255C301702AE}"
+	ProjectSection(SolutionItems) = preProject
+		src\Web.Shutter\README.md = src\Web.Shutter\README.md
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -93,5 +100,6 @@ Global
 		{7E0284C5-1887-441F-BA1C-03343AE414C8} = {2681BAA2-4B7F-48B3-B79F-C3D2A8D13720}
 		{163DC1DC-63B5-4FF7-A782-77DB4338F19A} = {2681BAA2-4B7F-48B3-B79F-C3D2A8D13720}
 		{348EB1BF-40CA-49A6-92DA-25CC4F1D11B6} = {C94633E4-D624-4B1F-BE88-486C63AA2AC6}
+		{7897402F-A2C4-444A-B70B-255C301702AE} = {31D764E0-F8A5-4321-9944-B5A11E463802}
 	EndGlobalSection
 EndGlobal
