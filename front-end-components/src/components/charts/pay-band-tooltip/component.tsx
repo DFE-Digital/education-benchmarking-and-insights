@@ -45,7 +45,7 @@ export function PayBandDataTooltip<
           </tr>
           <tr className="govuk-table__row">
             <th scope="row" className="govuk-table__header">
-              Pupil numbers
+              Number of pupils
             </th>
             <td className="govuk-table__cell">
               {statValueFormatter(totalPupils)}
