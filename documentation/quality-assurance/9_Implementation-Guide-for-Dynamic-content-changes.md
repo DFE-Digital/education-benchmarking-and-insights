@@ -13,8 +13,8 @@ The lifecycle of a content change involves the following key stages:
 
 Business or Product Owner provides:
 
-  - Banner text or commercial link URL
-  - Start and end dates (if applicable)
+- Banner text or commercial link URL
+- Start and end dates (if applicable)
 
 **DB Script Preparation:**
 
@@ -22,12 +22,9 @@ Developer or QA writes an SQL script to insert or update the dynamic content in 
 
 The script includes:
 
-  - Required values (text, links, flags)
-  - Validity dates
-  - A comment header with:
-
-    - Date of execution
-    - Associated work item or task ID
+- Required values (text, links, flags)
+- Validity dates
+- A comment header with Date and associated work item
 
 **Apply to Pre-Prod:**
 
