@@ -1,6 +1,6 @@
-﻿using System.Reflection;
-using Newtonsoft.Json.Linq;
+﻿using Newtonsoft.Json.Linq;
 using Platform.ApiTests.Assertion;
+using Platform.ApiTests.TestDataHelpers;
 using Platform.ApiTests.Drivers;
 using Xunit;
 
@@ -44,7 +44,7 @@ public class ContentCommercialResourceSteps(ContentApiDriver api)
         var content = await response.Content.ReadAsStringAsync();
         var actual = JArray.Parse(content);
 
-        var expected = GetArrayData("CommercialResources.json");
+        var expected = TestDataProvider.GetArrayData("CommercialResources.json");
 
         Assert.True(JToken.DeepEquals(expected, actual));
     }
@@ -54,16 +54,5 @@ public class ContentCommercialResourceSteps(ContentApiDriver api)
     {
         var response = api[Key].Response;
         AssertHttpResponse.IsBadRequest(response);
-    }
-
-    private static JArray GetArrayData(string file)
-    {
-        var assembly = Assembly.GetExecutingAssembly();
-
-        using var stream = assembly.GetManifestResourceStream($"Platform.ApiTests.Data.{file}");
-        using var reader = new StreamReader(stream ?? throw new InvalidOperationException());
-        var jsonString = reader.ReadToEnd();
-
-        return JArray.Parse(jsonString);
     }
 }
