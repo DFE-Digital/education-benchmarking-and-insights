@@ -46,8 +46,8 @@ Feature: View Trust comparator set
     @HighExecutivePayFlagEnabled
     Scenario: High executive pay chart table is displayed and correct and only shows rows where pay band data is available
         When I click on show all sections
-        Then the 'High executive pay' chart table contains the following:
+        Then the 'Highest paid individual at a Trust (FTE equivalent)' chart table contains the following:
           | TrustName                | HighestEmolumentBand |
-          | Test Company/Trust 108   | 230-240              |
-          | FBIT Multi Academy Trust | 60-70                |
-        And the 'High executive pay' chart table has a warning message stating reason for less rows is visible
+          | Test Company/Trust 108   | £230k-£240k           |
+          | FBIT Multi Academy Trust | £60k-£70k             |
+        And the 'Highest paid individual at a Trust (FTE equivalent)' chart table has a warning message stating reason for less rows is visible
