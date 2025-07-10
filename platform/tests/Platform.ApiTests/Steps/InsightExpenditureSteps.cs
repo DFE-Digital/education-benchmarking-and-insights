@@ -1,8 +1,11 @@
-﻿using Platform.Api.Insight.Features.Expenditure.Responses;
+﻿using System.Reflection;
+using Newtonsoft.Json.Linq;
+using Platform.Api.Insight.Features.Expenditure.Responses;
 using Platform.ApiTests.Assertion;
 using Platform.ApiTests.Assist;
 using Platform.ApiTests.Drivers;
 using Platform.Json;
+using Xunit;
 
 namespace Platform.ApiTests.Steps;
 
@@ -307,6 +310,31 @@ public class InsightExpenditureSteps(InsightApiDriver api)
         var content = await response.Content.ReadAsByteArrayAsync();
         var result = content.FromJson<ExpenditureTrustResponse[]>();
         table.CompareToSet(result);
+    }
+
+    [Then("the trust expenditure query result should be ok and match the expected output of '(.*)'")]
+    public async Task ThenTheResultShouldBeOkAndMatchTheExpectedOutput(string testFile)
+    {
+        var response = api[TrustExpenditureKey].Response;
+        AssertHttpResponse.IsOk(response);
+
+        var content = await response.Content.ReadAsStringAsync();
+        var actual = JArray.Parse(content);
+
+        var expected = GetArrayData(testFile);
+
+        Assert.True(JToken.DeepEquals(expected, actual));
+    }
+
+    private static JArray GetArrayData(string file)
+    {
+        var assembly = Assembly.GetExecutingAssembly();
+
+        using var stream = assembly.GetManifestResourceStream($"Platform.ApiTests.Data.{file}");
+        using var reader = new StreamReader(stream ?? throw new InvalidOperationException());
+        var jsonString = reader.ReadToEnd();
+
+        return JArray.Parse(jsonString);
     }
 
     private static IEnumerable<string> GetFirstColumnsFromTableRowsAsString(DataTable table)

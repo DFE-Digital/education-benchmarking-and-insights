@@ -413,58 +413,6 @@
           | 10259334      | 14665108.00            | 10240640.00                          | 8321911.00               | 20771.00                       | 537911.00                         | 1176654.00                       | 183393.00                            | 1299564.00                                 | 901007.00                              | 30378.00              | 368179.00                                    | 470172.00                           | 77694.00                   | 392478.00                          | 0.00                            | 836523.00                            | 147297.00                     | 237861.00                      | 32663.00                   | 418702.00                | 188224.00                 | 176642.00         | 11582.00                 | 364710.00                                       | 474250.00                     | 529524.00                   | 132993.00                | 341257.00                   | 505378.00             | 0.00                              | 0.00                          | 168947.00                      | 0.00                          | 73076.00                          | 0.00                                  | 25110.00             | 166721.00                    | 26592.00                            | 5068.00                          | 39864.00                          | 14665108.00      | 10240640.00                    | 8321911.00         | 20771.00                 | 537911.00                   | 1176654.00                 | 183393.00                      | 1299564.00                           | 901007.00                        | 30378.00        | 368179.00                              | 470172.00                     | 77694.00             | 392478.00                    | 285646.00                 | 836523.00                      | 147297.00               | 237861.00                | 32663.00             | 418702.00          | 188224.00           | 176642.00   | 11582.00           | 364710.00                                 | 474250.00               | 529524.00             | 132993.00          | 341257.00             | 505378.00       | 0.00                        | 0.00                    | 168947.00                | 0.00                    | 73076.00                    | 0.00                            | 25110.00       | 166721.00              | 26592.00                      | 5068.00                    | 39864.00                    |                             |                             | 90                              |
           | 10264735      | 4260179.00             | 2973757.00                           | 1440362.00               | 0.00                           | 103151.00                         | 1394931.00                       | 35313.00                             | 447930.00                                  | 215178.00                              | 114615.00             | 118137.00                                    | 94732.00                            | 0.00                       | 94732.00                           | 0.00                            | 278898.00                            | 26116.00                      | 189034.00                      | 18543.00                   | 45205.00                 | 50543.00                  | 42238.00          | 8305.00                  | 44722.00                                        | 193648.00                     | 201810.00                   | 69353.00                 | 124295.00                   | 129832.00             | 0.00                              | 3929.00                       | 4918.00                        | 0.00                          | 10845.00                          | 0.00                                  | 62164.00             | 13804.00                     | 4893.00                             | 14051.00                         | 15228.00                          | 4260179.00       | 2973757.00                     | 1440362.00         | 0.00                     | 103151.00                   | 1394931.00                 | 35313.00                       | 447930.00                            | 215178.00                        | 114615.00       | 118137.00                              | 94732.00                      | 0.00                 | 94732.00                     | 46112.00                  | 278898.00                      | 26116.00                | 189034.00                | 18543.00             | 45205.00           | 50543.00            | 42238.00    | 8305.00            | 44722.00                                  | 193648.00               | 201810.00             | 69353.00           | 124295.00             | 129832.00       | 0.00                        | 3929.00                 | 4918.00                  | 0.00                    | 10845.00                    | 0.00                            | 62164.00       | 13804.00               | 4893.00                       | 14051.00                   | 15228.00                    |                             |                             | 200                             |
 
-    Scenario: Sending a valid multiple trust expenditure query request with category 'NonEducationalSupportStaff',  dimension 'Actuals' and excludeCentralServices 'true
-        Given a valid trust expenditure query request for category 'NonEducationalSupportStaff', dimension 'Actuals', excludeCentralServices 'true', with company numbers:
-          | CompanyNumber |
-          | 10249712      |
-          | 10259334      |
-          | 10264735      |
-        When I submit the insights expenditure request
-        Then the trust expenditure query result should be ok and contain:
-          | CompanyNumber | trustName               | highestSalaryEmolumentBandValue | totalPupils | totalExpenditure | totalNonEducationalSupportStaffCosts | administrativeClericalStaffCosts | otherStaffCosts | professionalServicesNonCurriculumCosts |
-          | 10249712      | Test Company/Trust  229 | 260                             | 344         | 5072668          | 500711                               | 285658                           | 28104           | 186949                                 |
-          | 10259334      | Test Company/Trust  157 | 90                              | 1734.00     | 14665108.00      | 1299564.00                           | 901007.00                        | 30378.00        | 368179.00                              |
-          | 10264735      | Test Company/Trust  262 | 200                             | 468.00      | 4260179.00       | 447930.00                            | 215178.00                        | 114615.00       | 118137.00                              |
-
-    Scenario: Sending a valid multiple trust expenditure query request with category 'NonEducationalSupportStaff', dimension 'PerUnit' and excludeCentralServices 'false
-        Given a valid trust expenditure query request for category 'NonEducationalSupportStaff', dimension 'PerUnit', excludeCentralServices 'false', with company numbers:
-          | CompanyNumber |
-          | 10249712      |
-          | 10259334      |
-          | 10264735      |
-        When I submit the insights expenditure request
-        Then the trust expenditure query result should be ok and contain:
-          | CompanyNumber | trustName               | highestSalaryEmolumentBandValue | totalPupils | totalExpenditure          | totalNonEducationalSupportStaffCosts | administrativeClericalStaffCosts | otherStaffCosts         | professionalServicesNonCurriculumCosts |
-          | 10249712      | Test Company/Trust  229 | 260                             | 344.00      | 14746.1279069767441860465 | 1455.5552325581395348837             | 830.4011627906976744186          | 81.6976744186046511627  | 543.4563953488372093023                |
-          | 10259334      | Test Company/Trust  157 | 90                              | 1734.00     | 8457.3863898500576701268  | 749.4602076124567474048              | 519.6118800461361014994          | 17.5190311418685121107  | 212.3292964244521337946                |
-          | 10264735      | Test Company/Trust  262 | 200                             | 468.00      | 9102.9465811965811965811  | 957.1153846153846153846              | 459.7820512820512820512          | 244.9038461538461538461 | 252.4294871794871794871                |
-
-    Scenario: Sending a valid multiple trust expenditure query request with category 'NonEducationalSupportStaff', dimension 'PercentExpenditure' and excludeCentralServices 'true'
-        Given a valid trust expenditure query request for category 'NonEducationalSupportStaff', dimension 'PercentExpenditure', excludeCentralServices 'true', with company numbers:
-          | CompanyNumber |
-          | 10249712      |
-          | 10259334      |
-          | 10264735      |
-        When I submit the insights expenditure request
-        Then the trust expenditure query result should be ok and contain:
-          | CompanyNumber | trustName               | highestSalaryEmolumentBandValue | totalPupils | totalExpenditure      | totalNonEducationalSupportStaffCosts | administrativeClericalStaffCosts | otherStaffCosts     | professionalServicesNonCurriculumCosts |
-          | 10249712      | Test Company/Trust  229 | 260                             | 344.00      | 100.00000000000000000 | 9.87076228919377338                  | 5.63131669567178455              | 0.55402797896491550 | 3.68541761455707332                    |
-          | 10259334      | Test Company/Trust  157 | 90                              | 1734.00     | 100.00000000000000000 | 8.86160538333573813                  | 6.14388247260095186              | 0.20714474110930516 | 2.51057816962548111                    |
-          | 10264735      | Test Company/Trust  262 | 200                             | 468.00      | 100.00000000000000000 | 10.51434693237068208                 | 5.05091452730037869              | 2.69037991126663927 | 2.77305249380366412                    |
-
-    Scenario: Sending a valid multiple trust expenditure query request with category 'NonEducationalSupportStaff' and dimension 'PercentIncome' and excludeCentralServices 'false'
-        Given a valid trust expenditure query request for category 'NonEducationalSupportStaff', dimension 'PercentIncome', excludeCentralServices 'false', with company numbers:
-          | CompanyNumber |
-          | 10249712      |
-          | 10259334      |
-          | 10264735      |
-        When I submit the insights expenditure request
-        Then the trust expenditure query result should be ok and contain:
-          | CompanyNumber | trustName               | highestSalaryEmolumentBandValue | totalPupils | totalExpenditure       | totalNonEducationalSupportStaffCosts | administrativeClericalStaffCosts | otherStaffCosts      | professionalServicesNonCurriculumCosts |
-          | 10249712      | Test Company/Trust  229 | 260                             | 344.00      | 108.126932658282675040 | 10.672952493295712730                | 6.088970011303659610             | 0.599053459723438690 | 3.984929022268614420                   |
-          | 10259334      | Test Company/Trust  157 | 90                              | 1734.00     | 96.079273825551722890  | 8.514166101594976260                 | 5.902997664370346340             | 0.199023163025639510 | 2.412145274198990400                   |
-          | 10264735      | Test Company/Trust  262 | 200                             | 468.00      | 105.461826650816700680 | 11.088622335282232210                | 5.326786723062443150             | 2.837323798268419270 | 2.924511813951369780                   |
-
     Scenario: Sending a valid school average across comparator set expenditure history request with dimension Actuals
         Given a school average across comparator set expenditure history request with urn '990000' and dimension 'Actuals'
         When I submit the insights expenditure request
@@ -560,3 +508,39 @@
         Given a school national average expenditure history request with dimension 'Actuals', phase 'Primary', financeType 'invalid'
         When I submit the insights expenditure request
         Then the school expenditure result should be bad request
+        
+    Scenario: Sending a valid multiple trust expenditure query request with category 'NonEducationalSupportStaff',  dimension 'Actuals' and excludeCentralServices 'true'
+        Given a valid trust expenditure query request for category 'NonEducationalSupportStaff', dimension 'Actuals', excludeCentralServices 'true', with company numbers:
+          | CompanyNumber |
+          | 10249712      |
+          | 10259334      |
+          | 10264735      |
+        When I submit the insights expenditure request
+        Then the trust expenditure query result should be ok and match the expected output of 'TrustsExpenditureNonEduStaffActualsExcludeCentral.json'
+
+    Scenario: Sending a valid multiple trust expenditure query request with category 'NonEducationalSupportStaff', dimension 'PerUnit' and excludeCentralServices 'false'
+        Given a valid trust expenditure query request for category 'NonEducationalSupportStaff', dimension 'PerUnit', excludeCentralServices 'false', with company numbers:
+          | CompanyNumber |
+          | 10249712      |
+          | 10259334      |
+          | 10264735      |
+        When I submit the insights expenditure request
+        Then the trust expenditure query result should be ok and match the expected output of 'TrustsExpenditureNonEduStaffPerUnitIncludeCentral.json'
+         
+    Scenario: Sending a valid multiple trust expenditure query request with category 'NonEducationalSupportStaff', dimension 'PercentExpenditure' and excludeCentralServices 'true'
+        Given a valid trust expenditure query request for category 'NonEducationalSupportStaff', dimension 'PercentExpenditure', excludeCentralServices 'true', with company numbers:
+          | CompanyNumber |
+          | 10249712      |
+          | 10259334      |
+          | 10264735      |
+        When I submit the insights expenditure request
+        Then the trust expenditure query result should be ok and match the expected output of 'TrustsExpenditureNonEduStaffPercentExpenditureExcludeCentral.json'
+        
+    Scenario: Sending a valid multiple trust expenditure query request with category 'NonEducationalSupportStaff' and dimension 'PercentIncome' and excludeCentralServices 'false'
+        Given a valid trust expenditure query request for category 'NonEducationalSupportStaff', dimension 'PercentIncome', excludeCentralServices 'false', with company numbers:
+          | CompanyNumber |
+          | 10249712      |
+          | 10259334      |
+          | 10264735      |
+        When I submit the insights expenditure request
+        Then the trust expenditure query result should be ok and match the expected output of 'TrustsExpenditureNonEduStaffPercentIncomeIncludeCentral.json'

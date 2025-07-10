@@ -1,0 +1,35 @@
+[
+  {
+    "companyNumber": "10249712",
+    "trustName": "Test Company/Trust  229",
+    "highestSalaryEmolumentBandValue": 260,
+    "totalPupils": 344.0,
+    "totalExpenditure": 5072668.0,
+    "totalNonEducationalSupportStaffCosts": 500711.0,
+    "administrativeClericalStaffCosts": 285658.0,
+    "otherStaffCosts": 28104.0,
+    "professionalServicesNonCurriculumCosts": 186949.0
+  },
+  {
+    "companyNumber": "10259334",
+    "trustName": "Test Company/Trust  157",
+    "highestSalaryEmolumentBandValue": 90,
+    "totalPupils": 1734.0,
+    "totalExpenditure": 14665108.0,
+    "totalNonEducationalSupportStaffCosts": 1299564.0,
+    "administrativeClericalStaffCosts": 901007.0,
+    "otherStaffCosts": 30378.0,
+    "professionalServicesNonCurriculumCosts": 368179.0
+  },
+  {
+    "companyNumber": "10264735",
+    "trustName": "Test Company/Trust  262",
+    "highestSalaryEmolumentBandValue": 200,
+    "totalPupils": 468.0,
+    "totalExpenditure": 4260179.0,
+    "totalNonEducationalSupportStaffCosts": 447930.0,
+    "administrativeClericalStaffCosts": 215178.0,
+    "otherStaffCosts": 114615.0,
+    "professionalServicesNonCurriculumCosts": 118137.0
+  }
+]

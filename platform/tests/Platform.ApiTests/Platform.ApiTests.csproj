@@ -42,7 +42,6 @@
         <ProjectReference Include="..\..\src\apis\Platform.Api.NonFinancial\Platform.Api.NonFinancial.csproj"/>
     </ItemGroup>
     <ItemGroup>
-        <None Remove="Data\CommercialResources.json"/>
-        <EmbeddedResource Include="Data\CommercialResources.json"/>
+        <EmbeddedResource Include="Data\*.json"/>
     </ItemGroup>
 </Project>
