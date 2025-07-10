@@ -9,13 +9,13 @@ It ensures consistency, proper validation, and safe deployment across all enviro
 
 The lifecycle of a content change involves the following key stages:
 
- **Drafting**
+ **Drafting:**
 
 - Business or Product Owner provides:
     - Banner text or commercial link URL
     - Start and end dates (if applicable)
 
-**DB Script Preparation**
+**DB Script Preparation:**
 
 - Developer or QA writes an SQL script to insert or update the dynamic content in the database
 - The script includes:
@@ -25,19 +25,19 @@ The lifecycle of a content change involves the following key stages:
         - Date of execution
         - Associated work item or task ID
 
-** Apply to Pre-Prod**
+**Apply to Pre-Prod:**
 
 - Script is applied in the Pre-Prod environment
 - QA or engineer verifies the following:
     - Correct appearance of the banner/link on the UI
     - Visibility rules (based on date flags or conditional logic)
 
-**Sign-off**
+**Sign-off:**
 
 - Product Owner or Stakeholder reviews the content in Pre-Prod
 - Formal sign-off is recorded before proceeding to Production
 
-**Apply to Prod**
+**Apply to Prod:**
 
 - Engineer runs the final, reviewed version of the script on the Production environment
 - Immediate smoke check is performed:
