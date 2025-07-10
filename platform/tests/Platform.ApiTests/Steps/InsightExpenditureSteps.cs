@@ -1,9 +1,9 @@
-﻿using System.Reflection;
-using Newtonsoft.Json.Linq;
+﻿using Newtonsoft.Json.Linq;
 using Platform.Api.Insight.Features.Expenditure.Responses;
 using Platform.ApiTests.Assertion;
 using Platform.ApiTests.Assist;
 using Platform.ApiTests.Drivers;
+using Platform.ApiTests.TestDataHelpers;
 using Platform.Json;
 using Xunit;
 
@@ -321,20 +321,9 @@ public class InsightExpenditureSteps(InsightApiDriver api)
         var content = await response.Content.ReadAsStringAsync();
         var actual = JArray.Parse(content);
 
-        var expected = GetArrayData(testFile);
+        var expected = TestDataProvider.GetArrayData(testFile);
 
         Assert.True(JToken.DeepEquals(expected, actual));
-    }
-
-    private static JArray GetArrayData(string file)
-    {
-        var assembly = Assembly.GetExecutingAssembly();
-
-        using var stream = assembly.GetManifestResourceStream($"Platform.ApiTests.Data.{file}");
-        using var reader = new StreamReader(stream ?? throw new InvalidOperationException());
-        var jsonString = reader.ReadToEnd();
-
-        return JArray.Parse(jsonString);
     }
 
     private static IEnumerable<string> GetFirstColumnsFromTableRowsAsString(DataTable table)
