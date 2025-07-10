@@ -6,21 +6,26 @@ The GOV.UK Design System templates are used throughout.
 
 ## Prerequisites
 
-1. NodeJS
-2. `.env` file in the project root in the following format (see below for variables):
+- Install [Node 22](https://nodejs.org/en/download) and/or switch to this version
+using [nvm](https://github.com/nvm-sh/nvm)
+- Add `.env` file in the project root in the following format (see below for variables):
 
 ```sh
-PORT=7777
-NUNJUCKS_LOADER_WATCH=true
-NUNJUCKS_LOADER_NO_CACHE=true
+APPLICATIONINSIGHTS_CONNECTION_STRING="InstrumentationKey=00000000-0000-0000-0000-000000000000;IngestionEndpoint=https://dc.services.visualstudio.com"
+AZURE_LOG_LEVEL=verbose
+LOG_LEVEL=debug
 MARKDOWN_CONTENT="Custom message for **local development**."
+NUNJUCKS_LOADER_NO_CACHE=true
+NUNJUCKS_LOADER_WATCH=true
+PORT=7777
 ```
 
 ### VS Code Extensions
 
-1. [Nunjucks Template](https://marketplace.visualstudio.com/items?itemName=eseom.nunjucks-template)
-2. [Prettier](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode)
-3. [markdownlint](https://marketplace.visualstudio.com/items?itemNamedavidanson.vscode-markdownlint)
+- [ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint)
+- [markdownlint](https://marketplace.visualstudio.com/items?itemNamedavidanson.vscode-markdownlint)
+- [Nunjucks Template](https://marketplace.visualstudio.com/items?itemName=eseom.nunjucks-template)
+- [Prettier](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode)
 
 ## Build
 
@@ -38,9 +43,16 @@ pipelines.
 This will start the Express server from the pre-built `dist` folder along with the
 following environment variable(s), if supplied:
 
-| Variable           | Purpose                        | Default         |
-|--------------------|--------------------------------|-----------------|
-| `MARKDOWN_CONTENT` | Content to display on the page | Try again later |
+| Variable                                | Purpose                                | Default         |
+|-----------------------------------------|----------------------------------------|-----------------|
+| `APPLICATIONINSIGHTS_CONNECTION_STRING` | App insights configuration             |                 |
+| `AZURE_LOG_LEVEL`                       | Minimum logging level for App Insights | info            |
+| `LOG_LEVEL`                             | Minimum logging level for winston      | info            |
+| `MARKDOWN_CONTENT`                      | Content to display on the page         | Try again later |
+| `NUNJUCKS_LOADER_NO_CACHE`              | Nunjucks cache toggle                  |                 |
+| `NUNJUCKS_LOADER_WATCH`                 | Nunjucks watcher toggle                |                 |
+| `PORT`                                  | Express server port                    | 7777            |
+| `ROLE_NAME`                             | App service name                       | ebis-shutter    |
 
 The Express controller will parse as markdown and sanitize the content of the `MARKDOWN_CONTENT`
 before pushing into the Nunjucks variable `markdown_content`.
