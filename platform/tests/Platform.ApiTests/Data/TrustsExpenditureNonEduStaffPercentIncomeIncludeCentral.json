@@ -1,0 +1,50 @@
+[
+  {
+    "companyNumber": "10249712",
+    "trustName": "Test Company/Trust  229",
+    "schoolTotalExpenditure": 108.12693265828267,
+    "schoolTotalNonEducationalSupportStaffCosts": 10.672952493295712,
+    "schoolAdministrativeClericalStaffCosts": 6.08897001130366,
+    "schoolOtherStaffCosts": 0.5990534597234387,
+    "schoolProfessionalServicesNonCurriculumCosts": 3.9849290222686142,
+    "highestSalaryEmolumentBandValue": 260,
+    "totalPupils": 344.0,
+    "totalExpenditure": 108.12693265828267,
+    "totalNonEducationalSupportStaffCosts": 10.672952493295712,
+    "administrativeClericalStaffCosts": 6.08897001130366,
+    "otherStaffCosts": 0.5990534597234387,
+    "professionalServicesNonCurriculumCosts": 3.9849290222686142
+  },
+  {
+    "companyNumber": "10259334",
+    "trustName": "Test Company/Trust  157",
+    "schoolTotalExpenditure": 96.07927382555172,
+    "schoolTotalNonEducationalSupportStaffCosts": 8.514166101594975,
+    "schoolAdministrativeClericalStaffCosts": 5.902997664370346,
+    "schoolOtherStaffCosts": 0.19902316302563952,
+    "schoolProfessionalServicesNonCurriculumCosts": 2.4121452741989904,
+    "highestSalaryEmolumentBandValue": 90,
+    "totalPupils": 1734.0,
+    "totalExpenditure": 96.07927382555172,
+    "totalNonEducationalSupportStaffCosts": 8.514166101594975,
+    "administrativeClericalStaffCosts": 5.902997664370346,
+    "otherStaffCosts": 0.19902316302563952,
+    "professionalServicesNonCurriculumCosts": 2.4121452741989904
+  },
+  {
+    "companyNumber": "10264735",
+    "trustName": "Test Company/Trust  262",
+    "schoolTotalExpenditure": 105.4618266508167,
+    "schoolTotalNonEducationalSupportStaffCosts": 11.088622335282233,
+    "schoolAdministrativeClericalStaffCosts": 5.326786723062443,
+    "schoolOtherStaffCosts": 2.8373237982684194,
+    "schoolProfessionalServicesNonCurriculumCosts": 2.9245118139513697,
+    "highestSalaryEmolumentBandValue": 200,
+    "totalPupils": 468.0,
+    "totalExpenditure": 105.4618266508167,
+    "totalNonEducationalSupportStaffCosts": 11.088622335282233,
+    "administrativeClericalStaffCosts": 5.326786723062443,
+    "otherStaffCosts": 2.8373237982684194,
+    "professionalServicesNonCurriculumCosts": 2.9245118139513697
+  }
+]
