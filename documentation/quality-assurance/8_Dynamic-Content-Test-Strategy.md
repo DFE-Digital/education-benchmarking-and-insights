@@ -50,7 +50,7 @@ Reviewer checks for:
 ## Implementation Details
 
 All production scripts are stored in the repository [here.](../../scripts/content)
-Refer to the [Lifecycle of a Content Change guide](9_Implementation-Guide-for-Dynamic-content-changes.md)
+Refer to the [Lifecycle of a Content Change guide](../developers/15_Implementation-Guide-for-Dynamic-content-changes.md)
 for the full implementation process.
 
 ## Summary
