@@ -90,9 +90,9 @@ stages:
             name: outputVars
 
   - stage: DeployCore
-    dependsOn: [ BuildNumber ]
+    dependsOn: [BuildNumber]
     displayName: 'Core : Deploy'
-    variables: 
+    variables:
       environmentPrefix: $[ stageDependencies.BuildNumber.SetBuildNumber.outputs['outputVars.Environment_Prefix'] ]
     jobs:
       - job: ZipStaticCoreArtifacts
@@ -118,12 +118,12 @@ stages:
           environmentPrefix: $(environmentPrefix)
           environment: $(Pipeline.Environment)
           cipEnvironment: 'Dev'
-          dependsOn: [ ZipStaticCoreArtifacts, BuildCore ]
+          dependsOn: [ZipStaticCoreArtifacts, BuildCore]
           disablePurgeProtection: 'true'
           supportAlertEmail: $(support-alert-email)
 
   - stage: BuildDataPipeline
-    dependsOn: [ BuildNumber, DeployCore ]
+    dependsOn: [BuildNumber, DeployCore]
     displayName: 'Data Pipeline : Build and Deploy'
     variables:
       environmentPrefix: $[ stageDependencies.BuildNumber.SetBuildNumber.outputs['outputVars.Environment_Prefix'] ]
@@ -137,9 +137,9 @@ stages:
               Module: 'data-pipeline'
 
       - job: BuildAndPushDataPipeline
-        dependsOn: [ ZipStaticDataPipelineArtifacts ]
+        dependsOn: [ZipStaticDataPipelineArtifacts]
         displayName: 'Build and push image'
-        steps: 
+        steps:
           - template: ../data-pipeline/steps/build-push-image.yaml
             parameters:
               buildNumber: $(Version.BuildNumber)
@@ -155,12 +155,12 @@ stages:
           cipEnvironment: 'Dev'
           importImage: false
           buildNumber: $(Version.BuildNumber)
-          dependsOn: [ BuildAndPushDataPipeline ]
+          dependsOn: [BuildAndPushDataPipeline]
 
   - stage: BuildPlatform
-    dependsOn: [ BuildNumber, DeployCore, BuildDataPipeline ]
+    dependsOn: [BuildNumber, DeployCore, BuildDataPipeline]
     displayName: 'Platform : Build and Deploy'
-    variables: 
+    variables:
       environmentPrefix: $[ stageDependencies.BuildNumber.SetBuildNumber.outputs['outputVars.Environment_Prefix'] ]
     jobs:
       - job: ZipStaticPlatformArtifacts
@@ -194,12 +194,12 @@ stages:
           environmentPrefix: $(environmentPrefix)
           environment: $(Pipeline.Environment)
           cipEnvironment: 'Dev'
-          dependsOn: [ ZipStaticPlatformArtifacts, BuildPlatform ]
+          dependsOn: [ZipStaticPlatformArtifacts, BuildPlatform]
 
   - stage: BuildFrontEndComponents
-    dependsOn: [ BuildNumber, BuildPlatform ]
+    dependsOn: [BuildNumber, BuildPlatform]
     displayName: 'Front-end : Build and Publish'
-    variables: 
+    variables:
       frontEndVersion: $[ stageDependencies.BuildNumber.SetBuildNumber.outputs['outputVars.Version_FrontEnd'] ]
     jobs:
       - job: BuildAndRPublishFrontEnd
@@ -237,7 +237,7 @@ stages:
               verbose: false
 
   - stage: BuildWeb
-    dependsOn: [ BuildNumber, BuildFrontEndComponents ]
+    dependsOn: [BuildNumber, BuildFrontEndComponents]
     displayName: 'Web : Build and Deploy'
     variables:
       - group: 'dsi pre-prod'
@@ -269,11 +269,11 @@ stages:
           environmentPrefix: $(environmentPrefix)
           environment: $(Pipeline.Environment)
           cipEnvironment: 'Dev'
-          dependsOn: [ ZipStaticWebArtifacts, BuildWeb ]
-          deployRedirectWeb: true
+          dependsOn: [ZipStaticWebArtifacts, BuildWeb]
+          deployShutterWeb: true
 
   - stage: DeploySupportAnalytics
-    dependsOn: [ BuildNumber, DeployCore, BuildPlatform, BuildWeb ]
+    dependsOn: [BuildNumber, DeployCore, BuildPlatform, BuildWeb]
     displayName: 'Support Analytics : Deploy'
     variables:
       - group: 'support'
@@ -294,8 +294,4 @@ stages:
           environmentPrefix: $(environmentPrefix)
           environment: $(Pipeline.Environment)
           cipEnvironment: 'Dev'
-          dependsOn: [ ZipStaticSupportAnalyticsArtifacts ]
-
-
-
-
+          dependsOn: [ZipStaticSupportAnalyticsArtifacts]

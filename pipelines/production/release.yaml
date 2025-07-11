@@ -35,7 +35,7 @@ variables:
     value: $[format('{0:yyyy}.{0:MM}', pipeline.startTime)]
   - name: Version.Revision
     value: $[counter(variables['Version'], 0)]
-  - name: Version.BuildNumber 
+  - name: Version.BuildNumber
     value: $(Version).$(Version.Revision)
 
 name: $(Version).$(Version.Revision)
@@ -122,8 +122,8 @@ stages:
           - publish: $(workspaceDir)/platform-terraform
             artifact: platform-terraform
 
-#            - publish: $(workspaceDir)/api-tests
-#              artifact: api-tests
+          #            - publish: $(workspaceDir)/api-tests
+          #              artifact: api-tests
 
           - publish: $(workspaceDir)/platform-apis
             artifact: platform-apis
@@ -157,11 +157,11 @@ stages:
           - publish: $(workspaceDir)/web
             artifact: web
 
-#          - publish: $(workspaceDir)/e2e-tests
-#            artifact: e2e-tests
+  #          - publish: $(workspaceDir)/e2e-tests
+  #            artifact: e2e-tests
 
   - stage: DeployPreProd
-    dependsOn: [ Artifacts ]
+    dependsOn: [Artifacts]
     displayName: 'Pre-production'
     variables:
       - group: 'dsi pre-prod'
@@ -176,7 +176,7 @@ stages:
           supportAlertEmail: $(support-alert-email)
 
   - stage: DeployProd
-    dependsOn: [ DeployPreProd ]
+    dependsOn: [DeployPreProd]
     condition: and(succeeded(), eq(variables['ShouldDeployProd'],'true'))
     displayName: 'Production'
     variables:
@@ -191,3 +191,4 @@ stages:
           pipelineBuildNumber: ${{ parameters.pipelineVersion }}
           supportAlertEmail: $(support-alert-email)
           deployRedirectWeb: true
+          deployShutterWeb: true
