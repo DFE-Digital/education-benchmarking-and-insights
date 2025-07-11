@@ -12,6 +12,7 @@ variable "configuration" {
     front_door_waf_policy_sku_name = string
     waf_mode                       = string
     redirect_app_service           = bool
+    shutter_app_service            = bool
     features = object({
       CurriculumFinancialPlanning          = bool
       CustomData                           = bool
@@ -52,6 +53,7 @@ variable "configuration" {
       front_door_waf_policy_sku_name = "Standard_AzureFrontDoor"
       waf_mode                       = "Detection"
       redirect_app_service           = false
+      shutter_app_service            = false
       features = {
         Trusts                               = true
         CurriculumFinancialPlanning          = true
@@ -91,6 +93,7 @@ variable "configuration" {
       front_door_waf_policy_sku_name = "Standard_AzureFrontDoor"
       waf_mode                       = "Detection"
       redirect_app_service           = false
+      shutter_app_service            = false
       features = {
         Trusts                               = true
         CurriculumFinancialPlanning          = true
@@ -130,6 +133,7 @@ variable "configuration" {
       front_door_waf_policy_sku_name = "Standard_AzureFrontDoor"
       waf_mode                       = "Prevention"
       redirect_app_service           = false
+      shutter_app_service            = false
       features = {
         Trusts                               = true
         CurriculumFinancialPlanning          = true
@@ -168,7 +172,8 @@ variable "configuration" {
       front_door_profile_sku_name    = "Standard_AzureFrontDoor"
       front_door_waf_policy_sku_name = "Standard_AzureFrontDoor"
       waf_mode                       = "Detection"
-      redirect_app_service           = true
+      redirect_app_service           = false
+      shutter_app_service            = true
       features = {
         Trusts                               = true
         CurriculumFinancialPlanning          = true
@@ -208,6 +213,7 @@ variable "configuration" {
       front_door_waf_policy_sku_name = "Standard_AzureFrontDoor"
       waf_mode                       = "Prevention"
       redirect_app_service           = false
+      shutter_app_service            = false
       features = {
         Trusts                               = true
         CurriculumFinancialPlanning          = true
@@ -247,6 +253,7 @@ variable "configuration" {
       front_door_waf_policy_sku_name = "Premium_AzureFrontDoor"
       waf_mode                       = "Prevention"
       redirect_app_service           = true
+      shutter_app_service            = false
       features = {
         Trusts                               = true
         CurriculumFinancialPlanning          = true

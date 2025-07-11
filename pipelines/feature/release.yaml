@@ -1,5 +1,5 @@
 pool:
-  vmImage: 'ubuntu-latest'
+  vmImage: "ubuntu-latest"
 
 trigger: none
 
@@ -7,16 +7,16 @@ pr: none
 
 parameters:
   - name: environment
-    displayName: 'Environment associated with feature'
+    displayName: "Environment associated with feature"
     type: string
     default: development
     values:
       - development
       - pre-production
   - name: featureEnvironment
-    displayName: 'Target feature environment to create or update'
+    displayName: "Target feature environment to create or update"
     type: string
-    default: ''
+    default: ""
     values:
       - 11
       - 12
@@ -29,7 +29,7 @@ parameters:
       - 19
 
 variables:
-  - group: 'support'
+  - group: "support"
   - name: Environment.Name
     value: ${{ parameters.environment }}
   - name: Version.BranchRevision
@@ -41,21 +41,21 @@ variables:
   - name: Version.BuildVersion
     value: $(Version.BuildNumber)
   - name: Pipeline.Environment
-    value: 'feature'
+    value: "feature"
   - name: Subscription
-    value: 's198d.azdo-deployment'
+    value: "s198d.azdo-deployment"
   - name: WorkingDir.Core
-    value: 'core-infrastructure'
+    value: "core-infrastructure"
   - name: WorkingDir.SupportAnalytics
-    value: 'support-analytics'
+    value: "support-analytics"
   - name: WorkingDir.FrontEnd
-    value: 'front-end-components'
+    value: "front-end-components"
   - name: WorkingDir.Platform
-    value: 'platform'
+    value: "platform"
   - name: WorkingDir.Web
-    value: 'web'
+    value: "web"
   - name: WorkingDir.DataPipeline
-    value: 'data-pipeline'
+    value: "data-pipeline"
   - name: NUGET_PLUGIN_HANDSHAKE_TIMEOUT_IN_SECONDS
     value: 30
   - name: NUGET_PLUGIN_REQUEST_TIMEOUT_IN_SECONDS
@@ -65,10 +65,10 @@ name: 0.$(Version.FeatureEnvironment).$(Version.BranchRevision)
 
 stages:
   - stage: BuildNumber
-    displayName: 'Define build number'
+    displayName: "Define build number"
     jobs:
       - job: SetBuildNumber
-        displayName: 'Set build number'
+        displayName: "Set build number"
         steps:
           - checkout: none
           - bash: |
@@ -86,26 +86,26 @@ stages:
 
               branchRevision=$(Version.BranchRevision)
               echo "##vso[task.setvariable variable=Version_FrontEnd;isOutput=true]$(Version.BuildNumber)-$environmentPrefix.0"
-            displayName: 'Set release build number'
+            displayName: "Set release build number"
             name: outputVars
 
   - stage: DeployCore
-    dependsOn: [ BuildNumber ]
-    displayName: 'Core : Deploy'
-    variables: 
+    dependsOn: [BuildNumber]
+    displayName: "Core : Deploy"
+    variables:
       environmentPrefix: $[ stageDependencies.BuildNumber.SetBuildNumber.outputs['outputVars.Environment_Prefix'] ]
     jobs:
       - job: ZipStaticCoreArtifacts
-        displayName: 'Zip static artifacts'
+        displayName: "Zip static artifacts"
         steps:
           - template: ..\common\publish-terraform-artifacts.yaml
             parameters:
-              TerraformFolder: '$(System.DefaultWorkingDirectory)/$(WorkingDir.Core)/terraform'
-              Module: 'core'
+              TerraformFolder: "$(System.DefaultWorkingDirectory)/$(WorkingDir.Core)/terraform"
+              Module: "core"
               DisablePreventDestroy: true
 
       - job: BuildCore
-        displayName: 'Core : Build'
+        displayName: "Core : Build"
         steps:
           - template: ../core-infrastructure/steps/build.yaml
             parameters:
@@ -117,29 +117,29 @@ stages:
           subscription: $(Subscription)
           environmentPrefix: $(environmentPrefix)
           environment: $(Pipeline.Environment)
-          cipEnvironment: 'Dev'
-          dependsOn: [ ZipStaticCoreArtifacts, BuildCore ]
-          disablePurgeProtection: 'true'
+          cipEnvironment: "Dev"
+          dependsOn: [ZipStaticCoreArtifacts, BuildCore]
+          disablePurgeProtection: "true"
           supportAlertEmail: $(support-alert-email)
 
   - stage: BuildDataPipeline
-    dependsOn: [ BuildNumber, DeployCore ]
-    displayName: 'Data Pipeline : Build and Deploy'
+    dependsOn: [BuildNumber, DeployCore]
+    displayName: "Data Pipeline : Build and Deploy"
     variables:
       environmentPrefix: $[ stageDependencies.BuildNumber.SetBuildNumber.outputs['outputVars.Environment_Prefix'] ]
     jobs:
       - job: ZipStaticDataPipelineArtifacts
-        displayName: 'Zip static artifacts'
+        displayName: "Zip static artifacts"
         steps:
           - template: ..\common\publish-terraform-artifacts.yaml
             parameters:
-              TerraformFolder: '$(System.DefaultWorkingDirectory)/$(WorkingDir.DataPipeline)/terraform'
-              Module: 'data-pipeline'
+              TerraformFolder: "$(System.DefaultWorkingDirectory)/$(WorkingDir.DataPipeline)/terraform"
+              Module: "data-pipeline"
 
       - job: BuildAndPushDataPipeline
-        dependsOn: [ ZipStaticDataPipelineArtifacts ]
-        displayName: 'Build and push image'
-        steps: 
+        dependsOn: [ZipStaticDataPipelineArtifacts]
+        displayName: "Build and push image"
+        steps:
           - template: ../data-pipeline/steps/build-push-image.yaml
             parameters:
               buildNumber: $(Version.BuildNumber)
@@ -149,38 +149,38 @@ stages:
       - template: ../data-pipeline/deployment.yaml
         parameters:
           subscription: $(Subscription)
-          sourceServicePrincipal: 's198d.azdo-deployment'
+          sourceServicePrincipal: "s198d.azdo-deployment"
           environmentPrefix: $(environmentPrefix)
           environment: $(Pipeline.Environment)
-          cipEnvironment: 'Dev'
+          cipEnvironment: "Dev"
           importImage: false
           buildNumber: $(Version.BuildNumber)
-          dependsOn: [ BuildAndPushDataPipeline ]
+          dependsOn: [BuildAndPushDataPipeline]
 
   - stage: BuildPlatform
-    dependsOn: [ BuildNumber, DeployCore, BuildDataPipeline ]
-    displayName: 'Platform : Build and Deploy'
-    variables: 
+    dependsOn: [BuildNumber, DeployCore, BuildDataPipeline]
+    displayName: "Platform : Build and Deploy"
+    variables:
       environmentPrefix: $[ stageDependencies.BuildNumber.SetBuildNumber.outputs['outputVars.Environment_Prefix'] ]
     jobs:
       - job: ZipStaticPlatformArtifacts
-        displayName: 'Zip static artifacts'
+        displayName: "Zip static artifacts"
         steps:
           - template: ..\common\publish-terraform-artifacts.yaml
             parameters:
-              TerraformFolder: '$(System.DefaultWorkingDirectory)/$(WorkingDir.Platform)/terraform'
-              Module: 'platform'
+              TerraformFolder: "$(System.DefaultWorkingDirectory)/$(WorkingDir.Platform)/terraform"
+              Module: "platform"
 
       - job: BuildPlatform
-        displayName: 'Platform : Build'
+        displayName: "Platform : Build"
         steps:
           - task: Npm@1
-            displayName: 'Update ChartRendering version number'
+            displayName: "Update ChartRendering version number"
             condition: and(succeeded(), eq(variables['ShouldDeploy'],'true'))
             inputs:
-              command: 'custom'
-              customCommand: 'version $(Version.BuildVersion)'
-              workingDir: 'platform/src/apis/Platform.Api.ChartRendering'
+              command: "custom"
+              customCommand: "version $(Version.BuildVersion)"
+              workingDir: "platform/src/apis/Platform.Api.ChartRendering"
               verbose: false
 
           - template: ../platform/steps/build.yaml
@@ -193,69 +193,69 @@ stages:
           subscription: $(Subscription)
           environmentPrefix: $(environmentPrefix)
           environment: $(Pipeline.Environment)
-          cipEnvironment: 'Dev'
-          dependsOn: [ ZipStaticPlatformArtifacts, BuildPlatform ]
+          cipEnvironment: "Dev"
+          dependsOn: [ZipStaticPlatformArtifacts, BuildPlatform]
 
   - stage: BuildFrontEndComponents
-    dependsOn: [ BuildNumber, BuildPlatform ]
-    displayName: 'Front-end : Build and Publish'
-    variables: 
+    dependsOn: [BuildNumber, BuildPlatform]
+    displayName: "Front-end : Build and Publish"
+    variables:
       frontEndVersion: $[ stageDependencies.BuildNumber.SetBuildNumber.outputs['outputVars.Version_FrontEnd'] ]
     jobs:
       - job: BuildAndRPublishFrontEnd
-        displayName: 'Build and publish'
+        displayName: "Build and publish"
         steps:
           - task: Npm@1
-            displayName: 'Update version number'
+            displayName: "Update version number"
             inputs:
-              command: 'custom'
-              customCommand: 'version $(frontEndVersion)'
+              command: "custom"
+              customCommand: "version $(frontEndVersion)"
               workingDir: $(WorkingDir.FrontEnd)
               verbose: false
 
           - task: Npm@1
-            displayName: 'Install dependencies'
+            displayName: "Install dependencies"
             inputs:
-              command: 'install'
+              command: "install"
               workingDir: $(WorkingDir.FrontEnd)
 
           - task: Npm@1
-            displayName: 'Build project'
+            displayName: "Build project"
             inputs:
-              command: 'custom'
-              customCommand: 'run build'
+              command: "custom"
+              customCommand: "run build"
               workingDir: $(WorkingDir.FrontEnd)
 
           - task: Npm@1
-            displayName: 'Publish'
+            displayName: "Publish"
             continueOnError: false
             inputs:
-              command: 'publish'
+              command: "publish"
               publishRegistry: useFeed
-              publishFeed: 'S198-DfE-Benchmarking-service/education-benchmarking'
+              publishFeed: "S198-DfE-Benchmarking-service/education-benchmarking"
               workingDir: $(WorkingDir.FrontEnd)
               verbose: false
 
   - stage: BuildWeb
-    dependsOn: [ BuildNumber, BuildFrontEndComponents ]
-    displayName: 'Web : Build and Deploy'
+    dependsOn: [BuildNumber, BuildFrontEndComponents]
+    displayName: "Web : Build and Deploy"
     variables:
-      - group: 'dsi pre-prod'
+      - group: "dsi pre-prod"
       - name: environmentPrefix
         value: $[ stageDependencies.BuildNumber.SetBuildNumber.outputs['outputVars.Environment_Prefix'] ]
       - name: frontEndVersion
         value: $[ stageDependencies.BuildNumber.SetBuildNumber.outputs['outputVars.Version_FrontEnd'] ]
     jobs:
       - job: ZipStaticWebArtifacts
-        displayName: 'Zip static artifacts'
+        displayName: "Zip static artifacts"
         steps:
           - template: ..\common\publish-terraform-artifacts.yaml
             parameters:
-              TerraformFolder: '$(System.DefaultWorkingDirectory)/$(WorkingDir.Web)/terraform'
-              Module: 'web'
+              TerraformFolder: "$(System.DefaultWorkingDirectory)/$(WorkingDir.Web)/terraform"
+              Module: "web"
 
       - job: BuildWeb
-        displayName: 'Web : Build'
+        displayName: "Web : Build"
         steps:
           - template: ../web/steps/build.yaml
             parameters:
@@ -268,34 +268,30 @@ stages:
           subscription: $(Subscription)
           environmentPrefix: $(environmentPrefix)
           environment: $(Pipeline.Environment)
-          cipEnvironment: 'Dev'
-          dependsOn: [ ZipStaticWebArtifacts, BuildWeb ]
-          deployRedirectWeb: true
+          cipEnvironment: "Dev"
+          dependsOn: [ZipStaticWebArtifacts, BuildWeb]
+          deployShutterWeb: true
 
   - stage: DeploySupportAnalytics
-    dependsOn: [ BuildNumber, DeployCore, BuildPlatform, BuildWeb ]
-    displayName: 'Support Analytics : Deploy'
+    dependsOn: [BuildNumber, DeployCore, BuildPlatform, BuildWeb]
+    displayName: "Support Analytics : Deploy"
     variables:
-      - group: 'support'
+      - group: "support"
       - name: environmentPrefix
         value: $[ stageDependencies.BuildNumber.SetBuildNumber.outputs['outputVars.Environment_Prefix'] ]
     jobs:
       - job: ZipStaticSupportAnalyticsArtifacts
-        displayName: 'Zip static artifacts'
+        displayName: "Zip static artifacts"
         steps:
           - template: ..\common\publish-terraform-artifacts.yaml
             parameters:
-              TerraformFolder: '$(System.DefaultWorkingDirectory)/$(WorkingDir.SupportAnalytics)/terraform'
-              Module: 'support-analytics'
+              TerraformFolder: "$(System.DefaultWorkingDirectory)/$(WorkingDir.SupportAnalytics)/terraform"
+              Module: "support-analytics"
 
       - template: ../support-analytics/deployment.yaml
         parameters:
           subscription: $(Subscription)
           environmentPrefix: $(environmentPrefix)
           environment: $(Pipeline.Environment)
-          cipEnvironment: 'Dev'
-          dependsOn: [ ZipStaticSupportAnalyticsArtifacts ]
-
-
-
-
+          cipEnvironment: "Dev"
+          dependsOn: [ZipStaticSupportAnalyticsArtifacts]

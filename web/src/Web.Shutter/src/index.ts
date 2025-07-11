@@ -26,7 +26,7 @@ app.get(/(.*)/, (_, res) => {
   });
 });
 
-const port = process.env.PORT || 7777;
+const port = process.env.PORT || 8080;
 app.listen(port, () => {
   logger.log("info", `Server is running at http://localhost:${port}`);
 });

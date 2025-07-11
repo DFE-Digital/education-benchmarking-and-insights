@@ -17,7 +17,7 @@ LOG_LEVEL=debug
 MARKDOWN_CONTENT="Custom message for **local development**."
 NUNJUCKS_LOADER_NO_CACHE=true
 NUNJUCKS_LOADER_WATCH=true
-PORT=7777
+PORT=8080
 ```
 
 ### VS Code Extensions
@@ -51,7 +51,7 @@ following environment variable(s), if supplied:
 | `MARKDOWN_CONTENT`                      | Content to display on the page         | Try again later |
 | `NUNJUCKS_LOADER_NO_CACHE`              | Nunjucks cache toggle                  |                 |
 | `NUNJUCKS_LOADER_WATCH`                 | Nunjucks watcher toggle                |                 |
-| `PORT`                                  | Express server port                    | 7777            |
+| `PORT`                                  | Express server port                    | 8080            |
 | `ROLE_NAME`                             | App service name                       | ebis-shutter    |
 
 The Express controller will parse as markdown and sanitize the content of the `MARKDOWN_CONTENT`
@@ -62,6 +62,6 @@ before pushing into the Nunjucks variable `markdown_content`.
 1. `npm i`
 2. `npm run dev`
 
-Open the dev server at (e.g.) `http://localhost:7777` in the web browser. Any changes
+Open the dev server at (e.g.) `http://localhost:8080` in the web browser. Any changes
 made to the Nunjucks template(s) will trigger a rebuild, so refreshing the page should
 pull in those changes.
