@@ -1,5 +1,5 @@
 pool:
-  vmImage: 'ubuntu-latest'
+  vmImage: "ubuntu-latest"
 
 trigger: none
 
@@ -7,26 +7,26 @@ pr: none
 
 parameters:
   - name: coreVersion
-    displayName: 'Input core infrastructure version'
+    displayName: "Input core infrastructure version"
     type: string
   - name: platformVersion
-    displayName: 'Input platform version'
+    displayName: "Input platform version"
     type: string
   - name: webVersion
-    displayName: 'Input web version'
+    displayName: "Input web version"
     type: string
   - name: pipelineVersion
-    displayName: 'Input data pipeline version'
+    displayName: "Input data pipeline version"
     type: string
   - name: preProdEnv
-    displayName: 'Select pre-production environment'
+    displayName: "Select pre-production environment"
     type: string
     default: s198p02
     values:
       - s198p02
 
 variables:
-  - group: 'support'
+  - group: "support"
   - name: ShouldDeployProd
     value: $[eq('${{ parameters.preProdEnv }}', 's198p02')]
   - name: IsPipelineVersionSet
@@ -35,40 +35,40 @@ variables:
     value: $[format('{0:yyyy}.{0:MM}', pipeline.startTime)]
   - name: Version.Revision
     value: $[counter(variables['Version'], 0)]
-  - name: Version.BuildNumber 
+  - name: Version.BuildNumber
     value: $(Version).$(Version.Revision)
 
 name: $(Version).$(Version.Revision)
 
 stages:
   - stage: Artifacts
-    displayName: 'Gather artifacts'
+    displayName: "Gather artifacts"
     jobs:
       - job: SetBuildNumber
-        displayName: 'Set build tags'
+        displayName: "Set build tags"
         steps:
           - checkout: none
           - bash: echo "##vso[build.addbuildtag]Release|$(Version.BuildNumber)"
 
       - job: CoreDownloadPublish
-        displayName: 'Core : Download artifacts and republish'
+        displayName: "Core : Download artifacts and republish"
         steps:
           - checkout: none
           - task: DownloadPipelineArtifact@2
             name: DownloadArtifact
             inputs:
-              buildType: 'specific'
-              project: 's198-DfE-Benchmarking-service'
+              buildType: "specific"
+              project: "s198-DfE-Benchmarking-service"
               definition: 2862
-              buildVersionToDownload: 'latestFromBranch'
-              branchName: 'refs/heads/main'
+              buildVersionToDownload: "latestFromBranch"
+              branchName: "refs/heads/main"
               allowFailedBuilds: false
               allowPartiallySucceededBuilds: false
               targetPath: $(workspaceDir)
               tags: ${{ parameters.coreVersion }}
 
           - bash: echo "##vso[build.addbuildtag]Core|${{ parameters.coreVersion }}"
-            displayName: 'Set tag'
+            displayName: "Set tag"
 
           - publish: $(workspaceDir)/core-terraform
             artifact: core-terraform
@@ -77,53 +77,53 @@ stages:
             artifact: core-db
 
       - job: PipelineDownloadPublish
-        displayName: 'Data pipeline : Download artifacts and republish'
+        displayName: "Data pipeline : Download artifacts and republish"
         steps:
           - checkout: none
           - task: DownloadPipelineArtifact@2
             name: DownloadArtifact
             inputs:
-              buildType: 'specific'
-              project: 's198-DfE-Benchmarking-service'
+              buildType: "specific"
+              project: "s198-DfE-Benchmarking-service"
               definition: 2879
-              buildVersionToDownload: 'latestFromBranch'
-              branchName: 'refs/heads/main'
+              buildVersionToDownload: "latestFromBranch"
+              branchName: "refs/heads/main"
               allowFailedBuilds: false
               allowPartiallySucceededBuilds: false
               targetPath: $(workspaceDir)
               tags: ${{ parameters.pipelineVersion }}
 
           - bash: echo "##vso[build.addbuildtag]Data|${{ parameters.pipelineVersion }}"
-            displayName: 'Set tag'
+            displayName: "Set tag"
 
           - publish: $(workspaceDir)/data-pipeline-terraform
             artifact: data-pipeline-terraform
 
       - job: PlatformDownloadPublish
-        displayName: 'Platform : Download artifacts and republish'
+        displayName: "Platform : Download artifacts and republish"
         steps:
           - checkout: none
           - task: DownloadPipelineArtifact@2
             name: DownloadArtifact
             inputs:
-              buildType: 'specific'
-              project: 's198-DfE-Benchmarking-service'
+              buildType: "specific"
+              project: "s198-DfE-Benchmarking-service"
               definition: 2865
-              buildVersionToDownload: 'latestFromBranch'
-              branchName: 'refs/heads/main'
+              buildVersionToDownload: "latestFromBranch"
+              branchName: "refs/heads/main"
               allowFailedBuilds: false
               allowPartiallySucceededBuilds: false
               targetPath: $(workspaceDir)
               tags: ${{ parameters.platformVersion }}
 
           - bash: echo "##vso[build.addbuildtag]Platform|${{ parameters.platformVersion }}"
-            displayName: 'Set build tag'
+            displayName: "Set build tag"
 
           - publish: $(workspaceDir)/platform-terraform
             artifact: platform-terraform
 
-#            - publish: $(workspaceDir)/api-tests
-#              artifact: api-tests
+          #            - publish: $(workspaceDir)/api-tests
+          #              artifact: api-tests
 
           - publish: $(workspaceDir)/platform-apis
             artifact: platform-apis
@@ -132,24 +132,24 @@ stages:
             artifact: platform-search
 
       - job: WebDownloadPublish
-        displayName: 'Web : Download artifacts and republish'
+        displayName: "Web : Download artifacts and republish"
         steps:
           - checkout: none
           - task: DownloadPipelineArtifact@2
             name: DownloadArtifact
             inputs:
-              buildType: 'specific'
-              project: 's198-DfE-Benchmarking-service'
+              buildType: "specific"
+              project: "s198-DfE-Benchmarking-service"
               definition: 2866
-              buildVersionToDownload: 'latestFromBranch'
-              branchName: 'refs/heads/main'
+              buildVersionToDownload: "latestFromBranch"
+              branchName: "refs/heads/main"
               allowFailedBuilds: false
               allowPartiallySucceededBuilds: false
               targetPath: $(workspaceDir)
               tags: ${{ parameters.webVersion }}
 
           - bash: echo "##vso[build.addbuildtag]Web|${{ parameters.webVersion }}"
-            displayName: 'Set build tag'
+            displayName: "Set build tag"
 
           - publish: $(workspaceDir)/web-terraform
             artifact: web-terraform
@@ -157,37 +157,38 @@ stages:
           - publish: $(workspaceDir)/web
             artifact: web
 
-#          - publish: $(workspaceDir)/e2e-tests
-#            artifact: e2e-tests
+  #          - publish: $(workspaceDir)/e2e-tests
+  #            artifact: e2e-tests
 
   - stage: DeployPreProd
-    dependsOn: [ Artifacts ]
-    displayName: 'Pre-production'
+    dependsOn: [Artifacts]
+    displayName: "Pre-production"
     variables:
-      - group: 'dsi pre-prod'
+      - group: "dsi pre-prod"
     jobs:
       - template: deployment.yaml
         parameters:
-          subscription: 's198p.azdo.deployment'
+          subscription: "s198p.azdo.deployment"
           environmentPrefix: ${{ parameters.preProdEnv }}
-          environment: 'pre-production'
-          cipEnvironment: 'Prod'
+          environment: "pre-production"
+          cipEnvironment: "Prod"
           pipelineBuildNumber: ${{ parameters.pipelineVersion }}
           supportAlertEmail: $(support-alert-email)
 
   - stage: DeployProd
-    dependsOn: [ DeployPreProd ]
+    dependsOn: [DeployPreProd]
     condition: and(succeeded(), eq(variables['ShouldDeployProd'],'true'))
-    displayName: 'Production'
+    displayName: "Production"
     variables:
-      - group: 'dsi prod'
+      - group: "dsi prod"
     jobs:
       - template: deployment.yaml
         parameters:
-          subscription: 's198p.azdo.deployment'
-          environmentPrefix: 's198p01'
-          environment: 'production'
-          cipEnvironment: 'Prod'
+          subscription: "s198p.azdo.deployment"
+          environmentPrefix: "s198p01"
+          environment: "production"
+          cipEnvironment: "Prod"
           pipelineBuildNumber: ${{ parameters.pipelineVersion }}
           supportAlertEmail: $(support-alert-email)
           deployRedirectWeb: true
+          deployShutterWeb: true

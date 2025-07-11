@@ -1,15 +1,16 @@
 parameters:
-  subscription: ''
-  environmentPrefix: ''
-  environment: ''
-  cipEnvironment: ''
-  pipelineBuildNumber: ''
-  supportAlertEmail: ''
-  deployRedirectWeb: ''
+  subscription: ""
+  environmentPrefix: ""
+  environment: ""
+  cipEnvironment: ""
+  pipelineBuildNumber: ""
+  supportAlertEmail: ""
+  deployRedirectWeb: ""
+  deployShutterWeb: ""
 
 jobs:
   - job: SetBuildNumber
-    displayName: 'Set build tags'
+    displayName: "Set build tags"
     steps:
       - checkout: none
       - bash: echo "##vso[build.addbuildtag]${{ parameters.environmentPrefix }}"
@@ -24,20 +25,20 @@ jobs:
 
   - template: ../data-pipeline/deployment.yaml
     parameters:
-      dependsOn: 'CoreDeployment'
+      dependsOn: "CoreDeployment"
       subscription: ${{ parameters.subscription }}
-      sourceServicePrincipal: 's198t.azdo-deployment'
-      sourceSubscription: 's198-dfebenchmarkingservice-test'
+      sourceServicePrincipal: "s198t.azdo-deployment"
+      sourceSubscription: "s198-dfebenchmarkingservice-test"
       environmentPrefix: ${{ parameters.environmentPrefix }}
       environment: ${{ parameters.environment }}
       cipEnvironment: ${{ parameters.cipEnvironment }}
       importImage: true
-      sourceEnvironmentPrefix: 's198t01'
+      sourceEnvironmentPrefix: "s198t01"
       buildNumber: ${{ parameters.pipelineBuildNumber }}
 
   - template: ../platform/deployment.yaml
     parameters:
-      dependsOn: ['CoreDeployment', 'DataPipelineProvision']
+      dependsOn: ["CoreDeployment", "DataPipelineProvision"]
       subscription: ${{ parameters.subscription }}
       environmentPrefix: ${{ parameters.environmentPrefix }}
       environment: ${{ parameters.environment }}
@@ -45,9 +46,10 @@ jobs:
 
   - template: ../web/deployment.yaml
     parameters:
-      dependsOn: 'PlatformDeployment'
+      dependsOn: "PlatformDeployment"
       subscription: ${{ parameters.subscription }}
       environmentPrefix: ${{ parameters.environmentPrefix }}
       environment: ${{ parameters.environment }}
       cipEnvironment: ${{ parameters.cipEnvironment }}
       deployRedirectWeb: ${{ parameters.deployRedirectWeb }}
+      deployShutterWeb: ${{ parameters.deployShutterWeb }}
