@@ -1,38 +1,38 @@
 parameters:
-  BuildVersion: ""
-  BuildNumber: ""
-  frontEndVersion: ""
+  BuildVersion: ''
+  BuildNumber: ''
+  frontEndVersion: ''
 
 steps:
   - task: Npm@1
-    displayName: "Install specific front end version"
+    displayName: 'Install specific front end version'
     condition: ne('${{ parameters.frontEndVersion }}', '')
     inputs:
-      command: "custom"
-      customCommand: "install front-end@${{ parameters.frontEndVersion }}"
-      workingDir: "web/src/Web.App"
+      command: 'custom'
+      customCommand: 'install front-end@${{ parameters.frontEndVersion }}'
+      workingDir: 'web/src/Web.App'
       verbose: false
 
   - task: Npm@1
-    displayName: "Install npm packages"
+    displayName: 'Install npm packages'
     inputs:
-      command: "install"
-      workingDir: "web/src/Web.App"
+      command: 'install'
+      workingDir: 'web/src/Web.App'
       verbose: false
 
   - task: Npm@1
-    displayName: "Run lint"
+    displayName: 'Run lint'
     inputs:
-      command: "custom"
-      customCommand: "run lint"
-      workingDir: "web/src/Web.App"
+      command: 'custom'
+      customCommand: 'run lint'
+      workingDir: 'web/src/Web.App'
 
   - task: Npm@1
-    displayName: "Run front-end build task"
+    displayName: 'Run front-end build task'
     inputs:
-      command: "custom"
-      customCommand: "run-script build"
-      workingDir: "web/src/Web.App"
+      command: 'custom'
+      customCommand: 'run-script build'
+      workingDir: 'web/src/Web.App'
       verbose: false
 
   - bash: |
@@ -43,57 +43,57 @@ steps:
 
   - task: Cache@2
     condition: not(contains(variables['Build.SourceVersionMessage'], '[no cache]'))
-    displayName: "Cache nuget packages"
+    displayName: 'Cache nuget packages'
     inputs:
       key: 'nuget | "$(Agent.OS)-web" | web/src/**/packages.lock.json,!**/bin/**,!**/obj/**'
       path: $(WEB_NUGET_CACHE)
       cacheHitVar: WEB_CACHE_RESTORED
 
   - task: DotNetCoreCLI@2
-    displayName: "Restore nuget packages"
+    displayName: 'Restore nuget packages'
     condition: ne(variables.WEB_CACHE_RESTORED, 'true')
     inputs:
       command: restore
       packagesDirectory: $(WEB_NUGET_CACHE)
       projects: |
         web/src/**/*.csproj
-      feedsToUse: "config"
-      nugetConfigPath: "web/nuget.config"
+      feedsToUse: 'config'
+      nugetConfigPath: 'web/nuget.config'
 
   - task: DotNetCoreCLI@2
-    displayName: "Build web"
+    displayName: 'Build web'
     inputs:
       command: publish
       publishWebProjects: false
       packagesDirectory: $(WEB_NUGET_CACHE)
-      projects: "web/src/Web.App/Web.App.csproj"
-      arguments: "-c Release -r win-x64 -p:PublishReadyToRun=true -o $(Build.ArtifactStagingDirectory)/web /p:Version=${{ parameters.BuildVersion }} /p:InformationalVersion=${{ parameters.BuildNumber }}"
+      projects: 'web/src/Web.App/Web.App.csproj'
+      arguments: '-c Release -r win-x64 -p:PublishReadyToRun=true -o $(Build.ArtifactStagingDirectory)/web /p:Version=${{ parameters.BuildVersion }} /p:InformationalVersion=${{ parameters.BuildNumber }}'
       zipAfterPublish: true
       modifyOutputPath: true
 
   - task: DotNetCoreCLI@2
-    displayName: "Build web redirect"
+    displayName: 'Build web redirect'
     inputs:
       command: publish
       publishWebProjects: false
       packagesDirectory: $(WEB_NUGET_CACHE)
-      projects: "web/src/Web.Redirect/Web.Redirect.csproj"
-      arguments: "-c Release -r win-x64 -p:PublishReadyToRun=true -o $(Build.ArtifactStagingDirectory)/web /p:Version=${{ parameters.BuildVersion }} /p:InformationalVersion=${{ parameters.BuildNumber }}"
+      projects: 'web/src/Web.Redirect/Web.Redirect.csproj'
+      arguments: '-c Release -r win-x64 -p:PublishReadyToRun=true -o $(Build.ArtifactStagingDirectory)/web /p:Version=${{ parameters.BuildVersion }} /p:InformationalVersion=${{ parameters.BuildNumber }}'
       zipAfterPublish: true
       modifyOutputPath: true
 
   - task: Npm@1
-    displayName: "Restore npm packages"
+    displayName: 'Restore npm packages'
     inputs:
-      command: "install"
-      workingDir: "web/src/Web.Shutter"
+      command: 'install'
+      workingDir: 'web/src/Web.Shutter'
 
   - task: Npm@1
-    displayName: "Build web shutter"
+    displayName: 'Build web shutter'
     inputs:
-      command: "custom"
-      customCommand: "run build"
-      workingDir: "web/src/Web.Shutter"
+      command: 'custom'
+      customCommand: 'run build'
+      workingDir: 'web/src/Web.Shutter'
 
   # - task: Npm@1
   #   displayName: "Clean node_modules"
@@ -103,13 +103,13 @@ steps:
   #     workingDir: "web/src/Web.Shutter"
 
   - task: ArchiveFiles@2
-    displayName: "Publish web shutter"
+    displayName: 'Publish web shutter'
     inputs:
-      rootFolderOrFile: "web/src/Web.Shutter"
+      rootFolderOrFile: 'web/src/Web.Shutter'
       includeRootFolder: false
-      archiveType: "zip"
-      archiveFile: "$(Build.ArtifactStagingDirectory)/web/Web.Shutter.zip"
+      archiveType: 'zip'
+      archiveFile: '$(Build.ArtifactStagingDirectory)/web/Web.Shutter.zip'
 
   - publish: $(build.artifactstagingdirectory)/web
-    displayName: "Publish web artifacts"
+    displayName: 'Publish web artifacts'
     artifact: web
