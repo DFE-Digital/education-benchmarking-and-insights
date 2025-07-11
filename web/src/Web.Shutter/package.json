@@ -9,6 +9,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "gts lint",
     "clean": "gts clean",
+    "clean-modules": "shx rm -rf node_modules",
     "compile": "tsc",
     "fix": "gts fix",
     "assets": "shx mkdir -p src/assets && shx cp -r node_modules/govuk-frontend/dist/govuk/assets src && shx mkdir -p src/assets/styles && shx cp node_modules/govuk-frontend/dist/govuk/govuk-frontend.min.css* src/assets/styles",
