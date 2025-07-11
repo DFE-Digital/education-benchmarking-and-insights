@@ -78,6 +78,12 @@ resource "azurerm_linux_web_app" "shutter" {
     "WEBSITE_ENABLE_SYNC_UPDATE_SITE"       = 0
     "WEBSITE_RUN_FROM_PACKAGE"              = 1
   }
+
+  lifecycle {
+    ignore_changes = [
+      app_settings["MARKDOWN_CONTENT"]
+    ]
+  }
 }
 
 resource "azurerm_monitor_diagnostic_setting" "shutter-diagnostics" {
