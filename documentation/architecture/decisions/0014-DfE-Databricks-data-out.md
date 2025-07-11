@@ -11,6 +11,23 @@ As Databricks is hosted on Azure, compute in Databricks can be configured to wri
 * We create and administer jobs within our Databricks account. FBIT will own and have permission to run jobs, so we can take our own extracts as we like.
 * We help define an extract job for Azure Data Factory (ADF) with the ADA data engineers which runs on a Databricks service account, and extracts data to our Azure blobs. ADA's data engineers will own the job, but we will still be able to change it through them.
 
+```mermaid
+graph LR
+    DB[Databricks] --> Decision{Extract Method}
+    
+    Decision -->|Option 1| FBIT[FBIT Databricks Workspace Job]
+    Decision -->|Option 2| ADF[Azure Data Factory]
+    
+    FBIT --> Storage[Azure Blob Storage]
+    ADF --> Storage
+    
+    style DB fill:#f3e5f5
+    style Decision fill:#fff3e0
+    style FBIT fill:#e1f5fe
+    style ADF fill:#f1f8e9
+    style Storage fill:#e8f5e8
+```
+
 ### Evaluation
 
 #### Option 1: FBIT-owned Databricks Jobs
