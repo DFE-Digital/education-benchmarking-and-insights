@@ -1,16 +1,16 @@
 parameters:
-  subscription: ""
-  environmentPrefix: ""
-  environment: ""
-  cipEnvironment: ""
-  workspaceDir: "$(Pipeline.Workspace)"
+  subscription: ''
+  environmentPrefix: ''
+  environment: ''
+  cipEnvironment: ''
+  workspaceDir: '$(Pipeline.Workspace)'
   dependsOn: []
-  deployRedirectWeb: ""
-  deployShutterWeb: ""
+  deployRedirectWeb: ''
+  deployShutterWeb: ''
 
 jobs:
   - deployment: WebDeployment
-    displayName: "Web deployment"
+    displayName: 'Web deployment'
     dependsOn: ${{ parameters.dependsOn }}
     pool:
       vmImage: ubuntu-latest
@@ -33,48 +33,48 @@ jobs:
                 environmentPrefix: ${{ parameters.environmentPrefix }}
                 environment: ${{ parameters.environment }}
                 cipEnvironment: ${{ parameters.cipEnvironment }}
-                module: "web"
+                module: 'web'
 
             - task: AzureRmWebAppDeployment@4
-              displayName: "Deploy website"
+              displayName: 'Deploy website'
               inputs:
                 azureSubscription: ${{ parameters.subscription }}
-                WebAppName: "${{ parameters.environmentPrefix }}-education-benchmarking"
+                WebAppName: '${{ parameters.environmentPrefix }}-education-benchmarking'
                 deployToSlotOrASE: true
-                ResourceGroupName: "${{ parameters.environmentPrefix }}-ebis-web"
-                packageForLinux: "${{ parameters.workspaceDir }}/web/Web.App.zip"
+                ResourceGroupName: '${{ parameters.environmentPrefix }}-ebis-web'
+                packageForLinux: '${{ parameters.workspaceDir }}/web/Web.App.zip'
                 enableCustomDeployment: true
-                DeploymentType: "zipDeploy"
+                DeploymentType: 'zipDeploy'
 
             - task: AzureRmWebAppDeployment@4
-              displayName: "Deploy redirect website"
+              displayName: 'Deploy redirect website'
               condition: and(succeeded(), eq('${{ parameters.deployRedirectWeb }}', 'true'))
               inputs:
                 azureSubscription: ${{ parameters.subscription }}
-                WebAppName: "${{ parameters.environmentPrefix }}-redirect"
+                WebAppName: '${{ parameters.environmentPrefix }}-redirect'
                 deployToSlotOrASE: true
-                ResourceGroupName: "${{ parameters.environmentPrefix }}-ebis-web"
-                packageForLinux: "${{ parameters.workspaceDir }}/web/Web.Redirect.zip"
+                ResourceGroupName: '${{ parameters.environmentPrefix }}-ebis-web'
+                packageForLinux: '${{ parameters.workspaceDir }}/web/Web.Redirect.zip'
                 enableCustomDeployment: true
-                DeploymentType: "zipDeploy"
+                DeploymentType: 'zipDeploy'
 
             - task: AzureRmWebAppDeployment@4
-              displayName: "Deploy shutter website"
+              displayName: 'Deploy shutter website'
               condition: and(succeeded(), eq('${{ parameters.deployShutterWeb }}', 'true'))
               inputs:
                 azureSubscription: ${{ parameters.subscription }}
                 appType: webAppLinux
-                WebAppName: "${{ parameters.environmentPrefix }}-ebis-shutter"
+                WebAppName: '${{ parameters.environmentPrefix }}-ebis-shutter'
                 deployToSlotOrASE: true
-                ResourceGroupName: "${{ parameters.environmentPrefix }}-ebis-web"
-                packageForLinux: "${{ parameters.workspaceDir }}/web/Web.Shutter.zip"
+                ResourceGroupName: '${{ parameters.environmentPrefix }}-ebis-web'
+                packageForLinux: '${{ parameters.workspaceDir }}/web/Web.Shutter.zip'
 
   - template: ../common/app-service-settings-refresh.yaml
     parameters:
       subscription: ${{ parameters.subscription }}
-      resourceGroup: "${{ parameters.environmentPrefix }}-ebis-web"
-      alias: "web"
+      resourceGroup: '${{ parameters.environmentPrefix }}-ebis-web'
+      alias: 'web'
       resources:
-        - name: "${{ parameters.environmentPrefix }}-education-benchmarking"
-          alias: "web"
+        - name: '${{ parameters.environmentPrefix }}-education-benchmarking'
+          alias: 'web'
       dependsOn: [WebDeployment]

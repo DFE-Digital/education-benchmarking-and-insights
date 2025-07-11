@@ -1,0 +1,4 @@
+{
+    "yaml.format.singleQuote": true,
+    "editor.defaultFormatter": "redhat.vscode-yaml"
+}
