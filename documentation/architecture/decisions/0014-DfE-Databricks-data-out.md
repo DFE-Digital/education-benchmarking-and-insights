@@ -28,6 +28,8 @@ graph LR
     style Storage fill:#e8f5e8
 ```
 
+The data extracts are not large and not run often. The cost is likely to be low and not largely different between the two options but perhaps slightly more for ADF due to orchestration costs. At higher volumes it might be lower cost to run our own jobs, but ADA have more visibility over data extracts through ADFs which they control, so there are organisational benefits.
+
 ### Evaluation
 
 #### Option 1: FBIT-owned Databricks Jobs
@@ -43,6 +45,7 @@ Cons:
 * Requires FBIT to develop Databricks expertise and operational capabilities
 * Potential for configuration drift from organizational standards
 * May duplicate effort if similar patterns emerge across teams
+* Cost billed to FBIT Databricks workspace
 
 #### Option 2: ADF with ADA Data Engineers
 
@@ -51,6 +54,7 @@ Pros:
 * Centralized monitoring and maintenance through ADA
 * Reduced operational burden on FBIT
 * Better integration with existing data infrastructure
+* Cost billed to ADA
 
 Cons:
 
