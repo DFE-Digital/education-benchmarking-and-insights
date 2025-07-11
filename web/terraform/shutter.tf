@@ -3,14 +3,21 @@ resource "azurerm_service_plan" "shutter-asp" {
   #checkov:skip=CKV_AZURE_212:Ensure App Service has a minimum number of instances for failover
   #checkov:skip=CKV_AZURE_211:Ensure App Service plan suitable for production use
   count               = var.configuration[var.environment].shutter_app_service ? 1 : 0
-  name                = "${var.environment-prefix}-shutter-asp"
+  name                = "${var.environment-prefix}-ebis-shutter-asp"
   location            = azurerm_resource_group.resource-group.location
   resource_group_name = azurerm_resource_group.resource-group.name
   os_type             = "Linux"
   sku_name            = "B1"
   tags                = local.common-tags
+
+  maximum_elastic_worker_count = 1
+  worker_count                 = 1
+  zone_balancing_enabled       = false
 }
 
+# ideally azurerm_app_service_custom_hostname_binding resource would be used to manage the custom domain 
+# ahead of time in the case when Front Door is also unavailable, but Azure requires the CNAME & TXT DNS 
+# changes to be made and validated before the binding can be added
 resource "azurerm_linux_web_app" "shutter" {
   #checkov:skip=CKV_AZURE_17:Ensure the web app has 'Client Certificates (Incoming client certificates)' set
   #checkov:skip=CKV_AZURE_213:Ensure that App Service configures health check
@@ -18,7 +25,7 @@ resource "azurerm_linux_web_app" "shutter" {
   #checkov:skip=CKV_AZURE_222:Ensure that Azure Web App public network access is disabled
   #checkov:skip=CKV_AZURE_88:Ensure that app services use Azure Files
   count               = var.configuration[var.environment].shutter_app_service ? 1 : 0
-  name                = "${var.environment-prefix}-shutter"
+  name                = "${var.environment-prefix}-ebis-shutter"
   location            = azurerm_resource_group.resource-group.location
   resource_group_name = azurerm_resource_group.resource-group.name
   service_plan_id     = azurerm_service_plan.shutter-asp[0].id
@@ -33,6 +40,7 @@ resource "azurerm_linux_web_app" "shutter" {
     application_stack {
       node_version = "22-lts"
     }
+
     always_on                         = false
     app_command_line                  = "npm run start"
     ftps_state                        = "Disabled"
@@ -40,11 +48,15 @@ resource "azurerm_linux_web_app" "shutter" {
     health_check_eviction_time_in_min = 2
     http2_enabled                     = true
     use_32_bit_worker                 = false
+    worker_count                      = 1
+
+    default_documents = []
   }
 
   logs {
     failed_request_tracing  = true
     detailed_error_messages = true
+
     http_logs {
       file_system {
         retention_in_days = 0

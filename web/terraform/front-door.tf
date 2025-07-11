@@ -47,6 +47,30 @@ resource "azurerm_cdn_frontdoor_origin" "web-app-front-door-origin-app-service" 
   origin_host_header = "${var.environment-prefix}-education-benchmarking.azurewebsites.net"
   priority           = 1
   weight             = 1
+
+  lifecycle {
+    ignore_changes = [enabled]
+  }
+}
+
+resource "azurerm_cdn_frontdoor_origin" "web-app-front-door-origin-shutter" {
+  count                         = var.configuration[var.environment].shutter_app_service ? 1 : 0
+  name                          = "${var.environment-prefix}-education-benchmarking-fd-origin-shutter"
+  cdn_frontdoor_origin_group_id = azurerm_cdn_frontdoor_origin_group.web-app-front-door-origin-group.id
+  enabled                       = false
+
+  certificate_name_check_enabled = false
+
+  host_name          = azurerm_linux_web_app.shutter[0].default_hostname
+  http_port          = 80
+  https_port         = 443
+  origin_host_header = azurerm_linux_web_app.shutter[0].default_hostname
+  priority           = 1
+  weight             = 1
+
+  lifecycle {
+    ignore_changes = [enabled]
+  }
 }
 
 resource "azurerm_cdn_frontdoor_endpoint" "web-app-front-door-endpoint" {
