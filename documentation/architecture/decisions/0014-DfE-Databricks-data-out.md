@@ -14,6 +14,7 @@ As Databricks is hosted on Azure, compute in Databricks can be configured to wri
 ### Evaluation
 
 #### Option 1: FBIT-owned Databricks Jobs
+
 Pros:
 
 * Full autonomy over job creation, scheduling, and execution
@@ -27,6 +28,7 @@ Cons:
 * May duplicate effort if similar patterns emerge across teams
 
 #### Option 2: ADF with ADA Data Engineers
+
 Pros:
 
 * Centralized monitoring and maintenance through ADA
