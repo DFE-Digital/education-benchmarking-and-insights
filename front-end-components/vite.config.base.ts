@@ -20,6 +20,7 @@ const baseConfig: UserConfig = {
           @use "sass:color";
           @import "govuk-frontend/dist/govuk/settings/_index.scss";
           @import "govuk-frontend/dist/govuk/helpers/_index.scss";
+          @import "govuk-frontend/dist/govuk/core/_govuk-frontend-properties.scss";
         `,
         quietDeps: true,
 
