@@ -42,7 +42,7 @@ Cons:
 
 ## Decision Outcome
 
-If we can agree on a extract frequency leading up to our data releases, having an ADF job which writes us extracts is cleaner. Our extract logic is quite static and not likely to be altered, so having control over it is less of an advantage. We can always request custom runs of the job.
+If we can agree on a extract frequency leading up to our data releases, having an ADF job which writes us extracts is cleaner. Our extract logic is quite static and not likely to be altered, so having control over it is less of an advantage. We can always request custom runs of the job. A good frequency could be weekly for a month before and after the official release date of each of our financial publications, for example.
 
 There are a few unknowns in how to schedule databricks jobs - we would have to get the code under our version control, and ensure that writing to each environment of ours in Azure was suitably controlled (writes to prod). Having a predictable ADF job to do it for us would remove the need for us to create devops processes on Databricks.
 
