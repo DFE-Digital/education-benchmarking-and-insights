@@ -41,7 +41,6 @@ resource "azurerm_linux_web_app" "shutter" {
       node_version = "22-lts"
     }
 
-    always_on                         = false
     app_command_line                  = "npm run start"
     ftps_state                        = "Disabled"
     health_check_path                 = "/health"
