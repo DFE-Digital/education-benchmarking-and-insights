@@ -104,9 +104,9 @@
       },
       "Microsoft.Azure.Functions.Worker.Sdk": {
         "type": "Direct",
-        "requested": "[2.0.4, )",
-        "resolved": "2.0.4",
-        "contentHash": "gnHCJBvo3hEfrsfNmEGI8jbZpSOj1QqDoekT5Yjo4wLS4MONlix18lq+DTxW8AXJCeXyA9I1KYJM2E9V9RFjvA==",
+        "requested": "[2.0.5, )",
+        "resolved": "2.0.5",
+        "contentHash": "6Dyo1+tw8+ZQ+yJOGvAFc+fEkBlJ0+hCqUegoWrMm3VKLSNU2B/Wu238l4w4L6CI7iSEpJsJ2rShK0SgVsAZdg==",
         "dependencies": {
           "Microsoft.Azure.Functions.Worker.Sdk.Analyzers": "1.2.2",
           "Microsoft.Azure.Functions.Worker.Sdk.Generators": "1.3.5"
