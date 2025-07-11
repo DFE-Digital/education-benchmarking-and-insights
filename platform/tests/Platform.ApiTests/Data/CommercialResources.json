@@ -14,6 +14,20 @@
     }
   },
   {
+    "title": "Audio Visual Solutions",
+    "url": "https://get-help-buying-for-schools.education.gov.uk/solutions/audio-visual-solutions",
+    "category": {
+      "items": [
+        "Educational ICT"
+      ]
+    },
+    "subCategory": {
+      "items": [
+        "ICT learning resources"
+      ]
+    }
+  },
+  {
     "title": "Audit and financial services",
     "url": "https://get-help-buying-for-schools.education.gov.uk/solutions/audit-and-financial-services",
     "category": {
@@ -84,6 +98,20 @@
     }
   },
   {
+    "title": "Cloud services, AI, data centre management and transformation solutions",
+    "url": "https://get-help-buying-for-schools.education.gov.uk/solutions/cloud-services-ai-data-centre-management-and-transformation-solutions",
+    "category": {
+      "items": [
+        "Administrative supplies"
+      ]
+    },
+    "subCategory": {
+      "items": [
+        "Administrative supplies (non-educational)"
+      ]
+    }
+  },
+  {
     "title": "Commercial catering equipment",
     "url": "https://get-help-buying-for-schools.education.gov.uk/solutions/commercial-catering-equipment",
     "category": {
@@ -141,7 +169,7 @@
   },
   {
     "title": "Cyber security services 3",
-    "url": "https://get-help-buying-for-schools.education.gov.uk/solutions/cyber-security",
+    "url": "https://get-help-buying-for-schools.education.gov.uk/solutions/cyber-security-services",
     "category": {
       "items": [
         "Administrative supplies"
@@ -182,20 +210,6 @@
     }
   },
   {
-    "title": "Education management systems",
-    "url": "https://get-help-buying-for-schools.education.gov.uk/solutions/education-management-systems",
-    "category": {
-      "items": [
-        "Administrative supplies"
-      ]
-    },
-    "subCategory": {
-      "items": [
-        "Administrative supplies (non-educational)"
-      ]
-    }
-  },
-  {
     "title": "Electricity (for supply during 2024-2028)",
     "url": "https://get-help-buying-for-schools.education.gov.uk/solutions/electricity-espo",
     "category": {
@@ -210,6 +224,20 @@
     }
   },
   {
+    "title": "Electronic catering management and payment solutions",
+    "url": "https://get-help-buying-for-schools.education.gov.uk/solutions/electronic-catering-management-and-payment-solutions",
+    "category": {
+      "items": [
+        "Administrative supplies"
+      ]
+    },
+    "subCategory": {
+      "items": [
+        "Administrative supplies (non-educational)"
+      ]
+    }
+  },
+  {
     "title": "Energy cost recovery services for schools",
     "url": "https://get-help-buying-for-schools.education.gov.uk/solutions/energy-cost-recovery-services",
     "category": {
@@ -220,6 +248,20 @@
     "subCategory": {
       "items": [
         "Energy"
+      ]
+    }
+  },
+  {
+    "title": "Estates and facilities professional services",
+    "url": "https://get-help-buying-for-schools.education.gov.uk/solutions/estates-and-facilities-professional-services",
+    "category": {
+      "items": [
+        "Premises staff and services"
+      ]
+    },
+    "subCategory": {
+      "items": [
+        "Maintenance of premises"
       ]
     }
   },
@@ -399,7 +441,7 @@
   },
   {
     "title": "Internal fit-out and maintenance",
-    "url": "https://get-help-buying-for-schools.education.gov.uk/solutions/internal-maintenance-ypo",
+    "url": "https://get-help-buying-for-schools.education.gov.uk/solutions/internal-fit-out-and-maintenance",
     "category": {
       "items": [
         "Premises staff and services"
@@ -438,6 +480,20 @@
     "subCategory": {
       "items": [
         "Maintenance of premises"
+      ]
+    }
+  },
+  {
+    "title": "Light commercial catering equipment",
+    "url": "https://get-help-buying-for-schools.education.gov.uk/solutions/light-commercial-catering-equipment",
+    "category": {
+      "items": [
+        "Catering staff and supplies"
+      ]
+    },
+    "subCategory": {
+      "items": [
+        "Catering supplies"
       ]
     }
   },
@@ -498,8 +554,8 @@
     }
   },
   {
-    "title": "Multifunctional devices and digital transformation solutions",
-    "url": "https://get-help-buying-for-schools.education.gov.uk/solutions/mfd-digi-transform",
+    "title": "Multi-functional devices and digital solutions",
+    "url": "https://get-help-buying-for-schools.education.gov.uk/solutions/mfd-digital-solutions",
     "category": {
       "items": [
         "Administrative supplies",
@@ -554,6 +610,20 @@
     "subCategory": {
       "items": [
         "Staff development and training"
+      ]
+    }
+  },
+  {
+    "title": "Network connectivity and telecommunication solutions",
+    "url": "https://get-help-buying-for-schools.education.gov.uk/solutions/network-connectivity-and-telecommunication-solutions",
+    "category": {
+      "items": [
+        "Administrative supplies"
+      ]
+    },
+    "subCategory": {
+      "items": [
+        "Administrative supplies (non-educational)"
       ]
     }
   },
@@ -644,6 +714,20 @@
     }
   },
   {
+    "title": "Software application solutions",
+    "url": "https://get-help-buying-for-schools.education.gov.uk/solutions/software-application-solutions",
+    "category": {
+      "items": [
+        "Administrative supplies"
+      ]
+    },
+    "subCategory": {
+      "items": [
+        "Administrative supplies (non-educational)"
+      ]
+    }
+  },
+  {
     "title": "Software licenses and associated services for academies and schools",
     "url": "https://get-help-buying-for-schools.education.gov.uk/solutions/software-licenses",
     "category": {
@@ -683,13 +767,13 @@
     },
     "subCategory": {
       "items": [
-        "Special facilities "
+        "Special facilities"
       ]
     }
   },
   {
     "title": "Stationery, paper and education supplies",
-    "url": "https://get-help-buying-for-schools.education.gov.uk/solutions/office-and-education-supplies",
+    "url": "https://get-help-buying-for-schools.education.gov.uk/solutions/stationery-paper-and-education-supplies",
     "category": {
       "items": [
         "Administrative supplies"
@@ -716,6 +800,20 @@
     }
   },
   {
+    "title": "Supply of mains gas",
+    "url": "https://get-help-buying-for-schools.education.gov.uk/solutions/supply-of-mains-gas-1187",
+    "category": {
+      "items": [
+        "Utilities"
+      ]
+    },
+    "subCategory": {
+      "items": [
+        "Energy"
+      ]
+    }
+  },
+  {
     "title": "Supply teachers and temporary staffing",
     "url": "https://get-help-buying-for-schools.education.gov.uk/solutions/supply-teachers",
     "category": {
@@ -726,6 +824,20 @@
     "subCategory": {
       "items": [
         "Supply Teaching Staff"
+      ]
+    }
+  },
+  {
+    "title": "Sustainable hardware, asset recycling and data destruction",
+    "url": "https://get-help-buying-for-schools.education.gov.uk/solutions/sustainable-hardware-asset-recycling-and-data-destruction",
+    "category": {
+      "items": [
+        "Administrative supplies"
+      ]
+    },
+    "subCategory": {
+      "items": [
+        "Administrative supplies (non-educational)"
       ]
     }
   },
