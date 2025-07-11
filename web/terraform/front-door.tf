@@ -49,7 +49,9 @@ resource "azurerm_cdn_frontdoor_origin" "web-app-front-door-origin-app-service" 
   weight             = 1
 
   lifecycle {
-    ignore_changes = [enabled]
+    ignore_changes = [
+      enabled
+    ]
   }
 }
 
@@ -69,7 +71,9 @@ resource "azurerm_cdn_frontdoor_origin" "web-app-front-door-origin-shutter" {
   weight             = 1
 
   lifecycle {
-    ignore_changes = [enabled]
+    ignore_changes = [
+      enabled
+    ]
   }
 }
 
