@@ -64,7 +64,7 @@ jobs:
               inputs:
                 azureSubscription: ${{ parameters.subscription }}
                 appType: webAppLinux
-                WebAppName: "${{ parameters.environmentPrefix }}-shutter"
+                WebAppName: "${{ parameters.environmentPrefix }}-ebis-shutter"
                 deployToSlotOrASE: true
                 ResourceGroupName: "${{ parameters.environmentPrefix }}-ebis-web"
                 packageForLinux: "${{ parameters.workspaceDir }}/web/Web.Shutter.zip"
