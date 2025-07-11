@@ -58,7 +58,7 @@ public class SomeProxyController(ISomeService someService) : Controller
     [HttpGet]
     public async Task<IActionResult> SomeAction(string someParameter, CancellationToken cancellationToken = default)
     {
-        try 
+        try
         {
             var response = await someService.GetSomethingAsync(someParameter, cancellationToken);
             if (response == null)
@@ -67,7 +67,7 @@ public class SomeProxyController(ISomeService someService) : Controller
             }
 
             return new JsonResult(response);
-        } 
+        }
         catch (TaskCanceledException)
         {
             return StatusCode(499);
@@ -97,7 +97,7 @@ public class SomeService(ISomeApi api) : ISomeService
     {
         var query = new ApiQuery()
             .AddIfNotNull("someParameter", someParameter);
-            
+
         var result = await api
             .GetAsync(query, cancellationToken)
             .GetResultOrThrow<Something>();
@@ -151,7 +151,7 @@ public class SomeDataService(IDatabaseFactory dbFactory) : ISomeDataService
 {
     public async Task<Models.Something?> GetAsync(string someParameter, CancellationToken cancellationToken = default)
     {
-        var query = new SomeQuery()            
+        var query = new SomeQuery()
             .WhereSomethingEqual(someParameter);
 
         using var conn = await dbFactory.GetConnection();
@@ -177,7 +177,7 @@ The examples below assume that the Web Proxy is attempting to resolve the underl
 ```mermaid
 sequenceDiagram
     accDescr: Successfully completed request
-    
+
     participant Browser (fetch)
     participant Web Proxy
     participant API
@@ -201,7 +201,7 @@ sequenceDiagram
 ```mermaid
 sequenceDiagram
     accDescr: Cancelled in progress request
-    
+
     participant Browser (fetch)
     participant Web Proxy
     participant API
@@ -231,7 +231,7 @@ sequenceDiagram
 ```mermaid
 sequenceDiagram
     accDescr: Cancelled completed request
-    
+
     participant Browser (fetch)
     participant Web Proxy
     participant API
