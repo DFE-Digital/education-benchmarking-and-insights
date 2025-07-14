@@ -32,36 +32,16 @@ The data extracts are not large and not run often. The cost is likely to be low 
 
 ### Evaluation
 
-#### Option 1: FBIT-owned Databricks Jobs
+### Evaluation
 
-Pros:
-
-* Full autonomy over job creation, scheduling, and execution
-* No dependency on external teams for modifications
-* Faster iteration and troubleshooting capability
-
-Cons:
-
-* Requires FBIT to develop Databricks expertise and operational capabilities
-* Potential for configuration drift from organizational standards
-* May duplicate effort if similar patterns emerge across teams
-* Cost billed to FBIT Databricks workspace
-
-#### Option 2: ADF with ADA Data Engineers
-
-Pros:
-
-* Centralized monitoring and maintenance through ADA
-* Reduced operational burden on FBIT
-* Better integration with existing data infrastructure
-* Cost billed to ADA
-
-Cons:
-
-* Dependency on ADA team for changes and troubleshooting
-* Potential delays in implementing extract modifications
-* Less flexibility in scheduling and execution parameters
-* If we set a very frequent schedule (every day) costs could grow
+| Trade-off Area | Option 1: FBIT-owned Databricks Jobs | Option 2: ADF with ADA Data Engineers |
+|---|---|---|
+| **Control vs. Dependency** | Full autonomy over job creation, scheduling, and execution | Dependency on ADA team for changes and troubleshooting |
+| **Speed vs. Expertise** | Faster iteration and troubleshooting capability | Leverages centralized monitoring and ADA expertise |
+| **Operational Burden** | Requires FBIT to develop Databricks expertise and operational capabilities | Reduced operational burden on FBIT |
+| **Standards vs. Flexibility** | Potential for configuration drift from organizational standards | Better integration with existing data infrastructure but less flexibility in scheduling and execution parameters |
+| **Efficiency vs. Consistency** | May duplicate effort if similar patterns emerge across teams | Centralized approach reduces duplication but may cause delays in implementing extract modifications |
+| **Cost Ownership** | Cost billed to FBIT Databricks workspace | Cost billed to ADA |
 
 ## Decision Outcome
 
