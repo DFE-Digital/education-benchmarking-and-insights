@@ -171,5 +171,11 @@ There are no deployment considerations for this feature. It is not managed via a
 - The notification banner is intentionally implemented using the default 'blue' version only.
 - Only the most common GDS classes are rendered from the body/heading markdown.
 
+## Updating Banners
+
+The banner will be updated/edited as of need basis. 
+Refer to the [Lifecycle of a Content Change guide](../developers/15_Implementation-Guide-for-Dynamic-content-changes.md)
+for the full implementation process.
+
 <!-- Leave the rest of this page blank -->
 \newpage

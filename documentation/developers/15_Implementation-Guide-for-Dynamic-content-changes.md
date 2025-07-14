@@ -26,6 +26,8 @@ The script includes:
 - Validity dates
 - A comment header with Date and associated work item
 
+In order to track the history of updates, relevant SQL scripts should be persisted to the repo in the [scripts/content](../../scripts/content) folder.
+
 **Apply to Pre-Prod:**
 
 - Script is applied in the Pre-Prod environment
