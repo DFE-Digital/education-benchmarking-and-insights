@@ -32,8 +32,6 @@ The data extracts are not large and not run often. The cost is likely to be low 
 
 ### Evaluation
 
-### Evaluation
-
 | Trade-off Area | Option 1: FBIT-owned Databricks Jobs | Option 2: ADF with ADA Data Engineers |
 |---|---|---|
 | **Control vs. Dependency** | Full autonomy over job creation, scheduling, and execution | Dependency on ADA team for changes and troubleshooting |
