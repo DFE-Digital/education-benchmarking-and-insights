@@ -2,7 +2,7 @@ resource "azurerm_service_plan" "redirect-asp" {
   #checkov:skip=CKV_AZURE_225:Ensure the App Service Plan is zone redundant
   #checkov:skip=CKV_AZURE_212:Ensure App Service has a minimum number of instances for failover
   #checkov:skip=CKV_AZURE_211:Ensure App Service plan suitable for production use
-  count               = var.configuration[var.environment].redirect_app_service ? 1 : 0
+  count               = var.redirect-app-service-provision == "true" ? 1 : 0
   name                = "${var.environment-prefix}-redirect-asp"
   location            = azurerm_resource_group.resource-group.location
   resource_group_name = azurerm_resource_group.resource-group.name
@@ -17,7 +17,7 @@ resource "azurerm_windows_web_app" "redirect" {
   #checkov:skip=CKV_AZURE_13:Ensure App Service Authentication is set on Azure App Service
   #checkov:skip=CKV_AZURE_222:Ensure that Azure Web App public network access is disabled
   #checkov:skip=CKV_AZURE_88:Ensure that app services use Azure Files
-  count               = var.configuration[var.environment].redirect_app_service ? 1 : 0
+  count               = var.redirect-app-service-provision == "true" ? 1 : 0
   name                = "${var.environment-prefix}-redirect"
   location            = azurerm_resource_group.resource-group.location
   resource_group_name = azurerm_resource_group.resource-group.name
@@ -58,7 +58,7 @@ resource "azurerm_windows_web_app" "redirect" {
 }
 
 resource "azurerm_monitor_diagnostic_setting" "redirect-diagnostics" {
-  count                      = var.configuration[var.environment].redirect_app_service ? 1 : 0
+  count                      = var.redirect-app-service-provision == "true" ? 1 : 0
   name                       = "${var.environment-prefix}-redirect-diagnostics"
   target_resource_id         = azurerm_windows_web_app.redirect[0].id
   log_analytics_workspace_id = data.azurerm_log_analytics_workspace.application-insights-workspace.id

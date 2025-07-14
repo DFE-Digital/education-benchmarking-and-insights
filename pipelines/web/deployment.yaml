@@ -33,6 +33,8 @@ jobs:
                 environmentPrefix: ${{ parameters.environmentPrefix }}
                 environment: ${{ parameters.environment }}
                 cipEnvironment: ${{ parameters.cipEnvironment }}
+                redirectWebProvision: ${{ parameters.deployRedirectWeb }}
+                shutterWebProvision: ${{ parameters.deployShutterWeb }}
                 module: 'web'
 
             - task: AzureRmWebAppDeployment@4
