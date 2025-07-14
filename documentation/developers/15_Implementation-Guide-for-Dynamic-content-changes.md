@@ -41,11 +41,12 @@ The script includes:
 
 **Apply to Prod:**
 
-- Engineer runs the final, reviewed version of the script on the Production environment
-- Immediate smoke check is performed:
+- The engineer runs the final, reviewed version of the script on the Production environment.
+- To avoid impacting live users, we do not manually restart the app service to clear the cache. Instead, we allow the cache to expire naturally.
+- After approximately one hour (once the cache clears automatically), smoke testing is performed to confirm the changes are live:
 
   - Visual confirmation of the banner or link
-  - Basic verification of link functionality (if applicable)
+  - Perform a basic check to ensure any associated links function correctly.
 
 This process ensures dynamic content updates are safely reviewed, tested, and promoted with full traceability and sign-off.
 
