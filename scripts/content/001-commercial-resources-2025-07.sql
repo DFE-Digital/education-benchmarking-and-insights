@@ -67,10 +67,10 @@ VALUES
     ('Stationery, paper and education supplies', 'https://get-help-buying-for-schools.education.gov.uk/solutions/stationery-paper-and-education-supplies', '["Administrative supplies"]', '["Administrative supplies (non-educational)"]'),
     ('Supply of energy 2', 'https://get-help-buying-for-schools.education.gov.uk/solutions/energy-ancillary', '["Utilities"]', '["Energy"]'),
     ('Supply of mains gas', 'https://get-help-buying-for-schools.education.gov.uk/solutions/supply-of-mains-gas-1187', '["Utilities"]', '["Energy"]'),
-    ('Supply teachers and temporary staffing', 'https://get-help-buying-for-schools.education.gov.uk/solutions/supply-teachers', '["Teaching and Teaching support staff"]', '["Supply Teaching Staff"]'),
+    ('Supply teachers and temporary staffing', 'https://get-help-buying-for-schools.education.gov.uk/solutions/supply-teachers', '["Teaching and Teaching support staff"]', '["Supply teaching staff"]'),
     ('Sustainable hardware, asset recycling and data destruction', 'https://get-help-buying-for-schools.education.gov.uk/solutions/sustainable-hardware-asset-recycling-and-data-destruction', '["Administrative supplies"]', '["Administrative supplies (non-educational)"]'),
     ('Technology products & associated services 2', 'https://get-help-buying-for-schools.education.gov.uk/solutions/technology-products-and-associated-services-2', '["Administrative supplies", "Educational ICT"]', '["Administrative supplies (non-educational)", "ICT learning resources"]'),
-    ('Temporary and permanent staffing', 'https://get-help-buying-for-schools.education.gov.uk/solutions/temporary-and-permanent-staffing', '["Teaching and Teaching support staff"]', '["Supply Teaching Staff"]'),
+    ('Temporary and permanent staffing', 'https://get-help-buying-for-schools.education.gov.uk/solutions/temporary-and-permanent-staffing', '["Teaching and Teaching support staff"]', '["Supply teaching staff"]'),
     ('Total cleaning service solutions', 'https://get-help-buying-for-schools.education.gov.uk/solutions/total-cleaning-service-solutions', '["Premises staff and services"]', '["Cleaning and caretaking"]'),
     ('Utilities supplies and services', 'https://get-help-buying-for-schools.education.gov.uk/solutions/utilities-supply-services', '["Utilities"]', '["Energy", "Water and Sewerage"]')
 
