@@ -28,7 +28,7 @@ graph LR
     style Storage fill:#e8f5e8
 ```
 
-The data extracts are not large and not run often. The cost is likely to be low and not largely different between the two options but perhaps slightly more for ADF due to orchestration costs. At higher volumes it might be lower cost to run our own jobs, but ADA have more visibility over data extracts through ADFs which they control, so there are organisational benefits.
+The data extracts are not large and not run often. The cost is likely to be low (~$50 a month) and not largely different between the two options - perhaps 15% more for the ADF due to orchestration costs. At higher volumes it might be lower cost to run our own jobs, but ADA have more visibility over data extracts through ADFs which they control, so there are organisational benefits.
 
 ### Evaluation
 
