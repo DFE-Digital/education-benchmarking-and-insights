@@ -173,7 +173,7 @@ There are no deployment considerations for this feature. It is not managed via a
 
 ## Updating Banners
 
-The banner will be updated/edited as of need basis. 
+The banner will be updated/edited as of need basis.
 Refer to the [Lifecycle of a Content Change guide](../developers/15_Implementation-Guide-for-Dynamic-content-changes.md)
 for the full implementation process.
 

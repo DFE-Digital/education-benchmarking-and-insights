@@ -138,7 +138,7 @@ Resources for each category are managed using view components, view models, and 
 
 ## Updating resources
 
-From time-to-time the commercial resources will need to be updated. 
+From time-to-time the commercial resources will need to be updated.
 Refer to the [Lifecycle of a Content Change guide](../developers/15_Implementation-Guide-for-Dynamic-content-changes.md)
 for the full implementation process.
 
