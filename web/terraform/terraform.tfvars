@@ -1,8 +1,10 @@
-environment-prefix = "__environmentPrefix__"
-environment        = "__environment__"
-location           = "__location__"
-cip-environment    = "__cipEnvironment__"
-
+environment-prefix             = "__environmentPrefix__"
+environment                    = "__environment__"
+location                       = "__location__"
+cip-environment                = "__cipEnvironment__"
+redirect-app-service-provision = "__redirectAppServiceProvision__"
+shutter-app-service-provision  = "__shutterAppServiceProvision__"
+shutter-app-service-enabled    = "__shutterAppServiceEnabled__"
 
 dfe-signin = {
   api-secret               = "__dfe-signin-api-secret__"

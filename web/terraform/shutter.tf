@@ -2,12 +2,12 @@ resource "azurerm_service_plan" "shutter-asp" {
   #checkov:skip=CKV_AZURE_225:Ensure the App Service Plan is zone redundant
   #checkov:skip=CKV_AZURE_212:Ensure App Service has a minimum number of instances for failover
   #checkov:skip=CKV_AZURE_211:Ensure App Service plan suitable for production use
-  count               = var.configuration[var.environment].shutter_app_service ? 1 : 0
+  count               = var.shutter-app-service-provision == "true" ? 1 : 0
   name                = "${var.environment-prefix}-ebis-shutter-asp"
   location            = azurerm_resource_group.resource-group.location
   resource_group_name = azurerm_resource_group.resource-group.name
   os_type             = "Linux"
-  sku_name            = "B1"
+  sku_name            = "B1" # final choice of SKU to be determined post-lost testing
   tags                = local.common-tags
 
   maximum_elastic_worker_count = 1
@@ -24,7 +24,7 @@ resource "azurerm_linux_web_app" "shutter" {
   #checkov:skip=CKV_AZURE_13:Ensure App Service Authentication is set on Azure App Service
   #checkov:skip=CKV_AZURE_222:Ensure that Azure Web App public network access is disabled
   #checkov:skip=CKV_AZURE_88:Ensure that app services use Azure Files
-  count               = var.configuration[var.environment].shutter_app_service ? 1 : 0
+  count               = var.shutter-app-service-provision == "true" ? 1 : 0
   name                = "${var.environment-prefix}-ebis-shutter"
   location            = azurerm_resource_group.resource-group.location
   resource_group_name = azurerm_resource_group.resource-group.name
@@ -48,8 +48,6 @@ resource "azurerm_linux_web_app" "shutter" {
     http2_enabled                     = true
     use_32_bit_worker                 = false
     worker_count                      = 1
-
-    default_documents = []
   }
 
   logs {
@@ -87,7 +85,7 @@ resource "azurerm_linux_web_app" "shutter" {
 }
 
 resource "azurerm_monitor_diagnostic_setting" "shutter-diagnostics" {
-  count                      = var.configuration[var.environment].shutter_app_service ? 1 : 0
+  count                      = var.shutter-app-service-provision == "true" ? 1 : 0
   name                       = "${var.environment-prefix}-shutter-diagnostics"
   target_resource_id         = azurerm_linux_web_app.shutter[0].id
   log_analytics_workspace_id = data.azurerm_log_analytics_workspace.application-insights-workspace.id

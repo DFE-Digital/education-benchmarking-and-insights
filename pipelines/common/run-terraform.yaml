@@ -10,6 +10,8 @@ parameters:
   imageName: ''
   supportAlertEmail: ''
   planOnly: ''
+  redirectWebProvision: ''
+  shutterWebProvision: ''
 
 steps:
   - task: ExtractFiles@1
@@ -45,6 +47,8 @@ steps:
         echo "##vso[task.setvariable variable=disablePurgeProtection]${{ parameters.disablePurgeProtection }}"
         echo "##vso[task.setvariable variable=imageName]${{ parameters.imageName }}"
         echo "##vso[task.setvariable variable=supportAlertEmail]${{ parameters.supportAlertEmail }}"
+        echo "##vso[task.setvariable variable=redirectAppServiceProvision]${{ parameters.redirectWebProvision }}"
+        echo "##vso[task.setvariable variable=shutterAppServiceProvision]${{ parameters.shutterWebProvision }}"
 
   - task: qetza.replacetokens.replacetokens-task.replacetokens@6
     displayName: 'Replace tokens in terraform file'
