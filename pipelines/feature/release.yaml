@@ -272,6 +272,7 @@ stages:
           dependsOn: [ZipStaticWebArtifacts, BuildWeb]
           deployRedirectWeb: true
           deployShutterWeb: true
+          enableShutterWeb: false
 
   - stage: DeploySupportAnalytics
     dependsOn: [BuildNumber, DeployCore, BuildPlatform, BuildWeb]

@@ -12,6 +12,7 @@ parameters:
   planOnly: ''
   redirectWebProvision: ''
   shutterWebProvision: ''
+  shutterWebEnabled: ''
 
 steps:
   - task: ExtractFiles@1
@@ -49,6 +50,7 @@ steps:
         echo "##vso[task.setvariable variable=supportAlertEmail]${{ parameters.supportAlertEmail }}"
         echo "##vso[task.setvariable variable=redirectAppServiceProvision]${{ parameters.redirectWebProvision }}"
         echo "##vso[task.setvariable variable=shutterAppServiceProvision]${{ parameters.shutterWebProvision }}"
+        echo "##vso[task.setvariable variable=shutterAppServiceEnabled]${{ parameters.shutterWebEnabled }}"
 
   - task: qetza.replacetokens.replacetokens-task.replacetokens@6
     displayName: 'Replace tokens in terraform file'

@@ -7,6 +7,7 @@ parameters:
   dependsOn: []
   deployRedirectWeb: ''
   deployShutterWeb: ''
+  enableShutterWeb: ''
 
 jobs:
   - deployment: WebDeployment
@@ -35,6 +36,7 @@ jobs:
                 cipEnvironment: ${{ parameters.cipEnvironment }}
                 redirectWebProvision: ${{ parameters.deployRedirectWeb }}
                 shutterWebProvision: ${{ parameters.deployShutterWeb }}
+                shutterWebEnabled: ${{ parameters.enableShutterWeb }}
                 module: 'web'
 
             - task: AzureRmWebAppDeployment@4
@@ -70,6 +72,16 @@ jobs:
                 deployToSlotOrASE: true
                 ResourceGroupName: '${{ parameters.environmentPrefix }}-ebis-web'
                 packageForLinux: '${{ parameters.workspaceDir }}/web/Web.Shutter.zip'
+
+            - task: AzureCLI@2
+              displayName: 'Stop shutter website'
+              condition: and(eq('${{ parameters.deployShutterWeb }}', 'true'), ne('${{ parameters.enableShutterWeb }}', 'true'))
+              inputs:
+                azureSubscription: ${{ parameters.subscription }}
+                scriptType: bash
+                scriptLocation: inlineScript
+                inlineScript: |
+                  az webapp stop --name ${{ parameters.environmentPrefix }}-ebis-shutter --resource-group ${{ parameters.environmentPrefix }}-ebis-web
 
   - template: ../common/app-service-settings-refresh.yaml
     parameters:
