@@ -14,14 +14,19 @@ It also includes some manual tasks related to SFB decommissioning due to restric
 **In-scope:**
 
 - New features
+
   - Server side rendered charts is implemented on school spending priorities page
+
 - Enhancements
+
   - Commercial resources are now data driven
   - Content updates in multiple areas
   - API refactor to prepare for CMS-lite functionality
   - New ILR data file for Post-16 and sixth form schools census data ingested
   - High executives pay data is now displayed in trust benchmarking
+
 - Bug fixes
+
   - Logging of requests to temporary SFB redirect app service
   - Fix to y-axis for single value line charts
 
@@ -42,6 +47,7 @@ It also includes some manual tasks related to SFB decommissioning due to restric
 **Entry Criteria:**
 
 - All code changes for the release are completed and deployed to the pre-production environment.
+  
   - Manual infrastructure changes made to Front Door in pre-production environment (see [#264856](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_workitems/edit/264856))
 - Pipeline run is completed for the current year with the new ILR file in the storage.
 
@@ -83,7 +89,10 @@ It also includes some manual tasks related to SFB decommissioning due to restric
 
 During testing, an issue was identified on the Spending Priorities page where the downloaded image was incomplete. Investigation revealed that this was caused by server-side rendering (SSR) affecting the image output.
 
-It was agreed to temporarily disable the SSR feature in production, as this has no adverse impact on the front-end experience. A permanent fix is planned for implementation in the next release.
+It was agreed to temporarily disable the SSR feature in production,
+as this has no adverse impact on the front-end experience.
+
+A bug ticket [267134](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_workitems/edit/267134) was logged and a permanent fix is planned for implementation in the next release.
 
 **[Azure Test Plan](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_testPlans/execute?planId=267044&suiteId=267045)**
 
