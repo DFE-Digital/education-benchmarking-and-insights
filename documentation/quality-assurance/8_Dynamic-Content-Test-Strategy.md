@@ -47,10 +47,10 @@ Reviewer checks for:
 
 - Perform visual smoke check (no deep testing in Prod)
 
-## Implementation Details
+## Content Management Reference
 
-Refer to the [Lifecycle of a Content Change guide](../developers/15_Implementation-Guide-for-Dynamic-content-changes.md)
-for the full implementation process.
+Refer to [developers/14_Content-Management.md](../developers/14_Content-Management.md)
+for further details.
 
 ## Summary
 
