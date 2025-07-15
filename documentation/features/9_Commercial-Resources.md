@@ -138,9 +138,7 @@ Resources for each category are managed using view components, view models, and 
 
 ## Updating resources
 
-From time-to-time the commercial resources will need to be updated.
-Refer to the [Lifecycle of a Content Change guide](../developers/15_Implementation-Guide-for-Dynamic-content-changes.md)
-for the full implementation process.
+From time-to-time the commercial resources will need to be updated. In order to track the history of updates, relevant SQL scripts should be persisted to the repo in the [scripts/content](../../scripts/content) folder.
 
 In the future the management of commercial resources, and other resources handled by the Content API, will be done by an administrative front-end. This supports self-service of parts of the platform via a paired-down CMS to reduce the dependency on the development team.
 
