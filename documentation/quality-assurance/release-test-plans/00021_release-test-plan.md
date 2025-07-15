@@ -85,7 +85,7 @@ It also includes some manual tasks related to SFB decommissioning due to restric
 
 ## Notes
 
-**Release OverView**
+**Release Overview:**
 
 During testing, an issue was identified on the Spending Priorities page where the downloaded image was incomplete. Investigation revealed that this was caused by server-side rendering (SSR) affecting the image output.
 
