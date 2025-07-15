@@ -7,12 +7,11 @@ resource "azurerm_service_plan" "shutter-asp" {
   location            = azurerm_resource_group.resource-group.location
   resource_group_name = azurerm_resource_group.resource-group.name
   os_type             = "Linux"
-  sku_name            = "P0v3"
+  sku_name            = "F1" # Free tier will not incur charges. Runbook will bump this when Shutter activated.
   tags                = local.common-tags
 
-  maximum_elastic_worker_count = 1
-  worker_count                 = 1
-  zone_balancing_enabled       = false
+  worker_count           = var.configuration[var.environment].worker_count
+  zone_balancing_enabled = var.configuration[var.environment].zone_balancing_enabled
 }
 
 # ideally azurerm_app_service_custom_hostname_binding resource would be used to manage the custom domain 
@@ -41,12 +40,13 @@ resource "azurerm_linux_web_app" "shutter" {
       node_version = "22-lts"
     }
 
+    always_on                         = false # required for `F1` ASP
     app_command_line                  = "npm run start"
     ftps_state                        = "Disabled"
     health_check_path                 = "/health"
     health_check_eviction_time_in_min = 2
     http2_enabled                     = true
-    use_32_bit_worker                 = false
+    use_32_bit_worker                 = true # required for `F1` ASP 
     worker_count                      = 1
   }
 

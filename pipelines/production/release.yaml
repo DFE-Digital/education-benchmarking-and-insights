@@ -192,3 +192,4 @@ stages:
           supportAlertEmail: $(support-alert-email)
           deployRedirectWeb: true
           deployShutterWeb: true
+          enableShutterWeb: false
