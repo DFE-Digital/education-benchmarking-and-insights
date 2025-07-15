@@ -92,8 +92,8 @@ In order to track the history of updates, relevant SQL scripts should be persist
 - Script is applied in the Pre-Prod environment
 - QA or engineer verifies the following:
 
-    - Correct appearance of the banner/link on the UI
-    - Visibility rules (based on date flags or conditional logic)
+  - Correct appearance of the banner/link on the UI
+  - Visibility rules (based on date flags or conditional logic)
 
 **Sign-off:**
 
@@ -106,8 +106,8 @@ In order to track the history of updates, relevant SQL scripts should be persist
 - To avoid impacting live users, we do not manually restart the app service to clear the cache. Instead, we allow the cache to expire naturally.
 - After approximately one hour (once the cache clears automatically), smoke testing is performed to confirm the changes are live:
 
-    - Visual confirmation of the banner or link
-    - Perform a basic check to ensure any associated links function correctly.
+  - Visual confirmation of the banner or link
+  - Perform a basic check to ensure any associated links function correctly.
 
 This process ensures dynamic content updates are safely reviewed, tested, and promoted with full traceability and sign-off.
 
