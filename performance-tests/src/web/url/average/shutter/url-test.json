@@ -1,0 +1,71 @@
+{
+    "version": "1.0",
+    "scenarios": {
+        "requestGroup1": {
+            "requests": [
+                {
+                    "requestName": "Page",
+                    "responseVariables": [],
+                    "queryParameters": [],
+                    "requestType": "URL",
+                    "endpoint": "https://${domain}/",
+                    "headers": {
+                        "x-synthetic-source": "load-tests"
+                    },
+                    "body": null,
+                    "method": "GET",
+                    "requestBodyFormat": null
+                },
+                {
+                    "requestName": "Stylesheet",
+                    "responseVariables": [],
+                    "queryParameters": [],
+                    "requestType": "URL",
+                    "endpoint": "https://${domain}/assets/styles/govuk-frontend.min.css",
+                    "headers": {
+                        "x-synthetic-source": "load-tests"
+                    },
+                    "body": null,
+                    "method": "GET",
+                    "requestBodyFormat": null
+                },
+                {
+                    "requestName": "Crest",
+                    "responseVariables": [],
+                    "queryParameters": [],
+                    "requestType": "URL",
+                    "endpoint": "https://${domain}/assets/images/govuk-crest.svg",
+                    "headers": {
+                        "x-synthetic-source": "load-tests"
+                    },
+                    "body": null,
+                    "method": "GET",
+                    "requestBodyFormat": null
+                },
+                {
+                    "requestName": "Font",
+                    "responseVariables": [],
+                    "queryParameters": [],
+                    "requestType": "URL",
+                    "endpoint": "https://${domain}/assets/fonts/light-94a07e06a1-v2.woff2",
+                    "headers": {
+                        "x-synthetic-source": "load-tests"
+                    },
+                    "body": null,
+                    "method": "GET",
+                    "requestBodyFormat": null
+                }
+            ],
+            "csvDataSetConfigList": []
+        }
+    },
+    "testSetup": [
+        {
+            "virtualUsersPerEngine": 4,
+            "durationInSeconds": 360,
+            "loadType": "Linear",
+            "scenario": "requestGroup1",
+            "rampUpTimeInSeconds": 60
+        }
+    ]
+}
