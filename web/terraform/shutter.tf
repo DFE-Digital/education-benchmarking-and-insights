@@ -7,7 +7,7 @@ resource "azurerm_service_plan" "shutter-asp" {
   location            = azurerm_resource_group.resource-group.location
   resource_group_name = azurerm_resource_group.resource-group.name
   os_type             = "Linux"
-  sku_name            = "B1" # final choice of SKU to be determined post-lost testing
+  sku_name            = "P0v3"
   tags                = local.common-tags
 
   maximum_elastic_worker_count = 1

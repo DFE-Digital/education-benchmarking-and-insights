@@ -1,0 +1,25 @@
+displayName: Average_Web - Shutter service
+testPlan: url-test.json
+description: Average load test for shutter
+engineInstances: 1
+testId: 62981246-7af5-4866-8ea5-f2f98408b051
+testType: URL
+splitAllCSVs: False
+failureCriteria:
+  clientMetrics:
+  - p75(response_time_ms) > 100
+  - p95(response_time_ms) > 150
+  - p99(response_time_ms) > 500
+  - percentage(error) > 0.1
+referenceIdentities:
+- kind: KeyVault
+  type: SystemAssigned
+- kind: Metrics
+  type: SystemAssigned
+env:
+- name: domain
+  value: s198d13-education-benchmarking-c8c4bhdsb0axbma2.a02.azurefd.net
+autoStop:
+  errorPercentage: 90
+  timeWindow: 60
+  maximumVirtualUsersPerEngine: 5000
