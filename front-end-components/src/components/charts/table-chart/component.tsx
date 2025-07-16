@@ -126,6 +126,7 @@ export const TableChart: React.FC<
                       <td className="govuk-table__cell table-cell-value">
                         {resolvedValueFormatter(totalValue, {
                           valueUnit,
+                          forDisplay: true,
                         })}
                       </td>
                       {breakdown === BreakdownInclude &&
@@ -169,6 +170,7 @@ export const TableChart: React.FC<
                     <td className="govuk-table__cell table-cell-value">
                       {resolvedValueFormatter(value, {
                         valueUnit,
+                        forDisplay: true,
                       })}
                     </td>
                   )}
