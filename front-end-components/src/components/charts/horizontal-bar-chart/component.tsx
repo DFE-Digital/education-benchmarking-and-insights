@@ -253,7 +253,7 @@ function HorizontalBarChartInner<TData extends ChartDataSeries>(
           className={classNames({ "recharts-text__bold": highlight })}
         >
           {valueFormatter
-            ? valueFormatter(value as ChartSeriesValue)
+            ? valueFormatter(value as ChartSeriesValue, { forDisplay: true })
             : String(value)}
         </Text>
       </g>

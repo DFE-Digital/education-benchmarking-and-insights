@@ -20,40 +20,38 @@ export function PayBandDataTooltip<
     .payload as TrustChartData;
   const label = "Highest emolument band";
   return (
-    totalValue && (
-      <table className="govuk-table govuk-table--small-text-until-tablet tooltip-table">
-        <caption className="govuk-table__caption govuk-table__caption--s">
-          {trustName}
-        </caption>
-        <thead className="govuk-table__head govuk-visually-hidden">
-          <tr className="govuk-table__row">
-            <th scope="col" className="govuk-table__header">
-              Item
-            </th>
-            <th scope="col" className="govuk-table__header">
-              Value
-            </th>
-          </tr>
-        </thead>
-        <tbody className="govuk-table__body">
-          <tr className="govuk-table__row">
-            <th scope="row" className="govuk-table__header">
-              {label}
-            </th>
-            <td className="govuk-table__cell">
-              {payBandFormatter(totalValue)}
-            </td>
-          </tr>
-          <tr className="govuk-table__row">
-            <th scope="row" className="govuk-table__header">
-              Number of pupils
-            </th>
-            <td className="govuk-table__cell">
-              {statValueFormatter(totalPupils)}
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    )
+    <table className="govuk-table govuk-table--small-text-until-tablet tooltip-table">
+      <caption className="govuk-table__caption govuk-table__caption--s">
+        {trustName}
+      </caption>
+      <thead className="govuk-table__head govuk-visually-hidden">
+        <tr className="govuk-table__row">
+          <th scope="col" className="govuk-table__header">
+            Item
+          </th>
+          <th scope="col" className="govuk-table__header">
+            Value
+          </th>
+        </tr>
+      </thead>
+      <tbody className="govuk-table__body">
+        <tr className="govuk-table__row">
+          <th scope="row" className="govuk-table__header">
+            {label}
+          </th>
+          <td className="govuk-table__cell">
+            {payBandFormatter(totalValue, { forDisplay: true })}
+          </td>
+        </tr>
+        <tr className="govuk-table__row">
+          <th scope="row" className="govuk-table__header">
+            Number of pupils
+          </th>
+          <td className="govuk-table__cell">
+            {statValueFormatter(totalPupils)}
+          </td>
+        </tr>
+      </tbody>
+    </table>
   );
 }
