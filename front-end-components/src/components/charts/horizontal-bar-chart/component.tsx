@@ -290,7 +290,7 @@ function HorizontalBarChartInner<TData extends ChartDataSeries>(
               layout="vertical"
               margin={{
                 top: margin,
-                right: margin + (labels ? 25 : 5),
+                right: margin + (labels ? 50 : 5),
                 bottom: margin,
                 left: hasSomeNegativeValues ? margin + 48 : margin,
               }}
