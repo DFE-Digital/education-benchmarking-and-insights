@@ -123,9 +123,15 @@ export function fullValueFormatter(
     .toLowerCase();
 }
 
-export function payBandFormatter(value: ValueFormatterValue): string {
-  if (typeof value !== "number") {
-    return value ? String(value) : "";
+export function payBandFormatter(
+  value: ValueFormatterValue,
+  options?: Partial<ValueFormatterOptions>
+): string {
+  if (
+    typeof value !== "number" ||
+    (options?.forDisplay === true && value == 0)
+  ) {
+    return "No data available";
   }
 
   if (value > 380) {

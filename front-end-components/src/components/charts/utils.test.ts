@@ -404,16 +404,9 @@ describe("Chart utils", () => {
 
   describe("payBandFormatter()", () => {
     describe("when given a non-number", () => {
-      describe("and it's truthy", () => {
-        it("returns the string version of the value", () => {
-          expect(payBandFormatter("Band A")).toBe("Band A");
-        });
-      });
-
-      describe("and it's falsy", () => {
-        it("returns an empty string", () => {
-          expect(payBandFormatter(undefined)).toBe("");
-        });
+      it("returns message", () => {
+        expect(payBandFormatter(undefined)).toBe("No data available");
+        expect(payBandFormatter("string")).toBe("No data available");
       });
     });
 

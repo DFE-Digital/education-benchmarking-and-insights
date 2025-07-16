@@ -95,6 +95,7 @@ export interface ValueFormatterOptions {
   valueUnit: ChartSeriesValueUnit;
   compact: boolean;
   currencyAsName: boolean;
+  forDisplay: boolean;
 }
 
 export interface ValueFormatterProps {
