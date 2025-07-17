@@ -19,7 +19,7 @@ Shared Scale: All series must share the same y-axis to provide a common frame of
 4. Minimal Visual Clutter: A chart's effectiveness is improved by removing any visual element that does not convey data. Avoid heavy gridlines, background images, 3D effects, or excessive decoration. The focus should be on the data lines themselves, allowing their patterns and intersections to tell the story without distraction. Use subtle, light gridlines only if they are necessary to help the user look up specific values.
 5. Provide Context with Clear Labels and Legends: Labels and legends are crucial for interpretation.
 Axis: Clearly state the units of quantitative measures (e.g., "£200k") and intervals, (e.g., "2022 to 2023").
-Strategic Annotations: Do not label every data point, as this creates clutter. Instead, annotate only the most significant points: peaks, troughs, inflection points, or key external events and use tool-tip to provide further information such as labels if need be.
+Strategic Annotations: Do not label every data point, as this creates clutter. Instead, annotate only the most significant points: peaks, troughs, inflection points, or key external events and use tooltip to provide further information such as labels if need be.
 Effective Legends: Position the legend where it does not obstruct the data and the position of legends should be consistent across the service.
 6. Promote Consistency in Design
 For any set of related charts (e.g., within a feature), maintain consistency in design choices. This includes the position of legends, colour schemes, font sizes, and annotation styles. This consistency reduces the cognitive load on the viewer, allowing them to focus on understanding the data rather than re-learning the chart's structure each time.
@@ -34,7 +34,7 @@ The line chart visualisation used illustrates the Account return balance vs Budg
 
 #### Why a line charts is the best choice for the Trust Forecast & Risk use case
 
-- Trend visibility: The line chart clearly shows the downward trend in budgeted return from 2022 to 2027 and the actual returns spike in 2023 before dropping in 2024.
+- Trend visibility: The line chart clearly shows the downward trend in budgeted return from 2022 to 2027 and the actual returns was steady across 2022 and 2023 before dropping in 2024.
 - Future projections: Even when actual values are missing for later years, the budget line continues naturally indicating forecast trajectory.
 - Cross-series comparison: Readers can instantly spot the year where actual exceeds budget (2023) and where budget flips negative (2026-2027).
 - Negative values: Plotting below the zero baseline is straightforward, preserving context of deficits.
