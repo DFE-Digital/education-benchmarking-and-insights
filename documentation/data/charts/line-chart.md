@@ -24,24 +24,24 @@ Effective Legends: Position the legend where it does not obstruct the data and t
 6. Promote Consistency in Design
 For any set of related charts (e.g., within a feature), maintain consistency in design choices. This includes the position of legends, colour schemes, font sizes, and annotation styles. This consistency reduces the cognitive load on the viewer, allowing them to focus on understanding the data rather than re-learning the chart's structure each time.
 
-## Features within FBIT that contains Line Charting
+## Features within Financial Benchmarking and Insight Tool (FBIT) platform that contains Line Charting
 
-### Trust Forecast and Risk: Year-end Revenue Reserves
+### **Trust Forecast and Risk: Year-end Revenue Reserves**
 
 The line chart visualisation used illustrates the Account return balance vs Budget forecast return of a Trust. This chart is located within the Forecast and risks feature of the FBIT service which contains metrics and recommendations for the future financial position of trusts.
 
 ![Acorn Multi Academy Trust](./images/trust-forecast-and-risks.png)
 
-==Why a line charts is the best choice.==
-
-- Trend visibility: The line chart clearly shows the downward trend in budgeted return from 2022 to 2027 and the actual returns spike in 2023 before dropping in 2024.
-
-- Future projections: Even when actual values are missing for later years, the budget line continues naturally indicating forecast trajectory.
-
-- Cross-series comparison: Readers can instantly spot the year where actual exceeds budget (2023) and where budget flips negative (2026-2027).
-
-- Negative values: Plotting below the zero baseline is straightforward, preserving context of deficits.
-
-- Data labels in context: Labels attached to each point reinforce exact values without clustering.
-
-- The y-axis scaling is appropriate and doesn't distort the representation of the data's fluctuations.
+> Why a line charts is the best choice for the Trust Forecast & Risk use case
+>
+> - Trend visibility: The line chart clearly shows the downward trend in budgeted return from 2022 to 2027 and the actual returns spike in 2023 before dropping in 2024.
+>
+> - Future projections: Even when actual values are missing for later years, the budget line continues naturally indicating forecast trajectory.
+>
+> - Cross-series comparison: Readers can instantly spot the year where actual exceeds budget (2023) and where budget flips negative (2026-2027).
+>
+> - Negative values: Plotting below the zero baseline is straightforward, preserving context of deficits.
+>
+> - Data labels in context: Labels attached to each point reinforce exact values without clustering.
+>
+> - The y-axis scaling is appropriate and doesn't distort the representation of the data's fluctuations.
