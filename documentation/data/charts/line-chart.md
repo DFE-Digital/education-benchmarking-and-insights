@@ -26,7 +26,7 @@ For any set of related charts (e.g., within a feature), maintain consistency in 
 
 ## Features within Financial Benchmarking and Insight Tool (FBIT) platform that contains Line Charting
 
-### **Trust Forecast and Risk: Year-end Revenue Reserves**
+### 1. Trust Forecast and Risk: Year-end Revenue Reserves
 
 The line chart visualisation used illustrates the Account return balance vs Budget forecast return of a Trust. This chart is located within the Forecast and risks feature of the FBIT service which contains metrics and recommendations for the future financial position of trusts.
 
@@ -60,6 +60,6 @@ A clustered bar (column) charts groups bars for each return balance by year
 
 - Harder to see crossovers and rates of change over multiple periods.
 
-##### Conclusion
+#### Conclusion
 
 While both line and clustered bar charts can represent the same data, the line chart better serves are goals of illustrating temporal trends and forecast trajectories. Its continuity, ease of cross service comparison, and natural handling of missing or negative values make it the preferred visual for summarising return balances over time.
