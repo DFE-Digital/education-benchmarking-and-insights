@@ -32,16 +32,34 @@ The line chart visualisation used illustrates the Account return balance vs Budg
 
 ![Acorn Multi Academy Trust](./images/trust-forecast-and-risks.png)
 
-> Why a line charts is the best choice for the Trust Forecast & Risk use case
->
-> - Trend visibility: The line chart clearly shows the downward trend in budgeted return from 2022 to 2027 and the actual returns spike in 2023 before dropping in 2024.
->
-> - Future projections: Even when actual values are missing for later years, the budget line continues naturally indicating forecast trajectory.
->
-> - Cross-series comparison: Readers can instantly spot the year where actual exceeds budget (2023) and where budget flips negative (2026-2027).
->
-> - Negative values: Plotting below the zero baseline is straightforward, preserving context of deficits.
->
-> - Data labels in context: Labels attached to each point reinforce exact values without clustering.
->
-> - The y-axis scaling is appropriate and doesn't distort the representation of the data's fluctuations.
+#### Why a line charts is the best choice for the Trust Forecast & Risk use case
+
+- Trend visibility: The line chart clearly shows the downward trend in budgeted return from 2022 to 2027 and the actual returns spike in 2023 before dropping in 2024.
+- Future projections: Even when actual values are missing for later years, the budget line continues naturally indicating forecast trajectory.
+- Cross-series comparison: Readers can instantly spot the year where actual exceeds budget (2023) and where budget flips negative (2026-2027).
+- Negative values: Plotting below the zero baseline is straightforward, preserving context of deficits.
+- Data labels in context: Labels attached to each point reinforce exact values without clustering.
+- The y-axis scaling is appropriate and doesn't distort the representation of the data's fluctuations.
+
+#### Alternative Chart Type Consideration
+
+A clustered bar (column) charts groups bars for each return balance by year
+
+![Acorn Multi Academy Trust](./images/trust-forecast-and-risks-alternative-consideration.png)
+
+##### Strength
+
+- Side-by-side comparison of budget vs actual within each year.
+- Strong visual cue to magnitude differences
+
+##### Drawbacks
+
+- Discontinuous bars would stand alone offering less intuitive sense of trend.
+
+- Negative bars (for 2026 to 2027) may destruct visual flow.
+
+- Harder to see crossovers and rates of change over multiple periods.
+
+##### Conclusion
+
+While both line and clustered bar charts can represent the same data, the line chart better serves are goals of illustrating temporal trends and forecast trajectories. Its continuity, ease of cross service comparison, and natural handling of missing or negative values make it the preferred visual for summarising return balances over time.
