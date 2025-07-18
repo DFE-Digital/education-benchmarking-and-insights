@@ -1,26 +1,57 @@
+type ChartDefinition = {
+  keyField: string;
+  valueField: string;
+};
+
 /**
  * @examples require('../openapi/verticalBarChart/examples.ts').examples
  */
-export type ChartDefinition = Pick<ChartBuilderOptions<unknown>, "data"> &
+export type VerticalBarChartDefinition = Pick<
+  VerticalBarChartBuilderOptions<unknown>,
+  "data"
+> &
+  Partial<Pick<VerticalBarChartBuilderOptions<unknown>, "height">> &
+  Partial<
+    Pick<ChartBuilderOptions<unknown>, "highlightKey" | "id" | "sort" | "width">
+  > &
+  ChartDefinition;
+
+/**
+ * @examples require('../openapi/horizontalBarChart/examples.ts').examples
+ */
+export type HorizontalBarChartDefinition = Pick<
+  HorizontalBarChartBuilderOptions<unknown>,
+  "data"
+> &
   Partial<
     Pick<
-      ChartBuilderOptions<unknown>,
-      "height" | "highlightKey" | "id" | "sort" | "width"
+      HorizontalBarChartBuilderOptions<unknown>,
+      "barHeight" | "labelField" | "valueFormat"
     >
-  > & {
-    keyField: string;
-    valueField: string;
-  };
+  > &
+  Partial<
+    Pick<ChartBuilderOptions<unknown>, "highlightKey" | "id" | "sort" | "width">
+  > &
+  ChartDefinition;
 
-export type ChartBuilderOptions<T> = {
+type ChartBuilderOptions<T> = {
   data: T[];
-  height: number;
   highlightKey?: string | undefined;
   id: string;
   keyField: keyof T;
   sort?: "asc" | "desc" | undefined;
   valueField: keyof T;
   width: number;
+};
+
+export type VerticalBarChartBuilderOptions<T> = ChartBuilderOptions<T> & {
+  height: number;
+};
+
+export type HorizontalBarChartBuilderOptions<T> = ChartBuilderOptions<T> & {
+  barHeight: number;
+  labelField: keyof T;
+  valueFormat: string; // see https://d3js.org/d3-format#locale_format
 };
 
 type ChartBuilderResult = {
