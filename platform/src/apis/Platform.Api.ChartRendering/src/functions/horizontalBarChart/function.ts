@@ -81,6 +81,7 @@ export async function horizontalBarChart(
   } else if (request.headers.get("x-accept") === "image/svg+xml") {
     // for single chart requests with HTML requested, just return the chart element
     const body = charts[0].html ?? "<svg />";
+    console.debug(body);
     return {
       body,
       headers: {
