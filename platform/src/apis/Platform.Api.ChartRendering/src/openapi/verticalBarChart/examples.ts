@@ -1,4 +1,4 @@
-const singleChart = {
+const singleVerticalBarChart = {
   keyField: "urn",
   valueField: "amount",
   highlightKey: "123456",
@@ -130,7 +130,7 @@ const singleChart = {
   ],
 };
 
-const multiChart = [
+const multiVerticalBarChart = [
   {
     keyField: "urn",
     valueField: "amount",
@@ -789,5 +789,5 @@ const multiChart = [
 ];
 
 module.exports = {
-  examples: [singleChart, multiChart],
+  examples: [singleVerticalBarChart, multiVerticalBarChart],
 };

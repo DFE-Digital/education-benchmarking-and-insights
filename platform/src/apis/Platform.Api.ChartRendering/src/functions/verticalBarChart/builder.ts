@@ -1,6 +1,6 @@
 const _d3 = import("d3");
 import classnames from "classnames";
-import { ChartBuilderOptions, ChartBuilderResult } from "..";
+import { VerticalBarChartBuilderOptions, ChartBuilderResult } from "..";
 import { DOMImplementation } from "@xmldom/xmldom";
 
 export default class VerticalBarChartBuilder {
@@ -14,7 +14,7 @@ export default class VerticalBarChartBuilder {
     sort,
     valueField,
     width,
-  }: ChartBuilderOptions<T>): Promise<ChartBuilderResult> {
+  }: VerticalBarChartBuilderOptions<T>): Promise<ChartBuilderResult> {
     const timerMessage = `Finished building vertical bar chart ${id}`;
     console.time(timerMessage);
 
@@ -57,7 +57,7 @@ export default class VerticalBarChartBuilder {
       .select(document.documentElement as unknown as Element)
       .attr("width", width)
       .attr("height", height)
-      .attr("viewBox", `0 0 ${width} ${height}`)
+      .attr("viewBox", [0, 0, width, height])
       .attr("data-chart-id", id);
 
     // Add a rect for each bar.

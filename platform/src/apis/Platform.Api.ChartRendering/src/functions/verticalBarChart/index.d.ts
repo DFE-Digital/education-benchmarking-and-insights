@@ -1,3 +1,5 @@
-import { ChartDefinition } from "..";
+import { VerticalBarChartDefinition } from "..";
 
-type VerticalBarChartPayload = ChartDefinition | ChartDefinition[];
+type VerticalBarChartPayload =
+  | VerticalBarChartDefinition
+  | VerticalBarChartDefinition[];

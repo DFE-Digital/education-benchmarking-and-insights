@@ -1,10 +1,14 @@
 import { v4 as uuidv4 } from "uuid";
 import VerticalBarChartBuilder from "./builder";
-import { ChartDefinition } from "..";
+import { VerticalBarChartDefinition } from "..";
 
 const builder = new VerticalBarChartBuilder();
 
-export default function ({ definitions }: { definitions: ChartDefinition[] }) {
+export default function ({
+  definitions,
+}: {
+  definitions: VerticalBarChartDefinition[];
+}) {
   const buildChartPromises = definitions.map(
     ({ data, height, id, keyField, valueField, width, ...rest }) =>
       builder.buildChart({

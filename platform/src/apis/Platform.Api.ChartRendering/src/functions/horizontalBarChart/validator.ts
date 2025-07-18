@@ -1,8 +1,8 @@
-import { VerticalBarChartPayload } from ".";
-import { VerticalBarChartDefinition } from "..";
+import { HorizontalBarChartPayload } from ".";
+import { HorizontalBarChartDefinition } from "..";
 
 function validatePayload(
-  payload: VerticalBarChartPayload | undefined,
+  payload: HorizontalBarChartPayload | undefined,
 ): string[] {
   if (!payload) {
     return ["Invalid payload"];
@@ -10,7 +10,7 @@ function validatePayload(
 
   const validationErrors: string[] = [];
   if (Array.isArray(payload)) {
-    const array = payload as VerticalBarChartDefinition[];
+    const array = payload as HorizontalBarChartDefinition[];
     if (array.length === 0) {
       validationErrors.push("Missing chart definitions");
     } else {
@@ -22,7 +22,7 @@ function validatePayload(
         }
       });
     }
-  } else if (!(payload as VerticalBarChartDefinition)?.data?.length) {
+  } else if (!(payload as HorizontalBarChartDefinition)?.data?.length) {
     validationErrors.push("Missing chart data");
   }
 
