@@ -4,6 +4,7 @@ import { HorizontalBarChartBuilderOptions, ChartBuilderResult } from "..";
 import { DOMImplementation } from "@xmldom/xmldom";
 import enGB from "d3-format/locale/en-GB" with { type: "json" };
 import { FormatLocaleDefinition } from "d3";
+import { default as querySelector } from "query-selector";
 
 export default class HorizontalBarChartBuilder {
   // https://observablehq.com/@d3/bar-chart/2
@@ -26,6 +27,17 @@ export default class HorizontalBarChartBuilder {
       "svg",
       null,
     );
+
+    // polyfill DOM methods not supported by XMLDOM as per
+    // https://github.com/xmldom/xmldom/issues/92#issuecomment-718091535
+    const documentPrototype = Object.getPrototypeOf(document.documentElement);
+    documentPrototype.querySelectorAll = function qsAll(selectors: string) {
+      return querySelector.default(selectors, this);
+    };
+    documentPrototype.querySelector = function qs(selectors: string) {
+      return querySelector.default(selectors, this)[0];
+    };
+
     const d3 = await _d3;
     const locale = enGB as FormatLocaleDefinition;
     d3.formatDefaultLocale(locale);
@@ -33,7 +45,7 @@ export default class HorizontalBarChartBuilder {
     // Declare the chart dimensions and margins.
     const marginTop = 20;
     const marginRight = 3;
-    const marginBottom = 0;
+    const marginBottom = 20;
     const marginLeft = 3;
     const height =
       Math.ceil((data.length + 0.1) * barHeight) + marginTop + marginBottom;
@@ -55,7 +67,7 @@ export default class HorizontalBarChartBuilder {
               (d) => d[keyField] as string,
             ),
       )
-      .rangeRound([marginTop, height - marginBottom])
+      .range([height - marginBottom, marginTop])
       .padding(0.1);
 
     // Create a value format.
@@ -89,7 +101,6 @@ export default class HorizontalBarChartBuilder {
     // Append a label for each bar.
     svg
       .append("g")
-      .attr("text-anchor", "end")
       .selectAll()
       .data(data)
       .join("text")
@@ -98,25 +109,62 @@ export default class HorizontalBarChartBuilder {
       .attr("dy", "0.35em")
       .attr("dx", -4)
       .text((d) => format(d[valueField] as number))
+      .attr("class", (d) =>
+        classnames(
+          "chart-label", // 'text-anchor: end' to be set in CSS
+          "chart-label__series-0",
+          {
+            "chart-label__highlight": d[keyField] === highlightKey,
+          },
+        ),
+      )
       .call((text) =>
         text
           .filter((d) => x(d[valueField] as number) - x(0) < 20) // short bars
           .attr("dx", +4)
-          .attr("fill", "black")
-          .attr("text-anchor", "start"),
+          .attr("class", (d) =>
+            classnames(
+              "chart-label chart-label__inner", // 'text-anchor: start' to be set in CSS
+              "chart-label__series-0",
+              {
+                "chart-label__highlight": d[keyField] === highlightKey,
+              },
+            ),
+          ),
       );
 
     // Create the axes.
-    // svg
-    //   .append("g")
-    //   .attr("transform", `translate(0,${marginTop})`)
-    //   .call(d3.axisTop(x).ticks(width / 80, "%"))
-    //   .call((g) => g.select(".domain").remove());
+    svg
+      .append("g")
+      .attr("class", "chart-axis chart-axis__x")
+      .attr("transform", `translate(0,${height - marginBottom})`)
+      .call(d3.axisBottom(x).ticks(width / 80, valueFormat))
+      .call((g) => {
+        g.select(".domain").remove();
+        g.attr("fill", null)
+          .attr("font-family", null)
+          .attr("font-size", null)
+          .attr("text-anchor", null); // 'text-anchor: middle' to be set in CSS
+        g.selectAll(".tick").attr("class", "chart-tick").attr("opacity", null);
+        g.selectAll(".chart-tick > text").attr("fill", null);
+        g.selectAll(".chart-tick > line").attr("stroke", null);
+      });
 
-    // svg
-    //   .append("g")
-    //   .attr("transform", `translate(${marginLeft},0)`)
-    //   .call(d3.axisLeft(y).tickSizeOuter(0));
+    svg
+      .append("g")
+      .attr("class", "chart-axis chart-axis__y")
+      .attr("transform", `translate(${marginLeft},0)`)
+      .call(d3.axisLeft(y).tickSizeOuter(0))
+      .call((g) => {
+        g.select(".domain").remove();
+        g.attr("fill", null)
+          .attr("font-family", null)
+          .attr("font-size", null)
+          .attr("text-anchor", null); // 'text-anchor: end' to be set in CSS
+        g.selectAll(".tick").attr("class", "chart-tick").attr("opacity", null);
+        g.selectAll(".chart-tick > text").attr("fill", null);
+        g.selectAll(".chart-tick > line").attr("stroke", null);
+      });
 
     const html = svg.node()?.toString() || undefined;
     console.timeEnd(timerMessage);

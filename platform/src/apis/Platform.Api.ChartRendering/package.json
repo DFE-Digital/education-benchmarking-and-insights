@@ -24,6 +24,7 @@
     "classnames": "^2.5.1",
     "d3": "^7.9.0",
     "piscina": "^5.0.0",
+    "query-selector": "^2.0.0",
     "uuid": "^11.1.0"
   },
   "devDependencies": {
