@@ -100,9 +100,11 @@ The School Historical Data is located within the `Resources` section of the FBIT
 
 I recommend we standardise the casing of our data labels and tooltip text in the chat interface. Inconsistent capitalisation and the use of different terminologies to mean the same thing may create a distracting user experience. Aligning on a single style will improve clarity and reinforce the charting principles ultimately leading to a more user-friendly experience.
 
-### Alternative Chart Type Consideration for Trust Historic Data and Forecast and Risk: Year-end Revenue Reserves
+### Alternative Chart Type Consideration for Trust Historic Data
 
 ![Trusted Schools Alliance](./images/trust-historic-data-alternative-consideration.png)
+
+### Alternative Chart Type Consideration for Trust Forecast and Risk
 
 ![Acorn Multi Academy Trust](./images/trust-forecast-and-risks-alternative-consideration.png)
 
