@@ -65,7 +65,8 @@
     "type-check": "vue-tsc --build",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
-    "format": "prettier --write AssetSrc/ts/"
+    "format": "prettier --check AssetSrc/ts/",
+    "format:fix": "prettier --write AssetSrc/ts/"
   },
   "author": "",
   "license": "ISC",
