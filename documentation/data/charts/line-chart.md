@@ -28,7 +28,7 @@ For any set of related charts (e.g., within a feature), maintain consistency in 
 
 ### 1. Trust Forecast and Risk: Year-end Revenue Reserves
 
-The line chart visualisation used illustrates the Account return balance vs Budget forecast return of a Trust. This chart is located within the Forecast and risks feature of the FBIT service which contains metrics and recommendations for the future financial position of trusts.
+This line chart is located within the Forecast and risks feature of the FBIT service which contains metrics and recommendations for the future financial position of trusts. The line chart visualisation illustrates the year-end Account return balance vs Budget forecast return of a Trust.
 
 ![Acorn Multi Academy Trust](./images/trust-forecast-and-risks.png)
 
@@ -41,7 +41,11 @@ The line chart visualisation used illustrates the Account return balance vs Budg
 - Data labels in context: Labels attached to each point reinforce exact values without clustering.
 - The y-axis scaling is appropriate and doesn't distort the representation of the data's fluctuations.
 
-#### Alternative Chart Type Consideration
+#### Opportunity
+
+The current line chart view could be enhanced by adding tooltip such that when a user hovers on the data points with a mouse, the value summary pops-up with contextual information. 
+
+##### Alternative Chart Type Consideration for Trust Forecast and Risk: Year-end Revenue Reserves
 
 A clustered bar (column) charts groups bars for each return balance by year
 
@@ -64,4 +68,6 @@ A clustered bar (column) charts groups bars for each return balance by year
 
 While both line and clustered bar charts can represent the same data, the line chart better serves are goals of illustrating temporal trends and forecast trajectories. Its continuity, ease of cross service comparison, and natural handling of missing or negative values make it the preferred visual for summarising return balances over time.
 
-### 2. Trust Historical Data and Risk: Year-end Revenue Reserves
+### 2. Trust Historical Data
+
+This line chart is located within the Resources section of the trust view and it allows for trust stakeholders to view financial data from previous financial years. The line chart visualisation used here illustrates the year-end account return balance for the last five consecutive years.
