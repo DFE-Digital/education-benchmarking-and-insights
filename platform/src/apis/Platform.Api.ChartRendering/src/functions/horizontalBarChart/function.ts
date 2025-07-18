@@ -5,29 +5,29 @@ import {
 } from "@azure/functions";
 import { Piscina } from "piscina";
 import appInsights from "applicationinsights";
-import { VerticalBarChartDefinition, ChartBuilderResult } from "..";
-import { VerticalBarChartPayload } from ".";
+import { HorizontalBarChartDefinition, ChartBuilderResult } from "..";
+import { HorizontalBarChartPayload } from ".";
 import { validatePayload } from "./validator";
 
 const client = new appInsights.TelemetryClient();
 
 const piscina = new Piscina<
-  { definitions: VerticalBarChartDefinition[] },
+  { definitions: HorizontalBarChartDefinition[] },
   ChartBuilderResult[]
 >({
-  filename: "./dist/src/functions/verticalBarChart/worker.js",
+  filename: "./dist/src/functions/horizontalBarChart/worker.js",
 });
 
-export async function verticalBarChart(
+export async function horizontalBarChart(
   request: HttpRequest,
   context: InvocationContext,
 ): Promise<HttpResponseInit> {
   const startTime = Date.now();
-  context.debug(`Received HTTP request for vertical bar chart`);
+  context.debug(`Received HTTP request for horizontal bar chart`);
 
-  let payload: VerticalBarChartPayload | undefined;
+  let payload: HorizontalBarChartPayload | undefined;
   try {
-    payload = (await request.json()) as VerticalBarChartPayload;
+    payload = (await request.json()) as HorizontalBarChartPayload;
   } catch (e) {
     return {
       jsonBody: {
@@ -58,7 +58,7 @@ export async function verticalBarChart(
 
     try {
       client.trackDependency({
-        name: "verticalBarChartWorker",
+        name: "horizontalBarChartWorker",
         duration: Date.now() - startTime,
         success: false,
       });
@@ -96,7 +96,7 @@ export async function verticalBarChart(
 
   try {
     client.trackDependency({
-      name: "verticalBarChartWorker",
+      name: "horizontalBarChartWorker",
       duration: Date.now() - startTime,
       success: true,
     });
