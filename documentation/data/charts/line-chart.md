@@ -28,7 +28,7 @@ For any set of related charts (e.g., within a feature), maintain consistency in 
 
 ### 1. Trust Forecast and Risk: Year-end Revenue Reserves
 
-This line chart is located within the Forecast and risks feature of the FBIT service which contains metrics and recommendations for the future financial position of trusts. The line chart visualisation illustrates the year-end Account return balance vs Budget forecast return of a Trust.
+The Trust Forecast and Risk: Year-end Revenue Reserves is located within the Forecast and risks feature of the FBIT service/ It holds financial data, metrics information and recommendations for the future financial position of trusts. The line chart visualisation illustrates the year-end Account return balance vs Budget forecast return of a Trust.
 
 ![Acorn Multi Academy Trust](./images/trust-forecast-and-risks.png)
 
@@ -45,7 +45,7 @@ This line chart is located within the Forecast and risks feature of the FBIT ser
 
 The current line chart view could be enhanced by adding tooltip such that when a user hovers on the data points with a mouse, the value summary pops-up with contextual information. 
 
-##### Alternative Chart Type Consideration for Trust Forecast and Risk: Year-end Revenue Reserves
+#### Alternative Chart Type Consideration for Trust Forecast and Risk: Year-end Revenue Reserves
 
 A clustered bar (column) charts groups bars for each return balance by year
 
@@ -70,4 +70,4 @@ While both line and clustered bar charts can represent the same data, the line c
 
 ### 2. Trust Historical Data
 
-This line chart is located within the Resources section of the trust view and it allows for trust stakeholders to view financial data from previous financial years. The line chart visualisation used here illustrates the year-end account return balance for the last five consecutive years.
+The Trust Historical Data is located within the Resources section of the trust view and it allows for trust stakeholders to view financial data from previous financial years. The line chart visualisation used here illustrates the year-end account return balance for the last five consecutive years.
