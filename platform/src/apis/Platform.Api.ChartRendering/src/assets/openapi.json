@@ -44,6 +44,7 @@
                       {
                         "keyField": "urn",
                         "valueField": "totalExpenditure",
+                        "valueFormat": "$,~s",
                         "labelField": "schoolName",
                         "highlightKey": "138637",
                         "sort": "desc",
@@ -423,6 +424,7 @@
                         {
                           "keyField": "urn",
                           "valueField": "totalExpenditure",
+                          "valueFormat": "$,~s",
                           "labelField": "schoolName",
                           "highlightKey": "138637",
                           "sort": "desc",
