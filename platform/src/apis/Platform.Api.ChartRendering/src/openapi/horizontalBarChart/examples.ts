@@ -3,6 +3,8 @@ const singleHorizontalBarChart = {
   valueField: "totalExpenditure",
   valueFormat: "$,~s",
   labelField: "schoolName",
+  labelFormat: "%2$s (%1$s)",
+  linkFormat: "/school/%1$s",
   highlightKey: "138637",
   sort: "desc",
   barHeight: 25,

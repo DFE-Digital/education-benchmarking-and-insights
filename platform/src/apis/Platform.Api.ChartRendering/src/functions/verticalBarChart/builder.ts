@@ -32,17 +32,14 @@ export default class VerticalBarChartBuilder {
     const marginLeft = 3;
 
     // Declare the x (horizontal position) scale.
+    data.sort((a, b) =>
+      sort === "asc"
+        ? (a[valueField] as number) - (b[valueField] as number)
+        : (b[valueField] as number) - (a[valueField] as number),
+    );
     const x = d3
       .scaleBand()
-      .domain(
-        sort === undefined
-          ? data.map((d) => d[keyField] as string)
-          : d3.groupSort(
-              data,
-              ([d]) => (d[valueField] as number) * (sort === "asc" ? 1 : -1),
-              (d) => d[keyField] as string,
-            ),
-      )
+      .domain(data.map((d) => d[keyField] as string))
       .range([marginLeft, width - marginRight])
       .padding(0.2);
 
