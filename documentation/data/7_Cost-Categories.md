@@ -1,6 +1,6 @@
 # Cost Categories
 
-This document maps each category type from the Financial Benchmarking & Insights Tool to the respective **CFR** 
+This document maps each category type from the Financial Benchmarking & Insights Tool to the respective **CFR**
 (Consistent Financial Reporting) and **AAR** (Academies’ Accounts Returns) codes.
 
 ## Spending
@@ -61,7 +61,6 @@ This document maps each category type from the Financial Benchmarking & Insights
 | Self-generated           | Other self-generated income                                |             |             |       |
 | Direct revenue financing | Direct revenue financing (capital reserves transfers)      |             |             |       |
 
-
 ## Balance
 
 | Category        | CFR code(s) | AAR code(s) |   Notes    |
@@ -69,3 +68,5 @@ This document maps each category type from the Financial Benchmarking & Insights
 | In-year balance |      –      |      –      | Calculated |
 | Revenue reserve |             |             |            |
 
+<!-- Leave the rest of this page blank -->
+\newpage
