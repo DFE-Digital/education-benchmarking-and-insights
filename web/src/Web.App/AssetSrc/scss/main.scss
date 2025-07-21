@@ -718,6 +718,12 @@ table#current-comparators-la {
 }
 
 .ssr-chart {
+  @include govuk-font(14);
+
+  text {
+    fill: govuk-colour("dark-grey");
+  }
+
   .chart-cell {
     &.chart-cell__series-0 {
       fill: govuk-colour("mid-grey");
@@ -727,6 +733,45 @@ table#current-comparators-la {
     &.chart-cell__highlight {
       fill: govuk-colour("dark-blue");
       stroke: govuk-colour("dark-blue");
+    }
+  }
+
+  .chart-label {
+    &.chart-label__highlight {
+      font-weight: bold;
+    }
+  }
+
+  &.horizontal-bar-chart {
+    .chart-axis {
+      &.chart-axis__x {
+        text-anchor: middle
+      }
+
+      &.chart-axis__y {
+        .chart-tick {
+          text-anchor: end;
+
+          .establishment-tick {
+            &.establishment-tick__highlight {
+              font-weight: bold;
+            }
+          }
+        }
+      }
+
+      .domain {
+        stroke: govuk-colour("mid-grey");
+      }
+    }
+  }
+
+  .govuk-link {
+    fill: govuk-colour("blue");
+
+    &:focus, &:hover {
+      fill: govuk-colour("dark-blue");
+      text-decoration: underline;
     }
   }
 
