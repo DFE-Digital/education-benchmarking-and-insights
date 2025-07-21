@@ -1,18 +1,16 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
-using Microsoft.FeatureManagement;
 using Web.App.Identity;
 namespace Web.App.Attributes;
 
 [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
 public class SchoolAuthorizationAttribute : AuthorizeAttribute, IAuthorizationFilter
 {
-    public async void OnAuthorization(AuthorizationFilterContext context)
+    public void OnAuthorization(AuthorizationFilterContext context)
     {
-
-        var featureManager = context.HttpContext.RequestServices.GetRequiredService<IFeatureManager>();
-        if (await featureManager.IsEnabledAsync(FeatureFlags.DisableOrganisationClaimCheck))
+        var configuration = context.HttpContext.RequestServices.GetRequiredService<IConfiguration>();
+        if (configuration.GetValue<bool>(EnvironmentVariables.DisableOrganisationClaimCheck))
         {
             return;
         }

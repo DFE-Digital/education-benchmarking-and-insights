@@ -20,7 +20,6 @@ variable "configuration" {
       Trusts                               = bool
       LocalAuthorities                     = bool
       UserDefinedComparators               = bool
-      DisableOrganisationClaimCheck        = bool
       ForecastRisk                         = bool
       TrustComparison                      = bool
       FinancialBenchmarkingInsightsSummary = bool
@@ -44,6 +43,7 @@ variable "configuration" {
         AbsoluteExpiration = number
       })
     })
+    DISABLE_ORG_CLAIM_CHECK = optional(bool, false)
   }))
   default = {
     development = {
@@ -59,7 +59,6 @@ variable "configuration" {
         CustomData                           = true
         LocalAuthorities                     = true
         UserDefinedComparators               = true
-        DisableOrganisationClaimCheck        = true
         ForecastRisk                         = true
         TrustComparison                      = true
         FinancialBenchmarkingInsightsSummary = true
@@ -82,7 +81,8 @@ variable "configuration" {
           SlidingExpiration  = 10
           AbsoluteExpiration = 60
         }
-      }
+      },
+      DISABLE_ORG_CLAIM_CHECK = true
     }
     automated-test = {
       sku_name                       = "B1"
@@ -97,7 +97,6 @@ variable "configuration" {
         CustomData                           = true
         LocalAuthorities                     = true
         UserDefinedComparators               = true
-        DisableOrganisationClaimCheck        = false
         ForecastRisk                         = true
         TrustComparison                      = true
         FinancialBenchmarkingInsightsSummary = true
@@ -120,7 +119,7 @@ variable "configuration" {
           SlidingExpiration  = 10
           AbsoluteExpiration = 60
         }
-      }
+      },
     }
     test = {
       sku_name                       = "P0v3"
@@ -135,7 +134,6 @@ variable "configuration" {
         CustomData                           = true
         LocalAuthorities                     = true
         UserDefinedComparators               = true
-        DisableOrganisationClaimCheck        = true
         ForecastRisk                         = true
         TrustComparison                      = true
         FinancialBenchmarkingInsightsSummary = true
@@ -158,7 +156,8 @@ variable "configuration" {
           SlidingExpiration  = 10
           AbsoluteExpiration = 60
         }
-      }
+      },
+      DISABLE_ORG_CLAIM_CHECK = true
     }
     feature = {
       sku_name                       = "B1"
@@ -173,7 +172,6 @@ variable "configuration" {
         CustomData                           = true
         LocalAuthorities                     = true
         UserDefinedComparators               = true
-        DisableOrganisationClaimCheck        = true
         ForecastRisk                         = true
         TrustComparison                      = true
         FinancialBenchmarkingInsightsSummary = true
@@ -196,7 +194,8 @@ variable "configuration" {
           SlidingExpiration  = 10
           AbsoluteExpiration = 60
         }
-      }
+      },
+      DISABLE_ORG_CLAIM_CHECK = true
     }
     pre-production = {
       sku_name                       = "P0v3"
@@ -211,7 +210,6 @@ variable "configuration" {
         CustomData                           = true
         LocalAuthorities                     = true
         UserDefinedComparators               = true
-        DisableOrganisationClaimCheck        = false
         ForecastRisk                         = true
         TrustComparison                      = true
         FinancialBenchmarkingInsightsSummary = true
@@ -249,7 +247,6 @@ variable "configuration" {
         CustomData                           = true
         LocalAuthorities                     = true
         UserDefinedComparators               = true
-        DisableOrganisationClaimCheck        = false
         ForecastRisk                         = true
         TrustComparison                      = true
         FinancialBenchmarkingInsightsSummary = true

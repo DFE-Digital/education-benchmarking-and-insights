@@ -95,7 +95,6 @@ Feature flags may also be defined in the `FeatureManagement` section:
 |----------------------------------------|------------------------------------------------------------------------------------------------------------------------------------|
 | `CurriculumFinancialPlanning`          | Toggles the Curriculum and Financial Planning feature                                                                              |
 | `CustomData`                           | Toggles the Custom Data feature                                                                                                    |
-| `DisableOrganisationClaimCheck`        | Skips the Organisation Claim check in `SchoolAuthorizationAttribute`                                                               |
 | `LocalAuthorities`                     | Toggles the Local Authorities feature                                                                                              |
 | `Trusts`                               | Toggles the Trust feature                                                                                                          |
 | `UserDefinedComparators`               | Toggles the User Defined comparators feature                                                                                       |
@@ -157,6 +156,14 @@ Having initialised the secret storage, add the following section to `secrets.jso
   }
 }
 ```
+
+#### Environment variables
+
+The following optional environment variables may also be set to control the behaviour of the web app:
+
+| Name                      | Purpose                                                              |
+|---------------------------|----------------------------------------------------------------------|
+| `DISABLE_ORG_CLAIM_CHECK` | Skips the Organisation Claim check in `SchoolAuthorizationAttribute` |
 
 #### Build the front-end assets
 
