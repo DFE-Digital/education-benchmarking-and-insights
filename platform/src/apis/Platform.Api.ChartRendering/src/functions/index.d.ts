@@ -26,7 +26,7 @@ export type HorizontalBarChartDefinition = Pick<
   Partial<
     Pick<
       HorizontalBarChartBuilderOptions<unknown>,
-      "barHeight" | "labelField" | "valueFormat"
+      "barHeight" | "labelField" | "labelFormat" | "linkFormat" | "valueFormat"
     >
   > &
   Partial<
@@ -51,6 +51,8 @@ export type VerticalBarChartBuilderOptions<T> = ChartBuilderOptions<T> & {
 export type HorizontalBarChartBuilderOptions<T> = ChartBuilderOptions<T> & {
   barHeight: number;
   labelField: keyof T;
+  labelFormat: string; // %1 = key, %2 = label
+  linkFormat: string; // %1 = key
   valueFormat: string; // see https://d3js.org/d3-format#locale_format
 };
 

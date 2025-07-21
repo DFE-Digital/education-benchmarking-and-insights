@@ -46,6 +46,8 @@
                         "valueField": "totalExpenditure",
                         "valueFormat": "$,~s",
                         "labelField": "schoolName",
+                        "labelFormat": "%2$s (%1$s)",
+                        "linkFormat": "/school/%1$s",
                         "highlightKey": "138637",
                         "sort": "desc",
                         "barHeight": 25,
@@ -374,6 +376,12 @@
                           "barHeight": {
                             "type": "number"
                           },
+                          "labelFormat": {
+                            "type": "string"
+                          },
+                          "linkFormat": {
+                            "type": "string"
+                          },
                           "valueFormat": {
                             "type": "string"
                           }
@@ -426,6 +434,8 @@
                           "valueField": "totalExpenditure",
                           "valueFormat": "$,~s",
                           "labelField": "schoolName",
+                          "labelFormat": "%2$s (%1$s)",
+                          "linkFormat": "/school/%1$s",
                           "highlightKey": "138637",
                           "sort": "desc",
                           "barHeight": 25,
@@ -753,6 +763,12 @@
                           "properties": {
                             "barHeight": {
                               "type": "number"
+                            },
+                            "labelFormat": {
+                              "type": "string"
+                            },
+                            "linkFormat": {
+                              "type": "string"
                             },
                             "valueFormat": {
                               "type": "string"
