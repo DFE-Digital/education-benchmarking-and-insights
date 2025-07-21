@@ -71,7 +71,6 @@ resource "azurerm_windows_web_app" "education-benchmarking-as" {
     "FeatureManagement__Trusts"                               = var.configuration[var.environment].features.Trusts
     "FeatureManagement__LocalAuthorities"                     = var.configuration[var.environment].features.LocalAuthorities
     "FeatureManagement__UserDefinedComparators"               = var.configuration[var.environment].features.UserDefinedComparators
-    "FeatureManagement__DisableOrganisationClaimCheck"        = var.configuration[var.environment].features.DisableOrganisationClaimCheck
     "FeatureManagement__ForecastRisk"                         = var.configuration[var.environment].features.ForecastRisk
     "FeatureManagement__TrustComparison"                      = var.configuration[var.environment].features.TrustComparison
     "FeatureManagement__FinancialBenchmarkingInsightsSummary" = var.configuration[var.environment].features.FinancialBenchmarkingInsightsSummary
@@ -105,6 +104,7 @@ resource "azurerm_windows_web_app" "education-benchmarking-as" {
     "DFESignInSettings__SignedOutCallbackPath"                = var.dfe-signin.signed-out-callback-path
     "DFESignInSettings__SignOutUri"                           = var.dfe-signin.sign-out-uri
     "DFESignInSettings__SignInUri"                            = var.dfe-signin.sign-in-uri
+    "DISABLE_ORG_CLAIM_CHECK"                                 = var.configuration[var.environment].DISABLE_ORG_CLAIM_CHECK
     "SessionData__Using"                                      = "Cosmos"
     "SessionData__Settings__ConnectionString"                 = "@Microsoft.KeyVault(SecretUri=${azurerm_key_vault_secret.session-cache-account-connection-string.versionless_id})"
     "SessionData__Settings__ContainerName"                    = azurerm_cosmosdb_sql_container.session-cache-container.name
