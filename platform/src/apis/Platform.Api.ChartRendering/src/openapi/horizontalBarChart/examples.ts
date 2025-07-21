@@ -7,9 +7,9 @@ const singleHorizontalBarChart = {
   linkFormat: "/school/%1$s",
   highlightKey: "138637",
   sort: "desc",
-  barHeight: 25,
+  barHeight: 22,
   id: "123",
-  width: 630,
+  width: 960,
   data: [
     {
       urn: "138637",

@@ -48,7 +48,7 @@ export default class HorizontalBarChartBuilder {
 
     // Declare the chart dimensions and margins.
     const marginTop = 20;
-    const marginRight = 3;
+    const marginRight = 30;
     const marginBottom = 20;
     const marginLeft = 3;
     const height =
@@ -65,7 +65,7 @@ export default class HorizontalBarChartBuilder {
     const x = d3
       .scaleLinear()
       .domain([0, d3.max(data, (d) => d[valueField] as number)!])
-      .range([marginLeft + tickWidth, width - marginRight]);
+      .range([marginLeft + tickWidth + 5, width - marginRight - 5]);
     const y = d3
       .scaleBand()
       .domain(data.map((d) => d[keyField] as string))
@@ -106,40 +106,27 @@ export default class HorizontalBarChartBuilder {
       .selectAll()
       .data(data)
       .join("text")
-      .attr("x", (d) => x(d[valueField] as number))
+      .attr(
+        "x",
+        (d) =>
+          x(d[valueField] as number) +
+          Math.sign((d[valueField] as number) - 0) * 8,
+      )
       .attr("y", (d) => y(d[keyField] as string)! + y.bandwidth() / 2)
       .attr("dy", "0.35em")
-      .attr("dx", -4)
       .text((d) => format(d[valueField] as number))
       .attr("class", (d) =>
-        classnames(
-          "chart-label", // 'text-anchor: end' to be set in CSS
-          "chart-label__series-0",
-          {
-            "chart-label__highlight": d[keyField] === highlightKey,
-          },
-        ),
-      )
-      .call((text) =>
-        text
-          .filter((d) => x(d[valueField] as number) - x(0) < 20) // short bars
-          .attr("dx", +4)
-          .attr("class", (d) =>
-            classnames(
-              "chart-label chart-label__inner", // 'text-anchor: start' to be set in CSS
-              "chart-label__series-0",
-              {
-                "chart-label__highlight": d[keyField] === highlightKey,
-              },
-            ),
-          ),
+        classnames("chart-label", "chart-label__series-0", {
+          "chart-label__highlight": d[keyField] === highlightKey,
+          "chart-label__negative": (d[valueField] as number) < 0,
+        }),
       );
 
     // Create the axes.
     svg
       .append("g")
       .attr("class", "chart-axis chart-axis__x")
-      .attr("transform", `translate(0,${height - marginBottom})`)
+      .attr("transform", `translate(-5,${height - marginBottom})`)
       .call(
         d3
           .axisBottom(x)
@@ -150,7 +137,7 @@ export default class HorizontalBarChartBuilder {
         g.attr("fill", null)
           .attr("font-family", null)
           .attr("font-size", null)
-          .attr("text-anchor", null); // 'text-anchor: middle' to be set in CSS
+          .attr("text-anchor", null);
         g.selectAll(".tick").attr("class", "chart-tick").attr("opacity", null);
         g.selectAll(".chart-tick > text").attr("fill", null);
         g.selectAll(".chart-tick > line").attr("stroke", null);
@@ -198,14 +185,14 @@ export default class HorizontalBarChartBuilder {
     svg
       .append("g")
       .attr("class", "chart-axis chart-axis__y")
-      .attr("transform", `translate(${marginLeft},0)`)
+      .attr("transform", `translate(${marginLeft + tickWidth},0)`)
       .call(d3.axisLeft(y).tickSizeOuter(0).tickFormat(formatTick))
       .call((g) => {
-        g.select(".domain").attr("transform", `translate(${tickWidth},0)`);
+        g.select(".domain").attr("transform", `translate(0,0)`);
         g.attr("fill", null)
           .attr("font-family", null)
           .attr("font-size", null)
-          .attr("text-anchor", null); // 'text-anchor: end' to be set in CSS
+          .attr("text-anchor", null);
         g.selectAll(".tick").attr("class", "chart-tick").attr("opacity", null);
         g.selectAll(".chart-tick > text").attr("fill", null);
         g.selectAll(".chart-tick > line").attr("stroke", null);
