@@ -762,6 +762,13 @@ table#current-comparators-la {
 
       .domain {
         stroke: govuk-colour("mid-grey");
+        fill: none;
+      }
+
+      .chart-tick {
+        > line {
+          stroke: govuk-colour("mid-grey");
+        }
       }
     }
   }
