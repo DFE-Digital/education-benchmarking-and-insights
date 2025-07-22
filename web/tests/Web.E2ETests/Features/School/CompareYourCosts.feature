@@ -343,7 +343,7 @@ Feature: School compare your costs
           | Total educational supplies costs                         | E21, E19                                                         |
           | Examination fees costs                                   | E21                                                              |
           | Learning resources (not ICT equipment) costs             | E19                                                              |
-          | Educational learning resources costs                     | E20                                                              |
+          | Educational learning resources costs                     | E20A, E20B, E20C, E20E, E20F, E20G                               |
           | Total premises staff and service costs                   | E14, E12, E18, E04                                               |
           | Cleaning and caretaking costs                            | E14                                                              |
           | Maintenance of premises costs                            | E12                                                              |
@@ -352,7 +352,7 @@ Feature: School compare your costs
           | Total utilities costs                                    | E16, E15                                                         |
           | Energy costs                                             | E16                                                              |
           | Water and sewerage costs                                 | E15                                                              |
-          | Administrative supplies (Non-educational)                | E22                                                              |
+          | Administrative supplies (Non-educational)                | E22, E20D                                                        |
           | Total catering costs (gross)                             | E06, E25                                                         |
           | Catering staff costs                                     | E06                                                              |
           | Catering supplies costs                                  | E25                                                              |
