@@ -105,6 +105,7 @@ Feature flags may also be defined in the `FeatureManagement` section:
 | `HighNeeds`                            | Toggles the High Needs feature, which affects the Local Authority pages                                                            |
 | `FilteredSearch`                       | Replaces the single page autocomplete version of organisation search with accessible version                                       |
 | `SchoolSpendingPrioritiesSsrCharts`    | Replaces the client rendered React/Recharts-derived charts on the School Spending Priorities page with server side rendered charts |
+| `CfrItSpendBreakdown`                  | Displays IT spend within subcategories as submitted in CFRs from 2024-5 onwards                                                    |
 
 #### CacheOptions
 

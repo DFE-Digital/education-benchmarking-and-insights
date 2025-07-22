@@ -6,6 +6,7 @@ variable "redirect-app-service-provision" {}
 variable "shutter-app-service-provision" {}
 variable "shutter-app-service-enabled" {}
 
+# noinspection TfIncorrectVariableType
 variable "configuration" {
   type = map(object({
     sku_name                       = string
@@ -28,6 +29,7 @@ variable "configuration" {
       HighNeeds                            = bool
       FilteredSearch                       = bool
       SchoolSpendingPrioritiesSsrCharts    = bool
+      CfrItSpendBreakdown                  = bool
     })
     CacheOptions = object({
       ReturnYears = object({
@@ -67,6 +69,7 @@ variable "configuration" {
         HighNeeds                            = true
         FilteredSearch                       = true
         SchoolSpendingPrioritiesSsrCharts    = true
+        CfrItSpendBreakdown                  = true
       },
       CacheOptions = {
         ReturnYears = {
@@ -105,6 +108,7 @@ variable "configuration" {
         HighNeeds                            = true
         FilteredSearch                       = true
         SchoolSpendingPrioritiesSsrCharts    = true
+        CfrItSpendBreakdown                  = true
       },
       CacheOptions = {
         ReturnYears = {
@@ -142,6 +146,7 @@ variable "configuration" {
         HighNeeds                            = true
         FilteredSearch                       = true
         SchoolSpendingPrioritiesSsrCharts    = true
+        CfrItSpendBreakdown                  = true
       },
       CacheOptions = {
         ReturnYears = {
@@ -180,6 +185,7 @@ variable "configuration" {
         HighNeeds                            = true
         FilteredSearch                       = true
         SchoolSpendingPrioritiesSsrCharts    = true
+        CfrItSpendBreakdown                  = true
       },
       CacheOptions = {
         ReturnYears = {
@@ -218,6 +224,7 @@ variable "configuration" {
         HighNeeds                            = true
         FilteredSearch                       = true
         SchoolSpendingPrioritiesSsrCharts    = true
+        CfrItSpendBreakdown                  = false
       }
       CacheOptions = {
         ReturnYears = {
@@ -255,6 +262,7 @@ variable "configuration" {
         HighNeeds                            = true
         FilteredSearch                       = true
         SchoolSpendingPrioritiesSsrCharts    = true
+        CfrItSpendBreakdown                  = false
       },
       CacheOptions = {
         ReturnYears = {
