@@ -15,4 +15,5 @@ public static class FeatureFlags
     public const string HighNeeds = nameof(HighNeeds);
     public const string FilteredSearch = nameof(FilteredSearch);
     public const string SchoolSpendingPrioritiesSsrCharts = nameof(SchoolSpendingPrioritiesSsrCharts);
+    public const string CfrItSpendBreakdown = nameof(CfrItSpendBreakdown);
 }
