@@ -6,7 +6,7 @@ Period: Academic year
 
 Format: XLSX
 
-## Publication timetable
+**Publication timetable:**
 
 | Month    | Data published |
 |----------|----------------|
@@ -15,14 +15,14 @@ Format: XLSX
 
 For example; for academic year ending July 2024 data is published on October 2024.
 
-## Obtaining data
+**Obtaining data:**
 
 1. Data tables
 2. Download data(for example, keystage measures, pupil destinations, absence data etc. in csv or xls format) for all of England or a local authority
 3. All of England
 4. Performance > Key stage 4 results
 
-## File schema
+**File schema:**
 
 >[!CAUTION]
 > Needs to be validated
@@ -34,7 +34,7 @@ For example; for academic year ending July 2024 data is published on October 202
 | P8MEA      | float  |     |
 | P8_BANDING | string |     |
 
-## Validation
+**Validation:**
 
 //TODO
 

@@ -6,7 +6,7 @@ Period: Academic year
 
 Format: CSV
 
-## Publication timetable
+**Publication timetable:**
 
 | Month    | Status    |
 |----------|-----------|
@@ -14,15 +14,13 @@ Format: CSV
 
 For example; for academic year ending July 2024 data is published on June 2024.
 
-## Obtaining data
-
-**Latest year:**
+**Obtaining data:**
 
 1. Open access from website.
 2. File is located under "Additional supporting files" > "School level underlying data - [year]"
 3. Click link to download file
 
-## File schema
+**File schema:**
 
 >[!CAUTION]
 > Needs to be validated
@@ -44,7 +42,7 @@ For example; for academic year ending July 2024 data is published on June 2024.
 | Full time girls Year group 13                          | float |     |
 | number_of_dual_subsidiary_registrations                | float |     |
 
-## Validation
+**Validation:**
 
 //TODO
 

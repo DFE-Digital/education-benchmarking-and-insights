@@ -6,21 +6,19 @@ Period: Reporting year
 
 Format: XLSX
 
-## Publication timetable
+**Publication timetable:**
 
 | Month    | Status    |
 |----------|-----------|
 | June     | Published |
 
-## Obtaining data
-
-**Latest year:**
+**Obtaining data:**
 
 1. Open access from website.
 2. File is located under "Additional supporting files" > "School level summary file"
 3. Click link to download file
 
-## File schema
+**File schema:**
 
 >[!CAUTION]
 > Needs to be validated
@@ -42,7 +40,7 @@ Format: XLSX
 | Total Number of Auxiliary Staff (Headcount)                                                                                                                                           | float |     |
 | Total School Workforce (Headcount)                                                                                                                                                    | float |     |
 
-## Validation
+**Validation:**
 
 //TODO
 
