@@ -53,6 +53,7 @@
                         "barHeight": 22,
                         "id": "123",
                         "width": 960,
+                        "xAxisLabel": "£ per pupil",
                         "data": [
                           {
                             "urn": "138637",
@@ -384,6 +385,9 @@
                           },
                           "valueFormat": {
                             "type": "string"
+                          },
+                          "xAxisLabel": {
+                            "type": "string"
                           }
                         }
                       },
@@ -441,6 +445,7 @@
                           "barHeight": 22,
                           "id": "123",
                           "width": 960,
+                          "xAxisLabel": "£ per pupil",
                           "data": [
                             {
                               "urn": "138637",
@@ -771,6 +776,9 @@
                               "type": "string"
                             },
                             "valueFormat": {
+                              "type": "string"
+                            },
+                            "xAxisLabel": {
                               "type": "string"
                             }
                           }
