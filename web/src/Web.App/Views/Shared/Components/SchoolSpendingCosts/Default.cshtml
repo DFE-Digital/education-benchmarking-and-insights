@@ -26,7 +26,7 @@
             });
 
         var costCodes = category?.SubCategories
-            .Select(c => Model.CostCodes.GetCostCodes(c))
+            .SelectMany(c => Model.CostCodes.GetCostCodes(c).ToArray())
             .Where(x => !string.IsNullOrWhiteSpace(x))
             .ToList() ?? [];
 

@@ -58,15 +58,17 @@ public class WhenViewingSpending(SchoolBenchmarkingWebAppClient client)
     };
 
     [Theory]
-    [InlineData(true, true)]
-    [InlineData(false, true)]
-    [InlineData(true, false)]
-    [InlineData(false, false)]
-    public async Task CanDisplay(bool isPartOfTrust, bool ssrFeatureEnabled)
+    [InlineData(true, true, false)]
+    [InlineData(false, true, false)]
+    [InlineData(false, true, true)]
+    [InlineData(true, false, false)]
+    [InlineData(false, false, false)]
+    [InlineData(false, false, true)]
+    public async Task CanDisplay(bool isPartOfTrust, bool ssrFeatureEnabled, bool cfrItSpendBreakdownEnabled)
     {
-        var (page, school, ratings, expenditure) = await SetupNavigateInitPage(isPartOfTrust, ssrFeatureEnabled: ssrFeatureEnabled);
+        var (page, school, ratings, expenditure) = await SetupNavigateInitPage(isPartOfTrust, ssrFeatureEnabled: ssrFeatureEnabled, cfrItSpendBreakdownEnabled: cfrItSpendBreakdownEnabled);
 
-        AssertPageLayout(page, school, ratings, expenditure, isPartOfTrust, ssrFeatureEnabled);
+        AssertPageLayout(page, school, ratings, expenditure, isPartOfTrust, ssrFeatureEnabled, cfrItSpendBreakdown: cfrItSpendBreakdownEnabled);
     }
 
     [Theory]
@@ -172,7 +174,8 @@ public class WhenViewingSpending(SchoolBenchmarkingWebAppClient client)
         bool isPartOfTrust,
         SchoolComparatorSet? comparatorSet = null,
         bool ssrFeatureEnabled = false,
-        bool chartApiException = false)
+        bool chartApiException = false,
+        bool cfrItSpendBreakdownEnabled = false)
     {
         var school = Fixture.Build<School>()
             .With(x => x.URN, "123456")
@@ -189,8 +192,19 @@ public class WhenViewingSpending(SchoolBenchmarkingWebAppClient client)
 
         var verticalBarChart = new ChartResponse { Html = "<svg />" };
 
+        var disabledFeatureFlags = new List<string>();
+        if (!ssrFeatureEnabled)
+        {
+            disabledFeatureFlags.Add(FeatureFlags.SchoolSpendingPrioritiesSsrCharts);
+        }
+
+        if (!cfrItSpendBreakdownEnabled)
+        {
+            disabledFeatureFlags.Add(FeatureFlags.CfrItSpendBreakdown);
+        }
+
         var client = Client
-            .SetupDisableFeatureFlags(ssrFeatureEnabled ? [] : [FeatureFlags.SchoolSpendingPrioritiesSsrCharts])
+            .SetupDisableFeatureFlags(disabledFeatureFlags.ToArray())
             .SetupEstablishment(school)
             .SetupInsights()
             .SetupUserData()
@@ -234,7 +248,8 @@ public class WhenViewingSpending(SchoolBenchmarkingWebAppClient client)
         SchoolExpenditure? expenditure,
         bool isPartOfTrust,
         bool ssrCharts = false,
-        bool chartError = false)
+        bool chartError = false,
+        bool cfrItSpendBreakdown = false)
     {
         DocumentAssert.AssertPageUrl(page, Paths.SchoolSpending(school.URN).ToAbsolute());
         DocumentAssert.TitleAndH1(page, "Spending priorities for this school - Financial Benchmarking and Insights Tool - GOV.UK",
@@ -266,10 +281,10 @@ public class WhenViewingSpending(SchoolBenchmarkingWebAppClient client)
                 { "Teaching and Teaching support staff", 5 },
                 { "Non-educational support staff", isPartOfTrust ? 4 : 3 },
                 { "Educational supplies", 2 },
-                { "Educational ICT", 1 },
+                { "Educational ICT", cfrItSpendBreakdown ? 6 : 1 },
                 { "Premises staff and services", 4 },
                 { "Utilities", 2 },
-                { "Administrative supplies", 1 },
+                { "Administrative supplies", cfrItSpendBreakdown ? 2 : 1 },
                 { "Catering staff and supplies", 2 }
             };
 
@@ -282,7 +297,7 @@ public class WhenViewingSpending(SchoolBenchmarkingWebAppClient client)
                 expectedCount++;
                 Assert.Equal("% of central services", costCodeList.LastElementChild?.TextContent);
             }
-            Assert.Equal(expectedCount, costCodeList.ChildElementCount);
+            Assert.True(expectedCount == costCodeList.ChildElementCount, $"Expected {expectedCount} child element(s) for {sectionHeading} but received {costCodeList.ChildElementCount}");
 
             Assert.NotEqual(Category.Other, sectionHeading);
 
