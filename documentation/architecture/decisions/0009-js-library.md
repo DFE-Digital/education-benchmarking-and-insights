@@ -1,4 +1,4 @@
-# Decision - 0009 - JavaScript Library Selection for ASP.NET Core with GOV.UK Standards
+# JavaScript Library Selection for ASP.NET Core with GOV.UK Standards (0009)
 
 Date: 2025-02-17
 

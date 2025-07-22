@@ -1,4 +1,4 @@
-# Decision - 0004 - Pipeline Processing Development Language
+# Pipeline Processing Development Language (0004)
 
 Date: 2024-04-25
 

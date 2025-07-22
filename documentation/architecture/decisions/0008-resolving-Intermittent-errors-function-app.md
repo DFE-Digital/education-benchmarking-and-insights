@@ -1,4 +1,4 @@
-# Decision - 0008 - Resolving Intermittent 502, 503, and 429 Errors on Azure Function App
+# Resolving Intermittent 502, 503, and 429 Errors on Azure Function App (0008)
 
 Date: 2025-02-10
 

@@ -1,4 +1,4 @@
-# Decision - 0001 - Data Storage
+# Data Storage (0001)
 
 ## Context and Problem Statement
 

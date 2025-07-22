@@ -1,4 +1,4 @@
-# Decision - 0005 - API Performance Testing with Azure Load Tests
+# API Performance Testing with Azure Load Tests (0005)
 
 Date: 2024-08-09
 

@@ -1,4 +1,4 @@
-# Decision - 0012 - Use of Connection Strings/Keys vs Managed Identity in Azure Authentication
+# Use of Connection Strings/Keys vs Managed Identity in Azure Authentication (0012)
 
 Date: 2025-06-26
 

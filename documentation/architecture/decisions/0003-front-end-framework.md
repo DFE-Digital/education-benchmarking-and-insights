@@ -1,4 +1,4 @@
-# Decision - 0003 - Front-end framework
+# Front-end framework (0003)
 
 ## Context and Problem Statement
 

@@ -1,4 +1,4 @@
-# Decision - 0010 - Decommissioning Schools financial benchmarking service
+# Decommissioning Schools financial benchmarking service (0010)
 
 Date: 2025-03-14
 

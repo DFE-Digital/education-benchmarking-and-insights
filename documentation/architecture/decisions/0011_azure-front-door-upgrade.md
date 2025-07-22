@@ -1,4 +1,4 @@
-# Decision - 0011 - Azure Front Door Upgrade
+# Azure Front Door Upgrade (0011)
 
 Date: 2025-06-25
 

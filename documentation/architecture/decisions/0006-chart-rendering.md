@@ -1,4 +1,4 @@
-# Decision - 0006 - Rendering of Charts
+# Rendering of Charts (0006)
 
 Date: 2025-01-27
 

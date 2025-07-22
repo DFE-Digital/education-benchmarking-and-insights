@@ -1,4 +1,4 @@
-# Decision - 0014 - DfE Databricks data out
+# DfE Databricks data out (0014)
 
 ## Context and Problem Statement
 

@@ -1,4 +1,4 @@
-# Decision - 0002 - Development Data
+# Development Data (0002)
 
 ## Context and Problem Statement
 

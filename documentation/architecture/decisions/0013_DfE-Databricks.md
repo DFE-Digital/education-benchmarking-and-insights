@@ -1,4 +1,4 @@
-# Decision - 0013 - Data pipeline Databricks conversion
+# Data pipeline Databricks conversion (0013)
 
 ## Context and Problem Statement
 

@@ -1,4 +1,4 @@
-# Decision - 0007 - Deployment Options for SVG Service for Rendering Charts
+# Deployment Options for SVG Service for Rendering Charts (0007)
 
 Date: 2025-01-29
 
