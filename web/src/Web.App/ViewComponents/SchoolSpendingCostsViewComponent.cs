@@ -1,13 +1,14 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Web.App.Domain;
 using Web.App.Domain.Content;
+using Web.App.Services;
 using Web.App.ViewModels.Components;
 
 namespace Web.App.ViewComponents;
 
-public class SchoolSpendingCostsViewComponent : ViewComponent
+public class SchoolSpendingCostsViewComponent(ICostCodesService costCodesService) : ViewComponent
 {
-    public IViewComponentResult Invoke(
+    public async Task<IViewComponentResult> InvokeAsync(
         IEnumerable<CostCategory> costs,
         Dictionary<string, CommercialResourceLink[]> resources,
         string? id,
@@ -17,6 +18,7 @@ public class SchoolSpendingCostsViewComponent : ViewComponent
         bool isPartOfTrust)
     {
         var categories = new SchoolSpendingCostsViewModelCostCategories(urn, costs);
-        return View(new SchoolSpendingCostsViewModel(id, urn, isPartOfTrust, isCustomData, hasIncompleteData, categories, resources));
+        var costCodes = await costCodesService.BuildCostCodes(isPartOfTrust);
+        return View(new SchoolSpendingCostsViewModel(id, urn, isPartOfTrust, isCustomData, hasIncompleteData, categories, resources, costCodes));
     }
 }

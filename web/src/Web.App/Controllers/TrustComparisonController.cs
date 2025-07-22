@@ -7,6 +7,7 @@ using Web.App.Domain;
 using Web.App.Infrastructure.Apis;
 using Web.App.Infrastructure.Apis.Establishment;
 using Web.App.Infrastructure.Extensions;
+using Web.App.Services;
 using Web.App.ViewModels;
 namespace Web.App.Controllers;
 
@@ -17,7 +18,8 @@ namespace Web.App.Controllers;
 [TrustRequestTelemetry(TrackedRequestFeature.BenchmarkCosts)]
 public class TrustComparisonController(
     IEstablishmentApi establishmentApi,
-    ILogger<TrustComparisonController> logger)
+    ILogger<TrustComparisonController> logger,
+    ICostCodesService costCodesService)
     : Controller
 {
     [HttpGet]
@@ -33,7 +35,8 @@ public class TrustComparisonController(
                 ViewData[ViewDataKeys.BreadcrumbNode] = BreadcrumbNodes.TrustComparison(companyNumber);
 
                 var trust = await establishmentApi.GetTrust(companyNumber).GetResultOrThrow<Trust>();
-                var viewModel = new TrustComparisonViewModel(trust);
+                var costCodes = await costCodesService.BuildCostCodes(true);
+                var viewModel = new TrustComparisonViewModel(trust, costCodes);
                 return View(viewModel);
             }
             catch (Exception e)

@@ -24,7 +24,8 @@ public class SchoolComparisonController(
     IComparatorSetApi comparatorSetApi,
     ILogger<SchoolComparisonController> logger,
     IUserDataService userDataService,
-    ISchoolComparatorSetService schoolComparatorSetService)
+    ISchoolComparatorSetService schoolComparatorSetService,
+    ICostCodesService costCodesService)
     : Controller
 {
     [HttpGet]
@@ -44,7 +45,8 @@ public class SchoolComparisonController(
                 var expenditure = await expenditureApi.School(urn).GetResultOrDefault<SchoolExpenditure>();
                 var defaultComparatorSet = await comparatorSetApi.GetDefaultSchoolAsync(urn).GetResultOrDefault<SchoolComparatorSet>();
                 var userData = await userDataService.GetSchoolDataAsync(User, urn);
-                var viewModel = new SchoolComparisonViewModel(school, userData.ComparatorSet, userData.CustomData, expenditure, defaultComparatorSet);
+                var costCodes = await costCodesService.BuildCostCodes(school.IsPartOfTrust);
+                var viewModel = new SchoolComparisonViewModel(school, costCodes, userData.ComparatorSet, userData.CustomData, expenditure, defaultComparatorSet);
 
                 return View(viewModel);
             }
@@ -82,8 +84,8 @@ public class SchoolComparisonController(
                 ViewData[ViewDataKeys.BreadcrumbNode] = BreadcrumbNodes.SchoolCustomisedDataComparison(urn);
 
                 var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
-
-                var viewModel = new SchoolComparisonViewModel(school, customDataId: userCustomData.Id);
+                var costCodes = await costCodesService.BuildCostCodes(school.IsPartOfTrust);
+                var viewModel = new SchoolComparisonViewModel(school, costCodes, customDataId: userCustomData.Id);
 
                 return View(viewModel);
             }

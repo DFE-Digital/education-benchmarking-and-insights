@@ -49,6 +49,7 @@ builder.Services
     .AddScoped<ISearchService, SearchService>()
     .AddScoped<ICommercialResourcesService, CommercialResourcesService>()
     .AddScoped<IBannerService, BannerService>()
+    .AddScoped<ICostCodesService, CostCodesService>()
     .AddValidation()
     .AddActionResults();
 

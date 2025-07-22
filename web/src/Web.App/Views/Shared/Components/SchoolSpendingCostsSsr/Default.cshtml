@@ -1,4 +1,5 @@
-﻿@using Newtonsoft.Json
+﻿@using Microsoft.Extensions.Primitives
+@using Newtonsoft.Json
 @using Web.App.Domain
 @using Web.App.Extensions
 @using Web.App.ViewModels
@@ -20,7 +21,7 @@
             : Url.Action("Index", "SchoolComparison", new { urn = Model.Urn });
 
         var costCodes = category?.SubCategories
-            .Select(c => Model.CostCodes.GetCostCode(c))
+            .SelectMany(c => Model.CostCodes.GetCostCodes(c).ToArray())
             .Where(x => !string.IsNullOrWhiteSpace(x))
             .ToList() ?? [];
 

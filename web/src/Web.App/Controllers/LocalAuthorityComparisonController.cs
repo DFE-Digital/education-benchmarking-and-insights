@@ -7,6 +7,7 @@ using Web.App.Domain;
 using Web.App.Infrastructure.Apis;
 using Web.App.Infrastructure.Apis.Establishment;
 using Web.App.Infrastructure.Extensions;
+using Web.App.Services;
 using Web.App.ViewModels;
 namespace Web.App.Controllers;
 
@@ -17,7 +18,8 @@ namespace Web.App.Controllers;
 [LocalAuthorityRequestTelemetry(TrackedRequestFeature.BenchmarkCosts)]
 public class LocalAuthorityComparisonController(
     IEstablishmentApi establishmentApi,
-    ILogger<LocalAuthorityComparisonController> logger)
+    ILogger<LocalAuthorityComparisonController> logger,
+    ICostCodesService costCodesService)
     : Controller
 {
     [HttpGet]
@@ -33,7 +35,8 @@ public class LocalAuthorityComparisonController(
                 ViewData[ViewDataKeys.BreadcrumbNode] = BreadcrumbNodes.LocalAuthorityComparison(code);
 
                 var localAuthority = await LocalAuthority(code);
-                var viewModel = new LocalAuthorityComparisonViewModel(localAuthority);
+                var costCodes = await costCodesService.BuildCostCodes(false);
+                var viewModel = new LocalAuthorityComparisonViewModel(localAuthority, costCodes);
                 return View(viewModel);
             }
             catch (Exception e)

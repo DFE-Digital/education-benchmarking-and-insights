@@ -26,7 +26,7 @@
             });
 
         var costCodes = category?.SubCategories
-            .Select(c => Model.CostCodes.GetCostCode(c))
+            .Select(c => Model.CostCodes.GetCostCodes(c))
             .Where(x => !string.IsNullOrWhiteSpace(x))
             .ToList() ?? [];
 

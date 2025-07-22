@@ -1,6 +1,5 @@
 using Web.App.Domain;
 using Web.App.Domain.Content;
-using Web.App.Services;
 
 namespace Web.App.ViewModels;
 
@@ -64,13 +63,12 @@ public class ChartStatsViewModel
 
 public class CostsViewModel
 {
-    public IEnumerable<CostCategory> Costs { get; init; } = Array.Empty<CostCategory>();
+    public IEnumerable<CostCategory> Costs { get; init; } = [];
     public string? Id { get; init; }
     public string? Urn { get; init; }
     public bool HasIncompleteData { get; init; }
     public bool IsCustomData { get; set; }
     public bool IsPartOfTrust { get; set; }
-    public CostCodes CostCodes => new(IsPartOfTrust);
 }
 
 public class RagRatingCommentaryViewModel(string prefix = "Spending is")

@@ -11,7 +11,8 @@ public class SchoolSpendingCostsViewModel(
     bool isCustomData,
     bool hasIncompleteData,
     List<SchoolSpendingCostsViewModelCostCategory<PriorityCostCategoryDatum>> categories,
-    Dictionary<string, CommercialResourceLink[]> resources)
+    Dictionary<string, CommercialResourceLink[]> resources,
+    CostCodes costCodes)
 {
     public List<SchoolSpendingCostsViewModelCostCategory<PriorityCostCategoryDatum>> Costs => categories;
     public string? Id => id;
@@ -19,7 +20,7 @@ public class SchoolSpendingCostsViewModel(
     public bool HasIncompleteData => hasIncompleteData;
     public bool IsCustomData => isCustomData;
     public bool IsPartOfTrust => isPartOfTrust;
-    public CostCodes CostCodes => new(IsPartOfTrust);
+    public CostCodes CostCodes => costCodes;
     public Dictionary<string, CommercialResourceLink[]> Resources => resources;
 }
 
