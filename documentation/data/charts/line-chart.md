@@ -1,4 +1,4 @@
-# Line Chart
+# Chart Principles: Line Chart
 
 Across the Financial Benchmarking and Insight Tool (FBIT) platform, line charts have become the standard method for displaying time-series financial data. Line charts plot quantitative values on a continuous axis, connecting data points in sequence. This document explores in depth how line charts:
 
