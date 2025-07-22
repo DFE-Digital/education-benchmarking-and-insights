@@ -35,7 +35,7 @@ public class TrustComparisonController(
                 ViewData[ViewDataKeys.BreadcrumbNode] = BreadcrumbNodes.TrustComparison(companyNumber);
 
                 var trust = await establishmentApi.GetTrust(companyNumber).GetResultOrThrow<Trust>();
-                var costCodes = await costCodesService.BuildCostCodes(true);
+                var costCodes = await costCodesService.GetCostCodes(true);
                 var viewModel = new TrustComparisonViewModel(trust, costCodes);
                 return View(viewModel);
             }

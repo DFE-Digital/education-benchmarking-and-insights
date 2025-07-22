@@ -35,7 +35,7 @@ public class LocalAuthorityComparisonController(
                 ViewData[ViewDataKeys.BreadcrumbNode] = BreadcrumbNodes.LocalAuthorityComparison(code);
 
                 var localAuthority = await LocalAuthority(code);
-                var costCodes = await costCodesService.BuildCostCodes(false);
+                var costCodes = await costCodesService.GetCostCodes(false);
                 var viewModel = new LocalAuthorityComparisonViewModel(localAuthority, costCodes);
                 return View(viewModel);
             }
