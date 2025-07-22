@@ -21,6 +21,7 @@ export default function ({
       valueField,
       valueFormat,
       width,
+      xAxisLabel,
       ...rest
     }) =>
       builder.buildChart({
@@ -34,6 +35,7 @@ export default function ({
         valueField: valueField as never,
         valueFormat: valueFormat || "~s",
         width: width || 928,
+        xAxisLabel: xAxisLabel as never,
         ...rest,
       }),
   );

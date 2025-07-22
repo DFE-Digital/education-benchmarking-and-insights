@@ -34,8 +34,8 @@ export default class VerticalBarChartBuilder {
     // Declare the x (horizontal position) scale.
     data.sort((a, b) =>
       sort === "asc"
-        ? (a[valueField] as number) - (b[valueField] as number)
-        : (b[valueField] as number) - (a[valueField] as number),
+        ? d3.ascending(a[valueField] as number, b[valueField] as number)
+        : d3.descending(a[valueField] as number, b[valueField] as number),
     );
     const x = d3
       .scaleBand()

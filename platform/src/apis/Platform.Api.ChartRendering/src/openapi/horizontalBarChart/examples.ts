@@ -10,6 +10,7 @@ const singleHorizontalBarChart = {
   barHeight: 22,
   id: "123",
   width: 960,
+  xAxisLabel: "£ per pupil",
   data: [
     {
       urn: "138637",
