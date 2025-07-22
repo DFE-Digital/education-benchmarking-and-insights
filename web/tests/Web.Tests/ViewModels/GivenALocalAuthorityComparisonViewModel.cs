@@ -8,6 +8,7 @@ public class GivenALocalAuthorityComparisonViewModel
 {
     private readonly Fixture _fixture = new();
     private readonly LocalAuthority _localAuthority;
+    private readonly CostCodes _costCodes;
 
     public GivenALocalAuthorityComparisonViewModel()
     {
@@ -29,12 +30,14 @@ public class GivenALocalAuthorityComparisonViewModel
             .Build<LocalAuthority>()
             .With(l => l.Schools, schools)
             .Create();
+
+        _costCodes = new CostCodes(false, false);
     }
 
     [Fact]
     public void WhenContainsSchools()
     {
-        var vm = new LocalAuthorityComparisonViewModel(_localAuthority);
+        var vm = new LocalAuthorityComparisonViewModel(_localAuthority, _costCodes);
 
         string[] expected = ["Secondary", "Primary", "Nursery"];
         Assert.Equal(expected, vm.Phases);

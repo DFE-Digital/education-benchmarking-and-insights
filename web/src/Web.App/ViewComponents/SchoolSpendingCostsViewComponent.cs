@@ -18,7 +18,7 @@ public class SchoolSpendingCostsViewComponent(ICostCodesService costCodesService
         bool isPartOfTrust)
     {
         var categories = new SchoolSpendingCostsViewModelCostCategories(urn, costs);
-        var costCodes = await costCodesService.BuildCostCodes(isPartOfTrust);
+        var costCodes = await costCodesService.GetCostCodes(isPartOfTrust);
         return View(new SchoolSpendingCostsViewModel(id, urn, isPartOfTrust, isCustomData, hasIncompleteData, categories, resources, costCodes));
     }
 }

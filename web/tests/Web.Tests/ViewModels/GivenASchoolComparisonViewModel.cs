@@ -8,10 +8,12 @@ public class GivenASchoolComparisonViewModel
 {
     private readonly Fixture _fixture = new();
     private readonly School _school;
+    private readonly CostCodes _costCodes;
 
     public GivenASchoolComparisonViewModel()
     {
         _school = _fixture.Create<School>();
+        _costCodes = new CostCodes(false, false);
     }
 
     public static TheoryData<SchoolExpenditure?, int?> ExpenditureInput =>
@@ -70,7 +72,7 @@ public class GivenASchoolComparisonViewModel
     public void WhenContainsSchool()
     {
 
-        var vm = new SchoolComparisonViewModel(_school);
+        var vm = new SchoolComparisonViewModel(_school, _costCodes);
 
         Assert.Equal(_school.URN, vm.Urn);
         Assert.Equal(_school.SchoolName, vm.Name);
@@ -82,7 +84,7 @@ public class GivenASchoolComparisonViewModel
     {
         var userDefinedSetId = _fixture.Create<string>();
 
-        var vm = new SchoolComparisonViewModel(_school, userDefinedSetId);
+        var vm = new SchoolComparisonViewModel(_school, _costCodes, userDefinedSetId);
 
         Assert.Equal(userDefinedSetId, vm.UserDefinedSetId);
     }
@@ -92,7 +94,7 @@ public class GivenASchoolComparisonViewModel
     {
         var customDataId = _fixture.Create<string>();
 
-        var vm = new SchoolComparisonViewModel(_school, null, customDataId);
+        var vm = new SchoolComparisonViewModel(_school, _costCodes, null, customDataId);
 
         Assert.Equal(customDataId, vm.CustomDataId);
     }
@@ -101,7 +103,7 @@ public class GivenASchoolComparisonViewModel
     [MemberData(nameof(ExpenditureInput))]
     public void WhenContainsExpenditure(SchoolExpenditure? expenditure, int? expected)
     {
-        var vm = new SchoolComparisonViewModel(_school, null, null, expenditure);
+        var vm = new SchoolComparisonViewModel(_school, _costCodes, null, null, expenditure);
 
         Assert.Equal(expected, vm.PeriodCoveredByReturn);
     }
@@ -110,7 +112,7 @@ public class GivenASchoolComparisonViewModel
     [MemberData(nameof(ComparatorSetInput))]
     public void WhenContainsDefaultComparatorSet(SchoolComparatorSet? defaultComparatorSet, bool expected)
     {
-        var vm = new SchoolComparisonViewModel(_school, null, null, null, defaultComparatorSet);
+        var vm = new SchoolComparisonViewModel(_school, _costCodes, null, null, null, defaultComparatorSet);
 
         Assert.Equal(expected, vm.HasDefaultComparatorSet);
     }

@@ -50,7 +50,7 @@ public class SchoolSpendingCostsSsrViewComponent(
             }
         }
 
-        var costCodes = await costCodesService.BuildCostCodes(isPartOfTrust);
+        var costCodes = await costCodesService.GetCostCodes(isPartOfTrust);
         return View(new SchoolSpendingCostsViewModel(id, urn, isPartOfTrust, isCustomData, hasIncompleteData, categories, resources, costCodes));
     }
 }
