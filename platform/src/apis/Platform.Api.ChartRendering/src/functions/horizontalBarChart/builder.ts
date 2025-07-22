@@ -71,7 +71,8 @@ export default class HorizontalBarChartBuilder {
     const x = d3
       .scaleLinear()
       .domain([0, d3.max(data, (d) => d[valueField] as number)!])
-      .range([marginLeft + tickWidth + 5, width - marginRight - 5]);
+      .range([marginLeft + tickWidth + 5, width - marginRight - 5])
+      .nice();
     const y = d3
       .scaleBand()
       .domain(data.map((d) => d[keyField] as string))
@@ -79,7 +80,8 @@ export default class HorizontalBarChartBuilder {
         marginTop,
         height - marginBottom - (xAxisLabel ? labelHeight : 0),
       ])
-      .padding(0.2);
+      .paddingInner(0.2)
+      .paddingOuter(0.1);
 
     // Create a value format.
     const format = x.tickFormat(20, valueFormat);
@@ -102,7 +104,7 @@ export default class HorizontalBarChartBuilder {
       .attr("y", (d) => y(d[keyField] as string)!)
       .attr("width", (d) => x(d[valueField] as number) - x(0))
       .attr("height", y.bandwidth())
-      .attr("data-bar-index", (_, i) => i)
+      .attr("data-key", (d) => d[keyField] as string)
       .attr("class", (d) =>
         classnames("chart-cell", "chart-cell__series-0", {
           "chart-cell__highlight": d[keyField] === highlightKey,
@@ -129,8 +131,7 @@ export default class HorizontalBarChartBuilder {
           "chart-label__highlight": d[keyField] === highlightKey,
           "chart-label__negative": (d[valueField] as number) < 0,
         }),
-      )
-      .attr("data-label-index", (_, i) => i);
+      );
 
     // Create the axes.
     svg
@@ -138,13 +139,10 @@ export default class HorizontalBarChartBuilder {
       .attr("class", "chart-axis chart-axis__x")
       .attr(
         "transform",
-        `translate(-3,${height - marginBottom - (xAxisLabel ? labelHeight : 0)})`,
+        `translate(-2,${height - marginBottom - (xAxisLabel ? labelHeight : 0)})`,
       )
       .call(
-        d3
-          .axisBottom(x)
-          .tickSizeOuter(0)
-          .ticks(width / 80, valueFormat),
+        d3.axisBottom(x).tickSizeOuter(1).tickFormat(d3.format(valueFormat)),
       )
       .call((g) => {
         g.attr("fill", null)
@@ -152,12 +150,15 @@ export default class HorizontalBarChartBuilder {
           .attr("font-size", null)
           .attr("text-anchor", null);
         g.selectAll(".tick").attr("class", "chart-tick").attr("opacity", null);
-        g.selectAll(".chart-tick > text").attr("fill", null);
-        g.selectAll(".chart-tick > line").attr("stroke", null);
+        g.selectAll(".chart-tick > text, .chart-tick > line")
+          .attr("fill", null)
+          .attr("stroke", null)
+          .attr("x1", 1)
+          .attr("x2", 1);
 
         if (xAxisLabel) {
           g.append("text")
-            .attr("x", (width - tickWidth) / 2 + tickWidth)
+            .attr("x", (width - tickWidth) / 2 + tickWidth - marginRight)
             .attr("y", marginBottom + labelHeight / 1.5)
             .text(xAxisLabel);
         }
@@ -187,6 +188,7 @@ export default class HorizontalBarChartBuilder {
             "establishment-tick__highlight": datum === highlightKey,
           }),
         )
+        .attr("data-key", datum as string)
         .append("xlink:a")
         .attr("href", sprintf(linkFormat, datum))
         .attr("class", "govuk-link govuk-link--no-visited-state")
@@ -206,17 +208,19 @@ export default class HorizontalBarChartBuilder {
       .append("g")
       .attr("class", "chart-axis chart-axis__y")
       .attr("transform", `translate(${marginLeft + tickWidth + 2},0)`)
-      .call(d3.axisLeft(y).tickSizeOuter(0).tickFormat(formatTick))
+      .call(d3.axisLeft(y).tickSizeOuter(1).tickFormat(formatTick))
       .call((g) => {
-        g.select(".domain").attr("transform", `translate(0,0)`);
+        g.select(".domain")
+          .attr("d", (_, i, nodes) =>
+            // fix anti-alias issue with y-axis line
+            d3.select(nodes[i]).attr("d").replace(/-1/g, "0"),
+          )
+          .attr("transform", `translate(0,0)`);
         g.attr("fill", null)
           .attr("font-family", null)
           .attr("font-size", null)
           .attr("text-anchor", null);
-        g.selectAll(".tick")
-          .attr("class", "chart-tick")
-          .attr("opacity", null)
-          .attr("data-tick-index", (_, i) => i);
+        g.selectAll(".tick").attr("class", "chart-tick").attr("opacity", null);
         g.selectAll(".chart-tick > text").attr("fill", null);
         g.selectAll(".chart-tick > line").attr("stroke", null);
 
