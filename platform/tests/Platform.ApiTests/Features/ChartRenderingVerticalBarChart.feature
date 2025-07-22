@@ -16,7 +16,7 @@
         When I submit the vertical bar chart request
         Then the chart response should contain a single chart with the expected properties:
           | Id | RectCount | HighlightIndex | Width | Height |
-          |    | 10        | 6              | 500   | 100    |
+          |    | 10        | 9              | 500   | 100    |
 
     Scenario: Sending a valid single vertical bar chart request with accept header image/svg+xml returns the correct HTML only
         Given a single vertical bar chart request with accept header 'image/svg+xml', highlighted item '123456', sort 'asc', width '500', height '100' and the following data:
@@ -34,7 +34,7 @@
         When I submit the vertical bar chart request
         Then the response should be SVG with the expected properties:
           | RectCount | HighlightIndex | Width | Height |
-          | 10        | 6              | 500   | 100    |
+          | 10        | 9              | 500   | 100    |
 
     Scenario: Sending a valid multiple vertical bar chart request returns the correct HTML
         Given multiple vertical bar chart requests with the following data:
@@ -44,7 +44,7 @@
         When I submit the vertical bar chart request
         Then the chart response should contain multiple charts with the expected properties:
           | Id | RectCount | HighlightIndex | Width | Height |
-          | 1  | 10        | 6              | 500   | 100    |
+          | 1  | 10        | 9              | 500   | 100    |
           | 2  | 4         | 0              | 400   | 200    |
 
     Scenario: Sending an invalid single vertical bar chart request without data returns bad request

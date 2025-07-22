@@ -11,16 +11,16 @@ using Xunit;
 namespace Platform.ApiTests.Steps;
 
 [Binding]
-[Scope(Feature = "Chart rendering vertical bar chart endpoint")]
-public class ChartRenderingVerticalBarChartSteps(ChartRenderingApiDriver api)
+[Scope(Feature = "Chart rendering horizontal bar chart endpoint")]
+public class ChartRenderingHorizontalBarChartSteps(ChartRenderingApiDriver api)
 {
-    private const string SingleKey = "vertical-bar-charts";
-    private const string MultipleKey = "vertical-bar-charts";
+    private const string SingleKey = "horizontal-bar-charts";
+    private const string MultipleKey = "horizontal-bar-charts";
 
-    [Given("a single vertical bar chart request with accept header '(.*)', highlighted item '(.*)', sort '(.*)', width '(.*)', height '(.*)' and the following data:")]
-    public void GivenASingleVerticalBarChartRequestWithAcceptHeaderHighlightedItemSortWidthHeightAndTheFollowingData(string accept, string highlight, string sort, int width, int height, DataTable table)
+    [Given("a single horizontal bar chart request with accept header '(.*)', highlighted item '(.*)', sort '(.*)', width '(.*)', bar height '(.*)' and the following data:")]
+    public void GivenASingleHorizontalBarChartRequestWithAcceptHeaderHighlightedItemSortWidthHeightAndTheFollowingData(string accept, string highlight, string sort, int width, int barHeight, DataTable table)
     {
-        var content = BuildRequest(highlight, sort, width, height, table.Rows.Select(row => new TestDatum
+        var content = BuildRequest(highlight, sort, width, barHeight, table.Rows.Select(row => new TestDatum
         {
             Key = row["Key"],
             Value = decimal.Parse(row["Value"] ?? string.Empty)
@@ -28,7 +28,7 @@ public class ChartRenderingVerticalBarChartSteps(ChartRenderingApiDriver api)
 
         var request = new HttpRequestMessage
         {
-            RequestUri = new Uri("/api/verticalBarChart", UriKind.Relative),
+            RequestUri = new Uri("/api/horizontalBarChart", UriKind.Relative),
             Method = HttpMethod.Post,
             Content = new StringContent(content.ToJson(), Encoding.UTF8, "application/json")
         };
@@ -37,10 +37,10 @@ public class ChartRenderingVerticalBarChartSteps(ChartRenderingApiDriver api)
         api.CreateRequest(SingleKey, request);
     }
 
-    [Given("multiple vertical bar chart requests with the following data:")]
-    public void GivenMultipleVerticalBarChartRequestsWithTheFollowingData(DataTable table)
+    [Given("multiple horizontal bar chart requests with the following data:")]
+    public void GivenMultipleHorizontalBarChartRequestsWithTheFollowingData(DataTable table)
     {
-        var content = new List<PostVerticalBarChartRequest<TestDatum>>();
+        var content = new List<PostHorizontalBarChartRequest<TestDatum>>();
 
         // ReSharper disable once LoopCanBeConvertedToQuery
         foreach (var row in table.Rows)
@@ -49,24 +49,24 @@ public class ChartRenderingVerticalBarChartSteps(ChartRenderingApiDriver api)
             var highlight = row["Highlight"];
             var sort = row["Sort"];
             var width = int.Parse(row["Width"]);
-            var height = int.Parse(row["Height"]);
+            var barHeight = int.Parse(row["BarHeight"]);
             var data = row["Data"].FromJson<TestDatum[]>();
 
-            content.Add(BuildRequest(highlight, sort, width, height, data, id));
+            content.Add(BuildRequest(highlight, sort, width, barHeight, data, id));
         }
 
         var request = new HttpRequestMessage
         {
-            RequestUri = new Uri("/api/verticalBarChart", UriKind.Relative),
+            RequestUri = new Uri("/api/horizontalBarChart", UriKind.Relative),
             Method = HttpMethod.Post,
-            Content = new StringContent(new PostVerticalBarChartsRequest<TestDatum>(content).ToJson(), Encoding.UTF8, "application/json")
+            Content = new StringContent(new PostHorizontalBarChartsRequest<TestDatum>(content).ToJson(), Encoding.UTF8, "application/json")
         };
 
         api.CreateRequest(SingleKey, request);
     }
 
-    [When("I submit the vertical bar chart request")]
-    public async Task WhenISubmitTheVerticalBarChartRequest()
+    [When("I submit the horizontal bar chart request")]
+    public async Task WhenISubmitTheHorizontalBarChartRequest()
     {
         await api.Send();
     }
@@ -131,13 +131,13 @@ public class ChartRenderingVerticalBarChartSteps(ChartRenderingApiDriver api)
         Assert.Equal(expected, results.Errors);
     }
 
-    private static PostVerticalBarChartRequest<TestDatum> BuildRequest(string highlight, string sort, int width, int height, IEnumerable<TestDatum> data, string? id = null) => new()
+    private static PostHorizontalBarChartRequest<TestDatum> BuildRequest(string highlight, string sort, int width, int barHeight, IEnumerable<TestDatum> data, string? id = null) => new()
     {
         KeyField = nameof(TestDatum.Key).ToLower(),
         ValueField = nameof(TestDatum.Value).ToLower(),
         HighlightKey = highlight,
         Sort = sort,
-        Height = height,
+        BarHeight = barHeight,
         Width = width,
         Data = data.ToArray(),
         Id = id
