@@ -1,6 +1,8 @@
-﻿namespace Web.App.Domain;
+﻿using Microsoft.Extensions.Primitives;
 
-public class CostCodes(bool isPartOfTrust)
+namespace Web.App.Domain;
+
+public class CostCodes(bool isPartOfTrust, bool cfrItSpendBreakdown)
 {
     // TeachingStaffCostCodes
     private string TeachingStaffCostCode { get; } = isPartOfTrust ? "BAE010" : "E01";
@@ -21,6 +23,29 @@ public class CostCodes(bool isPartOfTrust)
 
     // EducationalIctCostCodes
     private string LearningResourcesIctCostCode { get; } = isPartOfTrust ? "BAE210" : "E20";
+    private string ConnectivityCostCode { get; } = isPartOfTrust ? "" : "E20A";
+    private string OnsiteServersCostCode { get; } = isPartOfTrust ? "" : "E20B";
+    private string ItLearningResourcesCostCode { get; } = isPartOfTrust ? "" : "E20C";
+    private string LaptopsDesktopsAndTabletsCostCode { get; } = isPartOfTrust ? "" : "E20E";
+    private string OtherHardwareCostCode { get; } = isPartOfTrust ? "" : "E20F";
+    private string ItSupportCostCode { get; } = isPartOfTrust ? "" : "E20G";
+    private StringValues LearningResourcesIctCostCodes
+    {
+        get
+        {
+            return cfrItSpendBreakdown
+                ? new[]
+                {
+                    ConnectivityCostCode,
+                    OnsiteServersCostCode,
+                    ItLearningResourcesCostCode,
+                    LaptopsDesktopsAndTabletsCostCode,
+                    OtherHardwareCostCode,
+                    ItSupportCostCode
+                }
+                : LearningResourcesIctCostCode;
+        }
+    }
 
     // PremisesStaffServicesCostCodes
     private string CleaningCaretakingCostCode { get; } = isPartOfTrust ? "BAE130" : "E14";
@@ -34,6 +59,20 @@ public class CostCodes(bool isPartOfTrust)
 
     // AdministrativeSuppliesCostCodes
     private string AdministrativeSuppliesNonEducationalCostCode { get; } = isPartOfTrust ? "BAE280" : "E22";
+    private string AdministrationSoftwareAndSystemsCostCode { get; } = isPartOfTrust ? "" : "E20D";
+    private StringValues AdministrativeSuppliesNonEducationalCostCodes
+    {
+        get
+        {
+            return cfrItSpendBreakdown
+                ? new[]
+                {
+                    AdministrativeSuppliesNonEducationalCostCode,
+                    AdministrationSoftwareAndSystemsCostCode
+                }
+                : AdministrativeSuppliesNonEducationalCostCode;
+        }
+    }
 
     // CateringStaffServicesCostCodes
     private string CateringStaffCostCode { get; } = isPartOfTrust ? "BAE060" : "E06";
@@ -54,7 +93,7 @@ public class CostCodes(bool isPartOfTrust)
     private string CommunityFocusedSchoolCostCode { get; } = isPartOfTrust ? "" : "E32";
     private string CommunityFocusedSchoolStaffCostCode { get; } = isPartOfTrust ? "" : "E31";
 
-    public Dictionary<string, string> SubCategoryToCostCodeMap => new Dictionary<string, string>
+    public Dictionary<string, StringValues> SubCategoryToCostCodeMap => new Dictionary<string, StringValues>
         {
             { SubCostCategories.TeachingStaff.TeachingStaffCosts, TeachingStaffCostCode },
             { SubCostCategories.TeachingStaff.SupplyTeachingStaffCosts, SupplyTeachingStaffCostCode },
@@ -73,7 +112,7 @@ public class CostCodes(bool isPartOfTrust)
             },
             { SubCostCategories.EducationalSupplies.ExaminationFeesCosts, ExaminationFeesCostCode },
             { SubCostCategories.EducationalSupplies.LearningResourcesNonIctCosts, LearningResourcesNonIctCostsCode },
-            { SubCostCategories.EducationalIct.LearningResourcesIctCosts, LearningResourcesIctCostCode },
+            { SubCostCategories.EducationalIct.LearningResourcesIctCosts, LearningResourcesIctCostCodes },
             { SubCostCategories.PremisesStaffServices.CleaningCaretakingCosts, CleaningCaretakingCostCode },
             { SubCostCategories.PremisesStaffServices.MaintenancePremisesCosts, MaintenancePremisesCostCode },
             { SubCostCategories.PremisesStaffServices.OtherOccupationCosts, OtherOccupationCostCode },
@@ -82,7 +121,7 @@ public class CostCodes(bool isPartOfTrust)
             { SubCostCategories.Utilities.WaterSewerageCosts, WaterSewerageCostCode },
             {
                 SubCostCategories.AdministrativeSupplies.AdministrativeSuppliesNonEducationalCosts,
-                AdministrativeSuppliesNonEducationalCostCode
+                AdministrativeSuppliesNonEducationalCostCodes
             },
             { SubCostCategories.CateringStaffServices.CateringStaffCosts, CateringStaffCostCode },
             { SubCostCategories.CateringStaffServices.CateringSuppliesCosts, CateringSuppliesCostCode },
@@ -103,7 +142,8 @@ public class CostCodes(bool isPartOfTrust)
         .Where(kvp => !string.IsNullOrWhiteSpace(kvp.Value))
         .ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
 
-    public string? GetCostCode(string subCategory) =>
-        SubCategoryToCostCodeMap.GetValueOrDefault(subCategory);
-
+    public StringValues GetCostCodes(string subCategory)
+    {
+        return SubCategoryToCostCodeMap.GetValueOrDefault(subCategory);
+    }
 }

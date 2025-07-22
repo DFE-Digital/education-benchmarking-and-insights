@@ -1,8 +1,11 @@
-﻿using Web.App.Domain;
+﻿using Microsoft.Extensions.Primitives;
+using Web.App.Domain;
+
 namespace Web.App.ViewModels;
 
 public class SchoolComparisonViewModel(
     School school,
+    CostCodes costCodes,
     string? userDefinedSetId = null,
     string? customDataId = null,
     SchoolExpenditure? expenditure = null,
@@ -17,5 +20,5 @@ public class SchoolComparisonViewModel(
     public bool HasDefaultComparatorSet => defaultComparatorSet != null
                                            && (defaultComparatorSet.Building.Any(b => !string.IsNullOrWhiteSpace(b))
                                                || defaultComparatorSet.Pupil.Any(p => !string.IsNullOrWhiteSpace(p)));
-    public Dictionary<string, string> CostCodeMap => new CostCodes(IsPartOfTrust).SubCategoryToCostCodeMap;
+    public Dictionary<string, StringValues> CostCodeMap => costCodes.SubCategoryToCostCodeMap;
 }

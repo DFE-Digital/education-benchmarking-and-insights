@@ -1,5 +1,6 @@
 import { createContext } from "react";
 import { Dimension } from "src/components";
+import { CostCodeMap } from "src/views";
 
 export interface ChartModeContextValue {
   chartMode: string;
@@ -46,7 +47,7 @@ export const CostCodeMapContext = createContext<
 >(undefined);
 
 export interface CostCodeMapContextValue {
-  costCodeMap?: Record<string, string>;
+  costCodeMap?: CostCodeMap;
   getCostCodes: (category: string) => string[];
   tags?: string[];
 }

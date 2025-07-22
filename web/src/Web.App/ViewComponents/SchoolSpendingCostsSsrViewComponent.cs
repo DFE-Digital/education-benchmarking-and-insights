@@ -4,6 +4,7 @@ using Web.App.Domain.Content;
 using Web.App.Infrastructure.Apis;
 using Web.App.Infrastructure.Apis.ChartRendering;
 using Web.App.Infrastructure.Extensions;
+using Web.App.Services;
 using Web.App.ViewModels.Components;
 
 // ReSharper disable ClassNeverInstantiated.Global
@@ -12,7 +13,10 @@ using Web.App.ViewModels.Components;
 
 namespace Web.App.ViewComponents;
 
-public class SchoolSpendingCostsSsrViewComponent(IChartRenderingApi chartRenderingApi, ILogger<SchoolSpendingCostsViewComponent> logger) : ViewComponent
+public class SchoolSpendingCostsSsrViewComponent(
+    IChartRenderingApi chartRenderingApi,
+    ILogger<SchoolSpendingCostsViewComponent> logger,
+    ICostCodesService costCodesService) : ViewComponent
 {
     public async Task<IViewComponentResult> InvokeAsync(
         IEnumerable<CostCategory> costs,
@@ -46,7 +50,8 @@ public class SchoolSpendingCostsSsrViewComponent(IChartRenderingApi chartRenderi
             }
         }
 
-        return View(new SchoolSpendingCostsViewModel(id, urn, isPartOfTrust, isCustomData, hasIncompleteData, categories, resources));
+        var costCodes = await costCodesService.BuildCostCodes(isPartOfTrust);
+        return View(new SchoolSpendingCostsViewModel(id, urn, isPartOfTrust, isCustomData, hasIncompleteData, categories, resources, costCodes));
     }
 }
 

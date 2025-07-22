@@ -6,6 +6,7 @@ import {
   CompareYourCensus,
   CompareYourCosts,
   CompareYourTrust,
+  CostCodeMap,
   DeploymentPlan,
   FindOrganisation,
   HistoricData,
@@ -149,7 +150,7 @@ if (compareCostsElement) {
     const root = ReactDOM.createRoot(compareCostsElement);
     const phasesParsed = phases ? (JSON.parse(phases) as string[]) : null;
     const costCodeMapParsed = costCodeMap
-      ? (JSON.parse(costCodeMap) as Record<string, string>)
+      ? (JSON.parse(costCodeMap) as CostCodeMap)
       : undefined;
 
     root.render(

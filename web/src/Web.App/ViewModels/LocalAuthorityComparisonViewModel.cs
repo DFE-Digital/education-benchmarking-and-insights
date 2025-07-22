@@ -1,7 +1,9 @@
-﻿using Web.App.Domain;
+﻿using Microsoft.Extensions.Primitives;
+using Web.App.Domain;
+
 namespace Web.App.ViewModels;
 
-public class LocalAuthorityComparisonViewModel(LocalAuthority localAuthority)
+public class LocalAuthorityComparisonViewModel(LocalAuthority localAuthority, CostCodes costCodes)
 {
     public string? Code => localAuthority.Code;
     public string? Name => localAuthority.Name;
@@ -12,5 +14,5 @@ public class LocalAuthorityComparisonViewModel(LocalAuthority localAuthority)
         .Select(x => x.Key)
         .OfType<string>()
         .ToArray();
-    public Dictionary<string, string> CostCodeMap => new CostCodes(false).SubCategoryToCostCodeMap;
+    public Dictionary<string, StringValues> CostCodeMap => costCodes.SubCategoryToCostCodeMap;
 }
