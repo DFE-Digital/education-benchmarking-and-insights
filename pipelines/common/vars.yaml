@@ -15,7 +15,7 @@ variables:
   - name: ShouldDeploy
     value: $[and(eq(variables['Build.SourceBranch'], 'refs/heads/main'), ne(variables['Build.Reason'], 'PullRequest'))]
   - name: Version
-    value: 1.1
+    value: 1.2
   - name: Version.Revision
     ${{ if and(eq(variables['Build.SourceBranch'], 'refs/heads/main'), ne(variables['Build.Reason'], 'PullRequest')) }}:
       value: $[counter(variables['Version'], 0)]
