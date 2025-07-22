@@ -10,7 +10,7 @@ and data types for each file to ensure consistent data ingestion.
 Additionally, where columns are renamed or derived on ingest, additional
 _Mappings_ and _Derivations_ will be listed.
 
-### gias
+**gias:**
 
 | Column Name                | Data type |
 |----------------------------|-----------|
@@ -47,7 +47,7 @@ _Mappings_ and _Derivations_ will be listed.
 | Town                       | string    |
 | County (name)              | string    |
 
-### gias_links
+**gias_links:**
 
 | Column Name         | Data Type |
 |---------------------|-----------|
@@ -57,7 +57,7 @@ _Mappings_ and _Derivations_ will be listed.
 | LinkType            | string    |
 | LinkEstablishedDate | string    |
 
-### maintained_schools_master_list
+**maintained_schools_master_list:**
 
 | Column Name                                                     | Data Type |
 |-----------------------------------------------------------------|-----------|
@@ -122,7 +122,7 @@ _Mappings_ and _Derivations_ will be listed.
 | Community Grants                                                | float     |
 | Self Generated Funding                                          | float     |
 
-### cdc
+**cdc:**
 
 | Column Name | Data Type |
 |-------------|-----------|
@@ -130,7 +130,7 @@ _Mappings_ and _Derivations_ will be listed.
 | GIFA        | float     |
 | Block Age   | string    |
 
-### sen
+**sen:**
 
 | Column Name           | Data Type |
 |-----------------------|-----------|
@@ -163,7 +163,7 @@ _Mappings_ and _Derivations_ will be listed.
 | EHC_Primary_need_oth  | float     |
 | SUP_Primary_need_oth  | float     |
 
-### census_workforce
+**census_workforce:**
 
 | Column Name                                                  | Data type |
 |--------------------------------------------------------------|-----------|
@@ -190,7 +190,7 @@ _Mappings_ and _Derivations_ will be listed.
 | Total Number of Auxiliary Staff (FTE)                        | float     |
 | Total Number of Auxiliary Staff (Headcount)                  | float     |
 
-#### census_workforce Mappings
+**census_workforce Mappings:**
 
 | Column From                                            | Column To                                                               |
 |--------------------------------------------------------|-------------------------------------------------------------------------|
@@ -200,14 +200,14 @@ _Mappings_ and _Derivations_ will be listed.
 | Total Number of Teachers in the Leadership Group (FTE) | Total Number of Teachers in the Leadership Group (Full-time Equivalent) |
 | Total Number of Auxiliary Staff (FTE)                  | Total Number of Auxiliary Staff (Full-Time Equivalent)                  |
 
-#### census_workforce Derivations
+**census_workforce Derivations:**
 
 | Derived Column                                                                                                                                                                        | Calculation                                                                                                                                                                                                                                                                     |
 |---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | Total Number of Non-Classroom-based School Support Staff, (Other school support staff plus Administrative staff plus Technicians and excluding Auxiliary staff (Full-Time Equivalent) | `Total Number of Other School Support Staff (FTE)` + `Total Number of Technicians (FTE)` + `Total Number of Leadership Non-Teachers (FTE)` + `Total Number of School Business Professionals (FTE)` + `Total Number of Administrative Staff (FTE)`                               |
 | Total Number of Non Classroom-based School Support Staff, Excluding Auxiliary Staff (Headcount)                                                                                       | `Total Number of Other School Support Staff (Headcount)` + `Total Number of Technicians (Headcount)` + `Total Number of Leadership Non-Teachers (Headcount)` + `Total Number of School Business Professionals (Headcount)` + `Total Number of Administrative Staff (Headcount)` |
 
-### census_pupils
+**census_pupils:**
 
 | Column Name                                            | Data type |
 |--------------------------------------------------------|-----------|
@@ -223,7 +223,7 @@ _Mappings_ and _Derivations_ will be listed.
 | full-time female Year group 13                         | float     |
 | number_of_dual_subsidiary_registrations                | float     |
 
-#### census_pupils Mappings
+**census_pupils Mappings:**
 
 | Column From                             | Column To                     |
 |-----------------------------------------|-------------------------------|
@@ -234,13 +234,13 @@ _Mappings_ and _Derivations_ will be listed.
 | full-time female Year group 13          | Full time girls Year group 13 |
 | number_of_dual_subsidiary_registrations | Pupil Dual Registrations      |
 
-### cfr
+**cfr:**
 
 | Column Name | Data Type |
 |-------------|-----------|
 | URN         | Int64     |
 
-### ks2
+**ks2:**
 
 | Column Name | Data Type |
 |-------------|-----------|
@@ -249,7 +249,7 @@ _Mappings_ and _Derivations_ will be listed.
 | WRITPROG    | string    |
 | MATPROG     | string    |
 
-### ks4
+**ks4:**
 
 | Column Name | Data Type |
 |-------------|-----------|
@@ -258,7 +258,7 @@ _Mappings_ and _Derivations_ will be listed.
 | P8MEA       | float     |
 | P8_BANDING  | string    |
 
-### aar
+**aar:**
 
 | Column Name                         | Data type |
 |-------------------------------------|-----------|
@@ -326,7 +326,7 @@ _Mappings_ and _Derivations_ will be listed.
 | BAI101-T                            | float     |
 | BAI011-A                            | float     |
 
-#### aar Mappings
+**aar Mappings:**
 
 | Column From | Column To                                                               |
 |-------------|-------------------------------------------------------------------------|
@@ -384,7 +384,7 @@ _Mappings_ and _Derivations_ will be listed.
 | BAI101-T    | BNCH11205 (Other Income from facilities and services)                   |
 | BAI011-A    | BNCH11123-BAI011-A (Academies - Income)                                 |
 
-#### aar Derivations
+**aar Derivations:**
 
 | Derived Column                  | Calculation                                                                                   |
 |---------------------------------|-----------------------------------------------------------------------------------------------|
@@ -392,7 +392,7 @@ _Mappings_ and _Derivations_ will be listed.
 | BNCH11300T (Voluntary income)   | `BNCH11301 (Donations and/or voluntary funds - revenue)`                                      |
 | BNCH11400T (Investment income)  | `BNCH11401 (Investment income)`                                                               |
 
-### aar_cs
+**aar_cs:**
 
 | Column Name    | Data type |
 |----------------|-----------|
@@ -451,7 +451,7 @@ _Mappings_ and _Derivations_ will be listed.
 | BTI101         | float     |
 | BTI011-A       | float     |
 
-#### aar_cs Mappings
+**aar_cs Mappings:**
 
 | Column From | Column To                                                               |
 |-------------|-------------------------------------------------------------------------|
@@ -507,7 +507,7 @@ _Mappings_ and _Derivations_ will be listed.
 | BTI101      | BNCH11205 (Other Income from facilities and services)                   |
 | BTI011-A    | BNCH11123-BTI011-A (MAT Central services - Income)                      |
 
-#### aar_cs Derivations
+**aar_cs Derivations:**
 
 | Derived Column                        | Calculation                                                             |
 |---------------------------------------|-------------------------------------------------------------------------|
@@ -517,7 +517,7 @@ _Mappings_ and _Derivations_ will be listed.
 | BNCH11400T (Investment income)        | `BNCH11401 (Investment income)`                                         |
 | BNCH21401 (Cleaning and caretaking)   | `BNCH21401 (Cleaning and caretaking)`                                   |
 
-### BFR_SOFA
+**BFR_SOFA:**
 
 | Column Name | Data Type |
 |-------------|-----------|
@@ -529,7 +529,7 @@ _Mappings_ and _Derivations_ will be listed.
 | Y2P1        | float     |
 | Y2P2        | float     |
 
-### BFR_3Y
+**BFR_3Y:**
 
 | Column Name | Data Type |
 |-------------|-----------|
@@ -1035,7 +1035,7 @@ This section looks at each item listed in the SQL data model which is generated 
 
 It is also key to note that within the service, metrics such as "cost per pupil" are computed. However this has been ommited from this section to enable a more suscinct translation of the data schema. In cases where a "cost per pupil" or "cost per m2" unit is presented, this is simply the given metric divided by the `TotalPupils`, or the `GrossInternalFloorArea`, all of which can be found from the information below.
 
-### Financial
+**Financial:**
 
 | raw file name                  | raw column name                                            | pre-processing column name                                                                                                                                               | sql table column name                                                                   | notes on transformation                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
 |--------------------------------|------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -1154,7 +1154,7 @@ It is also key to note that within the service, metrics such as "cost per pupil"
 |     aar / aar_cs  | BNCH21703 (Auditor costs)  |    Non-educational support staff and services_Audit cost / Non-educational support staff and services_Audit cost_CS    | AuditorCosts / AuditorsCostsCS  |  Not provided for Maintained Schools   |
 |     aar / aar_cs  | BNCH20000T (Total Costs)  |        |   |  Only used in InYearBalance computation   |
 
-### Non-financial
+**Non-financial:**
 
 | raw file name                 | raw column name                                                                                                                                                                       | pre-processing column name                                              | sql table column name                   | notes on transformation                                                                                                                                      |
 |-------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------|-----------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -1225,7 +1225,7 @@ It is also key to note that within the service, metrics such as "cost per pupil"
 | N/A - computed                |                                                                                                                                                                                       | Percentage Primary Need ASD                                             | PercentWithASD                          | Computed as Primary Need ASD / Total Pupils                                                                                                                  |
 | sen                           | Primary Need ASD                                                                                                                                                                      |                                                                         | N/A - only used in computation          |                                                                                                                                                              |
 
-### School
+**School:**
 
 | raw file name                  | raw column name             | pre-processing column name  | sql table column name | notes on transformation                                                                                 |
 |--------------------------------|-----------------------------|-----------------------------|-----------------------|---------------------------------------------------------------------------------------------------------|
@@ -1257,7 +1257,7 @@ It is also key to note that within the service, metrics such as "cost per pupil"
 | gias                           | OfstedLastInsp              | OfstedLastInsp              | OfstedDate            |                                                                                                         |
 | gias                           | OfstedRating (name)         | OfstedRating (name)         | OfstedDescription     |                                                                                                         |
 
-### MetricRAG
+**MetricRAG:**
 
 | raw file name                 | raw column name | pre-processing column name | sql table column name | notes on transformation                                                                                                                                                 |
 |-------------------------------|-----------------|----------------------------|-----------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -1274,7 +1274,7 @@ It is also key to note that within the service, metrics such as "cost per pupil"
 | N/A - computed                |                 | Decile                     | Decile                | Given as the integer value of  Percentile / 10                                                                                                                          |
 | N/A - defined in pipeline run |                 | RAG                        | RAG                   | Determined by mapping the Decile to a predefined list of RAG statuses in `config.py`                                                                                    |
 
-### ComparatorSet
+**ComparatorSet:**
 
 | raw file name                 | raw column name | pre-processing column name | sql table column name | notes on transformation                                                                                                                                       |
 |-------------------------------|-----------------|----------------------------|-----------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -1284,7 +1284,7 @@ It is also key to note that within the service, metrics such as "cost per pupil"
 | N/A - computed                |                 | Pupil                      | Pupil                 | A comparator set list of URNs for the top 30 schools determined by the pupil characteristic euclidean distance caluclation outlined in `3_Data-Processing`    |
 | N/A - computed                |                 | Building                   | Building              | A comparator set list of URNs for the top 30 schools determined by the building characteristic euclidean distance caluclation outlined in `3_Data-Processing` |
 
-### Trust
+**Trust:**
 
 | raw file name         | raw column name             | pre-processing column name  | sql table column name          | notes on transformation                                         |
 |-----------------------|-----------------------------|-----------------------------|--------------------------------|-----------------------------------------------------------------|
@@ -1298,14 +1298,14 @@ It is also key to note that within the service, metrics such as "cost per pupil"
 | gias                  | OpenDate                    | OpenDate                    | OpenDate                       | Converted to Datetime in pipeline                               |
 | academy_master_list   | Academy Trust UPIN          | Academy Trust UPIN          | TrustUPIN                      |                                                                 |
 
-### LocalAuthority
+**LocalAuthority:**
 
 | raw file name | raw column name | pre-processing column name | sql table column name | notes on transformation |
 |---------------|-----------------|----------------------------|-----------------------|-------------------------|
 | gias          | LA (code)       | LA Code                    | Code                  |                         |
 | gias          | LA (name)       | LA Name                    | Name                  |                         |
 
-### BudgetForecastReturnMetric
+**BudgetForecastReturnMetric:**
 
 | raw file name                 | raw column name             | pre-processing column name | sql table column name | notes on transformation                                                                                                            |
 |-------------------------------|-----------------------------|----------------------------|-----------------------|------------------------------------------------------------------------------------------------------------------------------------|
@@ -1316,7 +1316,7 @@ It is also key to note that within the service, metrics such as "cost per pupil"
 | N/A - defined in pipeline run |                             | Metric                     | Metric                |                                                                                                                                    |
 | N/A - computed                |                             | Value                      | Value                 | The numerical value for a given metric, for a given Trust UPIN. Determined by unpivoting the year forecast columns in the raw data |
 
-### BudgetForecastReturn
+**BudgetForecastReturn:**
 
 | raw file name                 | raw column name             | pre-processing column name | sql table column name | notes on transformation                                                                                                                   |
 |-------------------------------|-----------------------------|----------------------------|-----------------------|-------------------------------------------------------------------------------------------------------------------------------------------|
@@ -1328,7 +1328,7 @@ It is also key to note that within the service, metrics such as "cost per pupil"
 | N/A - computed                |                             | Value                      | Value                 | The numerical value for the specific Category, for a given Trust UPIN. Determined by unpivoting the year forecast columns in the raw data |
 | N/A - computed                |                             | Value                      | TotalPupils           | Taken as a value from the "Pupil numbers" Catagory and aggregated based on the TrustUPIN                                                  |
 
-### TrustHistory
+**TrustHistory:**
 
 | raw file name   | raw column name | pre-processing column name | sql table column name | notes on transformation |
 |-----------------|-----------------|----------------------------|-----------------------|-------------------------|

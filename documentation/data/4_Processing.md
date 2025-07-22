@@ -70,7 +70,7 @@ The pre-processing module takes the raw data and transforms, joins and cleanses 
 
 The following diagrams are a logical representation of the types of data that are derived from the raw data. Note the word logical, this isn't representative of how the actual processing flows.
 
-### Raw/Base data processing
+**Raw/Base data processing:**
 
 ```mermaid
 flowchart TD
@@ -153,7 +153,7 @@ flowchart TD
     end
 ```
 
-### Trust / Academy data processing
+**Trust / Academy data processing:**
 
 ```mermaid
 flowchart TD
@@ -193,7 +193,7 @@ flowchart TD
     acad_data ----> ppstore
 ```
 
-### Maintained schools / Federations data processing
+**Maintained schools / Federations data processing:**
 
 ```mermaid
 flowchart TD
@@ -234,7 +234,7 @@ flowchart TD
 
 Computing comparator sets involves taking the data from the pre-processed academy, maintained schools, trust and federation data and applying two computation flows, one to compute the comparator set using the pupil metric distances and the other using the area metric distances. While similar there are differences, in the workflows which is why they are treated separate below.
 
-### Computing pupil metrics
+**Computing pupil metrics:**
 
 Computing pupil metrics consumes the following attributes from the input data sets. For the pupil calculation we use
 
@@ -307,11 +307,11 @@ flowchart TD
     phases --> prod
 ```
 
-#### Pupil Calculation (non-special)
+**Pupil Calculation (non-special):**
 
 $$ \sqrt{0.5\left(\dfrac{\Delta Pupils}{range(pupils)}\right)^2 + 0.4\left(\dfrac{\Delta FSM\%}{range(FSM\%)}\right)^2  + 0.1\left(\dfrac{\Delta SEN\%}{range(SEN\%)}\right)^2 } $$
 
-#### Special Calculation
+**Special Calculation:**
 
 $$\begin{aligned}
 pupils &= 0.6\left(\dfrac{\Delta Pupils}{range(pupils)}\right)^2 + 0.4\left(\dfrac{\Delta FSM\%}{range(FSM\%)}\right)^2
@@ -329,7 +329,7 @@ sen &= \left(\dfrac{\Delta SPLD\%}{range(SPLD\%)}\right)^2 + \left(\dfrac{\Delta
 result &= \sqrt{pupils} + \sqrt{ sen }
 \end{aligned}$$
 
-### Computing area metrics
+**Computing area metrics:**
 
 Computing area metrics consumes the following attributes from the input data sets. For the area calculation we use
 
@@ -383,7 +383,7 @@ flowchart TD
 
 $$ \sqrt{0.8\left(\dfrac{\Delta GIFA}{range(GIFA)}\right)^2 + 0.2\left(\dfrac{\Delta AgeAverage}{range(AgeAverage)}\right)^2 } $$
 
-### Future calculations
+**Future calculations:**
 
 There are currently further discussions taking place about Trust to Trust calculations and potentially begin able to create a single pupil calculation for both special and non-special schools, with the special term going to 0 for the latter. This opens up the potential to allow more general comparisions to happen.
 
@@ -432,7 +432,7 @@ A RAG record consists of the following attributes:
 | Decile          | The decile that the current spend for the cost category sits within in the current comparator set                                                                                                                                                                                            |
 | RAG             | The RAG rating given by the school based off the current comparator set.                                                                                                                                                                                                                     |
 
-### Mapping RAG status
+**Mapping RAG status:**
 
 The mapping of the decile to RAG statuses depends on whether the target school has a set of *close comparators* or not. A close comparator is a comparator school that fits with in the following criteria:
 

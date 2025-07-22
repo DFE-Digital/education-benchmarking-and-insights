@@ -2,7 +2,7 @@
 
 There are two main data types used in the Financial Benchmarking and Insights Tool (FBIT) service: Financial and Non-Financial data. This data is obtained from a range of sources within the Department for Education. This document outlines the list of raw data files used within the service, their update frequency, and information on how to retrieve them.
 
-## Financial Data
+**Financial Data:**
 
 FBIT performs three data releases each submission year. These are the Consistent Financial Reporting (CFR) for Local Authority Maintained Schools, Budget Forecast Returns (BFR)S for Academy Trusts, and Academy Account Returns (AAR) also for Academy Trusts.
 
@@ -25,7 +25,7 @@ The table below provides an overview of the 5 financial data files used within t
 | s251_alleducation_la_regional_national.csv | S251 Expenditure (outturn) values for the last 6 years | Sourced from gov.uk | Yearly (June or July) | Contained in the ZIP file obtained here: _[LA and school expenditure](https://explore-education-statistics.service.gov.uk/find-statistics/la-and-school-expenditure)_ |
 | HExP.csv | Maximum pay bands per trust for executives | Sourced from DfE | Yearly (August as part of the BFR release) frequency | |
 
-## Non-Financial Data
+**Non-Financial Data:**
 
 Non-financial data contains school metadata, encompassing items such as pupil and workforce census, and school building characteristics.
 
@@ -51,7 +51,7 @@ The table below provides an overview of the various non-financial data files use
 | 2018 SNPP Population persons.csv | Age-related population values for the years 2018-2043 | Sourced from ZIP file on [Population projections – local authorities: SNPP Z1](https://www.ons.gov.uk/peoplepopulationandcommunity/populationandmigration/populationprojections/datasets/localauthoritiesinenglandz1), _2018 based edition of this dataset_ | 5 years | |
 | sen2_estab_caseload.csv | Local Authority SEN2 ECHP plan values | ZIP file on [Education, health and care plans](https://explore-education-statistics.service.gov.uk/find-statistics/education-health-and-care-plans) | Yearly | |
 
-## Data Source - Contact Information
+**Data Source - Contact Information:**
 
 For help with any of the data sources used in this service, please reach out to the respective contact point, who can be found in the following [sharepoint file](https://educationgovuk.sharepoint.com/:x:/r/sites/DfEFinancialBenchmarking/Shared%20Documents/General/Technical%20Team/Data%20Pipelines/FBIT%20data%20source%20contacts.xlsx?d=w01b573949f8a487dba9cf8e450b8cbf5&csf=1&web=1&e=kt1SMJ).
 

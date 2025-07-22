@@ -2,7 +2,7 @@
 
 The process of releasing data on the service is the responsibility of the developers / maintainers of the service at that given time. This document aims to guide those team members in how to release the financial return data on the service.
 
-## Sourcing the data
+**Sourcing the data:**
 
 There are three financial data releases produced each year on the service. Non-financial and auxiliary data releases are not covered in this section, but should be updated as described in `1_Data-Sources.md`. The three financial datasets, and their respective dates at which they become available to the FBIT team are are:
 
@@ -16,7 +16,7 @@ Note that during the time in which the FBIT tool is in service, it is possible t
 
 Once the data has been sourced, it should be stored in the following [sharepoint location](https://educationgovuk.sharepoint.com/:f:/r/sites/DfEFinancialBenchmarking/Shared%20Documents/General/Beta/Data%20Releases?csf=1&web=1&e=55sGTz).
 
-## Cleaning the Data
+**Cleaning the Data:**
 
 Once the respective datasets have been retrieved, they will need to be cleaned. Some checkpoints for cleaning the data should be to:
 
@@ -24,7 +24,7 @@ Once the respective datasets have been retrieved, they will need to be cleaned. 
 * If the business requirements of FBIT changes, it must be ensured that new columns are available in the new datasets, for example currently the total number of sixth form students is computed as the number of boys and girls in year groups 12 and 13, however this may be expanded to capture a broaded range of genders in the future which will need to be accounted for.
 * Similarly, previously used columns in the service which are being discontinued for a period of time, such as the KS2 and KS4 data between 2020 - 2022, should be sufficiently accounted for.
 
-## Loading the data for processing
+**Loading the data for processing:**
 
 Once the data has been sourced and cleaned, it should be loaded into its respective blob store. As a possible route to achieve this, we would recommend connecting to the respective storage containers using the Microsoft Azure Storage Explorer tool.
 

@@ -27,7 +27,7 @@ gantt
             TODO         :a1, 01-04-2023, 1d    
 ```
 
-## Dataset period
+**Dataset period:**
 
 | Dataset              | Period                      |
 |:---------------------|:----------------------------|

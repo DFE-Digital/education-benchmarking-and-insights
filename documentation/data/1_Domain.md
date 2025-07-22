@@ -33,7 +33,7 @@ projection can be compiled for an organisation. This enables:
 
 ## Financial Data Periods and Ancillary Data
 
-### 1. Budget Forecast Return (BFR)
+**1. Budget Forecast Return (BFR):**
 
 - **Entity**: Academy Trusts
 - **Purpose**: Forward-looking projections of income, expenditure, risk, and solvency.
@@ -43,7 +43,7 @@ projection can be compiled for an organisation. This enables:
 - **Ancillary Data**:
   - *None* (BFR is standalone forecast data)
 
-### 2. Academies Accounts Return (AAR)
+**2. Academies Accounts Return (AAR):**
 
 - **Entity**: Academy Trusts
 - **Purpose**: Audited financial accounts submission.
@@ -59,7 +59,7 @@ projection can be compiled for an organisation. This enables:
   - KS2 & KS4 Progress Metrics
   - Special Educational Needs (SEN)
 
-### 3. **Consistent Financial Reporting (CFR)**
+**3. Consistent Financial Reporting (CFR):**
 
 - **Entity**: Maintained Schools
 - **Purpose**: Standardised school-level income and expenditure data.
@@ -73,7 +73,7 @@ projection can be compiled for an organisation. This enables:
   - KS2 & KS4 Progress Metrics
   - Special Education Needs (SEN) Data
 
-### 4. **Section 251 (S251)**
+**4.Section 251 (S251):**
 
 - **Entity**: Local Authorities
 - **Purpose**: Reporting on planned and actual education expenditure.
