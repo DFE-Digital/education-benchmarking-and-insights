@@ -21,10 +21,10 @@
       commit-message:
         prefix: "[npm] "
       open-pull-requests-limit: 10
-      # React v18 to v19 major version upgrade affects other packages as at 
+      # React v18 to v19 major version upgrade affects other packages as at
       # Feb 2025 due to broken peer dependencies. Ignore for the time being.
       # Feb 2025 html-to-image versions after 1.11.11 cause issues for
-      # the styling of front-end-components charts in images. 
+      # the styling of front-end-components charts in images.
       # Ignore until resolved.
       ignore:
         - dependency-name: "react"
@@ -101,6 +101,13 @@
         prefix: "[nuget] "
 
     - package-ecosystem: "nuget"
+      directory: "/platform/src/apis/Platform.Api.Content"
+      schedule:
+        interval: "monthly"
+      commit-message:
+        prefix: "[nuget] "
+
+    - package-ecosystem: "nuget"
       directory: "/platform/src/search/Platform.Search"
       schedule:
         interval: "monthly"
@@ -138,7 +145,7 @@
         interval: "monthly"
       commit-message:
         prefix: "[nuget] "
-          
+
     - package-ecosystem: "npm"
       directory: "/prototype/src"
       schedule:
@@ -176,6 +183,15 @@
       commit-message:
         prefix: "[nuget] "
 
+    - package-ecosystem: "npm"
+      directory: "/web/src/Web.Shutter"
+      registries:
+        - npm-azure-artifacts
+      schedule:
+        interval: "monthly"
+      commit-message:
+        prefix: "[npm] "
+
     - package-ecosystem: "nuget"
       directory: "/web/tests/Web.A11yTests"
       schedule:
@@ -197,7 +213,7 @@
       ignore:
         - dependency-name: "FluentAssertions"
           versions: ["8.*"]
-          
+
     - package-ecosystem: "nuget"
       directory: "/web/tests/Web.Integration.Tests"
       schedule:
