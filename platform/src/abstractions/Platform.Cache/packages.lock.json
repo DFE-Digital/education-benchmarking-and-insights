@@ -281,7 +281,7 @@
       },
       "StackExchange.Redis": {
         "type": "CentralTransitive",
-        "requested": "[2.8.37, )",
+        "requested": "[2.8.58, )",
         "resolved": "2.8.24",
         "contentHash": "GWllmsFAtLyhm4C47cOCipGxyEi1NQWTFUHXnJ8hiHOsK/bH3T5eLkWPVW+LRL6jDiB3g3izW3YEHgLuPoJSyA==",
         "dependencies": {
