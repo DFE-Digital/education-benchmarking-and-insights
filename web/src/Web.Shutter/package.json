@@ -29,7 +29,7 @@
     "express": "^5.1.0",
     "govuk-frontend": "^5.11.0",
     "isomorphic-dompurify": "^2.26.0",
-    "marked": "^16.0.0",
+    "marked": "^16.1.1",
     "morgan": "^1.10.0",
     "nunjucks": "^3.2.4",
     "winston": "^3.17.0"
