@@ -2,7 +2,7 @@
 
 ## Overview
 
-This document outlines the strategy for testing the ingestion of data for BFR (Budget Forecast Return), CFR (Consistent Financial Reporting), AAR (Academy Accounts Return), S251 data, High Executive Pay data, and any other non-ancillary file that needs to be updated.
+This document outlines the strategy for testing the ingestion of data for BFR (Budget Forecast Return), CFR (Consistent Financial Reporting), AAR (Academy Accounts Return), S251 data, High Executive Pay data, and any other non-ancillary file that needs to be updated on ad-hoc basis.
 
 The ingestion process involves generating input files, processing them through a data pipeline, storing the results in a database, and exposing the data through the service.
 
