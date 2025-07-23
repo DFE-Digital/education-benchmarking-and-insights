@@ -21,7 +21,7 @@
     "@types/file-saver": "^2.0.7",
     "@types/jsdom": "^21.1.7",
     "@types/lodash.debounce": "^4.0.9",
-    "@types/node": "^22.14.0",
+    "@types/node": "^24.1.0",
     "@typescript-eslint/parser": "^8.32.1",
     "@vitejs/plugin-vue": "^5.2.3",
     "@vitejs/plugin-vue-jsx": "^5.0.1",
