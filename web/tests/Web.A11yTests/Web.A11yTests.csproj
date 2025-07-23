@@ -8,20 +8,20 @@
         <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
     </PropertyGroup>
     <ItemGroup>
-        <PackageReference Include="xunit.runner.visualstudio"/>
-        <PackageReference Include="Deque.AxeCore.Playwright"/>
-        <PackageReference Include="Microsoft.Extensions.Configuration"/>
-        <PackageReference Include="Microsoft.Extensions.Configuration.Binder"/>
-        <PackageReference Include="Microsoft.Extensions.Configuration.Json"/>
-        <PackageReference Include="Microsoft.NET.Test.Sdk"/>
-        <PackageReference Include="Microsoft.Playwright"/>
-        <PackageReference Include="Newtonsoft.Json"/>
-        <PackageReference Include="xunit"/>
-        <PackageReference Include="xunit.abstractions"/>
-        <PackageReference Include="xunit.assert"/>
-        <AssemblyAttribute Include="System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute"/>
-        <None Update="appsettings.local.json" CopyToOutputDirectory="Always"/>
-        <Content Include="xunit.runner.json" CopyToOutputDirectory="PreserveNewest"/>
+        <PackageReference Include="xunit.runner.visualstudio" />
+        <PackageReference Include="Deque.AxeCore.Playwright" />
+        <PackageReference Include="Microsoft.Extensions.Configuration" />
+        <PackageReference Include="Microsoft.Extensions.Configuration.Binder" />
+        <PackageReference Include="Microsoft.Extensions.Configuration.Json" />
+        <PackageReference Include="Microsoft.NET.Test.Sdk" />
+        <PackageReference Include="Microsoft.Playwright" />
+        <PackageReference Include="Newtonsoft.Json" />
+        <PackageReference Include="xunit" />
+        <PackageReference Include="xunit.abstractions" />
+        <PackageReference Include="xunit.assert" />
+        <AssemblyAttribute Include="System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute" />
+        <None Update="appsettings.local.json" CopyToOutputDirectory="Always" />
+        <Content Include="xunit.runner.json" CopyToOutputDirectory="PreserveNewest" />
         <None Update="appsettings.json">
           <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
