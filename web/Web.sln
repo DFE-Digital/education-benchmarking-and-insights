@@ -55,6 +55,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Web.Shutter", "Web.Shutter", "{7897402F-A2C4-444A-B70B-255C301702AE}"
 	ProjectSection(SolutionItems) = preProject
 		src\Web.Shutter\README.md = src\Web.Shutter\README.md
+		src\Web.Shutter\package.json = src\Web.Shutter\package.json
 	EndProjectSection
 EndProject
 Global
