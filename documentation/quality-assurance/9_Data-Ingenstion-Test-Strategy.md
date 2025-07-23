@@ -13,7 +13,7 @@ CFR and AAR also require ancillary file updates.
 ## Scope
 
 - **Included:**
-  - Data types: BFR, CFR, AAR
+  - Data types: BFR, CFR, AAR, High Exec, S251
   - Ancillary files for CFR and AAR (e.g., GIAS, census)
   - Pipeline processing and transformation logic
   - Database storage validation
