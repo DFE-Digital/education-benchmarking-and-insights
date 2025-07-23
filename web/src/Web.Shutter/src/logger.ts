@@ -1,5 +1,4 @@
 import express from "express";
-import morgan from "morgan";
 import winston from "winston";
 
 let logger: winston.Logger | undefined;
@@ -35,12 +34,6 @@ const configure = (
     .catch(e => {
       log("warn", "Unable to configure winston", e);
     });
-
-  if (nodeEnv !== "production") {
-    // http request logging in dev
-    app.use(morgan("dev"));
-    log("debug", "morgan configured successfully");
-  }
 };
 
 const log = (
