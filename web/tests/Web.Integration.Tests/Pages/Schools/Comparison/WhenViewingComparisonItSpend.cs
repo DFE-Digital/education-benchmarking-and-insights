@@ -19,6 +19,19 @@ public class WhenViewingComparisonItSpend(SchoolBenchmarkingWebAppClient client)
     }
 
     [Fact]
+    public async Task CanNavigateToSchoolComparators()
+    {
+        var (page, school) = await SetupNavigateInitPage(EstablishmentTypes.Maintained);
+
+        var anchor = page.QuerySelector("a[data-test-id='comparators-link']");
+        Assert.NotNull(anchor);
+
+        var newPage = await Client.Follow(anchor);
+
+        DocumentAssert.AssertPageUrl(newPage, Paths.SchoolComparators(school.URN).ToAbsolute());
+    }
+
+    [Fact]
     public async Task CanDisplayNotFound()
     {
         const string urn = "123456";
@@ -48,7 +61,20 @@ public class WhenViewingComparisonItSpend(SchoolBenchmarkingWebAppClient client)
             .With(x => x.FinanceType, financeType)
             .Create();
 
-        var page = await Client.SetupEstablishment(school)
+        const int comparators = 3;
+        var comparatorSet = Fixture.Build<SchoolComparatorSet>()
+            .With(c => c.Pupil, Fixture.CreateMany<string>(comparators).ToArray())
+            .With(c => c.Building, Fixture.CreateMany<string>(comparators).ToArray())
+            .Create();
+        var characteristics = Fixture.Build<SchoolCharacteristic>()
+            .CreateMany(comparators)
+            .ToArray();
+        characteristics.First().URN = school.URN;
+
+        var page = await Client
+            .SetupEstablishment(school)
+            .SetupSchoolInsight(characteristics)
+            .SetupComparatorSet(school, comparatorSet)
             .Navigate(Paths.SchoolComparisonItSpend(school.URN));
 
         return (page, school);
