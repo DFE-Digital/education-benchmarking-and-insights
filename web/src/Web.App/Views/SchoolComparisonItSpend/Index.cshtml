@@ -2,3 +2,11 @@
 @{
     ViewData[ViewDataKeys.Title] = PageTitles.ComparisonItSpend;
 }
+
+@await Component.InvokeAsync("EstablishmentHeading", new
+{
+    title = ViewData[ViewDataKeys.Title],
+    name = Model.Name,
+    id = Model.Urn,
+    kind = OrganisationTypes.School
+})

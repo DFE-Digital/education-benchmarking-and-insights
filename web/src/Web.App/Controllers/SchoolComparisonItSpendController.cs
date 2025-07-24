@@ -3,7 +3,10 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.FeatureManagement.Mvc;
 using Web.App.Attributes;
 using Web.App.Attributes.RequestTelemetry;
+using Web.App.Domain;
 using Web.App.Infrastructure.Apis;
+using Web.App.Infrastructure.Apis.Establishment;
+using Web.App.Infrastructure.Extensions;
 using Web.App.ViewModels;
 
 namespace Web.App.Controllers;
@@ -12,7 +15,9 @@ namespace Web.App.Controllers;
 [Route("school/{urn}/comparison/it")]
 [ValidateUrn]
 [FeatureGate(FeatureFlags.CfrItSpendBreakdown)]
-public class SchoolComparisonItSpendController(ILogger<SchoolComparisonController> logger) : Controller
+public class SchoolComparisonItSpendController(
+    IEstablishmentApi establishmentApi,
+    ILogger<SchoolComparisonController> logger) : Controller
 {
     [HttpGet]
     [SchoolRequestTelemetry(TrackedRequestFeature.BenchmarkItSpend)]
@@ -26,8 +31,9 @@ public class SchoolComparisonItSpendController(ILogger<SchoolComparisonControlle
             try
             {
                 ViewData[ViewDataKeys.BreadcrumbNode] = BreadcrumbNodes.SchoolComparisonItSpend(urn);
-                var viewModel = new SchoolComparisonItSpendViewModel();
-                return await Task.FromResult(View(viewModel));
+                var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
+                var viewModel = new SchoolComparisonItSpendViewModel(school);
+                return View(viewModel);
             }
             catch (Exception e)
             {
