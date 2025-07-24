@@ -360,6 +360,10 @@ Add configuration in `appsetings.local.json` for `Platform.ApiTests`
    "ChartRendering": {
       "Host": "http://localhost:7076",
       "Key": "xxx"
+   },
+   "Content": {
+      "Host": "http://localhost:7077",
+      "Key": "xxx"
    }
 }
 ```
