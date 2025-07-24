@@ -14,6 +14,8 @@ The exact dates of the releases may vary due to the financial returns being proc
 
 Note that during the time in which the FBIT tool is in service, it is possible that the source of the raw data may change over time. For example, data from `GIAS` was previously sourced through a service called `edubase`. A change to the data source may result in our pipeline failing to retrieve the necessary data in order to carry out a data release. To mitigate this, it is important to check your source data with the relevant database or product owner, and update the existing documentation to reflect any changes made to the data sources.
 
+For additional guidance on requesting access to source data, refer to [FBIT source data access](https://educationgovuk.sharepoint.com/:f:/r/sites/DfEFinancialBenchmarking/Shared%20Documents/Runbooks/FBIT%20source%20data%20access?csf=1&web=1&e=dazaGh) on SharePoint, where applicable.
+
 Once the data has been sourced, it should be stored in the following [sharepoint location](https://educationgovuk.sharepoint.com/:f:/r/sites/DfEFinancialBenchmarking/Shared%20Documents/General/Beta/Data%20Releases?csf=1&web=1&e=55sGTz).
 
 **Cleaning the Data:**
