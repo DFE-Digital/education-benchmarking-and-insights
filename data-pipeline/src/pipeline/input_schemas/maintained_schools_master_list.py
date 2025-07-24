@@ -128,15 +128,15 @@ maintained_schools_master_list_cols = {
         "Direct Grant": "float",
         "Targeted Grants": "float",
         "Community Grants": "float",
-        "Self Generated Funding": "float",  
-    }
+        "Self Generated Funding": "float",
+    },
 }
 maintained_schools_master_list_column_eval = {
     "default": {
         "Educational ICT_ICT learning resources": "`E20  ICT learning resources`.fillna(0.0)",
         "Administrative supplies_Administrative supplies (non educational)": (
             "`E22 Administrative supplies`.fillna(0.0)"
-        )
+        ),
     },
     "2025": {
         "Educational ICT_ICT learning resources": (
@@ -150,6 +150,6 @@ maintained_schools_master_list_column_eval = {
         "Administrative supplies_Administrative supplies (non educational)": (
             "`E20D Administration software and systems`.fillna(0.0) + "
             "`E22 Administrative supplies`.fillna(0.0)"
-        )
-    }
+        ),
+    },
 }
