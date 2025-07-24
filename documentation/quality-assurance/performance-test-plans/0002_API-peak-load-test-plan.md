@@ -1,4 +1,4 @@
-﻿# Performance Test Plan - 0002 - API Peak Load
+﻿# Performance Test Plan: API Peak Load (0002)
 
 **Test run date:**
 

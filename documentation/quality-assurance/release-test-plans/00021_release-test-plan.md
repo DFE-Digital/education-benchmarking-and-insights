@@ -1,4 +1,4 @@
-# Release Test Plan - 2025.07.0
+# Release Test Plan: 2025.07.0
 
 **Release Date:** 02/07/2025
 **Release Label:** 2025.07.0
