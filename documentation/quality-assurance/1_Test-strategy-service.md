@@ -7,6 +7,7 @@ This Test Strategy outlines the overall testing direction for the FBIT service, 
 ## Scope
 
 **In-Scope:**
+
 - FBIT Application UI and API testing.
 - Data Pipeline processing logic, validation, and transformations.
 - Integration between UI, API, and data pipeline layers.
@@ -16,6 +17,7 @@ This Test Strategy outlines the overall testing direction for the FBIT service, 
 - Error handling, logging, and failover behaviour.
 
 **Out-of-Scope:**
+
 - Full performance/load testing (planned post-live).
 - Legacy systems VMFI/SFB (only their integration aspects are considered).
 - External systems outside the FBIT ecosystem.
@@ -100,11 +102,13 @@ Test data will be managed and generated in collaboration with the Data Engineeri
 ## Entry and Exit Criteria
 
 **Entry Criteria:**
+
 - User Story is Dev-complete.
 - All unit and integration tests are passing.
 - Feature branch is merged and deployed to testing env.
 
 **Exit Criteria:**
+
 - All acceptance criteria met and verified.
 - Automated tests implemented (unit, integration, E2E).
 - Accessibility tests pass WCAG 2.2 AA checks.
