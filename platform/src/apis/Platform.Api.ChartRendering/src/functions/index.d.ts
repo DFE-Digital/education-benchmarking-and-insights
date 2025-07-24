@@ -56,9 +56,24 @@ export type VerticalBarChartBuilderOptions<T> = ChartBuilderOptions<T> & {
 export type HorizontalBarChartBuilderOptions<T> = ChartBuilderOptions<T> & {
   barHeight: number;
   labelField: keyof T;
-  labelFormat: string; // %1 = key, %2 = label
-  linkFormat: string; // %1 = key
-  valueFormat: string; // see https://d3js.org/d3-format#locale_format
+  /**
+   * `sprintf` format to use for labels on y-axis of the chart, where `%1` is the key and `%2` is the label
+   * @example %2$s
+   * @ref https://www.npmjs.com/package/sprintf-js#format-specification
+   */
+  labelFormat: string;
+  /**
+   * `sprintf` format to use for rendering y-axis labels as links on the chart, where `%1` is the key
+   * @example /school/%1$s
+   * @ref https://www.npmjs.com/package/sprintf-js#format-specification
+   */
+  linkFormat: string;
+  /**
+   * `d3-format` format to use for rendering values on the chart
+   * @example $,~s
+   * @ref https://d3js.org/d3-format#locale_format
+   */
+  valueFormat: string;
   xAxisLabel: string;
 };
 

@@ -4,6 +4,2425 @@
     "title": "OpenAPI specification",
     "version": "1.0.0"
   },
+  "components": {
+    "schemas": {
+      "HorizontalBarChartPayload": {
+        "title": "HorizontalBarChartPayload",
+        "anyOf": [
+          {
+            "$ref": "#/components/schemas/HorizontalBarChartDefinition",
+            "examples": [
+              {
+                "keyField": "urn",
+                "valueField": "totalExpenditure",
+                "valueFormat": "$,~s",
+                "labelField": "schoolName",
+                "labelFormat": "%2$s (%1$s)",
+                "linkFormat": "/school/%1$s",
+                "highlightKey": "138637",
+                "sort": "desc",
+                "barHeight": 22,
+                "id": "123",
+                "width": 960,
+                "xAxisLabel": "£ per pupil",
+                "data": [
+                  {
+                    "urn": "138637",
+                    "schoolName": "Louth Kidgate Primary Academy",
+                    "schoolType": "Academy converter",
+                    "laName": "Lincolnshire",
+                    "periodCoveredByReturn": 12,
+                    "totalPupils": 421,
+                    "totalInternalFloorArea": 2897,
+                    "totalExpenditure": 6377.282660332
+                  },
+                  {
+                    "urn": "138694",
+                    "schoolName": "Barr View Primary & Nursery Academy",
+                    "schoolType": "Academy converter",
+                    "laName": "Birmingham",
+                    "periodCoveredByReturn": 12,
+                    "totalPupils": 436,
+                    "totalInternalFloorArea": 3514,
+                    "totalExpenditure": 6490.944954128
+                  },
+                  {
+                    "urn": "138741",
+                    "schoolName": "The Milford Academy",
+                    "schoolType": "Academy converter",
+                    "laName": "Nottingham",
+                    "periodCoveredByReturn": 12,
+                    "totalPupils": 438,
+                    "totalInternalFloorArea": 2774,
+                    "totalExpenditure": 7009.242009132
+                  },
+                  {
+                    "urn": "138994",
+                    "schoolName": "Heybridge Primary School",
+                    "schoolType": "Academy sponsor led",
+                    "laName": "Essex",
+                    "periodCoveredByReturn": 12,
+                    "totalPupils": 438,
+                    "totalInternalFloorArea": 2641,
+                    "totalExpenditure": 5979.08675799
+                  },
+                  {
+                    "urn": "139001",
+                    "schoolName": "Perry Wood Primary and Nursery School",
+                    "schoolType": "Academy sponsor led",
+                    "laName": "Worcestershire",
+                    "periodCoveredByReturn": 12,
+                    "totalPupils": 405.5,
+                    "totalInternalFloorArea": 3878,
+                    "totalExpenditure": 6646.514180024
+                  },
+                  {
+                    "urn": "139166",
+                    "schoolName": "Shaw Primary Academy",
+                    "schoolType": "Academy converter",
+                    "laName": "Thurrock",
+                    "periodCoveredByReturn": 12,
+                    "totalPupils": 432,
+                    "totalInternalFloorArea": 2671,
+                    "totalExpenditure": 5944.444444444
+                  },
+                  {
+                    "urn": "139349",
+                    "schoolName": "St Peter and St Paul Church of England Academy",
+                    "schoolType": "Academy converter",
+                    "laName": "Leicestershire",
+                    "periodCoveredByReturn": 12,
+                    "totalPupils": 416,
+                    "totalInternalFloorArea": 3099,
+                    "totalExpenditure": 6385.846153846
+                  },
+                  {
+                    "urn": "139597",
+                    "schoolName": "Boston Pioneers Free School Academy",
+                    "schoolType": "Free schools",
+                    "laName": "Lincolnshire",
+                    "periodCoveredByReturn": 12,
+                    "totalPupils": 415.5,
+                    "totalInternalFloorArea": 2114,
+                    "totalExpenditure": 6758.962695547
+                  },
+                  {
+                    "urn": "139805",
+                    "schoolName": "Rockingham Primary School",
+                    "schoolType": "Academy sponsor led",
+                    "laName": "North Northamptonshire",
+                    "periodCoveredByReturn": 12,
+                    "totalPupils": 387,
+                    "totalInternalFloorArea": 2535,
+                    "totalExpenditure": 5722.656330749
+                  },
+                  {
+                    "urn": "139952",
+                    "schoolName": "Reynolds Primary Academy",
+                    "schoolType": "Academy sponsor led",
+                    "laName": "North East Lincolnshire",
+                    "periodCoveredByReturn": 12,
+                    "totalPupils": 406.5,
+                    "totalInternalFloorArea": 3181,
+                    "totalExpenditure": 6174.201722017
+                  },
+                  {
+                    "urn": "140597",
+                    "schoolName": "Werneth Primary School",
+                    "schoolType": "Academy converter",
+                    "laName": "Oldham",
+                    "periodCoveredByReturn": 12,
+                    "totalPupils": 412.5,
+                    "totalInternalFloorArea": 4449,
+                    "totalExpenditure": 7158.515151515
+                  },
+                  {
+                    "urn": "141344",
+                    "schoolName": "Three Peaks Primary Academy",
+                    "schoolType": "Academy sponsor led",
+                    "laName": "Staffordshire",
+                    "periodCoveredByReturn": 12,
+                    "totalPupils": 406,
+                    "totalInternalFloorArea": 3086,
+                    "totalExpenditure": 6002.384236453
+                  },
+                  {
+                    "urn": "141819",
+                    "schoolName": "St Helen's Primary School",
+                    "schoolType": "Academy converter",
+                    "laName": "Suffolk",
+                    "periodCoveredByReturn": 12,
+                    "totalPupils": 439,
+                    "totalInternalFloorArea": 4074,
+                    "totalExpenditure": 6516.548974943
+                  },
+                  {
+                    "urn": "142076",
+                    "schoolName": "Tanners Brook Primary School",
+                    "schoolType": "Academy sponsor led",
+                    "laName": "Southampton",
+                    "periodCoveredByReturn": 12,
+                    "totalPupils": 414,
+                    "totalInternalFloorArea": 4645,
+                    "totalExpenditure": 6114.400966183
+                  },
+                  {
+                    "urn": "142425",
+                    "schoolName": "Freehold Community Academy",
+                    "schoolType": "Academy converter",
+                    "laName": "Oldham",
+                    "periodCoveredByReturn": 12,
+                    "totalPupils": 439,
+                    "totalInternalFloorArea": 2878,
+                    "totalExpenditure": 6644.599088838
+                  },
+                  {
+                    "urn": "143295",
+                    "schoolName": "Greenwood Primary and Nursery School",
+                    "schoolType": "Academy converter",
+                    "laName": "Nottinghamshire",
+                    "periodCoveredByReturn": 12,
+                    "totalPupils": 429.5,
+                    "totalInternalFloorArea": 2472,
+                    "totalExpenditure": 7353.005820721
+                  },
+                  {
+                    "urn": "143394",
+                    "schoolName": "Cranham Primary School",
+                    "schoolType": "Academy converter",
+                    "laName": "Worcestershire",
+                    "periodCoveredByReturn": 12,
+                    "totalPupils": 411.5,
+                    "totalInternalFloorArea": 2884,
+                    "totalExpenditure": 7013.708383961
+                  },
+                  {
+                    "urn": "143572",
+                    "schoolName": "Lilycroft Primary School",
+                    "schoolType": "Academy converter",
+                    "laName": "Bradford",
+                    "periodCoveredByReturn": 12,
+                    "totalPupils": 414,
+                    "totalInternalFloorArea": 2456,
+                    "totalExpenditure": 6261.285024154
+                  },
+                  {
+                    "urn": "143774",
+                    "schoolName": "James Dixon Primary School",
+                    "schoolType": "Academy converter",
+                    "laName": "Bromley",
+                    "periodCoveredByReturn": 12,
+                    "totalPupils": 419,
+                    "totalInternalFloorArea": 3474,
+                    "totalExpenditure": 7562.725536992
+                  },
+                  {
+                    "urn": "143871",
+                    "schoolName": "Cavalry Primary School",
+                    "schoolType": "Academy converter",
+                    "laName": "Cambridgeshire",
+                    "periodCoveredByReturn": 12,
+                    "totalPupils": 417,
+                    "totalInternalFloorArea": 2762,
+                    "totalExpenditure": 6735.853717026
+                  },
+                  {
+                    "urn": "143881",
+                    "schoolName": "Tollgate Primary School",
+                    "schoolType": "Academy converter",
+                    "laName": "Newham",
+                    "periodCoveredByReturn": 12,
+                    "totalPupils": 421,
+                    "totalInternalFloorArea": 4641,
+                    "totalExpenditure": 9472.717339667
+                  },
+                  {
+                    "urn": "143976",
+                    "schoolName": "Glebelands Primary Academy",
+                    "schoolType": "Academy converter",
+                    "laName": "Cambridgeshire",
+                    "periodCoveredByReturn": 12,
+                    "totalPupils": 405,
+                    "totalInternalFloorArea": 2130,
+                    "totalExpenditure": 6546.703703703
+                  },
+                  {
+                    "urn": "144078",
+                    "schoolName": "Dudley Wood Primary School",
+                    "schoolType": "Academy converter",
+                    "laName": "Dudley",
+                    "periodCoveredByReturn": 12,
+                    "totalPupils": 441,
+                    "totalInternalFloorArea": 2421,
+                    "totalExpenditure": 6404.655328798
+                  },
+                  {
+                    "urn": "145014",
+                    "schoolName": "Knockhall Primary School",
+                    "schoolType": "Academy sponsor led",
+                    "laName": "Kent",
+                    "periodCoveredByReturn": 12,
+                    "totalPupils": 416.5,
+                    "totalInternalFloorArea": 3555,
+                    "totalExpenditure": 6966.267707082
+                  },
+                  {
+                    "urn": "147385",
+                    "schoolName": "St Thomas More Catholic Primary School",
+                    "schoolType": "Academy converter",
+                    "laName": "Peterborough",
+                    "periodCoveredByReturn": 12,
+                    "totalPupils": 409.5,
+                    "totalInternalFloorArea": 2835,
+                    "totalExpenditure": 6651.959706959
+                  },
+                  {
+                    "urn": "147553",
+                    "schoolName": "Lakeside Primary Academy",
+                    "schoolType": "Academy converter",
+                    "laName": "Doncaster",
+                    "periodCoveredByReturn": 12,
+                    "totalPupils": 411,
+                    "totalInternalFloorArea": 2790,
+                    "totalExpenditure": 6522.919708029
+                  },
+                  {
+                    "urn": "147619",
+                    "schoolName": "Churchfield Primary School",
+                    "schoolType": "Academy converter",
+                    "laName": "Barnsley",
+                    "periodCoveredByReturn": 12,
+                    "totalPupils": 404,
+                    "totalInternalFloorArea": 3046,
+                    "totalExpenditure": 7114.594059405
+                  },
+                  {
+                    "urn": "147669",
+                    "schoolName": "Abbey Catholic Primary School",
+                    "schoolType": "Academy converter",
+                    "laName": "Birmingham",
+                    "periodCoveredByReturn": 12,
+                    "totalPupils": 419,
+                    "totalInternalFloorArea": 2183,
+                    "totalExpenditure": 6381.902147971
+                  },
+                  {
+                    "urn": "147709",
+                    "schoolName": "Co-op Academy Princeville",
+                    "schoolType": "Academy converter",
+                    "laName": "Bradford",
+                    "periodCoveredByReturn": 12,
+                    "totalPupils": 451,
+                    "totalInternalFloorArea": 4289,
+                    "totalExpenditure": 6503.068736141
+                  },
+                  {
+                    "urn": "148383",
+                    "schoolName": "The St Augustine's Academy",
+                    "schoolType": "Academy converter",
+                    "laName": "Nottinghamshire",
+                    "periodCoveredByReturn": 12,
+                    "totalPupils": 428,
+                    "totalInternalFloorArea": 3732,
+                    "totalExpenditure": 6467.560747663
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/HorizontalBarChartDefinition"
+            }
+          }
+        ]
+      },
+      "HorizontalBarChartDefinition": {
+        "examples": [
+          {
+            "keyField": "urn",
+            "valueField": "totalExpenditure",
+            "valueFormat": "$,~s",
+            "labelField": "schoolName",
+            "labelFormat": "%2$s (%1$s)",
+            "linkFormat": "/school/%1$s",
+            "highlightKey": "138637",
+            "sort": "desc",
+            "barHeight": 22,
+            "id": "123",
+            "width": 960,
+            "xAxisLabel": "£ per pupil",
+            "data": [
+              {
+                "urn": "138637",
+                "schoolName": "Louth Kidgate Primary Academy",
+                "schoolType": "Academy converter",
+                "laName": "Lincolnshire",
+                "periodCoveredByReturn": 12,
+                "totalPupils": 421,
+                "totalInternalFloorArea": 2897,
+                "totalExpenditure": 6377.282660332
+              },
+              {
+                "urn": "138694",
+                "schoolName": "Barr View Primary & Nursery Academy",
+                "schoolType": "Academy converter",
+                "laName": "Birmingham",
+                "periodCoveredByReturn": 12,
+                "totalPupils": 436,
+                "totalInternalFloorArea": 3514,
+                "totalExpenditure": 6490.944954128
+              },
+              {
+                "urn": "138741",
+                "schoolName": "The Milford Academy",
+                "schoolType": "Academy converter",
+                "laName": "Nottingham",
+                "periodCoveredByReturn": 12,
+                "totalPupils": 438,
+                "totalInternalFloorArea": 2774,
+                "totalExpenditure": 7009.242009132
+              },
+              {
+                "urn": "138994",
+                "schoolName": "Heybridge Primary School",
+                "schoolType": "Academy sponsor led",
+                "laName": "Essex",
+                "periodCoveredByReturn": 12,
+                "totalPupils": 438,
+                "totalInternalFloorArea": 2641,
+                "totalExpenditure": 5979.08675799
+              },
+              {
+                "urn": "139001",
+                "schoolName": "Perry Wood Primary and Nursery School",
+                "schoolType": "Academy sponsor led",
+                "laName": "Worcestershire",
+                "periodCoveredByReturn": 12,
+                "totalPupils": 405.5,
+                "totalInternalFloorArea": 3878,
+                "totalExpenditure": 6646.514180024
+              },
+              {
+                "urn": "139166",
+                "schoolName": "Shaw Primary Academy",
+                "schoolType": "Academy converter",
+                "laName": "Thurrock",
+                "periodCoveredByReturn": 12,
+                "totalPupils": 432,
+                "totalInternalFloorArea": 2671,
+                "totalExpenditure": 5944.444444444
+              },
+              {
+                "urn": "139349",
+                "schoolName": "St Peter and St Paul Church of England Academy",
+                "schoolType": "Academy converter",
+                "laName": "Leicestershire",
+                "periodCoveredByReturn": 12,
+                "totalPupils": 416,
+                "totalInternalFloorArea": 3099,
+                "totalExpenditure": 6385.846153846
+              },
+              {
+                "urn": "139597",
+                "schoolName": "Boston Pioneers Free School Academy",
+                "schoolType": "Free schools",
+                "laName": "Lincolnshire",
+                "periodCoveredByReturn": 12,
+                "totalPupils": 415.5,
+                "totalInternalFloorArea": 2114,
+                "totalExpenditure": 6758.962695547
+              },
+              {
+                "urn": "139805",
+                "schoolName": "Rockingham Primary School",
+                "schoolType": "Academy sponsor led",
+                "laName": "North Northamptonshire",
+                "periodCoveredByReturn": 12,
+                "totalPupils": 387,
+                "totalInternalFloorArea": 2535,
+                "totalExpenditure": 5722.656330749
+              },
+              {
+                "urn": "139952",
+                "schoolName": "Reynolds Primary Academy",
+                "schoolType": "Academy sponsor led",
+                "laName": "North East Lincolnshire",
+                "periodCoveredByReturn": 12,
+                "totalPupils": 406.5,
+                "totalInternalFloorArea": 3181,
+                "totalExpenditure": 6174.201722017
+              },
+              {
+                "urn": "140597",
+                "schoolName": "Werneth Primary School",
+                "schoolType": "Academy converter",
+                "laName": "Oldham",
+                "periodCoveredByReturn": 12,
+                "totalPupils": 412.5,
+                "totalInternalFloorArea": 4449,
+                "totalExpenditure": 7158.515151515
+              },
+              {
+                "urn": "141344",
+                "schoolName": "Three Peaks Primary Academy",
+                "schoolType": "Academy sponsor led",
+                "laName": "Staffordshire",
+                "periodCoveredByReturn": 12,
+                "totalPupils": 406,
+                "totalInternalFloorArea": 3086,
+                "totalExpenditure": 6002.384236453
+              },
+              {
+                "urn": "141819",
+                "schoolName": "St Helen's Primary School",
+                "schoolType": "Academy converter",
+                "laName": "Suffolk",
+                "periodCoveredByReturn": 12,
+                "totalPupils": 439,
+                "totalInternalFloorArea": 4074,
+                "totalExpenditure": 6516.548974943
+              },
+              {
+                "urn": "142076",
+                "schoolName": "Tanners Brook Primary School",
+                "schoolType": "Academy sponsor led",
+                "laName": "Southampton",
+                "periodCoveredByReturn": 12,
+                "totalPupils": 414,
+                "totalInternalFloorArea": 4645,
+                "totalExpenditure": 6114.400966183
+              },
+              {
+                "urn": "142425",
+                "schoolName": "Freehold Community Academy",
+                "schoolType": "Academy converter",
+                "laName": "Oldham",
+                "periodCoveredByReturn": 12,
+                "totalPupils": 439,
+                "totalInternalFloorArea": 2878,
+                "totalExpenditure": 6644.599088838
+              },
+              {
+                "urn": "143295",
+                "schoolName": "Greenwood Primary and Nursery School",
+                "schoolType": "Academy converter",
+                "laName": "Nottinghamshire",
+                "periodCoveredByReturn": 12,
+                "totalPupils": 429.5,
+                "totalInternalFloorArea": 2472,
+                "totalExpenditure": 7353.005820721
+              },
+              {
+                "urn": "143394",
+                "schoolName": "Cranham Primary School",
+                "schoolType": "Academy converter",
+                "laName": "Worcestershire",
+                "periodCoveredByReturn": 12,
+                "totalPupils": 411.5,
+                "totalInternalFloorArea": 2884,
+                "totalExpenditure": 7013.708383961
+              },
+              {
+                "urn": "143572",
+                "schoolName": "Lilycroft Primary School",
+                "schoolType": "Academy converter",
+                "laName": "Bradford",
+                "periodCoveredByReturn": 12,
+                "totalPupils": 414,
+                "totalInternalFloorArea": 2456,
+                "totalExpenditure": 6261.285024154
+              },
+              {
+                "urn": "143774",
+                "schoolName": "James Dixon Primary School",
+                "schoolType": "Academy converter",
+                "laName": "Bromley",
+                "periodCoveredByReturn": 12,
+                "totalPupils": 419,
+                "totalInternalFloorArea": 3474,
+                "totalExpenditure": 7562.725536992
+              },
+              {
+                "urn": "143871",
+                "schoolName": "Cavalry Primary School",
+                "schoolType": "Academy converter",
+                "laName": "Cambridgeshire",
+                "periodCoveredByReturn": 12,
+                "totalPupils": 417,
+                "totalInternalFloorArea": 2762,
+                "totalExpenditure": 6735.853717026
+              },
+              {
+                "urn": "143881",
+                "schoolName": "Tollgate Primary School",
+                "schoolType": "Academy converter",
+                "laName": "Newham",
+                "periodCoveredByReturn": 12,
+                "totalPupils": 421,
+                "totalInternalFloorArea": 4641,
+                "totalExpenditure": 9472.717339667
+              },
+              {
+                "urn": "143976",
+                "schoolName": "Glebelands Primary Academy",
+                "schoolType": "Academy converter",
+                "laName": "Cambridgeshire",
+                "periodCoveredByReturn": 12,
+                "totalPupils": 405,
+                "totalInternalFloorArea": 2130,
+                "totalExpenditure": 6546.703703703
+              },
+              {
+                "urn": "144078",
+                "schoolName": "Dudley Wood Primary School",
+                "schoolType": "Academy converter",
+                "laName": "Dudley",
+                "periodCoveredByReturn": 12,
+                "totalPupils": 441,
+                "totalInternalFloorArea": 2421,
+                "totalExpenditure": 6404.655328798
+              },
+              {
+                "urn": "145014",
+                "schoolName": "Knockhall Primary School",
+                "schoolType": "Academy sponsor led",
+                "laName": "Kent",
+                "periodCoveredByReturn": 12,
+                "totalPupils": 416.5,
+                "totalInternalFloorArea": 3555,
+                "totalExpenditure": 6966.267707082
+              },
+              {
+                "urn": "147385",
+                "schoolName": "St Thomas More Catholic Primary School",
+                "schoolType": "Academy converter",
+                "laName": "Peterborough",
+                "periodCoveredByReturn": 12,
+                "totalPupils": 409.5,
+                "totalInternalFloorArea": 2835,
+                "totalExpenditure": 6651.959706959
+              },
+              {
+                "urn": "147553",
+                "schoolName": "Lakeside Primary Academy",
+                "schoolType": "Academy converter",
+                "laName": "Doncaster",
+                "periodCoveredByReturn": 12,
+                "totalPupils": 411,
+                "totalInternalFloorArea": 2790,
+                "totalExpenditure": 6522.919708029
+              },
+              {
+                "urn": "147619",
+                "schoolName": "Churchfield Primary School",
+                "schoolType": "Academy converter",
+                "laName": "Barnsley",
+                "periodCoveredByReturn": 12,
+                "totalPupils": 404,
+                "totalInternalFloorArea": 3046,
+                "totalExpenditure": 7114.594059405
+              },
+              {
+                "urn": "147669",
+                "schoolName": "Abbey Catholic Primary School",
+                "schoolType": "Academy converter",
+                "laName": "Birmingham",
+                "periodCoveredByReturn": 12,
+                "totalPupils": 419,
+                "totalInternalFloorArea": 2183,
+                "totalExpenditure": 6381.902147971
+              },
+              {
+                "urn": "147709",
+                "schoolName": "Co-op Academy Princeville",
+                "schoolType": "Academy converter",
+                "laName": "Bradford",
+                "periodCoveredByReturn": 12,
+                "totalPupils": 451,
+                "totalInternalFloorArea": 4289,
+                "totalExpenditure": 6503.068736141
+              },
+              {
+                "urn": "148383",
+                "schoolName": "The St Augustine's Academy",
+                "schoolType": "Academy converter",
+                "laName": "Nottinghamshire",
+                "periodCoveredByReturn": 12,
+                "totalPupils": 428,
+                "totalInternalFloorArea": 3732,
+                "totalExpenditure": 6467.560747663
+              }
+            ]
+          }
+        ],
+        "title": "HorizontalBarChartDefinition",
+        "allOf": [
+          {
+            "type": "object",
+            "properties": {
+              "data": {
+                "type": "array",
+                "items": {},
+                "title": "data"
+              }
+            },
+            "required": [
+              "data"
+            ]
+          },
+          {
+            "type": "object",
+            "properties": {
+              "barHeight": {
+                "type": "number",
+                "title": "barHeight"
+              },
+              "labelFormat": {
+                "description": "`sprintf` format to use for labels on y-axis of the chart, where `%1` is the key and `%2` is the label",
+                "example": "%2$s",
+                "ref": "https://www.npmjs.com/package/sprintf-js#format-specification",
+                "type": "string",
+                "title": "labelFormat"
+              },
+              "linkFormat": {
+                "description": "`sprintf` format to use for rendering y-axis labels as links on the chart, where `%1` is the key",
+                "example": "/school/%1$s",
+                "ref": "https://www.npmjs.com/package/sprintf-js#format-specification",
+                "type": "string",
+                "title": "linkFormat"
+              },
+              "valueFormat": {
+                "description": "`d3-format` format to use for rendering values on the chart",
+                "example": "$,~s",
+                "ref": "https://d3js.org/d3-format#locale_format",
+                "type": "string",
+                "title": "valueFormat"
+              },
+              "xAxisLabel": {
+                "type": "string",
+                "title": "xAxisLabel"
+              }
+            }
+          },
+          {
+            "type": "object",
+            "properties": {
+              "sort": {
+                "enum": [
+                  "asc",
+                  "desc"
+                ],
+                "type": "string",
+                "title": "sort"
+              },
+              "id": {
+                "type": "string",
+                "title": "id"
+              },
+              "width": {
+                "type": "number",
+                "title": "width"
+              },
+              "highlightKey": {
+                "type": "string",
+                "title": "highlightKey"
+              }
+            }
+          },
+          {
+            "$ref": "#/components/schemas/ChartDefinition"
+          }
+        ]
+      },
+      "ChartDefinition": {
+        "title": "ChartDefinition",
+        "type": "object",
+        "properties": {
+          "keyField": {
+            "type": "string",
+            "title": "keyField"
+          },
+          "valueField": {
+            "type": "string",
+            "title": "valueField"
+          }
+        },
+        "required": [
+          "keyField",
+          "valueField"
+        ]
+      },
+      "ChartBuilderResult": {
+        "title": "ChartBuilderResult",
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "id"
+          },
+          "html": {
+            "type": "string",
+            "title": "html"
+          }
+        },
+        "required": [
+          "html",
+          "id"
+        ]
+      },
+      "VerticalBarChartPayload": {
+        "title": "VerticalBarChartPayload",
+        "anyOf": [
+          {
+            "$ref": "#/components/schemas/VerticalBarChartDefinition",
+            "examples": [
+              {
+                "keyField": "urn",
+                "valueField": "amount",
+                "highlightKey": "123456",
+                "sort": "asc",
+                "height": 200,
+                "id": "123",
+                "width": 630,
+                "data": [
+                  {
+                    "urn": "100686",
+                    "amount": 4455.614702154
+                  },
+                  {
+                    "urn": "100934",
+                    "amount": 6206.301886792
+                  },
+                  {
+                    "urn": "101019",
+                    "amount": 5642.356200527
+                  },
+                  {
+                    "urn": "101530",
+                    "amount": 5624.968561064
+                  },
+                  {
+                    "urn": "101534",
+                    "amount": 5863.263157894
+                  },
+                  {
+                    "urn": "101721",
+                    "amount": 5239.424164524
+                  },
+                  {
+                    "urn": "101785",
+                    "amount": 4796.046004842
+                  },
+                  {
+                    "urn": "102125",
+                    "amount": 5596.175438596
+                  },
+                  {
+                    "urn": "102656",
+                    "amount": 5229.78795483
+                  },
+                  {
+                    "urn": "103778",
+                    "amount": 4657.606060606
+                  },
+                  {
+                    "urn": "103813",
+                    "amount": 4519.440677966
+                  },
+                  {
+                    "urn": "103946",
+                    "amount": 4231.673123486
+                  },
+                  {
+                    "urn": "104310",
+                    "amount": 4374.646007151
+                  },
+                  {
+                    "urn": "104565",
+                    "amount": 4914.077509529
+                  },
+                  {
+                    "urn": "107001",
+                    "amount": 4140.608040201
+                  },
+                  {
+                    "urn": "109796",
+                    "amount": 4368.543640897
+                  },
+                  {
+                    "urn": "112585",
+                    "amount": 4249.106280193
+                  },
+                  {
+                    "urn": "112667",
+                    "amount": 4723.569620253
+                  },
+                  {
+                    "urn": "113343",
+                    "amount": 5068.22778473
+                  },
+                  {
+                    "urn": "114399",
+                    "amount": 4778.491525423
+                  },
+                  {
+                    "urn": "116702",
+                    "amount": 4730.936899862
+                  },
+                  {
+                    "urn": "116858",
+                    "amount": 4719.467153284
+                  },
+                  {
+                    "urn": "119194",
+                    "amount": 4825.429667519
+                  },
+                  {
+                    "urn": "119342",
+                    "amount": 4376.669856459
+                  },
+                  {
+                    "urn": "120937",
+                    "amount": 5088.323232323
+                  },
+                  {
+                    "urn": "121912",
+                    "amount": 4792.737864077
+                  },
+                  {
+                    "urn": "123456",
+                    "amount": 4253.240811153
+                  },
+                  {
+                    "urn": "124040",
+                    "amount": 5072.259740259
+                  },
+                  {
+                    "urn": "124072",
+                    "amount": 3827.370843989
+                  },
+                  {
+                    "urn": "136061",
+                    "amount": 4781.567839195
+                  }
+                ]
+              },
+              [
+                {
+                  "keyField": "urn",
+                  "valueField": "amount",
+                  "highlightKey": "123458",
+                  "sort": "asc",
+                  "height": 200,
+                  "id": "a76e91c7-a743-4175-99d3-e26a779fa6e7",
+                  "width": 630,
+                  "data": [
+                    {
+                      "urn": "102136",
+                      "amount": 570.461538461
+                    },
+                    {
+                      "urn": "105723",
+                      "amount": 218.748603351
+                    },
+                    {
+                      "urn": "106113",
+                      "amount": 414.597989949
+                    },
+                    {
+                      "urn": "107029",
+                      "amount": 100.075376884
+                    },
+                    {
+                      "urn": "109810",
+                      "amount": 285.412429378
+                    },
+                    {
+                      "urn": "109969",
+                      "amount": 132.208955223
+                    },
+                    {
+                      "urn": "110446",
+                      "amount": 171.428571428
+                    },
+                    {
+                      "urn": "111277",
+                      "amount": 317.43298969
+                    },
+                    {
+                      "urn": "111872",
+                      "amount": 379.243781094
+                    },
+                    {
+                      "urn": "114967",
+                      "amount": 263.176470588
+                    },
+                    {
+                      "urn": "115598",
+                      "amount": 144.954802259
+                    },
+                    {
+                      "urn": "116169",
+                      "amount": 144.333333333
+                    },
+                    {
+                      "urn": "123458",
+                      "amount": 212.128342245
+                    },
+                    {
+                      "urn": "126405",
+                      "amount": 419.271356783
+                    },
+                    {
+                      "urn": "126349",
+                      "amount": 376.56043956
+                    },
+                    {
+                      "urn": "124254",
+                      "amount": 244.38150289
+                    },
+                    {
+                      "urn": "124146",
+                      "amount": 400.432432432
+                    },
+                    {
+                      "urn": "122770",
+                      "amount": 216.272727272
+                    },
+                    {
+                      "urn": "121812",
+                      "amount": 191.108108108
+                    },
+                    {
+                      "urn": "119573",
+                      "amount": 294.970149253
+                    },
+                    {
+                      "urn": "119385",
+                      "amount": 165.163265306
+                    },
+                    {
+                      "urn": "119310",
+                      "amount": 325.729064039
+                    },
+                    {
+                      "urn": "118003",
+                      "amount": 157.702127659
+                    },
+                    {
+                      "urn": "117304",
+                      "amount": 314.164948453
+                    },
+                    {
+                      "urn": "117113",
+                      "amount": 176.041237113
+                    },
+                    {
+                      "urn": "116403",
+                      "amount": 84.454545454
+                    },
+                    {
+                      "urn": "116145",
+                      "amount": 86.853801169
+                    },
+                    {
+                      "urn": "116047",
+                      "amount": 83.976744186
+                    },
+                    {
+                      "urn": "115615",
+                      "amount": 267.696969696
+                    },
+                    {
+                      "urn": "135063",
+                      "amount": 206.39800995
+                    }
+                  ]
+                },
+                {
+                  "keyField": "urn",
+                  "valueField": "amount",
+                  "highlightKey": "123458",
+                  "sort": "asc",
+                  "height": 200,
+                  "id": "172a4856-43b2-4075-887b-ba8650d4f8c2",
+                  "width": 630,
+                  "data": [
+                    {
+                      "urn": "102136",
+                      "amount": 5232.428571428
+                    },
+                    {
+                      "urn": "105723",
+                      "amount": 4239.005586592
+                    },
+                    {
+                      "urn": "106113",
+                      "amount": 5920.457286432
+                    },
+                    {
+                      "urn": "107029",
+                      "amount": 5219.592964824
+                    },
+                    {
+                      "urn": "109810",
+                      "amount": 4078.401129943
+                    },
+                    {
+                      "urn": "109969",
+                      "amount": 4820.587064676
+                    },
+                    {
+                      "urn": "110446",
+                      "amount": 4314.142857142
+                    },
+                    {
+                      "urn": "111277",
+                      "amount": 4069.876288659
+                    },
+                    {
+                      "urn": "111872",
+                      "amount": 3762.004975124
+                    },
+                    {
+                      "urn": "114967",
+                      "amount": 4427.235294117
+                    },
+                    {
+                      "urn": "115598",
+                      "amount": 4543.36158192
+                    },
+                    {
+                      "urn": "116169",
+                      "amount": 3703.222222222
+                    },
+                    {
+                      "urn": "123458",
+                      "amount": 3920.454545454
+                    },
+                    {
+                      "urn": "126405",
+                      "amount": 3834.010050251
+                    },
+                    {
+                      "urn": "126349",
+                      "amount": 3871.109890109
+                    },
+                    {
+                      "urn": "124254",
+                      "amount": 3716.693641618
+                    },
+                    {
+                      "urn": "124146",
+                      "amount": 4638.324324324
+                    },
+                    {
+                      "urn": "122770",
+                      "amount": 3843.909090909
+                    },
+                    {
+                      "urn": "121812",
+                      "amount": 4250.945945945
+                    },
+                    {
+                      "urn": "119573",
+                      "amount": 3926.039800995
+                    },
+                    {
+                      "urn": "119385",
+                      "amount": 3817.591836734
+                    },
+                    {
+                      "urn": "119310",
+                      "amount": 4179.69458128
+                    },
+                    {
+                      "urn": "118003",
+                      "amount": 3701.382978723
+                    },
+                    {
+                      "urn": "117304",
+                      "amount": 4051.876288659
+                    },
+                    {
+                      "urn": "117113",
+                      "amount": 4336.082474226
+                    },
+                    {
+                      "urn": "116403",
+                      "amount": 4081.818181818
+                    },
+                    {
+                      "urn": "116145",
+                      "amount": 4040.947368421
+                    },
+                    {
+                      "urn": "116047",
+                      "amount": 4057.209302325
+                    },
+                    {
+                      "urn": "115615",
+                      "amount": 4698.343434343
+                    },
+                    {
+                      "urn": "135063",
+                      "amount": 3506.298507462
+                    }
+                  ]
+                },
+                {
+                  "keyField": "urn",
+                  "valueField": "amount",
+                  "highlightKey": "123458",
+                  "sort": "asc",
+                  "height": 200,
+                  "id": "0444a968-77fc-46ed-b820-9c7523d6ff7a",
+                  "width": 630,
+                  "data": [
+                    {
+                      "urn": "102136",
+                      "amount": 1052.626373626
+                    },
+                    {
+                      "urn": "105723",
+                      "amount": 777.245810055
+                    },
+                    {
+                      "urn": "106113",
+                      "amount": 751.713567839
+                    },
+                    {
+                      "urn": "107029",
+                      "amount": 700.331658291
+                    },
+                    {
+                      "urn": "109810",
+                      "amount": 562.717514124
+                    },
+                    {
+                      "urn": "109969",
+                      "amount": 1026.820895522
+                    },
+                    {
+                      "urn": "110446",
+                      "amount": 704.142857142
+                    },
+                    {
+                      "urn": "111277",
+                      "amount": 594.206185567
+                    },
+                    {
+                      "urn": "111872",
+                      "amount": 745
+                    },
+                    {
+                      "urn": "114967",
+                      "amount": 680.352941176
+                    },
+                    {
+                      "urn": "115598",
+                      "amount": 758.333333333
+                    },
+                    {
+                      "urn": "116169",
+                      "amount": 633.333333333
+                    },
+                    {
+                      "urn": "123458",
+                      "amount": 532.802139037
+                    },
+                    {
+                      "urn": "126405",
+                      "amount": 543.070351758
+                    },
+                    {
+                      "urn": "126349",
+                      "amount": 800.791208791
+                    },
+                    {
+                      "urn": "124254",
+                      "amount": 688.982658959
+                    },
+                    {
+                      "urn": "124146",
+                      "amount": 470.324324324
+                    },
+                    {
+                      "urn": "122770",
+                      "amount": 704.636363636
+                    },
+                    {
+                      "urn": "121812",
+                      "amount": 548.243243243
+                    },
+                    {
+                      "urn": "119573",
+                      "amount": 546.442786069
+                    },
+                    {
+                      "urn": "119385",
+                      "amount": 378.87755102
+                    },
+                    {
+                      "urn": "119310",
+                      "amount": 802.921182266
+                    },
+                    {
+                      "urn": "118003",
+                      "amount": 504.29787234
+                    },
+                    {
+                      "urn": "117304",
+                      "amount": 479.742268041
+                    },
+                    {
+                      "urn": "117113",
+                      "amount": 698.12371134
+                    },
+                    {
+                      "urn": "116403",
+                      "amount": 470.363636363
+                    },
+                    {
+                      "urn": "116145",
+                      "amount": 476.795321637
+                    },
+                    {
+                      "urn": "116047",
+                      "amount": 638.65116279
+                    },
+                    {
+                      "urn": "115615",
+                      "amount": 651.212121212
+                    },
+                    {
+                      "urn": "135063",
+                      "amount": 370.109452736
+                    }
+                  ]
+                },
+                {
+                  "keyField": "urn",
+                  "valueField": "amount",
+                  "highlightKey": "123458",
+                  "sort": "asc",
+                  "height": 200,
+                  "id": "055ed0f4-d2a0-4821-ab7c-b707608c140e",
+                  "width": 630,
+                  "data": [
+                    {
+                      "urn": "104936",
+                      "amount": 71.075127644
+                    },
+                    {
+                      "urn": "105018",
+                      "amount": 37.39117427
+                    },
+                    {
+                      "urn": "115986",
+                      "amount": 54.621700879
+                    },
+                    {
+                      "urn": "116047",
+                      "amount": 36.176470588
+                    },
+                    {
+                      "urn": "119527",
+                      "amount": 78.546468401
+                    },
+                    {
+                      "urn": "123458",
+                      "amount": 42.044676098
+                    },
+                    {
+                      "urn": "122453",
+                      "amount": 70.037453183
+                    },
+                    {
+                      "urn": "120436",
+                      "amount": 55.009063444
+                    },
+                    {
+                      "urn": "119676",
+                      "amount": 41.138972809
+                    },
+                    {
+                      "urn": "119557",
+                      "amount": 45.975
+                    },
+                    {
+                      "urn": "119542",
+                      "amount": 34.894266567
+                    },
+                    {
+                      "urn": "117243",
+                      "amount": 65.289085545
+                    },
+                    {
+                      "urn": "116306",
+                      "amount": 59.653353428
+                    },
+                    {
+                      "urn": "116026",
+                      "amount": 58.713132795
+                    },
+                    {
+                      "urn": "115981",
+                      "amount": 40.040358744
+                    },
+                    {
+                      "urn": "114543",
+                      "amount": 48.325513196
+                    },
+                    {
+                      "urn": "112698",
+                      "amount": 36.24852071
+                    },
+                    {
+                      "urn": "110990",
+                      "amount": 43.435897435
+                    },
+                    {
+                      "urn": "107630",
+                      "amount": 58.717717717
+                    },
+                    {
+                      "urn": "106508",
+                      "amount": 42.523158694
+                    },
+                    {
+                      "urn": "106346",
+                      "amount": 59.151515151
+                    },
+                    {
+                      "urn": "106343",
+                      "amount": 64.079027355
+                    },
+                    {
+                      "urn": "105953",
+                      "amount": 132.961792799
+                    },
+                    {
+                      "urn": "105830",
+                      "amount": 61.327976625
+                    },
+                    {
+                      "urn": "105070",
+                      "amount": 44.969696969
+                    },
+                    {
+                      "urn": "104472",
+                      "amount": 71.571849668
+                    },
+                    {
+                      "urn": "104235",
+                      "amount": 81.381055676
+                    },
+                    {
+                      "urn": "103674",
+                      "amount": 61.093655589
+                    },
+                    {
+                      "urn": "100446",
+                      "amount": 58.005891016
+                    },
+                    {
+                      "urn": "125550",
+                      "amount": 58.278592375
+                    }
+                  ]
+                },
+                {
+                  "keyField": "urn",
+                  "valueField": "amount",
+                  "highlightKey": "123458",
+                  "sort": "asc",
+                  "height": 200,
+                  "id": "01222f63-eb20-4adc-8a99-31b8900c76d9",
+                  "width": 630,
+                  "data": [
+                    {
+                      "urn": "102136",
+                      "amount": 21.967032967
+                    },
+                    {
+                      "urn": "105723",
+                      "amount": 13.407821229
+                    },
+                    {
+                      "urn": "106113",
+                      "amount": 81.613065326
+                    },
+                    {
+                      "urn": "107029",
+                      "amount": 50.582914572
+                    },
+                    {
+                      "urn": "109810",
+                      "amount": 51.429378531
+                    },
+                    {
+                      "urn": "109969",
+                      "amount": 24.378109452
+                    },
+                    {
+                      "urn": "110446",
+                      "amount": 56.571428571
+                    },
+                    {
+                      "urn": "111277",
+                      "amount": 33.24742268
+                    },
+                    {
+                      "urn": "111872",
+                      "amount": 53.915422885
+                    },
+                    {
+                      "urn": "114967",
+                      "amount": 43.647058823
+                    },
+                    {
+                      "urn": "115598",
+                      "amount": 17.418079096
+                    },
+                    {
+                      "urn": "116169",
+                      "amount": 68.444444444
+                    },
+                    {
+                      "urn": "123458",
+                      "amount": 16.850267379
+                    },
+                    {
+                      "urn": "126405",
+                      "amount": 85.432160804
+                    },
+                    {
+                      "urn": "126349",
+                      "amount": 66.516483516
+                    },
+                    {
+                      "urn": "124254",
+                      "amount": 103.364161849
+                    },
+                    {
+                      "urn": "124146",
+                      "amount": 102
+                    },
+                    {
+                      "urn": "122770",
+                      "amount": 19.09090909
+                    },
+                    {
+                      "urn": "121812",
+                      "amount": 31.918918918
+                    },
+                    {
+                      "urn": "119573",
+                      "amount": 65.686567164
+                    },
+                    {
+                      "urn": "119385",
+                      "amount": 112.102040816
+                    },
+                    {
+                      "urn": "119310",
+                      "amount": 111.374384236
+                    },
+                    {
+                      "urn": "118003",
+                      "amount": 99.659574468
+                    },
+                    {
+                      "urn": "117304",
+                      "amount": 33.195876288
+                    },
+                    {
+                      "urn": "117113",
+                      "amount": 28.082474226
+                    },
+                    {
+                      "urn": "116403",
+                      "amount": 34.545454545
+                    },
+                    {
+                      "urn": "116145",
+                      "amount": 32.853801169
+                    },
+                    {
+                      "urn": "116047",
+                      "amount": 36.790697674
+                    },
+                    {
+                      "urn": "115615",
+                      "amount": 6.646464646
+                    },
+                    {
+                      "urn": "135063",
+                      "amount": 73.094527363
+                    }
+                  ]
+                }
+              ]
+            ]
+          },
+          {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/VerticalBarChartDefinition"
+            }
+          }
+        ]
+      },
+      "VerticalBarChartDefinition": {
+        "examples": [
+          {
+            "keyField": "urn",
+            "valueField": "amount",
+            "highlightKey": "123456",
+            "sort": "asc",
+            "height": 200,
+            "id": "123",
+            "width": 630,
+            "data": [
+              {
+                "urn": "100686",
+                "amount": 4455.614702154
+              },
+              {
+                "urn": "100934",
+                "amount": 6206.301886792
+              },
+              {
+                "urn": "101019",
+                "amount": 5642.356200527
+              },
+              {
+                "urn": "101530",
+                "amount": 5624.968561064
+              },
+              {
+                "urn": "101534",
+                "amount": 5863.263157894
+              },
+              {
+                "urn": "101721",
+                "amount": 5239.424164524
+              },
+              {
+                "urn": "101785",
+                "amount": 4796.046004842
+              },
+              {
+                "urn": "102125",
+                "amount": 5596.175438596
+              },
+              {
+                "urn": "102656",
+                "amount": 5229.78795483
+              },
+              {
+                "urn": "103778",
+                "amount": 4657.606060606
+              },
+              {
+                "urn": "103813",
+                "amount": 4519.440677966
+              },
+              {
+                "urn": "103946",
+                "amount": 4231.673123486
+              },
+              {
+                "urn": "104310",
+                "amount": 4374.646007151
+              },
+              {
+                "urn": "104565",
+                "amount": 4914.077509529
+              },
+              {
+                "urn": "107001",
+                "amount": 4140.608040201
+              },
+              {
+                "urn": "109796",
+                "amount": 4368.543640897
+              },
+              {
+                "urn": "112585",
+                "amount": 4249.106280193
+              },
+              {
+                "urn": "112667",
+                "amount": 4723.569620253
+              },
+              {
+                "urn": "113343",
+                "amount": 5068.22778473
+              },
+              {
+                "urn": "114399",
+                "amount": 4778.491525423
+              },
+              {
+                "urn": "116702",
+                "amount": 4730.936899862
+              },
+              {
+                "urn": "116858",
+                "amount": 4719.467153284
+              },
+              {
+                "urn": "119194",
+                "amount": 4825.429667519
+              },
+              {
+                "urn": "119342",
+                "amount": 4376.669856459
+              },
+              {
+                "urn": "120937",
+                "amount": 5088.323232323
+              },
+              {
+                "urn": "121912",
+                "amount": 4792.737864077
+              },
+              {
+                "urn": "123456",
+                "amount": 4253.240811153
+              },
+              {
+                "urn": "124040",
+                "amount": 5072.259740259
+              },
+              {
+                "urn": "124072",
+                "amount": 3827.370843989
+              },
+              {
+                "urn": "136061",
+                "amount": 4781.567839195
+              }
+            ]
+          },
+          [
+            {
+              "keyField": "urn",
+              "valueField": "amount",
+              "highlightKey": "123458",
+              "sort": "asc",
+              "height": 200,
+              "id": "a76e91c7-a743-4175-99d3-e26a779fa6e7",
+              "width": 630,
+              "data": [
+                {
+                  "urn": "102136",
+                  "amount": 570.461538461
+                },
+                {
+                  "urn": "105723",
+                  "amount": 218.748603351
+                },
+                {
+                  "urn": "106113",
+                  "amount": 414.597989949
+                },
+                {
+                  "urn": "107029",
+                  "amount": 100.075376884
+                },
+                {
+                  "urn": "109810",
+                  "amount": 285.412429378
+                },
+                {
+                  "urn": "109969",
+                  "amount": 132.208955223
+                },
+                {
+                  "urn": "110446",
+                  "amount": 171.428571428
+                },
+                {
+                  "urn": "111277",
+                  "amount": 317.43298969
+                },
+                {
+                  "urn": "111872",
+                  "amount": 379.243781094
+                },
+                {
+                  "urn": "114967",
+                  "amount": 263.176470588
+                },
+                {
+                  "urn": "115598",
+                  "amount": 144.954802259
+                },
+                {
+                  "urn": "116169",
+                  "amount": 144.333333333
+                },
+                {
+                  "urn": "123458",
+                  "amount": 212.128342245
+                },
+                {
+                  "urn": "126405",
+                  "amount": 419.271356783
+                },
+                {
+                  "urn": "126349",
+                  "amount": 376.56043956
+                },
+                {
+                  "urn": "124254",
+                  "amount": 244.38150289
+                },
+                {
+                  "urn": "124146",
+                  "amount": 400.432432432
+                },
+                {
+                  "urn": "122770",
+                  "amount": 216.272727272
+                },
+                {
+                  "urn": "121812",
+                  "amount": 191.108108108
+                },
+                {
+                  "urn": "119573",
+                  "amount": 294.970149253
+                },
+                {
+                  "urn": "119385",
+                  "amount": 165.163265306
+                },
+                {
+                  "urn": "119310",
+                  "amount": 325.729064039
+                },
+                {
+                  "urn": "118003",
+                  "amount": 157.702127659
+                },
+                {
+                  "urn": "117304",
+                  "amount": 314.164948453
+                },
+                {
+                  "urn": "117113",
+                  "amount": 176.041237113
+                },
+                {
+                  "urn": "116403",
+                  "amount": 84.454545454
+                },
+                {
+                  "urn": "116145",
+                  "amount": 86.853801169
+                },
+                {
+                  "urn": "116047",
+                  "amount": 83.976744186
+                },
+                {
+                  "urn": "115615",
+                  "amount": 267.696969696
+                },
+                {
+                  "urn": "135063",
+                  "amount": 206.39800995
+                }
+              ]
+            },
+            {
+              "keyField": "urn",
+              "valueField": "amount",
+              "highlightKey": "123458",
+              "sort": "asc",
+              "height": 200,
+              "id": "172a4856-43b2-4075-887b-ba8650d4f8c2",
+              "width": 630,
+              "data": [
+                {
+                  "urn": "102136",
+                  "amount": 5232.428571428
+                },
+                {
+                  "urn": "105723",
+                  "amount": 4239.005586592
+                },
+                {
+                  "urn": "106113",
+                  "amount": 5920.457286432
+                },
+                {
+                  "urn": "107029",
+                  "amount": 5219.592964824
+                },
+                {
+                  "urn": "109810",
+                  "amount": 4078.401129943
+                },
+                {
+                  "urn": "109969",
+                  "amount": 4820.587064676
+                },
+                {
+                  "urn": "110446",
+                  "amount": 4314.142857142
+                },
+                {
+                  "urn": "111277",
+                  "amount": 4069.876288659
+                },
+                {
+                  "urn": "111872",
+                  "amount": 3762.004975124
+                },
+                {
+                  "urn": "114967",
+                  "amount": 4427.235294117
+                },
+                {
+                  "urn": "115598",
+                  "amount": 4543.36158192
+                },
+                {
+                  "urn": "116169",
+                  "amount": 3703.222222222
+                },
+                {
+                  "urn": "123458",
+                  "amount": 3920.454545454
+                },
+                {
+                  "urn": "126405",
+                  "amount": 3834.010050251
+                },
+                {
+                  "urn": "126349",
+                  "amount": 3871.109890109
+                },
+                {
+                  "urn": "124254",
+                  "amount": 3716.693641618
+                },
+                {
+                  "urn": "124146",
+                  "amount": 4638.324324324
+                },
+                {
+                  "urn": "122770",
+                  "amount": 3843.909090909
+                },
+                {
+                  "urn": "121812",
+                  "amount": 4250.945945945
+                },
+                {
+                  "urn": "119573",
+                  "amount": 3926.039800995
+                },
+                {
+                  "urn": "119385",
+                  "amount": 3817.591836734
+                },
+                {
+                  "urn": "119310",
+                  "amount": 4179.69458128
+                },
+                {
+                  "urn": "118003",
+                  "amount": 3701.382978723
+                },
+                {
+                  "urn": "117304",
+                  "amount": 4051.876288659
+                },
+                {
+                  "urn": "117113",
+                  "amount": 4336.082474226
+                },
+                {
+                  "urn": "116403",
+                  "amount": 4081.818181818
+                },
+                {
+                  "urn": "116145",
+                  "amount": 4040.947368421
+                },
+                {
+                  "urn": "116047",
+                  "amount": 4057.209302325
+                },
+                {
+                  "urn": "115615",
+                  "amount": 4698.343434343
+                },
+                {
+                  "urn": "135063",
+                  "amount": 3506.298507462
+                }
+              ]
+            },
+            {
+              "keyField": "urn",
+              "valueField": "amount",
+              "highlightKey": "123458",
+              "sort": "asc",
+              "height": 200,
+              "id": "0444a968-77fc-46ed-b820-9c7523d6ff7a",
+              "width": 630,
+              "data": [
+                {
+                  "urn": "102136",
+                  "amount": 1052.626373626
+                },
+                {
+                  "urn": "105723",
+                  "amount": 777.245810055
+                },
+                {
+                  "urn": "106113",
+                  "amount": 751.713567839
+                },
+                {
+                  "urn": "107029",
+                  "amount": 700.331658291
+                },
+                {
+                  "urn": "109810",
+                  "amount": 562.717514124
+                },
+                {
+                  "urn": "109969",
+                  "amount": 1026.820895522
+                },
+                {
+                  "urn": "110446",
+                  "amount": 704.142857142
+                },
+                {
+                  "urn": "111277",
+                  "amount": 594.206185567
+                },
+                {
+                  "urn": "111872",
+                  "amount": 745
+                },
+                {
+                  "urn": "114967",
+                  "amount": 680.352941176
+                },
+                {
+                  "urn": "115598",
+                  "amount": 758.333333333
+                },
+                {
+                  "urn": "116169",
+                  "amount": 633.333333333
+                },
+                {
+                  "urn": "123458",
+                  "amount": 532.802139037
+                },
+                {
+                  "urn": "126405",
+                  "amount": 543.070351758
+                },
+                {
+                  "urn": "126349",
+                  "amount": 800.791208791
+                },
+                {
+                  "urn": "124254",
+                  "amount": 688.982658959
+                },
+                {
+                  "urn": "124146",
+                  "amount": 470.324324324
+                },
+                {
+                  "urn": "122770",
+                  "amount": 704.636363636
+                },
+                {
+                  "urn": "121812",
+                  "amount": 548.243243243
+                },
+                {
+                  "urn": "119573",
+                  "amount": 546.442786069
+                },
+                {
+                  "urn": "119385",
+                  "amount": 378.87755102
+                },
+                {
+                  "urn": "119310",
+                  "amount": 802.921182266
+                },
+                {
+                  "urn": "118003",
+                  "amount": 504.29787234
+                },
+                {
+                  "urn": "117304",
+                  "amount": 479.742268041
+                },
+                {
+                  "urn": "117113",
+                  "amount": 698.12371134
+                },
+                {
+                  "urn": "116403",
+                  "amount": 470.363636363
+                },
+                {
+                  "urn": "116145",
+                  "amount": 476.795321637
+                },
+                {
+                  "urn": "116047",
+                  "amount": 638.65116279
+                },
+                {
+                  "urn": "115615",
+                  "amount": 651.212121212
+                },
+                {
+                  "urn": "135063",
+                  "amount": 370.109452736
+                }
+              ]
+            },
+            {
+              "keyField": "urn",
+              "valueField": "amount",
+              "highlightKey": "123458",
+              "sort": "asc",
+              "height": 200,
+              "id": "055ed0f4-d2a0-4821-ab7c-b707608c140e",
+              "width": 630,
+              "data": [
+                {
+                  "urn": "104936",
+                  "amount": 71.075127644
+                },
+                {
+                  "urn": "105018",
+                  "amount": 37.39117427
+                },
+                {
+                  "urn": "115986",
+                  "amount": 54.621700879
+                },
+                {
+                  "urn": "116047",
+                  "amount": 36.176470588
+                },
+                {
+                  "urn": "119527",
+                  "amount": 78.546468401
+                },
+                {
+                  "urn": "123458",
+                  "amount": 42.044676098
+                },
+                {
+                  "urn": "122453",
+                  "amount": 70.037453183
+                },
+                {
+                  "urn": "120436",
+                  "amount": 55.009063444
+                },
+                {
+                  "urn": "119676",
+                  "amount": 41.138972809
+                },
+                {
+                  "urn": "119557",
+                  "amount": 45.975
+                },
+                {
+                  "urn": "119542",
+                  "amount": 34.894266567
+                },
+                {
+                  "urn": "117243",
+                  "amount": 65.289085545
+                },
+                {
+                  "urn": "116306",
+                  "amount": 59.653353428
+                },
+                {
+                  "urn": "116026",
+                  "amount": 58.713132795
+                },
+                {
+                  "urn": "115981",
+                  "amount": 40.040358744
+                },
+                {
+                  "urn": "114543",
+                  "amount": 48.325513196
+                },
+                {
+                  "urn": "112698",
+                  "amount": 36.24852071
+                },
+                {
+                  "urn": "110990",
+                  "amount": 43.435897435
+                },
+                {
+                  "urn": "107630",
+                  "amount": 58.717717717
+                },
+                {
+                  "urn": "106508",
+                  "amount": 42.523158694
+                },
+                {
+                  "urn": "106346",
+                  "amount": 59.151515151
+                },
+                {
+                  "urn": "106343",
+                  "amount": 64.079027355
+                },
+                {
+                  "urn": "105953",
+                  "amount": 132.961792799
+                },
+                {
+                  "urn": "105830",
+                  "amount": 61.327976625
+                },
+                {
+                  "urn": "105070",
+                  "amount": 44.969696969
+                },
+                {
+                  "urn": "104472",
+                  "amount": 71.571849668
+                },
+                {
+                  "urn": "104235",
+                  "amount": 81.381055676
+                },
+                {
+                  "urn": "103674",
+                  "amount": 61.093655589
+                },
+                {
+                  "urn": "100446",
+                  "amount": 58.005891016
+                },
+                {
+                  "urn": "125550",
+                  "amount": 58.278592375
+                }
+              ]
+            },
+            {
+              "keyField": "urn",
+              "valueField": "amount",
+              "highlightKey": "123458",
+              "sort": "asc",
+              "height": 200,
+              "id": "01222f63-eb20-4adc-8a99-31b8900c76d9",
+              "width": 630,
+              "data": [
+                {
+                  "urn": "102136",
+                  "amount": 21.967032967
+                },
+                {
+                  "urn": "105723",
+                  "amount": 13.407821229
+                },
+                {
+                  "urn": "106113",
+                  "amount": 81.613065326
+                },
+                {
+                  "urn": "107029",
+                  "amount": 50.582914572
+                },
+                {
+                  "urn": "109810",
+                  "amount": 51.429378531
+                },
+                {
+                  "urn": "109969",
+                  "amount": 24.378109452
+                },
+                {
+                  "urn": "110446",
+                  "amount": 56.571428571
+                },
+                {
+                  "urn": "111277",
+                  "amount": 33.24742268
+                },
+                {
+                  "urn": "111872",
+                  "amount": 53.915422885
+                },
+                {
+                  "urn": "114967",
+                  "amount": 43.647058823
+                },
+                {
+                  "urn": "115598",
+                  "amount": 17.418079096
+                },
+                {
+                  "urn": "116169",
+                  "amount": 68.444444444
+                },
+                {
+                  "urn": "123458",
+                  "amount": 16.850267379
+                },
+                {
+                  "urn": "126405",
+                  "amount": 85.432160804
+                },
+                {
+                  "urn": "126349",
+                  "amount": 66.516483516
+                },
+                {
+                  "urn": "124254",
+                  "amount": 103.364161849
+                },
+                {
+                  "urn": "124146",
+                  "amount": 102
+                },
+                {
+                  "urn": "122770",
+                  "amount": 19.09090909
+                },
+                {
+                  "urn": "121812",
+                  "amount": 31.918918918
+                },
+                {
+                  "urn": "119573",
+                  "amount": 65.686567164
+                },
+                {
+                  "urn": "119385",
+                  "amount": 112.102040816
+                },
+                {
+                  "urn": "119310",
+                  "amount": 111.374384236
+                },
+                {
+                  "urn": "118003",
+                  "amount": 99.659574468
+                },
+                {
+                  "urn": "117304",
+                  "amount": 33.195876288
+                },
+                {
+                  "urn": "117113",
+                  "amount": 28.082474226
+                },
+                {
+                  "urn": "116403",
+                  "amount": 34.545454545
+                },
+                {
+                  "urn": "116145",
+                  "amount": 32.853801169
+                },
+                {
+                  "urn": "116047",
+                  "amount": 36.790697674
+                },
+                {
+                  "urn": "115615",
+                  "amount": 6.646464646
+                },
+                {
+                  "urn": "135063",
+                  "amount": 73.094527363
+                }
+              ]
+            }
+          ]
+        ],
+        "title": "VerticalBarChartDefinition",
+        "allOf": [
+          {
+            "type": "object",
+            "properties": {
+              "data": {
+                "type": "array",
+                "items": {},
+                "title": "data"
+              }
+            },
+            "required": [
+              "data"
+            ]
+          },
+          {
+            "type": "object",
+            "properties": {
+              "height": {
+                "type": "number",
+                "title": "height"
+              }
+            }
+          },
+          {
+            "type": "object",
+            "properties": {
+              "sort": {
+                "enum": [
+                  "asc",
+                  "desc"
+                ],
+                "type": "string",
+                "title": "sort"
+              },
+              "id": {
+                "type": "string",
+                "title": "id"
+              },
+              "width": {
+                "type": "number",
+                "title": "width"
+              },
+              "highlightKey": {
+                "type": "string",
+                "title": "highlightKey"
+              }
+            }
+          },
+          {
+            "$ref": "#/components/schemas/ChartDefinition"
+          }
+        ]
+      }
+    }
+  },
   "paths": {
     "/api/health": {
       "get": {
@@ -38,791 +2457,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "anyOf": [
-                  {
-                    "examples": [
-                      {
-                        "keyField": "urn",
-                        "valueField": "totalExpenditure",
-                        "valueFormat": "$,~s",
-                        "labelField": "schoolName",
-                        "labelFormat": "%2$s (%1$s)",
-                        "linkFormat": "/school/%1$s",
-                        "highlightKey": "138637",
-                        "sort": "desc",
-                        "barHeight": 22,
-                        "id": "123",
-                        "width": 960,
-                        "xAxisLabel": "£ per pupil",
-                        "data": [
-                          {
-                            "urn": "138637",
-                            "schoolName": "Louth Kidgate Primary Academy",
-                            "schoolType": "Academy converter",
-                            "laName": "Lincolnshire",
-                            "periodCoveredByReturn": 12,
-                            "totalPupils": 421,
-                            "totalInternalFloorArea": 2897,
-                            "totalExpenditure": 6377.282660332
-                          },
-                          {
-                            "urn": "138694",
-                            "schoolName": "Barr View Primary & Nursery Academy",
-                            "schoolType": "Academy converter",
-                            "laName": "Birmingham",
-                            "periodCoveredByReturn": 12,
-                            "totalPupils": 436,
-                            "totalInternalFloorArea": 3514,
-                            "totalExpenditure": 6490.944954128
-                          },
-                          {
-                            "urn": "138741",
-                            "schoolName": "The Milford Academy",
-                            "schoolType": "Academy converter",
-                            "laName": "Nottingham",
-                            "periodCoveredByReturn": 12,
-                            "totalPupils": 438,
-                            "totalInternalFloorArea": 2774,
-                            "totalExpenditure": 7009.242009132
-                          },
-                          {
-                            "urn": "138994",
-                            "schoolName": "Heybridge Primary School",
-                            "schoolType": "Academy sponsor led",
-                            "laName": "Essex",
-                            "periodCoveredByReturn": 12,
-                            "totalPupils": 438,
-                            "totalInternalFloorArea": 2641,
-                            "totalExpenditure": 5979.08675799
-                          },
-                          {
-                            "urn": "139001",
-                            "schoolName": "Perry Wood Primary and Nursery School",
-                            "schoolType": "Academy sponsor led",
-                            "laName": "Worcestershire",
-                            "periodCoveredByReturn": 12,
-                            "totalPupils": 405.5,
-                            "totalInternalFloorArea": 3878,
-                            "totalExpenditure": 6646.514180024
-                          },
-                          {
-                            "urn": "139166",
-                            "schoolName": "Shaw Primary Academy",
-                            "schoolType": "Academy converter",
-                            "laName": "Thurrock",
-                            "periodCoveredByReturn": 12,
-                            "totalPupils": 432,
-                            "totalInternalFloorArea": 2671,
-                            "totalExpenditure": 5944.444444444
-                          },
-                          {
-                            "urn": "139349",
-                            "schoolName": "St Peter and St Paul Church of England Academy",
-                            "schoolType": "Academy converter",
-                            "laName": "Leicestershire",
-                            "periodCoveredByReturn": 12,
-                            "totalPupils": 416,
-                            "totalInternalFloorArea": 3099,
-                            "totalExpenditure": 6385.846153846
-                          },
-                          {
-                            "urn": "139597",
-                            "schoolName": "Boston Pioneers Free School Academy",
-                            "schoolType": "Free schools",
-                            "laName": "Lincolnshire",
-                            "periodCoveredByReturn": 12,
-                            "totalPupils": 415.5,
-                            "totalInternalFloorArea": 2114,
-                            "totalExpenditure": 6758.962695547
-                          },
-                          {
-                            "urn": "139805",
-                            "schoolName": "Rockingham Primary School",
-                            "schoolType": "Academy sponsor led",
-                            "laName": "North Northamptonshire",
-                            "periodCoveredByReturn": 12,
-                            "totalPupils": 387,
-                            "totalInternalFloorArea": 2535,
-                            "totalExpenditure": 5722.656330749
-                          },
-                          {
-                            "urn": "139952",
-                            "schoolName": "Reynolds Primary Academy",
-                            "schoolType": "Academy sponsor led",
-                            "laName": "North East Lincolnshire",
-                            "periodCoveredByReturn": 12,
-                            "totalPupils": 406.5,
-                            "totalInternalFloorArea": 3181,
-                            "totalExpenditure": 6174.201722017
-                          },
-                          {
-                            "urn": "140597",
-                            "schoolName": "Werneth Primary School",
-                            "schoolType": "Academy converter",
-                            "laName": "Oldham",
-                            "periodCoveredByReturn": 12,
-                            "totalPupils": 412.5,
-                            "totalInternalFloorArea": 4449,
-                            "totalExpenditure": 7158.515151515
-                          },
-                          {
-                            "urn": "141344",
-                            "schoolName": "Three Peaks Primary Academy",
-                            "schoolType": "Academy sponsor led",
-                            "laName": "Staffordshire",
-                            "periodCoveredByReturn": 12,
-                            "totalPupils": 406,
-                            "totalInternalFloorArea": 3086,
-                            "totalExpenditure": 6002.384236453
-                          },
-                          {
-                            "urn": "141819",
-                            "schoolName": "St Helen's Primary School",
-                            "schoolType": "Academy converter",
-                            "laName": "Suffolk",
-                            "periodCoveredByReturn": 12,
-                            "totalPupils": 439,
-                            "totalInternalFloorArea": 4074,
-                            "totalExpenditure": 6516.548974943
-                          },
-                          {
-                            "urn": "142076",
-                            "schoolName": "Tanners Brook Primary School",
-                            "schoolType": "Academy sponsor led",
-                            "laName": "Southampton",
-                            "periodCoveredByReturn": 12,
-                            "totalPupils": 414,
-                            "totalInternalFloorArea": 4645,
-                            "totalExpenditure": 6114.400966183
-                          },
-                          {
-                            "urn": "142425",
-                            "schoolName": "Freehold Community Academy",
-                            "schoolType": "Academy converter",
-                            "laName": "Oldham",
-                            "periodCoveredByReturn": 12,
-                            "totalPupils": 439,
-                            "totalInternalFloorArea": 2878,
-                            "totalExpenditure": 6644.599088838
-                          },
-                          {
-                            "urn": "143295",
-                            "schoolName": "Greenwood Primary and Nursery School",
-                            "schoolType": "Academy converter",
-                            "laName": "Nottinghamshire",
-                            "periodCoveredByReturn": 12,
-                            "totalPupils": 429.5,
-                            "totalInternalFloorArea": 2472,
-                            "totalExpenditure": 7353.005820721
-                          },
-                          {
-                            "urn": "143394",
-                            "schoolName": "Cranham Primary School",
-                            "schoolType": "Academy converter",
-                            "laName": "Worcestershire",
-                            "periodCoveredByReturn": 12,
-                            "totalPupils": 411.5,
-                            "totalInternalFloorArea": 2884,
-                            "totalExpenditure": 7013.708383961
-                          },
-                          {
-                            "urn": "143572",
-                            "schoolName": "Lilycroft Primary School",
-                            "schoolType": "Academy converter",
-                            "laName": "Bradford",
-                            "periodCoveredByReturn": 12,
-                            "totalPupils": 414,
-                            "totalInternalFloorArea": 2456,
-                            "totalExpenditure": 6261.285024154
-                          },
-                          {
-                            "urn": "143774",
-                            "schoolName": "James Dixon Primary School",
-                            "schoolType": "Academy converter",
-                            "laName": "Bromley",
-                            "periodCoveredByReturn": 12,
-                            "totalPupils": 419,
-                            "totalInternalFloorArea": 3474,
-                            "totalExpenditure": 7562.725536992
-                          },
-                          {
-                            "urn": "143871",
-                            "schoolName": "Cavalry Primary School",
-                            "schoolType": "Academy converter",
-                            "laName": "Cambridgeshire",
-                            "periodCoveredByReturn": 12,
-                            "totalPupils": 417,
-                            "totalInternalFloorArea": 2762,
-                            "totalExpenditure": 6735.853717026
-                          },
-                          {
-                            "urn": "143881",
-                            "schoolName": "Tollgate Primary School",
-                            "schoolType": "Academy converter",
-                            "laName": "Newham",
-                            "periodCoveredByReturn": 12,
-                            "totalPupils": 421,
-                            "totalInternalFloorArea": 4641,
-                            "totalExpenditure": 9472.717339667
-                          },
-                          {
-                            "urn": "143976",
-                            "schoolName": "Glebelands Primary Academy",
-                            "schoolType": "Academy converter",
-                            "laName": "Cambridgeshire",
-                            "periodCoveredByReturn": 12,
-                            "totalPupils": 405,
-                            "totalInternalFloorArea": 2130,
-                            "totalExpenditure": 6546.703703703
-                          },
-                          {
-                            "urn": "144078",
-                            "schoolName": "Dudley Wood Primary School",
-                            "schoolType": "Academy converter",
-                            "laName": "Dudley",
-                            "periodCoveredByReturn": 12,
-                            "totalPupils": 441,
-                            "totalInternalFloorArea": 2421,
-                            "totalExpenditure": 6404.655328798
-                          },
-                          {
-                            "urn": "145014",
-                            "schoolName": "Knockhall Primary School",
-                            "schoolType": "Academy sponsor led",
-                            "laName": "Kent",
-                            "periodCoveredByReturn": 12,
-                            "totalPupils": 416.5,
-                            "totalInternalFloorArea": 3555,
-                            "totalExpenditure": 6966.267707082
-                          },
-                          {
-                            "urn": "147385",
-                            "schoolName": "St Thomas More Catholic Primary School",
-                            "schoolType": "Academy converter",
-                            "laName": "Peterborough",
-                            "periodCoveredByReturn": 12,
-                            "totalPupils": 409.5,
-                            "totalInternalFloorArea": 2835,
-                            "totalExpenditure": 6651.959706959
-                          },
-                          {
-                            "urn": "147553",
-                            "schoolName": "Lakeside Primary Academy",
-                            "schoolType": "Academy converter",
-                            "laName": "Doncaster",
-                            "periodCoveredByReturn": 12,
-                            "totalPupils": 411,
-                            "totalInternalFloorArea": 2790,
-                            "totalExpenditure": 6522.919708029
-                          },
-                          {
-                            "urn": "147619",
-                            "schoolName": "Churchfield Primary School",
-                            "schoolType": "Academy converter",
-                            "laName": "Barnsley",
-                            "periodCoveredByReturn": 12,
-                            "totalPupils": 404,
-                            "totalInternalFloorArea": 3046,
-                            "totalExpenditure": 7114.594059405
-                          },
-                          {
-                            "urn": "147669",
-                            "schoolName": "Abbey Catholic Primary School",
-                            "schoolType": "Academy converter",
-                            "laName": "Birmingham",
-                            "periodCoveredByReturn": 12,
-                            "totalPupils": 419,
-                            "totalInternalFloorArea": 2183,
-                            "totalExpenditure": 6381.902147971
-                          },
-                          {
-                            "urn": "147709",
-                            "schoolName": "Co-op Academy Princeville",
-                            "schoolType": "Academy converter",
-                            "laName": "Bradford",
-                            "periodCoveredByReturn": 12,
-                            "totalPupils": 451,
-                            "totalInternalFloorArea": 4289,
-                            "totalExpenditure": 6503.068736141
-                          },
-                          {
-                            "urn": "148383",
-                            "schoolName": "The St Augustine's Academy",
-                            "schoolType": "Academy converter",
-                            "laName": "Nottinghamshire",
-                            "periodCoveredByReturn": 12,
-                            "totalPupils": 428,
-                            "totalInternalFloorArea": 3732,
-                            "totalExpenditure": 6467.560747663
-                          }
-                        ]
-                      }
-                    ],
-                    "allOf": [
-                      {
-                        "type": "object",
-                        "properties": {
-                          "data": {
-                            "type": "array",
-                            "items": {}
-                          }
-                        },
-                        "required": [
-                          "data"
-                        ]
-                      },
-                      {
-                        "type": "object",
-                        "properties": {
-                          "barHeight": {
-                            "type": "number"
-                          },
-                          "labelFormat": {
-                            "type": "string"
-                          },
-                          "linkFormat": {
-                            "type": "string"
-                          },
-                          "valueFormat": {
-                            "type": "string"
-                          },
-                          "xAxisLabel": {
-                            "type": "string"
-                          }
-                        }
-                      },
-                      {
-                        "type": "object",
-                        "properties": {
-                          "sort": {
-                            "enum": [
-                              "asc",
-                              "desc"
-                            ],
-                            "type": "string"
-                          },
-                          "id": {
-                            "type": "string"
-                          },
-                          "width": {
-                            "type": "number"
-                          },
-                          "highlightKey": {
-                            "type": "string"
-                          }
-                        }
-                      },
-                      {
-                        "type": "object",
-                        "properties": {
-                          "keyField": {
-                            "type": "string"
-                          },
-                          "valueField": {
-                            "type": "string"
-                          }
-                        },
-                        "required": [
-                          "keyField",
-                          "valueField"
-                        ]
-                      }
-                    ]
-                  },
-                  {
-                    "type": "array",
-                    "items": {
-                      "examples": [
-                        {
-                          "keyField": "urn",
-                          "valueField": "totalExpenditure",
-                          "valueFormat": "$,~s",
-                          "labelField": "schoolName",
-                          "labelFormat": "%2$s (%1$s)",
-                          "linkFormat": "/school/%1$s",
-                          "highlightKey": "138637",
-                          "sort": "desc",
-                          "barHeight": 22,
-                          "id": "123",
-                          "width": 960,
-                          "xAxisLabel": "£ per pupil",
-                          "data": [
-                            {
-                              "urn": "138637",
-                              "schoolName": "Louth Kidgate Primary Academy",
-                              "schoolType": "Academy converter",
-                              "laName": "Lincolnshire",
-                              "periodCoveredByReturn": 12,
-                              "totalPupils": 421,
-                              "totalInternalFloorArea": 2897,
-                              "totalExpenditure": 6377.282660332
-                            },
-                            {
-                              "urn": "138694",
-                              "schoolName": "Barr View Primary & Nursery Academy",
-                              "schoolType": "Academy converter",
-                              "laName": "Birmingham",
-                              "periodCoveredByReturn": 12,
-                              "totalPupils": 436,
-                              "totalInternalFloorArea": 3514,
-                              "totalExpenditure": 6490.944954128
-                            },
-                            {
-                              "urn": "138741",
-                              "schoolName": "The Milford Academy",
-                              "schoolType": "Academy converter",
-                              "laName": "Nottingham",
-                              "periodCoveredByReturn": 12,
-                              "totalPupils": 438,
-                              "totalInternalFloorArea": 2774,
-                              "totalExpenditure": 7009.242009132
-                            },
-                            {
-                              "urn": "138994",
-                              "schoolName": "Heybridge Primary School",
-                              "schoolType": "Academy sponsor led",
-                              "laName": "Essex",
-                              "periodCoveredByReturn": 12,
-                              "totalPupils": 438,
-                              "totalInternalFloorArea": 2641,
-                              "totalExpenditure": 5979.08675799
-                            },
-                            {
-                              "urn": "139001",
-                              "schoolName": "Perry Wood Primary and Nursery School",
-                              "schoolType": "Academy sponsor led",
-                              "laName": "Worcestershire",
-                              "periodCoveredByReturn": 12,
-                              "totalPupils": 405.5,
-                              "totalInternalFloorArea": 3878,
-                              "totalExpenditure": 6646.514180024
-                            },
-                            {
-                              "urn": "139166",
-                              "schoolName": "Shaw Primary Academy",
-                              "schoolType": "Academy converter",
-                              "laName": "Thurrock",
-                              "periodCoveredByReturn": 12,
-                              "totalPupils": 432,
-                              "totalInternalFloorArea": 2671,
-                              "totalExpenditure": 5944.444444444
-                            },
-                            {
-                              "urn": "139349",
-                              "schoolName": "St Peter and St Paul Church of England Academy",
-                              "schoolType": "Academy converter",
-                              "laName": "Leicestershire",
-                              "periodCoveredByReturn": 12,
-                              "totalPupils": 416,
-                              "totalInternalFloorArea": 3099,
-                              "totalExpenditure": 6385.846153846
-                            },
-                            {
-                              "urn": "139597",
-                              "schoolName": "Boston Pioneers Free School Academy",
-                              "schoolType": "Free schools",
-                              "laName": "Lincolnshire",
-                              "periodCoveredByReturn": 12,
-                              "totalPupils": 415.5,
-                              "totalInternalFloorArea": 2114,
-                              "totalExpenditure": 6758.962695547
-                            },
-                            {
-                              "urn": "139805",
-                              "schoolName": "Rockingham Primary School",
-                              "schoolType": "Academy sponsor led",
-                              "laName": "North Northamptonshire",
-                              "periodCoveredByReturn": 12,
-                              "totalPupils": 387,
-                              "totalInternalFloorArea": 2535,
-                              "totalExpenditure": 5722.656330749
-                            },
-                            {
-                              "urn": "139952",
-                              "schoolName": "Reynolds Primary Academy",
-                              "schoolType": "Academy sponsor led",
-                              "laName": "North East Lincolnshire",
-                              "periodCoveredByReturn": 12,
-                              "totalPupils": 406.5,
-                              "totalInternalFloorArea": 3181,
-                              "totalExpenditure": 6174.201722017
-                            },
-                            {
-                              "urn": "140597",
-                              "schoolName": "Werneth Primary School",
-                              "schoolType": "Academy converter",
-                              "laName": "Oldham",
-                              "periodCoveredByReturn": 12,
-                              "totalPupils": 412.5,
-                              "totalInternalFloorArea": 4449,
-                              "totalExpenditure": 7158.515151515
-                            },
-                            {
-                              "urn": "141344",
-                              "schoolName": "Three Peaks Primary Academy",
-                              "schoolType": "Academy sponsor led",
-                              "laName": "Staffordshire",
-                              "periodCoveredByReturn": 12,
-                              "totalPupils": 406,
-                              "totalInternalFloorArea": 3086,
-                              "totalExpenditure": 6002.384236453
-                            },
-                            {
-                              "urn": "141819",
-                              "schoolName": "St Helen's Primary School",
-                              "schoolType": "Academy converter",
-                              "laName": "Suffolk",
-                              "periodCoveredByReturn": 12,
-                              "totalPupils": 439,
-                              "totalInternalFloorArea": 4074,
-                              "totalExpenditure": 6516.548974943
-                            },
-                            {
-                              "urn": "142076",
-                              "schoolName": "Tanners Brook Primary School",
-                              "schoolType": "Academy sponsor led",
-                              "laName": "Southampton",
-                              "periodCoveredByReturn": 12,
-                              "totalPupils": 414,
-                              "totalInternalFloorArea": 4645,
-                              "totalExpenditure": 6114.400966183
-                            },
-                            {
-                              "urn": "142425",
-                              "schoolName": "Freehold Community Academy",
-                              "schoolType": "Academy converter",
-                              "laName": "Oldham",
-                              "periodCoveredByReturn": 12,
-                              "totalPupils": 439,
-                              "totalInternalFloorArea": 2878,
-                              "totalExpenditure": 6644.599088838
-                            },
-                            {
-                              "urn": "143295",
-                              "schoolName": "Greenwood Primary and Nursery School",
-                              "schoolType": "Academy converter",
-                              "laName": "Nottinghamshire",
-                              "periodCoveredByReturn": 12,
-                              "totalPupils": 429.5,
-                              "totalInternalFloorArea": 2472,
-                              "totalExpenditure": 7353.005820721
-                            },
-                            {
-                              "urn": "143394",
-                              "schoolName": "Cranham Primary School",
-                              "schoolType": "Academy converter",
-                              "laName": "Worcestershire",
-                              "periodCoveredByReturn": 12,
-                              "totalPupils": 411.5,
-                              "totalInternalFloorArea": 2884,
-                              "totalExpenditure": 7013.708383961
-                            },
-                            {
-                              "urn": "143572",
-                              "schoolName": "Lilycroft Primary School",
-                              "schoolType": "Academy converter",
-                              "laName": "Bradford",
-                              "periodCoveredByReturn": 12,
-                              "totalPupils": 414,
-                              "totalInternalFloorArea": 2456,
-                              "totalExpenditure": 6261.285024154
-                            },
-                            {
-                              "urn": "143774",
-                              "schoolName": "James Dixon Primary School",
-                              "schoolType": "Academy converter",
-                              "laName": "Bromley",
-                              "periodCoveredByReturn": 12,
-                              "totalPupils": 419,
-                              "totalInternalFloorArea": 3474,
-                              "totalExpenditure": 7562.725536992
-                            },
-                            {
-                              "urn": "143871",
-                              "schoolName": "Cavalry Primary School",
-                              "schoolType": "Academy converter",
-                              "laName": "Cambridgeshire",
-                              "periodCoveredByReturn": 12,
-                              "totalPupils": 417,
-                              "totalInternalFloorArea": 2762,
-                              "totalExpenditure": 6735.853717026
-                            },
-                            {
-                              "urn": "143881",
-                              "schoolName": "Tollgate Primary School",
-                              "schoolType": "Academy converter",
-                              "laName": "Newham",
-                              "periodCoveredByReturn": 12,
-                              "totalPupils": 421,
-                              "totalInternalFloorArea": 4641,
-                              "totalExpenditure": 9472.717339667
-                            },
-                            {
-                              "urn": "143976",
-                              "schoolName": "Glebelands Primary Academy",
-                              "schoolType": "Academy converter",
-                              "laName": "Cambridgeshire",
-                              "periodCoveredByReturn": 12,
-                              "totalPupils": 405,
-                              "totalInternalFloorArea": 2130,
-                              "totalExpenditure": 6546.703703703
-                            },
-                            {
-                              "urn": "144078",
-                              "schoolName": "Dudley Wood Primary School",
-                              "schoolType": "Academy converter",
-                              "laName": "Dudley",
-                              "periodCoveredByReturn": 12,
-                              "totalPupils": 441,
-                              "totalInternalFloorArea": 2421,
-                              "totalExpenditure": 6404.655328798
-                            },
-                            {
-                              "urn": "145014",
-                              "schoolName": "Knockhall Primary School",
-                              "schoolType": "Academy sponsor led",
-                              "laName": "Kent",
-                              "periodCoveredByReturn": 12,
-                              "totalPupils": 416.5,
-                              "totalInternalFloorArea": 3555,
-                              "totalExpenditure": 6966.267707082
-                            },
-                            {
-                              "urn": "147385",
-                              "schoolName": "St Thomas More Catholic Primary School",
-                              "schoolType": "Academy converter",
-                              "laName": "Peterborough",
-                              "periodCoveredByReturn": 12,
-                              "totalPupils": 409.5,
-                              "totalInternalFloorArea": 2835,
-                              "totalExpenditure": 6651.959706959
-                            },
-                            {
-                              "urn": "147553",
-                              "schoolName": "Lakeside Primary Academy",
-                              "schoolType": "Academy converter",
-                              "laName": "Doncaster",
-                              "periodCoveredByReturn": 12,
-                              "totalPupils": 411,
-                              "totalInternalFloorArea": 2790,
-                              "totalExpenditure": 6522.919708029
-                            },
-                            {
-                              "urn": "147619",
-                              "schoolName": "Churchfield Primary School",
-                              "schoolType": "Academy converter",
-                              "laName": "Barnsley",
-                              "periodCoveredByReturn": 12,
-                              "totalPupils": 404,
-                              "totalInternalFloorArea": 3046,
-                              "totalExpenditure": 7114.594059405
-                            },
-                            {
-                              "urn": "147669",
-                              "schoolName": "Abbey Catholic Primary School",
-                              "schoolType": "Academy converter",
-                              "laName": "Birmingham",
-                              "periodCoveredByReturn": 12,
-                              "totalPupils": 419,
-                              "totalInternalFloorArea": 2183,
-                              "totalExpenditure": 6381.902147971
-                            },
-                            {
-                              "urn": "147709",
-                              "schoolName": "Co-op Academy Princeville",
-                              "schoolType": "Academy converter",
-                              "laName": "Bradford",
-                              "periodCoveredByReturn": 12,
-                              "totalPupils": 451,
-                              "totalInternalFloorArea": 4289,
-                              "totalExpenditure": 6503.068736141
-                            },
-                            {
-                              "urn": "148383",
-                              "schoolName": "The St Augustine's Academy",
-                              "schoolType": "Academy converter",
-                              "laName": "Nottinghamshire",
-                              "periodCoveredByReturn": 12,
-                              "totalPupils": 428,
-                              "totalInternalFloorArea": 3732,
-                              "totalExpenditure": 6467.560747663
-                            }
-                          ]
-                        }
-                      ],
-                      "allOf": [
-                        {
-                          "type": "object",
-                          "properties": {
-                            "data": {
-                              "type": "array",
-                              "items": {}
-                            }
-                          },
-                          "required": [
-                            "data"
-                          ]
-                        },
-                        {
-                          "type": "object",
-                          "properties": {
-                            "barHeight": {
-                              "type": "number"
-                            },
-                            "labelFormat": {
-                              "type": "string"
-                            },
-                            "linkFormat": {
-                              "type": "string"
-                            },
-                            "valueFormat": {
-                              "type": "string"
-                            },
-                            "xAxisLabel": {
-                              "type": "string"
-                            }
-                          }
-                        },
-                        {
-                          "type": "object",
-                          "properties": {
-                            "sort": {
-                              "enum": [
-                                "asc",
-                                "desc"
-                              ],
-                              "type": "string"
-                            },
-                            "id": {
-                              "type": "string"
-                            },
-                            "width": {
-                              "type": "number"
-                            },
-                            "highlightKey": {
-                              "type": "string"
-                            }
-                          }
-                        },
-                        {
-                          "type": "object",
-                          "properties": {
-                            "keyField": {
-                              "type": "string"
-                            },
-                            "valueField": {
-                              "type": "string"
-                            }
-                          },
-                          "required": [
-                            "keyField",
-                            "valueField"
-                          ]
-                        }
-                      ]
-                    }
-                  }
-                ]
+                "$ref": "#/components/schemas/HorizontalBarChartPayload"
               }
             }
           }
@@ -838,19 +2473,7 @@
                       "type": "string"
                     },
                     {
-                      "type": "object",
-                      "properties": {
-                        "id": {
-                          "type": "string"
-                        },
-                        "html": {
-                          "type": "string"
-                        }
-                      },
-                      "required": [
-                        "html",
-                        "id"
-                      ]
+                      "$ref": "#/components/schemas/ChartBuilderResult"
                     }
                   ]
                 }
@@ -865,13 +2488,15 @@
                   "type": "object",
                   "properties": {
                     "error": {
-                      "type": "string"
+                      "type": "string",
+                      "title": "error"
                     },
                     "errors": {
                       "type": "array",
                       "items": {
                         "type": "string"
-                      }
+                      },
+                      "title": "errors"
                     }
                   },
                   "required": [
@@ -889,7 +2514,8 @@
                   "type": "object",
                   "properties": {
                     "error": {
-                      "type": "string"
+                      "type": "string",
+                      "title": "error"
                     }
                   },
                   "required": [
@@ -915,1711 +2541,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "anyOf": [
-                  {
-                    "examples": [
-                      {
-                        "keyField": "urn",
-                        "valueField": "amount",
-                        "highlightKey": "123456",
-                        "sort": "asc",
-                        "height": 200,
-                        "id": "123",
-                        "width": 630,
-                        "data": [
-                          {
-                            "urn": "100686",
-                            "amount": 4455.614702154
-                          },
-                          {
-                            "urn": "100934",
-                            "amount": 6206.301886792
-                          },
-                          {
-                            "urn": "101019",
-                            "amount": 5642.356200527
-                          },
-                          {
-                            "urn": "101530",
-                            "amount": 5624.968561064
-                          },
-                          {
-                            "urn": "101534",
-                            "amount": 5863.263157894
-                          },
-                          {
-                            "urn": "101721",
-                            "amount": 5239.424164524
-                          },
-                          {
-                            "urn": "101785",
-                            "amount": 4796.046004842
-                          },
-                          {
-                            "urn": "102125",
-                            "amount": 5596.175438596
-                          },
-                          {
-                            "urn": "102656",
-                            "amount": 5229.78795483
-                          },
-                          {
-                            "urn": "103778",
-                            "amount": 4657.606060606
-                          },
-                          {
-                            "urn": "103813",
-                            "amount": 4519.440677966
-                          },
-                          {
-                            "urn": "103946",
-                            "amount": 4231.673123486
-                          },
-                          {
-                            "urn": "104310",
-                            "amount": 4374.646007151
-                          },
-                          {
-                            "urn": "104565",
-                            "amount": 4914.077509529
-                          },
-                          {
-                            "urn": "107001",
-                            "amount": 4140.608040201
-                          },
-                          {
-                            "urn": "109796",
-                            "amount": 4368.543640897
-                          },
-                          {
-                            "urn": "112585",
-                            "amount": 4249.106280193
-                          },
-                          {
-                            "urn": "112667",
-                            "amount": 4723.569620253
-                          },
-                          {
-                            "urn": "113343",
-                            "amount": 5068.22778473
-                          },
-                          {
-                            "urn": "114399",
-                            "amount": 4778.491525423
-                          },
-                          {
-                            "urn": "116702",
-                            "amount": 4730.936899862
-                          },
-                          {
-                            "urn": "116858",
-                            "amount": 4719.467153284
-                          },
-                          {
-                            "urn": "119194",
-                            "amount": 4825.429667519
-                          },
-                          {
-                            "urn": "119342",
-                            "amount": 4376.669856459
-                          },
-                          {
-                            "urn": "120937",
-                            "amount": 5088.323232323
-                          },
-                          {
-                            "urn": "121912",
-                            "amount": 4792.737864077
-                          },
-                          {
-                            "urn": "123456",
-                            "amount": 4253.240811153
-                          },
-                          {
-                            "urn": "124040",
-                            "amount": 5072.259740259
-                          },
-                          {
-                            "urn": "124072",
-                            "amount": 3827.370843989
-                          },
-                          {
-                            "urn": "136061",
-                            "amount": 4781.567839195
-                          }
-                        ]
-                      },
-                      [
-                        {
-                          "keyField": "urn",
-                          "valueField": "amount",
-                          "highlightKey": "123458",
-                          "sort": "asc",
-                          "height": 200,
-                          "id": "a76e91c7-a743-4175-99d3-e26a779fa6e7",
-                          "width": 630,
-                          "data": [
-                            {
-                              "urn": "102136",
-                              "amount": 570.461538461
-                            },
-                            {
-                              "urn": "105723",
-                              "amount": 218.748603351
-                            },
-                            {
-                              "urn": "106113",
-                              "amount": 414.597989949
-                            },
-                            {
-                              "urn": "107029",
-                              "amount": 100.075376884
-                            },
-                            {
-                              "urn": "109810",
-                              "amount": 285.412429378
-                            },
-                            {
-                              "urn": "109969",
-                              "amount": 132.208955223
-                            },
-                            {
-                              "urn": "110446",
-                              "amount": 171.428571428
-                            },
-                            {
-                              "urn": "111277",
-                              "amount": 317.43298969
-                            },
-                            {
-                              "urn": "111872",
-                              "amount": 379.243781094
-                            },
-                            {
-                              "urn": "114967",
-                              "amount": 263.176470588
-                            },
-                            {
-                              "urn": "115598",
-                              "amount": 144.954802259
-                            },
-                            {
-                              "urn": "116169",
-                              "amount": 144.333333333
-                            },
-                            {
-                              "urn": "123458",
-                              "amount": 212.128342245
-                            },
-                            {
-                              "urn": "126405",
-                              "amount": 419.271356783
-                            },
-                            {
-                              "urn": "126349",
-                              "amount": 376.56043956
-                            },
-                            {
-                              "urn": "124254",
-                              "amount": 244.38150289
-                            },
-                            {
-                              "urn": "124146",
-                              "amount": 400.432432432
-                            },
-                            {
-                              "urn": "122770",
-                              "amount": 216.272727272
-                            },
-                            {
-                              "urn": "121812",
-                              "amount": 191.108108108
-                            },
-                            {
-                              "urn": "119573",
-                              "amount": 294.970149253
-                            },
-                            {
-                              "urn": "119385",
-                              "amount": 165.163265306
-                            },
-                            {
-                              "urn": "119310",
-                              "amount": 325.729064039
-                            },
-                            {
-                              "urn": "118003",
-                              "amount": 157.702127659
-                            },
-                            {
-                              "urn": "117304",
-                              "amount": 314.164948453
-                            },
-                            {
-                              "urn": "117113",
-                              "amount": 176.041237113
-                            },
-                            {
-                              "urn": "116403",
-                              "amount": 84.454545454
-                            },
-                            {
-                              "urn": "116145",
-                              "amount": 86.853801169
-                            },
-                            {
-                              "urn": "116047",
-                              "amount": 83.976744186
-                            },
-                            {
-                              "urn": "115615",
-                              "amount": 267.696969696
-                            },
-                            {
-                              "urn": "135063",
-                              "amount": 206.39800995
-                            }
-                          ]
-                        },
-                        {
-                          "keyField": "urn",
-                          "valueField": "amount",
-                          "highlightKey": "123458",
-                          "sort": "asc",
-                          "height": 200,
-                          "id": "172a4856-43b2-4075-887b-ba8650d4f8c2",
-                          "width": 630,
-                          "data": [
-                            {
-                              "urn": "102136",
-                              "amount": 5232.428571428
-                            },
-                            {
-                              "urn": "105723",
-                              "amount": 4239.005586592
-                            },
-                            {
-                              "urn": "106113",
-                              "amount": 5920.457286432
-                            },
-                            {
-                              "urn": "107029",
-                              "amount": 5219.592964824
-                            },
-                            {
-                              "urn": "109810",
-                              "amount": 4078.401129943
-                            },
-                            {
-                              "urn": "109969",
-                              "amount": 4820.587064676
-                            },
-                            {
-                              "urn": "110446",
-                              "amount": 4314.142857142
-                            },
-                            {
-                              "urn": "111277",
-                              "amount": 4069.876288659
-                            },
-                            {
-                              "urn": "111872",
-                              "amount": 3762.004975124
-                            },
-                            {
-                              "urn": "114967",
-                              "amount": 4427.235294117
-                            },
-                            {
-                              "urn": "115598",
-                              "amount": 4543.36158192
-                            },
-                            {
-                              "urn": "116169",
-                              "amount": 3703.222222222
-                            },
-                            {
-                              "urn": "123458",
-                              "amount": 3920.454545454
-                            },
-                            {
-                              "urn": "126405",
-                              "amount": 3834.010050251
-                            },
-                            {
-                              "urn": "126349",
-                              "amount": 3871.109890109
-                            },
-                            {
-                              "urn": "124254",
-                              "amount": 3716.693641618
-                            },
-                            {
-                              "urn": "124146",
-                              "amount": 4638.324324324
-                            },
-                            {
-                              "urn": "122770",
-                              "amount": 3843.909090909
-                            },
-                            {
-                              "urn": "121812",
-                              "amount": 4250.945945945
-                            },
-                            {
-                              "urn": "119573",
-                              "amount": 3926.039800995
-                            },
-                            {
-                              "urn": "119385",
-                              "amount": 3817.591836734
-                            },
-                            {
-                              "urn": "119310",
-                              "amount": 4179.69458128
-                            },
-                            {
-                              "urn": "118003",
-                              "amount": 3701.382978723
-                            },
-                            {
-                              "urn": "117304",
-                              "amount": 4051.876288659
-                            },
-                            {
-                              "urn": "117113",
-                              "amount": 4336.082474226
-                            },
-                            {
-                              "urn": "116403",
-                              "amount": 4081.818181818
-                            },
-                            {
-                              "urn": "116145",
-                              "amount": 4040.947368421
-                            },
-                            {
-                              "urn": "116047",
-                              "amount": 4057.209302325
-                            },
-                            {
-                              "urn": "115615",
-                              "amount": 4698.343434343
-                            },
-                            {
-                              "urn": "135063",
-                              "amount": 3506.298507462
-                            }
-                          ]
-                        },
-                        {
-                          "keyField": "urn",
-                          "valueField": "amount",
-                          "highlightKey": "123458",
-                          "sort": "asc",
-                          "height": 200,
-                          "id": "0444a968-77fc-46ed-b820-9c7523d6ff7a",
-                          "width": 630,
-                          "data": [
-                            {
-                              "urn": "102136",
-                              "amount": 1052.626373626
-                            },
-                            {
-                              "urn": "105723",
-                              "amount": 777.245810055
-                            },
-                            {
-                              "urn": "106113",
-                              "amount": 751.713567839
-                            },
-                            {
-                              "urn": "107029",
-                              "amount": 700.331658291
-                            },
-                            {
-                              "urn": "109810",
-                              "amount": 562.717514124
-                            },
-                            {
-                              "urn": "109969",
-                              "amount": 1026.820895522
-                            },
-                            {
-                              "urn": "110446",
-                              "amount": 704.142857142
-                            },
-                            {
-                              "urn": "111277",
-                              "amount": 594.206185567
-                            },
-                            {
-                              "urn": "111872",
-                              "amount": 745
-                            },
-                            {
-                              "urn": "114967",
-                              "amount": 680.352941176
-                            },
-                            {
-                              "urn": "115598",
-                              "amount": 758.333333333
-                            },
-                            {
-                              "urn": "116169",
-                              "amount": 633.333333333
-                            },
-                            {
-                              "urn": "123458",
-                              "amount": 532.802139037
-                            },
-                            {
-                              "urn": "126405",
-                              "amount": 543.070351758
-                            },
-                            {
-                              "urn": "126349",
-                              "amount": 800.791208791
-                            },
-                            {
-                              "urn": "124254",
-                              "amount": 688.982658959
-                            },
-                            {
-                              "urn": "124146",
-                              "amount": 470.324324324
-                            },
-                            {
-                              "urn": "122770",
-                              "amount": 704.636363636
-                            },
-                            {
-                              "urn": "121812",
-                              "amount": 548.243243243
-                            },
-                            {
-                              "urn": "119573",
-                              "amount": 546.442786069
-                            },
-                            {
-                              "urn": "119385",
-                              "amount": 378.87755102
-                            },
-                            {
-                              "urn": "119310",
-                              "amount": 802.921182266
-                            },
-                            {
-                              "urn": "118003",
-                              "amount": 504.29787234
-                            },
-                            {
-                              "urn": "117304",
-                              "amount": 479.742268041
-                            },
-                            {
-                              "urn": "117113",
-                              "amount": 698.12371134
-                            },
-                            {
-                              "urn": "116403",
-                              "amount": 470.363636363
-                            },
-                            {
-                              "urn": "116145",
-                              "amount": 476.795321637
-                            },
-                            {
-                              "urn": "116047",
-                              "amount": 638.65116279
-                            },
-                            {
-                              "urn": "115615",
-                              "amount": 651.212121212
-                            },
-                            {
-                              "urn": "135063",
-                              "amount": 370.109452736
-                            }
-                          ]
-                        },
-                        {
-                          "keyField": "urn",
-                          "valueField": "amount",
-                          "highlightKey": "123458",
-                          "sort": "asc",
-                          "height": 200,
-                          "id": "055ed0f4-d2a0-4821-ab7c-b707608c140e",
-                          "width": 630,
-                          "data": [
-                            {
-                              "urn": "104936",
-                              "amount": 71.075127644
-                            },
-                            {
-                              "urn": "105018",
-                              "amount": 37.39117427
-                            },
-                            {
-                              "urn": "115986",
-                              "amount": 54.621700879
-                            },
-                            {
-                              "urn": "116047",
-                              "amount": 36.176470588
-                            },
-                            {
-                              "urn": "119527",
-                              "amount": 78.546468401
-                            },
-                            {
-                              "urn": "123458",
-                              "amount": 42.044676098
-                            },
-                            {
-                              "urn": "122453",
-                              "amount": 70.037453183
-                            },
-                            {
-                              "urn": "120436",
-                              "amount": 55.009063444
-                            },
-                            {
-                              "urn": "119676",
-                              "amount": 41.138972809
-                            },
-                            {
-                              "urn": "119557",
-                              "amount": 45.975
-                            },
-                            {
-                              "urn": "119542",
-                              "amount": 34.894266567
-                            },
-                            {
-                              "urn": "117243",
-                              "amount": 65.289085545
-                            },
-                            {
-                              "urn": "116306",
-                              "amount": 59.653353428
-                            },
-                            {
-                              "urn": "116026",
-                              "amount": 58.713132795
-                            },
-                            {
-                              "urn": "115981",
-                              "amount": 40.040358744
-                            },
-                            {
-                              "urn": "114543",
-                              "amount": 48.325513196
-                            },
-                            {
-                              "urn": "112698",
-                              "amount": 36.24852071
-                            },
-                            {
-                              "urn": "110990",
-                              "amount": 43.435897435
-                            },
-                            {
-                              "urn": "107630",
-                              "amount": 58.717717717
-                            },
-                            {
-                              "urn": "106508",
-                              "amount": 42.523158694
-                            },
-                            {
-                              "urn": "106346",
-                              "amount": 59.151515151
-                            },
-                            {
-                              "urn": "106343",
-                              "amount": 64.079027355
-                            },
-                            {
-                              "urn": "105953",
-                              "amount": 132.961792799
-                            },
-                            {
-                              "urn": "105830",
-                              "amount": 61.327976625
-                            },
-                            {
-                              "urn": "105070",
-                              "amount": 44.969696969
-                            },
-                            {
-                              "urn": "104472",
-                              "amount": 71.571849668
-                            },
-                            {
-                              "urn": "104235",
-                              "amount": 81.381055676
-                            },
-                            {
-                              "urn": "103674",
-                              "amount": 61.093655589
-                            },
-                            {
-                              "urn": "100446",
-                              "amount": 58.005891016
-                            },
-                            {
-                              "urn": "125550",
-                              "amount": 58.278592375
-                            }
-                          ]
-                        },
-                        {
-                          "keyField": "urn",
-                          "valueField": "amount",
-                          "highlightKey": "123458",
-                          "sort": "asc",
-                          "height": 200,
-                          "id": "01222f63-eb20-4adc-8a99-31b8900c76d9",
-                          "width": 630,
-                          "data": [
-                            {
-                              "urn": "102136",
-                              "amount": 21.967032967
-                            },
-                            {
-                              "urn": "105723",
-                              "amount": 13.407821229
-                            },
-                            {
-                              "urn": "106113",
-                              "amount": 81.613065326
-                            },
-                            {
-                              "urn": "107029",
-                              "amount": 50.582914572
-                            },
-                            {
-                              "urn": "109810",
-                              "amount": 51.429378531
-                            },
-                            {
-                              "urn": "109969",
-                              "amount": 24.378109452
-                            },
-                            {
-                              "urn": "110446",
-                              "amount": 56.571428571
-                            },
-                            {
-                              "urn": "111277",
-                              "amount": 33.24742268
-                            },
-                            {
-                              "urn": "111872",
-                              "amount": 53.915422885
-                            },
-                            {
-                              "urn": "114967",
-                              "amount": 43.647058823
-                            },
-                            {
-                              "urn": "115598",
-                              "amount": 17.418079096
-                            },
-                            {
-                              "urn": "116169",
-                              "amount": 68.444444444
-                            },
-                            {
-                              "urn": "123458",
-                              "amount": 16.850267379
-                            },
-                            {
-                              "urn": "126405",
-                              "amount": 85.432160804
-                            },
-                            {
-                              "urn": "126349",
-                              "amount": 66.516483516
-                            },
-                            {
-                              "urn": "124254",
-                              "amount": 103.364161849
-                            },
-                            {
-                              "urn": "124146",
-                              "amount": 102
-                            },
-                            {
-                              "urn": "122770",
-                              "amount": 19.09090909
-                            },
-                            {
-                              "urn": "121812",
-                              "amount": 31.918918918
-                            },
-                            {
-                              "urn": "119573",
-                              "amount": 65.686567164
-                            },
-                            {
-                              "urn": "119385",
-                              "amount": 112.102040816
-                            },
-                            {
-                              "urn": "119310",
-                              "amount": 111.374384236
-                            },
-                            {
-                              "urn": "118003",
-                              "amount": 99.659574468
-                            },
-                            {
-                              "urn": "117304",
-                              "amount": 33.195876288
-                            },
-                            {
-                              "urn": "117113",
-                              "amount": 28.082474226
-                            },
-                            {
-                              "urn": "116403",
-                              "amount": 34.545454545
-                            },
-                            {
-                              "urn": "116145",
-                              "amount": 32.853801169
-                            },
-                            {
-                              "urn": "116047",
-                              "amount": 36.790697674
-                            },
-                            {
-                              "urn": "115615",
-                              "amount": 6.646464646
-                            },
-                            {
-                              "urn": "135063",
-                              "amount": 73.094527363
-                            }
-                          ]
-                        }
-                      ]
-                    ],
-                    "allOf": [
-                      {
-                        "type": "object",
-                        "properties": {
-                          "data": {
-                            "type": "array",
-                            "items": {}
-                          }
-                        },
-                        "required": [
-                          "data"
-                        ]
-                      },
-                      {
-                        "type": "object",
-                        "properties": {
-                          "height": {
-                            "type": "number"
-                          }
-                        }
-                      },
-                      {
-                        "type": "object",
-                        "properties": {
-                          "sort": {
-                            "enum": [
-                              "asc",
-                              "desc"
-                            ],
-                            "type": "string"
-                          },
-                          "id": {
-                            "type": "string"
-                          },
-                          "width": {
-                            "type": "number"
-                          },
-                          "highlightKey": {
-                            "type": "string"
-                          }
-                        }
-                      },
-                      {
-                        "type": "object",
-                        "properties": {
-                          "keyField": {
-                            "type": "string"
-                          },
-                          "valueField": {
-                            "type": "string"
-                          }
-                        },
-                        "required": [
-                          "keyField",
-                          "valueField"
-                        ]
-                      }
-                    ]
-                  },
-                  {
-                    "type": "array",
-                    "items": {
-                      "examples": [
-                        {
-                          "keyField": "urn",
-                          "valueField": "amount",
-                          "highlightKey": "123456",
-                          "sort": "asc",
-                          "height": 200,
-                          "id": "123",
-                          "width": 630,
-                          "data": [
-                            {
-                              "urn": "100686",
-                              "amount": 4455.614702154
-                            },
-                            {
-                              "urn": "100934",
-                              "amount": 6206.301886792
-                            },
-                            {
-                              "urn": "101019",
-                              "amount": 5642.356200527
-                            },
-                            {
-                              "urn": "101530",
-                              "amount": 5624.968561064
-                            },
-                            {
-                              "urn": "101534",
-                              "amount": 5863.263157894
-                            },
-                            {
-                              "urn": "101721",
-                              "amount": 5239.424164524
-                            },
-                            {
-                              "urn": "101785",
-                              "amount": 4796.046004842
-                            },
-                            {
-                              "urn": "102125",
-                              "amount": 5596.175438596
-                            },
-                            {
-                              "urn": "102656",
-                              "amount": 5229.78795483
-                            },
-                            {
-                              "urn": "103778",
-                              "amount": 4657.606060606
-                            },
-                            {
-                              "urn": "103813",
-                              "amount": 4519.440677966
-                            },
-                            {
-                              "urn": "103946",
-                              "amount": 4231.673123486
-                            },
-                            {
-                              "urn": "104310",
-                              "amount": 4374.646007151
-                            },
-                            {
-                              "urn": "104565",
-                              "amount": 4914.077509529
-                            },
-                            {
-                              "urn": "107001",
-                              "amount": 4140.608040201
-                            },
-                            {
-                              "urn": "109796",
-                              "amount": 4368.543640897
-                            },
-                            {
-                              "urn": "112585",
-                              "amount": 4249.106280193
-                            },
-                            {
-                              "urn": "112667",
-                              "amount": 4723.569620253
-                            },
-                            {
-                              "urn": "113343",
-                              "amount": 5068.22778473
-                            },
-                            {
-                              "urn": "114399",
-                              "amount": 4778.491525423
-                            },
-                            {
-                              "urn": "116702",
-                              "amount": 4730.936899862
-                            },
-                            {
-                              "urn": "116858",
-                              "amount": 4719.467153284
-                            },
-                            {
-                              "urn": "119194",
-                              "amount": 4825.429667519
-                            },
-                            {
-                              "urn": "119342",
-                              "amount": 4376.669856459
-                            },
-                            {
-                              "urn": "120937",
-                              "amount": 5088.323232323
-                            },
-                            {
-                              "urn": "121912",
-                              "amount": 4792.737864077
-                            },
-                            {
-                              "urn": "123456",
-                              "amount": 4253.240811153
-                            },
-                            {
-                              "urn": "124040",
-                              "amount": 5072.259740259
-                            },
-                            {
-                              "urn": "124072",
-                              "amount": 3827.370843989
-                            },
-                            {
-                              "urn": "136061",
-                              "amount": 4781.567839195
-                            }
-                          ]
-                        },
-                        [
-                          {
-                            "keyField": "urn",
-                            "valueField": "amount",
-                            "highlightKey": "123458",
-                            "sort": "asc",
-                            "height": 200,
-                            "id": "a76e91c7-a743-4175-99d3-e26a779fa6e7",
-                            "width": 630,
-                            "data": [
-                              {
-                                "urn": "102136",
-                                "amount": 570.461538461
-                              },
-                              {
-                                "urn": "105723",
-                                "amount": 218.748603351
-                              },
-                              {
-                                "urn": "106113",
-                                "amount": 414.597989949
-                              },
-                              {
-                                "urn": "107029",
-                                "amount": 100.075376884
-                              },
-                              {
-                                "urn": "109810",
-                                "amount": 285.412429378
-                              },
-                              {
-                                "urn": "109969",
-                                "amount": 132.208955223
-                              },
-                              {
-                                "urn": "110446",
-                                "amount": 171.428571428
-                              },
-                              {
-                                "urn": "111277",
-                                "amount": 317.43298969
-                              },
-                              {
-                                "urn": "111872",
-                                "amount": 379.243781094
-                              },
-                              {
-                                "urn": "114967",
-                                "amount": 263.176470588
-                              },
-                              {
-                                "urn": "115598",
-                                "amount": 144.954802259
-                              },
-                              {
-                                "urn": "116169",
-                                "amount": 144.333333333
-                              },
-                              {
-                                "urn": "123458",
-                                "amount": 212.128342245
-                              },
-                              {
-                                "urn": "126405",
-                                "amount": 419.271356783
-                              },
-                              {
-                                "urn": "126349",
-                                "amount": 376.56043956
-                              },
-                              {
-                                "urn": "124254",
-                                "amount": 244.38150289
-                              },
-                              {
-                                "urn": "124146",
-                                "amount": 400.432432432
-                              },
-                              {
-                                "urn": "122770",
-                                "amount": 216.272727272
-                              },
-                              {
-                                "urn": "121812",
-                                "amount": 191.108108108
-                              },
-                              {
-                                "urn": "119573",
-                                "amount": 294.970149253
-                              },
-                              {
-                                "urn": "119385",
-                                "amount": 165.163265306
-                              },
-                              {
-                                "urn": "119310",
-                                "amount": 325.729064039
-                              },
-                              {
-                                "urn": "118003",
-                                "amount": 157.702127659
-                              },
-                              {
-                                "urn": "117304",
-                                "amount": 314.164948453
-                              },
-                              {
-                                "urn": "117113",
-                                "amount": 176.041237113
-                              },
-                              {
-                                "urn": "116403",
-                                "amount": 84.454545454
-                              },
-                              {
-                                "urn": "116145",
-                                "amount": 86.853801169
-                              },
-                              {
-                                "urn": "116047",
-                                "amount": 83.976744186
-                              },
-                              {
-                                "urn": "115615",
-                                "amount": 267.696969696
-                              },
-                              {
-                                "urn": "135063",
-                                "amount": 206.39800995
-                              }
-                            ]
-                          },
-                          {
-                            "keyField": "urn",
-                            "valueField": "amount",
-                            "highlightKey": "123458",
-                            "sort": "asc",
-                            "height": 200,
-                            "id": "172a4856-43b2-4075-887b-ba8650d4f8c2",
-                            "width": 630,
-                            "data": [
-                              {
-                                "urn": "102136",
-                                "amount": 5232.428571428
-                              },
-                              {
-                                "urn": "105723",
-                                "amount": 4239.005586592
-                              },
-                              {
-                                "urn": "106113",
-                                "amount": 5920.457286432
-                              },
-                              {
-                                "urn": "107029",
-                                "amount": 5219.592964824
-                              },
-                              {
-                                "urn": "109810",
-                                "amount": 4078.401129943
-                              },
-                              {
-                                "urn": "109969",
-                                "amount": 4820.587064676
-                              },
-                              {
-                                "urn": "110446",
-                                "amount": 4314.142857142
-                              },
-                              {
-                                "urn": "111277",
-                                "amount": 4069.876288659
-                              },
-                              {
-                                "urn": "111872",
-                                "amount": 3762.004975124
-                              },
-                              {
-                                "urn": "114967",
-                                "amount": 4427.235294117
-                              },
-                              {
-                                "urn": "115598",
-                                "amount": 4543.36158192
-                              },
-                              {
-                                "urn": "116169",
-                                "amount": 3703.222222222
-                              },
-                              {
-                                "urn": "123458",
-                                "amount": 3920.454545454
-                              },
-                              {
-                                "urn": "126405",
-                                "amount": 3834.010050251
-                              },
-                              {
-                                "urn": "126349",
-                                "amount": 3871.109890109
-                              },
-                              {
-                                "urn": "124254",
-                                "amount": 3716.693641618
-                              },
-                              {
-                                "urn": "124146",
-                                "amount": 4638.324324324
-                              },
-                              {
-                                "urn": "122770",
-                                "amount": 3843.909090909
-                              },
-                              {
-                                "urn": "121812",
-                                "amount": 4250.945945945
-                              },
-                              {
-                                "urn": "119573",
-                                "amount": 3926.039800995
-                              },
-                              {
-                                "urn": "119385",
-                                "amount": 3817.591836734
-                              },
-                              {
-                                "urn": "119310",
-                                "amount": 4179.69458128
-                              },
-                              {
-                                "urn": "118003",
-                                "amount": 3701.382978723
-                              },
-                              {
-                                "urn": "117304",
-                                "amount": 4051.876288659
-                              },
-                              {
-                                "urn": "117113",
-                                "amount": 4336.082474226
-                              },
-                              {
-                                "urn": "116403",
-                                "amount": 4081.818181818
-                              },
-                              {
-                                "urn": "116145",
-                                "amount": 4040.947368421
-                              },
-                              {
-                                "urn": "116047",
-                                "amount": 4057.209302325
-                              },
-                              {
-                                "urn": "115615",
-                                "amount": 4698.343434343
-                              },
-                              {
-                                "urn": "135063",
-                                "amount": 3506.298507462
-                              }
-                            ]
-                          },
-                          {
-                            "keyField": "urn",
-                            "valueField": "amount",
-                            "highlightKey": "123458",
-                            "sort": "asc",
-                            "height": 200,
-                            "id": "0444a968-77fc-46ed-b820-9c7523d6ff7a",
-                            "width": 630,
-                            "data": [
-                              {
-                                "urn": "102136",
-                                "amount": 1052.626373626
-                              },
-                              {
-                                "urn": "105723",
-                                "amount": 777.245810055
-                              },
-                              {
-                                "urn": "106113",
-                                "amount": 751.713567839
-                              },
-                              {
-                                "urn": "107029",
-                                "amount": 700.331658291
-                              },
-                              {
-                                "urn": "109810",
-                                "amount": 562.717514124
-                              },
-                              {
-                                "urn": "109969",
-                                "amount": 1026.820895522
-                              },
-                              {
-                                "urn": "110446",
-                                "amount": 704.142857142
-                              },
-                              {
-                                "urn": "111277",
-                                "amount": 594.206185567
-                              },
-                              {
-                                "urn": "111872",
-                                "amount": 745
-                              },
-                              {
-                                "urn": "114967",
-                                "amount": 680.352941176
-                              },
-                              {
-                                "urn": "115598",
-                                "amount": 758.333333333
-                              },
-                              {
-                                "urn": "116169",
-                                "amount": 633.333333333
-                              },
-                              {
-                                "urn": "123458",
-                                "amount": 532.802139037
-                              },
-                              {
-                                "urn": "126405",
-                                "amount": 543.070351758
-                              },
-                              {
-                                "urn": "126349",
-                                "amount": 800.791208791
-                              },
-                              {
-                                "urn": "124254",
-                                "amount": 688.982658959
-                              },
-                              {
-                                "urn": "124146",
-                                "amount": 470.324324324
-                              },
-                              {
-                                "urn": "122770",
-                                "amount": 704.636363636
-                              },
-                              {
-                                "urn": "121812",
-                                "amount": 548.243243243
-                              },
-                              {
-                                "urn": "119573",
-                                "amount": 546.442786069
-                              },
-                              {
-                                "urn": "119385",
-                                "amount": 378.87755102
-                              },
-                              {
-                                "urn": "119310",
-                                "amount": 802.921182266
-                              },
-                              {
-                                "urn": "118003",
-                                "amount": 504.29787234
-                              },
-                              {
-                                "urn": "117304",
-                                "amount": 479.742268041
-                              },
-                              {
-                                "urn": "117113",
-                                "amount": 698.12371134
-                              },
-                              {
-                                "urn": "116403",
-                                "amount": 470.363636363
-                              },
-                              {
-                                "urn": "116145",
-                                "amount": 476.795321637
-                              },
-                              {
-                                "urn": "116047",
-                                "amount": 638.65116279
-                              },
-                              {
-                                "urn": "115615",
-                                "amount": 651.212121212
-                              },
-                              {
-                                "urn": "135063",
-                                "amount": 370.109452736
-                              }
-                            ]
-                          },
-                          {
-                            "keyField": "urn",
-                            "valueField": "amount",
-                            "highlightKey": "123458",
-                            "sort": "asc",
-                            "height": 200,
-                            "id": "055ed0f4-d2a0-4821-ab7c-b707608c140e",
-                            "width": 630,
-                            "data": [
-                              {
-                                "urn": "104936",
-                                "amount": 71.075127644
-                              },
-                              {
-                                "urn": "105018",
-                                "amount": 37.39117427
-                              },
-                              {
-                                "urn": "115986",
-                                "amount": 54.621700879
-                              },
-                              {
-                                "urn": "116047",
-                                "amount": 36.176470588
-                              },
-                              {
-                                "urn": "119527",
-                                "amount": 78.546468401
-                              },
-                              {
-                                "urn": "123458",
-                                "amount": 42.044676098
-                              },
-                              {
-                                "urn": "122453",
-                                "amount": 70.037453183
-                              },
-                              {
-                                "urn": "120436",
-                                "amount": 55.009063444
-                              },
-                              {
-                                "urn": "119676",
-                                "amount": 41.138972809
-                              },
-                              {
-                                "urn": "119557",
-                                "amount": 45.975
-                              },
-                              {
-                                "urn": "119542",
-                                "amount": 34.894266567
-                              },
-                              {
-                                "urn": "117243",
-                                "amount": 65.289085545
-                              },
-                              {
-                                "urn": "116306",
-                                "amount": 59.653353428
-                              },
-                              {
-                                "urn": "116026",
-                                "amount": 58.713132795
-                              },
-                              {
-                                "urn": "115981",
-                                "amount": 40.040358744
-                              },
-                              {
-                                "urn": "114543",
-                                "amount": 48.325513196
-                              },
-                              {
-                                "urn": "112698",
-                                "amount": 36.24852071
-                              },
-                              {
-                                "urn": "110990",
-                                "amount": 43.435897435
-                              },
-                              {
-                                "urn": "107630",
-                                "amount": 58.717717717
-                              },
-                              {
-                                "urn": "106508",
-                                "amount": 42.523158694
-                              },
-                              {
-                                "urn": "106346",
-                                "amount": 59.151515151
-                              },
-                              {
-                                "urn": "106343",
-                                "amount": 64.079027355
-                              },
-                              {
-                                "urn": "105953",
-                                "amount": 132.961792799
-                              },
-                              {
-                                "urn": "105830",
-                                "amount": 61.327976625
-                              },
-                              {
-                                "urn": "105070",
-                                "amount": 44.969696969
-                              },
-                              {
-                                "urn": "104472",
-                                "amount": 71.571849668
-                              },
-                              {
-                                "urn": "104235",
-                                "amount": 81.381055676
-                              },
-                              {
-                                "urn": "103674",
-                                "amount": 61.093655589
-                              },
-                              {
-                                "urn": "100446",
-                                "amount": 58.005891016
-                              },
-                              {
-                                "urn": "125550",
-                                "amount": 58.278592375
-                              }
-                            ]
-                          },
-                          {
-                            "keyField": "urn",
-                            "valueField": "amount",
-                            "highlightKey": "123458",
-                            "sort": "asc",
-                            "height": 200,
-                            "id": "01222f63-eb20-4adc-8a99-31b8900c76d9",
-                            "width": 630,
-                            "data": [
-                              {
-                                "urn": "102136",
-                                "amount": 21.967032967
-                              },
-                              {
-                                "urn": "105723",
-                                "amount": 13.407821229
-                              },
-                              {
-                                "urn": "106113",
-                                "amount": 81.613065326
-                              },
-                              {
-                                "urn": "107029",
-                                "amount": 50.582914572
-                              },
-                              {
-                                "urn": "109810",
-                                "amount": 51.429378531
-                              },
-                              {
-                                "urn": "109969",
-                                "amount": 24.378109452
-                              },
-                              {
-                                "urn": "110446",
-                                "amount": 56.571428571
-                              },
-                              {
-                                "urn": "111277",
-                                "amount": 33.24742268
-                              },
-                              {
-                                "urn": "111872",
-                                "amount": 53.915422885
-                              },
-                              {
-                                "urn": "114967",
-                                "amount": 43.647058823
-                              },
-                              {
-                                "urn": "115598",
-                                "amount": 17.418079096
-                              },
-                              {
-                                "urn": "116169",
-                                "amount": 68.444444444
-                              },
-                              {
-                                "urn": "123458",
-                                "amount": 16.850267379
-                              },
-                              {
-                                "urn": "126405",
-                                "amount": 85.432160804
-                              },
-                              {
-                                "urn": "126349",
-                                "amount": 66.516483516
-                              },
-                              {
-                                "urn": "124254",
-                                "amount": 103.364161849
-                              },
-                              {
-                                "urn": "124146",
-                                "amount": 102
-                              },
-                              {
-                                "urn": "122770",
-                                "amount": 19.09090909
-                              },
-                              {
-                                "urn": "121812",
-                                "amount": 31.918918918
-                              },
-                              {
-                                "urn": "119573",
-                                "amount": 65.686567164
-                              },
-                              {
-                                "urn": "119385",
-                                "amount": 112.102040816
-                              },
-                              {
-                                "urn": "119310",
-                                "amount": 111.374384236
-                              },
-                              {
-                                "urn": "118003",
-                                "amount": 99.659574468
-                              },
-                              {
-                                "urn": "117304",
-                                "amount": 33.195876288
-                              },
-                              {
-                                "urn": "117113",
-                                "amount": 28.082474226
-                              },
-                              {
-                                "urn": "116403",
-                                "amount": 34.545454545
-                              },
-                              {
-                                "urn": "116145",
-                                "amount": 32.853801169
-                              },
-                              {
-                                "urn": "116047",
-                                "amount": 36.790697674
-                              },
-                              {
-                                "urn": "115615",
-                                "amount": 6.646464646
-                              },
-                              {
-                                "urn": "135063",
-                                "amount": 73.094527363
-                              }
-                            ]
-                          }
-                        ]
-                      ],
-                      "allOf": [
-                        {
-                          "type": "object",
-                          "properties": {
-                            "data": {
-                              "type": "array",
-                              "items": {}
-                            }
-                          },
-                          "required": [
-                            "data"
-                          ]
-                        },
-                        {
-                          "type": "object",
-                          "properties": {
-                            "height": {
-                              "type": "number"
-                            }
-                          }
-                        },
-                        {
-                          "type": "object",
-                          "properties": {
-                            "sort": {
-                              "enum": [
-                                "asc",
-                                "desc"
-                              ],
-                              "type": "string"
-                            },
-                            "id": {
-                              "type": "string"
-                            },
-                            "width": {
-                              "type": "number"
-                            },
-                            "highlightKey": {
-                              "type": "string"
-                            }
-                          }
-                        },
-                        {
-                          "type": "object",
-                          "properties": {
-                            "keyField": {
-                              "type": "string"
-                            },
-                            "valueField": {
-                              "type": "string"
-                            }
-                          },
-                          "required": [
-                            "keyField",
-                            "valueField"
-                          ]
-                        }
-                      ]
-                    }
-                  }
-                ]
+                "$ref": "#/components/schemas/VerticalBarChartPayload"
               }
             }
           }
@@ -2635,19 +2557,7 @@
                       "type": "string"
                     },
                     {
-                      "type": "object",
-                      "properties": {
-                        "id": {
-                          "type": "string"
-                        },
-                        "html": {
-                          "type": "string"
-                        }
-                      },
-                      "required": [
-                        "html",
-                        "id"
-                      ]
+                      "$ref": "#/components/schemas/ChartBuilderResult"
                     }
                   ]
                 }
@@ -2662,13 +2572,15 @@
                   "type": "object",
                   "properties": {
                     "error": {
-                      "type": "string"
+                      "type": "string",
+                      "title": "error"
                     },
                     "errors": {
                       "type": "array",
                       "items": {
                         "type": "string"
-                      }
+                      },
+                      "title": "errors"
                     }
                   },
                   "required": [
@@ -2686,7 +2598,8 @@
                   "type": "object",
                   "properties": {
                     "error": {
-                      "type": "string"
+                      "type": "string",
+                      "title": "error"
                     }
                   },
                   "required": [
