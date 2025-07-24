@@ -406,7 +406,7 @@ def pre_process_maintained_schools_data(
     )
 
     maintained_schools = build_maintained_school_data(
-        maintained_schools_data, schools, census, sen, cdc, ks2, ks4
+        maintained_schools_data, schools, census, sen, cdc, ks2, ks4, year
     )
 
     write_blob(

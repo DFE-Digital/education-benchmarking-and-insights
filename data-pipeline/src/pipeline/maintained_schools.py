@@ -1,5 +1,3 @@
-import datetime
-
 import numpy as np
 import pandas as pd
 
@@ -15,6 +13,7 @@ def create_master_list(
     cdc: pd.DataFrame,
     ks2: pd.DataFrame,
     ks4: pd.DataFrame,
+    year: str,
 ) -> pd.DataFrame:
 
     maintained_schools_list["Did Not Supply flag"] = maintained_schools_list[
@@ -27,8 +26,12 @@ def create_master_list(
 
     maintained_schools_list.replace("DNS", np.nan, inplace=True)
 
+    maintained_schools_dtypes = input_schemas.maintained_schools_master_list_cols.get(
+        year, 
+        input_schemas.maintained_schools_master_list_cols["default"]
+    )
     maintained_schools_list = maintained_schools_list.astype(
-        input_schemas.maintained_schools_master_list
+        maintained_schools_dtypes
     ).set_index(input_schemas.maintained_schools_master_list_index_col)
 
     maintained_schools = maintained_schools_list.merge(
@@ -135,6 +138,15 @@ def map_cost_income_categories(
         inplace=True,
     )
 
+    return maintained_schools
+
+
+def eval_cost_income_categories(
+    maintained_schools: pd.DataFrame, maintained_schools_column_eval: dict,
+) -> pd.DataFrame:
+    for column, eval_ in maintained_schools_column_eval.items():
+        maintained_schools[column] = maintained_schools.eval(eval_)
+    
     return maintained_schools
 
 

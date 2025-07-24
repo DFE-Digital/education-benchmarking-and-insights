@@ -14,18 +14,23 @@ def build_maintained_school_data(
     cdc,
     ks2,
     ks4,
+    year,
 ):
+    maintained_school_schema = input_schemas.maintained_schools_master_list_cols.get(
+        year,
+        input_schemas.maintained_schools_master_list_cols["default"]
+    )
     maintained_schools_list = pd.read_csv(
         maintained_schools_data_path,
         encoding="unicode-escape",
         # TODO: explicit schema as per below?
-        # index_col=input_schemas.maintained_schools_master_list_index_col,
-        # dtype=input_schemas.maintained_schools_master_list,
-        usecols=input_schemas.maintained_schools_master_list.keys(),
+        # index_col=input_schemas.maintained_schools_master_list_cols_index_col,
+        # dtype=maintained_school_schema,
+        usecols=maintained_school_schema.keys(),
     )
 
     maintained_schools = maintained_pipeline.create_master_list(
-        maintained_schools_list, schools, sen, census, cdc, ks2, ks4
+        maintained_schools_list, schools, sen, census, cdc, ks2, ks4, year
     )
 
     maintained_schools = maintained_pipeline.map_pfi(maintained_schools)
@@ -37,6 +42,13 @@ def build_maintained_school_data(
         maintained_schools,
         config.cost_category_map["maintained_schools"],
         config.income_category_map["maintained_schools"],
+    )
+    
+    maintained_schools_column_eval = input_schemas.maintained_schools_master_list_column_eval.get(
+        year, input_schemas.maintained_schools_master_list_column_eval["default"]
+    )
+    maintained_schools = maintained_pipeline.eval_cost_income_categories(
+        maintained_schools, maintained_schools_column_eval
     )
 
     maintained_schools = maintained_pipeline.join_federations(maintained_schools)

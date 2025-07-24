@@ -64,6 +64,11 @@ from .local_authority import (  # noqa
     la_statistical_neighbours_column_mappings,
     la_statistical_neighbours_index_col,
 )
+from .maintained_schools_master_list import (
+    maintained_schools_master_list_cols,
+    maintained_schools_master_list_index_col,
+    maintained_schools_master_list_column_eval
+)
 
 gias_links_index_col = "URN"
 gias_links = {
@@ -72,70 +77,6 @@ gias_links = {
     "LinkName": "string",
     "LinkType": "string",
     "LinkEstablishedDate": "string",
-}
-
-maintained_schools_master_list_index_col = "URN"
-maintained_schools_master_list = {
-    "URN": "Int64",
-    "School Name": "string",
-    "LAEstab": "string",
-    "Phase": "string",
-    "Overall Phase": "string",
-    "Type": "string",
-    "Period covered by return (months)": "Int64",
-    "Did Not Supply flag": "string",
-    "Lead school in federation": "string",
-    "London Weighting": "string",
-    "PFI": "string",
-    "I01  Funds delegated by the LA": "float",
-    "I02  Funding for 6th form students": "float",
-    "I06  Other government grants": "float",
-    "I07  Other grants and payments": "float",
-    "I08  Income from facilities and services": "float",
-    "I09  Income from catering": "float",
-    "I10  Receipts from supply teacher insurance claims": "float",
-    "I13  Donations and or private funds": "float",
-    "Total Income   I01 to I18": "float",
-    "CI04 Direct revenue financing": "float",
-    "E01  Teaching Staff": "float",
-    "E02  Supply teaching staff": "float",
-    "E03 Education support staff": "float",
-    "E04  Premises staff": "float",
-    "E05 Administrative and clerical staff": "float",
-    "E06 Catering staff": "float",
-    "E07  Cost of other staff": "float",
-    "E08  Indirect employee expenses": "float",
-    "E09  Development and training": "float",
-    "E10  Supply teacher insurance": "float",
-    "E11  Staff related insurance": "float",
-    "E12  Building maintenance and improvement": "float",
-    "E13  Grounds maintenance and improvement": "float",
-    "E14  Cleaning and caretaking": "float",
-    "E15  Water and sewerage": "float",
-    "E16  Energy": "float",
-    "E17  Rates": "float",
-    "E18  Other occupation costs": "float",
-    "E19  Learning resources (not ICT equipment)": "float",
-    "E20  ICT learning resources": "float",
-    "E21  Exam fees": "float",
-    "E22 Administrative supplies": "float",
-    "E23  Other insurance premiums": "float",
-    "E24  Special facilities ": "float",
-    "E25  Catering supplies": "float",
-    "E26 Agency supply teaching staff": "float",
-    "E27  Bought in professional services - curriculum": "float",
-    "E28a  Bought in professional services - other (except PFI)": "float",
-    "E28b Bought in professional services - other (PFI)": "float",
-    "E29  Loan interest": "float",
-    "E30 Direct revenue financing (revenue contributions to capital)": "float",
-    "E31  Community focused school staff": "float",
-    "E32 Community focused school costs": "float",
-    "Total Expenditure  E01 to E32": "float",
-    "Revenue Reserve   B01 plus B02 plus B06": "float",
-    "Direct Grant": "float",
-    "Targeted Grants": "float",
-    "Community Grants": "float",
-    "Self Generated Funding": "float",
 }
 
 cdc_index_col = "URN"
