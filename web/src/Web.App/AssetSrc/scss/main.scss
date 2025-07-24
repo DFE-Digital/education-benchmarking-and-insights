@@ -752,9 +752,19 @@ table#current-comparators-la {
         .chart-tick {
           text-anchor: end;
 
-          .establishment-tick {
-            &.establishment-tick__highlight {
+          .link-tick {
+            &.link-tick__highlight {
               font-weight: bold;
+            }
+          }
+
+          > .active-tick {
+            fill: govuk-colour("yellow");
+            stroke: none;
+            opacity: 0;
+
+            &:has(~ .link-tick > a:focus) {
+              opacity: 1;
             }
           }
         }
@@ -768,6 +778,17 @@ table#current-comparators-la {
       .chart-tick {
         > line {
           stroke: govuk-colour("mid-grey");
+        }
+      }
+    }
+
+    .chart-cell {
+      &.chart-cell__series-0:hover {
+        cursor: pointer;
+
+        &:not(.chart-cell__highlight) {
+          fill: govuk-colour("dark-grey");
+          stroke: govuk-colour("dark-grey");
         }
       }
     }
