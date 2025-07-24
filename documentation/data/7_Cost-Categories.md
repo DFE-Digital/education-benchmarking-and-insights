@@ -64,7 +64,7 @@ This document maps each category type from the Financial Benchmarking & Insights
 ## Balance
 
 | Category        | CFR code(s)                                          | AAR code(s)     |   Notes    |
-|-----------------|:----------------------------------------------------:|:----------- ---:|------------|
+|-----------------|:----------------------------------------------------:|:---------------:|------------|
 | In-year balance |Total Income I01 to I18 - Total Expenditure E01 to E32| BAB010 - BAB020 | Calculated |
 | Revenue reserve |B01 plus B02 plus B06                                 |   BAB030        | Calculated |
 
