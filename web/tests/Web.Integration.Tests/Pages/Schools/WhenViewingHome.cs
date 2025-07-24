@@ -44,12 +44,30 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
     [Theory]
     [InlineData(EstablishmentTypes.Academies)]
     [InlineData(EstablishmentTypes.Maintained)]
-    public async Task CanNavigateToCurriculumPlanning(string financeType)
+    public async Task CanNavigateToComparisonItSpendIfNotPartOfTrust(string financeType)
     {
         var (page, school, _, _) = await SetupNavigateInitPage(financeType);
 
         var liElements = page.QuerySelectorAll("ul.app-links > li");
         var anchor = liElements[1].QuerySelector("h3 > a");
+        Assert.NotNull(anchor);
+
+        var newPage = await Client.Follow(anchor);
+
+        DocumentAssert.AssertPageUrl(newPage, school.IsPartOfTrust
+            ? Paths.SchoolFinancialPlanning(school.URN).ToAbsolute()
+            : Paths.SchoolComparisonItSpend(school.URN).ToAbsolute());
+    }
+
+    [Theory]
+    [InlineData(EstablishmentTypes.Academies)]
+    [InlineData(EstablishmentTypes.Maintained)]
+    public async Task CanNavigateToCurriculumPlanning(string financeType)
+    {
+        var (page, school, _, _) = await SetupNavigateInitPage(financeType);
+
+        var liElements = page.QuerySelectorAll("ul.app-links > li");
+        var anchor = liElements[school.IsPartOfTrust ? 1 : 2].QuerySelector("h3 > a");
         Assert.NotNull(anchor);
 
         var newPage = await Client.Follow(anchor);
@@ -65,7 +83,7 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
         var (page, school, _, _) = await SetupNavigateInitPage(financeType);
 
         var liElements = page.QuerySelectorAll("ul.app-links > li");
-        var anchor = liElements[2].QuerySelector("h3 > a");
+        var anchor = liElements[school.IsPartOfTrust ? 2 : 3].QuerySelector("h3 > a");
         Assert.NotNull(anchor);
 
         var newPage = await Client.Follow(anchor);
@@ -81,7 +99,7 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
         var (page, school, _, _) = await SetupNavigateInitPage(financeType);
 
         var liElements = page.QuerySelectorAll("ul.app-links > li");
-        var anchor = liElements[7].QuerySelector("h3 > a");
+        var anchor = liElements[school.IsPartOfTrust ? 7 : 8].QuerySelector("h3 > a");
         Assert.NotNull(anchor);
 
         var newPage = await Client.Follow(anchor);
@@ -220,11 +238,15 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
         DocumentAssert.Heading2(toolsSection, "Benchmarking and planning tools");
 
         var toolsLinks = toolsSection?.ChildNodes.QuerySelectorAll("ul> li > h3 > a").ToList();
-        Assert.Equal(3, toolsLinks?.Count);
+        Assert.Equal(school.IsPartOfTrust ? 3 : 4, toolsLinks?.Count);
 
         DocumentAssert.Link(toolsLinks?.ElementAtOrDefault(0), "Benchmark spending", Paths.SchoolComparison(school.URN).ToAbsolute());
-        DocumentAssert.Link(toolsLinks?.ElementAtOrDefault(1), "Curriculum and financial planning", Paths.SchoolFinancialPlanning(school.URN).ToAbsolute());
-        DocumentAssert.Link(toolsLinks?.ElementAtOrDefault(2), "Benchmark pupil and workforce data", Paths.SchoolCensus(school.URN).ToAbsolute());
+        DocumentAssert.Link(toolsLinks?.ElementAtOrDefault(school.IsPartOfTrust ? 1 : 2), "Curriculum and financial planning", Paths.SchoolFinancialPlanning(school.URN).ToAbsolute());
+        DocumentAssert.Link(toolsLinks?.ElementAtOrDefault(school.IsPartOfTrust ? 2 : 3), "Benchmark pupil and workforce data", Paths.SchoolCensus(school.URN).ToAbsolute());
+        if (!school.IsPartOfTrust)
+        {
+            DocumentAssert.Link(toolsLinks?.ElementAtOrDefault(1), "Benchmark IT spending", Paths.SchoolComparisonItSpend(school.URN).ToAbsolute());
+        }
 
         DocumentAssert.Banner(page, banner);
     }
