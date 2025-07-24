@@ -71,6 +71,10 @@ public static class Paths
     {
         return $"/school/{urn}/comparison";
     }
+    public static string SchoolComparisonItSpend(string? urn)
+    {
+        return $"/school/{urn}/comparison/it";
+    }
     public static string SchoolComparisonCustomData(string? urn)
     {
         return $"/school/{urn}/comparison/custom-data";
