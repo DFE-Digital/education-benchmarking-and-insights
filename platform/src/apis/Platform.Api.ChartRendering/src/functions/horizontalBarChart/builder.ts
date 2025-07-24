@@ -177,22 +177,31 @@ export default class HorizontalBarChartBuilder {
       nodes,
     ) => {
       const label = formatTick(datum as string, index);
-      const text = d3.select(nodes[index]);
+      const node = nodes[index] as SVGTextElement;
+      const text = d3.select(node);
 
-      // replace text node contents with <a>
+      // replace text node contents with <a> and add initially hidden sibling <rect>
       text.text(null);
       const link = text
         .attr(
           "class",
-          classnames("establishment-tick", {
-            "establishment-tick__highlight": datum === highlightKey,
+          classnames("link-tick", {
+            "link-tick__highlight": datum === highlightKey,
           }),
         )
-        .attr("data-key", datum as string)
         .append("xlink:a")
         .attr("href", sprintf(linkFormat, datum))
-        .attr("class", "govuk-link govuk-link--no-visited-state")
+        .attr("class", "govuk-link")
         .attr("aria-label", label);
+
+      const parent = d3.select(node.parentElement);
+      parent
+        .insert("rect", "text")
+        .attr("x", -tickWidth)
+        .attr("y", -8)
+        .attr("width", tickWidth - 8)
+        .attr("height", barHeight - 5)
+        .attr("class", "active-tick");
 
       label
         .substring(0, truncateLabelAt)
