@@ -13,6 +13,7 @@ public static class PageTitles
     public const string ContactDetails = "Contact details";
     public const string SchoolHome = "Your school";
     public const string Comparison = "Benchmark spending";
+    public const string ComparisonItSpend = "Benchmark your IT spending";
     public const string Spending = "Spending priorities for this school";
     public const string Resources = "Find ways to spend less";
     public const string Census = "Benchmark pupil and workforce data";

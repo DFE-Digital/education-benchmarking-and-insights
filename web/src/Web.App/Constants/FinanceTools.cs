@@ -8,6 +8,7 @@ public enum FinanceTools
     CentralServices,
     ForecastRisk,
     SpendingComparison,
+    SpendingComparisonIt,
     Spending,
     HighNeeds
 }

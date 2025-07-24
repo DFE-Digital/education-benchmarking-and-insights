@@ -50,6 +50,18 @@
                             </p>
                         </li>
                         break;
+                    case FinanceTools.SpendingComparisonIt:
+                        <feature name="@FeatureFlags.CfrItSpendBreakdown">
+                            <li>
+                                <h3 class="govuk-heading-s">
+                                    <a href="@Url.Action("Index", "SchoolComparisonItSpend", new { urn = Model.Identifier })" class="govuk-link govuk-link--no-visited-state">Benchmark IT spending</a>
+                                </h3>
+                                <p class="govuk-body">
+                                    This cost category has been broken down into 7 sub categories to give a more detailed view of IT spending.
+                                </p>
+                            </li>
+                        </feature>
+                        break;
                 }
             }
         </ul>

@@ -30,6 +30,8 @@ public enum TrackedRequestFeature
     BenchmarkCosts,
     [StringValue("benchmark-central-costs")]
     BenchmarkCentralCosts,
+    [StringValue("benchmark-it-spending")]
+    BenchmarkItSpend,
     [StringValue("customised-data")]
     CustomisedData,
     [StringValue("details")]

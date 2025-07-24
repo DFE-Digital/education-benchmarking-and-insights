@@ -116,15 +116,24 @@
 
 <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
 
-@await Component.InvokeAsync("SchoolFinanceTools", new
-{
-    identifier = Model.Urn,
-    tools = new[]
+@{
+    var tools = new List<FinanceTools>
     {
         FinanceTools.CompareYourCosts,
         FinanceTools.FinancialPlanning,
         FinanceTools.BenchmarkCensus
+    };
+    
+    // IT comparison only applicable to maintained schools
+    if (!Model.IsPartOfTrust)
+    {
+        tools.Insert(1, FinanceTools.SpendingComparisonIt);
     }
+}
+@await Component.InvokeAsync("SchoolFinanceTools", new
+{
+    identifier = Model.Urn,
+    tools = tools.ToArray()
 })
 
 <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
