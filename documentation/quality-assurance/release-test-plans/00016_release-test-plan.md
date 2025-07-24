@@ -1,4 +1,4 @@
-﻿# Release Test Plan - 2025.02.5
+﻿# Release Test Plan: 2025.02.5
 
 _*Release version incremented to 2025.02.5 after 2025.02.4 was canceled due to an issue spotted in pre-production. The increment also addresses an error encountered during the deployment of 2025.02.3 to pre-production._
 

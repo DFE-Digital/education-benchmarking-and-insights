@@ -1,4 +1,4 @@
-﻿# Release Test Plan - 2025.02.2
+﻿# Release Test Plan: 2025.02.2
 
 _*Release version incremented to critical issues identified during testing of 2025.01.1._
 

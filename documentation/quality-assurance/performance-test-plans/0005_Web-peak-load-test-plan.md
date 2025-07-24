@@ -1,4 +1,4 @@
-﻿# Performance Test Plan - 0005 - Web App Peak Load
+﻿# Performance Test Plan: Web App Peak Load (0005)
 
 **Test run date:**
 

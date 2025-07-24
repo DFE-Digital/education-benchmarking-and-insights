@@ -1,4 +1,4 @@
-# Release Test Plan - 2024.11.3
+# Release Test Plan: 2024.11.3
 
 **Release Date:** 20/11/2024
 

@@ -1,4 +1,4 @@
-# Release Test Plan - 2025.04.1
+# Release Test Plan: 2025.04.1
 
 _*Release version incremented to 2025.04.1 after 2025.04.0 encountered an error during production deployment. The issue was related to SFB decommissioning changes._
 
