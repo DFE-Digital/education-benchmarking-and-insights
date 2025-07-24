@@ -66,8 +66,8 @@ from .local_authority import (  # noqa
 )
 from .maintained_schools_master_list import (
     maintained_schools_master_list_cols,
+    maintained_schools_master_list_column_eval,
     maintained_schools_master_list_index_col,
-    maintained_schools_master_list_column_eval
 )
 
 gias_links_index_col = "URN"
