@@ -1,4 +1,5 @@
-﻿using AngleSharp.Html.Dom;
+﻿using System.Net;
+using AngleSharp.Html.Dom;
 using AutoFixture;
 using Web.App.Domain;
 using Xunit;
@@ -17,6 +18,29 @@ public class WhenViewingComparisonItSpend(SchoolBenchmarkingWebAppClient client)
         AssertPageLayout(page, school);
     }
 
+    [Fact]
+    public async Task CanDisplayNotFound()
+    {
+        const string urn = "123456";
+        var page = await Client.SetupEstablishmentWithNotFound()
+            .Navigate(Paths.SchoolComparisonItSpend(urn));
+
+        PageAssert.IsNotFoundPage(page);
+        DocumentAssert.AssertPageUrl(page, Paths.SchoolComparisonItSpend(urn).ToAbsolute(), HttpStatusCode.NotFound);
+    }
+
+    [Fact]
+    public async Task CanDisplayProblemWithService()
+    {
+        const string urn = "123456";
+        var page = await Client.SetupEstablishmentWithException()
+            .Navigate(Paths.SchoolComparisonItSpend(urn));
+
+        PageAssert.IsProblemPage(page);
+        DocumentAssert.AssertPageUrl(page, Paths.SchoolComparisonItSpend(urn).ToAbsolute(),
+            HttpStatusCode.InternalServerError);
+    }
+
     private async Task<(IHtmlDocument page, School school)> SetupNavigateInitPage(string financeType)
     {
         var school = Fixture.Build<School>()
@@ -24,7 +48,7 @@ public class WhenViewingComparisonItSpend(SchoolBenchmarkingWebAppClient client)
             .With(x => x.FinanceType, financeType)
             .Create();
 
-        var page = await Client
+        var page = await Client.SetupEstablishment(school)
             .Navigate(Paths.SchoolComparisonItSpend(school.URN));
 
         return (page, school);
@@ -40,5 +64,7 @@ public class WhenViewingComparisonItSpend(SchoolBenchmarkingWebAppClient client)
 
         DocumentAssert.AssertPageUrl(page, Paths.SchoolComparisonItSpend(school.URN).ToAbsolute());
         DocumentAssert.Breadcrumbs(page, expectedBreadcrumbs);
+        DocumentAssert.TitleAndH1(page, "Benchmark your IT spending - Financial Benchmarking and Insights Tool - GOV.UK",
+            "Benchmark your IT spending");
     }
 }
