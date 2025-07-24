@@ -10,3 +10,14 @@
     id = Model.Urn,
     kind = OrganisationTypes.School
 })
+
+<div class="govuk-grid-row govuk-!-margin-bottom-6">
+    <div class="govuk-grid-column-two-thirds">
+        <p class="govuk-body">
+            <a class="govuk-link govuk-link--no-visited-state"
+               href="@Url.Action("Index", "SchoolComparators", new { urn = Model.Urn })"
+               data-test-id="comparators-link">We've chosen 2 sets of similar schools</a>
+            to benchmark this school's spending against.
+        </p>
+    </div>
+</div>
