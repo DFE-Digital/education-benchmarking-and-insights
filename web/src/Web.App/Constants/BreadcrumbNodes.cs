@@ -20,6 +20,15 @@ public static class BreadcrumbNodes
         Parent = SchoolHome(urn)
     };
 
+    public static MvcBreadcrumbNode SchoolComparisonItSpend(string urn) => new("Index", "SchoolComparisonItSpendController", PageTitles.ComparisonItSpend)
+    {
+        RouteValues = new
+        {
+            urn
+        },
+        Parent = SchoolHome(urn)
+    };
+
     public static MvcBreadcrumbNode SchoolSpending(string urn) => new("Index", "SchoolSpending", PageTitles.Spending)
     {
         RouteValues = new

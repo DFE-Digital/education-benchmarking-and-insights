@@ -1,0 +1,41 @@
+﻿@using Newtonsoft.Json
+@using Web.App.Extensions
+@model Web.App.ViewModels.SchoolComparisonViewModel
+@{
+    ViewData[ViewDataKeys.Title] = PageTitles.Comparison;
+}
+
+@await Component.InvokeAsync("EstablishmentHeading", new
+{
+    title = PageTitles.Comparison,
+    name = Model.Name,
+    id = Model.Urn,
+    kind = OrganisationTypes.School
+})
+
+@await Component.InvokeAsync("CustomDataBanner", new
+{
+    name = Model.Name,
+    id = Model.Urn
+})
+
+<div
+    id="compare-your-costs"
+    data-type="@OrganisationTypes.School"
+    data-id="@Model.Urn"
+    data-custom-data-id="@Model.CustomDataId"
+    data-suppress-negative-or-zero="true"
+    data-cost-code-map="@Model.CostCodeMap.ToJson(Formatting.None)"
+    data-is-part-of-trust="@Model.IsPartOfTrust.ToString().ToLower()">
+</div>
+
+@await Component.InvokeAsync("CustomDataFinanceTools", new
+{
+    identifier = Model.Urn,
+    tools = new[]
+    {
+        FinanceTools.SpendingComparison,
+        FinanceTools.Spending,
+        FinanceTools.BenchmarkCensus
+    }
+})
