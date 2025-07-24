@@ -83,7 +83,6 @@ Reviewer checks for:
 | Visibility logic fails        | All logic paths must be manually reviewed in Pre-Prod |
 | Unreviewed DB script deployed | PR review is mandatory before any change is applied   |
 
-
 ## Supporting Docs
 
 - Content management logic: [`developers/14_Content-Management.md`](../developers/14_Content-Management.md)
