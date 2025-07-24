@@ -17,7 +17,8 @@ def build_maintained_school_data(
     year,
 ):
     maintained_school_schema = input_schemas.maintained_schools_master_list_cols.get(
-        year, input_schemas.maintained_schools_master_list_cols["default"]
+        year,
+        input_schemas.maintained_schools_master_list_cols["default"]
     )
     maintained_schools_list = pd.read_csv(
         maintained_schools_data_path,
@@ -41,6 +42,13 @@ def build_maintained_school_data(
         maintained_schools,
         config.cost_category_map["maintained_schools"],
         config.income_category_map["maintained_schools"],
+    )
+    
+    maintained_schools_column_eval = input_schemas.maintained_schools_master_list_column_eval.get(
+        year, input_schemas.maintained_schools_master_list_column_eval["default"]
+    )
+    maintained_schools = maintained_pipeline.eval_cost_income_categories(
+        maintained_schools, maintained_schools_column_eval
     )
 
     maintained_schools_column_eval = (

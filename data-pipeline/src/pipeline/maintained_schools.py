@@ -27,7 +27,12 @@ def create_master_list(
     maintained_schools_list.replace("DNS", np.nan, inplace=True)
 
     maintained_schools_dtypes = input_schemas.maintained_schools_master_list_cols.get(
+<<<<<<< HEAD
         year, input_schemas.maintained_schools_master_list_cols["default"]
+=======
+        year, 
+        input_schemas.maintained_schools_master_list_cols["default"]
+>>>>>>> 7427ad60 (feat: handle IT spend breakdown changes in 2025 CFR)
     )
     maintained_schools_list = maintained_schools_list.astype(
         maintained_schools_dtypes
@@ -141,12 +146,11 @@ def map_cost_income_categories(
 
 
 def eval_cost_income_categories(
-    maintained_schools: pd.DataFrame,
-    maintained_schools_column_eval: dict,
+    maintained_schools: pd.DataFrame, maintained_schools_column_eval: dict,
 ) -> pd.DataFrame:
     for column, eval_ in maintained_schools_column_eval.items():
         maintained_schools[column] = maintained_schools.eval(eval_)
-
+    
     return maintained_schools
 
 

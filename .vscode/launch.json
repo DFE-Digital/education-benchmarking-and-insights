@@ -1,0 +1,29 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Pytest unit tests",
+            "type": "debugpy",
+            "request": "launch",
+            "cwd": "${workspaceFolder}/data-pipeline",
+            "python": "/Users/murdomoyse/Library/Caches/pypoetry/virtualenvs/fbit-data-pipeline-ecZnwBKV-py3.13/bin/python",
+            "module": "pytest",
+            "args": [
+                "--junitxml=tests/output/test-output.xml",
+                "./tests/unit",
+            ]
+        },
+        {
+            "name": "Data pipeline",
+            "type": "debugpy",
+            "request": "launch",
+            "cwd": "${workspaceFolder}/data-pipeline/src",
+            "module": "pipeline.main",
+            "python": "/Users/murdomoyse/Library/Caches/pypoetry/virtualenvs/fbit-data-pipeline-ecZnwBKV-py3.13/bin/python",
+            "justMyCode": true,
+        }
+    ]
+}
