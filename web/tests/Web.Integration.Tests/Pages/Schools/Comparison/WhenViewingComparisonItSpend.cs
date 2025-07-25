@@ -141,7 +141,7 @@ public class WhenViewingComparisonItSpend(SchoolBenchmarkingWebAppClient client)
                     Assert.Equal("IT support E20G", sectionHeading);
                     break;
                 case 4:
-                    Assert.Equal("Laptops, desktops and tablets E20E ", sectionHeading);
+                    Assert.Equal("Laptops, desktops and tablets E20E", sectionHeading);
                     break;
                 case 5:
                     Assert.Equal("Onsite servers E20B", sectionHeading);

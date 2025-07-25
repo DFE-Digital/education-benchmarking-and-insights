@@ -3,9 +3,9 @@ using Web.App.ViewModels.Components;
 
 namespace Web.App.ViewModels;
 
-public class SchoolComparisonItSpendViewModel(School school, SchoolComparisonViewModelCostSubCategories subCategories)
+public class SchoolComparisonItSpendViewModel(School school, SchoolComparisonSubCategoriesViewModel subCategories)
 {
     public string? Urn => school.URN;
     public string? Name => school.SchoolName;
-    public SchoolComparisonViewModelCostSubCategories SubCategories => subCategories;
+    public SchoolComparisonSubCategoriesViewModel SubCategories => subCategories;
 }
