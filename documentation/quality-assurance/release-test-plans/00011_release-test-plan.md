@@ -1,4 +1,4 @@
-# Release Test Plan - 2024.11.2
+# Release Test Plan: 2024.11.2
 
 _*Release label incremented due to pipeline failures._
 

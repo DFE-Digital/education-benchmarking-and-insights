@@ -1,4 +1,4 @@
-# Release Test Plan - 2025.05.1
+# Release Test Plan: 2025.05.1
 
 _*Release version updated to 2025.05.1 after 2025.05.0 was adjusted to Enable the High Needs feature flag in code._
 

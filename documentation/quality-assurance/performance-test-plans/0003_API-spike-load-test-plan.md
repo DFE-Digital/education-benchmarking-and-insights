@@ -1,4 +1,4 @@
-﻿# Performance Test Plan - 0003 - API Spike Load
+﻿# Performance Test Plan: API Spike Load (0003)
 
 **Test run date:**
 

@@ -1,4 +1,4 @@
-﻿# How to Create and Execute a Test Plan for a Release in Azure DevOps
+﻿# Guide: How to Create and Execute a Test Plan for a Release in Azure DevOps
 
 ## Purpose
 

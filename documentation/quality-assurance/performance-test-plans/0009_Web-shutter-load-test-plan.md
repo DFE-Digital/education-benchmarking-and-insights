@@ -1,4 +1,4 @@
-﻿# Performance Test Plan - 0009 - Shutter app service load tests
+﻿# Performance Test Plan: Shutter app service load tests (0009)
 
 **Test run date:**
 

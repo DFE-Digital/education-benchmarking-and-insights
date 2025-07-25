@@ -1,4 +1,4 @@
-﻿# Performance Test Plan - 0006 - API School History Load Tests
+﻿# Performance Test Plan: API School History Load Tests (0006)
 
 **Test run date:**
 
