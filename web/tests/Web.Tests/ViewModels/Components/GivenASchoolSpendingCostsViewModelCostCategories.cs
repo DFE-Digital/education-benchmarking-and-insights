@@ -1,6 +1,6 @@
 using AutoFixture;
 using Web.App.Domain;
-using Web.App.ViewComponents;
+using Web.App.Domain.Charts;
 using Web.App.ViewModels.Components;
 using Xunit;
 

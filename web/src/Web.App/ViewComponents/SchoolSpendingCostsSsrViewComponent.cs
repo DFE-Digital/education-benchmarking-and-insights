@@ -1,15 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Web.App.Domain;
+using Web.App.Domain.Charts;
 using Web.App.Domain.Content;
 using Web.App.Infrastructure.Apis;
 using Web.App.Infrastructure.Apis.ChartRendering;
 using Web.App.Infrastructure.Extensions;
 using Web.App.Services;
 using Web.App.ViewModels.Components;
-
-// ReSharper disable ClassNeverInstantiated.Global
-// ReSharper disable PropertyCanBeMadeInitOnly.Global
-// ReSharper disable UnusedAutoPropertyAccessor.Global
 
 namespace Web.App.ViewComponents;
 
@@ -53,31 +50,4 @@ public class SchoolSpendingCostsSsrViewComponent(
         var costCodes = await costCodesService.GetCostCodes(isPartOfTrust);
         return View(new SchoolSpendingCostsViewModel(id, urn, isPartOfTrust, isCustomData, hasIncompleteData, categories, resources, costCodes));
     }
-}
-
-public record SchoolSpendingCostsVerticalBarChartRequest : PostVerticalBarChartRequest<PriorityCostCategoryDatum>
-{
-    public SchoolSpendingCostsVerticalBarChartRequest(string uuid, string urn, PriorityCostCategoryDatum[] filteredData)
-    {
-        Data = filteredData;
-        Height = 200;
-        HighlightKey = urn;
-        Id = uuid;
-        KeyField = nameof(PriorityCostCategoryDatum.Urn).ToLower();
-        Sort = "asc";
-        Width = 630;
-        ValueField = nameof(PriorityCostCategoryDatum.Amount).ToLower();
-    }
-}
-
-public class PriorityCostCategoryDatum
-{
-    public string? Urn { get; init; }
-    public decimal? Amount { get; init; }
-}
-
-public class ChartResponse
-{
-    public string? Id { get; set; }
-    public string? Html { get; set; }
 }
