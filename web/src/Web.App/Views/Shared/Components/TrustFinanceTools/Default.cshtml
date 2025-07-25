@@ -11,9 +11,6 @@
                 {
                     case FinanceTools.CompareYourCosts:
                         <li>
-                            <a href="@Url.Action("Index", "TrustComparison", new { companyNumber = Model.Identifier })" aria-label="View school spending">
-                                <img src="/assets/images/compare-your-costs.png" alt="" class="app-view-component">
-                            </a>
                             <h3 class="govuk-heading-s">
                                 <a href="@Url.Action("Index", "TrustComparison", new { companyNumber = Model.Identifier })" class="govuk-link govuk-link--no-visited-state">View school spending</a>
                             </h3>
@@ -24,9 +21,6 @@
                         break;
                     case FinanceTools.BenchmarkCensus:
                         <li>
-                            <a href="@Url.Action("Index", "TrustCensus", new { companyNumber = Model.Identifier })" aria-label="View pupil and workforce data">
-                                <img src="/assets/images/benchmark-census.png" alt="" class="app-view-component">
-                            </a>
                             <h3 class="govuk-heading-s">
                                 <a href="@Url.Action("Index", "TrustCensus", new { companyNumber = Model.Identifier })" class="govuk-link govuk-link--no-visited-state">View pupil and workforce data</a>
                             </h3>
@@ -38,9 +32,6 @@
                     case FinanceTools.CentralServices:
                         <feature name=@FeatureFlags.TrustComparison>
                             <li>
-                                <a href="@Url.Action("Index", "TrustComparators", new { companyNumber = Model.Identifier })" aria-label="Trust to trust benchmarking">
-                                    <img src="/assets/images/central-services.png" alt="" class="app-view-component">
-                                </a>
                                 <h3 class="govuk-heading-s">
                                     <a href="@Url.Action("Index", "TrustComparators", new { companyNumber = Model.Identifier })" class="govuk-link govuk-link--no-visited-state">Trust to trust benchmarking</a>
                                 </h3>
@@ -56,9 +47,6 @@
                     case FinanceTools.ForecastRisk:
                         <feature name="@FeatureFlags.ForecastRisk">
                             <li>
-                                <a href="@Url.Action("Index", "TrustForecast", new { companyNumber = Model.Identifier })" aria-label="Forecast and risk">
-                                    <img src="/assets/images/forecast-risk.png" alt="" class="app-view-component">
-                                </a>
                                 <h3 class="govuk-heading-s">
                                     <a href="@Url.Action("Index", "TrustForecast", new { companyNumber = Model.Identifier })" class="govuk-link govuk-link--no-visited-state">Forecast and risk</a>
                                 </h3>
@@ -73,9 +61,6 @@
                         break;
                     case FinanceTools.FinancialPlanning:
                         <li>
-                            <a href="@Url.Action("Index", "TrustPlanning", new { companyNumber = Model.Identifier })" aria-label="Curriculum and financial planning">
-                                <img src="/assets/images/curriculum-financial-planning.png" alt="" class="app-view-component">
-                            </a>
                             <h3 class="govuk-heading-s">
                                 <a href="@Url.Action("Index", "TrustPlanning", new { companyNumber = Model.Identifier })" class="govuk-link govuk-link--no-visited-state">Curriculum and financial planning</a>
                             </h3>
