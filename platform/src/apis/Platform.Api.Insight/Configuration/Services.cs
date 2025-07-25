@@ -9,6 +9,7 @@ using Platform.Api.Insight.Features.BudgetForecast;
 using Platform.Api.Insight.Features.Census;
 using Platform.Api.Insight.Features.Expenditure;
 using Platform.Api.Insight.Features.Income;
+using Platform.Api.Insight.Features.ItSpend;
 using Platform.Api.Insight.Features.MetricRagRatings;
 using Platform.Api.Insight.Features.Schools;
 using Platform.Api.Insight.Features.Trusts;
@@ -76,6 +77,7 @@ internal static class Services
         .AddCensusFeature()
         .AddExpenditureFeature()
         .AddIncomeFeature()
+        .AddItSpendFeature()
         .AddMetricRagRatingsFeature()
         .AddSchoolsFeature()
         .AddTrustsFeature();
