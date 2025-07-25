@@ -44,29 +44,29 @@ This document maps each category type from the Financial Benchmarking & Insights
 
 ## Income
 
-| Category                 | Sub‑Category                                               | CFR code(s) |                      AAR code(s)                       | Notes |
-|--------------------------|------------------------------------------------------------|:-----------:|:------------------------------------------------------:|-------|
-| Grant funding            | Direct grants                                              |             | BAI050, BAI010, BAI061, BAI020, BAI040, BAI060, BAI011 |       |
-| Grant funding            | Pre-16 and post-16 funding                                 |             |         BAI050, BAI010, BAI061, BAI020, BAI011         |       |
-| Grant funding            | Other DfE/EFA revenue grants                               |     I06     |                         BAI040                         |       |
-| Grant funding            | Other income (local authority and other government grants) |     I07     |                         BAI060                         |       |
-| Grant funding            | Government source (non-grant)                              |             |                         BAI070                         |       |
-| Grant funding            | Community grants                                           |             |                                                        |       |
-| Grant funding            | Academies                                                  |             |                         BAI080                         |       |
-| Self-generated           | Income from facilities and services                        |     I08     |                     BAI100, BAI101                     |       |
-| Self-generated           | Income from catering                                       |     I09     |                         BAI110                         |       |
-| Self-generated           | Donations and/or voluntary funds                           |     I13     |                         BAI140                         |       |
-| Self-generated           | Receipts from supply teacher insurance claims              |     I10     |                         BAI120                         |       |
-| Self-generated           | Investment income                                          |             |                         BAI150                         |       |
-| Self-generated           | Other self-generated income                                |             |                         BAI130                         |       |
-| Direct revenue financing | Direct revenue financing (capital reserves transfers)      |    CI04     |                         BAE290                         |       |
+| Category                 | Sub‑Category                                               | CFR code(s)      |                      AAR code(s)                       | Notes                   |
+|--------------------------|------------------------------------------------------------|:----------------:|:------------------------------------------------------:|-------------------------|
+| Grant funding            | Direct grants                                              | I01+I02+I06+I07  | BAI010, BAI011, BAI020, BAI040, BAI050, BAI060, BAI061 |                         |
+| Grant funding            | Pre-16 and post-16 funding                                 |     I01+I02      |         BAI010, BAI011, BAI020, BAI050, BAI061         |                         |
+| Grant funding            | Other DfE/EFA revenue grants                               |       I06        |                         BAI040                         |                         |
+| Grant funding            | Other income (local authority and other government grants) |       I07        |                         BAI060                         |                         |
+| Grant funding            | Government source (non-grant)                              |                  |                         BAI070                         | Academies only          |
+| Grant funding            | Community grants                                           |       I16        |                                                        | Maintained schools only |
+| Grant funding            | Academies                                                  |                  |                         BAI080                         | Academies only          |
+| Self-generated           | Income from facilities and services                        |       I08        |                     BAI100, BAI101                     |                         |
+| Self-generated           | Income from catering                                       |       I09        |                         BAI110                         |                         |
+| Self-generated           | Donations and/or voluntary funds                           |       I13        |                         BAI140                         |                         |
+| Self-generated           | Receipts from supply teacher insurance claims              |       I10        |                         BAI120                         |                         |
+| Self-generated           | Investment income                                          |                  |                         BAI150                         | Academies only          |
+| Self-generated           | Other self-generated income                                |                  |                         BAI130                         | Academies only          |
+| Direct revenue financing | Direct revenue financing (capital reserves transfers)      |       CI04       |                         BAE290                         |                         |
 
 ## Balance
 
-| Category        | CFR code(s) | AAR code(s) |   Notes    |
-|-----------------|:-----------:|:-----------:|:----------:|
-| In-year balance |      –      |      –      | Calculated |
-| Revenue reserve |             |   BAB030    |            |
+| Category        | CFR code(s)                                          | AAR code(s)     |   Notes    |
+|-----------------|:----------------------------------------------------:|:---------------:|------------|
+| In-year balance |Total Income I01 to I18 - Total Expenditure E01 to E32| BAB010 - BAB020 | Calculated |
+| Revenue reserve |B01 plus B02 plus B06                                 |   BAB030        | Calculated |
 
 <!-- Leave the rest of this page blank -->
 \newpage
