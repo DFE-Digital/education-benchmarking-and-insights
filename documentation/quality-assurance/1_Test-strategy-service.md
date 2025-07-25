@@ -46,7 +46,7 @@ The testing pyramid below shows the value of implementing different types of aut
 |-----------------------|-----------------------------------------------------------------|--------------------|---------------------------------------|
 | Unit Testing          | Test individual functions or methods                            | Developers         | xUnit, Moq, AutoFixture               |
 | Integration Testing   | Verify interaction between modules/components                   | Developers/Testers | ASP.NET Integration Tests, AngleSharp |
-| API Testing           | Validate request/response formats, status codes, data integrity | Test Engineers     | xUnit, FluentAssertions, Postman      |
+| API Testing           | Validate request/response formats, status codes, data integrity | Test Engineers     | xUnit, Swagger UI                     |
 | Feature/E2E Testing   | Simulate real user flows                                        | Test Engineers     | Playwright, Reqnroll                  |
 | Accessibility Testing | Ensure compliance with WCAG 2.2 AA standards                    | Test Engineers     | axe-core with Playwright              |
 | Manual Acceptance     | Explore edge cases and verify stories meet acceptance criteria  | Test Engineers     | Test charters, DevOps tickets         |
