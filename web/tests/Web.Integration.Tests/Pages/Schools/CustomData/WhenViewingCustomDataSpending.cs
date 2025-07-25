@@ -4,9 +4,10 @@ using AngleSharp.Html.Dom;
 using AutoFixture;
 using Web.App;
 using Web.App.Domain;
+using Web.App.Domain.Charts;
 using Web.App.Extensions;
-using Web.App.ViewComponents;
 using Xunit;
+
 namespace Web.Integration.Tests.Pages.Schools.CustomData;
 
 public class WhenViewingCustomDataSpending(SchoolBenchmarkingWebAppClient client)

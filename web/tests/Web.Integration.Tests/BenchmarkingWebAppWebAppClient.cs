@@ -6,6 +6,7 @@ using Moq;
 using Web.App;
 using Web.App.Cache;
 using Web.App.Domain;
+using Web.App.Domain.Charts;
 using Web.App.Domain.Content;
 using Web.App.Domain.LocalAuthorities;
 using Web.App.Domain.NonFinancial;
@@ -19,7 +20,6 @@ using Web.App.Infrastructure.Apis.LocalAuthorities;
 using Web.App.Infrastructure.Apis.NonFinancial;
 using Web.App.Infrastructure.Storage;
 using Web.App.Services;
-using Web.App.ViewComponents;
 using Xunit.Abstractions;
 using File = Web.App.Domain.Content.File;
 
