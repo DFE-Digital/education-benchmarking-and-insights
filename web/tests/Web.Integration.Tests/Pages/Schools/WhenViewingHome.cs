@@ -46,7 +46,7 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
     [InlineData(EstablishmentTypes.Maintained)]
     public async Task CanNavigateToComparisonItSpendIfNotPartOfTrust(string financeType)
     {
-        var (page, school, _, _) = await SetupNavigateInitPage(financeType);
+        var (page, school, _, _) = await SetupNavigateInitPage(financeType, financeType == EstablishmentTypes.Academies);
 
         var liElements = page.QuerySelectorAll("ul.app-links > li");
         var anchor = liElements[1].QuerySelector("h3 > a");

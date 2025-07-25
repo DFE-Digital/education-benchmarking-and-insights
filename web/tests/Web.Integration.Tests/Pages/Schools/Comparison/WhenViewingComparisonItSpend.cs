@@ -8,14 +8,21 @@ namespace Web.Integration.Tests.Pages.Schools.Comparison;
 
 public class WhenViewingComparisonItSpend(SchoolBenchmarkingWebAppClient client) : PageBase<SchoolBenchmarkingWebAppClient>(client)
 {
-    [Theory]
-    [InlineData(EstablishmentTypes.Academies)]
-    [InlineData(EstablishmentTypes.Maintained)]
-    public async Task CanDisplay(string financeType)
+    [Fact]
+    public async Task CanDisplayForMaintainedSchool()
     {
-        var (page, school) = await SetupNavigateInitPage(financeType);
+        var (page, school) = await SetupNavigateInitPage(EstablishmentTypes.Maintained);
 
         AssertPageLayout(page, school);
+    }
+
+    [Fact]
+    public async Task CanDisplayNotFoundForAcademy()
+    {
+        var (page, school) = await SetupNavigateInitPage(EstablishmentTypes.Academies);
+
+        PageAssert.IsNotFoundPage(page);
+        DocumentAssert.AssertPageUrl(page, Paths.SchoolComparisonItSpend(school.URN).ToAbsolute(), HttpStatusCode.NotFound);
     }
 
     [Fact]
