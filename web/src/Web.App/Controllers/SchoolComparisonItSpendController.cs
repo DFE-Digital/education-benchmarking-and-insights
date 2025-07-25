@@ -7,8 +7,10 @@ using Web.App.Attributes.RequestTelemetry;
 using Web.App.Domain;
 using Web.App.Domain.Charts;
 using Web.App.Infrastructure.Apis;
+using Web.App.Infrastructure.Apis.Benchmark;
 using Web.App.Infrastructure.Apis.ChartRendering;
 using Web.App.Infrastructure.Apis.Establishment;
+using Web.App.Infrastructure.Apis.Insight;
 using Web.App.Infrastructure.Extensions;
 using Web.App.ViewModels;
 using Web.App.ViewModels.Components;
@@ -22,6 +24,8 @@ namespace Web.App.Controllers;
 public class SchoolComparisonItSpendController(
     IEstablishmentApi establishmentApi,
     IChartRenderingApi chartRenderingApi,
+    IComparatorSetApi comparatorSetApi,
+    IItSpendApi itSpendApi,
     ILogger<SchoolComparisonController> logger) : Controller
 {
     [HttpGet]
@@ -42,57 +46,10 @@ public class SchoolComparisonItSpendController(
                     return StatusCode((int)HttpStatusCode.NotFound);
                 }
 
-                var expenditures = new[]
-                {
-                    new SchoolItExpenditure
-                    {
-                        URN = "990000",
-                        SchoolName = "Stub School (990000)",
-                        SchoolType = "Academy",
-                        LAName = "Test LA",
-                        PeriodCoveredByReturn = 12,
-                        TotalPupils = 550,
-                        Connectivity = 148500,
-                        OnsiteServers = 247500,
-                        ItLearningResources = 178200,
-                        AdministrationSoftwareAndSystems = 89100,
-                        LaptopsDesktopsAndTablets = 297000,
-                        OtherHardware = 99000,
-                        ItSupport = 178200
-                    },
-                    new SchoolItExpenditure
-                    {
-                        URN = "990001",
-                        SchoolName = "Stub School (990001)",
-                        SchoolType = "Academy",
-                        LAName = "Test LA",
-                        PeriodCoveredByReturn = 12,
-                        TotalPupils = 550,
-                        Connectivity = 1485.15m,
-                        OnsiteServers = 2475.25m,
-                        ItLearningResources = 1782.18m,
-                        AdministrationSoftwareAndSystems = 891.09m,
-                        LaptopsDesktopsAndTablets = 2970.3m,
-                        OtherHardware = 990.1m,
-                        ItSupport = 1782.18m
-                    },
-                    new SchoolItExpenditure
-                    {
-                        URN = "990002",
-                        SchoolName = "Stub School (990002)",
-                        SchoolType = "Academy",
-                        LAName = "Test LA",
-                        PeriodCoveredByReturn = 12,
-                        TotalPupils = 550,
-                        Connectivity = 14850.3m,
-                        OnsiteServers = 24750.5m,
-                        ItLearningResources = 17820.36m,
-                        AdministrationSoftwareAndSystems = 8910.18m,
-                        LaptopsDesktopsAndTablets = 29700.6m,
-                        OtherHardware = 9900.2m,
-                        ItSupport = 17820.36m
-                    }
-                };
+                var set = await comparatorSetApi.GetDefaultSchoolAsync(urn).GetResultOrThrow<SchoolComparatorSet>();
+                var expenditures = await itSpendApi
+                    .QuerySchools(BuildApiQuery(set.Pupil))
+                    .GetResultOrDefault<SchoolItSpend[]>() ?? [];
 
                 var subCategories = new SchoolComparisonViewModelCostSubCategories(urn, expenditures);
                 var requests = subCategories.Select(c => new SchoolComparisonItSpendHorizontalBarChartRequest(
@@ -129,5 +86,16 @@ public class SchoolComparisonItSpendController(
                 return e is StatusCodeException s ? StatusCode((int)s.Status) : StatusCode(500);
             }
         }
+    }
+
+    private static ApiQuery BuildApiQuery(IEnumerable<string>? urns = null)
+    {
+        var query = new ApiQuery();
+        foreach (var urn in urns ?? [])
+        {
+            query.AddIfNotNull("urns", urn);
+        }
+
+        return query;
     }
 }
