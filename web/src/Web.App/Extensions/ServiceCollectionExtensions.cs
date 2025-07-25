@@ -82,6 +82,7 @@ public static class ServiceCollectionExtensions
         services.AddHttpClient<ISchoolInsightApi, SchoolInsightApi>().Configure<SchoolInsightApi>(section);
         services.AddHttpClient<ITrustInsightApi, TrustInsightApi>().Configure<TrustInsightApi>(section);
         services.AddHttpClient<IBudgetForecastApi, BudgetForecastApi>().Configure<BudgetForecastApi>(section);
+        services.AddHttpClient<IItSpendApi, ItSpendApi>().Configure<ItSpendApi>(section);
         services.AddHttpClient<IHealthApi, HealthApi>(section).Configure<HealthApi>(section);
 
         return services;
