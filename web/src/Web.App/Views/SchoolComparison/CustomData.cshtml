@@ -29,13 +29,4 @@
     data-is-part-of-trust="@Model.IsPartOfTrust.ToString().ToLower()">
 </div>
 
-@await Component.InvokeAsync("CustomDataFinanceTools", new
-{
-    identifier = Model.Urn,
-    tools = new[]
-    {
-        FinanceTools.SpendingComparison,
-        FinanceTools.Spending,
-        FinanceTools.BenchmarkCensus
-    }
-})
+@await Html.PartialAsync("FinanceTools/_SchoolCustom", Model.CustomTools)

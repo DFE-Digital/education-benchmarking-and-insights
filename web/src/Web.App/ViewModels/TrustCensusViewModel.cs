@@ -1,4 +1,5 @@
 ﻿using Web.App.Domain;
+using Web.App.ViewModels.Shared;
 
 namespace Web.App.ViewModels;
 
@@ -13,4 +14,11 @@ public class TrustCensusViewModel(Trust trust)
         .Select(x => x.Key)
         .OfType<string>()
         .ToArray();
+
+    public FinanceToolsViewModel Tools => new(
+        trust.CompanyNumber,
+        FinanceTools.CompareYourCosts,
+        FinanceTools.CentralServices,
+        FinanceTools.ForecastRisk,
+        FinanceTools.FinancialPlanning);
 }

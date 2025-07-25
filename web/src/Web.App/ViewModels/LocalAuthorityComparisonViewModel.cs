@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Primitives;
 using Web.App.Domain;
+using Web.App.ViewModels.Shared;
 
 namespace Web.App.ViewModels;
 
@@ -15,4 +16,9 @@ public class LocalAuthorityComparisonViewModel(LocalAuthority localAuthority, Co
         .OfType<string>()
         .ToArray();
     public Dictionary<string, StringValues> CostCodeMap => costCodes.SubCategoryToCostCodeMap;
+
+    public FinanceToolsViewModel Tools => new(
+        localAuthority.Code,
+        FinanceTools.BenchmarkCensus,
+        FinanceTools.HighNeeds);
 }

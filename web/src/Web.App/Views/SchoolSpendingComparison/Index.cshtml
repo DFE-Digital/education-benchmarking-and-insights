@@ -73,14 +73,5 @@
 
 <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
 
-@await Component.InvokeAsync("CustomDataFinanceTools", new
-    {
-        identifier = Model.Urn,
-        tools = new[]
-                    {
-        FinanceTools.CompareYourCosts,
-        FinanceTools.Spending,
-        FinanceTools.BenchmarkCensus
-    }
-    })
+@await Html.PartialAsync("FinanceTools/_SchoolCustom", Model.CustomTools)
 

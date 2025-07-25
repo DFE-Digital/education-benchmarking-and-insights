@@ -1,4 +1,5 @@
 using Web.App.Domain;
+using Web.App.ViewModels.Shared;
 
 namespace Web.App.ViewModels;
 
@@ -42,4 +43,9 @@ public class SchoolPlanViewModel(School school, IEnumerable<FinancialPlan> plans
         return string.Empty;
 
     }
+
+    public FinanceToolsViewModel Tools => new(
+        school.URN,
+        FinanceTools.CompareYourCosts,
+        FinanceTools.BenchmarkCensus);
 }

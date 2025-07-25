@@ -67,16 +67,7 @@
     })
 }
 
-@await Component.InvokeAsync("CustomDataFinanceTools", new
-{
-    identifier = Model.Urn,
-    tools = new[]
-    {
-        FinanceTools.SpendingComparison,
-        FinanceTools.CompareYourCosts,
-        FinanceTools.BenchmarkCensus
-    }
-})
+@await Html.PartialAsync("FinanceTools/_SchoolCustom", Model.CustomTools)
 
 @section scripts
 {

@@ -1,4 +1,6 @@
 ﻿using Web.App.Domain;
+using Web.App.ViewModels.Shared;
+
 namespace Web.App.ViewModels;
 
 public class LocalAuthorityViewModel(LocalAuthority localAuthority)
@@ -25,6 +27,12 @@ public class LocalAuthorityViewModel(LocalAuthority localAuthority)
             _ => 99
         };
     }
+
+    public FinanceToolsViewModel Tools => new(
+        localAuthority.Code,
+        FinanceTools.CompareYourCosts,
+        FinanceTools.BenchmarkCensus,
+        FinanceTools.HighNeeds);
 }
 
 public class LocalAuthoritySchoolsSectionViewModel

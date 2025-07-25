@@ -114,7 +114,7 @@
                 </tbody>
             </table>
         }
-    </div >
-</div >
+    </div>
+</div>
 
-@await Component.InvokeAsync("SchoolFinanceTools", new { identifier = Model.Urn, tools = new[] { FinanceTools.CompareYourCosts, FinanceTools.BenchmarkCensus } })
+@await Html.PartialAsync("FinanceTools/_School", Model.Tools)

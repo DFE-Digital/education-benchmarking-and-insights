@@ -43,14 +43,4 @@
     </div>
 }
 
-@await Component.InvokeAsync("TrustFinanceTools", new
-{
-    identifier = Model.CompanyNumber,
-    tools = new[]
-    {
-        FinanceTools.BenchmarkCensus,
-        FinanceTools.CentralServices,
-        FinanceTools.ForecastRisk,
-        FinanceTools.FinancialPlanning
-    }
-})
+@await Html.PartialAsync("FinanceTools/_Trust", Model.Tools)

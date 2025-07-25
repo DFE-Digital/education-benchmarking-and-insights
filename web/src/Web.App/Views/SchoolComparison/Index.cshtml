@@ -73,12 +73,4 @@
     </div>
 }
 
-@await Component.InvokeAsync("SchoolFinanceTools", new
-{
-    identifier = Model.Urn,
-    tools = new[]
-    {
-        FinanceTools.FinancialPlanning,
-        FinanceTools.BenchmarkCensus
-    }
-})
+@await Html.PartialAsync("FinanceTools/_School", Model.Tools)

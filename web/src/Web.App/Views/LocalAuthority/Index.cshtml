@@ -1,5 +1,6 @@
 ﻿@using Web.App.ViewModels
 @using Web.App.ViewModels.Components
+@using Web.App.ViewModels.Shared
 @model Web.App.ViewModels.LocalAuthorityViewModel
 @{
     ViewData[ViewDataKeys.Title] = PageTitles.LocalAuthorityHome;
@@ -41,11 +42,7 @@
     </div>
 </div>
 
-@await Component.InvokeAsync("LocalAuthorityFinanceTools", new
-{
-    identifier = Model.Code,
-    tools = new[] { FinanceTools.CompareYourCosts, FinanceTools.BenchmarkCensus, FinanceTools.HighNeeds }
-})
+@await Html.PartialAsync("FinanceTools/_LocalAuthority", Model.Tools)
 
 <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
 

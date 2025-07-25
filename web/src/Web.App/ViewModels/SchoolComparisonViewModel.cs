@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Primitives;
 using Web.App.Domain;
+using Web.App.ViewModels.Shared;
 
 namespace Web.App.ViewModels;
 
@@ -21,4 +22,15 @@ public class SchoolComparisonViewModel(
                                            && (defaultComparatorSet.Building.Any(b => !string.IsNullOrWhiteSpace(b))
                                                || defaultComparatorSet.Pupil.Any(p => !string.IsNullOrWhiteSpace(p)));
     public Dictionary<string, StringValues> CostCodeMap => costCodes.SubCategoryToCostCodeMap;
+
+    public FinanceToolsViewModel Tools => new(
+        school.URN,
+        FinanceTools.FinancialPlanning,
+        FinanceTools.BenchmarkCensus);
+
+    public FinanceToolsViewModel CustomTools => new(
+        school.URN,
+        FinanceTools.SpendingComparison,
+        FinanceTools.Spending,
+        FinanceTools.BenchmarkCensus);
 }

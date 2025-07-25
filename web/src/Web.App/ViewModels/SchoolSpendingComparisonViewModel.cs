@@ -1,4 +1,5 @@
 ﻿using Web.App.Domain;
+using Web.App.ViewModels.Shared;
 
 namespace Web.App.ViewModels;
 
@@ -6,12 +7,16 @@ public class SchoolSpendingComparisonViewModel
 {
     private readonly RagRating[] _originalRating;
     private readonly RagRating[] _customRating;
-
     public SchoolSpendingComparisonViewModel(School school, RagRating[] originalRating, RagRating[] customRating)
 
     {
         Name = school.SchoolName;
         Urn = school.URN;
+        CustomTools = new FinanceToolsViewModel(
+            school.URN,
+            FinanceTools.CompareYourCosts,
+            FinanceTools.Spending,
+            FinanceTools.BenchmarkCensus);
         _originalRating = originalRating;
         _customRating = customRating;
         GroupedComparisonResultsNoChange = GetGroupedComparisonResults(true);
@@ -22,6 +27,7 @@ public class SchoolSpendingComparisonViewModel
     }
     public string? Name { get; }
     public string? Urn { get; }
+    public FinanceToolsViewModel CustomTools { get; }
     public (int OriginalCount, int CustomCount, string Change, string ChangeDescription) HighHeadline { get; }
     public (int OriginalCount, int CustomCount, string Change, string ChangeDescription) MediumHeadline { get; }
     public (int OriginalCount, int CustomCount, string Change, string ChangeDescription) LowHeadline { get; }
