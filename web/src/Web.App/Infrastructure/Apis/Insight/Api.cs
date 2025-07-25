@@ -61,4 +61,9 @@ public static class Api
     {
         public static string TrustsCharacteristics => "api/trusts/characteristics";
     }
+
+    public static class ItSpend
+    {
+        public static string Schools => "api/it-spend/schools";
+    }
 }

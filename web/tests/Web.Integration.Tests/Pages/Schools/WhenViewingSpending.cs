@@ -6,9 +6,9 @@ using FluentValidation;
 using Moq;
 using Web.App;
 using Web.App.Domain;
+using Web.App.Domain.Charts;
 using Web.App.Extensions;
 using Web.App.Infrastructure.Apis;
-using Web.App.ViewComponents;
 using Xunit;
 
 namespace Web.Integration.Tests.Pages.Schools;

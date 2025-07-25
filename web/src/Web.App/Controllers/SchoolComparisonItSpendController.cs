@@ -5,10 +5,15 @@ using Microsoft.FeatureManagement.Mvc;
 using Web.App.Attributes;
 using Web.App.Attributes.RequestTelemetry;
 using Web.App.Domain;
+using Web.App.Domain.Charts;
 using Web.App.Infrastructure.Apis;
+using Web.App.Infrastructure.Apis.Benchmark;
+using Web.App.Infrastructure.Apis.ChartRendering;
 using Web.App.Infrastructure.Apis.Establishment;
+using Web.App.Infrastructure.Apis.Insight;
 using Web.App.Infrastructure.Extensions;
 using Web.App.ViewModels;
+using Web.App.ViewModels.Components;
 
 namespace Web.App.Controllers;
 
@@ -18,6 +23,9 @@ namespace Web.App.Controllers;
 [FeatureGate(FeatureFlags.CfrItSpendBreakdown)]
 public class SchoolComparisonItSpendController(
     IEstablishmentApi establishmentApi,
+    IChartRenderingApi chartRenderingApi,
+    IComparatorSetApi comparatorSetApi,
+    IItSpendApi itSpendApi,
     ILogger<SchoolComparisonController> logger) : Controller
 {
     [HttpGet]
@@ -38,7 +46,38 @@ public class SchoolComparisonItSpendController(
                     return StatusCode((int)HttpStatusCode.NotFound);
                 }
 
-                var viewModel = new SchoolComparisonItSpendViewModel(school);
+                var set = await comparatorSetApi.GetDefaultSchoolAsync(urn).GetResultOrThrow<SchoolComparatorSet>();
+                var expenditures = await itSpendApi
+                    .QuerySchools(BuildApiQuery(set.Pupil))
+                    .GetResultOrDefault<SchoolItSpend[]>() ?? [];
+
+                var subCategories = new SchoolComparisonSubCategoriesViewModel(urn, expenditures);
+                var requests = subCategories.Select(c => new SchoolComparisonItSpendHorizontalBarChartRequest(
+                    c.Uuid!,
+                    urn,
+                    c.Data!,
+                    format => Uri.UnescapeDataString(Url.Action("Index", "School", new { urn = format }) ?? string.Empty)));
+
+                ChartResponse[] charts = [];
+                try
+                {
+                    charts = await chartRenderingApi.PostHorizontalBarCharts(new PostHorizontalBarChartsRequest<SchoolComparisonDatum>(requests)).GetResultOrDefault<ChartResponse[]>() ?? [];
+                }
+                catch (Exception e)
+                {
+                    logger.LogWarning(e, "Unable to load charts from API");
+                }
+
+                foreach (var chart in charts)
+                {
+                    var category = subCategories.FirstOrDefault(r => r.Uuid == chart.Id);
+                    if (category != null)
+                    {
+                        category.ChartSvg = chart.Html;
+                    }
+                }
+
+                var viewModel = new SchoolComparisonItSpendViewModel(school, subCategories);
                 return View(viewModel);
             }
             catch (Exception e)
@@ -47,5 +86,16 @@ public class SchoolComparisonItSpendController(
                 return e is StatusCodeException s ? StatusCode((int)s.Status) : StatusCode(500);
             }
         }
+    }
+
+    private static ApiQuery BuildApiQuery(IEnumerable<string>? urns = null)
+    {
+        var query = new ApiQuery();
+        foreach (var urn in urns ?? [])
+        {
+            query.AddIfNotNull("urns", urn);
+        }
+
+        return query;
     }
 }
