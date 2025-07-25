@@ -1,5 +1,6 @@
 using Web.App.Domain;
 using Web.App.Domain.Content;
+using Web.App.ViewModels.Shared;
 
 namespace Web.App.ViewModels;
 
@@ -52,6 +53,12 @@ public class SchoolSpendingViewModel(
             }
         };
     }
+
+    public FinanceToolsViewModel CustomTools => new(
+        school.URN,
+        FinanceTools.SpendingComparison,
+        FinanceTools.CompareYourCosts,
+        FinanceTools.BenchmarkCensus);
 }
 
 public class ChartStatsViewModel

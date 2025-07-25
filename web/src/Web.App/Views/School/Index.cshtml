@@ -1,6 +1,7 @@
 @using Web.App.Extensions
 @using Web.App.ViewModels
 @using Web.App.ViewModels.Components
+@using Web.App.ViewModels.Shared
 @model Web.App.ViewModels.SchoolViewModel
 @{
     ViewData[ViewDataKeys.Title] = PageTitles.SchoolHome;
@@ -116,25 +117,7 @@
 
 <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
 
-@{
-    var tools = new List<FinanceTools>
-    {
-        FinanceTools.CompareYourCosts,
-        FinanceTools.FinancialPlanning,
-        FinanceTools.BenchmarkCensus
-    };
-    
-    // IT comparison only applicable to maintained schools
-    if (!Model.IsPartOfTrust)
-    {
-        tools.Insert(1, FinanceTools.SpendingComparisonIt);
-    }
-}
-@await Component.InvokeAsync("SchoolFinanceTools", new
-{
-    identifier = Model.Urn,
-    tools = tools.ToArray()
-})
+@await Html.PartialAsync("FinanceTools/_School", Model.Tools)
 
 <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
 

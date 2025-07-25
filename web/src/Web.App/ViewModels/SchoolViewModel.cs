@@ -1,4 +1,6 @@
 using Web.App.Domain;
+using Web.App.ViewModels.Shared;
+
 namespace Web.App.ViewModels;
 
 public class SchoolViewModel(School school) : ISchoolKeyInformationViewModel
@@ -81,4 +83,25 @@ public class SchoolViewModel(School school) : ISchoolKeyInformationViewModel
     public string? OverallPhase => school.OverallPhase;
     public decimal? InYearBalance { get; }
     public decimal? RevenueReserve { get; }
+
+    public FinanceToolsViewModel Tools => school.IsPartOfTrust
+        ? new FinanceToolsViewModel(
+            school.URN,
+            FinanceTools.CompareYourCosts,
+            FinanceTools.FinancialPlanning,
+            FinanceTools.BenchmarkCensus)
+        : new FinanceToolsViewModel(
+            school.URN,
+            FinanceTools.CompareYourCosts,
+            FinanceTools.SpendingComparisonIt,
+            FinanceTools.FinancialPlanning,
+            FinanceTools.BenchmarkCensus);
+
+    public FinanceToolsViewModel CustomTools => new(
+            school.URN,
+            FinanceTools.SpendingComparison,
+            FinanceTools.CompareYourCosts,
+            FinanceTools.Spending,
+            FinanceTools.BenchmarkCensus);
+
 }

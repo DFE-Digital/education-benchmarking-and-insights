@@ -1,4 +1,5 @@
 ﻿using Web.App.Domain;
+using Web.App.ViewModels.Shared;
 
 namespace Web.App.ViewModels;
 
@@ -17,4 +18,14 @@ public class SchoolCensusViewModel(
     public decimal? TotalPupils => census?.TotalPupils;
     public bool HasDefaultComparatorSet => defaultComparatorSet != null
                                            && defaultComparatorSet.Pupil.Any(p => !string.IsNullOrWhiteSpace(p));
+    public FinanceToolsViewModel Tools => new(
+        school.URN,
+        FinanceTools.FinancialPlanning,
+        FinanceTools.CompareYourCosts);
+
+    public FinanceToolsViewModel CustomTools => new(
+        school.URN,
+        FinanceTools.SpendingComparison,
+        FinanceTools.CompareYourCosts,
+        FinanceTools.Spending);
 }

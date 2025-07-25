@@ -1,4 +1,6 @@
 using Web.App.Domain;
+using Web.App.ViewModels.Shared;
+
 namespace Web.App.ViewModels;
 
 public class TrustViewModel(Trust trust)
@@ -97,6 +99,14 @@ public class TrustViewModel(Trust trust)
         .SelectMany(s => s.Schools);
 
     public bool? ComparatorReverted { get; }
+
+    public FinanceToolsViewModel Tools => new(
+        trust.CompanyNumber,
+        FinanceTools.CompareYourCosts,
+        FinanceTools.BenchmarkCensus,
+        FinanceTools.CentralServices,
+        FinanceTools.ForecastRisk,
+        FinanceTools.FinancialPlanning);
 
     private IEnumerable<(string? OverallPhase, IOrderedEnumerable<RagSchoolViewModel> Schools)> GroupedSchools { get; } = [];
 

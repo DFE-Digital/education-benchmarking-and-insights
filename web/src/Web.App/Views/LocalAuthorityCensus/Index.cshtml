@@ -23,8 +23,4 @@
     </div>
 }
 
-@await Component.InvokeAsync("LocalAuthorityFinanceTools", new
-{
-    identifier = Model.Code,
-    tools = new[] { FinanceTools.CompareYourCosts, FinanceTools.HighNeeds }
-})
+@await Html.PartialAsync("FinanceTools/_LocalAuthority", Model.Tools)

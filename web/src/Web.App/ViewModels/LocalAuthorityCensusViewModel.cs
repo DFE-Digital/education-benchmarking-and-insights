@@ -1,4 +1,6 @@
 ﻿using Web.App.Domain;
+using Web.App.ViewModels.Shared;
+
 namespace Web.App.ViewModels;
 
 public class LocalAuthorityCensusViewModel(LocalAuthority localAuthority)
@@ -12,4 +14,9 @@ public class LocalAuthorityCensusViewModel(LocalAuthority localAuthority)
         .Select(x => x.Key)
         .OfType<string>()
         .ToArray();
+
+    public FinanceToolsViewModel Tools => new(
+        localAuthority.Code,
+        FinanceTools.CompareYourCosts,
+        FinanceTools.HighNeeds);
 }
