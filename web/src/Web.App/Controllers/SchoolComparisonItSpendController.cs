@@ -51,7 +51,7 @@ public class SchoolComparisonItSpendController(
                     .QuerySchools(BuildApiQuery(set.Pupil))
                     .GetResultOrDefault<SchoolItSpend[]>() ?? [];
 
-                var subCategories = new SchoolComparisonViewModelCostSubCategories(urn, expenditures);
+                var subCategories = new SchoolComparisonSubCategoriesViewModel(urn, expenditures);
                 var requests = subCategories.Select(c => new SchoolComparisonItSpendHorizontalBarChartRequest(
                     c.Uuid!,
                     urn,
