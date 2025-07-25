@@ -39,3 +39,21 @@ The Financial Benchmarking and Insights Tool (FBIT) is to provide a single servi
 ## Project backlog
 
 [![Board Status](https://dfe-ssp.visualstudio.com/a14e55df-4fbf-4a2f-a11d-22b187178343/32a624e7-aa96-43ef-95a2-de5dfe4479a3/_apis/work/boardbadge/a1b5a131-4e4b-43d3-b301-e7451d1652d4)](https://dfe-ssp.visualstudio.com/a14e55df-4fbf-4a2f-a11d-22b187178343/_boards/board/t/32a624e7-aa96-43ef-95a2-de5dfe4479a3/Stories/)
+
+## git hooks
+
+### pre-commit
+
+This solution has been configured with numerous [pre-commit hooks](./documentation/developers/14_Pre-Commit.md) to perform early quality assurance over commits in the repo.
+To ensure these run correctly make sure the following CLI tools are available:
+
+1. python
+2. dotnet
+3. node
+4. terraform
+
+Then perform the following steps to install and register `pre-commit`:
+
+1. `pip install -r requirements.txt`
+2. `pre-commit install`
+3. `pre-commit run --all-files` (optional)
