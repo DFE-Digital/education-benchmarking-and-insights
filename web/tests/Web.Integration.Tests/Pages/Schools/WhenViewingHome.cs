@@ -185,6 +185,11 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
             disabledFlags = [FeatureFlags.FilteredSearch];
         }
 
+        var comparatorSet = Fixture.Build<SchoolComparatorSet>()
+            .With(c => c.Pupil, Fixture.CreateMany<string>().ToArray())
+            .Without(c => c.Building)
+            .Create();
+
         var page = await Client
             .SetupDisableFeatureFlags(disabledFlags)
             .SetupEstablishment(school)
@@ -194,6 +199,8 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
             .SetupBalance(balance)
             .SetupUserData()
             .SetupBanner(banner)
+            .SetupComparatorSet(school, comparatorSet)
+            .SetupItSpend()
             .Navigate(Paths.SchoolHome(school.URN));
 
         return (page, school, balance, banner);
