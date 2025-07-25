@@ -68,7 +68,6 @@ This document maps each category type from the Financial Benchmarking & Insights
 | In-year balance | Total Income I01 to I18 - Total Expenditure E01 to E32 | BAB010, BAB020 | Calculated - Income minus Expenditure |
 | Revenue reserve |                     B01, B02, B06                      |     BAB030     | Calculated - sum of codes             |
 
-
 > Need to confirm calculation for total income and total expenditure for CFR.
 
 <!-- Leave the rest of this page blank -->
