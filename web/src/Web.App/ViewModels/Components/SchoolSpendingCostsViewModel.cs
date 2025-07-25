@@ -1,6 +1,6 @@
 ﻿using Web.App.Domain;
+using Web.App.Domain.Charts;
 using Web.App.Domain.Content;
-using Web.App.ViewComponents;
 
 namespace Web.App.ViewModels.Components;
 
