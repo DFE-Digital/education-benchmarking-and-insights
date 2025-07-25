@@ -1,0 +1,47 @@
+﻿[
+  {
+    "urn": "990000",
+    "schoolName": "Stub School (990000)",
+    "schoolType": "Academy",
+    "laName": "Test LA",
+    "periodCoveredByReturn": 12,
+    "totalPupils": 550,
+    "connectivity": 148500.0,
+    "onsiteServers": 247500.0,
+    "itLearningResources": 178200.0,
+    "administrationSoftwareAndSystems": 89100.0,
+    "laptopsDesktopsAndTablets": 297000.0,
+    "otherHardware": 99000.0,
+    "itSupport": 178200.0
+  },
+  {
+    "urn": "990001",
+    "schoolName": "Stub School (990001)",
+    "schoolType": "Academy",
+    "laName": "Test LA",
+    "periodCoveredByReturn": 12,
+    "totalPupils": 550,
+    "connectivity": 148500.15,
+    "onsiteServers": 247500.25,
+    "itLearningResources": 178200.18,
+    "administrationSoftwareAndSystems": 89100.09,
+    "laptopsDesktopsAndTablets": 297000.3,
+    "otherHardware": 99000.1,
+    "itSupport": 178200.18
+  },
+  {
+    "urn": "990002",
+    "schoolName": "Stub School (990002)",
+    "schoolType": "Academy",
+    "laName": "Test LA",
+    "periodCoveredByReturn": 12,
+    "totalPupils": 550,
+    "connectivity": 148500.3,
+    "onsiteServers": 247500.5,
+    "itLearningResources": 178200.36,
+    "administrationSoftwareAndSystems": 89100.18,
+    "laptopsDesktopsAndTablets": 297000.6,
+    "otherHardware": 99000.2,
+    "itSupport": 178200.36
+  }
+]
