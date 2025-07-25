@@ -14,7 +14,7 @@ public class SchoolComparisonViewModelCostSubCategory<T>
 
 public class SchoolComparisonViewModelCostSubCategories : List<SchoolComparisonViewModelCostSubCategory<SchoolComparisonDatum>>
 {
-    public SchoolComparisonViewModelCostSubCategories(string urn, SchoolItExpenditure[] expenditures)
+    public SchoolComparisonViewModelCostSubCategories(string urn, SchoolItSpend[] expenditures)
     {
         AddItSubCategory(urn, "Administration software and systems E20D", s => s.AdministrationSoftwareAndSystems, expenditures);
         AddItSubCategory(urn, "Connectivity E20A", s => s.Connectivity, expenditures);
@@ -25,7 +25,7 @@ public class SchoolComparisonViewModelCostSubCategories : List<SchoolComparisonV
         AddItSubCategory(urn, "Other hardware E20F", s => s.OtherHardware, expenditures);
     }
 
-    private void AddItSubCategory(string urn, string subCategoryName, Func<SchoolItExpenditure, decimal?> selector, SchoolItExpenditure[] expenditures)
+    private void AddItSubCategory(string urn, string subCategoryName, Func<SchoolItSpend, decimal?> selector, SchoolItSpend[] expenditures)
     {
 
         var data = expenditures.GroupBy(e => e, (g, enumerable) => new SchoolComparisonDatum
