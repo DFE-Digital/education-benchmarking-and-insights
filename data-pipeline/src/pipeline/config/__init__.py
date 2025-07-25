@@ -120,12 +120,10 @@ cost_category_map = {
     "maintained_schools": {
         "LA (code)": "LA Code",
         "LA (name)": "LA Name",
-        "E22 Administrative supplies": "Administrative supplies_Administrative supplies (non educational)",
         "E06 Catering staff": "Catering staff and supplies_Catering staff",
         "E25  Catering supplies": "Catering staff and supplies_Catering supplies",
         "E21  Exam fees": "Educational supplies_Examination fees",
         "E19  Learning resources (not ICT equipment)": "Educational supplies_Learning resources (not ICT equipment)",
-        "E20  ICT learning resources": "Educational ICT_ICT learning resources",
         "E05 Administrative and clerical staff": "Non-educational support staff and services_Administrative and clerical staff",
         "E07  Cost of other staff": "Non-educational support staff and services_Other staff",
         "E28a  Bought in professional services - other (except PFI)": "Non-educational support staff and services_Professional services (non-curriculum)",

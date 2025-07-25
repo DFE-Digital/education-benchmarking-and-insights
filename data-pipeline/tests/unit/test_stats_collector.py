@@ -130,7 +130,9 @@ class TestStatsCollector:
         stats_collector.collect_preprocessed_ancillary_data_shape(name, shape)
 
         # Check logging call
-        mock_logger.info.assert_called_once_with(f"Ancillary file {name=} preprocessed with {shape=}")
+        mock_logger.info.assert_called_once_with(
+            f"Ancillary file {name=} preprocessed with {shape=}"
+        )
 
         # Check stats structure
         assert "linked_data_school_counts" in stats_collector.stats

@@ -24,6 +24,7 @@ def test_create_master_list(
         prepared_cdc_data_df,
         prepared_ks2_data,
         prepared_ks4_data,
+        year=None,
     )
 
     assert actual["URN"].isin([100150, 100152, 100153]).all()
@@ -151,6 +152,7 @@ def test_calc_rag_cost_series(
         prepared_cdc_data_df,
         prepared_ks2_data,
         prepared_ks4_data,
+        year=None,
     )
 
     merged_data.rename(
@@ -214,6 +216,7 @@ def test_federation_mapping(
         prepared_cdc_data_df,
         prepared_ks2_data,
         prepared_ks4_data,
+        year=None,
     )
 
     actual = maintained_schools.join_federations(master_list)
