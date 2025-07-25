@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http.Extensions;
+﻿using System.Net;
+using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.FeatureManagement.Mvc;
 using Web.App.Attributes;
@@ -32,6 +33,11 @@ public class SchoolComparisonItSpendController(
             {
                 ViewData[ViewDataKeys.BreadcrumbNode] = BreadcrumbNodes.SchoolComparisonItSpend(urn);
                 var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
+                if (school.FinanceType != EstablishmentTypes.Maintained)
+                {
+                    return StatusCode((int)HttpStatusCode.NotFound);
+                }
+
                 var viewModel = new SchoolComparisonItSpendViewModel(school);
                 return View(viewModel);
             }
