@@ -62,7 +62,7 @@ maintained_schools_master_list_cols = {
         "Community Grants": "float",
         "Self Generated Funding": "float",
     },
-    "2025": {
+    2025: {
         "URN": "Int64",
         "School Name": "string",
         "LAEstab": "string",
@@ -138,7 +138,7 @@ maintained_schools_master_list_column_eval = {
             "`E22 Administrative supplies`.fillna(0.0)"
         ),
     },
-    "2025": {
+    2025: {
         "Educational ICT_ICT learning resources": (
             "`E20A Connectivity`.fillna(0.0) + "
             "`E20B Onsite servers`.fillna(0.0) + "
