@@ -218,7 +218,7 @@ export const NonEducationalSupportStaff: React.FC<{
         suppressNegativeOrZero: {
           suppressNegativeOrZero: true,
           message:
-            "Only data for Trusts with pay bands above £60,000 is shown.",
+            "Only data for Trusts with emoluments above £60,000 is shown.",
         },
         customTooltip: "highExec",
         summary:
