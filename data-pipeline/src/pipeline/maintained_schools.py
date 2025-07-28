@@ -27,16 +27,8 @@ def create_master_list(
     maintained_schools_list.replace("DNS", np.nan, inplace=True)
 
     maintained_schools_dtypes = input_schemas.maintained_schools_master_list_cols.get(
-<<<<<<< HEAD
-<<<<<<< HEAD
-        year, input_schemas.maintained_schools_master_list_cols["default"]
-=======
         year, 
         input_schemas.maintained_schools_master_list_cols["default"]
->>>>>>> 7427ad60 (feat: handle IT spend breakdown changes in 2025 CFR)
-=======
-        year, input_schemas.maintained_schools_master_list_cols["default"]
->>>>>>> dc2a7788 (lint)
     )
     maintained_schools_list = maintained_schools_list.astype(
         maintained_schools_dtypes
