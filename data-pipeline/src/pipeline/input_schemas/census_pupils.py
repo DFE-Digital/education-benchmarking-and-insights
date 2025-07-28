@@ -39,6 +39,19 @@ pupil_census = {
         "full-time female Year group 13": "float",
         "number_of_dual_subsidiary_registrations": "float",
     },
+    2025: {
+        "urn": "Int64",
+        "% of pupils known to be eligible for free school meals": "float",
+        "headcount of pupils": "float",
+        "fte pupils": "float",
+        "Number of early year pupils (years E1 and E2)": "float",
+        "Number of nursery pupils (years N1 and N2)": "float",
+        "full-time male Year group 12": "float",
+        "full-time female Year group 12": "float",
+        "full-time male Year group 13": "float",
+        "full-time female Year group 13": "float",
+        "number_of_dual_subsidiary_registrations": "float",
+    },
 }
 
 pupil_census_column_mappings = {
@@ -47,6 +60,14 @@ pupil_census_column_mappings = {
         "number_of_dual_subsidiary_registrations": "Pupil Dual Registrations",
     },
     2024: {
+        "urn": "URN",
+        "full-time male Year group 12": "Full time boys Year group 12",
+        "full-time female Year group 12": "Full time girls Year group 12",
+        "full-time male Year group 13": "Full time boys Year group 13",
+        "full-time female Year group 13": "Full time girls Year group 13",
+        "number_of_dual_subsidiary_registrations": "Pupil Dual Registrations",
+    },
+    2025: {
         "urn": "URN",
         "full-time male Year group 12": "Full time boys Year group 12",
         "full-time female Year group 12": "Full time girls Year group 12",
