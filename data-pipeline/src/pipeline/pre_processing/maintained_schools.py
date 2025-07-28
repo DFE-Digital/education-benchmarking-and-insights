@@ -52,6 +52,15 @@ def build_maintained_school_data(
         maintained_schools, maintained_schools_column_eval
     )
 
+    maintained_schools_column_eval = (
+        input_schemas.maintained_schools_master_list_column_eval.get(
+            year, input_schemas.maintained_schools_master_list_column_eval["default"]
+        )
+    )
+    maintained_schools = maintained_pipeline.eval_cost_income_categories(
+        maintained_schools, maintained_schools_column_eval
+    )
+
     maintained_schools = maintained_pipeline.join_federations(maintained_schools)
 
     maintained_schools = maintained_pipeline.calc_rag_cost_series(
