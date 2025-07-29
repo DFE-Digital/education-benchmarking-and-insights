@@ -1,4 +1,4 @@
-﻿# Performance Test Plan - 0001 - API Average Load
+﻿# Performance Test Plan: API Average Load (0001)
 
 **Test run date:**
 

@@ -1,4 +1,4 @@
-# Release Test Plan - 2025.05.2
+# Release Test Plan: 2025.05.2
 
 **Release Date:** 20/05/2025
 **Release Label:** 2025.05.2

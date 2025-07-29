@@ -1,4 +1,4 @@
-﻿# Performance Test Plan - 0007 - API and Web School Spending and Priorities load tests for SSR charts
+﻿# Performance Test Plan: API and Web School Spending and Priorities load tests for SSR charts (0007)
 
 **Test run date:**
 

@@ -1,4 +1,4 @@
-﻿# Performance Test Plan - 0004 - Web App Average Load
+﻿# Performance Test Plan: Web App Average Load (0004)
 
 **Test run date:**
 

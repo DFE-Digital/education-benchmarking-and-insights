@@ -1,4 +1,4 @@
-﻿# Release Test Plan - 2024.10.4
+﻿# Release Test Plan: 2024.10.4
 
 ## Introduction
 
