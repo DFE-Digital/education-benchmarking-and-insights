@@ -575,13 +575,13 @@ def insert_financial_data(
         "Income_Pre Post 16_CS": "PrePost16FundingCS",
         "Income_Pre Post 16": "PrePost16Funding",
         "Other costs_Grounds maintenance_CS": "GroundsMaintenanceCostsCS",
-        "E20A Connectivity": "Connectivity",
-        "E20B Onsite servers": "OnsiteServers",
-        "E20C IT learning resources": "ItLearningResources",
-        "E20D Administration software and systems": "AdministrationSoftwareAndSystems",
-        "E20E Laptops, desktops and tablets": "LaptopsDesktopsAndTablets",
-        "E20F Other hardware": "OtherHardware",
-        "E20G IT support": "ItSupport",
+        "E20A Connectivity": "ConnectivityCosts",
+        "E20B Onsite servers": "OnsiteServersCosts",
+        "E20C IT learning resources": "ItLearningResourcesCosts",
+        "E20D Administration software and systems": "AdministrationSoftwareAndSystemsCosts",
+        "E20E Laptops, desktops and tablets": "LaptopsDesktopsAndTabletsCosts",
+        "E20F Other hardware": "OtherHardwareCosts",
+        "E20G IT support": "ItSupportCosts",
     }
 
     write_frame = df.reset_index().rename(columns=projections)[[*projections.values()]]
