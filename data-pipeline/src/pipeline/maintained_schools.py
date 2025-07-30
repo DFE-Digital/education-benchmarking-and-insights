@@ -278,7 +278,7 @@ def join_federations(df: pd.DataFrame) -> pd.DataFrame:
     )
 
 
-def ensure_it_spend_columns(df: pd.DataFrame) -> pd.DataFrame:
+def ensure_it_spend_breakdown_columns_are_present(df: pd.DataFrame) -> pd.DataFrame:
     """
     Ensures all expected IT spend columns are present in the input DataFrame.
     Missing columns are added with np.nan values.
@@ -300,7 +300,6 @@ def ensure_it_spend_columns(df: pd.DataFrame) -> pd.DataFrame:
     ]
 
     for col in it_spend_cols:
-
         if col not in df.columns:
             df[col] = np.nan
 

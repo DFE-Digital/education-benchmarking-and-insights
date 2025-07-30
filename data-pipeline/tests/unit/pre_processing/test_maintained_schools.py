@@ -363,7 +363,7 @@ def test_ensure_it_spend_columns_adds_missing_cols_with_nan():
         "E20G IT support",
     ]
 
-    result = maintained_schools.ensure_it_spend_columns(df)
+    result = maintained_schools.ensure_it_spend_breakdown_columns_are_present(df)
 
     for urn in urns:
         for col in cols:
@@ -399,7 +399,7 @@ def test_ensure_it_spend_columns_leaves_existing_columns_unchanged():
         "E20G IT support",
     ]
 
-    result = maintained_schools.ensure_it_spend_columns(df)
+    result = maintained_schools.ensure_it_spend_breakdown_columns_are_present(df)
 
     for urn, expected_vals in expected.items():
         for col, val in zip(cols, expected_vals):
