@@ -96,6 +96,7 @@ The release was completed successfully with no issues. The Policy team has also 
 - [270017 – Remove icons from the navigation links](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/270017)
 - [270026 – Review & merge mid-July 2025 dependency updates](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/270026)
 - [270637 – Change 'pay bands' to 'emoluments' in the informative message shown to the users](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/270637)
+- [227179 – Shutter the whole service during critical system outage](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/227179)
 
 ## Appendix
 
