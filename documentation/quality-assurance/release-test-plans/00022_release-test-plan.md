@@ -16,11 +16,10 @@ Key changes include upgrading the data pipeline to Python 3.13, SSR fixes on the
 
 - Enhancements
 
-    - High exec pay content updates
-    - Partial SSR image rendering on Spending Priorities page now fixed
-    - Navigation icon clean-up
+  - High exec pay content updates
+  - Partial SSR image rendering on Spending Priorities page now fixed
+  - Navigation icon clean-up
 
-    
 **Out-of-Scope:**
 
 - Page banner dynamic messages functionality
@@ -58,7 +57,7 @@ Key changes include upgrading the data pipeline to Python 3.13, SSR fixes on the
 ## Risk Analysis
 
 - **Risk:** Compatibility issues from Python 3.13 upgrade
-    - **Mitigation:** validate pipeline run in earlier environments 
+  - **Mitigation:** validate pipeline run in earlier environments 
 
 ## Test Deliverables
 
@@ -77,7 +76,7 @@ Key changes include upgrading the data pipeline to Python 3.13, SSR fixes on the
 
 **Release Overview:**
 
-{add notes here} 
+{add notes here}
 
 **[Azure Test Plan](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_testPlans/define?planId=271580&suiteId=271581)**
 
