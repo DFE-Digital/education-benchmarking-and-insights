@@ -57,7 +57,7 @@ Key changes include upgrading the data pipeline to Python 3.13, SSR fixes on the
 ## Risk Analysis
 
 - **Risk:** Compatibility issues from Python 3.13 upgrade
-  - **Mitigation:** validate pipeline run in earlier environments 
+  - **Mitigation:** validate pipeline run in earlier environments
 
 ## Test Deliverables
 
