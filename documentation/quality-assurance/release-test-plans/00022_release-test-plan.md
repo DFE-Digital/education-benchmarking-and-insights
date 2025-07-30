@@ -105,9 +105,9 @@ The release was completed successfully with no issues. The Policy team has also 
 
 | Test Category           | Total Tests | Passed | Failed | Pass Rate |
 |-------------------------|:-----------:|:------:|:------:|:---------:|
-| Smoke Tests - Prod      |      1      |   1    |   X    |   100%    |
-| Sanity Tests - Pre Prod |      3      |   3    |   X    |   100%    |
-| Total                   |      4      |   4    |   X    |   100%    |
+| Smoke Tests - Prod      |      1      |   1    |   0    |   100%    |
+| Sanity Tests - Pre Prod |      3      |   3    |   0    |   100%    |
+| Total                   |      4      |   4    |   0    |   100%    |
 
 <!-- Leave the rest of this page blank -->
 \newpage
