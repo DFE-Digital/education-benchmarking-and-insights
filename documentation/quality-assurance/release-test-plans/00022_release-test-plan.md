@@ -83,7 +83,6 @@ Key changes include upgrading the data pipeline to Python 3.13, SSR fixes on the
 
 **Azure DevOps tickets:**
 
-- [227179 – Shutter the whole service during critical system outage](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/227179)
 - [263444 – Remove redundant SFB decommissioning changes from WAF](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/263444)
 - [264114 – Page banner messages](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/264114)
 - [264479 – Replace DisableOrganisationClaimCheck feature flag with environment variable](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/264479)
@@ -94,8 +93,6 @@ Key changes include upgrading the data pipeline to Python 3.13, SSR fixes on the
 - [266317 – Provision new WAF policy](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/266317)
 - [266558 – Add Stats to Message JSON in CompletedPipelineRun Table](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/266558)
 - [267134 – Partial Download image on Spending Priorities page - SSR](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/267134)
-- [267639 – Verify access to BFR data in Databricks and AnM](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/267639)
-- [268562 – Migrate Data pipeline to support Databricks integration](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/268562)
 - [269583 – Review and merge Dependabot PR addressing aiohttp request smuggling vulnerability](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/269583)
 - [270017 – Remove icons from the navigation links](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/270017)
 - [270026 – Review & merge mid-July 2025 dependency updates](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/270026)
