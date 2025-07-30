@@ -32,6 +32,7 @@ def build_maintained_school_data(
         maintained_schools_list, schools, sen, census, cdc, ks2, ks4, year
     )
 
+    maintained_schools = maintained_pipeline.ensure_it_spend_columns(maintained_schools)
     maintained_schools = maintained_pipeline.map_pfi(maintained_schools)
     maintained_schools = maintained_pipeline.map_submission_attrs(maintained_schools)
     maintained_schools = maintained_pipeline.map_school_attrs(maintained_schools)

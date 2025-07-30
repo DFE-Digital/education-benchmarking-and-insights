@@ -276,3 +276,32 @@ def join_federations(df: pd.DataFrame) -> pd.DataFrame:
         .sort_values("URN")
         .reset_index()
     )
+
+
+def ensure_it_spend_columns(df: pd.DataFrame) -> pd.DataFrame:
+    """
+    Ensures all expected IT spend columns are present in the input DataFrame.
+    Missing columns are added with np.nan values.
+
+    This is necessary when processing historic datasets where these columns
+    may not yet exist in the raw input.
+
+    :param df: DataFrame Maintained School data
+    :return: Original DataFrame with missing IT spend columns appended if needed
+    """
+    it_spend_cols = [
+        "E20A Connectivity",
+        "E20B Onsite servers",
+        "E20C IT learning resources",
+        "E20D Administration software and systems",
+        "E20E Laptops, desktops and tablets",
+        "E20F Other hardware",
+        "E20G IT support",
+    ]
+
+    for col in it_spend_cols:
+
+        if col not in df.columns:
+            df[col] = np.nan
+
+    return df
