@@ -76,7 +76,7 @@ Key changes include upgrading the data pipeline to Python 3.13, SSR fixes on the
 
 **Release Overview:**
 
-{add notes here}
+The release was completed successfully with no issues. The Policy team has also been informed.
 
 **[Azure Test Plan](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_testPlans/define?planId=271580&suiteId=271581)**
 
@@ -105,9 +105,9 @@ Key changes include upgrading the data pipeline to Python 3.13, SSR fixes on the
 
 | Test Category           | Total Tests | Passed | Failed | Pass Rate |
 |-------------------------|:-----------:|:------:|:------:|:---------:|
-| Smoke Tests - Prod      |      1      |   X    |   X    |    X%     |
-| Sanity Tests - Pre Prod |      2      |   X    |   X    |    X%     |
-| Total                   |      3      |   X    |   X    |    X%     |
+| Smoke Tests - Prod      |      1      |   1    |   X    |   100%    |
+| Sanity Tests - Pre Prod |      3      |   3    |   X    |   100%    |
+| Total                   |      4      |   4    |   X    |   100%    |
 
 <!-- Leave the rest of this page blank -->
 \newpage
