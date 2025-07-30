@@ -1,62 +1,62 @@
 IF NOT EXISTS (
     SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS
-    WHERE TABLE_NAME = 'Financial' AND COLUMN_NAME = 'Connectivity'
+    WHERE TABLE_NAME = 'Financial' AND COLUMN_NAME = 'ConnectivityCosts'
 )
 BEGIN
 ALTER TABLE Financial
-    ADD Connectivity DECIMAL(16,2) NULL;
+    ADD ConnectivityCosts DECIMAL(16,2) NULL;
 END;
 
 IF NOT EXISTS (
     SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS
-    WHERE TABLE_NAME = 'Financial' AND COLUMN_NAME = 'OnsiteServers'
+    WHERE TABLE_NAME = 'Financial' AND COLUMN_NAME = 'OnsiteServersCosts'
 )
 BEGIN
 ALTER TABLE Financial
-    ADD OnsiteServers DECIMAL(16,2) NULL;
+    ADD OnsiteServersCosts DECIMAL(16,2) NULL;
 END;
 
 IF NOT EXISTS (
     SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS
-    WHERE TABLE_NAME = 'Financial' AND COLUMN_NAME = 'ItLearningResources'
+    WHERE TABLE_NAME = 'Financial' AND COLUMN_NAME = 'ItLearningResourcesCosts'
 )
 BEGIN
 ALTER TABLE Financial
-    ADD ItLearningResources DECIMAL(16,2) NULL;
+    ADD ItLearningResourcesCosts DECIMAL(16,2) NULL;
 END;
 
 IF NOT EXISTS (
     SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS
-    WHERE TABLE_NAME = 'Financial' AND COLUMN_NAME = 'AdministrationSoftwareAndSystems'
+    WHERE TABLE_NAME = 'Financial' AND COLUMN_NAME = 'AdministrationSoftwareAndSystemsCosts'
 )
 BEGIN
 ALTER TABLE Financial
-    ADD AdministrationSoftwareAndSystems DECIMAL(16,2) NULL;
+    ADD AdministrationSoftwareAndSystemsCosts DECIMAL(16,2) NULL;
 END;
 
 IF NOT EXISTS (
     SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS
-    WHERE TABLE_NAME = 'Financial' AND COLUMN_NAME = 'LaptopsDesktopsAndTablets'
+    WHERE TABLE_NAME = 'Financial' AND COLUMN_NAME = 'LaptopsDesktopsAndTabletsCosts'
 )
 BEGIN
 ALTER TABLE Financial
-    ADD LaptopsDesktopsAndTablets DECIMAL(16,2) NULL;
+    ADD LaptopsDesktopsAndTabletsCosts DECIMAL(16,2) NULL;
 END;
 
 IF NOT EXISTS (
     SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS
-    WHERE TABLE_NAME = 'Financial' AND COLUMN_NAME = 'OtherHardware'
+    WHERE TABLE_NAME = 'Financial' AND COLUMN_NAME = 'OtherHardwareCosts'
 )
 BEGIN
 ALTER TABLE Financial
-    ADD OtherHardware DECIMAL(16,2) NULL;
+    ADD OtherHardwareCosts DECIMAL(16,2) NULL;
 END;
 
 IF NOT EXISTS (
     SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS
-    WHERE TABLE_NAME = 'Financial' AND COLUMN_NAME = 'ItSupport'
+    WHERE TABLE_NAME = 'Financial' AND COLUMN_NAME = 'ItSupportCosts'
 )
 BEGIN
 ALTER TABLE Financial
-    ADD ItSupport DECIMAL(16,2) NULL;
+    ADD ItSupportCosts DECIMAL(16,2) NULL;
 END;
