@@ -346,3 +346,62 @@ def test_join_federations_unmodified():
         .eq(1_000)
         .all()
     )
+
+
+def test_ensure_it_spend_columns_adds_missing_cols_with_nan():
+    df = pd.DataFrame({"URN": [100000, 100001]})
+
+    urns = [100000, 100001]
+
+    cols = [
+        "E20A Connectivity",
+        "E20B Onsite servers",
+        "E20C IT learning resources",
+        "E20D Administration software and systems",
+        "E20E Laptops, desktops and tablets",
+        "E20F Other hardware",
+        "E20G IT support",
+    ]
+
+    result = maintained_schools.ensure_it_spend_breakdown_columns_are_present(df)
+
+    for urn in urns:
+        for col in cols:
+            value = result.loc[result["URN"] == urn, col].iloc[0]
+            assert pd.isnull(value)
+
+
+def test_ensure_it_spend_columns_leaves_existing_columns_unchanged():
+    df = pd.DataFrame(
+        {
+            "URN": [100000, 100001],
+            "E20A Connectivity": [10, 11],
+            "E20B Onsite servers": [12, 13],
+            "E20C IT learning resources": [14, 15],
+            "E20D Administration software and systems": [16, 17],
+            "E20E Laptops, desktops and tablets": [18, 19],
+            "E20F Other hardware": [20, 21],
+            "E20G IT support": [22, 23],
+        }
+    )
+
+    expected = {
+        100000: [10, 12, 14, 16, 18, 20, 22],
+        100001: [11, 13, 15, 17, 19, 21, 23],
+    }
+    cols = [
+        "E20A Connectivity",
+        "E20B Onsite servers",
+        "E20C IT learning resources",
+        "E20D Administration software and systems",
+        "E20E Laptops, desktops and tablets",
+        "E20F Other hardware",
+        "E20G IT support",
+    ]
+
+    result = maintained_schools.ensure_it_spend_breakdown_columns_are_present(df)
+
+    for urn, expected_vals in expected.items():
+        for col, val in zip(cols, expected_vals):
+            actual = result.loc[result["URN"] == urn, col].iloc[0]
+            assert actual == val

@@ -1,0 +1,62 @@
+IF NOT EXISTS (
+    SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS
+    WHERE TABLE_NAME = 'Financial' AND COLUMN_NAME = 'ConnectivityCosts'
+)
+BEGIN
+ALTER TABLE Financial
+    ADD ConnectivityCosts DECIMAL(16,2) NULL;
+END;
+
+IF NOT EXISTS (
+    SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS
+    WHERE TABLE_NAME = 'Financial' AND COLUMN_NAME = 'OnsiteServersCosts'
+)
+BEGIN
+ALTER TABLE Financial
+    ADD OnsiteServersCosts DECIMAL(16,2) NULL;
+END;
+
+IF NOT EXISTS (
+    SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS
+    WHERE TABLE_NAME = 'Financial' AND COLUMN_NAME = 'ItLearningResourcesCosts'
+)
+BEGIN
+ALTER TABLE Financial
+    ADD ItLearningResourcesCosts DECIMAL(16,2) NULL;
+END;
+
+IF NOT EXISTS (
+    SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS
+    WHERE TABLE_NAME = 'Financial' AND COLUMN_NAME = 'AdministrationSoftwareAndSystemsCosts'
+)
+BEGIN
+ALTER TABLE Financial
+    ADD AdministrationSoftwareAndSystemsCosts DECIMAL(16,2) NULL;
+END;
+
+IF NOT EXISTS (
+    SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS
+    WHERE TABLE_NAME = 'Financial' AND COLUMN_NAME = 'LaptopsDesktopsAndTabletsCosts'
+)
+BEGIN
+ALTER TABLE Financial
+    ADD LaptopsDesktopsAndTabletsCosts DECIMAL(16,2) NULL;
+END;
+
+IF NOT EXISTS (
+    SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS
+    WHERE TABLE_NAME = 'Financial' AND COLUMN_NAME = 'OtherHardwareCosts'
+)
+BEGIN
+ALTER TABLE Financial
+    ADD OtherHardwareCosts DECIMAL(16,2) NULL;
+END;
+
+IF NOT EXISTS (
+    SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS
+    WHERE TABLE_NAME = 'Financial' AND COLUMN_NAME = 'ItSupportCosts'
+)
+BEGIN
+ALTER TABLE Financial
+    ADD ItSupportCosts DECIMAL(16,2) NULL;
+END;
