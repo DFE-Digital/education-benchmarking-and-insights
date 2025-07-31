@@ -1,115 +1,99 @@
 ﻿# 📊 Data Ingestion – Test Strategy
 
-## Overview
+## Purpose
 
-This document outlines the strategy for testing the ingestion of data for BFR (Budget Forecast Return), CFR (Consistent Financial Reporting), AAR (Academy Accounts Return), S251 data, High Executive Pay data, and any other non-ancillary file that needs to be updated on ad-hoc basis.
+This document outlines the strategy for testing **data ingestion** within the FBIT platform.  
+Each data ingestion cycle involves receiving structured datasets from upstream providers, processing them through the ingestion pipeline, storing the results in the database, and exposing the data to the service layer for end users.
 
-The ingestion process involves generating input files, processing them through a data pipeline, storing the results in a database, and exposing the data through the service.
+The goal of this strategy is to ensure that every ingestion is **accurate, complete, and non-disruptive to existing data**.  
+This document defines **how ingestion testing is approached**, including the scope, objectives, responsibilities, and validation methods.
 
-CFR and AAR also require ancillary file updates.
-
-> **Note:** This strategy document will be updated whenever new data types or ingestion flows are introduced.
 
 ## Scope
 
-- **Included:**
-  - Data types: BFR, CFR, AAR, High Exec, S251
-  - Ancillary files for CFR and AAR (e.g., GIAS, census)
-  - Pipeline processing and transformation logic
-  - Database storage validation
-  - Service layer presentation testing
+**In Scope:**
 
-- **Excluded:**
-  - Source data correctness from upstream providers
-  - UI rendering bugs unrelated to data
-  - External API integrations outside ingestion scope
+- Validation of all data ingestions across environments
+- Verification of:
 
-## Objectives
+  - File format, schema, and year/context accuracy
+  - Successful pipeline processing and transformation
+  - Correct database storage and mapping
+  - Accurate reflection of data in the service layer
+- Regression checks to ensure no adverse impact on existing data
 
-- Validate schema and data quality of input files
-- Confirm correct year-context processing
-- Verify successful ingestion and transformation via pipeline
-- Ensure correct and complete storage in database
-- Ensure correct data is visible on the service for the new year
-- Validate that ancillary files update and integrate as expected
+**Out of Scope:**
 
-## Test Phases
+- Functional testing of the ingestion pipeline code (covered by CI/CD)
+- Verification of raw source data accuracy (owned by upstream providers)
 
-**Pre-Ingestion Checks:**
+## Goals
 
-- Verify file structure/schema
-- Run sampling check for data integrity (e.g. valid URNs, company numbers)
+- Ensure each ingestion cycle is processed correctly and completely
+- Detect:
 
-**Pipeline Execution Validation:**
+  - Schema drift or format changes from upstream sources
+  - Misalignment or overwriting of existing data
+  - Mapping and transformation errors
+- Maintain data integrity, traceability, and stakeholder confidence across cycles
 
-- Trigger pipeline with test files in local environment
-- Confirm processing completes with no errors
-- Review loge
+
+## Responsibilities
+
+| Role           | Responsibility                                                               |
+|----------------|------------------------------------------------------------------------------|
+| Data Engineer  | Prepares input files, executes pipeline, monitors ingestion logs             |
+| QA             | Validates file → pipeline → DB → service flow and performs regression checks |
+| Product owner  | Confirms data integrity and mapping outcomes meet business rules             |
+| Delivery Lead  | Confirms sign-off before Production release                                  |
+
+## Environments
+
+| Environment | Purpose                   | Testing Activity                                |
+|-------------|---------------------------|-------------------------------------------------|
+| local       | Early validation           | Schema checks, small sample runs                |
+| Test        | Functional testing         | End-to-end validation of ingestion with sample/full data |
+| Pre Prod    | Pre-production validation  | Regression checks, stakeholder review           |
+| Prod        | Live system                | Smoke checks and final verification             |
+
+## Test Types
+
+**Schema and File Validation:**
+
+- Confirm file formats, columns, and metadata are correct
+- Validate year or version context in filenames and headers
+
+**Pipeline Validation:**
+
+- Monitor logs for successful stage completion
+- Validate that no rows are dropped or duplicated
+- Confirm transformation and aggregation steps are applied correctly
 
 **Database Validation:**
 
-- Verify that
-
-  - Correct year tables are populated
-  - Expected row counts per school/trust match
-  - Correct mapping joins (e.g., URN to Trust, LA to School)
-  - No duplicate or dropped rows
-
-**Ancillary File Integration(if applicable):**
-
-- Validate structure and row count of updated ancillary files
-- Cross-check mappings are applied
-- Regression spot-check: same school in 2023 vs. 2024 shows correct mapping updates
+- Verify that data is stored in the correct tables with correct mappings
+- Compare row counts and key metrics against input files
+- Run regression scripts to ensure historical data is unaffected
 
 **Service/UI Validation:**
 
-- Confirm new-year data appears for expected schools/trusts
-- Spot-check key metrics (e.g., pupil count, expenditure) vs input file
-- Confirm filtering and year-switching logic
+- Verify new data appears as expected in the service layer
+- Check key metrics, filters, and year switching functionality
+- Perform stakeholder review on representative data sets
 
-## Tools & Environment
+## Risk Mitigation
 
-- **Pipeline environments**: `dev`, `test`, `pre prod`
-- **Validation tools**: SQL client, Python (Pandas)
-- **Monitoring/logging**: Application logs for pipeline stages
+| Risk                                     | Mitigation                                                |
+|------------------------------------------|-----------------------------------------------------------|
+| Upstream schema or format change          | Validate files pre-ingestion and update mapping if needed |
+| Pipeline or job failure                   | Test run locally followed by in test                      |
+| Regression in existing data               | Execute 1-2 year regression script                        |
 
-## Roles and Responsibilities
+## Supporting Documents
 
-| Role          | Responsibility                                               |
-|---------------|--------------------------------------------------------------|
-| Data Engineer | File preparation, pipeline execution, Logs                   |
-| QA            | Schema validation, DB checks, UI testing, Regression testing |
-| Product/BA    | Review business rules, validate mapping and metrics logic    |
-
-## Risks & Mitigation
-
-| Risk                                           | Mitigation                                                                                                                                                 |
-|------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| **Upstream data format or schema has changed** | Validate incoming files against expected schema before ingestion. Engage with upstream data source early in the release cycle to confirm format stability. |
-
-## Exit Criteria
-
-- All test cases pass for each data type
-- Ancillary files integrated with no issues
-- New-year data visible and accurate in the service
-- Prior-year data unchanged and accessible
-- QA sign-off on data checks
-- Logs and metrics show success
-
-## Test Artifacts
-
-- Test scripts
-- Log captures of pipeline and DB output
-- Test results document (manual/automated)
-- Regression comparison reports for past years
-
-## 12. Versioning
-
-This test strategy is reviewed and updated yearly before ingestion begins.
-
-| Year | Updated By | Notes |
-|------|------------|-------|
-| 2025 | QA Lead    | N/A   |
+- Data Sources: [`documentation/data/2_Sources.md`](../data/2_Sources.md)
+- Releases: [`documentation/data/5_Releases.md`](../data/5_Releases.md) 
+- Validation Scripts – for schema, mapping, and regression checks *(links to be added later)*
 
 <!-- Leave the rest of this page blank -->
 \newpage
