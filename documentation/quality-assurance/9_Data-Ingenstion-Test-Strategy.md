@@ -81,8 +81,8 @@ This document defines **how ingestion testing is approached**, including the sco
 
 ## Risk Mitigation
 
-| Risk                                     | Mitigation                                                |
-|------------------------------------------|-----------------------------------------------------------|
+| Risk                                      | Mitigation                                                |
+|-------------------------------------------|-----------------------------------------------------------|
 | Upstream schema or format change          | Validate files pre-ingestion and update mapping if needed |
 | Pipeline or job failure                   | Test run locally followed by in test                      |
 | Regression in existing data               | Execute 1-2 year regression script                        |
