@@ -8,12 +8,11 @@ Each data ingestion cycle involves receiving structured datasets from upstream p
 The goal of this strategy is to ensure that every ingestion is **accurate, complete, and non-disruptive to existing data**.  
 This document defines **how ingestion testing is approached**, including the scope, objectives, responsibilities, and validation methods.
 
-
 ## Scope
 
 **In Scope:**
 
-- Validation of all data ingestions across environments
+- Validation of all data ingestion across environments
 - Verification of:
 
   - File format, schema, and year/context accuracy
@@ -36,7 +35,6 @@ This document defines **how ingestion testing is approached**, including the sco
   - Misalignment or overwriting of existing data
   - Mapping and transformation errors
 - Maintain data integrity, traceability, and stakeholder confidence across cycles
-
 
 ## Responsibilities
 
@@ -92,7 +90,7 @@ This document defines **how ingestion testing is approached**, including the sco
 ## Supporting Documents
 
 - Data Sources: [`documentation/data/2_Sources.md`](../data/2_Sources.md)
-- Releases: [`documentation/data/5_Releases.md`](../data/5_Releases.md) 
+- Releases: [`documentation/data/5_Releases.md`](../data/5_Releases.md)
 - Validation Scripts – for schema, mapping, and regression checks *(links to be added later)*
 
 <!-- Leave the rest of this page blank -->
