@@ -47,12 +47,12 @@ This document defines **how ingestion testing is approached**, including the sco
 
 ## Environments
 
-| Environment | Purpose                   | Testing Activity                                |
-|-------------|---------------------------|-------------------------------------------------|
-| local       | Early validation           | Schema checks, small sample runs                |
+| Environment | Purpose                    | Testing Activity                                         |
+|-------------|----------------------------|----------------------------------------------------------|
+| local       | Early validation           | Schema checks, small sample runs                         |
 | Test        | Functional testing         | End-to-end validation of ingestion with sample/full data |
-| Pre Prod    | Pre-production validation  | Regression checks, stakeholder review           |
-| Prod        | Live system                | Smoke checks and final verification             |
+| Pre Prod    | Pre-production validation  | Regression checks, stakeholder review                    |
+| Prod        | Live system                | Smoke checks and final verification                      |
 
 ## Test Types
 
