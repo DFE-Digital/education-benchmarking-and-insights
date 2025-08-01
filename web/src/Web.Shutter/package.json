@@ -33,7 +33,7 @@
     "winston": "^3.17.0"
   },
   "devDependencies": {
-    "@dotenvx/dotenvx": "^1.48.3",
+    "@dotenvx/dotenvx": "^1.48.4",
     "@types/dotenv": "^6.1.1",
     "@types/express": "^5.0.3",
     "@types/node": "^22.16.2",
