@@ -103,13 +103,13 @@ maintained_schools_master_list_cols = {
         "E17  Rates": "float",
         "E18  Other occupation costs": "float",
         "E19  Learning resources (not ICT equipment)": "float",
-        "E20A Connectivity": "float",
-        "E20B Onsite servers": "float",
-        "E20C IT learning resources": "float",
-        "E20D Administration software and systems": "float",
-        "E20E Laptops, desktops and tablets": "float",
-        "E20F Other hardware": "float",
-        "E20G IT support": "float",
+        "E20A  Connectivity": "float",
+        "E20B  Onsite servers": "float",
+        "E20C  IT learning resources": "float",
+        "E20D  Administration software and systems": "float",
+        "E20E  Laptops, desktops and tablets": "float",
+        "E20F  Other hardware": "float",
+        "E20G  IT support": "float",
         "E21  Exam fees": "float",
         "E22 Administrative supplies": "float",
         "E23  Other insurance premiums": "float",
@@ -140,15 +140,15 @@ maintained_schools_master_list_column_eval = {
     },
     2025: {
         "Educational ICT_ICT learning resources": (
-            "`E20A Connectivity`.fillna(0.0) + "
-            "`E20B Onsite servers`.fillna(0.0) + "
-            "`E20C IT learning resources`.fillna(0.0) + "
-            "`E20E Laptops, desktops and tablets`.fillna(0.0) + "
-            "`E20F Other hardware`.fillna(0.0) + "
-            "`E20G IT support`.fillna(0.0)"
+            "`E20A  Connectivity`.fillna(0.0) + "
+            "`E20B  Onsite servers`.fillna(0.0) + "
+            "`E20C  IT learning resources`.fillna(0.0) + "
+            "`E20E  Laptops, desktops and tablets`.fillna(0.0) + "
+            "`E20F  Other hardware`.fillna(0.0) + "
+            "`E20G  IT support`.fillna(0.0)"
         ),
         "Administrative supplies_Administrative supplies (non educational)": (
-            "`E20D Administration software and systems`.fillna(0.0) + "
+            "`E20D  Administration software and systems`.fillna(0.0) + "
             "`E22 Administrative supplies`.fillna(0.0)"
         ),
     },
