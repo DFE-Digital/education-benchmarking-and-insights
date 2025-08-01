@@ -33,7 +33,7 @@ export default class HorizontalBarChartBuilder {
       null,
     );
 
-    const suggestedXAxisTickCount = 5;
+    const suggestedXAxisTickCount = 4;
 
     // polyfill DOM methods not supported by XMLDOM as per
     // https://github.com/xmldom/xmldom/issues/92#issuecomment-718091535
