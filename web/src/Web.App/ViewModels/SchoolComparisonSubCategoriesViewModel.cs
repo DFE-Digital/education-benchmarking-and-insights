@@ -1,7 +1,7 @@
 using Web.App.Domain;
 using Web.App.Domain.Charts;
 
-namespace Web.App.ViewModels.Components;
+namespace Web.App.ViewModels;
 
 public class SchoolComparisonViewModelCostSubCategory<T>
 {
@@ -14,24 +14,23 @@ public class SchoolComparisonViewModelCostSubCategory<T>
 
 public class SchoolComparisonSubCategoriesViewModel : List<SchoolComparisonViewModelCostSubCategory<SchoolComparisonDatum>>
 {
-    public SchoolComparisonSubCategoriesViewModel(string urn, SchoolItSpend[] expenditures)
+    public SchoolComparisonSubCategoriesViewModel(string urn, SchoolItSpend[] expenditures, ItSpendingCategories.SubCategoryFilter[] filters)
     {
-        AddItSubCategory(urn, "Administration software and systems E20D", s => s.AdministrationSoftwareAndSystems, expenditures);
-        AddItSubCategory(urn, "Connectivity E20A", s => s.Connectivity, expenditures);
-        AddItSubCategory(urn, "IT learning resources E20C", s => s.ItLearningResources, expenditures);
-        AddItSubCategory(urn, "IT support E20G", s => s.ItSupport, expenditures);
-        AddItSubCategory(urn, "Laptops, desktops and tablets E20E", s => s.LaptopsDesktopsAndTablets, expenditures);
-        AddItSubCategory(urn, "Onsite servers E20B", s => s.OnsiteServers, expenditures);
-        AddItSubCategory(urn, "Other hardware E20F", s => s.OtherHardware, expenditures);
+        filters = filters.Length > 0 ? filters : ItSpendingCategories.All;
+
+        foreach (var filter in filters)
+        {
+            AddItSubCategory(urn, filter, expenditures);
+        }
     }
 
-    private void AddItSubCategory(string urn, string subCategoryName, Func<SchoolItSpend, decimal?> selector, SchoolItSpend[] expenditures)
+    private void AddItSubCategory(string urn, ItSpendingCategories.SubCategoryFilter filter, SchoolItSpend[] expenditures)
     {
         var data = expenditures.GroupBy(e => e, (g, enumerable) => new SchoolComparisonDatum
         {
             Urn = g.URN,
             SchoolName = g.SchoolName,
-            Expenditure = enumerable.Select(selector).FirstOrDefault()
+            Expenditure = enumerable.Select(filter.GetSelector()).FirstOrDefault()
         }).ToArray();
 
         var uuid = Guid.NewGuid().ToString();
@@ -40,7 +39,7 @@ public class SchoolComparisonSubCategoriesViewModel : List<SchoolComparisonViewM
         Add(new SchoolComparisonViewModelCostSubCategory<SchoolComparisonDatum>
         {
             Uuid = uuid,
-            SubCategory = subCategoryName,
+            SubCategory = filter.GetHeading(),
             HasNegativeOrZeroValues = hasNegativeOrZeroValues,
             Data = filteredData
         });

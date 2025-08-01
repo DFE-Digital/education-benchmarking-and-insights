@@ -13,12 +13,11 @@ using Web.App.Infrastructure.Apis.Establishment;
 using Web.App.Infrastructure.Apis.Insight;
 using Web.App.Infrastructure.Extensions;
 using Web.App.ViewModels;
-using Web.App.ViewModels.Components;
 
 namespace Web.App.Controllers;
 
 [Controller]
-[Route("school/{urn}/comparison/it")]
+[Route("school/{urn}/benchmark-it-spending")]
 [ValidateUrn]
 [FeatureGate(FeatureFlags.CfrItSpendBreakdown)]
 public class SchoolComparisonItSpendController(
@@ -30,7 +29,10 @@ public class SchoolComparisonItSpendController(
 {
     [HttpGet]
     [SchoolRequestTelemetry(TrackedRequestFeature.BenchmarkItSpend)]
-    public async Task<IActionResult> Index(string urn)
+    public async Task<IActionResult> Index(string urn,
+        ItSpendingCategories.SubCategoryFilter[] selectedSubCategories,
+        SchoolComparisonItSpendViewModel.ResultAsOptions resultAs = SchoolComparisonItSpendViewModel.ResultAsOptions.SpendPerPupil,
+        SchoolComparisonItSpendViewModel.ViewAsOptions viewAs = SchoolComparisonItSpendViewModel.ViewAsOptions.Chart)
     {
         using (logger.BeginScope(new
         {
@@ -51,17 +53,20 @@ public class SchoolComparisonItSpendController(
                     .QuerySchools(BuildApiQuery(set.Pupil))
                     .GetResultOrDefault<SchoolItSpend[]>() ?? [];
 
-                var subCategories = new SchoolComparisonSubCategoriesViewModel(urn, expenditures);
+                var subCategories = new SchoolComparisonSubCategoriesViewModel(urn, expenditures, selectedSubCategories);
                 var requests = subCategories.Select(c => new SchoolComparisonItSpendHorizontalBarChartRequest(
                     c.Uuid!,
                     urn,
                     c.Data!,
-                    format => Uri.UnescapeDataString(Url.Action("Index", "School", new { urn = format }) ?? string.Empty)));
+                    format => Uri.UnescapeDataString(
+                        Url.Action("Index", "School", new { urn = format }) ?? string.Empty)));
 
                 ChartResponse[] charts = [];
                 try
                 {
-                    charts = await chartRenderingApi.PostHorizontalBarCharts(new PostHorizontalBarChartsRequest<SchoolComparisonDatum>(requests)).GetResultOrDefault<ChartResponse[]>() ?? [];
+                    charts = await chartRenderingApi
+                        .PostHorizontalBarCharts(new PostHorizontalBarChartsRequest<SchoolComparisonDatum>(requests))
+                        .GetResultOrDefault<ChartResponse[]>() ?? [];
                 }
                 catch (Exception e)
                 {
@@ -77,15 +82,34 @@ public class SchoolComparisonItSpendController(
                     }
                 }
 
-                var viewModel = new SchoolComparisonItSpendViewModel(school, subCategories);
+                var viewModel = new SchoolComparisonItSpendViewModel(school, subCategories)
+                {
+                    SelectedSubCategories = selectedSubCategories,
+                    ViewAs = viewAs,
+                    ResultAs = resultAs
+                };
                 return View(viewModel);
             }
             catch (Exception e)
             {
-                logger.LogError(e, "An error displaying school IT spending comparison: {DisplayUrl}", Request.GetDisplayUrl());
+                logger.LogError(e, "An error displaying school IT spending comparison: {DisplayUrl}",
+                    Request.GetDisplayUrl());
                 return e is StatusCodeException s ? StatusCode((int)s.Status) : StatusCode(500);
             }
         }
+    }
+
+    [HttpPost]
+    public IActionResult Index(string urn, int viewAs, int resultAs, int[]? selectedSubCategories)
+    {
+
+        return RedirectToAction("Index", new
+        {
+            urn,
+            viewAs,
+            resultAs,
+            selectedSubCategories
+        });
     }
 
     private static ApiQuery BuildApiQuery(IEnumerable<string>? urns = null)

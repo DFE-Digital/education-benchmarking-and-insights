@@ -901,3 +901,11 @@ table#current-comparators-la {
     }
   }
 }
+
+.app-filter .govuk-accordion__controls {
+  display: none;
+}
+.app-filter__selected-hint {
+  margin-top: 5px;
+  display: table;
+}
