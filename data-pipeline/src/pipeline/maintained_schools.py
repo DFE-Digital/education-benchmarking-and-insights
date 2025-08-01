@@ -252,7 +252,7 @@ def join_federations(df: pd.DataFrame) -> pd.DataFrame:
     :param df: Maintained School data
     :return: data updated with Federation data
     """
-    lead_schools = df[df["Lead school in federation"] == df["LAEstab"]][
+    schools_who_lead_federations = df[df["Lead school in federation"] == df["LAEstab"]][
         ["URN", "School Name", "LAEstab"]
     ].rename(
         columns={
@@ -261,21 +261,24 @@ def join_federations(df: pd.DataFrame) -> pd.DataFrame:
             "LAEstab": "Federation LAEstab",
         }
     )
+    schools_who_lead_federations_aggregated_metrics = _federation_lead_school_agg(df)
 
-    df = df.merge(
-        lead_schools,
+    schools_with_federation_lead_details = df.merge(
+        schools_who_lead_federations,
         left_on="Lead school in federation",
         right_on="Federation LAEstab",
         how="left",
     )
 
-    lead_schools_agg = _federation_lead_school_agg(df)
-
-    return (
-        lead_schools_agg.combine_first(df.set_index("LAEstab"))
+    schools_with_federation_details_and_metrics = (
+        schools_who_lead_federations_aggregated_metrics.combine_first(
+            schools_with_federation_lead_details.set_index("LAEstab")
+        )
         .sort_values("URN")
-        .reset_index()
+        .reset_index(names=["index"])
     )
+
+    return schools_with_federation_details_and_metrics
 
 
 def ensure_it_spend_breakdown_columns_are_present(df: pd.DataFrame) -> pd.DataFrame:
@@ -290,13 +293,13 @@ def ensure_it_spend_breakdown_columns_are_present(df: pd.DataFrame) -> pd.DataFr
     :return: Original DataFrame with missing IT spend columns appended if needed
     """
     it_spend_cols = [
-        "E20A Connectivity",
-        "E20B Onsite servers",
-        "E20C IT learning resources",
-        "E20D Administration software and systems",
-        "E20E Laptops, desktops and tablets",
-        "E20F Other hardware",
-        "E20G IT support",
+        "E20A  Connectivity",
+        "E20B  Onsite servers",
+        "E20C  IT learning resources",
+        "E20D  Administration software and systems",
+        "E20E  Laptops, desktops and tablets",
+        "E20F  Other hardware",
+        "E20G  IT support",
     ]
 
     for col in it_spend_cols:

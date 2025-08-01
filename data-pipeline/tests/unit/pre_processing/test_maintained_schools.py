@@ -354,13 +354,13 @@ def test_ensure_it_spend_columns_adds_missing_cols_with_nan():
     urns = [100000, 100001]
 
     cols = [
-        "E20A Connectivity",
-        "E20B Onsite servers",
-        "E20C IT learning resources",
-        "E20D Administration software and systems",
-        "E20E Laptops, desktops and tablets",
-        "E20F Other hardware",
-        "E20G IT support",
+        "E20A  Connectivity",
+        "E20B  Onsite servers",
+        "E20C  IT learning resources",
+        "E20D  Administration software and systems",
+        "E20E  Laptops, desktops and tablets",
+        "E20F  Other hardware",
+        "E20G  IT support",
     ]
 
     result = maintained_schools.ensure_it_spend_breakdown_columns_are_present(df)
@@ -375,13 +375,13 @@ def test_ensure_it_spend_columns_leaves_existing_columns_unchanged():
     df = pd.DataFrame(
         {
             "URN": [100000, 100001],
-            "E20A Connectivity": [10, 11],
-            "E20B Onsite servers": [12, 13],
-            "E20C IT learning resources": [14, 15],
-            "E20D Administration software and systems": [16, 17],
-            "E20E Laptops, desktops and tablets": [18, 19],
-            "E20F Other hardware": [20, 21],
-            "E20G IT support": [22, 23],
+            "E20A  Connectivity": [10, 11],
+            "E20B  Onsite servers": [12, 13],
+            "E20C  IT learning resources": [14, 15],
+            "E20D  Administration software and systems": [16, 17],
+            "E20E  Laptops, desktops and tablets": [18, 19],
+            "E20F  Other hardware": [20, 21],
+            "E20G  IT support": [22, 23],
         }
     )
 
@@ -390,13 +390,13 @@ def test_ensure_it_spend_columns_leaves_existing_columns_unchanged():
         100001: [11, 13, 15, 17, 19, 21, 23],
     }
     cols = [
-        "E20A Connectivity",
-        "E20B Onsite servers",
-        "E20C IT learning resources",
-        "E20D Administration software and systems",
-        "E20E Laptops, desktops and tablets",
-        "E20F Other hardware",
-        "E20G IT support",
+        "E20A  Connectivity",
+        "E20B  Onsite servers",
+        "E20C  IT learning resources",
+        "E20D  Administration software and systems",
+        "E20E  Laptops, desktops and tablets",
+        "E20F  Other hardware",
+        "E20G  IT support",
     ]
 
     result = maintained_schools.ensure_it_spend_breakdown_columns_are_present(df)
