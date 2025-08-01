@@ -1,7 +1,7 @@
 using AutoFixture;
 using Web.App.Domain;
 using Web.App.Domain.Charts;
-using Web.App.ViewModels.Components;
+using Web.App.ViewModels;
 using Xunit;
 
 namespace Web.Tests.ViewModels;
@@ -23,7 +23,7 @@ public class GivenASchoolComparisonSubCategoriesViewModel
         // 'other' school should be excluded if zero and sub category flagged as `HasNegativeOrZeroValues`
         expenditures.ElementAt(1).Connectivity = 0;
 
-        var actual = new SchoolComparisonSubCategoriesViewModel(urn, expenditures);
+        var actual = new SchoolComparisonSubCategoriesViewModel(urn, expenditures, ItSpendingCategories.All);
 
         Assert.Equal(7, actual.Count);
         AssertSubCategory(actual.ElementAt(0), "Administration software and systems E20D", urn, s => s.AdministrationSoftwareAndSystems, expenditures);

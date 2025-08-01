@@ -17,7 +17,7 @@ public record SchoolComparisonItSpendHorizontalBarChartRequest : PostHorizontalB
         LabelFormat = "%2$s";
         LinkFormat = linkFormatter("%1$s");
         Sort = "desc";
-        Width = 960;
+        Width = 600;
         ValueField = nameof(SchoolComparisonDatum.Expenditure).ToLower();
         ValueFormat = "$,~s";
         XAxisLabel = "£ per pupil";
