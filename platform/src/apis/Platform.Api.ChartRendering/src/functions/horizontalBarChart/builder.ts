@@ -33,6 +33,8 @@ export default class HorizontalBarChartBuilder {
       null,
     );
 
+    const suggestedXAxisTickCount = 5;
+
     // polyfill DOM methods not supported by XMLDOM as per
     // https://github.com/xmldom/xmldom/issues/92#issuecomment-718091535
     const documentPrototype = Object.getPrototypeOf(document.documentElement);
@@ -72,7 +74,8 @@ export default class HorizontalBarChartBuilder {
       .scaleLinear()
       .domain([0, d3.max(data, (d) => d[valueField] as number)!])
       .range([marginLeft + tickWidth + 5, width - marginRight - 5])
-      .nice();
+      .nice(suggestedXAxisTickCount);
+
     const y = d3
       .scaleBand()
       .domain(data.map((d) => d[keyField] as string))
@@ -142,7 +145,11 @@ export default class HorizontalBarChartBuilder {
         `translate(-2,${height - marginBottom - (xAxisLabel ? labelHeight : 0)})`,
       )
       .call(
-        d3.axisBottom(x).tickSizeOuter(1).tickFormat(d3.format(valueFormat)),
+        d3
+          .axisBottom(x)
+          .tickSizeOuter(1)
+          .tickFormat(d3.format(valueFormat))
+          .ticks(suggestedXAxisTickCount),
       )
       .call((g) => {
         g.attr("fill", null)
