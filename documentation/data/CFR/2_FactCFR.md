@@ -2,22 +2,22 @@
 
 This procedure details the necessary steps to process the Consistent Financial Reporting (CFR) data extract to produce the definitive `maintained_schools_master_list.csv` dataset. The core of this process involves rigorous data validation and cleansing to ensure the accuracy and integrity of the final output.
 
-> **Note**
-> At the point of this documentation, the data source for CFR is SQL server.
-> The manual edit / data cleansing would be executed after data is ingested from the SQL server into a working folder. This means that the raw data is retained in SQL server.
-
 ## CFR Quality Assurance Check
 
-The main checks on CFR data relate to the fields for federated schools. A federation of schools is a structure where two or more maintained schools join under a single governing body, while retaining their individual identities. Section 24 of the Education Act 2002 allows for a local authority (LA) to allocate a single budget share to a governing body where there are two or more schools federated. Federated schools receiving a single budget share should report collectively in their CFR return. There should therefore be only one CFR return made for federated schools. The “lead school” in the federation should make the return while including the LA Establishment (`LAEstab`) numbers of other schools within the federation. There should be no individual return from schools within a federation other than the lead school.
+The main checks on CFR data relate to the fields for federated schools. A federation of schools is a structure where two or more maintained schools join under a single governing body, while retaining their individual identities. Section 24 of the Education Act 2002 allows for a local authority (LA) to allocate a single budget share to a governing body where there are two or more schools federated.
+
+Federated schools receiving a single budget share should report collectively in their CFR return. There should therefore be only one CFR return made for federated schools. The “lead school” in the federation should make the return while including the LA Establishment (`LAEstab`) numbers of other schools within the federation. There should be no individual return from schools within a federation other than the lead school.
 
 ![Federated School Example](../images/federated-schools.png)
 
-There is validation in the data collection to identify federation reporting issues but it is possible that some errors remain. The mis-recording of federated schools can cause issues such as duplication and incorrect totals.
+The image above shows an example of a fedrated school with the lead school actioning the financial return. There is validation in the data collection to identify federation reporting issues but it is possible that some errors remain. The mis-recording of federated schools can cause issues such as duplication and incorrect totals.
 
 ### CFR Data Source
 
 Server Name = `T1PRISTOAOL01`
+
 Database = `ConsistentFinancialReporting_YYYYYYYYSPSSViews` where YYYYYYYY represent financial year, for instance `ConsistentFinancialReporting_20242025SPSSViews`
+
 View = `CFR_YY-YY_Data` where YY-YY represent financial year, for instance `CFR_24-25_Data`
 
 ### Local Database
