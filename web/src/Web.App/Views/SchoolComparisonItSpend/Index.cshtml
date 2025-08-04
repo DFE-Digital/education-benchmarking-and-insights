@@ -54,7 +54,7 @@
                 }
             </ul>
         }
-        @using (Html.BeginForm(FormMethod.Post, true, new { novalidate = "novalidate", role = "filter" }))
+        @using (Html.BeginForm(FormMethod.Post, true, new { novalidate = "novalidate", role = "search" }))
         {
             <input type="hidden"
                    name="@nameof(SchoolComparisonItSpendViewModel.SelectedSubCategories)"
