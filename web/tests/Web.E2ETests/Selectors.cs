@@ -219,4 +219,7 @@ public static class Selectors
     public const string OtherDimension = "#total-other-costs-dimension";
 
     public const string CostCodesList = "ul.app-cost-code-list";
+
+    public const string SsrChartContainer = ".costs-chart-container";
+    public const string SsrSchoolNamesLinksInCharts = ".link-tick .govuk-link";
 }
