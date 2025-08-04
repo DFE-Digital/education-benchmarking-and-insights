@@ -50,7 +50,7 @@ public class SchoolComparisonItSpendController(
 
                 var set = await comparatorSetApi.GetDefaultSchoolAsync(urn).GetResultOrThrow<SchoolComparatorSet>();
                 var expenditures = await itSpendApi
-                    .QuerySchools(BuildApiQuery(set.Pupil))
+                    .QuerySchools(BuildApiQuery(set.Pupil, resultAs.ToChartDimension()))
                     .GetResultOrDefault<SchoolItSpend[]>() ?? [];
 
                 var subCategories = new SchoolComparisonSubCategoriesViewModel(urn, expenditures, selectedSubCategories);
@@ -59,7 +59,9 @@ public class SchoolComparisonItSpendController(
                     urn,
                     c.Data!,
                     format => Uri.UnescapeDataString(
-                        Url.Action("Index", "School", new { urn = format }) ?? string.Empty)));
+                        Url.Action("Index", "School", new { urn = format }) ?? string.Empty),
+                    resultAs.ToChartDimension()
+                    ));
 
                 ChartResponse[] charts = [];
                 try
@@ -112,12 +114,17 @@ public class SchoolComparisonItSpendController(
         });
     }
 
-    private static ApiQuery BuildApiQuery(IEnumerable<string>? urns = null)
+    private static ApiQuery BuildApiQuery(IEnumerable<string>? urns = null, ChartDimensions? dimension = null)
     {
         var query = new ApiQuery();
         foreach (var urn in urns ?? [])
         {
             query.AddIfNotNull("urns", urn);
+        }
+
+        if (dimension is not null)
+        {
+            query.AddIfNotNull("dimension", dimension.ToString());
         }
 
         return query;
