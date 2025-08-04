@@ -2,6 +2,7 @@
 
 @import "headlines";
 @import "link-list";
+@import "filter";
 
 .app-signin {
   float: right;
@@ -902,10 +903,4 @@ table#current-comparators-la {
   }
 }
 
-.app-filter .govuk-accordion__controls {
-  display: none;
-}
-.app-filter__selected-hint {
-  margin-top: 5px;
-  display: table;
-}
+

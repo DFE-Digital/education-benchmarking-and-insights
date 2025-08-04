@@ -62,7 +62,7 @@ export default class HorizontalBarChartBuilder {
     }
 
     const tickWidth = width / 3;
-    const truncateLabelAt = width ? Math.floor(width / 10) : 60;
+    const truncateLabelAt = width ? Math.floor(width / 20) : 30;
 
     // Create the scales.
     data.sort((a, b) =>
@@ -183,7 +183,7 @@ export default class HorizontalBarChartBuilder {
       index,
       nodes,
     ) => {
-      const label = formatTick(datum as string, index);
+      let label = formatTick(datum as string, index);
       const node = nodes[index] as SVGTextElement;
       const text = d3.select(node);
 
@@ -210,15 +210,27 @@ export default class HorizontalBarChartBuilder {
         .attr("height", barHeight - 5)
         .attr("class", "active-tick");
 
+      label = truncateLabel(label, truncateLabelAt);
+
       label
-        .substring(0, truncateLabelAt)
         .split(" ")
         .forEach((s, i) => link.append("tspan").text((i > 0 ? " " : "") + s));
-
-      if (label.length > truncateLabelAt) {
-        link.append("…");
-      }
     };
+
+    function truncateLabel(label: string, maxLength: number) {
+      if (label.length <= maxLength) return label;
+
+      // Cut the string at maxLength
+      let truncated = label.slice(0, maxLength);
+
+      // Find the last space within the truncated string
+      const lastSpace = truncated.lastIndexOf(" ");
+      if (lastSpace > 0) {
+        truncated = truncated.slice(0, lastSpace);
+      }
+
+      return truncated + "...";
+    }
 
     svg
       .append("g")
