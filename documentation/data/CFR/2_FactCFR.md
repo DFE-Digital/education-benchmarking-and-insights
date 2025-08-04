@@ -1,6 +1,6 @@
 # Data Sourcing and Validation for Consistent Financial Reporting (CFR) Data
 
-This document outlines the quality assurance and data cleansing procedures to be done on the CFR data extract when preparing to generate the `maintained_schools_master_list.csv` dataset for deployment in the FBIT data pipelines.
+This procedure details the necessary steps to process the Consistent Financial Reporting (CFR) data extract to produce the definitive `maintained_schools_master_list.csv` dataset. The core of this process involves rigorous data validation and cleansing to ensure the accuracy and integrity of the final output.
 
 > **Note**
 > At the point of this documentation, the data source for CFR is SQL server.
@@ -18,7 +18,12 @@ There is validation in the data collection to identify federation reporting issu
 
 Server Name = `T1PRISTOAOL01`
 Database = `ConsistentFinancialReporting_YYYYYYYYSPSSViews` where YYYYYYYY represent financial year, for instance `ConsistentFinancialReporting_20242025SPSSViews`
-View = `CFR_YY-YY_Data` where YY-YY represent financial year, for instance `CFR_23-24_Data`
+View = `CFR_YY-YY_Data` where YY-YY represent financial year, for instance `CFR_24-25_Data`
+
+### Local Database
+
+Created local database = `CFRYY` where YY represents the financial year end, for instance `CFR25` for financial year ending 2025.
+Table = `CFR_YYYY` where YYYY represent financial year, for instance `CFR_2425` for financial year ending 2025.
 
 #### The following instructions describe CFR QA checks
 
@@ -89,7 +94,7 @@ View = `CFR_YY-YY_Data` where YY-YY represent financial year, for instance `CFR_
     AND   [LAEstab of School in Federation 10] IS NULL
     ```
 
-5. Run the below SQL query to confirm NULLs in the data. `NULL` values can throw out the total calculations and so be replaced with zeros. Any fields returned as NULL should be converted to zero in the creation of the final dataset.
+5. Run the below SQL query to confirm NULLs in the data. `NULL` values can throw out the total calculations, any fields returned as NULL should be converted to zero in the creation of the final dataset.
 
     ```sql
     SELECT * FROM [ConsistentFinancialReporting_20242025SPSSViews].[dbo].[CFR_24-25_Data]
@@ -117,3 +122,8 @@ Once any issue(s) has been identified from QA checks, a report of the affected s
 
 > **Note**
 > Our established process has been to manually correct school data submission errors, as this is more efficient than reopening the portal for resubmission. Following these corrections, product owner would make arrangements to notify the affected schools' Local Authorities with instructions on how to report their financial records correctly in the future.
+
+#### Export CFR Data from CFR Source Data into `CFRYY` Local Database
+
+1. Connect to the CFR data source as listed above
+2. Either by using A database GUI Tool or CSV export, ingest all `CFR_YY-YY_Data` record into `CFR_YYYY`

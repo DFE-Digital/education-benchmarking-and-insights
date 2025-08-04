@@ -1,4 +1,4 @@
-# Dimension Data
+# GIAS - Dimension Data
 
 The CFR data is processed along with dimension data to create upstream dataset named `maintained_schools_master_list`. These dimension data are:
 
