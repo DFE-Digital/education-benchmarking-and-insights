@@ -1,4 +1,5 @@
 ﻿using Web.App.Domain;
+using Web.App.Domain.Charts;
 
 namespace Web.App.ViewModels;
 
@@ -9,7 +10,7 @@ public class SchoolComparisonItSpendViewModel(School school, SchoolComparisonSub
     public SchoolComparisonSubCategoriesViewModel SubCategories => subCategories;
 
     public ViewAsOptions ViewAs { get; set; } = ViewAsOptions.Chart;
-    public ResultAsOptions ResultAs { get; set; } = ResultAsOptions.SpendPerPupil;
+    public ChartDimensions.ResultAsOptions ResultAs { get; set; } = ChartDimensions.ResultAsOptions.SpendPerPupil;
     public ItSpendingCategories.SubCategoryFilter[] SelectedSubCategories { get; set; } = [];
 
 
@@ -17,13 +18,5 @@ public class SchoolComparisonItSpendViewModel(School school, SchoolComparisonSub
     {
         Chart = 0,
         Table = 1
-    }
-
-    public enum ResultAsOptions
-    {
-        SpendPerPupil = 0,
-        Actuals = 1,
-        PercentExpenditure = 2,
-        PercentIncome = 3
     }
 }

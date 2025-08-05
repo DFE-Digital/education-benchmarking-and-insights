@@ -31,7 +31,7 @@ public class SchoolComparisonItSpendController(
     [SchoolRequestTelemetry(TrackedRequestFeature.BenchmarkItSpend)]
     public async Task<IActionResult> Index(string urn,
         ItSpendingCategories.SubCategoryFilter[] selectedSubCategories,
-        SchoolComparisonItSpendViewModel.ResultAsOptions resultAs = SchoolComparisonItSpendViewModel.ResultAsOptions.SpendPerPupil,
+        ChartDimensions.ResultAsOptions resultAs = ChartDimensions.ResultAsOptions.SpendPerPupil,
         SchoolComparisonItSpendViewModel.ViewAsOptions viewAs = SchoolComparisonItSpendViewModel.ViewAsOptions.Chart)
     {
         using (logger.BeginScope(new
@@ -50,7 +50,7 @@ public class SchoolComparisonItSpendController(
 
                 var set = await comparatorSetApi.GetDefaultSchoolAsync(urn).GetResultOrThrow<SchoolComparatorSet>();
                 var expenditures = await itSpendApi
-                    .QuerySchools(BuildApiQuery(set.Pupil, resultAs.ToChartDimension()))
+                    .QuerySchools(BuildApiQuery(set.Pupil, resultAs.GetQueryParam()))
                     .GetResultOrDefault<SchoolItSpend[]>() ?? [];
 
                 var subCategories = new SchoolComparisonSubCategoriesViewModel(urn, expenditures, selectedSubCategories);
@@ -60,7 +60,8 @@ public class SchoolComparisonItSpendController(
                     c.Data!,
                     format => Uri.UnescapeDataString(
                         Url.Action("Index", "School", new { urn = format }) ?? string.Empty),
-                    resultAs.ToChartDimension()
+                    resultAs.GetValueFormat(),
+                    resultAs.GetXAxisLabel()
                     ));
 
                 ChartResponse[] charts = [];
@@ -114,7 +115,7 @@ public class SchoolComparisonItSpendController(
         });
     }
 
-    private static ApiQuery BuildApiQuery(IEnumerable<string>? urns = null, ChartDimensions? dimension = null)
+    private static ApiQuery BuildApiQuery(IEnumerable<string>? urns = null, string? dimension = null)
     {
         var query = new ApiQuery();
         foreach (var urn in urns ?? [])
@@ -124,7 +125,7 @@ public class SchoolComparisonItSpendController(
 
         if (dimension is not null)
         {
-            query.AddIfNotNull("dimension", dimension.ToString());
+            query.AddIfNotNull("dimension", dimension);
         }
 
         return query;

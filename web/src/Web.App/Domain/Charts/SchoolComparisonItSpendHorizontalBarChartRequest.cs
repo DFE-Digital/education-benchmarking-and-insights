@@ -11,7 +11,8 @@ public record SchoolComparisonItSpendHorizontalBarChartRequest : PostHorizontalB
         string urn,
         SchoolComparisonDatum[] filteredData,
         Func<string, string?> linkFormatter,
-        ChartDimensions dimension)
+        string valueFormat,
+        string xAxisLabel)
     {
         BarHeight = 22;
         Data = filteredData;
@@ -24,14 +25,8 @@ public record SchoolComparisonItSpendHorizontalBarChartRequest : PostHorizontalB
         Sort = "desc";
         Width = 600;
         ValueField = nameof(SchoolComparisonDatum.Expenditure).ToLower();
-        (ValueFormat, XAxisLabel) = dimension switch
-        {
-            ChartDimensions.PerUnit => ("$,~s", "£ per pupil"),
-            ChartDimensions.Actuals => ("$,~s", "actuals"),
-            ChartDimensions.PercentExpenditure => (".1%", "percentage of expenditure"),
-            ChartDimensions.PercentIncome => (".1%", "percentage of income"),
-            _ => throw new ArgumentOutOfRangeException(nameof(dimension))
-        };
+        ValueFormat = valueFormat;
+        XAxisLabel = xAxisLabel;
     }
 }
 
