@@ -30,11 +30,19 @@ public class SchoolComparisonSubCategoriesViewModel : List<SchoolComparisonViewM
         {
             Urn = g.URN,
             SchoolName = g.SchoolName,
-            Expenditure = enumerable.Select(filter.GetSelector()).FirstOrDefault()
+            Expenditure = enumerable.Select(filter.GetSelector()).FirstOrDefault(),
+            LAName = g.LAName,
+            SchoolType = g.SchoolType,
+            TotalPupils = g.TotalPupils
+
         }).ToArray();
 
         var uuid = Guid.NewGuid().ToString();
-        var filteredData = data.Where(x => x.Urn == urn || x.Expenditure > 0).ToArray();
+        var filteredData = data
+            .Where(x => x.Urn == urn || x.Expenditure > 0)
+            .OrderByDescending(x => x.Expenditure)
+            .ToArray();
+
         var hasNegativeOrZeroValues = data.Length > filteredData.Length;
         Add(new SchoolComparisonViewModelCostSubCategory<SchoolComparisonDatum>
         {

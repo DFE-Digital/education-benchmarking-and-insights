@@ -12,6 +12,11 @@ public static class DecimalExtensions
         return value.ToString("C", nfi);
     }
 
+    public static string ToCurrencyWithPrecisionIfSmall(this decimal? value) =>
+        value.HasValue
+            ? value.Value.ToCurrency(Math.Abs(value.Value) < 1000 ? 2 : 0)
+            : string.Empty;
+
     public static string ToPercent(this decimal? value) => value.HasValue ? value.Value.ToPercent() : string.Empty;
 
     public static string ToPercent(this decimal value) => $"{value:0.#}%";
