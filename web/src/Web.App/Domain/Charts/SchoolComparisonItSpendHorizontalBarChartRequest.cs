@@ -11,8 +11,7 @@ public record SchoolComparisonItSpendHorizontalBarChartRequest : PostHorizontalB
         string urn,
         SchoolComparisonDatum[] filteredData,
         Func<string, string?> linkFormatter,
-        string valueFormat,
-        string xAxisLabel)
+        ChartDimensions.ResultAsOptions resultsAs)
     {
         BarHeight = 22;
         Data = filteredData;
@@ -25,8 +24,8 @@ public record SchoolComparisonItSpendHorizontalBarChartRequest : PostHorizontalB
         Sort = "desc";
         Width = 600;
         ValueField = nameof(SchoolComparisonDatum.Expenditure).ToLower();
-        ValueFormat = valueFormat;
-        XAxisLabel = xAxisLabel;
+        ValueFormat = resultsAs.GetValueFormat();
+        XAxisLabel = resultsAs.GetXAxisLabel();
     }
 }
 
