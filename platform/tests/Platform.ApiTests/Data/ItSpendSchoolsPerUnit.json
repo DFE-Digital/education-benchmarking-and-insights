@@ -6,13 +6,13 @@
     "laName": "Test Local Authority",
     "periodCoveredByReturn": 12,
     "totalPupils": 418.0,
-    "connectivity": 1081.578947368421,
-    "onsiteServers": 612.9186602870814,
-    "itLearningResources": 2577.0334928229663,
-    "administrationSoftwareAndSystems": 2676.0765550239234,
-    "laptopsDesktopsAndTablets": 5932.775119617225,
-    "otherHardware": 4288.516746411483,
-    "itSupport": 3810.0478468899523
+    "connectivity": 10.81578947368421,
+    "onsiteServers": 6.1291866028708135,
+    "itLearningResources": 25.770334928229666,
+    "administrationSoftwareAndSystems": 26.760765550239235,
+    "laptopsDesktopsAndTablets": 59.32775119617225,
+    "otherHardware": 42.88516746411483,
+    "itSupport": 38.100478468899524
   },
   {
     "urn": "990001",
@@ -21,13 +21,13 @@
     "laName": "Islington",
     "periodCoveredByReturn": 12,
     "totalPupils": 303.0,
-    "connectivity": 1536.3036303630363,
-    "onsiteServers": 733.003300330033,
-    "itLearningResources": 3555.4455445544554,
-    "administrationSoftwareAndSystems": 3833.003300330033,
-    "laptopsDesktopsAndTablets": 8096.699669966997,
-    "otherHardware": 5705.940594059406,
-    "itSupport": 4988.448844884489
+    "connectivity": 15.363036303630363,
+    "onsiteServers": 7.33003300330033,
+    "itLearningResources": 35.554455445544555,
+    "administrationSoftwareAndSystems": 38.33003300330033,
+    "laptopsDesktopsAndTablets": 80.96699669966996,
+    "otherHardware": 57.05940594059406,
+    "itSupport": 49.884488448844884
   },
   {
     "urn": "990002",
@@ -36,12 +36,12 @@
     "laName": "Isle of Wight",
     "periodCoveredByReturn": 12,
     "totalPupils": 191.0,
-    "connectivity": 2508.3769633507854,
-    "onsiteServers": 1373.2984293193717,
-    "itLearningResources": 5288.48167539267,
-    "administrationSoftwareAndSystems": 6062.303664921466,
-    "laptopsDesktopsAndTablets": 12800.0,
-    "otherHardware": 9031.93717277487,
-    "itSupport": 8050.785340314136
+    "connectivity": 25.083769633507853,
+    "onsiteServers": 13.732984293193716,
+    "itLearningResources": 52.8848167539267,
+    "administrationSoftwareAndSystems": 60.62303664921466,
+    "laptopsDesktopsAndTablets": 128.0,
+    "otherHardware": 90.31937172774869,
+    "itSupport": 80.50785340314137
   }
 ]
