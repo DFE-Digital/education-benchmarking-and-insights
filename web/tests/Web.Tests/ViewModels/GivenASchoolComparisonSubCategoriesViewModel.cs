@@ -53,6 +53,9 @@ public class GivenASchoolComparisonSubCategoriesViewModel
             {
                 Urn = e.URN,
                 SchoolName = e.SchoolName,
+                LAName = e.LAName,
+                SchoolType = e.SchoolType,
+                TotalPupils = e.TotalPupils,
                 Expenditure = selector(e)
             })
             .Where(x => x.Urn == urn || x.Expenditure > 0);
