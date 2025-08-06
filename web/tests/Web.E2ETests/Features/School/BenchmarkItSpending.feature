@@ -21,3 +21,18 @@
         Given I am on it spend page for school with URN '777042'
         When I enter on the school name on the chart
         Then I am navigated to selected school home page
+
+    Scenario: Selecting multiple subcategories and applying filter updates charts and filter count
+        Given I am on it spend page for school with URN '777042'
+        When I select the following subcategories:
+          | Subcategory                          |
+          | Connectivity (E20A)                  |
+          | IT support (E20G)                    |
+          | Laptops, desktops and tablets (E20E) |
+        And I click the Apply filters button
+        Then I should see the following IT spend charts:
+          | Chart Title                        |
+          | Connectivity E20A                  |
+          | IT support E20G                    |
+          | Laptops, desktops and tablets E20E |
+        And the filter count should show '3 selected'

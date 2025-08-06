@@ -222,4 +222,9 @@ public static class Selectors
 
     public const string SsrChartContainer = ".costs-chart-container";
     public const string SsrSchoolNamesLinksInCharts = ".link-tick .govuk-link";
+    public const string ConnectivityCheckBox = "#Connectivity";
+    public const string ITSupportCheckBox ="#ITSupport";
+    public const string LaptopDesktopCheckbox = "#LaptopsDesktopsTablets";
+    public const string AccordionSectionToggleText = ".govuk-accordion__section-toggle-text";
+    public const string GovHint = ".govuk-hint";
 }

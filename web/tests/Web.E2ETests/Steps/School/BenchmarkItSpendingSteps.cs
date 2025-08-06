@@ -47,6 +47,42 @@ public class BenchmarkItSpendSteps(PageDriver driver)
         Assert.NotNull(_schoolHomePage);
         await _schoolHomePage.IsDisplayed();
     }
+    
+    [When("I select the following subcategories:")]
+    public async Task WhenISelectTheFollowingSubcategories(Table table)
+    {
+        Assert.NotNull(_itSpendPage);
+        var categoriesToSelect = table.Rows.Select(row => row["Subcategory"]);
+        var subCategory = categoriesToSelect
+            .Select(SubCategoryNameFromFriendlyName)
+            .ToList();
+        await _itSpendPage.SelectSubCategories(subCategory);
+    }
+    
+    [When("I click the Apply filters button")]
+    public async Task WhenIClickTheApplyFiltersButton()
+    {
+        Assert.NotNull(_itSpendPage);
+        await _itSpendPage.ClickApplyFilter();
+    }
+    
+    [Then("the filter count should show '(.*)'")]
+    public async Task ThenTheFilterCountShouldShow(string text)
+    {
+        Assert.NotNull(_itSpendPage);
+        await _itSpendPage.AssertFilterCount(text);
+    }
+
+    private static SubCategoryNames SubCategoryNameFromFriendlyName(String subCategoryName)
+    {
+        return subCategoryName switch
+        {
+            "Connectivity (E20A)" => SubCategoryNames.Connectivity,
+            "IT support (E20G)" => SubCategoryNames.ITSupport,
+            "Laptops, desktops and tablets (E20E)" => SubCategoryNames.LaptopsDesktopsTablets,
+            _ => throw new ArgumentOutOfRangeException(nameof(subCategoryName))
+        };
+    }
 
     private async Task<BenchmarkItSpendPage> LoadItSpendPageForSchoolWithUrn(string urn)
     {

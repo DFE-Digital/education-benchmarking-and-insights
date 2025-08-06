@@ -3,12 +3,28 @@ using Xunit;
 
 namespace Web.E2ETests.Pages.School;
 
+public enum SubCategoryNames
+{
+    Connectivity,
+    ITSupport,
+    LaptopsDesktopsTablets
+}
 public class BenchmarkItSpendPage(IPage page)
 {
     private ILocator PageH1Heading => page.Locator(Selectors.H1);
     private ILocator ChartContainers => page.Locator(Selectors.SsrChartContainer);
     private ILocator ChartContainer(string chartName) => page.Locator($"[data-title=\"{chartName}\"]");
     private ILocator SchoolLinksInCharts => page.Locator(Selectors.SsrSchoolNamesLinksInCharts);
+    private ILocator SubCategoriesAccordionSectionToggle => page.Locator(Selectors.AccordionSectionToggleText);
+    private ILocator ConnectivitySubCategoryCheckbox => page.Locator(Selectors.ConnectivityCheckBox);
+    private ILocator ITSupportSubCategoryCheckBox => page.Locator(Selectors.ITSupportCheckBox);
+    private ILocator LaptopDesktopSubCategoryCheckbox => page.Locator(Selectors.LaptopDesktopCheckbox);
+    private ILocator ApplyFilterButton => page.Locator(Selectors.Button, new PageLocatorOptions
+    {
+        HasText = "Apply filters"
+    });
+
+    private ILocator AppliedFiltersCount => page.Locator($"{Selectors.GovHint}.app-filter__selected-hint");
     private ILocator ComparatorSetDetails =>
         page.Locator(Selectors.GovLink,
             new PageLocatorOptions
@@ -43,6 +59,38 @@ public class BenchmarkItSpendPage(IPage page)
         await AssertChartCount(titles.Length);
         await AssertVisibleCharts(titles);
     }
+    
+    public async Task SelectSubCategories(List<SubCategoryNames> categoriesToSelect)
+    {
+        await EnsureSubCategoriesAreExpanded();
+        foreach (var category in categoriesToSelect)
+        {
+            var checkbox = SubCategorySelector(category);
+
+            if (!await checkbox.IsCheckedAsync())
+            {
+                await checkbox.Click();
+            }
+        }
+    }
+    
+    public async Task ClickApplyFilter()
+    {
+        await ApplyFilterButton.Click();
+    }
+    
+    public async Task AssertFilterCount(string expectedCount)
+    {
+        await AppliedFiltersCount.TextEqual(expectedCount);
+    }
+
+    private async Task EnsureSubCategoriesAreExpanded()
+    {
+        if (await SubCategoriesAccordionSectionToggle.TextContentAsync() == "Show")
+        {
+            await SubCategoriesAccordionSectionToggle.Click();
+        }
+    }
 
     private async Task AssertVisibleCharts(IEnumerable<string> expectedTitles)
     {
@@ -57,4 +105,18 @@ public class BenchmarkItSpendPage(IPage page)
         var count = await ChartContainers.CountAsync();
         Assert.Equal(expectedCount, count);
     }
+
+    private ILocator SubCategorySelector(SubCategoryNames subCategory)
+    {
+        var categoryName = subCategory switch
+        {
+            SubCategoryNames.Connectivity => ConnectivitySubCategoryCheckbox,
+            SubCategoryNames.ITSupport => ITSupportSubCategoryCheckBox,
+            SubCategoryNames.LaptopsDesktopsTablets => LaptopDesktopSubCategoryCheckbox,
+            _ => throw new ArgumentOutOfRangeException(nameof(subCategory))
+
+        };
+        return categoryName;
+    }
+    
 }
