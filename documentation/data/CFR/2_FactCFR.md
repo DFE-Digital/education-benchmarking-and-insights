@@ -10,7 +10,7 @@ Federated schools receiving a single budget share should report collectively in 
 
 ![Federated School Example](../images/federated-schools.png)
 
-The image above shows an example of a fedrated school with the lead school actioning the financial return. There is validation in the data collection to identify federation reporting issues but it is possible that some errors remain. The mis-recording of federated schools can cause issues such as duplication and incorrect totals.
+The image above shows an example of a federated school with the lead school alone actioning the financial return. There is validation in the data collection to identify federation reporting issues but it is possible that some errors remain. The mis-recording of federated schools can cause issues such as duplication and incorrect totals.
 
 ### CFR Data Source
 
@@ -94,7 +94,7 @@ Table = `CFR_YYYY` where YYYY represent financial year, for instance `CFR_2425` 
     AND   [LAEstab of School in Federation 10] IS NULL
     ```
 
-5. Run the below SQL query to confirm NULLs in the data. `NULL` values can throw out the total calculations, any fields returned as NULL should be converted to zero in the creation of the final dataset.
+5. Run the below SQL query to confirm NULLs in the data. `NULL` values can throw out the total calculations, all NULL return should be converted to zero in the creation of the final dataset.
 
     ```sql
     SELECT * FROM [ConsistentFinancialReporting_20242025SPSSViews].[dbo].[CFR_24-25_Data]
