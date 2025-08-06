@@ -13,7 +13,7 @@ Pupil Referral Units (PRUs) are a type of Alternative Provision (AP) used to edu
 
 ## Getting PRU Data
 
-1. Connect to `T1PRISTOAOL01` SQL Server and run below query
+1. Connect to [SQL Server](https://educationgovuk.sharepoint.com/:w:/r/sites/DfEFinancialBenchmarking/_layouts/15/Doc.aspx?sourcedoc=%7BA47507F6-2C23-487A-98EC-0B6C75A7471A%7D&file=CFR%20source%20data%20access%20request.docx&action=default&mobileredirect=true) and run below query using the reporting financial year database, for instance, for financial year 2024_2025, use [SchoolCensus2025_Spring_SPSSViews]
 
     ```sql
     SELECT a.[LAEstab]  
@@ -21,12 +21,13 @@ Pupil Referral Units (PRUs) are a type of Alternative Provision (AP) used to edu
         ,COUNT (distinct b.[UPN]) as 'Headcount'
         ,SUM (b.[HNentitlement]) as 'FTE' 
     FROM [SchoolCensus2025_Spring_SPSSViews].[dbo].[Approved_School] as a  
-    LEFT JOIN [SchoolCensus2025_Spring_SPSSViews].[dbo].[Approved_PupilOnRoll] as b  ON a.[LAEstab] = b.[LAEstab] 
+    LEFT JOIN [SchoolCensus2025_Spring_SPSSViews].[dbo].[Approved_PupilOnRoll] as b
+    ON a.[LAEstab] = b.[LAEstab] 
     WHERE a.[Phase] = 'PR' 
     GROUP BY a.[LAEstab], a.[Phase] 
     ```
 
-2. Import the result of the query into the local database, name the table `Context_PRU_Pupils_SchoolLevel`
+2. Import the result of the query into the local database, name the table `Dim_PRU_Pupils_SchoolLevel`
 
 ### PRU Fields and Data Type
 

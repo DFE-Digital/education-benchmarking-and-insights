@@ -11,7 +11,7 @@ This documentation outlines the input data, quality assurance, data sourcing, cl
 
 ## Prerequisite
 
-1. Access to `T1PRISTOAOL01` (DfE iStore, the server where all COLLECT data is stored)
+1. [Access to (DfE iStore, the server where all COLLECT data is stored)](https://educationgovuk.sharepoint.com/:w:/r/sites/DfEFinancialBenchmarking/_layouts/15/Doc.aspx?sourcedoc=%7BA47507F6-2C23-487A-98EC-0B6C75A7471A%7D&file=CFR%20source%20data%20access%20request.docx&action=default&mobileredirect=true)
 2. Create a local Database to be named `CFRYY` where YY represents the financial year end, for instance `CFR25` for data related to the financial year end 2025.
 
 `CFRYY` Local database should include all tables as shown image below

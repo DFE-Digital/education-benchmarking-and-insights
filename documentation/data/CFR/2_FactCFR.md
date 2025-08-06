@@ -14,9 +14,9 @@ The image above shows an example of a federated school with the lead school alon
 
 ### CFR Data Source
 
-Server Name = `T1PRISTOAOL01`
+Server Name = [iSore SQL Server](https://educationgovuk.sharepoint.com/:w:/r/sites/DfEFinancialBenchmarking/_layouts/15/Doc.aspx?sourcedoc=%7BA47507F6-2C23-487A-98EC-0B6C75A7471A%7D&file=CFR%20source%20data%20access%20request.docx&action=default&mobileredirect=true)
 
-Database = `ConsistentFinancialReporting_YYYYYYYYSPSSViews` where YYYYYYYY represent financial year, for instance `ConsistentFinancialReporting_20242025SPSSViews`
+Database = `ConsistentFinancialReporting_YYYYYYYYSPSSViews` where YYYYYYYY represents the reporting financial year, for instance for 2024_2025 financial year, use `ConsistentFinancialReporting_20242025SPSSViews`
 
 View = `CFR_YY-YY_Data` where YY-YY represent financial year, for instance `CFR_24-25_Data`
 
@@ -46,7 +46,7 @@ Table = `CFR_YYYY` where YYYY represent financial year, for instance `CFR_2425` 
         OR [LAEstab of School in Federation 10] IS NOT NULL)
     ```
 
-3. Run the below SQL query to validate that only the “lead school” within a federation has a CFR return. The absence of records / no result suggests that there is no incorrect federated school entry in the CFR data collection.
+3. Run the below SQL query to validate that only the “lead school” within a federation have CFR return. The absence of record / no result suggest that there is no incorrect federated school entry in CFR data collection.
 
     ```sql
     SELECT b.*
@@ -118,7 +118,7 @@ Table = `CFR_YYYY` where YYYY represent financial year, for instance `CFR_2425` 
 
 #### Handling CFR data errors
 
-Once any issue(s) has been identified from QA checks, a report of the affected schools (`LEAEstab`, `Federated Flag` and `LAEstab of School in Federation 1 to 10` fields and respective values) should be documented and communicated / shared with related stakeholders
+Once any issue(s) has been identified from QA checks, a report of the affected schools (`LEAEstab`, `Federated Flag` and `LAEstab of School in Federation 1 to 10` fields and respective values) should be documented and communicated / shared with related stakeholder (Dan Tovey, Jeff Kirkman & Lee McCusker).
 
 > **Note**
 > Our established process has been to manually correct school data submission errors, as this is more efficient than reopening the portal for resubmission. Following these corrections, product owner would make arrangements to notify the affected schools' Local Authorities with instructions on how to report their financial records correctly in the future.
