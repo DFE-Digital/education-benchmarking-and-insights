@@ -6,7 +6,12 @@ namespace Web.App.Domain.Charts;
 
 public record SchoolComparisonItSpendHorizontalBarChartRequest : PostHorizontalBarChartRequest<SchoolComparisonDatum>
 {
-    public SchoolComparisonItSpendHorizontalBarChartRequest(string uuid, string urn, SchoolComparisonDatum[] filteredData, Func<string, string?> linkFormatter)
+    public SchoolComparisonItSpendHorizontalBarChartRequest(
+        string uuid,
+        string urn,
+        SchoolComparisonDatum[] filteredData,
+        Func<string, string?> linkFormatter,
+        ChartDimensions.ResultAsOptions resultsAs)
     {
         BarHeight = 22;
         Data = filteredData;
@@ -19,8 +24,8 @@ public record SchoolComparisonItSpendHorizontalBarChartRequest : PostHorizontalB
         Sort = "desc";
         Width = 600;
         ValueField = nameof(SchoolComparisonDatum.Expenditure).ToLower();
-        ValueFormat = "$,~s";
-        XAxisLabel = "£ per pupil";
+        ValueFormat = resultsAs.GetValueFormat();
+        XAxisLabel = resultsAs.GetXAxisLabel();
     }
 }
 

@@ -1,4 +1,5 @@
 ﻿@using Web.App.Domain
+@using Web.App.Domain.Charts
 @using Web.App.Extensions
 @using Web.App.ViewModels
 @model Web.App.ViewModels.SchoolComparisonItSpendViewModel
@@ -189,45 +190,45 @@
                                  id="@nameof(SchoolComparisonItSpendViewModel.ResultAs)">
                                 <div class="govuk-radios__item">
                                     <input class="govuk-radios__input"
-                                           id="@SchoolComparisonItSpendViewModel.ResultAsOptions.SpendPerPupil"
+                                           id="@ChartDimensions.ResultAsOptions.SpendPerPupil"
                                            name="@nameof(SchoolComparisonItSpendViewModel.ResultAs)" type="radio"
-                                           value="@((int)SchoolComparisonItSpendViewModel.ResultAsOptions.SpendPerPupil)"
-                                           @(Model.ResultAs == SchoolComparisonItSpendViewModel.ResultAsOptions.SpendPerPupil ? "checked" : "")>
+                                           value="@((int)ChartDimensions.ResultAsOptions.SpendPerPupil)"
+                                           @(Model.ResultAs == ChartDimensions.ResultAsOptions.SpendPerPupil ? "checked" : "")>
                                     <label class="govuk-label govuk-radios__label"
-                                           for="@SchoolComparisonItSpendViewModel.ResultAsOptions.SpendPerPupil">
+                                           for="@ChartDimensions.ResultAsOptions.SpendPerPupil">
                                         Spend per pupil
                                     </label>
                                 </div>
                                 <div class="govuk-radios__item">
                                     <input class="govuk-radios__input"
-                                           id="@SchoolComparisonItSpendViewModel.ResultAsOptions.Actuals"
+                                           id="@ChartDimensions.ResultAsOptions.Actuals"
                                            name="@nameof(SchoolComparisonItSpendViewModel.ResultAs)" type="radio"
-                                           value="@((int)SchoolComparisonItSpendViewModel.ResultAsOptions.Actuals)"
-                                           @(Model.ResultAs == SchoolComparisonItSpendViewModel.ResultAsOptions.Actuals ? "checked" : "")>
+                                           value="@((int)ChartDimensions.ResultAsOptions.Actuals)"
+                                           @(Model.ResultAs == ChartDimensions.ResultAsOptions.Actuals ? "checked" : "")>
                                     <label class="govuk-label govuk-radios__label"
-                                           for="@SchoolComparisonItSpendViewModel.ResultAsOptions.Actuals">
+                                           for="@ChartDimensions.ResultAsOptions.Actuals">
                                         Actuals
                                     </label>
                                 </div>
                                 <div class="govuk-radios__item">
                                     <input class="govuk-radios__input"
-                                           id="@SchoolComparisonItSpendViewModel.ResultAsOptions.PercentExpenditure"
+                                           id="@ChartDimensions.ResultAsOptions.PercentExpenditure"
                                            name="@nameof(SchoolComparisonItSpendViewModel.ResultAs)" type="radio"
-                                           value="@((int)SchoolComparisonItSpendViewModel.ResultAsOptions.PercentExpenditure)"
-                                           @(Model.ResultAs == SchoolComparisonItSpendViewModel.ResultAsOptions.PercentExpenditure ? "checked" : "")>
+                                           value="@((int)ChartDimensions.ResultAsOptions.PercentExpenditure)"
+                                           @(Model.ResultAs == ChartDimensions.ResultAsOptions.PercentExpenditure ? "checked" : "")>
                                     <label class="govuk-label govuk-radios__label"
-                                           for="@SchoolComparisonItSpendViewModel.ResultAsOptions.PercentExpenditure">
+                                           for="@ChartDimensions.ResultAsOptions.PercentExpenditure">
                                         Percentage of expenditure
                                     </label>
                                 </div>
                                 <div class="govuk-radios__item">
                                     <input class="govuk-radios__input"
-                                           id="@SchoolComparisonItSpendViewModel.ResultAsOptions.PercentIncome"
+                                           id="@ChartDimensions.ResultAsOptions.PercentIncome"
                                            name="@nameof(SchoolComparisonItSpendViewModel.ResultAs)" type="radio"
-                                           value="@((int)SchoolComparisonItSpendViewModel.ResultAsOptions.PercentIncome)"
-                                           @(Model.ResultAs == SchoolComparisonItSpendViewModel.ResultAsOptions.PercentIncome ? "checked" : "")>
+                                           value="@((int)ChartDimensions.ResultAsOptions.PercentIncome)"
+                                           @(Model.ResultAs == ChartDimensions.ResultAsOptions.PercentIncome ? "checked" : "")>
                                     <label class="govuk-label govuk-radios__label"
-                                           for="@SchoolComparisonItSpendViewModel.ResultAsOptions.PercentIncome">
+                                           for="@ChartDimensions.ResultAsOptions.PercentIncome">
                                         Percentage of income
                                     </label>
                                 </div>
