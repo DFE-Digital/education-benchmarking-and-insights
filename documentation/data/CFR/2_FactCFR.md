@@ -46,7 +46,7 @@ Table = `CFR_YYYY` where YYYY represent financial year, for instance `CFR_2425` 
         OR [LAEstab of School in Federation 10] IS NOT NULL)
     ```
 
-3. Run the below SQL query to validate that only the “lead school” within a federation have CFR return. The absence of record / no result suggest that there is no incorrect federated school entry in CFR data collection.
+3. Run the below SQL query to validate that only the “lead school” within a federation has a CFR return. The absence of records / no result suggests that there is no incorrect federated school entry in the CFR data collection.
 
     ```sql
     SELECT b.*
