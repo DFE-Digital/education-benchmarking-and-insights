@@ -13,19 +13,6 @@ public class SchoolComparisonItSpendViewModel(School school, SchoolComparisonSub
     public ViewAsOptions ViewAs { get; set; } = ViewAsOptions.Chart;
     public ChartDimensions.ResultAsOptions ResultAs { get; set; } = ChartDimensions.ResultAsOptions.SpendPerPupil;
     public ItSpendingCategories.SubCategoryFilter[] SelectedSubCategories { get; set; } = [];
-    public Func<decimal?, string> FormatValue => value =>
-    {
-        return ResultAs switch
-        {
-            ChartDimensions.ResultAsOptions.SpendPerPupil or ChartDimensions.ResultAsOptions.Actuals => value.ToCurrencyWithPrecisionIfSmall(),
-            ChartDimensions.ResultAsOptions.PercentExpenditure or ChartDimensions.ResultAsOptions.PercentIncome => value.ToPercent(),
-            _ => value.ToSimpleDisplay()
-        };
-    };
-    public string ExpenditureTableColumnHeader =>
-        ResultAs is ChartDimensions.ResultAsOptions.PercentExpenditure or ChartDimensions.ResultAsOptions.PercentIncome
-            ? "Percentage"
-            : "Amount";
 
     public enum ViewAsOptions
     {

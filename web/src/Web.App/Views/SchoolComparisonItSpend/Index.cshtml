@@ -344,7 +344,7 @@
                                                 <th scope="col" class="govuk-table__header">Local Authority</th>
                                                 <th scope="col" class="govuk-table__header">School type</th>
                                                 <th scope="col" class="govuk-table__header">Number of pupils</th>
-                                                <th scope="col" class="govuk-table__header">@Model.ExpenditureTableColumnHeader</th>
+                                                <th scope="col" class="govuk-table__header">@Model.ResultAs.GetTableHeader()</th>
                                             </tr>
                                             </thead>
                                             <tbody class="govuk-table__body">
@@ -358,7 +358,7 @@
                                                     <td class="govuk-table__cell">@row.LAName</td>
                                                     <td class="govuk-table__cell">@row.SchoolType</td>
                                                     <td class="govuk-table__cell">@row.TotalPupils.ToSimpleDisplay()</td>
-                                                    <td class="govuk-table__cell">@Model.FormatValue(row.Expenditure)</td>
+                                                    <td class="govuk-table__cell">@Model.ResultAs.GetFormattedValue(row.Expenditure)</td>
                                                 </tr>
                                             }
                                             </tbody>

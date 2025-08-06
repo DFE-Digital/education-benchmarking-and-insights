@@ -3,19 +3,15 @@ namespace Web.App.Extensions;
 
 public static class DecimalExtensions
 {
-    public static string ToCurrency(this decimal? value, int decimalDigits = 2) => value.HasValue ? value.Value.ToCurrency(decimalDigits) : string.Empty;
+    public static string ToCurrency(this decimal? value, int? decimalDigits = null) => value.HasValue ? value.Value.ToCurrency(decimalDigits) : string.Empty;
 
-    public static string ToCurrency(this decimal value, int decimalDigits = 2)
+    public static string ToCurrency(this decimal value, int? decimalDigits = null)
     {
+        var currencyDecimalDigits = decimalDigits ?? (Math.Abs(value) < 1000 ? 2 : 0);
         var nfi = new CultureInfo("en-GB").NumberFormat;
-        nfi.CurrencyDecimalDigits = decimalDigits;
+        nfi.CurrencyDecimalDigits = currencyDecimalDigits;
         return value.ToString("C", nfi);
     }
-
-    public static string ToCurrencyWithPrecisionIfSmall(this decimal? value) =>
-        value.HasValue
-            ? value.Value.ToCurrency(Math.Abs(value.Value) < 1000 ? 2 : 0)
-            : string.Empty;
 
     public static string ToPercent(this decimal? value) => value.HasValue ? value.Value.ToPercent() : string.Empty;
 
