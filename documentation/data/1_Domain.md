@@ -58,6 +58,7 @@ projection can be compiled for an organisation. This enables:
   - School Metadata
   - KS2 & KS4 Progress Metrics
   - Special Educational Needs (SEN)
+  - High exec pay data (HExP)
 
 **3. Consistent Financial Reporting (CFR):**
 
@@ -72,6 +73,7 @@ projection can be compiled for an organisation. This enables:
   - School Metadata
   - KS2 & KS4 Progress Metrics
   - Special Education Needs (SEN) Data
+  - Individualised Learner Record (ILR) 6th Form Data
 
 **4.Section 251 (S251):**
 
