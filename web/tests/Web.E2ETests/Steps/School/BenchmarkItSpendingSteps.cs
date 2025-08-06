@@ -49,6 +49,7 @@ public class BenchmarkItSpendSteps(PageDriver driver)
     }
     
     [When("I select the following subcategories:")]
+    [Given("I select the following subcategories:")]
     public async Task WhenISelectTheFollowingSubcategories(Table table)
     {
         Assert.NotNull(_itSpendPage);
@@ -60,6 +61,7 @@ public class BenchmarkItSpendSteps(PageDriver driver)
     }
     
     [When("I click the Apply filters button")]
+    [Given("I click the Apply filters button")]
     public async Task WhenIClickTheApplyFiltersButton()
     {
         Assert.NotNull(_itSpendPage);
@@ -71,6 +73,13 @@ public class BenchmarkItSpendSteps(PageDriver driver)
     {
         Assert.NotNull(_itSpendPage);
         await _itSpendPage.AssertFilterCount(text);
+    }
+    
+    [When("I click the clear button")]
+    public async Task WhenIClickTheClearButton()
+    {
+        Assert.NotNull(_itSpendPage);
+        await _itSpendPage.CLickClearFilter();
     }
 
     private static SubCategoryNames SubCategoryNameFromFriendlyName(String subCategoryName)

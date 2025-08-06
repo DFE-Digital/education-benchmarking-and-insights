@@ -24,6 +24,10 @@ public class BenchmarkItSpendPage(IPage page)
         HasText = "Apply filters"
     });
 
+    private ILocator ClearFilter => page.Locator(Selectors.GovLink, new PageLocatorOptions
+    {
+        HasText = "Clear"
+    });
     private ILocator AppliedFiltersCount => page.Locator($"{Selectors.GovHint}.app-filter__selected-hint");
     private ILocator ComparatorSetDetails =>
         page.Locator(Selectors.GovLink,
@@ -82,6 +86,11 @@ public class BenchmarkItSpendPage(IPage page)
     public async Task AssertFilterCount(string expectedCount)
     {
         await AppliedFiltersCount.TextEqual(expectedCount);
+    }
+    
+    public async Task CLickClearFilter()
+    {
+        await ClearFilter.Click();
     }
 
     private async Task EnsureSubCategoriesAreExpanded()

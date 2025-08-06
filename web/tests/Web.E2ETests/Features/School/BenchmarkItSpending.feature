@@ -36,3 +36,27 @@
           | IT support E20G                    |
           | Laptops, desktops and tablets E20E |
         And the filter count should show '3 selected'
+
+    Scenario: Clear button removes all applied filters
+        Given I am on it spend page for school with URN '777042'
+        And I select the following subcategories:
+          | Subcategory                          |
+          | Connectivity (E20A)                  |
+        And I click the Apply filters button
+        When I click the clear button
+        Then I should see the following IT spend charts:
+          | Chart Title                              |
+          | Administration software and systems E20D |
+          | Connectivity E20A                        |
+          | IT learning resources E20C               |
+          | IT support E20G                          |
+          | Laptops, desktops and tablets E20E       |
+          | Onsite servers E20B                      |
+          | Other hardware E20F                      |
+          
+    Scenario: Changing result dimension updates chart data
+        Given I am on it spend page for school with URN '777042'
+        And table view is selected
+        When I change dimension to "Percentage of income"
+        And I click the Apply filters button
+        Then the following is shown on the page
