@@ -64,13 +64,13 @@ SELECT  RunId,
         URN,
         TotalPupils,
         PeriodCoveredByReturn,
-        IIF(TotalPupils > 0.0, (ConnectivityCosts / TotalPupils) * 100, NULL)                       AS Connectivity,
-        IIF(TotalPupils > 0.0, (OnsiteServersCosts / TotalPupils) * 100, NULL)                      AS OnsiteServers,
-        IIF(TotalPupils > 0.0, (ItLearningResourcesCosts / TotalPupils) * 100, NULL)                AS ItLearningResources,
-        IIF(TotalPupils > 0.0, (AdministrationSoftwareAndSystemsCosts / TotalPupils) * 100, NULL)   AS AdministrationSoftwareAndSystems,
-        IIF(TotalPupils > 0.0, (LaptopsDesktopsAndTabletsCosts / TotalPupils) * 100, NULL)          AS LaptopsDesktopsAndTablets,
-        IIF(TotalPupils > 0.0, (OtherHardwareCosts / TotalPupils) * 100, NULL)                      AS OtherHardware,
-        IIF(TotalPupils > 0.0, (ItSupportCosts / TotalPupils) * 100, NULL)                          AS ItSupport
+        IIF(TotalPupils > 0.0, ConnectivityCosts / TotalPupils, NULL)                       AS Connectivity,
+        IIF(TotalPupils > 0.0, OnsiteServersCosts / TotalPupils, NULL)                      AS OnsiteServers,
+        IIF(TotalPupils > 0.0, ItLearningResourcesCosts / TotalPupils, NULL)                AS ItLearningResources,
+        IIF(TotalPupils > 0.0, AdministrationSoftwareAndSystemsCosts / TotalPupils, NULL)   AS AdministrationSoftwareAndSystems,
+        IIF(TotalPupils > 0.0, LaptopsDesktopsAndTabletsCosts / TotalPupils, NULL)          AS LaptopsDesktopsAndTablets,
+        IIF(TotalPupils > 0.0, OtherHardwareCosts / TotalPupils, NULL)                      AS OtherHardware,
+        IIF(TotalPupils > 0.0, ItSupportCosts / TotalPupils, NULL)                          AS ItSupport
 FROM Financial
     GO
 
