@@ -41,8 +41,4 @@ def build_high_exec_pay_data(
         "Company Registration Number"
     ].str[1:]
 
-    stats_collector.collect_preprocessed_ancillary_data_shape(
-        "high_exex_pay", high_exec_pay_data.shape
-    )
-
     return high_exec_pay_data

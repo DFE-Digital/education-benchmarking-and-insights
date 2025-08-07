@@ -35,6 +35,4 @@ def build_cfo_data(cfo_data_path, year: int) -> pd.DataFrame:
     ).items():
         cfo_data[column] = cfo_data.eval(eval_)
 
-    stats_collector.collect_preprocessed_ancillary_data_shape("cfo", cfo_data.shape)
-
     return cfo_data[["Companies House Number", "CFO name", "CFO email"]]

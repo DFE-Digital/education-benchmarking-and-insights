@@ -29,9 +29,6 @@ def predecessor_links(
 
     predecessors = gias_links[gias_links["LinkType"] == "Predecessor"]
 
-    stats_collector.collect_preprocessed_ancillary_data_shape(
-        "gias", predecessors.shape
-    )
     logger.info(f"Read {len(predecessors.index):,} predecessor GIAS-links records.")
 
     return predecessors
