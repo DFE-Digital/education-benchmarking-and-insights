@@ -120,7 +120,7 @@ def _build_ilr_ehcp_data(
 
 def build_ilr_data(
     filepath_or_buffer: FilePath | ReadCsvBuffer[bytes] | ReadCsvBuffer[str],
-    schools: pd.DataFrame,
+    gias: pd.DataFrame,
     year: int,
 ) -> pd.DataFrame:
     """
@@ -149,7 +149,7 @@ def build_ilr_data(
         )
         .reset_index()
         .merge(
-            schools.reset_index()[["URN", "UKPRN"]],
+            gias.reset_index()[["URN", "UKPRN"]],
             how="inner",
             left_on="UKPRN Current",
             right_on="UKPRN",

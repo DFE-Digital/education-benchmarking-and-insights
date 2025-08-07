@@ -213,7 +213,7 @@ def pre_process_gias_links(run_type: str, year: int, run_id: str) -> pd.DataFram
     """
     Generate the GIAS-links dataset.
 
-    Note: this is distinct from the "schools" data insofar as this only
+    Note: this is distinct from the "gias" data insofar as this only
     contains GIAS-links and retains _all_ rows.
 
     :param run_type: "default" or "custom"
@@ -241,7 +241,7 @@ def pre_process_ilr_data(
     run_type: str,
     year: int,
     run_id: str,
-    schools: pd.DataFrame,
+    gias: pd.DataFrame,
 ) -> pd.DataFrame | None:
     """
     Process ILR data.
@@ -258,7 +258,7 @@ def pre_process_ilr_data(
     ):
         return build_ilr_data(
             ilr_data,
-            schools,
+            gias,
             year,
         )
 
@@ -706,8 +706,9 @@ def get_aar_ancillary_data(
     """
     run_type = "default"
 
+    gias = pre_process_schools(run_type, aar_year, run_id)
     aar_ancillary_data = {
-        "schools": pre_process_schools(run_type, aar_year, run_id),
+        "gias": gias,
         "census": pre_process_census(run_type, aar_year, run_id),
         "sen": pre_process_sen(run_type, aar_year, run_id),
         "cdc": pre_process_cdc(run_type, aar_year, run_id),
@@ -718,6 +719,7 @@ def get_aar_ancillary_data(
         "central_services": pre_process_central_services(run_type, aar_year, run_id),
         "gias_links": pre_process_gias_links(run_type, aar_year, run_id),
         "high_exec_pay": pre_process_high_exec_pay(run_type, aar_year, run_id),
+        "ilr": pre_process_ilr_data(run_type, aar_year, run_id, gias),
     }
     stats_collector.collect_aar_ancillary_data_shapes(aar_ancillary_data, aar_year)
 
@@ -739,14 +741,16 @@ def get_cfr_ancillary_data(
     """
     run_type = "default"
 
+    gias = pre_process_schools(run_type, cfr_year, run_id)
     cfr_ancillary_data = {
-        "schools": pre_process_schools(run_type, cfr_year, run_id),
+        "gias": gias,
         "census": pre_process_census(run_type, cfr_year, run_id),
         "sen": pre_process_sen(run_type, cfr_year, run_id),
         "cdc": pre_process_cdc(run_type, cfr_year, run_id),
         "ks2": pre_process_ks2(run_type, cfr_year, run_id),
         "ks4": pre_process_ks4(run_type, cfr_year, run_id),
         "gias_links": pre_process_gias_links(run_type, cfr_year, run_id),
+        "ilr": pre_process_ilr_data(run_type, cfr_year, run_id, gias),
     }
     stats_collector.collect_cfr_ancillary_data_shapes(cfr_ancillary_data, cfr_year)
 
@@ -806,32 +810,20 @@ def pre_process_data(
         maintained_schools, cfr_year
     )
 
-    if (
-        academies_ilr_data := pre_process_ilr_data(
-            run_type,
-            aar_year,
-            run_id,
-            academies_data_ref["schools"],
-        )
-    ) is not None:
+    if academies_data_ref["ilr"] is not None:
+        # The assert here is to satisfy type checking - gias_links should never be None
+        assert academies_data_ref["gias_links"] is not None
         academies = patch_missing_sixth_form_data(
             academies,
-            academies_ilr_data,
+            academies_data_ref["ilr"],
             academies_data_ref["gias_links"],
         )
         academies = total_per_unit.calculate_total_per_unit_costs(academies)
 
-    if (
-        maintained_ilr_data := pre_process_ilr_data(
-            run_type,
-            cfr_year,
-            run_id,
-            maintained_data_ref["schools"],
-        )
-    ) is not None:
+    if maintained_data_ref["ilr"] is not None:
         maintained_schools = patch_missing_sixth_form_data(
             maintained_schools,
-            maintained_ilr_data,
+            maintained_data_ref["ilr"],
             maintained_data_ref["gias_links"],
         )
         maintained_schools = total_per_unit.calculate_total_per_unit_costs(
