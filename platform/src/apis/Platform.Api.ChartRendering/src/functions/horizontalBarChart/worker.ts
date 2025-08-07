@@ -19,7 +19,7 @@ export default function ({
       labelFormat,
       linkFormat,
       valueField,
-      valueFormat,
+      chartValueType,
       width,
       xAxisLabel,
       ...rest
@@ -33,7 +33,7 @@ export default function ({
         labelFormat: labelFormat as never,
         linkFormat: linkFormat as never,
         valueField: valueField as never,
-        valueFormat: valueFormat || "~s",
+        chartValueType: chartValueType as never,
         width: width || 928,
         xAxisLabel: xAxisLabel as never,
         ...rest,

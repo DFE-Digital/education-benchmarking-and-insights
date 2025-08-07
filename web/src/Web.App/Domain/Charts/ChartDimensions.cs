@@ -21,12 +21,10 @@ public static class ChartDimensions
         _ => throw new ArgumentOutOfRangeException(nameof(option))
     };
 
-    public static string GetValueFormat(this ResultAsOptions option) => option switch
+    public static string GetChartValueType(this ResultAsOptions option) => option switch
     {
-        ResultAsOptions.SpendPerPupil => "$,~s",
-        ResultAsOptions.Actuals => "$,~s",
-        ResultAsOptions.PercentExpenditure => ".1%",
-        ResultAsOptions.PercentIncome => ".1%",
+        ResultAsOptions.SpendPerPupil or ResultAsOptions.Actuals => ChartValueType.Currency,
+        ResultAsOptions.PercentExpenditure or ResultAsOptions.PercentIncome => ChartValueType.Percent,
         _ => throw new ArgumentOutOfRangeException(nameof(option))
     };
 

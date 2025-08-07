@@ -24,7 +24,7 @@ public record SchoolComparisonItSpendHorizontalBarChartRequest : PostHorizontalB
         Sort = "desc";
         Width = 600;
         ValueField = nameof(SchoolComparisonDatum.Expenditure).ToLower();
-        ValueFormat = resultsAs.GetValueFormat();
+        ChartValueType = resultsAs.GetChartValueType();
         XAxisLabel = resultsAs.GetXAxisLabel();
     }
 }
