@@ -1,4 +1,5 @@
 ﻿using System.Net;
+using AngleSharp.Dom;
 using AngleSharp.Html.Dom;
 using AutoFixture;
 using Web.App.Domain;
@@ -22,7 +23,7 @@ public class WhenViewingComparisonItSpend(SchoolBenchmarkingWebAppClient client)
     {
         var (page, school) = await SetupNavigateInitPage(EstablishmentTypes.Maintained, true);
 
-        AssertPageLayout(page, school, true);
+        AssertPageLayout(page, school, chartError: true);
     }
 
     [Fact]
@@ -70,7 +71,117 @@ public class WhenViewingComparisonItSpend(SchoolBenchmarkingWebAppClient client)
             HttpStatusCode.InternalServerError);
     }
 
-    private async Task<(IHtmlDocument page, School school)> SetupNavigateInitPage(string financeType, bool chartApiException = false)
+    [Theory]
+    [InlineData(0, "?viewAs=0&resultAs=0")]
+    [InlineData(1, "?viewAs=1&resultAs=0")]
+    public async Task CanSubmitFilterOptionsForViewAs(int viewAs, string expectedQueryParams)
+    {
+        var (page, school) = await SetupNavigateInitPage(EstablishmentTypes.Maintained);
+
+        var action = page.QuerySelectorAll("button").FirstOrDefault(x => x.TextContent.Trim() == "Apply filters");
+        Assert.NotNull(action);
+
+        page = await Client.SubmitForm(page.Forms[0], action, f =>
+        {
+            f.SetFormValues(new Dictionary<string, string>
+            {
+                {
+                    "ViewAs", viewAs.ToString()
+                }
+            });
+        });
+
+        AssertPageLayout(
+            page,
+            school,
+            viewAs: viewAs,
+            expectedQueryParams: expectedQueryParams);
+    }
+
+    [Theory]
+    [InlineData(0, "?viewAs=0&resultAs=0")]
+    [InlineData(1, "?viewAs=0&resultAs=1")]
+    [InlineData(2, "?viewAs=0&resultAs=2")]
+    [InlineData(3, "?viewAs=0&resultAs=3")]
+    public async Task CanSubmitFilterOptionsForResultsAs(int resultAs, string expectedQueryParams)
+    {
+        var (page, school) = await SetupNavigateInitPage(EstablishmentTypes.Maintained);
+
+        var action = page.QuerySelectorAll("button").FirstOrDefault(x => x.TextContent.Trim() == "Apply filters");
+        Assert.NotNull(action);
+
+        page = await Client.SubmitForm(page.Forms[0], action, f =>
+        {
+            f.SetFormValues(new Dictionary<string, string>
+            {
+                {
+                    "ResultAs", resultAs.ToString()
+                }
+            });
+        });
+
+        AssertPageLayout(
+            page,
+            school,
+            resultAs: resultAs,
+            expectedQueryParams: expectedQueryParams);
+    }
+
+    [Theory]
+    [InlineData(0, "?viewAs=0&resultAs=0&selectedSubCategories=0")]
+    [InlineData(1, "?viewAs=0&resultAs=0&selectedSubCategories=1")]
+    [InlineData(2, "?viewAs=0&resultAs=0&selectedSubCategories=2")]
+    [InlineData(3, "?viewAs=0&resultAs=0&selectedSubCategories=3")]
+    [InlineData(4, "?viewAs=0&resultAs=0&selectedSubCategories=4")]
+    [InlineData(5, "?viewAs=0&resultAs=0&selectedSubCategories=5")]
+    [InlineData(6, "?viewAs=0&resultAs=0&selectedSubCategories=6")]
+    public async Task CanSubmitFilterOptionsForSubCategories(int expectedSubCategoryId, string expectedQueryParams)
+    {
+        var (page, school) = await SetupNavigateInitPage(EstablishmentTypes.Maintained);
+
+        var action = page.QuerySelectorAll("button").FirstOrDefault(x => x.TextContent.Trim() == "Apply filters");
+        Assert.NotNull(action);
+
+        page = await Client.SubmitForm(page.Forms[0], action, f =>
+        {
+            f.SetFormValues(new Dictionary<string, string>
+            {
+                {
+                    "SelectedSubCategories", expectedSubCategoryId.ToString()
+                }
+            });
+        });
+
+        AssertPageLayout(
+            page,
+            school,
+            expectedSubCategories: BuildExpectedSubCategories(expectedSubCategoryId),
+            expectedQueryParams: expectedQueryParams);
+    }
+
+    [Fact]
+    public async Task CanFollowChipsCorrectlyUpdatePage()
+    {
+        var (page, school) = await SetupNavigateInitPage(
+            EstablishmentTypes.Maintained,
+            queryParams: "?viewAs=0&resultAs=0&selectedSubCategories=0&SelectedSubCategories=1");
+
+        var target = page.QuerySelectorAll("a.app-filter__tag")
+            .FirstOrDefault(el => el.TextContent.Contains("Connectivity (E20A)"));
+
+        page = await Client.Follow(target);
+
+        AssertPageLayout(
+            page,
+            school,
+            expectedQueryParams: "?ViewAs=0&ResultAs=0&SelectedSubCategories=AdministrationSoftwareSystems",
+            expectedSubCategories: BuildExpectedSubCategories(0));
+    }
+
+    private async Task<(IHtmlDocument page, School school)> SetupNavigateInitPage(
+        string financeType,
+        bool chartApiException = false,
+        string queryParams = "")
     {
         var school = Fixture.Build<School>()
             .With(x => x.URN, "123456")
@@ -100,60 +211,146 @@ public class WhenViewingComparisonItSpend(SchoolBenchmarkingWebAppClient client)
             Client.SetupChartRenderingWithException<SchoolComparisonDatum>();
         }
 
-        var page = await client.Navigate(Paths.SchoolComparisonItSpend(school.URN));
+        var page = await client.Navigate($"{Paths.SchoolComparisonItSpend(school.URN)}{queryParams}");
         return (page, school);
     }
 
-    private static void AssertPageLayout(IHtmlDocument page, School school, bool chartError = false)
+    private static void AssertPageLayout(
+        IHtmlDocument page,
+        School school,
+        int viewAs = 0,
+        int resultAs = 0,
+        ExpectedSubCategory[]? expectedSubCategories = null,
+        bool chartError = false,
+        string expectedQueryParams = "")
     {
+        expectedSubCategories ??= AllSubCategories;
+
         var expectedBreadcrumbs = new[]
         {
             ("Home", Paths.ServiceHome.ToAbsolute()),
             ("Your school", Paths.SchoolHome(school.URN).ToAbsolute())
         };
 
-        DocumentAssert.AssertPageUrl(page, Paths.SchoolComparisonItSpend(school.URN).ToAbsolute());
+        DocumentAssert.AssertPageUrl(page, $"{Paths.SchoolComparisonItSpend(school.URN)}{expectedQueryParams}".ToAbsolute());
         DocumentAssert.Breadcrumbs(page, expectedBreadcrumbs);
         DocumentAssert.TitleAndH1(page, "Benchmark your IT spending - Financial Benchmarking and Insights Tool - GOV.UK",
             "Benchmark your IT spending");
 
+        var filterSection = page.QuerySelector(".app-filter");
+        Assert.NotNull(filterSection);
+
+        AssertFilterSectionLayout(filterSection, viewAs, resultAs, expectedSubCategories);
+
         var subCategorySections = page.QuerySelectorAll("section");
-        Assert.Equal(7, subCategorySections.Length);
+        Assert.Equal(expectedSubCategories.Length, subCategorySections.Length);
 
         for (var i = 0; i < subCategorySections.Length; i++)
         {
-            var section = subCategorySections.ElementAt(i);
-            var sectionHeading = section.QuerySelector("h2")?.TextContent;
-            Assert.NotNull(sectionHeading);
+            var section = subCategorySections[i];
+            var expected = expectedSubCategories[i];
 
-            switch (i)
+            AssertChartSection(section, expected, isChartView: viewAs == 0, chartError);
+        }
+    }
+
+    private static void AssertFilterSectionLayout(
+        IElement filterSection,
+        int viewAs,
+        int resultAs,
+        ExpectedSubCategory[] expectedSubCategories)
+    {
+        var applyFiltersButton = filterSection.QuerySelectorAll("button").FirstOrDefault(x => x.TextContent.Trim() == "Apply filters");
+        Assert.NotNull(applyFiltersButton);
+
+        foreach (var subCategory in AllSubCategories)
+        {
+            var checkbox = filterSection.QuerySelector($"input[type='checkbox'][value='{subCategory.Id}']");
+            Assert.NotNull(checkbox);
+
+            if (expectedSubCategories.Length < AllSubCategories.Length)
             {
-                case 0:
-                    Assert.Equal("Administration software and systems E20D", sectionHeading);
-                    break;
-                case 1:
-                    Assert.Equal("Connectivity E20A", sectionHeading);
-                    break;
-                case 2:
-                    Assert.Equal("IT learning resources E20C", sectionHeading);
-                    break;
-                case 3:
-                    Assert.Equal("IT support E20G", sectionHeading);
-                    break;
-                case 4:
-                    Assert.Equal("Laptops, desktops and tablets E20E", sectionHeading);
-                    break;
-                case 5:
-                    Assert.Equal("Onsite servers E20B", sectionHeading);
-                    break;
-                case 6:
-                    Assert.Equal("Other hardware E20F", sectionHeading);
-                    break;
-            }
+                var shouldBeChecked = expectedSubCategories.Any(e => e.Id == subCategory.Id);
+                var isChecked = checkbox.HasAttribute("checked");
 
-            var chartSvg = section.QuerySelector(".ssr-chart");
-            var chartWarning = section.QuerySelector(".ssr-chart-warning");
-            var chartContainer = section.QuerySelector(".composed-container");
+                if (shouldBeChecked)
+                {
+                    Assert.True(isChecked);
+                }
+                else
+                {
+                    Assert.False(isChecked);
+                }
+            }
+        }
+
+        // Assert all ResultsAs radios exist and correctly checked
+        for (var i = 0; i <= 3; i++)
+        {
+            var radio = filterSection.QuerySelector($"input[type='radio'][name='ResultAs'][value='{i}']");
+            Assert.NotNull(radio);
+
+            if (i == resultAs)
+            {
+                Assert.True(radio.HasAttribute("checked"));
+            }
+            else
+            {
+                Assert.False(radio.HasAttribute("checked"));
+            }
+        }
+
+        // Assert all ViewAs radios exist and correctly checked
+        for (var i = 0; i <= 1; i++)
+        {
+            var radio = filterSection.QuerySelector($"input[type='radio'][name='ViewAs'][value='{i}']");
+            Assert.NotNull(radio);
+
+            if (i == viewAs)
+            {
+                Assert.True(radio.HasAttribute("checked"));
+            }
+            else
+            {
+                Assert.False(radio.HasAttribute("checked"));
+            }
+        }
+
+        if (expectedSubCategories.Length < AllSubCategories.Length)
+        {
+            var chipLabels = filterSection.QuerySelectorAll("a.app-filter__tag")
+                .Select(c => c.TextContent.Trim())
+                .ToArray();
+
+            Assert.Equal(expectedSubCategories.Length, chipLabels.Length);
+
+            foreach (var subCategory in expectedSubCategories)
+            {
+                Assert.Contains(subCategory.ChipLabel, chipLabels);
+            }
+        }
+        else
+        {
+            var chips = filterSection.QuerySelectorAll("a.app-filter__tag");
+            Assert.Empty(chips);
+        }
+    }
+
+    private static void AssertChartSection(
+        IElement chartSection,
+        ExpectedSubCategory expectedSubCategory,
+        bool isChartView,
+        bool chartError)
+    {
+        var sectionHeading = chartSection.QuerySelector("h2")?.TextContent;
+        Assert.NotNull(sectionHeading);
+        Assert.Equal(expectedSubCategory.Heading, sectionHeading);
+
+        if (isChartView)
+        {
+            var chartSvg = chartSection.QuerySelector(".ssr-chart");
+            var chartWarning = chartSection.QuerySelector(".ssr-chart-warning");
+            var chartContainer = chartSection.QuerySelector(".composed-container");
 
             if (chartError)
             {
@@ -168,5 +365,31 @@ public class WhenViewingComparisonItSpend(SchoolBenchmarkingWebAppClient client)
 
             Assert.Null(chartContainer);
         }
+        else
+        {
+            var table = chartSection.QuerySelector(".govuk-table");
+            Assert.NotNull(table);
+        }
+    }
+
+    private record ExpectedSubCategory(string Heading, string ChipLabel, int Id);
+
+    private static readonly ExpectedSubCategory[] AllSubCategories =
+    [
+        new ExpectedSubCategory("Administration software and systems E20D", "Administration software and systems (E20D)", 0),
+        new ExpectedSubCategory("Connectivity E20A", "Connectivity (E20A)", 1),
+        new ExpectedSubCategory("IT learning resources E20C", "IT learning resources (E20C)", 2),
+        new ExpectedSubCategory("IT support E20G", "IT support (E20G)", 3),
+        new ExpectedSubCategory("Laptops, desktops and tablets E20E", "Laptops, desktops and tablets (E20E)", 4),
+        new ExpectedSubCategory("Onsite servers E20B", "Onsite servers (E20B)", 5),
+        new ExpectedSubCategory("Other hardware E20F", "Other hardware (E20F)", 6)
+    ];
+
+    private static ExpectedSubCategory[] BuildExpectedSubCategories(params int[]? ids)
+    {
+        if (ids is null || ids.Length == 0)
+            return AllSubCategories;
+
+        return ids.Select(id => AllSubCategories.First(c => c.Id == id)).ToArray();
     }
 }
