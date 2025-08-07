@@ -11,7 +11,7 @@ public record SchoolComparisonItSpendHorizontalBarChartRequest : PostHorizontalB
         string urn,
         SchoolComparisonDatum[] filteredData,
         Func<string, string?> linkFormatter,
-        ChartDimensions.ResultAsOptions resultsAs)
+        Dimensions.ResultAsOptions resultsAs)
     {
         BarHeight = 22;
         Data = filteredData;

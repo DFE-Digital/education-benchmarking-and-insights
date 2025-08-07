@@ -31,7 +31,7 @@ public class SchoolComparisonItSpendController(
     [SchoolRequestTelemetry(TrackedRequestFeature.BenchmarkItSpend)]
     public async Task<IActionResult> Index(string urn,
         ItSpendingCategories.SubCategoryFilter[] selectedSubCategories,
-        ChartDimensions.ResultAsOptions resultAs = ChartDimensions.ResultAsOptions.SpendPerPupil,
+        Dimensions.ResultAsOptions resultAs = Dimensions.ResultAsOptions.SpendPerPupil,
         SchoolComparisonItSpendViewModel.ViewAsOptions viewAs = SchoolComparisonItSpendViewModel.ViewAsOptions.Chart)
     {
         using (logger.BeginScope(new
@@ -114,7 +114,7 @@ public class SchoolComparisonItSpendController(
         });
     }
 
-    private static ApiQuery BuildApiQuery(ChartDimensions.ResultAsOptions resultAs, IEnumerable<string>? urns = null)
+    private static ApiQuery BuildApiQuery(Dimensions.ResultAsOptions resultAs, IEnumerable<string>? urns = null)
     {
         var query = new ApiQuery();
         foreach (var urn in urns ?? [])

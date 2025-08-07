@@ -2,7 +2,7 @@ using Web.App.Extensions;
 
 namespace Web.App.Domain.Charts;
 
-public static class ChartDimensions
+public static class Dimensions
 {
     public enum ResultAsOptions
     {
