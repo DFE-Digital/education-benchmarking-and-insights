@@ -30,7 +30,7 @@ export type HorizontalBarChartDefinition = Pick<
       | "labelField"
       | "labelFormat"
       | "linkFormat"
-      | "valueFormat"
+      | "valueType"
       | "xAxisLabel"
     >
   > &
@@ -69,11 +69,13 @@ export type HorizontalBarChartBuilderOptions<T> = ChartBuilderOptions<T> & {
    */
   linkFormat: string;
   /**
-   * `d3-format` format to use for rendering values on the chart
-   * @example $,~s
-   * @ref https://d3js.org/d3-format#locale_format
+   * Describes how values on the chart should be interpreted and formatted.
+   * This determines both the visual representation (e.g. percentage or currency)
+   * and any necessary normalisation (e.g. dividing percent values by 100).
+   * Must be one of the predefined `ValueType` options.
+   * @example "Percent" | "Currency"
    */
-  valueFormat: string;
+  valueType: ValueType;
   xAxisLabel: string;
 };
 
@@ -81,3 +83,5 @@ type ChartBuilderResult = {
   id: string;
   html: string | undefined;
 };
+
+export type ValueType = "percent" | "currency";

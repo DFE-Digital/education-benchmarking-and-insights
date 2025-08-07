@@ -2,7 +2,7 @@ using Web.App.Extensions;
 
 namespace Web.App.Domain.Charts;
 
-public static class ChartDimensions
+public static class Dimensions
 {
     public enum ResultAsOptions
     {
@@ -21,12 +21,10 @@ public static class ChartDimensions
         _ => throw new ArgumentOutOfRangeException(nameof(option))
     };
 
-    public static string GetValueFormat(this ResultAsOptions option) => option switch
+    public static string GetValueType(this ResultAsOptions option) => option switch
     {
-        ResultAsOptions.SpendPerPupil => "$,~s",
-        ResultAsOptions.Actuals => "$,~s",
-        ResultAsOptions.PercentExpenditure => ".1%",
-        ResultAsOptions.PercentIncome => ".1%",
+        ResultAsOptions.SpendPerPupil or ResultAsOptions.Actuals => ValueType.Currency,
+        ResultAsOptions.PercentExpenditure or ResultAsOptions.PercentIncome => ValueType.Percent,
         _ => throw new ArgumentOutOfRangeException(nameof(option))
     };
 

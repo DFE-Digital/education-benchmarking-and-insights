@@ -9,7 +9,7 @@ public record PostHorizontalBarChartRequest<T> : ChartRequest<T>
     public string? LabelField { get; set; }
     public string? LabelFormat { get; set; }
     public string? LinkFormat { get; set; }
-    public string? ValueFormat { get; set; }
+    public string? ValueType { get; set; }
     public string? XAxisLabel { get; set; }
 }
 

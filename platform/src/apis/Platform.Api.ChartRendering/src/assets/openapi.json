@@ -15,7 +15,7 @@
               {
                 "keyField": "urn",
                 "valueField": "totalExpenditure",
-                "valueFormat": "$,~s",
+                "valueType": "currency",
                 "labelField": "schoolName",
                 "labelFormat": "%2$s (%1$s)",
                 "linkFormat": "/school/%1$s",
@@ -343,7 +343,7 @@
           {
             "keyField": "urn",
             "valueField": "totalExpenditure",
-            "valueFormat": "$,~s",
+            "valueType": "currency",
             "labelField": "schoolName",
             "labelFormat": "%2$s (%1$s)",
             "linkFormat": "/school/%1$s",
@@ -693,12 +693,10 @@
                 "type": "string",
                 "title": "linkFormat"
               },
-              "valueFormat": {
-                "description": "`d3-format` format to use for rendering values on the chart",
-                "example": "$,~s",
-                "ref": "https://d3js.org/d3-format#locale_format",
-                "type": "string",
-                "title": "valueFormat"
+              "valueType": {
+                "$ref": "#/components/schemas/ValueType",
+                "description": "Describes how values on the chart should be interpreted and formatted.\nThis determines both the visual representation (e.g. percentage or currency)\nand any necessary normalisation (e.g. dividing percent values by 100).\nMust be one of the predefined `ValueType` options.",
+                "title": "valueType"
               },
               "xAxisLabel": {
                 "type": "string",
@@ -735,6 +733,14 @@
             "$ref": "#/components/schemas/ChartDefinition"
           }
         ]
+      },
+      "ValueType": {
+        "title": "ValueType",
+        "enum": [
+          "currency",
+          "percent"
+        ],
+        "type": "string"
       },
       "ChartDefinition": {
         "title": "ChartDefinition",

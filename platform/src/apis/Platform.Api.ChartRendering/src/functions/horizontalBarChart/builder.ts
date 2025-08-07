@@ -6,6 +6,7 @@ import enGB from "d3-format/locale/en-GB" with { type: "json" };
 import { BaseType, FormatLocaleDefinition, ValueFn } from "d3";
 import { default as querySelector } from "query-selector";
 import { sprintf } from "sprintf-js";
+import { normaliseData, getValueFormat } from "../utils";
 
 export default class HorizontalBarChartBuilder {
   // https://observablehq.com/@d3/bar-chart/2
@@ -20,7 +21,7 @@ export default class HorizontalBarChartBuilder {
     linkFormat,
     sort,
     valueField,
-    valueFormat,
+    valueType,
     width,
     xAxisLabel,
   }: HorizontalBarChartBuilderOptions<T>): Promise<ChartBuilderResult> {
@@ -64,21 +65,24 @@ export default class HorizontalBarChartBuilder {
     const tickWidth = width / 3;
     const truncateLabelAt = width ? Math.floor(width / 20) : 30;
 
+    const normalisedData = normaliseData(data, valueField, valueType);
+    const valueFormat = getValueFormat(valueType);
+
     // Create the scales.
-    data.sort((a, b) =>
+    normalisedData.sort((a, b) =>
       sort === "asc"
         ? d3.ascending(a[valueField] as number, b[valueField] as number)
         : d3.descending(a[valueField] as number, b[valueField] as number),
     );
     const x = d3
       .scaleLinear()
-      .domain([0, d3.max(data, (d) => d[valueField] as number)!])
+      .domain([0, d3.max(normalisedData, (d) => d[valueField] as number)!])
       .range([marginLeft + tickWidth + 5, width - marginRight - 5])
       .nice(suggestedXAxisTickCount);
 
     const y = d3
       .scaleBand()
-      .domain(data.map((d) => d[keyField] as string))
+      .domain(normalisedData.map((d) => d[keyField] as string))
       .range([
         marginTop,
         height - marginBottom - (xAxisLabel ? labelHeight : 0),
@@ -101,7 +105,7 @@ export default class HorizontalBarChartBuilder {
     svg
       .append("g")
       .selectAll()
-      .data(data)
+      .data(normalisedData)
       .join("rect")
       .attr("x", x(0))
       .attr("y", (d) => y(d[keyField] as string)!)
@@ -118,7 +122,7 @@ export default class HorizontalBarChartBuilder {
     svg
       .append("g")
       .selectAll()
-      .data(data)
+      .data(normalisedData)
       .join("text")
       .attr(
         "x",
@@ -172,7 +176,7 @@ export default class HorizontalBarChartBuilder {
       });
 
     const formatTick = (domainValue: string, index: number): string => {
-      const item = data[index];
+      const item = normalisedData[index];
       return item && labelFormat
         ? sprintf(labelFormat, item[keyField], item[labelField])
         : domainValue;
