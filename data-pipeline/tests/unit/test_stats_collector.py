@@ -166,8 +166,8 @@ class TestStatsCollector:
 
         expected = {
             "year": 2024,
-            "pupil_data": 3,
-            "staff_data": 2,
+            "pupil_data": {"unique_schools": 3},
+            "staff_data": {"unique_schools": 2},
         }
         assert (
             stats_collector.stats["financial_data"]["academies"]["ancillary_data"]
@@ -184,8 +184,8 @@ class TestStatsCollector:
 
         expected = {
             "year": 2024,
-            "pupil_data": 3,
-            "staff_data": 2,
+            "pupil_data": {"unique_schools": 3},
+            "staff_data": {"unique_schools": 2},
         }
         assert (
             stats_collector.stats["financial_data"]["academies"]["ancillary_data"]
@@ -202,8 +202,8 @@ class TestStatsCollector:
 
         expected = {
             "year": 2024,
-            "pupil_data": 3,
-            "staff_data": 2,
+            "pupil_data": {"unique_schools": 3},
+            "staff_data": {"unique_schools": 2},
         }
         assert (
             stats_collector.stats["financial_data"]["la_maintained_schools"][
@@ -225,7 +225,7 @@ class TestStatsCollector:
             ancillary_data_with_none, 2023
         )
 
-        expected = {"year": 2023, "valid_data": 2}
+        expected = {"year": 2023, "valid_data": {"unique_schools": 2}}
         assert (
             stats_collector.stats["financial_data"]["academies"]["ancillary_data"]
             == expected
@@ -344,11 +344,17 @@ class TestStatsCollector:
                         "by_phase": {"Primary": 1, "Secondary": 1},
                         "year": 2024,
                     },
-                    "ancillary_data": {"year": 2024, "pupil_data": 3},
+                    "ancillary_data": {
+                        "year": 2024,
+                        "pupil_data": {"unique_schools": 3},
+                    },
                 },
                 "la_maintained_schools": {
                     "CFR": {"total": 1, "by_phase": {"Primary": 1}, "year": 2024},
-                    "ancillary_data": {"year": 2024, "staff_data": 2},
+                    "ancillary_data": {
+                        "year": 2024,
+                        "staff_data": {"unique_schools": 2},
+                    },
                 },
                 "combined_schools": {
                     "total": 3,

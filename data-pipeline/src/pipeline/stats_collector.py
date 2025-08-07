@@ -65,7 +65,7 @@ class StatsCollector:
                 row_count = ancillary_data_df.shape[0]
                 self.stats["financial_data"][school_category]["ancillary_data"][
                     ancillary_data_name
-                ] = row_count
+                ] = {"unique_schools": row_count}
 
     def collect_aar_ancillary_data_shapes(self, aar_ancillary_data, aar_year) -> None:
         self._collect_preprocessed_ancillary_data_shapes(
