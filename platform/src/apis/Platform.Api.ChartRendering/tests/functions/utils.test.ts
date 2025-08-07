@@ -1,8 +1,5 @@
 import { describe, expect, it } from "@jest/globals";
-import {
-  normaliseData,
-  getValueFormat,
-} from "../../src/functions/utils";
+import { normaliseData, getValueFormat } from "../../src/functions/utils";
 import { ValueType } from "../../src/functions/index";
 
 describe("normaliseData", () => {
