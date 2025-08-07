@@ -140,7 +140,8 @@ public class ChartRenderingHorizontalBarChartSteps(ChartRenderingApiDriver api)
         BarHeight = barHeight,
         Width = width,
         Data = data.ToArray(),
-        Id = id
+        Id = id,
+        ValueType = "currency"
     };
 
     private static void AssertChartResponse(DataTableRow expected, ChartResponse? actual)
