@@ -187,7 +187,7 @@ def pre_process_academy_ar(
     return None
 
 
-def pre_process_schools(run_type: str, year: int, run_id: str) -> pd.DataFrame:
+def pre_process_gias(run_type: str, year: int, run_id: str) -> pd.DataFrame:
     logger.info(f"Processing GIAS Data: {run_type}/{year}/gias.csv")
     gias_data = get_blob(
         raw_container, f"{run_type}/{year}/gias.csv", encoding="cp1252"
@@ -706,7 +706,7 @@ def get_aar_ancillary_data(
     """
     run_type = "default"
 
-    gias = pre_process_schools(run_type, aar_year, run_id)
+    gias = pre_process_gias(run_type, aar_year, run_id)
     aar_ancillary_data = {
         "gias": gias,
         "census": pre_process_census(run_type, aar_year, run_id),
@@ -741,7 +741,7 @@ def get_cfr_ancillary_data(
     """
     run_type = "default"
 
-    gias = pre_process_schools(run_type, cfr_year, run_id)
+    gias = pre_process_gias(run_type, cfr_year, run_id)
     cfr_ancillary_data = {
         "gias": gias,
         "census": pre_process_census(run_type, cfr_year, run_id),
