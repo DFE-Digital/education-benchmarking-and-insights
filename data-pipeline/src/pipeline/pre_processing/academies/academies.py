@@ -197,7 +197,7 @@ def build_academy_data(
     cfo: pd.DataFrame,
     central_services: pd.DataFrame,
     gias_links: pd.DataFrame,
-    high_exec_pay: pd.DataFrame
+    high_exec_pay: pd.DataFrame,
 ):
     """
     Build the Academy dataset.

@@ -7,15 +7,7 @@ from pipeline import part_year
 
 
 def build_maintained_school_data(
-    maintained_schools_data_path,
-    year,
-    schools,
-    census,
-    sen,
-    cdc,
-    ks2,
-    ks4,
-    gias_links
+    maintained_schools_data_path, year, schools, census, sen, cdc, ks2, ks4, gias_links
 ):
     maintained_school_schema = input_schemas.maintained_schools_master_list_cols.get(
         year, input_schemas.maintained_schools_master_list_cols["default"]

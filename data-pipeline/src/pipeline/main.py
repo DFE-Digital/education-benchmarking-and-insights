@@ -802,7 +802,9 @@ def pre_process_data(
         maintained_data_ref,
     )
     stats_collector.collect_aar_academy_counts(academies, aar_year)
-    stats_collector.collect_cfr_la_maintained_school_counts(maintained_schools, cfr_year)
+    stats_collector.collect_cfr_la_maintained_school_counts(
+        maintained_schools, cfr_year
+    )
 
     if (
         academies_ilr_data := pre_process_ilr_data(

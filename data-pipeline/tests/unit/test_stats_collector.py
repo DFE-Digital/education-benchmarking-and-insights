@@ -49,7 +49,7 @@ class TestStatsCollector:
             "financial_data": {
                 "academies": {"AAR": {}, "ancillary_data": {}},
                 "la_maintained_schools": {"CFR": {}, "ancillary_data": {}},
-                "combined_schools": {}
+                "combined_schools": {},
             },
         }
         assert stats_collector.stats == expected_stats
@@ -62,7 +62,7 @@ class TestStatsCollector:
             "financial_data": {
                 "academies": {"AAR": {}, "ancillary_data": {}},
                 "la_maintained_schools": {"CFR": {}, "ancillary_data": {}},
-                "combined_schools": {}
+                "combined_schools": {},
             },
         }
         assert stats_collector.stats == expected_stats
@@ -106,20 +106,20 @@ class TestStatsCollector:
     def test_collect_aar_academy_counts(self, stats_collector, sample_school_df):
         stats_collector.reset()
         aar_year = 2024
-        
+
         stats_collector.collect_aar_academy_counts(sample_school_df, aar_year)
 
         expected = {
             "total": 4,
             "by_phase": {"Primary": 2, "Secondary": 1, "All-through": 1},
-            "year": 2024
+            "year": 2024,
         }
         assert stats_collector.stats["financial_data"]["academies"]["AAR"] == expected
 
     def test_collect_aar_academy_counts_keyerror(self, stats_collector, not_school_df):
         """Test collecting AAR academy counts when phase column doesn't exist."""
         stats_collector.reset()
-        
+
         with pytest.raises(KeyError):
             stats_collector.collect_aar_academy_counts(not_school_df, 2024)
 
@@ -130,14 +130,19 @@ class TestStatsCollector:
         stats_collector.reset()
         cfr_year = 2024
 
-        stats_collector.collect_cfr_la_maintained_school_counts(sample_school_df, cfr_year)
+        stats_collector.collect_cfr_la_maintained_school_counts(
+            sample_school_df, cfr_year
+        )
 
         expected = {
             "total": 4,
             "by_phase": {"Primary": 2, "Secondary": 1, "All-through": 1},
-            "year": 2024
+            "year": 2024,
         }
-        assert stats_collector.stats["financial_data"]["la_maintained_schools"]["CFR"] == expected
+        assert (
+            stats_collector.stats["financial_data"]["la_maintained_schools"]["CFR"]
+            == expected
+        )
 
     def test_collect_combined_school_counts(self, stats_collector, sample_school_df):
         stats_collector.reset()
@@ -154,22 +159,27 @@ class TestStatsCollector:
     ):
         """Test the private method _collect_preprocessed_ancillary_data_shapes."""
         stats_collector.reset()
-        
-        stats_collector._collect_preprocessed_ancillary_data_shapes("academies", sample_ancillary_data, 2024)
+
+        stats_collector._collect_preprocessed_ancillary_data_shapes(
+            "academies", sample_ancillary_data, 2024
+        )
 
         expected = {
             "year": 2024,
             "pupil_data": 3,
             "staff_data": 2,
         }
-        assert stats_collector.stats["financial_data"]["academies"]["ancillary_data"] == expected
+        assert (
+            stats_collector.stats["financial_data"]["academies"]["ancillary_data"]
+            == expected
+        )
 
     def test_collect_aar_ancillary_data_shapes(
         self, stats_collector, sample_ancillary_data
     ):
         """Test collecting AAR ancillary data shapes."""
         stats_collector.reset()
-        
+
         stats_collector.collect_aar_ancillary_data_shapes(sample_ancillary_data, 2024)
 
         expected = {
@@ -177,14 +187,17 @@ class TestStatsCollector:
             "pupil_data": 3,
             "staff_data": 2,
         }
-        assert stats_collector.stats["financial_data"]["academies"]["ancillary_data"] == expected
+        assert (
+            stats_collector.stats["financial_data"]["academies"]["ancillary_data"]
+            == expected
+        )
 
     def test_collect_cfr_ancillary_data_shapes(
         self, stats_collector, sample_ancillary_data
     ):
         """Test collecting CFR ancillary data shapes."""
         stats_collector.reset()
-        
+
         stats_collector.collect_cfr_ancillary_data_shapes(sample_ancillary_data, 2024)
 
         expected = {
@@ -192,28 +205,40 @@ class TestStatsCollector:
             "pupil_data": 3,
             "staff_data": 2,
         }
-        assert stats_collector.stats["financial_data"]["la_maintained_schools"]["ancillary_data"] == expected
+        assert (
+            stats_collector.stats["financial_data"]["la_maintained_schools"][
+                "ancillary_data"
+            ]
+            == expected
+        )
 
     def test_collect_ancillary_data_shapes_with_none_values(self, stats_collector):
         """Test ancillary data collection handles None values correctly."""
         stats_collector.reset()
-        
+
         ancillary_data_with_none = {
             "valid_data": pd.DataFrame({"col1": [1, 2]}),
             "none_data": None,
         }
-        
-        stats_collector.collect_aar_ancillary_data_shapes(ancillary_data_with_none, 2023)
-        
+
+        stats_collector.collect_aar_ancillary_data_shapes(
+            ancillary_data_with_none, 2023
+        )
+
         expected = {"year": 2023, "valid_data": 2}
-        assert stats_collector.stats["financial_data"]["academies"]["ancillary_data"] == expected
+        assert (
+            stats_collector.stats["financial_data"]["academies"]["ancillary_data"]
+            == expected
+        )
 
     @patch("pipeline.stats_collector.stats_logger")
     def test_get_stats_with_complete_data(self, mock_logger, stats_collector):
         """Test get_stats when all data exists."""
         stats_collector.reset()
         stats_collector.stats["financial_data"]["academies"]["AAR"] = {"total": 10}
-        stats_collector.stats["financial_data"]["la_maintained_schools"]["CFR"] = {"total": 5}
+        stats_collector.stats["financial_data"]["la_maintained_schools"]["CFR"] = {
+            "total": 5
+        }
 
         result = stats_collector.get_stats()
 
@@ -224,7 +249,9 @@ class TestStatsCollector:
     def test_get_stats_missing_aar_data(self, mock_logger, stats_collector):
         """Test get_stats when AAR data is missing."""
         stats_collector.reset()
-        stats_collector.stats["financial_data"]["la_maintained_schools"]["CFR"] = {"total": 5}
+        stats_collector.stats["financial_data"]["la_maintained_schools"]["CFR"] = {
+            "total": 5
+        }
 
         result = stats_collector.get_stats()
 
@@ -301,7 +328,7 @@ class TestStatsCollector:
         # Collect ancillary data
         aar_ancillary = {"pupil_data": pd.DataFrame({"col1": [1, 2, 3]})}
         cfr_ancillary = {"staff_data": pd.DataFrame({"col1": [1, 2]})}
-        
+
         stats_collector.collect_aar_ancillary_data_shapes(aar_ancillary, 2024)
         stats_collector.collect_cfr_ancillary_data_shapes(cfr_ancillary, 2024)
 
@@ -313,24 +340,20 @@ class TestStatsCollector:
             "financial_data": {
                 "academies": {
                     "AAR": {
-                        "total": 2, 
+                        "total": 2,
                         "by_phase": {"Primary": 1, "Secondary": 1},
-                        "year": 2024
+                        "year": 2024,
                     },
-                    "ancillary_data": {"year": 2024, "pupil_data": 3}
+                    "ancillary_data": {"year": 2024, "pupil_data": 3},
                 },
                 "la_maintained_schools": {
-                    "CFR": {
-                        "total": 1, 
-                        "by_phase": {"Primary": 1},
-                        "year": 2024
-                    },
-                    "ancillary_data": {"year": 2024, "staff_data": 2}
+                    "CFR": {"total": 1, "by_phase": {"Primary": 1}, "year": 2024},
+                    "ancillary_data": {"year": 2024, "staff_data": 2},
                 },
                 "combined_schools": {
                     "total": 3,
-                    "by_phase": {"Primary": 2, "Secondary": 1}
-                }
+                    "by_phase": {"Primary": 2, "Secondary": 1},
+                },
             },
         }
         assert final_stats == expected_stats
