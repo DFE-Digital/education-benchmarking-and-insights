@@ -1,7 +1,7 @@
 const singleHorizontalBarChart = {
   keyField: "urn",
   valueField: "totalExpenditure",
-  chartValueType: "currency",
+  valueType: "currency",
   labelField: "schoolName",
   labelFormat: "%2$s (%1$s)",
   linkFormat: "/school/%1$s",

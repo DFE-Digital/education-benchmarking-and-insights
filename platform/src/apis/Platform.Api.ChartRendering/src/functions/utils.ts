@@ -1,9 +1,9 @@
-import { ChartValueType } from "./index";
+import { ValueType } from "./index";
 
-export function normaliseChartData<T>(
+export function normaliseData<T>(
   data: T[],
   valueField: keyof T,
-  dataType: ChartValueType,
+  dataType: ValueType,
 ): T[] {
   switch (dataType) {
     case "percent":
@@ -17,12 +17,12 @@ export function normaliseChartData<T>(
 
     default:
       throw new Error(
-        `Argument out of range: unsupported ChartValueType '${dataType}'`,
+        `Argument out of range: unsupported ValueType '${dataType}'`,
       );
   }
 }
 
-export function getChartValueFormat(dataType: ChartValueType): string {
+export function getValueFormat(dataType: ValueType): string {
   switch (dataType) {
     case "percent":
       return ".1%";
@@ -32,7 +32,7 @@ export function getChartValueFormat(dataType: ChartValueType): string {
 
     default:
       throw new Error(
-        `Argument out of range: unsupported ChartValueType '${dataType}'`,
+        `Argument out of range: unsupported ValueType '${dataType}'`,
       );
   }
 }

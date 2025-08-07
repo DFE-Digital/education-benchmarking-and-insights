@@ -1,18 +1,18 @@
 import { describe, expect, it } from "@jest/globals";
 import {
-  normaliseChartData,
-  getChartValueFormat,
+  normaliseData,
+  getValueFormat,
 } from "../../src/functions/utils";
-import { ChartValueType } from "../../src/functions/index";
+import { ValueType } from "../../src/functions/index";
 
-describe("normaliseChartData", () => {
+describe("normaliseData", () => {
   const sampleData = [
     { category: "A", value: 50 },
     { category: "B", value: 100 },
   ];
 
   it("should divide values by 100 for 'percent' type", () => {
-    const result = normaliseChartData(sampleData, "value", "percent");
+    const result = normaliseData(sampleData, "value", "percent");
     expect(result).toEqual([
       { category: "A", value: 0.5 },
       { category: "B", value: 1 },
@@ -20,29 +20,29 @@ describe("normaliseChartData", () => {
   });
 
   it("should return original data for 'currency' type", () => {
-    const result = normaliseChartData(sampleData, "value", "currency");
+    const result = normaliseData(sampleData, "value", "currency");
     expect(result).toEqual(sampleData);
   });
 
-  it("should throw for unsupported ChartValueType", () => {
+  it("should throw for unsupported ValueType", () => {
     expect(() =>
-      normaliseChartData(sampleData, "value", "invalid" as ChartValueType),
-    ).toThrow("Argument out of range: unsupported ChartValueType 'invalid'");
+      normaliseData(sampleData, "value", "invalid" as ValueType),
+    ).toThrow("Argument out of range: unsupported ValueType 'invalid'");
   });
 });
 
-describe("getChartValueFormat", () => {
+describe("getValueFormat", () => {
   it("should return '.1%' for 'percent'", () => {
-    expect(getChartValueFormat("percent")).toBe(".1%");
+    expect(getValueFormat("percent")).toBe(".1%");
   });
 
   it("should return '$,~s' for 'currency'", () => {
-    expect(getChartValueFormat("currency")).toBe("$,~s");
+    expect(getValueFormat("currency")).toBe("$,~s");
   });
 
-  it("should throw for unsupported ChartValueType", () => {
-    expect(() => getChartValueFormat("invalid" as ChartValueType)).toThrow(
-      "Argument out of range: unsupported ChartValueType 'invalid'",
+  it("should throw for unsupported ValueType", () => {
+    expect(() => getValueFormat("invalid" as ValueType)).toThrow(
+      "Argument out of range: unsupported ValueType 'invalid'",
     );
   });
 });

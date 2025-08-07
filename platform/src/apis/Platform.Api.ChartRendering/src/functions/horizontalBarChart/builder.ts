@@ -6,7 +6,7 @@ import enGB from "d3-format/locale/en-GB" with { type: "json" };
 import { BaseType, FormatLocaleDefinition, ValueFn } from "d3";
 import { default as querySelector } from "query-selector";
 import { sprintf } from "sprintf-js";
-import { normaliseChartData, getChartValueFormat } from "../utils";
+import { normaliseData, getValueFormat } from "../utils";
 
 export default class HorizontalBarChartBuilder {
   // https://observablehq.com/@d3/bar-chart/2
@@ -21,7 +21,7 @@ export default class HorizontalBarChartBuilder {
     linkFormat,
     sort,
     valueField,
-    chartValueType,
+    valueType,
     width,
     xAxisLabel,
   }: HorizontalBarChartBuilderOptions<T>): Promise<ChartBuilderResult> {
@@ -65,8 +65,8 @@ export default class HorizontalBarChartBuilder {
     const tickWidth = width / 3;
     const truncateLabelAt = width ? Math.floor(width / 20) : 30;
 
-    const normalisedData = normaliseChartData(data, valueField, chartValueType);
-    const valueFormat = getChartValueFormat(chartValueType);
+    const normalisedData = normaliseData(data, valueField, valueType);
+    const valueFormat = getValueFormat(valueType);
 
     // Create the scales.
     normalisedData.sort((a, b) =>
