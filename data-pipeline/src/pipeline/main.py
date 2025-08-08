@@ -3,6 +3,7 @@ import logging
 import os
 import time
 from contextlib import suppress
+from typing import Mapping
 
 import pandas as pd
 from azure.core.exceptions import ResourceNotFoundError
@@ -186,7 +187,7 @@ def pre_process_academy_ar(
     return None
 
 
-def pre_process_schools(run_type: str, year: int, run_id: str) -> pd.DataFrame:
+def pre_process_gias(run_type: str, year: int, run_id: str) -> pd.DataFrame:
     logger.info(f"Processing GIAS Data: {run_type}/{year}/gias.csv")
     gias_data = get_blob(
         raw_container, f"{run_type}/{year}/gias.csv", encoding="cp1252"
@@ -212,7 +213,7 @@ def pre_process_gias_links(run_type: str, year: int, run_id: str) -> pd.DataFram
     """
     Generate the GIAS-links dataset.
 
-    Note: this is distinct from the "schools" data insofar as this only
+    Note: this is distinct from the "gias" data insofar as this only
     contains GIAS-links and retains _all_ rows.
 
     :param run_type: "default" or "custom"
@@ -240,7 +241,7 @@ def pre_process_ilr_data(
     run_type: str,
     year: int,
     run_id: str,
-    schools: pd.DataFrame,
+    gias: pd.DataFrame,
 ) -> pd.DataFrame | None:
     """
     Process ILR data.
@@ -257,7 +258,7 @@ def pre_process_ilr_data(
     ):
         return build_ilr_data(
             ilr_data,
-            schools,
+            gias,
             year,
         )
 
@@ -333,38 +334,12 @@ def pre_process_academies_data(
     run_type: str,
     run_id: str,
     year: int,
-    data_ref: tuple,
+    aar_ancillary_data: Mapping,
 ) -> pd.DataFrame:
     logger.info("Building Academy Set")
-    (
-        schools,
-        census,
-        sen,
-        cdc,
-        aar,
-        ks2,
-        ks4,
-        cfo,
-        central_services,
-        gias_links,
-        high_exec_pay,
-    ) = data_ref
-
     logger.info(f"Processing AAR data - {run_id} - {year}.")
 
-    academies = build_academy_data(
-        schools,
-        census,
-        sen,
-        cdc,
-        aar,
-        ks2,
-        ks4,
-        cfo,
-        central_services,
-        gias_links,
-    )
-
+    academies = build_academy_data(**aar_ancillary_data)
     academies = map_academy_data(academies)
 
     write_blob(
@@ -380,23 +355,9 @@ def pre_process_maintained_schools_data(
     run_type: str,
     run_id: str,
     year: int,
-    data_ref: tuple,
+    cfr_ancillary_data: Mapping,
 ) -> pd.DataFrame:
     logger.info("Building Maintained School Set")
-    (
-        schools,
-        census,
-        sen,
-        cdc,
-        aar,
-        ks2,
-        ks4,
-        cfo,
-        central_services,
-        gias_links,
-        high_exec_pay,
-    ) = data_ref
-
     logger.info(f"Processing CFR data - {run_id} - {year}.")
 
     maintained_schools_data = get_blob(
@@ -406,7 +367,7 @@ def pre_process_maintained_schools_data(
     )
 
     maintained_schools = build_maintained_school_data(
-        maintained_schools_data, schools, census, sen, cdc, ks2, ks4, year
+        maintained_schools_data, year, **cfr_ancillary_data
     )
 
     write_blob(
@@ -730,10 +691,10 @@ def pre_process_local_authorities(
     )
 
 
-def _get_ancillary_data(
+def get_aar_ancillary_data(
     run_id: str,
-    year: int,
-) -> tuple:
+    aar_year: int,
+) -> dict[str, pd.DataFrame | None]:
     """
     Retrieve and process supporting data files.
 
@@ -745,45 +706,55 @@ def _get_ancillary_data(
     """
     run_type = "default"
 
-    (
-        cdc,
-        census,
-        sen,
-        ks2,
-        ks4,
-        aar,
-        schools,
-        cfo,
-        central_services,
-        gias_links,
-        high_exec_pay,
-    ) = (
-        pre_process_cdc(run_type, year, run_id),
-        pre_process_census(run_type, year, run_id),
-        pre_process_sen(run_type, year, run_id),
-        pre_process_ks2(run_type, year, run_id),
-        pre_process_ks4(run_type, year, run_id),
-        pre_process_academy_ar(run_type, year, run_id),
-        pre_process_schools(run_type, year, run_id),
-        pre_process_cfo(run_type, year, run_id),
-        pre_process_central_services(run_type, year, run_id),
-        pre_process_gias_links(run_type, year, run_id),
-        pre_process_high_exec_pay(run_type, year, run_id),
-    )
+    gias = pre_process_gias(run_type, aar_year, run_id)
+    aar_ancillary_data = {
+        "gias": gias,
+        "census": pre_process_census(run_type, aar_year, run_id),
+        "sen": pre_process_sen(run_type, aar_year, run_id),
+        "cdc": pre_process_cdc(run_type, aar_year, run_id),
+        "aar": pre_process_academy_ar(run_type, aar_year, run_id),
+        "ks2": pre_process_ks2(run_type, aar_year, run_id),
+        "ks4": pre_process_ks4(run_type, aar_year, run_id),
+        "cfo": pre_process_cfo(run_type, aar_year, run_id),
+        "central_services": pre_process_central_services(run_type, aar_year, run_id),
+        "gias_links": pre_process_gias_links(run_type, aar_year, run_id),
+        "high_exec_pay": pre_process_high_exec_pay(run_type, aar_year, run_id),
+        "ilr": pre_process_ilr_data(run_type, aar_year, run_id, gias),
+    }
+    stats_collector.collect_aar_ancillary_data_shapes(aar_ancillary_data, aar_year)
 
-    return (
-        schools,
-        census,
-        sen,
-        cdc,
-        aar,
-        ks2,
-        ks4,
-        cfo,
-        central_services,
-        gias_links,
-        high_exec_pay,
-    )
+    return aar_ancillary_data
+
+
+def get_cfr_ancillary_data(
+    run_id: str,
+    cfr_year: int,
+) -> dict[str, pd.DataFrame]:
+    """
+    Retrieve and process supporting data files.
+
+    Note: `run_type` is _always_ "default".
+
+    :param run_id: unique identifier (used for write target)
+    :param year: financial year in question
+    :return: tuple of supporting datasets
+    """
+    run_type = "default"
+
+    gias = pre_process_gias(run_type, cfr_year, run_id)
+    cfr_ancillary_data = {
+        "gias": gias,
+        "census": pre_process_census(run_type, cfr_year, run_id),
+        "sen": pre_process_sen(run_type, cfr_year, run_id),
+        "cdc": pre_process_cdc(run_type, cfr_year, run_id),
+        "ks2": pre_process_ks2(run_type, cfr_year, run_id),
+        "ks4": pre_process_ks4(run_type, cfr_year, run_id),
+        "gias_links": pre_process_gias_links(run_type, cfr_year, run_id),
+        "ilr": pre_process_ilr_data(run_type, cfr_year, run_id, gias),
+    }
+    stats_collector.collect_cfr_ancillary_data_shapes(cfr_ancillary_data, cfr_year)
+
+    return cfr_ancillary_data
 
 
 def pre_process_data(
@@ -819,57 +790,41 @@ def pre_process_data(
     start_time = time.time()
     logger.info(f"Pre-processing data {run_type} - {run_id}")
 
-    academies_data_ref = maintained_data_ref = _get_ancillary_data(
+    academies_data_ref = get_aar_ancillary_data(run_id, aar_year)
+    maintained_data_ref = get_cfr_ancillary_data(run_id, cfr_year)
+
+    academies = pre_process_academies_data(
+        run_type,
         run_id,
         aar_year,
+        academies_data_ref,
     )
-    if cfr_year != aar_year:
-        maintained_data_ref = _get_ancillary_data(run_id, cfr_year)
-
-    academies, maintained_schools = (
-        pre_process_academies_data(
-            run_type,
-            run_id,
-            aar_year,
-            academies_data_ref,
-        ),
-        pre_process_maintained_schools_data(
-            run_type,
-            run_id,
-            cfr_year,
-            maintained_data_ref,
-        ),
+    maintained_schools = pre_process_maintained_schools_data(
+        run_type,
+        run_id,
+        cfr_year,
+        maintained_data_ref,
     )
-    stats_collector.collect_academy_counts(academies)
-    stats_collector.collect_la_maintained_school_counts(maintained_schools)
+    stats_collector.collect_aar_academy_counts(academies, aar_year)
+    stats_collector.collect_cfr_la_maintained_school_counts(
+        maintained_schools, cfr_year
+    )
 
-    if (
-        academies_ilr_data := pre_process_ilr_data(
-            run_type,
-            aar_year,
-            run_id,
-            academies_data_ref[0],
-        )
-    ) is not None:
+    if academies_data_ref["ilr"] is not None:
+        # The assert here is to satisfy type checking - gias_links should never be None
+        assert academies_data_ref["gias_links"] is not None
         academies = patch_missing_sixth_form_data(
             academies,
-            academies_ilr_data,
-            academies_data_ref[9],
+            academies_data_ref["ilr"],
+            academies_data_ref["gias_links"],
         )
         academies = total_per_unit.calculate_total_per_unit_costs(academies)
 
-    if (
-        maintained_ilr_data := pre_process_ilr_data(
-            run_type,
-            cfr_year,
-            run_id,
-            maintained_data_ref[0],
-        )
-    ) is not None:
+    if maintained_data_ref["ilr"] is not None:
         maintained_schools = patch_missing_sixth_form_data(
             maintained_schools,
-            maintained_ilr_data,
-            maintained_data_ref[9],
+            maintained_data_ref["ilr"],
+            maintained_data_ref["gias_links"],
         )
         maintained_schools = total_per_unit.calculate_total_per_unit_costs(
             maintained_schools
@@ -879,7 +834,7 @@ def pre_process_data(
         run_type,
         run_id,
         academies,
-        academies_data_ref[10],
+        academies_data_ref["high_exec_pay"],
     )
 
     pre_process_all_schools(
@@ -955,8 +910,8 @@ def pre_process_custom_data(
         custom_data=custom_data,
         target_urn=target_urn,
     )
-    stats_collector.collect_academy_counts(academies)
-    stats_collector.collect_la_maintained_school_counts(maintained)
+    stats_collector.collect_aar_academy_counts(academies, year)
+    stats_collector.collect_cfr_la_maintained_school_counts(maintained, year)
     stats_collector.collect_combined_school_counts(all_schools)
 
     write_blob(

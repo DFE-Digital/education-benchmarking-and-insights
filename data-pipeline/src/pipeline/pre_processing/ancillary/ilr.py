@@ -120,7 +120,7 @@ def _build_ilr_ehcp_data(
 
 def build_ilr_data(
     filepath_or_buffer: FilePath | ReadCsvBuffer[bytes] | ReadCsvBuffer[str],
-    schools: pd.DataFrame,
+    gias: pd.DataFrame,
     year: int,
 ) -> pd.DataFrame:
     """
@@ -149,15 +149,12 @@ def build_ilr_data(
         )
         .reset_index()
         .merge(
-            schools.reset_index()[["URN", "UKPRN"]],
+            gias.reset_index()[["URN", "UKPRN"]],
             how="inner",
             left_on="UKPRN Current",
             right_on="UKPRN",
         )
         .rename(columns=columns)[columns.values()]
-    )
-    stats_collector.collect_preprocessed_ancillary_data_shape(
-        "ilr", combined_ilr_data.shape
     )
 
     return combined_ilr_data

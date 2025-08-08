@@ -5,7 +5,7 @@ import numpy as np
 import pandas as pd
 
 from pipeline import config, input_schemas, mappings, part_year
-from pipeline.pre_processing.ancillary import gias
+from pipeline.pre_processing.ancillary import gias as gias_preprocessing
 
 logger = logging.getLogger("fbit-data-pipeline")
 
@@ -187,7 +187,7 @@ def prepare_aar_data(aar_path, year: int):
 
 
 def build_academy_data(
-    schools: pd.DataFrame,
+    gias: pd.DataFrame,
     census: pd.DataFrame,
     sen: pd.DataFrame,
     cdc: pd.DataFrame,
@@ -197,6 +197,8 @@ def build_academy_data(
     cfo: pd.DataFrame,
     central_services: pd.DataFrame,
     gias_links: pd.DataFrame,
+    high_exec_pay: pd.DataFrame,
+    ilr: pd.DataFrame,
 ):
     """
     Build the Academy dataset.
@@ -230,15 +232,15 @@ def build_academy_data(
 
     academies = (
         aar.reset_index()
-        .merge(schools, on="URN")
+        .merge(gias, on="URN")
         .merge(
-            gias.link_data(aar, census, gias_links),
+            gias_preprocessing.link_data(aar, census, gias_links),
             on="URN",
             how="left",
         )
         .merge(sen, on="URN", how="left")
         .merge(
-            gias.link_data(aar, cdc, gias_links),
+            gias_preprocessing.link_data(aar, cdc, gias_links),
             on="URN",
             how="left",
         )

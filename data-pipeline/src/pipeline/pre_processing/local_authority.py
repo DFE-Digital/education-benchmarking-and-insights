@@ -2,6 +2,7 @@ import pandas as pd
 from pandas._typing import FilePath, ReadCsvBuffer
 
 from pipeline import input_schemas, log
+from pipeline.stats_collector import stats_collector
 
 logger = log.setup_logger(__name__)
 
