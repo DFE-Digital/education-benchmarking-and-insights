@@ -1,0 +1,7 @@
+﻿{
+  "error": "Bad request",
+  "errors": [
+    "Missing id for chart at index 0",
+    "Missing id for chart at index 1"
+  ]
+}

@@ -321,7 +321,7 @@ public class InsightExpenditureSteps(InsightApiDriver api)
         var content = await response.Content.ReadAsStringAsync();
         var actual = JArray.Parse(content);
 
-        var expected = TestDataProvider.GetArrayData(testFile);
+        var expected = TestDataProvider.GetJsonArrayData(testFile);
 
         Assert.True(JToken.DeepEquals(expected, actual));
     }

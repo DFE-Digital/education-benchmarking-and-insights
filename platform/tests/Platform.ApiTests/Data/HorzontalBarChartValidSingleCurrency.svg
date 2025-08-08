@@ -1,0 +1,100 @@
+﻿<svg width="500" height="242" viewBox="0,0,500,242" data-chart-id="test-uuid" xmlns="http://www.w3.org/2000/svg">
+    <g>
+        <rect x="174.66666666666666" y="22.019999999999996" width="233.61111111111111" height="16.16" data-key="123454" class="chart-cell chart-cell__series-0" />
+        <rect x="174.66666666666666" y="42.22" width="233.61111111111111" height="16.16" data-key="123455" class="chart-cell chart-cell__series-0" />
+        <rect x="174.66666666666666" y="62.419999999999995" width="233.61134472222224" height="16.16" data-key="123450" class="chart-cell chart-cell__series-0" />
+        <rect x="174.66666666666666" y="82.61999999999999" width="233.61368083333335" height="16.16" data-key="123452" class="chart-cell chart-cell__series-0" />
+        <rect x="174.66666666666666" y="102.82" width="233.63704194444446" height="16.16" data-key="123451" class="chart-cell chart-cell__series-0" />
+        <rect x="174.66666666666666" y="123.02" width="233.84495583333333" height="16.16" data-key="123457" class="chart-cell chart-cell__series-0" />
+        <rect x="174.66666666666666" y="143.21999999999997" width="235.94745583333335" height="16.16" data-key="123458" class="chart-cell chart-cell__series-0" />
+        <rect x="174.66666666666666" y="163.42000000000002" width="236.20676416666666" height="16.16" data-key="123453" class="chart-cell chart-cell__series-0" />
+        <rect x="174.66666666666666" y="183.62" width="256.97245583333336" height="16.16" data-key="123459" class="chart-cell chart-cell__series-0" />
+        <rect x="174.66666666666666" y="203.82" width="259.5678752777777" height="16.16" data-key="123456" class="chart-cell chart-cell__series-0 chart-cell__highlight" />
+    </g>
+    <g>
+        <text x="416.27777777777777" y="30.099999999999994" dy="0.35em" class="chart-label chart-label__series-0">£1M</text>
+        <text x="416.27777777777777" y="50.3" dy="0.35em" class="chart-label chart-label__series-0">£1M</text>
+        <text x="416.2780113888889" y="70.5" dy="0.35em" class="chart-label chart-label__series-0">£1M</text>
+        <text x="416.2803475" y="90.69999999999999" dy="0.35em" class="chart-label chart-label__series-0">£1M</text>
+        <text x="416.3037086111111" y="110.89999999999999" dy="0.35em" class="chart-label chart-label__series-0">£1M</text>
+        <text x="416.5116225" y="131.1" dy="0.35em" class="chart-label chart-label__series-0">£1M</text>
+        <text x="418.6141225" y="151.29999999999998" dy="0.35em" class="chart-label chart-label__series-0">£1.01M</text>
+        <text x="418.8734308333333" y="171.50000000000003" dy="0.35em" class="chart-label chart-label__series-0">£1.01M</text>
+        <text x="439.6391225" y="191.70000000000002" dy="0.35em" class="chart-label chart-label__series-0">£1.1M</text>
+        <text x="442.2345419444444" y="211.9" dy="0.35em" class="chart-label chart-label__series-0 chart-label__highlight">£1.11M</text>
+    </g>
+    <g class="chart-axis chart-axis__x" transform="translate(-2,222)">
+        <path class="domain" stroke="currentColor" d="M175.16666666666666,1V0.5H455.5V1" />
+        <g class="chart-tick" transform="translate(175.16666666666666,0)">
+            <line y2="6" x1="1" x2="1" />
+            <text y="9" dy="0.71em" x1="1" x2="1">£0</text>
+        </g>
+        <g class="chart-tick" transform="translate(221.88888888888886,0)">
+            <line y2="6" x1="1" x2="1" />
+            <text y="9" dy="0.71em" x1="1" x2="1">£200k</text>
+        </g>
+        <g class="chart-tick" transform="translate(268.6111111111111,0)">
+            <line y2="6" x1="1" x2="1" />
+            <text y="9" dy="0.71em" x1="1" x2="1">£400k</text>
+        </g>
+        <g class="chart-tick" transform="translate(315.3333333333333,0)">
+            <line y2="6" x1="1" x2="1" />
+            <text y="9" dy="0.71em" x1="1" x2="1">£600k</text>
+        </g>
+        <g class="chart-tick" transform="translate(362.05555555555554,0)">
+            <line y2="6" x1="1" x2="1" />
+            <text y="9" dy="0.71em" x1="1" x2="1">£800k</text>
+        </g>
+        <g class="chart-tick" transform="translate(408.77777777777777,0)">
+            <line y2="6" x1="1" x2="1" />
+            <text y="9" dy="0.71em" x1="1" x2="1">£1M</text>
+        </g>
+        <g class="chart-tick" transform="translate(455.5,0)">
+            <line y2="6" x1="1" x2="1" />
+            <text y="9" dy="0.71em" x1="1" x2="1">£1.2M</text>
+        </g>
+    </g>
+    <g class="chart-axis chart-axis__y" transform="translate(171.66666666666666,0)">
+        <path class="domain" stroke="currentColor" d="M0,20.5H0.5V222.5H0" transform="translate(0,0)" />
+        <g class="chart-tick" transform="translate(0,30.099999999999994)">
+            <line x2="-6" />
+            <text x="-9" dy="0.32em">123454</text>
+        </g>
+        <g class="chart-tick" transform="translate(0,50.3)">
+            <line x2="-6" />
+            <text x="-9" dy="0.32em">123455</text>
+        </g>
+        <g class="chart-tick" transform="translate(0,70.5)">
+            <line x2="-6" />
+            <text x="-9" dy="0.32em">123450</text>
+        </g>
+        <g class="chart-tick" transform="translate(0,90.69999999999999)">
+            <line x2="-6" />
+            <text x="-9" dy="0.32em">123452</text>
+        </g>
+        <g class="chart-tick" transform="translate(0,110.89999999999999)">
+            <line x2="-6" />
+            <text x="-9" dy="0.32em">123451</text>
+        </g>
+        <g class="chart-tick" transform="translate(0,131.1)">
+            <line x2="-6" />
+            <text x="-9" dy="0.32em">123457</text>
+        </g>
+        <g class="chart-tick" transform="translate(0,151.29999999999998)">
+            <line x2="-6" />
+            <text x="-9" dy="0.32em">123458</text>
+        </g>
+        <g class="chart-tick" transform="translate(0,171.50000000000003)">
+            <line x2="-6" />
+            <text x="-9" dy="0.32em">123453</text>
+        </g>
+        <g class="chart-tick" transform="translate(0,191.70000000000002)">
+            <line x2="-6" />
+            <text x="-9" dy="0.32em">123459</text>
+        </g>
+        <g class="chart-tick" transform="translate(0,211.9)">
+            <line x2="-6" />
+            <text x="-9" dy="0.32em">123456</text>
+        </g>
+    </g>
+</svg>

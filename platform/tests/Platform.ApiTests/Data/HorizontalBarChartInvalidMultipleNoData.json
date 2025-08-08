@@ -1,0 +1,7 @@
+﻿{
+  "error": "Bad request",
+  "errors": [
+    "Missing chart data for 1",
+    "Missing chart data for 2"
+  ]
+}

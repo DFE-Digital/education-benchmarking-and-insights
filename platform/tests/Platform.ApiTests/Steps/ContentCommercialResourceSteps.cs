@@ -44,7 +44,7 @@ public class ContentCommercialResourceSteps(ContentApiDriver api)
         var content = await response.Content.ReadAsStringAsync();
         var actual = JArray.Parse(content);
 
-        var expected = TestDataProvider.GetArrayData("CommercialResources.json");
+        var expected = TestDataProvider.GetJsonArrayData("CommercialResources.json");
 
         Assert.True(JToken.DeepEquals(expected, actual));
     }

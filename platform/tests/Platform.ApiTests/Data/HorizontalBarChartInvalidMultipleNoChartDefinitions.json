@@ -1,0 +1,6 @@
+﻿{
+  "error": "Bad request",
+  "errors": [
+    "Missing chart definitions"
+  ]
+}
