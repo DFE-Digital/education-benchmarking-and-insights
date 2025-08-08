@@ -20,7 +20,7 @@
   "dependencies": {
     "@azure/functions": "^4.7.2",
     "@xmldom/xmldom": "^0.9.8",
-    "applicationinsights": "^3.6.0",
+    "applicationinsights": "^3.8.0",
     "classnames": "^2.5.1",
     "d3": "^7.9.0",
     "piscina": "^5.0.0",
