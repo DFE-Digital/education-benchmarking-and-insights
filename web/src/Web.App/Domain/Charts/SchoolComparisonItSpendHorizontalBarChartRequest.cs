@@ -22,7 +22,7 @@ public record SchoolComparisonItSpendHorizontalBarChartRequest : PostHorizontalB
         LabelFormat = "%2$s";
         LinkFormat = linkFormatter("%1$s");
         Sort = "desc";
-        Width = 600;
+        Width = 610;
         ValueField = nameof(SchoolComparisonDatum.Expenditure).ToLower();
         ValueType = resultsAs.GetValueType();
         XAxisLabel = resultsAs.GetXAxisLabel();
