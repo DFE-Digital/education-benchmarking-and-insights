@@ -32,7 +32,7 @@ public static class ItSpendingCategories
         SubCategoryFilter.ITSupport => "IT support (E20G)",
         SubCategoryFilter.LaptopsDesktopsTablets => "Laptops, desktops and tablets (E20E)",
         SubCategoryFilter.OnsiteServers => "Onsite servers (E20B)",
-        SubCategoryFilter.OtherHardware => "Other hardware (E20B)",
+        SubCategoryFilter.OtherHardware => "Other hardware (E20F)",
         _ => throw new ArgumentException(nameof(filter))
     };
 
