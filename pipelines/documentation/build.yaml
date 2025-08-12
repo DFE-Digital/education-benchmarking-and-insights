@@ -115,6 +115,10 @@ stages:
             parameters:
               folder: 'data'
 
+          - template: generate-docs.yaml
+            parameters:
+              folder: 'financial-data-drop'
+
           - task: PublishPipelineArtifact@1
             displayName: 'Publish artifacts'
             inputs:
