@@ -57,18 +57,20 @@ Manually scale core database to S2 tier to replicate production infrastructure f
 
 | Page                                         | Target Throughput | Load Type | DB DTUs |
 |----------------------------------------------|-------------------|-----------|---------|
-| `/school/{identifier}/benchmark-it-spending` | 50 /s             | Average   | S1      |
-| `/school/{identifier}/benchmark-it-spending` | 80 /s             | Peak      | S2      |
+| `/school/{identifier}/benchmark-it-spending` | 50 /s             | Average   | S2      |
+| `/school/{identifier}/benchmark-it-spending` | 83 /s             | Peak      | S2      |
 
 ## Performance Success Criteria
 
-Response Time (Full Page Load):
-- P75 below 1500ms
-- P95 below 2500ms
-- P99 below 4000ms
+Response Time:
+- P75 below 500ms
+- P95 below 1000ms
+- P99 below 2000ms
 - Error Rate: below 0.1%
-- CPU and Memory utilisation: below 80%
-- Database DTU utilisation: below 80%
+- CPU and Memory utilisation: below 80%*
+- Database performance: below 80%*
+
+*based on production tiers P1v3 for app service & S2 (50DTU) for database.
 
 ## Test Execution
 
@@ -78,14 +80,14 @@ Response Time (Full Page Load):
 
 ## Test Output
 
-| Load Test Name                        | Initiated on         | Max VUs | Duration | Response time (P75) | Errors (%) | Throughput (req/s) | Result |
-|---------------------------------------|----------------------|---------|----------|---------------------|-----------|--------------------|--------|
-| Average Web – Benchmark IT spending   | 08/08/2025, 01:31:36 | 15      | 6m       | 1503ms              | 0.03%     | 21.87/s            | TBD    |
-| Peak Web – Benchmark IT spending      | 08/08/2025, 02:25:43 | 30      | 6m       | 2004ms              | 0%         | 34.03/s            | TBD    |
+| Load Test Name                      | Initiated on         | Max VUs | Duration | Response time (P75) | Response time (P95) | Response time (P99) | Errors (%) | Throughput (req/s) | Result                                                                                                                                                                                                                                                                                                                                                                                                                    |
+|-------------------------------------|----------------------|---------|----------|---------------------|---------------------|---------------------|------------|--------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Average Web – Benchmark IT spending | 8/12/2025_1:27:45 PM | 12      | 6m       | 390ms               | 1903ms              | 3450ms              | 0.0%       | 20.91/s            | [❌ Failed](https://portal.azure.com/?feature.msaljs=true#view/Microsoft_Azure_CloudNativeTesting/NewReport/resourceId/%2Fsubscriptions%2Fa5c0a8d7-a54d-4a6d-ab79-4ca64a3b750f%2Fresourcegroups%2Fs198t01-ebis-perf-tests%2Fproviders%2Fmicrosoft.loadtestservice%2Floadtests%2Fs198t01-load-tests/testRunId/8f1521b3-20bd-4f4f-b03a-fdfebc8e0055/testId/72e37301-bb08-4ddd-a6d5-15a93d16b25b/openingFromBlade~/true) 1️⃣  |
+| Peak Web – Benchmark IT spending    | 8/12/2025_4:28:18 PM | 18      | 6m 2s    | 369ms               | 1980ms              | 3191ms              | 0.0%       | 29.96/s            | [❌ Failed](https://portal.azure.com/?feature.msaljs=true#view/Microsoft_Azure_CloudNativeTesting/NewReport/resourceId/%2Fsubscriptions%2Fa5c0a8d7-a54d-4a6d-ab79-4ca64a3b750f%2Fresourcegroups%2Fs198t01-ebis-perf-tests%2Fproviders%2Fmicrosoft.loadtestservice%2Floadtests%2Fs198t01-load-tests/testRunId/47200ac7-2189-44d7-899f-1a072903d0ed/testId/5acd6f35-8572-4bdf-8f0a-e50156b21198/openingFromBlade~/true)  1️⃣ |
 
 **Findings and Recommendations:**
 
-To be completed post-test. 
+First pass of the test failed with the set criteria with app service set to P1V3 and database set to S2. 
 
 
 <!-- Leave the rest of this page blank -->
