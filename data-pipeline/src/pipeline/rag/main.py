@@ -1,10 +1,12 @@
 import time
 
 import pandas as pd
+
 from pipeline.comparator_sets.calculations import prepare_data
-from pipeline.utils.storage import get_blob, write_blob
 from pipeline.utils.database import insert_metric_rag
 from pipeline.utils.log import setup_logger
+from pipeline.utils.storage import get_blob, write_blob
+
 from .calculations import calculate_rag
 
 logger = setup_logger("rag")

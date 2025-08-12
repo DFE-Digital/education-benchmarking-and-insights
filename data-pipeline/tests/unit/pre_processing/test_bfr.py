@@ -5,6 +5,7 @@ import pytest
 from pipeline.pre_processing.ancillary.bfr import build_bfr_historical_data
 from pipeline.pre_processing.bfr import calculations
 
+
 def test_bfr_metric_data_has_correct_output_columns(prepared_bfr_data: pd.DataFrame):
     assert list(prepared_bfr_data[1].columns) == [
         "Category",

@@ -17,12 +17,12 @@ from pipeline.rag import compute_rag, compute_user_defined_rag
 from pipeline.utils.log import setup_logger
 from pipeline.utils.message import MessageType, get_message_type
 from pipeline.utils.storage import (
-    get_blob_service_client,
-    get_queue_service_client,
     complete_queue_name,
     connect_to_queue,
     dead_letter_dequeue_max,
     dead_letter_queue_name,
+    get_blob_service_client,
+    get_queue_service_client,
     worker_queue_name,
 )
 

@@ -1,8 +1,8 @@
 import logging
 import os
 from contextlib import suppress
-from io import BytesIO, StringIO
 from functools import lru_cache
+from io import BytesIO, StringIO
 
 from azure.core.exceptions import ResourceExistsError, ResourceNotFoundError
 from azure.storage.blob import BlobServiceClient
@@ -32,7 +32,7 @@ def get_blob_service_client() -> BlobServiceClient:
 
 @lru_cache(maxsize=1)
 def get_queue_service_client() -> QueueServiceClient:
-    """Get or create queue service client.""" 
+    """Get or create queue service client."""
     conn_str = os.getenv("STORAGE_CONNECTION_STRING")
     if not conn_str:
         raise ValueError("STORAGE_CONNECTION_STRING environment variable is required")
