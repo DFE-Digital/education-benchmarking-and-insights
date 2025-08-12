@@ -1,7 +1,8 @@
 import numpy as np
 import pandas as pd
 
-from pipeline import config, part_year
+from pipeline import config
+from pipeline.pre_processing import part_year
 
 
 def test_map_is_early_transfer():

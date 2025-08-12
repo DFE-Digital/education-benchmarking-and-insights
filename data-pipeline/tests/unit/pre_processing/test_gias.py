@@ -3,7 +3,7 @@ from io import StringIO
 import pandas as pd
 import pytest
 
-from pipeline.pre_processing import prepare_schools_data
+from pipeline.pre_processing.ancillary import prepare_combined_gias_data
 
 
 def test_prepare_school_data_has_correct_output_columns(
@@ -60,7 +60,7 @@ def test_prepare_school_data_has_correct_output_columns_without_ofsted_cols(
         columns=["OfstedRating (name)", "OfstedLastInsp"]
     )
 
-    actual = prepare_schools_data(
+    actual = prepare_combined_gias_data(
         StringIO(gias_without_ofsted.to_csv()), StringIO(gias_links.to_csv()), 2024
     )
 
@@ -116,7 +116,7 @@ def test_prepare_school_data_has_correct_output_ofsted_values_without_submission
         columns=["OfstedRating (name)", "OfstedLastInsp"]
     )
 
-    actual = prepare_schools_data(
+    actual = prepare_combined_gias_data(
         StringIO(gias_without_ofsted.to_csv()), StringIO(gias_links.to_csv()), 2024
     )
 

@@ -1,5 +1,9 @@
 from enum import Enum, auto
 
+from .log import setup_logger
+
+logger = setup_logger("fbit-data-pipeline")
+
 
 class MessageType(Enum):
     """

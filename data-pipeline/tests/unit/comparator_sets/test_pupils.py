@@ -3,7 +3,7 @@ from unittest import mock
 import numpy as np
 import pytest
 
-from pipeline.comparator_sets import (
+from pipeline.comparator_sets.calculations import (
     compute_pupils_comparator,
     pupils_calc,
     special_pupils_calc,

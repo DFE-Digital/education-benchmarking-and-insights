@@ -4,10 +4,18 @@ from warnings import simplefilter
 import numpy as np
 import pandas as pd
 
-from pipeline import config, input_schemas, mappings, part_year
+from pipeline import config, input_schemas
+from pipeline.pre_processing.aar.part_year import (
+    map_has_financial_data,
+    map_is_early_transfer,
+    map_partial_year_present,
+)
 from pipeline.pre_processing.ancillary import gias as gias_preprocessing
-
-logger = logging.getLogger("fbit-data-pipeline")
+from pipeline.pre_processing.common import mappings
+from pipeline.pre_processing.common.part_year import (
+    map_has_building_comparator_data,
+    map_has_pupil_comparator_data,
+)
 
 simplefilter(action="ignore", category=pd.errors.PerformanceWarning)
 simplefilter(action="ignore", category=FutureWarning)
@@ -606,10 +614,10 @@ def map_academy_data(df: pd.DataFrame) -> pd.DataFrame:
     :param df: academy data
     :return: updated data
     """
-    df = part_year.academies.map_is_early_transfer(df)
-    df = part_year.academies.map_has_financial_data(df)
-    df = part_year.academies.map_partial_year_present(df)
-    df = part_year.common.map_has_pupil_comparator_data(df)
-    df = part_year.common.map_has_building_comparator_data(df)
+    df = map_is_early_transfer(df)
+    df = map_has_financial_data(df)
+    df = map_partial_year_present(df)
+    df = map_has_pupil_comparator_data(df)
+    df = map_has_building_comparator_data(df)
 
     return df

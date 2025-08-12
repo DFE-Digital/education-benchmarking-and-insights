@@ -2,7 +2,7 @@ import numpy as np
 import pandas as pd
 
 import pipeline.input_schemas as input_schemas
-import pipeline.mappings as mappings
+import pipeline.pre_processing.common.mappings as mappings
 
 
 def create_master_list(

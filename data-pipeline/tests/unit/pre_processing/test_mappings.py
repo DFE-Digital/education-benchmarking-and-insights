@@ -3,7 +3,7 @@ from datetime import date
 import pandas as pd
 import pytest
 
-import pipeline.mappings as mappings
+import pipeline.pre_processing.common.mappings as mappings
 
 
 @pytest.mark.parametrize(

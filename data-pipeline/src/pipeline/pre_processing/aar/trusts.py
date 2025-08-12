@@ -2,7 +2,7 @@ import numpy as np
 import pandas as pd
 
 import pipeline.config as config
-import pipeline.mappings as mappings
+import pipeline.pre_processing.common.mappings as mappings
 
 
 def build_trust_data(
