@@ -1,7 +1,6 @@
 import pandas as pd
 
-from pipeline import config
-from pipeline.pre_processing import total_per_unit
+from pipeline.pre_processing.common import total_per_unit
 
 unit_data = {
     "Administrative supplies_Administrative supplies (non educational)": [

@@ -3,7 +3,7 @@ from io import StringIO
 import pandas as pd
 import pytest
 
-from pipeline.pre_processing import build_high_exec_pay_data
+from pipeline.pre_processing.ancillary.high_exec_pay import build_high_exec_pay_data
 
 
 @pytest.fixture

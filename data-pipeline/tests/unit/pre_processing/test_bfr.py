@@ -2,8 +2,8 @@ import numpy as np
 import pandas as pd
 import pytest
 
-from pipeline import bfr, pre_processing
-
+from pipeline.pre_processing.ancillary.bfr import build_bfr_historical_data
+from pipeline.pre_processing.bfr import calculations
 
 def test_bfr_metric_data_has_correct_output_columns(prepared_bfr_data: pd.DataFrame):
     assert list(prepared_bfr_data[1].columns) == [
@@ -21,7 +21,7 @@ def test_bfr_output_data_has_correct_output_columns(
 
 
 def test_bfr_slop_calc():
-    actual = bfr.calculate_slopes(np.array([[2, 4, 6, 8, 10, 12]]))
+    actual = calculations.calculate_slopes(np.array([[2, 4, 6, 8, 10, 12]]))
     assert [2] == actual
 
 
@@ -33,7 +33,7 @@ def test_bfr_slop_calc():
     ],
 )
 def test_historical_bfr_academy_none(bfr_sofa):
-    result = pre_processing.build_bfr_historical_data(
+    result = build_bfr_historical_data(
         academies_historical=None,
         bfr_sofa_historical=bfr_sofa,
     )
@@ -50,7 +50,7 @@ def test_historical_bfr_sofa_none():
             }
         ]
     )
-    result = pre_processing.build_bfr_historical_data(
+    result = build_bfr_historical_data(
         academies_historical=academies,
         bfr_sofa_historical=None,
     )
@@ -79,7 +79,7 @@ def test_historical_bfr():
             }
         ]
     )
-    result = pre_processing.build_bfr_historical_data(
+    result = build_bfr_historical_data(
         academies_historical=academies,
         bfr_sofa_historical=bfr_sofa,
     )

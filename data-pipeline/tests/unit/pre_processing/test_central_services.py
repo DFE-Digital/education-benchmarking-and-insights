@@ -2,7 +2,7 @@ import io
 
 import pandas as pd
 
-from pipeline.pre_processing.academies.central_services import (
+from pipeline.pre_processing.aar.central_services import (
     prepare_central_services_data,
 )
 

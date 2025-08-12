@@ -46,8 +46,8 @@ def test_varied_input_special():
     )
 
 
-@mock.patch("pipeline.comparator_sets.pupils_calc")
-@mock.patch("pipeline.comparator_sets.special_pupils_calc")
+@mock.patch("pipeline.comparator_sets.calculations.pupils_calc")
+@mock.patch("pipeline.comparator_sets.calculations.special_pupils_calc")
 @pytest.mark.parametrize(
     "phase,special_called,pupils_called",
     [

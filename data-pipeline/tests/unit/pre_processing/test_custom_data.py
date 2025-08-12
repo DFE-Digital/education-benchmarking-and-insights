@@ -1,6 +1,6 @@
 import pandas as pd
 
-from pipeline.pre_processing import update_custom_data
+from pipeline.pre_processing.ancillary.custom_data import update_custom_data
 
 _default_custom_data = {
     "administrativeSuppliesNonEducationalCosts": 1.0,

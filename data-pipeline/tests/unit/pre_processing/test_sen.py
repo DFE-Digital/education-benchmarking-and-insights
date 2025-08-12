@@ -2,7 +2,7 @@ from io import StringIO
 
 import pytest
 
-from pipeline.pre_processing import prepare_sen_data
+from pipeline.pre_processing.ancillary.sen import prepare_sen_data
 
 
 def test_prepare_sen_data_has_correct_output_columns(sen_data):

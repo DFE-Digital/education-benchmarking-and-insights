@@ -3,7 +3,7 @@ import io
 import pandas as pd
 
 from pipeline import input_schemas
-from pipeline.pre_processing import local_authority
+from pipeline.pre_processing.s251 import local_authority
 
 
 def test_la_outturn(la_outturn: pd.DataFrame):

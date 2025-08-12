@@ -2,7 +2,7 @@ import io
 
 import pandas as pd
 
-from pipeline.pre_processing import local_authority
+from pipeline.pre_processing.s251 import local_authority
 
 
 def test_sen2(la_sen2: pd.DataFrame):

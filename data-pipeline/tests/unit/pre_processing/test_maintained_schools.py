@@ -4,7 +4,7 @@ import numpy as np
 import pandas as pd
 import pytest
 
-import pipeline.maintained_schools as maintained_schools
+from pipeline.pre_processing.cfr import calculations as maintained_schools
 
 
 def test_create_master_list(

@@ -3,7 +3,7 @@ from io import StringIO
 import pandas as pd
 import pytest
 
-from pipeline.pre_processing.ancillary import prepare_combined_gias_data
+from pipeline.pre_processing.ancillary.combined_gias import prepare_combined_gias_data
 
 
 def test_prepare_school_data_has_correct_output_columns(
