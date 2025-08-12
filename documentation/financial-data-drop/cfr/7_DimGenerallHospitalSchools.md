@@ -13,7 +13,7 @@ A list of general hospital schools is required. General hospital schools return 
 
 ## Getting PRU Data
 
-1. Connect to [SQL Server](https://educationgovuk.sharepoint.com/:w:/r/sites/DfEFinancialBenchmarking/_layouts/15/Doc.aspx?sourcedoc=%7BA47507F6-2C23-487A-98EC-0B6C75A7471A%7D&file=CFR%20source%20data%20access%20request.docx&action=default&mobileredirect=true) and run below query using the reporting financial year database, for instance, for financial year 2024_2025, use [GeneralHospitalSchool2025]
+1. Connect to [SQL Server](https://educationgovuk.sharepoint.com/:w:/r/sites/DfEFinancialBenchmarking/_layouts/15/Doc.aspx?sourcedoc=%7BA47507F6-2C23-487A-98EC-0B6C75A7471A%7D&file=CFR%20source%20data%20access%20request.docx&action=default&mobileredirect=true) and run below query using the reporting financial year database, for instance, for 2024_2025 reporting academic year, use [GeneralHospitalSchool2025]
 
     ```sql
     SELECT a.[LAESTAB]
@@ -33,3 +33,15 @@ A list of general hospital schools is required. General hospital schools return 
 - General Hospital Schools Slowly Changing Dimension
 
 1. tbc
+
+### General Hospital Schools Fields Data Type
+
+| Column Name                       | Data type |
+|-----------------------------------|-----------|
+|LAEstab                            |float      |
+|SRBoy                              |float      |
+|SRGirl                             |float      |
+|DRBoy                              |float      |
+|DRGirl                             |float      |
+|TotalHeadcount                     |float      |
+|GHSIndicator                       |varchar    |

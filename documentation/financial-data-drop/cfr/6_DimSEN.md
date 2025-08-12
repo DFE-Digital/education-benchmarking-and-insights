@@ -17,13 +17,13 @@ SEN data is taken from the School Census produced by the Department of Education
 2. In the `supporting-files` sub-folder of the `special-educational-needs-in-england_YYYY-YY` zipped folder, access the
 `sen_school_level_underlying_data.csv` file.
 3. Clean data by replacing any value returned as `z` to `0` (zero)
-4. Save and rename file to `Dim_SENSchoolLevel2025.csv`
+4. Save and rename file to `Dim_SENSchoolLevel20yy.csv`
 
 - Special Educational Needs Slowly Changing Dimension
 
 1. tbc
 
-### Special Educational Needs Fields and Data Type
+### Special Educational Needs Fields Data Type
 
 | Column Name                       | Data type |
 |-----------------------------------|-----------|

@@ -23,13 +23,12 @@ View = `CFR_YY-YY_Data` where YY-YY represent financial year, for instance `CFR_
 ### Local Database
 
 1. Create local database named `CFRYY` where YY represents the financial year end, for instance `CFR25` for financial year ending 2025.
-2. Table 1 = `CFR_YYYY_publication` where YYYY represent financial year, for instance `CFR_2425_publication` for financial year ending 2025.
-3. Table 2 = `CFR_YYYY` where YYYY represent financial year, for instance `CFR_2425` for financial year ending 2025.
+2. Table 1 = `CFR_YYYY` where YYYY represent financial year, for instance `CFR_2425` for financial year ending 2025.
 
-#### The following instructions describe CFR QA checks
+### The following instructions describe CFR QA checks
 
 1. Connect to the CFR data source as listed above
-2. Run the below SQL query to validate non-federated schools financial return. The absence of record / no result suggest that there is no incorrect non-federated school entry in CFR data collection.
+2. Run the below SQL query to validate non-federated schools financial return. The absence of record / no result suggest that there is no incorrect non-federated school entry in CFR data collection. Edit table name to reflect current reporting year
 
     ```sql
     SELECT *
@@ -47,7 +46,7 @@ View = `CFR_YY-YY_Data` where YY-YY represent financial year, for instance `CFR_
         OR [LAEstab of School in Federation 10] IS NOT NULL)
     ```
 
-3. Run the below SQL query to validate that only the “lead school” within a federation have CFR return. The absence of record / no result suggest that there is no incorrect federated school entry in CFR data collection.
+3. Run the below SQL query to validate that only the “lead school” within a federation have CFR return. The absence of record / no result suggest that there is no incorrect federated school entry in CFR data collection. Edit table name to reflect current reporting year
 
     ```sql
     SELECT b.*
@@ -77,7 +76,7 @@ View = `CFR_YY-YY_Data` where YY-YY represent financial year, for instance `CFR_
     WHERE b.LEAEstab IS NOT NULL
     ```
 
-4. Run the below SQL query to validate that all schools where the Federated Flag is “yes” (lead school) have at least one school listed in “LAEstab of School in Federation 1” to 10 (non-lead schools). The absence of record / no result suggest that there is no incorrect federated school entry in CFR data collection.
+4. Run the below SQL query to validate that all schools where the Federated Flag is “yes” (lead school) have at least one school listed in “LAEstab of School in Federation 1” to 10 (non-lead schools). The absence of record / no result suggest that there is no incorrect federated school entry in CFR data collection. Edit table name to reflect current reporting year
 
     ```sql
     SELECT TOP 10 *
@@ -95,7 +94,7 @@ View = `CFR_YY-YY_Data` where YY-YY represent financial year, for instance `CFR_
     AND   [LAEstab of School in Federation 10] IS NULL
     ```
 
-5. Run the below SQL query to confirm NULLs in the data. `NULL` values can throw out the total calculations, all NULL return should be replaced with zero in the creation of the final dataset.
+5. Run the below SQL query to confirm NULLs in the data. `NULL` values can throw out the total calculations, all NULL return should be replaced with zero in the creation of the final dataset. Edit table name to reflect current reporting year
 
     ```sql
     SELECT * FROM [ConsistentFinancialReporting_20242025SPSSViews].[dbo].[CFR_24-25_Data]
@@ -119,7 +118,9 @@ View = `CFR_YY-YY_Data` where YY-YY represent financial year, for instance `CFR_
 
 #### Handling CFR data errors
 
-Once any issue(s) has been identified from QA checks, a report of the affected schools (`LEAEstab`, `Federated Flag` and `LAEstab of School in Federation 1 to 10` fields and respective values) should be documented and communicated / shared with related stakeholder (product owners).
+Once any issue(s) has been identified from QA checks, an Excel report of the affected schools (`LEAEstab`, `Federated Flag` and `LAEstab of School in Federation 1 to 10` fields and respective values) should be documented and communicated / shared with related stakeholder (product owners).
+
+Report be named `Federation Funnies` and uploaded to the created `2Y2Y` folder within [CFR Data Procurement Process Sharepoint location](https://educationgovuk.sharepoint.com/sites/DfEFinancialBenchmarking/Shared%20Documents/Forms/AllItems.aspx?id=%2Fsites%2FDfEFinancialBenchmarking%2FShared%20Documents%2FCFR%20Data%20Procurement%20Process&viewid=7afed90f%2D9f2f%2D431a%2D93ce%2D48075c0e93d8&csf=1&web=1&e=boXhxD&CID=0fb7a62d%2De68f%2D4f86%2Dac15%2D27e9c4f7b4a6&FolderCTID=0x012000B007B75DE8F91C4B82D20FE8B354FCBD). See sample for 2024-2025 academic year [here](https://educationgovuk.sharepoint.com/:x:/r/sites/DfEFinancialBenchmarking/Shared%20Documents/CFR%20Data%20Procurement%20Process/24-25/Federation%20Funnies%20-%20250730.xlsx?d=w77a953618eef4ce5a6c6cdc37e6fc14e&csf=1&web=1&e=cXUQtM)
 
 > **Note**
 > Our established process has been to manually correct school data submission errors, as this is more efficient than reopening the portal for resubmission. Following these corrections, product owner would make arrangements to notify the affected schools' Local Authorities with instructions on how to report their financial records correctly in the future.
@@ -127,12 +128,20 @@ Once any issue(s) has been identified from QA checks, a report of the affected s
 #### Export CFR Data from CFR Source Data into `CFRYY` Local Database
 
 1. Connect to the CFR data source as listed above
-2. Either by using a database GUI Tool or CSV export, ingest all `CFR_YY-YY_Data` records into `CFR_YYYY_publication`
+2. Either by using a database GUI Tool or CSV export, ingest all `CFR_YY-YY_Data` records from CFR data source into `CFR_yYYY` table in newly created local database
 3. Manually correct school data submission errors by making any amendments to the CFR data having consulted with product owner and sought further information from the schools and LAs. This step may not be necessary - it depends on your preliminary CFR data checks.
-4. As per step 5 of the above CFR QA checks, if NULLs values is confirmed, run the below SQL query to replace all `NULL` values with zero (0.00)
+    Manual correction may include updating `CFR_YYYY` table within local database based on specific conditions, for instance,
 
     ```sql
-    UPDATE [CFR25].[dbo].[CFR_2425_publication]
+    UPDATE [CFR2Y].[dbo].[CFR_2Y2Y]
+    SET [Federated Flag] = 'No' 
+    WHERE [LEAEstab] IN (8761005, 8761007);
+    ```
+
+4. As per step 5 of the above CFR QA checks, if NULLs values is confirmed, run the below SQL query to replace all `NULL` values with zero (0.00). Edit table name to reflect current reporting year
+
+    ```sql
+    UPDATE [CFR25].[dbo].[CFR_2425]
     SET    [OB01] = 0.00, [OB02] = 0.00, [OB03] = 0.00, [I01] = 0.00, [I02] = 0.00, [I03] = 0.00, [I04] = 0.00,
         [I05] = 0.0,   [I06] = 0.00, [I07] = 0.00, [I08a] = 0.00, [I08b] = 0.00, [I09] = 0.00, [I10] = 0.00,
         [I11] = 0.00, [I12] = 0.00, [I13] = 0.00, [I15] = 0.00,[I16] = 0.00, [I17] = 0.00, [I18c] = 0.00,
@@ -162,3 +171,118 @@ Once any issue(s) has been identified from QA checks, a report of the affected s
         OR [CE04C]IS NULL OR [CE04D] IS NULL OR [CE04E] IS NULL OR [B01] IS NULL OR [B02] IS NULL
         OR [B03] IS NULL OR [B05] IS NULL OR [B06] IS NULL OR [B07] IS NULL
     ```
+
+### CFR Fields Data Type
+
+| Column Name                       | Data type |
+|-----------------------------------|-----------|
+|ReturnStatus                       |nvarchar   |
+|HighErrors                         |float      |
+|LowErrors                          |float      |
+|OKErrors                           |float      |
+|DataVersion                        |nvarchar   |
+|LA                                 |nvarchar   |
+|LANumber                           |float      |
+|Estab                              |float      |
+|LEAEstab                           |float      |
+|COLLECTSchoolName                  |nvarchar   |
+|XMLSchoolName                      |nvarchar   |
+|FinYear                            |float      |
+|OB01                               |float      |
+|OB02                               |float      |
+|OB03                               |float      |
+|I01                                |float      |
+|I02                                |float      |
+|I03                                |float      |
+|I04                                |float      |
+|I05                                |float      |
+|I06                                |float      |
+|I07                                |float      |
+|I08a                               |float      |
+|I08b                               |float      |
+|I09                                |float      |
+|I10                                |float      |
+|I11                                |float      |
+|I12                                |float      |
+|I13                                |float      |
+|I15                                |float      |
+|I16                                |float      |
+|I17                                |float      |
+|I18c                               |float      |
+|I18d                               |float      |
+|E01                                |float      |
+|E02                                |float      |
+|E03                                |float      |
+|E04                                |float      |
+|E05                                |float      |
+|E06                                |float      |
+|E07                                |float      |
+|E08                                |float      |
+|E09                                |float      |
+|E10                                |float      |
+|E11                                |float      |
+|E12                                |float      |
+|E13                                |float      |
+|E14                                |float      |
+|E15                                |float      |
+|E16                                |float      |
+|E17                                |float      |
+|E18                                |float      |
+|E19                                |float      |
+|E20A                               |float      |
+|E20B                               |float      |
+|E20C                               |float      |
+|E20D                               |float      |
+|E20E                               |float      |
+|E20F                               |float      |
+|E20G                               |float      |
+|E21                                |float      |
+|E22                                |float      |
+|E23                                |float      |
+|E24                                |float      |
+|E25                                |float      |
+|E26                                |float      |
+|E27                                |float      |
+|E28a                               |float      |
+|E28b                               |float      |
+|E29                                |float      |
+|E30                                |float      |
+|E31                                |float      |
+|E32                                |float      |
+|CI01                               |float      |
+|CI03                               |float      |
+|CI04                               |float      |
+|DeMinimis                          |float      |
+|CE01                               |float      |
+|CE02                               |float      |
+|CE03                               |float      |
+|CE04A                              |float      |
+|CE04B                              |float      |
+|CE04C                              |float      |
+|CE04D                              |float      |
+|CE04E                              |float      |
+|B01                                |float      |
+|B02                                |float      |
+|B03                                |float      |
+|B05                                |float      |
+|B06                                |float      |
+|B07                                |float      |
+|Federated Flag                     |nvarchar   |
+|LAEstab of School in Federation 1  |nvarchar   |
+|LAEstab of School in Federation 2  |nvarchar   |
+|LAEstab of School in Federation 3  |nvarchar   |
+|LAEstab of School in Federation 4  |nvarchar   |
+|LAEstab of School in Federation 5  |nvarchar   |
+|LAEstab of School in Federation 6  |nvarchar   |
+|LAEstab of School in Federation 7  |nvarchar   |
+|LAEstab of School in Federation 8  |nvarchar   |
+|LAEstab of School in Federation 9  |nvarchar   |
+|LAEstab of School in Federation 10 |nvarchar   |
+|Phase                              |nvarchar   |
+|FinancialYear                      |float      |
+|InputSystem                        |nvarchar   |
+|DataPreparation                    |nvarchar   |
+|FullYear                           |nvarchar   |
+|CashOrAccruals                     |nvarchar   |
+|F109                               |nvarchar   |
+|F110                               |nvarchar   |
