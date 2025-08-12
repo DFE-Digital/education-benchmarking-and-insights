@@ -17,12 +17,12 @@ from pipeline.rag import compute_rag, compute_user_defined_rag
 from pipeline.utils.log import setup_logger
 from pipeline.utils.message import MessageType, get_message_type
 from pipeline.utils.storage import (
-    blob_service_client,
+    get_blob_service_client,
+    get_queue_service_client,
     complete_queue_name,
     connect_to_queue,
     dead_letter_dequeue_max,
     dead_letter_queue_name,
-    queue_service_client,
     worker_queue_name,
 )
 
@@ -163,6 +163,8 @@ def _check_msg_dequeue(
 
 def receive_one_message():
     try:
+        blob_service_client = get_blob_service_client()
+        queue_service_client = get_queue_service_client()
         with blob_service_client, queue_service_client:
             worker_queue = connect_to_queue(worker_queue_name)
             complete_queue = connect_to_queue(complete_queue_name)
@@ -192,6 +194,8 @@ def receive_one_message():
 
 def receive_messages():
     try:
+        blob_service_client = get_blob_service_client()
+        queue_service_client = get_queue_service_client()
         with blob_service_client, queue_service_client:
             worker_queue = connect_to_queue(worker_queue_name)
             complete_queue = connect_to_queue(complete_queue_name)
