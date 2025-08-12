@@ -1,4 +1,5 @@
 ﻿using System.Net;
+using System.Text.RegularExpressions;
 using AngleSharp.Dom;
 using AngleSharp.Html.Dom;
 using AutoFixture;
@@ -160,7 +161,7 @@ public class WhenViewingComparisonItSpend(SchoolBenchmarkingWebAppClient client)
     }
 
     [Fact]
-    public async Task CanFollowChipsCorrectlyUpdatePage()
+    public async Task CanFollowChipsCorrectlyUpdatesPage()
     {
         var (page, school) = await SetupNavigateInitPage(
             EstablishmentTypes.Maintained,
@@ -168,6 +169,7 @@ public class WhenViewingComparisonItSpend(SchoolBenchmarkingWebAppClient client)
 
         var target = page.QuerySelectorAll("a.app-filter__tag")
             .FirstOrDefault(el => el.TextContent.Contains("Connectivity (E20A)"));
+        Assert.NotNull(target);
 
         page = await Client.Follow(target);
 
@@ -176,6 +178,76 @@ public class WhenViewingComparisonItSpend(SchoolBenchmarkingWebAppClient client)
             school,
             expectedQueryParams: "?ViewAs=0&ResultAs=0&SelectedSubCategories=AdministrationSoftwareSystems",
             expectedSubCategories: BuildExpectedSubCategories(0));
+    }
+
+    [Fact]
+    public async Task CanFollowClearCorrectlyUpdatesPage()
+    {
+        var (page, school) = await SetupNavigateInitPage(
+            EstablishmentTypes.Maintained,
+            queryParams: "?viewAs=0&resultAs=0&selectedSubCategories=0&SelectedSubCategories=1");
+
+        var target = page.QuerySelectorAll("a").FirstOrDefault(x => x.TextContent.Trim() == "Clear");
+        Assert.NotNull(target);
+
+        page = await Client.Follow(target);
+
+        AssertPageLayout(
+            page,
+            school,
+            expectedQueryParams: "?ViewAs=0&ResultAs=0");
+    }
+
+    [Theory]
+    [InlineData(true)]
+    [InlineData(false)]
+    public async Task SuppressNegativeOrZeroWarningCorrectlyShown(bool hasNegativeValues)
+    {
+        var school = Fixture.Build<School>()
+            .With(x => x.URN, "123456")
+            .With(x => x.FinanceType, EstablishmentTypes.Maintained)
+            .Create();
+
+        var comparatorSet = Fixture.Build<SchoolComparatorSet>()
+            .With(c => c.Pupil, Fixture.CreateMany<string>().ToArray())
+            .Without(c => c.Building)
+            .Create();
+
+        var spend = Fixture.Build<SchoolItSpend>()
+            .CreateMany()
+            .ToArray();
+        spend.ElementAt(0).URN = school.URN;
+
+        if (hasNegativeValues)
+        {
+            spend.ElementAt(1).AdministrationSoftwareAndSystems = -1;
+        }
+
+        var horizontalBarChart = new ChartResponse { Html = "<svg />" };
+
+        var client = Client
+            .SetupEstablishment(school)
+            .SetupComparatorSet(school, comparatorSet)
+            .SetupItSpend(spend)
+            .SetupChartRendering<SchoolComparisonDatum>(horizontalBarChart);
+
+        var page = await client.Navigate(Paths.SchoolComparisonItSpend(school.URN));
+
+        var adminSoftwareSection = page.QuerySelector("#cost-sub-category-administration-software-and-systems-e20d");
+        Assert.NotNull(adminSoftwareSection);
+
+        if (hasNegativeValues)
+        {
+            var warningText = adminSoftwareSection.QuerySelector(".govuk-warning-text__text");
+            Assert.NotNull(warningText);
+
+            DocumentAssert.TextMatches(warningText, new Regex(@"^Warning\s+Only displaying schools with positive expenditure\.$"));
+        }
+        else
+        {
+            var warningText = adminSoftwareSection.QuerySelector(".govuk-warning-text__text");
+            Assert.Null(warningText);
+        }
     }
 
     private async Task<(IHtmlDocument page, School school)> SetupNavigateInitPage(
