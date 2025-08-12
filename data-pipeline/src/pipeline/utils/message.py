@@ -2,7 +2,7 @@ from enum import Enum, auto
 
 from .log import setup_logger
 
-logger = setup_logger("fbit-data-pipeline")
+logger = setup_logger(__name__)
 
 
 class MessageType(Enum):

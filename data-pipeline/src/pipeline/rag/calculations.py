@@ -11,7 +11,7 @@ from pipeline.config import rag_category_settings
 
 pd.options.mode.chained_assignment = None
 
-logger = logging.getLogger("fbit-data-pipeline")
+logger = logging.getLogger("rag")
 
 base_cols = [
     "URN",

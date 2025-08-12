@@ -20,7 +20,7 @@ from pipeline.pre_processing.common.part_year import (
 simplefilter(action="ignore", category=pd.errors.PerformanceWarning)
 simplefilter(action="ignore", category=FutureWarning)
 
-logger = logging.getLogger("fbit-data-pipeline")
+logger = logging.getLogger("aar")
 
 
 def prepare_aar_data(aar_path, year: int):

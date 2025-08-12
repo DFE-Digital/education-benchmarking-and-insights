@@ -2,7 +2,7 @@ import pandas as pd
 
 from pipeline.utils.log import setup_logger
 
-stats_logger = setup_logger("stats")
+stats_logger = setup_logger(__name__)
 
 
 class StatsCollector:
