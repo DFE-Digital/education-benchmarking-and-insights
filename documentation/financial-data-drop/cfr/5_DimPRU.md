@@ -1,6 +1,6 @@
 # Pupil Referral Unit (Alternative Provision) - Dimension Data
 
-The CFR data is processed along with dimension data to create Financial Benchmarking and Insights Tool (FBIT) upstream dataset named `maintained_schools_master_list`. These dimension data are:
+The CFR data is processed along with a few dimension data to create the downstream dataset named `maintained_schools_master_list`. These dimension data are:
 
 - Get Information About School (GIAS)
 - School Census
@@ -12,6 +12,8 @@ The CFR data is processed along with dimension data to create Financial Benchmar
 Pupil Referral Units (PRUs) are a type of Alternative Provision (AP) used to educate students who cannot attend mainstream school. They cater to students facing various challenges, including illness, exclusion, or those awaiting a mainstream school place. PRU details is collected during school census which is managed by the Department of Education.
 
 ## Getting PRU Data
+
+- Pupil Referral Dimension Data
 
 1. Connect to [SQL Server](https://educationgovuk.sharepoint.com/:w:/r/sites/DfEFinancialBenchmarking/_layouts/15/Doc.aspx?sourcedoc=%7BA47507F6-2C23-487A-98EC-0B6C75A7471A%7D&file=CFR%20source%20data%20access%20request.docx&action=default&mobileredirect=true) and run below query using the reporting financial year database, for instance, for financial year 2024_2025, use [SchoolCensus2025_Spring_SPSSViews]
 
@@ -28,6 +30,10 @@ Pupil Referral Units (PRUs) are a type of Alternative Provision (AP) used to edu
     ```
 
 2. Import the result of the query into the local database, name the table `Dim_PRU_Pupils_SchoolLevel`
+
+- Pupil Referral Unit Slowly Changing Dimension
+
+1. tbc
 
 ### PRU Fields and Data Type
 

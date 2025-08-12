@@ -1,6 +1,6 @@
 # General Hospital Schools - Dimension Data
 
-The CFR data is processed along with dimension data to create Financial Benchmarking and Insights Tool (FBIT) upstream dataset named `maintained_schools_master_list`. These dimension data are:
+The CFR data is processed along with a few dimension data to create the downstream dataset named `maintained_schools_master_list`. These dimension data are:
 
 - Get Information About School (GIAS)
 - School Census
@@ -29,3 +29,7 @@ A list of general hospital schools is required. General hospital schools return 
     ```
 
 2. Import the result of the query into the local database, name the table `Dim_GenHospital`
+
+- General Hospital Schools Slowly Changing Dimension
+
+1. tbc

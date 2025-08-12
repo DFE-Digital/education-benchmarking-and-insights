@@ -1,6 +1,6 @@
 # School Census - Dimension Data
 
-The CFR data is processed along with dimension data to create Financial Benchmarking and Insights Tool (FBIT) upstream dataset named `maintained_schools_master_list`. These dimension data are:
+The CFR data is processed along with a few dimension data to create the downstream dataset named `maintained_schools_master_list`. These dimension data are:
 
 - Get Information About School (GIAS)
 - **School Census**
@@ -9,15 +9,21 @@ The CFR data is processed along with dimension data to create Financial Benchmar
 - General Hospital schools
 - School Workforce Census
 
-Pupil data from the school census is produced by the Department of Education and published in the [GOV.UK School, Pupils and their Characteristics](https://explore-education-statistics.service.gov.uk/find-statistics/school-pupils-and-their-characteristics.) education statistic website; this data is updated annually by July.
+Pupil data from the school census is produced by the Department of Education and published in the [Pupils and their Characteristics - GOV.UK School Education statistic website](https://explore-education-statistics.service.gov.uk/find-statistics/school-pupils-and-their-characteristics.), this data is updated annually by July.
 
 ## Getting School Census Data
 
-1. Click on [URL link](https://content.explore-education-statistics.service.gov.uk/api/releases/e16d24b0-e813-4510-aa21-a6200dffaa97/files?fromPage=ReleaseUsefulInfo) to download `school-pupils-and-their-characteristics_YYYY-YY` zipped folder to local folder, where YYYY-YY represents the financial year for instance, data for 2024_2025 financial year would be school-pupils-and-their-characteristics_2024-25
+- School Census Dimension Data
+
+1. Click on [URL link](https://content.explore-education-statistics.service.gov.uk/api/releases/e16d24b0-e813-4510-aa21-a6200dffaa97/files?fromPage=ReleaseUsefulInfo) to download `school-pupils-and-their-characteristics_YYYY-YY` zipped folder to local folder, where YYYY-YY represents the reporting academic year `school-pupils-and-their-characteristics_2024-25` would be used to generate 2024-2025 academic year financial return
 2. In the `supporting-files` sub-folder of the `school-pupils-and-their-characteristics_YYYY-YY` zipped folder, access the
 `spc_school_level_underlying_data_2025.csv` file.
 3. Clean data by replacing any value returned as `z` to `0` (zero)
 4. Save and rename file to `Dim_SchoolLevelPupilCensus.csv`
+
+- School Census Slowly Changing Dimension
+
+1. tbc
 
 ### School Census Fields and Data Type
 

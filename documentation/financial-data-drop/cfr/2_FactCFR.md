@@ -8,7 +8,7 @@ The main checks on CFR data relate to the fields for federated schools. A federa
 
 Federated schools receiving a single budget share should report collectively in their CFR return. There should therefore be only one CFR return made for federated schools. The “lead school” in the federation should make the return while including the LA Establishment (`LAEstab`) numbers of other schools within the federation. There should be no individual return from schools within a federation other than the lead school. In practice however some schools submit returns both through a federation and on their own, resulting in duplicate submissions which need to be resolved as part of preprocessing.
 
-![Federated School Example](../images/federated-schools.png)
+![Federated School Example](../images/federated-school.png)
 
 The image above shows an example of a federated school with the lead school alone actioning the financial return. There is validation in the data collection to identify federation reporting issues but it is possible that some errors remain. The mis-recording of federated schools can cause issues such as duplication and incorrect totals.
 
@@ -22,12 +22,13 @@ View = `CFR_YY-YY_Data` where YY-YY represent financial year, for instance `CFR_
 
 ### Local Database
 
-Created local database = `CFRYY` where YY represents the financial year end, for instance `CFR25` for financial year ending 2025.
-Table = `CFR_YYYY` where YYYY represent financial year, for instance `CFR_2425` for financial year ending 2025.
+1. Create local database named `CFRYY` where YY represents the financial year end, for instance `CFR25` for financial year ending 2025.
+2. Table 1 = `CFR_YYYY_publication` where YYYY represent financial year, for instance `CFR_2425_publication` for financial year ending 2025.
+3. Table 2 = `CFR_YYYY` where YYYY represent financial year, for instance `CFR_2425` for financial year ending 2025.
 
 #### The following instructions describe CFR QA checks
 
-1. Connect the CFR data source as listed above
+1. Connect to the CFR data source as listed above
 2. Run the below SQL query to validate non-federated schools financial return. The absence of record / no result suggest that there is no incorrect non-federated school entry in CFR data collection.
 
     ```sql
@@ -94,7 +95,7 @@ Table = `CFR_YYYY` where YYYY represent financial year, for instance `CFR_2425` 
     AND   [LAEstab of School in Federation 10] IS NULL
     ```
 
-5. Run the below SQL query to confirm NULLs in the data. `NULL` values can throw out the total calculations, all NULL return should be converted to zero in the creation of the final dataset.
+5. Run the below SQL query to confirm NULLs in the data. `NULL` values can throw out the total calculations, all NULL return should be replaced with zero in the creation of the final dataset.
 
     ```sql
     SELECT * FROM [ConsistentFinancialReporting_20242025SPSSViews].[dbo].[CFR_24-25_Data]
@@ -118,7 +119,7 @@ Table = `CFR_YYYY` where YYYY represent financial year, for instance `CFR_2425` 
 
 #### Handling CFR data errors
 
-Once any issue(s) has been identified from QA checks, a report of the affected schools (`LEAEstab`, `Federated Flag` and `LAEstab of School in Federation 1 to 10` fields and respective values) should be documented and communicated / shared with related stakeholder (Dan Tovey, Jeff Kirkman & Lee McCusker).
+Once any issue(s) has been identified from QA checks, a report of the affected schools (`LEAEstab`, `Federated Flag` and `LAEstab of School in Federation 1 to 10` fields and respective values) should be documented and communicated / shared with related stakeholder (product owners).
 
 > **Note**
 > Our established process has been to manually correct school data submission errors, as this is more efficient than reopening the portal for resubmission. Following these corrections, product owner would make arrangements to notify the affected schools' Local Authorities with instructions on how to report their financial records correctly in the future.
@@ -126,4 +127,38 @@ Once any issue(s) has been identified from QA checks, a report of the affected s
 #### Export CFR Data from CFR Source Data into `CFRYY` Local Database
 
 1. Connect to the CFR data source as listed above
-2. Either by using A database GUI Tool or CSV export, ingest all `CFR_YY-YY_Data` record into `CFR_YYYY`
+2. Either by using a database GUI Tool or CSV export, ingest all `CFR_YY-YY_Data` records into `CFR_YYYY_publication`
+3. Manually correct school data submission errors by making any amendments to the CFR data having consulted with product owner and sought further information from the schools and LAs. This step may not be necessary - it depends on your preliminary CFR data checks.
+4. As per step 5 of the above CFR QA checks, if NULLs values is confirmed, run the below SQL query to replace all `NULL` values with zero (0.00)
+
+    ```sql
+    UPDATE [CFR25].[dbo].[CFR_2425_publication]
+    SET    [OB01] = 0.00, [OB02] = 0.00, [OB03] = 0.00, [I01] = 0.00, [I02] = 0.00, [I03] = 0.00, [I04] = 0.00,
+        [I05] = 0.0,   [I06] = 0.00, [I07] = 0.00, [I08a] = 0.00, [I08b] = 0.00, [I09] = 0.00, [I10] = 0.00,
+        [I11] = 0.00, [I12] = 0.00, [I13] = 0.00, [I15] = 0.00,[I16] = 0.00, [I17] = 0.00, [I18c] = 0.00,
+        [I18d] = 0.00, [E01] = 0.00, [E02] = 0.00, [E03] = 0.00, [E04] = 0.00, [E05] = 0.00, [E06] = 0.00,
+        [E07] = 0.00, [E08] = 0.00, [E09] = 0.00, [E10] = 0.00, [E11] = 0.00, [E12] = 0.00, [E13] = 0.00,
+        [E14] = 0.00, [E15] = 0.00, [E16] = 0.00, [E17] = 0.00, [E18] = 0.00, [E19] = 0.00, [E20A] = 0.00,
+        [E20B] = 0.00, [E20C] = 0.00, [E20D] = 0.00, [E20E] = 0.00, [E20F] = 0.00, [E20G] = 0.00, [E21] = 0.00,
+        [E22] = 0.00, [E23] = 0.00, [E24] = 0.00, [E25] = 0.00, [E26] = 0.00, [E27] = 0.00, [E28a] = 0.00,
+        [E28b] = 0.00, [E29] = 0.00, [E30] = 0.00, [E31] = 0.00, [E32] = 0.00, [CI01] = 0.00, [CI03] = 0.00, [CI04] = 0.00, [DeMinimis] = 0.00, [CE01] = 0.00, [CE02] = 0.00, [CE03] = 0.00, [CE04A] = 0.00, [CE04B] = 0.00,
+        [CE04C]= 0.00, [CE04D] = 0.00, [CE04E] = 0.00, [B01] = 0.00, [B02] = 0.00, [B03] = 0.00,
+        [B05] = 0.00, [B06] = 0.00, [B07] = 0.00
+
+    WHERE  [OB01] IS NULL OR [OB02] IS NULL OR [OB03] IS NULL OR [I01] IS NULL OR [I02] IS NULL
+        OR [I03] IS NULL OR [I04] IS NULL OR [I05] IS NULL OR [I06] IS NULL OR [I07] IS NULL
+        OR [I08a] IS NULL OR [I08b] IS NULL OR [I09] IS NULL OR [I10] IS NULL OR [I11] IS NULL
+        OR [I12] IS NULL OR [I13] IS NULL OR [I15] IS NULL OR [I16] IS NULL OR [I17] IS NULL
+        OR [I18c] IS NULL OR [I18d] IS NULL OR [E01] IS NULL OR [E02] IS NULL OR [E03] IS NULL
+        OR [E04] IS NULL OR [E05] IS NULL OR [E06] IS NULL OR [E07] IS NULL OR [E08] IS NULL
+        OR [E09] IS NULL OR [E10] IS NULL OR [E11] IS NULL OR [E12] IS NULL OR [E13] IS NULL
+        OR [E14] IS NULL OR [E15] IS NULL OR [E16] IS NULL OR [E17] IS NULL OR [E18] IS NULL
+        OR [E19] IS NULL OR [E20A] IS NULL OR [E20B] IS NULL OR [E20C] IS NULL OR [E20D] IS NULL
+        OR [E20E] IS NULL OR [E20F] IS NULL OR [E20G] IS NULL OR [E21] IS NULL OR [E22] IS NULL
+        OR [E23] IS NULL OR [E24] IS NULL OR [E25] IS NULL OR [E26] IS NULL OR [E27] IS NULL
+        OR [E28a] IS NULL OR [E28b] IS NULL OR [E29] IS NULL OR [E30] IS NULL OR [E31] IS NULL
+        OR [E32] IS NULL OR [CI01] IS NULL OR [CI03] IS NULL OR [CI04] IS NULL OR [DeMinimis] IS NULL
+        OR [CE01] IS NULL OR [CE02] IS NULL OR [CE03] IS NULL OR [CE04A] IS NULL OR [CE04B] IS NULL
+        OR [CE04C]IS NULL OR [CE04D] IS NULL OR [CE04E] IS NULL OR [B01] IS NULL OR [B02] IS NULL
+        OR [B03] IS NULL OR [B05] IS NULL OR [B06] IS NULL OR [B07] IS NULL
+    ```
