@@ -38,20 +38,20 @@ Manually scale core database to S2 tier to replicate production infrastructure f
 **Monitoring Performance:**
 
 - Response Time
-    - Definition: Time between request initiation and full response received.
-    - Measurement: Azure Load Testing metrics.
+  - Definition: Time between request initiation and full response received.
+  - Measurement: Azure Load Testing metrics.
 - Error Percentage
-    - Definition: % of requests returning error (5xx).
-    - Measurement: Azure Load Testing metrics.
+  - Definition: % of requests returning error (5xx).
+  - Measurement: Azure Load Testing metrics.
 - Throughput
-    - Definition: Requests processed per second.
-    - Measurement: Azure Load Testing metrics.
+  - Definition: Requests processed per second.
+  - Measurement: Azure Load Testing metrics.
 - CPU & Memory utilisation
-    - Definition: Average percentage utilisation on app service during load.
-    - Measurement: Azure Monitor.
+  - Definition: Average percentage utilisation on app service during load.
+  - Measurement: Azure Monitor.
 - Database performance
-    - Definition: Average % DTU utilisation.
-    - Measurement: Azure Monitor.
+  - Definition: Average % DTU utilisation.
+  - Measurement: Azure Monitor.
 
 **Page Under Test:**
 
@@ -63,6 +63,7 @@ Manually scale core database to S2 tier to replicate production infrastructure f
 ## Performance Success Criteria
 
 Response Time:
+
 - P75 below 500ms
 - P95 below 1000ms
 - P99 below 2000ms
@@ -87,8 +88,7 @@ Response Time:
 
 **Findings and Recommendations:**
 
-First pass of the test failed with the set criteria with app service set to P1V3 and database set to S2. 
-
+First pass of the test failed with the set criteria with app service set to P1V3 and database set to S2.
 
 <!-- Leave the rest of this page blank -->
 \newpage
