@@ -114,3 +114,6 @@ Get Information about Schools (GIAS) is the Department for Education’s registe
 |LSOA (code)                        | nvarchar  |
 |FSM                                | float     |
 |**LAEstab**                        | float     |
+
+<!-- Leave the rest of this page blank -->
+\newpage

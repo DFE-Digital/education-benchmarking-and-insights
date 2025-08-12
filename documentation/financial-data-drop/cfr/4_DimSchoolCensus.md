@@ -130,3 +130,6 @@ tbc
 |number of pupils who are a young carer         |nvarchar        |
 |number_of_dual_subsidiary_registrations         |nvarchar        |
 |school_time         |nvarchar        |
+
+<!-- Leave the rest of this page blank -->
+\newpage

@@ -105,3 +105,6 @@ tbc
 |Rate of Teacher Vacancies - Demoninator is an addition of both teachers and vacancies (%) |  float    |
 |Number of Temporarily Filled Teacher Posts|  float    |
 |Rate of Temporarily Filled Teacher Posts - Demoninator is an addition of both teachers and vacancies (%) |  float    |
+
+<!-- Leave the rest of this page blank -->
+\newpage

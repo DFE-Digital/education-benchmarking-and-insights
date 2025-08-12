@@ -280,3 +280,6 @@ Report be named `Federation Funnies` and uploaded to the newly created `yy-yy` f
 |CashOrAccruals                     |nvarchar   |
 |F109                               |nvarchar   |
 |F110                               |nvarchar   |
+
+<!-- Leave the rest of this page blank -->
+\newpage

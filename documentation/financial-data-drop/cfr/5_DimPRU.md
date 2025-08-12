@@ -43,3 +43,6 @@ tbc
 |Phase                              | nvarchar  |
 |Headcount                          | float     |
 |FTE                                | float     |
+
+<!-- Leave the rest of this page blank -->
+\newpage
