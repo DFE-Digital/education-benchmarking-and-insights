@@ -5,6 +5,7 @@ from pipeline.comparator_sets.calculations import prepare_data
 from pipeline.utils.storage import get_blob, write_blob
 from pipeline.utils.database import insert_metric_rag
 from pipeline.utils.log import setup_logger
+from .calculations import calculate_rag
 
 logger = setup_logger("rag")
 
@@ -39,7 +40,7 @@ def compute_rag_for(
         ).set_index("URN")
     else:
         df = pd.DataFrame(
-            compute_rag(data, comparators, target_urn=target_urn)
+            calculate_rag(data, comparators, target_urn=target_urn)
         ).set_index("URN")
 
     logger.info(
