@@ -6,7 +6,7 @@ This procedure details the necessary steps to process the Consistent Financial R
 
 The main checks on CFR data relate to the fields for federated schools. A federation of schools is a structure where two or more maintained schools join under a single governing body, while retaining their individual identities. Section 24 of the Education Act 2002 allows for a local authority (LA) to allocate a single budget share to a governing body where there are two or more schools federated.
 
-Federated schools receiving a single budget share should report collectively in their CFR return. There should therefore be only one CFR return made for federated schools. The “lead school” in the federation should make the return while including the LA Establishment (`LAEstab`) numbers of other schools within the federation. There should be no individual return from schools within a federation other than the lead school. In practice however some schools submit returns both through a federation and on their own, resulting in duplicate submissions which need to be resolved as part of preprocessing.
+Federated schools receiving a single budget share should report collectively in their CFR return. There should therefore be only one CFR return made for federated schools. The “lead school” in the federation should make the return while including the LA Establishment (`LAEstab`) numbers of other schools within the federation. There should be no individual return from schools within a federation other than the lead school. In practice however, some schools submit returns both through a federation and on their own, resulting in duplicate submissions which need to be resolved as part of preprocessing.
 
 ![Federated School Example](../images/federated-school.png)
 
@@ -16,19 +16,14 @@ The image above shows an example of a federated school with the lead school alon
 
 Server Name = [iSore SQL Server](https://educationgovuk.sharepoint.com/:w:/r/sites/DfEFinancialBenchmarking/_layouts/15/Doc.aspx?sourcedoc=%7BA47507F6-2C23-487A-98EC-0B6C75A7471A%7D&file=CFR%20source%20data%20access%20request.docx&action=default&mobileredirect=true)
 
-Database = `ConsistentFinancialReporting_YYYYYYYYSPSSViews` where YYYYYYYY represents the reporting financial year, for instance for 2024_2025 financial year, use `ConsistentFinancialReporting_20242025SPSSViews`
+Database = `ConsistentFinancialReporting_20yy20yySPSSViews` where 20yy20yy represents the reporting financial year, for instance for 2024_2025 financial year, use `ConsistentFinancialReporting_20242025SPSSViews`
 
-View = `CFR_YY-YY_Data` where YY-YY represent financial year, for instance `CFR_24-25_Data`
-
-### Local Database
-
-1. Create local database named `CFRYY` where YY represents the financial year end, for instance `CFR25` for financial year ending 2025.
-2. Table 1 = `CFR_YYYY` where YYYY represent financial year, for instance `CFR_2425` for financial year ending 2025.
+View = `CFR_yy-yy_Data` where yy-yy represent financial year, for instance `CFR_24-25_Data`
 
 ### The following instructions describe CFR QA checks
 
 1. Connect to the CFR data source as listed above
-2. Run the below SQL query to validate non-federated schools financial return. The absence of record / no result suggest that there is no incorrect non-federated school entry in CFR data collection. Edit table name to reflect current reporting year
+2. Run the below SQL query to validate non-federated schools financial return. The absence of record / no result suggest that there is no incorrect non-federated school entry in CFR data collection. Edit database and view name to reflect current reporting year
 
     ```sql
     SELECT *
@@ -46,7 +41,7 @@ View = `CFR_YY-YY_Data` where YY-YY represent financial year, for instance `CFR_
         OR [LAEstab of School in Federation 10] IS NOT NULL)
     ```
 
-3. Run the below SQL query to validate that only the “lead school” within a federation have CFR return. The absence of record / no result suggest that there is no incorrect federated school entry in CFR data collection. Edit table name to reflect current reporting year
+3. Run the below SQL query to validate that only the “lead school” within a federation have CFR return. The absence of record / no result suggest that there is no incorrect federated school entry in CFR data collection. Edit database and view  name to reflect current reporting year
 
     ```sql
     SELECT b.*
@@ -76,7 +71,7 @@ View = `CFR_YY-YY_Data` where YY-YY represent financial year, for instance `CFR_
     WHERE b.LEAEstab IS NOT NULL
     ```
 
-4. Run the below SQL query to validate that all schools where the Federated Flag is “yes” (lead school) have at least one school listed in “LAEstab of School in Federation 1” to 10 (non-lead schools). The absence of record / no result suggest that there is no incorrect federated school entry in CFR data collection. Edit table name to reflect current reporting year
+4. Run the below SQL query to validate that all schools where the Federated Flag is “yes” (lead school) have at least one school listed in “LAEstab of School in Federation 1” to 10 (non-lead schools). The absence of record / no result suggest that there is no incorrect federated school entry in CFR data collection. Edit database and view  name to reflect current reporting year
 
     ```sql
     SELECT TOP 10 *
@@ -94,7 +89,7 @@ View = `CFR_YY-YY_Data` where YY-YY represent financial year, for instance `CFR_
     AND   [LAEstab of School in Federation 10] IS NULL
     ```
 
-5. Run the below SQL query to confirm NULLs in the data. `NULL` values can throw out the total calculations, all NULL return should be replaced with zero in the creation of the final dataset. Edit table name to reflect current reporting year
+5. Run the below SQL query to confirm NULLs in the data. `NULL` values can throw out the total calculations, all NULL return should be replaced with zero in the creation of the final dataset. Edit database and view  name to reflect current reporting year
 
     ```sql
     SELECT * FROM [ConsistentFinancialReporting_20242025SPSSViews].[dbo].[CFR_24-25_Data]
@@ -120,25 +115,24 @@ View = `CFR_YY-YY_Data` where YY-YY represent financial year, for instance `CFR_
 
 Once any issue(s) has been identified from QA checks, an Excel report of the affected schools (`LEAEstab`, `Federated Flag` and `LAEstab of School in Federation 1 to 10` fields and respective values) should be documented and communicated / shared with related stakeholder (product owners).
 
-Report be named `Federation Funnies` and uploaded to the created `2Y2Y` folder within [CFR Data Procurement Process Sharepoint location](https://educationgovuk.sharepoint.com/sites/DfEFinancialBenchmarking/Shared%20Documents/Forms/AllItems.aspx?id=%2Fsites%2FDfEFinancialBenchmarking%2FShared%20Documents%2FCFR%20Data%20Procurement%20Process&viewid=7afed90f%2D9f2f%2D431a%2D93ce%2D48075c0e93d8&csf=1&web=1&e=boXhxD&CID=0fb7a62d%2De68f%2D4f86%2Dac15%2D27e9c4f7b4a6&FolderCTID=0x012000B007B75DE8F91C4B82D20FE8B354FCBD). See sample for 2024-2025 academic year [here](https://educationgovuk.sharepoint.com/:x:/r/sites/DfEFinancialBenchmarking/Shared%20Documents/CFR%20Data%20Procurement%20Process/24-25/Federation%20Funnies%20-%20250730.xlsx?d=w77a953618eef4ce5a6c6cdc37e6fc14e&csf=1&web=1&e=cXUQtM)
+Report be named `Federation Funnies` and uploaded to the newly created `yy-yy` folder within [CFR Data Procurement Process Sharepoint location](https://educationgovuk.sharepoint.com/sites/DfEFinancialBenchmarking/Shared%20Documents/Forms/AllItems.aspx?id=%2Fsites%2FDfEFinancialBenchmarking%2FShared%20Documents%2FCFR%20Data%20Procurement%20Process&viewid=7afed90f%2D9f2f%2D431a%2D93ce%2D48075c0e93d8&csf=1&web=1&e=boXhxD&CID=0fb7a62d%2De68f%2D4f86%2Dac15%2D27e9c4f7b4a6&FolderCTID=0x012000B007B75DE8F91C4B82D20FE8B354FCBD). See sample for 2024-2025 academic year [here](https://educationgovuk.sharepoint.com/:x:/r/sites/DfEFinancialBenchmarking/Shared%20Documents/CFR%20Data%20Procurement%20Process/24-25/Federation%20Funnies%20-%20250730.xlsx?d=w77a953618eef4ce5a6c6cdc37e6fc14e&csf=1&web=1&e=cXUQtM)
 
 > **Note**
 > Our established process has been to manually correct school data submission errors, as this is more efficient than reopening the portal for resubmission. Following these corrections, product owner would make arrangements to notify the affected schools' Local Authorities with instructions on how to report their financial records correctly in the future.
 
-#### Export CFR Data from CFR Source Data into `CFRYY` Local Database
+#### Export CFR Data from CFR Source Data into `CFRyy` Local Database
 
 1. Connect to the CFR data source as listed above
-2. Either by using a database GUI Tool or CSV export, ingest all `CFR_YY-YY_Data` records from CFR data source into `CFR_yYYY` table in newly created local database
-3. Manually correct school data submission errors by making any amendments to the CFR data having consulted with product owner and sought further information from the schools and LAs. This step may not be necessary - it depends on your preliminary CFR data checks.
-    Manual correction may include updating `CFR_YYYY` table within local database based on specific conditions, for instance,
+2. Either by using a database GUI Tool or CSV export, ingest all `CFR_yy-yy_Data` records from CFR data source within iStore SQL Server into a table to be named `CFR_yyyy` within the newly created local database as mentioned under Prerequisite subsection in this documentation [Overview](documentation\financial-data-drop\cfr\1_Overview .md) page. Where yyyy represents the current reporting academic year, for instance `CFR_2425` for 2024-2025 reporting academic year.
+3. Manually correct school data submission errors by making any amendments to the CFR data having consulted with product owner and sought further information from the schools and LAs. This step may not be necessary - it depends on your preliminary CFR data checks. Manual correction may include updating `CFR_yyyy` table within local database based on specific conditions, for instance,
 
     ```sql
-    UPDATE [CFR2Y].[dbo].[CFR_2Y2Y]
+    UPDATE [CFR2y].[dbo].[CFR_2y2y]
     SET [Federated Flag] = 'No' 
     WHERE [LEAEstab] IN (8761005, 8761007);
     ```
 
-4. As per step 5 of the above CFR QA checks, if NULLs values is confirmed, run the below SQL query to replace all `NULL` values with zero (0.00). Edit table name to reflect current reporting year
+4. As per step 5 of the above CFR QA checks, if NULLs values is confirmed, run the below SQL query to replace all `NULL` values with zero (0.00). Edit database and table name to reflect current reporting year
 
     ```sql
     UPDATE [CFR25].[dbo].[CFR_2425]

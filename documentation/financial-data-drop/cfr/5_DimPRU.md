@@ -13,9 +13,9 @@ Pupil Referral Units (PRUs) are a type of Alternative Provision (AP) used to edu
 
 ## Getting PRU Data
 
-- Pupil Referral Dimension Data
+- **Pupil Referral Dimension Data**
 
-1. Connect to [SQL Server](https://educationgovuk.sharepoint.com/:w:/r/sites/DfEFinancialBenchmarking/_layouts/15/Doc.aspx?sourcedoc=%7BA47507F6-2C23-487A-98EC-0B6C75A7471A%7D&file=CFR%20source%20data%20access%20request.docx&action=default&mobileredirect=true) and run below query using the reporting financial year database, for instance, for financial year 2024_2025, use [SchoolCensus2025_Spring_SPSSViews]
+1. Connect to [iStore SQL Server](https://educationgovuk.sharepoint.com/:w:/r/sites/DfEFinancialBenchmarking/_layouts/15/Doc.aspx?sourcedoc=%7BA47507F6-2C23-487A-98EC-0B6C75A7471A%7D&file=CFR%20source%20data%20access%20request.docx&action=default&mobileredirect=true) and run below query using the reporting financial year database, for instance, for financial year 2024_2025, use [SchoolCensus2025_Spring_SPSSViews]
 
     ```sql
     SELECT a.[LAEstab]  
@@ -31,11 +31,11 @@ Pupil Referral Units (PRUs) are a type of Alternative Provision (AP) used to edu
 
 2. Import the result of the query into the local database, name the table `Dim_PRU_Pupils_SchoolLevel`
 
-- Pupil Referral Unit Slowly Changing Dimension
+- **Pupil Referral Unit Slowly Changing Dimension Data**
 
-1. tbc
+tbc
 
-### PRU Fields and Data Type
+### PRU Fields Data Type
 
 | Column Name                       | Data type |
 |-----------------------------------|-----------|

@@ -13,15 +13,20 @@ SEN data is taken from the School Census produced by the Department of Education
 
 ## Getting SEN Data
 
-1. Click on [URL link](https://content.explore-education-statistics.service.gov.uk/api/releases/1818d5d3-56fb-47fb-b057-08dd86900487/files?fromPage=ReleaseUsefulInfo) to download `special-educational-needs-in-england_YYYY-YY` zipped folder to local folder, where YYYY-YY represents the reporting academic year, for instance,`special-educational-needs-in-england_2024-25` would be used to generate 2024-2025 academic year financial return
+- **Special Educational Needs Dimension Data**
+
+1. Click on [URL link](https://content.explore-education-statistics.service.gov.uk/api/releases/1818d5d3-56fb-47fb-b057-08dd86900487/files?fromPage=ReleaseUsefulInfo) to download `special-educational-needs-in-england_YYYY-yy` zipped folder to local folder, where YYYY-yy represents the reporting academic year. For instance,`special-educational-needs-in-england_2024-25` would be used to generate 2024-2025 academic year financial return
+
 2. In the `supporting-files` sub-folder of the `special-educational-needs-in-england_YYYY-YY` zipped folder, access the
 `sen_school_level_underlying_data.csv` file.
-3. Clean data by replacing any value returned as `z` to `0` (zero)
+
+3. Clean data by replacing any value returned as `z` to `0.00` (zero)
+
 4. Save and rename file to `Dim_SENSchoolLevel20yy.csv`
 
-- Special Educational Needs Slowly Changing Dimension
+- **Special Educational Needs Slowly Changing Dimension Data**
 
-1. tbc
+tbc
 
 ### Special Educational Needs Fields Data Type
 

@@ -13,18 +13,24 @@ School workforce data is taken from the School Census produced by the Department
 
 ## Getting School Workforce Census Data
 
-1. Click on [URL link](https://content.explore-education-statistics.service.gov.uk/api/releases/22112b8a-8ae7-43a1-a875-1e8deeeafa06/files?fromPage=ReleaseUsefulInfo) to download `school-workforce-in-england_YYYY` zipped folder to local folder, where YYYY represents last calendar year (current year minus one), for instance, `school-workforce-in-england_2024` would be used to generate 2024-2025 academic year financial return.
+- **School Workforce Census Data**
+
+1. Click on [URL link](https://content.explore-education-statistics.service.gov.uk/api/releases/22112b8a-8ae7-43a1-a875-1e8deeeafa06/files?fromPage=ReleaseUsefulInfo) to download `school-workforce-in-england_YYYY` zipped folder to local folder, where YYYY represents last calendar year (current year minus one). For instance, `school-workforce-in-england_2024` would be used to generate 2024-2025 academic year financial return.
+
 2. In the `supporting-files` sub-folder of the `school-workforce-in-england_YYYY` zipped folder, access the
 `School_Tables_School_Workforce_Census` file.
+
 3. Delete the first eight (8) rows making the ninth (9th) row the header
-4. Clean data by replacing any value returned as `x`,`c` and `z` to `0` (zero)
+
+4. Clean data by replacing any value returned as `x`,`c` and `z` to `0.00` (zero)
+
 5. Save As file to `Dim_Workforce.csv`
 
-- School Workforce Census Slowly Changing Dimension
+- **School Workforce Census Slowly Changing Dimension Data**
 
-1. tbc
+tbc
 
-### School Workforce Census and Data Type
+### School Workforce Census Data Type
 
 | Column Name                       | Data type |
 |-----------------------------------|-----------|
