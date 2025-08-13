@@ -35,8 +35,8 @@ projection can be compiled for an organisation. This enables:
 
 |  | **Academies** | **Academy Trusts** | **Local Authority** | **Local Authority Schools** |
 |---|---|---|---|---|
-| **Actual Annual Spend** | AAR | AAR (auditable), BFR (pre-audit) | S251 (actuals) | CFR |
-| **Predicted Annual Spend** | | BFR | S251 (predicted) | |
+| **Actual Annual Spend** | AAR | AAR (auditable), BFR (pre-audit) | S251 | CFR |
+| **Predicted Annual Spend** | | BFR | S251 | |
 
 **1. Budget Forecast Return (BFR):**
 
