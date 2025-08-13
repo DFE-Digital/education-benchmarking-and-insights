@@ -15,9 +15,6 @@ export default class VerticalBarChartBuilder {
     valueField,
     width,
   }: VerticalBarChartBuilderOptions<T>): Promise<ChartBuilderResult> {
-    const timerMessage = `Finished building vertical bar chart ${id}`;
-    console.time(timerMessage);
-
     const document = new DOMImplementation().createDocument(
       "http://www.w3.org/2000/svg",
       "svg",
@@ -75,7 +72,6 @@ export default class VerticalBarChartBuilder {
       );
 
     const html = svg.node()?.toString() || undefined;
-    console.timeEnd(timerMessage);
     return { id, html };
   }
 }

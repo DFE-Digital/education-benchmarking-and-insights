@@ -25,9 +25,6 @@ export default class HorizontalBarChartBuilder {
     width,
     xAxisLabel,
   }: HorizontalBarChartBuilderOptions<T>): Promise<ChartBuilderResult> {
-    const timerMessage = `Finished building horizontal bar chart ${id}`;
-    console.time(timerMessage);
-
     const document = new DOMImplementation().createDocument(
       "http://www.w3.org/2000/svg",
       "svg",
@@ -262,7 +259,6 @@ export default class HorizontalBarChartBuilder {
       });
 
     const html = svg.node()?.toString() || undefined;
-    console.timeEnd(timerMessage);
     return { id, html };
   }
 }

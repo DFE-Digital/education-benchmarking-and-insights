@@ -57,9 +57,10 @@ export async function horizontalBarChart(
     context.error(e);
 
     try {
+      const duration = Date.now() - startTime;
       client.trackDependency({
         name: "horizontalBarChartWorker",
-        duration: Date.now() - startTime,
+        duration: duration,
         success: false,
       });
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -95,9 +96,10 @@ export async function horizontalBarChart(
   }
 
   try {
+    const duration = Date.now() - startTime;
     client.trackDependency({
       name: "horizontalBarChartWorker",
-      duration: Date.now() - startTime,
+      duration: duration,
       success: true,
     });
   } catch (e) {
