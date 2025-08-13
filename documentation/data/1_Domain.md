@@ -33,10 +33,15 @@ projection can be compiled for an organisation. This enables:
 
 ## Financial Data Periods and Ancillary Data
 
+|  | **Academies** | **Academy Trusts** | **Local Authority** | **Local Authority Schools** |
+|---|---|---|---|---|
+| **Actual Annual Spend** | AAR (audited) | AAR (audited), BFR (pre-audit) | S251 | CFR |
+| **Predicted Annual Spend** | | BFR (pre-audit) | S251 | |
+
 **1. Budget Forecast Return (BFR):**
 
 - **Entity**: Academy Trusts
-- **Purpose**: Forward-looking projections of income, expenditure, risk, and solvency.
+- **Purpose**: Unaudited forward-looking projections of income, expenditure, risk, and solvency.
 - **Data Contents**:
   - Projected revenue and capital income/expenditure
   - Forecasted cash flow, loans, and reserves
