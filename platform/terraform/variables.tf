@@ -42,12 +42,12 @@ variable "configuration" {
       search_sku                   = "basic"
       search_replica_count         = 1
       sql_telemetry_enabled        = false
-      cache_sku                    = "Basic"
+      cache_sku                    = "Standard"
       cache_capacity               = 1
-      ssr_fa_worker_process_count  = 1
-      ssr_fa_sku                   = "Y1"
-      ssr_fa_elastic_max_workers   = 1
-      ssr_fa_elastic_min_instances = 0
+      ssr_fa_worker_process_count  = 10
+      ssr_fa_sku                   = "EP1"
+      ssr_fa_elastic_max_workers   = 10
+      ssr_fa_elastic_min_instances = 1
     }
     feature = {
       search_sku                   = "basic"
@@ -66,10 +66,10 @@ variable "configuration" {
       sql_telemetry_enabled        = false
       cache_sku                    = "Standard"
       cache_capacity               = 1
-      ssr_fa_worker_process_count  = 1
-      ssr_fa_sku                   = "Y1"
-      ssr_fa_elastic_max_workers   = 1
-      ssr_fa_elastic_min_instances = 0
+      ssr_fa_worker_process_count  = 10
+      ssr_fa_sku                   = "EP1"
+      ssr_fa_elastic_max_workers   = 10
+      ssr_fa_elastic_min_instances = 1
     }
     production = {
       search_sku                   = "basic"
