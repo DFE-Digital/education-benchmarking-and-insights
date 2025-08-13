@@ -35,8 +35,8 @@ projection can be compiled for an organisation. This enables:
 
 |  | **Academy Trusts** | **LA Schools** |
 |---|---|---|
-| **Actual Annual Spend** | **AAR** | **CFR** |
-| **Predicted Annual Spend** | **BFR** | **S251** |
+| **Actual Annual Spend** | **AAR** | **CFR, S251(actuals)** |
+| **Predicted Annual Spend** | **BFR** | **S251(planned)** |
 
 **1. Budget Forecast Return (BFR):**
 
