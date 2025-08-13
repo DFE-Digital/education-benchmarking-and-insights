@@ -33,7 +33,6 @@ projection can be compiled for an organisation. This enables:
 
 ## Financial Data Periods and Ancillary Data
 
-# Education Funding Data: 2x2 Grid
 
 |  | **Academy Trusts** | **LA Schools** |
 |---|---|---|
