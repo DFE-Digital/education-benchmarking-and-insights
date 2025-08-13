@@ -130,7 +130,8 @@ def pre_process_academy_ar(
     return None
 
 
-def pre_process_gias(run_type: str, year: int, run_id: str) -> pd.DataFrame:
+def pre_process_combined_gias(run_type: str, year: int, run_id: str) -> pd.DataFrame:
+    """Combined gias is called schools in the database"""
     logger.info(f"Processing GIAS Data: {run_type}/{year}/gias.csv")
     gias_data = get_blob(
         raw_container, f"{run_type}/{year}/gias.csv", encoding="cp1252"

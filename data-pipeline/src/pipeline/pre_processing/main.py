@@ -30,7 +30,7 @@ from .ancillary.main import (
     pre_process_census,
     pre_process_central_services,
     pre_process_cfo,
-    pre_process_gias,
+    pre_process_combined_gias,
     pre_process_gias_links,
     pre_process_high_exec_pay,
     pre_process_ilr_data,
@@ -611,7 +611,7 @@ def get_aar_ancillary_data(
     """
     run_type = "default"
 
-    gias = pre_process_gias(run_type, aar_year, run_id)
+    gias = pre_process_combined_gias(run_type, aar_year, run_id)
     aar_ancillary_data = {
         "gias": gias,
         "census": pre_process_census(run_type, aar_year, run_id),
@@ -646,7 +646,7 @@ def get_cfr_ancillary_data(
     """
     run_type = "default"
 
-    gias = pre_process_gias(run_type, cfr_year, run_id)
+    gias = pre_process_combined_gias(run_type, cfr_year, run_id)
     cfr_ancillary_data = {
         "gias": gias,
         "census": pre_process_census(run_type, cfr_year, run_id),
