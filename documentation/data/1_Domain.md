@@ -33,12 +33,10 @@ projection can be compiled for an organisation. This enables:
 
 ## Financial Data Periods and Ancillary Data
 
-
 |  | **Academy Trusts** | **LA Schools** |
 |---|---|---|
 | **Actual Annual Spend** | **AAR** | **CFR** |
 | **Predicted Annual Spend** | **BFR** | **S251** |
-
 
 **1. Budget Forecast Return (BFR):**
 
