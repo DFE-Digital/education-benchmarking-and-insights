@@ -4,7 +4,11 @@ from contextlib import suppress
 from functools import lru_cache
 from io import BytesIO, StringIO
 
-from azure.core.exceptions import ResourceExistsError, ResourceNotFoundError, ClientAuthenticationError
+from azure.core.exceptions import (
+    ClientAuthenticationError,
+    ResourceExistsError,
+    ResourceNotFoundError,
+)
 from azure.storage.blob import BlobServiceClient
 from azure.storage.queue import QueueClient, QueueServiceClient
 

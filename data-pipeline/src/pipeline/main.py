@@ -27,7 +27,7 @@ from pipeline.utils.storage import (
 )
 
 logger = setup_logger("fbit-data-pipeline")
-message_visibility_timeout=300
+message_visibility_timeout = 300
 
 
 def handle_msg(
@@ -169,7 +169,7 @@ def process_single_message(
     Receives and processes one message from the queue.
 
     Returns:
-        A dictionary with processing results if a message was handled, 
+        A dictionary with processing results if a message was handled,
         otherwise None.
     """
     message = worker_queue_client.receive_message(
@@ -200,7 +200,7 @@ def process_single_message(
 
 def main():
     queue_service_client = get_queue_service_client()
-    
+
     worker_queue = connect_to_queue(queue_service_client, worker_queue_name)
     complete_queue = connect_to_queue(queue_service_client, complete_queue_name)
     dead_letter_queue = connect_to_queue(queue_service_client, dead_letter_queue_name)
@@ -211,33 +211,37 @@ def main():
         logger.info("Starting continuous message processing...")
         while True:
             try:
-                result = process_single_message(worker_queue, complete_queue, dead_letter_queue)
+                result = process_single_message(
+                    worker_queue, complete_queue, dead_letter_queue
+                )
                 if not result:
                     time.sleep(1)
             except Exception as error:
                 logger.exception(
                     f"An unhandled exception occurred in the processing loop: {error}",
-                    exc_info=error
+                    exc_info=error,
                 )
-                time.sleep(1) # Wait a bit before retrying
+                time.sleep(1)  # Wait a bit before retrying
     else:
         logger.info("Attempting to process one message...")
         try:
-            result = process_single_message(worker_queue, complete_queue, dead_letter_queue)
+            result = process_single_message(
+                worker_queue, complete_queue, dead_letter_queue
+            )
             if not result:
                 logger.info("No messages received.")
-                return 0 # Success (no message)
-            
+                return 0  # Success (no message)
+
             # Return 0 for success, 1 for failure
             return 0 if result.get("success", False) else 1
         except Exception as error:
             logger.exception(
                 f"An unhandled exception occurred while processing a single message.",
-                exc_info=error
+                exc_info=error,
             )
-            return 1 # Failure
+            return 1  # Failure
 
 
-if __name__ == "__main__":    
+if __name__ == "__main__":
     exit_code = main()
     exit(exit_code)
