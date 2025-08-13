@@ -91,7 +91,7 @@ Response Time:
 
 First pass of the test failed with the set criteria with app service set to P1V3 and database set to S2.
 
-The Functions app tier was upgraded but the performance degraded. 
+The Functions app tier was upgraded but the performance degraded.
 
 <!-- Leave the rest of this page blank -->
 \newpage
