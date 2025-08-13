@@ -56,24 +56,24 @@ This document defines **how ingestion testing is approached**, including the sco
 
 ## Test Strategy
 
-**Step 1 – Schema and File Validation**
+**Step 1 – Schema and File Validation:**
 
 - Confirm file formats, columns, and metadata are correct
 - Validate year or version context in filenames and headers
 
-**Step 2 – Pipeline Validation**
+**Step 2 – Pipeline Validation:**
 
 - Monitor logs for successful stage completion
 - Validate that no rows are dropped or duplicated
 - Confirm transformation and aggregation steps are applied correctly
 
-**Step 3 – Database Validation**
+**Step 3 – Database Validation:**
 
 - Verify that data is stored in the correct tables with correct mappings
 - Compare row counts and key metrics against input files
 - Run regression scripts to ensure historical data is unaffected
 
-**Step 4 – Service/UI Validation**
+**Step 4 – Service/UI Validation:**
 
 - Verify new data appears as expected in the service layer
 - Check key metrics, filters, and year switching functionality
