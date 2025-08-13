@@ -62,6 +62,7 @@ export async function horizontalBarChart(
         name: "horizontalBarChartWorker",
         duration: duration,
         success: false,
+        time: new Date(startTime),
       });
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (_e) {
@@ -101,6 +102,7 @@ export async function horizontalBarChart(
       name: "horizontalBarChartWorker",
       duration: duration,
       success: true,
+      time: new Date(startTime),
     });
   } catch (e) {
     context.warn(e);
