@@ -193,7 +193,6 @@ def process_single_message(
         return result
 
     except Exception as e:
-        # TODO: might want to move the failed message to the dead-letter queue here.
         logger.exception(f"Failed to process message {message.id}", exc_info=e)
         return {"success": False, "error": str(e)}
 
