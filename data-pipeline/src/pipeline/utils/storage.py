@@ -4,7 +4,7 @@ from contextlib import suppress
 from functools import lru_cache
 from io import BytesIO, StringIO
 
-from azure.core.exceptions import ResourceExistsError, ResourceNotFoundError
+from azure.core.exceptions import ResourceExistsError, ResourceNotFoundError, ClientAuthenticationError
 from azure.storage.blob import BlobServiceClient
 from azure.storage.queue import QueueClient, QueueServiceClient
 
@@ -39,10 +39,15 @@ def get_queue_service_client() -> QueueServiceClient:
     return QueueServiceClient.from_connection_string(conn_str=conn_str)
 
 
-def connect_to_queue(queue_name) -> QueueClient:
-    queue_service_client = get_queue_service_client()
-
-    queue = queue_service_client.get_queue_client(queue_name)
+def connect_to_queue(queue_service_client, queue_name) -> QueueClient:
+    try:
+        queue = queue_service_client.get_queue_client(queue_name)
+    except ClientAuthenticationError:
+        logging.error("Azure Authentication failed. Please check your credentials.")
+        return None
+    except ResourceNotFoundError:
+        logging.error(f"The queue '{queue_name}' was not found.")
+        return None
     with suppress(ResourceExistsError):
         queue.create_queue()
 

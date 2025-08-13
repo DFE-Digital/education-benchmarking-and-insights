@@ -2,6 +2,7 @@ import json
 import os
 import time
 from contextlib import suppress
+from typing import Dict, Optional
 
 from azure.core.exceptions import ResourceNotFoundError
 from azure.storage.queue import QueueClient, QueueMessage
@@ -21,12 +22,12 @@ from pipeline.utils.storage import (
     connect_to_queue,
     dead_letter_dequeue_max,
     dead_letter_queue_name,
-    get_blob_service_client,
     get_queue_service_client,
     worker_queue_name,
 )
 
 logger = setup_logger("fbit-data-pipeline")
+message_visibility_timeout=300
 
 
 def handle_msg(
@@ -161,69 +162,82 @@ def _check_msg_dequeue(
     )
 
 
-def receive_one_message():
+def process_single_message(
+    worker_queue_client, complete_queue_client, dead_letter_queue_client
+) -> Optional[Dict]:
+    """
+    Receives and processes one message from the queue.
+
+    Returns:
+        A dictionary with processing results if a message was handled, 
+        otherwise None.
+    """
+    message = worker_queue_client.receive_message(
+        visibility_timeout=message_visibility_timeout
+    )
+    if not message:
+        return None
+
+    logger.info(f"Received message: {message.id} with content: {message.content}")
+
     try:
-        blob_service_client = get_blob_service_client()
-        queue_service_client = get_queue_service_client()
-        with blob_service_client, queue_service_client:
-            worker_queue = connect_to_queue(worker_queue_name)
-            complete_queue = connect_to_queue(complete_queue_name)
-            dead_letter_queue = connect_to_queue(dead_letter_queue_name)
-
-            with worker_queue, complete_queue, dead_letter_queue:
-                if msg := worker_queue.receive_message(visibility_timeout=300):
-                    _check_msg_dequeue(
-                        message=msg,
-                        dead_letter_queue=dead_letter_queue,
-                        origin_queue=worker_queue,
-                        dequeue_limit=dead_letter_dequeue_max,
-                    )
-
-                    logger.info(f"received message {msg.content}")
-                    msg = handle_msg(msg, worker_queue, complete_queue)
-                    exit(0) if msg["success"] else exit(1)
-                else:
-                    logger.info("no messages received")
-                    exit(0)
-    except Exception as error:
-        logger.exception(
-            f"An exception occurred: {type(error).__name__}", exc_info=error
+        _check_msg_dequeue(
+            message=message,
+            dead_letter_queue=dead_letter_queue_client,
+            origin_queue=worker_queue_client,
+            dequeue_limit=dead_letter_dequeue_max,
         )
-        exit(-1)
+
+        result = handle_msg(message, worker_queue_client, complete_queue_client)
+        logger.info(f"Successfully processed message {message.id}. Result: {result}")
+        return result
+
+    except Exception as e:
+        # TODO: might want to move the failed message to the dead-letter queue here.
+        logger.exception(f"Failed to process message {message.id}", exc_info=e)
+        return {"success": False, "error": str(e)}
 
 
-def receive_messages():
-    try:
-        blob_service_client = get_blob_service_client()
-        queue_service_client = get_queue_service_client()
-        with blob_service_client, queue_service_client:
-            worker_queue = connect_to_queue(worker_queue_name)
-            complete_queue = connect_to_queue(complete_queue_name)
-            dead_letter_queue = connect_to_queue(dead_letter_queue_name)
-            with worker_queue, complete_queue:
-                while True:
-                    if msg := worker_queue.receive_message(visibility_timeout=300):
-                        _check_msg_dequeue(
-                            message=msg,
-                            dead_letter_queue=dead_letter_queue,
-                            origin_queue=worker_queue,
-                            dequeue_limit=dead_letter_dequeue_max,
-                        )
+def main():
+    queue_service_client = get_queue_service_client()
+    
+    worker_queue = connect_to_queue(queue_service_client, worker_queue_name)
+    complete_queue = connect_to_queue(queue_service_client, complete_queue_name)
+    dead_letter_queue = connect_to_queue(queue_service_client, dead_letter_queue_name)
 
-                        logger.info(f"received message {msg.content}")
-                        msg = handle_msg(msg, worker_queue, complete_queue)
-                        logger.info(f"processed msg response: {msg}")
-                    else:
-                        time.sleep(1)
-    except Exception as error:
-        logger.exception(
-            f"An exception occurred: {type(error).__name__}", exc_info=error
-        )
-        exit(-1)
+    run_continuously = True if os.getenv("ENV") == "dev" else False
 
-
-if __name__ == "__main__":
-    if os.getenv("ENV") == "dev":
-        receive_messages()
+    if run_continuously:
+        logger.info("Starting continuous message processing...")
+        while True:
+            try:
+                result = process_single_message(worker_queue, complete_queue, dead_letter_queue)
+                if not result:
+                    time.sleep(1)
+            except Exception as error:
+                logger.exception(
+                    f"An unhandled exception occurred in the processing loop: {error}",
+                    exc_info=error
+                )
+                time.sleep(1) # Wait a bit before retrying
     else:
-        receive_one_message()
+        logger.info("Attempting to process one message...")
+        try:
+            result = process_single_message(worker_queue, complete_queue, dead_letter_queue)
+            if not result:
+                logger.info("No messages received.")
+                return 0 # Success (no message)
+            
+            # Return 0 for success, 1 for failure
+            return 0 if result.get("success", False) else 1
+        except Exception as error:
+            logger.exception(
+                f"An unhandled exception occurred while processing a single message.",
+                exc_info=error
+            )
+            return 1 # Failure
+
+
+if __name__ == "__main__":    
+    exit_code = main()
+    exit(exit_code)
