@@ -1,5 +1,5 @@
 """
-Purpose: This file exports a txt file of data pipeline input and outputs hashes to assure data pipeline changes end-to-end.
+Purpose: This file exports a txt file of local data pipeline input and outputs hashes to assure data pipeline changes end-to-end.
 Partial updates eg 2025 CFR, 2024 BFR mean that multiple years might need to be hashed at once.
 
 Example usage
@@ -9,7 +9,7 @@ Example usage
 * bash```
 poetry run python tests/e2e/export_data_hashes.py
 ```
-* switch to new implementation, set `new_code_flag`
+* switch to new implementation, set `new_code_flag` to True
 * bash```
 poetry run python tests/e2e/export_data_hashes.py
 diff e2e_hashes_2024-2025.csv e2e_hashes_2024-2025_new_code.csv
