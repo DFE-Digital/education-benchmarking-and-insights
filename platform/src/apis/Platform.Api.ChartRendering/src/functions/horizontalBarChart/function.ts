@@ -3,20 +3,13 @@ import {
   HttpResponseInit,
   InvocationContext,
 } from "@azure/functions";
-import { Piscina } from "piscina";
 import appInsights from "applicationinsights";
-import { HorizontalBarChartDefinition, ChartBuilderResult } from "..";
+import { ChartBuilderResult } from "..";
 import { HorizontalBarChartPayload } from ".";
 import { validatePayload } from "./validator";
+import piscina from "../shared/pool";
 
 const client = new appInsights.TelemetryClient();
-
-const piscina = new Piscina<
-  { definitions: HorizontalBarChartDefinition[] },
-  ChartBuilderResult[]
->({
-  filename: "./dist/src/functions/horizontalBarChart/worker.js",
-});
 
 export async function horizontalBarChart(
   request: HttpRequest,
@@ -50,9 +43,7 @@ export async function horizontalBarChart(
   const definitions = Array.isArray(payload) ? payload : [payload];
 
   try {
-    charts = await piscina.run({
-      definitions,
-    });
+    charts = await piscina.run({ definitions }, { name: "HorizontalBarChart" });
   } catch (e) {
     context.error(e);
 
