@@ -1,18 +1,23 @@
 const _d3 = import("d3");
 import classnames from "classnames";
-import { HorizontalBarChartBuilderOptions, ChartBuilderResult } from "..";
+import {
+  HorizontalBarChartBuilderOptions,
+  ChartBuilderResult,
+  DatumKey,
+} from "..";
 import { DOMImplementation } from "@xmldom/xmldom";
 import enGB from "d3-format/locale/en-GB" with { type: "json" };
 import { BaseType, FormatLocaleDefinition, ValueFn } from "d3";
 import { default as querySelector } from "query-selector";
 import { sprintf } from "sprintf-js";
-import { normaliseData, getValueFormat } from "../utils";
+import { getValueFormat, getGroups, normaliseData } from "../utils";
 
 export default class HorizontalBarChartBuilder {
   // https://observablehq.com/@d3/bar-chart/2
   async buildChart<T>({
     data,
     barHeight,
+    groupedKeys,
     highlightKey,
     id,
     keyField,
@@ -64,6 +69,7 @@ export default class HorizontalBarChartBuilder {
 
     const normalisedData = normaliseData(data, valueField, valueType);
     const valueFormat = getValueFormat(valueType);
+    const groups = (key: DatumKey) => getGroups(groupedKeys, key);
 
     // Create the scales.
     normalisedData.sort((a, b) =>
@@ -110,9 +116,14 @@ export default class HorizontalBarChartBuilder {
       .attr("height", y.bandwidth())
       .attr("data-key", (d) => d[keyField] as string)
       .attr("class", (d) =>
-        classnames("chart-cell", "chart-cell__series-0", {
-          "chart-cell__highlight": d[keyField] === highlightKey,
-        }),
+        classnames(
+          "chart-cell",
+          "chart-cell__series-0",
+          {
+            "chart-cell__highlight": d[keyField] === highlightKey,
+          },
+          groups(d[keyField] as DatumKey).map((g) => `chart-cell__group-${g}`),
+        ),
       );
 
     // Append a label for each bar.
