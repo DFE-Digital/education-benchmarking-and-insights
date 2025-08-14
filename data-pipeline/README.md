@@ -7,6 +7,9 @@ For more information on the FBIT pipelines see either
 * [The documentation folder in this repository](https://github.com/DFE-Digital/education-benchmarking-and-insights/tree/main/documentation)
 * Or in the FBIT sharepoint technical folder.
 
+Within the FBIT service, there is an [Azure container app](terraform/container_apps.tf) for each type of run in the data pipeline (default/custom). 
+When a message is placed in a run queue, a worker container is triggered to spawn from the container app. The worker processes one message and if successful places the message in the completed queue.
+
 ## Developers
 
 ### Dependencies
@@ -198,12 +201,12 @@ To run the pipeline locally, follow these steps:
     ```json
     {
       "type": "default",
-      "runId": <year>,
+      "runId": 2025,
         "year": {
-            "aar": <year>,
-            "cfr": <year>,
-            "bfr": <year>,
-            "s251": <year>
+            "aar": 2024,
+            "cfr": 2025,
+            "bfr": 2024,
+            "s251": 2024
         }
     }
     ```
@@ -235,6 +238,7 @@ make e2e-test-local
 ```
 
 ### Creating and running Docker images
+
 
 Build images with:
 
