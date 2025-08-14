@@ -7,7 +7,7 @@ For more information on the FBIT pipelines see either
 * [The documentation folder in this repository](https://github.com/DFE-Digital/education-benchmarking-and-insights/tree/main/documentation)
 * Or in the FBIT sharepoint technical folder.
 
-Within the FBIT service, there is an [Azure container app](terraform/container_apps.tf) for each type of run in the data pipeline (default/custom). 
+Within the FBIT service, there is an [Azure container app](terraform/container_apps.tf) for each type of run in the data pipeline (default/custom).
 When a message is placed in a run queue, a worker container is triggered to spawn from the container app. The worker processes one message and if successful places the message in the completed queue.
 
 ## Developers
