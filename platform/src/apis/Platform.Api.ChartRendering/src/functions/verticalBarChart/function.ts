@@ -3,20 +3,13 @@ import {
   HttpResponseInit,
   InvocationContext,
 } from "@azure/functions";
-import { Piscina } from "piscina";
 import appInsights from "applicationinsights";
-import { VerticalBarChartDefinition, ChartBuilderResult } from "..";
+import { ChartBuilderResult } from "..";
 import { VerticalBarChartPayload } from ".";
 import { validatePayload } from "./validator";
+import piscina from "../shared/pool";
 
 const client = new appInsights.TelemetryClient();
-
-const piscina = new Piscina<
-  { definitions: VerticalBarChartDefinition[] },
-  ChartBuilderResult[]
->({
-  filename: "./dist/src/functions/verticalBarChart/worker.js",
-});
 
 export async function verticalBarChart(
   request: HttpRequest,
@@ -50,9 +43,7 @@ export async function verticalBarChart(
   const definitions = Array.isArray(payload) ? payload : [payload];
 
   try {
-    charts = await piscina.run({
-      definitions,
-    });
+    charts = await piscina.run({ definitions }, { name: "VerticalBarChart" });
   } catch (e) {
     context.error(e);
 
