@@ -39,9 +39,13 @@ export type HorizontalBarChartDefinition = Pick<
   > &
   ChartDefinition;
 
+export type DatumKey = string | undefined;
+export type Group = string;
+
 type ChartBuilderOptions<T> = {
   data: T[];
-  highlightKey?: string | undefined;
+  groupedKeys?: Partial<Record<Group, DatumKey[]>>;
+  highlightKey?: DatumKey;
   id: string;
   keyField: keyof T;
   sort?: "asc" | "desc" | undefined;

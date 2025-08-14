@@ -730,6 +730,11 @@ table#current-comparators-la {
       fill: govuk-colour("dark-blue");
       stroke: govuk-colour("dark-blue");
     }
+
+    &.chart-cell__group-part-year {
+      fill: govuk-colour("orange");
+      stroke: govuk-colour("orange");
+    }
   }
 
   .chart-label {
@@ -782,7 +787,7 @@ table#current-comparators-la {
       &.chart-cell__series-0:hover {
         cursor: pointer;
 
-        &:not(.chart-cell__highlight) {
+        &:not(.chart-cell__highlight, .chart-cell__group-part-year) {
           fill: govuk-colour("dark-grey");
           stroke: govuk-colour("dark-grey");
         }

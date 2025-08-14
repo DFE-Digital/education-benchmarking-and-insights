@@ -1,4 +1,4 @@
-import { ValueType } from "./index";
+import { DatumKey, Group, ValueType } from "./index";
 
 export function normaliseData<T>(
   data: T[],
@@ -35,4 +35,17 @@ export function getValueFormat(dataType: ValueType): string {
         `Argument out of range: unsupported ValueType '${dataType}'`,
       );
   }
+}
+
+export function getGroups(
+  groupedKeys: Partial<Record<Group, DatumKey[]>> | undefined,
+  key: DatumKey,
+): Group[] {
+  if (!groupedKeys) {
+    return [];
+  }
+
+  return Object.entries(groupedKeys)
+    .filter((g) => g[1]?.includes(key))
+    .map((g) => g[0]);
 }

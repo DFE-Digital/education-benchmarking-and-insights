@@ -12,5 +12,10 @@
   "editor.formatOnSave": true,
   "editor.formatOnSaveMode": "file",
   "files.autoSave": "onFocusChange",
-  "vs-code-prettier-eslint.prettierLast": false
+  "vs-code-prettier-eslint.prettierLast": false,
+  "cSpell.words": [
+    "normalisation",
+    "normalise",
+    "normalised"
+  ]
 }
