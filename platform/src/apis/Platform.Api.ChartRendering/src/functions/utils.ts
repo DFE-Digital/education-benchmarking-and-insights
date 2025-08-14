@@ -59,7 +59,7 @@ const TEXT_WIDTH_LOOKUP_TABLE = {
     "IZIZIZIZIZIZIZIZIZChChChChChIZIZIZIZIZIZIZIZIZIZIZIZIZIZIZIZIZIZChD2GjJEIwLKJODqFiFiHKHjEBDgD1F/JBFKInIqJCIiIwHlI2IwEUEaHjHjHjG8OFJUJUJmJ9IbIDKJKVECGNJIHGL3KwKZIeKZJAIwH5JzItM3IoIjIVFiF/FjHjHAFdHOINHgINHuFAH9H2DgDgHkEGMCH2IEININFSGuFzH2HFKmHOG/G9FfDoFfHjIA",
 };
 
-const { getTextWidth } = init(TEXT_WIDTH_LOOKUP_TABLE);
-export function getApproximateTextWidth(text: string, bold?: boolean) {
-  return getTextWidth(text, { fontWeight: bold ? "700" : "400" });
+const { getTextWidth: getServerTextWidth } = init(TEXT_WIDTH_LOOKUP_TABLE);
+export function getTextWidth(text: string, bold?: boolean) {
+  return getServerTextWidth(text, { fontWeight: bold ? "700" : "400" });
 }

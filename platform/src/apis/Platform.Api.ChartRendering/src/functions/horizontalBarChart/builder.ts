@@ -11,7 +11,7 @@ import { BaseType, FormatLocaleDefinition, ValueFn } from "d3";
 import { default as querySelector } from "query-selector";
 import { sprintf } from "sprintf-js";
 import {
-  getApproximateTextWidth,
+  getTextWidth,
   getValueFormat,
   getGroups,
   normaliseData,
@@ -70,7 +70,7 @@ export default class HorizontalBarChartBuilder {
     }
 
     const tickWidth = width / 3;
-    const truncateLabelAt = width ? Math.floor(width / 20) : 30;
+    const truncateLabelAt = width ? Math.floor(width / 22) : 30;
 
     const normalisedData = normaliseData(data, valueField, valueType);
     const valueFormat = getValueFormat(valueType);
@@ -208,7 +208,10 @@ export default class HorizontalBarChartBuilder {
       const node = nodes[index] as SVGGElement;
       const g = d3.select(node);
 
-      const textWidth = getApproximateTextWidth(g.text());
+      const label = linkFormat
+        ? truncateLabel(g.text(), truncateLabelAt)
+        : g.text();
+      const textWidth = getTextWidth(label, datum === highlightKey);
       if (!textWidth) {
         return;
       }
