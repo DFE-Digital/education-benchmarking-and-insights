@@ -17,6 +17,14 @@
       "enableQueryStringTracing": true
     }
   },
+  "extensions": {
+    "http": {
+      "maxConcurrentRequests": 50,
+      "maxOutstandingRequests": 100,
+      "dynamicThrottlesEnabled": false,
+      "routePrefix": "api"
+    }
+  },
   "extensionBundle": {
     "id": "Microsoft.Azure.Functions.ExtensionBundle",
     "version": "[4.*, 5.0.0)"
