@@ -1,7 +1,8 @@
 import numpy as np
 import pandas as pd
 
-from pipeline import config, part_year
+from pipeline import config
+from pipeline.pre_processing.aar import part_year
 
 
 def test_map_is_early_transfer():
@@ -18,7 +19,7 @@ def test_map_is_early_transfer():
         }
     )
 
-    df = part_year.academies.map_is_early_transfer(df)
+    df = part_year.map_is_early_transfer(df)
 
     assert df["Is Early Transfer"].to_list() == [
         False,
@@ -46,7 +47,7 @@ def test_map_has_financial_data():
         ]
     )
 
-    df = part_year.academies.map_has_financial_data(df)
+    df = part_year.map_has_financial_data(df)
 
     assert df["Financial Data Present"].to_list() == [False, True, False, True]
 
@@ -71,7 +72,7 @@ def test_map_partial_year_present():
         }
     )
 
-    df = part_year.academies.map_partial_year_present(df)
+    df = part_year.map_partial_year_present(df)
 
     assert df["Partial Years Present"].to_list() == [
         True,

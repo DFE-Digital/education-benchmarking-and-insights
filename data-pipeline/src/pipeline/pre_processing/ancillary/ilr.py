@@ -1,9 +1,9 @@
 import pandas as pd
 from pandas._typing import FilePath, ReadCsvBuffer
 
-from pipeline import input_schemas, log
-from pipeline.part_year.common import map_has_pupil_comparator_data
-from pipeline.stats_collector import stats_collector
+from pipeline import input_schemas
+from pipeline.pre_processing.common.part_year import map_has_pupil_comparator_data
+from pipeline.utils import log
 
 from . import gias
 

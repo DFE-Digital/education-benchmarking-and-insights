@@ -3,7 +3,7 @@ import pandas as pd
 import pytest
 
 import pipeline.config as config
-import pipeline.rag as rag
+import pipeline.rag.calculations as rag
 
 
 @pytest.mark.parametrize(

@@ -2,7 +2,7 @@ import uuid
 
 import pandas as pd
 
-from pipeline import database
+from pipeline.utils import database
 
 
 def test_unique_temp_table_names():

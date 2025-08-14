@@ -3,8 +3,8 @@ import pathlib
 import pandas as pd
 import pytest
 
-from pipeline.comparator_sets import prepare_data
-from pipeline.rag import compute_user_defined_rag
+from pipeline.comparator_sets.calculations import prepare_data
+from pipeline.rag.calculations import compute_user_defined_rag
 
 msg_payload = {
     "jobId": "ba4f078e-f32f-467f-a848-09cf9d58c8df",
@@ -52,7 +52,7 @@ msg_payload = {
 
 
 @pytest.mark.skip(reason="requires representative data")
-def test_run_user_defined_rag():
+def test_compute_user_defined_rag():
     """
     TODO: this requires a representative, pre-processed
     `all_schools.parquet`.

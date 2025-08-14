@@ -12,7 +12,7 @@ from sqlalchemy import URL, create_engine, event
 
 from pipeline import config
 
-logger = logging.getLogger("fbit-data-pipeline")
+logger = logging.getLogger(__name__)
 
 
 def get_engine() -> sqlalchemy.engine.Engine:

@@ -3,10 +3,9 @@ import logging
 import numpy as np
 import pandas as pd
 
-logger = logging.getLogger("fbit-data-pipeline")
+logger = logging.getLogger("comparator-sets")
 
 
-# TODO: This should be moved to pre-processing really
 def fillna_median(data):
     return data.fillna(data.median())
 

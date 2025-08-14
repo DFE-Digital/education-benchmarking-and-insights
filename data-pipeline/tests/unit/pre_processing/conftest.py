@@ -5,17 +5,15 @@ import numpy as np
 import pandas as pd
 import pytest
 
-from pipeline.pre_processing import (
-    build_bfr_data,
-    prepare_aar_data,
-    prepare_cdc_data,
-    prepare_census_data,
-    prepare_central_services_data,
-    prepare_ks2_data,
-    prepare_ks4_data,
-    prepare_schools_data,
-    prepare_sen_data,
-)
+from pipeline.pre_processing.aar import prepare_aar_data
+from pipeline.pre_processing.aar.central_services import prepare_central_services_data
+from pipeline.pre_processing.ancillary.bfr import build_bfr_data
+from pipeline.pre_processing.ancillary.cdc import prepare_cdc_data
+from pipeline.pre_processing.ancillary.census import prepare_census_data
+from pipeline.pre_processing.ancillary.combined_gias import prepare_combined_gias_data
+from pipeline.pre_processing.ancillary.ks2 import prepare_ks2_data
+from pipeline.pre_processing.ancillary.ks4 import prepare_ks4_data
+from pipeline.pre_processing.ancillary.sen import prepare_sen_data
 
 
 @pytest.fixture
@@ -532,7 +530,7 @@ def gias_links():
 def prepared_schools_data(
     gias_data: pd.DataFrame, gias_links: pd.DataFrame
 ) -> pd.DataFrame:
-    return prepare_schools_data(
+    return prepare_combined_gias_data(
         StringIO(gias_data.to_csv()), StringIO(gias_links.to_csv()), 2023
     )
 

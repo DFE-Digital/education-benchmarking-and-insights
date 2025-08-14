@@ -2,8 +2,7 @@ import io
 
 import pandas as pd
 
-from pipeline import pre_processing
-from pipeline.pre_processing.academies.academies import prepare_aar_data
+from pipeline.pre_processing.aar.academies import prepare_aar_data
 
 _expected_output_columns = [
     "LA",
@@ -107,7 +106,7 @@ def test_empty_lines_stripped(aar_data: pd.DataFrame):
     empty_lines = "\n".join(empty_line for _ in range(1_000))
     csv_with_empty_lines = aar_data.to_csv() + empty_lines
 
-    result = pre_processing.prepare_aar_data(
+    result = prepare_aar_data(
         aar_path=io.StringIO(csv_with_empty_lines),
         year=2022,
     )

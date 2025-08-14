@@ -3,7 +3,7 @@ from unittest.mock import patch
 import pandas as pd
 import pytest
 
-from pipeline.stats_collector import StatsCollector
+from pipeline.utils.stats import StatsCollector
 
 
 class TestStatsCollector:
@@ -231,7 +231,7 @@ class TestStatsCollector:
             == expected
         )
 
-    @patch("pipeline.stats_collector.stats_logger")
+    @patch("pipeline.utils.stats.stats_logger")
     def test_get_stats_with_complete_data(self, mock_logger, stats_collector):
         """Test get_stats when all data exists."""
         stats_collector.reset()
@@ -245,7 +245,7 @@ class TestStatsCollector:
         assert result == stats_collector.stats
         mock_logger.info.assert_not_called()
 
-    @patch("pipeline.stats_collector.stats_logger")
+    @patch("pipeline.utils.stats.stats_logger")
     def test_get_stats_missing_aar_data(self, mock_logger, stats_collector):
         """Test get_stats when AAR data is missing."""
         stats_collector.reset()
@@ -258,7 +258,7 @@ class TestStatsCollector:
         assert result == stats_collector.stats
         mock_logger.info.assert_called_with("No AAR data counts have been logged")
 
-    @patch("pipeline.stats_collector.stats_logger")
+    @patch("pipeline.utils.stats.stats_logger")
     def test_get_stats_missing_cfr_data(self, mock_logger, stats_collector):
         """Test get_stats when CFR data is missing."""
         stats_collector.reset()
@@ -269,7 +269,7 @@ class TestStatsCollector:
         assert result == stats_collector.stats
         mock_logger.info.assert_called_with("No CFR data counts have been logged")
 
-    @patch("pipeline.stats_collector.stats_logger")
+    @patch("pipeline.utils.stats.stats_logger")
     def test_get_stats_missing_both_data_types(self, mock_logger, stats_collector):
         """Test get_stats when both AAR and CFR data are missing."""
         stats_collector.reset()
@@ -333,7 +333,7 @@ class TestStatsCollector:
         stats_collector.collect_cfr_ancillary_data_shapes(cfr_ancillary, 2024)
 
         # Get final stats
-        with patch("pipeline.stats_collector.stats_logger"):
+        with patch("pipeline.utils.stats.stats_logger"):
             final_stats = stats_collector.get_stats()
 
         expected_stats = {

@@ -3,12 +3,12 @@ import logging
 import pandas as pd
 
 import pipeline.input_schemas as input_schemas
-import pipeline.mappings as mappings
+import pipeline.pre_processing.common.mappings as mappings
 
 logger = logging.getLogger("fbit-data-pipeline")
 
 
-def prepare_schools_data(base_data_path, links_data_path, year: int):
+def prepare_combined_gias_data(base_data_path, links_data_path, year: int):
     """
     Prepare school data derived from GIAS and GIAS links.
 

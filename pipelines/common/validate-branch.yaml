@@ -25,7 +25,7 @@ parameters:
 steps:
   - bash: |
       branchName="${{ parameters.branchName }}"
-      regex="(refs\/heads\/)?main$|(refs\/heads\/)?(feature|bugfix|hotfix|exp|tech-debt|doc|prototype|dependabot|chore)\/(\d+\/){0,1}[a-z0-9-]+"
+      regex="(refs\/heads\/)?main$|(refs\/heads\/)?(feature|bugfix|hotfix|exp|tech-debt|doc|prototype|dependabot|chore|refactor)\/(\d+\/){0,1}[a-z0-9-]+"
       if echo "$branchName" | sed -En "/$regex/p" | grep -q .; then
         echo "$branchName is a valid branch"
       else

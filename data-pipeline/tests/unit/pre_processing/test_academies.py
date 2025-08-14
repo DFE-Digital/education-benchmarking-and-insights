@@ -1,7 +1,7 @@
 import numpy as np
 import pandas as pd
 
-from pipeline import pre_processing
+from pipeline.pre_processing.aar import _trust_revenue_reserve
 
 
 def test_revenue_reserve():
@@ -31,7 +31,7 @@ def test_revenue_reserve():
         ]
     )
 
-    result = pre_processing._trust_revenue_reserve(
+    result = _trust_revenue_reserve(
         academies,
         central_services,
     )
@@ -66,7 +66,7 @@ def test_share_revenue_reserve():
         ]
     )
 
-    result = pre_processing._trust_revenue_reserve(
+    result = _trust_revenue_reserve(
         academies,
         central_services,
     )
@@ -131,7 +131,7 @@ def test_revenue_reserve_part_year_academy():
         ]
     )
 
-    result = pre_processing._trust_revenue_reserve(
+    result = _trust_revenue_reserve(
         academies,
         central_services,
     )

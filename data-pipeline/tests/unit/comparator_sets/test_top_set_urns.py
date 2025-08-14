@@ -3,7 +3,7 @@ import string
 import numpy as np
 import pytest
 
-from pipeline.comparator_sets import select_top_set_urns
+from pipeline.comparator_sets.calculations import select_top_set_urns
 
 
 @pytest.mark.parametrize(

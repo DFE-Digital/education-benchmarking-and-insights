@@ -11,7 +11,7 @@ from pipeline.config import rag_category_settings
 
 pd.options.mode.chained_assignment = None
 
-logger = logging.getLogger("fbit-data-pipeline")
+logger = logging.getLogger("rag")
 
 base_cols = [
     "URN",
@@ -178,7 +178,7 @@ def get_category_cols_predicates(category_name, data):
     return category_cols, sub_categories
 
 
-def compute_rag(
+def calculate_rag(
     data,
     comparators,
     target_urn: str | None = None,

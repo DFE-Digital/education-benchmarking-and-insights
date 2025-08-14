@@ -3,8 +3,8 @@ from warnings import simplefilter
 
 import pandas as pd
 
-import pipeline.bfr as BFR
 import pipeline.input_schemas as input_schemas
+import pipeline.pre_processing.bfr.calculations as BFR
 
 simplefilter(action="ignore", category=pd.errors.PerformanceWarning)
 simplefilter(action="ignore", category=FutureWarning)

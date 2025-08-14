@@ -4,7 +4,7 @@ import pandas as pd
 
 import pipeline.config as config
 import pipeline.input_schemas as input_schemas
-import pipeline.mappings as mappings
+import pipeline.pre_processing.common.mappings as mappings
 
 logger = logging.getLogger("fbit-data-pipeline")
 

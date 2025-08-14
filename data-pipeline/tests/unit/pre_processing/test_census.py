@@ -2,7 +2,7 @@ import io
 
 import pandas as pd
 
-from pipeline.pre_processing import prepare_census_data
+from pipeline.pre_processing.ancillary.census import prepare_census_data
 
 
 def test_census_data_has_correct_output_columns(prepared_census_data: pd.DataFrame):

@@ -1,7 +1,7 @@
 import pandas as pd
 import pytest
 
-from pipeline import comparator_sets
+from pipeline.comparator_sets import calculations as comparator_sets
 
 
 @pytest.mark.parametrize(

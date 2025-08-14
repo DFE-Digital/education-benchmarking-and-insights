@@ -1,6 +1,6 @@
 import numpy as np
 
-from pipeline.comparator_sets import buildings_calc
+from pipeline.comparator_sets.calculations import buildings_calc
 
 
 def test_varied_input():
