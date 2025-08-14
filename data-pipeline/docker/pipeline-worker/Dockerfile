@@ -24,7 +24,6 @@ RUN apt-get update \
     && apt-get install --no-install-recommends -y \
         curl \
         build-essential \
-        # libatlas-base-dev \
         gnupg2 \
         g++ && \
         rm -rf /var/lib/apt/lists/*
