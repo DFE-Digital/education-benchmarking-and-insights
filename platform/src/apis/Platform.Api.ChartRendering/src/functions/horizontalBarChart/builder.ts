@@ -10,7 +10,12 @@ import enGB from "d3-format/locale/en-GB" with { type: "json" };
 import { BaseType, FormatLocaleDefinition, ValueFn } from "d3";
 import { default as querySelector } from "query-selector";
 import { sprintf } from "sprintf-js";
-import { getValueFormat, getGroups, normaliseData } from "../utils";
+import {
+  getApproximateTextWidth,
+  getValueFormat,
+  getGroups,
+  normaliseData,
+} from "../utils";
 
 export default class HorizontalBarChartBuilder {
   // https://observablehq.com/@d3/bar-chart/2
@@ -190,6 +195,37 @@ export default class HorizontalBarChartBuilder {
         : domainValue;
     };
 
+    const prependGrouping: ValueFn<BaseType, unknown, void> = (
+      datum,
+      index,
+      nodes,
+    ) => {
+      const hasGroup = groups(datum as DatumKey).length > 0;
+      if (!hasGroup) {
+        return;
+      }
+
+      const node = nodes[index] as SVGGElement;
+      const g = d3.select(node);
+
+      const textWidth = getApproximateTextWidth(g.text());
+      if (!textWidth) {
+        return;
+      }
+
+      const grouping = g
+        .insert("g", "text")
+        .attr("class", "grouping-tick")
+        .attr("transform", `translate(${-(textWidth + 35)},-13)`); // approximate repositioning due to no getBBox() and unknown client fonts
+      grouping
+        .append("path")
+        .attr("transform", "scale(0.75,0.75)")
+        .attr(
+          "d",
+          "M18,6A12,12,0,1,0,30,18,12,12,0,0,0,18,6Zm-1.49,6a1.49,1.49,0,0,1,3,0v6.89a1.49,1.49,0,1,1-3,0ZM18,25.5a1.72,1.72,0,1,1,1.72-1.72A1.72,1.72,0,0,1,18,25.5Z",
+        );
+    };
+
     const replaceLabelWithLink: ValueFn<BaseType, unknown, void> = (
       datum,
       index,
@@ -198,6 +234,7 @@ export default class HorizontalBarChartBuilder {
       let label = formatTick(datum as string, index);
       const node = nodes[index] as SVGTextElement;
       const text = d3.select(node);
+      const hasGroup = groups(datum as DatumKey).length > 0;
 
       // replace text node contents with <a> and add initially hidden sibling <rect>
       text.text(null);
@@ -215,7 +252,7 @@ export default class HorizontalBarChartBuilder {
 
       const parent = d3.select(node.parentElement);
       parent
-        .insert("rect", "text")
+        .insert("rect", hasGroup ? "g" : "text")
         .attr("x", -tickWidth)
         .attr("y", -8)
         .attr("width", tickWidth - 8)
@@ -263,6 +300,10 @@ export default class HorizontalBarChartBuilder {
         g.selectAll(".tick").attr("class", "chart-tick").attr("opacity", null);
         g.selectAll(".chart-tick > text").attr("fill", null);
         g.selectAll(".chart-tick > line").attr("stroke", null);
+
+        if (groupedKeys) {
+          g.selectAll(".chart-tick").each(prependGrouping);
+        }
 
         if (linkFormat) {
           g.selectAll(".chart-tick > text").each(replaceLabelWithLink);
