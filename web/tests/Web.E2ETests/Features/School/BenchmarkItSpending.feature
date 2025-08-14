@@ -21,3 +21,8 @@
         Given I am on it spend page for school with URN '777042'
         When I enter on the school name on the chart
         Then I am navigated to selected school home page
+
+    Scenario: Hovering on a bar in a chart shows tooltip
+        Given I am on it spend page for school with URN '777042'
+        When I hover on a bar for the school with urn '777042' in a chart
+        Then the tooltip is correctly displayed

@@ -1,7 +1,9 @@
 ﻿@using Web.App.Domain
 @using Web.App.Domain.Charts
 @using Web.App.Extensions
+@using Web.App.TagHelpers
 @using Web.App.ViewModels
+@using Web.App.ViewModels.Enhancements
 @model Web.App.ViewModels.SchoolComparisonItSpendViewModel
 @{
     ViewData[ViewDataKeys.Title] = PageTitles.ComparisonItSpend;
@@ -363,7 +365,7 @@
                                         </tbody>
                                     </table>
                                 }
-                            }    
+                            }   
                         }
                     </div>
                 </div>
@@ -372,6 +374,21 @@
                 <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible govuk-!-margin-bottom-6">
                 }
             </section>
+            
+            @await Html.PartialAsync("Enhancements/_SchoolChartTooltip", new SchoolChartTooltipViewModel
+            {
+                Data = Model.SubCategories.ElementAt(i).Data?
+                    .Select(s => new SchoolChartTooltipData
+                    {
+                        Urn = s.Urn,
+                        SchoolName = s.SchoolName,
+                        LAName = s.LAName,
+                        SchoolType = s.SchoolType,
+                        TotalPupils = s.TotalPupils
+                    })
+                    .ToArray(),
+                Uuid = uuid 
+            })
         }
     </div>
 </div>
@@ -385,4 +402,3 @@
         initAll()
     </script>
 }
-
