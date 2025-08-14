@@ -239,7 +239,6 @@ make e2e-test-local
 
 ### Creating and running Docker images
 
-
 Build images with:
 
 ```sh
