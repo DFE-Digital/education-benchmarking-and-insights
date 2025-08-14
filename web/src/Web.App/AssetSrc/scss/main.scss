@@ -768,6 +768,12 @@ table#current-comparators-la {
               opacity: 1;
             }
           }
+
+          .grouping-tick {
+            > path {
+              fill: govuk-colour("black");
+            }
+          }
         }
       }
 
