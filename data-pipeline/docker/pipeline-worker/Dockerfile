@@ -72,7 +72,7 @@ RUN chmod +x /docker-entrypoint.sh && \
     odbcinst -i -s -f /odbc.ini -l && \
     cat /etc/odbc.ini
 
-ENTRYPOINT ["/docker-entrypoint.sh"]
+ENTRYPOINT [ "/docker-entrypoint.sh" ]
 CMD [ "python", "-m", "pipeline.main"]
 
 LABEL description="FBIT data pipeline worker" \
