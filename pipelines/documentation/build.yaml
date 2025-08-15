@@ -6,6 +6,7 @@ trigger:
   branches:
     include:
       - main
+      - feature/improve-doc-pdf-outputs
   paths:
     include:
       - documentation
@@ -92,7 +93,7 @@ stages:
           - bash: sudo apt-get update
             displayName: 'Update the package list'
 
-          - bash: sudo apt-get install -y pandoc texlive-latex-extra
+          - bash: sudo apt-get install -y pandoc pandoc-crossref texlive-latex-extra
             displayName: 'Install pandoc & latex'
 
           - bash: sudo apt-get install texlive-fonts-recommended texlive-fonts-extra
