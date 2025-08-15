@@ -6,8 +6,8 @@ Some things to think about when defining a metric are:
 
 * What is the metric definition?
 * What is the decision or action from the metric?
-* How do we measure the success of the decision/action?
 * Who monitors the metric?
+* (If relevant) How do we measure the success of the decision/action?
 
 Each metric has its own detailed document in the `/metrics` folder.
 
