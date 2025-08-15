@@ -1,0 +1,260 @@
+@using Web.App.Domain
+@using Web.App.Domain.Charts
+@using Web.App.ViewModels
+@model Web.App.ViewModels.SchoolComparisonItSpendViewModel
+
+<div class="app-filter">
+    <div class="app-filter__header">
+        <h2 class="govuk-heading-m govuk-!-margin-0">
+            Filters
+        </h2>
+    </div>
+
+    @if (Model.SelectedSubCategories.Length > 0)
+    {
+        <div class="app-filter__selected">
+            <div class="app-filter__selected-header">
+                <h2 class="govuk-heading-m">
+                    Selected filters
+                </h2>
+                <a href="@Url.Action("Index", "SchoolComparisonItSpend", new { Model.Urn, ViewAs = (int)Model.ViewAs, ResultAs = (int)Model.ResultAs })"
+                   class="govuk-link govuk-link--no-visited-state">Clear</a>
+            </div>
+            <h3 class="govuk-heading-s">
+                Sub categories
+            </h3>
+            <ul class="govuk-list">
+                @foreach (var category in Model.SelectedSubCategories)
+                {
+                    <li>
+                        <a href="@Url.Action("Index", "SchoolComparisonItSpend", new { Model.Urn, ViewAs = (int)Model.ViewAs, ResultAs = (int)Model.ResultAs, SelectedSubCategories = Model.SelectedSubCategories.Where(x => x != category) })"
+                           class="app-filter__tag">
+                            @category.GetFilterDescription()
+                        </a>
+                    </li>
+                }
+            </ul>
+        </div>
+    }
+    <div class="app-filter__body">
+        @using (Html.BeginForm(FormMethod.Post, true, new { novalidate = "novalidate", role = "search" }))
+        {
+            <input type="hidden"
+                   name="@nameof(SchoolComparisonItSpendViewModel.SelectedSubCategories)"
+                   value="@Model.SelectedSubCategories"/>
+
+            <div class="govuk-accordion" data-module="govuk-accordion" id="accordion-default">
+                <div class="govuk-accordion__section">
+                    <div class="govuk-accordion__section-header">
+                        <h2 class="govuk-accordion__section-heading">
+                            <span class="govuk-accordion__section-button" id="accordion-default-heading-1">
+                                Sub categories
+                                @if (Model.SelectedSubCategories.Length > 0)
+                                {
+                                    <span
+                                        class="govuk-hint app-filter__selected-hint">@($"{Model.SelectedSubCategories.Length} selected")</span>
+                                }
+                            </span>
+                        </h2>
+                    </div>
+                    <div id="accordion-default-content-1" class="govuk-accordion__section-content">
+                        <div class="govuk-form-group">
+                            <fieldset class="govuk-fieldset">
+                                <div class="govuk-checkboxes govuk-checkboxes--small"
+                                     data-module="govuk-checkboxes">
+                                    <div class="govuk-checkboxes__item">
+                                        <input class="govuk-checkboxes__input"
+                                               id="@ItSpendingCategories.SubCategoryFilter.AdministrationSoftwareSystems"
+                                               name="@nameof(Model.SelectedSubCategories)"
+                                               value="@((int)ItSpendingCategories.SubCategoryFilter.AdministrationSoftwareSystems)"
+                                               type="checkbox"
+                                               @(Model.SelectedSubCategories.Contains(ItSpendingCategories.SubCategoryFilter.AdministrationSoftwareSystems) ? "checked" : "")>
+                                        <label class="govuk-label govuk-checkboxes__label"
+                                               for="@ItSpendingCategories.SubCategoryFilter.AdministrationSoftwareSystems">
+                                            @ItSpendingCategories.SubCategoryFilter.AdministrationSoftwareSystems.GetFilterDescription()
+                                        </label>
+                                    </div>
+                                    <div class="govuk-checkboxes__item">
+                                        <input class="govuk-checkboxes__input"
+                                               id="@ItSpendingCategories.SubCategoryFilter.Connectivity"
+                                               name="@nameof(Model.SelectedSubCategories)"
+                                               value="@((int)ItSpendingCategories.SubCategoryFilter.Connectivity)"
+                                               type="checkbox"
+                                               @(Model.SelectedSubCategories.Contains(ItSpendingCategories.SubCategoryFilter.Connectivity) ? "checked" : "")>
+                                        <label class="govuk-label govuk-checkboxes__label"
+                                               for="@ItSpendingCategories.SubCategoryFilter.Connectivity">
+                                            @ItSpendingCategories.SubCategoryFilter.Connectivity.GetFilterDescription()
+                                        </label>
+                                    </div>
+                                    <div class="govuk-checkboxes__item">
+                                        <input class="govuk-checkboxes__input"
+                                               id="@ItSpendingCategories.SubCategoryFilter.ITLearningResources"
+                                               name="@nameof(Model.SelectedSubCategories)"
+                                               value="@((int)ItSpendingCategories.SubCategoryFilter.ITLearningResources)"
+                                               type="checkbox"
+                                               @(Model.SelectedSubCategories.Contains(ItSpendingCategories.SubCategoryFilter.ITLearningResources) ? "checked" : "")>
+                                        <label class="govuk-label govuk-checkboxes__label"
+                                               for="@ItSpendingCategories.SubCategoryFilter.ITLearningResources">
+                                            @ItSpendingCategories.SubCategoryFilter.ITLearningResources.GetFilterDescription()
+                                        </label>
+                                    </div>
+                                    <div class="govuk-checkboxes__item">
+                                        <input class="govuk-checkboxes__input"
+                                               id="@ItSpendingCategories.SubCategoryFilter.ITSupport"
+                                               name="@nameof(Model.SelectedSubCategories)"
+                                               value="@((int)ItSpendingCategories.SubCategoryFilter.ITSupport)"
+                                               type="checkbox"
+                                               @(Model.SelectedSubCategories.Contains(ItSpendingCategories.SubCategoryFilter.ITSupport) ? "checked" : "")>
+                                        <label class="govuk-label govuk-checkboxes__label"
+                                               for="@ItSpendingCategories.SubCategoryFilter.ITSupport">
+                                            @ItSpendingCategories.SubCategoryFilter.ITSupport.GetFilterDescription()
+                                        </label>
+                                    </div>
+                                    <div class="govuk-checkboxes__item">
+                                        <input class="govuk-checkboxes__input"
+                                               id="@ItSpendingCategories.SubCategoryFilter.LaptopsDesktopsTablets"
+                                               name="@nameof(Model.SelectedSubCategories)"
+                                               value="@((int)ItSpendingCategories.SubCategoryFilter.LaptopsDesktopsTablets)"
+                                               type="checkbox"
+                                               @(Model.SelectedSubCategories.Contains(ItSpendingCategories.SubCategoryFilter.LaptopsDesktopsTablets) ? "checked" : "")>
+                                        <label class="govuk-label govuk-checkboxes__label"
+                                               for="@ItSpendingCategories.SubCategoryFilter.LaptopsDesktopsTablets">
+                                            @ItSpendingCategories.SubCategoryFilter.LaptopsDesktopsTablets.GetFilterDescription()
+                                        </label>
+                                    </div>
+                                    <div class="govuk-checkboxes__item">
+                                        <input class="govuk-checkboxes__input"
+                                               id="@ItSpendingCategories.SubCategoryFilter.OnsiteServers"
+                                               name="@nameof(Model.SelectedSubCategories)"
+                                               value="@((int)ItSpendingCategories.SubCategoryFilter.OnsiteServers)"
+                                               type="checkbox"
+                                               @(Model.SelectedSubCategories.Contains(ItSpendingCategories.SubCategoryFilter.OnsiteServers) ? "checked" : "")>
+                                        <label class="govuk-label govuk-checkboxes__label"
+                                               for="@ItSpendingCategories.SubCategoryFilter.OnsiteServers">
+                                            @ItSpendingCategories.SubCategoryFilter.OnsiteServers.GetFilterDescription()
+                                        </label>
+                                    </div>
+                                    <div class="govuk-checkboxes__item">
+                                        <input class="govuk-checkboxes__input"
+                                               id="@ItSpendingCategories.SubCategoryFilter.OtherHardware"
+                                               name="@nameof(Model.SelectedSubCategories)"
+                                               value="@((int)ItSpendingCategories.SubCategoryFilter.OtherHardware)"
+                                               type="checkbox"
+                                               @(Model.SelectedSubCategories.Contains(ItSpendingCategories.SubCategoryFilter.OtherHardware) ? "checked" : "")>
+                                        <label class="govuk-label govuk-checkboxes__label"
+                                               for="@ItSpendingCategories.SubCategoryFilter.OtherHardware">
+                                            @ItSpendingCategories.SubCategoryFilter.OtherHardware.GetFilterDescription()
+                                        </label>
+                                    </div>
+                                </div>
+                            </fieldset>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="govuk-form-group">
+                <fieldset class="govuk-fieldset">
+                    <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
+                        <h2 class="govuk-fieldset__heading">
+                            Show result as
+                        </h2>
+                    </legend>
+                    <div class="govuk-radios govuk-radios--small" data-module="govuk-radios"
+                         id="@nameof(SchoolComparisonItSpendViewModel.ResultAs)">
+                        <div class="govuk-radios__item">
+                            <input class="govuk-radios__input"
+                                   id="@Dimensions.ResultAsOptions.SpendPerPupil"
+                                   name="@nameof(SchoolComparisonItSpendViewModel.ResultAs)" type="radio"
+                                   value="@((int)Dimensions.ResultAsOptions.SpendPerPupil)"
+                                   @(Model.ResultAs == Dimensions.ResultAsOptions.SpendPerPupil ? "checked" : "")>
+                            <label class="govuk-label govuk-radios__label"
+                                   for="@Dimensions.ResultAsOptions.SpendPerPupil">
+                                Spend per pupil
+                            </label>
+                        </div>
+                        <div class="govuk-radios__item">
+                            <input class="govuk-radios__input"
+                                   id="@Dimensions.ResultAsOptions.Actuals"
+                                   name="@nameof(SchoolComparisonItSpendViewModel.ResultAs)" type="radio"
+                                   value="@((int)Dimensions.ResultAsOptions.Actuals)"
+                                   @(Model.ResultAs == Dimensions.ResultAsOptions.Actuals ? "checked" : "")>
+                            <label class="govuk-label govuk-radios__label"
+                                   for="@Dimensions.ResultAsOptions.Actuals">
+                                Actuals
+                            </label>
+                        </div>
+                        <div class="govuk-radios__item">
+                            <input class="govuk-radios__input"
+                                   id="@Dimensions.ResultAsOptions.PercentExpenditure"
+                                   name="@nameof(SchoolComparisonItSpendViewModel.ResultAs)" type="radio"
+                                   value="@((int)Dimensions.ResultAsOptions.PercentExpenditure)"
+                                   @(Model.ResultAs == Dimensions.ResultAsOptions.PercentExpenditure ? "checked" : "")>
+                            <label class="govuk-label govuk-radios__label"
+                                   for="@Dimensions.ResultAsOptions.PercentExpenditure">
+                                Percentage of expenditure
+                            </label>
+                        </div>
+                        <div class="govuk-radios__item">
+                            <input class="govuk-radios__input"
+                                   id="@Dimensions.ResultAsOptions.PercentIncome"
+                                   name="@nameof(SchoolComparisonItSpendViewModel.ResultAs)" type="radio"
+                                   value="@((int)Dimensions.ResultAsOptions.PercentIncome)"
+                                   @(Model.ResultAs == Dimensions.ResultAsOptions.PercentIncome ? "checked" : "")>
+                            <label class="govuk-label govuk-radios__label"
+                                   for="@Dimensions.ResultAsOptions.PercentIncome">
+                                Percentage of income
+                            </label>
+                        </div>
+                    </div>
+                </fieldset>
+            </div>
+            <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
+            <div class="govuk-form-group">
+                <fieldset class="govuk-fieldset">
+                    <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
+                        <h2 class="govuk-fieldset__heading">
+                            View as
+                        </h2>
+                    </legend>
+                    <div class="govuk-radios govuk-radios--small" data-module="govuk-radios"
+                         id="@nameof(SchoolComparisonItSpendViewModel.ViewAs)">
+                        <div class="govuk-radios__item">
+                            <input class="govuk-radios__input"
+                                   id="@SchoolComparisonItSpendViewModel.ViewAsOptions.Chart"
+                                   name="@nameof(SchoolComparisonItSpendViewModel.ViewAs)" type="radio"
+                                   value="@((int)SchoolComparisonItSpendViewModel.ViewAsOptions.Chart)"
+                                   @(Model.ViewAs == SchoolComparisonItSpendViewModel.ViewAsOptions.Chart ? "checked" : "")>
+                            <label class="govuk-label govuk-radios__label"
+                                   for="@SchoolComparisonItSpendViewModel.ViewAsOptions.Chart">
+                                Chart
+                            </label>
+                        </div>
+                        <div class="govuk-radios__item">
+                            <input class="govuk-radios__input"
+                                   id="@SchoolComparisonItSpendViewModel.ViewAsOptions.Table"
+                                   name="@nameof(SchoolComparisonItSpendViewModel.ViewAs)" type="radio"
+                                   value="@((int)SchoolComparisonItSpendViewModel.ViewAsOptions.Table)"
+                                   @(Model.ViewAs == SchoolComparisonItSpendViewModel.ViewAsOptions.Table ? "checked" : "")>
+                            <label class="govuk-label govuk-radios__label"
+                                   for="@SchoolComparisonItSpendViewModel.ViewAsOptions.Table">
+                                Table
+                            </label>
+                        </div>
+                    </div>
+                </fieldset>
+            </div>
+            <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
+            <button type="submit" class="govuk-button govuk-!-margin-bottom-3" data-module="govuk-button">
+                Apply filters
+            </button>
+        }
+
+        <div class="govuk-button-group govuk-!-margin-bottom-0">
+            <a href="@Url.Action("Download", "SchoolComparisonItSpend", new { urn = Model.Urn })" role="button"
+               class="govuk-button govuk-button--secondary">
+                Download page data
+            </a>
+        </div>
+    </div>
+</div>

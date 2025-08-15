@@ -333,7 +333,7 @@ public class WhenViewingComparisonItSpend(SchoolBenchmarkingWebAppClient client)
             var section = subCategorySections[i];
             var expected = expectedSubCategories[i];
 
-            AssertChartSection(section, expected, isChartView: viewAs == 0, chartError);
+            AssertSpendingSection(section, expected, isChartView: viewAs == 0, chartError);
         }
     }
 
@@ -419,7 +419,7 @@ public class WhenViewingComparisonItSpend(SchoolBenchmarkingWebAppClient client)
         }
     }
 
-    private static void AssertChartSection(
+    private static void AssertSpendingSection(
         IElement chartSection,
         ExpectedSubCategory expectedSubCategory,
         bool isChartView,
