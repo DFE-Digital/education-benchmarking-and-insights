@@ -7,10 +7,10 @@ trigger:
     include:
       - main
       - feature/improve-doc-pdf-outputs
-  paths:
-    include:
-      - documentation
-      - pipelines/documentation
+  # paths:
+  #   include:
+  #     - documentation
+  #     - pipelines/documentation
 
 pr:
   paths:
