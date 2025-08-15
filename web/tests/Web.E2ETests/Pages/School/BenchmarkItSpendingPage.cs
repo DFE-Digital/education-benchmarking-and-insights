@@ -45,12 +45,12 @@ public class BenchmarkItSpendPage(IPage page)
         await AssertChartCount(titles.Length);
         await AssertVisibleCharts(titles);
     }
-    
+
     public async Task HoverOnChartBar(string urn)
     {
         await ChartBars(urn).First.HoverAsync();
     }
-    
+
     public async Task TooltipIsDisplayed()
     {
         await ChartTooltip.ShouldBeVisible();

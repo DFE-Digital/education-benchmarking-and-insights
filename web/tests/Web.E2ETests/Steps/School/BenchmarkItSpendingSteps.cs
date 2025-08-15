@@ -31,7 +31,7 @@ public class BenchmarkItSpendSteps(PageDriver driver)
         Assert.NotNull(_itSpendPage);
         _schoolHomePage = await _itSpendPage.EnterOnSchoolName();
     }
-    
+
     [When("I hover on a bar for the school with urn '(.*)' in a chart")]
     public async Task WhenIHoverOnBarInChart(string urn)
     {
