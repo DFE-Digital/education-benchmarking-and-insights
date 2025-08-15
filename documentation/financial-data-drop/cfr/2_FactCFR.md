@@ -22,7 +22,7 @@ View Name = `CFR_yy-yy_Data` where yy-yy represent reporting academic year, for 
 
 ### The following instructions describe CFR QA checks
 
-1. Connect to the CFR data source listed above as well as the newly created local database as mentioned under Prerequisite subsection in this documentation [Overview](documentation\financial-data-drop\cfr\1_Overview .md) page
+1. Connect to the CFR data source listed above as well as the newly created local database as mentioned under Prerequisite subsection in this documentation [Overview](../cfr/1_Overview%20.md) page.
 
 2. Using a database GUI Tool, ingest all `CFR_yy-yy_Data` records from CFR data source within iStore SQL Server into a destination table to be named `CFR_yyyy` within the newly created local database, where yyyy represents the reporting academic year. For instance `CFR_2425` for 2024-2025 reporting year
 
@@ -204,7 +204,7 @@ View Name = `CFR_yy-yy_Data` where yy-yy represent reporting academic year, for 
 
 2. Upon identifying any issues during steps 3, 4, or 5 of the CFR QA checks, an Excel report must be generated. This report will detail the affected schools, including the values for the LEAEstab, Federated Flag, and LAEstab of School in Federation fields. The document should then be communicated to the relevant stakeholders (product owners).
 
-3. Excel report be named `Federation Funnies` and uploaded to the newly created `yy-yy` folder within [CFR Data Procurement Process Sharepoint location](https://educationgovuk.sharepoint.com/sites/DfEFinancialBenchmarking/Shared%20Documents/Forms/AllItems.aspx?id=%2Fsites%2FDfEFinancialBenchmarking%2FShared%20Documents%2FCFR%20Data%20Procurement%20Process&viewid=7afed90f%2D9f2f%2D431a%2D93ce%2D48075c0e93d8&csf=1&web=1&e=boXhxD&CID=0fb7a62d%2De68f%2D4f86%2Dac15%2D27e9c4f7b4a6&FolderCTID=0x012000B007B75DE8F91C4B82D20FE8B354FCBD) as mentioned under Prerequisite subsection in this documentation [Overview](documentation\financial-data-drop\cfr\1_Overview .md) page. See sample for 2024-2025 academic year [here](https://educationgovuk.sharepoint.com/:x:/r/sites/DfEFinancialBenchmarking/Shared%20Documents/CFR%20Data%20Procurement%20Process/24-25/Federation%20Funnies%20-%20250730.xlsx?d=w77a953618eef4ce5a6c6cdc37e6fc14e&csf=1&web=1&e=cXUQtM)
+3. Excel report be named `Federation Funnies` and uploaded to the newly created `yy-yy` folder within [CFR Data Procurement Process Sharepoint location](https://educationgovuk.sharepoint.com/sites/DfEFinancialBenchmarking/Shared%20Documents/Forms/AllItems.aspx?id=%2Fsites%2FDfEFinancialBenchmarking%2FShared%20Documents%2FCFR%20Data%20Procurement%20Process&viewid=7afed90f%2D9f2f%2D431a%2D93ce%2D48075c0e93d8&csf=1&web=1&e=boXhxD&CID=0fb7a62d%2De68f%2D4f86%2Dac15%2D27e9c4f7b4a6&FolderCTID=0x012000B007B75DE8F91C4B82D20FE8B354FCBD) as mentioned under Prerequisite subsection in this documentation [Overview](../cfr/1_Overview%20.md) page. See sample for 2024-2025 academic year [here](https://educationgovuk.sharepoint.com/:x:/r/sites/DfEFinancialBenchmarking/Shared%20Documents/CFR%20Data%20Procurement%20Process/24-25/Federation%20Funnies%20-%20250730.xlsx?d=w77a953618eef4ce5a6c6cdc37e6fc14e&csf=1&web=1&e=cXUQtM)
 
     > **Note**
     >

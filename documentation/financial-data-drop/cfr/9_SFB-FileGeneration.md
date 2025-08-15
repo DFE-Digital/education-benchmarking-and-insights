@@ -2,12 +2,14 @@
 
 ## Run SQL Queries
 
-1. Meticulously edit all five (5) sql scripts copied over from last academic reporting year's folder as mentioned under Prerequisite subsection in this documentation [Overview](documentation\financial-data-drop\cfr\1_Overview .md) page. Edits must reflect
+1. Meticulously edit all five (5) sql scripts copied over from last academic reporting year's folder as mentioned under Prerequisite subsection in this documentation [Overview](../cfr/1_Overview%20.md) page. Edits must reflect
 
     - All table reference in the SQL scripts must be in accordance to the current reporting academic year, for instance `[CFR25].[dbo].[Dim_GIAS_ClosedSchools_2025]` be edited to `[CFR26].[dbo].[Dim_GIAS_ClosedSchools_2026]` when generating 2025-2026 CFR downstream dataset.
     - All slowly changing dimension tables reference must be in accordance to the previous reporting academic year, for instance `[dbo].[Dim_Workforce_2024]` be edited to `[dbo].[Dim_Workforce_2024]` when generating 2025-2026 CFR downstream dataset.
 
-2. Confirm a total of fourteen (14) tables in `CFR_yy` local database. The below image corresponds to Fact and Dimension tables used for the CFR downstream dataset generation for  2024-2025 reporting academic year
+2. Confirm a total of fourteen (14) tables in `CFR_yy` local database.
+
+    _The below image corresponds to Fact and Dimension tables used for the CFR downstream dataset generation for  2024-2025 reporting academic year_
 
     ![CFR_25 Database](../images/local-database-fact-and-dim-tables.png)
 
@@ -17,7 +19,7 @@
 
 5. Run `My_Step3.sql` to output [dbo].[SFB_Maintained_20YY-yy] table
 
-    The below image corresponds to all tables relating to the CFR downstream dataset generation for 2024-2025 reporting academic year
+    _The below image corresponds to all tables relating to the CFR downstream dataset generation for 2024-2025 reporting academic year_
 
     ![CFR_25 Database](../images/local-database-tables.png)
 
