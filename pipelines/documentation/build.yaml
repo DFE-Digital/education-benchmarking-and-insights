@@ -84,7 +84,7 @@ stages:
   - stage: GenerateDocumentation
     dependsOn: [ Validate ]
     displayName: 'Generate'
-    # condition: and(succeeded(), eq(variables['ShouldDeploy'],'true'))
+    condition: and(succeeded(), eq(variables['ShouldDeploy'],'true'))
     jobs:
       - job: BuildDocumentation
         displayName: 'Build and publish documentation'
