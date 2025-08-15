@@ -1,0 +1,61 @@
+@using Web.App.Domain.Charts
+@using Web.App.Extensions
+@model Web.App.ViewModels.SchoolComparisonItSpendTableViewModel
+
+@if (Model.SubCategory.Data is null)
+{
+    <div
+        class="govuk-warning-text govuk-!-margin-top-2 govuk-!-margin-bottom-2 ssr-chart-warning">
+        <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
+        <strong class="govuk-warning-text__text">
+            <span class="govuk-visually-hidden">Warning</span>
+            Unable to display data
+        </strong>
+    </div>
+    return;
+}
+<div>
+
+    @if (Model.SubCategory.HasNegativeOrZeroValues)
+    {
+        <p class="govuk-body">Only displaying schools with positive expenditure.</p>
+    }
+
+    <table class="govuk-table">
+        <thead class="govuk-table__head">
+        <tr class="govuk-table__row">
+            <th scope="col" class="govuk-table__header">School name</th>
+            <th scope="col" class="govuk-table__header">Local Authority</th>
+            <th scope="col" class="govuk-table__header">School type</th>
+            <th scope="col" class="govuk-table__header">Number of pupils</th>
+            <th scope="col" class="govuk-table__header">@Model.ResultAs.GetTableHeader()</th>
+        </tr>
+        </thead>
+        <tbody class="govuk-table__body">
+        @foreach (var row in Model.SubCategory.Data)
+        {
+            <tr class="govuk-table__row">
+                <td class="govuk-table__cell">
+                    @if (row.Urn == Model.Urn)
+                    {
+                        <strong>
+                            <a class="govuk-link govuk-link--no-visited-state"
+                               href=@($"/school/{row.Urn}")>@row.SchoolName</a>
+                        </strong>
+                    }
+                    else
+                    {
+                        <a class="govuk-link govuk-link--no-visited-state"
+                           href=@($"/school/{row.Urn}")>@row.SchoolName</a>
+                    }
+
+                </td>
+                <td class="govuk-table__cell">@row.LAName</td>
+                <td class="govuk-table__cell">@row.SchoolType</td>
+                <td class="govuk-table__cell">@row.TotalPupils.ToSimpleDisplay()</td>
+                <td class="govuk-table__cell">@Model.ResultAs.GetFormattedValue(row.Expenditure)</td>
+            </tr>
+        }
+        </tbody>
+    </table>
+</div>
