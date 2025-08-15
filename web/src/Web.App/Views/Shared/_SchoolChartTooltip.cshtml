@@ -20,14 +20,23 @@
             const key = el.getAttribute("data-key");
             const datum = data.find((d) => d.urn === key);
             if (!datum) return;
+            
+            switch (el.tagName.toLowerCase()) {
+                case "rect":
+                    attachMouseListeners(el, datum);
+                    break;
+                case "a":
+                    attachFocusListeners(el, datum);
+                    break;
+            }
+        });
+    });
 
-            const mouseX = e.clientX;
-            const mouseY = e.clientY;
-            const scrollY = window.scrollY;
-
+    function attachMouseListeners(el, datum) {
+        el.addEventListener("mouseenter", (e) => {
             const tooltipOffset = 12;
-            const tooltipX = mouseX + tooltipOffset;
-            const tooltipY = mouseY + scrollY + tooltipOffset;
+            const tooltipX = e.clientX + tooltipOffset;
+            const tooltipY = e.clientY + window.scrollY + tooltipOffset;
 
             vm.show(datum, tooltipX, tooltipY);
         });
@@ -35,5 +44,22 @@
         el.addEventListener("mouseleave", () => {
             vm.hide();
         });
-    });
+    }
+
+    function attachFocusListeners(el, datum) {
+        console.log("attachFocusListeners", el, datum)
+        el.addEventListener("focus", () => {
+            const rect = el.getBoundingClientRect();
+            const tooltipOffset = 12;
+            const tooltipX = rect.right + tooltipOffset;
+            const tooltipY = rect.right + window.scrollY;
+
+            vm.show(datum, tooltipX, tooltipY);
+        });
+
+        el.addEventListener("blur", () => {
+            vm.hide();
+        });
+    }
+
 </script>

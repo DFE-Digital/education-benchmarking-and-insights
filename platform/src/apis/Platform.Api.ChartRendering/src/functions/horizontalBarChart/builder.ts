@@ -262,6 +262,7 @@ export default class HorizontalBarChartBuilder {
           }),
         )
         .append("xlink:a")
+        .attr("data-key", datum as string)
         .attr("href", sprintf(linkFormat, datum))
         .attr("class", "govuk-link")
         .attr("aria-label", label);
