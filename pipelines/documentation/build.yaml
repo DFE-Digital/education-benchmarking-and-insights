@@ -26,6 +26,22 @@ variables:
     value: '$(FullWorkingDir)/tools'
   - group: 'sharepoint'
 
+parameters:
+  - name: core
+    type: object
+    default:
+      - architecture
+      - developers
+      - feature
+      - quality-assurance
+      - prototype
+      - operational
+      - data
+  - name: guides
+    type: object
+    default:
+      - cfr
+
 stages:
   - stage: Validate
     displayName: 'Validate'
@@ -71,17 +87,6 @@ stages:
     jobs:
       - job: BuildDocumentation
         displayName: 'Build and publish documentation'
-        parameters:
-          core:
-            - architecture
-            - developers
-            - feature
-            - quality-assurance
-            - prototype
-            - operational
-            - data
-          guides:
-            - cfr
         steps:
           - bash: sudo apt-get update
             displayName: 'Update the package list'
