@@ -1,32 +1,45 @@
 # School Census - Dimension Data
 
-The CFR data is processed along with a few dimension data to create the downstream dataset named `maintained_schools_master_list`. These dimension data are:
+The CFR data is processed along with a few dimension data to create the downstream dataset named `maintained_schools_master_list` and an accompanying transparency file. These dimension data are:
 
+- Pupil Referral Unit (PRU) & Alternative Provision (AP)
+- General Hospital schools
 - Get Information About School (GIAS)
 - **School Census**
-- Pupil Referral Unit (PRU) & Alternative Provision (AP)
 - Special Education Needs (SEN)
-- General Hospital schools
 - School Workforce Census
 
 Pupil data from the school census is produced by the Department of Education and published in the [Pupils and their Characteristics - GOV.UK School Education statistic website](https://explore-education-statistics.service.gov.uk/find-statistics/school-pupils-and-their-characteristics.), this data is updated annually by July.
 
 ## Getting School Census Data
 
-- **School Census Dimension Data**
+### School Census Dimension Data
 
-1. Click on [URL link](https://content.explore-education-statistics.service.gov.uk/api/releases/e16d24b0-e813-4510-aa21-a6200dffaa97/files?fromPage=ReleaseUsefulInfo) to download `school-pupils-and-their-characteristics_YYYY-yy` zipped folder to local folder, where YYYY-yy represents the reporting academic year. For instance, `school-pupils-and-their-characteristics_2024-25` would be used to generate 2024-2025 academic year financial return
+1. Click on [URL link](https://content.explore-education-statistics.service.gov.uk/api/releases/e16d24b0-e813-4510-aa21-a6200dffaa97/files?fromPage=ReleaseUsefulInfo) to download `school-pupils-and-their-characteristics_20YY-yy` zipped folder to local folder, where 20YY-yy represents the reporting academic year. For instance `school-pupils-and-their-characteristics_2024-25` when generating 2024-2025 CFR downstream dataset.
 
-2. In the `supporting-files` sub-folder of the `school-pupils-and-their-characteristics_YYYY-yy` zipped folder, access the
-`spc_school_level_underlying_data_20yy.csv` file.
+2. In the `supporting-files` sub-folder of the `school-pupils-and-their-characteristics_20YY-yy` zipped folder, access the
+`spc_school_level_underlying_data_20YY.csv` file.
 
-3. Clean data by replacing any value returned as `z` to `0.00` (zero)
+3. Clean data by replacing any value returned as `z` to `0.00` (zero).
 
-4. Save and rename file to `Dim_SchoolLevelPupilCensus.csv`
+4. Save and rename file to `Dim_SchoolLevelPupilCensus_20YY.csv` where 20YY is the end of the reporting academic year. For instance, Save As `Dim_SchoolLevelPupilCensus_2025.csv` for 2024-2025 academic year.
 
-- **School Census Slowly Changing Dimension Data**
+### School Census Slowly Changing Dimension Data
 
-tbc
+1. In the page view of the [Pupils and their Characteristics - GOV.UK School Education statistic website](https://explore-education-statistics.service.gov.uk/find-statistics/school-pupils-and-their-characteristics.), navigate to `Releases in this series` to expand on the `View releases` button where previous academic year's data can be accessed.
+
+2. For School Census SCD data, access the previous data by clicking on `Academic year 20yy/yy` link where 20yy/yy represents the previous reporting academic year. For instance, `Academic year 2023/24` would be accessed to download `school-pupils-and-their-characteristics_2023-24` zipped folder when generating 2024-2025 CFR downstream dataset.
+
+3. Repeat step 2 and 3 as listed above.
+
+4. Save and rename SCD file to `Dim_SchoolLevelPupilCensus_20YY.csv` where 20YY is the downloaded academic year. For instance, Save As `Dim_SchoolLevelPupilCensus_2024.csv` when generating 2024-2025 CFR downstream dataset.
+
+### Flat File Ingestion into CFRyy Local Database
+
+Using a database GUI Tool, ingest both flat files as a tables into the newly created local database
+    - Confirm that the two destination table names reflect their respective reporting academic years
+    - Confirm schema name for both destination tables is `dbo`
+    - In the Modify Columns tab, confirm column data type matches with GIAS Fields Data Type as detailed below
 
 ### School Census Fields Data Type
 

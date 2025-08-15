@@ -1,21 +1,21 @@
 # School Workforce Census - Dimension Data
 
-The CFR data is processed along with a few dimension data to create the downstream dataset named `maintained_schools_master_list`. These dimension data are:
+The CFR data is processed along with a few dimension data to create the downstream dataset named `maintained_schools_master_list` and an accompanying transparency file. These dimension data are:
 
-- Get Information About School (GIAS)
-- School Census
 - Pupil Referral Unit (PRU) & Alternative Provision (AP)
-- Special Education Needs (SEN)
+- School Census
 - General Hospital schools
+- Get Information About School (GIAS)
+- Special Education Needs (SEN)
 - **School Workforce Census**
 
 School workforce data is taken from the School Census produced by the Department of Education and published in the [School workforce in England - GOV.UK School Education statistic website](https://explore-education-statistics.service.gov.uk/find-statistics/school-workforce-in-england); this data is updated annually by July/August.
 
 ## Getting School Workforce Census Data
 
-- **School Workforce Census Data**
+### School Workforce Census Data**
 
-1. Click on [URL link](https://content.explore-education-statistics.service.gov.uk/api/releases/22112b8a-8ae7-43a1-a875-1e8deeeafa06/files?fromPage=ReleaseUsefulInfo) to download `school-workforce-in-england_YYYY` zipped folder to local folder, where YYYY represents last calendar year (current year minus one). For instance, `school-workforce-in-england_2024` would be used to generate 2024-2025 academic year financial return.
+1. Click on [URL link](https://content.explore-education-statistics.service.gov.uk/api/releases/22112b8a-8ae7-43a1-a875-1e8deeeafa06/files?fromPage=ReleaseUsefulInfo) to download `school-workforce-in-england_YYYY` zipped folder to local folder, where YYYY represents previous calendar year (end of reporting year minus one). For instance, `school-workforce-in-england_2024` would be used to generate 2024-2025 CFR downstream dataset.
 
 2. In the `supporting-files` sub-folder of the `school-workforce-in-england_YYYY` zipped folder, access the
 `School_Tables_School_Workforce_Census` file.
@@ -24,11 +24,24 @@ School workforce data is taken from the School Census produced by the Department
 
 4. Clean data by replacing any value returned as `x`,`c` and `z` to `0.00` (zero)
 
-5. Save As file to `Dim_Workforce.csv`
+5. Save As file to `Dim_Workforce_20YY.csv` where 20YY is previous calendar year (end of reporting year minus one). For instance, Save As `Dim_Workforce_2024.csv` when generating 2024-2025 CFR downstream dataset.
 
-- **School Workforce Census Slowly Changing Dimension Data**
+### School Workforce Census Slowly Changing Dimension Data**
 
-tbc
+1. In the page view of the [School workforce in England - GOV.UK School Education statistic website](https://explore-education-statistics.service.gov.uk/find-statistics/school-workforce-in-england), navigate to `Releases in this series` to expand on the `View releases` button where last two calendar years (end of reporting year minus two) data can be accessed.
+
+2. For instance, to obtain the School Workforce Census SCD data for generating 2024-2025 CFR downstream dataset, click on the `Reporting year 2023` to download `school-workforce-in-england_2023` zipped folder to local folder.
+
+3. Repeat step 3 and 4 as listed above.
+
+4. Save and rename file to `Dim_Workforce_20YY.csv` where 20YY is the downloaded calendar year, for instance, `Dim_Workforce_2023.csv` generating 2024-2025 CFR downstream dataset.
+
+### Flat File Ingestion into CFRyy Local Database
+
+Using a database GUI Tool, ingest both flat files as a tables into the created local database
+    - Confirm that the two destination table names reflect their respective reporting academic years
+    - Confirm schema name for both destination tables is `dbo`
+    - In the Modify Columns tab, confirm column data type matches with GIAS Fields Data Type as detailed below
 
 ### School Workforce Census Data Type
 

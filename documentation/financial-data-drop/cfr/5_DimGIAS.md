@@ -1,42 +1,57 @@
 # GIAS - Dimension Data
 
-The CFR data is processed along with a few dimension data to create the downstream dataset named `maintained_schools_master_list`. These dimension data are:
+The CFR data is processed along with a few dimension data to create the downstream dataset named `maintained_schools_master_list` and an accompanying transparency file. These dimension data are:
 
+- Pupil Referral Unit (PRU) & Alternative Provision (AP)
+- General Hospital schools
 - **Get Information About School (GIAS)**
 - School Census
-- Pupil Referral Unit (PRU) & Alternative Provision (AP)
 - Special Education Needs (SEN)
-- General Hospital schools
 - School Workforce Census
 
 Get Information about Schools (GIAS) is the Department for Education’s register for several school establishment types and where information on other school organisations is recorded and maintained. This data is published in the [GOV.UK Get Information about Schools website](https://www.get-information-schools.service.gov.uk/).
 
 ## Getting GIAS Data
 
-1. Go to GIAS [download page](https://www.get-information-schools.service.gov.uk/Downloads)
+1. Go to GIAS [download page](https://www.get-information-schools.service.gov.uk/Downloads).
 
-2. Have `Latest` selected as option
+2. Have `Latest` selected as option for download.
 
-3. Check `Establishment fields CSV, xx.xxMB` where xx.xx represent size of file for instance `Establishment fields CSV, 60.84 MB`
+3. Check `Establishment fields CSV, xx.xxMB` where xx.xx represent size of file for instance `Establishment fields CSV, 60.84 MB`.
 
-4. Scroll down to the bottom of page to select `Download selected file`
+4. Scroll down to the bottom of page to select `Download selected file`.
 
-5. Wait for the download generation to be completed, afterwards click on `Results.zip` to action download
+5. Wait for the download generation to be completed, afterwards click on `Results.zip` to action download.
 
-6. Navigate to `extract` folder within local downloaded folder to view the `edubasealldataYYYMMDD.csv` file and rename to `GIAS_YYYYMMDD` naming convention.
+6. Navigate to `extract` folder within local downloaded folder to view the `edubasealldataYYYMMDD.csv` file.
 
-7. Open the now `GIAS_YYYYMMDD.csv` file two create two additional copies based on `EstablishmentStatus (name)` field.
-    - The file WHERE `EstablishmentStatus (name)` = `Open`, `Open, but proposed to close` and `Proposed to open` should be saved as **Dim_GIAS_OpenSchools.csv**
-    - The file WHERE `EstablishmentStatus (name)` = `Closed` should be saved as **Dim_GIAS_ClosedSchools.csv**
+7. Open the file and proceed to remove all but the referenced columns/fields in the **GIAS Fields Data Type** subsection of this documentation, failure to do so will lead to data ingestion errors.
 
-8. At the end of both `Dim_GIAS_OpenSchools` and `Dim_GIAS_ClosedSchools`, create an additional field called `LAEstab` which is a concatenate of `LA (code)` and `EstablishmentNumber`
+8. At the end of sheet (column BT), create an additional field called `LAEstab` which is a concatenate of `LA (code)` and `EstablishmentNumber` values.
 
-9. In total, we should have the three files below
-    - `GIAS_YYYYMMDD.csv`
-    - `Dim_GIAS_OpenSchools.csv`
-    - `Dim_GIAS_ClosedSchools.csv`
+### Flat File Ingestion into CFRyy Local Database
 
-10. Import all three flat files as respective tables into `CFRyy` database keeping the naming conversion.
+1. Using a database GUI Tool, ingest flat file as a table into the newly created local database.
+    - Confirm destination table name is `GIASYYYYMMDD` where YYYYMMDD is same the year, month and date of `edubasealldataYYYMMDD.csv` file
+    - Confirm schema name for both destination tables is `dbo`
+    - In the Modify Columns tab, select `Allow Nulls` option to accept null values for all the fields
+    - In the Modify Columns tab, confirm column data type matches with GIAS Fields Data Type as detailed below
+
+2. Using SQL statement option within the database GUI Tool, create two additional tables based on `EstablishmentStatus (name)` field. Edit both local database and table name to reflect current reporting year.
+
+     ```sql
+     --Save table name as Dim_GIAS_OpenSchools_20YY where 20YY rep end of reporting academic year. For instance, Dim_GIAS_OpenSchools_2025 for 2024-2024 academic year
+     SELECT * 
+     FROM [CFR25].[dbo].[GIAS20250722]
+     WHERE [EstablishmentStatus (name)] IN ('Open', 'Open, but proposed to close', 'Proposed to open')
+      ```
+
+     ```sql
+     --Save table name as Dim_GIAS_ClosedSchools_20YY where 20YY rep end of reporting academic year. For instance, Dim_GIAS_ClosedSchools_2025 for 2024-2024 academic year
+     SELECT * 
+     FROM [CFR25].[dbo].[GIAS20250722]
+     WHERE [EstablishmentStatus (name)] = 'Closed'
+      ```
 
 ### GIAS Fields Data Type
 
