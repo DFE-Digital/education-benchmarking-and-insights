@@ -14,7 +14,7 @@ Each metric has its own detailed document in the `/metrics` folder.
 ## Categories
 
 * **Operational** – Service health, reliability, infrastructure performance.
-  * Example: If there is a spike in the HTTP error count (metric) the dev team need to be aware so they can fix it (so set an alert on the metric), otherwise the service agreement for availability might be breached.
+  * Example: If there is a spike in the HTTP error count (metric) the dev team need to be aware so they can fix it (so set an alert on the metric), otherwise the service agreement  might be breached.
 * **User Insight** – User behaviour, engagement, product outcomes.
   * Example: Measure the click through rate (metric) for the new IT spend breakdown page for LA schools. If the click through rate is very low over a month the team might consider removing it or moving the content.
 
