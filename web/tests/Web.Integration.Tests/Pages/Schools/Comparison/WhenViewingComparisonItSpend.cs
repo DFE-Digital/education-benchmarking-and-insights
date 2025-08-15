@@ -236,7 +236,7 @@ public class WhenViewingComparisonItSpend(SchoolBenchmarkingWebAppClient client)
         var adminSoftwareSection = page.QuerySelector("#cost-sub-category-administration-software-and-systems-e20d");
         Assert.NotNull(adminSoftwareSection);
         var warningParagraph = adminSoftwareSection.QuerySelectorAll("p").FirstOrDefault();
-        
+
         if (hasNegativeValues)
         {
             Assert.NotNull(warningParagraph);

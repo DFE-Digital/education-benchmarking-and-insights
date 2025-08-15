@@ -65,9 +65,9 @@ public class SchoolComparisonItSpendController(
                         {
                             category.ChartSvg = chart.Html;
                         }
-                    }    
+                    }
                 }
-                
+
                 var viewModel = new SchoolComparisonItSpendViewModel(school, subCategories)
                 {
                     SelectedSubCategories = selectedSubCategories,
@@ -112,7 +112,7 @@ public class SchoolComparisonItSpendController(
 
         return query;
     }
-    
+
     private async Task<ChartResponse[]> BuildCharts(string urn, Dimensions.ResultAsOptions resultAs,
         SchoolComparisonSubCategoriesViewModel subCategories)
     {
