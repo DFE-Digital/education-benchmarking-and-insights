@@ -54,33 +54,17 @@ public class SchoolComparisonItSpendController(
                     .GetResultOrDefault<SchoolItSpend[]>() ?? [];
 
                 var subCategories = new SchoolComparisonSubCategoriesViewModel(urn, expenditures, selectedSubCategories);
-                var requests = subCategories.Select(c => new SchoolComparisonItSpendHorizontalBarChartRequest(
-                    c.Uuid!,
-                    urn,
-                    c.Data!,
-                    format => Uri.UnescapeDataString(
-                        Url.Action("Index", "School", new { urn = format }) ?? string.Empty),
-                    resultAs
-                    ));
+                if (viewAs == SchoolComparisonItSpendViewModel.ViewAsOptions.Chart)
+                {
+                    var charts = await BuildCharts(urn, resultAs, subCategories);
 
-                ChartResponse[] charts = [];
-                try
-                {
-                    charts = await chartRenderingApi
-                        .PostHorizontalBarCharts(new PostHorizontalBarChartsRequest<SchoolComparisonDatum>(requests))
-                        .GetResultOrDefault<ChartResponse[]>() ?? [];
-                }
-                catch (Exception e)
-                {
-                    logger.LogWarning(e, "Unable to load charts from API");
-                }
-
-                foreach (var chart in charts)
-                {
-                    var category = subCategories.FirstOrDefault(r => r.Uuid == chart.Id);
-                    if (category != null)
+                    foreach (var chart in charts)
                     {
-                        category.ChartSvg = chart.Html;
+                        var category = subCategories.FirstOrDefault(r => r.Uuid == chart.Id);
+                        if (category != null)
+                        {
+                            category.ChartSvg = chart.Html;
+                        }
                     }
                 }
 
@@ -127,5 +111,32 @@ public class SchoolComparisonItSpendController(
 
 
         return query;
+    }
+
+    private async Task<ChartResponse[]> BuildCharts(string urn, Dimensions.ResultAsOptions resultAs,
+        SchoolComparisonSubCategoriesViewModel subCategories)
+    {
+        var requests = subCategories.Select(c => new SchoolComparisonItSpendHorizontalBarChartRequest(
+            c.Uuid!,
+            urn,
+            c.Data!,
+            format => Uri.UnescapeDataString(
+                Url.Action("Index", "School", new { urn = format }) ?? string.Empty),
+            resultAs
+        ));
+
+        ChartResponse[] charts = [];
+        try
+        {
+            charts = await chartRenderingApi
+                .PostHorizontalBarCharts(new PostHorizontalBarChartsRequest<SchoolComparisonDatum>(requests))
+                .GetResultOrDefault<ChartResponse[]>() ?? [];
+        }
+        catch (Exception e)
+        {
+            logger.LogWarning(e, "Unable to load charts from API");
+        }
+
+        return charts;
     }
 }
