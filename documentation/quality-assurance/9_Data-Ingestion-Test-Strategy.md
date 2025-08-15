@@ -1,4 +1,4 @@
-﻿# 📊 Data Ingestion – Test Strategy
+﻿# 📊 Test Strategy: Data Ingestion
 
 ## Purpose
 
