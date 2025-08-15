@@ -235,18 +235,16 @@ public class WhenViewingComparisonItSpend(SchoolBenchmarkingWebAppClient client)
 
         var adminSoftwareSection = page.QuerySelector("#cost-sub-category-administration-software-and-systems-e20d");
         Assert.NotNull(adminSoftwareSection);
-
+        var warningParagraph = adminSoftwareSection.QuerySelectorAll("p").FirstOrDefault();
+        
         if (hasNegativeValues)
         {
-            var warningText = adminSoftwareSection.QuerySelector(".govuk-warning-text__text");
-            Assert.NotNull(warningText);
-
-            DocumentAssert.TextMatches(warningText, new Regex(@"^Warning\s+Only displaying schools with positive expenditure\.$"));
+            Assert.NotNull(warningParagraph);
+            DocumentAssert.TextEqual(warningParagraph, "Only displaying schools with positive expenditure.");
         }
         else
         {
-            var warningText = adminSoftwareSection.QuerySelector(".govuk-warning-text__text");
-            Assert.Null(warningText);
+            Assert.Null(warningParagraph);
         }
     }
 

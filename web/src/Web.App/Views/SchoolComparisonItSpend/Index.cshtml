@@ -283,17 +283,12 @@
         {
             var subCategory = Model.SubCategories.ElementAt(i);
             var uuid = Guid.NewGuid();
-
-            if (i > 0)
-            {
-                <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible govuk-!-margin-bottom-6">
-            }
-
+            
             <section id="cost-sub-category-@subCategory.SubCategory?.ToSlug()">
                 <h2 class="govuk-heading-m">@subCategory.SubCategory</h2>
                 <div id="@uuid" class="costs-chart-container" data-title="@subCategory.SubCategory">
                     <div class="costs-chart-wrapper">
-                        @if (string.IsNullOrWhiteSpace(subCategory.ChartSvg))
+                        @if (string.IsNullOrWhiteSpace(subCategory.ChartSvg) && Model.ViewAs == SchoolComparisonItSpendViewModel.ViewAsOptions.Chart)
                         {
                             <div
                                 class="govuk-warning-text govuk-!-margin-top-2 govuk-!-margin-bottom-2 ssr-chart-warning">
@@ -308,13 +303,7 @@
                         {
                             @if (subCategory.HasNegativeOrZeroValues)
                             {
-                                <div class="govuk-warning-text">
-                                    <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
-                                    <strong class="govuk-warning-text__text">
-                                        <span class="govuk-visually-hidden">Warning</span>
-                                        Only displaying schools with positive expenditure.
-                                    </strong>
-                                </div>
+                                    <p class="govuk-body">Only displaying schools with positive expenditure.</p>
                             }
                             @if (Model.ViewAs == SchoolComparisonItSpendViewModel.ViewAsOptions.Chart)
                             {
@@ -338,46 +327,50 @@
                                 else
                                 {
                                     <table class="govuk-table">
-                                            <thead class="govuk-table__head">
-                                            <tr class="govuk-table__row">
-                                                <th scope="col" class="govuk-table__header">School name</th>
-                                                <th scope="col" class="govuk-table__header">Local Authority</th>
-                                                <th scope="col" class="govuk-table__header">School type</th>
-                                                <th scope="col" class="govuk-table__header">Number of pupils</th>
-                                                <th scope="col" class="govuk-table__header">@Model.ResultAs.GetTableHeader()</th>
-                                            </tr>
-                                            </thead>
-                                            <tbody class="govuk-table__body">
-                                            @foreach (var row in subCategory.Data)
-                                            {
+                                        <thead class="govuk-table__head">
+                                        <tr class="govuk-table__row">
+                                            <th scope="col" class="govuk-table__header">School name</th>
+                                            <th scope="col" class="govuk-table__header">Local Authority</th>
+                                            <th scope="col" class="govuk-table__header">School type</th>
+                                            <th scope="col" class="govuk-table__header">Number of pupils</th>
+                                            <th scope="col" class="govuk-table__header">@Model.ResultAs.GetTableHeader()</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody class="govuk-table__body">
+                                        @foreach (var row in subCategory.Data)
+                                        {
                                                 
-                                                <tr class="govuk-table__row">
-                                                    <td class="govuk-table__cell">
-                                                        @if (row.Urn == Model.Urn)
-                                                        {
-                                                            <strong>
-                                                                <a class="govuk-link govuk-link--no-visited-state" href=@($"/school/{row.Urn}")>@row.SchoolName</a>
-                                                            </strong>
-                                                        }
-                                                        else
-                                                        {
+                                            <tr class="govuk-table__row">
+                                                <td class="govuk-table__cell">
+                                                    @if (row.Urn == Model.Urn)
+                                                    {
+                                                        <strong>
                                                             <a class="govuk-link govuk-link--no-visited-state" href=@($"/school/{row.Urn}")>@row.SchoolName</a>
-                                                        }
+                                                        </strong>
+                                                    }
+                                                    else
+                                                    {
+                                                        <a class="govuk-link govuk-link--no-visited-state" href=@($"/school/{row.Urn}")>@row.SchoolName</a>
+                                                    }
                                                         
-                                                    </td>
-                                                    <td class="govuk-table__cell">@row.LAName</td>
-                                                    <td class="govuk-table__cell">@row.SchoolType</td>
-                                                    <td class="govuk-table__cell">@row.TotalPupils.ToSimpleDisplay()</td>
-                                                    <td class="govuk-table__cell">@Model.ResultAs.GetFormattedValue(row.Expenditure)</td>
-                                                </tr>
-                                            }
-                                            </tbody>
-                                        </table>
+                                                </td>
+                                                <td class="govuk-table__cell">@row.LAName</td>
+                                                <td class="govuk-table__cell">@row.SchoolType</td>
+                                                <td class="govuk-table__cell">@row.TotalPupils.ToSimpleDisplay()</td>
+                                                <td class="govuk-table__cell">@Model.ResultAs.GetFormattedValue(row.Expenditure)</td>
+                                            </tr>
+                                        }
+                                        </tbody>
+                                    </table>
                                 }
                             }    
                         }
                     </div>
                 </div>
+                @if (i <= Model.SubCategories.Count && Model.ViewAs == SchoolComparisonItSpendViewModel.ViewAsOptions.Chart)
+                {
+                <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible govuk-!-margin-bottom-6">
+                }
             </section>
         }
     </div>
