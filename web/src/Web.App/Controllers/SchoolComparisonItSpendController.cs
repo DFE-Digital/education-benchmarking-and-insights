@@ -68,7 +68,7 @@ public class SchoolComparisonItSpendController(
                     }
                 }
 
-                var viewModel = new SchoolComparisonItSpendViewModel(school, subCategories)
+                var viewModel = new SchoolComparisonItSpendViewModel(school, subCategories, expenditures)
                 {
                     SelectedSubCategories = selectedSubCategories,
                     ViewAs = viewAs,

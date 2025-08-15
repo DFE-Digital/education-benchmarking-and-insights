@@ -1,9 +1,8 @@
-﻿namespace Web.App.ViewModels.Enhancements;
+﻿namespace Web.App.ViewModels;
 
 public record SchoolChartTooltipViewModel
 {
     public SchoolChartTooltipData[]? Data { get; init; }
-    public Guid Uuid { get; init; }
 }
 
 public record SchoolChartTooltipData
