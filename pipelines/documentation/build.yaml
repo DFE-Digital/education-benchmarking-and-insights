@@ -71,6 +71,17 @@ stages:
     jobs:
       - job: BuildDocumentation
         displayName: 'Build and publish documentation'
+        parameters:
+          core:
+            - architecture
+            - developers
+            - feature
+            - quality-assurance
+            - prototype
+            - operational
+            - data
+          guides:
+            - cfr
         steps:
           - bash: sudo apt-get update
             displayName: 'Update the package list'
@@ -87,37 +98,17 @@ stages:
               command: 'custom'
               customCommand: 'install -g @mermaid-js/mermaid-cli'
 
-          - template: generate-docs.yaml
-            parameters:
-              folder: 'architecture'
+          - ${{ each folder in parameters.core }}:
+            - template: generate-docs.yaml
+              parameters:
+                folder: ${{ folder }}
+                filename: ${{ folder }}
 
-          - template: generate-docs.yaml
-            parameters:
-              folder: 'developers'
-
-          - template: generate-docs.yaml
-            parameters:
-              folder: 'feature'
-
-          - template: generate-docs.yaml
-            parameters:
-              folder: 'quality-assurance'
-
-          - template: generate-docs.yaml
-            parameters:
-              folder: 'prototype'
-
-          - template: generate-docs.yaml
-            parameters:
-              folder: 'operational'
-
-          - template: generate-docs.yaml
-            parameters:
-              folder: 'data'
-
-          - template: generate-docs.yaml
-            parameters:
-              folder: 'financial-data-drop'
+          - ${{ each folder in parameters.core }}:
+            - template: generate-docs.yaml
+              parameters:
+                folder: 'financial-data-drop/${{ folder }}'
+                filename: ${{ folder }}
 
           - task: PublishPipelineArtifact@1
             displayName: 'Publish artifacts'
