@@ -1,0 +1,27 @@
+@model Web.App.ViewModels.SchoolComparisonItSpendChartViewModel
+
+@if (string.IsNullOrWhiteSpace(Model.SubCategory.ChartSvg))
+{
+    <div
+        class="govuk-warning-text govuk-!-margin-top-2 govuk-!-margin-bottom-2 ssr-chart-warning">
+        <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
+        <strong class="govuk-warning-text__text">
+            <span class="govuk-visually-hidden">Warning</span>
+            Unable to display chart
+        </strong>
+    </div>
+    return;
+}
+
+<div id="@Model.Uuid" class="costs-chart-container" data-title="@Model.SubCategory.SubCategory">
+    <div class="costs-chart-wrapper">
+        @if (Model.SubCategory.HasNegativeOrZeroValues)
+        {
+            <p class="govuk-body">Only displaying schools with positive expenditure.</p>
+        }
+
+        <div class="govuk-!-margin-bottom-2 ssr-chart horizontal-bar-chart">
+            @Html.Raw(Model.SubCategory.ChartSvg)
+        </div>
+    </div>
+</div>
