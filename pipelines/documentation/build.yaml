@@ -40,7 +40,7 @@ parameters:
   - name: guides
     type: object
     default:
-      - cfr
+      - cfr-file-generation
 
 stages:
   - stage: Validate
@@ -112,8 +112,8 @@ stages:
           - ${{ each folder in parameters.guides }}:
             - template: generate-docs.yaml
               parameters:
-                folder: 'financial-data-drop/${{ folder }}'
-                filename: ${{ folder }}
+                folder: 'guides/${{ folder }}'
+                filename: 'guide-${{ folder }}'
 
           - task: PublishPipelineArtifact@1
             displayName: 'Publish artifacts'
