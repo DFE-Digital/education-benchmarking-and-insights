@@ -1,5 +1,15 @@
 ﻿<template>
   <div v-if="visible" class="school-chart-tooltip" :style="{ top: y + 'px', left: x + 'px' }">
+    <div v-if="!(datum?.periodCoveredByReturn === 12)" className="tooltip-part-year-warning">
+      <div class="govuk-warning-text govuk-!-margin-0">
+        <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
+        <strong class="govuk-warning-text__text">
+          <span class="govuk-visually-hidden">Warning</span>
+          This school only has {{ datum?.periodCoveredByReturn }}
+          {{ datum?.periodCoveredByReturn === 1 ? "month" : "months" }} of data available.
+        </strong>
+      </div>
+    </div>
     <table class="govuk-table govuk-table--small-text-until-tablet tooltip-table">
       <caption class="govuk-table__caption govuk-table__caption--s">
         {{

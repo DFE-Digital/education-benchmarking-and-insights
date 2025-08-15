@@ -33,14 +33,14 @@ public class BenchmarkItSpendSteps(PageDriver driver)
     }
 
     [When("I hover on a bar for the school with urn '(.*)' in a chart")]
-    public async Task WhenIHoverOnBarInChart(string urn)
+    public async Task WhenIHoverOnABarForTheSchoolWithUrnInAChart(string urn)
     {
         Assert.NotNull(_itSpendPage);
         await _itSpendPage.HoverOnChartBar(urn);
     }
 
     [Then("I should see the following IT spend charts:")]
-    public async Task ThenIShouldSeeTheFollowingCharts(Table table)
+    public async Task ThenIShouldSeeTheFollowingITSpendCharts(Table table)
     {
         Assert.NotNull(_itSpendPage);
 
@@ -55,10 +55,18 @@ public class BenchmarkItSpendSteps(PageDriver driver)
         await _schoolHomePage.IsDisplayed();
     }
 
-    [Then(@"the tooltip is correctly displayed")]
-    public async Task ThenTooltipIsCorrectlyDisplayed()
+    [Then("the tooltip is correctly displayed")]
+    public async Task ThenTheTooltipIsCorrectlyDisplayed()
     {
+        Assert.NotNull(_itSpendPage);
         await _itSpendPage.TooltipIsDisplayed();
+    }
+
+    [Then("the tooltip is correctly displayed with part year warning for (.*) months")]
+    public async Task ThenTheTooltipIsCorrectlyDisplayedWithPartYearWarningForMonths(int months)
+    {
+        Assert.NotNull(_itSpendPage);
+        await _itSpendPage.TooltipIsDisplayedWithPartYearWarning(months);
     }
 
     private async Task<BenchmarkItSpendPage> LoadItSpendPageForSchoolWithUrn(string urn)
