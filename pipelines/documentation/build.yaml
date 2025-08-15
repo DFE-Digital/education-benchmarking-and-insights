@@ -28,7 +28,7 @@ variables:
 
 parameters:
   - name: core
-    type: object
+    type: multiSelect
     default:
       - architecture
       - developers
@@ -37,9 +37,19 @@ parameters:
       - prototype
       - operational
       - data
+    values:
+      - architecture
+      - developers
+      - feature
+      - quality-assurance
+      - prototype
+      - operational
+      - data
   - name: guides
-    type: object
+    type: multiSelect
     default:
+      - cfr-file-generation
+    values:
       - cfr-file-generation
 
 stages:
