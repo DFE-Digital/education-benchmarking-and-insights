@@ -109,7 +109,7 @@ stages:
                 folder: ${{ folder }}
                 filename: ${{ folder }}
 
-          - ${{ each folder in parameters.core }}:
+          - ${{ each folder in parameters.guides }}:
             - template: generate-docs.yaml
               parameters:
                 folder: 'financial-data-drop/${{ folder }}'
