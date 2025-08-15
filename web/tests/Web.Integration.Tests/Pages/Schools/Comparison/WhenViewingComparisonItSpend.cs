@@ -10,26 +10,39 @@ namespace Web.Integration.Tests.Pages.Schools.Comparison;
 
 public class WhenViewingComparisonItSpend(SchoolBenchmarkingWebAppClient client) : PageBase<SchoolBenchmarkingWebAppClient>(client)
 {
+
+    private static readonly ExpectedSubCategory[] AllSubCategories =
+    [
+        new("Administration software and systems E20D", "Administration software and systems (E20D)", 0),
+        new("Connectivity E20A", "Connectivity (E20A)", 1),
+        new("IT learning resources E20C", "IT learning resources (E20C)", 2),
+        new("IT support E20G", "IT support (E20G)", 3),
+        new("Laptops, desktops and tablets E20E", "Laptops, desktops and tablets (E20E)", 4),
+        new("Onsite servers E20B", "Onsite servers (E20B)", 5),
+        new("Other hardware E20F", "Other hardware (E20F)", 6)
+    ];
+    private readonly Random _random = new();
+
     [Fact]
     public async Task CanDisplayForMaintainedSchool()
     {
-        var (page, school) = await SetupNavigateInitPage(EstablishmentTypes.Maintained);
+        var (page, school, spend) = await SetupNavigateInitPage(EstablishmentTypes.Maintained);
 
-        AssertPageLayout(page, school);
+        AssertPageLayout(page, school, spend);
     }
 
     [Fact]
     public async Task CanDisplayChartWarningForMaintainedSchoolWhenChartApiFails()
     {
-        var (page, school) = await SetupNavigateInitPage(EstablishmentTypes.Maintained, true);
+        var (page, school, spend) = await SetupNavigateInitPage(EstablishmentTypes.Maintained, true);
 
-        AssertPageLayout(page, school, chartError: true);
+        AssertPageLayout(page, school, spend, chartError: true);
     }
 
     [Fact]
     public async Task CanDisplayNotFoundForAcademy()
     {
-        var (page, school) = await SetupNavigateInitPage(EstablishmentTypes.Academies);
+        var (page, school, _) = await SetupNavigateInitPage(EstablishmentTypes.Academies);
 
         PageAssert.IsNotFoundPage(page);
         DocumentAssert.AssertPageUrl(page, Paths.SchoolComparisonItSpend(school.URN).ToAbsolute(), HttpStatusCode.NotFound);
@@ -38,7 +51,7 @@ public class WhenViewingComparisonItSpend(SchoolBenchmarkingWebAppClient client)
     [Fact]
     public async Task CanNavigateToSchoolComparators()
     {
-        var (page, school) = await SetupNavigateInitPage(EstablishmentTypes.Maintained);
+        var (page, school, _) = await SetupNavigateInitPage(EstablishmentTypes.Maintained);
 
         var anchor = page.QuerySelector("a[data-test-id='comparators-link']");
         Assert.NotNull(anchor);
@@ -76,7 +89,7 @@ public class WhenViewingComparisonItSpend(SchoolBenchmarkingWebAppClient client)
     [InlineData(1, "?viewAs=1&resultAs=0")]
     public async Task CanSubmitFilterOptionsForViewAs(int viewAs, string expectedQueryParams)
     {
-        var (page, school) = await SetupNavigateInitPage(EstablishmentTypes.Maintained);
+        var (page, school, spend) = await SetupNavigateInitPage(EstablishmentTypes.Maintained);
 
         var action = page.QuerySelectorAll("button").FirstOrDefault(x => x.TextContent.Trim() == "Apply filters");
         Assert.NotNull(action);
@@ -94,7 +107,8 @@ public class WhenViewingComparisonItSpend(SchoolBenchmarkingWebAppClient client)
         AssertPageLayout(
             page,
             school,
-            viewAs: viewAs,
+            spend,
+            viewAs,
             expectedQueryParams: expectedQueryParams);
     }
 
@@ -105,7 +119,7 @@ public class WhenViewingComparisonItSpend(SchoolBenchmarkingWebAppClient client)
     [InlineData(3, "?viewAs=0&resultAs=3")]
     public async Task CanSubmitFilterOptionsForResultsAs(int resultAs, string expectedQueryParams)
     {
-        var (page, school) = await SetupNavigateInitPage(EstablishmentTypes.Maintained);
+        var (page, school, spend) = await SetupNavigateInitPage(EstablishmentTypes.Maintained);
 
         var action = page.QuerySelectorAll("button").FirstOrDefault(x => x.TextContent.Trim() == "Apply filters");
         Assert.NotNull(action);
@@ -123,6 +137,7 @@ public class WhenViewingComparisonItSpend(SchoolBenchmarkingWebAppClient client)
         AssertPageLayout(
             page,
             school,
+            spend,
             resultAs: resultAs,
             expectedQueryParams: expectedQueryParams);
     }
@@ -137,7 +152,7 @@ public class WhenViewingComparisonItSpend(SchoolBenchmarkingWebAppClient client)
     [InlineData(6, "?viewAs=0&resultAs=0&selectedSubCategories=6")]
     public async Task CanSubmitFilterOptionsForSubCategories(int expectedSubCategoryId, string expectedQueryParams)
     {
-        var (page, school) = await SetupNavigateInitPage(EstablishmentTypes.Maintained);
+        var (page, school, spend) = await SetupNavigateInitPage(EstablishmentTypes.Maintained);
 
         var action = page.QuerySelectorAll("button").FirstOrDefault(x => x.TextContent.Trim() == "Apply filters");
         Assert.NotNull(action);
@@ -155,6 +170,7 @@ public class WhenViewingComparisonItSpend(SchoolBenchmarkingWebAppClient client)
         AssertPageLayout(
             page,
             school,
+            spend,
             expectedSubCategories: BuildExpectedSubCategories(expectedSubCategoryId),
             expectedQueryParams: expectedQueryParams);
     }
@@ -162,7 +178,7 @@ public class WhenViewingComparisonItSpend(SchoolBenchmarkingWebAppClient client)
     [Fact]
     public async Task CanFollowChipsCorrectlyUpdatesPage()
     {
-        var (page, school) = await SetupNavigateInitPage(
+        var (page, school, spend) = await SetupNavigateInitPage(
             EstablishmentTypes.Maintained,
             queryParams: "?viewAs=0&resultAs=0&selectedSubCategories=0&SelectedSubCategories=1");
 
@@ -175,6 +191,7 @@ public class WhenViewingComparisonItSpend(SchoolBenchmarkingWebAppClient client)
         AssertPageLayout(
             page,
             school,
+            spend,
             expectedQueryParams: "?ViewAs=0&ResultAs=0&SelectedSubCategories=AdministrationSoftwareSystems",
             expectedSubCategories: BuildExpectedSubCategories(0));
     }
@@ -182,7 +199,7 @@ public class WhenViewingComparisonItSpend(SchoolBenchmarkingWebAppClient client)
     [Fact]
     public async Task CanFollowClearCorrectlyUpdatesPage()
     {
-        var (page, school) = await SetupNavigateInitPage(
+        var (page, school, spend) = await SetupNavigateInitPage(
             EstablishmentTypes.Maintained,
             queryParams: "?viewAs=0&resultAs=0&selectedSubCategories=0&SelectedSubCategories=1");
 
@@ -194,6 +211,7 @@ public class WhenViewingComparisonItSpend(SchoolBenchmarkingWebAppClient client)
         AssertPageLayout(
             page,
             school,
+            spend,
             expectedQueryParams: "?ViewAs=0&ResultAs=0");
     }
 
@@ -250,7 +268,7 @@ public class WhenViewingComparisonItSpend(SchoolBenchmarkingWebAppClient client)
     [Fact]
     public async Task CanDownloadPageData()
     {
-        var (page, school) = await SetupNavigateInitPage(EstablishmentTypes.Maintained);
+        var (page, school, _) = await SetupNavigateInitPage(EstablishmentTypes.Maintained);
 
         var anchor = page.QuerySelectorAll(".app-filter a.govuk-button")
             .FirstOrDefault(x => x.TextContent.Trim() == "Download page data");
@@ -261,7 +279,7 @@ public class WhenViewingComparisonItSpend(SchoolBenchmarkingWebAppClient client)
         DocumentAssert.AssertPageUrl(newPage, Paths.SchoolComparisonItSpendDownload(school.URN).ToAbsolute());
     }
 
-    private async Task<(IHtmlDocument page, School school)> SetupNavigateInitPage(
+    private async Task<(IHtmlDocument page, School school, SchoolItSpend[] spend)> SetupNavigateInitPage(
         string financeType,
         bool chartApiException = false,
         string queryParams = "")
@@ -277,9 +295,11 @@ public class WhenViewingComparisonItSpend(SchoolBenchmarkingWebAppClient client)
             .Create();
 
         var spend = Fixture.Build<SchoolItSpend>()
+            .With(s => s.PeriodCoveredByReturn, () => _random.Next(1, 12))
             .CreateMany()
             .ToArray();
         spend.ElementAt(0).URN = school.URN;
+        spend.ElementAt(0).PeriodCoveredByReturn = 3;
 
         var horizontalBarChart = new ChartResponse { Html = "<svg />" };
 
@@ -295,12 +315,13 @@ public class WhenViewingComparisonItSpend(SchoolBenchmarkingWebAppClient client)
         }
 
         var page = await client.Navigate($"{Paths.SchoolComparisonItSpend(school.URN)}{queryParams}");
-        return (page, school);
+        return (page, school, spend);
     }
 
     private static void AssertPageLayout(
         IHtmlDocument page,
         School school,
+        SchoolItSpend[] spend,
         int viewAs = 0,
         int resultAs = 0,
         ExpectedSubCategory[]? expectedSubCategories = null,
@@ -333,7 +354,7 @@ public class WhenViewingComparisonItSpend(SchoolBenchmarkingWebAppClient client)
             var section = subCategorySections[i];
             var expected = expectedSubCategories[i];
 
-            AssertSpendingSection(section, expected, isChartView: viewAs == 0, chartError);
+            AssertSpendingSection(section, expected, spend, viewAs == 0, chartError);
         }
     }
 
@@ -420,59 +441,67 @@ public class WhenViewingComparisonItSpend(SchoolBenchmarkingWebAppClient client)
     }
 
     private static void AssertSpendingSection(
-        IElement chartSection,
+        IElement section,
         ExpectedSubCategory expectedSubCategory,
+        SchoolItSpend[] spend,
         bool isChartView,
         bool chartError)
     {
-        var sectionHeading = chartSection.QuerySelector("h2")?.TextContent;
+        var sectionHeading = section.QuerySelector("h2")?.TextContent;
         Assert.NotNull(sectionHeading);
         Assert.Equal(expectedSubCategory.Heading, sectionHeading);
 
         if (isChartView)
         {
-            var chartSvg = chartSection.QuerySelector(".ssr-chart");
-            var chartWarning = chartSection.QuerySelector(".ssr-chart-warning");
-            var chartContainer = chartSection.QuerySelector(".composed-container");
-
-            if (chartError)
-            {
-                Assert.NotNull(chartWarning);
-                Assert.Null(chartSvg);
-            }
-            else
-            {
-                Assert.NotNull(chartSvg);
-                Assert.Null(chartWarning);
-            }
-
-            Assert.Null(chartContainer);
+            AssertChartSection(section, chartError);
         }
         else
         {
-            var table = chartSection.QuerySelector(".govuk-table");
-            Assert.NotNull(table);
+            AssertTableSection(section, spend);
         }
     }
 
-    private record ExpectedSubCategory(string Heading, string ChipLabel, int Id);
+    private static void AssertChartSection(IElement chartSection, bool chartError)
+    {
+        var chartSvg = chartSection.QuerySelector(".ssr-chart");
+        var chartWarning = chartSection.QuerySelector(".ssr-chart-warning");
+        var chartContainer = chartSection.QuerySelector(".composed-container");
 
-    private static readonly ExpectedSubCategory[] AllSubCategories =
-    [
-        new ExpectedSubCategory("Administration software and systems E20D", "Administration software and systems (E20D)", 0),
-        new ExpectedSubCategory("Connectivity E20A", "Connectivity (E20A)", 1),
-        new ExpectedSubCategory("IT learning resources E20C", "IT learning resources (E20C)", 2),
-        new ExpectedSubCategory("IT support E20G", "IT support (E20G)", 3),
-        new ExpectedSubCategory("Laptops, desktops and tablets E20E", "Laptops, desktops and tablets (E20E)", 4),
-        new ExpectedSubCategory("Onsite servers E20B", "Onsite servers (E20B)", 5),
-        new ExpectedSubCategory("Other hardware E20F", "Other hardware (E20F)", 6)
-    ];
+        if (chartError)
+        {
+            Assert.NotNull(chartWarning);
+            Assert.Null(chartSvg);
+        }
+        else
+        {
+            Assert.NotNull(chartSvg);
+            Assert.Null(chartWarning);
+        }
+
+        Assert.Null(chartContainer);
+    }
+
+    private static void AssertTableSection(IElement section, SchoolItSpend[] spend)
+    {
+        var table = section.QuerySelector(".govuk-table");
+        Assert.NotNull(table);
+
+        var rows = table.QuerySelectorAll("tbody tr");
+        Assert.Equal(spend.Length, rows.Length);
+
+        var partYearCells = table.QuerySelectorAll("tbody tr td.table-cell-warning");
+        Assert.Equal(spend.Count(s => s.PeriodCoveredByReturn is not 12), partYearCells.Length);
+    }
 
     private static ExpectedSubCategory[] BuildExpectedSubCategories(params int[]? ids)
     {
         if (ids is null || ids.Length == 0)
+        {
             return AllSubCategories;
+        }
 
         return ids.Select(id => AllSubCategories.First(c => c.Id == id)).ToArray();
     }
+
+    private record ExpectedSubCategory(string Heading, string ChipLabel, int Id);
 }
