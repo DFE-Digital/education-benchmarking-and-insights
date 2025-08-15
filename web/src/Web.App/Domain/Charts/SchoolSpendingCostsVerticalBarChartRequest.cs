@@ -14,8 +14,8 @@ public record SchoolSpendingCostsVerticalBarChartRequest : PostVerticalBarChartR
         Id = uuid;
         KeyField = nameof(PriorityCostCategoryDatum.Urn).ToLower();
         Sort = "asc";
-        Width = 630;
         ValueField = nameof(PriorityCostCategoryDatum.Amount).ToLower();
+        Width = 630;
     }
 }
 

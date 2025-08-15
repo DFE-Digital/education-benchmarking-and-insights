@@ -5,6 +5,7 @@ namespace Web.App.Infrastructure.Apis;
 public abstract record ChartRequest<T>
 {
     public T[]? Data { get; set; }
+    public ChartRequestGroupedKeys? GroupedKeys { get; set; }
     public string? HighlightKey { get; set; }
     public string? Id { get; set; }
     public string? KeyField { get; set; }
@@ -12,3 +13,5 @@ public abstract record ChartRequest<T>
     public string? ValueField { get; set; }
     public int? Width { get; set; }
 }
+
+public class ChartRequestGroupedKeys : Dictionary<string, string[]>;

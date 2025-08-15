@@ -33,8 +33,8 @@ public class SchoolComparisonSubCategoriesViewModel : List<SchoolComparisonViewM
             Expenditure = enumerable.Select(filter.GetSelector()).FirstOrDefault(),
             LAName = g.LAName,
             SchoolType = g.SchoolType,
-            TotalPupils = g.TotalPupils
-
+            TotalPupils = g.TotalPupils,
+            PeriodCoveredByReturn = g.PeriodCoveredByReturn
         }).ToArray();
 
         var uuid = Guid.NewGuid().ToString();
