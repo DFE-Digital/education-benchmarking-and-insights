@@ -1,4 +1,4 @@
-# Monthly FBIT Analytics Reporting
+# Monthly Analytics Reporting
 
 ## Overview
 

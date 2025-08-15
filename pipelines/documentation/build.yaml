@@ -41,6 +41,7 @@ parameters:
     type: object
     default:
       - cfr-file-generation
+      - monthly-reporting
 
 stages:
   - stage: Validate
