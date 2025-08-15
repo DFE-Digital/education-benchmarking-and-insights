@@ -1,0 +1,39 @@
+﻿@using Web.App.Extensions
+@model Web.App.ViewModels.SchoolChartTooltipViewModel
+
+<script type="module" add-nonce="true">    
+    import {createApp, SchoolChartTooltip } from "@Html.FileVersionedPath("/js/main.js")";
+
+    const data = @Html.Raw(Json.Serialize(Model.Data));
+    
+    const container = document.createElement("div");
+    const main = document.querySelector("main");
+    main.appendChild(container);
+
+    const app = createApp(SchoolChartTooltip);
+    const vm = app.mount(container);
+
+    const elements = document.querySelectorAll("[data-key]");
+
+    elements.forEach((el) => {
+        el.addEventListener("mouseenter", (e) => {
+            const key = el.getAttribute("data-key");
+            const datum = data.find((d) => d.urn === key);
+            if (!datum) return;
+
+            const mouseX = e.clientX;
+            const mouseY = e.clientY;
+            const scrollY = window.scrollY;
+
+            const tooltipOffset = 12;
+            const tooltipX = mouseX + tooltipOffset;
+            const tooltipY = mouseY + scrollY + tooltipOffset;
+
+            vm.show(datum, tooltipX, tooltipY);
+        });
+
+        el.addEventListener("mouseleave", () => {
+            vm.hide();
+        });
+    });
+</script>

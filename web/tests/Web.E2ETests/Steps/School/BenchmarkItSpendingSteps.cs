@@ -32,6 +32,13 @@ public class BenchmarkItSpendSteps(PageDriver driver)
         _schoolHomePage = await _itSpendPage.EnterOnSchoolName();
     }
 
+    [When("I hover on a bar for the school with urn '(.*)' in a chart")]
+    public async Task WhenIHoverOnBarInChart(string urn)
+    {
+        Assert.NotNull(_itSpendPage);
+        await _itSpendPage.HoverOnChartBar(urn);
+    }
+
     [Then("I should see the following IT spend charts:")]
     public async Task ThenIShouldSeeTheFollowingCharts(Table table)
     {
@@ -46,6 +53,12 @@ public class BenchmarkItSpendSteps(PageDriver driver)
     {
         Assert.NotNull(_schoolHomePage);
         await _schoolHomePage.IsDisplayed();
+    }
+
+    [Then(@"the tooltip is correctly displayed")]
+    public async Task ThenTooltipIsCorrectlyDisplayed()
+    {
+        await _itSpendPage.TooltipIsDisplayed();
     }
 
     private async Task<BenchmarkItSpendPage> LoadItSpendPageForSchoolWithUrn(string urn)

@@ -1,0 +1,53 @@
+@import "../../node_modules/govuk-frontend/dist/govuk/helpers/index";
+
+.school-chart-tooltip {
+  background-color: govuk-colour("white");
+  position: absolute;
+  border: 1px solid govuk-colour("dark-grey");
+  z-index: 9999;
+}
+
+.tooltip-table {
+  margin-bottom: 0;
+
+  >tbody {
+    font-size: 0.8em;
+
+    .govuk-table__row {
+      >th {
+        width: 150px;
+      }
+
+      &:first-child {
+
+        >th,
+        >td {
+          border-top: 1px solid govuk-colour("dark-grey");
+        }
+      }
+
+      &:last-child {
+
+        >th,
+        >td {
+          border-bottom: none;
+        }
+      }
+    }
+  }
+
+  >caption {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+
+  >caption,
+  >tbody .govuk-table__row>th,
+  >tbody .govuk-table__row>td {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+}

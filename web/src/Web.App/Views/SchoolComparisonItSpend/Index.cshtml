@@ -1,7 +1,9 @@
 ﻿@using Web.App.Domain
 @using Web.App.Domain.Charts
 @using Web.App.Extensions
+@using Web.App.TagHelpers
 @using Web.App.ViewModels
+@using Web.App.ViewModels.Enhancements
 @model Web.App.ViewModels.SchoolComparisonItSpendViewModel
 @{
     ViewData[ViewDataKeys.Title] = PageTitles.ComparisonItSpend;
@@ -363,7 +365,7 @@
                                         </tbody>
                                     </table>
                                 }
-                            }    
+                            }   
                         }
                     </div>
                 </div>
@@ -384,5 +386,9 @@
 
         initAll()
     </script>
-}
 
+    @await Html.PartialAsync("_SchoolChartTooltip", new SchoolChartTooltipViewModel
+    {
+        Data = Model.TooltipData
+    })
+}

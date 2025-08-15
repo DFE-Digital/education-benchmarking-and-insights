@@ -9,12 +9,14 @@ public class BenchmarkItSpendPage(IPage page)
     private ILocator ChartContainers => page.Locator(Selectors.SsrChartContainer);
     private ILocator ChartContainer(string chartName) => page.Locator($"[data-title=\"{chartName}\"]");
     private ILocator SchoolLinksInCharts => page.Locator(Selectors.SsrSchoolNamesLinksInCharts);
+    private ILocator ChartBars(string urn) => page.Locator($"rect.chart-cell[data-key='{urn}']");
     private ILocator ComparatorSetDetails =>
         page.Locator(Selectors.GovLink,
             new PageLocatorOptions
             {
                 HasText = "We've chosen 2 sets of similar schools"
             });
+    private ILocator ChartTooltip => page.Locator(Selectors.EnhancementSchoolChartTooltip);
 
     public async Task IsDisplayed()
     {
@@ -43,6 +45,17 @@ public class BenchmarkItSpendPage(IPage page)
         await AssertChartCount(titles.Length);
         await AssertVisibleCharts(titles);
     }
+
+    public async Task HoverOnChartBar(string urn)
+    {
+        await ChartBars(urn).First.HoverAsync();
+    }
+
+    public async Task TooltipIsDisplayed()
+    {
+        await ChartTooltip.ShouldBeVisible();
+    }
+
 
     private async Task AssertVisibleCharts(IEnumerable<string> expectedTitles)
     {
