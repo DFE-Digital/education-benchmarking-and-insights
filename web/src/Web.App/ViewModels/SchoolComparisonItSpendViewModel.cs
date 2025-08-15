@@ -15,7 +15,8 @@ public class SchoolComparisonItSpendViewModel(School school, SchoolComparisonSub
         SchoolName = x.SchoolName,
         LAName = x.LAName,
         SchoolType = x.SchoolType,
-        TotalPupils = x.TotalPupils
+        TotalPupils = x.TotalPupils,
+        PeriodCoveredByReturn = x.PeriodCoveredByReturn
     }).ToArray();
 
     public ViewAsOptions ViewAs { get; set; } = ViewAsOptions.Chart;

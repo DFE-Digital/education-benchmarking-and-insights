@@ -56,6 +56,11 @@ public class BenchmarkItSpendPage(IPage page)
         await ChartTooltip.ShouldBeVisible();
     }
 
+    public async Task TooltipIsDisplayedWithPartYearWarning(int months)
+    {
+        await TooltipIsDisplayed();
+        await ChartTooltip.Locator(".tooltip-part-year-warning").ShouldHaveText($"!\nWarning\nThis school only has {months} months of data available.");
+    }
 
     private async Task AssertVisibleCharts(IEnumerable<string> expectedTitles)
     {
