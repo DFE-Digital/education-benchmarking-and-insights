@@ -35,7 +35,7 @@
         @foreach (var row in Model.SubCategory.Data)
         {
             <tr class="govuk-table__row">
-                <td class="govuk-table__cell">
+                <td class="govuk-table__cell@(row.PeriodCoveredByReturn is not 12 ? " table-cell-warning" : string.Empty)">
                     @if (row.Urn == Model.Urn)
                     {
                         <strong>
@@ -49,6 +49,17 @@
                            href=@($"/school/{row.Urn}")>@row.SchoolName</a>
                     }
 
+                    @if (row.PeriodCoveredByReturn is not 12)
+                    {
+                        <div class="govuk-warning-text govuk-!-margin-0">
+                            <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
+                            <strong class="govuk-warning-text__text">
+                                <span class="govuk-visually-hidden">Warning</span>
+                                This school only has @row.PeriodCoveredByReturn
+                                @(row.PeriodCoveredByReturn == 1 ? "month" : "months") of data available.
+                            </strong>
+                        </div>
+                    }
                 </td>
                 <td class="govuk-table__cell">@row.LAName</td>
                 <td class="govuk-table__cell">@row.SchoolType</td>
