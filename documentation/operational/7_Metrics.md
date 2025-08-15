@@ -1,13 +1,22 @@
 # Service Metrics & Measures
 
-This document provides a quick reference for all tracked metrics and measures for the service.  
+This document provides a quick reference for all tracked metrics and measures for the service. Each metric is quantitive (a number) and drives a decision or action. Each metric should have an associated defininition (eg IaC code, a SQL query). If a metric is used to drive a decision, record the output and deactivate the metric if needed.
+
+Some things to think about when defining a metric are:
+
+* What is the metric definition?
+* What is the decision or action from the metric?
+* How do we measure the success of the decision/action?
+* Who monitors the metric?
+
 Each metric has its own detailed document in the `/metrics` folder.
 
-> **Categories:**
->
-> - **Operational** – Service health, reliability, infrastructure performance.
-> - **User Insight** – User behaviour, engagement, product outcomes.
-> - **Both** – Metrics that combine service health with user impact.
+## Categories
+
+ - **Operational** – Service health, reliability, infrastructure performance.
+    - Example: If there is a spike in the HTTP error count (metric) the dev team need to be aware so they can fix it (so set an alert on the metric), otherwise the service agreement for availability might be breached.
+ - **User Insight** – User behaviour, engagement, product outcomes.
+   - Example: Measure the click through rate (metric) for the new IT spend breakdown page for LA schools. If the click through rate is very low over a month the team might consider removing it or moving the content.
 
 | Metric Name                     | Purpose                                                                                                                   | Category    | Detail Link                                          |
 |---------------------------------|---------------------------------------------------------------------------------------------------------------------------|-------------|------------------------------------------------------|
