@@ -88,7 +88,6 @@ public class SchoolComparisonItSpendController(
     [HttpPost]
     public IActionResult Index(string urn, int viewAs, int resultAs, int[]? selectedSubCategories)
     {
-
         return RedirectToAction("Index", new
         {
             urn,
@@ -107,9 +106,6 @@ public class SchoolComparisonItSpendController(
         }
 
         query.AddIfNotNull("dimension", resultAs.GetQueryParam());
-
-
-
         return query;
     }
 
