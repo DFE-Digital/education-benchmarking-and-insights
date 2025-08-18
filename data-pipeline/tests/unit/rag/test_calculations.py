@@ -1,9 +1,12 @@
 from unittest.mock import patch
-import pytest
+
 import numpy as np
 import pandas as pd
+import pytest
 
+from pipeline.config import rag_category_settings
 from pipeline.rag.calculations import (
+    BASE_COLUMNS,
     CategoryColumnCache,
     ComparatorSetCache,
     are_building_characteristics_similar,
@@ -15,13 +18,12 @@ from pipeline.rag.calculations import (
     get_positive_values_series,
     prepare_data_for_rag_calculation,
     should_skip_school_processing,
-    BASE_COLUMNS
 )
-from pipeline.config import rag_category_settings
 
 
 class TestCategoryColumnCache:
     """Test suite for the CategoryColumnCache class."""
+
     @pytest.fixture
     def sample_cache(self, sample_columns):
         return CategoryColumnCache(sample_columns)
@@ -53,9 +55,7 @@ class TestCategoryColumnCache:
         category_mask = sample_cache.category_mappings[category_name]["column_mask"]
 
         # The mask should select all base columns plus the specific category column
-        expected_columns = sorted(
-            BASE_COLUMNS + [f"{category_name}_Per Unit"]
-        )
+        expected_columns = sorted(BASE_COLUMNS + [f"{category_name}_Per Unit"])
         actual_columns = sorted(sample_columns[category_mask].tolist())
 
         assert actual_columns == expected_columns
@@ -177,12 +177,13 @@ def test_are_pupil_demographics_similar_false_due_to_pupils():
     )
     school2 = pd.Series(
         {
-            "Number of pupils": 126, # Over the 25% tolerance
-            "Percentage Free school meals": 0.101, 
+            "Number of pupils": 126,  # Over the 25% tolerance
+            "Percentage Free school meals": 0.101,
             "Percentage SEN": 0.0501,
         }
     )
     assert are_pupil_demographics_similar(school1, school2) is False
+
 
 def test_are_pupil_demographics_similar_false_due_to_fsm():
     school1 = pd.Series(
@@ -195,11 +196,12 @@ def test_are_pupil_demographics_similar_false_due_to_fsm():
     school2 = pd.Series(
         {
             "Number of pupils": 101,
-            "Percentage Free school meals": 0.094, # 5% threshold
+            "Percentage Free school meals": 0.094,  # 5% threshold
             "Percentage SEN": 0.0501,
         }
     )
     assert are_pupil_demographics_similar(school1, school2) is False
+
 
 def test_are_pupil_demographics_similar_false_due_to_sen():
     school1 = pd.Series(
@@ -267,9 +269,7 @@ def test_should_skip_school_processing():
     )
 
 
-def test_calculate_rag(
-    sample_school_data, sample_data_for_comparators
-):
+def test_calculate_rag(sample_school_data, sample_data_for_comparators):
     _, comparators = sample_data_for_comparators
     results = list(calculate_rag(sample_school_data, comparators, target_urn=1))
     assert len(results) > 0
@@ -296,9 +296,7 @@ def test_compute_user_defined_rag(sample_school_data):
     assert "Percentile" in results[0]
 
 
-def test_compute_user_defined_rag_target_not_in_data(
-    sample_school_data
-):
+def test_compute_user_defined_rag_target_not_in_data(sample_school_data):
     results = list(
         compute_user_defined_rag(
             sample_school_data, target_urn=99, comparator_urns=[2, 4, 5]
