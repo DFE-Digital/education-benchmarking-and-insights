@@ -247,6 +247,20 @@ public class WhenViewingComparisonItSpend(SchoolBenchmarkingWebAppClient client)
         }
     }
 
+    [Fact]
+    public async Task CanDownloadPageData()
+    {
+        var (page, school) = await SetupNavigateInitPage(EstablishmentTypes.Maintained);
+
+        var anchor = page.QuerySelectorAll(".app-filter a.govuk-button")
+            .FirstOrDefault(x => x.TextContent.Trim() == "Download page data");
+        Assert.NotNull(anchor);
+
+        var newPage = await Client.Follow(anchor);
+
+        DocumentAssert.AssertPageUrl(newPage, Paths.SchoolComparisonItSpendDownload(school.URN).ToAbsolute());
+    }
+
     private async Task<(IHtmlDocument page, School school)> SetupNavigateInitPage(
         string financeType,
         bool chartApiException = false,
