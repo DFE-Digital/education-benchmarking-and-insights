@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.FeatureManagement.Mvc;
+using Web.App.ActionResults;
 using Web.App.Attributes;
 using Web.App.Attributes.RequestTelemetry;
 using Web.App.Domain;
@@ -42,16 +43,11 @@ public class SchoolComparisonItSpendController(
             try
             {
                 ViewData[ViewDataKeys.BreadcrumbNode] = BreadcrumbNodes.SchoolComparisonItSpend(urn);
-                var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
-                if (school.FinanceType != EstablishmentTypes.Maintained)
+                var (school, expenditures) = await GetItSpendForMaintainedSchool(urn);
+                if (school == null)
                 {
                     return StatusCode((int)HttpStatusCode.NotFound);
                 }
-
-                var set = await comparatorSetApi.GetDefaultSchoolAsync(urn).GetResultOrThrow<SchoolComparatorSet>();
-                var expenditures = await itSpendApi
-                    .QuerySchools(BuildApiQuery(resultAs, set.Pupil))
-                    .GetResultOrDefault<SchoolItSpend[]>() ?? [];
 
                 var subCategories = new SchoolComparisonSubCategoriesViewModel(urn, expenditures, selectedSubCategories);
                 if (viewAs == SchoolComparisonItSpendViewModel.ViewAsOptions.Chart)
@@ -88,7 +84,6 @@ public class SchoolComparisonItSpendController(
     [HttpPost]
     public IActionResult Index(string urn, int viewAs, int resultAs, int[]? selectedSubCategories)
     {
-
         return RedirectToAction("Index", new
         {
             urn,
@@ -96,6 +91,36 @@ public class SchoolComparisonItSpendController(
             resultAs,
             selectedSubCategories
         });
+    }
+
+    [HttpGet]
+    [Produces("application/zip")]
+    [ProducesResponseType<byte[]>(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    [Route("download")]
+    public async Task<IActionResult> Download(string urn)
+    {
+        using (logger.BeginScope(new
+        {
+            urn
+        }))
+        {
+            try
+            {
+                var (school, schoolItSpend) = await GetItSpendForMaintainedSchool(urn);
+                if (school == null)
+                {
+                    return StatusCode((int)HttpStatusCode.NotFound);
+                }
+
+                return new CsvResults([new CsvResult(schoolItSpend, $"benchmark-it-spending-{urn}.csv")], $"benchmark-it-spending-{urn}.zip");
+            }
+            catch (Exception e)
+            {
+                logger.LogError(e, "An error downloading IT expenditure data: {DisplayUrl}", Request.GetDisplayUrl());
+                return StatusCode(500);
+            }
+        }
     }
 
     private static ApiQuery BuildApiQuery(Dimensions.ResultAsOptions resultAs, IEnumerable<string>? urns = null)
@@ -107,9 +132,6 @@ public class SchoolComparisonItSpendController(
         }
 
         query.AddIfNotNull("dimension", resultAs.GetQueryParam());
-
-
-
         return query;
     }
 
@@ -138,5 +160,28 @@ public class SchoolComparisonItSpendController(
         }
 
         return charts;
+    }
+
+    private async Task<(School? school, SchoolItSpend[] schoolItSpend)> GetItSpendForMaintainedSchool(
+        string urn,
+        Dimensions.ResultAsOptions resultAs = Dimensions.ResultAsOptions.Actuals)
+    {
+        var school = await establishmentApi
+            .GetSchool(urn)
+            .GetResultOrDefault<School>();
+        if (school?.FinanceType != EstablishmentTypes.Maintained)
+        {
+            return (null, []);
+        }
+
+        var set = await comparatorSetApi
+            .GetDefaultSchoolAsync(urn)
+            .GetResultOrThrow<SchoolComparatorSet>();
+
+        var expenditures = await itSpendApi
+            .QuerySchools(BuildApiQuery(resultAs, set.Pupil))
+            .GetResultOrDefault<SchoolItSpend[]>();
+
+        return (school, expenditures ?? []);
     }
 }

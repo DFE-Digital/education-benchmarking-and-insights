@@ -1,4 +1,3 @@
-using System.IO.Compression;
 using System.Net;
 using AutoFixture;
 using Web.App.Domain;
@@ -37,7 +36,7 @@ public class WhenRequestingComparisonDownload : PageBase<SchoolBenchmarkingWebAp
 
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);
         var expectedFileNames = new[] { "comparison-123456-pupil.csv", "comparison-123456-building.csv" };
-        await foreach (var tuple in GetFilesFromZip(response))
+        await foreach (var tuple in response.GetFilesFromZip())
         {
             Assert.Contains(tuple.fileName, expectedFileNames);
 
@@ -58,20 +57,5 @@ public class WhenRequestingComparisonDownload : PageBase<SchoolBenchmarkingWebAp
             .Get(Paths.SchoolComparisonDownload(urn));
 
         Assert.Equal(HttpStatusCode.InternalServerError, response.StatusCode);
-    }
-
-    private static async IAsyncEnumerable<(string fileName, string content)> GetFilesFromZip(HttpResponseMessage response)
-    {
-        var bytes = await response.Content.ReadAsByteArrayAsync();
-
-        using var zipStream = new MemoryStream(bytes);
-        using var archive = new ZipArchive(zipStream, ZipArchiveMode.Read);
-        foreach (var entry in archive.Entries)
-        {
-            await using var entryStream = entry.Open();
-            using var reader = new StreamReader(entryStream);
-            var content = await reader.ReadToEndAsync();
-            yield return (entry.Name, content);
-        }
     }
 }
