@@ -273,10 +273,17 @@
                         </fieldset>
                     </div>
                     <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
-                    <button type="submit" class="govuk-button" data-module="govuk-button">
+                    <button type="submit" class="govuk-button govuk-!-margin-bottom-3" data-module="govuk-button">
                         Apply filters
                     </button>
                 }
+                
+                <div class="govuk-button-group govuk-!-margin-bottom-0">
+                    <a href="@Url.Action("Download", "SchoolComparisonItSpend", new { urn = Model.Urn })" role="button"
+                       class="govuk-button govuk-button--secondary">
+                        Download page data
+                    </a>
+                </div>
             </div>
         </div>
     </div>
