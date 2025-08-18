@@ -125,7 +125,7 @@ def are_building_characteristics_similar(
     floor_area_similar = math.isclose(
         target_school["Total Internal Floor Area"],
         comparison_school["Total Internal Floor Area"],
-        abs_tol=target_school["Total Internal Floor Area"]*FLOOR_AREA_TOLERANCE,
+        rel_tol=FLOOR_AREA_TOLERANCE,
     )
     building_age_similar = math.isclose(
         target_school["Age Average Score"],
@@ -157,17 +157,17 @@ def are_pupil_demographics_similar(
     pupil_count_similar = math.isclose(
         target_school["Number of pupils"],
         comparison_school["Number of pupils"],
-        abs_tol=target_school["Number of pupils"]*PUPIL_COUNT_TOLERANCE,
+        rel_tol=PUPIL_COUNT_TOLERANCE,
     )
     fsm_percentage_similar = math.isclose(
         target_school["Percentage Free school meals"],
         comparison_school["Percentage Free school meals"],
-        abs_tol=target_school["Percentage Free school meals"]*FSM_PERCENTAGE_TOLERANCE,
+        rel_tol=FSM_PERCENTAGE_TOLERANCE,
     )
     sen_percentage_similar = math.isclose(
         target_school["Percentage SEN"],
         comparison_school["Percentage SEN"],
-        abs_tol=target_school["Percentage Free school meals"]*SEN_PERCENTAGE_TOLERANCE,
+        rel_tol=SEN_PERCENTAGE_TOLERANCE,
     )
 
     return all(
