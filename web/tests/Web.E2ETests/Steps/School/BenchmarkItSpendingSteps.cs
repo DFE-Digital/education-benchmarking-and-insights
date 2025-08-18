@@ -18,6 +18,13 @@ public class BenchmarkItSpendSteps(PageDriver driver)
         await _itSpendPage.IsDisplayed();
     }
 
+    [Given("the focused element is the last filter button")]
+    public async Task GivenTheFocusedElementIsTheLastFilterButton()
+    {
+        Assert.NotNull(_itSpendPage);
+        await _itSpendPage.FocusLastFilterButton();
+    }
+
     [When("I click on the school name on the chart")]
     public async Task WhenIClickOnTheSchoolNameOnTheChart()
     {
@@ -39,6 +46,13 @@ public class BenchmarkItSpendSteps(PageDriver driver)
         await _itSpendPage.HoverOnChartBar(urn);
     }
 
+    [When("I press tab to select the school with urn '(.*)' in a chart")]
+    public async Task WhenIPressTabToSelectTheSchoolWithUrnInAChart(string urn)
+    {
+        Assert.NotNull(_itSpendPage);
+        await _itSpendPage.PressTab();
+    }
+
     [Then("I should see the following IT spend charts:")]
     public async Task ThenIShouldSeeTheFollowingITSpendCharts(Table table)
     {
@@ -55,18 +69,18 @@ public class BenchmarkItSpendSteps(PageDriver driver)
         await _schoolHomePage.IsDisplayed();
     }
 
-    [Then("the tooltip is correctly displayed")]
-    public async Task ThenTheTooltipIsCorrectlyDisplayed()
+    [Then("the tooltip for '(.*)' is correctly displayed")]
+    public async Task ThenTheTooltipForIsCorrectlyDisplayed(string name)
     {
         Assert.NotNull(_itSpendPage);
-        await _itSpendPage.TooltipIsDisplayed();
+        await _itSpendPage.TooltipIsDisplayed(name);
     }
 
-    [Then("the tooltip is correctly displayed with part year warning for (.*) months")]
-    public async Task ThenTheTooltipIsCorrectlyDisplayedWithPartYearWarningForMonths(int months)
+    [Then("the tooltip for '(.*)' is correctly displayed with part year warning for (.*) months")]
+    public async Task ThenTheTooltipForIsCorrectlyDisplayedWithPartYearWarningForMonths(string name, int months)
     {
         Assert.NotNull(_itSpendPage);
-        await _itSpendPage.TooltipIsDisplayedWithPartYearWarning(months);
+        await _itSpendPage.TooltipIsDisplayedWithPartYearWarning(name, months);
     }
 
     private async Task<BenchmarkItSpendPage> LoadItSpendPageForSchoolWithUrn(string urn)

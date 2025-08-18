@@ -17,6 +17,7 @@ public class BenchmarkItSpendPage(IPage page)
                 HasText = "We've chosen 2 sets of similar schools"
             });
     private ILocator ChartTooltip => page.Locator(Selectors.EnhancementSchoolChartTooltip);
+    private ILocator FilterButtons => page.Locator(".app-filter .govuk-button");
 
     public async Task IsDisplayed()
     {
@@ -51,15 +52,26 @@ public class BenchmarkItSpendPage(IPage page)
         await ChartBars(urn).First.HoverAsync();
     }
 
-    public async Task TooltipIsDisplayed()
+    public async Task TooltipIsDisplayed(string name)
     {
         await ChartTooltip.ShouldBeVisible();
+        await ChartTooltip.Locator("caption").ShouldContainText(name);
     }
 
-    public async Task TooltipIsDisplayedWithPartYearWarning(int months)
+    public async Task TooltipIsDisplayedWithPartYearWarning(string name, int months)
     {
-        await TooltipIsDisplayed();
+        await TooltipIsDisplayed(name);
         await ChartTooltip.Locator(".tooltip-part-year-warning").ShouldHaveText($"!\nWarning\nThis school only has {months} months of data available.");
+    }
+
+    public async Task FocusLastFilterButton()
+    {
+        await FilterButtons.Last.FocusAsync();
+    }
+
+    public async Task PressTab()
+    {
+        await page.Keyboard.PressAsync("Tab");
     }
 
     private async Task AssertVisibleCharts(IEnumerable<string> expectedTitles)
