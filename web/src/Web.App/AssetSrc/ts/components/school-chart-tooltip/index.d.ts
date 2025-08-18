@@ -1,7 +1,7 @@
 export interface SchoolChartTooltipProps {
-datum: SchoolChartTooltipPropsData | null;
-x: number;
-y: number;
+  datum: SchoolChartTooltipPropsData | null;
+  x: number;
+  y: number;
 }
 
 export interface SchoolChartTooltipPropsData {
@@ -12,3 +12,7 @@ export interface SchoolChartTooltipPropsData {
   totalPupils?: number;
   periodCoveredByReturn?: number;
 };
+
+export interface SchoolChartTooltipsProps {
+  data: SchoolChartTooltipPropsData[];
+}
