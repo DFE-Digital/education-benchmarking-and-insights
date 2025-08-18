@@ -181,8 +181,6 @@ def compute_category_rag_statistics(
 ) -> Generator[Dict[str, Any], None, None]:
     """Computes RAG statistics for all subcategories within a main category."""
     ofsted_rating = target_school["OfstedRating (name)"]
-
-    # Use the fast, vectorized functions to count similar schools
     if rag_settings["type"] == "Building":
         similar_mask = find_area_close_comparators(target_school, comparator_set)
     else:

@@ -84,7 +84,7 @@ def compute_rag_for_school_type(
 
 
 def load_school_data_and_comparators(
-    run_type: str, run_id: str, school_type: str, comparator_suffix: str = ""
+    run_type: str, run_id: str, school_type: str
 ) -> Tuple[pd.DataFrame, pd.DataFrame]:
     """
     Load school data and comparator mappings from storage.
@@ -93,7 +93,6 @@ def load_school_data_and_comparators(
         run_type: Type of run ("default" or "custom")
         run_id: Unique identifier for this run
         school_type: Type of schools to load
-        comparator_suffix: Optional suffix for comparator file naming
 
     Returns:
         Tuple of (school_data, comparator_data)
@@ -101,12 +100,16 @@ def load_school_data_and_comparators(
     Raises:
         Exception: If data loading fails
     """
+    if school_type == "maintained_schools":
+        school_filename = "maintained_schools.parquet"
+        comparator_filename = "maintained_schools_comparators.parquet"
+    elif school_type == "academies":
+        school_filename = "academies.parquet"
+        comparator_filename = "academy_comparators.parquet"
     try:
         school_data = pd.read_parquet(
-            get_blob("comparator-sets", f"{run_type}/{run_id}/{school_type}.parquet")
+            get_blob("comparator-sets", f"{run_type}/{run_id}/{school_filename}")
         )
-
-        comparator_filename = f"{school_type}{comparator_suffix}_comparators.parquet"
         comparator_data = pd.read_parquet(
             get_blob("comparator-sets", f"{run_type}/{run_id}/{comparator_filename}")
         )
@@ -172,8 +175,7 @@ def compute_rag(
         academy_data, academy_comparators = load_school_data_and_comparators(
             run_type,
             run_id,
-            "academies",
-            "_comparators",  # Note: different naming pattern
+            "academies"
         )
 
         academies_rag = compute_rag_for_school_type(
