@@ -8,9 +8,9 @@ using Xunit;
 
 namespace Web.Integration.Tests.Pages.Schools.Comparison;
 
-public class WhenViewingComparisonItSpend(SchoolBenchmarkingWebAppClient client) : PageBase<SchoolBenchmarkingWebAppClient>(client)
+public class WhenViewingComparisonItSpend(SchoolBenchmarkingWebAppClient client)
+    : PageBase<SchoolBenchmarkingWebAppClient>(client)
 {
-
     private static readonly ExpectedSubCategory[] AllSubCategories =
     [
         new("Administration software and systems E20D", "Administration software and systems (E20D)", 0),
@@ -21,6 +21,7 @@ public class WhenViewingComparisonItSpend(SchoolBenchmarkingWebAppClient client)
         new("Onsite servers E20B", "Onsite servers (E20B)", 5),
         new("Other hardware E20F", "Other hardware (E20F)", 6)
     ];
+
     private readonly Random _random = new();
 
     [Fact]
@@ -45,7 +46,8 @@ public class WhenViewingComparisonItSpend(SchoolBenchmarkingWebAppClient client)
         var (page, school, _) = await SetupNavigateInitPage(EstablishmentTypes.Academies);
 
         PageAssert.IsNotFoundPage(page);
-        DocumentAssert.AssertPageUrl(page, Paths.SchoolComparisonItSpend(school.URN).ToAbsolute(), HttpStatusCode.NotFound);
+        DocumentAssert.AssertPageUrl(page, Paths.SchoolComparisonItSpend(school.URN).ToAbsolute(),
+            HttpStatusCode.NotFound);
     }
 
     [Fact]
@@ -235,10 +237,7 @@ public class WhenViewingComparisonItSpend(SchoolBenchmarkingWebAppClient client)
             .ToArray();
         spend.ElementAt(0).URN = school.URN;
 
-        if (hasNegativeValues)
-        {
-            spend.ElementAt(1).AdministrationSoftwareAndSystems = -1;
-        }
+        if (hasNegativeValues) spend.ElementAt(1).AdministrationSoftwareAndSystems = -1;
 
         var horizontalBarChart = new ChartResponse { Html = "<svg />" };
 
@@ -309,10 +308,7 @@ public class WhenViewingComparisonItSpend(SchoolBenchmarkingWebAppClient client)
             .SetupItSpend(spend)
             .SetupChartRendering<SchoolComparisonDatum>(horizontalBarChart);
 
-        if (chartApiException)
-        {
-            Client.SetupChartRenderingWithException<SchoolComparisonDatum>();
-        }
+        if (chartApiException) Client.SetupChartRenderingWithException<SchoolComparisonDatum>();
 
         var page = await client.Navigate($"{Paths.SchoolComparisonItSpend(school.URN)}{queryParams}");
         return (page, school, spend);
@@ -336,9 +332,11 @@ public class WhenViewingComparisonItSpend(SchoolBenchmarkingWebAppClient client)
             ("Your school", Paths.SchoolHome(school.URN).ToAbsolute())
         };
 
-        DocumentAssert.AssertPageUrl(page, $"{Paths.SchoolComparisonItSpend(school.URN)}{expectedQueryParams}".ToAbsolute());
+        DocumentAssert.AssertPageUrl(page,
+            $"{Paths.SchoolComparisonItSpend(school.URN)}{expectedQueryParams}".ToAbsolute());
         DocumentAssert.Breadcrumbs(page, expectedBreadcrumbs);
-        DocumentAssert.TitleAndH1(page, "Benchmark your IT spending - Financial Benchmarking and Insights Tool - GOV.UK",
+        DocumentAssert.TitleAndH1(page,
+            "Benchmark your IT spending - Financial Benchmarking and Insights Tool - GOV.UK",
             "Benchmark your IT spending");
 
         var filterSection = page.QuerySelector(".app-filter");
@@ -356,6 +354,8 @@ public class WhenViewingComparisonItSpend(SchoolBenchmarkingWebAppClient client)
 
             AssertSpendingSection(section, expected, spend, viewAs == 0, chartError);
         }
+
+        AssertPartYearSchools(page, spend, viewAs == 0);
     }
 
     private static void AssertFilterSectionLayout(
@@ -364,7 +364,8 @@ public class WhenViewingComparisonItSpend(SchoolBenchmarkingWebAppClient client)
         int resultAs,
         ExpectedSubCategory[] expectedSubCategories)
     {
-        var applyFiltersButton = filterSection.QuerySelectorAll("button").FirstOrDefault(x => x.TextContent.Trim() == "Apply filters");
+        var applyFiltersButton = filterSection.QuerySelectorAll("button")
+            .FirstOrDefault(x => x.TextContent.Trim() == "Apply filters");
         Assert.NotNull(applyFiltersButton);
 
         foreach (var subCategory in AllSubCategories)
@@ -378,13 +379,9 @@ public class WhenViewingComparisonItSpend(SchoolBenchmarkingWebAppClient client)
                 var isChecked = checkbox.HasAttribute("checked");
 
                 if (shouldBeChecked)
-                {
                     Assert.True(isChecked);
-                }
                 else
-                {
                     Assert.False(isChecked);
-                }
             }
         }
 
@@ -395,13 +392,9 @@ public class WhenViewingComparisonItSpend(SchoolBenchmarkingWebAppClient client)
             Assert.NotNull(radio);
 
             if (i == resultAs)
-            {
                 Assert.True(radio.HasAttribute("checked"));
-            }
             else
-            {
                 Assert.False(radio.HasAttribute("checked"));
-            }
         }
 
         // Assert all ViewAs radios exist and correctly checked
@@ -411,13 +404,9 @@ public class WhenViewingComparisonItSpend(SchoolBenchmarkingWebAppClient client)
             Assert.NotNull(radio);
 
             if (i == viewAs)
-            {
                 Assert.True(radio.HasAttribute("checked"));
-            }
             else
-            {
                 Assert.False(radio.HasAttribute("checked"));
-            }
         }
 
         if (expectedSubCategories.Length < AllSubCategories.Length)
@@ -428,10 +417,7 @@ public class WhenViewingComparisonItSpend(SchoolBenchmarkingWebAppClient client)
 
             Assert.Equal(expectedSubCategories.Length, chipLabels.Length);
 
-            foreach (var subCategory in expectedSubCategories)
-            {
-                Assert.Contains(subCategory.ChipLabel, chipLabels);
-            }
+            foreach (var subCategory in expectedSubCategories) Assert.Contains(subCategory.ChipLabel, chipLabels);
         }
         else
         {
@@ -452,13 +438,9 @@ public class WhenViewingComparisonItSpend(SchoolBenchmarkingWebAppClient client)
         Assert.Equal(expectedSubCategory.Heading, sectionHeading);
 
         if (isChartView)
-        {
             AssertChartSection(section, chartError);
-        }
         else
-        {
             AssertTableSection(section, spend);
-        }
     }
 
     private static void AssertChartSection(IElement chartSection, bool chartError)
@@ -489,18 +471,34 @@ public class WhenViewingComparisonItSpend(SchoolBenchmarkingWebAppClient client)
         var rows = table.QuerySelectorAll("tbody tr");
         Assert.Equal(spend.Length, rows.Length);
 
-        var partYearCells = table.QuerySelectorAll("tbody tr td.table-cell-warning");
+        var partYearCells = table.QuerySelectorAll("tbody tr td .govuk-tag");
         Assert.Equal(spend.Count(s => s.PeriodCoveredByReturn is not 12), partYearCells.Length);
     }
 
     private static ExpectedSubCategory[] BuildExpectedSubCategories(params int[]? ids)
     {
-        if (ids is null || ids.Length == 0)
-        {
-            return AllSubCategories;
-        }
+        if (ids is null || ids.Length == 0) return AllSubCategories;
 
         return ids.Select(id => AllSubCategories.First(c => c.Id == id)).ToArray();
+    }
+
+    private static void AssertPartYearSchools(IHtmlDocument page, SchoolItSpend[] spend, bool isChartView)
+    {
+        var partYearTitle = page.QuerySelectorAll("h2")
+            .FirstOrDefault(x => x.TextContent.Trim() == "Schools with partial data available");
+
+        var partYearSchools = spend.Where(s => s.PeriodCoveredByReturn is not 12).ToArray();
+        if (partYearSchools.Length == 0 || isChartView)
+        {
+            Assert.Null(partYearTitle);
+        }
+        else
+        {
+            Assert.NotNull(partYearTitle);
+
+            var partYearCommentaries = page.QuerySelectorAll("h2.govuk-heading-s ~ p.govuk-body-s");
+            Assert.Equal(partYearSchools.Length, partYearCommentaries.Length);
+        }
     }
 
     private record ExpectedSubCategory(string Heading, string ChipLabel, int Id);

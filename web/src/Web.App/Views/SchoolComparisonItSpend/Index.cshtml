@@ -1,9 +1,5 @@
-﻿@using Web.App.Domain
-@using Web.App.Domain.Charts
-@using Web.App.Extensions
-@using Web.App.TagHelpers
+﻿@using Web.App.Extensions
 @using Web.App.ViewModels
-@using Web.App.ViewModels.Enhancements
 @model Web.App.ViewModels.SchoolComparisonItSpendViewModel
 @{
     ViewData[ViewDataKeys.Title] = PageTitles.ComparisonItSpend;
@@ -30,7 +26,7 @@
 
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-one-third">
-        @await Html.PartialAsync("_ItSpendFilter", Model)       
+        @await Html.PartialAsync("_ItSpendFilter", Model)
     </div>
     <div class="govuk-grid-column-two-thirds">
         @for (var i = 0; i < Model.SubCategories.Count; i++)
@@ -40,7 +36,7 @@
 
             <section id="cost-sub-category-@subCategory.SubCategory?.ToSlug()">
                 <h2 class="govuk-heading-m">@subCategory.SubCategory</h2>
-                
+
                 @if (Model.ViewAs == SchoolComparisonItSpendViewModel.ViewAsOptions.Chart)
                 {
                     @await Html.PartialAsync("_ItSpendChart", new SchoolComparisonItSpendChartViewModel(uuid, subCategory))
@@ -54,6 +50,24 @@
                     @await Html.PartialAsync("_ItSpendTable", new SchoolComparisonItSpendTableViewModel(Model.Urn, Model.ResultAs, subCategory))
                 }
             </section>
+        }
+
+        @if (Model.ViewAs == SchoolComparisonItSpendViewModel.ViewAsOptions.Table)
+        {
+            for (var i = 0; i < Model.PartYearData.Length; i++)
+            {
+                var school = Model.PartYearData.ElementAt(i);
+                if (i == 0)
+                {
+                    <h2 class="govuk-heading-s">Schools with partial data available</h2>
+                }
+
+                <p class="govuk-body-s govuk-!-margin-bottom-1">
+                    @school.SchoolName only
+                    has @school.PeriodCoveredByReturn @(school.PeriodCoveredByReturn == 1 ? "month" : "months") of data
+                    available.
+                </p>
+            }
         }
     </div>
 </div>

@@ -21,6 +21,11 @@
         <p class="govuk-body">Only displaying schools with positive expenditure.</p>
     }
 
+    @if (Model.SubCategory.HasPartYearSubmissions)
+    {
+        <p class="govuk-body">Some schools only have partial data. These are highlighted in the table.</p>
+    }
+
     <table class="govuk-table">
         <thead class="govuk-table__head">
         <tr class="govuk-table__row">
@@ -35,7 +40,7 @@
         @foreach (var row in Model.SubCategory.Data)
         {
             <tr class="govuk-table__row">
-                <td class="govuk-table__cell@(row.PeriodCoveredByReturn is not 12 ? " table-cell-warning" : string.Empty)">
+                <td class="govuk-table__cell">
                     @if (row.Urn == Model.Urn)
                     {
                         <strong>
@@ -51,14 +56,11 @@
 
                     @if (row.PeriodCoveredByReturn is not 12)
                     {
-                        <div class="govuk-warning-text govuk-!-margin-0">
-                            <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
-                            <strong class="govuk-warning-text__text">
-                                <span class="govuk-visually-hidden">Warning</span>
-                                This school only has @row.PeriodCoveredByReturn
-                                @(row.PeriodCoveredByReturn == 1 ? "month" : "months") of data available.
+                        <p class="govuk-table__cell_commentary">
+                            <strong class="govuk-tag govuk-tag--grey">
+                                Partial data
                             </strong>
-                        </div>
+                        </p>
                     }
                 </td>
                 <td class="govuk-table__cell">@row.LAName</td>
