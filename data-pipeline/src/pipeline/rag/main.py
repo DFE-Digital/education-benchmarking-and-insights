@@ -10,7 +10,7 @@ from pipeline.utils.storage import get_blob, write_blob
 
 from .calculations import RAG_RESULT_COLUMNS, calculate_rag, compute_user_defined_rag
 
-logger = setup_logger("rag")
+logger = setup_logger(__name__)
 
 
 def create_empty_rag_dataframe() -> pd.DataFrame:
