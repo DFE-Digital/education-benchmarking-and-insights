@@ -1,65 +1,15 @@
 ﻿@using Web.App.Extensions
 @model Web.App.ViewModels.SchoolChartTooltipViewModel
 
-<script type="module" add-nonce="true">    
-    import {createApp, SchoolChartTooltip } from "@Html.FileVersionedPath("/js/main.js")";
+<script type="module" add-nonce="true">
+    import {createApp, SchoolChartTooltips} from "@Html.FileVersionedPath("/js/main.js")";
 
     const data = @Html.Raw(Json.Serialize(Model.Data));
-    
+
     const container = document.createElement("div");
     const main = document.querySelector("main");
     main.appendChild(container);
 
-    const app = createApp(SchoolChartTooltip);
+    const app = createApp(SchoolChartTooltips, {data});
     const vm = app.mount(container);
-
-    const elements = document.querySelectorAll("[data-key]");
-
-    elements.forEach((el) => {
-        el.addEventListener("mouseenter", (e) => {
-            const key = el.getAttribute("data-key");
-            const datum = data.find((d) => d.urn === key);
-            if (!datum) return;
-            
-            switch (el.tagName.toLowerCase()) {
-                case "rect":
-                    attachMouseListeners(el, datum);
-                    break;
-                case "a":
-                    attachFocusListeners(el, datum);
-                    break;
-            }
-        });
-    });
-
-    function attachMouseListeners(el, datum) {
-        el.addEventListener("mouseenter", (e) => {
-            const tooltipOffset = 12;
-            const tooltipX = e.clientX + tooltipOffset;
-            const tooltipY = e.clientY + window.scrollY + tooltipOffset;
-
-            vm.show(datum, tooltipX, tooltipY);
-        });
-
-        el.addEventListener("mouseleave", () => {
-            vm.hide();
-        });
-    }
-
-    function attachFocusListeners(el, datum) {
-        console.log("attachFocusListeners", el, datum)
-        el.addEventListener("focus", () => {
-            const rect = el.getBoundingClientRect();
-            const tooltipOffset = 12;
-            const tooltipX = rect.right + tooltipOffset;
-            const tooltipY = rect.right + window.scrollY;
-
-            vm.show(datum, tooltipX, tooltipY);
-        });
-
-        el.addEventListener("blur", () => {
-            vm.hide();
-        });
-    }
-
 </script>

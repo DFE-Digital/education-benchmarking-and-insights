@@ -1,5 +1,11 @@
-﻿<template>
-  <div v-if="visible" class="school-chart-tooltip" :style="{ top: y + 'px', left: x + 'px' }">
+﻿<script setup lang="ts">
+import type { SchoolChartTooltipProps } from ".";
+
+const { datum, x, y } = defineProps<SchoolChartTooltipProps>();
+</script>
+
+<template>
+  <div v-if="!!datum" class="school-chart-tooltip" :style="{ top: y + 'px', left: x + 'px' }">
     <div v-if="!(datum?.periodCoveredByReturn === 12)" className="tooltip-part-year-warning">
       <div class="govuk-warning-text govuk-!-margin-0">
         <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
@@ -39,26 +45,3 @@
     </table>
   </div>
 </template>
-
-<script setup lang="ts">
-import { ref } from "vue";
-import type { SchoolChartTooltipPropsData } from ".";
-
-const visible = ref(false);
-const x = ref(0);
-const y = ref(0);
-const datum = ref<SchoolChartTooltipPropsData | null>(null);
-
-function show(d: SchoolChartTooltipPropsData, px: number, py: number) {
-  datum.value = d;
-  x.value = px;
-  y.value = py;
-  visible.value = true;
-}
-
-function hide() {
-  visible.value = false;
-}
-
-defineExpose({ show, hide });
-</script>
