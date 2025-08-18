@@ -278,7 +278,7 @@ def calculate_rag(
 
             if i > 0 and i % BATCH_LOG_INTERVAL == 0:
                 elapsed = time.time() - start_time
-                logger.debug(f"Processed {i+1} schools in {elapsed:.2f} seconds.")
+                logger.debug(f"Processed {i} schools in {elapsed:.2f} seconds.")
                 start_time = time.time()
 
 
