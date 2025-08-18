@@ -16,7 +16,7 @@ logger = setup_logger("rag")
 def create_empty_rag_dataframe() -> pd.DataFrame:
     """
     Create an empty DataFrame with standard RAG result structure.
-    
+
     Returns:
         Empty DataFrame with proper RAG columns and URN index
     """
@@ -33,7 +33,7 @@ def compute_rag_for_school_type(
 ) -> pd.DataFrame:
     """
     Compute RAG calculations for a specific school type.
-    
+
     Args:
         school_type: Type of schools ("maintained_schools" or "academies")
         run_type: Type of run ("default" or "custom")
@@ -41,7 +41,7 @@ def compute_rag_for_school_type(
         school_data: DataFrame containing school data
         comparator_data: DataFrame containing comparator mappings
         target_urn: Optional URN to compute RAG for specific school only
-        
+
     Returns:
         DataFrame containing RAG results
     """
@@ -84,23 +84,20 @@ def compute_rag_for_school_type(
 
 
 def load_school_data_and_comparators(
-    run_type: str, 
-    run_id: str, 
-    school_type: str,
-    comparator_suffix: str = ""
+    run_type: str, run_id: str, school_type: str, comparator_suffix: str = ""
 ) -> Tuple[pd.DataFrame, pd.DataFrame]:
     """
     Load school data and comparator mappings from storage.
-    
+
     Args:
         run_type: Type of run ("default" or "custom")
         run_id: Unique identifier for this run
         school_type: Type of schools to load
         comparator_suffix: Optional suffix for comparator file naming
-        
+
     Returns:
         Tuple of (school_data, comparator_data)
-        
+
     Raises:
         Exception: If data loading fails
     """
@@ -108,19 +105,19 @@ def load_school_data_and_comparators(
         school_data = pd.read_parquet(
             get_blob("comparator-sets", f"{run_type}/{run_id}/{school_type}.parquet")
         )
-        
+
         comparator_filename = f"{school_type}{comparator_suffix}_comparators.parquet"
         comparator_data = pd.read_parquet(
             get_blob("comparator-sets", f"{run_type}/{run_id}/{comparator_filename}")
         )
-        
+
         logger.debug(
             f"Loaded {school_type}: data_shape={school_data.shape}, "
             f"comparators_shape={comparator_data.shape}"
         )
-        
+
         return school_data, comparator_data
-        
+
     except Exception as e:
         logger.error(f"Failed to load data for {school_type}: {e}")
         raise
@@ -141,7 +138,7 @@ def compute_rag(
 
     Returns:
         Total duration of RAG calculations in seconds
-        
+
     Raises:
         Exception: If critical errors occur during computation
     """
@@ -153,10 +150,10 @@ def compute_rag(
     try:
         # Process maintained schools
         logger.info("Processing maintained schools")
-        maintained_schools_data, maintained_schools_comparators = load_school_data_and_comparators(
-            run_type, run_id, "maintained_schools"
+        maintained_schools_data, maintained_schools_comparators = (
+            load_school_data_and_comparators(run_type, run_id, "maintained_schools")
         )
-        
+
         maintained_schools_rag = compute_rag_for_school_type(
             "maintained_schools",
             run_type,
@@ -165,15 +162,20 @@ def compute_rag(
             maintained_schools_comparators,
             target_urn=target_urn,
         )
-        logger.info(f"Maintained schools RAG results: shape={maintained_schools_rag.shape}")
+        logger.info(
+            f"Maintained schools RAG results: shape={maintained_schools_rag.shape}"
+        )
         rag_results.append(maintained_schools_rag)
 
-        # Process academies  
+        # Process academies
         logger.info("Processing academies")
         academy_data, academy_comparators = load_school_data_and_comparators(
-            run_type, run_id, "academies", "_comparators"  # Note: different naming pattern
+            run_type,
+            run_id,
+            "academies",
+            "_comparators",  # Note: different naming pattern
         )
-        
+
         academies_rag = compute_rag_for_school_type(
             "academies",
             run_type,
@@ -189,7 +191,7 @@ def compute_rag(
         if rag_results:
             combined_rag_results = pd.concat(rag_results, axis=0)
             logger.info(f"Combined RAG results: shape={combined_rag_results.shape}")
-            
+
             # Insert results into database
             try:
                 insert_metric_rag(run_type, run_id, combined_rag_results)
@@ -232,13 +234,13 @@ def run_user_defined_rag(
 
     Returns:
         Duration of RAG calculations in seconds
-        
+
     Raises:
         Exception: If critical errors occur during computation
     """
     run_type = "default"
     start_time = time.time()
-    
+
     logger.info(
         f"Starting user-defined RAG computation: year={year}, run_id={run_id}, "
         f"target_urn={target_urn}, comparator_count={len(comparator_set)}"
@@ -249,22 +251,25 @@ def run_user_defined_rag(
         all_schools_data = pd.read_parquet(
             get_blob("pre-processed", f"{run_type}/{year}/all_schools.parquet")
         )
-        
+
         prepared_data = prepare_data(all_schools_data)
-        logger.info(f"Prepared all schools data for {year}: shape={prepared_data.shape}")
+        logger.info(
+            f"Prepared all schools data for {year}: shape={prepared_data.shape}"
+        )
 
         # Validate target URN and comparator set
         if target_urn not in prepared_data.index:
-            raise ValueError(f"Target URN {target_urn} not found in data for year {year}")
-        
+            raise ValueError(
+                f"Target URN {target_urn} not found in data for year {year}"
+            )
+
         valid_comparator_urns = [
-            urn for urn in comparator_set 
-            if urn in prepared_data.index
+            urn for urn in comparator_set if urn in prepared_data.index
         ]
-        
+
         if not valid_comparator_urns:
             raise ValueError("No valid comparator URNs found in the dataset")
-        
+
         logger.info(
             f"Validated comparators: {len(valid_comparator_urns)}/{len(comparator_set)} URNs found"
         )
@@ -310,7 +315,9 @@ def run_user_defined_rag(
             )
             logger.info("Successfully inserted user-defined RAG results into database")
         except Exception as e:
-            logger.error(f"Failed to insert user-defined RAG results into database: {e}")
+            logger.error(
+                f"Failed to insert user-defined RAG results into database: {e}"
+            )
             raise
 
     except ValueError as e:

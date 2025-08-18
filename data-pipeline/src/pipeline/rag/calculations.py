@@ -53,12 +53,8 @@ RAG_RESULT_COLUMNS = [
 class ComputationError(Exception):
     """Custom exception for RAG computation errors"""
 
-    pass
-
 
 class CategoryColumnCache:
-    """Pre-computed column indices and category mappings for efficient data access"""
-
     def __init__(self, columns: pd.Index):
         self.base_columns_mask = columns.isin(BASE_COLUMNS)
         self.category_mappings = {}
@@ -77,8 +73,6 @@ class CategoryColumnCache:
 
 
 class ComparatorSetCache:
-    """Pre-filtered comparator sets to avoid repeated DataFrame filtering"""
-
     def __init__(self, data: pd.DataFrame, comparators: Dict):
         self.data = data
         self._cache = {}
@@ -131,7 +125,7 @@ def are_building_characteristics_similar(
     floor_area_similar = math.isclose(
         target_school["Total Internal Floor Area"],
         comparison_school["Total Internal Floor Area"],
-        rel_tol=FLOOR_AREA_TOLERANCE,
+        abs_tol=target_school["Total Internal Floor Area"]*FLOOR_AREA_TOLERANCE,
     )
     building_age_similar = math.isclose(
         target_school["Age Average Score"],
@@ -163,17 +157,17 @@ def are_pupil_demographics_similar(
     pupil_count_similar = math.isclose(
         target_school["Number of pupils"],
         comparison_school["Number of pupils"],
-        rel_tol=PUPIL_COUNT_TOLERANCE,
+        abs_tol=target_school["Number of pupils"]*PUPIL_COUNT_TOLERANCE,
     )
     fsm_percentage_similar = math.isclose(
         target_school["Percentage Free school meals"],
         comparison_school["Percentage Free school meals"],
-        rel_tol=FSM_PERCENTAGE_TOLERANCE,
+        abs_tol=target_school["Percentage Free school meals"]*FSM_PERCENTAGE_TOLERANCE,
     )
     sen_percentage_similar = math.isclose(
         target_school["Percentage SEN"],
         comparison_school["Percentage SEN"],
-        rel_tol=SEN_PERCENTAGE_TOLERANCE,
+        abs_tol=target_school["Percentage Free school meals"]*SEN_PERCENTAGE_TOLERANCE,
     )
 
     return all(
@@ -373,7 +367,7 @@ def compute_category_rag_statistics(
             continue
 
 
-def prepare_data_for_rag_calculation(data: pd.DataFrame) -> pd.DataFrame:
+def prepare_data_for_rag_calculation(data: pd.DataFrame) -> pd.Series | pd.DataFrame:
     """
     Prepare and clean data for RAG calculations.
 
@@ -474,10 +468,7 @@ def calculate_rag(
     Yields:
         RAG information for each (sub-)category
     """
-    # Prepare data efficiently
     processed_data = prepare_data_for_rag_calculation(data)
-
-    # Build caches for efficient access
     column_cache = CategoryColumnCache(processed_data.columns)
     comparator_cache = ComparatorSetCache(processed_data, comparators)
 
