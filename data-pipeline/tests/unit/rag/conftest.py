@@ -20,7 +20,13 @@ def sample_school_data():
             "Good",
             "Outstanding",
         ],
-        "Utilities": ["Subcategory1", "Subcategory2", "Subcategory1", "Subcategory2", "Subcategory1"],
+        "Utilities": [
+            "Subcategory1",
+            "Subcategory2",
+            "Subcategory1",
+            "Subcategory2",
+            "Subcategory1",
+        ],
         "Percentage SEN": [0.1, 0.12, 0.08, 0.15, 0.09],
         "Percentage Free school meals": [0.2, 0.21, 0.18, 0.25, 0.19],
         "Number of pupils": [500, 520, 480, 550, 490],
@@ -83,6 +89,7 @@ def sample_data_for_comparators():
         "999": {"Pupil": ["1"], "Building": ["2"]},
     }
     return df, comparators
+
 
 @pytest.fixture
 def mock_blob_storage(sample_school_data, sample_comparators_dict):
