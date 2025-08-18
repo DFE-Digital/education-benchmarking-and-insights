@@ -1,6 +1,6 @@
 import time
 import warnings
-from typing import Any, Dict, Generator, List, Optional
+from typing import Any, Dict, Generator, List, Optional, Union
 
 import numpy as np
 import pandas as pd
@@ -61,51 +61,56 @@ class CategoryColumnCache:
             }
 
 
+def is_close(a: Union[np.ndarray, float], b: Union[np.ndarray, float], rtol: float = 1e-9, atol: float = 0.0) -> np.ndarray:
+    """A vectorized equivalent of math.isclose."""
+    relative_component = rtol * np.maximum(np.abs(a), np.abs(b))
+    tolerance = np.maximum(relative_component, atol)
+    return np.abs(a - b) <= tolerance
+
+
 def find_area_close_comparators(
     target_school: pd.Series, comparators: pd.DataFrame
 ) -> pd.Series:
-    """
-    Vectorized function to find comparators with similar building characteristics.
-    - Gross internal floor area is within 10% (relative).
-    - Average age of buildings is within 20 years (absolute).
-    """
-    floor_area_is_close = np.isclose(
+    """Vectorized function to find comparators with similar building characteristics."""
+    # Relative comparison for floor area
+    floor_area_is_close = is_close(
         comparators["Total Internal Floor Area"],
         target_school["Total Internal Floor Area"],
-        rtol=FLOOR_AREA_PERCENTAGE_TOLERANCE,
+        rtol=FLOOR_AREA_PERCENTAGE_TOLERANCE
     )
-    age_score_is_close = np.isclose(
+    
+    # Absolute comparison for building age score
+    age_score_is_close = is_close(
         comparators["Age Average Score"],
         target_school["Age Average Score"],
-        atol=BUILDING_AGE_YEAR_TOLERANCE,  # Absolute tolerance
+        atol=BUILDING_AGE_YEAR_TOLERANCE
     )
+    
     return floor_area_is_close & age_score_is_close
 
 
 def find_pupil_close_comparators(
     target_school: pd.Series, comparators: pd.DataFrame
 ) -> pd.Series:
-    """
-    Vectorized function to find comparators with similar pupil demographics.
-    - Number of pupils is within 25% (relative).
-    - FSM percentage is within 5 percentage points (absolute).
-    - SEN percentage is within 10 percentage points (absolute).
-    """
-    pupils_is_close = np.isclose(
+    """Vectorized function to find comparators with similar pupil demographics."""
+    pupils_is_close = is_close(
         comparators["Number of pupils"],
         target_school["Number of pupils"],
-        rtol=PUPIL_COUNT_PERCENTAGE_TOLERANCE,
+        rtol=PUPIL_COUNT_PERCENTAGE_TOLERANCE
     )
-    fsm_is_close = np.isclose(
+    
+    fsm_is_close = is_close(
         comparators["Percentage Free school meals"],
         target_school["Percentage Free school meals"],
-        rtol=FSM_PERCENTAGE_TOLERANCE,
+        rtol=FSM_PERCENTAGE_TOLERANCE
     )
-    sen_is_close = np.isclose(
+    
+    sen_is_close = is_close(
         comparators["Percentage SEN"],
         target_school["Percentage SEN"],
-        rtol=SEN_PERCENTAGE_TOLERANCE,
+        rtol=SEN_PERCENTAGE_TOLERANCE
     )
+    
     return pupils_is_close & fsm_is_close & sen_is_close
 
 
