@@ -208,7 +208,7 @@ def compute_category_rag_statistics(
             continue
 
 
-# --- Main Entry Points ---
+# --- Entrypoints ---
 
 
 def prepare_data_for_rag(data: pd.DataFrame) -> pd.DataFrame:

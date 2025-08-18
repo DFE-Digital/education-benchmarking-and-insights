@@ -1,197 +1,166 @@
-# from unittest.mock import ANY, call, patch
+import pandas as pd
+import pytest
+from unittest.mock import patch
 
-# import pandas as pd
-# import pytest
+from pipeline.rag.main import (
+    create_empty_rag_dataframe,
+    compute_rag_for_school_type,
+    load_school_data_and_comparators,
+    compute_rag,
+    compute_user_defined_rag_analysis
+)
+from pipeline.rag.calculations import RAG_RESULT_COLUMNS
 
-# from pipeline.rag.main import (
-#     RAG_RESULT_COLUMNS,
-#     compute_rag,
-#     compute_rag_for_school_type,
-#     compute_user_defined_rag_analysis,
-#     create_empty_rag_dataframe,
-#     load_school_data_and_comparators,
-# )
+# --- Fixtures ---
 
+@pytest.fixture
+def sample_rag_df():
+    """Creates a sample RAG results DataFrame."""
+    data = {
+        "URN": [101, 102],
+        "Category": ["CatA", "CatB"],
+        "SubCategory": ["Sub1", "Sub2"],
+        "Value": [100, 200],
+        "Median": [110, 190],
+        "DiffMedian": [-10, 10],
+        "Key": ["other", "outstanding_10"],
+        "PercentDiff": [-9.09, 5.26],
+        "Percentile": [45, 85],
+        "Decile": [4, 8],
+        "RAG": ["green", "red"],
+    }
+    return pd.DataFrame(data).set_index("URN")
 
-# # Test create_empty_rag_dataframe
-# def test_create_empty_rag_dataframe():
-#     df = create_empty_rag_dataframe()
-#     assert isinstance(df, pd.DataFrame)
-#     assert df.empty
-#     assert df.index.name == "URN"
-#     assert list(df.columns) == [c for c in RAG_RESULT_COLUMNS if c != "URN"]
+# --- Tests for Helper Functions ---
 
+def test_create_empty_rag_dataframe():
+    """Tests the creation of an empty DataFrame with the correct structure."""
+    df = create_empty_rag_dataframe()
+    assert df.empty
+    assert df.index.name == "URN"
+    assert all(col in df.columns for col in RAG_RESULT_COLUMNS if col != "URN")
 
-# # Test compute_rag_for_school_type
-# @patch("pipeline.rag.main.write_blob")
-# @patch("pipeline.rag.main.calculate_rag")
-# def test_compute_rag_for_school_type_success(
-#     mock_calculate_rag, mock_write_blob, sample_school_data, sample_rag_results_df
-# ):
-#     mock_calculate_rag.return_value = iter(
-#         sample_rag_results_df.reset_index().to_dict("records")
-#     )
+# --- Tests for Main Logic Functions ---
 
-#     result_df = compute_rag_for_school_type(
-#         school_type="maintained",
-#         run_type="default",
-#         run_id="123",
-#         school_data=sample_school_data,
-#         comparator_data={},
-#         target_urn=None,
-#     )
+@patch('pipeline.rag.main.write_blob')
+@patch('pipeline.rag.main.calculate_rag')
+def test_compute_rag_for_school_type_single_urn(mock_calculate_rag, mock_write_blob, sample_rag_df):
+    """Tests the serial (single URN) execution path."""
+    mock_calculate_rag.return_value = iter(sample_rag_df.reset_index().to_dict('records'))
+    school_data = pd.DataFrame(index=[101, 102])
 
-#     mock_calculate_rag.assert_called_once_with(sample_school_data, {}, target_urn=None)
-#     mock_write_blob.assert_called_once_with(
-#         "metric-rag", "default/123/maintained.parquet", ANY
-#     )
-#     pd.testing.assert_frame_equal(result_df, sample_rag_results_df)
+    result_df = compute_rag_for_school_type(
+        school_type="academies",
+        run_type="default",
+        run_id="123",
+        school_data=school_data,
+        comparator_data={},
+        target_urn=101
+    )
+    mock_calculate_rag.assert_called_once_with(school_data, {}, target_urn=101)
+    mock_write_blob.assert_called_once()
+    assert not result_df.empty
+    assert result_df.shape == (2, 10) # 2 rows from sample_rag_df
 
+def test_compute_rag_for_school_type_target_urn_not_found():
+    """Tests that an empty DataFrame is returned if the target URN doesn't exist."""
+    school_data = pd.DataFrame(index=[102, 103]) # Does not contain 101
+    result_df = compute_rag_for_school_type(
+        school_type="academies",
+        run_type="default",
+        run_id="123",
+        school_data=school_data,
+        comparator_data={},
+        target_urn=101
+    )
+    assert result_df.empty
 
-# @patch("pipeline.rag.main.write_blob")
-# @patch("pipeline.rag.main.calculate_rag")
-# def test_compute_rag_for_school_type_urn_not_found(
-#     mock_calculate_rag, mock_write_blob, sample_school_data
-# ):
-#     result_df = compute_rag_for_school_type(
-#         school_type="maintained",
-#         run_type="default",
-#         run_id="123",
-#         school_data=sample_school_data,
-#         comparator_data={},
-#         target_urn="999",  # This URN does not exist
-#     )
+@patch('pipeline.rag.main.get_blob')
+def test_load_school_data_and_comparators_positive(mock_get_blob):
+    """Tests successful data loading."""
+    mock_get_blob.return_value = b"some_parquet_data" # Placeholder for blob data
+    
+    with patch('pandas.read_parquet') as mock_read_parquet:
+        mock_read_parquet.return_value = pd.DataFrame({'col1': [1, 2]})
+        
+        school_data, comparator_data = load_school_data_and_comparators(
+            "default", "123", "maintained_schools"
+        )
+        assert mock_read_parquet.call_count == 2
+        assert not school_data.empty
+        assert not comparator_data.empty
 
-#     mock_calculate_rag.assert_not_called()
-#     assert result_df.empty
+def test_load_school_data_and_comparators_negative_unknown_type():
+    """Tests that a ValueError is raised for an unknown school type."""
+    with pytest.raises(ValueError, match="Unknown school type: invalid_type"):
+        load_school_data_and_comparators("default", "123", "invalid_type")
 
+@patch('pipeline.rag.main.insert_metric_rag')
+@patch('pipeline.rag.main.compute_rag_for_school_type')
+@patch('pipeline.rag.main.load_school_data_and_comparators')
+def test_compute_rag_positive(mock_load_data, mock_compute_type, mock_insert, sample_rag_df):
+    """Tests the end-to-end compute_rag flow."""
+    # Mock data loading to return dummy data
+    mock_load_data.return_value = (pd.DataFrame(), pd.DataFrame())
+    # Mock type-specific computation to return sample results
+    mock_compute_type.return_value = sample_rag_df
+    
+    compute_rag(run_type="default", run_id="123")
+    
+    assert mock_load_data.call_count == 2 # Once for each school type
+    assert mock_compute_type.call_count == 2
+    mock_insert.assert_called_once()
+    
+    # Check the combined DataFrame passed to insert_metric_rag
+    args, _ = mock_insert.call_args
+    combined_df = args[2]
+    assert combined_df.shape == (4, 10) # sample_rag_df (2 rows) concatenated twice
 
-# @patch("pipeline.rag.main.write_blob")
-# @patch("pipeline.rag.main.calculate_rag")
-# def test_compute_rag_for_school_type_calculation_fails(
-#     mock_calculate_rag, mock_write_blob, sample_school_data
-# ):
-#     mock_calculate_rag.side_effect = Exception("Calculation Error")
+@patch('pipeline.rag.main.insert_metric_rag')
+@patch('pipeline.rag.main.compute_rag_for_school_type')
+@patch('pipeline.rag.main.load_school_data_and_comparators')
+def test_compute_rag_negative_load_failure(mock_load_data, mock_compute_type, mock_insert):
+    """Tests that an exception during data loading is propagated."""
+    mock_load_data.side_effect = FileNotFoundError("File not found")
+    
+    with pytest.raises(FileNotFoundError):
+        compute_rag(run_type="default", run_id="123")
+        
+    mock_compute_type.assert_not_called()
+    mock_insert.assert_not_called()
 
-#     result_df = compute_rag_for_school_type(
-#         school_type="maintained",
-#         run_type="default",
-#         run_id="123",
-#         school_data=sample_school_data,
-#         comparator_data={},
-#     )
+@patch('pipeline.rag.main.insert_metric_rag')
+@patch('pipeline.rag.main.write_blob')
+@patch('pipeline.rag.main.compute_user_defined_rag')
+@patch('pipeline.rag.main.prepare_data')
+@patch('pandas.read_parquet')
+@patch('pipeline.rag.main.get_blob')
+def test_compute_user_defined_rag_analysis_positive(
+    mock_get_blob, mock_read_parquet, mock_prepare, mock_compute_rag, mock_write_blob, mock_insert, sample_rag_df
+):
+    """Tests the positive path for user-defined RAG analysis."""
+    # Setup mocks
+    mock_read_parquet.return_value = pd.DataFrame(index=[101, 102, 103])
+    mock_prepare.side_effect = lambda x: x # Pass through
+    mock_compute_rag.return_value = iter(sample_rag_df.reset_index().to_dict('records'))
 
-#     assert result_df.empty
-#     mock_write_blob.assert_called_once()  # Should still try to write the empty result
+    compute_user_defined_rag_analysis(
+        year=2023, run_id="user123", target_urn=101, comparator_set=[102, 103]
+    )
 
+    mock_get_blob.assert_called_once()
+    mock_read_parquet.assert_called_once()
+    mock_compute_rag.assert_called_once()
+    mock_write_blob.assert_called_once()
+    mock_insert.assert_called_once()
 
-# # Test load_school_data_and_comparators
-# @patch("pipeline.rag.main.get_blob")
-# def test_load_school_data_and_comparators_success(
-#     mock_get_blob, mock_blob_storage, sample_school_data, comparators_fixture
-# ):
-#     mock_get_blob.side_effect = mock_blob_storage
+@patch('pandas.read_parquet')
+@patch('pipeline.rag.main.get_blob')
+def test_compute_user_defined_rag_analysis_target_not_found(mock_get_blob, mock_read_parquet):
+    """Tests ValueError when the target URN is not in the loaded data."""
+    mock_read_parquet.return_value = pd.DataFrame(index=[102, 103]) # Target 101 is missing
 
-#     school_data, comparator_data = load_school_data_and_comparators(
-#         run_type="default",
-#         run_id="123",
-#         school_type="academies",
-#         comparator_suffix="_comp",
-#     )
-
-#     assert mock_get_blob.call_count == 2
-#     mock_get_blob.assert_has_calls(
-#         [
-#             call("comparator-sets", "default/123/academies.parquet"),
-#             call("comparator-sets", "default/123/academies_comp_comparators.parquet"),
-#         ]
-#     )
-#     assert not school_data.empty
-#     assert not comparator_data.empty
-
-
-# @patch("pipeline.rag.main.get_blob")
-# def test_load_school_data_and_comparators_failure(mock_get_blob):
-#     mock_get_blob.side_effect = FileNotFoundError("Blob not found")
-
-#     with pytest.raises(FileNotFoundError):
-#         load_school_data_and_comparators(
-#             run_type="default", run_id="123", school_type="academies"
-#         )
-
-
-# # Test compute_rag
-# @patch("pipeline.rag.main.insert_metric_rag")
-# @patch("pipeline.rag.main.compute_rag_for_school_type")
-# @patch("pipeline.rag.main.load_school_data_and_comparators")
-# def test_compute_rag_success(
-#     mock_load, mock_compute_type, mock_insert, sample_rag_results_df
-# ):
-#     # Simulate loading and computing for two school types
-#     mock_load.side_effect = [
-#         (pd.DataFrame({"URN": [1]}).set_index("URN"), {}),
-#         (pd.DataFrame({"URN": [2]}).set_index("URN"), {}),
-#     ]
-#     mock_compute_type.side_effect = [
-#         sample_rag_results_df.iloc[:2],  # Results for maintained
-#         sample_rag_results_df.iloc[2:],  # Results for academies
-#     ]
-
-#     duration = compute_rag(run_type="default", run_id="123")
-
-#     assert mock_load.call_count == 2
-#     assert mock_compute_type.call_count == 2
-#     # Check that the final combined DataFrame was passed to insert_metric_rag
-#     mock_insert.assert_called_once()
-#     final_df = mock_insert.call_args[0][2]
-#     assert len(final_df) == 4
-#     assert duration > 0
-
-
-# # Test compute_user_defined_rag_analysis
-# @patch("pipeline.rag.main.insert_metric_rag")
-# @patch("pipeline.rag.main.write_blob")
-# @patch("pipeline.rag.main.compute_user_defined_rag")
-# @patch("pipeline.rag.main.prepare_data")
-# @patch("pipeline.rag.main.get_blob")
-# def test_compute_user_defined_rag_analysis_success(
-#     mock_get,
-#     mock_prepare,
-#     mock_compute,
-#     mock_write,
-#     mock_insert,
-#     mock_blob_storage,
-#     sample_rag_results_df,
-# ):
-#     mock_get.side_effect = mock_blob_storage
-#     mock_prepare.side_effect = lambda x: x  # Passthrough
-#     mock_compute.return_value = iter(
-#         sample_rag_results_df.reset_index().to_dict("records")
-#     )
-
-#     duration = compute_user_defined_rag_analysis(
-#         year=2023, run_id="abc", target_urn=1, comparator_set=[2, 4, 5]
-#     )
-
-#     mock_get.assert_called_once_with(
-#         "pre-processed", "default/2023/all_schools.parquet"
-#     )
-#     mock_prepare.assert_called_once()
-#     mock_compute.assert_called_once()
-#     mock_write.assert_called_once_with(
-#         "metric-rag", "default/abc/user_defined.parquet", ANY
-#     )
-#     mock_insert.assert_called_once()
-#     assert duration > 0
-
-
-# # @patch("pipeline.rag.main.get_blob")
-# # def test_compute_user_defined_rag_analysis_target_urn_not_found(
-# #     mock_get, mock_blob_storage
-# # ):
-# #     mock_get.side_effect = mock_blob_storage
-
-# #     with pytest.raises(ValueError, match="Target URN 999 not found"):
-# #         compute_user_defined_rag_analysis(
-# #             year=2023, run_id="abc", target_urn=999, comparator_set=[2, 4, 5]
-# #         )
+    with pytest.raises(ValueError, match="Target URN 101 not found in data"):
+        compute_user_defined_rag_analysis(
+            year=2023, run_id="user123", target_urn=101, comparator_set=[102, 103]
+        )
