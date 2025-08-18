@@ -1,5 +1,4 @@
 ﻿using System.Net;
-using System.Text.RegularExpressions;
 using AngleSharp.Dom;
 using AngleSharp.Html.Dom;
 using AutoFixture;

@@ -83,6 +83,10 @@ public static class Paths
     {
         return $"/school/{urn}/comparison/download";
     }
+    public static string SchoolComparisonItSpendDownload(string? urn)
+    {
+        return $"/school/{urn}/benchmark-it-spending/download";
+    }
     public static string SchoolCensus(string? urn)
     {
         return $"/school/{urn}/census";
