@@ -9,12 +9,14 @@ public class SchoolComparisonViewModelCostSubCategory<T>
     public string? SubCategory { get; init; }
     public string? ChartSvg { get; set; }
     public bool HasNegativeOrZeroValues { get; init; }
+    public bool HasPartYearSubmissions { get; init; }
     public T[]? Data { get; init; }
 }
 
 public class SchoolComparisonSubCategoriesViewModel : List<SchoolComparisonViewModelCostSubCategory<SchoolComparisonDatum>>
 {
-    public SchoolComparisonSubCategoriesViewModel(string urn, SchoolItSpend[] expenditures, ItSpendingCategories.SubCategoryFilter[] filters)
+    public SchoolComparisonSubCategoriesViewModel(string urn, SchoolItSpend[] expenditures,
+        ItSpendingCategories.SubCategoryFilter[] filters)
     {
         filters = filters.Length > 0 ? filters : ItSpendingCategories.All;
 
@@ -44,11 +46,13 @@ public class SchoolComparisonSubCategoriesViewModel : List<SchoolComparisonViewM
             .ToArray();
 
         var hasNegativeOrZeroValues = data.Length > filteredData.Length;
+        var hasPartYearSubmissions = data.Any(d => d.PeriodCoveredByReturn is not 12);
         Add(new SchoolComparisonViewModelCostSubCategory<SchoolComparisonDatum>
         {
             Uuid = uuid,
             SubCategory = filter.GetHeading(),
             HasNegativeOrZeroValues = hasNegativeOrZeroValues,
+            HasPartYearSubmissions = hasPartYearSubmissions,
             Data = filteredData
         });
     }

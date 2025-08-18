@@ -915,4 +915,11 @@ table#current-comparators-la {
   }
 }
 
+.govuk-table__cell_commentary {
+  margin-top: govuk-spacing(3);
+  margin-bottom: govuk-spacing(1);
 
+  .govuk-tag {
+    text-transform: uppercase;
+  }
+}
