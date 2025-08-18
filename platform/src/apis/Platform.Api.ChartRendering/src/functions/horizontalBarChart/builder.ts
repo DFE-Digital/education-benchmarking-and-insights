@@ -117,7 +117,16 @@ export default class HorizontalBarChartBuilder {
       .join("rect")
       .attr("x", x(0))
       .attr("y", (d) => y(d[keyField] as string)!)
-      .attr("width", (d) => x(d[valueField] as number) - x(0))
+      .attr("width", (d) => {
+        let width = x(d[valueField] as number) - x(0);
+
+        // do not allow negative bars at this time
+        if (width < 0) {
+          width = 0;
+        }
+
+        return width;
+      })
       .attr("height", y.bandwidth())
       .attr("data-key", (d) => d[keyField] as string)
       .attr("class", (d) =>
@@ -137,12 +146,16 @@ export default class HorizontalBarChartBuilder {
       .selectAll()
       .data(normalisedData)
       .join("text")
-      .attr(
-        "x",
-        (d) =>
-          x(d[valueField] as number) +
-          Math.sign((d[valueField] as number) - 0) * 8,
-      )
+      .attr("x", (d) => {
+        let value = d[valueField] as number;
+
+        // do not allow negative labels at this time
+        if (value < 0) {
+          value = 0;
+        }
+
+        return x(value) + Math.sign(value - 0) * 8;
+      })
       .attr("y", (d) => y(d[keyField] as string)! + y.bandwidth() / 2)
       .attr("dy", "0.35em")
       .text((d) => format(d[valueField] as number))
