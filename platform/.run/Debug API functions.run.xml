@@ -9,21 +9,6 @@
         </option>
         <option name="executable">
           <ExecutableSnapshot>
-            <option name="id" value="runConfig:Azure - Run Function App.Platform.Api.Insight" />
-          </ExecutableSnapshot>
-        </option>
-      </ExecutableRowSnapshot>
-      <ExecutableRowSnapshot>
-        <option name="condition">
-          <ConditionSnapshot>
-            <attributes>
-              <entry key="port" value="7071" />
-            </attributes>
-            <option name="type" value="waitPortOpened" />
-          </ConditionSnapshot>
-        </option>
-        <option name="executable">
-          <ExecutableSnapshot>
             <option name="id" value="runConfig:Azure - Run Function App.Platform.Api.Benchmark" />
           </ExecutableSnapshot>
         </option>
@@ -31,10 +16,31 @@
       <ExecutableRowSnapshot>
         <option name="condition">
           <ConditionSnapshot>
-            <attributes>
-              <entry key="port" value="7072" />
-            </attributes>
-            <option name="type" value="waitPortOpened" />
+            <option name="type" value="immediately" />
+          </ConditionSnapshot>
+        </option>
+        <option name="executable">
+          <ExecutableSnapshot>
+            <option name="id" value="runConfig:npm.Platform.Api.ChartRendering" />
+          </ExecutableSnapshot>
+        </option>
+      </ExecutableRowSnapshot>
+      <ExecutableRowSnapshot>
+        <option name="condition">
+          <ConditionSnapshot>
+            <option name="type" value="immediately" />
+          </ConditionSnapshot>
+        </option>
+        <option name="executable">
+          <ExecutableSnapshot>
+            <option name="id" value="runConfig:Azure - Run Function App.Platform.Api.Content" />
+          </ExecutableSnapshot>
+        </option>
+      </ExecutableRowSnapshot>
+      <ExecutableRowSnapshot>
+        <option name="condition">
+          <ConditionSnapshot>
+            <option name="type" value="immediately" />
           </ConditionSnapshot>
         </option>
         <option name="executable">
@@ -46,10 +52,19 @@
       <ExecutableRowSnapshot>
         <option name="condition">
           <ConditionSnapshot>
-            <attributes>
-              <entry key="port" value="7073" />
-            </attributes>
-            <option name="type" value="waitPortOpened" />
+            <option name="type" value="immediately" />
+          </ConditionSnapshot>
+        </option>
+        <option name="executable">
+          <ExecutableSnapshot>
+            <option name="id" value="runConfig:Azure - Run Function App.Platform.Api.Insight" />
+          </ExecutableSnapshot>
+        </option>
+      </ExecutableRowSnapshot>
+      <ExecutableRowSnapshot>
+        <option name="condition">
+          <ConditionSnapshot>
+            <option name="type" value="immediately" />
           </ConditionSnapshot>
         </option>
         <option name="executable">
@@ -61,45 +76,12 @@
       <ExecutableRowSnapshot>
         <option name="condition">
           <ConditionSnapshot>
-            <attributes>
-              <entry key="port" value="7074" />
-            </attributes>
-            <option name="type" value="waitPortOpened" />
+            <option name="type" value="immediately" />
           </ConditionSnapshot>
         </option>
         <option name="executable">
           <ExecutableSnapshot>
             <option name="id" value="runConfig:Azure - Run Function App.Platform.Api.NonFinancial" />
-          </ExecutableSnapshot>
-        </option>
-      </ExecutableRowSnapshot>
-      <ExecutableRowSnapshot>
-        <option name="condition">
-          <ConditionSnapshot>
-            <attributes>
-              <entry key="port" value="7075" />
-            </attributes>
-            <option name="type" value="waitPortOpened" />
-          </ConditionSnapshot>
-        </option>
-        <option name="executable">
-          <ExecutableSnapshot>
-            <option name="id" value="runConfig:npm.chart-rendering-fa" />
-          </ExecutableSnapshot>
-        </option>
-      </ExecutableRowSnapshot>
-      <ExecutableRowSnapshot>
-        <option name="condition">
-          <ConditionSnapshot>
-            <attributes>
-              <entry key="port" value="7076" />
-            </attributes>
-            <option name="type" value="waitPortOpened" />
-          </ConditionSnapshot>
-        </option>
-        <option name="executable">
-          <ExecutableSnapshot>
-            <option name="id" value="runConfig:Azure - Run Function App.Platform.Api.Content" />
           </ExecutableSnapshot>
         </option>
       </ExecutableRowSnapshot>

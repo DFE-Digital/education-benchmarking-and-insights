@@ -1,5 +1,5 @@
 ﻿<component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="chart-rendering-fa" type="js.build_tools.npm">
+  <configuration default="false" name="Platform.Api.ChartRendering" type="js.build_tools.npm">
     <package-json value="$PROJECT_DIR$/src/apis/Platform.Api.ChartRendering/package.json" />
     <command value="run" />
     <scripts>
