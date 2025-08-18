@@ -73,27 +73,27 @@ class CategoryColumnCache:
 
 
 class ComparatorSetCache:
-    def __init__(self, data: pd.DataFrame, comparators: Dict):
+    def __init__(self, data: pd.DataFrame, comparators: pd.DataFrame):
         self.data = data
         self._cache = {}
         self._build_cache(comparators)
 
-    def _build_cache(self, comparators: Dict) -> None:
+    def _build_cache(self, comparators: pd.DataFrame) -> None:
         """Pre-filter all comparator sets once"""
-        for school_urn, comparator_sets in comparators.items():
+        for school_urn, comparator_sets in comparators.iterrows():
             if school_urn in self.data.index:
-                pupil_urns = comparator_sets.get("Pupil", [])
-                building_urns = comparator_sets.get("Building", [])
+                pupil_urns = comparator_sets["Pupil"]
+                building_urns = comparator_sets["Building"]
 
                 self._cache[school_urn] = {
                     "Pupil": (
                         self.data[self.data.index.isin(pupil_urns)]
-                        if pupil_urns
+                        if pupil_urns.any()
                         else None
                     ),
                     "Building": (
                         self.data[self.data.index.isin(building_urns)]
-                        if building_urns
+                        if building_urns.any()
                         else None
                     ),
                 }
@@ -275,12 +275,12 @@ def calculate_category_statistics(
         percent_difference = 0.0
 
     # Parse category components
-    category_components = category_name.split("_")
+    subcategory_components = subcategory_name.split("_")
 
     return {
         "URN": school_urn,
-        "Category": category_components[0],
-        "SubCategory": category_components[1],
+        "Category": category_name,
+        "SubCategory": subcategory_components[1],
         "Value": school_value,
         "Median": median_value,
         "DiffMedian": median_difference,
@@ -498,7 +498,7 @@ def calculate_rag(
 
                     processed_count += 1
 
-                    # Conditional logging for performance
+                    # Log per interval
                     if (
                         processed_count > 1
                         and processed_count % BATCH_LOG_INTERVAL == 0
