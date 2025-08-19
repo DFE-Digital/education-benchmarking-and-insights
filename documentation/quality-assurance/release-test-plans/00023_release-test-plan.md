@@ -5,12 +5,16 @@
 
 ## Introduction
 
-This plan defines the approach for testing release `2025.08.1`, covering smoke and sanity testing activities required for the data pipeline.  
+This plan defines the approach for testing release `2025.08.1`, covering smoke, sanity, data ingestion, and UAT testing activities required for the data pipeline.  
 This release delivers enhancements to the data pipeline to support the CFR 2025 data drop and modularisation for maintainability.
 
 ## Scope
 
 **In-scope:**
+
+- Data Drop
+
+  - CFR 2025 data drop
 
 - Enhancements
 
@@ -23,26 +27,30 @@ This release delivers enhancements to the data pipeline to support the CFR 2025 
 
 ## Test Strategy
 
-- Sanity Testing: Validate that the application and data pipeline deploy successfully and are operational with 2025 CFR data load.
-- Smoke Testing: Execute smoke tests to validate the basic functionality of the application post-deployment.
+- **Sanity Testing:** Validate that the application and data pipeline deploy successfully and are operational with 2025 CFR data load.
+- **Smoke Testing:** Execute smoke tests to validate the basic functionality of the application post-deployment.
+- **Data Ingestion Testing:** Validate ingestion of the CFR 2025 dataset into the pipeline, ensuring correct mapping, processing, and availability in downstream outputs.
+- **User Acceptance Testing (UAT):** Stakeholders to verify new CFR 2025 data availability, accuracy, and usability in the platform.
 
 ## Entry and Exit Criteria
 
 **Entry Criteria:**
 
 - All code changes for the release are completed and deployed to the pre-production environment.
+- Pipeline run is completed with 2025 CFR data
 
 **Exit Criteria:**
 
-- All smoke checks complete successfully.
+- All smoke, sanity, and data ingestion checks complete successfully.
+- UAT completed and signed off by stakeholders.
 - No critical defects remain open.
 - Sign-off obtained from stakeholders.
 
 ## Roles and Responsibilities
 
-- **QA lead:** Coordinate smoke/sanity validation and oversee sign-off.
+- **QA lead:** Coordinate smoke, sanity, data ingestion validation and oversee sign-off.
 - **Engineer(s):** Execute validation steps, investigate and retest defects.
-- **Stakeholders:** Review pipeline outputs and provide acceptance sign-off.
+- **Stakeholders:** Perform UAT and provide acceptance sign-off.
 - **Technical lead:** Oversee pipeline modularisation and build fixes.
 - **Project lead:** Own go/no-go decision.
 
@@ -51,12 +59,16 @@ This release delivers enhancements to the data pipeline to support the CFR 2025 
 - **Risk:** Ingestion of new IT spending breakdown could cause data inconsistencies with CFR 2025 data.
   - **Mitigation:** Validate data integrity and data pipeline run in previous environments
 - **Risk:** Modularisation may break existing dependencies.
-  - **Mitigation:** Execute regression-style sanity pipeline run in previous environments.
+  - **Mitigation:** Execute regression-style sanity pipeline run in earlier environments.
+- **Risk:** UAT feedback may identify data accuracy issues close to release.
+  - **Mitigation:** Engage stakeholders early and validate data quality in pre-production.
 
 ## Test Deliverables
 
 - Test plan document
-- Smoke test cases
+- Test cases
+- Data ingestion test cases and results
+- UAT feedback summary
 - Test summary report with results and sign-off status
 
 ## Approval
@@ -70,8 +82,8 @@ This release delivers enhancements to the data pipeline to support the CFR 2025 
 
 **Release Overview:**
 
-This is a backend-focused release. No UI testing is required beyond verifying pipeline runs.  
-Only sanity checking of data pipeline runs is required in pre-production.  
+This release is user-facing with the 2025 CFR data drop and new IT spending cost breakdown preparation.  
+Sanity and data ingestion testing will be performed in pre-production.  
 Benchmarking IT spending charts will remain behind a feature flag (off by default).
 
 **Azure DevOps tickets included in this release:**
@@ -92,6 +104,7 @@ Benchmarking IT spending charts will remain behind a feature flag (off by defaul
 |-------------------------|:-----------:|:------:|:------:|:---------:|  
 | Smoke Tests - Prod      |      TBC    |   TBC  |   TBC  |    TBC    |  
 | Sanity Tests - Pre Prod |      TBC    |   TBC  |   TBC  |    TBC    |  
+| Data Ingestion Tests    |      TBC    |   TBC  |   TBC  |    TBC    |  
 | Total                   |      TBC    |   TBC  |   TBC  |    TBC    |  
 
 <!-- Leave the rest of this page blank -->
