@@ -31,3 +31,25 @@ def sample_school_data():
 def target_school(sample_school_data):
     """Provides a single target school for comparison."""
     return sample_school_data.loc[1]
+
+
+@pytest.fixture
+def cols_for_prepare_data():
+    return [
+        "Boarders (name)",
+        "Number of pupils",
+        "Percentage Free school meals",
+        "Percentage SEN",
+        "Percentage Primary Need SPLD",
+        "Percentage Primary Need MLD",
+        "Percentage Primary Need PMLD",
+        "Percentage Primary Need SEMH",
+        "Percentage Primary Need SLCN",
+        "Percentage Primary Need HI",
+        "Percentage Primary Need MSI",
+        "Percentage Primary Need PD",
+        "Percentage Primary Need ASD",
+        "Percentage Primary Need OTH",
+        "Total Internal Floor Area",
+        "Age Average Score",
+    ]
