@@ -247,8 +247,8 @@ def process_single_urn(
         return
 
     try:
-        pupil_urns = comparators.get("Pupil", {}).get(school_urn)
-        building_urns = comparators.get("Building", {}).get(school_urn)
+        pupil_urns = comparators.get("Pupil", [])
+        building_urns = comparators.get("Building", [])
 
         for category_name, rag_settings in rag_category_settings.items():
             set_urns = pupil_urns if rag_settings["type"] == "Pupil" else building_urns
@@ -266,8 +266,9 @@ def process_single_urn(
                 )
     except Exception as e:
         logger.exception(f"Unexpected error processing school {school_urn}: {e}")
+        # An empty generator is implicitly returned on exception
         return
-
+    
 
 def calculate_rag(
     data: pd.DataFrame, comparators: Dict, target_urn: Optional[str] = None
