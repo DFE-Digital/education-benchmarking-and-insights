@@ -268,7 +268,7 @@ def process_single_urn(
         logger.exception(f"Unexpected error processing school {school_urn}: {e}")
         # An empty generator is implicitly returned on exception
         return
-    
+
 
 def calculate_rag(
     data: pd.DataFrame, comparators: Dict, target_urn: Optional[str] = None
