@@ -265,11 +265,9 @@ def process_single_urn(
                     column_cache,
                 )
     except Exception as e:
-        logger.exception(
-            f"Unexpected error processing school {school_urn}: {e}"
-        )
+        logger.exception(f"Unexpected error processing school {school_urn}: {e}")
         return
-    
+
 
 def calculate_rag(
     data: pd.DataFrame, comparators: Dict, target_urn: Optional[str] = None
@@ -292,7 +290,7 @@ def calculate_rag(
 
         for i, school_urn in enumerate(schools_to_process):
             target_school = processed_data.loc[school_urn]
-            
+
             yield from process_single_urn(
                 school_urn, target_school, processed_data, comparators, column_cache
             )

@@ -11,11 +11,7 @@ from pipeline.utils.database import insert_metric_rag
 from pipeline.utils.log import setup_logger
 from pipeline.utils.storage import get_blob, write_blob
 
-from .calculations import (
-    RAG_RESULT_COLUMNS,
-    CategoryColumnCache,
-    process_single_urn,
-)
+from .calculations import RAG_RESULT_COLUMNS, CategoryColumnCache, process_single_urn
 
 logger = setup_logger(__name__)
 
@@ -152,7 +148,7 @@ def load_school_data_and_comparators(
         logger.error(f"Failed to load data for {school_type}: {e}")
         raise
 
-    
+
 # --- Entrypoint Functions (Responsible for I/O and calling the engine) ---
 
 
@@ -246,9 +242,7 @@ def run_user_defined_rag(
 
         # Create the specific comparator map required by the engine
         # For user-defined, both Pupil and Building comparators are the same set
-        comparator_map = {
-            target_urn: {"Pupil": valid_urns, "Building": valid_urns}
-        }
+        comparator_map = {target_urn: {"Pupil": valid_urns, "Building": valid_urns}}
 
         # STEP 3: COMPUTE (Call the pure engine)
         rag_computation_start = time.time()
