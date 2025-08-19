@@ -10,8 +10,7 @@ from pipeline.rag.calculations import (
     find_pupil_close_comparators,
     get_positive_values_series,
     is_close,
-    prepare_data_for_rag,
-    calculate_rag, compute_user_defined_rag
+    prepare_data_for_rag
 )
 
 
