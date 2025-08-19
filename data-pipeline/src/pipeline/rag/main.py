@@ -16,7 +16,7 @@ from .calculations import (
     RAG_RESULT_COLUMNS,
     CategoryColumnCache,
     calculate_rag,
-    compute_category_rag_statistics,
+    process_single_urn,
     compute_user_defined_rag,
     prepare_data_for_rag,
 )
@@ -46,39 +46,21 @@ def init_worker(school_data: pd.DataFrame, comparator_data: pd.DataFrame):
 def run_rag_for_urn_worker(school_urn: str) -> list:
     """
     The task for a single worker: process one school URN.
-    This function replicates the logic from the main loop of the serial `calculate_rag`.
+    This function now acts as a simple wrapper around the core logic.
     """
     try:
         # Retrieve data prepared by the worker initializer
         processed_data = _WORKER_GLOBALS["processed_data"]
         column_cache = _WORKER_GLOBALS["column_cache"]
         comparators = _WORKER_GLOBALS["comparators"]
-
         target_school = processed_data.loc[school_urn]
-        if target_school.get("Partial Years Present", False):
-            return []
 
-        results = []
-        pupil_urns = comparators.get("Pupil", {}).get(school_urn)
-        building_urns = comparators.get("Building", {}).get(school_urn)
+        # Call the single, shared processing function and collect its results
+        results_generator = process_single_urn(
+            school_urn, target_school, processed_data, comparators, column_cache
+        )
+        return list(results_generator)
 
-        from .calculations import rag_category_settings  # Local import for worker
-
-        for category_name, rag_settings in rag_category_settings.items():
-            set_urns = pupil_urns if rag_settings["type"] == "Pupil" else building_urns
-            if set_urns is not None and len(set_urns) > 0:
-                comparator_set = processed_data[processed_data.index.isin(set_urns)]
-                # Use the generator and append its results to our list
-                for result in compute_category_rag_statistics(
-                    school_urn,
-                    category_name,
-                    rag_settings,
-                    target_school,
-                    comparator_set,
-                    column_cache,
-                ):
-                    results.append(result)
-        return results
     except Exception as e:
         logger.error(f"Error processing URN {school_urn} in worker {os.getpid()}: {e}")
         return []
