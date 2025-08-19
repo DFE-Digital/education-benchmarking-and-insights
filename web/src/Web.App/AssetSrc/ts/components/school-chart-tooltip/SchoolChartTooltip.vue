@@ -1,11 +1,48 @@
 ﻿<script setup lang="ts">
+import { ref, watch } from "vue";
 import type { SchoolChartTooltipProps } from ".";
 
-const { datum, x, y } = defineProps<SchoolChartTooltipProps>();
+const { datum, x, y, focusSource } = defineProps<SchoolChartTooltipProps>();
+const top = ref(0);
+const left = ref(0);
+const offsetX = ref(0);
+const tooltip = ref<HTMLDivElement>();
+const gutter = 30;
+const maxWidth = 300;
+
+watch([() => x, () => y], ([newX, newY]) => {
+  left.value = newX;
+  top.value = newY;
+});
+
+watch(tooltip, () => {
+  offsetX.value = 0;
+
+  // reposition tooltip if it overflows the right edge of the window from a mouse focus trigger
+  const bounds = tooltip.value?.getBoundingClientRect();
+  if (
+    focusSource === "mouse" &&
+    bounds &&
+    bounds.x + bounds.width + gutter > window.outerWidth &&
+    window.outerWidth > bounds.width
+  ) {
+    offsetX.value = -1 * (maxWidth - (window.outerWidth - bounds.x)) - gutter;
+  }
+});
 </script>
 
 <template>
-  <div v-if="!!datum" class="school-chart-tooltip" :style="{ top: y + 'px', left: x + 'px' }">
+  <div
+    v-if="!!datum"
+    class="school-chart-tooltip"
+    :style="{
+      top: top + 'px',
+      left: left + 'px',
+      transform: offsetX !== 0 ? 'translate(' + offsetX + 'px,0px)' : undefined,
+      width: offsetX !== 0 ? maxWidth + 'px' : undefined,
+    }"
+    ref="tooltip"
+  >
     <div v-if="!(datum?.periodCoveredByReturn === 12)" className="tooltip-part-year-warning">
       <div class="govuk-warning-text govuk-!-margin-0">
         <span class="govuk-warning-text__icon" aria-hidden="true">!</span>

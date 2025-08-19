@@ -2,6 +2,7 @@ export interface SchoolChartTooltipProps {
   datum: SchoolChartTooltipPropsData | null;
   x: number;
   y: number;
+  focusSource?: FocusSource;
 }
 
 export interface SchoolChartTooltipPropsData {
@@ -16,3 +17,5 @@ export interface SchoolChartTooltipPropsData {
 export interface SchoolChartTooltipsProps {
   data: SchoolChartTooltipPropsData[];
 }
+
+export type FocusSource = "keyboard" | "mouse";

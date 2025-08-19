@@ -1,12 +1,13 @@
 ﻿<script setup lang="ts">
 import { SchoolChartTooltip } from "@/main";
-import type { SchoolChartTooltipsProps, SchoolChartTooltipPropsData } from ".";
+import type { FocusSource, SchoolChartTooltipsProps, SchoolChartTooltipPropsData } from ".";
 import { onMounted, onUnmounted, ref } from "vue";
 
 const { data } = defineProps<SchoolChartTooltipsProps>();
 const tooltipX = ref(0);
 const tooltipY = ref(0);
 const datum = ref<SchoolChartTooltipPropsData | null>(null);
+const focusSource = ref<FocusSource>();
 const keyAttribute = "data-key";
 
 const eventListenerMouseEnter = (e: MouseEvent, d: SchoolChartTooltipPropsData) => {
@@ -17,6 +18,7 @@ const eventListenerMouseEnter = (e: MouseEvent, d: SchoolChartTooltipPropsData) 
   datum.value = d;
   tooltipX.value = x;
   tooltipY.value = y;
+  focusSource.value = "mouse";
 };
 
 const eventListenerElementFocus = (e: Event, d: SchoolChartTooltipPropsData) => {
@@ -27,6 +29,7 @@ const eventListenerElementFocus = (e: Event, d: SchoolChartTooltipPropsData) => 
   datum.value = d;
   tooltipX.value = x;
   tooltipY.value = y;
+  focusSource.value = "keyboard";
 };
 
 const eventListenerExit = () => {
@@ -98,6 +101,6 @@ onUnmounted(() => {
 
 <template>
   <Teleport to="body">
-    <SchoolChartTooltip :datum="datum" :x="tooltipX" :y="tooltipY" />
+    <SchoolChartTooltip :datum="datum" :x="tooltipX" :y="tooltipY" :focus-source="focusSource" />
   </Teleport>
 </template>
