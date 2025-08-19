@@ -69,9 +69,17 @@ def test_create_empty_rag_dataframe():
 @patch("pipeline.rag.main._run_rag_computation_engine")
 @patch("pipeline.rag.main.load_school_data_and_comparators")
 def test_compute_rag_orchestration(
-    mock_load_data, mock_engine, mock_write_blob, mock_insert, sample_rag_df, cols_for_prepare_data
+    mock_load_data,
+    mock_engine,
+    mock_write_blob,
+    mock_insert,
+    sample_rag_df,
+    cols_for_prepare_data,
 ):
-    mock_load_data.return_value = (pd.DataFrame(columns=cols_for_prepare_data), pd.DataFrame({}))
+    mock_load_data.return_value = (
+        pd.DataFrame(columns=cols_for_prepare_data),
+        pd.DataFrame({}),
+    )
     mock_engine.return_value = sample_rag_df
 
     compute_rag(run_type="default", run_id="123")
@@ -107,9 +115,11 @@ def test_compute_user_defined_rag_orchestration(
     mock_write_blob,
     mock_insert,
     sample_rag_df,
-    cols_for_prepare_data
+    cols_for_prepare_data,
 ):
-    mock_read_parquet.return_value = pd.DataFrame(index=[101, 102, 103], columns=cols_for_prepare_data)
+    mock_read_parquet.return_value = pd.DataFrame(
+        index=[101, 102, 103], columns=cols_for_prepare_data
+    )
     mock_engine.return_value = sample_rag_df
 
     compute_user_defined_rag(
@@ -130,9 +140,13 @@ def test_compute_user_defined_rag_orchestration(
 
 @patch("pandas.read_parquet")
 @patch("pipeline.rag.main.get_blob")
-def test_compute_user_defined_rag_target_not_found(mock_get_blob, mock_read_parquet, cols_for_prepare_data):
+def test_compute_user_defined_rag_target_not_found(
+    mock_get_blob, mock_read_parquet, cols_for_prepare_data
+):
     """Tests ValueError when the target URN is not in the loaded data."""
-    mock_read_parquet.return_value = pd.DataFrame(index=[102, 103], columns=cols_for_prepare_data)
+    mock_read_parquet.return_value = pd.DataFrame(
+        index=[102, 103], columns=cols_for_prepare_data
+    )
 
     with pytest.raises(ValueError, match="Target URN 101 not found"):
         compute_user_defined_rag(
