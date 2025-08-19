@@ -1,4 +1,7 @@
-import * as d3 from "d3";
+//import * as d3 from "d3";
+import { format, formatDefaultLocale } from "d3-format";
+import { ascending, descending, max } from "d3-array";
+import { scaleLinear, scaleBand } from "d3-scale";
 import classnames from "classnames";
 import {
   HorizontalBarChartBuilderOptions,
@@ -36,7 +39,7 @@ export default class HorizontalBarChartTemplate {
     const suggestedXAxisTickCount = 4;
 
     const locale = enGB as FormatLocaleDefinition;
-    d3.formatDefaultLocale(locale);
+    formatDefaultLocale(locale);
 
     // Declare the chart dimensions and margins.
     const marginTop = 20;
@@ -61,17 +64,15 @@ export default class HorizontalBarChartTemplate {
     // Create the scales.
     normalisedData.sort((a, b) =>
       sort === "asc"
-        ? d3.ascending(a[valueField] as number, b[valueField] as number)
-        : d3.descending(a[valueField] as number, b[valueField] as number),
+        ? ascending(a[valueField] as number, b[valueField] as number)
+        : descending(a[valueField] as number, b[valueField] as number),
     );
-    const x = d3
-      .scaleLinear()
-      .domain([0, d3.max(normalisedData, (d) => d[valueField] as number)!])
+    const x = scaleLinear()
+      .domain([0, max(normalisedData, (d) => d[valueField] as number)!])
       .range([marginLeft + tickWidth + 5, width - marginRight - 5])
       .nice(suggestedXAxisTickCount);
 
-    const y = d3
-      .scaleBand()
+    const y = scaleBand()
       .domain(normalisedData.map((d) => d[keyField] as string))
       .range([
         marginTop,
@@ -81,7 +82,7 @@ export default class HorizontalBarChartTemplate {
       .paddingOuter(0.1);
 
     // Create a value format.
-    const format = x.tickFormat(20, valueFormat);
+    const formatter = x.tickFormat(20, valueFormat);
 
     // Append a rect for each bar.
     const rects = normalisedData.map((d) => {
@@ -119,7 +120,7 @@ export default class HorizontalBarChartTemplate {
 
       const xAttr = x(value) + Math.sign(value - 0) * 8;
       const yAttr = y(d[keyField] as string)! + y.bandwidth() / 2;
-      const text = format(d[valueField] as number);
+      const text = formatter(d[valueField] as number);
       const classAttr = classnames("chart-label", "chart-label__series-0", {
         "chart-label__highlight": d[keyField] === highlightKey,
         "chart-label__negative": (d[valueField] as number) < 0,
@@ -134,7 +135,7 @@ export default class HorizontalBarChartTemplate {
     const xAxisTicks = x.ticks(suggestedXAxisTickCount);
     const xAxisTickOffset = 0.5;
     const xAxisChartTicks = xAxisTicks.map((t) => {
-      const value = d3.format(valueFormat)(t);
+      const value = format(valueFormat)(t);
       return `<g class="chart-tick" transform="translate(${x(t) + xAxisTickOffset},0)">
   <line y2="${tickSize}" x1="1" x2="1"/>
   <text y="${tickSize + 3}" dy="0.71em" x1="1" x2="1">${value}</text>
