@@ -8,7 +8,7 @@ from pipeline.utils.storage import get_blob, write_blob
 
 from .calculations import compute_comparator_set, prepare_data
 
-logger = setup_logger("comparator-sets")
+logger = setup_logger(__name__)
 
 
 def compute_comparator_set_for(

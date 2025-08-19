@@ -42,7 +42,7 @@ from .cfr.maintained_schools import build_maintained_school_data
 from .common import total_per_unit
 from .s251.local_authority import build_local_authorities
 
-logger = setup_logger("preprocessing")
+logger = setup_logger(__name__)
 
 
 def pre_process_data(
