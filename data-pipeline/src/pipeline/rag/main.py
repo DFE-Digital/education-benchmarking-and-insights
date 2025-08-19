@@ -1,6 +1,6 @@
-import time
-import os
 import itertools
+import os
+import time
 from multiprocessing import Pool
 from typing import List, Optional, Tuple
 
@@ -14,11 +14,11 @@ from pipeline.utils.storage import get_blob, write_blob
 # Import functions from calculations.py that are needed by both the main and worker processes
 from .calculations import (
     RAG_RESULT_COLUMNS,
+    CategoryColumnCache,
     calculate_rag,
+    compute_category_rag_statistics,
     compute_user_defined_rag,
     prepare_data_for_rag,
-    CategoryColumnCache,
-    compute_category_rag_statistics,
 )
 
 logger = setup_logger(__name__)
@@ -29,15 +29,19 @@ logger = setup_logger(__name__)
 # Global dict to hold data for worker processes, avoiding passing large objects repeatedly
 _WORKER_GLOBALS = {}
 
+
 def init_worker(school_data: pd.DataFrame, comparator_data: pd.DataFrame):
     """
     Initializer for each worker process. Prepares data and caches once per process.
     """
     global _WORKER_GLOBALS
     logger.info(f"Initializing worker process: {os.getpid()}")
-    _WORKER_GLOBALS['processed_data'] = prepare_data_for_rag(school_data)
-    _WORKER_GLOBALS['column_cache'] = CategoryColumnCache(_WORKER_GLOBALS['processed_data'].columns)
-    _WORKER_GLOBALS['comparators'] = comparator_data
+    _WORKER_GLOBALS["processed_data"] = prepare_data_for_rag(school_data)
+    _WORKER_GLOBALS["column_cache"] = CategoryColumnCache(
+        _WORKER_GLOBALS["processed_data"].columns
+    )
+    _WORKER_GLOBALS["comparators"] = comparator_data
+
 
 def run_rag_for_urn_worker(school_urn: str) -> list:
     """
@@ -46,10 +50,10 @@ def run_rag_for_urn_worker(school_urn: str) -> list:
     """
     try:
         # Retrieve data prepared by the worker initializer
-        processed_data = _WORKER_GLOBALS['processed_data']
-        column_cache = _WORKER_GLOBALS['column_cache']
-        comparators = _WORKER_GLOBALS['comparators']
-        
+        processed_data = _WORKER_GLOBALS["processed_data"]
+        column_cache = _WORKER_GLOBALS["column_cache"]
+        comparators = _WORKER_GLOBALS["comparators"]
+
         target_school = processed_data.loc[school_urn]
         if target_school.get("Partial Years Present", False):
             return []
@@ -57,17 +61,21 @@ def run_rag_for_urn_worker(school_urn: str) -> list:
         results = []
         pupil_urns = comparators.get("Pupil", {}).get(school_urn)
         building_urns = comparators.get("Building", {}).get(school_urn)
-        
-        from .calculations import rag_category_settings # Local import for worker
-        
+
+        from .calculations import rag_category_settings  # Local import for worker
+
         for category_name, rag_settings in rag_category_settings.items():
             set_urns = pupil_urns if rag_settings["type"] == "Pupil" else building_urns
             if set_urns is not None and len(set_urns) > 0:
                 comparator_set = processed_data[processed_data.index.isin(set_urns)]
                 # Use the generator and append its results to our list
                 for result in compute_category_rag_statistics(
-                    school_urn, category_name, rag_settings,
-                    target_school, comparator_set, column_cache
+                    school_urn,
+                    category_name,
+                    rag_settings,
+                    target_school,
+                    comparator_set,
+                    column_cache,
                 ):
                     results.append(result)
         return results
@@ -92,21 +100,24 @@ def compute_rag_for_school_type(
     """Compute RAG calculations for a school type, using parallel processing."""
     start_time = time.time()
     logger.info(f"Computing {school_type} RAG calculations")
+    empty_rag_df = create_empty_rag_dataframe()
 
     all_results = []
     if target_urn:
         # --- Unparallelised ---
         if target_urn not in school_data.index:
             logger.warning(f"Target URN {target_urn} not found in {school_type} data")
-            return create_empty_rag_dataframe()
-        
+            return empty_rag_df
+
         logger.info(f"Processing single target URN {target_urn} serially.")
         try:
-            rag_generator = calculate_rag(school_data, comparator_data, target_urn=target_urn)
+            rag_generator = calculate_rag(
+                school_data, comparator_data, target_urn=target_urn
+            )
             all_results = list(rag_generator)
         except Exception as e:
             logger.error(f"Failed to calculate RAG for target URN {target_urn}: {e}")
-            return create_empty_rag_dataframe()
+            return empty_rag_df
     else:
         # --- Parallelised ---
         logger.info("Processing all schools in parallel.")
@@ -114,25 +125,31 @@ def compute_rag_for_school_type(
 
         if not schools_to_process:
             logger.warning(f"No schools to process for {school_type}.")
-            return create_empty_rag_dataframe()
+            return empty_rag_df
 
         try:
             num_processes = os.cpu_count() or 2
             logger.info(f"Utilizing {num_processes} worker processes.")
             pool_init_args = (school_data, comparator_data)
 
-            with Pool(processes=num_processes, initializer=init_worker, initargs=pool_init_args) as pool:
-                results_list_of_lists = pool.map(run_rag_for_urn_worker, schools_to_process)
-            
+            with Pool(
+                processes=num_processes,
+                initializer=init_worker,
+                initargs=pool_init_args,
+            ) as pool:
+                results_list_of_lists = pool.map(
+                    run_rag_for_urn_worker, schools_to_process
+                )
+
             all_results = list(itertools.chain.from_iterable(results_list_of_lists))
         except Exception as e:
-            logger.error(f"Parallel RAG calculation failed for {school_type}: {e}", exc_info=True)
-            return create_empty_rag_dataframe()
+            logger.error(
+                f"Parallel RAG calculation failed for {school_type}: {e}", exc_info=True
+            )
+            return empty_rag_df
 
     # --- DataFrame Creation and Storage ---
-    rag_df = create_empty_rag_dataframe()
-    if all_results:
-        rag_df = pd.DataFrame(all_results).set_index("URN")
+    rag_df = pd.DataFrame(all_results).set_index("URN") if all_results else empty_rag_df
 
     elapsed_time = time.time() - start_time
     logger.info(
@@ -141,7 +158,9 @@ def compute_rag_for_school_type(
 
     try:
         write_blob(
-            "metric-rag", f"{run_type}/{run_id}/{school_type}.parquet", rag_df.to_parquet()
+            "metric-rag",
+            f"{run_type}/{run_id}/{school_type}.parquet",
+            rag_df.to_parquet(),
         )
         logger.debug(f"Saved {school_type} RAG results to storage")
     except Exception as e:
@@ -163,7 +182,7 @@ def load_school_data_and_comparators(
         comparator_filename = "academy_comparators.parquet"
     else:
         raise ValueError(f"Unknown school type: {school_type}")
-        
+
     try:
         school_data = pd.read_parquet(
             get_blob("comparator-sets", f"{run_type}/{run_id}/{school_filename}")
@@ -171,7 +190,9 @@ def load_school_data_and_comparators(
         comparator_data = pd.read_parquet(
             get_blob("comparator-sets", f"{run_type}/{run_id}/{comparator_filename}")
         )
-        logger.debug(f"Loaded {school_type}: data_shape={school_data.shape}, comparators_shape={comparator_data.shape}")
+        logger.debug(
+            f"Loaded {school_type}: data_shape={school_data.shape}, comparators_shape={comparator_data.shape}"
+        )
         return school_data, comparator_data
     except Exception as e:
         logger.error(f"Failed to load data for {school_type}: {e}")
@@ -187,7 +208,7 @@ def compute_rag(
     overall_start_time = time.time()
     logger.info(f"Starting RAG computation: run_type={run_type}, run_id={run_id}")
     rag_results = []
-    
+
     try:
         for school_type in ["maintained_schools", "academies"]:
             logger.info(f"Processing {school_type}")
@@ -195,7 +216,12 @@ def compute_rag(
                 run_type, run_id, school_type
             )
             rag_df = compute_rag_for_school_type(
-                school_type, run_type, run_id, school_data, school_comparators, target_urn=target_urn,
+                school_type,
+                run_type,
+                run_id,
+                school_data,
+                school_comparators,
+                target_urn=target_urn,
             )
             logger.info(f"{school_type.capitalize()} RAG results: shape={rag_df.shape}")
             rag_results.append(rag_df)
@@ -226,36 +252,52 @@ def run_user_defined_rag(
     """Perform user-defined RAG calculations using custom comparator set."""
     run_type = "default"
     start_time = time.time()
-    logger.info(f"Starting user-defined RAG: year={year}, run_id={run_id}, target_urn={target_urn}")
+    logger.info(
+        f"Starting user-defined RAG: year={year}, run_id={run_id}, target_urn={target_urn}"
+    )
 
     try:
         all_schools_data = pd.read_parquet(
             get_blob("pre-processed", f"{run_type}/{year}/all_schools.parquet")
         )
         prepared_data = prepare_data(all_schools_data)
-        logger.info(f"Prepared all schools data for {year}: shape={prepared_data.shape}")
+        logger.info(
+            f"Prepared all schools data for {year}: shape={prepared_data.shape}"
+        )
 
         if target_urn not in prepared_data.index:
-            raise ValueError(f"Target URN {target_urn} not found in data for year {year}")
+            raise ValueError(
+                f"Target URN {target_urn} not found in data for year {year}"
+            )
 
-        valid_comparator_urns = [urn for urn in comparator_set if urn in prepared_data.index]
+        valid_comparator_urns = [
+            urn for urn in comparator_set if urn in prepared_data.index
+        ]
         if not valid_comparator_urns:
             raise ValueError("No valid comparator URNs found in the dataset")
 
-        logger.info(f"Validated comparators: {len(valid_comparator_urns)}/{len(comparator_set)} URNs found")
+        logger.info(
+            f"Validated comparators: {len(valid_comparator_urns)}/{len(comparator_set)} URNs found"
+        )
 
         rag_computation_start = time.time()
         user_defined_rag_results = pd.DataFrame(
             compute_user_defined_rag(
-                data=prepared_data, target_urn=target_urn, comparator_urns=valid_comparator_urns,
+                data=prepared_data,
+                target_urn=target_urn,
+                comparator_urns=valid_comparator_urns,
             )
         ).set_index("URN")
-        
+
         computation_duration = time.time() - rag_computation_start
-        logger.info(f"User-defined RAG computation completed: shape={user_defined_rag_results.shape}, duration={computation_duration:.2f}s")
+        logger.info(
+            f"User-defined RAG computation completed: shape={user_defined_rag_results.shape}, duration={computation_duration:.2f}s"
+        )
 
         write_blob(
-            "metric-rag", f"{run_type}/{run_id}/user_defined.parquet", user_defined_rag_results.to_parquet(),
+            "metric-rag",
+            f"{run_type}/{run_id}/user_defined.parquet",
+            user_defined_rag_results.to_parquet(),
         )
         logger.debug("Saved user-defined RAG results to storage")
 
@@ -263,7 +305,9 @@ def run_user_defined_rag(
         logger.info("Successfully inserted user-defined RAG results into database")
 
     except Exception as e:
-        logger.error(f"Critical error during user-defined RAG computation: {e}", exc_info=True)
+        logger.error(
+            f"Critical error during user-defined RAG computation: {e}", exc_info=True
+        )
         raise
 
     total_duration = time.time() - start_time
