@@ -232,11 +232,50 @@ def prepare_data_for_rag(data: pd.DataFrame) -> pd.DataFrame:
     return data.loc[:, required_cols_mask].fillna(0.0)
 
 
+def process_single_urn(
+    school_urn: str,
+    target_school: pd.Series,
+    processed_data: pd.DataFrame,
+    comparators: dict,
+    column_cache: CategoryColumnCache,
+) -> Generator[Dict[str, Any], None, None]:
+    """
+    Core logic to compute RAG statistics for a single school URN.
+    This function is designed to be called by both serial and parallel executors.
+    """
+    if target_school.get("Partial Years Present", False):
+        return
+
+    try:
+        pupil_urns = comparators.get("Pupil", {}).get(school_urn)
+        building_urns = comparators.get("Building", {}).get(school_urn)
+
+        for category_name, rag_settings in rag_category_settings.items():
+            set_urns = pupil_urns if rag_settings["type"] == "Pupil" else building_urns
+
+            if set_urns is not None and len(set_urns) > 0:
+                comparator_set = processed_data[processed_data.index.isin(set_urns)]
+                # Yield from the generator to pass results up
+                yield from compute_category_rag_statistics(
+                    school_urn,
+                    category_name,
+                    rag_settings,
+                    target_school,
+                    comparator_set,
+                    column_cache,
+                )
+    except Exception as e:
+        logger.exception(
+            f"Unexpected error processing school {school_urn}: {e}"
+        )
+        return
+    
+
 def calculate_rag(
     data: pd.DataFrame, comparators: Dict, target_urn: Optional[str] = None
 ) -> Generator[Dict[str, Any], None, None]:
     """
-    Performs RAG calculations for a dataset using a high-performance vectorized approach.
+    Performs RAG calculations. Iterates over schools and calls the core processing logic.
     """
     processed_data = prepare_data_for_rag(data)
     column_cache = CategoryColumnCache(processed_data.columns)
@@ -253,37 +292,10 @@ def calculate_rag(
 
         for i, school_urn in enumerate(schools_to_process):
             target_school = processed_data.loc[school_urn]
-            if target_school.get("Partial Years Present", False):
-                continue
-
-            try:
-                pupil_urns = comparators.get("Pupil", {}).get(school_urn)
-                building_urns = comparators.get("Building", {}).get(school_urn)
-
-                for category_name, rag_settings in rag_category_settings.items():
-                    set_urns = (
-                        pupil_urns if rag_settings["type"] == "Pupil" else building_urns
-                    )
-
-                    if set_urns is not None and len(set_urns) > 0:
-                        # Filter comparator set just-in-time (fast and memory-efficient)
-                        comparator_set = processed_data[
-                            processed_data.index.isin(set_urns)
-                        ]
-                        yield from compute_category_rag_statistics(
-                            school_urn,
-                            category_name,
-                            rag_settings,
-                            target_school,
-                            comparator_set,
-                            column_cache,
-                        )
-
-            except Exception as e:
-                logger.exception(
-                    f"Unexpected error processing school {school_urn}: {e}"
-                )
-                continue
+            
+            yield from process_single_urn(
+                school_urn, target_school, processed_data, comparators, column_cache
+            )
 
             if i > 0 and i % BATCH_LOG_INTERVAL == 0:
                 elapsed = time.time() - start_time
