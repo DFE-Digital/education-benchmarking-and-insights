@@ -45,6 +45,7 @@ RAG_RESULT_COLUMNS = [
     "RAG",
 ]
 
+
 class CategoryColumnCache:
     """Caches column masks and subcategory lists for faster access."""
 
@@ -61,7 +62,12 @@ class CategoryColumnCache:
             }
 
 
-def is_close(a: Union[np.ndarray, float], b: Union[np.ndarray, float], rtol: float = 1e-9, atol: float = 0.0) -> np.ndarray:
+def is_close(
+    a: Union[np.ndarray, float],
+    b: Union[np.ndarray, float],
+    rtol: float = 1e-9,
+    atol: float = 0.0,
+) -> np.ndarray:
     """A vectorized equivalent of math.isclose."""
     relative_component = rtol * np.maximum(np.abs(a), np.abs(b))
     tolerance = np.maximum(relative_component, atol)
@@ -76,16 +82,16 @@ def find_area_close_comparators(
     floor_area_is_close = is_close(
         comparators["Total Internal Floor Area"],
         target_school["Total Internal Floor Area"],
-        rtol=FLOOR_AREA_PERCENTAGE_TOLERANCE
+        rtol=FLOOR_AREA_PERCENTAGE_TOLERANCE,
     )
-    
+
     # Absolute comparison for building age score
     age_score_is_close = is_close(
         comparators["Age Average Score"],
         target_school["Age Average Score"],
-        atol=BUILDING_AGE_YEAR_TOLERANCE
+        atol=BUILDING_AGE_YEAR_TOLERANCE,
     )
-    
+
     return floor_area_is_close & age_score_is_close
 
 
@@ -96,21 +102,21 @@ def find_pupil_close_comparators(
     pupils_is_close = is_close(
         comparators["Number of pupils"],
         target_school["Number of pupils"],
-        rtol=PUPIL_COUNT_PERCENTAGE_TOLERANCE
+        rtol=PUPIL_COUNT_PERCENTAGE_TOLERANCE,
     )
-    
+
     fsm_is_close = is_close(
         comparators["Percentage Free school meals"],
         target_school["Percentage Free school meals"],
-        rtol=FSM_PERCENTAGE_TOLERANCE
+        rtol=FSM_PERCENTAGE_TOLERANCE,
     )
-    
+
     sen_is_close = is_close(
         comparators["Percentage SEN"],
         target_school["Percentage SEN"],
-        rtol=SEN_PERCENTAGE_TOLERANCE
+        rtol=SEN_PERCENTAGE_TOLERANCE,
     )
-    
+
     return pupils_is_close & fsm_is_close & sen_is_close
 
 
