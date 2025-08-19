@@ -1,5 +1,7 @@
 from typing import Tuple
+
 import pandas as pd
+
 from pipeline.utils.log import setup_logger
 from pipeline.utils.storage import get_blob
 

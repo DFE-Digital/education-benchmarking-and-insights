@@ -108,4 +108,3 @@ def _run_rag_computation_engine(
             return empty_rag_df
 
     return pd.DataFrame(all_results).set_index("URN") if all_results else empty_rag_df
-
