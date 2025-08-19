@@ -2546,6 +2546,64 @@
         }
       }
     },
+    "/api/horizontalBarChart/dom": {
+      "post": {
+        "operationId": "GetHorizontalBarChartDomApi",
+        "tags": [
+          "DOM"
+        ],
+        "description": "Generates a single or multiple horizontal bar chart(s) based on whether payload in a single object or an array",
+        "summary": "Builds a horizontal bar chart using D3 in the DOM",
+        "requestBody": {
+          "description": "Bar chart payload",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/HorizontalBarChartPayload"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "anyOf": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "$ref": "#/components/schemas/ChartBuilderResult"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "title": "error"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/verticalBarChart": {
       "post": {
         "operationId": "GetVerticalBarChartApi",

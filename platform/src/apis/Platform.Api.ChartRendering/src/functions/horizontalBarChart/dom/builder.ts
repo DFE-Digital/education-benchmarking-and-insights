@@ -4,7 +4,7 @@ import {
   HorizontalBarChartBuilderOptions,
   ChartBuilderResult,
   DatumKey,
-} from "..";
+} from "../..";
 import { DOMImplementation } from "@xmldom/xmldom";
 import enGB from "d3-format/locale/en-GB" with { type: "json" };
 import { BaseType, FormatLocaleDefinition, ValueFn } from "d3";
@@ -15,11 +15,11 @@ import {
   getValueFormat,
   getGroups,
   normaliseData,
-} from "../utils";
+} from "../../utils";
 
 export default class HorizontalBarChartBuilder {
   // https://observablehq.com/@d3/bar-chart/2
-  async buildChart<T>({
+  static async buildChart<T>({
     data,
     barHeight,
     groupedKeys,

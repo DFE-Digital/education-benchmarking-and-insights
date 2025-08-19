@@ -63,3 +63,21 @@ const { getTextWidth: getServerTextWidth } = init(TEXT_WIDTH_LOOKUP_TABLE);
 export function getTextWidth(text: string, bold?: boolean) {
   return getServerTextWidth(text, { fontWeight: bold ? "700" : "400" });
 }
+
+export function escapeXml(unsafe: string | undefined) {
+  return (
+    unsafe?.replace(
+      /[<>&'"]/g,
+      (char) =>
+        `&${
+          {
+            "<": "lt",
+            ">": "gt",
+            "&": "amp",
+            "'": "apos",
+            '"': "quot",
+          }[char]
+        };`,
+    ) ?? ""
+  );
+}

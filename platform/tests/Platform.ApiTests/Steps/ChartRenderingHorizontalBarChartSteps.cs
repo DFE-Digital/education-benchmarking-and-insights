@@ -6,7 +6,6 @@ using Platform.ApiTests.Drivers;
 using Platform.ApiTests.Models;
 using Platform.ApiTests.TestDataHelpers;
 using Platform.Json;
-using Xunit;
 
 namespace Platform.ApiTests.Steps;
 
@@ -15,10 +14,9 @@ namespace Platform.ApiTests.Steps;
 public class ChartRenderingHorizontalBarChartSteps(ChartRenderingApiDriver api)
 {
     private const string SingleKey = "horizontal-bar-charts";
-    private const string MultipleKey = "horizontal-bar-charts";
 
     [Given("a single horizontal bar chart request with accept header '(.*)', highlighted item '(.*)', sort '(.*)', width '(.*)', bar height '(.*)', id '(.*)', valueType '(.*)' and the following data:")]
-    public void GivenASingleHorizontalBarChartRequestWithAcceptHeaderHighlightedItemSortWidthHeightAndTheFollowingData(string accept, string highlight, string sort, int width, int barHeight, string id, string valueType, DataTable table)
+    public void GivenASingleHorizontalBarChartRequestWithAcceptHeaderHighlightedItemSortWidthBarHeightIdValueTypeAndTheFollowingData(string accept, string highlight, string sort, int width, int barHeight, string id, string valueType, DataTable table)
     {
         var data = table.Rows.Select(row => new TestDatum
         {
@@ -75,7 +73,7 @@ public class ChartRenderingHorizontalBarChartSteps(ChartRenderingApiDriver api)
     }
 
     [Then("the response should be ok, contain a JSON array and match the expected output of '(.*)'")]
-    public async Task ThenTheResponseShouldBeOkAnArrayAndMatchTheExpectedOutput(string testFile)
+    public async Task ThenTheResponseShouldBeOkContainAJsonArrayAndMatchTheExpectedOutputOf(string testFile)
     {
         var response = api[SingleKey].Response;
         AssertHttpResponse.IsOk(response);
@@ -85,11 +83,11 @@ public class ChartRenderingHorizontalBarChartSteps(ChartRenderingApiDriver api)
 
         var expected = TestDataProvider.GetJsonArrayData(testFile);
 
-        Assert.True(JToken.DeepEquals(expected, actual));
+        actual.AssertDeepEquals(expected);
     }
 
     [Then("the response should be ok, contain a JSON object and match the expected output of '(.*)'")]
-    public async Task ThenTheResponseShouldBeOkAnObjectAndMatchTheExpectedOutput(string testFile)
+    public async Task ThenTheResponseShouldBeOkContainAJsonObjectAndMatchTheExpectedOutputOf(string testFile)
     {
         var response = api[SingleKey].Response;
         AssertHttpResponse.IsOk(response);
@@ -99,11 +97,11 @@ public class ChartRenderingHorizontalBarChartSteps(ChartRenderingApiDriver api)
 
         var expected = TestDataProvider.GetJsonObjectData(testFile);
 
-        Assert.True(JToken.DeepEquals(expected, actual));
+        actual.AssertDeepEquals(expected);
     }
 
     [Then("the response should be ok, contain an SVG document and match the expected output of '(.*)'")]
-    public async Task ThenTheResponseShouldBeOkXmlAndMatchTheExpectedOutput(string testFile)
+    public async Task ThenTheResponseShouldBeOkContainAnSvgDocumentAndMatchTheExpectedOutputOf(string testFile)
     {
         var response = api[SingleKey].Response;
         AssertHttpResponse.IsOk(response);
@@ -113,11 +111,11 @@ public class ChartRenderingHorizontalBarChartSteps(ChartRenderingApiDriver api)
 
         var expected = TestDataProvider.GetXmlData(testFile);
 
-        Assert.True(XNode.DeepEquals(expected, actual));
+        actual.AssertDeepEquals(expected);
     }
 
     [Then("the chart response should be bad request, contain a JSON object and match the expected output of '(.*)'")]
-    public async Task ThenTheResponseShouldBeBadRequestAndMatchTheExpectedOutput(string testFile)
+    public async Task ThenTheChartResponseShouldBeBadRequestContainAJsonObjectAndMatchTheExpectedOutputOf(string testFile)
     {
         var response = api[SingleKey].Response;
         AssertHttpResponse.IsBadRequest(response);
@@ -127,7 +125,7 @@ public class ChartRenderingHorizontalBarChartSteps(ChartRenderingApiDriver api)
 
         var expected = TestDataProvider.GetJsonObjectData(testFile);
 
-        Assert.True(JToken.DeepEquals(expected, actual));
+        actual.AssertDeepEquals(expected);
     }
 
     private static PostHorizontalBarChartRequest<TestDatum> BuildRequest(string highlight, string sort, int width, int barHeight, IEnumerable<TestDatum> data, string id, string valueType) => new()
