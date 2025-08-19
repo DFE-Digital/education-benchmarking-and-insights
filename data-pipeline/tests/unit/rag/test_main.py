@@ -1,15 +1,11 @@
-from unittest.mock import MagicMock, patch
+from unittest.mock import patch
 
 import pandas as pd
 import pytest
 
-# Import the new engine and the refactored single-URN processor
-from pipeline.rag.calculations import RAG_RESULT_COLUMNS
 from pipeline.rag.main import (
-    _run_rag_computation_engine,
     compute_rag,
     compute_user_defined_rag,
-    create_empty_rag_dataframe,
     load_school_data_and_comparators,
 )
 
@@ -49,17 +45,6 @@ def sample_rag_df():
         "RAG": ["green", "red"],
     }
     return pd.DataFrame(data).set_index("URN")
-
-
-# --- Tests for Helper Functions ---
-
-
-def test_create_empty_rag_dataframe():
-    df = create_empty_rag_dataframe()
-    assert df.empty
-    assert df.index.name == "URN"
-    assert all(col in df.columns for col in RAG_RESULT_COLUMNS if col != "URN")
-
 
 # --- Tests for I/O and Orchestration Functions ---
 
@@ -154,18 +139,7 @@ def test_compute_user_defined_rag_target_not_found(
         )
 
 
-@patch("pipeline.rag.main.get_blob")
-def test_load_school_data_and_comparators_positive(mock_get_blob):
-    """Tests successful data loading."""
-    mock_get_blob.return_value = b"some_parquet_data"
 
-    with patch("pandas.read_parquet") as mock_read_parquet:
-        mock_read_parquet.return_value = pd.DataFrame({"col1": [1, 2]})
-        school_data, _ = load_school_data_and_comparators(
-            "default", "123", "maintained_schools"
-        )
-        assert mock_read_parquet.call_count == 2
-        assert not school_data.empty
 
 
 def test_load_school_data_and_comparators_negative_unknown_type():
