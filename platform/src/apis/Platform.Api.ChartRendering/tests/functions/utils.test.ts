@@ -4,6 +4,7 @@ import {
   getValueFormat,
   getGroups,
   getTextWidth,
+  escapeXml,
 } from "../../src/functions/utils";
 import { ValueType } from "../../src/functions/index";
 import theoretically from "jest-theories";
@@ -92,6 +93,27 @@ describe("getTextWidth", () => {
       theories,
       ({ text, bold, expected }) => {
         expect(getTextWidth(text, bold)).toBe(expected);
+      },
+    );
+  });
+});
+
+describe("escapeXml", () => {
+  describe("should return expected escaped value", () => {
+    const theories: { text?: string; expected: string }[] = [
+      { expected: "" },
+      { text: "Hello, world", expected: "Hello, world" },
+      { text: "Hello & world", expected: "Hello &amp; world" },
+      { text: "Hello, <world>", expected: "Hello, &lt;world&gt;" },
+      { text: "'Hello', world", expected: "&apos;Hello&apos;, world" },
+      { text: '"Hello", world', expected: "&quot;Hello&quot;, world" },
+    ];
+
+    theoretically(
+      "the string {text} returns the expected escaped value {expected}",
+      theories,
+      ({ text, expected }) => {
+        expect(escapeXml(text)).toBe(expected);
       },
     );
   });

@@ -1,12 +1,12 @@
 import { v4 as uuidv4 } from "uuid";
-import HorizontalBarChartBuilder from "../horizontalBarChart/builder";
+import HorizontalBarChartTemplate from "../horizontalBarChart/template";
 import {
   HorizontalBarChartDefinition,
   VerticalBarChartDefinition,
 } from "../index";
 import VerticalBarChartBuilder from "../verticalBarChart/builder";
 
-const horizontalBarChartBuilder = new HorizontalBarChartBuilder();
+const horizontalBarChartTemplate = new HorizontalBarChartTemplate();
 const verticalBarChartBuilder = new VerticalBarChartBuilder();
 
 export function HorizontalBarChart({
@@ -29,7 +29,7 @@ export function HorizontalBarChart({
       xAxisLabel,
       ...rest
     }) =>
-      horizontalBarChartBuilder.buildChart({
+      horizontalBarChartTemplate.buildChart({
         barHeight: barHeight || 25,
         data,
         id: id || uuidv4(),
