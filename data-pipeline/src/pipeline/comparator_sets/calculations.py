@@ -3,7 +3,7 @@ import logging
 import numpy as np
 import pandas as pd
 
-logger = logging.getLogger("comparator-sets")
+logger = logging.getLogger(__name__)
 
 
 def fillna_median(data):
