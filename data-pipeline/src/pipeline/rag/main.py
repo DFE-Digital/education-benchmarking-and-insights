@@ -8,8 +8,8 @@ from pipeline.utils.database import insert_metric_rag
 from pipeline.utils.log import setup_logger
 from pipeline.utils.storage import get_blob, write_blob
 
-from .loader import load_school_data_and_comparators
 from .engine import _run_rag_computation_engine
+from .loader import load_school_data_and_comparators
 
 logger = setup_logger(__name__)
 

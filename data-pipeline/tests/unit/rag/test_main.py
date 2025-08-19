@@ -46,6 +46,7 @@ def sample_rag_df():
     }
     return pd.DataFrame(data).set_index("URN")
 
+
 # --- Tests for I/O and Orchestration Functions ---
 
 
@@ -137,9 +138,6 @@ def test_compute_user_defined_rag_target_not_found(
         compute_user_defined_rag(
             year=2023, run_id="user123", target_urn=101, comparator_set=[102, 103]
         )
-
-
-
 
 
 def test_load_school_data_and_comparators_negative_unknown_type():
