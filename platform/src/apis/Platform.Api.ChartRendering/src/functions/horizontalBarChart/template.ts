@@ -1,4 +1,4 @@
-const _d3 = import("d3");
+import * as d3 from "d3";
 import classnames from "classnames";
 import {
   HorizontalBarChartBuilderOptions,
@@ -17,7 +17,7 @@ import {
 } from "../utils";
 
 export default class HorizontalBarChartTemplate {
-  async buildChart<T>({
+  buildChart<T>({
     data,
     barHeight,
     groupedKeys,
@@ -32,10 +32,9 @@ export default class HorizontalBarChartTemplate {
     valueType,
     width,
     xAxisLabel,
-  }: HorizontalBarChartBuilderOptions<T>): Promise<ChartBuilderResult> {
+  }: HorizontalBarChartBuilderOptions<T>): ChartBuilderResult {
     const suggestedXAxisTickCount = 4;
 
-    const d3 = await _d3;
     const locale = enGB as FormatLocaleDefinition;
     d3.formatDefaultLocale(locale);
 

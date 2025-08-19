@@ -7,7 +7,9 @@ import appInsights from "applicationinsights";
 import { ChartBuilderResult } from "..";
 import { HorizontalBarChartPayload } from ".";
 import { validatePayload } from "./validator";
-import piscina from "../shared/pool";
+import { v4 as uuidv4 } from "uuid";
+import HorizontalBarChartTemplate from "./template";
+//import piscina from "../shared/pool";
 
 const client = new appInsights.TelemetryClient();
 
@@ -16,6 +18,8 @@ export async function horizontalBarChart(
   context: InvocationContext,
 ): Promise<HttpResponseInit> {
   const startTime = Date.now();
+  const horizontalBarChartTemplate = new HorizontalBarChartTemplate();
+
   context.debug(`Received HTTP request for horizontal bar chart`);
 
   let payload: HorizontalBarChartPayload | undefined;
@@ -43,7 +47,37 @@ export async function horizontalBarChart(
   const definitions = Array.isArray(payload) ? payload : [payload];
 
   try {
-    charts = await piscina.run({ definitions }, { name: "HorizontalBarChart" });
+    //charts = await piscina.run({ definitions }, { name: "HorizontalBarChart" });
+    charts = definitions.map(
+      ({
+        barHeight,
+        data,
+        id,
+        keyField,
+        labelField,
+        labelFormat,
+        linkFormat,
+        valueField,
+        valueType,
+        width,
+        xAxisLabel,
+        ...rest
+      }) =>
+        horizontalBarChartTemplate.buildChart({
+          barHeight: barHeight || 25,
+          data,
+          id: id || uuidv4(),
+          keyField: keyField as never,
+          labelField: labelField as never,
+          labelFormat: labelFormat as never,
+          linkFormat: linkFormat as never,
+          valueField: valueField as never,
+          valueType: valueType as never,
+          width: width || 928,
+          xAxisLabel: xAxisLabel as never,
+          ...rest,
+        }),
+    );
   } catch (e) {
     context.error(e);
 
