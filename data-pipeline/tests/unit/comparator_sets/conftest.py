@@ -1,44 +1,62 @@
-import random
 import string
 
 import numpy as np
+import pandas as pd
 import pytest
 
+from pipeline.comparator_sets.calculations import ComparatorCalculator, prepare_data
+from pipeline.comparator_sets.config import ColumnNames
+
+sample_data_length = 26
+half_sample_data_length = int(sample_data_length / 2)
+
 
 @pytest.fixture
-def random_row() -> dict:
-    return {
-        "URN": "".join(random.choice(string.ascii_lowercase) for _ in range(64)),
-        "Number of pupils": random.randrange(1, 10_000),
-        "Percentage Free school meals": random.uniform(0, 100),
-        "Percentage Primary Need SPLD": random.uniform(0, 100),
-        "Percentage Primary Need MLD": random.uniform(0, 100),
-        "Percentage Primary Need PMLD": random.uniform(0, 100),
-        "Percentage Primary Need SEMH": random.uniform(0, 100),
-        "Percentage Primary Need SLCN": random.uniform(0, 100),
-        "Percentage Primary Need HI": random.uniform(0, 100),
-        "Percentage Primary Need MSI": random.uniform(0, 100),
-        "Percentage Primary Need PD": random.uniform(0, 100),
-        "Percentage Primary Need ASD": random.uniform(0, 100),
-        "Percentage Primary Need OTH": random.uniform(0, 100),
-        "Percentage SEN": random.uniform(0, 100),
+def sample_data() -> pd.DataFrame:
+    """Provides a base DataFrame for testing."""
+    data = {
+        ColumnNames.URN: [f"URN{i}" for i in range(sample_data_length)],
+        ColumnNames.PUPILS: [100 + i * 10 for i in range(sample_data_length)],
+        ColumnNames.FSM: [5 + i * 0.5 for i in range(sample_data_length)],
+        ColumnNames.SEN: [2 + i * 0.2 for i in range(sample_data_length)],
+        ColumnNames.BOARDERS: ["Boarding", "Not Boarding"] * half_sample_data_length,
+        ColumnNames.PFI: [True, False] * half_sample_data_length,
+        ColumnNames.REGION: ["Region A"] * half_sample_data_length
+        + ["Region B"] * half_sample_data_length,
+        ColumnNames.GIFA: [1000 + i * 50 for i in range(sample_data_length)],
+        ColumnNames.AGE_SCORE: [20 + i for i in range(sample_data_length)],
+        ColumnNames.PHASE: ["Primary"] * sample_data_length,
+        ColumnNames.DID_NOT_SUBMIT: [False] * sample_data_length,
+        ColumnNames.PARTIAL_YEARS: [False] * sample_data_length,
+        ColumnNames.FINANCIAL_DATA: [True] * sample_data_length,
+        ColumnNames.PUPIL_DATA: [True] * sample_data_length,
+        ColumnNames.BUILDING_DATA: [True] * sample_data_length,
     }
+    for col in ColumnNames.SEN_NEEDS:
+        data[col] = [1 + i * 0.1 for i in range(sample_data_length)]
+
+    df = pd.DataFrame(data)
+    df = df.set_index(ColumnNames.URN)
+    return df
 
 
 @pytest.fixture
-def select_top_set_urns_defaults() -> dict:
-    """
-    Some default values for the `select_top_set_urns` function.
+def calculator(sample_data: pd.DataFrame) -> ComparatorCalculator:
+    """Provides an initialized ComparatorCalculator instance."""
+    prepared_df = prepare_data(sample_data)
+    return ComparatorCalculator(prepared_data=prepared_df)
 
-    :return: function defaults
+
+@pytest.fixture
+def top_urns_phase_arrays() -> dict:
+    """
+    Default phase_arrays dictionary for testing `_select_top_urns`.
+    Corresponds to an array of 26 schools, URNs "A" through "Z".
     """
     return {
-        "urns": np.array(list(string.ascii_uppercase)),  # ["A"…"Z"]
-        "pfi": np.array([True] * 26),  # [True, True…]
-        "boarding": np.array(["Boarding"] * 26),  # [True, True…]
-        "regions": np.array(["A"] * 26),  # ["A"…"A"]
-        "distances": np.array([0.01 * i for i in range(26)]),  # [0.0, 0.01…0.25]
-        "base_set_size": 6,
-        "final_set_size": 3,
-        "include": np.array([True] * 26),  # [True, True…]
+        ColumnNames.URN: np.array(list(string.ascii_uppercase)),
+        ColumnNames.PFI: np.array([True] * 26),
+        ColumnNames.BOARDERS: np.array(["Boarding"] * 26),
+        ColumnNames.REGION: np.array(["A"] * 26),
+        "include_mask": np.array([True] * 26),
     }
