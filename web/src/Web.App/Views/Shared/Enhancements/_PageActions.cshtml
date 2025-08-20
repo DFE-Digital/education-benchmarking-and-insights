@@ -7,6 +7,7 @@
     const element = document.getElementById("@Model.ElementId");
 
     const pageActions = createApp(PageActions, {
+        all: @(Model.All == true ? "true" : "false"),
         buttonLabel: "Save chart images",
         costCodesAttr: "@Model.CostCodesAttr",
         elementClassName: "@Model.SaveClassName",
@@ -16,7 +17,8 @@
         overlayContentId: "main-content",
         saveEventId: "@Model.SaveEventId",
         showProgress: true,
-        showTitles: true
+        showTitles: true,
+        startImmediately: @(Model.StartImmediately == true ? "true" : "false"),
     });
 
     pageActions.mount(element);
