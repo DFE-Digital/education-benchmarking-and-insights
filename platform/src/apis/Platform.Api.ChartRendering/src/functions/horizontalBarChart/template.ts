@@ -10,13 +10,7 @@ import {
 import enGB from "d3-format/locale/en-GB" with { type: "json" };
 import { FormatLocaleDefinition } from "d3";
 import { sprintf } from "sprintf-js";
-import {
-  getTextWidth,
-  getValueFormat,
-  getGroups,
-  normaliseData,
-  escapeXml,
-} from "../utils";
+import { getValueFormat, getGroups, normaliseData, escapeXml } from "../utils";
 
 export default class HorizontalBarChartTemplate {
   buildChart<T>({
@@ -154,23 +148,6 @@ export default class HorizontalBarChartTemplate {
         : domainValue;
     };
 
-    const templateGrouping = (datum: string, label: string) => {
-      const hasGroup = groups(datum as DatumKey).length > 0;
-      if (!hasGroup) {
-        return;
-      }
-
-      const textWidth = getTextWidth(label, datum === highlightKey);
-      if (!textWidth) {
-        return;
-      }
-
-      // approximate repositioning due to no getBBox() and unknown client fonts
-      return `<g class="grouping-tick" transform="translate(${-(textWidth + 35)},-13)">
-  <path transform="scale(0.75,0.75)" d="M18,6A12,12,0,1,0,30,18,12,12,0,0,0,18,6Zm-1.49,6a1.49,1.49,0,0,1,3,0v6.89a1.49,1.49,0,1,1-3,0ZM18,25.5a1.72,1.72,0,1,1,1.72-1.72A1.72,1.72,0,0,1,18,25.5Z"/>
-</g>`;
-    };
-
     const templateTickLink = (datum: string, index: number) => {
       let label = formatTick(datum, index);
 
@@ -180,8 +157,6 @@ export default class HorizontalBarChartTemplate {
 
       // replace text node contents with <a> and add initially hidden sibling <rect>
       const focusRect = `<rect x="${-tickWidth}" y="-8" width="${tickWidth - 8}" height="${barHeight - 5}" class="active-tick" />`;
-
-      const groupingTick = templateGrouping(datum, label) ?? "";
 
       const hrefAttr = sprintf(linkFormat, datum);
       label = escapeXml(label);
@@ -196,7 +171,7 @@ export default class HorizontalBarChartTemplate {
   </a>
 </text>`;
 
-      return `${focusRect}${groupingTick}${textLink}`;
+      return `${focusRect}${textLink}`;
     };
 
     function truncateLabel(label: string, maxLength: number) {

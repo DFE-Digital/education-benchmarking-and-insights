@@ -3,7 +3,6 @@ import {
   normaliseData,
   getValueFormat,
   getGroups,
-  getTextWidth,
   escapeXml,
 } from "../../src/functions/utils";
 import { ValueType } from "../../src/functions/index";
@@ -73,26 +72,6 @@ describe("getGroups", () => {
       theories,
       ({ input, expected }) => {
         expect(getGroups(sampleGroups, input)).toStrictEqual(expected);
-      },
-    );
-  });
-});
-
-describe("getTextWidth", () => {
-  describe("should return expected width for given string and font style", () => {
-    const theories: { text: string; bold?: boolean; expected: number }[] = [
-      { text: "", expected: 0 },
-      { text: "Hello, world", expected: 73.359375 },
-      { text: "hello, world", expected: 70.671875 },
-      { text: "Hello, world", bold: true, expected: 77.0625 },
-      { text: "hello, world", bold: true, expected: 74.578125 },
-    ];
-
-    theoretically(
-      "the string {text} returns the expected width {expected}",
-      theories,
-      ({ text, bold, expected }) => {
-        expect(getTextWidth(text, bold)).toBe(expected);
       },
     );
   });
