@@ -7,6 +7,7 @@ import pandas as pd
 
 from pipeline.config import rag_category_settings
 from pipeline.utils.log import setup_logger
+
 from .config import *
 
 logger = setup_logger(__name__)
