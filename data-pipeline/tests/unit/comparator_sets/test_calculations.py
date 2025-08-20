@@ -140,13 +140,12 @@ class TestComparatorCalculator:
         top_urns_phase_arrays[ColumnNames.BOARDERS] = np.array(
             ["Not Boarding"] * sample_data_length
         )
-        # FIX: Added the missing include_mask argument
         include_mask = np.array([True] * sample_data_length)
 
         result = calculator._select_top_urns(0, top_urns_phase_arrays, distances, include_mask)
 
-        expected_size = min(FINAL_SET_SIZE, sample_data_length)
-        assert len(result) == expected_size
+        # This set has not been topped up to the final size
+        assert len(result) == sample_data_length
         assert result[0] == "A"
         # Since no PFI/Boarding/Region criteria apply, it should just be the closest schools
         assert result[1] == "B"
@@ -169,8 +168,7 @@ class TestComparatorCalculator:
 
         result = calculator._select_top_urns(0, top_urns_phase_arrays, distances, include_mask)
 
-        expected_size = FINAL_SET_SIZE
-        assert len(result) == expected_size
+        assert len(result) == FINAL_SET_SIZE
         assert result[0] == "A"
         # Since only 'A' is in the region, the rest are filled by distance
         assert result[1] == "B"
@@ -195,7 +193,7 @@ class TestComparatorCalculator:
         # The max comparator set size is the smaller of FINAL_SET_SIZE or total schools
         # The number of valid schools for URN0's phase is sample_data_length.
         # The set includes the school itself.
-        max_set_size = min(FINAL_SET_SIZE, sample_data_length)
+        max_set_size = FINAL_SET_SIZE
 
         # Set for URN0 should be full
         assert len(results.loc["URN0"]["Pupil"]) == max_set_size
@@ -224,8 +222,5 @@ class TestComparatorCalculator:
 
         assert len(results) == 1
         assert results.index[0] == "URN5"
-        # FIX: The code, when given a single school, should still form a set
-        # by looking at the whole dataset.
-        expected_size = FINAL_SET_SIZE
-        assert len(results.iloc[0]["Pupil"]) == expected_size
-        assert len(results.iloc[0]["Building"]) == expected_size
+        assert len(results.iloc[0]["Pupil"]) == sample_data_length
+        assert len(results.iloc[0]["Building"]) == sample_data_length
