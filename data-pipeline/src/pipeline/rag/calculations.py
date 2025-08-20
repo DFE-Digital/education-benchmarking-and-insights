@@ -269,7 +269,7 @@ def calculate_rag(
                 start_time = time.time()
 
 
-def compute_user_defined_rag(
+def run_user_defined_rag_pipeline(
     data: pd.DataFrame, target_urn: int, comparator_urns: List[int]
 ) -> Generator[Dict[str, Any], None, None]:
     """Performs user-defined RAG calculation against a specific list of comparators."""

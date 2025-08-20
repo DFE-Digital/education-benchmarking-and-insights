@@ -14,7 +14,9 @@ from .loader import load_school_data_and_comparators
 logger = setup_logger(__name__)
 
 
-def compute_rag(run_type: str, run_id: str, target_urn: Optional[str] = None) -> float:
+def run_rag_pipeline(
+    run_type: str, run_id: str, target_urn: Optional[str] = None
+) -> float:
     """
     Perform default RAG calculations for both maintained schools and academies.
     This function handles DATA LOADING and PERSISTENCE.
@@ -72,11 +74,8 @@ def compute_rag(run_type: str, run_id: str, target_urn: Optional[str] = None) ->
     return total_duration
 
 
-def run_user_defined_rag(
-    year: int,
-    run_id: str,
-    target_urn: int,
-    comparator_set: List[int],
+def run_user_defined_rag_pipeline(
+    year: int, run_id: str, target_urn: int, comparator_set: List[int]
 ) -> float:
     """
     Perform user-defined RAG calculations.
