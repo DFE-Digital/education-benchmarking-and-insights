@@ -6,7 +6,7 @@ from pipeline.utils.database import insert_comparator_set
 from pipeline.utils.log import setup_logger
 from pipeline.utils.storage import get_blob, write_blob
 
-from .calculations import ComparatorCalculator
+from .calculations import ComparatorCalculator, prepare_data
 
 logger = setup_logger(__name__)
 
@@ -35,11 +35,12 @@ def compute_comparator_sets(
 
             # 1. Load Data
             blob_path = f"{run_type}/{run_id}/{school_type}.parquet"
-            input_data = pd.read_parquet(get_blob("pre-processed", blob_path))
-            logger.info(f"Loaded {school_type} data. Shape: {input_data.shape}")
+            preprocessed_data = pd.read_parquet(get_blob("pre-processed", blob_path))
+            logger.info(f"Loaded {school_type} data. Shape: {preprocessed_data.shape}")
 
             # 2. Instantiate calculator and run the process
-            calculator = ComparatorCalculator(input_data)
+            prepared_data = prepare_data(preprocessed_data)
+            calculator = ComparatorCalculator(prepared_data=prepared_data)
             results_df = calculator.calculate_comparator_sets(target_urn=target_urn)
             logger.info(
                 f"Computed {school_type} comparators. Shape: {results_df.shape}"
