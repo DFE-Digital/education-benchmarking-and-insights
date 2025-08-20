@@ -46,7 +46,6 @@ public class GivenASchoolComparisonItSpendViewModel
             Assert.Equal(expenditure.URN, tooltip.Urn);
             Assert.Equal(expenditure.SchoolName, tooltip.SchoolName);
             Assert.Equal(expenditure.LAName, tooltip.LAName);
-            Assert.Equal(expenditure.SchoolType, tooltip.SchoolType);
             Assert.Equal(expenditure.TotalPupils, tooltip.TotalPupils);
             Assert.Equal(expenditure.PeriodCoveredByReturn, tooltip.PeriodCoveredByReturn);
         }

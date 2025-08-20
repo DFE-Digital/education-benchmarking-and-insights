@@ -71,7 +71,7 @@ public class BenchmarkItSpendPage(IPage page)
     public async Task TooltipIsDisplayedWithPartYearWarning(string name, int months)
     {
         await TooltipIsDisplayed(name);
-        await ChartTooltip.Locator(".tooltip-part-year-warning").ShouldHaveText($"!\nWarning\nThis school only has {months} months of data available.");
+        await ChartTooltip.Locator(".govuk-tag").ShouldHaveText($"Only has {months} months of data");
     }
 
     public async Task FocusLastFilterButton()
