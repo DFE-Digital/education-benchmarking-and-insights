@@ -3,7 +3,7 @@ import pandas as pd
 import pytest
 
 from pipeline.comparator_sets.calculations import ComparatorCalculator, prepare_data
-from pipeline.comparator_sets.config import ColumnNames, FINAL_SET_SIZE
+from pipeline.comparator_sets.config import FINAL_SET_SIZE, ColumnNames
 
 from .conftest import sample_data_length
 
@@ -117,7 +117,9 @@ class TestComparatorCalculator:
         )
         include_mask = np.array([True] * sample_data_length)
 
-        result = calculator._select_top_urns(0, top_urns_phase_arrays, distances, include_mask)
+        result = calculator._select_top_urns(
+            0, top_urns_phase_arrays, distances, include_mask
+        )
 
         # The size should be the smaller of FINAL_SET_SIZE or the total number of schools
         expected_size = FINAL_SET_SIZE
@@ -141,7 +143,9 @@ class TestComparatorCalculator:
         )
         include_mask = np.array([True] * sample_data_length)
 
-        result = calculator._select_top_urns(0, top_urns_phase_arrays, distances, include_mask)
+        result = calculator._select_top_urns(
+            0, top_urns_phase_arrays, distances, include_mask
+        )
 
         # This set has not been topped up to the final size
         assert len(result) == sample_data_length
@@ -164,7 +168,9 @@ class TestComparatorCalculator:
         )
         include_mask = np.array([True] * sample_data_length)
 
-        result = calculator._select_top_urns(0, top_urns_phase_arrays, distances, include_mask)
+        result = calculator._select_top_urns(
+            0, top_urns_phase_arrays, distances, include_mask
+        )
 
         assert len(result) == FINAL_SET_SIZE
         assert result[0] == "A"

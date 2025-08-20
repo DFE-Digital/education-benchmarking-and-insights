@@ -109,7 +109,11 @@ class ComparatorCalculator:
         return self._compute_weighted_distance(group_data, metrics)
 
     def _select_top_urns(
-        self, target_index: int, phase_arrays: dict, distances: np.ndarray, include_mask: np.ndarray
+        self,
+        target_index: int,
+        phase_arrays: dict,
+        distances: np.ndarray,
+        include_mask: np.ndarray,
     ) -> np.ndarray:
         """
         Determines the URNs of the most similar schools based on a
@@ -118,7 +122,7 @@ class ComparatorCalculator:
         valid_mask = (
             np.arange(len(phase_arrays[ColumnNames.URN])) != target_index
         ) & include_mask
-        
+
         other_distances = distances[valid_mask]
         urns_without_target = phase_arrays[ColumnNames.URN][valid_mask]
         regions_without_target = phase_arrays[ColumnNames.REGION][valid_mask]
@@ -147,11 +151,11 @@ class ComparatorCalculator:
             top_boarding = boarding_without_target[sorted_indices]
             same_boarding = np.argwhere(top_boarding == target_boarding).flatten()
             urns = np.append(urns, urns_by_distance[same_boarding])
-        
+
         top_regions = regions_without_target[sorted_indices]
         same_region_indices = np.argwhere(top_regions == target_region).flatten()
         urns = np.append(urns, urns_by_distance[same_region_indices])
-        
+
         if len(urns) >= FINAL_SET_SIZE:
             return urns[:FINAL_SET_SIZE]
 
@@ -195,14 +199,18 @@ class ComparatorCalculator:
         for i, (urn, row) in enumerate(group.iterrows()):
             if row["_GeneratePupilSet"]:
                 # Pass the specific pupil mask
-                pupil_urns = self._select_top_urns(i, base_arrays, pupil_distances[i], pupil_include_mask)
+                pupil_urns = self._select_top_urns(
+                    i, base_arrays, pupil_distances[i], pupil_include_mask
+                )
                 pupil_sets.append(pupil_urns if len(pupil_urns) > 1 else np.array([]))
             else:
                 pupil_sets.append(np.array([]))
 
             if row["_GenerateBuildingSet"]:
                 # Pass the specific building mask
-                building_urns = self._select_top_urns(i, base_arrays, building_distances[i], building_include_mask)
+                building_urns = self._select_top_urns(
+                    i, base_arrays, building_distances[i], building_include_mask
+                )
                 building_sets.append(
                     building_urns if len(building_urns) > 1 else np.array([])
                 )
@@ -225,7 +233,9 @@ class ComparatorCalculator:
         else:
             full_df = df
 
-        can_generate = full_df[ColumnNames.FINANCIAL_DATA] & ~full_df[ColumnNames.DID_NOT_SUBMIT]
+        can_generate = (
+            full_df[ColumnNames.FINANCIAL_DATA] & ~full_df[ColumnNames.DID_NOT_SUBMIT]
+        )
         full_df["_GeneratePupilSet"] = can_generate & full_df[ColumnNames.PUPIL_DATA]
         full_df["_GenerateBuildingSet"] = (
             full_df["_GeneratePupilSet"] & full_df[ColumnNames.BUILDING_DATA]
@@ -235,7 +245,7 @@ class ComparatorCalculator:
         all_results = [
             self._process_phase_group(phase, group) for phase, group in grouped
         ]
-        
+
         if not all_results:
             result_df = full_df.copy()
             result_df["Pupil"] = [[] for _ in range(len(full_df))]
@@ -244,9 +254,11 @@ class ComparatorCalculator:
             final_sets = pd.concat(all_results)
             result_df = full_df.join(final_sets)
 
-        result_df = result_df.drop(columns=["_GeneratePupilSet", "_GenerateBuildingSet"])
-        
+        result_df = result_df.drop(
+            columns=["_GeneratePupilSet", "_GenerateBuildingSet"]
+        )
+
         if target_urn:
             return result_df.loc[[target_urn]]
-            
+
         return result_df
