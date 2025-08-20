@@ -169,15 +169,22 @@ class ComparatorCalculator:
         pupil_distances = self._compute_pupils_distance(phase, group)
         building_distances = self._compute_buildings_distance(group)
 
-        phase_arrays = {
+        pupil_include_mask = (
+            ~np.array(group[ColumnNames.PARTIAL_YEARS])
+            & ~np.array(group[ColumnNames.DID_NOT_SUBMIT])
+            & np.array(group[ColumnNames.PUPIL_DATA])
+        )
+        building_include_mask = (
+            ~np.array(group[ColumnNames.PARTIAL_YEARS])
+            & ~np.array(group[ColumnNames.DID_NOT_SUBMIT])
+            & np.array(group[ColumnNames.BUILDING_DATA])
+        )
+
+        base_arrays = {
             ColumnNames.URN: np.array(group.index),
             ColumnNames.PFI: np.array(group[ColumnNames.PFI]),
             ColumnNames.BOARDERS: np.array(group[ColumnNames.BOARDERS]),
             ColumnNames.REGION: np.array(group[ColumnNames.REGION]),
-            "include_mask": (
-                ~np.array(group[ColumnNames.PARTIAL_YEARS])
-                & ~np.array(group[ColumnNames.DID_NOT_SUBMIT])
-            ),
         }
 
         pupil_sets = []
@@ -185,15 +192,15 @@ class ComparatorCalculator:
 
         for i, (urn, row) in enumerate(group.iterrows()):
             if row["_GeneratePupilSet"]:
-                pupil_urns = self._select_top_urns(i, phase_arrays, pupil_distances[i])
+                # Pass the specific pupil mask
+                pupil_urns = self._select_top_urns(i, base_arrays, pupil_distances[i], pupil_include_mask)
                 pupil_sets.append(pupil_urns if len(pupil_urns) > 1 else np.array([]))
             else:
                 pupil_sets.append(np.array([]))
 
             if row["_GenerateBuildingSet"]:
-                building_urns = self._select_top_urns(
-                    i, phase_arrays, building_distances[i]
-                )
+                # Pass the specific building mask
+                building_urns = self._select_top_urns(i, base_arrays, building_distances[i], building_include_mask)
                 building_sets.append(
                     building_urns if len(building_urns) > 1 else np.array([])
                 )
