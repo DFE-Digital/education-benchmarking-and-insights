@@ -43,7 +43,7 @@ public class SchoolComparisonItSpendController(
             try
             {
                 ViewData[ViewDataKeys.BreadcrumbNode] = BreadcrumbNodes.SchoolComparisonItSpend(urn);
-                var (school, expenditures) = await GetItSpendForMaintainedSchool(urn);
+                var (school, expenditures) = await GetItSpendForMaintainedSchool(urn, resultAs);
                 if (school == null)
                 {
                     return StatusCode((int)HttpStatusCode.NotFound);
@@ -107,7 +107,7 @@ public class SchoolComparisonItSpendController(
         {
             try
             {
-                var (school, schoolItSpend) = await GetItSpendForMaintainedSchool(urn);
+                var (school, schoolItSpend) = await GetItSpendForMaintainedSchool(urn, Dimensions.ResultAsOptions.Actuals);
                 if (school == null)
                 {
                     return StatusCode((int)HttpStatusCode.NotFound);
@@ -164,7 +164,7 @@ public class SchoolComparisonItSpendController(
 
     private async Task<(School? school, SchoolItSpend[] schoolItSpend)> GetItSpendForMaintainedSchool(
         string urn,
-        Dimensions.ResultAsOptions resultAs = Dimensions.ResultAsOptions.Actuals)
+        Dimensions.ResultAsOptions resultAs)
     {
         var school = await establishmentApi
             .GetSchool(urn)
