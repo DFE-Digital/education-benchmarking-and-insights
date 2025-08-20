@@ -58,13 +58,14 @@ class ComparatorCalculator:
         Calculates the squared ratio of the absolute difference between
         all combinations in the input, divided by the range of the input.
         """
-        with np.errstate(divide="ignore", invalid="ignore"):
-            input_range = np.ptp(input_array)
-            if input_range == 0:
-                return np.zeros((len(input_array), len(input_array)))
-            diff_matrix = np.abs(input_array[:, None] - input_array[None, :])
-            ratio = diff_matrix / input_range
-            return np.power(ratio, 2)
+        # POTENTIAL ERROR: If all values in `input_array` are identical, `input_range`
+        # will be 0, leading to a division-by-zero error. This can result in
+        # `NaN` or `inf` values in the distance calculations, corrupting the results.
+        input_range = np.ptp(input_array)
+
+        diff_matrix = np.abs(input_array[:, None] - input_array[None, :])
+        ratio = diff_matrix / input_range
+        return np.power(ratio, 2)
 
     def _compute_weighted_distance(
         self, group_data: pd.DataFrame, metrics: dict
