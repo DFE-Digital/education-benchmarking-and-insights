@@ -3,7 +3,7 @@ from unittest.mock import patch
 import pandas as pd
 import pytest
 
-from pipeline.rag.main import (
+from pipeline.rag.orchestrator import (
     compute_rag,
     compute_user_defined_rag,
     load_school_data_and_comparators,
@@ -50,10 +50,10 @@ def sample_rag_df():
 # --- Tests for I/O and Orchestration Functions ---
 
 
-@patch("pipeline.rag.main.insert_metric_rag")
-@patch("pipeline.rag.main.write_blob")
-@patch("pipeline.rag.main._run_rag_computation_engine")
-@patch("pipeline.rag.main.load_school_data_and_comparators")
+@patch("pipeline.rag.orchestrator.insert_metric_rag")
+@patch("pipeline.rag.orchestrator.write_blob")
+@patch("pipeline.rag.orchestrator._run_rag_computation_engine")
+@patch("pipeline.rag.orchestrator.load_school_data_and_comparators")
 def test_compute_rag_orchestration(
     mock_load_data,
     mock_engine,
@@ -80,7 +80,7 @@ def test_compute_rag_orchestration(
     assert combined_df.shape == (4, 10)  # sample_rag_df concatenated twice
 
 
-@patch("pipeline.rag.main.load_school_data_and_comparators")
+@patch("pipeline.rag.orchestrator.load_school_data_and_comparators")
 def test_compute_rag_propagates_load_failure(mock_load_data):
     """Tests that an exception during data loading stops execution."""
     mock_load_data.side_effect = FileNotFoundError("File not found")
@@ -89,11 +89,11 @@ def test_compute_rag_propagates_load_failure(mock_load_data):
         compute_rag(run_type="default", run_id="123")
 
 
-@patch("pipeline.rag.main.insert_metric_rag")
-@patch("pipeline.rag.main.write_blob")
-@patch("pipeline.rag.main._run_rag_computation_engine")
+@patch("pipeline.rag.orchestrator.insert_metric_rag")
+@patch("pipeline.rag.orchestrator.write_blob")
+@patch("pipeline.rag.orchestrator._run_rag_computation_engine")
 @patch("pandas.read_parquet")
-@patch("pipeline.rag.main.get_blob")
+@patch("pipeline.rag.orchestrator.get_blob")
 def test_compute_user_defined_rag_orchestration(
     mock_get_blob,
     mock_read_parquet,
@@ -125,7 +125,7 @@ def test_compute_user_defined_rag_orchestration(
 
 
 @patch("pandas.read_parquet")
-@patch("pipeline.rag.main.get_blob")
+@patch("pipeline.rag.orchestrator.get_blob")
 def test_compute_user_defined_rag_target_not_found(
     mock_get_blob, mock_read_parquet, cols_for_prepare_data
 ):
