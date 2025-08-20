@@ -15,7 +15,7 @@
           | 123459 | 1100001 |
         When I submit the horizontal bar chart request
         Then the response should be ok, contain a JSON object and match the expected output of 'HorizontalBarChartValidSingleCurrency.json'
-        
+
     Scenario: Sending a valid single horizontal bar chart request returns the correct HTML for percentage value
         Given a single horizontal bar chart request with accept header 'application/json', highlighted item '123456', sort 'asc', width '500', bar height '20', id 'test-uuid', valueType 'percent' and the following data:
           | Key    | Value |
@@ -46,7 +46,7 @@
           | 123458 | 1010001 |
           | 123459 | 1100001 |
         When I submit the horizontal bar chart request
-        Then the response should be ok, contain an SVG document and match the expected output of 'HorzontalBarChartValidSingleCurrency.svg'
+        Then the response should be ok, contain an SVG document and match the expected output of 'HorizontalBarChartValidSingleCurrency.svg'
 
     Scenario: Sending a valid multiple horizontal bar chart request returns the correct HTML for currency values
         Given multiple horizontal bar chart requests with the following data:
@@ -55,12 +55,12 @@
           | 2  | 123456    | desc | 400   | 20        | currency  | [ { "Key": "123456", "Value": "1111111" }, { "Key": "123457", "Value": "1001001" }, { "Key": "123458", "Value": "1010001" }, { "Key": "123459", "Value": "1100001" } ]                                                                                                                                                                                                                                                        |
         When I submit the horizontal bar chart request
         Then the response should be ok, contain a JSON array and match the expected output of 'HorizontalBarChartValidMultipleCurrency.json'
-        
+
     Scenario: Sending a valid multiple horizontal bar chart request returns the correct HTML for percentage values
         Given multiple horizontal bar chart requests with the following data:
           | Id | Highlight | Sort | Width | BarHeight | ValueType | Data                                                                                                                                                                                                                                                                                                                                                                         |
           | 1  | 123456    | asc  | 500   | 20        | percent   | [ { "Key": "123450", "Value": "100" }, { "Key": "123451", "Value": "50" }, { "Key": "123452", "Value": "60" }, { "Key": "123453", "Value": "22" }, { "Key": "123454", "Value": "70" }, { "Key": "123455", "Value": "81"  }, { "Key": "123456", "Value": "65" }, { "Key": "123457", "Value": "44" }, { "Key": "123458", "Value": "55" }, { "Key": "123459", "Value": "23" } ] |
-          | 2  | 123456    | desc | 400   | 20        | percent   | [ { "Key": "123456", "Value": "90" }, { "Key": "123457", "Value": "50" }, { "Key": "123458", "Value": "75" }, { "Key": "123459", "Value": "33" } ]                                                                                                                                                                                                                                                        |
+          | 2  | 123456    | desc | 400   | 20        | percent   | [ { "Key": "123456", "Value": "90" }, { "Key": "123457", "Value": "50" }, { "Key": "123458", "Value": "75" }, { "Key": "123459", "Value": "33" } ]                                                                                                                                                                                                                           |
         When I submit the horizontal bar chart request
         Then the response should be ok, contain a JSON array and match the expected output of 'HorizontalBarChartValidMultiplePercent.json'
 
@@ -72,9 +72,9 @@
 
     Scenario: Sending an invalid multiple horizontal bar chart request without Ids returns bad request
         Given multiple horizontal bar chart requests with the following data:
-          | Id | Highlight | Sort | Width | BarHeight |  ValueType | Data                                                                                                                                                                                                                                                                                                                                                                                                                          |
-          |    | 123456    | asc  | 500   | 20        | currency   | [ { "Key": "123450", "Value": "1000001" }, { "Key": "123451", "Value": "1000111" }, { "Key": "123452", "Value": "1000011" }, { "Key": "123453", "Value": "1011111" }, { "Key": "123454", "Value": "1000000" }, { "Key": "123455", "Value": "1000000"  }, { "Key": "123456", "Value": "1111111" }, { "Key": "123457", "Value": "1001001" }, { "Key": "123458", "Value": "1010001" }, { "Key": "123459", "Value": "1100001" } ] |
-          |    | 123456    | desc | 400   | 20        | currency   | [ { "Key": "123456", "Value": "1111111" }, { "Key": "123457", "Value": "1001001" }, { "Key": "123458", "Value": "1010001" }, { "Key": "123459", "Value": "1100001" } ]                                                                                                                                                                                                                                                        |
+          | Id | Highlight | Sort | Width | BarHeight | ValueType | Data                                                                                                                                                                                                                                                                                                                                                                                                                          |
+          |    | 123456    | asc  | 500   | 20        | currency  | [ { "Key": "123450", "Value": "1000001" }, { "Key": "123451", "Value": "1000111" }, { "Key": "123452", "Value": "1000011" }, { "Key": "123453", "Value": "1011111" }, { "Key": "123454", "Value": "1000000" }, { "Key": "123455", "Value": "1000000"  }, { "Key": "123456", "Value": "1111111" }, { "Key": "123457", "Value": "1001001" }, { "Key": "123458", "Value": "1010001" }, { "Key": "123459", "Value": "1100001" } ] |
+          |    | 123456    | desc | 400   | 20        | currency  | [ { "Key": "123456", "Value": "1111111" }, { "Key": "123457", "Value": "1001001" }, { "Key": "123458", "Value": "1010001" }, { "Key": "123459", "Value": "1100001" } ]                                                                                                                                                                                                                                                        |
         When I submit the horizontal bar chart request
         Then the chart response should be bad request, contain a JSON object and match the expected output of 'HorizontalBarChartInvalidMultipleNoId.json'
 
@@ -88,6 +88,6 @@
 
     Scenario: Sending an invalid multiple horizontal bar chart request without chart definitions returns bad request
         Given multiple horizontal bar chart requests with the following data:
-          | Id | Highlight | Sort | Width | Height | ValueType |Data |
+          | Id | Highlight | Sort | Width | Height | ValueType | Data |
         When I submit the horizontal bar chart request
         Then the chart response should be bad request, contain a JSON object and match the expected output of 'HorizontalBarChartInvalidMultipleNoChartDefinitions.json'

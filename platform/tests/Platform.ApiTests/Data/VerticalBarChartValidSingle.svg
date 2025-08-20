@@ -1,0 +1,24 @@
+﻿<svg width="500" height="100" viewBox="0,0,500,100" data-chart-id="test-uuid" xmlns="http://www.w3.org/2000/svg">
+    <g>
+        <rect x="12.686274509803923" y="27.999992799999276" height="72.00000720000072" width="38.74509803921569"
+              data-bar-index="0" class="chart-cell chart-cell__series-0"/>
+        <rect x="61.11764705882353" y="27.999992799999276" height="72.00000720000072" width="38.74509803921569"
+              data-bar-index="1" class="chart-cell chart-cell__series-0"/>
+        <rect x="109.54901960784314" y="27.999920799992076" height="72.00007920000792" width="38.74509803921569"
+              data-bar-index="2" class="chart-cell chart-cell__series-0"/>
+        <rect x="157.98039215686273" y="27.99920079992008" height="72.00079920007992" width="38.74509803921569"
+              data-bar-index="3" class="chart-cell chart-cell__series-0"/>
+        <rect x="206.41176470588235" y="27.992000799200085" height="72.00799920079992" width="38.74509803921569"
+              data-bar-index="4" class="chart-cell chart-cell__series-0"/>
+        <rect x="254.84313725490196" y="27.927920792792076" height="72.07207920720792" width="38.74509803921569"
+              data-bar-index="5" class="chart-cell chart-cell__series-0"/>
+        <rect x="303.27450980392155" y="27.27992072799207" height="72.72007927200792" width="38.74509803921569"
+              data-bar-index="6" class="chart-cell chart-cell__series-0"/>
+        <rect x="351.70588235294116" y="27.200000720000077" height="72.79999927999992" width="38.74509803921569"
+              data-bar-index="7" class="chart-cell chart-cell__series-0"/>
+        <rect x="400.1372549019608" y="20.799920079992013" height="79.200079920008" width="38.74509803921569"
+              data-bar-index="8" class="chart-cell chart-cell__series-0"/>
+        <rect x="448.5686274509804" y="20" height="80" width="38.74509803921569" data-bar-index="9"
+              class="chart-cell chart-cell__series-0 chart-cell__highlight"/>
+    </g>
+</svg>
