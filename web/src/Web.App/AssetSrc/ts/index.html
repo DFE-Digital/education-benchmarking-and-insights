@@ -1089,6 +1089,7 @@
       import { createApp } from "vue";
       import { PageActions } from "./main.ts";
       const pageActions = createApp(PageActions, {
+        all: true,
         buttonLabel: "Save images",
         costCodesAttr: "data-cost-codes",
         elementClassName: "test-source-class",
@@ -1099,6 +1100,7 @@
         saveEventId: "save-chart-as-image",
         showProgress: true,
         showTitles: true,
+        startImmediately: true,
       });
       pageActions.mount("#page-actions");
     </script>

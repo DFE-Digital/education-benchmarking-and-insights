@@ -10,6 +10,7 @@ export interface PageActionsProps {
   saveEventId?: string;
   showProgress?: boolean;
   showTitles?: boolean;
+  startImmediately?: boolean;
 }
 
 export interface ElementSelectorProps {

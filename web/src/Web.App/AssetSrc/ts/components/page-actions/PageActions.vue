@@ -1,13 +1,20 @@
 <script setup lang="ts">
-import { onMounted, onUnmounted, ref, useTemplateRef, watchEffect } from "vue";
+import { onMounted, onUnmounted, ref, useTemplateRef, watch, watchEffect } from "vue";
 import type { PageActionsProps } from ".";
 import { ModalDialog, ProgressIndicator } from "@/main";
 import ElementSelector from "./ElementSelector.vue";
 import { DownloadService } from "@/services";
 import type { ElementAndAttributes } from "@/services/types";
 
-const { all, costCodesAttr, elementClassName, elementTitleAttr, fileName, showTitles } =
-  defineProps<PageActionsProps>();
+const {
+  all,
+  costCodesAttr,
+  elementClassName,
+  elementTitleAttr,
+  fileName,
+  showTitles,
+  startImmediately,
+} = defineProps<PageActionsProps>();
 
 const open = ref(false);
 const button = ref<HTMLButtonElement>();
@@ -131,6 +138,12 @@ onUnmounted(() => {
     clearTimeout(autoCloseTimeout);
   }
 });
+
+watch(open, (newOpen) => {
+  if (newOpen && startImmediately) {
+    startDownload();
+  }
+});
 </script>
 
 <template>
@@ -155,7 +168,7 @@ onUnmounted(() => {
       :cancel-label="cancelMode ? 'Back' : progress === 100 ? 'Close' : 'Cancel'"
       :data-custom-event-chart-name="saveEventId && modalTitle ? modalTitle : undefined"
       :data-custom-event-id="saveEventId"
-      :ok="true"
+      :ok="!startImmediately"
       :ok-label="cancelMode ? 'OK' : 'Start'"
       :ok-disabled="!cancelMode && (imagesLoading || progress === 100)"
       :title="modalTitle"
@@ -178,7 +191,7 @@ onUnmounted(() => {
             }}
             saved.
           </span>
-          <span v-if="!progress">
+          <span v-if="!progress && !startImmediately">
             <template v-if="!all">Select the charts you want to download.</template>
             This may take a few minutes to complete.
           </span>
