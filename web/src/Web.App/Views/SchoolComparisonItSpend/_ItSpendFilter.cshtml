@@ -251,8 +251,12 @@
         }
 
         <div class="govuk-button-group govuk-!-margin-bottom-0">
+            @if (Model.ViewAs == SchoolComparisonItSpendViewModel.ViewAsOptions.Chart)
+            {
+                <div id="page-actions-button"></div>
+            }
             <a href="@Url.Action("Download", "SchoolComparisonItSpend", new { urn = Model.Urn })" role="button"
-               class="govuk-button govuk-button--secondary">
+               class="govuk-button govuk-button--secondary" data-module="govuk-button">
                 Download page data
             </a>
         </div>

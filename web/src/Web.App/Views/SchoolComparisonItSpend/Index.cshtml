@@ -1,5 +1,6 @@
 ﻿@using Web.App.Extensions
 @using Web.App.ViewModels
+@using Web.App.ViewModels.Enhancements
 @model Web.App.ViewModels.SchoolComparisonItSpendViewModel
 @{
     ViewData[ViewDataKeys.Title] = PageTitles.ComparisonItSpend;
@@ -84,5 +85,15 @@
     @await Html.PartialAsync("_SchoolChartTooltip", new SchoolChartTooltipViewModel
     {
         Data = Model.TooltipData
+    })
+
+    @await Html.PartialAsync("Enhancements/_PageActions", new PageActionsViewModel
+    {
+        All = true,
+        ElementId = "page-actions-button",
+        SaveClassName = "costs-chart-container",
+        SaveFileName = $"benchmark-it-spending-{Model.Urn}.zip",
+        SaveTitleAttr = "data-title",
+        StartImmediately = true
     })
 }
