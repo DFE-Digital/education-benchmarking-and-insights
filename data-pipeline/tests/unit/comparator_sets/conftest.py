@@ -25,7 +25,8 @@ def sample_data() -> pd.DataFrame:
         + ["Region B"] * half_sample_data_length,
         ColumnNames.GIFA: [1000 + i * 50 for i in range(sample_data_length)],
         ColumnNames.AGE_SCORE: [20 + i for i in range(sample_data_length)],
-        ColumnNames.PHASE: ["Primary"] * sample_data_length,
+        ColumnNames.PHASE: ["Primary"] * half_sample_data_length 
+        + ["Secondary"] * half_sample_data_length,
         ColumnNames.DID_NOT_SUBMIT: [False] * sample_data_length,
         ColumnNames.PARTIAL_YEARS: [False] * sample_data_length,
         ColumnNames.FINANCIAL_DATA: [True] * sample_data_length,

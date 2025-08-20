@@ -40,7 +40,7 @@ def compute_comparator_sets(
 
             # 2. Instantiate calculator and run the process
             calculator = ComparatorCalculator(input_data)
-            results_df = calculator.calculate_all_sets(target_urn=target_urn)
+            results_df = calculator.calculate_comparator_sets(target_urn=target_urn)
             logger.info(
                 f"Computed {school_type} comparators. Shape: {results_df.shape}"
             )
