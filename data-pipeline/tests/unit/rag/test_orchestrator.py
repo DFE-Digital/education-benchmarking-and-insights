@@ -4,9 +4,9 @@ import pandas as pd
 import pytest
 
 from pipeline.rag.orchestrator import (
-    compute_rag,
-    compute_user_defined_rag,
     load_school_data_and_comparators,
+    run_rag_pipeline,
+    run_user_defined_rag_pipeline,
 )
 
 # --- Fixtures ---
@@ -54,7 +54,7 @@ def sample_rag_df():
 @patch("pipeline.rag.orchestrator.write_blob")
 @patch("pipeline.rag.orchestrator._run_rag_computation_engine")
 @patch("pipeline.rag.orchestrator.load_school_data_and_comparators")
-def test_compute_rag_orchestration(
+def test_run_rag_pipeline_orchestration(
     mock_load_data,
     mock_engine,
     mock_write_blob,
@@ -68,7 +68,7 @@ def test_compute_rag_orchestration(
     )
     mock_engine.return_value = sample_rag_df
 
-    compute_rag(run_type="default", run_id="123")
+    run_rag_pipeline(run_type="default", run_id="123")
 
     assert mock_load_data.call_count == 2  # For maintained_schools and academies
     assert mock_engine.call_count == 2
@@ -81,12 +81,12 @@ def test_compute_rag_orchestration(
 
 
 @patch("pipeline.rag.orchestrator.load_school_data_and_comparators")
-def test_compute_rag_propagates_load_failure(mock_load_data):
+def test_run_rag_pipeline_propagates_load_failure(mock_load_data):
     """Tests that an exception during data loading stops execution."""
     mock_load_data.side_effect = FileNotFoundError("File not found")
 
     with pytest.raises(FileNotFoundError):
-        compute_rag(run_type="default", run_id="123")
+        run_rag_pipeline(run_type="default", run_id="123")
 
 
 @patch("pipeline.rag.orchestrator.insert_metric_rag")
@@ -94,7 +94,7 @@ def test_compute_rag_propagates_load_failure(mock_load_data):
 @patch("pipeline.rag.orchestrator._run_rag_computation_engine")
 @patch("pandas.read_parquet")
 @patch("pipeline.rag.orchestrator.get_blob")
-def test_compute_user_defined_rag_orchestration(
+def test_run_user_defined_rag_pipeline_orchestration(
     mock_get_blob,
     mock_read_parquet,
     mock_engine,
@@ -108,7 +108,7 @@ def test_compute_user_defined_rag_orchestration(
     )
     mock_engine.return_value = sample_rag_df
 
-    compute_user_defined_rag(
+    run_user_defined_rag_pipeline(
         year=2023, run_id="user123", target_urn=101, comparator_set=[102, 103]
     )
 
@@ -126,7 +126,7 @@ def test_compute_user_defined_rag_orchestration(
 
 @patch("pandas.read_parquet")
 @patch("pipeline.rag.orchestrator.get_blob")
-def test_compute_user_defined_rag_target_not_found(
+def test_run_user_defined_rag_pipeline_target_not_found(
     mock_get_blob, mock_read_parquet, cols_for_prepare_data
 ):
     """Tests ValueError when the target URN is not in the loaded data."""
@@ -135,7 +135,7 @@ def test_compute_user_defined_rag_target_not_found(
     )
 
     with pytest.raises(ValueError, match="Target URN 101 not found"):
-        compute_user_defined_rag(
+        run_user_defined_rag_pipeline(
             year=2023, run_id="user123", target_urn=101, comparator_set=[102, 103]
         )
 
