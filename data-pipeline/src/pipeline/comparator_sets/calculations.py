@@ -3,7 +3,7 @@ import logging
 import numpy as np
 import pandas as pd
 
-from .config import ColumnNames, BASE_SET_SIZE, FINAL_SET_SIZE, PUPILS_WEIGHT, FSM_WEIGHT, SEN_WEIGHT, SPECIAL_FSM_WEIGHT, SPECIAL_PUPILS_WEIGHT, GIFA_WEIGHT, AGE_WEIGHT
+from .config import *
 
 logger = logging.getLogger(__name__)
 
