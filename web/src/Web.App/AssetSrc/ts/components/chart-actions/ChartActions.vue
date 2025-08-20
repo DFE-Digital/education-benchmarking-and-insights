@@ -59,6 +59,10 @@ const copyImage = () => {
       copying.value = false;
     });
 };
+
+defineOptions({
+  name: "ChartActions",
+});
 </script>
 
 <template>

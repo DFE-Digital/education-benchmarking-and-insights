@@ -97,6 +97,10 @@ onUnmounted(() => {
     }
   });
 });
+
+defineOptions({
+  name: "SchoolChartTooltips",
+});
 </script>
 
 <template>

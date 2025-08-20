@@ -188,6 +188,18 @@ To use the GOV.UK Design System, progressive enhancements and front-end componen
 For more information on managing the progressive enhancements please refer to
 the [documented feature](../documentation/features/8_Progressive_Enhancements.md).
 
+##### Develop the front-end Vue components
+
+Once the above steps have been completed, run the dev server to launch the component playground:
+
+- `npm run dev`
+
+This will launch the component playground at `http://localhost:5173/AssetSrc/ts/index.html` along with the Vue dev
+tools.
+
+> **💡 Tip**: To ensure the Vue dev tools accurately label the components in the playground, set a `defineOptions()`
+> block in the `.vue` file for each directly imported component, e.g.: `defineOptions({ name: "ChartActions" })`.
+
 #### Run the application
 
 - From `.\web\src\Web.App` execute:
