@@ -115,7 +115,6 @@ class TestComparatorCalculator:
                 for i in range(sample_data_length)
             ]
         )
-        # FIX: Added the missing include_mask argument
         include_mask = np.array([True] * sample_data_length)
 
         result = calculator._select_top_urns(0, top_urns_phase_arrays, distances, include_mask)
@@ -163,7 +162,6 @@ class TestComparatorCalculator:
         top_urns_phase_arrays[ColumnNames.REGION] = np.array(
             ["Region A"] + ["Region B"] * (sample_data_length - 1)
         )
-        # FIX: Added the missing include_mask argument
         include_mask = np.array([True] * sample_data_length)
 
         result = calculator._select_top_urns(0, top_urns_phase_arrays, distances, include_mask)
