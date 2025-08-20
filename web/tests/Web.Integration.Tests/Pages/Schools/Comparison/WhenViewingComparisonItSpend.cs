@@ -4,6 +4,7 @@ using AngleSharp.Html.Dom;
 using AutoFixture;
 using Web.App.Domain;
 using Web.App.Domain.Charts;
+using Web.App.ViewModels;
 using Xunit;
 
 namespace Web.Integration.Tests.Pages.Schools.Comparison;
@@ -276,6 +277,24 @@ public class WhenViewingComparisonItSpend(SchoolBenchmarkingWebAppClient client)
         var newPage = await Client.Follow(anchor);
 
         DocumentAssert.AssertPageUrl(newPage, Paths.SchoolComparisonItSpendDownload(school.URN).ToAbsolute());
+    }
+
+    [Theory]
+    [InlineData(SchoolComparisonItSpendViewModel.ViewAsOptions.Chart, true)]
+    [InlineData(SchoolComparisonItSpendViewModel.ViewAsOptions.Table, false)]
+    public async Task CanSaveChartImages(SchoolComparisonItSpendViewModel.ViewAsOptions viewAs, bool expected)
+    {
+        var (page, _, _) = await SetupNavigateInitPage(EstablishmentTypes.Maintained, queryParams: $"?viewAs={(int)viewAs}");
+
+        var button = page.QuerySelector("#page-actions-button");
+        if (expected)
+        {
+            Assert.NotNull(button);
+        }
+        else
+        {
+            Assert.Null(button);
+        }
     }
 
     private async Task<(IHtmlDocument page, School school, SchoolItSpend[] spend)> SetupNavigateInitPage(
