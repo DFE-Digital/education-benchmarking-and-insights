@@ -105,7 +105,9 @@
   "exclude": [
     "node_modules",
     "tests",
-    "src/openapi"
+    "src/openapi",
+    "src/functions/**/dom", // for prod builds, exclude `d3` 'DOM' functions
+    "src/functions/swagger", // as well as swagger function and assets
   ],
   "tsc-alias": {
     "resolveFullPaths": true,
