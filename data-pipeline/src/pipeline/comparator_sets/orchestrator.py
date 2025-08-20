@@ -11,7 +11,7 @@ from .calculations import ComparatorCalculator, prepare_data
 logger = setup_logger(__name__)
 
 
-def compute_comparator_sets(
+def run_comparator_sets_pipeline(
     run_type: str, run_id: str, target_urn: int | None = None
 ) -> float:
     """

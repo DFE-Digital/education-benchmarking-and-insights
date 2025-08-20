@@ -12,7 +12,7 @@ from pipeline.utils.stats import stats_collector
 
 load_dotenv()
 
-from pipeline.comparator_sets import compute_comparator_sets
+from pipeline.comparator_sets import run_comparator_sets_pipeline
 from pipeline.pre_processing import pre_process_custom_data, pre_process_data
 from pipeline.rag import compute_rag, run_user_defined_rag
 from pipeline.utils.log import setup_logger
@@ -55,21 +55,21 @@ def handle_msg(
             case MessageType.Default:
                 logger.info("Starting default pipeline run...")
                 stats_collector.start_pipeline_run()
-                msg_payload["pre_process_duration"] = pre_process_data(
-                    run_id=str(msg_payload["runId"]),
-                    aar_year=msg_payload["year"]["aar"],
-                    cfr_year=msg_payload["year"]["cfr"],
-                    bfr_year=msg_payload["year"]["bfr"],
-                    s251_year=msg_payload["year"]["s251"],
-                )
-                msg_payload["comparator_set_duration"] = compute_comparator_sets(
+                # msg_payload["pre_process_duration"] = pre_process_data(
+                #     run_id=str(msg_payload["runId"]),
+                #     aar_year=msg_payload["year"]["aar"],
+                #     cfr_year=msg_payload["year"]["cfr"],
+                #     bfr_year=msg_payload["year"]["bfr"],
+                #     s251_year=msg_payload["year"]["s251"],
+                # )
+                msg_payload["comparator_set_duration"] = run_comparator_sets_pipeline(
                     run_type=run_type,
                     run_id=str(msg_payload["runId"]),
                 )
-                msg_payload["rag_duration"] = compute_rag(
-                    run_type=run_type,
-                    run_id=str(msg_payload["runId"]),
-                )
+                # msg_payload["rag_duration"] = compute_rag(
+                #     run_type=run_type,
+                #     run_id=str(msg_payload["runId"]),
+                # )
                 msg_payload["stats"] = stats_collector.get_stats()
                 logger.info("Default pipeline run completed!")
 
@@ -94,7 +94,7 @@ def handle_msg(
                         k: v for k, v in msg_payload["payload"].items() if k != "kind"
                     },
                 )
-                msg_payload["comparator_set_duration"] = compute_comparator_sets(
+                msg_payload["comparator_set_duration"] = run_comparator_sets_pipeline(
                     run_type=run_type,
                     run_id=msg_payload["runId"],
                     target_urn=int(msg_payload["urn"]),
