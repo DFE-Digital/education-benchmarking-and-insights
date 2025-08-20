@@ -144,6 +144,10 @@ watch(open, (newOpen) => {
     startDownload();
   }
 });
+
+defineOptions({
+  name: "PageActions",
+});
 </script>
 
 <template>
@@ -168,7 +172,7 @@ watch(open, (newOpen) => {
       :cancel-label="cancelMode ? 'Back' : progress === 100 ? 'Close' : 'Cancel'"
       :data-custom-event-chart-name="saveEventId && modalTitle ? modalTitle : undefined"
       :data-custom-event-id="saveEventId"
-      :ok="!startImmediately"
+      :ok="cancelMode || !startImmediately"
       :ok-label="cancelMode ? 'OK' : 'Start'"
       :ok-disabled="!cancelMode && (imagesLoading || progress === 100)"
       :title="modalTitle"
