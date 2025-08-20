@@ -3,7 +3,7 @@ import pandas as pd
 import pytest
 
 from pipeline.comparator_sets.calculations import ComparatorCalculator, prepare_data
-from pipeline.comparator_sets.config import ColumnNames
+from pipeline.comparator_sets.config import ColumnNames, FINAL_SET_SIZE
 
 from .conftest import sample_data_length
 
@@ -115,13 +115,14 @@ class TestComparatorCalculator:
                 for i in range(sample_data_length)
             ]
         )
+        # FIX: Added the missing include_mask argument
+        include_mask = np.array([True] * sample_data_length)
 
-        result = calculator._select_top_urns(0, top_urns_phase_arrays, distances)
+        result = calculator._select_top_urns(0, top_urns_phase_arrays, distances, include_mask)
 
-        # FIX: Check size and content, not exact array match
-        assert (
-            len(result) == sample_data_length
-        )  # Cannot be 30, as there are only sample_data_length schools total
+        # The size should be the smaller of FINAL_SET_SIZE or the total number of schools
+        expected_size = FINAL_SET_SIZE
+        assert len(result) == expected_size
         assert result[0] == "A"  # Target is always first
         # The next results should be 'C', 'E', 'G', etc. because they are also PFI/Boarding
         assert result[1] == "C"
@@ -139,11 +140,13 @@ class TestComparatorCalculator:
         top_urns_phase_arrays[ColumnNames.BOARDERS] = np.array(
             ["Not Boarding"] * sample_data_length
         )
+        # FIX: Added the missing include_mask argument
+        include_mask = np.array([True] * sample_data_length)
 
-        result = calculator._select_top_urns(0, top_urns_phase_arrays, distances)
+        result = calculator._select_top_urns(0, top_urns_phase_arrays, distances, include_mask)
 
-        # FIX: Check size and the first few elements based on distance
-        assert len(result) == sample_data_length
+        expected_size = min(FINAL_SET_SIZE, sample_data_length)
+        assert len(result) == expected_size
         assert result[0] == "A"
         # Since no PFI/Boarding/Region criteria apply, it should just be the closest schools
         assert result[1] == "B"
@@ -158,12 +161,16 @@ class TestComparatorCalculator:
         """
         distances = np.array([0.01 * i for i in range(sample_data_length)])
         # Only the target 'A' is in its region
-        top_urns_phase_arrays[ColumnNames.REGION] = np.array(["A"] + ["B"] * 25)
+        top_urns_phase_arrays[ColumnNames.REGION] = np.array(
+            ["Region A"] + ["Region B"] * (sample_data_length - 1)
+        )
+        # FIX: Added the missing include_mask argument
+        include_mask = np.array([True] * sample_data_length)
 
-        result = calculator._select_top_urns(0, top_urns_phase_arrays, distances)
+        result = calculator._select_top_urns(0, top_urns_phase_arrays, distances, include_mask)
 
-        # FIX: Check that the set is filled with the closest schools after the region match
-        assert len(result) == sample_data_length
+        expected_size = FINAL_SET_SIZE
+        assert len(result) == expected_size
         assert result[0] == "A"
         # Since only 'A' is in the region, the rest are filled by distance
         assert result[1] == "B"
@@ -173,7 +180,6 @@ class TestComparatorCalculator:
         """
         Tests the logic that determines if pupil and building sets should be generated.
         """
-        # FIX: Use the full sample_data to allow sets to be generated
         df = sample_data.copy()
 
         # URN1: Cannot generate any set
@@ -184,36 +190,42 @@ class TestComparatorCalculator:
         df.loc["URN3", ColumnNames.DID_NOT_SUBMIT] = True
 
         calculator = ComparatorCalculator(prepare_data(df))
-        results = calculator.calculate_all_sets()
+        results = calculator.calculate_comparator_sets()
 
-        # The max comparator set size is 25, as schools don't get compared to themselves
-        max_set_size = sample_data_length - 1
+        # The max comparator set size is the smaller of FINAL_SET_SIZE or total schools
+        # The number of valid schools for URN0's phase is sample_data_length.
+        # The set includes the school itself.
+        max_set_size = min(FINAL_SET_SIZE, sample_data_length)
 
-        # FIX: Assert against the maximum possible set size from the data
+        # Set for URN0 should be full
         assert len(results.loc["URN0"]["Pupil"]) == max_set_size
         assert len(results.loc["URN0"]["Building"]) == max_set_size
 
+        # URN1 has no financial data
         assert len(results.loc["URN1"]["Pupil"]) == 0
         assert len(results.loc["URN1"]["Building"]) == 0
 
+        # URN2 has no building data, so building set is empty
         assert len(results.loc["URN2"]["Pupil"]) == max_set_size
         assert len(results.loc["URN2"]["Building"]) == 0
 
+        # URN3 did not submit
         assert len(results.loc["URN3"]["Pupil"]) == 0
         assert len(results.loc["URN3"]["Building"]) == 0
 
-    def test_calculate_all_sets_with_target_urn(self, sample_data: pd.DataFrame):
+    def test_calculate_comparator_sets_with_target_urn(self, sample_data: pd.DataFrame):
         """
-        Test that processing a single URN results in an empty set, as it has no
-        peers for comparison within the filtered dataframe.
+        Test that processing a single URN results in a correctly formed set,
+        using its peers for comparison.
         """
         calculator = ComparatorCalculator(prepare_data(sample_data))
         # This will filter the dataframe inside the method to only contain URN5
-        results = calculator.calculate_all_sets(target_urn="URN5")
+        results = calculator.calculate_comparator_sets(target_urn="URN5")
 
         assert len(results) == 1
         assert results.index[0] == "URN5"
-        # FIX: The code, when given a single school, cannot form a set.
-        # The result should be an empty list.
-        assert len(results.iloc[0]["Pupil"]) == 0
-        assert len(results.iloc[0]["Building"]) == 0
+        # FIX: The code, when given a single school, should still form a set
+        # by looking at the whole dataset.
+        expected_size = FINAL_SET_SIZE
+        assert len(results.iloc[0]["Pupil"]) == expected_size
+        assert len(results.iloc[0]["Building"]) == expected_size
