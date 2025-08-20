@@ -39,3 +39,10 @@
         Then the tooltip for 'Test school 263' is correctly displayed
         When I press tab to select the school with urn '777042' in a chart
         Then the tooltip for 'Test school 102' is correctly displayed
+        
+    Scenario: Save chart images button opens modal and starts download
+        Given I am on it spend page for school with URN '777042'
+        Then the save chart images button is visible
+        When I click the save chart images button
+        Then the save chart images modal is visible
+        And the 'benchmark-it-spending-777042.zip' file is downloaded
