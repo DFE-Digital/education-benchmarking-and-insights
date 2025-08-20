@@ -18,6 +18,16 @@ public class BenchmarkItSpendPage(IPage page)
             });
     private ILocator ChartTooltip => page.Locator(Selectors.EnhancementSchoolChartTooltip);
     private ILocator FilterButtons => page.Locator(".app-filter .govuk-button");
+    private ILocator SaveImagesButton =>
+        page.Locator(Selectors.Button, new PageLocatorOptions
+        {
+            HasText = "Save chart images"
+        });
+    private ILocator SaveImagesModal =>
+        page.Locator(Selectors.Modal, new PageLocatorOptions
+        {
+            HasText = "Save chart images"
+        });
 
     public async Task IsDisplayed()
     {
@@ -72,6 +82,21 @@ public class BenchmarkItSpendPage(IPage page)
     public async Task PressTab()
     {
         await page.Keyboard.PressAsync("Tab");
+    }
+
+    public async Task IsSaveImagesButtonDisplayed()
+    {
+        await SaveImagesButton.ShouldBeVisible();
+    }
+
+    public async Task ClickSaveImagesButton()
+    {
+        await SaveImagesButton.ClickAsync();
+    }
+
+    public async Task IsSaveImagesModalDisplayed()
+    {
+        await SaveImagesModal.ShouldBeVisible();
     }
 
     private async Task AssertVisibleCharts(IEnumerable<string> expectedTitles)

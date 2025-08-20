@@ -1,4 +1,5 @@
-﻿using Web.E2ETests.Drivers;
+﻿using Microsoft.Playwright;
+using Web.E2ETests.Drivers;
 using Web.E2ETests.Pages.School;
 using Xunit;
 
@@ -10,6 +11,7 @@ public class BenchmarkItSpendSteps(PageDriver driver)
 {
     private BenchmarkItSpendPage? _itSpendPage;
     private HomePage? _schoolHomePage;
+    private IDownload? _download;
 
     [Given("I am on it spend page for school with URN '(.*)'")]
     public async Task GivenIAmOnItSpendPageForSchoolWithUrn(string urn)
@@ -53,6 +55,15 @@ public class BenchmarkItSpendSteps(PageDriver driver)
         await _itSpendPage.PressTab();
     }
 
+    [When("I click the save chart images button")]
+    public async Task WhenIClickTheSaveChartImagesButton()
+    {
+        Assert.NotNull(_itSpendPage);
+
+        var page = await driver.Current;
+        _download = await page.RunAndWaitForDownloadAsync(() => _itSpendPage.ClickSaveImagesButton(), new TimeSpan(0, 2, 0));
+    }
+
     [Then("I should see the following IT spend charts:")]
     public async Task ThenIShouldSeeTheFollowingITSpendCharts(Table table)
     {
@@ -81,6 +92,28 @@ public class BenchmarkItSpendSteps(PageDriver driver)
     {
         Assert.NotNull(_itSpendPage);
         await _itSpendPage.TooltipIsDisplayedWithPartYearWarning(name, months);
+    }
+
+    [Then("the save chart images button is visible")]
+    public async Task ThenTheSaveChartImagesButtonIsVisible()
+    {
+        Assert.NotNull(_itSpendPage);
+        await _itSpendPage.IsSaveImagesButtonDisplayed();
+    }
+
+    [Then("the save chart images modal is visible")]
+    public async Task ThenTheSaveChartImagesModalIsVisible()
+    {
+        Assert.NotNull(_itSpendPage);
+        await _itSpendPage.IsSaveImagesModalDisplayed();
+    }
+
+    [Then("the '(.*)' file is downloaded")]
+    public void ThenTheFileIsDownloaded(string fileName)
+    {
+        Assert.NotNull(_itSpendPage);
+        var downloadedFilePath = _download?.SuggestedFilename;
+        Assert.Equal(fileName, downloadedFilePath);
     }
 
     private async Task<BenchmarkItSpendPage> LoadItSpendPageForSchoolWithUrn(string urn)
