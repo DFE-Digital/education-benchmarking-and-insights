@@ -47,9 +47,10 @@ def run_comparator_sets_pipeline(
             )
 
             # 3. Persist the results and the prepared data
+            comparators_parquet_filename_prefix = "academy" if school_type == "academies" else school_type
             write_blob(
                 container_name="comparator-sets",
-                blob_name=f"{run_type}/{run_id}/{school_type}_comparators.parquet",
+                blob_name=f"{run_type}/{run_id}/{comparators_parquet_filename_prefix}_comparators.parquet",
                 data=results_df.to_parquet(),
             )
 
