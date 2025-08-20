@@ -115,34 +115,47 @@ class ComparatorCalculator:
         Determines the URNs of the most similar schools based on a
         hierarchy of criteria.
         """
-        valid_mask = (np.arange(len(phase_arrays[ColumnNames.URN])) != target_index) & phase_arrays["include_mask"]
+        valid_mask = (
+            np.arange(len(phase_arrays[ColumnNames.URN])) != target_index
+        ) & phase_arrays["include_mask"]
         other_distances = distances[valid_mask]
-        
+
         # Use a stable sort to ensure deterministic output for tie-breaking
-        sorted_indices = np.argsort(other_distances, kind='stable')[:BASE_SET_SIZE]
+        sorted_indices = np.argsort(other_distances, kind="stable")[:BASE_SET_SIZE]
 
         top_candidates = pd.DataFrame(
             {
                 col: arr[valid_mask][sorted_indices]
-                for col, arr in phase_arrays.items() if col != "include_mask"
+                for col, arr in phase_arrays.items()
+                if col != "include_mask"
             }
         )
-        
+
         target_urn = phase_arrays[ColumnNames.URN][target_index]
         final_set_urns = [target_urn]
 
         if phase_arrays[ColumnNames.PFI][target_index]:
-            final_set_urns.extend(top_candidates[top_candidates[ColumnNames.PFI]]["URN"])
+            final_set_urns.extend(
+                top_candidates[top_candidates[ColumnNames.PFI]]["URN"]
+            )
         if phase_arrays[ColumnNames.BOARDERS][target_index] == "Boarding":
-            final_set_urns.extend(top_candidates[top_candidates[ColumnNames.BOARDERS] == "Boarding"]["URN"])
+            final_set_urns.extend(
+                top_candidates[top_candidates[ColumnNames.BOARDERS] == "Boarding"][
+                    "URN"
+                ]
+            )
 
         target_region = phase_arrays[ColumnNames.REGION][target_index]
-        final_set_urns.extend(top_candidates[top_candidates[ColumnNames.REGION] == target_region]["URN"])
-        
+        final_set_urns.extend(
+            top_candidates[top_candidates[ColumnNames.REGION] == target_region]["URN"]
+        )
+
         final_set_urns = list(dict.fromkeys(final_set_urns))
 
         if len(final_set_urns) < FINAL_SET_SIZE:
-            remaining_candidates = top_candidates[~top_candidates["URN"].isin(final_set_urns)]
+            remaining_candidates = top_candidates[
+                ~top_candidates["URN"].isin(final_set_urns)
+            ]
             fill_count = FINAL_SET_SIZE - len(final_set_urns)
             final_set_urns.extend(remaining_candidates["URN"].head(fill_count))
 
@@ -168,7 +181,7 @@ class ComparatorCalculator:
 
         pupil_sets = []
         building_sets = []
-        
+
         for i, (urn, row) in enumerate(group.iterrows()):
             if row["_GeneratePupilSet"]:
                 pupil_urns = self._select_top_urns(i, phase_arrays, pupil_distances[i])
@@ -177,8 +190,12 @@ class ComparatorCalculator:
                 pupil_sets.append(np.array([]))
 
             if row["_GenerateBuildingSet"]:
-                building_urns = self._select_top_urns(i, phase_arrays, building_distances[i])
-                building_sets.append(building_urns if len(building_urns) > 1 else np.array([]))
+                building_urns = self._select_top_urns(
+                    i, phase_arrays, building_distances[i]
+                )
+                building_sets.append(
+                    building_urns if len(building_urns) > 1 else np.array([])
+                )
             else:
                 building_sets.append(np.array([]))
 
@@ -198,10 +215,14 @@ class ComparatorCalculator:
 
         can_generate = df[ColumnNames.FINANCIAL_DATA] & ~df[ColumnNames.DID_NOT_SUBMIT]
         df["_GeneratePupilSet"] = can_generate & df[ColumnNames.PUPIL_DATA]
-        df["_GenerateBuildingSet"] = df["_GeneratePupilSet"] & df[ColumnNames.BUILDING_DATA]
+        df["_GenerateBuildingSet"] = (
+            df["_GeneratePupilSet"] & df[ColumnNames.BUILDING_DATA]
+        )
 
         grouped = df.groupby(ColumnNames.PHASE)
-        all_results = [self._process_phase_group(phase, group) for phase, group in grouped]
+        all_results = [
+            self._process_phase_group(phase, group) for phase, group in grouped
+        ]
 
         if not all_results:
             df["Pupil"] = [[] for _ in range(len(df))]
