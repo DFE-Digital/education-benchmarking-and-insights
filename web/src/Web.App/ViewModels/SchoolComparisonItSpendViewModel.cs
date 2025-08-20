@@ -25,7 +25,6 @@ public class SchoolComparisonItSpendViewModel(
         Urn = x.URN,
         SchoolName = x.SchoolName,
         LAName = x.LAName,
-        SchoolType = x.SchoolType,
         TotalPupils = x.TotalPupils,
         PeriodCoveredByReturn = x.PeriodCoveredByReturn
     }).ToArray();

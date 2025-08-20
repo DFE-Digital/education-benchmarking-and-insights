@@ -43,15 +43,11 @@ watch(tooltip, () => {
     }"
     ref="tooltip"
   >
-    <div v-if="!(datum?.periodCoveredByReturn === 12)" className="tooltip-part-year-warning">
-      <div class="govuk-warning-text govuk-!-margin-0">
-        <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
-        <strong class="govuk-warning-text__text">
-          <span class="govuk-visually-hidden">Warning</span>
-          This school only has {{ datum?.periodCoveredByReturn }}
-          {{ datum?.periodCoveredByReturn === 1 ? "month" : "months" }} of data available.
-        </strong>
-      </div>
+    <div v-if="!(datum?.periodCoveredByReturn === 12)" class="govuk-!-margin-2">
+      <strong class="govuk-tag govuk-tag--red">
+        Only has {{ datum?.periodCoveredByReturn }}
+        {{ datum?.periodCoveredByReturn === 1 ? "month" : "months" }} of data
+      </strong>
     </div>
     <table class="govuk-table govuk-table--small-text-until-tablet tooltip-table">
       <caption class="govuk-table__caption govuk-table__caption--s">
@@ -71,12 +67,10 @@ watch(tooltip, () => {
           <td class="govuk-table__cell">{{ datum?.laName }}</td>
         </tr>
         <tr class="govuk-table__row">
-          <th scope="row" class="govuk-table__header">School type</th>
-          <td class="govuk-table__cell">{{ datum?.schoolType }}</td>
-        </tr>
-        <tr class="govuk-table__row">
-          <th scope="row" class="govuk-table__header">Number of pupils</th>
-          <td class="govuk-table__cell">{{ datum?.totalPupils?.toString() }}</td>
+          <th scope="row" class="govuk-table__header">Pupils</th>
+          <td class="govuk-table__cell govuk-table__cell--numeric">
+            {{ datum?.totalPupils?.toString() }}
+          </td>
         </tr>
       </tbody>
     </table>
