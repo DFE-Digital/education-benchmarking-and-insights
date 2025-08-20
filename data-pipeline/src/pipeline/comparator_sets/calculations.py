@@ -58,14 +58,13 @@ class ComparatorCalculator:
         Calculates the squared ratio of the absolute difference between
         all combinations in the input, divided by the range of the input.
         """
-        # POTENTIAL ERROR: If all values in `input_array` are identical, `input_range`
-        # will be 0, leading to a division-by-zero error. This can result in
-        # `NaN` or `inf` values in the distance calculations, corrupting the results.
-        input_range = np.ptp(input_array)
-
-        diff_matrix = np.abs(input_array[:, None] - input_array[None, :])
-        ratio = diff_matrix / input_range
-        return np.power(ratio, 2)
+        with np.errstate(divide="ignore", invalid="ignore"):
+            input_range = np.ptp(input_array)
+            if input_range == 0:
+                return np.zeros((len(input_array), len(input_array)))
+            diff_matrix = np.abs(input_array[:, None] - input_array[None, :])
+            ratio = diff_matrix / input_range
+            return np.power(ratio, 2)
 
     def _compute_weighted_distance(
         self, group_data: pd.DataFrame, metrics: dict
@@ -110,7 +109,7 @@ class ComparatorCalculator:
         return self._compute_weighted_distance(group_data, metrics)
 
     def _select_top_urns(
-        self, target_index: int, phase_arrays: dict, distances: np.ndarray
+        self, target_index: int, phase_arrays: dict, distances: np.ndarray, include_mask: np.ndarray
     ) -> np.ndarray:
         """
         Determines the URNs of the most similar schools based on a
@@ -118,49 +117,52 @@ class ComparatorCalculator:
         """
         valid_mask = (
             np.arange(len(phase_arrays[ColumnNames.URN])) != target_index
-        ) & phase_arrays["include_mask"]
+        ) & include_mask
+        
         other_distances = distances[valid_mask]
+        urns_without_target = phase_arrays[ColumnNames.URN][valid_mask]
+        regions_without_target = phase_arrays[ColumnNames.REGION][valid_mask]
+        pfi_without_target = phase_arrays[ColumnNames.PFI][valid_mask]
+        boarding_without_target = phase_arrays[ColumnNames.BOARDERS][valid_mask]
 
-        # Use a stable sort to ensure deterministic output for tie-breaking
         sorted_indices = np.argsort(other_distances, kind="stable")[:BASE_SET_SIZE]
-
-        top_candidates = pd.DataFrame(
-            {
-                col: arr[valid_mask][sorted_indices]
-                for col, arr in phase_arrays.items()
-                if col != "include_mask"
-            }
-        )
+        urns_by_distance = urns_without_target[sorted_indices]
 
         target_urn = phase_arrays[ColumnNames.URN][target_index]
-        final_set_urns = [target_urn]
-
-        if phase_arrays[ColumnNames.PFI][target_index]:
-            final_set_urns.extend(
-                top_candidates[top_candidates[ColumnNames.PFI]]["URN"]
-            )
-        if phase_arrays[ColumnNames.BOARDERS][target_index] == "Boarding":
-            final_set_urns.extend(
-                top_candidates[top_candidates[ColumnNames.BOARDERS] == "Boarding"][
-                    "URN"
-                ]
-            )
-
+        target_pfi = phase_arrays[ColumnNames.PFI][target_index]
+        target_boarding = phase_arrays[ColumnNames.BOARDERS][target_index]
         target_region = phase_arrays[ColumnNames.REGION][target_index]
-        final_set_urns.extend(
-            top_candidates[top_candidates[ColumnNames.REGION] == target_region]["URN"]
-        )
 
-        final_set_urns = list(dict.fromkeys(final_set_urns))
+        urns = np.array([target_urn])
 
-        if len(final_set_urns) < FINAL_SET_SIZE:
-            remaining_candidates = top_candidates[
-                ~top_candidates["URN"].isin(final_set_urns)
-            ]
-            fill_count = FINAL_SET_SIZE - len(final_set_urns)
-            final_set_urns.extend(remaining_candidates["URN"].head(fill_count))
+        # POTENTIAL ERROR: If a school meets multiple criteria (e.g. same PFI and
+        # same region), its URN will be appended multiple times, creating duplicates
+        # in the final comparator set.
+        if target_pfi:
+            top_pfi = pfi_without_target[sorted_indices]
+            same_pfi = np.argwhere(top_pfi).flatten()
+            urns = np.append(urns, urns_by_distance[same_pfi])
 
-        return np.array(final_set_urns[:FINAL_SET_SIZE])
+        if target_boarding == "Boarding":
+            top_boarding = boarding_without_target[sorted_indices]
+            same_boarding = np.argwhere(top_boarding == target_boarding).flatten()
+            urns = np.append(urns, urns_by_distance[same_boarding])
+        
+        top_regions = regions_without_target[sorted_indices]
+        same_region_indices = np.argwhere(top_regions == target_region).flatten()
+        urns = np.append(urns, urns_by_distance[same_region_indices])
+        
+        if len(urns) >= FINAL_SET_SIZE:
+            return urns[:FINAL_SET_SIZE]
+
+        # POTENTIAL ERROR: This logic only excludes schools already added for being
+        # in the `same_region`. It does NOT exclude schools added for PFI or Boarding
+        # status, so those schools could be added a second time here.
+        fill_count = FINAL_SET_SIZE - len(urns)
+        urns_to_add = np.delete(urns_by_distance, same_region_indices)[:fill_count]
+        urns = np.append(urns, urns_to_add)
+
+        return urns
 
     def _process_phase_group(self, phase: str, group: pd.DataFrame) -> pd.DataFrame:
         """
@@ -211,32 +213,40 @@ class ComparatorCalculator:
             {"Pupil": pupil_sets, "Building": building_sets}, index=group.index
         )
 
-    def calculate_all_sets(self, target_urn: int | None = None) -> pd.DataFrame:
+    def calculate_comparator_sets(self, target_urn: int | None = None) -> pd.DataFrame:
         """
         Orchestrates the derivation of comparator sets for all schools.
         """
         df = self.prepared_data
         if target_urn:
-            df = df.loc[[target_urn]] if target_urn in df.index else pd.DataFrame()
-            if df.empty:
-                return df
+            full_df = self.prepared_data
+            if target_urn not in full_df.index:
+                return pd.DataFrame()
+        else:
+            full_df = df
 
-        can_generate = df[ColumnNames.FINANCIAL_DATA] & ~df[ColumnNames.DID_NOT_SUBMIT]
-        df["_GeneratePupilSet"] = can_generate & df[ColumnNames.PUPIL_DATA]
-        df["_GenerateBuildingSet"] = (
-            df["_GeneratePupilSet"] & df[ColumnNames.BUILDING_DATA]
+        can_generate = full_df[ColumnNames.FINANCIAL_DATA] & ~full_df[ColumnNames.DID_NOT_SUBMIT]
+        full_df["_GeneratePupilSet"] = can_generate & full_df[ColumnNames.PUPIL_DATA]
+        full_df["_GenerateBuildingSet"] = (
+            full_df["_GeneratePupilSet"] & full_df[ColumnNames.BUILDING_DATA]
         )
 
-        grouped = df.groupby(ColumnNames.PHASE)
+        grouped = full_df.groupby(ColumnNames.PHASE)
         all_results = [
             self._process_phase_group(phase, group) for phase, group in grouped
         ]
-
+        
         if not all_results:
-            df["Pupil"] = [[] for _ in range(len(df))]
-            df["Building"] = [[] for _ in range(len(df))]
+            result_df = full_df.copy()
+            result_df["Pupil"] = [[] for _ in range(len(full_df))]
+            result_df["Building"] = [[] for _ in range(len(full_df))]
         else:
             final_sets = pd.concat(all_results)
-            df = df.join(final_sets)
+            result_df = full_df.join(final_sets)
 
-        return df.drop(columns=["_GeneratePupilSet", "_GenerateBuildingSet"])
+        result_df = result_df.drop(columns=["_GeneratePupilSet", "_GenerateBuildingSet"])
+        
+        if target_urn:
+            return result_df.loc[[target_urn]]
+            
+        return result_df
