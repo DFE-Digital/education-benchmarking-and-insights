@@ -1,6 +1,6 @@
 const _d3 = import("d3");
 import classnames from "classnames";
-import { VerticalBarChartBuilderOptions, ChartBuilderResult } from "..";
+import { VerticalBarChartBuilderOptions, ChartBuilderResult } from "../..";
 import { DOMImplementation } from "@xmldom/xmldom";
 
 export default class VerticalBarChartBuilder {

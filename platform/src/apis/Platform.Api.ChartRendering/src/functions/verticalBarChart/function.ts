@@ -7,7 +7,8 @@ import appInsights from "applicationinsights";
 import { ChartBuilderResult } from "..";
 import { VerticalBarChartPayload } from ".";
 import { validatePayload } from "./validator";
-import piscina from "../shared/pool";
+import { v4 as uuidv4 } from "uuid";
+import VerticalBarChartTemplate from "./template";
 
 const client = new appInsights.TelemetryClient();
 
@@ -16,6 +17,8 @@ export async function verticalBarChart(
   context: InvocationContext,
 ): Promise<HttpResponseInit> {
   const startTime = Date.now();
+  const verticalBarChartTemplate = new VerticalBarChartTemplate();
+
   context.debug(`Received HTTP request for vertical bar chart`);
 
   let payload: VerticalBarChartPayload | undefined;
@@ -43,7 +46,18 @@ export async function verticalBarChart(
   const definitions = Array.isArray(payload) ? payload : [payload];
 
   try {
-    charts = await piscina.run({ definitions }, { name: "VerticalBarChart" });
+    charts = definitions.map(
+      ({ data, height, id, keyField, valueField, width, ...rest }) =>
+        verticalBarChartTemplate.buildChart({
+          data,
+          height: height || 500,
+          id: id || uuidv4(),
+          keyField: keyField as never,
+          valueField: valueField as never,
+          width: width || 928,
+          ...rest,
+        }),
+    );
   } catch (e) {
     context.error(e);
 
