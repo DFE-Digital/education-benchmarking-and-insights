@@ -9,7 +9,6 @@ import { HorizontalBarChartPayload } from ".";
 import { validatePayload } from "./validator";
 import { v4 as uuidv4 } from "uuid";
 import HorizontalBarChartTemplate from "./template";
-//import piscina from "../shared/pool";
 
 const client = new appInsights.TelemetryClient();
 
@@ -47,7 +46,6 @@ export async function horizontalBarChart(
   const definitions = Array.isArray(payload) ? payload : [payload];
 
   try {
-    //charts = await piscina.run({ definitions }, { name: "HorizontalBarChart" });
     charts = definitions.map(
       ({
         barHeight,

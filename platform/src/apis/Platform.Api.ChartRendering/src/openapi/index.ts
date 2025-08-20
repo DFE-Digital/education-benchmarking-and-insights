@@ -3,4 +3,7 @@ export {
   GetHorizontalBarChartApi,
   GetHorizontalBarChartDomApi,
 } from "./horizontalBarChart/api";
-export { GetVerticalBarChartApi } from "./verticalBarChart/api";
+export {
+  GetVerticalBarChartApi,
+  GetVerticalBarChartDomApi,
+} from "./verticalBarChart/api";

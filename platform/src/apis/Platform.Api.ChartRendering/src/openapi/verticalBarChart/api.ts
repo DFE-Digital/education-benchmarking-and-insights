@@ -28,3 +28,26 @@ export type GetVerticalBarChartApi = ApiMapper<{
     "500": { error: string };
   };
 }>;
+
+/**
+ * Generates a single or multiple vertical bar chart(s) based on whether payload in a single object or an array
+ * @summary Builds a vertical bar chart using D3 in the DOM
+ * @tags DOM
+ * @body.description Bar chart payload
+ * @body.contentType application/json
+ */
+export type GetVerticalBarChartDomApi = ApiMapper<{
+  path: "/api/verticalBarChart/dom";
+  method: "POST";
+  body: VerticalBarChartPayload;
+  responses: {
+    /**
+     * @contentType application/json
+     */
+    "200": ChartBuilderResult | string;
+    /**
+     * @contentType application/json
+     */
+    "500": { error: string };
+  };
+}>;

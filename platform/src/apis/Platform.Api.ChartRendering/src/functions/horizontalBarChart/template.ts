@@ -1,4 +1,3 @@
-//import * as d3 from "d3";
 import { format, formatDefaultLocale } from "d3-format";
 import { ascending, descending, max } from "d3-array";
 import { scaleLinear, scaleBand } from "d3-scale";

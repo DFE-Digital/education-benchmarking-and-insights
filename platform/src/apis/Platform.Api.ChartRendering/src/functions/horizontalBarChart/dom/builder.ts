@@ -19,7 +19,7 @@ import {
 
 export default class HorizontalBarChartBuilder {
   // https://observablehq.com/@d3/bar-chart/2
-  static async buildChart<T>({
+  async buildChart<T>({
     data,
     barHeight,
     groupedKeys,
