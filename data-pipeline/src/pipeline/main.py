@@ -55,21 +55,21 @@ def handle_msg(
             case MessageType.Default:
                 logger.info("Starting default pipeline run...")
                 stats_collector.start_pipeline_run()
-                # msg_payload["pre_process_duration"] = pre_process_data(
-                #     run_id=str(msg_payload["runId"]),
-                #     aar_year=msg_payload["year"]["aar"],
-                #     cfr_year=msg_payload["year"]["cfr"],
-                #     bfr_year=msg_payload["year"]["bfr"],
-                #     s251_year=msg_payload["year"]["s251"],
-                # )
+                msg_payload["pre_process_duration"] = pre_process_data(
+                    run_id=str(msg_payload["runId"]),
+                    aar_year=msg_payload["year"]["aar"],
+                    cfr_year=msg_payload["year"]["cfr"],
+                    bfr_year=msg_payload["year"]["bfr"],
+                    s251_year=msg_payload["year"]["s251"],
+                )
                 msg_payload["comparator_set_duration"] = run_comparator_sets_pipeline(
                     run_type=run_type,
                     run_id=str(msg_payload["runId"]),
                 )
-                # msg_payload["rag_duration"] = compute_rag(
-                #     run_type=run_type,
-                #     run_id=str(msg_payload["runId"]),
-                # )
+                msg_payload["rag_duration"] = compute_rag(
+                    run_type=run_type,
+                    run_id=str(msg_payload["runId"]),
+                )
                 msg_payload["stats"] = stats_collector.get_stats()
                 logger.info("Default pipeline run completed!")
 
