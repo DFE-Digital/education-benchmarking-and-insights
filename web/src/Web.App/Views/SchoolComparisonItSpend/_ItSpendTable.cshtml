@@ -16,23 +16,12 @@
 }
 <div>
 
-    @if (Model.SubCategory.HasNegativeOrZeroValues)
-    {
-        <p class="govuk-body">Only displaying schools with positive expenditure.</p>
-    }
-
-    @if (Model.SubCategory.HasPartYearSubmissions)
-    {
-        <p class="govuk-body">Some schools only have partial data. These are highlighted in the table.</p>
-    }
-
     <table class="govuk-table">
         <thead class="govuk-table__head">
         <tr class="govuk-table__row">
             <th scope="col" class="govuk-table__header">School name</th>
             <th scope="col" class="govuk-table__header">Local Authority</th>
-            <th scope="col" class="govuk-table__header">School type</th>
-            <th scope="col" class="govuk-table__header">Number of pupils</th>
+            <th scope="col" class="govuk-table__header">Pupils</th>
             <th scope="col" class="govuk-table__header">@Model.ResultAs.GetTableHeader()</th>
         </tr>
         </thead>
@@ -57,16 +46,16 @@
                     @if (row.PeriodCoveredByReturn is not 12)
                     {
                         <p class="govuk-table__cell_commentary">
-                            <strong class="govuk-tag govuk-tag--grey">
-                                Partial data
+                            <strong class="govuk-tag govuk-tag--red">
+                                Only has @row.PeriodCoveredByReturn
+                                @(row.PeriodCoveredByReturn == 1 ? "month" : "months") of data
                             </strong>
                         </p>
                     }
                 </td>
                 <td class="govuk-table__cell">@row.LAName</td>
-                <td class="govuk-table__cell">@row.SchoolType</td>
-                <td class="govuk-table__cell">@row.TotalPupils.ToSimpleDisplay()</td>
-                <td class="govuk-table__cell">@Model.ResultAs.GetFormattedValue(row.Expenditure)</td>
+                <td class="govuk-table__cell govuk-table__cell--numeric">@row.TotalPupils.ToSimpleDisplay()</td>
+                <td class="govuk-table__cell govuk-table__cell--numeric">@Model.ResultAs.GetFormattedValue(row.Expenditure)</td>
             </tr>
         }
         </tbody>

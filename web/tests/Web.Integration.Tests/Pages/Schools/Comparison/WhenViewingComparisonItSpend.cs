@@ -218,53 +218,6 @@ public class WhenViewingComparisonItSpend(SchoolBenchmarkingWebAppClient client)
             expectedQueryParams: "?ViewAs=0&ResultAs=0");
     }
 
-    [Theory]
-    [InlineData(true)]
-    [InlineData(false)]
-    public async Task SuppressNegativeOrZeroWarningCorrectlyShown(bool hasNegativeValues)
-    {
-        var school = Fixture.Build<School>()
-            .With(x => x.URN, "123456")
-            .With(x => x.FinanceType, EstablishmentTypes.Maintained)
-            .Create();
-
-        var comparatorSet = Fixture.Build<SchoolComparatorSet>()
-            .With(c => c.Pupil, Fixture.CreateMany<string>().ToArray())
-            .Without(c => c.Building)
-            .Create();
-
-        var spend = Fixture.Build<SchoolItSpend>()
-            .CreateMany()
-            .ToArray();
-        spend.ElementAt(0).URN = school.URN;
-
-        if (hasNegativeValues) spend.ElementAt(1).AdministrationSoftwareAndSystems = -1;
-
-        var horizontalBarChart = new ChartResponse { Html = "<svg />" };
-
-        var client = Client
-            .SetupEstablishment(school)
-            .SetupComparatorSet(school, comparatorSet)
-            .SetupItSpend(spend)
-            .SetupChartRendering<SchoolComparisonDatum>(horizontalBarChart);
-
-        var page = await client.Navigate(Paths.SchoolComparisonItSpend(school.URN));
-
-        var adminSoftwareSection = page.QuerySelector("#cost-sub-category-administration-software-and-systems-e20d");
-        Assert.NotNull(adminSoftwareSection);
-        var warningParagraph = adminSoftwareSection.QuerySelectorAll("p").FirstOrDefault();
-
-        if (hasNegativeValues)
-        {
-            Assert.NotNull(warningParagraph);
-            DocumentAssert.TextEqual(warningParagraph, "Only displaying schools with positive expenditure.");
-        }
-        else
-        {
-            Assert.Null(warningParagraph);
-        }
-    }
-
     [Fact]
     public async Task CanDownloadPageData()
     {
@@ -327,7 +280,10 @@ public class WhenViewingComparisonItSpend(SchoolBenchmarkingWebAppClient client)
             .SetupItSpend(spend)
             .SetupChartRendering<SchoolComparisonDatum>(horizontalBarChart);
 
-        if (chartApiException) Client.SetupChartRenderingWithException<SchoolComparisonDatum>();
+        if (chartApiException)
+        {
+            Client.SetupChartRenderingWithException<SchoolComparisonDatum>();
+        }
 
         var page = await client.Navigate($"{Paths.SchoolComparisonItSpend(school.URN)}{queryParams}");
         return (page, school, spend);
@@ -357,6 +313,8 @@ public class WhenViewingComparisonItSpend(SchoolBenchmarkingWebAppClient client)
         DocumentAssert.TitleAndH1(page,
             "Benchmark your IT spending - Financial Benchmarking and Insights Tool - GOV.UK",
             "Benchmark your IT spending");
+
+        DocumentAssert.Heading2(page, "How data is presented");
 
         var filterSection = page.QuerySelector(".app-filter");
         Assert.NotNull(filterSection);
@@ -398,9 +356,13 @@ public class WhenViewingComparisonItSpend(SchoolBenchmarkingWebAppClient client)
                 var isChecked = checkbox.HasAttribute("checked");
 
                 if (shouldBeChecked)
+                {
                     Assert.True(isChecked);
+                }
                 else
+                {
                     Assert.False(isChecked);
+                }
             }
         }
 
@@ -411,9 +373,13 @@ public class WhenViewingComparisonItSpend(SchoolBenchmarkingWebAppClient client)
             Assert.NotNull(radio);
 
             if (i == resultAs)
+            {
                 Assert.True(radio.HasAttribute("checked"));
+            }
             else
+            {
                 Assert.False(radio.HasAttribute("checked"));
+            }
         }
 
         // Assert all ViewAs radios exist and correctly checked
@@ -423,9 +389,13 @@ public class WhenViewingComparisonItSpend(SchoolBenchmarkingWebAppClient client)
             Assert.NotNull(radio);
 
             if (i == viewAs)
+            {
                 Assert.True(radio.HasAttribute("checked"));
+            }
             else
+            {
                 Assert.False(radio.HasAttribute("checked"));
+            }
         }
 
         if (expectedSubCategories.Length < AllSubCategories.Length)
@@ -457,9 +427,13 @@ public class WhenViewingComparisonItSpend(SchoolBenchmarkingWebAppClient client)
         Assert.Equal(expectedSubCategory.Heading, sectionHeading);
 
         if (isChartView)
+        {
             AssertChartSection(section, chartError);
+        }
         else
+        {
             AssertTableSection(section, spend);
+        }
     }
 
     private static void AssertChartSection(IElement chartSection, bool chartError)
@@ -496,27 +470,30 @@ public class WhenViewingComparisonItSpend(SchoolBenchmarkingWebAppClient client)
 
     private static ExpectedSubCategory[] BuildExpectedSubCategories(params int[]? ids)
     {
-        if (ids is null || ids.Length == 0) return AllSubCategories;
+        if (ids is null || ids.Length == 0)
+        {
+            return AllSubCategories;
+        }
 
         return ids.Select(id => AllSubCategories.First(c => c.Id == id)).ToArray();
     }
 
     private static void AssertPartYearSchools(IHtmlDocument page, SchoolItSpend[] spend, bool isChartView)
     {
-        var partYearTitle = page.QuerySelectorAll("h2")
-            .FirstOrDefault(x => x.TextContent.Trim() == "Schools with partial data available");
+        var partYearTagCells = page.QuerySelectorAll(".govuk-table__cell")
+            .Where(c => c.TextContent.Trim().Contains("Only has"))
+            .ToArray();
 
-        var partYearSchools = spend.Where(s => s.PeriodCoveredByReturn is not 12).ToArray();
+        var partYearSchools = spend.Where(s => s.PeriodCoveredByReturn is not 12)
+            .DistinctBy(x => x.URN)
+            .ToArray();
         if (partYearSchools.Length == 0 || isChartView)
         {
-            Assert.Null(partYearTitle);
+            Assert.Empty(partYearTagCells);
         }
         else
         {
-            Assert.NotNull(partYearTitle);
-
-            var partYearCommentaries = page.QuerySelectorAll("h2.govuk-heading-s ~ p.govuk-body-s");
-            Assert.Equal(partYearSchools.Length, partYearCommentaries.Length);
+            Assert.Equal(partYearSchools.Length, partYearTagCells.DistinctBy(c => c.TextContent).Count());
         }
     }
 

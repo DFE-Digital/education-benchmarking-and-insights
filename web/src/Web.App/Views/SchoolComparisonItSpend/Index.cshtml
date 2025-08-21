@@ -22,6 +22,14 @@
                data-test-id="comparators-link">We've chosen 2 sets of similar schools</a>
             to benchmark this school's spending against.
         </p>
+        <h2 class="govuk-heading-m">How data is presented</h2>
+        <p class="govuk-body">
+            To make the data easier to read, we have:
+        </p>
+        <ul class="govuk-list govuk-list--bullet">
+            <li>only shown data from schools with positive expenditure</li>
+            <li>highlighted schools with partial data on the charts and in the table</li>
+        </ul>
     </div>
 </div>
 
@@ -51,24 +59,6 @@
                     @await Html.PartialAsync("_ItSpendTable", new SchoolComparisonItSpendTableViewModel(Model.Urn, Model.ResultAs, subCategory))
                 }
             </section>
-        }
-
-        @if (Model.ViewAs == SchoolComparisonItSpendViewModel.ViewAsOptions.Table)
-        {
-            for (var i = 0; i < Model.PartYearData.Length; i++)
-            {
-                var school = Model.PartYearData.ElementAt(i);
-                if (i == 0)
-                {
-                    <h2 class="govuk-heading-s">Schools with partial data available</h2>
-                }
-
-                <p class="govuk-body-s govuk-!-margin-bottom-1">
-                    @school.SchoolName only
-                    has @school.PeriodCoveredByReturn @(school.PeriodCoveredByReturn == 1 ? "month" : "months") of data
-                    available.
-                </p>
-            }
         }
     </div>
 </div>
