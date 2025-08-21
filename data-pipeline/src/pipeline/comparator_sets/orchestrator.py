@@ -76,7 +76,7 @@ def run_comparator_sets_pipeline(
             logger.error(f"Failed to process {school_type}. Error: {e}", exc_info=True)
             continue
 
-    # 4. Combine results and insert into the database
+    # 5. Combine results and insert into the database
     if all_comparator_results:
         final_comparators = pd.concat(all_comparator_results, axis=0)
         if not final_comparators.empty:
