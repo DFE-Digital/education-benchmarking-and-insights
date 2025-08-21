@@ -296,92 +296,7 @@
     Scenario: Sending a valid trust expenditure request with dimension
         Given a trust expenditure request with company number '10192252', category '' and dimension 'Actuals'
         When I submit the insights expenditure request
-        Then the trust expenditure result should be ok and contain:
-          | Field                                           | Value      |
-          | CompanyNumber                                   | 10192252   |
-          | SchoolTotalExpenditure                          | 5084583.00 |
-          | SchoolTotalTeachingSupportStaffCosts            | 3639070.00 |
-          | SchoolTeachingStaffCosts                        | 2440538.00 |
-          | SchoolSupplyTeachingStaffCosts                  | 0.00       |
-          | SchoolEducationalConsultancyCosts               | 262691.00  |
-          | SchoolEducationSupportStaffCosts                | 895785.00  |
-          | SchoolAgencySupplyTeachingStaffCosts            | 40056.00   |
-          | SchoolTotalNonEducationalSupportStaffCosts      | 578205.00  |
-          | SchoolAdministrativeClericalStaffCosts          | 327747.00  |
-          | SchoolOtherStaffCosts                           | 133034.00  |
-          | SchoolProfessionalServicesNonCurriculumCosts    | 117424.00  |
-          | SchoolTotalEducationalSuppliesCosts             | 92972.00   |
-          | SchoolExaminationFeesCosts                      | 0.00       |
-          | SchoolLearningResourcesNonIctCosts              | 92972.00   |
-          | SchoolLearningResourcesIctCosts                 | 0.00       |
-          | SchoolTotalPremisesStaffServiceCosts            | 331257.00  |
-          | SchoolCleaningCaretakingCosts                   | 103202.00  |
-          | SchoolMaintenancePremisesCosts                  | 113676.00  |
-          | SchoolOtherOccupationCosts                      | 21466.00   |
-          | SchoolPremisesStaffCosts                        | 92913.00   |
-          | SchoolTotalUtilitiesCosts                       | 85686.00   |
-          | SchoolEnergyCosts                               | 72693.00   |
-          | SchoolWaterSewerageCosts                        | 12993.00   |
-          | SchoolAdministrativeSuppliesNonEducationalCosts | 37149.00   |
-          | SchoolTotalGrossCateringCosts                   | 162358.00  |
-          | SchoolTotalNetCateringCosts                     | 189153.00  |
-          | SchoolCateringStaffCosts                        | 0.00       |
-          | SchoolCateringSuppliesCosts                     | 162358.00  |
-          | SchoolTotalOtherCosts                           | 144358.00  |
-          | SchoolDirectRevenueFinancingCosts               | 0.00       |
-          | SchoolGroundsMaintenanceCosts                   | 4690.00    |
-          | SchoolIndirectEmployeeExpenses                  | 6560.00    |
-          | SchoolInterestChargesLoanBank                   | 0.00       |
-          | SchoolOtherInsurancePremiumsCosts               | 13729.00   |
-          | SchoolPrivateFinanceInitiativeCharges           | 0.00       |
-          | SchoolRentRatesCosts                            | 83524.00   |
-          | SchoolSpecialFacilitiesCosts                    | 11754.00   |
-          | SchoolStaffDevelopmentTrainingCosts             | 19292.00   |
-          | SchoolStaffRelatedInsuranceCosts                | 2311.00    |
-          | SchoolSupplyTeacherInsurableCosts               | 2498.00    |
-          | TotalExpenditure                                | 5084583.00 |
-          | TotalTeachingSupportStaffCosts                  | 3639070.00 |
-          | TeachingStaffCosts                              | 2440538.00 |
-          | SupplyTeachingStaffCosts                        | 0.00       |
-          | EducationalConsultancyCosts                     | 262691.00  |
-          | EducationSupportStaffCosts                      | 895785.00  |
-          | AgencySupplyTeachingStaffCosts                  | 40056.00   |
-          | TotalNonEducationalSupportStaffCosts            | 578205.00  |
-          | AdministrativeClericalStaffCosts                | 327747.00  |
-          | OtherStaffCosts                                 | 133034.00  |
-          | ProfessionalServicesNonCurriculumCosts          | 117424.00  |
-          | TotalEducationalSuppliesCosts                   | 92972.00   |
-          | ExaminationFeesCosts                            | 0.00       |
-          | LearningResourcesNonIctCosts                    | 92972.00   |
-          | LearningResourcesIctCosts                       | 13529.00   |
-          | TotalPremisesStaffServiceCosts                  | 331257.00  |
-          | CleaningCaretakingCosts                         | 103202.00  |
-          | MaintenancePremisesCosts                        | 113676.00  |
-          | OtherOccupationCosts                            | 21466.00   |
-          | PremisesStaffCosts                              | 92913.00   |
-          | TotalUtilitiesCosts                             | 85686.00   |
-          | EnergyCosts                                     | 72693.00   |
-          | WaterSewerageCosts                              | 12993.00   |
-          | AdministrativeSuppliesNonEducationalCosts       | 37149.00   |
-          | TotalGrossCateringCosts                         | 162358.00  |
-          | TotalNetCateringCosts                           | 189153.00  |
-          | CateringStaffCosts                              | 0.00       |
-          | CateringSuppliesCosts                           | 162358.00  |
-          | TotalOtherCosts                                 | 144358.00  |
-          | DirectRevenueFinancingCosts                     | 0.00       |
-          | GroundsMaintenanceCosts                         | 4690.00    |
-          | IndirectEmployeeExpenses                        | 6560.00    |
-          | InterestChargesLoanBank                         | 0.00       |
-          | OtherInsurancePremiumsCosts                     | 13729.00   |
-          | PrivateFinanceInitiativeCharges                 | 0.00       |
-          | RentRatesCosts                                  | 83524.00   |
-          | SpecialFacilitiesCosts                          | 11754.00   |
-          | StaffDevelopmentTrainingCosts                   | 19292.00   |
-          | StaffRelatedInsuranceCosts                      | 2311.00    |
-          | SupplyTeacherInsurableCosts                     | 2498.00    |
-          | CommunityFocusedSchoolStaff                     |            |
-          | CommunityFocusedSchoolCosts                     |            |
-          | HighestSalaryEmolumentBandValue                 | 330        |
+        Then the trust expenditure result should be ok and match the expected output of 'TrustExpenditureActuals.json'
 
     Scenario: Sending a trust expenditure request with bad company number
         Given a trust expenditure request with company number '10000000', category '' and dimension 'Actuals'
@@ -407,11 +322,7 @@
           | 10259334      |
           | 10264735      |
         When I submit the insights expenditure request
-        Then the trust expenditure query result should be ok and contain:
-          | CompanyNumber | SchoolTotalExpenditure | SchoolTotalTeachingSupportStaffCosts | SchoolTeachingStaffCosts | SchoolSupplyTeachingStaffCosts | SchoolEducationalConsultancyCosts | SchoolEducationSupportStaffCosts | SchoolAgencySupplyTeachingStaffCosts | SchoolTotalNonEducationalSupportStaffCosts | SchoolAdministrativeClericalStaffCosts | SchoolOtherStaffCosts | SchoolProfessionalServicesNonCurriculumCosts | SchoolTotalEducationalSuppliesCosts | SchoolExaminationFeesCosts | SchoolLearningResourcesNonIctCosts | SchoolLearningResourcesIctCosts | SchoolTotalPremisesStaffServiceCosts | SchoolCleaningCaretakingCosts | SchoolMaintenancePremisesCosts | SchoolOtherOccupationCosts | SchoolPremisesStaffCosts | SchoolTotalUtilitiesCosts | SchoolEnergyCosts | SchoolWaterSewerageCosts | SchoolAdministrativeSuppliesNonEducationalCosts | SchoolTotalGrossCateringCosts | SchoolTotalNetCateringCosts | SchoolCateringStaffCosts | SchoolCateringSuppliesCosts | SchoolTotalOtherCosts | SchoolDirectRevenueFinancingCosts | SchoolGroundsMaintenanceCosts | SchoolIndirectEmployeeExpenses | SchoolInterestChargesLoanBank | SchoolOtherInsurancePremiumsCosts | SchoolPrivateFinanceInitiativeCharges | SchoolRentRatesCosts | SchoolSpecialFacilitiesCosts | SchoolStaffDevelopmentTrainingCosts | SchoolStaffRelatedInsuranceCosts | SchoolSupplyTeacherInsurableCosts | TotalExpenditure | TotalTeachingSupportStaffCosts | TeachingStaffCosts | SupplyTeachingStaffCosts | EducationalConsultancyCosts | EducationSupportStaffCosts | AgencySupplyTeachingStaffCosts | TotalNonEducationalSupportStaffCosts | AdministrativeClericalStaffCosts | OtherStaffCosts | ProfessionalServicesNonCurriculumCosts | TotalEducationalSuppliesCosts | ExaminationFeesCosts | LearningResourcesNonIctCosts | LearningResourcesIctCosts | TotalPremisesStaffServiceCosts | CleaningCaretakingCosts | MaintenancePremisesCosts | OtherOccupationCosts | PremisesStaffCosts | TotalUtilitiesCosts | EnergyCosts | WaterSewerageCosts | AdministrativeSuppliesNonEducationalCosts | TotalGrossCateringCosts | TotalNetCateringCosts | CateringStaffCosts | CateringSuppliesCosts | TotalOtherCosts | DirectRevenueFinancingCosts | GroundsMaintenanceCosts | IndirectEmployeeExpenses | InterestChargesLoanBank | OtherInsurancePremiumsCosts | PrivateFinanceInitiativeCharges | RentRatesCosts | SpecialFacilitiesCosts | StaffDevelopmentTrainingCosts | StaffRelatedInsuranceCosts | SupplyTeacherInsurableCosts | CommunityFocusedSchoolStaff | CommunityFocusedSchoolCosts | HighestSalaryEmolumentBandValue |
-          | 10249712      | 5072668.00             | 3668096.00                           | 1377868.00               | 0.00                           | 236950.00                         | 1001271.00                       | 1052007.00                           | 500711.00                                  | 285658.00                              | 28104.00              | 186949.00                                    | 139350.00                           | 5344.00                    | 134006.00                          | 0.00                            | 344765.00                            | 39980.00                      | 152722.00                      | 4426.00                    | 147637.00                | 52487.00                  | 32052.00          | 20435.00                 | 100195.00                                       | 84190.00                      | 95553.00                    | 0.00                     | 84190.00                    | 107706.00             | 0.00                              | 3983.00                       | 39047.00                       | 0.00                          | 11762.00                          | 0.00                                  | 0.00                 | 4520.00                      | 28135.00                            | 7364.00                          | 12895.00                          | 5072668.00       | 3668096.00                     | 1377868.00         | 0.00                     | 236950.00                   | 1001271.00                 | 1052007.00                     | 500711.00                            | 285658.00                        | 28104.00        | 186949.00                              | 139350.00                     | 5344.00              | 134006.00                    | 75168.00                  | 344765.00                      | 39980.00                | 152722.00                | 4426.00              | 147637.00          | 52487.00            | 32052.00    | 20435.00           | 100195.00                                 | 84190.00                | 95553.00              | 0.00               | 84190.00              | 107706.00       | 0.00                        | 3983.00                 | 39047.00                 | 0.00                    | 11762.00                    | 0.00                            | 0.00           | 4520.00                | 28135.00                      | 7364.00                    | 12895.00                    |                             |                             | 260                             |
-          | 10259334      | 14665108.00            | 10240640.00                          | 8321911.00               | 20771.00                       | 537911.00                         | 1176654.00                       | 183393.00                            | 1299564.00                                 | 901007.00                              | 30378.00              | 368179.00                                    | 470172.00                           | 77694.00                   | 392478.00                          | 0.00                            | 836523.00                            | 147297.00                     | 237861.00                      | 32663.00                   | 418702.00                | 188224.00                 | 176642.00         | 11582.00                 | 364710.00                                       | 474250.00                     | 529524.00                   | 132993.00                | 341257.00                   | 505378.00             | 0.00                              | 0.00                          | 168947.00                      | 0.00                          | 73076.00                          | 0.00                                  | 25110.00             | 166721.00                    | 26592.00                            | 5068.00                          | 39864.00                          | 14665108.00      | 10240640.00                    | 8321911.00         | 20771.00                 | 537911.00                   | 1176654.00                 | 183393.00                      | 1299564.00                           | 901007.00                        | 30378.00        | 368179.00                              | 470172.00                     | 77694.00             | 392478.00                    | 285646.00                 | 836523.00                      | 147297.00               | 237861.00                | 32663.00             | 418702.00          | 188224.00           | 176642.00   | 11582.00           | 364710.00                                 | 474250.00               | 529524.00             | 132993.00          | 341257.00             | 505378.00       | 0.00                        | 0.00                    | 168947.00                | 0.00                    | 73076.00                    | 0.00                            | 25110.00       | 166721.00              | 26592.00                      | 5068.00                    | 39864.00                    |                             |                             | 90                              |
-          | 10264735      | 4260179.00             | 2973757.00                           | 1440362.00               | 0.00                           | 103151.00                         | 1394931.00                       | 35313.00                             | 447930.00                                  | 215178.00                              | 114615.00             | 118137.00                                    | 94732.00                            | 0.00                       | 94732.00                           | 0.00                            | 278898.00                            | 26116.00                      | 189034.00                      | 18543.00                   | 45205.00                 | 50543.00                  | 42238.00          | 8305.00                  | 44722.00                                        | 193648.00                     | 201810.00                   | 69353.00                 | 124295.00                   | 129832.00             | 0.00                              | 3929.00                       | 4918.00                        | 0.00                          | 10845.00                          | 0.00                                  | 62164.00             | 13804.00                     | 4893.00                             | 14051.00                         | 15228.00                          | 4260179.00       | 2973757.00                     | 1440362.00         | 0.00                     | 103151.00                   | 1394931.00                 | 35313.00                       | 447930.00                            | 215178.00                        | 114615.00       | 118137.00                              | 94732.00                      | 0.00                 | 94732.00                     | 46112.00                  | 278898.00                      | 26116.00                | 189034.00                | 18543.00             | 45205.00           | 50543.00            | 42238.00    | 8305.00            | 44722.00                                  | 193648.00               | 201810.00             | 69353.00           | 124295.00             | 129832.00       | 0.00                        | 3929.00                 | 4918.00                  | 0.00                    | 10845.00                    | 0.00                            | 62164.00       | 13804.00               | 4893.00                       | 14051.00                   | 15228.00                    |                             |                             | 200                             |
+        Then the trust expenditure query result should be ok and match the expected output of 'TrustsExpenditureQuery.json'
 
     Scenario: Sending a valid school average across comparator set expenditure history request with dimension Actuals
         Given a school average across comparator set expenditure history request with urn '990000' and dimension 'Actuals'
