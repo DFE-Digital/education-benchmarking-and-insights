@@ -34,40 +34,43 @@ def run_comparator_sets_pipeline(
         try:
             logger.info(f"Processing {school_type}...")
 
-            # 1. Load Data
+            # 1. Load preprocessed data
             blob_path = f"{run_type}/{run_id}/{school_type}.parquet"
             preprocessed_data = pd.read_parquet(get_blob("pre-processed", blob_path))
             logger.info(f"Loaded {school_type} data. Shape: {preprocessed_data.shape}")
 
-            # 2. Instantiate calculator and run the process
+            # 2. Do more preprocessing, mostly filling NaNs. Persist this again.
+            # TODO Move this to preprocessing
             prepared_data = prepare_data(preprocessed_data)
+            if prepared_data is not None:
+                write_blob(
+                    container_name="comparator-sets",
+                    blob_name=blob_path,
+                    data=prepared_data.to_parquet(),
+                )
+
+            # 3. Instantiate comparator calculator and calculate comparator sets
             calculator = ComparatorCalculator(prepared_data=prepared_data)
-            results_df = calculator.calculate_comparator_sets(target_urn=target_urn)
+            comparator_sets_df = calculator.calculate_comparator_sets(
+                target_urn=target_urn
+            )
             logger.info(
-                f"Computed {school_type} comparators. Shape: {results_df.shape}"
+                f"Computed {school_type} comparators. Shape: {comparator_sets_df.shape}"
             )
 
-            # 3. Persist the results and the prepared data
-            # TODO get rid of this inconsistency
+            # 4. Persist the comparator sets
+            # TODO get rid of naming inconsistency
             comparators_parquet_filename_prefix = (
                 "academy" if school_type == "academies" else school_type
             )
-            results_for_parquet_df = results_df[cols_for_comparators_parquet]
+            results_for_parquet_df = comparator_sets_df[cols_for_comparators_parquet]
             write_blob(
                 container_name="comparator-sets",
                 blob_name=f"{run_type}/{run_id}/{comparators_parquet_filename_prefix}_comparators.parquet",
                 data=results_for_parquet_df.to_parquet(index=True),
             )
 
-            # The prepared data (with filled NaNs) is a useful artifact
-            if calculator.prepared_data is not None:
-                write_blob(
-                    container_name="comparator-sets",
-                    blob_name=blob_path,
-                    data=calculator.prepared_data.to_parquet(),
-                )
-
-            all_comparator_results.append(results_df)
+            all_comparator_results.append(comparator_sets_df)
 
         except Exception as e:
             logger.error(f"Failed to process {school_type}. Error: {e}", exc_info=True)
