@@ -80,7 +80,7 @@ public class CostCodes(bool isPartOfTrust, bool cfrItSpendBreakdown)
 
     // OtherCostCodes
     private string DirectRevenueFinancingCostCode { get; } = isPartOfTrust ? "BAE290" : "E30";
-    private string GroundsMaintenanceCostCode { get; } = isPartOfTrust ? "BAE320" : "E13";
+    private string GroundsMaintenanceCostCode { get; } = isPartOfTrust ? "BAE170" : "E13";
     private string IndirectEmployeeExpensesCostCode { get; } = isPartOfTrust ? "BAE080" : "E08";
     private string InterestChargesLoanBankCostCode { get; } = isPartOfTrust ? "BAE320" : "E29";
     private string OtherInsurancePremiumsCostCode { get; } = isPartOfTrust ? "BAE270" : "E23";

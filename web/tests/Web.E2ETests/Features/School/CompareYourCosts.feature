@@ -402,9 +402,9 @@ Feature: School compare your costs
           | Total catering costs (gross)                    | BAE060, BAE250, % of central services                                                                         |
           | Catering staff costs                            | BAE060, % of central services                                                                                 |
           | Catering supplies costs                         | BAE250, % of central services                                                                                 |
-          | Total other costs                               | BAE290, BAE320, BAE080, BAE320, BAE270, BAE310, BAE160, BAE190, BAE090, BAE110, BAE100, % of central services |
+          | Total other costs                               | BAE290, BAE170, BAE080, BAE320, BAE270, BAE310, BAE160, BAE190, BAE090, BAE110, BAE100, % of central services |
           | Direct revenue financing costs                  | BAE290, % of central services                                                                                 |
-          | Ground maintenance costs                        | BAE320, % of central services                                                                                 |
+          | Ground maintenance costs                        | BAE170, % of central services                                                                                 |
           | Indirect employee expenses                      | BAE080, % of central services                                                                                 |
           | Interest charges for loan and bank              | BAE320, % of central services                                                                                 |
           | PFI charges                                     | BAE310, % of central services                                                                                 |
