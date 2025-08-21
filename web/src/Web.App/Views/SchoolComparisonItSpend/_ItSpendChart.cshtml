@@ -15,11 +15,6 @@
 
 <div id="@Model.Uuid" class="costs-chart-container" data-title="@Model.SubCategory.SubCategory">
     <div class="costs-chart-wrapper">
-        @if (Model.SubCategory.HasNegativeOrZeroValues)
-        {
-            <p class="govuk-body">Only displaying schools with positive expenditure.</p>
-        }
-
         <div class="govuk-!-margin-bottom-2 ssr-chart horizontal-bar-chart">
             @Html.Raw(Model.SubCategory.ChartSvg)
         </div>

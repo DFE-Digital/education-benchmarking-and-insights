@@ -916,10 +916,11 @@ table#current-comparators-la {
 }
 
 .govuk-table__cell_commentary {
-  margin-top: govuk-spacing(3);
+  margin-top: govuk-spacing(2);
   margin-bottom: govuk-spacing(1);
 
   .govuk-tag {
-    text-transform: uppercase;
+    @include govuk-font($size: 14);
+    max-width: 200px;
   }
 }
