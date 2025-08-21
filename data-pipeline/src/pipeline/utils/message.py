@@ -45,18 +45,40 @@ def get_message_type(message: dict) -> MessageType:
 
     ```json
     {
-        "jobId": "24463424-9642-4314-bb55-45424af6e812",
-        "type": "comparator-set",
-        "runId": "c321ef6a-3b1c-4ce2-8e32-0d0167bf2fa7",
-        "year": 2022,
-        "urn": "106057",
+        "runId": "a6db019c-d45f-44f3-8af0-71d82c1c6257",
+        "year": 2025,
+        "urn": "100449",
         "payload": {
+            "_type": "ComparatorSetPipelinePayload",
             "kind": "ComparatorSetPayload",
             "set": [
-                "145799",
-                "142875"
-            ]
-        }
+                "100218",
+                "100240",
+                "102272",
+                "132266",
+                "100022",
+                "101258",
+                "100585",
+                "131871",
+                "102890",
+                "102830",
+                "102084",
+                "100852",
+                "100163",
+                "101526",
+                "102324",
+                "103072",
+                "101893",
+                "100023",
+                "101277",
+                "130302",
+                "102131",
+                "100449",
+            ],
+        },
+        "jobId": "7af1abc5-88a9-4447-bdf7-92f4f95dc772",
+        "type": "comparator-set",
+        "runType": "default",
     }
     ```
 
