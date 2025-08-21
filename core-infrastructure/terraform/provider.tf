@@ -3,11 +3,11 @@ terraform {
   required_providers {
     azurerm = {
       source  = "hashicorp/azurerm"
-      version = "~> 4.37.0"
+      version = "~> 4.40.0"
     }
     azapi = {
       source  = "azure/azapi"
-      version = "~> 2.5.0"
+      version = "~> 2.6.0"
     }
     mssql = {
       source  = "betr-io/mssql"

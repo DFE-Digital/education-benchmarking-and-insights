@@ -27,16 +27,6 @@ resource "azurerm_storage_account" "data" {
     versioning_enabled = true
   }
 
-  queue_properties {
-    logging {
-      delete                = true
-      read                  = true
-      write                 = true
-      version               = "1.0"
-      retention_policy_days = 10
-    }
-  }
-
   sas_policy {
     expiration_action = "Log"
     expiration_period = "90.00:00:00"
@@ -44,6 +34,18 @@ resource "azurerm_storage_account" "data" {
 
   lifecycle {
     prevent_destroy = true
+  }
+}
+
+resource "azurerm_storage_account_queue_properties" "data-queue-properties" {
+  storage_account_id = azurerm_storage_account.data.id
+
+  logging {
+    delete                = true
+    read                  = true
+    write                 = true
+    version               = "1.0"
+    retention_policy_days = 10
   }
 }
 
@@ -105,27 +107,8 @@ resource "azurerm_monitor_diagnostic_setting" "storage-account-data-queue" {
   target_resource_id         = "${azurerm_storage_account.data.id}/queueServices/default/"
   log_analytics_workspace_id = azurerm_log_analytics_workspace.application-insights-workspace.id
 
-  metric {
+  enabled_metric {
     category = "Transaction"
-    enabled  = true
-
-    // The following is not used by Log Analytics backed diagnostics, but Terraform adds it anyway and `ignore_changes` 
-    // is not currently supported by block level configuration (https://github.com/hashicorp/terraform/issues/26359). 
-    // The 'deprecated' warning here and below may therefore be ignored.
-    retention_policy {
-      days    = 0
-      enabled = false
-    }
-  }
-
-  metric {
-    category = "Capacity"
-    enabled  = false
-
-    retention_policy {
-      days    = 0
-      enabled = false
-    }
   }
 
   enabled_log {
@@ -162,16 +145,6 @@ resource "azurerm_storage_account" "backup" {
     versioning_enabled = true
   }
 
-  queue_properties {
-    logging {
-      delete                = true
-      read                  = true
-      write                 = true
-      version               = "1.0"
-      retention_policy_days = 10
-    }
-  }
-
   sas_policy {
     expiration_action = "Log"
     expiration_period = "90.00:00:00"
@@ -179,6 +152,18 @@ resource "azurerm_storage_account" "backup" {
 
   lifecycle {
     prevent_destroy = true
+  }
+}
+
+resource "azurerm_storage_account_queue_properties" "backup-queue-properties" {
+  storage_account_id = azurerm_storage_account.backup.id
+
+  logging {
+    delete                = true
+    read                  = true
+    write                 = true
+    version               = "1.0"
+    retention_policy_days = 10
   }
 }
 

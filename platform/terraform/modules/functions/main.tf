@@ -269,17 +269,8 @@ resource "azurerm_monitor_diagnostic_setting" "func-app" {
   azurerm_linux_function_app.func-app[0].id)
   log_analytics_workspace_id = var.log-analytics-id
 
-  metric {
+  enabled_metric {
     category = "AllMetrics"
-    enabled  = true
-
-    // The following is not used by Log Analytics backed diagnostics, but Terraform adds it anyway and `ignore_changes` 
-    // is not currently supported by block level configuration (https://github.com/hashicorp/terraform/issues/26359). 
-    // The 'deprecated' warning here and below may therefore be ignored.
-    retention_policy {
-      days    = 0
-      enabled = false
-    }
   }
 
   enabled_log {
@@ -292,8 +283,7 @@ resource "azurerm_monitor_diagnostic_setting" "func-app-service" {
   target_resource_id         = azurerm_service_plan.func-asp.id
   log_analytics_workspace_id = var.log-analytics-id
 
-  metric {
+  enabled_metric {
     category = "AllMetrics"
-    enabled  = true
   }
 }

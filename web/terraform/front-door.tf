@@ -276,8 +276,7 @@ resource "azurerm_cdn_frontdoor_custom_domain" "web-app-custom-domain" {
   host_name                = "financial-benchmarking-and-insights-tool.education.gov.uk"
 
   tls {
-    certificate_type    = "ManagedCertificate"
-    minimum_tls_version = "TLS12"
+    certificate_type = "ManagedCertificate"
   }
 }
 
@@ -336,7 +335,7 @@ resource "azurerm_monitor_diagnostic_setting" "front-door-analytics" {
     category = "FrontdoorHealthProbeLog"
   }
 
-  metric {
+  enabled_metric {
     category = "AllMetrics"
   }
 }
