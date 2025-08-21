@@ -7,6 +7,7 @@ from pipeline.utils.log import setup_logger
 from pipeline.utils.storage import get_blob, write_blob
 
 from .calculations import ComparatorCalculator, prepare_data
+from .config import cols_for_comparators_parquet
 
 logger = setup_logger(__name__)
 
@@ -48,11 +49,14 @@ def run_comparator_sets_pipeline(
 
             # 3. Persist the results and the prepared data
             # TODO get rid of this inconsistency
-            comparators_parquet_filename_prefix = "academy" if school_type == "academies" else school_type
+            comparators_parquet_filename_prefix = (
+                "academy" if school_type == "academies" else school_type
+            )
+            results_for_parquet_df = results_df[cols_for_comparators_parquet]
             write_blob(
                 container_name="comparator-sets",
                 blob_name=f"{run_type}/{run_id}/{comparators_parquet_filename_prefix}_comparators.parquet",
-                data=results_df.to_parquet(),
+                data=results_for_parquet_df.to_parquet(index=True),
             )
 
             # The prepared data (with filled NaNs) is a useful artifact
