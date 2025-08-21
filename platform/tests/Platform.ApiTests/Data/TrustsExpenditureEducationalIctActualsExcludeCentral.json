@@ -1,0 +1,20 @@
+[
+  {
+    "companyNumber": "10249712",
+    "trustName": "Test Company/Trust  229",
+    "totalExpenditure": 5072668.0,
+    "learningResourcesIctCosts": 75168.0
+  },
+  {
+    "companyNumber": "10259334",
+    "trustName": "Test Company/Trust  157",
+    "totalExpenditure": 14665108.0,
+    "learningResourcesIctCosts": 285646.0
+  },
+  {
+    "companyNumber": "10264735",
+    "trustName": "Test Company/Trust  262",
+    "totalExpenditure": 4260179.0,
+    "learningResourcesIctCosts": 46112.0
+  }
+]
