@@ -5,7 +5,6 @@ using Platform.ApiTests.Assist;
 using Platform.ApiTests.Drivers;
 using Platform.ApiTests.TestDataHelpers;
 using Platform.Json;
-using Xunit;
 
 namespace Platform.ApiTests.Steps;
 
@@ -138,7 +137,7 @@ public class InsightExpenditureSteps(InsightApiDriver api)
         string dimension,
         string excludeCentralServices,
         DataTable table
-        )
+    )
     {
         var companyNumbers = GetFirstColumnsFromTableRowsAsString(table);
         api.CreateRequest(TrustExpenditureKey, new HttpRequestMessage
@@ -323,7 +322,7 @@ public class InsightExpenditureSteps(InsightApiDriver api)
 
         var expected = TestDataProvider.GetJsonArrayData(testFile);
 
-        Assert.True(JToken.DeepEquals(expected, actual));
+        actual.AssertDeepEquals(expected);
     }
 
     private static IEnumerable<string> GetFirstColumnsFromTableRowsAsString(DataTable table)
