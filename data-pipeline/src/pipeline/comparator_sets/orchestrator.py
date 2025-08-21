@@ -47,6 +47,7 @@ def run_comparator_sets_pipeline(
             )
 
             # 3. Persist the results and the prepared data
+            # TODO get rid of this inconsistency
             comparators_parquet_filename_prefix = "academy" if school_type == "academies" else school_type
             write_blob(
                 container_name="comparator-sets",
