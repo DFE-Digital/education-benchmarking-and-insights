@@ -101,7 +101,7 @@ public class GivenASubCategoryCostCodes
     [InlineData(SubCostCategories.Other.DirectRevenueFinancingCosts, false, false, "E30")]
     [InlineData(SubCostCategories.Other.DirectRevenueFinancingCosts, true, false, "BAE290")]
     [InlineData(SubCostCategories.Other.GroundsMaintenanceCosts, false, false, "E13")]
-    [InlineData(SubCostCategories.Other.GroundsMaintenanceCosts, true, false, "BAE320")]
+    [InlineData(SubCostCategories.Other.GroundsMaintenanceCosts, true, false, "BAE170")]
     [InlineData(SubCostCategories.Other.IndirectEmployeeExpenses, false, false, "E08")]
     [InlineData(SubCostCategories.Other.IndirectEmployeeExpenses, true, false, "BAE080")]
     [InlineData(SubCostCategories.Other.InterestChargesLoanBank, false, false, "E29")]
