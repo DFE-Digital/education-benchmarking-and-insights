@@ -45,3 +45,6 @@ The data extracts are not large and not run often. The cost is likely to be low 
 **Option 1:** The simplest solution here is to manually take extracts from within our user area in Databricks to our dev blob storage. These extracts can then be promoted through FBIT storage environments manually. This maintains our control over the extract rather than introduce a dependency on an external team (ADA) to take extracts for us.
 
 We should check the architecture for writing to blob storage, to make sure it doesn't intefere with our cloud deployments.
+
+<!-- Leave the rest of this page blank -->
+\newpage
