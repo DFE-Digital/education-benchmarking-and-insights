@@ -56,8 +56,8 @@ resource "azurerm_storage_account_queue_properties" "data-source-storage-queue-p
 
 resource "azurerm_storage_container" "return-container" {
   #checkov:skip=CKV2_AZURE_21:See ADO backlog AB#206507
-  name                 = "returns"
-  storage_account_name = azurerm_storage_account.data-source-storage.name
+  name               = "returns"
+  storage_account_id = azurerm_storage_account.data-source-storage.id
 }
 
 resource "azurerm_key_vault_secret" "data-web-storage-connection-string" {

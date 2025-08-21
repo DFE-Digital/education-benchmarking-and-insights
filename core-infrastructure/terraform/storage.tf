@@ -77,8 +77,8 @@ resource "azurerm_storage_queue" "pipeline-message-dead-letter-queue" {
 
 resource "azurerm_storage_container" "pipeline-raw-data" {
   #checkov:skip=CKV2_AZURE_21:See ADO backlog AB#206507
-  name                 = "raw"
-  storage_account_name = azurerm_storage_account.data.name
+  name               = "raw"
+  storage_account_id = azurerm_storage_account.data.id
 
   lifecycle {
     prevent_destroy = true
@@ -171,8 +171,8 @@ resource "azurerm_storage_account_queue_properties" "backup-queue-properties" {
 
 resource "azurerm_storage_container" "pipeline-database-backup" {
   #checkov:skip=CKV2_AZURE_21:See ADO backlog AB#206507
-  name                 = "database"
-  storage_account_name = azurerm_storage_account.backup.name
+  name               = "database"
+  storage_account_id = azurerm_storage_account.backup.id
 
   lifecycle {
     prevent_destroy = true
@@ -181,8 +181,8 @@ resource "azurerm_storage_container" "pipeline-database-backup" {
 
 resource "azurerm_storage_container" "pipeline-raw-data-backup" {
   #checkov:skip=CKV2_AZURE_21:See ADO backlog AB#206507
-  name                 = "raw"
-  storage_account_name = azurerm_storage_account.backup.name
+  name               = "raw"
+  storage_account_id = azurerm_storage_account.backup.id
 
   lifecycle {
     prevent_destroy = true
