@@ -4,17 +4,17 @@
 | Name | Version |
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.9.8 |
-| <a name="requirement_azapi"></a> [azapi](#requirement\_azapi) | ~> 2.5.0 |
-| <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm) | ~> 4.37.0 |
+| <a name="requirement_azapi"></a> [azapi](#requirement\_azapi) | ~> 2.6.0 |
+| <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm) | ~> 4.40.0 |
 | <a name="requirement_mssql"></a> [mssql](#requirement\_mssql) | 0.3.1 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| <a name="provider_azapi"></a> [azapi](#provider\_azapi) | 2.5.0 |
-| <a name="provider_azuread"></a> [azuread](#provider\_azuread) | 3.4.0 |
-| <a name="provider_azurerm"></a> [azurerm](#provider\_azurerm) | 4.37.0 |
+| <a name="provider_azapi"></a> [azapi](#provider\_azapi) | 2.6.0 |
+| <a name="provider_azuread"></a> [azuread](#provider\_azuread) | 3.5.0 |
+| <a name="provider_azurerm"></a> [azurerm](#provider\_azurerm) | 4.40.0 |
 | <a name="provider_local"></a> [local](#provider\_local) | 2.5.3 |
 | <a name="provider_mssql"></a> [mssql](#provider\_mssql) | 0.3.1 |
 | <a name="provider_random"></a> [random](#provider\_random) | 3.7.2 |
@@ -67,6 +67,9 @@ No modules.
 | [azurerm_storage_account.backup](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/storage_account) | resource |
 | [azurerm_storage_account.data](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/storage_account) | resource |
 | [azurerm_storage_account.sql-log-storage](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/storage_account) | resource |
+| [azurerm_storage_account_queue_properties.backup-queue-properties](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/storage_account_queue_properties) | resource |
+| [azurerm_storage_account_queue_properties.data-queue-properties](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/storage_account_queue_properties) | resource |
+| [azurerm_storage_account_queue_properties.sql-log-storage-queue-properties](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/storage_account_queue_properties) | resource |
 | [azurerm_storage_container.pipeline-database-backup](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/storage_container) | resource |
 | [azurerm_storage_container.pipeline-raw-data](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/storage_container) | resource |
 | [azurerm_storage_container.pipeline-raw-data-backup](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/storage_container) | resource |

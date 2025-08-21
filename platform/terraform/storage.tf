@@ -28,19 +28,21 @@ resource "azurerm_storage_account" "platform-storage" {
     versioning_enabled = true
   }
 
-  queue_properties {
-    logging {
-      delete                = true
-      read                  = true
-      write                 = true
-      version               = "1.0"
-      retention_policy_days = 10
-    }
-  }
-
   sas_policy {
     expiration_action = "Log"
     expiration_period = "90.00:00:00"
+  }
+}
+
+resource "azurerm_storage_account_queue_properties" "platform-storage-queue-properties" {
+  storage_account_id = azurerm_storage_account.platform-storage.id
+
+  logging {
+    delete                = true
+    read                  = true
+    write                 = true
+    version               = "1.0"
+    retention_policy_days = 10
   }
 }
 
@@ -49,17 +51,8 @@ resource "azurerm_monitor_diagnostic_setting" "platform-storage-blob" {
   target_resource_id         = "${azurerm_storage_account.platform-storage.id}/blobServices/default/"
   log_analytics_workspace_id = data.azurerm_log_analytics_workspace.application-insights-workspace.id
 
-  metric {
+  enabled_metric {
     category = "Transaction"
-    enabled  = true
-
-    // The following is not used by Log Analytics backed diagnostics, but Terraform adds it anyway and `ignore_changes` 
-    // is not currently supported by block level configuration (https://github.com/hashicorp/terraform/issues/26359). 
-    // The 'deprecated' warning here and below may therefore be ignored.
-    retention_policy {
-      days    = 0
-      enabled = false
-    }
   }
 
   enabled_log {
@@ -97,18 +90,20 @@ resource "azurerm_storage_account" "orchestrator-storage" {
     versioning_enabled = true
   }
 
-  queue_properties {
-    logging {
-      delete                = true
-      read                  = true
-      write                 = true
-      version               = "1.0"
-      retention_policy_days = 10
-    }
-  }
-
   sas_policy {
     expiration_action = "Log"
     expiration_period = "90.00:00:00"
+  }
+}
+
+resource "azurerm_storage_account_queue_properties" "orchestrator-storage-properties" {
+  storage_account_id = azurerm_storage_account.orchestrator-storage.id
+
+  logging {
+    delete                = true
+    read                  = true
+    write                 = true
+    version               = "1.0"
+    retention_policy_days = 10
   }
 }
