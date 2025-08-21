@@ -250,7 +250,7 @@ resource "azurerm_storage_account_queue_properties" "sql-log-storage-queue-prope
 resource "azurerm_storage_container" "sql-vulnerability-container" {
   #checkov:skip=CKV2_AZURE_21:See ADO backlog AB#206507
   name                  = "vulnerability-assessment"
-  storage_account_name  = azurerm_storage_account.sql-log-storage.name
+  storage_account_id    = azurerm_storage_account.sql-log-storage.id
   container_access_type = "private"
 }
 
