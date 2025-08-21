@@ -142,7 +142,8 @@ public class InsightExpenditureSteps(InsightApiDriver api)
         var companyNumbers = GetFirstColumnsFromTableRowsAsString(table);
         api.CreateRequest(TrustExpenditureKey, new HttpRequestMessage
         {
-            RequestUri = new Uri($"/api/expenditure/trusts?companyNumbers={string.Join(",", companyNumbers)}&category={category}&dimension={dimension}&excludeCentralServices={excludeCentralServices}",
+            RequestUri = new Uri(
+                $"/api/expenditure/trusts?companyNumbers={string.Join(",", companyNumbers)}&category={category}&dimension={dimension}&excludeCentralServices={excludeCentralServices}",
                 UriKind.Relative),
             Method = HttpMethod.Get
         });
@@ -312,7 +313,7 @@ public class InsightExpenditureSteps(InsightApiDriver api)
     }
 
     [Then("the trust expenditure query result should be ok and match the expected output of '(.*)'")]
-    public async Task ThenTheResultShouldBeOkAndMatchTheExpectedOutput(string testFile)
+    public async Task ThenTheTrustExpenditureQueryResultShouldBeOkAndMatchTheExpectedOutputOf(string testFile)
     {
         var response = api[TrustExpenditureKey].Response;
         AssertHttpResponse.IsOk(response);
@@ -321,6 +322,20 @@ public class InsightExpenditureSteps(InsightApiDriver api)
         var actual = JArray.Parse(content);
 
         var expected = TestDataProvider.GetJsonArrayData(testFile);
+
+        actual.AssertDeepEquals(expected);
+    }
+
+    [Then("the trust expenditure result should be ok and match the expected output of '(.*)'")]
+    public async Task ThenTheTrustExpenditureResultShouldBeOkAndMatchTheExpectedOutputOf(string testFile)
+    {
+        var response = api[TrustExpenditureKey].Response;
+        AssertHttpResponse.IsOk(response);
+
+        var content = await response.Content.ReadAsStringAsync();
+        var actual = JObject.Parse(content);
+
+        var expected = TestDataProvider.GetJsonObjectData(testFile);
 
         actual.AssertDeepEquals(expected);
     }
