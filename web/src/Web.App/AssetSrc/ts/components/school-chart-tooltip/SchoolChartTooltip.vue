@@ -68,7 +68,7 @@ watch(tooltip, () => {
         </tr>
         <tr class="govuk-table__row">
           <th scope="row" class="govuk-table__header">Pupils</th>
-          <td class="govuk-table__cell govuk-table__cell--numeric">
+          <td class="govuk-table__cell">
             {{ datum?.totalPupils?.toString() }}
           </td>
         </tr>
