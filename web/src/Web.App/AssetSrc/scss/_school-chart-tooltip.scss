@@ -6,9 +6,13 @@
   border: 1px solid govuk-colour("dark-grey");
   z-index: 9999;
 
-  .govuk-tag {
-    @include govuk-font($size: 14);
-    max-width: 200px;
+  .school-tags {
+    margin: govuk-spacing(2) govuk-spacing(2) govuk-spacing(0) govuk-spacing(2);
+
+    .govuk-tag {
+      @include govuk-font($size: 14);
+      max-width: 200px;
+    }
   }
 }
 
