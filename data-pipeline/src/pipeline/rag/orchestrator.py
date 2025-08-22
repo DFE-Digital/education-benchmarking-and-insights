@@ -75,7 +75,7 @@ def run_rag_pipeline(
 
 
 def run_user_defined_rag_pipeline(
-    year: int, run_id: str, target_urn: int, comparator_set: List[int]
+    year: int, run_id: str, target_urn: str, comparator_set: List[int]
 ) -> float:
     """
     Perform user-defined RAG calculations.
