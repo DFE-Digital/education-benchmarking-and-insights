@@ -64,6 +64,7 @@ This approach integrates **Designers**, **Engineers**, and **Data Analysts** to 
 - Document API inputs, outputs, and example SVGs.
 - Designers confirm visual compliance.
 - Analysts validate that chart conveys the correct data story.
+- Chart principles guide updated.
 
 <!-- Leave the rest of this page blank -->
 \newpage
