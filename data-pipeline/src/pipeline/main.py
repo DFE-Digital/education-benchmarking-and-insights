@@ -14,7 +14,7 @@ load_dotenv()
 
 from pipeline.comparator_sets import compute_comparator_sets
 from pipeline.pre_processing import pre_process_custom_data, pre_process_data
-from pipeline.rag import compute_rag, compute_user_defined_rag
+from pipeline.rag import compute_rag, run_user_defined_rag
 from pipeline.utils.log import setup_logger
 from pipeline.utils.message import MessageType, get_message_type
 from pipeline.utils.storage import (
@@ -75,7 +75,7 @@ def handle_msg(
 
             case MessageType.DefaultUserDefined:
                 logger.info("Starting user defined RAG pipeline run...")
-                msg_payload["rag_duration"] = compute_user_defined_rag(
+                msg_payload["rag_duration"] = run_user_defined_rag(
                     year=msg_payload["year"],
                     run_id=msg_payload["runId"],
                     target_urn=int(msg_payload["urn"]),

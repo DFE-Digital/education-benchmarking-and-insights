@@ -7,7 +7,7 @@ from pipeline.utils.database import insert_metric_rag
 from pipeline.utils.log import setup_logger
 from pipeline.utils.storage import get_blob, write_blob
 
-from .calculations import calculate_rag
+from .calculations import calculate_rag, compute_user_defined_rag
 
 logger = setup_logger("rag")
 
@@ -123,7 +123,7 @@ def compute_rag(
     return time_taken
 
 
-def compute_user_defined_rag(
+def run_user_defined_rag(
     year: int,
     run_id: str,
     target_urn: int,
