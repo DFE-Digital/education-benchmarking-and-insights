@@ -75,7 +75,7 @@ def handle_msg(
 
             case MessageType.DefaultUserDefined:
                 logger.info("Starting user defined RAG pipeline run...")
-                msg_payload["rag_duration"] = run_user_defined_rag(
+                msg_payload["rag_duration"] = run_user_defined_rag_pipeline(
                     year=msg_payload["year"],
                     run_id=msg_payload["runId"],
                     target_urn=int(msg_payload["urn"]),
@@ -97,12 +97,12 @@ def handle_msg(
                 msg_payload["comparator_set_duration"] = compute_comparator_sets(
                     run_type=run_type,
                     run_id=msg_payload["runId"],
-                    target_urn=int(msg_payload["urn"]),
+                    target_urn=msg_payload["urn"],
                 )
                 msg_payload["rag_duration"] = run_rag_pipeline(
                     run_type=run_type,
                     run_id=msg_payload["runId"],
-                    target_urn=int(msg_payload["urn"]),
+                    target_urn=msg_payload["urn"],
                 )
                 msg_payload["stats"] = stats_collector.get_stats()
                 logger.info("Custom pipeline run completed!")
