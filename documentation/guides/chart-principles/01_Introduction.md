@@ -1,6 +1,6 @@
 # Introduction
 
-This guide defines a consistent and user-centred approach to charting and data visualisation within the service. 
+This guide defines a consistent and user-centred approach to charting and data visualisation within the service.
 
 **Chart and graph type review:**
 
