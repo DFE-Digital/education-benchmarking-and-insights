@@ -1,4 +1,5 @@
 ﻿using System.Net;
+using Microsoft.ApplicationInsights;
 using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.FeatureManagement.Mvc;
@@ -26,7 +27,8 @@ public class SchoolComparisonItSpendController(
     IChartRenderingApi chartRenderingApi,
     IComparatorSetApi comparatorSetApi,
     IItSpendApi itSpendApi,
-    ILogger<SchoolComparisonController> logger) : Controller
+    ILogger<SchoolComparisonController> logger,
+    TelemetryClient telemetryClient) : Controller
 {
     [HttpGet]
     [SchoolRequestTelemetry(TrackedRequestFeature.BenchmarkItSpend)]
@@ -70,6 +72,9 @@ public class SchoolComparisonItSpendController(
                     ViewAs = viewAs,
                     ResultAs = resultAs
                 };
+
+                TrackEvent(urn, selectedSubCategories, resultAs, viewAs);
+
                 return View(viewModel);
             }
             catch (Exception e)
@@ -121,6 +126,21 @@ public class SchoolComparisonItSpendController(
                 return StatusCode(500);
             }
         }
+    }
+
+    private void TrackEvent(string urn, ItSpendingCategories.SubCategoryFilter[] selectedCategories, Dimensions.ResultAsOptions resultAs, SchoolComparisonItSpendViewModel.ViewAsOptions viewAs)
+    {
+        var categories = selectedCategories.Length == 0 ? ItSpendingCategories.All : selectedCategories;
+
+        var properties = new Dictionary<string, string>
+        {
+            { "URN", urn },
+            { "Categories", string.Join(" | ", categories.Order()) },
+            { "ResultAs", resultAs.ToString() },
+            { "ViewAs", viewAs.ToString() },
+        };
+
+        telemetryClient.TrackEvent(CustomEvents.BenchmarkItSpending, properties);
     }
 
     private static ApiQuery BuildApiQuery(Dimensions.ResultAsOptions resultAs, IEnumerable<string>? urns = null)
