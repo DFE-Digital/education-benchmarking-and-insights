@@ -1,5 +1,7 @@
 ﻿# Release Test Plan: 2025.08.1
 
+_*Release version updated to 2025.08.1 after an issue with user defined comparator set was identified in 2025.08.0._
+
 **Release Date:** TBC  
 **Release Label:** 2025.08.1
 
@@ -24,6 +26,9 @@ This release delivers enhancements to the data pipeline to support the CFR 2025 
 
 - Modularisation of the data pipeline for maintainability
 - Benchmarking IT spending charts (behind feature flag, not enabled in this release)
+- Enhancements to trust benchmarking for Education ICT 
+- Content updates to the BAE code 
+- Regression fixes within the user-defined comparators journey
 
 ## Test Strategy
 
@@ -86,6 +91,17 @@ This release is user-facing with the 2025 CFR data drop and new IT spending cost
 Sanity and data ingestion testing will be performed in pre-production.  
 Benchmarking IT spending charts will remain behind a feature flag (off by default).
 
+An issue was identified with user defined comparator during pre prod testing for which a hotfix was added.
+
+- **Original Planned Release:** 2025.08.0
+- **New Release Version:** 2025.08.1
+- **Hotfixes Included:** Fixed user defined comparator creation.
+- **Current Release (2025.08.1):** Contains the necessary hotfix.
+- **Testing Impact:** The fix has been successfully tested in an earlier environment. Additionally, a few other completed tickets have progressed to the pre-production stage; these were also validated in the same earlier environment. 
+
+**[Azure Test Plan](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_testPlans/execute?planId=275364&suiteId=275365)**
+
+
 **Azure DevOps tickets included in this release:**
 
 - [266033 – CFR changes to IT spend breakdown](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/266033)
@@ -93,6 +109,10 @@ Benchmarking IT spending charts will remain behind a feature flag (off by defaul
 - [270078 – Benchmarking IT spending charts](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/270078)
 - [273597 – Tweak data pipeline stats collector to display file date](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/273597)
 - [275406 – Data pipeline docker build failure](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/275406)
+- [268637 - Education ICT Incorrect-Trust benchmarking](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_sprints/taskboard/FBIT/s198-DfE-Benchmarking-service/Sprint%2047?workitem=268637)
+- [269577 - Incorrect BAE Code Displayed for Ground Maintenance Costs](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_sprints/taskboard/FBIT/s198-DfE-Benchmarking-service/Sprint%2047?workitem=269577)
+- [276528 - User defined rag generation failure](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/276528)
+- todo add tickets here for benchmark IT spending
 
 ## Appendix
 
@@ -102,10 +122,10 @@ Benchmarking IT spending charts will remain behind a feature flag (off by defaul
 
 | Test Category           | Total Tests | Passed | Failed | Pass Rate |  
 |-------------------------|:-----------:|:------:|:------:|:---------:|  
-| Smoke Tests - Prod      |      TBC    |   TBC  |   TBC  |    TBC    |  
-| Sanity Tests - Pre Prod |      TBC    |   TBC  |   TBC  |    TBC    |  
-| Data Ingestion Tests    |      TBC    |   TBC  |   TBC  |    TBC    |  
-| Total                   |      TBC    |   TBC  |   TBC  |    TBC    |  
+| Smoke Tests - Prod      |     TBC     |  TBC   |  TBC   |    TBC    |  
+| Sanity Tests - Pre Prod |      1      |   1    |   0    |   100%    |  
+| Data Ingestion Tests    |      6      |   6    |   0    |   100%    |  
+| Total                   |     TBC     |  TBC   |  TBC   |    TBC    |  
 
 <!-- Leave the rest of this page blank -->
 \newpage
