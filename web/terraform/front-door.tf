@@ -111,20 +111,6 @@ resource "azurerm_cdn_frontdoor_firewall_policy" "web-app-front-door-waf" {
     }
   }
 
-  custom_rule {
-    name     = "blockgeolocation"
-    action   = "Block"
-    priority = 200
-    type     = "MatchRule"
-
-    match_condition {
-      match_variable     = "SocketAddr"
-      operator           = "GeoMatch"
-      negation_condition = true
-      match_values       = ["GB"]
-    }
-  }
-
   dynamic "custom_rule" {
     for_each = var.environment == "test" ? ["apply"] : []
 
