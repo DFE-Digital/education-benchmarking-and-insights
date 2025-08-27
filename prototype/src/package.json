@@ -10,10 +10,10 @@
     "@x-govuk/govuk-prototype-components": "^5.0.0",
     "@x-govuk/govuk-prototype-filters": "^2.0.0",
     "govuk-frontend": "^5.11.1",
-    "govuk-prototype-kit": "^13.17.0",
+    "govuk-prototype-kit": "^13.18.0",
     "body-parser": "^2.2.0",
     "cookie-parser": "^1.4.7",
-    "dotenv": "^17.0.0",
+    "dotenv": "^17.2.1",
     "express": "^5.1.0"
   },
   "engines": {
