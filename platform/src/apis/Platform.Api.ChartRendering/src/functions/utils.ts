@@ -9,11 +9,14 @@ export function normaliseData<T>(
     case "percent":
       return data.map((d) => ({
         ...d,
-        [valueField]: (d[valueField] as number) / 100,
+        [valueField]: ((d[valueField] as number | undefined) ?? 0) / 100,
       }));
 
     case "currency":
-      return data;
+      return data.map((d) => ({
+        ...d,
+        [valueField]: (d[valueField] as number | undefined) ?? 0,
+      }));
 
     default:
       throw new Error(

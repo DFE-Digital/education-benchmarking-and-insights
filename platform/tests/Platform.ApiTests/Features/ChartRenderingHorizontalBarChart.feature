@@ -13,6 +13,8 @@
           | 123457 | 1001001 |
           | 123458 | 1010001 |
           | 123459 | 1100001 |
+          | 123460 | 0       |
+          | 123461 |         |
         When I submit the horizontal bar chart request
         Then the response should be ok, contain a JSON object and match the expected output of 'HorizontalBarChartValidSingleCurrency.json'
 
@@ -29,6 +31,8 @@
           | 123457 | 89    |
           | 123458 | 48    |
           | 123459 | 32    |
+          | 123460 | 0     |
+          | 123461 |       |
         When I submit the horizontal bar chart request
         Then the response should be ok, contain a JSON object and match the expected output of 'HorizontalBarChartValidSinglePercent.json'
 
@@ -45,6 +49,8 @@
           | 123457 | 1001001 |
           | 123458 | 1010001 |
           | 123459 | 1100001 |
+          | 123460 | 0       |
+          | 123461 |         |
         When I submit the horizontal bar chart request
         Then the response should be ok, contain an SVG document and match the expected output of 'HorizontalBarChartValidSingleCurrency.svg'
 
