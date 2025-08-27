@@ -93,10 +93,10 @@
         Then the table on the 'section 251' tab 'Primary place funding per head 2-18 population' chart contains:
           | Year         | Outturn | Budget |
           | 2019 to 2020 |         |        |
-          | 2020 to 2021 | £6.44   |        |
-          | 2021 to 2022 | £8.82   | £7.74  |
-          | 2022 to 2023 | £8.02   | £7.82  |
-          | 2023 to 2024 | £11.38  | £7.82  |
+          | 2020 to 2021 | £6      |        |
+          | 2021 to 2022 | £9      | £8     |
+          | 2022 to 2023 | £8      | £8     |
+          | 2023 to 2024 | £11     | £8     |
 
     @HighNeedsFlagEnabled
     Scenario: Show all should expand all sections on Send 2 tab

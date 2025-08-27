@@ -33,9 +33,9 @@
         Given I am on local authority high needs benchmarking for local authority with code '201'
         When I click on view as table
         Then the table for 'High needs amount per head 2-18 population' contains the following S251 values:
-          | Name           | Actual  | Planned | Population |
-          | City of London | £0.00   | £0.00   | 1,756      |
-          | Hackney        | £115.22 | £113.85 | 59,677     |
+          | Name           | Actual | Planned | Population |
+          | City of London | £0     | £0      | 1,756      |
+          | Hackney        | £115   | £114    | 59,677     |
 
     @HighNeedsFlagEnabled
     Scenario: Can view local authority benchmarking table data for SEND2
@@ -45,8 +45,8 @@
           | Name           | Amount | Population |
           | City of London | 10.82  | 1,756      |
           | Hackney        | 51.31  | 59,677     |
-    
-    @HighNeedsFlagEnabled      
+
+    @HighNeedsFlagEnabled
     Scenario: Line codes are displayed
         Given I am on local authority high needs benchmarking for local authority with code '201'
-        Then the line codes are present 
+        Then the line codes are present
