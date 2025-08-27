@@ -157,7 +157,7 @@ variable "configuration" {
       worker_count                   = 1
       front_door_profile_sku_name    = "Standard_AzureFrontDoor"
       front_door_waf_policy_sku_name = "Standard_AzureFrontDoor"
-      waf_mode                       = "Prevention"
+      waf_mode                       = "Detection"
       features = {
       }
       CacheOptions = {
@@ -181,7 +181,7 @@ variable "configuration" {
       worker_count                   = 1
       front_door_profile_sku_name    = "Premium_AzureFrontDoor"
       front_door_waf_policy_sku_name = "Premium_AzureFrontDoor"
-      waf_mode                       = "Prevention"
+      waf_mode                       = "Detection"
       features = {
       },
       CacheOptions = {
