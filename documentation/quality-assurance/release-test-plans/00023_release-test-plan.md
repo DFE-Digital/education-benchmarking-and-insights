@@ -26,8 +26,8 @@ This release delivers enhancements to the data pipeline to support the CFR 2025 
 
 - Modularisation of the data pipeline for maintainability
 - Benchmarking IT spending charts (behind feature flag, not enabled in this release)
-- Enhancements to trust benchmarking for Education ICT 
-- Content updates to the BAE code 
+- Enhancements to trust benchmarking for Education ICT
+- Content updates to the BAE code
 - Regression fixes within the user-defined comparators journey
 
 ## Test Strategy
@@ -97,10 +97,9 @@ An issue was identified with user defined comparator during pre prod testing for
 - **New Release Version:** 2025.08.1
 - **Hotfixes Included:** Fixed user defined comparator creation.
 - **Current Release (2025.08.1):** Contains the necessary hotfix.
-- **Testing Impact:** The fix has been successfully tested in an earlier environment. Additionally, a few other completed tickets have progressed to the pre-production stage; these were also validated in the same earlier environment. 
+- **Testing Impact:** The fix has been successfully tested in an earlier environment. Additionally, a few other completed tickets have progressed to the pre-production stage; these were also validated in the same earlier environment.
 
 **[Azure Test Plan](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_testPlans/execute?planId=275364&suiteId=275365)**
-
 
 **Azure DevOps tickets included in this release:**
 
