@@ -112,7 +112,11 @@ An issue was identified with user defined comparator during pre prod testing for
 - [268637 - Education ICT Incorrect-Trust benchmarking](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_sprints/taskboard/FBIT/s198-DfE-Benchmarking-service/Sprint%2047?workitem=268637)
 - [269577 - Incorrect BAE Code Displayed for Ground Maintenance Costs](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_sprints/taskboard/FBIT/s198-DfE-Benchmarking-service/Sprint%2047?workitem=269577)
 - [276528 - User defined rag generation failure](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/276528)
-- todo add tickets here for benchmark IT spending
+- [270080 -Benchmarking IT spending charts filtering](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_sprints/taskboard/FBIT/s198-DfE-Benchmarking-service/Sprint%2047?workitem=270080)
+- [270083 - Benchmarking IT spending charts tooltip](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_sprints/taskboard/FBIT/s198-DfE-Benchmarking-service/Sprint%2047?workitem=270083)
+- [272139 - Part year annotation for SSR charts for IT Spend](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_sprints/taskboard/FBIT/s198-DfE-Benchmarking-service/Sprint%2047?workitem=272139)
+- [270092 - Download Benchmark IT spending page data](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_sprints/taskboard/FBIT/s198-DfE-Benchmarking-service/Sprint%2047?workitem=270092)
+- [270093 - Save Benchmark IT spending chart images](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_sprints/taskboard/FBIT/s198-DfE-Benchmarking-service/Sprint%2047?workitem=270093)
 
 ## Appendix
 
