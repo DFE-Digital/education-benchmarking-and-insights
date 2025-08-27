@@ -12,6 +12,8 @@ describe("normaliseData", () => {
   const sampleData = [
     { category: "A", value: 50 },
     { category: "B", value: 100 },
+    { category: "C", value: 0 },
+    { category: "D", value: undefined },
   ];
 
   it("should divide values by 100 for 'percent' type", () => {
@@ -19,12 +21,19 @@ describe("normaliseData", () => {
     expect(result).toEqual([
       { category: "A", value: 0.5 },
       { category: "B", value: 1 },
+      { category: "C", value: 0 },
+      { category: "D", value: 0 },
     ]);
   });
 
   it("should return original data for 'currency' type", () => {
     const result = normaliseData(sampleData, "value", "currency");
-    expect(result).toEqual(sampleData);
+    expect(result).toEqual([
+      { category: "A", value: 50 },
+      { category: "B", value: 100 },
+      { category: "C", value: 0 },
+      { category: "D", value: 0 },
+    ]);
   });
 
   it("should throw for unsupported ValueType", () => {

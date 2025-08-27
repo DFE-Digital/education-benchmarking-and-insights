@@ -21,7 +21,7 @@ public class ChartRenderingHorizontalBarChartSteps(ChartRenderingApiDriver api)
         var data = table.Rows.Select(row => new TestDatum
         {
             Key = row["Key"],
-            Value = decimal.Parse(row["Value"] ?? string.Empty)
+            Value = string.IsNullOrWhiteSpace(row["Value"]) ? null : decimal.Parse(row["Value"])
         });
 
         var content = BuildRequest(highlight, sort, width, barHeight, data, id, valueType);
