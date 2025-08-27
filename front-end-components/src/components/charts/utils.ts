@@ -41,16 +41,11 @@ export function shortValueFormatter(
     currency: options?.valueUnit === "currency" ? "GBP" : undefined,
     maximumFractionDigits:
       options?.valueUnit === "currency"
-        ? value % 1 && Math.abs(value) < 1000 // decimal less than 1000 and greater than -1000
-          ? 2
-          : undefined
+        ? 0
         : options?.valueUnit === "%"
           ? 1
           : 2,
-    minimumFractionDigits:
-      options?.valueUnit === "currency" && value % 1 && Math.abs(value) < 1000
-        ? 2
-        : undefined,
+    minimumFractionDigits: 0,
   })
     .format(options?.valueUnit === "%" ? value / 100 : value)
     .toLowerCase();
@@ -79,16 +74,12 @@ export function statValueFormatter(
       options?.valueUnit === "%"
         ? 1
         : options?.compact
-          ? options?.valueUnit === "currency" && Math.abs(value) < 1000
-            ? 2
+          ? options?.valueUnit === "currency"
+            ? 0
             : undefined
           : 0,
     minimumFractionDigits:
-      options?.compact &&
-      options?.valueUnit === "currency" &&
-      Math.abs(value) < 1000
-        ? 2
-        : undefined,
+      options?.compact && options?.valueUnit === "currency" ? 0 : undefined,
   })
     .format(options?.valueUnit === "%" ? value / 100 : value)
     .toLowerCase();
@@ -112,9 +103,7 @@ export function fullValueFormatter(
     currency: options?.valueUnit === "currency" ? "GBP" : undefined,
     maximumFractionDigits:
       options?.valueUnit === "currency"
-        ? Math.abs(value) < 1000 // decimal less than 1000 and greater than -1000
-          ? 2
-          : 0
+        ? 0
         : options?.valueUnit === "%"
           ? 1
           : 2,
