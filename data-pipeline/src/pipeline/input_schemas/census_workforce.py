@@ -96,9 +96,13 @@ workforce_census_column_eval = {
     2024: {
         "Total Number of Non-Classroom-based School Support Staff, (Other school support staff plus Administrative staff plus Technicians and excluding Auxiliary staff (Full-Time Equivalent)": "`Total Number of Other School Support Staff (FTE)` + `Total Number of Technicians (FTE)` + `Total Number of Leadership Non-Teachers (FTE)` + `Total Number of School Business Professionals (FTE)` + `Total Number of Administrative Staff (FTE)`",
         "Total Number of Non Classroom-based School Support Staff, Excluding Auxiliary Staff (Headcount)": "`Total Number of Other School Support Staff (Headcount)` + `Total Number of Technicians (Headcount)` + `Total Number of Leadership Non-Teachers (Headcount)` + `Total Number of School Business Professionals (Headcount)` + `Total Number of Administrative Staff (Headcount)`",
+        "SeniorLeadershipHeadcount": "`Total Number of Teachers in the Leadership Group (Headcount)` + `Total Number of Leadership Non-Teachers (Headcount)`",
+        "SeniorLeadershipFTE": "`Total Number of Teachers in the Leadership Group (Full-time Equivalent)` + `Total Number of Leadership Non-Teachers (FTE)`"
     },
     2025: {
         "Total Number of Non-Classroom-based School Support Staff, (Other school support staff plus Administrative staff plus Technicians and excluding Auxiliary staff (Full-Time Equivalent)": "`Total Number of Other School Support Staff (FTE)` + `Total Number of Technicians (FTE)` + `Total Number of Leadership Non-Teachers (FTE)` + `Total Number of School Business Professionals (FTE)` + `Total Number of Administrative Staff (FTE)`",
         "Total Number of Non Classroom-based School Support Staff, Excluding Auxiliary Staff (Headcount)": "`Total Number of Other School Support Staff (Headcount)` + `Total Number of Technicians (Headcount)` + `Total Number of Leadership Non-Teachers (Headcount)` + `Total Number of School Business Professionals (Headcount)` + `Total Number of Administrative Staff (Headcount)`",
+        "SeniorLeadershipHeadcount": "`Total Number of Teachers in the Leadership Group (Headcount)` + `Total Number of Leadership Non-Teachers (Headcount)`",
+        "SeniorLeadershipFTE": "`Total Number of Teachers in the Leadership Group (Full-time Equivalent)` + `Total Number of Leadership Non-Teachers (FTE)`"
     },
 }
