@@ -10,7 +10,7 @@ import { validatePayload } from "./validator";
 import { v4 as uuidv4 } from "uuid";
 import HorizontalBarChartTemplate from "./template";
 
-const client = new appInsights.TelemetryClient();
+const client = appInsights.defaultClient;
 
 export async function horizontalBarChart(
   request: HttpRequest,
