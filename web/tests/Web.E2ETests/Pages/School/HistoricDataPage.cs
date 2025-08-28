@@ -53,7 +53,7 @@ public class HistoricDataPage(IPage page)
         "Grant funding total",
         "Direct grants",
         "Pre-16 and post-16 funding",
-        "Other DfE/EFA revenue grants",
+        "Other DfE revenue grants",
         "Other income (local authority and other government grants)",
         "Government source (non-grant)",
         "Community grants",
