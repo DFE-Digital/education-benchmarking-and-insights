@@ -16,11 +16,14 @@ public interface IBudgetForecastService
         string category,
         string runId,
         CancellationToken cancellationToken = default);
+
     Task<IEnumerable<BudgetForecastReturnMetricModel>> GetBudgetForecastReturnMetricsAsync(
         string companyNumber,
         string runType,
         CancellationToken cancellationToken = default);
+
     Task<int?> GetBudgetForecastCurrentYearAsync(CancellationToken cancellationToken = default);
+
     Task<IEnumerable<ActualReturnModel>> GetActualReturnsAsync(
         string companyNumber,
         string category,
@@ -65,7 +68,7 @@ public class BudgetForecastService(IDatabaseFactory dbFactory) : IBudgetForecast
             Name = "LatestBFRYear"
         }, cancellationToken);
 
-        const string sql = "SELECT * from BudgetForecastReturnMetric where CompanyNumber = @CompanyNumber and RunType = @RunType AND Year >= @StartYear AND Year <= @EndYear";
+        const string sql = "SELECT * from BudgetForecastReturnMetric where CompanyNumber = @CompanyNumber and RunType = @RunType AND RunId >= @StartYear AND RunId <= @EndYear";
         var parameters = new
         {
             CompanyNumber = companyNumber,
@@ -73,7 +76,6 @@ public class BudgetForecastService(IDatabaseFactory dbFactory) : IBudgetForecast
             StartYear = year - 2,
             EndYear = year
         };
-
 
         return await conn.QueryAsync<BudgetForecastReturnMetricModel>(sql, parameters, cancellationToken);
     }
