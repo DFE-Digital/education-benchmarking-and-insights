@@ -92,14 +92,13 @@ public class WhenBudgetForecastServiceQueriesAsync
 
         // assert
         Assert.Equal(results, actual);
-        Assert.Equal("SELECT * from BudgetForecastReturnMetric where CompanyNumber = @CompanyNumber and RunType = @RunType AND Year >= @StartYear AND Year <= @EndYear", actualSql);
+        Assert.Equal("SELECT * from BudgetForecastReturnMetric where CompanyNumber = @CompanyNumber and RunType = @RunType AND RunId >= @StartYear AND RunId <= @EndYear", actualSql);
         Assert.Equivalent(new
         {
             CompanyNumber = companyNumber,
             RunType = runType,
             StartYear = 2019,
             EndYear = 2021
-
         }, actualParam, true);
     }
 
