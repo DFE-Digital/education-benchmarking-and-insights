@@ -69,10 +69,10 @@ public class GivenDimensionsGetXAxisLabel
 public class GivenDimensionsGetFormattedValue
 {
     [Theory]
-    [InlineData(Dimensions.ResultAsOptions.Actuals, 123.45, "£123.45")]
+    [InlineData(Dimensions.ResultAsOptions.Actuals, 123.45, "£123")]
     [InlineData(Dimensions.ResultAsOptions.PercentExpenditure, 123.45, "123.5%")]
     [InlineData(Dimensions.ResultAsOptions.PercentIncome, 123.45, "123.5%")]
-    [InlineData(Dimensions.ResultAsOptions.SpendPerPupil, 123.45, "£123.45")]
+    [InlineData(Dimensions.ResultAsOptions.SpendPerPupil, 123.45, "£123")]
     public void WhenResultAsOptionsIs(Dimensions.ResultAsOptions option, decimal value, string expected)
     {
         var actual = option.GetFormattedValue(value);

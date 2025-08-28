@@ -39,7 +39,7 @@
                 </li>
                 <li class="@SchoolPlanViewModel.HeadlineClass(Model.LatestPlan?.InYearBalancePercentIncomeRating)">
                     <p class="govuk-body govuk-!-font-size-48 govuk-!-margin-bottom-1">
-                        @Model.LatestPlan?.InYearBalance.ToCurrency(0)
+                        @Model.LatestPlan?.InYearBalance.ToCurrency()
                         @if (Model.PreviousPlan != null)
                         {
                             <span>@SchoolPlanViewModel.Different(Model.LatestPlan?.InYearBalance, Model.PreviousPlan?.InYearBalance)</span>
@@ -47,7 +47,8 @@
                     </p>
                     @if (Model.PreviousPlan != null)
                     {
-                        <p class="govuk-body-s govuk-!-margin-bottom-1">(was @Model.PreviousPlan?.InYearBalance.ToCurrency(0))</p>
+                        <p class="govuk-body-s govuk-!-margin-bottom-1">
+                            (was @Model.PreviousPlan?.InYearBalance.ToCurrency())</p>
                     }
                     <p class="govuk-body govuk-!-margin-bottom-1">In-year balance</p>
                 </li>
@@ -104,7 +105,8 @@
                         <td class="govuk-table__cell">
                             @if (plan.IsComplete)
                             {
-                                <a href="@Url.Action("View", new { urn = Model.Urn, year = plan.Year })" class="govuk-link govuk-link--no-visited-state">
+                                <a href="@Url.Action("View", new { urn = Model.Urn, year = plan.Year })"
+                                   class="govuk-link govuk-link--no-visited-state">
                                     View
                                 </a>
                             }

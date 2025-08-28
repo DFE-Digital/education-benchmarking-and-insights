@@ -50,11 +50,11 @@ else
             <ul class="app-headline app-headline-3 govuk-!-text-align-centre govuk-!-margin-0">
                 <li class="app-headline-figures">
                     <p class="govuk-body-l govuk-!-font-weight-bold govuk-!-margin-bottom-4">In year balance</p>
-                    <p class="govuk-body-l govuk-!-margin-bottom-2">@Model.InYearBalance.ToCurrency(0)</p>
+                    <p class="govuk-body-l govuk-!-margin-bottom-2">@Model.InYearBalance.ToCurrency()</p>
                 </li>
                 <li class="app-headline-figures">
                     <p class="govuk-body-l govuk-!-font-weight-bold govuk-!-margin-bottom-4">Revenue reserve</p>
-                    <p class="govuk-body-l govuk-!-margin-bottom-2">@Model.RevenueReserve.ToCurrency(0)</p>
+                    <p class="govuk-body-l govuk-!-margin-bottom-2">@Model.RevenueReserve.ToCurrency()</p>
                 </li>
                 <li class="app-headline-figures">
                     <p class="govuk-body-l govuk-!-font-weight-bold govuk-!-margin-bottom-4">Number of academies</p>
@@ -98,7 +98,6 @@ else
         <tbody class="govuk-table__body">
         @foreach (var rating in Model.Ratings)
         {
-
             <tr class="govuk-table__row">
                 <td class="govuk-table__cell govuk-!-width-one-half">
                     <a href="@Url.Action("Index", "TrustSpending", new { companyNumber = Model.CompanyNumber, category = rating.Category?.ToSlug() })"

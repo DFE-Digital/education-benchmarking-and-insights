@@ -21,7 +21,6 @@ public class WhenViewingCustomDataFinancialData : PageBase<SchoolBenchmarkingWeb
 
     public WhenViewingCustomDataFinancialData(SchoolBenchmarkingWebAppClient client) : base(client)
     {
-
         _income = Fixture.Build<SchoolIncome>()
             .Create();
 
@@ -379,7 +378,7 @@ public class WhenViewingCustomDataFinancialData : PageBase<SchoolBenchmarkingWeb
 
             if (expected != null && decimal.TryParse(expected, out var parsed))
             {
-                Assert.Equal(parsed.ToCurrency(0), actual);
+                Assert.Equal(parsed.ToCurrency(), actual);
             }
         }
     }

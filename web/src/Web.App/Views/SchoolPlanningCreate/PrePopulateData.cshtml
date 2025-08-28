@@ -26,7 +26,7 @@
                     Total income
                 </dt>
                 <dd class="govuk-summary-list__value govuk-!-text-align-right">
-                    @Model.Income?.TotalIncome.ToCurrency(0)
+                    @Model.Income?.TotalIncome.ToCurrency()
                 </dd>
             </div>
             <div class="govuk-summary-list__row">
@@ -34,7 +34,7 @@
                     Total expenditure
                 </dt>
                 <dd class="govuk-summary-list__value govuk-!-text-align-right">
-                    @Model.Expenditure?.TotalExpenditure.ToCurrency(0)
+                    @Model.Expenditure?.TotalExpenditure.ToCurrency()
                 </dd>
             </div>
             <div class="govuk-summary-list__row">
@@ -42,7 +42,7 @@
                     Total teacher costs
                 </dt>
                 <dd class="govuk-summary-list__value govuk-!-text-align-right">
-                    @Model.Expenditure?.TeachingStaffCosts.ToCurrency(0)
+                    @Model.Expenditure?.TeachingStaffCosts.ToCurrency()
                 </dd>
             </div>
             @if (Model.School.IsPrimaryOrNursery)
@@ -52,7 +52,7 @@
                         Total education support staff costs
                     </dt>
                     <dd class="govuk-summary-list__value govuk-!-text-align-right">
-                        @Model.Expenditure?.EducationSupportStaffCosts.ToCurrency(0)
+                        @Model.Expenditure?.EducationSupportStaffCosts.ToCurrency()
                     </dd>
                 </div>
             }

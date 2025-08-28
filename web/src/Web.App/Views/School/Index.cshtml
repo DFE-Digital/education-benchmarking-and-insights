@@ -78,7 +78,7 @@
                                 {
                                     rating = new RatingViewModel(rating.PriorityTag?.Colour, rating.PriorityTag?.DisplayText)
                                 })
-                                Spends <strong>@rating.Value.ToCurrency(0)</strong> @rating.Unit —
+                                Spends <strong>@rating.Value.ToCurrency()</strong> @rating.Unit —
                                 @await Html.PartialAsync("_RagRatingCommentary", new RagRatingCommentaryViewModel
                                 {
                                     Rating = rating

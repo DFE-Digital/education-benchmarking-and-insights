@@ -358,13 +358,13 @@ public class WhenViewingSpending(SchoolBenchmarkingWebAppClient client)
             };
 
             var total = expectedTotalsList[sectionHeading];
-            Assert.Equal($"This school spends\n    \n        {total?.ToCurrency(0)}\n    \n        \n            \n                {unit}", stat1);
+            Assert.Equal($"This school spends\n    \n        {total?.ToCurrency()}\n    \n        \n            \n                {unit}", stat1);
         }
 
-        Assert.Equal($"Similar schools spend\n    \n        {rating?.Median.ToCurrency(0)}\n    \n        \n            \n                {unit}, on average", stat2);
+        Assert.Equal($"Similar schools spend\n    \n        {rating?.Median.ToCurrency()}\n    \n        \n            \n                {unit}, on average", stat2);
 
         var percentage = (rating?.DiffMedian ?? 0) / (rating?.Median ?? 1) * 100;
-        Assert.Equal($"This school spends\n    \n        {rating?.DiffMedian.ToCurrency(0)}\n            \n                ({percentage:F1}%)\n            \n    \n        \n            \n                more {unit}", stat3);
+        Assert.Equal($"This school spends\n    \n        {rating?.DiffMedian.ToCurrency()}\n            \n                ({percentage:F1}%)\n            \n    \n        \n            \n                more {unit}", stat3);
     }
 
     private RagRating[] CreateRagRatings(string urn)

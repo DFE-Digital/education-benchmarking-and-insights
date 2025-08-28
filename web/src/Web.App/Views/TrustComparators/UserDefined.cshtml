@@ -42,7 +42,7 @@
                     </td>
                     <td class="govuk-table__cell">@trust.SchoolsInTrust.GetValueOrDefault().ToSimpleDisplay()</td>
                     <td class="govuk-table__cell">@trust.TotalPupils.GetValueOrDefault().ToNumberSeparator()</td>
-                    <td class="govuk-table__cell">@trust.TotalIncome?.ToCurrency(0)</td>
+                    <td class="govuk-table__cell">@trust.TotalIncome?.ToCurrency()</td>
                 </tr>
             }
             </tbody>

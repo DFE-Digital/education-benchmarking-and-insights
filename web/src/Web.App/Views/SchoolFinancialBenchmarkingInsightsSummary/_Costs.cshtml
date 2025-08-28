@@ -11,7 +11,7 @@
         ? "Non-educational support staff"
         : category.Rating.Category;
 
-    var ratingPrefix = $"<strong>{category.Rating.Value.ToCurrency(0)}</strong> {Lookups.CategoryUnitMap[category.Rating.Category ?? string.Empty].Replace("square", "sq.")};";
+    var ratingPrefix = $"<strong>{category.Rating.Value.ToCurrency()}</strong> {Lookups.CategoryUnitMap[category.Rating.Category ?? string.Empty].Replace("square", "sq.")};";
 
     <section id="spending-priorities-@category.Rating.CostCategoryAnchorId">
         <div class="govuk-grid-row govuk-!-margin-top-4 govuk-!-margin-bottom-8"

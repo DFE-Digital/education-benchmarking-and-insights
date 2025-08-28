@@ -3,13 +3,12 @@ namespace Web.App.Extensions;
 
 public static class DecimalExtensions
 {
-    public static string ToCurrency(this decimal? value, int? decimalDigits = null) => value.HasValue ? value.Value.ToCurrency(decimalDigits) : string.Empty;
+    public static string ToCurrency(this decimal? value) => value.HasValue ? value.Value.ToCurrency() : string.Empty;
 
-    public static string ToCurrency(this decimal value, int? decimalDigits = null)
+    public static string ToCurrency(this decimal value)
     {
-        var currencyDecimalDigits = decimalDigits ?? (Math.Abs(value) < 1000 ? 2 : 0);
         var nfi = new CultureInfo("en-GB").NumberFormat;
-        nfi.CurrencyDecimalDigits = currencyDecimalDigits;
+        nfi.CurrencyDecimalDigits = 0;
         return value.ToString("C", nfi);
     }
 
