@@ -75,17 +75,17 @@ export const IncomeSectionGrantFunding: React.FC<{
           </HistoricChart>
 
           <HistoricChart
-            chartTitle="Other DfE/EFA revenue grants"
+            chartTitle="Other DfE revenue grants"
             data={data}
             seriesConfig={{
               otherDfeGrants: {
-                label: "Other DfE/EFA revenue grants",
+                label: "Other DfE revenue grants",
                 visible: true,
               },
             }}
             valueField="otherDfeGrants"
           >
-            <h3 className="govuk-heading-s">Other DfE/EFA revenue grants </h3>
+            <h3 className="govuk-heading-s">Other DfE revenue grants </h3>
           </HistoricChart>
 
           <HistoricChart
