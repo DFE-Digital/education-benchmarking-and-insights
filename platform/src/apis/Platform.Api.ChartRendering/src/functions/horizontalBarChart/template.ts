@@ -51,7 +51,10 @@ export default class HorizontalBarChartTemplate {
     const truncateLabelAt = width ? Math.floor(width / 22) : 30;
 
     const normalisedData = normaliseData(data, valueField, valueType);
-    const valueFormat = getValueFormat(valueType);
+    const valueFormat = getValueFormat(
+      valueType,
+      Math.max(...normalisedData.map((d) => Math.abs(d[valueField] as number))),
+    );
     const groups = (key: DatumKey) => getGroups(groupedKeys, key);
 
     // Create the scales.
