@@ -48,7 +48,7 @@ This document maps each category type from the Financial Benchmarking & Insights
 |--------------------------|------------------------------------------------------------|:------------------:|:------------------------------------------------------:|---------------------------|
 | Grant funding            | Direct grants                                              | I01, I02, I06, I07 | BAI010, BAI011, BAI020, BAI040, BAI050, BAI060, BAI061 | Calculated - sum of codes |
 | Grant funding            | Pre-16 and post-16 funding                                 |      I01, I02      |         BAI010, BAI011, BAI020, BAI050, BAI061         | Calculated - sum of codes |
-| Grant funding            | Other DfE/EFA revenue grants                               |        I06         |                         BAI040                         |                           |
+| Grant funding            | Other DfE revenue grants                                   |        I06         |                         BAI040                         |                           |
 | Grant funding            | Other income (local authority and other government grants) |        I07         |                         BAI060                         |                           |
 | Grant funding            | Government source (non-grant)                              |                    |                         BAI070                         | Academies only            |
 | Grant funding            | Community grants                                           |        I16         |                                                        | Maintained schools only   |
