@@ -52,6 +52,14 @@ describe("getValueFormat", () => {
     expect(getValueFormat("currency")).toBe("$,~s");
   });
 
+  it("should return '$,~s' for 'currency' when maximum value >= 1000", () => {
+    expect(getValueFormat("currency", 1000)).toBe("$,~s");
+  });
+
+  it("should return '$,.0~s' for 'currency' when maximum value < 1000", () => {
+    expect(getValueFormat("currency", 999)).toBe("$.0f");
+  });
+
   it("should throw for unsupported ValueType", () => {
     expect(() => getValueFormat("invalid" as ValueType)).toThrow(
       "Argument out of range: unsupported ValueType 'invalid'",

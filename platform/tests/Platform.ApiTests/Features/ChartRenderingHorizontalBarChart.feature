@@ -15,24 +15,28 @@
           | 123459 | 1100001 |
           | 123460 | 0       |
           | 123461 |         |
+          | 123462 | 123.45  |
+          | 123463 | 67.89   |
         When I submit the horizontal bar chart request
         Then the response should be ok, contain a JSON object and match the expected output of 'HorizontalBarChartValidSingleCurrency.json'
 
     Scenario: Sending a valid single horizontal bar chart request returns the correct HTML for percentage value
         Given a single horizontal bar chart request with accept header 'application/json', highlighted item '123456', sort 'asc', width '500', bar height '20', id 'test-uuid', valueType 'percent' and the following data:
-          | Key    | Value |
-          | 123450 | 100   |
-          | 123451 | 99    |
-          | 123452 | 80    |
-          | 123453 | 55    |
-          | 123454 | 44    |
-          | 123455 | 1     |
-          | 123456 | 67    |
-          | 123457 | 89    |
-          | 123458 | 48    |
-          | 123459 | 32    |
-          | 123460 | 0     |
-          | 123461 |       |
+          | Key    | Value  |
+          | 123450 | 100    |
+          | 123451 | 99     |
+          | 123452 | 80     |
+          | 123453 | 55     |
+          | 123454 | 44     |
+          | 123455 | 1      |
+          | 123456 | 67     |
+          | 123457 | 89     |
+          | 123458 | 48     |
+          | 123459 | 32     |
+          | 123460 | 0      |
+          | 123461 |        |
+          | 123462 | 123.45 |
+          | 123463 | 67.89  |
         When I submit the horizontal bar chart request
         Then the response should be ok, contain a JSON object and match the expected output of 'HorizontalBarChartValidSinglePercent.json'
 
@@ -51,8 +55,30 @@
           | 123459 | 1100001 |
           | 123460 | 0       |
           | 123461 |         |
+          | 123462 | 123.45  |
+          | 123463 | 67.89   |
         When I submit the horizontal bar chart request
         Then the response should be ok, contain an SVG document and match the expected output of 'HorizontalBarChartValidSingleCurrency.svg'
+
+    Scenario: Sending a valid single horizontal bar chart request without SI units with accept header image/svg+xml returns the correct HTML only
+        Given a single horizontal bar chart request with accept header 'image/svg+xml', highlighted item '123456', sort 'asc', width '500', bar height '20', id 'test-uuid', valueType 'currency' and the following data:
+          | Key    | Value  |
+          | 123450 | 100    |
+          | 123451 | 999    |
+          | 123452 | 80     |
+          | 123453 | 55     |
+          | 123454 | 44     |
+          | 123455 | 1      |
+          | 123456 | 67     |
+          | 123457 | 89     |
+          | 123458 | 48     |
+          | 123459 | 32     |
+          | 123460 | 0      |
+          | 123461 |        |
+          | 123462 | 123.45 |
+          | 123463 | 67.89  |
+        When I submit the horizontal bar chart request
+        Then the response should be ok, contain an SVG document and match the expected output of 'HorizontalBarChartValidSingleCurrencyNoSiUnits.svg'
 
     Scenario: Sending a valid multiple horizontal bar chart request returns the correct HTML for currency values
         Given multiple horizontal bar chart requests with the following data:

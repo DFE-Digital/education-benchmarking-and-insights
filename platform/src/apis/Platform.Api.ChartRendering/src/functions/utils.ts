@@ -25,13 +25,18 @@ export function normaliseData<T>(
   }
 }
 
-export function getValueFormat(dataType: ValueType): string {
+export function getValueFormat(
+  dataType: ValueType,
+  maximumValue?: number,
+): string {
   switch (dataType) {
     case "percent":
       return ".1%";
 
     case "currency":
-      return "$,~s";
+      return maximumValue !== undefined && maximumValue < 1000
+        ? "$.0f"
+        : "$,~s";
 
     default:
       throw new Error(
