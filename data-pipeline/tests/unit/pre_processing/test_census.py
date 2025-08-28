@@ -30,6 +30,8 @@ def test_census_data_has_correct_output_columns(prepared_census_data: pd.DataFra
         "Total Number of Auxiliary Staff (Full-Time Equivalent)",
         "Total Number of Auxiliary Staff (Headcount)",
         "Total School Workforce (Headcount)",
+        "SeniorLeadershipHeadcount",
+        "SeniorLeadershipFTE",
         "TotalPupilsNursery",
         "TotalPupilsSixthForm",
     ]
