@@ -76,7 +76,7 @@
                                 nameof(Model.Data.TotalIncomeTo),
                                 Model.Data.TotalIncomeTo.HasValue ? Model.Data.TotalIncomeTo.Value.ToString() : string.Empty,
                                 Model.Name,
-                                Model.Characteristic?.TotalIncome.ToCurrency(0),
+                                Model.Characteristic?.TotalIncome.ToCurrency(),
                                 "has income of",
                                 inputSuffix: "£",
                                 wide: true))

@@ -120,14 +120,14 @@
                             @await Html.PartialAsync("_ChartStat", new ChartStatViewModel
                             {
                                 Label = "This school spends",
-                                Value = schoolData?.Amount.ToCurrency(0),
+                                Value = schoolData?.Amount.ToCurrency(),
                                 Suffix = unit,
                                 Highlight = true
                             })
                             @await Html.PartialAsync("_ChartStat", new ChartStatViewModel
                             {
                                 Label = "Similar schools spend",
-                                Value = chartStats?.Average.ToCurrency(0),
+                                Value = chartStats?.Average.ToCurrency(),
                                 Suffix = $"{unit}, on average"
                             })
                             @if (chartStats?.Difference != null)
@@ -135,7 +135,7 @@
                                 @await Html.PartialAsync("_ChartStat", new ChartStatViewModel
                                 {
                                     Label = "This school spends",
-                                    Value = Math.Abs(chartStats.Difference.Value).ToCurrency(0),
+                                    Value = Math.Abs(chartStats.Difference.Value).ToCurrency(),
                                     ValueSuffix = chartStats.PercentDifference != null ? $"({Math.Abs(chartStats.PercentDifference.Value):F1}%)" : null,
                                     Suffix = $"<strong>{(chartStats.Difference < 0 ? "less" : "more")}</strong> {unit}"
                                 })

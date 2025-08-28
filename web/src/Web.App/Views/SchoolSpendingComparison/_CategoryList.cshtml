@@ -28,7 +28,7 @@
                                         rating = new RatingViewModel(category.OriginalPriorityTag?.Colour, category.OriginalPriorityTag?.DisplayText)
                                     })
                             </td>
-                            <td class="govuk-table__cell">@category.OriginalValue.ToCurrency(0)</td>
+                            <td class="govuk-table__cell">@category.OriginalValue.ToCurrency()</td>
                             <td class="govuk-table__cell">@($"{category.OriginalPercentile.ToPercent()} of all benchmarked schools")</td>
                         </tr>
                         <tr class="govuk-table__row">
@@ -39,7 +39,7 @@
                                         rating = new RatingViewModel(category.CustomPriorityTag?.Colour, category.CustomPriorityTag?.DisplayText)
                                     })
                             </td>
-                            <td class="govuk-table__cell">@category.CustomValue.ToCurrency(0)</td>
+                            <td class="govuk-table__cell">@category.CustomValue.ToCurrency()</td>
                             <td class="govuk-table__cell">@($"{category.CustomPercentile.ToPercent()} of all benchmarked schools")</td>
                         </tr>
                     </tbody>
