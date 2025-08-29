@@ -14,7 +14,7 @@ load_dotenv()
 
 from pipeline.comparator_sets import compute_comparator_sets
 from pipeline.pre_processing import pre_process_custom_data, pre_process_data
-from pipeline.rag import compute_rag, run_user_defined_rag
+from pipeline.rag import run_rag_pipeline, run_user_defined_rag_pipeline
 from pipeline.utils.log import setup_logger
 from pipeline.utils.message import MessageType, get_message_type
 from pipeline.utils.storage import (
@@ -66,7 +66,7 @@ def handle_msg(
                     run_type=run_type,
                     run_id=str(msg_payload["runId"]),
                 )
-                msg_payload["rag_duration"] = compute_rag(
+                msg_payload["rag_duration"] = run_rag_pipeline(
                     run_type=run_type,
                     run_id=str(msg_payload["runId"]),
                 )
@@ -75,7 +75,7 @@ def handle_msg(
 
             case MessageType.DefaultUserDefined:
                 logger.info("Starting user defined RAG pipeline run...")
-                msg_payload["rag_duration"] = run_user_defined_rag(
+                msg_payload["rag_duration"] = run_user_defined_rag_pipeline(
                     year=msg_payload["year"],
                     run_id=msg_payload["runId"],
                     target_urn=int(msg_payload["urn"]),
@@ -97,12 +97,12 @@ def handle_msg(
                 msg_payload["comparator_set_duration"] = compute_comparator_sets(
                     run_type=run_type,
                     run_id=msg_payload["runId"],
-                    target_urn=int(msg_payload["urn"]),
+                    target_urn=msg_payload["urn"],
                 )
-                msg_payload["rag_duration"] = compute_rag(
+                msg_payload["rag_duration"] = run_rag_pipeline(
                     run_type=run_type,
                     run_id=msg_payload["runId"],
-                    target_urn=int(msg_payload["urn"]),
+                    target_urn=msg_payload["urn"],
                 )
                 msg_payload["stats"] = stats_collector.get_stats()
                 logger.info("Custom pipeline run completed!")
