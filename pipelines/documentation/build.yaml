@@ -42,6 +42,7 @@ parameters:
     default:
       - cfr-file-generation
       - monthly-reporting
+      - chart-principles
 
 stages:
   - stage: Validate
