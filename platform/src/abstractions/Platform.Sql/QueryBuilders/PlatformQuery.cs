@@ -293,4 +293,16 @@ public abstract class PlatformQuery : SqlBuilder
         Where(sql, parameters);
         return this;
     }
+
+    public PlatformQuery WhereSlugEqual(string slug)
+    {
+        const string sql = "Slug = @Slug";
+        var parameters = new
+        {
+            Slug = slug
+        };
+
+        Where(sql, parameters);
+        return this;
+    }
 }

@@ -7,6 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Platform.Api.Content.Features.Banners;
 using Platform.Api.Content.Features.CommercialResources;
 using Platform.Api.Content.Features.Files;
+using Platform.Api.Content.Features.News;
 using Platform.Api.Content.Features.Years;
 using Platform.Functions;
 using Platform.Json;
@@ -61,12 +62,19 @@ internal static class Services
         return serviceCollection;
     }
 
-    private static IServiceCollection AddPlatformServices(this IServiceCollection serviceCollection) => serviceCollection
-        .AddPlatformSql();
+    private static IServiceCollection AddPlatformServices(this IServiceCollection serviceCollection)
+    {
+        return serviceCollection
+            .AddPlatformSql();
+    }
 
-    private static IServiceCollection AddFeatures(this IServiceCollection serviceCollection) => serviceCollection
-        .AddBannersFeature()
-        .AddCommercialResourcesFeature()
-        .AddFilesFeature()
-        .AddYearsFeature();
+    private static IServiceCollection AddFeatures(this IServiceCollection serviceCollection)
+    {
+        return serviceCollection
+            .AddBannersFeature()
+            .AddCommercialResourcesFeature()
+            .AddNewsFeature()
+            .AddFilesFeature()
+            .AddYearsFeature();
+    }
 }
