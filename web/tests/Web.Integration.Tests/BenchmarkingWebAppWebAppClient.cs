@@ -126,7 +126,8 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
             FeatureFlags.HighNeeds,
             FeatureFlags.FilteredSearch,
             FeatureFlags.SchoolSpendingPrioritiesSsrCharts,
-            FeatureFlags.CfrItSpendBreakdown
+            FeatureFlags.CfrItSpendBreakdown,
+            FeatureFlags.News
         };
 
         foreach (var feature in features.Where(x => !ignoreFeatures.Contains(x)))
