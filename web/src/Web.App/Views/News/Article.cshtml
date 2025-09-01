@@ -1,0 +1,17 @@
+﻿@using Westwind.AspNetCore.Markdown
+@model Web.App.ViewModels.NewsArticleViewModel
+
+@{
+    ViewData[ViewDataKeys.Title] = Model.Title;
+}
+
+@if (Model.Body == null)
+{
+    return;
+}
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds markdown">
+        @Markdown.ParseHtmlString(Model.Body)
+    </div>
+</div>
