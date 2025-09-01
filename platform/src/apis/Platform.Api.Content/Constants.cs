@@ -10,6 +10,7 @@ public static class Constants
         public const string CommercialResources = "Commercial Resources";
         public const string Files = "Files";
         public const string HealthCheck = "Health Check";
+        public const string News = "News";
         public const string Years = "Years";
     }
 }

@@ -465,10 +465,29 @@ public class PlatformQueryTests
         Assert.Equal(expectedSql, builder.QueryTemplate.RawSql);
     }
 
-    private static string BuildExpectedQuery(string wherePart, string? orderByPart = null) =>
-        $"{MockPlatformQuery.Sql
+    [Fact]
+    public void ShouldAddSlugEqualParameter()
+    {
+        const string expectedParam = "Slug";
+        const string expectedValue = "slug";
+        var expectedSql = BuildExpectedQuery("WHERE Slug = @Slug");
+
+        var builder = new MockPlatformQuery().WhereSlugEqual(expectedValue);
+        var parameters = builder.QueryTemplate.Parameters?.GetTemplateParameters(expectedParam);
+
+        Assert.NotNull(parameters);
+        Assert.Single(parameters);
+        Assert.Contains(expectedParam, parameters.Keys);
+        Assert.Equal(expectedValue, parameters[expectedParam]);
+        Assert.Equal(expectedSql, builder.QueryTemplate.RawSql);
+    }
+
+    private static string BuildExpectedQuery(string wherePart, string? orderByPart = null)
+    {
+        return $"{MockPlatformQuery.Sql
             .Replace("/**where**/", wherePart)
             .Replace("/**orderby**/", orderByPart)}\n";
+    }
 }
 
 public class MockPlatformQuery() : PlatformQuery(Sql)
