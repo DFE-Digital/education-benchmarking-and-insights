@@ -26,7 +26,7 @@
     "@opentelemetry/semantic-conventions": "^1.36.0",
     "@opentelemetry/winston-transport": "^0.14.0",
     "express": "^5.1.0",
-    "govuk-frontend": "^5.11.0",
+    "govuk-frontend": "^5.11.2",
     "isomorphic-dompurify": "^2.26.0",
     "marked": "^16.1.1",
     "nunjucks": "^3.2.4",
