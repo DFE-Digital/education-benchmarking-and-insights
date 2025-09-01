@@ -163,11 +163,11 @@
       },
       "Microsoft.FeatureManagement.AspNetCore": {
         "type": "Direct",
-        "requested": "[4.2.1, )",
-        "resolved": "4.2.1",
-        "contentHash": "+LpvjzXbmeppjCFpKL32JZag4lAE2W5xqZiB4NWh5KFT06R35ul6XgmV/LW/tW5wKU0dLbsQnXy7On/ll9qyvg==",
+        "requested": "[4.3.0, )",
+        "resolved": "4.3.0",
+        "contentHash": "QUTCPSMDutLPw8s5z8H2DJ/CIjeXkKpXVi377EmGcLuoUhiAIHZIw+cqcEWWOYbgd09eyxKfFPSM7RCGedb/UQ==",
         "dependencies": {
-          "Microsoft.FeatureManagement": "4.2.1"
+          "Microsoft.FeatureManagement": "4.3.0"
         }
       },
       "Newtonsoft.Json": {
@@ -659,8 +659,8 @@
       },
       "Microsoft.FeatureManagement": {
         "type": "Transitive",
-        "resolved": "4.2.1",
-        "contentHash": "n0rfGFSr4djdLwX/fkE28o9mljw2ZTeEgYXecInyCSCjpknpX/m2fMfXlOwcRSIriRDwYYgHl+Eef9JyxhrznA==",
+        "resolved": "4.3.0",
+        "contentHash": "6FJz8K6xzjuUBG5DZ55gttMU2/MxObqPDTRMXC950EjljJqZPrigMm1EMsPK+HbPR84+T4PCXgjmdlkw+8Piow==",
         "dependencies": {
           "Microsoft.Bcl.TimeProvider": "8.0.1",
           "Microsoft.Extensions.Caching.Memory": "8.0.1",
