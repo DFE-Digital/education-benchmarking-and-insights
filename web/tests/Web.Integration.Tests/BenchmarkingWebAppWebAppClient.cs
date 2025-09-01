@@ -740,14 +740,14 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
     public BenchmarkingWebAppClient SetupNewsArticle(News? news)
     {
         NewsApi.Reset();
-        NewsApi.Setup(api => api.GetNewsArticle(It.IsAny<string>())).ReturnsAsync(news == null ? ApiResult.NotFound() : ApiResult.Ok(news));
+        NewsApi.Setup(api => api.GetNewsArticle(It.IsAny<string>(), It.IsAny<CancellationToken>())).ReturnsAsync(news == null ? ApiResult.NotFound() : ApiResult.Ok(news));
         return this;
     }
 
     public BenchmarkingWebAppClient SetupNewsWithException()
     {
         NewsApi.Reset();
-        NewsApi.Setup(api => api.GetNewsArticle(It.IsAny<string>())).Throws(new Exception());
+        NewsApi.Setup(api => api.GetNewsArticle(It.IsAny<string>(), It.IsAny<CancellationToken>())).Throws(new Exception());
         return this;
     }
 
