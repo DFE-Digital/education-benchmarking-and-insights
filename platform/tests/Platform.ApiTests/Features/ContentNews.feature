@@ -30,3 +30,16 @@
         Given a news article request with API version 'invalid' for the slug 'published'
         When I submit the news request
         Then the result should be bad request
+
+    Scenario: Getting the published news articles
+        Given a news request
+        When I submit the news request
+        Then the results should be ok and equal:
+          | Title            | Slug             | Published                         |
+          | Not yet archived | not-yet-archived | 2025-08-28T14:46:10.3266667+00:00 |
+          | Published        | published        | 2025-08-28T14:45:27.5866667+00:00 |
+
+    Scenario: Sending a valid news request for unsupported API version
+        Given a news request with API version 'invalid'
+        When I submit the news request
+        Then the result should be bad request

@@ -30,6 +30,23 @@ public class ContentNewsSteps(ContentApiDriver api)
         api[NewsKey].Request.Headers.Add("x-api-version", version);
     }
 
+    [Given("a news request")]
+    public void GivenANewsRequest()
+    {
+        api.CreateRequest(NewsKey, new HttpRequestMessage
+        {
+            RequestUri = new Uri("/api/news", UriKind.Relative),
+            Method = HttpMethod.Get
+        });
+    }
+
+    [Given("a news request with API version '(.*)'")]
+    public void GivenANewsRequestWithApiVersion(string version)
+    {
+        GivenANewsRequest();
+        api[NewsKey].Request.Headers.Add("x-api-version", version);
+    }
+
     [When("I submit the news request")]
     public async Task WhenISubmitTheNewsRequest()
     {
@@ -48,6 +65,17 @@ public class ContentNewsSteps(ContentApiDriver api)
         var expected = TestDataProvider.GetJsonObjectData(testFile);
 
         actual.AssertDeepEquals(expected);
+    }
+
+    [Then("the results should be ok and equal:")]
+    public async Task ThenTheResultsShouldBeOkAndEqual(DataTable table)
+    {
+        var response = api[NewsKey].Response;
+        AssertHttpResponse.IsOk(response);
+
+        var content = await response.Content.ReadAsByteArrayAsync();
+        var result = content.FromJson<News[]>();
+        table.CompareToSet(result);
     }
 
     [Then("the result should be not found")]

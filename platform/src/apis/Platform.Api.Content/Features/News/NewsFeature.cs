@@ -12,7 +12,9 @@ public static class NewsFeature
     public static IServiceCollection AddNewsFeature(this IServiceCollection serviceCollection)
     {
         serviceCollection
+            .AddSingleton<IGetNewsHandler, GetNewsV1Handler>()
             .AddSingleton<IGetNewsArticleHandler, GetNewsArticleV1Handler>()
+            .AddSingleton<IVersionedHandlerDispatcher<IGetNewsHandler>, VersionedHandlerDispatcher<IGetNewsHandler>>()
             .AddSingleton<IVersionedHandlerDispatcher<IGetNewsArticleHandler>, VersionedHandlerDispatcher<IGetNewsArticleHandler>>()
             .AddSingleton<INewsService, NewsService>();
 
