@@ -14,7 +14,16 @@ namespace Web.App.Middleware.Markdown;
 ///             <c>&lt;a&gt;</c>
 ///         </li>
 ///         <li>
-///             <c>&lt;ul&gt;</c>
+///             <c>&lt;h1&gt;</c>
+///         </li>
+///         <li>
+///             <c>&lt;h2&gt;</c>
+///         </li>
+///         <li>
+///             <c>&lt;h3&gt;</c>
+///         </li>
+///         <li>
+///             <c>&lt;ol&gt;</c>
 ///         </li>
 ///         <li>
 ///             <c>&lt;p&gt;</c>
@@ -23,10 +32,13 @@ namespace Web.App.Middleware.Markdown;
 ///             <c>&lt;table&gt;</c>
 ///         </li>
 ///         <li>
+///             <c>&lt;td&gt;</c>
+///         </li>
+///         <li>
 ///             <c>&lt;tr&gt;</c>
 ///         </li>
 ///         <li>
-///             <c>&lt;td&gt;</c>
+///             <c>&lt;ul&gt;</c>
 ///         </li>
 ///     </ul>
 /// </summary>
@@ -51,8 +63,21 @@ public class GdsMarkdownExtension : IMarkdownExtension
             var attributes = node.GetAttributes();
             switch (node)
             {
+                case HeadingBlock { Level: 1 }:
+                    attributes.AddClass("govuk-heading-l");
+                    break;
+                case HeadingBlock { Level: 2 }:
+                    attributes.AddClass("govuk-heading-m");
+                    break;
+                case HeadingBlock:
+                    attributes.AddClass("govuk-heading-s");
+                    break;
                 case LinkInline:
                     attributes.AddClass("govuk-link");
+                    break;
+                case ListBlock { IsOrdered: true }:
+                    attributes.AddClass("govuk-list");
+                    attributes.AddClass("govuk-list--number");
                     break;
                 case ListBlock:
                     attributes.AddClass("govuk-list");
