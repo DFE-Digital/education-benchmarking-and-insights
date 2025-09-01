@@ -21,6 +21,7 @@ This release delivers enhancements to the data pipeline to support the CFR 2025 
 - Enhancements
 
   - Data pipeline enhancements to ingest IT spending breakdown costs to support CFR 2025 data drop
+  - WAF updates to provide access to service outside the UK
 
 - Bug Fixes
 
@@ -114,7 +115,9 @@ Following UAT, additional issues were identified that required fixes.
 - **Changes Included:** Fixes for issues identified during UAT.
 - **Testing Impact:** A sanity check will be carried out in pre-prod to validate the updated changes, ensuring that the content is refreshed and data pipeline changes are applied to the correct tables/columns as expected.  
 
-**[Azure Test Plan](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_testPlans/execute?planId=275364&suiteId=275365)**
+**[Azure CFR release Test Plan](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_testPlans/execute?planId=275364&suiteId=275365)**
+
+**[Azure Test Plan](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_testPlans/define?planId=277517&suiteId=277518)**
 
 **Azure DevOps tickets included in this release:**
 
@@ -134,6 +137,8 @@ Following UAT, additional issues were identified that required fixes.
 - [276746 - Leadership total doesn't include non-teaching leadership](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_workitems/edit/276746)
 - [276747 -Update income label for "Other DFE/EFS revenue grants](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_workitems/edit/276747)
 - [276748 - Figures to be shown as whole £](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_workitems/edit/276748)
+- [266319 - Associate new and remove orphaned WAF policies](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_workitems/edit/266319)
+- [259190 - Update deprecated azurerm_storage_account block in Terraform](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_workitems/edit/259190)
 
 ## Appendix
 
