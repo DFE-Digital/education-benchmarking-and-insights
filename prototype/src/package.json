@@ -7,7 +7,7 @@
   },
   "dependencies": {
     "@govuk-prototype-kit/common-templates": "^2.0.1",
-    "@x-govuk/govuk-prototype-components": "^5.0.0",
+    "@x-govuk/govuk-prototype-components": "^5.0.2",
     "@x-govuk/govuk-prototype-filters": "^2.0.0",
     "govuk-frontend": "^5.11.1",
     "govuk-prototype-kit": "^13.18.0",
