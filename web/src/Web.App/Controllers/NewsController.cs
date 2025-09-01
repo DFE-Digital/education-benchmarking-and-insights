@@ -16,7 +16,7 @@ public class NewsController(ILogger<NewsController> logger, INewsApi newsApi) : 
 {
     [HttpGet]
     [Route("{slug}")]
-    public async Task<IActionResult> Article(string slug)
+    public async Task<IActionResult> Article(string slug, CancellationToken cancellationToken = default)
     {
         using (logger.BeginScope(new
         {
@@ -26,7 +26,7 @@ public class NewsController(ILogger<NewsController> logger, INewsApi newsApi) : 
             try
             {
                 var news = await newsApi
-                    .GetNewsArticle(slug)
+                    .GetNewsArticle(slug, cancellationToken)
                     .GetResultOrDefault<News>();
                 if (news == null)
                 {
