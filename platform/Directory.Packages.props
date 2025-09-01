@@ -49,7 +49,7 @@
     <PackageVersion Include="Microsoft.Extensions.Diagnostics.HealthChecks" Version="9.0.7" />
     <PackageVersion Include="Microsoft.Extensions.Logging" Version="8.0.0" />
     <PackageVersion Include="Microsoft.Extensions.Logging.Abstractions" Version="9.0.7" />
-    <PackageVersion Include="Microsoft.Extensions.Logging.Console" Version="9.0.7" />
+    <PackageVersion Include="Microsoft.Extensions.Logging.Console" Version="9.0.8" />
     <PackageVersion Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="9.0.7" />
     <PackageVersion Include="Microsoft.Extensions.Options" Version="9.0.7" />
     <PackageVersion Include="Microsoft.NET.Sdk.Functions" Version="4.4.0" />
