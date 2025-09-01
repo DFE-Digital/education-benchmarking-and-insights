@@ -20,6 +20,14 @@ public static class Api
         public static string Transparency => "api/files/transparency";
     }
 
+    public static class News
+    {
+        public static string Article(string slug)
+        {
+            return $"api/news/{slug}";
+        }
+    }
+
     public static class Years
     {
         public static string CurrentReturnYears => "api/current-return-years";

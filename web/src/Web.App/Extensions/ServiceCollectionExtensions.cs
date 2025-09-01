@@ -126,6 +126,7 @@ public static class ServiceCollectionExtensions
         services.AddHttpClient<IBannerApi, BannerApi>().Configure<BannerApi>(section);
         services.AddHttpClient<ICommercialResourcesApi, CommercialResourcesApi>().Configure<CommercialResourcesApi>(section);
         services.AddHttpClient<IFilesApi, FilesApi>().Configure<FilesApi>(section);
+        services.AddHttpClient<INewsApi, NewsApi>().Configure<BannerApi>(section);
         services.AddHttpClient<IYearsApi, YearsApi>().Configure<YearsApi>(section);
 
         return services;
@@ -305,7 +306,6 @@ public static class ServiceCollectionExtensions
 
                             context.Principal?.ApplyClaims(context.TokenEndpointResponse?.AccessToken, schools, trusts);
                             opts.Events.OnValidatedPrincipal(context);
-
                         }
                         catch (Exception ex)
                         {
