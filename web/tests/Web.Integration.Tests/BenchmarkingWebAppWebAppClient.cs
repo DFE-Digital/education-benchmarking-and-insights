@@ -68,6 +68,7 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
     public Mock<ICommercialResourcesApi> CommercialResourcesApi { get; } = new();
     public Mock<IBannerApi> BannerApi { get; } = new();
     public Mock<IItSpendApi> ItSpendApi { get; } = new();
+    public Mock<INewsApi> NewsApi { get; } = new();
     public IOptions<CacheOptions> CacheOptions { get; } = Options.Create(new CacheOptions
     {
         ReturnYears = new CacheSettings { Disabled = true },
@@ -104,6 +105,7 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
         services.AddSingleton(CommercialResourcesApi.Object);
         services.AddSingleton(BannerApi.Object);
         services.AddSingleton(ItSpendApi.Object);
+        services.AddSingleton(NewsApi.Object);
         services.AddSingleton(CacheOptions);
 
         EnableFeatures();
@@ -732,6 +734,20 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
     {
         BannerApi.Reset();
         BannerApi.Setup(api => api.GetBanner(It.IsAny<string>())).ReturnsAsync(banner == null ? ApiResult.NotFound() : ApiResult.Ok(banner));
+        return this;
+    }
+
+    public BenchmarkingWebAppClient SetupNewsArticle(News? news)
+    {
+        NewsApi.Reset();
+        NewsApi.Setup(api => api.GetNewsArticle(It.IsAny<string>())).ReturnsAsync(news == null ? ApiResult.NotFound() : ApiResult.Ok(news));
+        return this;
+    }
+
+    public BenchmarkingWebAppClient SetupNewsWithException()
+    {
+        NewsApi.Reset();
+        NewsApi.Setup(api => api.GetNewsArticle(It.IsAny<string>())).Throws(new Exception());
         return this;
     }
 
