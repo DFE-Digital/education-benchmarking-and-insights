@@ -1,13 +1,13 @@
-﻿# Release Test Plan: 2025.08.1
+﻿# Release Test Plan: 2025.09.0
 
-_*Release version updated to 2025.08.1 after an issue with user defined comparator set was identified in 2025.08.0._
+_*Release version updated to 2025.09.0 after fixes for issues identified in UAT. The original 2025.08.0 release had an issue with the user-defined comparator set, which was patched in 2025.08.1._
 
 **Release Date:** TBC  
-**Release Label:** 2025.08.1
+**Release Label:** 2025.09.0
 
 ## Introduction
 
-This plan defines the approach for testing release `2025.08.1`, covering smoke, sanity, data ingestion, and UAT testing activities required for the data pipeline.  
+This plan defines the approach for testing release `2025.09.0`, covering smoke, sanity, data ingestion, and UAT testing activities required for the data pipeline.  
 This release delivers enhancements to the data pipeline to support the CFR 2025 data drop and modularisation for maintainability.
 
 ## Scope
@@ -21,6 +21,12 @@ This release delivers enhancements to the data pipeline to support the CFR 2025 
 - Enhancements
 
   - Data pipeline enhancements to ingest IT spending breakdown costs to support CFR 2025 data drop
+
+- Bug Fixes
+
+  - Leadership total now include total of non-teaching leadership staff. 
+  - Income label for Other DFE/EFS revenue grants has been updated.
+  - Figures on pages are now rounded off as a whole £.
 
 **Out-of-Scope:**
 
@@ -91,13 +97,22 @@ This release is user-facing with the 2025 CFR data drop and new IT spending cost
 Sanity and data ingestion testing will be performed in pre-production.  
 Benchmarking IT spending charts will remain behind a feature flag (off by default).
 
-An issue was identified with user defined comparator during pre prod testing for which a hotfix was added.
+**Previous Fix:**
+
+An issue was identified with the user-defined comparator during pre-prod testing for which a hotfix was added.
 
 - **Original Planned Release:** 2025.08.0
-- **New Release Version:** 2025.08.1
-- **Hotfixes Included:** Fixed user defined comparator creation.
-- **Current Release (2025.08.1):** Contains the necessary hotfix.
-- **Testing Impact:** The fix has been successfully tested in an earlier environment. Additionally, a few other completed tickets have progressed to the pre-production stage; these were also validated in the same earlier environment.
+- **Hotfix Release Version:** 2025.08.1
+- **Hotfixes Included:** Fixed user-defined comparator creation.
+- **Testing Impact:** The fix was successfully tested in an earlier environment. Additionally, a few other completed tickets progressed to the pre-production stage and were validated in the same environment. No additional testing is needed in pre prod.
+
+**Current Release:**
+
+Following UAT, additional issues were identified that required fixes.
+
+- **Current Release Version:** 2025.09.0
+- **Changes Included:** Fixes for issues identified during UAT.
+- **Testing Impact:** A sanity check will be carried out in pre-prod to validate the updated changes, ensuring that the content is refreshed and data pipeline changes are applied to the correct tables/columns as expected.  
 
 **[Azure Test Plan](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_testPlans/execute?planId=275364&suiteId=275365)**
 
@@ -116,6 +131,9 @@ An issue was identified with user defined comparator during pre prod testing for
 - [272139 - Part year annotation for SSR charts for IT Spend](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_sprints/taskboard/FBIT/s198-DfE-Benchmarking-service/Sprint%2047?workitem=272139)
 - [270092 - Download Benchmark IT spending page data](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_sprints/taskboard/FBIT/s198-DfE-Benchmarking-service/Sprint%2047?workitem=270092)
 - [270093 - Save Benchmark IT spending chart images](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_sprints/taskboard/FBIT/s198-DfE-Benchmarking-service/Sprint%2047?workitem=270093)
+- [276746 - Leadership total doesn't include non-teaching leadership](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_workitems/edit/276746)
+- [276747 -Update income label for "Other DFE/EFS revenue grants](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_workitems/edit/276747)
+- [276748 - Figures to be shown as whole £](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_workitems/edit/276748)
 
 ## Appendix
 
@@ -126,7 +144,7 @@ An issue was identified with user defined comparator during pre prod testing for
 | Test Category           | Total Tests | Passed | Failed | Pass Rate |  
 |-------------------------|:-----------:|:------:|:------:|:---------:|  
 | Smoke Tests - Prod      |     TBC     |  TBC   |  TBC   |    TBC    |  
-| Sanity Tests - Pre Prod |      1      |   1    |   0    |   100%    |  
+| Sanity Tests - Pre Prod |     TBC     |   1    |   0    |   100%    |  
 | Data Ingestion Tests    |      6      |   6    |   0    |   100%    |  
 | Total                   |     TBC     |  TBC   |  TBC   |    TBC    |  
 
