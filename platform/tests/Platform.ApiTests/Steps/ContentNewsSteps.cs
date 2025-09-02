@@ -1,6 +1,8 @@
-﻿using Platform.Api.Content.Features.News.Models;
+﻿using Newtonsoft.Json.Linq;
+using Platform.Api.Content.Features.News.Models;
 using Platform.ApiTests.Assertion;
 using Platform.ApiTests.Drivers;
+using Platform.ApiTests.TestDataHelpers;
 using Platform.Json;
 
 namespace Platform.ApiTests.Steps;
@@ -34,15 +36,18 @@ public class ContentNewsSteps(ContentApiDriver api)
         await api.Send();
     }
 
-    [Then("the result should be ok and equal:")]
-    public async Task ThenTheResultShouldBeOkAndEqual(DataTable table)
+    [Then("the response should be ok, contain a JSON object and match the expected output of '(.*)'")]
+    public async Task ThenTheResponseShouldBeOkContainAJsonObjectAndMatchTheExpectedOutputOf(string testFile)
     {
         var response = api[NewsKey].Response;
         AssertHttpResponse.IsOk(response);
 
-        var content = await response.Content.ReadAsByteArrayAsync();
-        var result = content.FromJson<News>();
-        table.CompareToInstance(result);
+        var content = await response.Content.ReadAsStringAsync();
+        var actual = JObject.Parse(content);
+
+        var expected = TestDataProvider.GetJsonObjectData(testFile);
+
+        actual.AssertDeepEquals(expected);
     }
 
     [Then("the result should be not found")]

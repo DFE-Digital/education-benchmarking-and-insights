@@ -3,16 +3,12 @@
     Scenario: Getting the published news article for a given existing slug when multiple active
         Given a news article request for the slug '<slug>'
         When I submit the news request
-        Then the result should be ok and equal:
-          | Field | Value   |
-          | Title | <title> |
-          | Slug  | <slug>  |
-          | Body  | <body>  |
+        Then the response should be ok, contain a JSON object and match the expected output of '<output>'
 
     Examples:
-      | slug             | title            | body                    |
-      | published        | Published        | # Published body        |
-      | not-yet-archived | Not yet archived | # Not yet archived body |
+      | slug             | output                                |
+      | published        | ContentNewsArticlePublished.json      |
+      | not-yet-archived | ContentNewsArticleNotYetArchived.json |
 
     Scenario: Getting the published news article for an outdated but existing slug
         Given a news article request for the slug '<slug>'
