@@ -163,7 +163,8 @@
       registries:
         - npm-azure-artifacts
       schedule:
-        interval: "hourly"
+        interval: "cron"
+        cronjob: "0 * * * *"
       commit-message:
         prefix: "[npm] "
       allow:
