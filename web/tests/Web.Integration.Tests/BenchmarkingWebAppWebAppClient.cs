@@ -69,6 +69,7 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
     public Mock<IBannerApi> BannerApi { get; } = new();
     public Mock<IItSpendApi> ItSpendApi { get; } = new();
     public Mock<INewsApi> NewsApi { get; } = new();
+
     public IOptions<CacheOptions> CacheOptions { get; } = Options.Create(new CacheOptions
     {
         ReturnYears = new CacheSettings { Disabled = true },
@@ -737,6 +738,13 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
         return this;
     }
 
+    public BenchmarkingWebAppClient SetupNews(News[] news)
+    {
+        NewsApi.Reset();
+        NewsApi.Setup(api => api.GetNews(It.IsAny<CancellationToken>())).ReturnsAsync(ApiResult.Ok(news));
+        return this;
+    }
+
     public BenchmarkingWebAppClient SetupNewsArticle(News? news)
     {
         NewsApi.Reset();
@@ -747,6 +755,7 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
     public BenchmarkingWebAppClient SetupNewsWithException()
     {
         NewsApi.Reset();
+        NewsApi.Setup(api => api.GetNews(It.IsAny<CancellationToken>())).Throws(new Exception());
         NewsApi.Setup(api => api.GetNewsArticle(It.IsAny<string>(), It.IsAny<CancellationToken>())).Throws(new Exception());
         return this;
     }

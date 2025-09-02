@@ -558,7 +558,7 @@ public static class Paths
         return $"/school/{urn}/find-ways-to-spend-less";
     }
 
-    public static string News(string? slug)
+    public static string News(string? slug = null)
     {
         return $"/news/{slug}";
     }
