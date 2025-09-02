@@ -55,7 +55,7 @@
         </g>
         <g class="chart-tick" transform="translate(455.5,0)">
             <line y2="6" x1="1" x2="1" />
-            <text y="9" dy="0.71em" x1="1" x2="1">£1000</text>
+            <text y="9" dy="0.71em" x1="1" x2="1">£1k</text>
         </g>
     </g>
     <g class="chart-axis chart-axis__y" transform="translate(171.66666666666666,0)">

@@ -4,6 +4,7 @@ import {
   getValueFormat,
   getGroups,
   escapeXml,
+  shortValueFormatter,
 } from "../../src/functions/utils";
 import { ValueType } from "../../src/functions/index";
 import theoretically from "jest-theories";
@@ -110,6 +111,79 @@ describe("escapeXml", () => {
       theories,
       ({ text, expected }) => {
         expect(escapeXml(text)).toBe(expected);
+      },
+    );
+  });
+});
+
+describe("shortValueFormatter()", () => {
+  describe("with default options", () => {
+    const theories: { input: number | string; expected: string }[] = [
+      { input: -987.65, expected: "-987.65" },
+      { input: 0, expected: "0" },
+      { input: 1, expected: "1" },
+      { input: 2.3456789, expected: "2.35" },
+      { input: 12345.67, expected: "12.35k" },
+      { input: 890123456, expected: "890.12m" },
+      { input: "not-a-number", expected: "not-a-number" },
+    ];
+
+    theoretically(
+      "the value {input} is formatted using compact notation as {expected}",
+      theories,
+      ({ input, expected }) => {
+        const result = shortValueFormatter(input as number, undefined);
+        expect(result).toBe(expected);
+      },
+    );
+  });
+
+  describe("with currency option", () => {
+    const theories: { input: number | string; expected: string }[] = [
+      { input: 987.65, expected: "£988" },
+      { input: -987.65, expected: "-£988" },
+      { input: 0, expected: "£0" },
+      { input: 1, expected: "£1" },
+      { input: 2.3456789, expected: "£2" },
+      { input: 0.27, expected: "£0" },
+      { input: 0.9, expected: "£1" },
+      { input: 55.3, expected: "£55" },
+      { input: 12345.67, expected: "£12k" },
+      { input: 890123456, expected: "£890m" },
+      { input: 89123456, expected: "£89m" },
+      { input: 8507, expected: "£8.5k" },
+      { input: 1001111, expected: "£1m" },
+      { input: 350220, expected: "£350k" },
+      { input: "not-a-number", expected: "not-a-number" },
+    ];
+
+    theoretically(
+      "the value {input} is formatted using compact notation (currency) as {expected}",
+      theories,
+      ({ input, expected }) => {
+        const result = shortValueFormatter(input as number, "currency");
+        expect(result).toBe(expected);
+      },
+    );
+  });
+
+  describe("with percent option", () => {
+    const theories: { input: number | string; expected: string }[] = [
+      { input: -987.65, expected: "-98,765%" },
+      { input: 0, expected: "0%" },
+      { input: 1, expected: "100%" },
+      { input: 2.3456789, expected: "234.6%" },
+      { input: 12345.67, expected: "1,234,567%" },
+      { input: 890123456, expected: "89,012,345,600%" },
+      { input: "not-a-number", expected: "not-a-number" },
+    ];
+
+    theoretically(
+      "the value {input} is formatted using compact notation (percent) as {expected}",
+      theories,
+      ({ input, expected }) => {
+        const result = shortValueFormatter(input as number, "percent");
+        expect(result).toBe(expected);
       },
     );
   });
