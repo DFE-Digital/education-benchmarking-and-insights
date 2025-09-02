@@ -1,0 +1,39 @@
+@model Web.App.ViewModels.NewsViewModel
+
+@{
+    ViewData[ViewDataKeys.Title] = PageTitles.News;
+}
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        <h1 class="govuk-heading-l">
+            @PageTitles.News
+        </h1>
+
+        @if (Model.Items.Any())
+        {
+            <ul class="govuk-list govuk-list--result">
+                @foreach (var item in Model.Items)
+                {
+                    <li>
+                        <a href="@Url.Action("Article", new { slug = item.Slug })"
+                           class="govuk-link govuk-link--no-visited-state govuk-heading-s govuk-!-margin-bottom-2">@item.Title</a>
+                        <ul class="govuk-list govuk-!-font-size-16">
+                            @if (item.Published.HasValue)
+                            {
+                                <li>
+                                    <span>Published:</span>
+                                    <span>@item.Published?.ToString("d MMMM yyyy")</span>
+                                </li>
+                            }
+                        </ul>
+                    </li>
+                }
+            </ul>
+        }
+        else
+        {
+            <p class="govuk-body">No published articles found.</p>
+        }
+    </div>
+</div>

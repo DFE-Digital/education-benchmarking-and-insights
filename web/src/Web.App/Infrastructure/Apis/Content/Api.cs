@@ -22,6 +22,8 @@ public static class Api
 
     public static class News
     {
+        public static string All => "api/news";
+
         public static string Article(string slug)
         {
             return $"api/news/{slug}";
