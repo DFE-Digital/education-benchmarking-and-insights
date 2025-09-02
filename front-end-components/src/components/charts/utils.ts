@@ -41,7 +41,9 @@ export function shortValueFormatter(
     currency: options?.valueUnit === "currency" ? "GBP" : undefined,
     maximumFractionDigits:
       options?.valueUnit === "currency"
-        ? 0
+        ? value > 1000
+          ? 1
+          : 0
         : options?.valueUnit === "%"
           ? 1
           : 2,
@@ -75,7 +77,9 @@ export function statValueFormatter(
         ? 1
         : options?.compact
           ? options?.valueUnit === "currency"
-            ? 0
+            ? value > 1000
+              ? 1
+              : 0
             : undefined
           : 0,
     minimumFractionDigits:
