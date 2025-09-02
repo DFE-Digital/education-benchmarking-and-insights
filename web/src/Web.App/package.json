@@ -7,7 +7,7 @@
     "async": "^3.2.5",
     "classnames": "^2.5.1",
     "file-saver": "^2.0.5",
-    "front-end": "^1.2.10",
+    "front-end": "^1.2.11",
     "govuk-frontend": "^5.7.0",
     "html-to-image": "1.11.11",
     "jszip": "^3.10.1",
