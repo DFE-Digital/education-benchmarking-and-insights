@@ -111,10 +111,12 @@ describe("Chart utils", () => {
         { input: 0.27, expected: "£0" },
         { input: 0.9, expected: "£1" },
         { input: 55.3, expected: "£55" },
-        { input: 12345.67, expected: "£12.3k" },
-        { input: 890123456, expected: "£890.1m" },
+        { input: 12345.67, expected: "£12k" },
+        { input: 890123456, expected: "£890m" },
+        { input: 89123456, expected: "£89m" },
         { input: 8507, expected: "£8.5k" },
         { input: 1001111, expected: "£1m" },
+        { input: 350220, expected: "£350k" },
         { input: "not-a-number", expected: "not-a-number" },
       ];
 
@@ -203,14 +205,20 @@ describe("Chart utils", () => {
 
     describe("with compact currency option", () => {
       const theories: { input: ValueFormatterValue; expected: string }[] = [
+        { input: 987.65, expected: "£988" },
         { input: -987.65, expected: "-£988" },
         { input: 0, expected: "£0" },
         { input: 1, expected: "£1" },
         { input: 2.3456789, expected: "£2" },
-        { input: 12345.67, expected: "£12.3k" },
-        { input: 890123456, expected: "£890.1m" },
+        { input: 0.27, expected: "£0" },
+        { input: 0.9, expected: "£1" },
+        { input: 55.3, expected: "£55" },
+        { input: 12345.67, expected: "£12k" },
+        { input: 890123456, expected: "£890m" },
+        { input: 89123456, expected: "£89m" },
         { input: 8507, expected: "£8.5k" },
         { input: 1001111, expected: "£1m" },
+        { input: 350220, expected: "£350k" },
         { input: "not-a-number", expected: "not-a-number" },
       ];
 
