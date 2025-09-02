@@ -163,6 +163,17 @@
       registries:
         - npm-azure-artifacts
       schedule:
+        interval: "hourly"
+      commit-message:
+        prefix: "[npm] "
+      allow:
+        - dependency-name: "front-end"
+
+    - package-ecosystem: "npm"
+      directory: "/web/src/Web.App"
+      registries:
+        - npm-azure-artifacts
+      schedule:
         interval: "monthly"
       commit-message:
         prefix: "[npm] "
