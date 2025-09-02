@@ -67,15 +67,18 @@ public class ContentNewsSteps(ContentApiDriver api)
         actual.AssertDeepEquals(expected);
     }
 
-    [Then("the results should be ok and equal:")]
-    public async Task ThenTheResultsShouldBeOkAndEqual(DataTable table)
+    [Then("the response should be ok, contain a JSON array and match the expected output of '(.*)'")]
+    public async Task ThenTheResponseShouldBeOkContainAJsonArrayAndMatchTheExpectedOutputOf(string testFile)
     {
         var response = api[NewsKey].Response;
         AssertHttpResponse.IsOk(response);
 
-        var content = await response.Content.ReadAsByteArrayAsync();
-        var result = content.FromJson<News[]>();
-        table.CompareToSet(result);
+        var content = await response.Content.ReadAsStringAsync();
+        var actual = JArray.Parse(content);
+
+        var expected = TestDataProvider.GetJsonArrayData(testFile);
+
+        actual.AssertDeepEquals(expected);
     }
 
     [Then("the result should be not found")]
