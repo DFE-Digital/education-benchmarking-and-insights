@@ -16,20 +16,20 @@
         <rect x="174.66666666666666" y="283.8714285714285" width="259.5678752777777" height="16.114285714285714" data-key="123456" class="chart-cell chart-cell__series-0 chart-cell__highlight" />
     </g>
     <g>
-        <text x="174.66666666666666" y="30.071428571428562" dy="0.35em" class="chart-label chart-label__series-0">£0M</text>
-        <text x="174.66666666666666" y="50.2142857142857" dy="0.35em" class="chart-label chart-label__series-0">£0M</text>
-        <text x="182.682526525" y="70.35714285714285" dy="0.35em" class="chart-label chart-label__series-0">£0M</text>
-        <text x="182.69550595833334" y="90.5" dy="0.35em" class="chart-label chart-label__series-0">£0M</text>
-        <text x="416.27777777777777" y="110.64285714285714" dy="0.35em" class="chart-label chart-label__series-0">£1M</text>
-        <text x="416.27777777777777" y="130.78571428571428" dy="0.35em" class="chart-label chart-label__series-0">£1M</text>
-        <text x="416.2780113888889" y="150.92857142857142" dy="0.35em" class="chart-label chart-label__series-0">£1M</text>
-        <text x="416.2803475" y="171.07142857142856" dy="0.35em" class="chart-label chart-label__series-0">£1M</text>
-        <text x="416.3037086111111" y="191.2142857142857" dy="0.35em" class="chart-label chart-label__series-0">£1M</text>
-        <text x="416.5116225" y="211.35714285714283" dy="0.35em" class="chart-label chart-label__series-0">£1M</text>
-        <text x="418.6141225" y="231.49999999999997" dy="0.35em" class="chart-label chart-label__series-0">£1M</text>
-        <text x="418.8734308333333" y="251.6428571428571" dy="0.35em" class="chart-label chart-label__series-0">£1M</text>
-        <text x="439.6391225" y="271.7857142857143" dy="0.35em" class="chart-label chart-label__series-0">£1.1M</text>
-        <text x="442.2345419444444" y="291.9285714285714" dy="0.35em" class="chart-label chart-label__series-0 chart-label__highlight">£1.1M</text>
+        <text x="174.66666666666666" y="30.071428571428562" dy="0.35em" class="chart-label chart-label__series-0">£0</text>
+        <text x="174.66666666666666" y="50.2142857142857" dy="0.35em" class="chart-label chart-label__series-0">£0</text>
+        <text x="182.682526525" y="70.35714285714285" dy="0.35em" class="chart-label chart-label__series-0">£68</text>
+        <text x="182.69550595833334" y="90.5" dy="0.35em" class="chart-label chart-label__series-0">£123</text>
+        <text x="416.27777777777777" y="110.64285714285714" dy="0.35em" class="chart-label chart-label__series-0">£1m</text>
+        <text x="416.27777777777777" y="130.78571428571428" dy="0.35em" class="chart-label chart-label__series-0">£1m</text>
+        <text x="416.2780113888889" y="150.92857142857142" dy="0.35em" class="chart-label chart-label__series-0">£1m</text>
+        <text x="416.2803475" y="171.07142857142856" dy="0.35em" class="chart-label chart-label__series-0">£1m</text>
+        <text x="416.3037086111111" y="191.2142857142857" dy="0.35em" class="chart-label chart-label__series-0">£1m</text>
+        <text x="416.5116225" y="211.35714285714283" dy="0.35em" class="chart-label chart-label__series-0">£1m</text>
+        <text x="418.6141225" y="231.49999999999997" dy="0.35em" class="chart-label chart-label__series-0">£1m</text>
+        <text x="418.8734308333333" y="251.6428571428571" dy="0.35em" class="chart-label chart-label__series-0">£1m</text>
+        <text x="439.6391225" y="271.7857142857143" dy="0.35em" class="chart-label chart-label__series-0">£1.1m</text>
+        <text x="442.2345419444444" y="291.9285714285714" dy="0.35em" class="chart-label chart-label__series-0 chart-label__highlight">£1.1m</text>
     </g>
     <g class="chart-axis chart-axis__x" transform="translate(-2,302)">
         <path class="domain" stroke="currentColor" d="M175.16666666666666,1V0.5H455.5V1" />
@@ -55,11 +55,11 @@
         </g>
         <g class="chart-tick" transform="translate(408.77777777777777,0)">
             <line y2="6" x1="1" x2="1" />
-            <text y="9" dy="0.71em" x1="1" x2="1">£1M</text>
+            <text y="9" dy="0.71em" x1="1" x2="1">£1m</text>
         </g>
         <g class="chart-tick" transform="translate(455.5,0)">
             <line y2="6" x1="1" x2="1" />
-            <text y="9" dy="0.71em" x1="1" x2="1">£1M</text>
+            <text y="9" dy="0.71em" x1="1" x2="1">£1.2m</text>
         </g>
     </g>
     <g class="chart-axis chart-axis__y" transform="translate(171.66666666666666,0)">

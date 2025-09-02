@@ -1,3 +1,4 @@
+import { NumberValue } from "d3";
 import { DatumKey, Group, ValueType } from "./index";
 
 export function normaliseData<T>(
@@ -43,6 +44,41 @@ export function getValueFormat(
         `Argument out of range: unsupported ValueType '${dataType}'`,
       );
   }
+}
+
+export function shortValueFormatter(
+  value: NumberValue,
+  dataType?: ValueType,
+): string {
+  if (typeof value !== "number") {
+    return String(value) || "";
+  }
+
+  return new Intl.NumberFormat("en-GB", {
+    notation: dataType === "percent" ? undefined : "compact",
+    compactDisplay: dataType === "percent" ? undefined : "short",
+    style:
+      dataType === "currency"
+        ? "currency"
+        : dataType === "percent"
+          ? "percent"
+          : undefined,
+    currency: dataType === "currency" ? "GBP" : undefined,
+    maximumFractionDigits:
+      dataType === "currency"
+        ? value % 1 && Math.abs(value) < 1000 // decimal less than 1000 and greater than -1000
+          ? 0
+          : undefined
+        : dataType === "percent"
+          ? 1
+          : 2,
+    minimumFractionDigits:
+      dataType === "currency" && value % 1 && Math.abs(value) < 1000
+        ? 0
+        : undefined,
+  })
+    .format(value)
+    .toLowerCase();
 }
 
 export function getGroups(
