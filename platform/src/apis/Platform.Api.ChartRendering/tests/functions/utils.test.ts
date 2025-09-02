@@ -48,15 +48,15 @@ describe("getValueFormat", () => {
     expect(getValueFormat("percent")).toBe(".1%");
   });
 
-  it("should return '$,~s' for 'currency'", () => {
-    expect(getValueFormat("currency")).toBe("$,~s");
+  it("should return '$,.1~s' for 'currency'", () => {
+    expect(getValueFormat("currency")).toBe("$,.1~s");
   });
 
-  it("should return '$,~s' for 'currency' when maximum value >= 1000", () => {
-    expect(getValueFormat("currency", 1000)).toBe("$,~s");
+  it("should return '$,.1~s' for 'currency' when maximum value >= 1000", () => {
+    expect(getValueFormat("currency", 1000)).toBe("$,.1~s");
   });
 
-  it("should return '$,.0~s' for 'currency' when maximum value < 1000", () => {
+  it("should return '$.0f' for 'currency' when maximum value < 1000", () => {
     expect(getValueFormat("currency", 999)).toBe("$.0f");
   });
 
