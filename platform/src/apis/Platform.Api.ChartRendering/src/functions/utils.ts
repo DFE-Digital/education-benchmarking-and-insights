@@ -36,7 +36,7 @@ export function getValueFormat(
     case "currency":
       return maximumValue !== undefined && maximumValue < 1000
         ? "$.0f"
-        : "$,~s";
+        : "$,.1~s";
 
     default:
       throw new Error(
