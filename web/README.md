@@ -266,6 +266,7 @@ Add the following configuration in `appsettings.local.json` in the root of `Web.
   "TrustCompanyNo" : "[INSERT TRUST COMPANY NO]",
   "Impacts" : ["critical",  "serious", "moderate", "minor"],
   "PlanYear" : [INSERT PLAN YEAR],
+  "NewsSlug": "[INSERT SLUG OF PUBLISHED NEWS ARTICLE]",
   "Benchmark": {
     "Host": "[INSERT URL OF BENCHMARK API]",
     "Key": "[INSERT BENCHMARK API KEY]"

@@ -1,4 +1,5 @@
 using Microsoft.Extensions.Configuration;
+
 namespace Web.A11yTests;
 
 public static class TestConfiguration
@@ -23,6 +24,9 @@ public static class TestConfiguration
 
     public static string LocalAuthority => Instance.GetValue<string>("LaCode") ??
                                            throw new InvalidOperationException("Local Authority Code missing from configuration");
+
+    public static string NewsSlug => Instance.GetValue<string>("NewsSlug") ??
+                                     throw new InvalidOperationException("News slug missing from configuration");
 
     public static bool Headless => Instance.GetValue<bool?>("Headless") ?? true;
 
