@@ -85,4 +85,5 @@ public static class PageTitles
     public const string CostCategories = "Cost category breakdown";
     public const string SchoolFinancialBenchmarkingInsightsSummary = "Financial Benchmarking and Insights Summary";
     public const string HighNeedsGlossary = "High needs benchmarking glossary";
+    public const string News = "News";
 }

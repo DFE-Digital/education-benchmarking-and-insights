@@ -15,6 +15,24 @@ namespace Web.App.Controllers;
 public class NewsController(ILogger<NewsController> logger, INewsApi newsApi) : Controller
 {
     [HttpGet]
+    public async Task<IActionResult> Index(CancellationToken cancellationToken = default)
+    {
+        try
+        {
+            var news = await newsApi
+                .GetNews(cancellationToken)
+                .GetResultOrDefault<News[]>() ?? [];
+
+            return View(new NewsViewModel(news));
+        }
+        catch (Exception e)
+        {
+            logger.LogError(e, "An error displaying news articles: {DisplayUrl}", Request.GetDisplayUrl());
+            return e is StatusCodeException s ? StatusCode((int)s.Status) : StatusCode(500);
+        }
+    }
+
+    [HttpGet]
     [Route("{slug}")]
     public async Task<IActionResult> Article(string slug, CancellationToken cancellationToken = default)
     {
