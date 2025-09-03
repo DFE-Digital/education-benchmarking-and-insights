@@ -1,5 +1,4 @@
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.FeatureManagement.Mvc;
 using Web.App.Attributes.RequestTelemetry;
 using Web.App.Domain;
 using Web.App.Services;
@@ -10,7 +9,6 @@ namespace Web.App.Controllers;
 [Controller]
 [Route("local-authority")]
 [LocalAuthorityRequestTelemetry(TrackedRequestFeature.Search)]
-[FeatureGate(FeatureFlags.FilteredSearch)]
 public class LocalAuthoritySearchController(
     ILogger<LocalAuthoritySearchController> logger,
     ISearchService searchService)

@@ -8,24 +8,13 @@
         OrganisationTypes.LocalAuthority => "Change local authority",
         _ => ""
     };
+
+    var href = Model.Type switch
+    {
+        OrganisationTypes.School => Url.Action("Index", "SchoolSearch"),
+        OrganisationTypes.Trust => Url.Action("Index", "TrustSearch"),
+        OrganisationTypes.LocalAuthority => Url.Action("Index", "LocalAuthoritySearch"),
+        _ => ""
+    };
 }
-
-<feature name="@FeatureFlags.FilteredSearch">
-    @{
-        var href = Model.Type switch
-        {
-            OrganisationTypes.School => Url.Action("Index", "SchoolSearch"),
-            OrganisationTypes.Trust => Url.Action("Index", "TrustSearch"),
-            OrganisationTypes.LocalAuthority => Url.Action("Index", "LocalAuthoritySearch"),
-            _ => ""
-        };
-    }
-    @Html.TrackedAnchor(TrackedLinks.ChangeOrganisation, href, content)
-</feature>
-
-<feature negate="true" name="@FeatureFlags.FilteredSearch">
-    @Html.TrackedAnchor(
-        TrackedLinks.ChangeOrganisation,
-        Url.Action("Index", "FindOrganisation", new { method = Model.Type }) ?? "",
-        content)
-</feature>
+@Html.TrackedAnchor(TrackedLinks.ChangeOrganisation, href, content)
