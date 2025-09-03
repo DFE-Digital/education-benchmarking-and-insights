@@ -1,4 +1,4 @@
-# Custom data computations for users
+# User Generated Calculations
 
 The default data pipeline in the Financial Benchmarking and Insights Tool (FBIT) does the core calculations to standardise financial data, generate comparator sets, then generate Red/Amber/Green (RAG) ratings. Users generally come to the service to view and explore these pre-computed figures, however there are a few custom calculations that users can initiate for specific use cases:
 
