@@ -4,7 +4,6 @@ using Xunit.Abstractions;
 
 namespace Web.A11yTests.Pages.LocalAuthority;
 
-[Trait("Category", "FilteredSearchEnabled")]
 public class WhenViewingSearchResults(
     ITestOutputHelper testOutputHelper,
     WebDriver webDriver)
