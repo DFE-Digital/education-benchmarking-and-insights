@@ -22,7 +22,7 @@ This release delivers enhancements to the data pipeline to support the CFR 2025 
 
   - Data pipeline enhancements to ingest IT spending breakdown costs to support CFR 2025 data drop
   - Income label for Other DFE/EFS revenue grants has been updated.
-  - Front end access rules updated from prevention to deduction
+  - Updated production to use premium SKU and set WAF mode to detection from prevention  
 
 - Bug Fixes
 
