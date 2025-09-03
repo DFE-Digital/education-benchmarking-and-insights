@@ -25,28 +25,6 @@ public class FindOrganisationSteps(PageDriver driver)
         await _findOrganisationPage.IsDisplayed();
     }
 
-    [When("I select the school with urn '(.*)' from suggester")]
-    public async Task WhenISelectTheSchoolWithUrnFromSuggester(string urn)
-    {
-        Assert.NotNull(_findOrganisationPage);
-        await _findOrganisationPage.TypeIntoSchoolSearchBox(urn);
-        await _findOrganisationPage.SelectItemFromSuggester();
-    }
-
-    [When("I type '(.*)' into the search bar")]
-    public async Task WhenITypeIntoTheSearchBar(string keyword)
-    {
-        Assert.NotNull(_findOrganisationPage);
-        await _findOrganisationPage.TypeIntoSchoolSearchBox(keyword);
-    }
-
-    [When("I click Continue")]
-    public async Task WhenIClickContinue()
-    {
-        Assert.NotNull(_findOrganisationPage);
-        _schoolHomePage = await _findOrganisationPage.ClickContinueToSchool();
-    }
-
     [Then("the school homepage is displayed")]
     public async Task ThenTheSchoolHomepageIsDisplayed()
     {
@@ -60,13 +38,6 @@ public class FindOrganisationSteps(PageDriver driver)
         Assert.NotNull(_findOrganisationPage);
         var parsed = Enum.TryParse(organisationType, out OrganisationTypes type);
         await _findOrganisationPage.SelectOrganisationType(type);
-    }
-
-    [Then("each suggester result contains '(.*)'")]
-    public async Task ThenEachSuggesterResultContains(string keyword)
-    {
-        Assert.NotNull(_findOrganisationPage);
-        await _findOrganisationPage.AssertSearchResults(keyword);
     }
 
     [When("I click Continue to school search")]
