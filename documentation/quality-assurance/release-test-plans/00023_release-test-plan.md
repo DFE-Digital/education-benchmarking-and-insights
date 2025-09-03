@@ -21,8 +21,8 @@ This release delivers enhancements to the data pipeline to support the CFR 2025 
 - Enhancements
 
   - Data pipeline enhancements to ingest IT spending breakdown costs to support CFR 2025 data drop
-  - Income label for Other DFE/EFS revenue grants has been updated.
-  - Updated production to use premium SKU and set WAF mode to detection from prevention  
+  - Enhanced security of the service by upgrading to premium tier. 
+  - Enhancements to trust benchmarking for Education ICT
 
 - Bug Fixes
 
@@ -33,8 +33,7 @@ This release delivers enhancements to the data pipeline to support the CFR 2025 
 
 - Modularisation of the data pipeline for maintainability
 - Benchmarking IT spending charts (behind feature flag, not enabled in this release)
-- Enhancements to trust benchmarking for Education ICT
-- Content updates to the BAE code
+- Content updates to the BAE code and label for Other DFE/EFS revenue grants.
 - Regression fixes within the user-defined comparators journey
 
 ## Test Strategy
