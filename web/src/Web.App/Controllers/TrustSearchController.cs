@@ -1,5 +1,4 @@
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.FeatureManagement.Mvc;
 using Web.App.Attributes.RequestTelemetry;
 using Web.App.Domain;
 using Web.App.Services;
@@ -10,7 +9,6 @@ namespace Web.App.Controllers;
 [Controller]
 [Route("trust")]
 [TrustRequestTelemetry(TrackedRequestFeature.Search)]
-[FeatureGate(FeatureFlags.FilteredSearch)]
 public class TrustSearchController(
     ILogger<TrustSearchController> logger,
     ISearchService searchService)
