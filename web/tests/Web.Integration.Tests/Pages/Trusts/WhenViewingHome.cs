@@ -81,28 +81,23 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
         AssertPageLayout(page, trust, balance, ratings, schools, banner);
     }
 
-    [Theory]
-    [InlineData(true)]
-    [InlineData(false)]
-    public async Task CanNavigateToChangeTrust(bool filteredSearchFeatureEnabled)
+    [Fact]
+    public async Task CanNavigateToChangeTrust()
     {
-        var (page, _, _, _, _, _) = await SetupNavigateInitPage(filteredSearchFeatureEnabled: filteredSearchFeatureEnabled);
+        var (page, _, _, _, _, _) = await SetupNavigateInitPage();
 
         var anchor = page.QuerySelectorAll("a").FirstOrDefault(x => x.TextContent.Trim() == "Change trust");
         Assert.NotNull(anchor);
 
         page = await Client.Follow(anchor);
 
-        DocumentAssert.AssertPageUrl(page, filteredSearchFeatureEnabled
-            ? Paths.TrustSearch.ToAbsolute()
-            : $"{Paths.FindOrganisation.ToAbsolute()}?method=trust");
+        DocumentAssert.AssertPageUrl(page, Paths.TrustSearch.ToAbsolute());
     }
 
     private async Task<(IHtmlDocument page, Trust trust, TrustBalance? balance, RagRating[] ratings, TrustSchool[] schools, Banner? banner)> SetupNavigateInitPage(
         bool includeRatings = true,
         bool includeSchools = true,
         bool includeBalance = true,
-        bool filteredSearchFeatureEnabled = false,
         bool showBanner = false)
     {
         var random = new Random();
@@ -116,12 +111,6 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
                 .With(x => x.OverallPhase, () => OverallPhaseTypes.All.ElementAt(random.Next(0, OverallPhaseTypes.All.Length - 1)))
                 .CreateMany(20).ToArray()
             : [];
-
-        string[] disabledFlags = [];
-        if (!filteredSearchFeatureEnabled)
-        {
-            disabledFlags = [FeatureFlags.FilteredSearch];
-        }
 
         var values = AllCostCategories.Select(c => c.Value);
         var queue = new Queue<string>();
@@ -155,7 +144,6 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
             : null;
 
         var client = Client
-            .SetupDisableFeatureFlags(disabledFlags)
             .SetupEstablishment(trust, schools)
             .SetupInsights()
             .SetupMetricRagRating(ratings)

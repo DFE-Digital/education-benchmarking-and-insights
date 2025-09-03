@@ -107,21 +107,17 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
         DocumentAssert.AssertPageUrl(newPage, Paths.SchoolFinancialBenchmarkingInsightsSummary(school.URN, "school-home").ToAbsolute());
     }
 
-    [Theory]
-    [InlineData(true)]
-    [InlineData(false)]
-    public async Task CanNavigateToChangeSchool(bool filteredSearchFeatureEnabled)
+    [Fact]
+    public async Task CanNavigateToChangeSchool()
     {
-        var (page, _, _, _) = await SetupNavigateInitPage(EstablishmentTypes.Academies, false, filteredSearchFeatureEnabled);
+        var (page, _, _, _) = await SetupNavigateInitPage(EstablishmentTypes.Academies);
 
         var anchor = page.QuerySelectorAll("a").FirstOrDefault(x => x.TextContent.Trim() == "Change school");
         Assert.NotNull(anchor);
 
         page = await Client.Follow(anchor);
 
-        DocumentAssert.AssertPageUrl(page, filteredSearchFeatureEnabled
-            ? Paths.SchoolSearch.ToAbsolute()
-            : $"{Paths.FindOrganisation.ToAbsolute()}?method=school");
+        DocumentAssert.AssertPageUrl(page, Paths.SchoolSearch.ToAbsolute());
     }
 
     [Fact]
@@ -158,7 +154,6 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
     private async Task<(IHtmlDocument page, School school, SchoolBalance balance, Banner? banner)> SetupNavigateInitPage(
         string financeType,
         bool isPartOfTrust = false,
-        bool filteredSearchFeatureEnabled = false,
         bool showBanner = false)
     {
         var school = Fixture.Build<School>()
@@ -179,19 +174,12 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
             ? Fixture.Create<Banner>()
             : null;
 
-        string[] disabledFlags = [];
-        if (!filteredSearchFeatureEnabled)
-        {
-            disabledFlags = [FeatureFlags.FilteredSearch];
-        }
-
         var comparatorSet = Fixture.Build<SchoolComparatorSet>()
             .With(c => c.Pupil, Fixture.CreateMany<string>().ToArray())
             .Without(c => c.Building)
             .Create();
 
         var page = await Client
-            .SetupDisableFeatureFlags(disabledFlags)
             .SetupEstablishment(school)
             .SetupMetricRagRating()
             .SetupInsights()
@@ -238,8 +226,7 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
 
         var changeLinkElement = page.QuerySelectorAll("a").FirstOrDefault(x => x.TextContent.Trim() == "Change school");
 
-        // todo: if feature flag enabled...
-        DocumentAssert.Link(changeLinkElement, "Change school", $"{Paths.FindOrganisation.ToAbsolute()}?method=school");
+        DocumentAssert.Link(changeLinkElement, "Change school", Paths.SchoolSearch.ToAbsolute());
 
         var toolsSection = page.GetElementById("benchmarking-and-planning-tools"); //NB: No RAG therefore section not shown
         DocumentAssert.Heading2(toolsSection, "Benchmarking and planning tools");
