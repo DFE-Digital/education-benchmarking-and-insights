@@ -57,7 +57,6 @@ public class WhenViewingFindOrganisation(
     [InlineData("local-authority")]
     [InlineData("school")]
     [InlineData("trust")]
-    [Xunit.TraitAttribute("Category", "FilteredSearchEnabled")]
     public async Task ThenThereAreNoAccessibilityIssuesWithFilteredSearch(string organisationType)
     {
         await GoToPage();
