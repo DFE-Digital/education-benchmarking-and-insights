@@ -91,21 +91,17 @@ public class WhenViewingHomeAsFederation(SchoolBenchmarkingWebAppClient client) 
         DocumentAssert.AssertPageUrl(newPage, Paths.SchoolFinancialBenchmarkingInsightsSummary(school.URN, "school-home").ToAbsolute());
     }
 
-    [Theory]
-    [InlineData(true)]
-    [InlineData(false)]
-    public async Task CanNavigateToChangeSchool(bool filteredSearchFeatureEnabled)
+    [Fact]
+    public async Task CanNavigateToChangeSchool()
     {
-        var (page, _, _) = await SetupNavigateInitPage(false, filteredSearchFeatureEnabled);
+        var (page, _, _) = await SetupNavigateInitPage();
 
         var anchor = page.QuerySelectorAll("a").FirstOrDefault(x => x.TextContent.Trim() == "Change school");
         Assert.NotNull(anchor);
 
         page = await Client.Follow(anchor);
 
-        DocumentAssert.AssertPageUrl(page, filteredSearchFeatureEnabled
-            ? Paths.SchoolSearch.ToAbsolute()
-            : $"{Paths.FindOrganisation.ToAbsolute()}?method=school");
+        DocumentAssert.AssertPageUrl(page, Paths.SchoolSearch.ToAbsolute());
     }
 
     [Fact]
@@ -137,7 +133,7 @@ public class WhenViewingHomeAsFederation(SchoolBenchmarkingWebAppClient client) 
         AssertAppHeadlines(page, school, balance);
     }
 
-    private async Task<(IHtmlDocument page, School school, SchoolBalance balance)> SetupNavigateInitPage(bool isNonLeadFederation = false, bool filteredSearchFeatureEnabled = false)
+    private async Task<(IHtmlDocument page, School school, SchoolBalance balance)> SetupNavigateInitPage(bool isNonLeadFederation = false)
     {
         var federationLeadSchool = new FederationSchool
         {
@@ -166,19 +162,12 @@ public class WhenViewingHomeAsFederation(SchoolBenchmarkingWebAppClient client) 
             .With(x => x.URN, school.URN)
             .Create();
 
-        string[] disabledFlags = [];
-        if (!filteredSearchFeatureEnabled)
-        {
-            disabledFlags = [FeatureFlags.FilteredSearch];
-        }
-
         var comparatorSet = Fixture.Build<SchoolComparatorSet>()
             .With(c => c.Pupil, Fixture.CreateMany<string>().ToArray())
             .Without(c => c.Building)
             .Create();
 
         var page = await Client
-            .SetupDisableFeatureFlags(disabledFlags)
             .SetupEstablishment(school)
             .SetupMetricRagRating()
             .SetupInsights()
@@ -202,8 +191,7 @@ public class WhenViewingHomeAsFederation(SchoolBenchmarkingWebAppClient client) 
 
         var changeLinkElement = page.QuerySelectorAll("a").FirstOrDefault(x => x.TextContent.Trim() == "Change school");
 
-        // todo: if feature flag enabled...
-        DocumentAssert.Link(changeLinkElement, "Change school", $"{Paths.FindOrganisation.ToAbsolute()}?method=school");
+        DocumentAssert.Link(changeLinkElement, "Change school", Paths.SchoolSearch.ToAbsolute());
 
         // assertions for non lead federation schools
         if (school.FederationLeadURN != school.URN)

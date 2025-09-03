@@ -24,26 +24,22 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
     [InlineData(true, OverallPhaseTypes.Primary, OverallPhaseTypes.Secondary, OverallPhaseTypes.Special, OverallPhaseTypes.PupilReferralUnit)]
     public async Task CanDisplay(bool showBanner, params string[] phaseTypes)
     {
-        var (page, authority, schools, banner) = await SetupNavigateInitPage(false, showBanner, phaseTypes);
+        var (page, authority, schools, banner) = await SetupNavigateInitPage(showBanner, phaseTypes);
 
         AssertPageLayout(page, authority, schools, banner); ;
     }
 
-    [Theory]
-    [InlineData(true)]
-    [InlineData(false)]
-    public async Task CanNavigateToChangeAuthority(bool filteredSearchFeatureEnabled)
+    [Fact]
+    public async Task CanNavigateToChangeAuthority()
     {
-        var (page, _, _, _) = await SetupNavigateInitPage(filteredSearchFeatureEnabled);
+        var (page, _, _, _) = await SetupNavigateInitPage();
 
         var anchor = page.QuerySelectorAll("a").FirstOrDefault(x => x.TextContent.Trim() == "Change local authority");
         Assert.NotNull(anchor);
 
         page = await Client.Follow(anchor);
 
-        DocumentAssert.AssertPageUrl(page, filteredSearchFeatureEnabled
-            ? Paths.LocalAuthoritySearch.ToAbsolute()
-            : $"{Paths.FindOrganisation.ToAbsolute()}?method=local-authority");
+        DocumentAssert.AssertPageUrl(page, Paths.LocalAuthoritySearch.ToAbsolute());
     }
 
     [Fact]
@@ -140,17 +136,11 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
         DocumentAssert.AssertPageUrl(page, Paths.LocalAuthorityHome(code).ToAbsolute(), HttpStatusCode.InternalServerError);
     }
 
-    private async Task<(IHtmlDocument page, LocalAuthority authority, LocalAuthoritySchool[] schools, Banner? banner)> SetupNavigateInitPage(bool filteredSearchFeatureEnabled = false, bool showBanner = false, params string[] phaseTypes)
+    private async Task<(IHtmlDocument page, LocalAuthority authority, LocalAuthoritySchool[] schools, Banner? banner)> SetupNavigateInitPage(bool showBanner = false, params string[] phaseTypes)
     {
         var authority = Fixture.Build<LocalAuthority>()
             .With(a => a.Code, "123")
             .Create();
-
-        string[] disabledFlags = [];
-        if (!filteredSearchFeatureEnabled)
-        {
-            disabledFlags = [FeatureFlags.FilteredSearch];
-        }
 
         Assert.NotNull(authority.Name);
         var schools = phaseTypes.SelectMany(phaseType => GenerateSchools(phaseType)).ToArray();
@@ -160,7 +150,6 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
             : null;
 
         var page = await Client
-            .SetupDisableFeatureFlags(disabledFlags)
             .SetupEstablishment(authority, schools)
             .SetupInsights()
             .SetupBanner(banner)
