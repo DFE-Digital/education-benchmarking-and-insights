@@ -27,7 +27,6 @@ variable "configuration" {
       HistoricalTrends                     = optional(bool, true)
       HighExecutivePay                     = optional(bool, true)
       HighNeeds                            = optional(bool, true)
-      FilteredSearch                       = optional(bool, true)
       SchoolSpendingPrioritiesSsrCharts    = optional(bool, true)
       CfrItSpendBreakdown                  = optional(bool, false)
       News                                 = optional(bool, false)

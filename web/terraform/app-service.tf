@@ -77,7 +77,6 @@ resource "azurerm_windows_web_app" "education-benchmarking-as" {
     "FeatureManagement__HistoricalTrends"                     = var.configuration[var.environment].features.HistoricalTrends
     "FeatureManagement__HighExecutivePay"                     = var.configuration[var.environment].features.HighExecutivePay
     "FeatureManagement__HighNeeds"                            = var.configuration[var.environment].features.HighNeeds
-    "FeatureManagement__FilteredSearch"                       = var.configuration[var.environment].features.FilteredSearch
     "FeatureManagement__SchoolSpendingPrioritiesSsrCharts"    = var.configuration[var.environment].features.SchoolSpendingPrioritiesSsrCharts
     "FeatureManagement__CfrItSpendBreakdown"                  = var.configuration[var.environment].features.CfrItSpendBreakdown
     "FeatureManagement__News"                                 = var.configuration[var.environment].features.News
