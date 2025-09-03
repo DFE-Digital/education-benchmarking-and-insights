@@ -4,19 +4,6 @@ export type TrustInputProps = {
   exclude?: string[];
 };
 
-export type FindOrganisationProps = {
-  code?: string;
-  companyNumber?: string;
-  findMethod: string;
-  laError?: string;
-  laInput?: string;
-  schoolError?: string;
-  schoolInput?: string;
-  trustError?: string;
-  trustInput?: string;
-  urn?: string;
-};
-
 export type SchoolInputProps = {
   input: string;
   urn: string;

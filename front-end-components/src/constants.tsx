@@ -12,7 +12,6 @@ export const VerticalBarChart3SeriesElementId = "vertical-chart-3-series";
 export const HistoricDataElementId = "historic-data";
 export const HistoricData2ElementId = "historic-data-2";
 export const SpendingAndCostsComposedElementId = "spending-and-costs-composed";
-export const FindOrganisationElementId = "find-organisation";
 export const SchoolEstablishment = "school";
 export const TrustEstablishment = "trust";
 export const SchoolSuggesterId = "school-suggester";

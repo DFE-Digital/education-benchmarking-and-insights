@@ -1,14 +1,10 @@
 import React, { useState } from "react";
 import { AutoComplete } from "src/components/auto-complete";
-import {
-  SuggestResult,
-  TrustDocument,
-  TrustInputProps,
-} from "src/views/find-organisation";
+import { SuggestResult, TrustDocument, TrustInputProps } from "./types";
 import { v4 as uuidv4 } from "uuid";
-import { suggestionFormatter } from "../utils";
+import { suggestionFormatter } from "./utils";
 
-const TrustInput: React.FunctionComponent<TrustInputProps> = (props) => {
+export const TrustInput: React.FunctionComponent<TrustInputProps> = (props) => {
   const { input, companyNumber, exclude } = props;
   const [inputValue, setInputValue] = useState<string>(input);
   const [selectedCompanyNumber, setSelectedCompanyNumber] =
