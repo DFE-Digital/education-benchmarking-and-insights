@@ -1,4 +1,4 @@
-# Custom data pathways for users
+# Custom data computations for users
 
 The default data pathway in the service is the core calculations to standardise financial data, generate comparator sets, then generate RAG ratings. Users generally come to the service to view these pre-computed figures, however there are a few custom calculations that users can initiate for specific use cases:
 
