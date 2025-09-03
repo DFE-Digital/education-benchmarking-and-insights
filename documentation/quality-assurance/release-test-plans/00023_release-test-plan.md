@@ -1,13 +1,13 @@
-﻿# Release Test Plan: 2025.09.0
+﻿# Release Test Plan: 2025.09.2
 
-_*Release version updated to 2025.09.0 after fixes for issues identified in UAT. The original 2025.08.0 release had an issue with the user-defined comparator set, which was patched in 2025.08.1._
+_*Release version updated to 2025.09.2 after addressing a last-minute regression issue related to number rounding. The original 2025.08.0 release had an issue with the user-defined comparator set, which was patched in 2025.08.1, and further fixes identified during UAT were delivered in 2025.09.0._*
 
-**Release Date:** TBC  
-**Release Label:** 2025.09.0
+**Release Date:** 03/09/2025  
+**Release Label:** 2025.09.2
 
 ## Introduction
 
-This plan defines the approach for testing release `2025.09.0`, covering smoke, sanity, data ingestion, and UAT testing activities required for the data pipeline.  
+This plan defines the approach for testing release `2025.09.2`, covering smoke, sanity, data ingestion, and UAT testing activities required for the data pipeline.  
 This release delivers enhancements to the data pipeline to support the CFR 2025 data drop and modularisation for maintainability.
 
 ## Scope
@@ -21,12 +21,12 @@ This release delivers enhancements to the data pipeline to support the CFR 2025 
 - Enhancements
 
   - Data pipeline enhancements to ingest IT spending breakdown costs to support CFR 2025 data drop
-  - WAF updates to provide access to service outside the UK
+  - Income label for Other DFE/EFS revenue grants has been updated.
+  - Front end access rules updated from prevention to deduction
 
 - Bug Fixes
 
-  - Leadership total now include total of non-teaching leadership staff. 
-  - Income label for Other DFE/EFS revenue grants has been updated.
+  - Leadership total now include total of non-teaching leadership staff.
   - Figures on pages are now rounded off as a whole £.
 
 **Out-of-Scope:**
@@ -98,7 +98,7 @@ This release is user-facing with the 2025 CFR data drop and new IT spending cost
 Sanity and data ingestion testing will be performed in pre-production.  
 Benchmarking IT spending charts will remain behind a feature flag (off by default).
 
-**Previous Fix:**
+**Release (First Update):**
 
 An issue was identified with the user-defined comparator during pre-prod testing for which a hotfix was added.
 
@@ -107,13 +107,21 @@ An issue was identified with the user-defined comparator during pre-prod testing
 - **Hotfixes Included:** Fixed user-defined comparator creation.
 - **Testing Impact:** The fix was successfully tested in an earlier environment. Additionally, a few other completed tickets progressed to the pre-production stage and were validated in the same environment. No additional testing is needed in pre prod.
 
-**Current Release:**
+**Release (Second Update):**
 
 Following UAT, additional issues were identified that required fixes.
 
-- **Current Release Version:** 2025.09.0
+- **Release Version:** 2025.09.0
 - **Changes Included:** Fixes for issues identified during UAT.
-- **Testing Impact:** A sanity check will be carried out in pre-prod to validate the updated changes, ensuring that the content is refreshed and data pipeline changes are applied to the correct tables/columns as expected.  
+- **Testing Impact:** A sanity check was carried out in pre-prod to validate the updated changes, ensuring that the content is refreshed and data pipeline changes are applied to the correct tables/columns as expected.
+
+**Latest Release:**
+
+A last-minute regression issue was identified where figures in thousands/millions were being rounded off, when only values under 1000 were expected to be rounded.
+
+- **Current Release Version:** 2025.09.2
+- **Changes Included:** Corrected number rounding logic to ensure only sub-1000 values are rounded.
+- **Testing Impact:** The fix was validated in lower environments with regression checks across other number ranges, and the behaviour was re-confirmed in pre-prod.
 
 **[Azure CFR release Test Plan](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_testPlans/execute?planId=275364&suiteId=275365)**
 
@@ -129,6 +137,7 @@ Following UAT, additional issues were identified that required fixes.
 - [268637 - Education ICT Incorrect-Trust benchmarking](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_sprints/taskboard/FBIT/s198-DfE-Benchmarking-service/Sprint%2047?workitem=268637)
 - [269577 - Incorrect BAE Code Displayed for Ground Maintenance Costs](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_sprints/taskboard/FBIT/s198-DfE-Benchmarking-service/Sprint%2047?workitem=269577)
 - [276528 - User defined rag generation failure](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/276528)
+- [270078 Benchmarking IT spending charts](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/270078)
 - [270080 -Benchmarking IT spending charts filtering](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_sprints/taskboard/FBIT/s198-DfE-Benchmarking-service/Sprint%2047?workitem=270080)
 - [270083 - Benchmarking IT spending charts tooltip](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_sprints/taskboard/FBIT/s198-DfE-Benchmarking-service/Sprint%2047?workitem=270083)
 - [272139 - Part year annotation for SSR charts for IT Spend](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_sprints/taskboard/FBIT/s198-DfE-Benchmarking-service/Sprint%2047?workitem=272139)
@@ -139,6 +148,8 @@ Following UAT, additional issues were identified that required fixes.
 - [276748 - Figures to be shown as whole £](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_workitems/edit/276748)
 - [266319 - Associate new and remove orphaned WAF policies](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_workitems/edit/266319)
 - [259190 - Update deprecated azurerm_storage_account block in Terraform](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_workitems/edit/259190)
+- [265000 - Review & merge August '25 dependency updates](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/265000)
+- [277256 - Unable to view Forecast and Risk after latest CFR run](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/277256)
 
 ## Appendix
 
@@ -149,7 +160,7 @@ Following UAT, additional issues were identified that required fixes.
 | Test Category           | Total Tests | Passed | Failed | Pass Rate |  
 |-------------------------|:-----------:|:------:|:------:|:---------:|  
 | Smoke Tests - Prod      |     TBC     |  TBC   |  TBC   |    TBC    |  
-| Sanity Tests - Pre Prod |     TBC     |   1    |   0    |   100%    |  
+| Sanity Tests - Pre Prod |      8      |   8    |   0    |   100%    |  
 | Data Ingestion Tests    |      6      |   6    |   0    |   100%    |  
 | Total                   |     TBC     |  TBC   |  TBC   |    TBC    |  
 
