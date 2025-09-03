@@ -21,7 +21,7 @@ This release delivers enhancements to the data pipeline to support the CFR 2025 
 - Enhancements
 
   - Data pipeline enhancements to ingest IT spending breakdown costs to support CFR 2025 data drop
-  - Enhanced security of the service by upgrading to premium tier. 
+  - Enhanced security of the service by upgrading to premium tier.
   - Enhancements to trust benchmarking for Education ICT
 
 - Bug Fixes
