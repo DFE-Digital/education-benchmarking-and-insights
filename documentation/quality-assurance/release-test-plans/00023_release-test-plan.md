@@ -158,10 +158,10 @@ A last-minute regression issue was identified where figures in thousands/million
 
 | Test Category           | Total Tests | Passed | Failed | Pass Rate |  
 |-------------------------|:-----------:|:------:|:------:|:---------:|  
-| Smoke Tests - Prod      |     TBC     |  TBC   |  TBC   |    TBC    |  
+| Smoke Tests - Prod      |      1      |   1    |   0    |   100%    |  
 | Sanity Tests - Pre Prod |      8      |   8    |   0    |   100%    |  
 | Data Ingestion Tests    |      6      |   6    |   0    |   100%    |  
-| Total                   |     TBC     |  TBC   |  TBC   |    TBC    |  
+| Total                   |     15      |   15   |   0    |   100%    |  
 
 <!-- Leave the rest of this page blank -->
 \newpage
