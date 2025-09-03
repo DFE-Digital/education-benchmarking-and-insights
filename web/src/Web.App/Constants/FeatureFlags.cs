@@ -13,7 +13,6 @@ public static class FeatureFlags
     public const string HistoricalTrends = nameof(HistoricalTrends);
     public const string HighExecutivePay = nameof(HighExecutivePay);
     public const string HighNeeds = nameof(HighNeeds);
-    public const string FilteredSearch = nameof(FilteredSearch);
     public const string SchoolSpendingPrioritiesSsrCharts = nameof(SchoolSpendingPrioritiesSsrCharts);
     public const string CfrItSpendBreakdown = nameof(CfrItSpendBreakdown);
     public const string News = nameof(News);
