@@ -8,7 +8,6 @@ import {
   CompareYourTrust,
   CostCodeMap,
   DeploymentPlan,
-  FindOrganisation,
   HistoricData,
   HistoricData2,
   HistoricData2SectionName,
@@ -21,7 +20,6 @@ import {
   CompareCostsElementId,
   CompareTrustElementId,
   DeploymentPlanElementId,
-  FindOrganisationElementId,
   HistoricData2ElementId,
   HistoricDataElementId,
   HistoricDataHighNeedsElementId,
@@ -59,9 +57,7 @@ import { EstablishmentTick } from "./components/charts/establishment-tick";
 import { SchoolDataTooltip } from "./components/charts/school-data-tooltip";
 import { Census, SchoolExpenditure } from "./services";
 import { LineChartTooltip } from "./components/charts/line-chart-tooltip";
-import SchoolInput from "./views/find-organisation/partials/school-input";
-import LaInput from "./views/find-organisation/partials/la-input";
-import TrustInput from "./views/find-organisation/partials/trust-input";
+import { LaInput, SchoolInput, TrustInput } from "./components/suggesters";
 import { TrustDataTooltip } from "./components/charts/trust-data-tooltip";
 import { TrustChartData } from "./components/charts/table-chart";
 import { BudgetForecastReturns } from "./views/budget-forecast-returns";
@@ -102,31 +98,6 @@ if (historicData2Element) {
             hash ? [hash as HistoricData2SectionName] : undefined
           }
           fetchTimeout={30_000}
-        />
-      </React.StrictMode>
-    );
-  }
-}
-
-const findOrganisationElement = document.getElementById(
-  FindOrganisationElementId
-);
-
-if (findOrganisationElement) {
-  const { findMethod, laError, schoolInput, schoolError, trustError, urn } =
-    findOrganisationElement.dataset;
-  if (findMethod) {
-    const root = ReactDOM.createRoot(findOrganisationElement);
-
-    root.render(
-      <React.StrictMode>
-        <FindOrganisation
-          findMethod={findMethod}
-          laError={laError}
-          schoolInput={schoolInput}
-          schoolError={schoolError}
-          trustError={trustError}
-          urn={urn}
         />
       </React.StrictMode>
     );

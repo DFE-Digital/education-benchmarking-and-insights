@@ -1,27 +1,33 @@
 import React, { useState } from "react";
 import { AutoComplete } from "src/components/auto-complete";
-import {
-  LaDocument,
-  LaInputProps,
-  SuggestResult,
-} from "src/views/find-organisation";
+import { SchoolDocument, SchoolInputProps, SuggestResult } from "./types";
 import { v4 as uuidv4 } from "uuid";
-import { suggestionFormatter } from "../utils";
+import { suggestionFormatter } from "./utils";
 
-const LaInput: React.FunctionComponent<LaInputProps> = (props) => {
-  const { input, code, exclude } = props;
+export const SchoolInput: React.FunctionComponent<SchoolInputProps> = (
+  props
+) => {
+  const { input, urn, exclude, excludeMissingFinancialData } = props;
   const [inputValue, setInputValue] = useState<string>(input);
-  const [selectedCode, setSelectedCode] = useState<string>(code);
+  const [selectedUrn, setSelectedUrn] = useState<string>(urn);
 
   const handleSuggest = async (query: string) => {
     const params = new URLSearchParams({
-      type: "local-authority",
+      type: "school",
       search: query,
     });
+
     if (exclude) {
       exclude.forEach((e) => {
         params.append("exclude", e);
       });
+    }
+
+    if (excludeMissingFinancialData) {
+      params.append(
+        "excludeMissingFinancialData",
+        excludeMissingFinancialData.toString().toLowerCase()
+      );
     }
 
     try {
@@ -47,31 +53,31 @@ const LaInput: React.FunctionComponent<LaInputProps> = (props) => {
     return [];
   };
 
-  const handleSelected = (value: SuggestResult<LaDocument>) => {
+  const handleSelected = (value: SuggestResult<SchoolDocument>) => {
     if (!value) {
       return;
     }
 
-    setInputValue(value.document.name);
-    setSelectedCode(value.document.code);
+    setInputValue(value.document.schoolName);
+    setSelectedUrn(value.document.urn);
   };
 
   return (
     <div className="suggest-input">
-      <AutoComplete<SuggestResult<LaDocument>>
+      <AutoComplete<SuggestResult<SchoolDocument>>
         defaultValue={inputValue}
-        id="la-input"
-        name="laInput"
+        id="school-input"
+        name="schoolInput"
         minLength={3}
         maxLength={100}
         onSelected={handleSelected}
         onSuggest={handleSuggest}
         suggestionFormatter={suggestionFormatter}
-        valueFormatter={(item) => item?.document?.name ?? ""}
+        valueFormatter={(item) => item?.document?.schoolName ?? ""}
       />
-      <input value={selectedCode} name="code" type="hidden" />
+      <input value={selectedUrn} name="urn" type="hidden" />
     </div>
   );
 };
 
-export default LaInput;
+export default SchoolInput;
