@@ -109,14 +109,4 @@ public class WhenAFeatureIsDisabled(SchoolBenchmarkingWebAppClient client)
         PageAssert.IsFeatureDisabledPage(page);
         DocumentAssert.AssertPageUrl(page, Paths.LocalAuthorityHighNeedsDashboard("123").ToAbsolute(), HttpStatusCode.Forbidden);
     }
-
-    [Fact]
-    public async Task SchoolFilteredSearchRedirectsToFeatureDisabled()
-    {
-        var page = await Client.SetupDisableFeatureFlags(FeatureFlags.FilteredSearch)
-            .Navigate(Paths.SchoolSearch);
-
-        PageAssert.IsFeatureDisabledPage(page);
-        DocumentAssert.AssertPageUrl(page, Paths.SchoolSearch.ToAbsolute(), HttpStatusCode.Forbidden);
-    }
 }
