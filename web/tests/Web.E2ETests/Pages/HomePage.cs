@@ -21,6 +21,12 @@ public class HomePage(IPage page) : BasePage(page)
     private ILocator BannerHeading => page.Locator(Selectors.GovNotificationBannerHeading);
     private ILocator BannerBody => page.Locator(Selectors.GovNotificationBannerBody);
 
+    private ILocator NewsLink =>
+        page.Locator(Selectors.GovFooterLink, new PageLocatorOptions
+        {
+            HasText = "News"
+        });
+
     public override async Task IsDisplayed()
     {
         await PageH1Heading.ShouldBeVisible();
@@ -36,6 +42,12 @@ public class HomePage(IPage page) : BasePage(page)
     {
         await StartNowButton.ClickAsync();
         return new FindOrganisationPage(page);
+    }
+
+    public async Task<NewsPage> ClickNewsLink()
+    {
+        await NewsLink.ClickAsync();
+        return new NewsPage(page);
     }
 
     public async Task HasBanner(string title, string heading, string body)

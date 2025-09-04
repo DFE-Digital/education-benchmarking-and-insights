@@ -28,6 +28,8 @@ public static class Selectors
     public const string GovNotificationBannerTitle = $"{GovNotificationBanner} .govuk-notification-banner__title";
     public const string GovNotificationBannerHeading = $"{GovNotificationBanner} .govuk-notification-banner__heading";
     public const string GovNotificationBannerBody = $"{GovNotificationBanner} .govuk-notification-banner__content > p";
+    public const string GovList = ".govuk-list";
+    public const string GovListResult = $"{GovList}.govuk-list--result";
 
     public const string ModeChart = "#mode-chart";
     public const string ModeTable = "#mode-table";
