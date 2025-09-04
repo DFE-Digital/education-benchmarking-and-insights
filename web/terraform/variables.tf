@@ -24,7 +24,6 @@ variable "configuration" {
       ForecastRisk                         = optional(bool, true)
       TrustComparison                      = optional(bool, true)
       FinancialBenchmarkingInsightsSummary = optional(bool, true)
-      HistoricalTrends                     = optional(bool, true)
       HighExecutivePay                     = optional(bool, true)
       HighNeeds                            = optional(bool, true)
       SchoolSpendingPrioritiesSsrCharts    = optional(bool, true)
