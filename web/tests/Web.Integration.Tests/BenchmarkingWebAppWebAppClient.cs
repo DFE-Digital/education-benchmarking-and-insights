@@ -124,7 +124,6 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
             FeatureFlags.LocalAuthorities,
             FeatureFlags.ForecastRisk,
             FeatureFlags.FinancialBenchmarkingInsightsSummary,
-            FeatureFlags.HistoricalTrends,
             FeatureFlags.HighExecutivePay,
             FeatureFlags.HighNeeds,
             FeatureFlags.SchoolSpendingPrioritiesSsrCharts,
