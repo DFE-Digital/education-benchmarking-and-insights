@@ -56,8 +56,7 @@
         When I click section link for 'non educational support staff'
         Then the section 'non educational support staff' is hidden
 
-    @HistoricalTrendsFlagEnabled
-    Scenario Outline: Change dimension of history data when historical trends flag enabled
+    Scenario Outline: Change dimension of history data sets legend
         Given I am on '<tab>' history page for school with URN '777042'
         And all sections are shown on '<tab>'
         When I change '<tab>' dimension to '<dimension>'
@@ -75,10 +74,7 @@
           | census   | headcount per FTE | Pupils on roll                          | national average across phase type, average across comparator set, total             |
           | census   | headcount per FTE | School workforce (full time equivalent) | national average across phase type, average across comparator set, headcount per FTE |
 
-    @HistoricalTrendsFlagEnabled
-    @ignore
-    #until 243002 of 237633 is completed
-    Scenario: Change Total expenditure chart to table view when historical trends flag enabled
+    Scenario: Change Total expenditure chart to table view
         Given I am on 'spending' history page for school with URN '777042'
         When I change 'spending' dimension to 'actuals'
         And I click on view as table on 'spending' tab
@@ -90,10 +86,7 @@
           | 2020 to 2021 | £3,157,259 |                               | £3,128,083                         |
           | 2021 to 2022 | £1,587,223 | £2,929,445                    | £3,586,859                         |
 
-    @HistoricalTrendsFlagEnabled
-    @ignore
-    #until 243002 of 237633 is completed
-    Scenario: Change Total expenditure chart to table view when historical trends flag enabled and dimension set to per unit
+    Scenario: Change Total expenditure chart to table view when dimension set to per unit
         Given I am on 'spending' history page for school with URN '777042'
         When I change 'spending' dimension to '£ per pupil'
         And I click on view as table on 'spending' tab
@@ -105,8 +98,7 @@
           | 2020 to 2021 | £7,208 |                               | £10,704                            |
           | 2021 to 2022 | £7,487 | £8,127                        | £11,018                            |
 
-    @HistoricalTrendsFlagEnabled
-    Scenario: Change Pupils on roll census chart to table view when historical trends flag enabled and dimension set to headcount per FTE
+    Scenario: Change Pupils on roll census chart to table view when dimension set to headcount per FTE
         Given I am on 'census' history page for school with URN '777042'
         When I change 'census' dimension to 'headcount per FTE'
         And I click on view as table on 'census' tab
@@ -118,8 +110,7 @@
           | 2020 to 2021 |       |                               |                                    |
           | 2021 to 2022 | 350   | 310.73                        | 308.02                             |
 
-    @HistoricalTrendsFlagEnabled
-    Scenario: Change School workforce (full time equivalent) census chart to table view when historical trends flag enabled and dimension set to per unit
+    Scenario: Change School workforce (full time equivalent) census chart to table view when dimension set to per unit
         Given I am on 'census' history page for school with URN '777042'
         When I change 'census' dimension to 'headcount per FTE'
         And I click on view as table on 'census' tab
@@ -131,8 +122,7 @@
           | 2020 to 2021 |       |                               |                                    |
           | 2021 to 2022 | 1.29  | 1.28                          | 1.3                                |
 
-    @HistoricalTrendsFlagEnabled
-    Scenario: Change Pupils on roll census chart to table view when historical trends flag enabled and dimension set to percentage of workforce
+    Scenario: Change Pupils on roll census chart to table view when dimension set to percentage of workforce
         Given I am on 'census' history page for school with URN '777042'
         When I change 'census' dimension to 'percentage of workforce'
         And I click on view as table on 'census' tab
@@ -144,8 +134,7 @@
           | 2020 to 2021 |       |                               |                                    |
           | 2021 to 2022 | 350   | 310.73                        | 308.02                             |
 
-    @HistoricalTrendsFlagEnabled
-    Scenario: Change Total number of teachers (full time equivalent) census chart to table view when historical trends flag enabled and dimension set to percentage of workforce
+    Scenario: Change Total number of teachers (full time equivalent) census chart to table view when dimension set to percentage of workforce
         Given I am on 'census' history page for school with URN '777042'
         When I change 'census' dimension to 'percentage of workforce'
         And I click on view as table on 'census' tab
