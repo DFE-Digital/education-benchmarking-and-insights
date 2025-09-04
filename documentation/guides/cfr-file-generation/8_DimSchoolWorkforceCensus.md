@@ -15,7 +15,7 @@ School workforce data is taken from the School Census produced by the Department
 
 ### School Workforce Census Data**
 
-1. Click on [URL link](https://content.explore-education-statistics.service.gov.uk/api/releases/22112b8a-8ae7-43a1-a875-1e8deeeafa06/files?fromPage=ReleaseUsefulInfo) to download `school-workforce-in-england_YYYY` zipped folder to local folder, where YYYY represents previous calendar year (end of reporting year minus one). For instance, `school-workforce-in-england_2024` would be used to generate 2024-2025 CFR downstream dataset.
+1. Click on [URL link](https://content.explore-education-statistics.service.gov.uk/api/releases/ba5318f9-2f18-4ef5-8c71-a4db8546758c/files?fromPage=ReleaseUsefulInfo) to download `school-workforce-in-england_YYYY` zipped folder to local folder, where YYYY represents previous calendar year (end of reporting year minus one). For instance, `school-workforce-in-england_2024` would be used to generate 2024-2025 CFR downstream dataset.
 
 2. In the `supporting-files` sub-folder of the `school-workforce-in-england_YYYY` zipped folder, access the
 `School_Tables_School_Workforce_Census` file.
