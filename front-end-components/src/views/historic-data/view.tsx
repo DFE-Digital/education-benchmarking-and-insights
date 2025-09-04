@@ -2,10 +2,8 @@ import {
   BalanceSection,
   IncomeSection,
   SpendingSection,
-  CensusSection,
 } from "src/views/historic-data/partials";
 import { HistoricDataViewProps } from "src/views/historic-data/types";
-import { SchoolEstablishment } from "src/constants.tsx";
 import { useGovUk } from "src/hooks/useGovUk";
 import { ChartModeChart } from "src/components";
 import { ChartModeProvider } from "src/contexts";
@@ -32,13 +30,6 @@ export const HistoricData: React.FC<HistoricDataViewProps> = (props) => {
             Balance
           </a>
         </li>
-        {type === SchoolEstablishment && (
-          <li className="govuk-tabs__list-item">
-            <a className="govuk-tabs__tab" href="#census">
-              Pupil and workforce
-            </a>
-          </li>
-        )}
       </ul>
       <ChartModeProvider initialValue={ChartModeChart}>
         <div className="govuk-tabs__panel" id="spending">
@@ -56,14 +47,6 @@ export const HistoricData: React.FC<HistoricDataViewProps> = (props) => {
         >
           <BalanceSection type={type} id={id} load />
         </div>
-        {type === SchoolEstablishment && (
-          <div
-            className="govuk-tabs__panel govuk-tabs__panel--hidden"
-            id="census"
-          >
-            <CensusSection id={id} load />
-          </div>
-        )}
       </ChartModeProvider>
     </div>
   );
