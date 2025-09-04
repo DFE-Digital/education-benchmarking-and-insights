@@ -4,8 +4,7 @@ import { Loading } from "src/components/loading";
 
 export const SpendingSectionOther: React.FC<{
   data: ExpenditureHistoryRow[];
-  type: string;
-}> = ({ data, type }) => {
+}> = ({ data }) => {
   return (
     <>
       {data.length > 0 ? (
@@ -183,43 +182,6 @@ export const SpendingSectionOther: React.FC<{
           >
             <h3 className="govuk-heading-s">Supply teacher insurance costs</h3>
           </HistoricChart>
-
-          {type === "school" && (
-            <>
-              <HistoricChart
-                chartTitle="Community focused school staff (maintained schools only)"
-                data={data}
-                seriesConfig={{
-                  communityFocusedSchoolStaff: {
-                    label:
-                      "Community focused school staff (maintained schools only)",
-                    visible: true,
-                  },
-                }}
-                valueField="communityFocusedSchoolStaff"
-              >
-                <h3 className="govuk-heading-s">
-                  Community focused school staff (maintained schools only)
-                </h3>
-              </HistoricChart>
-              <HistoricChart
-                chartTitle="Community focused school staff (maintained schools only)"
-                data={data}
-                seriesConfig={{
-                  communityFocusedSchoolCosts: {
-                    label:
-                      "Community focused school costs (maintained schools only)",
-                    visible: true,
-                  },
-                }}
-                valueField="communityFocusedSchoolCosts"
-              >
-                <h3 className="govuk-heading-s">
-                  Community focused school costs (maintained schools only)
-                </h3>
-              </HistoricChart>
-            </>
-          )}
         </>
       ) : (
         <Loading />

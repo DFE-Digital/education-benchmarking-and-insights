@@ -257,7 +257,7 @@ export const SpendingSection: React.FC<{
             id="accordion-expenditure-content-9"
             className="govuk-accordion__section-content"
           >
-            <SpendingSectionOther data={data} type={type} />
+            <SpendingSectionOther data={data} />
           </div>
         </div>
       </div>
