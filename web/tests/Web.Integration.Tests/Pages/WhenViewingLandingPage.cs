@@ -1,5 +1,6 @@
 using AngleSharp.Html.Dom;
 using AutoFixture;
+using Web.App;
 using Web.App.Domain.Content;
 using Xunit;
 
@@ -36,13 +37,35 @@ public class WhenViewingLandingPage(SchoolBenchmarkingWebAppClient client) : Pag
         DocumentAssert.AssertPageUrl(page, Paths.FindOrganisation.ToAbsolute());
     }
 
-    private async Task<(IHtmlDocument page, Banner? banner)> SetupNavigateInitPage(bool showBanner = false)
+    [Theory]
+    [InlineData(true)]
+    [InlineData(false)]
+    public async Task CanNavigateToNews(bool showNews)
+    {
+        var (page, _) = await SetupNavigateInitPage(showNews: showNews);
+        var footerLinks = page.QuerySelectorAll("footer ul > li > a");
+        Assert.NotNull(footerLinks);
+
+        if (showNews)
+        {
+            Assert.Equal(6, footerLinks.Length);
+            page = await Client.Follow(footerLinks.Last());
+            DocumentAssert.AssertPageUrl(page, Paths.News().ToAbsolute());
+        }
+        else
+        {
+            Assert.Equal(5, footerLinks.Length);
+        }
+    }
+
+    private async Task<(IHtmlDocument page, Banner? banner)> SetupNavigateInitPage(bool showBanner = false, bool showNews = false)
     {
         var banner = showBanner
             ? Fixture.Create<Banner>()
             : null;
 
         var page = await Client
+            .SetupDisableFeatureFlags(showNews ? [] : [FeatureFlags.News])
             .SetupBanner(banner)
             .Navigate(Paths.ServiceHome);
 

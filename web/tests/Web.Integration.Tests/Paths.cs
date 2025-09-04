@@ -560,7 +560,7 @@ public static class Paths
 
     public static string News(string? slug = null)
     {
-        return $"/news/{slug}";
+        return $"/news/{slug}".TrimEnd('/');
     }
 
     public static string ToAbsolute(this string path)
