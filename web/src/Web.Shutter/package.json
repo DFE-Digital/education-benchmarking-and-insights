@@ -22,7 +22,7 @@
     "@opentelemetry/auto-instrumentations-node": "^0.62.2",
     "@opentelemetry/resources": "^2.0.1",
     "@opentelemetry/sdk-node": "^0.204.0",
-    "@opentelemetry/sdk-trace-node": "^2.0.1",
+    "@opentelemetry/sdk-trace-node": "^2.1.0",
     "@opentelemetry/semantic-conventions": "^1.36.0",
     "@opentelemetry/winston-transport": "^0.14.1",
     "express": "^5.1.0",
