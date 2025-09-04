@@ -10,6 +10,7 @@
     <ItemGroup>
         <PackageReference Include="Microsoft.ApplicationInsights"/>
         <PackageReference Include="Microsoft.Azure.Functions.Worker"/>
+    <PackageReference Include="Microsoft.Extensions.Options" />
         <PackageReference Include="Microsoft.NET.Test.Sdk"/>
         <PackageReference Include="Moq"/>
         <AssemblyAttribute Include="System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute"/>
