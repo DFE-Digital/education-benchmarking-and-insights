@@ -12,15 +12,15 @@ jobs:
         uses: actions/github-script@v6
         with:
           script: |
-            const pr = context.payload.pull_request;
+            const pr = github.context.payload.pull_request;
             if (!pr) {
               core.warning("This workflow only runs on pull_request events.");
               return;
             }
 
             const prNumber = pr.number;
-            const owner = context.repo.owner;
-            const repo = context.repo.repo;
+            const owner = github.context.repo.owner;
+            const repo = github.context.repo.repo;
             const labels = pr.labels.map(label => label.name);
 
             if (labels.length === 0) {
@@ -54,3 +54,4 @@ jobs:
             } else {
               console.log(`✅ PR has labels: ${labels.join(", ")}`);
             }
+
