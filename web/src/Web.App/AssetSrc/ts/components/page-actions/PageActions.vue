@@ -94,7 +94,9 @@ const ok = () => {
   }
 
   selectedElements.value =
-    elementSelectorTemplate.value?.selectedElementIndexes.map((i) => allElements.value[i]) ?? [];
+    elementSelectorTemplate.value?.selectedElementIndexes.map(
+      (i) => allElements.value[i] as ElementAndAttributes
+    ) ?? [];
 
   if (validated()) {
     startDownload();
