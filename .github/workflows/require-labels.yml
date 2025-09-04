@@ -18,5 +18,37 @@ jobs:
               return;
             }
 
+            const prNumber = pr.number;
+            const owner = context.repo.owner;
+            const repo = context.repo.repo;
+            const labels = pr.labels.map(label => label.name);
 
+            if (labels.length === 0) {
+              const { data: reviews } = await github.rest.pulls.listReviews({
+                owner,
+                repo,
+                pull_number: prNumber
+              });
 
+              const alreadyRequested = reviews.some(
+                review =>
+                  review.user.login === context.actor &&
+                  review.state === "CHANGES_REQUESTED"
+              );
+
+              if (!alreadyRequested) {
+                await github.rest.pulls.createReview({
+                  owner,
+                  repo,
+                  pull_number: prNumber,
+                  event: "REQUEST_CHANGES",
+                  body: "⚠️ Please add at least one label to this pull request before it can be merged."
+                });
+              } else {
+                console.log("Bot has already requested changes. Skipping duplicate review.");
+              }
+
+              core.setFailed("❌ PR has no labels.");
+            } else {
+              console.log(`✅ PR has labels: ${labels.join(", ")}`);
+            }
