@@ -10,7 +10,6 @@ public static class FeatureFlags
     public const string LocalAuthorities = nameof(LocalAuthorities);
     public const string ForecastRisk = nameof(ForecastRisk);
     public const string FinancialBenchmarkingInsightsSummary = nameof(FinancialBenchmarkingInsightsSummary);
-    public const string HistoricalTrends = nameof(HistoricalTrends);
     public const string HighExecutivePay = nameof(HighExecutivePay);
     public const string HighNeeds = nameof(HighNeeds);
     public const string SchoolSpendingPrioritiesSsrCharts = nameof(SchoolSpendingPrioritiesSsrCharts);
