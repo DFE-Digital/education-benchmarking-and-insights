@@ -13,6 +13,10 @@
         interval: "monthly"
       commit-message:
         prefix: "[terraform] "
+      labels:
+        - "dependencies"
+        - "core-infrastructure"
+        - "terraform"
 
     - package-ecosystem: "npm"
       directory: "/front-end-components"
@@ -38,6 +42,10 @@
         - dependency-name: "html-to-image"
         - dependency-name: "recharts"
           versions: [">=3.0.0"]
+      labels:
+        - "dependencies"
+        - "front-end-components"
+        - "javascript"
 
     - package-ecosystem: "terraform"
       directory: "/platform/terraform"
@@ -45,6 +53,10 @@
         interval: "monthly"
       commit-message:
         prefix: "[terraform] "
+      labels:
+        - "dependencies"
+        - "platform"
+        - "terraform"
 
     - package-ecosystem: "nuget"
       directory: "/platform/src/abstractions/Platform.Functions"
@@ -52,6 +64,10 @@
         interval: "monthly"
       commit-message:
         prefix: "[nuget] "
+      labels:
+        - "dependencies"
+        - "platform"
+        - "dotnet"
 
     - package-ecosystem: "nuget"
       directory: "/platform/src/abstractions/Platform.Infrastructure"
@@ -59,6 +75,10 @@
         interval: "monthly"
       commit-message:
         prefix: "[nuget] "
+      labels:
+        - "dependencies"
+        - "platform"
+        - "dotnet"
 
     - package-ecosystem: "nuget"
       directory: "/platform/src/apis/Platform.Api.Benchmark"
@@ -66,6 +86,10 @@
         interval: "monthly"
       commit-message:
         prefix: "[nuget] "
+      labels:
+        - "dependencies"
+        - "platform"
+        - "dotnet"
 
     - package-ecosystem: "npm"
       directory: "/platform/src/apis/Platform.Api.ChartRendering"
@@ -73,6 +97,10 @@
         interval: "monthly"
       commit-message:
         prefix: "[npm] "
+      labels:
+        - "dependencies"
+        - "platform"
+        - "javascript"
 
     - package-ecosystem: "nuget"
       directory: "/platform/src/apis/Platform.Api.Establishment"
@@ -80,6 +108,10 @@
         interval: "monthly"
       commit-message:
         prefix: "[nuget] "
+      labels:
+        - "dependencies"
+        - "platform"
+        - "dotnet"
 
     - package-ecosystem: "nuget"
       directory: "/platform/src/apis/Platform.Api.Insight"
@@ -87,6 +119,10 @@
         interval: "monthly"
       commit-message:
         prefix: "[nuget] "
+      labels:
+        - "dependencies"
+        - "platform"
+        - "dotnet"
 
     - package-ecosystem: "nuget"
       directory: "/platform/src/apis/Platform.Api.LocalAuthorityFinances"
@@ -94,6 +130,10 @@
         interval: "monthly"
       commit-message:
         prefix: "[nuget] "
+      labels:
+        - "dependencies"
+        - "platform"
+        - "dotnet"
 
     - package-ecosystem: "nuget"
       directory: "/platform/src/apis/Platform.Api.NonFinancial"
@@ -101,6 +141,10 @@
         interval: "monthly"
       commit-message:
         prefix: "[nuget] "
+      labels:
+        - "dependencies"
+        - "platform"
+        - "dotnet"
 
     - package-ecosystem: "nuget"
       directory: "/platform/src/apis/Platform.Api.Content"
@@ -108,6 +152,10 @@
         interval: "monthly"
       commit-message:
         prefix: "[nuget] "
+      labels:
+        - "dependencies"
+        - "platform"
+        - "dotnet"
 
     - package-ecosystem: "nuget"
       directory: "/platform/src/search/Platform.Search"
@@ -115,6 +163,10 @@
         interval: "monthly"
       commit-message:
         prefix: "[nuget] "
+      labels:
+        - "dependencies"
+        - "platform"
+        - "dotnet"
 
     - package-ecosystem: "nuget"
       directory: "/platform/src/search/Platform.Search.App"
@@ -122,6 +174,10 @@
         interval: "monthly"
       commit-message:
         prefix: "[nuget] "
+      labels:
+        - "dependencies"
+        - "platform"
+        - "dotnet"
 
     - package-ecosystem: "nuget"
       directory: "/platform/src/search/Platform.Search.Processor"
@@ -129,6 +185,10 @@
         interval: "monthly"
       commit-message:
         prefix: "[nuget] "
+      labels:
+        - "dependencies"
+        - "platform"
+        - "dotnet"
 
     - package-ecosystem: "nuget"
       directory: "/platform/tests/Platform.ApiTests"
@@ -136,6 +196,10 @@
         interval: "monthly"
       commit-message:
         prefix: "[nuget] "
+      labels:
+        - "dependencies"
+        - "platform"
+        - "dotnet"
 
     - package-ecosystem: "nuget"
       directory: "/platform/tests/Platform.Tests"
@@ -143,6 +207,10 @@
         interval: "monthly"
       commit-message:
         prefix: "[nuget] "
+      labels:
+        - "dependencies"
+        - "platform"
+        - "dotnet"
 
     - package-ecosystem: "npm"
       directory: "/prototype/src"
@@ -150,6 +218,10 @@
         interval: "monthly"
       commit-message:
         prefix: "[npm] "
+      labels:
+        - "dependencies"
+        - "prototype"
+        - "javascript"
 
     - package-ecosystem: "terraform"
       directory: "/prototype/terraform"
@@ -157,6 +229,10 @@
         interval: "monthly"
       commit-message:
         prefix: "[terraform] "
+      labels:
+        - "dependencies"
+        - "prototype"
+        - "terraform"
 
     - package-ecosystem: "npm"
       directory: "/web/src/Web.App"
@@ -166,6 +242,10 @@
         interval: "monthly"
       commit-message:
         prefix: "[npm] "
+      labels:
+        - "dependencies"
+        - "web"
+        - "dotnet"
 
     - package-ecosystem: "terraform"
       directory: "/web/terraform"
@@ -173,6 +253,10 @@
         interval: "monthly"
       commit-message:
         prefix: "[terraform] "
+      labels:
+        - "dependencies"
+        - "web"
+        - "terraform"
 
     - package-ecosystem: "nuget"
       directory: "/web/src/Web.App"
@@ -180,6 +264,10 @@
         interval: "monthly"
       commit-message:
         prefix: "[nuget] "
+      labels:
+        - "dependencies"
+        - "web"
+        - "dotnet"
 
     - package-ecosystem: "npm"
       directory: "/web/src/Web.Shutter"
@@ -189,6 +277,10 @@
         interval: "monthly"
       commit-message:
         prefix: "[npm] "
+      labels:
+        - "dependencies"
+        - "web"
+        - "dotnet"
 
     - package-ecosystem: "nuget"
       directory: "/web/tests/Web.A11yTests"
@@ -196,6 +288,10 @@
         interval: "monthly"
       commit-message:
         prefix: "[nuget] "
+      labels:
+        - "dependencies"
+        - "web"
+        - "dotnet"
 
     - package-ecosystem: "nuget"
       directory: "/web/tests/Web.E2ETests"
@@ -203,6 +299,10 @@
         interval: "monthly"
       commit-message:
         prefix: "[nuget] "
+      labels:
+        - "dependencies"
+        - "web"
+        - "dotnet"
 
     - package-ecosystem: "nuget"
       directory: "/web/tests/Web.Integration.Tests"
@@ -210,6 +310,10 @@
         interval: "monthly"
       commit-message:
         prefix: "[nuget] "
+      labels:
+        - "dependencies"
+        - "web"
+        - "dotnet"
 
     - package-ecosystem: "nuget"
       directory: "/web/tests/Web.Tests"
@@ -217,3 +321,7 @@
         interval: "monthly"
       commit-message:
         prefix: "[nuget] "
+      labels:
+        - "dependencies"
+        - "web"
+        - "dotnet"
