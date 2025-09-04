@@ -245,7 +245,7 @@
       labels:
         - "dependencies"
         - "web"
-        - "dotnet"
+        - "javascript"
 
     - package-ecosystem: "terraform"
       directory: "/web/terraform"
@@ -280,7 +280,7 @@
       labels:
         - "dependencies"
         - "web"
-        - "dotnet"
+        - "javascript"
 
     - package-ecosystem: "nuget"
       directory: "/web/tests/Web.A11yTests"
