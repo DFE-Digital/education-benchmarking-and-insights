@@ -12,10 +12,11 @@ jobs:
         uses: actions/github-script@v6
         with:
           script: |
-            const pr = ontext.payload.pull_request;
+            const pr = context.payload.pull_request;
             if (!pr) {
               core.warning("This workflow only runs on pull_request events.");
               return;
             }
+
 
 
