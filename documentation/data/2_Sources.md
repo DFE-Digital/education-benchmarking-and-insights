@@ -14,7 +14,7 @@ BFR data submission occurs between August and September, this data provides a fo
 
 AAR data is submitted in January when Academies complete their financial returns. This return covers a period of September to August of the respective submission year.
 
-The table below provides an overview of the 5 financial data files used within the FBIT service.
+The table below provides an overview of the 7 financial data files used within the FBIT service.
 
 | raw file name | raw file description | source | update frequency | access instructions |
 |---------------|----------------------|--------|------------------|----------------------|
