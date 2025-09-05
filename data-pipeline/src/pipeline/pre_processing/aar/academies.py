@@ -143,6 +143,9 @@ def prepare_aar_data(aar_path, year: int):
         + aar["BNCH21703 (Auditor costs)"]
         + aar["BNCH21801 (Interest charges for Loan and bank)"]
         + aar["BNCH21802 (PFI Charges)"]
+    #     + aar[
+    #     "BNCH21707 (Direct revenue financing (Revenue contributions to capital))"
+    # ]
     )
 
     aar["Total Income"] = (
@@ -402,6 +405,7 @@ def build_academy_data(
                 float
             ) * apportionment.astype(float).fillna(0.0)
 
+            # Overwrite each subcategory, adding the central services apportionment
             academies[sub_category] = (
                 academies[sub_category] + academies[sub_category + "_CS"]
             )
@@ -486,8 +490,9 @@ def build_academy_data(
             academies[target_income_col] + academies[income_col]
         )
 
-    academies["Total Expenditure_category_sum"] = academies[all_expenditure_category_totals].sum(axis=1).astype(float)
-    academies["Total Expenditure_CS_category_sum"] = academies[all_expenditure_category_cs_totals].sum(axis=1).astype(float)
+    # Overwrite original expenditure totals to account for central service apportionment
+    academies["Total Expenditure"] = academies[all_expenditure_category_totals].sum(axis=1).astype(float)
+    academies["Total Expenditure_CS"] = academies[all_expenditure_category_cs_totals].sum(axis=1).astype(float)
 
     academies["In year balance_CS"] = academies["In year balance_CS"] * (
         academies["Number of pupils_pro_rata"].astype(float)
@@ -499,8 +504,6 @@ def build_academy_data(
         / academies["Total pupils in trust_pro_rata"].astype(float)
     ).fillna(0.0)
 
-    # Overwrite totals to account for central service spend
-    academies["Total Expenditure"] = academies["Total Expenditure"] + academies["Total Expenditure_CS"]
     academies["Total Income"] = academies["Total Income"] + academies["Total Income_CS"]
 <<<<<<< HEAD
 
