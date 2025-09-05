@@ -504,10 +504,7 @@ def build_academy_data(
     ).fillna(0.0)
 
     academies["Total Income"] = academies["Total Income"] + academies["Total Income_CS"]
-
-    academies["In year balance"] = (
-        academies["Total Income"] + academies["Income_Direct revenue finance_CS"]
-    ) - (academies["Total Expenditure"] + academies["Total Expenditure_CS"])
+    academies["In year balance"] = academies["In year balance"] + academies["In year balance_CS"]
 
     # net catering cost, not net catering income
     academies["Catering staff and supplies_Net Costs"] = (
