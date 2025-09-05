@@ -500,15 +500,16 @@ def build_academy_data(
     ).fillna(0.0)
 
     academies["Total Income"] = academies["Total Income"] + academies["Total Income_CS"]
+<<<<<<< HEAD
 
-    academies["Total Expenditure_CS"] = academies["Total Expenditure_CS"] * (
-        academies["Number of pupils_pro_rata"].astype(float)
-        / academies["Total pupils in trust_pro_rata"].astype(float)
-    ).fillna(0.0)
+    # Recalculate Total Expenditure_CS as sum of individual category totals (already apportioned)
+    academies["Total Expenditure_CS"] = academies[category_total_cols_cs].sum(axis=1)
 
-    academies["Total Expenditure"] = (
-        academies["Total Expenditure"] + academies["Total Expenditure_CS"]
-    )
+    # Recalculate Total Expenditure as sum of individual category totals (already includes CS apportionment)
+    academies["Total Expenditure"] = academies[category_total_cols].sum(axis=1)
+=======
+    academies["In year balance"] = academies["In year balance"] + academies["In year balance_CS"]
+>>>>>>> c95f1806d (tweak)
 
     # net catering cost, not net catering income
     academies["Catering staff and supplies_Net Costs"] = (
