@@ -111,7 +111,7 @@ def prepare_aar_data(aar_path, year: int):
         + aar["BNCH11205 (Other Income from facilities and services)"]
     )
 
-    aar["Total Expenditure"] = (
+    aar["Total Expenditure_CS_ABSENT"] = (
         aar["BNCH21101 (Teaching staff)"]
         + aar["BNCH21102 (Supply teaching staff - extra note in guidance)"]
         + aar["BNCH21103 (Education support staff)"]
@@ -151,7 +151,7 @@ def prepare_aar_data(aar_path, year: int):
         - aar["BNCH21707 (Direct revenue financing (Revenue contributions to capital))"]
     )
 
-    aar["In year balance"] = aar["Total Income"] - aar["Total Expenditure"]
+    aar["In year balance"] = aar["Total Income"] - aar["Total Expenditure_CS_ABSENT"]
 
     aar.rename(
         columns={
@@ -347,6 +347,11 @@ def build_academy_data(
         inplace=True,
     )
 
+    # List to hold names of all individual expenditure category total columns (e.g., 'Staffing_Total')
+    # and their central service components (e.g., 'Staffing_Total_CS')
+    all_expenditure_category_totals = []
+    all_expenditure_category_cs_totals = []
+
     # TODO: avoid recalculating pupil/building apportionment.
     for category in config.rag_category_settings.keys():
         is_pupil_basis = (
@@ -390,7 +395,9 @@ def build_academy_data(
             float
         ) / apportionment_divisor.astype(float)
 
+        # Apply per-trust apportionment to each subcategory
         for sub_category in sub_categories:
+
             academies[sub_category + "_CS"] = academies[sub_category + "_CS"].astype(
                 float
             ) * apportionment.astype(float).fillna(0.0)
@@ -432,7 +439,9 @@ def build_academy_data(
             category + "_Total_Per Unit",
         ] = 0.0
 
-        academies[category + "_Total"] = (
+        # Calculate apportioned totals per category
+        category_total_column_name = category + "_Total"
+        academies[category_total_column_name] = (
             academies[
                 academies.columns[
                     academies.columns.str.startswith(category)
@@ -443,8 +452,11 @@ def build_academy_data(
             .fillna(0.0)
             .sum(axis=1)
         )
+        all_expenditure_category_totals.append(category_total_column_name)
 
-        academies[category + "_Total_CS"] = (
+
+        category_total_cs_column_name = category + "_Total_CS"
+        academies[category_total_cs_column_name] = (
             academies[
                 academies.columns[
                     academies.columns.str.startswith(category)
@@ -455,6 +467,8 @@ def build_academy_data(
             .fillna(0)
             .sum(axis=1)
         )
+        all_expenditure_category_cs_totals.append(category_total_cs_column_name)
+
 
     income_cols = academies.columns[
         academies.columns.str.startswith("Income_")
@@ -476,14 +490,13 @@ def build_academy_data(
             academies[target_income_col] + academies[income_col]
         )
 
+    academies["Total Expenditure"] = academies[all_expenditure_category_totals].sum(axis=1)
+    academies["Total Expenditure_CS"] = academies[all_expenditure_category_cs_totals].sum(axis=1)
+
     academies["In year balance_CS"] = academies["In year balance_CS"] * (
         academies["Number of pupils_pro_rata"].astype(float)
         / academies["Total pupils in trust_pro_rata"].astype(float)
     ).fillna(0.0)
-
-    academies["In year balance"] = (
-        academies["In year balance"] + academies["In year balance_CS"]
-    )
 
     academies["Total Income_CS"] = academies["Total Income_CS"] * (
         academies["Number of pupils_pro_rata"].astype(float)
@@ -491,15 +504,7 @@ def build_academy_data(
     ).fillna(0.0)
 
     academies["Total Income"] = academies["Total Income"] + academies["Total Income_CS"]
-
-    academies["Total Expenditure_CS"] = academies["Total Expenditure_CS"] * (
-        academies["Number of pupils_pro_rata"].astype(float)
-        / academies["Total pupils in trust_pro_rata"].astype(float)
-    ).fillna(0.0)
-
-    academies["Total Expenditure"] = (
-        academies["Total Expenditure"] + academies["Total Expenditure_CS"]
-    )
+    academies["In year balance"] = academies["In year balance"] + academies["In year balance_CS"]
 
     # net catering cost, not net catering income
     academies["Catering staff and supplies_Net Costs"] = (
