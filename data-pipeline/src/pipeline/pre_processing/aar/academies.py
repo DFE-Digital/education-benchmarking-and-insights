@@ -143,9 +143,6 @@ def prepare_aar_data(aar_path, year: int):
         + aar["BNCH21703 (Auditor costs)"]
         + aar["BNCH21801 (Interest charges for Loan and bank)"]
         + aar["BNCH21802 (PFI Charges)"]
-    #     + aar[
-    #     "BNCH21707 (Direct revenue financing (Revenue contributions to capital))"
-    # ]
     )
 
     aar["Total Income"] = (
@@ -350,10 +347,8 @@ def build_academy_data(
         inplace=True,
     )
 
-    # List to hold names of all individual expenditure category total columns (e.g., 'Staffing_Total')
-    # and their central service components (e.g., 'Staffing_Total_CS')
-    all_expenditure_category_totals = []
-    all_expenditure_category_cs_totals = []
+    all_expenditure_category_total_cols = []
+    all_expenditure_category_cs_total_cols = []
 
     # TODO: avoid recalculating pupil/building apportionment.
     for category in config.rag_category_settings.keys():
@@ -491,8 +486,8 @@ def build_academy_data(
         )
 
     # Overwrite original expenditure totals to account for central service apportionment
-    academies["Total Expenditure"] = academies[all_expenditure_category_totals].sum(axis=1).astype(float)
-    academies["Total Expenditure_CS"] = academies[all_expenditure_category_cs_totals].sum(axis=1).astype(float)
+    academies["Total Expenditure"] = academies[all_expenditure_category_total_cols].sum(axis=1).astype(float)
+    academies["Total Expenditure_CS"] = academies[all_expenditure_category_cs_total_cols].sum(axis=1).astype(float)
 
     academies["In year balance_CS"] = academies["In year balance_CS"] * (
         academies["Number of pupils_pro_rata"].astype(float)
@@ -505,16 +500,12 @@ def build_academy_data(
     ).fillna(0.0)
 
     academies["Total Income"] = academies["Total Income"] + academies["Total Income_CS"]
-<<<<<<< HEAD
 
     # Recalculate Total Expenditure_CS as sum of individual category totals (already apportioned)
     academies["Total Expenditure_CS"] = academies[category_total_cols_cs].sum(axis=1)
 
     # Recalculate Total Expenditure as sum of individual category totals (already includes CS apportionment)
     academies["Total Expenditure"] = academies[category_total_cols].sum(axis=1)
-=======
-    academies["In year balance"] = academies["In year balance"] + academies["In year balance_CS"]
->>>>>>> c95f1806d (tweak)
 
     # net catering cost, not net catering income
     academies["Catering staff and supplies_Net Costs"] = (
