@@ -12,7 +12,7 @@ from pipeline.utils.stats import stats_collector
 
 load_dotenv()
 
-from pipeline.comparator_sets import compute_comparator_sets
+from pipeline.comparator_sets import run_comparator_sets_pipeline
 from pipeline.pre_processing import pre_process_custom_data, pre_process_data
 from pipeline.rag import compute_rag, run_user_defined_rag
 from pipeline.utils.log import setup_logger
@@ -62,7 +62,7 @@ def handle_msg(
                     bfr_year=msg_payload["year"]["bfr"],
                     s251_year=msg_payload["year"]["s251"],
                 )
-                msg_payload["comparator_set_duration"] = compute_comparator_sets(
+                msg_payload["comparator_set_duration"] = run_comparator_sets_pipeline(
                     run_type=run_type,
                     run_id=str(msg_payload["runId"]),
                 )
@@ -94,7 +94,7 @@ def handle_msg(
                         k: v for k, v in msg_payload["payload"].items() if k != "kind"
                     },
                 )
-                msg_payload["comparator_set_duration"] = compute_comparator_sets(
+                msg_payload["comparator_set_duration"] = run_comparator_sets_pipeline(
                     run_type=run_type,
                     run_id=msg_payload["runId"],
                     target_urn=int(msg_payload["urn"]),

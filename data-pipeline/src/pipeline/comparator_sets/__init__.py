@@ -1,1 +1,1 @@
-from .main import compute_comparator_sets
+from .orchestrator import run_comparator_sets_pipeline
