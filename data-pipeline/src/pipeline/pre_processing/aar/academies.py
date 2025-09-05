@@ -348,6 +348,8 @@ def build_academy_data(
     )
 
     # TODO: avoid recalculating pupil/building apportionment.
+    category_total_cols = []
+    category_total_cols_cs = []
     for category in config.rag_category_settings.keys():
         is_pupil_basis = (
             config.rag_category_settings[category]["type"] == "Pupil"
@@ -443,6 +445,7 @@ def build_academy_data(
             .fillna(0.0)
             .sum(axis=1)
         )
+        category_total_cols.append(category + "_Total")
 
         academies[category + "_Total_CS"] = (
             academies[
@@ -455,6 +458,7 @@ def build_academy_data(
             .fillna(0)
             .sum(axis=1)
         )
+        category_total_cols_cs.append(category + "_Total_CS")
 
     income_cols = academies.columns[
         academies.columns.str.startswith("Income_")
@@ -492,14 +496,11 @@ def build_academy_data(
 
     academies["Total Income"] = academies["Total Income"] + academies["Total Income_CS"]
 
-    academies["Total Expenditure_CS"] = academies["Total Expenditure_CS"] * (
-        academies["Number of pupils_pro_rata"].astype(float)
-        / academies["Total pupils in trust_pro_rata"].astype(float)
-    ).fillna(0.0)
+    # Recalculate Total Expenditure_CS as sum of individual category totals (already apportioned)
+    academies["Total Expenditure_CS"] = academies[category_total_cols_cs].sum(axis=1)
 
-    academies["Total Expenditure"] = (
-        academies["Total Expenditure"] + academies["Total Expenditure_CS"]
-    )
+    # Recalculate Total Expenditure as sum of individual category totals (already includes CS apportionment)
+    academies["Total Expenditure"] = academies[category_total_cols].sum(axis=1)
 
     # net catering cost, not net catering income
     academies["Catering staff and supplies_Net Costs"] = (
