@@ -38,19 +38,11 @@ To ensure that features are properly tested before they are live, we should foll
 Below is a list of feature flags currently implemented in our service at the time of writing this document:
 
 ``` text
-CurriculumFinancialPlanning  
-CustomData  
-DisableOrganisationClaimCheck  
-FilteredSearch  
-FinancialBenchmarkingInsightsSummary  
-ForecastRisk  
-HighNeeds  
-HistoricalTrends  
-LocalAuthorities  
+CfrItSpendBreakdown 
+HighExecutivePay
+HighNeeds
+News
 SchoolSpendingPrioritiesSsrCharts  
-TrustComparison  
-Trusts  
-UserDefinedComparators  
 ```
 
 These flags are typically managed via App Service configuration.
@@ -108,7 +100,7 @@ This allows dynamic test execution based on which features are currently enabled
 For a11y tests, the trait is added at the **class level**:
 
 ```csharp
-[Trait("Category", "{FilteredSearchEnabled}")]
+[Trait("Category", "{FeatureNameEnabled}")]
 ```
 
 These tags are similarly controlled through pipeline arguments for inclusion or exclusion during test runs.
@@ -127,7 +119,7 @@ For integration tests:
 Where `disabledFlags` might look like:
 
 ```csharp
-disabledFlags = [FeatureFlags.FilteredSearch];
+disabledFlags = [FeatureFlags.FeatureName];
 ```
 
 ## Conclusion

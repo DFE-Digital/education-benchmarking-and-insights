@@ -13,7 +13,7 @@ using Web.App.ViewModels;
 namespace Web.App.Controllers;
 
 [Controller]
-[FeatureGate(FeatureFlags.LocalAuthorities, FeatureFlags.HighNeeds)]
+[FeatureGate(FeatureFlags.HighNeeds)]
 [Route("local-authority/{code}/high-needs/national-rank")]
 [ValidateLaCode]
 public class LocalAuthorityHighNeedsNationalRankingsController(

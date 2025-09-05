@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.FeatureManagement.Mvc;
 using Web.App.Attributes;
 using Web.App.Attributes.RequestTelemetry;
 using Web.App.Domain;
@@ -167,7 +166,6 @@ public class SchoolController(
     [HttpGet]
     [Route("customised-data")]
     [SchoolAuthorization]
-    [FeatureGate(FeatureFlags.CustomData)]
     [SchoolRequestTelemetry(TrackedRequestFeature.CustomisedData)]
     public async Task<IActionResult> CustomData(string urn, [FromQuery(Name = "custom-data-generated")] bool? customDataGenerated)
     {

@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.FeatureManagement.Mvc;
 using Web.App.Attributes;
 using Web.App.Attributes.RequestTelemetry;
 using Web.App.Domain;
@@ -13,7 +12,6 @@ using Web.App.ViewModels;
 namespace Web.App.Controllers;
 
 [Controller]
-[FeatureGate(FeatureFlags.CustomData)]
 [Route("school/{urn}/custom-data")]
 [SchoolRequestTelemetry(TrackedRequestFeature.CustomisedData)]
 [ValidateUrn]
@@ -53,7 +51,6 @@ public class SchoolCustomDataController(
     [HttpGet]
     [Route("revert")]
     [SchoolAuthorization]
-    [FeatureGate(FeatureFlags.CustomData)]
     public async Task<IActionResult> Revert(string urn)
     {
         using (logger.BeginScope(new
@@ -80,7 +77,6 @@ public class SchoolCustomDataController(
     [HttpPost]
     [Route("revert")]
     [SchoolAuthorization]
-    [FeatureGate(FeatureFlags.CustomData)]
     public async Task<IActionResult> RevertCustomData(string urn)
     {
         using (logger.BeginScope(new

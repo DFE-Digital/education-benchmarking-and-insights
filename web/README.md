@@ -93,13 +93,6 @@ Feature flags may also be defined in the `FeatureManagement` section:
 
 | Name                                   | Purpose                                                                                                                            |
 |----------------------------------------|------------------------------------------------------------------------------------------------------------------------------------|
-| `CurriculumFinancialPlanning`          | Toggles the Curriculum and Financial Planning feature                                                                              |
-| `CustomData`                           | Toggles the Custom Data feature                                                                                                    |
-| `LocalAuthorities`                     | Toggles the Local Authorities feature                                                                                              |
-| `Trusts`                               | Toggles the Trust feature                                                                                                          |
-| `UserDefinedComparators`               | Toggles the User Defined comparators feature                                                                                       |
-| `DisableOrganisationClaimCheck`        | Disables organisation and school level claims checks against the authenticated user                                                |
-| `FinancialBenchmarkingInsightsSummary` | Toggles the Financial Benchmarking Insights Summary feature                                                                        |
 | `HighExecutivePay`                     | Toggles the High Executive Pay feature, which affects the Trust to Trust comparison page                                           |
 | `HighNeeds`                            | Toggles the High Needs feature, which affects the Local Authority pages                                                            |
 | `SchoolSpendingPrioritiesSsrCharts`    | Replaces the client rendered React/Recharts-derived charts on the School Spending Priorities page with server side rendered charts |

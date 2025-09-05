@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.FeatureManagement.Mvc;
 using Web.App.Attributes;
 using Web.App.Domain;
 using Web.App.Extensions;
@@ -18,7 +17,6 @@ namespace Web.App.Controllers;
 
 [Controller]
 [Authorize]
-[FeatureGate(FeatureFlags.TrustComparison, FeatureFlags.Trusts)]
 [Route("trust/{companyNumber}/comparators/create")]
 public class TrustComparatorsCreateByController(
     ILogger<TrustComparatorsCreateByController> logger,

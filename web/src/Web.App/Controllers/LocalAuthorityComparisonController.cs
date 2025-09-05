@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.FeatureManagement.Mvc;
 using Web.App.Attributes;
 using Web.App.Attributes.RequestTelemetry;
 using Web.App.Domain;
@@ -12,7 +11,6 @@ using Web.App.ViewModels;
 namespace Web.App.Controllers;
 
 [Controller]
-[FeatureGate(FeatureFlags.LocalAuthorities)]
 [Route("local-authority/{code}/comparison")]
 [ValidateLaCode]
 [LocalAuthorityRequestTelemetry(TrackedRequestFeature.BenchmarkCosts)]

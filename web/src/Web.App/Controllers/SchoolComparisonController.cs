@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.FeatureManagement.Mvc;
 using Web.App.ActionResults;
 using Web.App.Attributes;
 using Web.App.Attributes.RequestTelemetry;
@@ -61,7 +60,6 @@ public class SchoolComparisonController(
     [HttpGet]
     [Route("custom-data")]
     [SchoolAuthorization]
-    [FeatureGate(FeatureFlags.CustomData)]
     [SchoolRequestTelemetry(TrackedRequestFeature.CustomisedData)]
     public async Task<IActionResult> CustomData(string urn)
     {
