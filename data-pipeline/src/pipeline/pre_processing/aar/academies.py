@@ -111,7 +111,39 @@ def prepare_aar_data(aar_path, year: int):
         + aar["BNCH11205 (Other Income from facilities and services)"]
     )
 
-    aar["Total Expenditure"] = 0.0    
+    aar["Total Expenditure_CS_ABSENT"] = (
+        aar["BNCH21101 (Teaching staff)"]
+        + aar["BNCH21102 (Supply teaching staff - extra note in guidance)"]
+        + aar["BNCH21103 (Education support staff)"]
+        + aar["BNCH21104 (Administrative and clerical staff)"]
+        + aar["BNCH21105 (Premises staff)"]
+        + aar["BNCH21106 (Catering staff)"]
+        + aar["BNCH21107 (Other staff)"]
+        + aar["BNCH21201 (Indirect employee expenses)"]
+        + aar["BNCH21202 (Staff development and training)"]
+        + aar["BNCH21203 (Staff-related insurance)"]
+        + aar["BNCH21204 (Supply teacher insurance)"]
+        + aar["BNCH21301 (Maintenance of premises)"]
+        + aar["BNCH21405 (Grounds maintenance)"]
+        + aar["BNCH21401 (Cleaning and caretaking)"]
+        + aar["BNCH21402 (Water and sewerage)"]
+        + aar["BNCH21403 (Energy)"]
+        + aar["BNCH21404 (Rent and rates)"]
+        + aar["BNCH21406 (Other occupation costs)"]
+        + aar["BNCH21501 (Special facilities)"]
+        + aar["BNCH21601 (Learning resources (not ICT equipment))"]
+        + aar["BNCH21602 (ICT learning resources)"]
+        + aar["BNCH21603 (Examination fees)"]
+        + aar["BNCH21604 (Educational Consultancy)"]
+        + aar["BNCH21706 (Administrative supplies - non educational)"]
+        + aar["BNCH21606 (Agency supply teaching staff)"]
+        + aar["BNCH21701 (Catering supplies)"]
+        + aar["BNCH21705 (Other insurance premiums)"]
+        + aar["BNCH21702 (Professional Services - non-curriculum)"]
+        + aar["BNCH21703 (Auditor costs)"]
+        + aar["BNCH21801 (Interest charges for Loan and bank)"]
+        + aar["BNCH21802 (PFI Charges)"]
+    )
 
     aar["Total Income"] = (
         aar["Income_Total grant funding"]
@@ -119,7 +151,7 @@ def prepare_aar_data(aar_path, year: int):
         - aar["BNCH21707 (Direct revenue financing (Revenue contributions to capital))"]
     )
 
-    aar["In year balance"] = aar["Total Income"] - aar["Total Expenditure"]
+    aar["In year balance"] = aar["Total Income"] - aar["Total Expenditure_CS_ABSENT"]
 
     aar.rename(
         columns={
@@ -364,8 +396,6 @@ def build_academy_data(
         ) / apportionment_divisor.astype(float)
 
         for sub_category in sub_categories:
-            if sub_category + "_CS" not in academies.columns:
-                academies[sub_category + "_CS"] = 0.0
 
             academies[sub_category + "_CS"] = academies[sub_category + "_CS"].astype(
                 float
