@@ -395,6 +395,7 @@ def build_academy_data(
             float
         ) / apportionment_divisor.astype(float)
 
+        # Apply per-trust apportionment to each subcategory
         for sub_category in sub_categories:
 
             academies[sub_category + "_CS"] = academies[sub_category + "_CS"].astype(
@@ -438,7 +439,9 @@ def build_academy_data(
             category + "_Total_Per Unit",
         ] = 0.0
 
-        academies[category + "_Total"] = (
+        # Calculate apportioned totals per category
+        category_total_column_name = category + "_Total"
+        academies[category_total_column_name] = (
             academies[
                 academies.columns[
                     academies.columns.str.startswith(category)
@@ -450,7 +453,8 @@ def build_academy_data(
             .sum(axis=1)
         )
 
-        academies[category + "_Total_CS"] = (
+        category_total_cs_column_name = category + "_Total_CS"
+        academies[category_total_cs_column_name] = (
             academies[
                 academies.columns[
                     academies.columns.str.startswith(category)
