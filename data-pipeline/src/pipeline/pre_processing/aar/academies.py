@@ -111,7 +111,7 @@ def prepare_aar_data(aar_path, year: int):
         + aar["BNCH11205 (Other Income from facilities and services)"]
     )
 
-    aar["Total Expenditure_CS_ABSENT"] = (
+    aar["Total Expenditure"] = (
         aar["BNCH21101 (Teaching staff)"]
         + aar["BNCH21102 (Supply teaching staff - extra note in guidance)"]
         + aar["BNCH21103 (Education support staff)"]
@@ -151,7 +151,7 @@ def prepare_aar_data(aar_path, year: int):
         - aar["BNCH21707 (Direct revenue financing (Revenue contributions to capital))"]
     )
 
-    aar["In year balance"] = aar["Total Income"] - aar["Total Expenditure_CS_ABSENT"]
+    aar["In year balance"] = aar["Total Income"] - aar["Total Expenditure"]
 
     aar.rename(
         columns={
@@ -486,8 +486,8 @@ def build_academy_data(
             academies[target_income_col] + academies[income_col]
         )
 
-    academies["Total Expenditure"] = academies[all_expenditure_category_totals].sum(axis=1)
-    academies["Total Expenditure_CS"] = academies[all_expenditure_category_cs_totals].sum(axis=1)
+    academies["Total Expenditure_category_sum"] = academies[all_expenditure_category_totals].sum(axis=1).astype(float)
+    academies["Total Expenditure_CS_category_sum"] = academies[all_expenditure_category_cs_totals].sum(axis=1).astype(float)
 
     academies["In year balance_CS"] = academies["In year balance_CS"] * (
         academies["Number of pupils_pro_rata"].astype(float)
@@ -499,6 +499,8 @@ def build_academy_data(
         / academies["Total pupils in trust_pro_rata"].astype(float)
     ).fillna(0.0)
 
+    # Overwrite totals to account for central service spend
+    academies["Total Expenditure"] = academies["Total Expenditure"] + academies["Total Expenditure_CS"]
     academies["Total Income"] = academies["Total Income"] + academies["Total Income_CS"]
 <<<<<<< HEAD
 
