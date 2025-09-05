@@ -1,0 +1,32 @@
+parameters:
+  BranchName: ''
+  CommitMessage: ''
+  CommitTag: ''
+  Packages: ''
+  TargetPath: ''
+
+steps:
+  - script: |
+      git config --global user.email "noreply@education.gov.uk"
+      git config --global user.name "s198d.azdo-deployment"
+      cd $(Agent.BuildDirectory)/s
+      git status
+      git remote update
+      git fetch 
+      git checkout --track origin/main
+      git checkout --no-track -b ${{ parameters.BranchName }} origin/main
+    displayName: 'Set default identity and create branch'
+
+  - script: |
+      cd $(Build.SourcesDirectory)/${{ parameters.TargetPath }}
+      npm update ${{ parameters.Packages }}
+      cd $(Agent.BuildDirectory)/s
+    displayName: 'Update package(s)'
+
+  - script: |
+      git add .
+      git commit -m "${{ parameters.CommitTag }}: ${{ parameters.CommitMessage }}"
+      git tag -a ${{ parameters.CommitTag }}/$(Build.BuildId) -m "Tagged with build ID for GitHub Actions trigger"
+      git push --atomic origin "refs/heads/${{ parameters.BranchName }}" ${{ parameters.CommitTag }}/$(Build.BuildId)
+    displayName: 'Commit changes'
+

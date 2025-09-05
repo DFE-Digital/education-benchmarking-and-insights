@@ -24,71 +24,91 @@ variables:
 
 name: $(Version)$(Version.Revision.Separator)$(Version.Revision).$(Rev:r)
 
-steps:
-  - template: ..\common\validate-branch.yaml
-    parameters:
-      branchName: $(SourceBranch)
+jobs:
+  - job: BuildFrontEndComponents
+    displayName: 'Build front-end components'
+    steps:
+      - template: ..\common\validate-branch.yaml
+        parameters:
+          branchName: $(SourceBranch)
 
-  - bash: |
-      echo "##vso[build.updatebuildnumber]$(Version.BuildNumber)"
-      echo "##vso[build.addbuildtag]$(Version.BuildNumber)"
-    displayName: 'Set release build number'
-    condition: and(succeeded(), eq(variables['ShouldDeploy'],'true'))
+      - bash: |
+          echo "##vso[build.updatebuildnumber]$(Version.BuildNumber)"
+          echo "##vso[build.addbuildtag]$(Version.BuildNumber)"
+        displayName: 'Set release build number'
+        condition: and(succeeded(), eq(variables['ShouldDeploy'],'true'))
 
-  - bash: |
-      if [[ "$(Build.Reason)" == "PullRequest" ]]; then
-        echo "##vso[build.addbuildtag]PR$(System.PullRequest.PullRequestId)"
-      fi
-      echo "##vso[build.addbuildtag]Front-end components"
-    displayName: 'Set build tags'
+      - bash: |
+          if [[ "$(Build.Reason)" == "PullRequest" ]]; then
+            echo "##vso[build.addbuildtag]PR$(System.PullRequest.PullRequestId)"
+          fi
+          echo "##vso[build.addbuildtag]Front-end components"
+        displayName: 'Set build tags'
 
-  - task: Npm@1
-    displayName: 'Update version number'
-    condition: and(succeeded(), eq(variables['ShouldDeploy'],'true'))
-    inputs:
-      command: 'custom'
-      customCommand: 'version $(Version.BuildNumber)'
-      workingDir: $(WorkingDir)
-      verbose: false
+      - task: Npm@1
+        displayName: 'Update version number'
+        condition: and(succeeded(), eq(variables['ShouldDeploy'],'true'))
+        inputs:
+          command: 'custom'
+          customCommand: 'version $(Version.BuildNumber)'
+          workingDir: $(WorkingDir)
+          verbose: false
 
-  - task: Npm@1
-    displayName: 'Install dependencies'
-    inputs:
-      command: 'install'
-      workingDir: $(WorkingDir)
+      - task: Npm@1
+        displayName: 'Install dependencies'
+        inputs:
+          command: 'install'
+          workingDir: $(WorkingDir)
 
-  - task: Npm@1
-    displayName: 'Run tests'
-    inputs:
-      command: 'custom'
-      customCommand: 'test'
-      workingDir: $(WorkingDir)
+      - task: Npm@1
+        displayName: 'Run tests'
+        inputs:
+          command: 'custom'
+          customCommand: 'test'
+          workingDir: $(WorkingDir)
 
-  - task: Npm@1
-    displayName: 'Run lint'
-    inputs:
-      command: 'custom'
-      customCommand: 'run lint'
-      workingDir: $(WorkingDir)
+      - task: Npm@1
+        displayName: 'Run lint'
+        inputs:
+          command: 'custom'
+          customCommand: 'run lint'
+          workingDir: $(WorkingDir)
 
-  - template: ..\common\markdown-lint.yaml
-    parameters:
-      DocumentsDirectory: '$(System.DefaultWorkingDirectory)/front-end-components'
+      - template: ..\common\markdown-lint.yaml
+        parameters:
+          DocumentsDirectory: '$(System.DefaultWorkingDirectory)/front-end-components'
 
-  - task: Npm@1
-    displayName: 'Build project'
-    inputs:
-      command: 'custom'
-      customCommand: 'run build'
-      workingDir: $(WorkingDir)
+      - task: Npm@1
+        displayName: 'Build project'
+        inputs:
+          command: 'custom'
+          customCommand: 'run build'
+          workingDir: $(WorkingDir)
 
-  - task: Npm@1
-    displayName: 'Publish'
-    continueOnError: false
-    condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
-    inputs:
-      command: 'publish'
-      publishRegistry: useFeed
-      publishFeed: 'S198-DfE-Benchmarking-service/education-benchmarking'
-      workingDir: $(WorkingDir)
-      verbose: false
+      - task: Npm@1
+        displayName: 'Publish'
+        continueOnError: false
+        condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
+        inputs:
+          command: 'publish'
+          publishRegistry: useFeed
+          publishFeed: 'S198-DfE-Benchmarking-service/education-benchmarking'
+          workingDir: $(WorkingDir)
+          verbose: false
+
+  - job: GitHubBump
+    displayName: 'Bump front-end in Web and push'
+    dependsOn: [ BuildFrontEndComponents ]
+    condition: and(succeeded(), eq(variables['ShouldDeploy'], 'true'))
+
+    steps:
+      - checkout: self
+        persistCredentials: true
+
+      - template: ..\common\update-npm-dependencies.yaml
+        parameters:
+          BranchName: 'chore/$(Build.BuildNumber)/bump-front-end-dep'
+          CommitMessage: 'Bumps `front-end` to `$(Version.BuildNumber)`'
+          CommitTag: 'chore'
+          Packages: 'front-end'
+          TargetPath: 'web/src/Web.App'
