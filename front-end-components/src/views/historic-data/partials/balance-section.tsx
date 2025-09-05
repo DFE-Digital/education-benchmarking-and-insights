@@ -102,17 +102,12 @@ export const BalanceSection: React.FC<{
             <div className="govuk-details__text">
               <div>
                 <h3 className="govuk-heading-s govuk-!-margin-bottom-1">
-                  Local authority maintained schools and single academy trusts
+                  Local authority maintained schools
                 </h3>
                 <p>
                   Reserves are legally associated with one school and appear in
                   that school's graphs.
                 </p>
-              </div>
-              <div>
-                <h3 className="govuk-heading-s govuk-!-margin-bottom-1">
-                  Local authority maintained schools
-                </h3>
                 <p>
                   Reserves include committed and uncommitted revenue balance.
                   They also include the community-focused extended school
@@ -121,43 +116,36 @@ export const BalanceSection: React.FC<{
               </div>
               <div>
                 <h3 className="govuk-heading-s govuk-!-margin-bottom-1">
-                  Single academy trusts
-                </h3>
-                <p className="govuk-!-margin-bottom-1">
-                  This is calculated by:
-                </p>
-                <ul className="govuk-list govuk-list--bullet">
-                  <li>
-                    carrying forward the closing balance (restricted and
-                    unrestricted funds) from the previous year
-                  </li>
-                  <li>
-                    adding total income in the current year (revenue, funds
-                    inherited on conversion/transfer and contributions from
-                    academies to trust)
-                  </li>
-                  <li>subtracting total expenditure in the current year</li>
-                </ul>
-              </div>
-              <div>
-                <h3 className="govuk-heading-s govuk-!-margin-bottom-1">
-                  Multi-academy trust
+                  Academy Trusts
                 </h3>
                 <p>
-                  The trust is the legal entity and all revenue reserves legally
-                  belong to it.
+                  The trust is the legal entity and the reserves legally belong
+                  to it.
+                </p>
+                <p>
+                  Reserves are the carried forward closing balance (restricted
+                  and unrestricted funds).
                 </p>
               </div>
               <div>
                 <h3 className="govuk-heading-s govuk-!-margin-bottom-1">
                   Single academies in multi-academy trusts (MATs)
                 </h3>
-                <p>
+                <p className="govuk-!-margin-bottom-1">
                   We estimated a value per academy by dividing up and sharing
-                  out the trust's reserves on a pro-rata basis. For this we used
-                  the full-time equivalent (FTE) number of pupils in each
-                  academy in that MAT.
+                  out the trust's reserves on a pro-rata basis. This is
+                  calculated by using:
                 </p>
+                <ul className="govuk-list govuk-list--bullet">
+                  <li>
+                    full-time equivalent (FTE) number of pupils in each academy
+                    in that MAT
+                  </li>
+                  <li>
+                    length of time the academy has been part of the trust for
+                    the financial year
+                  </li>
+                </ul>
               </div>
             </div>
           </details>
