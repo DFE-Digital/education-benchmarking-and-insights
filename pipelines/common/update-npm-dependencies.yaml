@@ -17,16 +17,29 @@ steps:
       git checkout --no-track -b ${{ parameters.BranchName }} origin/main
     displayName: 'Set default identity and create branch'
 
-  - script: |
-      cd $(Build.SourcesDirectory)/${{ parameters.TargetPath }}
-      npm update ${{ parameters.Packages }}
-      cd $(Agent.BuildDirectory)/s
-    displayName: 'Update package(s)'
+  - task: Npm@1
+    displayName: 'Install npm packages'
+    inputs:
+      command: 'install'
+      workingDir: '$(Build.SourcesDirectory)/${{ parameters.TargetPath }}'
+      verbose: false
+
+  - task: Npm@1
+    displayName: 'Update npm package(s)'
+    inputs:
+      command: 'custom'
+      customCommand: 'update ${{ parameters.Packages }}'
+      workingDir: '$(Build.SourcesDirectory)/${{ parameters.TargetPath }}'
 
   - script: |
+      cd $(Agent.BuildDirectory)/s
       git add .
-      git commit -m "${{ parameters.CommitTag }}: ${{ parameters.CommitMessage }}"
-      git tag -a ${{ parameters.CommitTag }}/$(Build.BuildId) -m "Tagged with build ID for GitHub Actions trigger"
-      git push --atomic origin "refs/heads/${{ parameters.BranchName }}" ${{ parameters.CommitTag }}/$(Build.BuildId)
+      if [ -z "$(git status --porcelain)" ]; then
+        echo "No changes to commit"
+      else
+        git commit -m "chore: ${{ parameters.CommitMessage }}"
+        git tag -a ${{ parameters.CommitTag }}/$(Build.BuildId) -m "Tagged with build ID for GitHub Actions trigger"
+        git push --atomic origin "refs/heads/${{ parameters.BranchName }}" ${{ parameters.CommitTag }}/$(Build.BuildId)
+      fi
     displayName: 'Commit changes'
 
