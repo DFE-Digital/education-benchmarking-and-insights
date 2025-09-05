@@ -2,7 +2,6 @@ using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
-using Microsoft.FeatureManagement.Mvc;
 using Web.App.Attributes;
 using Web.App.Attributes.RequestTelemetry;
 using Web.App.Domain;
@@ -17,7 +16,6 @@ using Web.App.ViewModels;
 namespace Web.App.Controllers;
 
 [Controller]
-[FeatureGate(FeatureFlags.FinancialBenchmarkingInsightsSummary)]
 [Route("school/{urn}/summary")]
 [SchoolFinancialBenchmarkingInsightsSummaryTelemetry(TrackedRequestQueryParameters.Referrer)]
 [ValidateUrn]

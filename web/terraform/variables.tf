@@ -16,19 +16,11 @@ variable "configuration" {
     front_door_waf_policy_sku_name = string
     waf_mode                       = string
     features = object({
-      CurriculumFinancialPlanning          = optional(bool, true)
-      CustomData                           = optional(bool, true)
-      Trusts                               = optional(bool, true)
-      LocalAuthorities                     = optional(bool, true)
-      UserDefinedComparators               = optional(bool, true)
-      ForecastRisk                         = optional(bool, true)
-      TrustComparison                      = optional(bool, true)
-      FinancialBenchmarkingInsightsSummary = optional(bool, true)
-      HighExecutivePay                     = optional(bool, true)
-      HighNeeds                            = optional(bool, true)
-      SchoolSpendingPrioritiesSsrCharts    = optional(bool, true)
-      CfrItSpendBreakdown                  = optional(bool, false)
-      News                                 = optional(bool, false)
+      HighExecutivePay                  = optional(bool, true)
+      HighNeeds                         = optional(bool, true)
+      SchoolSpendingPrioritiesSsrCharts = optional(bool, true)
+      CfrItSpendBreakdown               = optional(bool, false)
+      News                              = optional(bool, false)
     })
     CacheOptions = object({
       ReturnYears = object({

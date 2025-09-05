@@ -116,14 +116,6 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
     {
         var features = new[]
         {
-            FeatureFlags.CurriculumFinancialPlanning,
-            FeatureFlags.CustomData,
-            FeatureFlags.UserDefinedComparators,
-            FeatureFlags.TrustComparison,
-            FeatureFlags.Trusts,
-            FeatureFlags.LocalAuthorities,
-            FeatureFlags.ForecastRisk,
-            FeatureFlags.FinancialBenchmarkingInsightsSummary,
             FeatureFlags.HighExecutivePay,
             FeatureFlags.HighNeeds,
             FeatureFlags.SchoolSpendingPrioritiesSsrCharts,
