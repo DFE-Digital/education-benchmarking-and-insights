@@ -43,11 +43,20 @@ steps:
     displayName: 'Set build tags'
 
   - task: Npm@1
-    displayName: 'Update version number'
+    displayName: 'Update package version number'
     condition: and(succeeded(), eq(variables['ShouldDeploy'],'true'))
     inputs:
       command: 'custom'
       customCommand: 'version $(Version.BuildNumber)'
+      workingDir: $(WorkingDir)
+      verbose: false
+
+  - task: Npm@1
+    displayName: 'Update missing package version number'
+    condition: and(succeeded(), eq(variables['Build.Reason'],'Manual'))
+    inputs:
+      command: 'custom'
+      customCommand: 'version 0.$(Build.BuildNumber)'
       workingDir: $(WorkingDir)
       verbose: false
 

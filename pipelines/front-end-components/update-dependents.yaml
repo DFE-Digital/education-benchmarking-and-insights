@@ -1,0 +1,25 @@
+pool:
+  vmImage: 'ubuntu-latest'
+  
+trigger: none
+
+resources:
+  pipelines:
+    - pipeline: frontend
+      source: '\Development\Front-end components'
+      trigger: 
+        branches:
+          include:
+            - main
+
+steps:
+  - checkout: self
+    persistCredentials: true
+
+  - template: ..\common\update-npm-dependencies.yaml
+    parameters:
+      BranchName: 'chore/$(Build.BuildNumber)/bump-front-end-dep'
+      CommitMessage: 'Bumps front-end in web'
+      CommitTag: 'front-end-bump'
+      Packages: 'front-end'
+      TargetPath: 'web/src/Web.App'
