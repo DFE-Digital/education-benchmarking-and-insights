@@ -486,8 +486,8 @@ def build_academy_data(
         )
 
     # Overwrite original expenditure totals to account for central service apportionment
-    academies["Total Expenditure"] = academies[all_expenditure_category_total_cols].sum(axis=1).astype(float)
-    academies["Total Expenditure_CS"] = academies[all_expenditure_category_cs_total_cols].sum(axis=1).astype(float)
+    academies["Total Expenditure"] = academies[all_expenditure_category_total_cols].sum(axis=1)
+    academies["Total Expenditure_CS"] = academies[all_expenditure_category_cs_total_cols].sum(axis=1)
 
     academies["In year balance_CS"] = academies["In year balance_CS"] * (
         academies["Number of pupils_pro_rata"].astype(float)
