@@ -165,8 +165,8 @@ def prepare_aar_data(aar_path, year: int):
             "Date joined or opened if in period:": "Date joined or opened if in period",
             "Date left or closed if in period:": "Date left or closed if in period",
         }
-        | config.cost_category_map["academies"]
-        | config.income_category_map["academies"],
+        | config.nonaggregated_cost_category_map["academies"]
+        | config.nonaggregated_income_category_map["academies"],
         inplace=True,
     )
 

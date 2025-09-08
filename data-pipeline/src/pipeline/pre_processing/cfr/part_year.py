@@ -20,8 +20,8 @@ def map_has_financial_data(
     """
     financial_columns = list(
         (
-            config.cost_category_map["maintained_schools"]
-            | config.income_category_map["maintained_schools"]
+            config.nonaggregated_cost_category_map["maintained_schools"]
+            | config.nonaggregated_income_category_map["maintained_schools"]
         ).values()
     )
 

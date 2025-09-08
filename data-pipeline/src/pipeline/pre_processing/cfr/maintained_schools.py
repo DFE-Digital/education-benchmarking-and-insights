@@ -62,8 +62,8 @@ def build_maintained_school_data(
     maintained_schools = calc_base_financials(maintained_schools)
     maintained_schools = map_cost_income_categories(
         maintained_schools,
-        config.cost_category_map["maintained_schools"],
-        config.income_category_map["maintained_schools"],
+        config.nonaggregated_cost_category_map["maintained_schools"],
+        config.nonaggregated_income_category_map["maintained_schools"],
     )
 
     maintained_schools_column_eval = (
