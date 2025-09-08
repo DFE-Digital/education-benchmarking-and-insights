@@ -1,8 +1,7 @@
-
 name: Pull Request on documentation tag
 on:
   push:
-    tags:        
+    tags:
       - "doc/**"
 jobs:
   create-pull-request:
@@ -24,7 +23,8 @@ jobs:
 
       - name: Create Pull Request
         run: |
-          buildId=$(echo "${{ github.ref }}" | cut -c 15-)
+          buildId=$(echo "${{ github.ref }}" | sed 's#.*/##')
+          echo "BuildId is $buildId"
           gh pr create -B main -H ${{ env.BRANCH }} --title "Updated documentation from build $buildId artifacts" --body "Includes artifact(s) from Azure DevOps Pipeline build [$buildId](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_build/results?buildId=$buildId)" --label "documentation"
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
