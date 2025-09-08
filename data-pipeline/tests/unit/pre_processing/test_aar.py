@@ -62,7 +62,7 @@ _expected_output_columns = [
     "Utilities_Energy",
     "Utilities_Water and sewerage",
     "Valid To",
-        "Income_Direct revenue finance",
+    "Income_Direct revenue finance",
     "Income_Total grant funding",
     "Income_Total self generated funding",
     "Income_Direct grants",
