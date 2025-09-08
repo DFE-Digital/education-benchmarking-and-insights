@@ -16,6 +16,7 @@ from pipeline.pre_processing.common.part_year import (
     map_has_building_comparator_data,
     map_has_pupil_comparator_data,
 )
+from pipeline.pre_processing.aar.rollup_assertions import test_trust_rollup, test_academies_rollup
 
 simplefilter(action="ignore", category=pd.errors.PerformanceWarning)
 simplefilter(action="ignore", category=FutureWarning)
@@ -143,6 +144,9 @@ def prepare_aar_data(aar_path, year: int):
         + aar["BNCH21703 (Auditor costs)"]
         + aar["BNCH21801 (Interest charges for Loan and bank)"]
         + aar["BNCH21802 (PFI Charges)"]
+    #     + aar[
+    #     "BNCH21707 (Direct revenue financing (Revenue contributions to capital))"
+    # ]
     )
 
     aar["Total Income"] = (
@@ -516,6 +520,9 @@ def build_academy_data(
     academies["Catering staff and supplies_Net Costs_CS"] = academies[
         "Catering staff and supplies_Total_CS"
     ] - academies["Income_Catering services_CS"].fillna(0.0)
+
+    assert test_trust_rollup(academies, central_services), "Trust rollup test failed - Total Expenditure_CS doesn't match central services totals"
+    assert test_academies_rollup(academies, aar), "Academies rollup test failed - Total Expenditure less CS doesn't match aar totals"
 
     academies = _trust_revenue_reserve(academies, central_services)
 
