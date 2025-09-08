@@ -152,7 +152,7 @@ def prepare_aar_data(aar_path, year: int):
     aar["Total Income"] = (
         aar["Income_Total grant funding"]
         + aar["Income_Total self generated funding"]
-        - aar["BNCH21707 (Direct revenue financing (Revenue contributions to capital))"]
+        - aar["Income_Direct revenue finance"]
     )
 
     aar["In year balance"] = aar["Total Income"] - aar["Total Expenditure"]
