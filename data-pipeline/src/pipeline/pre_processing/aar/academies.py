@@ -10,13 +10,16 @@ from pipeline.pre_processing.aar.part_year import (
     map_is_early_transfer,
     map_partial_year_present,
 )
+from pipeline.pre_processing.aar.rollup_assertions import (
+    test_academies_rollup,
+    test_trust_rollup,
+)
 from pipeline.pre_processing.ancillary import gias as gias_preprocessing
 from pipeline.pre_processing.common import mappings
 from pipeline.pre_processing.common.part_year import (
     map_has_building_comparator_data,
     map_has_pupil_comparator_data,
 )
-from pipeline.pre_processing.aar.rollup_assertions import test_trust_rollup, test_academies_rollup
 
 simplefilter(action="ignore", category=pd.errors.PerformanceWarning)
 simplefilter(action="ignore", category=FutureWarning)
@@ -144,9 +147,6 @@ def prepare_aar_data(aar_path, year: int):
         + aar["BNCH21703 (Auditor costs)"]
         + aar["BNCH21801 (Interest charges for Loan and bank)"]
         + aar["BNCH21802 (PFI Charges)"]
-    #     + aar[
-    #     "BNCH21707 (Direct revenue financing (Revenue contributions to capital))"
-    # ]
     )
 
     aar["Total Income"] = (
@@ -490,8 +490,12 @@ def build_academy_data(
         )
 
     # Overwrite original expenditure totals to account for central service apportionment
-    academies["Total Expenditure"] = academies[all_expenditure_category_total_cols].sum(axis=1)
-    academies["Total Expenditure_CS"] = academies[all_expenditure_category_cs_total_cols].sum(axis=1)
+    academies["Total Expenditure"] = academies[all_expenditure_category_total_cols].sum(
+        axis=1
+    )
+    academies["Total Expenditure_CS"] = academies[
+        all_expenditure_category_cs_total_cols
+    ].sum(axis=1)
 
     academies["In year balance_CS"] = academies["In year balance_CS"] * (
         academies["Number of pupils_pro_rata"].astype(float)
@@ -521,8 +525,12 @@ def build_academy_data(
         "Catering staff and supplies_Total_CS"
     ] - academies["Income_Catering services_CS"].fillna(0.0)
 
-    assert test_trust_rollup(academies, central_services), "Trust rollup test failed - Total Expenditure_CS doesn't match central services totals"
-    assert test_academies_rollup(academies, aar), "Academies rollup test failed - Total Expenditure less CS doesn't match aar totals"
+    assert test_trust_rollup(
+        academies, central_services
+    ), "Trust rollup test failed - Total Expenditure_CS doesn't match central services totals"
+    assert test_academies_rollup(
+        academies, aar
+    ), "Academies rollup test failed - Total Expenditure less CS doesn't match aar totals"
 
     academies = _trust_revenue_reserve(academies, central_services)
 

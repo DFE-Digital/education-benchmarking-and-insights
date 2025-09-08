@@ -17,6 +17,7 @@ income_category_map = {
         "BNCH11400T (Investment income)": "Income_Investment income",
         "BNCH11141 (SEN)": "Income_Targeted grants",
         "BNCH44001 (Closing Balance (Restricted and Unrestricted Funds))": "Revenue reserve",
+        # "BNCH21707 (Direct revenue financing (Revenue contributions to capital))": "Income_Direct revenue finance"
     },
     "central_services": {
         "BNCH11142 (Other Revenue)": "Income_Other DFE grants",
@@ -30,6 +31,7 @@ income_category_map = {
         "BNCH11400T (Investment income)": "Income_Investment income",
         "BNCH11141 (SEN)": "Income_Targeted grants",
         "BNCH44001CS (Closing Balance (Restricted and Unrestricted Funds))": "Revenue reserve",
+        # "BNCH21707 (Direct revenue financing (Revenue contributions to capital))": "Income_Direct revenue finance"
     },
     "maintained_schools": {
         "I06  Other government grants": "Income_Other DFE grants",
@@ -113,7 +115,7 @@ cost_category_map = {
         "BNCH21702 (Professional Services - non-curriculum)": "Non-educational support staff and services_Professional services (non-curriculum)",
         "BNCH21703 (Auditor costs)": "Non-educational support staff and services_Audit cost",
         "BNCH21801 (Interest charges for Loan and bank)": "Other costs_Interest charges for loan and bank",
-        "BNCH21802 (PFI Charges)": "Other costs_PFI charges"
+        "BNCH21802 (PFI Charges)": "Other costs_PFI charges",
     },
     "maintained_schools": {
         "LA (code)": "LA Code",
