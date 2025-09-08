@@ -4,7 +4,7 @@ from .local_authority import (
     la_statistical_neighbours_projections,
 )
 
-income_category_map = {
+nonaggregated_income_category_map = {
     "academies": {
         "BNCH11142 (Other Revenue)": "Income_Other DFE grants",
         "BNCH11151 (Other Government Revenue Grants)": "Income_Other grants",
@@ -50,7 +50,7 @@ income_category_map = {
     },
 }
 
-cost_category_map = {
+nonaggregated_cost_category_map = {
     "academies": {
         "BNCH21101 (Teaching staff)": "Teaching and Teaching support staff_Teaching staff",
         "BNCH21102 (Supply teaching staff - extra note in guidance)": "Teaching and Teaching support staff_Supply teaching staff",

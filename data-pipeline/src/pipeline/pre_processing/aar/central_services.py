@@ -158,8 +158,8 @@ def prepare_central_services_data(cs_path, year: int):
             "Lead_UPIN": "Trust UPIN",
             "Company_Number": "Company Registration Number",
         }
-        | config.cost_category_map["central_services"]
-        | config.income_category_map["central_services"],
+        | config.nonaggregated_cost_category_map["central_services"]
+        | config.nonaggregated_income_category_map["central_services"],
         inplace=True,
     )
 
