@@ -36,12 +36,6 @@ def prepare_central_services_data(cs_path, year: int):
     ).items():
         central_services_financial[column] = central_services_financial.eval(eval_)
 
-    central_services_financial["Income_Direct revenue finance"] = (
-        central_services_financial[
-            "BNCH21707 (Direct revenue financing (Revenue contributions to capital))"
-        ]
-    )
-
     central_services_financial["Income_Total grant funding"] = (
         central_services_financial["BNCH11110T (EFA Revenue Grants)"]
         + central_services_financial["BNCH11131 (DfE Family Revenue Grants)"]
@@ -142,6 +136,16 @@ def prepare_central_services_data(cs_path, year: int):
         + central_services_financial["BNCH21802 (PFI Charges)"]
     )
 
+    central_services_financial.rename(
+        columns={
+            "Lead_UPIN": "Trust UPIN",
+            "Company_Number": "Company Registration Number",
+        }
+        | config.nonaggregated_cost_category_map["central_services"]
+        | config.nonaggregated_income_category_map["central_services"],
+        inplace=True,
+    )
+
     central_services_financial["Total Income"] = (
         central_services_financial["Income_Total grant funding"]
         + central_services_financial["Income_Total self generated funding"]
@@ -151,16 +155,6 @@ def prepare_central_services_data(cs_path, year: int):
     central_services_financial["In year balance"] = (
         central_services_financial["Total Income"]
         - central_services_financial["Total Expenditure"]
-    )
-
-    central_services_financial.rename(
-        columns={
-            "Lead_UPIN": "Trust UPIN",
-            "Company_Number": "Company Registration Number",
-        }
-        | config.nonaggregated_cost_category_map["central_services"]
-        | config.nonaggregated_income_category_map["central_services"],
-        inplace=True,
     )
 
     central_services_financial["Financial Position"] = central_services_financial[

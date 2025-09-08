@@ -66,10 +66,6 @@ def prepare_aar_data(aar_path, year: int):
 
     aar = aar[~(aar["ACADEMYTRUSTSTATUS"].str.lower() == "1 day")].copy()
 
-    aar["Income_Direct revenue finance"] = aar[
-        "BNCH21707 (Direct revenue financing (Revenue contributions to capital))"
-    ]
-
     aar["Income_Total grant funding"] = (
         aar["BNCH11110T (EFA Revenue Grants)"]
         + aar["BNCH11131 (DfE Family Revenue Grants)"]
@@ -149,14 +145,6 @@ def prepare_aar_data(aar_path, year: int):
         + aar["BNCH21802 (PFI Charges)"]
     )
 
-    aar["Total Income"] = (
-        aar["Income_Total grant funding"]
-        + aar["Income_Total self generated funding"]
-        - aar["Income_Direct revenue finance"]
-    )
-
-    aar["In year balance"] = aar["Total Income"] - aar["Total Expenditure"]
-
     aar.rename(
         columns={
             "ACADEMYUPIN": "Academy UPIN",
@@ -169,6 +157,14 @@ def prepare_aar_data(aar_path, year: int):
         | config.nonaggregated_income_category_map["academies"],
         inplace=True,
     )
+
+    aar["Total Income"] = (
+        aar["Income_Total grant funding"]
+        + aar["Income_Total self generated funding"]
+        - aar["Income_Direct revenue finance"]
+    )
+
+    aar["In year balance"] = aar["Total Income"] - aar["Total Expenditure"]
 
     trust_balance = (
         aar[["Company Registration Number", "In year balance"]]
