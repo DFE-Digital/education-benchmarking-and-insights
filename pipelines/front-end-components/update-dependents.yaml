@@ -3,6 +3,8 @@ pool:
   
 trigger: none
 
+pr: none
+
 resources:
   pipelines:
     - pipeline: frontend
