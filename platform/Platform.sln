@@ -67,6 +67,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "common", "common", "{24470E
 		nuget.config = nuget.config
 		README.md = README.md
 		.markdownlint-cli2.jsonc = .markdownlint-cli2.jsonc
+		.editorconfig = .editorconfig
+		Platform.sln.DotSettings = Platform.sln.DotSettings
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Platform.Sql", "src\abstractions\Platform.Sql\Platform.Sql.csproj", "{23B45FED-62AA-4C53-9DF5-67511CD66B8E}"
