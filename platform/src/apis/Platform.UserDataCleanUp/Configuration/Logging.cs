@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+
 namespace Platform.UserDataCleanUp.Configuration;
 
 [ExcludeFromCodeCoverage]

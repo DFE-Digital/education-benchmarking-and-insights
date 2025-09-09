@@ -13,10 +13,7 @@ public interface IFunctionContextDataProvider
 [ExcludeFromCodeCoverage]
 public class FunctionContextDataProvider : IFunctionContextDataProvider
 {
-    public ValueTask<HttpRequestData?> GetHttpRequestDataAsync(FunctionContext context)
-    {
-        return context.GetHttpRequestDataAsync();
-    }
+    public ValueTask<HttpRequestData?> GetHttpRequestDataAsync(FunctionContext context) => context.GetHttpRequestDataAsync();
 
     public void SetInvocationResult(FunctionContext context, HttpResponseData result)
     {

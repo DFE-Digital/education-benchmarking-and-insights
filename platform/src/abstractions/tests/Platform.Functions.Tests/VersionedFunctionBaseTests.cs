@@ -8,23 +8,6 @@ namespace Platform.Functions.Tests;
 
 public class VersionedFunctionBaseTests
 {
-    // ReSharper disable once MemberCanBePrivate.Global
-    public class TestHandler : IVersionedHandler
-    {
-        public string Version => "1.0";
-    }
-
-    private class TestFunction(IVersionedHandlerDispatcher<TestHandler> dispatcher) : VersionedFunctionBase<TestHandler>(dispatcher)
-    {
-        public Task<HttpResponseData> CallWithHandlerAsync(
-            HttpRequestData request,
-            Func<TestHandler, Task<HttpResponseData>> invoker,
-            CancellationToken token)
-        {
-            return WithHandlerAsync(request, invoker, token);
-        }
-    }
-
     [Fact]
     public async Task WhenHandlerExists()
     {
@@ -73,5 +56,19 @@ public class VersionedFunctionBaseTests
 
         Assert.NotNull(result);
         Assert.Equal(HttpStatusCode.BadRequest, result.StatusCode);
+    }
+
+    // ReSharper disable once MemberCanBePrivate.Global
+    public class TestHandler : IVersionedHandler
+    {
+        public string Version => "1.0";
+    }
+
+    private class TestFunction(IVersionedHandlerDispatcher<TestHandler> dispatcher) : VersionedFunctionBase<TestHandler>(dispatcher)
+    {
+        public Task<HttpResponseData> CallWithHandlerAsync(
+            HttpRequestData request,
+            Func<TestHandler, Task<HttpResponseData>> invoker,
+            CancellationToken token) => WithHandlerAsync(request, invoker, token);
     }
 }

@@ -17,10 +17,10 @@ namespace Platform.Establishment.Tests.Trusts.Functions;
 public class GetTrustFunctionTests : FunctionsTestBase
 {
     private readonly string _companyNumber;
-    private readonly Trust _trust;
-    private readonly Mock<IGetTrustHandler> _handler;
     private readonly Mock<IVersionedHandlerDispatcher<IGetTrustHandler>> _dispatcher;
     private readonly GetTrustFunction _function;
+    private readonly Mock<IGetTrustHandler> _handler;
+    private readonly Trust _trust;
 
     public GetTrustFunctionTests()
     {

@@ -396,9 +396,9 @@ at each environment level, as well as other supporting resources such as Azure S
 
 ## 🧹 Managing code formatting
 
-The solution uses [EditorConfig](https://editorconfig.org/) to manage code formatting using a set of rules agreed by the 
-development team. ReSharper/Rider first applies its 
-[DotSettings](https://www.jetbrains.com/help/resharper/Sharing_Configuration_Options.html) config, then the EditorConfig 
+The solution uses [EditorConfig](https://editorconfig.org/) to manage code formatting using a set of rules agreed by the
+development team. ReSharper/Rider first applies its
+[DotSettings](https://www.jetbrains.com/help/resharper/Sharing_Configuration_Options.html) config, then the EditorConfig
 settings, plus any local (uncommitted) user-defined settings. To prevent duplication of settings files in the repo only
 use `DotSettings` for custom dictionary entries and instead use `.editorconfig` file for the formatting settings. When
 editing settings in Rider the option to merge into `.editorconfig` is under `Save ▽` > `.editorconfig`.

@@ -27,6 +27,6 @@ public class GetSchoolCharacteristicsFunction(ISchoolsService service)
         var result = await service.CharacteristicAsync(urn, cancellationToken);
         return result == null
             ? req.CreateNotFoundResponse()
-            : await req.CreateJsonResponseAsync(result, cancellationToken: cancellationToken);
+            : await req.CreateJsonResponseAsync(result, cancellationToken);
     }
 }

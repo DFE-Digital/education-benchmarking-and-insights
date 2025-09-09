@@ -4,7 +4,8 @@ using Xunit;
 
 namespace Platform.ApiTests.Steps;
 
-[Binding, Scope(Feature = "Content healthcheck endpoint")]
+[Binding]
+[Scope(Feature = "Content healthcheck endpoint")]
 public class ContentHealthcheckSteps(ContentApiDriver api)
 {
     private const string RequestKey = "health-check";

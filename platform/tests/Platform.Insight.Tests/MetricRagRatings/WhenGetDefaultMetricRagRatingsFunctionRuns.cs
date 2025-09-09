@@ -20,6 +20,7 @@ public class WhenGetDefaultMetricRagRatingsFunctionRuns : FunctionsTestBase
     private static readonly Fixture Fixture = new();
     private static readonly MetricRagRatingsParameters QueryParams = Fixture.Create<MetricRagRatingsParameters>();
     private readonly GetDefaultMetricRagRatingsFunction _function;
+
     private readonly Dictionary<string, StringValues> _query = new()
     {
         { nameof(QueryParams.Urns), QueryParams.Urns },
@@ -29,6 +30,7 @@ public class WhenGetDefaultMetricRagRatingsFunctionRuns : FunctionsTestBase
         { nameof(QueryParams.LaCode), QueryParams.LaCode },
         { nameof(QueryParams.Phase), QueryParams.Phase }
     };
+
     private readonly Mock<IMetricRagRatingsService> _service = new();
     private readonly Mock<IValidator<MetricRagRatingsParameters>> _validator = new();
 

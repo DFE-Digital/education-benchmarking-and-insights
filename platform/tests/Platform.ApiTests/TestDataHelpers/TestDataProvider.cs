@@ -13,7 +13,9 @@ public static class TestDataProvider
 
         using var stream = assembly.GetManifestResourceStream(resourceName);
         if (stream == null)
+        {
             throw new InvalidOperationException($"Embedded resource '{resourceName}' not found.");
+        }
 
         using var reader = new StreamReader(stream);
         var jsonString = reader.ReadToEnd();
@@ -28,7 +30,9 @@ public static class TestDataProvider
 
         using var stream = assembly.GetManifestResourceStream(resourceName);
         if (stream == null)
+        {
             throw new InvalidOperationException($"Embedded resource '{resourceName}' not found.");
+        }
 
         using var reader = new StreamReader(stream);
         var jsonString = reader.ReadToEnd();
@@ -43,7 +47,9 @@ public static class TestDataProvider
 
         using var stream = assembly.GetManifestResourceStream(resourceName);
         if (stream == null)
+        {
             throw new InvalidOperationException($"Embedded resource '{resourceName}' not found.");
+        }
 
         return XDocument.Load(stream);
     }

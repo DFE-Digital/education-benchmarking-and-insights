@@ -12,10 +12,7 @@ public static class NameValueCollectionExtensions
             .ToArray() ?? [];
     }
 
-    public static bool ToBool(this NameValueCollection query, string parameterName)
-    {
-        return bool.TryParse(query[parameterName], out var val) && val;
-    }
+    public static bool ToBool(this NameValueCollection query, string parameterName) => bool.TryParse(query[parameterName], out var val) && val;
 
     public static bool TryGetValue(this NameValueCollection query, string parameterName, out string value)
     {

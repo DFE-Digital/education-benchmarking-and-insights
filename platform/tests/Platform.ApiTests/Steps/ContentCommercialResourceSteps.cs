@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json.Linq;
 using Platform.ApiTests.Assertion;
-using Platform.ApiTests.TestDataHelpers;
 using Platform.ApiTests.Drivers;
+using Platform.ApiTests.TestDataHelpers;
 using Xunit;
 
 namespace Platform.ApiTests.Steps;

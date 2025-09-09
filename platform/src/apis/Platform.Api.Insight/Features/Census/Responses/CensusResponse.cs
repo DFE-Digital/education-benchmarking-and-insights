@@ -18,8 +18,3 @@ public abstract record CensusResponse
     public decimal? AuxiliaryStaff { get; set; }
     public decimal? PercentTeacherWithQualifiedStatus { get; set; }
 }
-
-
-
-
-

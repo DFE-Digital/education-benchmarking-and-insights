@@ -7,17 +7,6 @@ namespace Platform.Functions.Tests.Extensions;
 
 public class WhenObjectIsConvertedToJson
 {
-    [Theory]
-    [MemberData(nameof(Data), MemberType = typeof(WhenObjectIsConvertedToJson))]
-    public void ShouldReturnJsonString(ShouldReturnJsonStringTestData input)
-    {
-        const string testProp = nameof(testProp);
-        var value = new TestObjectType(testProp);
-
-        var actual = input.Formatting == null ? value.ToJson() : value.ToJson(input.Formatting.Value);
-        Assert.Equal(input.Expected, actual);
-    }
-
     public static TheoryData<ShouldReturnJsonStringTestData> Data =>
         new()
         {
@@ -36,6 +25,17 @@ public class WhenObjectIsConvertedToJson
                 Expected = $"{{{Environment.NewLine}  \"testProp\": \"testProp\"{Environment.NewLine}}}"
             }
         };
+
+    [Theory]
+    [MemberData(nameof(Data), MemberType = typeof(WhenObjectIsConvertedToJson))]
+    public void ShouldReturnJsonString(ShouldReturnJsonStringTestData input)
+    {
+        const string testProp = nameof(testProp);
+        var value = new TestObjectType(testProp);
+
+        var actual = input.Formatting == null ? value.ToJson() : value.ToJson(input.Formatting.Value);
+        Assert.Equal(input.Expected, actual);
+    }
 
     public record ShouldReturnJsonStringTestData
     {

@@ -1,9 +1,9 @@
-﻿using Xunit;
-using Platform.Api.Establishment.Features.Schools.Validators;
-using Platform.Search;
-using System.Collections;
+﻿using System.Collections;
 using Platform.Api.Establishment.Features.Schools.Models;
+using Platform.Api.Establishment.Features.Schools.Validators;
 using Platform.Domain;
+using Platform.Search;
+using Xunit;
 
 namespace Platform.Establishment.Tests.Schools.Validators;
 
@@ -35,57 +35,104 @@ public class ValidSearchRequestData : IEnumerable<object[]>
 {
     public IEnumerator<object[]> GetEnumerator()
     {
-        yield return [new SearchRequest { SearchText = "tes" }];
         yield return
-            [
-                new SearchRequest
+        [
+            new SearchRequest
+            {
+                SearchText = "tes"
+            }
+        ];
+        yield return
+        [
+            new SearchRequest
+            {
+                SearchText = new string('a', 100)
+            }
+        ];
+        yield return
+        [
+            new SearchRequest
+            {
+                SearchText = "test",
+                Filters =
+                [
+                    new FilterCriteria
+                    {
+                        Field = "OverallPhase",
+                        Value = "Primary"
+                    }
+                ]
+            }
+        ];
+        yield return
+        [
+            new SearchRequest
+            {
+                SearchText = "test",
+                Filters =
+                [
+                    new FilterCriteria
+                    {
+                        Field = "OverallPhase",
+                        Value = "Primary"
+                    },
+                    new FilterCriteria
+                    {
+                        Field = "OverallPhase",
+                        Value = "Secondary"
+                    },
+                    new FilterCriteria
+                    {
+                        Field = "OverallPhase",
+                        Value = "All-through"
+                    }
+                ]
+            }
+        ];
+        yield return
+        [
+            new SearchRequest
+            {
+                SearchText = "test",
+                OrderBy = new OrderByCriteria
                 {
-                    SearchText = new string('a', 100)
+                    Field = "SchoolNameSortable",
+                    Value = "asc"
                 }
-            ];
+            }
+        ];
         yield return
-            [
-                new SearchRequest
+        [
+            new SearchRequest
+            {
+                SearchText = "test",
+                OrderBy = new OrderByCriteria
                 {
-                    SearchText = "test",
-                    Filters =
-                    [
-                        new FilterCriteria { Field = "OverallPhase", Value = "Primary" }
-                    ]
+                    Field = "SchoolNameSortable",
+                    Value = "desc"
                 }
-            ];
+            }
+        ];
         yield return
-            [
-                new SearchRequest
+        [
+            new SearchRequest
+            {
+                SearchText = "test",
+                Filters =
+                [
+                    new FilterCriteria
+                    {
+                        Field = "OverallPhase",
+                        Value = "Primary"
+                    }
+                ],
+                OrderBy = new OrderByCriteria
                 {
-                    SearchText = "test",
-                    Filters =
-                    [
-                        new FilterCriteria { Field = "OverallPhase", Value = "Primary" },
-                        new FilterCriteria { Field = "OverallPhase", Value = "Secondary" },
-                        new FilterCriteria { Field = "OverallPhase", Value = "All-through" }
-                    ]
+                    Field = "SchoolNameSortable",
+                    Value = "asc"
                 }
-            ];
-        yield return
-            [
-                new SearchRequest
-                { SearchText = "test", OrderBy = new OrderByCriteria { Field = "SchoolNameSortable", Value = "asc" } }
-            ];
-        yield return
-            [
-                new SearchRequest
-                { SearchText = "test", OrderBy = new OrderByCriteria { Field = "SchoolNameSortable", Value = "desc" } }
-            ];
-        yield return
-            [
-                new SearchRequest
-                {
-                    SearchText = "test",
-                    Filters = [new FilterCriteria { Field = "OverallPhase", Value = "Primary" }],
-                    OrderBy = new OrderByCriteria { Field = "SchoolNameSortable", Value = "asc" }
-                }
-            ];
+            }
+        ];
     }
 
     IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
@@ -95,26 +142,40 @@ public class InvalidSearchRequestData : IEnumerable<object[]>
 {
     public IEnumerator<object[]> GetEnumerator()
     {
-        yield return [new SearchRequest { SearchText = null }, "'Search Text' must not be empty."];
         yield return
-            [
-                new SearchRequest { SearchText = "te" },
-                "The length of 'Search Text' must be at least 3 characters. You entered 2 characters."
-            ];
+        [
+            new SearchRequest
+            {
+                SearchText = null
+            },
+            "'Search Text' must not be empty."
+        ];
         yield return
-            [
-                new SearchRequest
-                {
-                    SearchText = new string('a', 101)
-                },
-                "The length of 'Search Text' must be 100 characters or fewer. You entered 101 characters."
-            ];
+        [
+            new SearchRequest
+            {
+                SearchText = "te"
+            },
+            "The length of 'Search Text' must be at least 3 characters. You entered 2 characters."
+        ];
+        yield return
+        [
+            new SearchRequest
+            {
+                SearchText = new string('a', 101)
+            },
+            "The length of 'Search Text' must be 100 characters or fewer. You entered 101 characters."
+        ];
         yield return
         [
             new SearchRequest
             {
                 SearchText = "test",
-                OrderBy = new OrderByCriteria { Field = "test", Value = "asc" }
+                OrderBy = new OrderByCriteria
+                {
+                    Field = "test",
+                    Value = "asc"
+                }
             },
             "OrderBy Field must be SchoolNameSortable"
         ];
@@ -123,7 +184,11 @@ public class InvalidSearchRequestData : IEnumerable<object[]>
             new SearchRequest
             {
                 SearchText = "test",
-                OrderBy = new OrderByCriteria { Field = "SchoolNameSortable", Value = "test" }
+                OrderBy = new OrderByCriteria
+                {
+                    Field = "SchoolNameSortable",
+                    Value = "test"
+                }
             },
             $"Order By must empty or be one of the supported values: {string.Join(", ", Sort.All)}"
         ];
@@ -132,7 +197,14 @@ public class InvalidSearchRequestData : IEnumerable<object[]>
             new SearchRequest
             {
                 SearchText = "test",
-                Filters = [new FilterCriteria { Field = "test", Value = "Primary" }]
+                Filters =
+                [
+                    new FilterCriteria
+                    {
+                        Field = "test",
+                        Value = "Primary"
+                    }
+                ]
             },
             $"Each Filter Field must be {nameof(School.OverallPhase)}"
         ];
@@ -141,7 +213,14 @@ public class InvalidSearchRequestData : IEnumerable<object[]>
             new SearchRequest
             {
                 SearchText = "test",
-                Filters = [new FilterCriteria { Field = "OverallPhase", Value = "test" }]
+                Filters =
+                [
+                    new FilterCriteria
+                    {
+                        Field = "OverallPhase",
+                        Value = "test"
+                    }
+                ]
             },
             $"Filters must be one of the supported values: {string.Join(", ", OverallPhase.All)}"
         ];

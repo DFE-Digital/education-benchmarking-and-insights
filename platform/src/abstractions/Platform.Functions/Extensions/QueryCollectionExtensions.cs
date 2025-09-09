@@ -16,8 +16,5 @@ public static class QueryCollectionExtensions
     }
 
     [Obsolete("Switch over to NameValueCollection and use ToBool(this NameValueCollection query, string parameterName) instead")]
-    public static bool ToBool(this IQueryCollection query, string parameterName)
-    {
-        return bool.TryParse(query[parameterName].ToString(), out var val) && val;
-    }
+    public static bool ToBool(this IQueryCollection query, string parameterName) => bool.TryParse(query[parameterName].ToString(), out var val) && val;
 }

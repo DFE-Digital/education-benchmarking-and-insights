@@ -129,9 +129,7 @@ public class ChartRenderingVerticalBarChartSteps(ChartRenderingApiDriver api)
     }
 
     private static PostVerticalBarChartRequest<TestDatum> BuildRequest(string highlight, string sort, int width,
-        int height, string id, IEnumerable<TestDatum> data)
-    {
-        return new PostVerticalBarChartRequest<TestDatum>
+        int height, string id, IEnumerable<TestDatum> data) => new()
         {
             KeyField = nameof(TestDatum.Key).ToLower(),
             ValueField = nameof(TestDatum.Value).ToLower(),
@@ -142,5 +140,4 @@ public class ChartRenderingVerticalBarChartSteps(ChartRenderingApiDriver api)
             Data = data.ToArray(),
             Id = id
         };
-    }
 }

@@ -1,5 +1,6 @@
 using System.Diagnostics.CodeAnalysis;
 using FluentValidation;
+
 // ReSharper disable UnusedMember.Global
 
 namespace Platform.Functions;

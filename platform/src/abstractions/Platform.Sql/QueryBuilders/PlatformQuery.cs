@@ -4,17 +4,20 @@ namespace Platform.Sql.QueryBuilders;
 
 public abstract class PlatformQuery : SqlBuilder
 {
-
     protected PlatformQuery(string sql, dynamic? parameters = null)
     {
         QueryTemplate = AddTemplate(sql, parameters);
     }
+
     public Template QueryTemplate { get; }
 
     public PlatformQuery WhereUrnEqual(string urn)
     {
         const string sql = "URN = @URN";
-        var parameters = new { URN = urn };
+        var parameters = new
+        {
+            URN = urn
+        };
 
         Where(sql, parameters);
         return this;
@@ -23,7 +26,10 @@ public abstract class PlatformQuery : SqlBuilder
     public PlatformQuery WhereUrnIn(string[] urns)
     {
         const string sql = "URN IN @URNS";
-        var parameters = new { URNS = urns };
+        var parameters = new
+        {
+            URNS = urns
+        };
 
         Where(sql, parameters);
         return this;
@@ -32,7 +38,11 @@ public abstract class PlatformQuery : SqlBuilder
     public PlatformQuery WhereRunIdBetween(int start, int end)
     {
         const string sql = "RunId BETWEEN @StartYear AND @EndYear";
-        var parameters = new { StartYear = start, EndYear = end };
+        var parameters = new
+        {
+            StartYear = start,
+            EndYear = end
+        };
 
         Where(sql, parameters);
         return this;
@@ -41,7 +51,10 @@ public abstract class PlatformQuery : SqlBuilder
     public PlatformQuery WhereRunIdEqual(string runId)
     {
         const string sql = "RunId = @RunId";
-        var parameters = new { RunId = runId };
+        var parameters = new
+        {
+            RunId = runId
+        };
 
         Where(sql, parameters);
         return this;
@@ -50,7 +63,10 @@ public abstract class PlatformQuery : SqlBuilder
     public PlatformQuery WhereTrustCompanyNumberEqual(string companyNumber)
     {
         const string sql = "TrustCompanyNumber = @CompanyNumber";
-        var parameters = new { CompanyNumber = companyNumber };
+        var parameters = new
+        {
+            CompanyNumber = companyNumber
+        };
 
         Where(sql, parameters);
         return this;
@@ -59,7 +75,10 @@ public abstract class PlatformQuery : SqlBuilder
     public PlatformQuery WhereCompanyNumberEqual(string companyNumber)
     {
         const string sql = "CompanyNumber = @CompanyNumber";
-        var parameters = new { CompanyNumber = companyNumber };
+        var parameters = new
+        {
+            CompanyNumber = companyNumber
+        };
 
         Where(sql, parameters);
         return this;
@@ -68,7 +87,10 @@ public abstract class PlatformQuery : SqlBuilder
     public PlatformQuery WhereCompanyNumberIn(string[] companyNumbers)
     {
         const string sql = "CompanyNumber IN @CompanyNumbers";
-        var parameters = new { CompanyNumbers = companyNumbers };
+        var parameters = new
+        {
+            CompanyNumbers = companyNumbers
+        };
 
         Where(sql, parameters);
         return this;
@@ -77,7 +99,10 @@ public abstract class PlatformQuery : SqlBuilder
     public PlatformQuery WhereLaCodeEqual(string laCode)
     {
         const string sql = "LaCode = @LaCode";
-        var parameters = new { LaCode = laCode };
+        var parameters = new
+        {
+            LaCode = laCode
+        };
 
         Where(sql, parameters);
         return this;
@@ -86,7 +111,10 @@ public abstract class PlatformQuery : SqlBuilder
     public PlatformQuery WhereLaCodesIn(string[] laCodes)
     {
         const string sql = "LaCode IN @LaCodes";
-        var parameters = new { LaCodes = laCodes };
+        var parameters = new
+        {
+            LaCodes = laCodes
+        };
 
         Where(sql, parameters);
         return this;
@@ -95,7 +123,10 @@ public abstract class PlatformQuery : SqlBuilder
     public PlatformQuery WhereCodeEqual(string code)
     {
         const string sql = "Code = @Code";
-        var parameters = new { Code = code };
+        var parameters = new
+        {
+            Code = code
+        };
 
         Where(sql, parameters);
         return this;
@@ -104,7 +135,10 @@ public abstract class PlatformQuery : SqlBuilder
     public PlatformQuery WhereOverallPhaseEqual(string? phase)
     {
         const string sql = "OverallPhase = @Phase";
-        var parameters = new { Phase = phase };
+        var parameters = new
+        {
+            Phase = phase
+        };
 
         Where(sql, parameters);
         return this;
@@ -113,7 +147,10 @@ public abstract class PlatformQuery : SqlBuilder
     public PlatformQuery WhereFinanceTypeEqual(string? financeType)
     {
         const string sql = "FinanceType = @FinanceType";
-        var parameters = new { FinanceType = financeType };
+        var parameters = new
+        {
+            FinanceType = financeType
+        };
 
         Where(sql, parameters);
         return this;
@@ -130,7 +167,10 @@ public abstract class PlatformQuery : SqlBuilder
     public PlatformQuery WhereFederationLeadUrnEqual(string urn)
     {
         const string sql = "FederationLeadURN = @FederationLeadURN";
-        var parameters = new { FederationLeadURN = urn };
+        var parameters = new
+        {
+            FederationLeadURN = urn
+        };
 
         Where(sql, parameters);
         return this;
@@ -139,7 +179,10 @@ public abstract class PlatformQuery : SqlBuilder
     public PlatformQuery WhereTypeIn(string[] types)
     {
         const string sql = "Type IN @Types";
-        var parameters = new { Types = types };
+        var parameters = new
+        {
+            Types = types
+        };
 
         Where(sql, parameters);
         return this;

@@ -49,6 +49,6 @@ public class GetUserDataFunction(IUserDataService service, IValidator<UserDataPa
             queryParams.OrganisationType,
             cancellationToken);
 
-        return await req.CreateJsonResponseAsync(data, cancellationToken: cancellationToken);
+        return await req.CreateJsonResponseAsync(data, cancellationToken);
     }
 }

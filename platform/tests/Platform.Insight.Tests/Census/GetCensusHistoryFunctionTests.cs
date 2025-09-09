@@ -31,6 +31,7 @@ public class GetCensusHistoryFunctionTests : FunctionsTestBase
         _fixture = new Fixture();
         _function = new GetCensusHistoryFunction(_service.Object, _validator.Object);
     }
+
     [Fact]
     public async Task ShouldReturn200OnValidRequest()
     {

@@ -14,23 +14,29 @@ namespace Platform.Search.Resources;
 
 public class SearchMaintenanceServiceOptions
 {
-    [Required] public SqlOptions? Sql { get; set; }
-    [Required] public string? Name { get; set; }
-    [Required] public string? Key { get; set; }
+    [Required]
+    public SqlOptions? Sql { get; set; }
+
+    [Required]
+    public string? Name { get; set; }
+
+    [Required]
+    public string? Key { get; set; }
 
     public Uri SearchEndPoint => new($"https://{Name}.search.windows.net/");
     public AzureKeyCredential SearchCredentials => new(Key ?? throw new ArgumentNullException());
 
     public class SqlOptions
     {
-        [Required] public string? ConnectionString { get; set; }
+        [Required]
+        public string? ConnectionString { get; set; }
     }
 }
 
 public class SearchMaintenanceService
 {
-    private readonly SearchIndexerClient _indexerClient;
     private readonly SearchIndexClient _indexClient;
+    private readonly SearchIndexerClient _indexerClient;
     private readonly ILogger<SearchMaintenanceService> _logger;
     private readonly SearchMaintenanceServiceOptions _options;
     private int _failureCount;
@@ -61,10 +67,7 @@ public class SearchMaintenanceService
         }
     }
 
-    public Task Reset()
-    {
-        throw new NotImplementedException();
-    }
+    public Task Reset() => throw new NotImplementedException();
 
     private async Task RemoveDataSourcesConnections()
     {
@@ -158,14 +161,7 @@ public class SearchMaintenanceService
 
     private async Task BuildIndexes()
     {
-        var builders = new IndexBuilder[]
-        {
-            new TrustIndexBuilder(),
-            new SchoolIndexBuilder(),
-            new LocalAuthorityIndexBuilder(),
-            new SchoolComparatorsIndexBuilder(),
-            new TrustComparatorsIndexBuilder()
-        };
+        var builders = new IndexBuilder[] { new TrustIndexBuilder(), new SchoolIndexBuilder(), new LocalAuthorityIndexBuilder(), new SchoolComparatorsIndexBuilder(), new TrustComparatorsIndexBuilder() };
 
         foreach (var builder in builders)
         {
@@ -197,11 +193,8 @@ public class SearchMaintenanceService
 
         var builders = new DataSourceConnectionBuilder[]
         {
-            new SchoolDataSourceConnectionBuilder(_options.Sql.ConnectionString),
-            new TrustDataSourceConnectionBuilder(_options.Sql.ConnectionString),
-            new LocalAuthorityDataSourceConnectionBuilder(_options.Sql.ConnectionString),
-            new SchoolComparatorsDataSourceConnectionBuilder(_options.Sql.ConnectionString),
-            new TrustComparatorsDataSourceConnectionBuilder(_options.Sql.ConnectionString)
+            new SchoolDataSourceConnectionBuilder(_options.Sql.ConnectionString), new TrustDataSourceConnectionBuilder(_options.Sql.ConnectionString), new LocalAuthorityDataSourceConnectionBuilder(_options.Sql.ConnectionString),
+            new SchoolComparatorsDataSourceConnectionBuilder(_options.Sql.ConnectionString), new TrustComparatorsDataSourceConnectionBuilder(_options.Sql.ConnectionString)
         };
 
         foreach (var builder in builders)
@@ -230,14 +223,7 @@ public class SearchMaintenanceService
 
     private async Task BuildIndexers()
     {
-        var builders = new IndexerBuilder[]
-        {
-            new SchoolIndexerBuilder(),
-            new TrustIndexerBuilder(),
-            new LocalAuthorityIndexerBuilder(),
-            new SchoolComparatorsIndexerBuilder(),
-            new TrustComparatorsIndexerBuilder()
-        };
+        var builders = new IndexerBuilder[] { new SchoolIndexerBuilder(), new TrustIndexerBuilder(), new LocalAuthorityIndexerBuilder(), new SchoolComparatorsIndexerBuilder(), new TrustComparatorsIndexerBuilder() };
 
         foreach (var builder in builders)
         {

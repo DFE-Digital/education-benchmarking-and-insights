@@ -16,7 +16,9 @@ public static class Mapper
     public static CensusSchoolResponse MapToApiResponse(this CensusSchoolModel model, string? category = null)
     {
         if (model == null)
+        {
             throw new ArgumentNullException(nameof(model), "Model cannot be null.");
+        }
 
         return new CensusSchoolResponse
         {
@@ -32,7 +34,7 @@ public static class Mapper
             TeachingAssistant = ShouldDisplay(category, Categories.Census.TeachingAssistantsFte) ? model.TeachingAssistant : null,
             NonClassroomSupportStaff = ShouldDisplay(category, Categories.Census.NonClassroomSupportStaffFte) ? model.NonClassroomSupportStaff : null,
             AuxiliaryStaff = ShouldDisplay(category, Categories.Census.AuxiliaryStaffFte) ? model.AuxiliaryStaff : null,
-            PercentTeacherWithQualifiedStatus = ShouldDisplay(category, Categories.Census.TeachersQualified) ? model.PercentTeacherWithQualifiedStatus : null,
+            PercentTeacherWithQualifiedStatus = ShouldDisplay(category, Categories.Census.TeachersQualified) ? model.PercentTeacherWithQualifiedStatus : null
         };
     }
 
@@ -54,7 +56,9 @@ public static class Mapper
     private static CensusHistoryRowResponse MapToApiResponse(this CensusHistoryModel model)
     {
         if (model == null)
+        {
             throw new ArgumentNullException(nameof(model), "Model cannot be null.");
+        }
 
         return new CensusHistoryRowResponse
         {
@@ -71,8 +75,5 @@ public static class Mapper
         };
     }
 
-    private static bool ShouldDisplay(string? category, string match)
-    {
-        return string.IsNullOrEmpty(category) || category == match;
-    }
+    private static bool ShouldDisplay(string? category, string match) => string.IsNullOrEmpty(category) || category == match;
 }

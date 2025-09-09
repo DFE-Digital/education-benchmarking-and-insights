@@ -12,9 +12,9 @@ public class SchoolComparatorsIndexerBuilder : IndexerBuilder
     public override async Task Build(SearchIndexerClient client)
     {
         var indexer = new SearchIndexer(
-            name: Name,
-            dataSourceName: ResourceNames.Search.DataSources.SchoolComparators,
-            targetIndexName: ResourceNames.Search.Indexes.SchoolComparators);
+            Name,
+            ResourceNames.Search.DataSources.SchoolComparators,
+            ResourceNames.Search.Indexes.SchoolComparators);
 
         await client.CreateOrUpdateIndexerAsync(indexer);
     }

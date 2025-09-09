@@ -10,13 +10,9 @@ namespace Platform.Functions.Extensions;
 [ExcludeFromCodeCoverage]
 public static class HttpRequestDataExtensions
 {
-
-    public static string? ReadVersion(this HttpRequestData request)
-    {
-        return request.Headers.TryGetValues(Constants.ApiVersion, out var values)
-            ? values.FirstOrDefault()
-            : null;
-    }
+    public static string? ReadVersion(this HttpRequestData request) => request.Headers.TryGetValues(Constants.ApiVersion, out var values)
+        ? values.FirstOrDefault()
+        : null;
 
     public static Guid GetCorrelationId(this HttpRequestData req)
     {
@@ -79,10 +75,7 @@ public static class HttpRequestDataExtensions
     public static async Task<HttpResponseData> CreateJsonResponseAsync(
         this HttpRequestData req,
         object obj,
-        CancellationToken cancellationToken)
-    {
-        return await req.CreateJsonResponseAsync(obj, HttpStatusCode.OK, cancellationToken);
-    }
+        CancellationToken cancellationToken) => await req.CreateJsonResponseAsync(obj, HttpStatusCode.OK, cancellationToken);
 
     public static async Task<HttpResponseData> CreateUnsupportedVersionResponseAsync(this HttpRequestData request, CancellationToken cancellationToken)
     {
@@ -118,7 +111,7 @@ public static class HttpRequestDataExtensions
         HttpStatusCode statusCode = HttpStatusCode.BadRequest,
         CancellationToken cancellationToken = default)
     {
-        return await req.CreateJsonResponseAsync(failures.Select(e => new ValidationError(e.Severity, e.PropertyName, e.ErrorMessage)), statusCode, cancellationToken: cancellationToken);
+        return await req.CreateJsonResponseAsync(failures.Select(e => new ValidationError(e.Severity, e.PropertyName, e.ErrorMessage)), statusCode, cancellationToken);
     }
 
     public static HttpResponseData CreateErrorResponse(this HttpRequestData req, int statusCode = (int)HttpStatusCode.InternalServerError) => req.CreateResponse((HttpStatusCode)statusCode);

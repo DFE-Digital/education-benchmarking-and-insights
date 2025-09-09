@@ -12,7 +12,9 @@ namespace Platform.Api.Benchmark.Features.ComparatorSets.Models;
 [Table("UserData")]
 public record ComparatorSetUserData
 {
-    [ExplicitKey] public string Id { get; set; } = Guid.NewGuid().ToString();
+    [ExplicitKey]
+    public string Id { get; set; } = Guid.NewGuid().ToString();
+
     public string? UserId { get; set; }
     public string? Type { get; set; }
 

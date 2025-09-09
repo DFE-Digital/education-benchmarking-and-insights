@@ -10,6 +10,7 @@ public record BudgetForecastReturnResponse
 
     public decimal? Variance => Forecast.HasValue && Actual.HasValue ? Actual - Forecast : null;
     public decimal? PercentVariance => Forecast.HasValue && Actual.GetValueOrDefault() != default ? 100 - Forecast / Actual * 100 : null;
+
     public string? VarianceStatus => PercentVariance switch
     {
         < -10 => "AR significantly below forecast",

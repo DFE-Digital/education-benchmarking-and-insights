@@ -28,6 +28,6 @@ public class GetBalanceSchoolFunction(IBalanceService service)
         var result = await service.GetSchoolAsync(urn, cancellationToken);
         return result == null
             ? req.CreateNotFoundResponse()
-            : await req.CreateJsonResponseAsync(result.MapToApiResponse(), cancellationToken: cancellationToken);
+            : await req.CreateJsonResponseAsync(result.MapToApiResponse(), cancellationToken);
     }
 }

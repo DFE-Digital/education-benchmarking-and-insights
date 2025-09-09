@@ -15,7 +15,9 @@ public static class Mapper
     public static BalanceSchoolResponse MapToApiResponse(this BalanceSchoolModel model)
     {
         if (model == null)
+        {
             throw new ArgumentNullException(nameof(model), "Model cannot be null.");
+        }
 
         return new BalanceSchoolResponse
         {
@@ -42,7 +44,9 @@ public static class Mapper
     public static BalanceTrustResponse MapToApiResponse(this BalanceTrustModel model)
     {
         if (model == null)
+        {
             throw new ArgumentNullException(nameof(model), "Model cannot be null.");
+        }
 
         return new BalanceTrustResponse
         {
@@ -63,7 +67,9 @@ public static class Mapper
     private static BalanceHistoryRowResponse MapToApiResponse(this BalanceHistoryModel model)
     {
         if (model == null)
+        {
             throw new ArgumentNullException(nameof(model), "Model cannot be null.");
+        }
 
         return new BalanceHistoryRowResponse
         {

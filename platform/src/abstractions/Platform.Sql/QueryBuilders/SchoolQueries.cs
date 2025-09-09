@@ -13,8 +13,5 @@ public class SchoolQuery : PlatformQuery
         }
     }
 
-    private static string GetSql(string[] fields)
-    {
-        return fields.Length == 0 ? SqlAll : SqlFields;
-    }
+    private static string GetSql(string[] fields) => fields.Length == 0 ? SqlAll : SqlFields;
 }

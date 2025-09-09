@@ -1,4 +1,5 @@
 using Azure.Search.Documents.Indexes;
+
 // ReSharper disable UnusedMember.Global
 
 namespace Platform.Search.Resources.Trust;

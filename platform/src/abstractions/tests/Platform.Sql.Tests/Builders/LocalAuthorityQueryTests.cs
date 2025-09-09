@@ -74,7 +74,7 @@ public class LocalAuthorityEducationHealthCarePlansDefaultCurrentQueryTests
     public static TheoryData<string, string> Data => new()
     {
         { "Actuals", "SELECT * FROM VW_LocalAuthorityEducationHealthCarePlansDefaultCurrentActual " },
-        { "Per1000", "SELECT * FROM VW_LocalAuthorityEducationHealthCarePlansDefaultCurrentPerPopulation " },
+        { "Per1000", "SELECT * FROM VW_LocalAuthorityEducationHealthCarePlansDefaultCurrentPerPopulation " }
     };
 
     [Theory]
@@ -99,7 +99,7 @@ public class LocalAuthorityEducationHealthCarePlansDefaultQueryTests
     public static TheoryData<string, string> Data => new()
     {
         { "Actuals", "SELECT * FROM VW_LocalAuthorityEducationHealthCarePlansDefaultActual " },
-        { "Per1000", "SELECT * FROM VW_LocalAuthorityEducationHealthCarePlansDefaultPerPopulation " },
+        { "Per1000", "SELECT * FROM VW_LocalAuthorityEducationHealthCarePlansDefaultPerPopulation " }
     };
 
     [Theory]

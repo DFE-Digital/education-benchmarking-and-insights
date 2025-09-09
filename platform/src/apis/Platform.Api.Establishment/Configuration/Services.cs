@@ -11,6 +11,7 @@ using Platform.Functions;
 using Platform.Json;
 using Platform.Search;
 using Platform.Sql;
+
 // ReSharper disable UnusedMethodReturnValue.Local
 
 namespace Platform.Api.Establishment.Configuration;
@@ -61,18 +62,12 @@ internal static class Services
         return serviceCollection;
     }
 
-    private static IServiceCollection AddPlatformServices(this IServiceCollection serviceCollection)
-    {
-        return serviceCollection
-            .AddPlatformSearch()
-            .AddPlatformSql();
-    }
+    private static IServiceCollection AddPlatformServices(this IServiceCollection serviceCollection) => serviceCollection
+        .AddPlatformSearch()
+        .AddPlatformSql();
 
-    private static IServiceCollection AddFeatures(this IServiceCollection serviceCollection)
-    {
-        return serviceCollection
-            .AddLocalAuthoritiesFeature()
-            .AddSchoolsFeature()
-            .AddTrustsFeature();
-    }
+    private static IServiceCollection AddFeatures(this IServiceCollection serviceCollection) => serviceCollection
+        .AddLocalAuthoritiesFeature()
+        .AddSchoolsFeature()
+        .AddTrustsFeature();
 }

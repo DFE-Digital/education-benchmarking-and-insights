@@ -42,6 +42,6 @@ public class GetCensusHistoryFunction(ICensusService service, IValidator<CensusP
         var (years, rows) = await service.GetSchoolHistoryAsync(urn, queryParams.Dimension, cancellationToken);
         return years == null
             ? req.CreateNotFoundResponse()
-            : await req.CreateJsonResponseAsync(years.MapToApiResponse(rows), cancellationToken: cancellationToken);
+            : await req.CreateJsonResponseAsync(years.MapToApiResponse(rows), cancellationToken);
     }
 }

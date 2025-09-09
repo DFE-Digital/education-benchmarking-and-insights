@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
+
 // ReSharper disable UnusedAutoPropertyAccessor.Global
 
 namespace Platform.Api.Establishment.Features.LocalAuthorities.Models;

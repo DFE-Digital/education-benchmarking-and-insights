@@ -28,6 +28,6 @@ public class GetCensusFunction(ICensusService service)
         var result = await service.GetAsync(urn, cancellationToken);
         return result == null
             ? req.CreateNotFoundResponse()
-            : await req.CreateJsonResponseAsync(result.MapToApiResponse(), cancellationToken: cancellationToken);
+            : await req.CreateJsonResponseAsync(result.MapToApiResponse(), cancellationToken);
     }
 }

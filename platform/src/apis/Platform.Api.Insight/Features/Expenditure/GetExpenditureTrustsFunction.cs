@@ -42,6 +42,6 @@ public class GetExpenditureTrustsFunction(IExpenditureService service, IValidato
 
         var result = await service.QueryTrustsAsync(queryParams.CompanyNumbers, queryParams.Dimension, cancellationToken);
         return await req.CreateJsonResponseAsync(result.MapToApiResponse(queryParams.Category,
-            queryParams.ExcludeCentralServices), cancellationToken: cancellationToken);
+            queryParams.ExcludeCentralServices), cancellationToken);
     }
 }

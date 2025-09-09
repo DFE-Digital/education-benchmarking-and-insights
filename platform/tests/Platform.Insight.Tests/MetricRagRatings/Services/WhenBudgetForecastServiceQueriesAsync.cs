@@ -37,7 +37,8 @@ public class WhenMetricRagRatingsServiceQueriesAsync
     }
 
     [Theory]
-    [InlineData(new[] { "1,2,3" }, new[] { "4", "5", "6" }, new[] { "7", "8", "9" }, null, null, null, "runType", false, "SELECT * from SchoolMetricRAG WHERE RunType = @RunType AND RunId = @RunId AND URN IN @URNS AND SubCategory = 'Total' AND Category IN @categories AND RAG IN @statuses")]
+    [InlineData(new[] { "1,2,3" }, new[] { "4", "5", "6" }, new[] { "7", "8", "9" }, null, null, null, "runType", false,
+        "SELECT * from SchoolMetricRAG WHERE RunType = @RunType AND RunId = @RunId AND URN IN @URNS AND SubCategory = 'Total' AND Category IN @categories AND RAG IN @statuses")]
     [InlineData(new[] { "1,2,3" }, new string[0], new string[0], null, null, null, "runType", true, "SELECT * from SchoolMetricRAG WHERE RunType = @RunType AND RunId = @RunId AND URN IN @URNS")]
     [InlineData(new string[0], new string[0], new string[0], "companyNumber", null, null, "runType", true, "SELECT * from SchoolMetricRAG WHERE RunType = @RunType AND RunId = @RunId AND TrustCompanyNumber = @CompanyNumber")]
     [InlineData(new string[0], new string[0], new string[0], null, "laCode", "phase", "runType", true, "SELECT * from SchoolMetricRAG WHERE RunType = @RunType AND RunId = @RunId AND LaCode = @LaCode AND OverallPhase = @Phase")]

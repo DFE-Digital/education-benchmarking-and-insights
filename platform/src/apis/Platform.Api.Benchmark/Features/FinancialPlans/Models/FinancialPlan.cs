@@ -8,8 +8,12 @@ namespace Platform.Api.Benchmark.Features.FinancialPlans.Models;
 [Table("FinancialPlan")]
 public record FinancialPlan
 {
-    [ExplicitKey] public int Year { get; set; }
-    [ExplicitKey] public string? Urn { get; set; }
+    [ExplicitKey]
+    public int Year { get; set; }
+
+    [ExplicitKey]
+    public string? Urn { get; set; }
+
     public DateTimeOffset Created { get; set; }
     public DateTimeOffset? UpdatedAt { get; set; }
     public string? UpdatedBy { get; set; }

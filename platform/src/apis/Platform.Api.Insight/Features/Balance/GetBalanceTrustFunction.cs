@@ -28,6 +28,6 @@ public class GetBalanceTrustFunction(IBalanceService service)
         var result = await service.GetTrustAsync(companyNumber, cancellationToken);
         return result == null
             ? req.CreateNotFoundResponse()
-            : await req.CreateJsonResponseAsync(result.MapToApiResponse(), cancellationToken: cancellationToken);
+            : await req.CreateJsonResponseAsync(result.MapToApiResponse(), cancellationToken);
     }
 }

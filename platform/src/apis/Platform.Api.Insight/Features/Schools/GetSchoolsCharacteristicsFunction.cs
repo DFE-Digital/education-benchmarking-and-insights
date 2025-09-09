@@ -28,6 +28,6 @@ public class GetSchoolsCharacteristicsFunction(ISchoolsService service)
         var queryParams = req.GetParameters<SchoolsParameters>();
 
         var schools = await service.QueryCharacteristicAsync(queryParams.Schools, cancellationToken);
-        return await req.CreateJsonResponseAsync(schools, cancellationToken: cancellationToken);
+        return await req.CreateJsonResponseAsync(schools, cancellationToken);
     }
 }

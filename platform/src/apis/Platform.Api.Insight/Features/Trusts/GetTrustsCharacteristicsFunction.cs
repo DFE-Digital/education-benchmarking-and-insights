@@ -30,6 +30,6 @@ public class GetTrustsCharacteristicsFunction(ITrustsService service)
         var queryParams = req.GetParameters<TrustsParameters>();
 
         var trusts = await service.QueryAsync(queryParams.Trusts, cancellationToken);
-        return await req.CreateJsonResponseAsync(trusts, cancellationToken: cancellationToken);
+        return await req.CreateJsonResponseAsync(trusts, cancellationToken);
     }
 }

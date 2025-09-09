@@ -47,7 +47,7 @@ public class GetLocalAuthoritiesNationalRankFunctionTests : FunctionsTestBase
         var query = new Dictionary<string, StringValues>
         {
             { "ranking", Ranking },
-            { "sort", Sort },
+            { "sort", Sort }
         };
 
         var result = await _function.RunAsync(CreateHttpRequestData(query), CancellationToken.None);

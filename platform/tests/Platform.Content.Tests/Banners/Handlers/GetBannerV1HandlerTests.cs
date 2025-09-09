@@ -4,7 +4,6 @@ using Moq;
 using Platform.Api.Content.Features.Banners.Handlers;
 using Platform.Api.Content.Features.Banners.Models;
 using Platform.Api.Content.Features.Banners.Services;
-using Platform.Api.Content.Features.Files.Responses;
 using Platform.Functions;
 using Platform.Test;
 using Platform.Test.Extensions;

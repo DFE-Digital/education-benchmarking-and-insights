@@ -2,6 +2,7 @@
 using StackExchange.Redis;
 using Xunit;
 using Xunit.Abstractions;
+
 // ReSharper disable NotAccessedPositionalProperty.Global
 namespace Platform.Cache.Tests.Cache;
 
@@ -33,10 +34,7 @@ public class WhenRedisDistributedCacheGetSetsObject(ITestOutputHelper testOutput
     public static TheoryData<ShouldSetValueInCacheTestData> ShouldSetObjectTestDataItems =>
     [
         new("key", null, new TestObject("Lookup"), "IgAAAANEYXRhABcAAAACVmFsdWUABwAAAExvb2t1cAAAAA==", CacheValueEncoding.Bson),
-        new("key", null, new[]
-        {
-            new TestObject("Lookup")
-        }, "KgAAAAREYXRhAB8AAAADMAAXAAAAAlZhbHVlAAcAAABMb29rdXAAAAAA", CacheValueEncoding.Bson),
+        new("key", null, new[] { new TestObject("Lookup") }, "KgAAAAREYXRhAB8AAAADMAAXAAAAAlZhbHVlAAcAAABMb29rdXAAAAAA", CacheValueEncoding.Bson),
         new("key", "not base64", new TestObject("Lookup"), "IgAAAANEYXRhABcAAAACVmFsdWUABwAAAExvb2t1cAAAAA==", CacheValueEncoding.Bson),
         new("key", "bm90IGJzb24=", new TestObject("Lookup"), "IgAAAANEYXRhABcAAAACVmFsdWUABwAAAExvb2t1cAAAAA==", CacheValueEncoding.Bson),
         new("key", null, new TestObject("Lookup"), "{\"Data\":{\"Value\":\"Lookup\"}}", CacheValueEncoding.Json),

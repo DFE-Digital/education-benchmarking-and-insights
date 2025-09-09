@@ -19,7 +19,6 @@ static Task RebuildIndexes(ProgramOptions options)
         {
             ConnectionString = options.SqlConnectionString
         }
-
     });
 
     var logger = BuilderLogger<SearchMaintenanceService>();

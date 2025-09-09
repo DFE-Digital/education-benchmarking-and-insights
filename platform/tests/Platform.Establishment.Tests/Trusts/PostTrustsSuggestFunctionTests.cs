@@ -7,9 +7,9 @@ using Platform.Api.Establishment.Features.Trusts.Models;
 using Platform.Api.Establishment.Features.Trusts.Requests;
 using Platform.Api.Establishment.Features.Trusts.Services;
 using Platform.Functions;
-using Platform.Test.Extensions;
 using Platform.Search;
 using Platform.Test;
+using Platform.Test.Extensions;
 using Xunit;
 
 namespace Platform.Establishment.Tests.Trusts;
@@ -52,7 +52,6 @@ public class PostTrustsSuggestFunctionTests : FunctionsTestBase
     [Fact]
     public async Task ShouldReturn400OnInvalidRequest()
     {
-
         _validator
             .Setup(v => v.ValidateAsync(It.IsAny<SuggestRequest>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(new ValidationResult([

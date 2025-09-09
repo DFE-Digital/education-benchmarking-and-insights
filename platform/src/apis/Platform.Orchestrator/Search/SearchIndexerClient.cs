@@ -4,6 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Azure;
 using Microsoft.Extensions.Options;
+
 namespace Platform.Orchestrator.Search;
 
 public interface ISearchIndexerClient

@@ -19,10 +19,10 @@ namespace Platform.Insight.Tests.Census;
 public class GetCensusHistoryNationalAverageFunctionTests : FunctionsTestBase
 {
     private readonly CancellationToken _cancellationToken = CancellationToken.None;
+    private readonly Fixture _fixture;
     private readonly GetCensusHistoryNationalAverageFunction _function;
     private readonly Mock<ICensusService> _service;
     private readonly Mock<IValidator<CensusNationalAvgParameters>> _validator;
-    private readonly Fixture _fixture;
 
     public GetCensusHistoryNationalAverageFunctionTests()
     {
@@ -36,7 +36,11 @@ public class GetCensusHistoryNationalAverageFunctionTests : FunctionsTestBase
     public async Task ShouldReturn200OnValidRequest()
     {
         var history = _fixture.CreateMany<CensusHistoryModel>(5);
-        var years = new YearsModel { StartYear = 2019, EndYear = 2023 };
+        var years = new YearsModel
+        {
+            StartYear = 2019,
+            EndYear = 2023
+        };
 
         _validator
             .Setup(v => v.ValidateAsync(It.IsAny<CensusNationalAvgParameters>(), It.IsAny<CancellationToken>()))

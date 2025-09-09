@@ -30,7 +30,7 @@ public class GetDeploymentPlanFunction(IFinancialPlansService service)
     {
         var plan = await service.DeploymentPlanAsync(urn, year, cancellationToken);
         return plan != null
-            ? await req.CreateJsonResponseAsync(plan, cancellationToken: cancellationToken)
+            ? await req.CreateJsonResponseAsync(plan, cancellationToken)
             : req.CreateNotFoundResponse();
     }
 }

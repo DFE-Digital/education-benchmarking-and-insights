@@ -30,6 +30,6 @@ public class GetSchoolCustomDataFunction(ICustomDataService service)
         var data = await service.CustomDataSchoolAsync(urn, identifier, cancellationToken);
         return data == null
             ? req.CreateNotFoundResponse()
-            : await req.CreateJsonResponseAsync(data, cancellationToken: cancellationToken);
+            : await req.CreateJsonResponseAsync(data, cancellationToken);
     }
 }

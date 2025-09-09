@@ -42,7 +42,6 @@ public class SearchSearchTests
     [Fact]
     public async Task SearchShouldReturnExpectedResultsWithoutFacets()
     {
-
         FilterCriteria[] filters =
         [
             new()

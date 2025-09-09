@@ -17,4 +17,4 @@ public record FinancialPlanSummary
     public string? InYearBalancePercentIncomeRating { get; set; }
     public decimal? AverageClassSize { get; set; }
     public string? AverageClassSizeRating { get; set; }
-};
+}

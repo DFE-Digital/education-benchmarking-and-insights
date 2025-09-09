@@ -2,6 +2,7 @@
 using Platform.Domain;
 using Platform.Infrastructure;
 using Platform.Search;
+
 // ReSharper disable AutoPropertyCanBeMadeGetOnly.Global
 // ReSharper disable MemberCanBePrivate.Global
 

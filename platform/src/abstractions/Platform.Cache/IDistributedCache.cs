@@ -1,4 +1,5 @@
 ﻿using StackExchange.Redis;
+
 namespace Platform.Cache;
 
 public interface IDistributedCache

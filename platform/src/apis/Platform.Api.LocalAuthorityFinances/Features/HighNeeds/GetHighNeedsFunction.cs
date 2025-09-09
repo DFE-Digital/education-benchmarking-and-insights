@@ -39,6 +39,6 @@ public class GetHighNeedsFunction(IHighNeedsService service, IValidator<HighNeed
         }
 
         var highNeeds = await service.Get(queryParams.Codes, queryParams.Dimension, cancellationToken);
-        return await req.CreateJsonResponseAsync(highNeeds, cancellationToken: cancellationToken);
+        return await req.CreateJsonResponseAsync(highNeeds, cancellationToken);
     }
 }

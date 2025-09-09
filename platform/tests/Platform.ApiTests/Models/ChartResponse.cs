@@ -1,6 +1,7 @@
 // ReSharper disable AutoPropertyCanBeMadeGetOnly.Global
 // ReSharper disable ClassNeverInstantiated.Global
 // ReSharper disable UnusedAutoPropertyAccessor.Global
+
 namespace Platform.ApiTests.Models;
 
 public class ChartResponse

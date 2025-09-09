@@ -51,7 +51,6 @@ public class PostLocalAuthoritiesSuggestFunctionTests : FunctionsTestBase
     [Fact]
     public async Task ShouldReturn400OnInvalidRequest()
     {
-
         _validator
             .Setup(v => v.ValidateAsync(It.IsAny<SuggestRequest>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(new ValidationResult([new ValidationFailure(nameof(SuggestRequest.SuggesterName), "This error message")]));

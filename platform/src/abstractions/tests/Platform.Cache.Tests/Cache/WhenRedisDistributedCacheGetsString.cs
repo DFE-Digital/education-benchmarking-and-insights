@@ -2,6 +2,7 @@
 using StackExchange.Redis;
 using Xunit;
 using Xunit.Abstractions;
+
 namespace Platform.Cache.Tests.Cache;
 
 public class WhenRedisDistributedCacheGetsString(ITestOutputHelper testOutputHelper) : RedisDistributedCacheTestBase(testOutputHelper)

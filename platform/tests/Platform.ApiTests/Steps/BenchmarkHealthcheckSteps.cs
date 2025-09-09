@@ -4,7 +4,8 @@ using Xunit;
 
 namespace Platform.ApiTests.Steps;
 
-[Binding, Scope(Feature = "Benchmark healthcheck endpoint")]
+[Binding]
+[Scope(Feature = "Benchmark healthcheck endpoint")]
 public class BenchmarkHealthcheckSteps(BenchmarkApiDriver api)
 {
     private const string RequestKey = "health-check";

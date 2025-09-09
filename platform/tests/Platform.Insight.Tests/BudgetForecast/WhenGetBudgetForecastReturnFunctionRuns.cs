@@ -19,12 +19,14 @@ public class WhenGetBudgetForecastReturnFunctionRuns : FunctionsTestBase
     private static readonly Fixture Fixture = new();
     private static readonly BudgetForecastReturnParameters QueryParams = Fixture.Create<BudgetForecastReturnParameters>();
     private readonly GetBudgetForecastReturnFunction _function;
+
     private readonly Dictionary<string, StringValues> _query = new()
     {
         { nameof(QueryParams.RunType), QueryParams.RunType },
         { nameof(QueryParams.Category), QueryParams.Category },
         { nameof(QueryParams.RunId), QueryParams.RunId }
     };
+
     private readonly Mock<IBudgetForecastService> _service = new();
 
     public WhenGetBudgetForecastReturnFunctionRuns()

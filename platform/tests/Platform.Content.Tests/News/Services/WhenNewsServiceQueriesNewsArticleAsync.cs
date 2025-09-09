@@ -46,9 +46,7 @@ public class WhenNewsServiceQueriesNewsArticleAsync
         Assert.Equal("SELECT * FROM VW_PublishedNews WHERE Slug = @Slug", actualSql);
         Assert.Equal(new Dictionary<string, object>
         {
-            {
-                "Slug", slug
-            }
+            { "Slug", slug }
         }, actualParams);
     }
 }

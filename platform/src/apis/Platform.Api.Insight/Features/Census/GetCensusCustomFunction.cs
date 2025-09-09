@@ -45,6 +45,6 @@ public class GetCensusCustomFunction(ICensusService service, IValidator<CensusPa
         var result = await service.GetCustomAsync(urn, identifier, queryParams.Dimension, cancellationToken);
         return result == null
             ? req.CreateNotFoundResponse()
-            : await req.CreateJsonResponseAsync(result.MapToApiResponse(queryParams.Category), cancellationToken: cancellationToken);
+            : await req.CreateJsonResponseAsync(result.MapToApiResponse(queryParams.Category), cancellationToken);
     }
 }

@@ -6,7 +6,6 @@ using Platform.Domain;
 
 namespace Platform.Functions.OpenApi.Examples;
 
-
 [ExcludeFromCodeCoverage]
 public class ExampleDimensionFinance : OpenApiExample<string>
 {

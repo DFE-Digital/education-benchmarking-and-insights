@@ -59,12 +59,9 @@ internal static class Services
     private static IServiceCollection AddPlatformServices(this IServiceCollection serviceCollection) => serviceCollection
         .AddPlatformSql();
 
-    private static IServiceCollection AddFeatures(this IServiceCollection serviceCollection)
-    {
-        return serviceCollection
-            .AddComparatorSetsFeature()
-            .AddCustomDataFeature()
-            .AddFinancialPlansFeature()
-            .AddUserDataFeature();
-    }
+    private static IServiceCollection AddFeatures(this IServiceCollection serviceCollection) => serviceCollection
+        .AddComparatorSetsFeature()
+        .AddCustomDataFeature()
+        .AddFinancialPlansFeature()
+        .AddUserDataFeature();
 }

@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Azure;
 using Microsoft.Extensions.Logging;
 using Platform.Infrastructure;
+
 namespace Platform.Orchestrator.Search;
 
 public interface IPipelineSearch

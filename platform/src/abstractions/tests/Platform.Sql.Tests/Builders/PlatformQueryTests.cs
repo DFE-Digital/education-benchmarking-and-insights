@@ -482,12 +482,9 @@ public class PlatformQueryTests
         Assert.Equal(expectedSql, builder.QueryTemplate.RawSql);
     }
 
-    private static string BuildExpectedQuery(string wherePart, string? orderByPart = null)
-    {
-        return $"{MockPlatformQuery.Sql
-            .Replace("/**where**/", wherePart)
-            .Replace("/**orderby**/", orderByPart)}\n";
-    }
+    private static string BuildExpectedQuery(string wherePart, string? orderByPart = null) => $"{MockPlatformQuery.Sql
+        .Replace("/**where**/", wherePart)
+        .Replace("/**orderby**/", orderByPart)}\n";
 }
 
 public class MockPlatformQuery() : PlatformQuery(Sql)

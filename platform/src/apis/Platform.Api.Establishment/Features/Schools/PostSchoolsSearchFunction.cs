@@ -29,7 +29,7 @@ public class PostSchoolsSearchFunction(
         [HttpTrigger(AuthorizationLevel.Admin, MethodType.Post, Route = Routes.SchoolsSearch)] HttpRequestData req,
         CancellationToken cancellationToken = default)
     {
-        var body = await req.ReadAsJsonAsync<SearchRequest>(cancellationToken: cancellationToken);
+        var body = await req.ReadAsJsonAsync<SearchRequest>(cancellationToken);
 
         var validationResult = await validator.ValidateAsync(body, cancellationToken);
         if (!validationResult.IsValid)
@@ -38,6 +38,6 @@ public class PostSchoolsSearchFunction(
         }
 
         var schools = await service.SchoolsSearchAsync(body, cancellationToken);
-        return await req.CreateJsonResponseAsync(schools, cancellationToken: cancellationToken);
+        return await req.CreateJsonResponseAsync(schools, cancellationToken);
     }
 }

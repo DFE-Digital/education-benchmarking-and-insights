@@ -45,6 +45,6 @@ public class GetExpenditureSchoolCustomFunction(IExpenditureService service, IVa
         var result = await service.GetCustomSchoolAsync(urn, identifier, queryParams.Dimension, cancellationToken);
         return result == null
             ? req.CreateNotFoundResponse()
-            : await req.CreateJsonResponseAsync(result.MapToApiResponse(queryParams.Category), cancellationToken: cancellationToken);
+            : await req.CreateJsonResponseAsync(result.MapToApiResponse(queryParams.Category), cancellationToken);
     }
 }

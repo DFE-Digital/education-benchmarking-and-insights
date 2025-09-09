@@ -7,16 +7,16 @@ namespace Platform.Search.Resources.TrustComparators;
 
 public class TrustComparatorsDataSourceConnectionBuilder(string? connectionString) : DataSourceConnectionBuilder
 {
-    public override string Name => ResourceNames.Search.DataSources.TrustComparators;
     private readonly string _connectionString = connectionString ?? throw new ArgumentNullException(nameof(connectionString));
+    public override string Name => ResourceNames.Search.DataSources.TrustComparators;
 
     public override async Task Build(SearchIndexerClient client)
     {
         var dataSource = new SearchIndexerDataSourceConnection(
-            name: Name,
-            type: SearchIndexerDataSourceType.AzureSql,
-            connectionString: _connectionString,
-            container: new SearchIndexerDataContainer("VW_TrustCharacteristics"));
+            Name,
+            SearchIndexerDataSourceType.AzureSql,
+            _connectionString,
+            new SearchIndexerDataContainer("VW_TrustCharacteristics"));
 
         await client.CreateOrUpdateDataSourceConnectionAsync(dataSource);
     }

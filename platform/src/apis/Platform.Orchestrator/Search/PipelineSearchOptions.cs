@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using Azure;
+
 // ReSharper disable UnusedAutoPropertyAccessor.Global
 
 namespace Platform.Orchestrator.Search;

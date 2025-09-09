@@ -2,6 +2,7 @@
 using StackExchange.Redis;
 using Xunit;
 using Xunit.Abstractions;
+
 // ReSharper disable NotAccessedPositionalProperty.Global
 namespace Platform.Cache.Tests.Cache;
 

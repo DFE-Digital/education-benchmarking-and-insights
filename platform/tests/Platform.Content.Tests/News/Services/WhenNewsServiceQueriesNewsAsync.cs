@@ -31,7 +31,10 @@ public class WhenNewsServiceQueriesNewsAsync
 
         _connection
             .Setup(c => c.QueryAsync<Api.Content.Features.News.Models.News>(It.IsAny<PlatformQuery>(), It.IsAny<CancellationToken>()))
-            .Callback<PlatformQuery, CancellationToken>((query, _) => { actualSql = query.QueryTemplate.RawSql.Trim(); })
+            .Callback<PlatformQuery, CancellationToken>((query, _) =>
+            {
+                actualSql = query.QueryTemplate.RawSql.Trim();
+            })
             .ReturnsAsync(results);
 
         var actual = await _service.GetNews(CancellationToken.None);

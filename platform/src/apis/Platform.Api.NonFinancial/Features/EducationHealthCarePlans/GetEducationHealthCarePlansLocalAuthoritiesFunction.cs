@@ -40,6 +40,6 @@ public class GetEducationHealthCarePlansLocalAuthoritiesFunction(
         }
 
         var result = await service.Get(queryParams.Codes, queryParams.Dimension, cancellationToken);
-        return await req.CreateJsonResponseAsync(result, cancellationToken: cancellationToken);
+        return await req.CreateJsonResponseAsync(result, cancellationToken);
     }
 }

@@ -5,6 +5,7 @@ using HealthChecks.AzureSearch.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Platform.Infrastructure;
+
 // ReSharper disable UnusedMethodReturnValue.Global
 
 namespace Platform.Search;
@@ -64,4 +65,3 @@ public class PlatformSearchOptions(string name, string key)
     public Uri Endpoint => new($"https://{name}.search.windows.net/");
     public AzureKeyCredential Credential => new(Key);
 }
-
