@@ -41,6 +41,6 @@ public class GetHighNeedsHistoryFunction(IHighNeedsService service, IValidator<H
         var history = await service.GetHistory(queryParams.Codes, queryParams.Dimension, cancellationToken);
         return history == null
             ? req.CreateNotFoundResponse()
-            : await req.CreateJsonResponseAsync(history, cancellationToken: cancellationToken);
+            : await req.CreateJsonResponseAsync(history, cancellationToken);
     }
 }

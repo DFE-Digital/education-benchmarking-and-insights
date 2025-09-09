@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
-using Dapper;
 using Platform.Sql;
+
 // ReSharper disable PropertyCanBeMadeInitOnly.Global
 
 namespace Platform.UserDataCleanUp;
@@ -26,7 +26,6 @@ public interface IPlatformDb
 [ExcludeFromCodeCoverage]
 public class PlatformDb(IDatabaseFactory dbFactory) : IPlatformDb
 {
-
     public async Task<IEnumerable<UserData>> GetUserDataForDeletion()
     {
         const string sql = "SELECT * FROM UserData WHERE Status = 'removed' OR Expiry < GETUTCDATE()";
@@ -53,7 +52,6 @@ public class PlatformDb(IDatabaseFactory dbFactory) : IPlatformDb
         await conn.ExecuteAsync(userDataSql, parameters, transaction);
 
         transaction.Commit();
-
     }
 
     public async Task RemoveTrustComparatorSet(string id)
@@ -73,7 +71,6 @@ public class PlatformDb(IDatabaseFactory dbFactory) : IPlatformDb
         await conn.ExecuteAsync(userDataSql, parameters, transaction);
 
         transaction.Commit();
-
     }
 
     public async Task RemoveCustomData(string id)

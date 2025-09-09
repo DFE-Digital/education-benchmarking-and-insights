@@ -20,7 +20,5 @@ internal static class Worker
         builder.UseMiddleware<ExceptionHandlingMiddleware>();
     }
 
-    internal static void Options(WorkerOptions options)
-    {
-    }
+    internal static void Options(WorkerOptions options) { }
 }

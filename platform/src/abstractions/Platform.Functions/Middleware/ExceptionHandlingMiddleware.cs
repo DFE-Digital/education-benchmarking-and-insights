@@ -22,7 +22,7 @@ public sealed class ExceptionHandlingMiddleware(ILogger<ExceptionHandlingMiddlew
             catch (Exception ex) when
                 (ex is OperationCanceledException
                  || ex is TaskCanceledException
-                 || ex is SqlException && ex.Message.Contains("Operation cancelled by user"))
+                 || (ex is SqlException && ex.Message.Contains("Operation cancelled by user")))
             {
                 logger.LogInformation(ex, "The request was cancelled upon request by the client");
                 await WriteErrorResponse(context, "Client Closed Request", 499);
@@ -40,7 +40,10 @@ public sealed class ExceptionHandlingMiddleware(ILogger<ExceptionHandlingMiddlew
         var req = await provider.GetHttpRequestDataAsync(context);
         var correlationId = req?.GetCorrelationId() ?? Guid.Empty;
 
-        return new Dictionary<string, object> { { "CorrelationID", correlationId } };
+        return new Dictionary<string, object>
+        {
+            { "CorrelationID", correlationId }
+        };
     }
 
     private async Task WriteErrorResponse(FunctionContext context, string? content = null, int statusCode = (int)HttpStatusCode.InternalServerError)

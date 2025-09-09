@@ -43,7 +43,7 @@ public class GetExpenditureSchoolHistoryNationalAverageFunction(IExpenditureServ
         var (years, rows) = await service.GetNationalAvgHistoryAsync(queryParams.OverallPhase, queryParams.FinanceType,
             queryParams.Dimension, cancellationToken);
         return years == null
-            ? await req.CreateJsonResponseAsync(new ExpenditureHistoryResponse(), cancellationToken: cancellationToken)
-            : await req.CreateJsonResponseAsync(years.MapToApiResponse(rows), cancellationToken: cancellationToken);
+            ? await req.CreateJsonResponseAsync(new ExpenditureHistoryResponse(), cancellationToken)
+            : await req.CreateJsonResponseAsync(years.MapToApiResponse(rows), cancellationToken);
     }
 }

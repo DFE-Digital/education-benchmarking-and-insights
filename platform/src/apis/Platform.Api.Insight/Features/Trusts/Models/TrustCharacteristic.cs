@@ -23,6 +23,7 @@ public record TrustCharacteristic
 
     [JsonIgnore]
     public string? PhasesCovered { get; set; }
+
     public TrustPhase[] Phases => PhasesCovered == null
         ? []
         : PhasesCovered.Contains("count")

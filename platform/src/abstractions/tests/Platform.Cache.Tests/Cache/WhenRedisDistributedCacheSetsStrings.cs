@@ -2,6 +2,7 @@
 using StackExchange.Redis;
 using Xunit;
 using Xunit.Abstractions;
+
 namespace Platform.Cache.Tests.Cache;
 
 public class WhenRedisDistributedCacheSetsStrings(ITestOutputHelper testOutputHelper) : RedisDistributedCacheTestBase(testOutputHelper)
@@ -11,10 +12,7 @@ public class WhenRedisDistributedCacheSetsStrings(ITestOutputHelper testOutputHe
     public async Task ShouldSetValuesInCache(string key, string value)
     {
         Database
-            .Setup(d => d.StringSetAsync(new[]
-            {
-                new KeyValuePair<RedisKey, RedisValue>(key, value)
-            }, StackExchange.Redis.When.Always, CommandFlags.None))
+            .Setup(d => d.StringSetAsync(new[] { new KeyValuePair<RedisKey, RedisValue>(key, value) }, StackExchange.Redis.When.Always, CommandFlags.None))
             .ReturnsAsync(true)
             .Verifiable(Times.Once);
 

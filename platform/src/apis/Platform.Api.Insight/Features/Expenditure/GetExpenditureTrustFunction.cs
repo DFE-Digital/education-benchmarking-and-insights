@@ -43,6 +43,6 @@ public class GetExpenditureTrustFunction(IExpenditureService service, IValidator
         var result = await service.GetTrustAsync(companyNumber, queryParams.Dimension, cancellationToken);
         return result == null
             ? req.CreateNotFoundResponse()
-            : await req.CreateJsonResponseAsync(result.MapToApiResponse(queryParams.Category), cancellationToken: cancellationToken);
+            : await req.CreateJsonResponseAsync(result.MapToApiResponse(queryParams.Category), cancellationToken);
     }
 }

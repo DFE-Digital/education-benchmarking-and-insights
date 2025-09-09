@@ -4,7 +4,8 @@ using Xunit;
 
 namespace Platform.ApiTests.Steps;
 
-[Binding, Scope(Feature = "Insight healthcheck endpoint")]
+[Binding]
+[Scope(Feature = "Insight healthcheck endpoint")]
 public class InsightHealthcheckSteps(InsightApiDriver api)
 {
     private const string RequestKey = "health-check";

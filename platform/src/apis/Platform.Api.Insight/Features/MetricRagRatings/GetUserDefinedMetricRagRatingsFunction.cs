@@ -30,6 +30,6 @@ public class GetUserDefinedMetricRagRatingsFunction(IMetricRagRatingsService ser
         var queryParams = req.GetParameters<MetricRagRatingParameters>();
 
         var result = await service.UserDefinedAsync(identifier, queryParams.DataContext, cancellationToken: cancellationToken);
-        return await req.CreateJsonResponseAsync(result, cancellationToken: cancellationToken);
+        return await req.CreateJsonResponseAsync(result, cancellationToken);
     }
 }
