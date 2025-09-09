@@ -2,5 +2,5 @@
 
 //Workaround for Azure App Service to prevent decoding url
 
-require('govuk-prototype-kit/lib/build.js').generateAssetsSync()
-require('./listen-on-port.js')
+require("govuk-prototype-kit/lib/build.js").generateAssetsSync();
+require("./listen-on-port.js");
