@@ -30,6 +30,6 @@ public class GetSchoolCustomComparatorSetFunction(IComparatorSetsService service
         var comparatorSet = await service.CustomSchoolAsync(identifier, urn, cancellationToken);
         return comparatorSet == null
             ? req.CreateNotFoundResponse()
-            : await req.CreateJsonResponseAsync(comparatorSet, cancellationToken: cancellationToken);
+            : await req.CreateJsonResponseAsync(comparatorSet, cancellationToken);
     }
 }

@@ -396,14 +396,14 @@ at each environment level, as well as other supporting resources such as Azure S
 
 ## 🧹 Managing code formatting
 
-The solution uses [EditorConfig](https://editorconfig.org/) to manage code formatting using a set of rules agreed by the
-development team. ReSharper/Rider first applies its
+The solution uses [EditorConfig](https://editorconfig.org/) to manage code formatting using a set of rules agreed
+by the development team. ReSharper/Rider first applies its
 [DotSettings](https://www.jetbrains.com/help/resharper/Sharing_Configuration_Options.html) config, then the EditorConfig
-settings, plus any local (uncommitted) user-defined settings. To prevent duplication of settings files in the repo only
-use `DotSettings` for custom dictionary entries and instead use `.editorconfig` file for the formatting settings. When
-editing settings in Rider the option to merge into `.editorconfig` is under `Save ▽` > `.editorconfig`.
+settings, plus any local (uncommitted) user-defined settings. To prevent duplication of settings files in the repo
+only use `DotSettings` for custom dictionary entries and instead use `.editorconfig` file for the formatting settings.
+When editing settings in Rider the option to merge into `.editorconfig` is under `Save ▽` > `.editorconfig`.
 
-The `dotnet format` command can be used to apply the settings to the code base using the `.editorconfig` file. This is
-also performed automatically by the CI/CD pipeline. In ReSharper/Rider, the solution context menu item `Reformat and 
-Cleanup...` may be used to apply the settings using the layering order above. This may also be achieved in the IDE at a
-project or file level or via the keyboard shortcut `Ctrl+E, C`.
+The `dotnet format` command can be used to apply the settings to the code base using the `.editorconfig` file.
+This is also performed automatically by the CI/CD pipeline. In ReSharper/Rider, the solution context menu item
+`Reformat and Cleanup...` may be used to apply the settings using the layering order above. This may also be achieved
+in the IDE at a project or file level or via the keyboard shortcut `Ctrl+E, C`.

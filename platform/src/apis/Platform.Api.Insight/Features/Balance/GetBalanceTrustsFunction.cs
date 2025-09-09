@@ -32,6 +32,6 @@ public class GetBalanceTrustsFunction(IBalanceService service)
         var queryParams = req.GetParameters<BalanceQueryTrustsParameters>();
 
         var result = await service.QueryTrustsAsync(queryParams.Trusts, queryParams.Dimension, cancellationToken);
-        return await req.CreateJsonResponseAsync(result.MapToApiResponse(), cancellationToken: cancellationToken);
+        return await req.CreateJsonResponseAsync(result.MapToApiResponse(), cancellationToken);
     }
 }

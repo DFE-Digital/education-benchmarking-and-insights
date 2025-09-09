@@ -68,15 +68,9 @@ public class BenchmarkFinancialPlansSteps(BenchmarkApiDriver api)
         {
             var json = new Dictionary<string, object>
             {
-                {
-                    "Urn", kvp.Key
-                },
-                {
-                    "Year", int.Parse(kvp.Value)
-                },
-                {
-                    "UpdatedBy", UserId
-                }
+                { "Urn", kvp.Key },
+                { "Year", int.Parse(kvp.Value) },
+                { "UpdatedBy", UserId }
             }.ToJson();
             api.CreateRequest(FinancialPlansKey, new HttpRequestMessage
             {
@@ -195,15 +189,9 @@ public class BenchmarkFinancialPlansSteps(BenchmarkApiDriver api)
     {
         var content = new Dictionary<string, object>
         {
-            {
-                "Year", year
-            },
-            {
-                "Urn", urn
-            },
-            {
-                "UpdatedBy", UserId
-            }
+            { "Year", year },
+            { "Urn", urn },
+            { "UpdatedBy", UserId }
         };
         foreach (var row in table.Rows)
         {

@@ -1,4 +1,5 @@
 ﻿// ReSharper disable UnusedAutoPropertyAccessor.Global
+
 namespace Platform.Api.Content.Features.Years.Models;
 
 public class FinanceYears

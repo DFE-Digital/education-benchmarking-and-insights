@@ -24,6 +24,6 @@ public class GetLocalAuthoritiesFunction(ILocalAuthoritiesService service)
         CancellationToken cancellationToken = default)
     {
         var response = await service.GetAllAsync(cancellationToken);
-        return await req.CreateJsonResponseAsync(response, cancellationToken: cancellationToken);
+        return await req.CreateJsonResponseAsync(response, cancellationToken);
     }
 }

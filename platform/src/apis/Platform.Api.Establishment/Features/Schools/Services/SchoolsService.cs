@@ -47,7 +47,11 @@ public class SchoolsService(
 
     public Task<SuggestResponse<SchoolSummary>> SchoolsSuggestAsync(SchoolSuggestRequest request, CancellationToken cancellationToken = default)
     {
-        var fields = new[] { nameof(SchoolSummary.SchoolName), nameof(SchoolSummary.URN), nameof(SchoolSummary.AddressStreet), nameof(SchoolSummary.AddressLocality), nameof(SchoolSummary.AddressLine3), nameof(SchoolSummary.AddressTown), nameof(SchoolSummary.AddressCounty), nameof(SchoolSummary.AddressPostcode) };
+        var fields = new[]
+        {
+            nameof(SchoolSummary.SchoolName), nameof(SchoolSummary.URN), nameof(SchoolSummary.AddressStreet), nameof(SchoolSummary.AddressLocality), nameof(SchoolSummary.AddressLine3), nameof(SchoolSummary.AddressTown), nameof(SchoolSummary.AddressCounty),
+            nameof(SchoolSummary.AddressPostcode)
+        };
 
         return SuggestAsync(request, request.FilterExpression, fields, cancellationToken);
     }

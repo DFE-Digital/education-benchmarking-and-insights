@@ -68,7 +68,8 @@ public class DatabaseConnection(SqlConnection connection) : IDatabaseConnection,
     public Task<IEnumerable<TReturn>> QueryAsync<TFirst, TSecond, TThird, TFourth, TFifth, TSixth, TReturn>(PlatformQuery query, Func<TFirst, TSecond, TThird, TFourth, TFifth, TSixth, TReturn> map, string[] splitOn, CancellationToken cancellationToken = default) =>
         connection.QueryAsync(new CommandDefinition(query.QueryTemplate.RawSql, query.QueryTemplate.Parameters, cancellationToken: cancellationToken), map, string.Join(", ", splitOn));
 
-    public Task<IEnumerable<TReturn>> QueryAsync<TFirst, TSecond, TThird, TFourth, TFifth, TSixth, TSeventh, TReturn>(PlatformQuery query, Func<TFirst, TSecond, TThird, TFourth, TFifth, TSixth, TSeventh, TReturn> map, string[] splitOn, CancellationToken cancellationToken = default) =>
+    public Task<IEnumerable<TReturn>> QueryAsync<TFirst, TSecond, TThird, TFourth, TFifth, TSixth, TSeventh, TReturn>(PlatformQuery query, Func<TFirst, TSecond, TThird, TFourth, TFifth, TSixth, TSeventh, TReturn> map, string[] splitOn,
+        CancellationToken cancellationToken = default) =>
         connection.QueryAsync(new CommandDefinition(query.QueryTemplate.RawSql, query.QueryTemplate.Parameters, cancellationToken: cancellationToken), map, string.Join(", ", splitOn));
 
     public Task<IEnumerable<TReturn>> QueryAsync<TReturn>(PlatformQuery query, Type[] types, Func<object[], TReturn> map, string[] splitOn, CancellationToken cancellationToken = default) =>
@@ -122,7 +123,8 @@ public interface IDatabaseConnection : IDbConnection
 
     /// <inheritdoc
     ///     cref="Dapper.SqlMapper.QueryAsync&lt;TFirst,TSecond,TThird,TFourth,TFifth,TSixth,TSeventh,TReturn&gt;(IDbConnection, CommandDefinition, Func&lt;TFirst,TSecond,TThird,TFourth,TFifth,TSixth,TSeventh,TReturn&gt;, string)" />
-    Task<IEnumerable<TReturn>> QueryAsync<TFirst, TSecond, TThird, TFourth, TFifth, TSixth, TSeventh, TReturn>(PlatformQuery query, Func<TFirst, TSecond, TThird, TFourth, TFifth, TSixth, TSeventh, TReturn> map, string[] splitOn, CancellationToken cancellationToken = default);
+    Task<IEnumerable<TReturn>> QueryAsync<TFirst, TSecond, TThird, TFourth, TFifth, TSixth, TSeventh, TReturn>(PlatformQuery query, Func<TFirst, TSecond, TThird, TFourth, TFifth, TSixth, TSeventh, TReturn> map, string[] splitOn,
+        CancellationToken cancellationToken = default);
 
     /// <inheritdoc
     ///     cref="Dapper.SqlMapper.QueryAsync&lt;TReturn&gt;(IDbConnection, string, Type[], Func&lt;object[], TReturn&gt;, object?, IDbTransaction?, bool, string, int?, CommandType?)" />

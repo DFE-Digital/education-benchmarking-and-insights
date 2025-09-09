@@ -12,15 +12,24 @@ public class TrustIndexerBuilder : IndexerBuilder
     public override async Task Build(SearchIndexerClient client)
     {
         var cosmosDbIndexer = new SearchIndexer(
-            name: Name,
-            dataSourceName: ResourceNames.Search.DataSources.Trust,
-            targetIndexName: ResourceNames.Search.Indexes.Trust)
+            Name,
+            ResourceNames.Search.DataSources.Trust,
+            ResourceNames.Search.Indexes.Trust)
         {
             FieldMappings =
             {
-                new FieldMapping("CompanyNumber") { TargetFieldName = nameof(TrustIndex.CompanyNumber) },
-                new FieldMapping("TrustName") { TargetFieldName = nameof(TrustIndex.TrustName) },
-                new FieldMapping("TrustNameSortable") { TargetFieldName = nameof(TrustIndex.TrustNameSortable) }
+                new FieldMapping("CompanyNumber")
+                {
+                    TargetFieldName = nameof(TrustIndex.CompanyNumber)
+                },
+                new FieldMapping("TrustName")
+                {
+                    TargetFieldName = nameof(TrustIndex.TrustName)
+                },
+                new FieldMapping("TrustNameSortable")
+                {
+                    TargetFieldName = nameof(TrustIndex.TrustNameSortable)
+                }
             }
         };
 

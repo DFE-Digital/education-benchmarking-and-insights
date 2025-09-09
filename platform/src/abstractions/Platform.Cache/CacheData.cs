@@ -1,4 +1,5 @@
 ﻿// ReSharper disable AutoPropertyCanBeMadeGetOnly.Global
+
 namespace Platform.Cache;
 
 // this is a lightweight wrapper around the cached data to ensure that there is always a

@@ -29,7 +29,7 @@ public class PostLocalAuthoritiesSearchFunction(
         [HttpTrigger(AuthorizationLevel.Admin, MethodType.Post, Route = Routes.LocalAuthoritiesSearch)] HttpRequestData req,
         CancellationToken cancellationToken = default)
     {
-        var body = await req.ReadAsJsonAsync<SearchRequest>(cancellationToken: cancellationToken);
+        var body = await req.ReadAsJsonAsync<SearchRequest>(cancellationToken);
 
         var validationResult = await validator.ValidateAsync(body, cancellationToken);
         if (!validationResult.IsValid)
@@ -38,6 +38,6 @@ public class PostLocalAuthoritiesSearchFunction(
         }
 
         var localAuthorities = await service.LocalAuthoritiesSearchAsync(body, cancellationToken);
-        return await req.CreateJsonResponseAsync(localAuthorities, cancellationToken: cancellationToken);
+        return await req.CreateJsonResponseAsync(localAuthorities, cancellationToken);
     }
 }

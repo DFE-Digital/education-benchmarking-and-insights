@@ -12,9 +12,9 @@ public class TrustComparatorsIndexerBuilder : IndexerBuilder
     public override async Task Build(SearchIndexerClient client)
     {
         var indexer = new SearchIndexer(
-            name: Name,
-            dataSourceName: ResourceNames.Search.DataSources.TrustComparators,
-            targetIndexName: ResourceNames.Search.Indexes.TrustComparators);
+            Name,
+            ResourceNames.Search.DataSources.TrustComparators,
+            ResourceNames.Search.Indexes.TrustComparators);
 
         await client.CreateOrUpdateIndexerAsync(indexer);
     }

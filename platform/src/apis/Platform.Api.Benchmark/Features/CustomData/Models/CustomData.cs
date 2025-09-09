@@ -7,7 +7,11 @@ namespace Platform.Api.Benchmark.Features.CustomData.Models;
 [Table("CustomDataSchool")]
 public record CustomDataSchool
 {
-    [ExplicitKey] public string? Id { get; set; }
-    [ExplicitKey] public string? URN { get; set; }
+    [ExplicitKey]
+    public string? Id { get; set; }
+
+    [ExplicitKey]
+    public string? URN { get; set; }
+
     public string? Data { get; set; }
 }

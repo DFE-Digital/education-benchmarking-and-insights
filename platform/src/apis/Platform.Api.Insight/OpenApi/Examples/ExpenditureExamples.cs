@@ -14,7 +14,6 @@ internal class ExampleCostCategories : OpenApiExample<string>
         foreach (var status in CostCategories.All)
         {
             Examples.Add(OpenApiExampleResolver.Resolve(status, status, namingStrategy));
-
         }
 
         return this;
@@ -29,7 +28,6 @@ internal class ExampleRagStatuses : OpenApiExample<string>
         foreach (var status in RagRating.All)
         {
             Examples.Add(OpenApiExampleResolver.Resolve(status, status, namingStrategy));
-
         }
 
         return this;
@@ -44,7 +42,6 @@ internal class ExampleFinanceTypes : OpenApiExample<string>
         foreach (var type in FinanceType.All)
         {
             Examples.Add(OpenApiExampleResolver.Resolve(type, type, namingStrategy));
-
         }
 
         return this;

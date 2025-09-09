@@ -2,17 +2,18 @@
 using StackExchange.Redis;
 using Xunit;
 using Xunit.Abstractions;
+
 namespace Platform.Cache.Tests.Cache;
 
 public class WhenRedisDistributedCacheFlushesWithAdminMode(ITestOutputHelper testOutputHelper) : RedisDistributedCacheTestBase(testOutputHelper, CacheOptions)
 {
-
     private static readonly RedisCacheOptions CacheOptions = new()
     {
         Host = "host",
         Port = "port",
         AllowAdmin = true
     };
+
     [Fact]
     public async Task ShouldPerformFlush()
     {
@@ -44,12 +45,12 @@ public class WhenRedisDistributedCacheFlushesWithoutAdminMode(ITestOutputHelper 
 
 public class WhenRedisDistributedCacheFlushesWithoutHostNameInConfig(ITestOutputHelper testOutputHelper) : RedisDistributedCacheTestBase(testOutputHelper, CacheOptions)
 {
-
     private static readonly RedisCacheOptions CacheOptions = new()
     {
         Port = "port",
         AllowAdmin = true
     };
+
     [Fact]
     public async Task ShouldNotPerformFlush()
     {

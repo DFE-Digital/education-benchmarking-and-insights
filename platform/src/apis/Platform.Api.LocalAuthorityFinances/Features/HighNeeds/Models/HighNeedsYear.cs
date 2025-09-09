@@ -1,5 +1,6 @@
 ﻿// ReSharper disable PropertyCanBeMadeInitOnly.Global
 // ReSharper disable UnusedAutoPropertyAccessor.Global
+
 namespace Platform.Api.LocalAuthorityFinances.Features.HighNeeds.Models;
 
 public record HighNeedsYear : HighNeeds

@@ -16,9 +16,15 @@ public record ComparatorSetSchool
 [Table("UserDefinedSchoolComparatorSet")]
 public record ComparatorSetUserDefinedSchool
 {
-    [ExplicitKey] public string? RunType { get; set; }
-    [ExplicitKey] public string? RunId { get; set; }
-    [ExplicitKey] public string? URN { get; set; }
+    [ExplicitKey]
+    public string? RunType { get; set; }
+
+    [ExplicitKey]
+    public string? RunId { get; set; }
+
+    [ExplicitKey]
+    public string? URN { get; set; }
+
     public ComparatorSetIds? Set { get; set; }
 }
 
@@ -26,8 +32,14 @@ public record ComparatorSetUserDefinedSchool
 [Table("UserDefinedTrustComparatorSet")]
 public record ComparatorSetUserDefinedTrust
 {
-    [ExplicitKey] public string? RunType { get; set; }
-    [ExplicitKey] public string? RunId { get; set; }
-    [ExplicitKey] public string? CompanyNumber { get; set; }
+    [ExplicitKey]
+    public string? RunType { get; set; }
+
+    [ExplicitKey]
+    public string? RunId { get; set; }
+
+    [ExplicitKey]
+    public string? CompanyNumber { get; set; }
+
     public ComparatorSetIds? Set { get; set; }
 }

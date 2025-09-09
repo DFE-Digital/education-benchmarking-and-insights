@@ -15,7 +15,9 @@ public static class Mapper
     public static IncomeSchoolResponse MapToApiResponse(this IncomeSchoolModel model)
     {
         if (model == null)
+        {
             throw new ArgumentNullException(nameof(model), "Model cannot be null.");
+        }
 
         return new IncomeSchoolResponse
         {
@@ -57,7 +59,9 @@ public static class Mapper
     private static IncomeHistoryRowResponse MapToApiResponse(this IncomeHistoryModel model)
     {
         if (model == null)
+        {
             throw new ArgumentNullException(nameof(model), "Model cannot be null.");
+        }
 
         return new IncomeHistoryRowResponse
         {

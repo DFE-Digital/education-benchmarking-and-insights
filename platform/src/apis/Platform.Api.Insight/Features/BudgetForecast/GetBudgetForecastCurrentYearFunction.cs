@@ -34,6 +34,6 @@ public class GetBudgetForecastCurrentYearFunction(IBudgetForecastService service
             return req.CreateNotFoundResponse();
         }
 
-        return await req.CreateJsonResponseAsync(year, cancellationToken: cancellationToken);
+        return await req.CreateJsonResponseAsync(year, cancellationToken);
     }
 }

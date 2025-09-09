@@ -4,7 +4,8 @@ using Xunit;
 
 namespace Platform.ApiTests.Steps;
 
-[Binding, Scope(Feature = "Non financial healthcheck endpoint")]
+[Binding]
+[Scope(Feature = "Non financial healthcheck endpoint")]
 public class NonFinancialHealthcheckSteps(NonFinancialApiDriver api)
 {
     private const string RequestKey = "health-check";

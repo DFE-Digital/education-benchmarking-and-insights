@@ -18,10 +18,12 @@ public class WhenGetSchoolsCharacteristicsFunctionRuns : FunctionsTestBase
     private static readonly Fixture Fixture = new();
     private static readonly SchoolsParameters QueryParams = Fixture.Create<SchoolsParameters>();
     private readonly GetSchoolsCharacteristicsFunction _function;
+
     private readonly Dictionary<string, StringValues> _query = new()
     {
         { nameof(QueryParams.Schools), QueryParams.Schools }
     };
+
     private readonly Mock<ISchoolsService> _service = new();
 
     public WhenGetSchoolsCharacteristicsFunctionRuns()
