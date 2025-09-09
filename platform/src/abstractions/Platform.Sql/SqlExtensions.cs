@@ -41,4 +41,3 @@ public class PlatformSqlOptions(string connectionString)
 {
     public string ConnectionString => connectionString;
 }
-

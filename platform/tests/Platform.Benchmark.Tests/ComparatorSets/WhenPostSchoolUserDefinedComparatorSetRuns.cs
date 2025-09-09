@@ -30,7 +30,6 @@ public class WhenPostSchoolUserDefinedComparatorSetRuns : FunctionsTestBase
     [Fact]
     public async Task CreateUserDefinedShouldCreateSuccessfully()
     {
-
         var model = _fixture.Build<ComparatorSetUserDefinedRequest>()
             .Create();
 
@@ -62,7 +61,6 @@ public class WhenPostSchoolUserDefinedComparatorSetRuns : FunctionsTestBase
         _service.Verify(
             x => x.InsertNewAndDeactivateExistingUserDataAsync(
                 It.IsAny<ComparatorSetUserData>()), Times.Once());
-
     }
 
     [Fact]

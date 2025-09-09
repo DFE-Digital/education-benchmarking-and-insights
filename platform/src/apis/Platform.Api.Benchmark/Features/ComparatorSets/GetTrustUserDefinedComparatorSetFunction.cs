@@ -30,6 +30,6 @@ public class GetTrustUserDefinedComparatorSetFunction(IComparatorSetsService ser
         var comparatorSet = await service.UserDefinedTrustAsync(companyNumber, identifier, cancellationToken: cancellationToken);
         return comparatorSet == null
             ? req.CreateNotFoundResponse()
-            : await req.CreateJsonResponseAsync(comparatorSet, cancellationToken: cancellationToken);
+            : await req.CreateJsonResponseAsync(comparatorSet, cancellationToken);
     }
 }

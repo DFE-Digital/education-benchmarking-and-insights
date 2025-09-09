@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Platform.Api.Insight.Features.ItSpend.Responses;
-using Platform.Domain;
 using Platform.Sql;
 using Platform.Sql.QueryBuilders;
 

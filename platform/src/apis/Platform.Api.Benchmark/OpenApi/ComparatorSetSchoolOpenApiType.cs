@@ -24,7 +24,7 @@ internal interface IComparatorSetUserDefinedSchool
     string? RunType { get; }
     string? RunId { get; }
     string? URN { get; }
-    public List<string>? Set { get; }
+    List<string>? Set { get; }
 }
 
 /// <summary>
@@ -35,5 +35,5 @@ internal interface IComparatorSetUserDefinedTrust
     string? RunType { get; }
     string? RunId { get; }
     string? CompanyNumber { get; }
-    public List<string>? Set { get; }
+    List<string>? Set { get; }
 }

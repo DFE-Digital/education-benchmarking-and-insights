@@ -11,8 +11,6 @@ namespace Platform.Test.Mocks;
 
 public abstract class MockHttpRequestData
 {
-
-
     public static HttpRequestData Create(Dictionary<string, StringValues>? query = null, HttpHeadersCollection? headers = null) => Create<string>("", query, headers);
 
     public static HttpRequestData Create<T>(T requestData, Dictionary<string, StringValues>? query = null, HttpHeadersCollection? headers = null) where T : class

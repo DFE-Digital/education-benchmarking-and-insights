@@ -29,6 +29,4 @@ public static class TestConfiguration
         public string Host { get; init; }
         public string Key { get; init; }
     }
-#nullable restore warnings
-
 }

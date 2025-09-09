@@ -1,4 +1,5 @@
 ﻿using System.Text.RegularExpressions;
+
 namespace Platform.Cache;
 
 public partial class CacheKeyFactory : ICacheKeyFactory

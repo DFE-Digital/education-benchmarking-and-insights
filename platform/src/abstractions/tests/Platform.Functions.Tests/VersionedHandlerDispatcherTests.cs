@@ -4,11 +4,6 @@ namespace Platform.Functions.Tests;
 
 public class VersionedHandlerDispatcherTests
 {
-    private class TestHandler(string version) : IVersionedHandler
-    {
-        public string Version { get; } = version;
-    }
-
     [Fact]
     public void GetHandler_ReturnsCorrectHandler_ForSpecificVersion()
     {
@@ -64,10 +59,10 @@ public class VersionedHandlerDispatcherTests
     {
         var handlers = new List<TestHandler>
         {
-            new ("1.0"),
-            new ("1.10"),
-            new ("2.0"),
-            new ("1.9")
+            new("1.0"),
+            new("1.10"),
+            new("2.0"),
+            new("1.9")
         };
 
         var dispatcher = new VersionedHandlerDispatcher<TestHandler>(handlers);
@@ -76,5 +71,10 @@ public class VersionedHandlerDispatcherTests
 
         Assert.NotNull(latest);
         Assert.Equal("2.0", latest.Version);
+    }
+
+    private class TestHandler(string version) : IVersionedHandler
+    {
+        public string Version { get; } = version;
     }
 }

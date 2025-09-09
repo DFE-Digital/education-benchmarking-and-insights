@@ -56,4 +56,3 @@ public sealed class ExceptionHandlingMiddleware(ILogger<ExceptionHandlingMiddlew
         provider.SetInvocationResult(context, response);
     }
 }
-

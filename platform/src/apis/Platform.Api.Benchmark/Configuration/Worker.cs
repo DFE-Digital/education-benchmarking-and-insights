@@ -2,8 +2,8 @@
 using System.Linq;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Extensions.Hosting;
-using Platform.Functions;
 using Platform.Functions.Middleware;
+
 namespace Platform.Api.Benchmark.Configuration;
 
 [ExcludeFromCodeCoverage]
@@ -18,7 +18,5 @@ internal static class Worker
         });
     }
 
-    internal static void Options(WorkerOptions options)
-    {
-    }
+    internal static void Options(WorkerOptions options) { }
 }

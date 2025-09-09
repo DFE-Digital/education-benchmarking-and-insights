@@ -15,7 +15,7 @@ public class WhenTrustSuggestRequestCreatesFilterExpression
         {
             Exclude = Enumerable.Range(0, exclusionCount)
                 .Select(i => $"{i}")
-                .ToArray(),
+                .ToArray()
         };
 
         var result = request.FilterExpression();

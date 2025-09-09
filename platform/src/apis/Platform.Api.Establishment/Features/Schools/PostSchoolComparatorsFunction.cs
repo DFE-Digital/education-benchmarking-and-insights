@@ -27,8 +27,8 @@ public class PostSchoolComparatorsFunction(ISchoolComparatorsService service)
         string identifier,
         CancellationToken cancellationToken = default)
     {
-        var body = await req.ReadAsJsonAsync<SchoolComparatorsRequest>(cancellationToken: cancellationToken);
+        var body = await req.ReadAsJsonAsync<SchoolComparatorsRequest>(cancellationToken);
         var comparators = await service.ComparatorsAsync(identifier, body, cancellationToken);
-        return await req.CreateJsonResponseAsync(comparators, cancellationToken: cancellationToken);
+        return await req.CreateJsonResponseAsync(comparators, cancellationToken);
     }
 }

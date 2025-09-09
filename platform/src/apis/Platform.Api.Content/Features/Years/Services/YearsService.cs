@@ -1,6 +1,5 @@
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
-using Dapper;
 using Platform.Api.Content.Features.Years.Models;
 using Platform.Sql;
 using Platform.Sql.QueryBuilders;

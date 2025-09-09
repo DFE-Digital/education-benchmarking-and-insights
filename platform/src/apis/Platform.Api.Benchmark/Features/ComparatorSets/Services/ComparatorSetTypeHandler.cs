@@ -14,8 +14,5 @@ public class ComparatorSetIdsTypeHandler : SqlMapper.TypeHandler<ComparatorSetId
         parameter.Value = value?.ToString();
     }
 
-    public override ComparatorSetIds Parse(object? value)
-    {
-        return ComparatorSetIds.FromString(value?.ToString());
-    }
+    public override ComparatorSetIds Parse(object? value) => ComparatorSetIds.FromString(value?.ToString());
 }

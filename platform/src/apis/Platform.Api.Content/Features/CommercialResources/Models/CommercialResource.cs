@@ -1,4 +1,4 @@
-using System.Diagnostics.CodeAnalysis;
+﻿using System.Diagnostics.CodeAnalysis;
 using Platform.Json;
 
 namespace Platform.Api.Content.Features.CommercialResources.Models;
@@ -14,9 +14,7 @@ public record CommercialResource
 
 public class CategoryCollection(string[] categories)
 {
-    public CategoryCollection() : this([])
-    {
-    }
+    public CategoryCollection() : this([]) { }
 
     public string[] Items => categories;
 

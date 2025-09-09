@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Extensions.Logging;
-using Platform.Functions.Extensions;
 using Platform.Json;
 
 namespace Platform.UserDataCleanUp;
@@ -15,9 +14,7 @@ public class CleanUpFunctions(ILogger<CleanUpFunctions> logger, IPlatformDb db)
     {
         using (logger.BeginScope(new Dictionary<string, object>
                {
-                   {
-                       "Application", Constants.ApplicationName
-                   }
+                   { "Application", Constants.ApplicationName }
                }))
         {
             try
@@ -46,7 +43,6 @@ public class CleanUpFunctions(ILogger<CleanUpFunctions> logger, IPlatformDb db)
                     {
                         logger.LogWarning($"Empty record id data : {record.ToJson()}");
                     }
-
                 }
             }
             catch (Exception e)

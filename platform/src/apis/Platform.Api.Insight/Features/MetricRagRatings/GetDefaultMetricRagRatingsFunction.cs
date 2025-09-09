@@ -46,6 +46,6 @@ public class GetDefaultMetricRagRatingsFunction(
         }
 
         var result = await service.QueryAsync(queryParams.Urns, queryParams.Categories, queryParams.Statuses, queryParams.CompanyNumber, queryParams.LaCode, queryParams.Phase, cancellationToken: cancellationToken);
-        return await req.CreateJsonResponseAsync(result, cancellationToken: cancellationToken);
+        return await req.CreateJsonResponseAsync(result, cancellationToken);
     }
 }

@@ -37,6 +37,6 @@ public class GetLocalAuthoritiesNationalRankFunction(ILocalAuthorityRankingServi
         }
 
         var response = await service.GetRanking(queryParams.Ranking, queryParams.Sort, cancellationToken);
-        return await req.CreateJsonResponseAsync(response, cancellationToken: cancellationToken);
+        return await req.CreateJsonResponseAsync(response, cancellationToken);
     }
 }

@@ -2,6 +2,7 @@
 using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Attributes;
 using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Enums;
 using Microsoft.OpenApi.Models;
+
 namespace Platform.Functions.OpenApi;
 
 [ExcludeFromCodeCoverage]

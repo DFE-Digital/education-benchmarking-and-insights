@@ -21,8 +21,7 @@ public class GetNewsArticleFunction(IVersionedHandlerDispatcher<IGetNewsArticleH
     [OpenApiResponseWithBody(HttpStatusCode.OK, ContentType.ApplicationJson, typeof(Models.News))]
     [OpenApiResponseWithoutBody(HttpStatusCode.NotFound)]
     public async Task<HttpResponseData> RunAsync(
-        [HttpTrigger(AuthorizationLevel.Admin, MethodType.Get, Route = Routes.NewsArticle)]
-        HttpRequestData req,
+        [HttpTrigger(AuthorizationLevel.Admin, MethodType.Get, Route = Routes.NewsArticle)] HttpRequestData req,
         string slug,
         CancellationToken cancellationToken = default)
     {

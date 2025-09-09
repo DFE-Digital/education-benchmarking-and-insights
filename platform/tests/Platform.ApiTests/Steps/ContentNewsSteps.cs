@@ -1,9 +1,7 @@
 ﻿using Newtonsoft.Json.Linq;
-using Platform.Api.Content.Features.News.Models;
 using Platform.ApiTests.Assertion;
 using Platform.ApiTests.Drivers;
 using Platform.ApiTests.TestDataHelpers;
-using Platform.Json;
 
 namespace Platform.ApiTests.Steps;
 

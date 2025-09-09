@@ -27,8 +27,8 @@ public class PostTrustComparatorsFunction(ITrustComparatorsService service)
         string identifier,
         CancellationToken cancellationToken = default)
     {
-        var body = await req.ReadAsJsonAsync<TrustComparatorsRequest>(cancellationToken: cancellationToken);
+        var body = await req.ReadAsJsonAsync<TrustComparatorsRequest>(cancellationToken);
         var comparators = await service.ComparatorsAsync(identifier, body, cancellationToken);
-        return await req.CreateJsonResponseAsync(comparators, cancellationToken: cancellationToken);
+        return await req.CreateJsonResponseAsync(comparators, cancellationToken);
     }
 }

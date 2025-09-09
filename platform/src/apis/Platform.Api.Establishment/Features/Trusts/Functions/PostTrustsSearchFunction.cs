@@ -29,7 +29,7 @@ public class PostTrustsSearchFunction(
         [HttpTrigger(AuthorizationLevel.Admin, MethodType.Post, Route = Routes.TrustsSearch)] HttpRequestData req,
         CancellationToken cancellationToken = default)
     {
-        var body = await req.ReadAsJsonAsync<SearchRequest>(cancellationToken: cancellationToken);
+        var body = await req.ReadAsJsonAsync<SearchRequest>(cancellationToken);
 
         var validationResult = await validator.ValidateAsync(body, cancellationToken);
         if (!validationResult.IsValid)
@@ -38,6 +38,6 @@ public class PostTrustsSearchFunction(
         }
 
         var trusts = await service.TrustsSearchAsync(body, cancellationToken);
-        return await req.CreateJsonResponseAsync(trusts, cancellationToken: cancellationToken);
+        return await req.CreateJsonResponseAsync(trusts, cancellationToken);
     }
 }

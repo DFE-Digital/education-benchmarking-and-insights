@@ -47,4 +47,3 @@ public class WhenCategoryCollectionTypeHandlerParses
         Assert.Empty(result.Items);
     }
 }
-

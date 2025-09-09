@@ -12,7 +12,9 @@ namespace Platform.Api.Benchmark.Features.CustomData.Models;
 [Table("UserData")]
 public record CustomDataUserData
 {
-    [ExplicitKey] public string? Id { get; set; } = Guid.NewGuid().ToString();
+    [ExplicitKey]
+    public string? Id { get; set; } = Guid.NewGuid().ToString();
+
     public string? UserId { get; set; }
     public string? Type { get; set; }
 

@@ -12,15 +12,24 @@ public class LocalAuthorityIndexerBuilder : IndexerBuilder
     public override async Task Build(SearchIndexerClient client)
     {
         var indexer = new SearchIndexer(
-            name: Name,
-            dataSourceName: ResourceNames.Search.DataSources.LocalAuthority,
-            targetIndexName: ResourceNames.Search.Indexes.LocalAuthority)
+            Name,
+            ResourceNames.Search.DataSources.LocalAuthority,
+            ResourceNames.Search.Indexes.LocalAuthority)
         {
             FieldMappings =
             {
-                new FieldMapping("Code") { TargetFieldName = nameof(LocalAuthorityIndex.Code) },
-                new FieldMapping("Name") { TargetFieldName = nameof(LocalAuthorityIndex.Name) },
-                new FieldMapping("LocalAuthorityNameSortable") { TargetFieldName = nameof(LocalAuthorityIndex.LocalAuthorityNameSortable) }
+                new FieldMapping("Code")
+                {
+                    TargetFieldName = nameof(LocalAuthorityIndex.Code)
+                },
+                new FieldMapping("Name")
+                {
+                    TargetFieldName = nameof(LocalAuthorityIndex.Name)
+                },
+                new FieldMapping("LocalAuthorityNameSortable")
+                {
+                    TargetFieldName = nameof(LocalAuthorityIndex.LocalAuthorityNameSortable)
+                }
             }
         };
 

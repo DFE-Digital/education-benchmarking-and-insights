@@ -15,13 +15,7 @@ public class SchoolIndexBuilder : IndexBuilder
         var definition = new SearchIndex(Name, searchFields);
         var suggestFields = new[]
         {
-            nameof(SchoolIndex.SchoolName),
-            nameof(SchoolIndex.URN),
-            nameof(SchoolIndex.AddressStreet),
-            nameof(SchoolIndex.AddressLocality),
-            nameof(SchoolIndex.AddressLine3),
-            nameof(SchoolIndex.AddressTown),
-            nameof(SchoolIndex.AddressCounty),
+            nameof(SchoolIndex.SchoolName), nameof(SchoolIndex.URN), nameof(SchoolIndex.AddressStreet), nameof(SchoolIndex.AddressLocality), nameof(SchoolIndex.AddressLine3), nameof(SchoolIndex.AddressTown), nameof(SchoolIndex.AddressCounty),
             nameof(SchoolIndex.AddressPostcode)
         };
 

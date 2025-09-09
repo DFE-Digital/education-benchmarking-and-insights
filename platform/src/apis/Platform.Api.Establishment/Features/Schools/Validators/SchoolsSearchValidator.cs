@@ -10,7 +10,6 @@ public class SchoolsSearchValidator : AbstractValidator<SearchRequest>
 {
     public SchoolsSearchValidator()
     {
-
         Include(new PostSearchRequestValidator());
 
         RuleFor(x => x.Filters)

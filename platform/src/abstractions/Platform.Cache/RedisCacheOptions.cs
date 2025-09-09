@@ -4,9 +4,11 @@ namespace Platform.Cache;
 
 public class RedisCacheOptions
 {
-    [Required] public string? Host { get; set; }
+    [Required]
+    public string? Host { get; set; }
 
-    [Required] public string? Port { get; set; }
+    [Required]
+    public string? Port { get; set; }
 
     public string? Password { get; set; }
 

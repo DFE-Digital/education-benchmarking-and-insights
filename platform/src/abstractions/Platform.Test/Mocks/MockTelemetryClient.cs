@@ -34,14 +34,10 @@ public class MockTelemetryChannel : ITelemetryChannel
         _sentTelemetries.Add(item);
     }
 
-    public void Flush()
-    {
-    }
+    public void Flush() { }
 
     [SuppressMessage("Usage", "CA1816:Dispose methods should call SuppressFinalize")]
-    public void Dispose()
-    {
-    }
+    public void Dispose() { }
 
     public T? GetLastTelemetryItemOfType<T>() => _sentTelemetries.Cast<T>().LastOrDefault();
 }

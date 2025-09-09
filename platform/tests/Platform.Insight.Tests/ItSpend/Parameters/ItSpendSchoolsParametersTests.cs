@@ -15,7 +15,7 @@ public class ItSpendSchoolsParametersTests
             { "urns", "123456" },
             { "urns", "234567" },
             { "urns", "345678" },
-            { "dimension", "dimension" },
+            { "dimension", "dimension" }
         };
 
         var parameters = new ItSpendSchoolsParameters();

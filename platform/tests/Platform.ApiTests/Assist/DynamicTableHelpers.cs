@@ -1,6 +1,7 @@
 using System.Dynamic;
 using System.Text.RegularExpressions;
 using Dynamitey;
+
 namespace Platform.ApiTests.Assist;
 
 // source: https://github.com/marcusoftnet/SpecFlow.Assist.Dynamic/blob/master/SpecFlow.Assist.Dynamic/DynamicTableHelpers.cs
@@ -10,10 +11,13 @@ public static partial class DynamicTableHelpers
     private const string ErrorMessageInstanceTableFormat = "Can only create instances of tables with one row, or exactly 2 columns and several rows";
     private const string ErrorMessageNotOnTable = "The '{0}' value not present in the table, but on the instance";
     private const string ErrorMessageNotOnInstance = "The '{0}' value not present on the instance, but in the table";
+
     private const string ErrorMessageValueDiffers =
         "The '{0}' value differs from table and instance.\n\tInstance:\t'{1}'(type: {2}).\n\tTable:\t\t'{3}'(type: {4})";
+
     private const string ErrorMessageNumberOfRowsDiffers =
         "Number of rows for table ({0} rows) and set ({1} rows) differs";
+
     private const string ErrorMessageSetValuesDiffers =
         "A difference was found on row '{0}' for column '{1}' (property '{2}').\n\tInstance:\t'{3}'(type: {4}).\n\tTable:\t\t'{5}'(type: {6})";
 
@@ -218,12 +222,10 @@ public static partial class DynamicTableHelpers
         var diffs = new List<string>();
 
         diffs.AddRange(
-            allMembersInInstanceButNotInTable.Select(
-                m => string.Format(ErrorMessageNotOnTable, m)));
+            allMembersInInstanceButNotInTable.Select(m => string.Format(ErrorMessageNotOnTable, m)));
 
         diffs.AddRange(
-            allMembersInTableButNotInInstance.Select(
-                m => string.Format(ErrorMessageNotOnInstance, m)));
+            allMembersInTableButNotInInstance.Select(m => string.Format(ErrorMessageNotOnInstance, m)));
 
         return diffs;
     }
@@ -270,6 +272,7 @@ public static partial class DynamicTableHelpers
             {
                 return db;
             }
+
             return d;
         }
 

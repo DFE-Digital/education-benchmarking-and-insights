@@ -1,7 +1,7 @@
-﻿using Xunit;
+﻿using System.Collections;
 using Platform.Api.Establishment.Features.Trusts.Validators;
 using Platform.Search;
-using System.Collections;
+using Xunit;
 
 namespace Platform.Establishment.Tests.Trusts.Validators;
 
@@ -33,48 +33,72 @@ public class ValidSearchRequestData : IEnumerable<object[]>
 {
     public IEnumerator<object[]> GetEnumerator()
     {
-        yield return [new SearchRequest { SearchText = "tes" }];
         yield return
-            [
-                new SearchRequest
+        [
+            new SearchRequest
+            {
+                SearchText = "tes"
+            }
+        ];
+        yield return
+        [
+            new SearchRequest
+            {
+                SearchText = new string('a', 100)
+            }
+        ];
+        yield return
+        [
+            new SearchRequest
+            {
+                SearchText = "test",
+                Filters = []
+            }
+        ];
+        yield return
+        [
+            new SearchRequest
+            {
+                SearchText = "test"
+            }
+        ];
+        yield return
+        [
+            new SearchRequest
+            {
+                SearchText = "test",
+                OrderBy = new OrderByCriteria
                 {
-                    SearchText = new string('a', 100)
+                    Field = "TrustNameSortable",
+                    Value = "asc"
                 }
-            ];
+            }
+        ];
         yield return
-            [
-                new SearchRequest
+        [
+            new SearchRequest
+            {
+                SearchText = "test",
+                OrderBy = new OrderByCriteria
                 {
-                    SearchText = "test",
-                    Filters = []
+                    Field = "TrustNameSortable",
+                    Value = "desc"
                 }
-            ];
+            }
+        ];
         yield return
-            [
-                new SearchRequest
+        [
+            new SearchRequest
+            {
+                SearchText = "test",
+                Filters = [],
+                OrderBy = new OrderByCriteria
                 {
-                    SearchText = "test"
+                    Field = "TrustNameSortable",
+                    Value = "asc"
                 }
-            ];
-        yield return
-            [
-                new SearchRequest
-                { SearchText = "test", OrderBy = new OrderByCriteria { Field = "TrustNameSortable", Value = "asc" } }
-            ];
-        yield return
-            [
-                new SearchRequest
-                { SearchText = "test", OrderBy = new OrderByCriteria { Field = "TrustNameSortable", Value = "desc" } }
-            ];
-        yield return
-            [
-                new SearchRequest
-                {
-                    SearchText = "test",
-                    Filters = [],
-                    OrderBy = new OrderByCriteria { Field = "TrustNameSortable", Value = "asc" }
-                }
-            ];
+            }
+        ];
     }
 
     IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
@@ -84,26 +108,40 @@ public class InvalidSearchRequestData : IEnumerable<object[]>
 {
     public IEnumerator<object[]> GetEnumerator()
     {
-        yield return [new SearchRequest { SearchText = null }, "'Search Text' must not be empty."];
         yield return
-            [
-                new SearchRequest { SearchText = "te" },
-                "The length of 'Search Text' must be at least 3 characters. You entered 2 characters."
-            ];
+        [
+            new SearchRequest
+            {
+                SearchText = null
+            },
+            "'Search Text' must not be empty."
+        ];
         yield return
-            [
-                new SearchRequest
-                {
-                    SearchText = new string('a', 101)
-                },
-                "The length of 'Search Text' must be 100 characters or fewer. You entered 101 characters."
-            ];
+        [
+            new SearchRequest
+            {
+                SearchText = "te"
+            },
+            "The length of 'Search Text' must be at least 3 characters. You entered 2 characters."
+        ];
+        yield return
+        [
+            new SearchRequest
+            {
+                SearchText = new string('a', 101)
+            },
+            "The length of 'Search Text' must be 100 characters or fewer. You entered 101 characters."
+        ];
         yield return
         [
             new SearchRequest
             {
                 SearchText = "test",
-                OrderBy = new OrderByCriteria { Field = "test", Value = "asc" }
+                OrderBy = new OrderByCriteria
+                {
+                    Field = "test",
+                    Value = "asc"
+                }
             },
             "OrderBy Field must be TrustNameSortable"
         ];
@@ -112,7 +150,11 @@ public class InvalidSearchRequestData : IEnumerable<object[]>
             new SearchRequest
             {
                 SearchText = "test",
-                OrderBy = new OrderByCriteria { Field = "TrustNameSortable", Value = "test" }
+                OrderBy = new OrderByCriteria
+                {
+                    Field = "TrustNameSortable",
+                    Value = "test"
+                }
             },
             $"Order By must empty or be one of the supported values: {string.Join(", ", Sort.All)}"
         ];

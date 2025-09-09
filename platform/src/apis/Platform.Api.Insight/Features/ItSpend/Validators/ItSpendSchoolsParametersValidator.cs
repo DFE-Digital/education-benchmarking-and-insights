@@ -14,5 +14,6 @@ public class ItSpendSchoolsParametersValidator : AbstractValidator<ItSpendSchool
             .Must(BeAValidDimension)
             .WithMessage($"{{PropertyName}} must be empty or one of the supported values: {string.Join(", ", Dimensions.Finance.All)}");
     }
+
     private static bool BeAValidDimension(string? dimension) => Dimensions.Finance.IsValid(dimension);
 }

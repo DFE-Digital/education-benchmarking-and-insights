@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using Xunit;
+
 namespace Platform.Cache.Tests.CacheKey;
 
 [SuppressMessage("Performance", "CA1861:Avoid constant arrays as arguments")]
@@ -24,12 +25,7 @@ public class WhenCacheKeyFactoryCreatesCacheKey
     }
 
     [Theory]
-    [InlineData(new[]
-    {
-        "type",
-        "id",
-        "field"
-    }, "type:id:field")]
+    [InlineData(new[] { "type", "id", "field" }, "type:id:field")]
     public void ShouldReturnKeyForParts(string[] parts, string expected)
     {
         var actual = _factory.CreateCacheKey(parts);

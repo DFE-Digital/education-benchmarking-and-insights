@@ -7,12 +7,12 @@ namespace Platform.Cache.Tests.Cache;
 
 public abstract class RedisDistributedCacheTestBase
 {
-
     private static readonly RedisCacheOptions CacheOptions = new()
     {
         Host = "host",
         Port = "port"
     };
+
     private readonly Mock<IConnectionMultiplexer> _connectionMultiplexer = new();
     private readonly Mock<IRedisConnectionMultiplexerFactory> _factory = new();
     protected readonly RedisDistributedCache Cache;

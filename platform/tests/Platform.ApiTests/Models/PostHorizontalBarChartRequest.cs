@@ -1,4 +1,5 @@
 ﻿// ReSharper disable UnusedAutoPropertyAccessor.Global
+
 namespace Platform.ApiTests.Models;
 
 public record PostHorizontalBarChartRequest<T> : ChartRequest<T>

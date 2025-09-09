@@ -36,6 +36,6 @@ public class GetBudgetForecastReturnFunction(IBudgetForecastService service)
 
         var ar = await service.GetActualReturnsAsync(companyNumber, queryParams.Category, queryParams.RunId, cancellationToken);
 
-        return await req.CreateJsonResponseAsync(Mapper.MapToApiResponse(bfr, ar), cancellationToken: cancellationToken);
+        return await req.CreateJsonResponseAsync(Mapper.MapToApiResponse(bfr, ar), cancellationToken);
     }
 }

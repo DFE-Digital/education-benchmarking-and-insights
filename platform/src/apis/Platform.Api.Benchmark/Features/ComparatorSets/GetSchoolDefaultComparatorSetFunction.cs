@@ -28,6 +28,6 @@ public class GetSchoolDefaultComparatorSetFunction(IComparatorSetsService servic
         var comparatorSet = await service.DefaultSchoolAsync(urn, cancellationToken);
         return comparatorSet == null
             ? req.CreateNotFoundResponse()
-            : await req.CreateJsonResponseAsync(comparatorSet, cancellationToken: cancellationToken);
+            : await req.CreateJsonResponseAsync(comparatorSet, cancellationToken);
     }
 }

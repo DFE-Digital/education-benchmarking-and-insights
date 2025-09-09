@@ -28,6 +28,6 @@ public class GetFinancialPlansFunction(IFinancialPlansService service)
     {
         var urns = req.Query["urns"]?.Split(",").Where(x => !string.IsNullOrEmpty(x)).ToArray() ?? [];
         var plans = await service.QueryAsync(urns, cancellationToken);
-        return await req.CreateJsonResponseAsync(plans, cancellationToken: cancellationToken);
+        return await req.CreateJsonResponseAsync(plans, cancellationToken);
     }
 }

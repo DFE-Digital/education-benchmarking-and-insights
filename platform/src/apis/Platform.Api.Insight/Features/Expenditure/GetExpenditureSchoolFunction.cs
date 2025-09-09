@@ -43,6 +43,6 @@ public class GetExpenditureSchoolFunction(IExpenditureService service, IValidato
         var result = await service.GetSchoolAsync(urn, queryParams.Dimension, cancellationToken);
         return result == null
             ? req.CreateNotFoundResponse()
-            : await req.CreateJsonResponseAsync(result.MapToApiResponse(queryParams.Category), cancellationToken: cancellationToken);
+            : await req.CreateJsonResponseAsync(result.MapToApiResponse(queryParams.Category), cancellationToken);
     }
 }

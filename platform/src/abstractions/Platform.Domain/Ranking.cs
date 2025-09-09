@@ -9,7 +9,7 @@ public static class Ranking
 
         public static readonly string[] All =
         [
-            SpendAsPercentageOfBudget,
+            SpendAsPercentageOfBudget
         ];
 
         public static bool IsValid(string? ranking) => All.Any(a => a == ranking);

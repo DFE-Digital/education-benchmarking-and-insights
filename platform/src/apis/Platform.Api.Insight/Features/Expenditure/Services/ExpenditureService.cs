@@ -60,7 +60,6 @@ public class ExpenditureService(IDatabaseFactory dbFactory, ICacheKeyFactory cac
         if (urns.Length != 0)
         {
             builder.WhereUrnIn(urns);
-
         }
         else if (!string.IsNullOrWhiteSpace(companyNumber))
         {

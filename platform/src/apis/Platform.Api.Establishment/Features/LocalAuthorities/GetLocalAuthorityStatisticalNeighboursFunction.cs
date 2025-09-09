@@ -31,6 +31,6 @@ public class GetLocalAuthorityStatisticalNeighboursFunction(ILocalAuthoritiesSer
             return req.CreateNotFoundResponse();
         }
 
-        return await req.CreateJsonResponseAsync(response, cancellationToken: cancellationToken);
+        return await req.CreateJsonResponseAsync(response, cancellationToken);
     }
 }

@@ -20,7 +20,7 @@
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
             <CopyToPublishDirectory>Never</CopyToPublishDirectory>
         </None>
-        <ProjectReference Include="..\..\abstractions\Platform.Cache\Platform.Cache.csproj" />
+        <ProjectReference Include="..\..\abstractions\Platform.Cache\Platform.Cache.csproj"/>
         <ProjectReference Include="..\..\abstractions\Platform.Functions\Platform.Functions.csproj"/>
         <PackageReference Include="Azure.Search.Documents"/>
         <PackageReference Include="Dapper.Contrib"/>
@@ -33,7 +33,7 @@
         <PackageReference Include="Microsoft.Azure.Functions.Worker.Extensions.Storage.Queues"/>
         <PackageReference Include="Microsoft.Azure.Functions.Worker.Extensions.Timer"/>
         <ProjectReference Include="..\..\abstractions\Platform.Infrastructure\Platform.Infrastructure.csproj"/>
-        <ProjectReference Include="..\..\abstractions\Platform.Json\Platform.Json.csproj" />
+        <ProjectReference Include="..\..\abstractions\Platform.Json\Platform.Json.csproj"/>
         <ProjectReference Include="..\..\abstractions\Platform.Sql\Platform.Sql.csproj"/>
     </ItemGroup>
     <ItemGroup>

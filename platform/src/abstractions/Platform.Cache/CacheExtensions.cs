@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
+
 // ReSharper disable UnusedMethodReturnValue.Global
 
 namespace Platform.Cache;

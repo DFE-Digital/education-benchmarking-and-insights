@@ -43,5 +43,13 @@ public record School
 
     public IEnumerable<School>? FederationSchools { get; set; }
 
-    public string Address => string.Join(", ", new List<string?> { AddressStreet, AddressLocality, AddressLine3, AddressTown, AddressCounty, AddressPostcode }.Where(x => !string.IsNullOrEmpty(x)));
+    public string Address => string.Join(", ", new List<string?>
+    {
+        AddressStreet,
+        AddressLocality,
+        AddressLine3,
+        AddressTown,
+        AddressCounty,
+        AddressPostcode
+    }.Where(x => !string.IsNullOrEmpty(x)));
 }

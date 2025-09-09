@@ -9,7 +9,6 @@ public static class HttpResponseDataExtensions
     {
         ArgumentNullException.ThrowIfNull(response);
         return response.Headers.TryGetValues("Content-Type", out var headers) ? headers.FirstOrDefault() : null;
-
     }
 
     public static async Task<T?> ReadAsJsonAsync<T>(this HttpResponseData? response)

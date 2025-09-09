@@ -1,5 +1,6 @@
 using Azure.Search.Documents.Indexes;
 using Azure.Search.Documents.Indexes.Models;
+
 // ReSharper disable UnusedMember.Global
 
 namespace Platform.Search.Resources.SchoolComparators;

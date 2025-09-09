@@ -39,6 +39,6 @@ public class GetItSpendSchoolsFunction(IItSpendService service, IValidator<ItSpe
 
         var result = await service.GetSchoolsAsync(queryParams.Urns, queryParams.Dimension, cancellationToken);
 
-        return await req.CreateJsonResponseAsync(result, cancellationToken: cancellationToken);
+        return await req.CreateJsonResponseAsync(result, cancellationToken);
     }
 }

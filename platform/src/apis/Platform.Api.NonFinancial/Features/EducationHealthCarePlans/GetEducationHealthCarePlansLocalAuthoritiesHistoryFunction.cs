@@ -42,6 +42,6 @@ public class GetEducationHealthCarePlansLocalAuthoritiesHistoryFunction(
         var result = await service.GetHistory(queryParams.Codes, queryParams.Dimension, cancellationToken);
         return result == null
             ? req.CreateNotFoundResponse()
-            : await req.CreateJsonResponseAsync(result, cancellationToken: cancellationToken);
+            : await req.CreateJsonResponseAsync(result, cancellationToken);
     }
 }

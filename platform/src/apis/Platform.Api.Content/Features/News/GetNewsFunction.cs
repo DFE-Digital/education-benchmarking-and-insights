@@ -19,8 +19,7 @@ public class GetNewsFunction(IVersionedHandlerDispatcher<IGetNewsHandler> dispat
     [OpenApiParameter(Functions.Constants.ApiVersion, Type = typeof(string), In = ParameterLocation.Header)]
     [OpenApiResponseWithBody(HttpStatusCode.OK, ContentType.ApplicationJson, typeof(Models.News[]))]
     public async Task<HttpResponseData> RunAsync(
-        [HttpTrigger(AuthorizationLevel.Admin, MethodType.Get, Route = Routes.News)]
-        HttpRequestData req,
+        [HttpTrigger(AuthorizationLevel.Admin, MethodType.Get, Route = Routes.News)] HttpRequestData req,
         CancellationToken cancellationToken = default)
     {
         return await WithHandlerAsync(

@@ -20,8 +20,7 @@ public class GetHealthFunction(HealthCheckService healthCheck)
     [OpenApiOperation(nameof(GetHealthFunction), Constants.Features.HealthCheck)]
     [OpenApiResponseWithBody(HttpStatusCode.OK, ContentType.TextPlain, typeof(string))]
     public async Task<HttpResponseData> RunAsync(
-        [HttpTrigger(AuthorizationLevel.Anonymous, MethodType.Get, Route = Routes.Health)]
-        HttpRequestData req)
+        [HttpTrigger(AuthorizationLevel.Anonymous, MethodType.Get, Route = Routes.Health)] HttpRequestData req)
     {
         var healthStatus = await healthCheck.CheckHealthAsync();
         return await req.CreateObjectResponseAsync(Enum.GetName(typeof(HealthStatus), healthStatus.Status) ?? string.Empty);

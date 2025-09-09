@@ -29,6 +29,6 @@ public class GetSchoolFunction(ISchoolsService service)
 
         return school == null
             ? req.CreateNotFoundResponse()
-            : await req.CreateJsonResponseAsync(school, cancellationToken: cancellationToken);
+            : await req.CreateJsonResponseAsync(school, cancellationToken);
     }
 }

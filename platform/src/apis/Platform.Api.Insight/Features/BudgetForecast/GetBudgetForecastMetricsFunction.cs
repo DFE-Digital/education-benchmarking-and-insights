@@ -27,6 +27,6 @@ public class GetBudgetForecastMetricsFunction(IBudgetForecastService service)
         CancellationToken cancellationToken = default)
     {
         var result = await service.GetBudgetForecastReturnMetricsAsync(companyNumber, Pipeline.RunType.Default, cancellationToken);
-        return await req.CreateJsonResponseAsync(result.Select(Mapper.MapToApiResponse), cancellationToken: cancellationToken);
+        return await req.CreateJsonResponseAsync(result.Select(Mapper.MapToApiResponse), cancellationToken);
     }
 }
