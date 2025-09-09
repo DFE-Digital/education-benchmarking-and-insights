@@ -48,6 +48,7 @@ dotnet_style_require_accessibility_modifiers = for_non_interface_members:suggest
 # ReSharper properties
 resharper_autodetect_indent_settings = true
 resharper_blank_lines_before_control_transfer_statements = 0
+resharper_braces_for_for = required
 resharper_braces_for_foreach = required
 resharper_braces_for_ifelse = required
 resharper_csharp_empty_block_style = together_same_line
@@ -62,7 +63,7 @@ resharper_method_or_operator_body = expression_body
 resharper_place_accessorholder_attribute_on_same_line = false
 resharper_place_expr_method_on_single_line = true
 resharper_place_simple_anonymousmethod_on_single_line = false
-resharper_place_simple_initializer_on_single_line = false
+resharper_place_simple_initializer_on_single_line = true
 resharper_use_indent_from_vs = false
 resharper_wrap_object_and_collection_initializer_style = chop_always
 
