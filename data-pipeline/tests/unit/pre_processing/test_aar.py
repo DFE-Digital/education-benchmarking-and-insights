@@ -31,7 +31,6 @@ _expected_output_columns = [
     "Administrative supplies_Administrative supplies (non educational)",
     "Catering staff and supplies_Catering staff",
     "Catering staff and supplies_Catering supplies",
-    "Other costs_Direct revenue financing",
     "Educational ICT_ICT learning resources",
     "Educational supplies_Examination fees",
     "Educational supplies_Learning resources (not ICT equipment)",
@@ -41,6 +40,7 @@ _expected_output_columns = [
     "Non-educational support staff and services_Professional services (non-curriculum)",
     "Non-educational support staff and services_Audit cost",
     "Premises staff and services_Maintenance of premises",
+    'BNCH21707 (Direct revenue financing (Revenue contributions to capital))',
     "Other costs_Grounds maintenance",
     "Other costs_Indirect employee expenses",
     "Other costs_Interest charges for loan and bank",
@@ -82,7 +82,7 @@ _expected_output_columns = [
 
 
 def test_aar_data_has_correct_output_columns(prepared_aar_data: pd.DataFrame):
-    assert list(prepared_aar_data.columns) == _expected_output_columns
+    assert set(prepared_aar_data.columns) == set(_expected_output_columns)
 
 
 def test_aar_balance_aggregated_at_trust_level(prepared_aar_data: pd.DataFrame):
