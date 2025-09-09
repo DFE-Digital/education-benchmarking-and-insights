@@ -19,7 +19,7 @@ variable "configuration" {
       HighExecutivePay                  = optional(bool, true)
       HighNeeds                         = optional(bool, true)
       SchoolSpendingPrioritiesSsrCharts = optional(bool, true)
-      CfrItSpendBreakdown               = optional(bool, false)
+      CfrItSpendBreakdown               = optional(bool, true)
       News                              = optional(bool, false)
     })
     CacheOptions = object({
@@ -47,7 +47,6 @@ variable "configuration" {
       front_door_waf_policy_sku_name = "Standard_AzureFrontDoor"
       waf_mode                       = "Detection"
       features = {
-        CfrItSpendBreakdown = true,
         News                = true
       },
       CacheOptions = {
@@ -74,7 +73,6 @@ variable "configuration" {
       front_door_waf_policy_sku_name = "Standard_AzureFrontDoor"
       waf_mode                       = "Detection"
       features = {
-        CfrItSpendBreakdown = true,
         News                = true
       },
       CacheOptions = {
@@ -100,7 +98,6 @@ variable "configuration" {
       front_door_waf_policy_sku_name = "Standard_AzureFrontDoor"
       waf_mode                       = "Prevention"
       features = {
-        CfrItSpendBreakdown = true,
         News                = true
       },
       CacheOptions = {
