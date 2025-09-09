@@ -393,3 +393,16 @@ at each environment level, as well as other supporting resources such as Azure S
 | `ssr_fa_sku`                   | string | SKU for the Chart Rendering (SSR) function app                                                                                                                                         |
 | `ssr_fa_elastic_max_workers`   | number | Maximum number of total workers allowed for the app service plan (if an elastic plan)                                                                                                  |
 | `ssr_fa_elastic_min_instances` | number | Minimum number of instances for the app service (if an elastic plan). May be set to `0` to scale down to zero if no load is present.                                                   |
+
+## 🧹 Managing code formatting
+
+The solution uses [ReSharper DotSettings](https://www.jetbrains.com/help/resharper/Sharing_Configuration_Options.html)
+and [EditorConfig](https://editorconfig.org/) to manage code formatting using a set of rules agreed by the development
+team. ReSharper/Rider first applies the DotSettings, then the EditorConfig settings, plus any local (uncommitted)
+user-defined settings. To keep the settings in sync, ensure that `Settings` > `Code Style` > `Export` is run regularly
+from ReSharper to update the `.editorconfig` file.
+
+The `dotnet format` command can be used to apply the settings to the code base using the `.editorconfig` file. This is
+also performed automatically by the CI/CD pipeline. In ReSharper/Rider, the solution context menu item `Reformat and 
+Cleanup...` may be used to apply the settings using the layering order above. This may also be achieved in the IDE at a
+project or file level or via the keyboard shortcut `Ctrl+E, C`.
