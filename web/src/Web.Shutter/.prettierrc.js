@@ -1,15 +1,14 @@
-import gts from "gts/.prettierrc.json" with { type: "json" };
-
 /**
  * @see https://prettier.io/docs/configuration
  * @type {import("prettier").Config}
  */
 const config = {
-  ...gts,
   bracketSpacing: true,
-  tabWidth: 2,
+  endOfLine: "auto",
   semi: true,
   singleQuote: false,
+  tabWidth: 2,
+  trailingComma: "es5"
 };
 
 export default config;

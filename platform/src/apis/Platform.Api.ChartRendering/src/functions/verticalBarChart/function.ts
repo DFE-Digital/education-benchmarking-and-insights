@@ -14,7 +14,7 @@ const client = appInsights.defaultClient;
 
 export async function verticalBarChart(
   request: HttpRequest,
-  context: InvocationContext,
+  context: InvocationContext
 ): Promise<HttpResponseInit> {
   const startTime = Date.now();
   const verticalBarChartTemplate = new VerticalBarChartTemplate();
@@ -56,7 +56,7 @@ export async function verticalBarChart(
           valueField: valueField as never,
           width: width || 928,
           ...rest,
-        }),
+        })
     );
   } catch (e) {
     context.error(e);

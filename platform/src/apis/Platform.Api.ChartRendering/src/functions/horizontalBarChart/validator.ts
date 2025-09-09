@@ -2,7 +2,7 @@ import { HorizontalBarChartPayload } from ".";
 import { HorizontalBarChartDefinition } from "..";
 
 function validatePayload(
-  payload: HorizontalBarChartPayload | undefined,
+  payload: HorizontalBarChartPayload | undefined
 ): string[] {
   if (!payload) {
     return ["Invalid payload"];

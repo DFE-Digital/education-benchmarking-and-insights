@@ -18,7 +18,7 @@ export default class VerticalBarChartBuilder {
     const document = new DOMImplementation().createDocument(
       "http://www.w3.org/2000/svg",
       "svg",
-      null,
+      null
     );
     const d3 = await _d3;
 
@@ -32,7 +32,7 @@ export default class VerticalBarChartBuilder {
     data.sort((a, b) =>
       sort === "asc"
         ? d3.ascending(a[valueField] as number, b[valueField] as number)
-        : d3.descending(a[valueField] as number, b[valueField] as number),
+        : d3.descending(a[valueField] as number, b[valueField] as number)
     );
     const x = d3
       .scaleBand()
@@ -68,7 +68,7 @@ export default class VerticalBarChartBuilder {
       .attr("class", (d) =>
         classnames("chart-cell", "chart-cell__series-0", {
           "chart-cell__highlight": d[keyField] === highlightKey,
-        }),
+        })
       );
 
     const html = svg.node()?.toString() || undefined;

@@ -6,7 +6,7 @@ let logger: winston.Logger | undefined;
 const configure = (
   app: express.Express,
   nodeEnv?: string,
-  logLevel?: string,
+  logLevel?: string
 ) => {
   if (logger) {
     return;
@@ -14,7 +14,7 @@ const configure = (
 
   // use dynamic import to ensure that `winston` imported _after_ app insights has loaded
   import("winston")
-    .then(winston => {
+    .then((winston) => {
       logger = winston.createLogger({
         level: logLevel ?? "info",
         format: winston.format.json(),
@@ -25,13 +25,13 @@ const configure = (
         logger.add(
           new winston.transports.Console({
             format: winston.format.simple(),
-          }),
+          })
         );
       }
 
       log("debug", "winston configured successfully");
     })
-    .catch(e => {
+    .catch((e) => {
       log("warn", "Unable to configure winston", e);
     });
 };
@@ -49,7 +49,7 @@ const log = (
   // fall back to console logging if winston not ready
   // eslint-disable-next-line no-console
   console.log(
-    `${level}: ${message} ${meta?.length ? JSON.stringify({ ...meta }) : ""}`,
+    `${level}: ${message} ${meta?.length ? JSON.stringify({ ...meta }) : ""}`
   );
 };
 

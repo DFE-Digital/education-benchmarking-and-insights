@@ -14,7 +14,7 @@ const client = appInsights.defaultClient;
 
 export async function horizontalBarChart(
   request: HttpRequest,
-  context: InvocationContext,
+  context: InvocationContext
 ): Promise<HttpResponseInit> {
   const startTime = Date.now();
   const horizontalBarChartTemplate = new HorizontalBarChartTemplate();
@@ -74,7 +74,7 @@ export async function horizontalBarChart(
           width: width || 928,
           xAxisLabel: xAxisLabel as never,
           ...rest,
-        }),
+        })
     );
   } catch (e) {
     context.error(e);

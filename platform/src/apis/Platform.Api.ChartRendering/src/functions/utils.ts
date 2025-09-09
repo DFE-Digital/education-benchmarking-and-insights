@@ -4,7 +4,7 @@ import { DatumKey, Group, ValueType } from "./index";
 export function normaliseData<T>(
   data: T[],
   valueField: keyof T,
-  dataType: ValueType,
+  dataType: ValueType
 ): T[] {
   switch (dataType) {
     case "percent":
@@ -21,14 +21,14 @@ export function normaliseData<T>(
 
     default:
       throw new Error(
-        `Argument out of range: unsupported ValueType '${dataType}'`,
+        `Argument out of range: unsupported ValueType '${dataType}'`
       );
   }
 }
 
 export function getValueFormat(
   dataType: ValueType,
-  maximumValue?: number,
+  maximumValue?: number
 ): string {
   switch (dataType) {
     case "percent":
@@ -41,14 +41,14 @@ export function getValueFormat(
 
     default:
       throw new Error(
-        `Argument out of range: unsupported ValueType '${dataType}'`,
+        `Argument out of range: unsupported ValueType '${dataType}'`
       );
   }
 }
 
 export function shortValueFormatter(
   value: NumberValue,
-  dataType?: ValueType,
+  dataType?: ValueType
 ): string {
   if (typeof value !== "number") {
     return String(value) || "";
@@ -83,7 +83,7 @@ export function shortValueFormatter(
 
 export function getGroups(
   groupedKeys: Partial<Record<Group, DatumKey[]>> | undefined,
-  key: DatumKey,
+  key: DatumKey
 ): Group[] {
   if (!groupedKeys) {
     return [];
@@ -107,7 +107,7 @@ export function escapeXml(unsafe: string | undefined) {
             "'": "apos",
             '"': "quot",
           }[char]
-        };`,
+        };`
     ) ?? ""
   );
 }
