@@ -24,7 +24,7 @@ export default class VerticalBarChartTemplate {
     data.sort((a, b) =>
       sort === "asc"
         ? ascending(a[valueField] as number, b[valueField] as number)
-        : descending(a[valueField] as number, b[valueField] as number),
+        : descending(a[valueField] as number, b[valueField] as number)
     );
     const x = scaleBand()
       .domain(data.map((d) => d[keyField] as string))

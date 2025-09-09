@@ -17,7 +17,7 @@ const supportedMimeTypes: Record<SupportedFileExtension, string> = {
 export async function swagger(request: HttpRequest): Promise<HttpResponseInit> {
   const path = request.params.swaggerAsset ?? "index.html";
   const extension = path.substring(
-    path.lastIndexOf("."),
+    path.lastIndexOf(".")
   ) as SupportedFileExtension;
 
   if (!Object.keys(supportedMimeTypes).includes(extension)) {
@@ -34,13 +34,13 @@ export async function swagger(request: HttpRequest): Promise<HttpResponseInit> {
       .replace(/[^a-zA-Z0-9\\.\\-]/g, "");
     fileData = await fs.readFile(
       `./node_modules/swagger-ui-dist/${sanitisedPath}`,
-      extension === ".png" ? null : { encoding: "utf-8" },
+      extension === ".png" ? null : { encoding: "utf-8" }
     );
 
     if (path.endsWith("swagger-initializer.js")) {
       fileData = (fileData as string).replace(
         "https://petstore.swagger.io/v2/swagger.json",
-        request.url.replace("swagger/swagger-initializer.js", "openapi.json"),
+        request.url.replace("swagger/swagger-initializer.js", "openapi.json")
       );
     }
   } catch {

@@ -1,7 +1,8 @@
 // @ts-check
 import eslint from "@eslint/js";
 import tseslint from "typescript-eslint";
-import { fixupConfigRules, fixupPluginRules } from "@eslint/compat";
+import { fixupConfigRules } from "@eslint/compat";
+import { defineConfig  } from "eslint/config";
 import reactRefresh from "eslint-plugin-react-refresh";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -17,7 +18,7 @@ const compat = new FlatCompat({
   allConfig: js.configs.all,
 });
 
-export default tseslint.config(
+export default defineConfig(
   {
     ignores: ["**/dist", "**/*.cjs", "**/*.mjs", "**/__*"],
   },

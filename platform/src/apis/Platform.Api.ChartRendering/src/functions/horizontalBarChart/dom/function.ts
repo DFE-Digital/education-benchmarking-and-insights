@@ -10,12 +10,12 @@ import HorizontalBarChartBuilder from "./builder";
 
 export async function horizontalBarChartDom(
   request: HttpRequest,
-  context: InvocationContext,
+  context: InvocationContext
 ): Promise<HttpResponseInit> {
   const horizontalBarChartBuilder = new HorizontalBarChartBuilder();
 
   context.debug(
-    `Received HTTP request for horizontal bar chart using D3 in the DOM`,
+    `Received HTTP request for horizontal bar chart using D3 in the DOM`
   );
 
   const payload = (await request.json()) as HorizontalBarChartPayload;
@@ -50,7 +50,7 @@ export async function horizontalBarChartDom(
         width: width || 928,
         xAxisLabel: xAxisLabel as never,
         ...rest,
-      }),
+      })
   );
 
   try {

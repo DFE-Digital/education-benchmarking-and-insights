@@ -56,7 +56,7 @@ export default class HorizontalBarChartTemplate {
     normalisedData.sort((a, b) =>
       sort === "asc"
         ? ascending(a[valueField] as number, b[valueField] as number)
-        : descending(a[valueField] as number, b[valueField] as number),
+        : descending(a[valueField] as number, b[valueField] as number)
     );
     const x = scaleLinear()
       .domain([0, max(normalisedData, (d) => d[valueField] as number)!])
@@ -96,7 +96,7 @@ export default class HorizontalBarChartTemplate {
         {
           "chart-cell__highlight": d[keyField] === highlightKey,
         },
-        groups(d[keyField] as DatumKey).map((g) => `chart-cell__group-${g}`),
+        groups(d[keyField] as DatumKey).map((g) => `chart-cell__group-${g}`)
       );
 
       return `<rect x="${xAttr}" y="${yAttr}" width="${widthAttr}" height="${heightAttr}" data-key="${dataKeyAttr}" class="${classAttr}"/>`;

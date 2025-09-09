@@ -2,7 +2,7 @@ import { VerticalBarChartPayload } from ".";
 import { VerticalBarChartDefinition } from "..";
 
 function validatePayload(
-  payload: VerticalBarChartPayload | undefined,
+  payload: VerticalBarChartPayload | undefined
 ): string[] {
   if (!payload) {
     return ["Invalid payload"];

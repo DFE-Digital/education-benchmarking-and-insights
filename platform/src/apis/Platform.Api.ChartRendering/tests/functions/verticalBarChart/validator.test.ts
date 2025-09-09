@@ -112,7 +112,7 @@ describe("vertical bar chart", () => {
       test("returns error", () => {
         const expected: string[] = ["Missing chart data"];
         expect(validatePayload({} as VerticalBarChartPayload)).toStrictEqual(
-          expected,
+          expected
         );
       });
     });

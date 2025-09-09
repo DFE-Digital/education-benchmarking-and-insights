@@ -39,7 +39,7 @@ describe("normaliseData", () => {
 
   it("should throw for unsupported ValueType", () => {
     expect(() =>
-      normaliseData(sampleData, "value", "invalid" as ValueType),
+      normaliseData(sampleData, "value", "invalid" as ValueType)
     ).toThrow("Argument out of range: unsupported ValueType 'invalid'");
   });
 });
@@ -63,7 +63,7 @@ describe("getValueFormat", () => {
 
   it("should throw for unsupported ValueType", () => {
     expect(() => getValueFormat("invalid" as ValueType)).toThrow(
-      "Argument out of range: unsupported ValueType 'invalid'",
+      "Argument out of range: unsupported ValueType 'invalid'"
     );
   });
 });
@@ -90,7 +90,7 @@ describe("getGroups", () => {
       theories,
       ({ input, expected }) => {
         expect(getGroups(sampleGroups, input)).toStrictEqual(expected);
-      },
+      }
     );
   });
 });
@@ -111,7 +111,7 @@ describe("escapeXml", () => {
       theories,
       ({ text, expected }) => {
         expect(escapeXml(text)).toBe(expected);
-      },
+      }
     );
   });
 });
@@ -134,7 +134,7 @@ describe("shortValueFormatter()", () => {
       ({ input, expected }) => {
         const result = shortValueFormatter(input as number, undefined);
         expect(result).toBe(expected);
-      },
+      }
     );
   });
 
@@ -163,7 +163,7 @@ describe("shortValueFormatter()", () => {
       ({ input, expected }) => {
         const result = shortValueFormatter(input as number, "currency");
         expect(result).toBe(expected);
-      },
+      }
     );
   });
 
@@ -184,7 +184,7 @@ describe("shortValueFormatter()", () => {
       ({ input, expected }) => {
         const result = shortValueFormatter(input as number, "percent");
         expect(result).toBe(expected);
-      },
+      }
     );
   });
 });

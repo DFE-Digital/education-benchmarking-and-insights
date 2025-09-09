@@ -33,7 +33,7 @@ export default class HorizontalBarChartBuilder {
     const document = new DOMImplementation().createDocument(
       "http://www.w3.org/2000/svg",
       "svg",
-      null,
+      null
     );
 
     const suggestedXAxisTickCount = 4;
@@ -75,7 +75,7 @@ export default class HorizontalBarChartBuilder {
     normalisedData.sort((a, b) =>
       sort === "asc"
         ? d3.ascending(a[valueField] as number, b[valueField] as number)
-        : d3.descending(a[valueField] as number, b[valueField] as number),
+        : d3.descending(a[valueField] as number, b[valueField] as number)
     );
     const x = d3
       .scaleLinear()
@@ -131,8 +131,8 @@ export default class HorizontalBarChartBuilder {
           {
             "chart-cell__highlight": d[keyField] === highlightKey,
           },
-          groups(d[keyField] as DatumKey).map((g) => `chart-cell__group-${g}`),
-        ),
+          groups(d[keyField] as DatumKey).map((g) => `chart-cell__group-${g}`)
+        )
       );
 
     // Append a label for each bar.
@@ -158,7 +158,7 @@ export default class HorizontalBarChartBuilder {
         classnames("chart-label", "chart-label__series-0", {
           "chart-label__highlight": d[keyField] === highlightKey,
           "chart-label__negative": (d[valueField] as number) < 0,
-        }),
+        })
       );
 
     // Create the axes.
@@ -167,14 +167,14 @@ export default class HorizontalBarChartBuilder {
       .attr("class", "chart-axis chart-axis__x")
       .attr(
         "transform",
-        `translate(-2,${height - marginBottom - (xAxisLabel ? labelHeight : 0)})`,
+        `translate(-2,${height - marginBottom - (xAxisLabel ? labelHeight : 0)})`
       )
       .call(
         d3
           .axisBottom(x)
           .tickSizeOuter(1)
           .tickFormat(d3.format(valueFormat))
-          .ticks(suggestedXAxisTickCount),
+          .ticks(suggestedXAxisTickCount)
       )
       .call((g) => {
         g.attr("fill", null)
@@ -206,7 +206,7 @@ export default class HorizontalBarChartBuilder {
     const replaceLabelWithLink: ValueFn<BaseType, unknown, void> = (
       datum,
       index,
-      nodes,
+      nodes
     ) => {
       let label = formatTick(datum as string, index);
       const node = nodes[index] as SVGTextElement;
@@ -220,7 +220,7 @@ export default class HorizontalBarChartBuilder {
           "class",
           classnames("link-tick", {
             "link-tick__highlight": datum === highlightKey,
-          }),
+          })
         )
         .append("xlink:a")
         .attr("data-key", datum as string)
@@ -268,7 +268,7 @@ export default class HorizontalBarChartBuilder {
         g.select(".domain")
           .attr("d", (_, i, nodes) =>
             // fix anti-alias issue with y-axis line
-            d3.select(nodes[i]).attr("d").replace(/-1/g, "0"),
+            d3.select(nodes[i]).attr("d").replace(/-1/g, "0")
           )
           .attr("transform", `translate(0,0)`);
         g.attr("fill", null)

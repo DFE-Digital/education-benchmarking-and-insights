@@ -10,7 +10,7 @@ import VerticalBarChartBuilder from "./builder";
 
 export async function verticalBarChartDom(
   request: HttpRequest,
-  context: InvocationContext,
+  context: InvocationContext
 ): Promise<HttpResponseInit> {
   const verticalBarChartBuilder = new VerticalBarChartBuilder();
 
@@ -30,7 +30,7 @@ export async function verticalBarChartDom(
         valueField: valueField as never,
         width: width || 928,
         ...rest,
-      }),
+      })
   );
 
   try {

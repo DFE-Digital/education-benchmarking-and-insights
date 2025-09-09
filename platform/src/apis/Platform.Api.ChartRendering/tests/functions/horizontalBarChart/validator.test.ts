@@ -112,7 +112,7 @@ describe("horizontal bar chart", () => {
       test("returns error", () => {
         const expected: string[] = ["Missing chart data"];
         expect(validatePayload({} as HorizontalBarChartPayload)).toStrictEqual(
-          expected,
+          expected
         );
       });
     });
