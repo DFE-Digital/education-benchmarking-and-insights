@@ -47,7 +47,7 @@ variable "configuration" {
       front_door_waf_policy_sku_name = "Standard_AzureFrontDoor"
       waf_mode                       = "Detection"
       features = {
-        News                = true
+        News = true
       },
       CacheOptions = {
         ReturnYears = {
@@ -73,7 +73,7 @@ variable "configuration" {
       front_door_waf_policy_sku_name = "Standard_AzureFrontDoor"
       waf_mode                       = "Detection"
       features = {
-        News                = true
+        News = true
       },
       CacheOptions = {
         ReturnYears = {
@@ -98,7 +98,7 @@ variable "configuration" {
       front_door_waf_policy_sku_name = "Standard_AzureFrontDoor"
       waf_mode                       = "Prevention"
       features = {
-        News                = true
+        News = true
       },
       CacheOptions = {
         ReturnYears = {
