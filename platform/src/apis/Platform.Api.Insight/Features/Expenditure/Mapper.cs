@@ -92,7 +92,6 @@ public static class Mapper
         if (ShouldDisplay(category, Categories.Cost.Other))
         {
             response.TotalOtherCosts = model.TotalOtherCosts;
-            response.DirectRevenueFinancingCosts = model.DirectRevenueFinancingCosts;
             response.GroundsMaintenanceCosts = model.GroundsMaintenanceCosts;
             response.IndirectEmployeeExpenses = model.IndirectEmployeeExpenses;
             response.InterestChargesLoanBank = model.InterestChargesLoanBank;
@@ -292,7 +291,6 @@ public static class Mapper
         if (ShouldDisplay(category, Categories.Cost.Other))
         {
             response.TotalOtherCosts = excludeCentralService ? model.TotalOtherCostsSchool : model.TotalOtherCosts;
-            response.DirectRevenueFinancingCosts = excludeCentralService ? model.DirectRevenueFinancingCostsSchool : model.DirectRevenueFinancingCosts;
             response.GroundsMaintenanceCosts = excludeCentralService ? model.GroundsMaintenanceCostsSchool : model.GroundsMaintenanceCosts;
             response.IndirectEmployeeExpenses = excludeCentralService ? model.IndirectEmployeeExpensesSchool : model.IndirectEmployeeExpenses;
             response.InterestChargesLoanBank = excludeCentralService ? model.InterestChargesLoanBankSchool : model.InterestChargesLoanBank;
@@ -305,7 +303,6 @@ public static class Mapper
             response.SupplyTeacherInsurableCosts = excludeCentralService ? model.SupplyTeacherInsurableCostsSchool : model.SupplyTeacherInsurableCosts;
 
             response.CentralTotalOtherCosts = excludeCentralService ? null : model.TotalOtherCostsCS;
-            response.CentralDirectRevenueFinancingCosts = excludeCentralService ? null : model.DirectRevenueFinancingCostsCS;
             response.CentralGroundsMaintenanceCosts = excludeCentralService ? null : model.GroundsMaintenanceCostsCS;
             response.CentralIndirectEmployeeExpenses = excludeCentralService ? null : model.IndirectEmployeeExpensesCS;
             response.CentralInterestChargesLoanBank = excludeCentralService ? null : model.InterestChargesLoanBankCS;
@@ -318,7 +315,6 @@ public static class Mapper
             response.CentralSupplyTeacherInsurableCosts = excludeCentralService ? null : model.SupplyTeacherInsurableCostsCS;
 
             response.SchoolTotalOtherCosts = excludeCentralService ? null : model.TotalOtherCostsSchool;
-            response.SchoolDirectRevenueFinancingCosts = excludeCentralService ? null : model.DirectRevenueFinancingCostsSchool;
             response.SchoolGroundsMaintenanceCosts = excludeCentralService ? null : model.GroundsMaintenanceCostsSchool;
             response.SchoolIndirectEmployeeExpenses = excludeCentralService ? null : model.IndirectEmployeeExpensesSchool;
             response.SchoolInterestChargesLoanBank = excludeCentralService ? null : model.InterestChargesLoanBankSchool;
@@ -374,7 +370,6 @@ public static class Mapper
             CateringStaffCosts = model.CateringStaffCosts,
             CateringSuppliesCosts = model.CateringSuppliesCosts,
             TotalOtherCosts = model.TotalOtherCosts,
-            DirectRevenueFinancingCosts = model.DirectRevenueFinancingCosts,
             GroundsMaintenanceCosts = model.GroundsMaintenanceCosts,
             IndirectEmployeeExpenses = model.IndirectEmployeeExpenses,
             InterestChargesLoanBank = model.InterestChargesLoanBank,

@@ -38,7 +38,6 @@ public record ExpenditureTrustResponse : ExpenditureResponse
     public decimal? CentralCateringStaffCosts { get; set; }
     public decimal? CentralCateringSuppliesCosts { get; set; }
     public decimal? CentralTotalOtherCosts { get; set; }
-    public decimal? CentralDirectRevenueFinancingCosts { get; set; }
     public decimal? CentralGroundsMaintenanceCosts { get; set; }
     public decimal? CentralIndirectEmployeeExpenses { get; set; }
     public decimal? CentralInterestChargesLoanBank { get; set; }
@@ -80,7 +79,6 @@ public record ExpenditureTrustResponse : ExpenditureResponse
     public decimal? SchoolCateringStaffCosts { get; set; }
     public decimal? SchoolCateringSuppliesCosts { get; set; }
     public decimal? SchoolTotalOtherCosts { get; set; }
-    public decimal? SchoolDirectRevenueFinancingCosts { get; set; }
     public decimal? SchoolGroundsMaintenanceCosts { get; set; }
     public decimal? SchoolIndirectEmployeeExpenses { get; set; }
     public decimal? SchoolInterestChargesLoanBank { get; set; }
