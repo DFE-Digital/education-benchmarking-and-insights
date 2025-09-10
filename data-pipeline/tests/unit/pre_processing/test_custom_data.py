@@ -97,7 +97,6 @@ _default_existing_data = {
     "Teaching and Teaching support staff_Teaching staff": [0.0, 0.0, 0.0, 0.0],
     "Utilities_Energy": [0.0, 0.0, 0.0, 0.0],
     "Utilities_Water and sewerage": [0.0, 0.0, 0.0, 0.0],
-    "Other costs_Direct revenue financing": [0.0, 0.0, 0.0, 0.0],
     "Other costs_Grounds maintenance": [0.0, 0.0, 0.0, 0.0],
     "Other costs_Indirect employee expenses": [0.0, 0.0, 0.0, 0.0],
     "Other costs_Interest charges for loan and bank": [0.0, 0.0, 0.0, 0.0],

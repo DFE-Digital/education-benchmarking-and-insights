@@ -116,7 +116,6 @@ def get_message_type(message: dict) -> MessageType:
             "teachingStaffCosts": 0.0,
             "energyCosts": 0.0,
             "waterSewerageCosts": 0.0,
-            "directRevenueFinancingCosts": 0.0,
             "groundsMaintenanceCosts": 0.0,
             "indirectEmployeeExpenses": 0.0,
             "interestChargesLoanBank": 0.0,

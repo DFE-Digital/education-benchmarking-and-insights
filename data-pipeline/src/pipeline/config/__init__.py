@@ -80,8 +80,7 @@ cost_category_map = {
         "BNCH21702 (Professional Services - non-curriculum)": "Non-educational support staff and services_Professional services (non-curriculum)",
         "BNCH21703 (Auditor costs)": "Non-educational support staff and services_Audit cost",
         "BNCH21801 (Interest charges for Loan and bank)": "Other costs_Interest charges for loan and bank",
-        "BNCH21707 (Direct revenue financing (Revenue contributions to capital))": "Other costs_Direct revenue financing",
-        "BNCH21802 (PFI Charges)": "Other costs_PFI charges",
+        "BNCH21802 (PFI Charges)": "Other costs_PFI charges"
     },
     "central_services": {
         "BNCH21101 (Teaching staff)": "Teaching and Teaching support staff_Teaching staff",
@@ -114,8 +113,7 @@ cost_category_map = {
         "BNCH21702 (Professional Services - non-curriculum)": "Non-educational support staff and services_Professional services (non-curriculum)",
         "BNCH21703 (Auditor costs)": "Non-educational support staff and services_Audit cost",
         "BNCH21801 (Interest charges for Loan and bank)": "Other costs_Interest charges for loan and bank",
-        "BNCH21707 (Direct revenue financing (Revenue contributions to capital))": "Other costs_Direct revenue financing",
-        "BNCH21802 (PFI Charges)": "Other costs_PFI charges",
+        "BNCH21802 (PFI Charges)": "Other costs_PFI charges"
     },
     "maintained_schools": {
         "LA (code)": "LA Code",
@@ -127,7 +125,6 @@ cost_category_map = {
         "E05 Administrative and clerical staff": "Non-educational support staff and services_Administrative and clerical staff",
         "E07  Cost of other staff": "Non-educational support staff and services_Other staff",
         "E28a  Bought in professional services - other (except PFI)": "Non-educational support staff and services_Professional services (non-curriculum)",
-        "E30 Direct revenue financing (revenue contributions to capital)": "Other costs_Direct revenue financing",
         "E13  Grounds maintenance and improvement": "Other costs_Grounds maintenance",
         "E08  Indirect employee expenses": "Other costs_Indirect employee expenses",
         "E29  Loan interest": "Other costs_Interest charges for loan and bank",
@@ -707,7 +704,6 @@ trust_db_projections = {
     "Catering staff and supplies_Catering staff": "CateringStaffCosts",
     "Catering staff and supplies_Catering supplies": "CateringSuppliesCosts",
     "Other costs_Total": "TotalOtherCosts",
-    "Other costs_Direct revenue financing": "DirectRevenueFinancingCosts",
     "Other costs_Grounds maintenance": "GroundsMaintenanceCosts",
     "Other costs_Indirect employee expenses": "IndirectEmployeeExpenses",
     "Other costs_Interest charges for loan and bank": "InterestChargesLoanBank",
@@ -764,7 +760,6 @@ trust_db_projections = {
     "Catering staff and supplies_Catering staff_CS": "CateringStaffCostsCS",
     "Catering staff and supplies_Catering supplies_CS": "CateringSuppliesCostsCS",
     "Other costs_Total_CS": "TotalOtherCostsCS",
-    "Other costs_Direct revenue financing_CS": "DirectRevenueFinancingCostsCS",
     "Other costs_Indirect employee expenses_CS": "IndirectEmployeeExpensesCS",
     "Other costs_Interest charges for loan and bank_CS": "InterestChargesLoanBankCS",
     "Other costs_Other insurance premiums_CS": "OtherInsurancePremiumsCostsCS",
