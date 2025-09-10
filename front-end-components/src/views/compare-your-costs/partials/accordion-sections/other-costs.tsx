@@ -88,20 +88,6 @@ export const OtherCosts: React.FC<CompareYourCostsProps> = ({ type, id }) => {
       };
     }, [data, tableHeadings]);
 
-  const directRevenueFinancingCostsBarData: HorizontalBarChartWrapperData<OtherCostsData> =
-    useMemo(() => {
-      return {
-        dataPoints:
-          data?.map((school) => {
-            return {
-              ...school,
-              value: school.directRevenueFinancingCosts,
-            };
-          }) ?? [],
-        tableHeadings,
-      };
-    }, [data, tableHeadings]);
-
   const groundsMaintenanceCostsBarData: HorizontalBarChartWrapperData<OtherCostsData> =
     useMemo(() => {
       return {
@@ -263,10 +249,6 @@ export const OtherCosts: React.FC<CompareYourCostsProps> = ({ type, id }) => {
         {
           data: otherInsurancePremiumsCostsBarData,
           title: "Other insurance premiums costs",
-        },
-        {
-          data: directRevenueFinancingCostsBarData,
-          title: "Direct revenue financing costs",
         },
         {
           data: groundsMaintenanceCostsBarData,

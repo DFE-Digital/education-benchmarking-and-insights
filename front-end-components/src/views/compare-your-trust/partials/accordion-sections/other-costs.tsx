@@ -90,24 +90,6 @@ export const OtherCosts: React.FC<{
       };
     }, [data, tableHeadings]);
 
-  const directRevenueFinancingCostsBarData: HorizontalBarChartWrapperData<OtherCostsData> =
-    useMemo(() => {
-      return {
-        dataPoints:
-          data && Array.isArray(data)
-            ? data.map((trust) => {
-                return {
-                  ...trust,
-                  totalValue: trust.directRevenueFinancingCosts ?? 0,
-                  schoolValue: trust.schoolDirectRevenueFinancingCosts ?? 0,
-                  centralValue: trust.centralDirectRevenueFinancingCosts ?? 0,
-                };
-              })
-            : [],
-        tableHeadings,
-      };
-    }, [data, tableHeadings]);
-
   const groundsMaintenanceCostsBarData: HorizontalBarChartWrapperData<OtherCostsData> =
     useMemo(() => {
       return {
@@ -278,10 +260,6 @@ export const OtherCosts: React.FC<{
         {
           data: otherInsurancePremiumsCostsBarData,
           title: "Other insurance premiums costs",
-        },
-        {
-          data: directRevenueFinancingCostsBarData,
-          title: "Direct revenue financing costs",
         },
         {
           data: groundsMaintenanceCostsBarData,
