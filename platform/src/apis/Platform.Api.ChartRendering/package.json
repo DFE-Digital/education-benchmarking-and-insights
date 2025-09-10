@@ -4,7 +4,7 @@
   "description": "",
   "scripts": {
     "build": "tsc && tsc-alias",
-    "build-ci": "npm run prestart && npm run publish",
+    "build:ci": "npm run prestart && npm run publish",
     "watch": "tsc -w",
     "clean": "rimraf dist && rimraf out",
     "prestart": "npm run clean && npm run build",
@@ -12,9 +12,9 @@
     "dev": "npm run api && tsc --project tsconfig.dev.json && tsc-alias && func host start --port 7076",
     "start": "func start",
     "test": "jest",
-    "test-ci": "jest --coverage --coverageDirectory=tests/out",
+    "test:ci": "jest --coverage --coverageDirectory=tests/out",
     "lint": "eslint . --ext .ts",
-    "lint-fix": "eslint . --ext .ts --fix",
+    "lint:fix": "eslint . --ext .ts --fix",
     "api": "ts-oas ./src/openapi/index.ts /^\\w+Api$/ -o ./src/assets/openapi.json -c ./src/openapi/tsconfig.json -p ./ts-oas.json"
   },
   "dependencies": {

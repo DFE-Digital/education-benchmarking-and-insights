@@ -71,7 +71,7 @@ steps:
     displayName: 'Build ChartRendering api'
     inputs:
       command: 'custom'
-      customCommand: 'run build-ci'
+      customCommand: 'run build:ci'
       workingDir: 'platform/src/apis/Platform.Api.ChartRendering'
 
   - task: ArchiveFiles@2
