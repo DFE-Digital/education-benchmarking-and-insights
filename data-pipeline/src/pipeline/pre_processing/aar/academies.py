@@ -511,9 +511,6 @@ def build_academy_data(
 
     academies["Total Income"] = academies["Total Income"] + academies["Total Income_CS"]
 
-    # Recalculate Total Expenditure_CS as sum of individual apportioned category totals
-    academies["Total Expenditure_CS"] = academies[all_expenditure_category_cs_total_cols].sum(axis=1)
-
     # Recalculate Total Expenditure as sum of individual category totals (already includes CS apportionment)
     academies["Total Expenditure"] = academies[all_expenditure_category_total_cols].sum(axis=1)
 
