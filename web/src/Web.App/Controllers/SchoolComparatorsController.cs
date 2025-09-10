@@ -28,9 +28,9 @@ public class SchoolComparatorsController(
     public async Task<IActionResult> Index(string urn)
     {
         using (logger.BeginScope(new
-               {
-                   urn
-               }))
+        {
+            urn
+        }))
         {
             try
             {
@@ -58,9 +58,9 @@ public class SchoolComparatorsController(
     public async Task<IActionResult> Workforce(string urn)
     {
         using (logger.BeginScope(new
-               {
-                   urn
-               }))
+        {
+            urn
+        }))
         {
             try
             {
@@ -89,9 +89,9 @@ public class SchoolComparatorsController(
     public async Task<IActionResult> UserDefined(string urn)
     {
         using (logger.BeginScope(new
-               {
-                   urn
-               }))
+        {
+            urn
+        }))
         {
             try
             {
@@ -128,9 +128,9 @@ public class SchoolComparatorsController(
     public async Task<IActionResult> Revert(string urn)
     {
         using (logger.BeginScope(new
-               {
-                   urn
-               }))
+        {
+            urn
+        }))
         {
             try
             {
@@ -154,9 +154,9 @@ public class SchoolComparatorsController(
     public async Task<IActionResult> RevertSet(string urn)
     {
         using (logger.BeginScope(new
-               {
-                   urn
-               }))
+        {
+            urn
+        }))
         {
             try
             {

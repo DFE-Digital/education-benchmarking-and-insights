@@ -26,11 +26,11 @@ public class TrustSpendingController(ILogger<TrustController> logger, IEstablish
         [FromQuery(Name = "priority")] string[]? priorities)
     {
         using (logger.BeginScope(new
-               {
-                   companyNumber,
-                   category = categories,
-                   priority = priorities
-               }))
+        {
+            companyNumber,
+            category = categories,
+            priority = priorities
+        }))
         {
             try
             {

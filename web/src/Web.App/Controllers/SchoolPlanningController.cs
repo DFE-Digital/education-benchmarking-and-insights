@@ -26,9 +26,9 @@ public class SchoolPlanningController(
     public async Task<IActionResult> Index(string urn)
     {
         using (logger.BeginScope(new
-               {
-                   urn
-               }))
+        {
+            urn
+        }))
         {
             try
             {
@@ -54,11 +54,11 @@ public class SchoolPlanningController(
     public async Task<IActionResult> View(string urn, int year, string? referrer)
     {
         using (logger.BeginScope(new
-               {
-                   urn,
-                   year,
-                   referrer
-               }))
+        {
+            urn,
+            year,
+            referrer
+        }))
         {
             try
             {

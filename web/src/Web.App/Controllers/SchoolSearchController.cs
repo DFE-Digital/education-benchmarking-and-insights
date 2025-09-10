@@ -49,12 +49,12 @@ public class SchoolSearchController(
     )
     {
         using (logger.BeginScope(new
-               {
-                   term,
-                   page,
-                   overallPhase,
-                   orderBy
-               }))
+        {
+            term,
+            page,
+            overallPhase,
+            orderBy
+        }))
         {
             var results = await searchService.SchoolSearch(term, 50, page, overallPhase.Length == 0
                     ? null

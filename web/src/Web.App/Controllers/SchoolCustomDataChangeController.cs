@@ -31,9 +31,9 @@ public class SchoolCustomDataChangeController(
     public async Task<IActionResult> FinancialData(string urn)
     {
         using (logger.BeginScope(new
-               {
-                   urn
-               }))
+        {
+            urn
+        }))
         {
             try
             {
@@ -60,10 +60,10 @@ public class SchoolCustomDataChangeController(
     public IActionResult FinancialData(string urn, [FromForm] FinancialDataCustomDataViewModel viewModel)
     {
         using (logger.BeginScope(new
-               {
-                   urn,
-                   viewModel
-               }))
+        {
+            urn,
+            viewModel
+        }))
         {
             try
             {
@@ -94,9 +94,9 @@ public class SchoolCustomDataChangeController(
     public async Task<IActionResult> NonFinancialData(string urn)
     {
         using (logger.BeginScope(new
-               {
-                   urn
-               }))
+        {
+            urn
+        }))
         {
             try
             {
@@ -122,10 +122,10 @@ public class SchoolCustomDataChangeController(
     public IActionResult NonFinancialData(string urn, [FromForm] NonFinancialDataCustomDataViewModel viewModel)
     {
         using (logger.BeginScope(new
-               {
-                   urn,
-                   viewModel
-               }))
+        {
+            urn,
+            viewModel
+        }))
         {
             try
             {
@@ -156,9 +156,9 @@ public class SchoolCustomDataChangeController(
     public async Task<IActionResult> WorkforceData(string urn)
     {
         using (logger.BeginScope(new
-               {
-                   urn
-               }))
+        {
+            urn
+        }))
         {
             try
             {
@@ -184,10 +184,10 @@ public class SchoolCustomDataChangeController(
     public async Task<IActionResult> WorkforceData(string urn, [FromForm] WorkforceDataCustomDataViewModel viewModel)
     {
         using (logger.BeginScope(new
-               {
-                   urn,
-                   viewModel
-               }))
+        {
+            urn,
+            viewModel
+        }))
         {
             try
             {
@@ -230,9 +230,9 @@ public class SchoolCustomDataChangeController(
     public async Task<IActionResult> Submit(string urn)
     {
         using (logger.BeginScope(new
-               {
-                   urn
-               }))
+        {
+            urn
+        }))
         {
             try
             {
@@ -260,9 +260,9 @@ public class SchoolCustomDataChangeController(
     public async Task<IActionResult> Submitted(string urn)
     {
         using (logger.BeginScope(new
-               {
-                   companyNumber = urn
-               }))
+        {
+            companyNumber = urn
+        }))
         {
             try
             {

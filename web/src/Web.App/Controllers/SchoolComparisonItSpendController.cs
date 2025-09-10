@@ -38,9 +38,9 @@ public class SchoolComparisonItSpendController(
         SchoolComparisonItSpendViewModel.ViewAsOptions viewAs = SchoolComparisonItSpendViewModel.ViewAsOptions.Chart)
     {
         using (logger.BeginScope(new
-               {
-                   urn
-               }))
+        {
+            urn
+        }))
         {
             try
             {
@@ -103,9 +103,9 @@ public class SchoolComparisonItSpendController(
     public async Task<IActionResult> Download(string urn)
     {
         using (logger.BeginScope(new
-               {
-                   urn
-               }))
+        {
+            urn
+        }))
         {
             try
             {

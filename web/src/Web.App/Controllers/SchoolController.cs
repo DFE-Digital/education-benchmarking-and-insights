@@ -34,9 +34,9 @@ public class SchoolController(
         [FromQuery(Name = "comparator-reverted")] bool? comparatorReverted)
     {
         using (logger.BeginScope(new
-               {
-                   urn
-               }))
+        {
+            urn
+        }))
         {
             try
             {
@@ -77,9 +77,9 @@ public class SchoolController(
     public async Task<IActionResult> History(string urn)
     {
         using (logger.BeginScope(new
-               {
-                   urn
-               }))
+        {
+            urn
+        }))
         {
             try
             {
@@ -103,9 +103,9 @@ public class SchoolController(
     public async Task<IActionResult> Details(string urn)
     {
         using (logger.BeginScope(new
-               {
-                   urn
-               }))
+        {
+            urn
+        }))
         {
             try
             {
@@ -129,9 +129,9 @@ public class SchoolController(
     public async Task<IActionResult> Resources(string urn)
     {
         using (logger.BeginScope(new
-               {
-                   urn
-               }))
+        {
+            urn
+        }))
         {
             try
             {
@@ -170,9 +170,9 @@ public class SchoolController(
     public async Task<IActionResult> CustomData(string urn, [FromQuery(Name = "custom-data-generated")] bool? customDataGenerated)
     {
         using (logger.BeginScope(new
-               {
-                   urn
-               }))
+        {
+            urn
+        }))
         {
             try
             {

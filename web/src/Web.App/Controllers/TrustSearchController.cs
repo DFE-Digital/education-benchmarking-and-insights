@@ -48,11 +48,11 @@ public class TrustSearchController(
     )
     {
         using (logger.BeginScope(new
-               {
-                   term,
-                   page,
-                   orderBy
-               }))
+        {
+            term,
+            page,
+            orderBy
+        }))
         {
             var results = await searchService.TrustSearch(term, 50, page, string.IsNullOrWhiteSpace(orderBy) ? null : new SearchOrderBy("TrustNameSortable", orderBy));
 
