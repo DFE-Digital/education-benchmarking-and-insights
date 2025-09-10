@@ -17,7 +17,17 @@ public static class Categories
         public const string WorkforceHeadcount = nameof(WorkforceHeadcount);
         public const string TeachersQualified = nameof(TeachersQualified);
 
-        public static readonly string[] All = { WorkforceFte, TeachersFte, SeniorLeadershipFte, TeachingAssistantsFte, NonClassroomSupportStaffFte, AuxiliaryStaffFte, WorkforceHeadcount, TeachersQualified };
+        public static readonly string[] All =
+        {
+            WorkforceFte,
+            TeachersFte,
+            SeniorLeadershipFte,
+            TeachingAssistantsFte,
+            NonClassroomSupportStaffFte,
+            AuxiliaryStaffFte,
+            WorkforceHeadcount,
+            TeachersQualified
+        };
 
         public static bool IsValid(string? category) => All.Any(a => a == category);
     }

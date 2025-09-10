@@ -48,7 +48,11 @@ public class TrustsService(
 
     public Task<SuggestResponse<TrustSummary>> TrustsSuggestAsync(TrustSuggestRequest request, CancellationToken cancellationToken = default)
     {
-        var fields = new[] { nameof(Trust.CompanyNumber), nameof(Trust.TrustName) };
+        var fields = new[]
+        {
+            nameof(Trust.CompanyNumber),
+            nameof(Trust.TrustName)
+        };
 
         return SuggestAsync(request, request.FilterExpression, fields, cancellationToken);
     }

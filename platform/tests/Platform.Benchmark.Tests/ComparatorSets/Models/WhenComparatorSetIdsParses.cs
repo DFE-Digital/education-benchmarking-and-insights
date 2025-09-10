@@ -6,7 +6,12 @@ namespace Platform.Benchmark.Tests.ComparatorSets.Models;
 public class WhenComparatorSetIdsParses
 {
     [Theory]
-    [InlineData(new[] { "1", "2", "3" }, "[\"1\",\"2\",\"3\"]")]
+    [InlineData(new[]
+    {
+        "1",
+        "2",
+        "3"
+    }, "[\"1\",\"2\",\"3\"]")]
     [InlineData(new string[0], "[]")]
     public void ShouldReturnStringRepresentingCollection(string[] items, string expected)
     {
@@ -17,7 +22,12 @@ public class WhenComparatorSetIdsParses
     }
 
     [Theory]
-    [InlineData("[\"1\",\"2\",\"3\"]", new[] { "1", "2", "3" })]
+    [InlineData("[\"1\",\"2\",\"3\"]", new[]
+    {
+        "1",
+        "2",
+        "3"
+    })]
     [InlineData("[]", new string[0])]
     public void ShouldGenerateInstanceFromString(string value, string[] expected)
     {
@@ -27,7 +37,17 @@ public class WhenComparatorSetIdsParses
     }
 
     [Theory]
-    [InlineData(new[] { "1", "2", "3" }, new[] { "1", "2", "3" })]
+    [InlineData(new[]
+    {
+        "1",
+        "2",
+        "3"
+    }, new[]
+    {
+        "1",
+        "2",
+        "3"
+    })]
     [InlineData(new string[0], new string[0])]
     public void ShouldGenerateInstanceFromCollection(string[] value, string[] expected)
     {

@@ -45,7 +45,10 @@ public class GetEducationHealthCarePlansLocalAuthoritiesFunctionTests : Function
             .ReturnsAsync(new ValidationResult());
 
         _service
-            .Setup(x => x.Get(new[] { Code }, Dimension, It.IsAny<CancellationToken>()))
+            .Setup(x => x.Get(new[]
+            {
+                Code
+            }, Dimension, It.IsAny<CancellationToken>()))
             .ReturnsAsync(models);
 
         var query = new Dictionary<string, StringValues>

@@ -52,7 +52,11 @@ public class LocalAuthoritiesService(
 
     public Task<SuggestResponse<LocalAuthoritySummary>> LocalAuthoritiesSuggestAsync(LocalAuthoritySuggestRequest request, CancellationToken cancellationToken = default)
     {
-        var fields = new[] { nameof(LocalAuthority.Code), nameof(LocalAuthority.Name) };
+        var fields = new[]
+        {
+            nameof(LocalAuthority.Code),
+            nameof(LocalAuthority.Name)
+        };
 
         return SuggestAsync(request, CreateFilterExpression, fields, cancellationToken);
 

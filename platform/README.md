@@ -400,8 +400,9 @@ The solution uses [EditorConfig](https://editorconfig.org/) to manage code forma
 by the development team. ReSharper/Rider first applies its
 [DotSettings](https://www.jetbrains.com/help/resharper/Sharing_Configuration_Options.html) config, then the EditorConfig
 settings, plus any local (uncommitted) user-defined settings. To prevent duplication of settings files in the repo
-only use `DotSettings` for custom dictionary entries and instead use `.editorconfig` file for the formatting settings.
-When editing settings in Rider the option to merge into `.editorconfig` is under `Save ▽` > `.editorconfig`.
+only use `DotSettings` for custom dictionary entries, or those rules that should take priority and instead use
+`.editorconfig` file for the formatting settings. When editing settings in Rider the option to merge into
+`.editorconfig` is under `Save ▽` > `.editorconfig`.
 
 The `dotnet format` command can be used to apply the settings to the code base using the `.editorconfig` file.
 This is also performed automatically by the CI/CD pipeline. In ReSharper/Rider, the solution context menu item

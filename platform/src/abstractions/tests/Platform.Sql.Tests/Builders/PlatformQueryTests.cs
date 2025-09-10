@@ -26,7 +26,11 @@ public class PlatformQueryTests
     public void ShouldAddUrnInParameter()
     {
         const string expectedParam = "URNS";
-        var expectedValue = new[] { "12345", "12346" };
+        var expectedValue = new[]
+        {
+            "12345",
+            "12346"
+        };
         var expectedSql = BuildExpectedQuery("WHERE URN IN @URNS");
         var builder = new MockPlatformQuery().WhereUrnIn(expectedValue);
 
@@ -115,7 +119,11 @@ public class PlatformQueryTests
     public void ShouldAddCompanyNumberInParameter()
     {
         const string expectedParam = "CompanyNumbers";
-        var expectedValue = new[] { "12345", "12346" };
+        var expectedValue = new[]
+        {
+            "12345",
+            "12346"
+        };
         var expectedSql = BuildExpectedQuery("WHERE CompanyNumber IN @CompanyNumbers");
 
         var builder = new MockPlatformQuery().WhereCompanyNumberIn(expectedValue);
@@ -149,7 +157,11 @@ public class PlatformQueryTests
     public void ShouldAddLaCodeInParameter()
     {
         const string expectedParam = "LaCodes";
-        var expectedValue = new[] { "12345", "12346" };
+        var expectedValue = new[]
+        {
+            "12345",
+            "12346"
+        };
         var expectedSql = BuildExpectedQuery("WHERE LaCode IN @LaCodes");
 
         var builder = new MockPlatformQuery().WhereLaCodesIn(expectedValue);
@@ -244,7 +256,11 @@ public class PlatformQueryTests
     public void ShouldAddTypeInParameter()
     {
         const string expectedParam = "Types";
-        var expectedValue = new[] { "transparency-aar", "transparency-cfr" };
+        var expectedValue = new[]
+        {
+            "transparency-aar",
+            "transparency-cfr"
+        };
         var expectedSql = BuildExpectedQuery("WHERE Type IN @Types");
 
         var builder = new MockPlatformQuery().WhereTypeIn(expectedValue);
@@ -299,7 +315,11 @@ public class PlatformQueryTests
         Assert.NotNull(parameters);
         Assert.Single(parameters);
         Assert.Contains(expectedParam, parameters.Keys);
-        Assert.Equal(new[] { expectedValue1, expectedValue2 }, parameters[expectedParam]);
+        Assert.Equal(new[]
+        {
+            expectedValue1,
+            expectedValue2
+        }, parameters[expectedParam]);
         Assert.Equal(expectedSql, builder.QueryTemplate.RawSql);
     }
 
