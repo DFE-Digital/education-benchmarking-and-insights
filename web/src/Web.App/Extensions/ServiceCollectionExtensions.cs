@@ -1,7 +1,6 @@
 using System.Security.Claims;
 using FluentValidation;
 using IdentityModel.Client;
-using Microsoft.ApplicationInsights;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
@@ -21,6 +20,7 @@ using Web.App.Infrastructure.Apis.LocalAuthorities;
 using Web.App.Infrastructure.Apis.NonFinancial;
 using Web.App.Infrastructure.Storage;
 using Web.App.Services;
+using Web.App.Telemetry;
 using Web.App.Validators;
 
 namespace Web.App.Extensions;
@@ -299,9 +299,9 @@ public static class ServiceCollectionExtensions
                     },
                     OnTokenValidated = async context =>
                     {
-                        var telemetry = context.HttpContext.RequestServices.GetRequiredService<TelemetryClient>();
+                        var telemetry = context.HttpContext.RequestServices.GetRequiredService<ITelemetryClientWrapper>();
                         telemetry.TrackUserSignedInEvent(context);
-                        
+
                         try
                         {
                             var organisation = context.Principal?.Organisation();

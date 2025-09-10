@@ -37,6 +37,7 @@ builder.Services
     .AddApplicationInsightsTelemetry()
     .AddHttpContextAccessor()
     .AddSingleton<ITelemetryInitializer, AuthenticatedUserTelemetryInitializer>()
+    .AddSingleton<ITelemetryClientWrapper, TelemetryClientWrapper>()
     .AddScoped<IFinanceService, FinanceService>()
     .AddScoped<IFinancialPlanService, FinancialPlanService>()
     .AddScoped<ISchoolComparatorSetService, SchoolComparatorSetService>()
