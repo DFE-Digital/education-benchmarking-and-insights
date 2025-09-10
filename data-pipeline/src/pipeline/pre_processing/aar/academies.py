@@ -511,11 +511,11 @@ def build_academy_data(
 
     academies["Total Income"] = academies["Total Income"] + academies["Total Income_CS"]
 
-    # Recalculate Total Expenditure_CS as sum of individual category totals (already apportioned)
-    academies["Total Expenditure_CS"] = academies[category_total_cols_cs].sum(axis=1)
+    # Recalculate Total Expenditure_CS as sum of individual apportioned category totals
+    academies["Total Expenditure_CS"] = academies[all_expenditure_category_cs_total_cols].sum(axis=1)
 
     # Recalculate Total Expenditure as sum of individual category totals (already includes CS apportionment)
-    academies["Total Expenditure"] = academies[category_total_cols].sum(axis=1)
+    academies["Total Expenditure"] = academies[all_expenditure_category_total_cols].sum(axis=1)
 
     # net catering cost, not net catering income
     academies["Catering staff and supplies_Net Costs"] = (
