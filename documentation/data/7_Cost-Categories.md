@@ -27,7 +27,7 @@ This document maps each category type from the Financial Benchmarking & Insights
 | Utilities                           | Water and sewerage costs                        |                    E15                     |   BAE140    |                         |
 | Administration supplies             | Administration supplies (non educational) costs |                 E22, E20D                  |   BAE280    |                         |
 | Catering staff and services         | Catering staff costs                            |                    E06                     |   BAE060    |                         |
-| Catering staff and services         | Catering supplies costs                         |                    E25                     |   BAE250    |                         |~~~~
+| Catering staff and services         | Catering supplies costs                         |                    E25                     |   BAE250    |                         |
 | Other costs                         | Grounds maintenance costs                       |                    E13                     |   BAE320    |                         |
 | Other costs                         | Indirect employee expenses costs                |                    E08                     |   BAE080    |                         |  
 | Other costs                         | Interest charges for loan and bank costs        |                    E29                     |   BAE320    |                         |
