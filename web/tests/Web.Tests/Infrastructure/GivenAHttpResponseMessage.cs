@@ -12,18 +12,12 @@ public class GivenAHttpResponseMessage
 {
     private readonly Fixture _fixture = new();
 
-    private static Task<HttpResponseMessage> CreateMessage(HttpStatusCode statusCode, HttpContent? content = null)
+    private static Task<HttpResponseMessage> CreateMessage(HttpStatusCode statusCode, HttpContent? content = null) => Task.FromResult(new HttpResponseMessage(statusCode)
     {
-        return Task.FromResult(new HttpResponseMessage(statusCode)
-        {
-            Content = content
-        });
-    }
+        Content = content
+    });
 
-    private static Task<HttpResponseMessage> CreateMessage(CancellationToken cancellationToken)
-    {
-        return Task.FromCanceled<HttpResponseMessage>(cancellationToken);
-    }
+    private static Task<HttpResponseMessage> CreateMessage(CancellationToken cancellationToken) => Task.FromCanceled<HttpResponseMessage>(cancellationToken);
 
     [Theory]
     [InlineData(HttpStatusCode.OK)]

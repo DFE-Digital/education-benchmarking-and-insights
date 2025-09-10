@@ -82,8 +82,5 @@ public class SearchPageSteps(PageDriver driver)
         await _trustSearchResultsPage.IsDisplayed();
     }
 
-    private static string TrustSearchUrl()
-    {
-        return $"{TestConfiguration.ServiceUrl}/trust";
-    }
+    private static string TrustSearchUrl() => $"{TestConfiguration.ServiceUrl}/trust";
 }

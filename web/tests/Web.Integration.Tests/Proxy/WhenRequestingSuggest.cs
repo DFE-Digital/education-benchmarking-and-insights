@@ -105,7 +105,6 @@ public class WhenRequestingSuggest(SchoolBenchmarkingWebAppClient client) : ICla
                                 TrustName = "Another Test Trust"
                             }
                         }
-
                     ]
                 },
                 new SuggestOutput<Trust>

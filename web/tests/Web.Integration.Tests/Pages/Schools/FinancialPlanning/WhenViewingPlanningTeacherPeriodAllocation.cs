@@ -6,14 +6,15 @@ using Moq;
 using Web.App.Domain;
 using Web.App.Infrastructure.Apis;
 using Xunit;
+
 namespace Web.Integration.Tests.Pages.Schools.FinancialPlanning;
 
 public class WhenViewingPlanningTeacherPeriodAllocation(SchoolBenchmarkingWebAppClient client) : PageBase<SchoolBenchmarkingWebAppClient>(client)
 {
-    private readonly SchoolBenchmarkingWebAppClient _client = client;
-
     private static readonly int CurrentYear =
         DateTime.UtcNow.Month < 9 ? DateTime.UtcNow.Year - 1 : DateTime.UtcNow.Year;
+
+    private readonly SchoolBenchmarkingWebAppClient _client = client;
 
     [Theory]
     [InlineData(EstablishmentTypes.Academies, OverallPhaseTypes.Secondary)]

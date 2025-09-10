@@ -7,8 +7,5 @@ public interface IItSpendApi
 
 public class ItSpendApi(HttpClient httpClient, string? key = default) : ApiBase(httpClient, key), IItSpendApi
 {
-    public async Task<ApiResult> QuerySchools(ApiQuery? query = null, CancellationToken cancellationToken = default)
-    {
-        return await GetAsync($"{Api.ItSpend.Schools}{query?.ToQueryString()}", cancellationToken);
-    }
+    public async Task<ApiResult> QuerySchools(ApiQuery? query = null, CancellationToken cancellationToken = default) => await GetAsync($"{Api.ItSpend.Schools}{query?.ToQueryString()}", cancellationToken);
 }

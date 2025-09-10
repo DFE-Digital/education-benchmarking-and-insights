@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using Web.App.Attributes;
+
 // ReSharper disable PropertyCanBeMadeInitOnly.Global
 namespace Web.App.ViewModels;
 

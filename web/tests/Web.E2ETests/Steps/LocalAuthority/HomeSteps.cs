@@ -73,8 +73,5 @@ public class HomeSteps(PageDriver driver)
         await _localAuthorityHomePage.HasBanner(title, heading, body);
     }
 
-    private static string LocalAuthorityHomeUrl(string laCode)
-    {
-        return $"{TestConfiguration.ServiceUrl}/local-authority/{laCode}";
-    }
+    private static string LocalAuthorityHomeUrl(string laCode) => $"{TestConfiguration.ServiceUrl}/local-authority/{laCode}";
 }

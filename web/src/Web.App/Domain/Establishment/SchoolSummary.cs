@@ -1,5 +1,6 @@
 ﻿// ReSharper disable ClassNeverInstantiated.Global
 // ReSharper disable UnusedAutoPropertyAccessor.Global
+
 namespace Web.App.Domain;
 
 public record SchoolSummary

@@ -112,6 +112,7 @@ public class HomeSteps(PageDriver driver)
         Assert.NotNull(_curriculumFinancialPlanningPage);
         await _curriculumFinancialPlanningPage.IsDisplayed();
     }
+
     [Then("the trust forecast page is displayed")]
     public async Task ThenTheTrustForecastPageIsDisplayed()
     {
@@ -140,8 +141,5 @@ public class HomeSteps(PageDriver driver)
         await _trustHomePage.HasBanner(title, heading, body);
     }
 
-    private static string TrustHomeUrl(string companyNumber)
-    {
-        return $"{TestConfiguration.ServiceUrl}/trust/{companyNumber}";
-    }
+    private static string TrustHomeUrl(string companyNumber) => $"{TestConfiguration.ServiceUrl}/trust/{companyNumber}";
 }

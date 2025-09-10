@@ -1,4 +1,5 @@
 ﻿using Web.App.Extensions;
+
 namespace Web.App.Attributes.RequestTelemetry;
 
 public class SchoolFinancialBenchmarkingInsightsSummaryTelemetry : SchoolRequestTelemetryAttribute

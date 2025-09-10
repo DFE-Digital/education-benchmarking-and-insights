@@ -7,6 +7,7 @@ using Web.App;
 using Web.App.Domain;
 using Web.App.Extensions;
 using Xunit;
+
 namespace Web.Integration.Tests.Pages.Trusts;
 
 public class WhenViewingComparison(SchoolBenchmarkingWebAppClient client) : PageBase<SchoolBenchmarkingWebAppClient>(client)

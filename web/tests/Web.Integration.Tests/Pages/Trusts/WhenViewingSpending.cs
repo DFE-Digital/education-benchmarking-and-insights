@@ -5,39 +5,22 @@ using AngleSharp.Html.Dom;
 using AutoFixture;
 using Web.App.Domain;
 using Xunit;
+
 namespace Web.Integration.Tests.Pages.Trusts;
 
 public partial class WhenViewingSpending(SchoolBenchmarkingWebAppClient client) : PageBase<SchoolBenchmarkingWebAppClient>(client)
 {
     private static readonly Dictionary<int, string> AllCostCategories = new()
     {
-        {
-            1, Category.TeachingStaff
-        },
-        {
-            2, Category.NonEducationalSupportStaff
-        },
-        {
-            3, Category.EducationalSupplies
-        },
-        {
-            4, Category.EducationalIct
-        },
-        {
-            5, Category.PremisesStaffServices
-        },
-        {
-            6, Category.Utilities
-        },
-        {
-            7, Category.AdministrativeSupplies
-        },
-        {
-            8, Category.CateringStaffServices
-        },
-        {
-            9, Category.Other
-        }
+        { 1, Category.TeachingStaff },
+        { 2, Category.NonEducationalSupportStaff },
+        { 3, Category.EducationalSupplies },
+        { 4, Category.EducationalIct },
+        { 5, Category.PremisesStaffServices },
+        { 6, Category.Utilities },
+        { 7, Category.AdministrativeSupplies },
+        { 8, Category.CateringStaffServices },
+        { 9, Category.Other }
     };
 
     [Fact]
@@ -67,12 +50,8 @@ public partial class WhenViewingSpending(SchoolBenchmarkingWebAppClient client) 
         {
             f.SetFormValues(new Dictionary<string, string>
             {
-                {
-                    "priority", "medium"
-                },
-                {
-                    "category", "utilities"
-                }
+                { "priority", "medium" },
+                { "category", "utilities" }
             });
         });
 

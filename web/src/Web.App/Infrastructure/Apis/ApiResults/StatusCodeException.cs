@@ -1,5 +1,6 @@
 using System.Net;
 using Web.App.Extensions;
+
 namespace Web.App.Infrastructure.Apis;
 
 public class StatusCodeException(HttpStatusCode statusCode)

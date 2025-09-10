@@ -36,10 +36,10 @@ public class CensusProxyController(
         CancellationToken cancellationToken = default)
     {
         using (logger.BeginScope(new
-        {
-            type,
-            id
-        }))
+               {
+                   type,
+                   id
+               }))
         {
             try
             {
@@ -66,9 +66,9 @@ public class CensusProxyController(
     public async Task<IActionResult> History([FromQuery] string id, [FromQuery] string dimension, CancellationToken cancellationToken = default)
     {
         using (logger.BeginScope(new
-        {
-            id
-        }))
+               {
+                   id
+               }))
         {
             try
             {
@@ -103,9 +103,9 @@ public class CensusProxyController(
         CancellationToken cancellationToken = default)
     {
         using (logger.BeginScope(new
-        {
-            id
-        }))
+               {
+                   id
+               }))
         {
             try
             {
@@ -197,19 +197,13 @@ public class CensusProxyController(
         return query;
     }
 
-    private async Task<CensusHistoryRows?> SchoolCensusHistory(string urn, string dimension, CancellationToken cancellationToken = default)
-    {
-        return await censusApi
-            .SchoolHistory(urn, BuildApiQuery(dimension: dimension), cancellationToken)
-            .GetResultOrDefault<CensusHistoryRows>();
-    }
+    private async Task<CensusHistoryRows?> SchoolCensusHistory(string urn, string dimension, CancellationToken cancellationToken = default) => await censusApi
+        .SchoolHistory(urn, BuildApiQuery(dimension: dimension), cancellationToken)
+        .GetResultOrDefault<CensusHistoryRows>();
 
-    private async Task<CensusHistoryRows?> SchoolCensusHistoryComparatorSetAverage(string urn, string dimension, CancellationToken cancellationToken = default)
-    {
-        return await censusApi
-            .SchoolHistoryComparatorSetAverage(urn, BuildApiQuery(dimension: dimension), cancellationToken)
-            .GetResultOrDefault<CensusHistoryRows>();
-    }
+    private async Task<CensusHistoryRows?> SchoolCensusHistoryComparatorSetAverage(string urn, string dimension, CancellationToken cancellationToken = default) => await censusApi
+        .SchoolHistoryComparatorSetAverage(urn, BuildApiQuery(dimension: dimension), cancellationToken)
+        .GetResultOrDefault<CensusHistoryRows>();
 
     private async Task<CensusHistoryRows?> SchoolCensusHistoryNationalAverage(string urn, string dimension, CancellationToken cancellationToken = default)
     {

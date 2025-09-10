@@ -16,28 +16,29 @@ public class FinancialPlanMinimalDataCollection : ICollectionFixture<FinancialPl
 public class FinancialPlanFixture(IMessageSink messageSink)
     : FinancialPlanBaseFixture(
         DateTime.UtcNow.Year + 1,
-        new { User = "ally-test-user" },
+        new
+        {
+            User = "ally-test-user"
+        },
         messageSink);
 
 public class FinancialPlanMinimalDataFixture(IMessageSink messageSink)
     : FinancialPlanBaseFixture(
         DateTime.UtcNow.Year + 2,
-        new { UseFigures = true, HasMixedAgeClasses = false, User = "ally-test-user" },
+        new
+        {
+            UseFigures = true,
+            HasMixedAgeClasses = false,
+            User = "ally-test-user"
+        },
         messageSink);
-
 
 public abstract class FinancialPlanBaseFixture : IDisposable
 {
     private const string CreateKey = nameof(CreateKey);
     private const string RemoveKey = nameof(RemoveKey);
-    private readonly IMessageSink _messageSink;
     private readonly BenchmarkApiDriver _apiDriver;
-
-    public bool Initiated { get; protected set; }
-    public Task Initialize { get; }
-    public object Content { get; }
-    public int Year { get; }
-    public string Urn { get; }
+    private readonly IMessageSink _messageSink;
 
     protected FinancialPlanBaseFixture(int year, object content, IMessageSink messageSink)
     {
@@ -51,6 +52,18 @@ public abstract class FinancialPlanBaseFixture : IDisposable
         Initialize = CreateInstanceAsync();
     }
 
+    public bool Initiated { get; protected set; }
+    public Task Initialize { get; }
+    public object Content { get; }
+    public int Year { get; }
+    public string Urn { get; }
+
+    public async void Dispose()
+    {
+        await Dispose(true);
+        GC.SuppressFinalize(this);
+    }
+
     private async Task CreateInstanceAsync()
     {
         if (!Initiated)
@@ -59,12 +72,6 @@ public abstract class FinancialPlanBaseFixture : IDisposable
         }
 
         Initiated = true;
-    }
-
-    public async void Dispose()
-    {
-        await Dispose(true);
-        GC.SuppressFinalize(this);
     }
 
     protected virtual async Task Dispose(bool disposing)

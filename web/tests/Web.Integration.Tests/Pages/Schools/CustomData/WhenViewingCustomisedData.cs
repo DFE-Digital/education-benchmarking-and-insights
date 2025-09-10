@@ -5,6 +5,7 @@ using AngleSharp.XPath;
 using AutoFixture;
 using Web.App.Domain;
 using Xunit;
+
 namespace Web.Integration.Tests.Pages.Schools.CustomData;
 
 public class WhenViewingCustomisedData(SchoolBenchmarkingWebAppClient client)
@@ -124,8 +125,8 @@ public class WhenViewingCustomisedData(SchoolBenchmarkingWebAppClient client)
                 .SetupUserData()
                 .Navigate(Paths.SchoolCustomisedData(school.URN));
         }
-        return (page, school);
 
+        return (page, school);
     }
 
     private static void AssertPageLayout(IHtmlDocument page, School school)

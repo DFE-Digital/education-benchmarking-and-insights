@@ -34,9 +34,9 @@ public class SchoolController(
         [FromQuery(Name = "comparator-reverted")] bool? comparatorReverted)
     {
         using (logger.BeginScope(new
-        {
-            urn
-        }))
+               {
+                   urn
+               }))
         {
             try
             {
@@ -77,9 +77,9 @@ public class SchoolController(
     public async Task<IActionResult> History(string urn)
     {
         using (logger.BeginScope(new
-        {
-            urn
-        }))
+               {
+                   urn
+               }))
         {
             try
             {
@@ -103,9 +103,9 @@ public class SchoolController(
     public async Task<IActionResult> Details(string urn)
     {
         using (logger.BeginScope(new
-        {
-            urn
-        }))
+               {
+                   urn
+               }))
         {
             try
             {
@@ -129,9 +129,9 @@ public class SchoolController(
     public async Task<IActionResult> Resources(string urn)
     {
         using (logger.BeginScope(new
-        {
-            urn
-        }))
+               {
+                   urn
+               }))
         {
             try
             {
@@ -170,9 +170,9 @@ public class SchoolController(
     public async Task<IActionResult> CustomData(string urn, [FromQuery(Name = "custom-data-generated")] bool? customDataGenerated)
     {
         using (logger.BeginScope(new
-        {
-            urn
-        }))
+               {
+                   urn
+               }))
         {
             try
             {
@@ -209,52 +209,31 @@ public class SchoolController(
         }
     }
 
-    private async Task<(string? CustomData, string? ComparatorSet)> UserData(string urn)
-    {
-        return await userDataService
-            .GetSchoolDataAsync(User, urn);
-    }
+    private async Task<(string? CustomData, string? ComparatorSet)> UserData(string urn) => await userDataService
+        .GetSchoolDataAsync(User, urn);
 
-    private async Task<SchoolBalance?> SchoolBalance(string urn)
-    {
-        return await balanceApi
-            .School(urn)
-            .GetResultOrDefault<SchoolBalance>();
-    }
+    private async Task<SchoolBalance?> SchoolBalance(string urn) => await balanceApi
+        .School(urn)
+        .GetResultOrDefault<SchoolBalance>();
 
-    private async Task<School> School(string urn)
-    {
-        return await establishmentApi
-            .GetSchool(urn)
-            .GetResultOrThrow<School>();
-    }
+    private async Task<School> School(string urn) => await establishmentApi
+        .GetSchool(urn)
+        .GetResultOrThrow<School>();
 
-    private async Task<Census> Census(string urn)
-    {
-        return await censusApi
-            .Get(urn)
-            .GetResultOrThrow<Census>();
-    }
+    private async Task<Census> Census(string urn) => await censusApi
+        .Get(urn)
+        .GetResultOrThrow<Census>();
 
-    private async Task<RagRating[]> RagRatingsDefault(string urn)
-    {
-        return await metricRagRatingApi
-            .GetDefaultAsync(new ApiQuery().AddIfNotNull("urns", urn))
-            .GetResultOrThrow<RagRating[]>();
-    }
+    private async Task<RagRating[]> RagRatingsDefault(string urn) => await metricRagRatingApi
+        .GetDefaultAsync(new ApiQuery().AddIfNotNull("urns", urn))
+        .GetResultOrThrow<RagRating[]>();
 
-    private async Task<RagRating[]> RagRatingsUserDefined(string comparatorSetId)
-    {
-        return await metricRagRatingApi
-            .UserDefinedAsync(comparatorSetId)
-            .GetResultOrThrow<RagRating[]>();
-    }
+    private async Task<RagRating[]> RagRatingsUserDefined(string comparatorSetId) => await metricRagRatingApi
+        .UserDefinedAsync(comparatorSetId)
+        .GetResultOrThrow<RagRating[]>();
 
-    private BacklinkInfo HomeLink(string urn)
+    private BacklinkInfo HomeLink(string urn) => new(Url.Action("Index", new
     {
-        return new BacklinkInfo(Url.Action("Index", new
-        {
-            urn
-        }));
-    }
+        urn
+    }));
 }

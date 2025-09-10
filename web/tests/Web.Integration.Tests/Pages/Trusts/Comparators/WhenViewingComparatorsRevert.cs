@@ -6,6 +6,7 @@ using Web.App;
 using Web.App.Domain;
 using Web.App.Extensions;
 using Xunit;
+
 namespace Web.Integration.Tests.Pages.Trusts.Comparators;
 
 public class WhenViewingComparatorsCreateRevert(SchoolBenchmarkingWebAppClient client) : PageBase<SchoolBenchmarkingWebAppClient>(client)

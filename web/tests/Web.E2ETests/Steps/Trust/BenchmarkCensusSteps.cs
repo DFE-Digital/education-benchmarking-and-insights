@@ -215,7 +215,6 @@ public class BenchmarkCensusSteps(PageDriver driver)
     {
         Assert.NotNull(_censusPage);
         await _censusPage.HoverOnGraphBar();
-
     }
 
     [When("I select the school name on the chart")]

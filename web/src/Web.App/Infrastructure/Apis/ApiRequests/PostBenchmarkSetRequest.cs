@@ -33,7 +33,7 @@ public class PostBenchmarkSetRequest
 
 [ExcludeFromCodeCoverage]
 [JsonConverter(typeof(JsonSubtypes), nameof(Kind))]
-[JsonSubtypes.FallBackSubTypeAttribute(typeof(ValueCharacteristic))]
+[JsonSubtypes.FallBackSubType(typeof(ValueCharacteristic))]
 public abstract class CharacteristicVariable
 {
     public virtual CharacteristicVariableTypes? Kind => null;

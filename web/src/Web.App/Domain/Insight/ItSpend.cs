@@ -1,5 +1,6 @@
 // ReSharper disable UnusedAutoPropertyAccessor.Global
 // ReSharper disable ClassNeverInstantiated.Global
+
 namespace Web.App.Domain;
 
 public abstract record ItSpend
@@ -47,8 +48,5 @@ public record SchoolItSpend : ItSpend, IEqualityComparer<SchoolItSpend>
         return x.URN == y.URN;
     }
 
-    public int GetHashCode(SchoolItSpend obj)
-    {
-        return obj.URN != null ? obj.URN.GetHashCode() : 0;
-    }
+    public int GetHashCode(SchoolItSpend obj) => obj.URN != null ? obj.URN.GetHashCode() : 0;
 }

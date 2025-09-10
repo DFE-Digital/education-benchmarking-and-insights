@@ -15,6 +15,7 @@ public class CreateComparatorsByPage(IPage page)
         {
             HasText = "How do you want to choose your own set of trusts?"
         });
+
     private ILocator ComparatorsByRadios => page.Locator(Selectors.GovRadios);
 
     private ILocator ContinueButton => page.Locator(Selectors.GovButton,
@@ -22,6 +23,7 @@ public class CreateComparatorsByPage(IPage page)
         {
             HasText = "Continue"
         });
+
     private ILocator NameRadioButton => page.Locator(".govuk-radios__input#by-name");
     private ILocator CharacteristicRadioButton => page.Locator(".govuk-radios__input#by-characteristic");
 

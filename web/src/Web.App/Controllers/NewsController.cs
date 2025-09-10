@@ -37,9 +37,9 @@ public class NewsController(ILogger<NewsController> logger, INewsApi newsApi) : 
     public async Task<IActionResult> Article(string slug, CancellationToken cancellationToken = default)
     {
         using (logger.BeginScope(new
-        {
-            slug
-        }))
+               {
+                   slug
+               }))
         {
             try
             {

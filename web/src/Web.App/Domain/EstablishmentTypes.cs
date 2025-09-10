@@ -1,4 +1,5 @@
 using System.Diagnostics.CodeAnalysis;
+
 namespace Web.App.Domain;
 
 [ExcludeFromCodeCoverage]

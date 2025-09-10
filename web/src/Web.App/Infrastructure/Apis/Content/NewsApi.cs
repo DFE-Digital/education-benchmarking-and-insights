@@ -8,13 +8,7 @@ public interface INewsApi
 
 public class NewsApi(HttpClient httpClient, string? key = default) : ApiBase(httpClient, key), INewsApi
 {
-    public async Task<ApiResult> GetNews(CancellationToken cancellationToken = default)
-    {
-        return await GetAsync(Api.News.All, cancellationToken);
-    }
+    public async Task<ApiResult> GetNews(CancellationToken cancellationToken = default) => await GetAsync(Api.News.All, cancellationToken);
 
-    public async Task<ApiResult> GetNewsArticle(string slug, CancellationToken cancellationToken = default)
-    {
-        return await GetAsync(Api.News.Article(slug), cancellationToken);
-    }
+    public async Task<ApiResult> GetNewsArticle(string slug, CancellationToken cancellationToken = default) => await GetAsync(Api.News.Article(slug), cancellationToken);
 }

@@ -1,4 +1,5 @@
 // ReSharper disable PropertyCanBeMadeInitOnly.Global
+
 namespace Web.App.Cache;
 
 public record CacheOptions

@@ -1,4 +1,3 @@
-using Microsoft.Azure.Cosmos;
 using Web.App.Domain;
 using Web.App.Factories;
 using Web.App.Infrastructure.Apis;
@@ -23,20 +22,19 @@ public class FinancialPlanService(IFinancialPlanApi api) : IFinancialPlanService
         var plan = await api.GetAsync(urn, year).GetResultOrDefault<FinancialPlanInput>();
         if (plan == null)
         {
-            var request = new PutFinancialPlanRequest { Urn = urn, Year = year, UpdatedBy = user };
+            var request = new PutFinancialPlanRequest
+            {
+                Urn = urn,
+                Year = year,
+                UpdatedBy = user
+            };
             await api.UpsertAsync(request).EnsureSuccess();
         }
     }
 
-    public async Task<FinancialPlanInput> Get(string? urn, int? year)
-    {
-        return await api.GetAsync(urn, year).GetResultOrThrow<FinancialPlanInput>();
-    }
+    public async Task<FinancialPlanInput> Get(string? urn, int? year) => await api.GetAsync(urn, year).GetResultOrThrow<FinancialPlanInput>();
 
-    public async Task<DeploymentPlan> DeploymentPlan(string? urn, int? year)
-    {
-        return await api.GetDeploymentPlanAsync(urn, year).GetResultOrThrow<DeploymentPlan>();
-    }
+    public async Task<DeploymentPlan> DeploymentPlan(string? urn, int? year) => await api.GetDeploymentPlanAsync(urn, year).GetResultOrThrow<DeploymentPlan>();
 
     public async Task<IEnumerable<FinancialPlan>> List(string[] urns)
     {
@@ -45,6 +43,7 @@ public class FinancialPlanService(IFinancialPlanApi api) : IFinancialPlanService
         {
             query.AddIfNotNull("urns", urn);
         }
+
         return await api.QueryAsync(query).GetResultOrDefault<FinancialPlan[]>() ?? [];
     }
 

@@ -11,6 +11,7 @@ using Web.App;
 using Web.App.Attributes.RequestTelemetry;
 using Web.App.Extensions;
 using Xunit;
+
 namespace Web.Tests.Attributes;
 
 public class GivenASchoolFinancialBenchmarkingInsightsSummaryRequestTelemetryAttribute
@@ -30,9 +31,7 @@ public class GivenASchoolFinancialBenchmarkingInsightsSummaryRequestTelemetryAtt
     {
         var routeData = new RouteData(new RouteValueDictionary
         {
-            {
-                "urn", urn
-            }
+            { "urn", urn }
         });
 
         const TrackedRequestQueryParameters referrerKey = TrackedRequestQueryParameters.Referrer;

@@ -4,10 +4,7 @@ public static class Api
 {
     public static class Banners
     {
-        public static string Banner(string target)
-        {
-            return $"api/banner/{target}";
-        }
+        public static string Banner(string target) => $"api/banner/{target}";
     }
 
     public static class CommercialResources
@@ -24,10 +21,7 @@ public static class Api
     {
         public static string All => "api/news";
 
-        public static string Article(string slug)
-        {
-            return $"api/news/{slug}";
-        }
+        public static string Article(string slug) => $"api/news/{slug}";
     }
 
     public static class Years

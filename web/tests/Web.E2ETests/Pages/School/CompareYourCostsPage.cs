@@ -22,6 +22,7 @@ public enum ComparisonChartNames
 public class CompareYourCostsPage(IPage page)
 {
     private ILocator PageH1Heading => page.Locator(Selectors.H1);
+
     //private ILocator Breadcrumbs => page.Locator(Selectors.GovBreadcrumbs);
     private ILocator SaveImageTotalExpenditure => page.Locator(Selectors.TotalExpenditureSaveAsImage);
     private ILocator CopyImageTotalExpenditure => page.Locator(Selectors.TotalExpenditureCopyImage);
@@ -60,26 +61,31 @@ public class CompareYourCostsPage(IPage page)
     private ILocator CateringServicesDimension => page.Locator(Selectors.CateringServicesDimension);
     private ILocator OtherDimension => page.Locator(Selectors.OtherDimension);
     private ILocator TotalPremisesStaffAndServiceCostsDimension => page.Locator(Selectors.TotalPremisesStaffAndServiceCostsDimension);
+
     private ILocator DownloadDataButton =>
         page.Locator(Selectors.Button, new PageLocatorOptions
         {
             HasText = "Download page data"
         });
+
     private ILocator SaveAsImageButtons =>
         page.Locator(Selectors.Button, new PageLocatorOptions
         {
             HasTextRegex = Regexes.SaveAsImageRegex()
         });
+
     private ILocator CopyImageButtons =>
         page.Locator(Selectors.Button, new PageLocatorOptions
         {
             HasTextRegex = Regexes.CopyImageRegex()
         });
+
     private ILocator SaveImagesButton =>
         page.Locator(Selectors.Button, new PageLocatorOptions
         {
             HasText = "Save chart images"
         });
+
     private ILocator SaveImagesModal =>
         page.Locator(Selectors.Modal, new PageLocatorOptions
         {
@@ -92,11 +98,13 @@ public class CompareYourCostsPage(IPage page)
             {
                 HasText = "We've chosen 2 sets of similar schools"
             });
+
     private ILocator ComparatorSetLink => page.Locator(Selectors.GovLink,
         new PageLocatorOptions
         {
             HasText = "Choose your own similar schools"
         });
+
     private ILocator CustomComparatorLink => page.Locator(Selectors.GovLink,
         new PageLocatorOptions
         {
@@ -108,11 +116,13 @@ public class CompareYourCostsPage(IPage page)
         {
             HasText = "Change the data for this school"
         });
+
     private ILocator SimilarSchoolLink => page.Locator(Selectors.GovLink,
         new PageLocatorOptions
         {
             HasText = "30 similar schools"
         });
+
     private ILocator ComparatorSetDetailsText => page.Locator(Selectors.GovDetailsText);
     private ILocator ChartBars => page.Locator(Selectors.ChartBars);
     private ILocator ChartTicks => page.Locator(Selectors.ChartYTicks);
@@ -394,7 +404,6 @@ public class CompareYourCostsPage(IPage page)
             _ => throw new ArgumentOutOfRangeException(nameof(subCategoryName))
         };
         await subCategory.ShouldBeVisible();
-
     }
 
     public async Task IsSaveImagesButtonDisplayed()

@@ -17,10 +17,10 @@ public class FinanceService(
     IMemoryCache memoryCache,
     IOptions<CacheOptions> options) : IFinanceService
 {
-    private readonly int _sliding = options.Value.ReturnYears.SlidingExpiration ?? 10;
+    private const string CacheKey = "return-years";
     private readonly int _absolute = options.Value.ReturnYears.AbsoluteExpiration ?? 60;
     private readonly bool _cacheDisabled = options.Value.Banners.Disabled.GetValueOrDefault();
-    private const string CacheKey = "return-years";
+    private readonly int _sliding = options.Value.ReturnYears.SlidingExpiration ?? 10;
 
     public async Task<FinanceYears> GetYears()
     {

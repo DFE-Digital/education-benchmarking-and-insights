@@ -2,6 +2,7 @@ using Web.App.Infrastructure.Apis;
 using Web.App.Infrastructure.Apis.Insight;
 using Xunit;
 using Xunit.Abstractions;
+
 namespace Web.Tests.Infrastructure;
 
 public class GivenACensusApi(ITestOutputHelper testOutputHelper) : ApiClientTestBase(testOutputHelper)

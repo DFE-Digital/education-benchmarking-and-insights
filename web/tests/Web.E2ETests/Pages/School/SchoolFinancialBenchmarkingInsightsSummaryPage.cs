@@ -1,6 +1,7 @@
 ﻿using System.Net;
 using Microsoft.Playwright;
 using Xunit;
+
 namespace Web.E2ETests.Pages.School;
 
 public class SchoolFinancialBenchmarkingInsightsSummaryPage(IPage page, IResponse? response = null)
@@ -17,6 +18,7 @@ public class SchoolFinancialBenchmarkingInsightsSummaryPage(IPage page, IRespons
 
     private ILocator VisitFbitButton => page.Locator(Selectors.GovButton)
         .GetByText("Visit the Financial Benchmarking and Insights Tool");
+
     private ILocator TeachingSupportStaff => page.Locator(Selectors.PriorityAreaTeachingSupportStaff);
     private ILocator NonEducationalSupportStaff => page.Locator(Selectors.PriorityAreaNonEducationSupportStaff);
     private ILocator AdministrativeSupplies => page.Locator(Selectors.PriorityAreaAdministrativeSupplies);

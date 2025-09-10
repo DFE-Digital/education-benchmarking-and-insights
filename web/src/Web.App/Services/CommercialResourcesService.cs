@@ -92,12 +92,9 @@ public class CommercialResourcesService(
         return data;
     }
 
-    private MemoryCacheEntryOptions CreateMemoryCacheEntryOptions()
+    private MemoryCacheEntryOptions CreateMemoryCacheEntryOptions() => new()
     {
-        return new MemoryCacheEntryOptions
-        {
-            SlidingExpiration = TimeSpan.FromMinutes(_sliding),
-            AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(_absolute)
-        };
-    }
+        SlidingExpiration = TimeSpan.FromMinutes(_sliding),
+        AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(_absolute)
+    };
 }

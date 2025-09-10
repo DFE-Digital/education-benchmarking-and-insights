@@ -2,6 +2,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Text;
 using System.Text.RegularExpressions;
+
 namespace Web.App.Extensions;
 
 [ExcludeFromCodeCoverage]
@@ -21,6 +22,7 @@ public static partial class StringExtensions
         {
             return value;
         }
+
         return value.Length <= maxLength ? value : value.Substring(0, maxLength);
     }
 
@@ -58,7 +60,7 @@ public static partial class StringExtensions
         {
             var c = source[index];
 
-            if (char.IsUpper(c) && (index > 1 && !char.IsUpper(source[index - 1]) || index + 1 < source.Length && !char.IsUpper(source[index + 1])))
+            if (char.IsUpper(c) && ((index > 1 && !char.IsUpper(source[index - 1])) || (index + 1 < source.Length && !char.IsUpper(source[index + 1]))))
             {
                 stringBuilder.Append(' ');
             }

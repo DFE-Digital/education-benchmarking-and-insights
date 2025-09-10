@@ -21,23 +21,17 @@ public interface ISchoolComparatorSetService
 
 public class SchoolComparatorSetService(IHttpContextAccessor httpContextAccessor, IComparatorSetApi api) : ISchoolComparatorSetService
 {
-    public async Task<SchoolComparatorSet?> ReadComparatorSet(string urn, CancellationToken cancellationToken = default)
-    {
+    public async Task<SchoolComparatorSet?> ReadComparatorSet(string urn, CancellationToken cancellationToken = default) =>
         //Do not add to session state. Locking on session state blocks requests
-        return await api.GetDefaultSchoolAsync(urn, cancellationToken).GetResultOrDefault<SchoolComparatorSet>();
-    }
+        await api.GetDefaultSchoolAsync(urn, cancellationToken).GetResultOrDefault<SchoolComparatorSet>();
 
-    public async Task<SchoolComparatorSet?> ReadComparatorSet(string urn, string identifier, CancellationToken cancellationToken = default)
-    {
+    public async Task<SchoolComparatorSet?> ReadComparatorSet(string urn, string identifier, CancellationToken cancellationToken = default) =>
         //Do not add to session state. Locking on session state blocks requests
-        return await api.GetCustomSchoolAsync(urn, identifier, cancellationToken).GetResultOrDefault<SchoolComparatorSet>();
-    }
+        await api.GetCustomSchoolAsync(urn, identifier, cancellationToken).GetResultOrDefault<SchoolComparatorSet>();
 
-    public async Task<UserDefinedSchoolComparatorSet?> ReadUserDefinedComparatorSet(string urn, string identifier, CancellationToken cancellationToken = default)
-    {
+    public async Task<UserDefinedSchoolComparatorSet?> ReadUserDefinedComparatorSet(string urn, string identifier, CancellationToken cancellationToken = default) =>
         //Do not add to session state. Locking on session state blocks requests
-        return await api.GetUserDefinedSchoolAsync(urn, identifier, cancellationToken).GetResultOrDefault<UserDefinedSchoolComparatorSet>();
-    }
+        await api.GetUserDefinedSchoolAsync(urn, identifier, cancellationToken).GetResultOrDefault<UserDefinedSchoolComparatorSet>();
 
     public UserDefinedSchoolComparatorSet ReadUserDefinedComparatorSetFromSession(string urn)
     {

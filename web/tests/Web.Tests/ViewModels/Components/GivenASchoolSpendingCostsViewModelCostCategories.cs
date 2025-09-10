@@ -49,7 +49,11 @@ public class GivenASchoolSpendingCostsViewModelCostCategories
         Assert.Equal(hasNegativeOrZeroValues, actualAdministrativeSupplies.HasNegativeOrZeroValues);
         var expectedData = administrativeSupplies.Values
             .Where(v => !hasNegativeOrZeroValues || v.Key == urn)
-            .Select(x => new PriorityCostCategoryDatum { Urn = x.Key, Amount = x.Value.Value });
+            .Select(x => new PriorityCostCategoryDatum
+            {
+                Urn = x.Key,
+                Amount = x.Value.Value
+            });
         Assert.Equivalent(expectedData, actualAdministrativeSupplies.Data);
 
         var actualCateringStaffServices = categories.ElementAt(1);
@@ -57,14 +61,21 @@ public class GivenASchoolSpendingCostsViewModelCostCategories
         Assert.Equal(cateringStaffServices, actualCateringStaffServices.Category);
         Assert.Null(actualCateringStaffServices.ChartSvg);
         Assert.False(actualCateringStaffServices.HasNegativeOrZeroValues);
-        Assert.Equivalent(cateringStaffServices.Values.Select(x => new PriorityCostCategoryDatum { Urn = x.Key, Amount = x.Value.Value }), actualCateringStaffServices.Data);
+        Assert.Equivalent(cateringStaffServices.Values.Select(x => new PriorityCostCategoryDatum
+        {
+            Urn = x.Key,
+            Amount = x.Value.Value
+        }), actualCateringStaffServices.Data);
 
         var actualEducationalIct = categories.ElementAt(2);
         Assert.NotNull(actualEducationalIct.Uuid);
         Assert.Equal(educationalIct, actualEducationalIct.Category);
         Assert.Null(actualEducationalIct.ChartSvg);
         Assert.False(actualEducationalIct.HasNegativeOrZeroValues);
-        Assert.Equivalent(educationalIct.Values.Select(x => new PriorityCostCategoryDatum { Urn = x.Key, Amount = x.Value.Value }), actualEducationalIct.Data);
-
+        Assert.Equivalent(educationalIct.Values.Select(x => new PriorityCostCategoryDatum
+        {
+            Urn = x.Key,
+            Amount = x.Value.Value
+        }), actualEducationalIct.Data);
     }
 }

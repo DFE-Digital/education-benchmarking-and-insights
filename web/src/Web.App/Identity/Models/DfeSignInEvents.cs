@@ -2,6 +2,7 @@ using System.Diagnostics.CodeAnalysis;
 using IdentityModel.Client;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
+
 namespace Web.App.Identity.Models;
 
 [ExcludeFromCodeCoverage]

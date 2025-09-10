@@ -57,9 +57,7 @@ public class WhenViewingSchoolSearch(SchoolBenchmarkingWebAppClient client) : Pa
         {
             f.SetFormValues(new Dictionary<string, string>
             {
-                {
-                    "Term", term
-                }
+                { "Term", term }
             });
         });
 

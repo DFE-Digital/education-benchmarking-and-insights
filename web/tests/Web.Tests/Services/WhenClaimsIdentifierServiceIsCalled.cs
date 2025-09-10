@@ -26,7 +26,13 @@ public class WhenClaimsIdentifierServiceIsCalled
         };
         var response = new Trust
         {
-            Schools = [new TrustSchool { URN = "123456" }]
+            Schools =
+            [
+                new TrustSchool
+                {
+                    URN = "123456"
+                }
+            ]
         };
 
         _mockApi.Setup(api => api.GetTrust(It.IsAny<string>(), It.IsAny<CancellationToken>()))
@@ -57,8 +63,14 @@ public class WhenClaimsIdentifierServiceIsCalled
         {
             Schools =
             [
-                new TrustSchool { URN = "123456" },
-                new TrustSchool { URN = "987654" }
+                new TrustSchool
+                {
+                    URN = "123456"
+                },
+                new TrustSchool
+                {
+                    URN = "987654"
+                }
             ]
         };
 
@@ -91,8 +103,14 @@ public class WhenClaimsIdentifierServiceIsCalled
         {
             Schools =
             [
-                new LocalAuthoritySchool { URN = "123456" },
-                new LocalAuthoritySchool { URN = "987654" }
+                new LocalAuthoritySchool
+                {
+                    URN = "123456"
+                },
+                new LocalAuthoritySchool
+                {
+                    URN = "987654"
+                }
             ]
         };
         _mockApi.Setup(api => api.GetLocalAuthority(It.IsAny<string>(), It.IsAny<CancellationToken>()))
@@ -120,7 +138,11 @@ public class WhenClaimsIdentifierServiceIsCalled
             URN = 123456
         };
 
-        var response = new School { URN = "123456", TrustCompanyNumber = "12345678" };
+        var response = new School
+        {
+            URN = "123456",
+            TrustCompanyNumber = "12345678"
+        };
         _mockApi.Setup(api => api.GetSchool(organisation.URN.ToString(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(ApiResult.Ok(response));
         var service = new ClaimsIdentifierService(_mockApi.Object);
@@ -145,7 +167,10 @@ public class WhenClaimsIdentifierServiceIsCalled
             Category = organisationItem,
             URN = 123456
         };
-        var response = new School { URN = "123456" };
+        var response = new School
+        {
+            URN = "123456"
+        };
 
         _mockApi.Setup(api => api.GetSchool(organisation.URN.ToString(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(ApiResult.Ok(response));

@@ -1,4 +1,5 @@
 // ReSharper disable PropertyCanBeMadeInitOnly.Global
+
 namespace Web.App.Domain.Charts;
 
 public class ChartResponse

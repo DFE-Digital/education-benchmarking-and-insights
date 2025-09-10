@@ -37,10 +37,7 @@ public class HighNeedsBenchmarkingSteps(PageDriver driver)
     public async Task GivenIHaveNoComparatorsSelected()
     {
         Assert.NotNull(_highNeedsStartBenchmarkingPage);
-        while (await _highNeedsStartBenchmarkingPage.HasComparators())
-        {
-            await _highNeedsStartBenchmarkingPage.ClickRemoveButton();
-        }
+        while (await _highNeedsStartBenchmarkingPage.HasComparators()) await _highNeedsStartBenchmarkingPage.ClickRemoveButton();
     }
 
     [Given("I add the comparator matching the value '(.*)'")]
@@ -123,13 +120,7 @@ public class HighNeedsBenchmarkingSteps(PageDriver driver)
         await _highNeedsBenchmarkingPage.LineCodesArePresent();
     }
 
-    private static string LocalAuthorityHighNeedsBenchmarkingUrl(string laCode)
-    {
-        return $"{TestConfiguration.ServiceUrl}/local-authority/{laCode}/high-needs/benchmarking";
-    }
+    private static string LocalAuthorityHighNeedsBenchmarkingUrl(string laCode) => $"{TestConfiguration.ServiceUrl}/local-authority/{laCode}/high-needs/benchmarking";
 
-    private static string LocalAuthorityHighNeedsStartBenchmarkingUrl(string laCode)
-    {
-        return $"{TestConfiguration.ServiceUrl}/local-authority/{laCode}/high-needs/benchmarking/comparators";
-    }
+    private static string LocalAuthorityHighNeedsStartBenchmarkingUrl(string laCode) => $"{TestConfiguration.ServiceUrl}/local-authority/{laCode}/high-needs/benchmarking/comparators";
 }

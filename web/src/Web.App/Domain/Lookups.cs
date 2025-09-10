@@ -2,6 +2,19 @@
 
 public static class Lookups
 {
+    public static readonly Dictionary<string, string[]> CategorySubCategoryMap = new()
+    {
+        { Category.TeachingStaff, SubCostCategories.TeachingStaff.SubCategories },
+        { Category.NonEducationalSupportStaff, SubCostCategories.NonEducationalSupportStaff.SubCategories },
+        { Category.EducationalSupplies, SubCostCategories.EducationalSupplies.SubCategories },
+        { Category.EducationalIct, SubCostCategories.EducationalIct.SubCategories },
+        { Category.PremisesStaffServices, SubCostCategories.PremisesStaffServices.SubCategories },
+        { Category.Utilities, SubCostCategories.Utilities.SubCategories },
+        { Category.AdministrativeSupplies, SubCostCategories.AdministrativeSupplies.SubCategories },
+        { Category.CateringStaffServices, SubCostCategories.CateringStaffServices.SubCategories },
+        { Category.Other, SubCostCategories.Other.SubCategories }
+    };
+
     public static Dictionary<string, (TagColour Colour, string DisplayText, string Class)> StatusPriorityMap => new()
     {
         { "red", (TagColour.Red, "High priority", "high") },
@@ -40,19 +53,6 @@ public static class Lookups
         { Category.AdministrativeSupplies, 7 },
         { Category.CateringStaffServices, 8 },
         { Category.Other, 9 }
-    };
-
-    public static readonly Dictionary<string, string[]> CategorySubCategoryMap = new()
-    {
-        { Category.TeachingStaff, SubCostCategories.TeachingStaff.SubCategories },
-        { Category.NonEducationalSupportStaff, SubCostCategories.NonEducationalSupportStaff.SubCategories },
-        { Category.EducationalSupplies, SubCostCategories.EducationalSupplies.SubCategories },
-        { Category.EducationalIct, SubCostCategories.EducationalIct.SubCategories },
-        { Category.PremisesStaffServices, SubCostCategories.PremisesStaffServices.SubCategories },
-        { Category.Utilities, SubCostCategories.Utilities.SubCategories },
-        { Category.AdministrativeSupplies, SubCostCategories.AdministrativeSupplies.SubCategories },
-        { Category.CateringStaffServices, SubCostCategories.CateringStaffServices.SubCategories },
-        { Category.Other, SubCostCategories.Other.SubCategories }
     };
 
     public static Dictionary<string, string> CategoryUnitMap => new()

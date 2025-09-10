@@ -11,9 +11,9 @@ namespace Web.Integration.Tests.Pages.Schools.FinancialPlanning;
 
 public class WhenViewingPlanningTeachingAssistantFigures(SchoolBenchmarkingWebAppClient client) : PageBase<SchoolBenchmarkingWebAppClient>(client)
 {
-
     private static readonly int CurrentYear =
         DateTime.UtcNow.Month < 9 ? DateTime.UtcNow.Year - 1 : DateTime.UtcNow.Year;
+
     private readonly SchoolBenchmarkingWebAppClient _client = client;
 
     [Theory]
@@ -58,9 +58,7 @@ public class WhenViewingPlanningTeachingAssistantFigures(SchoolBenchmarkingWebAp
         {
             f.SetFormValues(new Dictionary<string, string>
             {
-                {
-                    "AssistantsNursery", "8"
-                }
+                { "AssistantsNursery", "8" }
             });
         });
 
@@ -83,9 +81,7 @@ public class WhenViewingPlanningTeachingAssistantFigures(SchoolBenchmarkingWebAp
         {
             f.SetFormValues(new Dictionary<string, string>
             {
-                {
-                    "AssistantsNursery", assistants
-                }
+                { "AssistantsNursery", assistants }
             });
         });
 

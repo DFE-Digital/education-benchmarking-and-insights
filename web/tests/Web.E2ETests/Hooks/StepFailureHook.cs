@@ -1,6 +1,6 @@
 ﻿using Microsoft.Playwright;
-using Reqnroll;
 using Web.E2ETests.Drivers;
+
 namespace Web.E2ETests.Hooks;
 
 [Binding]

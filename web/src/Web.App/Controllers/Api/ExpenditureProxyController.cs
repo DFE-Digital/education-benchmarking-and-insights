@@ -45,10 +45,10 @@ public class ExpenditureProxyController(
         CancellationToken cancellationToken = default)
     {
         using (logger.BeginScope(new
-        {
-            type,
-            id
-        }))
+               {
+                   type,
+                   id
+               }))
         {
             try
             {
@@ -96,10 +96,10 @@ public class ExpenditureProxyController(
         CancellationToken cancellationToken = default)
     {
         using (logger.BeginScope(new
-        {
-            type,
-            id
-        }))
+               {
+                   type,
+                   id
+               }))
         {
             try
             {
@@ -142,10 +142,10 @@ public class ExpenditureProxyController(
         CancellationToken cancellationToken = default)
     {
         using (logger.BeginScope(new
-        {
-            type,
-            id
-        }))
+               {
+                   type,
+                   id
+               }))
         {
             try
             {
@@ -194,9 +194,9 @@ public class ExpenditureProxyController(
         CancellationToken cancellationToken = default)
     {
         using (logger.BeginScope(new
-        {
-            id
-        }))
+               {
+                   id
+               }))
         {
             try
             {
@@ -358,10 +358,7 @@ public class ExpenditureProxyController(
         return userDefinedResult;
     }
 
-    private static bool IsBuildingSet(string? category)
-    {
-        return category is "PremisesStaffServices" or "Utilities";
-    }
+    private static bool IsBuildingSet(string? category) => category is "PremisesStaffServices" or "Utilities";
 
     private static ApiQuery BuildQuery(
         string? category,
@@ -398,26 +395,17 @@ public class ExpenditureProxyController(
         return query;
     }
 
-    private async Task<ExpenditureHistoryRows?> SchoolExpenditureHistory(string urn, string dimension, CancellationToken cancellationToken = default)
-    {
-        return await expenditureApi
-            .SchoolHistory(urn, BuildQuery(null, dimension), cancellationToken)
-            .GetResultOrDefault<ExpenditureHistoryRows>();
-    }
+    private async Task<ExpenditureHistoryRows?> SchoolExpenditureHistory(string urn, string dimension, CancellationToken cancellationToken = default) => await expenditureApi
+        .SchoolHistory(urn, BuildQuery(null, dimension), cancellationToken)
+        .GetResultOrDefault<ExpenditureHistoryRows>();
 
-    private async Task<ExpenditureHistoryRows?> TrustExpenditureHistory(string companyNumber, string dimension, CancellationToken cancellationToken = default)
-    {
-        return await expenditureApi
-            .TrustHistory(companyNumber, BuildQuery(null, dimension), cancellationToken)
-            .GetResultOrDefault<ExpenditureHistoryRows>();
-    }
+    private async Task<ExpenditureHistoryRows?> TrustExpenditureHistory(string companyNumber, string dimension, CancellationToken cancellationToken = default) => await expenditureApi
+        .TrustHistory(companyNumber, BuildQuery(null, dimension), cancellationToken)
+        .GetResultOrDefault<ExpenditureHistoryRows>();
 
-    private async Task<ExpenditureHistoryRows?> SchoolExpenditureHistoryComparatorSetAverage(string urn, string dimension, CancellationToken cancellationToken = default)
-    {
-        return await expenditureApi
-            .SchoolHistoryComparatorSetAverage(urn, BuildQuery(null, dimension), cancellationToken)
-            .GetResultOrDefault<ExpenditureHistoryRows>();
-    }
+    private async Task<ExpenditureHistoryRows?> SchoolExpenditureHistoryComparatorSetAverage(string urn, string dimension, CancellationToken cancellationToken = default) => await expenditureApi
+        .SchoolHistoryComparatorSetAverage(urn, BuildQuery(null, dimension), cancellationToken)
+        .GetResultOrDefault<ExpenditureHistoryRows>();
 
     private async Task<ExpenditureHistoryRows?> SchoolExpenditureHistoryNationalAverage(string urn, string dimension, CancellationToken cancellationToken = default)
     {

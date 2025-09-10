@@ -32,9 +32,9 @@ public class TrustComparatorsCreateByController(
     public async Task<IActionResult> Index(string companyNumber)
     {
         using (logger.BeginScope(new
-        {
-            companyNumber
-        }))
+               {
+                   companyNumber
+               }))
         {
             try
             {
@@ -83,10 +83,10 @@ public class TrustComparatorsCreateByController(
     public async Task<IActionResult> Name(string companyNumber, [FromQuery] string? identifier = null)
     {
         using (logger.BeginScope(new
-        {
-            companyNumber,
-            identifier
-        }))
+               {
+                   companyNumber,
+                   identifier
+               }))
         {
             try
             {
@@ -191,9 +191,9 @@ public class TrustComparatorsCreateByController(
     public async Task<IActionResult> Submit(string companyNumber)
     {
         using (logger.BeginScope(new
-        {
-            companyNumber
-        }))
+               {
+                   companyNumber
+               }))
         {
             try
             {
@@ -248,9 +248,9 @@ public class TrustComparatorsCreateByController(
     public async Task<IActionResult> Submitted(string companyNumber, bool? updating = null)
     {
         using (logger.BeginScope(new
-        {
-            companyNumber
-        }))
+               {
+                   companyNumber
+               }))
         {
             try
             {
@@ -273,9 +273,9 @@ public class TrustComparatorsCreateByController(
     public async Task<IActionResult> Characteristic(string companyNumber)
     {
         using (logger.BeginScope(new
-        {
-            companyNumber
-        }))
+               {
+                   companyNumber
+               }))
         {
             try
             {
@@ -307,10 +307,10 @@ public class TrustComparatorsCreateByController(
     public async Task<IActionResult> Characteristic([FromRoute] string companyNumber, [FromForm] UserDefinedTrustCharacteristicViewModel viewModel)
     {
         using (logger.BeginScope(new
-        {
-            companyNumber,
-            viewModel
-        }))
+               {
+                   companyNumber,
+                   viewModel
+               }))
         {
             try
             {
@@ -358,9 +358,9 @@ public class TrustComparatorsCreateByController(
     public async Task<IActionResult> Preview(string companyNumber)
     {
         using (logger.BeginScope(new
-        {
-            companyNumber
-        }))
+               {
+                   companyNumber
+               }))
         {
             try
             {
@@ -408,6 +408,7 @@ public class TrustComparatorsCreateByController(
                 query.AddIfNotNull("companyNumbers", companyNumber);
             }
         }
+
         return await trustInsightApi.GetCharacteristicsAsync(query).GetResultOrDefault<T[]>();
     }
 }

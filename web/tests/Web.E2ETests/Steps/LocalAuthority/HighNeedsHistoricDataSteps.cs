@@ -129,10 +129,7 @@ public class HighNeedsHistoricDataSteps(PageDriver driver)
         };
     }
 
-    private static string HighNeedsHistoricDataUrl(string tab, string code)
-    {
-        return $"{TestConfiguration.ServiceUrl}/local-authority/{code}/high-needs/history#{tab.Replace(" ", "-")}";
-    }
+    private static string HighNeedsHistoricDataUrl(string tab, string code) => $"{TestConfiguration.ServiceUrl}/local-authority/{code}/high-needs/history#{tab.Replace(" ", "-")}";
 
     private static HighNeedsHistoryTabs TabNamesFromFriendlyNames(string tab)
     {

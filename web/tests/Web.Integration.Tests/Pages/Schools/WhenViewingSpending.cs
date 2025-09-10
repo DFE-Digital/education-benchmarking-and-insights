@@ -31,30 +31,14 @@ public class WhenViewingSpending(SchoolBenchmarkingWebAppClient client)
 
     private static Dictionary<string, string> CategoryHeadingToIdMap => new()
     {
-        {
-            "Teaching and Teaching support staff", "teaching-and-teaching-support-staff"
-        },
-        {
-            "Non-educational support staff", "non-educational-support-staff-and-services"
-        },
-        {
-            "Educational supplies", "educational-supplies"
-        },
-        {
-            "Educational ICT", "educational-ict"
-        },
-        {
-            "Premises staff and services", "premises-staff-and-services"
-        },
-        {
-            "Utilities", "utilities"
-        },
-        {
-            "Administrative supplies", "administrative-supplies"
-        },
-        {
-            "Catering staff and supplies", "catering-staff-and-supplies"
-        }
+        { "Teaching and Teaching support staff", "teaching-and-teaching-support-staff" },
+        { "Non-educational support staff", "non-educational-support-staff-and-services" },
+        { "Educational supplies", "educational-supplies" },
+        { "Educational ICT", "educational-ict" },
+        { "Premises staff and services", "premises-staff-and-services" },
+        { "Utilities", "utilities" },
+        { "Administrative supplies", "administrative-supplies" },
+        { "Catering staff and supplies", "catering-staff-and-supplies" }
     };
 
     [Theory]
@@ -190,7 +174,10 @@ public class WhenViewingSpending(SchoolBenchmarkingWebAppClient client)
         var expenditures = Fixture.Build<SchoolExpenditure>().CreateMany().ToArray();
         expenditures.ElementAt(0).URN = school.URN;
 
-        var verticalBarChart = new ChartResponse { Html = "<svg />" };
+        var verticalBarChart = new ChartResponse
+        {
+            Html = "<svg />"
+        };
 
         var disabledFeatureFlags = new List<string>();
         if (!ssrFeatureEnabled)
@@ -221,7 +208,7 @@ public class WhenViewingSpending(SchoolBenchmarkingWebAppClient client)
         {
             client.SetupComparatorSet(school, comparatorSet);
             var setup = client.ExpenditureApi.SetupSequence(api => api.QuerySchools(It.IsAny<ApiQuery?>(), It.IsAny<CancellationToken>()));
-            if (comparatorSet.Pupil.Length > 0 && comparatorSet.Building.Length == 0 || comparatorSet.Pupil.Length == 0 && comparatorSet.Building.Length > 0)
+            if ((comparatorSet.Pupil.Length > 0 && comparatorSet.Building.Length == 0) || (comparatorSet.Pupil.Length == 0 && comparatorSet.Building.Length > 0))
             {
                 setup.ReturnsAsync(ApiResult.Ok(expenditures));
                 setup.ReturnsAsync(ApiResult.BadRequest(new ValidationError(Severity.Error, "Urns", "Validation failed")));
@@ -297,6 +284,7 @@ public class WhenViewingSpending(SchoolBenchmarkingWebAppClient client)
                 expectedCount++;
                 Assert.Equal("% of central services", costCodeList.LastElementChild?.TextContent);
             }
+
             Assert.True(expectedCount == costCodeList.ChildElementCount, $"Expected {expectedCount} child element(s) for {sectionHeading} but received {costCodeList.ChildElementCount}");
 
             Assert.NotEqual(Category.Other, sectionHeading);
@@ -329,6 +317,7 @@ public class WhenViewingSpending(SchoolBenchmarkingWebAppClient client)
             }
         }
     }
+
     private static void AssertChartStats(IElement section, RagRating? rating, SchoolExpenditure? expenditure)
     {
         var chartStats = section.QuerySelector(".chart-stat-summary");

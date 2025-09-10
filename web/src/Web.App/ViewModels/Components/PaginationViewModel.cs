@@ -6,6 +6,7 @@ public class PaginationViewModel(long totalResults, int pageNumber, int pageSize
     public int CurrentPage => pageNumber;
     public int FirstPage => 1;
     public int LastPage => Convert.ToInt32(Math.Ceiling(totalResults * 1m / pageSize * 1m));
+
     public int[] MidPages
     {
         get
@@ -22,6 +23,7 @@ public class PaginationViewModel(long totalResults, int pageNumber, int pageSize
             return pages.ToArray();
         }
     }
+
     public bool SkipBeforeMidPages => MidPages.FirstOrDefault(FirstPage) > FirstPage + 1;
     public bool SkipAfterMidPages => MidPages.LastOrDefault(LastPage) < LastPage - 1;
     public bool HasPreviousPage => CurrentPage > FirstPage;

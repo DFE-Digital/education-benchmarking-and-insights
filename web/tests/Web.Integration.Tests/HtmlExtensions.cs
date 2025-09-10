@@ -4,6 +4,7 @@ using AngleSharp.Dom;
 using AngleSharp.Html.Dom;
 using AngleSharp.Io;
 using Xunit;
+
 namespace Web.Integration.Tests;
 
 public static class HtmlExtensions

@@ -1,13 +1,13 @@
 ﻿using System.Net;
 using AngleSharp.Dom;
 using AngleSharp.Html.Dom;
-using AngleSharp.XPath;
 using AutoFixture;
 using Newtonsoft.Json;
 using Web.App;
 using Web.App.Domain;
 using Web.App.Extensions;
 using Xunit;
+
 namespace Web.Integration.Tests.Pages.Trusts;
 
 public class WhenViewingCensus(SchoolBenchmarkingWebAppClient client) : PageBase<SchoolBenchmarkingWebAppClient>(client)

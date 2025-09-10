@@ -36,10 +36,10 @@ public class BalanceProxyController(
         CancellationToken cancellationToken = default)
     {
         using (logger.BeginScope(new
-        {
-            type,
-            id
-        }))
+               {
+                   type,
+                   id
+               }))
         {
             try
             {
@@ -83,10 +83,10 @@ public class BalanceProxyController(
         CancellationToken cancellationToken = default)
     {
         using (logger.BeginScope(new
-        {
-            type,
-            id
-        }))
+               {
+                   type,
+                   id
+               }))
         {
             try
             {

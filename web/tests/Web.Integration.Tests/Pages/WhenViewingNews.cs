@@ -17,7 +17,7 @@ public class WhenViewingNews(SchoolBenchmarkingWebAppClient client) : PageBase<S
             .Navigate(Paths.News());
 
         DocumentAssert.AssertPageUrl(page, Paths.News().ToAbsolute());
-        DocumentAssert.TitleAndH1(page, $"News - Financial Benchmarking and Insights Tool - GOV.UK", "News");
+        DocumentAssert.TitleAndH1(page, "News - Financial Benchmarking and Insights Tool - GOV.UK", "News");
 
         var items = page.QuerySelectorAll(".govuk-list.govuk-list--result > li");
         Assert.NotNull(items);

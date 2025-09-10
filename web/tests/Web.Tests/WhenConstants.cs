@@ -1,5 +1,6 @@
 using Web.App;
 using Xunit;
+
 namespace Web.Tests;
 
 public class WhenConstants

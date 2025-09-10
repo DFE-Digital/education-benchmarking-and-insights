@@ -3,6 +3,7 @@ using Moq;
 using Moq.Protected;
 using Web.App.Infrastructure.Apis;
 using Xunit.Abstractions;
+
 namespace Web.Tests.Infrastructure;
 
 public class ApiClientTestBase

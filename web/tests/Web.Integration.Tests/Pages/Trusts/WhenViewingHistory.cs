@@ -2,6 +2,7 @@ using AngleSharp.Html.Dom;
 using AutoFixture;
 using Web.App.Domain;
 using Xunit;
+
 namespace Web.Integration.Tests.Pages.Trusts;
 
 public class WhenViewingHistory(SchoolBenchmarkingWebAppClient client) : PageBase<SchoolBenchmarkingWebAppClient>(client)
@@ -34,7 +35,7 @@ public class WhenViewingHistory(SchoolBenchmarkingWebAppClient client) : PageBas
         DocumentAssert.BackLink(page, "Back", Paths.TrustHome(trust.CompanyNumber).ToAbsolute());
         DocumentAssert.TitleAndH1(page, "Historic data - Financial Benchmarking and Insights Tool - GOV.UK", "Historic data");
 
-        var historicDataPlaceholder = page.QuerySelector($"#historic-data");
+        var historicDataPlaceholder = page.QuerySelector("#historic-data");
         Assert.NotNull(historicDataPlaceholder);
         Assert.Equal(trust.CompanyNumber, historicDataPlaceholder.GetAttribute("data-id"));
         Assert.Equal("trust", historicDataPlaceholder.GetAttribute("data-type"));

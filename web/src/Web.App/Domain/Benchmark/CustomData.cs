@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using Web.App.ViewModels;
+
 namespace Web.App.Domain;
 
 [ExcludeFromCodeCoverage]

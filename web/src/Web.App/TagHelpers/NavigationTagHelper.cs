@@ -1,7 +1,6 @@
 ﻿using System.Text.Encodings.Web;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.AspNetCore.Mvc.Routing;
-using Microsoft.AspNetCore.Mvc.TagHelpers;
 using Microsoft.AspNetCore.Razor.TagHelpers;
 using SmartBreadcrumbs;
 
@@ -9,8 +8,10 @@ namespace Web.App.TagHelpers;
 
 [HtmlTargetElement("navigation")]
 public class NavigationTagHelper(
-    BreadcrumbManager breadcrumbManager, IUrlHelperFactory urlHelperFactory,
-    IActionContextAccessor actionContextAccessor, HtmlEncoder htmlEncoder
+    BreadcrumbManager breadcrumbManager,
+    IUrlHelperFactory urlHelperFactory,
+    IActionContextAccessor actionContextAccessor,
+    HtmlEncoder htmlEncoder
 ) : BreadcrumbTagHelper(breadcrumbManager, urlHelperFactory, actionContextAccessor, htmlEncoder)
 {
     public override async Task ProcessAsync(TagHelperContext context, TagHelperOutput output)
@@ -44,6 +45,7 @@ public class NavigationTagHelper(
         }*/
     }
 }
+
 public class BacklinkInfo(string? action, string title = "Back")
 {
     public string Action { get; } = action ?? throw new ArgumentNullException(nameof(action));

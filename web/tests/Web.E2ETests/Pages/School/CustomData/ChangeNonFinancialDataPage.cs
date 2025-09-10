@@ -15,6 +15,7 @@ public class ChangeNonFinancialDataPage(IPage page)
         {
             HasText = "Continue"
         });
+
     private ILocator Warning => page.Locator(".govuk-warning-text");
     private ILocator CustomDataField(string item) => page.Locator($".table-custom-data > tbody > tr:has-text('{item}') > td input");
 

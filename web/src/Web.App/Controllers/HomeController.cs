@@ -10,13 +10,9 @@ namespace Web.App.Controllers;
 [Route("/")]
 public class HomeController : Controller
 {
-
     [HttpGet]
     [DefaultBreadcrumb(PageTitles.ServiceHome)]
-    public IActionResult Index()
-    {
-        return View();
-    }
+    public IActionResult Index() => View();
 
     [HttpGet]
     [Route("sign-out")]

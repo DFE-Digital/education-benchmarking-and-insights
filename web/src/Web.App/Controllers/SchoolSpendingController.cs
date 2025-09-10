@@ -32,9 +32,9 @@ public class SchoolSpendingController(
     public async Task<IActionResult> Index(string urn)
     {
         using (logger.BeginScope(new
-        {
-            urn
-        }))
+               {
+                   urn
+               }))
         {
             try
             {
@@ -92,16 +92,19 @@ public class SchoolSpendingController(
     public async Task<IActionResult> CustomData(string urn)
     {
         using (logger.BeginScope(new
-        {
-            urn
-        }))
+               {
+                   urn
+               }))
         {
             try
             {
                 var userCustomData = await userDataService.GetCustomDataActiveAsync(User, urn);
                 if (userCustomData?.Status != Pipeline.JobStatus.Complete)
                 {
-                    return RedirectToAction("Index", "School", new { urn });
+                    return RedirectToAction("Index", "School", new
+                    {
+                        urn
+                    });
                 }
 
                 var customDataId = userCustomData.Id!;

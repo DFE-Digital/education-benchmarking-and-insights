@@ -1,5 +1,6 @@
 // ReSharper disable UnusedAutoPropertyAccessor.Global
 // ReSharper disable PropertyCanBeMadeInitOnly.Global
+
 namespace Web.App.Infrastructure.Apis;
 
 public abstract record ChartRequest<T>

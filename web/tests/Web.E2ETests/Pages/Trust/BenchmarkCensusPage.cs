@@ -31,11 +31,13 @@ public class BenchmarkCensusPage(IPage page)
     private ILocator Tables => page.Locator(Selectors.Table);
     private ILocator SaveImageSchoolWorkforce => page.Locator(Selectors.SchoolWorkforceSaveAsImage);
     private ILocator CopyImageSchoolWorkforce => page.Locator(Selectors.SchoolWorkforceCopyImage);
+
     private ILocator SaveAsImageButtons =>
         page.Locator(Selectors.Button, new PageLocatorOptions
         {
             HasTextRegex = Regexes.SaveAsImageRegex()
         });
+
     private ILocator CopyImageButtons =>
         page.Locator(Selectors.Button, new PageLocatorOptions
         {

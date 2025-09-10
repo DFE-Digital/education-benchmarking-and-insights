@@ -5,6 +5,7 @@ using Moq;
 using Web.App.Domain;
 using Web.App.Infrastructure.Apis;
 using Xunit;
+
 namespace Web.Integration.Tests.Pages.Schools.FinancialPlanning;
 
 public class WhenViewingPlanningTotalIncome(SchoolBenchmarkingWebAppClient client) : PageBase<SchoolBenchmarkingWebAppClient>(client)
@@ -36,9 +37,7 @@ public class WhenViewingPlanningTotalIncome(SchoolBenchmarkingWebAppClient clien
         {
             f.SetFormValues(new Dictionary<string, string>
             {
-                {
-                    "TotalIncome", 168794.ToString()
-                }
+                { "TotalIncome", 168794.ToString() }
             });
         });
 
@@ -119,7 +118,6 @@ public class WhenViewingPlanningTotalIncome(SchoolBenchmarkingWebAppClient clien
     [InlineData(-1.0)]
     public async Task ShowsErrorOnInValidSubmit(double? value)
     {
-
         var (page, school) = await SetupNavigateInitPage(EstablishmentTypes.Academies);
         AssertPageLayout(page, school);
         var action = page.QuerySelector("main .govuk-button");
@@ -130,9 +128,7 @@ public class WhenViewingPlanningTotalIncome(SchoolBenchmarkingWebAppClient clien
         {
             f.SetFormValues(new Dictionary<string, string>
             {
-                {
-                    "TotalIncome", value?.ToString() ?? ""
-                }
+                { "TotalIncome", value?.ToString() ?? "" }
             });
         });
 

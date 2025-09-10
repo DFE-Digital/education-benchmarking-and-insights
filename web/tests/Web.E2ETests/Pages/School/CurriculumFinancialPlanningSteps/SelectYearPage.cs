@@ -16,11 +16,15 @@ public class SelectYearPage(IPage page)
     private static int[] AvailableYears => Enumerable.Range(CurrentYear, 4).ToArray();
 
     private ILocator PageH1Heading => page.Locator(Selectors.H1);
-    //private ILocator BackLink => page.Locator(Selectors.GovBackLink);
-    private ILocator YearRadio(int year) => page.Locator($"#year-{year}");
 
     private ILocator ContinueButton =>
-        page.Locator(Selectors.GovButton, new PageLocatorOptions { HasText = "Continue" });
+        page.Locator(Selectors.GovButton, new PageLocatorOptions
+        {
+            HasText = "Continue"
+        });
+
+    //private ILocator BackLink => page.Locator(Selectors.GovBackLink);
+    private ILocator YearRadio(int year) => page.Locator($"#year-{year}");
 
     public async Task IsDisplayed()
     {

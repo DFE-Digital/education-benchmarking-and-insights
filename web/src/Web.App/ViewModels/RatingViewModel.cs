@@ -13,8 +13,5 @@ public record RatingViewModel(TagColour? Colour, string? DisplayText)
     public static RatingViewModel Amber => new(TagColour.Yellow, "Amber");
     public static RatingViewModel Green => new(TagColour.Green, "Green");
 
-    public static RatingViewModel Create(string? rating)
-    {
-        return Map[rating ?? ""];
-    }
+    public static RatingViewModel Create(string? rating) => Map[rating ?? ""];
 }

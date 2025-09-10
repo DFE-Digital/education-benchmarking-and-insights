@@ -126,7 +126,7 @@ public static class PutFinancialPlanRequestFactory
             TeachingPeriodsAssistantHeadteacher = planInput.TeachingPeriodsAssistantHeadteacher.Select(x => x.ToInt()).ToArray(),
             TeachingPeriodsHeadLargeCurriculum = planInput.TeachingPeriodsHeadLargeCurriculum.Select(x => x.ToInt()).ToArray(),
             TeachingPeriodsPastoralLeader = planInput.TeachingPeriodsPastoralLeader.Select(x => x.ToInt()).ToArray(),
-            TeachingPeriodsOtherMembers = planInput.TeachingPeriodsOtherMembers.Select(x => x.ToInt()).ToArray(),
+            TeachingPeriodsOtherMembers = planInput.TeachingPeriodsOtherMembers.Select(x => x.ToInt()).ToArray()
         };
     }
 }

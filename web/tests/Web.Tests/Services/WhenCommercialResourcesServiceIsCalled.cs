@@ -98,12 +98,8 @@ public class WhenCommercialResourcesServiceIsCalled
         object? resources = _resources;
         var expected = new Dictionary<string, CommercialResourceLink[]>
         {
-            {
-                Category1, [_resource1, _resource2]
-            },
-            {
-                Category2, [_resource1]
-            }
+            { Category1, [_resource1, _resource2] },
+            { Category2, [_resource1] }
         };
 
         _memoryCache
@@ -124,12 +120,8 @@ public class WhenCommercialResourcesServiceIsCalled
         object? nothing = null;
         var expected = new Dictionary<string, CommercialResourceLink[]>
         {
-            {
-                Category1, [_resource1, _resource2]
-            },
-            {
-                Category2, [_resource1]
-            }
+            { Category1, [_resource1, _resource2] },
+            { Category2, [_resource1] }
         };
 
         _memoryCache
@@ -198,12 +190,8 @@ public class WhenCommercialResourcesServiceIsCalled
         object? resources = _resources;
         var expected = new Dictionary<string, CommercialResourceLink[]>
         {
-            {
-                SubCategory1, [_resource2, _resource3]
-            },
-            {
-                SubCategory2, [_resource3]
-            }
+            { SubCategory1, [_resource2, _resource3] },
+            { SubCategory2, [_resource3] }
         };
 
         _memoryCache
@@ -224,12 +212,8 @@ public class WhenCommercialResourcesServiceIsCalled
         object? nothing = null;
         var expected = new Dictionary<string, CommercialResourceLink[]>
         {
-            {
-                SubCategory1, [_resource2, _resource3]
-            },
-            {
-                SubCategory2, [_resource3]
-            }
+            { SubCategory1, [_resource2, _resource3] },
+            { SubCategory2, [_resource3] }
         };
 
         _memoryCache

@@ -2,6 +2,7 @@ using Web.E2ETests.Drivers;
 using Web.E2ETests.Pages.School;
 using Web.E2ETests.Pages.School.Comparators;
 using Xunit;
+
 namespace Web.E2ETests.Steps.School;
 
 [Binding]

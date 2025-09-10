@@ -53,7 +53,7 @@ public class TrustViewModel(Trust trust)
                     .OrderByDescending(o => o.RedRatio)
                     .ThenByDescending(o => o.AmberRatio)
                     .ThenBy(o => o.Name)
-                ));
+            ));
     }
 
     public string? CompanyNumber => trust.CompanyNumber;

@@ -1,4 +1,5 @@
 using Web.App.Infrastructure.Apis;
+
 namespace Web.App.Infrastructure.Extensions;
 
 public static class HttpResponseMessageExtensions

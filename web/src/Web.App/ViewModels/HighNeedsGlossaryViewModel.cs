@@ -1,4 +1,5 @@
 // ReSharper disable RawStringCanBeSimplified
+
 namespace Web.App.ViewModels;
 
 public class HighNeedsGlossaryViewModel : GlossaryViewModel
@@ -250,7 +251,6 @@ public class GlossaryViewModel
                       establishments by the Office for Standards in Education, 
                       Children's Services and Skills.
                       """
-
         },
         new()
         {

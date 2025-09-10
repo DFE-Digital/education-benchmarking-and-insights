@@ -13,12 +13,8 @@ public class DataSourceStorage(IOptions<DataSourceStorageOptions> options)
 {
     private readonly DataSourceStorageOptions _options = options.Value;
 
-    public SharedAccessTokenModel GetAccessToken()
-    {
-        return GetAccessToken(_options.ReturnsContainer);
-    }
+    public SharedAccessTokenModel GetAccessToken() => GetAccessToken(_options.ReturnsContainer);
 }
-
 
 [ExcludeFromCodeCoverage]
 public record DataSourceStorageOptions

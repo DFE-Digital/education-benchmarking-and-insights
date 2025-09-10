@@ -145,7 +145,7 @@ public class GivenAnEstablishmentApi(ITestOutputHelper testOutputHelper) : ApiCl
 
         await api.SearchSchools(request);
 
-        VerifyCall(HttpMethod.Post, $"api/schools/search", request.ToJson(Formatting.None));
+        VerifyCall(HttpMethod.Post, "api/schools/search", request.ToJson(Formatting.None));
     }
 
     [Fact]
@@ -156,7 +156,7 @@ public class GivenAnEstablishmentApi(ITestOutputHelper testOutputHelper) : ApiCl
 
         await api.SearchTrusts(request);
 
-        VerifyCall(HttpMethod.Post, $"api/trusts/search", request.ToJson(Formatting.None));
+        VerifyCall(HttpMethod.Post, "api/trusts/search", request.ToJson(Formatting.None));
     }
 
     [Fact]
@@ -167,6 +167,6 @@ public class GivenAnEstablishmentApi(ITestOutputHelper testOutputHelper) : ApiCl
 
         await api.SearchLocalAuthorities(request);
 
-        VerifyCall(HttpMethod.Post, $"api/local-authorities/search", request.ToJson(Formatting.None));
+        VerifyCall(HttpMethod.Post, "api/local-authorities/search", request.ToJson(Formatting.None));
     }
 }

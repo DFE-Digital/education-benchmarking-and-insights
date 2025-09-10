@@ -2,7 +2,6 @@
 using AngleSharp.Dom;
 using AngleSharp.Html.Dom;
 using AutoFixture;
-using Web.App;
 using Web.App.Domain;
 using Web.App.Domain.Content;
 using Xunit;
@@ -26,7 +25,8 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
     {
         var (page, authority, schools, banner) = await SetupNavigateInitPage(showBanner, phaseTypes);
 
-        AssertPageLayout(page, authority, schools, banner); ;
+        AssertPageLayout(page, authority, schools, banner);
+        ;
     }
 
     [Fact]
@@ -170,7 +170,10 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
     {
         DocumentAssert.AssertPageUrl(page, Paths.LocalAuthorityHome(authority.Code).ToAbsolute());
 
-        var expectedBreadcrumbs = new[] { ("Home", Paths.ServiceHome.ToAbsolute()) };
+        var expectedBreadcrumbs = new[]
+        {
+            ("Home", Paths.ServiceHome.ToAbsolute())
+        };
         DocumentAssert.Breadcrumbs(page, expectedBreadcrumbs);
 
         Assert.NotNull(authority.Name);

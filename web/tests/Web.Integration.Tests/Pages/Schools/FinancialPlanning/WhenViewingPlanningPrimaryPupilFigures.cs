@@ -143,9 +143,7 @@ public class WhenViewingPlanningPrimaryPupilFigures(SchoolBenchmarkingWebAppClie
         {
             f.SetFormValues(new Dictionary<string, string>
             {
-                {
-                    prop, value
-                }
+                { prop, value }
             });
         });
 
@@ -196,9 +194,7 @@ public class WhenViewingPlanningPrimaryPupilFigures(SchoolBenchmarkingWebAppClie
         {
             f.SetFormValues(new Dictionary<string, string>
             {
-                {
-                    prop, value
-                }
+                { prop, value }
             });
         });
 

@@ -4,7 +4,5 @@ public abstract class Stage
 {
     public string? Referrer { get; set; }
 
-    public virtual void SetPlanValues(FinancialPlanInput planInput)
-    {
-    }
+    public virtual void SetPlanValues(FinancialPlanInput planInput) { }
 }

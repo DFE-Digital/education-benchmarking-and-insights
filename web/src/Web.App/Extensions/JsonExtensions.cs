@@ -10,17 +10,6 @@ namespace Web.App.Extensions;
 [ExcludeFromCodeCoverage]
 public static class JsonExtensions
 {
-
-    public static void SetJsonOptions(this JsonSerializerSettings settings)
-    {
-        settings.NullValueHandling = NullValueHandling.Ignore;
-        settings.ContractResolver = new CamelCasePropertyNamesContractResolver();
-        settings.Converters.Add(new IsoDateTimeConverter());
-        settings.Converters.Add(new StringEnumConverter());
-    }
-
-
-
     public static JsonSerializerSettings Settings => new()
     {
         NullValueHandling = NullValueHandling.Ignore,
@@ -33,10 +22,15 @@ public static class JsonExtensions
         }
     };
 
-    public static string ToJson(this object? source, Formatting formatting = Formatting.Indented)
+    public static void SetJsonOptions(this JsonSerializerSettings settings)
     {
-        return JsonConvert.SerializeObject(source, formatting, Settings);
+        settings.NullValueHandling = NullValueHandling.Ignore;
+        settings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+        settings.Converters.Add(new IsoDateTimeConverter());
+        settings.Converters.Add(new StringEnumConverter());
     }
+
+    public static string ToJson(this object? source, Formatting formatting = Formatting.Indented) => JsonConvert.SerializeObject(source, formatting, Settings);
 
     public static Stream ToJsonStream(this object source, Formatting formatting = Formatting.Indented)
     {
@@ -57,25 +51,18 @@ public static class JsonExtensions
         return memoryStream;
     }
 
-    public static byte[] ToJsonByteArray(this object? source)
-    {
-        return Encoding.UTF8.GetBytes(ToJson(source));
-    }
+    public static byte[] ToJsonByteArray(this object? source) => Encoding.UTF8.GetBytes(ToJson(source));
 
-    public static JArray ToJsonArray(this object source)
-    {
-        return JArray.FromObject(source);
-    }
+    public static JArray ToJsonArray(this object source) => JArray.FromObject(source);
 
-    public static T? FromJson<T>(this string source)
-    {
-        return JsonConvert.DeserializeObject<T>(source, Settings);
-    }
+    public static T? FromJson<T>(this string source) => JsonConvert.DeserializeObject<T>(source, Settings);
 
     public static T FromJson<T>(this byte[] source, Encoding? encoding = null)
     {
         if (source == null || source.Length == 0)
+        {
             throw new ArgumentException("The source was empty", nameof(source));
+        }
 
         using (var sr = new StreamReader(new MemoryStream(source), encoding ?? Encoding.UTF8))
         using (var jr = new JsonTextReader(sr))
@@ -128,11 +115,9 @@ public static class JsonExtensions
         using var sr = new StreamReader(stream);
         using var jr = new JsonTextReader(sr);
         while (await jr.ReadAsync())
-        {
             if (jr.TokenType == JsonToken.StartObject)
             {
                 yield return js.Deserialize<T>(jr);
             }
-        }
     }
 }

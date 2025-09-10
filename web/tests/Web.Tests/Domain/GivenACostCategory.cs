@@ -1,5 +1,6 @@
 using Web.App.Domain;
 using Xunit;
+
 namespace Web.Tests.Domain;
 
 public class GivenAnAdministrativeSuppliesCostCategory
@@ -137,7 +138,6 @@ public class GivenOtherCategory
     }
 }
 
-
 public class GivenPremisesStaffServicesCategory
 {
     [Theory]
@@ -155,7 +155,6 @@ public class GivenPremisesStaffServicesCategory
         Assert.Equal(expectedCanShowCommercialResources, category.CanShowCommercialResources);
     }
 }
-
 
 public class GivenUtilitiesCategory
 {

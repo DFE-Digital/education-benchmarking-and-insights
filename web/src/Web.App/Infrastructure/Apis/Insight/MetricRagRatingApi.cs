@@ -2,15 +2,9 @@
 
 public class MetricRagRatingApi(HttpClient httpClient, string? key = default) : ApiBase(httpClient, key), IMetricRagRatingApi
 {
-    public async Task<ApiResult> GetDefaultAsync(ApiQuery? query = null)
-    {
-        return await GetAsync($"{Api.MetricRagRating.Default}{query?.ToQueryString()}");
-    }
+    public async Task<ApiResult> GetDefaultAsync(ApiQuery? query = null) => await GetAsync($"{Api.MetricRagRating.Default}{query?.ToQueryString()}");
 
-    public async Task<ApiResult> UserDefinedAsync(string identifier)
-    {
-        return await GetAsync($"{Api.MetricRagRating.Single(identifier)}");
-    }
+    public async Task<ApiResult> UserDefinedAsync(string identifier) => await GetAsync($"{Api.MetricRagRating.Single(identifier)}");
 
     public async Task<ApiResult> CustomAsync(string identifier)
     {

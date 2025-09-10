@@ -2,6 +2,7 @@
 using AutoFixture;
 using Web.App.Domain;
 using Xunit;
+
 namespace Web.Integration.Tests.Pages.Trusts.Comparators;
 
 public class WhenViewingComparatorsCreateByName(SchoolBenchmarkingWebAppClient client) : PageBase<SchoolBenchmarkingWebAppClient>(client)

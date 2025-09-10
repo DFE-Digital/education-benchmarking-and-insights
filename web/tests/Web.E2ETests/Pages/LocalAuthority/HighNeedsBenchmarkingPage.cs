@@ -12,6 +12,7 @@ public class HighNeedsBenchmarkingPage(IPage page)
     private ILocator Charts => page.Locator(Selectors.Charts);
     private ILocator Tables => page.Locator(Selectors.GovTable);
     private ILocator Commentary => page.Locator("#benchmark-data-high-needs > .govuk-grid-row > .govuk-grid-column-two-thirds > p");
+
     private ILocator ChangeComparatorsButton => page.Locator(Selectors.CtaButton, new PageLocatorOptions
     {
         HasText = "Change comparators"
@@ -107,7 +108,10 @@ public class HighNeedsBenchmarkingPage(IPage page)
         Assert.Equal(33, costCodes.Count);
 
         var costCodesWithLiChildren = await page.Locator(Selectors.CostCodesList)
-            .Filter(new() { Has = page.Locator("li") })
+            .Filter(new LocatorFilterOptions
+            {
+                Has = page.Locator("li")
+            })
             .AllAsync();
         Assert.Equal(25, costCodesWithLiChildren.Count);
 

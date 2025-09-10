@@ -2,7 +2,6 @@
 using Microsoft.Extensions.Options;
 using Moq;
 using Web.App.Cache;
-using Web.App.Domain;
 using Web.App.Domain.Content;
 using Web.App.Infrastructure.Apis;
 using Web.App.Infrastructure.Apis.Content;
@@ -13,17 +12,26 @@ namespace Web.Tests.Services;
 
 public class WhenFinanceServiceIsCalled
 {
-    private readonly Mock<IYearsApi> _api = new();
-    private readonly FinanceYears _financeYears = new() { Aar = 2023, Cfr = 2023, S251 = 2024 };
-
     private const string CacheKey = "return-years";
+    private readonly Mock<IYearsApi> _api = new();
+
+    private readonly FinanceYears _financeYears = new()
+    {
+        Aar = 2023,
+        Cfr = 2023,
+        S251 = 2024
+    };
 
     private static (IMemoryCache mockCache, IOptions<CacheOptions> options) CreateCacheAndOptions()
     {
         var mockCache = new MemoryCache(new MemoryCacheOptions());
         var options = Options.Create(new CacheOptions
         {
-            ReturnYears = new CacheSettings { SlidingExpiration = 60, AbsoluteExpiration = 3600 }
+            ReturnYears = new CacheSettings
+            {
+                SlidingExpiration = 60,
+                AbsoluteExpiration = 3600
+            }
         });
         return (mockCache, options);
     }

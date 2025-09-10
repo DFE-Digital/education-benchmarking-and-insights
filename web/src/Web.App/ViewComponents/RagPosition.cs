@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Web.App.Domain;
 using Web.App.ViewModels.Components;
+
 namespace Web.App.ViewComponents;
 
 public class RagPosition : ViewComponent

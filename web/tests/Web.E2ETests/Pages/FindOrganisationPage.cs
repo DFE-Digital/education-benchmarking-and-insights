@@ -5,13 +5,14 @@ namespace Web.E2ETests.Pages;
 
 public enum OrganisationTypes
 {
-    School,
+    School
 }
 
 public class FindOrganisationPage(IPage page)
 {
     private ILocator PageH1Heading => page.Locator(Selectors.H1);
     private ILocator OrganisationsTypeRadios => page.Locator(Selectors.GovRadios);
+
     private ILocator ContinueButton =>
         page.Locator(Selectors.GovButton, new PageLocatorOptions
         {

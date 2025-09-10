@@ -42,7 +42,10 @@ public class WhenBannerServiceIsCalled
         {
             new object?[]
             {
-                new Banner { Title = "Title" }
+                new Banner
+                {
+                    Title = "Title"
+                }
             },
             new object?[]
             {
@@ -55,11 +58,16 @@ public class WhenBannerServiceIsCalled
         {
             new object?[]
             {
-                "Banner__target", new string("Incorrect type")
+                "Banner__target",
+                new string("Incorrect type")
             },
             new object?[]
             {
-                "Incorrect key", new Banner { Title = "Title" }
+                "Incorrect key",
+                new Banner
+                {
+                    Title = "Title"
+                }
             }
         };
 

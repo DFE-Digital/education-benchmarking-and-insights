@@ -7,6 +7,7 @@ using Web.App.Infrastructure.Apis;
 using Web.App.Infrastructure.Apis.Establishment;
 using Web.App.Infrastructure.Extensions;
 using Web.App.ViewModels;
+
 namespace Web.App.Controllers;
 
 [Controller]
@@ -22,9 +23,9 @@ public class TrustCensusController(
     public async Task<IActionResult> Index(string companyNumber)
     {
         using (logger.BeginScope(new
-        {
-            companyNumber
-        }))
+               {
+                   companyNumber
+               }))
         {
             try
             {

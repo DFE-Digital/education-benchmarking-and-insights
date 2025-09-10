@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Web.App.Extensions;
+
 namespace Web.App.ViewModels;
 
 public abstract class AdditionalCharacteristicsViewModel
@@ -21,6 +22,7 @@ public abstract class AdditionalCharacteristicsViewModel
         {
             defaultSelectedFieldValue = selectedFieldValue?.ToString();
         }
+
         Selected = bool.TrueString.Equals(
             viewData.ModelState.GetAttemptedValueOrDefault(selectedFieldName, defaultSelectedFieldValue), StringComparison.OrdinalIgnoreCase);
 
@@ -66,6 +68,7 @@ public class AdditionalCharacteristicsRangeViewModel : AdditionalCharacteristics
         {
             defaultFromValue = fromValue?.ToString();
         }
+
         ValueFrom = viewData.ModelState.GetAttemptedValueOrDefault(fromFieldName, defaultFromValue);
 
         ToFieldName = toFieldName;
@@ -73,6 +76,7 @@ public class AdditionalCharacteristicsRangeViewModel : AdditionalCharacteristics
         {
             defaultToValue = toValue?.ToString();
         }
+
         ValueTo = viewData.ModelState.GetAttemptedValueOrDefault(toFieldName, defaultToValue);
 
         HasError = viewData.ModelState.HasError(fromFieldName) || viewData.ModelState.HasError(toFieldName);
@@ -119,6 +123,7 @@ public class AdditionalCharacteristicsSelectViewModel : AdditionalCharacteristic
         {
             defaultValue = value?.ToString();
         }
+
         var rawValue = viewData.ModelState.GetAttemptedValueOrDefault(valueFieldName, defaultValue);
         Values = string.IsNullOrWhiteSpace(rawValue) ? [] : rawValue.Split(",");
 

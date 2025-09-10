@@ -11,6 +11,7 @@ using Web.App;
 using Web.App.Attributes.RequestTelemetry;
 using Web.App.Extensions;
 using Xunit;
+
 namespace Web.Tests.Attributes;
 
 public class GivenASchoolRequestTelemetryAttribute
@@ -29,9 +30,7 @@ public class GivenASchoolRequestTelemetryAttribute
     {
         var routeData = new RouteData(new RouteValueDictionary
         {
-            {
-                "urn", urn
-            }
+            { "urn", urn }
         });
 
         var telemetry = await GetTelemetryFromRequest(feature, routeData);

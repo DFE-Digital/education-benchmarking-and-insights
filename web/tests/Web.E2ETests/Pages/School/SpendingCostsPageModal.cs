@@ -13,9 +13,10 @@ public partial class SpendingCostsPage
     private ILocator SaveImagesModalOkButton => page.Locator($"{Selectors.ModalButton}.govuk-button--ok");
     private ILocator SaveImagesModalCancelButton => page.Locator($"{Selectors.ModalButton}.govuk-button--cancel");
     private ILocator SaveImagesModalCloseButton => page.Locator($"{Selectors.ModalButton}.govuk-button--close");
+    private ILocator SaveImagesModalValidationErrorMessage => page.Locator($"{Selectors.Modal} {Selectors.GovErrorSummary}");
+
     private ILocator SaveImagesModalCheckbox(string name) =>
         page.Locator($".govuk-checkboxes__item input:has(+ label:has-text('{name}'))");
-    private ILocator SaveImagesModalValidationErrorMessage => page.Locator($"{Selectors.Modal} {Selectors.GovErrorSummary}");
 
     public async Task IsSaveImagesModalDisplayed(bool visible)
     {

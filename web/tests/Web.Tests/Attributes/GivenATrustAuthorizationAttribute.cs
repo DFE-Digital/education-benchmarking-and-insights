@@ -34,20 +34,31 @@ public class GivenATrustAuthorizationAttribute
     }
 
     [Theory]
-    [InlineData("12345678", new string[] { }, true, false)]
-    [InlineData("12345678", new[] { "12345678" }, true, false)]
-    [InlineData("123456", new[] { "12345678" }, true, false)]
-    [InlineData("12345678", new[] { "87654321" }, false, true)]
-    [InlineData("12345687", new string[] { }, false, true)]
-    [InlineData("12345678", new string[] { }, null, true)]
-    [InlineData(null, new string[] { }, false, true)]
+    [InlineData("12345678", new string[]
+        { }, true, false)]
+    [InlineData("12345678", new[]
+    {
+        "12345678"
+    }, true, false)]
+    [InlineData("123456", new[]
+    {
+        "12345678"
+    }, true, false)]
+    [InlineData("12345678", new[]
+    {
+        "87654321"
+    }, false, true)]
+    [InlineData("12345687", new string[]
+        { }, false, true)]
+    [InlineData("12345678", new string[]
+        { }, null, true)]
+    [InlineData(null, new string[]
+        { }, false, true)]
     public async Task ShouldReturnForbiddenIfInvalidClaims(string? companyNumber, string[] trustClaims, bool? disableOrganisationClaimCheck, bool forbidden)
     {
         var routeData = new RouteData(new RouteValueDictionary
         {
-            {
-                "companyNumber", companyNumber
-            }
+            { "companyNumber", companyNumber }
         });
 
         var section = Mock.Of<IConfigurationSection>();

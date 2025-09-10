@@ -6,28 +6,35 @@ namespace Web.E2ETests.Pages.School;
 public class HomePage(IPage page)
 {
     private ILocator PageH1Heading => page.Locator($"main {Selectors.H1}");
+
     private ILocator PageH2Headings => page.Locator($"main {Selectors.H2}{Selectors.GovHeadingM}");
+
     //private ILocator Breadcrumbs => page.Locator(Selectors.GovBreadcrumbs);
     private ILocator CompareYourCostsLink => page.Locator(Selectors.GovLink, new PageLocatorOptions
     {
         HasText = "Benchmark spending"
     });
+
     private ILocator CurriculumAndFinancialPlanningLink => page.Locator(Selectors.GovLink, new PageLocatorOptions
     {
         HasText = "Curriculum and financial planning"
     });
+
     private ILocator BenchmarkCensusDataLink => page.Locator(Selectors.GovLink, new PageLocatorOptions
     {
         HasText = "Benchmark pupil and workforce data"
     });
+
     private ILocator FinancialBenchmarkingInsightsSummaryLink => page.Locator(Selectors.GovLink, new PageLocatorOptions
     {
         HasText = "Financial Benchmarking and Insights Summary"
     });
+
     private ILocator SchoolDetailsLink => page.Locator(Selectors.GovLink, new PageLocatorOptions
     {
         HasText = "School contact details"
     });
+
     private ILocator IncompleteFinancialBanner => page.Locator(Selectors.GovWarning);
 
     private ILocator DataSourcesAndInterpretation => page.Locator(Selectors.GovLink,
@@ -35,6 +42,7 @@ public class HomePage(IPage page)
         {
             HasText = "Data sources and interpretation"
         });
+
     private ILocator SpendingPrioritiesLink => page.Locator(Selectors.GovLink,
         new PageLocatorOptions
         {

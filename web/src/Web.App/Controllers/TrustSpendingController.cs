@@ -9,6 +9,7 @@ using Web.App.Infrastructure.Apis.Insight;
 using Web.App.Infrastructure.Extensions;
 using Web.App.TagHelpers;
 using Web.App.ViewModels;
+
 namespace Web.App.Controllers;
 
 [Controller]
@@ -25,11 +26,11 @@ public class TrustSpendingController(ILogger<TrustController> logger, IEstablish
         [FromQuery(Name = "priority")] string[]? priorities)
     {
         using (logger.BeginScope(new
-        {
-            companyNumber,
-            category = categories,
-            priority = priorities
-        }))
+               {
+                   companyNumber,
+                   category = categories,
+                   priority = priorities
+               }))
         {
             try
             {

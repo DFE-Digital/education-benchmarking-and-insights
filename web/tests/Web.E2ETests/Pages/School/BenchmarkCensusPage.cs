@@ -17,6 +17,7 @@ public enum CensusChartNames
 public class BenchmarkCensusPage(IPage page)
 {
     private ILocator PageH1Heading => page.Locator(Selectors.H1);
+
     //private ILocator Breadcrumbs => page.Locator(Selectors.GovBreadcrumbs);
     private ILocator ViewAsTableRadio => page.Locator(Selectors.ModeTable);
     private ILocator ViewAsChartRadio => page.Locator(Selectors.ModeChart);
@@ -32,6 +33,7 @@ public class BenchmarkCensusPage(IPage page)
     private ILocator Tables => page.Locator(Selectors.Table);
     private ILocator SaveImageSchoolWorkforce => page.Locator(Selectors.SchoolWorkforceSaveAsImage);
     private ILocator CopyImageSchoolWorkforce => page.Locator(Selectors.SchoolWorkforceCopyImage);
+
     private ILocator DownloadDataButton =>
         page.Locator(Selectors.Button, new PageLocatorOptions
         {

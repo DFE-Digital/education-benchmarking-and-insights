@@ -53,6 +53,7 @@ public class OrganisationIdentifier
 {
     public string? Value { get; init; }
     public string? Type { get; init; }
+
     internal int? ValueAsInt
     {
         get

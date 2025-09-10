@@ -117,9 +117,7 @@ public class WhenViewingPlanningSelectYear(SchoolBenchmarkingWebAppClient client
         {
             f.SetFormValues(new Dictionary<string, string>
             {
-                {
-                    "Year", year.ToString()
-                }
+                { "Year", year.ToString() }
             });
         });
 
@@ -158,9 +156,7 @@ public class WhenViewingPlanningSelectYear(SchoolBenchmarkingWebAppClient client
         {
             f.SetFormValues(new Dictionary<string, string>
             {
-                {
-                    "Year", year.ToString()
-                }
+                { "Year", year.ToString() }
             });
         });
 

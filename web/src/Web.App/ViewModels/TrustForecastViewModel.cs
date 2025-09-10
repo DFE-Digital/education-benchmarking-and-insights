@@ -1,4 +1,5 @@
 ﻿using Web.App.Domain;
+
 namespace Web.App.ViewModels;
 
 public class TrustForecastViewModel(
@@ -29,6 +30,7 @@ public class TrustForecastViewModel(
     public bool SteepDeclineInBalancesAndHighProportionStaffCosts => SlopeAnalysisNegativeAndAmongTheMostNegative
                                                                      && MostFrequentStatusOfVolatilityAnalyses.All(b => b.VarianceStatus != BudgetForecastVarianceStatusType.ArAboveForecast)
                                                                      && metrics.Any(m => m.MetricType.IsStaffCosts() && m.Value >= 80);
+
     public bool IsRed => BalancesInDeficit
                          || BalancesForecastingDeficit
                          || SteepDeclineInBalancesAndHighProportionStaffCosts

@@ -26,100 +26,43 @@ public class FinancialPlanStageValidator : IFinancialPlanStageValidator
     private static readonly ManagersPerRoleStageValidator ManagersPerRole = new();
     private static readonly TeachingPeriodsManagerStageValidator TeachingPeriodsManager = new();
 
-    public async Task<ValidationResult> ValidateAsync(SelectYearStage stage)
-    {
-        return await SelectYear.ValidateAsync(stage);
-    }
+    public async Task<ValidationResult> ValidateAsync(SelectYearStage stage) => await SelectYear.ValidateAsync(stage);
 
-    public async Task<ValidationResult> ValidateAsync(PrePopulateDataStage stage)
-    {
-        return await PrePopulateData.ValidateAsync(stage);
-    }
+    public async Task<ValidationResult> ValidateAsync(PrePopulateDataStage stage) => await PrePopulateData.ValidateAsync(stage);
 
-    public async Task<ValidationResult> ValidateAsync(TimetableCycleStage stage)
-    {
-        return await TimetableCycle.ValidateAsync(stage);
-    }
+    public async Task<ValidationResult> ValidateAsync(TimetableCycleStage stage) => await TimetableCycle.ValidateAsync(stage);
 
-    public async Task<ValidationResult> ValidateAsync(TotalIncomeStage stage)
-    {
-        return await TotalIncome.ValidateAsync(stage);
-    }
+    public async Task<ValidationResult> ValidateAsync(TotalIncomeStage stage) => await TotalIncome.ValidateAsync(stage);
 
-    public async Task<ValidationResult> ValidateAsync(TotalExpenditureStage stage)
-    {
-        return await TotalExpenditureStage.ValidateAsync(stage);
-    }
+    public async Task<ValidationResult> ValidateAsync(TotalExpenditureStage stage) => await TotalExpenditureStage.ValidateAsync(stage);
 
-    public async Task<ValidationResult> ValidateAsync(TotalTeacherCostsStage stage)
-    {
-        return await TotalTeacherCostsStage.ValidateAsync(stage);
-    }
+    public async Task<ValidationResult> ValidateAsync(TotalTeacherCostsStage stage) => await TotalTeacherCostsStage.ValidateAsync(stage);
 
-    public async Task<ValidationResult> ValidateAsync(TotalNumberTeachersStage stage)
-    {
-        return await TotalNumberTeachers.ValidateAsync(stage);
-    }
+    public async Task<ValidationResult> ValidateAsync(TotalNumberTeachersStage stage) => await TotalNumberTeachers.ValidateAsync(stage);
 
-    public async Task<ValidationResult> ValidateAsync(TotalEducationSupportStage stage)
-    {
-        return await TotalEducationSupport.ValidateAsync(stage);
-    }
+    public async Task<ValidationResult> ValidateAsync(TotalEducationSupportStage stage) => await TotalEducationSupport.ValidateAsync(stage);
 
-    public async Task<ValidationResult> ValidateAsync(PrimaryHasMixedAgeClassesStage stage)
-    {
-        return await PrimaryHasMixedAgeClasses.ValidateAsync(stage);
-    }
+    public async Task<ValidationResult> ValidateAsync(PrimaryHasMixedAgeClassesStage stage) => await PrimaryHasMixedAgeClasses.ValidateAsync(stage);
 
-    public async Task<ValidationResult> ValidateAsync(PrimaryMixedAgeClassesStage stage)
-    {
-        return await PrimaryMixedAgeClasses.ValidateAsync(stage);
-    }
+    public async Task<ValidationResult> ValidateAsync(PrimaryMixedAgeClassesStage stage) => await PrimaryMixedAgeClasses.ValidateAsync(stage);
 
-    public async Task<ValidationResult> ValidateAsync(PrimaryPupilFiguresStage stage)
-    {
-        return await PrimaryPupilFigures.ValidateAsync(stage);
-    }
+    public async Task<ValidationResult> ValidateAsync(PrimaryPupilFiguresStage stage) => await PrimaryPupilFigures.ValidateAsync(stage);
 
-    public async Task<ValidationResult> ValidateAsync(PupilFiguresStage stage)
-    {
-        return await PupilFigures.ValidateAsync(stage);
-    }
+    public async Task<ValidationResult> ValidateAsync(PupilFiguresStage stage) => await PupilFigures.ValidateAsync(stage);
 
-    public async Task<ValidationResult> ValidateAsync(TeacherPeriodAllocationStage stage)
-    {
-        return await TeacherPeriodAllocation.ValidateAsync(stage);
-    }
+    public async Task<ValidationResult> ValidateAsync(TeacherPeriodAllocationStage stage) => await TeacherPeriodAllocation.ValidateAsync(stage);
 
-    public async Task<ValidationResult> ValidateAsync(TeachingAssistantFiguresStage stage)
-    {
-        return await TeachingAssistantFigures.ValidateAsync(stage);
-    }
+    public async Task<ValidationResult> ValidateAsync(TeachingAssistantFiguresStage stage) => await TeachingAssistantFigures.ValidateAsync(stage);
 
-    public async Task<ValidationResult> ValidateAsync(OtherTeachingPeriodsStage stage)
-    {
-        return await OtherTeachingPeriods.ValidateAsync(stage);
-    }
+    public async Task<ValidationResult> ValidateAsync(OtherTeachingPeriodsStage stage) => await OtherTeachingPeriods.ValidateAsync(stage);
 
-    public async Task<ValidationResult> ValidateAsync(OtherTeachingPeriodsConfirmStage stage)
-    {
-        return await OtherTeachingPeriodsConfirm.ValidateAsync(stage);
-    }
+    public async Task<ValidationResult> ValidateAsync(OtherTeachingPeriodsConfirmStage stage) => await OtherTeachingPeriodsConfirm.ValidateAsync(stage);
 
-    public async Task<ValidationResult> ValidateAsync(ManagementRolesStage stage)
-    {
-        return await ManagementRoles.ValidateAsync(stage);
-    }
+    public async Task<ValidationResult> ValidateAsync(ManagementRolesStage stage) => await ManagementRoles.ValidateAsync(stage);
 
-    public async Task<ValidationResult> ValidateAsync(ManagersPerRoleStage stage)
-    {
-        return await ManagersPerRole.ValidateAsync(stage);
-    }
+    public async Task<ValidationResult> ValidateAsync(ManagersPerRoleStage stage) => await ManagersPerRole.ValidateAsync(stage);
 
-    public async Task<ValidationResult> ValidateAsync(TeachingPeriodsManagerStage stage)
-    {
-        return await TeachingPeriodsManager.ValidateAsync(stage);
-    }
+    public async Task<ValidationResult> ValidateAsync(TeachingPeriodsManagerStage stage) => await TeachingPeriodsManager.ValidateAsync(stage);
 }
 
 public interface IFinancialPlanStageValidator

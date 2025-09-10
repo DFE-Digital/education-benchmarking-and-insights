@@ -1,6 +1,7 @@
 // ReSharper disable PropertyCanBeMadeInitOnly.Global
 // ReSharper disable UnusedAutoPropertyAccessor.Global
 // ReSharper disable UnusedMember.Global
+
 namespace Web.App.Domain.NonFinancial;
 
 public record LocalAuthorityNumberOfPlans

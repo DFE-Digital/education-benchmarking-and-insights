@@ -6,18 +6,22 @@ namespace Web.E2ETests.Pages.Trust;
 public class HomePage(IPage page)
 {
     private ILocator PageH1Heading => page.Locator($"main {Selectors.H1}");
+
     private ILocator CompareYourCostsLink => page.Locator(Selectors.GovLink, new PageLocatorOptions
     {
         HasText = "View school spending"
     });
+
     private ILocator TrustBenchmarking => page.Locator(Selectors.GovLink, new PageLocatorOptions
     {
         HasText = "Trust to trust benchmarking"
     });
+
     private ILocator SpendingPrioritiesLink => page.Locator(Selectors.GovLink, new PageLocatorOptions
     {
         HasText = "View all spending priorities for this trust"
     });
+
     private ILocator BenchmarkCensusDataLink => page.Locator(Selectors.GovLink, new PageLocatorOptions
     {
         HasText = "View pupil and workforce data"
@@ -29,7 +33,10 @@ public class HomePage(IPage page)
     });
 
     private ILocator CurriculumFinancialPlanningLink => page.Locator(Selectors.GovLink,
-        new PageLocatorOptions { HasText = "Curriculum and financial planning" });
+        new PageLocatorOptions
+        {
+            HasText = "Curriculum and financial planning"
+        });
 
     private ILocator CookieBanner => page.Locator(Selectors.CookieBanner);
     private ILocator Banner => page.Locator(Selectors.GovNotificationBanner);

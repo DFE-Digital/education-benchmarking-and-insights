@@ -36,8 +36,5 @@ public class CustomResponseHeadersMiddleware(RequestDelegate next)
 [ExcludeFromCodeCoverage]
 public static class CustomResponseHeadersMiddlewareExtensions
 {
-    public static IApplicationBuilder UseCustomResponseHeaders(this IApplicationBuilder builder)
-    {
-        return builder.UseMiddleware<CustomResponseHeadersMiddleware>();
-    }
+    public static IApplicationBuilder UseCustomResponseHeaders(this IApplicationBuilder builder) => builder.UseMiddleware<CustomResponseHeadersMiddleware>();
 }

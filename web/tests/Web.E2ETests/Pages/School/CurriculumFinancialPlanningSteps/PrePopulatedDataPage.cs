@@ -8,7 +8,10 @@ public class PrePopulatedDataPage(IPage page)
     //private ILocator BackLink => page.Locator(Selectors.GovBackLink);
 
     private ILocator ContinueButton =>
-        page.Locator(Selectors.GovButton, new PageLocatorOptions { HasText = "Continue" });
+        page.Locator(Selectors.GovButton, new PageLocatorOptions
+        {
+            HasText = "Continue"
+        });
 
     public async Task IsDisplayed()
     {

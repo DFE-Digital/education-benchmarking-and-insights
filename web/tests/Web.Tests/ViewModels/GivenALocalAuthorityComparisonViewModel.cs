@@ -2,13 +2,14 @@ using AutoFixture;
 using Web.App.Domain;
 using Web.App.ViewModels;
 using Xunit;
+
 namespace Web.Tests.ViewModels;
 
 public class GivenALocalAuthorityComparisonViewModel
 {
+    private readonly CostCodes _costCodes;
     private readonly Fixture _fixture = new();
     private readonly LocalAuthority _localAuthority;
-    private readonly CostCodes _costCodes;
 
     public GivenALocalAuthorityComparisonViewModel()
     {

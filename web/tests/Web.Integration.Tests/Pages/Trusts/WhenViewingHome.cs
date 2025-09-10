@@ -2,43 +2,25 @@
 using AngleSharp.Dom;
 using AngleSharp.Html.Dom;
 using AutoFixture;
-using Web.App;
 using Web.App.Domain;
 using Web.App.Domain.Content;
 using Xunit;
+
 namespace Web.Integration.Tests.Pages.Trusts;
 
 public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<SchoolBenchmarkingWebAppClient>(client)
 {
     private static readonly Dictionary<int, string> AllCostCategories = new()
     {
-        {
-            1, Category.TeachingStaff
-        },
-        {
-            2, Category.NonEducationalSupportStaff
-        },
-        {
-            3, Category.EducationalSupplies
-        },
-        {
-            4, Category.EducationalIct
-        },
-        {
-            5, Category.PremisesStaffServices
-        },
-        {
-            6, Category.Utilities
-        },
-        {
-            7, Category.AdministrativeSupplies
-        },
-        {
-            8, Category.CateringStaffServices
-        },
-        {
-            9, Category.Other
-        }
+        { 1, Category.TeachingStaff },
+        { 2, Category.NonEducationalSupportStaff },
+        { 3, Category.EducationalSupplies },
+        { 4, Category.EducationalIct },
+        { 5, Category.PremisesStaffServices },
+        { 6, Category.Utilities },
+        { 7, Category.AdministrativeSupplies },
+        { 8, Category.CateringStaffServices },
+        { 9, Category.Other }
     };
 
     [Theory]

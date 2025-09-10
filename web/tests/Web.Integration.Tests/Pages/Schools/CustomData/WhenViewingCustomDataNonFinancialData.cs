@@ -42,18 +42,10 @@ public class WhenViewingCustomDataNonFinancialData : PageBase<SchoolBenchmarking
 
         _formValues = new Dictionary<string, decimal?>
         {
-            {
-                nameof(NonFinancialDataCustomDataViewModel.NumberOfPupilsFte), _customCensus.TotalPupils
-            },
-            {
-                nameof(NonFinancialDataCustomDataViewModel.FreeSchoolMealPercent), _customFloorAreaMetric.PercentFreeSchoolMeals
-            },
-            {
-                nameof(NonFinancialDataCustomDataViewModel.SpecialEducationalNeedsPercent), _customFloorAreaMetric.PercentSpecialEducationNeeds
-            },
-            {
-                nameof(NonFinancialDataCustomDataViewModel.FloorArea), _customFloorAreaMetric.TotalInternalFloorArea
-            }
+            { nameof(NonFinancialDataCustomDataViewModel.NumberOfPupilsFte), _customCensus.TotalPupils },
+            { nameof(NonFinancialDataCustomDataViewModel.FreeSchoolMealPercent), _customFloorAreaMetric.PercentFreeSchoolMeals },
+            { nameof(NonFinancialDataCustomDataViewModel.SpecialEducationalNeedsPercent), _customFloorAreaMetric.PercentSpecialEducationNeeds },
+            { nameof(NonFinancialDataCustomDataViewModel.FloorArea), _customFloorAreaMetric.TotalInternalFloorArea }
         };
     }
 

@@ -2,10 +2,7 @@
 
 public class HealthApi(HttpClient httpClient, string? key = default) : ApiBase(httpClient, key), IHealthApi
 {
-    public Task<ApiResult> GetHealth()
-    {
-        return GetAsync("api/health");
-    }
+    public Task<ApiResult> GetHealth() => GetAsync("api/health");
 }
 
 public interface IHealthApi

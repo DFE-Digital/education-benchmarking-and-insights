@@ -9,10 +9,7 @@ public class ChartRenderingApi(HttpClient httpClient, string? key = default) : A
         return PostAsync(Api.Charts.HorizontalBarChart, content, cancellationToken);
     }
 
-    public Task<ApiResult> PostHorizontalBarCharts<T>(PostHorizontalBarChartsRequest<T> request, CancellationToken cancellationToken = default)
-    {
-        return PostAsync(Api.Charts.HorizontalBarChart, new JsonContent(request.ToArray()), cancellationToken);
-    }
+    public Task<ApiResult> PostHorizontalBarCharts<T>(PostHorizontalBarChartsRequest<T> request, CancellationToken cancellationToken = default) => PostAsync(Api.Charts.HorizontalBarChart, new JsonContent(request.ToArray()), cancellationToken);
 
     public Task<ApiResult> PostVerticalBarChart<T>(PostVerticalBarChartRequest<T> request, CancellationToken cancellationToken = default)
     {
@@ -21,10 +18,7 @@ public class ChartRenderingApi(HttpClient httpClient, string? key = default) : A
         return PostAsync(Api.Charts.VerticalBarChart, content, cancellationToken);
     }
 
-    public Task<ApiResult> PostVerticalBarCharts<T>(PostVerticalBarChartsRequest<T> request, CancellationToken cancellationToken = default)
-    {
-        return PostAsync(Api.Charts.VerticalBarChart, new JsonContent(request.ToArray()), cancellationToken);
-    }
+    public Task<ApiResult> PostVerticalBarCharts<T>(PostVerticalBarChartsRequest<T> request, CancellationToken cancellationToken = default) => PostAsync(Api.Charts.VerticalBarChart, new JsonContent(request.ToArray()), cancellationToken);
 }
 
 public interface IChartRenderingApi

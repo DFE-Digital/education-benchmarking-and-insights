@@ -1,4 +1,3 @@
-using System.Net;
 using AngleSharp.Dom;
 using Web.App.Domain;
 using Web.App.Infrastructure.Apis;
@@ -52,9 +51,7 @@ public class WhenViewingTrustSearch(SchoolBenchmarkingWebAppClient client) : Pag
         {
             f.SetFormValues(new Dictionary<string, string>
             {
-                {
-                    "Term", term
-                }
+                { "Term", term }
             });
         });
 

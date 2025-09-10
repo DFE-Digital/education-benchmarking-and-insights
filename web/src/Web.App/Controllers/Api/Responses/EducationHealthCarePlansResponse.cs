@@ -1,4 +1,5 @@
 // ReSharper disable PropertyCanBeMadeInitOnly.Global
+
 namespace Web.App.Controllers.Api.Responses;
 
 public record EducationHealthCarePlansHistoryResponse : EducationHealthCarePlansResponse

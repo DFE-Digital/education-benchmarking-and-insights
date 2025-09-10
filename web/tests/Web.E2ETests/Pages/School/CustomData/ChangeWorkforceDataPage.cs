@@ -15,6 +15,7 @@ public class ChangeWorkforceDataPage(IPage page)
         {
             HasText = "Save changes to data"
         });
+
     private ILocator ValidationError => page.Locator(Selectors.GovErrorSummary);
     private ILocator CustomDataField(string item) => page.Locator($".table-custom-data > tbody > tr:has-text('{item}') > td input");
 

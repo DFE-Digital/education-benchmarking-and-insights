@@ -3,6 +3,7 @@ using System.Diagnostics.CodeAnalysis;
 using Azure;
 using Azure.Identity;
 using Microsoft.Azure.Cosmos;
+
 namespace Web.App.Infrastructure.Cosmos;
 
 [ExcludeFromCodeCoverage]

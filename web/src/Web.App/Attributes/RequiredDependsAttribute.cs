@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.ComponentModel.DataAnnotations;
 using Web.App.Extensions;
+
 namespace Web.App.Attributes;
 
 public class RequiredDependsAttribute(string otherProperty, string? otherValue = null) : CompareAttribute(otherProperty)

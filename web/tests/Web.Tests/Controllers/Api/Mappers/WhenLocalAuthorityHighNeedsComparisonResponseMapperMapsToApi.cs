@@ -13,7 +13,12 @@ public class WhenLocalAuthorityHighNeedsComparisonResponseMapperMapsToApi
     [Fact]
     public void ShouldMapToLocalAuthorityHighNeedsComparisonResponses()
     {
-        var codes = new[] { "code1", "code2", "code3" };
+        var codes = new[]
+        {
+            "code1",
+            "code2",
+            "code3"
+        };
 
         var plans = codes.Select(c => Fixture
                 .Build<LocalAuthority<HighNeeds>>()

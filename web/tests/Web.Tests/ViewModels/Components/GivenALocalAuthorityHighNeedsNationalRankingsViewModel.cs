@@ -17,6 +17,7 @@ public class GivenALocalAuthorityHighNeedsNationalRankingsViewModel
     private static readonly LocalAuthorityRank Rank7 = BuildRank(7);
     private static readonly LocalAuthorityRank Rank8 = BuildRank(8);
     private static readonly LocalAuthorityRank Rank9 = BuildRank(9);
+
     private static readonly LocalAuthorityRanking Ranking = new()
     {
         Ranking =
@@ -39,71 +40,19 @@ public class GivenALocalAuthorityHighNeedsNationalRankingsViewModel
         LocalAuthorityRank[]
     > WhenClosestAreData => new()
     {
-        {
-            Rank1.Code!,
-            5,
-            [Rank1, Rank2, Rank3, Rank4, Rank5]
-        },
-        {
-            Rank2.Code!,
-            5,
-            [Rank1, Rank2, Rank3, Rank4, Rank5]
-        },
-        {
-            Rank3.Code!,
-            5,
-            [Rank1, Rank2, Rank3, Rank4, Rank5]
-        },
-        {
-            Rank4.Code!,
-            5,
-            [Rank2, Rank3, Rank4, Rank5, Rank6]
-        },
-        {
-            Rank5.Code!,
-            5,
-            [Rank3, Rank4, Rank5, Rank6, Rank7]
-        },
-        {
-            Rank6.Code!,
-            5,
-            [Rank4, Rank5, Rank6, Rank7, Rank8]
-        },
-        {
-            Rank7.Code!,
-            5,
-            [Rank5, Rank6, Rank7, Rank8, Rank9]
-        },
-        {
-            Rank8.Code!,
-            5,
-            [Rank5, Rank6, Rank7, Rank8, Rank9]
-        },
-        {
-            Rank9.Code!,
-            5,
-            [Rank5, Rank6, Rank7, Rank8, Rank9]
-        },
-        {
-            "other",
-            5,
-            [Rank1, Rank2, Rank3, Rank4, Rank5]
-        },
-        {
-            Rank1.Code!,
-            3,
-            [Rank1, Rank2, Rank3]
-        },
-        {
-            Rank4.Code!,
-            4,
-            [Rank2, Rank3, Rank4, Rank5]
-        },
-        {
-            Rank1.Code!,
-            10,
-            [Rank1, Rank2, Rank3, Rank4, Rank5, Rank6, Rank7, Rank8, Rank9]
-        }
+        { Rank1.Code!, 5, [Rank1, Rank2, Rank3, Rank4, Rank5] },
+        { Rank2.Code!, 5, [Rank1, Rank2, Rank3, Rank4, Rank5] },
+        { Rank3.Code!, 5, [Rank1, Rank2, Rank3, Rank4, Rank5] },
+        { Rank4.Code!, 5, [Rank2, Rank3, Rank4, Rank5, Rank6] },
+        { Rank5.Code!, 5, [Rank3, Rank4, Rank5, Rank6, Rank7] },
+        { Rank6.Code!, 5, [Rank4, Rank5, Rank6, Rank7, Rank8] },
+        { Rank7.Code!, 5, [Rank5, Rank6, Rank7, Rank8, Rank9] },
+        { Rank8.Code!, 5, [Rank5, Rank6, Rank7, Rank8, Rank9] },
+        { Rank9.Code!, 5, [Rank5, Rank6, Rank7, Rank8, Rank9] },
+        { "other", 5, [Rank1, Rank2, Rank3, Rank4, Rank5] },
+        { Rank1.Code!, 3, [Rank1, Rank2, Rank3] },
+        { Rank4.Code!, 4, [Rank2, Rank3, Rank4, Rank5] },
+        { Rank1.Code!, 10, [Rank1, Rank2, Rank3, Rank4, Rank5, Rank6, Rank7, Rank8, Rank9] }
     };
 
     public static TheoryData<
@@ -112,16 +61,8 @@ public class GivenALocalAuthorityHighNeedsNationalRankingsViewModel
         bool
     > NotInRankingData => new()
     {
-        {
-            [Rank1, Rank2, Rank3, Rank4, Rank5],
-            Rank1.Code!,
-            false
-        },
-        {
-            [Rank1, Rank2, Rank3, Rank4, Rank5],
-            Rank6.Code!,
-            true
-        }
+        { [Rank1, Rank2, Rank3, Rank4, Rank5], Rank1.Code!, false },
+        { [Rank1, Rank2, Rank3, Rank4, Rank5], Rank6.Code!, true }
     };
 
     [Theory]
@@ -150,7 +91,10 @@ public class GivenALocalAuthorityHighNeedsNationalRankingsViewModel
     [MemberData(nameof(NotInRankingData))]
     public void ShouldReturnNotInRankingIfMissingFromRankings(LocalAuthorityRank[] rankings, string code, bool expectedNotInRanking)
     {
-        var vm = new LocalAuthorityHighNeedsNationalRankingsViewModel(code, null, null, new LocalAuthorityRanking { Ranking = rankings }, 5);
+        var vm = new LocalAuthorityHighNeedsNationalRankingsViewModel(code, null, null, new LocalAuthorityRanking
+        {
+            Ranking = rankings
+        }, 5);
         Assert.Equal(expectedNotInRanking, vm.NotInRanking);
     }
 

@@ -6,6 +6,7 @@ using Moq;
 using Web.App.Domain;
 using Web.App.Infrastructure.Apis;
 using Xunit;
+
 namespace Web.Integration.Tests.Pages.Schools.FinancialPlanning;
 
 public class WhenViewingPlanningManagementRoles(SchoolBenchmarkingWebAppClient client) : PageBase<SchoolBenchmarkingWebAppClient>(client)
@@ -113,30 +114,14 @@ public class WhenViewingPlanningManagementRoles(SchoolBenchmarkingWebAppClient c
         {
             f.SetFormValues(new Dictionary<string, string>
             {
-                {
-                    "ManagementRoleHeadteacher", managementRoleHeadteacher.ToString()
-                },
-                {
-                    "ManagementRoleDeputyHeadteacher", managementRoleDeputyHeadteacher.ToString()
-                },
-                {
-                    "ManagementRoleNumeracyLead", managementRoleNumeracyLead.ToString()
-                },
-                {
-                    "ManagementRoleLiteracyLead", managementRoleLiteracyLead.ToString()
-                },
-                {
-                    "ManagementRoleHeadSmallCurriculum", managementRoleHeadSmallCurriculum.ToString()
-                },
-                {
-                    "ManagementRoleHeadKs1", managementRoleHeadKs1.ToString()
-                },
-                {
-                    "ManagementRoleHeadKs2", managementRoleHeadKs2.ToString()
-                },
-                {
-                    "ManagementRoleSenco", managementRoleSenco.ToString()
-                }
+                { "ManagementRoleHeadteacher", managementRoleHeadteacher.ToString() },
+                { "ManagementRoleDeputyHeadteacher", managementRoleDeputyHeadteacher.ToString() },
+                { "ManagementRoleNumeracyLead", managementRoleNumeracyLead.ToString() },
+                { "ManagementRoleLiteracyLead", managementRoleLiteracyLead.ToString() },
+                { "ManagementRoleHeadSmallCurriculum", managementRoleHeadSmallCurriculum.ToString() },
+                { "ManagementRoleHeadKs1", managementRoleHeadKs1.ToString() },
+                { "ManagementRoleHeadKs2", managementRoleHeadKs2.ToString() },
+                { "ManagementRoleSenco", managementRoleSenco.ToString() }
             });
         });
 
@@ -171,30 +156,14 @@ public class WhenViewingPlanningManagementRoles(SchoolBenchmarkingWebAppClient c
         {
             f.SetFormValues(new Dictionary<string, string>
             {
-                {
-                    "ManagementRoleHeadteacher", managementRoleHeadteacher.ToString()
-                },
-                {
-                    "ManagementRoleDeputyHeadteacher", managementRoleDeputyHeadteacher.ToString()
-                },
-                {
-                    "ManagementRoleAssistantHeadteacher", managementRoleAssistantHeadteacher.ToString()
-                },
-                {
-                    "ManagementRoleHeadLargeCurriculum", managementRoleHeadLargeCurriculum.ToString()
-                },
-                {
-                    "ManagementRoleHeadSmallCurriculum", managementRoleHeadSmallCurriculum.ToString()
-                },
-                {
-                    "ManagementRoleSenco", managementRoleSenco.ToString()
-                },
-                {
-                    "ManagementRolePastoralLeader", managementRolePastoralLeader.ToString()
-                },
-                {
-                    "ManagementRoleOtherMembers", managementRoleOtherMembers.ToString()
-                }
+                { "ManagementRoleHeadteacher", managementRoleHeadteacher.ToString() },
+                { "ManagementRoleDeputyHeadteacher", managementRoleDeputyHeadteacher.ToString() },
+                { "ManagementRoleAssistantHeadteacher", managementRoleAssistantHeadteacher.ToString() },
+                { "ManagementRoleHeadLargeCurriculum", managementRoleHeadLargeCurriculum.ToString() },
+                { "ManagementRoleHeadSmallCurriculum", managementRoleHeadSmallCurriculum.ToString() },
+                { "ManagementRoleSenco", managementRoleSenco.ToString() },
+                { "ManagementRolePastoralLeader", managementRolePastoralLeader.ToString() },
+                { "ManagementRoleOtherMembers", managementRoleOtherMembers.ToString() }
             });
         });
 
@@ -301,7 +270,6 @@ public class WhenViewingPlanningManagementRoles(SchoolBenchmarkingWebAppClient c
     [Fact]
     public async Task ShowsErrorOnInvalidSubmit()
     {
-
         var (page, school) = await SetupNavigateInitPage(EstablishmentTypes.Academies, OverallPhaseTypes.Primary);
         AssertPageLayout(page, school);
         var action = page.QuerySelector("main .govuk-button");
@@ -311,30 +279,14 @@ public class WhenViewingPlanningManagementRoles(SchoolBenchmarkingWebAppClient c
         {
             f.SetFormValues(new Dictionary<string, string>
             {
-                {
-                    "ManagementRoleHeadteacher", ""
-                },
-                {
-                    "ManagementRoleDeputyHeadteacher", ""
-                },
-                {
-                    "ManagementRoleNumeracyLead", ""
-                },
-                {
-                    "ManagementRoleLiteracyLead", ""
-                },
-                {
-                    "ManagementRoleHeadSmallCurriculum", ""
-                },
-                {
-                    "ManagementRoleHeadKs1", ""
-                },
-                {
-                    "ManagementRoleHeadKs2", ""
-                },
-                {
-                    "ManagementRoleSenco", ""
-                }
+                { "ManagementRoleHeadteacher", "" },
+                { "ManagementRoleDeputyHeadteacher", "" },
+                { "ManagementRoleNumeracyLead", "" },
+                { "ManagementRoleLiteracyLead", "" },
+                { "ManagementRoleHeadSmallCurriculum", "" },
+                { "ManagementRoleHeadKs1", "" },
+                { "ManagementRoleHeadKs2", "" },
+                { "ManagementRoleSenco", "" }
             });
             ;
         });

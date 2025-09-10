@@ -16,10 +16,7 @@ public static class Operations
 
     private static readonly RoleOperationMap RoleOperationMap = new()
     {
-        {
-            RoleNames.SomeUserRole,
-            AClaim
-        }
+        { RoleNames.SomeUserRole, AClaim }
     };
 
     public static readonly string[] AllRoles = RoleOperationMap.Keys.ToArray();

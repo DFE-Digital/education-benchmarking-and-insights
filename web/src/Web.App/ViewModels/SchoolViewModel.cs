@@ -80,9 +80,6 @@ public class SchoolViewModel(School school) : ISchoolKeyInformationViewModel
     public bool? ComparatorGenerated { get; }
     public bool? ComparatorReverted { get; }
     public bool? CustomDataGenerated { get; }
-    public string? OverallPhase => school.OverallPhase;
-    public decimal? InYearBalance { get; }
-    public decimal? RevenueReserve { get; }
 
     public FinanceToolsViewModel Tools => school.IsPartOfTrust
         ? new FinanceToolsViewModel(
@@ -98,10 +95,13 @@ public class SchoolViewModel(School school) : ISchoolKeyInformationViewModel
             FinanceTools.BenchmarkCensus);
 
     public FinanceToolsViewModel CustomTools => new(
-            school.URN,
-            FinanceTools.SpendingComparison,
-            FinanceTools.CompareYourCosts,
-            FinanceTools.Spending,
-            FinanceTools.BenchmarkCensus);
+        school.URN,
+        FinanceTools.SpendingComparison,
+        FinanceTools.CompareYourCosts,
+        FinanceTools.Spending,
+        FinanceTools.BenchmarkCensus);
 
+    public string? OverallPhase => school.OverallPhase;
+    public decimal? InYearBalance { get; }
+    public decimal? RevenueReserve { get; }
 }

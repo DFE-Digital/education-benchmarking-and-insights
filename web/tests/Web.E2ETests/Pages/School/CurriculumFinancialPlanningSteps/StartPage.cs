@@ -8,10 +8,16 @@ public class StartPage(IPage page)
     //private ILocator BackLink => page.Locator(Selectors.GovBackLink);
 
     private ILocator ContinueButton =>
-        page.Locator(Selectors.GovButton, new PageLocatorOptions { HasText = "Continue" });
+        page.Locator(Selectors.GovButton, new PageLocatorOptions
+        {
+            HasText = "Continue"
+        });
 
     private ILocator HelpLink =>
-        page.Locator(Selectors.GovLink, new PageLocatorOptions { HasText = "can be found here" });
+        page.Locator(Selectors.GovLink, new PageLocatorOptions
+        {
+            HasText = "can be found here"
+        });
 
     public async Task IsDisplayed()
     {

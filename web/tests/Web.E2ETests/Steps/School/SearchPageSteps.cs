@@ -82,8 +82,5 @@ public class SearchPageSteps(PageDriver driver)
         await _schoolSearchResultsPage.IsDisplayed();
     }
 
-    private static string SchoolSearchUrl()
-    {
-        return $"{TestConfiguration.ServiceUrl}/school";
-    }
+    private static string SchoolSearchUrl() => $"{TestConfiguration.ServiceUrl}/school";
 }

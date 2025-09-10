@@ -9,9 +9,9 @@ namespace Web.E2ETests.Steps.School;
 [Scope(Feature = "School benchmark IT spending")]
 public class BenchmarkItSpendSteps(PageDriver driver)
 {
+    private IDownload? _download;
     private BenchmarkItSpendPage? _itSpendPage;
     private HomePage? _schoolHomePage;
-    private IDownload? _download;
 
     [Given("I am on it spend page for school with URN '(.*)'")]
     public async Task GivenIAmOnItSpendPageForSchoolWithUrn(string urn)

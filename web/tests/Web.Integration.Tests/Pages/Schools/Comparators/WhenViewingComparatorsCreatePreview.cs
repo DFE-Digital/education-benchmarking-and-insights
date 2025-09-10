@@ -6,6 +6,7 @@ using Web.App;
 using Web.App.Domain;
 using Web.App.Extensions;
 using Xunit;
+
 namespace Web.Integration.Tests.Pages.Schools.Comparators;
 
 public class WhenViewingComparatorsCreatePreview(SchoolBenchmarkingWebAppClient client) : PageBase<SchoolBenchmarkingWebAppClient>(client)

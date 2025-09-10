@@ -2,6 +2,7 @@ using System.Net;
 using FluentValidation;
 using FluentValidation.Results;
 using Web.App.Extensions;
+
 namespace Web.App.Infrastructure.Apis;
 
 public abstract class ApiResult(HttpStatusCode status)

@@ -11,9 +11,7 @@ public static class Api
         public static string TrustHistory(string? companyNo) => $"api/balance/trust/{companyNo}/history";
     }
 
-    public static class BudgetForecast
-    {
-    }
+    public static class BudgetForecast { }
 
     public static class Census
     {

@@ -38,6 +38,12 @@ public class SchoolSpendingViewModel(
     public IEnumerable<CostCategory> LowPriorityCosts => Costs
         .Where(x => x.Rating.RAG is "green");
 
+    public FinanceToolsViewModel CustomTools => new(
+        school.URN,
+        FinanceTools.SpendingComparison,
+        FinanceTools.CompareYourCosts,
+        FinanceTools.BenchmarkCensus);
+
 
     public static ChartStatsViewModel Stats(RagRating rating)
     {
@@ -53,12 +59,6 @@ public class SchoolSpendingViewModel(
             }
         };
     }
-
-    public FinanceToolsViewModel CustomTools => new(
-        school.URN,
-        FinanceTools.SpendingComparison,
-        FinanceTools.CompareYourCosts,
-        FinanceTools.BenchmarkCensus);
 }
 
 public class ChartStatsViewModel

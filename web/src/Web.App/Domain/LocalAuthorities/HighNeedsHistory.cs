@@ -1,5 +1,6 @@
 // ReSharper disable ClassNeverInstantiated.Global
 // ReSharper disable UnusedMember.Global
+
 namespace Web.App.Domain.LocalAuthorities;
 
 public record HighNeedsHistory<T>

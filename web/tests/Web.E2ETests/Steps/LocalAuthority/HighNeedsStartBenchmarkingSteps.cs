@@ -8,9 +8,9 @@ namespace Web.E2ETests.Steps.LocalAuthority;
 [Scope(Feature = "Local Authority high needs start benchmarking")]
 public class HighNeedsStartBenchmarkingSteps(PageDriver driver, PageDriverWithJavaScriptDisabled driverNoJs)
 {
-    private HighNeedsStartBenchmarkingPage? _highNeedsStartBenchmarkingPage;
     private HighNeedsBenchmarkingPage? _highNeedsBenchmarkingPage;
     private HighNeedsDashboardPage? _highNeedsDashboardPage;
+    private HighNeedsStartBenchmarkingPage? _highNeedsStartBenchmarkingPage;
     private bool _javascriptDisabled;
 
     [Given("JavaScript is '(.*)'")]

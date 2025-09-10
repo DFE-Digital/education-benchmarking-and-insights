@@ -1,12 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
 
-namespace Web.App.ViewComponents
+namespace Web.App.ViewComponents;
+
+public class HelpWithThisService : ViewComponent
 {
-    public class HelpWithThisService : ViewComponent
-    {
-        public IViewComponentResult Invoke()
-        {
-            return View();
-        }
-    }
+    public IViewComponentResult Invoke() => View();
 }

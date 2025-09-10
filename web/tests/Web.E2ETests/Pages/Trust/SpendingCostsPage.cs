@@ -1,5 +1,6 @@
 using Microsoft.Playwright;
 using Xunit;
+
 namespace Web.E2ETests.Pages.Trust;
 
 public class SpendingCostsPage(IPage page)
@@ -9,6 +10,7 @@ public class SpendingCostsPage(IPage page)
     private ILocator MediumPriorityHeading => PriorityHeading("Medium priority");
     private ILocator LowPriorityHeading => PriorityHeading("Low priority");
     private ILocator Filters => page.Locator(Selectors.Aside);
+
     private ILocator PriorityHeading(string priority) => page.Locator(Selectors.H2, new PageLocatorOptions
     {
         HasText = priority

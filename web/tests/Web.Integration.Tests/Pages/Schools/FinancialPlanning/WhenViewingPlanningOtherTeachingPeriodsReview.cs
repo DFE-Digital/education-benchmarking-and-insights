@@ -4,6 +4,7 @@ using AutoFixture;
 using AutoFixture.Dsl;
 using Web.App.Domain;
 using Xunit;
+
 namespace Web.Integration.Tests.Pages.Schools.FinancialPlanning;
 
 public class WhenViewingPlanningOtherTeachingPeriodsReview(SchoolBenchmarkingWebAppClient client) : PageBase<SchoolBenchmarkingWebAppClient>(client)

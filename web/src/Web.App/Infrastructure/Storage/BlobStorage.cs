@@ -31,7 +31,11 @@ public abstract class BlobStorage(string? connectionString)
         var sasUri = containerClient.GenerateSasUri(sasBuilder);
         var sasToken = sasUri.Query;
         return new SharedAccessTokenModel
-        { SasToken = sasToken, Expiry = expiry.DateTime, ContainerUri = containerClient.Uri };
+        {
+            SasToken = sasToken,
+            Expiry = expiry.DateTime,
+            ContainerUri = containerClient.Uri
+        };
     }
 }
 

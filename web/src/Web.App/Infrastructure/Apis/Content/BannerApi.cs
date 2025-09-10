@@ -7,8 +7,5 @@ public interface IBannerApi
 
 public class BannerApi(HttpClient httpClient, string? key = default) : ApiBase(httpClient, key), IBannerApi
 {
-    public async Task<ApiResult> GetBanner(string target)
-    {
-        return await GetAsync(Api.Banners.Banner(target));
-    }
+    public async Task<ApiResult> GetBanner(string target) => await GetAsync(Api.Banners.Banner(target));
 }

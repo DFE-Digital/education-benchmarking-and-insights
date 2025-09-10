@@ -82,8 +82,5 @@ public class SearchPageSteps(PageDriver driver)
         await _localAuthoritySearchResultsPage.IsDisplayed();
     }
 
-    private static string LocalAuthoritySearchUrl()
-    {
-        return $"{TestConfiguration.ServiceUrl}/local-authority";
-    }
+    private static string LocalAuthoritySearchUrl() => $"{TestConfiguration.ServiceUrl}/local-authority";
 }

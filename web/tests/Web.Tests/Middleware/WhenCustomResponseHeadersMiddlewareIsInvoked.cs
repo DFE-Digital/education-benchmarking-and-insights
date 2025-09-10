@@ -7,9 +7,9 @@ namespace Web.Tests.Middleware;
 
 public class WhenCustomResponseHeadersMiddlewareIsInvoked
 {
-    private readonly Mock<RequestDelegate> _next;
     private readonly DefaultHttpContext _context;
     private readonly CustomResponseHeadersMiddleware _middleware;
+    private readonly Mock<RequestDelegate> _next;
 
     public WhenCustomResponseHeadersMiddlewareIsInvoked()
     {

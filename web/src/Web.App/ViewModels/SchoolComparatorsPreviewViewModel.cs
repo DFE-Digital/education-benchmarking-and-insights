@@ -1,4 +1,5 @@
 ﻿using Web.App.Domain;
+
 namespace Web.App.ViewModels;
 
 public class SchoolComparatorsPreviewViewModel(
@@ -63,6 +64,7 @@ public class SchoolComparatorsPreviewViewModel(
     public bool PhysicalDisabilitySelected => IsSelected(userDefinedCharacteristics?.PhysicalDisability);
     public bool AutisticSpectrumDisorderSelected => IsSelected(userDefinedCharacteristics?.AutisticSpectrumDisorder);
     public bool OtherLearningDifficultySelected => IsSelected(userDefinedCharacteristics?.OtherLearningDifficulty);
+
     public bool? HasAdditionalCharacteristics => TotalPupilsSelected
                                                  || FreeSchoolMealsSelected
                                                  || SpecialEducationalNeedsSelected

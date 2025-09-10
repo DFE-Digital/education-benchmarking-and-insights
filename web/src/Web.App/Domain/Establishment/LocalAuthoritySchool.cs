@@ -1,4 +1,5 @@
 using System.Diagnostics.CodeAnalysis;
+
 // ReSharper disable UnusedAutoPropertyAccessor.Global
 namespace Web.App.Domain;
 

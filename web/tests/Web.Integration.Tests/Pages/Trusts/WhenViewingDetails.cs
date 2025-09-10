@@ -3,6 +3,7 @@ using AngleSharp.Html.Dom;
 using AutoFixture;
 using Web.App.Domain;
 using Xunit;
+
 namespace Web.Integration.Tests.Pages.Trusts;
 
 public class WhenViewingDetails(SchoolBenchmarkingWebAppClient client) : PageBase<SchoolBenchmarkingWebAppClient>(client)

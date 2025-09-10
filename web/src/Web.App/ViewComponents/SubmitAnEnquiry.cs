@@ -1,12 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
 
-namespace Web.App.ViewComponents
+namespace Web.App.ViewComponents;
+
+public class SubmitAnEnquiry : ViewComponent
 {
-    public class SubmitAnEnquiry : ViewComponent
-    {
-        public IViewComponentResult Invoke()
-        {
-            return View();
-        }
-    }
+    public IViewComponentResult Invoke() => View();
 }

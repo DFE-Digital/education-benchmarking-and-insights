@@ -1,6 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.Reflection;
 using Web.App.Extensions;
+
 namespace Web.App.Attributes;
 
 public abstract class CompareValueAttribute<T>(string otherProperty, Operator operatorType, string errorFormatString)

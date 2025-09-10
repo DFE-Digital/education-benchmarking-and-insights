@@ -39,7 +39,11 @@ public class SchoolSpendingCostsViewModelCostCategories : List<SchoolSpendingCos
     {
         foreach (var costCategory in costs)
         {
-            var data = costCategory.Values.Select(x => new PriorityCostCategoryDatum { Urn = x.Key, Amount = x.Value.Value }).ToArray();
+            var data = costCategory.Values.Select(x => new PriorityCostCategoryDatum
+            {
+                Urn = x.Key,
+                Amount = x.Value.Value
+            }).ToArray();
             var filteredData = data.Where(x => x.Urn == urn || x.Amount > 0).ToArray();
             var hasNegativeOrZeroValues = data.Length > filteredData.Length;
             var uuid = Guid.NewGuid().ToString();

@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Web.App.Extensions;
+
 namespace Web.App.Attributes.RequestTelemetry;
 
 [AttributeUsage(AttributeTargets.Method | AttributeTargets.Class)]

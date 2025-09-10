@@ -64,13 +64,7 @@ public class NewsSteps(PageDriver driver)
         await _newsArticlePage.HasHeading(heading);
     }
 
-    private static string HomePageUrl()
-    {
-        return $"{TestConfiguration.ServiceUrl}/";
-    }
+    private static string HomePageUrl() => $"{TestConfiguration.ServiceUrl}/";
 
-    private static string NewsPageUrl()
-    {
-        return $"{TestConfiguration.ServiceUrl}/news";
-    }
+    private static string NewsPageUrl() => $"{TestConfiguration.ServiceUrl}/news";
 }

@@ -13,10 +13,12 @@ public class TrustBenchmarkSpendingPage(IPage page)
     private ILocator Balance => page.Locator(Selectors.TrustBenchmarkingBalanceTab);
     private ILocator ViewAsChartRadio => page.Locator(Selectors.GovRadios).Locator("#spending-mode-chart");
     private ILocator ViewCentralSpendRadio => page.Locator(Selectors.GovRadios).Locator("#spending-include-breakdown");
+
     private ILocator SaveAsImageButtons => page.Locator(Selectors.GovButton, new PageLocatorOptions
     {
         HasText = "Save "
     });
+
     private ILocator TotalExpenditureDimension => page.Locator(Selectors.TotalExpenditureDimension);
     private ILocator TeachingAndSupportDimension => page.Locator(Selectors.TeachingAndSupportDimension);
     private ILocator NonEducationSupportStaffDimension => page.Locator(Selectors.NonEducationSupportStaffDimension);
@@ -47,16 +49,23 @@ public class TrustBenchmarkSpendingPage(IPage page)
         await SaveAsImageButtons.Nth(0).ShouldBeVisible();
         await TotalExpenditureDimension.ShouldBeVisible();
         var allOptions = await TotalExpenditureDimension.InnerTextAsync();
-        var expectedOptions = new[] { "£ per pupil", "actuals", "percentage of income" };
+        var expectedOptions = new[]
+        {
+            "£ per pupil",
+            "actuals",
+            "percentage of income"
+        };
         foreach (var expected in expectedOptions)
         {
             Assert.Contains(expected, allOptions);
         }
+
         await ShowHideAllSectionsLink.ShouldBeVisible();
         foreach (var sec in await Sections.AllAsync())
         {
             await sec.ShouldBeVisible();
         }
+
         Assert.Equal(9, await Sections.Count());
         await AllCharts.Nth(0).ShouldBeVisible();
     }

@@ -5,6 +5,7 @@ using Moq;
 using Web.App.Domain;
 using Web.App.Infrastructure.Apis;
 using Xunit;
+
 namespace Web.Integration.Tests.Pages.Schools.FinancialPlanning;
 
 public class WhenViewingPlanningHasMixedAgeClasses(SchoolBenchmarkingWebAppClient client) : PageBase<SchoolBenchmarkingWebAppClient>(client)
@@ -104,7 +105,6 @@ public class WhenViewingPlanningHasMixedAgeClasses(SchoolBenchmarkingWebAppClien
     [Fact]
     public async Task ShowsErrorOnInValidSubmit()
     {
-
         var (page, school) = await SetupNavigateInitPage(EstablishmentTypes.Academies);
         AssertPageLayout(page, school);
         var action = page.QuerySelector("main .govuk-button");
@@ -114,9 +114,7 @@ public class WhenViewingPlanningHasMixedAgeClasses(SchoolBenchmarkingWebAppClien
         {
             f.SetFormValues(new Dictionary<string, string>
             {
-                {
-                    "HasMixedAgeClasses", ""
-                }
+                { "HasMixedAgeClasses", "" }
             });
         });
 
@@ -140,9 +138,7 @@ public class WhenViewingPlanningHasMixedAgeClasses(SchoolBenchmarkingWebAppClien
         {
             f.SetFormValues(new Dictionary<string, string>
             {
-                {
-                    "HasMixedAgeClasses", value.ToString()
-                }
+                { "HasMixedAgeClasses", value.ToString() }
             });
         });
 

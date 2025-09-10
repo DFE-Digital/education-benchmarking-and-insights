@@ -8,9 +8,7 @@ namespace Web.App.Attributes;
 [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
 public abstract class ValidateArgumentAttribute : TypeFilterAttribute
 {
-    protected ValidateArgumentAttribute(string argumentName, string type) : this(argumentName, type, string.Empty)
-    {
-    }
+    protected ValidateArgumentAttribute(string argumentName, string type) : this(argumentName, type, string.Empty) { }
 
     protected ValidateArgumentAttribute(string argumentName, string type, string typeName) : base(typeof(ValidateArgumentFilter))
     {

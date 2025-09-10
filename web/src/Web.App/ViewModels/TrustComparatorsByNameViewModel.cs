@@ -9,10 +9,12 @@ public class TrustComparatorsByNameViewModel(Trust trust, TrustCharacteristicUse
     public string? Name => trust.TrustName;
     public TrustCharacteristicUserDefined[]? Trusts => trustCharacteristics;
     public int ComparatorCount => trustCharacteristics?.Count(t => t.CompanyNumber != trust.CompanyNumber) ?? 0;
+
     public string[] ExcludeCompanyNumbers => (trustCharacteristics?.Select(t => t.CompanyNumber) ?? [])
         .Concat([trust.CompanyNumber])
         .OfType<string>()
         .ToArray();
+
     public bool IsEdit => isEdit;
 }
 

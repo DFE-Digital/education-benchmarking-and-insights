@@ -161,18 +161,12 @@ public class HistoricDataPage(IPage page)
     private ILocator AllBalanceCharts => BalanceTabContent.Locator(Selectors.Charts);
     private ILocator BalanceChartsStats => BalanceTabContent.Locator(Selectors.LineChartStats);
 
-    private ILocator SaveAsImageButtons(string elementId)
-    {
-        return page.Locator($"#{elementId}").Locator(".share-button--save");
-    }
+    private ILocator SaveAsImageButtons(string elementId) => page.Locator($"#{elementId}").Locator(".share-button--save");
 
-    private ILocator WarningMessages(string elementId)
+    private ILocator WarningMessages(string elementId) => page.Locator($"#{elementId}").Locator(Selectors.GovWarning, new LocatorLocatorOptions
     {
-        return page.Locator($"#{elementId}").Locator(Selectors.GovWarning, new LocatorLocatorOptions
-        {
-            HasText = "No data available for this category."
-        });
-    }
+        HasText = "No data available for this category."
+    });
 
     public async Task IsDisplayed(HistoryTabs? tab = null)
     {
@@ -486,14 +480,11 @@ public class HistoricDataPage(IPage page)
         return link;
     }
 
-    private ILocator SectionLink(string sectionId)
-    {
-        return page.Locator("button",
-            new PageLocatorOptions
-            {
-                Has = page.Locator($"span{sectionId}")
-            });
-    }
+    private ILocator SectionLink(string sectionId) => page.Locator("button",
+        new PageLocatorOptions
+        {
+            Has = page.Locator($"span{sectionId}")
+        });
 
     private async Task<List<string>> GetSubCategoriesOfTab(HistoryTabs tab)
     {

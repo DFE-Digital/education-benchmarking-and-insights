@@ -7,7 +7,10 @@ public class CurriculumFinancialPlanningPage(IPage page)
     private ILocator PageH1Heading => page.Locator(Selectors.H1);
     //private ILocator Breadcrumbs => page.Locator(Selectors.GovBreadcrumbs);
 
-    private ILocator CreateNewPlanBtn => page.Locator(Selectors.GovButton, new PageLocatorOptions { HasText = "Continue" });
+    private ILocator CreateNewPlanBtn => page.Locator(Selectors.GovButton, new PageLocatorOptions
+    {
+        HasText = "Continue"
+    });
 
     public async Task IsDisplayed()
     {
