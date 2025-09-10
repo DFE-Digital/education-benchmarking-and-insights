@@ -13,7 +13,11 @@ public class LocalAuthorityIndexBuilder : IndexBuilder
     {
         var searchFields = new FieldBuilder().Build(typeof(LocalAuthorityIndex));
         var definition = new SearchIndex(Name, searchFields);
-        var suggestFields = new[] { nameof(LocalAuthorityIndex.Name), nameof(LocalAuthorityIndex.Code) };
+        var suggestFields = new[]
+        {
+            nameof(LocalAuthorityIndex.Name),
+            nameof(LocalAuthorityIndex.Code)
+        };
 
         var suggester = new SearchSuggester(ResourceNames.Search.Suggesters.LocalAuthority, suggestFields);
         definition.Suggesters.Add(suggester);

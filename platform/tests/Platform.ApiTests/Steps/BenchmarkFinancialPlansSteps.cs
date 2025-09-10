@@ -114,7 +114,11 @@ public class BenchmarkFinancialPlansSteps(BenchmarkApiDriver api)
         var response = api[FinancialPlansKey].Response;
 
         //TODO: review why this is being do this way. Test case should explicitly assert one or the other.
-        var codes = new[] { HttpStatusCode.Created, HttpStatusCode.NoContent };
+        var codes = new[]
+        {
+            HttpStatusCode.Created,
+            HttpStatusCode.NoContent
+        };
         Assert.NotNull(response);
         Assert.Contains(response.StatusCode, codes);
     }

@@ -161,7 +161,14 @@ public class SearchMaintenanceService
 
     private async Task BuildIndexes()
     {
-        var builders = new IndexBuilder[] { new TrustIndexBuilder(), new SchoolIndexBuilder(), new LocalAuthorityIndexBuilder(), new SchoolComparatorsIndexBuilder(), new TrustComparatorsIndexBuilder() };
+        var builders = new IndexBuilder[]
+        {
+            new TrustIndexBuilder(),
+            new SchoolIndexBuilder(),
+            new LocalAuthorityIndexBuilder(),
+            new SchoolComparatorsIndexBuilder(),
+            new TrustComparatorsIndexBuilder()
+        };
 
         foreach (var builder in builders)
         {
@@ -193,8 +200,11 @@ public class SearchMaintenanceService
 
         var builders = new DataSourceConnectionBuilder[]
         {
-            new SchoolDataSourceConnectionBuilder(_options.Sql.ConnectionString), new TrustDataSourceConnectionBuilder(_options.Sql.ConnectionString), new LocalAuthorityDataSourceConnectionBuilder(_options.Sql.ConnectionString),
-            new SchoolComparatorsDataSourceConnectionBuilder(_options.Sql.ConnectionString), new TrustComparatorsDataSourceConnectionBuilder(_options.Sql.ConnectionString)
+            new SchoolDataSourceConnectionBuilder(_options.Sql.ConnectionString),
+            new TrustDataSourceConnectionBuilder(_options.Sql.ConnectionString),
+            new LocalAuthorityDataSourceConnectionBuilder(_options.Sql.ConnectionString),
+            new SchoolComparatorsDataSourceConnectionBuilder(_options.Sql.ConnectionString),
+            new TrustComparatorsDataSourceConnectionBuilder(_options.Sql.ConnectionString)
         };
 
         foreach (var builder in builders)
@@ -223,7 +233,14 @@ public class SearchMaintenanceService
 
     private async Task BuildIndexers()
     {
-        var builders = new IndexerBuilder[] { new SchoolIndexerBuilder(), new TrustIndexerBuilder(), new LocalAuthorityIndexerBuilder(), new SchoolComparatorsIndexerBuilder(), new TrustComparatorsIndexerBuilder() };
+        var builders = new IndexerBuilder[]
+        {
+            new SchoolIndexerBuilder(),
+            new TrustIndexerBuilder(),
+            new LocalAuthorityIndexerBuilder(),
+            new SchoolComparatorsIndexerBuilder(),
+            new TrustComparatorsIndexerBuilder()
+        };
 
         foreach (var builder in builders)
         {

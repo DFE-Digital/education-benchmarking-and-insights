@@ -86,7 +86,13 @@ public class WhenSchoolsServiceSearches
 
         var expected = new[]
         {
-            nameof(SchoolSummary.SchoolName), nameof(SchoolSummary.URN), nameof(SchoolSummary.AddressStreet), nameof(SchoolSummary.AddressLocality), nameof(SchoolSummary.AddressLine3), nameof(SchoolSummary.AddressTown), nameof(SchoolSummary.AddressCounty),
+            nameof(SchoolSummary.SchoolName),
+            nameof(SchoolSummary.URN),
+            nameof(SchoolSummary.AddressStreet),
+            nameof(SchoolSummary.AddressLocality),
+            nameof(SchoolSummary.AddressLine3),
+            nameof(SchoolSummary.AddressTown),
+            nameof(SchoolSummary.AddressCounty),
             nameof(SchoolSummary.AddressPostcode)
         };
 

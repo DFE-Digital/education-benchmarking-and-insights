@@ -84,7 +84,11 @@ public class WhenLocalAuthoritiesServiceSearches
     {
         string[]? capturedFields = null;
 
-        var expected = new[] { nameof(LocalAuthoritySummary.Name), nameof(LocalAuthoritySummary.Code) };
+        var expected = new[]
+        {
+            nameof(LocalAuthoritySummary.Name),
+            nameof(LocalAuthoritySummary.Code)
+        };
 
         _service.Protected()
             .Setup<Task<SuggestResponse<LocalAuthoritySummary>>>(

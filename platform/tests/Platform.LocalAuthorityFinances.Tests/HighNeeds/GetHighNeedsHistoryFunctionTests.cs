@@ -42,7 +42,10 @@ public class GetHighNeedsHistoryFunctionTests : FunctionsTestBase
             .ReturnsAsync(new ValidationResult());
 
         _service
-            .Setup(d => d.GetHistory(new[] { Code }, Dimension, It.IsAny<CancellationToken>()))
+            .Setup(d => d.GetHistory(new[]
+            {
+                Code
+            }, Dimension, It.IsAny<CancellationToken>()))
             .ReturnsAsync(model);
 
         var query = new Dictionary<string, StringValues>

@@ -41,7 +41,10 @@ public class GetEducationHealthCarePlansLocalAuthoritiesHistoryFunctionTests : F
             .ReturnsAsync(new ValidationResult());
 
         _service
-            .Setup(x => x.GetHistory(new[] { Code }, Dimension, It.IsAny<CancellationToken>()))
+            .Setup(x => x.GetHistory(new[]
+            {
+                Code
+            }, Dimension, It.IsAny<CancellationToken>()))
             .ReturnsAsync(model);
 
         var query = new Dictionary<string, StringValues>

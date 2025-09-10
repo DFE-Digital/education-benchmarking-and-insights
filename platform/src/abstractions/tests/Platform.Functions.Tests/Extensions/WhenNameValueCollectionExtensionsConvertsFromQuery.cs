@@ -9,11 +9,24 @@ namespace Platform.Functions.Tests.Extensions;
 public class WhenNameValueCollectionExtensionsConvertsFromQuery
 {
     [Theory]
-    [InlineData(null, new string[] { })]
-    [InlineData("", new string[] { })]
-    [InlineData("value", new[] { "value" })]
-    [InlineData("value1, value2", new[] { "value1", "value2" })]
-    [InlineData("value1, , value2", new[] { "value1", "value2" })]
+    [InlineData(null, new string[]
+        { })]
+    [InlineData("", new string[]
+        { })]
+    [InlineData("value", new[]
+    {
+        "value"
+    })]
+    [InlineData("value1, value2", new[]
+    {
+        "value1",
+        "value2"
+    })]
+    [InlineData("value1, , value2", new[]
+    {
+        "value1",
+        "value2"
+    })]
     public void ShouldConvertQueryParameterToArray(string? value, string[] expected)
     {
         const string name = nameof(name);

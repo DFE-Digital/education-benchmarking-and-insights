@@ -10,7 +10,11 @@ namespace Platform.Cache.Tests.Cache;
 public class WhenRedisDistributedCacheDeletes(ITestOutputHelper testOutputHelper) : RedisDistributedCacheTestBase(testOutputHelper)
 {
     [Theory]
-    [InlineData(new[] { "key1", "key2" }, 123)]
+    [InlineData(new[]
+    {
+        "key1",
+        "key2"
+    }, 123)]
     public async Task ShouldReturnExpectedValueFromCache(string[] keys, long count)
     {
         RedisKey[] actualKeys = [];
@@ -35,7 +39,10 @@ public class WhenRedisDistributedCacheDeletes(ITestOutputHelper testOutputHelper
     {
         const string key = nameof(key);
         Database
-            .Setup(d => d.KeyDeleteAsync(new RedisKey[] { key }, CommandFlags.None))
+            .Setup(d => d.KeyDeleteAsync(new RedisKey[]
+            {
+                key
+            }, CommandFlags.None))
             .ThrowsAsync(new RedisConnectionException(ConnectionFailureType.UnableToConnect, "Unable to connect to Redis"))
             .Verifiable(Times.Once);
 

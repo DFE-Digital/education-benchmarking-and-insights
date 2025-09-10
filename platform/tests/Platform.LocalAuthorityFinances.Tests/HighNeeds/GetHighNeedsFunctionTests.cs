@@ -45,7 +45,10 @@ public class GetHighNeedsFunctionTests : FunctionsTestBase
             .ReturnsAsync(new ValidationResult());
 
         _service
-            .Setup(d => d.Get(new[] { Code }, Dimension, It.IsAny<CancellationToken>()))
+            .Setup(d => d.Get(new[]
+            {
+                Code
+            }, Dimension, It.IsAny<CancellationToken>()))
             .ReturnsAsync(models);
 
         var query = new Dictionary<string, StringValues>

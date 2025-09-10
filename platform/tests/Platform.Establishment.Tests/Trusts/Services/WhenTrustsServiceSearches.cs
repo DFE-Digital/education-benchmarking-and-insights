@@ -84,7 +84,11 @@ public class WhenTrustsServiceSearches
     {
         string[]? capturedFields = null;
 
-        var expected = new[] { nameof(TrustSummary.TrustName), nameof(TrustSummary.CompanyNumber) };
+        var expected = new[]
+        {
+            nameof(TrustSummary.TrustName),
+            nameof(TrustSummary.CompanyNumber)
+        };
 
         _service.Protected()
             .Setup<Task<SuggestResponse<TrustSummary>>>(
