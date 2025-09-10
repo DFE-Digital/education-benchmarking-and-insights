@@ -56,7 +56,7 @@ public static class DynamicTableHelpers
     /// </param>
     /// <returns>a set of dynamics</returns>
     public static IEnumerable<dynamic> CreateDynamicSet(this DataTable table, bool doTypeConversion = true) => from r in table.Rows
-        select CreateDynamicInstance(r, doTypeConversion);
+                                                                                                               select CreateDynamicInstance(r, doTypeConversion);
 
     /// <summary>
     ///     Validates if a dynamic instance <paramref name="instance" /> matches the <paramref name="table" />

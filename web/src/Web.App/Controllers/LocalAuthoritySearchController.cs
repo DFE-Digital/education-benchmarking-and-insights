@@ -48,11 +48,11 @@ public class LocalAuthoritySearchController(
     )
     {
         using (logger.BeginScope(new
-               {
-                   term,
-                   page,
-                   orderBy
-               }))
+        {
+            term,
+            page,
+            orderBy
+        }))
         {
             var results = await searchService.LocalAuthoritySearch(term, 50, page, string.IsNullOrWhiteSpace(orderBy) ? null : new SearchOrderBy("LocalAuthorityNameSortable", orderBy));
 

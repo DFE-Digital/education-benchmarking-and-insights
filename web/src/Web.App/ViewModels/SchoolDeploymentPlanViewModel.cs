@@ -38,20 +38,20 @@ public class SchoolDeploymentPlanViewModel(School school, DeploymentPlan plan)
 
     public string ChartData => IsPrimaryOrNursery
         ? PrimaryStaffDeployment.Select((x, i) => new
-            {
-                group = x.Description,
-                pupilsOnRoll = x.PercentPupilsOnRoll,
-                teacherCost = x.PercentTeacherCost,
-                id = i
-            })
+        {
+            group = x.Description,
+            pupilsOnRoll = x.PercentPupilsOnRoll,
+            teacherCost = x.PercentTeacherCost,
+            id = i
+        })
             .ToArray().ToJson(Formatting.None)
         : StaffDeployment.Select((x, i) => new
-            {
-                group = x.Description,
-                pupilsOnRoll = x.PercentPupilsOnRoll,
-                teacherCost = x.PercentTeacherCost,
-                id = i
-            })
+        {
+            group = x.Description,
+            pupilsOnRoll = x.PercentPupilsOnRoll,
+            teacherCost = x.PercentTeacherCost,
+            id = i
+        })
             .ToArray().ToJson(Formatting.None);
 
     public ManagementRole[] ManagementRoles => plan.ManagementRoles;

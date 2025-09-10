@@ -28,9 +28,9 @@ public class SchoolSpendingComparisonController(
     public async Task<IActionResult> Index(string urn)
     {
         using (logger.BeginScope(new
-               {
-                   urn
-               }))
+        {
+            urn
+        }))
         {
             try
             {

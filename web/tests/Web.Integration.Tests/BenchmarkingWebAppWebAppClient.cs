@@ -34,7 +34,8 @@ public class SchoolBenchmarkingWebAppClient : BenchmarkingWebAppClient
     {
         auth.URN = 123456;
         auth.CompanyNumber = 87654321;
-    }) { }
+    })
+    { }
 }
 
 public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<TestAuthOptions>? authCfg = null)

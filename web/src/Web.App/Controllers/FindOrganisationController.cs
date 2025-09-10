@@ -23,9 +23,9 @@ public class FindOrganisationController(ILogger<FindOrganisationController> logg
     public IActionResult Index([FromForm] FindOrganisationViewModel viewModel)
     {
         using (logger.BeginScope(new
-               {
-                   viewModel
-               }))
+        {
+            viewModel
+        }))
         {
             try
             {

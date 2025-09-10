@@ -26,9 +26,9 @@ public class SchoolCustomDataController(
     public async Task<IActionResult> Index(string urn)
     {
         using (logger.BeginScope(new
-               {
-                   urn
-               }))
+        {
+            urn
+        }))
         {
             try
             {
@@ -54,9 +54,9 @@ public class SchoolCustomDataController(
     public async Task<IActionResult> Revert(string urn)
     {
         using (logger.BeginScope(new
-               {
-                   urn
-               }))
+        {
+            urn
+        }))
         {
             try
             {
@@ -80,9 +80,9 @@ public class SchoolCustomDataController(
     public async Task<IActionResult> RevertCustomData(string urn)
     {
         using (logger.BeginScope(new
-               {
-                   urn
-               }))
+        {
+            urn
+        }))
         {
             try
             {

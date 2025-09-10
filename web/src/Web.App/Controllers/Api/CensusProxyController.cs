@@ -36,10 +36,10 @@ public class CensusProxyController(
         CancellationToken cancellationToken = default)
     {
         using (logger.BeginScope(new
-               {
-                   type,
-                   id
-               }))
+        {
+            type,
+            id
+        }))
         {
             try
             {
@@ -66,9 +66,9 @@ public class CensusProxyController(
     public async Task<IActionResult> History([FromQuery] string id, [FromQuery] string dimension, CancellationToken cancellationToken = default)
     {
         using (logger.BeginScope(new
-               {
-                   id
-               }))
+        {
+            id
+        }))
         {
             try
             {
@@ -103,9 +103,9 @@ public class CensusProxyController(
         CancellationToken cancellationToken = default)
     {
         using (logger.BeginScope(new
-               {
-                   id
-               }))
+        {
+            id
+        }))
         {
             try
             {

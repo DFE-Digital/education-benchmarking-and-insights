@@ -32,9 +32,9 @@ public class TrustComparatorsController(
         [FromQuery(Name = "comparator-generated")] bool? comparatorGenerated)
     {
         using (logger.BeginScope(new
-               {
-                   companyNumber
-               }))
+        {
+            companyNumber
+        }))
         {
             try
             {
@@ -66,9 +66,9 @@ public class TrustComparatorsController(
     public async Task<IActionResult> UserDefined(string companyNumber)
     {
         using (logger.BeginScope(new
-               {
-                   companyNumber
-               }))
+        {
+            companyNumber
+        }))
         {
             try
             {
@@ -104,9 +104,9 @@ public class TrustComparatorsController(
     public async Task<IActionResult> Revert(string companyNumber)
     {
         using (logger.BeginScope(new
-               {
-                   companyNumber
-               }))
+        {
+            companyNumber
+        }))
         {
             try
             {
@@ -129,9 +129,9 @@ public class TrustComparatorsController(
     public async Task<IActionResult> RevertSet(string companyNumber)
     {
         using (logger.BeginScope(new
-               {
-                   companyNumber
-               }))
+        {
+            companyNumber
+        }))
         {
             try
             {

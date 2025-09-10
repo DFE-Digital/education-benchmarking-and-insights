@@ -18,10 +18,10 @@ public class SchoolComparatorsCreateController(ILogger<SchoolComparatorsCreateCo
     public async Task<IActionResult> Index(string urn, string referrer)
     {
         using (logger.BeginScope(new
-               {
-                   urn,
-                   referrer
-               }))
+        {
+            urn,
+            referrer
+        }))
         {
             try
             {

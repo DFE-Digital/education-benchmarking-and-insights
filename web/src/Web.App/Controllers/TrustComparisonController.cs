@@ -25,9 +25,9 @@ public class TrustComparisonController(
     public async Task<IActionResult> Index(string companyNumber)
     {
         using (logger.BeginScope(new
-               {
-                   companyNumber
-               }))
+        {
+            companyNumber
+        }))
         {
             try
             {

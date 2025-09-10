@@ -33,9 +33,9 @@ public class SchoolComparatorsCreateByController(
     public async Task<IActionResult> Index(string urn)
     {
         using (logger.BeginScope(new
-               {
-                   urn
-               }))
+        {
+            urn
+        }))
         {
             try
             {
@@ -84,10 +84,10 @@ public class SchoolComparatorsCreateByController(
     public async Task<IActionResult> Name(string urn, [FromQuery] string? identifier = null)
     {
         using (logger.BeginScope(new
-               {
-                   urn,
-                   identifier
-               }))
+        {
+            urn,
+            identifier
+        }))
         {
             try
             {
@@ -191,9 +191,9 @@ public class SchoolComparatorsCreateByController(
     public async Task<IActionResult> Submit(string urn)
     {
         using (logger.BeginScope(new
-               {
-                   urn
-               }))
+        {
+            urn
+        }))
         {
             try
             {
@@ -248,9 +248,9 @@ public class SchoolComparatorsCreateByController(
     public async Task<IActionResult> Submitted(string urn, bool? updating = null)
     {
         using (logger.BeginScope(new
-               {
-                   urn
-               }))
+        {
+            urn
+        }))
         {
             try
             {
@@ -273,9 +273,9 @@ public class SchoolComparatorsCreateByController(
     public async Task<IActionResult> Characteristic(string urn)
     {
         using (logger.BeginScope(new
-               {
-                   urn
-               }))
+        {
+            urn
+        }))
         {
             try
             {
@@ -305,10 +305,10 @@ public class SchoolComparatorsCreateByController(
     public async Task<IActionResult> Characteristic([FromRoute] string urn, [FromForm] UserDefinedSchoolCharacteristicViewModel viewModel)
     {
         using (logger.BeginScope(new
-               {
-                   urn,
-                   viewModel
-               }))
+        {
+            urn,
+            viewModel
+        }))
         {
             try
             {
@@ -405,9 +405,9 @@ public class SchoolComparatorsCreateByController(
     public async Task<IActionResult> Preview(string urn)
     {
         using (logger.BeginScope(new
-               {
-                   urn
-               }))
+        {
+            urn
+        }))
         {
             try
             {

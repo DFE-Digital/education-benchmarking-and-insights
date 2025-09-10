@@ -30,10 +30,10 @@ public class IncomeProxyController(ILogger<IncomeProxyController> logger, IIncom
         CancellationToken cancellationToken = default)
     {
         using (logger.BeginScope(new
-               {
-                   type,
-                   id
-               }))
+        {
+            type,
+            id
+        }))
         {
             try
             {

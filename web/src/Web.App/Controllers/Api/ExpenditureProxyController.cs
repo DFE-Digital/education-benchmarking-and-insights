@@ -45,10 +45,10 @@ public class ExpenditureProxyController(
         CancellationToken cancellationToken = default)
     {
         using (logger.BeginScope(new
-               {
-                   type,
-                   id
-               }))
+        {
+            type,
+            id
+        }))
         {
             try
             {
@@ -96,10 +96,10 @@ public class ExpenditureProxyController(
         CancellationToken cancellationToken = default)
     {
         using (logger.BeginScope(new
-               {
-                   type,
-                   id
-               }))
+        {
+            type,
+            id
+        }))
         {
             try
             {
@@ -142,10 +142,10 @@ public class ExpenditureProxyController(
         CancellationToken cancellationToken = default)
     {
         using (logger.BeginScope(new
-               {
-                   type,
-                   id
-               }))
+        {
+            type,
+            id
+        }))
         {
             try
             {
@@ -194,9 +194,9 @@ public class ExpenditureProxyController(
         CancellationToken cancellationToken = default)
     {
         using (logger.BeginScope(new
-               {
-                   id
-               }))
+        {
+            id
+        }))
         {
             try
             {

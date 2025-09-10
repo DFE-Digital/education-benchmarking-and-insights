@@ -30,9 +30,9 @@ public class TrustController(
         [FromQuery(Name = "comparator-reverted")] bool? comparatorReverted)
     {
         using (logger.BeginScope(new
-               {
-                   companyNumber
-               }))
+        {
+            companyNumber
+        }))
         {
             try
             {
@@ -59,9 +59,9 @@ public class TrustController(
     public async Task<IActionResult> Details(string companyNumber)
     {
         using (logger.BeginScope(new
-               {
-                   companyNumber
-               }))
+        {
+            companyNumber
+        }))
         {
             try
             {
@@ -85,9 +85,9 @@ public class TrustController(
     public async Task<IActionResult> History(string companyNumber)
     {
         using (logger.BeginScope(new
-               {
-                   companyNumber
-               }))
+        {
+            companyNumber
+        }))
         {
             try
             {
@@ -112,9 +112,9 @@ public class TrustController(
     public async Task<IActionResult> Resources(string companyNumber)
     {
         using (logger.BeginScope(new
-               {
-                   companyNumber
-               }))
+        {
+            companyNumber
+        }))
         {
             try
             {
