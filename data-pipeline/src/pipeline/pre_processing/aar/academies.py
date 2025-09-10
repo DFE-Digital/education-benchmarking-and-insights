@@ -455,6 +455,7 @@ def build_academy_data(
             .fillna(0.0)
             .sum(axis=1)
         )
+        all_expenditure_category_total_cols.append(category_total_column_name)
 
         category_total_cs_column_name = category + "_Total_CS"
         academies[category_total_cs_column_name] = (
@@ -468,6 +469,7 @@ def build_academy_data(
             .fillna(0)
             .sum(axis=1)
         )
+        all_expenditure_category_cs_total_cols.append(category_total_cs_column_name)
 
     income_cols = academies.columns[
         academies.columns.str.startswith("Income_")
