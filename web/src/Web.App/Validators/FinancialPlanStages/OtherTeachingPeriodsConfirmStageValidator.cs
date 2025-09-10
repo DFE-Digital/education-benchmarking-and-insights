@@ -1,5 +1,6 @@
 ﻿using FluentValidation;
 using Web.App.Domain;
+
 namespace Web.App.Validators.FinancialPlanStages;
 
 public class OtherTeachingPeriodsConfirmStageValidator : AbstractValidator<OtherTeachingPeriodsConfirmStage>

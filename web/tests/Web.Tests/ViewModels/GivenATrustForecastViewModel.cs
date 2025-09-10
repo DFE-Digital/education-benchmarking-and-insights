@@ -2,6 +2,7 @@ using AutoFixture;
 using Web.App.Domain;
 using Web.App.ViewModels;
 using Xunit;
+
 namespace Web.Tests.ViewModels;
 
 public class GivenATrustForecastViewModel
@@ -266,8 +267,8 @@ public class GivenATrustForecastViewModel
         {
             new BudgetForecastReturn
             {
-               Year = Year - 1,
-               Actual = 1_000_000
+                Year = Year - 1,
+                Actual = 1_000_000
             },
             new BudgetForecastReturn
             {

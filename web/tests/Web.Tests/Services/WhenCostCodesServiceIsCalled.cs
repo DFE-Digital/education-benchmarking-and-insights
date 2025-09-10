@@ -9,9 +9,9 @@ namespace Web.Tests.Services;
 
 public class WhenCostCodesServiceIsCalled
 {
+    private const string SubCategory = SubCostCategories.EducationalIct.LearningResourcesIctCosts;
     private readonly Mock<IFeatureManager> _featureManager;
     private readonly CostCodesService _service;
-    private const string SubCategory = SubCostCategories.EducationalIct.LearningResourcesIctCosts;
 
     public WhenCostCodesServiceIsCalled()
     {

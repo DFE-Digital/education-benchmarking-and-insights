@@ -1,4 +1,5 @@
 using Web.App.Infrastructure.Apis;
+
 // ReSharper disable MemberCanBePrivate.Global
 
 namespace Web.App.ViewModels.Search;
@@ -19,6 +20,10 @@ public record SearchResultFacetViewModel
             .ToDictionary(
                 key => $"{key[..1].ToUpper()}{key[1..]}",
                 key => facets[key]
-                    .Select(x => new SearchResultFacetViewModel { Value = x.Value, Count = x.Count }));
+                    .Select(x => new SearchResultFacetViewModel
+                    {
+                        Value = x.Value,
+                        Count = x.Count
+                    }));
     }
 }

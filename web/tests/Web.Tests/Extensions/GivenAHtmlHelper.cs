@@ -1,5 +1,5 @@
 using System.Collections;
-using Web;
+using System.Text.Encodings.Web;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Moq;
 using Web.App;
@@ -20,7 +20,7 @@ public class GivenAHtmlHelper
         var actual = helper.Object.TrackedAnchor(link, href, content, hidden, target, rel, classes);
 
         using var writer = new StringWriter();
-        actual.WriteTo(writer, System.Text.Encodings.Web.HtmlEncoder.Default);
+        actual.WriteTo(writer, HtmlEncoder.Default);
         var output = writer.ToString();
 
         Assert.Equal(expected, output);
@@ -67,7 +67,12 @@ public class TrackedAnchorTestData : IEnumerable<object[]>
             "content",
             "",
             "",
-            new[] { "noopener", "noreferrer", "external" },
+            new[]
+            {
+                "noopener",
+                "noreferrer",
+                "external"
+            },
             Array.Empty<string>(),
             "<a class=\"govuk-link govuk-link--no-visited-state\" data-custom-event-id=\"gias-school-details\" href=\"http://www.example.com\" rel=\"noopener noreferrer external\">content</a>"
         ],
@@ -78,7 +83,10 @@ public class TrackedAnchorTestData : IEnumerable<object[]>
             "",
             "",
             Array.Empty<string>(),
-            new[] { "govuk-button" },
+            new[]
+            {
+                "govuk-button"
+            },
             "<a class=\"govuk-button\" data-custom-event-id=\"gias-school-details\" href=\"http://www.example.com\">content</a>"
         ]
     ];

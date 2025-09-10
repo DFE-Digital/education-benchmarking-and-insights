@@ -54,9 +54,7 @@ public partial class CsvResultsActionResultExecutor(ICsvService csvService, ILog
                 await response.CompleteAsync();
             }
         }
-        catch (OperationCanceledException) when (context.HttpContext.RequestAborted.IsCancellationRequested)
-        {
-        }
+        catch (OperationCanceledException) when (context.HttpContext.RequestAborted.IsCancellationRequested) { }
     }
 
     [ExcludeFromCodeCoverage]

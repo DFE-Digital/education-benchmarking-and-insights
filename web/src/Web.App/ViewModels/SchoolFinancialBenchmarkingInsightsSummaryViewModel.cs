@@ -1,6 +1,7 @@
 using Web.App.Domain;
 using Web.App.Domain.Content;
 using Web.App.Extensions;
+
 namespace Web.App.ViewModels;
 
 public class SchoolFinancialBenchmarkingInsightsSummaryViewModel(
@@ -13,6 +14,7 @@ public class SchoolFinancialBenchmarkingInsightsSummaryViewModel(
     IEnumerable<Census>? census) : ISchoolKeyInformationViewModel
 {
     private readonly string[] _allSchoolsCategories = [Category.TeachingStaff, Category.NonEducationalSupportStaff, Category.AdministrativeSupplies];
+
     private readonly CostCategory[] _categories = CategoryBuilder
         .Build(
             ratings ?? Array.Empty<RagRating>(),
@@ -24,11 +26,13 @@ public class SchoolFinancialBenchmarkingInsightsSummaryViewModel(
     public string? Urn => school.URN;
     public bool IsPartOfTrust => school.IsPartOfTrust;
     public string Years => IsPartOfTrust ? years.Aar.ToFinanceYear() : years.Cfr.ToFinanceYear();
+
     public IEnumerable<CostCategory> CostsAllSchools => _categories
         .Where(x => _allSchoolsCategories.Contains(x.Rating.Category))
         .OrderBy(x => Lookups.StatusOrderMap[x.Rating.RAG ?? string.Empty])
         .ThenByDescending(x => x.Rating.Decile)
         .ThenByDescending(x => x.Rating.Value);
+
     public IEnumerable<CostCategory> CostsOtherPriorities => _categories
         .Where(x => !_allSchoolsCategories.Contains(x.Rating.Category))
         .Where(x => x.Rating.Category is not Category.Other)
@@ -36,6 +40,7 @@ public class SchoolFinancialBenchmarkingInsightsSummaryViewModel(
         .OrderBy(x => Lookups.StatusOrderMap[x.Rating.RAG ?? string.Empty])
         .ThenByDescending(x => x.Rating.Decile)
         .ThenByDescending(x => x.Rating.Value);
+
     public SchoolFinancialBenchmarkingInsightsSummaryCensusViewModel PupilsPerTeacher => new("teacher", census, school.URN, c => c.Teachers);
     public SchoolFinancialBenchmarkingInsightsSummaryCensusViewModel PupilsPerSeniorLeadership => new("senior leadership role", census, school.URN, c => c.SeniorLeadership);
     public bool HasRagData => ratings?.Any() ?? false;

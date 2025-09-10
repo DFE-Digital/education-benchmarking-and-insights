@@ -6,8 +6,5 @@ namespace Web.App.ViewComponents;
 
 public class TagViewComponent : ViewComponent
 {
-    public IViewComponentResult Invoke(RatingViewModel rating)
-    {
-        return View(new TagViewModel(rating.Colour, rating.DisplayText));
-    }
+    public IViewComponentResult Invoke(RatingViewModel rating) => View(new TagViewModel(rating.Colour, rating.DisplayText));
 }

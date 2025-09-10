@@ -29,6 +29,7 @@ public class CostCodes(bool isPartOfTrust, bool cfrItSpendBreakdown)
     private string LaptopsDesktopsAndTabletsCostCode { get; } = isPartOfTrust ? "" : "E20E";
     private string OtherHardwareCostCode { get; } = isPartOfTrust ? "" : "E20F";
     private string ItSupportCostCode { get; } = isPartOfTrust ? "" : "E20G";
+
     private StringValues LearningResourcesIctCostCodes
     {
         get
@@ -60,6 +61,7 @@ public class CostCodes(bool isPartOfTrust, bool cfrItSpendBreakdown)
     // AdministrativeSuppliesCostCodes
     private string AdministrativeSuppliesNonEducationalCostCode { get; } = isPartOfTrust ? "BAE280" : "E22";
     private string AdministrationSoftwareAndSystemsCostCode { get; } = isPartOfTrust ? "" : "E20D";
+
     private StringValues AdministrativeSuppliesNonEducationalCostCodes
     {
         get
@@ -100,16 +102,10 @@ public class CostCodes(bool isPartOfTrust, bool cfrItSpendBreakdown)
             { SubCostCategories.TeachingStaff.AgencySupplyTeachingStaffCosts, AgencySupplyTeachingStaffCostCode },
             { SubCostCategories.TeachingStaff.EducationSupportStaffCosts, EducationSupportStaffCostCode },
             { SubCostCategories.TeachingStaff.EducationalConsultancyCosts, EducationalConsultancyCostCode },
-            {
-                SubCostCategories.NonEducationalSupportStaff.AdministrativeClericalStaffCosts,
-                AdministrativeClericalStaffCostCode
-            },
+            { SubCostCategories.NonEducationalSupportStaff.AdministrativeClericalStaffCosts, AdministrativeClericalStaffCostCode },
             { SubCostCategories.NonEducationalSupportStaff.AuditorsCosts, AuditorsCostCode },
             { SubCostCategories.NonEducationalSupportStaff.OtherStaffCosts, OtherStaffCostCode },
-            {
-                SubCostCategories.NonEducationalSupportStaff.ProfessionalServicesNonCurriculumCosts,
-                ProfessionalServicesNonCurriculumCostCode
-            },
+            { SubCostCategories.NonEducationalSupportStaff.ProfessionalServicesNonCurriculumCosts, ProfessionalServicesNonCurriculumCostCode },
             { SubCostCategories.EducationalSupplies.ExaminationFeesCosts, ExaminationFeesCostCode },
             { SubCostCategories.EducationalSupplies.LearningResourcesNonIctCosts, LearningResourcesNonIctCostsCode },
             { SubCostCategories.EducationalIct.LearningResourcesIctCosts, LearningResourcesIctCostCodes },
@@ -119,10 +115,7 @@ public class CostCodes(bool isPartOfTrust, bool cfrItSpendBreakdown)
             { SubCostCategories.PremisesStaffServices.PremisesStaffCosts, PremisesStaffCostCode },
             { SubCostCategories.Utilities.EnergyCosts, EnergyCostCode },
             { SubCostCategories.Utilities.WaterSewerageCosts, WaterSewerageCostCode },
-            {
-                SubCostCategories.AdministrativeSupplies.AdministrativeSuppliesNonEducationalCosts,
-                AdministrativeSuppliesNonEducationalCostCodes
-            },
+            { SubCostCategories.AdministrativeSupplies.AdministrativeSuppliesNonEducationalCosts, AdministrativeSuppliesNonEducationalCostCodes },
             { SubCostCategories.CateringStaffServices.CateringStaffCosts, CateringStaffCostCode },
             { SubCostCategories.CateringStaffServices.CateringSuppliesCosts, CateringSuppliesCostCode },
             { SubCostCategories.Other.DirectRevenueFinancingCosts, DirectRevenueFinancingCostCode },
@@ -142,8 +135,5 @@ public class CostCodes(bool isPartOfTrust, bool cfrItSpendBreakdown)
         .Where(kvp => !string.IsNullOrWhiteSpace(kvp.Value))
         .ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
 
-    public StringValues GetCostCodes(string subCategory)
-    {
-        return SubCategoryToCostCodeMap.GetValueOrDefault(subCategory);
-    }
+    public StringValues GetCostCodes(string subCategory) => SubCategoryToCostCodeMap.GetValueOrDefault(subCategory);
 }

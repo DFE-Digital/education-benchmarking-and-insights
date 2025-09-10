@@ -7,27 +7,32 @@ public class BenchmarkItSpendPage(IPage page)
 {
     private ILocator PageH1Heading => page.Locator(Selectors.H1);
     private ILocator ChartContainers => page.Locator(Selectors.SsrChartContainer);
-    private ILocator ChartContainer(string chartName) => page.Locator($"[data-title=\"{chartName}\"]");
     private ILocator SchoolLinksInCharts => page.Locator(Selectors.SsrSchoolNamesLinksInCharts);
-    private ILocator ChartBars(string urn) => page.Locator($"rect.chart-cell[data-key='{urn}']");
+
     private ILocator ComparatorSetDetails =>
         page.Locator(Selectors.GovLink,
             new PageLocatorOptions
             {
                 HasText = "We've chosen 2 sets of similar schools"
             });
+
     private ILocator ChartTooltip => page.Locator(Selectors.EnhancementSchoolChartTooltip);
     private ILocator FilterButtons => page.Locator(".app-filter .govuk-button");
+
     private ILocator SaveImagesButton =>
         page.Locator(Selectors.Button, new PageLocatorOptions
         {
             HasText = "Save chart images"
         });
+
     private ILocator SaveImagesModal =>
         page.Locator(Selectors.Modal, new PageLocatorOptions
         {
             HasText = "Save chart images"
         });
+
+    private ILocator ChartContainer(string chartName) => page.Locator($"[data-title=\"{chartName}\"]");
+    private ILocator ChartBars(string urn) => page.Locator($"rect.chart-cell[data-key='{urn}']");
 
     public async Task IsDisplayed()
     {

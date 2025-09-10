@@ -47,7 +47,11 @@ public class GivenCompareIntValueAttribute
         var attribute = new CompareIntValueAttribute(nameof(TestModel.OtherField), operatorType);
         var model = new TestModel(otherValue);
         var memberName = _fixture.Create<string>();
-        var context = new ValidationContext(model) { DisplayName = "This field", MemberName = memberName };
+        var context = new ValidationContext(model)
+        {
+            DisplayName = "This field",
+            MemberName = memberName
+        };
 
         var validationResult = attribute.GetValidationResult(value, context);
         Assert.Equal(expected, validationResult?.ErrorMessage);
@@ -85,7 +89,8 @@ public class GivenCompareIntValueAttribute
 
     private class TestModel(int value)
     {
-        [Display(Name = "Other field")] public int OtherField { get; set; } = value;
+        [Display(Name = "Other field")]
+        public int OtherField { get; set; } = value;
     }
 
     private class BadTestModel

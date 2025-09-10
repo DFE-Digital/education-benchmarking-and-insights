@@ -3,17 +3,20 @@ using Web.App.Domain;
 using Web.App.Domain.Content;
 using Web.App.ViewModels;
 using Xunit;
+
 namespace Web.Tests.ViewModels;
 
 public class GivenASchoolSpendingViewModel
 {
     private const string URN = nameof(URN);
+
+    private readonly Dictionary<string, CommercialResourceLink[]> _resources = new Fixture()
+        .Build<Dictionary<string, CommercialResourceLink[]>>()
+        .Create();
+
     private readonly School _school = new Fixture()
         .Build<School>()
         .With(s => s.URN, URN)
-        .Create();
-    private readonly Dictionary<string, CommercialResourceLink[]> _resources = new Fixture()
-        .Build<Dictionary<string, CommercialResourceLink[]>>()
         .Create();
 
     public static TheoryData<
@@ -113,9 +116,7 @@ public class GivenASchoolSpendingViewModel
                         PercentDifference = 50
                     }
                 },
-                {
-                    new RagRating(), new ChartStatsViewModel()
-                },
+                { new RagRating(), new ChartStatsViewModel() },
                 {
                     new RagRating
                     {

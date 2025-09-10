@@ -9,6 +9,7 @@ public enum AccordionsNames
     AverageClassSize,
     InYearBalance
 }
+
 public class CurriculumFinancialPlanningPage(IPage page)
 {
     private ILocator PageH1Heading => page.Locator($"main {Selectors.H1}");
@@ -16,6 +17,7 @@ public class CurriculumFinancialPlanningPage(IPage page)
     private ILocator AccordionHeadings => page.Locator(Selectors.AccordionHeadingText);
     private ILocator Sections => page.Locator(Selectors.GovAccordionSection);
     private ILocator AccordionsTable(string accordionContentNumber) => page.Locator($"{Selectors.AccordionSchoolContent}{accordionContentNumber}");
+
     public async Task IsDisplayed()
     {
         await PageH1Heading.ShouldBeVisible();
@@ -26,7 +28,6 @@ public class CurriculumFinancialPlanningPage(IPage page)
         {
             await heading.ShouldBeVisible();
         }
-
     }
 
     public async Task ClickShowAllSections()
@@ -48,6 +49,7 @@ public class CurriculumFinancialPlanningPage(IPage page)
         await AccordionsTable(accordionName).ShouldBeVisible();
         await AccordionsTable(accordionName).ShouldHaveTableContent(expected, true);
     }
+
     private ILocator AccordionsTable(AccordionsNames accordionsName)
     {
         var accordionTable = accordionsName switch

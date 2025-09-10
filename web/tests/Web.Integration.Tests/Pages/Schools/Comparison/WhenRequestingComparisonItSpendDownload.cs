@@ -36,7 +36,10 @@ public class WhenRequestingComparisonItSpendDownload : PageBase<SchoolBenchmarki
             .Get(Paths.SchoolComparisonItSpendDownload(school.URN!));
 
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);
-        var expectedFileNames = new[] { "benchmark-it-spending-123456.csv" };
+        var expectedFileNames = new[]
+        {
+            "benchmark-it-spending-123456.csv"
+        };
         await foreach (var tuple in response.GetFilesFromZip())
         {
             Assert.Contains(tuple.fileName, expectedFileNames);

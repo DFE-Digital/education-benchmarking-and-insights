@@ -1,6 +1,7 @@
 ﻿// ReSharper disable ClassNeverInstantiated.Global
 // ReSharper disable UnusedAutoPropertyAccessor.Global
 // ReSharper disable UnusedMember.Global
+
 namespace Web.App.Infrastructure.Apis;
 
 public record PostHorizontalBarChartRequest<T> : ChartRequest<T>

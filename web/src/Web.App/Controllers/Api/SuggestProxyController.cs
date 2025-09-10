@@ -26,9 +26,9 @@ public class SuggestProxyController(
         CancellationToken cancellationToken = default)
     {
         using (logger.BeginScope(new
-        {
-            search
-        }))
+               {
+                   search
+               }))
         {
             try
             {

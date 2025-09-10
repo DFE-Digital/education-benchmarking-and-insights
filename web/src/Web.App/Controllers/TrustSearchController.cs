@@ -15,10 +15,7 @@ public class TrustSearchController(
     : Controller
 {
     [HttpGet]
-    public IActionResult Index()
-    {
-        return View(new FindTrustViewModel());
-    }
+    public IActionResult Index() => View(new FindTrustViewModel());
 
     [HttpPost]
     public IActionResult Index(FindTrustViewModel viewModel)
@@ -30,7 +27,10 @@ public class TrustSearchController(
 
         if (!string.IsNullOrWhiteSpace(viewModel.EstablishmentId))
         {
-            return RedirectToAction("Index", "Trust", new { companyNumber = viewModel.EstablishmentId });
+            return RedirectToAction("Index", "Trust", new
+            {
+                companyNumber = viewModel.EstablishmentId
+            });
         }
 
         return RedirectToAction("Search", new
@@ -48,11 +48,11 @@ public class TrustSearchController(
     )
     {
         using (logger.BeginScope(new
-        {
-            term,
-            page,
-            orderBy
-        }))
+               {
+                   term,
+                   page,
+                   orderBy
+               }))
         {
             var results = await searchService.TrustSearch(term, 50, page, string.IsNullOrWhiteSpace(orderBy) ? null : new SearchOrderBy("TrustNameSortable", orderBy));
 
@@ -83,7 +83,10 @@ public class TrustSearchController(
 
         if (!string.IsNullOrWhiteSpace(viewModel.EstablishmentId))
         {
-            return RedirectToAction("Index", "Trust", new { companyNumber = viewModel.EstablishmentId });
+            return RedirectToAction("Index", "Trust", new
+            {
+                companyNumber = viewModel.EstablishmentId
+            });
         }
 
         // reset search options if new search term provided

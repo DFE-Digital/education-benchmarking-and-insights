@@ -52,9 +52,7 @@ public class WhenViewingHighNeedsStartBenchmarking(SchoolBenchmarkingWebAppClien
         {
             f.SetFormValues(new Dictionary<string, string>
             {
-                {
-                    "LaInput", code
-                }
+                { "LaInput", code }
             });
         });
 
@@ -67,7 +65,10 @@ public class WhenViewingHighNeedsStartBenchmarking(SchoolBenchmarkingWebAppClien
         var comparatorSelector = page.QuerySelector("#LaInput");
         Assert.NotNull(comparatorSelector);
         var options = comparatorSelector.QuerySelectorAll("option").Select(q => q.TextContent).ToArray();
-        var expectedOptions = new[] { "Choose local authority" }.Concat(authorities
+        var expectedOptions = new[]
+        {
+            "Choose local authority"
+        }.Concat(authorities
             .Except([authorities.First()])
             .Select(n => n.Name)
             .ToArray());
@@ -87,9 +88,7 @@ public class WhenViewingHighNeedsStartBenchmarking(SchoolBenchmarkingWebAppClien
         {
             f.SetFormValues(new Dictionary<string, string>
             {
-                {
-                    "LaInput", code
-                }
+                { "LaInput", code }
             });
         });
 
@@ -99,12 +98,8 @@ public class WhenViewingHighNeedsStartBenchmarking(SchoolBenchmarkingWebAppClien
         {
             f.SetFormValues(new Dictionary<string, string>
             {
-                {
-                    "LaInput", code
-                },
-                {
-                    "Selected", code
-                }
+                { "LaInput", code },
+                { "Selected", code }
             });
         });
 
@@ -140,9 +135,7 @@ public class WhenViewingHighNeedsStartBenchmarking(SchoolBenchmarkingWebAppClien
         {
             f.SetFormValues(new Dictionary<string, string>
             {
-                {
-                    "LaInput", code
-                }
+                { "LaInput", code }
             });
         });
 
@@ -203,7 +196,10 @@ public class WhenViewingHighNeedsStartBenchmarking(SchoolBenchmarkingWebAppClien
     {
         DocumentAssert.AssertPageUrl(page, Paths.LocalAuthorityHighNeedsStartBenchmarking(authority.Code).ToAbsolute());
 
-        var expectedBreadcrumbs = new[] { ("Home", Paths.ServiceHome.ToAbsolute()) };
+        var expectedBreadcrumbs = new[]
+        {
+            ("Home", Paths.ServiceHome.ToAbsolute())
+        };
         DocumentAssert.Breadcrumbs(page, expectedBreadcrumbs);
 
         Assert.NotNull(authority.Name);
@@ -222,7 +218,10 @@ public class WhenViewingHighNeedsStartBenchmarking(SchoolBenchmarkingWebAppClien
         var comparatorSelector = page.QuerySelector("#LaInput");
         Assert.NotNull(comparatorSelector);
         var options = comparatorSelector.QuerySelectorAll("option").Select(q => q.TextContent).ToArray();
-        var expectedOptions = new[] { "Choose local authority" }.Concat(authorities
+        var expectedOptions = new[]
+        {
+            "Choose local authority"
+        }.Concat(authorities
             .Select(n => n.Name)
             .ToArray());
         Assert.Equal(expectedOptions, options);

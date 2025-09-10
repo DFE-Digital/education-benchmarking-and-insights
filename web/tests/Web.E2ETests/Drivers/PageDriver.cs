@@ -13,6 +13,7 @@ public class PageDriver : IDisposable
     {
         IgnoreHTTPSErrors = true
     };
+
     private IBrowser? _browser;
 
     private bool _isDisposed;

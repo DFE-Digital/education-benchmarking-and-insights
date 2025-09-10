@@ -12,7 +12,12 @@ public class WhenEducationHealthCarePlansComparisonResponseMapperMaps
     [Fact]
     public void ShouldMapToEducationHealthCarePlansHistoryResponse()
     {
-        var codes = new[] { "code1", "code2", "code3" };
+        var codes = new[]
+        {
+            "code1",
+            "code2",
+            "code3"
+        };
 
         var plans = codes.Select(c => Fixture
                 .Build<LocalAuthorityNumberOfPlans>()

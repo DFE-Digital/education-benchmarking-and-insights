@@ -20,9 +20,16 @@ public class FormAction
             var comps = v.Split("-", StringSplitOptions.RemoveEmptyEntries);
             var identifier = comps[1];
 
-            return new FormAction { Action = Remove, Identifier = identifier };
+            return new FormAction
+            {
+                Action = Remove,
+                Identifier = identifier
+            };
         }
 
-        return new FormAction { Action = v };
+        return new FormAction
+        {
+            Action = v
+        };
     }
 }

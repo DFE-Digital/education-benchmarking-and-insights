@@ -3,6 +3,7 @@ using AngleSharp.Html.Dom;
 using AutoFixture;
 using Web.App.Domain;
 using Xunit;
+
 namespace Web.Integration.Tests.Pages.Schools.FinancialPlanning;
 
 public class WhenViewingPlanningOtherTeachingPeriodsConfirm(SchoolBenchmarkingWebAppClient client) : PageBase<SchoolBenchmarkingWebAppClient>(client)
@@ -36,9 +37,7 @@ public class WhenViewingPlanningOtherTeachingPeriodsConfirm(SchoolBenchmarkingWe
         {
             f.SetFormValues(new Dictionary<string, string>
             {
-                {
-                    "Proceed", value.ToString()
-                }
+                { "Proceed", value.ToString() }
             });
         });
 
@@ -63,9 +62,7 @@ public class WhenViewingPlanningOtherTeachingPeriodsConfirm(SchoolBenchmarkingWe
         {
             f.SetFormValues(new Dictionary<string, string>
             {
-                {
-                    "Proceed", ""
-                }
+                { "Proceed", "" }
             });
         });
 

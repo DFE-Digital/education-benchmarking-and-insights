@@ -132,10 +132,7 @@ public class HistoricDataSteps(PageDriver driver)
         };
     }
 
-    private static string HistoricDataUrl(string tab, string companyNumber)
-    {
-        return $"{TestConfiguration.ServiceUrl}/trust/{companyNumber}/history#{tab}";
-    }
+    private static string HistoricDataUrl(string tab, string companyNumber) => $"{TestConfiguration.ServiceUrl}/trust/{companyNumber}/history#{tab}";
 
     private static HistoryTabs TabNamesFromFriendlyNames(string tab)
     {

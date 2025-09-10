@@ -5,6 +5,7 @@ using Web.App.Infrastructure.Apis.Benchmark;
 using Web.App.ViewModels;
 using Xunit;
 using Xunit.Abstractions;
+
 namespace Web.Tests.Infrastructure;
 
 public class GivenAComparatorApi(ITestOutputHelper testOutputHelper) : ApiClientTestBase(testOutputHelper)

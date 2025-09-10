@@ -1,5 +1,6 @@
 using Web.App.Extensions;
 using Xunit;
+
 namespace Web.Tests.Extensions;
 
 public class GivenAString

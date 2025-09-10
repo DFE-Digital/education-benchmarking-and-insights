@@ -5,6 +5,7 @@ using AngleSharp.XPath;
 using AutoFixture;
 using Web.App.Domain;
 using Xunit;
+
 namespace Web.Integration.Tests.Pages.Schools.CustomData;
 
 public class WhenViewingCustomDataSpendingComparison(SchoolBenchmarkingWebAppClient client)
@@ -204,7 +205,6 @@ public class WhenViewingCustomDataSpendingComparison(SchoolBenchmarkingWebAppCli
         }
 
         return (page, school, originalRatings, customRatings);
-
     }
 
     private static void AssertPageLayout(IHtmlDocument page, School school, RagRating[] originalRatings, RagRating[] customRatings)

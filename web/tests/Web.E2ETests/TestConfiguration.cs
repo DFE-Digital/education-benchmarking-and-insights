@@ -9,7 +9,7 @@ public static class TestConfiguration
 #if !DEBUG
         .AddJsonFile("appsettings.json", optional: false)
 #else
-        .AddJsonFile("appsettings.local.json", optional: false)
+        .AddJsonFile("appsettings.local.json", false)
 #endif
         .Build();
 

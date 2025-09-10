@@ -28,30 +28,14 @@ public class WhenViewingCustomDataSpending(SchoolBenchmarkingWebAppClient client
 
     private static Dictionary<string, string> CategoryHeadingToIdMap => new()
     {
-        {
-            "Teaching and Teaching support staff", "teaching-and-teaching-support-staff"
-        },
-        {
-            "Non-educational support staff", "non-educational-support-staff-and-services"
-        },
-        {
-            "Educational supplies", "educational-supplies"
-        },
-        {
-            "Educational ICT", "educational-ict"
-        },
-        {
-            "Premises staff and services", "premises-staff-and-services"
-        },
-        {
-            "Utilities", "utilities"
-        },
-        {
-            "Administrative supplies", "administrative-supplies"
-        },
-        {
-            "Catering staff and supplies", "catering-staff-and-supplies"
-        }
+        { "Teaching and Teaching support staff", "teaching-and-teaching-support-staff" },
+        { "Non-educational support staff", "non-educational-support-staff-and-services" },
+        { "Educational supplies", "educational-supplies" },
+        { "Educational ICT", "educational-ict" },
+        { "Premises staff and services", "premises-staff-and-services" },
+        { "Utilities", "utilities" },
+        { "Administrative supplies", "administrative-supplies" },
+        { "Catering staff and supplies", "catering-staff-and-supplies" }
     };
 
     [Theory]
@@ -193,7 +177,10 @@ public class WhenViewingCustomDataSpending(SchoolBenchmarkingWebAppClient client
             .With(e => e.URN, school.URN)
             .Create();
 
-        var verticalBarChart = new ChartResponse { Html = "<svg />" };
+        var verticalBarChart = new ChartResponse
+        {
+            Html = "<svg />"
+        };
 
         IHtmlDocument page;
 

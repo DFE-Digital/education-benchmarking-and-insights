@@ -12,8 +12,5 @@ public class CostCodesService(IFeatureManager featureManager) : ICostCodesServic
 {
     // todo: consider IMemoryCache and registering as singleton as
     //       this is a one-off task each for CFR/AAR cost codes
-    public async Task<CostCodes> GetCostCodes(bool isPartOfTrust)
-    {
-        return new CostCodes(isPartOfTrust, !isPartOfTrust && await featureManager.IsEnabledAsync(FeatureFlags.CfrItSpendBreakdown));
-    }
+    public async Task<CostCodes> GetCostCodes(bool isPartOfTrust) => new(isPartOfTrust, !isPartOfTrust && await featureManager.IsEnabledAsync(FeatureFlags.CfrItSpendBreakdown));
 }

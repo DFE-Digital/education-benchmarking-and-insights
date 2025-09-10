@@ -5,6 +5,7 @@ using Moq;
 using Web.App.Domain;
 using Web.App.Infrastructure.Apis;
 using Xunit;
+
 namespace Web.Integration.Tests.Pages.Schools.FinancialPlanning;
 
 public class WhenViewingPlanningTotalNumberTeachers(SchoolBenchmarkingWebAppClient client) : PageBase<SchoolBenchmarkingWebAppClient>(client)
@@ -60,9 +61,7 @@ public class WhenViewingPlanningTotalNumberTeachers(SchoolBenchmarkingWebAppClie
         {
             f.SetFormValues(new Dictionary<string, string>
             {
-                {
-                    "TotalNumberOfTeachersFte", "19.5"
-                }
+                { "TotalNumberOfTeachersFte", "19.5" }
             });
         });
 
@@ -156,9 +155,7 @@ public class WhenViewingPlanningTotalNumberTeachers(SchoolBenchmarkingWebAppClie
         {
             f.SetFormValues(new Dictionary<string, string>
             {
-                {
-                    "TotalNumberOfTeachersFte", value?.ToString() ?? ""
-                }
+                { "TotalNumberOfTeachersFte", value?.ToString() ?? "" }
             });
         });
 

@@ -4,8 +4,5 @@ namespace Web.App.ViewComponents;
 
 public class GetHelpViewComponent : ViewComponent
 {
-    public IViewComponentResult Invoke()
-    {
-        return View();
-    }
+    public IViewComponentResult Invoke() => View();
 }

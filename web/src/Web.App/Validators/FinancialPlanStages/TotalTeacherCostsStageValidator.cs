@@ -1,6 +1,7 @@
 using FluentValidation;
 using Web.App.Domain;
 using Web.App.Extensions;
+
 namespace Web.App.Validators.FinancialPlanStages;
 
 public class TotalTeacherCostsStageValidator : AbstractValidator<TotalTeacherCostsStage>

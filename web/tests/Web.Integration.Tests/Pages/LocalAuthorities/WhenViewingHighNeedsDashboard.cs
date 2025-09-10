@@ -179,7 +179,10 @@ public class WhenViewingHighNeeds(SchoolBenchmarkingWebAppClient client) : PageB
     {
         DocumentAssert.AssertPageUrl(page, Paths.LocalAuthorityHighNeedsDashboard(authority.Code).ToAbsolute());
 
-        var expectedBreadcrumbs = new[] { ("Home", Paths.ServiceHome.ToAbsolute()) };
+        var expectedBreadcrumbs = new[]
+        {
+            ("Home", Paths.ServiceHome.ToAbsolute())
+        };
         DocumentAssert.Breadcrumbs(page, expectedBreadcrumbs);
 
         Assert.NotNull(authority.Name);
@@ -279,7 +282,8 @@ public class WhenViewingHighNeeds(SchoolBenchmarkingWebAppClient client) : PageB
                 var outturnValue = outturn.Total;
                 var budgetValue = budget.Total;
                 var balanceValue = budgetValue - outturnValue;
-                DocumentAssert.AssertNodeText(bodyRows.ElementAt(i), $"{year}  Outturn:\n                            {outturnValue?.ToString("C0")}\n                        \n                        \n                            Budget:\n                            {budgetValue?.ToString("C0")}  {balanceValue?.ToString("C0")}");
+                DocumentAssert.AssertNodeText(bodyRows.ElementAt(i),
+                    $"{year}  Outturn:\n                            {outturnValue?.ToString("C0")}\n                        \n                        \n                            Budget:\n                            {budgetValue?.ToString("C0")}  {balanceValue?.ToString("C0")}");
                 year++;
             }
         }

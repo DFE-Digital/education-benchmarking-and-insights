@@ -1,8 +1,8 @@
 ﻿using Microsoft.Playwright;
-using Reqnroll;
 using Web.E2ETests.Drivers;
 using Web.E2ETests.Pages;
 using Xunit;
+
 namespace Web.E2ETests.Steps;
 
 [Binding]

@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authentication;
 using Newtonsoft.Json;
 using Web.App.Identity;
 using Web.App.Identity.Models;
+
 namespace Web.App.Extensions;
 
 public static class ClaimsPrincipalExtensions
@@ -145,7 +146,6 @@ public static class ClaimsPrincipalExtensions
             {
                 identity.AddClaim(new Claim(ClaimNames.AccessToken, accessToken));
             }
-
         }
 
         return principal;

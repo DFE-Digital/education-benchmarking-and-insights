@@ -8,10 +8,7 @@ public class SearchPage(IPage page)
     private ILocator SearchTermInputField => page.Locator(Selectors.SearchTermInput);
     private ILocator SearchButton => page.Locator($"{Selectors.GovButton}[name='action'][value='reset']");
     private ILocator SuggestionsDropdown => page.Locator(Selectors.TermSuggestDropdown);
-    private ILocator NthSuggestionItem(int index)
-    {
-        return page.Locator($"{Selectors.SearchTermInput}__option--{index}");
-    }
+    private ILocator NthSuggestionItem(int index) => page.Locator($"{Selectors.SearchTermInput}__option--{index}");
 
     public async Task IsDisplayed()
     {

@@ -32,6 +32,7 @@ public partial class SpendingCostsPage(IPage page)
     ];
 
     private ILocator PageH1Heading => page.Locator(Selectors.H1);
+
     private ILocator ComparatorSetDetails =>
         page.Locator(Selectors.GovDetailsSummaryText,
             new PageLocatorOptions
@@ -108,6 +109,7 @@ public partial class SpendingCostsPage(IPage page)
         {
             HasText = "Save chart images"
         });
+
     private ILocator ChartStatsSummary(ILocator chart) => chart.Locator(".chart-stat-summary");
 
     public async Task IsDisplayed()
@@ -128,16 +130,19 @@ public partial class SpendingCostsPage(IPage page)
     {
         var actualOrder = new List<string[]>();
         var chartNames = await GetCategoryNames();
-        var priorityTags = chartNames.Select(
-            chartName => page.GetByTestId(
-                $"{chartName}-rag-commentary").Locator(Selectors.GovukTag)).ToList();
+        var priorityTags = chartNames.Select(chartName => page.GetByTestId(
+            $"{chartName}-rag-commentary").Locator(Selectors.GovukTag)).ToList();
         for (var i = 0; i < chartNames.Count; i++)
         {
             if (i < priorityTags.Count)
             {
                 var chartName = chartNames[i];
                 var priorityTag = await priorityTags[i].TextContentAsync() ?? string.Empty;
-                var chartDetails = new[] { chartName, priorityTag.Trim() };
+                var chartDetails = new[]
+                {
+                    chartName,
+                    priorityTag.Trim()
+                };
                 actualOrder.Add(chartDetails);
             }
             else
@@ -252,6 +257,7 @@ public partial class SpendingCostsPage(IPage page)
         {
             throw new Exception($"Cost category '{costCategory}' not found on the page.");
         }
+
         var rows = new List<(string Description, string Value)>();
         var chartStatWrappers = chartStats.Locator(".chart-stat-wrapper");
         var count = await chartStatWrappers.CountAsync();

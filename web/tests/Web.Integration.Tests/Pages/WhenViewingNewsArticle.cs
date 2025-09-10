@@ -17,10 +17,10 @@ public class WhenViewingNewsArticle(SchoolBenchmarkingWebAppClient client) : Pag
             Title = title,
             Slug = slug,
             Body = $"""
-                   # {heading}
+                    # {heading}
 
-                   Content
-                   """
+                    Content
+                    """
         };
 
         var page = await Client

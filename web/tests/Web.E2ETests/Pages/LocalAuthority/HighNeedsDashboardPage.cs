@@ -5,18 +5,22 @@ namespace Web.E2ETests.Pages.LocalAuthority;
 public class HighNeedsDashboardPage(IPage page)
 {
     private ILocator PageH1Heading => page.Locator($"main {Selectors.H1}");
+
     private ILocator StartBenchmarkingButton => page.Locator(Selectors.CtaButton, new PageLocatorOptions
     {
         HasText = "Start benchmarking"
     });
+
     private ILocator ViewNationalRankingsButton => page.Locator(Selectors.CtaButton, new PageLocatorOptions
     {
         HasText = "View full national view"
     });
+
     private ILocator ViewHistoricDataButton => page.Locator(Selectors.CtaButton, new PageLocatorOptions
     {
         HasText = "View full historic data"
     });
+
     private ILocator BenchmarkHighNeedsCard => page.Locator(Selectors.GovSummaryCard, new PageLocatorOptions
     {
         Has = page.Locator(Selectors.GovSummaryCardTitle, new PageLocatorOptions
@@ -24,6 +28,7 @@ public class HighNeedsDashboardPage(IPage page)
             HasText = "Benchmark high needs data"
         })
     });
+
     private ILocator HeadlineFiguresCard => page.Locator(Selectors.GovSummaryCard, new PageLocatorOptions
     {
         Has = page.Locator(Selectors.GovSummaryCardTitle, new PageLocatorOptions
@@ -31,6 +36,7 @@ public class HighNeedsDashboardPage(IPage page)
             HasText = "Total number of EHC plans"
         })
     });
+
     private ILocator NationalRankingsCard => page.Locator(Selectors.GovSummaryCard, new PageLocatorOptions
     {
         Has = page.Locator(Selectors.GovSummaryCardTitle, new PageLocatorOptions
@@ -38,6 +44,7 @@ public class HighNeedsDashboardPage(IPage page)
             HasText = "National view"
         })
     });
+
     private ILocator HistoricDataCard => page.Locator(Selectors.GovSummaryCard, new PageLocatorOptions
     {
         Has = page.Locator(Selectors.GovSummaryCardTitle, new PageLocatorOptions

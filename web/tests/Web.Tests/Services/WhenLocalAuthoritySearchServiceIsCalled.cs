@@ -9,34 +9,31 @@ namespace Web.Tests.Services;
 
 public class WhenLocalAuthoritySearchServiceIsCalled
 {
-
     public static TheoryData<string?, int?, int?, SearchOrderBy?, SearchRequest?> WhenSendRequestData = new()
     {
         {
-            "term",
-            null,
-            null,
-            null,
-            new SearchRequest { SearchText = "term" }
+            "term", null, null, null, new SearchRequest
+            {
+                SearchText = "term"
+            }
         },
         {
-            "term",
-            null,
-            null,
-            null,
-            new SearchRequest { SearchText = "term" }
+            "term", null, null, null, new SearchRequest
+            {
+                SearchText = "term"
+            }
         },
         {
-            "term",
-            1,
-            2,
-            new SearchOrderBy("field2", "value3"),
-            new SearchRequest
+            "term", 1, 2, new SearchOrderBy("field2", "value3"), new SearchRequest
             {
                 SearchText = "term",
                 PageSize = 1,
                 Page = 2,
-                OrderBy = new OrderByCriteria { Field = "field2", Value = "value3" }
+                OrderBy = new OrderByCriteria
+                {
+                    Field = "field2",
+                    Value = "value3"
+                }
             }
         }
     };

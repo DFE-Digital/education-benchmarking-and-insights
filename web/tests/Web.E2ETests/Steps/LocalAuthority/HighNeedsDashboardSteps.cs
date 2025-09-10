@@ -82,8 +82,5 @@ public class HighNeedsBenchmarkingDashboardSteps(PageDriver driver)
         await _highNeedsGlossaryPage.IsDisplayed();
     }
 
-    private static string LocalAuthorityHighNeedsDashboardUrl(string laCode)
-    {
-        return $"{TestConfiguration.ServiceUrl}/local-authority/{laCode}/high-needs";
-    }
+    private static string LocalAuthorityHighNeedsDashboardUrl(string laCode) => $"{TestConfiguration.ServiceUrl}/local-authority/{laCode}/high-needs";
 }

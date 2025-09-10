@@ -1,4 +1,5 @@
 ﻿using Web.App.Extensions;
+
 namespace Web.App.Domain;
 
 public record RagRating
@@ -20,4 +21,3 @@ public record RagRating
     public (TagColour Colour, string DisplayText, string Class)? PriorityTag => Lookups.StatusPriorityMap[RAG ?? string.Empty];
     public string Unit => Lookups.CategoryUnitMap[Category ?? string.Empty];
 }
-

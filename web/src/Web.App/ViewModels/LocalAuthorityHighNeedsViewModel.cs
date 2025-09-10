@@ -9,6 +9,7 @@ public class LocalAuthorityHighNeedsViewModel(LocalAuthority localAuthority, Fin
     public string? Code => localAuthority.Code;
     public string? Name => localAuthority.Name;
     public int? Section251Year => years.S251;
+
     public FinanceToolsViewModel Tools => new(
         localAuthority.Code,
         FinanceTools.CompareYourCosts,

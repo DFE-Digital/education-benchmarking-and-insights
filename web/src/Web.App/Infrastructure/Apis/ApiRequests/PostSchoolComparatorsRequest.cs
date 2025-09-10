@@ -1,5 +1,6 @@
 ﻿using Web.App.Domain;
 using Web.App.ViewModels;
+
 // ReSharper disable InconsistentNaming
 // ReSharper disable NotAccessedPositionalProperty.Global
 // ReSharper disable UnusedAutoPropertyAccessor.Global

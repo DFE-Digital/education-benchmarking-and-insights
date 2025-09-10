@@ -28,9 +28,7 @@ public class WhenViewingFindOrganisation(SchoolBenchmarkingWebAppClient client) 
         {
             f.SetFormValues(new Dictionary<string, string>
             {
-                {
-                    "FindMethod", type
-                }
+                { "FindMethod", type }
             });
         });
 

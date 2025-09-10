@@ -173,7 +173,11 @@ app.MapHealthChecks(
             var result = new
             {
                 status = report.Status.ToString(),
-                details = report.Entries.Select(e => new { key = e.Key, value = e.Value.Status.ToString() })
+                details = report.Entries.Select(e => new
+                {
+                    key = e.Key,
+                    value = e.Value.Status.ToString()
+                })
             }.ToJson();
             await context.Response.WriteAsync(result);
         }

@@ -54,8 +54,5 @@ public class FindOrganisationSteps(PageDriver driver)
         await _schoolSearchPage.IsDisplayed();
     }
 
-    private static string FindOrganisationUrl()
-    {
-        return $"{TestConfiguration.ServiceUrl}/find-organisation";
-    }
+    private static string FindOrganisationUrl() => $"{TestConfiguration.ServiceUrl}/find-organisation";
 }

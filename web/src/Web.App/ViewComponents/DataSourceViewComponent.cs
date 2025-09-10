@@ -14,7 +14,7 @@ public class DataSourceViewComponent(IFinanceService financeService) : ViewCompo
         string? pageTitle,
         string wrapperClassName = "govuk-grid-row",
         string className = "govuk-grid-column-full"
-        )
+    )
     {
         var dataSource = sourceType switch
         {
@@ -81,7 +81,6 @@ public class DataSourceViewComponent(IFinanceService financeService) : ViewCompo
                 $"This data includes section 251 data (s251) for period {years.S251 - 1}-{years.S251}. The outturn does not include place funding for pupils with special educational needs taught in academies."
             ],
             _ => throw new ArgumentOutOfRangeException(nameof(pageTitle))
-
         };
     }
 }

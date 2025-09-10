@@ -9,6 +9,7 @@ public class LocalAuthorityComparatorViewModel
 {
     [Required]
     public string? Action { get; set; }
+
     public string? LaInput { get; set; }
     public string[] Selected { get; set; } = [];
     public string? Referrer { get; set; }

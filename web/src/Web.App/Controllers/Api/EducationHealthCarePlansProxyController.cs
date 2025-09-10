@@ -35,7 +35,10 @@ public class EducationHealthCarePlansProxyController(
                 return NotFound();
             }
 
-            var query = BuildQuery(new[] { code }.Concat(set).ToArray(), "Per1000");
+            var query = BuildQuery(new[]
+            {
+                code
+            }.Concat(set).ToArray(), "Per1000");
             var plans = await educationHealthCarePlansApi
                 .GetEducationHealthCarePlans(query, cancellationToken)
                 .GetResultOrThrow<LocalAuthorityNumberOfPlans[]>();

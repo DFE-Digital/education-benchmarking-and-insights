@@ -31,6 +31,7 @@ public class WhenViewingHistoricData(
         {
             await Page.Locator($"#{accordion}").Locator(".govuk-accordion__show-all").ClickAsync();
         }
+
         await EvaluatePage();
     }
 }

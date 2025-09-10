@@ -95,13 +95,9 @@ public class SuggestService(IEstablishmentApi establishmentApi) : ISuggestServic
         return value;
     }
 
-    private static List<string?> SchoolAdditionalDetails(SuggestValue<SchoolSummary> value, string? text)
-    {
-
-        return text == value.Document?.URN
-            ? [value.Text]
-            : SchoolAddressAdditionalDetails(value, text);
-    }
+    private static List<string?> SchoolAdditionalDetails(SuggestValue<SchoolSummary> value, string? text) => text == value.Document?.URN
+        ? [value.Text]
+        : SchoolAddressAdditionalDetails(value, text);
 
     private static List<string?> SchoolAddressAdditionalDetails(SuggestValue<SchoolSummary> value, string? text)
     {

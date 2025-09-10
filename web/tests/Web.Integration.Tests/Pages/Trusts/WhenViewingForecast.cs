@@ -4,6 +4,7 @@ using AngleSharp.Html.Dom;
 using AutoFixture;
 using Web.App.Domain;
 using Xunit;
+
 namespace Web.Integration.Tests.Pages.Trusts;
 
 public class WhenViewingForecast(SchoolBenchmarkingWebAppClient client) : PageBase<SchoolBenchmarkingWebAppClient>(client)
@@ -145,7 +146,9 @@ public class WhenViewingForecast(SchoolBenchmarkingWebAppClient client) : PageBa
             Assert.Equal($"Revenue reserves as a percentage of income {metrics.Single(m => m.Metric == BudgetForecastReturnMetricType.RevenueReserveAsPercentageOfIncome).Value}%", metricsRows.ElementAt(0).GetInnerText().Trim());
             Assert.Equal($"Staff costs as a percentage of income {metrics.Single(m => m.Metric == BudgetForecastReturnMetricType.StaffCostsAsPercentageOfIncome).Value}%", metricsRows.ElementAt(1).GetInnerText().Trim());
             Assert.Equal($"Expenditure as percentage of income {metrics.Single(m => m.Metric == BudgetForecastReturnMetricType.ExpenditureAsPercentageOfIncome).Value}%", metricsRows.ElementAt(2).GetInnerText().Trim());
-            Assert.Equal($"Self-generated income vs grant funding {metrics.Single(m => m.Metric == BudgetForecastReturnMetricType.SelfGeneratedIncomeAsPercentageOfIncome).Value}% / {metrics.Single(m => m.Metric == BudgetForecastReturnMetricType.GrantFundingAsPercentageOfIncome).Value}%", metricsRows.ElementAt(3).GetInnerText().Trim());
+            Assert.Equal(
+                $"Self-generated income vs grant funding {metrics.Single(m => m.Metric == BudgetForecastReturnMetricType.SelfGeneratedIncomeAsPercentageOfIncome).Value}% / {metrics.Single(m => m.Metric == BudgetForecastReturnMetricType.GrantFundingAsPercentageOfIncome).Value}%",
+                metricsRows.ElementAt(3).GetInnerText().Trim());
         }
         else
         {

@@ -1,6 +1,7 @@
 ﻿using Web.E2ETests.Drivers;
 using Web.E2ETests.Pages.School;
 using Xunit;
+
 namespace Web.E2ETests.Steps.School;
 
 [Binding]
@@ -141,6 +142,7 @@ public class HomeSteps(PageDriver driver)
         Assert.NotNull(_spendingCostsPage);
         await _spendingCostsPage.IsDisplayed();
     }
+
     private static string SchoolHomeUrl(string urn) => $"{TestConfiguration.ServiceUrl}/school/{urn}";
 
     [When("I click on find ways to spend less")]
@@ -148,7 +150,6 @@ public class HomeSteps(PageDriver driver)
     {
         Assert.NotNull(_schoolHomePage);
         _commercialResourcesPage = await _schoolHomePage.ClickFindWaysToSpendLess();
-
     }
 
     [Then("the commercial resources page is displayed")]

@@ -44,6 +44,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "common", "common", "{561EA6
 		nuget.config = nuget.config
 		README.md = README.md
 		.markdownlint-cli2.jsonc = .markdownlint-cli2.jsonc
+		.editorconfig = .editorconfig
+		Web.sln.DotSettings = Web.sln.DotSettings
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "redirect", "redirect", "{C94633E4-D624-4B1F-BE88-486C63AA2AC6}"

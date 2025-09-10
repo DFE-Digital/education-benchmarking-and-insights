@@ -1,5 +1,6 @@
 ﻿using Microsoft.Playwright;
 using Xunit;
+
 namespace Web.E2ETests.Pages;
 
 public class CostCategoriesGuidancePage(IPage page) : BasePage(page)

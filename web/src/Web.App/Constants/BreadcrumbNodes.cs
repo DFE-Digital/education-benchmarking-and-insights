@@ -1,4 +1,5 @@
 using SmartBreadcrumbs.Nodes;
+
 namespace Web.App;
 
 public static class BreadcrumbNodes

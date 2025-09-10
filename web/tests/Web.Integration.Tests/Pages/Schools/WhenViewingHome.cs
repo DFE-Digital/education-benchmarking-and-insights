@@ -3,7 +3,6 @@ using AngleSharp.Dom;
 using AngleSharp.Html.Dom;
 using AngleSharp.XPath;
 using AutoFixture;
-using Web.App;
 using Web.App.Domain;
 using Web.App.Domain.Content;
 using Xunit;
@@ -20,7 +19,7 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
     [InlineData(EstablishmentTypes.Maintained, false, true)]
     public async Task CanDisplay(string financeType, bool isPartOfTrust, bool showBanner)
     {
-        var (page, school, _, banner) = await SetupNavigateInitPage(financeType, isPartOfTrust, showBanner: showBanner);
+        var (page, school, _, banner) = await SetupNavigateInitPage(financeType, isPartOfTrust, showBanner);
 
         AssertPageLayout(page, school, banner);
     }

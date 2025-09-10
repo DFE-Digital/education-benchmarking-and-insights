@@ -67,7 +67,10 @@ public class WhenViewingHighNeedsHistoricData(SchoolBenchmarkingWebAppClient cli
     {
         DocumentAssert.AssertPageUrl(page, Paths.LocalAuthorityHighNeedsHistoricData(authority.Code).ToAbsolute());
 
-        var expectedBreadcrumbs = new[] { ("Home", Paths.ServiceHome.ToAbsolute()) };
+        var expectedBreadcrumbs = new[]
+        {
+            ("Home", Paths.ServiceHome.ToAbsolute())
+        };
         DocumentAssert.Breadcrumbs(page, expectedBreadcrumbs);
 
         Assert.NotNull(authority.Name);

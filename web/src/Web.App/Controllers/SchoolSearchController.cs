@@ -15,10 +15,7 @@ public class SchoolSearchController(
     : Controller
 {
     [HttpGet]
-    public IActionResult Index()
-    {
-        return View(new FindSchoolViewModel());
-    }
+    public IActionResult Index() => View(new FindSchoolViewModel());
 
     [HttpPost]
     public IActionResult Index(FindSchoolViewModel viewModel)
@@ -30,7 +27,10 @@ public class SchoolSearchController(
 
         if (!string.IsNullOrWhiteSpace(viewModel.EstablishmentId))
         {
-            return RedirectToAction("Index", "School", new { urn = viewModel.EstablishmentId });
+            return RedirectToAction("Index", "School", new
+            {
+                urn = viewModel.EstablishmentId
+            });
         }
 
         return RedirectToAction("Search", new
@@ -49,12 +49,12 @@ public class SchoolSearchController(
     )
     {
         using (logger.BeginScope(new
-        {
-            term,
-            page,
-            overallPhase,
-            orderBy
-        }))
+               {
+                   term,
+                   page,
+                   overallPhase,
+                   orderBy
+               }))
         {
             var results = await searchService.SchoolSearch(term, 50, page, overallPhase.Length == 0
                     ? null
@@ -91,7 +91,10 @@ public class SchoolSearchController(
 
         if (!string.IsNullOrWhiteSpace(viewModel.EstablishmentId))
         {
-            return RedirectToAction("Index", "School", new { urn = viewModel.EstablishmentId });
+            return RedirectToAction("Index", "School", new
+            {
+                urn = viewModel.EstablishmentId
+            });
         }
 
         // reset search options if new search term provided

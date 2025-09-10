@@ -3,6 +3,7 @@ using Web.E2ETests.Pages.Trust;
 using Xunit;
 
 namespace Web.E2ETests.Steps.Trust;
+
 [Binding]
 [Scope(Feature = "Trust curriculum and financial planning")]
 public class CurriculumFinancialPlanningSteps(PageDriver driver)
@@ -58,6 +59,6 @@ public class CurriculumFinancialPlanningSteps(PageDriver driver)
             _ => throw new ArgumentOutOfRangeException(nameof(accordionName))
         };
     }
-    private static string TrustCurriculumFinancialPlanningPageUrl(string companyNumber) => $"{TestConfiguration.ServiceUrl}/trust/{companyNumber}/financial-planning";
 
+    private static string TrustCurriculumFinancialPlanningPageUrl(string companyNumber) => $"{TestConfiguration.ServiceUrl}/trust/{companyNumber}/financial-planning";
 }

@@ -9,8 +9,8 @@ namespace Web.E2ETests.Steps.LocalAuthority;
 [Scope(Feature = "Local Authority high needs national rankings")]
 public class HighNeedsNationalRankingsSteps(PageDriver driver)
 {
-    private HighNeedsNationalRankingsPage? _highNeedsNationalRankingsPage;
     private IDownload? _download;
+    private HighNeedsNationalRankingsPage? _highNeedsNationalRankingsPage;
 
     [Given("I am on local authority high needs national rankings for local authority with code '(.*)'")]
     public async Task GivenIAmOnLocalAuthorityHighNeedsNationalRankingsForLocalAuthorityWithCode(string laCode)
@@ -86,8 +86,5 @@ public class HighNeedsNationalRankingsSteps(PageDriver driver)
         await _highNeedsNationalRankingsPage.ContainsWarningMessage("There isn't enough information available to rank the current local authority.");
     }
 
-    private static string LocalAuthorityHighNeedsNationalRankingsUrl(string laCode)
-    {
-        return $"{TestConfiguration.ServiceUrl}/local-authority/{laCode}/high-needs/national-rank";
-    }
+    private static string LocalAuthorityHighNeedsNationalRankingsUrl(string laCode) => $"{TestConfiguration.ServiceUrl}/local-authority/{laCode}/high-needs/national-rank";
 }

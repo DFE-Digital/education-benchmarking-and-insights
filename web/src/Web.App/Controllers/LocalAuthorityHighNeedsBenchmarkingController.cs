@@ -28,9 +28,9 @@ public class LocalAuthorityHighNeedsBenchmarkingController(
     public async Task<IActionResult> Index(string code)
     {
         using (logger.BeginScope(new
-        {
-            code
-        }))
+               {
+                   code
+               }))
         {
             try
             {
@@ -66,10 +66,10 @@ public class LocalAuthorityHighNeedsBenchmarkingController(
     public async Task<IActionResult> Comparators(string code, [FromQuery] string? referrer = null)
     {
         using (logger.BeginScope(new
-        {
-            code,
-            referrer
-        }))
+               {
+                   code,
+                   referrer
+               }))
         {
             try
             {
@@ -95,10 +95,10 @@ public class LocalAuthorityHighNeedsBenchmarkingController(
     public async Task<IActionResult> Comparators([FromRoute] string code, [FromForm] LocalAuthorityComparatorViewModel viewModel)
     {
         using (logger.BeginScope(new
-        {
-            code,
-            viewModel
-        }))
+               {
+                   code,
+                   viewModel
+               }))
         {
             try
             {
@@ -131,8 +131,14 @@ public class LocalAuthorityHighNeedsBenchmarkingController(
                 }
                 else if (action.Action == FormAction.Continue)
                 {
-                    localAuthorityComparatorSetService.SetUserDefinedComparatorSetInSession(code, new UserDefinedLocalAuthorityComparatorSet { Set = comparators.ToArray() });
-                    return RedirectToAction("Index", new { code });
+                    localAuthorityComparatorSetService.SetUserDefinedComparatorSetInSession(code, new UserDefinedLocalAuthorityComparatorSet
+                    {
+                        Set = comparators.ToArray()
+                    });
+                    return RedirectToAction("Index", new
+                    {
+                        code
+                    });
                 }
 
                 var localAuthority = await LocalAuthorityStatisticalNeighbours(code);
@@ -146,10 +152,7 @@ public class LocalAuthorityHighNeedsBenchmarkingController(
         }
     }
 
-    private async Task<LocalAuthorityStatisticalNeighbours> LocalAuthorityStatisticalNeighbours(string code)
-    {
-        return await establishmentApi
-            .GetLocalAuthorityStatisticalNeighbours(code)
-            .GetResultOrThrow<LocalAuthorityStatisticalNeighbours>();
-    }
+    private async Task<LocalAuthorityStatisticalNeighbours> LocalAuthorityStatisticalNeighbours(string code) => await establishmentApi
+        .GetLocalAuthorityStatisticalNeighbours(code)
+        .GetResultOrThrow<LocalAuthorityStatisticalNeighbours>();
 }

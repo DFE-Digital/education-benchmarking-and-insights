@@ -14,11 +14,20 @@ public abstract class ApiDriver : Dictionary<string, ApiDriver.ApiMessage>, IDis
         ArgumentNullException.ThrowIfNull(endpoint.Host);
         _messageSink = messageSink;
 
-        _client = new HttpClient { BaseAddress = new Uri(endpoint.Host) };
+        _client = new HttpClient
+        {
+            BaseAddress = new Uri(endpoint.Host)
+        };
         if (!string.IsNullOrEmpty(endpoint.Key))
         {
             _client.DefaultRequestHeaders.Add("x-functions-key", endpoint.Key);
         }
+    }
+
+    public void Dispose()
+    {
+        Dispose(true);
+        GC.SuppressFinalize(this);
     }
 
     public void CreateRequest(string key, HttpRequestMessage request)
@@ -38,6 +47,15 @@ public abstract class ApiDriver : Dictionary<string, ApiDriver.ApiMessage>, IDis
         }
     }
 
+    protected virtual void Dispose(bool disposing)
+    {
+        if (disposing)
+        {
+            _messageSink.OnMessage("Disposing of http client".ToDiagnosticMessage());
+            _client.Dispose();
+        }
+    }
+
     public class ApiMessage(HttpRequestMessage request)
     {
         private HttpResponseMessage? _response;
@@ -49,21 +67,6 @@ public abstract class ApiDriver : Dictionary<string, ApiDriver.ApiMessage>, IDis
         {
             get => _response ?? throw new InvalidOperationException($"{nameof(Response)} must be assigned a non-null value before being read");
             set => _response = value;
-        }
-    }
-
-    public void Dispose()
-    {
-        Dispose(true);
-        GC.SuppressFinalize(this);
-    }
-
-    protected virtual void Dispose(bool disposing)
-    {
-        if (disposing)
-        {
-            _messageSink.OnMessage("Disposing of http client".ToDiagnosticMessage());
-            _client.Dispose();
         }
     }
 }

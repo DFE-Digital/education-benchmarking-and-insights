@@ -1,5 +1,6 @@
 using AngleSharp.Dom;
 using Xunit;
+
 namespace Web.Integration.Tests.Pages;
 
 public class WhenViewingCookies(SchoolBenchmarkingWebAppClient client) : PageBase<SchoolBenchmarkingWebAppClient>(client)
@@ -27,9 +28,7 @@ public class WhenViewingCookies(SchoolBenchmarkingWebAppClient client) : PageBas
         {
             f.SetFormValues(new Dictionary<string, string>
             {
-                {
-                    "AnalyticsCookiesEnabled", accept.ToString().ToLower()
-                }
+                { "AnalyticsCookiesEnabled", accept.ToString().ToLower() }
             });
         });
 
@@ -54,9 +53,7 @@ public class WhenViewingCookies(SchoolBenchmarkingWebAppClient client) : PageBas
         {
             f.SetFormValues(new Dictionary<string, string>
             {
-                {
-                    "AnalyticsCookiesEnabled", accept.ToString().ToLower()
-                }
+                { "AnalyticsCookiesEnabled", accept.ToString().ToLower() }
             });
         });
 

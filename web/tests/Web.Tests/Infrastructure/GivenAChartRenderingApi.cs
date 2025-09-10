@@ -38,13 +38,29 @@ public class GivenAChartRenderingApi(ITestOutputHelper output) : ApiClientTestBa
             {
                 BarHeight = 12,
                 LabelField = "Foo",
-                Data = [ new SchoolComparisonDatum { Urn = "123456", SchoolName = "School A", Expenditure = 100 } ]
+                Data =
+                [
+                    new SchoolComparisonDatum
+                    {
+                        Urn = "123456",
+                        SchoolName = "School A",
+                        Expenditure = 100
+                    }
+                ]
             },
             new PostHorizontalBarChartRequest<SchoolComparisonDatum>
             {
                 BarHeight = 21,
                 LabelField = "Bar",
-                Data = [ new SchoolComparisonDatum { Urn = "654321", SchoolName = "School B", Expenditure = 200 } ]
+                Data =
+                [
+                    new SchoolComparisonDatum
+                    {
+                        Urn = "654321",
+                        SchoolName = "School B",
+                        Expenditure = 200
+                    }
+                ]
             }
         });
 
@@ -74,11 +90,25 @@ public class GivenAChartRenderingApi(ITestOutputHelper output) : ApiClientTestBa
         {
             new PostVerticalBarChartRequest<PriorityCostCategoryDatum>
             {
-                Data = [ new PriorityCostCategoryDatum { Urn = "123456", Amount = 100 } ]
+                Data =
+                [
+                    new PriorityCostCategoryDatum
+                    {
+                        Urn = "123456",
+                        Amount = 100
+                    }
+                ]
             },
             new PostVerticalBarChartRequest<PriorityCostCategoryDatum>
             {
-                Data = [ new PriorityCostCategoryDatum { Urn = "654321", Amount = 200 } ]
+                Data =
+                [
+                    new PriorityCostCategoryDatum
+                    {
+                        Urn = "654321",
+                        Amount = 200
+                    }
+                ]
             }
         });
 

@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using Web.App.Extensions;
+
 namespace Web.App.Domain;
 
 public class Category(decimal value)
@@ -91,14 +92,15 @@ public abstract class CostCategory(RagRating rating)
         get => _values[index];
         set => _values[index] = value;
     }
+
     public RagRating Rating => rating;
 
     public ReadOnlyDictionary<string, Category> Values => _values.AsReadOnly();
 
     public abstract string[] SubCategories { get; }
-    public abstract void Add(string urn, SchoolExpenditure expenditure);
 
     public virtual bool CanShowCommercialResources => Rating.RAG != "green";
+    public abstract void Add(string urn, SchoolExpenditure expenditure);
 }
 
 public class AdministrativeSupplies(RagRating rating) : CostCategory(rating)
@@ -125,24 +127,24 @@ public class EducationalIct(RagRating rating) : CostCategory(rating)
 {
     public override string[] SubCategories => SubCostCategories.EducationalIct.SubCategories;
 
+    public override bool CanShowCommercialResources => base.CanShowCommercialResources && Rating.Value >= Rating.Median;
+
     public override void Add(string urn, SchoolExpenditure expenditure)
     {
         this[urn] = new Category(expenditure.LearningResourcesIctCosts ?? 0);
     }
-
-    public override bool CanShowCommercialResources => base.CanShowCommercialResources && Rating.Value >= Rating.Median;
 }
 
 public class EducationalSupplies(RagRating rating) : CostCategory(rating)
 {
     public override string[] SubCategories => SubCostCategories.EducationalSupplies.SubCategories;
 
+    public override bool CanShowCommercialResources => base.CanShowCommercialResources && Rating.Value >= Rating.Median;
+
     public override void Add(string urn, SchoolExpenditure expenditure)
     {
         this[urn] = new Category(expenditure.TotalEducationalSuppliesCosts ?? 0);
     }
-
-    public override bool CanShowCommercialResources => base.CanShowCommercialResources && Rating.Value >= Rating.Median;
 }
 
 public class NonEducationalSupportStaff(RagRating rating) : CostCategory(rating)
@@ -159,12 +161,12 @@ public class TeachingStaff(RagRating rating) : CostCategory(rating)
 {
     public override string[] SubCategories => SubCostCategories.TeachingStaff.SubCategories;
 
+    public override bool CanShowCommercialResources => base.CanShowCommercialResources && Rating.Value >= Rating.Median;
+
     public override void Add(string urn, SchoolExpenditure expenditure)
     {
         this[urn] = new Category(expenditure.TotalTeachingSupportStaffCosts ?? 0);
     }
-
-    public override bool CanShowCommercialResources => base.CanShowCommercialResources && Rating.Value >= Rating.Median;
 }
 
 public class Other(RagRating rating) : CostCategory(rating)

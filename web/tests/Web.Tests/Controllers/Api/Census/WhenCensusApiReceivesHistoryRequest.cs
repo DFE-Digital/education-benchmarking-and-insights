@@ -8,6 +8,7 @@ using Web.App.Infrastructure.Apis.Establishment;
 using Web.App.Infrastructure.Apis.Insight;
 using Web.App.Services;
 using Xunit;
+
 namespace Web.Tests.Controllers.Api.Census;
 
 public class WhenCensusApiReceivesHistoryRequest

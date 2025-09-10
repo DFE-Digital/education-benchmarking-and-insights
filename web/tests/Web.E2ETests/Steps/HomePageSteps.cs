@@ -43,8 +43,5 @@ public class HomePageSteps(PageDriver driver)
         await _homePage.HasBanner(title, heading, body);
     }
 
-    private static string HomePageUrl()
-    {
-        return $"{TestConfiguration.ServiceUrl}/";
-    }
+    private static string HomePageUrl() => $"{TestConfiguration.ServiceUrl}/";
 }

@@ -35,8 +35,5 @@ public class HighNeedsGlossarySteps(PageDriver driver)
         await _highNeedsGlossaryPage.AssertGeneralGlossary(count);
     }
 
-    private static string HighNeedsGlossaryUrl()
-    {
-        return $"{TestConfiguration.ServiceUrl}/guidance/high-needs-glossary";
-    }
+    private static string HighNeedsGlossaryUrl() => $"{TestConfiguration.ServiceUrl}/guidance/high-needs-glossary";
 }

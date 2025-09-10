@@ -38,9 +38,9 @@ public class SchoolComparisonItSpendController(
         SchoolComparisonItSpendViewModel.ViewAsOptions viewAs = SchoolComparisonItSpendViewModel.ViewAsOptions.Chart)
     {
         using (logger.BeginScope(new
-        {
-            urn
-        }))
+               {
+                   urn
+               }))
         {
             try
             {
@@ -87,16 +87,13 @@ public class SchoolComparisonItSpendController(
     }
 
     [HttpPost]
-    public IActionResult Index(string urn, int viewAs, int resultAs, int[]? selectedSubCategories)
+    public IActionResult Index(string urn, int viewAs, int resultAs, int[]? selectedSubCategories) => RedirectToAction("Index", new
     {
-        return RedirectToAction("Index", new
-        {
-            urn,
-            viewAs,
-            resultAs,
-            selectedSubCategories
-        });
-    }
+        urn,
+        viewAs,
+        resultAs,
+        selectedSubCategories
+    });
 
     [HttpGet]
     [Produces("application/zip")]
@@ -106,9 +103,9 @@ public class SchoolComparisonItSpendController(
     public async Task<IActionResult> Download(string urn)
     {
         using (logger.BeginScope(new
-        {
-            urn
-        }))
+               {
+                   urn
+               }))
         {
             try
             {
@@ -137,7 +134,7 @@ public class SchoolComparisonItSpendController(
             { "URN", urn },
             { "Categories", string.Join(" | ", categories.Order()) },
             { "ResultAs", resultAs.ToString() },
-            { "ViewAs", viewAs.ToString() },
+            { "ViewAs", viewAs.ToString() }
         };
 
         telemetryClient.TrackEvent(CustomEvents.BenchmarkItSpending, properties);
@@ -163,7 +160,10 @@ public class SchoolComparisonItSpendController(
             urn,
             c.Data!,
             format => Uri.UnescapeDataString(
-                Url.Action("Index", "School", new { urn = format }) ?? string.Empty),
+                Url.Action("Index", "School", new
+                {
+                    urn = format
+                }) ?? string.Empty),
             resultAs
         ));
 

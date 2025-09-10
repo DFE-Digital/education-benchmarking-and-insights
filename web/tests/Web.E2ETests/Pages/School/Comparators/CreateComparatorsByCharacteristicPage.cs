@@ -1,4 +1,5 @@
 using Microsoft.Playwright;
+
 namespace Web.E2ETests.Pages.School.Comparators;
 
 public class CreateComparatorsByCharacteristicPage(IPage page) : ICreateComparatorsByPage

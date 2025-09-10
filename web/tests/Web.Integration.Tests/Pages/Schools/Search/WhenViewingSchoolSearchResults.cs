@@ -63,9 +63,7 @@ public class WhenViewingSchoolSearchResults(SchoolBenchmarkingWebAppClient clien
         {
             f.SetFormValues(new Dictionary<string, string>
             {
-                {
-                    "Term", term
-                }
+                { "Term", term }
             });
         });
 
@@ -88,15 +86,9 @@ public class WhenViewingSchoolSearchResults(SchoolBenchmarkingWebAppClient clien
         {
             f.SetFormValues(new Dictionary<string, string>
             {
-                {
-                    "Term", term
-                },
-                {
-                    "OrderBy", orderBy
-                },
-                {
-                    "OverallPhase", overallPhase
-                }
+                { "Term", term },
+                { "OrderBy", orderBy },
+                { "OverallPhase", overallPhase }
             });
         });
 
@@ -180,9 +172,7 @@ public class WhenViewingSchoolSearchResults(SchoolBenchmarkingWebAppClient clien
         {
             f.SetFormValues(new Dictionary<string, string>
             {
-                {
-                    "Term", term
-                }
+                { "Term", term }
             });
         });
 

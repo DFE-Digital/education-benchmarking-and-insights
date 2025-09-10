@@ -33,5 +33,6 @@ public class TrustComparatorsPreviewViewModel(
                                                  || FreeSchoolMealsSelected
                                                  || SpecialEducationalNeedsSelected
                                                  || FormationYearSelected;
+
     private static bool IsSelected(string? value) => bool.TrueString.Equals(value, StringComparison.OrdinalIgnoreCase);
 }

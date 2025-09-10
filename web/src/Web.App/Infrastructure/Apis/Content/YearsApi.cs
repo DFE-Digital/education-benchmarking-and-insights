@@ -2,10 +2,7 @@
 
 public class YearsApi(HttpClient httpClient, string? key = default) : ApiBase(httpClient, key), IYearsApi
 {
-    public async Task<ApiResult> GetCurrentReturnYears()
-    {
-        return await GetAsync(Api.Years.CurrentReturnYears);
-    }
+    public async Task<ApiResult> GetCurrentReturnYears() => await GetAsync(Api.Years.CurrentReturnYears);
 }
 
 public interface IYearsApi

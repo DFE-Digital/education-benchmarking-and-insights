@@ -16,8 +16,10 @@ public class SchoolCensusViewModel(
     public string? UserDefinedSetId => userDefinedSetId;
     public string? CustomDataId => customDataId;
     public decimal? TotalPupils => census?.TotalPupils;
+
     public bool HasDefaultComparatorSet => defaultComparatorSet != null
                                            && defaultComparatorSet.Pupil.Any(p => !string.IsNullOrWhiteSpace(p));
+
     public FinanceToolsViewModel Tools => new(
         school.URN,
         FinanceTools.FinancialPlanning,

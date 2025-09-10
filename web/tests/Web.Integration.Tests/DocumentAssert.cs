@@ -5,6 +5,7 @@ using AngleSharp.Dom;
 using AngleSharp.Html.Dom;
 using Web.App.Domain.Content;
 using Xunit;
+
 namespace Web.Integration.Tests;
 
 public static class DocumentAssert

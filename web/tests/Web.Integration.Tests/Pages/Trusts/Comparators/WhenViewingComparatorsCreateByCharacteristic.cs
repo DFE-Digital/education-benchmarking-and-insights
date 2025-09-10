@@ -2,6 +2,7 @@
 using AutoFixture;
 using Web.App.Domain;
 using Xunit;
+
 namespace Web.Integration.Tests.Pages.Trusts.Comparators;
 
 public class WhenViewingComparatorsCreateByCharacteristic(SchoolBenchmarkingWebAppClient client) : PageBase<SchoolBenchmarkingWebAppClient>(client)
@@ -24,15 +25,9 @@ public class WhenViewingComparatorsCreateByCharacteristic(SchoolBenchmarkingWebA
         {
             f.SetFormValues(new Dictionary<string, string>
             {
-                {
-                    "TotalPupils", "true"
-                },
-                {
-                    "TotalPupilsFrom", "10000"
-                },
-                {
-                    "TotalPupilsTo", "10000"
-                }
+                { "TotalPupils", "true" },
+                { "TotalPupilsFrom", "10000" },
+                { "TotalPupilsTo", "10000" }
             });
         });
 

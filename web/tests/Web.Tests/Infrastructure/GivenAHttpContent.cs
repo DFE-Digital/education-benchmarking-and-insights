@@ -1,3 +1,4 @@
+using System.Net.Http.Headers;
 using System.Text;
 using Web.App.Infrastructure.Apis;
 using Xunit;
@@ -12,7 +13,7 @@ public class GivenAHttpContent
         // arrange
         var expected = Encoding.UTF8.GetBytes("test");
         var testHttpContent = new ByteArrayContent(expected);
-        testHttpContent.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/json");
+        testHttpContent.Headers.ContentType = new MediaTypeHeaderValue("application/json");
 
         // act
         var result = await ApiResponseBody.FromHttpContent(testHttpContent);
@@ -30,7 +31,7 @@ public class GivenAHttpContent
         // arrange       
         var expected = Encoding.UTF8.GetBytes("test");
         var testHttpContent = new ByteArrayContent(expected);
-        testHttpContent.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/json+paged");
+        testHttpContent.Headers.ContentType = new MediaTypeHeaderValue("application/json+paged");
 
         // act
         var result = await ApiResponseBody.FromHttpContent(testHttpContent);
@@ -48,7 +49,7 @@ public class GivenAHttpContent
         // arrange       
         var expected = Encoding.UTF8.GetBytes("test");
         var testHttpContent = new ByteArrayContent(expected);
-        testHttpContent.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("text/plain");
+        testHttpContent.Headers.ContentType = new MediaTypeHeaderValue("text/plain");
 
         // act
         var result = await ApiResponseBody.FromHttpContent(testHttpContent);
@@ -65,7 +66,7 @@ public class GivenAHttpContent
     {
         // arrange
         var testHttpContent = new ByteArrayContent(Encoding.UTF8.GetBytes("test"));
-        testHttpContent.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("text/html");
+        testHttpContent.Headers.ContentType = new MediaTypeHeaderValue("text/html");
 
         // act
         var result = await ApiResponseBody.FromHttpContent(testHttpContent);
@@ -82,7 +83,7 @@ public class GivenAHttpContent
         // arrange       
         var expected = Encoding.UTF8.GetBytes("test");
         var testHttpContent = new ByteArrayContent(expected);
-        testHttpContent.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("text/csv");
+        testHttpContent.Headers.ContentType = new MediaTypeHeaderValue("text/csv");
 
         // act
         var result = await ApiResponseBody.FromHttpContent(testHttpContent);
@@ -100,7 +101,7 @@ public class GivenAHttpContent
         // arrange       
         var expected = Encoding.UTF8.GetBytes("test");
         var testHttpContent = new ByteArrayContent(expected);
-        testHttpContent.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/pdf");
+        testHttpContent.Headers.ContentType = new MediaTypeHeaderValue("application/pdf");
 
         // act
         var result = await ApiResponseBody.FromHttpContent(testHttpContent);

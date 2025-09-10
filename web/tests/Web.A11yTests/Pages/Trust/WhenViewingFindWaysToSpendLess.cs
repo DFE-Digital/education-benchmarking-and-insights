@@ -5,8 +5,8 @@ using Xunit.Abstractions;
 namespace Web.A11yTests.Pages.Trust;
 
 public class WhenViewingFindWaysToSpendLess(
-        ITestOutputHelper testOutputHelper,
-        WebDriver webDriver)
+    ITestOutputHelper testOutputHelper,
+    WebDriver webDriver)
     : PageBase(testOutputHelper, webDriver)
 {
     protected override string PageUrl => $"/trust/{TestConfiguration.Trust}/find-ways-to-spend-less";

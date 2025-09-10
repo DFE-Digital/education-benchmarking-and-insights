@@ -1,4 +1,5 @@
 using Microsoft.Playwright;
+
 namespace Web.E2ETests.Pages;
 
 public abstract class BasePage(IPage page)
@@ -45,8 +46,5 @@ public abstract class BasePage(IPage page)
         await CookieFormButton.ClickAsync();
     }
 
-    public async Task<bool> HasCookies()
-    {
-        return (await page.Context.CookiesAsync()).Any();
-    }
+    public async Task<bool> HasCookies() => (await page.Context.CookiesAsync()).Any();
 }

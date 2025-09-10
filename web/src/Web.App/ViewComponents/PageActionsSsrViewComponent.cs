@@ -12,15 +12,12 @@ public class PageActionsSsrViewComponent : ViewComponent
         string? saveTitleAttr,
         string? costCodesAttr,
         string? waitForEventType,
-        string? downloadLink)
-    {
-        return View(new PageActionsViewModel(
-            actions,
-            saveClassName,
-            saveFileName,
-            saveTitleAttr,
-            costCodesAttr,
-            waitForEventType,
-            downloadLink));
-    }
+        string? downloadLink) => View(new PageActionsViewModel(
+        actions,
+        saveClassName,
+        saveFileName,
+        saveTitleAttr,
+        costCodesAttr,
+        waitForEventType,
+        downloadLink));
 }

@@ -25,9 +25,9 @@ public class BudgetForecastProxyController(ILogger<BudgetForecastProxyController
     public async Task<IActionResult> Index([FromQuery] string companyNumber, CancellationToken cancellationToken = default)
     {
         using (logger.BeginScope(new
-        {
-            companyNumber
-        }))
+               {
+                   companyNumber
+               }))
         {
             try
             {

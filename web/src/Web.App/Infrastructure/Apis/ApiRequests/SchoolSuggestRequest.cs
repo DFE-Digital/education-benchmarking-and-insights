@@ -1,4 +1,5 @@
 // ReSharper disable UnusedAutoPropertyAccessor.Global
+
 namespace Web.App.Infrastructure.Apis;
 
 public record SchoolSuggestRequest

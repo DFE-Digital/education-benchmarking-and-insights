@@ -28,9 +28,9 @@ public class LocalAuthorityHighNeedsHistoricDataController(
     public async Task<IActionResult> Index(string code)
     {
         using (logger.BeginScope(new
-        {
-            code
-        }))
+               {
+                   code
+               }))
         {
             try
             {
@@ -57,12 +57,9 @@ public class LocalAuthorityHighNeedsHistoricDataController(
         }
     }
 
-    private async Task<LocalAuthority> LocalAuthority(string code)
-    {
-        return await establishmentApi
-            .GetLocalAuthority(code)
-            .GetResultOrThrow<LocalAuthority>();
-    }
+    private async Task<LocalAuthority> LocalAuthority(string code) => await establishmentApi
+        .GetLocalAuthority(code)
+        .GetResultOrThrow<LocalAuthority>();
 
     private static ApiQuery BuildQuery(string[] codes, string dimension)
     {

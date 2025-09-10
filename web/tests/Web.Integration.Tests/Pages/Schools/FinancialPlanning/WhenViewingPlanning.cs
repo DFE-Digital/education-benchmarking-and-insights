@@ -1,10 +1,10 @@
 ﻿using System.Net;
 using AngleSharp.Dom;
 using AngleSharp.Html.Dom;
-using AngleSharp.XPath;
 using AutoFixture;
 using Web.App.Domain;
 using Xunit;
+
 namespace Web.Integration.Tests.Pages.Schools.FinancialPlanning;
 
 public class WhenViewingPlanning(SchoolBenchmarkingWebAppClient client) : PageBase<SchoolBenchmarkingWebAppClient>(client)

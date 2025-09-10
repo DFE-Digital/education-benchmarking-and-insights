@@ -14,7 +14,10 @@ public class GivenASchoolViewModel
     [InlineData("ftp:some-website", "")]
     public void WhenSchoolWebsiteIs(string website, string expected)
     {
-        var school = new School { Website = website };
+        var school = new School
+        {
+            Website = website
+        };
         var vm = new SchoolViewModel(school);
 
         Assert.Equal(expected, vm.Website);

@@ -3,6 +3,7 @@ using System.Text.RegularExpressions;
 using Microsoft.Playwright;
 using Web.A11yTests.Drivers;
 using Xunit.Abstractions;
+
 namespace Web.A11yTests;
 
 public abstract partial class AuthPageBase(ITestOutputHelper testOutputHelper, WebDriver webDriver) : PageBase(testOutputHelper, webDriver)

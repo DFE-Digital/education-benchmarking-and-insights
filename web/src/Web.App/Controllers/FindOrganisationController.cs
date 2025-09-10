@@ -12,14 +12,20 @@ public class FindOrganisationController(ILogger<FindOrganisationController> logg
     [HttpGet]
     public IActionResult Index(string method = OrganisationTypes.School)
     {
-        var vm = new FindOrganisationViewModel { FindMethod = method };
+        var vm = new FindOrganisationViewModel
+        {
+            FindMethod = method
+        };
         return View(vm);
     }
 
     [HttpPost]
     public IActionResult Index([FromForm] FindOrganisationViewModel viewModel)
     {
-        using (logger.BeginScope(new { viewModel }))
+        using (logger.BeginScope(new
+               {
+                   viewModel
+               }))
         {
             try
             {

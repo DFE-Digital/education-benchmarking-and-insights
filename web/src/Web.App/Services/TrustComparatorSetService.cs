@@ -19,11 +19,9 @@ public interface ITrustComparatorSetService
 
 public class TrustComparatorSetService(IHttpContextAccessor httpContextAccessor, IComparatorSetApi api) : ITrustComparatorSetService
 {
-    public async Task<UserDefinedTrustComparatorSet> ReadUserDefinedComparatorSet(string companyNumber, string identifier, CancellationToken cancellationToken = default)
-    {
+    public async Task<UserDefinedTrustComparatorSet> ReadUserDefinedComparatorSet(string companyNumber, string identifier, CancellationToken cancellationToken = default) =>
         //Do not add to session state. Locking on session state blocks requests
-        return await api.GetUserDefinedTrustAsync(companyNumber, identifier, cancellationToken).GetResultOrThrow<UserDefinedTrustComparatorSet>();
-    }
+        await api.GetUserDefinedTrustAsync(companyNumber, identifier, cancellationToken).GetResultOrThrow<UserDefinedTrustComparatorSet>();
 
     public UserDefinedTrustComparatorSet ReadUserDefinedComparatorSetFromSession(string companyNumber)
     {

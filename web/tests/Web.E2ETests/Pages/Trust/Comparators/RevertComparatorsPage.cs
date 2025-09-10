@@ -9,6 +9,7 @@ public class RevertComparatorsPage(IPage page)
         {
             HasText = "Remove all your trusts?"
         });
+
     private ILocator ContinueButton => page.Locator(Selectors.GovButton,
         new PageLocatorOptions
         {

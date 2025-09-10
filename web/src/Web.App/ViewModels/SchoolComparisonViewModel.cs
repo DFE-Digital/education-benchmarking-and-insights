@@ -18,9 +18,11 @@ public class SchoolComparisonViewModel(
     public string? UserDefinedSetId => userDefinedSetId;
     public string? CustomDataId => customDataId;
     public int? PeriodCoveredByReturn => expenditure?.PeriodCoveredByReturn;
+
     public bool HasDefaultComparatorSet => defaultComparatorSet != null
                                            && (defaultComparatorSet.Building.Any(b => !string.IsNullOrWhiteSpace(b))
                                                || defaultComparatorSet.Pupil.Any(p => !string.IsNullOrWhiteSpace(p)));
+
     public Dictionary<string, StringValues> CostCodeMap => costCodes.SubCategoryToCostCodeMap;
 
     public FinanceToolsViewModel Tools => new(

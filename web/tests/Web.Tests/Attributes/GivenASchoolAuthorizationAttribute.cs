@@ -34,19 +34,27 @@ public class GivenASchoolAuthorizationAttribute
     }
 
     [Theory]
-    [InlineData("123456", new string[] { }, true, false)]
-    [InlineData("123456", new[] { "123456" }, true, false)]
-    [InlineData("123456", new[] { "654321" }, false, true)]
-    [InlineData("123456", new string[] { }, false, true)]
-    [InlineData("123456", new string[] { }, null, true)]
-    [InlineData(null, new string[] { }, false, true)]
+    [InlineData("123456", new string[]
+        { }, true, false)]
+    [InlineData("123456", new[]
+    {
+        "123456"
+    }, true, false)]
+    [InlineData("123456", new[]
+    {
+        "654321"
+    }, false, true)]
+    [InlineData("123456", new string[]
+        { }, false, true)]
+    [InlineData("123456", new string[]
+        { }, null, true)]
+    [InlineData(null, new string[]
+        { }, false, true)]
     public async Task ShouldReturnForbiddenIfInvalidClaims(string? urn, string[] schoolClaims, bool? disableOrganisationClaimCheck, bool forbidden)
     {
         var routeData = new RouteData(new RouteValueDictionary
         {
-            {
-                "urn", urn
-            }
+            { "urn", urn }
         });
 
         var section = Mock.Of<IConfigurationSection>();

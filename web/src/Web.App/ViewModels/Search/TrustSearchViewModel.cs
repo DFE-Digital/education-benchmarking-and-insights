@@ -1,5 +1,6 @@
 // ReSharper disable PropertyCanBeMadeInitOnly.Global
 // ReSharper disable UnusedAutoPropertyAccessor.Global
+
 namespace Web.App.ViewModels.Search;
 
 public class TrustSearchViewModel : FindTrustViewModel

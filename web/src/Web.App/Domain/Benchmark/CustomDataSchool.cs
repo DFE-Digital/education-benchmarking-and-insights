@@ -1,4 +1,5 @@
 using System.Diagnostics.CodeAnalysis;
+
 // ReSharper disable ClassNeverInstantiated.Global
 namespace Web.App.Domain;
 

@@ -7,7 +7,6 @@ namespace Web.E2ETests.Steps;
 [Binding]
 public class SignInSteps(PageDriver driver)
 {
-
     [Given("I have signed in with organisation '(.*)'")]
     public async Task GivenIHaveSignedInWithOrganisation(string organisation)
     {
@@ -29,6 +28,7 @@ public class SignInSteps(PageDriver driver)
     {
         await SignOut();
     }
+
     private async Task SignInWithOrganisation(string organisation)
     {
         var page = await driver.Current;

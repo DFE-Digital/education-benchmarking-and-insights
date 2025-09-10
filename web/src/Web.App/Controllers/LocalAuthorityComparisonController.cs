@@ -8,6 +8,7 @@ using Web.App.Infrastructure.Apis.Establishment;
 using Web.App.Infrastructure.Extensions;
 using Web.App.Services;
 using Web.App.ViewModels;
+
 namespace Web.App.Controllers;
 
 [Controller]
@@ -24,9 +25,9 @@ public class LocalAuthorityComparisonController(
     public async Task<IActionResult> Index(string code)
     {
         using (logger.BeginScope(new
-        {
-            code
-        }))
+               {
+                   code
+               }))
         {
             try
             {

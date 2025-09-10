@@ -1,5 +1,6 @@
 ﻿using Microsoft.Playwright;
 using Xunit;
+
 namespace Web.E2ETests.Pages.Trust;
 
 public class TrustForecastPage(IPage page)
@@ -13,6 +14,7 @@ public class TrustForecastPage(IPage page)
 
     private ILocator ChartDimension => page.Locator(Selectors.ForecastRisksDimension);
     private ILocator GraphImage => page.Locator(Selectors.Charts);
+
     private ILocator VarianceDetails =>
         page.Locator(Selectors.GovDetailsSummaryText,
             new PageLocatorOptions
@@ -21,13 +23,18 @@ public class TrustForecastPage(IPage page)
             });
 
     private ILocator ForecastSummaryTable => page.Locator(Selectors.GovDetails + " ~ " + Selectors.GovTable);
+
     public async Task IsDisplayed()
     {
         await PageH1Heading.ShouldBeVisible().ShouldHaveText("Forecast and risks");
         await SaveAsImageButton.ShouldBeVisible();
         await ChartDimension.ShouldBeVisible();
         var dimensionOptions = await ChartDimension.InnerTextAsync();
-        var expectedOptions = new[] { "actuals", "£ per pupil" };
+        var expectedOptions = new[]
+        {
+            "actuals",
+            "£ per pupil"
+        };
         foreach (var dimensionValue in expectedOptions)
         {
             Assert.Contains(dimensionValue, dimensionOptions);
@@ -35,7 +42,6 @@ public class TrustForecastPage(IPage page)
 
         await GraphImage.ShouldBeVisible();
         await VarianceDetails.ShouldBeVisible();
-
     }
 
     public async Task IsForbidden()
@@ -47,6 +53,5 @@ public class TrustForecastPage(IPage page)
     {
         await ForecastSummaryTable.ShouldBeVisible();
         await ForecastSummaryTable.ShouldHaveTableContent(expected, true);
-
     }
 }

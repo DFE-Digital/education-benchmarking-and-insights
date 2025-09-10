@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Web.App.Attributes;
 using Web.App.ViewModels;
+
 namespace Web.App.Controllers;
 
 [Controller]
@@ -48,9 +49,7 @@ public class CookiesController : Controller
 
         return RedirectToAction("Index", new Dictionary<string, string>
         {
-            {
-                "cookies-saved", "true"
-            }
+            { "cookies-saved", "true" }
         });
     }
 }

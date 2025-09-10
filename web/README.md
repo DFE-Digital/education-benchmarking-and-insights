@@ -91,13 +91,13 @@ following section to `secrets.json`, with URLs and keys obtained from Key Vault.
 
 Feature flags may also be defined in the `FeatureManagement` section:
 
-| Name                                   | Purpose                                                                                                                            |
-|----------------------------------------|------------------------------------------------------------------------------------------------------------------------------------|
-| `HighExecutivePay`                     | Toggles the High Executive Pay feature, which affects the Trust to Trust comparison page                                           |
-| `HighNeeds`                            | Toggles the High Needs feature, which affects the Local Authority pages                                                            |
-| `SchoolSpendingPrioritiesSsrCharts`    | Replaces the client rendered React/Recharts-derived charts on the School Spending Priorities page with server side rendered charts |
-| `CfrItSpendBreakdown`                  | Displays IT spend within subcategories as submitted in CFRs from 2024-5 onwards                                                    |
-| `News`                                 | Displays news article pages, index and footer link                                                                                 |
+| Name                                | Purpose                                                                                                                            |
+|-------------------------------------|------------------------------------------------------------------------------------------------------------------------------------|
+| `HighExecutivePay`                  | Toggles the High Executive Pay feature, which affects the Trust to Trust comparison page                                           |
+| `HighNeeds`                         | Toggles the High Needs feature, which affects the Local Authority pages                                                            |
+| `SchoolSpendingPrioritiesSsrCharts` | Replaces the client rendered React/Recharts-derived charts on the School Spending Priorities page with server side rendered charts |
+| `CfrItSpendBreakdown`               | Displays IT spend within subcategories as submitted in CFRs from 2024-5 onwards                                                    |
+| `News`                              | Displays news article pages, index and footer link                                                                                 |
 
 #### CacheOptions
 
@@ -288,3 +288,18 @@ _Playwright is used for end-to-end and accessibility testing which opens a brows
 ```bat
 dotnet test tests\Web.A11yTests --filter "Category!=CustomData&Category!=FinancialPlanning"
 ```
+
+## 🧹 Managing code formatting
+
+The solution uses [EditorConfig](https://editorconfig.org/) to manage code formatting using a set of rules agreed
+by the development team. ReSharper/Rider first applies its
+[DotSettings](https://www.jetbrains.com/help/resharper/Sharing_Configuration_Options.html) config, then the EditorConfig
+settings, plus any local (uncommitted) user-defined settings. To prevent duplication of settings files in the repo
+only use `DotSettings` for custom dictionary entries, or those rules that should take priority and instead use
+`.editorconfig` file for the formatting settings. When editing settings in Rider the option to merge into
+`.editorconfig` is under `Save ▽` > `.editorconfig`.
+
+The `dotnet format` command can be used to apply the settings to the code base using the `.editorconfig` file.
+This is also performed automatically by the CI/CD pipeline. In ReSharper/Rider, the solution context menu item
+`Reformat and Cleanup...` may be used to apply the settings using the layering order above. This may also be achieved
+in the IDE at a project or file level or via the keyboard shortcut `Ctrl+E, C`.

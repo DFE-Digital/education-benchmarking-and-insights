@@ -58,15 +58,9 @@ public class StaticContentController : Controller
 
     [HttpGet]
     [Route("guidance/cost-categories")]
-    public IActionResult CostCategories()
-    {
-        return View();
-    }
+    public IActionResult CostCategories() => View();
 
     [HttpGet]
     [Route("guidance/high-needs-glossary")]
-    public IActionResult HighNeedsGlossary()
-    {
-        return View(new HighNeedsGlossaryViewModel());
-    }
+    public IActionResult HighNeedsGlossary() => View(new HighNeedsGlossaryViewModel());
 }

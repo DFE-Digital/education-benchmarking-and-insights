@@ -15,10 +15,7 @@ public class LocalAuthoritySearchController(
     : Controller
 {
     [HttpGet]
-    public IActionResult Index()
-    {
-        return View(new FindLocalAuthorityViewModel());
-    }
+    public IActionResult Index() => View(new FindLocalAuthorityViewModel());
 
     [HttpPost]
     public IActionResult Index(FindLocalAuthorityViewModel viewModel)
@@ -30,7 +27,10 @@ public class LocalAuthoritySearchController(
 
         if (!string.IsNullOrWhiteSpace(viewModel.EstablishmentId))
         {
-            return RedirectToAction("Index", "LocalAuthority", new { code = viewModel.EstablishmentId });
+            return RedirectToAction("Index", "LocalAuthority", new
+            {
+                code = viewModel.EstablishmentId
+            });
         }
 
         return RedirectToAction("Search", new
@@ -48,11 +48,11 @@ public class LocalAuthoritySearchController(
     )
     {
         using (logger.BeginScope(new
-        {
-            term,
-            page,
-            orderBy
-        }))
+               {
+                   term,
+                   page,
+                   orderBy
+               }))
         {
             var results = await searchService.LocalAuthoritySearch(term, 50, page, string.IsNullOrWhiteSpace(orderBy) ? null : new SearchOrderBy("LocalAuthorityNameSortable", orderBy));
 
@@ -83,7 +83,10 @@ public class LocalAuthoritySearchController(
 
         if (!string.IsNullOrWhiteSpace(viewModel.EstablishmentId))
         {
-            return RedirectToAction("Index", "LocalAuthority", new { code = viewModel.EstablishmentId });
+            return RedirectToAction("Index", "LocalAuthority", new
+            {
+                code = viewModel.EstablishmentId
+            });
         }
 
         // reset search options if new search term provided

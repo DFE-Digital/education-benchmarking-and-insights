@@ -101,9 +101,7 @@ public class WhenViewingComparisonItSpend(SchoolBenchmarkingWebAppClient client)
         {
             f.SetFormValues(new Dictionary<string, string>
             {
-                {
-                    "ViewAs", viewAs.ToString()
-                }
+                { "ViewAs", viewAs.ToString() }
             });
         });
 
@@ -131,9 +129,7 @@ public class WhenViewingComparisonItSpend(SchoolBenchmarkingWebAppClient client)
         {
             f.SetFormValues(new Dictionary<string, string>
             {
-                {
-                    "ResultAs", resultAs.ToString()
-                }
+                { "ResultAs", resultAs.ToString() }
             });
         });
 
@@ -164,9 +160,7 @@ public class WhenViewingComparisonItSpend(SchoolBenchmarkingWebAppClient client)
         {
             f.SetFormValues(new Dictionary<string, string>
             {
-                {
-                    "SelectedSubCategories", expectedSubCategoryId.ToString()
-                }
+                { "SelectedSubCategories", expectedSubCategoryId.ToString() }
             });
         });
 
@@ -272,7 +266,10 @@ public class WhenViewingComparisonItSpend(SchoolBenchmarkingWebAppClient client)
         spend.ElementAt(0).URN = school.URN;
         spend.ElementAt(0).PeriodCoveredByReturn = 3;
 
-        var horizontalBarChart = new ChartResponse { Html = "<svg />" };
+        var horizontalBarChart = new ChartResponse
+        {
+            Html = "<svg />"
+        };
 
         var client = Client
             .SetupEstablishment(school)
@@ -406,7 +403,10 @@ public class WhenViewingComparisonItSpend(SchoolBenchmarkingWebAppClient client)
 
             Assert.Equal(expectedSubCategories.Length, chipLabels.Length);
 
-            foreach (var subCategory in expectedSubCategories) Assert.Contains(subCategory.ChipLabel, chipLabels);
+            foreach (var subCategory in expectedSubCategories)
+            {
+                Assert.Contains(subCategory.ChipLabel, chipLabels);
+            }
         }
         else
         {

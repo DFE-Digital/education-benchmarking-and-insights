@@ -6,6 +6,12 @@ namespace Web.Tests.Extensions;
 
 public class GivenAnEnum
 {
+    public enum TestEnum
+    {
+        [StringValue("A")] A,
+        B
+    }
+
     [Theory]
     [InlineData(TestEnum.A, "A")]
     [InlineData(TestEnum.B, "")]
@@ -13,12 +19,5 @@ public class GivenAnEnum
     {
         var result = actual.GetStringValue();
         Assert.Equal(expected, result);
-    }
-
-    public enum TestEnum
-    {
-        [StringValue("A")]
-        A,
-        B
     }
 }

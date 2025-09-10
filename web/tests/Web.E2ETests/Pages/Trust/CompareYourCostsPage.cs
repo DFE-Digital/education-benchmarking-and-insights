@@ -59,16 +59,19 @@ public class CompareYourCostsPage(IPage page)
         {
             HasTextRegex = Regexes.SaveAsImageRegex()
         });
+
     private ILocator CopyImageButtons =>
         page.Locator(Selectors.Button, new PageLocatorOptions
         {
             HasTextRegex = Regexes.CopyImageRegex()
         });
+
     private ILocator SaveImagesButton =>
         page.Locator(Selectors.Button, new PageLocatorOptions
         {
             HasText = "Save chart images"
         });
+
     private ILocator SaveImagesModal =>
         page.Locator(Selectors.Modal, new PageLocatorOptions
         {

@@ -1,10 +1,12 @@
 ﻿using Microsoft.Playwright;
 using Xunit;
+
 namespace Web.E2ETests.Pages.School;
 
 public class CommercialResourcesPage(IPage page)
 {
     private ILocator PageH1Heading => page.Locator(Selectors.H1);
+
     //private ILocator BackLink => page.Locator(Selectors.GovBackLink);
     private ILocator RecommendedResourcesHeadings => page.Locator($"{Selectors.RecommendedResources} {Selectors.H2}");
 
@@ -125,6 +127,7 @@ public class CommercialResourcesPage(IPage page)
             {
                 headingName = headingName[..commaIndex].Trim();
             }
+
             resourcesHeading.Add(headingName.Trim());
         }
 

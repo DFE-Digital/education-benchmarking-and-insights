@@ -9,41 +9,49 @@ public abstract class WhenLocalAuthorityHighNeedsHistoryResponseMapperMaps
     protected const int StartYear = 2020;
     protected const int EndYear = 2024;
     private static readonly Fixture Fixture = new();
+
     protected static readonly HighNeedsYear Outturn2021 = Fixture
         .Build<HighNeedsYear>()
         .With(o => o.Year, 2021)
         .With(o => o.Code, Code)
         .Create();
+
     protected static readonly HighNeedsYear Outturn2022 = Fixture
         .Build<HighNeedsYear>()
         .With(o => o.Year, 2022)
         .With(o => o.Code, Code)
         .Create();
+
     protected static readonly HighNeedsYear Outturn2023 = Fixture
         .Build<HighNeedsYear>()
         .With(o => o.Year, 2023)
         .With(o => o.Code, Code)
         .Create();
+
     protected static readonly HighNeedsYear Outturn2024 = Fixture
         .Build<HighNeedsYear>()
         .With(o => o.Year, 2024)
         .With(o => o.Code, Code)
         .Create();
+
     protected static readonly HighNeedsYear Budget2021 = Fixture
         .Build<HighNeedsYear>()
         .With(o => o.Year, 2021)
         .With(o => o.Code, Code)
         .Create();
+
     protected static readonly HighNeedsYear Budget2022 = Fixture
         .Build<HighNeedsYear>()
         .With(o => o.Year, 2022)
         .With(o => o.Code, Code)
         .Create();
+
     protected static readonly HighNeedsYear Budget2023 = Fixture
         .Build<HighNeedsYear>()
         .With(o => o.Year, 2023)
         .With(o => o.Code, Code)
         .Create();
+
     protected static readonly HighNeedsYear Budget2024 = Fixture
         .Build<HighNeedsYear>()
         .With(o => o.Year, 2024)
@@ -86,22 +94,6 @@ public abstract class WhenLocalAuthorityHighNeedsHistoryResponseMapperMaps
         ]
     };
 
-    protected readonly HighNeedsHistory<HighNeedsYear> TruncatedHistory = new()
-    {
-        StartYear = StartYear,
-        EndYear = EndYear,
-        Outturn =
-        [
-            Outturn2021,
-            Outturn2023
-        ],
-        Budget =
-        [
-            Budget2021,
-            Budget2023
-        ]
-    };
-
     protected readonly HighNeedsHistory<HighNeedsYear> PartialHistory = new()
     {
         StartYear = StartYear,
@@ -116,6 +108,22 @@ public abstract class WhenLocalAuthorityHighNeedsHistoryResponseMapperMaps
         [
             Budget2021,
             Budget2022,
+            Budget2023
+        ]
+    };
+
+    protected readonly HighNeedsHistory<HighNeedsYear> TruncatedHistory = new()
+    {
+        StartYear = StartYear,
+        EndYear = EndYear,
+        Outturn =
+        [
+            Outturn2021,
+            Outturn2023
+        ],
+        Budget =
+        [
+            Budget2021,
             Budget2023
         ]
     };

@@ -7,6 +7,7 @@ using Web.App.Infrastructure.Apis;
 using Web.App.Infrastructure.Apis.Establishment;
 using Web.App.Infrastructure.Extensions;
 using Web.App.ViewModels;
+
 namespace Web.App.Controllers;
 
 [Controller]
@@ -22,9 +23,9 @@ public class LocalAuthorityCensusController(
     public async Task<IActionResult> Index(string code)
     {
         using (logger.BeginScope(new
-        {
-            code
-        }))
+               {
+                   code
+               }))
         {
             try
             {

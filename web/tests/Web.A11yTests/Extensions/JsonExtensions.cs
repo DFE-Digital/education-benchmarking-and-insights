@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
+
 namespace Web.A11yTests.Extensions;
 
 public static class JsonExtensions
@@ -16,8 +17,6 @@ public static class JsonExtensions
             new StringEnumConverter()
         }
     };
-    public static string ToJson(this object? source, Formatting formatting = Formatting.Indented)
-    {
-        return JsonConvert.SerializeObject(source, formatting, Settings);
-    }
+
+    public static string ToJson(this object? source, Formatting formatting = Formatting.Indented) => JsonConvert.SerializeObject(source, formatting, Settings);
 }

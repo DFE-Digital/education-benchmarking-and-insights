@@ -1,7 +1,4 @@
-﻿using Web.A11yTests.Drivers;
-using Xunit;
-using Xunit.Abstractions;
-namespace Web.A11yTests.Pages.Schools.CustomData;
+﻿namespace Web.A11yTests.Pages.Schools.CustomData;
 
 //Requires correct organisation assigned to DSI account
 

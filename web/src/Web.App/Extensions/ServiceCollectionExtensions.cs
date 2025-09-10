@@ -317,18 +317,12 @@ public static class ServiceCollectionExtensions
             });
     }
 
-    public static IServiceCollection AddActionResults(this IServiceCollection services)
-    {
-        return services
-            .AddSingleton<IActionResultExecutor<CsvResult>, CsvResultActionResultExecutor>()
-            .AddSingleton<IActionResultExecutor<CsvResults>, CsvResultsActionResultExecutor>()
-            .AddSingleton<ICsvService, CsvService>();
-    }
+    public static IServiceCollection AddActionResults(this IServiceCollection services) => services
+        .AddSingleton<IActionResultExecutor<CsvResult>, CsvResultActionResultExecutor>()
+        .AddSingleton<IActionResultExecutor<CsvResults>, CsvResultsActionResultExecutor>()
+        .AddSingleton<ICsvService, CsvService>();
 
-    public static IServiceCollection AddValidation(this IServiceCollection services)
-    {
-        return services
-            .AddScoped<IFinancialPlanStageValidator, FinancialPlanStageValidator>()
-            .AddScoped<IValidator<OrganisationIdentifier>, OrganisationIdentifierValidator>();
-    }
+    public static IServiceCollection AddValidation(this IServiceCollection services) => services
+        .AddScoped<IFinancialPlanStageValidator, FinancialPlanStageValidator>()
+        .AddScoped<IValidator<OrganisationIdentifier>, OrganisationIdentifierValidator>();
 }

@@ -5,8 +5,9 @@ namespace Web.App.ViewModels;
 
 public class SchoolSpendingComparisonViewModel
 {
-    private readonly RagRating[] _originalRating;
     private readonly RagRating[] _customRating;
+    private readonly RagRating[] _originalRating;
+
     public SchoolSpendingComparisonViewModel(School school, RagRating[] originalRating, RagRating[] customRating)
 
     {
@@ -25,6 +26,7 @@ public class SchoolSpendingComparisonViewModel
         MediumHeadline = GetHeadlineResults("amber");
         LowHeadline = GetHeadlineResults("green");
     }
+
     public string? Name { get; }
     public string? Urn { get; }
     public FinanceToolsViewModel CustomTools { get; }
@@ -42,7 +44,7 @@ public class SchoolSpendingComparisonViewModel
         {
             var customItem = _customRating.FirstOrDefault(c => c.Category == originalItem.Category);
 
-            bool isMatch = originalItem.PriorityTag == customItem?.PriorityTag;
+            var isMatch = originalItem.PriorityTag == customItem?.PriorityTag;
 
             if ((match && isMatch) || (!match && !isMatch))
             {
@@ -55,7 +57,7 @@ public class SchoolSpendingComparisonViewModel
                     OriginalPercentile = originalItem.Percentile,
                     CustomPercentile = customItem?.Percentile,
                     OriginalRAG = originalItem.RAG,
-                    Category = originalItem.Category,
+                    Category = originalItem.Category
                 };
 
                 results.Add(result);
@@ -72,15 +74,20 @@ public class SchoolSpendingComparisonViewModel
         var originalCount = _originalRating.Count(c => c.RAG == rag);
         var customCount = _customRating.Count(c => c.RAG == rag);
         var change = originalCount > customCount
-            ? ChangeSymbols.Decrease : originalCount < customCount ? ChangeSymbols.Increase
-            : ChangeSymbols.NoChange;
+            ? ChangeSymbols.Decrease
+            : originalCount < customCount
+                ? ChangeSymbols.Increase
+                : ChangeSymbols.NoChange;
         var changeDescription = originalCount > customCount
-        ? ChangeSymbols.DecreaseText : originalCount < customCount ? ChangeSymbols.IncreaseText
-        : ChangeSymbols.NoChangeText;
+            ? ChangeSymbols.DecreaseText
+            : originalCount < customCount
+                ? ChangeSymbols.IncreaseText
+                : ChangeSymbols.NoChangeText;
 
         return (originalCount, customCount, change, changeDescription);
     }
 }
+
 public class ComparisonResult
 {
     public (TagColour Colour, string DisplayText, string Class)? OriginalPriorityTag { get; set; }

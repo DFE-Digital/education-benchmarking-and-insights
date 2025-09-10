@@ -14,14 +14,14 @@ public class WhenOrganisationCalledWithOrganisationInClaims
             new(
                 new List<Claim>
                 {
-                    new("organisation", JsonConvert.SerializeObject(new Organisation { URN = 999999 }))
+                    new("organisation", JsonConvert.SerializeObject(new Organisation
+                    {
+                        URN = 999999
+                    }))
                 })
         });
 
-    private Organisation DoIt()
-    {
-        return _claimsPrincipal.Organisation();
-    }
+    private Organisation DoIt() => _claimsPrincipal.Organisation();
 
     [Fact]
     public void ShouldReturnOrganisation()
@@ -31,7 +31,6 @@ public class WhenOrganisationCalledWithOrganisationInClaims
         Assert.NotNull(response);
     }
 }
-
 
 public class WhenOrganisationCalledWithoutOrganisationInClaims
 {
@@ -46,10 +45,7 @@ public class WhenOrganisationCalledWithoutOrganisationInClaims
         });
 
 
-    private Organisation DoIt()
-    {
-        return _claimsPrincipal.Organisation();
-    }
+    private Organisation DoIt() => _claimsPrincipal.Organisation();
 
     [Fact]
     public void ShouldHandleNull()

@@ -38,6 +38,7 @@ public record UserDefinedSchoolCharacteristicViewModel() : IValidatableObject
 
     [Required(ErrorMessage = "Select a local authority")]
     public string? LaSelection { get; set; }
+
     public string? LaInput { get; set; }
     public string? Code { get; set; }
     public string[] LaNames { get; set; } = [];
@@ -358,7 +359,7 @@ public record UserDefinedSchoolCharacteristicViewModel() : IValidatableObject
     public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
     {
         if (LaSelection == "Choose" &&
-            !(!string.IsNullOrWhiteSpace(LaInput) && !string.IsNullOrWhiteSpace(Code) || LaNames.Length > 0))
+            !((!string.IsNullOrWhiteSpace(LaInput) && !string.IsNullOrWhiteSpace(Code)) || LaNames.Length > 0))
         {
             yield return new ValidationResult("Select a local authority from the suggested list", [nameof(Code)]);
         }

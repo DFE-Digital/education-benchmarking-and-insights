@@ -34,9 +34,7 @@ public class SchoolBenchmarkingWebAppClient : BenchmarkingWebAppClient
     {
         auth.URN = 123456;
         auth.CompanyNumber = 87654321;
-    })
-    {
-    }
+    }) { }
 }
 
 public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<TestAuthOptions>? authCfg = null)
@@ -72,9 +70,18 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
 
     public IOptions<CacheOptions> CacheOptions { get; } = Options.Create(new CacheOptions
     {
-        ReturnYears = new CacheSettings { Disabled = true },
-        CommercialResources = new CacheSettings { Disabled = true },
-        Banners = new CacheSettings { Disabled = true }
+        ReturnYears = new CacheSettings
+        {
+            Disabled = true
+        },
+        CommercialResources = new CacheSettings
+        {
+            Disabled = true
+        },
+        Banners = new CacheSettings
+        {
+            Disabled = true
+        }
     });
 
     protected override void Configure(IServiceCollection services)
@@ -681,7 +688,10 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
     public BenchmarkingWebAppClient SetupLocalAuthoritiesComparators(string code, string[] set)
     {
         LocalAuthorityComparatorSetService.Reset();
-        LocalAuthorityComparatorSetService.Setup(s => s.ReadUserDefinedComparatorSetFromSession(code)).Returns(new UserDefinedLocalAuthorityComparatorSet { Set = set });
+        LocalAuthorityComparatorSetService.Setup(s => s.ReadUserDefinedComparatorSetFromSession(code)).Returns(new UserDefinedLocalAuthorityComparatorSet
+        {
+            Set = set
+        });
         return this;
     }
 
@@ -695,7 +705,11 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
             {
                 // cross-reference POST-ed Id with response Id
                 chartResponses = request
-                    .Select(r => new ChartResponse { Id = r.Id, Html = chartResponse.Html })
+                    .Select(r => new ChartResponse
+                    {
+                        Id = r.Id,
+                        Html = chartResponse.Html
+                    })
                     .ToArray();
             })
             .ReturnsAsync(() => ApiResult.Ok(chartResponses));
@@ -706,7 +720,11 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
             {
                 // cross-reference POST-ed Id with response Id
                 chartResponses = request
-                    .Select(r => new ChartResponse { Id = r.Id, Html = chartResponse.Html })
+                    .Select(r => new ChartResponse
+                    {
+                        Id = r.Id,
+                        Html = chartResponse.Html
+                    })
                     .ToArray();
             })
             .ReturnsAsync(() => ApiResult.Ok(chartResponses));
@@ -785,20 +803,11 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
     {
         private readonly ConcurrentDictionary<string, byte[]> _items = items ?? new ConcurrentDictionary<string, byte[]>();
 
-        public Task LoadAsync(CancellationToken cancellationToken = new())
-        {
-            throw new NotImplementedException();
-        }
+        public Task LoadAsync(CancellationToken cancellationToken = new()) => throw new NotImplementedException();
 
-        public Task CommitAsync(CancellationToken cancellationToken = new())
-        {
-            throw new NotImplementedException();
-        }
+        public Task CommitAsync(CancellationToken cancellationToken = new()) => throw new NotImplementedException();
 
-        public bool TryGetValue(string key, [MaybeNullWhen(false)] out byte[] value)
-        {
-            return _items.TryGetValue(key, out value);
-        }
+        public bool TryGetValue(string key, [MaybeNullWhen(false)] out byte[] value) => _items.TryGetValue(key, out value);
 
         public void Set(string key, byte[] value)
         {

@@ -35,7 +35,10 @@ public class HighNeedsProxyController(
                 return NotFound();
             }
 
-            var query = BuildQuery(new[] { code }.Concat(set).ToArray(), "PerHead");
+            var query = BuildQuery(new[]
+            {
+                code
+            }.Concat(set).ToArray(), "PerHead");
             var localAuthorities = await localAuthoritiesApi
                 .GetHighNeeds(query, cancellationToken)
                 .GetResultOrThrow<LocalAuthority<HighNeeds>[]>();

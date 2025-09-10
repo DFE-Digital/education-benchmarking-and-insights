@@ -15,6 +15,7 @@ public class ChangeFinancialDataPage(IPage page)
         {
             HasText = "Continue"
         });
+
     private ILocator Accordion => page.Locator("#accordion-financial-data");
     private ILocator CustomDataField(string category) => page.Locator($".table-custom-data > tbody > tr:has-text('{category}') > td input");
 

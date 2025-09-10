@@ -5,6 +5,7 @@ using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using Web.App.Identity;
 using Web.App.Identity.Models;
+
 namespace Web.Integration.Tests;
 
 public class TestAuthOptions : AuthenticationSchemeOptions
@@ -21,9 +22,8 @@ public class Auth : AuthenticationHandler<TestAuthOptions>
     public const string FamilyName = "User";
     public const string OrganisationName = "Test Organisation";
 
-    public Auth(IOptionsMonitor<TestAuthOptions> options, ILoggerFactory logger, UrlEncoder encoder) : base(options, logger, encoder)
-    {
-    }
+    public Auth(IOptionsMonitor<TestAuthOptions> options, ILoggerFactory logger, UrlEncoder encoder) : base(options, logger, encoder) { }
+
     public static ClaimsPrincipal GetUser(int urn, int companyNumber, string authType = "Test")
     {
         var claims = new List<Claim>

@@ -12,8 +12,8 @@ namespace Web.Tests.Services;
 
 public class WhenLocalAuthorityComparatorSetServiceIsCalled
 {
-    private readonly LocalAuthorityComparatorSetService _service;
     private readonly Mock<IHttpContextAccessor> _httpContextAccessor = new();
+    private readonly LocalAuthorityComparatorSetService _service;
     private readonly SessionStub _session = new();
 
     public WhenLocalAuthorityComparatorSetServiceIsCalled()
@@ -93,8 +93,5 @@ public class WhenLocalAuthorityComparatorSetServiceIsCalled
         Assert.Equal(key2, _session.Keys.Single());
     }
 
-    private static byte[] GetBytes(UserDefinedLocalAuthorityComparatorSet value)
-    {
-        return Encoding.UTF8.GetBytes(value.ToJson());
-    }
+    private static byte[] GetBytes(UserDefinedLocalAuthorityComparatorSet value) => Encoding.UTF8.GetBytes(value.ToJson());
 }

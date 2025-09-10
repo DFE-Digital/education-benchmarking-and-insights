@@ -11,14 +11,11 @@ public record TrustSearchResultViewModel
     public double? TotalPupils { get; init; }
     public double? SchoolsInTrust { get; init; }
 
-    public static TrustSearchResultViewModel Create(TrustSummary trust)
+    public static TrustSearchResultViewModel Create(TrustSummary trust) => new()
     {
-        return new TrustSearchResultViewModel
-        {
-            CompanyNumber = trust.CompanyNumber,
-            TrustName = trust.TrustName,
-            TotalPupils = trust.TotalPupils,
-            SchoolsInTrust = trust.SchoolsInTrust,
-        };
-    }
+        CompanyNumber = trust.CompanyNumber,
+        TrustName = trust.TrustName,
+        TotalPupils = trust.TotalPupils,
+        SchoolsInTrust = trust.SchoolsInTrust
+    };
 }

@@ -116,12 +116,7 @@ public class CreateComparatorsSteps(PageDriver driver)
         }
     }
 
-    private static string RevertComparatorsUrl(string urn)
-    {
-        return $"{TestConfiguration.ServiceUrl}/trust/{urn}/comparators/revert";
-    }
-    private static string CreateComparatorsByUrl(string urn)
-    {
-        return $"{TestConfiguration.ServiceUrl}/trust/{urn}/comparators/create/by";
-    }
+    private static string RevertComparatorsUrl(string urn) => $"{TestConfiguration.ServiceUrl}/trust/{urn}/comparators/revert";
+
+    private static string CreateComparatorsByUrl(string urn) => $"{TestConfiguration.ServiceUrl}/trust/{urn}/comparators/create/by";
 }

@@ -1,8 +1,8 @@
 using AngleSharp.Html.Dom;
 using AutoFixture;
-using Web.App;
 using Web.App.Domain;
 using Xunit;
+
 namespace Web.Integration.Tests.Pages.Schools;
 
 public class WhenViewingHistory(SchoolBenchmarkingWebAppClient client) : PageBase<SchoolBenchmarkingWebAppClient>(client)
@@ -38,7 +38,7 @@ public class WhenViewingHistory(SchoolBenchmarkingWebAppClient client) : PageBas
         DocumentAssert.BackLink(page, "Back", Paths.SchoolHome(school.URN).ToAbsolute());
         DocumentAssert.TitleAndH1(page, "Historic data - Financial Benchmarking and Insights Tool - GOV.UK", "Historic data");
 
-        var historicDataPlaceholder = page.QuerySelector($"#historic-data-2");
+        var historicDataPlaceholder = page.QuerySelector("#historic-data-2");
         Assert.NotNull(historicDataPlaceholder);
         Assert.Equal(school.URN, historicDataPlaceholder.GetAttribute("data-id"));
         Assert.Equal("school", historicDataPlaceholder.GetAttribute("data-type"));

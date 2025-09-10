@@ -2,6 +2,7 @@ using System.Net;
 using Microsoft.Playwright;
 using Xunit;
 using Xunit.Abstractions;
+
 namespace Web.A11yTests.Drivers;
 
 public class WebDriver(IMessageSink messageSink) : IDisposable

@@ -11,14 +11,11 @@ public class ChartActionsViewComponent : ViewComponent
         bool? showTitle,
         string? copyEventId,
         string? saveEventId,
-        List<string>? costCodes)
-    {
-        return View(new ChartActionsViewModel(
-            elementId,
-            title,
-            showTitle,
-            copyEventId,
-            saveEventId,
-            costCodes));
-    }
+        List<string>? costCodes) => View(new ChartActionsViewModel(
+        elementId,
+        title,
+        showTitle,
+        copyEventId,
+        saveEventId,
+        costCodes));
 }

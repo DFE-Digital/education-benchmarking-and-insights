@@ -1,6 +1,7 @@
 using Web.A11yTests.Drivers;
 using Xunit;
 using Xunit.Abstractions;
+
 namespace Web.A11yTests.Pages.Trust;
 
 public class WhenViewingHome(

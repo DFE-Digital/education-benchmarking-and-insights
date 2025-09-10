@@ -9,14 +9,17 @@ public class HighNeedsStartBenchmarkingPage(IPage page)
     private ILocator LaInputField => page.Locator("#LaInput");
     private ILocator LaDropdown => page.Locator("#LaInput__listbox");
     private ILocator ComparatorsTable => page.Locator("#current-comparators-la");
+
     private ILocator SaveAndContinueButton => page.Locator(Selectors.Button, new PageLocatorOptions
     {
         HasText = "Save and continue"
     });
+
     private ILocator CancelButton => page.Locator(".govuk-link", new PageLocatorOptions
     {
         HasText = "Cancel"
     });
+
     private ILocator RemoveButtons => page.Locator(Selectors.WarningButton, new PageLocatorOptions
     {
         HasText = "Remove"
@@ -76,10 +79,7 @@ public class HighNeedsStartBenchmarkingPage(IPage page)
         return next(page);
     }
 
-    public async Task<bool> HasComparators()
-    {
-        return await RemoveButtons.CountAsync() > 0;
-    }
+    public async Task<bool> HasComparators() => await RemoveButtons.CountAsync() > 0;
 
     public async Task<HighNeedsDashboardPage> ClickRemoveButton()
     {

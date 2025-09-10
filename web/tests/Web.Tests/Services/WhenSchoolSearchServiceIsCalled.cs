@@ -9,42 +9,44 @@ namespace Web.Tests.Services;
 
 public class WhenSchoolSearchServiceIsCalled
 {
-
     public static TheoryData<string?, int?, int?, SearchFilters?, SearchOrderBy?, SearchRequest?> WhenSendRequestData = new()
     {
         {
-            "term",
-            null,
-            null,
-            null,
-            null,
-            new SearchRequest { SearchText = "term" }
+            "term", null, null, null, null, new SearchRequest
+            {
+                SearchText = "term"
+            }
         },
         {
-            "term",
-            null,
-            null,
-            new SearchFilters(),
-            null,
-            new SearchRequest { SearchText = "term" }
+            "term", null, null, new SearchFilters(), null, new SearchRequest
+            {
+                SearchText = "term"
+            }
         },
         {
-            "term",
-            1,
-            2,
-            new SearchFilters("field", ["value1", "value2"]),
-            new SearchOrderBy("field2", "value3"),
-            new SearchRequest
+            "term", 1, 2, new SearchFilters("field", ["value1", "value2"]), new SearchOrderBy("field2", "value3"), new SearchRequest
             {
                 SearchText = "term",
                 PageSize = 1,
                 Page = 2,
                 Filters =
                 [
-                    new FilterCriteria { Field = "field", Value = "value1" },
-                    new FilterCriteria { Field = "field", Value = "value2" }
+                    new FilterCriteria
+                    {
+                        Field = "field",
+                        Value = "value1"
+                    },
+                    new FilterCriteria
+                    {
+                        Field = "field",
+                        Value = "value2"
+                    }
                 ],
-                OrderBy = new OrderByCriteria { Field = "field2", Value = "value3" }
+                OrderBy = new OrderByCriteria
+                {
+                    Field = "field2",
+                    Value = "value3"
+                }
             }
         }
     };

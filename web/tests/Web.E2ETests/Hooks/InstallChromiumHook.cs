@@ -1,4 +1,4 @@
-using Reqnroll;
+using Microsoft.Playwright;
 
 namespace Web.E2ETests.Hooks;
 
@@ -8,7 +8,7 @@ public class InstallChromiumHook
     [BeforeTestRun]
     public static void BeforeTestRun()
     {
-        var exitCode = Microsoft.Playwright.Program.Main(["install", "chromium"]);
+        var exitCode = Program.Main(["install", "chromium"]);
         if (exitCode != 0)
         {
             throw new Exception($"Playwright exited with code {exitCode}");

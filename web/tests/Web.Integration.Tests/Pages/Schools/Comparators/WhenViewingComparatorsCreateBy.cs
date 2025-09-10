@@ -26,9 +26,7 @@ public class WhenViewingComparatorsCreateBy(SchoolBenchmarkingWebAppClient clien
         {
             f.SetFormValues(new Dictionary<string, string>
             {
-                {
-                    "by", "name"
-                }
+                { "by", "name" }
             });
         });
 
@@ -46,9 +44,7 @@ public class WhenViewingComparatorsCreateBy(SchoolBenchmarkingWebAppClient clien
         {
             f.SetFormValues(new Dictionary<string, string>
             {
-                {
-                    "by", "characteristic"
-                }
+                { "by", "characteristic" }
             });
         });
 

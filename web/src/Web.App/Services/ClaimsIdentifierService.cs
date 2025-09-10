@@ -70,7 +70,10 @@ public class ClaimsIdentifierService(IEstablishmentApi api) : IClaimsIdentifierS
     private async Task<(string[] schools, string[] trusts)> HandleSchoolAsync(Organisation organisation)
     {
         var urn = organisation.UrnValue.ToString();
-        var schools = new[] { urn };
+        var schools = new[]
+        {
+            urn
+        };
         var trusts = Array.Empty<string>();
         var school = await api.GetSchool(urn).GetResultOrDefault<School>();
         var companyNumber = school?.TrustCompanyNumber;

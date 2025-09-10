@@ -25,7 +25,8 @@ public class Organisation
     public int? LegacyId { get; set; }
     public int? CompanyRegistrationNumber { get; set; }
 
-    [JsonIgnore] public UrnValue UrnValue => URN;
+    [JsonIgnore]
+    public UrnValue UrnValue => URN;
 }
 
 [ExcludeFromCodeCoverage]
@@ -33,12 +34,12 @@ public readonly struct UrnValue(int value)
 {
     private int Value { get; init; } = value;
 
-    public override string ToString()
-    {
-        return Value.ToString("000000");
-    }
+    public override string ToString() => Value.ToString("000000");
 
-    public static implicit operator UrnValue(int? urn) => new() { Value = urn ?? default };
+    public static implicit operator UrnValue(int? urn) => new()
+    {
+        Value = urn ?? default
+    };
 
     public static implicit operator string(UrnValue urn) => urn.ToString();
 }

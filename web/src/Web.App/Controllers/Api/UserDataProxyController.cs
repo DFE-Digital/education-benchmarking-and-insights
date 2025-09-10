@@ -23,9 +23,9 @@ public class UserDataProxyController(ILogger<UserDataProxyController> logger, IU
     public async Task<IActionResult> SchoolUserData(string urn, CancellationToken cancellationToken = default)
     {
         using (logger.BeginScope(new
-        {
-            urn
-        }))
+               {
+                   urn
+               }))
         {
             try
             {
@@ -56,9 +56,9 @@ public class UserDataProxyController(ILogger<UserDataProxyController> logger, IU
     public async Task<IActionResult> TrustUserData(string companyNumber, CancellationToken cancellationToken = default)
     {
         using (logger.BeginScope(new
-        {
-            companyNumber
-        }))
+               {
+                   companyNumber
+               }))
         {
             try
             {
@@ -89,9 +89,9 @@ public class UserDataProxyController(ILogger<UserDataProxyController> logger, IU
     public async Task<IActionResult> SchoolCustomDataUserData(string urn, CancellationToken cancellationToken = default)
     {
         using (logger.BeginScope(new
-        {
-            urn
-        }))
+               {
+                   urn
+               }))
         {
             try
             {

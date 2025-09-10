@@ -1,4 +1,5 @@
 // ReSharper disable UnusedAutoPropertyAccessor.Global
+
 namespace Web.App.Infrastructure.Apis;
 
 public record SearchRequest
@@ -16,8 +17,18 @@ public record SearchRequest
             SearchText = term,
             PageSize = pageSize,
             Page = page,
-            Filters = filters?.Select(f => new FilterCriteria { Field = f.Field, Value = f.Filter }).ToArray(),
-            OrderBy = orderBy == null ? null : new OrderByCriteria { Field = orderBy.Value.Field, Value = orderBy.Value.Order }
+            Filters = filters?.Select(f => new FilterCriteria
+            {
+                Field = f.Field,
+                Value = f.Filter
+            }).ToArray(),
+            OrderBy = orderBy == null
+                ? null
+                : new OrderByCriteria
+                {
+                    Field = orderBy.Value.Field,
+                    Value = orderBy.Value.Order
+                }
         };
     }
 }

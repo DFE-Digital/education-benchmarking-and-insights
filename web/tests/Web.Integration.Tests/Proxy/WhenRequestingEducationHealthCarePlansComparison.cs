@@ -14,9 +14,16 @@ public class WhenEducationHealthCarePlansComparison(SchoolBenchmarkingWebAppClie
     public async Task CanReturnCorrectResponseWhenComparatorSetExists()
     {
         const string code = "123";
-        var set = new[] { "456", "789" };
+        var set = new[]
+        {
+            "456",
+            "789"
+        };
 
-        var plans = new[] { code }
+        var plans = new[]
+            {
+                code
+            }
             .Concat(set)
             .Select(c => Fixture
                 .Build<LocalAuthorityNumberOfPlans>()
@@ -71,7 +78,11 @@ public class WhenEducationHealthCarePlansComparison(SchoolBenchmarkingWebAppClie
     public async Task CanReturnInternalServerError()
     {
         const string code = "123";
-        var set = new[] { "456", "789" };
+        var set = new[]
+        {
+            "456",
+            "789"
+        };
 
         var response = await client
             .SetupEducationHealthCarePlansWithException()

@@ -46,17 +46,12 @@ public class HighNeedsHistoricDataPage(IPage page)
     private ILocator Send2TableView => page.Locator(Selectors.Send2ModeTable);
     private ILocator Send2PlaceFundingAccordionContent => page.Locator(Selectors.Section251AccordionContent1);
     private ILocator Send2AccordionContent => page.Locator(Selectors.Send2AccordionContent1);
-    private ILocator SaveAsImageButtons(string elementId)
+    private ILocator SaveAsImageButtons(string elementId) => page.Locator($"#{elementId}").Locator(".share-button--save");
+
+    private ILocator WarningMessages(string elementId) => page.Locator($"#{elementId}").Locator(Selectors.GovWarning, new LocatorLocatorOptions
     {
-        return page.Locator($"#{elementId}").Locator(".share-button--save");
-    }
-    private ILocator WarningMessages(string elementId)
-    {
-        return page.Locator($"#{elementId}").Locator(Selectors.GovWarning, new LocatorLocatorOptions
-        {
-            HasText = "No data available for this category."
-        });
-    }
+        HasText = "No data available for this category."
+    });
 
     public async Task IsDisplayed(HighNeedsHistoryTabs? tab = null)
     {
@@ -308,14 +303,11 @@ public class HighNeedsHistoricDataPage(IPage page)
         return link;
     }
 
-    private ILocator SectionLink(string sectionId)
-    {
-        return page.Locator("button",
-            new PageLocatorOptions
-            {
-                Has = page.Locator($"span{sectionId}")
-            });
-    }
+    private ILocator SectionLink(string sectionId) => page.Locator("button",
+        new PageLocatorOptions
+        {
+            Has = page.Locator($"span{sectionId}")
+        });
 
     private async Task<string[]> GetSubCategoriesOfTab(HighNeedsHistoryTabs tab)
     {

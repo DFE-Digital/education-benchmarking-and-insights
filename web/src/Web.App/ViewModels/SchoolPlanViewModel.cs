@@ -13,6 +13,11 @@ public class SchoolPlanViewModel(School school, IEnumerable<FinancialPlan> plans
     public FinancialPlan? LatestPlan => Plans.FirstOrDefault(x => x.IsComplete);
     public FinancialPlan? PreviousPlan => Plans.Where(x => x.IsComplete).ElementAtOrDefault(1);
 
+    public FinanceToolsViewModel Tools => new(
+        school.URN,
+        FinanceTools.CompareYourCosts,
+        FinanceTools.BenchmarkCensus);
+
     public static string HeadlineClass(string? ragText)
     {
         switch (ragText)
@@ -41,11 +46,5 @@ public class SchoolPlanViewModel(School school, IEnumerable<FinancialPlan> plans
         }
 
         return string.Empty;
-
     }
-
-    public FinanceToolsViewModel Tools => new(
-        school.URN,
-        FinanceTools.CompareYourCosts,
-        FinanceTools.BenchmarkCensus);
 }

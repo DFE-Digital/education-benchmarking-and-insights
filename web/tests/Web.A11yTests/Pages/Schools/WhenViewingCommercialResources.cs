@@ -5,8 +5,8 @@ using Xunit.Abstractions;
 namespace Web.A11yTests.Pages.Schools;
 
 public class WhenViewingCommercialResources(
-        ITestOutputHelper testOutputHelper,
-        WebDriver webDriver)
+    ITestOutputHelper testOutputHelper,
+    WebDriver webDriver)
     : PageBase(testOutputHelper, webDriver)
 {
     protected override string PageUrl => $"/school/{TestConfiguration.School}/find-ways-to-spend-less";

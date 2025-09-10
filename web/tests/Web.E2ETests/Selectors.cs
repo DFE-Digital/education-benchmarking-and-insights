@@ -9,7 +9,9 @@ public static class Selectors
 
     //public const string GovBreadcrumbs = ".govuk-breadcrumbs";
     public const string GovShowAllLinkText = ".govuk-accordion__show-all-text";
+
     public const string GovAccordionSection = ".govuk-accordion__section";
+
     //public const string GovBackLink = ".govuk-back-link";
     public const string GovButton = "main .govuk-button";
     public const string GovLink = "main .govuk-link";

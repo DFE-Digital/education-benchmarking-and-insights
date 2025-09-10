@@ -2,13 +2,14 @@ using AutoFixture;
 using Web.App.Domain;
 using Web.App.ViewModels;
 using Xunit;
+
 namespace Web.Tests.ViewModels;
 
 public class GivenASchoolComparisonViewModel
 {
+    private readonly CostCodes _costCodes;
     private readonly Fixture _fixture = new();
     private readonly School _school;
-    private readonly CostCodes _costCodes;
 
     public GivenASchoolComparisonViewModel()
     {
@@ -19,12 +20,8 @@ public class GivenASchoolComparisonViewModel
     public static TheoryData<SchoolExpenditure?, int?> ExpenditureInput =>
         new()
         {
-            {
-                null, null
-            },
-            {
-                new SchoolExpenditure(), null
-            },
+            { null, null },
+            { new SchoolExpenditure(), null },
             {
                 new SchoolExpenditure
                 {
@@ -37,18 +34,13 @@ public class GivenASchoolComparisonViewModel
     public static TheoryData<SchoolComparatorSet?, bool> ComparatorSetInput =>
         new()
         {
-            {
-                null, false
-            },
-            {
-                new SchoolComparatorSet(), false
-            },
+            { null, false },
+            { new SchoolComparatorSet(), false },
             {
                 new SchoolComparatorSet
                 {
                     Building = [string.Empty],
                     Pupil = [string.Empty]
-
                 },
                 false
             },
@@ -71,7 +63,6 @@ public class GivenASchoolComparisonViewModel
     [Fact]
     public void WhenContainsSchool()
     {
-
         var vm = new SchoolComparisonViewModel(_school, _costCodes);
 
         Assert.Equal(_school.URN, vm.Urn);

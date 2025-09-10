@@ -188,17 +188,12 @@ public class HistoricDataPage(IPage page)
     private ILocator BalanceChartsStats => BalanceTabContent.Locator(Selectors.LineChartStats);
     private ILocator AllCensusCharts => CensusTabContent.Locator(Selectors.Charts);
     private ILocator CensusChartsStats => CensusTabContent.Locator(Selectors.LineChartStats);
-    private ILocator SaveAsImageButtons(string elementId)
+    private ILocator SaveAsImageButtons(string elementId) => page.Locator($"#{elementId}").Locator(".share-button--save");
+
+    private ILocator WarningMessages(string elementId) => page.Locator($"#{elementId}").Locator(Selectors.GovWarning, new LocatorLocatorOptions
     {
-        return page.Locator($"#{elementId}").Locator(".share-button--save");
-    }
-    private ILocator WarningMessages(string elementId)
-    {
-        return page.Locator($"#{elementId}").Locator(Selectors.GovWarning, new LocatorLocatorOptions
-        {
-            HasText = "No data available for this category."
-        });
-    }
+        HasText = "No data available for this category."
+    });
 
     public async Task IsDisplayed(HistoryTabs? tab = null)
     {

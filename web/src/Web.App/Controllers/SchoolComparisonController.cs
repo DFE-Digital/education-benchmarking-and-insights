@@ -32,9 +32,9 @@ public class SchoolComparisonController(
     public async Task<IActionResult> Index(string urn)
     {
         using (logger.BeginScope(new
-        {
-            urn
-        }))
+               {
+                   urn
+               }))
         {
             try
             {
@@ -64,9 +64,9 @@ public class SchoolComparisonController(
     public async Task<IActionResult> CustomData(string urn)
     {
         using (logger.BeginScope(new
-        {
-            urn
-        }))
+               {
+                   urn
+               }))
         {
             try
             {
@@ -103,9 +103,9 @@ public class SchoolComparisonController(
     public async Task<IActionResult> Download(string urn, [FromQuery] string? customDataId)
     {
         using (logger.BeginScope(new
-        {
-            urn
-        }))
+               {
+                   urn
+               }))
         {
             try
             {

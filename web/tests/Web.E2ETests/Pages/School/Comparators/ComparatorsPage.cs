@@ -1,15 +1,18 @@
 ﻿using Microsoft.Playwright;
 using Xunit;
+
 namespace Web.E2ETests.Pages.School.Comparators;
 
 public class ComparatorsPage(IPage page)
 {
     private ILocator PageH1Heading => page.Locator(Selectors.H1);
+
     private ILocator CustomComparatorLink => page.Locator(Selectors.GovLink,
         new PageLocatorOptions
         {
             HasText = "Choose your own set of schools"
         });
+
     private ILocator RunningCostTab => page.Locator(Selectors.RunningCostCategoriesTab);
     private ILocator BuildingCostTab => page.Locator(Selectors.BuildingCostCategoriesTab);
     private ILocator RunningCostComparators => page.Locator(Selectors.Table).First.Locator("tr");

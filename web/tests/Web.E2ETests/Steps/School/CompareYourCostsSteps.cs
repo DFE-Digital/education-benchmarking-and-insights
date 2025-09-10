@@ -250,7 +250,6 @@ public class CompareYourCostsSteps(PageDriver driver)
     {
         Assert.NotNull(_comparatorsPage);
         await _comparatorsPage.IsDisplayed();
-
     }
 
     [Then("pupil cost comparators are (.*)")]
@@ -337,7 +336,6 @@ public class CompareYourCostsSteps(PageDriver driver)
     {
         Assert.NotNull(_comparisonPage);
         await _comparisonPage.IsWarningTextVisible(subCategorySection);
-
     }
 
     [Then("all sections on the page have the correct dimension options:")]

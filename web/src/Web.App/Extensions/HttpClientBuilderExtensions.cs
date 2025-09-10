@@ -102,10 +102,7 @@ public static class HttpClientBuilderExtensions
                 });
     }
 
-    private static string GetStatusCodeOrMessage(DelegateResult<HttpResponseMessage> response)
-    {
-        return response.Exception?.Message ?? ((int)response.Result.StatusCode).ToString();
-    }
+    private static string GetStatusCodeOrMessage(DelegateResult<HttpResponseMessage> response) => response.Exception?.Message ?? ((int)response.Result.StatusCode).ToString();
 }
 
 [ExcludeFromCodeCoverage]

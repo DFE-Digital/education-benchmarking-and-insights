@@ -1,4 +1,5 @@
 ﻿using Microsoft.Playwright;
+
 namespace Web.E2ETests.Pages.School.Comparators;
 
 public enum ComparatorsByTypes
@@ -22,6 +23,7 @@ public class CreateComparatorsByPage(IPage page)
         {
             HasText = "Continue"
         });
+
     private ILocator NameRadioButton => page.Locator(".govuk-radios__input#by-name");
     private ILocator CharacteristicRadioButton => page.Locator(".govuk-radios__input#by-characteristic");
 

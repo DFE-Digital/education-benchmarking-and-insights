@@ -31,7 +31,11 @@ public class SpendingCostsSteps(PageDriver driver)
         var expectedOrder = new List<string[]>();
         foreach (var row in table.Rows)
         {
-            string[] chartPriorityArray = { row["Name"], row["Priority"] };
+            string[] chartPriorityArray =
+            {
+                row["Name"],
+                row["Priority"]
+            };
             expectedOrder.Add(chartPriorityArray);
         }
 
@@ -173,6 +177,7 @@ public class SpendingCostsSteps(PageDriver driver)
             _ => throw new ArgumentOutOfRangeException(nameof(linkName))
         };
     }
+
     private static ComparisonChartNames ChartNameFromFriendlyName(string chartName)
     {
         return chartName switch

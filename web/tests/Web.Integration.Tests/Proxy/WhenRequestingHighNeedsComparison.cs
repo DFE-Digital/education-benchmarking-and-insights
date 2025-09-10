@@ -15,9 +15,16 @@ public class WhenRequestingHighNeedsComparison(SchoolBenchmarkingWebAppClient cl
     public async Task CanReturnCorrectResponse()
     {
         const string code = "123";
-        var set = new[] { "code2", "code3" };
+        var set = new[]
+        {
+            "code2",
+            "code3"
+        };
 
-        var localAuthorities = new[] { code }
+        var localAuthorities = new[]
+            {
+                code
+            }
             .Concat(set)
             .Select(c => Fixture
                 .Build<LocalAuthority<HighNeeds>>()
@@ -64,7 +71,11 @@ public class WhenRequestingHighNeedsComparison(SchoolBenchmarkingWebAppClient cl
     public async Task CanReturnInternalServerError()
     {
         const string code = "123";
-        var set = new[] { "456", "789" };
+        var set = new[]
+        {
+            "456",
+            "789"
+        };
 
         var response = await client
             .SetupLocalAuthoritiesWithException()

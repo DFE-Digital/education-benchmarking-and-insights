@@ -3,6 +3,7 @@ using AngleSharp.Html.Dom;
 using AutoFixture;
 using Web.App.Domain;
 using Xunit;
+
 namespace Web.Integration.Tests.Pages.Schools.CustomData;
 
 public class WhenViewingCustomData(SchoolBenchmarkingWebAppClient client)

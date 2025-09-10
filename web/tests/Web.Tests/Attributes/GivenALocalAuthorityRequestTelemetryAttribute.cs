@@ -11,6 +11,7 @@ using Web.App;
 using Web.App.Attributes.RequestTelemetry;
 using Web.App.Extensions;
 using Xunit;
+
 namespace Web.Tests.Attributes;
 
 public class GivenALocalAuthorityRequestTelemetryAttribute
@@ -29,9 +30,7 @@ public class GivenALocalAuthorityRequestTelemetryAttribute
     {
         var routeData = new RouteData(new RouteValueDictionary
         {
-            {
-                "code", code
-            }
+            { "code", code }
         });
 
         var telemetry = await GetTelemetryFromRequest(feature, routeData);

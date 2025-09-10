@@ -12,6 +12,7 @@ public static class Constants
     public static string? GiasSchoolUrl(string? urn) => string.IsNullOrWhiteSpace(urn)
         ? null
         : $"https://www.get-information-schools.service.gov.uk/establishments/establishment/details/{urn}";
+
     public static string? GiasTrustUrl(string? uid) => string.IsNullOrWhiteSpace(uid)
         ? null
         : $"https://www.get-information-schools.service.gov.uk/groups/group/details/{uid}";

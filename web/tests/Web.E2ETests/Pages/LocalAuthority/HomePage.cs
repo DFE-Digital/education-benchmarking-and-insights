@@ -5,18 +5,22 @@ namespace Web.E2ETests.Pages.LocalAuthority;
 public class HomePage(IPage page)
 {
     private ILocator PageH1Heading => page.Locator($"main {Selectors.H1}");
+
     private ILocator CompareYourCostsLink => page.Locator(Selectors.GovLink, new PageLocatorOptions
     {
         HasText = "View school spending"
     });
+
     private ILocator BenchmarkCensusDataLink => page.Locator(Selectors.GovLink, new PageLocatorOptions
     {
         HasText = "View pupil and workforce data"
     });
+
     private ILocator HighNeedsBenchmarkingLink => page.Locator(Selectors.GovLink, new PageLocatorOptions
     {
         HasText = "High needs benchmarking"
     });
+
     private ILocator CookieBanner => page.Locator(Selectors.CookieBanner);
     private ILocator Banner => page.Locator(Selectors.GovNotificationBanner);
     private ILocator BannerTitle => page.Locator(Selectors.GovNotificationBannerTitle);

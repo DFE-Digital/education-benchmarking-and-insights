@@ -122,12 +122,7 @@ public class ComparatorsSteps(PageDriver driver)
         await _trustBenchmarkSpendingPage.IsSubChartNameWarningTextVisible(subChartName);
     }
 
-    private static string RevertComparatorsUrl(string urn)
-    {
-        return $"{TestConfiguration.ServiceUrl}/trust/{urn}/comparators/revert";
-    }
-    private static string CreateComparatorsByUrl(string urn)
-    {
-        return $"{TestConfiguration.ServiceUrl}/trust/{urn}/comparators/create/by";
-    }
+    private static string RevertComparatorsUrl(string urn) => $"{TestConfiguration.ServiceUrl}/trust/{urn}/comparators/revert";
+
+    private static string CreateComparatorsByUrl(string urn) => $"{TestConfiguration.ServiceUrl}/trust/{urn}/comparators/create/by";
 }

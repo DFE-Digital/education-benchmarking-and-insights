@@ -1,6 +1,7 @@
 ﻿using Web.App.Infrastructure.Apis;
 using Web.App.ViewModels;
 using Xunit;
+
 namespace Web.Tests.Infrastructure.Apis.Requests;
 
 public class GivenAPostTrustComparatorsRequest

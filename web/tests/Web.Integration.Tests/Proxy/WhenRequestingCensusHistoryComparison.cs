@@ -3,6 +3,7 @@ using AutoFixture;
 using Newtonsoft.Json;
 using Web.App.Domain;
 using Xunit;
+
 namespace Web.Integration.Tests.Proxy;
 
 public class WhenRequestingCensusHistoryComparison(SchoolBenchmarkingWebAppClient client) : IClassFixture<SchoolBenchmarkingWebAppClient>
