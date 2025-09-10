@@ -35,7 +35,6 @@ public abstract record ExpenditureModel
     public decimal? CateringStaffCosts { get; set; }
     public decimal? CateringSuppliesCosts { get; set; }
     public decimal? TotalOtherCosts { get; set; }
-    public decimal? DirectRevenueFinancingCosts { get; set; }
     public decimal? GroundsMaintenanceCosts { get; set; }
     public decimal? IndirectEmployeeExpenses { get; set; }
     public decimal? InterestChargesLoanBank { get; set; }

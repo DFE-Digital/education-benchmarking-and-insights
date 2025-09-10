@@ -38,7 +38,6 @@ public record ExpenditureTrustModel : ExpenditureModel
     public decimal? CateringStaffCostsCS { get; set; }
     public decimal? CateringSuppliesCostsCS { get; set; }
     public decimal? TotalOtherCostsCS { get; set; }
-    public decimal? DirectRevenueFinancingCostsCS { get; set; }
     public decimal? GroundsMaintenanceCostsCS { get; set; }
     public decimal? IndirectEmployeeExpensesCS { get; set; }
     public decimal? InterestChargesLoanBankCS { get; set; }
@@ -80,7 +79,6 @@ public record ExpenditureTrustModel : ExpenditureModel
     public decimal? CateringStaffCostsSchool { get; set; }
     public decimal? CateringSuppliesCostsSchool { get; set; }
     public decimal? TotalOtherCostsSchool { get; set; }
-    public decimal? DirectRevenueFinancingCostsSchool { get; set; }
     public decimal? GroundsMaintenanceCostsSchool { get; set; }
     public decimal? IndirectEmployeeExpensesSchool { get; set; }
     public decimal? InterestChargesLoanBankSchool { get; set; }
