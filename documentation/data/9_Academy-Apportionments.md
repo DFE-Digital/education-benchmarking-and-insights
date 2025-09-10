@@ -23,7 +23,7 @@ Each academy's total expenditure in FBIT includes its share of trust central cos
 
 Under normal circumstances, adding up all the apportioned central service expenditure for academies in a trust equals the trust's total central expenditure. However, this total is sometimes less than the trust's actual spend due to membership changes during the financial year.
 
-![Apportionment diagram](./images/apportionment.png)
+![Apportionment diagram](./images/apportionments.png)
 
 **Why this happens**: When an academy leaves a trust partway through a year, the trust's central expenditure includes money spent on that academy while it was a member. However, since academies only show apportioned costs for their *current* trust, the departed academy's share is no longer included in the current members' totals.
 
