@@ -24,20 +24,6 @@ export const SpendingSectionOther: React.FC<{
           </HistoricChart>
 
           <HistoricChart
-            chartTitle="Direct revenue financing costs"
-            data={data}
-            seriesConfig={{
-              directRevenueFinancingCosts: {
-                label: "Direct revenue financing costs",
-                visible: true,
-              },
-            }}
-            valueField="directRevenueFinancingCosts"
-          >
-            <h3 className="govuk-heading-s">Direct revenue financing costs</h3>
-          </HistoricChart>
-
-          <HistoricChart
             chartTitle="Grounds maintenance costs"
             data={data}
             seriesConfig={{

@@ -188,7 +188,6 @@ export const CostCodeMapProvider = ({
 
       case "Total other costs": {
         return [
-          ...(costCodeMap["direct revenue financing"] ?? []),
           ...(costCodeMap["grounds maintenance"] ?? []),
           ...(costCodeMap["indirect employee expenses"] ?? []),
           ...(costCodeMap["interest charges for loan and bank"] ?? []),
@@ -206,9 +205,6 @@ export const CostCodeMapProvider = ({
             "community focused school costs (maintained schools only)"
           ] ?? []),
         ];
-      }
-      case "Direct revenue financing costs": {
-        return [...(costCodeMap["direct revenue financing"] ?? [])];
       }
       case "Ground maintenance costs": {
         return [...(costCodeMap["grounds maintenance"] ?? [])];

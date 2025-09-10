@@ -71,7 +71,6 @@ export type OtherCostsData = {
   companyNumber: string;
   totalOtherCosts: number;
   otherInsurancePremiumsCosts: number;
-  directRevenueFinancingCosts: number;
   groundsMaintenanceCosts: number;
   indirectEmployeeExpenses: number;
   interestChargesLoanBank: number;

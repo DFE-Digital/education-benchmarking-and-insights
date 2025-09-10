@@ -55,7 +55,6 @@ export type NonEducationalSupportStaffExpenditure = SchoolExpenditure &
 type OtherCostsDataExpenditureBase = {
   totalOtherCosts: number;
   otherInsurancePremiumsCosts: number;
-  directRevenueFinancingCosts: number;
   groundsMaintenanceCosts: number;
   indirectEmployeeExpenses: number;
   interestChargesLoanBank: number;
@@ -185,7 +184,6 @@ export type NonEducationalSupportStaffTrustExpenditure = TrustExpenditure &
 
 type OtherCostsDataTrustExpenditureBase = OtherCostsDataExpenditureBase & {
   schoolTotalOtherCosts: number;
-  schoolDirectRevenueFinancingCosts: number;
   schoolGroundsMaintenanceCosts: number;
   schoolIndirectEmployeeExpenses: number;
   schoolInterestChargesLoanBank: number;
@@ -200,7 +198,6 @@ type OtherCostsDataTrustExpenditureBase = OtherCostsDataExpenditureBase & {
   schoolCommunityFocusedSchoolCosts: number;
 
   centralTotalOtherCosts: number;
-  centralDirectRevenueFinancingCosts: number;
   centralGroundsMaintenanceCosts: number;
   centralIndirectEmployeeExpenses: number;
   centralInterestChargesLoanBank: number;

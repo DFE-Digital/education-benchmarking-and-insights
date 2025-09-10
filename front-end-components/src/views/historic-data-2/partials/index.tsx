@@ -196,11 +196,6 @@ export const spendingSections: HistoricData2Section<ExpenditureHistoryItem>[] =
           perUnitDimension: PoundsPerPupil,
         },
         {
-          name: "Direct revenue financing costs",
-          field: "directRevenueFinancingCosts",
-          perUnitDimension: PoundsPerPupil,
-        },
-        {
           name: "Grounds maintenance costs",
           field: "groundsMaintenanceCosts",
           perUnitDimension: PoundsPerPupil,
