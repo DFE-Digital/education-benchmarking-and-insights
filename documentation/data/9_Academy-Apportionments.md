@@ -1,13 +1,28 @@
-# Academy apportionments
+# Academy Apportionments
 
-Trust expenditure is distributed (apportioned) to it's members based on either pupil numbers (e.g. academy pupils divided by total trust pupils) or floor area. Only utility and premises costs are distributed by floor area.
+## What are Academy Trusts?
 
-Academy trusts are collections of academies which oversee finances, curriculum, and performance for their academies. As trusts belong collectively to the academies they consist of, academies are interested in seeing how much of their trust spend is attributable to them as an academy. Trusts meant submit the accounts of their academies and themselves (In practice we see that some academies also submit their own accounts to DfE, resulting in double submissions to resolve).
+Academy trusts are collections of academies that oversee finances, curriculum, and performance for their member schools. Since trusts belong collectively to the academies they consist of, individual academies are interested in understanding how much of their trust's expenditure is attributable to them.
 
-In FBIT, we combine the central trust figures with the academy figures. academies can then see how much of the trust spend is attributable to their academy.
+Trusts must submit accounts for both themselves and their academies to the Department for Education (DfE). In practice, we see that some academies also submit their own accounts to DfE, resulting in duplicate submissions that need to be resolved.
 
-## Trust membership changes
+## How Apportionment Works
 
-Adding up the apportioned central service spend for academies usually results in the central service total spend. However sometimes it is less than the trust spend, because of trust membership changes.
+Trust expenditure is distributed (apportioned) to its member academies using two methods:
 
-Trusts do the finances for each of their academies who are in the trust and for their own central spend at the end of a financial year. If an academy leaves a trust part way through a year, this means the central service spend will include money spent on a school who is no longer in the trust, resulting in a higher spend than if the current members add up their central spend.
+- **Pupil numbers**: Most expenditure is apportioned based on each academy's pupil count as a proportion of total trust pupils
+- **Floor area**: Utility and premises costs are distributed based on the physical space each academy occupies
+
+## FBIT Implementation
+
+In FBIT (Financial Benchmarking Insight Tool), we combine central trust figures with individual academy data. This allows academies to see how much of the trust's central expenditure is attributable to their academy.
+
+Each academy's total expenditure in FBIT includes its share of trust central costs, but **only for its current trust**. This apportionment is calculated pro-rata to account for the fraction of the financial year the academy has been in the trust. For example, if an academy joins a trust for just one day in a financial year, its share of central expenditure would be close to zero.
+
+## Trust Membership Changes
+
+Under normal circumstances, adding up all the apportioned central service expenditure for academies in a trust equals the trust's total central expenditure. However, this total is sometimes less than the trust's actual spend due to membership changes during the financial year.
+
+**Why this happens**: When an academy leaves a trust partway through a year, the trust's central expenditure includes money spent on that academy while it was a member. However, since academies only show apportioned costs for their *current* trust, the departed academy's share is no longer included in the current members' totals.
+
+**The result**: The trust's central expenditure appears higher than the sum of its current members' apportioned shares, because it includes historical spending on academies that are no longer part of the trust.
