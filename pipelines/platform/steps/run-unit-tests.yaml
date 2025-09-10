@@ -41,7 +41,7 @@ steps:
     displayName: 'Run TypeScript unit tests'
     inputs:
       command: 'custom'
-      customCommand: 'run test-ci'
+      customCommand: 'run test:ci'
       workingDir: 'platform/src/apis/Platform.Api.ChartRendering'
 
   - task: PublishTestResults@2
