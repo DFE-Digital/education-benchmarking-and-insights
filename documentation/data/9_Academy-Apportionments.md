@@ -17,7 +17,7 @@ Trust expenditure is distributed (apportioned) to its member academies using two
 
 In FBIT (Financial Benchmarking Insight Tool), we combine central trust figures with individual academy data. This allows academies to see how much of the trust's central expenditure is attributable to their academy.
 
-Each academy's total expenditure in FBIT includes its share of trust central costs, but **only for its current trust**. This apportionment is calculated pro-rata to account for the fraction of the financial year the academy has been in the trust. For example, if an academy joins a trust for just one day in a financial year, its share of central expenditure would be close to zero.
+Each academy's total expenditure in FBIT includes its share of trust central costs, but **only for its current trust**. This apportionment is calculated pro-rata on top of the pupil apportionment to account for the fraction of the financial year the academy has been in the trust. For example, if an academy joins a trust for just one day in a financial year, its share of central expenditure would be close to zero.
 
 ## Trust Membership Changes
 
@@ -25,6 +25,6 @@ Under normal circumstances, adding up all the apportioned central service expend
 
 ![Apportionment diagram](./images/apportionments.png)
 
-**Why this happens**: When an academy leaves a trust partway through a year, the trust's central expenditure includes money spent on that academy while it was a member. However, since academies only show apportioned costs for their *current* trust, the departed academy's share is no longer included in the current members' totals.
+**Why this happens**: When an academy leaves a trust partway through a year, the trust's central expenditure includes money spent on that academy while it was a member. Since the end-of-year members are different, adding their central service apportionment will result in less than the total central spend.
 
 **The result**: The trust's central expenditure appears higher than the sum of its current members' apportioned shares, because it includes historical spending on academies that are no longer part of the trust.
