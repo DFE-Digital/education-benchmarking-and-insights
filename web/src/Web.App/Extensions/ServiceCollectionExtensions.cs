@@ -1,6 +1,7 @@
 using System.Security.Claims;
 using FluentValidation;
 using IdentityModel.Client;
+using Microsoft.ApplicationInsights;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
@@ -298,6 +299,9 @@ public static class ServiceCollectionExtensions
                     },
                     OnTokenValidated = async context =>
                     {
+                        var telemetry = context.HttpContext.RequestServices.GetRequiredService<TelemetryClient>();
+                        telemetry.TrackUserSignedInEvent(context);
+                        
                         try
                         {
                             var organisation = context.Principal?.Organisation();
