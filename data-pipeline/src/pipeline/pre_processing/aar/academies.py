@@ -64,6 +64,10 @@ def prepare_aar_data(aar_path, year: int):
     ).items():
         aar[column] = aar.eval(eval_)
 
+    aar["Income_Direct revenue finance"] = aar[
+        "BNCH21707 (Direct revenue financing (Revenue contributions to capital))"
+    ]
+
     aar = aar[~(aar["ACADEMYTRUSTSTATUS"].str.lower() == "1 day")].copy()
 
     aar["Income_Total grant funding"] = (

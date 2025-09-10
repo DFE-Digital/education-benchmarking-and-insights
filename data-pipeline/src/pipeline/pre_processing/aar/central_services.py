@@ -36,6 +36,12 @@ def prepare_central_services_data(cs_path, year: int):
     ).items():
         central_services_financial[column] = central_services_financial.eval(eval_)
 
+    central_services_financial["Income_Direct revenue finance"] = (
+        central_services_financial[
+            "BNCH21707 (Direct revenue financing (Revenue contributions to capital))"
+        ]
+    )
+    
     central_services_financial["Income_Total grant funding"] = (
         central_services_financial["BNCH11110T (EFA Revenue Grants)"]
         + central_services_financial["BNCH11131 (DfE Family Revenue Grants)"]
