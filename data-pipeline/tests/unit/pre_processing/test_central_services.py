@@ -43,7 +43,7 @@ _expected_output_columns = [
     "Non-educational support staff and services_Professional services "
     "(non-curriculum)",
     "Premises staff and services_Maintenance of premises",
-    'BNCH21707 (Direct revenue financing (Revenue contributions to capital))',
+    "BNCH21707 (Direct revenue financing (Revenue contributions to capital))",
     "Other costs_Grounds maintenance",
     "Other costs_Indirect employee expenses",
     "Other costs_Interest charges for loan and bank",
