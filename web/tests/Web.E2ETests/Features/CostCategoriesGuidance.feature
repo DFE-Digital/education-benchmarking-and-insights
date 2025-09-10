@@ -25,7 +25,6 @@
           | Administrative supplies                    | administrative supplies (non-educational)                |
           | Catering staff and supplies                | catering staff                                           |
           | Catering staff and supplies                | catering supplies                                        |
-          | Other costs                                | direct revenue financing                                 |
           | Other costs                                | grounds maintenance                                      |
           | Other costs                                | indirect employee expenses                               |
           | Other costs                                | interest charges for loan and bank                       |

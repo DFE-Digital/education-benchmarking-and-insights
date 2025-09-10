@@ -362,7 +362,6 @@ public static class SubCostCategories
 
     public static class Other
     {
-        public const string DirectRevenueFinancingCosts = "Direct revenue financing";
         public const string GroundsMaintenanceCosts = "Grounds maintenance";
         public const string IndirectEmployeeExpenses = "Indirect employee expenses";
         public const string InterestChargesLoanBank = "Interest charges for loan and bank";
@@ -379,7 +378,6 @@ public static class SubCostCategories
 
         public static string[] SubCategories { get; } =
         [
-            DirectRevenueFinancingCosts,
             GroundsMaintenanceCosts,
             IndirectEmployeeExpenses,
             InterestChargesLoanBank,

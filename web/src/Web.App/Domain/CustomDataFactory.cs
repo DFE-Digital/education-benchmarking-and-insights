@@ -39,7 +39,6 @@ public static class CustomDataFactory
             EnergyCosts = expenditure.EnergyCosts,
             WaterSewerageCosts = expenditure.WaterSewerageCosts,
             // Other costs
-            DirectRevenueFinancingCosts = expenditure.DirectRevenueFinancingCosts,
             GroundsMaintenanceCosts = expenditure.GroundsMaintenanceCosts,
             IndirectEmployeeExpenses = expenditure.IndirectEmployeeExpenses,
             InterestChargesLoanBank = expenditure.InterestChargesLoanBank,

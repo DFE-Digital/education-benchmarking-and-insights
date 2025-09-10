@@ -98,8 +98,6 @@ public class GivenASubCategoryCostCodes
     }
 
     [Theory]
-    [InlineData(SubCostCategories.Other.DirectRevenueFinancingCosts, false, false, "E30")]
-    [InlineData(SubCostCategories.Other.DirectRevenueFinancingCosts, true, false, "BAE290")]
     [InlineData(SubCostCategories.Other.GroundsMaintenanceCosts, false, false, "E13")]
     [InlineData(SubCostCategories.Other.GroundsMaintenanceCosts, true, false, "BAE170")]
     [InlineData(SubCostCategories.Other.IndirectEmployeeExpenses, false, false, "E08")]

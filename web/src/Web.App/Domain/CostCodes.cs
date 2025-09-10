@@ -81,7 +81,6 @@ public class CostCodes(bool isPartOfTrust, bool cfrItSpendBreakdown)
     private string CateringSuppliesCostCode { get; } = isPartOfTrust ? "BAE250" : "E25";
 
     // OtherCostCodes
-    private string DirectRevenueFinancingCostCode { get; } = isPartOfTrust ? "BAE290" : "E30";
     private string GroundsMaintenanceCostCode { get; } = isPartOfTrust ? "BAE170" : "E13";
     private string IndirectEmployeeExpensesCostCode { get; } = isPartOfTrust ? "BAE080" : "E08";
     private string InterestChargesLoanBankCostCode { get; } = isPartOfTrust ? "BAE320" : "E29";
@@ -118,7 +117,6 @@ public class CostCodes(bool isPartOfTrust, bool cfrItSpendBreakdown)
             { SubCostCategories.AdministrativeSupplies.AdministrativeSuppliesNonEducationalCosts, AdministrativeSuppliesNonEducationalCostCodes },
             { SubCostCategories.CateringStaffServices.CateringStaffCosts, CateringStaffCostCode },
             { SubCostCategories.CateringStaffServices.CateringSuppliesCosts, CateringSuppliesCostCode },
-            { SubCostCategories.Other.DirectRevenueFinancingCosts, DirectRevenueFinancingCostCode },
             { SubCostCategories.Other.GroundsMaintenanceCosts, GroundsMaintenanceCostCode },
             { SubCostCategories.Other.IndirectEmployeeExpenses, IndirectEmployeeExpensesCostCode },
             { SubCostCategories.Other.InterestChargesLoanBank, InterestChargesLoanBankCostCode },
