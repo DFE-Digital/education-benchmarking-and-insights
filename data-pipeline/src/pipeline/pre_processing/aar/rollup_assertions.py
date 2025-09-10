@@ -1,5 +1,5 @@
 # Test that Total Expenditure_CS rolls up correctly to central services totals per trust
-def test_trust_rollup(academies, central_services, tolerance=0.001):
+def test_trust_rollup(academies, central_services, tolerance=0.001) -> bool:
     """Test that academy CS totals roll up to central services totals per trust."""
 
     # Academy rollup by trust (only for academies that have central services data)
@@ -39,7 +39,7 @@ def test_trust_rollup(academies, central_services, tolerance=0.001):
     return all_within_tolerance
 
 
-def test_academies_rollup(academies, aar, tolerance=0.01):
+def test_academies_rollup(academies, aar, tolerance=0.01) -> bool:
     comparison_academies = (
         academies[["URN"]]
         .assign(
