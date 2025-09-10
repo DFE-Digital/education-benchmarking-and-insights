@@ -6,7 +6,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Moq;
-using Web.App.Identity;
+using Web.App;
+using Web.App.Identity.Models;
 using Web.App.Telemetry;
 using Xunit;
 using TelemetryClientExtensions = Web.App.Extensions.TelemetryClientExtensions;
@@ -17,24 +18,48 @@ public class GivenATelemetryClient
 {
     private readonly Mock<ITelemetryClientWrapper> _telemetry = new();
 
-    [Fact]
-    public void TracksEventWhenTrackUserSignedInEventIsCalled()
+    [Theory]
+    [InlineData(OrganisationCategories.SingleAcademyTrust, 1234567, "trust", "CompanyNumber", "01234567")]
+    [InlineData(OrganisationCategories.SingleAcademyTrust, null, "trust", "CompanyNumber", "")]
+    [InlineData(OrganisationCategories.MultiAcademyTrust, 1234567, "trust", "CompanyNumber", "01234567")]
+    [InlineData(OrganisationCategories.LocalAuthority, 12, "local-authority", "Code", "012")]
+    [InlineData(OrganisationCategories.LocalAuthority, null, "local-authority", "Code", "")]
+    [InlineData("001", 12345, "school", "Urn", "012345")]
+    [InlineData("001", null, "school", "Urn", "")]
+    [InlineData(null, null, "", "", "")]
+    public void TracksEventWhenTrackUserSignedInEventIsCalled(
+        string? organisationCategory,
+        int? organisationIdentifier,
+        string expectedOrganisationType,
+        string expectedOrganisationIdentifierKey,
+        string expectedOrganisationIdentifierValue)
     {
         // arrange
-        var identity = new ClaimsIdentity();
-        identity.AddClaim(new Claim(ClaimTypes.NameIdentifier, "user-id"));
-        identity.AddClaim(new Claim(ClaimTypes.Email, nameof(ClaimTypes.Email)));
-        identity.AddClaim(new Claim(ClaimTypes.GivenName, nameof(ClaimTypes.GivenName)));
-        identity.AddClaim(new Claim(ClaimTypes.Surname, nameof(ClaimTypes.Surname)));
-        identity.AddClaim(new Claim(ClaimNames.Organisation, "{}"));
-        identity.AddClaim(new Claim("sid", "sensitive"));
-        identity.AddClaim(new Claim("nonce", "sensitive"));
-        identity.AddClaim(new Claim("at_hash", "sensitive"));
-        identity.AddClaim(new Claim("aud", "FBIT"));
-        identity.AddClaim(new Claim("exp", "0000000000"));
-        identity.AddClaim(new Claim("iat", "0000000000"));
-        identity.AddClaim(new Claim("iss", "https://pp-oidc.signin.education.gov.uk:443"));
+        var organisation = new Organisation
+        {
+            Category = new OrganisationItem
+            {
+                Id = organisationCategory
+            }
+        };
 
+        switch (organisationCategory)
+        {
+            case OrganisationCategories.SingleAcademyTrust:
+            case OrganisationCategories.MultiAcademyTrust:
+                organisation.CompanyRegistrationNumber = organisationIdentifier;
+                break;
+            case OrganisationCategories.LocalAuthority:
+                organisation.EstablishmentNumber = organisationIdentifier;
+                break;
+            case "001":
+                organisation.URN = organisationIdentifier;
+                break;
+        }
+
+        const string userId = nameof(userId);
+        var identity = new ClaimsIdentity();
+        identity.AddClaim(new Claim(ClaimTypes.NameIdentifier, userId));
         var principal = new ClaimsPrincipal(identity);
 
         var context = new TokenValidatedContext(
@@ -56,27 +81,20 @@ public class GivenATelemetryClient
             .Verifiable();
 
         // act
-        TelemetryClientExtensions.TrackUserSignedInEvent(_telemetry.Object, context);
+        TelemetryClientExtensions.TrackUserSignedInEvent(_telemetry.Object, context, organisation);
 
         // assert
         _telemetry.VerifyAll();
         Assert.Equal("user-sign-in-success", actualEventName);
-        Assert.Equal(2, actualProperties.Keys.Count);
-        Assert.Equal("user-id", actualProperties["User"]);
-        Assert.Equal("""
-                       http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier: user-id
-                       http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress: *****
-                       http://schemas.xmlsoap.org/ws/2005/05/identity/claims/givenname: *********
-                       http://schemas.xmlsoap.org/ws/2005/05/identity/claims/surname: *******
-                       organisation: {}
-                       sid: *********
-                       nonce: *********
-                       at_hash: *********
-                       aud: FBIT
-                       exp: 0000000000
-                       iat: 0000000000
-                       iss: https://pp-oidc.signin.education.gov.uk:443
-                       """, actualProperties["Claims"]);
+        Assert.Equal(organisationCategory == null ? 2 : 3, actualProperties.Keys.Count);
+        Assert.Equal(userId, actualProperties["User"]);
+        Assert.Equal(expectedOrganisationType, actualProperties["Organisation Type"]);
+
+        if (organisationCategory != null)
+        {
+            Assert.True(actualProperties.ContainsKey(expectedOrganisationIdentifierKey));
+            Assert.Equal(expectedOrganisationIdentifierValue, actualProperties[expectedOrganisationIdentifierKey]);
+        }
     }
 
     public class FakeAuthHandler(IOptionsMonitor<AuthenticationSchemeOptions> options, ILoggerFactory logger, UrlEncoder encoder) : AuthenticationHandler<AuthenticationSchemeOptions>(options, logger, encoder)

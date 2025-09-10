@@ -300,11 +300,12 @@ public static class ServiceCollectionExtensions
                     OnTokenValidated = async context =>
                     {
                         var telemetry = context.HttpContext.RequestServices.GetRequiredService<ITelemetryClientWrapper>();
-                        telemetry.TrackUserSignedInEvent(context);
 
                         try
                         {
                             var organisation = context.Principal?.Organisation();
+                            telemetry.TrackUserSignedInEvent(context, organisation);
+
                             var service = context.HttpContext.RequestServices.GetRequiredService<IClaimsIdentifierService>();
                             var (schools, trusts) = await service.IdentifyValidClaims(organisation);
 
