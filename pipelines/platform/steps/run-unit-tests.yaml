@@ -54,7 +54,7 @@ steps:
     inputs:
       summaryFileLocation: '$(Agent.TempDirectory)/**/@(coverage.cobertura|clover).xml'
 
-  - task: BuildQualityChecks@9
+  - task: BuildQualityChecks@10
     displayName: 'Check build quality'
     inputs:
       checkCoverage: true
