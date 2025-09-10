@@ -103,10 +103,6 @@ CREATE VIEW SchoolExpenditureHistoricWithNulls AS
              ELSE TotalOtherCosts
          END AS TotalOtherCosts
        , CASE
-             WHEN DirectRevenueFinancingCosts IS NULL OR DirectRevenueFinancingCosts <= 0.0 THEN NULL
-             ELSE DirectRevenueFinancingCosts
-         END AS DirectRevenueFinancingCosts
-       , CASE
              WHEN GroundsMaintenanceCosts IS NULL OR GroundsMaintenanceCosts <= 0.0 THEN NULL
              ELSE GroundsMaintenanceCosts
          END AS GroundsMaintenanceCosts

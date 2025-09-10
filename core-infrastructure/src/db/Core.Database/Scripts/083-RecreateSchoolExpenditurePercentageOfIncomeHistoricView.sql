@@ -28,7 +28,6 @@ CREATE VIEW SchoolExpenditurePercentageOfIncomeHistoric AS
        , (CateringStaffCosts / TotalIncome) * 100                        AS CateringStaffCosts
        , (CateringSuppliesCosts / TotalIncome) * 100                     AS CateringSuppliesCosts
        , (TotalOtherCosts / TotalIncome) * 100                           AS TotalOtherCosts
-       , (DirectRevenueFinancingCosts / TotalIncome) * 100               AS DirectRevenueFinancingCosts
        , (GroundsMaintenanceCosts / TotalIncome) * 100                   AS GroundsMaintenanceCosts
        , (IndirectEmployeeExpenses / TotalIncome) * 100                  AS IndirectEmployeeExpenses
        , (InterestChargesLoanBank / TotalIncome) * 100                   AS InterestChargesLoanBank
