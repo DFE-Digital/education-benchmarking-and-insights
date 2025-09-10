@@ -22,7 +22,7 @@ def test_trust_rollup(academies, central_services, tolerance=0.001) -> bool:
     comparison = academy_cs_totals.merge(cs_totals, on="Trust Name", how="left")
     comparison["Difference"] = (
         comparison["Academy_CS_Total"] - comparison["Total Expenditure"]
-    )
+    ).abs()
     comparison["Within_Tolerance"] = comparison["Difference"] <= tolerance
 
     all_within_tolerance = comparison["Within_Tolerance"].all()
@@ -52,6 +52,6 @@ def test_academies_rollup(academies, aar, tolerance=0.01) -> bool:
 
     comparison_academies["Within_Tolerance"] = (
         comparison_academies["Derived_No_CS"] - comparison_academies["Original_AAR"]
-    ) <= tolerance
+    ).abs() <= tolerance
 
     return comparison_academies["Within_Tolerance"].all()
