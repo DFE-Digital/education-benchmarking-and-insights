@@ -7,6 +7,27 @@ namespace Web.App.Extensions;
 
 public static class TelemetryClientExtensions
 {
+    public static void TrackUserSignInInitiatedEvent(this ITelemetryClientWrapper telemetry, RedirectContext context)
+    {
+        var request = context.HttpContext.Request;
+        var path = request.Path.Value;
+        var redirectUri = request.Query["redirectUri"].ToString();
+
+        var properties = new Dictionary<string, string>
+        {
+            { "Path", path ?? string.Empty },
+            { "RedirectUri", redirectUri }
+        };
+
+        var route = request.RouteValues;
+        foreach (var (key, value) in route)
+        {
+            properties.Add($"Route.{key.Sanitise()}", value?.ToString() ?? string.Empty);
+        }
+
+        telemetry.TrackEvent(TrackedEvents.UserSignInInitiated.GetStringValue(), properties);
+    }
+
     public static void TrackUserSignedInEvent(this ITelemetryClientWrapper telemetry, TokenValidatedContext context, Organisation? organisation)
     {
         var user = string.Empty;
