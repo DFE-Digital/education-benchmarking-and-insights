@@ -272,6 +272,13 @@ public static class ServiceCollectionExtensions
 
                 options.Events = new OpenIdConnectEvents
                 {
+                    OnRedirectToIdentityProvider = context =>
+                    {
+                        var telemetry = context.HttpContext.RequestServices.GetRequiredService<ITelemetryClientWrapper>();
+                        telemetry.TrackUserSignInInitiatedEvent(context);
+
+                        return Task.CompletedTask;
+                    },
                     OnMessageReceived = context =>
                     {
                         var isSpuriousAuthCbRequest =
