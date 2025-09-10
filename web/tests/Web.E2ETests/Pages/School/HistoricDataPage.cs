@@ -111,7 +111,6 @@ public class HistoricDataPage(IPage page)
         "Catering staff costs",
         "Catering supplies costs",
         "Total other costs",
-        "Direct revenue financing costs",
         "Grounds maintenance costs",
         "Indirect employee expenses costs",
         "Interest charges for loan and bank costs",

@@ -24,7 +24,6 @@ public record PostCustomDataRequest
     public decimal? TeachingStaffCosts { get; set; }
     public decimal? EnergyCosts { get; set; }
     public decimal? WaterSewerageCosts { get; set; }
-    public decimal? DirectRevenueFinancingCosts { get; set; }
     public decimal? GroundsMaintenanceCosts { get; set; }
     public decimal? IndirectEmployeeExpenses { get; set; }
     public decimal? InterestChargesLoanBank { get; set; }

@@ -43,7 +43,6 @@ public record SchoolCustomDataViewModel : IFinancialDataCustomDataViewModel, INo
     public decimal? WaterSewerageCosts { get; init; }
 
     // Other costs
-    public decimal? DirectRevenueFinancingCosts { get; init; }
     public decimal? GroundsMaintenanceCosts { get; init; }
     public decimal? IndirectEmployeeExpenses { get; init; }
     public decimal? InterestChargesLoanBank { get; init; }
@@ -116,7 +115,6 @@ public record SchoolCustomDataViewModel : IFinancialDataCustomDataViewModel, INo
         WaterSewerageCosts = customData.WaterSewerageCosts,
 
         // Other costs
-        DirectRevenueFinancingCosts = customData.DirectRevenueFinancingCosts,
         GroundsMaintenanceCosts = customData.GroundsMaintenanceCosts,
         IndirectEmployeeExpenses = customData.IndirectEmployeeExpenses,
         InterestChargesLoanBank = customData.InterestChargesLoanBank,

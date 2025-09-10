@@ -77,7 +77,6 @@
 //         Assert.Equal(_expenditure.WaterSewerageCosts, _sut.CurrentValues.WaterSewerageCosts);
 //
 //         // Other costs
-//         Assert.Equal(_expenditure.DirectRevenueFinancingCosts, _sut.CurrentValues.DirectRevenueFinancingCosts);
 //         Assert.Equal(_expenditure.GroundsMaintenanceCosts, _sut.CurrentValues.GroundsMaintenanceCosts);
 //         Assert.Equal(_expenditure.IndirectEmployeeExpenses, _sut.CurrentValues.IndirectEmployeeExpenses);
 //         Assert.Equal(_expenditure.InterestChargesLoanBank, _sut.CurrentValues.InterestChargesLoanBank);
@@ -149,7 +148,6 @@
 //         Assert.Equal(_customInput.WaterSewerageCosts, _sut.CustomInput.WaterSewerageCosts);
 //
 //         // Other costs
-//         Assert.Equal(_customInput.DirectRevenueFinancingCosts, _sut.CustomInput.DirectRevenueFinancingCosts);
 //         Assert.Equal(_customInput.GroundsMaintenanceCosts, _sut.CustomInput.GroundsMaintenanceCosts);
 //         Assert.Equal(_customInput.IndirectEmployeeExpenses, _sut.CustomInput.IndirectEmployeeExpenses);
 //         Assert.Equal(_customInput.InterestChargesLoanBank, _sut.CustomInput.InterestChargesLoanBank);

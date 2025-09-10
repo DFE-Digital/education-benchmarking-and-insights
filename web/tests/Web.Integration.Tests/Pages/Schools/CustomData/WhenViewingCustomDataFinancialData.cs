@@ -62,7 +62,6 @@ public class WhenViewingCustomDataFinancialData : PageBase<SchoolBenchmarkingWeb
             { nameof(FinancialDataCustomDataViewModel.TeachingStaffCosts), _customExpenditure.TeachingStaffCosts },
             { nameof(FinancialDataCustomDataViewModel.EnergyCosts), _customExpenditure.EnergyCosts },
             { nameof(FinancialDataCustomDataViewModel.WaterSewerageCosts), _customExpenditure.WaterSewerageCosts },
-            { nameof(FinancialDataCustomDataViewModel.DirectRevenueFinancingCosts), _customExpenditure.DirectRevenueFinancingCosts },
             { nameof(FinancialDataCustomDataViewModel.GroundsMaintenanceCosts), _customExpenditure.GroundsMaintenanceCosts },
             { nameof(FinancialDataCustomDataViewModel.IndirectEmployeeExpenses), _customExpenditure.IndirectEmployeeExpenses },
             { nameof(FinancialDataCustomDataViewModel.InterestChargesLoanBank), _customExpenditure.InterestChargesLoanBank },
@@ -198,7 +197,6 @@ public class WhenViewingCustomDataFinancialData : PageBase<SchoolBenchmarkingWeb
             (nameof(FinancialDataCustomDataViewModel.TeachingStaffCosts), "Enter teaching staff in the correct format"),
             (nameof(FinancialDataCustomDataViewModel.EnergyCosts), "Enter energy in the correct format"),
             (nameof(FinancialDataCustomDataViewModel.WaterSewerageCosts), "Enter water and sewerage in the correct format"),
-            (nameof(FinancialDataCustomDataViewModel.DirectRevenueFinancingCosts), "Enter direct revenue financing in the correct format"),
             (nameof(FinancialDataCustomDataViewModel.GroundsMaintenanceCosts), "Enter grounds maintenance in the correct format"),
             (nameof(FinancialDataCustomDataViewModel.IndirectEmployeeExpenses), "Enter indirect employee expenses in the correct format"),
             (nameof(FinancialDataCustomDataViewModel.InterestChargesLoanBank), "Enter interest charges for loan and bank in the correct format"),
@@ -276,7 +274,6 @@ public class WhenViewingCustomDataFinancialData : PageBase<SchoolBenchmarkingWeb
         DocumentAssert.Input(page, "TeachingStaffCosts", customData.TeachingStaffCosts.ToSimpleDisplay());
         DocumentAssert.Input(page, "EnergyCosts", customData.EnergyCosts.ToSimpleDisplay());
         DocumentAssert.Input(page, "WaterSewerageCosts", customData.WaterSewerageCosts.ToSimpleDisplay());
-        DocumentAssert.Input(page, "DirectRevenueFinancingCosts", customData.DirectRevenueFinancingCosts.ToSimpleDisplay());
         DocumentAssert.Input(page, "GroundsMaintenanceCosts", customData.GroundsMaintenanceCosts.ToSimpleDisplay());
         DocumentAssert.Input(page, "IndirectEmployeeExpenses", customData.IndirectEmployeeExpenses.ToSimpleDisplay());
         DocumentAssert.Input(page, "InterestChargesLoanBank", customData.InterestChargesLoanBank.ToSimpleDisplay());
@@ -363,7 +360,7 @@ public class WhenViewingCustomDataFinancialData : PageBase<SchoolBenchmarkingWeb
         DocumentAssert.TitleAndH1(page, "Customise your data - Financial Benchmarking and Insights Tool - GOV.UK", "Change financial data");
 
         var currentValues = page.QuerySelectorAll("span[id^='current-']");
-        Assert.Equal(35, currentValues.Length);
+        Assert.Equal(34, currentValues.Length);
 
         foreach (var currentValue in currentValues)
         {

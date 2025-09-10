@@ -32,7 +32,7 @@
 
         Examples:
           | tab      | charts | warnings |
-          | spending | 33     | 9        |
+          | spending | 33     | 8        |
           | income   | 11     | 6        |
           | balance  | 2      | 0        |
           | census   | 8      | 1        |

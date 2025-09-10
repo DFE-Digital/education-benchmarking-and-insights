@@ -94,7 +94,6 @@ public class HistoricDataPage(IPage page)
         "Catering staff costs",
         "Catering supplies costs",
         "Total other costs",
-        "Direct revenue financing costs",
         "Grounds maintenance costs",
         "Indirect employee expenses costs",
         "Interest charges for loan and bank costs",
@@ -190,7 +189,7 @@ public class HistoricDataPage(IPage page)
                 await SpendingChartsStats.First.ShouldBeVisible();
                 await AssertCategoryNames(_spendingCategories, selectedTab);
                 await ExpenditureDimension.ShouldHaveSelectedOption("actuals");
-                await AreSaveAsImageButtonsPresent(HistoryTabs.Spending, 35);
+                await AreSaveAsImageButtonsPresent(HistoryTabs.Spending, 34);
                 break;
             case HistoryTabs.Income:
                 await IncomeDimension.ShouldBeVisible();

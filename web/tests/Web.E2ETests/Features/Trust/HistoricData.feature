@@ -31,7 +31,7 @@
 
         Examples:
           | tab      | charts | warnings |
-          | spending | 35     | 5        |
+          | spending | 34     | 5        |
           | income   | 11     | 5        |
           | balance  | 2      | 0        |
 
