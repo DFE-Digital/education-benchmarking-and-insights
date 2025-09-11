@@ -183,7 +183,6 @@ Endpoint: `api/schools/expenditure`
     "premisesStaffCosts": 0,
     "totalOtherCosts": 0,
     "otherInsurancePremiumsCosts": 0,
-    "directRevenueFinancingCosts": 0,
     "groundsMaintenanceCosts": 0,
     "indirectEmployeeExpenses": 0,
     "interestChargesLoanBank": 0,
