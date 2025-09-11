@@ -235,7 +235,6 @@ def test_federation_lead_school_agg_index():
             "Lead school in federation": ["10000", "10001", "10002", "10000"],
             "Total Internal Floor Area": [1_000, 1_000, 1_000, 1_000],
             "Building Age": [1990, 1990, 1990, 2000],
-            # Workforce aggregation inputs (new requirements)
             "Total School Workforce (Headcount)": [50, 55, 60, 65],
             "Total School Workforce (Full-Time Equivalent)": [45.0, 50.0, 55.0, 60.0],
             "Total Number of Teachers (Headcount)": [10, 10, 10, 10],
@@ -267,7 +266,6 @@ def test_federation_lead_school_agg_pupils():
             "Lead school in federation": ["10000", "10001", "10002", "10000"],
             "Total Internal Floor Area": [1_000, 1_000, 1_000, 1_000],
             "Building Age": [1990, 1990, 1990, 2000],
-            # Workforce aggregation inputs (new requirements)
             "Total School Workforce (Headcount)": [50, 55, 60, 65],
             "Total School Workforce (Full-Time Equivalent)": [45.0, 50.0, 55.0, 60.0],
             "Total Number of Teachers (Headcount)": [10, 10, 10, 10],
@@ -300,7 +298,6 @@ def test_federation_lead_school_agg_fsm():
             "Lead school in federation": ["10000", "10001", "10002", "10000"],
             "Total Internal Floor Area": [1_000, 1_000, 1_000, 1_000],
             "Building Age": [1990, 1990, 1990, 2000],
-            # Workforce aggregation inputs (new requirements)
             "Total School Workforce (Headcount)": [50, 55, 60, 65],
             "Total School Workforce (Full-Time Equivalent)": [45.0, 50.0, 55.0, 60.0],
             "Total Number of Teachers (Headcount)": [10, 10, 10, 10],
@@ -333,7 +330,6 @@ def test_federation_lead_school_agg_sen():
             "Lead school in federation": ["10000", "10001", "10002", "10000"],
             "Total Internal Floor Area": [1_000, 1_000, 1_000, 1_000],
             "Building Age": [1990, 1990, 1990, 2000],
-            # Workforce aggregation inputs (new requirements)
             "Total School Workforce (Headcount)": [50, 55, 60, 65],
             "Total School Workforce (Full-Time Equivalent)": [45.0, 50.0, 55.0, 60.0],
             "Total Number of Teachers (Headcount)": [10, 10, 10, 10],
@@ -366,7 +362,6 @@ def test_federation_lead_school_agg_building_age():
             "Lead school in federation": ["10000", "10001", "10002", "10000"],
             "Total Internal Floor Area": [1_000, 1_000, 1_000, 1_000],
             "Building Age": [1990, 1990, 1990, 2000],
-            # Workforce aggregation inputs (new requirements)
             "Total School Workforce (Headcount)": [50, 55, 60, 65],
             "Total School Workforce (Full-Time Equivalent)": [45.0, 50.0, 55.0, 60.0],
             "Total Number of Teachers (Headcount)": [10, 10, 10, 10],
@@ -402,7 +397,6 @@ def test_join_federations_unmodified():
             "Lead school in federation": ["10000", "10001", "10002", "10000"],
             "Total Internal Floor Area": [1_000, 1_000, 1_000, 1_000],
             "Building Age": [1990, 1990, 1990, 2000],
-            # Workforce aggregation inputs (new requirements)
             "Total School Workforce (Headcount)": [0, 0, 0, 0],
             "Total School Workforce (Full-Time Equivalent)": [0.0, 0.0, 0.0, 0.0],
             "Total Number of Teachers (Headcount)": [10, 10, 10, 10],
