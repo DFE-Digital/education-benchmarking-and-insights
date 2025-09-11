@@ -71,7 +71,6 @@ This value can be retrieved via an API call to [Insight](../../platform/src/apis
   "cateringStaffCosts": 0,
   "cateringSuppliesCosts": 0,
   "totalOtherCosts": 0,
-  "directRevenueFinancingCosts": 0,
   "groundsMaintenanceCosts": 0,
   "indirectEmployeeExpenses": 0,
   "interestChargesLoanBank": 0,
