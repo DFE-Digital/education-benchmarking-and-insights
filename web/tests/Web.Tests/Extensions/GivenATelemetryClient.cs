@@ -3,6 +3,7 @@ using System.Text.Encodings.Web;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Moq;
@@ -17,6 +18,58 @@ namespace Web.Tests.Extensions;
 public class GivenATelemetryClient
 {
     private readonly Mock<ITelemetryClientWrapper> _telemetry = new();
+
+    [Fact]
+    public void TracksEventWhenTrackUserSignInInitiatedEventIsCalled()
+    {
+        // arrange
+        const string path = $"/{nameof(path)}";
+        const string redirectUri = $"/{nameof(redirectUri)}";
+        const string controller = nameof(controller);
+        const string action = nameof(action);
+        var httpContext = new DefaultHttpContext
+        {
+            Request =
+            {
+                Path = path,
+                QueryString = new QueryString($"?redirectUri={redirectUri}"),
+                RouteValues = new RouteValueDictionary
+                {
+                    { "controller", controller },
+                    { "action", action }
+                }
+            }
+        };
+
+        var context = new RedirectContext(
+            httpContext,
+            new AuthenticationScheme(string.Empty, null, typeof(FakeAuthHandler)),
+            Mock.Of<OpenIdConnectOptions>(),
+            Mock.Of<AuthenticationProperties>());
+
+        var actualEventName = string.Empty;
+        IDictionary<string, string> actualProperties = new Dictionary<string, string>();
+        _telemetry
+            .Setup(t => t.TrackEvent(It.IsAny<string>(), It.IsAny<IDictionary<string, string>>()))
+            .Callback<string, IDictionary<string, string>>((eventName, properties) =>
+            {
+                actualEventName = eventName;
+                actualProperties = properties;
+            })
+            .Verifiable();
+
+        // act
+        TelemetryClientExtensions.TrackUserSignInInitiatedEvent(_telemetry.Object, context);
+
+        // assert
+        _telemetry.VerifyAll();
+        Assert.Equal("user-sign-in-initiated", actualEventName);
+        Assert.Equal(4, actualProperties.Keys.Count);
+        Assert.Equal(path, actualProperties["Path"]);
+        Assert.Equal(redirectUri, actualProperties["RedirectUri"]);
+        Assert.Equal(controller, actualProperties["Route.Controller"]);
+        Assert.Equal(action, actualProperties["Route.Action"]);
+    }
 
     [Theory]
     [InlineData(OrganisationCategories.SingleAcademyTrust, 1234567, "trust", "CompanyNumber", "01234567")]
