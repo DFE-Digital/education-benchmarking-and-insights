@@ -141,7 +141,7 @@ public class GivenATelemetryClient
         Assert.Equal("user-sign-in-success", actualEventName);
         Assert.Equal(organisationCategory == null ? 2 : 3, actualProperties.Keys.Count);
         Assert.Equal(userId, actualProperties["User"]);
-        Assert.Equal(expectedOrganisationType, actualProperties["Organisation Type"]);
+        Assert.Equal(expectedOrganisationType, actualProperties["Establishment"]);
 
         if (organisationCategory != null)
         {

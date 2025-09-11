@@ -1,0 +1,46 @@
+AppEvents
+| where
+    Name in (${trackedAuthEvents})
+| where
+    isempty(SyntheticSource)
+| extend
+    Path = tostring(Properties["Path"]),
+    RedirectUri = tostring(Properties["RedirectUri"]),
+    Controller = tostring(Properties["Route.Controller"]),
+    Action = tostring(Properties["Route.Action"]),
+    Urn = tostring(Properties["Urn"]),
+    RouteUrn = tostring(Properties["Route.Urn"]),
+    CompanyNumber = tostring(Properties["CompanyNumber"]),
+    RouteCompanyNumber = tostring(Properties["Route.CompanyNumber"]),
+    Code = tostring(Properties["Code"]),
+    RouteCode = tostring(Properties["Route.Code"])
+| extend
+    Establishment = case(
+        not(isempty(RouteUrn)), "school",
+        not(isempty(RouteCompanyNumber)), "trust",
+        not(isempty(RouteCode)), "local-authority",
+        tostring(Properties["Establishment"])
+    )
+| extend
+    Identifier = case(
+        Establishment == "school", Urn,
+        Establishment == "trust", CompanyNumber,
+        Establishment == "local-authority", Code,
+        not(isempty(RouteUrn)), RouteUrn,
+        not(isempty(RouteCompanyNumber)), RouteCompanyNumber,
+        not(isempty(RouteCode)), RouteCode,
+        ""
+    )
+| project
+    TimeGenerated,
+    Name,
+    Path,
+    RedirectUri,
+    Controller,
+    Action,
+    Establishment,
+    Identifier,
+    OperationId,
+    UserId
+| order by 
+    TimeGenerated asc
