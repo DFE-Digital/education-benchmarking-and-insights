@@ -1,0 +1,11 @@
+ GetTrackedAuth
+| where
+    Name == "${name}"
+| project
+    TimeGenerated,
+    Path,
+    RedirectUri,
+    Controller,
+    Action,
+    Establishment,
+    Identifier

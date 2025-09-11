@@ -115,3 +115,11 @@ variable "establishmentTypes" {
     "local-authority"
   ]
 }
+
+variable "trackedAuthEvents" {
+  type = list(string)
+  default = [
+    "user-sign-in-initiated",
+    "user-sign-in-success"
+  ]
+}

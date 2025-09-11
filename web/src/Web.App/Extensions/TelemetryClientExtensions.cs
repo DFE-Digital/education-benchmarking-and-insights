@@ -29,7 +29,7 @@ public static class TelemetryClientExtensions
         var properties = new Dictionary<string, string>
         {
             { "User", user },
-            { "Organisation Type", organisationType?.GetStringValue() ?? string.Empty }
+            { "Establishment", organisationType?.GetStringValue() ?? string.Empty }
         };
 
         // ReSharper disable once SwitchStatementHandlesSomeKnownEnumValuesWithDefault

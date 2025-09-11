@@ -615,3 +615,47 @@ resource "azurerm_log_analytics_saved_search" "get-sfb-referrer-requests" {
 
   query = file("${path.module}/queries/functions/get-sfb-referrer-requests.kql")
 }
+
+resource "azurerm_log_analytics_saved_search" "get-tracked-auth" {
+  name                       = "GetTrackedAuth"
+  log_analytics_workspace_id = data.azurerm_log_analytics_workspace.application-insights-workspace.id
+  category                   = "Function"
+  display_name               = "GetTrackedAuth"
+  function_alias             = "GetTrackedAuth"
+  tags                       = local.query-tags
+
+  query = templatefile("${path.module}/queries/functions/get-tracked-auth.kql", {
+    trackedAuthEvents = <<EOT
+      %{for index, trackedEvent in var.trackedAuthEvents~}
+      "${trackedEvent}"
+      %{if index < length(var.trackedAuthEvents) - 1}
+      ,
+      %{endif}
+      %{endfor~}
+    EOT
+  })
+}
+
+resource "random_uuid" "tracked-auth-id" {
+  for_each = toset(var.trackedAuthEvents)
+}
+
+locals {
+  trackedAuthEventUuids = tomap({
+    for trackedEventName, uuid in random_uuid.tracked-auth-id : trackedEventName => uuid.result
+  })
+}
+
+resource "azurerm_log_analytics_query_pack_query" "tracked-auth" {
+  for_each      = local.trackedAuthEventUuids
+  name          = each.value
+  query_pack_id = azurerm_log_analytics_query_pack.query-pack.id
+  display_name  = "Tracked Auth – ${each.key}"
+  description   = "Table of ${each.key} events"
+  categories    = ["applications"]
+  tags          = local.query-tags
+
+  body = templatefile("${path.module}/queries/tracked-auth.kql", {
+    name = each.key
+  })
+}
