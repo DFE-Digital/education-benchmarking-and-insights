@@ -384,3 +384,79 @@ resource "azurerm_cdn_frontdoor_rule" "append-sas-rule-images" {
     }
   }
 }
+
+resource "azurerm_cdn_frontdoor_rule" "append-sas-rule-data-invalid" {
+  name                      = "${var.environment-prefix}appendsasruledatainvalid"
+  cdn_frontdoor_rule_set_id = azurerm_cdn_frontdoor_rule_set.web-assets-rules.id
+  order                     = 3
+  behavior_on_match         = "Stop"
+
+  depends_on = [
+    azurerm_cdn_frontdoor_origin.web-app-front-door-origin-web-assets,
+    azurerm_cdn_frontdoor_origin_group.web-assets-front-door-origin-group
+  ]
+
+  actions {
+    route_configuration_override_action {
+      cdn_frontdoor_origin_group_id = azurerm_cdn_frontdoor_origin_group.web-app-front-door-origin-group.id
+      forwarding_protocol           = "HttpsOnly"
+      cache_behavior                = "Disabled"
+    }
+    url_rewrite_action {
+      source_pattern = "/"
+      destination    = "/error/404"
+    }
+  }
+
+  conditions {
+    url_path_condition {
+      match_values = ["/${azurerm_storage_container.data-container.name}"]
+      operator     = "BeginsWith"
+      transforms   = ["Lowercase"]
+    }
+    url_file_extension_condition {
+      match_values     = ["xls", "xlsx", "csv"]
+      operator         = "Equal"
+      negate_condition = true
+      transforms       = ["Lowercase"]
+    }
+  }
+}
+
+resource "azurerm_cdn_frontdoor_rule" "append-sas-rule-images-invalid" {
+  name                      = "${var.environment-prefix}appendsasruleimagesinvalid"
+  cdn_frontdoor_rule_set_id = azurerm_cdn_frontdoor_rule_set.web-assets-rules.id
+  order                     = 4
+  behavior_on_match         = "Stop"
+
+  depends_on = [
+    azurerm_cdn_frontdoor_origin.web-app-front-door-origin-web-assets,
+    azurerm_cdn_frontdoor_origin_group.web-assets-front-door-origin-group
+  ]
+
+  actions {
+    route_configuration_override_action {
+      cdn_frontdoor_origin_group_id = azurerm_cdn_frontdoor_origin_group.web-app-front-door-origin-group.id
+      forwarding_protocol           = "HttpsOnly"
+      cache_behavior                = "Disabled"
+    }
+    url_rewrite_action {
+      source_pattern = "/"
+      destination    = "/error/404"
+    }
+  }
+
+  conditions {
+    url_path_condition {
+      match_values = ["/${azurerm_storage_container.images-container.name}"]
+      operator     = "BeginsWith"
+      transforms   = ["Lowercase"]
+    }
+    url_file_extension_condition {
+      match_values     = ["jpg", "jpeg", "png", "gif", "svg", "webp"]
+      operator         = "Equal"
+      negate_condition = true
+      transforms       = ["Lowercase"]
+    }
+  }
+}
