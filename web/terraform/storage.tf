@@ -141,3 +141,39 @@ resource "azurerm_key_vault_secret" "web-assets-storage-connection-string" {
   key_vault_id = data.azurerm_key_vault.key-vault.id
   content_type = "connection-string"
 }
+
+# Create an SAS token for auth in a storage account
+data "azurerm_storage_account_sas" "web-assets-storage-sas" {
+  connection_string = azurerm_storage_account.web-assets-storage.primary_connection_string
+  https_only        = true
+  signed_version    = "2024-11-04"
+
+  resource_types {
+    service   = false
+    container = false
+    object    = true
+  }
+
+  services {
+    blob  = true
+    queue = false
+    table = false
+    file  = false
+  }
+
+  start  = "2025-01-01T00:00:00Z"
+  expiry = "2035-01-01T00:00:00Z"
+
+  permissions {
+    read    = true
+    write   = false
+    delete  = false
+    list    = false
+    add     = false
+    create  = false
+    update  = false
+    process = false
+    tag     = false
+    filter  = false
+  }
+}
