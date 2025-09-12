@@ -135,12 +135,21 @@ def build_bfr_data(
 
     merged_bfr = bfr_sofa.merge(bfr_3y, how="left", on=("Trust UPIN", "EFALineNo"))
 
+    # Compare input and output Trust counts (by Trust UPIN) and warn on mismatch
+    input_trust_count = academies["Trust UPIN"].nunique()
+
     bfr = (
         academies.groupby("Trust UPIN")
         .first()
         .reset_index()
         .merge(merged_bfr, on="Trust UPIN")
     )
+
+    output_trust_count = bfr["Trust UPIN"].nunique()
+    if input_trust_count != output_trust_count:
+        logger.warning(
+            f"BFR preprocessing Trust count mismatch: input trusts={input_trust_count}, output trusts={output_trust_count}"
+        )
 
     bfr["Category"].replace(
         {

@@ -2,7 +2,7 @@ import numpy as np
 import pandas as pd
 import pytest
 
-from pipeline.pre_processing.ancillary.bfr import build_bfr_historical_data
+from pipeline.pre_processing.bfr.trusts import build_bfr_historical_data
 from pipeline.pre_processing.bfr import calculations
 
 
