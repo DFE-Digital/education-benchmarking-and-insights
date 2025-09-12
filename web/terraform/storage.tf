@@ -81,7 +81,7 @@ resource "azurerm_storage_account" "web-assets-storage" {
   allow_nested_items_to_be_public = false
   tags                            = local.common-tags
   min_tls_version                 = "TLS1_2"
-  public_network_access_enabled   = false
+  public_network_access_enabled   = (azurerm_cdn_frontdoor_profile.web-app-front-door-profile.sku_name == "Premium_AzureFrontDoor" ? false : true)
   shared_access_key_enabled       = true
   local_user_enabled              = false
 
@@ -106,6 +106,13 @@ resource "azurerm_storage_account" "web-assets-storage" {
     expiration_action = "Log"
     expiration_period = "90.00:00:00"
   }
+}
+
+resource "azurerm_storage_account_network_rules" "web-assets-storage-network-rules" {
+  count              = (azurerm_cdn_frontdoor_profile.web-app-front-door-profile.sku_name == "Premium_AzureFrontDoor" ? 1 : 0)
+  storage_account_id = azurerm_storage_account.web-assets-storage.id
+  default_action     = "Deny"
+  ip_rules           = var.storage_settings.ip_whitelist
 }
 
 resource "azurerm_monitor_diagnostic_setting" "web-assets-storage-blob" {

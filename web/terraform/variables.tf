@@ -6,6 +6,15 @@ variable "redirect-app-service-provision" {}
 variable "shutter-app-service-provision" {}
 variable "shutter-app-service-enabled" {}
 
+variable "storage_settings" {
+  type = object({
+    ip_whitelist = list(string)
+  })
+  default = {
+    ip_whitelist = ["208.127.46.236/30", "208.127.46.240/28"]
+  }
+}
+
 # noinspection TfIncorrectVariableType
 variable "configuration" {
   type = map(object({
