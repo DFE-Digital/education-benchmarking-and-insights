@@ -238,6 +238,8 @@ def build_academy_data(
         inplace=True,
     )
 
+    input_academy_count = aar.reset_index().shape[0]
+
     academies = (
         aar.reset_index()
         .merge(gias, on="URN")
@@ -517,7 +519,14 @@ def build_academy_data(
         "Company Registration Number"
     ].map(mappings.map_company_number)
 
-    return academies.set_index("URN")
+    result = academies.set_index("URN")
+    output_academy_count = result.reset_index().shape[0]
+    if input_academy_count != output_academy_count:
+        logger.warning(
+            f"Academy preprocessing count mismatch: input academies={input_academy_count}, output academies={output_academy_count}"
+        )
+
+    return result
 
 
 def _trust_revenue_reserve(
