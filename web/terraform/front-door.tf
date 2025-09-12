@@ -14,10 +14,6 @@ resource "azurerm_cdn_frontdoor_profile" "web-app-front-door-profile" {
   tags                = local.common-tags
 
   sku_name = var.configuration[var.environment].front_door_profile_sku_name
-
-  identity {
-    type = "SystemAssigned"
-  }
 }
 
 resource "azurerm_cdn_frontdoor_origin_group" "web-app-front-door-origin-group" {
@@ -253,43 +249,27 @@ resource "azurerm_monitor_diagnostic_setting" "front-door-analytics" {
   }
 }
 
-resource "azurerm_cdn_frontdoor_origin_group" "data-front-door-origin-group" {
-  name                     = "${var.environment-prefix}-ebis-fd-origin-group-data"
+resource "azurerm_cdn_frontdoor_origin_group" "web-assets-front-door-origin-group" {
+  name                     = "${var.environment-prefix}-ebis-fd-origin-group-web-assets"
   cdn_frontdoor_profile_id = azurerm_cdn_frontdoor_profile.web-app-front-door-profile.id
   session_affinity_enabled = false
 
   load_balancing {
-    additional_latency_in_milliseconds = 0
-    sample_size                        = 4
-    successful_samples_required        = 2
+    sample_size                 = 4
+    successful_samples_required = 3
+  }
+
+  health_probe {
+    path                = "/"
+    request_type        = "HEAD"
+    protocol            = "Https"
+    interval_in_seconds = 100
   }
 }
 
-resource "azurerm_role_assignment" "front-door-profile-web-assets-storage-reader" {
-  scope                = azurerm_storage_account.web-assets-storage.id
-  role_definition_name = "Storage Blob Data Reader"
-  principal_id         = azurerm_cdn_frontdoor_profile.web-app-front-door-profile.identity[0].principal_id
-}
-
-
-resource "azapi_update_resource" "data-front-door-origin-group-authentication" {
-  type        = "Microsoft.Cdn/profiles/origingroups@2025-01-01-preview"
-  resource_id = azurerm_cdn_frontdoor_origin_group.data-front-door-origin-group.id
-
-  body = {
-    properties = {
-      authentication = {
-        scope                = "https://storage.azure.com/.default",
-        type                 = "SystemAssignedIdentity",
-        userAssignedIdentity = null
-      }
-    }
-  }
-}
-
-resource "azurerm_cdn_frontdoor_origin" "data-front-door-origin-app-service" {
-  name                          = "${var.environment-prefix}-education-benchmarking-fd-origin-data"
-  cdn_frontdoor_origin_group_id = azurerm_cdn_frontdoor_origin_group.data-front-door-origin-group.id
+resource "azurerm_cdn_frontdoor_origin" "web-app-front-door-origin-web-assets" {
+  name                          = "${var.environment-prefix}-education-benchmarking-fd-origin-web-assets"
+  cdn_frontdoor_origin_group_id = azurerm_cdn_frontdoor_origin_group.web-assets-front-door-origin-group.id
   enabled                       = !local.front-door-origin-shutter-enabled
 
   certificate_name_check_enabled = false
@@ -297,28 +277,62 @@ resource "azurerm_cdn_frontdoor_origin" "data-front-door-origin-app-service" {
   host_name          = "${azurerm_storage_account.web-assets-storage.name}.blob.core.windows.net"
   http_port          = 80
   https_port         = 443
-  origin_host_header = "${var.environment-prefix}-education-benchmarking.azurewebsites.net"
+  origin_host_header = "${azurerm_storage_account.web-assets-storage.name}.blob.core.windows.net"
   priority           = 1
   weight             = 1
 }
 
-resource "azurerm_cdn_frontdoor_route" "data-front-door-route" {
-  name                          = "${var.environment-prefix}-education-benchmarking-fd-route-data"
+resource "azurerm_cdn_frontdoor_route" "web-assets-front-door-route" {
+  name                          = "${var.environment-prefix}-education-benchmarking-fd-route-web-assets"
   cdn_frontdoor_endpoint_id     = azurerm_cdn_frontdoor_endpoint.web-app-front-door-endpoint.id
-  cdn_frontdoor_origin_group_id = azurerm_cdn_frontdoor_origin_group.data-front-door-origin-group.id
-  cdn_frontdoor_origin_ids      = [azurerm_cdn_frontdoor_origin.data-front-door-origin-app-service.id]
+  cdn_frontdoor_origin_group_id = azurerm_cdn_frontdoor_origin_group.web-assets-front-door-origin-group.id
+  cdn_frontdoor_origin_ids      = [azurerm_cdn_frontdoor_origin.web-app-front-door-origin-web-assets.id]
   enabled                       = true
 
-  forwarding_protocol             = "HttpsOnly"
-  https_redirect_enabled          = false
-  patterns_to_match               = ["/data/*"]
-  supported_protocols             = ["Https"]
+  forwarding_protocol    = "HttpsOnly"
+  https_redirect_enabled = true
+  patterns_to_match      = ["/${azurerm_storage_container.data-container.name}/*", "/${azurerm_storage_container.images-container.name}/*"]
+  supported_protocols    = ["Http", "Https"]
+  link_to_default_domain = true
+
+  cdn_frontdoor_origin_path       = "/"
   cdn_frontdoor_custom_domain_ids = local.custom-domain-ids
-  cdn_frontdoor_origin_path       = "/data"
-  link_to_default_domain          = true
+  cdn_frontdoor_rule_set_ids      = [azurerm_cdn_frontdoor_rule_set.web-assets-rules.id]
 
   cache {
     query_string_caching_behavior = "IgnoreQueryString"
     compression_enabled           = false
+  }
+}
+
+resource "azurerm_cdn_frontdoor_rule_set" "web-assets-rules" {
+  name                     = "${var.environment-prefix}webassetsruleset"
+  cdn_frontdoor_profile_id = azurerm_cdn_frontdoor_profile.web-app-front-door-profile.id
+}
+
+resource "azurerm_cdn_frontdoor_rule" "append-sas-rule" {
+  name                      = "${var.environment-prefix}appendsasrule"
+  cdn_frontdoor_rule_set_id = azurerm_cdn_frontdoor_rule_set.web-assets-rules.id
+  order                     = 0
+  behavior_on_match         = "Continue"
+
+  depends_on = [
+    azurerm_cdn_frontdoor_origin.web-app-front-door-origin-web-assets,
+    azurerm_cdn_frontdoor_origin_group.web-assets-front-door-origin-group
+  ]
+
+  actions {
+    url_rewrite_action {
+      source_pattern = "/"
+      destination    = "/{url_path}${data.azurerm_storage_account_sas.web-assets-storage-sas.sas}"
+    }
+  }
+
+  conditions {
+    request_uri_condition {
+      match_values = ["/${azurerm_storage_container.data-container.name}", "/${azurerm_storage_container.images-container.name}"]
+      operator     = "BeginsWith"
+      transforms   = ["Lowercase"]
+    }
   }
 }
