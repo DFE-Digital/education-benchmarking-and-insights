@@ -39,6 +39,7 @@ CREATE VIEW SchoolExpenditureHistoric AS
        , f.CateringStaffCosts
        , f.CateringSuppliesCosts
        , f.TotalOtherCosts
+       , f.DirectRevenueFinancingCosts
        , f.GroundsMaintenanceCosts
        , f.IndirectEmployeeExpenses
        , f.InterestChargesLoanBank
@@ -82,6 +83,7 @@ CREATE VIEW SchoolExpenditureHistoric AS
        , f.CateringStaffCostsCS
        , f.CateringSuppliesCostsCS
        , f.TotalOtherCostsCS
+       , f.DirectRevenueFinancingCostsCS
        , f.GroundsMaintenanceCostsCS
        , f.IndirectEmployeeExpensesCS
        , f.InterestChargesLoanBankCS
@@ -140,6 +142,7 @@ CREATE VIEW SchoolExpenditureHistoric AS
        , f.CateringStaffCosts
        , f.CateringSuppliesCosts
        , f.TotalOtherCosts
+       , f.DirectRevenueFinancingCosts
        , f.GroundsMaintenanceCosts
        , f.IndirectEmployeeExpenses
        , f.InterestChargesLoanBank
@@ -183,6 +186,7 @@ CREATE VIEW SchoolExpenditureHistoric AS
        , f.CateringStaffCostsCS
        , f.CateringSuppliesCostsCS
        , f.TotalOtherCostsCS
+       , f.DirectRevenueFinancingCostsCS
        , f.GroundsMaintenanceCostsCS
        , f.IndirectEmployeeExpensesCS
        , f.InterestChargesLoanBankCS

@@ -37,6 +37,7 @@ WITH pupilSet AS (SELECT RunId
                        , Avg(f.CateringStaffCosts)                        AS CateringStaffCosts
                        , Avg(f.CateringSuppliesCosts)                     AS CateringSuppliesCosts
                        , Avg(f.TotalOtherCosts)                           AS TotalOtherCosts
+                       , Avg(f.DirectRevenueFinancingCosts)               AS DirectRevenueFinancingCosts
                        , Avg(f.GroundsMaintenanceCosts)                   AS GroundsMaintenanceCosts
                        , Avg(f.IndirectEmployeeExpenses)                  AS IndirectEmployeeExpenses
                        , Avg(f.InterestChargesLoanBank)                   AS InterestChargesLoanBank
@@ -99,6 +100,7 @@ SELECT p.URN
      , CateringStaffCosts
      , CateringSuppliesCosts
      , TotalOtherCosts
+     , DirectRevenueFinancingCosts
      , GroundsMaintenanceCosts
      , IndirectEmployeeExpenses
      , InterestChargesLoanBank
@@ -167,6 +169,7 @@ WITH pupilSet AS (SELECT RunId
                        , Avg(f.CateringStaffCosts)                        AS CateringStaffCosts
                        , Avg(f.CateringSuppliesCosts)                     AS CateringSuppliesCosts
                        , Avg(f.TotalOtherCosts)                           AS TotalOtherCosts
+                       , Avg(f.DirectRevenueFinancingCosts)               AS DirectRevenueFinancingCosts
                        , Avg(f.GroundsMaintenanceCosts)                   AS GroundsMaintenanceCosts
                        , Avg(f.IndirectEmployeeExpenses)                  AS IndirectEmployeeExpenses
                        , Avg(f.InterestChargesLoanBank)                   AS InterestChargesLoanBank
@@ -229,6 +232,7 @@ SELECT p.URN
      , CateringStaffCosts
      , CateringSuppliesCosts
      , TotalOtherCosts
+     , DirectRevenueFinancingCosts
      , GroundsMaintenanceCosts
      , IndirectEmployeeExpenses
      , InterestChargesLoanBank
@@ -297,6 +301,7 @@ WITH pupilSet AS (SELECT RunId
                        , Avg(f.CateringStaffCosts)                        AS CateringStaffCosts
                        , Avg(f.CateringSuppliesCosts)                     AS CateringSuppliesCosts
                        , Avg(f.TotalOtherCosts)                           AS TotalOtherCosts
+                       , Avg(f.DirectRevenueFinancingCosts)               AS DirectRevenueFinancingCosts
                        , Avg(f.GroundsMaintenanceCosts)                   AS GroundsMaintenanceCosts
                        , Avg(f.IndirectEmployeeExpenses)                  AS IndirectEmployeeExpenses
                        , Avg(f.InterestChargesLoanBank)                   AS InterestChargesLoanBank
@@ -359,6 +364,7 @@ SELECT p.URN
      , CateringStaffCosts
      , CateringSuppliesCosts
      , TotalOtherCosts
+     , DirectRevenueFinancingCosts
      , GroundsMaintenanceCosts
      , IndirectEmployeeExpenses
      , InterestChargesLoanBank
@@ -427,6 +433,7 @@ WITH pupilSet AS (SELECT RunId
                        , Avg(f.CateringStaffCosts)                        AS CateringStaffCosts
                        , Avg(f.CateringSuppliesCosts)                     AS CateringSuppliesCosts
                        , Avg(f.TotalOtherCosts)                           AS TotalOtherCosts
+                       , Avg(f.DirectRevenueFinancingCosts)               AS DirectRevenueFinancingCosts
                        , Avg(f.GroundsMaintenanceCosts)                   AS GroundsMaintenanceCosts
                        , Avg(f.IndirectEmployeeExpenses)                  AS IndirectEmployeeExpenses
                        , Avg(f.InterestChargesLoanBank)                   AS InterestChargesLoanBank
@@ -489,6 +496,7 @@ SELECT p.URN
      , CateringStaffCosts
      , CateringSuppliesCosts
      , TotalOtherCosts
+     , DirectRevenueFinancingCosts
      , GroundsMaintenanceCosts
      , IndirectEmployeeExpenses
      , InterestChargesLoanBank

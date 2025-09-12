@@ -28,6 +28,7 @@ CREATE VIEW SchoolExpenditurePerUnitHistoric AS
        , CateringStaffCosts / TotalPupils                        AS CateringStaffCosts
        , CateringSuppliesCosts / TotalPupils                     AS CateringSuppliesCosts
        , TotalOtherCosts / TotalPupils                           AS TotalOtherCosts
+       , DirectRevenueFinancingCosts / TotalPupils               AS DirectRevenueFinancingCosts
        , GroundsMaintenanceCosts / TotalPupils                   AS GroundsMaintenanceCosts
        , IndirectEmployeeExpenses / TotalPupils                  AS IndirectEmployeeExpenses
        , InterestChargesLoanBank / TotalPupils                   AS InterestChargesLoanBank
@@ -81,6 +82,7 @@ CREATE VIEW SchoolExpenditureAvgPerUnitHistoric AS
        , Avg(CateringStaffCosts)                         AS CateringStaffCosts
        , Avg(CateringSuppliesCosts)                      AS CateringSuppliesCosts
        , Avg(TotalOtherCosts)                            AS TotalOtherCosts
+       , Avg(DirectRevenueFinancingCosts)                AS DirectRevenueFinancingCosts
        , Avg(GroundsMaintenanceCosts)                    AS GroundsMaintenanceCosts
        , Avg(IndirectEmployeeExpenses)                   AS IndirectEmployeeExpenses
        , Avg(InterestChargesLoanBank)                    AS InterestChargesLoanBank
