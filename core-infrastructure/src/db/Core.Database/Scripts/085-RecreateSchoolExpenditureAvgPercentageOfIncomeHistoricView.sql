@@ -27,6 +27,7 @@ CREATE VIEW SchoolExpenditureAvgPercentageOfIncomeHistoric AS
        , Avg(CateringStaffCosts)                        AS CateringStaffCosts
        , Avg(CateringSuppliesCosts)                     AS CateringSuppliesCosts
        , Avg(TotalOtherCosts)                           AS TotalOtherCosts
+       , Avg(DirectRevenueFinancingCosts)               AS DirectRevenueFinancingCosts
        , Avg(GroundsMaintenanceCosts)                   AS GroundsMaintenanceCosts
        , Avg(IndirectEmployeeExpenses)                  AS IndirectEmployeeExpenses
        , Avg(InterestChargesLoanBank)                   AS InterestChargesLoanBank

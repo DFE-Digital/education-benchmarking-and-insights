@@ -28,6 +28,7 @@ CREATE VIEW SchoolExpenditurePercentageOfExpenditureHistoric AS
        , (CateringStaffCosts / TotalExpenditure) * 100                        AS CateringStaffCosts
        , (CateringSuppliesCosts / TotalExpenditure) * 100                     AS CateringSuppliesCosts
        , (TotalOtherCosts / TotalExpenditure) * 100                           AS TotalOtherCosts
+       , (DirectRevenueFinancingCosts / TotalExpenditure) * 100               AS DirectRevenueFinancingCosts
        , (GroundsMaintenanceCosts / TotalExpenditure) * 100                   AS GroundsMaintenanceCosts
        , (IndirectEmployeeExpenses / TotalExpenditure) * 100                  AS IndirectEmployeeExpenses
        , (InterestChargesLoanBank / TotalExpenditure) * 100                   AS InterestChargesLoanBank
