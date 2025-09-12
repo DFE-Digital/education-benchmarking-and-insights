@@ -21,6 +21,12 @@ Each academy's total expenditure in FBIT includes its share of trust central cos
 
 ## Trust Membership Changes
 
+### Joiners
+
+If an academy joins a trust mid way through a year, it is only accountable for trust spend for part of that year. For this reason, all apportionments are pro-rata, that is to say they take into account the fraction of a year in which an academy has joined a trust.
+
+### Leavers
+
 Under normal circumstances, adding up all the apportioned central service expenditure for academies in a trust equals the trust's total central expenditure. However, this total is sometimes less than the trust's actual spend due to membership changes during the financial year.
 
 ![Apportionment diagram](./images/apportionments.png)
@@ -28,3 +34,4 @@ Under normal circumstances, adding up all the apportioned central service expend
 **Why this happens**: When an academy leaves a trust partway through a year, the trust's central expenditure includes money spent on that academy while it was a member. Since the end-of-year members are different, adding their central service apportionment will result in less than the total central spend.
 
 **The result**: The trust's central expenditure appears higher than the sum of its current members' apportioned shares, because it includes historical spending on academies that are no longer part of the trust.
+
