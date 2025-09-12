@@ -235,6 +235,19 @@ def test_federation_lead_school_agg_index():
             "Lead school in federation": ["10000", "10001", "10002", "10000"],
             "Total Internal Floor Area": [1_000, 1_000, 1_000, 1_000],
             "Building Age": [1990, 1990, 1990, 2000],
+            "Total School Workforce (Headcount)": [50, 55, 60, 65],
+            "Total School Workforce (Full-Time Equivalent)": [45.0, 50.0, 55.0, 60.0],
+            "Total Number of Teachers (Headcount)": [10, 10, 10, 10],
+            "Total Number of Teachers (Full-Time Equivalent)": [9.0, 9.5, 9.0, 10.0],
+            "SeniorLeadershipHeadcount": [3, 2, 2, 3],
+            "SeniorLeadershipFTE": [2.5, 2.0, 2.0, 2.5],
+            "Total Number of Teaching Assistants (Headcount)": [8, 7, 6, 5],
+            "Total Number of Teaching Assistants (Full-Time Equivalent)": [6.0, 5.5, 5.0, 4.0],
+            "NonClassroomSupportStaffHeadcount": [4, 4, 3, 3],
+            "NonClassroomSupportStaffFTE": [3.5, 3.0, 2.5, 2.5],
+            "Total Number of Auxiliary Staff (Headcount)": [2, 2, 1, 1],
+            "Total Number of Auxiliary Staff (Full-Time Equivalent)": [1.5, 1.5, 1.0, 1.0],
+            "Teachers with Qualified Teacher Status (%) (Headcount)": [80.0, 80.0, 80.0, 80.0],
         }
     )
 
@@ -253,6 +266,19 @@ def test_federation_lead_school_agg_pupils():
             "Lead school in federation": ["10000", "10001", "10002", "10000"],
             "Total Internal Floor Area": [1_000, 1_000, 1_000, 1_000],
             "Building Age": [1990, 1990, 1990, 2000],
+            "Total School Workforce (Headcount)": [50, 55, 60, 65],
+            "Total School Workforce (Full-Time Equivalent)": [45.0, 50.0, 55.0, 60.0],
+            "Total Number of Teachers (Headcount)": [10, 10, 10, 10],
+            "Total Number of Teachers (Full-Time Equivalent)": [9.0, 9.5, 9.0, 10.0],
+            "SeniorLeadershipHeadcount": [3, 2, 2, 3],
+            "SeniorLeadershipFTE": [2.5, 2.0, 2.0, 2.5],
+            "Total Number of Teaching Assistants (Headcount)": [8, 7, 6, 5],
+            "Total Number of Teaching Assistants (Full-Time Equivalent)": [6.0, 5.5, 5.0, 4.0],
+            "NonClassroomSupportStaffHeadcount": [4, 4, 3, 3],
+            "NonClassroomSupportStaffFTE": [3.5, 3.0, 2.5, 2.5],
+            "Total Number of Auxiliary Staff (Headcount)": [2, 2, 1, 1],
+            "Total Number of Auxiliary Staff (Full-Time Equivalent)": [1.5, 1.5, 1.0, 1.0],
+            "Teachers with Qualified Teacher Status (%) (Headcount)": [80.0, 80.0, 80.0, 80.0],
         }
     )
 
@@ -272,6 +298,19 @@ def test_federation_lead_school_agg_fsm():
             "Lead school in federation": ["10000", "10001", "10002", "10000"],
             "Total Internal Floor Area": [1_000, 1_000, 1_000, 1_000],
             "Building Age": [1990, 1990, 1990, 2000],
+            "Total School Workforce (Headcount)": [50, 55, 60, 65],
+            "Total School Workforce (Full-Time Equivalent)": [45.0, 50.0, 55.0, 60.0],
+            "Total Number of Teachers (Headcount)": [10, 10, 10, 10],
+            "Total Number of Teachers (Full-Time Equivalent)": [9.0, 9.5, 9.0, 10.0],
+            "SeniorLeadershipHeadcount": [3, 2, 2, 3],
+            "SeniorLeadershipFTE": [2.5, 2.0, 2.0, 2.5],
+            "Total Number of Teaching Assistants (Headcount)": [8, 7, 6, 5],
+            "Total Number of Teaching Assistants (Full-Time Equivalent)": [6.0, 5.5, 5.0, 4.0],
+            "NonClassroomSupportStaffHeadcount": [4, 4, 3, 3],
+            "NonClassroomSupportStaffFTE": [3.5, 3.0, 2.5, 2.5],
+            "Total Number of Auxiliary Staff (Headcount)": [2, 2, 1, 1],
+            "Total Number of Auxiliary Staff (Full-Time Equivalent)": [1.5, 1.5, 1.0, 1.0],
+            "Teachers with Qualified Teacher Status (%) (Headcount)": [80.0, 80.0, 80.0, 80.0],
         }
     )
 
@@ -291,6 +330,19 @@ def test_federation_lead_school_agg_sen():
             "Lead school in federation": ["10000", "10001", "10002", "10000"],
             "Total Internal Floor Area": [1_000, 1_000, 1_000, 1_000],
             "Building Age": [1990, 1990, 1990, 2000],
+            "Total School Workforce (Headcount)": [50, 55, 60, 65],
+            "Total School Workforce (Full-Time Equivalent)": [45.0, 50.0, 55.0, 60.0],
+            "Total Number of Teachers (Headcount)": [10, 10, 10, 10],
+            "Total Number of Teachers (Full-Time Equivalent)": [9.0, 9.5, 9.0, 10.0],
+            "SeniorLeadershipHeadcount": [3, 2, 2, 3],
+            "SeniorLeadershipFTE": [2.5, 2.0, 2.0, 2.5],
+            "Total Number of Teaching Assistants (Headcount)": [8, 7, 6, 5],
+            "Total Number of Teaching Assistants (Full-Time Equivalent)": [6.0, 5.5, 5.0, 4.0],
+            "NonClassroomSupportStaffHeadcount": [4, 4, 3, 3],
+            "NonClassroomSupportStaffFTE": [3.5, 3.0, 2.5, 2.5],
+            "Total Number of Auxiliary Staff (Headcount)": [2, 2, 1, 1],
+            "Total Number of Auxiliary Staff (Full-Time Equivalent)": [1.5, 1.5, 1.0, 1.0],
+            "Teachers with Qualified Teacher Status (%) (Headcount)": [80.0, 80.0, 80.0, 80.0],
         }
     )
 
@@ -310,6 +362,19 @@ def test_federation_lead_school_agg_building_age():
             "Lead school in federation": ["10000", "10001", "10002", "10000"],
             "Total Internal Floor Area": [1_000, 1_000, 1_000, 1_000],
             "Building Age": [1990, 1990, 1990, 2000],
+            "Total School Workforce (Headcount)": [50, 55, 60, 65],
+            "Total School Workforce (Full-Time Equivalent)": [45.0, 50.0, 55.0, 60.0],
+            "Total Number of Teachers (Headcount)": [10, 10, 10, 10],
+            "Total Number of Teachers (Full-Time Equivalent)": [9.0, 9.5, 9.0, 10.0],
+            "SeniorLeadershipHeadcount": [3, 2, 2, 3],
+            "SeniorLeadershipFTE": [2.5, 2.0, 2.0, 2.5],
+            "Total Number of Teaching Assistants (Headcount)": [8, 7, 6, 5],
+            "Total Number of Teaching Assistants (Full-Time Equivalent)": [6.0, 5.5, 5.0, 4.0],
+            "NonClassroomSupportStaffHeadcount": [4, 4, 3, 3],
+            "NonClassroomSupportStaffFTE": [3.5, 3.0, 2.5, 2.5],
+            "Total Number of Auxiliary Staff (Headcount)": [2, 2, 1, 1],
+            "Total Number of Auxiliary Staff (Full-Time Equivalent)": [1.5, 1.5, 1.0, 1.0],
+            "Teachers with Qualified Teacher Status (%) (Headcount)": [80.0, 80.0, 80.0, 80.0],
         }
     )
 
@@ -332,6 +397,19 @@ def test_join_federations_unmodified():
             "Lead school in federation": ["10000", "10001", "10002", "10000"],
             "Total Internal Floor Area": [1_000, 1_000, 1_000, 1_000],
             "Building Age": [1990, 1990, 1990, 2000],
+            "Total School Workforce (Headcount)": [0, 0, 0, 0],
+            "Total School Workforce (Full-Time Equivalent)": [0.0, 0.0, 0.0, 0.0],
+            "Total Number of Teachers (Headcount)": [10, 10, 10, 10],
+            "Total Number of Teachers (Full-Time Equivalent)": [10.0, 10.0, 10.0, 10.0],
+            "SeniorLeadershipHeadcount": [0, 0, 0, 0],
+            "SeniorLeadershipFTE": [0.0, 0.0, 0.0, 0.0],
+            "Total Number of Teaching Assistants (Headcount)": [0, 0, 0, 0],
+            "Total Number of Teaching Assistants (Full-Time Equivalent)": [0.0, 0.0, 0.0, 0.0],
+            "NonClassroomSupportStaffHeadcount": [0, 0, 0, 0],
+            "NonClassroomSupportStaffFTE": [0.0, 0.0, 0.0, 0.0],
+            "Total Number of Auxiliary Staff (Headcount)": [0, 0, 0, 0],
+            "Total Number of Auxiliary Staff (Full-Time Equivalent)": [0.0, 0.0, 0.0, 0.0],
+            "Teachers with Qualified Teacher Status (%) (Headcount)": [80.0, 80.0, 80.0, 80.0],
         }
     )
 

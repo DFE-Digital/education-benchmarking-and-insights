@@ -199,18 +199,13 @@ def _federation_lead_school_agg(df: pd.DataFrame) -> pd.DataFrame:
     df["_Number of pupils SEN"] = (df["Percentage SEN"] / 100.0) * df[
         "Number of pupils"
     ]
+    df["_Teachers with QTS (Headcount)"] = (
+        (df["Teachers with Qualified Teacher Status (%) (Headcount)"] / 100.0)
+        * df["Total Number of Teachers (Headcount)"]
+    )
 
     lead_schools_agg = (
-        df[df["Lead school in federation"] != "0"][
-            [
-                "Lead school in federation",
-                "Number of pupils",
-                "_Number of pupils FSM",
-                "_Number of pupils SEN",
-                "Total Internal Floor Area",
-                "Building Age",
-            ]
-        ]
+        df[df["Lead school in federation"] != "0"]
         .rename(columns={"Lead school in federation": "Federation LAEstab"})
         .groupby(["Federation LAEstab"])
         .agg(
@@ -220,6 +215,19 @@ def _federation_lead_school_agg(df: pd.DataFrame) -> pd.DataFrame:
                 "_Number of pupils SEN": "sum",
                 "Total Internal Floor Area": "sum",
                 "Building Age": "mean",
+                "Total School Workforce (Headcount)": "sum",
+                "Total School Workforce (Full-Time Equivalent)": "sum",
+                "Total Number of Teachers (Headcount)": "sum",
+                "Total Number of Teachers (Full-Time Equivalent)": "sum",
+                "SeniorLeadershipHeadcount": "sum",
+                "SeniorLeadershipFTE": "sum",
+                "Total Number of Teaching Assistants (Headcount)": "sum",
+                "Total Number of Teaching Assistants (Full-Time Equivalent)": "sum",
+                "NonClassroomSupportStaffHeadcount": "sum",
+                "NonClassroomSupportStaffFTE": "sum",
+                "Total Number of Auxiliary Staff (Headcount)": "sum",
+                "Total Number of Auxiliary Staff (Full-Time Equivalent)": "sum",
+                "_Teachers with QTS (Headcount)": "sum",
             }
         )
     )
@@ -230,11 +238,19 @@ def _federation_lead_school_agg(df: pd.DataFrame) -> pd.DataFrame:
     lead_schools_agg["Percentage SEN"] = (
         lead_schools_agg["_Number of pupils SEN"] / lead_schools_agg["Number of pupils"]
     ) * 100.0
+    # Workforce percentages
+    if "_Teachers with QTS (Headcount)" in lead_schools_agg.columns:
+        with np.errstate(invalid="ignore", divide="ignore"):
+            lead_schools_agg["Teachers with Qualified Teacher Status (%) (Headcount)"] = (
+                lead_schools_agg["_Teachers with QTS (Headcount)"]
+                / lead_schools_agg["Total Number of Teachers (Headcount)"]
+            ) * 100.0
 
     return lead_schools_agg.drop(
         columns=[
             "_Number of pupils FSM",
             "_Number of pupils SEN",
+            "_Teachers with QTS (Headcount)",
         ]
     )
 
