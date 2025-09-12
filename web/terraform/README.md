@@ -35,7 +35,9 @@ No modules.
 | [azurerm_cdn_frontdoor_route.web-app-front-door-route](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/cdn_frontdoor_route) | resource |
 | [azurerm_cdn_frontdoor_route.web-assets-front-door-route](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/cdn_frontdoor_route) | resource |
 | [azurerm_cdn_frontdoor_rule.append-sas-rule-data](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/cdn_frontdoor_rule) | resource |
+| [azurerm_cdn_frontdoor_rule.append-sas-rule-data-invalid](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/cdn_frontdoor_rule) | resource |
 | [azurerm_cdn_frontdoor_rule.append-sas-rule-images](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/cdn_frontdoor_rule) | resource |
+| [azurerm_cdn_frontdoor_rule.append-sas-rule-images-invalid](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/cdn_frontdoor_rule) | resource |
 | [azurerm_cdn_frontdoor_rule_set.web-assets-rules](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/cdn_frontdoor_rule_set) | resource |
 | [azurerm_cdn_frontdoor_security_policy.web-app-front-door-security-policy](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/cdn_frontdoor_security_policy) | resource |
 | [azurerm_cosmosdb_account.session-cache-account](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/cosmosdb_account) | resource |
