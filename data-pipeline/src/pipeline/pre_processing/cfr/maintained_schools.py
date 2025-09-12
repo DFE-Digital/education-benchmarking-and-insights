@@ -2,6 +2,8 @@ import pandas as pd
 
 import pipeline.config as config
 import pipeline.input_schemas as input_schemas
+from pipeline.utils import log
+from pipeline.utils.stats import stats_collector
 
 from ..common.part_year import (
     map_has_building_comparator_data,
@@ -47,6 +49,7 @@ def build_maintained_school_data(
         # dtype=maintained_school_schema,
         usecols=maintained_school_schema.keys(),
     )
+    input_count = maintained_schools_list["URN"].nunique()
 
     maintained_schools = create_master_list(
         maintained_schools_list, gias, sen, census, cdc, ks2, ks4, year
@@ -97,4 +100,12 @@ def build_maintained_school_data(
     maintained_schools = map_has_pupil_comparator_data(maintained_schools)
     maintained_schools = map_has_building_comparator_data(maintained_schools)
 
-    return maintained_schools.set_index("URN")
+    output_count = maintained_schools["URN"].nunique()
+    result = maintained_schools.set_index("URN")
+    if input_count != output_count:
+        logger = log.setup_logger(__name__)
+        message = f"maintained-schools-count-mismatch: input maintained schools={input_count}, output maintained schools={output_count}"
+        logger.warning(message)
+        stats_collector.mark_warning(message)
+
+    return result

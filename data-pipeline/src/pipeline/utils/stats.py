@@ -8,6 +8,7 @@ stats_logger = setup_logger(__name__)
 class StatsCollector:
     def __init__(self):
         self.stats = {}
+        self._warnings: list[str] = []
 
     def start_pipeline_run(self):
         self.reset()
@@ -20,6 +21,7 @@ class StatsCollector:
                 "combined_schools": {},
             },
         }
+        self._warnings = []
 
     def _generate_school_counts(
         self, school_df: pd.DataFrame, phase_col: str = "Overall Phase"
@@ -84,6 +86,20 @@ class StatsCollector:
             stats_logger.info("No CFR data counts have been logged")
 
         return self.stats
+
+    def mark_warning(self, message: str) -> None:
+        """
+        Record a warning message.
+
+        :param message: human-readable warning string with counts
+        """
+        self._warnings.append(message)
+
+    def get_warnings(self) -> list[str]:
+        return list(self._warnings)
+
+    def has_warnings(self) -> bool:
+        return len(self._warnings) > 0
 
 
 stats_collector = StatsCollector()

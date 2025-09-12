@@ -16,6 +16,7 @@ from pipeline.pre_processing.common.part_year import (
     map_has_building_comparator_data,
     map_has_pupil_comparator_data,
 )
+from pipeline.utils.stats import stats_collector
 
 simplefilter(action="ignore", category=pd.errors.PerformanceWarning)
 simplefilter(action="ignore", category=FutureWarning)
@@ -522,9 +523,9 @@ def build_academy_data(
     result = academies.set_index("URN")
     output_academy_count = result.reset_index().shape[0]
     if input_academy_count != output_academy_count:
-        logger.warning(
-            f"Academy preprocessing count mismatch: input academies={input_academy_count}, output academies={output_academy_count}"
-        )
+        message = f"academy-count-mismatch: input academies={input_academy_count}, output academies={output_academy_count}"
+        logger.warning(message)
+        stats_collector.mark_warning(message)
 
     return result
 

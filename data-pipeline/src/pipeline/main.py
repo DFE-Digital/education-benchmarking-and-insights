@@ -71,6 +71,14 @@ def handle_msg(
                     run_id=str(msg_payload["runId"]),
                 )
                 msg_payload["stats"] = stats_collector.get_stats()
+                # If warnings were recorded during processing, add them to the payload
+                try:
+                    if stats_collector.has_warnings():
+                        msg_payload["warnings"] = stats_collector.get_warnings()
+                except Exception:
+                    # Best-effort: never fail run due to warnings decoration
+                    pass
+
                 logger.info("Default pipeline run completed!")
 
             case MessageType.DefaultUserDefined:
@@ -105,6 +113,14 @@ def handle_msg(
                     target_urn=int(msg_payload["urn"]),
                 )
                 msg_payload["stats"] = stats_collector.get_stats()
+                # If warnings were recorded during processing, add them to the payload
+                try:
+                    if stats_collector.has_warnings():
+                        msg_payload["warnings"] = stats_collector.get_warnings()
+                except Exception:
+                    # Best-effort: never fail run due to warnings decoration
+                    pass
+
                 logger.info("Custom pipeline run completed!")
 
         msg_payload["success"] = True

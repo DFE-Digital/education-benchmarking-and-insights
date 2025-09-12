@@ -5,6 +5,7 @@ import pandas as pd
 
 import pipeline.input_schemas as input_schemas
 import pipeline.pre_processing.bfr.calculations as BFR
+from pipeline.utils.stats import stats_collector
 
 simplefilter(action="ignore", category=pd.errors.PerformanceWarning)
 simplefilter(action="ignore", category=FutureWarning)
@@ -135,8 +136,11 @@ def build_bfr_data(
 
     merged_bfr = bfr_sofa.merge(bfr_3y, how="left", on=("Trust UPIN", "EFALineNo"))
 
-    # Compare input and output Trust counts (by Trust UPIN) and warn on mismatch
-    input_trust_count = academies["Trust UPIN"].nunique()
+    # Compare input and output Trust counts (by Trust UPIN) for warnings on mismatch
+    input_trust_count: int = merged_bfr["Trust UPIN"].nunique()
+    bfr_upins_not_in_academies: int = merged_bfr[
+        ~merged_bfr["Trust UPIN"].isin(academies["Trust UPIN"])
+    ]["Trust UPIN"].nunique()
 
     bfr = (
         academies.groupby("Trust UPIN")
@@ -144,12 +148,6 @@ def build_bfr_data(
         .reset_index()
         .merge(merged_bfr, on="Trust UPIN")
     )
-
-    output_trust_count = bfr["Trust UPIN"].nunique()
-    if input_trust_count != output_trust_count:
-        logger.warning(
-            f"BFR preprocessing Trust count mismatch: input trusts={input_trust_count}, output trusts={output_trust_count}"
-        )
 
     bfr["Category"].replace(
         {
@@ -311,5 +309,11 @@ def build_bfr_data(
     bfr = bfr_revenue_reserve.merge(
         bfr_pupils, how="left", on=("Company Registration Number", "Category", "Year")
     )
+
+    output_trust_count = bfr.index.nunique()
+    if input_trust_count != output_trust_count:
+        message = f"BFR trust count mismatch: input trusts={input_trust_count}, bfr upins not in academies={bfr_upins_not_in_academies}, output trusts={output_trust_count}"
+        logger.warning(message)
+        stats_collector.mark_warning(message)
 
     return bfr, bfr_metrics
