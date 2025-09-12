@@ -1,0 +1,20 @@
+{
+  "urn": "990000",
+  "schoolName": "Test school 176",
+  "schoolType": "Voluntary aided school",
+  "laName": "Test Local Authority",
+  "periodCoveredByReturn": 12,
+  "totalIncome": 2912331.0,
+  "totalGrantFunding": 2851071.0,
+  "totalSelfGeneratedFunding": 26520.0,
+  "directRevenueFinancing": 3006.0,
+  "directGrants": 2420249.0,
+  "prePost16Funding": 2397709.0,
+  "otherDfeGrants": 0.0,
+  "otherIncomeGrants": 22540.0,
+  "communityGrants": 57641.0,
+  "incomeFacilitiesServices": 1673.0,
+  "incomeCatering": 7661.0,
+  "donationsVoluntaryFunds": 17187.0,
+  "receiptsSupplyTeacherInsuranceClaims": 0.0
+}

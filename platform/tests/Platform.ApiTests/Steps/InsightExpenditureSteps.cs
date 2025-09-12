@@ -1,10 +1,7 @@
 ﻿using Newtonsoft.Json.Linq;
-using Platform.Api.Insight.Features.Expenditure.Responses;
 using Platform.ApiTests.Assertion;
-using Platform.ApiTests.Assist;
 using Platform.ApiTests.Drivers;
 using Platform.ApiTests.TestDataHelpers;
-using Platform.Json;
 
 namespace Platform.ApiTests.Steps;
 
@@ -180,59 +177,6 @@ public class InsightExpenditureSteps(InsightApiDriver api)
         await api.Send();
     }
 
-    [Then("the expenditure dimensions result should be ok and contain:")]
-    public async Task ThenTheExpenditureDimensionsResultShouldBeOkAndContain(DataTable table)
-    {
-        var response = api[SchoolExpenditureKey].Response;
-        AssertHttpResponse.IsOk(response);
-
-        var content = await response.Content.ReadAsByteArrayAsync();
-        var results = content.FromJson<string[]>();
-
-        var set = new List<dynamic>();
-        foreach (var result in results)
-        {
-            set.Add(new
-            {
-                Dimension = result
-            });
-        }
-
-        table.CompareToDynamicSet(set, false);
-    }
-
-    [Then("the expenditure categories result should be ok and contain:")]
-    public async Task ThenTheExpenditureCategoriesResultShouldBeOkAndContain(DataTable table)
-    {
-        var response = api[SchoolExpenditureKey].Response;
-        AssertHttpResponse.IsOk(response);
-
-        var content = await response.Content.ReadAsByteArrayAsync();
-        var results = content.FromJson<string[]>();
-
-        var set = new List<dynamic>();
-        foreach (var result in results)
-        {
-            set.Add(new
-            {
-                Category = result
-            });
-        }
-
-        table.CompareToDynamicSet(set, false);
-    }
-
-    [Then("the school expenditure result should be ok and contain:")]
-    public async Task ThenTheSchoolExpenditureResultShouldBeOkAndContain(DataTable table)
-    {
-        var response = api[SchoolExpenditureKey].Response;
-        AssertHttpResponse.IsOk(response);
-
-        var content = await response.Content.ReadAsByteArrayAsync();
-        var result = content.FromJson<ExpenditureSchoolResponse>();
-        table.CompareToInstance(result);
-    }
-
     [Then("the school expenditure result should be not found")]
     public void ThenTheSchoolExpenditureResultShouldBeNotFound()
     {
@@ -243,39 +187,6 @@ public class InsightExpenditureSteps(InsightApiDriver api)
     public void ThenTheSchoolExpenditureResultShouldBeBadRequest()
     {
         AssertHttpResponse.IsBadRequest(api[SchoolExpenditureKey].Response);
-    }
-
-    [Then("the school expenditure history result should be ok and contain:")]
-    public async Task ThenTheSchoolExpenditureHistoryResultShouldBeOkAndContain(DataTable table)
-    {
-        var response = api[SchoolExpenditureKey].Response;
-        AssertHttpResponse.IsOk(response);
-
-        var content = await response.Content.ReadAsByteArrayAsync();
-        var result = content.FromJson<ExpenditureHistoryResponse>();
-        table.CompareToSet(result.Rows);
-    }
-
-    [Then("the school expenditure query result should be ok and contain:")]
-    public async Task ThenTheSchoolExpenditureQueryResultShouldBeOkAndContain(DataTable table)
-    {
-        var response = api[SchoolExpenditureKey].Response;
-        AssertHttpResponse.IsOk(response);
-
-        var content = await response.Content.ReadAsByteArrayAsync();
-        var result = content.FromJson<ExpenditureSchoolResponse[]>();
-        table.CompareToSet(result);
-    }
-
-    [Then("the trust expenditure result should be ok and contain:")]
-    public async Task ThenTheTrustExpenditureResultShouldBeOkAndContain(DataTable table)
-    {
-        var response = api[TrustExpenditureKey].Response;
-        AssertHttpResponse.IsOk(response);
-
-        var content = await response.Content.ReadAsByteArrayAsync();
-        var result = content.FromJson<ExpenditureTrustResponse>();
-        table.CompareToInstance(result);
     }
 
     [Then("the trust expenditure result should be not found")]
@@ -290,30 +201,8 @@ public class InsightExpenditureSteps(InsightApiDriver api)
         AssertHttpResponse.IsBadRequest(api[TrustExpenditureKey].Response);
     }
 
-    [Then("the trust expenditure history result should be ok and contain:")]
-    public async Task ThenTheTrustExpenditureHistoryResultShouldBeOkAndContain(DataTable table)
-    {
-        var response = api[TrustExpenditureKey].Response;
-        AssertHttpResponse.IsOk(response);
-
-        var content = await response.Content.ReadAsByteArrayAsync();
-        var result = content.FromJson<ExpenditureHistoryResponse>();
-        table.CompareToSet(result.Rows);
-    }
-
-    [Then("the trust expenditure query result should be ok and contain:")]
-    public async Task ThenTheTrustExpenditureQueryResultShouldBeOkAndContain(DataTable table)
-    {
-        var response = api[TrustExpenditureKey].Response;
-        AssertHttpResponse.IsOk(response);
-
-        var content = await response.Content.ReadAsByteArrayAsync();
-        var result = content.FromJson<ExpenditureTrustResponse[]>();
-        table.CompareToSet(result);
-    }
-
-    [Then("the trust expenditure query result should be ok and match the expected output of '(.*)'")]
-    public async Task ThenTheTrustExpenditureQueryResultShouldBeOkAndMatchTheExpectedOutputOf(string testFile)
+    [Then("the trust expenditure response should be ok, contain a JSON array and match the expected output of '(.*)'")]
+    public async Task ThenTheTrustResponseShouldBeOkAnArrayAndMatchTheExpected(string testFile)
     {
         var response = api[TrustExpenditureKey].Response;
         AssertHttpResponse.IsOk(response);
@@ -326,10 +215,38 @@ public class InsightExpenditureSteps(InsightApiDriver api)
         actual.AssertDeepEquals(expected);
     }
 
-    [Then("the trust expenditure result should be ok and match the expected output of '(.*)'")]
-    public async Task ThenTheTrustExpenditureResultShouldBeOkAndMatchTheExpectedOutputOf(string testFile)
+    [Then("the trust expenditure response should be ok, contain a JSON object and match the expected output of '(.*)'")]
+    public async Task ThenTheTrustResponseShouldBeOkAnObjectAndMatchTheExpected(string testFile)
     {
         var response = api[TrustExpenditureKey].Response;
+        AssertHttpResponse.IsOk(response);
+
+        var content = await response.Content.ReadAsStringAsync();
+        var actual = JObject.Parse(content);
+
+        var expected = TestDataProvider.GetJsonObjectData(testFile);
+
+        actual.AssertDeepEquals(expected);
+    }
+
+    [Then("the school expenditure response should be ok, contain a JSON array and match the expected output of '(.*)'")]
+    public async Task ThenTheSchoolResponseShouldBeOkAnArrayAndMatchTheExpected(string testFile)
+    {
+        var response = api[SchoolExpenditureKey].Response;
+        AssertHttpResponse.IsOk(response);
+
+        var content = await response.Content.ReadAsStringAsync();
+        var actual = JArray.Parse(content);
+
+        var expected = TestDataProvider.GetJsonArrayData(testFile);
+
+        actual.AssertDeepEquals(expected);
+    }
+
+    [Then("the school expenditure response should be ok, contain a JSON object and match the expected output of '(.*)'")]
+    public async Task ThenTheSchoolResponseShouldBeOkAnObjectAndMatchTheExpected(string testFile)
+    {
+        var response = api[SchoolExpenditureKey].Response;
         AssertHttpResponse.IsOk(response);
 
         var content = await response.Content.ReadAsStringAsync();

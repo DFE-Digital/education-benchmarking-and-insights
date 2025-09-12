@@ -1,0 +1,16 @@
+{
+  "companyNumber": "10192252",
+  "trustName": "Test Company/Trust  31",
+  "centralTotalExpenditure": 0.0,
+  "centralTotalUtilitiesCosts": 0.0,
+  "centralEnergyCosts": 0.0,
+  "centralWaterSewerageCosts": 0.0,
+  "schoolTotalExpenditure": 8214.18901453958,
+  "schoolTotalUtilitiesCosts": 11.334126984126984,
+  "schoolEnergyCosts": 9.61547619047619,
+  "schoolWaterSewerageCosts": 1.7186507936507935,
+  "totalExpenditure": 8214.18901453958,
+  "totalUtilitiesCosts": 11.334126984126984,
+  "energyCosts": 9.61547619047619,
+  "waterSewerageCosts": 1.7186507936507935
+}

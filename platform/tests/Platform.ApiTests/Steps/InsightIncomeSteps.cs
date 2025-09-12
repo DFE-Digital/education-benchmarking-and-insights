@@ -1,7 +1,7 @@
-﻿using Platform.Api.Insight.Features.Income.Responses;
+﻿using Newtonsoft.Json.Linq;
 using Platform.ApiTests.Assertion;
 using Platform.ApiTests.Drivers;
-using Platform.Json;
+using Platform.ApiTests.TestDataHelpers;
 
 namespace Platform.ApiTests.Steps;
 
@@ -51,42 +51,37 @@ public class InsightIncomeSteps(InsightApiDriver api)
         await api.Send();
     }
 
-    [Then("the school income result should be ok and contain:")]
-    public async Task ThenTheSchoolIncomeResultShouldBeOkAndContain(DataTable table)
-    {
-        var response = api[SchoolIncomeKey].Response;
-        AssertHttpResponse.IsOk(response);
-
-        var content = await response.Content.ReadAsByteArrayAsync();
-        var result = content.FromJson<IncomeSchoolResponse>();
-        table.CompareToInstance(result);
-    }
-
     [Then("the school income result should be not found")]
     public void ThenTheSchoolIncomeResultShouldBeNotFound()
     {
         AssertHttpResponse.IsNotFound(api[SchoolIncomeKey].Response);
     }
 
-    [Then("the school income history result should be ok and contain:")]
-    public async Task ThenTheSchoolIncomeHistoryResultShouldBeOkAndContain(DataTable table)
-    {
-        var response = api[SchoolIncomeKey].Response;
-        AssertHttpResponse.IsOk(response);
-
-        var content = await response.Content.ReadAsByteArrayAsync();
-        var result = content.FromJson<IncomeHistoryResponse>();
-        table.CompareToSet(result.Rows);
-    }
-
-    [Then("the trust income history result should be ok and contain:")]
-    public async Task ThenTheTrustIncomeHistoryResultShouldBeOkAndContain(DataTable table)
+    [Then("the trust income response should be ok, contain a JSON object and match the expected output of '(.*)'")]
+    public async Task ThenTheTrustResponseShouldBeOkAnObjectAndMatchTheExpected(string testFile)
     {
         var response = api[TrustIncomeKey].Response;
         AssertHttpResponse.IsOk(response);
 
-        var content = await response.Content.ReadAsByteArrayAsync();
-        var result = content.FromJson<IncomeHistoryResponse>();
-        table.CompareToSet(result.Rows);
+        var content = await response.Content.ReadAsStringAsync();
+        var actual = JObject.Parse(content);
+
+        var expected = TestDataProvider.GetJsonObjectData(testFile);
+
+        actual.AssertDeepEquals(expected);
+    }
+
+    [Then("the school income response should be ok, contain a JSON object and match the expected output of '(.*)'")]
+    public async Task ThenTheSchoolResponseShouldBeOkAnObjectAndMatchTheExpected(string testFile)
+    {
+        var response = api[SchoolIncomeKey].Response;
+        AssertHttpResponse.IsOk(response);
+
+        var content = await response.Content.ReadAsStringAsync();
+        var actual = JObject.Parse(content);
+
+        var expected = TestDataProvider.GetJsonObjectData(testFile);
+
+        actual.AssertDeepEquals(expected);
     }
 }
