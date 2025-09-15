@@ -6,25 +6,9 @@ variable "redirect-app-service-provision" {}
 variable "shutter-app-service-provision" {}
 variable "shutter-app-service-enabled" {}
 
-variable "web-assets-config" {
-  type = object({
-    ip_whitelist = list(string)
-    containers = map(object({
-      extensions = list(string)
-    }))
-  })
-  default = {
-    // allow DFE VPN ranges container access with Premium_AzureFrontDoor
-    ip_whitelist = ["208.127.46.236/30", "208.127.46.240/28"]
-    containers = {
-      files = {
-        extensions = ["xls", "xlsx"]
-      }
-      images = {
-        extensions = ["jpg", "jpeg", "png", "gif", "svg", "webp"]
-      }
-    }
-  }
+variable "web-asset-containers" {
+  type    = list(string)
+  default = ["files", "images"]
 }
 
 # noinspection TfIncorrectVariableType

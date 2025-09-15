@@ -125,8 +125,8 @@ resource "azurerm_monitor_diagnostic_setting" "web-assets-storage-blob" {
 
 resource "azurerm_storage_container" "web-asset-container" {
   #checkov:skip=CKV2_AZURE_21: False positive (storage account logging defined above)
-  for_each           = var.web-assets-config.containers
-  name               = each.key
+  for_each           = toset(var.web-asset-containers)
+  name               = each.value
   storage_account_id = azurerm_storage_account.web-assets-storage.id
 }
 

@@ -101,7 +101,7 @@ No modules.
 | <a name="input_redirect-app-service-provision"></a> [redirect-app-service-provision](#input\_redirect-app-service-provision) | n/a | `any` | n/a | yes |
 | <a name="input_shutter-app-service-enabled"></a> [shutter-app-service-enabled](#input\_shutter-app-service-enabled) | n/a | `any` | n/a | yes |
 | <a name="input_shutter-app-service-provision"></a> [shutter-app-service-provision](#input\_shutter-app-service-provision) | n/a | `any` | n/a | yes |
-| <a name="input_web-assets-config"></a> [web-assets-config](#input\_web-assets-config) | n/a | <pre>object({<br/>    ip_whitelist = list(string)<br/>    containers = map(object({<br/>      extensions = list(string)<br/>    }))<br/>  })</pre> | <pre>{<br/>  "containers": {<br/>    "files": {<br/>      "extensions": [<br/>        "xls",<br/>        "xlsx"<br/>      ]<br/>    },<br/>    "images": {<br/>      "extensions": [<br/>        "jpg",<br/>        "jpeg",<br/>        "png",<br/>        "gif",<br/>        "svg",<br/>        "webp"<br/>      ]<br/>    }<br/>  },<br/>  "ip_whitelist": [<br/>    "208.127.46.236/30",<br/>    "208.127.46.240/28"<br/>  ]<br/>}</pre> | no |
+| <a name="input_web-asset-containers"></a> [web-asset-containers](#input\_web-asset-containers) | n/a | `list(string)` | <pre>[<br/>  "files",<br/>  "images"<br/>]</pre> | no |
 
 ## Outputs
 

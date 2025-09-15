@@ -6,7 +6,6 @@ locals {
     azurerm_cdn_frontdoor_custom_domain.web-app-custom-domain[0].id,
   ] : [])
   front-door-origin-shutter-enabled = var.shutter-app-service-provision == "true" && var.shutter-app-service-enabled == "true"
-  web_asset_container_keys          = keys(var.web-assets-config.containers)
 }
 
 resource "azurerm_cdn_frontdoor_profile" "web-app-front-door-profile" {
@@ -321,7 +320,7 @@ resource "azurerm_cdn_frontdoor_route" "web-assets-front-door-route" {
 
   forwarding_protocol    = "HttpsOnly"
   https_redirect_enabled = true
-  patterns_to_match      = [for key in local.web_asset_container_keys : "/${key}/*"]
+  patterns_to_match      = [for key in var.web-asset-containers : "/${key}/*"]
   supported_protocols    = ["Http", "Https"]
   link_to_default_domain = true
 
@@ -341,10 +340,10 @@ resource "azurerm_cdn_frontdoor_rule_set" "web-assets-rules" {
 }
 
 resource "azurerm_cdn_frontdoor_rule" "web-assets-rule" {
-  for_each                  = var.web-assets-config.containers
-  name                      = "${var.environment-prefix}webassets${each.key}"
+  for_each                  = toset(var.web-asset-containers)
+  name                      = "${var.environment-prefix}webassets${each.value}"
   cdn_frontdoor_rule_set_id = azurerm_cdn_frontdoor_rule_set.web-assets-rules.id
-  order                     = index(local.web_asset_container_keys, each.key) + 1
+  order                     = index(var.web-asset-containers, each.value) + 1
   behavior_on_match         = "Stop"
 
   depends_on = [
@@ -361,13 +360,8 @@ resource "azurerm_cdn_frontdoor_rule" "web-assets-rule" {
 
   conditions {
     url_path_condition {
-      match_values = ["/${each.key}"]
+      match_values = ["/${each.value}"]
       operator     = "BeginsWith"
-      transforms   = ["Lowercase"]
-    }
-    url_file_extension_condition {
-      match_values = each.value.extensions
-      operator     = "Equal"
       transforms   = ["Lowercase"]
     }
     query_string_condition {
