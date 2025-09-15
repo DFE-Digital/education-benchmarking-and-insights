@@ -98,6 +98,8 @@ resource "azurerm_cdn_frontdoor_firewall_policy" "web-app-front-door-waf" {
   sku_name = var.configuration[var.environment].front_door_waf_policy_sku_name
   mode     = var.configuration[var.environment].waf_mode
 
+  js_challenge_cookie_expiration_in_minutes = (azurerm_cdn_frontdoor_profile.web-app-front-door-profile.sku_name == "Premium_AzureFrontDoor" ? 30 : null)
+
   custom_rule {
     name     = "blockrequestmethod"
     action   = "Block"
@@ -273,7 +275,7 @@ resource "azurerm_cdn_frontdoor_origin" "web-app-front-door-origin-web-assets" {
   cdn_frontdoor_origin_group_id = azurerm_cdn_frontdoor_origin_group.web-assets-front-door-origin-group.id
   enabled                       = !local.front-door-origin-shutter-enabled
 
-  certificate_name_check_enabled = false
+  certificate_name_check_enabled = (azurerm_cdn_frontdoor_profile.web-app-front-door-profile.sku_name == "Premium_AzureFrontDoor" ? true : false)
 
   host_name          = "${azurerm_storage_account.web-assets-storage.name}.blob.core.windows.net"
   http_port          = 80
@@ -282,6 +284,10 @@ resource "azurerm_cdn_frontdoor_origin" "web-app-front-door-origin-web-assets" {
   priority           = 1
   weight             = 1
 
+  # "You must approve the private endpoint connection before traffic can pass to the origin privately"
+  # (ref. https://learn.microsoft.com/en-us/azure/frontdoor/private-link#how-private-link-works).
+  # To achieve this in Terraform use Azure CLI to set the 'Approved' status as part of this or a subsequent run.
+  # See `azapi_update_resource.approve-front-door-web-assets-connection` and dependent resources in storage.tf.
   dynamic "private_link" {
     for_each = (azurerm_cdn_frontdoor_profile.web-app-front-door-profile.sku_name == "Premium_AzureFrontDoor" ?
     ["apply"] : [])
@@ -351,45 +357,6 @@ resource "azurerm_cdn_frontdoor_rule" "web-assets-sas-rule" {
       match_values = each.value.extensions
       operator     = "Equal"
       transforms   = ["Lowercase"]
-    }
-  }
-}
-
-resource "azurerm_cdn_frontdoor_rule" "web-assets-sas-rule-invalid" {
-  for_each                  = var.web-assets-config.containers
-  name                      = "${var.environment-prefix}appendsasrule${each.key}invalid"
-  cdn_frontdoor_rule_set_id = azurerm_cdn_frontdoor_rule_set.web-assets-rules.id
-  order                     = index(local.web_asset_container_keys, each.key) + 1001
-  behavior_on_match         = "Stop"
-
-  depends_on = [
-    azurerm_cdn_frontdoor_origin.web-app-front-door-origin-web-assets,
-    azurerm_cdn_frontdoor_origin_group.web-assets-front-door-origin-group
-  ]
-
-  actions {
-    route_configuration_override_action {
-      cdn_frontdoor_origin_group_id = azurerm_cdn_frontdoor_origin_group.web-app-front-door-origin-group.id
-      forwarding_protocol           = "HttpsOnly"
-      cache_behavior                = "Disabled"
-    }
-    url_rewrite_action {
-      source_pattern = "/"
-      destination    = "/error/404"
-    }
-  }
-
-  conditions {
-    url_path_condition {
-      match_values = ["/${each.key}"]
-      operator     = "BeginsWith"
-      transforms   = ["Lowercase"]
-    }
-    url_file_extension_condition {
-      match_values     = each.value.extensions
-      operator         = "Equal"
-      negate_condition = true
-      transforms       = ["Lowercase"]
     }
   }
 }
