@@ -83,7 +83,7 @@ resource "azurerm_storage_account" "web-assets-storage" {
   tags                            = local.common-tags
   min_tls_version                 = "TLS1_2"
   public_network_access_enabled   = true
-  shared_access_key_enabled       = true
+  shared_access_key_enabled       = false
   local_user_enabled              = false
 
   blob_properties {
@@ -107,13 +107,6 @@ resource "azurerm_storage_account" "web-assets-storage" {
     expiration_action = "Log"
     expiration_period = "90.00:00:00"
   }
-}
-
-resource "azurerm_storage_account_network_rules" "web-assets-storage-network-rules" {
-  count              = (azurerm_cdn_frontdoor_profile.web-app-front-door-profile.sku_name == "Premium_AzureFrontDoor" ? 1 : 0)
-  storage_account_id = azurerm_storage_account.web-assets-storage.id
-  default_action     = "Deny"
-  ip_rules           = var.web-assets-config.ip_whitelist
 }
 
 resource "azurerm_monitor_diagnostic_setting" "web-assets-storage-blob" {
@@ -143,82 +136,4 @@ resource "azurerm_key_vault_secret" "web-assets-storage-connection-string" {
   value        = azurerm_storage_account.web-assets-storage.primary_connection_string
   key_vault_id = data.azurerm_key_vault.key-vault.id
   content_type = "connection-string"
-}
-
-# Create an SAS token for auth in a storage account
-data "azurerm_storage_account_sas" "web-assets-storage-sas" {
-  connection_string = azurerm_storage_account.web-assets-storage.primary_connection_string
-  https_only        = true
-  signed_version    = "2024-11-04"
-
-  resource_types {
-    service   = false
-    container = false
-    object    = true
-  }
-
-  services {
-    blob  = true
-    queue = false
-    table = false
-    file  = false
-  }
-
-  start  = "2025-01-01T00:00:00Z"
-  expiry = "2035-01-01T00:00:00Z"
-
-  permissions {
-    read    = true
-    write   = false
-    delete  = false
-    list    = false
-    add     = false
-    create  = false
-    update  = false
-    process = false
-    tag     = false
-    filter  = false
-  }
-}
-
-# Get the private endpoint connections from the target resource if using Premium AFD
-data "azapi_resource" "web-assets-private-endpoint-connections" {
-  count                  = azurerm_cdn_frontdoor_profile.web-app-front-door-profile.sku_name == "Premium_AzureFrontDoor" ? 1 : 0
-  type                   = "Microsoft.Storage/storageAccounts@2022-09-01"
-  resource_id            = azurerm_storage_account.web-assets-storage.id
-  depends_on             = [azurerm_cdn_frontdoor_origin.web-app-front-door-origin-web-assets]
-  response_export_values = ["properties.privateEndpointConnections"]
-}
-
-# Extract the connection name for the one created by Front Door, if any available.
-# Use `try` to avoid `data.azapi_resource.web-assets-private-endpoint-connections is empty tuple` error
-locals {
-  private_endpoint_connection_name = (azurerm_cdn_frontdoor_profile.web-app-front-door-profile.sku_name == "Premium_AzureFrontDoor"
-    ? try(
-      length(data.azapi_resource.web-assets-private-endpoint-connections[0].output.properties.privateEndpointConnections) > 0
-      ? element([
-        for connection in data.azapi_resource.web-assets-private-endpoint-connections[0].output.properties.privateEndpointConnections : connection.name
-        if startswith(connection.name, "${var.environment-prefix}webassets.")
-      ], 0)
-      : null,
-    null)
-  : null)
-}
-
-# Approve the private endpoint connection if using Premium AFD
-resource "azapi_update_resource" "approve-front-door-web-assets-connection" {
-  count      = azurerm_cdn_frontdoor_profile.web-app-front-door-profile.sku_name == "Premium_AzureFrontDoor" ? 1 : 0
-  type       = "Microsoft.Storage/storageAccounts/privateEndpointConnections@2022-09-01"
-  name       = local.private_endpoint_connection_name
-  parent_id  = azurerm_storage_account.web-assets-storage.id
-  depends_on = [azurerm_cdn_frontdoor_origin.web-app-front-door-origin-web-assets]
-
-  body = {
-    properties = {
-      privateLinkServiceConnectionState = {
-        status      = "Approved"
-        description = "Approved via Terraform"
-      }
-    }
-  }
 }

@@ -302,7 +302,7 @@ resource "azurerm_cdn_frontdoor_origin" "web-app-front-door-origin-web-assets" {
   cdn_frontdoor_origin_group_id = azurerm_cdn_frontdoor_origin_group.web-assets-front-door-origin-group.id
   enabled                       = !local.front-door-origin-shutter-enabled
 
-  certificate_name_check_enabled = (azurerm_cdn_frontdoor_profile.web-app-front-door-profile.sku_name == "Premium_AzureFrontDoor" ? true : false)
+  certificate_name_check_enabled = false
 
   host_name          = "${azurerm_storage_account.web-assets-storage.name}.blob.core.windows.net"
   http_port          = 80
@@ -310,21 +310,6 @@ resource "azurerm_cdn_frontdoor_origin" "web-app-front-door-origin-web-assets" {
   origin_host_header = "${azurerm_storage_account.web-assets-storage.name}.blob.core.windows.net"
   priority           = 1
   weight             = 1
-
-  # "You must approve the private endpoint connection before traffic can pass to the origin privately"
-  # (ref. https://learn.microsoft.com/en-us/azure/frontdoor/private-link#how-private-link-works).
-  # To achieve this in Terraform use Azure CLI to set the 'Approved' status as part of this or a subsequent run.
-  # See `azapi_update_resource.approve-front-door-web-assets-connection` and dependent resources in storage.tf.
-  dynamic "private_link" {
-    for_each = (azurerm_cdn_frontdoor_profile.web-app-front-door-profile.sku_name == "Premium_AzureFrontDoor" ?
-    ["apply"] : [])
-    content {
-      private_link_target_id = azurerm_storage_account.web-assets-storage.id
-      target_type            = "blob"
-      request_message        = "Request access for Azure Front Door Private Link origin"
-      location               = azurerm_resource_group.resource-group.location
-    }
-  }
 }
 
 resource "azurerm_cdn_frontdoor_route" "web-assets-front-door-route" {
@@ -355,9 +340,9 @@ resource "azurerm_cdn_frontdoor_rule_set" "web-assets-rules" {
   cdn_frontdoor_profile_id = azurerm_cdn_frontdoor_profile.web-app-front-door-profile.id
 }
 
-resource "azurerm_cdn_frontdoor_rule" "web-assets-sas-rule" {
+resource "azurerm_cdn_frontdoor_rule" "web-assets-rule" {
   for_each                  = var.web-assets-config.containers
-  name                      = "${var.environment-prefix}appendsasrule${each.key}"
+  name                      = "${var.environment-prefix}webassets${each.key}"
   cdn_frontdoor_rule_set_id = azurerm_cdn_frontdoor_rule_set.web-assets-rules.id
   order                     = index(local.web_asset_container_keys, each.key) + 1
   behavior_on_match         = "Stop"
@@ -370,7 +355,7 @@ resource "azurerm_cdn_frontdoor_rule" "web-assets-sas-rule" {
   actions {
     url_rewrite_action {
       source_pattern = "/"
-      destination    = "/{url_path}${data.azurerm_storage_account_sas.web-assets-storage-sas.sas}"
+      destination    = "/{url_path}"
     }
   }
 
@@ -384,6 +369,12 @@ resource "azurerm_cdn_frontdoor_rule" "web-assets-sas-rule" {
       match_values = each.value.extensions
       operator     = "Equal"
       transforms   = ["Lowercase"]
+    }
+    query_string_condition {
+      match_values     = ["sv=202"]
+      operator         = "BeginsWith"
+      transforms       = ["Lowercase"]
+      negate_condition = true
     }
   }
 }
