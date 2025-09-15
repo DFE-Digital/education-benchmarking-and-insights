@@ -6,6 +6,7 @@ locals {
     azurerm_cdn_frontdoor_custom_domain.web-app-custom-domain[0].id,
   ] : [])
   front-door-origin-shutter-enabled = var.shutter-app-service-provision == "true" && var.shutter-app-service-enabled == "true"
+  web_asset_container_keys          = keys(var.web-assets-config.containers)
 }
 
 resource "azurerm_cdn_frontdoor_profile" "web-app-front-door-profile" {
@@ -302,7 +303,7 @@ resource "azurerm_cdn_frontdoor_route" "web-assets-front-door-route" {
 
   forwarding_protocol    = "HttpsOnly"
   https_redirect_enabled = true
-  patterns_to_match      = ["/${azurerm_storage_container.data-container.name}/*", "/${azurerm_storage_container.images-container.name}/*"]
+  patterns_to_match      = [for key in local.web_asset_container_keys : "/${key}/*"]
   supported_protocols    = ["Http", "Https"]
   link_to_default_domain = true
 
@@ -321,10 +322,11 @@ resource "azurerm_cdn_frontdoor_rule_set" "web-assets-rules" {
   cdn_frontdoor_profile_id = azurerm_cdn_frontdoor_profile.web-app-front-door-profile.id
 }
 
-resource "azurerm_cdn_frontdoor_rule" "append-sas-rule-data" {
-  name                      = "${var.environment-prefix}appendsasruledata"
+resource "azurerm_cdn_frontdoor_rule" "web-assets-sas-rule" {
+  for_each                  = var.web-assets-config.containers
+  name                      = "${var.environment-prefix}appendsasrule${each.key}"
   cdn_frontdoor_rule_set_id = azurerm_cdn_frontdoor_rule_set.web-assets-rules.id
-  order                     = 1
+  order                     = index(local.web_asset_container_keys, each.key) + 1
   behavior_on_match         = "Stop"
 
   depends_on = [
@@ -341,54 +343,23 @@ resource "azurerm_cdn_frontdoor_rule" "append-sas-rule-data" {
 
   conditions {
     url_path_condition {
-      match_values = ["/${azurerm_storage_container.data-container.name}"]
+      match_values = ["/${each.key}"]
       operator     = "BeginsWith"
       transforms   = ["Lowercase"]
     }
     url_file_extension_condition {
-      match_values = ["xls", "xlsx", "csv"]
+      match_values = each.value.extensions
       operator     = "Equal"
       transforms   = ["Lowercase"]
     }
   }
 }
 
-resource "azurerm_cdn_frontdoor_rule" "append-sas-rule-images" {
-  name                      = "${var.environment-prefix}appendsasruleimages"
+resource "azurerm_cdn_frontdoor_rule" "web-assets-sas-rule-invalid" {
+  for_each                  = var.web-assets-config.containers
+  name                      = "${var.environment-prefix}appendsasrule${each.key}invalid"
   cdn_frontdoor_rule_set_id = azurerm_cdn_frontdoor_rule_set.web-assets-rules.id
-  order                     = 2
-  behavior_on_match         = "Stop"
-
-  depends_on = [
-    azurerm_cdn_frontdoor_origin.web-app-front-door-origin-web-assets,
-    azurerm_cdn_frontdoor_origin_group.web-assets-front-door-origin-group
-  ]
-
-  actions {
-    url_rewrite_action {
-      source_pattern = "/"
-      destination    = "/{url_path}${data.azurerm_storage_account_sas.web-assets-storage-sas.sas}"
-    }
-  }
-
-  conditions {
-    url_path_condition {
-      match_values = ["/${azurerm_storage_container.images-container.name}"]
-      operator     = "BeginsWith"
-      transforms   = ["Lowercase"]
-    }
-    url_file_extension_condition {
-      match_values = ["jpg", "jpeg", "png", "gif", "svg", "webp"]
-      operator     = "Equal"
-      transforms   = ["Lowercase"]
-    }
-  }
-}
-
-resource "azurerm_cdn_frontdoor_rule" "append-sas-rule-data-invalid" {
-  name                      = "${var.environment-prefix}appendsasruledatainvalid"
-  cdn_frontdoor_rule_set_id = azurerm_cdn_frontdoor_rule_set.web-assets-rules.id
-  order                     = 3
+  order                     = index(local.web_asset_container_keys, each.key) + 1001
   behavior_on_match         = "Stop"
 
   depends_on = [
@@ -410,50 +381,12 @@ resource "azurerm_cdn_frontdoor_rule" "append-sas-rule-data-invalid" {
 
   conditions {
     url_path_condition {
-      match_values = ["/${azurerm_storage_container.data-container.name}"]
+      match_values = ["/${each.key}"]
       operator     = "BeginsWith"
       transforms   = ["Lowercase"]
     }
     url_file_extension_condition {
-      match_values     = ["xls", "xlsx", "csv"]
-      operator         = "Equal"
-      negate_condition = true
-      transforms       = ["Lowercase"]
-    }
-  }
-}
-
-resource "azurerm_cdn_frontdoor_rule" "append-sas-rule-images-invalid" {
-  name                      = "${var.environment-prefix}appendsasruleimagesinvalid"
-  cdn_frontdoor_rule_set_id = azurerm_cdn_frontdoor_rule_set.web-assets-rules.id
-  order                     = 4
-  behavior_on_match         = "Stop"
-
-  depends_on = [
-    azurerm_cdn_frontdoor_origin.web-app-front-door-origin-web-assets,
-    azurerm_cdn_frontdoor_origin_group.web-assets-front-door-origin-group
-  ]
-
-  actions {
-    route_configuration_override_action {
-      cdn_frontdoor_origin_group_id = azurerm_cdn_frontdoor_origin_group.web-app-front-door-origin-group.id
-      forwarding_protocol           = "HttpsOnly"
-      cache_behavior                = "Disabled"
-    }
-    url_rewrite_action {
-      source_pattern = "/"
-      destination    = "/error/404"
-    }
-  }
-
-  conditions {
-    url_path_condition {
-      match_values = ["/${azurerm_storage_container.images-container.name}"]
-      operator     = "BeginsWith"
-      transforms   = ["Lowercase"]
-    }
-    url_file_extension_condition {
-      match_values     = ["jpg", "jpeg", "png", "gif", "svg", "webp"]
+      match_values     = each.value.extensions
       operator         = "Equal"
       negate_condition = true
       transforms       = ["Lowercase"]

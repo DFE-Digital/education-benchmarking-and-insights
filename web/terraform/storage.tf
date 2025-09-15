@@ -112,7 +112,7 @@ resource "azurerm_storage_account_network_rules" "web-assets-storage-network-rul
   count              = (azurerm_cdn_frontdoor_profile.web-app-front-door-profile.sku_name == "Premium_AzureFrontDoor" ? 1 : 0)
   storage_account_id = azurerm_storage_account.web-assets-storage.id
   default_action     = "Deny"
-  ip_rules           = var.storage_settings.ip_whitelist
+  ip_rules           = var.web-assets-config.ip_whitelist
 }
 
 resource "azurerm_monitor_diagnostic_setting" "web-assets-storage-blob" {
@@ -129,15 +129,10 @@ resource "azurerm_monitor_diagnostic_setting" "web-assets-storage-blob" {
   }
 }
 
-resource "azurerm_storage_container" "images-container" {
+resource "azurerm_storage_container" "web-asset-container" {
   #checkov:skip=CKV2_AZURE_21: False positive (storage account logging defined above)
-  name               = "images"
-  storage_account_id = azurerm_storage_account.web-assets-storage.id
-}
-
-resource "azurerm_storage_container" "data-container" {
-  #checkov:skip=CKV2_AZURE_21: False positive (storage account logging defined above)
-  name               = "data"
+  for_each           = var.web-assets-config.containers
+  name               = each.key
   storage_account_id = azurerm_storage_account.web-assets-storage.id
 }
 

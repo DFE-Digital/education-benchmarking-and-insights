@@ -34,10 +34,8 @@ No modules.
 | [azurerm_cdn_frontdoor_profile.web-app-front-door-profile](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/cdn_frontdoor_profile) | resource |
 | [azurerm_cdn_frontdoor_route.web-app-front-door-route](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/cdn_frontdoor_route) | resource |
 | [azurerm_cdn_frontdoor_route.web-assets-front-door-route](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/cdn_frontdoor_route) | resource |
-| [azurerm_cdn_frontdoor_rule.append-sas-rule-data](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/cdn_frontdoor_rule) | resource |
-| [azurerm_cdn_frontdoor_rule.append-sas-rule-data-invalid](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/cdn_frontdoor_rule) | resource |
-| [azurerm_cdn_frontdoor_rule.append-sas-rule-images](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/cdn_frontdoor_rule) | resource |
-| [azurerm_cdn_frontdoor_rule.append-sas-rule-images-invalid](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/cdn_frontdoor_rule) | resource |
+| [azurerm_cdn_frontdoor_rule.web-assets-sas-rule](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/cdn_frontdoor_rule) | resource |
+| [azurerm_cdn_frontdoor_rule.web-assets-sas-rule-invalid](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/cdn_frontdoor_rule) | resource |
 | [azurerm_cdn_frontdoor_rule_set.web-assets-rules](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/cdn_frontdoor_rule_set) | resource |
 | [azurerm_cdn_frontdoor_security_policy.web-app-front-door-security-policy](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/cdn_frontdoor_security_policy) | resource |
 | [azurerm_cosmosdb_account.session-cache-account](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/cosmosdb_account) | resource |
@@ -63,9 +61,8 @@ No modules.
 | [azurerm_storage_account.web-assets-storage](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/storage_account) | resource |
 | [azurerm_storage_account_network_rules.web-assets-storage-network-rules](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/storage_account_network_rules) | resource |
 | [azurerm_storage_account_queue_properties.data-source-storage-queue-properties](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/storage_account_queue_properties) | resource |
-| [azurerm_storage_container.data-container](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/storage_container) | resource |
-| [azurerm_storage_container.images-container](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/storage_container) | resource |
 | [azurerm_storage_container.return-container](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/storage_container) | resource |
+| [azurerm_storage_container.web-asset-container](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/storage_container) | resource |
 | [azurerm_windows_web_app.education-benchmarking-as](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/windows_web_app) | resource |
 | [azurerm_windows_web_app.redirect](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/windows_web_app) | resource |
 | [random_uuid.guidgen](https://registry.terraform.io/providers/hashicorp/random/latest/docs/resources/uuid) | resource |
@@ -103,7 +100,7 @@ No modules.
 | <a name="input_redirect-app-service-provision"></a> [redirect-app-service-provision](#input\_redirect-app-service-provision) | n/a | `any` | n/a | yes |
 | <a name="input_shutter-app-service-enabled"></a> [shutter-app-service-enabled](#input\_shutter-app-service-enabled) | n/a | `any` | n/a | yes |
 | <a name="input_shutter-app-service-provision"></a> [shutter-app-service-provision](#input\_shutter-app-service-provision) | n/a | `any` | n/a | yes |
-| <a name="input_storage_settings"></a> [storage\_settings](#input\_storage\_settings) | n/a | <pre>object({<br/>    ip_whitelist = list(string)<br/>  })</pre> | <pre>{<br/>  "ip_whitelist": [<br/>    "208.127.46.236/30",<br/>    "208.127.46.240/28"<br/>  ]<br/>}</pre> | no |
+| <a name="input_web-assets-config"></a> [web-assets-config](#input\_web-assets-config) | n/a | <pre>object({<br/>    ip_whitelist = list(string)<br/>    containers = map(object({<br/>      extensions = list(string)<br/>    }))<br/>  })</pre> | <pre>{<br/>  "containers": {<br/>    "files": {<br/>      "extensions": [<br/>        "xls",<br/>        "xlsx"<br/>      ]<br/>    },<br/>    "images": {<br/>      "extensions": [<br/>        "jpg",<br/>        "jpeg",<br/>        "png",<br/>        "gif",<br/>        "svg",<br/>        "webp"<br/>      ]<br/>    }<br/>  },<br/>  "ip_whitelist": [<br/>    "208.127.46.236/30",<br/>    "208.127.46.240/28"<br/>  ]<br/>}</pre> | no |
 
 ## Outputs
 
