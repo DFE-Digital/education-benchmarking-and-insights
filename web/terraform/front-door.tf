@@ -15,6 +15,10 @@ resource "azurerm_cdn_frontdoor_profile" "web-app-front-door-profile" {
   tags                = local.common-tags
 
   sku_name = var.configuration[var.environment].front_door_profile_sku_name
+
+  identity {
+    type = "SystemAssigned"
+  }
 }
 
 resource "azurerm_cdn_frontdoor_origin_group" "web-app-front-door-origin-group" {
@@ -267,6 +271,28 @@ resource "azurerm_cdn_frontdoor_origin_group" "web-assets-front-door-origin-grou
     request_type        = "HEAD"
     protocol            = "Https"
     interval_in_seconds = 100
+  }
+}
+
+resource "azurerm_role_assignment" "sql-log-storage-role-blob" {
+  scope                = azurerm_storage_account.web-assets-storage.id
+  role_definition_name = "Storage Blob Data Reader"
+  principal_id         = azurerm_cdn_frontdoor_profile.web-app-front-door-profile.identity[0].principal_id
+  principal_type       = "ServicePrincipal"
+}
+
+resource "azapi_update_resource" "data-front-door-origin-group-authentication" {
+  type        = "Microsoft.Cdn/profiles/origingroups@2025-01-01"
+  resource_id = azurerm_cdn_frontdoor_origin_group.web-assets-front-door-origin-group.id
+
+  body = {
+    properties = {
+      authentication = {
+        scope                = "https://storage.azure.com/.default",
+        type                 = "SystemAssignedIdentity",
+        userAssignedIdentity = null
+      }
+    }
   }
 }
 
