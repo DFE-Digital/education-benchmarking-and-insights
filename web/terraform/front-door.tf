@@ -274,7 +274,8 @@ resource "azurerm_cdn_frontdoor_origin_group" "web-assets-front-door-origin-grou
   }
 }
 
-resource "azurerm_role_assignment" "sql-log-storage-role-blob" {
+resource "azurerm_role_assignment" "front-door-profile-web-assets-storage-reader" {
+  depends_on           = [azurerm_cdn_frontdoor_profile.web-app-front-door-profile]
   scope                = azurerm_storage_account.web-assets-storage.id
   role_definition_name = "Storage Blob Data Reader"
   principal_id         = azurerm_cdn_frontdoor_profile.web-app-front-door-profile.identity[0].principal_id
@@ -282,7 +283,7 @@ resource "azurerm_role_assignment" "sql-log-storage-role-blob" {
 }
 
 resource "azapi_update_resource" "data-front-door-origin-group-authentication" {
-  type        = "Microsoft.Cdn/profiles/origingroups@2025-01-01"
+  type        = "Microsoft.Cdn/profiles/origingroups@2025-06-01"
   resource_id = azurerm_cdn_frontdoor_origin_group.web-assets-front-door-origin-group.id
 
   body = {

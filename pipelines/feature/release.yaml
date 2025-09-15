@@ -256,12 +256,12 @@ stages:
 
       - job: BuildWeb
         displayName: 'Web : Build'
-        steps:
-          - template: ../web/steps/build.yaml
-            parameters:
-              BuildVersion: $(Version.BuildVersion)
-              BuildNumber: $(Version.BuildNumber)
-              frontEndVersion: $(frontEndVersion)
+      #  steps:
+      #     - template: ../web/steps/build.yaml
+      #       parameters:
+      #         BuildVersion: $(Version.BuildVersion)
+      #         BuildNumber: $(Version.BuildNumber)
+      #         frontEndVersion: $(frontEndVersion)
 
       - template: ../web/deployment.yaml
         parameters:

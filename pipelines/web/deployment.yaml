@@ -22,8 +22,8 @@ jobs:
           steps:
             - checkout: none
 
-            - download: current
-              artifact: web
+            # - download: current
+            #   artifact: web
 
             - download: current
               artifact: web-terraform
@@ -39,56 +39,56 @@ jobs:
                 shutterWebEnabled: ${{ parameters.enableShutterWeb }}
                 module: 'web'
 
-            - task: AzureRmWebAppDeployment@4
-              displayName: 'Deploy website'
-              inputs:
-                azureSubscription: ${{ parameters.subscription }}
-                WebAppName: '${{ parameters.environmentPrefix }}-education-benchmarking'
-                deployToSlotOrASE: true
-                ResourceGroupName: '${{ parameters.environmentPrefix }}-ebis-web'
-                packageForLinux: '${{ parameters.workspaceDir }}/web/Web.App.zip'
-                enableCustomDeployment: true
-                DeploymentType: 'zipDeploy'
+  #           - task: AzureRmWebAppDeployment@4
+  #             displayName: 'Deploy website'
+  #             inputs:
+  #               azureSubscription: ${{ parameters.subscription }}
+  #               WebAppName: '${{ parameters.environmentPrefix }}-education-benchmarking'
+  #               deployToSlotOrASE: true
+  #               ResourceGroupName: '${{ parameters.environmentPrefix }}-ebis-web'
+  #               packageForLinux: '${{ parameters.workspaceDir }}/web/Web.App.zip'
+  #               enableCustomDeployment: true
+  #               DeploymentType: 'zipDeploy'
 
-            - task: AzureRmWebAppDeployment@4
-              displayName: 'Deploy redirect website'
-              condition: and(succeeded(), eq('${{ parameters.deployRedirectWeb }}', 'true'))
-              inputs:
-                azureSubscription: ${{ parameters.subscription }}
-                WebAppName: '${{ parameters.environmentPrefix }}-redirect'
-                deployToSlotOrASE: true
-                ResourceGroupName: '${{ parameters.environmentPrefix }}-ebis-web'
-                packageForLinux: '${{ parameters.workspaceDir }}/web/Web.Redirect.zip'
-                enableCustomDeployment: true
-                DeploymentType: 'zipDeploy'
+  #           - task: AzureRmWebAppDeployment@4
+  #             displayName: 'Deploy redirect website'
+  #             condition: and(succeeded(), eq('${{ parameters.deployRedirectWeb }}', 'true'))
+  #             inputs:
+  #               azureSubscription: ${{ parameters.subscription }}
+  #               WebAppName: '${{ parameters.environmentPrefix }}-redirect'
+  #               deployToSlotOrASE: true
+  #               ResourceGroupName: '${{ parameters.environmentPrefix }}-ebis-web'
+  #               packageForLinux: '${{ parameters.workspaceDir }}/web/Web.Redirect.zip'
+  #               enableCustomDeployment: true
+  #               DeploymentType: 'zipDeploy'
 
-            - task: AzureRmWebAppDeployment@4
-              displayName: 'Deploy shutter website'
-              condition: and(succeeded(), eq('${{ parameters.deployShutterWeb }}', 'true'))
-              inputs:
-                azureSubscription: ${{ parameters.subscription }}
-                appType: webAppLinux
-                WebAppName: '${{ parameters.environmentPrefix }}-ebis-shutter'
-                deployToSlotOrASE: true
-                ResourceGroupName: '${{ parameters.environmentPrefix }}-ebis-web'
-                packageForLinux: '${{ parameters.workspaceDir }}/web/Web.Shutter.zip'
+  #           - task: AzureRmWebAppDeployment@4
+  #             displayName: 'Deploy shutter website'
+  #             condition: and(succeeded(), eq('${{ parameters.deployShutterWeb }}', 'true'))
+  #             inputs:
+  #               azureSubscription: ${{ parameters.subscription }}
+  #               appType: webAppLinux
+  #               WebAppName: '${{ parameters.environmentPrefix }}-ebis-shutter'
+  #               deployToSlotOrASE: true
+  #               ResourceGroupName: '${{ parameters.environmentPrefix }}-ebis-web'
+  #               packageForLinux: '${{ parameters.workspaceDir }}/web/Web.Shutter.zip'
 
-            - task: AzureCLI@2
-              displayName: 'Stop shutter website'
-              condition: and(eq('${{ parameters.deployShutterWeb }}', 'true'), ne('${{ parameters.enableShutterWeb }}', 'true'))
-              inputs:
-                azureSubscription: ${{ parameters.subscription }}
-                scriptType: bash
-                scriptLocation: inlineScript
-                inlineScript: |
-                  az webapp stop --name ${{ parameters.environmentPrefix }}-ebis-shutter --resource-group ${{ parameters.environmentPrefix }}-ebis-web
+  #           - task: AzureCLI@2
+  #             displayName: 'Stop shutter website'
+  #             condition: and(eq('${{ parameters.deployShutterWeb }}', 'true'), ne('${{ parameters.enableShutterWeb }}', 'true'))
+  #             inputs:
+  #               azureSubscription: ${{ parameters.subscription }}
+  #               scriptType: bash
+  #               scriptLocation: inlineScript
+  #               inlineScript: |
+  #                 az webapp stop --name ${{ parameters.environmentPrefix }}-ebis-shutter --resource-group ${{ parameters.environmentPrefix }}-ebis-web
 
-  - template: ../common/app-service-settings-refresh.yaml
-    parameters:
-      subscription: ${{ parameters.subscription }}
-      resourceGroup: '${{ parameters.environmentPrefix }}-ebis-web'
-      alias: 'web'
-      resources:
-        - name: '${{ parameters.environmentPrefix }}-education-benchmarking'
-          alias: 'web'
-      dependsOn: [WebDeployment]
+  # - template: ../common/app-service-settings-refresh.yaml
+  #   parameters:
+  #     subscription: ${{ parameters.subscription }}
+  #     resourceGroup: '${{ parameters.environmentPrefix }}-ebis-web'
+  #     alias: 'web'
+  #     resources:
+  #       - name: '${{ parameters.environmentPrefix }}-education-benchmarking'
+  #         alias: 'web'
+  #     dependsOn: [WebDeployment]
