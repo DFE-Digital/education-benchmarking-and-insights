@@ -70,6 +70,7 @@ resource "azurerm_key_vault_secret" "data-web-storage-connection-string" {
 
 resource "azurerm_storage_account" "web-assets-storage" {
   #checkov:skip=CKV_AZURE_33: No queues used in this storage account
+  #checkov:skip=CKV_AZURE_43: False positive due to variable used within the storage account name
   #checkov:skip=CKV_AZURE_59: Public access is required for CDN to access the storage account (for Premium AFD, IP whitelisting is applied)
   #checkov:skip=CKV2_AZURE_1: See ADO backlog AB#206389
   #checkov:skip=CKV2_AZURE_33: See ADO backlog AB#206389

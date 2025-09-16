@@ -101,8 +101,6 @@ resource "azurerm_cdn_frontdoor_firewall_policy" "web-app-front-door-waf" {
   sku_name = var.configuration[var.environment].front_door_waf_policy_sku_name
   mode     = var.configuration[var.environment].waf_mode
 
-  js_challenge_cookie_expiration_in_minutes = (azurerm_cdn_frontdoor_profile.web-app-front-door-profile.sku_name == "Premium_AzureFrontDoor" ? 30 : null)
-
   custom_rule {
     name     = "blockrequestmethod"
     action   = "Block"
