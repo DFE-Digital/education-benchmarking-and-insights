@@ -273,14 +273,6 @@ resource "azurerm_cdn_frontdoor_origin_group" "web-assets-front-door-origin-grou
   }
 }
 
-resource "azurerm_role_assignment" "front-door-profile-web-assets-storage-reader" {
-  depends_on           = [azurerm_cdn_frontdoor_profile.web-app-front-door-profile]
-  scope                = azurerm_storage_account.web-assets-storage.id
-  role_definition_name = "Storage Blob Data Reader"
-  principal_id         = azurerm_cdn_frontdoor_profile.web-app-front-door-profile.identity[0].principal_id
-  principal_type       = "ServicePrincipal"
-}
-
 resource "azapi_update_resource" "data-front-door-origin-group-authentication" {
   type        = "Microsoft.Cdn/profiles/origingroups@2025-06-01"
   resource_id = azurerm_cdn_frontdoor_origin_group.web-assets-front-door-origin-group.id
@@ -294,6 +286,22 @@ resource "azapi_update_resource" "data-front-door-origin-group-authentication" {
       }
     }
   }
+}
+
+# The below may raise the error `argument "principal_id" is required, but no definition was found` even
+# when used with `skip_service_principal_aad_check = true`. Manually assigning the system assigned 
+# managed identity and re-running should resolve, but this is not an ideal manual intervention.
+resource "azurerm_role_assignment" "front-door-profile-web-assets-storage-reader" {
+  scope                            = azurerm_storage_account.web-assets-storage.id
+  role_definition_name             = "Storage Blob Data Reader"
+  principal_id                     = azurerm_cdn_frontdoor_profile.web-app-front-door-profile.identity[0].principal_id
+  principal_type                   = "ServicePrincipal"
+  skip_service_principal_aad_check = true
+
+  depends_on = [
+    azurerm_cdn_frontdoor_profile.web-app-front-door-profile,
+    azapi_update_resource.data-front-door-origin-group-authentication
+  ]
 }
 
 resource "azurerm_cdn_frontdoor_origin" "web-app-front-door-origin-web-assets" {
@@ -360,15 +368,9 @@ resource "azurerm_cdn_frontdoor_rule" "web-assets-rule" {
 
   conditions {
     url_path_condition {
-      match_values = ["/${each.value}"]
+      match_values = ["/${each.value}/"]
       operator     = "BeginsWith"
       transforms   = ["Lowercase"]
-    }
-    query_string_condition {
-      match_values     = ["sv=202"]
-      operator         = "BeginsWith"
-      transforms       = ["Lowercase"]
-      negate_condition = true
     }
   }
 }

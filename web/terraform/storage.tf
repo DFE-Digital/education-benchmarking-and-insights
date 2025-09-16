@@ -83,7 +83,7 @@ resource "azurerm_storage_account" "web-assets-storage" {
   tags                            = local.common-tags
   min_tls_version                 = "TLS1_2"
   public_network_access_enabled   = true
-  shared_access_key_enabled       = false
+  shared_access_key_enabled       = true
   local_user_enabled              = false
 
   blob_properties {
@@ -125,9 +125,10 @@ resource "azurerm_monitor_diagnostic_setting" "web-assets-storage-blob" {
 
 resource "azurerm_storage_container" "web-asset-container" {
   #checkov:skip=CKV2_AZURE_21: False positive (storage account logging defined above)
-  for_each           = toset(var.web-asset-containers)
-  name               = each.value
-  storage_account_id = azurerm_storage_account.web-assets-storage.id
+  for_each              = toset(var.web-asset-containers)
+  name                  = each.value
+  storage_account_id    = azurerm_storage_account.web-assets-storage.id
+  container_access_type = "private"
 }
 
 resource "azurerm_key_vault_secret" "web-assets-storage-connection-string" {
