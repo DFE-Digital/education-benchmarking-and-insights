@@ -129,7 +129,7 @@ The cache for each type may also be bypassed by setting `"Disabled": true`.
 
 #### DfE Sign-in (DSI) authentication
 
-Having initialised the secret storage, add the following section to `secrets.json`
+Having initialised the secret storage, add the following section to `secrets.json`:
 
 ```json
 {
@@ -149,6 +149,26 @@ Having initialised the secret storage, add the following section to `secrets.jso
   }
 }
 ```
+
+#### Web Assets
+
+Having initialised the secret storage, add the following section to `secrets.json`:
+
+```json
+{
+  "WebAssets": 
+  {
+    "FilesBaseUrl": "https://front-door-endpoint.a02.azurefd.net/files"
+  }
+}
+```
+
+In deployed environments the requests are routed to Blob storage and this URL is a relative path.
+Locally this can be any absolute URL, but it may be sensible to point to a dev environment that will resolve to blob
+storage via the custom routing configuration. Leaving as the default value of the local development storage account
+(`http://127.0.0.1:10000/devstoreaccount1`) will return `403 AuthorizationFailure` unless the emulator has otherwise
+been [configured](https://learn.microsoft.com/en-us/azure/storage/common/storage-connect-azurite) to allow anonymous
+access.
 
 #### Environment variables
 

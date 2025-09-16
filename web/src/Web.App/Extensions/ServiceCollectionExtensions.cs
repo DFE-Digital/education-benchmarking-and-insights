@@ -18,7 +18,7 @@ using Web.App.Infrastructure.Apis.Establishment;
 using Web.App.Infrastructure.Apis.Insight;
 using Web.App.Infrastructure.Apis.LocalAuthorities;
 using Web.App.Infrastructure.Apis.NonFinancial;
-using Web.App.Infrastructure.Storage;
+using Web.App.Infrastructure.WebAssets;
 using Web.App.Services;
 using Web.App.Telemetry;
 using Web.App.Validators;
@@ -133,10 +133,10 @@ public static class ServiceCollectionExtensions
         return services;
     }
 
-    public static IServiceCollection AddStorage(this IServiceCollection services)
+    public static IServiceCollection AddWebAssets(this IServiceCollection services)
     {
-        services.AddOptions<StorageOptions>()
-            .BindConfiguration("Storage")
+        services.AddOptions<WebAssetsOptions>()
+            .BindConfiguration("WebAssets")
             .ValidateDataAnnotations();
 
         return services;

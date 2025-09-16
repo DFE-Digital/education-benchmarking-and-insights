@@ -6,11 +6,6 @@ variable "redirect-app-service-provision" {}
 variable "shutter-app-service-provision" {}
 variable "shutter-app-service-enabled" {}
 
-variable "files-container" {
-  type    = string
-  default = "files"
-}
-
 # noinspection TfIncorrectVariableType
 variable "configuration" {
   type = map(object({

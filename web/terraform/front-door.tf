@@ -9,12 +9,14 @@ locals {
   custom-origins = tomap({
     files = {
       route-pattern = "/files/*"
+      base-url      = "/files"
       container     = "files"
       origin-host   = "${azurerm_storage_account.web-assets-storage.name}.blob.core.windows.net"
       origin-path   = "/files"
     }
     images = {
       route-pattern = "/images/*"
+      base-url      = "/images"
       container     = "images"
       origin-host   = "${azurerm_storage_account.web-assets-storage.name}.blob.core.windows.net"
       origin-path   = "/images"

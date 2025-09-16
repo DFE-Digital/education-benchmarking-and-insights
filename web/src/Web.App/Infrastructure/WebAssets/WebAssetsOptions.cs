@@ -3,10 +3,10 @@
 // ReSharper disable UnusedAutoPropertyAccessor.Global
 // ReSharper disable PropertyCanBeMadeInitOnly.Global
 
-namespace Web.App.Infrastructure.Storage;
+namespace Web.App.Infrastructure.WebAssets;
 
 [ExcludeFromCodeCoverage]
-public record StorageOptions
+public record WebAssetsOptions
 {
-    public string? ReturnsContainer { get; set; }
+    public string? FilesBaseUrl { get; set; }
 }
