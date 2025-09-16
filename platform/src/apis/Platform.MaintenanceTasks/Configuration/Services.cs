@@ -5,9 +5,12 @@ using Microsoft.ApplicationInsights.DependencyCollector;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Extensions.DependencyInjection;
 using Platform.Json;
+using Platform.MaintenanceTasks.Features.UserDataCleanUp;
 using Platform.Sql;
 
-namespace Platform.UserDataCleanUp.Configuration;
+// ReSharper disable UnusedMethodReturnValue.Local
+
+namespace Platform.MaintenanceTasks.Configuration;
 
 [ExcludeFromCodeCoverage]
 internal static class Services
@@ -15,10 +18,15 @@ internal static class Services
     internal static void Configure(IServiceCollection serviceCollection)
     {
         serviceCollection
-            .AddPlatformSql()
-            .AddSingleton<IPlatformDb, PlatformDb>();
+            .AddPlatformServices()
+            .AddTelemetry()
+            .AddFeatures();
 
-        //TODO: Add serilog configuration AB#227696
+        serviceCollection.Configure<JsonSerializerOptions>(SystemTextJsonExtensions.Options);
+    }
+
+    private static IServiceCollection AddTelemetry(this IServiceCollection serviceCollection)
+    {
         var sqlTelemetryEnabled = Environment.GetEnvironmentVariable("Sql__TelemetryEnabled");
         serviceCollection
             .AddApplicationInsightsTelemetryWorkerService()
@@ -28,6 +36,12 @@ internal static class Services
                 module.EnableSqlCommandTextInstrumentation = bool.TrueString.Equals(sqlTelemetryEnabled, StringComparison.OrdinalIgnoreCase);
             });
 
-        serviceCollection.Configure<JsonSerializerOptions>(SystemTextJsonExtensions.Options);
+        return serviceCollection;
     }
+
+    private static IServiceCollection AddPlatformServices(this IServiceCollection serviceCollection) => serviceCollection
+        .AddPlatformSql();
+
+    private static IServiceCollection AddFeatures(this IServiceCollection services) => services
+        .AddUserDataCleanUpFeature();
 }

@@ -5,7 +5,7 @@ using Platform.Sql;
 
 // ReSharper disable PropertyCanBeMadeInitOnly.Global
 
-namespace Platform.UserDataCleanUp;
+namespace Platform.MaintenanceTasks.Features.UserDataCleanUp;
 
 [ExcludeFromCodeCoverage]
 public record UserData

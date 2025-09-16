@@ -2,7 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
-namespace Platform.UserDataCleanUp.Configuration;
+namespace Platform.MaintenanceTasks.Configuration;
 
 [ExcludeFromCodeCoverage]
 internal static class Logging

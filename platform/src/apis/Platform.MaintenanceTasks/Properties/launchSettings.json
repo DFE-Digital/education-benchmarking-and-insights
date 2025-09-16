@@ -1,6 +1,6 @@
 {
   "profiles": {
-    "Platform.UserDataCleanUp": {
+    "Platform.MaintenanceTasks": {
       "commandName": "Project",
       "commandLineArgs": "--port 7289",
       "launchBrowser": false

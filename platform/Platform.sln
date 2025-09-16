@@ -59,7 +59,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docker", "docker", "{576150
 		docker\docker-compose.yml = docker\docker-compose.yml
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Platform.UserDataCleanUp", "src\apis\Platform.UserDataCleanUp\Platform.UserDataCleanUp.csproj", "{B5D3CA95-E059-444F-AD07-153D1DC8095F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Platform.MaintenanceTasks", "src\apis\Platform.MaintenanceTasks\Platform.MaintenanceTasks.csproj", "{B5D3CA95-E059-444F-AD07-153D1DC8095F}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "common", "common", "{24470E8C-975F-4CD1-8017-3103D66CAE30}"
 	ProjectSection(SolutionItems) = preProject

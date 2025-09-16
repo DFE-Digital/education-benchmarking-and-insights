@@ -153,14 +153,14 @@ jobs:
                 deploymentMethod: 'runFromPackage'
 
             - task: AzureFunctionApp@2
-              displayName: 'Deploy data clean up function app'
+              displayName: 'Deploy maintenance tasks function app'
               inputs:
                 azureSubscription: ${{ parameters.subscription }}
                 appType: functionApp
-                appName: '${{ parameters.environmentPrefix }}-ebis-clean-up-fa'
+                appName: '${{ parameters.environmentPrefix }}-ebis-maintenance-tasks-fa'
                 deployToSlotOrASE: true
                 resourceGroupName: '${{ parameters.environmentPrefix }}-ebis-platform'
-                package: '${{ parameters.workspaceDir }}/platform-apis/Platform.UserDataCleanUp.zip'
+                package: '${{ parameters.workspaceDir }}/platform-apis/Platform.MaintenanceTasks.zip'
                 slotName: production
                 appSettings: '-WEBSITE_RUN_FROM_PACKAGE 1'
                 deploymentMethod: 'runFromPackage'
@@ -187,6 +187,6 @@ jobs:
           alias: 'content'
         - name: '${{ parameters.environmentPrefix }}-ebis-orchestrator-fa'
           alias: 'orchestrator'
-        - name: '${{ parameters.environmentPrefix }}-ebis-clean-up-fa'
-          alias: 'cleanup'
+        - name: '${{ parameters.environmentPrefix }}-ebis-maintenance-tasks-fa'
+          alias: 'maintenance_tasks'
       dependsOn: [ PlatformDeployment ]

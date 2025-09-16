@@ -204,9 +204,9 @@ module "content-fa" {
   sql-server-password = data.azurerm_key_vault_secret.sql-password.value
 }
 
-module "data-clean-up-fa" {
+module "maintenance-tasks-fa" {
   source                      = "./modules/functions"
-  function-name               = "clean-up"
+  function-name               = "maintenance-tasks"
   common-tags                 = local.common-tags
   environment-prefix          = var.environment-prefix
   resource-group-name         = azurerm_resource_group.resource-group.name
