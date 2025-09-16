@@ -1,6 +1,7 @@
 using System.Diagnostics.CodeAnalysis;
 using Microsoft.Extensions.Hosting;
-using Platform.UserDataCleanUp.Configuration;
+
+using Platform.MaintenanceTasks.Configuration;
 
 var hostBuilder = new HostBuilder()
     .ConfigureFunctionsWorkerDefaults(Worker.Configure, Worker.Options)

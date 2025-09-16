@@ -1,4 +1,4 @@
-﻿namespace Platform.UserDataCleanUp;
+﻿namespace Platform.MaintenanceTasks;
 
 public static class Constants
 {
