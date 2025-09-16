@@ -101,8 +101,7 @@ resource "azurerm_windows_web_app" "education-benchmarking-as" {
     "SessionData__Settings__ConnectionString"               = "@Microsoft.KeyVault(SecretUri=${azurerm_key_vault_secret.session-cache-account-connection-string.versionless_id})"
     "SessionData__Settings__ContainerName"                  = azurerm_cosmosdb_sql_container.session-cache-container.name
     "SessionData__Settings__DatabaseName"                   = azurerm_cosmosdb_sql_database.session-cache-database.name
-    "Storage__ConnectionString"                             = "@Microsoft.KeyVault(SecretUri=${azurerm_key_vault_secret.data-web-storage-connection-string.versionless_id})"
-    "Storage__ReturnsContainer"                             = azurerm_storage_container.return-container.name
+    "Storage__ReturnsContainer"                             = var.files-container
     "CacheOptions__ReturnYears__SlidingExpiration"          = var.configuration[var.environment].CacheOptions.ReturnYears.SlidingExpiration
     "CacheOptions__ReturnYears__AbsoluteExpiration"         = var.configuration[var.environment].CacheOptions.ReturnYears.AbsoluteExpiration
     "CacheOptions__CommercialResources__SlidingExpiration"  = var.configuration[var.environment].CacheOptions.CommercialResources.SlidingExpiration

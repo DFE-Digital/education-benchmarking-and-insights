@@ -57,7 +57,7 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
     public Mock<IExpenditureApi> ExpenditureApi { get; } = new();
     public Mock<IBudgetForecastApi> BudgetForecastApi { get; } = new();
     public Mock<IHttpContextAccessor> HttpContextAccessor { get; } = new();
-    public Mock<IDataSourceStorage> DataSourceStorage { get; } = new();
+    public Mock<IOptions<StorageOptions>> StorageOptions { get; } = new();
     public Mock<IFeatureManager> FeatureManager { get; } = new();
     public Mock<IFilesApi> FilesApi { get; } = new();
     public Mock<ILocalAuthoritiesApi> LocalAuthoritiesApi { get; } = new();
@@ -104,7 +104,7 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
         services.AddSingleton(ExpenditureApi.Object);
         services.AddSingleton(BudgetForecastApi.Object);
         services.AddSingleton(HttpContextAccessor.Object);
-        services.AddSingleton(DataSourceStorage.Object);
+        services.AddSingleton(StorageOptions.Object);
         services.AddSingleton(FeatureManager.Object);
         services.AddSingleton(FilesApi.Object);
         services.AddSingleton(LocalAuthoritiesApi.Object);
@@ -122,14 +122,7 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
 
     private void EnableFeatures(params string[] ignoreFeatures)
     {
-        var features = new[]
-        {
-            FeatureFlags.HighExecutivePay,
-            FeatureFlags.HighNeeds,
-            FeatureFlags.SchoolSpendingPrioritiesSsrCharts,
-            FeatureFlags.CfrItSpendBreakdown,
-            FeatureFlags.News
-        };
+        var features = new[] { FeatureFlags.HighExecutivePay, FeatureFlags.HighNeeds, FeatureFlags.SchoolSpendingPrioritiesSsrCharts, FeatureFlags.CfrItSpendBreakdown, FeatureFlags.News };
 
         foreach (var feature in features.Where(x => !ignoreFeatures.Contains(x)))
         {
@@ -153,16 +146,13 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
         return this;
     }
 
-    public BenchmarkingWebAppClient SetupStorage()
+    public BenchmarkingWebAppClient SetupStorageOptions(string? returnsContainer = null)
     {
-        var sharedAccessTokenModel = new SharedAccessTokenModel
+        StorageOptions.Reset();
+        StorageOptions.SetupGet(storage => storage.Value).Returns(new StorageOptions
         {
-            ContainerUri = new Uri("https://teststorageaccount.net/testcontainer"),
-            SasToken = "test"
-        };
-
-        DataSourceStorage.Reset();
-        DataSourceStorage.Setup(storage => storage.GetAccessToken()).Returns(sharedAccessTokenModel);
+            ReturnsContainer = returnsContainer
+        });
 
         return this;
     }

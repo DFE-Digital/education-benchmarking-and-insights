@@ -125,47 +125,47 @@ public class WhenViewingDataSources(SchoolBenchmarkingWebAppClient client) : Pag
             new
             {
                 DisplayText = "CFR 2022/23",
-                Link = "https://teststorageaccount.net/testcontainer/CFR_2022-23_Full_Data_Workbook.xlsx"
+                Link = "/testcontainer/CFR_2022-23_Full_Data_Workbook.xlsx"
             },
             new
             {
                 DisplayText = "CFR 2021/22",
-                Link = "https://teststorageaccount.net/testcontainer/CFR_2021-22_Full_Data_Workbook.xlsx"
+                Link = "/testcontainer/CFR_2021-22_Full_Data_Workbook.xlsx"
             },
             new
             {
                 DisplayText = "CFR 2020/21",
-                Link = "https://teststorageaccount.net/testcontainer/CFR_2020-21_Full_Data_Workbook.xlsx"
+                Link = "/testcontainer/CFR_2020-21_Full_Data_Workbook.xlsx"
             },
             new
             {
                 DisplayText = "CFR 2019/20",
-                Link = "https://teststorageaccount.net/testcontainer/CFR_2019-20_Full_Data_Workbook.xlsx"
+                Link = "/testcontainer/CFR_2019-20_Full_Data_Workbook.xlsx"
             },
             new
             {
                 DisplayText = "CFR 2018/19",
-                Link = "https://teststorageaccount.net/testcontainer/CFR_2018-19_Full_Data_Workbook.xlsx"
+                Link = "/testcontainer/CFR_2018-19_Full_Data_Workbook.xlsx"
             },
             new
             {
                 DisplayText = "CFR 2017/18",
-                Link = "https://teststorageaccount.net/testcontainer/CFR_2017-18_Full_Data_Workbook.xlsx"
+                Link = "/testcontainer/CFR_2017-18_Full_Data_Workbook.xlsx"
             },
             new
             {
                 DisplayText = "CFR 2016/17",
-                Link = "https://teststorageaccount.net/testcontainer/CFR_2016-17_Full_Data_Workbook.xlsx"
+                Link = "/testcontainer/CFR_2016-17_Full_Data_Workbook.xlsx"
             },
             new
             {
                 DisplayText = "CFR 2015/16",
-                Link = "https://teststorageaccount.net/testcontainer/CFR_2015-16_Full_Data_Workbook.xlsx"
+                Link = "/testcontainer/CFR_2015-16_Full_Data_Workbook.xlsx"
             },
             new
             {
                 DisplayText = "CFR 2014/15",
-                Link = "https://teststorageaccount.net/testcontainer/CFR_2014-15_Full_Data_Workbook.xlsx"
+                Link = "/testcontainer/CFR_2014-15_Full_Data_Workbook.xlsx"
             }
         };
 
@@ -174,52 +174,52 @@ public class WhenViewingDataSources(SchoolBenchmarkingWebAppClient client) : Pag
             new
             {
                 DisplayText = "AAR 2022/23",
-                Link = "https://teststorageaccount.net/testcontainer/AAR_2022-23_download.xlsx"
+                Link = "/testcontainer/AAR_2022-23_download.xlsx"
             },
             new
             {
                 DisplayText = "AAR 2021/22",
-                Link = "https://teststorageaccount.net/testcontainer/AAR_2021-22_download.xlsx"
+                Link = "/testcontainer/AAR_2021-22_download.xlsx"
             },
             new
             {
                 DisplayText = "AAR 2020/21",
-                Link = "https://teststorageaccount.net/testcontainer/AAR_2020-21_download.xlsx"
+                Link = "/testcontainer/AAR_2020-21_download.xlsx"
             },
             new
             {
                 DisplayText = "AAR 2019/20",
-                Link = "https://teststorageaccount.net/testcontainer/AAR_2019-20_download.xlsx"
+                Link = "/testcontainer/AAR_2019-20_download.xlsx"
             },
             new
             {
                 DisplayText = "AAR 2018/19",
-                Link = "https://teststorageaccount.net/testcontainer/AAR_2018-19_download.xlsx"
+                Link = "/testcontainer/AAR_2018-19_download.xlsx"
             },
             new
             {
                 DisplayText = "AAR 2017/18",
-                Link = "https://teststorageaccount.net/testcontainer/AAR_2017-18_download.xlsx"
+                Link = "/testcontainer/AAR_2017-18_download.xlsx"
             },
             new
             {
                 DisplayText = "AAR 2016/17",
-                Link = "https://teststorageaccount.net/testcontainer/AAR_2016-17_download.xlsx"
+                Link = "/testcontainer/AAR_2016-17_download.xlsx"
             },
             new
             {
                 DisplayText = "AAR 2015/16",
-                Link = "https://teststorageaccount.net/testcontainer/SFR32_2017_Main_Tables.xlsx"
+                Link = "/testcontainer/SFR32_2017_Main_Tables.xlsx"
             },
             new
             {
                 DisplayText = "AAR 2014/15",
-                Link = "https://teststorageaccount.net/testcontainer/SFR27_2016_Main_Tables.xlsx"
+                Link = "/testcontainer/SFR27_2016_Main_Tables.xlsx"
             }
         };
 
         var page = await Client
-            .SetupStorage()
+            .SetupStorageOptions("testcontainer")
             .SetupFiles(files)
             .Navigate(Paths.DataSources);
 
