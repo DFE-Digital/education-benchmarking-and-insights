@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 using Web.App.Infrastructure.Apis.Content;
 using Web.App.Infrastructure.Extensions;
 using Web.App.Infrastructure.Storage;
@@ -10,7 +11,7 @@ namespace Web.App.Controllers;
 
 [Controller]
 [Route("data-sources")]
-public class DataSourceController(ILogger<DataSourceController> logger, IDataSourceStorage storage, IFilesApi filesApi)
+public class DataSourceController(ILogger<DataSourceController> logger, IOptions<StorageOptions> options, IFilesApi filesApi)
     : Controller
 {
     [HttpGet]
@@ -23,18 +24,16 @@ public class DataSourceController(ILogger<DataSourceController> logger, IDataSou
         {
             ViewData[ViewDataKeys.UseJsBackLink] = true;
 
-            var sas = storage.GetAccessToken();
-
             var files = await filesApi.GetTransparencyFiles().GetResultOrDefault<File[]>() ?? [];
             academies = files
                 .Where(f => f.Type == "transparency-aar")
                 .OrderByDescending(x => x.Label)
-                .Select(x => BuildViewModel(x.Label, x.FileName, sas));
+                .Select(x => BuildViewModel(x.Label, x.FileName, options.Value.ReturnsContainer));
 
             maintainedSchools = files
                 .Where(f => f.Type == "transparency-cfr")
                 .OrderByDescending(x => x.Label)
-                .Select(x => BuildViewModel(x.Label, x.FileName, sas));
+                .Select(x => BuildViewModel(x.Label, x.FileName, options.Value.ReturnsContainer));
         }
         catch (Exception e)
         {
@@ -45,11 +44,13 @@ public class DataSourceController(ILogger<DataSourceController> logger, IDataSou
         return View(vm);
     }
 
-    private static DataSourceFileViewModel BuildViewModel(string? description, string? fileName, SharedAccessTokenModel accessTokenModel) => new()
+    private static DataSourceFileViewModel BuildViewModel(string? description, string? fileName, string? returnsContainer) => new()
     {
         DisplayText = description,
-        Link = string.IsNullOrWhiteSpace(fileName) ? null : BuildFileUri(accessTokenModel, fileName)
+        Link = string.IsNullOrWhiteSpace(fileName) || string.IsNullOrWhiteSpace(returnsContainer)
+            ? null
+            : BuildFileUri(returnsContainer, fileName)
     };
 
-    private static Uri BuildFileUri(SharedAccessTokenModel accessTokenModel, string fileName) => new($"{accessTokenModel.ContainerUri}/{fileName}{accessTokenModel.SasToken}");
+    private static Uri BuildFileUri(string returnsContainer, string fileName) => new($"/{returnsContainer}/{fileName}", UriKind.Relative);
 }

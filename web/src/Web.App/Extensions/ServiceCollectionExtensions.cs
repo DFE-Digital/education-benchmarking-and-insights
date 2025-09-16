@@ -135,11 +135,9 @@ public static class ServiceCollectionExtensions
 
     public static IServiceCollection AddStorage(this IServiceCollection services)
     {
-        services.AddOptions<DataSourceStorageOptions>()
+        services.AddOptions<StorageOptions>()
             .BindConfiguration("Storage")
             .ValidateDataAnnotations();
-
-        services.AddSingleton<IDataSourceStorage, DataSourceStorage>();
 
         return services;
     }
