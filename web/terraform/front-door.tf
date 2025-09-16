@@ -346,10 +346,9 @@ resource "azurerm_cdn_frontdoor_rule_set" "web-assets-rules" {
 }
 
 resource "azurerm_cdn_frontdoor_rule" "web-assets-rule" {
-  for_each                  = toset(var.web-asset-containers)
-  name                      = "${var.environment-prefix}webassets${each.value}"
+  name                      = "${var.environment-prefix}webassetsrule"
   cdn_frontdoor_rule_set_id = azurerm_cdn_frontdoor_rule_set.web-assets-rules.id
-  order                     = index(var.web-asset-containers, each.value) + 1
+  order                     = 1
   behavior_on_match         = "Stop"
 
   depends_on = [
@@ -366,7 +365,7 @@ resource "azurerm_cdn_frontdoor_rule" "web-assets-rule" {
 
   conditions {
     url_path_condition {
-      match_values = ["/${each.value}/"]
+      match_values = [for key in var.web-asset-containers : "/${key}/"]
       operator     = "BeginsWith"
       transforms   = ["Lowercase"]
     }
