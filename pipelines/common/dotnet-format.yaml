@@ -2,6 +2,12 @@ parameters:
   SolutionDirectory: ''
 
 steps:
+  # Pin SDK version to avoid CI drift from ubuntu-latest image updates (example .NET 9 auto-upgrade)
+  - task: UseDotNet@2
+    displayName: 'Install .NET SDK 8.0.119'
+    inputs:
+      version: '8.0.119'
+
   - task: DotNetCoreCLI@2
     displayName: 'Run dotnet format'
     inputs:
