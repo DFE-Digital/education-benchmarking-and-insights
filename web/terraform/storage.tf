@@ -67,3 +67,67 @@ resource "azurerm_key_vault_secret" "data-web-storage-connection-string" {
   key_vault_id = data.azurerm_key_vault.key-vault.id
   content_type = "connection-string"
 }
+
+resource "azurerm_storage_account" "web-assets-storage" {
+  #checkov:skip=CKV_AZURE_33: No queues used in this storage account
+  #checkov:skip=CKV_AZURE_43: False positive due to variable used within the storage account name
+  #checkov:skip=CKV_AZURE_59: Public access is required for CDN to access the storage account
+  #checkov:skip=CKV2_AZURE_1: See ADO backlog AB#206389
+  #checkov:skip=CKV2_AZURE_33: See ADO backlog AB#206389
+  #checkov:skip=CKV2_AZURE_40: See ADO backlog AB#206389
+  name                            = "${var.environment-prefix}webassets"
+  location                        = azurerm_resource_group.resource-group.location
+  resource_group_name             = azurerm_resource_group.resource-group.name
+  account_tier                    = "Standard"
+  account_replication_type        = "GRS"
+  allow_nested_items_to_be_public = false
+  tags                            = local.common-tags
+  min_tls_version                 = "TLS1_2"
+  public_network_access_enabled   = true
+  shared_access_key_enabled       = false # Manually enable in Portal when container access required
+  local_user_enabled              = false
+
+  blob_properties {
+    delete_retention_policy {
+      days = 7
+    }
+    container_delete_retention_policy {
+      days = 7
+    }
+    versioning_enabled = true
+    cors_rule {
+      allowed_headers    = ["*"]
+      allowed_methods    = ["GET"]
+      allowed_origins    = [local.host_name]
+      exposed_headers    = ["*"]
+      max_age_in_seconds = 300
+    }
+  }
+
+  sas_policy {
+    expiration_action = "Log"
+    expiration_period = "90.00:00:00"
+  }
+}
+
+resource "azurerm_monitor_diagnostic_setting" "web-assets-storage-blob" {
+  name                       = "${azurerm_storage_account.web-assets-storage.name}-blob-logs"
+  target_resource_id         = "${azurerm_storage_account.web-assets-storage.id}/blobServices/default/"
+  log_analytics_workspace_id = data.azurerm_log_analytics_workspace.application-insights-workspace.id
+
+  enabled_metric {
+    category = "Transaction"
+  }
+
+  enabled_log {
+    category = "StorageRead"
+  }
+}
+
+resource "azurerm_storage_container" "web-asset-container" {
+  #checkov:skip=CKV2_AZURE_21: False positive (storage account logging defined above)
+  for_each              = local.custom-origins
+  name                  = each.value.container
+  storage_account_id    = azurerm_storage_account.web-assets-storage.id
+  container_access_type = "private"
+}

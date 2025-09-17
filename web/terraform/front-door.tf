@@ -6,6 +6,20 @@ locals {
     azurerm_cdn_frontdoor_custom_domain.web-app-custom-domain[0].id,
   ] : [])
   front-door-origin-shutter-enabled = var.shutter-app-service-provision == "true" && var.shutter-app-service-enabled == "true"
+  custom-origins = tomap({
+    files = {
+      route-pattern = "/files/*"
+      container     = "files"
+      origin-host   = "${azurerm_storage_account.web-assets-storage.name}.blob.core.windows.net"
+      origin-path   = "/files"
+    }
+    images = {
+      route-pattern = "/images/*"
+      container     = "images"
+      origin-host   = "${azurerm_storage_account.web-assets-storage.name}.blob.core.windows.net"
+      origin-path   = "/images"
+    }
+  })
 }
 
 resource "azurerm_cdn_frontdoor_profile" "web-app-front-door-profile" {
@@ -14,6 +28,10 @@ resource "azurerm_cdn_frontdoor_profile" "web-app-front-door-profile" {
   tags                = local.common-tags
 
   sku_name = var.configuration[var.environment].front_door_profile_sku_name
+
+  identity {
+    type = "SystemAssigned"
+  }
 }
 
 resource "azurerm_cdn_frontdoor_origin_group" "web-app-front-door-origin-group" {
@@ -246,5 +264,80 @@ resource "azurerm_monitor_diagnostic_setting" "front-door-analytics" {
 
   enabled_metric {
     category = "AllMetrics"
+  }
+}
+
+resource "azurerm_cdn_frontdoor_origin_group" "web-assets-front-door-origin-group" {
+  for_each                 = local.custom-origins
+  name                     = "${var.environment-prefix}-ebis-fd-origin-group-web-assets-${each.key}"
+  cdn_frontdoor_profile_id = azurerm_cdn_frontdoor_profile.web-app-front-door-profile.id
+  session_affinity_enabled = false
+
+  load_balancing {
+    sample_size                 = 4
+    successful_samples_required = 2
+  }
+}
+
+resource "azapi_update_resource" "data-front-door-origin-group-authentication" {
+  for_each    = local.custom-origins
+  type        = "Microsoft.Cdn/profiles/origingroups@2025-06-01"
+  resource_id = azurerm_cdn_frontdoor_origin_group.web-assets-front-door-origin-group[each.key].id
+
+  body = {
+    properties = {
+      authentication = {
+        scope                = "https://storage.azure.com/.default",
+        type                 = "SystemAssignedIdentity",
+        userAssignedIdentity = null
+      }
+    }
+  }
+}
+
+# The below may raise the error `argument "principal_id" is required, but no definition was found` even
+# when used with `skip_service_principal_aad_check = true`. Manually assigning the system assigned 
+# managed identity and re-running should resolve, but this is not an ideal manual intervention.
+resource "azurerm_role_assignment" "front-door-profile-web-assets-storage-reader" {
+  scope                = azurerm_storage_account.web-assets-storage.id
+  role_definition_name = "Storage Blob Data Reader"
+  principal_id         = azurerm_cdn_frontdoor_profile.web-app-front-door-profile.identity[0].principal_id
+  principal_type       = "ServicePrincipal"
+}
+
+resource "azurerm_cdn_frontdoor_origin" "web-app-front-door-origin-web-assets" {
+  for_each                      = local.custom-origins
+  name                          = "${var.environment-prefix}-education-benchmarking-fd-origin-web-assets-${each.key}"
+  cdn_frontdoor_origin_group_id = azurerm_cdn_frontdoor_origin_group.web-assets-front-door-origin-group[each.key].id
+
+  certificate_name_check_enabled = false
+
+  host_name          = each.value.origin-host
+  https_port         = 443
+  origin_host_header = each.value.origin-host
+  priority           = 1
+  weight             = 1
+}
+
+resource "azurerm_cdn_frontdoor_route" "web-assets-front-door-route" {
+  for_each                      = local.custom-origins
+  name                          = "${var.environment-prefix}-education-benchmarking-fd-route-web-assets-${each.key}"
+  cdn_frontdoor_endpoint_id     = azurerm_cdn_frontdoor_endpoint.web-app-front-door-endpoint.id
+  cdn_frontdoor_origin_group_id = azurerm_cdn_frontdoor_origin_group.web-assets-front-door-origin-group[each.key].id
+  cdn_frontdoor_origin_ids      = [azurerm_cdn_frontdoor_origin.web-app-front-door-origin-web-assets[each.key].id]
+  enabled                       = true
+
+  forwarding_protocol    = "HttpsOnly"
+  https_redirect_enabled = false
+  patterns_to_match      = [each.value.route-pattern]
+  supported_protocols    = ["Https"]
+  link_to_default_domain = true
+
+  cdn_frontdoor_origin_path       = each.value.origin-path
+  cdn_frontdoor_custom_domain_ids = local.custom-domain-ids
+
+  cache {
+    query_string_caching_behavior = "IgnoreQueryString"
+    compression_enabled           = false
   }
 }
