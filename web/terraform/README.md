@@ -4,7 +4,7 @@
 | Name | Version |
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.9.8 |
-| <a name="requirement_azapi"></a> [azapi](#requirement\_azapi) | ~> 2.6.0 |
+| <a name="requirement_azapi"></a> [azapi](#requirement\_azapi) | ~> 2.6.1 |
 | <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm) | ~> 4.44.0 |
 
 ## Providers
@@ -100,7 +100,6 @@ No modules.
 | <a name="input_redirect-app-service-provision"></a> [redirect-app-service-provision](#input\_redirect-app-service-provision) | n/a | `any` | n/a | yes |
 | <a name="input_shutter-app-service-enabled"></a> [shutter-app-service-enabled](#input\_shutter-app-service-enabled) | n/a | `any` | n/a | yes |
 | <a name="input_shutter-app-service-provision"></a> [shutter-app-service-provision](#input\_shutter-app-service-provision) | n/a | `any` | n/a | yes |
-| <a name="input_web-asset-containers"></a> [web-asset-containers](#input\_web-asset-containers) | n/a | `list(string)` | <pre>[<br/>  "files",<br/>  "images"<br/>]</pre> | no |
 
 ## Outputs
 

@@ -6,11 +6,6 @@ variable "redirect-app-service-provision" {}
 variable "shutter-app-service-provision" {}
 variable "shutter-app-service-enabled" {}
 
-variable "web-asset-containers" {
-  type    = list(string)
-  default = ["files", "images"]
-}
-
 # noinspection TfIncorrectVariableType
 variable "configuration" {
   type = map(object({

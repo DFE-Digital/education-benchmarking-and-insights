@@ -326,7 +326,7 @@ resource "azurerm_cdn_frontdoor_route" "web-assets-front-door-route" {
 
   forwarding_protocol    = "HttpsOnly"
   https_redirect_enabled = true
-  patterns_to_match      = [for key in var.web-asset-containers : "/${key}/*"]
+  patterns_to_match      = [for key in local.web-asset-containers : "/${key}/*"]
   supported_protocols    = ["Http", "Https"]
   link_to_default_domain = true
 
@@ -365,7 +365,7 @@ resource "azurerm_cdn_frontdoor_rule" "web-assets-rule" {
 
   conditions {
     url_path_condition {
-      match_values = [for key in var.web-asset-containers : "/${key}/"]
+      match_values = [for key in local.web-asset-containers : "/${key}/"]
       operator     = "BeginsWith"
       transforms   = ["Lowercase"]
     }
