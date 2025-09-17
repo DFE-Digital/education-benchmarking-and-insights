@@ -260,14 +260,7 @@ resource "azurerm_cdn_frontdoor_origin_group" "web-assets-front-door-origin-grou
 
   load_balancing {
     sample_size                 = 4
-    successful_samples_required = 3
-  }
-
-  health_probe {
-    path                = "/"
-    request_type        = "HEAD"
-    protocol            = "Https"
-    interval_in_seconds = 100
+    successful_samples_required = 2
   }
 }
 
@@ -290,27 +283,19 @@ resource "azapi_update_resource" "data-front-door-origin-group-authentication" {
 # when used with `skip_service_principal_aad_check = true`. Manually assigning the system assigned 
 # managed identity and re-running should resolve, but this is not an ideal manual intervention.
 resource "azurerm_role_assignment" "front-door-profile-web-assets-storage-reader" {
-  scope                            = azurerm_storage_account.web-assets-storage.id
-  role_definition_name             = "Storage Blob Data Reader"
-  principal_id                     = azurerm_cdn_frontdoor_profile.web-app-front-door-profile.identity[0].principal_id
-  principal_type                   = "ServicePrincipal"
-  skip_service_principal_aad_check = true
-
-  depends_on = [
-    azurerm_cdn_frontdoor_profile.web-app-front-door-profile,
-    azapi_update_resource.data-front-door-origin-group-authentication
-  ]
+  scope                = azurerm_storage_account.web-assets-storage.id
+  role_definition_name = "Storage Blob Data Reader"
+  principal_id         = azurerm_cdn_frontdoor_profile.web-app-front-door-profile.identity[0].principal_id
+  principal_type       = "ServicePrincipal"
 }
 
 resource "azurerm_cdn_frontdoor_origin" "web-app-front-door-origin-web-assets" {
   name                          = "${var.environment-prefix}-education-benchmarking-fd-origin-web-assets"
   cdn_frontdoor_origin_group_id = azurerm_cdn_frontdoor_origin_group.web-assets-front-door-origin-group.id
-  enabled                       = !local.front-door-origin-shutter-enabled
 
   certificate_name_check_enabled = false
 
   host_name          = "${azurerm_storage_account.web-assets-storage.name}.blob.core.windows.net"
-  http_port          = 80
   https_port         = 443
   origin_host_header = "${azurerm_storage_account.web-assets-storage.name}.blob.core.windows.net"
   priority           = 1
@@ -325,9 +310,9 @@ resource "azurerm_cdn_frontdoor_route" "web-assets-front-door-route" {
   enabled                       = true
 
   forwarding_protocol    = "HttpsOnly"
-  https_redirect_enabled = true
+  https_redirect_enabled = false
   patterns_to_match      = [for key in local.web-asset-containers : "/${key}/*"]
-  supported_protocols    = ["Http", "Https"]
+  supported_protocols    = ["Https"]
   link_to_default_domain = true
 
   cdn_frontdoor_origin_path       = "/"
@@ -351,23 +336,10 @@ resource "azurerm_cdn_frontdoor_rule" "web-assets-rule" {
   order                     = 1
   behavior_on_match         = "Stop"
 
-  depends_on = [
-    azurerm_cdn_frontdoor_origin.web-app-front-door-origin-web-assets,
-    azurerm_cdn_frontdoor_origin_group.web-assets-front-door-origin-group
-  ]
-
   actions {
     url_rewrite_action {
       source_pattern = "/"
       destination    = "/{url_path}"
-    }
-  }
-
-  conditions {
-    url_path_condition {
-      match_values = [for key in local.web-asset-containers : "/${key}/"]
-      operator     = "BeginsWith"
-      transforms   = ["Lowercase"]
     }
   }
 }

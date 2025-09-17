@@ -1,5 +1,7 @@
 locals {
-  web-asset-containers = ["files", "images"]
+  web-asset-container-files  = "files"
+  web-asset-container-images = "images"
+  web-asset-containers       = [local.web-asset-container-files, local.web-asset-container-images]
 }
 
 resource "azurerm_storage_account" "data-source-storage" {
@@ -75,7 +77,7 @@ resource "azurerm_key_vault_secret" "data-web-storage-connection-string" {
 resource "azurerm_storage_account" "web-assets-storage" {
   #checkov:skip=CKV_AZURE_33: No queues used in this storage account
   #checkov:skip=CKV_AZURE_43: False positive due to variable used within the storage account name
-  #checkov:skip=CKV_AZURE_59: Public access is required for CDN to access the storage account (for Premium AFD, IP whitelisting is applied)
+  #checkov:skip=CKV_AZURE_59: Public access is required for CDN to access the storage account
   #checkov:skip=CKV2_AZURE_1: See ADO backlog AB#206389
   #checkov:skip=CKV2_AZURE_33: See ADO backlog AB#206389
   #checkov:skip=CKV2_AZURE_40: See ADO backlog AB#206389
@@ -88,7 +90,7 @@ resource "azurerm_storage_account" "web-assets-storage" {
   tags                            = local.common-tags
   min_tls_version                 = "TLS1_2"
   public_network_access_enabled   = true
-  shared_access_key_enabled       = true
+  shared_access_key_enabled       = false # Manually enable in Portal when container access required
   local_user_enabled              = false
 
   blob_properties {
@@ -102,7 +104,7 @@ resource "azurerm_storage_account" "web-assets-storage" {
     cors_rule {
       allowed_headers    = ["*"]
       allowed_methods    = ["GET"]
-      allowed_origins    = ["*"]
+      allowed_origins    = [local.host_name]
       exposed_headers    = ["*"]
       max_age_in_seconds = 300
     }
