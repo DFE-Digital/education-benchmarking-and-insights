@@ -2,5 +2,7 @@ Title,Slug,Body,Created,Updated,Published,Archived
 Archived,archived,# Archived body,2025-08-28 14:44:56.3866667 +00:00,2025-08-28 14:44:56.3866667 +00:00,NULL,NULL
 Not yet archived,not-yet-archived,# Not yet archived body,2025-08-28 14:46:10.3266667 +00:00,2025-08-28 14:46:10.3266667 +00:00,2025-08-28 14:46:10.3266667 +00:00,2125-08-28 14:46:10.3266667 +00:00
 Not yet published,not-yet-published,# Not yet published body,2025-08-28 14:44:04.0333333 +00:00,2025-08-28 14:44:04.0333333 +00:00,2125-08-28 14:44:04.0333333 +00:00,NULL
-Published,published,# Published body,2025-08-28 14:45:27.5866667 +00:00,2025-08-28 14:45:27.5866667 +00:00,2025-08-28 14:45:27.5866667 +00:00,NULL
+Published,published,"# Published body
+
+![Emoji hand waving](/hand-wave.png)",2025-08-28 14:45:27.5866667 +00:00,2025-08-28 14:45:27.5866667 +00:00,2025-08-28 14:45:27.5866667 +00:00,NULL
 Unpublished,unpublished,# Unpublished body,2025-08-28 14:43:34.0566667 +00:00,2025-08-28 14:43:34.0566667 +00:00,2025-08-28 14:43:34.0566667 +00:00,2025-08-28 14:43:34.0566667 +00:00

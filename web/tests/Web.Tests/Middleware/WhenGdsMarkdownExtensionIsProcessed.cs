@@ -38,6 +38,15 @@ public class WhenGdsMarkdownExtensionIsProcessed
         Assert.Equal("<p class=\"govuk-body\"><a href=\"https://example.com\" class=\"govuk-link\">Example link</a></p>\n", actual);
     }
 
+    [Fact]
+    public void ShouldNotRenderImageAsGdsLink()
+    {
+        const string markdown = "![Example image](https://example.com)";
+        var actual = Markdown.ToHtml(markdown, _pipeline);
+
+        Assert.Equal("<p class=\"govuk-body\"><img src=\"https://example.com\" alt=\"Example image\" /></p>\n", actual);
+    }
+
     [Theory]
     [InlineData("* Example item 1\n* Example item 2", "<ul class=\"govuk-list govuk-list--bullet\">\n<li>Example item 1</li>\n<li>Example item 2</li>\n</ul>\n")]
     [InlineData("1. Example item 1\n1. Example item 2", "<ol class=\"govuk-list govuk-list--number\">\n<li>Example item 1</li>\n<li>Example item 2</li>\n</ol>\n")]

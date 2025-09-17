@@ -72,7 +72,7 @@ public class GdsMarkdownExtension : IMarkdownExtension
                 case HeadingBlock:
                     attributes.AddClass("govuk-heading-s");
                     break;
-                case LinkInline:
+                case LinkInline { IsImage: false }:
                     attributes.AddClass("govuk-link");
                     break;
                 case ListBlock { IsOrdered: true }:

@@ -102,6 +102,7 @@ resource "azurerm_windows_web_app" "education-benchmarking-as" {
     "SessionData__Settings__ContainerName"                  = azurerm_cosmosdb_sql_container.session-cache-container.name
     "SessionData__Settings__DatabaseName"                   = azurerm_cosmosdb_sql_database.session-cache-database.name
     "WebAssets__FilesBaseUrl"                               = local.custom-origins.files.base-url
+    "WebAssets__ImagesBaseUrl"                              = local.custom-origins.images.base-url
     "CacheOptions__ReturnYears__SlidingExpiration"          = var.configuration[var.environment].CacheOptions.ReturnYears.SlidingExpiration
     "CacheOptions__ReturnYears__AbsoluteExpiration"         = var.configuration[var.environment].CacheOptions.ReturnYears.AbsoluteExpiration
     "CacheOptions__CommercialResources__SlidingExpiration"  = var.configuration[var.environment].CacheOptions.CommercialResources.SlidingExpiration

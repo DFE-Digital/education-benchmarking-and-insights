@@ -9,4 +9,5 @@ namespace Web.App.Infrastructure.WebAssets;
 public record WebAssetsOptions
 {
     public string? FilesBaseUrl { get; set; }
+    public string? ImagesBaseUrl { get; set; }
 }

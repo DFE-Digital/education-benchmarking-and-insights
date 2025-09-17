@@ -3,7 +3,6 @@ using System.Globalization;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using CorrelationId.DependencyInjection;
-using Markdig;
 using Microsoft.ApplicationInsights.Extensibility;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.HttpOverrides;
@@ -15,7 +14,6 @@ using Web.App.Extensions;
 using Web.App.Handlers;
 using Web.App.HealthChecks;
 using Web.App.Middleware;
-using Web.App.Middleware.Markdown;
 using Web.App.Services;
 using Web.App.Telemetry;
 using Westwind.AspNetCore.Markdown;
@@ -75,12 +73,7 @@ builder.Services.Configure<CacheOptions>(builder.Configuration.GetSection("Cache
 
 builder.AddSessionService();
 
-builder.Services
-    .AddMarkdown(config => config.ConfigureMarkdigPipeline = b =>
-    {
-        b.Extensions.AddIfNotAlready<GdsMarkdownExtension>();
-        b.DisableHtml();
-    });
+builder.Services.AddMarkdown(builder.Configuration);
 
 if (!builder.Environment.IsIntegration())
 {

@@ -1,10 +1,12 @@
 using System.Security.Claims;
 using FluentValidation;
 using IdentityModel.Client;
+using Markdig;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using Microsoft.IdentityModel.Tokens;
 using Web.App.ActionResults;
@@ -19,14 +21,18 @@ using Web.App.Infrastructure.Apis.Insight;
 using Web.App.Infrastructure.Apis.LocalAuthorities;
 using Web.App.Infrastructure.Apis.NonFinancial;
 using Web.App.Infrastructure.WebAssets;
+using Web.App.Middleware.Markdown;
 using Web.App.Services;
 using Web.App.Telemetry;
 using Web.App.Validators;
+using Westwind.AspNetCore.Markdown;
 
 namespace Web.App.Extensions;
 
 public static class ServiceCollectionExtensions
 {
+    private const string WebAssetsConfigSectionPath = "WebAssets";
+
     public static IServiceCollection AddDfeSignIn(this IServiceCollection services,
         Action<DfeSignInOptions>? optionCfg = null)
     {
@@ -136,10 +142,26 @@ public static class ServiceCollectionExtensions
     public static IServiceCollection AddWebAssets(this IServiceCollection services)
     {
         services.AddOptions<WebAssetsOptions>()
-            .BindConfiguration("WebAssets")
+            .BindConfiguration(WebAssetsConfigSectionPath)
             .ValidateDataAnnotations();
 
         return services;
+    }
+
+    public static IServiceCollection AddMarkdown(this IServiceCollection services, ConfigurationManager configuration)
+    {
+        return services.AddMarkdown(config => config.ConfigureMarkdigPipeline = b =>
+        {
+            // Bind the dependent config here as unable to consume in extension via DI (see request #3 in
+            // https://github.com/xoofx/markdig/issues/362). This is a similar effort to the AddWebAssets()
+            // extension method above, but is a one-off task when the first Markdown request is made.
+            var options = new WebAssetsOptions();
+            configuration.GetSection(WebAssetsConfigSectionPath).Bind(options);
+
+            b.Extensions.AddIfNotAlready<GdsMarkdownExtension>();
+            b.Extensions.AddIfNotAlready(new ImagePathMarkdownExtension(new OptionsWrapper<WebAssetsOptions>(options)));
+            b.DisableHtml();
+        });
     }
 
     private static IServiceCollection AddAntiForgery(this IServiceCollection services, bool isDevelopment)
