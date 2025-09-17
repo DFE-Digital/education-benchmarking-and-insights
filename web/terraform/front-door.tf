@@ -6,6 +6,20 @@ locals {
     azurerm_cdn_frontdoor_custom_domain.web-app-custom-domain[0].id,
   ] : [])
   front-door-origin-shutter-enabled = var.shutter-app-service-provision == "true" && var.shutter-app-service-enabled == "true"
+  custom-origins = tomap({
+    files = {
+      route-pattern = "/files/*"
+      container     = "files"
+      origin-host   = "${azurerm_storage_account.web-assets-storage.name}.blob.core.windows.net"
+      origin-path   = "/files"
+    }
+    images = {
+      route-pattern = "/images/*"
+      container     = "images"
+      origin-host   = "${azurerm_storage_account.web-assets-storage.name}.blob.core.windows.net"
+      origin-path   = "/images"
+    }
+  })
 }
 
 resource "azurerm_cdn_frontdoor_profile" "web-app-front-door-profile" {
@@ -254,7 +268,8 @@ resource "azurerm_monitor_diagnostic_setting" "front-door-analytics" {
 }
 
 resource "azurerm_cdn_frontdoor_origin_group" "web-assets-front-door-origin-group" {
-  name                     = "${var.environment-prefix}-ebis-fd-origin-group-web-assets"
+  for_each                 = local.custom-origins
+  name                     = "${var.environment-prefix}-ebis-fd-origin-group-web-assets-${each.key}"
   cdn_frontdoor_profile_id = azurerm_cdn_frontdoor_profile.web-app-front-door-profile.id
   session_affinity_enabled = false
 
@@ -265,8 +280,9 @@ resource "azurerm_cdn_frontdoor_origin_group" "web-assets-front-door-origin-grou
 }
 
 resource "azapi_update_resource" "data-front-door-origin-group-authentication" {
+  for_each    = local.custom-origins
   type        = "Microsoft.Cdn/profiles/origingroups@2025-06-01"
-  resource_id = azurerm_cdn_frontdoor_origin_group.web-assets-front-door-origin-group.id
+  resource_id = azurerm_cdn_frontdoor_origin_group.web-assets-front-door-origin-group[each.key].id
 
   body = {
     properties = {
@@ -290,56 +306,38 @@ resource "azurerm_role_assignment" "front-door-profile-web-assets-storage-reader
 }
 
 resource "azurerm_cdn_frontdoor_origin" "web-app-front-door-origin-web-assets" {
-  name                          = "${var.environment-prefix}-education-benchmarking-fd-origin-web-assets"
-  cdn_frontdoor_origin_group_id = azurerm_cdn_frontdoor_origin_group.web-assets-front-door-origin-group.id
+  for_each                      = local.custom-origins
+  name                          = "${var.environment-prefix}-education-benchmarking-fd-origin-web-assets-${each.key}"
+  cdn_frontdoor_origin_group_id = azurerm_cdn_frontdoor_origin_group.web-assets-front-door-origin-group[each.key].id
 
   certificate_name_check_enabled = false
 
-  host_name          = "${azurerm_storage_account.web-assets-storage.name}.blob.core.windows.net"
+  host_name          = each.value.origin-host
   https_port         = 443
-  origin_host_header = "${azurerm_storage_account.web-assets-storage.name}.blob.core.windows.net"
+  origin_host_header = each.value.origin-host
   priority           = 1
   weight             = 1
 }
 
 resource "azurerm_cdn_frontdoor_route" "web-assets-front-door-route" {
-  name                          = "${var.environment-prefix}-education-benchmarking-fd-route-web-assets"
+  for_each                      = local.custom-origins
+  name                          = "${var.environment-prefix}-education-benchmarking-fd-route-web-assets-${each.key}"
   cdn_frontdoor_endpoint_id     = azurerm_cdn_frontdoor_endpoint.web-app-front-door-endpoint.id
-  cdn_frontdoor_origin_group_id = azurerm_cdn_frontdoor_origin_group.web-assets-front-door-origin-group.id
-  cdn_frontdoor_origin_ids      = [azurerm_cdn_frontdoor_origin.web-app-front-door-origin-web-assets.id]
+  cdn_frontdoor_origin_group_id = azurerm_cdn_frontdoor_origin_group.web-assets-front-door-origin-group[each.key].id
+  cdn_frontdoor_origin_ids      = [azurerm_cdn_frontdoor_origin.web-app-front-door-origin-web-assets[each.key].id]
   enabled                       = true
 
   forwarding_protocol    = "HttpsOnly"
   https_redirect_enabled = false
-  patterns_to_match      = [for key in local.web-asset-containers : "/${key}/*"]
+  patterns_to_match      = [each.value.route-pattern]
   supported_protocols    = ["Https"]
   link_to_default_domain = true
 
-  cdn_frontdoor_origin_path       = "/"
+  cdn_frontdoor_origin_path       = each.value.origin-path
   cdn_frontdoor_custom_domain_ids = local.custom-domain-ids
-  cdn_frontdoor_rule_set_ids      = [azurerm_cdn_frontdoor_rule_set.web-assets-rules.id]
 
   cache {
     query_string_caching_behavior = "IgnoreQueryString"
     compression_enabled           = false
-  }
-}
-
-resource "azurerm_cdn_frontdoor_rule_set" "web-assets-rules" {
-  name                     = "${var.environment-prefix}webassetsruleset"
-  cdn_frontdoor_profile_id = azurerm_cdn_frontdoor_profile.web-app-front-door-profile.id
-}
-
-resource "azurerm_cdn_frontdoor_rule" "web-assets-rule" {
-  name                      = "${var.environment-prefix}webassetsrule"
-  cdn_frontdoor_rule_set_id = azurerm_cdn_frontdoor_rule_set.web-assets-rules.id
-  order                     = 1
-  behavior_on_match         = "Stop"
-
-  actions {
-    url_rewrite_action {
-      source_pattern = "/"
-      destination    = "/{url_path}"
-    }
   }
 }

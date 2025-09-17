@@ -1,9 +1,3 @@
-locals {
-  web-asset-container-files  = "files"
-  web-asset-container-images = "images"
-  web-asset-containers       = [local.web-asset-container-files, local.web-asset-container-images]
-}
-
 resource "azurerm_storage_account" "data-source-storage" {
   #checkov:skip=CKV_AZURE_43:False positive on storage account adhering to the naming rules
   #checkov:skip=CKV2_AZURE_33:See ADO backlog AB#206389
@@ -132,8 +126,8 @@ resource "azurerm_monitor_diagnostic_setting" "web-assets-storage-blob" {
 
 resource "azurerm_storage_container" "web-asset-container" {
   #checkov:skip=CKV2_AZURE_21: False positive (storage account logging defined above)
-  for_each              = toset(local.web-asset-containers)
-  name                  = each.value
+  for_each              = local.custom-origins
+  name                  = each.value.container
   storage_account_id    = azurerm_storage_account.web-assets-storage.id
   container_access_type = "private"
 }
