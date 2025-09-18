@@ -1,5 +1,7 @@
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Options;
 using Moq;
+using Web.App.Infrastructure.WebAssets;
 using Web.App.Middleware;
 using Xunit;
 
@@ -10,18 +12,20 @@ public class WhenCustomResponseHeadersMiddlewareIsInvoked
     private readonly DefaultHttpContext _context;
     private readonly CustomResponseHeadersMiddleware _middleware;
     private readonly Mock<RequestDelegate> _next;
+    private readonly IOptions<WebAssetsOptions> _options;
 
     public WhenCustomResponseHeadersMiddlewareIsInvoked()
     {
         _next = new Mock<RequestDelegate>();
         _middleware = new CustomResponseHeadersMiddleware(_next.Object);
         _context = new DefaultHttpContext();
+        _options = new OptionsWrapper<WebAssetsOptions>(new WebAssetsOptions());
     }
 
     [Fact]
     public async Task ShouldSetNonceItem()
     {
-        await _middleware.InvokeAsync(_context);
+        await _middleware.InvokeAsync(_context, _options);
 
         var hasValue = _context.Items.TryGetValue("csp-nonce", out var nonce);
 
@@ -29,15 +33,19 @@ public class WhenCustomResponseHeadersMiddlewareIsInvoked
         Assert.NotNull(nonce);
     }
 
-    [Fact]
-    public async Task ShouldSetContentSecurityPolicyResponseHeader()
+    [Theory]
+    [InlineData(null, "'self' data:")]
+    [InlineData("/relative-url", "'self' data:")]
+    [InlineData("https://example.com/absolute-url", "'self' data: example.com")]
+    public async Task ShouldSetContentSecurityPolicyResponseHeader(string? webAssetsImagesBaseUrl, string expectedImgSrcPolicy)
     {
-        await _middleware.InvokeAsync(_context);
+        _options.Value.ImagesBaseUrl = webAssetsImagesBaseUrl;
+        await _middleware.InvokeAsync(_context, _options);
 
         string[] expected =
         [
             "default-src 'self'",
-            "img-src 'self' data:",
+            $"img-src {expectedImgSrcPolicy}",
             "style-src 'self'",
             $"script-src 'self' 'nonce-{_context.Items["csp-nonce"]}' https://js.monitor.azure.com/scripts/b/ai.3.gbl.min.js https://js.monitor.azure.com/scripts/b/ext/ai.clck.2.min.js",
             "object-src 'none'",
@@ -53,7 +61,7 @@ public class WhenCustomResponseHeadersMiddlewareIsInvoked
     [Fact]
     public async Task ShouldSetXFrameOptionsResponseHeader()
     {
-        await _middleware.InvokeAsync(_context);
+        await _middleware.InvokeAsync(_context, _options);
 
         Assert.Equal("SAMEORIGIN", _context.Response.Headers.XFrameOptions);
     }
@@ -61,7 +69,7 @@ public class WhenCustomResponseHeadersMiddlewareIsInvoked
     [Fact]
     public async Task ShouldSetXContentTypeOptionsResponseHeader()
     {
-        await _middleware.InvokeAsync(_context);
+        await _middleware.InvokeAsync(_context, _options);
 
         Assert.Equal("nosniff", _context.Response.Headers.XContentTypeOptions);
     }
@@ -69,7 +77,7 @@ public class WhenCustomResponseHeadersMiddlewareIsInvoked
     [Fact]
     public async Task ShouldSetXxssProtectionResponseHeader()
     {
-        await _middleware.InvokeAsync(_context);
+        await _middleware.InvokeAsync(_context, _options);
 
         Assert.Equal("0", _context.Response.Headers.XXSSProtection);
     }
@@ -77,7 +85,7 @@ public class WhenCustomResponseHeadersMiddlewareIsInvoked
     [Fact]
     public async Task ShouldCallNextRequestDelegate()
     {
-        await _middleware.InvokeAsync(_context);
+        await _middleware.InvokeAsync(_context, _options);
 
         _next.Verify(n => n.Invoke(_context));
     }
