@@ -509,6 +509,7 @@ def build_academy_data(
         / academies["Total pupils in trust_pro_rata"].astype(float)
     ).fillna(0.0)
 
+    academies["In year balance"] = academies["In year balance"] + academies["In year balance_CS"]
     academies["Total Income"] = academies["Total Income"] + academies["Total Income_CS"]
 
     # net catering cost, not net catering income
