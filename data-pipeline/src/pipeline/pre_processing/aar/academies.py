@@ -511,9 +511,6 @@ def build_academy_data(
 
     academies["Total Income"] = academies["Total Income"] + academies["Total Income_CS"]
 
-    # Recalculate Total Expenditure as sum of individual category totals (already includes CS apportionment)
-    academies["Total Expenditure"] = academies[all_expenditure_category_total_cols].sum(axis=1)
-
     # net catering cost, not net catering income
     academies["Catering staff and supplies_Net Costs"] = (
         academies["Catering staff and supplies_Total"]
