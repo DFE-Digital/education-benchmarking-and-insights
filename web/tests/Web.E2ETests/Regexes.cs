@@ -13,7 +13,7 @@ public static partial class Regexes
     [GeneratedRegex(@"[^\w\s]")]
     public static partial Regex ReservedCharactersRegex();
 
-    [GeneratedRegex("[^/]+(?=\\?)")]
+    [GeneratedRegex(@"[^\/?#]+?\.[^\/?#]+(?=$|\?|#)")]
     public static partial Regex FileNameFromUrlRegex();
 
     [GeneratedRegex("Save.+as image")]
