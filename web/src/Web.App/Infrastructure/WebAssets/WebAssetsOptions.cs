@@ -1,13 +1,28 @@
-﻿using System.Diagnostics.CodeAnalysis;
-
-// ReSharper disable UnusedAutoPropertyAccessor.Global
+﻿// ReSharper disable UnusedAutoPropertyAccessor.Global
 // ReSharper disable PropertyCanBeMadeInitOnly.Global
 
 namespace Web.App.Infrastructure.WebAssets;
 
-[ExcludeFromCodeCoverage]
 public record WebAssetsOptions
 {
+    private string? _imagesBaseUrl;
+
     public string? FilesBaseUrl { get; set; }
-    public string? ImagesBaseUrl { get; set; }
+
+    public string? ImagesBaseUrl
+    {
+        get => _imagesBaseUrl;
+        set
+        {
+            _imagesBaseUrl = value;
+
+            // extract the host name from the absolute URL as a one-off task when then property is set
+            if (Uri.TryCreate(value, UriKind.Absolute, out var webAssetsImagesBaseUri))
+            {
+                ImagesBaseHostName = webAssetsImagesBaseUri.Host;
+            }
+        }
+    }
+
+    public string? ImagesBaseHostName { get; private set; }
 }

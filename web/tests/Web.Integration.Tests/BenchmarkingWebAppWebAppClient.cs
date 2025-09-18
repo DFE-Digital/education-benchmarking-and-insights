@@ -57,7 +57,7 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
     public Mock<IExpenditureApi> ExpenditureApi { get; } = new();
     public Mock<IBudgetForecastApi> BudgetForecastApi { get; } = new();
     public Mock<IHttpContextAccessor> HttpContextAccessor { get; } = new();
-    public Mock<IOptions<WebAssetsOptions>> WebAssetsOptions { get; } = new();
+    public IOptions<WebAssetsOptions> WebAssetsOptions { get; } = Options.Create(new WebAssetsOptions());
     public Mock<IFeatureManager> FeatureManager { get; } = new();
     public Mock<IFilesApi> FilesApi { get; } = new();
     public Mock<ILocalAuthoritiesApi> LocalAuthoritiesApi { get; } = new();
@@ -104,7 +104,7 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
         services.AddSingleton(ExpenditureApi.Object);
         services.AddSingleton(BudgetForecastApi.Object);
         services.AddSingleton(HttpContextAccessor.Object);
-        services.AddSingleton(WebAssetsOptions.Object);
+        services.AddSingleton(WebAssetsOptions);
         services.AddSingleton(FeatureManager.Object);
         services.AddSingleton(FilesApi.Object);
         services.AddSingleton(LocalAuthoritiesApi.Object);
@@ -155,12 +155,7 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
 
     public BenchmarkingWebAppClient SetupWebAssetsOptions(string? filesBaseUrl = null)
     {
-        WebAssetsOptions.Reset();
-        WebAssetsOptions.SetupGet(options => options.Value).Returns(new WebAssetsOptions
-        {
-            FilesBaseUrl = filesBaseUrl
-        });
-
+        WebAssetsOptions.Value.FilesBaseUrl = filesBaseUrl;
         return this;
     }
 

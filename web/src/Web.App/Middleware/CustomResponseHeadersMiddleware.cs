@@ -1,6 +1,8 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using System.Security.Cryptography;
 using System.Text;
+using Microsoft.Extensions.Options;
+using Web.App.Infrastructure.WebAssets;
 
 namespace Web.App.Middleware;
 
@@ -8,14 +10,17 @@ public class CustomResponseHeadersMiddleware(RequestDelegate next)
 {
     private readonly RequestDelegate _next = next ?? throw new ArgumentNullException(nameof(next));
 
-    public async Task InvokeAsync(HttpContext context)
+    public async Task InvokeAsync(HttpContext context, IOptions<WebAssetsOptions> webAssetsOptions)
     {
         var bytes = RandomNumberGenerator.GetBytes(12);
         context.Items["csp-nonce"] = Convert.ToBase64String(bytes);
 
         var csp = new StringBuilder();
         csp.Append("default-src 'self';");
-        csp.Append("img-src 'self' data:;");
+
+        // if web assets images resolves to an absolute URL, ensure its host name is included in the CORS policy
+        csp.Append($"img-src 'self' data:{(webAssetsOptions.Value.ImagesBaseHostName == null ? string.Empty : $" {webAssetsOptions.Value.ImagesBaseHostName}")};");
+
         csp.Append("style-src 'self';");
         csp.Append($"script-src 'self' 'nonce-{context.Items["csp-nonce"]}' https://js.monitor.azure.com/scripts/b/ai.3.gbl.min.js https://js.monitor.azure.com/scripts/b/ext/ai.clck.2.min.js;");
         csp.Append("object-src 'none';");
