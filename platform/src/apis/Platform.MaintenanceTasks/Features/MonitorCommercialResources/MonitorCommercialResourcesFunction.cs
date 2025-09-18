@@ -29,7 +29,7 @@ public class MonitorCommercialResourcesFunction(ILogger<MonitorCommercialResourc
                 {
                     { "Title", result.Title },
                     { "Url", result.Url },
-                    { "StatusCode", result.StatusCode.ToString() ?? "none" },
+                    { "StatusCode", result.StatusCode?.ToString() ?? "none" },
                     { "Success", result.Success.ToString() },
                     { "RedirectLocation", result.RedirectLocation ?? "none" },
                     { "Exception", result.Exception?.ToString() ?? "none" }
