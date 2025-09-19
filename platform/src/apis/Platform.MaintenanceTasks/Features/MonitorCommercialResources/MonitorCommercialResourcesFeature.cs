@@ -1,7 +1,6 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Net.Http;
 using Microsoft.Extensions.DependencyInjection;
-using Platform.MaintenanceTasks.Features.MonitorCommercialResources.Services;
 
 namespace Platform.MaintenanceTasks.Features.MonitorCommercialResources;
 
@@ -15,8 +14,6 @@ public static class MonitorCommercialResourcesFeature
             {
                 AllowAutoRedirect = false
             });
-
-        services.AddSingleton<IMonitorCommercialResourcesService, MonitorCommercialResourcesService>();
 
         return services;
     }
