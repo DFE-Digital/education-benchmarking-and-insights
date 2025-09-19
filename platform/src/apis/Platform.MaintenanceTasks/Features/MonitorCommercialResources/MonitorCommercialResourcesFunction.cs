@@ -41,7 +41,7 @@ public class MonitorCommercialResourcesFunction(ILogger<MonitorCommercialResourc
                         logger.LogInformation("Resource OK: {Title}", resource.Title);
                         break;
                     case { Exception: not null }:
-                        logger.LogError(result.Exception, "Error pinging resource: {Title} ({Url})", result.Title, result.Url);
+                        logger.LogError(result.Exception, "Resource check exception: {Title} ({Url}", result.Title, result.Url);
                         break;
                     default:
                         logger.LogWarning("Resource failed: {Title} ({Url}) - Status: {StatusCode}", result.Title, result.Url, result.StatusCode);
