@@ -5,6 +5,7 @@ using Microsoft.ApplicationInsights.DependencyCollector;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Extensions.DependencyInjection;
 using Platform.Json;
+using Platform.MaintenanceTasks.Features.MonitorCommercialResources;
 using Platform.MaintenanceTasks.Features.UserDataCleanUp;
 using Platform.Sql;
 
@@ -43,5 +44,6 @@ internal static class Services
         .AddPlatformSql();
 
     private static IServiceCollection AddFeatures(this IServiceCollection services) => services
-        .AddUserDataCleanUpFeature();
+        .AddUserDataCleanUpFeature()
+        .AddMonitorCommercialResourcesFeature();
 }
