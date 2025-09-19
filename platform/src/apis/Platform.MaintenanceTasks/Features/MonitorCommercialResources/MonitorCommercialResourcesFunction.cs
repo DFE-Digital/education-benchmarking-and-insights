@@ -12,7 +12,7 @@ public class MonitorCommercialResourcesFunction(ILogger<MonitorCommercialResourc
     TelemetryClient telemetry)
 {
     [Function("MonitorCommercialResourcesFunction")]
-    public async Task RunAsync([TimerTrigger("0 0 2 * * *")] TimerInfo timer)
+    public async Task RunAsync([TimerTrigger("%schedule%")] TimerInfo timer)
     {
         using (logger.BeginScope(new Dictionary<string, object>
                {
