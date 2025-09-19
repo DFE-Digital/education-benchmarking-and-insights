@@ -201,12 +201,12 @@ To run the pipeline locally, follow these steps:
     ```json
     {
       "type": "default",
-      "runId": 2023,
+      "runId": <year>,
         "year": {
-            "aar": 2023,
-            "cfr": 2023,
-            "bfr": 2023,
-            "s251": 2023
+            "aar": <year>,
+            "cfr": <year>,
+            "bfr": <year>,
+            "s251": <year>
         }
     }
     ```
