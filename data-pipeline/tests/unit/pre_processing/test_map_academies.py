@@ -34,8 +34,8 @@ def test_map_is_early_transfer():
 def test_map_has_financial_data():
     financial_columns = list(
         (
-            config.cost_category_map["academies"]
-            | config.income_category_map["academies"]
+            config.nonaggregated_cost_category_map["academies"]
+            | config.nonaggregated_income_category_map["academies"]
         ).values()
     )
     df = pd.DataFrame(

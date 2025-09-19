@@ -357,6 +357,7 @@ def insert_trusts(
         "CFO email": "CFOEmail",
         "OpenDate": "OpenDate",
         "Company Registration Number": "CompanyNumber",
+        "Trust UPIN": "TrustUPIN",
     }
 
     trusts = (

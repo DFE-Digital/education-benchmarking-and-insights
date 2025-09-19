@@ -242,12 +242,27 @@ def test_federation_lead_school_agg_index():
             "SeniorLeadershipHeadcount": [3, 2, 2, 3],
             "SeniorLeadershipFTE": [2.5, 2.0, 2.0, 2.5],
             "Total Number of Teaching Assistants (Headcount)": [8, 7, 6, 5],
-            "Total Number of Teaching Assistants (Full-Time Equivalent)": [6.0, 5.5, 5.0, 4.0],
+            "Total Number of Teaching Assistants (Full-Time Equivalent)": [
+                6.0,
+                5.5,
+                5.0,
+                4.0,
+            ],
             "NonClassroomSupportStaffHeadcount": [4, 4, 3, 3],
             "NonClassroomSupportStaffFTE": [3.5, 3.0, 2.5, 2.5],
             "Total Number of Auxiliary Staff (Headcount)": [2, 2, 1, 1],
-            "Total Number of Auxiliary Staff (Full-Time Equivalent)": [1.5, 1.5, 1.0, 1.0],
-            "Teachers with Qualified Teacher Status (%) (Headcount)": [80.0, 80.0, 80.0, 80.0],
+            "Total Number of Auxiliary Staff (Full-Time Equivalent)": [
+                1.5,
+                1.5,
+                1.0,
+                1.0,
+            ],
+            "Teachers with Qualified Teacher Status (%) (Headcount)": [
+                80.0,
+                80.0,
+                80.0,
+                80.0,
+            ],
         }
     )
 
@@ -273,12 +288,27 @@ def test_federation_lead_school_agg_pupils():
             "SeniorLeadershipHeadcount": [3, 2, 2, 3],
             "SeniorLeadershipFTE": [2.5, 2.0, 2.0, 2.5],
             "Total Number of Teaching Assistants (Headcount)": [8, 7, 6, 5],
-            "Total Number of Teaching Assistants (Full-Time Equivalent)": [6.0, 5.5, 5.0, 4.0],
+            "Total Number of Teaching Assistants (Full-Time Equivalent)": [
+                6.0,
+                5.5,
+                5.0,
+                4.0,
+            ],
             "NonClassroomSupportStaffHeadcount": [4, 4, 3, 3],
             "NonClassroomSupportStaffFTE": [3.5, 3.0, 2.5, 2.5],
             "Total Number of Auxiliary Staff (Headcount)": [2, 2, 1, 1],
-            "Total Number of Auxiliary Staff (Full-Time Equivalent)": [1.5, 1.5, 1.0, 1.0],
-            "Teachers with Qualified Teacher Status (%) (Headcount)": [80.0, 80.0, 80.0, 80.0],
+            "Total Number of Auxiliary Staff (Full-Time Equivalent)": [
+                1.5,
+                1.5,
+                1.0,
+                1.0,
+            ],
+            "Teachers with Qualified Teacher Status (%) (Headcount)": [
+                80.0,
+                80.0,
+                80.0,
+                80.0,
+            ],
         }
     )
 
@@ -305,12 +335,27 @@ def test_federation_lead_school_agg_fsm():
             "SeniorLeadershipHeadcount": [3, 2, 2, 3],
             "SeniorLeadershipFTE": [2.5, 2.0, 2.0, 2.5],
             "Total Number of Teaching Assistants (Headcount)": [8, 7, 6, 5],
-            "Total Number of Teaching Assistants (Full-Time Equivalent)": [6.0, 5.5, 5.0, 4.0],
+            "Total Number of Teaching Assistants (Full-Time Equivalent)": [
+                6.0,
+                5.5,
+                5.0,
+                4.0,
+            ],
             "NonClassroomSupportStaffHeadcount": [4, 4, 3, 3],
             "NonClassroomSupportStaffFTE": [3.5, 3.0, 2.5, 2.5],
             "Total Number of Auxiliary Staff (Headcount)": [2, 2, 1, 1],
-            "Total Number of Auxiliary Staff (Full-Time Equivalent)": [1.5, 1.5, 1.0, 1.0],
-            "Teachers with Qualified Teacher Status (%) (Headcount)": [80.0, 80.0, 80.0, 80.0],
+            "Total Number of Auxiliary Staff (Full-Time Equivalent)": [
+                1.5,
+                1.5,
+                1.0,
+                1.0,
+            ],
+            "Teachers with Qualified Teacher Status (%) (Headcount)": [
+                80.0,
+                80.0,
+                80.0,
+                80.0,
+            ],
         }
     )
 
@@ -337,12 +382,27 @@ def test_federation_lead_school_agg_sen():
             "SeniorLeadershipHeadcount": [3, 2, 2, 3],
             "SeniorLeadershipFTE": [2.5, 2.0, 2.0, 2.5],
             "Total Number of Teaching Assistants (Headcount)": [8, 7, 6, 5],
-            "Total Number of Teaching Assistants (Full-Time Equivalent)": [6.0, 5.5, 5.0, 4.0],
+            "Total Number of Teaching Assistants (Full-Time Equivalent)": [
+                6.0,
+                5.5,
+                5.0,
+                4.0,
+            ],
             "NonClassroomSupportStaffHeadcount": [4, 4, 3, 3],
             "NonClassroomSupportStaffFTE": [3.5, 3.0, 2.5, 2.5],
             "Total Number of Auxiliary Staff (Headcount)": [2, 2, 1, 1],
-            "Total Number of Auxiliary Staff (Full-Time Equivalent)": [1.5, 1.5, 1.0, 1.0],
-            "Teachers with Qualified Teacher Status (%) (Headcount)": [80.0, 80.0, 80.0, 80.0],
+            "Total Number of Auxiliary Staff (Full-Time Equivalent)": [
+                1.5,
+                1.5,
+                1.0,
+                1.0,
+            ],
+            "Teachers with Qualified Teacher Status (%) (Headcount)": [
+                80.0,
+                80.0,
+                80.0,
+                80.0,
+            ],
         }
     )
 
@@ -369,12 +429,27 @@ def test_federation_lead_school_agg_building_age():
             "SeniorLeadershipHeadcount": [3, 2, 2, 3],
             "SeniorLeadershipFTE": [2.5, 2.0, 2.0, 2.5],
             "Total Number of Teaching Assistants (Headcount)": [8, 7, 6, 5],
-            "Total Number of Teaching Assistants (Full-Time Equivalent)": [6.0, 5.5, 5.0, 4.0],
+            "Total Number of Teaching Assistants (Full-Time Equivalent)": [
+                6.0,
+                5.5,
+                5.0,
+                4.0,
+            ],
             "NonClassroomSupportStaffHeadcount": [4, 4, 3, 3],
             "NonClassroomSupportStaffFTE": [3.5, 3.0, 2.5, 2.5],
             "Total Number of Auxiliary Staff (Headcount)": [2, 2, 1, 1],
-            "Total Number of Auxiliary Staff (Full-Time Equivalent)": [1.5, 1.5, 1.0, 1.0],
-            "Teachers with Qualified Teacher Status (%) (Headcount)": [80.0, 80.0, 80.0, 80.0],
+            "Total Number of Auxiliary Staff (Full-Time Equivalent)": [
+                1.5,
+                1.5,
+                1.0,
+                1.0,
+            ],
+            "Teachers with Qualified Teacher Status (%) (Headcount)": [
+                80.0,
+                80.0,
+                80.0,
+                80.0,
+            ],
         }
     )
 
@@ -404,12 +479,27 @@ def test_join_federations_unmodified():
             "SeniorLeadershipHeadcount": [0, 0, 0, 0],
             "SeniorLeadershipFTE": [0.0, 0.0, 0.0, 0.0],
             "Total Number of Teaching Assistants (Headcount)": [0, 0, 0, 0],
-            "Total Number of Teaching Assistants (Full-Time Equivalent)": [0.0, 0.0, 0.0, 0.0],
+            "Total Number of Teaching Assistants (Full-Time Equivalent)": [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+            ],
             "NonClassroomSupportStaffHeadcount": [0, 0, 0, 0],
             "NonClassroomSupportStaffFTE": [0.0, 0.0, 0.0, 0.0],
             "Total Number of Auxiliary Staff (Headcount)": [0, 0, 0, 0],
-            "Total Number of Auxiliary Staff (Full-Time Equivalent)": [0.0, 0.0, 0.0, 0.0],
-            "Teachers with Qualified Teacher Status (%) (Headcount)": [80.0, 80.0, 80.0, 80.0],
+            "Total Number of Auxiliary Staff (Full-Time Equivalent)": [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+            ],
+            "Teachers with Qualified Teacher Status (%) (Headcount)": [
+                80.0,
+                80.0,
+                80.0,
+                80.0,
+            ],
         }
     )
 

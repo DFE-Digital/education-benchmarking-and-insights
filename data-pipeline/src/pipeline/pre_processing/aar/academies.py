@@ -10,6 +10,10 @@ from pipeline.pre_processing.aar.part_year import (
     map_is_early_transfer,
     map_partial_year_present,
 )
+from pipeline.pre_processing.aar.rollup_assertions import (
+    test_academies_rollup,
+    test_trust_rollup,
+)
 from pipeline.pre_processing.ancillary import gias as gias_preprocessing
 from pipeline.pre_processing.common import mappings
 from pipeline.pre_processing.common.part_year import (
@@ -60,11 +64,11 @@ def prepare_aar_data(aar_path, year: int):
     ).items():
         aar[column] = aar.eval(eval_)
 
-    aar = aar[~(aar["ACADEMYTRUSTSTATUS"].str.lower() == "1 day")].copy()
-
     aar["Income_Direct revenue finance"] = aar[
         "BNCH21707 (Direct revenue financing (Revenue contributions to capital))"
     ]
+
+    aar = aar[~(aar["ACADEMYTRUSTSTATUS"].str.lower() == "1 day")].copy()
 
     aar["Income_Total grant funding"] = (
         aar["BNCH11110T (EFA Revenue Grants)"]
@@ -145,14 +149,6 @@ def prepare_aar_data(aar_path, year: int):
         + aar["BNCH21802 (PFI Charges)"]
     )
 
-    aar["Total Income"] = (
-        aar["Income_Total grant funding"]
-        + aar["Income_Total self generated funding"]
-        - aar["BNCH21707 (Direct revenue financing (Revenue contributions to capital))"]
-    )
-
-    aar["In year balance"] = aar["Total Income"] - aar["Total Expenditure"]
-
     aar.rename(
         columns={
             "ACADEMYUPIN": "Academy UPIN",
@@ -161,10 +157,18 @@ def prepare_aar_data(aar_path, year: int):
             "Date joined or opened if in period:": "Date joined or opened if in period",
             "Date left or closed if in period:": "Date left or closed if in period",
         }
-        | config.cost_category_map["academies"]
-        | config.income_category_map["academies"],
+        | config.nonaggregated_cost_category_map["academies"]
+        | config.nonaggregated_income_category_map["academies"],
         inplace=True,
     )
+
+    aar["Total Income"] = (
+        aar["Income_Total grant funding"]
+        + aar["Income_Total self generated funding"]
+        - aar["Income_Direct revenue finance"]
+    )
+
+    aar["In year balance"] = aar["Total Income"] - aar["Total Expenditure"]
 
     trust_balance = (
         aar[["Company Registration Number", "In year balance"]]
@@ -347,6 +351,9 @@ def build_academy_data(
         inplace=True,
     )
 
+    all_expenditure_category_total_cols = []
+    all_expenditure_category_cs_total_cols = []
+
     # TODO: avoid recalculating pupil/building apportionment.
     for category in config.rag_category_settings.keys():
         is_pupil_basis = (
@@ -390,11 +397,14 @@ def build_academy_data(
             float
         ) / apportionment_divisor.astype(float)
 
+        # Apply per-trust apportionment to each subcategory
         for sub_category in sub_categories:
+
             academies[sub_category + "_CS"] = academies[sub_category + "_CS"].astype(
                 float
             ) * apportionment.astype(float).fillna(0.0)
 
+            # Overwrite each subcategory, adding the central services apportionment
             academies[sub_category] = (
                 academies[sub_category] + academies[sub_category + "_CS"]
             )
@@ -432,7 +442,9 @@ def build_academy_data(
             category + "_Total_Per Unit",
         ] = 0.0
 
-        academies[category + "_Total"] = (
+        # Calculate apportioned totals per category
+        category_total_column_name = category + "_Total"
+        academies[category_total_column_name] = (
             academies[
                 academies.columns[
                     academies.columns.str.startswith(category)
@@ -443,8 +455,10 @@ def build_academy_data(
             .fillna(0.0)
             .sum(axis=1)
         )
+        all_expenditure_category_total_cols.append(category_total_column_name)
 
-        academies[category + "_Total_CS"] = (
+        category_total_cs_column_name = category + "_Total_CS"
+        academies[category_total_cs_column_name] = (
             academies[
                 academies.columns[
                     academies.columns.str.startswith(category)
@@ -455,6 +469,7 @@ def build_academy_data(
             .fillna(0)
             .sum(axis=1)
         )
+        all_expenditure_category_cs_total_cols.append(category_total_cs_column_name)
 
     income_cols = academies.columns[
         academies.columns.str.startswith("Income_")
@@ -480,26 +495,21 @@ def build_academy_data(
         academies["Number of pupils_pro_rata"].astype(float)
         / academies["Total pupils in trust_pro_rata"].astype(float)
     ).fillna(0.0)
-
-    academies["In year balance"] = (
-        academies["In year balance"] + academies["In year balance_CS"]
-    )
+    academies["In year balance"] = academies["In year balance"] + academies["In year balance_CS"]
 
     academies["Total Income_CS"] = academies["Total Income_CS"] * (
         academies["Number of pupils_pro_rata"].astype(float)
         / academies["Total pupils in trust_pro_rata"].astype(float)
     ).fillna(0.0)
-
     academies["Total Income"] = academies["Total Income"] + academies["Total Income_CS"]
 
-    academies["Total Expenditure_CS"] = academies["Total Expenditure_CS"] * (
-        academies["Number of pupils_pro_rata"].astype(float)
-        / academies["Total pupils in trust_pro_rata"].astype(float)
-    ).fillna(0.0)
-
-    academies["Total Expenditure"] = (
-        academies["Total Expenditure"] + academies["Total Expenditure_CS"]
+        # Overwrite original expenditure totals to account for central service apportionment
+    academies["Total Expenditure"] = academies[all_expenditure_category_total_cols].sum(
+        axis=1
     )
+    academies["Total Expenditure_CS"] = academies[
+        all_expenditure_category_cs_total_cols
+    ].sum(axis=1)
 
     # net catering cost, not net catering income
     academies["Catering staff and supplies_Net Costs"] = (
@@ -510,6 +520,13 @@ def build_academy_data(
     academies["Catering staff and supplies_Net Costs_CS"] = academies[
         "Catering staff and supplies_Total_CS"
     ] - academies["Income_Catering services_CS"].fillna(0.0)
+
+    # assert test_trust_rollup(
+    #     academies, central_services
+    # ), "Trust rollup test failed - Total Expenditure_CS doesn't match central services totals"
+    # assert test_academies_rollup(
+    #     academies, aar
+    # ), "Academies rollup test failed - Total Expenditure less CS doesn't match aar totals"
 
     academies = _trust_revenue_reserve(academies, central_services)
 

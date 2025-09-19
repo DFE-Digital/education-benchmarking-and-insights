@@ -56,8 +56,8 @@ def map_has_financial_data(
     """
     financial_columns = list(
         (
-            config.cost_category_map["academies"]
-            | config.income_category_map["academies"]
+            config.nonaggregated_cost_category_map["academies"]
+            | config.nonaggregated_income_category_map["academies"]
         ).values()
     )
 
