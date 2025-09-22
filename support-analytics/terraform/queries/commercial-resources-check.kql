@@ -1,0 +1,13 @@
+customEvents
+| where name == "commercial-resource-check"
+| where timestamp >= ago(1d)
+| where tostring(customDimensions["Success"]) == false
+| extend
+    Title = tostring(customDimensions["Title"]),
+    Url = tostring(customDimensions["Url"]),
+    StatusCode = tostring(customDimensions["StatusCode"]),
+    Success = tostring(customDimensions["Success"]),
+    RedirectLocation = tostring(customDimensions["RedirectLocation"]),
+    Exception = tostring(customDimensions["Exception"])
+| project Title, Url, StatusCode, RedirectLocation, Exception
+| sort by Title asc
