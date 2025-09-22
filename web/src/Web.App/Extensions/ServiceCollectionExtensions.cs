@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using System.Security.Claims;
 using FluentValidation;
 using IdentityModel.Client;
@@ -23,7 +24,6 @@ using Web.App.Infrastructure.Apis.NonFinancial;
 using Web.App.Infrastructure.WebAssets;
 using Web.App.Middleware.Markdown;
 using Web.App.Services;
-using Web.App.Telemetry;
 using Web.App.Validators;
 using Westwind.AspNetCore.Markdown;
 
@@ -294,9 +294,7 @@ public static class ServiceCollectionExtensions
                 {
                     OnRedirectToIdentityProvider = context =>
                     {
-                        var telemetry = context.HttpContext.RequestServices.GetRequiredService<ITelemetryClientWrapper>();
-                        telemetry.TrackUserSignInInitiatedEvent(context);
-
+                        Activity.Current.TrackUserSignInInitiatedEvent(context);
                         return Task.CompletedTask;
                     },
                     OnMessageReceived = context =>
@@ -326,12 +324,10 @@ public static class ServiceCollectionExtensions
                     },
                     OnTokenValidated = async context =>
                     {
-                        var telemetry = context.HttpContext.RequestServices.GetRequiredService<ITelemetryClientWrapper>();
-
                         try
                         {
                             var organisation = context.Principal?.Organisation();
-                            telemetry.TrackUserSignedInEvent(context, organisation);
+                            Activity.Current.TrackUserSignedInEvent(context, organisation);
 
                             var service = context.HttpContext.RequestServices.GetRequiredService<IClaimsIdentifierService>();
                             var (schools, trusts) = await service.IdentifyValidClaims(organisation);

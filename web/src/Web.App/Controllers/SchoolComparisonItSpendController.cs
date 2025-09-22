@@ -1,5 +1,5 @@
-﻿using System.Net;
-using Microsoft.ApplicationInsights;
+﻿using System.Diagnostics;
+using System.Net;
 using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.FeatureManagement.Mvc;
@@ -27,8 +27,7 @@ public class SchoolComparisonItSpendController(
     IChartRenderingApi chartRenderingApi,
     IComparatorSetApi comparatorSetApi,
     IItSpendApi itSpendApi,
-    ILogger<SchoolComparisonController> logger,
-    TelemetryClient telemetryClient) : Controller
+    ILogger<SchoolComparisonController> logger) : Controller
 {
     [HttpGet]
     [SchoolRequestTelemetry(TrackedRequestFeature.BenchmarkItSpend)]
@@ -125,19 +124,25 @@ public class SchoolComparisonItSpendController(
         }
     }
 
-    private void TrackEvent(string urn, ItSpendingCategories.SubCategoryFilter[] selectedCategories, Dimensions.ResultAsOptions resultAs, SchoolComparisonItSpendViewModel.ViewAsOptions viewAs)
+    private static void TrackEvent(string urn, ItSpendingCategories.SubCategoryFilter[] selectedCategories, Dimensions.ResultAsOptions resultAs, SchoolComparisonItSpendViewModel.ViewAsOptions viewAs)
     {
+        var activity = Activity.Current;
+        if (activity == null)
+        {
+            return;
+        }
+        
         var categories = selectedCategories.Length == 0 ? ItSpendingCategories.All : selectedCategories;
 
-        var properties = new Dictionary<string, string>
+        var properties = new ActivityTagsCollection
         {
-            { "URN", urn },
-            { "Categories", string.Join(" | ", categories.Order()) },
-            { "ResultAs", resultAs.ToString() },
-            { "ViewAs", viewAs.ToString() }
+            { "custom.URN", urn },
+            { "custom.Categories", string.Join(" | ", categories.Order()) },
+            { "custom.ResultAs", resultAs.ToString() },
+            { "custom.ViewAs", viewAs.ToString() }
         };
 
-        telemetryClient.TrackEvent(CustomEvents.BenchmarkItSpending, properties);
+        activity.AddEvent(new ActivityEvent(CustomEvents.BenchmarkItSpending, default, properties));
     }
 
     private static ApiQuery BuildApiQuery(Dimensions.ResultAsOptions resultAs, IEnumerable<string>? urns = null)

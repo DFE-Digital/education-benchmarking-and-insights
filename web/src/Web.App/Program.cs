@@ -2,20 +2,21 @@ using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Reflection;
 using System.Runtime.CompilerServices;
+using Azure.Monitor.OpenTelemetry.AspNetCore;
 using CorrelationId.DependencyInjection;
-using Microsoft.ApplicationInsights.Extensibility;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.FeatureManagement;
+using OpenTelemetry.Resources;
 using Serilog;
 using SmartBreadcrumbs.Extensions;
 using Web.App.Cache;
 using Web.App.Extensions;
 using Web.App.Handlers;
 using Web.App.HealthChecks;
+using Web.App.Instrumentation;
 using Web.App.Middleware;
 using Web.App.Services;
-using Web.App.Telemetry;
 using Westwind.AspNetCore.Markdown;
 
 [assembly: InternalsVisibleTo("Web.Tests")]
@@ -23,6 +24,20 @@ using Westwind.AspNetCore.Markdown;
 CultureInfo.DefaultThreadCurrentCulture = new CultureInfo("en-GB");
 
 var builder = WebApplication.CreateBuilder(args);
+builder.Services
+    .AddOpenTelemetry()
+    .ConfigureResource(r => r.AddService(serviceName: builder.Environment.ApplicationName))
+    .WithMetrics()
+    .WithTracing(t => Tracing.Configure(t, builder.Environment))
+    .UseAzureMonitor();
+builder.Logging.ClearProviders();
+builder.Logging.AddOpenTelemetry(o =>
+{
+    o.IncludeScopes = true;
+    o.IncludeFormattedMessage = true;
+    o.ParseStateValues = true;
+    o.AttachLogsToActivityEvent();
+});
 
 builder.Host.UseSerilog((context, configuration) => configuration.ReadFrom.Configuration(context.Configuration));
 
@@ -32,10 +47,7 @@ builder.Services.AddControllersWithViews()
 
 builder.Services
     .AddDefaultCorrelationId()
-    .AddApplicationInsightsTelemetry()
     .AddHttpContextAccessor()
-    .AddSingleton<ITelemetryInitializer, AuthenticatedUserTelemetryInitializer>()
-    .AddSingleton<ITelemetryClientWrapper, TelemetryClientWrapper>()
     .AddScoped<IFinanceService, FinanceService>()
     .AddScoped<IFinancialPlanService, FinancialPlanService>()
     .AddScoped<ISchoolComparatorSetService, SchoolComparatorSetService>()

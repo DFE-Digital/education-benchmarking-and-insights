@@ -7,6 +7,6 @@
         <RuntimeIdentifiers>win-x64</RuntimeIdentifiers>
     </PropertyGroup>
     <ItemGroup>
-      <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" />
+      <PackageReference Include="Azure.Monitor.OpenTelemetry.AspNetCore" />
     </ItemGroup>
 </Project>

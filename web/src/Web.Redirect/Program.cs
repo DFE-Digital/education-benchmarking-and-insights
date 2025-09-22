@@ -1,7 +1,6 @@
 // ReSharper disable RouteTemplates.RouteParameterIsNotPassedToMethod
 
 var builder = WebApplication.CreateBuilder(args);
-builder.Services.AddApplicationInsightsTelemetry();
 
 var app = builder.Build();
 app.UseRouting();

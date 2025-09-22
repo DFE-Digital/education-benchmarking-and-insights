@@ -1,4 +1,4 @@
-﻿using Microsoft.ApplicationInsights.DataContracts;
+﻿using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using Web.App.ViewModels.Components;
 
@@ -17,10 +17,10 @@ public class AnalyticsViewComponent : ViewComponent
         var cookiePolicy = HttpContext.Request.Cookies[Constants.CookieSettingsName];
         var vm = new AnalyticsViewModel(connectionString, cookiePolicy == "enabled");
 
-        var telemetry = HttpContext.Features.Get<RequestTelemetry>();
-        if (telemetry != null)
+        var activity = Activity.Current;
+        if (activity != null)
         {
-            vm.OperationId = telemetry.Context.Operation.Id;
+            vm.OperationId = activity.TraceId.ToString();
         }
 
         return View(vm);

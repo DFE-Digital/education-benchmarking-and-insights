@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http.Extensions;
+﻿using System.Diagnostics;
+using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Web.App.Extensions;
@@ -39,8 +40,8 @@ internal class RequestTelemetryFilter(
     {
         base.OnActionExecuted(context);
 
-        var telemetry = context.HttpContext.Features.Get<Microsoft.ApplicationInsights.DataContracts.RequestTelemetry>();
-        if (telemetry == null)
+        var activity = Activity.Current;
+        if (activity == null)
         {
             return;
         }
@@ -48,23 +49,23 @@ internal class RequestTelemetryFilter(
         foreach (var property in properties.Keys)
         {
             var value = properties[property];
-            telemetry.Properties[property.Capitalise()] = value?.ToString();
+            activity.SetTag($"custom.{property.Capitalise()}", value?.ToString());
         }
 
         foreach (var property in routePropertyNames)
         {
             var value = context.RouteData.Values[property];
-            telemetry.Properties[property.Capitalise()] = value?.ToString();
+            activity.SetTag($"custom.{property.Capitalise()}", value?.ToString());
         }
 
         foreach (var property in contextProperties)
         {
             var value = property.Value(context.HttpContext);
-            telemetry.Properties[property.Key.Capitalise()] = value?.ToString();
+            activity.SetTag($"custom.{property.Key.Capitalise()}", value?.ToString());
         }
 
-        logger.LogDebug("Updated telemetry properties to {Properties} for {Method} {URL}",
-            telemetry.Properties,
+        logger.LogDebug("Updated telemetry tags to {Tags} for {Method} {URL}",
+            activity.Tags,
             context.HttpContext.Request.Method,
             context.HttpContext.Request.GetDisplayUrl());
     }

@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using System.Security.Claims;
 using System.Text.Encodings.Web;
 using Microsoft.AspNetCore.Authentication;
@@ -8,21 +9,20 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Moq;
 using Web.App;
+using Web.App.Extensions;
 using Web.App.Identity.Models;
-using Web.App.Telemetry;
 using Xunit;
-using TelemetryClientExtensions = Web.App.Extensions.TelemetryClientExtensions;
 
 namespace Web.Tests.Extensions;
 
-public class GivenATelemetryClient
+public class GivenAnActivity
 {
-    private readonly Mock<ITelemetryClientWrapper> _telemetry = new();
-
     [Fact]
     public void TracksEventWhenTrackUserSignInInitiatedEventIsCalled()
     {
         // arrange
+        using var activity = new Activity("TestActivity");
+        
         const string path = $"/{nameof(path)}";
         const string redirectUri = $"/{nameof(redirectUri)}";
         const string controller = nameof(controller);
@@ -46,24 +46,13 @@ public class GivenATelemetryClient
             new AuthenticationScheme(string.Empty, null, typeof(FakeAuthHandler)),
             Mock.Of<OpenIdConnectOptions>(),
             Mock.Of<AuthenticationProperties>());
-
-        var actualEventName = string.Empty;
-        IDictionary<string, string> actualProperties = new Dictionary<string, string>();
-        _telemetry
-            .Setup(t => t.TrackEvent(It.IsAny<string>(), It.IsAny<IDictionary<string, string>>()))
-            .Callback<string, IDictionary<string, string>>((eventName, properties) =>
-            {
-                actualEventName = eventName;
-                actualProperties = properties;
-            })
-            .Verifiable();
-
+        
         // act
-        TelemetryClientExtensions.TrackUserSignInInitiatedEvent(_telemetry.Object, context);
+        activity.TrackUserSignInInitiatedEvent(context);
 
         // assert
-        _telemetry.VerifyAll();
-        Assert.Equal("user-sign-in-initiated", actualEventName);
+        Assert.Equal("user-sign-in-initiated", activity.OperationName);
+        var actualProperties = activity.Tags.ToDictionary();
         Assert.Equal(4, actualProperties.Keys.Count);
         Assert.Equal(path, actualProperties["Path"]);
         Assert.Equal(redirectUri, actualProperties["RedirectUri"]);
@@ -88,6 +77,8 @@ public class GivenATelemetryClient
         string expectedOrganisationIdentifierValue)
     {
         // arrange
+        using var activity = new Activity("TestActivity");
+       
         var organisation = new Organisation
         {
             Category = new OrganisationItem
@@ -121,24 +112,14 @@ public class GivenATelemetryClient
             Mock.Of<OpenIdConnectOptions>(),
             principal,
             Mock.Of<AuthenticationProperties>());
-
-        var actualEventName = string.Empty;
-        IDictionary<string, string> actualProperties = new Dictionary<string, string>();
-        _telemetry
-            .Setup(t => t.TrackEvent(It.IsAny<string>(), It.IsAny<IDictionary<string, string>>()))
-            .Callback<string, IDictionary<string, string>>((eventName, properties) =>
-            {
-                actualEventName = eventName;
-                actualProperties = properties;
-            })
-            .Verifiable();
+        
 
         // act
-        TelemetryClientExtensions.TrackUserSignedInEvent(_telemetry.Object, context, organisation);
+        activity.TrackUserSignedInEvent(context, organisation);
 
         // assert
-        _telemetry.VerifyAll();
-        Assert.Equal("user-sign-in-success", actualEventName);
+        Assert.Equal("user-sign-in-success", activity.OperationName);
+        var actualProperties = activity.Tags.ToDictionary();
         Assert.Equal(organisationCategory == null ? 2 : 3, actualProperties.Keys.Count);
         Assert.Equal(userId, actualProperties["User"]);
         Assert.Equal(expectedOrganisationType, actualProperties["Establishment"]);

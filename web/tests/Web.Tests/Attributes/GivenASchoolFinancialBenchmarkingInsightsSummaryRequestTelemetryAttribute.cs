@@ -1,4 +1,4 @@
-﻿using Microsoft.ApplicationInsights.DataContracts;
+﻿using System.Diagnostics;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Controllers;
@@ -41,15 +41,15 @@ public class GivenASchoolFinancialBenchmarkingInsightsSummaryRequestTelemetryAtt
             query = query.Add(referrerKey.GetStringValue(), referrer);
         }
 
-        var telemetry = await GetTelemetryFromRequest(routeData, query, referrerKey);
+        var tags = await GetTelemetryFromRequest(routeData, query, referrerKey);
 
-        Assert.Equal("school", telemetry.Properties["Establishment"]);
-        Assert.Equal(TrackedRequestFeature.FinancialBenchmarkingInsightsSummary.GetStringValue(), telemetry.Properties["Feature"]);
-        Assert.Equal(urn, telemetry.Properties["Urn"]);
-        Assert.Equal(referrer, telemetry.Properties["Referrer"]);
+        Assert.Equal("school", tags["Establishment"]);
+        Assert.Equal(TrackedRequestFeature.FinancialBenchmarkingInsightsSummary.GetStringValue(), tags["Feature"]);
+        Assert.Equal(urn, tags["Urn"]);
+        Assert.Equal(referrer, tags["Referrer"]);
     }
 
-    private async Task<RequestTelemetry> GetTelemetryFromRequest(RouteData routeData, QueryString query, TrackedRequestQueryParameters referrerKey)
+    private async Task<Dictionary<string, string?>> GetTelemetryFromRequest(RouteData routeData, QueryString query, TrackedRequestQueryParameters referrerKey)
     {
         var provider = _services.BuildServiceProvider();
         var httpContext = new DefaultHttpContext
@@ -57,8 +57,8 @@ public class GivenASchoolFinancialBenchmarkingInsightsSummaryRequestTelemetryAtt
             RequestServices = provider
         };
 
-        var telemetry = new RequestTelemetry();
-        httpContext.Features.Set(telemetry);
+        using var activity = new Activity("TestActivity");
+        activity.Start();
         httpContext.Request.QueryString = query;
 
         var actionContext = new ActionContext
@@ -86,7 +86,8 @@ public class GivenASchoolFinancialBenchmarkingInsightsSummaryRequestTelemetryAtt
         filter.OnActionExecuted(actionExecutedContext);
 
         await (actionExecutedContext.Result?.ExecuteResultAsync(actionContext) ?? Task.CompletedTask);
-        return telemetry;
+        activity.Stop();
+        return activity.Tags.ToDictionary();
     }
 
     private class FakeController : Controller;

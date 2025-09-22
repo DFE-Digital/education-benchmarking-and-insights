@@ -1,4 +1,4 @@
-﻿using Microsoft.ApplicationInsights.DataContracts;
+﻿using System.Diagnostics;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Controllers;
@@ -33,14 +33,14 @@ public class GivenATrustRequestTelemetryAttribute
             { "companyNumber", companyNumber }
         });
 
-        var telemetry = await GetTelemetryFromRequest(feature, routeData);
+        var tags = await GetTelemetryFromRequest(feature, routeData);
 
-        Assert.Equal("trust", telemetry.Properties["Establishment"]);
-        Assert.Equal(feature.GetStringValue(), telemetry.Properties["Feature"]);
-        Assert.Equal(companyNumber, telemetry.Properties["CompanyNumber"]);
+        Assert.Equal("trust", tags["Establishment"]);
+        Assert.Equal(feature.GetStringValue(), tags["Feature"]);
+        Assert.Equal(companyNumber, tags["CompanyNumber"]);
     }
 
-    private async Task<RequestTelemetry> GetTelemetryFromRequest(TrackedRequestFeature feature, RouteData routeData)
+    private async Task<Dictionary<string, string?>> GetTelemetryFromRequest(TrackedRequestFeature feature, RouteData routeData)
     {
         var provider = _services.BuildServiceProvider();
         var httpContext = new DefaultHttpContext
@@ -48,8 +48,8 @@ public class GivenATrustRequestTelemetryAttribute
             RequestServices = provider
         };
 
-        var telemetry = new RequestTelemetry();
-        httpContext.Features.Set(telemetry);
+        using var activity = new Activity("TestActivity");
+        activity.Start();
 
         var actionContext = new ActionContext
         {
@@ -76,7 +76,8 @@ public class GivenATrustRequestTelemetryAttribute
         filter.OnActionExecuted(actionExecutedContext);
 
         await (actionExecutedContext.Result?.ExecuteResultAsync(actionContext) ?? Task.CompletedTask);
-        return telemetry;
+        activity.Stop();
+        return activity.Tags.ToDictionary();
     }
 
     private class FakeController : Controller;
