@@ -34,7 +34,8 @@ public static class ActivityExtensions
         
         // https://github.com/Azure/azure-sdk-for-net/tree/main/sdk/monitor/Azure.Monitor.OpenTelemetry.AspNetCore#customevents
         var logger = context.HttpContext.RequestServices.GetRequiredService<ILogger<ActivityEvent>>();
-        logger.LogInformation("{microsoft.custom_event.name} {path}", TrackedEvents.UserSignInInitiated.GetStringValue(), path);
+        // this now tracks as a custom event (so you get a duplicate) because Serilog is not intercepting the log entry
+        logger.LogInformation("{microsoft.custom_event.name} {Path}", TrackedEvents.UserSignInInitiated.GetStringValue(), path);
     }
 
     public static void TrackUserSignedInEvent(this Activity? activity, TokenValidatedContext context, Organisation? organisation)

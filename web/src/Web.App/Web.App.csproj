@@ -31,10 +31,6 @@
         <PackageReference Include="Newtonsoft.Json"/>
         <PackageReference Include="OpenTelemetry.Exporter.Console" />
         <PackageReference Include="OpenTelemetry.Extensions" />
-        <PackageReference Include="Serilog.AspNetCore"/>
-        <PackageReference Include="Serilog.Enrichers.CorrelationId"/>
-        <PackageReference Include="Serilog.Enrichers.Span" />
-        <PackageReference Include="Serilog.Sinks.OpenTelemetry" />
         <PackageReference Include="SmartBreadcrumbs"/>
         <PackageReference Include="Swashbuckle.AspNetCore"/>
         <PackageReference Include="Westwind.AspNetCore.Markdown"/>

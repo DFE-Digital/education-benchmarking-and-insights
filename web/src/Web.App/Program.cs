@@ -8,7 +8,6 @@ using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.FeatureManagement;
 using OpenTelemetry.Resources;
-using Serilog;
 using SmartBreadcrumbs.Extensions;
 using Web.App.Cache;
 using Web.App.Extensions;
@@ -38,8 +37,6 @@ builder.Logging.AddOpenTelemetry(o =>
     o.ParseStateValues = true;
     o.AttachLogsToActivityEvent();
 });
-
-builder.Host.UseSerilog((context, configuration) => configuration.ReadFrom.Configuration(context.Configuration));
 
 builder.Services.AddControllersWithViews()
     .AddNewtonsoftJson(options => options.SerializerSettings.SetJsonOptions())
@@ -91,20 +88,23 @@ if (!builder.Environment.IsIntegration())
 {
     builder.Services.AddDfeSignIn(options =>
     {
+        using var factory = LoggerFactory.Create(b => b.AddConsole());
+        var logger = factory.CreateLogger("DfeSignIn");
+        
         builder.Configuration.GetSection("DFESignInSettings").Bind(options.Settings);
         options.Events.OnRejectPrincipal = response =>
-            Log.Logger.Warning("Token refresh failed: {ErrorDescription} ", response.ErrorDescription);
+            logger.LogWarning("Token refresh failed: {ErrorDescription} ", response.ErrorDescription);
         options.Events.OnSpuriousAuthenticationRequest =
-            _ => Log.Logger.Warning("Spurious log in attempt received for DFE sign in");
+            _ => logger.LogWarning("Spurious log in attempt received for DFE sign in");
         options.Events.OnRemoteFailure = ctx =>
-            Log.Logger.Warning("Remote failure for DFE-sign in: {Failure}", ctx.Failure?.Message);
+            logger.LogWarning("Remote failure for DFE-sign in: {Failure}", ctx.Failure?.Message);
         options.Events.OnValidatedPrincipal = ctx =>
-            Log.Logger.Debug(
+            logger.LogDebug(
                 "Valid principal received: {Identity} ({Organisation})",
                 ctx.Principal?.UserGuid(),
                 ctx.Principal?.Organisation().Id);
         options.Events.OnNotValidatedPrincipal = (ctx, ex) =>
-            Log.Logger.Warning(
+            logger.LogWarning(
                 "Token validated, but additional validation failed for {Identity} ({Organisation}): {ErrorMessage}",
                 ctx.Principal?.UserGuid(),
                 ctx.Principal?.Organisation().Id,
