@@ -62,7 +62,7 @@ def handle_msg(
                     bfr_year=msg_payload["year"]["bfr"],
                     s251_year=msg_payload["year"]["s251"],
                 )
-                msg_payload["comparator_set_duration"] = compute_comparator_sets(
+                msg_payload["comparator_set_duration"] = run_comparator_sets_pipeline(
                     run_type=run_type,
                     run_id=str(msg_payload["runId"]),
                 )
