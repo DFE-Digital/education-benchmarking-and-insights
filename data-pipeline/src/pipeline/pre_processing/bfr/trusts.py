@@ -21,6 +21,14 @@ SOFA_SUBTOTAL_INCOME_EFALINE = 980
 SOFA_OTHER_COSTS_EFALINE = 335
 SOFA_TOTAL_REVENUE_INCOME = 298
 SOFA_TOTAL_REVENUE_EXPENDITURE = 380
+# "Connectivity",
+# "Onsite servers",
+# "IT Learning resources",
+# "Administration software and systems",
+# "Laptops, desktops and tablets",
+# "Other hardware",
+# "IT support and training"
+SOFA_IT_SPEND_LINES = [336, 337, 338, 339, 340, 341, 342]
 SOFA_YEAR_COLS = ["Y1P1", "Y1P2", "Y2P1", "Y2P2", "Y3P1", "Y3P2"]
 
 # BFA 3Y
@@ -37,73 +45,52 @@ BFR_3Y_TO_SOFA_MAPPINGS = {
 }
 THREE_YEAR_PROJECTION_COLS = ["Y2", "Y3", "Y4"]
 
+BFR_CATEGORY_MAPPINGS = {
+    "Balance c/f to next period ": "Revenue reserve",
+    "Pupil numbers (actual and estimated)": "Pupil numbers",
+    "Total revenue expenditure": "Total expenditure",
+    "Total revenue income": "Total income",
+    "Total staff costs": "Staff costs",
+}
+
 
 def build_bfr_historical_data(
     academies_historical: pd.DataFrame | None,
     bfr_sofa_historical: pd.DataFrame | None,
 ) -> pd.DataFrame | None:
     """
-    Derive historical data from BFR SOFA data.
-
-    `academies_historical` must have:
-
-    - Trust UPIN
-    - Company Registration Number
-
-    `bfr_sofa_historical` must have:
-
-    - Trust UPIN
-    - EFALineNo (containing 430 and 999)
-    - Y1P2
-    - Y2P2
-
-    The return value will be of the same form as `academies_historical`,
-    with an additional colums:
-
-    - "Trust Revenue reserve"
-    - "Total pupils in trust"
-
-    :param academies_historical: academy data from a previous year
-    :param bfr_sofa_historical: BFR SOFA data from a previous year
-    :return: updated, historical data
+    Derive historical pupil numbers and revenue reserves from BFR SOFA data.
+    Also add Company reference number from academies.
     """
-    if academies_historical is not None:
-        academies_historical["Trust Revenue reserve"] = 0.0
-        academies_historical["Total pupils in trust"] = 0.0
+    if academies_historical is not None and bfr_sofa_historical is not None:
+        historic_bfr_with_crn = academies_historical.merge(
+            bfr_sofa_historical[
+                bfr_sofa_historical["EFALineNo"]
+                == SOFA_TRUST_REVENUE_RESERVE_EFALINE
+            ].rename(
+                {"Y2P2": "Trust Revenue reserve"},
+                axis=1,
+            )[
+                ["Trust UPIN", "Trust Revenue reserve"]
+            ],
+            on="Trust UPIN",
+            how="left",
+        )
+        historic_bfr_with_crn["Trust Revenue reserve"] *= 1_000
+        historic_bfr_with_crn = historic_bfr_with_crn.merge(
+            bfr_sofa_historical[
+                bfr_sofa_historical["EFALineNo"] == SOFA_PUPIL_NUMBER_EFALINE
+            ].rename(
+                {"Y1P2": "Total pupils in trust"},
+                axis=1,
+            )[
+                ["Trust UPIN", "Total pupils in trust"]
+            ],
+            on="Trust UPIN",
+            how="left",
+        )
 
-        if bfr_sofa_historical is not None:
-            academies_historical = academies_historical.drop(
-                columns=["Trust Revenue reserve", "Total pupils in trust"],
-            )
-
-            academies_historical = academies_historical.merge(
-                bfr_sofa_historical[
-                    bfr_sofa_historical["EFALineNo"]
-                    == SOFA_TRUST_REVENUE_RESERVE_EFALINE
-                ].rename(
-                    {"Y2P2": "Trust Revenue reserve"},
-                    axis=1,
-                )[
-                    ["Trust UPIN", "Trust Revenue reserve"]
-                ],
-                on="Trust UPIN",
-                how="left",
-            )
-            academies_historical["Trust Revenue reserve"] *= 1_000
-            academies_historical = academies_historical.merge(
-                bfr_sofa_historical[
-                    bfr_sofa_historical["EFALineNo"] == SOFA_PUPIL_NUMBER_EFALINE
-                ].rename(
-                    {"Y1P2": "Total pupils in trust"},
-                    axis=1,
-                )[
-                    ["Trust UPIN", "Total pupils in trust"]
-                ],
-                on="Trust UPIN",
-                how="left",
-            )
-
-    return academies_historical
+    return historic_bfr_with_crn
 
 
 def load_bfr_sofa(bfr_sofa_data_path) -> pd.DataFrame:
@@ -154,6 +141,30 @@ def build_custom_sofa_categories(bfr_sofa_filtered) -> tuple[pd.DataFrame, pd.Da
     return self_gen_income, grant_funding
 
 
+def merge_historic_bfr(bfr, historic_bfr, year: str) -> pd.DataFrame:
+    if historic_bfr is not None:
+        bfr = bfr.merge(
+            historic_bfr[
+                ["Trust UPIN", "Trust Revenue reserve", "Total pupils in trust"]
+            ]
+            .groupby("Trust UPIN")
+            .first()
+            .reset_index()
+            .rename(
+                columns={
+                    "Trust Revenue reserve": year,
+                    "Total pupils in trust": f"Pupils {year}",
+                }
+            ),
+            how="left",
+            on="Trust UPIN",
+        )
+    else:
+        bfr[year] = 0.0
+        bfr[f"Pupils {year}"] = 0.0
+    return bfr
+
+
 def build_bfr_data(
     current_year,
     bfr_sofa_data_path,
@@ -175,6 +186,7 @@ def build_bfr_data(
                 SOFA_OTHER_COSTS_EFALINE,
                 SOFA_TOTAL_REVENUE_INCOME,
                 SOFA_TOTAL_REVENUE_EXPENDITURE,
+                *SOFA_IT_SPEND_LINES
             ]
         )
     ]
@@ -186,7 +198,7 @@ def build_bfr_data(
         bfr_sofa_filtered
     )
 
-    bfr_sofa = pd.concat(
+    bfr_sofa_with_aggregated_categories = pd.concat(
         [bfr_sofa_filtered, sofa_self_generated_income, sofa_grant_funding]
     ).drop_duplicates()
 
@@ -205,7 +217,7 @@ def build_bfr_data(
         )
     ]
 
-    merged_bfr = bfr_sofa.merge(bfr_3y, how="left", on=("Trust UPIN", "EFALineNo"))
+    merged_bfr = bfr_sofa_with_aggregated_categories.merge(bfr_3y, how="left", on=("Trust UPIN", "EFALineNo"))
 
     bfr = (
         academies.groupby("Trust UPIN")
@@ -214,61 +226,13 @@ def build_bfr_data(
         .merge(merged_bfr, on="Trust UPIN")
     )
 
-    bfr["Category"].replace(
-        {
-            "Balance c/f to next period ": "Revenue reserve",
-            "Pupil numbers (actual and estimated)": "Pupil numbers",
-            "Total revenue expenditure": "Total expenditure",
-            "Total revenue income": "Total income",
-            "Total staff costs": "Staff costs",
-        },
-        inplace=True,
-    )
+    bfr["Category"].replace(BFR_CATEGORY_MAPPINGS, inplace=True)
 
-    if academies_y2 is not None:
-        bfr = bfr.merge(
-            academies_y2[
-                ["Trust UPIN", "Trust Revenue reserve", "Total pupils in trust"]
-            ]
-            .groupby("Trust UPIN")
-            .first()
-            .reset_index()
-            .rename(
-                columns={
-                    "Trust Revenue reserve": "Y-2",
-                    "Total pupils in trust": "Pupils Y-2",
-                }
-            ),
-            how="left",
-            on="Trust UPIN",
-        )
-    else:
-        bfr["Y-2"] = 0.0
-        bfr["Pupils Y-2"] = 0.0
-
-    if academies_y1 is not None:
-        bfr = bfr.merge(
-            academies_y1[
-                ["Trust UPIN", "Trust Revenue reserve", "Total pupils in trust"]
-            ]
-            .groupby("Trust UPIN")
-            .first()
-            .reset_index()
-            .rename(
-                columns={
-                    "Trust Revenue reserve": "Y-1",
-                    "Total pupils in trust": "Pupils Y-1",
-                }
-            ),
-            how="left",
-            on="Trust UPIN",
-        )
-    else:
-        bfr["Y-1"] = 0.0
-        bfr["Pupils Y-1"] = 0.0
+    # Add historical data if it exists, and CRN
+    bfr = merge_historic_bfr(bfr, academies_y2, "Y-2")
+    bfr = merge_historic_bfr(bfr, academies_y1, "Y-1")
 
     bfr["Y1"] = bfr["Y2P2"]
-    bfr = bfr.drop_duplicates()
     bfr_metrics = BFR.calculate_metrics(bfr.reset_index())
 
     bfr_pupils = bfr[(bfr["Category"] == "Pupil numbers")][
