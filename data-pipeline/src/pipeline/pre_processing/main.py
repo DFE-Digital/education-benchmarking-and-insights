@@ -21,7 +21,7 @@ from pipeline.utils.storage import get_blob, raw_container, try_get_blob, write_
 
 from .aar.academies import build_academy_data, map_academy_data
 from .aar.trusts import build_trust_data
-from .ancillary.bfr import build_bfr_data, build_bfr_historical_data
+from .bfr.trusts import build_bfr_data, build_bfr_historical_data
 from .ancillary.custom_data import update_custom_data
 from .ancillary.ilr import patch_missing_sixth_form_data
 from .ancillary.main import (

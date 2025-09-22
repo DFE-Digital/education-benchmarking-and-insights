@@ -136,6 +136,8 @@ bfr_sofa_cols = {
     "Y1P2": "float",
     "Y2P1": "float",
     "Y2P2": "float",
+    "Y3P1": "float",
+    "Y3P2": "float"
 }
 
 bfr_3y_cols = {

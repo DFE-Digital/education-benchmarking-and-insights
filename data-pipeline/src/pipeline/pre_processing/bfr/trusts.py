@@ -11,6 +11,32 @@ simplefilter(action="ignore", category=FutureWarning)
 
 logger = logging.getLogger("fbit-data-pipeline")
 
+# BFR SOFA
+SOFA_SELF_GENERATED_INCOME_EFALINES = [211, 220]
+SOFA_PUPIL_NUMBER_EFALINE = 999
+SOFA_GRANT_FUNDING_EFALINES = [199, 200, 205, 210]
+SOFA_TRUST_REVENUE_RESERVE_EFALINE = 430
+SOFA_SUBTOTAL_INCOME_EFALINE = 980
+SOFA_OTHER_COSTS_EFALINE = 335
+SOFA_TOTAL_REVENUE_INCOME = 298
+SOFA_TOTAL_REVENUE_EXPENDITURE = 380
+SOFA_YEAR_COLS = ["Y1P1", "Y1P2", "Y2P1", "Y2P2", "Y3P1", "Y3P2"]
+
+# BFA 3Y
+SUBTOTAL_INCOME_EFALINE = 2980
+REVENUE_RESERVE_BALANCE_EFALINE = 4300
+SUBTOTAL_COSTS_EFALINE = 3800
+ESTIMASTED_PUPIL_NUMBERS_EFALINE = 9000
+OTHER_COSTS_EFALINE = 335
+THREE_YEAR_PROJECTION_COLS = ["Y2", "Y3", "Y4"]
+
+BFR_3Y_TO_SOFA_MAPPINGS = {
+    SUBTOTAL_INCOME_EFALINE: SOFA_TOTAL_REVENUE_INCOME,
+    REVENUE_RESERVE_BALANCE_EFALINE: SOFA_TRUST_REVENUE_RESERVE_EFALINE,
+    SUBTOTAL_COSTS_EFALINE: SOFA_TOTAL_REVENUE_EXPENDITURE,
+    ESTIMASTED_PUPIL_NUMBERS_EFALINE: SOFA_PUPIL_NUMBER_EFALINE
+}
+
 
 def build_bfr_historical_data(
     academies_historical: pd.DataFrame | None,
@@ -51,19 +77,27 @@ def build_bfr_historical_data(
             )
 
             academies_historical = academies_historical.merge(
-                bfr_sofa_historical[bfr_sofa_historical["EFALineNo"] == 430].rename(
+                bfr_sofa_historical[
+                    bfr_sofa_historical["EFALineNo"] == SOFA_TRUST_REVENUE_RESERVE_EFALINE
+                ].rename(
                     {"Y2P2": "Trust Revenue reserve"},
                     axis=1,
-                )[["Trust UPIN", "Trust Revenue reserve"]],
+                )[
+                    ["Trust UPIN", "Trust Revenue reserve"]
+                ],
                 on="Trust UPIN",
                 how="left",
             )
             academies_historical["Trust Revenue reserve"] *= 1_000
             academies_historical = academies_historical.merge(
-                bfr_sofa_historical[bfr_sofa_historical["EFALineNo"] == 999].rename(
+                bfr_sofa_historical[
+                    bfr_sofa_historical["EFALineNo"] == SOFA_PUPIL_NUMBER_EFALINE
+                ].rename(
                     {"Y1P2": "Total pupils in trust"},
                     axis=1,
-                )[["Trust UPIN", "Total pupils in trust"]],
+                )[
+                    ["Trust UPIN", "Total pupils in trust"]
+                ],
                 on="Trust UPIN",
                 how="left",
             )
@@ -89,25 +123,34 @@ def build_bfr_data(
 
     bfr_sofa = bfr_sofa[
         bfr_sofa["EFALineNo"].isin(
-            [298, 430, 335, 380, 211, 220, 199, 200, 205, 210, 999]
+            [
+                *SOFA_SELF_GENERATED_INCOME_EFALINES,
+                SOFA_PUPIL_NUMBER_EFALINE,
+                *SOFA_GRANT_FUNDING_EFALINES,
+                SOFA_TRUST_REVENUE_RESERVE_EFALINE,
+                SOFA_SUBTOTAL_INCOME_EFALINE,
+                SOFA_OTHER_COSTS_EFALINE,
+                SOFA_TOTAL_REVENUE_INCOME,
+                SOFA_TOTAL_REVENUE_EXPENDITURE
+            ]
         )
     ]
     bfr_sofa.drop_duplicates(inplace=True)
-    bfr_sofa[["Y1P1", "Y1P2", "Y2P1", "Y2P2"]] = bfr_sofa[
-        ["Y1P1", "Y1P2", "Y2P1", "Y2P2"]
-    ].apply(lambda x: x * 1000, axis=1)
+    bfr_sofa[SOFA_YEAR_COLS] = bfr_sofa[SOFA_YEAR_COLS].apply(
+        lambda x: x * 1000, axis=1
+    )
 
     self_gen_income = (
-        bfr_sofa[bfr_sofa["EFALineNo"].isin([211, 220])]
-        .groupby(["Trust UPIN"])[["Y1P1", "Y1P2", "Y2P1", "Y2P2"]]
+        bfr_sofa[bfr_sofa["EFALineNo"].isin(SOFA_SELF_GENERATED_INCOME_EFALINES)]
+        .groupby(["Trust UPIN"])[SOFA_YEAR_COLS]
         .sum()
         .reset_index()
     )
     self_gen_income["Category"] = "Self-generated income"
 
     grant_funding = (
-        bfr_sofa[bfr_sofa["EFALineNo"].isin([199, 200, 205, 210])]
-        .groupby(["Trust UPIN"])[["Y1P1", "Y1P2", "Y2P1", "Y2P2"]]
+        bfr_sofa[bfr_sofa["EFALineNo"].isin(SOFA_GRANT_FUNDING_EFALINES)]
+        .groupby(["Trust UPIN"])[SOFA_YEAR_COLS]
         .sum()
         .reset_index()
     )
@@ -123,14 +166,15 @@ def build_bfr_data(
     ).rename(columns={"TrustUPIN": "Trust UPIN"})
     logger.info(f"BFR 3y raw shape: {bfr_3y.shape}")
 
-    bfr_3y[["Y2", "Y3", "Y4"]] = bfr_3y[["Y2", "Y3", "Y4"]].apply(
+    bfr_3y[THREE_YEAR_PROJECTION_COLS] = bfr_3y[THREE_YEAR_PROJECTION_COLS].apply(
         lambda x: x * 1000, axis=1
     )
 
-    bfr_3y["EFALineNo"].replace(
-        {2980: 298, 4300: 430, 3800: 380, 9000: 999}, inplace=True
-    )
-    bfr_3y = bfr_3y[bfr_3y["EFALineNo"].isin([298, 430, 335, 380, 999])]
+    bfr_3y["EFALineNo"].replace(BFR_3Y_TO_SOFA_MAPPINGS, inplace=True)
+    bfr_3y = bfr_3y[bfr_3y["EFALineNo"].isin([
+        *BFR_3Y_TO_SOFA_MAPPINGS.values(),
+        OTHER_COSTS_EFALINE
+    ])]
     bfr_3y.drop_duplicates(inplace=True)
 
     merged_bfr = bfr_sofa.merge(bfr_3y, how="left", on=("Trust UPIN", "EFALineNo"))
@@ -206,7 +250,7 @@ def build_bfr_data(
 
     bfr_metrics = pd.concat([bfr_metrics, BFR.slope_analysis(bfr)])
 
-    bfr_pupils[["Y2", "Y3", "Y4"]] = bfr_pupils[["Y2", "Y3", "Y4"]].apply(
+    bfr_pupils[THREE_YEAR_PROJECTION_COLS] = bfr_pupils[THREE_YEAR_PROJECTION_COLS].apply(
         lambda x: x / 1000, axis=1
     )
     bfr_pupils.rename(
