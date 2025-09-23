@@ -61,7 +61,7 @@ projection can be compiled for an organisation. This enables:
   - Balance sheet (assets, liabilities, reserves)
 - **Usage examples**:
   - Used on the High Needs Benchmarking Tool to show trust actual expenditure.
-  - Academy/Trust expenditure is sorted into cost categories, normalised (eg per pupil), and benchmarked against comparators.
+  - Academy/Trust expenditure is sorted into cost categories comparable with LA schools, normalised (eg per pupil), and benchmarked against comparators.
   - Spend is also plotted over time using previous returns to show historic expenditure trends for schools/trusts.
   - Academies can see the apportioned revenue reserves and expenditure from their relevant trust (Academy is joined to Trust on Trust UPIN).
 - **Ancillary Data**:
@@ -83,7 +83,7 @@ projection can be compiled for an organisation. This enables:
 - **Usage examples**:
   - Used to determine comparators for LA schools
   - Used to benchmark IT spending
-  - School expenditure is sorted into cost categories, normalised (eg per pupil), and benchmarked against comparators.
+  - School expenditure is sorted into cost categories comparable with Academies, normalised (eg per pupil), and benchmarked against comparators.
   - Spend is plotted over time using previous returns to show historic trends for schools/trusts.
 - **Ancillary Data**:
   - Condition Data Collection (CDC) - Contains building age and area determine comparator schools. Joined on DfE URN.
