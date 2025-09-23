@@ -103,8 +103,8 @@ projection can be compiled for an organisation. This enables:
   - Planned spend
 - **Usage examples**:
   - Used to find comparator LAs and form comparator sets.
-  - Trust expenditure is sorted into cost categories, normalised (eg per pupil), and benchmarked against comparators.
-  - Used on the High Needs Benchmarking Tool (HNBT) to show budget vs outturn historical spend for trusts.
+  - LA expenditure is sorted into cost categories, normalised (eg per pupil), and benchmarked against comparators.
+  - Used on the High Needs Benchmarking Tool (HNBT) to show budget vs outturn historical spend for LAs.
 - **Ancillary Data**:
   - Statistical Neighbours Data - Sourced from the old HNBT excel file, this is needed for the HNBT and joined to s251 on LA code.
   - Age-related Population Estimates - ONS data to normalise LA spending per population. Joined on LA code.
