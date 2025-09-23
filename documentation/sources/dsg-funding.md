@@ -10,9 +10,7 @@ The DSG is made oup of 4 distinct blocks of funding, each using different method
 
 ### Schools Block
 
-The majority of the Schools Block is allocated to individual primary and 
-secondary school budgets to pay for children and young people’s education 
-according to the National Funding Formula (NFF).
+The majority of the Schools Block is allocated to individual primary and secondary school budgets to pay for children and young people’s education according to the National Funding Formula (NFF).
 
 The Primary Unit of Funding (PUFs) for each local authority are multiplied by:
 
@@ -77,4 +75,4 @@ As shown in the timeline above the DSG is published at several points through th
 
 <strong>Publication site</strong>
 
-https://skillsfunding.service.gov.uk/view-latest-funding/national-funding-allocations/DSG/2025-to-2026
+<https://skillsfunding.service.gov.uk/view-latest-funding/national-funding-allocations/DSG/2025-to-2026>
