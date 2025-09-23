@@ -300,6 +300,7 @@ def build_bfr_data(
         bfr_3y_preprocessed, how="left", on=("Trust UPIN", "EFALineNo")
     )
 
+    # Add CRN from academies
     bfr = (
         academies.groupby("Trust UPIN")
         .first()
@@ -312,7 +313,7 @@ def build_bfr_data(
     # Normalise Category SOFA/3Y
     bfr["Category"].replace(BFR_CATEGORY_MAPPINGS, inplace=True)
 
-    # Add CRN from academies, try to add historic BFR data
+    # try to add historic BFR data
     bfr = merge_historic_bfr(bfr, historic_bfr_y2, "Y-2")
     bfr = merge_historic_bfr(bfr, historic_bfr_y1, "Y-1")
 
@@ -324,8 +325,8 @@ def build_bfr_data(
         ["Trust UPIN", "Y2", "Y3", "Y4"]
     ]
     bfr = bfr[bfr["Category"].isin(["Revenue reserve"])]
-
-    bfr_metrics_and_slope_analysis = pd.concat([bfr_metrics, BFR.slope_analysis(bfr)])
+    bfr_slope_analysis = BFR.slope_analysis(bfr)
+    bfr_metrics_and_slope_analysis = pd.concat([bfr_metrics, bfr_slope_analysis])
 
     bfr_pupils[THREE_YEAR_PROJECTION_COLS] = bfr_pupils[
         THREE_YEAR_PROJECTION_COLS
