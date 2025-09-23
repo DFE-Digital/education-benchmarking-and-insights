@@ -475,17 +475,17 @@ def pre_process_bfr(run_id: str, year: int):
             )
 
     # Process BFR data…
-    academies_y2 = build_bfr_historical_data(
+    historic_bfr_y2 = build_bfr_historical_data(
         academies_historical=academies_y2,
         bfr_sofa_historical=bfr_sofa_year_minus_two,
     )
 
-    academies_y1 = build_bfr_historical_data(
+    historic_bfr_y1 = build_bfr_historical_data(
         academies_historical=academies_y1,
         bfr_sofa_historical=bfr_sofa_year_minus_one,
     )
     bfr, bfr_metrics = build_bfr_data(
-        year, bfr_sofa, bfr_3y, academies, academies_y1, academies_y2
+        year, bfr_sofa, bfr_3y, academies, historic_bfr_y1, historic_bfr_y2
     )
 
     # Store results…
