@@ -7,7 +7,7 @@ import pytest
 
 from pipeline.pre_processing.aar import prepare_aar_data
 from pipeline.pre_processing.aar.central_services import prepare_central_services_data
-from pipeline.pre_processing.ancillary.bfr import build_bfr_data
+from pipeline.pre_processing.bfr.trusts import build_bfr_data
 from pipeline.pre_processing.ancillary.cdc import prepare_cdc_data
 from pipeline.pre_processing.ancillary.census import prepare_census_data
 from pipeline.pre_processing.ancillary.combined_gias import prepare_combined_gias_data
@@ -568,6 +568,8 @@ def bfr_sofa_data():
             "Y1P2": [279, 444, 1152, 2197, 4458, 0, 240, 4777, 5582, 5346],
             "Y2P1": [399, 654, 1017, 0, 6349, 1, 404, 6647, 8107, 7972],
             "Y2P2": [293, 539, 1098, 0, 4785, 9, 267, 5252, 6187, 6268],
+            "Y3P1": [293, 539, 1098, 0, 4785, 9, 267, 5252, 6187, 6268],
+            "Y3P2": [293, 539, 1098, 0, 4785, 9, 267, 5252, 6187, 6268]
         }
     )
 

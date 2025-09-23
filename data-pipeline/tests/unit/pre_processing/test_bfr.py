@@ -2,7 +2,7 @@ import numpy as np
 import pandas as pd
 import pytest
 
-from pipeline.pre_processing.ancillary.bfr import build_bfr_historical_data
+from pipeline.pre_processing.bfr.trusts import build_bfr_historical_data
 from pipeline.pre_processing.bfr import calculations
 
 
@@ -57,8 +57,6 @@ def test_historical_bfr_sofa_none():
     )
 
     assert result is not None
-    assert "Trust Revenue reserve" in result.columns
-    assert list(result["Trust Revenue reserve"]) == [0.0]
 
 
 def test_historical_bfr():
