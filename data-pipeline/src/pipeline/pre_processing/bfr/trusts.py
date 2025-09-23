@@ -21,13 +21,6 @@ SOFA_SUBTOTAL_INCOME_EFALINE = 980
 SOFA_OTHER_COSTS_EFALINE = 335
 SOFA_TOTAL_REVENUE_INCOME = 298
 SOFA_TOTAL_REVENUE_EXPENDITURE = 380
-# "Connectivity",
-# "Onsite servers",
-# "IT Learning resources",
-# "Administration software and systems",
-# "Laptops, desktops and tablets",
-# "Other hardware",
-# "IT support and training"
 SOFA_IT_SPEND_LINES = [336, 337, 338, 339, 340, 341, 342]
 SOFA_YEAR_COLS = ["Y1P1", "Y1P2", "Y2P1", "Y2P2", "Y3P1", "Y3P2"]
 
@@ -65,8 +58,7 @@ def build_bfr_historical_data(
     if academies_historical is not None and bfr_sofa_historical is not None:
         historic_bfr_with_crn = academies_historical.merge(
             bfr_sofa_historical[
-                bfr_sofa_historical["EFALineNo"]
-                == SOFA_TRUST_REVENUE_RESERVE_EFALINE
+                bfr_sofa_historical["EFALineNo"] == SOFA_TRUST_REVENUE_RESERVE_EFALINE
             ].rename(
                 {"Y2P2": "Trust Revenue reserve"},
                 axis=1,
@@ -116,7 +108,9 @@ def load_bfr_3y(bfr_3y_data_path) -> pd.DataFrame:
     return bfr_3y
 
 
-def build_custom_sofa_categories(bfr_sofa_filtered) -> tuple[pd.DataFrame, pd.DataFrame]:
+def build_custom_sofa_categories(
+    bfr_sofa_filtered,
+) -> tuple[pd.DataFrame, pd.DataFrame]:
     """Create custom aggregate categories from BFR SOFA data"""
     self_gen_income = (
         bfr_sofa_filtered[
@@ -186,7 +180,7 @@ def build_bfr_data(
                 SOFA_OTHER_COSTS_EFALINE,
                 SOFA_TOTAL_REVENUE_INCOME,
                 SOFA_TOTAL_REVENUE_EXPENDITURE,
-                *SOFA_IT_SPEND_LINES
+                *SOFA_IT_SPEND_LINES,
             ]
         )
     ]
@@ -205,9 +199,9 @@ def build_bfr_data(
     bfr_3y_raw = load_bfr_3y(bfr_3y_data_path)
 
     # Scale year columns
-    bfr_3y_raw[THREE_YEAR_PROJECTION_COLS] = bfr_3y_raw[THREE_YEAR_PROJECTION_COLS].apply(
-        lambda x: x * 1000, axis=1
-    )
+    bfr_3y_raw[THREE_YEAR_PROJECTION_COLS] = bfr_3y_raw[
+        THREE_YEAR_PROJECTION_COLS
+    ].apply(lambda x: x * 1000, axis=1)
 
     # Normalise line numbers between SOFA/3Y and filter
     bfr_3y_raw["EFALineNo"].replace(BFR_3Y_TO_SOFA_MAPPINGS, inplace=True)
@@ -217,13 +211,32 @@ def build_bfr_data(
         )
     ]
 
-    merged_bfr = bfr_sofa_with_aggregated_categories.merge(bfr_3y, how="left", on=("Trust UPIN", "EFALineNo"))
+    merged_bfr = bfr_sofa_with_aggregated_categories.merge(
+        bfr_3y, how="left", on=("Trust UPIN", "EFALineNo")
+    )
 
     bfr = (
         academies.groupby("Trust UPIN")
         .first()
         .reset_index()
         .merge(merged_bfr, on="Trust UPIN")
+    )
+
+    it_spend_melted_rows = (
+        bfr[bfr["EFALineNo"].isin(SOFA_IT_SPEND_LINES)][
+            ["Company Registration Number", "Category", "Y1P1", "Y2P1", "Y3P1"]
+        ]
+        .melt(
+            id_vars=["Category", "Company Registration Number"],
+            value_vars=["Y1P1", "Y2P1", "Y3P1"],
+            var_name="Year",
+            value_name="Value",
+        )
+        .replace(
+            {"Y1P1": current_year, "Y2P1": current_year + 1, "Y3P1": current_year + 2}
+        )
+        .set_index("Company Registration Number")
+        .sort_values(by=["Company Registration Number", "Year"])
     )
 
     bfr["Category"].replace(BFR_CATEGORY_MAPPINGS, inplace=True)
@@ -238,7 +251,7 @@ def build_bfr_data(
     bfr_pupils = bfr[(bfr["Category"] == "Pupil numbers")][
         ["Trust UPIN", "Y2", "Y3", "Y4"]
     ]
-    bfr = bfr[(bfr["Category"] == "Revenue reserve")]
+    bfr = bfr[bfr["Category"].isin(["Revenue reserve"])]
 
     bfr_metrics = pd.concat([bfr_metrics, BFR.slope_analysis(bfr)])
 
@@ -274,7 +287,7 @@ def build_bfr_data(
         "Pupils Y4",
     ]
 
-    bfr_pupils = (
+    pupil_numbers_melted_rows = (
         bfr[pupil_cols]
         .melt(
             id_vars=["Company Registration Number", "Category"],
@@ -313,7 +326,7 @@ def build_bfr_data(
         "Y3",
         "Y4",
     ]
-    bfr_revenue_reserve = (
+    revenue_reserve_melted_rows = (
         bfr[cols]
         .melt(
             id_vars=["Company Registration Number", "Category"],
@@ -335,8 +348,11 @@ def build_bfr_data(
         .sort_values(by=["Company Registration Number", "Year"])
     )
 
-    bfr = bfr_revenue_reserve.merge(
-        bfr_pupils, how="left", on=("Company Registration Number", "Category", "Year")
+    all_melted_records = pd.concat([revenue_reserve_melted_rows, it_spend_melted_rows])
+
+    # Add pupil numbers to melted rows
+    bfr_final = all_melted_records.merge(
+        pupil_numbers_melted_rows, how="left", on=("Company Registration Number", "Category", "Year")
     )
 
-    return bfr, bfr_metrics
+    return bfr_final, bfr_metrics
