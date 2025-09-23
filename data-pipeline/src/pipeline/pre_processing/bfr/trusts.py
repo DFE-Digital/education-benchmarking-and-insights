@@ -81,8 +81,8 @@ def build_bfr_historical_data(
             on="Trust UPIN",
             how="left",
         )
-
-    return historic_bfr_with_crn
+        return historic_bfr_with_crn
+    return academies_historical
 
 
 def load_bfr_sofa(bfr_sofa_data_path) -> pd.DataFrame:
