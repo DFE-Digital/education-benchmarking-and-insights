@@ -1,6 +1,6 @@
 # Dedicated Schools Grant (DSG)
 
-The Dedicated Schools Grant (DSG) provides revenue funding for local authorities, to support expenditure on schools, early years and children and young people with high needs. The grant is made under section 14 of the Education Act 2002.  The grant is paid in support of the local authorities schools budget. It is the main source of income for the schools budget.
+The Dedicated Schools Grant (DSG) provides revenue funding for local authorities, to support expenditure on schools, early years and children and young people with high needs. The grant is made under section 14 of the Education Act 2002.  The grant is paid in to local authorities to support the schools budget it is the main source of income for the schools.
 
 Local authorities are responsible for determining the split of the grant between central expenditure and the individual schools budget (ISB) in conjunction with local schools forums. Local authorities are responsible for allocating the ISB to individual schools in accordance with the local schools’ funding formula.  
 
@@ -30,9 +30,9 @@ The Secondary Unit of Funding (SUFs) for each local authority are multiplied by:
 
 Is comprised of 2 main components-
 
-<strong>Place funding for High Needs</strong>.  Calculated using the NFF which takes 14 factors into account when determining the amount per pupil for their core educational needs.
+<strong>Place funding for High Needs</strong>.  Place funding is allocated as an annual amount of core high needs funding for schools and colleges. Place funding is allocated at a standard rate for a number of places, reflecting the number of high needs placements which commissioning local authorities expect to make in the coming year.  The funded amount is currently set at £6000 or £10000, depending on the type of place.
 
-<strong>Top up funding</strong> is the funding required over and above the core funding a school or college receives to enable a pupil or student with high needs to participate in education and learning. This is paid by the commissioning local authority (or sometimes schools in the case of AP) and should reflect the costs of additional support to meet the individual pupil or student’s needs.
+<strong>Top up funding</strong> is the funding required over and above the place funding a school or college receives to enable a pupil or student with high needs to participate in education and learning. This is paid by the commissioning local authority (or sometimes schools in the case of AP) and should reflect the costs of additional support to meet the individual pupil or student’s needs.
 
 ### Early Years Block
 
@@ -64,5 +64,17 @@ timeline
     Aug 23 : s251 Budget Publication. <br>28th August 23 the s251 23/24 planned expenditure return is published
     Mar 24 : DSG 23/24 Updated. <br>DSG is re-published with the final updates for in-year recoupment and HN deductions.  LA's are instructed to align the s251 outturn return with this amended DSG publication
     Aug 24 : s251 outturn submission. <br>27th August 24 the s251 expenditure (outturn) return for 23/24 is submitted
-    Dec 24 : s251 outturn publication    
+    Dec 24 : s251 outturn publication   
 ```
+
+## Use of DSG in FBIT
+
+Given that the DSG iss the principal source of funding for schools it is used by Local Authorities to determine the amount that each school can spend in an academic year and is therefore used to set the school budget.  The value will be used in the FBIT service to compare to the actual amount spent by schools in each local authority to benchmark the alignment to the DSG.
+
+### Data Source
+
+As shown in the timeline above the DSG is published at several points through the reporting cycle.  2 of the publications will be ingested into FBIT to align with the s251 datasets, these will the early March variant (start of period version) and the late March version at the end of the period i.e. end of March in the following calendar year.
+
+<strong>Publication site</strong>
+
+https://skillsfunding.service.gov.uk/view-latest-funding/national-funding-allocations/DSG/2025-to-2026
