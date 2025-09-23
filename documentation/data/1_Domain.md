@@ -43,8 +43,8 @@ projection can be compiled for an organisation. This enables:
 - **Entity**: Academy Trusts
 - **Purpose**: Unaudited forward-looking projections of income, expenditure, risk, and solvency.
 - **Data Contents**:
-  - Projected revenue and capital income/expenditure (3 year forecast)
-  - Forecasted cash flow, loans, and reserves (Statement of Financial Accounts)
+  - Projected revenue and capital income/expenditure
+  - Forecasted cash flow, loans, and reserves
 - **Usage examples**:
   - Used on the High Needs Benchmarking Tool (HNBT) alongside actuals from AAR data to show predicted vs actual spend for trusts.
   - Used to benchmark IT spend for trusts.
