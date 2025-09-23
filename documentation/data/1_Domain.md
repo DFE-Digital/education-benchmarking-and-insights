@@ -43,8 +43,8 @@ projection can be compiled for an organisation. This enables:
 - **Entity**: Academy Trusts
 - **Purpose**: Unaudited forward-looking projections of income, expenditure, risk, and solvency.
 - **Data Contents**:
-  - Projected revenue and capital income/expenditure (Statement of Financial Accounts)
-  - Forecasted cash flow, loans, and reserves (3 year forecast)
+  - Projected revenue and capital income/expenditure (3 year forecast)
+  - Forecasted cash flow, loans, and reserves (Statement of Financial Accounts)
 - **Usage examples**:
   - Used on the High Needs Benchmarking Tool (HNBT) alongside actuals from AAR data to show predicted vs actual spend for trusts.
   - Used to benchmark IT spend for trusts.
@@ -104,7 +104,7 @@ projection can be compiled for an organisation. This enables:
 - **Usage examples**:
   - Used to find comparator LAs and form comparator sets.
   - LA expenditure is sorted into cost categories, normalised (eg per pupil), and benchmarked against comparators.
-  - Used on the High Needs Benchmarking Tool (HNBT) to show budget vs outturn historical spend for LAs.
+  - Used on the High Needs Benchmarking Tool (HNBT) to show budget vs outturn historical spend for trusts.
 - **Ancillary Data**:
   - Statistical Neighbours Data - Sourced from the old HNBT excel file, this is needed for the HNBT and joined to s251 on LA code.
   - Age-related Population Estimates - ONS data to normalise LA spending per population. Joined on LA code.
