@@ -70,10 +70,6 @@ def handle_msg(
                     run_type=run_type,
                     run_id=str(msg_payload["runId"]),
                 )
-                # msg_payload["rag_duration"] = compute_rag(
-                #     run_type=run_type,
-                #     run_id=str(msg_payload["runId"]),
-                # )
                 msg_payload["stats"] = stats_collector.get_stats()
                 logger.info("Default pipeline run completed!")
 
