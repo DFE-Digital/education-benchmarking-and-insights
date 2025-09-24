@@ -363,32 +363,33 @@ def build_bfr_data(
     bfr_slope_analysis = BFR.slope_analysis(bfr_rows_for_slope_analysis)
     bfr_metrics_and_slope_analysis = pd.concat([bfr_metrics, bfr_slope_analysis])
 
+    # Current pupil numbers from academies (that year's census), future from bfr_3y
     bfr_pupils = prepare_current_and_future_pupils(
         bfr_data=merged_bfr_with_2y_historic_data, academies=academies
     )
-    bfr_with_historic_and_pupil_numbers = merged_bfr_with_2y_historic_data.merge(
+    bfr_final_wide = merged_bfr_with_2y_historic_data.merge(
         bfr_pupils, how="left", on="Trust UPIN"
     )
 
     # The BFR table is long/melted
     it_spend_melted_rows = melt_it_spend_rows_from_bfr(
-        bfr_with_historic_and_pupil_numbers, current_year
+        bfr_final_wide, current_year
     )
     revenue_reserve_melted_rows = melt_revenue_reserve_numbers_from_bfr(
-        bfr_with_historic_and_pupil_numbers, current_year
+        bfr_final_wide, current_year
     )
     pupil_numbers_melted_rows = melt_pupil_numbers_from_bfr(
-        bfr_with_historic_and_pupil_numbers, current_year
+        bfr_final_wide, current_year
     )
     it_spend_and_revenue_reserve_melted_records = pd.concat(
         [revenue_reserve_melted_rows, it_spend_melted_rows]
     )
 
     # Add pupil numbers to final melted rows
-    bfr_final = it_spend_and_revenue_reserve_melted_records.merge(
+    bfr_final_long = it_spend_and_revenue_reserve_melted_records.merge(
         pupil_numbers_melted_rows,
         how="left",
         on=("Company Registration Number", "Category", "Year"),
     )
 
-    return bfr_final, bfr_metrics_and_slope_analysis
+    return bfr_final_long, bfr_metrics_and_slope_analysis
