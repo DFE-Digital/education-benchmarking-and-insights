@@ -283,7 +283,12 @@ def melt_revenue_reserve_numbers_from_bfr(bfr, current_year):
     )
 
 
-def prepare_pupil_numbers(bfr_data, academies):
+def prepare_current_and_future_pupils(bfr_data, academies):
+    """
+    The current year BFR_SOFA (Y2P2) doesn't have current year pupil numbers as
+    it is released halfway through the year, so we get them from the academies 
+    data (aka the academy year census). Future years come from BFR_3Y.
+    """
     bfr_pupils = bfr_data[(bfr_data["Category"] == "Pupil numbers")][
         ["Trust UPIN", "Y2", "Y3", "Y4"]
     ]
@@ -330,7 +335,7 @@ def build_bfr_data(
         .merge(merged_bfr, on="Trust UPIN")
     )
 
-    # try to add historic revenue reserve and pupil numbers
+    # Pupil numbers and revenue reserve are sourced from BFR_SOFA for the previous 2 years.
     merged_bfr_with_1y_historic_data = merge_historic_bfr(
         merged_bfr_with_crn, historic_bfr_y2, "Y-2"
     )
@@ -344,7 +349,7 @@ def build_bfr_data(
     bfr_slope_analysis = BFR.slope_analysis(merged_bfr_with_2y_historic_data)
     bfr_metrics_and_slope_analysis = pd.concat([bfr_metrics, bfr_slope_analysis])
 
-    bfr_pupils = prepare_pupil_numbers(
+    bfr_pupils = prepare_current_and_future_pupils(
         bfr_data=merged_bfr_with_2y_historic_data, academies=academies
     )
     bfr_with_historic_and_pupil_numbers = merged_bfr_with_2y_historic_data.merge(
