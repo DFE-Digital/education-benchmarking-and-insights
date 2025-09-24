@@ -345,8 +345,19 @@ def build_bfr_data(
 
     # Y1 is taken to be BFR_SOFA Y2P2
     merged_bfr_with_2y_historic_data["Y1"] = merged_bfr_with_2y_historic_data["Y2P2"]
-    bfr_metrics = BFR.calculate_metrics(merged_bfr_with_2y_historic_data.reset_index())
-    bfr_slope_analysis = BFR.slope_analysis(merged_bfr_with_2y_historic_data)
+    bfr_rows_for_normalised_finance_metrics = merged_bfr_with_2y_historic_data[
+        merged_bfr_with_2y_historic_data["Category"].isin(
+            [
+                "Total income",
+                "Revenue reserve",
+                "Staff costs",
+                "Total expenditure",
+                "Self-generated income"
+            ]
+        )
+    ]
+    bfr_metrics = BFR.calculate_metrics(bfr_rows_for_normalised_finance_metrics.reset_index())
+    bfr_slope_analysis = BFR.slope_analysis(bfr_rows_for_normalised_finance_metrics)
     bfr_metrics_and_slope_analysis = pd.concat([bfr_metrics, bfr_slope_analysis])
 
     bfr_pupils = prepare_current_and_future_pupils(
