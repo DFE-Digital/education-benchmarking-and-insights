@@ -4,13 +4,13 @@ from warnings import simplefilter
 
 import pandas as pd
 
-import pipeline.input_schemas as input_schemas
-import pipeline.pre_processing.bfr.calculations as BFR
+from .loader import load_bfr_sofa, load_bfr_3y
+from .calculations import calculate_metrics, slope_analysis
 
 simplefilter(action="ignore", category=pd.errors.PerformanceWarning)
 simplefilter(action="ignore", category=FutureWarning)
 
-logger = logging.getLogger("fbit-data-pipeline")
+logger = logging.getLogger(__name__)
 
 # BFR SOFA
 SOFA_SELF_GENERATED_INCOME_EFALINES = [211, 220]
@@ -83,29 +83,6 @@ def build_bfr_historical_data(
         )
         return historic_bfr_with_crn
     return academies_historical
-
-
-def load_bfr_sofa(bfr_sofa_data_path) -> pd.DataFrame:
-    bfr_sofa = pd.read_csv(
-        bfr_sofa_data_path,
-        encoding="unicode-escape",
-        dtype=input_schemas.bfr_sofa_cols,
-        usecols=input_schemas.bfr_sofa_cols.keys(),
-    ).rename(columns={"TrustUPIN": "Trust UPIN", "Title": "Category"})
-    logger.info(f"BFR sofa raw shape: {bfr_sofa.shape}")
-
-    return bfr_sofa
-
-
-def load_bfr_3y(bfr_3y_data_path) -> pd.DataFrame:
-    bfr_3y = pd.read_csv(
-        bfr_3y_data_path,
-        encoding="unicode-escape",
-        dtype=input_schemas.bfr_3y_cols,
-        usecols=input_schemas.bfr_3y_cols.keys(),
-    ).rename(columns={"TrustUPIN": "Trust UPIN"})
-    logger.info(f"BFR 3y raw shape: {bfr_3y.shape}")
-    return bfr_3y
 
 
 def aggregate_custom_sofa_categories(
@@ -356,11 +333,11 @@ def build_bfr_data(
             ]
         )
     ]
-    bfr_metrics = BFR.calculate_metrics(bfr_rows_for_normalised_finance_metrics.reset_index())
+    bfr_metrics = calculate_metrics(bfr_rows_for_normalised_finance_metrics.reset_index())
     bfr_rows_for_slope_analysis = merged_bfr_with_2y_historic_data[
         merged_bfr_with_2y_historic_data["Category"] == "Revenue reserve"
     ]
-    bfr_slope_analysis = BFR.slope_analysis(bfr_rows_for_slope_analysis)
+    bfr_slope_analysis = slope_analysis(bfr_rows_for_slope_analysis)
     bfr_metrics_and_slope_analysis = pd.concat([bfr_metrics, bfr_slope_analysis])
 
     # Current pupil numbers from academies (that year's census), future from bfr_3y
