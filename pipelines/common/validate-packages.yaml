@@ -8,4 +8,32 @@ steps:
   - task: WhiteSource@21
     inputs:
       cwd: $(resolvedWorkingDir)
+      configuration: |
+        forceUpdate.failBuildOnPolicyViolation=false
+
+  - task: PublishBuildArtifacts@1
+    inputs:
+      PathToPublish: '$(Build.SourcesDirectory)/whitesource'
+      ArtifactName: 'WhiteSourceFolder'
+      
+  - task: PowerShell@2
+    displayName: 'Check Policy Rejection Summary'
+    inputs:
+      targetType: 'inline'
+      script: |
+        $jsonPath = "$(Build.SourcesDirectory)/whitesource/policyRejectionSummary.json"
+                      if (Test-Path $jsonPath) {
+                          $jsonContent = Get-Content $jsonPath | ConvertFrom-Json
+                          $rejectingPoliciesCount = $jsonContent.rejectingPolicies.Count
+                          if ($rejectingPoliciesCount -ne 0) {
+                              Write-Host "Rejecting policies found in $jsonPath. Failing build."
+                              exit 1
+                          } else {
+                              Write-Host "No rejecting policies found. Continuing build."
+                          }
+                      } else {
+                          Write-Host "$jsonPath does not exist. Continuing build."
+                      }
+      failOnStderr: false
+      errorActionPreference: stop
       
