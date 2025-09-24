@@ -53,7 +53,7 @@ def build_bfr_historical_data(
 ) -> pd.DataFrame | None:
     """
     Derive historical pupil numbers and revenue reserves from BFR SOFA data.
-    Also add Company reference number from academies.
+    Also add the historic company reference number from the historic academies file.
     """
     if academies_historical is not None and bfr_sofa_historical is not None:
         historic_bfr_with_crn = academies_historical.merge(
