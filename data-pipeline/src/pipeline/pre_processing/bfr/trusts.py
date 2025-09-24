@@ -1,11 +1,11 @@
-from json import load
 import logging
+from json import load
 from warnings import simplefilter
 
 import pandas as pd
 
-from .loader import load_bfr_sofa, load_bfr_3y
 from .calculations import calculate_metrics, slope_analysis
+from .loader import load_bfr_3y, load_bfr_sofa
 
 simplefilter(action="ignore", category=pd.errors.PerformanceWarning)
 simplefilter(action="ignore", category=FutureWarning)
@@ -268,7 +268,7 @@ def melt_revenue_reserve_numbers_from_bfr(bfr, current_year):
 def prepare_current_and_future_pupils(bfr_data, academies):
     """
     The current year BFR_SOFA (Y2P2) doesn't have current year pupil numbers as
-    it is released halfway through the year, so we get them from the academies 
+    it is released halfway through the year, so we get them from the academies
     data (aka the academy year census). Future years come from BFR_3Y.
     """
     bfr_pupils = bfr_data[(bfr_data["Category"] == "Pupil numbers")][
@@ -334,11 +334,13 @@ def build_bfr_data(
                 "Revenue reserve",
                 "Staff costs",
                 "Total expenditure",
-                "Self-generated income"
+                "Self-generated income",
             ]
         )
     ]
-    bfr_metrics = calculate_metrics(bfr_rows_for_normalised_finance_metrics.reset_index())
+    bfr_metrics = calculate_metrics(
+        bfr_rows_for_normalised_finance_metrics.reset_index()
+    )
     bfr_rows_for_slope_analysis = merged_bfr_with_2y_historic_data[
         merged_bfr_with_2y_historic_data["Category"] == "Revenue reserve"
     ]
@@ -354,9 +356,7 @@ def build_bfr_data(
     )
 
     # The BFR table is long/melted
-    it_spend_melted_rows = melt_it_spend_rows_from_bfr(
-        bfr_final_wide, current_year
-    )
+    it_spend_melted_rows = melt_it_spend_rows_from_bfr(bfr_final_wide, current_year)
     revenue_reserve_melted_rows = melt_revenue_reserve_numbers_from_bfr(
         bfr_final_wide, current_year
     )
