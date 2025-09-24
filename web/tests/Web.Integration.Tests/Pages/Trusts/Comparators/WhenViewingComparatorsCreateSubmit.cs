@@ -12,17 +12,19 @@ namespace Web.Integration.Tests.Pages.Trusts.Comparators;
 public class WhenViewingComparatorsCreateSubmit(SchoolBenchmarkingWebAppClient client) : PageBase<SchoolBenchmarkingWebAppClient>(client)
 {
     [Theory]
-    [InlineData(true)]
-    [InlineData(false)]
-    public async Task CanDisplay(bool isEdit)
+    [InlineData(true, null)]
+    [InlineData(false, null)]
+    [InlineData(true, "redirect-uri")]
+    [InlineData(false, "redirect-uri")]
+    public async Task CanDisplay(bool isEdit, string? redirectUri)
     {
         const string companyNumber = "12345";
-        var page = await SetupNavigateInitPage(companyNumber, isEdit);
+        var page = await SetupNavigateInitPage(companyNumber, isEdit, redirectUri);
         AssertPageLayout(page, isEdit);
-        DocumentAssert.AssertPageUrl(page, Paths.TrustComparatorsCreateSubmitted(companyNumber, isEdit).ToAbsolute());
+        DocumentAssert.AssertPageUrl(page, Paths.TrustComparatorsCreateSubmitted(companyNumber, isEdit, redirectUri).ToAbsolute());
     }
 
-    private async Task<IHtmlDocument> SetupNavigateInitPage(string companyNumber, bool isEdit)
+    private async Task<IHtmlDocument> SetupNavigateInitPage(string companyNumber, bool isEdit, string? redirectUri = null)
     {
         var trust = Fixture.Build<Trust>()
             .With(x => x.CompanyNumber, companyNumber)
@@ -50,7 +52,7 @@ public class WhenViewingComparatorsCreateSubmit(SchoolBenchmarkingWebAppClient c
             ])
             .SetupComparatorSetApi()
             .SetupHttpContextAccessor(sessionState)
-            .Navigate(Paths.TrustComparatorsCreateSubmit(trust.CompanyNumber));
+            .Navigate(Paths.TrustComparatorsCreateSubmit(trust.CompanyNumber, redirectUri));
 
         return page;
     }

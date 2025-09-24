@@ -7,17 +7,21 @@ namespace Web.Integration.Tests.Pages.Trusts.Comparators;
 
 public class WhenViewingComparatorsCreateByName(SchoolBenchmarkingWebAppClient client) : PageBase<SchoolBenchmarkingWebAppClient>(client)
 {
-    [Fact]
-    public async Task CanDisplay()
+    [Theory]
+    [InlineData(null)]
+    [InlineData("redirect-uri")]
+    public async Task CanDisplay(string? redirectUri)
     {
-        var (page, trust) = await SetupNavigateInitPage();
-        AssertPageLayout(page, trust);
+        var (page, trust) = await SetupNavigateInitPage(redirectUri);
+        AssertPageLayout(page, trust, redirectUri);
     }
 
-    [Fact]
-    public async Task CanAddTrustByName()
+    [Theory]
+    [InlineData(null)]
+    [InlineData("redirect-uri")]
+    public async Task CanAddTrustByName(string? redirectUri)
     {
-        var (page, trust) = await SetupNavigateInitPage();
+        var (page, trust) = await SetupNavigateInitPage(redirectUri);
         var action = page.QuerySelector("#choose-trust");
         Assert.NotNull(action);
 
@@ -27,21 +31,20 @@ public class WhenViewingComparatorsCreateByName(SchoolBenchmarkingWebAppClient c
                            "<input name=\"companyNumber\" value=\"07318714\" />";
         });
 
-        DocumentAssert.AssertPageUrl(page, Paths.TrustComparatorsCreateByName(trust.CompanyNumber).ToAbsolute());
+        DocumentAssert.AssertPageUrl(page, Paths.TrustComparatorsCreateByName(trust.CompanyNumber, redirectUri).ToAbsolute());
 
         var cta = page.QuerySelector("#create-set");
-        DocumentAssert.PrimaryCta(cta, "Create a set using these trusts", Paths.TrustComparatorsCreateSubmit(trust.CompanyNumber));
+        DocumentAssert.PrimaryCta(cta, "Create a set using these trusts", Paths.TrustComparatorsCreateSubmit(trust.CompanyNumber, redirectUri));
     }
 
-    private async Task<(IHtmlDocument page, Trust trust)> SetupNavigateInitPage()
+    private async Task<(IHtmlDocument page, Trust trust)> SetupNavigateInitPage(string? redirectUri = null)
     {
         var trust = Fixture.Build<Trust>()
             .With(x => x.CompanyNumber, "87654321")
             .Create();
 
         var page = await Client.SetupEstablishment(trust)
-            .SetupTrustInsightApi(new[]
-            {
+            .SetupTrustInsightApi([
                 new TrustCharacteristic
                 {
                     CompanyNumber = "07318714",
@@ -50,20 +53,20 @@ public class WhenViewingComparatorsCreateByName(SchoolBenchmarkingWebAppClient c
                     TotalPupils = 345,
                     TotalIncome = 123_456_789
                 }
-            })
+            ])
             .SetupHttpContextAccessor()
-            .Navigate(Paths.TrustComparatorsCreateByName(trust.CompanyNumber));
+            .Navigate(Paths.TrustComparatorsCreateByName(trust.CompanyNumber, redirectUri));
 
         return (page, trust);
     }
 
-    private static void AssertPageLayout(IHtmlDocument page, Trust trust)
+    private static void AssertPageLayout(IHtmlDocument page, Trust trust, string? redirectUri = null)
     {
-        DocumentAssert.BackLink(page, "Back", Paths.TrustComparatorsCreateBy(trust.CompanyNumber).ToAbsolute());
+        DocumentAssert.BackLink(page, "Back", Paths.TrustComparatorsCreateBy(trust.CompanyNumber, redirectUri).ToAbsolute());
         DocumentAssert.TitleAndH1(page,
             "Choose trusts to benchmark against - Financial Benchmarking and Insights Tool - GOV.UK",
             "Choose trusts to benchmark against");
         var cta = page.QuerySelector("main .govuk-button");
-        DocumentAssert.PrimaryCta(cta, "Choose trust", Paths.TrustComparatorsCreateByName(trust.CompanyNumber));
+        DocumentAssert.PrimaryCta(cta, "Choose trust", Paths.TrustComparatorsCreateByName(trust.CompanyNumber, redirectUri));
     }
 }

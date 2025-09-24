@@ -222,23 +222,23 @@ public static class Paths
         return $"/local-authority/search{queryString.ToUriComponent()}";
     }
 
-    public static string TrustComparators(string? companyNumber) => $"/trust/{companyNumber}/comparators";
+    public static string TrustComparators(string? companyNumber, string? redirectUri = null) => $"/trust/{companyNumber}/comparators{(redirectUri == null ? string.Empty : $"?redirectUri={redirectUri}")}";
 
-    public static string TrustComparatorsCreateBy(string? companyNumber) => $"/trust/{companyNumber}/comparators/create/by";
+    public static string TrustComparatorsCreateBy(string? companyNumber, string? redirectUri = null) => $"/trust/{companyNumber}/comparators/create/by{(redirectUri == null ? string.Empty : $"?redirectUri={redirectUri}")}";
 
-    public static string TrustComparatorsCreateByName(string? companyNumber) => $"/trust/{companyNumber}/comparators/create/by/name";
+    public static string TrustComparatorsCreateByName(string? companyNumber, string? redirectUri = null) => $"/trust/{companyNumber}/comparators/create/by/name{(redirectUri == null ? string.Empty : $"?redirectUri={redirectUri}")}";
 
-    public static string TrustComparatorsCreateByCharacteristic(string? companyNumber) => $"/trust/{companyNumber}/comparators/create/by/characteristic";
+    public static string TrustComparatorsCreateByCharacteristic(string? companyNumber, string? redirectUri = null) => $"/trust/{companyNumber}/comparators/create/by/characteristic{(redirectUri == null ? string.Empty : $"?redirectUri={redirectUri}")}";
 
-    public static string TrustComparatorsCreatePreview(string? companyNumber) => $"/trust/{companyNumber}/comparators/create/preview";
+    public static string TrustComparatorsCreatePreview(string? companyNumber, string? redirectUri = null) => $"/trust/{companyNumber}/comparators/create/preview{(redirectUri == null ? string.Empty : $"?redirectUri={redirectUri}")}";
 
-    public static string TrustComparatorsCreateSubmit(string? companyNumber) => $"/trust/{companyNumber}/comparators/create/submit";
+    public static string TrustComparatorsCreateSubmit(string? companyNumber, string? redirectUri = null) => $"/trust/{companyNumber}/comparators/create/submit{(redirectUri == null ? string.Empty : $"?redirectUri={redirectUri}")}";
 
-    public static string TrustComparatorsCreateSubmitted(string? companyNumber, bool? isEdit) => $"/trust/{companyNumber}/comparators/create/submitted{(isEdit == true ? "?updating=true" : string.Empty)}";
+    public static string TrustComparatorsCreateSubmitted(string? companyNumber, bool? isEdit, string? redirectUri = null) => $"/trust/{companyNumber}/comparators/create/submitted{(isEdit == true ? "?updating=true" : string.Empty)}{(redirectUri == null ? string.Empty : $"{(isEdit == true ? "&" : "?")}redirectUri={redirectUri}")}";
 
-    public static string TrustComparatorsRevert(string? companyNumber) => $"/trust/{companyNumber}/comparators/revert";
+    public static string TrustComparatorsRevert(string? companyNumber, string? redirectUri = null) => $"/trust/{companyNumber}/comparators/revert{(redirectUri == null ? string.Empty : $"?redirectUri={redirectUri}")}";
 
-    public static string TrustUserDefined(string? companyNumber, string? identifier) => $"/trust/{companyNumber}/user-defined/{identifier}";
+    public static string TrustUserDefined(string? companyNumber, string? identifier, string? redirectUri = null) => $"/trust/{companyNumber}/user-defined/{identifier}{(redirectUri == null ? string.Empty : $"?redirectUri={redirectUri}")}";
 
     public static string ApiSuggest(string search, string type) => $"api/suggest?search={search}&type={type}";
 

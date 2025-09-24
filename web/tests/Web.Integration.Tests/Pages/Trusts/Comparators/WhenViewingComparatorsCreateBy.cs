@@ -8,17 +8,21 @@ namespace Web.Integration.Tests.Pages.Trusts.Comparators;
 public class WhenViewingComparatorsCreateBy(SchoolBenchmarkingWebAppClient client)
     : PageBase<SchoolBenchmarkingWebAppClient>(client)
 {
-    [Fact]
-    public async Task CanDisplay()
+    [Theory]
+    [InlineData(null)]
+    [InlineData("redirect-uri")]
+    public async Task CanDisplay(string? redirectUri)
     {
-        var (page, trust) = await SetupNavigateInitPage();
-        AssertPageLayout(page, trust);
+        var (page, trust) = await SetupNavigateInitPage(redirectUri);
+        AssertPageLayout(page, trust, redirectUri);
     }
 
-    [Fact]
-    public async Task CanNavigateToComparatorsByName()
+    [Theory]
+    [InlineData(null)]
+    [InlineData("redirect-uri")]
+    public async Task CanNavigateToComparatorsByName(string? redirectUri)
     {
-        var (page, trust) = await SetupNavigateInitPage();
+        var (page, trust) = await SetupNavigateInitPage(redirectUri);
         var action = page.QuerySelector("main .govuk-button");
         Assert.NotNull(action);
 
@@ -30,13 +34,15 @@ public class WhenViewingComparatorsCreateBy(SchoolBenchmarkingWebAppClient clien
             });
         });
 
-        DocumentAssert.AssertPageUrl(page, Paths.TrustComparatorsCreateByName(trust.CompanyNumber).ToAbsolute());
+        DocumentAssert.AssertPageUrl(page, Paths.TrustComparatorsCreateByName(trust.CompanyNumber, redirectUri).ToAbsolute());
     }
 
-    [Fact]
-    public async Task CanNavigateToComparatorsByCharacteristic()
+    [Theory]
+    [InlineData(null)]
+    [InlineData("redirect-uri")]
+    public async Task CanNavigateToComparatorsByCharacteristic(string? redirectUri)
     {
-        var (page, trust) = await SetupNavigateInitPage();
+        var (page, trust) = await SetupNavigateInitPage(redirectUri);
         var action = page.QuerySelector("main .govuk-button");
         Assert.NotNull(action);
 
@@ -48,22 +54,22 @@ public class WhenViewingComparatorsCreateBy(SchoolBenchmarkingWebAppClient clien
             });
         });
 
-        DocumentAssert.AssertPageUrl(page, Paths.TrustComparatorsCreateByCharacteristic(trust.CompanyNumber).ToAbsolute());
+        DocumentAssert.AssertPageUrl(page, Paths.TrustComparatorsCreateByCharacteristic(trust.CompanyNumber, redirectUri).ToAbsolute());
     }
 
-    private async Task<(IHtmlDocument page, Trust Trust)> SetupNavigateInitPage()
+    private async Task<(IHtmlDocument page, Trust Trust)> SetupNavigateInitPage(string? redirectUri = null)
     {
         var trust = Fixture.Build<Trust>()
             .With(x => x.CompanyNumber, "12345678")
             .Create();
 
         var page = await Client.SetupEstablishment(trust)
-            .Navigate(Paths.TrustComparatorsCreateBy(trust.CompanyNumber));
+            .Navigate(Paths.TrustComparatorsCreateBy(trust.CompanyNumber, redirectUri));
 
         return (page, trust);
     }
 
-    private static void AssertPageLayout(IHtmlDocument page, Trust trust)
+    private static void AssertPageLayout(IHtmlDocument page, Trust trust, string? redirectUri = null)
     {
         var expectedBreadcrumbs = new[]
         {
@@ -76,6 +82,6 @@ public class WhenViewingComparatorsCreateBy(SchoolBenchmarkingWebAppClient clien
             "How do you want to choose your own set of trusts?");
 
         var cta = page.QuerySelector("main .govuk-button");
-        DocumentAssert.PrimaryCta(cta, "Continue", Paths.TrustComparatorsCreateBy(trust.CompanyNumber));
+        DocumentAssert.PrimaryCta(cta, "Continue", Paths.TrustComparatorsCreateBy(trust.CompanyNumber, redirectUri));
     }
 }
