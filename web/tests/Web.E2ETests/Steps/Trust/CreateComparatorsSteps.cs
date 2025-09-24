@@ -37,6 +37,17 @@ public class CreateComparatorsSteps(PageDriver driver)
         await _createComparatorsByPage.IsDisplayed();
     }
 
+    [Given("I am on compare by page with redirectUri '(.*)' for trust with company number '(.*)'")]
+    public async Task GivenIAmOnCompareByPageWithRedirectUriForTrustWithCompanyNumber(string redirectUri, string companyNumber)
+    {
+        var url = CreateComparatorsByUrl(companyNumber, redirectUri);
+        var page = await driver.Current;
+        await page.GotoAndWaitForLoadAsync(url);
+
+        _createComparatorsByPage = new CreateComparatorsByPage(page);
+        await _createComparatorsByPage.IsDisplayed();
+    }
+
     [When("I select the option By Characteristic and click continue")]
     public async Task WhenISelectTheOptionByCharacteristicAndClickContinue()
     {
@@ -99,6 +110,12 @@ public class CreateComparatorsSteps(PageDriver driver)
         await _trustBenchmarkSpendingPage.IsDisplayed();
     }
 
+    [Then("the '(.*)' page is displayed")]
+    public void ThenThePageIsDisplayed(string url)
+    {
+        Assert.Equal($"{TestConfiguration.ServiceUrl}{url}?comparator-generated=true", driver.Current.Result.Url);
+    }
+
     private async Task SelectTheOptionByAndClickContinue(ComparatorsByTypes type)
     {
         Assert.NotNull(_createComparatorsByPage);
@@ -118,5 +135,5 @@ public class CreateComparatorsSteps(PageDriver driver)
 
     private static string RevertComparatorsUrl(string urn) => $"{TestConfiguration.ServiceUrl}/trust/{urn}/comparators/revert";
 
-    private static string CreateComparatorsByUrl(string urn) => $"{TestConfiguration.ServiceUrl}/trust/{urn}/comparators/create/by";
+    private static string CreateComparatorsByUrl(string urn, string? redirectUri = null) => $"{TestConfiguration.ServiceUrl}/trust/{urn}/comparators/create/by{(redirectUri == null ? string.Empty : $"?redirectUri={redirectUri}")}";
 }
