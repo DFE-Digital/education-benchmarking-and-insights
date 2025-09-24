@@ -61,6 +61,13 @@ stages:
               echo "##vso[build.addbuildtag]Web"
             displayName: 'Set build tags'
 
+      - job: PackageValidate
+        displayName: "Validate open source packages"
+        steps:
+          - template: ..\common\validate-packages.yaml
+            parameters:
+              WorkingDir: '$(System.DefaultWorkingDirectory)/web'
+
       - job: FmtValidateTf
         displayName: "Lint and validate terraform"
         steps:

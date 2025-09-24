@@ -57,6 +57,13 @@ stages:
               echo "##vso[build.addbuildtag]Data pipeline"
             displayName: 'Set build tags'
 
+      - job: PackageValidate
+        displayName: "Validate open source packages"
+        steps:
+          - template: ..\common\validate-packages.yaml
+            parameters:
+              WorkingDir: '$(System.DefaultWorkingDirectory)/data-pipeline'
+
       - job: FmtValidateTf
         displayName: "Lint and validate terraform"
         steps:

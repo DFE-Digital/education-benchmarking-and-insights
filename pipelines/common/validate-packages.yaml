@@ -1,0 +1,11 @@
+parameters:
+  workingDir: '' 
+  
+steps:
+  - script: echo "##vso[task.setvariable variable=resolvedWorkingDir]${{ parameters.workingDir }}"
+    displayName: 'Set workingDir variable'
+
+  - task: WhiteSource@21
+    inputs:
+      cwd: $(resolvedWorkingDir)
+      

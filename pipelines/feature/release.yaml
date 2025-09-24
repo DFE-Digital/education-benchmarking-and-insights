@@ -89,6 +89,11 @@ stages:
             displayName: 'Set release build number'
             name: outputVars
 
+      - job: PackageValidate
+        displayName: "Validate open source packages"
+        steps:
+          - template: ..\common\validate-packages.yaml
+
   - stage: DeployCore
     dependsOn: [BuildNumber]
     displayName: 'Core : Deploy'

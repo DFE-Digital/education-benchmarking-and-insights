@@ -30,6 +30,13 @@ stages:
           - bash: echo "##vso[build.addbuildtag]Prototype"
             displayName: 'Set build tag'
 
+      - job: PackageValidate
+        displayName: "Validate open source packages"
+        steps:
+          - template: ..\common\validate-packages.yaml
+            parameters:
+              WorkingDir: '$(System.DefaultWorkingDirectory)/prototype'
+
       - job: FmtValidateTf
         displayName: "Lint and validate terraform"
         steps:

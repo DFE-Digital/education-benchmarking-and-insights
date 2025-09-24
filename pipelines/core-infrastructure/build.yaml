@@ -58,6 +58,13 @@ stages:
               echo "##vso[build.addbuildtag]Core infrastructure"
             displayName: 'Set build tags'
 
+      - job: PackageValidate
+        displayName: "Validate open source packages"
+        steps:
+          - template: ..\common\validate-packages.yaml
+            parameters:
+              WorkingDir: '$(System.DefaultWorkingDirectory)/core-infrastructure'
+
       - job: FmtValidateTf
         displayName: "Lint and validate terraform"
         steps:

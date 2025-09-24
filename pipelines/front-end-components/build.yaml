@@ -60,6 +60,10 @@ steps:
       workingDir: $(WorkingDir)
       verbose: false
 
+  - template: ..\common\validate-packages.yaml
+    parameters:
+      WorkingDir: '$(System.DefaultWorkingDirectory)/front-end-components'
+
   - task: Npm@1
     displayName: 'Install dependencies'
     inputs:

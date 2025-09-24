@@ -51,6 +51,13 @@ stages:
             displayName: 'Set release number'
             condition: and(succeeded(), eq(variables['ShouldDeploy'],'true'))
 
+      - job: PackageValidate
+        displayName: "Validate open source packages"
+        steps:
+          - template: ..\common\validate-packages.yaml
+            parameters:
+              WorkingDir: '$(System.DefaultWorkingDirectory)/support-analytics'
+
       - job: FmtValidateTf
         displayName: "Lint and validate terraform"
         steps:

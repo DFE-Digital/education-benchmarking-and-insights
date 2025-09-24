@@ -12,6 +12,13 @@ stages:
   - stage: BuildDeploy
     displayName: 'Build artifacts'
     jobs:
+      - job: PackageValidate
+        displayName: "Validate open source packages"
+        steps:
+          - template: ..\common\validate-packages.yaml
+            parameters:
+              WorkingDir: '$(System.DefaultWorkingDirectory)/performance-tests'
+
       - job: FmtValidateTf
         displayName: "Lint and validate terraform"
         steps:
