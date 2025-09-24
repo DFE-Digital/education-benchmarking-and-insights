@@ -57,6 +57,8 @@ def test_historical_bfr_sofa_none():
     )
 
     assert result is not None
+    assert "Trust Revenue reserve" in result.columns
+    assert list(result["Trust Revenue reserve"]) == [0.0]
 
 
 def test_historical_bfr():

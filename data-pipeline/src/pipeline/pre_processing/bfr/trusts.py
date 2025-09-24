@@ -55,6 +55,11 @@ def build_bfr_historical_data(
     Derive historical pupil numbers and revenue reserves from BFR SOFA data.
     Also add the historic company reference number from the historic academies file.
     """
+    # If there is no BFR SOFA, we can't get historic revenue/pupils
+    if academies_historical is not None and bfr_sofa_historical is None:
+        academies_historical["Trust Revenue reserve"] = 0.0
+        academies_historical["Total pupils in trust"] = 0
+        return academies_historical
     if academies_historical is not None and bfr_sofa_historical is not None:
         historic_bfr_with_crn = academies_historical.merge(
             bfr_sofa_historical[
@@ -82,7 +87,7 @@ def build_bfr_historical_data(
             how="left",
         )
         return historic_bfr_with_crn
-    return academies_historical
+    return None
 
 
 def aggregate_custom_sofa_categories(
