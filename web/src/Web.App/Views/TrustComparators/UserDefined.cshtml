@@ -1,8 +1,14 @@
-﻿@using Web.App.Extensions
-@using Web.App.TagHelpers
+﻿@using Web.App.Attributes
+@using Web.App.Extensions
 @model Web.App.ViewModels.TrustComparatorsViewModel
 @{
     ViewData[ViewDataKeys.Title] = PageTitles.TrustComparatorsUserDefined;
+    var routeValues = new Dictionary<string, object?>
+    {
+        { "companyNumber", Model.CompanyNumber },
+        { "identifier", Model.UserDefinedSetId },
+        { PersistRedirectUriQueryAttribute.RedirectUriQuery, ViewData[PersistRedirectUriQueryAttribute.RedirectUriQuery] }
+    };
 }
 
 @await Component.InvokeAsync("EstablishmentHeading", new
@@ -16,8 +22,7 @@
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-full">
         <p class="govuk-body">
-            <a class="govuk-link govuk-link--no-visited-state"
-               href="@Url.Action("Name", "TrustComparatorsCreateBy", new { companyNumber = Model.CompanyNumber, identifier = Model.UserDefinedSetId })">
+            <a class="govuk-link govuk-link--no-visited-state" href="@Url.Action("Name", "TrustComparatorsCreateBy", routeValues)">
                 Change your set of trusts
             </a>
         </p>

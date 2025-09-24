@@ -1,10 +1,14 @@
-﻿@using Web.App.Domain
-@using Web.App.TagHelpers
+﻿@using Web.App.Attributes
+@using Web.App.Domain
 @model Web.App.ViewModels.TrustComparatorsSubmittedViewModel
 @{
     ViewData[ViewDataKeys.Title] = Model.IsEdit
         ? PageTitles.TrustComparatorsSubmitEdit
         : PageTitles.TrustComparatorsSubmit;
+    var doneUri = ViewData[PersistRedirectUriQueryAttribute.RedirectUriQuery] ?? Url.Action("Index", "TrustComparators", new
+    {
+        companyNumber = Model.CompanyNumber
+    });
 }
 
 <div class="govuk-grid-row">
@@ -27,7 +31,7 @@
         function statusCheck() {
             if (done || failed) {
                 clearInterval(interval);
-                window.location.href = `/trust/@Model.CompanyNumber/comparators?comparator-generated=${!failed}`;
+                window.location.href = `@doneUri?comparator-generated=${!failed}`;
                 return;
             }
 

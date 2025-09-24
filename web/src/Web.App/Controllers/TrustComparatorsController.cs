@@ -18,6 +18,7 @@ namespace Web.App.Controllers;
 [Authorize]
 [Route("trust/{companyNumber}/comparators")]
 [ValidateCompanyNumber]
+[PersistRedirectUriQuery]
 public class TrustComparatorsController(
     ILogger<TrustComparatorsController> logger,
     IEstablishmentApi establishmentApi,

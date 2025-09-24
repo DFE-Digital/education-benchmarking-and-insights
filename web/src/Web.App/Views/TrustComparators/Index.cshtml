@@ -1,7 +1,12 @@
-@using Microsoft.FeatureManagement.Mvc.TagHelpers
+@using Web.App.Attributes
 @model Web.App.ViewModels.TrustToTrustViewModel
 @{
     ViewData[ViewDataKeys.Title] = PageTitles.TrustToTrustHome;
+    var routeValues = new Dictionary<string, object?>
+    {
+        { "companyNumber", Model.CompanyNumber },
+        { PersistRedirectUriQueryAttribute.RedirectUriQuery, ViewData[PersistRedirectUriQueryAttribute.RedirectUriQuery] }
+    };
 }
 
 @await Component.InvokeAsync("EstablishmentHeading", new
@@ -41,7 +46,7 @@
     <div class="govuk-grid-column-full">
         <p class="govuk-body">
             <a class="govuk-notification-banner__link"
-               href="@Url.Action("UserDefined", "TrustComparators", new { companyNumber = Model.CompanyNumber })">
+               href="@Url.Action("UserDefined", "TrustComparators", routeValues)">
                 View and change your set of trusts
             </a>
         </p>
