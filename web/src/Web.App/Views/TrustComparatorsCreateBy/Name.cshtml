@@ -1,10 +1,15 @@
-﻿@using Web.App.Domain
-@using Web.App.TagHelpers
+﻿@using Web.App.Attributes
+@using Web.App.Domain
 @using Web.App.ViewModels
 @model Web.App.ViewModels.TrustComparatorsByNameViewModel
 @{
     ViewData[ViewDataKeys.Title] = PageTitles.TrustComparatorsCreateByName;
     var comparatorSetFull = Model.ComparatorCount >= 9;
+    var routeValues = new Dictionary<string, object?>
+    {
+        { "companyNumber", Model.CompanyNumber },
+        { PersistRedirectUriQueryAttribute.RedirectUriQuery, ViewData[PersistRedirectUriQueryAttribute.RedirectUriQuery] }
+    };
 }
 
 @await Component.InvokeAsync("EstablishmentHeading", new
@@ -21,10 +26,7 @@
     </div>
     <div class="govuk-grid-column-full">
         @await Html.PartialAsync("_ErrorSummary")
-        @using (Html.BeginForm("Name", "TrustComparatorsCreateBy", new
-                {
-                    companyNumber = Model.CompanyNumber
-                }, FormMethod.Post, true, new
+        @using (Html.BeginForm("Name", "TrustComparatorsCreateBy", routeValues, FormMethod.Post, true, new
                 {
                     novalidate = "novalidate"
                 }))
@@ -50,10 +52,7 @@
     </div>
 </div>
 
-@using (Html.BeginForm("Remove", "TrustComparatorsCreateBy", new
-        {
-            companyNumber = Model.CompanyNumber
-        }, FormMethod.Post, true, new
+@using (Html.BeginForm("Remove", "TrustComparatorsCreateBy", routeValues, FormMethod.Post, true, new
         {
             novalidate = "novalidate"
         }))
@@ -64,8 +63,7 @@
 @if (Model.Trusts != null && Model.Trusts.Any(x => x.CompanyNumber != Model.CompanyNumber))
 {
     <p class="govuk-body govuk-!-text-align-right">
-        <a class="govuk-link govuk-link--no-visited-state"
-           href="@Url.Action("Revert", "TrustComparators", new { companyNumber = Model.CompanyNumber })">
+        <a class="govuk-link govuk-link--no-visited-state" href="@Url.Action("Revert", "TrustComparators", routeValues)">
             Remove all your choices
         </a>
     </p>

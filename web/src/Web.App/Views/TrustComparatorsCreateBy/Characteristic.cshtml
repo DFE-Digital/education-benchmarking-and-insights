@@ -1,11 +1,16 @@
-﻿@using Web.App.Domain
+﻿@using Web.App.Attributes
+@using Web.App.Domain
 @using Web.App.Extensions
-@using Web.App.TagHelpers
 @using Web.App.ViewModels
 @model Web.App.ViewModels.TrustComparatorsByCharacteristicViewModel
 @{
     ViewData[ViewDataKeys.Title] = PageTitles.TrustComparatorsCreateByCharacteristic;
     var phases = Model.Characteristic?.Phases.Select(p => p.Phase).OfType<string>().ToArray() ?? [];
+    var routeValues = new Dictionary<string, object?>
+    {
+        { "companyNumber", Model.CompanyNumber },
+        { PersistRedirectUriQueryAttribute.RedirectUriQuery, ViewData[PersistRedirectUriQueryAttribute.RedirectUriQuery] }
+    };
 }
 
 @await Component.InvokeAsync("EstablishmentHeading", new
@@ -18,10 +23,7 @@
 
 @await Html.PartialAsync("_ErrorSummary")
 
-@using (Html.BeginForm("Characteristic", "TrustComparatorsCreateBy", new
-        {
-            companyNumber = Model.CompanyNumber
-        }, FormMethod.Post, true, new
+@using (Html.BeginForm("Characteristic", "TrustComparatorsCreateBy", routeValues, FormMethod.Post, true, new
         {
             novalidate = "novalidate",
             @class = "characteristics"

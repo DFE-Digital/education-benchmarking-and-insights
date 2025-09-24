@@ -1,6 +1,16 @@
-﻿@model Web.App.ViewModels.TrustComparatorsViewModel
+﻿@using Web.App.Attributes
+@model Web.App.ViewModels.TrustComparatorsViewModel
 @{
     ViewData[ViewDataKeys.Title] = PageTitles.TrustComparatorsRevert;
+    var routeValues = new Dictionary<string, object?>
+    {
+        { "companyNumber", Model.CompanyNumber },
+        { PersistRedirectUriQueryAttribute.RedirectUriQuery, ViewData[PersistRedirectUriQueryAttribute.RedirectUriQuery] }
+    };
+    var cancelUri = ViewData[PersistRedirectUriQueryAttribute.RedirectUriQuery] ?? Url.Action("Index", "Trust", new
+    {
+        companyNumber = Model.CompanyNumber
+    });
 }
 
 @await Component.InvokeAsync("EstablishmentHeading", new
@@ -14,10 +24,7 @@
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
         <p class="govuk-body">This will return you to just viewing spending priorities for @Model.Name.</p>
-        @using (Html.BeginForm("Revert", "TrustComparators", new
-                {
-                    companyNumber = Model.CompanyNumber
-                }, FormMethod.Post, true, new
+        @using (Html.BeginForm("Revert", "TrustComparators", routeValues, FormMethod.Post, true, new
                 {
                     novalidate = "novalidate"
                 }))
@@ -26,7 +33,7 @@
                 <button type="submit" class="govuk-button" data-module="govuk-button">
                     Remove all trusts
                 </button>
-                <a class="govuk-link" href="@Url.Action("Index", "Trust", new { companyNumber = Model.CompanyNumber })" id="cancel-revert">Cancel</a>
+                <a class="govuk-link" href="@cancelUri" id="cancel-revert">Cancel</a>
             </div>
         }
     </div>

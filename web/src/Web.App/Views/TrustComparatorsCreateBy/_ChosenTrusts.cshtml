@@ -1,11 +1,19 @@
-﻿@using Web.App.Extensions
+﻿@using Web.App.Attributes
+@using Web.App.Extensions
 @model Web.App.ViewModels.TrustComparatorsChosenTrustsViewModel
+@{
+    var routeValues = new Dictionary<string, object?>
+    {
+        { "companyNumber", Model.CompanyNumber },
+        { PersistRedirectUriQueryAttribute.RedirectUriQuery, ViewData[PersistRedirectUriQueryAttribute.RedirectUriQuery] }
+    };
+}
 
 @if (Model.Trusts != null && Model.Trusts.Any())
 {
     <h1 class="govuk-heading-m">Chosen trusts (@Model.Trusts.Count(x => x.CompanyNumber != Model.CompanyNumber))</h1>
     <a
-        href="@Url.Action("Submit", new { companyNumber = Model.CompanyNumber })"
+        href="@Url.Action("Submit", routeValues)"
         role="button"
         draggable="false"
         class="govuk-button"
