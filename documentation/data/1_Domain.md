@@ -107,7 +107,7 @@ projection can be compiled for an organisation. This enables:
   - Used on the High Needs Benchmarking Tool (HNBT) to show budget vs outturn historical spend for trusts.
 - **Ancillary Data**:
   - Statistical Neighbours Data - Sourced from the old HNBT excel file, this is needed for the HNBT and joined to s251 on LA code.
-  - Age-related Population Estimates - ONS data to normalise LA spending per population. Joined on LA code. These estimates are from 2018 so do not match the s251 LA submissions in every case (most are fine).
+  - Age-related Population Estimates - ONS data to normalise LA spending per population. Joined on LA code. These estimates are from 2018 and so have 2018 LA geograhies, so do not match the current year s251 LA submissions in every case (most are fine).
   - Local Authority SEN2 ECHP plan values - Historical to current SEN expenditure data for LAs. Joined on both old and new LA code.
   
 <!-- Leave the rest of this page blank -->
