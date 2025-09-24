@@ -331,24 +331,36 @@ def build_bfr_data(
     )
 
     # try to add historic revenue reserve and pupil numbers
-    merged_bfr_with_1y_historic_data = merge_historic_bfr(merged_bfr_with_crn, historic_bfr_y2, "Y-2")
-    merged_bfr_with_2y_historic_data = merge_historic_bfr(merged_bfr_with_1y_historic_data, historic_bfr_y1, "Y-1")
+    merged_bfr_with_1y_historic_data = merge_historic_bfr(
+        merged_bfr_with_crn, historic_bfr_y2, "Y-2"
+    )
+    merged_bfr_with_2y_historic_data = merge_historic_bfr(
+        merged_bfr_with_1y_historic_data, historic_bfr_y1, "Y-1"
+    )
 
     # Y1 is taken to be BFR_SOFA Y2P2
     merged_bfr_with_2y_historic_data["Y1"] = merged_bfr_with_2y_historic_data["Y2P2"]
     bfr_metrics = BFR.calculate_metrics(merged_bfr_with_2y_historic_data.reset_index())
     bfr_slope_analysis = BFR.slope_analysis(merged_bfr_with_2y_historic_data)
-    bfr_metrics_and_slope_analysis = pd.concat([bfr_metrics, bfr_slope_analysis])  
+    bfr_metrics_and_slope_analysis = pd.concat([bfr_metrics, bfr_slope_analysis])
 
-    bfr_pupils = prepare_pupil_numbers(bfr_data=merged_bfr_with_2y_historic_data, academies=academies)
+    bfr_pupils = prepare_pupil_numbers(
+        bfr_data=merged_bfr_with_2y_historic_data, academies=academies
+    )
     bfr_with_historic_and_pupil_numbers = merged_bfr_with_2y_historic_data.merge(
         bfr_pupils, how="left", on="Trust UPIN"
     )
 
     # The BFR table is long/melted
-    it_spend_melted_rows = melt_it_spend_rows_from_bfr(bfr_with_historic_and_pupil_numbers, current_year)
-    revenue_reserve_melted_rows = melt_revenue_reserve_numbers_from_bfr(bfr_with_historic_and_pupil_numbers, current_year)
-    pupil_numbers_melted_rows = melt_pupil_numbers_from_bfr(bfr_with_historic_and_pupil_numbers, current_year)
+    it_spend_melted_rows = melt_it_spend_rows_from_bfr(
+        bfr_with_historic_and_pupil_numbers, current_year
+    )
+    revenue_reserve_melted_rows = melt_revenue_reserve_numbers_from_bfr(
+        bfr_with_historic_and_pupil_numbers, current_year
+    )
+    pupil_numbers_melted_rows = melt_pupil_numbers_from_bfr(
+        bfr_with_historic_and_pupil_numbers, current_year
+    )
     it_spend_and_revenue_reserve_melted_records = pd.concat(
         [revenue_reserve_melted_rows, it_spend_melted_rows]
     )
