@@ -87,6 +87,7 @@ def build_bfr_historical_data(
             how="left",
         )
         return historic_bfr_with_crn
+    # No Academies file means that we can't link the historic data on CRN
     return None
 
 
@@ -201,9 +202,9 @@ def melt_it_spend_rows_from_bfr(bfr, current_year):
         )
         .replace(
             {
-                "Y1P_Total": current_year,
-                "Y2P_Total": current_year + 1,
-                "Y3P_Total": current_year + 2,
+                "Y1P_Total": current_year - 1,
+                "Y2P_Total": current_year,
+                "Y3P_Total": current_year + 1,
             }
         )
         .set_index("Company Registration Number")
