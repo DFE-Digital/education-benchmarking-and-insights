@@ -2,6 +2,7 @@
 using AngleSharp.Dom;
 using AngleSharp.Html.Dom;
 using AutoFixture;
+using Web.App;
 using Web.App.Domain;
 using Web.App.Domain.Content;
 using Xunit;
@@ -24,13 +25,15 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
     };
 
     [Theory]
-    [InlineData(true)]
-    [InlineData(false)]
-    public async Task CanDisplay(bool showBanner)
+    [InlineData(true, true)]
+    [InlineData(false, true)]
+    [InlineData(true, false)]
+    [InlineData(false, false)]
+    public async Task CanDisplay(bool showBanner, bool bfrItSpendFeatureEnabled)
     {
-        var (page, trust, balance, ratings, schools, banner) = await SetupNavigateInitPage(showBanner: showBanner);
+        var (page, trust, balance, ratings, schools, banner) = await SetupNavigateInitPage(showBanner: showBanner, bfrItSpendFeatureEnabled: bfrItSpendFeatureEnabled);
 
-        AssertPageLayout(page, trust, balance, ratings, schools, banner);
+        AssertPageLayout(page, trust, balance, ratings, schools, banner, bfrItSpendFeatureEnabled);
     }
 
     [Fact]
@@ -80,7 +83,8 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
         bool includeRatings = true,
         bool includeSchools = true,
         bool includeBalance = true,
-        bool showBanner = false)
+        bool showBanner = false,
+        bool bfrItSpendFeatureEnabled = true)
     {
         var random = new Random();
 
@@ -126,6 +130,7 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
             : null;
 
         var client = Client
+            .SetupDisableFeatureFlags(bfrItSpendFeatureEnabled ? [] : [FeatureFlags.TrustItSpendBreakdown])
             .SetupEstablishment(trust, schools)
             .SetupInsights()
             .SetupMetricRagRating(ratings)
@@ -139,7 +144,7 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
         return (page, trust, balance, ratings, schools, banner);
     }
 
-    private static void AssertPageLayout(IHtmlDocument page, Trust trust, TrustBalance? balance, RagRating[] ratings, TrustSchool[] schools, Banner? banner)
+    private static void AssertPageLayout(IHtmlDocument page, Trust trust, TrustBalance? balance, RagRating[] ratings, TrustSchool[] schools, Banner? banner, bool bfrItSpendFeatureEnabled = true)
     {
         var expectedBreadcrumbs = new[]
         {
@@ -213,5 +218,28 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
         }
 
         DocumentAssert.Banner(page, banner);
+
+        // benchmarking tools
+        var toolsSection = page.GetElementById("benchmarking-and-planning-tools"); //NB: No RAG therefore section not shown
+        if (balance == null)
+        {
+            Assert.Null(toolsSection);
+            return;
+        }
+
+        DocumentAssert.Heading2(toolsSection, "Benchmarking and planning tools");
+
+        var toolsLinks = toolsSection?.ChildNodes.QuerySelectorAll("ul> li > h3 > a").ToList();
+        Assert.Equal(bfrItSpendFeatureEnabled ? 6 : 5, toolsLinks?.Count);
+
+        DocumentAssert.Link(toolsLinks?.ElementAtOrDefault(0), "View school spending", Paths.TrustComparison(trust.CompanyNumber).ToAbsolute());
+        DocumentAssert.Link(toolsLinks?.ElementAtOrDefault(1), "View pupil and workforce data", Paths.TrustCensus(trust.CompanyNumber).ToAbsolute());
+        DocumentAssert.Link(toolsLinks?.ElementAtOrDefault(2), "Curriculum and financial planning", Paths.TrustFinancialPlanning(trust.CompanyNumber).ToAbsolute());
+        DocumentAssert.Link(toolsLinks?.ElementAtOrDefault(3), "Trust to trust benchmarking", Paths.TrustComparators(trust.CompanyNumber).ToAbsolute());
+        DocumentAssert.Link(toolsLinks?.ElementAtOrDefault(bfrItSpendFeatureEnabled ? 5 : 4), "Forecast and risk", Paths.TrustForecast(trust.CompanyNumber).ToAbsolute());
+        if (bfrItSpendFeatureEnabled)
+        {
+            DocumentAssert.Link(toolsLinks?.ElementAtOrDefault(4), "Benchmark IT spending", Paths.TrustComparisonItSpend(trust.CompanyNumber).ToAbsolute());
+        }
     }
 }

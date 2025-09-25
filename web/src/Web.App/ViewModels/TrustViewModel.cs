@@ -104,9 +104,10 @@ public class TrustViewModel(Trust trust)
         trust.CompanyNumber,
         FinanceTools.CompareYourCosts,
         FinanceTools.BenchmarkCensus,
+        FinanceTools.FinancialPlanning,
         FinanceTools.CentralServices,
-        FinanceTools.ForecastRisk,
-        FinanceTools.FinancialPlanning);
+        FinanceTools.SpendingComparisonIt,
+        FinanceTools.ForecastRisk);
 
     private IEnumerable<(string? OverallPhase, IOrderedEnumerable<RagSchoolViewModel> Schools)> GroupedSchools { get; } = [];
 

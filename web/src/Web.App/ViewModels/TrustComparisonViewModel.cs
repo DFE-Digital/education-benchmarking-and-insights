@@ -22,7 +22,8 @@ public class TrustComparisonViewModel(Trust trust, CostCodes costCodes)
     public FinanceToolsViewModel Tools => new(
         trust.CompanyNumber,
         FinanceTools.BenchmarkCensus,
+        FinanceTools.FinancialPlanning,
         FinanceTools.CentralServices,
-        FinanceTools.ForecastRisk,
-        FinanceTools.FinancialPlanning);
+        FinanceTools.SpendingComparisonIt,
+        FinanceTools.ForecastRisk);
 }
