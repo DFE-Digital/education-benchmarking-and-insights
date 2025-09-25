@@ -73,29 +73,33 @@ def build_bfr_historical_data(
     return None
 
 
+def aggregate_efalines_over_years(
+    bfr, efa_lines: list[int], year_cols: list[str], aggregated_category_name: str
+):
+    bfr_aggregated_category_rows = (
+        bfr[bfr["EFALineNo"].isin(efa_lines)]
+        .groupby(["Trust UPIN"])[year_cols]
+        .sum()
+        .reset_index()
+    )
+    bfr_aggregated_category_rows["Category"] = aggregated_category_name
+    return bfr_aggregated_category_rows
+
+
 def aggregate_custom_sofa_categories(
     bfr_sofa_filtered,
 ) -> tuple[pd.DataFrame, pd.DataFrame]:
-    """Create custom aggregate categories from BFR SOFA data"""
-    self_gen_income = (
-        bfr_sofa_filtered[
-            bfr_sofa_filtered["EFALineNo"].isin(SOFA_SELF_GENERATED_INCOME_EFALINES)
-        ]
-        .groupby(["Trust UPIN"])[SOFA_YEAR_COLS]
-        .sum()
-        .reset_index()
+    """Create custom aggregate categories from BFR SOFA data
+    Return just the new category rows, summed over year"""
+    self_gen_income = aggregate_efalines_over_years(
+        bfr_sofa_filtered,
+        SOFA_SELF_GENERATED_INCOME_EFALINES,
+        SOFA_YEAR_COLS,
+        "Self-generated income",
     )
-    self_gen_income["Category"] = "Self-generated income"
-
-    grant_funding = (
-        bfr_sofa_filtered[
-            bfr_sofa_filtered["EFALineNo"].isin(SOFA_GRANT_FUNDING_EFALINES)
-        ]
-        .groupby(["Trust UPIN"])[SOFA_YEAR_COLS]
-        .sum()
-        .reset_index()
+    grant_funding = aggregate_efalines_over_years(
+        bfr_sofa_filtered, SOFA_GRANT_FUNDING_EFALINES, SOFA_YEAR_COLS, "Grant funding"
     )
-    grant_funding["Category"] = "Grant funding"
 
     return self_gen_income, grant_funding
 
@@ -126,8 +130,8 @@ def preprocess_bfr_sofa(bfr_sofa_raw):
         [bfr_sofa_filtered, sofa_self_generated_income, sofa_grant_funding]
     ).drop_duplicates()
     # Rename categories for FBIT
-    bfr_sofa_with_aggregated_categories["Category"].replace(
-        BFR_CATEGORY_MAPPINGS, inplace=True
+    bfr_sofa_with_aggregated_categories["Category"] = (
+        bfr_sofa_with_aggregated_categories["Category"].replace(BFR_CATEGORY_MAPPINGS)
     )
 
     return bfr_sofa_with_aggregated_categories
@@ -135,7 +139,7 @@ def preprocess_bfr_sofa(bfr_sofa_raw):
 
 def preprocess_bfr_3y(bfr_3y_raw):
     # Normalise line numbers between SOFA/3Y and filter 3Y
-    bfr_3y_raw["EFALineNo"].replace(BFR_3Y_TO_SOFA_MAPPINGS, inplace=True)
+    bfr_3y_raw["EFALineNo"] = bfr_3y_raw["EFALineNo"].replace(BFR_3Y_TO_SOFA_MAPPINGS)
     bfr_3y_filtered = bfr_3y_raw[
         bfr_3y_raw["EFALineNo"].isin(
             [*BFR_3Y_TO_SOFA_MAPPINGS.values(), OTHER_COSTS_EFALINE]
@@ -160,8 +164,8 @@ def prepare_current_and_future_pupils(bfr_data, academies):
     bfr_pupils[THREE_YEAR_PROJECTION_COLS] = bfr_pupils[
         THREE_YEAR_PROJECTION_COLS
     ].apply(lambda x: x / 1000, axis=1)
-    bfr_pupils.rename(
-        columns={"Y2": "Pupils Y2", "Y3": "Pupils Y3", "Y4": "Pupils Y4"}, inplace=True
+    bfr_pupils = bfr_pupils.rename(
+        columns={"Y2": "Pupils Y2", "Y3": "Pupils Y3", "Y4": "Pupils Y4"}
     )
     bfr_pupils = bfr_pupils.merge(
         academies[["Trust UPIN", "Total pupils in trust"]]
