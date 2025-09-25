@@ -242,7 +242,7 @@ def melt_pupil_numbers_from_bfr(bfr, current_year):
     )
 
 
-def melt_revenue_reserve_numbers_from_bfr(bfr, current_year):
+def get_forecast_and_risk_numbers_from_bfr(bfr, current_year):
     return (
         bfr[bfr["EFALineNo"].isin([SOFA_TRUST_REVENUE_RESERVE_EFALINE])]
         .melt(
@@ -358,14 +358,14 @@ def build_bfr_data(
 
     # The BFR table is long/melted
     it_spend_melted_rows = melt_it_spend_rows_from_bfr(bfr_final_wide, current_year)
-    revenue_reserve_melted_rows = melt_revenue_reserve_numbers_from_bfr(
+    forecast_and_risk_melted_rows = get_forecast_and_risk_numbers_from_bfr(
         bfr_final_wide, current_year
     )
     pupil_numbers_melted_rows = melt_pupil_numbers_from_bfr(
         bfr_final_wide, current_year
     )
     it_spend_and_revenue_reserve_melted_records = pd.concat(
-        [revenue_reserve_melted_rows, it_spend_melted_rows]
+        [forecast_and_risk_melted_rows, it_spend_melted_rows]
     )
 
     # Add pupil numbers to final melted rows
