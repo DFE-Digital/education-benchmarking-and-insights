@@ -79,7 +79,7 @@ public class CreateComparatorsSteps(PageDriver driver)
     public async Task WhenIClickTheCreateSetButton()
     {
         Assert.NotNull(_createComparatorsByNamePage);
-        _trustBenchmarkSpendingPage = await _createComparatorsByNamePage.ClickCreateSetButton();
+        _trustBenchmarkSpendingPage = await _createComparatorsByNamePage.ClickCreateSetButton(p => new TrustBenchmarkSpendingPage(p));
     }
 
     [Then("the create comparators by page is displayed")]

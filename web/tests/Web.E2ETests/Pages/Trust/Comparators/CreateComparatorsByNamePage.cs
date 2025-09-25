@@ -38,11 +38,11 @@ public class CreateComparatorsByNamePage(IPage page) : ICreateComparatorsByPage
         await ChooseTrustButton.ClickAsync();
     }
 
-    public async Task<TrustBenchmarkSpendingPage> ClickCreateSetButton()
+    public async Task<T> ClickCreateSetButton<T>(Func<IPage, T> pageBuilder)
     {
         await CreateSetButton.ShouldBeVisible();
         await CreateSetButton.ClickAsync();
         await page.WaitForURLAsync(u => u.EndsWith("?comparator-generated=true"));
-        return new TrustBenchmarkSpendingPage(page);
+        return pageBuilder(page);
     }
 }
