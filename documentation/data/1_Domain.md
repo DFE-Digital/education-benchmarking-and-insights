@@ -46,7 +46,7 @@ projection can be compiled for an organisation. This enables:
   - Projected revenue and capital income/expenditure
   - Forecasted cash flow, loans, and reserves
 - **Usage examples**:
-  - Used on the Forecast and Risk page (the old High Needs Benchmarking Tool/HNBT) alongside actuals from AAR data to show predicted vs actual spend for trusts.
+  - Used on the Forecast and Risk page alongside actuals from AAR data to show predicted vs actual spend for trusts.
 - **Ancillary Data**:
   - BFR_3Y contains expenditure forecasts for trusts but since the Forecast and Risk page shows data going back 2 years from the current year as well as a forecast going forward, previous BFR_SOFA releases are used to show what the predicted spend was for that year (this keeps one trend line as BFR values and one trend line as actuals from AAR). For example, the 2024 Forecast and Risk page would show the 2024 BFR_SOFA prediction against 2024 and the 2023 BFR_SOFA prediction against 2023.
   - For Forecast and Risk to correlate AAR actual expenditure with BFR datapoints, a common point of reference is needed. BFR links to AAR on Trust UPIN to get the Company Reference Number, which acts as this common reference.
@@ -103,7 +103,7 @@ projection can be compiled for an organisation. This enables:
 - **Usage examples**:
   - Used to find comparator LAs and form comparator sets.
   - LA expenditure is sorted into cost categories, normalised (eg per pupil), and benchmarked against comparators.
-  - Used on the Forecast and Risk page to show budget vs outturn historical spend for trusts.
+  - Used on the High Needs page (which replaced the old High Needs Benchmarking Tool/HNBT) to show spending priorities for LAs.
 - **Ancillary Data**:
   - Statistical Neighbours Data - Sourced from the old HNBT excel file, this is needed for the Forecast and Risk page and joined to s251 on LA code.
   - Age-related Population Estimates - ONS data to normalise LA spending per population. Joined on LA code. These estimates are from 2018 and so have 2018 LA geograhies, so do not match the current year s251 LA submissions in every case (most are fine).
