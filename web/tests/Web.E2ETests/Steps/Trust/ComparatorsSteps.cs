@@ -64,7 +64,7 @@ public class ComparatorsSteps(PageDriver driver)
     public async Task WhenIClickTheCreateSetButton()
     {
         Assert.NotNull(_createComparatorsByNamePage);
-        _trustBenchmarkSpendingPage = await _createComparatorsByNamePage.ClickCreateSetButton();
+        _trustBenchmarkSpendingPage = await _createComparatorsByNamePage.ClickCreateSetButton(p => new TrustBenchmarkSpendingPage(p));
     }
 
     [When("I click on view as table")]
