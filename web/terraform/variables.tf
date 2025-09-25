@@ -21,6 +21,7 @@ variable "configuration" {
       SchoolSpendingPrioritiesSsrCharts = optional(bool, true)
       CfrItSpendBreakdown               = optional(bool, true)
       News                              = optional(bool, false)
+      BfrItSpendBreakdown               = optional(bool, false)
     })
     CacheOptions = object({
       ReturnYears = object({
@@ -47,7 +48,8 @@ variable "configuration" {
       front_door_waf_policy_sku_name = "Standard_AzureFrontDoor"
       waf_mode                       = "Detection"
       features = {
-        News = true
+        News                = true
+        BfrItSpendBreakdown = true
       },
       CacheOptions = {
         ReturnYears = {
@@ -73,7 +75,8 @@ variable "configuration" {
       front_door_waf_policy_sku_name = "Standard_AzureFrontDoor"
       waf_mode                       = "Detection"
       features = {
-        News = true
+        News                = true
+        BfrItSpendBreakdown = true
       },
       CacheOptions = {
         ReturnYears = {
@@ -98,7 +101,8 @@ variable "configuration" {
       front_door_waf_policy_sku_name = "Standard_AzureFrontDoor"
       waf_mode                       = "Prevention"
       features = {
-        News = true
+        News                = true
+        BfrItSpendBreakdown = true
       },
       CacheOptions = {
         ReturnYears = {
@@ -124,8 +128,9 @@ variable "configuration" {
       front_door_waf_policy_sku_name = "Standard_AzureFrontDoor"
       waf_mode                       = "Detection"
       features = {
-        CfrItSpendBreakdown = true,
+        CfrItSpendBreakdown = true
         News                = true
+        BfrItSpendBreakdown = true
       },
       CacheOptions = {
         ReturnYears = {
