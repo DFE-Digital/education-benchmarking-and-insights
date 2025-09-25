@@ -19,7 +19,8 @@ public class TrustCensusViewModel(Trust trust)
     public FinanceToolsViewModel Tools => new(
         trust.CompanyNumber,
         FinanceTools.CompareYourCosts,
+        FinanceTools.FinancialPlanning,
         FinanceTools.CentralServices,
-        FinanceTools.ForecastRisk,
-        FinanceTools.FinancialPlanning);
+        FinanceTools.SpendingComparisonIt,
+        FinanceTools.ForecastRisk);
 }

@@ -12,12 +12,14 @@ namespace Web.Integration.Tests.Pages.Trusts;
 
 public class WhenViewingComparison(SchoolBenchmarkingWebAppClient client) : PageBase<SchoolBenchmarkingWebAppClient>(client)
 {
-    [Fact]
-    public async Task CanDisplay()
+    [Theory]
+    [InlineData(true)]
+    [InlineData(false)]
+    public async Task CanDisplay(bool bfrItSpendFeatureEnabled)
     {
-        var (page, trust) = await SetupNavigateInitPage();
+        var (page, trust) = await SetupNavigateInitPage(bfrItSpendFeatureEnabled);
 
-        AssertPageLayout(page, trust);
+        AssertPageLayout(page, trust, bfrItSpendFeatureEnabled);
     }
 
     [Fact]
@@ -56,7 +58,7 @@ public class WhenViewingComparison(SchoolBenchmarkingWebAppClient client) : Page
         DocumentAssert.AssertPageUrl(page, Paths.TrustComparison(companyNumber).ToAbsolute(), HttpStatusCode.InternalServerError);
     }
 
-    private async Task<(IHtmlDocument page, Trust trust)> SetupNavigateInitPage()
+    private async Task<(IHtmlDocument page, Trust trust)> SetupNavigateInitPage(bool bfrItSpendFeatureEnabled = true)
     {
         var trust = Fixture.Build<Trust>()
             .With(x => x.CompanyNumber, "12345678")
@@ -72,14 +74,16 @@ public class WhenViewingComparison(SchoolBenchmarkingWebAppClient client) : Page
 
         var schools = primarySchools.Concat(secondarySchools).ToArray();
 
-        var page = await Client.SetupEstablishment(trust, schools)
+        var page = await Client
+            .SetupDisableFeatureFlags(bfrItSpendFeatureEnabled ? [] : [FeatureFlags.TrustItSpendBreakdown])
+            .SetupEstablishment(trust, schools)
             .SetupInsights()
             .Navigate(Paths.TrustComparison(trust.CompanyNumber));
 
         return (page, trust);
     }
 
-    private static void AssertPageLayout(IHtmlDocument page, Trust trust)
+    private static void AssertPageLayout(IHtmlDocument page, Trust trust, bool bfrItSpendFeatureEnabled = true)
     {
         var expectedBreadcrumbs = new[]
         {
@@ -112,10 +116,20 @@ public class WhenViewingComparison(SchoolBenchmarkingWebAppClient client) : Page
         string[] expectedPhases = trust.Schools.Length > 1 ? [OverallPhaseTypes.Secondary, OverallPhaseTypes.Primary] : [OverallPhaseTypes.Primary];
         Assert.Equal(expectedPhases.ToJson(Formatting.None), dataPhases);
 
-        var toolsSection = page.GetElementById("benchmarking-and-planning-tools");
+        // benchmarking tools
+        var toolsSection = page.GetElementById("benchmarking-and-planning-tools"); //NB: No RAG therefore section not shown
         DocumentAssert.Heading2(toolsSection, "Benchmarking and planning tools");
 
         var toolsLinks = toolsSection?.ChildNodes.QuerySelectorAll("ul> li > h3 > a").ToList();
-        Assert.Equal(4, toolsLinks?.Count);
+        Assert.Equal(bfrItSpendFeatureEnabled ? 5 : 4, toolsLinks?.Count);
+
+        DocumentAssert.Link(toolsLinks?.ElementAtOrDefault(0), "View pupil and workforce data", Paths.TrustCensus(trust.CompanyNumber).ToAbsolute());
+        DocumentAssert.Link(toolsLinks?.ElementAtOrDefault(1), "Curriculum and financial planning", Paths.TrustFinancialPlanning(trust.CompanyNumber).ToAbsolute());
+        DocumentAssert.Link(toolsLinks?.ElementAtOrDefault(2), "Trust to trust benchmarking", Paths.TrustComparators(trust.CompanyNumber).ToAbsolute());
+        DocumentAssert.Link(toolsLinks?.ElementAtOrDefault(bfrItSpendFeatureEnabled ? 4 : 3), "Forecast and risk", Paths.TrustForecast(trust.CompanyNumber).ToAbsolute());
+        if (bfrItSpendFeatureEnabled)
+        {
+            DocumentAssert.Link(toolsLinks?.ElementAtOrDefault(3), "Benchmark IT spending", Paths.TrustComparisonItSpend(trust.CompanyNumber).ToAbsolute());
+        }
     }
 }
