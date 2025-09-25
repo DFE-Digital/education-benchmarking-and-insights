@@ -3,7 +3,6 @@ import pandas as pd
 
 
 def calculate_metrics(bfr: pd.DataFrame) -> pd.DataFrame:
-
     # based on the data, balance values should be the position at the end of Y2P2.
     # while costs and incomes should be the sum of Y2P1 and Y2P2 since they represent
     # expenditure or income over those periods.
