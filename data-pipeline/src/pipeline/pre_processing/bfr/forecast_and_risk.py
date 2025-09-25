@@ -1,6 +1,7 @@
-from .config import SOFA_TRUST_REVENUE_RESERVE_EFALINE, THREE_YEAR_PROJECTION_COLS
-from .calculations import calculate_metrics, slope_analysis
 import pandas as pd
+
+from .calculations import calculate_metrics, slope_analysis
+from .config import SOFA_TRUST_REVENUE_RESERVE_EFALINE, THREE_YEAR_PROJECTION_COLS
 
 
 def melt_forecast_and_risk_pupil_numbers_from_bfr(bfr, current_year):
