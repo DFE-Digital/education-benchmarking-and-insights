@@ -43,6 +43,7 @@ parameters:
       - cfr-file-generation
       - monthly-reporting
       - chart-principles
+      - chart-development-workflow
 
 stages:
   - stage: Validate
