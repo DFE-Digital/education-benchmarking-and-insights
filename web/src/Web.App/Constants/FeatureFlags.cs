@@ -7,4 +7,5 @@ public static class FeatureFlags
     public const string SchoolSpendingPrioritiesSsrCharts = nameof(SchoolSpendingPrioritiesSsrCharts);
     public const string CfrItSpendBreakdown = nameof(CfrItSpendBreakdown);
     public const string News = nameof(News);
+    public const string BfrItSpendBreakdown = nameof(BfrItSpendBreakdown);
 }

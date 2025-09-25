@@ -29,6 +29,8 @@ public static class Paths
 
     public static string TrustComparison(string? companyNumber) => $"/trust/{companyNumber}/comparison";
 
+    public static string TrustComparisonItSpend(string? companyNumber) => $"/trust/{companyNumber}/benchmark-it-spending";
+
     public static string TrustCensus(string? companyNumber) => $"/trust/{companyNumber}/census";
 
     public static string TrustFinancialPlanning(string? companyNumber) => $"/trust/{companyNumber}/financial-planning";
