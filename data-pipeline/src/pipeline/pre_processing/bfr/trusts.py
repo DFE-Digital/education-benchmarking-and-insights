@@ -3,25 +3,25 @@ from warnings import simplefilter
 
 import pandas as pd
 
-from .loader import load_bfr_3y, load_bfr_sofa
-from .it_spend import get_bfr_it_spend_rows
-from .forecast_and_risk import get_bfr_forecast_and_risk_data
 from .config import (
-    SOFA_TOTAL_REVENUE_EXPENDITURE,
-    SOFA_PUPIL_NUMBER_EFALINE,
+    BFR_3Y_TO_SOFA_MAPPINGS,
+    BFR_CATEGORY_MAPPINGS,
+    OTHER_COSTS_EFALINE,
     SOFA_GRANT_FUNDING_EFALINES,
     SOFA_IT_SPEND_LINES,
     SOFA_OTHER_COSTS_EFALINE,
+    SOFA_PUPIL_NUMBER_EFALINE,
     SOFA_SELF_GENERATED_INCOME_EFALINES,
     SOFA_SUBTOTAL_INCOME_EFALINE,
+    SOFA_TOTAL_REVENUE_EXPENDITURE,
     SOFA_TOTAL_REVENUE_INCOME,
     SOFA_TRUST_REVENUE_RESERVE_EFALINE,
     SOFA_YEAR_COLS,
-    OTHER_COSTS_EFALINE,
     THREE_YEAR_PROJECTION_COLS,
-    BFR_CATEGORY_MAPPINGS,
-    BFR_3Y_TO_SOFA_MAPPINGS
 )
+from .forecast_and_risk import get_bfr_forecast_and_risk_data
+from .it_spend import get_bfr_it_spend_rows
+from .loader import load_bfr_3y, load_bfr_sofa
 
 simplefilter(action="ignore", category=pd.errors.PerformanceWarning)
 simplefilter(action="ignore", category=FutureWarning)
@@ -126,7 +126,9 @@ def preprocess_bfr_sofa(bfr_sofa_raw):
         [bfr_sofa_filtered, sofa_self_generated_income, sofa_grant_funding]
     ).drop_duplicates()
     # Rename categories for FBIT
-    bfr_sofa_with_aggregated_categories["Category"].replace(BFR_CATEGORY_MAPPINGS, inplace=True)
+    bfr_sofa_with_aggregated_categories["Category"].replace(
+        BFR_CATEGORY_MAPPINGS, inplace=True
+    )
 
     return bfr_sofa_with_aggregated_categories
 
@@ -197,8 +199,14 @@ def build_bfr_data(
     )
 
     bfr_it_spend_rows = get_bfr_it_spend_rows(merged_bfr_with_crn, current_year)
-    bfr_forecast_and_risk_rows, bfr_forecast_and_risk_metrics = get_bfr_forecast_and_risk_data(
-        merged_bfr_with_crn, historic_bfr_y2, historic_bfr_y1, current_year, academies
+    bfr_forecast_and_risk_rows, bfr_forecast_and_risk_metrics = (
+        get_bfr_forecast_and_risk_data(
+            merged_bfr_with_crn,
+            historic_bfr_y2,
+            historic_bfr_y1,
+            current_year,
+            academies,
+        )
     )
     bfr_final_long = pd.concat([bfr_forecast_and_risk_rows, bfr_it_spend_rows])
 
