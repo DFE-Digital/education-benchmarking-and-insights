@@ -46,7 +46,7 @@ projection can be compiled for an organisation. This enables:
   - Projected revenue and capital income/expenditure
   - Forecasted cash flow, loans, and reserves
 - **Usage examples**:
-  - Used on the Forecast and Risk page alongside actuals from AAR data to show predicted vs actual spend for trusts.
+  - Used on the Forecast and Risk page alongside actuals from AAR data to show time series grapahs of predicted vs actual spend for trusts.
 - **Ancillary Data**:
   - BFR_3Y contains expenditure forecasts for trusts but since the Forecast and Risk page shows data going back 2 years from the current year as well as a forecast going forward, previous BFR_SOFA releases are used to show what the predicted spend was for that year (this keeps one trend line as BFR values and one trend line as actuals from AAR). For example, the 2024 Forecast and Risk page would show the 2024 BFR_SOFA prediction against 2024 and the 2023 BFR_SOFA prediction against 2023.
   - For Forecast and Risk to correlate AAR actual expenditure with BFR datapoints, a common point of reference is needed. BFR links to AAR on Trust UPIN to get the Company Reference Number, which acts as this common reference.
