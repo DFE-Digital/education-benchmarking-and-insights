@@ -10,13 +10,13 @@ namespace Web.App.Controllers;
 [Authorize]
 [Route("trust/{companyNumber}/benchmark-it-spending")]
 [ValidateCompanyNumber]
-[FeatureGate(FeatureFlags.BfrItSpendBreakdown)]
+[FeatureGate(FeatureFlags.TrustItSpendBreakdown)]
 public class TrustComparisonItSpendController : Controller
 {
     [HttpGet]
     [TrustRequestTelemetry(TrackedRequestFeature.BenchmarkItSpend)]
-    public IActionResult Index(string companyNumber)
+    public IActionResult Index(string companyNumber) => new NotFoundObjectResult(new
     {
-        return new NotFoundObjectResult(new { companyNumber });
-    }
+        companyNumber
+    });
 }

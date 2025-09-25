@@ -30,7 +30,7 @@ public class WhenAFeatureIsDisabled(SchoolBenchmarkingWebAppClient client)
     [Fact]
     public async Task TrustComparisonItSpendRedirectsToFeatureDisabled()
     {
-        var page = await Client.SetupDisableFeatureFlags(FeatureFlags.BfrItSpendBreakdown)
+        var page = await Client.SetupDisableFeatureFlags(FeatureFlags.TrustItSpendBreakdown)
             .Navigate(Paths.TrustComparisonItSpend("00000001"));
 
         PageAssert.IsFeatureDisabledPage(page);

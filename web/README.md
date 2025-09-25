@@ -98,7 +98,7 @@ Feature flags may also be defined in the `FeatureManagement` section:
 | `SchoolSpendingPrioritiesSsrCharts` | Replaces the client rendered React/Recharts-derived charts on the School Spending Priorities page with server side rendered charts |
 | `CfrItSpendBreakdown`               | Displays IT spend within subcategories as submitted in CFRs from 2024-5 onwards                                                    |
 | `News`                              | Displays news article pages, index and footer link                                                                                 |
-| `BfrItSpendBreakdown`               | Displays IT spend in Trust-Trust benchmarking as submitted in BFRs from 2024-5 onwards                                             |
+| `TrustItSpendBreakdown`             | Displays IT spend in Trust-Trust benchmarking as submitted in BFRs from 2024-5 onwards                                             |
 
 #### CacheOptions
 
