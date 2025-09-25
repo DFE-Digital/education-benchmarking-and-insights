@@ -8,7 +8,7 @@ The main checks on CFR data relate to the fields for federated schools. A federa
 
 Federated schools receiving a single budget share should report collectively in their CFR return. There should therefore be only one CFR return made for federated schools. The “lead school” in the federation should make the return while including the LA Establishment (`LAEstab`) numbers of other schools within its federation. There should be no individual return from schools within a federation other than the lead school. In practice however, some schools submit returns both through a federation and on their own, resulting in duplicate submissions which need to be resolved as part of preprocessing.
 
-![Federated School Example](../images/federated-school.png)
+![Federated School Example](./images/federated-school.png)
 
 The image above shows an example of a federated school with the lead school alone actioning the financial return. There is validation in the data collection to identify federation reporting issues but it is possible that some errors remain. The mis-recording of federated schools can cause issues such as duplication and incorrect totals.
 
