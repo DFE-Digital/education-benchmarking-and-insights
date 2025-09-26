@@ -55,8 +55,7 @@ public class MonitorCommercialResourcesFunction(IDatabaseFactory dbFactory,
     {
         try
         {
-            var request = new HttpRequestMessage(HttpMethod.Head, resource.Url);
-            var response = await _client.SendAsync(request);
+            var response = await _client.GetAsync(resource.Url);
 
             logger.LogInformation("Resource: {Title} status code: {StatusCode} success status: {IsSuccessStatusCode}",
                 resource.Title,
