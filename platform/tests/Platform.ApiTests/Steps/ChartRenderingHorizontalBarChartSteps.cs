@@ -37,6 +37,23 @@ public class ChartRenderingHorizontalBarChartSteps(ChartRenderingApiDriver api)
         api.CreateRequest(SingleKey, request);
     }
 
+    [Given("a single horizontal bar chart request with accept header '(.*)' and request input from '(.*)'")]
+    public void GivenASingleHorizontalBarChartRequestWithAcceptHeaderAndRequestInputFrom(string accept, string inputFile)
+    {
+        var content = BuildRequest(inputFile);
+        ArgumentNullException.ThrowIfNull(content);
+
+        var request = new HttpRequestMessage
+        {
+            RequestUri = new Uri("/api/horizontalBarChart", UriKind.Relative),
+            Method = HttpMethod.Post,
+            Content = new StringContent(content.ToJson(), Encoding.UTF8, "application/json")
+        };
+        request.Headers.Add("x-accept", accept);
+
+        api.CreateRequest(SingleKey, request);
+    }
+
     [Given("multiple horizontal bar chart requests with the following data:")]
     public void GivenMultipleHorizontalBarChartRequestsWithTheFollowingData(DataTable table)
     {
@@ -140,4 +157,6 @@ public class ChartRenderingHorizontalBarChartSteps(ChartRenderingApiDriver api)
         Id = id,
         ValueType = valueType
     };
+
+    private static PostHorizontalBarChartRequest<TestDatum>? BuildRequest(string inputFile) => TestDataProvider.GetJsonObjectData(inputFile).ToObject<PostHorizontalBarChartRequest<TestDatum>>();
 }

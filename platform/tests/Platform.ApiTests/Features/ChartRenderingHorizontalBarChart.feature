@@ -60,6 +60,11 @@
         When I submit the horizontal bar chart request
         Then the response should be ok, contain an SVG document and match the expected output of 'HorizontalBarChartValidSingleCurrency.svg'
 
+    Scenario: Sending a valid single horizontal bar chart request with missing data label and accept header image/svg+xml returns the correct HTML only
+        Given a single horizontal bar chart request with accept header 'image/svg+xml' and request input from 'HorizontalBarChartValidSingleCurrencyMissingDataLabelRequest.json'
+        When I submit the horizontal bar chart request
+        Then the response should be ok, contain an SVG document and match the expected output of 'HorizontalBarChartValidSingleCurrencyMissingDataLabel.svg'
+
     Scenario: Sending a valid single horizontal bar chart request without SI units with accept header image/svg+xml returns the correct HTML only
         Given a single horizontal bar chart request with accept header 'image/svg+xml', highlighted item '123456', sort 'asc', width '500', bar height '20', id 'test-uuid', valueType 'currency' and the following data:
           | Key    | Value  |
