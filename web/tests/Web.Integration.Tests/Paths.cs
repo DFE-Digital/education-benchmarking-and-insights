@@ -240,7 +240,7 @@ public static class Paths
 
     public static string TrustComparatorsRevert(string? companyNumber, string? redirectUri = null) => $"/trust/{companyNumber}/comparators/revert{(redirectUri == null ? string.Empty : $"?redirectUri={redirectUri}")}";
 
-    public static string TrustUserDefined(string? companyNumber, string? identifier, string? redirectUri = null) => $"/trust/{companyNumber}/user-defined/{identifier}{(redirectUri == null ? string.Empty : $"?redirectUri={redirectUri}")}";
+    public static string TrustComparatorsUserDefined(string? companyNumber, string? identifier = null, string? redirectUri = null) => $"/trust/{companyNumber}/comparators/user-defined{(identifier == null ? string.Empty : $"/{identifier}")}{(redirectUri == null ? string.Empty : $"?redirectUri={redirectUri}")}";
 
     public static string ApiSuggest(string search, string type) => $"api/suggest?search={search}&type={type}";
 

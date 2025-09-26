@@ -8,7 +8,7 @@ using Web.App.Domain;
 using Web.App.Extensions;
 using Xunit;
 
-namespace Web.Integration.Tests.Pages.Trusts;
+namespace Web.Integration.Tests.Pages.Trusts.Comparison;
 
 public class WhenViewingComparison(SchoolBenchmarkingWebAppClient client) : PageBase<SchoolBenchmarkingWebAppClient>(client)
 {
