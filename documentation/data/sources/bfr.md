@@ -31,6 +31,8 @@ The BFR_Three Years Forecast dataset provides the long-term financial forecast f
 
 This is a unique data identifier used by the Department for Education (DfE) and its funding agencies to label specific pieces of financial or statistical information submitted by educational establishments.
 
+BFR SOFA and BFR 3Y use some different EFALineNos, so a degree of normalisation is needed to combine figures from both files.
+
 ### EFALineNo 999: Pupil numbers (actual and estimated)
 
 In the BFR_SOFA dataset, only pupil numbers (EFALineNo 999) is collected on a full-year basis. Unlike other EFALineNo in the dataset, the value is not split into the 7-month and 5-month part-year submissions as described above.
