@@ -755,6 +755,17 @@
                 "type": "number",
                 "title": "width"
               },
+              "domainMax": {
+                "description": "Maximum value for the domain of the linear scaled chart.\nDefaults to the maximum value from the provided data set.\nValues less than the maximum value from the provided data set are not allowed and instead will be treated as that maximum value.",
+                "type": "number",
+                "title": "domainMax"
+              },
+              "domainMin": {
+                "description": "Minimum value for the domain of the linear scaled chart.\nNegative values are not allowed at this time and instead will be treated as `0`.\nValues more than the minimum value from the provided data set are not allowed and instead will be treated as that minimum value.",
+                "default": 0,
+                "type": "number",
+                "title": "domainMin"
+              },
               "highlightKey": {
                 "type": "string",
                 "title": "highlightKey"
@@ -2447,6 +2458,17 @@
               "width": {
                 "type": "number",
                 "title": "width"
+              },
+              "domainMax": {
+                "description": "Maximum value for the domain of the linear scaled chart.\nDefaults to the maximum value from the provided data set.\nValues less than the maximum value from the provided data set are not allowed and instead will be treated as that maximum value.",
+                "type": "number",
+                "title": "domainMax"
+              },
+              "domainMin": {
+                "description": "Minimum value for the domain of the linear scaled chart.\nNegative values are not allowed at this time and instead will be treated as `0`.\nValues more than the minimum value from the provided data set are not allowed and instead will be treated as that minimum value.",
+                "default": 0,
+                "type": "number",
+                "title": "domainMin"
               },
               "highlightKey": {
                 "type": "string",

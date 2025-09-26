@@ -1,4 +1,3 @@
-import { max } from "d3-array";
 import { NumberValue, scaleBand, scaleLinear } from "d3-scale";
 import classnames from "classnames";
 import {
@@ -9,6 +8,7 @@ import {
 import { sprintf } from "sprintf-js";
 import {
   escapeXml,
+  getDomain,
   getGroups,
   normaliseData,
   shortValueFormatter,
@@ -17,8 +17,10 @@ import {
 
 export default class HorizontalBarChartTemplate {
   buildChart<T>({
-    data,
     barHeight,
+    data,
+    domainMax,
+    domainMin,
     groupedKeys,
     highlightKey,
     id,
@@ -65,10 +67,12 @@ export default class HorizontalBarChartTemplate {
     sortData(normalisedData, valueField, sort);
 
     // Create the scales.
+    const domain = getDomain(normalisedData, valueField, domainMin, domainMax);
     const x = scaleLinear()
-      .domain([0, max(normalisedData, (d) => d[valueField] as number)!])
+      .domain(domain)
       .range([marginLeft + tickWidth + 5, width - marginRight - 5])
       .nice(suggestedXAxisTickCount);
+    const xAxisTicks = x.ticks(suggestedXAxisTickCount);
 
     const y = scaleBand()
       .domain(normalisedData.map((d) => d[keyField] as string))
@@ -88,9 +92,9 @@ export default class HorizontalBarChartTemplate {
     const rects = normalisedData
       .filter((d) => d[valueField] !== null)
       .map((d) => {
-        const xAttr = x(0);
+        const xAttr = x(xAxisTicks[0]);
         const yAttr = y(d[keyField] as string)!;
-        let widthAttr = x(d[valueField] as number) - x(0);
+        let widthAttr = x(d[valueField] as number) - xAttr;
 
         // do not allow negative bars at this time
         if (widthAttr < 0) {
@@ -141,7 +145,7 @@ export default class HorizontalBarChartTemplate {
       const rects = normalisedData
         .filter((d) => d[valueField] === null)
         .map((d) => {
-          const xAttr = x(0);
+          const xAttr = x(xAxisTicks[0]);
           const yAttr = y(d[keyField] as string)! - y.bandwidth() * 0.5;
           const heightAttr = y.bandwidth() * 1.9;
           const widthAttr = missingDataLabelWidth ?? 0;
@@ -154,7 +158,7 @@ export default class HorizontalBarChartTemplate {
       const labels = normalisedData
         .filter((d) => d[valueField] === null)
         .map((d) => {
-          const xAttr = x(0) + 5;
+          const xAttr = x(xAxisTicks[0]) + 5;
           const yAttr = y(d[keyField] as string)! + y.bandwidth() / 2;
 
           return `<text x="${xAttr}" y="${yAttr}" dy="0.35em" class="chart-missing-data-label">${missingDataLabel}</text>`;
@@ -164,7 +168,6 @@ export default class HorizontalBarChartTemplate {
     }
 
     // Create the axes.
-    const xAxisTicks = x.ticks(suggestedXAxisTickCount);
     const xAxisTickOffset = 0.5;
     const xAxisChartTicks = xAxisTicks.map((t) => {
       const value = valueFormatter(t);
