@@ -12,7 +12,10 @@ export type VerticalBarChartDefinition = Pick<
 > &
   Partial<Pick<VerticalBarChartBuilderOptions<unknown>, "height">> &
   Partial<
-    Pick<ChartBuilderOptions<unknown>, "highlightKey" | "id" | "sort" | "width">
+    Pick<
+      ChartBuilderOptions<unknown>,
+      "domainMax" | "domainMin" | "highlightKey" | "id" | "sort" | "width"
+    >
   > &
   ChartDefinition;
 
@@ -39,7 +42,10 @@ export type HorizontalBarChartDefinition = Pick<
     >
   > &
   Partial<
-    Pick<ChartBuilderOptions<unknown>, "highlightKey" | "id" | "sort" | "width">
+    Pick<
+      ChartBuilderOptions<unknown>,
+      "domainMax" | "domainMin" | "highlightKey" | "id" | "sort" | "width"
+    >
   > &
   ChartDefinition;
 
@@ -48,6 +54,19 @@ export type Group = string;
 
 type ChartBuilderOptions<T> = {
   data: T[];
+  /**
+   * Maximum value for the domain of the linear scaled chart.
+   * Defaults to the maximum value from the provided data set.
+   * Values less than the maximum value from the provided data set are not allowed and instead will be treated as that maximum value.
+   */
+  domainMax?: number;
+  /**
+   * Minimum value for the domain of the linear scaled chart.
+   * Negative values are not allowed at this time and instead will be treated as `0`.
+   * Values more than the minimum value from the provided data set are not allowed and instead will be treated as that minimum value.
+   * @default 0
+   */
+  domainMin?: number;
   groupedKeys?: Partial<Record<Group, DatumKey[]>>;
   highlightKey?: DatumKey;
   id: string;

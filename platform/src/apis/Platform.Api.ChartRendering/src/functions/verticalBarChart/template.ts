@@ -1,12 +1,13 @@
-import { max } from "d3-array";
 import { scaleLinear, scaleBand } from "d3-scale";
 import classnames from "classnames";
 import { ChartBuilderResult, VerticalBarChartBuilderOptions } from "..";
-import { sortData } from "../utils";
+import { getDomain, sortData } from "../utils";
 
 export default class VerticalBarChartTemplate {
   buildChart<T>({
     data,
+    domainMax,
+    domainMin,
     height,
     highlightKey,
     id,
@@ -29,15 +30,16 @@ export default class VerticalBarChartTemplate {
       .padding(0.2);
 
     // Declare the y (vertical position) scale.
+    const domain = getDomain(data, valueField, domainMin, domainMax);
     const y = scaleLinear()
-      .domain([0, max(data, (d) => d[valueField] as number)!])
+      .domain(domain)
       .range([height - marginBottom, marginTop]);
 
     // Add a rect for each bar.
     const rects = data.map((d, i) => {
       const xAttr = x(d[keyField] as string)!;
       const yAttr = y(d[valueField] as number);
-      const heightAttr = y(0) - y(d[valueField] as number);
+      const heightAttr = y(domain[0]) - y(d[valueField] as number);
       const widthAttr = x.bandwidth();
       const dataBarIndexAttr = i;
       const classAttr = classnames("chart-cell", "chart-cell__series-0", {
