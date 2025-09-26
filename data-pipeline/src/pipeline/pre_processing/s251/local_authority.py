@@ -3,6 +3,7 @@ from pandas._typing import FilePath, ReadCsvBuffer
 
 from pipeline import input_schemas
 from pipeline.utils import log
+from pipeline.utils.stats import stats_collector
 
 logger = log.setup_logger(__name__)
 
@@ -33,6 +34,7 @@ def build_local_authorities(
         outturn_filepath_or_buffer,
         year,
     )
+    input_count = section_251_data.shape[0]
     ons_la_population_data = _prepare_ons_la_population_data(
         ons_filepath_or_buffer,
         year,
@@ -71,6 +73,12 @@ def build_local_authorities(
     logger.info(
         f"Processed {len(local_authority_data.index)} combined Local Authority rows."
     )
+
+    output_count = len(local_authority_data.index)
+    if input_count != output_count:
+        message = f"local-authorities-count-mismatch: input local authorities={input_count}, output local authorities={output_count}"
+        logger.warning(message)
+        stats_collector.mark_warning(message)
 
     return local_authority_data
 
