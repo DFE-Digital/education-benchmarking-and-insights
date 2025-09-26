@@ -8,7 +8,8 @@ This document outlines the datasets and data points collected within the BFR sub
 
 For each reporting year, the BFR includes two dataset that covers the following periods:
 
-BFR_SOFA_raw.csv: The BFR Statement of Financial Accounts dataset outlines the financial returns for trusts across three periods: the previous, current, and next financial year. The data is categorised by codes in the `EFALineNo` column,  with each code having two corresponding values (part year submission) for each year covered except EFALineNo 999 (code for pupil number).
+**BFR_SOFA_raw.csv:**
+The BFR Statement of Financial Accounts dataset outlines the financial returns for trusts across three periods: the previous, current, and next financial year. The data is categorised by codes in the `EFALineNo` column,  with each code having two corresponding values (part year submission) for each year covered except EFALineNo 999 (code for pupil number).
 
 - `Y1P1` represents September to March of the previous financial year
 - `Y1P2` represents April to August of the previous financial year
@@ -17,7 +18,9 @@ BFR_SOFA_raw.csv: The BFR Statement of Financial Accounts dataset outlines the f
 - `Y3P1` represents September to March of the next financial year
 - `Y3P2` represents April to August of the next financial year
 
-BFR_3Y_raw.csv: The BFR_Three Years Forecast dataset provides the long-term financial forecast for trusts. It covers a three-year period, specifically the first, second, and third upcoming financial years from the current year.
+**BFR_3Y_raw.csv:**
+
+The BFR_Three Years Forecast dataset provides the long-term financial forecast for trusts. It covers a three-year period, specifically the first, second, and third upcoming financial years from the current year.
 
 - `Y2` represents summary forecasts for next financial year (Year+1)
 - `Y3` represents summary forecasts for second financial year from current (Year+2)
