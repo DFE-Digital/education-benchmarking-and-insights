@@ -15,26 +15,55 @@ describe("normaliseData", () => {
     { category: "B", value: 100 },
     { category: "C", value: 0 },
     { category: "D", value: undefined },
+    { category: "E", value: null },
   ];
 
-  it("should divide values by 100 for 'percent' type", () => {
-    const result = normaliseData(sampleData, "value", "percent");
-    expect(result).toEqual([
-      { category: "A", value: 0.5 },
-      { category: "B", value: 1 },
-      { category: "C", value: 0 },
-      { category: "D", value: 0 },
-    ]);
+  describe("without normaliseDefault", () => {
+    it("should divide values by 100 for 'percent' type or normalise to 0", () => {
+      const result = normaliseData(sampleData, "value", "percent");
+      expect(result).toEqual([
+        { category: "A", value: 0.5 },
+        { category: "B", value: 1 },
+        { category: "C", value: 0 },
+        { category: "D", value: 0 },
+        { category: "E", value: 0 },
+      ]);
+    });
+
+    it("should return original data for 'currency' type or normalise to 0", () => {
+      const result = normaliseData(sampleData, "value", "currency");
+      expect(result).toEqual([
+        { category: "A", value: 50 },
+        { category: "B", value: 100 },
+        { category: "C", value: 0 },
+        { category: "D", value: 0 },
+        { category: "E", value: 0 },
+      ]);
+    });
   });
 
-  it("should return original data for 'currency' type", () => {
-    const result = normaliseData(sampleData, "value", "currency");
-    expect(result).toEqual([
-      { category: "A", value: 50 },
-      { category: "B", value: 100 },
-      { category: "C", value: 0 },
-      { category: "D", value: 0 },
-    ]);
+  describe("with normaliseDefault as null", () => {
+    it("should divide values by 100 for 'percent' type or normalise to null", () => {
+      const result = normaliseData(sampleData, "value", "percent", null);
+      expect(result).toEqual([
+        { category: "A", value: 0.5 },
+        { category: "B", value: 1 },
+        { category: "C", value: 0 },
+        { category: "D", value: null },
+        { category: "E", value: null },
+      ]);
+    });
+
+    it("should return original data for 'currency' type or normalise to null", () => {
+      const result = normaliseData(sampleData, "value", "currency", null);
+      expect(result).toEqual([
+        { category: "A", value: 50 },
+        { category: "B", value: 100 },
+        { category: "C", value: 0 },
+        { category: "D", value: null },
+        { category: "E", value: null },
+      ]);
+    });
   });
 
   it("should throw for unsupported ValueType", () => {
