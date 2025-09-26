@@ -1,4 +1,4 @@
-import { ascending, descending, max } from "d3-array";
+import { max } from "d3-array";
 import { NumberValue, scaleBand, scaleLinear } from "d3-scale";
 import classnames from "classnames";
 import {
@@ -12,6 +12,7 @@ import {
   getGroups,
   normaliseData,
   shortValueFormatter,
+  sortData,
 } from "../utils";
 
 export default class HorizontalBarChartTemplate {
@@ -59,26 +60,11 @@ export default class HorizontalBarChartTemplate {
       valueType,
       missingDataLabel ? null : undefined
     );
+
     const groups = (key: DatumKey) => getGroups(groupedKeys, key);
+    sortData(normalisedData, valueField, sort);
 
-    // Create the scales. todo: move sort to utils
-    normalisedData.sort((a, b) => {
-      const aValue = a[valueField] as number | null;
-      const bValue = b[valueField] as number | null;
-
-      if (sort === "asc") {
-        return ascending(
-          aValue === null ? Infinity : aValue,
-          bValue === null ? Infinity : bValue
-        );
-      }
-
-      return descending(
-        aValue === null ? -Infinity : aValue,
-        bValue === null ? -Infinity : bValue
-      );
-    });
-
+    // Create the scales.
     const x = scaleLinear()
       .domain([0, max(normalisedData, (d) => d[valueField] as number)!])
       .range([marginLeft + tickWidth + 5, width - marginRight - 5])
