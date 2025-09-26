@@ -1,0 +1,71 @@
+{
+  "barHeight": 24,
+  "data": [
+    {
+      "key": "123450",
+      "value": 1000001
+    },
+    {
+      "key": "123451",
+      "value": 1000111
+    },
+    {
+      "key": "123452",
+      "value": 1000011
+    },
+    {
+      "key": "123453",
+      "value": 1011111
+    },
+    {
+      "key": "123454",
+      "value": 1000000
+    },
+    {
+      "key": "123455",
+      "value": 1000000
+    },
+    {
+      "key": "123456",
+      "value": 1111111
+    },
+    {
+      "key": "123457",
+      "value": 1001001
+    },
+    {
+      "key": "123458",
+      "value": 1010001
+    },
+    {
+      "key": "123459"
+    },
+    {
+      "key": "123460",
+      "value": 0
+    },
+    {
+      "key": "123461",
+      "value": null
+    },
+    {
+      "key": "123462",
+      "value": 123.45
+    },
+    {
+      "key": "123463",
+      "value": 67.89
+    }
+  ],
+  "highlightKey": "123456",
+  "id": "test-uuid",
+  "keyField": "key",
+  "missingDataLabel": "No data submitted",
+  "missingDataLabelWidth": 115,
+  "paddingInner": 0.6,
+  "paddingOuter": 0.2,
+  "sort": "asc",
+  "valueField": "value",
+  "valueType": "currency",
+  "width": 500
+}
