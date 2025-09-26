@@ -1,0 +1,50 @@
+{
+  "barHeight": 24,
+  "data": [
+    {
+      "key": "123450",
+      "value": 1000001
+    },
+    {
+      "key": "123451",
+      "value": 1000111
+    },
+    {
+      "key": "123452",
+      "value": 1000011
+    },
+    {
+      "key": "123453",
+      "value": 1011111
+    },
+    {
+      "key": "123454",
+      "value": 1000000
+    },
+    {
+      "key": "123455",
+      "value": 1000000
+    },
+    {
+      "key": "123456",
+      "value": 1111111
+    },
+    {
+      "key": "123457",
+      "value": 1001001
+    },
+    {
+      "key": "123458",
+      "value": 1010001
+    }
+  ],
+  "domainMax": 2000000,
+  "domainMin": 200000,
+  "highlightKey": "123456",
+  "id": "test-uuid",
+  "keyField": "key",
+  "sort": "asc",
+  "valueField": "value",
+  "valueType": "currency",
+  "width": 500
+}

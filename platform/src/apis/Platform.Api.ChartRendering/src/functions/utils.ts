@@ -1,4 +1,4 @@
-import { ascending, descending } from "d3-array";
+import { ascending, descending, max, min } from "d3-array";
 import { NumberValue } from "d3-scale";
 import { DatumKey, Group, ValueType } from "./index";
 
@@ -66,6 +66,38 @@ export function sortData<T>(
       isNaN(bValue as number) || bValue === null ? -Infinity : bValue
     );
   });
+}
+
+/**
+ * Gets the maximum and minimum values to use for the data domain in a linear d3 scale
+ * @param domainMin If provided, use this value as the minimum value for the domain, unless:
+ * - value is negative
+ * - value is more than the minimum value from the provided data set
+ *
+ * when the default value of `0` is used instead
+ * @param domainMax If provided, use this value as the maximum value for the domain, unless:
+ * - value is less than the maximum value from the provided data set
+ *
+ * when the default value of the maximum value from the data set is used instead
+ */
+export function getDomain<T>(
+  data: T[],
+  valueField: keyof T,
+  domainMin?: number,
+  domainMax?: number
+) {
+  const filteredData = data.filter(
+    (d) => !isNaN(d[valueField] as number) && d[valueField] !== null
+  );
+
+  const dataMin = min(filteredData, (d) => d[valueField] as number) ?? 0;
+  const minimum =
+    !domainMin || dataMin < 0 ? 0 : domainMin < dataMin ? domainMin : dataMin;
+
+  const dataMax = max(filteredData, (d) => d[valueField] as number) ?? 0;
+  const maximum = !domainMax || domainMax < dataMax ? dataMax : domainMax;
+
+  return [minimum, maximum];
 }
 
 export function getValueFormat(

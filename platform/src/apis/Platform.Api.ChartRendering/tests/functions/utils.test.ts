@@ -6,6 +6,7 @@ import {
   escapeXml,
   shortValueFormatter,
   sortData,
+  getDomain,
 } from "../../src/functions/utils";
 import { ValueType } from "../../src/functions/index";
 import theoretically from "jest-theories";
@@ -109,6 +110,33 @@ describe("sortData", () => {
       { category: "D", value: undefined },
       { category: "E", value: null },
     ]);
+  });
+});
+
+describe("getDomain", () => {
+  const sampleData = [
+    { category: "A", value: 50 },
+    { category: "B", value: 100 },
+    { category: "C", value: 5 },
+    { category: "D", value: undefined },
+    { category: "E", value: null },
+    { category: "F", value: 100 },
+    { category: "G", value: 10 },
+  ];
+
+  it("should return default domain if not supplied", () => {
+    const result = getDomain(sampleData, "value");
+    expect(result).toEqual([0, 100]);
+  });
+
+  it("should return custom domain if within range", () => {
+    const result = getDomain(sampleData, "value", 4, 1000);
+    expect(result).toEqual([4, 1000]);
+  });
+
+  it("should return fallback domain if out of range", () => {
+    const result = getDomain(sampleData, "value", 6, 99);
+    expect(result).toEqual([5, 100]);
   });
 });
 
