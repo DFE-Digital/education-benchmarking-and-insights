@@ -30,6 +30,10 @@ export type HorizontalBarChartDefinition = Pick<
       | "labelField"
       | "labelFormat"
       | "linkFormat"
+      | "missingDataLabel"
+      | "missingDataLabelWidth"
+      | "paddingInner"
+      | "paddingOuter"
       | "valueType"
       | "xAxisLabel"
     >
@@ -72,6 +76,20 @@ export type HorizontalBarChartBuilderOptions<T> = ChartBuilderOptions<T> & {
    * @ref https://www.npmjs.com/package/sprintf-js#format-specification
    */
   linkFormat: string;
+  missingDataLabel?: string;
+  missingDataLabelWidth?: number;
+  /**
+   * Sets the inner padding to the specified value which must be in the range [0, 1].
+   * The inner padding determines the ratio of the range that is reserved for blank space between bands.
+   * @default 0.2
+   */
+  paddingInner?: number;
+  /**
+   * Sets the outer padding to the specified value which must be in the range [0, 1].
+   * The outer padding determines the ratio of the range that is reserved for blank space before the first band and after the last band.
+   * @default 0.1
+   */
+  paddingOuter?: number;
   /**
    * Describes how values on the chart should be interpreted and formatted.
    * This determines both the visual representation (e.g. percentage or currency)

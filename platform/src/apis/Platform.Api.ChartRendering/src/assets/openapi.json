@@ -705,6 +705,26 @@
                 "type": "string",
                 "title": "linkFormat"
               },
+              "missingDataLabel": {
+                "type": "string",
+                "title": "missingDataLabel"
+              },
+              "missingDataLabelWidth": {
+                "type": "number",
+                "title": "missingDataLabelWidth"
+              },
+              "paddingInner": {
+                "description": "Sets the inner padding to the specified value which must be in the range [0, 1].\nThe inner padding determines the ratio of the range that is reserved for blank space between bands.",
+                "default": 0.2,
+                "type": "number",
+                "title": "paddingInner"
+              },
+              "paddingOuter": {
+                "description": "Sets the outer padding to the specified value which must be in the range [0, 1].\nThe outer padding determines the ratio of the range that is reserved for blank space before the first band and after the last band.",
+                "default": 0.1,
+                "type": "number",
+                "title": "paddingOuter"
+              },
               "valueType": {
                 "$ref": "#/components/schemas/ValueType",
                 "description": "Describes how values on the chart should be interpreted and formatted.\nThis determines both the visual representation (e.g. percentage or currency)\nand any necessary normalisation (e.g. dividing percent values by 100).\nMust be one of the predefined `ValueType` options.",

@@ -17,5 +17,8 @@
     "normalisation",
     "normalise",
     "normalised"
-  ]
+  ],
+  "[xml]": {
+    "editor.defaultFormatter": "DotJoshJohnson.xml"
+  }
 }

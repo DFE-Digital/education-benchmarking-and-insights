@@ -25,6 +25,10 @@ export default class HorizontalBarChartTemplate {
     labelField,
     labelFormat,
     linkFormat,
+    missingDataLabel,
+    missingDataLabelWidth,
+    paddingInner,
+    paddingOuter,
     sort,
     valueField,
     valueType,
@@ -49,15 +53,32 @@ export default class HorizontalBarChartTemplate {
     const tickWidth = width / 3;
     const truncateLabelAt = width ? Math.floor(width / 22) : 30;
 
-    const normalisedData = normaliseData(data, valueField, valueType);
+    const normalisedData = normaliseData(
+      data,
+      valueField,
+      valueType,
+      missingDataLabel ? null : undefined
+    );
     const groups = (key: DatumKey) => getGroups(groupedKeys, key);
 
-    // Create the scales.
-    normalisedData.sort((a, b) =>
-      sort === "asc"
-        ? ascending(a[valueField] as number, b[valueField] as number)
-        : descending(a[valueField] as number, b[valueField] as number)
-    );
+    // Create the scales. todo: move sort to utils
+    normalisedData.sort((a, b) => {
+      const aValue = a[valueField] as number | null;
+      const bValue = b[valueField] as number | null;
+
+      if (sort === "asc") {
+        return ascending(
+          aValue === null ? Infinity : aValue,
+          bValue === null ? Infinity : bValue
+        );
+      }
+
+      return descending(
+        aValue === null ? -Infinity : aValue,
+        bValue === null ? -Infinity : bValue
+      );
+    });
+
     const x = scaleLinear()
       .domain([0, max(normalisedData, (d) => d[valueField] as number)!])
       .range([marginLeft + tickWidth + 5, width - marginRight - 5])
@@ -69,8 +90,8 @@ export default class HorizontalBarChartTemplate {
         marginTop,
         height - marginBottom - (xAxisLabel ? labelHeight : 0),
       ])
-      .paddingInner(0.2)
-      .paddingOuter(0.1);
+      .paddingInner(paddingInner ?? 0.2)
+      .paddingOuter(paddingOuter ?? 0.1);
 
     // Create a value format.
     const valueFormatter = (d: NumberValue) => {
@@ -78,51 +99,83 @@ export default class HorizontalBarChartTemplate {
     };
 
     // Append a rect for each bar.
-    const rects = normalisedData.map((d) => {
-      const xAttr = x(0);
-      const yAttr = y(d[keyField] as string)!;
-      let widthAttr = x(d[valueField] as number) - x(0);
+    const rects = normalisedData
+      .filter((d) => d[valueField] !== null)
+      .map((d) => {
+        const xAttr = x(0);
+        const yAttr = y(d[keyField] as string)!;
+        let widthAttr = x(d[valueField] as number) - x(0);
 
-      // do not allow negative bars at this time
-      if (widthAttr < 0) {
-        widthAttr = 0;
-      }
+        // do not allow negative bars at this time
+        if (widthAttr < 0) {
+          widthAttr = 0;
+        }
 
-      const heightAttr = y.bandwidth();
-      const dataKeyAttr = d[keyField] as string;
-      const classAttr = classnames(
-        "chart-cell",
-        "chart-cell__series-0",
-        {
-          "chart-cell__highlight": d[keyField] === highlightKey,
-        },
-        groups(d[keyField] as DatumKey).map((g) => `chart-cell__group-${g}`)
-      );
+        const heightAttr = y.bandwidth();
+        const dataKeyAttr = d[keyField] as string;
+        const classAttr = classnames(
+          "chart-cell",
+          "chart-cell__series-0",
+          {
+            "chart-cell__highlight": d[keyField] === highlightKey,
+          },
+          groups(d[keyField] as DatumKey).map((g) => `chart-cell__group-${g}`)
+        );
 
-      return `<rect x="${xAttr}" y="${yAttr}" width="${widthAttr}" height="${heightAttr}" data-key="${dataKeyAttr}" class="${classAttr}"/>`;
-    });
-
-    // Append a label for each bar.
-    const labels = normalisedData.map((d) => {
-      let value = d[valueField] as number;
-
-      // do not allow negative labels at this time
-      if (value < 0) {
-        value = 0;
-      }
-
-      const xAttr = x(value) + Math.sign(value - 0) * 8;
-      const yAttr = y(d[keyField] as string)! + y.bandwidth() / 2;
-      const text = valueFormatter(d[valueField] as number);
-      const classAttr = classnames("chart-label", "chart-label__series-0", {
-        "chart-label__highlight": d[keyField] === highlightKey,
-        "chart-label__negative": (d[valueField] as number) < 0,
+        return `<rect x="${xAttr}" y="${yAttr}" width="${widthAttr}" height="${heightAttr}" data-key="${dataKeyAttr}" class="${classAttr}"/>`;
       });
 
-      return `<text x="${xAttr}" y="${yAttr}" dy="0.35em" class="${classAttr}">${text}</text>`;
-    });
+    // Append a label for each bar.
+    const labels = normalisedData
+      .filter((d) => d[valueField] !== null)
+      .map((d) => {
+        let value = d[valueField] as number;
+
+        // do not allow negative labels at this time
+        if (value < 0) {
+          value = 0;
+        }
+
+        const xAttr = x(value) + Math.sign(value - 0) * 8;
+        const yAttr = y(d[keyField] as string)! + y.bandwidth() / 2;
+        const text = valueFormatter(d[valueField] as number);
+        const classAttr = classnames("chart-label", "chart-label__series-0", {
+          "chart-label__highlight": d[keyField] === highlightKey,
+          "chart-label__negative": (d[valueField] as number) < 0,
+        });
+
+        return `<text x="${xAttr}" y="${yAttr}" dy="0.35em" class="${classAttr}">${text}</text>`;
+      });
 
     const barsAndLabels = `<g>${rects.join("")}</g><g>${labels.join("")}</g>`;
+
+    let missingDataLabels = "";
+    if (missingDataLabel) {
+      // Append a rect for each missing entry
+      const rects = normalisedData
+        .filter((d) => d[valueField] === null)
+        .map((d) => {
+          const xAttr = x(0);
+          const yAttr = y(d[keyField] as string)! - y.bandwidth() * 0.5;
+          const heightAttr = y.bandwidth() * 1.9;
+          const widthAttr = missingDataLabelWidth ?? 0;
+          const dataKeyAttr = d[keyField] as string;
+
+          return `<rect x="${xAttr}" y="${yAttr}" width="${widthAttr}" height="${heightAttr}" data-key="${dataKeyAttr}" class="chart-missing-data"/>`;
+        });
+
+      // Append a label for each missing entry
+      const labels = normalisedData
+        .filter((d) => d[valueField] === null)
+        .map((d) => {
+          const xAttr = x(0) + 5;
+          const yAttr = y(d[keyField] as string)! + y.bandwidth() / 2;
+
+          return `<text x="${xAttr}" y="${yAttr}" dy="0.35em" class="chart-missing-data-label">${missingDataLabel}</text>`;
+        });
+
+      missingDataLabels = `<g>${rects.join("")}</g><g>${labels.join("")}</g>`;
+    }
 
     // Create the axes.
     const xAxisTicks = x.ticks(suggestedXAxisTickCount);
@@ -213,6 +266,7 @@ export default class HorizontalBarChartTemplate {
     // Create the SVG container.
     const svg = `<svg width="${width}" height="${height}" viewBox="0,0,${width},${height}" data-chart-id="${id}" xmlns="http://www.w3.org/2000/svg">
   ${barsAndLabels}
+  ${missingDataLabels}
   ${xAxis}
   ${yAxis}
 </svg>`;

@@ -4,19 +4,32 @@ import { DatumKey, Group, ValueType } from "./index";
 export function normaliseData<T>(
   data: T[],
   valueField: keyof T,
-  dataType: ValueType
+  dataType: ValueType,
+  normaliseDefault?: number | null
 ): T[] {
+  if (normaliseDefault === undefined) {
+    normaliseDefault = 0;
+  }
+
   switch (dataType) {
     case "percent":
       return data.map((d) => ({
         ...d,
-        [valueField]: ((d[valueField] as number | undefined) ?? 0) / 100,
+        [valueField]:
+          (isNaN(d[valueField] as number) || d[valueField] === null) &&
+          normaliseDefault === null
+            ? null
+            : ((d[valueField] as number) ?? normaliseDefault!) / 100,
       }));
 
     case "currency":
       return data.map((d) => ({
         ...d,
-        [valueField]: (d[valueField] as number | undefined) ?? 0,
+        [valueField]:
+          (isNaN(d[valueField] as number) || d[valueField] === null) &&
+          normaliseDefault === null
+            ? null
+            : ((d[valueField] as number) ?? normaliseDefault),
       }));
 
     default:
