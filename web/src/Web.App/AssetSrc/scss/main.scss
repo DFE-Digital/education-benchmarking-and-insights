@@ -811,6 +811,15 @@ table#current-comparators-la {
     }
   }
 
+  .chart-missing-data {
+    fill: #f4cdc6;
+  }
+
+  .chart-missing-data-label {
+    font-size: 13px;
+    fill: #2a0b06;
+  }
+
   > svg {
     max-width: 100%;
     height: auto;
