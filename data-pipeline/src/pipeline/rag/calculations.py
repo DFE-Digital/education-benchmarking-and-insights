@@ -1,335 +1,311 @@
-import logging
-import math
 import time
 import warnings
-from typing import Generator
+from typing import Any, Dict, Generator, List, Optional, Union
 
 import numpy as np
 import pandas as pd
 
 from pipeline.config import rag_category_settings
+from pipeline.utils.log import setup_logger
 
-pd.options.mode.chained_assignment = None
+from .config import *
 
-logger = logging.getLogger("rag")
-
-base_cols = [
-    "URN",
-    "Total Internal Floor Area",
-    "Age Average Score",
-    "OfstedRating (name)",
-    "Percentage SEN",
-    "Percentage Free school meals",
-    "Number of pupils",
-]
+logger = setup_logger(__name__)
 
 
-def is_area_close_comparator(org_a, org_b):
-    """
-    Determine whether two organisations are close assuming both:
+class CategoryColumnCache:
+    """Caches column masks and subcategory lists for faster access."""
 
-    - gross internal floor area is within 10%;
-    - average age of buildings is within 20 years.
-
-    :param org_a: first organisation for comparison
-    :param org_b: second organisation for comparison
-    :return: whether organisations are close, as defined
-    """
-    floor_area_is_close = math.isclose(
-        org_a["Total Internal Floor Area"],
-        org_b["Total Internal Floor Area"],
-        rel_tol=0.1,
-    )
-    average_age_score_is_close = math.isclose(
-        org_a["Age Average Score"],
-        org_b["Age Average Score"],
-        abs_tol=20.0,
-    )
-
-    return floor_area_is_close and average_age_score_is_close
+    def __init__(self, columns: pd.Index):
+        self.base_columns_mask = columns.isin(BASE_COLUMNS)
+        self.category_mappings = {}
+        for category_name in rag_category_settings:
+            category_mask = columns.str.startswith(
+                category_name
+            ) & columns.str.endswith("_Per Unit")
+            self.category_mappings[category_name] = {
+                "column_mask": self.base_columns_mask | category_mask,
+                "subcategories": columns[category_mask].tolist(),
+            }
 
 
-def is_pupil_close_comparator(org_a, org_b):
-    """
-    Determine if two organisations are close assuming all:
+def is_close(
+    a: Union[np.ndarray, float],
+    b: Union[np.ndarray, float],
+    rtol: float = 1e-9,
+    atol: float = 0.0,
+) -> np.ndarray:
+    """A vectorized equivalent of math.isclose."""
+    relative_component = rtol * np.maximum(np.abs(a), np.abs(b))
+    tolerance = np.maximum(relative_component, atol)
+    return np.abs(a - b) <= tolerance
 
-    - number of pupils is within 25%;
-    - percentage of FSM (Free School Meals) is within 5%;
-    - percentage of SEN (Special Educational Need) is within 10%;
 
-    :param org_a: first organisation for comparison
-    :param org_b: second organisation for comparison
-    :return: whether organisations are close, as defined
-    """
-    number_of_pupils_is_close = math.isclose(
-        org_a["Number of pupils"],
-        org_b["Number of pupils"],
-        rel_tol=0.25,
-    )
-    fsm_is_close = math.isclose(
-        org_a["Percentage Free school meals"],
-        org_b["Percentage Free school meals"],
-        rel_tol=0.05,
-    )
-    sen_is_close = math.isclose(
-        org_a["Percentage SEN"],
-        org_b["Percentage SEN"],
-        rel_tol=0.1,
+def find_area_close_comparators(
+    target_school: pd.Series, comparators: pd.DataFrame
+) -> pd.Series:
+    """Vectorized function to find comparators with similar building characteristics."""
+    # Relative comparison for floor area
+    floor_area_is_close = is_close(
+        comparators["Total Internal Floor Area"],
+        target_school["Total Internal Floor Area"],
+        rtol=FLOOR_AREA_PERCENTAGE_TOLERANCE,
     )
 
-    return all(
-        (
-            number_of_pupils_is_close,
-            fsm_is_close,
-            sen_is_close,
-        )
+    # Absolute comparison for building age score
+    age_score_is_close = is_close(
+        comparators["Age Average Score"],
+        target_school["Age Average Score"],
+        atol=BUILDING_AGE_YEAR_TOLERANCE,
     )
 
-
-def is_close_comparator(category_type, org_a, org_b):
-    """
-    Determine which "close range" is to be used.
-
-    For building cost categories (i.e. "premises staff and services and
-    utilities"), area calculations are used.
-
-    For all other cost categories, pupil characteristics are used.
-
-    :param org_a: first organisation for comparison
-    :param org_b: second organisation for comparison
-    :return: whether organisations are close, as defined
-    """
-    if category_type == "Building":
-        return is_area_close_comparator(org_a, org_b)
-
-    return is_pupil_close_comparator(org_a, org_b)
+    return floor_area_is_close & age_score_is_close
 
 
-def find_percentile(d, value):
-    sorted_series = np.sort(d, axis=0, kind="stable")
-    rank = np.searchsorted(sorted_series, value, side="right")
-    pc = rank / len(d) * 100
-    return pc
-
-
-def category_stats(urn, category_name, data, ofsted_rating, rag_mapping, close_count):
-    key = "outstanding" if ofsted_rating.lower() == "outstanding" else "other"
-    key += "_10" if close_count > 10 else ""
-
-    series = _get_series_for_category(data, category_name, urn)
-    value = series.loc[urn]
-
-    percentile = find_percentile(series, value)
-    decile = int(percentile / 10)
-    median = np.median(series)
-    diff = value - median
-    diff_percent = (
-        (diff / median) * 100
-        if median != 0 and median != np.inf and median != np.nan and not pd.isna(median)
-        else 0
+def find_pupil_close_comparators(
+    target_school: pd.Series, comparators: pd.DataFrame
+) -> pd.Series:
+    """Vectorized function to find comparators with similar pupil demographics."""
+    pupils_is_close = is_close(
+        comparators["Number of pupils"],
+        target_school["Number of pupils"],
+        rtol=PUPIL_COUNT_PERCENTAGE_TOLERANCE,
     )
-    cats = category_name.split("_")
+
+    fsm_is_close = is_close(
+        comparators["Percentage Free school meals"],
+        target_school["Percentage Free school meals"],
+        rtol=FSM_PERCENTAGE_TOLERANCE,
+    )
+
+    sen_is_close = is_close(
+        comparators["Percentage SEN"],
+        target_school["Percentage SEN"],
+        rtol=SEN_PERCENTAGE_TOLERANCE,
+    )
+
+    return pupils_is_close & fsm_is_close & sen_is_close
+
+
+# --- Core Calculation Logic ---
+
+
+def calculate_percentile_rank(data_values: np.ndarray, target_value: float) -> float:
+    """Calculates the percentile of a value within a numpy array."""
+    if len(data_values) == 0:
+        return 0.0
+    sorted_series = np.sort(data_values, kind="stable")
+    rank = np.searchsorted(sorted_series, target_value, side="right")
+    return (rank / len(data_values)) * 100
+
+
+def get_positive_values_series(data: pd.DataFrame, column: str, urn: str) -> pd.Series:
+    """Filters a series for positive values, always including the target URN."""
+    mask = (data[column] > 0) | (data.index == urn)
+    return data.loc[mask, column]
+
+
+def calculate_category_statistics(
+    school_urn: str,
+    category_name: str,
+    subcategory_name: str,
+    category_data: pd.DataFrame,
+    ofsted_rating: str,
+    rag_settings: Dict[str, Any],
+    similar_schools_count: int,
+) -> Dict[str, Any]:
+    """Calculates all statistical metrics for a single school and category."""
+    rating_key = "outstanding" if ofsted_rating.lower() == "outstanding" else "other"
+    rating_key += "_10" if similar_schools_count > 10 else ""
+
+    category_series = get_positive_values_series(
+        category_data, subcategory_name, school_urn
+    )
+    school_value = category_series.loc[school_urn]
+
+    percentile_score = calculate_percentile_rank(category_series.values, school_value)
+    decile = int(percentile_score / PERCENTILE_TO_DECILE_DIVISOR)
+    median_value = np.median(category_series)
+    median_difference = school_value - median_value
+
+    percent_difference = 0.0
+    if median_value and np.isfinite(median_value):
+        percent_difference = (median_difference / median_value) * 100
+
+    subcategory_components = subcategory_name.split("_")
+
     return {
-        "URN": urn,
-        "Category": cats[0],
-        "SubCategory": cats[1],
-        "Value": value,
-        "Median": median,
-        "DiffMedian": diff,
-        "Key": key,
-        "PercentDiff": diff_percent,
-        "Percentile": percentile,
+        "URN": school_urn,
+        "Category": category_name,
+        "SubCategory": subcategory_components[1],
+        "Value": school_value,
+        "Median": median_value,
+        "DiffMedian": median_difference,
+        "Key": rating_key,
+        "PercentDiff": percent_difference,
+        "Percentile": percentile_score,
         "Decile": decile,
-        # note: 10th decile is considered to be in the last RAG category.
-        "RAG": rag_mapping[key][min(int(decile), 9)],
+        "RAG": rag_settings[rating_key][min(decile, MAX_DECILE_INDEX)],
     }
 
 
-def compute_category_rag(
-    urn, category_name, settings, target, comparator_set, col_cache
-):
-    ofsted = target["OfstedRating (name)"]
+def compute_category_rag_statistics(
+    school_urn: str,
+    category_name: str,
+    rag_settings: Dict[str, Any],
+    target_school: pd.Series,
+    comparator_set: pd.DataFrame,
+    column_cache: CategoryColumnCache,
+) -> Generator[Dict[str, Any], None, None]:
+    """Computes RAG statistics for all subcategories within a main category."""
+    ofsted_rating = target_school["OfstedRating (name)"]
+    if rag_settings["type"] == "Building":
+        similar_mask = find_area_close_comparators(target_school, comparator_set)
+    else:
+        similar_mask = find_pupil_close_comparators(target_school, comparator_set)
+    similar_schools_count = similar_mask.sum()
 
-    close_count = sum(
-        comparator_set.apply(
-            lambda x: 1 if is_close_comparator(settings["type"], target, x) else 0,
-            axis=1,
-        )
-    )
+    category_mapping = column_cache.category_mappings[category_name]
+    category_data = comparator_set.loc[:, category_mapping["column_mask"]]
 
-    # series, sub_categories = get_category_series(category_name, comparator_set)
-    cols, sub_categories = col_cache[category_name]
-    series = comparator_set[comparator_set.columns[cols]]
-
-    for sub_category in sub_categories:
-        yield category_stats(urn, sub_category, series, ofsted, settings, close_count)
-
-
-def get_category_cols_predicates(category_name, data):
-    category_cols = data.columns.isin(base_cols) | (
-        data.columns.str.startswith(category_name)
-        & (data.columns.str.endswith("_Per Unit"))
-    )
-
-    df = data[data.columns[category_cols]]
-    dt = df.dtypes
-    sub_categories = dt[dt.index.str.startswith(category_name)].index.values
-
-    return category_cols, sub_categories
+    for subcategory_name in category_mapping["subcategories"]:
+        try:
+            yield calculate_category_statistics(
+                school_urn,
+                category_name,
+                subcategory_name,
+                category_data,
+                ofsted_rating,
+                rag_settings,
+                similar_schools_count,
+            )
+        except (KeyError, ValueError) as e:
+            logger.warning(
+                f"Could not calculate stats for {school_urn}, {subcategory_name}: {e}"
+            )
+            continue
 
 
-def calculate_rag(
-    data,
-    comparators,
-    target_urn: str | None = None,
-):
-    """
-    Perform RAG calculations for a given dataset.
+# --- Entrypoints ---
 
-    Note: RAG will not be calculated for part-year data.
 
-    :param data: dataset for which to calculate RAG
-    :param comparators: supplementary comparator-set data
-    :param target_urn: if generating RAG for a single org., defaults to None
-    :yield: RAG info. for a single (sub-)category
-    """
-    keys = rag_category_settings.keys()
-
-    # reduce to only used columns so that extraction routines are more efficient
-    cols = (
-        data.columns.isin(base_cols)
+def prepare_data_for_rag(data: pd.DataFrame) -> pd.DataFrame:
+    """Prepares and cleans data for RAG calculations."""
+    required_cols_mask = (
+        data.columns.isin(BASE_COLUMNS)
         | data.columns.str.endswith("_Per Unit")
         | (data.columns == "Partial Years Present")
     )
-    df = data[data.columns[cols]].fillna(0.0)
-
-    # Pre-computes the column accessors for each cost category
-    column_cache = {}
-    for cat_name in keys:
-        column_cache[cat_name] = get_category_cols_predicates(cat_name, df)
-    indices = range(len(df))
-    st = time.time()
-
-    with warnings.catch_warnings():
-        warnings.simplefilter("ignore", category=RuntimeWarning)
-        with np.errstate(invalid="ignore"):
-            for indx in indices:
-                target = df.iloc[indx]
-                urn = target.name
-                if target_urn and urn != target_urn:
-                    continue
-
-                # TODO: `target["Partial Years Present"]` when the column is guaranteed.
-                # if part-year data, skip…
-                if target.get("Partial Years Present"):
-                    continue
-
-                try:
-                    pupil_urns = comparators["Pupil"][urn]
-                    building_urns = comparators["Building"][urn]
-                    for cat_name in keys:
-                        rag_settings = rag_category_settings[cat_name]
-                        set_urns = (
-                            pupil_urns
-                            if rag_settings["type"] == "Pupil"
-                            else building_urns
-                        )
-                        if set_urns is not None and len(set_urns) > 0:
-                            comparator_set = df[df.index.isin(set_urns)]
-
-                            for r in compute_category_rag(
-                                urn,
-                                cat_name,
-                                rag_settings,
-                                target,
-                                comparator_set,
-                                column_cache,
-                            ):
-                                yield r
-                        else:
-                            logger.debug(
-                                f'Unable to compute rag for {cat_name} - {rag_settings["type"]} - {urn}'
-                            )
-                    if indx > 1 and indx % 1000 == 0:
-                        logger.debug(
-                            f"Completed {indx} RAGs in {time.time() - st:.2f} secs"
-                        )
-                        st = time.time()
-                except Exception as error:
-                    logger.exception(
-                        f"An exception {type(error).__name__} occurred processing {urn}:",
-                        exc_info=error,
-                    )
-                    return
+    return data.loc[:, required_cols_mask].fillna(0.0)
 
 
-def compute_user_defined_rag(
-    data: pd.DataFrame,
-    target_urn: int,
-    set_urns: list[int],
-) -> Generator[dict, None, None]:
+def process_single_urn(
+    school_urn: str,
+    target_school: pd.Series,
+    processed_data: pd.DataFrame,
+    comparators: dict,
+    column_cache: CategoryColumnCache,
+) -> Generator[Dict[str, Any], None, None]:
     """
-    Perform user-defined RAG calculation.
-
-    TODO: largely as per `compute_rag()` save that `set_urns` defines
-    the comparator set.
-
-    :param data: org. data for RAG computation
-    :param target_urn: URN of the reference org.
-    :param set_urns: URNs for use as the comparator-set
+    Core logic to compute RAG statistics for a single school URN.
+    This function is designed to be called by both serial and parallel executors.
     """
-    # reduce to only used columns so that extraction routines are more efficient
-    cols = data.columns.isin(base_cols) | data.columns.str.endswith("_Per Unit")
-    df = data[data.columns[cols]].fillna(0.0)
+    if target_school.get("Partial Years Present", False):
+        return
 
-    # Pre-computes the column accessors for each cost category
-    column_cache = {}
-    for category in rag_category_settings:
-        column_cache[category] = get_category_cols_predicates(category, df)
-    st = time.time()
+    try:
+        pupil_urns = comparators.get("Pupil", [])
+        building_urns = comparators.get("Building", [])
 
-    with warnings.catch_warnings():
+        for category_name, rag_settings in rag_category_settings.items():
+            set_urns = pupil_urns if rag_settings["type"] == "Pupil" else building_urns
+
+            if set_urns is not None and len(set_urns) > 0:
+                comparator_set = processed_data[processed_data.index.isin(set_urns)]
+                # Yield from the generator to pass results up
+                yield from compute_category_rag_statistics(
+                    school_urn,
+                    category_name,
+                    rag_settings,
+                    target_school,
+                    comparator_set,
+                    column_cache,
+                )
+    except Exception as e:
+        logger.exception(f"Unexpected error processing school {school_urn}: {e}")
+        # An empty generator is implicitly returned on exception
+        return
+
+
+def calculate_rag(
+    data: pd.DataFrame, comparators: Dict, target_urn: Optional[str] = None
+) -> Generator[Dict[str, Any], None, None]:
+    """
+    Performs RAG calculations. Iterates over schools and calls the core processing logic.
+    """
+    processed_data = prepare_data_for_rag(data)
+    column_cache = CategoryColumnCache(processed_data.columns)
+
+    schools_to_process = (
+        [target_urn]
+        if target_urn and target_urn in processed_data.index
+        else processed_data.index
+    )
+    start_time = time.time()
+
+    with warnings.catch_warnings(), np.errstate(invalid="ignore"):
         warnings.simplefilter("ignore", category=RuntimeWarning)
-        with np.errstate(invalid="ignore"):
-            target = df.loc[target_urn]
-            urn = target.name
+
+        for i, school_urn in enumerate(schools_to_process):
+            target_school = processed_data.loc[school_urn]
+
+            yield from process_single_urn(
+                school_urn, target_school, processed_data, comparators, column_cache
+            )
+
+            if i > 0 and i % BATCH_LOG_INTERVAL == 0:
+                elapsed = time.time() - start_time
+                logger.debug(f"Processed {i} schools in {elapsed:.2f} seconds.")
+                start_time = time.time()
+
+
+def run_user_defined_rag_pipeline(
+    data: pd.DataFrame, target_urn: str, comparator_urns: List[int]
+) -> Generator[Dict[str, Any], None, None]:
+    """Performs user-defined RAG calculation against a specific list of comparators."""
+    processed_data = prepare_data_for_rag(data)
+    column_cache = CategoryColumnCache(processed_data.columns)
+
+    if target_urn not in processed_data.index:
+        logger.error(f"Target URN {target_urn} not found in data for user-defined RAG.")
+        return
+
+    target_school = processed_data.loc[target_urn]
+
+    # Filter to only valid comparators that exist in the dataset
+    valid_urns = [urn for urn in comparator_urns if urn in processed_data.index]
+    if not valid_urns:
+        logger.warning(
+            f"No valid comparators found for user-defined RAG for {target_urn}."
+        )
+        return
+
+    comparator_set = processed_data.loc[valid_urns]
+
+    with warnings.catch_warnings(), np.errstate(invalid="ignore"):
+        warnings.simplefilter("ignore", category=RuntimeWarning)
+        for category_name, rag_settings in rag_category_settings.items():
             try:
-                comparator_set = df[df.index.isin(set_urns)]
-                for category in rag_category_settings:
-                    rag_settings = rag_category_settings[category]
-                    for r in compute_category_rag(
-                        urn,
-                        category,
-                        rag_settings,
-                        target,
-                        comparator_set,
-                        column_cache,
-                    ):
-                        yield r
-                logger.debug(
-                    f"Completed user-defined RAGs in {time.time() - st:.2f} secs."
+                yield from compute_category_rag_statistics(
+                    target_urn,
+                    category_name,
+                    rag_settings,
+                    target_school,
+                    comparator_set,
+                    column_cache,
                 )
-                st = time.time()
-            except Exception as error:
+            except Exception as e:
                 logger.exception(
-                    f"An exception {type(error).__name__} occurred processing {urn}:",
-                    exc_info=error,
+                    f"Error in user-defined RAG for {target_urn}, category {category_name}: {e}"
                 )
-                return
-
-
-def _get_series_for_category(data: pd.DataFrame, category: str, urn: int) -> pd.Series:
-    """
-    Filters the comparator set data for the specified category, retaining only
-    positive values or the value for the specified org. (identified by URN).
-
-    This ensures that only positive expenditure values are considered for
-    rag calculations.
-
-    :param data: A DataFrame containing comparator data for RAG calculations.
-    :param category: The category column to filter on
-    :param urn: The URN of the org. whose value should always be included.
-    :return: A Series containing the filtered values
-    """
-
-    return data.loc[(data[category] > 0) | (data.index == urn), category]
+                continue
