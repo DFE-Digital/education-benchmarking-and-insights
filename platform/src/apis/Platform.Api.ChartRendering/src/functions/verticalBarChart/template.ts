@@ -1,7 +1,8 @@
-import { ascending, descending, max } from "d3-array";
+import { max } from "d3-array";
 import { scaleLinear, scaleBand } from "d3-scale";
 import classnames from "classnames";
 import { ChartBuilderResult, VerticalBarChartBuilderOptions } from "..";
+import { sortData } from "../utils";
 
 export default class VerticalBarChartTemplate {
   buildChart<T>({
@@ -21,11 +22,7 @@ export default class VerticalBarChartTemplate {
     const marginLeft = 3;
 
     // Declare the x (horizontal position) scale.
-    data.sort((a, b) =>
-      sort === "asc"
-        ? ascending(a[valueField] as number, b[valueField] as number)
-        : descending(a[valueField] as number, b[valueField] as number)
-    );
+    sortData(data, valueField, sort);
     const x = scaleBand()
       .domain(data.map((d) => d[keyField] as string))
       .range([marginLeft, width - marginRight])

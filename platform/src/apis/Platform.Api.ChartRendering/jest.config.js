@@ -22,4 +22,8 @@ export default {
       },
     ],
   ],
+  // https://github.com/jestjs/jest/issues/14911#issuecomment-1954962725
+  moduleNameMapper: {
+    "^d3-(.+)$": "<rootDir>/node_modules/d3-$1/dist/d3-$1.js",
+  },
 };

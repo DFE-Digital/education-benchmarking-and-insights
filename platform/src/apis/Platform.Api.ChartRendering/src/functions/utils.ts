@@ -1,4 +1,5 @@
-import { NumberValue } from "d3";
+import { ascending, descending } from "d3-array";
+import { NumberValue } from "d3-scale";
 import { DatumKey, Group, ValueType } from "./index";
 
 export function normaliseData<T>(
@@ -37,6 +38,34 @@ export function normaliseData<T>(
         `Argument out of range: unsupported ValueType '${dataType}'`
       );
   }
+}
+
+/**
+ * Sorts the data array in place based on the valueField and sort order.
+ * If the value resolves to `null` it is treated as the lowest possible value when sorting ascending
+ * and the highest possible value when sorting descending to ensure it always appears 'last' in the chart.
+ */
+export function sortData<T>(
+  data: T[],
+  valueField: keyof T,
+  sort?: "asc" | "desc"
+): void {
+  data.sort((a, b) => {
+    const aValue = a[valueField] as number | null | undefined;
+    const bValue = b[valueField] as number | null | undefined;
+
+    if (sort === "asc") {
+      return ascending(
+        isNaN(aValue as number) || aValue === null ? Infinity : aValue,
+        isNaN(bValue as number) || bValue === null ? Infinity : bValue
+      );
+    }
+
+    return descending(
+      isNaN(aValue as number) || aValue === null ? -Infinity : aValue,
+      isNaN(bValue as number) || bValue === null ? -Infinity : bValue
+    );
+  });
 }
 
 export function getValueFormat(

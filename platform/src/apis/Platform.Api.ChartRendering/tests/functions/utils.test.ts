@@ -5,6 +5,7 @@ import {
   getGroups,
   escapeXml,
   shortValueFormatter,
+  sortData,
 } from "../../src/functions/utils";
 import { ValueType } from "../../src/functions/index";
 import theoretically from "jest-theories";
@@ -70,6 +71,44 @@ describe("normaliseData", () => {
     expect(() =>
       normaliseData(sampleData, "value", "invalid" as ValueType)
     ).toThrow("Argument out of range: unsupported ValueType 'invalid'");
+  });
+});
+
+describe("sortData", () => {
+  const sampleData = [
+    { category: "A", value: 50 },
+    { category: "B", value: 100 },
+    { category: "C", value: 0 },
+    { category: "D", value: undefined },
+    { category: "E", value: null },
+    { category: "F", value: 100 },
+    { category: "G", value: 10 },
+  ];
+
+  it("should return values ascending for `asc` sort type", () => {
+    sortData(sampleData, "value", "asc");
+    expect(sampleData).toEqual([
+      { category: "C", value: 0 },
+      { category: "G", value: 10 },
+      { category: "A", value: 50 },
+      { category: "B", value: 100 },
+      { category: "F", value: 100 },
+      { category: "D", value: undefined },
+      { category: "E", value: null },
+    ]);
+  });
+
+  it("should return values descending for `desc` sort type", () => {
+    sortData(sampleData, "value", "desc");
+    expect(sampleData).toEqual([
+      { category: "B", value: 100 },
+      { category: "F", value: 100 },
+      { category: "A", value: 50 },
+      { category: "G", value: 10 },
+      { category: "C", value: 0 },
+      { category: "D", value: undefined },
+      { category: "E", value: null },
+    ]);
   });
 });
 
