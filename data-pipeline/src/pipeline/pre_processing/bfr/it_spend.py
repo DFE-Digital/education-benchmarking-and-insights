@@ -29,6 +29,10 @@ def melt_it_spend_rows_from_bfr(bfr, current_year):
 
 
 def melt_it_spend_pupil_numbers_from_bfr(bfr, current_year):
+    """
+    Pupil number is Y1P1, Y1P2 and Y2P1 respectively for last year, current year
+    and future year taken from BFR_SOFA
+    """
     it_spend_pupil_numbers_melted_rows = (
         bfr[bfr["EFALineNo"].isin([SOFA_PUPIL_NUMBER_EFALINE])]
         .melt(
