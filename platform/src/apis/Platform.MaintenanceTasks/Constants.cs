@@ -2,5 +2,6 @@
 
 public static class Constants
 {
-    public const string ApplicationName = "clean-up";
+    public const string CleanUp = "clean-up";
+    public const string MonitorCommercialResources = "monitor-commercial-resources";
 }

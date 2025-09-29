@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Extensions.Logging;
@@ -7,6 +8,7 @@ using Platform.Json;
 
 namespace Platform.MaintenanceTasks.Features.UserDataCleanUp;
 
+[ExcludeFromCodeCoverage]
 public class CleanUpFunctions(ILogger<CleanUpFunctions> logger, IPlatformDb db)
 {
     [Function("CleanUpFunction")]
@@ -14,7 +16,7 @@ public class CleanUpFunctions(ILogger<CleanUpFunctions> logger, IPlatformDb db)
     {
         using (logger.BeginScope(new Dictionary<string, object>
                {
-                   { "Application", Constants.ApplicationName }
+                   { "Application", Constants.CleanUp }
                }))
         {
             try
