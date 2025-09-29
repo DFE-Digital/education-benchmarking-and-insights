@@ -495,7 +495,9 @@ def build_academy_data(
         academies["Number of pupils_pro_rata"].astype(float)
         / academies["Total pupils in trust_pro_rata"].astype(float)
     ).fillna(0.0)
-    academies["In year balance"] = academies["In year balance"] + academies["In year balance_CS"]
+    academies["In year balance"] = (
+        academies["In year balance"] + academies["In year balance_CS"]
+    )
 
     academies["Total Income_CS"] = academies["Total Income_CS"] * (
         academies["Number of pupils_pro_rata"].astype(float)
@@ -503,7 +505,7 @@ def build_academy_data(
     ).fillna(0.0)
     academies["Total Income"] = academies["Total Income"] + academies["Total Income_CS"]
 
-        # Overwrite original expenditure totals to account for central service apportionment
+    # Overwrite original expenditure totals to account for central service apportionment
     academies["Total Expenditure"] = academies[all_expenditure_category_total_cols].sum(
         axis=1
     )
