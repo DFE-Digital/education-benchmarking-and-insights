@@ -202,7 +202,6 @@ def build_bfr_data(
         .merge(merged_bfr, on="Trust UPIN")
     )
 
-    bfr_it_spend_rows = get_bfr_it_spend_rows(merged_bfr_with_crn, current_year)
     bfr_forecast_and_risk_rows, bfr_forecast_and_risk_metrics = (
         get_bfr_forecast_and_risk_data(
             merged_bfr_with_crn,
@@ -212,6 +211,9 @@ def build_bfr_data(
             academies,
         )
     )
-    bfr_final_long = pd.concat([bfr_forecast_and_risk_rows, bfr_it_spend_rows])
-
-    return bfr_final_long, bfr_forecast_and_risk_metrics
+    # IT spend breakdown was introduced from the 2025 return
+    if current_year > 2024:
+        bfr_it_spend_rows = get_bfr_it_spend_rows(merged_bfr_with_crn, current_year)
+        bfr_final_long = pd.concat([bfr_forecast_and_risk_rows, bfr_it_spend_rows])
+        return bfr_final_long, bfr_forecast_and_risk_metrics
+    return bfr_forecast_and_risk_rows, bfr_forecast_and_risk_metrics
