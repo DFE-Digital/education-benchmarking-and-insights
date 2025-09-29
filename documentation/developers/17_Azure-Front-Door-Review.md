@@ -47,7 +47,8 @@ The priority is to analyze WAF logs first to identify threats, false positives, 
 ## Example queries
 
 Top blocked IPs
-```
+
+```kql
 AzureDiagnostics
 | where Category == "FrontdoorWebApplicationFirewallLog"
 | where action_s == "Block"
@@ -57,7 +58,7 @@ AzureDiagnostics
 
 Top triggered rules
 
-```
+```kql
 AzureDiagnostics
 | where Category == "FrontdoorWebApplicationFirewallLog"
 | summarize Count = count() by ruleName_s, action_s
@@ -65,7 +66,8 @@ AzureDiagnostics
 ```
 
 Blocked traffic by country
-```
+
+```kql
 AzureDiagnostics
 | where Category == "FrontdoorWebApplicationFirewallLog"
 | summarize Count = count() by clientCountry_s
