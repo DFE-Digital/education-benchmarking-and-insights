@@ -157,6 +157,57 @@ resource "azurerm_cdn_frontdoor_firewall_policy" "web-app-front-door-waf" {
       type    = "DefaultRuleSet"
       version = "1.0"
       action  = "Block"
+
+      override {
+        rule_group_name = "SQLI"
+
+        exclusion {
+          match_variable = "RequestCookieNames"
+          operator       = "StartsWith"
+          selector       = "dsi-education-benchmarking"
+        }
+
+        exclusion {
+          match_variable = "RequestCookieNames"
+          operator       = "StartsWith"
+          selector       = ".AspNetCore.Antiforgery"
+        }
+
+        exclusion {
+          match_variable = "RequestFormPostParamNames"
+          operator       = "StartsWith"
+          selector       = "__RequestVerificationToken"
+        }
+
+        exclusion {
+          match_variable = "RequestCookieNames"
+          operator       = "Equals"
+          selector       = "cookies_policy"
+        }
+
+        exclusion {
+          match_variable = "RequestCookieNames"
+          operator       = "Equals"
+          selector       = ".AspNetCore.Mvc.CookieTempDataProvider"
+        }
+
+        exclusion {
+          match_variable = "RequestFormPostParamNames"
+          operator       = "Equals"
+          selector       = "state"
+        }
+      }
+
+      override {
+        rule_group_name = "RFI"
+        rule_ids        = ["931130"]
+
+        exclusion {
+          match_variable = "RequestFormPostParamNames"
+          operator       = "Equals"
+          selector       = "iss"
+        }
+      }
     }
   }
 
