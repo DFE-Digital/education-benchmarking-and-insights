@@ -14,7 +14,10 @@ SOFA_IT_SPEND_LINES = [336, 337, 338, 339, 340, 341, 342]
 
 def get_sofa_year_cols(year: int) -> list[str]:
     """Dynamically returns the SOFA year columns based on the pipeline run year."""
-    return list(bfr_sofa_cols.get(year, bfr_sofa_cols["default"]).keys() - {"TrustUPIN", "Title", "EFALineNo"})
+    return list(
+        bfr_sofa_cols.get(year, bfr_sofa_cols["default"]).keys()
+        - {"TrustUPIN", "Title", "EFALineNo"}
+    )
 
 
 # BFA 3Y

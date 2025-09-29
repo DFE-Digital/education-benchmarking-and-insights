@@ -16,8 +16,8 @@ from .config import (
     SOFA_TOTAL_REVENUE_EXPENDITURE,
     SOFA_TOTAL_REVENUE_INCOME,
     SOFA_TRUST_REVENUE_RESERVE_EFALINE,
-    get_sofa_year_cols,
     THREE_YEAR_PROJECTION_COLS,
+    get_sofa_year_cols,
 )
 from .forecast_and_risk import get_bfr_forecast_and_risk_data
 from .it_spend import get_bfr_it_spend_rows

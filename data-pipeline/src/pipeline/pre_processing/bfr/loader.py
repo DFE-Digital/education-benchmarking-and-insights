@@ -2,7 +2,7 @@ import logging
 
 import pandas as pd
 
-from pipeline.input_schemas.bfr import bfr_sofa_cols, bfr_3y_cols
+from pipeline.input_schemas.bfr import bfr_3y_cols, bfr_sofa_cols
 
 logger = logging.getLogger(__name__)
 
