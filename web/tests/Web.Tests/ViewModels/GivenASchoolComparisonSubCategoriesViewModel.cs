@@ -29,18 +29,18 @@ public class GivenASchoolComparisonSubCategoriesViewModel
 
         var actual = new SchoolComparisonSubCategoriesViewModel(urn, expenditures, ItSpendingCategories.All);
 
-        Assert.Equal(7, actual.Count);
-        AssertSubCategory(actual.ElementAt(0), "Administration software and systems E20D", urn, s => s.AdministrationSoftwareAndSystems, expenditures);
-        AssertSubCategory(actual.ElementAt(1), "Connectivity E20A", urn, s => s.Connectivity, expenditures);
-        AssertSubCategory(actual.ElementAt(2), "IT learning resources E20C", urn, s => s.ItLearningResources, expenditures);
-        AssertSubCategory(actual.ElementAt(3), "IT support E20G", urn, s => s.ItSupport, expenditures);
-        AssertSubCategory(actual.ElementAt(4), "Laptops, desktops and tablets E20E", urn, s => s.LaptopsDesktopsAndTablets, expenditures);
-        AssertSubCategory(actual.ElementAt(5), "Onsite servers E20B", urn, s => s.OnsiteServers, expenditures);
-        AssertSubCategory(actual.ElementAt(6), "Other hardware E20F", urn, s => s.OtherHardware, expenditures);
+        Assert.Equal(7, actual.Items.Count);
+        AssertSubCategory(actual.Items.ElementAt(0), "Administration software and systems E20D", urn, s => s.AdministrationSoftwareAndSystems, expenditures);
+        AssertSubCategory(actual.Items.ElementAt(1), "Connectivity E20A", urn, s => s.Connectivity, expenditures);
+        AssertSubCategory(actual.Items.ElementAt(2), "IT learning resources E20C", urn, s => s.ItLearningResources, expenditures);
+        AssertSubCategory(actual.Items.ElementAt(3), "IT support E20G", urn, s => s.ItSupport, expenditures);
+        AssertSubCategory(actual.Items.ElementAt(4), "Laptops, desktops and tablets E20E", urn, s => s.LaptopsDesktopsAndTablets, expenditures);
+        AssertSubCategory(actual.Items.ElementAt(5), "Onsite servers E20B", urn, s => s.OnsiteServers, expenditures);
+        AssertSubCategory(actual.Items.ElementAt(6), "Other hardware E20F", urn, s => s.OtherHardware, expenditures);
     }
 
     private static void AssertSubCategory(
-        SchoolComparisonViewModelCostSubCategory<SchoolComparisonDatum> actual,
+        BenchmarkingViewModelCostSubCategory<SchoolComparisonDatum> actual,
         string name,
         string urn,
         Func<SchoolItSpend, decimal?> selector,

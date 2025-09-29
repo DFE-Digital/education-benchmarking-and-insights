@@ -15,15 +15,15 @@ public class GivenASchoolComparisonItSpendViewModel
     public void ShouldReturnValuesAndFilters()
     {
         var school = _fixture.Create<School>();
-        var subCategories = _fixture.Create<SchoolComparisonSubCategoriesViewModel>();
         var expenditures = _fixture.Build<SchoolItSpend>().CreateMany().ToArray();
+        var subCategories = new SchoolComparisonSubCategoriesViewModel(string.Empty, expenditures, []);
 
         var actual = new SchoolComparisonItSpendViewModel(school, subCategories, expenditures);
 
         Assert.Equal(school.URN, actual.Urn);
         Assert.Equal(school.SchoolName, actual.Name);
-        Assert.Equal(subCategories, actual.SubCategories);
-        Assert.Equal(SchoolComparisonItSpendViewModel.ViewAsOptions.Chart, actual.ViewAs);
+        Assert.Equal(subCategories.Items, actual.SubCategories);
+        Assert.Equal(Views.ViewAsOptions.Chart, actual.ViewAs);
         Assert.Equal(Dimensions.ResultAsOptions.SpendPerPupil, actual.ResultAs);
         Assert.Empty(actual.SelectedSubCategories);
     }
@@ -32,8 +32,8 @@ public class GivenASchoolComparisonItSpendViewModel
     public void ShouldReturnFlattenedTooltipData()
     {
         var school = new School();
-        var subCategories = _fixture.Create<SchoolComparisonSubCategoriesViewModel>();
         var expenditures = _fixture.Build<SchoolItSpend>().CreateMany().ToArray();
+        var subCategories = new SchoolComparisonSubCategoriesViewModel(string.Empty, expenditures, []);
 
         var actual = new SchoolComparisonItSpendViewModel(school, subCategories, expenditures);
 
@@ -63,7 +63,7 @@ public class GivenASchoolComparisonItSpendViewModel
 
         var actual = new SchoolComparisonItSpendViewModel(school, subCategories, expenditures);
 
-        var partYear = subCategories
+        var partYear = subCategories.Items
             .SelectMany(e => e.Data!.Where(d => d.PeriodCoveredByReturn is not 12))
             .DistinctBy(x => x.Urn)
             .ToArray();

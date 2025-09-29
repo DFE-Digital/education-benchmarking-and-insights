@@ -3,16 +3,10 @@ using Web.App.Domain.Charts;
 
 namespace Web.App.ViewModels;
 
-public class SchoolComparisonViewModelCostSubCategory<T>
+public class SchoolComparisonSubCategoriesViewModel
 {
-    public string? Uuid { get; init; }
-    public string? SubCategory { get; init; }
-    public string? ChartSvg { get; set; }
-    public T[]? Data { get; init; }
-}
+    public List<BenchmarkingViewModelCostSubCategory<SchoolComparisonDatum>> Items { get; set; } = [];
 
-public class SchoolComparisonSubCategoriesViewModel : List<SchoolComparisonViewModelCostSubCategory<SchoolComparisonDatum>>
-{
     public SchoolComparisonSubCategoriesViewModel(string urn, SchoolItSpend[] expenditures,
         ItSpendingCategories.SubCategoryFilter[] filters)
     {
@@ -43,7 +37,7 @@ public class SchoolComparisonSubCategoriesViewModel : List<SchoolComparisonViewM
             .OrderByDescending(x => x.Expenditure)
             .ToArray();
 
-        Add(new SchoolComparisonViewModelCostSubCategory<SchoolComparisonDatum>
+        Items.Add(new BenchmarkingViewModelCostSubCategory<SchoolComparisonDatum>
         {
             Uuid = uuid,
             SubCategory = filter.GetHeading(),

@@ -10,15 +10,17 @@ public class SchoolComparisonItSpendViewModel(
     SchoolComparisonSubCategoriesViewModel subCategories,
     SchoolItSpend[] expenditures)
 {
-    public enum ViewAsOptions
-    {
-        Chart = 0,
-        Table = 1
-    }
+    public static readonly Dimensions.ResultAsOptions[] FilterDimensions =
+    [
+        Dimensions.ResultAsOptions.SpendPerPupil,
+        Dimensions.ResultAsOptions.Actuals,
+        Dimensions.ResultAsOptions.PercentExpenditure,
+        Dimensions.ResultAsOptions.PercentIncome
+    ];
 
     public string? Urn => school.URN;
     public string? Name => school.SchoolName;
-    public SchoolComparisonSubCategoriesViewModel SubCategories => subCategories;
+    public List<BenchmarkingViewModelCostSubCategory<SchoolComparisonDatum>> SubCategories => subCategories.Items;
 
     public SchoolChartTooltipData[] TooltipData => expenditures.Select(x => new SchoolChartTooltipData
     {
@@ -39,7 +41,7 @@ public class SchoolComparisonItSpendViewModel(
             PeriodCoveredByReturn = x.PeriodCoveredByReturn
         }).ToArray();
 
-    public ViewAsOptions ViewAs { get; set; } = ViewAsOptions.Chart;
+    public Views.ViewAsOptions ViewAs { get; set; } = Views.ViewAsOptions.Chart;
     public Dimensions.ResultAsOptions ResultAs { get; set; } = Dimensions.ResultAsOptions.SpendPerPupil;
     public ItSpendingCategories.SubCategoryFilter[] SelectedSubCategories { get; set; } = [];
 }
@@ -47,19 +49,19 @@ public class SchoolComparisonItSpendViewModel(
 public class SchoolComparisonItSpendTableViewModel(
     string? urn,
     Dimensions.ResultAsOptions resultAs,
-    SchoolComparisonViewModelCostSubCategory<SchoolComparisonDatum> subCategory)
+    BenchmarkingViewModelCostSubCategory<SchoolComparisonDatum> subCategory)
 {
     public string? Urn => urn;
     public Dimensions.ResultAsOptions ResultAs => resultAs;
-    public SchoolComparisonViewModelCostSubCategory<SchoolComparisonDatum> SubCategory => subCategory;
+    public BenchmarkingViewModelCostSubCategory<SchoolComparisonDatum> SubCategory => subCategory;
 }
 
 public class SchoolComparisonItSpendChartViewModel(
     Guid uuid,
-    SchoolComparisonViewModelCostSubCategory<SchoolComparisonDatum> subCategory)
+    BenchmarkingViewModelCostSubCategory<SchoolComparisonDatum> subCategory)
 {
     public Guid Uuid => uuid;
-    public SchoolComparisonViewModelCostSubCategory<SchoolComparisonDatum> SubCategory => subCategory;
+    public BenchmarkingViewModelCostSubCategory<SchoolComparisonDatum> SubCategory => subCategory;
 }
 
 public record SchoolChartPartYearData
