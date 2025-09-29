@@ -157,9 +157,8 @@ def preprocess_bfr_3y(bfr_3y_raw):
 
 def prepare_current_and_future_pupils(bfr_data, academies):
     """
-    The current year BFR_SOFA (Y2P2) doesn't have current year pupil numbers as
-    it is released halfway through the year, so we get them from the academies
-    data (aka the academy year census). Future years come from BFR_3Y.
+    We get current year pupil numbers from the academies data (aka the
+    academy year census). Future years come from BFR_3Y.
     """
     bfr_pupils = bfr_data[(bfr_data["Category"] == "Pupil numbers")][
         ["Trust UPIN", "Y2", "Y3", "Y4"]
