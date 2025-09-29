@@ -138,7 +138,11 @@ Resources for each category are managed using view components, view models, and 
 
 ## Updating resources
 
-From time-to-time the commercial resources will need to be updated. In order to track the history of updates, relevant SQL scripts should be persisted to the repo in the [scripts/content](../../scripts/content) folder.
+From time-to-time the commercial resources will need to be updated. An alert is set up to trigger based on a nightly check of the commercial resources to verify a `GET` returns a successful Http status code for each resource. Any failures will trigger this alert and the logs will display any resources that are unsuccessful.
+
+See `Commercial resource check failures detected alert` in the [Monitoring and Alerting runbook](https://educationgovuk.sharepoint.com/:w:/r/sites/DfEFinancialBenchmarking/Shared%20Documents/Runbooks/Monitoring%20and%20Alerting.docx?d=wecb5ba87e68f486fa6fe919d5b921214&csf=1&web=1&e=yFckI0) for more information. Note this SharePoint resource requires authentication.
+
+In order to track the history of updates, relevant SQL scripts should be persisted to the repo in the [scripts/content](../../scripts/content) folder.
 
 In the future the management of commercial resources, and other resources handled by the Content API, will be done by an administrative front-end. This supports self-service of parts of the platform via a paired-down CMS to reduce the dependency on the development team.
 
