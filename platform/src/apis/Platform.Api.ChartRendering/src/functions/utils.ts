@@ -50,6 +50,10 @@ export function sortData<T>(
   valueField: keyof T,
   sort?: "asc" | "desc"
 ): void {
+  if (!sort) {
+    return;
+  }
+
   data.sort((a, b) => {
     const aValue = a[valueField] as number | null | undefined;
     const bValue = b[valueField] as number | null | undefined;

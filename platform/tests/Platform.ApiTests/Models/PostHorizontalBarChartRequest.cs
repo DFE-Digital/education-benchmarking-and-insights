@@ -6,6 +6,7 @@ namespace Platform.ApiTests.Models;
 public record PostHorizontalBarChartRequest<T> : ChartRequest<T>
 {
     public int? BarHeight { get; set; }
+    public Dictionary<string, string[]>? GroupedKeys { get; set; }
     public string? LabelField { get; set; }
     public string? LabelFormat { get; set; }
     public string? LinkFormat { get; set; }

@@ -69,6 +69,11 @@
         Given a single horizontal bar chart request with accept header 'image/svg+xml' and request input from 'HorizontalBarChartValidSingleCurrencyCustomDomainRequest.json'
         When I submit the horizontal bar chart request
         Then the response should be ok, contain an SVG document and match the expected output of 'HorizontalBarChartValidSingleCurrencyCustomDomain.svg'
+        
+    Scenario: Sending a valid single horizontal bar chart request with grouped keys and accept header image/svg+xml returns the correct HTML only
+        Given a single horizontal bar chart request with accept header 'image/svg+xml' and request input from 'HorizontalBarChartValidSingleCurrencyGroupedKeysRequest.json'
+        When I submit the horizontal bar chart request
+        Then the response should be ok, contain an SVG document and match the expected output of 'HorizontalBarChartValidSingleCurrencyGroupedKeys.svg'
 
     Scenario: Sending a valid single horizontal bar chart request without SI units with accept header image/svg+xml returns the correct HTML only
         Given a single horizontal bar chart request with accept header 'image/svg+xml', highlighted item '123456', sort 'asc', width '500', bar height '20', id 'test-uuid', valueType 'currency' and the following data:
