@@ -16,7 +16,7 @@ from .config import (
     SOFA_TOTAL_REVENUE_EXPENDITURE,
     SOFA_TOTAL_REVENUE_INCOME,
     SOFA_TRUST_REVENUE_RESERVE_EFALINE,
-    SOFA_YEAR_COLS,
+    get_sofa_year_cols,
     THREE_YEAR_PROJECTION_COLS,
 )
 from .forecast_and_risk import get_bfr_forecast_and_risk_data
@@ -87,24 +87,25 @@ def aggregate_efalines_over_years(
 
 
 def aggregate_custom_sofa_categories(
-    bfr_sofa_filtered,
+    bfr_sofa_filtered, year
 ) -> tuple[pd.DataFrame, pd.DataFrame]:
     """Create custom aggregate categories from BFR SOFA data
     Return just the new category rows, summed over year"""
+    sofa_year_cols = get_sofa_year_cols(year)
     self_gen_income = aggregate_efalines_over_years(
         bfr_sofa_filtered,
         SOFA_SELF_GENERATED_INCOME_EFALINES,
-        SOFA_YEAR_COLS,
+        sofa_year_cols,
         "Self-generated income",
     )
     grant_funding = aggregate_efalines_over_years(
-        bfr_sofa_filtered, SOFA_GRANT_FUNDING_EFALINES, SOFA_YEAR_COLS, "Grant funding"
+        bfr_sofa_filtered, SOFA_GRANT_FUNDING_EFALINES, sofa_year_cols, "Grant funding"
     )
 
     return self_gen_income, grant_funding
 
 
-def preprocess_bfr_sofa(bfr_sofa_raw):
+def preprocess_bfr_sofa(bfr_sofa_raw, year):
     bfr_sofa_filtered = bfr_sofa_raw[
         bfr_sofa_raw["EFALineNo"].isin(
             [
@@ -121,11 +122,12 @@ def preprocess_bfr_sofa(bfr_sofa_raw):
         )
     ]
     # Scale the monetary values by 1000
+    sofa_year_cols = get_sofa_year_cols(year)
     bfr_sofa_filtered.loc[
-        bfr_sofa_filtered["EFALineNo"] != SOFA_PUPIL_NUMBER_EFALINE, SOFA_YEAR_COLS
+        bfr_sofa_filtered["EFALineNo"] != SOFA_PUPIL_NUMBER_EFALINE, sofa_year_cols
     ] *= 1000
     sofa_self_generated_income, sofa_grant_funding = aggregate_custom_sofa_categories(
-        bfr_sofa_filtered
+        bfr_sofa_filtered, year
     )
     bfr_sofa_with_aggregated_categories = pd.concat(
         [bfr_sofa_filtered, sofa_self_generated_income, sofa_grant_funding]
@@ -185,8 +187,8 @@ def build_bfr_data(
     historic_bfr_y1=None,
     historic_bfr_y2=None,
 ):
-    bfr_sofa_raw = load_bfr_sofa(bfr_sofa_data_path)
-    bfr_sofa_preprocessed = preprocess_bfr_sofa(bfr_sofa_raw)
+    bfr_sofa_raw = load_bfr_sofa(bfr_sofa_data_path, current_year)
+    bfr_sofa_preprocessed = preprocess_bfr_sofa(bfr_sofa_raw, current_year)
 
     bfr_3y_raw = load_bfr_3y(bfr_3y_data_path)
     bfr_3y_preprocessed = preprocess_bfr_3y(bfr_3y_raw)
