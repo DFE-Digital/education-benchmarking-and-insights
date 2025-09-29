@@ -50,4 +50,13 @@ public static class Dimensions
         ResultAsOptions.PercentExpenditure or ResultAsOptions.PercentIncome => "Percentage",
         _ => throw new ArgumentOutOfRangeException(nameof(option))
     };
+
+    public static string GetDescription(this ResultAsOptions option) => option switch
+    {
+        ResultAsOptions.SpendPerPupil => "Spend per pupil",
+        ResultAsOptions.Actuals => "Actuals",
+        ResultAsOptions.PercentExpenditure => "Percentage of expenditure",
+        ResultAsOptions.PercentIncome => "Percentage of income",
+        _ => throw new ArgumentException(nameof(option))
+    };
 }

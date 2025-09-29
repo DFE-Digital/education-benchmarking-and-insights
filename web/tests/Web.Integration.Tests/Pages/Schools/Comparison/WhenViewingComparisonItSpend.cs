@@ -189,7 +189,7 @@ public class WhenViewingComparisonItSpend(SchoolBenchmarkingWebAppClient client)
             page,
             school,
             spend,
-            expectedQueryParams: "?ViewAs=0&ResultAs=0&SelectedSubCategories=AdministrationSoftwareSystems",
+            expectedQueryParams: "?viewAs=0&resultAs=0&selectedSubCategories=0",
             expectedSubCategories: BuildExpectedSubCategories(0));
     }
 
@@ -198,7 +198,7 @@ public class WhenViewingComparisonItSpend(SchoolBenchmarkingWebAppClient client)
     {
         var (page, school, spend) = await SetupNavigateInitPage(
             EstablishmentTypes.Maintained,
-            queryParams: "?viewAs=0&resultAs=0&selectedSubCategories=0&SelectedSubCategories=1");
+            queryParams: "?viewAs=0&resultAs=0&selectedSubCategories=0&selectedSubCategories=1");
 
         var target = page.QuerySelectorAll("a").FirstOrDefault(x => x.TextContent.Trim() == "Clear");
         Assert.NotNull(target);
@@ -209,7 +209,7 @@ public class WhenViewingComparisonItSpend(SchoolBenchmarkingWebAppClient client)
             page,
             school,
             spend,
-            expectedQueryParams: "?ViewAs=0&ResultAs=0");
+            expectedQueryParams: "?viewAs=0&resultAs=0");
     }
 
     [Fact]
@@ -227,9 +227,9 @@ public class WhenViewingComparisonItSpend(SchoolBenchmarkingWebAppClient client)
     }
 
     [Theory]
-    [InlineData(SchoolComparisonItSpendViewModel.ViewAsOptions.Chart, true)]
-    [InlineData(SchoolComparisonItSpendViewModel.ViewAsOptions.Table, false)]
-    public async Task CanSaveChartImages(SchoolComparisonItSpendViewModel.ViewAsOptions viewAs, bool expected)
+    [InlineData(Views.ViewAsOptions.Chart, true)]
+    [InlineData(Views.ViewAsOptions.Table, false)]
+    public async Task CanSaveChartImages(Views.ViewAsOptions viewAs, bool expected)
     {
         var (page, _, _) = await SetupNavigateInitPage(EstablishmentTypes.Maintained, queryParams: $"?viewAs={(int)viewAs}");
 

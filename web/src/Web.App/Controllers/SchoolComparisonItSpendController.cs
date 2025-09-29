@@ -35,7 +35,7 @@ public class SchoolComparisonItSpendController(
     public async Task<IActionResult> Index(string urn,
         ItSpendingCategories.SubCategoryFilter[] selectedSubCategories,
         Dimensions.ResultAsOptions resultAs = Dimensions.ResultAsOptions.SpendPerPupil,
-        SchoolComparisonItSpendViewModel.ViewAsOptions viewAs = SchoolComparisonItSpendViewModel.ViewAsOptions.Chart)
+        Views.ViewAsOptions viewAs = Views.ViewAsOptions.Chart)
     {
         using (logger.BeginScope(new
         {
@@ -52,13 +52,13 @@ public class SchoolComparisonItSpendController(
                 }
 
                 var subCategories = new SchoolComparisonSubCategoriesViewModel(urn, expenditures, selectedSubCategories);
-                if (viewAs == SchoolComparisonItSpendViewModel.ViewAsOptions.Chart)
+                if (viewAs == Views.ViewAsOptions.Chart)
                 {
                     var charts = await BuildCharts(urn, resultAs, subCategories);
 
                     foreach (var chart in charts)
                     {
-                        var category = subCategories.FirstOrDefault(r => r.Uuid == chart.Id);
+                        var category = subCategories.Items.FirstOrDefault(r => r.Uuid == chart.Id);
                         if (category != null)
                         {
                             category.ChartSvg = chart.Html;
@@ -125,7 +125,7 @@ public class SchoolComparisonItSpendController(
         }
     }
 
-    private void TrackEvent(string urn, ItSpendingCategories.SubCategoryFilter[] selectedCategories, Dimensions.ResultAsOptions resultAs, SchoolComparisonItSpendViewModel.ViewAsOptions viewAs)
+    private void TrackEvent(string urn, ItSpendingCategories.SubCategoryFilter[] selectedCategories, Dimensions.ResultAsOptions resultAs, Views.ViewAsOptions viewAs)
     {
         var categories = selectedCategories.Length == 0 ? ItSpendingCategories.All : selectedCategories;
 
@@ -155,7 +155,7 @@ public class SchoolComparisonItSpendController(
     private async Task<ChartResponse[]> BuildCharts(string urn, Dimensions.ResultAsOptions resultAs,
         SchoolComparisonSubCategoriesViewModel subCategories)
     {
-        var requests = subCategories.Select(c => new SchoolComparisonItSpendHorizontalBarChartRequest(
+        var requests = subCategories.Items.Select(c => new SchoolComparisonItSpendHorizontalBarChartRequest(
             c.Uuid!,
             urn,
             c.Data!,
