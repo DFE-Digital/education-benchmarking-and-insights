@@ -59,7 +59,7 @@ projection can be compiled for an organisation. This enables:
   - Actual income and expenditure per academy or trust
   - Balance sheet (assets, liabilities, reserves)
 - **Usage examples**:
-  - Used on the High Needs Benchmarking Tool to show trust actual expenditure.
+  - Used on the Forecast and Risk page to show trust actual expenditure.
   - Academy/Trust expenditure is sorted into cost categories comparable with LA schools, normalised (eg per pupil), and benchmarked against comparators.
   - Spend is also plotted over time using previous returns to show historic expenditure trends for schools/trusts.
   - Academies can see the apportioned revenue reserves and expenditure from their relevant trust (Academy is joined to Trust on Trust UPIN).
