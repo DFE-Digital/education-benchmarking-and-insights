@@ -1,4 +1,5 @@
 using System.Reflection;
+using System.Text;
 using System.Xml.Linq;
 using Newtonsoft.Json.Linq;
 
@@ -17,7 +18,7 @@ public static class TestDataProvider
             throw new InvalidOperationException($"Embedded resource '{resourceName}' not found.");
         }
 
-        using var reader = new StreamReader(stream);
+        using var reader = new StreamReader(stream, Encoding.UTF8);
         var jsonString = reader.ReadToEnd();
 
         return JArray.Parse(jsonString);
@@ -34,7 +35,7 @@ public static class TestDataProvider
             throw new InvalidOperationException($"Embedded resource '{resourceName}' not found.");
         }
 
-        using var reader = new StreamReader(stream);
+        using var reader = new StreamReader(stream, Encoding.UTF8);
         var jsonString = reader.ReadToEnd();
 
         return JObject.Parse(jsonString);

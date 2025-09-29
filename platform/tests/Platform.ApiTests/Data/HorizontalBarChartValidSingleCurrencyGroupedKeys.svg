@@ -1,0 +1,54 @@
+﻿<svg width="500" height="102" viewBox="0,0,500,102" data-chart-id="test-uuid" xmlns="http://www.w3.org/2000/svg">
+    <g>
+        <rect x="174.66666666666666" y="22.066666666666666" width="248.07257333333334" height="16.533333333333335" data-key="2023 – 2024" class="chart-cell chart-cell__series-0 chart-cell__group-previous" />
+        <rect x="174.66666666666666" y="42.733333333333334" width="225.64590666666666" height="16.533333333333335" data-key="2024 – 2025" class="chart-cell chart-cell__series-0 chart-cell__group-current" />
+        <rect x="174.66666666666666" y="63.400000000000006" width="203.21923999999999" height="16.533333333333335" data-key="2025 – 2026" class="chart-cell chart-cell__series-0 chart-cell__group-forecast" />
+    </g>
+    <g>
+        <text x="430.73924" y="30.333333333333336" dy="0.35em" class="chart-label chart-label__series-0">£22k</text>
+        <text x="408.3125733333333" y="51" dy="0.35em" class="chart-label chart-label__series-0">£20k</text>
+        <text x="385.88590666666664" y="71.66666666666667" dy="0.35em" class="chart-label chart-label__series-0">£18k</text>
+    </g>
+    <g class="chart-axis chart-axis__x" transform="translate(-2,82)">
+        <path class="domain" stroke="currentColor" d="M175.16666666666666,1V0.5H455.5V1" />
+        <g class="chart-tick" transform="translate(175.16666666666666,0)">
+            <line y2="6" x1="1" x2="1" />
+            <text y="9" dy="0.71em" x1="1" x2="1">£0</text>
+        </g>
+        <g class="chart-tick" transform="translate(231.23333333333332,0)">
+            <line y2="6" x1="1" x2="1" />
+            <text y="9" dy="0.71em" x1="1" x2="1">£5k</text>
+        </g>
+        <g class="chart-tick" transform="translate(287.3,0)">
+            <line y2="6" x1="1" x2="1" />
+            <text y="9" dy="0.71em" x1="1" x2="1">£10k</text>
+        </g>
+        <g class="chart-tick" transform="translate(343.3666666666667,0)">
+            <line y2="6" x1="1" x2="1" />
+            <text y="9" dy="0.71em" x1="1" x2="1">£15k</text>
+        </g>
+        <g class="chart-tick" transform="translate(399.43333333333334,0)">
+            <line y2="6" x1="1" x2="1" />
+            <text y="9" dy="0.71em" x1="1" x2="1">£20k</text>
+        </g>
+        <g class="chart-tick" transform="translate(455.5,0)">
+            <line y2="6" x1="1" x2="1" />
+            <text y="9" dy="0.71em" x1="1" x2="1">£25k</text>
+        </g>
+    </g>
+    <g class="chart-axis chart-axis__y" transform="translate(171.66666666666666,0)">
+        <path class="domain" stroke="currentColor" d="M0,20.5H0.5V82.5H0" transform="translate(0,0)" />
+        <g class="chart-tick" transform="translate(0,30.333333333333336)">
+            <line x2="-6" />
+            <text x="-9" dy="0.32em">2023 – 2024</text>
+        </g>
+        <g class="chart-tick" transform="translate(0,51)">
+            <line x2="-6" />
+            <text x="-9" dy="0.32em">2024 – 2025</text>
+        </g>
+        <g class="chart-tick" transform="translate(0,71.66666666666667)">
+            <line x2="-6" />
+            <text x="-9" dy="0.32em">2025 – 2026</text>
+        </g>
+    </g>
+</svg>

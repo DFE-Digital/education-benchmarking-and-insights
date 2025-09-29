@@ -111,6 +111,11 @@ describe("sortData", () => {
       { category: "E", value: null },
     ]);
   });
+
+  it("should return original values for missing sort type", () => {
+    sortData(sampleData, "value");
+    expect(sampleData).toEqual(sampleData);
+  });
 });
 
 describe("getDomain", () => {
