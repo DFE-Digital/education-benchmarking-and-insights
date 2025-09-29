@@ -174,6 +174,12 @@ resource "azurerm_cdn_frontdoor_firewall_policy" "web-app-front-door-waf" {
         }
 
         exclusion {
+          match_variable = "RequestCookieNames"
+          operator       = "StartsWith"
+          selector       = ".AspNetCore.OpenIdConnect.Nonce"
+        }
+
+        exclusion {
           match_variable = "RequestFormPostParamNames"
           operator       = "StartsWith"
           selector       = "__RequestVerificationToken"
