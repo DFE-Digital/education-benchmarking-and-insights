@@ -1,4 +1,4 @@
-from src.pipeline.input_schemas.bfr import bfr_sofa_cols
+from pipeline.input_schemas.bfr import bfr_sofa_cols
 
 # BFR SOFA
 SOFA_SELF_GENERATED_INCOME_EFALINES = [211, 220]
