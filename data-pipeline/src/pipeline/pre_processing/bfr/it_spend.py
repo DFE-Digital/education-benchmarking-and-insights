@@ -31,22 +31,17 @@ def melt_it_spend_rows_from_bfr(bfr, current_year):
 def melt_it_spend_pupil_numbers_from_bfr(bfr, current_year):
     it_spend_pupil_numbers_melted_rows = (
         bfr[bfr["EFALineNo"].isin([SOFA_PUPIL_NUMBER_EFALINE])]
-        .assign(
-            Y1P1_scaled=lambda x: x["Y1P1"] / 1000,
-            Y1P2_scaled=lambda x: x["Y1P2"] / 1000,
-            Y2P1_scaled=lambda x: x["Y2P1"] / 1000,
-        )
         .melt(
             id_vars=["Company Registration Number"],
-            value_vars=["Y1P1_scaled", "Y1P2_scaled", "Y2P1_scaled"],
+            value_vars=["Y1P1", "Y1P2", "Y2P1"],
             var_name="Year",
             value_name="Pupils",
         )
         .replace(
             {
-                "Y1P1_scaled": current_year - 1,
-                "Y1P2_scaled": current_year,
-                "Y2P1_scaled": current_year + 1,
+                "Y1P1": current_year - 1,
+                "Y1P2": current_year,
+                "Y2P1": current_year + 1,
             }
         )
         .set_index("Company Registration Number")

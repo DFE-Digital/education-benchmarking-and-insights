@@ -120,9 +120,10 @@ def preprocess_bfr_sofa(bfr_sofa_raw):
             ]
         )
     ]
-    bfr_sofa_filtered[SOFA_YEAR_COLS] = bfr_sofa_filtered[SOFA_YEAR_COLS].apply(
-        lambda x: x * 1000, axis=1
-    )
+    # Scale the monetary values by 1000
+    bfr_sofa_filtered.loc[
+        bfr_sofa_filtered["EFALineNo"] != SOFA_PUPIL_NUMBER_EFALINE, SOFA_YEAR_COLS
+    ] *= 1000
     sofa_self_generated_income, sofa_grant_funding = aggregate_custom_sofa_categories(
         bfr_sofa_filtered
     )
@@ -145,9 +146,11 @@ def preprocess_bfr_3y(bfr_3y_raw):
             [*BFR_3Y_TO_SOFA_MAPPINGS.values(), OTHER_COSTS_EFALINE]
         )
     ]
-    bfr_3y_filtered[THREE_YEAR_PROJECTION_COLS] = bfr_3y_filtered[
-        THREE_YEAR_PROJECTION_COLS
-    ].apply(lambda x: x * 1000, axis=1)
+    # Scale monetary values by 1000
+    bfr_3y_filtered.loc[
+        bfr_3y_filtered["EFALineNo"] != SOFA_PUPIL_NUMBER_EFALINE,
+        THREE_YEAR_PROJECTION_COLS,
+    ] *= 1000
 
     return bfr_3y_filtered
 
@@ -161,9 +164,6 @@ def prepare_current_and_future_pupils(bfr_data, academies):
     bfr_pupils = bfr_data[(bfr_data["Category"] == "Pupil numbers")][
         ["Trust UPIN", "Y2", "Y3", "Y4"]
     ]
-    bfr_pupils[THREE_YEAR_PROJECTION_COLS] = bfr_pupils[
-        THREE_YEAR_PROJECTION_COLS
-    ].apply(lambda x: x / 1000, axis=1)
     bfr_pupils = bfr_pupils.rename(
         columns={"Y2": "Pupils Y2", "Y3": "Pupils Y3", "Y4": "Pupils Y4"}
     )
