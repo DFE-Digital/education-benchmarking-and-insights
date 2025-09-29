@@ -93,9 +93,6 @@ def prepare_current_and_future_pupils(bfr_data, academies):
     bfr_pupils = bfr_data[(bfr_data["Category"] == "Pupil numbers")][
         ["Trust UPIN", "Y2", "Y3", "Y4"]
     ]
-    bfr_pupils[THREE_YEAR_PROJECTION_COLS] = bfr_pupils[
-        THREE_YEAR_PROJECTION_COLS
-    ].apply(lambda x: x / 1000, axis=1)
     bfr_pupils.rename(
         columns={"Y2": "Pupils Y2", "Y3": "Pupils Y3", "Y4": "Pupils Y4"}, inplace=True
     )
