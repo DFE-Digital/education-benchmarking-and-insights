@@ -1,3 +1,5 @@
+from src.pipeline.input_schemas.bfr import bfr_sofa_cols
+
 # BFR SOFA
 SOFA_SELF_GENERATED_INCOME_EFALINES = [211, 220]
 SOFA_PUPIL_NUMBER_EFALINE = 999
@@ -8,7 +10,15 @@ SOFA_OTHER_COSTS_EFALINE = 335
 SOFA_TOTAL_REVENUE_INCOME = 298
 SOFA_TOTAL_REVENUE_EXPENDITURE = 380
 SOFA_IT_SPEND_LINES = [336, 337, 338, 339, 340, 341, 342]
-SOFA_YEAR_COLS = ["Y1P1", "Y1P2", "Y2P1", "Y2P2", "Y3P1", "Y3P2"]
+
+
+def get_sofa_year_cols(year: int) -> list[str]:
+    """Dynamically returns the SOFA year columns based on the pipeline run year."""
+    return list(
+        bfr_sofa_cols.get(year, bfr_sofa_cols["default"]).keys()
+        - {"TrustUPIN", "Title", "EFALineNo"}
+    )
+
 
 # BFA 3Y
 SUBTOTAL_INCOME_EFALINE = 2980
