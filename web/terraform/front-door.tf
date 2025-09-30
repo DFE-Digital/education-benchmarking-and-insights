@@ -193,8 +193,8 @@ resource "azurerm_cdn_frontdoor_firewall_policy" "web-app-front-door-waf" {
 
         exclusion {
           match_variable = "RequestCookieNames"
-          operator       = "Equals"
-          selector       = ".AspNetCore.Mvc.CookieTempDataProvider"
+          operator       = "StartsWith"
+          selector       = ".AspNetCore.Mvc.CookieTempDataProvider"          
         }
 
         exclusion {
