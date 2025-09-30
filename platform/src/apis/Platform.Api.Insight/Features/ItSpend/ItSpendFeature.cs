@@ -14,7 +14,9 @@ public static class ItSpendFeature
     {
         serviceCollection
             .AddSingleton<IItSpendService, ItSpendService>()
-            .AddTransient<IValidator<ItSpendSchoolsParameters>, ItSpendSchoolsParametersValidator>();
+            .AddTransient<IValidator<ItSpendSchoolsParameters>, ItSpendSchoolsParametersValidator>()
+            .AddTransient<IValidator<ItSpendTrustsParameters>, ItSpendTrustsParametersValidator>()
+            .AddTransient<IValidator<ItSpendTrustForecastParameters>, ItSpendTrustForecastParametersValidator>();
 
         return serviceCollection;
     }

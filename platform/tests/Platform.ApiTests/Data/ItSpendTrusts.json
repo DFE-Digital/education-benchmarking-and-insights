@@ -1,0 +1,35 @@
+﻿[
+  {
+    "companyNumber": "10192252",
+    "trustName": "Stub Trust",
+    "connectivity": 2000,
+    "onsiteServers": 36000,
+    "itLearningResources": 21000,
+    "administrationSoftwareAndSystems": 36000,
+    "laptopsDesktopsAndTablets": 11000,
+    "otherHardware": 33000,
+    "itSupport": 12000
+  },
+  {
+    "companyNumber": "10259334",
+    "trustName": "Stub Trust",
+    "connectivity": 2000,
+    "onsiteServers": 36000,
+    "itLearningResources": 21000,
+    "administrationSoftwareAndSystems": 36000,
+    "laptopsDesktopsAndTablets": 11000,
+    "otherHardware": 33000,
+    "itSupport": 12000
+  },
+  {
+    "companyNumber": "10264735",
+    "trustName": "Stub Trust",
+    "connectivity": 2000,
+    "onsiteServers": 36000,
+    "itLearningResources": 21000,
+    "administrationSoftwareAndSystems": 36000,
+    "laptopsDesktopsAndTablets": 11000,
+    "otherHardware": 33000,
+    "itSupport": 12000
+  }
+]
