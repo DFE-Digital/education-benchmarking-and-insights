@@ -86,4 +86,4 @@ flowchart LR
     class PRESENTATION presStyle
 ```
 
->>Note: The scope of the proposed migration to Databricks is up to and including the Gold layer.  Data will be extracted from this layer to be used in the web applications the main reason for this is the custom comparator set calculations functionality in the FBIT service.  These are dynamically generated in response to users needs and it would be logistically difficult to run those calculations remotely in Databricks, also these are for individual user requests and will not be pushed back to the data model.
+>>Note: The scope of the proposed migration to Databricks is up to and including the Gold layer. Data will be extracted from the gold layer to be used in the web applications. The main reason for this is the custom comparator set calculations functionality in the FBIT service. These calculations are dynamically generated in response to users needs and it would be logistically difficult to run the calculations remotely in Databricks, also these are for individual user requests and will not be pushed back to the data model.
