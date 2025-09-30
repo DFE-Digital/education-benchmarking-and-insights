@@ -1,7 +1,5 @@
 ﻿@using Web.App.Attributes
-@using Web.App.Domain.Charts
 @using Web.App.Extensions
-@using Web.App.ViewModels
 @model Web.App.ViewModels.TrustComparisonItSpendViewModel
 @{
     ViewData[ViewDataKeys.Title] = PageTitles.ComparisonItSpend;
@@ -72,19 +70,9 @@
         @for (var i = 0; i < Model.SubCategories.Count; i++)
         {
             var subCategory = Model.SubCategories.ElementAt(i);
-            var uuid = Guid.NewGuid();
 
             <section id="cost-sub-category-@subCategory.SubCategory?.ToSlug()">
                 <h2 class="govuk-heading-m">@subCategory.SubCategory</h2>
-
-                @if (Model.ViewAs == Views.ViewAsOptions.Chart)
-                {
-                    @await Html.PartialAsync("_ItSpendChart", new TrustComparisonItSpendChartViewModel(uuid, subCategory))
-                    @if (i <= Model.SubCategories.Count)
-                    {
-                        <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible govuk-!-margin-bottom-6">
-                    }
-                }
             </section>
         }
     </div>
