@@ -40,7 +40,7 @@ public class SchoolComparisonSubCategoriesViewModel
         Items.Add(new BenchmarkingViewModelCostSubCategory<SchoolComparisonDatum>
         {
             Uuid = uuid,
-            SubCategory = filter.GetHeading(),
+            SubCategory = filter.GetHeadingForSchool(),
             Data = filteredData
         });
     }

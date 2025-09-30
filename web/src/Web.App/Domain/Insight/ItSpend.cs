@@ -50,3 +50,36 @@ public record SchoolItSpend : ItSpend, IEqualityComparer<SchoolItSpend>
 
     public int GetHashCode(SchoolItSpend obj) => obj.URN != null ? obj.URN.GetHashCode() : 0;
 }
+
+public record TrustItSpend : ItSpend, IEqualityComparer<TrustItSpend>
+{
+    public string? CompanyNumber { get; set; }
+    public string? TrustName { get; set; }
+
+    public bool Equals(TrustItSpend? x, TrustItSpend? y)
+    {
+        if (ReferenceEquals(x, y))
+        {
+            return true;
+        }
+
+        if (x is null)
+        {
+            return false;
+        }
+
+        if (y is null)
+        {
+            return false;
+        }
+
+        if (x.GetType() != y.GetType())
+        {
+            return false;
+        }
+
+        return x.CompanyNumber == y.CompanyNumber;
+    }
+
+    public int GetHashCode(TrustItSpend obj) => obj.CompanyNumber != null ? obj.CompanyNumber.GetHashCode() : 0;
+}
