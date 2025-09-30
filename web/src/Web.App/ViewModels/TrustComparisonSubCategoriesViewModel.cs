@@ -7,14 +7,14 @@ public class TrustComparisonSubCategoriesViewModel
 {
     public List<BenchmarkingViewModelCostSubCategory<TrustComparisonDatum>> Items { get; set; } = [];
 
-    public TrustComparisonSubCategoriesViewModel(string urn, TrustItSpend[] expenditures,
+    public TrustComparisonSubCategoriesViewModel(string companyNumber, TrustItSpend[] expenditures,
         ItSpendingCategories.SubCategoryFilter[] filters)
     {
         filters = filters.Length > 0 ? filters : ItSpendingCategories.All;
 
         foreach (var filter in filters)
         {
-            AddItSubCategory(urn, filter, expenditures);
+            AddItSubCategory(companyNumber, filter, expenditures);
         }
     }
 
