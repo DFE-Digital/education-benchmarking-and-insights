@@ -780,10 +780,11 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
         return this;
     }
 
-    public BenchmarkingWebAppClient SetupItSpend(SchoolItSpend[]? spend = null)
+    public BenchmarkingWebAppClient SetupItSpend(SchoolItSpend[]? schoolSpend = null, TrustItSpend[]? trustSpend = null)
     {
         ItSpendApi.Reset();
-        ItSpendApi.Setup(api => api.QuerySchools(It.IsAny<ApiQuery?>(), It.IsAny<CancellationToken>())).ReturnsAsync(ApiResult.Ok(spend ?? []));
+        ItSpendApi.Setup(api => api.QuerySchools(It.IsAny<ApiQuery?>(), It.IsAny<CancellationToken>())).ReturnsAsync(ApiResult.Ok(schoolSpend ?? []));
+        ItSpendApi.Setup(api => api.QueryTrusts(It.IsAny<ApiQuery?>(), It.IsAny<CancellationToken>())).ReturnsAsync(ApiResult.Ok(trustSpend ?? []));
         return this;
     }
 
