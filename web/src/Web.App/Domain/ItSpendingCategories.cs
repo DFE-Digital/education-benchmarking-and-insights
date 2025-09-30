@@ -24,7 +24,7 @@ public static class ItSpendingCategories
         SubCategoryFilter.OtherHardware
     ];
 
-    public static string GetFilterDescription(this SubCategoryFilter filter) => filter switch
+    public static string GetFilterDescriptionForSchool(this SubCategoryFilter filter) => filter switch
     {
         SubCategoryFilter.AdministrationSoftwareSystems => "Administration software and systems (E20D)",
         SubCategoryFilter.Connectivity => "Connectivity (E20A)",
@@ -36,7 +36,31 @@ public static class ItSpendingCategories
         _ => throw new ArgumentException(nameof(filter))
     };
 
-    public static string GetHeading(this SubCategoryFilter filter) => filter switch
+    public static string GetFilterDescriptionForTrust(this SubCategoryFilter filter) => filter switch
+    {
+        SubCategoryFilter.AdministrationSoftwareSystems => "ICT costs: Administration software and systems",
+        SubCategoryFilter.Connectivity => "ICT costs: Connectivity",
+        SubCategoryFilter.ITLearningResources => "ICT costs: IT learning resources",
+        SubCategoryFilter.ITSupport => "ICT costs: IT support",
+        SubCategoryFilter.LaptopsDesktopsTablets => "ICT costs: Laptops, desktops and tablets",
+        SubCategoryFilter.OnsiteServers => "ICT costs: Onsite servers",
+        SubCategoryFilter.OtherHardware => "ICT costs: Other hardware",
+        _ => throw new ArgumentException(nameof(filter))
+    };
+
+    public static string GetHeadingForTrust(this SubCategoryFilter filter) => filter switch
+    {
+        SubCategoryFilter.AdministrationSoftwareSystems => "ICT costs: Administration software and systems",
+        SubCategoryFilter.Connectivity => "ICT costs: Connectivity",
+        SubCategoryFilter.ITLearningResources => "ICT costs: IT learning resources",
+        SubCategoryFilter.ITSupport => "ICT costs: IT support",
+        SubCategoryFilter.LaptopsDesktopsTablets => "ICT costs: Laptops, desktops and tablets",
+        SubCategoryFilter.OnsiteServers => "ICT costs: Onsite servers",
+        SubCategoryFilter.OtherHardware => "ICT costs: Other hardware",
+        _ => throw new ArgumentException(nameof(filter))
+    };
+
+    public static string GetHeadingForSchool(this SubCategoryFilter filter) => filter switch
     {
         SubCategoryFilter.AdministrationSoftwareSystems => "Administration software and systems E20D",
         SubCategoryFilter.Connectivity => "Connectivity E20A",
@@ -48,7 +72,7 @@ public static class ItSpendingCategories
         _ => throw new ArgumentException(nameof(filter))
     };
 
-    public static Func<SchoolItSpend, decimal?> GetSelector(this SubCategoryFilter filter) => filter switch
+    public static Func<ItSpend, decimal?> GetSelector(this SubCategoryFilter filter) => filter switch
     {
         SubCategoryFilter.AdministrationSoftwareSystems => s => s.AdministrationSoftwareAndSystems,
         SubCategoryFilter.Connectivity => s => s.Connectivity,

@@ -1,4 +1,7 @@
 ﻿@using Web.App.Attributes
+@using Web.App.Domain.Charts
+@using Web.App.Extensions
+@using Web.App.ViewModels
 @model Web.App.ViewModels.TrustComparisonItSpendViewModel
 @{
     ViewData[ViewDataKeys.Title] = PageTitles.ComparisonItSpend;
@@ -52,6 +55,47 @@
                 You have chosen @(comparatorCount) similar @(comparatorCount == 1 ? "trust" : "trusts")</a>
             to benchmark this trust's spending against.
         </p>
+        <div class="govuk-inset-text govuk-!-margin-top-4 govuk-!-margin-bottom-4">
+            The Budget Forecast Return (BFR) data set is being used.
+        </div>
+        <p class="govuk-body">
+            If there is no data available to show we have highlighted this on the charts and tables.
+        </p>
     </div>
 </div>
-            
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-one-third">
+        @await Html.PartialAsync("_ItSpendFilter", Model)
+    </div>
+    <div class="govuk-grid-column-two-thirds">
+        @for (var i = 0; i < Model.SubCategories.Count; i++)
+        {
+            var subCategory = Model.SubCategories.ElementAt(i);
+            var uuid = Guid.NewGuid();
+
+            <section id="cost-sub-category-@subCategory.SubCategory?.ToSlug()">
+                <h2 class="govuk-heading-m">@subCategory.SubCategory</h2>
+
+                @if (Model.ViewAs == Views.ViewAsOptions.Chart)
+                {
+                    @await Html.PartialAsync("_ItSpendChart", new TrustComparisonItSpendChartViewModel(uuid, subCategory))
+                    @if (i <= Model.SubCategories.Count)
+                    {
+                        <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible govuk-!-margin-bottom-6">
+                    }
+                }
+            </section>
+        }
+    </div>
+</div>
+
+
+@section scripts
+{
+    <script type="module" add-nonce="true">
+        import {initAll} from '/js/govuk-frontend.min.js'
+
+        initAll()
+    </script>
+}
