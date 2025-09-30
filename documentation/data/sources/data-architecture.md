@@ -8,7 +8,7 @@ The overarching architectural data model that has been implemented in the servic
 
 ## Medallion Data Model
 
-A medallion architecture is a data design pattern used to logically organize data in a lakehouse, with the goal of incrementally and progressively improving the structure and quality of data as it flows through each layer of the architecture (from Bronze ⇒ Silver ⇒ Gold layer tables).
+A [medallion architecture](https://www.databricks.com/glossary/medallion-architecture) is a data design pattern used to logically organize data in a lakehouse, with the goal of incrementally and progressively improving the structure and quality of data as it flows through each layer of the architecture (from Bronze ⇒ Silver ⇒ Gold layer tables).
 
 ### Bronze layer (raw data)
 
