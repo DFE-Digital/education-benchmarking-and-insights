@@ -64,12 +64,17 @@ public class ItSpendService(IDatabaseFactory dbFactory) : IItSpendService
 
     public async Task<ItSpendTrustForecastResponse> GetTrustForecastAsync(string? companyNumber, string? year, CancellationToken cancellationToken = default)
     {
-        if (companyNumber.IsNullOrWhiteSpace())
+        if (string.IsNullOrWhiteSpace(companyNumber))
         {
             throw new ArgumentNullException(nameof(companyNumber), $"{nameof(companyNumber)} must be supplied");
         }
 
-        var parsedYear = int.TryParse(year, out var y) ? y : 2025;
+        if (string.IsNullOrWhiteSpace(year))
+        {
+            throw new ArgumentNullException(nameof(year), $"{nameof(year)} must be supplied");
+        }
+
+        var parsedYear = int.Parse(year);
         int[] years = [parsedYear - 1, parsedYear, parsedYear + 1];
 
         var response = new ItSpendTrustForecastResponse

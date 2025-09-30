@@ -54,7 +54,7 @@
         When I submit the IT spend request
         Then the trusts result should be ok and match the expected output of 'ItSpendTrusts.json'
         
-    Scenario: Sending an invalid trusts IT spend request with no URNs
+    Scenario: Sending an invalid trusts IT spend request with no company numbers
         Given a trusts IT spend request with no company numbers
         When I submit the IT spend request
         Then the trusts IT spend result should be bad request
@@ -64,7 +64,7 @@
         When I submit the IT spend request
         Then the trust forecast result should be ok and match the expected output of 'ItSpendTrustForecast.json'
         
-    Scenario: Sending an invalid trust forecast IT spend request with no URN
+    Scenario: Sending an invalid trust forecast IT spend request with no company number
         Given a trust forecast IT spend request with company number '' and year '2022'
         When I submit the IT spend request
         Then the trust forecast IT spend result should be bad request
