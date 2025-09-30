@@ -848,8 +848,25 @@ optional = false
 python-versions = ">=3.10"
 groups = ["dev"]
 files = [
-    {file = "filelock-3.20.3-py3-none-any.whl", hash = "sha256:4b0dda527ee31078689fc205ec4f1c1bf7d56cf88b6dc9426c4f230e46c2dce1"},
-    {file = "filelock-3.20.3.tar.gz", hash = "sha256:18c57ee915c7ec61cff0ecf7f0f869936c7c30191bb0cf406f1341778d0834e1"},
+    {file = "filelock-3.18.0-py3-none-any.whl", hash = "sha256:c401f4f8377c4464e6db25fff06205fd89bdd83b65eb0488ed1b160f780e21de"},
+    {file = "filelock-3.18.0.tar.gz", hash = "sha256:adbc88eabb99d2fec8c9c1b229b171f18afa655400173ddc653d5d01501fb9f2"},
+]
+
+[package.extras]
+docs = ["furo (>=2024.8.6)", "sphinx (>=8.1.3)", "sphinx-autodoc-typehints (>=3)"]
+testing = ["covdefaults (>=2.3)", "coverage (>=7.6.10)", "diff-cover (>=9.2.1)", "pytest (>=8.3.4)", "pytest-asyncio (>=0.25.2)", "pytest-cov (>=6)", "pytest-mock (>=3.14)", "pytest-timeout (>=2.3.1)", "virtualenv (>=20.28.1)"]
+typing = ["typing-extensions (>=4.12.2) ; python_version < \"3.11\""]
+
+[[package]]
+name = "fqdn"
+version = "1.5.1"
+description = "Validates fully-qualified domain names against RFC 1123, so that they are acceptable to modern bowsers"
+optional = false
+python-versions = ">=2.7, !=3.0, !=3.1, !=3.2, !=3.3, !=3.4, <4"
+groups = ["dev"]
+files = [
+    {file = "fqdn-1.5.1-py3-none-any.whl", hash = "sha256:3a179af3761e4df6eb2e026ff9e1a3033d3587bf980a0b1b2e1e5d08d7358014"},
+    {file = "fqdn-1.5.1.tar.gz", hash = "sha256:105ed3677e767fb5ca086a0c1f4bb66ebc3c100be518f0e0d755d9eae164d89f"},
 ]
 
 [[package]]
@@ -1818,6 +1835,34 @@ files = [
 test = ["enum34 ; python_version <= \"3.4\"", "ipaddress ; python_version < \"3.0\"", "mock ; python_version < \"3.0\"", "pywin32 ; sys_platform == \"win32\"", "wmi ; sys_platform == \"win32\""]
 
 [[package]]
+name = "ptyprocess"
+version = "0.7.0"
+description = "Run a subprocess in a pseudo terminal"
+optional = false
+python-versions = "*"
+groups = ["dev"]
+markers = "os_name != \"nt\" or sys_platform != \"win32\" and sys_platform != \"emscripten\""
+files = [
+    {file = "ptyprocess-0.7.0-py2.py3-none-any.whl", hash = "sha256:4b41f3967fce3af57cc7e94b888626c18bf37a083e3651ca8feeb66d492fef35"},
+    {file = "ptyprocess-0.7.0.tar.gz", hash = "sha256:5c5d0a3b48ceee0b48485e0c26037c0acd7d29765ca3fbb5cb3831d347423220"},
+]
+
+[[package]]
+name = "pure-eval"
+version = "0.2.3"
+description = "Safely evaluate AST nodes without side effects"
+optional = false
+python-versions = "*"
+groups = ["dev"]
+files = [
+    {file = "pure_eval-0.2.3-py3-none-any.whl", hash = "sha256:1db8e35b67b3d218d818ae653e27f06c3aa420901fa7b081ca98cbedc874e0d0"},
+    {file = "pure_eval-0.2.3.tar.gz", hash = "sha256:5f4e983f40564c576c7c8635ae88db5956bb2229d7e9237d03b3c0b0190eaf42"},
+]
+
+[package.extras]
+tests = ["pytest"]
+
+[[package]]
 name = "pyarrow"
 version = "20.0.0"
 description = "Python library for Apache Arrow"
@@ -1986,6 +2031,27 @@ files = [
     {file = "pyodbc-5.3.0-cp39-cp39-win_arm64.whl", hash = "sha256:101313a21d2654df856a60e4a13763e4d9f6c5d3fd974bcf3fc6b4e86d1bbe8e"},
     {file = "pyodbc-5.3.0.tar.gz", hash = "sha256:2fe0e063d8fb66efd0ac6dc39236c4de1a45f17c33eaded0d553d21c199f4d05"},
 ]
+
+[[package]]
+name = "pyspark"
+version = "4.0.1"
+description = "Apache Spark Python API"
+optional = false
+python-versions = ">=3.9"
+groups = ["main"]
+files = [
+    {file = "pyspark-4.0.1.tar.gz", hash = "sha256:9d1f22d994f60369228397e3479003ffe2dd736ba79165003246ff7bd48e2c73"},
+]
+
+[package.dependencies]
+py4j = "0.10.9.9"
+
+[package.extras]
+connect = ["googleapis-common-protos (>=1.65.0)", "grpcio (>=1.67.0)", "grpcio-status (>=1.67.0)", "numpy (>=1.21)", "pandas (>=2.0.0)", "pyarrow (>=11.0.0)"]
+ml = ["numpy (>=1.21)"]
+mllib = ["numpy (>=1.21)"]
+pandas-on-spark = ["numpy (>=1.21)", "pandas (>=2.0.0)", "pyarrow (>=11.0.0)"]
+sql = ["numpy (>=1.21)", "pandas (>=2.0.0)", "pyarrow (>=11.0.0)"]
 
 [[package]]
 name = "pytest"
@@ -2677,4 +2743,4 @@ propcache = ">=0.2.1"
 [metadata]
 lock-version = "2.1"
 python-versions = "^3.11"
-content-hash = "25726fa9a1873b06be7625393f2baedadf952802e1fd7ee57471b0d545134166"
+content-hash = "306c3193c9a10f895b1863de581f15b10faee98077e8d736fe30dbd9f844884e"
