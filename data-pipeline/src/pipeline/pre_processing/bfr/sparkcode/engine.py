@@ -1,12 +1,24 @@
 import logging
+
+import pyspark.sql.functions as F
 from pyspark.sql import DataFrame
 from pyspark.sql.functions import (
-    col, lit, when, first, sum as spark_sum, concat_ws,
-    regexp_replace, desc, asc, isnan, isnull, broadcast
+    asc,
+    broadcast,
+    col,
+    concat_ws,
+    desc,
+    first,
+    isnan,
+    isnull,
+    lit,
+    regexp_replace,
 )
+from pyspark.sql.functions import sum as spark_sum
+from pyspark.sql.functions import when
 from pyspark.sql.types import DoubleType, IntegerType, StringType
-import pyspark.sql.functions as F
-from src.bfr.calculations import calculate_metrics, slope_analysis
+
+from .calculations import calculate_metrics, slope_analysis
 
 
 def build_bfr_historical_data(
@@ -37,45 +49,39 @@ def build_bfr_historical_data(
     """
     if academies_historical is not None:
         # Initialize columns with default values
-        academies_historical = academies_historical.withColumn("Trust Revenue reserve", lit(0.0))
-        academies_historical = academies_historical.withColumn("Total pupils in trust", lit(0.0))
+        academies_historical = academies_historical.withColumn(
+            "Trust Revenue reserve", lit(0.0)
+        )
+        academies_historical = academies_historical.withColumn(
+            "Total pupils in trust", lit(0.0)
+        )
 
         if bfr_sofa_historical is not None:
             # Drop the default columns to replace with actual data
-            academies_historical = academies_historical.drop("Trust Revenue reserve", "Total pupils in trust")
+            academies_historical = academies_historical.drop(
+                "Trust Revenue reserve", "Total pupils in trust"
+            )
 
             # Process revenue reserve data (EFALineNo == 430)
-            revenue_reserve_data = (
-                bfr_sofa_historical
-                .filter(col("EFALineNo") == 430)
-                .select(
-                    col("Trust UPIN"),
-                    (col("Y2P2") * 1000).alias("Trust Revenue reserve")
-                )
+            revenue_reserve_data = bfr_sofa_historical.filter(
+                col("EFALineNo") == 430
+            ).select(
+                col("Trust UPIN"), (col("Y2P2") * 1000).alias("Trust Revenue reserve")
             )
 
             # Join revenue reserve data
             academies_historical = academies_historical.join(
-                broadcast(revenue_reserve_data),
-                on="Trust UPIN",
-                how="left"
+                broadcast(revenue_reserve_data), on="Trust UPIN", how="left"
             )
 
             # Process pupil data (EFALineNo == 999)
-            pupil_data = (
-                bfr_sofa_historical
-                .filter(col("EFALineNo") == 999)
-                .select(
-                    col("Trust UPIN"),
-                    col("Y1P2").alias("Total pupils in trust")
-                )
+            pupil_data = bfr_sofa_historical.filter(col("EFALineNo") == 999).select(
+                col("Trust UPIN"), col("Y1P2").alias("Total pupils in trust")
             )
 
             # Join pupil data
             academies_historical = academies_historical.join(
-                broadcast(pupil_data),
-                on="Trust UPIN",
-                how="left"
+                broadcast(pupil_data), on="Trust UPIN", how="left"
             )
 
     return academies_historical
@@ -91,20 +97,24 @@ def build_bfr_data(
 ):
     """
     Build BFR data by processing SOFA and 3-year data files.
-    
+
     Returns tuple of (bfr_final, bfr_metrics) DataFrames
     """
     # Read BFR SOFA data
     bfr_sofa = (
-        spark.read
-        .option("header", "true")
+        spark.read.option("header", "true")
         .option("encoding", "unicode-escape")
         .csv(bfr_sofa_data_path)
-        .select([col(c).cast(input_schemas.bfr_sofa_cols[c]) for c in input_schemas.bfr_sofa_cols.keys()])
+        .select(
+            [
+                col(c).cast(input_schemas.bfr_sofa_cols[c])
+                for c in input_schemas.bfr_sofa_cols.keys()
+            ]
+        )
         .withColumnRenamed("TrustUPIN", "Trust UPIN")
         .withColumnRenamed("Title", "Category")
     )
-    
+
     logger.info(f"BFR sofa raw shape: {bfr_sofa.count()} rows")
 
     # Filter for specific EFALineNo values
@@ -119,39 +129,41 @@ def build_bfr_data(
 
     # Calculate self-generated income
     self_gen_income = (
-        bfr_sofa
-        .filter(col("EFALineNo").isin([211, 220]))
+        bfr_sofa.filter(col("EFALineNo").isin([211, 220]))
         .groupBy("Trust UPIN")
-        .agg(
-            *[spark_sum(col(c)).alias(c) for c in financial_cols]
-        )
+        .agg(*[spark_sum(col(c)).alias(c) for c in financial_cols])
         .withColumn("Category", lit("Self-generated income"))
     )
 
     # Calculate grant funding
     grant_funding = (
-        bfr_sofa
-        .filter(col("EFALineNo").isin([199, 200, 205, 210]))
+        bfr_sofa.filter(col("EFALineNo").isin([199, 200, 205, 210]))
         .groupBy("Trust UPIN")
-        .agg(
-            *[spark_sum(col(c)).alias(c) for c in financial_cols]
-        )
+        .agg(*[spark_sum(col(c)).alias(c) for c in financial_cols])
         .withColumn("Category", lit("Grant funding"))
     )
 
     # Union all BFR SOFA data
-    bfr_sofa = bfr_sofa.unionByName(self_gen_income).unionByName(grant_funding).dropDuplicates()
+    bfr_sofa = (
+        bfr_sofa.unionByName(self_gen_income)
+        .unionByName(grant_funding)
+        .dropDuplicates()
+    )
 
     # Read BFR 3-year data
     bfr_3y = (
-        spark.read
-        .option("header", "true")
+        spark.read.option("header", "true")
         .option("encoding", "unicode-escape")
         .csv(bfr_3y_data_path)
-        .select([col(c).cast(input_schemas.bfr_3y_cols[c]) for c in input_schemas.bfr_3y_cols.keys()])
+        .select(
+            [
+                col(c).cast(input_schemas.bfr_3y_cols[c])
+                for c in input_schemas.bfr_3y_cols.keys()
+            ]
+        )
         .withColumnRenamed("TrustUPIN", "Trust UPIN")
     )
-    
+
     logger.info(f"BFR 3y raw shape: {bfr_3y.count()} rows")
 
     # Convert 3-year financial columns to thousands
@@ -161,13 +173,14 @@ def build_bfr_data(
 
     # Replace EFALineNo values to match
     bfr_3y = (
-        bfr_3y
-        .withColumn("EFALineNo", 
-                   when(col("EFALineNo") == 2980, 298)
-                   .when(col("EFALineNo") == 4300, 430)
-                   .when(col("EFALineNo") == 3800, 380)
-                   .when(col("EFALineNo") == 9000, 999)
-                   .otherwise(col("EFALineNo")))
+        bfr_3y.withColumn(
+            "EFALineNo",
+            when(col("EFALineNo") == 2980, 298)
+            .when(col("EFALineNo") == 4300, 430)
+            .when(col("EFALineNo") == 3800, 380)
+            .when(col("EFALineNo") == 9000, 999)
+            .otherwise(col("EFALineNo")),
+        )
         .filter(col("EFALineNo").isin([298, 430, 335, 380, 999]))
         .dropDuplicates()
     )
@@ -176,10 +189,8 @@ def build_bfr_data(
     merged_bfr = bfr_sofa.join(bfr_3y, on=["Trust UPIN", "EFALineNo"], how="left")
 
     # Get first record per Trust UPIN from academies and merge with BFR data
-    academies_grouped = (
-        academies
-        .groupBy("Trust UPIN")
-        .agg(*[first(col(c)).alias(c) for c in academies.columns if c != "Trust UPIN"])
+    academies_grouped = academies.groupBy("Trust UPIN").agg(
+        *[first(col(c)).alias(c) for c in academies.columns if c != "Trust UPIN"]
     )
 
     bfr = academies_grouped.join(merged_bfr, on="Trust UPIN")
@@ -192,21 +203,23 @@ def build_bfr_data(
         "Total revenue income": "Total income",
         "Total staff costs": "Staff costs",
     }
-    
+
     for old_name, new_name in category_replacements.items():
-        bfr = bfr.withColumn("Category", 
-                           when(col("Category") == old_name, new_name)
-                           .otherwise(col("Category")))
+        bfr = bfr.withColumn(
+            "Category",
+            when(col("Category") == old_name, new_name).otherwise(col("Category")),
+        )
 
     # Handle historical data (Y-2)
     if academies_y2 is not None:
         y2_data = (
-            academies_y2
-            .select("Trust UPIN", "Trust Revenue reserve", "Total pupils in trust")
+            academies_y2.select(
+                "Trust UPIN", "Trust Revenue reserve", "Total pupils in trust"
+            )
             .groupBy("Trust UPIN")
             .agg(
                 first("Trust Revenue reserve").alias("Y-2"),
-                first("Total pupils in trust").alias("Pupils Y-2")
+                first("Total pupils in trust").alias("Pupils Y-2"),
             )
         )
         bfr = bfr.join(y2_data, on="Trust UPIN", how="left")
@@ -216,12 +229,13 @@ def build_bfr_data(
     # Handle historical data (Y-1)
     if academies_y1 is not None:
         y1_data = (
-            academies_y1
-            .select("Trust UPIN", "Trust Revenue reserve", "Total pupils in trust")
+            academies_y1.select(
+                "Trust UPIN", "Trust Revenue reserve", "Total pupils in trust"
+            )
             .groupBy("Trust UPIN")
             .agg(
                 first("Trust Revenue reserve").alias("Y-1"),
-                first("Total pupils in trust").alias("Pupils Y-1")
+                first("Total pupils in trust").alias("Pupils Y-1"),
             )
         )
         bfr = bfr.join(y1_data, on="Trust UPIN", how="left")
@@ -236,10 +250,8 @@ def build_bfr_data(
     bfr_metrics = calculate_metrics(bfr_for_metrics)
 
     # Extract pupil data
-    bfr_pupils = (
-        bfr
-        .filter(col("Category") == "Pupil numbers")
-        .select("Trust UPIN", "Y2", "Y3", "Y4")
+    bfr_pupils = bfr.filter(col("Category") == "Pupil numbers").select(
+        "Trust UPIN", "Y2", "Y3", "Y4"
     )
 
     # Extract revenue reserve data for slope analysis
@@ -255,16 +267,14 @@ def build_bfr_data(
 
     # Rename pupil columns
     bfr_pupils = (
-        bfr_pupils
-        .withColumnRenamed("Y2", "Pupils Y2")
+        bfr_pupils.withColumnRenamed("Y2", "Pupils Y2")
         .withColumnRenamed("Y3", "Pupils Y3")
         .withColumnRenamed("Y4", "Pupils Y4")
     )
 
     # Add current year pupil data
     current_pupils = (
-        academies
-        .select("Trust UPIN", "Total pupils in trust")
+        academies.select("Trust UPIN", "Total pupils in trust")
         .groupBy("Trust UPIN")
         .agg(first("Total pupils in trust").alias("Pupils Y1"))
     )
@@ -275,22 +285,37 @@ def build_bfr_data(
     bfr = bfr.join(bfr_pupils, on="Trust UPIN", how="left")
 
     # Drop unnecessary columns
-    columns_to_drop = ["Y1P1", "Y1P2", "Y2P1", "Y2P2", "EFALineNo", "Trust Revenue reserve"]
+    columns_to_drop = [
+        "Y1P1",
+        "Y1P2",
+        "Y2P1",
+        "Y2P2",
+        "EFALineNo",
+        "Trust Revenue reserve",
+    ]
     for col_name in columns_to_drop:
         if col_name in bfr.columns:
             bfr = bfr.drop(col_name)
 
     # Prepare pupil data for melting
-    pupil_cols = ["Company Registration Number", "Category", "Pupils Y-2", "Pupils Y-1", 
-                  "Pupils Y1", "Pupils Y2", "Pupils Y3", "Pupils Y4"]
-    
+    pupil_cols = [
+        "Company Registration Number",
+        "Category",
+        "Pupils Y-2",
+        "Pupils Y-1",
+        "Pupils Y1",
+        "Pupils Y2",
+        "Pupils Y3",
+        "Pupils Y4",
+    ]
+
     bfr_pupils_melted = (
-        bfr
-        .select(*pupil_cols)
+        bfr.select(*pupil_cols)
         .select(
             col("Company Registration Number"),
             col("Category"),
-            F.expr("""
+            F.expr(
+                """
                 stack(6, 
                     'Pupils Y-2', `Pupils Y-2`,
                     'Pupils Y-1', `Pupils Y-1`, 
@@ -299,28 +324,40 @@ def build_bfr_data(
                     'Pupils Y3', `Pupils Y3`,
                     'Pupils Y4', `Pupils Y4`
                 ) as (Year, Pupils)
-            """)
+            """
+            ),
         )
-        .withColumn("Year", 
-                   when(col("Year") == "Pupils Y-2", current_year - 2)
-                   .when(col("Year") == "Pupils Y-1", current_year - 1)
-                   .when(col("Year") == "Pupils Y1", current_year)
-                   .when(col("Year") == "Pupils Y2", current_year + 1)
-                   .when(col("Year") == "Pupils Y3", current_year + 2)
-                   .when(col("Year") == "Pupils Y4", current_year + 3))
+        .withColumn(
+            "Year",
+            when(col("Year") == "Pupils Y-2", current_year - 2)
+            .when(col("Year") == "Pupils Y-1", current_year - 1)
+            .when(col("Year") == "Pupils Y1", current_year)
+            .when(col("Year") == "Pupils Y2", current_year + 1)
+            .when(col("Year") == "Pupils Y3", current_year + 2)
+            .when(col("Year") == "Pupils Y4", current_year + 3),
+        )
         .orderBy("Company Registration Number", "Year")
     )
 
     # Prepare revenue reserve data for melting
-    revenue_cols = ["Company Registration Number", "Category", "Y-2", "Y-1", "Y1", "Y2", "Y3", "Y4"]
-    
+    revenue_cols = [
+        "Company Registration Number",
+        "Category",
+        "Y-2",
+        "Y-1",
+        "Y1",
+        "Y2",
+        "Y3",
+        "Y4",
+    ]
+
     bfr_revenue_melted = (
-        bfr
-        .select(*revenue_cols)
+        bfr.select(*revenue_cols)
         .select(
             col("Company Registration Number"),
             col("Category"),
-            F.expr("""
+            F.expr(
+                """
                 stack(6,
                     'Y-2', `Y-2`,
                     'Y-1', `Y-1`,
@@ -329,25 +366,26 @@ def build_bfr_data(
                     'Y3', Y3,
                     'Y4', Y4
                 ) as (Year, Value)
-            """)
+            """
+            ),
         )
-        .withColumn("Year",
-                   when(col("Year") == "Y-2", current_year - 2)
-                   .when(col("Year") == "Y-1", current_year - 1)
-                   .when(col("Year") == "Y1", current_year)
-                   .when(col("Year") == "Y2", current_year + 1)
-                   .when(col("Year") == "Y3", current_year + 2)
-                   .when(col("Year") == "Y4", current_year + 3))
+        .withColumn(
+            "Year",
+            when(col("Year") == "Y-2", current_year - 2)
+            .when(col("Year") == "Y-1", current_year - 1)
+            .when(col("Year") == "Y1", current_year)
+            .when(col("Year") == "Y2", current_year + 1)
+            .when(col("Year") == "Y3", current_year + 2)
+            .when(col("Year") == "Y4", current_year + 3),
+        )
         .orderBy("Company Registration Number", "Year")
     )
 
     # Final merge of revenue and pupil data
-    bfr_final = (
-        bfr_revenue_melted.join(
-            bfr_pupils_melted,
-            on=["Company Registration Number", "Category", "Year"],
-            how="left"
-        )
+    bfr_final = bfr_revenue_melted.join(
+        bfr_pupils_melted,
+        on=["Company Registration Number", "Category", "Year"],
+        how="left",
     )
 
     return bfr_final, bfr_metrics

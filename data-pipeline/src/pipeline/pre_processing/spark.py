@@ -1,7 +1,5 @@
 import findspark
 
-from pipeline.pre_processing.bfr.sparkcode.pipeline import BFRPipeline
-
 findspark.init()
 
 from pyspark.sql import SparkSession
@@ -16,8 +14,8 @@ spark = (
     .getOrCreate()
 )
 
-bfr_pipeline = BFRPipeline(2025, spark=spark)
-bfr_pipeline.run()
-
+# Your Spark code goes here
+df = spark.createDataFrame([(1, "A"), (2, "B")], ["id", "value"])
+df.show()
 
 spark.stop()

@@ -53,6 +53,36 @@ These steps will avoid SSL errors due to DfE kit/VPN.
 
     * `openssl x509 -in .\ca-bundle.crt -out .\ca-bundle.pem -outform pem`
 
+1. Install Temurin 17 (OpenJDK 17) via Homebrew (MacOS):
+
+    ```bash
+    brew install --cask temurin@17
+    ```
+
+1. PySpark relies on the `JAVA_HOME` environment variable. Open your `~/.zshrc` (or `~/.bash_profile` if you use Bash) file in a text editor:
+
+    ```bash
+    nano ~/.zshrc # or code ~/.zshrc
+    ```
+
+1. Add or update the following lines. This will dynamically find the Java 17 installation and set `JAVA_HOME` and `PATH` accordingly:
+
+    ```bash
+    export JAVA_HOME=$(/usr/libexec/java_home -v 17)
+    export PATH="$JAVA_HOME/bin:$PATH"
+    ```
+
+Use ctrl+X then Y then enter to exit in Nano.
+
+1. Restart your zsh shell then verify that Java 17 is correctly set up:
+
+    ```bash
+    echo $JAVA_HOME
+    java -version
+    ```
+
+The `echo` command should display the path to your Java 17 installation, and `java -version` should show "openjdk version "17.x.x"".
+
 1. Install Poetry:
 
     * `(Invoke-WebRequest -Uri https://install.python-poetry.org -UseBasicParsing).Content | py -`
@@ -201,12 +231,12 @@ To run the pipeline locally, follow these steps:
     ```json
     {
       "type": "default",
-      "runId": <year>,
+      "runId": 2025,
         "year": {
-            "aar": <year>,
-            "cfr": <year>,
-            "bfr": <year>,
-            "s251": <year>
+            "aar": 2024,
+            "cfr": 2025,
+            "bfr": 2025,
+            "s251": 2024
         }
     }
     ```
