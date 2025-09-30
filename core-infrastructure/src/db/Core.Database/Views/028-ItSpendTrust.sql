@@ -44,3 +44,23 @@ PIVOT (
 ) AS Pivoted
 INNER JOIN Trust t
     ON Pivoted.CompanyNumber = t.CompanyNumber;
+GO
+
+DROP VIEW IF EXISTS VW_ItSpendTrustCurrentPreviousYearActual;
+GO
+
+CREATE VIEW VW_ItSpendTrustCurrentPreviousYearActual AS
+SELECT
+    v.CompanyNumber,
+    v.TrustName,
+    v.AdministrationSoftwareAndSystems,
+    v.Connectivity,
+    v.ItLearningResources,
+    v.ItSupportAndTraining,
+    v.LaptopsDesktopsAndTablets,
+    v.OnsiteServers,
+    v.OtherHardware
+FROM VW_ItSpendTrustCurrentAllYearsActual v
+         INNER JOIN Parameters p
+                    ON p.Name = 'LatestBFRYear'
+WHERE v.Year = CAST(p.Value AS INT) - 1;
