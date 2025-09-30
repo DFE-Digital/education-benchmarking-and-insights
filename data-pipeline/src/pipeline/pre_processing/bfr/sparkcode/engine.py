@@ -1,7 +1,7 @@
 import logging
 
 import pyspark.sql.functions as F
-from pyspark.sql import DataFrame
+from pyspark.sql import DataFrame, SparkSession
 from pyspark.sql.functions import (
     asc,
     broadcast,
@@ -17,6 +17,8 @@ from pyspark.sql.functions import (
 from pyspark.sql.functions import sum as spark_sum
 from pyspark.sql.functions import when
 from pyspark.sql.types import DoubleType, IntegerType, StringType
+
+from pipeline.pre_processing.bfr import config
 
 from .calculations import calculate_metrics, slope_analysis
 
@@ -89,104 +91,23 @@ def build_bfr_historical_data(
 
 def build_bfr_data(
     current_year: int,
-    bfr_sofa_data_path: str,
-    bfr_3y_data_path: str,
+    bfr_sofa_preprocessed_df: DataFrame,
+    bfr_3y_preprocessed_df: DataFrame,
     academies: DataFrame,
     academies_y1: DataFrame = None,
     academies_y2: DataFrame = None,
+    spark: SparkSession = None # Add spark session to parameters
 ):
     """
-    Build BFR data by processing SOFA and 3-year data files.
+    Build BFR data by processing SOFA and 3-year data frames.
 
     Returns tuple of (bfr_final, bfr_metrics) DataFrames
     """
-    # Read BFR SOFA data
-    bfr_sofa = (
-        spark.read.option("header", "true")
-        .option("encoding", "unicode-escape")
-        .csv(bfr_sofa_data_path)
-        .select(
-            [
-                col(c).cast(input_schemas.bfr_sofa_cols[c])
-                for c in input_schemas.bfr_sofa_cols.keys()
-            ]
-        )
-        .withColumnRenamed("TrustUPIN", "Trust UPIN")
-        .withColumnRenamed("Title", "Category")
-    )
-
-    logger.info(f"BFR sofa raw shape: {bfr_sofa.count()} rows")
-
-    # Filter for specific EFALineNo values
-    bfr_sofa = bfr_sofa.filter(
-        col("EFALineNo").isin([298, 430, 335, 380, 211, 220, 199, 200, 205, 210, 999])
-    ).dropDuplicates()
-
-    # Convert financial columns to thousands
-    financial_cols = ["Y1P1", "Y1P2", "Y2P1", "Y2P2"]
-    for col_name in financial_cols:
-        bfr_sofa = bfr_sofa.withColumn(col_name, col(col_name) * 1000)
-
-    # Calculate self-generated income
-    self_gen_income = (
-        bfr_sofa.filter(col("EFALineNo").isin([211, 220]))
-        .groupBy("Trust UPIN")
-        .agg(*[spark_sum(col(c)).alias(c) for c in financial_cols])
-        .withColumn("Category", lit("Self-generated income"))
-    )
-
-    # Calculate grant funding
-    grant_funding = (
-        bfr_sofa.filter(col("EFALineNo").isin([199, 200, 205, 210]))
-        .groupBy("Trust UPIN")
-        .agg(*[spark_sum(col(c)).alias(c) for c in financial_cols])
-        .withColumn("Category", lit("Grant funding"))
-    )
-
-    # Union all BFR SOFA data
-    bfr_sofa = (
-        bfr_sofa.unionByName(self_gen_income)
-        .unionByName(grant_funding)
-        .dropDuplicates()
-    )
-
-    # Read BFR 3-year data
-    bfr_3y = (
-        spark.read.option("header", "true")
-        .option("encoding", "unicode-escape")
-        .csv(bfr_3y_data_path)
-        .select(
-            [
-                col(c).cast(input_schemas.bfr_3y_cols[c])
-                for c in input_schemas.bfr_3y_cols.keys()
-            ]
-        )
-        .withColumnRenamed("TrustUPIN", "Trust UPIN")
-    )
-
-    logger.info(f"BFR 3y raw shape: {bfr_3y.count()} rows")
-
-    # Convert 3-year financial columns to thousands
-    year_cols = ["Y2", "Y3", "Y4"]
-    for col_name in year_cols:
-        bfr_3y = bfr_3y.withColumn(col_name, col(col_name) * 1000)
-
-    # Replace EFALineNo values to match
-    bfr_3y = (
-        bfr_3y.withColumn(
-            "EFALineNo",
-            when(col("EFALineNo") == 2980, 298)
-            .when(col("EFALineNo") == 4300, 430)
-            .when(col("EFALineNo") == 3800, 380)
-            .when(col("EFALineNo") == 9000, 999)
-            .otherwise(col("EFALineNo")),
-        )
-        .filter(col("EFALineNo").isin([298, 430, 335, 380, 999]))
-        .dropDuplicates()
-    )
+    logger.info(f"BFR sofa preprocessed shape: {bfr_sofa_preprocessed_df.count()} rows")
+    logger.info(f"BFR 3y preprocessed shape: {bfr_3y_preprocessed_df.count()} rows")
 
     # Merge BFR SOFA and 3-year data
-    merged_bfr = bfr_sofa.join(bfr_3y, on=["Trust UPIN", "EFALineNo"], how="left")
+    merged_bfr = bfr_sofa_preprocessed_df.join(bfr_3y_preprocessed_df, on=["Trust UPIN", "EFALineNo"], how="left")
 
     # Get first record per Trust UPIN from academies and merge with BFR data
     academies_grouped = academies.groupBy("Trust UPIN").agg(
@@ -194,21 +115,6 @@ def build_bfr_data(
     )
 
     bfr = academies_grouped.join(merged_bfr, on="Trust UPIN")
-
-    # Replace category names to standardize
-    category_replacements = {
-        "Balance c/f to next period ": "Revenue reserve",
-        "Pupil numbers (actual and estimated)": "Pupil numbers",
-        "Total revenue expenditure": "Total expenditure",
-        "Total revenue income": "Total income",
-        "Total staff costs": "Staff costs",
-    }
-
-    for old_name, new_name in category_replacements.items():
-        bfr = bfr.withColumn(
-            "Category",
-            when(col("Category") == old_name, new_name).otherwise(col("Category")),
-        )
 
     # Handle historical data (Y-2)
     if academies_y2 is not None:
@@ -401,11 +307,15 @@ academies_df = spark.read.table("your_database.academies_table")
 academies_y1_df = spark.read.table("your_database.academies_y1_table")  # Optional
 academies_y2_df = spark.read.table("your_database.academies_y2_table")  # Optional
 
+# Example preprocessed dataframes (replace with actual preprocessed data)
+mock_bfr_sofa_preprocessed = spark.createDataFrame([], schema=StructType([])) # Replace with actual
+mock_bfr_3y_preprocessed = spark.createDataFrame([], schema=StructType([])) # Replace with actual
+
 # Process BFR data
 bfr_data, bfr_metrics = build_bfr_data(
     current_year=2024,
-    bfr_sofa_data_path="dbfs:/path/to/bfr_sofa.csv",
-    bfr_3y_data_path="dbfs:/path/to/bfr_3y.csv", 
+    bfr_sofa_preprocessed_df=mock_bfr_sofa_preprocessed,
+    bfr_3y_preprocessed_df=mock_bfr_3y_preprocessed,
     academies=academies_df,
     academies_y1=academies_y1_df,
     academies_y2=academies_y2_df
