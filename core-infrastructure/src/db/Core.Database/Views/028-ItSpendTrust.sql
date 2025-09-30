@@ -1,9 +1,8 @@
-DROP VIEW IF EXISTS VW_ItSpendTrustAllYearsActual;
+DROP VIEW IF EXISTS VW_ItSpendTrustCurrentAllYearsActual;
 GO
 
-CREATE VIEW VW_ItSpendTrustAllYearsActual AS
+CREATE VIEW VW_ItSpendTrustCurrentAllYearsActual AS
 SELECT
-    Pivoted.RunId,
     Pivoted.CompanyNumber,
     t.TrustName,
     Pivoted.Year,
