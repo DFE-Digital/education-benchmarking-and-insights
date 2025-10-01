@@ -8,6 +8,7 @@ using Xunit;
 
 namespace Web.Integration.Tests.Pages.Trusts.Comparison;
 
+// todo: integration test coverage over forecast data and chart rendering
 public class WhenViewingComparisonItSpend(SchoolBenchmarkingWebAppClient client) : PageBase<SchoolBenchmarkingWebAppClient>(client)
 {
     private static readonly ExpectedSubCategory[] AllSubCategories =
@@ -264,6 +265,7 @@ public class WhenViewingComparisonItSpend(SchoolBenchmarkingWebAppClient client)
             Html = "<svg />"
         };
 
+        // todo: stub forecast API and forecast chart building (if provided in optional params)
         var client = Client
             .SetupEstablishment(trust)
             .SetupInsights()

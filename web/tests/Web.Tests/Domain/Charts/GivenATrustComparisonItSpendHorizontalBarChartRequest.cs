@@ -15,11 +15,15 @@ public class GivenATrustComparisonItSpendHorizontalBarChartRequest
         var companyNumber = _fixture.Create<string>();
         var data = _fixture.Build<TrustComparisonDatum>().CreateMany().ToArray();
         const Dimensions.ResultAsOptions resultAs = Dimensions.ResultAsOptions.Actuals;
+        var domainMin = _fixture.Create<decimal>();
+        var domainMax = _fixture.Create<decimal>();
 
-        var actual = new TrustComparisonItSpendHorizontalBarChartRequest(uuid, companyNumber, data, f => $"/{f}", resultAs);
+        var actual = new TrustComparisonItSpendHorizontalBarChartRequest(uuid, companyNumber, data, f => $"/{f}", resultAs, domainMin, domainMax);
 
         Assert.Equal(24, actual.BarHeight);
         Assert.Equal(data, actual.Data);
+        Assert.Equal(domainMin, actual.DomainMin);
+        Assert.Equal(domainMax, actual.DomainMax);
         Assert.Null(actual.GroupedKeys);
         Assert.Equal(companyNumber, actual.HighlightKey);
         Assert.Equal(uuid, actual.Id);
