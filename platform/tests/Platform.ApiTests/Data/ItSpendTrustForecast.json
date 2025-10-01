@@ -1,0 +1,36 @@
+﻿{
+  "companyNumber": "10192252",
+  "trustName": "Stub Trust",
+  "years": [
+    {
+      "year": 2021,
+      "connectivity": 2000,
+      "onsiteServers": 36000,
+      "itLearningResources": 21000,
+      "administrationSoftwareAndSystems": 36000,
+      "laptopsDesktopsAndTablets": 11000,
+      "otherHardware": 33000,
+      "itSupport": 12000
+    },
+    {
+      "year": 2022,
+      "connectivity": 2000,
+      "onsiteServers": 36000,
+      "itLearningResources": 21000,
+      "administrationSoftwareAndSystems": 36000,
+      "laptopsDesktopsAndTablets": 11000,
+      "otherHardware": 33000,
+      "itSupport": 12000
+    },
+    {
+      "year": 2023,
+      "connectivity": 2000,
+      "onsiteServers": 36000,
+      "itLearningResources": 21000,
+      "administrationSoftwareAndSystems": 36000,
+      "laptopsDesktopsAndTablets": 11000,
+      "otherHardware": 33000,
+      "itSupport": 12000
+    }
+  ]
+}
