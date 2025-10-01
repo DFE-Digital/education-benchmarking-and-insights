@@ -40,10 +40,12 @@ public record TrustForecastItSpendHorizontalBarChartRequest : PostHorizontalBarC
         TrustForecastDatum[] forecastData,
         Dimensions.ResultAsOptions resultsAs)
     {
-        BarHeight = 20;
+        BarHeight = 24;
         Data = forecastData;
         Id = uuid;
         KeyField = "yearLabel";
+        PaddingInner = 0.6m;
+        PaddingOuter = 0.2m;
         Width = 610;
         ValueField = nameof(TrustForecastDatum.Expenditure).ToLower();
         ValueType = resultsAs.GetValueType();
