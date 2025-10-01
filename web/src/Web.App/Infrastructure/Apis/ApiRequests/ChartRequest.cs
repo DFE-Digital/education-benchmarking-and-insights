@@ -6,6 +6,8 @@ namespace Web.App.Infrastructure.Apis;
 public abstract record ChartRequest<T>
 {
     public T[]? Data { get; set; }
+    public decimal? DomainMax { get; set; }
+    public decimal? DomainMin { get; set; }
     public ChartRequestGroupedKeys? GroupedKeys { get; set; }
     public string? HighlightKey { get; set; }
     public string? Id { get; set; }

@@ -32,11 +32,15 @@ public class GivenATrustForecastItSpendHorizontalBarChartRequest
             }
         ];
         const Dimensions.ResultAsOptions resultAs = Dimensions.ResultAsOptions.Actuals;
+        var domainMin = _fixture.Create<decimal>();
+        var domainMax = _fixture.Create<decimal>();
 
-        var actual = new TrustForecastItSpendHorizontalBarChartRequest(uuid, data, resultAs);
+        var actual = new TrustForecastItSpendHorizontalBarChartRequest(uuid, data, resultAs, domainMin, domainMax);
 
         Assert.Equal(24, actual.BarHeight);
         Assert.Equal(data, actual.Data);
+        Assert.Equal(domainMin, actual.DomainMin);
+        Assert.Equal(domainMax, actual.DomainMax);
         Assert.Null(actual.HighlightKey);
         Assert.Equal(uuid, actual.Id);
         Assert.Equal("yearLabel", actual.KeyField);

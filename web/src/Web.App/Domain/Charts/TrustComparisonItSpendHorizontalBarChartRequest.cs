@@ -11,10 +11,14 @@ public record TrustComparisonItSpendHorizontalBarChartRequest : PostHorizontalBa
         string companyNumber,
         TrustComparisonDatum[] filteredData,
         Func<string, string?> linkFormatter,
-        Dimensions.ResultAsOptions resultsAs)
+        Dimensions.ResultAsOptions resultsAs,
+        decimal? domainMin,
+        decimal? domainMax)
     {
         BarHeight = 24;
         Data = filteredData;
+        DomainMax = domainMax == 0 ? null : domainMax;
+        DomainMin = domainMin == 0 ? null : domainMin;
         HighlightKey = companyNumber;
         Id = uuid;
         KeyField = nameof(companyNumber);
@@ -38,10 +42,14 @@ public record TrustForecastItSpendHorizontalBarChartRequest : PostHorizontalBarC
     public TrustForecastItSpendHorizontalBarChartRequest(
         string uuid,
         TrustForecastDatum[] forecastData,
-        Dimensions.ResultAsOptions resultsAs)
+        Dimensions.ResultAsOptions resultsAs,
+        decimal? domainMin,
+        decimal? domainMax)
     {
         BarHeight = 24;
         Data = forecastData;
+        DomainMax = domainMax == 0 ? null : domainMax;
+        DomainMin = domainMin == 0 ? null : domainMin;
         Id = uuid;
         KeyField = "yearLabel";
         PaddingInner = 0.6m;

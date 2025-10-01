@@ -218,6 +218,7 @@ public class TrustComparisonItSpendController(
         return query;
     }
 
+    // todo: move both chart request building and API call methods to new service so that it may be unit tested outside the controller
     private async Task<ChartResponse[]> BuildCharts(string companyNumber, Dimensions.ResultAsOptions resultAs, TrustComparisonSubCategoriesViewModel subCategories)
     {
         var requests = subCategories.Items.Select(c => new TrustComparisonItSpendHorizontalBarChartRequest(
@@ -229,7 +230,13 @@ public class TrustComparisonItSpendController(
                 {
                     companyNumber = format
                 }) ?? string.Empty),
-            resultAs
+            resultAs,
+            c.ForecastData == null
+                ? null
+                : Math.Min(c.Data?.Min(d => d.Expenditure) ?? 0, c.ForecastData?.Min(d => d.Expenditure) ?? 0),
+            c.ForecastData == null
+                ? null
+                : Math.Max(c.Data?.Max(d => d.Expenditure) ?? 0, c.ForecastData?.Max(d => d.Expenditure) ?? 0)
         ));
 
         ChartResponse[] charts = [];
@@ -254,7 +261,9 @@ public class TrustComparisonItSpendController(
             .Select(c => new TrustForecastItSpendHorizontalBarChartRequest(
                 c.Uuid!,
                 c.ForecastData!,
-                resultAs
+                resultAs,
+                Math.Min(c.Data?.Min(d => d.Expenditure) ?? 0, c.ForecastData?.Min(d => d.Expenditure) ?? 0),
+                Math.Max(c.Data?.Max(d => d.Expenditure) ?? 0, c.ForecastData?.Max(d => d.Expenditure) ?? 0)
             ))
             .Where(r => r.Data != null && r.Data.Length != 0);
 
