@@ -316,7 +316,7 @@ public class WhenViewingComparisonItSpend(SchoolBenchmarkingWebAppClient client)
             var section = subCategorySections[i];
             var expected = expectedSubCategories[i];
 
-            AssertSpendingSection(section, expected, currentBfrYear, viewAs == 0, chartError);
+            AssertSpendingSection(section, expected, spend, currentBfrYear, viewAs == 0, chartError);
         }
     }
 
@@ -395,6 +395,7 @@ public class WhenViewingComparisonItSpend(SchoolBenchmarkingWebAppClient client)
     private static void AssertSpendingSection(
         IElement section,
         ExpectedSubCategory expectedSubCategory,
+        TrustItSpend[] spend,
         int currentBfrYear,
         bool isChartView,
         bool chartError)
@@ -406,6 +407,10 @@ public class WhenViewingComparisonItSpend(SchoolBenchmarkingWebAppClient client)
         if (isChartView)
         {
             AssertChartSection(section, currentBfrYear, chartError);
+        }
+        else
+        {
+            AssertTableSection(section, currentBfrYear, spend);
         }
     }
 
@@ -428,6 +433,20 @@ public class WhenViewingComparisonItSpend(SchoolBenchmarkingWebAppClient client)
             Assert.NotNull(chartSvg);
             Assert.Null(chartWarning);
         }
+    }
+
+    private static void AssertTableSection(IElement section, int currentBfrYear, TrustItSpend[] spend)
+    {
+        var table = section.QuerySelector(".govuk-table");
+        Assert.NotNull(table);
+
+        var headers = table.QuerySelectorAll("thead tr th");
+        Assert.Equal(2, headers.Length);
+        Assert.Contains("Trust name", headers.ElementAt(0).TextContent);
+        Assert.Contains($"{currentBfrYear - 2} – {currentBfrYear - 1}", headers.ElementAt(1).TextContent);
+
+        var rows = table.QuerySelectorAll("tbody tr");
+        Assert.Equal(spend.Length, rows.Length);
     }
 
     private static ExpectedSubCategory[] BuildExpectedSubCategories(params int[]? ids)
