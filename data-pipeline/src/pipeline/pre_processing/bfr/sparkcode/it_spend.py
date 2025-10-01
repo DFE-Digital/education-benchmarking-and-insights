@@ -12,7 +12,9 @@ class BFRITSpendCalculator:
         self.spark = spark
         self.config = pipeline_config
 
-    def _melt_it_spend_rows_from_bfr(self, bfr: DataFrame, current_year: int) -> DataFrame:
+    def _melt_it_spend_rows_from_bfr(
+        self, bfr: DataFrame, current_year: int
+    ) -> DataFrame:
         """Melt IT spend rows from BFR data using Spark."""
         it_spend_melted_rows = (
             bfr.filter(col("EFALineNo").isin(self.config.SOFA_IT_SPEND_LINES))

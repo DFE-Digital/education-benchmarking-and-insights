@@ -39,10 +39,6 @@ class DatabricksFBITPipeline(ABC):
         pass
 
     @abstractmethod
-    def preprocess_data(self):
-        pass
-
-    @abstractmethod
     def save_data(self):
         pass
 

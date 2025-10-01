@@ -3,6 +3,7 @@ from pyspark.sql.functions import col, lit
 from pyspark.sql.types import IntegerType
 
 from pipeline.pre_processing.bfr import config
+
 from . import bfr_pyspark_mocks as mocks
 from .base_pipeline import DatabricksFBITPipeline
 from .logging import setup_logger
@@ -11,11 +12,17 @@ logger = setup_logger(__name__)
 
 
 class BFRLoader:
-    def __init__(self, year: int, spark: SparkSession, pipeline_config, base_pipeline_helpers: DatabricksFBITPipeline):
+    def __init__(
+        self,
+        year: int,
+        spark: SparkSession,
+        pipeline_config,
+        base_pipeline_helpers: DatabricksFBITPipeline,
+    ):
         self.year = year
         self.spark = spark
         self.config = pipeline_config
-        self.base_pipeline_helpers = base_pipeline_helpers # Instance to access _is_databricks and _get_table_name
+        self.base_pipeline_helpers = base_pipeline_helpers  # Instance to access _is_databricks and _get_table_name
 
     def _read_materialized_view(
         self,
@@ -47,7 +54,7 @@ class BFRLoader:
             elif table_id == "academies":
                 materialized_view = mocks.get_mock_academies_df(self.spark, self.year)
                 source_view = mocks.get_mock_academies_df(self.spark, self.year)
-            elif table_id.startswith("academies_y"): # Historical Academies
+            elif table_id.startswith("academies_y"):  # Historical Academies
                 year_offset = int(table_id.split("_")[-1].replace("y", ""))
                 acad_year = self.year - year_offset
                 materialized_view = mocks.get_mock_academies_df(self.spark, acad_year)
@@ -59,7 +66,9 @@ class BFRLoader:
             materialized_view = self.spark.table(
                 self.base_pipeline_helpers._get_table_name(materialized_view_full_name)
             )
-            source_view = self.spark.table(self.base_pipeline_helpers._get_table_name(source_view_full_name))
+            source_view = self.spark.table(
+                self.base_pipeline_helpers._get_table_name(source_view_full_name)
+            )
 
         self.base_pipeline_helpers._check_for_updates_in_materialized_views(
             table_id, source_view, materialized_view
@@ -80,7 +89,9 @@ class BFRLoader:
         )
         return bfr_sofa_mv, bfr_three_year_mv
 
-    def load_ancillary_data(self) -> tuple[DataFrame, DataFrame, DataFrame, DataFrame, DataFrame]:
+    def load_ancillary_data(
+        self,
+    ) -> tuple[DataFrame, DataFrame, DataFrame, DataFrame, DataFrame]:
         bfr_sofa_minus_one, bfr_sofa_minus_two = self._get_historical_bfr_data()
         academies = self._get_academies_data()
         academies_y1, academies_y2 = self._get_historical_academies_data()
