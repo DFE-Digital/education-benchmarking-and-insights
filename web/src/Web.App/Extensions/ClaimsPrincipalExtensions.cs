@@ -150,4 +150,15 @@ public static class ClaimsPrincipalExtensions
 
         return principal;
     }
+
+    public static bool HasTrustAuthorisation(this ClaimsPrincipal principal, string? companyNumber, IConfiguration configuration)
+    {
+        if (configuration.GetValue<bool>(EnvironmentVariables.DisableOrganisationClaimCheck))
+        {
+            return true;
+        }
+
+        return principal.Claims.Any(c =>
+            companyNumber != null && c.Type == ClaimNames.Trusts && c.Value.Contains(companyNumber));
+    }
 }
