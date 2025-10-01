@@ -790,20 +790,25 @@ table#current-comparators-la {
       }
     }
 
-    .chart-cell {
-      &.chart-cell__series-0:hover {
-        cursor: pointer;
+    &:not(.horizontal-bar-chart__no-hover) {
+      .chart-cell {
+        &.chart-cell__series-0:hover {
+          cursor: pointer;
 
-        &:not(.chart-cell__highlight,
-        .chart-cell__group-part-year,
-        .chart-cell__group-previous,
-        .chart-cell__group-current,
-        .chart-cell__group-forecast) {
-          fill: govuk-colour("dark-grey");
-          stroke: govuk-colour("dark-grey");
+          &:not(
+            .chart-cell__highlight,
+            .chart-cell__group-part-year,
+            .chart-cell__group-previous,
+            .chart-cell__group-current,
+            .chart-cell__group-forecast) {
+            fill: govuk-colour("dark-grey");
+            stroke: govuk-colour("dark-grey");
+          }
         }
       }
+    }
 
+    .chart-cell {
       &.chart-cell__group-previous {
         fill: $chart-bar-group-1-colour;
         stroke: $chart-bar-group-1-colour;

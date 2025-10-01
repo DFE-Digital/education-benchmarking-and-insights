@@ -8,6 +8,7 @@ using Web.App.Domain;
 using Web.App.Domain.Charts;
 using Web.App.Infrastructure.Apis;
 using Web.App.Infrastructure.Apis.Benchmark;
+using Web.App.Infrastructure.Apis.ChartRendering;
 using Web.App.Infrastructure.Apis.Establishment;
 using Web.App.Infrastructure.Apis.Insight;
 using Web.App.Infrastructure.Extensions;
@@ -23,6 +24,7 @@ namespace Web.App.Controllers;
 [FeatureGate(FeatureFlags.TrustItSpendBreakdown)]
 public class TrustComparisonItSpendController(
     IEstablishmentApi establishmentApi,
+    IChartRenderingApi chartRenderingApi,
     IComparatorSetApi comparatorSetApi,
     IItSpendApi itSpendApi,
     IUserDataService userDataService,
@@ -102,6 +104,19 @@ public class TrustComparisonItSpendController(
             .GetResultOrDefault<TrustItSpend[]>() ?? [];
 
         var subCategories = new TrustComparisonSubCategoriesViewModel(trust.CompanyNumber!, expenditures, selectedSubCategories);
+        if (viewAs == Views.ViewAsOptions.Chart)
+        {
+            var charts = await BuildCharts(trust.CompanyNumber!, resultAs, subCategories);
+
+            foreach (var chart in charts)
+            {
+                var category = subCategories.Items.FirstOrDefault(r => r.Uuid == chart.Id);
+                if (category != null)
+                {
+                    category.ChartSvg = chart.Html;
+                }
+            }
+        }
 
         var viewModel = new TrustComparisonItSpendViewModel(trust, comparatorGenerated, redirectUri, comparatorSet, subCategories)
         {
@@ -123,5 +138,34 @@ public class TrustComparisonItSpendController(
 
         query.AddIfNotNull("dimension", resultAs.GetQueryParam());
         return query;
+    }
+
+    private async Task<ChartResponse[]> BuildCharts(string companyNumber, Dimensions.ResultAsOptions resultAs, TrustComparisonSubCategoriesViewModel subCategories)
+    {
+        var requests = subCategories.Items.Select(c => new TrustComparisonItSpendHorizontalBarChartRequest(
+            c.Uuid!,
+            companyNumber,
+            c.Data!,
+            format => Uri.UnescapeDataString(
+                Url.Action("Index", "Trust", new
+                {
+                    companyNumber = format
+                }) ?? string.Empty),
+            resultAs
+        ));
+
+        ChartResponse[] charts = [];
+        try
+        {
+            charts = await chartRenderingApi
+                .PostHorizontalBarCharts(new PostHorizontalBarChartsRequest<TrustComparisonDatum>(requests))
+                .GetResultOrDefault<ChartResponse[]>() ?? [];
+        }
+        catch (Exception e)
+        {
+            logger.LogWarning(e, "Unable to load charts from API");
+        }
+
+        return charts;
     }
 }

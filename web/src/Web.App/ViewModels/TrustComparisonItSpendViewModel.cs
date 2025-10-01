@@ -27,3 +27,11 @@ public class TrustComparisonItSpendViewModel(
     public Dimensions.ResultAsOptions ResultAs { get; init; } = Dimensions.ResultAsOptions.Actuals;
     public ItSpendingCategories.SubCategoryFilter[] SelectedSubCategories { get; init; } = [];
 }
+
+public class TrustComparisonItSpendChartViewModel(
+    Guid uuid,
+    BenchmarkingViewModelCostSubCategory<TrustComparisonDatum> subCategory)
+{
+    public Guid Uuid => uuid;
+    public BenchmarkingViewModelCostSubCategory<TrustComparisonDatum> SubCategory => subCategory;
+}
