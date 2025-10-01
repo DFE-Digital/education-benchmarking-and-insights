@@ -28,6 +28,7 @@ public class TrustComparisonItSpendController(
     IComparatorSetApi comparatorSetApi,
     IItSpendApi itSpendApi,
     IUserDataService userDataService,
+    IBudgetForecastApi budgetForecastApi,
     ILogger<TrustComparisonItSpendController> logger) : Controller
 {
     [HttpGet]
@@ -99,6 +100,10 @@ public class TrustComparisonItSpendController(
         Dimensions.ResultAsOptions resultAs,
         Views.ViewAsOptions viewAs)
     {
+        var bfrYear = await budgetForecastApi
+            .GetCurrentBudgetForecastYear(trust.CompanyNumber)
+            .GetResultOrDefault(Constants.CurrentYear - 1);
+
         var expenditures = await itSpendApi
             .QueryTrusts(BuildApiQuery(resultAs, comparatorSet))
             .GetResultOrDefault<TrustItSpend[]>() ?? [];
@@ -118,7 +123,7 @@ public class TrustComparisonItSpendController(
             }
         }
 
-        var viewModel = new TrustComparisonItSpendViewModel(trust, comparatorGenerated, redirectUri, comparatorSet, subCategories)
+        var viewModel = new TrustComparisonItSpendViewModel(trust, comparatorGenerated, redirectUri, comparatorSet, subCategories, bfrYear)
         {
             SelectedSubCategories = selectedSubCategories,
             ViewAs = viewAs,
@@ -128,10 +133,10 @@ public class TrustComparisonItSpendController(
         return View(viewModel);
     }
 
-    private static ApiQuery BuildApiQuery(Dimensions.ResultAsOptions resultAs, IEnumerable<string>? companyNumbers = null)
+    private static ApiQuery BuildApiQuery(Dimensions.ResultAsOptions resultAs, IEnumerable<string> companyNumbers)
     {
         var query = new ApiQuery();
-        foreach (var companyNumber in companyNumbers ?? [])
+        foreach (var companyNumber in companyNumbers)
         {
             query.AddIfNotNull("companyNumbers", companyNumber);
         }

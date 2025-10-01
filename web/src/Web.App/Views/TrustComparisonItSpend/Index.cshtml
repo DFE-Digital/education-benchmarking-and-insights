@@ -79,7 +79,7 @@
 
                 @if (Model.ViewAs == Views.ViewAsOptions.Chart)
                 {
-                    @await Html.PartialAsync("_ItSpendChart", new TrustComparisonItSpendChartViewModel(uuid, subCategory))
+                    @await Html.PartialAsync("_ItSpendChart", new TrustComparisonItSpendChartViewModel(uuid, subCategory, Model.CurrentBfrYear))
                     @if (i <= Model.SubCategories.Count)
                     {
                         <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible govuk-!-margin-bottom-6">
