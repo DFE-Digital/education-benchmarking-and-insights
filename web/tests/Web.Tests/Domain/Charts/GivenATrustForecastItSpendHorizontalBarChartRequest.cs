@@ -35,7 +35,7 @@ public class GivenATrustForecastItSpendHorizontalBarChartRequest
 
         var actual = new TrustForecastItSpendHorizontalBarChartRequest(uuid, data, resultAs);
 
-        Assert.Equal(20, actual.BarHeight);
+        Assert.Equal(24, actual.BarHeight);
         Assert.Equal(data, actual.Data);
         Assert.Null(actual.HighlightKey);
         Assert.Equal(uuid, actual.Id);
@@ -45,8 +45,8 @@ public class GivenATrustForecastItSpendHorizontalBarChartRequest
         Assert.Null(actual.LinkFormat);
         Assert.Null(actual.MissingDataLabel);
         Assert.Null(actual.MissingDataLabelWidth);
-        Assert.Null(actual.PaddingInner);
-        Assert.Null(actual.PaddingOuter);
+        Assert.Equal(0.6m, actual.PaddingInner);
+        Assert.Equal(0.2m, actual.PaddingOuter);
         Assert.Null(actual.Sort);
         Assert.Equal(610, actual.Width);
         Assert.Equal("expenditure", actual.ValueField);

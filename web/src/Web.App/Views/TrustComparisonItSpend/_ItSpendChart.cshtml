@@ -24,3 +24,18 @@
         </div>
     </div>
 </div>
+
+@if (!string.IsNullOrWhiteSpace(Model.SubCategory.ForecastChartSvg))
+{
+    <p class="govuk-body govuk-!-margin-bottom-0">
+        This shows your trust's current and forecast spend. This is only visible to you.
+    </p>
+
+    <div id="@Model.Uuid-forecast" class="costs-chart-container" data-title="@Model.SubCategory.SubCategory (forecast)">
+        <div class="costs-chart-wrapper">
+            <div class="govuk-!-margin-bottom-2 ssr-chart horizontal-bar-chart horizontal-bar-chart__no-hover">
+                @Html.Raw(Model.SubCategory.ForecastChartSvg)
+            </div>
+        </div>
+    </div>
+}
