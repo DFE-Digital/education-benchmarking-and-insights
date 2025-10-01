@@ -1,49 +1,53 @@
+DROP VIEW IF EXISTS VW_ItSpendTrustDefaultActual;
+GO
+
+CREATE VIEW VW_ItSpendTrustDefaultActual AS
+SELECT
+    b.RunId,
+    b.CompanyNumber,
+    t.TrustName,
+    b.Year,
+    MAX(CASE WHEN b.Category = 'Administration software and systems' THEN b.Value END) AS AdministrationSoftwareAndSystems,
+    MAX(CASE WHEN b.Category = 'Connectivity' THEN b.Value END) AS Connectivity,
+    MAX(CASE WHEN b.Category = 'IT Learning resources' THEN b.Value END) AS ItLearningResources,
+    MAX(CASE WHEN b.Category = 'IT support and training' THEN b.Value END) AS ItSupport,
+    MAX(CASE WHEN b.Category = 'Laptops, desktops and tablets' THEN b.Value END) AS LaptopsDesktopsAndTablets,
+    MAX(CASE WHEN b.Category = 'Onsite servers' THEN b.Value END) AS OnsiteServers,
+    MAX(CASE WHEN b.Category = 'Other hardware' THEN b.Value END) AS OtherHardware
+FROM BudgetForecastReturn b
+INNER JOIN Trust t
+    ON b.CompanyNumber = t.CompanyNumber
+GROUP BY
+    b.RunId,
+    b.CompanyNumber,
+    t.TrustName,
+    b.Year;
+GO
+
 DROP VIEW IF EXISTS VW_ItSpendTrustCurrentAllYearsActual;
 GO
 
 CREATE VIEW VW_ItSpendTrustCurrentAllYearsActual AS
 SELECT
-    Pivoted.CompanyNumber,
-    t.TrustName,
-    Pivoted.Year,
-    Pivoted.[Administration software and systems] AS AdministrationSoftwareAndSystems,
-    Pivoted.[Connectivity],
-    Pivoted.[IT Learning resources] AS ItLearningResources,
-    Pivoted.[IT support and training] AS ItSupport,
-    Pivoted.[Laptops, desktops and tablets] AS LaptopsDesktopsAndTablets,
-    Pivoted.[Onsite servers] AS OnsiteServers,
-    Pivoted.[Other hardware] AS OtherHardware
-FROM (
-    SELECT
-        b.RunId,
-        b.CompanyNumber,
-        b.Year,
-        b.Category,
-        b.Value
-    FROM BudgetForecastReturn b
-    INNER JOIN Parameters p
-        ON p.Name = 'LatestBFRYear'
-        AND b.RunId = p.Value
-    WHERE b.Year IN (
-        CAST(p.Value AS INT) - 1,
-        CAST(p.Value AS INT),
-        CAST(p.Value AS INT) + 1
-    )
-) AS Filtered
-PIVOT (
-    MAX(Value)
-    FOR Category IN (
-        [Administration software and systems],
-        [Connectivity],
-        [IT Learning resources],
-        [IT support and training],
-        [Laptops, desktops and tablets],
-        [Onsite servers],
-        [Other hardware]
-    )
-) AS Pivoted
-INNER JOIN Trust t
-    ON Pivoted.CompanyNumber = t.CompanyNumber;
+    v.CompanyNumber,
+    v.TrustName,
+    v.Year,
+    v.AdministrationSoftwareAndSystems,
+    v.Connectivity,
+    v.ItLearningResources,
+    v.ItSupport,
+    v.LaptopsDesktopsAndTablets,
+    v.OnsiteServers,
+    v.OtherHardware
+FROM VW_ItSpendTrustDefaultActual v
+INNER JOIN Parameters p
+    ON p.Name = 'LatestBFRYear'
+WHERE v.RunId = p.Value
+AND v.Year IN (
+    CAST(p.Value AS INT) - 1,
+    CAST(p.Value AS INT),
+    CAST(p.Value AS INT) + 1
+);
 GO
 
 DROP VIEW IF EXISTS VW_ItSpendTrustCurrentPreviousYearActual;
@@ -61,6 +65,7 @@ SELECT
     v.OnsiteServers,
     v.OtherHardware
 FROM VW_ItSpendTrustCurrentAllYearsActual v
-         INNER JOIN Parameters p
-                    ON p.Name = 'LatestBFRYear'
+INNER JOIN Parameters p
+    ON p.Name = 'LatestBFRYear'
 WHERE v.Year = CAST(p.Value AS INT) - 1;
+GO
