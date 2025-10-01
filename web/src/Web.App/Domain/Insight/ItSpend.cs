@@ -83,3 +83,8 @@ public record TrustItSpend : ItSpend, IEqualityComparer<TrustItSpend>
 
     public int GetHashCode(TrustItSpend obj) => obj.CompanyNumber != null ? obj.CompanyNumber.GetHashCode() : 0;
 }
+
+public record TrustItSpendForecastYear : ItSpend
+{
+    public int? Year { get; set; }
+}

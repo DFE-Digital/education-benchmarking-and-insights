@@ -19,7 +19,7 @@ public class GivenATrustComparisonItSpendViewModel
         const string redirectUri = nameof(redirectUri);
         var userDefinedSet = _fixture.CreateMany<string>().ToArray();
         var expenditures = _fixture.Build<TrustItSpend>().CreateMany().ToArray();
-        var subCategories = new TrustComparisonSubCategoriesViewModel(string.Empty, expenditures, []);
+        var subCategories = new TrustComparisonSubCategoriesViewModel(string.Empty, expenditures, null, []);
         var currentBfrYear = _fixture.Create<int>();
 
         var actual = new TrustComparisonItSpendViewModel(trust, comparatorGenerated, redirectUri, userDefinedSet, subCategories, currentBfrYear);
