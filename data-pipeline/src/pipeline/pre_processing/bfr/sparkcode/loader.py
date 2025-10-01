@@ -1,8 +1,5 @@
 from pyspark.sql import DataFrame, SparkSession
-from pyspark.sql.functions import col, lit
-from pyspark.sql.types import IntegerType
-
-from pipeline.pre_processing.bfr import config
+from pyspark.sql.functions import col
 
 from . import bfr_pyspark_mocks as mocks
 from .base_pipeline import DatabricksFBITPipeline

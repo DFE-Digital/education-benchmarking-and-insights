@@ -40,13 +40,45 @@ class BFRForecastAndRiskCalculator:
         historic_bfr_y1: DataFrame,
         current_year: int,
         academies: DataFrame,
+        academies_y1: DataFrame,
+        academies_y2: DataFrame,
     ) -> tuple[DataFrame, DataFrame]:
         """
         Orchestrates the preparation of data and calculation of forecast and risk metrics and rows.
         """
+        academies_historical_y1_processed = self._build_bfr_historical_data(
+            academies_y1, historic_bfr_y1
+        )
+        academies_historical_y2_processed = self._build_bfr_historical_data(
+            academies_y2, historic_bfr_y2
+        )
+        historic_bfr_y1 = (
+            historic_bfr_y1.join(
+                academies_historical_y1_processed.select(
+                    "Trust UPIN", "Company Registration Number", "Trust Revenue reserve", "Total pupils in trust"
+                ),
+                on="Trust UPIN",
+                how="left_outer",
+            ).drop(
+                "Y1P2", "Y2P2"  # Drop old columns if they exist
+            )
+        )
+
+        historic_bfr_y2 = (
+            historic_bfr_y2.join(
+                academies_historical_y2_processed.select(
+                    "Trust UPIN", "Company Registration Number", "Trust Revenue reserve", "Total pupils in trust"
+                ),
+                on="Trust UPIN",
+                how="left_outer",
+            ).drop(
+                "Y1P2", "Y2P2"  # Drop old columns if they exist
+            )
+        )
+
         merged_bfr_with_2y_historic_data = (
             self._prepare_merged_bfr_for_forecast_and_risk(
-                merged_bfr_with_crn, historic_bfr_y2, historic_bfr_y1
+                merged_bfr_with_crn, academies_historical_y2_processed, academies_historical_y1_processed
             )
         )
 
@@ -213,62 +245,45 @@ class BFRForecastAndRiskCalculator:
         )
 
     def _merge_historic_bfr(
-        self, bfr: DataFrame, historic_bfr: DataFrame, year: str
+        self, bfr: DataFrame, historic_bfr_processed: DataFrame, year_prefix: str
     ) -> DataFrame:
-        """Merges historic BFR data into the main BFR DataFrame using Spark."""
-        if historic_bfr is not None and historic_bfr.count() > 0:
-            # Pivot historic_bfr to get 'Trust Revenue reserve' and 'Total pupils in trust' as columns
-            # from Y2P2 based on EFALineNo
-            pivot_df = (
-                historic_bfr.groupBy("Trust UPIN")
-                .pivot(
-                    "EFALineNo",
-                    [
-                        self.config.SOFA_TRUST_REVENUE_RESERVE_EFALINE,
-                        self.config.SOFA_PUPIL_NUMBER_EFALINE,
-                    ],
-                )
-                .agg(first("Y2P2"))
-            )
-
-            # Rename columns to match expected names
+        """Merges historic BFR processed data into the main BFR DataFrame using Spark."""
+        if historic_bfr_processed is not None and historic_bfr_processed.count() > 0:
             historic_bfr_selected = (
-                pivot_df.withColumnRenamed(
-                    str(self.config.SOFA_TRUST_REVENUE_RESERVE_EFALINE), year
+                historic_bfr_processed.select(
+                    "Trust UPIN",
+                    col("Trust Revenue reserve").alias(year_prefix),
+                    col("Total pupils in trust").alias(f"Pupils {year_prefix}"),
                 )
-                .withColumnRenamed(
-                    str(self.config.SOFA_PUPIL_NUMBER_EFALINE), f"Pupils {year}"
-                )
-                .select("Trust UPIN", year, f"Pupils {year}")
             )
 
             bfr = bfr.join(historic_bfr_selected, on="Trust UPIN", how="left_outer")
 
-            # Fill nulls after join with 0.0 to replicate the 'historic_bfr is None' logic
-            bfr = bfr.withColumn(year, coalesce(col(year), lit(0.0)))
+            # Fill nulls after join with 0.0
+            bfr = bfr.withColumn(year_prefix, coalesce(col(year_prefix), lit(0.0)))
             bfr = bfr.withColumn(
-                f"Pupils {year}", coalesce(col(f"Pupils {year}"), lit(0.0))
+                f"Pupils {year_prefix}", coalesce(col(f"Pupils {year_prefix}"), lit(0.0))
             )
         else:
-            # If historic_bfr is None or empty, add columns with 0.0
-            bfr = bfr.withColumn(year, lit(0.0).cast(DoubleType()))
-            bfr = bfr.withColumn(f"Pupils {year}", lit(0.0).cast(DoubleType()))
+            # If historic_bfr_processed is None or empty, add columns with 0.0
+            bfr = bfr.withColumn(year_prefix, lit(0.0).cast(DoubleType()))
+            bfr = bfr.withColumn(f"Pupils {year_prefix}", lit(0.0).cast(DoubleType()))
         return bfr
 
     def _prepare_merged_bfr_for_forecast_and_risk(
         self,
         merged_bfr_with_crn: DataFrame,
-        historic_bfr_y2: DataFrame,
-        historic_bfr_y1: DataFrame,
+        historic_academies_processed_y2: DataFrame,
+        historic_academies_processed_y1: DataFrame,
     ) -> DataFrame:
         """
         Prepares the merged BFR data by adding historic data for forecast and risk calculations.
         """
         merged_bfr_with_1y_historic_data = self._merge_historic_bfr(
-            merged_bfr_with_crn, historic_bfr_y2, "Y-2"
+            merged_bfr_with_crn, historic_academies_processed_y2, "Y-2"
         )
         merged_bfr_with_2y_historic_data = self._merge_historic_bfr(
-            merged_bfr_with_1y_historic_data, historic_bfr_y1, "Y-1"
+            merged_bfr_with_1y_historic_data, historic_academies_processed_y1, "Y-1"
         )
         merged_bfr_with_2y_historic_data = merged_bfr_with_2y_historic_data.withColumn(
             "Y1", col("Y2P2")
@@ -424,3 +439,50 @@ class BFRForecastAndRiskCalculator:
         ).withColumnRenamed("Category", "Category")
 
         return melted_df.orderBy("Company Registration Number")
+
+    def _build_bfr_historical_data(
+        self, academies_historical: DataFrame, bfr_sofa_historical: DataFrame
+    ) -> DataFrame:
+        """
+        Derive historical pupil numbers and revenue reserves from BFR SOFA data using Spark.
+        Also add the historic company reference number from the historic academies file.
+        """
+        if academies_historical is None or bfr_sofa_historical is None:
+            if academies_historical is not None:
+                # If there is no BFR SOFA, we can't get historic revenue/pupils
+                # Add columns with default values if bfr_sofa_historical is None
+                academies_historical = academies_historical.withColumn(
+                    "Trust Revenue reserve", lit(0.0).cast(DoubleType())
+                ).withColumn("Total pupils in trust", lit(0).cast(IntegerType()))
+                return academies_historical
+            return None
+
+        # Filter bfr_sofa_historical for revenue reserve and rename Y2P2
+        sofa_revenue_reserve = bfr_sofa_historical.filter(
+            col("EFALineNo") == self.config.SOFA_TRUST_REVENUE_RESERVE_EFALINE
+        ).select(
+            "Trust UPIN", col("Y2P2").alias("Trust Revenue reserve")
+        )
+
+        # Merge with academies_historical
+        historic_bfr_with_crn = academies_historical.join(
+            sofa_revenue_reserve, on="Trust UPIN", how="left_outer"
+        ).withColumn(
+            "Trust Revenue reserve",
+            coalesce(col("Trust Revenue reserve"), lit(0.0)) * 1_000,
+        )
+
+        # Filter bfr_sofa_historical for pupil number and rename Y1P2
+        sofa_pupil_number = bfr_sofa_historical.filter(
+            col("EFALineNo") == self.config.SOFA_PUPIL_NUMBER_EFALINE
+        ).select(
+            "Trust UPIN", col("Y1P2").alias("sofa_pupil_number_temp")
+        )
+
+        # Merge again for pupil numbers
+        historic_bfr_with_crn = historic_bfr_with_crn.join(
+            sofa_pupil_number, on="Trust UPIN", how="left_outer"
+        ).withColumn(
+            "Total pupils in trust", coalesce(col("Total pupils in trust"), col("sofa_pupil_number_temp"), lit(0)).cast(IntegerType())
+        )
+        return historic_bfr_with_crn
