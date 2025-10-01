@@ -8,6 +8,7 @@ using Web.App.Attributes;
 using Web.App.Attributes.RequestTelemetry;
 using Web.App.Domain;
 using Web.App.Domain.Charts;
+using Web.App.Extensions;
 using Web.App.Infrastructure.Apis;
 using Web.App.Infrastructure.Apis.Benchmark;
 using Web.App.Infrastructure.Apis.ChartRendering;
@@ -31,6 +32,7 @@ public class TrustComparisonItSpendController(
     IItSpendApi itSpendApi,
     IUserDataService userDataService,
     IBudgetForecastApi budgetForecastApi,
+    IConfiguration configuration,
     ILogger<TrustComparisonItSpendController> logger) : Controller
 {
     [HttpGet]
@@ -74,7 +76,8 @@ public class TrustComparisonItSpendController(
                     });
                 }
 
-                return await TrustComparisonItSpend(trust, userDefinedSet.Set, comparatorGenerated, redirectUri, selectedSubCategories, resultAs, viewAs);
+                var hasTrustAuthorisation = Request.HttpContext.User.HasTrustAuthorisation(trust.CompanyNumber, configuration);
+                return await TrustComparisonItSpend(trust, userDefinedSet.Set, comparatorGenerated, redirectUri, hasTrustAuthorisation, selectedSubCategories, resultAs, viewAs);
             }
             catch (Exception e)
             {
@@ -147,6 +150,7 @@ public class TrustComparisonItSpendController(
         string[] comparatorSet,
         bool? comparatorGenerated,
         string? redirectUri,
+        bool hasTrustAuthorisation,
         ItSpendingCategories.SubCategoryFilter[] selectedSubCategories,
         Dimensions.ResultAsOptions resultAs,
         Views.ViewAsOptions viewAs)
