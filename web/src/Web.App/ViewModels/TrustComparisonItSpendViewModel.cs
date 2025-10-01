@@ -30,6 +30,18 @@ public class TrustComparisonItSpendViewModel(
     public ItSpendingCategories.SubCategoryFilter[] SelectedSubCategories { get; init; } = [];
 }
 
+public class TrustComparisonItSpendTableViewModel(
+    string? companyNumber,
+    Dimensions.ResultAsOptions resultAs,
+    BenchmarkingViewModelCostSubCategory<TrustComparisonDatum> subCategory,
+    int currentBfrYear)
+{
+    public string? CompanyNumber => companyNumber;
+    public Dimensions.ResultAsOptions ResultAs => resultAs;
+    public BenchmarkingViewModelCostSubCategory<TrustComparisonDatum> SubCategory => subCategory;
+    public int CurrentBfrYear => currentBfrYear;
+}
+
 public class TrustComparisonItSpendChartViewModel(
     Guid uuid,
     BenchmarkingViewModelCostSubCategory<TrustComparisonDatum> subCategory,

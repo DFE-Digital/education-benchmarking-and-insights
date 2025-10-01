@@ -28,7 +28,8 @@
             @{
                 var success = Model.ComparatorGenerated == true;
             }
-            <div class="govuk-notification-banner govuk-notification-banner--@(success ? "success" : "failure")" role="alert" aria-labelledby="govuk-notification-banner-title" data-module="govuk-notification-banner">
+            <div class="govuk-notification-banner govuk-notification-banner--@(success ? "success" : "failure")"
+                 role="alert" aria-labelledby="govuk-notification-banner-title" data-module="govuk-notification-banner">
                 <div class="govuk-notification-banner__header">
                     <h2 class="govuk-notification-banner__title" id="govuk-notification-banner-title">
                         @(success ? "Success" : "Error")
@@ -46,7 +47,7 @@
             </div>
         </div>
     }
-    
+
     <div class="govuk-grid-column-two-thirds">
         <p class="govuk-body">
             <a class="govuk-link govuk-link--no-visited-state"
@@ -84,6 +85,10 @@
                     {
                         <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible govuk-!-margin-bottom-6">
                     }
+                }
+                else
+                {
+                    @await Html.PartialAsync("_ItSpendTable", new TrustComparisonItSpendTableViewModel(Model.CompanyNumber, Model.ResultAs, subCategory, Model.CurrentBfrYear))
                 }
             </section>
         }
