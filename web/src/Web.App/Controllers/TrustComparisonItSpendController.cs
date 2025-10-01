@@ -180,6 +180,20 @@ public class TrustComparisonItSpendController(
                     category.ChartSvg = chart.Html;
                 }
             }
+
+            if (forecasts != null)
+            {
+                charts = await BuildForecastCharts(resultAs, subCategories);
+
+                foreach (var chart in charts)
+                {
+                    var category = subCategories.Items.FirstOrDefault(r => r.Uuid == chart.Id);
+                    if (category != null)
+                    {
+                        category.ForecastChartSvg = chart.Html;
+                    }
+                }
+            }
         }
 
         var viewModel = new TrustComparisonItSpendViewModel(trust, comparatorGenerated, redirectUri, comparatorSet, subCategories, bfrYear)
@@ -228,6 +242,32 @@ public class TrustComparisonItSpendController(
         catch (Exception e)
         {
             logger.LogWarning(e, "Unable to load charts from API");
+        }
+
+        return charts;
+    }
+
+    private async Task<ChartResponse[]> BuildForecastCharts(Dimensions.ResultAsOptions resultAs, TrustComparisonSubCategoriesViewModel subCategories)
+    {
+        var requests = subCategories.Items
+            .Where(c => c.ForecastData != null)
+            .Select(c => new TrustForecastItSpendHorizontalBarChartRequest(
+                c.Uuid!,
+                c.ForecastData!,
+                resultAs
+            ))
+            .Where(r => r.Data != null && r.Data.Length != 0);
+
+        ChartResponse[] charts = [];
+        try
+        {
+            charts = await chartRenderingApi
+                .PostHorizontalBarCharts(new PostHorizontalBarChartsRequest<TrustForecastDatum>(requests))
+                .GetResultOrDefault<ChartResponse[]>() ?? [];
+        }
+        catch (Exception e)
+        {
+            logger.LogWarning(e, "Unable to load forecast charts from API");
         }
 
         return charts;
