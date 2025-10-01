@@ -64,5 +64,6 @@ public static class Api
     {
         public static string Schools => "api/it-spend/schools";
         public static string Trusts => "api/it-spend/trusts";
+        public static string TrustForecast(string? companyNumber) => $"api/it-spend/trust/{companyNumber}/forecast";
     }
 }

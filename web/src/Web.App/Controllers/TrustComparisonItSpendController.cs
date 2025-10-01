@@ -163,7 +163,11 @@ public class TrustComparisonItSpendController(
             .QueryTrusts(BuildApiQuery(resultAs, comparatorSet))
             .GetResultOrDefault<TrustItSpend[]>() ?? [];
 
-        var subCategories = new TrustComparisonSubCategoriesViewModel(trust.CompanyNumber!, expenditures, selectedSubCategories);
+        var forecasts = hasTrustAuthorisation
+            ? await itSpendApi.TrustForecast(trust.CompanyNumber).GetResultOrDefault<TrustItSpendForecastYear[]>()
+            : null;
+
+        var subCategories = new TrustComparisonSubCategoriesViewModel(trust.CompanyNumber!, expenditures, forecasts, selectedSubCategories);
         if (viewAs == Views.ViewAsOptions.Chart)
         {
             var charts = await BuildCharts(trust.CompanyNumber!, resultAs, subCategories);

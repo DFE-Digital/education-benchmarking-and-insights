@@ -22,7 +22,7 @@ public class TrustComparisonItSpendViewModel(
     public bool? ComparatorGenerated => comparatorGenerated;
     public string? RedirectUri => redirectUri;
     public string[]? UserDefinedSet => userDefinedSet;
-    public List<BenchmarkingViewModelCostSubCategory<TrustComparisonDatum>> SubCategories => subCategories.Items;
+    public List<TrustBenchmarkingViewModelCostSubCategory> SubCategories => subCategories.Items;
     public int CurrentBfrYear => currentBfrYear;
 
     public Views.ViewAsOptions ViewAs { get; init; } = Views.ViewAsOptions.Chart;

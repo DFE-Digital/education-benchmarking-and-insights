@@ -41,4 +41,16 @@ public class GivenAnItSpendApi(ITestOutputHelper testOutputHelper) : ApiClientTe
 
         VerifyCall(HttpMethod.Get, "api/it-spend/trusts?companyNumber=12345678&companyNumber=87654321");
     }
+
+    [Fact]
+    public async Task TrustForecastShouldCallCorrectUrl()
+    {
+        var api = new ItSpendApi(HttpClient);
+
+        const string companyNumber = "12345678";
+
+        await api.TrustForecast(companyNumber);
+
+        VerifyCall(HttpMethod.Get, "api/it-spend/trust/12345678/forecast");
+    }
 }
