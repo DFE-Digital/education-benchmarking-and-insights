@@ -59,11 +59,13 @@
         When I submit the IT spend request
         Then the trusts IT spend result should be bad request
         
+# TODO: following changes response update the below test wait for d02 seed data  
     Scenario: Sending a valid trust forecast IT spend request
         Given a trust forecast IT spend request with company number '10192252' and year '2022'
         When I submit the IT spend request
         Then the trust forecast result should be ok and match the expected output of 'ItSpendTrustForecast.json'
-        
+    
+# TODO: following changes to route and query params and 404 response update the below two tests wait for d02 seed data    
     Scenario: Sending an invalid trust forecast IT spend request with no company number
         Given a trust forecast IT spend request with company number '' and year '2022'
         When I submit the IT spend request

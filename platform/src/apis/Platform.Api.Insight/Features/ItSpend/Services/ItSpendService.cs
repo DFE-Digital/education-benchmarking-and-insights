@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Extensions;
-using Platform.Api.Insight.Features.ItSpend.Models;
 using Platform.Api.Insight.Features.ItSpend.Responses;
 using Platform.Sql;
 using Platform.Sql.QueryBuilders;
@@ -16,7 +13,7 @@ public interface IItSpendService
 {
     Task<IEnumerable<ItSpendSchoolResponse>> GetSchoolsAsync(string[] urns, string dimension, CancellationToken cancellationToken = default);
     Task<IEnumerable<ItSpendTrustResponse>> GetTrustsAsync(string[] companyNumbers, CancellationToken cancellationToken = default);
-    Task<ItSpendTrustForecastResponse> GetTrustForecastAsync(string? companyNumber, string? year, CancellationToken cancellationToken = default);
+    Task<IEnumerable<ItSpendTrustForecastResponse>> GetTrustForecastAsync(string companyNumber, CancellationToken cancellationToken = default);
 }
 
 [ExcludeFromCodeCoverage]
@@ -55,7 +52,7 @@ public class ItSpendService(IDatabaseFactory dbFactory) : IItSpendService
         return await conn.QueryAsync<ItSpendTrustResponse>(builder, cancellationToken);
     }
 
-    public async Task<ItSpendTrustForecastResponse> GetTrustForecastAsync(string? companyNumber, string? year, CancellationToken cancellationToken = default)
+    public async Task<IEnumerable<ItSpendTrustForecastResponse>> GetTrustForecastAsync(string companyNumber, CancellationToken cancellationToken = default)
     {
         if (string.IsNullOrWhiteSpace(companyNumber))
         {
@@ -67,31 +64,7 @@ public class ItSpendService(IDatabaseFactory dbFactory) : IItSpendService
         builder.WhereCompanyNumberEqual(companyNumber);
 
         using var conn = await dbFactory.GetConnection();
-        var result = await conn.QueryAsync<ItSpendTrustForecastModel>(builder, cancellationToken);
 
-        return BuildTrustForecastResponse(result);
-    }
-
-    private static ItSpendTrustForecastResponse BuildTrustForecastResponse(IEnumerable<ItSpendTrustForecastModel> result)
-    {
-        var items = result.ToList();
-        var first = items.FirstOrDefault();
-
-        return new ItSpendTrustForecastResponse
-        {
-            CompanyNumber = first?.CompanyNumber,
-            TrustName = first?.TrustName,
-            Years = items.Select(x => new ItSpendTrustForecastYear
-            {
-                Year = x.Year,
-                Connectivity = x.Connectivity,
-                OnsiteServers = x.OnsiteServers,
-                ItLearningResources = x.ItLearningResources,
-                AdministrationSoftwareAndSystems = x.AdministrationSoftwareAndSystems,
-                LaptopsDesktopsAndTablets = x.LaptopsDesktopsAndTablets,
-                OtherHardware = x.OtherHardware,
-                ItSupport = x.ItSupport
-            }).ToArray()
-        };
+        return await conn.QueryAsync<ItSpendTrustForecastResponse>(builder, cancellationToken);
     }
 }

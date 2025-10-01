@@ -5,6 +5,7 @@ using FluentValidation;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Attributes;
+using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Extensions;
 using Microsoft.OpenApi.Models;
 using Platform.Api.Insight.Features.ItSpend.Parameters;
 using Platform.Api.Insight.Features.ItSpend.Responses;
@@ -15,29 +16,23 @@ using Platform.Functions.OpenApi;
 
 namespace Platform.Api.Insight.Features.ItSpend;
 
-public class GetItSpendTrustForecastFunction(IItSpendService service, IValidator<ItSpendTrustForecastParameters> validator)
+public class GetItSpendTrustForecastFunction(IItSpendService service)
 {
     [Function(nameof(GetItSpendTrustForecastFunction))]
     [OpenApiSecurityHeader]
     [OpenApiOperation(nameof(GetItSpendTrustForecastFunction), Constants.Features.ItSpend)]
-    [OpenApiParameter("companyNumber", In = ParameterLocation.Query, Description = "Company number", Type = typeof(string), Required = true)]
-    [OpenApiParameter("year", In = ParameterLocation.Query, Description = "Current BFR year", Type = typeof(string), Required = true)]
-    [OpenApiResponseWithBody(HttpStatusCode.OK, ContentType.ApplicationJson, typeof(ItSpendTrustForecastResponse))]
-    [OpenApiResponseWithBody(HttpStatusCode.BadRequest, ContentType.ApplicationJson, typeof(ValidationError[]))]
+    [OpenApiParameter("companyNumber", Type = typeof(string), Required = true)]
+    [OpenApiResponseWithBody(HttpStatusCode.OK, ContentType.ApplicationJson, typeof(ItSpendTrustForecastResponse[]))]
+    [OpenApiResponseWithoutBody(HttpStatusCode.NotFound)]
     public async Task<HttpResponseData> RunAsync(
         [HttpTrigger(AuthorizationLevel.Admin, MethodType.Get, Route = Routes.TrustItSpendForecast)] HttpRequestData req,
+        string companyNumber,
         CancellationToken cancellationToken = default)
     {
-        var queryParams = req.GetParameters<ItSpendTrustForecastParameters>();
+        var result = await service.GetTrustForecastAsync(companyNumber, cancellationToken);
 
-        var validationResult = await validator.ValidateAsync(queryParams, cancellationToken);
-        if (!validationResult.IsValid)
-        {
-            return await req.CreateValidationErrorsResponseAsync(validationResult.Errors, cancellationToken: cancellationToken);
-        }
-
-        var result = await service.GetTrustForecastAsync(queryParams.CompanyNumber, queryParams.Year, cancellationToken);
-
-        return await req.CreateJsonResponseAsync(result, cancellationToken);
+        return result.IsEmpty()
+            ? req.CreateNotFoundResponse()
+            : await req.CreateJsonResponseAsync(result, cancellationToken);
     }
 }
