@@ -3,6 +3,7 @@ using AngleSharp.Dom;
 using AngleSharp.Html.Dom;
 using AutoFixture;
 using Web.App.Domain;
+using Web.App.Domain.Charts;
 using Xunit;
 
 namespace Web.Integration.Tests.Pages.Trusts.Comparison;
@@ -26,6 +27,14 @@ public class WhenViewingComparisonItSpend(SchoolBenchmarkingWebAppClient client)
         var (page, trust, userDefinedSet, spend) = await SetupNavigateInitPage();
 
         AssertPageLayout(page, trust, userDefinedSet, spend);
+    }
+
+    [Fact]
+    public async Task CanDisplayChartWarningWhenChartApiFails()
+    {
+        var (page, trust, userDefinedSet, spend) = await SetupNavigateInitPage(chartApiException: true);
+
+        AssertPageLayout(page, trust, userDefinedSet, spend, chartError: true);
     }
 
     [Fact]
@@ -209,6 +218,7 @@ public class WhenViewingComparisonItSpend(SchoolBenchmarkingWebAppClient client)
     private async Task<(IHtmlDocument page, Trust trust, UserDefinedSchoolComparatorSet userDefinedSet, TrustItSpend[] spend)> SetupNavigateInitPage(
         bool withComparatorSet = true,
         bool withEmptyComparatorSet = false,
+        bool chartApiException = false,
         string queryParams = "")
     {
         var trust = Fixture.Build<Trust>()
@@ -237,12 +247,23 @@ public class WhenViewingComparisonItSpend(SchoolBenchmarkingWebAppClient client)
         var spend = Fixture.Build<TrustItSpend>().CreateMany().ToArray();
         spend.ElementAt(0).CompanyNumber = trust.CompanyNumber;
 
+        var horizontalBarChart = new ChartResponse
+        {
+            Html = "<svg />"
+        };
+
         var client = Client
             .SetupEstablishment(trust)
             .SetupInsights()
             .SetupUserData(withComparatorSet ? comparatorSet : null)
             .SetupComparatorSet(trust, userDefinedSet)
-            .SetupItSpend(trustSpend: spend);
+            .SetupItSpend(trustSpend: spend)
+            .SetupChartRendering<TrustComparisonDatum>(horizontalBarChart);
+
+        if (chartApiException)
+        {
+            Client.SetupChartRenderingWithException<TrustComparisonDatum>();
+        }
 
         var page = await client.Navigate($"{Paths.TrustComparisonItSpend(trust.CompanyNumber)}{queryParams}");
         return (page, trust, userDefinedSet, spend);
@@ -256,6 +277,7 @@ public class WhenViewingComparisonItSpend(SchoolBenchmarkingWebAppClient client)
         int viewAs = 0,
         int resultAs = 0,
         ExpectedSubCategory[]? expectedSubCategories = null,
+        bool chartError = false,
         string expectedQueryParams = "")
     {
         expectedSubCategories ??= AllSubCategories;
@@ -280,7 +302,7 @@ public class WhenViewingComparisonItSpend(SchoolBenchmarkingWebAppClient client)
             var section = subCategorySections[i];
             var expected = expectedSubCategories[i];
 
-            AssertSpendingSection(section, expected);
+            AssertSpendingSection(section, expected, viewAs == 0, chartError);
         }
     }
 
@@ -358,11 +380,38 @@ public class WhenViewingComparisonItSpend(SchoolBenchmarkingWebAppClient client)
 
     private static void AssertSpendingSection(
         IElement section,
-        ExpectedSubCategory expectedSubCategory)
+        ExpectedSubCategory expectedSubCategory,
+        bool isChartView,
+        bool chartError)
     {
         var sectionHeading = section.QuerySelector("h2")?.TextContent;
         Assert.NotNull(sectionHeading);
         Assert.Equal(expectedSubCategory.Heading, sectionHeading);
+
+        if (isChartView)
+        {
+            AssertChartSection(section, chartError);
+        }
+    }
+
+    private static void AssertChartSection(IElement chartSection, bool chartError)
+    {
+        var chartSvg = chartSection.QuerySelector(".ssr-chart");
+        var chartWarning = chartSection.QuerySelector(".ssr-chart-warning");
+        var chartContainer = chartSection.QuerySelector(".composed-container");
+
+        if (chartError)
+        {
+            Assert.NotNull(chartWarning);
+            Assert.Null(chartSvg);
+        }
+        else
+        {
+            Assert.NotNull(chartSvg);
+            Assert.Null(chartWarning);
+        }
+
+        Assert.Null(chartContainer);
     }
 
     private static ExpectedSubCategory[] BuildExpectedSubCategories(params int[]? ids)
