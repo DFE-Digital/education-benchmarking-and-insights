@@ -9,7 +9,7 @@ SELECT
     Pivoted.[Administration software and systems] AS AdministrationSoftwareAndSystems,
     Pivoted.[Connectivity],
     Pivoted.[IT Learning resources] AS ItLearningResources,
-    Pivoted.[IT support and training] AS ItSupportAndTraining,
+    Pivoted.[IT support and training] AS ItSupport,
     Pivoted.[Laptops, desktops and tablets] AS LaptopsDesktopsAndTablets,
     Pivoted.[Onsite servers] AS OnsiteServers,
     Pivoted.[Other hardware] AS OtherHardware
@@ -56,7 +56,7 @@ SELECT
     v.AdministrationSoftwareAndSystems,
     v.Connectivity,
     v.ItLearningResources,
-    v.ItSupportAndTraining,
+    v.ItSupport,
     v.LaptopsDesktopsAndTablets,
     v.OnsiteServers,
     v.OtherHardware
