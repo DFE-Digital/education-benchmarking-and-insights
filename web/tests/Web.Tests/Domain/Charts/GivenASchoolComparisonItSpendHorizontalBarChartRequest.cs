@@ -31,6 +31,10 @@ public class GivenASchoolComparisonItSpendHorizontalBarChartRequest
         Assert.Equal("schoolName", actual.LabelField);
         Assert.Equal("%2$s", actual.LabelFormat);
         Assert.Equal("/%1$s", actual.LinkFormat);
+        Assert.Null(actual.MissingDataLabel);
+        Assert.Null(actual.MissingDataLabelWidth);
+        Assert.Null(actual.PaddingInner);
+        Assert.Null(actual.PaddingOuter);
         Assert.Equal("desc", actual.Sort);
         Assert.Equal(610, actual.Width);
         Assert.Equal("expenditure", actual.ValueField);
