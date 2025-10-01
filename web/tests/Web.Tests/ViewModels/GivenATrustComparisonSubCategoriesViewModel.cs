@@ -78,12 +78,8 @@ public class GivenATrustComparisonSubCategoriesViewModel
 
         var expectedForecast = forecasts
             .OrderBy(f => f.Year)
-            .Select(f => new KeyValuePair<int, decimal?>((int)f.Year!, selector(f)))
-            .ToDictionary();
-        Assert.Equal(expectedForecast.Keys, actual.ForecastData?.Years);
-        foreach (var (year, value) in expectedForecast)
-        {
-            Assert.Equal(value, actual.ForecastData?[year]);
-        }
+            .Select(f => new TrustForecastDatum { Year = (int)f.Year!, Expenditure = selector(f) })
+            .ToArray();
+        Assert.Equivalent(expectedForecast, actual.ForecastData);
     }
 }

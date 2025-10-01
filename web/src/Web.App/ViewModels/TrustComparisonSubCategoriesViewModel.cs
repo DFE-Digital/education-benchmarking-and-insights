@@ -39,15 +39,16 @@ public class TrustComparisonSubCategoriesViewModel
         var forecastData = forecasts?
             .Where(f => f.Year != null)
             .OrderBy(f => f.Year)
-            .Select(f => new KeyValuePair<int, decimal?>((int)f.Year!, filter.GetSelector()(f)))
-            .ToDictionary();
+            .Select(f => new TrustForecastDatum { Year = (int)f.Year!, Expenditure = filter.GetSelector()(f) })
+            .Where(d => d.Expenditure != null)
+            .ToArray();
 
         Items.Add(new TrustBenchmarkingViewModelCostSubCategory
         {
             Uuid = uuid,
             SubCategory = filter.GetHeadingForTrust(),
             Data = filteredData,
-            ForecastData = forecastData == null ? null : new TrustBenchmarkingViewModelCostSubCategoryForecast(forecastData)
+            ForecastData = forecastData
         });
     }
 }
@@ -55,11 +56,5 @@ public class TrustComparisonSubCategoriesViewModel
 public class TrustBenchmarkingViewModelCostSubCategory : BenchmarkingViewModelCostSubCategory<TrustComparisonDatum>
 {
     public string? ForecastChartSvg { get; set; }
-    public TrustBenchmarkingViewModelCostSubCategoryForecast? ForecastData { get; init; }
-}
-
-public class TrustBenchmarkingViewModelCostSubCategoryForecast(Dictionary<int, decimal?> forecastData)
-{
-    public int[] Years => forecastData.Keys.ToArray();
-    public decimal? this[int year] => forecastData[year];
+    public TrustForecastDatum[]? ForecastData { get; init; }
 }

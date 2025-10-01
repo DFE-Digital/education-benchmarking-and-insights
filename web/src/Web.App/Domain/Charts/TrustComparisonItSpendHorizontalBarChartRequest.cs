@@ -33,9 +33,50 @@ public record TrustComparisonItSpendHorizontalBarChartRequest : PostHorizontalBa
     }
 }
 
+public record TrustForecastItSpendHorizontalBarChartRequest : PostHorizontalBarChartRequest<TrustForecastDatum>
+{
+    public TrustForecastItSpendHorizontalBarChartRequest(
+        string uuid,
+        TrustForecastDatum[] forecastData,
+        Dimensions.ResultAsOptions resultsAs)
+    {
+        BarHeight = 20;
+        Data = forecastData;
+        Id = uuid;
+        KeyField = "yearLabel";
+        Width = 610;
+        ValueField = nameof(TrustForecastDatum.Expenditure).ToLower();
+        ValueType = resultsAs.GetValueType();
+        XAxisLabel = resultsAs.GetXAxisLabel();
+
+        var years = forecastData
+            .Where(f => f.Year != null)
+            .Select(f => f.YearLabel!)
+            .Distinct()
+            .OrderBy(y => y)
+            .ToArray();
+        if (years.Length == 3)
+        {
+            GroupedKeys = new ChartRequestGroupedKeys
+            {
+                [GroupType.Previous] = [years[0]],
+                [GroupType.Current] = [years[1]],
+                [GroupType.Forecast] = [years[2]]
+            };
+        }
+    }
+}
+
 public class TrustComparisonDatum
 {
     public string? CompanyNumber { get; init; }
     public string? TrustName { get; init; }
+    public decimal? Expenditure { get; init; }
+}
+
+public class TrustForecastDatum
+{
+    public int? Year { get; init; }
+    public string? YearLabel => Year == null ? null : $"{Year - 1} – {Year}";
     public decimal? Expenditure { get; init; }
 }
