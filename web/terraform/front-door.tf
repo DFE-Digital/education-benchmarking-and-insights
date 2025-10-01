@@ -156,7 +156,7 @@ resource "azurerm_cdn_frontdoor_firewall_policy" "web-app-front-door-waf" {
     content {
       type    = "DefaultRuleSet"
       version = "1.0"
-      action  = "Block"
+      action  = "Log"
 
       override {
         rule_group_name = "SQLI"
