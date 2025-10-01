@@ -13,6 +13,10 @@
     return;
 }
 
+<p class="govuk-body govuk-!-margin-bottom-0 chart-context">
+    This shows the previous year spend for @(Model.CurrentBfrYear - 2) to @(Model.CurrentBfrYear - 1).
+</p>
+
 <div id="@Model.Uuid" class="costs-chart-container" data-title="@Model.SubCategory.SubCategory">
     <div class="costs-chart-wrapper">
         <div class="govuk-!-margin-bottom-2 ssr-chart horizontal-bar-chart horizontal-bar-chart__no-hover">

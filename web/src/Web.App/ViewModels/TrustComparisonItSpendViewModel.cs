@@ -8,11 +8,12 @@ public class TrustComparisonItSpendViewModel(
     bool? comparatorGenerated,
     string? redirectUri,
     string[]? userDefinedSet,
-    TrustComparisonSubCategoriesViewModel subCategories)
+    TrustComparisonSubCategoriesViewModel subCategories,
+    int currentBfrYear)
 {
     public static readonly Dimensions.ResultAsOptions[] FilterDimensions =
     [
-        Dimensions.ResultAsOptions.Actuals,
+        Dimensions.ResultAsOptions.Actuals
     ];
 
     public string? CompanyNumber => trust.CompanyNumber;
@@ -22,6 +23,7 @@ public class TrustComparisonItSpendViewModel(
     public string? RedirectUri => redirectUri;
     public string[]? UserDefinedSet => userDefinedSet;
     public List<BenchmarkingViewModelCostSubCategory<TrustComparisonDatum>> SubCategories => subCategories.Items;
+    public int CurrentBfrYear => currentBfrYear;
 
     public Views.ViewAsOptions ViewAs { get; init; } = Views.ViewAsOptions.Chart;
     public Dimensions.ResultAsOptions ResultAs { get; init; } = Dimensions.ResultAsOptions.Actuals;
@@ -30,8 +32,10 @@ public class TrustComparisonItSpendViewModel(
 
 public class TrustComparisonItSpendChartViewModel(
     Guid uuid,
-    BenchmarkingViewModelCostSubCategory<TrustComparisonDatum> subCategory)
+    BenchmarkingViewModelCostSubCategory<TrustComparisonDatum> subCategory,
+    int currentBfrYear)
 {
     public Guid Uuid => uuid;
     public BenchmarkingViewModelCostSubCategory<TrustComparisonDatum> SubCategory => subCategory;
+    public int CurrentBfrYear => currentBfrYear;
 }
