@@ -47,6 +47,8 @@ class BFRPipeline(DatabricksFBITPipeline):
                 bfr_sofa_year_minus_one,
                 self.year,
                 academies,
+                academies_y1,
+                academies_y2,
             )
         )
         # IT spend breakdown was introduced from the 2025 return
