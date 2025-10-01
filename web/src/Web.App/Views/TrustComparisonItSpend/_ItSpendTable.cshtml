@@ -1,0 +1,62 @@
+@using Web.App.Domain.Charts
+@model Web.App.ViewModels.TrustComparisonItSpendTableViewModel
+
+@if (Model.SubCategory.Data is null)
+{
+    <div
+        class="govuk-warning-text govuk-!-margin-top-2 govuk-!-margin-bottom-2 ssr-chart-warning">
+        <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
+        <strong class="govuk-warning-text__text">
+            <span class="govuk-visually-hidden">Warning</span>
+            Unable to display data
+        </strong>
+    </div>
+    return;
+}
+<div>
+
+    <table class="govuk-table">
+        <thead class="govuk-table__head">
+        <tr class="govuk-table__row">
+            <th scope="col" class="govuk-table__header">Trust name</th>
+            <th scope="col"
+                class="govuk-table__header govuk-table__cell--numeric">@(Model.CurrentBfrYear - 2) – @(Model.CurrentBfrYear - 1)</th>
+        </tr>
+        </thead>
+        <tbody class="govuk-table__body">
+        @foreach (var row in Model.SubCategory.Data)
+        {
+            <tr class="govuk-table__row">
+                <td class="govuk-table__cell">
+                    @if (row.CompanyNumber == Model.CompanyNumber)
+                    {
+                        <strong>
+                            <a class="govuk-link govuk-link--no-visited-state"
+                               href=@($"/trust/{row.CompanyNumber}")>@row.TrustName</a>
+                        </strong>
+                    }
+                    else
+                    {
+                        <a class="govuk-link govuk-link--no-visited-state"
+                           href=@($"/trust/{row.CompanyNumber}")>@row.TrustName</a>
+                    }
+                </td>
+                <td class="govuk-table__cell govuk-table__cell--numeric">
+                    @if (row.Expenditure == null)
+                    {
+                        <p class="govuk-table__cell_commentary">
+                            <strong class="govuk-tag govuk-tag--red">
+                                No data submitted
+                            </strong>
+                        </p>
+                    }
+                    else
+                    {
+                        @Model.ResultAs.GetFormattedValue(row.Expenditure)
+                    }
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+</div>
