@@ -1,36 +1,32 @@
-﻿{
-  "companyNumber": "10192252",
-  "trustName": "Stub Trust",
-  "years": [
-    {
-      "year": 2021,
-      "connectivity": 2000,
-      "onsiteServers": 36000,
-      "itLearningResources": 21000,
-      "administrationSoftwareAndSystems": 36000,
-      "laptopsDesktopsAndTablets": 11000,
-      "otherHardware": 33000,
-      "itSupport": 12000
-    },
-    {
-      "year": 2022,
-      "connectivity": 2000,
-      "onsiteServers": 36000,
-      "itLearningResources": 21000,
-      "administrationSoftwareAndSystems": 36000,
-      "laptopsDesktopsAndTablets": 11000,
-      "otherHardware": 33000,
-      "itSupport": 12000
-    },
-    {
-      "year": 2023,
-      "connectivity": 2000,
-      "onsiteServers": 36000,
-      "itLearningResources": 21000,
-      "administrationSoftwareAndSystems": 36000,
-      "laptopsDesktopsAndTablets": 11000,
-      "otherHardware": 33000,
-      "itSupport": 12000
-    }
-  ]
-}
+﻿[
+  {
+    "year": 2022,
+    "connectivity": 154000.0,
+    "onsiteServers": 3100.0,
+    "itLearningResources": 32600.0,
+    "administrationSoftwareAndSystems": 492000.0,
+    "laptopsDesktopsAndTablets": 18200.0,
+    "otherHardware": 556000.0,
+    "itSupport": 24400.0
+  },
+  {
+    "year": 2023,
+    "connectivity": 99500.0,
+    "onsiteServers": 3100.0,
+    "itLearningResources": 372000.0,
+    "administrationSoftwareAndSystems": 482000.0,
+    "laptopsDesktopsAndTablets": 4100.0,
+    "otherHardware": 456000.0,
+    "itSupport": 223000.0
+  },
+  {
+    "year": 2024,
+    "connectivity": 156000.0,
+    "onsiteServers": 0.0,
+    "itLearningResources": 22400.0,
+    "administrationSoftwareAndSystems": 392000.0,
+    "laptopsDesktopsAndTablets": 0.0,
+    "otherHardware": 0.0,
+    "itSupport": 0.0
+  }
+]

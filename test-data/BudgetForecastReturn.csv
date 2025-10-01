@@ -1,7 +1,82 @@
 ﻿RunType,RunId,Year,CompanyNumber,Category,Value,TotalPupils
-default,2023,2020,00000001,Revenue reserve,0.00,0.00
-default,2023,2021,00000001,Revenue reserve,763000.00,317.00
-default,2023,2022,00000001,Revenue reserve,653000.00,333.00
-default,2023,2023,00000001,Revenue reserve,608000.00,337.00
-default,2023,2024,00000001,Revenue reserve,547000.00,336.00
-default,2023,2025,00000001,Revenue reserve,490000.00,336.00
+default,2023,2020,00000001,Revenue reserve,0,0
+default,2023,2021,00000001,Revenue reserve,763000,317
+default,2023,2022,00000001,Revenue reserve,653000,333
+default,2023,2022,00000001,Administration software and systems,490000,333
+default,2023,2022,00000001,Connectivity,153000,333
+default,2023,2022,00000001,IT Learning resources,32400,333
+default,2023,2022,00000001,IT support and training,24200,333
+default,2023,2022,00000001,"Laptops, desktops and tablets",18000,333
+default,2023,2022,00000001,Onsite servers,3000,333
+default,2023,2022,00000001,Other hardware,555000,333
+default,2023,2023,00000001,Revenue reserve,608000,337
+default,2023,2023,00000001,Administration software and systems,480000,337
+default,2023,2023,00000001,Connectivity,99000,337
+default,2023,2023,00000001,IT Learning resources,371000,337
+default,2023,2023,00000001,IT support and training,222000,337
+default,2023,2023,00000001,"Laptops, desktops and tablets",4000,337
+default,2023,2023,00000001,Onsite servers,3000,337
+default,2023,2023,00000001,Other hardware,455000,337
+default,2023,2024,00000001,Revenue reserve,547000,336
+default,2023,2024,00000001,Administration software and systems,390000,336
+default,2023,2024,00000001,Connectivity,155000,336
+default,2023,2024,00000001,IT Learning resources,22200,336
+default,2023,2024,00000001,IT support and training,0,336
+default,2023,2024,00000001,"Laptops, desktops and tablets",0,336
+default,2023,2024,00000001,Onsite servers,0,336
+default,2023,2024,00000001,Other hardware,0,336
+default,2023,2025,00000001,Revenue reserve,490000,336
+default,2023,2020,10192252,Revenue reserve,1000,10
+default,2023,2021,10192252,Revenue reserve,765000,318
+default,2023,2022,10192252,Revenue reserve,655000,334
+default,2023,2022,10192252,Administration software and systems,492000,334
+default,2023,2022,10192252,Connectivity,154000,334
+default,2023,2022,10192252,IT Learning resources,32600,334
+default,2023,2022,10192252,IT support and training,24400,334
+default,2023,2022,10192252,"Laptops, desktops and tablets",18200,334
+default,2023,2022,10192252,Onsite servers,3100,334
+default,2023,2022,10192252,Other hardware,556000,334
+default,2023,2023,10192252,Revenue reserve,610000,338
+default,2023,2023,10192252,Administration software and systems,482000,338
+default,2023,2023,10192252,Connectivity,99500,338
+default,2023,2023,10192252,IT Learning resources,372000,338
+default,2023,2023,10192252,IT support and training,223000,338
+default,2023,2023,10192252,"Laptops, desktops and tablets",4100,338
+default,2023,2023,10192252,Onsite servers,3100,338
+default,2023,2023,10192252,Other hardware,456000,338
+default,2023,2024,10192252,Revenue reserve,549000,337
+default,2023,2024,10192252,Administration software and systems,392000,337
+default,2023,2024,10192252,Connectivity,156000,337
+default,2023,2024,10192252,IT Learning resources,22400,337
+default,2023,2024,10192252,IT support and training,0,337
+default,2023,2024,10192252,"Laptops, desktops and tablets",0,337
+default,2023,2024,10192252,Onsite servers,0,337
+default,2023,2024,10192252,Other hardware,0,337
+default,2023,2025,10192252,Revenue reserve,492000,337
+default,2023,2020,10259334,Revenue reserve,2000,12
+default,2023,2021,10259334,Revenue reserve,767000,319
+default,2023,2022,10259334,Revenue reserve,657000,335
+default,2023,2022,10259334,Administration software and systems,494000,335
+default,2023,2022,10259334,Connectivity,155000,335
+default,2023,2022,10259334,IT Learning resources,32800,335
+default,2023,2022,10259334,IT support and training,24600,335
+default,2023,2022,10259334,"Laptops, desktops and tablets",18400,335
+default,2023,2022,10259334,Onsite servers,3200,335
+default,2023,2022,10259334,Other hardware,557000,335
+default,2023,2023,10259334,Revenue reserve,612000,339
+default,2023,2023,10259334,Administration software and systems,484000,339
+default,2023,2023,10259334,Connectivity,100000,339
+default,2023,2023,10259334,IT Learning resources,373000,339
+default,2023,2023,10259334,IT support and training,224000,339
+default,2023,2023,10259334,"Laptops, desktops and tablets",4200,339
+default,2023,2023,10259334,Onsite servers,3200,339
+default,2023,2023,10259334,Other hardware,457000,339
+default,2023,2024,10259334,Revenue reserve,551000,338
+default,2023,2024,10259334,Administration software and systems,394000,338
+default,2023,2024,10259334,Connectivity,157000,338
+default,2023,2024,10259334,IT Learning resources,22600,338
+default,2023,2024,10259334,IT support and training,0,338
+default,2023,2024,10259334,"Laptops, desktops and tablets",0,338
+default,2023,2024,10259334,Onsite servers,0,338
+default,2023,2024,10259334,Other hardware,0,338
+default,2023,2025,10259334,Revenue reserve,494000,338
