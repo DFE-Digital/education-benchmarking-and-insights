@@ -1,23 +1,18 @@
+import numpy as np
+import pandas as pd
 from pyspark.sql import DataFrame, SparkSession
 from pyspark.sql.functions import (
+    array,
+    coalesce,
     col,
+    expr,
     first,
     lit,
     nanvl,
-    coalesce,
-    expr,
-    when,
-    array,
     pandas_udf,
+    when,
 )
-import numpy as np
-import pandas as pd
-from pyspark.sql.types import (
-    DoubleType,
-    IntegerType,
-    StructField,
-    StructType,
-)
+from pyspark.sql.types import DoubleType, IntegerType, StructField, StructType
 
 from .base_pipeline import DatabricksFBITPipeline
 from .logging import setup_logger
@@ -26,7 +21,13 @@ logger = setup_logger(__name__)
 
 
 class BFRForecastAndRiskCalculator:
-    def __init__(self, year: int, spark: SparkSession, pipeline_config, base_pipeline_helpers: DatabricksFBITPipeline):
+    def __init__(
+        self,
+        year: int,
+        spark: SparkSession,
+        pipeline_config,
+        base_pipeline_helpers: DatabricksFBITPipeline,
+    ):
         self.year = year
         self.spark = spark
         self.config = pipeline_config
@@ -43,8 +44,10 @@ class BFRForecastAndRiskCalculator:
         """
         Orchestrates the preparation of data and calculation of forecast and risk metrics and rows.
         """
-        merged_bfr_with_2y_historic_data = self._prepare_merged_bfr_for_forecast_and_risk(
-            merged_bfr_with_crn, historic_bfr_y2, historic_bfr_y1
+        merged_bfr_with_2y_historic_data = (
+            self._prepare_merged_bfr_for_forecast_and_risk(
+                merged_bfr_with_crn, historic_bfr_y2, historic_bfr_y1
+            )
         )
 
         bfr_forecast_and_risk_metrics = self._calculate_forecast_and_risk_metrics(
@@ -76,19 +79,23 @@ class BFRForecastAndRiskCalculator:
 
         return bfr_forecast_and_risk_rows, bfr_forecast_and_risk_metrics
 
-    def _calculate_forecast_and_risk_metrics(self, merged_bfr_with_2y_historic_data: DataFrame) -> DataFrame:
+    def _calculate_forecast_and_risk_metrics(
+        self, merged_bfr_with_2y_historic_data: DataFrame
+    ) -> DataFrame:
         """
         Calculates the forecast and risk metrics from the merged BFR data.
         """
-        bfr_rows_for_normalised_finance_metrics = merged_bfr_with_2y_historic_data.filter(
-            col("Category").isin(
-                [
-                    "Total income",
-                    "Revenue reserve",
-                    "Staff costs",
-                    "Total expenditure",
-                    "Self-generated income",
-                ]
+        bfr_rows_for_normalised_finance_metrics = (
+            merged_bfr_with_2y_historic_data.filter(
+                col("Category").isin(
+                    [
+                        "Total income",
+                        "Revenue reserve",
+                        "Staff costs",
+                        "Total expenditure",
+                        "Self-generated income",
+                    ]
+                )
             )
         )
         bfr_forecast_and_risk_metrics = self._calculate_metrics(
@@ -115,16 +122,23 @@ class BFRForecastAndRiskCalculator:
         data (aka the academy year census). Future years come from BFR_3Y.
         """
         bfr_pupils = bfr_data.filter(col("Category") == "Pupil numbers").select(
-            "Trust UPIN", col("Y2").alias("Pupils Y2"), col("Y3").alias("Pupils Y3"), col("Y4").alias("Pupils Y4")
+            "Trust UPIN",
+            col("Y2").alias("Pupils Y2"),
+            col("Y3").alias("Pupils Y3"),
+            col("Y4").alias("Pupils Y4"),
         )
 
         academies_pupils = (
-            academies.select("Trust UPIN", col("Total pupils in trust").alias("Pupils Y1"))
+            academies.select(
+                "Trust UPIN", col("Total pupils in trust").alias("Pupils Y1")
+            )
             .groupBy("Trust UPIN")
             .agg(first("Pupils Y1").alias("Pupils Y1"))
         )
 
-        bfr_pupils = bfr_pupils.join(academies_pupils, on="Trust UPIN", how="left_outer")
+        bfr_pupils = bfr_pupils.join(
+            academies_pupils, on="Trust UPIN", how="left_outer"
+        )
         return bfr_pupils
 
     def _melt_forecast_and_risk_pupil_numbers_from_bfr(
@@ -169,24 +183,30 @@ class BFRForecastAndRiskCalculator:
         id_vars = ["Company Registration Number", "Category"]
         value_vars = ["Y-2", "Y-1", "Y1", "Y2", "Y3", "Y4"]
         # Filter and then melt the DataFrame
-        forecast_and_risk_revenue_reserves_melted_rows = bfr.filter(
-            col("EFALineNo").isin([self.config.SOFA_TRUST_REVENUE_RESERVE_EFALINE])
-        ).select(
-            *id_vars,
-            expr(
-                f"stack({len(value_vars)}, "
-                + ", ".join([f"'{col_name}', `{col_name}`" for col_name in value_vars])
-                + ") as (Year, Value)"
-            ),
-        ).withColumn(
-            "Year",
-            when(col("Year") == "Y-2", current_year - 2)
-            .when(col("Year") == "Y-1", current_year - 1)
-            .when(col("Year") == "Y1", current_year)
-            .when(col("Year") == "Y2", current_year + 1)
-            .when(col("Year") == "Y3", current_year + 2)
-            .when(col("Year") == "Y4", current_year + 3)
-            .otherwise(col("Year")),
+        forecast_and_risk_revenue_reserves_melted_rows = (
+            bfr.filter(
+                col("EFALineNo").isin([self.config.SOFA_TRUST_REVENUE_RESERVE_EFALINE])
+            )
+            .select(
+                *id_vars,
+                expr(
+                    f"stack({len(value_vars)}, "
+                    + ", ".join(
+                        [f"'{col_name}', `{col_name}`" for col_name in value_vars]
+                    )
+                    + ") as (Year, Value)"
+                ),
+            )
+            .withColumn(
+                "Year",
+                when(col("Year") == "Y-2", current_year - 2)
+                .when(col("Year") == "Y-1", current_year - 1)
+                .when(col("Year") == "Y1", current_year)
+                .when(col("Year") == "Y2", current_year + 1)
+                .when(col("Year") == "Y3", current_year + 2)
+                .when(col("Year") == "Y4", current_year + 3)
+                .otherwise(col("Year")),
+            )
         )
         return forecast_and_risk_revenue_reserves_melted_rows.orderBy(
             "Company Registration Number", "Year"
@@ -199,26 +219,36 @@ class BFRForecastAndRiskCalculator:
         if historic_bfr is not None and historic_bfr.count() > 0:
             # Pivot historic_bfr to get 'Trust Revenue reserve' and 'Total pupils in trust' as columns
             # from Y2P2 based on EFALineNo
-            pivot_df = historic_bfr.groupBy("Trust UPIN").pivot(
-                "EFALineNo",
-                [
-                    self.config.SOFA_TRUST_REVENUE_RESERVE_EFALINE,
-                    self.config.SOFA_PUPIL_NUMBER_EFALINE,
-                ],
-            ).agg(first("Y2P2"))
+            pivot_df = (
+                historic_bfr.groupBy("Trust UPIN")
+                .pivot(
+                    "EFALineNo",
+                    [
+                        self.config.SOFA_TRUST_REVENUE_RESERVE_EFALINE,
+                        self.config.SOFA_PUPIL_NUMBER_EFALINE,
+                    ],
+                )
+                .agg(first("Y2P2"))
+            )
 
             # Rename columns to match expected names
-            historic_bfr_selected = pivot_df.withColumnRenamed(
-                str(self.config.SOFA_TRUST_REVENUE_RESERVE_EFALINE), year
-            ).withColumnRenamed(
-                str(self.config.SOFA_PUPIL_NUMBER_EFALINE), f"Pupils {year}"
-            ).select("Trust UPIN", year, f"Pupils {year}")
+            historic_bfr_selected = (
+                pivot_df.withColumnRenamed(
+                    str(self.config.SOFA_TRUST_REVENUE_RESERVE_EFALINE), year
+                )
+                .withColumnRenamed(
+                    str(self.config.SOFA_PUPIL_NUMBER_EFALINE), f"Pupils {year}"
+                )
+                .select("Trust UPIN", year, f"Pupils {year}")
+            )
 
             bfr = bfr.join(historic_bfr_selected, on="Trust UPIN", how="left_outer")
 
             # Fill nulls after join with 0.0 to replicate the 'historic_bfr is None' logic
             bfr = bfr.withColumn(year, coalesce(col(year), lit(0.0)))
-            bfr = bfr.withColumn(f"Pupils {year}", coalesce(col(f"Pupils {year}"), lit(0.0)))
+            bfr = bfr.withColumn(
+                f"Pupils {year}", coalesce(col(f"Pupils {year}"), lit(0.0))
+            )
         else:
             # If historic_bfr is None or empty, add columns with 0.0
             bfr = bfr.withColumn(year, lit(0.0).cast(DoubleType()))
@@ -226,7 +256,10 @@ class BFRForecastAndRiskCalculator:
         return bfr
 
     def _prepare_merged_bfr_for_forecast_and_risk(
-        self, merged_bfr_with_crn: DataFrame, historic_bfr_y2: DataFrame, historic_bfr_y1: DataFrame
+        self,
+        merged_bfr_with_crn: DataFrame,
+        historic_bfr_y2: DataFrame,
+        historic_bfr_y1: DataFrame,
     ) -> DataFrame:
         """
         Prepares the merged BFR data by adding historic data for forecast and risk calculations.
@@ -259,33 +292,43 @@ class BFRForecastAndRiskCalculator:
         ).select("Company Registration Number", "Category", "metric")
 
         # Pivot the DataFrame
-        pivot_df = bfr_with_metric.groupBy("Company Registration Number").pivot(
-            "Category",
-            [
-                "Total income",
-                "Revenue reserve",
-                "Staff costs",
-                "Total expenditure",
-                "Self-generated income",
-            ],
-        ).agg(first("metric"))
+        pivot_df = (
+            bfr_with_metric.groupBy("Company Registration Number")
+            .pivot(
+                "Category",
+                [
+                    "Total income",
+                    "Revenue reserve",
+                    "Staff costs",
+                    "Total expenditure",
+                    "Self-generated income",
+                ],
+            )
+            .agg(first("metric"))
+        )
 
         # Calculate metrics
-        df_metrics = pivot_df.withColumn(
-            "Revenue reserve as percentage of income",
-            (col("Revenue reserve") / col("Total income")) * 100,
-        ).withColumn(
-            "Staff costs as percentage of income",
-            (col("Staff costs") / col("Total income")) * 100,
-        ).withColumn(
-            "Expenditure as percentage of income",
-            (col("Total expenditure") / col("Total income")) * 100,
-        ).withColumn(
-            "Self generated income as percentage of income",
-            (col("Self-generated income") / col("Total income")) * 100,
-        ).withColumn(
-            "Grant funding as percentage of income",
-            lit(100) - col("Self generated income as percentage of income"),
+        df_metrics = (
+            pivot_df.withColumn(
+                "Revenue reserve as percentage of income",
+                (col("Revenue reserve") / col("Total income")) * 100,
+            )
+            .withColumn(
+                "Staff costs as percentage of income",
+                (col("Staff costs") / col("Total income")) * 100,
+            )
+            .withColumn(
+                "Expenditure as percentage of income",
+                (col("Total expenditure") / col("Total income")) * 100,
+            )
+            .withColumn(
+                "Self generated income as percentage of income",
+                (col("Self-generated income") / col("Total income")) * 100,
+            )
+            .withColumn(
+                "Grant funding as percentage of income",
+                lit(100) - col("Self generated income as percentage of income"),
+            )
         )
 
         # Melt the DataFrame back
@@ -309,16 +352,16 @@ class BFRForecastAndRiskCalculator:
         # Replace inf, -inf, nan with 0.0
         final_df = melted_df.withColumn(
             "Value",
-            when(
-                col("Value").isin([float("inf"), float("-inf")]), lit(0.0)
-            ).otherwise(nanvl(col("Value"), lit(0.0))),
+            when(col("Value").isin([float("inf"), float("-inf")]), lit(0.0)).otherwise(
+                nanvl(col("Value"), lit(0.0))
+            ),
         )
 
         return final_df
 
     def _calculate_slopes(self, bfr: DataFrame, year_cols: list[str]) -> DataFrame:
         """Calculates slopes for revenue reserves using a Pandas UDF in Spark."""
-        
+
         @pandas_udf(DoubleType())
         def calculate_slopes_udf(year_values: pd.Series) -> pd.Series:
             x = np.array([1, 2, 3, 4, 5, 6])
@@ -343,7 +386,10 @@ class BFRForecastAndRiskCalculator:
     def _assign_slope_flag(self, bfr_with_slopes: DataFrame) -> DataFrame:
         """Assigns slope flags based on percentiles using a Pandas UDF in Spark."""
         # Define the schema for the output of the UDF, including the new 'Slope flag' column
-        output_schema = StructType(bfr_with_slopes.schema.fields + [StructField("Slope flag", IntegerType(), True)])
+        output_schema = StructType(
+            bfr_with_slopes.schema.fields
+            + [StructField("Slope flag", IntegerType(), True)]
+        )
 
         def assign_slope_flag_func(pdf: pd.DataFrame) -> pd.DataFrame:
             percentile_10 = np.nanpercentile(pdf["Slope"].values, 10)
@@ -354,9 +400,9 @@ class BFRForecastAndRiskCalculator:
             return pdf
 
         # Apply the grouped map UDF
-        bfr_with_slope_flag = bfr_with_slopes.groupBy("Company Registration Number").applyInPandas(
-            assign_slope_flag_func, schema=output_schema
-        )
+        bfr_with_slope_flag = bfr_with_slopes.groupBy(
+            "Company Registration Number"
+        ).applyInPandas(assign_slope_flag_func, schema=output_schema)
         return bfr_with_slope_flag
 
     def _slope_analysis(self, bfr: DataFrame) -> DataFrame:
