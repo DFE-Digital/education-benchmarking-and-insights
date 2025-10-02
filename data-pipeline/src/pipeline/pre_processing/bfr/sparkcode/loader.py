@@ -2,19 +2,14 @@ from pyspark.sql import DataFrame, SparkSession
 from pyspark.sql.functions import col
 
 from . import bfr_pyspark_mocks as mocks
-from .logging import setup_logger
 from .base import DatabricksDataLoader
+from .logging import setup_logger
 
 logger = setup_logger(__name__)
 
 
 class BFRLoader(DatabricksDataLoader):
-    def __init__(
-        self,
-        year: int,
-        spark: SparkSession,
-        pipeline_config
-    ):
+    def __init__(self, year: int, spark: SparkSession, pipeline_config):
         self.year = year
         self.spark = spark
         self.config = pipeline_config
@@ -61,9 +56,7 @@ class BFRLoader(DatabricksDataLoader):
             materialized_view = self.spark.table(
                 self._get_table_name(materialized_view_full_name)
             )
-            source_view = self.spark.table(
-                self._get_table_name(source_view_full_name)
-            )
+            source_view = self.spark.table(self._get_table_name(source_view_full_name))
 
         self._check_for_updates_in_materialized_views(
             table_id, source_view, materialized_view
