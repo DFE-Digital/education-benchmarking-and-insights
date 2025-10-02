@@ -1,6 +1,6 @@
-import config
 from pyspark.sql import SparkSession
 
+from . import config
 from .base import DatabricksFBITPipeline
 from .forecast_and_risk import BFRForecastAndRiskCalculator
 from .it_spend import BFRITSpendCalculator
