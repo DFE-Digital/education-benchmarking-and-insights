@@ -13,7 +13,7 @@ class BFRITSpendCalculator:
         self.config = pipeline_config
 
     def _melt_it_spend_rows_from_bfr(
-        self, bfr: DataFrame, current_year: int
+        self, bfr: DataFrame
     ) -> DataFrame:
         """Melt IT spend rows from BFR data using Spark."""
         it_spend_melted_rows = (
@@ -30,16 +30,16 @@ class BFRITSpendCalculator:
             )
             .withColumn(
                 "Year",
-                when(col("Year") == "Y1P_Total", current_year - 1)
-                .when(col("Year") == "Y2P_Total", current_year)
-                .when(col("Year") == "Y3P_Total", current_year + 1)
+                when(col("Year") == "Y1P_Total", self.year - 1)
+                .when(col("Year") == "Y2P_Total", self.year)
+                .when(col("Year") == "Y3P_Total", self.year + 1)
                 .otherwise(col("Year")),
             )
         )
         return it_spend_melted_rows.orderBy("Company Registration Number", "Year")
 
     def _melt_it_spend_pupil_numbers_from_bfr(
-        self, bfr: DataFrame, current_year: int
+        self, bfr: DataFrame
     ) -> DataFrame:
         """Melt IT spend pupil numbers from BFR data using Spark."""
         it_spend_pupil_numbers_melted_rows = (
@@ -52,9 +52,9 @@ class BFRITSpendCalculator:
             )
             .withColumn(
                 "Year",
-                when(col("Year") == "Y1P1", current_year - 1)
-                .when(col("Year") == "Y1P2", current_year)
-                .when(col("Year") == "Y2P1", current_year + 1)
+                when(col("Year") == "Y1P1", self.year - 1)
+                .when(col("Year") == "Y1P2", self.year)
+                .when(col("Year") == "Y2P1", self.year + 1)
                 .otherwise(col("Year")),
             )
         )
@@ -63,14 +63,14 @@ class BFRITSpendCalculator:
         )
 
     def get_bfr_it_spend_rows(
-        self, bfr_final_wide: DataFrame, current_year: int
+        self, bfr_final_wide: DataFrame
     ) -> DataFrame:
         """Gets BFR IT spend rows using Spark."""
         bfr_it_spend_melted_rows = self._melt_it_spend_rows_from_bfr(
-            bfr_final_wide, current_year
+            bfr_final_wide
         )
         bfr_it_spend_pupil_numbers = self._melt_it_spend_pupil_numbers_from_bfr(
-            bfr_final_wide, current_year
+            bfr_final_wide
         )
         bfr_it_spend_final = bfr_it_spend_melted_rows.join(
             bfr_it_spend_pupil_numbers,
