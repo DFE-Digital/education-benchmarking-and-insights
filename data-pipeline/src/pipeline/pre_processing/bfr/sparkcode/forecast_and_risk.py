@@ -52,33 +52,37 @@ class BFRForecastAndRiskCalculator:
         academies_historical_y2_processed = self._build_bfr_historical_data(
             academies_y2, historic_bfr_y2
         )
-        historic_bfr_y1 = (
-            historic_bfr_y1.join(
-                academies_historical_y1_processed.select(
-                    "Trust UPIN", "Company Registration Number", "Trust Revenue reserve", "Total pupils in trust"
-                ),
-                on="Trust UPIN",
-                how="left_outer",
-            ).drop(
-                "Y1P2", "Y2P2"  # Drop old columns if they exist
-            )
+        historic_bfr_y1 = historic_bfr_y1.join(
+            academies_historical_y1_processed.select(
+                "Trust UPIN",
+                "Company Registration Number",
+                "Trust Revenue reserve",
+                "Total pupils in trust",
+            ),
+            on="Trust UPIN",
+            how="left_outer",
+        ).drop(
+            "Y1P2", "Y2P2"  # Drop old columns if they exist
         )
 
-        historic_bfr_y2 = (
-            historic_bfr_y2.join(
-                academies_historical_y2_processed.select(
-                    "Trust UPIN", "Company Registration Number", "Trust Revenue reserve", "Total pupils in trust"
-                ),
-                on="Trust UPIN",
-                how="left_outer",
-            ).drop(
-                "Y1P2", "Y2P2"  # Drop old columns if they exist
-            )
+        historic_bfr_y2 = historic_bfr_y2.join(
+            academies_historical_y2_processed.select(
+                "Trust UPIN",
+                "Company Registration Number",
+                "Trust Revenue reserve",
+                "Total pupils in trust",
+            ),
+            on="Trust UPIN",
+            how="left_outer",
+        ).drop(
+            "Y1P2", "Y2P2"  # Drop old columns if they exist
         )
 
         merged_bfr_with_2y_historic_data = (
             self._prepare_merged_bfr_for_forecast_and_risk(
-                merged_bfr_with_crn, academies_historical_y2_processed, academies_historical_y1_processed
+                merged_bfr_with_crn,
+                academies_historical_y2_processed,
+                academies_historical_y1_processed,
             )
         )
 
@@ -249,12 +253,10 @@ class BFRForecastAndRiskCalculator:
     ) -> DataFrame:
         """Merges historic BFR processed data into the main BFR DataFrame using Spark."""
         if historic_bfr_processed is not None and historic_bfr_processed.count() > 0:
-            historic_bfr_selected = (
-                historic_bfr_processed.select(
-                    "Trust UPIN",
-                    col("Trust Revenue reserve").alias(year_prefix),
-                    col("Total pupils in trust").alias(f"Pupils {year_prefix}"),
-                )
+            historic_bfr_selected = historic_bfr_processed.select(
+                "Trust UPIN",
+                col("Trust Revenue reserve").alias(year_prefix),
+                col("Total pupils in trust").alias(f"Pupils {year_prefix}"),
             )
 
             bfr = bfr.join(historic_bfr_selected, on="Trust UPIN", how="left_outer")
@@ -262,7 +264,8 @@ class BFRForecastAndRiskCalculator:
             # Fill nulls after join with 0.0
             bfr = bfr.withColumn(year_prefix, coalesce(col(year_prefix), lit(0.0)))
             bfr = bfr.withColumn(
-                f"Pupils {year_prefix}", coalesce(col(f"Pupils {year_prefix}"), lit(0.0))
+                f"Pupils {year_prefix}",
+                coalesce(col(f"Pupils {year_prefix}"), lit(0.0)),
             )
         else:
             # If historic_bfr_processed is None or empty, add columns with 0.0
@@ -460,9 +463,7 @@ class BFRForecastAndRiskCalculator:
         # Filter bfr_sofa_historical for revenue reserve and rename Y2P2
         sofa_revenue_reserve = bfr_sofa_historical.filter(
             col("EFALineNo") == self.config.SOFA_TRUST_REVENUE_RESERVE_EFALINE
-        ).select(
-            "Trust UPIN", col("Y2P2").alias("Trust Revenue reserve")
-        )
+        ).select("Trust UPIN", col("Y2P2").alias("Trust Revenue reserve"))
 
         # Merge with academies_historical
         historic_bfr_with_crn = academies_historical.join(
@@ -475,14 +476,15 @@ class BFRForecastAndRiskCalculator:
         # Filter bfr_sofa_historical for pupil number and rename Y1P2
         sofa_pupil_number = bfr_sofa_historical.filter(
             col("EFALineNo") == self.config.SOFA_PUPIL_NUMBER_EFALINE
-        ).select(
-            "Trust UPIN", col("Y1P2").alias("sofa_pupil_number_temp")
-        )
+        ).select("Trust UPIN", col("Y1P2").alias("sofa_pupil_number_temp"))
 
         # Merge again for pupil numbers
         historic_bfr_with_crn = historic_bfr_with_crn.join(
             sofa_pupil_number, on="Trust UPIN", how="left_outer"
         ).withColumn(
-            "Total pupils in trust", coalesce(col("Total pupils in trust"), col("sofa_pupil_number_temp"), lit(0)).cast(IntegerType())
+            "Total pupils in trust",
+            coalesce(
+                col("Total pupils in trust"), col("sofa_pupil_number_temp"), lit(0)
+            ).cast(IntegerType()),
         )
         return historic_bfr_with_crn

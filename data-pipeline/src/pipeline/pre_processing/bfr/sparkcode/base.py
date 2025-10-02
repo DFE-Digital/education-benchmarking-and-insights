@@ -43,7 +43,7 @@ class DatabricksFBITPipeline(ABC):
         pass
 
 
-class DatabricksDataLoader():
+class DatabricksDataLoader:
     def __init__(self, spark: SparkSession):
         self.spark = spark
 
@@ -77,4 +77,3 @@ class DatabricksDataLoader():
             # Assuming the format is catalog.schema.table
             parts = full_table_name.split(".")
             return parts[-1]
-
