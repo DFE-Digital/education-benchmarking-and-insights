@@ -4,7 +4,6 @@ from pyspark.sql.types import (
     StructType,
     StructField,
     StringType,
-    IntegerType,
     DecimalType,
     LongType,
 )
@@ -167,7 +166,7 @@ def test_get_bfr_it_spend_rows(bfr_it_spend_calculator: BFRITSpendCalculator, sp
             StructField("Category", StringType(), True),
             StructField("Company Registration Number", StringType(), True),
             StructField("Year", LongType(), True),
-            StructField("Value", DecimalType(19, 2), True), # Changed to DecimalType(19, 2)
+            StructField("Value", DecimalType(19, 2), True),
             StructField("Pupils", DecimalType(18, 2), True),
         ]
     )
