@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Extensions;
 using Platform.Api.Insight.Features.ItSpend.Responses;
 using Platform.Sql;
 using Platform.Sql.QueryBuilders;
@@ -15,7 +13,7 @@ public interface IItSpendService
 {
     Task<IEnumerable<ItSpendSchoolResponse>> GetSchoolsAsync(string[] urns, string dimension, CancellationToken cancellationToken = default);
     Task<IEnumerable<ItSpendTrustResponse>> GetTrustsAsync(string[] companyNumbers, CancellationToken cancellationToken = default);
-    Task<ItSpendTrustForecastResponse> GetTrustForecastAsync(string? companyNumber, string? year, CancellationToken cancellationToken = default);
+    Task<IEnumerable<ItSpendTrustForecastResponse>> GetTrustForecastAsync(string companyNumber, CancellationToken cancellationToken = default);
 }
 
 [ExcludeFromCodeCoverage]
@@ -46,54 +44,27 @@ public class ItSpendService(IDatabaseFactory dbFactory) : IItSpendService
             throw new ArgumentNullException(nameof(companyNumbers), $"{nameof(companyNumbers)} must be supplied");
         }
 
-        var response = companyNumbers.Select(companyNumber => new ItSpendTrustResponse
-        {
-            CompanyNumber = companyNumber,
-            TrustName = "Stub Trust",
-            Connectivity = 2000,
-            ItLearningResources = 21000,
-            ItSupport = 12000,
-            AdministrationSoftwareAndSystems = 36000,
-            LaptopsDesktopsAndTablets = 11000,
-            OnsiteServers = 36000,
-            OtherHardware = 33000
-        });
+        var builder = new ItSpendTrustCurrentPreviousYearQuery();
 
-        return response;
+        builder.WhereCompanyNumberIn(companyNumbers);
+
+        using var conn = await dbFactory.GetConnection();
+        return await conn.QueryAsync<ItSpendTrustResponse>(builder, cancellationToken);
     }
 
-    public async Task<ItSpendTrustForecastResponse> GetTrustForecastAsync(string? companyNumber, string? year, CancellationToken cancellationToken = default)
+    public async Task<IEnumerable<ItSpendTrustForecastResponse>> GetTrustForecastAsync(string companyNumber, CancellationToken cancellationToken = default)
     {
         if (string.IsNullOrWhiteSpace(companyNumber))
         {
             throw new ArgumentNullException(nameof(companyNumber), $"{nameof(companyNumber)} must be supplied");
         }
 
-        if (string.IsNullOrWhiteSpace(year))
-        {
-            throw new ArgumentNullException(nameof(year), $"{nameof(year)} must be supplied");
-        }
+        var builder = new ItSpendTrustCurrentAllYearsQuery();
 
-        var parsedYear = int.Parse(year);
-        int[] years = [parsedYear - 1, parsedYear, parsedYear + 1];
+        builder.WhereCompanyNumberEqual(companyNumber);
 
-        var response = new ItSpendTrustForecastResponse
-        {
-            CompanyNumber = companyNumber,
-            TrustName = "Stub Trust",
-            Years = years.Select(y => new ItSpendTrustForecastYear
-            {
-                Year = y,
-                Connectivity = 2000,
-                ItLearningResources = 21000,
-                ItSupport = 12000,
-                AdministrationSoftwareAndSystems = 36000,
-                LaptopsDesktopsAndTablets = 11000,
-                OnsiteServers = 36000,
-                OtherHardware = 33000
-            }).ToArray(),
-        };
+        using var conn = await dbFactory.GetConnection();
 
-        return response;
+        return await conn.QueryAsync<ItSpendTrustForecastResponse>(builder, cancellationToken);
     }
 }

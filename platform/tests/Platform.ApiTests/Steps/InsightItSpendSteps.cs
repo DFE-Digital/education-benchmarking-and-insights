@@ -2,7 +2,6 @@
 using Platform.ApiTests.Assertion;
 using Platform.ApiTests.Drivers;
 using Platform.ApiTests.TestDataHelpers;
-using Xunit;
 
 namespace Platform.ApiTests.Steps;
 
@@ -48,12 +47,12 @@ public class InsightItSpendSteps(InsightApiDriver api)
         });
     }
 
-    [Given("a trust forecast IT spend request with company number '(.*)' and year '(.*)'")]
-    public void GivenATrustForecastItSpendRequestWithCompanyNumberAndYear(string companyNumber, string year)
+    [Given("a trust forecast IT spend request with company number '(.*)'")]
+    public void GivenATrustForecastItSpendRequestWithCompanyNumber(string companyNumber)
     {
         api.CreateRequest(TrustForecastItSpendKey, new HttpRequestMessage
         {
-            RequestUri = new Uri($"/api/it-spend/trust-forecast?companyNumber={companyNumber}&year={year}", UriKind.Relative),
+            RequestUri = new Uri($"/api/it-spend/trust/{companyNumber}/forecast", UriKind.Relative),
             Method = HttpMethod.Get
         });
     }
@@ -99,9 +98,9 @@ public class InsightItSpendSteps(InsightApiDriver api)
         AssertHttpResponse.IsOk(response);
 
         var content = await response.Content.ReadAsStringAsync();
-        var actual = JObject.Parse(content);
+        var actual = JArray.Parse(content);
 
-        var expected = TestDataProvider.GetJsonObjectData(testFile);
+        var expected = TestDataProvider.GetJsonArrayData(testFile);
 
         actual.AssertDeepEquals(expected);
     }
@@ -118,10 +117,10 @@ public class InsightItSpendSteps(InsightApiDriver api)
         AssertHttpResponse.IsBadRequest(api[TrustItSpendKey].Response);
     }
 
-    [Then("the trust forecast IT spend result should be bad request")]
-    public void ThenTheTrustForecastItSpendResultShouldBeBadRequest()
+    [Then("the trust forecast IT spend result should be not found")]
+    public void ThenTheTrustForecastItSpendResultShouldBeNotFound()
     {
-        AssertHttpResponse.IsBadRequest(api[TrustForecastItSpendKey].Response);
+        AssertHttpResponse.IsNotFound(api[TrustForecastItSpendKey].Response);
     }
 
     private static IEnumerable<string> GetFirstColumnsFromTableRowsAsString(DataTable table)
