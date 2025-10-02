@@ -4,7 +4,7 @@ from pyspark.sql.functions import sum as spark_sum
 from pyspark.sql.functions import when
 from pyspark.sql.types import IntegerType
 
-from pipeline.pre_processing.bfr import config
+import config
 
 
 class BFRPreprocessor:
