@@ -2,7 +2,7 @@ from pyspark.sql import SparkSession
 
 from pipeline.pre_processing.bfr import config
 
-from .base_pipeline import DatabricksFBITPipeline
+from .base import DatabricksFBITPipeline
 from .forecast_and_risk import BFRForecastAndRiskCalculator
 from .it_spend import BFRITSpendCalculator
 from .loader import BFRLoader
@@ -17,7 +17,7 @@ class BFRPipeline(DatabricksFBITPipeline):
         self.year = year
         self.config = config
         self.spark = spark
-        self.bfr_loader = BFRLoader(year, spark, config, self)
+        self.bfr_loader = BFRLoader(year, spark, config)
         self.bfr_preprocessor = BFRPreprocessor(year, spark, config, self)
         self.bfr_forecast_and_risk_calculator = BFRForecastAndRiskCalculator(
             year, spark, config, self

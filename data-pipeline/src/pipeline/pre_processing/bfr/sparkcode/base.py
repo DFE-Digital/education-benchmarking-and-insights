@@ -1,7 +1,7 @@
 import os
 from abc import ABC, abstractmethod
 
-from pyspark.sql import DataFrame
+from pyspark.sql import DataFrame, SparkSession
 from pyspark.sql.functions import collect_list, hash, struct
 
 from .logging import setup_logger
@@ -42,6 +42,11 @@ class DatabricksFBITPipeline(ABC):
     def save_data(self):
         pass
 
+
+class DatabricksDataLoader():
+    def __init__(self, spark: SparkSession):
+        self.spark = spark
+
     @staticmethod
     def _check_for_updates_in_materialized_views(
         table_id: str, source_view: DataFrame, materialized_view: DataFrame
@@ -72,3 +77,4 @@ class DatabricksFBITPipeline(ABC):
             # Assuming the format is catalog.schema.table
             parts = full_table_name.split(".")
             return parts[-1]
+

@@ -2,24 +2,22 @@ from pyspark.sql import DataFrame, SparkSession
 from pyspark.sql.functions import col
 
 from . import bfr_pyspark_mocks as mocks
-from .base_pipeline import DatabricksFBITPipeline
 from .logging import setup_logger
+from .base import DatabricksDataLoader
 
 logger = setup_logger(__name__)
 
 
-class BFRLoader:
+class BFRLoader(DatabricksDataLoader):
     def __init__(
         self,
         year: int,
         spark: SparkSession,
-        pipeline_config,
-        base_pipeline_helpers: DatabricksFBITPipeline,
+        pipeline_config
     ):
         self.year = year
         self.spark = spark
         self.config = pipeline_config
-        self.base_pipeline_helpers = base_pipeline_helpers  # Instance to access _is_databricks and _get_table_name
 
     def _read_materialized_view(
         self,
@@ -31,7 +29,7 @@ class BFRLoader:
         Reads a materialized view and checks it against its source view for updates.
         If not in Databricks, it returns mock data.
         """
-        if not self.base_pipeline_helpers._is_databricks():
+        if not self._is_databricks():
             if table_id == "bfr_sofa":
                 materialized_view = mocks.get_mock_bfr_sofa_mv(self.spark, self.year)
                 source_view = mocks.get_mock_bfr_sofa_mv(
@@ -61,13 +59,13 @@ class BFRLoader:
             logger.info(f"Using mock data for {table_id}")
         else:
             materialized_view = self.spark.table(
-                self.base_pipeline_helpers._get_table_name(materialized_view_full_name)
+                self._get_table_name(materialized_view_full_name)
             )
             source_view = self.spark.table(
-                self.base_pipeline_helpers._get_table_name(source_view_full_name)
+                self._get_table_name(source_view_full_name)
             )
 
-        self.base_pipeline_helpers._check_for_updates_in_materialized_views(
+        self._check_for_updates_in_materialized_views(
             table_id, source_view, materialized_view
         )
         return materialized_view
@@ -137,7 +135,7 @@ class BFRLoader:
         Reads current year academies data.
         If not in Databricks, it returns mock data.
         """
-        if not self.base_pipeline_helpers._is_databricks():
+        if not self._is_databricks():
             logger.info("Using mock academies data")
             academies = mocks.get_mock_academies_df(self.spark, self.year)
         else:
@@ -159,7 +157,7 @@ class BFRLoader:
         academies_y1 = None
         academies_y2 = None
 
-        if not self.base_pipeline_helpers._is_databricks():
+        if not self._is_databricks():
             logger.info("Using mock historical academies data")
             academies_y1 = mocks.get_mock_academies_df(self.spark, self.year - 1)
             academies_y2 = mocks.get_mock_academies_df(self.spark, self.year - 2)

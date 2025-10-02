@@ -14,7 +14,7 @@ from pyspark.sql.functions import (
 )
 from pyspark.sql.types import DoubleType, IntegerType, StructField, StructType
 
-from .base_pipeline import DatabricksFBITPipeline
+from .base import DatabricksFBITPipeline
 from .logging import setup_logger
 
 logger = setup_logger(__name__)
