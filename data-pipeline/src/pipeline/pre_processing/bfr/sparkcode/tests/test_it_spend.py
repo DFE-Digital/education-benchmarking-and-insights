@@ -1,13 +1,8 @@
+from decimal import Decimal
+
 import pytest
 from pyspark.sql import SparkSession
-from pyspark.sql.types import (
-    StructType,
-    StructField,
-    StringType,
-    DecimalType,
-    LongType,
-)
-from decimal import Decimal
+from pyspark.sql.types import DecimalType, LongType, StringType, StructField, StructType
 
 from pipeline.pre_processing.bfr.sparkcode.it_spend import BFRITSpendCalculator
 
@@ -24,7 +19,9 @@ def bfr_it_spend_calculator(spark_session: SparkSession):
     return BFRITSpendCalculator(year, spark_session, config)
 
 
-def test_melt_it_spend_rows_from_bfr(bfr_it_spend_calculator: BFRITSpendCalculator, spark_session: SparkSession):
+def test_melt_it_spend_rows_from_bfr(
+    bfr_it_spend_calculator: BFRITSpendCalculator, spark_session: SparkSession
+):
     # Given
     schema = StructType(
         [
@@ -40,9 +37,39 @@ def test_melt_it_spend_rows_from_bfr(bfr_it_spend_calculator: BFRITSpendCalculat
         ]
     )
     bfr_data = [
-        ("IT Spend 1", "CRN001", "IT001", Decimal("100.00"), Decimal("200.00"), Decimal("300.00"), Decimal("400.00"), Decimal("500.00"), Decimal("600.00")),
-        ("IT Spend 2", "CRN001", "IT002", Decimal("50.00"), Decimal("150.00"), Decimal("250.00"), Decimal("350.00"), Decimal("450.00"), Decimal("550.00")),
-        ("Other Spend", "CRN001", "OTH001", Decimal("10.00"), Decimal("20.00"), Decimal("30.00"), Decimal("40.00"), Decimal("50.00"), Decimal("60.00")),
+        (
+            "IT Spend 1",
+            "CRN001",
+            "IT001",
+            Decimal("100.00"),
+            Decimal("200.00"),
+            Decimal("300.00"),
+            Decimal("400.00"),
+            Decimal("500.00"),
+            Decimal("600.00"),
+        ),
+        (
+            "IT Spend 2",
+            "CRN001",
+            "IT002",
+            Decimal("50.00"),
+            Decimal("150.00"),
+            Decimal("250.00"),
+            Decimal("350.00"),
+            Decimal("450.00"),
+            Decimal("550.00"),
+        ),
+        (
+            "Other Spend",
+            "CRN001",
+            "OTH001",
+            Decimal("10.00"),
+            Decimal("20.00"),
+            Decimal("30.00"),
+            Decimal("40.00"),
+            Decimal("50.00"),
+            Decimal("60.00"),
+        ),
     ]
     bfr_df = spark_session.createDataFrame(bfr_data, schema)
 
@@ -55,7 +82,9 @@ def test_melt_it_spend_rows_from_bfr(bfr_it_spend_calculator: BFRITSpendCalculat
             StructField("Category", StringType(), True),
             StructField("Company Registration Number", StringType(), True),
             StructField("Year", LongType(), True),
-            StructField("Value", DecimalType(19, 2), True), # Changed to DecimalType(19, 2)
+            StructField(
+                "Value", DecimalType(19, 2), True
+            ),  # Changed to DecimalType(19, 2)
         ]
     )
     expected_data = [
@@ -73,14 +102,20 @@ def test_melt_it_spend_rows_from_bfr(bfr_it_spend_calculator: BFRITSpendCalculat
     result_df_ordered = result_df.select(expected_cols)
 
     # Sort both DataFrames before collecting for comparison
-    sorted_result_df = result_df_ordered.orderBy("Company Registration Number", "Year", "Category")
-    sorted_expected_df = expected_df.orderBy("Company Registration Number", "Year", "Category")
+    sorted_result_df = result_df_ordered.orderBy(
+        "Company Registration Number", "Year", "Category"
+    )
+    sorted_expected_df = expected_df.orderBy(
+        "Company Registration Number", "Year", "Category"
+    )
 
     assert sorted_result_df.collect() == sorted_expected_df.collect()
     assert sorted_result_df.schema == sorted_expected_df.schema
 
 
-def test_melt_it_spend_pupil_numbers_from_bfr(bfr_it_spend_calculator: BFRITSpendCalculator, spark_session: SparkSession):
+def test_melt_it_spend_pupil_numbers_from_bfr(
+    bfr_it_spend_calculator: BFRITSpendCalculator, spark_session: SparkSession
+):
     # Given
     schema = StructType(
         [
@@ -93,9 +128,30 @@ def test_melt_it_spend_pupil_numbers_from_bfr(bfr_it_spend_calculator: BFRITSpen
         ]
     )
     bfr_data = [
-        ("CRN001", "PUPIL001", Decimal("1000.00"), Decimal("1100.00"), Decimal("1200.00"), Decimal("1300.00")),
-        ("CRN002", "PUPIL001", Decimal("500.00"), Decimal("550.00"), Decimal("600.00"), Decimal("650.00")),
-        ("CRN001", "OTH002", Decimal("10.00"), Decimal("20.00"), Decimal("30.00"), Decimal("40.00")),
+        (
+            "CRN001",
+            "PUPIL001",
+            Decimal("1000.00"),
+            Decimal("1100.00"),
+            Decimal("1200.00"),
+            Decimal("1300.00"),
+        ),
+        (
+            "CRN002",
+            "PUPIL001",
+            Decimal("500.00"),
+            Decimal("550.00"),
+            Decimal("600.00"),
+            Decimal("650.00"),
+        ),
+        (
+            "CRN001",
+            "OTH002",
+            Decimal("10.00"),
+            Decimal("20.00"),
+            Decimal("30.00"),
+            Decimal("40.00"),
+        ),
     ]
     bfr_df = spark_session.createDataFrame(bfr_data, schema)
 
@@ -132,7 +188,9 @@ def test_melt_it_spend_pupil_numbers_from_bfr(bfr_it_spend_calculator: BFRITSpen
     assert sorted_result_df.schema == sorted_expected_df.schema
 
 
-def test_get_bfr_it_spend_rows(bfr_it_spend_calculator: BFRITSpendCalculator, spark_session: SparkSession):
+def test_get_bfr_it_spend_rows(
+    bfr_it_spend_calculator: BFRITSpendCalculator, spark_session: SparkSession
+):
     # Given
     bfr_schema = StructType(
         [
@@ -148,12 +206,72 @@ def test_get_bfr_it_spend_rows(bfr_it_spend_calculator: BFRITSpendCalculator, sp
         ]
     )
     bfr_data = [
-        ("IT Spend 1", "CRN001", "IT001", Decimal("100.00"), Decimal("200.00"), Decimal("300.00"), Decimal("400.00"), Decimal("500.00"), Decimal("600.00")),
-        ("IT Spend 2", "CRN001", "IT002", Decimal("50.00"), Decimal("150.00"), Decimal("250.00"), Decimal("350.00"), Decimal("450.00"), Decimal("550.00")),
-        ("Other Spend", "CRN001", "OTH001", Decimal("10.00"), Decimal("20.00"), Decimal("30.00"), Decimal("40.00"), Decimal("50.00"), Decimal("60.00")),
-        ("Pupil Num", "CRN001", "PUPIL001", Decimal("1000.00"), Decimal("1100.00"), Decimal("1200.00"), Decimal("1300.00"), Decimal("1400.00"), Decimal("1500.00")),
-        ("IT Spend 1", "CRN002", "IT001", Decimal("10.00"), Decimal("20.00"), Decimal("30.00"), Decimal("40.00"), Decimal("50.00"), Decimal("60.00")),
-        ("Pupil Num", "CRN002", "PUPIL001", Decimal("100.00"), Decimal("110.00"), Decimal("120.00"), Decimal("130.00"), Decimal("140.00"), Decimal("150.00")),
+        (
+            "IT Spend 1",
+            "CRN001",
+            "IT001",
+            Decimal("100.00"),
+            Decimal("200.00"),
+            Decimal("300.00"),
+            Decimal("400.00"),
+            Decimal("500.00"),
+            Decimal("600.00"),
+        ),
+        (
+            "IT Spend 2",
+            "CRN001",
+            "IT002",
+            Decimal("50.00"),
+            Decimal("150.00"),
+            Decimal("250.00"),
+            Decimal("350.00"),
+            Decimal("450.00"),
+            Decimal("550.00"),
+        ),
+        (
+            "Other Spend",
+            "CRN001",
+            "OTH001",
+            Decimal("10.00"),
+            Decimal("20.00"),
+            Decimal("30.00"),
+            Decimal("40.00"),
+            Decimal("50.00"),
+            Decimal("60.00"),
+        ),
+        (
+            "Pupil Num",
+            "CRN001",
+            "PUPIL001",
+            Decimal("1000.00"),
+            Decimal("1100.00"),
+            Decimal("1200.00"),
+            Decimal("1300.00"),
+            Decimal("1400.00"),
+            Decimal("1500.00"),
+        ),
+        (
+            "IT Spend 1",
+            "CRN002",
+            "IT001",
+            Decimal("10.00"),
+            Decimal("20.00"),
+            Decimal("30.00"),
+            Decimal("40.00"),
+            Decimal("50.00"),
+            Decimal("60.00"),
+        ),
+        (
+            "Pupil Num",
+            "CRN002",
+            "PUPIL001",
+            Decimal("100.00"),
+            Decimal("110.00"),
+            Decimal("120.00"),
+            Decimal("130.00"),
+            Decimal("140.00"),
+            Decimal("150.00"),
+        ),
     ]
     bfr_df = spark_session.createDataFrame(bfr_data, bfr_schema)
 
@@ -188,8 +306,12 @@ def test_get_bfr_it_spend_rows(bfr_it_spend_calculator: BFRITSpendCalculator, sp
     result_df_ordered = result_df.select(expected_cols)
 
     # Sort both DataFrames before collecting for comparison
-    sorted_result_df = result_df_ordered.orderBy("Company Registration Number", "Year", "Category")
-    sorted_expected_df = expected_df.orderBy("Company Registration Number", "Year", "Category")
+    sorted_result_df = result_df_ordered.orderBy(
+        "Company Registration Number", "Year", "Category"
+    )
+    sorted_expected_df = expected_df.orderBy(
+        "Company Registration Number", "Year", "Category"
+    )
 
     assert sorted_result_df.collect() == sorted_expected_df.collect()
     assert sorted_result_df.schema == sorted_expected_df.schema
