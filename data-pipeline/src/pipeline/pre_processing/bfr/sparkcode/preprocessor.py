@@ -7,11 +7,10 @@ from pyspark.sql.types import IntegerType
 
 
 class BFRPreprocessor:
-    def __init__(self, year: int, spark: SparkSession, config, parent_pipeline):
+    def __init__(self, year: int, spark: SparkSession, config):
         self.year = year
         self.spark = spark
         self.config = config
-        self.parent_pipeline = parent_pipeline
 
     def preprocess_data(
         self, bfr_sofa_mv: DataFrame, bfr_three_year_mv: DataFrame, academies: DataFrame

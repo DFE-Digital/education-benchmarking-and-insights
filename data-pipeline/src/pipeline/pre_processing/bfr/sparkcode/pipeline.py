@@ -17,9 +17,9 @@ class BFRPipeline(DatabricksFBITPipeline):
         self.config = config
         self.spark = spark
         self.bfr_loader = BFRLoader(year, spark, config)
-        self.bfr_preprocessor = BFRPreprocessor(year, spark, config, self)
+        self.bfr_preprocessor = BFRPreprocessor(year, spark, config)
         self.bfr_forecast_and_risk_calculator = BFRForecastAndRiskCalculator(
-            year, spark, config, self
+            year, spark, config
         )
         self.bfr_it_spend_calculator = BFRITSpendCalculator(year, spark, config)
 
@@ -40,7 +40,6 @@ class BFRPipeline(DatabricksFBITPipeline):
                 merged_bfr_with_crn,
                 bfr_sofa_year_minus_two,
                 bfr_sofa_year_minus_one,
-                self.year,
                 academies,
                 academies_y1,
                 academies_y2,
@@ -49,7 +48,7 @@ class BFRPipeline(DatabricksFBITPipeline):
         # IT spend breakdown was introduced from the 2025 return
         if self.year > 2024:
             bfr_it_spend_rows = self.bfr_it_spend_calculator.get_bfr_it_spend_rows(
-                merged_bfr_with_crn, self.year
+                merged_bfr_with_crn
             )
             bfr_final_long = bfr_forecast_and_risk_rows.unionByName(bfr_it_spend_rows)
             return bfr_final_long, bfr_forecast_and_risk_metrics

@@ -14,7 +14,6 @@ from pyspark.sql.functions import (
 )
 from pyspark.sql.types import DoubleType, IntegerType, StructField, StructType
 
-from .base import DatabricksFBITPipeline
 from .logging import setup_logger
 
 logger = setup_logger(__name__)
@@ -26,19 +25,16 @@ class BFRForecastAndRiskCalculator:
         year: int,
         spark: SparkSession,
         pipeline_config,
-        base_pipeline_helpers: DatabricksFBITPipeline,
     ):
-        self.year = year
         self.spark = spark
         self.config = pipeline_config
-        self.base_pipeline_helpers = base_pipeline_helpers
+        self.year = year
 
     def get_bfr_forecast_and_risk_data(
         self,
         merged_bfr_with_crn: DataFrame,
         historic_bfr_y2: DataFrame,
         historic_bfr_y1: DataFrame,
-        current_year: int,
         academies: DataFrame,
         academies_y1: DataFrame,
         academies_y2: DataFrame,
@@ -99,12 +95,12 @@ class BFRForecastAndRiskCalculator:
 
         forecast_and_risk_revenue_reserve_rows = (
             self._melt_forecast_and_risk_revenue_reserves_from_bfr(
-                bfr_final_wide, current_year
+                bfr_final_wide
             )
         )
         forecast_and_risk_pupil_numbers_melted_rows = (
             self._melt_forecast_and_risk_pupil_numbers_from_bfr(
-                bfr_final_wide, current_year
+                bfr_final_wide
             )
         )
         bfr_forecast_and_risk_rows = forecast_and_risk_revenue_reserve_rows.join(
@@ -178,7 +174,7 @@ class BFRForecastAndRiskCalculator:
         return bfr_pupils
 
     def _melt_forecast_and_risk_pupil_numbers_from_bfr(
-        self, bfr: DataFrame, current_year: int
+        self, bfr: DataFrame
     ) -> DataFrame:
         """Melt pupil numbers for forecast and risk calculations using Spark."""
         id_vars = ["Company Registration Number", "Category"]
@@ -200,12 +196,12 @@ class BFRForecastAndRiskCalculator:
             ),
         ).withColumn(
             "Year",
-            when(col("Year") == "Pupils Y-2", current_year - 2)
-            .when(col("Year") == "Pupils Y-1", current_year - 1)
-            .when(col("Year") == "Pupils Y1", current_year)
-            .when(col("Year") == "Pupils Y2", current_year + 1)
-            .when(col("Year") == "Pupils Y3", current_year + 2)
-            .when(col("Year") == "Pupils Y4", current_year + 3)
+            when(col("Year") == "Pupils Y-2", self.year - 2)
+            .when(col("Year") == "Pupils Y-1", self.year - 1)
+            .when(col("Year") == "Pupils Y1", self.year)
+            .when(col("Year") == "Pupils Y2", self.year + 1)
+            .when(col("Year") == "Pupils Y3", self.year + 2)
+            .when(col("Year") == "Pupils Y4", self.year + 3)
             .otherwise(col("Year")),
         )
         return forecast_and_risk_pupil_numbers_melted_rows.orderBy(
@@ -213,7 +209,7 @@ class BFRForecastAndRiskCalculator:
         )
 
     def _melt_forecast_and_risk_revenue_reserves_from_bfr(
-        self, bfr: DataFrame, current_year: int
+        self, bfr: DataFrame
     ) -> DataFrame:
         """Melt revenue reserves for forecast and risk calculations using Spark."""
         id_vars = ["Company Registration Number", "Category"]
@@ -235,12 +231,12 @@ class BFRForecastAndRiskCalculator:
             )
             .withColumn(
                 "Year",
-                when(col("Year") == "Y-2", current_year - 2)
-                .when(col("Year") == "Y-1", current_year - 1)
-                .when(col("Year") == "Y1", current_year)
-                .when(col("Year") == "Y2", current_year + 1)
-                .when(col("Year") == "Y3", current_year + 2)
-                .when(col("Year") == "Y4", current_year + 3)
+                when(col("Year") == "Y-2", self.year - 2)
+                .when(col("Year") == "Y-1", self.year - 1)
+                .when(col("Year") == "Y1", self.year)
+                .when(col("Year") == "Y2", self.year + 1)
+                .when(col("Year") == "Y3", self.year + 2)
+                .when(col("Year") == "Y4", self.year + 3)
                 .otherwise(col("Year")),
             )
         )
