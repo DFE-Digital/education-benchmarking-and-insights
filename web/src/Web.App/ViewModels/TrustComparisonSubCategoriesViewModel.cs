@@ -31,8 +31,7 @@ public class TrustComparisonSubCategoriesViewModel
         }).ToArray();
 
         var uuid = Guid.NewGuid().ToString();
-        var filteredData = data
-            .Where(x => x.CompanyNumber == companyNumber || x.Expenditure > 0)
+        var sortedData = data
             .OrderByDescending(x => x.Expenditure)
             .ToArray();
 
@@ -47,7 +46,7 @@ public class TrustComparisonSubCategoriesViewModel
         {
             Uuid = uuid,
             SubCategory = filter.GetHeadingForTrust(),
-            Data = filteredData,
+            Data = sortedData,
             ForecastData = forecastData
         });
     }
