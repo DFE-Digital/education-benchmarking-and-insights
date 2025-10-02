@@ -696,10 +696,13 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
         return this;
     }
 
-    public BenchmarkingWebAppClient SetupChartRendering<T>(ChartResponse chartResponse)
+    public BenchmarkingWebAppClient SetupChartRendering<T>(ChartResponse chartResponse, bool reset = true)
     {
         ChartResponse[] chartResponses = [];
-        ChartRenderingApi.Reset();
+        if (reset)
+        {
+            ChartRenderingApi.Reset();
+        }
         ChartRenderingApi
             .Setup(api => api.PostHorizontalBarCharts(It.IsAny<PostHorizontalBarChartsRequest<T>>(), It.IsAny<CancellationToken>()))
             .Callback<PostHorizontalBarChartsRequest<T>, CancellationToken>((request, _) =>
@@ -780,11 +783,12 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
         return this;
     }
 
-    public BenchmarkingWebAppClient SetupItSpend(SchoolItSpend[]? schoolSpend = null, TrustItSpend[]? trustSpend = null)
+    public BenchmarkingWebAppClient SetupItSpend(SchoolItSpend[]? schoolSpend = null, TrustItSpend[]? trustSpend = null, TrustItSpendForecastYear[]? trustForecast = null)
     {
         ItSpendApi.Reset();
         ItSpendApi.Setup(api => api.QuerySchools(It.IsAny<ApiQuery?>(), It.IsAny<CancellationToken>())).ReturnsAsync(ApiResult.Ok(schoolSpend ?? []));
         ItSpendApi.Setup(api => api.QueryTrusts(It.IsAny<ApiQuery?>(), It.IsAny<CancellationToken>())).ReturnsAsync(ApiResult.Ok(trustSpend ?? []));
+        ItSpendApi.Setup(api => api.TrustForecast(It.IsAny<string>(), It.IsAny<CancellationToken>())).ReturnsAsync(ApiResult.Ok(trustForecast ?? []));
         return this;
     }
 
