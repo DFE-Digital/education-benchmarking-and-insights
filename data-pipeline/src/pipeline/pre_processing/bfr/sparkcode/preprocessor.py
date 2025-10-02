@@ -1,9 +1,10 @@
-import config
 from pyspark.sql import DataFrame, SparkSession
 from pyspark.sql.functions import col, create_map, lit
 from pyspark.sql.functions import sum as spark_sum
 from pyspark.sql.functions import when
 from pyspark.sql.types import IntegerType
+
+from . import config
 
 
 class BFRPreprocessor:

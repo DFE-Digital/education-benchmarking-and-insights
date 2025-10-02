@@ -94,14 +94,10 @@ class BFRForecastAndRiskCalculator:
         )
 
         forecast_and_risk_revenue_reserve_rows = (
-            self._melt_forecast_and_risk_revenue_reserves_from_bfr(
-                bfr_final_wide
-            )
+            self._melt_forecast_and_risk_revenue_reserves_from_bfr(bfr_final_wide)
         )
         forecast_and_risk_pupil_numbers_melted_rows = (
-            self._melt_forecast_and_risk_pupil_numbers_from_bfr(
-                bfr_final_wide
-            )
+            self._melt_forecast_and_risk_pupil_numbers_from_bfr(bfr_final_wide)
         )
         bfr_forecast_and_risk_rows = forecast_and_risk_revenue_reserve_rows.join(
             forecast_and_risk_pupil_numbers_melted_rows,

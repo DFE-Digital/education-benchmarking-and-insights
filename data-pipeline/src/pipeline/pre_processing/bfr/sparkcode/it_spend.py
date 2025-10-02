@@ -12,9 +12,7 @@ class BFRITSpendCalculator:
         self.spark = spark
         self.config = pipeline_config
 
-    def _melt_it_spend_rows_from_bfr(
-        self, bfr: DataFrame
-    ) -> DataFrame:
+    def _melt_it_spend_rows_from_bfr(self, bfr: DataFrame) -> DataFrame:
         """Melt IT spend rows from BFR data using Spark."""
         it_spend_melted_rows = (
             bfr.filter(col("EFALineNo").isin(self.config.SOFA_IT_SPEND_LINES))
@@ -38,9 +36,7 @@ class BFRITSpendCalculator:
         )
         return it_spend_melted_rows.orderBy("Company Registration Number", "Year")
 
-    def _melt_it_spend_pupil_numbers_from_bfr(
-        self, bfr: DataFrame
-    ) -> DataFrame:
+    def _melt_it_spend_pupil_numbers_from_bfr(self, bfr: DataFrame) -> DataFrame:
         """Melt IT spend pupil numbers from BFR data using Spark."""
         it_spend_pupil_numbers_melted_rows = (
             bfr.filter(col("EFALineNo").isin([self.config.SOFA_PUPIL_NUMBER_EFALINE]))
@@ -62,13 +58,9 @@ class BFRITSpendCalculator:
             "Company Registration Number", "Year"
         )
 
-    def get_bfr_it_spend_rows(
-        self, bfr_final_wide: DataFrame
-    ) -> DataFrame:
+    def get_bfr_it_spend_rows(self, bfr_final_wide: DataFrame) -> DataFrame:
         """Gets BFR IT spend rows using Spark."""
-        bfr_it_spend_melted_rows = self._melt_it_spend_rows_from_bfr(
-            bfr_final_wide
-        )
+        bfr_it_spend_melted_rows = self._melt_it_spend_rows_from_bfr(bfr_final_wide)
         bfr_it_spend_pupil_numbers = self._melt_it_spend_pupil_numbers_from_bfr(
             bfr_final_wide
         )
