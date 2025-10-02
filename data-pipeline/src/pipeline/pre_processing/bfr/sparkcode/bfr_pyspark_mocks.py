@@ -7,7 +7,7 @@ from pyspark.sql.types import (
     StructType,
 )
 
-from pipeline.input_schemas.bfr import bfr_3y_cols, bfr_sofa_cols
+from .config import bfr_3y_cols, bfr_sofa_cols
 
 
 def _get_schema_from_dict(schema_dict: dict) -> StructType:
