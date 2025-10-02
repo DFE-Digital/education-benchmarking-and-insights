@@ -1,6 +1,5 @@
-from pyspark.sql import SparkSession
-
 import config
+from pyspark.sql import SparkSession
 
 from .base import DatabricksFBITPipeline
 from .forecast_and_risk import BFRForecastAndRiskCalculator

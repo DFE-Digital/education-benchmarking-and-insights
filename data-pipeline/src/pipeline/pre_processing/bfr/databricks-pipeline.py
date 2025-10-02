@@ -1,14 +1,13 @@
+import os
 from contextlib import contextmanager
 
 import findspark
 
-from pipeline.pre_processing.bfr.sparkcode.pipeline import BFRPipeline
-
 findspark.init()
 
-import os
-
 from pyspark.sql import SparkSession
+
+from pipeline.pre_processing.bfr.sparkcode.pipeline import BFRPipeline
 
 
 @contextmanager
