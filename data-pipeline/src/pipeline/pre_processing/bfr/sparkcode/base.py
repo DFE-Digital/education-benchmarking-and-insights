@@ -17,11 +17,17 @@ def hash_compare_view_dfs(
     If the hashes are different, the function will log a warning and return False.
     If the hashes are the same, the function will log an info message and return True.
     """
-    current_hash = view.agg(
+    all_cols = view.columns
+
+    # Sort both DataFrames by all columns to ensure consistent order before hashing
+    view_sorted = view.sort(all_cols)
+    materialized_view_sorted = materialized_view.sort(all_cols)
+
+    current_hash = view_sorted.agg(
         hash(collect_list(hash(struct("*")))).alias("hash")
     ).collect()[0]["hash"]
 
-    previous_hash = materialized_view.agg(
+    previous_hash = materialized_view_sorted.agg(
         hash(collect_list(hash(struct("*")))).alias("hash")
     ).collect()[0]["hash"]
 
