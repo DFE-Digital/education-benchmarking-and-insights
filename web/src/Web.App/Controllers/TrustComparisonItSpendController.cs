@@ -11,7 +11,6 @@ using Web.App.Domain.Charts;
 using Web.App.Extensions;
 using Web.App.Infrastructure.Apis;
 using Web.App.Infrastructure.Apis.Benchmark;
-using Web.App.Infrastructure.Apis.ChartRendering;
 using Web.App.Infrastructure.Apis.Establishment;
 using Web.App.Infrastructure.Apis.Insight;
 using Web.App.Infrastructure.Extensions;
@@ -27,9 +26,9 @@ namespace Web.App.Controllers;
 [FeatureGate(FeatureFlags.TrustItSpendBreakdown)]
 public class TrustComparisonItSpendController(
     IEstablishmentApi establishmentApi,
-    IChartRenderingApi chartRenderingApi,
     IComparatorSetApi comparatorSetApi,
     IItSpendApi itSpendApi,
+    ITrustItSpendChartService chartService,
     IUserDataService userDataService,
     IBudgetForecastApi budgetForecastApi,
     IConfiguration configuration,
@@ -170,7 +169,13 @@ public class TrustComparisonItSpendController(
         var subCategories = new TrustComparisonSubCategoriesViewModel(trust.CompanyNumber!, expenditures, forecasts, selectedSubCategories);
         if (viewAs == Views.ViewAsOptions.Chart)
         {
-            var charts = await BuildCharts(trust.CompanyNumber!, resultAs, subCategories);
+            var charts = await chartService.BuildChartsAsync(
+                trust.CompanyNumber!,
+                resultAs,
+                subCategories,
+                format => Uri.UnescapeDataString(Url.Action("Index", "Trust", new { companyNumber = format }) ?? string.Empty)
+            );
+
 
             foreach (var chart in charts)
             {
@@ -183,7 +188,7 @@ public class TrustComparisonItSpendController(
 
             if (forecasts != null)
             {
-                charts = await BuildForecastCharts(resultAs, subCategories);
+                charts = await chartService.BuildForecastChartsAsync(resultAs, subCategories);
 
                 foreach (var chart in charts)
                 {
@@ -216,69 +221,5 @@ public class TrustComparisonItSpendController(
 
         query.AddIfNotNull("dimension", resultAs.GetQueryParam());
         return query;
-    }
-
-    // todo: move both chart request building and API call methods to new service so that it may be unit tested outside the controller
-    private async Task<ChartResponse[]> BuildCharts(string companyNumber, Dimensions.ResultAsOptions resultAs, TrustComparisonSubCategoriesViewModel subCategories)
-    {
-        var requests = subCategories.Items.Select(c => new TrustComparisonItSpendHorizontalBarChartRequest(
-            c.Uuid!,
-            companyNumber,
-            c.Data!,
-            format => Uri.UnescapeDataString(
-                Url.Action("Index", "Trust", new
-                {
-                    companyNumber = format
-                }) ?? string.Empty),
-            resultAs,
-            c.ForecastData == null
-                ? null
-                : Math.Min(c.Data?.Min(d => d.Expenditure) ?? 0, c.ForecastData?.Min(d => d.Expenditure) ?? 0),
-            c.ForecastData == null
-                ? null
-                : Math.Max(c.Data?.Max(d => d.Expenditure) ?? 0, c.ForecastData?.Max(d => d.Expenditure) ?? 0)
-        ));
-
-        ChartResponse[] charts = [];
-        try
-        {
-            charts = await chartRenderingApi
-                .PostHorizontalBarCharts(new PostHorizontalBarChartsRequest<TrustComparisonDatum>(requests))
-                .GetResultOrDefault<ChartResponse[]>() ?? [];
-        }
-        catch (Exception e)
-        {
-            logger.LogWarning(e, "Unable to load charts from API");
-        }
-
-        return charts;
-    }
-
-    private async Task<ChartResponse[]> BuildForecastCharts(Dimensions.ResultAsOptions resultAs, TrustComparisonSubCategoriesViewModel subCategories)
-    {
-        var requests = subCategories.Items
-            .Where(c => c.ForecastData != null)
-            .Select(c => new TrustForecastItSpendHorizontalBarChartRequest(
-                c.Uuid!,
-                c.ForecastData!,
-                resultAs,
-                Math.Min(c.Data?.Min(d => d.Expenditure) ?? 0, c.ForecastData?.Min(d => d.Expenditure) ?? 0),
-                Math.Max(c.Data?.Max(d => d.Expenditure) ?? 0, c.ForecastData?.Max(d => d.Expenditure) ?? 0)
-            ))
-            .Where(r => r.Data != null && r.Data.Length != 0);
-
-        ChartResponse[] charts = [];
-        try
-        {
-            charts = await chartRenderingApi
-                .PostHorizontalBarCharts(new PostHorizontalBarChartsRequest<TrustForecastDatum>(requests))
-                .GetResultOrDefault<ChartResponse[]>() ?? [];
-        }
-        catch (Exception e)
-        {
-            logger.LogWarning(e, "Unable to load forecast charts from API");
-        }
-
-        return charts;
     }
 }

@@ -49,6 +49,7 @@ builder.Services
     .AddScoped<ICommercialResourcesService, CommercialResourcesService>()
     .AddScoped<IBannerService, BannerService>()
     .AddScoped<ICostCodesService, CostCodesService>()
+    .AddScoped<ITrustItSpendChartService, TrustItSpendChartService>()
     .AddValidation()
     .AddActionResults();
 
