@@ -33,8 +33,12 @@ public class TrustItSpendChartService(
             c.Data!,
             buildUrl,
             resultAs,
-            c.ForecastData == null ? null : Math.Min(c.Data?.Min(d => d.Expenditure) ?? 0, c.ForecastData?.Min(d => d.Expenditure) ?? 0),
-            c.ForecastData == null ? null : Math.Max(c.Data?.Max(d => d.Expenditure) ?? 0, c.ForecastData?.Max(d => d.Expenditure) ?? 0)
+            c.ForecastData is not { Length: not 0 }
+                ? null
+                : Math.Min(c.Data?.Min(d => d.Expenditure) ?? 0, c.ForecastData?.Min(d => d.Expenditure) ?? 0),
+            c.ForecastData is not { Length: not 0 }
+                ? null
+                : Math.Max(c.Data?.Max(d => d.Expenditure) ?? 0, c.ForecastData?.Max(d => d.Expenditure) ?? 0)
         ));
 
         try
