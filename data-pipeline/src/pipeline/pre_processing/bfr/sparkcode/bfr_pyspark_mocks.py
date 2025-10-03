@@ -191,6 +191,8 @@ def get_mock_bfr_sofa_mv(spark: SparkSession, year: int) -> DataFrame:
             (100001, "Total revenue income", 298, 1000.0, 1100.0, 1200.0, 1300.0),
             (100001, "Balance c/f to next period ", 430, 200.0, 210.0, 220.0, 230.0),
             (100001, "Self-generated income", 211, 100.0, 110.0, 120.0, 130.0),
+            (100001, "Self-generated income", 220, 50.0, 55.0, 60.0, 65.0),
+            (100001, "IT backend", 336, 10.0, 11.0, 12.0, 13.0),
             (
                 100001,
                 "Pupil numbers (actual and estimated)",
