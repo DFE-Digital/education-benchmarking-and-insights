@@ -38,18 +38,12 @@ Feature: Trust benchmark IT spending
         When I click on the trust name on the chart
         Then I am navigated to selected trust home page
 
-    Scenario: Table view displays previous, current, and future year data
-        Given I am on the IT spend page for trust with company number '10074054'
-        When I select table view
-        Then I should see a single table with previous, current, and future year data
-        And the table should display "Data not available" for current and future year data of other trusts
-
+    
     Scenario: Save chart images button opens modal and starts download
-        Given I am on it spend page for school with URN '777042'
-        Then the save chart images button is visible
+        Given I am on it spend page for trust with company number '10192252'
         When I click the save chart images button
         Then the save chart images modal is visible
-        And the 'benchmark-it-spending-777042.zip' file is downloaded
+        And the 'benchmark-it-spending-10192252.zip' file is downloaded
 
         
     Scenario: Can view IT spending page for claim user
@@ -64,4 +58,10 @@ Feature: Trust benchmark IT spending
           | Laptops, desktops and tablets E20E       |
           | Onsite servers E20B                      |
           | Other hardware E20F                      |
-        And the chart count under each category is two. 
+        And the chart count under each category is two
+        
+    Scenario: Table view displays previous, current, and future year data
+        Given I am on the IT spend page for trust with company number '10074054'
+        When I select table view
+        Then I should see a single table with previous, current, and future year data
+        And the table should display "Data not available" for current and future year data of other trusts
