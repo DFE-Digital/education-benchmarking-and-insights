@@ -194,3 +194,11 @@ export function escapeXml(unsafe: string | undefined) {
     ) ?? ""
   );
 }
+
+/**
+ * Checks if all characters are uppercase or spaces and ensures the string contains at least one letter
+ */
+export function isAllCaps(value: string) {
+  const lettersOnly = value.replace(/[^A-Za-z]/g, "");
+  return lettersOnly.length > 0 && lettersOnly === lettersOnly.toUpperCase();
+}
