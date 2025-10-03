@@ -378,7 +378,7 @@ class BFRForecastAndRiskCalculator:
             x_bar = 3.5
             x_x_bar = x - x_bar
             # Ensure year_values is treated as a 2D array for consistent operations
-            matrix = year_values.values.reshape(-1, len(year_cols)).astype(float)
+            matrix = np.array(year_values.tolist()).astype(float)
             y_bar = np.nanmean(matrix, axis=1)
             y_y_bar = matrix - np.vstack(y_bar)
             # Perform element-wise multiplication and sum
