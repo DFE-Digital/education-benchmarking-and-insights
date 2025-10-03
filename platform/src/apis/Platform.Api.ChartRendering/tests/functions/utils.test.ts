@@ -7,6 +7,7 @@ import {
   shortValueFormatter,
   sortData,
   getDomain,
+  isAllCaps,
 } from "../../src/functions/utils";
 import { ValueType } from "../../src/functions/index";
 import theoretically from "jest-theories";
@@ -301,6 +302,25 @@ describe("shortValueFormatter()", () => {
       ({ input, expected }) => {
         const result = shortValueFormatter(input as number, "percent");
         expect(result).toBe(expected);
+      }
+    );
+  });
+});
+
+describe("isAllCaps", () => {
+  describe("should return true for all caps strings", () => {
+    const theories: { input: string; expected: boolean }[] = [
+      { input: "HELLO", expected: true },
+      { input: "HELLO WORLD", expected: true },
+      { input: "World", expected: false },
+      { input: "123", expected: false },
+    ];
+
+    theoretically(
+      "the key {input} returns the expected group(s) {expected}",
+      theories,
+      ({ input, expected }) => {
+        expect(isAllCaps(input)).toBe(expected);
       }
     );
   });
