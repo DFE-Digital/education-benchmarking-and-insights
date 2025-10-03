@@ -2,8 +2,10 @@
 using AngleSharp.Dom;
 using AngleSharp.Html.Dom;
 using AutoFixture;
+using Moq;
 using Web.App.Domain;
 using Web.App.Domain.Charts;
+using Web.App.Infrastructure.Apis;
 using Xunit;
 
 namespace Web.Integration.Tests.Pages.Trusts.Comparison;
@@ -285,10 +287,41 @@ public class WhenViewingComparisonItSpend(SchoolBenchmarkingWebAppClient client)
             .SetupUserData(withComparatorSet ? comparatorSet : null)
             .SetupComparatorSet(trust, userDefinedSet)
             .SetupItSpend(trustSpend: spend, trustForecast: forecast)
-            .SetupBudgetForecast(trust, currentYear: currentBfrYear)
-            .SetupChartRendering<TrustComparisonDatum>(horizontalBarChart)
-            .SetupChartRendering<TrustForecastDatum>(horizontalBarChart, reset: false);
+            .SetupBudgetForecast(trust, currentYear: currentBfrYear);
 
+        ChartResponse[] comparisonChartResponses = [];
+
+        client.ChartRenderingApi
+            .Setup(api => api.PostHorizontalBarCharts(It.IsAny<PostHorizontalBarChartsRequest<TrustComparisonDatum>>(), It.IsAny<CancellationToken>()))
+            .Callback<PostHorizontalBarChartsRequest<TrustComparisonDatum>, CancellationToken>((request, _) =>
+            {
+                // cross-reference POST-ed Id with response Id
+                comparisonChartResponses = request
+                    .Select(r => new ChartResponse
+                    {
+                        Id = r.Id,
+                        Html = horizontalBarChart.Html
+                    })
+                    .ToArray();
+            })
+            .ReturnsAsync(() => ApiResult.Ok(comparisonChartResponses));
+
+        ChartResponse[] forecastChartResponses = [];
+
+        client.ChartRenderingApi
+            .Setup(api => api.PostHorizontalBarCharts(It.IsAny<PostHorizontalBarChartsRequest<TrustForecastDatum>>(), It.IsAny<CancellationToken>()))
+            .Callback<PostHorizontalBarChartsRequest<TrustForecastDatum>, CancellationToken>((request, _) =>
+            {
+                // cross-reference POST-ed Id with response Id
+                forecastChartResponses = request
+                    .Select(r => new ChartResponse
+                    {
+                        Id = r.Id,
+                        Html = horizontalBarChart.Html
+                    })
+                    .ToArray();
+            })
+            .ReturnsAsync(() => ApiResult.Ok(forecastChartResponses));
 
         if (chartApiException)
         {
