@@ -28,23 +28,34 @@ public class WhenViewingComparisonItSpend(SchoolBenchmarkingWebAppClient client)
     [InlineData(false)]
     public async Task CanDisplay(bool hasTrustClaim)
     {
-        var (page, trust, userDefinedSet, spend, currentBfrYear) = await SetupNavigateInitPage(hasTrustClaim);
+        var (page, trust, userDefinedSet, spend, forecast, currentBfrYear) = await SetupNavigateInitPage(hasTrustClaim);
 
-        AssertPageLayout(page, trust, userDefinedSet, spend, currentBfrYear, hasTrustClaim);
+        AssertPageLayout(page, trust, userDefinedSet, spend, forecast, currentBfrYear, hasTrustClaim);
+    }
+
+    [Theory]
+    [InlineData(true)]
+    [InlineData(false)]
+    public async Task CanDisplayTables(bool hasTrustClaim)
+    {
+        var queryParams = $"?viewAs={(int)Views.ViewAsOptions.Table}";
+        var (page, trust, userDefinedSet, spend, forecast, currentBfrYear) = await SetupNavigateInitPage(hasTrustClaim, queryParams: queryParams);
+
+        AssertPageLayout(page, trust, userDefinedSet, spend, forecast, currentBfrYear, hasTrustClaim, (int)Views.ViewAsOptions.Table, expectedQueryParams: queryParams);
     }
 
     [Fact]
     public async Task CanDisplayChartWarningWhenChartApiFails()
     {
-        var (page, trust, userDefinedSet, spend, currentBfrYear) = await SetupNavigateInitPage(true);
+        var (page, trust, userDefinedSet, spend, forecast, currentBfrYear) = await SetupNavigateInitPage(true);
 
-        AssertPageLayout(page, trust, userDefinedSet, spend, currentBfrYear, true);
+        AssertPageLayout(page, trust, userDefinedSet, spend, forecast, currentBfrYear, true);
     }
 
     [Fact]
     public async Task CanStartCreateComparatorsJourneyWhenComparatorsMissing()
     {
-        var (page, trust, _, _, _) = await SetupNavigateInitPage(false, withComparatorSet: false);
+        var (page, trust, _, _, _, _) = await SetupNavigateInitPage(false, withComparatorSet: false);
 
         var redirectUri = WebUtility.UrlEncode(Paths.TrustComparisonItSpend(trust.CompanyNumber));
         DocumentAssert.AssertPageUrl(page, Paths.TrustComparatorsCreateBy(trust.CompanyNumber, redirectUri).ToAbsolute());
@@ -53,7 +64,7 @@ public class WhenViewingComparisonItSpend(SchoolBenchmarkingWebAppClient client)
     [Fact]
     public async Task CanDisplayTrustComparatorsWhenComparatorSetEmpty()
     {
-        var (page, trust, _, _, _) = await SetupNavigateInitPage(true, withEmptyComparatorSet: true);
+        var (page, trust, _, _, _, _) = await SetupNavigateInitPage(true, withEmptyComparatorSet: true);
 
         var redirectUri = WebUtility.UrlEncode(Paths.TrustComparisonItSpend(trust.CompanyNumber));
         DocumentAssert.AssertPageUrl(page, Paths.TrustComparatorsUserDefined(trust.CompanyNumber, null, redirectUri).ToAbsolute());
@@ -62,7 +73,7 @@ public class WhenViewingComparisonItSpend(SchoolBenchmarkingWebAppClient client)
     [Fact]
     public async Task CanNavigateToTrustComparators()
     {
-        var (page, trust, _, _, _) = await SetupNavigateInitPage(true);
+        var (page, trust, _, _, _, _) = await SetupNavigateInitPage(true);
 
         var anchor = page.QuerySelector("a[data-test-id='comparators-link']");
         Assert.NotNull(anchor);
@@ -99,7 +110,7 @@ public class WhenViewingComparisonItSpend(SchoolBenchmarkingWebAppClient client)
     [InlineData(1, "?viewAs=1&resultAs=1")]
     public async Task CanSubmitFilterOptionsForViewAs(int viewAs, string expectedQueryParams)
     {
-        var (page, trust, userDefinedSet, spend, currentBfrYear) = await SetupNavigateInitPage(true);
+        var (page, trust, userDefinedSet, spend, forecast, currentBfrYear) = await SetupNavigateInitPage(true);
 
         var action = page.QuerySelectorAll("button").FirstOrDefault(x => x.TextContent.Trim() == "Apply filters");
         Assert.NotNull(action);
@@ -117,6 +128,7 @@ public class WhenViewingComparisonItSpend(SchoolBenchmarkingWebAppClient client)
             trust,
             userDefinedSet,
             spend,
+            forecast,
             currentBfrYear,
             true,
             viewAs: viewAs,
@@ -127,7 +139,7 @@ public class WhenViewingComparisonItSpend(SchoolBenchmarkingWebAppClient client)
     [InlineData(1, "?viewAs=0&resultAs=1")]
     public async Task CanSubmitFilterOptionsForResultsAs(int resultAs, string expectedQueryParams)
     {
-        var (page, trust, userDefinedSet, spend, currentBfrYear) = await SetupNavigateInitPage(true);
+        var (page, trust, userDefinedSet, spend, forecast, currentBfrYear) = await SetupNavigateInitPage(true);
 
         var action = page.QuerySelectorAll("button").FirstOrDefault(x => x.TextContent.Trim() == "Apply filters");
         Assert.NotNull(action);
@@ -145,6 +157,7 @@ public class WhenViewingComparisonItSpend(SchoolBenchmarkingWebAppClient client)
             trust,
             userDefinedSet,
             spend,
+            forecast,
             currentBfrYear,
             true,
             resultAs: resultAs,
@@ -161,7 +174,7 @@ public class WhenViewingComparisonItSpend(SchoolBenchmarkingWebAppClient client)
     [InlineData(6, "?viewAs=0&resultAs=1&selectedSubCategories=6")]
     public async Task CanSubmitFilterOptionsForSubCategories(int expectedSubCategoryId, string expectedQueryParams)
     {
-        var (page, trust, userDefinedSet, spend, currentBfrYear) = await SetupNavigateInitPage(true);
+        var (page, trust, userDefinedSet, spend, forecast, currentBfrYear) = await SetupNavigateInitPage(true);
 
         var action = page.QuerySelectorAll("button").FirstOrDefault(x => x.TextContent.Trim() == "Apply filters");
         Assert.NotNull(action);
@@ -179,6 +192,7 @@ public class WhenViewingComparisonItSpend(SchoolBenchmarkingWebAppClient client)
             trust,
             userDefinedSet,
             spend,
+            forecast,
             currentBfrYear,
             true,
             expectedSubCategories: BuildExpectedSubCategories(expectedSubCategoryId),
@@ -188,7 +202,7 @@ public class WhenViewingComparisonItSpend(SchoolBenchmarkingWebAppClient client)
     [Fact]
     public async Task CanFollowChipsCorrectlyUpdatesPage()
     {
-        var (page, trust, userDefinedSet, spend, currentBfrYear) = await SetupNavigateInitPage(true,
+        var (page, trust, userDefinedSet, spend, forecast, currentBfrYear) = await SetupNavigateInitPage(true,
             queryParams: "?viewAs=0&resultAs=1&selectedSubCategories=0&selectedSubCategories=1");
 
         var target = page.QuerySelectorAll("a.app-filter__tag")
@@ -202,6 +216,7 @@ public class WhenViewingComparisonItSpend(SchoolBenchmarkingWebAppClient client)
             trust,
             userDefinedSet,
             spend,
+            forecast,
             currentBfrYear,
             true,
             expectedSubCategories: BuildExpectedSubCategories(0), expectedQueryParams: "?viewAs=0&resultAs=1&selectedSubCategories=0");
@@ -210,7 +225,7 @@ public class WhenViewingComparisonItSpend(SchoolBenchmarkingWebAppClient client)
     [Fact]
     public async Task CanFollowClearCorrectlyUpdatesPage()
     {
-        var (page, trust, userDefinedSet, spend, currentBfrYear) = await SetupNavigateInitPage(true,
+        var (page, trust, userDefinedSet, spend, forecast, currentBfrYear) = await SetupNavigateInitPage(true,
             queryParams: "?viewAs=0&resultAs=1&selectedSubCategories=0&selectedSubCategories=1");
 
         var target = page.QuerySelectorAll("a").FirstOrDefault(x => x.TextContent.Trim() == "Clear");
@@ -223,6 +238,7 @@ public class WhenViewingComparisonItSpend(SchoolBenchmarkingWebAppClient client)
             trust,
             userDefinedSet,
             spend,
+            forecast,
             currentBfrYear,
             true,
             expectedQueryParams: "?viewAs=0&resultAs=1");
@@ -233,6 +249,7 @@ public class WhenViewingComparisonItSpend(SchoolBenchmarkingWebAppClient client)
         Trust trust,
         UserDefinedSchoolComparatorSet userDefinedSet,
         TrustItSpend[] spend,
+        TrustItSpendForecastYear[]? forecast,
         int currentBfrYear)> SetupNavigateInitPage(
         bool hasTrustClaim,
         bool withComparatorSet = true,
@@ -268,13 +285,15 @@ public class WhenViewingComparisonItSpend(SchoolBenchmarkingWebAppClient client)
         var spend = Fixture.Build<TrustItSpend>().CreateMany().ToArray();
         spend.ElementAt(0).CompanyNumber = trust.CompanyNumber;
 
+        const int currentBfrYear = 2025;
         TrustItSpendForecastYear[]? forecast = null;
         if (hasTrustClaim)
         {
             forecast = Fixture.Build<TrustItSpendForecastYear>().CreateMany(3).ToArray();
+            forecast[0].Year = currentBfrYear - 1;
+            forecast[1].Year = currentBfrYear;
+            forecast[2].Year = currentBfrYear + 1;
         }
-
-        const int currentBfrYear = 2025;
 
         var horizontalBarChart = new ChartResponse
         {
@@ -329,7 +348,7 @@ public class WhenViewingComparisonItSpend(SchoolBenchmarkingWebAppClient client)
         }
 
         var page = await client.Navigate($"{Paths.TrustComparisonItSpend(trust.CompanyNumber)}{queryParams}");
-        return (page, trust, userDefinedSet, spend, currentBfrYear);
+        return (page, trust, userDefinedSet, spend, forecast, currentBfrYear);
     }
 
     private static void AssertPageLayout(
@@ -337,6 +356,7 @@ public class WhenViewingComparisonItSpend(SchoolBenchmarkingWebAppClient client)
         Trust trust,
         UserDefinedSchoolComparatorSet userDefinedSet,
         TrustItSpend[] spend,
+        TrustItSpendForecastYear[]? forecast,
         int currentBfrYear,
         bool hasTrustClaim,
         int viewAs = 0,
@@ -367,7 +387,7 @@ public class WhenViewingComparisonItSpend(SchoolBenchmarkingWebAppClient client)
             var section = subCategorySections[i];
             var expected = expectedSubCategories[i];
 
-            AssertSpendingSection(section, expected, spend, currentBfrYear, viewAs == 0, chartError, hasTrustClaim);
+            AssertSpendingSection(section, trust.CompanyNumber!, expected, spend, forecast, currentBfrYear, viewAs == 0, chartError, hasTrustClaim);
         }
     }
 
@@ -445,8 +465,10 @@ public class WhenViewingComparisonItSpend(SchoolBenchmarkingWebAppClient client)
 
     private static void AssertSpendingSection(
         IElement section,
+        string companyNumber,
         ExpectedSubCategory expectedSubCategory,
         TrustItSpend[] spend,
+        TrustItSpendForecastYear[]? forecast,
         int currentBfrYear,
         bool isChartView,
         bool chartError,
@@ -462,7 +484,7 @@ public class WhenViewingComparisonItSpend(SchoolBenchmarkingWebAppClient client)
         }
         else
         {
-            AssertTableSection(section, currentBfrYear, spend);
+            AssertTableSection(section, companyNumber, currentBfrYear, spend, forecast, expectedSubCategory, hasTrustClaim);
         }
     }
 
@@ -478,7 +500,6 @@ public class WhenViewingComparisonItSpend(SchoolBenchmarkingWebAppClient client)
         var previousYearChartSvg = previousYearChartContainer?.QuerySelector("svg");
         var forecastChartContainer = chartSection.QuerySelector("div.costs-chart-container[data-title*='(forecast)']");
         var forecastChartSvg = forecastChartContainer?.QuerySelector("svg");
-
 
         var chartWarning = chartSection.QuerySelector(".ssr-chart-warning");
 
@@ -512,18 +533,74 @@ public class WhenViewingComparisonItSpend(SchoolBenchmarkingWebAppClient client)
         }
     }
 
-    private static void AssertTableSection(IElement section, int currentBfrYear, TrustItSpend[] spend)
+    private static void AssertTableSection(
+        IElement section,
+        string companyNumber,
+        int currentBfrYear,
+        TrustItSpend[] spend,
+        TrustItSpendForecastYear[]? forecast,
+        ExpectedSubCategory expectedSubCategory,
+        bool hasTrustClaim)
     {
         var table = section.QuerySelector(".govuk-table");
         Assert.NotNull(table);
 
         var headers = table.QuerySelectorAll("thead tr th");
-        Assert.Equal(2, headers.Length);
-        Assert.Contains("Trust name", headers.ElementAt(0).TextContent);
-        Assert.Contains($"{currentBfrYear - 2} – {currentBfrYear - 1}", headers.ElementAt(1).TextContent);
+
+        if (hasTrustClaim)
+        {
+            Assert.Equal(4, headers.Length);
+            Assert.Contains("Trust name", headers.ElementAt(0).TextContent);
+            Assert.Contains($"{currentBfrYear - 2} – {currentBfrYear - 1}", headers.ElementAt(1).TextContent);
+            Assert.Contains($"{currentBfrYear - 1} – {currentBfrYear}", headers.ElementAt(2).TextContent);
+            Assert.Contains($"{currentBfrYear} – {currentBfrYear + 1}", headers.ElementAt(3).TextContent);
+        }
+        else
+        {
+            Assert.Equal(2, headers.Length);
+            Assert.Contains("Trust name", headers.ElementAt(0).TextContent);
+            Assert.Contains($"{currentBfrYear - 2} – {currentBfrYear - 1}", headers.ElementAt(1).TextContent);
+        }
 
         var rows = table.QuerySelectorAll("tbody tr");
         Assert.Equal(spend.Length, rows.Length);
+
+        var filter = (ItSpendingCategories.SubCategoryFilter)Enum.ToObject(typeof(ItSpendingCategories.SubCategoryFilter), expectedSubCategory.Id);
+
+        foreach (var row in rows)
+        {
+            var key = row.Attributes["data-key"]?.Value;
+            Assert.NotNull(key);
+
+            var thisSpend = spend.FirstOrDefault(s => s.CompanyNumber == key);
+            Assert.NotNull(thisSpend);
+
+            var cols = row.QuerySelectorAll("td");
+            Assert.Equal(thisSpend.TrustName, cols.ElementAt(0).TextContent.Trim());
+
+            if (hasTrustClaim)
+            {
+                Assert.Equal(4, cols.Length);
+
+                if (companyNumber == key)
+                {
+                    Assert.Equal($"£{forecast?.Where(f => f.Year == currentBfrYear - 1).Select(filter.GetSelector()).FirstOrDefault()}", cols.ElementAt(1).TextContent.Trim());
+                    Assert.Equal($"£{forecast?.Where(f => f.Year == currentBfrYear).Select(filter.GetSelector()).FirstOrDefault()}", cols.ElementAt(2).TextContent.Trim());
+                    Assert.Equal($"£{forecast?.Where(f => f.Year == currentBfrYear + 1).Select(filter.GetSelector()).FirstOrDefault()}", cols.ElementAt(3).TextContent.Trim());
+                }
+                else
+                {
+                    Assert.Equal($"£{filter.GetSelector()(thisSpend)}", cols.ElementAt(1).TextContent.Trim());
+                    Assert.Equal("Data not available", cols.ElementAt(2).TextContent.Trim());
+                    Assert.Equal("Data not available", cols.ElementAt(3).TextContent.Trim());
+                }
+            }
+            else
+            {
+                Assert.Equal(2, cols.Length);
+                Assert.Equal($"£{filter.GetSelector()(thisSpend)}", cols.ElementAt(1).TextContent.Trim());
+            }
+        }
     }
 
     private static ExpectedSubCategory[] BuildExpectedSubCategories(params int[]? ids)
