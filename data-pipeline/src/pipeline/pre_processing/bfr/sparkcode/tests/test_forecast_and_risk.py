@@ -5,6 +5,7 @@ import pytest
 from pipeline.pre_processing.bfr.sparkcode.forecast_and_risk import (
     BFRForecastAndRiskCalculator,
 )
+from pyspark.sql.types import DoubleType, IntegerType, StructField, StructType, StringType
 
 
 @pytest.fixture
@@ -87,3 +88,99 @@ def test_assign_slope_flag(bfr_forecast_and_risk_calculator, spark_session):
         pd.Series(expected_df_sorted["Slope flag"].values, name="Slope flag", dtype="int32"),
         check_exact=True,
     )
+
+
+def test_build_bfr_historical_data_academies_none(bfr_forecast_and_risk_calculator, spark_session):
+    # Test case where academies_historical is None
+    bfr_sofa_historical_data = [
+        {"Trust UPIN": "0", "EFALineNo": 430, "Y1P2": 2048.0, "Y2P2": 1024.0}
+    ]
+    bfr_sofa_historical_df = spark_session.createDataFrame(bfr_sofa_historical_data)
+    
+    result = bfr_forecast_and_risk_calculator._build_bfr_historical_data(
+        academies_historical=None,
+        bfr_sofa_historical=bfr_sofa_historical_df,
+    )
+    assert result is None
+
+
+def test_build_bfr_historical_data_bfr_sofa_none(bfr_forecast_and_risk_calculator, spark_session):
+    # Test case where bfr_sofa_historical is None
+    academies_historical_data = [
+        {"Trust UPIN": "0", "Company Registration Number": "0", "Total pupils in trust": 100}
+    ]
+    academies_historical_df = spark_session.createDataFrame(academies_historical_data)
+
+    result_df = bfr_forecast_and_risk_calculator._build_bfr_historical_data(
+        academies_historical=academies_historical_df,
+        bfr_sofa_historical=None,
+    )
+    result_pdf = result_df.toPandas()
+
+    assert "Trust Revenue reserve" in result_pdf.columns
+    assert list(result_pdf["Trust Revenue reserve"]) == [0.0]
+    assert "Total pupils in trust" in result_pdf.columns
+    assert list(result_pdf["Total pupils in trust"]) == [0]
+
+
+def test_build_bfr_historical_data_both_none(bfr_forecast_and_risk_calculator):
+    # Test case where both inputs are None
+    result = bfr_forecast_and_risk_calculator._build_bfr_historical_data(
+        academies_historical=None,
+        bfr_sofa_historical=None,
+    )
+    assert result is None
+
+
+def test_build_bfr_historical_data_empty_bfr_sofa(bfr_forecast_and_risk_calculator, spark_session):
+    # Test case where bfr_sofa_historical is an empty DataFrame
+    academies_historical_data = [
+        {"Trust UPIN": "0", "Company Registration Number": "0", "Total pupils in trust": 100}
+    ]
+    academies_historical_df = spark_session.createDataFrame(academies_historical_data)
+
+    # Correct schema definition using StructType and StructField
+    empty_bfr_sofa_schema = StructType([
+        StructField("Trust UPIN", StringType(), True),
+        StructField("EFALineNo", IntegerType(), True),
+        StructField("Y1P2", DoubleType(), True),
+        StructField("Y2P2", DoubleType(), True)
+    ])
+    empty_bfr_sofa_df = spark_session.createDataFrame([], schema=empty_bfr_sofa_schema)
+
+    result_df = bfr_forecast_and_risk_calculator._build_bfr_historical_data(
+        academies_historical=academies_historical_df,
+        bfr_sofa_historical=empty_bfr_sofa_df,
+    )
+    result_pdf = result_df.toPandas()
+
+    assert "Trust Revenue reserve" in result_pdf.columns
+    assert list(result_pdf["Trust Revenue reserve"]) == [0.0]
+    assert "Total pupils in trust" in result_pdf.columns
+    assert list(result_pdf["Total pupils in trust"]) == [100]
+
+
+def test_build_bfr_historical_data_full_data(bfr_forecast_and_risk_calculator, spark_session):
+    # Test case with full data
+    academies_historical_data = [
+        {"Trust UPIN": "0", "Company Registration Number": "0", "Total pupils in trust": 100}
+    ]
+    academies_historical_df = spark_session.createDataFrame(academies_historical_data)
+
+    bfr_sofa_historical_data = [
+        {"Trust UPIN": "0", "EFALineNo": 430, "Y1P2": 2048.0, "Y2P2": 1024.0}, # Revenue reserve
+        {"Trust UPIN": "0", "EFALineNo": 1, "Y1P2": 500.0, "Y2P2": 0.0}, # Pupil number
+    ]
+    bfr_sofa_historical_df = spark_session.createDataFrame(bfr_sofa_historical_data)
+
+    result_df = bfr_forecast_and_risk_calculator._build_bfr_historical_data(
+        academies_historical=academies_historical_df,
+        bfr_sofa_historical=bfr_sofa_historical_df,
+    )
+    result_pdf = result_df.toPandas()
+
+    assert "Trust Revenue reserve" in result_pdf.columns
+    # 1024.0 * 1000 = 1024000.0
+    assert result_pdf["Trust Revenue reserve"].iloc[0] == 1_024_000.0
+    assert "Total pupils in trust" in result_pdf.columns
+    assert result_pdf["Total pupils in trust"].iloc[0] == 100
