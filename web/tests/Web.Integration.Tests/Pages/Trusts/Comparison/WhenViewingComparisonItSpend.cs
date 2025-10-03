@@ -228,6 +228,24 @@ public class WhenViewingComparisonItSpend(SchoolBenchmarkingWebAppClient client)
             expectedQueryParams: "?viewAs=0&resultAs=1");
     }
 
+    [Theory]
+    [InlineData(Views.ViewAsOptions.Chart, true)]
+    [InlineData(Views.ViewAsOptions.Table, false)]
+    public async Task CanSaveChartImages(Views.ViewAsOptions viewAs, bool expected)
+    {
+        var (page, _, _, _, _) = await SetupNavigateInitPage(true, queryParams: $"?viewAs={(int)viewAs}");
+
+        var button = page.QuerySelector("#page-actions-button");
+        if (expected)
+        {
+            Assert.NotNull(button);
+        }
+        else
+        {
+            Assert.Null(button);
+        }
+    }
+
     private async Task<(
         IHtmlDocument page,
         Trust trust,
