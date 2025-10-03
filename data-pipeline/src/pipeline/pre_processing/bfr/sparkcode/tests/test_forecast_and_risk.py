@@ -12,7 +12,7 @@ from pipeline.pre_processing.bfr.sparkcode.bfr_pyspark_mocks import (
 from pipeline.pre_processing.bfr.sparkcode.forecast_and_risk import (
     BFRForecastAndRiskCalculator,
 )
-
+import pandas as pd
 
 class MockPipelineConfig:
     SOFA_TRUST_REVENUE_RESERVE_EFALINE = 430
@@ -438,7 +438,6 @@ def test_melt_forecast_and_risk_pupil_numbers_from_bfr(
     spark_session: SparkSession,
     mock_bfr_data_for_metrics: SparkSession,
 ):
-    
     # Add Y-2 and Y-1 pupil data for melting
     bfr_with_all_pupils = mock_bfr_data_for_metrics.withColumn("Pupils Y-2", col("Pupils Y-2")) \
                                                     .withColumn("Pupils Y-1", col("Pupils Y-1"))
@@ -450,38 +449,28 @@ def test_melt_forecast_and_risk_pupil_numbers_from_bfr(
     results = (
         result_df.orderBy("Company Registration Number", "Year")
         .toPandas()
-        .set_index(["Company Registration Number", "Year"])
     )
 
-    # CRN001 (Trust UPIN 100001)
-    # Y-2: 100.0, Y-1: 200.0, Y1: 300.0, Y2: 400.0, Y3: 500.0, Y4: 600.0
-    # Years: 2023, 2024, 2025, 2026, 2027, 2028
-    expected_crn001 = {
-        2023: 100.0,
-        2024: 200.0,
-        2025: 300.0,
-        2026: 400.0,
-        2027: 500.0,
-        2028: 600.0,
-    }
+    expected_crn001_pupil_numbers = pd.DataFrame({
+        'Year': [2023, 2024, 2025, 2026, 2027, 2028],
+        'Pupils': [1000.0, 1050.0, 1100.0, 1150.0, 1200.0, 1250.0]
+    })
+    expected_crn002_pupil_numbers = pd.DataFrame({
+        'Year': [2023, 2024, 2025, 2026, 2027, 2028],
+        'Pupils': [2000.0, 2100.0, 2200.0, 2300.0, 2400.0, 2500.0]
+    })
 
-    # CRN002 (Trust UPIN 100002)
-    # Y-2: 200.0, Y-1: 400.0, Y1: 600.0, Y2: 800.0, Y3: 1000.0, Y4: 1200.0
-    # Years: 2023, 2024, 2025, 2026, 2027, 2028
-    expected_crn002 = {
-        2023: 200.0,
-        2024: 400.0,
-        2025: 600.0,
-        2026: 800.0,
-        2027: 1000.0,
-        2028: 1200.0,
-    }
+    result = results[
+        (results["Category"] == "Pupil numbers")
+        & (results["Company Registration Number"] == "CRN001")
+    ][["Year", "Pupils"]].reset_index(drop=True)
+    pd.testing.assert_frame_equal(result, expected_crn001_pupil_numbers)
 
-    for year, expected_value in expected_crn001.items():
-        assert results.loc[("CRN001", year), "Pupils"] == expected_value
-
-    for year, expected_value in expected_crn002.items():
-        assert results.loc[("CRN002", year), "Pupils"] == expected_value
+    result = results[
+        (results["Category"] == "Pupil numbers")
+        & (results["Company Registration Number"] == "CRN002")
+    ][["Year", "Pupils"]].reset_index(drop=True)
+    pd.testing.assert_frame_equal(result, expected_crn002_pupil_numbers)
 
 
 def test_melt_forecast_and_risk_revenue_reserves_from_bfr(
