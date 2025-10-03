@@ -129,6 +129,12 @@ describe("getDomain", () => {
     { category: "G", value: 10 },
   ];
 
+  const sampleZeroData = [
+    { category: "A", value: 0 },
+    { category: "B", value: 0 },
+    { category: "C", value: 0 },
+  ];
+
   it("should return default domain if not supplied", () => {
     const result = getDomain(sampleData, "value");
     expect(result).toEqual([0, 100]);
@@ -142,6 +148,16 @@ describe("getDomain", () => {
   it("should return fallback domain if out of range", () => {
     const result = getDomain(sampleData, "value", 6, 99);
     expect(result).toEqual([5, 100]);
+  });
+
+  it("should return arbitrary default domain if all values are 0", () => {
+    const result = getDomain(sampleZeroData, "value");
+    expect(result).toEqual([0, 1000]);
+  });
+
+  it("should return arbitrary domain if range is 0, 0", () => {
+    const result = getDomain(sampleZeroData, "value", 0, 0);
+    expect(result).toEqual([0, 1000]);
   });
 });
 
