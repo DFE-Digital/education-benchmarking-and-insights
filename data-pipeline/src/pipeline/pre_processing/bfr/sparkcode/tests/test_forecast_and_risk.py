@@ -9,18 +9,14 @@ from pipeline.pre_processing.bfr.sparkcode.bfr_pyspark_mocks import (
     get_mock_bfr_sofa_mv,
     get_mock_bfr_three_year_mv,
 )
-from ..config import (
-    SOFA_PUPIL_NUMBER_EFALINE,
-    SOFA_TRUST_REVENUE_RESERVE_EFALINE,
-)
 from pipeline.pre_processing.bfr.sparkcode.forecast_and_risk import (
     BFRForecastAndRiskCalculator,
 )
 
 
 class MockPipelineConfig:
-    SOFA_TRUST_REVENUE_RESERVE_EFALINE = SOFA_TRUST_REVENUE_RESERVE_EFALINE
-    SOFA_PUPIL_NUMBER_EFALINE = SOFA_PUPIL_NUMBER_EFALINE
+    SOFA_TRUST_REVENUE_RESERVE_EFALINE = 430
+    SOFA_PUPIL_NUMBER_EFALINE = 999
 
 
 @pytest.fixture(scope="session")
@@ -40,7 +36,6 @@ def bfr_forecast_and_risk_calculator(spark_session: SparkSession):
         year=2025,
         spark=spark_session,
         pipeline_config=MockPipelineConfig(),
-        base_pipeline_helpers=BFRPipeline(),
     )
 
 
@@ -443,14 +438,13 @@ def test_melt_forecast_and_risk_pupil_numbers_from_bfr(
     spark_session: SparkSession,
     mock_bfr_data_for_metrics: SparkSession,
 ):
-    current_year = 2025
     
     # Add Y-2 and Y-1 pupil data for melting
     bfr_with_all_pupils = mock_bfr_data_for_metrics.withColumn("Pupils Y-2", col("Pupils Y-2")) \
                                                     .withColumn("Pupils Y-1", col("Pupils Y-1"))
 
     result_df = bfr_forecast_and_risk_calculator._melt_forecast_and_risk_pupil_numbers_from_bfr(
-        bfr_with_all_pupils, current_year
+        bfr_with_all_pupils
     )
 
     results = (
@@ -495,7 +489,6 @@ def test_melt_forecast_and_risk_revenue_reserves_from_bfr(
     spark_session: SparkSession,
     mock_bfr_data_for_metrics: SparkSession,
 ):
-    current_year = 2025
     
     # Only filter for Revenue reserve
     bfr_revenue_reserve = mock_bfr_data_for_metrics.filter(
@@ -503,7 +496,7 @@ def test_melt_forecast_and_risk_revenue_reserves_from_bfr(
     )
 
     result_df = bfr_forecast_and_risk_calculator._melt_forecast_and_risk_revenue_reserves_from_bfr(
-        bfr_revenue_reserve, current_year
+        bfr_revenue_reserve
     )
 
     results = (
@@ -699,22 +692,25 @@ def test_get_bfr_forecast_and_risk_data(
     merged_bfr_with_crn = spark_session.createDataFrame(merged_bfr_with_crn_data, schema=merged_bfr_with_crn_schema)
 
     historic_bfr_y2 = get_mock_bfr_sofa_mv(spark_session, 2023).filter(
-        col("EFALineNo").isin([SOFA_TRUST_REVENUE_RESERVE_EFALINE, SOFA_PUPIL_NUMBER_EFALINE])
+        col("EFALineNo").isin([
+            bfr_forecast_and_risk_calculator.config.SOFA_TRUST_REVENUE_RESERVE_EFALINE,
+            bfr_forecast_and_risk_calculator.config.SOFA_PUPIL_NUMBER_EFALINE
+        ])
     )
     historic_bfr_y1 = get_mock_bfr_sofa_mv(spark_session, 2024).filter(
-        col("EFALineNo").isin([SOFA_TRUST_REVENUE_RESERVE_EFALINE, SOFA_PUPIL_NUMBER_EFALINE])
+        col("EFALineNo").isin([
+            bfr_forecast_and_risk_calculator.config.SOFA_TRUST_REVENUE_RESERVE_EFALINE,
+            bfr_forecast_and_risk_calculator.config.SOFA_PUPIL_NUMBER_EFALINE
+        ])
     )
     academies = get_mock_academies_df(spark_session, 2025)
     academies_y1 = get_mock_academies_df(spark_session, 2024)
     academies_y2 = get_mock_academies_df(spark_session, 2023)
 
-    current_year = 2025
-
     bfr_forecast_and_risk_rows, bfr_forecast_and_risk_metrics = bfr_forecast_and_risk_calculator.get_bfr_forecast_and_risk_data(
         merged_bfr_with_crn,
         historic_bfr_y2,
         historic_bfr_y1,
-        current_year,
         academies,
         academies_y1,
         academies_y2,
