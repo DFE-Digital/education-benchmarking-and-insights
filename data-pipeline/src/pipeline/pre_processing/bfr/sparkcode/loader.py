@@ -61,9 +61,13 @@ class BFRLoader(DatabricksDataLoader):
                 materialized_view = self.spark.table(
                     self._get_table_name(materialized_view_full_name)
                 )
-                source_view = self.spark.table(self._get_table_name(source_view_full_name))
+                source_view = self.spark.table(
+                    self._get_table_name(source_view_full_name)
+                )
             except Exception as e:
-                logger.error(f"Failed to load Spark table '{table_id}' from Databricks: {e}")
+                logger.error(
+                    f"Failed to load Spark table '{table_id}' from Databricks: {e}"
+                )
                 raise
             # Only check for updates when running in Databricks (not with mocks)
             self._check_for_updates_in_materialized_views(
