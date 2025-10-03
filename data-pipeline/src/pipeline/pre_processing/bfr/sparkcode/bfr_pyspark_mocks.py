@@ -58,7 +58,7 @@ def get_mock_bfr_sofa_mv(spark: SparkSession, year: int) -> DataFrame:
             ),
             (
                 100001,
-                "Self-generated income",
+                "Self-gen 1",
                 211,
                 100.0,
                 110.0,
@@ -67,7 +67,7 @@ def get_mock_bfr_sofa_mv(spark: SparkSession, year: int) -> DataFrame:
                 140.0,
                 150.0,
             ),
-            (100001, "Self-generated income", 220, 50.0, 55.0, 60.0, 65.0, 70.0, 75.0),
+            (100001, "Self-gen 2", 220, 50.0, 55.0, 60.0, 65.0, 70.0, 75.0),
             (
                 100001,
                 "Pupil numbers (actual and estimated)",
@@ -130,7 +130,7 @@ def get_mock_bfr_sofa_mv(spark: SparkSession, year: int) -> DataFrame:
             ),
             (
                 100002,
-                "Self-generated income",
+                "Self-gen 1",
                 211,
                 150.0,
                 160.0,
@@ -190,8 +190,8 @@ def get_mock_bfr_sofa_mv(spark: SparkSession, year: int) -> DataFrame:
         data = [
             (100001, "Total revenue income", 298, 1000.0, 1100.0, 1200.0, 1300.0),
             (100001, "Balance c/f to next period ", 430, 200.0, 210.0, 220.0, 230.0),
-            (100001, "Self-generated income", 211, 100.0, 110.0, 120.0, 130.0),
-            (100001, "Self-generated income", 220, 50.0, 55.0, 60.0, 65.0),
+            (100001, "self-gen 1", 211, 100.0, 110.0, 120.0, 130.0),
+            (100001, "Self-gen 2", 220, 50.0, 55.0, 60.0, 65.0),
             (100001, "IT backend", 336, 10.0, 11.0, 12.0, 13.0),
             (
                 100001,
@@ -208,7 +208,7 @@ def get_mock_bfr_sofa_mv(spark: SparkSession, year: int) -> DataFrame:
             (100001, "Total revenue expenditure", 380, 500.0, 510.0, 520.0, 530.0),
             (100002, "Total revenue income", 298, 2000.0, 2100.0, 2200.0, 2300.0),
             (100002, "Balance c/f to next period ", 430, 400.0, 420.0, 440.0, 460.0),
-            (100002, "Self-generated income", 211, 150.0, 160.0, 170.0, 180.0),
+            (100002, "Self-gen 1", 211, 150.0, 160.0, 170.0, 180.0),
             (
                 100002,
                 "Pupil numbers (actual and estimated)",
