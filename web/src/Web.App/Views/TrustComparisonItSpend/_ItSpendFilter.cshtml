@@ -141,6 +141,17 @@
             <button type="submit" class="govuk-button govuk-!-margin-bottom-3" data-module="govuk-button">
                 Apply filters
             </button>
+            
+            <div class="govuk-button-group govuk-!-margin-bottom-0">
+                @if (Model.ViewAs == Views.ViewAsOptions.Chart)
+                {
+                    <div id="page-actions-button"></div>
+                }
+                <a href="@Url.Action("Download", "TrustComparisonItSpend", new { companyNumber = Model.CompanyNumber })" role="button"
+               class="govuk-button govuk-button--secondary" data-module="govuk-button">
+                Download page data
+            </a>
+            </div>
         }
     </div>
 </div>

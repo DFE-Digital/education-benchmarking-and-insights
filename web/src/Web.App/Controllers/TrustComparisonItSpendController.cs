@@ -1,7 +1,9 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using System.Net;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.FeatureManagement.Mvc;
+using Web.App.ActionResults;
 using Web.App.Attributes;
 using Web.App.Attributes.RequestTelemetry;
 using Web.App.Domain;
@@ -90,6 +92,55 @@ public class TrustComparisonItSpendController(
         resultAs,
         selectedSubCategories
     });
+
+    [HttpGet]
+    [Produces("application/zip")]
+    [ProducesResponseType<byte[]>(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    [Route("download")]
+    public async Task<IActionResult> Download(string companyNumber)
+    {
+        using (logger.BeginScope(new
+        {
+            companyNumber
+        }))
+        {
+            try
+            {
+                var userData = await userDataService.GetTrustDataAsync(User, companyNumber);
+                if (userData.ComparatorSet == null)
+                {
+                    return StatusCode((int)HttpStatusCode.NotFound);
+                }
+
+                var userDefinedSet = await comparatorSetApi.GetUserDefinedTrustAsync(companyNumber, userData.ComparatorSet)
+                    .GetResultOrDefault<UserDefinedSchoolComparatorSet>();
+                if (userDefinedSet == null || userDefinedSet.Set.Length == 0)
+                {
+                    return StatusCode((int)HttpStatusCode.NotFound);
+                }
+
+                var expenditures = await itSpendApi
+                    .QueryTrusts(BuildApiQuery(Dimensions.ResultAsOptions.Actuals, userDefinedSet.Set))
+                    .GetResultOrDefault<TrustItSpend[]>() ?? [];
+
+                // TODO: get forecast data conditional on auth claims and add to csvList
+
+                var csvList = new List<CsvResult>
+                {
+                    new (expenditures, $"benchmark-it-spending-previous-year-{companyNumber}.csv")
+                };
+
+                return new CsvResults(csvList, $"benchmark-it-spending-{companyNumber}.zip");
+            }
+            catch (Exception e)
+            {
+                logger.LogError(e, "An error downloading IT expenditure data: {DisplayUrl}", Request.GetDisplayUrl());
+                return StatusCode(500);
+            }
+        }
+    }
 
     private async Task<IActionResult> TrustComparisonItSpend(
         Trust trust,
