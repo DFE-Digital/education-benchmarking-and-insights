@@ -788,6 +788,14 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
         return this;
     }
 
+    public BenchmarkingWebAppClient SetupItSpendWithException()
+    {
+        ItSpendApi.Reset();
+        ItSpendApi.Setup(api => api.QuerySchools(It.IsAny<ApiQuery?>(), It.IsAny<CancellationToken>())).Throws(new Exception());
+        ItSpendApi.Setup(api => api.QueryTrusts(It.IsAny<ApiQuery?>(), It.IsAny<CancellationToken>())).Throws(new Exception());
+        return this;
+    }
+
     public BenchmarkingWebAppClient SetupHttpContextAccessor(ConcurrentDictionary<string, byte[]>? items = null)
     {
         HttpContextAccessor.Reset();
