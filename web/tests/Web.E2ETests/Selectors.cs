@@ -225,6 +225,6 @@ public static class Selectors
     public const string CostCodesList = "ul.app-cost-code-list";
 
     public const string SsrChartContainer = ".costs-chart-container";
-    public const string SsrSchoolNamesLinksInCharts = ".link-tick .govuk-link";
+    public const string SsrOrgNamesLinksInCharts = ".link-tick .govuk-link";
     public const string EnhancementSchoolChartTooltip = ".school-chart-tooltip";
 }
