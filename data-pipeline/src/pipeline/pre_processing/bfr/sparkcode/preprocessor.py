@@ -38,13 +38,15 @@ class BFRPreprocessor:
         aggregated_category_name: str,
     ) -> DataFrame:
         """Aggregates specified EFA lines over given year."""
+        filtered_bfr_for_aggregation = bfr.filter(col("EFALineNo").isin(efa_lines))
         bfr_aggregated_category_rows = (
-            bfr.filter(col("EFALineNo").isin(efa_lines))
+            filtered_bfr_for_aggregation
             .groupBy("Trust UPIN")
             .agg(*[spark_sum(col(c)).alias(c) for c in year_cols])
             .withColumn("Category", lit(aggregated_category_name))
             .withColumn("EFALineNo", lit(None).cast(IntegerType()))
         )
+
         return bfr_aggregated_category_rows
 
     def preprocess_bfr_sofa(self, bfr_sofa_mv: DataFrame) -> DataFrame:
@@ -91,8 +93,17 @@ class BFRPreprocessor:
             "Grant funding",
         )
 
+        # Filter out the individual EFALines that have been aggregated
+        lines_to_remove_after_aggregation = (
+            config.SOFA_SELF_GENERATED_INCOME_EFALINES
+            + config.SOFA_GRANT_FUNDING_EFALINES
+        )
+        bfr_sofa_filtered_without_original_aggregated_lines = bfr_sofa_filtered.filter(
+            ~col("EFALineNo").isin(lines_to_remove_after_aggregation)
+        )
+
         bfr_sofa_with_aggregated_categories = (
-            bfr_sofa_filtered.unionByName(self_gen_income)
+            bfr_sofa_filtered_without_original_aggregated_lines.unionByName(self_gen_income)
             .unionByName(grant_funding)
             .dropDuplicates(["Trust UPIN", "EFALineNo", "Category"])
         )
