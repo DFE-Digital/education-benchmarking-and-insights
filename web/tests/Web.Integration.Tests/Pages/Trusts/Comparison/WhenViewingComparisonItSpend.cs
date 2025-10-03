@@ -249,7 +249,7 @@ public class WhenViewingComparisonItSpend(SchoolBenchmarkingWebAppClient client)
     [InlineData(Views.ViewAsOptions.Table, false)]
     public async Task CanSaveChartImages(Views.ViewAsOptions viewAs, bool expected)
     {
-        var (page, _, _, _, _) = await SetupNavigateInitPage(true, queryParams: $"?viewAs={(int)viewAs}");
+        var (page, _, _, _, _, _) = await SetupNavigateInitPage(true, queryParams: $"?viewAs={(int)viewAs}");
 
         var button = page.QuerySelector("#page-actions-button");
         if (expected)
