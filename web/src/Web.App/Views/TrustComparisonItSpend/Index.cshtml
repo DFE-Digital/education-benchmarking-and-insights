@@ -2,6 +2,7 @@
 @using Web.App.Domain.Charts
 @using Web.App.Extensions
 @using Web.App.ViewModels
+@using Web.App.ViewModels.Enhancements
 @model Web.App.ViewModels.TrustComparisonItSpendViewModel
 @{
     ViewData[ViewDataKeys.Title] = PageTitles.ComparisonItSpend;
@@ -103,4 +104,14 @@
 
         initAll()
     </script>
+    
+    @await Html.PartialAsync("Enhancements/_PageActions", new PageActionsViewModel
+    {
+        All = true,
+        ElementId = "page-actions-button",
+        SaveClassName = "costs-chart-container",
+        SaveFileName = $"benchmark-it-spending-{Model.CompanyNumber}.zip",
+        SaveTitleAttr = "data-title",
+        StartImmediately = true
+    })
 }
