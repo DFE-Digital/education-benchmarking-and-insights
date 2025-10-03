@@ -2,14 +2,21 @@ from decimal import Decimal
 
 import pytest
 from pyspark.sql import SparkSession
-from pyspark.sql.types import DecimalType, LongType, StringType, StructField, StructType
+from pyspark.sql.types import (
+    DecimalType,
+    IntegerType,
+    LongType,
+    StringType,
+    StructField,
+    StructType,
+)
 
 from pipeline.pre_processing.bfr.sparkcode.it_spend import BFRITSpendCalculator
 
 
 class MockPipelineConfig:
-    SOFA_IT_SPEND_LINES = ["IT001", "IT002"]
-    SOFA_PUPIL_NUMBER_EFALINE = "PUPIL001"
+    SOFA_IT_SPEND_LINES = [423, 424]
+    SOFA_PUPIL_NUMBER_EFALINE = 999
 
 
 @pytest.fixture
@@ -26,8 +33,8 @@ def test_melt_it_spend_rows_from_bfr(
     schema = StructType(
         [
             StructField("Category", StringType(), True),
-            StructField("Company Registration Number", StringType(), True),
-            StructField("EFALineNo", StringType(), True),
+            StructField("Company Registration Number", IntegerType(), True),
+            StructField("EFALineNo", IntegerType(), True),
             StructField("Y1P1", DecimalType(18, 2), True),
             StructField("Y1P2", DecimalType(18, 2), True),
             StructField("Y2P1", DecimalType(18, 2), True),
@@ -39,8 +46,8 @@ def test_melt_it_spend_rows_from_bfr(
     bfr_data = [
         (
             "IT Spend 1",
-            "CRN001",
-            "IT001",
+            1,
+            423,
             Decimal("100.00"),
             Decimal("200.00"),
             Decimal("300.00"),
@@ -50,8 +57,8 @@ def test_melt_it_spend_rows_from_bfr(
         ),
         (
             "IT Spend 2",
-            "CRN001",
-            "IT002",
+            1,
+            424,
             Decimal("50.00"),
             Decimal("150.00"),
             Decimal("250.00"),
@@ -60,9 +67,9 @@ def test_melt_it_spend_rows_from_bfr(
             Decimal("550.00"),
         ),
         (
-            "Other Spend",
-            "CRN001",
-            "OTH001",
+            "Pupil number",
+            1,
+            999,
             Decimal("10.00"),
             Decimal("20.00"),
             Decimal("30.00"),
@@ -80,20 +87,18 @@ def test_melt_it_spend_rows_from_bfr(
     expected_schema = StructType(
         [
             StructField("Category", StringType(), True),
-            StructField("Company Registration Number", StringType(), True),
+            StructField("Company Registration Number", IntegerType(), True),
             StructField("Year", LongType(), True),
-            StructField(
-                "Value", DecimalType(19, 2), True
-            ),  # Changed to DecimalType(19, 2)
+            StructField("Value", DecimalType(19, 2), True),
         ]
     )
     expected_data = [
-        ("IT Spend 1", "CRN001", 2023, Decimal("300.00")),
-        ("IT Spend 1", "CRN001", 2024, Decimal("700.00")),
-        ("IT Spend 1", "CRN001", 2025, Decimal("1100.00")),
-        ("IT Spend 2", "CRN001", 2023, Decimal("200.00")),
-        ("IT Spend 2", "CRN001", 2024, Decimal("600.00")),
-        ("IT Spend 2", "CRN001", 2025, Decimal("1000.00")),
+        ("IT Spend 1", 1, 2023, Decimal("300.00")),
+        ("IT Spend 1", 1, 2024, Decimal("700.00")),
+        ("IT Spend 1", 1, 2025, Decimal("1100.00")),
+        ("IT Spend 2", 1, 2023, Decimal("200.00")),
+        ("IT Spend 2", 1, 2024, Decimal("600.00")),
+        ("IT Spend 2", 1, 2025, Decimal("1000.00")),
     ]
     expected_df = spark_session.createDataFrame(expected_data, expected_schema)
 
@@ -119,7 +124,7 @@ def test_melt_it_spend_pupil_numbers_from_bfr(
     # Given
     schema = StructType(
         [
-            StructField("Company Registration Number", StringType(), True),
+            StructField("Company Registration Number", IntegerType(), True),
             StructField("EFALineNo", StringType(), True),
             StructField("Y1P1", DecimalType(18, 2), True),
             StructField("Y1P2", DecimalType(18, 2), True),
@@ -129,24 +134,24 @@ def test_melt_it_spend_pupil_numbers_from_bfr(
     )
     bfr_data = [
         (
-            "CRN001",
-            "PUPIL001",
+            1,
+            999,
             Decimal("1000.00"),
             Decimal("1100.00"),
             Decimal("1200.00"),
             Decimal("1300.00"),
         ),
         (
-            "CRN002",
-            "PUPIL001",
+            2,
+            999,
             Decimal("500.00"),
             Decimal("550.00"),
             Decimal("600.00"),
             Decimal("650.00"),
         ),
         (
-            "CRN001",
-            "OTH002",
+            1,
+            424,
             Decimal("10.00"),
             Decimal("20.00"),
             Decimal("30.00"),
@@ -161,18 +166,18 @@ def test_melt_it_spend_pupil_numbers_from_bfr(
     # Then
     expected_schema = StructType(
         [
-            StructField("Company Registration Number", StringType(), True),
+            StructField("Company Registration Number", IntegerType(), True),
             StructField("Year", LongType(), True),
             StructField("Pupils", DecimalType(18, 2), True),
         ]
     )
     expected_data = [
-        ("CRN001", 2023, Decimal("1000.00")),
-        ("CRN001", 2024, Decimal("1100.00")),
-        ("CRN001", 2025, Decimal("1200.00")),
-        ("CRN002", 2023, Decimal("500.00")),
-        ("CRN002", 2024, Decimal("550.00")),
-        ("CRN002", 2025, Decimal("600.00")),
+        (1, 2023, Decimal("1000.00")),
+        (1, 2024, Decimal("1100.00")),
+        (1, 2025, Decimal("1200.00")),
+        (2, 2023, Decimal("500.00")),
+        (2, 2024, Decimal("550.00")),
+        (2, 2025, Decimal("600.00")),
     ]
     expected_df = spark_session.createDataFrame(expected_data, expected_schema)
 
@@ -195,8 +200,8 @@ def test_get_bfr_it_spend_rows(
     bfr_schema = StructType(
         [
             StructField("Category", StringType(), True),
-            StructField("Company Registration Number", StringType(), True),
-            StructField("EFALineNo", StringType(), True),
+            StructField("Company Registration Number", IntegerType(), True),
+            StructField("EFALineNo", IntegerType(), True),
             StructField("Y1P1", DecimalType(18, 2), True),
             StructField("Y1P2", DecimalType(18, 2), True),
             StructField("Y2P1", DecimalType(18, 2), True),
@@ -208,8 +213,8 @@ def test_get_bfr_it_spend_rows(
     bfr_data = [
         (
             "IT Spend 1",
-            "CRN001",
-            "IT001",
+            1,
+            423,
             Decimal("100.00"),
             Decimal("200.00"),
             Decimal("300.00"),
@@ -219,8 +224,8 @@ def test_get_bfr_it_spend_rows(
         ),
         (
             "IT Spend 2",
-            "CRN001",
-            "IT002",
+            1,
+            424,
             Decimal("50.00"),
             Decimal("150.00"),
             Decimal("250.00"),
@@ -229,20 +234,9 @@ def test_get_bfr_it_spend_rows(
             Decimal("550.00"),
         ),
         (
-            "Other Spend",
-            "CRN001",
-            "OTH001",
-            Decimal("10.00"),
-            Decimal("20.00"),
-            Decimal("30.00"),
-            Decimal("40.00"),
-            Decimal("50.00"),
-            Decimal("60.00"),
-        ),
-        (
             "Pupil Num",
-            "CRN001",
-            "PUPIL001",
+            1,
+            999,
             Decimal("1000.00"),
             Decimal("1100.00"),
             Decimal("1200.00"),
@@ -252,8 +246,8 @@ def test_get_bfr_it_spend_rows(
         ),
         (
             "IT Spend 1",
-            "CRN002",
-            "IT001",
+            2,
+            423,
             Decimal("10.00"),
             Decimal("20.00"),
             Decimal("30.00"),
@@ -263,8 +257,8 @@ def test_get_bfr_it_spend_rows(
         ),
         (
             "Pupil Num",
-            "CRN002",
-            "PUPIL001",
+            2,
+            999,
             Decimal("100.00"),
             Decimal("110.00"),
             Decimal("120.00"),
@@ -282,22 +276,22 @@ def test_get_bfr_it_spend_rows(
     expected_schema = StructType(
         [
             StructField("Category", StringType(), True),
-            StructField("Company Registration Number", StringType(), True),
+            StructField("Company Registration Number", IntegerType(), True),
             StructField("Year", LongType(), True),
             StructField("Value", DecimalType(19, 2), True),
             StructField("Pupils", DecimalType(18, 2), True),
         ]
     )
     expected_data = [
-        ("IT Spend 1", "CRN001", 2023, Decimal("300.00"), Decimal("1000.00")),
-        ("IT Spend 1", "CRN001", 2024, Decimal("700.00"), Decimal("1100.00")),
-        ("IT Spend 1", "CRN001", 2025, Decimal("1100.00"), Decimal("1200.00")),
-        ("IT Spend 2", "CRN001", 2023, Decimal("200.00"), Decimal("1000.00")),
-        ("IT Spend 2", "CRN001", 2024, Decimal("600.00"), Decimal("1100.00")),
-        ("IT Spend 2", "CRN001", 2025, Decimal("1000.00"), Decimal("1200.00")),
-        ("IT Spend 1", "CRN002", 2023, Decimal("30.00"), Decimal("100.00")),
-        ("IT Spend 1", "CRN002", 2024, Decimal("70.00"), Decimal("110.00")),
-        ("IT Spend 1", "CRN002", 2025, Decimal("110.00"), Decimal("120.00")),
+        ("IT Spend 1", 1, 2023, Decimal("300.00"), Decimal("1000.00")),
+        ("IT Spend 1", 1, 2024, Decimal("700.00"), Decimal("1100.00")),
+        ("IT Spend 1", 1, 2025, Decimal("1100.00"), Decimal("1200.00")),
+        ("IT Spend 2", 1, 2023, Decimal("200.00"), Decimal("1000.00")),
+        ("IT Spend 2", 1, 2024, Decimal("600.00"), Decimal("1100.00")),
+        ("IT Spend 2", 1, 2025, Decimal("1000.00"), Decimal("1200.00")),
+        ("IT Spend 1", 2, 2023, Decimal("30.00"), Decimal("100.00")),
+        ("IT Spend 1", 2, 2024, Decimal("70.00"), Decimal("110.00")),
+        ("IT Spend 1", 2, 2025, Decimal("110.00"), Decimal("120.00")),
     ]
     expected_df = spark_session.createDataFrame(expected_data, expected_schema)
 
