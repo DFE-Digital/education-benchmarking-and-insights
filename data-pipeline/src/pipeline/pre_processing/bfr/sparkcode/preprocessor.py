@@ -40,8 +40,7 @@ class BFRPreprocessor:
         """Aggregates specified EFA lines over given year."""
         filtered_bfr_for_aggregation = bfr.filter(col("EFALineNo").isin(efa_lines))
         bfr_aggregated_category_rows = (
-            filtered_bfr_for_aggregation
-            .groupBy("Trust UPIN")
+            filtered_bfr_for_aggregation.groupBy("Trust UPIN")
             .agg(*[spark_sum(col(c)).alias(c) for c in year_cols])
             .withColumn("Category", lit(aggregated_category_name))
             .withColumn("EFALineNo", lit(None).cast(IntegerType()))
@@ -103,7 +102,9 @@ class BFRPreprocessor:
         )
 
         bfr_sofa_with_aggregated_categories = (
-            bfr_sofa_filtered_without_original_aggregated_lines.unionByName(self_gen_income)
+            bfr_sofa_filtered_without_original_aggregated_lines.unionByName(
+                self_gen_income
+            )
             .unionByName(grant_funding)
             .dropDuplicates(["Trust UPIN", "EFALineNo", "Category"])
         )
