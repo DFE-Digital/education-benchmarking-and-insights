@@ -10,6 +10,7 @@ import {
   escapeXml,
   getDomain,
   getGroups,
+  isAllCaps,
   normaliseData,
   shortValueFormatter,
   sortData,
@@ -203,7 +204,10 @@ export default class HorizontalBarChartTemplate {
       const hrefAttr = sprintf(linkFormat, datum);
       label = escapeXml(label);
 
-      const labelParts = truncateLabel(label, truncateLabelAt)
+      const labelParts = truncateLabel(
+        label,
+        isAllCaps(label) ? truncateLabelAt - 4 : truncateLabelAt
+      )
         .split(" ")
         .join(` </tspan><tspan>`);
 
