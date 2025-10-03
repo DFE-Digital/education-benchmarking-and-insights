@@ -696,13 +696,10 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
         return this;
     }
 
-    public BenchmarkingWebAppClient SetupChartRendering<T>(ChartResponse chartResponse, bool reset = true)
+    public BenchmarkingWebAppClient SetupChartRendering<T>(ChartResponse chartResponse)
     {
         ChartResponse[] chartResponses = [];
-        if (reset)
-        {
-            ChartRenderingApi.Reset();
-        }
+        ChartRenderingApi.Reset();
         ChartRenderingApi
             .Setup(api => api.PostHorizontalBarCharts(It.IsAny<PostHorizontalBarChartsRequest<T>>(), It.IsAny<CancellationToken>()))
             .Callback<PostHorizontalBarChartsRequest<T>, CancellationToken>((request, _) =>
