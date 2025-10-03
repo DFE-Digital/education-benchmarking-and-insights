@@ -1,5 +1,6 @@
 ﻿using Microsoft.Playwright;
 using Web.E2ETests.Pages.Trust.Comparators;
+using Xunit;
 
 namespace Web.E2ETests.Pages.Trust.Benchmarking;
 
@@ -11,6 +12,11 @@ public class BenchmarkItSpendingPage(IPage page)
             HasText = "Benchmark your IT spending"
         });
     private ILocator ViewComparatorSetLink => page.Locator("a[data-test-id='comparators-link']");
+    private ILocator ChartContainer(string chartName) => page.Locator($"[data-title=\"{chartName}\"]");
+    private ILocator ChartBars(string urn) => page.Locator($"rect.chart-cell[data-key='{urn}']");
+    private ILocator ChartContainers => page.Locator(Selectors.SsrChartContainer);
+    private ILocator TrustLinksInCharts => page.Locator(Selectors.SsrOrgNamesLinksInCharts);
+
 
     public async Task IsDisplayed()
     {
@@ -22,5 +28,32 @@ public class BenchmarkItSpendingPage(IPage page)
     {
         await ViewComparatorSetLink.ClickAsync();
         return new ViewComparatorsPage(page);
+    }
+
+    public async Task AssertChartsVisible(IEnumerable<string> expectedTitles)
+    {
+        var titles = expectedTitles.ToArray();
+
+        await AssertChartCount(titles.Length);
+        await AssertVisibleCharts(titles);
+    }
+    
+    public async Task<HomePage> CLickOnTrustName()
+    {
+        await TrustLinksInCharts.First.Click();
+        return new HomePage(page);
+    }
+    private async Task AssertVisibleCharts(IEnumerable<string> expectedTitles)
+    {
+        foreach (var title in expectedTitles)
+        {
+            await ChartContainer(title).ShouldBeVisible();
+        }
+    }
+
+    private async Task AssertChartCount(int expectedCount)
+    {
+        var count = await ChartContainers.CountAsync();
+        Assert.Equal(expectedCount, count);
     }
 }

@@ -1,4 +1,5 @@
 using Web.E2ETests.Drivers;
+using Web.E2ETests.Pages.Trust;
 using Web.E2ETests.Pages.Trust.Benchmarking;
 using Web.E2ETests.Pages.Trust.Comparators;
 using Xunit;
@@ -13,7 +14,8 @@ public class BenchmarkItSpendingSteps(PageDriver driver)
     private CreateComparatorsByPage? _createComparatorsByPage;
     private BenchmarkItSpendingPage? _benchmarkItSpendingPage;
     private ViewComparatorsPage? _viewComparatorsPage;
-
+    private HomePage? _trustHomepage;
+    
     [Given("I have no previous comparators selected for company number '(.*)'")]
     public async Task GivenIHaveNoPreviousComparatorsSelectedForCompanyNumber(string companyNumber)
     {
@@ -80,12 +82,60 @@ public class BenchmarkItSpendingSteps(PageDriver driver)
         Assert.NotNull(_benchmarkItSpendingPage);
         await _benchmarkItSpendingPage.IsDisplayed();
     }
+    
+    [Then("I should see the following IT spend charts on the page:")]
+    public async Task ThenIShouldSeeTheFollowingITSpendCharts(Table table)
+    {
+        Assert.NotNull(_benchmarkItSpendingPage);
+
+        var expectedTitles = table.Rows.Select(row => row["Chart Title"]);
+        await _benchmarkItSpendingPage.AssertChartsVisible(expectedTitles);
+    }
 
     [Then("the comparator set page is displayed")]
     public async Task ThenTheComparatorSetPageIsDisplayed()
     {
         Assert.NotNull(_viewComparatorsPage);
         await _viewComparatorsPage.IsDisplayed();
+    }
+    
+    [When("When I navigate to the trust Benchmark IT spending URL with company number '(.*)'")]
+    public async Task WhenWhenINavigateToTheTrustBenchmarkITSpendingUrlWithCompanyNumber(string companyNumber)
+    {
+        await NavigateToBenchmarkItSpendPage(companyNumber, verify: false);
+    }
+    
+    [Given("I am on it spend page for trust with company number '(.*)'")]
+    public async Task GivenIAmOnItSpendPageForTrustWithCompanyNumber(string companyNumber)
+    {
+        await NavigateToBenchmarkItSpendPage(companyNumber);
+    }
+    
+    [When("I click on the trust name on the chart")]
+    public async Task WhenIClickOnTheTrustNameOnTheChart()
+    {
+        Assert.NotNull(_benchmarkItSpendingPage);
+        _trustHomepage= await _benchmarkItSpendingPage.CLickOnTrustName();
+    }
+    
+    [Then("I am navigated to selected trust home page")]
+    public async Task ThenIAmNavigatedToSelectedTrustHomePage()
+    {
+        Assert.NotNull(_trustHomepage);
+       await _trustHomepage.IsDisplayed();
+    }
+    
+    private async Task NavigateToBenchmarkItSpendPage(string companyNumber, bool verify = true)
+    {
+        var url = BenchmarkItSpendingUrl(companyNumber);
+        var page = await driver.Current;
+        await page.GotoAndWaitForLoadAsync(url);
+
+        if (verify)
+        {
+            Assert.NotNull(_benchmarkItSpendingPage);
+            await _benchmarkItSpendingPage.IsDisplayed();
+        }
     }
 
     private static string RevertComparatorsUrl(string companyNumber) => $"{TestConfiguration.ServiceUrl}/trust/{companyNumber}/comparators/revert";
