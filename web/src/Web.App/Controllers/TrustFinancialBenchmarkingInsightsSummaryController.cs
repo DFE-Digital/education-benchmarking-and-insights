@@ -18,6 +18,7 @@ namespace Web.App.Controllers;
 public class TrustFinancialBenchmarkingInsightsSummaryController(
     IEstablishmentApi establishmentApi,
     IBalanceApi balanceApi,
+    IMetricRagRatingApi metricRagRatingApi,
     ILogger<TrustFinancialBenchmarkingInsightsSummaryController> logger)
     : Controller
 {
@@ -33,8 +34,9 @@ public class TrustFinancialBenchmarkingInsightsSummaryController(
             {
                 var trust = await Trust(companyNumber);
                 var balance = await TrustBalance(companyNumber);
+                var ratings = await RagRatings(companyNumber);
 
-                var viewModel = new TrustFinancialBenchmarkingInsightsSummaryViewModel(trust, balance);
+                var viewModel = new TrustFinancialBenchmarkingInsightsSummaryViewModel(trust, balance, ratings);
                 return View(viewModel);
             }
             catch (Exception e)
@@ -53,4 +55,15 @@ public class TrustFinancialBenchmarkingInsightsSummaryController(
     private async Task<TrustBalance?> TrustBalance(string companyNumber) => await balanceApi
         .Trust(companyNumber)
         .GetResultOrDefault<TrustBalance>();
+
+    private async Task<RagRating[]?> RagRatings(string companyNumber) => await metricRagRatingApi
+        .GetDefaultAsync(BuildQuery(companyNumber))
+        .GetResultOrDefault<RagRating[]>();
+
+    private static ApiQuery BuildQuery(string companyNumber)
+    {
+        var query = new ApiQuery();
+        query.AddIfNotNull("companyNumber", companyNumber);
+        return query;
+    }
 }
