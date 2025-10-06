@@ -22,6 +22,7 @@ variable "configuration" {
       CfrItSpendBreakdown               = optional(bool, true)
       News                              = optional(bool, false)
       TrustItSpendBreakdown             = optional(bool, false)
+      FbisForTrust                      = optional(bool, false)
     })
     CacheOptions = object({
       ReturnYears = object({
@@ -50,6 +51,7 @@ variable "configuration" {
       features = {
         News                  = true
         TrustItSpendBreakdown = true
+        FbisForTrust          = true
       },
       CacheOptions = {
         ReturnYears = {
@@ -77,6 +79,7 @@ variable "configuration" {
       features = {
         News                  = true
         TrustItSpendBreakdown = true
+        FbisForTrust          = true
       },
       CacheOptions = {
         ReturnYears = {
@@ -103,6 +106,7 @@ variable "configuration" {
       features = {
         News                  = true
         TrustItSpendBreakdown = true
+        FbisForTrust          = true
       },
       CacheOptions = {
         ReturnYears = {
@@ -131,6 +135,7 @@ variable "configuration" {
         CfrItSpendBreakdown   = true
         News                  = true
         TrustItSpendBreakdown = true
+        FbisForTrust          = true
       },
       CacheOptions = {
         ReturnYears = {

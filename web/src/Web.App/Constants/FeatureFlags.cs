@@ -8,4 +8,5 @@ public static class FeatureFlags
     public const string CfrItSpendBreakdown = nameof(CfrItSpendBreakdown);
     public const string News = nameof(News);
     public const string TrustItSpendBreakdown = nameof(TrustItSpendBreakdown);
+    public const string FbisForTrust = nameof(FbisForTrust);
 }
