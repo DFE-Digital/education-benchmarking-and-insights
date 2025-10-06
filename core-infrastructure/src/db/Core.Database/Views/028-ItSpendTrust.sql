@@ -2,11 +2,39 @@ DROP VIEW IF EXISTS VW_ItSpendTrustDefaultActual;
 GO
 
 CREATE VIEW VW_ItSpendTrustDefaultActual AS
+
+-- gather all unique combinations of RunId and Year from BudgetForecastReturn
+
+WITH RunIdYearList AS (
+    SELECT DISTINCT
+        RunId,
+        Year
+    FROM BudgetForecastReturn
+),
+
+-- Build a complete list of every Trust combined with every RunId-Year
+-- ensuring all Trusts appear for each possible run.
+
+TrustRunIdYearMatrix AS (
+    SELECT
+        t.CompanyNumber,
+        t.TrustName,
+        r.RunId,
+        r.Year
+    FROM Trust t
+    CROSS JOIN RunIdYearList r
+)
+
+-- Join the expanded Trust-RunId-Year list to the BudgetForecastReturn data
+-- preserving all Trusts even when they have no BudgetForecastReturn.
+-- Pivot each IT spend category into its own column 
+-- NULL values in IT spend columns indicate missing data for that Trust-RunId-Year
+
 SELECT
-    b.RunId,
-    b.CompanyNumber,
-    t.TrustName,
-    b.Year,
+    tr.RunId,
+    tr.CompanyNumber,
+    tr.TrustName,
+    tr.Year,
     MAX(CASE WHEN b.Category = 'Administration software and systems' THEN b.Value END) AS AdministrationSoftwareAndSystems,
     MAX(CASE WHEN b.Category = 'Connectivity' THEN b.Value END) AS Connectivity,
     MAX(CASE WHEN b.Category = 'IT Learning resources' THEN b.Value END) AS ItLearningResources,
@@ -14,14 +42,16 @@ SELECT
     MAX(CASE WHEN b.Category = 'Laptops, desktops and tablets' THEN b.Value END) AS LaptopsDesktopsAndTablets,
     MAX(CASE WHEN b.Category = 'Onsite servers' THEN b.Value END) AS OnsiteServers,
     MAX(CASE WHEN b.Category = 'Other hardware' THEN b.Value END) AS OtherHardware
-FROM BudgetForecastReturn b
-INNER JOIN Trust t
-    ON b.CompanyNumber = t.CompanyNumber
+FROM TrustRunIdYearMatrix tr
+LEFT JOIN BudgetForecastReturn b
+    ON b.CompanyNumber = tr.CompanyNumber
+    AND b.RunId = tr.RunId
+    AND b.Year = tr.Year
 GROUP BY
-    b.RunId,
-    b.CompanyNumber,
-    t.TrustName,
-    b.Year;
+    tr.RunId,
+    tr.CompanyNumber,
+    tr.TrustName,
+    tr.Year
 GO
 
 DROP VIEW IF EXISTS VW_ItSpendTrustCurrentAllYearsActual;
@@ -40,14 +70,10 @@ SELECT
     v.OnsiteServers,
     v.OtherHardware
 FROM VW_ItSpendTrustDefaultActual v
-INNER JOIN Parameters p
-    ON p.Name = 'LatestBFRYear'
-WHERE v.RunId = p.Value
-AND v.Year IN (
-    CAST(p.Value AS INT) - 1,
-    CAST(p.Value AS INT),
-    CAST(p.Value AS INT) + 1
-);
+WHERE v.RunId = (SELECT Value FROM Parameters WHERE Name = 'CurrentYear')
+AND v.Year BETWEEN 
+    (SELECT CAST(Value AS INT) FROM Parameters WHERE Name = 'LatestBFRYear') - 1
+    AND (SELECT CAST(Value AS INT) FROM Parameters WHERE Name = 'LatestBFRYear') + 1;
 GO
 
 DROP VIEW IF EXISTS VW_ItSpendTrustCurrentPreviousYearActual;
@@ -65,7 +91,5 @@ SELECT
     v.OnsiteServers,
     v.OtherHardware
 FROM VW_ItSpendTrustCurrentAllYearsActual v
-INNER JOIN Parameters p
-    ON p.Name = 'LatestBFRYear'
-WHERE v.Year = CAST(p.Value AS INT) - 1;
+WHERE v.Year = (SELECT CAST(Value AS INT) FROM Parameters WHERE Name = 'LatestBFRYear') - 1
 GO
