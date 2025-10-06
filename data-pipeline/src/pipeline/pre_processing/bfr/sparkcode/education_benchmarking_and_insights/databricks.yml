@@ -1,0 +1,35 @@
+# This is a Databricks asset bundle definition for education_benchmarking_and_insights.
+# See https://docs.databricks.com/dev-tools/bundles/index.html for documentation.
+bundle:
+  name: education_benchmarking_and_insights
+  uuid: 427dde65-89bc-4b9d-94f3-056c140e7e08
+
+artifacts:
+  python_artifact:
+    type: whl
+    build: uv build --wheel
+
+include:
+  - resources/*.yml
+  - resources/*/*.yml
+
+targets:
+  dev:
+    # The default target uses 'mode: development' to create a development copy.
+    # - Deployed resources get prefixed with '[dev my_user_name]'
+    # - Any job schedules and triggers are paused by default.
+    # See also https://docs.databricks.com/dev-tools/bundles/deployment-modes.html.
+    mode: development
+    default: true
+    workspace:
+      host: https://adb-5037484389568426.6.azuredatabricks.net
+
+  prod:
+    mode: production
+    workspace:
+      host: https://adb-5037484389568426.6.azuredatabricks.net
+      # We explicitly deploy to /Workspace/Users/murdo.moyse@education.gov.uk to make sure we only have a single copy.
+      root_path: /Workspace/Users/murdo.moyse@education.gov.uk/.bundle/${bundle.name}/${bundle.target}
+    permissions:
+      - user_name: murdo.moyse@education.gov.uk
+        level: CAN_MANAGE
