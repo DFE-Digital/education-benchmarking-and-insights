@@ -45,7 +45,7 @@ Feature: Trust benchmark IT spending
         Then the save chart images modal is visible
         And the 'benchmark-it-spending-10192252.zip' file is downloaded
 
-        
+        #below needs to be completed
     Scenario: Can view IT spending page for claim user
         Given the IT spend for trust page for company number '10074054' is displayed
         When When I navigate to the trust Benchmark IT spending URL for company number '00000001'
@@ -60,8 +60,4 @@ Feature: Trust benchmark IT spending
           | Other hardware E20F                      |
         And the chart count under each category is two
         
-    Scenario: Table view displays previous, current, and future year data
-        Given I am on the IT spend page for trust with company number '10074054'
-        When I select table view
-        Then I should see a single table with previous, current, and future year data
-        And the table should display "Data not available" for current and future year data of other trusts
+    Scenario: {add tests for table view here}

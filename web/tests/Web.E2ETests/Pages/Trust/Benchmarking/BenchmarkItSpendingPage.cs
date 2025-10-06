@@ -16,8 +16,16 @@ public class BenchmarkItSpendingPage(IPage page)
     private ILocator ChartBars(string urn) => page.Locator($"rect.chart-cell[data-key='{urn}']");
     private ILocator ChartContainers => page.Locator(Selectors.SsrChartContainer);
     private ILocator TrustLinksInCharts => page.Locator(Selectors.SsrOrgNamesLinksInCharts);
-
-
+    private ILocator SaveImagesButton =>
+        page.Locator(Selectors.Button, new PageLocatorOptions
+        {
+            HasText = "Save chart images"
+        });
+    private ILocator SaveImagesModal =>
+        page.Locator(Selectors.Modal, new PageLocatorOptions
+        {
+            HasText = "Save chart images"
+        });
     public async Task IsDisplayed()
     {
         await PageH1Heading.ShouldBeVisible();
@@ -42,6 +50,16 @@ public class BenchmarkItSpendingPage(IPage page)
     {
         await TrustLinksInCharts.First.Click();
         return new HomePage(page);
+    }
+    public async Task ClickSaveImagesButton()
+    {
+        await SaveImagesButton.ShouldBeVisible();
+        await SaveImagesButton.ClickAsync();
+    }
+    
+    public async Task IsSaveImagesModalDisplayed()
+    {
+        await SaveImagesModal.ShouldBeVisible();
     }
     private async Task AssertVisibleCharts(IEnumerable<string> expectedTitles)
     {

@@ -1,3 +1,4 @@
+using Microsoft.Playwright;
 using Web.E2ETests.Drivers;
 using Web.E2ETests.Pages.Trust;
 using Web.E2ETests.Pages.Trust.Benchmarking;
@@ -15,6 +16,7 @@ public class BenchmarkItSpendingSteps(PageDriver driver)
     private BenchmarkItSpendingPage? _benchmarkItSpendingPage;
     private ViewComparatorsPage? _viewComparatorsPage;
     private HomePage? _trustHomepage;
+    private IDownload? _download;
     
     [Given("I have no previous comparators selected for company number '(.*)'")]
     public async Task GivenIHaveNoPreviousComparatorsSelectedForCompanyNumber(string companyNumber)
@@ -123,6 +125,30 @@ public class BenchmarkItSpendingSteps(PageDriver driver)
     {
         Assert.NotNull(_trustHomepage);
        await _trustHomepage.IsDisplayed();
+    }
+    
+    [When("I click the save chart images button")]
+    public async Task WhenIClickTheSaveChartImagesButton()
+    {
+        Assert.NotNull(_benchmarkItSpendingPage);
+
+        var page = await driver.Current;
+        _download = await page.RunAndWaitForDownloadAsync(() => _benchmarkItSpendingPage.ClickSaveImagesButton(), new TimeSpan(0, 2, 0));
+    }
+    
+    [Then("the save chart images modal is visible")]
+    public async Task ThenTheSaveChartImagesModalIsVisible()
+    {
+        Assert.NotNull(_benchmarkItSpendingPage);
+        await _benchmarkItSpendingPage.IsSaveImagesModalDisplayed();
+    }
+    
+    [Then("the '(.*)' file is downloaded")]
+    public void ThenTheFileIsDownloaded(string fileName)
+    {
+        Assert.NotNull(_benchmarkItSpendingPage);
+        var downloadedFilePath = _download?.SuggestedFilename;
+        Assert.Equal(fileName, downloadedFilePath);
     }
     
     private async Task NavigateToBenchmarkItSpendPage(string companyNumber, bool verify = true)
