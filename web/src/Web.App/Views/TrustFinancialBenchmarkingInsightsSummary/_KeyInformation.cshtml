@@ -1,0 +1,27 @@
+@model Web.App.ViewModels.TrustFinancialBenchmarkingInsightsSummaryViewModel
+
+<section id="key-information-section" aria-labelledby="key-information">
+    <h2 class="govuk-heading-l" id="key-information">Key information about this trust</h2>
+
+    @await Component.InvokeAsync("DataSource", new
+    {
+        organisationType = OrganisationTypes.Trust,
+        sourceType = DataSourceTypes.Spending
+    })
+
+    @await Html.PartialAsync("_TrustKeyInformation", Model, new ViewDataDictionary(ViewData)
+    {
+        { "Summary", true }
+    })
+
+    <p class="govuk-body govuk-!-display-none-print">
+        View more insights in
+        @Html.ActionLink(Constants.ServiceName, "Index", "Trust", new
+        {
+            companyNumber = Model.CompanyNumber
+        }, new
+        {
+            @class = "govuk-link"
+        }).
+    </p>
+</section>

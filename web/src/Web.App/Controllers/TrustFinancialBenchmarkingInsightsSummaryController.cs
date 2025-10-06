@@ -5,6 +5,7 @@ using Web.App.Attributes;
 using Web.App.Domain;
 using Web.App.Infrastructure.Apis;
 using Web.App.Infrastructure.Apis.Establishment;
+using Web.App.Infrastructure.Apis.Insight;
 using Web.App.Infrastructure.Extensions;
 using Web.App.ViewModels;
 
@@ -16,6 +17,7 @@ namespace Web.App.Controllers;
 [FeatureGate(FeatureFlags.FbisForTrust)]
 public class TrustFinancialBenchmarkingInsightsSummaryController(
     IEstablishmentApi establishmentApi,
+    IBalanceApi balanceApi,
     ILogger<TrustFinancialBenchmarkingInsightsSummaryController> logger)
     : Controller
 {
@@ -29,9 +31,10 @@ public class TrustFinancialBenchmarkingInsightsSummaryController(
         {
             try
             {
-                var trust = await establishmentApi.GetTrust(companyNumber).GetResultOrThrow<Trust>();
+                var trust = await Trust(companyNumber);
+                var balance = await TrustBalance(companyNumber);
 
-                var viewModel = new TrustFinancialBenchmarkingInsightsSummaryViewModel(trust);
+                var viewModel = new TrustFinancialBenchmarkingInsightsSummaryViewModel(trust, balance);
                 return View(viewModel);
             }
             catch (Exception e)
@@ -42,4 +45,12 @@ public class TrustFinancialBenchmarkingInsightsSummaryController(
             }
         }
     }
+
+    private async Task<Trust> Trust(string companyNumber) => await establishmentApi
+        .GetTrust(companyNumber)
+        .GetResultOrThrow<Trust>();
+
+    private async Task<TrustBalance?> TrustBalance(string companyNumber) => await balanceApi
+        .Trust(companyNumber)
+        .GetResultOrDefault<TrustBalance>();
 }
