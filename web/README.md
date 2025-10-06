@@ -99,6 +99,7 @@ Feature flags may also be defined in the `FeatureManagement` section:
 | `CfrItSpendBreakdown`               | Displays IT spend within subcategories as submitted in CFRs from 2024-5 onwards                                                    |
 | `News`                              | Displays news article pages, index and footer link                                                                                 |
 | `TrustItSpendBreakdown`             | Displays IT spend in Trust-Trust benchmarking as submitted in BFRs from 2024-5 onwards                                             |
+| `FbisForTrust`                      | Toggles the Financial Benchmarking and Insights Summary for multi academy Trusts                                                   |
 
 #### CacheOptions
 
