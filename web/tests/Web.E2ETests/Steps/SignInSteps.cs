@@ -28,7 +28,7 @@ public class SignInSteps(PageDriver driver)
     {
         await SignOut();
     }
-    
+
     [Then("I should be redirected to the sign-in page")]
     public async Task ThenIShouldBeRedirectedToTheSignInPage()
     {

@@ -13,8 +13,10 @@ public class BenchmarkItSpendingPage(IPage page)
         });
     private ILocator ViewComparatorSetLink => page.Locator("a[data-test-id='comparators-link']");
     private ILocator ChartContainer(string chartName) => page.Locator($"[data-title=\"{chartName}\"]");
+    private ILocator ForecastChartContainer(string chartName) => page.Locator($"[data-title=\"{chartName} (forecast)\"]");
     private ILocator ChartBars(string urn) => page.Locator($"rect.chart-cell[data-key='{urn}']");
-    private ILocator ChartContainers => page.Locator(Selectors.SsrChartContainer);
+    private ILocator ChartContainers => page.Locator($"{Selectors.SsrChartContainer}:not([id$=forecast])");
+    private ILocator ForecastChartContainers => page.Locator($"{Selectors.SsrChartContainer}[id$=forecast]");
     private ILocator TrustLinksInCharts => page.Locator(Selectors.SsrOrgNamesLinksInCharts);
     private ILocator SaveImagesButton =>
         page.Locator(Selectors.Button, new PageLocatorOptions
@@ -45,18 +47,31 @@ public class BenchmarkItSpendingPage(IPage page)
         await AssertChartCount(titles.Length);
         await AssertVisibleCharts(titles);
     }
-    
-    public async Task<HomePage> CLickOnTrustName()
+
+    public async Task AssertForecastChartsVisible(IEnumerable<string> expectedTitles)
+    {
+        var titles = expectedTitles.ToArray();
+
+        await AssertForecastChartCount(titles.Length);
+        await AssertForecastVisibleCharts(titles);
+    }
+
+    public async Task<HomePage> ClickOnTrustName()
     {
         await TrustLinksInCharts.First.Click();
         return new HomePage(page);
     }
-    public async Task ClickSaveImagesButton()
+
+    public async Task IsSaveImagesButtonDisplayed()
     {
         await SaveImagesButton.ShouldBeVisible();
+    }
+
+    public async Task ClickSaveImagesButton()
+    {
         await SaveImagesButton.ClickAsync();
     }
-    
+
     public async Task IsSaveImagesModalDisplayed()
     {
         await SaveImagesModal.ShouldBeVisible();
@@ -69,9 +84,23 @@ public class BenchmarkItSpendingPage(IPage page)
         }
     }
 
+    private async Task AssertForecastVisibleCharts(IEnumerable<string> expectedTitles)
+    {
+        foreach (var title in expectedTitles)
+        {
+            await ForecastChartContainer(title).ShouldBeVisible();
+        }
+    }
+
     private async Task AssertChartCount(int expectedCount)
     {
         var count = await ChartContainers.CountAsync();
+        Assert.Equal(expectedCount, count);
+    }
+
+    private async Task AssertForecastChartCount(int expectedCount)
+    {
+        var count = await ForecastChartContainers.CountAsync();
         Assert.Equal(expectedCount, count);
     }
 }

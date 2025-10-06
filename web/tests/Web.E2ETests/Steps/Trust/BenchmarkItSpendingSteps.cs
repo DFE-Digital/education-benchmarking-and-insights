@@ -17,7 +17,7 @@ public class BenchmarkItSpendingSteps(PageDriver driver)
     private ViewComparatorsPage? _viewComparatorsPage;
     private HomePage? _trustHomepage;
     private IDownload? _download;
-    
+
     [Given("I have no previous comparators selected for company number '(.*)'")]
     public async Task GivenIHaveNoPreviousComparatorsSelectedForCompanyNumber(string companyNumber)
     {
@@ -84,14 +84,23 @@ public class BenchmarkItSpendingSteps(PageDriver driver)
         Assert.NotNull(_benchmarkItSpendingPage);
         await _benchmarkItSpendingPage.IsDisplayed();
     }
-    
+
     [Then("I should see the following IT spend charts on the page:")]
-    public async Task ThenIShouldSeeTheFollowingITSpendCharts(Table table)
+    public async Task ThenIShouldSeeTheFollowingITSpendChartsOnThePage(Table table)
     {
         Assert.NotNull(_benchmarkItSpendingPage);
 
         var expectedTitles = table.Rows.Select(row => row["Chart Title"]);
         await _benchmarkItSpendingPage.AssertChartsVisible(expectedTitles);
+    }
+
+    [Then("I should see the following IT spend forecast charts on the page:")]
+    public async Task ThenIShouldSeeTheFollowingITSpendForecastChartsOnThePage(Table table)
+    {
+        Assert.NotNull(_benchmarkItSpendingPage);
+
+        var expectedTitles = table.Rows.Select(row => row["Chart Title"]);
+        await _benchmarkItSpendingPage.AssertForecastChartsVisible(expectedTitles);
     }
 
     [Then("the comparator set page is displayed")]
@@ -100,33 +109,40 @@ public class BenchmarkItSpendingSteps(PageDriver driver)
         Assert.NotNull(_viewComparatorsPage);
         await _viewComparatorsPage.IsDisplayed();
     }
-    
+
     [When("When I navigate to the trust Benchmark IT spending URL with company number '(.*)'")]
     public async Task WhenWhenINavigateToTheTrustBenchmarkITSpendingUrlWithCompanyNumber(string companyNumber)
     {
         await NavigateToBenchmarkItSpendPage(companyNumber, verify: false);
     }
-    
+
     [Given("I am on it spend page for trust with company number '(.*)'")]
     public async Task GivenIAmOnItSpendPageForTrustWithCompanyNumber(string companyNumber)
     {
         await NavigateToBenchmarkItSpendPage(companyNumber);
     }
-    
+
     [When("I click on the trust name on the chart")]
     public async Task WhenIClickOnTheTrustNameOnTheChart()
     {
         Assert.NotNull(_benchmarkItSpendingPage);
-        _trustHomepage= await _benchmarkItSpendingPage.CLickOnTrustName();
+        _trustHomepage = await _benchmarkItSpendingPage.ClickOnTrustName();
     }
-    
+
     [Then("I am navigated to selected trust home page")]
     public async Task ThenIAmNavigatedToSelectedTrustHomePage()
     {
         Assert.NotNull(_trustHomepage);
-       await _trustHomepage.IsDisplayed();
+        await _trustHomepage.IsDisplayed();
     }
-    
+
+    [Then("the save chart images button is visible")]
+    public async Task ThenTheSaveChartImagesButtonIsVisible()
+    {
+        Assert.NotNull(_benchmarkItSpendingPage);
+        await _benchmarkItSpendingPage.IsSaveImagesButtonDisplayed();
+    }
+
     [When("I click the save chart images button")]
     public async Task WhenIClickTheSaveChartImagesButton()
     {
@@ -135,14 +151,14 @@ public class BenchmarkItSpendingSteps(PageDriver driver)
         var page = await driver.Current;
         _download = await page.RunAndWaitForDownloadAsync(() => _benchmarkItSpendingPage.ClickSaveImagesButton(), new TimeSpan(0, 2, 0));
     }
-    
+
     [Then("the save chart images modal is visible")]
     public async Task ThenTheSaveChartImagesModalIsVisible()
     {
         Assert.NotNull(_benchmarkItSpendingPage);
         await _benchmarkItSpendingPage.IsSaveImagesModalDisplayed();
     }
-    
+
     [Then("the '(.*)' file is downloaded")]
     public void ThenTheFileIsDownloaded(string fileName)
     {
@@ -150,12 +166,13 @@ public class BenchmarkItSpendingSteps(PageDriver driver)
         var downloadedFilePath = _download?.SuggestedFilename;
         Assert.Equal(fileName, downloadedFilePath);
     }
-    
+
     private async Task NavigateToBenchmarkItSpendPage(string companyNumber, bool verify = true)
     {
         var url = BenchmarkItSpendingUrl(companyNumber);
         var page = await driver.Current;
         await page.GotoAndWaitForLoadAsync(url);
+        await driver.WaitForPendingRequests(500);
 
         if (verify)
         {

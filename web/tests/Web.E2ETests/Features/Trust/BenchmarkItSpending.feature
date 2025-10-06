@@ -37,27 +37,31 @@ Feature: Trust benchmark IT spending
         Given I am on it spend page for trust with company number '10192252'
         When I click on the trust name on the chart
         Then I am navigated to selected trust home page
-
     
     Scenario: Save chart images button opens modal and starts download
         Given I am on it spend page for trust with company number '10192252'
+        Then the save chart images button is visible
         When I click the save chart images button
         Then the save chart images modal is visible
         And the 'benchmark-it-spending-10192252.zip' file is downloaded
 
-        #below needs to be completed
     Scenario: Can view IT spending page for claim user
-        Given the IT spend for trust page for company number '10074054' is displayed
-        When When I navigate to the trust Benchmark IT spending URL for company number '00000001'
+        Given I am on it spend page for trust with company number '10192252'
         Then I should see the following IT spend charts on the page:
-          | Chart Title                              |
-          | Administration software and systems E20D |
-          | Connectivity E20A                        |
-          | IT learning resources E20C               |
-          | IT support E20G                          |
-          | Laptops, desktops and tablets E20E       |
-          | Onsite servers E20B                      |
-          | Other hardware E20F                      |
-        And the chart count under each category is two
-        
-    Scenario: {add tests for table view here}
+          | Chart Title                                    |
+          | ICT costs: Administration software and systems |
+          | ICT costs: Connectivity                        |
+          | ICT costs: IT learning resources               |
+          | ICT costs: IT support                          |
+          | ICT costs: Laptops, desktops and tablets       |
+          | ICT costs: Onsite servers                      |
+          | ICT costs: Other hardware                      |
+        And I should see the following IT spend forecast charts on the page:
+          | Chart Title                                    |
+          | ICT costs: Administration software and systems |
+          | ICT costs: Connectivity                        |
+          | ICT costs: IT learning resources               |
+          | ICT costs: IT support                          |
+          | ICT costs: Laptops, desktops and tablets       |
+          | ICT costs: Onsite servers                      |
+          | ICT costs: Other hardware                      |
