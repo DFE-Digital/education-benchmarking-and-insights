@@ -1,0 +1,14 @@
+# The main pipeline for education_benchmarking_and_insights
+resources:
+  pipelines:
+    education_benchmarking_and_insights_pipeline:
+      name: education_benchmarking_and_insights_pipeline
+      catalog: catalog_10_gold
+      schema: education_benchmarking_and_insights_${bundle.target}
+      serverless: true
+      libraries:
+        - notebook:
+            path: ../src/pipeline.ipynb
+
+      configuration:
+        bundle.sourcePath: ${workspace.file_path}/src
