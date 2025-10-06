@@ -1,7 +1,7 @@
 from pyspark.sql import DataFrame, SparkSession
 from pyspark.sql.functions import col, expr, when
 
-from .logging import setup_logger
+from education_benchmarking_and_insights.logger import setup_logger
 
 logger = setup_logger(__name__)
 

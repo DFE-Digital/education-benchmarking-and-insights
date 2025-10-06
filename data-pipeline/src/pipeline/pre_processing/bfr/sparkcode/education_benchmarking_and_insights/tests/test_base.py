@@ -3,14 +3,14 @@ from unittest.mock import MagicMock, patch
 
 from pyspark.sql.types import IntegerType, StringType, StructField, StructType
 
-from education_benchmarking_and_insights.bfr.base import (
+from education_benchmarking_and_insights.base import (
     DatabricksDataLoader,
     hash_compare_view_dfs,
 )
 
 
 # Tests for hash_compare_view_dfs
-def test_hash_compare_view_dfs_match(spark_session, mock_logger):
+def test_hash_compare_view_dfs_match(spark, mock_logger):
     schema = StructType(
         [
             StructField("col1", StringType(), True),
@@ -18,8 +18,8 @@ def test_hash_compare_view_dfs_match(spark_session, mock_logger):
         ]
     )
     data = [("A", 1), ("B", 2)]
-    df1 = spark_session.createDataFrame(data, schema)
-    df2 = spark_session.createDataFrame(data, schema)
+    df1 = spark.createDataFrame(data, schema)
+    df2 = spark.createDataFrame(data, schema)
 
     result = hash_compare_view_dfs("test_table", df1, df2)
     assert result is True
@@ -29,7 +29,7 @@ def test_hash_compare_view_dfs_match(spark_session, mock_logger):
     mock_logger.warning.assert_not_called()
 
 
-def test_hash_compare_view_dfs_no_match(spark_session, mock_logger):
+def test_hash_compare_view_dfs_no_match(spark, mock_logger):
     schema = StructType(
         [
             StructField("col1", StringType(), True),
@@ -38,8 +38,8 @@ def test_hash_compare_view_dfs_no_match(spark_session, mock_logger):
     )
     data1 = [("A", 1), ("B", 2)]
     data2 = [("A", 1), ("C", 3)]
-    df1 = spark_session.createDataFrame(data1, schema)
-    df2 = spark_session.createDataFrame(data2, schema)
+    df1 = spark.createDataFrame(data1, schema)
+    df2 = spark.createDataFrame(data2, schema)
 
     result = hash_compare_view_dfs("test_table", df1, df2)
     assert result is False
@@ -49,15 +49,15 @@ def test_hash_compare_view_dfs_no_match(spark_session, mock_logger):
     mock_logger.info.assert_not_called()
 
 
-def test_hash_compare_view_dfs_empty_dfs(spark_session, mock_logger):
+def test_hash_compare_view_dfs_empty_dfs(spark, mock_logger):
     schema = StructType(
         [
             StructField("col1", StringType(), True),
             StructField("col2", IntegerType(), True),
         ]
     )
-    df_empty1 = spark_session.createDataFrame([], schema)
-    df_empty2 = spark_session.createDataFrame([], schema)
+    df_empty1 = spark.createDataFrame([], schema)
+    df_empty2 = spark.createDataFrame([], schema)
 
     result = hash_compare_view_dfs("empty_table", df_empty1, df_empty2)
     assert result is True
@@ -67,7 +67,7 @@ def test_hash_compare_view_dfs_empty_dfs(spark_session, mock_logger):
     mock_logger.warning.assert_not_called()
 
 
-def test_hash_compare_view_dfs_different_order_same_content(spark_session, mock_logger):
+def test_hash_compare_view_dfs_different_order_same_content(spark, mock_logger):
     schema = StructType(
         [
             StructField("col1", StringType(), True),
@@ -76,8 +76,8 @@ def test_hash_compare_view_dfs_different_order_same_content(spark_session, mock_
     )
     data1 = [("A", 1), ("B", 2)]
     data2 = [("B", 2), ("A", 1)]  # Different order
-    df1 = spark_session.createDataFrame(data1, schema)
-    df2 = spark_session.createDataFrame(data2, schema)
+    df1 = spark.createDataFrame(data1, schema)
+    df2 = spark.createDataFrame(data2, schema)
 
     result = hash_compare_view_dfs("ordered_table", df1, df2)
     assert result is True

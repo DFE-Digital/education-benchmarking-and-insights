@@ -1,13 +1,16 @@
 from databricks.sdk.runtime import spark
 from pyspark.sql import DataFrame
+from bfr.pipeline import BFRPipeline
 
 
-def find_all_taxis() -> DataFrame:
-    return spark.read.table("samples.nyctaxi.trips")
+def run_bfr_pipeline() -> DataFrame:
+    bfr_pipeline = BFRPipeline(2023, spark)
+    bfr_final_long, bfr_forecast_and_risk_metrics = bfr_pipeline.run()
+    bfr_pipeline.save()
 
 
 def main():
-    find_all_taxis().show(5)
+    run_bfr_pipeline()
 
 
 if __name__ == "__main__":

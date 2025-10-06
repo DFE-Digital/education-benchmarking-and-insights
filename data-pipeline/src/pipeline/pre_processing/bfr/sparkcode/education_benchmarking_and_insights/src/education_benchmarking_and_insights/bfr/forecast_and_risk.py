@@ -14,7 +14,7 @@ from pyspark.sql.functions import (
 )
 from pyspark.sql.types import DoubleType, IntegerType, StructField, StructType
 
-from .logging import setup_logger
+from education_benchmarking_and_insights.logger import setup_logger
 
 logger = setup_logger(__name__)
 

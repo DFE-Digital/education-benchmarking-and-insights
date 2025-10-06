@@ -2,8 +2,8 @@ from pyspark.sql import DataFrame, SparkSession
 from pyspark.sql.functions import col
 
 from . import bfr_pyspark_mocks as mocks
-from .base import DatabricksDataLoader
-from .logging import setup_logger
+from base import DatabricksDataLoader
+from education_benchmarking_and_insights.logger import setup_logger
 
 logger = setup_logger(__name__)
 
