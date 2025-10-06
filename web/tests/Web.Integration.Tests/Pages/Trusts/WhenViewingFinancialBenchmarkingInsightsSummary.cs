@@ -1,6 +1,5 @@
 ﻿using AngleSharp.Dom;
 using AngleSharp.Html.Dom;
-using AngleSharp.XPath;
 using AutoFixture;
 using Web.App.Domain;
 using Xunit;
@@ -12,28 +11,41 @@ public class WhenViewingFinancialBenchmarkingInsightsSummary(SchoolBenchmarkingW
     [Fact]
     public async Task CanDisplay()
     {
-        var (page, trust) = await SetupNavigateInitPage();
+        var (page, trust, _) = await SetupNavigateInitPage();
         AssertPageLayout(page, trust);
     }
 
     [Fact]
     public async Task CanDisplayIntroductionSection()
     {
-        var (page, trust) = await SetupNavigateInitPage();
+        var (page, trust, _) = await SetupNavigateInitPage();
         AssertIntroductionSection(page, trust);
     }
 
-    private async Task<(IHtmlDocument page, Trust trust)> SetupNavigateInitPage()
+    [Fact]
+    public async Task CanDisplayKeyInformationSection()
+    {
+        var (page, trust, balance) = await SetupNavigateInitPage();
+        AssertKeyInformationSection(page, trust, balance);
+    }
+
+    private async Task<(IHtmlDocument page, Trust trust, TrustBalance balance)> SetupNavigateInitPage()
     {
         const string companyNumber = "12345678";
         var trust = Fixture.Build<Trust>()
             .With(x => x.CompanyNumber, companyNumber)
             .Create();
 
+        var balance = Fixture.Build<TrustBalance>()
+            .With(x => x.CompanyNumber, trust.CompanyNumber)
+            .Create();
+
         var page = await Client.SetupEstablishment(trust)
+            .SetupInsights()
+            .SetupBalance(trust, balance)
             .Navigate(Paths.TrustFinancialBenchmarkingInsightsSummary(trust.CompanyNumber));
 
-        return (page, trust);
+        return (page, trust, balance);
     }
 
     private static void AssertPageLayout(IHtmlDocument page, Trust trust)
@@ -44,9 +56,30 @@ public class WhenViewingFinancialBenchmarkingInsightsSummary(SchoolBenchmarkingW
 
     private static void AssertIntroductionSection(IHtmlDocument page, Trust trust)
     {
-        var introductionSection = page.Body.SelectSingleNode("//main/div/section[1]");
+        var introductionSection = page.QuerySelector("section#introduction");
+        Assert.NotNull(introductionSection);
 
         var link = introductionSection.ChildNodes.QuerySelector("a");
+        Assert.NotNull(link);
+        Assert.Equal(Paths.TrustHome(trust.CompanyNumber), link.GetAttribute("href"));
+    }
+
+    private static void AssertKeyInformationSection(IHtmlDocument page, Trust trust, TrustBalance balance)
+    {
+        var keyInformationSection = page.QuerySelector("section#key-information-section");
+        Assert.NotNull(keyInformationSection);
+        DocumentAssert.Heading2(keyInformationSection, "Key information about this trust");
+
+        var headlineFiguresTexts = keyInformationSection.ChildNodes
+            .QuerySelectorAll(".app-headline-figures.app-headline-summary")
+            .Select(e => string.Join(" ", e.ChildNodes.Select(n => n.TextContent.Trim())).Trim());
+        Assert.Equal([
+            $"In year balance  £{balance.InYearBalance}",
+            $"Revenue reserve  £{balance.RevenueReserve}",
+            $"Academies  {trust.Schools.Length}"
+        ], headlineFiguresTexts);
+
+        var link = keyInformationSection.ChildNodes.QuerySelector("a");
         Assert.NotNull(link);
         Assert.Equal(Paths.TrustHome(trust.CompanyNumber), link.GetAttribute("href"));
     }
