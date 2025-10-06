@@ -24,11 +24,11 @@ def mock_config():
 
 
 @pytest.fixture
-def bfr_forecast_and_risk_calculator(spark_session, mock_config):
-    return BFRForecastAndRiskCalculator(2025, spark_session, mock_config)
+def bfr_forecast_and_risk_calculator(spark, mock_config):
+    return BFRForecastAndRiskCalculator(2025, spark, mock_config)
 
 
-def test_calculate_slopes(bfr_forecast_and_risk_calculator, spark_session):
+def test_calculate_slopes(bfr_forecast_and_risk_calculator, spark):
     # Prepare input data for _calculate_slopes
     data = [
         {
@@ -50,7 +50,7 @@ def test_calculate_slopes(bfr_forecast_and_risk_calculator, spark_session):
             "Y4": 6,
         },
     ]
-    bfr_df = spark_session.createDataFrame(data)
+    bfr_df = spark.createDataFrame(data)
     year_columns = ["Y-2", "Y-1", "Y1", "Y2", "Y3", "Y4"]
 
     # Call the method under test
@@ -68,7 +68,7 @@ def test_calculate_slopes(bfr_forecast_and_risk_calculator, spark_session):
     )
 
 
-def test_assign_slope_flag(bfr_forecast_and_risk_calculator, spark_session):
+def test_assign_slope_flag(bfr_forecast_and_risk_calculator, spark):
     # Prepare input data for _assign_slope_flag with multiple slopes per company
     data = [
         {"Company Registration Number": "C1", "Slope": 0.1},
@@ -87,7 +87,7 @@ def test_assign_slope_flag(bfr_forecast_and_risk_calculator, spark_session):
         {"Company Registration Number": "C2", "Slope": 40.0},
         {"Company Registration Number": "C2", "Slope": 50.0},
     ]
-    bfr_with_slopes_df = spark_session.createDataFrame(data)
+    bfr_with_slopes_df = spark.createDataFrame(data)
 
     # Call the method under test
     result_df = bfr_forecast_and_risk_calculator._assign_slope_flag(bfr_with_slopes_df)
@@ -121,13 +121,13 @@ def test_assign_slope_flag(bfr_forecast_and_risk_calculator, spark_session):
 
 
 def test_build_bfr_historical_data_academies_none(
-    bfr_forecast_and_risk_calculator, spark_session
+    bfr_forecast_and_risk_calculator, spark
 ):
     # Test case where academies_historical is None
     bfr_sofa_historical_data = [
         {"Trust UPIN": "0", "EFALineNo": 430, "Y1P2": 2048.0, "Y2P2": 1024.0}
     ]
-    bfr_sofa_historical_df = spark_session.createDataFrame(bfr_sofa_historical_data)
+    bfr_sofa_historical_df = spark.createDataFrame(bfr_sofa_historical_data)
 
     result = bfr_forecast_and_risk_calculator._build_bfr_historical_data(
         academies_historical=None,
@@ -137,7 +137,7 @@ def test_build_bfr_historical_data_academies_none(
 
 
 def test_build_bfr_historical_data_bfr_sofa_none(
-    bfr_forecast_and_risk_calculator, spark_session
+    bfr_forecast_and_risk_calculator, spark
 ):
     # Test case where bfr_sofa_historical is None
     academies_historical_data = [
@@ -147,7 +147,7 @@ def test_build_bfr_historical_data_bfr_sofa_none(
             "Total pupils in trust": 100,
         }
     ]
-    academies_historical_df = spark_session.createDataFrame(academies_historical_data)
+    academies_historical_df = spark.createDataFrame(academies_historical_data)
 
     result_df = bfr_forecast_and_risk_calculator._build_bfr_historical_data(
         academies_historical=academies_historical_df,
@@ -171,7 +171,7 @@ def test_build_bfr_historical_data_both_none(bfr_forecast_and_risk_calculator):
 
 
 def test_build_bfr_historical_data_empty_bfr_sofa(
-    bfr_forecast_and_risk_calculator, spark_session
+    bfr_forecast_and_risk_calculator, spark
 ):
     # Test case where bfr_sofa_historical is an empty DataFrame
     academies_historical_data = [
@@ -181,7 +181,7 @@ def test_build_bfr_historical_data_empty_bfr_sofa(
             "Total pupils in trust": 100,
         }
     ]
-    academies_historical_df = spark_session.createDataFrame(academies_historical_data)
+    academies_historical_df = spark.createDataFrame(academies_historical_data)
 
     # Correct schema definition using StructType and StructField
     empty_bfr_sofa_schema = StructType(
@@ -192,7 +192,7 @@ def test_build_bfr_historical_data_empty_bfr_sofa(
             StructField("Y2P2", DoubleType(), True),
         ]
     )
-    empty_bfr_sofa_df = spark_session.createDataFrame([], schema=empty_bfr_sofa_schema)
+    empty_bfr_sofa_df = spark.createDataFrame([], schema=empty_bfr_sofa_schema)
 
     result_df = bfr_forecast_and_risk_calculator._build_bfr_historical_data(
         academies_historical=academies_historical_df,
@@ -207,7 +207,7 @@ def test_build_bfr_historical_data_empty_bfr_sofa(
 
 
 def test_build_bfr_historical_data_full_data(
-    bfr_forecast_and_risk_calculator, spark_session
+    bfr_forecast_and_risk_calculator, spark
 ):
     # Test case with full data
     academies_historical_data = [
@@ -217,7 +217,7 @@ def test_build_bfr_historical_data_full_data(
             "Total pupils in trust": 100,
         }
     ]
-    academies_historical_df = spark_session.createDataFrame(academies_historical_data)
+    academies_historical_df = spark.createDataFrame(academies_historical_data)
 
     bfr_sofa_historical_data = [
         {
@@ -228,7 +228,7 @@ def test_build_bfr_historical_data_full_data(
         },  # Revenue reserve
         {"Trust UPIN": "0", "EFALineNo": 1, "Y1P2": 500.0, "Y2P2": 0.0},  # Pupil number
     ]
-    bfr_sofa_historical_df = spark_session.createDataFrame(bfr_sofa_historical_data)
+    bfr_sofa_historical_df = spark.createDataFrame(bfr_sofa_historical_data)
 
     result_df = bfr_forecast_and_risk_calculator._build_bfr_historical_data(
         academies_historical=academies_historical_df,
