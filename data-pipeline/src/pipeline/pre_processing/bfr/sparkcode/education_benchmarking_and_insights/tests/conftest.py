@@ -54,20 +54,13 @@ def pytest_configure(config: pytest.Config):
             DatabricksSession.builder.getOrCreate()
 
 
-# @pytest.fixture(scope="session")
-# def spark() -> SparkSession:
-#     """Provide a SparkSession fixture for tests."""
-#     return DatabricksSession.builder.getOrCreate()
-
-
-@pytest.fixture(scope="module")
-def spark_session():
-    spark = SparkSession.builder.appName("test").master("local[*]").getOrCreate()
-    yield spark
-    spark.stop()
+@pytest.fixture(scope="session")
+def spark() -> SparkSession:
+    """Provide a SparkSession fixture for tests."""
+    return DatabricksSession.builder.getOrCreate()
 
 
 @pytest.fixture
 def mock_logger():
-    with patch("education_benchmarking_and_insights.bfr.base.logger") as mock:
+    with patch("education_benchmarking_and_insights.base.logger") as mock:
         yield mock

@@ -1,11 +1,11 @@
 from pyspark.sql import SparkSession
 
 from . import config
-from .base import DatabricksFBITPipeline
+from base import DatabricksFBITPipeline
 from .forecast_and_risk import BFRForecastAndRiskCalculator
 from .it_spend import BFRITSpendCalculator
 from .loader import BFRLoader
-from .logging import setup_logger
+from education_benchmarking_and_insights.logger import setup_logger
 from .preprocessor import BFRPreprocessor
 
 logger = setup_logger(__name__)
@@ -56,9 +56,3 @@ class BFRPipeline(DatabricksFBITPipeline):
 
     def save_data(self):
         pass
-
-
-if __name__ == "__main__":
-    spark = SparkSession.builder.appName("BFR Pipeline").getOrCreate()
-    bfr_pipeline = BFRPipeline(2023, spark)
-    bfr_final_long, bfr_forecast_and_risk_metrics = bfr_pipeline.run()
