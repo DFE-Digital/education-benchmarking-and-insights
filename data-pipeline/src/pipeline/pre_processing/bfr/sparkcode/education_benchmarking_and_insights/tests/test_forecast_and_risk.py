@@ -9,7 +9,7 @@ from pyspark.sql.types import (
     StructType,
 )
 
-from pipeline.pre_processing.bfr.sparkcode.forecast_and_risk import (
+from education_benchmarking_and_insights.bfr.forecast_and_risk import (
     BFRForecastAndRiskCalculator,
 )
 

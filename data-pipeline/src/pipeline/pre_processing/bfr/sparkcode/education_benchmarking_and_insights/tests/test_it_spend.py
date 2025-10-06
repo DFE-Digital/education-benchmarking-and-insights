@@ -11,7 +11,7 @@ from pyspark.sql.types import (
     StructType,
 )
 
-from pipeline.pre_processing.bfr.sparkcode.it_spend import BFRITSpendCalculator
+from education_benchmarking_and_insights.bfr.it_spend import BFRITSpendCalculator
 
 
 class MockPipelineConfig:

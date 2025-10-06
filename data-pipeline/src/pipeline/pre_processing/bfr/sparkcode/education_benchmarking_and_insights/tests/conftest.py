@@ -9,6 +9,7 @@ try:
     from databricks.sdk import WorkspaceClient
     from pyspark.sql import SparkSession
     import pytest
+    from unittest.mock import patch
 except ImportError:
     raise ImportError(
         "Test dependencies not found.\n\nRun tests using 'uv run pytest'. See http://docs.astral.sh/uv to learn more about uv."
@@ -53,7 +54,20 @@ def pytest_configure(config: pytest.Config):
             DatabricksSession.builder.getOrCreate()
 
 
-@pytest.fixture(scope="session")
-def spark() -> SparkSession:
-    """Provide a SparkSession fixture for tests."""
-    return DatabricksSession.builder.getOrCreate()
+# @pytest.fixture(scope="session")
+# def spark() -> SparkSession:
+#     """Provide a SparkSession fixture for tests."""
+#     return DatabricksSession.builder.getOrCreate()
+
+
+@pytest.fixture(scope="module")
+def spark_session():
+    spark = SparkSession.builder.appName("test").master("local[*]").getOrCreate()
+    yield spark
+    spark.stop()
+
+
+@pytest.fixture
+def mock_logger():
+    with patch("pipeline.pre_processing.bfr.sparkcode.base.logger") as mock:
+        yield mock
