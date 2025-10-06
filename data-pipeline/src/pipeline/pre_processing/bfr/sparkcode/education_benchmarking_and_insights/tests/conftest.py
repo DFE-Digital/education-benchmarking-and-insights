@@ -69,5 +69,5 @@ def spark_session():
 
 @pytest.fixture
 def mock_logger():
-    with patch("pipeline.pre_processing.bfr.sparkcode.base.logger") as mock:
+    with patch("education_benchmarking_and_insights.bfr.base.logger") as mock:
         yield mock
