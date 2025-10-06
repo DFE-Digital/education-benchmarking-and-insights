@@ -50,6 +50,8 @@ public static class Paths
 
     public static string TrustHistory(string? companyNumber) => $"/trust/{companyNumber}/history";
 
+    public static string TrustFinancialBenchmarkingInsightsSummary(string? companyNumber) => $"/trust/{companyNumber}/summary";
+
     public static string SchoolComparatorSet(string? urn, string referrer) => $"/school/{urn}/comparator-set?referrer={referrer}";
 
     public static string SchoolComparison(string? urn) => $"/school/{urn}/comparison";

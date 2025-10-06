@@ -36,4 +36,14 @@ public class WhenAFeatureIsDisabled(SchoolBenchmarkingWebAppClient client)
         PageAssert.IsFeatureDisabledPage(page);
         DocumentAssert.AssertPageUrl(page, Paths.TrustComparisonItSpend("00000001").ToAbsolute(), HttpStatusCode.Forbidden);
     }
+
+    [Fact]
+    public async Task TrustFinancialBenchmarkingInsightsSummaryRedirectsToFeatureDisabled()
+    {
+        var page = await Client.SetupDisableFeatureFlags(FeatureFlags.FbisForTrust)
+            .Navigate(Paths.TrustFinancialBenchmarkingInsightsSummary("00000001"));
+
+        PageAssert.IsFeatureDisabledPage(page);
+        DocumentAssert.AssertPageUrl(page, Paths.TrustFinancialBenchmarkingInsightsSummary("00000001").ToAbsolute(), HttpStatusCode.Forbidden);
+    }
 }

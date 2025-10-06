@@ -1,0 +1,38 @@
+@model Web.App.ViewModels.TrustFinancialBenchmarkingInsightsSummaryViewModel
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-three-quarters">
+        <span class="govuk-caption-l">
+            @ViewData[ViewDataKeys.Title]
+        </span>
+        <h1 class="govuk-heading-l">@Model.Name</h1>
+    </div>
+</div>
+
+<section class="govuk-grid-row" id="introduction">
+    <div class="govuk-grid-column-full">
+        <p class="govuk-body">
+            This is the financial benchmarking and insights summary for your trust.
+            It captures highlights of the school spending within your trust.
+        </p>
+        <p class="govuk-body">
+            This summary uses data from the Academies Accounts Return (AAR)
+            and staffing data from the School Workforce Census.
+        </p>
+        <p class="govuk-body">
+            This summary is intended for trusts, with the intention of stimulating
+            discussion on where resources may be used more effectively.
+        </p>
+        <p class="govuk-body govuk-!-margin-bottom-0">
+            It is highly recommended that you use the
+            @Html.ActionLink(Constants.ServiceName, "Index", "Trust", new
+            {
+                companyNumber = Model.CompanyNumber
+            }, new
+            {
+                @class = "govuk-link"
+            })
+            to carry out more in-depth benchmarking for your trust.
+        </p>
+    </div>
+</section>
