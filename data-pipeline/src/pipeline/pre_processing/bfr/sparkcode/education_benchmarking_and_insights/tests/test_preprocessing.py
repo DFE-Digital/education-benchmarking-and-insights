@@ -1,12 +1,12 @@
 import pytest
 
-from pipeline.pre_processing.bfr.sparkcode import config
-from pipeline.pre_processing.bfr.sparkcode.bfr_pyspark_mocks import (
+from education_benchmarking_and_insights.bfr import config
+from education_benchmarking_and_insights.bfr.bfr_pyspark_mocks import (
     get_mock_academies_df,
     get_mock_bfr_sofa_mv,
     get_mock_bfr_three_year_mv,
 )
-from pipeline.pre_processing.bfr.sparkcode.preprocessor import BFRPreprocessor
+from education_benchmarking_and_insights.bfr.preprocessor import BFRPreprocessor
 
 BFR_3Y_TO_SOFA_MAPPINGS_REVERSE = {
     v: k for k, v in config.BFR_3Y_TO_SOFA_MAPPINGS.items()

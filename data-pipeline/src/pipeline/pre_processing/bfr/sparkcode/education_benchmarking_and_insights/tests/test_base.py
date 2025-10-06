@@ -1,10 +1,9 @@
-# data-pipeline/src/pipeline/pre_processing/bfr/sparkcode/test_base.py
 import os
 from unittest.mock import MagicMock, patch
 
 from pyspark.sql.types import IntegerType, StringType, StructField, StructType
 
-from pipeline.pre_processing.bfr.sparkcode.base import (
+from education_benchmarking_and_insights.bfr.base import (
     DatabricksDataLoader,
     hash_compare_view_dfs,
 )
