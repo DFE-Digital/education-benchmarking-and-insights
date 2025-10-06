@@ -20,14 +20,14 @@ class MockPipelineConfig:
 
 
 @pytest.fixture
-def bfr_it_spend_calculator(spark_session: SparkSession):
+def bfr_it_spend_calculator(spark: SparkSession):
     year = 2024
     config = MockPipelineConfig()
-    return BFRITSpendCalculator(year, spark_session, config)
+    return BFRITSpendCalculator(year, spark, config)
 
 
 def test_melt_it_spend_rows_from_bfr(
-    bfr_it_spend_calculator: BFRITSpendCalculator, spark_session: SparkSession
+    bfr_it_spend_calculator: BFRITSpendCalculator, spark: SparkSession
 ):
     # Given
     schema = StructType(
@@ -78,7 +78,7 @@ def test_melt_it_spend_rows_from_bfr(
             Decimal("60.00"),
         ),
     ]
-    bfr_df = spark_session.createDataFrame(bfr_data, schema)
+    bfr_df = spark.createDataFrame(bfr_data, schema)
 
     # When
     result_df = bfr_it_spend_calculator._melt_it_spend_rows_from_bfr(bfr_df)
@@ -100,7 +100,7 @@ def test_melt_it_spend_rows_from_bfr(
         ("IT Spend 2", 1, 2024, Decimal("600.00")),
         ("IT Spend 2", 1, 2025, Decimal("1000.00")),
     ]
-    expected_df = spark_session.createDataFrame(expected_data, expected_schema)
+    expected_df = spark.createDataFrame(expected_data, expected_schema)
 
     # Ensure column order is consistent before sorting and collecting
     expected_cols = [field.name for field in expected_schema.fields]
@@ -119,7 +119,7 @@ def test_melt_it_spend_rows_from_bfr(
 
 
 def test_melt_it_spend_pupil_numbers_from_bfr(
-    bfr_it_spend_calculator: BFRITSpendCalculator, spark_session: SparkSession
+    bfr_it_spend_calculator: BFRITSpendCalculator, spark: SparkSession
 ):
     # Given
     schema = StructType(
@@ -158,7 +158,7 @@ def test_melt_it_spend_pupil_numbers_from_bfr(
             Decimal("40.00"),
         ),
     ]
-    bfr_df = spark_session.createDataFrame(bfr_data, schema)
+    bfr_df = spark.createDataFrame(bfr_data, schema)
 
     # When
     result_df = bfr_it_spend_calculator._melt_it_spend_pupil_numbers_from_bfr(bfr_df)
@@ -179,7 +179,7 @@ def test_melt_it_spend_pupil_numbers_from_bfr(
         (2, 2024, Decimal("550.00")),
         (2, 2025, Decimal("600.00")),
     ]
-    expected_df = spark_session.createDataFrame(expected_data, expected_schema)
+    expected_df = spark.createDataFrame(expected_data, expected_schema)
 
     # Ensure column order is consistent before sorting and collecting
     expected_cols = [field.name for field in expected_schema.fields]
@@ -194,7 +194,7 @@ def test_melt_it_spend_pupil_numbers_from_bfr(
 
 
 def test_get_bfr_it_spend_rows(
-    bfr_it_spend_calculator: BFRITSpendCalculator, spark_session: SparkSession
+    bfr_it_spend_calculator: BFRITSpendCalculator, spark: SparkSession
 ):
     # Given
     bfr_schema = StructType(
@@ -267,7 +267,7 @@ def test_get_bfr_it_spend_rows(
             Decimal("150.00"),
         ),
     ]
-    bfr_df = spark_session.createDataFrame(bfr_data, bfr_schema)
+    bfr_df = spark.createDataFrame(bfr_data, bfr_schema)
 
     # When
     result_df = bfr_it_spend_calculator.get_bfr_it_spend_rows(bfr_df)
@@ -293,7 +293,7 @@ def test_get_bfr_it_spend_rows(
         ("IT Spend 1", 2, 2024, Decimal("70.00"), Decimal("110.00")),
         ("IT Spend 1", 2, 2025, Decimal("110.00"), Decimal("120.00")),
     ]
-    expected_df = spark_session.createDataFrame(expected_data, expected_schema)
+    expected_df = spark.createDataFrame(expected_data, expected_schema)
 
     # Ensure column order is consistent before sorting and collecting
     expected_cols = [field.name for field in expected_schema.fields]

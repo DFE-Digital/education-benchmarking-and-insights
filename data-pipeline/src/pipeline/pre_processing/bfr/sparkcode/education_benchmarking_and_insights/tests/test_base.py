@@ -118,9 +118,9 @@ class TestDatabricksDataLoader:
             assert loader._get_table_name(full_table_name) == "table_name"
 
     def test_check_for_updates_in_materialized_views_match(
-        self, spark_session, mock_logger
+        self, spark, mock_logger
     ):
-        loader = DatabricksDataLoader(spark_session)
+        loader = DatabricksDataLoader(spark)
         schema = StructType(
             [
                 StructField("col1", StringType(), True),
@@ -128,8 +128,8 @@ class TestDatabricksDataLoader:
             ]
         )
         data = [("A", 1), ("B", 2)]
-        df1 = spark_session.createDataFrame(data, schema)
-        df2 = spark_session.createDataFrame(data, schema)
+        df1 = spark.createDataFrame(data, schema)
+        df2 = spark.createDataFrame(data, schema)
 
         loader._check_for_updates_in_materialized_views("test_table_check", df1, df2)
         mock_logger.info.assert_called_with(
@@ -138,9 +138,9 @@ class TestDatabricksDataLoader:
         mock_logger.error.assert_not_called()
 
     def test_check_for_updates_in_materialized_views_no_match(
-        self, spark_session, mock_logger
+        self, spark, mock_logger
     ):
-        loader = DatabricksDataLoader(spark_session)
+        loader = DatabricksDataLoader(spark)
         schema = StructType(
             [
                 StructField("col1", StringType(), True),
@@ -149,8 +149,8 @@ class TestDatabricksDataLoader:
         )
         data1 = [("A", 1), ("B", 2)]
         data2 = [("A", 1), ("C", 3)]
-        df1 = spark_session.createDataFrame(data1, schema)
-        df2 = spark_session.createDataFrame(data2, schema)
+        df1 = spark.createDataFrame(data1, schema)
+        df2 = spark.createDataFrame(data2, schema)
 
         loader._check_for_updates_in_materialized_views("test_table_check", df1, df2)
         mock_logger.warning.assert_called_with(
@@ -159,12 +159,12 @@ class TestDatabricksDataLoader:
         mock_logger.error.assert_not_called()
 
     def test_check_for_updates_in_materialized_views_exception(
-        self, spark_session, mock_logger
+        self, spark, mock_logger
     ):
-        loader = DatabricksDataLoader(spark_session)
+        loader = DatabricksDataLoader(spark)
         # Pass an object that will cause an error when trying to call .agg()
         faulty_df = None
-        df2 = spark_session.createDataFrame([], StructType([]))
+        df2 = spark.createDataFrame([], StructType([]))
 
         loader._check_for_updates_in_materialized_views("faulty_table", faulty_df, df2)
         mock_logger.error.assert_called_once()

@@ -14,12 +14,12 @@ BFR_3Y_TO_SOFA_MAPPINGS_REVERSE = {
 
 
 @pytest.fixture
-def preprocessor(spark_session):
-    return BFRPreprocessor(year=2024, spark=spark_session, config=config)
+def preprocessor(spark):
+    return BFRPreprocessor(year=2024, spark=spark, config=config)
 
 
-def test_preprocess_bfr_sofa_scaling(preprocessor, spark_session):
-    mock_bfr_sofa_mv_data = get_mock_bfr_sofa_mv(spark_session, year=2024)
+def test_preprocess_bfr_sofa_scaling(preprocessor, spark):
+    mock_bfr_sofa_mv_data = get_mock_bfr_sofa_mv(spark, year=2024)
     processed_df = preprocessor.preprocess_bfr_sofa(mock_bfr_sofa_mv_data)
 
     # Trust UPIN is IntegerType in mock, so filter by Integer
@@ -44,8 +44,8 @@ def test_preprocess_bfr_sofa_scaling(preprocessor, spark_session):
     assert it_spend_row["Y1P2"] == 11.0 * 1000
 
 
-def test_preprocess_bfr_sofa_aggregation(preprocessor, spark_session):
-    mock_bfr_sofa_mv_data = get_mock_bfr_sofa_mv(spark_session, year=2024)
+def test_preprocess_bfr_sofa_aggregation(preprocessor, spark):
+    mock_bfr_sofa_mv_data = get_mock_bfr_sofa_mv(spark, year=2024)
     processed_df = preprocessor.preprocess_bfr_sofa(mock_bfr_sofa_mv_data)
     upin_mask = processed_df["Trust UPIN"] == 100001
 
@@ -73,8 +73,8 @@ def test_preprocess_bfr_sofa_aggregation(preprocessor, spark_session):
     assert grant_funding_agg_row["Y1P2"] == 210.0 * 1000
 
 
-def test_preprocess_bfr_sofa_category_rename(preprocessor, spark_session):
-    mock_bfr_sofa_mv_data = get_mock_bfr_sofa_mv(spark_session, year=2024)
+def test_preprocess_bfr_sofa_category_rename(preprocessor, spark):
+    mock_bfr_sofa_mv_data = get_mock_bfr_sofa_mv(spark, year=2024)
     processed_df = preprocessor.preprocess_bfr_sofa(mock_bfr_sofa_mv_data)
 
     # "Balance c/f to next period " should be renamed to "Revenue reserve"
@@ -96,8 +96,8 @@ def test_preprocess_bfr_sofa_category_rename(preprocessor, spark_session):
     assert pupil_numbers_row["Category"] == "Pupil numbers"
 
 
-def test_preprocess_bfr_3y_normalization_and_scaling(preprocessor, spark_session):
-    mock_bfr_three_year_mv_data = get_mock_bfr_three_year_mv(spark_session)
+def test_preprocess_bfr_3y_normalization_and_scaling(preprocessor, spark):
+    mock_bfr_three_year_mv_data = get_mock_bfr_three_year_mv(spark)
     processed_df = preprocessor.preprocess_bfr_3y(mock_bfr_three_year_mv_data)
 
     # Check normalization of EFALineNo and scaling
@@ -135,10 +135,10 @@ def test_preprocess_bfr_3y_normalization_and_scaling(preprocessor, spark_session
     )  # Value from mock_bfr_three_year_mv_data for 335 (Y2)
 
 
-def test_preprocess_data_merge_and_crn(preprocessor, spark_session):
-    mock_academies_data = get_mock_academies_df(spark_session, year=2024)
-    mock_bfr_three_year_mv_data = get_mock_bfr_three_year_mv(spark_session)
-    mock_bfr_sofa_mv_data = get_mock_bfr_sofa_mv(spark_session, year=2024)
+def test_preprocess_data_merge_and_crn(preprocessor, spark):
+    mock_academies_data = get_mock_academies_df(spark, year=2024)
+    mock_bfr_three_year_mv_data = get_mock_bfr_three_year_mv(spark)
+    mock_bfr_sofa_mv_data = get_mock_bfr_sofa_mv(spark, year=2024)
     merged_df = preprocessor.preprocess_data(
         mock_bfr_sofa_mv_data, mock_bfr_three_year_mv_data, mock_academies_data
     )
