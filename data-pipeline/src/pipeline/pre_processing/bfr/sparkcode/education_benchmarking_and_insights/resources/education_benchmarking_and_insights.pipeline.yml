@@ -3,7 +3,7 @@ resources:
   pipelines:
     education_benchmarking_and_insights_pipeline:
       name: education_benchmarking_and_insights_pipeline
-      catalog: catalog_10_gold
+      catalog: catalog_40_copper_financial_benchmarking_insights
       schema: education_benchmarking_and_insights_${bundle.target}
       serverless: true
       libraries:
