@@ -28,6 +28,21 @@ public class BenchmarkItSpendingPage(IPage page)
         {
             HasText = "Save chart images"
         });
+    private ILocator ViewAsRadio(string viewAs) => page.Locator($"#view-{viewAs}");
+    private ILocator ApplyFiltersButton =>
+        page.Locator(Selectors.Button, new PageLocatorOptions
+        {
+            HasText = "Apply filters"
+        });
+    private ILocator TableContainer(string tableName) => page.Locator(Selectors.Table, new PageLocatorOptions
+    {
+        Has = page.Locator("caption", new PageLocatorOptions
+        {
+            HasText = tableName
+        })
+    });
+    private ILocator TableContainers => page.Locator(Selectors.Table);
+
     public async Task IsDisplayed()
     {
         await PageH1Heading.ShouldBeVisible();
@@ -76,6 +91,26 @@ public class BenchmarkItSpendingPage(IPage page)
     {
         await SaveImagesModal.ShouldBeVisible();
     }
+
+    public async Task ClickViewAs(string viewAs)
+    {
+        await ViewAsRadio(viewAs).ClickAsync();
+    }
+
+    public async Task<BenchmarkItSpendingPage> ClickApplyFilters()
+    {
+        await ApplyFiltersButton.ClickAsync();
+        return new BenchmarkItSpendingPage(page);
+    }
+
+    public async Task AssertTablesVisible(IEnumerable<string> expectedTitles)
+    {
+        var titles = expectedTitles.ToArray();
+
+        await AssertTableCount(titles.Length);
+        await AssertVisibleTables(titles);
+    }
+
     private async Task AssertVisibleCharts(IEnumerable<string> expectedTitles)
     {
         foreach (var title in expectedTitles)
@@ -102,5 +137,19 @@ public class BenchmarkItSpendingPage(IPage page)
     {
         var count = await ForecastChartContainers.CountAsync();
         Assert.Equal(expectedCount, count);
+    }
+
+    private async Task AssertTableCount(int expectedCount)
+    {
+        var count = await TableContainers.CountAsync();
+        Assert.Equal(expectedCount, count);
+    }
+
+    private async Task AssertVisibleTables(IEnumerable<string> expectedTitles)
+    {
+        foreach (var title in expectedTitles)
+        {
+            await TableContainer(title).ShouldBeVisible();
+        }
     }
 }

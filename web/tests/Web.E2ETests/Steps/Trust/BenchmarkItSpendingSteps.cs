@@ -167,6 +167,29 @@ public class BenchmarkItSpendingSteps(PageDriver driver)
         Assert.Equal(fileName, downloadedFilePath);
     }
 
+    [When("I click to view results as '(.*)'")]
+    public async Task WhenIClickToViewResultsAs(string viewAs)
+    {
+        Assert.NotNull(_benchmarkItSpendingPage);
+        await _benchmarkItSpendingPage.ClickViewAs(viewAs);
+    }
+
+    [When("I click Apply filters")]
+    public async Task WhenIClickApplyFilters()
+    {
+        Assert.NotNull(_benchmarkItSpendingPage);
+        _benchmarkItSpendingPage = await _benchmarkItSpendingPage.ClickApplyFilters();
+    }
+
+    [Then("I should see the following IT spend tables on the page:")]
+    public async Task ThenIShouldSeeTheFollowingITSpendTablesOnThePage(Table table)
+    {
+        Assert.NotNull(_benchmarkItSpendingPage);
+
+        var expectedTitles = table.Rows.Select(row => row["Table Title"]);
+        await _benchmarkItSpendingPage.AssertTablesVisible(expectedTitles);
+    }
+
     private async Task NavigateToBenchmarkItSpendPage(string companyNumber, bool verify = true)
     {
         var url = BenchmarkItSpendingUrl(companyNumber);

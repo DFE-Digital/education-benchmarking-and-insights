@@ -65,3 +65,17 @@ Feature: Trust benchmark IT spending
           | ICT costs: Laptops, desktops and tablets       |
           | ICT costs: Onsite servers                      |
           | ICT costs: Other hardware                      |
+          
+    Scenario: Can view IT spending tables
+        Given I am on it spend page for trust with company number '10192252'
+        When I click to view results as 'Table'
+        And I click Apply filters
+        Then I should see the following IT spend tables on the page:
+          | Table Title                                    |
+          | ICT costs: Administration software and systems |
+          | ICT costs: Connectivity                        |
+          | ICT costs: IT learning resources               |
+          | ICT costs: IT support                          |
+          | ICT costs: Laptops, desktops and tablets       |
+          | ICT costs: Onsite servers                      |
+          | ICT costs: Other hardware                      |
