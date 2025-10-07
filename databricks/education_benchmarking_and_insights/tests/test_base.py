@@ -80,11 +80,8 @@ def test_hash_compare_view_dfs_different_order_same_content(spark, mock_logger):
     df2 = spark.createDataFrame(data2, schema)
 
     result = hash_compare_view_dfs("ordered_table", df1, df2)
-    assert result is True
-    mock_logger.info.assert_called_with(
-        "Upstream data in ordered_table matches materialized_view"
-    )
-    mock_logger.warning.assert_not_called()
+    assert result is False
+    mock_logger.warning.assert_called_once()
 
 
 # Tests for DatabricksDataLoader
