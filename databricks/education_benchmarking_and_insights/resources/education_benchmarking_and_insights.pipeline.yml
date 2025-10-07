@@ -12,3 +12,4 @@ resources:
 
       configuration:
         bundle.sourcePath: ${workspace.file_path}/src
+        pipeline.year: 2025
