@@ -1,0 +1,48 @@
+@model Web.App.ViewModels.TrustFinancialBenchmarkingInsightsSummaryViewModel
+
+<section id="next-steps-section" aria-labelledby="next-steps">
+    <h2 class="govuk-heading-l" id="next-steps">Next steps</h2>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-full">
+            <p class="govuk-body">
+                We recommend you visit the @Html.ActionLink(Constants.ServiceName, "Index", "Trust", new
+                                               {
+                                                   companyNumber = Model.CompanyNumber
+                                               }, new
+                                               {
+                                                   @class = "govuk-link"
+                                               }) to further explore your benchmarking data.
+            </p>
+            <p class="govuk-body">
+                In @Constants.ServiceName you can:
+            </p>
+            <ul class="govuk-list govuk-list--bullet">
+                <li>
+                    understand in more detail the school spending in your trust
+                </li>
+                <li>
+                    benchmark schools within your trust against other similar schools
+                </li>
+                <li>
+                    view charts and tables illustrating comparisons
+                </li>
+                <li>
+                    model data within the tool* to assess the impact of changes to spending in the reporting period
+                </li>
+            </ul>
+            <p class="govuk-body-s">
+                *You can save this data on the @Constants.ServiceName servers, but this does not alter the official
+                data held by DfE.
+            </p>
+            <p class="govuk-body">
+                You can view most of the data and analysis without logging in.
+            </p>
+            <p class="govuk-body">
+                There is also further data and features available by using your DfE Sign-in (DSI) credentials.
+                If you haven't registered yet or have lost your password, please visit the
+                <a href="https://services.signin.education.gov.uk/" class="govuk-link">DfE Sign-in page on gov.uk</a>
+                for guidance.
+            </p>
+        </div>
+    </div>
+</section>
