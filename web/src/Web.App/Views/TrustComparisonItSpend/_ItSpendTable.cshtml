@@ -71,11 +71,11 @@
         <tr class="govuk-table__row">
             <th scope="col" class="govuk-table__header">Trust name</th>
             <th scope="col"
-                class="govuk-table__header govuk-table__cell--numeric govuk-!-width-one-third">@(Model.CurrentBfrYear - 2) – @(Model.CurrentBfrYear - 1)</th>
+                class="govuk-table__header govuk-table__cell--numeric govuk-table__header--nowrap">@(Model.CurrentBfrYear - 2) – @(Model.CurrentBfrYear - 1)</th>
             <th scope="col"
-                class="govuk-table__header govuk-table__cell--numeric govuk-!-width-one-third">@(Model.CurrentBfrYear - 1) – @(Model.CurrentBfrYear)</th>
+                class="govuk-table__header govuk-table__cell--numeric govuk-table__header--nowrap">@(Model.CurrentBfrYear - 1) – @(Model.CurrentBfrYear)</th>
             <th scope="col"
-                class="govuk-table__header govuk-table__cell--numeric govuk-!-width-one-third">@(Model.CurrentBfrYear) – @(Model.CurrentBfrYear + 1)</th>
+                class="govuk-table__header govuk-table__cell--numeric govuk-table__header--nowrap">@(Model.CurrentBfrYear) – @(Model.CurrentBfrYear + 1)</th>
         </tr>
         </thead>
         <tbody class="govuk-table__body">
@@ -90,7 +90,7 @@
                                href=@($"/trust/{row.CompanyNumber}")>@row.TrustName</a>
                         </strong>
                     </td>
-                    
+
                     @for (var y = Model.CurrentBfrYear - 1; y <= Model.CurrentBfrYear + 1; y++)
                     {
                         <td class="govuk-table__cell govuk-table__cell--numeric">
@@ -104,7 +104,7 @@
                         <a class="govuk-link govuk-link--no-visited-state"
                            href=@($"/trust/{row.CompanyNumber}")>@row.TrustName</a>
                     </td>
-                    
+
                     if (row.Expenditure == null)
                     {
                         <td class="govuk-table__cell govuk-table__cell--numeric" colspan="3">
