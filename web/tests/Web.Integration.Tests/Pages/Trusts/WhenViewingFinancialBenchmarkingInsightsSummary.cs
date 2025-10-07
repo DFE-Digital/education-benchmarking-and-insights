@@ -29,6 +29,13 @@ public class WhenViewingFinancialBenchmarkingInsightsSummary(SchoolBenchmarkingW
         AssertKeyInformationSection(page, trust, balance);
     }
 
+    [Fact]
+    public async Task CanDisplayNextStepsSection()
+    {
+        var (page, trust, _) = await SetupNavigateInitPage();
+        AssertNextStepsSection(page, trust);
+    }
+
     private async Task<(IHtmlDocument page, Trust trust, TrustBalance balance)> SetupNavigateInitPage()
     {
         const string companyNumber = "12345678";
@@ -80,6 +87,17 @@ public class WhenViewingFinancialBenchmarkingInsightsSummary(SchoolBenchmarkingW
         ], headlineFiguresTexts);
 
         var link = keyInformationSection.ChildNodes.QuerySelector("a");
+        Assert.NotNull(link);
+        Assert.Equal(Paths.TrustHome(trust.CompanyNumber), link.GetAttribute("href"));
+    }
+
+    private static void AssertNextStepsSection(IHtmlDocument page, Trust trust)
+    {
+        var nextStepsSection = page.QuerySelector("section#next-steps-section");
+        Assert.NotNull(nextStepsSection);
+        DocumentAssert.Heading2(nextStepsSection, "Next steps");
+
+        var link = nextStepsSection.ChildNodes.QuerySelector("a");
         Assert.NotNull(link);
         Assert.Equal(Paths.TrustHome(trust.CompanyNumber), link.GetAttribute("href"));
     }
