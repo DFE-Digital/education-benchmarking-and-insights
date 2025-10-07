@@ -546,6 +546,14 @@ hr.govuk-section-break--print {
       }
     }
   }
+
+  thead {
+    tr {
+      th.govuk-table__header--nowrap {
+        white-space: pre;
+      }
+    }
+  }
 }
 
 .trend-indicator {
