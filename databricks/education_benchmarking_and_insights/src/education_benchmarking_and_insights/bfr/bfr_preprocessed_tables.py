@@ -5,7 +5,7 @@ from pyspark.sql.types import IntegerType
 
 from . import config
 from pyspark import pipelines as dp
-from .bfr_tables import *
+from .bfr_raw_tables import *
 
 def aggregate_efalines_over_years(bfr, efa_lines: list[int], year_cols: list[str], aggregated_category_name: str):
     filtered_bfr_for_aggregation = bfr.filter(col("EFALineNo").isin(efa_lines))
@@ -18,7 +18,10 @@ def aggregate_efalines_over_years(bfr, efa_lines: list[int], year_cols: list[str
     return bfr_aggregated_category_rows
 
 def preprocess_bfr_sofa(bfr_sofa_mv, year):
-    bfr_sofa_mv = bfr_sofa_mv.withColumnRenamed("Title", "Category")
+    sofa_year_cols = config.get_sofa_year_cols(year)
+    bfr_sofa_mv = bfr_sofa_mv.drop("Category") \
+        .withColumnRenamed("Title", "Category") \
+        .select("TrustUPIN", "EFALineNo", "Category", *sofa_year_cols)
     sofa_efa_lines_to_filter = [
         *config.SOFA_SELF_GENERATED_INCOME_EFALINES,
         config.SOFA_PUPIL_NUMBER_EFALINE,
@@ -122,7 +125,9 @@ def preprocess_bfr_3y(bfr_3y_mv, year):
             ).otherwise(col(col_name)),
         )
 
-    return bfr_3y_filtered
+    return bfr_3y_filtered.select(
+        "TrustUPIN", "EFALineNo", "Category", *config.THREE_YEAR_PROJECTION_COLS
+    )
 
 @dp.table()
 def bfr_sofa_preprocessed():
@@ -141,10 +146,14 @@ def bfr_3y_preprocessed():
 @dp.table(name="merged_bfr")
 def merged_bfr():
     bfr_sofa_preprocessed = dp.read("bfr_sofa_preprocessed")
-    bfr_3y_preprocessed = dp.read("bfr_3y_preprocessed")
-    return bfr_sofa_preprocessed.join(
-        bfr_3y_preprocessed, on=["TrustUPIN", "EFALineNo"], how="left_outer"
+    bfr_3y_preprocessed = dp.read("bfr_3y_preprocessed").drop("Category")
+    joined = bfr_sofa_preprocessed.join(
+        bfr_3y_preprocessed,
+        on=["TrustUPIN", "EFALineNo"],
+        how="left_outer"
     )
+
+    return joined
 
 # @dp.table(name="merged_bfr_with_crn")
 # def merged_bfr_with_crn():
