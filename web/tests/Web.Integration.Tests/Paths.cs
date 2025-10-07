@@ -37,11 +37,16 @@ public static class Paths
 
     public static string TrustFinancialPlanning(string? companyNumber) => $"/trust/{companyNumber}/financial-planning";
 
-    public static string TrustSpending(string? companyNumber, string[] categories, string[] priorities)
+    public static string TrustSpending(string? companyNumber, string[]? categories = null, string[]? priorities = null)
     {
-        return $"/trust/{companyNumber}/spending-and-costs" +
-               $"?{string.Join("&", priorities.Select(p => $"priority={p.ToLower().Replace(" ", "%20")}"))}" +
-               $"&{string.Join("&", categories.Select(c => $"category={c.ToLower().Replace(" ", "%20")}"))}";
+        var path = $"/trust/{companyNumber}/spending-and-costs";
+        if (categories != null || priorities != null)
+        {
+            return path + $"?{string.Join("&", (priorities ?? []).Select(p => $"priority={p.ToLower().Replace(" ", "%20")}"))}" +
+                   $"&{string.Join("&", (categories ?? []).Select(c => $"category={c.ToLower().Replace(" ", "%20")}"))}";
+        }
+
+        return path;
     }
 
     public static string TrustForecast(string? companyNumber) => $"/trust/{companyNumber}/forecast";
