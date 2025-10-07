@@ -1,6 +1,6 @@
 @using Web.App.ViewModels.Components
 @model Web.App.ViewModels.Components.ResourcesViewModel
-<div class="govuk-grid-row">
+<div class="govuk-grid-row" id="establishment-resources">
     <div class="govuk-grid-column-full">
         <h2 class="govuk-heading-m">Resources</h2>
         <ul class="app-links">
@@ -115,6 +115,20 @@
                                 Highlights of your school's spending compared with a number of similar schools.
                             </p>
                         </li>
+                        break;
+                    case Resources.TrustFinancialBenchmarkingInsightsSummary:
+                        <feature name="@FeatureFlags.FbisForTrust">
+                            <li>
+                                <h3 class="govuk-heading-s">
+                                    <a href="@Url.Action("Index", "TrustFinancialBenchmarkingInsightsSummary", new { companyNumber = Model.Identifier })" class="govuk-link govuk-link--no-visited-state">
+                                        Financial Benchmarking and Insights Summary
+                                    </a>
+                                </h3>
+                                <p class="govuk-body">
+                                    Highlights of your trust's spending compared with a number of similar trusts.
+                                </p>
+                            </li>
+                        </feature>
                         break;
                 }
             }

@@ -25,15 +25,16 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
     };
 
     [Theory]
-    [InlineData(true, true)]
-    [InlineData(false, true)]
-    [InlineData(true, false)]
-    [InlineData(false, false)]
-    public async Task CanDisplay(bool showBanner, bool bfrItSpendFeatureEnabled)
+    [InlineData(true, true, true)]
+    [InlineData(false, true, true)]
+    [InlineData(true, false, true)]
+    [InlineData(false, false, true)]
+    [InlineData(false, false, false)]
+    public async Task CanDisplay(bool showBanner, bool bfrItSpendFeatureEnabled, bool fbisFeatureEnabled)
     {
-        var (page, trust, balance, ratings, schools, banner) = await SetupNavigateInitPage(showBanner: showBanner, bfrItSpendFeatureEnabled: bfrItSpendFeatureEnabled);
+        var (page, trust, balance, ratings, schools, banner) = await SetupNavigateInitPage(showBanner: showBanner, bfrItSpendFeatureEnabled: bfrItSpendFeatureEnabled, fbisFeatureEnabled: fbisFeatureEnabled);
 
-        AssertPageLayout(page, trust, balance, ratings, schools, banner, bfrItSpendFeatureEnabled);
+        AssertPageLayout(page, trust, balance, ratings, schools, banner, bfrItSpendFeatureEnabled, fbisFeatureEnabled);
     }
 
     [Fact]
@@ -84,7 +85,8 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
         bool includeSchools = true,
         bool includeBalance = true,
         bool showBanner = false,
-        bool bfrItSpendFeatureEnabled = true)
+        bool bfrItSpendFeatureEnabled = true,
+        bool fbisFeatureEnabled = true)
     {
         var random = new Random();
 
@@ -129,8 +131,18 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
             ? Fixture.Create<Banner>()
             : null;
 
+        var disabledFeatures = new List<string>();
+        if (!bfrItSpendFeatureEnabled)
+        {
+            disabledFeatures.Add(FeatureFlags.TrustItSpendBreakdown);
+        }
+        if (!fbisFeatureEnabled)
+        {
+            disabledFeatures.Add(FeatureFlags.FbisForTrust);
+        }
+
         var client = Client
-            .SetupDisableFeatureFlags(bfrItSpendFeatureEnabled ? [] : [FeatureFlags.TrustItSpendBreakdown])
+            .SetupDisableFeatureFlags(disabledFeatures.ToArray())
             .SetupEstablishment(trust, schools)
             .SetupInsights()
             .SetupMetricRagRating(ratings)
@@ -144,7 +156,15 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
         return (page, trust, balance, ratings, schools, banner);
     }
 
-    private static void AssertPageLayout(IHtmlDocument page, Trust trust, TrustBalance? balance, RagRating[] ratings, TrustSchool[] schools, Banner? banner, bool bfrItSpendFeatureEnabled = true)
+    private static void AssertPageLayout(
+        IHtmlDocument page,
+        Trust trust,
+        TrustBalance? balance,
+        RagRating[] ratings,
+        TrustSchool[] schools,
+        Banner? banner,
+        bool bfrItSpendFeatureEnabled = true,
+        bool fbisFeatureEnabled = true)
     {
         var expectedBreadcrumbs = new[]
         {
@@ -219,8 +239,15 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
 
         DocumentAssert.Banner(page, banner);
 
-        // benchmarking tools
-        var toolsSection = page.GetElementById("benchmarking-and-planning-tools"); //NB: No RAG therefore section not shown
+        AssertBenchmarkingTools(page, trust, balance, bfrItSpendFeatureEnabled);
+        AssertResources(page, trust, fbisFeatureEnabled);
+    }
+
+    private static void AssertBenchmarkingTools(IHtmlDocument page, Trust trust, TrustBalance? balance, bool bfrItSpendFeatureEnabled)
+    {
+        var toolsSection = page.GetElementById("benchmarking-and-planning-tools");
+
+        //NB: No RAG therefore section not shown
         if (balance == null)
         {
             Assert.Null(toolsSection);
@@ -240,6 +267,24 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
         if (bfrItSpendFeatureEnabled)
         {
             DocumentAssert.Link(toolsLinks?.ElementAtOrDefault(4), "Benchmark IT spending", Paths.TrustComparisonItSpend(trust.CompanyNumber).ToAbsolute());
+        }
+    }
+
+    private static void AssertResources(IHtmlDocument page, Trust trust, bool fbisFeatureEnabled)
+    {
+        var resourcesSection = page.GetElementById("establishment-resources");
+        DocumentAssert.Heading2(resourcesSection, "Resources");
+
+        var resourcesLinks = resourcesSection?.ChildNodes.QuerySelectorAll("ul> li > h3 > a").ToList();
+        Assert.Equal(fbisFeatureEnabled ? 5 : 4, resourcesLinks?.Count);
+
+        DocumentAssert.Link(resourcesLinks?.ElementAtOrDefault(0), "Find ways to spend less", Paths.TrustResources(trust.CompanyNumber).ToAbsolute());
+        DocumentAssert.Link(resourcesLinks?.ElementAtOrDefault(1), "View historic data", Paths.TrustHistory(trust.CompanyNumber).ToAbsolute());
+        DocumentAssert.Link(resourcesLinks?.ElementAtOrDefault(2), "Trust contact details", Paths.TrustDetails(trust.CompanyNumber).ToAbsolute());
+        DocumentAssert.Link(resourcesLinks?.ElementAtOrDefault(3), "Data sources and interpretation", Paths.DataSources.ToAbsolute());
+        if (fbisFeatureEnabled)
+        {
+            DocumentAssert.Link(resourcesLinks?.ElementAtOrDefault(4), "Financial Benchmarking and Insights Summary", Paths.TrustFinancialBenchmarkingInsightsSummary(trust.CompanyNumber).ToAbsolute());
         }
     }
 }
