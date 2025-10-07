@@ -48,10 +48,11 @@ public class WhenViewingFinancialBenchmarkingInsightsSummary(SchoolBenchmarkingW
         var (page, trust, _, ragRatings, schools) = await SetupNavigateInitPage();
         AssertSpendingPrioritiesSection(page, trust, ragRatings, schools);
     }
-    
+
+    [Fact]
     public async Task CanDisplayNextStepsSection()
     {
-        var (page, trust, _) = await SetupNavigateInitPage();
+        var (page, trust, _, _, _) = await SetupNavigateInitPage();
         AssertNextStepsSection(page, trust);
     }
 
@@ -186,9 +187,8 @@ public class WhenViewingFinancialBenchmarkingInsightsSummary(SchoolBenchmarkingW
             $"{(red > 0 ? red : amber)} out of {schools} schools in the {(red > 0 ? "high" : "medium")} priority range.",
             card.QuerySelector(".priority-wrapper")?.TextContent.Trim().Replace(StringExtensions.WhitespaceRegex(), " "));
 
-        var values = ragRatings.Where(r => r.Category == category).OrderBy(r => r.Value).Select(r => r.Value).ToArray();
-        var value = values.LastOrDefault();
         var lowestHighest = "Highest";
+        decimal? value;
         if (
             new[]
             {
@@ -197,8 +197,24 @@ public class WhenViewingFinancialBenchmarkingInsightsSummary(SchoolBenchmarkingW
                 Category.EducationalIct
             }.Contains(category))
         {
-            lowestHighest = "Lowest";
-            value = values.FirstOrDefault();
+            value = ragRatings
+                .Where(r => r.Category == category)
+                .OrderByDescending(r => r.Value)
+                .Select(r => r.Value)
+                .FirstOrDefault();
+        }
+        else
+        {
+            var highlightRag = ragRatings
+                .Where(r => r.Category == category)
+                .Where(r => r.Value >= 0)
+                .OrderByDescending(r => Math.Abs(r.DiffMedian ?? 0))
+                .FirstOrDefault();
+            value = highlightRag?.Value;
+            if (!(highlightRag?.Value > highlightRag?.Median))
+            {
+                lowestHighest = "Lowest";
+            }
         }
 
         var unit = new[]
@@ -212,7 +228,7 @@ public class WhenViewingFinancialBenchmarkingInsightsSummary(SchoolBenchmarkingW
             $"{lowestHighest} spend in this cost category {value.ToCurrency()} per {unit}",
             card.QuerySelector(".panel")?.TextContent.Trim().Replace(StringExtensions.WhitespaceRegex(), " "));
     }
-    
+
     private static void AssertNextStepsSection(IHtmlDocument page, Trust trust)
     {
         var nextStepsSection = page.QuerySelector("section#next-steps-section");

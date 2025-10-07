@@ -89,22 +89,27 @@
                         <p class="govuk-body-m govuk-!-font-weight-bold">Key highlights</p>
 
                         <div class="panel panel--grey">
-                            @{
-                                var orderedValues = Model.RagRatings
-                                    .Where(r => r.Category == priority.Category)
-                                    .OrderBy(r => r.Value)
-                                    .Select(r => r.Value)
-                                    .ToArray();
-                            }
                             @if (Category.InvertRagValueCategories.Contains(priority.Category))
                             {
-                                <p class="govuk-body">Lowest spend in this cost category</p>
-                                <p class="govuk-body-l govuk-!-font-weight-bold">@orderedValues.FirstOrDefault().ToCurrency()</p>
+                                <p class="govuk-body">Highest spend in this cost category</p>
+                                <p class="govuk-body-l govuk-!-font-weight-bold">
+                                   @(Model.RagRatings
+                                    .Where(r => r.Category == priority.Category)
+                                    .OrderByDescending(r => r.Value)
+                                    .Select(r => r.Value)
+                                    .FirstOrDefault()
+                                    .ToCurrency())
+                                </p>
                             }
                             else
                             {
-                                <p class="govuk-body">Highest spend in this cost category</p>
-                                <p class="govuk-body-l govuk-!-font-weight-bold">@orderedValues.LastOrDefault().ToCurrency()</p>
+                                var highlightRag = Model.RagRatings
+                                    .Where(r => r.Category == priority.Category)
+                                    .Where(r => r.Value >= 0)
+                                    .OrderByDescending(r => Math.Abs(r.DiffMedian ?? 0))
+                                    .FirstOrDefault();
+                                <p class="govuk-body">@(highlightRag?.Value > highlightRag?.Median ? "Highest" : "Lowest") spend in this cost category</p>
+                                <p class="govuk-body-l govuk-!-font-weight-bold">@highlightRag?.Value.ToCurrency()</p>
                             }
 
                             <p class="govuk-body">
