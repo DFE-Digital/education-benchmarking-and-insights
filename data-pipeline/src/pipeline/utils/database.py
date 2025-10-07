@@ -409,6 +409,7 @@ def insert_non_financial_data(
         "Percentage without EHC": "PercentWithoutEducationalHealthCarePlan",
         "Ks2Progress": "KS2Progress",
         "Progress8Measure": "KS4Progress",
+        "Progress8Banding": "KS4ProgressBanding",
         "Percentage Primary Need VI": "PercentWithVI",
         "Percentage Primary Need SPLD": "PercentWithSPLD",
         "Percentage Primary Need SLD": "PercentWithSLD",
