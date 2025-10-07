@@ -808,6 +808,15 @@ table#current-comparators-la {
       }
     }
 
+    &.horizontal-bar-chart__no-hover {
+      .chart-cell {
+        &.chart-cell__highlight {
+          fill: govuk-colour("dark-grey");
+          stroke: govuk-colour("dark-grey");
+        }
+      }
+    }
+
     .chart-cell {
       &.chart-cell__group-previous {
         fill: $chart-bar-group-1-colour;
