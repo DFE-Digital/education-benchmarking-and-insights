@@ -81,9 +81,9 @@ public class HighNeedsStartBenchmarkingPage(IPage page)
 
     public async Task<bool> HasComparators() => await RemoveButtons.CountAsync() > 0;
 
-    public async Task<HighNeedsDashboardPage> ClickRemoveButton()
+    public async Task<HighNeedsBenchmarkingPage> ClickRemoveButton()
     {
         await RemoveButtons.First.ClickAsync();
-        return new HighNeedsDashboardPage(page);
+        return new HighNeedsBenchmarkingPage(page);
     }
 }
