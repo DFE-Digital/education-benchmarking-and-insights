@@ -36,7 +36,7 @@ public class BenchmarkItSpendingPage(IPage page)
         });
     private ILocator TableContainer(string tableName) => page.Locator(Selectors.H2, new PageLocatorOptions
     {
-            HasText = tableName
+        HasText = tableName
     });
     private ILocator TableContainers => page.Locator(Selectors.Table);
 
