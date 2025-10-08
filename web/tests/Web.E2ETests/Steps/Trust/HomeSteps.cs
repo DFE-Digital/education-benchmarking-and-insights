@@ -1,5 +1,6 @@
 ﻿using Web.E2ETests.Drivers;
 using Web.E2ETests.Pages.Trust;
+using Web.E2ETests.Pages.Trust.Benchmarking;
 using Xunit;
 
 namespace Web.E2ETests.Steps.Trust;
@@ -14,6 +15,7 @@ public class HomeSteps(PageDriver driver)
     private SpendingCostsPage? _spendingCostsPage;
     private TrustForecastPage? _trustForecastPage;
     private HomePage? _trustHomePage;
+    private BenchmarkItSpendingPage? _trustBenchmarkingItSpendingPage;
 
     [Given("I am on trust homepage for trust with company number '(.*)'")]
     public async Task GivenIAmOnTrustHomepageForTrustWithCompanyNumber(string companyNumber)
@@ -92,6 +94,13 @@ public class HomeSteps(PageDriver driver)
         _trustForecastPage = await _trustHomePage.ClickTrustForecast();
     }
 
+    [When("I click on benchmark IT spending")]
+    public async Task WhenIClickOnBenchmarkITSpending()
+    {
+        Assert.NotNull(_trustHomePage);
+        _trustBenchmarkingItSpendingPage = await _trustHomePage.ClickBenchmarkITSpending();
+    }
+
     [Then("the benchmark census page is displayed")]
     public async Task ThenTheBenchmarkCensusPageIsDisplayed()
     {
@@ -139,6 +148,13 @@ public class HomeSteps(PageDriver driver)
     {
         Assert.NotNull(_trustHomePage);
         await _trustHomePage.HasBanner(title, heading, body);
+    }
+
+    [Then("the trust benchmark your IT spending page is displayed")]
+    public async Task ThenTheTrustBenchmarkYourItSpendingPageIsDisplayed()
+    {
+        Assert.NotNull(_trustBenchmarkingItSpendingPage);
+        await _trustBenchmarkingItSpendingPage.IsDisplayed();
     }
 
     private static string TrustHomeUrl(string companyNumber) => $"{TestConfiguration.ServiceUrl}/trust/{companyNumber}";

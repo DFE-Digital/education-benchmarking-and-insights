@@ -1,4 +1,5 @@
 ﻿using Microsoft.Playwright;
+using Web.E2ETests.Pages.Trust.Benchmarking;
 using Xunit;
 
 namespace Web.E2ETests.Pages.Trust;
@@ -36,6 +37,12 @@ public class HomePage(IPage page)
         new PageLocatorOptions
         {
             HasText = "Curriculum and financial planning"
+        });
+
+    private ILocator BenchmarkItSpendingLink => page.Locator(Selectors.GovLink,
+        new PageLocatorOptions
+        {
+            HasText = "Benchmark IT spending"
         });
 
     private ILocator CookieBanner => page.Locator(Selectors.CookieBanner);
@@ -99,6 +106,12 @@ public class HomePage(IPage page)
     {
         await CurriculumFinancialPlanningLink.Click();
         return new CurriculumFinancialPlanningPage(page);
+    }
+
+    public async Task<BenchmarkItSpendingPage> ClickBenchmarkITSpending()
+    {
+        await BenchmarkItSpendingLink.Click();
+        return new BenchmarkItSpendingPage(page);
     }
 
     public async Task HasBanner(string title, string heading, string body)
