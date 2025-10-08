@@ -1,5 +1,6 @@
 ﻿using Microsoft.Playwright;
 using Web.E2ETests.Pages.Trust.Comparators;
+using Xunit;
 
 namespace Web.E2ETests.Pages.Trust.Benchmarking;
 
@@ -11,6 +12,33 @@ public class BenchmarkItSpendingPage(IPage page)
             HasText = "Benchmark your IT spending"
         });
     private ILocator ViewComparatorSetLink => page.Locator("a[data-test-id='comparators-link']");
+    private ILocator ChartContainer(string chartName) => page.Locator($"[data-title=\"{chartName}\"]");
+    private ILocator ForecastChartContainer(string chartName) => page.Locator($"[data-title=\"{chartName} (forecast)\"]");
+    private ILocator ChartBars(string urn) => page.Locator($"rect.chart-cell[data-key='{urn}']");
+    private ILocator ChartContainers => page.Locator($"{Selectors.SsrChartContainer}:not([id$=forecast])");
+    private ILocator ForecastChartContainers => page.Locator($"{Selectors.SsrChartContainer}[id$=forecast]");
+    private ILocator TrustLinksInCharts => page.Locator(Selectors.SsrOrgNamesLinksInCharts);
+    private ILocator SaveImagesButton =>
+        page.Locator(Selectors.Button, new PageLocatorOptions
+        {
+            HasText = "Save chart images"
+        });
+    private ILocator SaveImagesModal =>
+        page.Locator(Selectors.Modal, new PageLocatorOptions
+        {
+            HasText = "Save chart images"
+        });
+    private ILocator ViewAsRadio(string viewAs) => page.Locator($"#view-{viewAs}");
+    private ILocator ApplyFiltersButton =>
+        page.Locator(Selectors.Button, new PageLocatorOptions
+        {
+            HasText = "Apply filters"
+        });
+    private ILocator TableContainer(string tableName) => page.Locator(Selectors.H2, new PageLocatorOptions
+    {
+        HasText = tableName
+    });
+    private ILocator TableContainers => page.Locator(Selectors.Table);
 
     public async Task IsDisplayed()
     {
@@ -22,5 +50,103 @@ public class BenchmarkItSpendingPage(IPage page)
     {
         await ViewComparatorSetLink.ClickAsync();
         return new ViewComparatorsPage(page);
+    }
+
+    public async Task AssertChartsVisible(IEnumerable<string> expectedTitles)
+    {
+        var titles = expectedTitles.ToArray();
+
+        await AssertChartCount(titles.Length);
+        await AssertVisibleCharts(titles);
+    }
+
+    public async Task AssertForecastChartsVisible(IEnumerable<string> expectedTitles)
+    {
+        var titles = expectedTitles.ToArray();
+
+        await AssertForecastChartCount(titles.Length);
+        await AssertForecastVisibleCharts(titles);
+    }
+
+    public async Task<HomePage> ClickOnTrustName()
+    {
+        await TrustLinksInCharts.First.Click();
+        return new HomePage(page);
+    }
+
+    public async Task IsSaveImagesButtonDisplayed()
+    {
+        await SaveImagesButton.ShouldBeVisible();
+    }
+
+    public async Task ClickSaveImagesButton()
+    {
+        await SaveImagesButton.ClickAsync();
+    }
+
+    public async Task IsSaveImagesModalDisplayed()
+    {
+        await SaveImagesModal.ShouldBeVisible();
+    }
+
+    public async Task ClickViewAs(string viewAs)
+    {
+        await ViewAsRadio(viewAs).ClickAsync();
+    }
+
+    public async Task<BenchmarkItSpendingPage> ClickApplyFilters()
+    {
+        await ApplyFiltersButton.ClickAsync();
+        return new BenchmarkItSpendingPage(page);
+    }
+
+    public async Task AssertTablesVisible(IEnumerable<string> expectedTitles)
+    {
+        var titles = expectedTitles.ToArray();
+
+        await AssertTableCount(titles.Length);
+        await AssertVisibleTables(titles);
+    }
+
+    private async Task AssertVisibleCharts(IEnumerable<string> expectedTitles)
+    {
+        foreach (var title in expectedTitles)
+        {
+            await ChartContainer(title).ShouldBeVisible();
+        }
+    }
+
+    private async Task AssertForecastVisibleCharts(IEnumerable<string> expectedTitles)
+    {
+        foreach (var title in expectedTitles)
+        {
+            await ForecastChartContainer(title).ShouldBeVisible();
+        }
+    }
+
+    private async Task AssertChartCount(int expectedCount)
+    {
+        var count = await ChartContainers.CountAsync();
+        Assert.Equal(expectedCount, count);
+    }
+
+    private async Task AssertForecastChartCount(int expectedCount)
+    {
+        var count = await ForecastChartContainers.CountAsync();
+        Assert.Equal(expectedCount, count);
+    }
+
+    private async Task AssertTableCount(int expectedCount)
+    {
+        var count = await TableContainers.CountAsync();
+        Assert.Equal(expectedCount, count);
+    }
+
+    private async Task AssertVisibleTables(IEnumerable<string> expectedTitles)
+    {
+        foreach (var title in expectedTitles)
+        {
+            await TableContainer(title).ShouldBeVisible();
+        }
     }
 }
