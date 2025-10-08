@@ -1,0 +1,34 @@
+@model string
+<div class="govuk-grid-row" id="high-needs">
+    <div class="govuk-grid-column-full">
+        <h2 class="govuk-heading-m">High needs</h2>
+        <ul class="app-links">
+            <li>
+                <h3 class="govuk-heading-s">
+                    <a href="@Url.Action("Comparators", "LocalAuthorityHighNeedsBenchmarking", new
+                             {
+                                 code = Model
+                             })" class="govuk-link govuk-link--no-visited-state">
+                        Benchmark high needs
+                    </a>
+                </h3>
+                <p class="govuk-body">
+                    Benchmark spending against statistical neighbours or other local authorities of your choice.
+                </p>
+            </li>
+            <li>
+                <h3 class="govuk-heading-s">
+                    <a href="@Url.Action("Index", "LocalAuthorityHighNeedsHistoricData", new
+                             {
+                                 code = Model
+                             })" class="govuk-link govuk-link--no-visited-state">
+                        View high needs historical data
+                    </a>
+                </h3>
+                <p class="govuk-body">
+                    View data from previous financial years for this local authority.
+                </p>
+            </li>
+        </ul>
+    </div>
+</div>

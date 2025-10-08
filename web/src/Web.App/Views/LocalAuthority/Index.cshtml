@@ -1,6 +1,5 @@
 ﻿@using Web.App.ViewModels
 @using Web.App.ViewModels.Components
-@using Web.App.ViewModels.Shared
 @model Web.App.ViewModels.LocalAuthorityViewModel
 @{
     ViewData[ViewDataKeys.Title] = PageTitles.LocalAuthorityHome;
@@ -46,10 +45,18 @@
 
 <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
 
+@await Html.PartialAsync("_HighNeeds", Model.Code)
+
+<hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+
 @await Component.InvokeAsync("Resources", new
 {
     identifier = Model.Code,
-    resources = new[] { Resources.LocalAuthorityResources, Resources.DataSource }
+    resources = new[]
+    {
+        Resources.LocalAuthorityResources,
+        Resources.DataSource
+    }
 })
 
 @* TODO: review for public beta

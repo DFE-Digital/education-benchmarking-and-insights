@@ -26,7 +26,6 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
         var (page, authority, schools, banner) = await SetupNavigateInitPage(showBanner, phaseTypes);
 
         AssertPageLayout(page, authority, schools, banner);
-        ;
     }
 
     [Fact]
@@ -64,6 +63,30 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
 
         page = await Client.Follow(anchor);
         DocumentAssert.AssertPageUrl(page, Paths.LocalAuthorityHighNeedsDashboard(authority.Code).ToAbsolute());
+    }
+
+    [Fact]
+    public async Task CanNavigateToHighNeedsBenchmarking()
+    {
+        var (page, authority, _, _) = await SetupNavigateInitPage();
+
+        var anchor = page.QuerySelectorAll("a").FirstOrDefault(x => x.TextContent.Trim() == "Benchmark high needs");
+        Assert.NotNull(anchor);
+
+        page = await Client.Follow(anchor);
+        DocumentAssert.AssertPageUrl(page, Paths.LocalAuthorityHighNeedsStartBenchmarking(authority.Code).ToAbsolute());
+    }
+
+    [Fact]
+    public async Task CanNavigateToHighNeedsHistory()
+    {
+        var (page, authority, _, _) = await SetupNavigateInitPage();
+
+        var anchor = page.QuerySelectorAll("a").FirstOrDefault(x => x.TextContent.Trim() == "View high needs historical data");
+        Assert.NotNull(anchor);
+
+        page = await Client.Follow(anchor);
+        DocumentAssert.AssertPageUrl(page, Paths.LocalAuthorityHighNeedsHistoricData(authority.Code).ToAbsolute());
     }
 
     // TODO: review for public beta
@@ -143,15 +166,27 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
             .Create();
 
         Assert.NotNull(authority.Name);
-        var schools = phaseTypes.SelectMany(phaseType => GenerateSchools(phaseType)).ToArray();
+        var schools = phaseTypes.SelectMany(GenerateSchools).ToArray();
+        authority.Schools = schools;
 
         var banner = showBanner
             ? Fixture.Create<Banner>()
             : null;
 
+        var statisticalNeighbours = Fixture.Build<LocalAuthorityStatisticalNeighbour>()
+            .CreateMany()
+            .ToArray();
+
+        var authorityWithNeighbours = Fixture.Build<LocalAuthorityStatisticalNeighbours>()
+            .With(a => a.Code, authority.Code)
+            .With(a => a.Name, authority.Name)
+            .Create();
+        authorityWithNeighbours.StatisticalNeighbours = statisticalNeighbours;
+
         var page = await Client
-            .SetupEstablishment(authority, schools)
+            .SetupEstablishment(authorityWithNeighbours, [authority])
             .SetupInsights()
+            .SetupLocalAuthoritiesComparators(authority.Code!, [])
             .SetupBanner(banner)
             .Navigate(Paths.LocalAuthorityHome(authority.Code));
 
