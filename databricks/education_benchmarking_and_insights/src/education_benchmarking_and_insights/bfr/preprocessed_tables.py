@@ -5,7 +5,8 @@ from pyspark.sql.types import IntegerType
 
 from . import config
 from pyspark import pipelines as dp
-from .bfr_raw_tables import *
+from .raw_tables import *
+
 
 def aggregate_efalines_over_years(bfr, efa_lines: list[int], year_cols: list[str], aggregated_category_name: str):
     filtered_bfr_for_aggregation = bfr.filter(col("EFALineNo").isin(efa_lines))
@@ -16,6 +17,7 @@ def aggregate_efalines_over_years(bfr, efa_lines: list[int], year_cols: list[str
         .withColumn("EFALineNo", lit(None).cast(IntegerType()))
     )
     return bfr_aggregated_category_rows
+
 
 def preprocess_bfr_sofa(bfr_sofa_mv, year):
     sofa_year_cols = config.get_sofa_year_cols(year)
@@ -95,6 +97,7 @@ def preprocess_bfr_sofa(bfr_sofa_mv, year):
 
     return bfr_sofa_with_aggregated_categories
 
+
 def preprocess_bfr_3y(bfr_3y_mv, year):
     efa_line_mapping_expr = create_map(
         [
@@ -129,6 +132,7 @@ def preprocess_bfr_3y(bfr_3y_mv, year):
         "TrustUPIN", "EFALineNo", "Category", *config.THREE_YEAR_PROJECTION_COLS
     )
 
+
 @dp.table()
 def bfr_sofa_preprocessed():
     spark = SparkSession.builder.getOrCreate()
@@ -136,12 +140,14 @@ def bfr_sofa_preprocessed():
     bfr_sofa = dp.read("bfr_sofa_current_year")
     return preprocess_bfr_sofa(bfr_sofa, year)
 
+
 @dp.table()
 def bfr_3y_preprocessed():
     spark = SparkSession.builder.getOrCreate()
     year = int(spark.conf.get("pipeline.year"))
     bfr_3y = dp.read("bfr_three_year_forecast_current_year")
     return preprocess_bfr_3y(bfr_3y, year)
+
 
 @dp.table(name="merged_bfr")
 def merged_bfr():
