@@ -67,5 +67,5 @@
     Scenario: Go to Benchmark IT spending
         Given I am on trust homepage for trust with company number '00000001'
         And I have signed in with organisation '010: FBIT TEST - Multi-Academy Trust (Open)'
-        When I click on benchmark IT spending link
-        Then the IT spend for trust page for company number '10074054' is displayed
+        When I click on benchmark IT spending
+        Then the trust benchmark your IT spending page is displayed
