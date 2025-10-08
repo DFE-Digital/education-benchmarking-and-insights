@@ -117,6 +117,7 @@ public class BenchmarkItSpendingSteps(PageDriver driver)
     }
 
     [Given("I am on it spend page for trust with company number '(.*)'")]
+    [When("I am on it spend page for trust with company number '(.*)'")]
     public async Task GivenIAmOnItSpendPageForTrustWithCompanyNumber(string companyNumber)
     {
         await NavigateToBenchmarkItSpendPage(companyNumber);

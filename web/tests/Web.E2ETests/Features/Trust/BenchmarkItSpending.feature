@@ -46,7 +46,9 @@ Feature: Trust benchmark IT spending
         And the 'benchmark-it-spending-10192252.zip' file is downloaded
 
     Scenario: Can view IT spending page for claim user
-        Given I am on it spend page for trust with company number '10192252'
+        Given I am not logged in
+        And I have signed in with organisation '013: FBIT TEST - Single-Academy Trust 1 (Open)'
+        When I am on it spend page for trust with company number '00000002'
         Then I should see the following IT spend charts on the page:
           | Chart Title                                    |
           | ICT costs: Administration software and systems |
@@ -67,7 +69,9 @@ Feature: Trust benchmark IT spending
           | ICT costs: Other hardware                      |
           
     Scenario: Can view IT spending tables
-        Given I am on it spend page for trust with company number '10192252'
+        Given I am not logged in
+        And I have signed in with organisation '013: FBIT TEST - Single-Academy Trust 1 (Open)'
+        When I am on it spend page for trust with company number '00000002'
         When I click to view results as 'Table'
         And I click Apply filters
         Then I should see the following IT spend tables on the page:
