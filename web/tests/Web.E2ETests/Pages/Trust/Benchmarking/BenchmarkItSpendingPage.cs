@@ -34,12 +34,9 @@ public class BenchmarkItSpendingPage(IPage page)
         {
             HasText = "Apply filters"
         });
-    private ILocator TableContainer(string tableName) => page.Locator(Selectors.Table, new PageLocatorOptions
+    private ILocator TableContainer(string tableName) => page.Locator(Selectors.H2, new PageLocatorOptions
     {
-        Has = page.Locator("caption", new PageLocatorOptions
-        {
             HasText = tableName
-        })
     });
     private ILocator TableContainers => page.Locator(Selectors.Table);
 
