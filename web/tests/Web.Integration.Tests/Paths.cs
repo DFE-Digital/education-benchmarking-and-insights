@@ -277,8 +277,6 @@ public static class Paths
 
     public static string LocalAuthorityResources(string? code) => $"/local-authority/{code}/find-ways-to-spend-less";
 
-    public static string LocalAuthorityHighNeedsDashboard(string? code) => $"/local-authority/{code}/high-needs";
-
     public static string LocalAuthorityHighNeedsBenchmarking(string? code) => $"/local-authority/{code}/high-needs/benchmarking";
 
     public static string LocalAuthorityHighNeedsStartBenchmarking(string? code, string? referrer = null)

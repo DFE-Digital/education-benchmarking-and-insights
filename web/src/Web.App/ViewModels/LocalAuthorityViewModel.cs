@@ -16,8 +16,7 @@ public class LocalAuthorityViewModel(LocalAuthority localAuthority)
     public FinanceToolsViewModel Tools => new(
         localAuthority.Code,
         FinanceTools.CompareYourCosts,
-        FinanceTools.BenchmarkCensus,
-        FinanceTools.HighNeeds);
+        FinanceTools.BenchmarkCensus);
 
 
     private static int GetLaPhaseOrder(string? phase)

@@ -54,18 +54,6 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
     }
 
     [Fact]
-    public async Task CanNavigateToHighNeeds()
-    {
-        var (page, authority, _, _) = await SetupNavigateInitPage();
-
-        var anchor = page.QuerySelectorAll("a").FirstOrDefault(x => x.TextContent.Trim() == "High needs benchmarking");
-        Assert.NotNull(anchor);
-
-        page = await Client.Follow(anchor);
-        DocumentAssert.AssertPageUrl(page, Paths.LocalAuthorityHighNeedsDashboard(authority.Code).ToAbsolute());
-    }
-
-    [Fact]
     public async Task CanNavigateToHighNeedsBenchmarking()
     {
         var (page, authority, _, _) = await SetupNavigateInitPage();

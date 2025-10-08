@@ -34,7 +34,7 @@
         And I press the Enter key
         And I press the Enter key again
         When I click the cancel button
-        Then the local authority high needs dashboard page is displayed
+        Then the local authority home page is displayed
 
     @HighNeedsFlagEnabled
     Scenario: Can cancel the comparator set when referred from benchmarking page

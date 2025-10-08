@@ -5,8 +5,6 @@
     ViewData[ViewDataKeys.Title] = PageTitles.LocalAuthorityHighNeedsBenchmarking;
 }
 
-@Html.ActionLink(PageTitles.LocalAuthorityHighNeeds, "Index", "LocalAuthorityHighNeeds", new { code = Model.Code }, new { @class = "govuk-back-link govuk-!-margin-top-0" })
-
 @await Component.InvokeAsync("EstablishmentHeading", new
 {
     title = ViewData[ViewDataKeys.Title],

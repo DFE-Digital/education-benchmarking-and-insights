@@ -10,7 +10,6 @@ public class HomeSteps(PageDriver driver)
 {
     private BenchmarkCensusPage? _benchmarkCensusPage;
     private CompareYourCostsPage? _compareYourCostsPage;
-    private HighNeedsDashboardPage? _highNeedsBenchmarkingPage;
     private HomePage? _localAuthorityHomePage;
 
     [Given("I am on local authority homepage for local authority with code '(.*)'")]
@@ -50,20 +49,6 @@ public class HomeSteps(PageDriver driver)
     {
         Assert.NotNull(_benchmarkCensusPage);
         await _benchmarkCensusPage.IsDisplayed();
-    }
-
-    [When("I click on high needs benchmarking")]
-    public async Task WhenIClickOnHighNeedsBenchmarking()
-    {
-        Assert.NotNull(_localAuthorityHomePage);
-        _highNeedsBenchmarkingPage = await _localAuthorityHomePage.ClickHighNeedsBenchmarking();
-    }
-
-    [Then("the high needs benchmarking dashboard page is displayed")]
-    public async Task ThenTheHighNeedsBenchmarkingDashboardPageIsDisplayed()
-    {
-        Assert.NotNull(_highNeedsBenchmarkingPage);
-        await _highNeedsBenchmarkingPage.IsDisplayed();
     }
 
     [Then("the service banner displays the title '(.*)', heading '(.*)' and body '(.*)'")]

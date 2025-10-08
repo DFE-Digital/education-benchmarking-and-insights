@@ -8,16 +8,6 @@ public class WhenAFeatureIsDisabled(SchoolBenchmarkingWebAppClient client)
     : PageBase<SchoolBenchmarkingWebAppClient>(client)
 {
     [Fact]
-    public async Task LocalAuthorityHighNeedsRedirectsToFeatureDisabled()
-    {
-        var page = await Client.SetupDisableFeatureFlags(FeatureFlags.HighNeeds)
-            .Navigate(Paths.LocalAuthorityHighNeedsDashboard("123"));
-
-        PageAssert.IsFeatureDisabledPage(page);
-        DocumentAssert.AssertPageUrl(page, Paths.LocalAuthorityHighNeedsDashboard("123").ToAbsolute(), HttpStatusCode.Forbidden);
-    }
-
-    [Fact]
     public async Task NewsArticleRedirectsToFeatureDisabled()
     {
         var page = await Client.SetupDisableFeatureFlags(FeatureFlags.News)

@@ -50,12 +50,6 @@ public class HomePage(IPage page)
         return new BenchmarkCensusPage(page);
     }
 
-    public async Task<HighNeedsDashboardPage> ClickHighNeedsBenchmarking()
-    {
-        await HighNeedsBenchmarkingLink.Click();
-        return new HighNeedsDashboardPage(page);
-    }
-
     public async Task HasBanner(string title, string heading, string body)
     {
         await Banner.ShouldBeVisible();
