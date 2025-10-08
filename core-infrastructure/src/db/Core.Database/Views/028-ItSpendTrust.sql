@@ -40,14 +40,10 @@ SELECT
     v.OnsiteServers,
     v.OtherHardware
 FROM VW_ItSpendTrustDefaultActual v
-INNER JOIN Parameters p
-    ON p.Name = 'LatestBFRYear'
-WHERE v.RunId = p.Value
-AND v.Year IN (
-    CAST(p.Value AS INT) - 1,
-    CAST(p.Value AS INT),
-    CAST(p.Value AS INT) + 1
-);
+WHERE v.RunId = (SELECT Value FROM Parameters WHERE Name = 'CurrentYear')
+AND v.Year BETWEEN
+    (SELECT CAST(Value AS INT) FROM Parameters WHERE Name = 'LatestBFRYear') - 1
+    AND (SELECT CAST(Value AS INT) FROM Parameters WHERE Name = 'LatestBFRYear') + 1;
 GO
 
 DROP VIEW IF EXISTS VW_ItSpendTrustCurrentPreviousYearActual;
@@ -65,7 +61,5 @@ SELECT
     v.OnsiteServers,
     v.OtherHardware
 FROM VW_ItSpendTrustCurrentAllYearsActual v
-INNER JOIN Parameters p
-    ON p.Name = 'LatestBFRYear'
-WHERE v.Year = CAST(p.Value AS INT) - 1;
+WHERE v.Year = (SELECT CAST(Value AS INT) FROM Parameters WHERE Name = 'LatestBFRYear') - 1
 GO
