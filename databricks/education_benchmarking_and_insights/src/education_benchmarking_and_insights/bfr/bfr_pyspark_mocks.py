@@ -263,9 +263,9 @@ def get_mock_academies_df(spark: SparkSession, year: int) -> DataFrame:
     """
     schema = StructType(
         [
-            StructField("Trust UPIN", IntegerType(), True),
-            StructField("Company Registration Number", StringType(), True),
-            StructField("Total pupils in trust", DoubleType(), True),
+            StructField("TrustUPIN", IntegerType(), True),
+            StructField("CompanyRegistrationNumber", StringType(), True),
+            StructField("Pupils", DoubleType(), True),
         ]
     )
 

@@ -1,4 +1,4 @@
-import dlt
+from pyspark import pipelines as dp
 from pyspark.sql import DataFrame, SparkSession
 from pyspark.sql.functions import col, when, expr
 from education_benchmarking_and_insights.logger import setup_logger
@@ -57,28 +57,28 @@ def melt_it_spend_pupil_numbers_from_bfr(bfr: DataFrame, year: int, pupil_number
     )
 
 
-@dlt.table
+@dp.table
 def bfr_it_spend_melted_rows():
     """DLT table for melted IT spend rows."""
     spark = SparkSession.builder.getOrCreate()
     year = int(spark.conf.get("pipeline.year"))
-    return melt_it_spend_rows_from_bfr(dlt.read("merged_bfr_with_crn"), year, SOFA_IT_SPEND_LINES)
+    return melt_it_spend_rows_from_bfr(dp.read("merged_bfr_with_crn"), year, SOFA_IT_SPEND_LINES)
 
 
-@dlt.table
+@dp.table
 def bfr_it_spend_pupil_numbers():
     """DLT table for melted IT spend pupil numbers."""
     spark = SparkSession.builder.getOrCreate()
     year = int(spark.conf.get("pipeline.year"))
-    return melt_it_spend_pupil_numbers_from_bfr(dlt.read("merged_bfr_with_crn"), year, SOFA_PUPIL_NUMBER_EFALINE)
+    return melt_it_spend_pupil_numbers_from_bfr(dp.read("merged_bfr_with_crn"), year, SOFA_PUPIL_NUMBER_EFALINE)
 
 
-@dlt.table
+@dp.table
 def bfr_it_spend_final():
     """DLT table for the final joined IT spend data."""
     # Join the two intermediate DLT tables
-    bfr_it_spend_melted_rows_df = dlt.read("bfr_it_spend_melted_rows")
-    bfr_it_spend_pupil_numbers_df = dlt.read("bfr_it_spend_pupil_numbers")
+    bfr_it_spend_melted_rows_df = dp.read("bfr_it_spend_melted_rows")
+    bfr_it_spend_pupil_numbers_df = dp.read("bfr_it_spend_pupil_numbers")
     return bfr_it_spend_melted_rows_df.join(
         bfr_it_spend_pupil_numbers_df,
         on=["CompanyRegistrationNumber", "Year"],
