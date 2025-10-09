@@ -161,11 +161,11 @@ def merged_bfr():
 
     return joined
 
-# @dp.table(name="merged_bfr_with_crn")
-# def merged_bfr_with_crn():
-#     academies = spark.read.table("academies")
-#     return (
-#         academies.select("Company Registration Number", "Trust UPIN")
-#         .dropDuplicates(subset=["TrustUPIN"])
-#         .join(merged_bfr(), on="TrustUPIN", how="inner")
-#     )
+@dp.table(name="merged_bfr_with_crn")
+def merged_bfr_with_crn():
+    academies = dp.read("academies_current_year")
+    return (
+        academies.select("CompanyRegistrationNumber", "TrustUPIN")
+        .dropDuplicates(subset=["TrustUPIN"])
+        .join(dp.read("merged_bfr"), on="TrustUPIN", how="inner")
+    )

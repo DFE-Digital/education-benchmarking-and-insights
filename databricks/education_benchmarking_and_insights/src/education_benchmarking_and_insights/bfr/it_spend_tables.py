@@ -18,7 +18,7 @@ def melt_it_spend_rows_from_bfr(bfr: DataFrame, year: int, sofa_it_spend_efaline
         .withColumn("Y3P_Total", col("Y3P1") + col("Y3P2"))
         .select(
             "Category",
-            "Company Registration Number",
+            "CompanyRegistrationNumber",
             expr(
                 f"stack(3, 'Y1P_Total', `Y1P_Total`, 'Y2P_Total', `Y2P_Total`, 'Y3P_Total', `Y3P_Total`) as (Year, Value)"
             ),
@@ -31,7 +31,7 @@ def melt_it_spend_rows_from_bfr(bfr: DataFrame, year: int, sofa_it_spend_efaline
             .otherwise(col("Year")),
         )
     )
-    return it_spend_melted_rows.orderBy("Company Registration Number", "Year")
+    return it_spend_melted_rows.orderBy("CompanyRegistrationNumber", "Year")
 
 
 def melt_it_spend_pupil_numbers_from_bfr(bfr: DataFrame, year: int, pupil_number_efaline: int) -> DataFrame:
@@ -39,7 +39,7 @@ def melt_it_spend_pupil_numbers_from_bfr(bfr: DataFrame, year: int, pupil_number
     it_spend_pupil_numbers_melted_rows = (
         bfr.filter(col("EFALineNo").isin([pupil_number_efaline]))
         .select(
-            "Company Registration Number",
+            "CompanyRegistrationNumber",
             expr(
                 f"stack(3, 'Y1P1', `Y1P1`, 'Y1P2', `Y1P2`, 'Y2P1', `Y2P1`) as (Year, Pupils)"
             ),
@@ -53,7 +53,7 @@ def melt_it_spend_pupil_numbers_from_bfr(bfr: DataFrame, year: int, pupil_number
         )
     )
     return it_spend_pupil_numbers_melted_rows.orderBy(
-        "Company Registration Number", "Year"
+        "CompanyRegistrationNumber", "Year"
     )
 
 
@@ -62,7 +62,7 @@ def bfr_it_spend_melted_rows():
     """DLT table for melted IT spend rows."""
     spark = SparkSession.builder.getOrCreate()
     year = int(spark.conf.get("pipeline.year"))
-    return melt_it_spend_rows_from_bfr(dlt.read("bfr_final_wide"), year, SOFA_IT_SPEND_LINES)
+    return melt_it_spend_rows_from_bfr(dlt.read("merged_bfr_with_crn"), year, SOFA_IT_SPEND_LINES)
 
 
 @dlt.table
@@ -70,7 +70,7 @@ def bfr_it_spend_pupil_numbers():
     """DLT table for melted IT spend pupil numbers."""
     spark = SparkSession.builder.getOrCreate()
     year = int(spark.conf.get("pipeline.year"))
-    return melt_it_spend_pupil_numbers_from_bfr(dlt.read("bfr_final_wide"), year, SOFA_PUPIL_NUMBER_EFALINE)
+    return melt_it_spend_pupil_numbers_from_bfr(dlt.read("merged_bfr_with_crn"), year, SOFA_PUPIL_NUMBER_EFALINE)
 
 
 @dlt.table
@@ -81,6 +81,6 @@ def bfr_it_spend_final():
     bfr_it_spend_pupil_numbers_df = dlt.read("bfr_it_spend_pupil_numbers")
     return bfr_it_spend_melted_rows_df.join(
         bfr_it_spend_pupil_numbers_df,
-        on=["Company Registration Number", "Year"],
+        on=["CompanyRegistrationNumber", "Year"],
         how="left_outer",
     )
