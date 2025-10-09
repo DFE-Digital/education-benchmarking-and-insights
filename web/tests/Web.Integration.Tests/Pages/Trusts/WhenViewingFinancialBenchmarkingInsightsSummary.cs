@@ -49,6 +49,15 @@ public class WhenViewingFinancialBenchmarkingInsightsSummary(SchoolBenchmarkingW
         AssertSpendingPrioritiesSection(page, trust, ragRatings, schools);
     }
 
+    [Theory]
+    [InlineData(true)]
+    [InlineData(false)]
+    public async Task CanDisplayPrioritySchoolsSection(bool singleSchoolInTrust)
+    {
+        var (page, trust, _, ragRatings, schools) = await SetupNavigateInitPage(singleSchoolInTrust);
+        AssertPrioritySchoolsSection(page, trust, ragRatings, schools, singleSchoolInTrust);
+    }
+
     [Fact]
     public async Task CanDisplayNextStepsSection()
     {
@@ -56,7 +65,7 @@ public class WhenViewingFinancialBenchmarkingInsightsSummary(SchoolBenchmarkingW
         AssertNextStepsSection(page, trust);
     }
 
-    private async Task<(IHtmlDocument page, Trust trust, TrustBalance balance, RagRating[] ratings, TrustSchool[] schools)> SetupNavigateInitPage()
+    private async Task<(IHtmlDocument page, Trust trust, TrustBalance balance, RagRating[] ratings, TrustSchool[] schools)> SetupNavigateInitPage(bool singleSchoolInTrust = false)
     {
         var random = new Random();
         const string companyNumber = "12345678";
@@ -67,7 +76,7 @@ public class WhenViewingFinancialBenchmarkingInsightsSummary(SchoolBenchmarkingW
 
         var schools = Fixture.Build<TrustSchool>()
                 .With(x => x.OverallPhase, () => OverallPhaseTypes.All.ElementAt(random.Next(0, OverallPhaseTypes.All.Length - 1)))
-                .CreateMany(20).ToArray();
+                .CreateMany(singleSchoolInTrust ? 1 : 20).ToArray();
 
         var values = AllCostCategories.Select(c => c.Value);
         var queue = new Queue<string>();
@@ -227,6 +236,131 @@ public class WhenViewingFinancialBenchmarkingInsightsSummary(SchoolBenchmarkingW
         Assert.Equal(
             $"{lowestHighest} spend in this cost category {value.ToCurrency()} per {unit}",
             card.QuerySelector(".panel")?.TextContent.Trim().Replace(StringExtensions.WhitespaceRegex(), " "));
+    }
+
+    private static void AssertPrioritySchoolsSection(IHtmlDocument page, Trust trust, RagRating[] ragRatings, TrustSchool[] schools, bool singleSchoolInTrust)
+    {
+        var prioritySchools = ragRatings
+            .Where(r => r.Category != Category.Other)
+            .GroupBy(r => r.URN)
+            .Select(g => new
+            {
+                Urn = g.Key,
+                Name = schools.FirstOrDefault(s => s.URN == g.Key)?.SchoolName,
+                Red = g.Count(r => r.RAG == "red"),
+                Amber = g.Count(r => r.RAG == "amber"),
+                Green = g.Count(r => r.RAG == "green"),
+                TopCategories = ragRatings
+                    .Where(r => r.Category != Category.Other)
+                    .Where(r => r.URN == g.Key)
+                    .Select(r => new
+                    {
+                        Category = r.Category!,
+                        Value = r.Value,
+                        Unit = Lookups.CategoryUnitMap[r.Category!]
+                    })
+                    .OrderByDescending(c => c.Value)
+                    .Take(2)
+                    .ToList()
+            })
+            .OrderByDescending(s => s.Red)
+            .ThenByDescending(s => s.Amber)
+            .ThenBy(s => s.Name)
+            .Take(2)
+            .ToArray();
+
+        var prioritySchoolsSection = page.QuerySelector("section#priority-schools-section");
+        Assert.NotNull(prioritySchoolsSection);
+        DocumentAssert.Heading2(prioritySchoolsSection, "Spending at schools in this trust");
+
+        var cards = prioritySchoolsSection.QuerySelectorAll(".govuk-summary-card");
+        Assert.NotNull(cards);
+        Assert.Equal(singleSchoolInTrust ? 1 : 2, cards.Length);
+
+        var highlightText = prioritySchoolsSection.QuerySelector("p.govuk-body")?.TextContent.Trim();
+        Assert.NotNull(highlightText);
+
+        Assert.Contains(schools.Length > 1 ? "Key highlights from two schools" : "Key highlights from the school", highlightText);
+
+        for (var i = 0; i < prioritySchools.Length; i++)
+        {
+            var expected = prioritySchools[i];
+            var card = cards[i];
+
+            Assert.NotNull(expected.Name);
+            Assert.Contains(expected.Name, card.QuerySelector(".govuk-summary-card__title")?.TextContent.Trim());
+
+            var redCount = card.QuerySelector("[data-testid='priority-red']");
+            Assert.NotNull(redCount);
+            Assert.Equal($"{expected.Red}", redCount.TextContent.Trim());
+            var redLink = redCount.QuerySelector("a.govuk-link");
+
+            var amberCount = card.QuerySelector("[data-testid='priority-amber']");
+            Assert.NotNull(amberCount);
+            Assert.Equal($"{expected.Amber}", amberCount.TextContent.Trim());
+            var amberLink = amberCount.QuerySelector("a.govuk-link");
+
+            var greenCount = card.QuerySelector("[data-testid='priority-green']");
+            Assert.NotNull(greenCount);
+            Assert.Equal($"{expected.Green}", greenCount.TextContent.Trim());
+            var greenLink = greenCount.QuerySelector("a.govuk-link");
+
+            if (expected.Red > 0)
+            {
+                Assert.NotNull(redLink);
+                Assert.Equal($"{Paths.SchoolSpending(expected.Urn)}#high-priority", redLink.GetAttribute("href"));
+            }
+            else
+            {
+                Assert.Null(redLink);
+            }
+
+            if (expected.Amber > 0)
+            {
+                Assert.NotNull(amberLink);
+                Assert.Equal($"{Paths.SchoolSpending(expected.Urn)}#medium-priority", amberLink.GetAttribute("href"));
+            }
+            else
+            {
+                Assert.Null(amberLink);
+            }
+
+            if (expected.Green > 0)
+            {
+                Assert.NotNull(greenLink);
+                Assert.Equal($"{Paths.SchoolSpending(expected.Urn)}#low-priority", greenLink.GetAttribute("href"));
+            }
+            else
+            {
+                Assert.Null(greenLink);
+            }
+
+            var panel = card.QuerySelector(".panel--grey");
+            var gridRow = panel?.QuerySelector(".govuk-grid-row");
+            Assert.NotNull(gridRow);
+            var categoryColumns = gridRow.QuerySelectorAll(".govuk-grid-column-one-half");
+
+            Assert.NotNull(categoryColumns);
+            Assert.Equal(expected.TopCategories.Count, categoryColumns.Length);
+
+            for (var j = 0; j < expected.TopCategories.Count; j++)
+            {
+                var expectedCategory = expected.TopCategories[j];
+                var column = categoryColumns[j];
+
+                Assert.Contains(expectedCategory.Category, column.QuerySelector(".key-spend-category")?.TextContent.Trim());
+                Assert.Contains(expectedCategory.Value.ToCurrency(), column.QuerySelector(".govuk-body-l strong")?.TextContent.Trim());
+                Assert.Contains(expectedCategory.Unit, column.QuerySelectorAll(".govuk-body")[1].TextContent.Trim());
+            }
+        }
+
+        var linkParagraph = prioritySchoolsSection.QuerySelector("[data-testid='view-more-info-trust-home']");
+        Assert.NotNull(linkParagraph);
+
+        var link = linkParagraph.QuerySelector("a.govuk-link");
+        Assert.NotNull(link);
+        Assert.Equal(Paths.TrustHome(trust.CompanyNumber), link.GetAttribute("href"));
+
     }
 
     private static void AssertNextStepsSection(IHtmlDocument page, Trust trust)
