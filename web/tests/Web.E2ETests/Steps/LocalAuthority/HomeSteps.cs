@@ -58,5 +58,19 @@ public class HomeSteps(PageDriver driver)
         await _localAuthorityHomePage.HasBanner(title, heading, body);
     }
 
+    [Then("the schools accordion should be displayed")]
+    public async Task ThenTheSchoolsAccordionShouldBeDisplayed()
+    {
+        Assert.NotNull(_localAuthorityHomePage);
+        await _localAuthorityHomePage.IsSchoolsAccordionDisplayed();
+    }
+
+    [Then("the schools accordion should not be displayed")]
+    public async Task ThenTheSchoolsAccordionShouldNotBeDisplayed()
+    {
+        Assert.NotNull(_localAuthorityHomePage);
+        await _localAuthorityHomePage.IsSchoolsAccordionDisplayed(false);
+    }
+
     private static string LocalAuthorityHomeUrl(string laCode) => $"{TestConfiguration.ServiceUrl}/local-authority/{laCode}";
 }
