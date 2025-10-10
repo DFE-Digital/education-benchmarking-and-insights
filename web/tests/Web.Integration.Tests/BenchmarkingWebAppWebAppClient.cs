@@ -130,7 +130,8 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
             FeatureFlags.CfrItSpendBreakdown,
             FeatureFlags.News,
             FeatureFlags.TrustItSpendBreakdown,
-            FeatureFlags.FbisForTrust
+            FeatureFlags.FbisForTrust,
+            FeatureFlags.LocalAuthorityHomepageV2
         };
 
         foreach (var feature in features.Where(x => !ignoreFeatures.Contains(x)))

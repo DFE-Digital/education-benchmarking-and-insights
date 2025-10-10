@@ -23,6 +23,7 @@ variable "configuration" {
       News                              = optional(bool, false)
       TrustItSpendBreakdown             = optional(bool, false)
       FbisForTrust                      = optional(bool, false)
+      LocalAuthorityHomepageV2          = optional(bool, false)
     })
     CacheOptions = object({
       ReturnYears = object({
@@ -49,9 +50,10 @@ variable "configuration" {
       front_door_waf_policy_sku_name = "Standard_AzureFrontDoor"
       waf_mode                       = "Detection"
       features = {
-        News                  = true
-        TrustItSpendBreakdown = true
-        FbisForTrust          = true
+        News                     = true
+        TrustItSpendBreakdown    = true
+        FbisForTrust             = true
+        LocalAuthorityHomepageV2 = true
       },
       CacheOptions = {
         ReturnYears = {
@@ -77,9 +79,10 @@ variable "configuration" {
       front_door_waf_policy_sku_name = "Standard_AzureFrontDoor"
       waf_mode                       = "Detection"
       features = {
-        News                  = true
-        TrustItSpendBreakdown = true
-        FbisForTrust          = true
+        News                     = true
+        TrustItSpendBreakdown    = true
+        FbisForTrust             = true
+        LocalAuthorityHomepageV2 = true
       },
       CacheOptions = {
         ReturnYears = {
@@ -104,9 +107,10 @@ variable "configuration" {
       front_door_waf_policy_sku_name = "Standard_AzureFrontDoor"
       waf_mode                       = "Prevention"
       features = {
-        News                  = true
-        TrustItSpendBreakdown = true
-        FbisForTrust          = true
+        News                     = true
+        TrustItSpendBreakdown    = true
+        FbisForTrust             = true
+        LocalAuthorityHomepageV2 = true
       },
       CacheOptions = {
         ReturnYears = {
@@ -132,10 +136,11 @@ variable "configuration" {
       front_door_waf_policy_sku_name = "Standard_AzureFrontDoor"
       waf_mode                       = "Detection"
       features = {
-        CfrItSpendBreakdown   = true
-        News                  = true
-        TrustItSpendBreakdown = true
-        FbisForTrust          = true
+        CfrItSpendBreakdown      = true
+        News                     = true
+        TrustItSpendBreakdown    = true
+        FbisForTrust             = true
+        LocalAuthorityHomepageV2 = true
       },
       CacheOptions = {
         ReturnYears = {
