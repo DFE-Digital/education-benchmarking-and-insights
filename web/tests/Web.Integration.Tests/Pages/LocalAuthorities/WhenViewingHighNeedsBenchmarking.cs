@@ -73,7 +73,7 @@ public class WhenViewingHighNeedsBenchmarking(SchoolBenchmarkingWebAppClient cli
         DocumentAssert.Breadcrumbs(page, expectedBreadcrumbs);
 
         Assert.NotNull(authority.Name);
-        DocumentAssert.TitleAndH1(page, "Benchmark High needs - Financial Benchmarking and Insights Tool - GOV.UK", "Benchmark High needs");
+        DocumentAssert.TitleAndH1(page, "Benchmark high needs - Financial Benchmarking and Insights Tool - GOV.UK", "Benchmark high needs");
 
         AssertHelpSection(page);
     }

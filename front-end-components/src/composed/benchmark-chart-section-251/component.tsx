@@ -47,7 +47,7 @@ export function BenchmarkChartSection251<
       tableHeadings: [
         "Local authority",
         "Outturn",
-        "Budget",
+        "Planned expenditure",
         "2 to 18 Population",
       ],
       dataPoints,
@@ -64,7 +64,7 @@ export function BenchmarkChartSection251<
         }),
     },
     budget: {
-      label: "Budget",
+      label: "Planned expenditure",
       visible: true,
       valueFormatter: (v) =>
         shortValueFormatter(v, {
