@@ -11,6 +11,8 @@ public class HomeSteps(PageDriver driver)
     private BenchmarkCensusPage? _benchmarkCensusPage;
     private CompareYourCostsPage? _compareYourCostsPage;
     private HomePage? _localAuthorityHomePage;
+    private HighNeedsStartBenchmarkingPage? _benchmarkHighNeedsPage;
+    private HighNeedsHistoricDataPage? _highNeedsHistoryPage;
 
     [Given("I am on local authority homepage for local authority with code '(.*)'")]
     public async Task GivenIAmOnLocalAuthorityHomepageForLocalAuthorityWithCode(string laCode)
@@ -44,6 +46,20 @@ public class HomeSteps(PageDriver driver)
         _benchmarkCensusPage = await _localAuthorityHomePage.ClickBenchmarkCensus();
     }
 
+    [When("I click on benchmark high needs")]
+    public async Task WhenIClickOnBenchmarkHighNeeds()
+    {
+        Assert.NotNull(_localAuthorityHomePage);
+        _benchmarkHighNeedsPage = await _localAuthorityHomePage.ClickBenchmarkHighNeeds();
+    }
+
+    [When("I click on high needs historic data")]
+    public async Task WhenIClickOnHighNeedsHistoricData()
+    {
+        Assert.NotNull(_localAuthorityHomePage);
+        _highNeedsHistoryPage = await _localAuthorityHomePage.ClickHighNeedsHistory();
+    }
+
     [Then("the benchmark census page is displayed")]
     public async Task ThenTheBenchmarkCensusPageIsDisplayed()
     {
@@ -56,6 +72,20 @@ public class HomeSteps(PageDriver driver)
     {
         Assert.NotNull(_localAuthorityHomePage);
         await _localAuthorityHomePage.HasBanner(title, heading, body);
+    }
+
+    [Then("the High needs benchmarking page is displayed")]
+    public async Task ThenTheHighNeedsBenchmarkingPageIsDisplayed()
+    {
+        Assert.NotNull(_benchmarkHighNeedsPage);
+        await _benchmarkHighNeedsPage.IsDisplayed();
+    }
+
+    [Then("the High needs historic data page is displayed")]
+    public async Task ThenTheHighNeedsHistoricDataPageIsDisplayed()
+    {
+        Assert.NotNull(_highNeedsHistoryPage);
+        await _highNeedsHistoryPage.IsDisplayed();
     }
 
     private static string LocalAuthorityHomeUrl(string laCode) => $"{TestConfiguration.ServiceUrl}/local-authority/{laCode}";
