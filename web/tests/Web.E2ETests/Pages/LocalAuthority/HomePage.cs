@@ -18,7 +18,12 @@ public class HomePage(IPage page)
 
     private ILocator HighNeedsBenchmarkingLink => page.Locator(Selectors.GovLink, new PageLocatorOptions
     {
-        HasText = "High needs benchmarking"
+        HasText = "Benchmark high needs"
+    });
+
+    private ILocator HighNeedsHistoryLink => page.Locator(Selectors.GovLink, new PageLocatorOptions
+    {
+        HasText = "View high needs historical data"
     });
 
     private ILocator CookieBanner => page.Locator(Selectors.CookieBanner);
@@ -48,6 +53,18 @@ public class HomePage(IPage page)
     {
         await BenchmarkCensusDataLink.Click();
         return new BenchmarkCensusPage(page);
+    }
+
+    public async Task<HighNeedsStartBenchmarkingPage> ClickBenchmarkHighNeeds()
+    {
+        await HighNeedsBenchmarkingLink.Click();
+        return new HighNeedsStartBenchmarkingPage(page);
+    }
+
+    public async Task<HighNeedsHistoricDataPage> ClickHighNeedsHistory()
+    {
+        await HighNeedsHistoryLink.Click();
+        return new HighNeedsHistoricDataPage(page);
     }
 
     public async Task HasBanner(string title, string heading, string body)
