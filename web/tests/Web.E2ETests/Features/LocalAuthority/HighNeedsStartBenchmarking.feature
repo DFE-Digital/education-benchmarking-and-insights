@@ -1,6 +1,5 @@
 ﻿Feature: Local Authority high needs start benchmarking
 
-    @HighNeedsFlagEnabled
     Scenario: Can add local authority to comparators using select
         Given JavaScript is 'disabled'
         And I am on local authority high needs start benchmarking for local authority with code '201'
@@ -9,7 +8,6 @@
         And I press the Enter key
         Then the comparator 'Barking and Dagenham' is added to the comparators
 
-    @HighNeedsFlagEnabled
     Scenario: Can add local authority to comparators using autocomplete
         Given JavaScript is 'enabled'
         And I am on local authority high needs start benchmarking for local authority with code '201'
@@ -18,7 +16,6 @@
         And I press the Enter key again
         Then the comparator 'Hackney' is added to the comparators
 
-    @HighNeedsFlagEnabled
     Scenario: Can save the comparator set
         Given I am on local authority high needs start benchmarking for local authority with code '201'
         And I type 'lee' into the input field
@@ -27,7 +24,6 @@
         When I click the Save and continue button
         Then the local authority high needs benchmarking page is displayed
 
-    @HighNeedsFlagEnabled
     Scenario: Can cancel the comparator set
         Given I am on local authority high needs start benchmarking for local authority with code '201'
         And I type 'south' into the input field
@@ -36,7 +32,6 @@
         When I click the cancel button
         Then the local authority home page is displayed
 
-    @HighNeedsFlagEnabled
     Scenario: Can cancel the comparator set when referred from benchmarking page
         Given I am on local authority high needs start benchmarking from referrer 'benchmarking' for local authority with code '201'
         And I type 'south' into the input field

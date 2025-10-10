@@ -17,7 +17,6 @@ variable "configuration" {
     waf_mode                       = string
     features = object({
       HighExecutivePay                  = optional(bool, true)
-      HighNeeds                         = optional(bool, true)
       SchoolSpendingPrioritiesSsrCharts = optional(bool, true)
       CfrItSpendBreakdown               = optional(bool, true)
       News                              = optional(bool, false)
