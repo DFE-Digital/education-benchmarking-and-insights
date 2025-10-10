@@ -2,6 +2,7 @@
 using AngleSharp.Dom;
 using AngleSharp.Html.Dom;
 using AutoFixture;
+using Web.App;
 using Web.App.Domain;
 using Web.App.Domain.Content;
 using Xunit;
@@ -10,6 +11,16 @@ namespace Web.Integration.Tests.Pages.LocalAuthorities;
 
 public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<SchoolBenchmarkingWebAppClient>(client)
 {
+    [Theory]
+    [InlineData(false)]
+    [InlineData(true)]
+    public async Task CanDisplay(bool showBanner)
+    {
+        var (page, authority, schools, banner) = await SetupNavigateInitPage(showBanner, true);
+
+        AssertPageLayout(page, authority, schools, banner, true);
+    }
+
     [Theory]
     [InlineData(false, OverallPhaseTypes.Primary, OverallPhaseTypes.Secondary, OverallPhaseTypes.Special, OverallPhaseTypes.PupilReferralUnit, OverallPhaseTypes.AllThrough, OverallPhaseTypes.Nursery)]
     [InlineData(false, OverallPhaseTypes.Primary, OverallPhaseTypes.Secondary, OverallPhaseTypes.PupilReferralUnit, OverallPhaseTypes.AllThrough, OverallPhaseTypes.Nursery)]
@@ -21,11 +32,11 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
     [InlineData(false, OverallPhaseTypes.Primary, OverallPhaseTypes.Secondary, OverallPhaseTypes.AllThrough, OverallPhaseTypes.Nursery)]
     [InlineData(false, OverallPhaseTypes.Primary, OverallPhaseTypes.Secondary, OverallPhaseTypes.Special, OverallPhaseTypes.PupilReferralUnit)]
     [InlineData(true, OverallPhaseTypes.Primary, OverallPhaseTypes.Secondary, OverallPhaseTypes.Special, OverallPhaseTypes.PupilReferralUnit)]
-    public async Task CanDisplay(bool showBanner, params string[] phaseTypes)
+    public async Task CanDisplayWhenAuthorityHomepageV2Disabled(bool showBanner, params string[] phaseTypes)
     {
-        var (page, authority, schools, banner) = await SetupNavigateInitPage(showBanner, phaseTypes);
+        var (page, authority, schools, banner) = await SetupNavigateInitPage(showBanner, false, phaseTypes);
 
-        AssertPageLayout(page, authority, schools, banner);
+        AssertPageLayout(page, authority, schools, banner, false);
     }
 
     [Fact]
@@ -147,7 +158,10 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
         DocumentAssert.AssertPageUrl(page, Paths.LocalAuthorityHome(code).ToAbsolute(), HttpStatusCode.InternalServerError);
     }
 
-    private async Task<(IHtmlDocument page, LocalAuthority authority, LocalAuthoritySchool[] schools, Banner? banner)> SetupNavigateInitPage(bool showBanner = false, params string[] phaseTypes)
+    private async Task<(IHtmlDocument page, LocalAuthority authority, LocalAuthoritySchool[] schools, Banner? banner)> SetupNavigateInitPage(
+        bool showBanner = false,
+        bool localAuthorityHomepageV2Enabled = false,
+        params string[] phaseTypes)
     {
         var authority = Fixture.Build<LocalAuthority>()
             .With(a => a.Code, "123")
@@ -172,6 +186,7 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
         authorityWithNeighbours.StatisticalNeighbours = statisticalNeighbours;
 
         var page = await Client
+            .SetupDisableFeatureFlags(localAuthorityHomepageV2Enabled ? [] : [FeatureFlags.LocalAuthorityHomepageV2])
             .SetupEstablishment(authorityWithNeighbours, [authority])
             .SetupInsights()
             .SetupLocalAuthoritiesComparators(authority.Code!, [])
@@ -189,7 +204,7 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
             .ToArray();
     }
 
-    private static void AssertPageLayout(IHtmlDocument page, LocalAuthority authority, LocalAuthoritySchool[] schools, Banner? banner)
+    private static void AssertPageLayout(IHtmlDocument page, LocalAuthority authority, LocalAuthoritySchool[] schools, Banner? banner, bool localAuthorityHomepageV2Enabled)
     {
         DocumentAssert.AssertPageUrl(page, Paths.LocalAuthorityHome(authority.Code).ToAbsolute());
 
@@ -208,8 +223,24 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
         DocumentAssert.TextEqual(dataSourceElement, "This data covers the financial year April 2020 to March 2021 consistent financial reporting return (CFR).");
 
         var accordion = page.QuerySelector("#accordion-schools");
-        Assert.NotNull(accordion);
+        if (localAuthorityHomepageV2Enabled)
+        {
+            Assert.Null(accordion);
+        }
+        else
+        {
+            AssertAccordionSection(accordion, schools);
+        }
 
+        DocumentAssert.Banner(page, banner);
+        AssertToolsSection(page);
+        AssertHighNeedsSection(page);
+        AssertResourcesSection(page);
+    }
+
+    private static void AssertAccordionSection(IElement? accordion, LocalAuthoritySchool[] schools)
+    {
+        Assert.NotNull(accordion);
         var accordionSections = accordion.QuerySelectorAll(".govuk-accordion__section");
         Assert.NotEmpty(accordionSections);
 
@@ -224,8 +255,6 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
 
             AssertAccordionContent(contentElement, schools, headingText);
         }
-
-        DocumentAssert.Banner(page, banner);
     }
 
     private static void AssertAccordionContent(IElement element, LocalAuthoritySchool[] schools, string expectedPhaseType)
@@ -243,5 +272,32 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
             Assert.NotNull(school);
             Assert.Equal(school.OverallPhase, expectedPhaseType);
         }
+    }
+
+    private static void AssertToolsSection(IHtmlDocument page)
+    {
+        var links = page.QuerySelectorAll("#finance-tools .app-links > li a");
+        Assert.Equal(2, links.Length);
+
+        Assert.Equal("View school spending", links.ElementAt(0).TextContent.Trim());
+        Assert.Equal("View pupil and workforce data", links.ElementAt(1).TextContent.Trim());
+    }
+
+    private static void AssertHighNeedsSection(IHtmlDocument page)
+    {
+        var links = page.QuerySelectorAll("#high-needs .app-links > li a");
+        Assert.Equal(2, links.Length);
+
+        Assert.Equal("Benchmark high needs", links.ElementAt(0).TextContent.Trim());
+        Assert.Equal("View high needs historical data", links.ElementAt(1).TextContent.Trim());
+    }
+
+    private static void AssertResourcesSection(IHtmlDocument page)
+    {
+        var links = page.QuerySelectorAll("#establishment-resources .app-links > li a");
+        Assert.Equal(2, links.Length);
+
+        Assert.Equal("Find ways to spend less", links.ElementAt(0).TextContent.Trim());
+        Assert.Equal("Data sources and interpretation", links.ElementAt(1).TextContent.Trim());
     }
 }

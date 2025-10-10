@@ -18,7 +18,6 @@ public class LocalAuthorityViewModel(LocalAuthority localAuthority)
         FinanceTools.CompareYourCosts,
         FinanceTools.BenchmarkCensus);
 
-
     private static int GetLaPhaseOrder(string? phase)
     {
         return phase switch
