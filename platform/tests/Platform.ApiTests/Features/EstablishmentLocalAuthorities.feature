@@ -55,23 +55,6 @@ Feature: Establishment local authorities endpoints
       | suggester     | 0123456789_0123456789_0123456789_0123456789_0123456789_0123456789_0123456789_0123456789_0123456789_0123456789 | 5    |                           | The length of 'Search Text' must be 100 characters or fewer. You entered 109 characters. |                  |
 
     @HighNeedsFlagEnabled
-    Scenario: Sending a valid local authorities national rank request
-        Given a valid local authorities national rank request with sort order 'asc'
-        When I submit the local authorities request
-        Then the local authorities national rank result should contain the following:
-          | Code | Name                   | Value                | Rank |
-          | 201  | City of London         | 74.3672386895475819  | 1    |
-          | 206  | Islington              | 83.7501920181560312  | 2    |
-          | 203  | Greenwich              | 90.5839754210040574  | 3    |
-          | 205  | Hammersmith and Fulham | 97.4210777406673857  | 4    |
-          | 202  | Camden                 | 97.4536443741161516  | 5    |
-          | 210  | Southwark              | 97.4805362985510873  | 6    |
-          | 208  | Lambeth                | 98.5012502020260697  | 7    |
-          | 207  | Kensington and Chelsea | 100.3117545663038258 | 8    |
-          | 209  | Lewisham               | 105.2993762770436369 | 9    |
-          | 204  | Hackney                | 109.1145986925620464 | 10   |
-
-    @HighNeedsFlagEnabled
     Scenario: Sending a valid local authorities statistical neighbours request
         Given a valid local authorities statistical neighbours request with id '201'
         When I submit the local authorities request

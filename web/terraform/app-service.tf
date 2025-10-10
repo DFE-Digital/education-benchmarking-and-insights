@@ -67,7 +67,6 @@ resource "azurerm_windows_web_app" "education-benchmarking-as" {
     "APPINSIGHTS_INSTRUMENTATIONKEY"                        = data.azurerm_application_insights.application-insights.instrumentation_key
     "APPLICATIONINSIGHTS_CONNECTION_STRING"                 = data.azurerm_application_insights.application-insights.connection_string
     "FeatureManagement__HighExecutivePay"                   = var.configuration[var.environment].features.HighExecutivePay
-    "FeatureManagement__HighNeeds"                          = var.configuration[var.environment].features.HighNeeds
     "FeatureManagement__SchoolSpendingPrioritiesSsrCharts"  = var.configuration[var.environment].features.SchoolSpendingPrioritiesSsrCharts
     "FeatureManagement__CfrItSpendBreakdown"                = var.configuration[var.environment].features.CfrItSpendBreakdown
     "FeatureManagement__News"                               = var.configuration[var.environment].features.News

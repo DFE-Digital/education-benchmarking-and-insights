@@ -81,25 +81,3 @@ public class LocalAuthorityEducationHealthCarePlansDefaultQuery(string dimension
         };
     }
 }
-
-public class LocalAuthorityFinancialDefaultCurrentRankingQuery : PlatformQuery
-{
-    public LocalAuthorityFinancialDefaultCurrentRankingQuery(string ranking, string sort) : base(GetSql(ranking))
-    {
-        Select("LaCode AS Code");
-        Select("Name");
-        Select("Value");
-        Select(sort.Equals(Ranking.Sort.Desc, StringComparison.OrdinalIgnoreCase)
-            ? "RANK() OVER (ORDER BY Value DESC) AS [Rank]"
-            : "RANK() OVER (ORDER BY Value) AS [Rank]");
-    }
-
-    private static string GetSql(string ranking)
-    {
-        return ranking switch
-        {
-            Ranking.LocalAuthorityNationalRanking.SpendAsPercentageOfBudget => "SELECT /**select**/ FROM VW_LocalAuthorityFinancialDefaultCurrentSpendAsPercentageOfBudget /**where**/",
-            _ => throw new ArgumentOutOfRangeException(nameof(ranking), "Unknown ranking")
-        };
-    }
-}

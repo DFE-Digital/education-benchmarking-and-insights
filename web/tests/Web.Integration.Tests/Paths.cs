@@ -263,8 +263,6 @@ public static class Paths
 
     public static string ApiCensusHistoryComparison(string id, string dimension, string? phase, string? financeType) => $"api/census/history/comparison?id={id}&dimension={dimension}&phase={phase}&financeType={financeType}";
 
-    public static string ApiNationalRank(string ranking, string? sort) => $"api/local-authorities/national-rank?ranking={ranking}&sort={sort}";
-
     public static string ApiHighNeedsComparison(string code, string[] set) => $"api/local-authorities/high-needs/comparison?code={code}&set={string.Join("&set=", set)}";
 
     public static string ApiHighNeedsHistory(string code) => $"api/local-authorities/high-needs/history?code={code}";
@@ -289,8 +287,6 @@ public static class Paths
 
         return $"/local-authority/{code}/high-needs/benchmarking/comparators{suffix}";
     }
-
-    public static string LocalAuthorityHighNeedsNationalRankings(string? code) => $"/local-authority/{code}/high-needs/national-rank";
 
     public static string LocalAuthorityHighNeedsHistoricData(string? code) => $"/local-authority/{code}/high-needs/history";
 

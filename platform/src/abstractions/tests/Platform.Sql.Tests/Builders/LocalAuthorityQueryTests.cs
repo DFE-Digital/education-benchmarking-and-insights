@@ -118,29 +118,3 @@ public class LocalAuthorityEducationHealthCarePlansDefaultQueryTests
 
     private static LocalAuthorityEducationHealthCarePlansDefaultQuery Create(string dimension) => new(dimension);
 }
-
-public class LocalAuthorityFinancialDefaultCurrentRankingQueryTests
-{
-    public static TheoryData<string, string, string> Data => new()
-    {
-        { "SpendAsPercentageOfBudget", "desc", "SELECT LaCode AS Code , Name , Value , RANK() OVER (ORDER BY Value DESC) AS [Rank]\n FROM VW_LocalAuthorityFinancialDefaultCurrentSpendAsPercentageOfBudget " },
-        { "SpendAsPercentageOfBudget", "asc", "SELECT LaCode AS Code , Name , Value , RANK() OVER (ORDER BY Value) AS [Rank]\n FROM VW_LocalAuthorityFinancialDefaultCurrentSpendAsPercentageOfBudget " },
-        { "SpendAsPercentageOfBudget", "invalid", "SELECT LaCode AS Code , Name , Value , RANK() OVER (ORDER BY Value) AS [Rank]\n FROM VW_LocalAuthorityFinancialDefaultCurrentSpendAsPercentageOfBudget " }
-    };
-
-    [Theory]
-    [MemberData(nameof(Data))]
-    public void ShouldReturnSql(string ranking, string sort, string expected)
-    {
-        var builder = Create(ranking, sort);
-        Assert.Equal(expected, builder.QueryTemplate.RawSql);
-    }
-
-    [Fact]
-    public void ShouldThrowArgumentOutOfRangeException()
-    {
-        Assert.Throws<ArgumentOutOfRangeException>(() => Create("ranking", string.Empty));
-    }
-
-    private static LocalAuthorityFinancialDefaultCurrentRankingQuery Create(string ranking, string sort) => new(ranking, sort);
-}
