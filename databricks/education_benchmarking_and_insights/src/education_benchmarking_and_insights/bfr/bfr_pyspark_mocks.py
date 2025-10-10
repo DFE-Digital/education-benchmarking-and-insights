@@ -5,6 +5,7 @@ from pyspark.sql.types import (
     StringType,
     StructField,
     StructType,
+    FloatType,
 )
 
 from .config import bfr_3y_cols, bfr_sofa_cols
@@ -16,7 +17,7 @@ def _get_schema_from_dict(schema_dict: dict) -> StructType:
         if col_type_str == "Int64":
             fields.append(StructField(col_name, IntegerType(), True))
         elif col_type_str == "float":
-            fields.append(StructField(col_name, DoubleType(), True))
+            fields.append(StructField(col_name, FloatType(), True))
         elif col_type_str == "string":
             fields.append(StructField(col_name, StringType(), True))
         else:
@@ -265,7 +266,7 @@ def get_mock_academies_df(spark: SparkSession, year: int) -> DataFrame:
         [
             StructField("TrustUPIN", IntegerType(), True),
             StructField("CompanyRegistrationNumber", StringType(), True),
-            StructField("Pupils", DoubleType(), True),
+            StructField("TotalPupilsInTrust", FloatType(), True),
         ]
     )
 

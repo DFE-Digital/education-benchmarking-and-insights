@@ -12,4 +12,6 @@ resources:
 
       configuration:
         bundle.sourcePath: ${workspace.file_path}/src
-        pipeline.year: 2025
+        pipeline.run_id: 2025
+        pipeline.aar_year: 2024
+        pipeline.bfr_year: 2025
