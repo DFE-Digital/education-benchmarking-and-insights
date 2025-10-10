@@ -1,9 +1,16 @@
 @using Web.App.ViewModels.Shared
 @model Web.App.ViewModels.Shared.FinanceToolsViewModel
 
-<div class="govuk-grid-row">
+<div class="govuk-grid-row" id="finance-tools">
     <div class="govuk-grid-column-full">
-        <h2 class="govuk-heading-m">Finance tools</h2>
+        <h2 class="govuk-heading-m">
+            <feature negate="true" name="@FeatureFlags.LocalAuthorityHomepageV2">
+                Finance tools
+            </feature>
+            <feature name="@FeatureFlags.LocalAuthorityHomepageV2">
+                Benchmarking tools
+            </feature>
+        </h2>
         <ul class="app-links">
             @foreach (var tool in Model.Tools)
             {

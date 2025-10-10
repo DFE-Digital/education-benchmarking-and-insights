@@ -13,3 +13,13 @@
     Scenario: Service banner is displayed
         Given I am on local authority homepage for local authority with code '204'
         Then the service banner displays the title 'Local authority home page', heading 'Banner on local authority home page' and body 'This banner has been configured on the automated test environment for the local authority home page only'
+        
+    @LocalAuthorityHomepageV2FlagDisabled
+    Scenario: Schools accordion is displayed when feature is enabled
+        Given I am on local authority homepage for local authority with code '204'
+        Then the schools accordion should be displayed
+        
+    @LocalAuthorityHomepageV2FlagEnabled
+    Scenario: Schools accordion is not displayed when feature is enabled
+        Given I am on local authority homepage for local authority with code '204'
+        Then the schools accordion should not be displayed
