@@ -100,6 +100,7 @@ Feature flags may also be defined in the `FeatureManagement` section:
 | `News`                              | Displays news article pages, index and footer link                                                                                 |
 | `TrustItSpendBreakdown`             | Displays IT spend in Trust-Trust benchmarking as submitted in BFRs from 2024-5 onwards                                             |
 | `FbisForTrust`                      | Toggles the Financial Benchmarking and Insights Summary for multi academy Trusts                                                   |
+| `LocalAuthorityHomepageV2`          | Toggles the alternative Local Authority home page                                                                                  |
 
 #### CacheOptions
 

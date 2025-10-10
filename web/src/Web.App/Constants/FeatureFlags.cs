@@ -9,4 +9,5 @@ public static class FeatureFlags
     public const string News = nameof(News);
     public const string TrustItSpendBreakdown = nameof(TrustItSpendBreakdown);
     public const string FbisForTrust = nameof(FbisForTrust);
+    public const string LocalAuthorityHomepageV2 = nameof(LocalAuthorityHomepageV2);
 }
