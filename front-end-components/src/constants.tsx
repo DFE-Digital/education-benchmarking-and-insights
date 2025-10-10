@@ -20,6 +20,5 @@ export const TrustSuggesterId = "trust-suggester";
 export const BudgetForecastReturnsElementId = "budget-forecast-returns";
 export const ShareContentByElementIdDataAttr = "share-content-by-element-id";
 export const LaunchModalDataAttr = "launch-modal";
-export const LaNationalRankViewElementId = "la-national-rank";
 export const HistoricDataHighNeedsElementId = "historic-data-high-needs";
 export const BenchmarkDataHighNeedsElementId = "benchmark-data-high-needs";

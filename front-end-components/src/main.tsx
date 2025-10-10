@@ -11,7 +11,6 @@ import {
   HistoricData,
   HistoricData2,
   HistoricData2SectionName,
-  LaNationalRankView,
 } from "src/views";
 import {
   BenchmarkDataHighNeedsElementId,
@@ -25,7 +24,6 @@ import {
   HistoricDataHighNeedsElementId,
   HorizontalBarChart1SeriesElementId,
   HorizontalChartTrustFinancialElementId,
-  LaNationalRankViewElementId,
   LaSuggesterId,
   LaunchModalDataAttr,
   LineChart1SeriesElementId,
@@ -969,23 +967,6 @@ if (launchModalElements) {
       root.render(<React.StrictMode>{modal}</React.StrictMode>);
     }
   });
-}
-
-const laNationalRankViewElement = document.getElementById(
-  LaNationalRankViewElementId
-);
-
-if (laNationalRankViewElement) {
-  const { code, title } = laNationalRankViewElement.dataset;
-  if (code && title) {
-    const root = ReactDOM.createRoot(laNationalRankViewElement);
-
-    root.render(
-      <React.StrictMode>
-        <LaNationalRankView code={code} title={title} />
-      </React.StrictMode>
-    );
-  }
 }
 
 const historicDataHighNeedsElement = document.getElementById(

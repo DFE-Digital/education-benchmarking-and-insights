@@ -398,17 +398,6 @@ export type TotalCateringCostsField = keyof Pick<
   "totalGrossCateringCosts" | "totalNetCateringCosts"
 >;
 
-export type LocalAuthorityRanking = {
-  ranking?: LocalAuthorityRank[];
-};
-
-export type LocalAuthorityRank = {
-  code?: string;
-  name?: string;
-  value?: number;
-  rank: number;
-};
-
 export type LocalAuthorityBenchmarkBase = {
   code: string;
   name: string;
