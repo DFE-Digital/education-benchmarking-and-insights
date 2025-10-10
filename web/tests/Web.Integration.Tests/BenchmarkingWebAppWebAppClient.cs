@@ -125,7 +125,6 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
         var features = new[]
         {
             FeatureFlags.HighExecutivePay,
-            FeatureFlags.HighNeeds,
             FeatureFlags.SchoolSpendingPrioritiesSsrCharts,
             FeatureFlags.CfrItSpendBreakdown,
             FeatureFlags.News,
