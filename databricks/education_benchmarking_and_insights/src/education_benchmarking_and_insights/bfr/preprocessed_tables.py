@@ -136,7 +136,7 @@ def preprocess_bfr_3y(bfr_3y_mv, year):
 @dp.table()
 def bfr_sofa_preprocessed():
     spark = SparkSession.builder.getOrCreate()
-    year = int(spark.conf.get("pipeline.year"))
+    year = int(spark.conf.get("pipeline.bfr_year"))
     bfr_sofa = dp.read("bfr_sofa_current_year")
     return preprocess_bfr_sofa(bfr_sofa, year)
 
@@ -144,7 +144,7 @@ def bfr_sofa_preprocessed():
 @dp.table()
 def bfr_3y_preprocessed():
     spark = SparkSession.builder.getOrCreate()
-    year = int(spark.conf.get("pipeline.year"))
+    year = int(spark.conf.get("pipeline.bfr_year"))
     bfr_3y = dp.read("bfr_three_year_forecast_current_year")
     return preprocess_bfr_3y(bfr_3y, year)
 
@@ -163,9 +163,9 @@ def merged_bfr():
 
 @dp.table(name="merged_bfr_with_crn")
 def merged_bfr_with_crn():
-    academies = dp.read("academies_current_year")
     return (
-        academies.select("CompanyRegistrationNumber", "TrustUPIN")
+        dp.read("academies_current_year")
+        .select("Company_Number", col("Lead_UPIN").alias("TrustUPIN"))
         .dropDuplicates(subset=["TrustUPIN"])
         .join(dp.read("merged_bfr"), on="TrustUPIN", how="inner")
     )

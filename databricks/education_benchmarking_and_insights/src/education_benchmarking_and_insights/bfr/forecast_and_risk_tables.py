@@ -15,7 +15,7 @@ from pyspark.sql.functions import (
 from pyspark.sql.types import DoubleType, IntegerType, StructField, StructType
 from pyspark import pipelines as dp
 from education_benchmarking_and_insights.bfr.config import (
-    SOFA_TRUST_RESERVE_EFALINE, SOFA_PUPIL_NUMBER_EFALINE
+    SOFA_TRUST_REVENUE_RESERVE_EFALINE, SOFA_PUPIL_NUMBER_EFALINE
 )
 
 from education_benchmarking_and_insights.logger import setup_logger
@@ -35,37 +35,32 @@ def _build_bfr_historical_data(
             # If there is no BFR SOFA, we can't get historic revenue/pupils
             # Add columns with default values if bfr_sofa_historical is None
             academies_historical = academies_historical.withColumn(
-                "Trust Revenue reserve", lit(0.0).cast(DoubleType())
-            ).withColumn("Total pupils in trust", lit(0).cast(IntegerType()))
+                "TrustRevenueReserve", lit(0.0).cast(DoubleType())
+            ).withColumn("TotalPupilsInTrust", lit(0).cast(IntegerType()))
             return academies_historical
         return None
 
     # Filter bfr_sofa_historical for revenue reserve and rename Y2P2
     sofa_revenue_reserve = bfr_sofa_historical.filter(
-        col("EFALineNo") == SOFA_TRUST_RESERVE_EFALINE
-    ).select("TrustUPIN", col("Y2P2").alias("Trust Revenue reserve"))
+        col("EFALineNo") == SOFA_TRUST_REVENUE_RESERVE_EFALINE
+    ).select("TrustUPIN", col("Y2P2").alias("TrustRevenueReserve"))
 
     # Merge with academies_historical
     historic_bfr_with_crn = academies_historical.join(
         sofa_revenue_reserve, on="TrustUPIN", how="left_outer"
     ).withColumn(
-        "Trust Revenue reserve",
-        coalesce(col("Trust Revenue reserve"), lit(0.0)) * 1_000,
+        "TrustRevenueReserve",
+        coalesce(col("TrustRevenueReserve"), lit(0.0)) * 1_000,
     )
 
     # Filter bfr_sofa_historical for pupil number and rename Y1P2
     sofa_pupil_number = bfr_sofa_historical.filter(
         col("EFALineNo") == SOFA_PUPIL_NUMBER_EFALINE
-    ).select("TrustUPIN", col("Y1P2").alias("sofa_pupil_number_temp"))
+    ).select("TrustUPIN", col("Y1P2").alias("TotalPupilsInTrust"))
 
     # Merge again for pupil numbers
     historic_bfr_with_crn = historic_bfr_with_crn.join(
         sofa_pupil_number, on="TrustUPIN", how="left_outer"
-    ).withColumn(
-        "Total pupils in trust",
-        coalesce(
-            col("Total pupils in trust"), col("sofa_pupil_number_temp"), lit(0)
-        ).cast(IntegerType()),
     )
     return historic_bfr_with_crn
 
@@ -77,8 +72,8 @@ def _merge_historic_bfr(
     if historic_bfr_processed is not None and historic_bfr_processed.count() > 0:
         historic_bfr_selected = historic_bfr_processed.select(
             "TrustUPIN",
-            col("Trust Revenue reserve").alias(year_prefix),
-            col("Total pupils in trust").alias(f"Pupils {year_prefix}"),
+            col("TrustRevenueReserve").alias(year_prefix),
+            col("TotalPupilsInTrust").alias(f"Pupils{year_prefix}"),
         )
 
         bfr = bfr.join(historic_bfr_selected, on="TrustUPIN", how="left_outer")
@@ -87,12 +82,12 @@ def _merge_historic_bfr(
         bfr = bfr.withColumn(year_prefix, coalesce(col(year_prefix), lit(0.0)))
         bfr = bfr.withColumn(
             f"Pupils {year_prefix}",
-            coalesce(col(f"Pupils {year_prefix}"), lit(0.0)),
+            coalesce(col(f"Pupils{year_prefix}"), lit(0.0)),
         )
     else:
         # If historic_bfr_processed is None or empty, add columns with 0.0
         bfr = bfr.withColumn(year_prefix, lit(0.0).cast(DoubleType()))
-        bfr = bfr.withColumn(f"Pupils {year_prefix}", lit(0.0).cast(DoubleType()))
+        bfr = bfr.withColumn(f"Pupils{year_prefix}", lit(0.0).cast(DoubleType()))
     return bfr
 
 
@@ -116,7 +111,7 @@ def _prepare_merged_bfr_for_forecast_and_risk(
     return merged_bfr_with_2y_historic_data
 
 
-def _calculate_metrics(bfr: DataFrame, pipeline_config) -> DataFrame:
+def _calculate_metrics(bfr: DataFrame) -> DataFrame:
     """Calculates financial metrics using Spark DataFrames."""
     costs_list = [
         "Total income",
@@ -130,11 +125,11 @@ def _calculate_metrics(bfr: DataFrame, pipeline_config) -> DataFrame:
         when(col("Category").isin(costs_list), col("Y2P1") + col("Y2P2")).otherwise(
             col("Y2P2")
         ),
-    ).select("CompanyRegistrationNumber", "Category", "metric")
+    ).select("Company_Number", "Category", "metric")
 
     # Pivot the DataFrame
     pivot_df = (
-        bfr_with_metric.groupBy("CompanyRegistrationNumber")
+        bfr_with_metric.groupBy("Company_Number")
         .pivot(
             "Category",
             [
@@ -182,10 +177,10 @@ def _calculate_metrics(bfr: DataFrame, pipeline_config) -> DataFrame:
     ]
 
     melted_df = df_metrics.select(
-        col("CompanyRegistrationNumber"),
+        col("Company_Number"),
         expr(
             f"stack({len(metric_cols)}, "
-            + ", ".join([f"'{c}', `{c}`" for c in metric_cols])
+            + ", ".join([f"'{c}', CAST(`{c}` AS DECIMAL(38,8))" for c in metric_cols])
             + ") as (Category, Value)"
         ),
     )
@@ -244,7 +239,7 @@ def _assign_slope_flag(bfr_with_slopes: DataFrame) -> DataFrame:
 
     # Apply the grouped map UDF
     bfr_with_slope_flag = bfr_with_slopes.groupBy(
-        "CompanyRegistrationNumber"
+        "Company_Number"
     ).applyInPandas(assign_slope_flag_func, schema=output_schema)
     return bfr_with_slope_flag
 
@@ -261,17 +256,17 @@ def _slope_analysis(bfr: DataFrame) -> DataFrame:
 
     # Melt the DataFrame
     melted_df = bfr_with_slope_flag.select(
-        "CompanyRegistrationNumber",
+        "Company_Number",
         expr(
             "stack(2, 'Slope', Slope, 'Slope flag', CAST(`Slope flag` AS DOUBLE)) as (Category, Value)"
         ),
     ).withColumnRenamed("Category", "Category")
 
-    return melted_df.orderBy("CompanyRegistrationNumber")
+    return melted_df.orderBy("Company_Number")
 
 
 def _calculate_forecast_and_risk_metrics(
-    merged_bfr_with_2y_historic_data: DataFrame, pipeline_config
+    merged_bfr_with_2y_historic_data: DataFrame
 ) -> DataFrame:
     """
     Calculates the forecast and risk metrics from the merged BFR data.
@@ -288,7 +283,7 @@ def _calculate_forecast_and_risk_metrics(
         )
     )
     bfr_forecast_and_risk_metrics = _calculate_metrics(
-        bfr_rows_for_normalised_finance_metrics, pipeline_config
+        bfr_rows_for_normalised_finance_metrics
     )
     bfr_rows_for_slope_analysis = merged_bfr_with_2y_historic_data.filter(
         col("Category") == "Revenue reserve"
@@ -313,17 +308,19 @@ def _prepare_current_and_future_pupils(
     """
     bfr_pupils = bfr_data.filter(col("Category") == "Pupil numbers").select(
         "TrustUPIN",
-        col("Y2").alias("Pupils Y2"),
-        col("Y3").alias("Pupils Y3"),
-        col("Y4").alias("Pupils Y4"),
+        col("Y2").alias("PupilsY2"),
+        col("Y3").alias("PupilsY3"),
+        col("Y4").alias("PupilsY4"),
     )
 
     academies_pupils = (
-        academies.select(
-            "TrustUPIN", col("Total pupils in trust").alias("Pupils Y1")
+        # TODO: this pupil number should come from census data
+        academies.withColumn("TotalPupilsInTrust", lit(0.0))
+        .select(
+            "TrustUPIN", col("TotalPupilsInTrust").alias("PupilsY1")
         )
         .groupBy("TrustUPIN")
-        .agg(first("Pupils Y1").alias("Pupils Y1"))
+        .agg(first("PupilsY1").alias("PupilsY1"))
     )
 
     bfr_pupils = bfr_pupils.join(academies_pupils, on="TrustUPIN", how="left_outer")
@@ -334,52 +331,52 @@ def _melt_forecast_and_risk_pupil_numbers_from_bfr(
     bfr: DataFrame, year: int
 ) -> DataFrame:
     """Melt pupil numbers for forecast and risk calculations using Spark."""
-    id_vars = ["CompanyRegistrationNumber", "Category"]
+    id_vars = ["Company_Number", "Category"]
     value_vars = [
-        "Pupils Y-2",
-        "Pupils Y-1",
-        "Pupils Y1",
-        "Pupils Y2",
-        "Pupils Y3",
-        "Pupils Y4",
+        "PupilsY-2",
+        "PupilsY-1",
+        "PupilsY1",
+        "PupilsY2",
+        "PupilsY3",
+        "PupilsY4",
     ]
     # Using stack to melt the DataFrame
     forecast_and_risk_pupil_numbers_melted_rows = bfr.select(
         *id_vars,
         expr(
             f"stack({len(value_vars)}, "
-            + ", ".join([f"'{col_name}', `{col_name}`" for col_name in value_vars])
+            + ", ".join([f"'{col_name}', CAST(`{col_name}` AS DOUBLE)"  for col_name in value_vars])
             + ") as (Year, Pupils)"
         ),
     ).withColumn(
         "Year",
-        when(col("Year") == "Pupils Y-2", year - 2)
-        .when(col("Year") == "Pupils Y-1", year - 1)
-        .when(col("Year") == "Pupils Y1", year)
-        .when(col("Year") == "Pupils Y2", year + 1)
-        .when(col("Year") == "Pupils Y3", year + 2)
-        .when(col("Year") == "Pupils Y4", year + 3)
+        when(col("Year") == "PupilsY-2", year - 2)
+        .when(col("Year") == "PupilsY-1", year - 1)
+        .when(col("Year") == "PupilsY1", year)
+        .when(col("Year") == "PupilsY2", year + 1)
+        .when(col("Year") == "PupilsY3", year + 2)
+        .when(col("Year") == "PupilsY4", year + 3)
         .otherwise(col("Year")),
     )
     return forecast_and_risk_pupil_numbers_melted_rows.orderBy(
-        "CompanyRegistrationNumber", "Year"
+        "Company_Number", "Year"
     )
 
 
 def _melt_forecast_and_risk_revenue_reserves_from_bfr(
-    bfr: DataFrame, year: int, pipeline_config
+    bfr: DataFrame, year: int
 ) -> DataFrame:
     """Melt revenue reserves for forecast and risk calculations using Spark."""
-    id_vars = ["CompanyRegistrationNumber", "Category"]
+    id_vars = ["Company_Number", "Category"]
     value_vars = ["Y-2", "Y-1", "Y1", "Y2", "Y3", "Y4"]
     # Filter and then melt the DataFrame
     forecast_and_risk_revenue_reserves_melted_rows = (
-        bfr.filter(col("EFALineNo").isin([SOFA_TRUST_RESERVE_EFALINE]))
+        bfr.filter(col("EFALineNo").isin([SOFA_TRUST_REVENUE_RESERVE_EFALINE]))
         .select(
             *id_vars,
             expr(
                 f"stack({len(value_vars)}, "
-                + ", ".join([f"'{col_name}', `{col_name}`" for col_name in value_vars])
+                + ", ".join([f"'{col_name}', CAST(`{col_name}` AS DOUBLE)" for col_name in value_vars])
                 + ") as (Year, Value)"
             ),
         )
@@ -395,34 +392,35 @@ def _melt_forecast_and_risk_revenue_reserves_from_bfr(
         )
     )
     return forecast_and_risk_revenue_reserves_melted_rows.orderBy(
-        "CompanyRegistrationNumber", "Year"
+        "Company_Number", "Year"
     )
 
 
 @dp.table(name="academies_historical_y1_processed")
 def academies_historical_y1_processed():
-    # Retrieve the SparkSession from any DLT DataFrame to access pipeline variables
-    pipeline_year = dp.read("academies_y1").sparkSession.conf.get("pipeline.year", "2025") # Defaulting to 2025 for safety
-    return _build_bfr_historical_data(dp.read("academies_y1"), dp.read("historic_bfr_y1"))
-
+    return _build_bfr_historical_data(
+        dp.read("academies_y1").withColumnRenamed("Lead_UPIN", "TrustUPIN"), 
+        dp.read("bfr_sofa_y1_processed")
+    )
 
 @dp.table(name="academies_historical_y2_processed")
 def academies_historical_y2_processed():
-    pipeline_year = dp.read("academies_y2").sparkSession.conf.get("pipeline.year", "2025") # Defaulting to 2025 for safety
-    return _build_bfr_historical_data(dp.read("academies_y2"), dp.read("historic_bfr_y2"))
-
+    return _build_bfr_historical_data(
+        dp.read("academies_y2").withColumnRenamed("Lead_UPIN", "TrustUPIN"), 
+        dp.read("bfr_sofa_y2_processed")
+    )
 
 @dp.table(name="historic_bfr_y1_with_historical_data")
 def historic_bfr_y1_with_historical_data():
     academies_historical_y1_processed = dp.read("academies_historical_y1_processed")
-    historic_bfr_y1_initial = dp.read("historic_bfr_y1") # Assumed upstream DLT table
+    historic_bfr_y1_initial = dp.read("bfr_sofa_y1_processed") # Assumed upstream DLT table
 
     historic_bfr_y1_joined = historic_bfr_y1_initial.join(
         academies_historical_y1_processed.select(
             "TrustUPIN",
-            "CompanyRegistrationNumber",
-            "Trust Revenue reserve",
-            "Total pupils in trust",
+            "Company_Number",
+            "TrustRevenueReserve",
+            "TotalPupilsInTrust",
         ),
         on="TrustUPIN",
         how="left_outer",
@@ -435,14 +433,14 @@ def historic_bfr_y1_with_historical_data():
 @dp.table(name="historic_bfr_y2_with_historical_data")
 def historic_bfr_y2_with_historical_data():
     academies_historical_y2_processed = dp.read("academies_historical_y2_processed")
-    historic_bfr_y2_initial = dp.read("historic_bfr_y2") # Assumed upstream DLT table
+    historic_bfr_y2_initial = dp.read("bfr_sofa_y2_processed") # Assumed upstream DLT table
 
     historic_bfr_y2_joined = historic_bfr_y2_initial.join(
         academies_historical_y2_processed.select(
             "TrustUPIN",
-            "CompanyRegistrationNumber",
-            "Trust Revenue reserve",
-            "Total pupils in trust",
+            "Company_Number",
+            "TrustRevenueReserve",
+            "TotalPupilsInTrust",
         ),
         on="TrustUPIN",
         how="left_outer",
@@ -456,14 +454,17 @@ def historic_bfr_y2_with_historical_data():
 def merged_bfr_with_2y_historic_data():
     return _prepare_merged_bfr_for_forecast_and_risk(
         dp.read("merged_bfr_with_crn"),
-        dp.read("academies_historical_y2_processed"),
-        dp.read("academies_historical_y1_processed"),
+        dp.read("academies_y2"),
+        dp.read("academies_y1"),
     )
 
 
 @dp.table(name="bfr_pupils")
 def bfr_pupils():
-    return _prepare_current_and_future_pupils(bfr_data=dp.read("merged_bfr_with_2y_historic_data"), academies=dp.read("academies"))
+    return _prepare_current_and_future_pupils(
+        dp.read("merged_bfr_with_2y_historic_data"),
+        dp.read("academies_current_year").withColumnRenamed("Lead_UPIN", "TrustUPIN")
+    )
 
 
 @dp.table(name="bfr_final_wide")
@@ -477,13 +478,13 @@ def bfr_final_wide():
 
 @dp.table(name="forecast_and_risk_revenue_reserve_rows")
 def forecast_and_risk_revenue_reserve_rows():
-    pipeline_year = dp.read("bfr_final_wide").sparkSession.conf.get("pipeline.year", "2025") # Defaulting to 2025 for safety
+    pipeline_year = dp.read("bfr_final_wide").sparkSession.conf.get("pipeline.bfr_year", "2025") # Defaulting to 2025 for safety
     return _melt_forecast_and_risk_revenue_reserves_from_bfr(dp.read("bfr_final_wide"), int(pipeline_year))
 
 
 @dp.table(name="forecast_and_risk_pupil_numbers_melted_rows")
 def forecast_and_risk_pupil_numbers_melted_rows():
-    pipeline_year = dp.read("bfr_final_wide").sparkSession.conf.get("pipeline.year", "2025") # Defaulting to 2025 for safety
+    pipeline_year = dp.read("bfr_final_wide").sparkSession.conf.get("pipeline.bfr_year", "2025") # Defaulting to 2025 for safety
     return _melt_forecast_and_risk_pupil_numbers_from_bfr(dp.read("bfr_final_wide"), int(pipeline_year))
 
 
@@ -493,7 +494,7 @@ def bfr_forecast_and_risk_rows():
     forecast_and_risk_pupil_numbers_melted_rows = dp.read("forecast_and_risk_pupil_numbers_melted_rows")
     return forecast_and_risk_revenue_reserve_rows.join(
         forecast_and_risk_pupil_numbers_melted_rows,
-        on=["CompanyRegistrationNumber", "Category", "Year"],
+        on=["Company_Number", "Category", "Year"],
         how="left_outer",
     )
 
