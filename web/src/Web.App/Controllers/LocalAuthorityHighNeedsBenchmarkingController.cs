@@ -14,7 +14,6 @@ using Web.App.ViewModels;
 namespace Web.App.Controllers;
 
 [Controller]
-[FeatureGate(FeatureFlags.HighNeeds)]
 [Route("local-authority/{code}/high-needs/benchmarking")]
 [ValidateLaCode]
 public class LocalAuthorityHighNeedsBenchmarkingController(
