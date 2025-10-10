@@ -1,5 +1,4 @@
-﻿@using Web.App.TagHelpers
-@model Web.App.ViewModels.LocalAuthorityHighNeedsViewModel
+﻿@model Web.App.ViewModels.LocalAuthorityHighNeedsViewModel
 @{
     ViewData[ViewDataKeys.Title] = PageTitles.LocalAuthorityHighNeeds;
 }
@@ -65,7 +64,7 @@
                 {
                     identifier = Model.Code,
                     ranking = "SpendAsPercentageOfBudget",
-                    commentary = $"Local authorities ranked based on outturn compared to budget as a percentage using {Model.Section251Year-1}-{Model.Section251Year} data.",
+                    commentary = $"Local authorities ranked based on outturn compared to budget as a percentage using {Model.Section251Year - 1}-{Model.Section251Year} data.",
                     valueLabel = "Outturn as percentage of budget"
                 })
             </div>
@@ -80,7 +79,7 @@
                 @await Component.InvokeAsync("LocalAuthorityHighNeedsHistory", new
                 {
                     identifier = Model.Code,
-                    commentary = "This data displays only budget vs outturn, funding vs outturn is not available. Outturn does not include place funding for pupils with special educational needs taught in academies."
+                    commentary = "This data displays only planned expenditure vs outturn, funding vs outturn is not available. Outturn does not include place funding for pupils with special educational needs taught in academies."
                 })
             </div>
         </div>

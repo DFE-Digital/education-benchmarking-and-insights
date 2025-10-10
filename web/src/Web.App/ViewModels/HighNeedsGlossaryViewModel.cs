@@ -21,18 +21,6 @@ public class HighNeedsGlossaryViewModel : GlossaryViewModel
         },
         new()
         {
-            Term = "Budget",
-            Meaning = """
-                      A financial plan outlining how allocated funds will be 
-                      spent over the upcoming period. In this service this refers 
-                      to the s251 budget statement. 
-
-                      The budget calculations are carried out inclusive of the 
-                      academy allocation. 
-                      """
-        },
-        new()
-        {
             Term = "DSG allocation",
             Meaning = """
                       Dedicated Schools Grant. Money allocated by 
@@ -103,10 +91,22 @@ public class HighNeedsGlossaryViewModel : GlossaryViewModel
         },
         new()
         {
+            Term = "Planned expenditure",
+            Meaning = """
+                      A financial plan outlining how allocated funds will be 
+                      spent over the upcoming period. In this service this refers 
+                      to the s251 budget statement. 
+
+                      The budget calculations are carried out inclusive of the 
+                      academy allocation. 
+                      """
+        },
+        new()
+        {
             Term = "S251",
             Meaning = """
                       The regulatory requirement to prepare and submit 
-                      annual, education and children and young people s 
+                      annual, education and children and young people's 
                       services, budget and outturn statements for each 
                       financial year.
                       """
