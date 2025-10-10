@@ -113,19 +113,6 @@ public class GivenAnEstablishmentApi(ITestOutputHelper testOutputHelper) : ApiCl
             "{\"searchText\":\"term\",\"size\":10,\"exclude\":[\"exclude\"]}");
     }
 
-    [Theory]
-    [InlineData("asc", "api/local-authorities/national-rank?sort=asc")]
-    [InlineData("desc", "api/local-authorities/national-rank?sort=desc")]
-    [InlineData(null, "api/local-authorities/national-rank")]
-    public async Task GetLocalAuthoritiesNationalRankShouldCallCorrectUrl(string? sort, string expected)
-    {
-        var api = new EstablishmentApi(HttpClient);
-
-        await api.GetLocalAuthoritiesNationalRank(string.IsNullOrWhiteSpace(sort) ? [] : [new QueryParameter("sort", sort)]);
-
-        VerifyCall(HttpMethod.Get, expected);
-    }
-
     [Fact]
     public async Task GetLocalAuthorityStatisticalNeighboursShouldCallCorrectUrl()
     {

@@ -214,12 +214,10 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
 
     public BenchmarkingWebAppClient SetupEstablishment(
         LocalAuthority authority,
-        LocalAuthorityRanking ranking,
         LocalAuthorityStatisticalNeighbours statisticalNeighbours,
         LocalAuthority[] authorities)
     {
         SetupEstablishment(authority, []);
-        EstablishmentApi.Setup(api => api.GetLocalAuthoritiesNationalRank(It.IsAny<ApiQuery?>(), It.IsAny<CancellationToken>())).ReturnsAsync(ApiResult.Ok(ranking));
         EstablishmentApi.Setup(api => api.GetLocalAuthorityStatisticalNeighbours(authority.Code, It.IsAny<CancellationToken>())).ReturnsAsync(ApiResult.Ok(statisticalNeighbours));
         EstablishmentApi.Setup(api => api.GetLocalAuthorities(It.IsAny<CancellationToken>())).ReturnsAsync(ApiResult.Ok(authorities));
         return this;
@@ -645,13 +643,6 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
     {
         UserDataApi.Reset();
         UserDataApi.Setup(api => api.GetAsync(It.IsAny<ApiQuery>(), It.IsAny<CancellationToken>())).ReturnsAsync(ApiResult.Ok(data ?? []));
-        return this;
-    }
-
-    public BenchmarkingWebAppClient SetupLocalAuthoritiesNationalRank(LocalAuthorityRanking ranking)
-    {
-        EstablishmentApi.Reset();
-        EstablishmentApi.Setup(api => api.GetLocalAuthoritiesNationalRank(It.IsAny<ApiQuery>(), It.IsAny<CancellationToken>())).ReturnsAsync(ApiResult.Ok(ranking));
         return this;
     }
 

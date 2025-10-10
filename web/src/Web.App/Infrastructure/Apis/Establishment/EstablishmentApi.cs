@@ -10,8 +10,6 @@ public class EstablishmentApi(HttpClient httpClient, string? key = default) : Ap
 
     public Task<ApiResult> GetLocalAuthorityStatisticalNeighbours(string? identifier, CancellationToken cancellationToken = default) => GetAsync(Api.Establishment.LocalAuthorityStatisticalNeighbours(identifier), cancellationToken);
 
-    public Task<ApiResult> GetLocalAuthoritiesNationalRank(ApiQuery? query = null, CancellationToken cancellationToken = default) => GetAsync($"{Api.Establishment.LocalAuthorityNationalRank}{query?.ToQueryString()}", cancellationToken);
-
     public Task<ApiResult> GetLocalAuthorities(CancellationToken cancellationToken = default) => GetAsync(Api.Establishment.LocalAuthorities, cancellationToken);
 
     public Task<ApiResult> SuggestSchools(string search, string[]? exclude = null, bool? excludeMissingFinancialData = null, CancellationToken cancellationToken = default) => SendAsync(new HttpRequestMessage
@@ -79,7 +77,6 @@ public interface IEstablishmentApi
     Task<ApiResult> GetTrust(string? identifier, CancellationToken cancellationToken = default);
     Task<ApiResult> GetLocalAuthority(string? identifier, CancellationToken cancellationToken = default);
     Task<ApiResult> GetLocalAuthorityStatisticalNeighbours(string? identifier, CancellationToken cancellationToken = default);
-    Task<ApiResult> GetLocalAuthoritiesNationalRank(ApiQuery? query = null, CancellationToken cancellationToken = default);
     Task<ApiResult> GetLocalAuthorities(CancellationToken cancellationToken = default);
     Task<ApiResult> SuggestSchools(string search, string[]? exclude = null, bool? excludeMissingFinancialData = null, CancellationToken cancellationToken = default);
     Task<ApiResult> SuggestTrusts(string search, string[]? exclude = null, CancellationToken cancellationToken = default);
