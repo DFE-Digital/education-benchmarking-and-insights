@@ -54,8 +54,7 @@ export const Section251Section: React.FC<HistoricDataHighNeedsProps> = ({
   return (
     <>
       <div className="govuk-grid-row">
-        <div className="govuk-grid-column-two-thirds">&nbsp;</div>
-        <div className="govuk-grid-column-one-third">
+        <div className="govuk-grid-column-full">
           <ChartMode
             chartMode={chartMode}
             handleChange={setChartMode}
