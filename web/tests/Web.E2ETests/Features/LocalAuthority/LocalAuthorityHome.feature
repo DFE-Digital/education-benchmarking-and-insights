@@ -23,3 +23,13 @@
         Given I am on local authority homepage for local authority with code '204'
         When I click on high needs historic data
         Then the High needs historic data page is displayed
+        
+    @LocalAuthorityHomepageV2FlagDisabled
+    Scenario: Schools accordion is displayed when feature is enabled
+        Given I am on local authority homepage for local authority with code '204'
+        Then the schools accordion should be displayed
+        
+    @LocalAuthorityHomepageV2FlagEnabled
+    Scenario: Schools accordion is not displayed when feature is enabled
+        Given I am on local authority homepage for local authority with code '204'
+        Then the schools accordion should not be displayed

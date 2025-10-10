@@ -80,4 +80,17 @@ public class HomePage(IPage page)
         await BannerBody.ShouldBeVisible();
         await BannerBody.ShouldContainText(body);
     }
+
+    public async Task IsSchoolsAccordionDisplayed(bool displayed = true)
+    {
+        var locator = page.Locator("#accordion-schools");
+        if (displayed)
+        {
+            await locator.ShouldBeVisible();
+        }
+        else
+        {
+            await locator.ShouldNotBeVisible();
+        }
+    }
 }
