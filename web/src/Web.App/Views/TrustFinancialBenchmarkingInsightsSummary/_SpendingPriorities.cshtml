@@ -124,13 +124,12 @@
     </div>
 
     <p class="govuk-body govuk-!-display-none-print">
-        View more insights in
-        @Html.ActionLink(Constants.ServiceName, "Index", "TrustSpending", new
+        @Html.ActionLink("View all spending priorities at this trust", "Index", "TrustSpending", new
         {
             companyNumber = Model.CompanyNumber
         }, new
         {
             @class = "govuk-link"
-        }).
+        })
     </p>
 </section>
