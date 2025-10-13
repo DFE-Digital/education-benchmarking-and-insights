@@ -71,10 +71,9 @@ public class MetricRagRatingsService(IDatabaseFactory dbFactory) : IMetricRagRat
         }
         else if (!string.IsNullOrWhiteSpace(laCode))
         {
-            builder.Where("LaCode = @LaCode AND OverallPhase = @Phase", new
+            builder.Where("LaCode = @LaCode", new
             {
-                LaCode = laCode,
-                Phase = phase
+                LaCode = laCode
             });
         }
         else
@@ -100,6 +99,14 @@ public class MetricRagRatingsService(IDatabaseFactory dbFactory) : IMetricRagRat
             builder.Where("RAG IN @statuses", new
             {
                 statuses
+            });
+        }
+
+        if (!string.IsNullOrWhiteSpace(phase))
+        {
+            builder.Where("OverallPhase = @Phase", new
+            {
+                Phase = phase
             });
         }
 
