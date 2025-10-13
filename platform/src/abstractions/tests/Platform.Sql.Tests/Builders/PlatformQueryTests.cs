@@ -82,6 +82,23 @@ public class PlatformQueryTests
     }
 
     [Fact]
+    public void ShouldAddRunTypeEqualParameter()
+    {
+        const string expectedParam = "RunType";
+        const string expectedValue = "default";
+        var expectedSql = BuildExpectedQuery("WHERE RunType = @RunType");
+
+        var builder = new MockPlatformQuery().WhereRunTypeEqual(expectedValue);
+        var parameters = builder.QueryTemplate.Parameters?.GetTemplateParameters(expectedParam);
+
+        Assert.NotNull(parameters);
+        Assert.Single(parameters);
+        Assert.Contains(expectedParam, parameters.Keys);
+        Assert.Equal(expectedValue, parameters[expectedParam]);
+        Assert.Equal(expectedSql, builder.QueryTemplate.RawSql);
+    }
+
+    [Fact]
     public void ShouldAddTrustCompanyNumberEqualParameter()
     {
         const string expectedParam = "CompanyNumber";
@@ -499,6 +516,67 @@ public class PlatformQueryTests
         Assert.Single(parameters);
         Assert.Contains(expectedParam, parameters.Keys);
         Assert.Equal(expectedValue, parameters[expectedParam]);
+        Assert.Equal(expectedSql, builder.QueryTemplate.RawSql);
+    }
+
+    [Fact]
+    public void ShouldSubCategoryEqualParameter()
+    {
+        const string expectedParam = "SubCategory";
+        const string expectedValue = "subCategory";
+        var expectedSql = BuildExpectedQuery("WHERE SubCategory = @SubCategory");
+
+        var builder = new MockPlatformQuery().WhereSubCategoryEqual(expectedValue);
+        var parameters = builder.QueryTemplate.Parameters?.GetTemplateParameters(expectedParam);
+
+        Assert.NotNull(parameters);
+        Assert.Single(parameters);
+        Assert.Contains(expectedParam, parameters.Keys);
+        Assert.Equal(expectedValue, parameters[expectedParam]);
+        Assert.Equal(expectedSql, builder.QueryTemplate.RawSql);
+    }
+
+    [Fact]
+    public void ShouldAddWhereCategoryInParameter()
+    {
+        const string expectedParam = "Categories";
+        const string expectedValue1 = nameof(expectedValue1);
+        const string expectedValue2 = nameof(expectedValue2);
+        var expectedSql = BuildExpectedQuery("WHERE Category IN @Categories");
+
+        var builder = new MockPlatformQuery().WhereCategoryIn(expectedValue1, expectedValue2);
+        var parameters = builder.QueryTemplate.Parameters?.GetTemplateParameters(expectedParam);
+
+        Assert.NotNull(parameters);
+        Assert.Single(parameters);
+        Assert.Contains(expectedParam, parameters.Keys);
+        Assert.Equal(new[]
+        {
+            expectedValue1,
+            expectedValue2
+        }, parameters[expectedParam]);
+        Assert.Equal(expectedSql, builder.QueryTemplate.RawSql);
+    }
+
+    [Fact]
+    public void ShouldAddWhereRagInParameter()
+    {
+        const string expectedParam = "RAGs";
+        const string expectedValue1 = nameof(expectedValue1);
+        const string expectedValue2 = nameof(expectedValue2);
+        var expectedSql = BuildExpectedQuery("WHERE RAG IN @RAGs");
+
+        var builder = new MockPlatformQuery().WhereRagIn(expectedValue1, expectedValue2);
+        var parameters = builder.QueryTemplate.Parameters?.GetTemplateParameters(expectedParam);
+
+        Assert.NotNull(parameters);
+        Assert.Single(parameters);
+        Assert.Contains(expectedParam, parameters.Keys);
+        Assert.Equal(new[]
+        {
+            expectedValue1,
+            expectedValue2
+        }, parameters[expectedParam]);
         Assert.Equal(expectedSql, builder.QueryTemplate.RawSql);
     }
 

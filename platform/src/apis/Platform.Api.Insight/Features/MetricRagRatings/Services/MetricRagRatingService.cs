@@ -6,6 +6,7 @@ using Dapper;
 using Platform.Api.Insight.Features.MetricRagRatings.Models;
 using Platform.Domain;
 using Platform.Sql;
+using Platform.Sql.QueryBuilders;
 
 namespace Platform.Api.Insight.Features.MetricRagRatings.Services;
 
@@ -47,35 +48,21 @@ public class MetricRagRatingsService(IDatabaseFactory dbFactory) : IMetricRagRat
         using var conn = await dbFactory.GetConnection();
         var year = await conn.QueryFirstAsync<string>(paramSql, cancellationToken: cancellationToken);
 
-        var builder = new SqlBuilder();
-        var template = builder.AddTemplate("SELECT * from SchoolMetricRAG /**where**/");
-        builder.Where("RunType = @RunType AND RunId = @RunId", new
-        {
-            RunType = runType,
-            RunId = year
-        });
+        var builder = new SchoolMetricRagQuery()
+            .WhereRunTypeEqual(runType)
+            .WhereRunIdEqual(year);
 
         if (urns.Length != 0)
         {
-            builder.Where("URN IN @URNS", new
-            {
-                URNS = urns
-            });
+            builder = builder.WhereUrnIn(urns);
         }
         else if (!string.IsNullOrWhiteSpace(companyNumber))
         {
-            builder.Where("TrustCompanyNumber = @CompanyNumber", new
-            {
-                CompanyNumber = companyNumber
-            });
+            builder = builder.WhereTrustCompanyNumberEqual(companyNumber);
         }
         else if (!string.IsNullOrWhiteSpace(laCode))
         {
-            builder.Where("LaCode = @LaCode AND OverallPhase = @Phase", new
-            {
-                LaCode = laCode,
-                Phase = phase
-            });
+            builder = builder.WhereLaCodeEqual(laCode);
         }
         else
         {
@@ -84,26 +71,25 @@ public class MetricRagRatingsService(IDatabaseFactory dbFactory) : IMetricRagRat
 
         if (!includeSubCategories)
         {
-            builder.Where("SubCategory = 'Total'");
+            builder = builder.WhereSubCategoryEqual("Total");
         }
 
         if (categories.Length != 0)
         {
-            builder.Where("Category IN @categories", new
-            {
-                categories
-            });
+            builder = builder.WhereCategoryIn(categories);
         }
 
         if (statuses.Length != 0)
         {
-            builder.Where("RAG IN @statuses", new
-            {
-                statuses
-            });
+            builder = builder.WhereRagIn(statuses);
         }
 
-        return await conn.QueryAsync<MetricRagRating>(template.RawSql, template.Parameters, cancellationToken);
+        if (!string.IsNullOrWhiteSpace(phase))
+        {
+            builder = builder.WhereOverallPhaseEqual(phase);
+        }
+
+        return await conn.QueryAsync<MetricRagRating>(builder, cancellationToken);
     }
 
     public async Task<IEnumerable<MetricRagRating>> UserDefinedAsync(

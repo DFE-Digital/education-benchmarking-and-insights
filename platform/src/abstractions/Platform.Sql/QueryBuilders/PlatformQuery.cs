@@ -60,6 +60,18 @@ public abstract class PlatformQuery : SqlBuilder
         return this;
     }
 
+    public PlatformQuery WhereRunTypeEqual(string runType)
+    {
+        const string sql = "RunType = @RunType";
+        var parameters = new
+        {
+            RunType = runType
+        };
+
+        Where(sql, parameters);
+        return this;
+    }
+
     public PlatformQuery WhereTrustCompanyNumberEqual(string companyNumber)
     {
         const string sql = "TrustCompanyNumber = @CompanyNumber";
@@ -343,6 +355,42 @@ public abstract class PlatformQuery : SqlBuilder
         var parameters = new
         {
             Slug = slug
+        };
+
+        Where(sql, parameters);
+        return this;
+    }
+
+    public PlatformQuery WhereSubCategoryEqual(string subCategory)
+    {
+        const string sql = "SubCategory = @SubCategory";
+        var parameters = new
+        {
+            SubCategory = subCategory
+        };
+
+        Where(sql, parameters);
+        return this;
+    }
+
+    public PlatformQuery WhereCategoryIn(params string[] categories)
+    {
+        const string sql = "Category IN @Categories";
+        var parameters = new
+        {
+            Categories = categories
+        };
+
+        Where(sql, parameters);
+        return this;
+    }
+
+    public PlatformQuery WhereRagIn(params string[] rags)
+    {
+        const string sql = "RAG IN @RAGs";
+        var parameters = new
+        {
+            RAGs = rags
         };
 
         Where(sql, parameters);

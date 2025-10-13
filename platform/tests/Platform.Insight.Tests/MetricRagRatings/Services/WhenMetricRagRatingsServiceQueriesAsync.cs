@@ -2,6 +2,7 @@
 using Platform.Api.Insight.Features.MetricRagRatings.Models;
 using Platform.Api.Insight.Features.MetricRagRatings.Services;
 using Platform.Sql;
+using Platform.Sql.QueryBuilders;
 using Xunit;
 
 namespace Platform.Insight.Tests.MetricRagRatings.Services;
@@ -37,29 +38,11 @@ public class WhenMetricRagRatingsServiceQueriesAsync
     }
 
     [Theory]
-    [InlineData(new[]
-        {
-            "1,2,3"
-        }, new[]
-        {
-            "4",
-            "5",
-            "6"
-        }, new[]
-        {
-            "7",
-            "8",
-            "9"
-        }, null, null, null, "runType", false,
-        "SELECT * from SchoolMetricRAG WHERE RunType = @RunType AND RunId = @RunId AND URN IN @URNS AND SubCategory = 'Total' AND Category IN @categories AND RAG IN @statuses")]
-    [InlineData(new[]
-    {
-        "1,2,3"
-    }, new string[0], new string[0], null, null, null, "runType", true, "SELECT * from SchoolMetricRAG WHERE RunType = @RunType AND RunId = @RunId AND URN IN @URNS")]
-    [InlineData(new string[0], new string[0], new string[0], "companyNumber", null, null, "runType", true, "SELECT * from SchoolMetricRAG WHERE RunType = @RunType AND RunId = @RunId AND TrustCompanyNumber = @CompanyNumber")]
-    [InlineData(new string[0], new string[0], new string[0], null, "laCode", "phase", "runType", true, "SELECT * from SchoolMetricRAG WHERE RunType = @RunType AND RunId = @RunId AND LaCode = @LaCode AND OverallPhase = @Phase")]
-    public async Task ShouldQueryAsyncWhenQueryAsync(
-        string[] urns,
+    [InlineData(new[] { "1,2,3" }, new[] { "4", "5", "6" }, new[] { "7", "8", "9" }, null, null, null, "runType", false, "SELECT * FROM SchoolMetricRAG WHERE RunType = @RunType AND RunId = @RunId AND URN IN @URNS AND SubCategory = @SubCategory AND Category IN @Categories AND RAG IN @RAGs")]
+    [InlineData(new[] { "1,2,3" }, new string[0], new string[0], null, null, null, "runType", true, "SELECT * FROM SchoolMetricRAG WHERE RunType = @RunType AND RunId = @RunId AND URN IN @URNS")]
+    [InlineData(new string[0], new string[0], new string[0], "companyNumber", null, null, "runType", true, "SELECT * FROM SchoolMetricRAG WHERE RunType = @RunType AND RunId = @RunId AND TrustCompanyNumber = @CompanyNumber")]
+    [InlineData(new string[0], new string[0], new string[0], null, "laCode", "phase", "runType", true, "SELECT * FROM SchoolMetricRAG WHERE RunType = @RunType AND RunId = @RunId AND LaCode = @LaCode AND OverallPhase = @Phase")]
+    public async Task ShouldQueryAsyncWhenQueryAsync(string[] urns,
         string[] categories,
         string[] statuses,
         string? companyNumber,
@@ -83,11 +66,11 @@ public class WhenMetricRagRatingsServiceQueriesAsync
             .ReturnsAsync(year);
 
         _connection
-            .Setup(c => c.QueryAsync<MetricRagRating>(It.IsAny<string>(), It.IsAny<object>(), It.IsAny<CancellationToken>()))
-            .Callback((string sql, object? param, CancellationToken _) =>
+            .Setup(c => c.QueryAsync<MetricRagRating>(It.IsAny<PlatformQuery>(), It.IsAny<CancellationToken>()))
+            .Callback<PlatformQuery, CancellationToken>((query, _) =>
             {
-                actualSql = sql;
-                actualParam = param?.GetTemplateParameters("RunType", "RunId", "URNS", "CompanyNumber", "LaCode", "Phase", "categories", "statuses");
+                actualSql = query.QueryTemplate.RawSql.Trim();
+                actualParam = query.QueryTemplate.Parameters?.GetTemplateParameters("RunType", "RunId", "URNS", "CompanyNumber", "LaCode", "Phase", "Categories", "RAGs", "SubCategory");
             })
             .ReturnsAsync(results);
 
@@ -117,14 +100,19 @@ public class WhenMetricRagRatingsServiceQueriesAsync
             expectedParam.Add("URNS", urns);
         }
 
+        if (!includeSubCategories)
+        {
+            expectedParam.Add("SubCategory", "Total");
+        }
+
         if (categories.Length != 0)
         {
-            expectedParam.Add("categories", categories);
+            expectedParam.Add("Categories", categories);
         }
 
         if (statuses.Length != 0)
         {
-            expectedParam.Add("statuses", statuses);
+            expectedParam.Add("RAGs", statuses);
         }
 
         if (!string.IsNullOrEmpty(companyNumber))
