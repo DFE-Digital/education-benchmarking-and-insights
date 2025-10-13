@@ -31,23 +31,20 @@ public class WhenMetricRagRatingsServiceQueriesAsync
             .Verifiable();
 
         // act
-        await _service.QueryAsync(["urn"], [], [], null, null, null);
+        await _service.QueryAsync(["urn"], [], [], null);
 
         // assert
         _connection.Verify();
     }
 
     [Theory]
-    [InlineData(new[] { "1,2,3" }, new[] { "4", "5", "6" }, new[] { "7", "8", "9" }, null, null, null, "runType", false, "SELECT * FROM SchoolMetricRAG WHERE RunType = @RunType AND RunId = @RunId AND URN IN @URNS AND SubCategory = @SubCategory AND Category IN @Categories AND RAG IN @RAGs")]
-    [InlineData(new[] { "1,2,3" }, new string[0], new string[0], null, null, null, "runType", true, "SELECT * FROM SchoolMetricRAG WHERE RunType = @RunType AND RunId = @RunId AND URN IN @URNS")]
-    [InlineData(new string[0], new string[0], new string[0], "companyNumber", null, null, "runType", true, "SELECT * FROM SchoolMetricRAG WHERE RunType = @RunType AND RunId = @RunId AND TrustCompanyNumber = @CompanyNumber")]
-    [InlineData(new string[0], new string[0], new string[0], null, "laCode", "phase", "runType", true, "SELECT * FROM SchoolMetricRAG WHERE RunType = @RunType AND RunId = @RunId AND LaCode = @LaCode AND OverallPhase = @Phase")]
+    [InlineData(new[] { "1,2,3" }, new[] { "4", "5", "6" }, new[] { "7", "8", "9" }, null, "runType", false, "SELECT * FROM SchoolMetricRAG WHERE RunType = @RunType AND RunId = @RunId AND URN IN @URNS AND SubCategory = @SubCategory AND Category IN @Categories AND RAG IN @RAGs")]
+    [InlineData(new[] { "1,2,3" }, new string[0], new string[0], null, "runType", true, "SELECT * FROM SchoolMetricRAG WHERE RunType = @RunType AND RunId = @RunId AND URN IN @URNS")]
+    [InlineData(new string[0], new string[0], new string[0], "companyNumber", "runType", true, "SELECT * FROM SchoolMetricRAG WHERE RunType = @RunType AND RunId = @RunId AND TrustCompanyNumber = @CompanyNumber")]
     public async Task ShouldQueryAsyncWhenQueryAsync(string[] urns,
         string[] categories,
         string[] statuses,
         string? companyNumber,
-        string? laCode,
-        string? phase,
         string runType,
         bool includeSubCategories,
         string expectedSql)
@@ -70,7 +67,7 @@ public class WhenMetricRagRatingsServiceQueriesAsync
             .Callback<PlatformQuery, CancellationToken>((query, _) =>
             {
                 actualSql = query.QueryTemplate.RawSql.Trim();
-                actualParam = query.QueryTemplate.Parameters?.GetTemplateParameters("RunType", "RunId", "URNS", "CompanyNumber", "LaCode", "Phase", "Categories", "RAGs", "SubCategory");
+                actualParam = query.QueryTemplate.Parameters?.GetTemplateParameters("RunType", "RunId", "URNS", "CompanyNumber", "Categories", "RAGs", "SubCategory");
             })
             .ReturnsAsync(results);
 
@@ -80,8 +77,6 @@ public class WhenMetricRagRatingsServiceQueriesAsync
             categories,
             statuses,
             companyNumber,
-            laCode,
-            phase,
             runType,
             includeSubCategories);
 
@@ -118,16 +113,6 @@ public class WhenMetricRagRatingsServiceQueriesAsync
         if (!string.IsNullOrEmpty(companyNumber))
         {
             expectedParam.Add("CompanyNumber", companyNumber);
-        }
-
-        if (!string.IsNullOrEmpty(laCode))
-        {
-            expectedParam.Add("LaCode", laCode);
-        }
-
-        if (!string.IsNullOrEmpty(phase))
-        {
-            expectedParam.Add("Phase", phase);
         }
 
         Assert.Equal(expectedParam, actualParam);
@@ -174,7 +159,7 @@ public class WhenMetricRagRatingsServiceQueriesAsync
     [Fact]
     public async Task ShouldNotQueryAndThrowExceptionWhenNoFilterSupplied()
     {
-        var exception = await Assert.ThrowsAsync<ArgumentNullException>(() => _service.QueryAsync([], [], [], null, null, null));
+        var exception = await Assert.ThrowsAsync<ArgumentNullException>(() => _service.QueryAsync([], [], [], null));
 
         Assert.NotNull(exception);
         _connection

@@ -24,9 +24,7 @@ public class GetDefaultMetricRagRatingsFunction(
     [Function(nameof(GetDefaultMetricRagRatingsFunction))]
     [OpenApiOperation(nameof(GetDefaultMetricRagRatingsFunction), "Metric RAG Ratings")]
     [OpenApiParameter("urns", In = ParameterLocation.Query, Description = "List of school URNs", Type = typeof(string[]), Required = false)]
-    [OpenApiParameter("phase", In = ParameterLocation.Query, Description = "School overall phase", Type = typeof(string), Example = typeof(ExampleOverallPhase))]
     [OpenApiParameter("companyNumber", In = ParameterLocation.Query, Description = "Eight digit trust company number", Type = typeof(string))]
-    [OpenApiParameter("laCode", In = ParameterLocation.Query, Description = "Local authority three digit code", Type = typeof(string))]
     [OpenApiParameter("categories", In = ParameterLocation.Query, Description = "List of cost category", Type = typeof(string[]), Example = typeof(ExampleCategoryCost))]
     [OpenApiParameter("statuses", In = ParameterLocation.Query, Description = "List of RAG statuses", Type = typeof(string[]), Example = typeof(ExampleRagStatuses))]
     [OpenApiSecurityHeader]
@@ -45,7 +43,7 @@ public class GetDefaultMetricRagRatingsFunction(
             return await req.CreateValidationErrorsResponseAsync(validationResult.Errors, cancellationToken: cancellationToken);
         }
 
-        var result = await service.QueryAsync(queryParams.Urns, queryParams.Categories, queryParams.Statuses, queryParams.CompanyNumber, queryParams.LaCode, queryParams.Phase, cancellationToken: cancellationToken);
+        var result = await service.QueryAsync(queryParams.Urns, queryParams.Categories, queryParams.Statuses, queryParams.CompanyNumber, cancellationToken: cancellationToken);
         return await req.CreateJsonResponseAsync(result, cancellationToken);
     }
 }

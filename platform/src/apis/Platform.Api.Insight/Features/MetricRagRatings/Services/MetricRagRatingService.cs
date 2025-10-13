@@ -17,8 +17,6 @@ public interface IMetricRagRatingsService
         string[] categories,
         string[] statuses,
         string? companyNumber,
-        string? laCode,
-        string? phase,
         string runType = Pipeline.RunType.Default,
         bool includeSubCategories = false,
         CancellationToken cancellationToken = default);
@@ -37,8 +35,6 @@ public class MetricRagRatingsService(IDatabaseFactory dbFactory) : IMetricRagRat
         string[] categories,
         string[] statuses,
         string? companyNumber,
-        string? laCode,
-        string? phase,
         string runType = Pipeline.RunType.Default,
         bool includeSubCategories = false,
         CancellationToken cancellationToken = default)
@@ -60,13 +56,9 @@ public class MetricRagRatingsService(IDatabaseFactory dbFactory) : IMetricRagRat
         {
             builder = builder.WhereTrustCompanyNumberEqual(companyNumber);
         }
-        else if (!string.IsNullOrWhiteSpace(laCode))
-        {
-            builder = builder.WhereLaCodeEqual(laCode);
-        }
         else
         {
-            throw new ArgumentNullException(nameof(urns), $"{nameof(urns)} or {nameof(companyNumber)} or {nameof(laCode)} must be supplied");
+            throw new ArgumentNullException(nameof(urns), $"{nameof(urns)} or {nameof(companyNumber)} must be supplied");
         }
 
         if (!includeSubCategories)
@@ -82,11 +74,6 @@ public class MetricRagRatingsService(IDatabaseFactory dbFactory) : IMetricRagRat
         if (statuses.Length != 0)
         {
             builder = builder.WhereRagIn(statuses);
-        }
-
-        if (!string.IsNullOrWhiteSpace(phase))
-        {
-            builder = builder.WhereOverallPhaseEqual(phase);
         }
 
         return await conn.QueryAsync<MetricRagRating>(builder, cancellationToken);
