@@ -63,5 +63,6 @@ public class GivenALocalAuthorityViewModel
         Assert.Equal([OverallPhaseTypes.Primary, OverallPhaseTypes.Secondary, OverallPhaseTypes.Nursery], vm.GroupedSchools.Select(g => g.Key));
         Assert.Equal(_localAuthority.Code, vm.Code);
         Assert.Equal(_localAuthority.Name, vm.Name);
+        Assert.Equal(_schools.Length, vm.NumberOfSchools);
     }
 }
