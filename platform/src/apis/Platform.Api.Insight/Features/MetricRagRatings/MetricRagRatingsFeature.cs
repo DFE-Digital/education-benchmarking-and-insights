@@ -14,7 +14,8 @@ public static class MetricRagRatingsFeature
     {
         serviceCollection
             .AddSingleton<IMetricRagRatingsService, MetricRagRatingsService>()
-            .AddTransient<IValidator<MetricRagRatingsParameters>, MetricRagRatingsParametersValidator>();
+            .AddTransient<IValidator<MetricRagRatingsParameters>, MetricRagRatingsParametersValidator>()
+            .AddTransient<IValidator<MetricRagRatingSummaryParameters>, MetricRagRatingSummaryParametersValidator>();
 
         return serviceCollection;
     }

@@ -21,6 +21,13 @@ public interface IMetricRagRatingsService
         bool includeSubCategories = false,
         CancellationToken cancellationToken = default);
 
+    Task<IEnumerable<MetricRagRatingSummary>> QuerySummaryAsync(
+        string[] urns,
+        string? companyNumber,
+        string? laCode,
+        string? overallPhases,
+        CancellationToken cancellationToken = default);
+
     Task<IEnumerable<MetricRagRating>> UserDefinedAsync(
         string identifier,
         string runType = Pipeline.RunType.Default,
@@ -77,6 +84,43 @@ public class MetricRagRatingsService(IDatabaseFactory dbFactory) : IMetricRagRat
         }
 
         return await conn.QueryAsync<MetricRagRating>(builder, cancellationToken);
+    }
+
+    public async Task<IEnumerable<MetricRagRatingSummary>> QuerySummaryAsync(
+        string[] urns,
+        string? companyNumber,
+        string? laCode,
+        string? overallPhase,
+        CancellationToken cancellationToken = default)
+    {
+        using var conn = await dbFactory.GetConnection();
+
+        var builder = new MetricRagSummaryQuery();
+
+        if (urns.Length != 0)
+        {
+            builder.WhereUrnIn(urns);
+        }
+        else if (!string.IsNullOrWhiteSpace(companyNumber))
+        {
+            builder.WhereTrustCompanyNumberEqual(companyNumber);
+        }
+        else if (!string.IsNullOrWhiteSpace(laCode))
+        {
+            builder.WhereLaCodeEqual(laCode)
+                .WhereFinanceTypeEqual(FinanceType.Maintained);
+        }
+        else
+        {
+            throw new ArgumentNullException($"{nameof(urns)}, {nameof(laCode)} or {nameof(companyNumber)} must be supplied");
+        }
+
+        if (!string.IsNullOrWhiteSpace(overallPhase))
+        {
+            builder.WhereOverallPhaseEqual(overallPhase);
+        }
+
+        return await conn.QueryAsync<MetricRagRatingSummary>(builder, cancellationToken);
     }
 
     public async Task<IEnumerable<MetricRagRating>> UserDefinedAsync(
