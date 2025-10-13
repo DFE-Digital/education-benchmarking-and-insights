@@ -26,9 +26,7 @@ public class WhenGetDefaultMetricRagRatingsFunctionRuns : FunctionsTestBase
         { nameof(QueryParams.Urns), QueryParams.Urns },
         { nameof(QueryParams.Categories), QueryParams.Categories },
         { nameof(QueryParams.Statuses), QueryParams.Statuses },
-        { nameof(QueryParams.CompanyNumber), QueryParams.CompanyNumber },
-        { nameof(QueryParams.LaCode), QueryParams.LaCode },
-        { nameof(QueryParams.Phase), QueryParams.Phase }
+        { nameof(QueryParams.CompanyNumber), QueryParams.CompanyNumber }
     };
 
     private readonly Mock<IMetricRagRatingsService> _service = new();
@@ -49,7 +47,7 @@ public class WhenGetDefaultMetricRagRatingsFunctionRuns : FunctionsTestBase
             .ReturnsAsync(new ValidationResult());
 
         _service
-            .Setup(d => d.QueryAsync(QueryParams.Urns, QueryParams.Categories, QueryParams.Statuses, QueryParams.CompanyNumber, QueryParams.LaCode, QueryParams.Phase, It.IsAny<string>(), It.IsAny<bool>(), It.IsAny<CancellationToken>()))
+            .Setup(d => d.QueryAsync(QueryParams.Urns, QueryParams.Categories, QueryParams.Statuses, QueryParams.CompanyNumber, It.IsAny<string>(), It.IsAny<bool>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(results);
 
         var result = await _function.RunAsync(CreateHttpRequestData(_query));
@@ -83,6 +81,6 @@ public class WhenGetDefaultMetricRagRatingsFunctionRuns : FunctionsTestBase
         Assert.Contains(values, p => p.PropertyName == nameof(MetricRagRatingsParameters.Categories));
 
         _service.Verify(
-            x => x.QueryAsync(It.IsAny<string[]>(), It.IsAny<string[]>(), It.IsAny<string[]>(), It.IsAny<string?>(), It.IsAny<string?>(), It.IsAny<string?>(), It.IsAny<string>(), It.IsAny<bool>(), It.IsAny<CancellationToken>()), Times.Never());
+            x => x.QueryAsync(It.IsAny<string[]>(), It.IsAny<string[]>(), It.IsAny<string[]>(), It.IsAny<string?>(), It.IsAny<string>(), It.IsAny<bool>(), It.IsAny<CancellationToken>()), Times.Never());
     }
 }

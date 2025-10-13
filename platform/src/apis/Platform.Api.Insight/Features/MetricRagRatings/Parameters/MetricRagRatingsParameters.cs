@@ -9,9 +9,7 @@ public record MetricRagRatingsParameters : QueryParameters
     public string[] Categories { get; set; } = [];
     public string[] Statuses { get; set; } = [];
     public string[] Urns { get; set; } = [];
-    public string? Phase { get; set; }
     public string? CompanyNumber { get; set; }
-    public string? LaCode { get; set; }
 
     public override void SetValues(NameValueCollection query)
     {
@@ -19,7 +17,5 @@ public record MetricRagRatingsParameters : QueryParameters
         Categories = query.ToStringArray("categories");
         Urns = query.ToStringArray("urns");
         CompanyNumber = query["companyNumber"];
-        Phase = query["phase"];
-        LaCode = query["laCode"];
     }
 }

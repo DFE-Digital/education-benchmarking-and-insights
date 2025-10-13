@@ -7,21 +7,17 @@ namespace Platform.Insight.Tests.MetricRagRatings.Parameters;
 public class WhenMetricRagRatingsParametersSetsValues
 {
     [Theory]
-    [InlineData("1,2,3", "4,5,6", "7,8,9", "companyNumber", "phase", "laCode", "1|2|3", "4|5|6", "7|8|9", "companyNumber", "phase", "laCode")]
-    [InlineData(null, null, null, null, null, null, "", "", "", null, null, null)]
+    [InlineData("1,2,3", "4,5,6", "7,8,9", "companyNumber", "1|2|3", "4|5|6", "7|8|9", "companyNumber")]
+    [InlineData(null, null, null, null, "", "", "", null)]
     public void ShouldSetValuesFromIQueryCollection(
         string? statuses,
         string? categories,
         string? urns,
         string? companyNumber,
-        string? phase,
-        string? laCode,
         string expectedStatuses,
         string expectedCategories,
         string expectedUrns,
-        string? expectedCompanyNumber,
-        string? expectedPhase,
-        string? expectedLaCode)
+        string? expectedCompanyNumber)
     {
         var parameters = new MetricRagRatingsParameters();
         var query = new NameValueCollection
@@ -29,9 +25,7 @@ public class WhenMetricRagRatingsParametersSetsValues
             { "statuses", statuses },
             { "categories", categories },
             { "urns", urns },
-            { "companyNumber", companyNumber },
-            { "phase", phase },
-            { "laCode", laCode }
+            { "companyNumber", companyNumber }
         };
 
         parameters.SetValues(query);
@@ -40,7 +34,5 @@ public class WhenMetricRagRatingsParametersSetsValues
         Assert.Equal(expectedCategories, string.Join("|", parameters.Categories));
         Assert.Equal(expectedUrns, string.Join("|", parameters.Urns));
         Assert.Equal(expectedCompanyNumber, parameters.CompanyNumber);
-        Assert.Equal(expectedPhase, parameters.Phase);
-        Assert.Equal(expectedLaCode, parameters.LaCode);
     }
 }
