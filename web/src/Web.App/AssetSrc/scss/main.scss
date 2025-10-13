@@ -121,14 +121,6 @@
   }
 }
 
-.key-spend-category {
-  min-height: 4.5em;
-
-  @include govuk-media-query($until: tablet) {
-    min-height: auto;
-  }
-}
-
 .app-tag--red {
   background-color: $rag-red-colour;
   color: $rag-red-text-colour;
