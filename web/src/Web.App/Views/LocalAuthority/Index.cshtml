@@ -23,24 +23,24 @@
 <hr class="govuk-section-break govuk-section-break--m">
 
 <feature negate="true" name="@FeatureFlags.LocalAuthorityHomepageV2">
-<div class="govuk-grid-row">
-    <div class="govuk-grid-column-full">
-        <h2 class="govuk-heading-m">Schools in local authority</h2>
-        <div class="govuk-accordion" data-module="govuk-accordion" id="accordion-schools">
-            @{
-                foreach (var (group, index) in Model.GroupedSchools.Select((group, index) => (group, index)))
-                {
-                    @await Html.PartialAsync("_SchoolsSection", new LocalAuthoritySchoolsSectionViewModel
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-full">
+            <h2 class="govuk-heading-m">Schools in local authority</h2>
+            <div class="govuk-accordion" data-module="govuk-accordion" id="accordion-schools">
+                @{
+                    foreach (var (group, index) in Model.GroupedSchools.Select((group, index) => (group, index)))
                     {
-                        Heading = group.Key,
-                        Schools = group,
-                        Id = index
-                    })
+                        @await Html.PartialAsync("_SchoolNamesSection", new LocalAuthoritySchoolNamesSectionViewModel
+                        {
+                            Heading = group.Key,
+                            Schools = group,
+                            Id = index
+                        })
+                    }
                 }
-            }
+            </div>
         </div>
     </div>
-</div>
 </feature>
 
 @await Html.PartialAsync("FinanceTools/_LocalAuthority", Model.Tools)
@@ -50,6 +50,76 @@
 @await Html.PartialAsync("_HighNeeds", Model.Code)
 
 <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+
+@if (Model.NumberOfSchools > 0)
+{
+    <feature name="@FeatureFlags.LocalAuthorityHomepageV2">
+        <h2 class="govuk-heading-m">Priority schools by RAG ratings</h2>
+
+        <details class="govuk-details">
+            <summary class="govuk-details__summary govuk-body">
+                <span class="govuk-details__summary-text">About RAG priority ratings</span>
+            </summary>
+            <div class="govuk-details__text">
+                <p class="govuk-body">Red, amber and green (RAG) priority ratings are shown to give an indication of the
+                    spending compared to similar schools.</p>
+                <p class="govuk-body">The rating is not an indication of performance. It is used to display if spending
+                    is significantly more or less than similar schools. This does not consider any individual spending
+                    strategies which might apply.</p>
+                <p class="govuk-body">The ratings are intended for schools and trusts to identify potential areas to
+                    help them make informed spending decisions.</p>
+                <p class="govuk-body">The size of the red bar corresponds to the proportion of red-rated <a
+                        href="@Url.ActionLink("CostCategories", "StaticContent")" target="_blank"
+                        rel="noopener noreferrer" class="govuk-link">cost categories</a> for the school.
+                </p>
+            </div>
+        </details>
+
+        @await Html.PartialAsync("_SchoolsSection", new LocalAuthoritySchoolsSectionViewModel
+        {
+            Heading = "Primary schools",
+            Schools = Model.PrimarySchools
+        })
+
+        @await Html.PartialAsync("_SchoolsSection", new LocalAuthoritySchoolsSectionViewModel
+        {
+            Heading = "Secondary schools",
+            Schools = Model.SecondarySchools
+        })
+
+        @await Html.PartialAsync("_SchoolsSection", new LocalAuthoritySchoolsSectionViewModel
+        {
+            Heading = "Special",
+            Schools = Model.Special
+        })
+
+        @await Html.PartialAsync("_SchoolsSection", new LocalAuthoritySchoolsSectionViewModel
+        {
+            Heading = "Alternative provision",
+            Schools = Model.AlternativeProvision
+        })
+
+        @await Html.PartialAsync("_SchoolsSection", new LocalAuthoritySchoolsSectionViewModel
+        {
+            Heading = "All-through",
+            Schools = Model.AllThroughSchools
+        })
+
+        @await Html.PartialAsync("_SchoolsSection", new LocalAuthoritySchoolsSectionViewModel
+        {
+            Heading = "Post 16",
+            Schools = Model.PostSixteen
+        })
+
+        @await Html.PartialAsync("_SchoolsSection", new LocalAuthoritySchoolsSectionViewModel
+        {
+            Heading = "University technical colleges",
+            Schools = Model.UniversityTechnicalColleges
+        })
+
+        <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+    </feature>
+}
 
 @await Component.InvokeAsync("Resources", new
 {

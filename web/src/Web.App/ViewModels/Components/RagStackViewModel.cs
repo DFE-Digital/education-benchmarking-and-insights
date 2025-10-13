@@ -1,6 +1,6 @@
 ﻿namespace Web.App.ViewModels.Components;
 
-public class RagStackViewModel(string identifier, int red, int amber, int green, bool small)
+public class RagStackViewModel(string identifier, int red, int amber, int green, string? className)
 {
     public string Identifier => identifier;
 
@@ -17,5 +17,5 @@ public class RagStackViewModel(string identifier, int red, int amber, int green,
     public string? AmberHref { get; init; }
     public string? GreenHref { get; init; }
 
-    public string ClassName => small ? "rag-stack-small" : string.Empty;
+    public string ClassName => className ?? string.Empty;
 }
