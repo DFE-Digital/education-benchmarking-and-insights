@@ -15,7 +15,7 @@
 
         @foreach (var school in Model.Schools)
         {
-            <div class="govuk-grid-row">
+            <div class="govuk-grid-row" data-key="@school.Urn">
                 <div class="govuk-grid-column-one-half govuk-body">
                     @if (school.Total <= 0)
                     {

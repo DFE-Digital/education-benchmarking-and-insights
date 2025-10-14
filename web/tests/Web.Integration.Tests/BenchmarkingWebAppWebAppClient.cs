@@ -445,6 +445,14 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
         return this;
     }
 
+    public BenchmarkingWebAppClient SetupMetricRagRatingSummary(IEnumerable<RagRatingSummary>? ratings = null)
+    {
+        MetricRagRatingApi.Reset();
+        MetricRagRatingApi.Setup(api => api.SummaryAsync(It.IsAny<ApiQuery?>(), It.IsAny<CancellationToken>())).ReturnsAsync(ApiResult.Ok(ratings ?? []));
+
+        return this;
+    }
+
     public BenchmarkingWebAppClient SetupExpenditure(School school, SchoolExpenditure? expenditure = null)
     {
         ExpenditureApi.Reset();
