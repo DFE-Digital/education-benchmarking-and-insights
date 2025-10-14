@@ -103,8 +103,8 @@ public class GivenALocalAuthorityViewModel
 
         var expected = ratings
             .Where(r => r.OverallPhase == overallPhase)
-            .OrderByDescending(o => (o.Red + o.Amber + o.Green) > 0 ? o.Red / (o.Red + o.Amber + o.Green) : 0)
-            .ThenByDescending(o => (o.Red + o.Amber + o.Green) > 0 ? o.Amber / (o.Red + o.Amber + o.Green) : 0)
+            .OrderByDescending(o => (o.RedCount + o.AmberCount + o.GreenCount) > 0 ? o.RedCount / (o.RedCount + o.AmberCount + o.GreenCount) : 0)
+            .ThenByDescending(o => (o.RedCount + o.AmberCount + o.GreenCount) > 0 ? o.AmberCount / (o.RedCount + o.AmberCount + o.GreenCount) : 0)
             .ThenBy(o => o.SchoolName)
             .Take(5)
             .Select(s => s.URN);

@@ -95,7 +95,7 @@ public class LocalAuthorityController(
     private static ApiQuery BuildQuery(string code)
     {
         var query = new ApiQuery();
-        query.AddIfNotNull("code", code);
+        query.AddIfNotNull("laCode", code);
         return query;
     }
 }

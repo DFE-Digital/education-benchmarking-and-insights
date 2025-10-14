@@ -55,9 +55,9 @@ public class LocalAuthorityViewModel(LocalAuthority localAuthority, RagRatingSum
                 .Select(s => new RagSchoolViewModel(
                     s.URN,
                     s.SchoolName,
-                    s.Red ?? 0,
-                    s.Amber ?? 0,
-                    s.Green ?? 0
+                    s.RedCount ?? 0,
+                    s.AmberCount ?? 0,
+                    s.GreenCount ?? 0
                 )).OrderByDescending(o => o.RedRatio)
                 .ThenByDescending(o => o.AmberRatio)
                 .ThenBy(o => o.Name)
