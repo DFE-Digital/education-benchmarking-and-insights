@@ -1,4 +1,5 @@
-﻿@using Web.App.ViewModels
+﻿@using Web.App.Domain
+@using Web.App.ViewModels
 @using Web.App.ViewModels.Components
 @model Web.App.ViewModels.LocalAuthorityViewModel
 @{
@@ -74,48 +75,27 @@
                 </p>
             </div>
         </details>
-
-        @await Html.PartialAsync("_SchoolsSection", new LocalAuthoritySchoolsSectionViewModel
-        {
-            Heading = "Primary schools",
-            Schools = Model.PrimarySchools
-        })
-
-        @await Html.PartialAsync("_SchoolsSection", new LocalAuthoritySchoolsSectionViewModel
-        {
-            Heading = "Secondary schools",
-            Schools = Model.SecondarySchools
-        })
-
-        @await Html.PartialAsync("_SchoolsSection", new LocalAuthoritySchoolsSectionViewModel
-        {
-            Heading = "Special",
-            Schools = Model.Special
-        })
-
-        @await Html.PartialAsync("_SchoolsSection", new LocalAuthoritySchoolsSectionViewModel
-        {
-            Heading = "Alternative provision",
-            Schools = Model.AlternativeProvision
-        })
-
-        @await Html.PartialAsync("_SchoolsSection", new LocalAuthoritySchoolsSectionViewModel
-        {
-            Heading = "All-through",
-            Schools = Model.AllThroughSchools
-        })
-
-        @await Html.PartialAsync("_SchoolsSection", new LocalAuthoritySchoolsSectionViewModel
-        {
-            Heading = "Post 16",
-            Schools = Model.PostSixteen
-        })
-
-        @await Html.PartialAsync("_SchoolsSection", new LocalAuthoritySchoolsSectionViewModel
-        {
-            Heading = "University technical colleges",
-            Schools = Model.UniversityTechnicalColleges
-        })
+        
+        @{
+            foreach (var (overallPhase, schools) in Model.GroupedSchools)
+            {
+                var heading = overallPhase switch
+                {
+                    OverallPhaseTypes.Primary => "Primary schools",
+                    OverallPhaseTypes.Secondary => "Secondary schools",
+                    OverallPhaseTypes.AlternativeProvision => "Alternative provision",
+                    OverallPhaseTypes.PostSixteen => "Post 16",
+                    OverallPhaseTypes.UniversityTechnicalCollege => "University technical colleges",
+                    _ => overallPhase
+                };
+                
+                @await Html.PartialAsync("_SchoolsSection", new LocalAuthoritySchoolsSectionViewModel
+                {
+                    Heading = heading ?? string.Empty,
+                    Schools = schools
+                })
+            }
+        }
 
         <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
     </feature>

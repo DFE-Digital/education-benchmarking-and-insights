@@ -14,40 +14,7 @@ public class LocalAuthorityViewModel(LocalAuthority localAuthority, RagRatingSum
         .GroupBy(x => x.OverallPhase)
         .OrderBy(x => GetLaPhaseOrder(x.Key));
 
-    public FinanceToolsViewModel Tools => new(
-        localAuthority.Code,
-        FinanceTools.CompareYourCosts,
-        FinanceTools.BenchmarkCensus);
-
-    public IEnumerable<RagSchoolViewModel> PrimarySchools => GroupedSchools
-        .Where(s => s.OverallPhase == OverallPhaseTypes.Primary)
-        .SelectMany(s => s.Schools);
-
-    public IEnumerable<RagSchoolViewModel> SecondarySchools => GroupedSchools
-        .Where(s => s.OverallPhase == OverallPhaseTypes.Secondary)
-        .SelectMany(s => s.Schools);
-
-    public IEnumerable<RagSchoolViewModel> Special => GroupedSchools
-        .Where(s => s.OverallPhase is OverallPhaseTypes.Special)
-        .SelectMany(s => s.Schools);
-
-    public IEnumerable<RagSchoolViewModel> AlternativeProvision => GroupedSchools
-        .Where(s => s.OverallPhase is OverallPhaseTypes.AlternativeProvision)
-        .SelectMany(s => s.Schools);
-
-    public IEnumerable<RagSchoolViewModel> AllThroughSchools => GroupedSchools
-        .Where(s => s.OverallPhase == OverallPhaseTypes.AllThrough)
-        .SelectMany(s => s.Schools);
-
-    public IEnumerable<RagSchoolViewModel> UniversityTechnicalColleges => GroupedSchools
-        .Where(s => s.OverallPhase == OverallPhaseTypes.UniversityTechnicalCollege)
-        .SelectMany(s => s.Schools);
-
-    public IEnumerable<RagSchoolViewModel> PostSixteen => GroupedSchools
-        .Where(s => s.OverallPhase == OverallPhaseTypes.PostSixteen)
-        .SelectMany(s => s.Schools);
-
-    private IEnumerable<(string? OverallPhase, IEnumerable<RagSchoolViewModel> Schools)> GroupedSchools => ragRatings
+    public IEnumerable<(string? OverallPhase, IEnumerable<RagSchoolViewModel> Schools)> GroupedSchools => ragRatings
         .GroupBy(x => x.OverallPhase)
         .Select(x => (
             OverallPhase: x.Key,
@@ -61,7 +28,13 @@ public class LocalAuthorityViewModel(LocalAuthority localAuthority, RagRatingSum
                 )).OrderByDescending(o => o.RedRatio)
                 .ThenByDescending(o => o.AmberRatio)
                 .ThenBy(o => o.Name)
-                .Take(5)));
+                .Take(5)))
+        .OrderBy(x => GetLaPhaseOrder(x.OverallPhase));
+
+    public FinanceToolsViewModel Tools => new(
+        localAuthority.Code,
+        FinanceTools.CompareYourCosts,
+        FinanceTools.BenchmarkCensus);
 
     private static int GetLaPhaseOrder(string? phase)
     {
