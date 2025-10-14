@@ -5,6 +5,8 @@ using AutoFixture;
 using Web.App;
 using Web.App.Domain;
 using Web.App.Domain.Content;
+using Web.App.Extensions;
+using Web.App.ViewModels;
 using Xunit;
 
 namespace Web.Integration.Tests.Pages.LocalAuthorities;
@@ -12,13 +14,22 @@ namespace Web.Integration.Tests.Pages.LocalAuthorities;
 public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<SchoolBenchmarkingWebAppClient>(client)
 {
     [Theory]
-    [InlineData(false)]
-    [InlineData(true)]
-    public async Task CanDisplay(bool showBanner)
+    [InlineData(false, false, OverallPhaseTypes.Primary, OverallPhaseTypes.Secondary, OverallPhaseTypes.Special, OverallPhaseTypes.PupilReferralUnit, OverallPhaseTypes.AllThrough, OverallPhaseTypes.Nursery)]
+    [InlineData(false, false, OverallPhaseTypes.Primary, OverallPhaseTypes.Secondary, OverallPhaseTypes.PupilReferralUnit, OverallPhaseTypes.AllThrough, OverallPhaseTypes.Nursery)]
+    [InlineData(false, false, OverallPhaseTypes.Primary, OverallPhaseTypes.Secondary, OverallPhaseTypes.Special, OverallPhaseTypes.AllThrough, OverallPhaseTypes.Nursery)]
+    [InlineData(false, false, OverallPhaseTypes.Primary, OverallPhaseTypes.Secondary, OverallPhaseTypes.Special, OverallPhaseTypes.PupilReferralUnit, OverallPhaseTypes.Nursery)]
+    [InlineData(false, false, OverallPhaseTypes.Primary, OverallPhaseTypes.Secondary, OverallPhaseTypes.Special, OverallPhaseTypes.PupilReferralUnit, OverallPhaseTypes.AllThrough)]
+    [InlineData(false, false, OverallPhaseTypes.Secondary, OverallPhaseTypes.Special, OverallPhaseTypes.PupilReferralUnit, OverallPhaseTypes.AllThrough, OverallPhaseTypes.Nursery)]
+    [InlineData(false, false, OverallPhaseTypes.Primary, OverallPhaseTypes.Special, OverallPhaseTypes.PupilReferralUnit, OverallPhaseTypes.AllThrough, OverallPhaseTypes.Nursery)]
+    [InlineData(false, false, OverallPhaseTypes.Primary, OverallPhaseTypes.Secondary, OverallPhaseTypes.AllThrough, OverallPhaseTypes.Nursery)]
+    [InlineData(false, false, OverallPhaseTypes.Primary, OverallPhaseTypes.Secondary, OverallPhaseTypes.Special, OverallPhaseTypes.PupilReferralUnit)]
+    [InlineData(true, false, OverallPhaseTypes.Primary, OverallPhaseTypes.Secondary, OverallPhaseTypes.Special, OverallPhaseTypes.PupilReferralUnit)]
+    [InlineData(true, true, OverallPhaseTypes.Primary, OverallPhaseTypes.Secondary, OverallPhaseTypes.Special, OverallPhaseTypes.PupilReferralUnit)]
+    public async Task CanDisplay(bool showBanner, bool hasMissingRag, params string[] phaseTypes)
     {
-        var (page, authority, schools, banner) = await SetupNavigateInitPage(showBanner, true);
+        var (page, authority, schools, ratings, banner) = await SetupNavigateInitPage(showBanner, true, hasMissingRag, phaseTypes);
 
-        AssertPageLayout(page, authority, schools, banner, true);
+        AssertPageLayout(page, authority, schools, ratings, banner, true);
     }
 
     [Theory]
@@ -34,15 +45,15 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
     [InlineData(true, OverallPhaseTypes.Primary, OverallPhaseTypes.Secondary, OverallPhaseTypes.Special, OverallPhaseTypes.PupilReferralUnit)]
     public async Task CanDisplayWhenAuthorityHomepageV2Disabled(bool showBanner, params string[] phaseTypes)
     {
-        var (page, authority, schools, banner) = await SetupNavigateInitPage(showBanner, false, phaseTypes);
+        var (page, authority, schools, _, banner) = await SetupNavigateInitPage(showBanner, false, false, phaseTypes);
 
-        AssertPageLayout(page, authority, schools, banner, false);
+        AssertPageLayout(page, authority, schools, [], banner, false);
     }
 
     [Fact]
     public async Task CanNavigateToChangeAuthority()
     {
-        var (page, _, _, _) = await SetupNavigateInitPage();
+        var (page, _, _, _, _) = await SetupNavigateInitPage();
 
         var anchor = page.QuerySelectorAll("a").FirstOrDefault(x => x.TextContent.Trim() == "Change local authority");
         Assert.NotNull(anchor);
@@ -55,7 +66,7 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
     [Fact]
     public async Task CanNavigateToResources()
     {
-        var (page, authority, _, _) = await SetupNavigateInitPage();
+        var (page, authority, _, _, _) = await SetupNavigateInitPage();
 
         var anchor = page.QuerySelectorAll("a").FirstOrDefault(x => x.TextContent.Trim() == "Find ways to spend less");
         Assert.NotNull(anchor);
@@ -67,7 +78,7 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
     [Fact]
     public async Task CanNavigateToHighNeedsBenchmarking()
     {
-        var (page, authority, _, _) = await SetupNavigateInitPage();
+        var (page, authority, _, _, _) = await SetupNavigateInitPage();
 
         var anchor = page.QuerySelectorAll("a").FirstOrDefault(x => x.TextContent.Trim() == "Benchmark high needs");
         Assert.NotNull(anchor);
@@ -79,7 +90,7 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
     [Fact]
     public async Task CanNavigateToHighNeedsHistory()
     {
-        var (page, authority, _, _) = await SetupNavigateInitPage();
+        var (page, authority, _, _, _) = await SetupNavigateInitPage();
 
         var anchor = page.QuerySelectorAll("a").FirstOrDefault(x => x.TextContent.Trim() == "View high needs historical data");
         Assert.NotNull(anchor);
@@ -158,9 +169,10 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
         DocumentAssert.AssertPageUrl(page, Paths.LocalAuthorityHome(code).ToAbsolute(), HttpStatusCode.InternalServerError);
     }
 
-    private async Task<(IHtmlDocument page, LocalAuthority authority, LocalAuthoritySchool[] schools, Banner? banner)> SetupNavigateInitPage(
+    private async Task<(IHtmlDocument page, LocalAuthority authority, LocalAuthoritySchool[] schools, RagRatingSummary[] ratings, Banner? banner)> SetupNavigateInitPage(
         bool showBanner = false,
         bool localAuthorityHomepageV2Enabled = false,
+        bool hasMissingRag = false,
         params string[] phaseTypes)
     {
         var authority = Fixture.Build<LocalAuthority>()
@@ -185,15 +197,29 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
             .Create();
         authorityWithNeighbours.StatisticalNeighbours = statisticalNeighbours;
 
+        var random = new Random();
+        var ratings = schools
+            .Select(s => Fixture
+                .Build<RagRatingSummary>()
+                .With(r => r.URN, s.URN)
+                .With(r => r.SchoolName, s.SchoolName)
+                .With(r => r.OverallPhase, s.OverallPhase)
+                .With(r => r.Red, random.Next(0, hasMissingRag ? 0 : 8))
+                .With(r => r.Amber, random.Next(0, hasMissingRag ? 0 : 8))
+                .With(r => r.Green, random.Next(0, hasMissingRag ? 0 : 8))
+                .Create())
+            .ToArray();
+
         var page = await Client
             .SetupDisableFeatureFlags(localAuthorityHomepageV2Enabled ? [] : [FeatureFlags.LocalAuthorityHomepageV2])
             .SetupEstablishment(authorityWithNeighbours, [authority])
             .SetupInsights()
             .SetupLocalAuthoritiesComparators(authority.Code!, [])
             .SetupBanner(banner)
+            .SetupMetricRagRatingSummary(localAuthorityHomepageV2Enabled ? ratings : [])
             .Navigate(Paths.LocalAuthorityHome(authority.Code));
 
-        return (page, authority, schools, banner);
+        return (page, authority, schools, ratings, banner);
     }
 
     private LocalAuthoritySchool[] GenerateSchools(string phaseType)
@@ -204,7 +230,13 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
             .ToArray();
     }
 
-    private static void AssertPageLayout(IHtmlDocument page, LocalAuthority authority, LocalAuthoritySchool[] schools, Banner? banner, bool localAuthorityHomepageV2Enabled)
+    private static void AssertPageLayout(
+        IHtmlDocument page,
+        LocalAuthority authority,
+        LocalAuthoritySchool[] schools,
+        RagRatingSummary[] ratings,
+        Banner? banner,
+        bool localAuthorityHomepageV2Enabled)
     {
         DocumentAssert.AssertPageUrl(page, Paths.LocalAuthorityHome(authority.Code).ToAbsolute());
 
@@ -226,6 +258,7 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
         if (localAuthorityHomepageV2Enabled)
         {
             Assert.Null(accordion);
+            AssertPrioritySchoolsSection(page, ratings);
         }
         else
         {
@@ -299,5 +332,76 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
 
         Assert.Equal("Find ways to spend less", links.ElementAt(0).TextContent.Trim());
         Assert.Equal("Data sources and interpretation", links.ElementAt(1).TextContent.Trim());
+    }
+
+    private static void AssertPrioritySchoolsSection(IHtmlDocument page, RagRatingSummary[] ratings)
+    {
+        var phases = ratings.Select(x => x.OverallPhase).Distinct().ToArray();
+        foreach (var overallPhase in phases)
+        {
+            var heading = overallPhase switch
+            {
+                OverallPhaseTypes.Primary => "Primary schools",
+                OverallPhaseTypes.Secondary => "Secondary schools",
+                OverallPhaseTypes.Special => "Special",
+                OverallPhaseTypes.AlternativeProvision => "Alternative provision",
+                OverallPhaseTypes.AllThrough => "All-through",
+                OverallPhaseTypes.PostSixteen => "Post 16",
+                OverallPhaseTypes.UniversityTechnicalCollege => "University technical colleges",
+                _ => null
+            };
+
+            if (heading == null)
+            {
+                continue;
+            }
+
+            var section = page.QuerySelector($"#school-rag-{heading.ToSlug()}");
+            Assert.NotNull(section);
+
+            var expectedRows = ratings
+                .GroupBy(x => x.OverallPhase)
+                .Select(x => (
+                    OverallPhase: x.Key,
+                    Schools: x
+                        .Select(s => new RagSchoolViewModel(
+                            s.URN,
+                            s.SchoolName,
+                            s.Red ?? 0,
+                            s.Amber ?? 0,
+                            s.Green ?? 0
+                        )).OrderByDescending(o => o.RedRatio)
+                        .ThenByDescending(o => o.AmberRatio)
+                        .ThenBy(o => o.Name)
+                        .Take(5)))
+                .Where(x => x.OverallPhase == overallPhase)
+                .SelectMany(x => x.Schools)
+                .ToArray();
+
+            var actualRows = section.QuerySelectorAll(".govuk-grid-row");
+            Assert.Equal(expectedRows.Length + 1, actualRows.Length);
+
+            for (var i = 1; i < actualRows.Length; i++)
+            {
+                var actual = actualRows.ElementAt(i);
+                var expected = expectedRows.ElementAt(i - 1);
+
+                var urn = actual.Attributes["data-key"]?.Value;
+                Assert.Equal(expected.Urn, urn);
+
+                var ragStack = actual.QuerySelector(".rag-stack");
+                if (expected.Total > 0)
+                {
+                    Assert.NotNull(ragStack);
+                    Assert.Equal($"{expected.Red} high, {expected.Amber} medium and {expected.Green} low priorities for {expected.Name}", ragStack.TextContent.Trim());
+                }
+                else
+                {
+                    Assert.Null(ragStack);
+                    Assert.Equal($"{expected.Name} Status unavailable", actual.TextContent.Replace(StringExtensions.WhitespaceRegex(), " ").Trim());
+                }
+            }
+        }
+
     }
 }
