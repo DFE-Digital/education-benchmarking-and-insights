@@ -1,6 +1,8 @@
-﻿using Platform.Api.Insight.Features.MetricRagRatings.Models;
+﻿using Newtonsoft.Json.Linq;
+using Platform.Api.Insight.Features.MetricRagRatings.Models;
 using Platform.ApiTests.Assertion;
 using Platform.ApiTests.Drivers;
+using Platform.ApiTests.TestDataHelpers;
 using Platform.Json;
 
 namespace Platform.ApiTests.Steps;
@@ -51,6 +53,27 @@ public class MetricRagRatingsBalanceSteps(InsightApiDriver api)
         });
     }
 
+    [Given("a default metric rag rating summary request with companyNumber '(.*)', LA code '(.*)', and overall phase '(.*)'")]
+    public void GivenADefaultMetricRagRatingSummaryRequestWithCompanyNumberLaCodeAndOverallPhase(string companyNumber, string laCode, string overallPhase)
+    {
+        api.CreateRequest(MetricRagRatingsKey, new HttpRequestMessage
+        {
+            RequestUri = new Uri($"/api/metric-rag/summary/?&companyNumber={companyNumber}&laCode={laCode}&overallPhase={overallPhase}", UriKind.Relative),
+            Method = HttpMethod.Get
+        });
+    }
+
+    [Given("a default metric rag rating summary request with urns:")]
+    public void GivenADefaultMetricRagRatingSummaryRequestWithUrns(DataTable table)
+    {
+        var urns = GetFirstColumnsFromTableRowsAsString(table);
+        api.CreateRequest(MetricRagRatingsKey, new HttpRequestMessage
+        {
+            RequestUri = new Uri($"/api/metric-rag/summary/?urns={string.Join("&urns=", urns)}", UriKind.Relative),
+            Method = HttpMethod.Get
+        });
+    }
+
     [When("I submit the metric rag rating request")]
     public async Task WhenISubmitTheMetricRagRatingRequest()
     {
@@ -72,6 +95,34 @@ public class MetricRagRatingsBalanceSteps(InsightApiDriver api)
     public void ThenTheMetricRagRatingResultShouldBeBadRequest()
     {
         AssertHttpResponse.IsBadRequest(api[MetricRagRatingsKey].Response);
+    }
+
+    [Then("the default metric rag rating summary should be OK and match the expected output in '(.*)'")]
+    public async Task ThenTheDefaultMetricRagRatingSummaryShouldBeOkAndMatchTheExpectedOutputIn(string testFile)
+    {
+        var response = api[MetricRagRatingsKey].Response;
+        AssertHttpResponse.IsOk(response);
+
+        var content = await response.Content.ReadAsStringAsync();
+        var actual = JArray.Parse(content);
+
+        var expected = TestDataProvider.GetJsonArrayData(testFile);
+
+        actual.AssertDeepEquals(expected);
+    }
+
+    [Then("the default metric rag rating summary should bad request and match the expected output in '(.*)'")]
+    public async Task ThenTheDefaultMetricRagRatingSummaryShouldBadRequestAndMatchTheExpectedOutputIn(string testFile)
+    {
+        var response = api[MetricRagRatingsKey].Response;
+        AssertHttpResponse.IsBadRequest(response);
+
+        var content = await response.Content.ReadAsStringAsync();
+        var actual = JArray.Parse(content);
+
+        var expected = TestDataProvider.GetJsonArrayData(testFile);
+
+        actual.AssertDeepEquals(expected);
     }
 
     private static IEnumerable<string> GetFirstColumnsFromTableRowsAsString(DataTable table)

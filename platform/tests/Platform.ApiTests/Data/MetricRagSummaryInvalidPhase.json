@@ -1,0 +1,7 @@
+[
+  {
+    "severity": "Error",
+    "propertyName": "OverallPhase",
+    "errorMessage": "Overall Phase must be missing or only contain the supported values: Primary, Secondary, Special, Pupil Referral Unit, All-through, Nursery, Post-16, Alternative Provision, University Technical College"
+  }
+]

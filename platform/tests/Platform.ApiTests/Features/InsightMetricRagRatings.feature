@@ -79,3 +79,42 @@
         Given a valid default metric rag rating with categories '' and statuses '' with LA code '205' and phase 'Invalid'
         When I submit the metric rag rating request
         Then the metric rag rating result should be bad request
+        
+    Scenario: Sending an valid default metric rag rating summary request with URNs
+        Given a default metric rag rating summary request with urns:
+          | Urn    |
+          | 777042 |
+          | 777049 |
+        When I submit the metric rag rating request
+        Then the default metric rag rating summary should be OK and match the expected output in 'MetricRagSummaryUrns.json'
+        
+    Scenario: Sending an valid default metric rag rating summary request with company number and no overall phase
+        Given a default metric rag rating summary request with companyNumber '08104190', LA code '', and overall phase ''
+        When I submit the metric rag rating request
+        Then the default metric rag rating summary should be OK and match the expected output in 'MetricRagSummaryCompanyNumber.json'    
+        
+    Scenario: Sending an valid default metric rag rating summary request with LA code and no overall phase
+        Given a default metric rag rating summary request with companyNumber '', LA code '869', and overall phase ''
+        When I submit the metric rag rating request
+        Then the default metric rag rating summary should be OK and match the expected output in 'MetricRagSummaryLaCode.json'   
+        
+    Scenario: Sending an valid default metric rag rating summary request with LA code and Primary overall phase
+        Given a default metric rag rating summary request with companyNumber '', LA code '869', and overall phase 'Primary'
+        When I submit the metric rag rating request
+        Then the default metric rag rating summary should be OK and match the expected output in 'MetricRagSummaryLaCodePrimary.json'    
+         
+    Scenario: Sending an valid default metric rag rating summary request with LA code and All-through overall phase
+        Given a default metric rag rating summary request with companyNumber '', LA code '869', and overall phase 'All-through'
+        When I submit the metric rag rating request
+        Then the default metric rag rating summary should be OK and match the expected output in 'MetricRagSummaryLaCodeAllThrough.json'
+                
+    Scenario: Sending an invalid default metric rag rating summary request without URNs, company number, or LA code
+        Given a default metric rag rating summary request with companyNumber '', LA code '', and overall phase ''
+        When I submit the metric rag rating request
+        Then the default metric rag rating summary should bad request and match the expected output in 'MetricRagSummaryMissingUrnCompanyNumberLaCode.json'
+                
+    Scenario: Sending an invalid default metric rag rating summary request with LA code and an invalid overall phase
+        Given a default metric rag rating summary request with companyNumber '', LA code '869', and overall phase 'invalid'
+        When I submit the metric rag rating request
+        Then the default metric rag rating summary should bad request and match the expected output in 'MetricRagSummaryInvalidPhase.json'
+   

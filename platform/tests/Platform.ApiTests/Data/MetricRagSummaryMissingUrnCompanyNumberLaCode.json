@@ -1,0 +1,7 @@
+[
+  {
+    "severity": "Error",
+    "propertyName": "",
+    "errorMessage": "Either LaCode, Urns, or CompanyNumber must be specified."
+  }
+]
