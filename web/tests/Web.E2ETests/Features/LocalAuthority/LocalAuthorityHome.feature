@@ -25,7 +25,7 @@
         Then the High needs historic data page is displayed
         
     @LocalAuthorityHomepageV2FlagDisabled
-    Scenario: Schools accordion is displayed when feature is enabled
+    Scenario: Schools accordion is displayed when feature is disabled
         Given I am on local authority homepage for local authority with code '204'
         Then the schools accordion should be displayed
         

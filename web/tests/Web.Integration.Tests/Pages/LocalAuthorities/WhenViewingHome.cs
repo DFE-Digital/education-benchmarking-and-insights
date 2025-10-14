@@ -343,20 +343,13 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
             {
                 OverallPhaseTypes.Primary => "Primary schools",
                 OverallPhaseTypes.Secondary => "Secondary schools",
-                OverallPhaseTypes.Special => "Special",
                 OverallPhaseTypes.AlternativeProvision => "Alternative provision",
-                OverallPhaseTypes.AllThrough => "All-through",
                 OverallPhaseTypes.PostSixteen => "Post 16",
                 OverallPhaseTypes.UniversityTechnicalCollege => "University technical colleges",
-                _ => null
+                _ => overallPhase
             };
 
-            if (heading == null)
-            {
-                continue;
-            }
-
-            var section = page.QuerySelector($"#school-rag-{heading.ToSlug()}");
+            var section = page.QuerySelector($"#school-rag-{heading?.ToSlug()}");
             Assert.NotNull(section);
 
             var expectedRows = ratings

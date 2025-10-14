@@ -34,17 +34,6 @@ public class GivenALocalAuthorityViewModel
             .Create();
     }
 
-    public static TheoryData<string, Func<LocalAuthorityViewModel, IEnumerable<RagSchoolViewModel>>> WithOverallPhaseTestData = new()
-    {
-        { "Primary", x => x.PrimarySchools },
-        { "Secondary", x => x.SecondarySchools },
-        { "Special", x => x.Special },
-        { "Alternative Provision", x => x.AlternativeProvision },
-        { "All-through", x => x.AllThroughSchools },
-        { "University Technical College", x => x.UniversityTechnicalColleges },
-        { "Post-16", x => x.PostSixteen },
-    };
-
     [Fact]
     public void WhenContainsSchools()
     {
@@ -78,36 +67,47 @@ public class GivenALocalAuthorityViewModel
     }
 
     [Theory]
-    [MemberData(nameof(WithOverallPhaseTestData))]
-    public void WhenContainsOverallPhase(string overallPhase, Func<LocalAuthorityViewModel, IEnumerable<RagSchoolViewModel>> selector)
+    [InlineData(OverallPhaseTypes.Primary)]
+    [InlineData(OverallPhaseTypes.Secondary)]
+    [InlineData(OverallPhaseTypes.Nursery)]
+    public void WhenContainsOverallPhase(string overallPhase)
     {
-        var schools = _fixture
-            .Build<LocalAuthoritySchool>()
-            .With(s => s.OverallPhase, overallPhase)
-            .CreateMany()
-            .ToArray();
-
-        var ratings = schools
+        var random = new Random();
+        var ratings = _schools
             .Select(s => _fixture
                 .Build<RagRatingSummary>()
                 .With(r => r.URN, s.URN)
+                .With(r => r.SchoolName, s.SchoolName)
+                .With(r => r.OverallPhase, s.OverallPhase)
+                .With(r => r.RedCount, random.Next(0, 8))
+                .With(r => r.AmberCount, random.Next(0, 8))
+                .With(r => r.GreenCount, random.Next(0, 8))
                 .Create())
             .ToArray();
 
-        _localAuthority.Schools = schools;
-
-        var actual = selector
-            .Invoke(new LocalAuthorityViewModel(_localAuthority, ratings))
-            .OrderBy(s => s.Urn)
+        var actual = new LocalAuthorityViewModel(_localAuthority, ratings).GroupedSchools
+            .Where(g => g.OverallPhase == overallPhase)
+            .SelectMany(g => g.Schools)
             .Select(s => s.Urn);
 
         var expected = ratings
-            .Where(r => r.OverallPhase == overallPhase)
-            .OrderByDescending(o => (o.RedCount + o.AmberCount + o.GreenCount) > 0 ? o.RedCount / (o.RedCount + o.AmberCount + o.GreenCount) : 0)
-            .ThenByDescending(o => (o.RedCount + o.AmberCount + o.GreenCount) > 0 ? o.AmberCount / (o.RedCount + o.AmberCount + o.GreenCount) : 0)
-            .ThenBy(o => o.SchoolName)
-            .Take(5)
-            .Select(s => s.URN);
+            .GroupBy(x => x.OverallPhase)
+            .Select(x => (
+                OverallPhase: x.Key,
+                Schools: x
+                    .Select(s => new RagSchoolViewModel(
+                        s.URN,
+                        s.SchoolName,
+                        s.RedCount ?? 0,
+                        s.AmberCount ?? 0,
+                        s.GreenCount ?? 0
+                    )).OrderByDescending(o => o.RedRatio)
+                    .ThenByDescending(o => o.AmberRatio)
+                    .ThenBy(o => o.Name)
+                    .Take(5)))
+            .Where(g => g.OverallPhase == overallPhase)
+            .SelectMany(g => g.Schools)
+            .Select(s => s.Urn);
         Assert.Equal(expected, actual);
     }
 }
