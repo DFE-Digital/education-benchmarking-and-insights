@@ -335,6 +335,10 @@ svg.rag-stack {
   &.rag-stack-medium {
     height: 22px;
   }
+
+  @include govuk-media-query($until: tablet) {
+    margin-bottom: govuk-spacing(4);
+  }
 }
 
 svg.rag-position {
@@ -1029,4 +1033,10 @@ table#current-comparators-la {
   .govuk-body, .govuk-body-l {
     margin-bottom: govuk-spacing(1);
   }
+}
+
+.block-single-line {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
 }

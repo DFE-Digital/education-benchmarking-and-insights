@@ -204,9 +204,9 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
                 .With(r => r.URN, s.URN)
                 .With(r => r.SchoolName, s.SchoolName)
                 .With(r => r.OverallPhase, s.OverallPhase)
-                .With(r => r.Red, random.Next(0, hasMissingRag ? 0 : 8))
-                .With(r => r.Amber, random.Next(0, hasMissingRag ? 0 : 8))
-                .With(r => r.Green, random.Next(0, hasMissingRag ? 0 : 8))
+                .With(r => r.RedCount, random.Next(0, hasMissingRag ? 0 : 8))
+                .With(r => r.AmberCount, random.Next(0, hasMissingRag ? 0 : 8))
+                .With(r => r.GreenCount, random.Next(0, hasMissingRag ? 0 : 8))
                 .Create())
             .ToArray();
 
@@ -367,9 +367,9 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
                         .Select(s => new RagSchoolViewModel(
                             s.URN,
                             s.SchoolName,
-                            s.Red ?? 0,
-                            s.Amber ?? 0,
-                            s.Green ?? 0
+                            s.RedCount ?? 0,
+                            s.AmberCount ?? 0,
+                            s.GreenCount ?? 0
                         )).OrderByDescending(o => o.RedRatio)
                         .ThenByDescending(o => o.AmberRatio)
                         .ThenBy(o => o.Name)
