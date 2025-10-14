@@ -11,6 +11,8 @@ public class MetricRagRatingApi(HttpClient httpClient, string? key = default) : 
         var query = new ApiQuery().AddIfNotNull("useCustomData", true);
         return await GetAsync($"{Api.MetricRagRating.Single(identifier)}{query.ToQueryString()}");
     }
+
+    public async Task<ApiResult> SummaryAsync(ApiQuery? query = null, CancellationToken cancellationToken = default) => await GetAsync($"{Api.MetricRagRating.Summary}{query?.ToQueryString()}", cancellationToken);
 }
 
 public interface IMetricRagRatingApi
@@ -18,4 +20,5 @@ public interface IMetricRagRatingApi
     Task<ApiResult> GetDefaultAsync(ApiQuery? query = null);
     Task<ApiResult> UserDefinedAsync(string identifier);
     Task<ApiResult> CustomAsync(string identifier);
+    Task<ApiResult> SummaryAsync(ApiQuery? query = null, CancellationToken cancellationToken = default);
 }
