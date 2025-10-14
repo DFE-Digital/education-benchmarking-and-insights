@@ -12,6 +12,30 @@
 </div>
 
 <div class="govuk-grid-row">
+    <table class="govuk-table">
+        <thead class="govuk-table__head">
+        <tr class="govuk-table__row">
+            @await Component.InvokeAsync("SortableTableHeaderCell", new
+            {
+                label = "School name",
+                sortField = "name"
+            })
+            @await Component.InvokeAsync("SortableTableHeaderCell", new
+            {
+                label = "Pupils",
+                sortField = "pupils"
+            })
+            @await Component.InvokeAsync("SortableTableHeaderCell", new
+            {
+                label = "Expenditure as % of income",
+                sortField = "exp",
+                className = "govuk-table__header--numeric"
+            })
+        </tr>
+        </thead>
+        <tbody id="schools-tbody" class="govuk-table__body"></tbody>
+    </table>
+
     <div class="govuk-grid-column-two-thirds">
         <p class="govuk-body">This service helps schools view and improve their spending. It is replacing the View my
             financial insights tool and the Schools financial benchmarking service.</p>
@@ -67,7 +91,7 @@
 @section banner {
     @await Component.InvokeAsync("Banner", new
     {
-        target = BannerTargets.ServiceHome, 
+        target = BannerTargets.ServiceHome,
         columnClass = "govuk-grid-column-two-thirds"
     })
 }
