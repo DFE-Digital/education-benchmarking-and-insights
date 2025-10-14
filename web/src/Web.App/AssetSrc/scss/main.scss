@@ -596,8 +596,17 @@ hr.govuk-section-break--print {
 
   thead {
     tr {
-      th.govuk-table__header--nowrap {
-        white-space: pre;
+      th {
+        &.govuk-table__header--nowrap {
+          white-space: pre;
+        }
+
+        &.govuk-table__header--sortable {
+          a {
+            display: inline-flex;
+            text-decoration: none;
+          }
+        }
       }
     }
   }
