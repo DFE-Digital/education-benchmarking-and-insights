@@ -28,7 +28,7 @@
             <h2 class="govuk-heading-m">Schools in local authority</h2>
             <div class="govuk-accordion" data-module="govuk-accordion" id="accordion-schools">
                 @{
-                    foreach (var (group, index) in Model.GroupedSchools.Select((group, index) => (group, index)))
+                    foreach (var (group, index) in Model.GroupedSchoolNames.Select((group, index) => (group, index)))
                     {
                         @await Html.PartialAsync("_SchoolNamesSection", new LocalAuthoritySchoolNamesSectionViewModel
                         {

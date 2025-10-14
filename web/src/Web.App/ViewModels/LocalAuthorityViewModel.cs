@@ -3,13 +3,13 @@ using Web.App.ViewModels.Shared;
 
 namespace Web.App.ViewModels;
 
-public class LocalAuthorityViewModel(LocalAuthority localAuthority)
+public class LocalAuthorityViewModel(LocalAuthority localAuthority, RagRatingSummary[] ragRatings)
 {
     public string? Code => localAuthority.Code;
     public string? Name => localAuthority.Name;
     public int? NumberOfSchools => localAuthority.Schools.Length;
 
-    public IEnumerable<IGrouping<string?, LocalAuthoritySchool>> GroupedSchools { get; } = localAuthority.Schools
+    public IEnumerable<IGrouping<string?, LocalAuthoritySchool>> GroupedSchoolNames { get; } = localAuthority.Schools
         .OrderBy(x => x.SchoolName)
         .GroupBy(x => x.OverallPhase)
         .OrderBy(x => GetLaPhaseOrder(x.Key));
@@ -19,62 +19,49 @@ public class LocalAuthorityViewModel(LocalAuthority localAuthority)
         FinanceTools.CompareYourCosts,
         FinanceTools.BenchmarkCensus);
 
-    public IEnumerable<RagSchoolViewModel> PrimarySchools => GroupedSchoolRags
+    public IEnumerable<RagSchoolViewModel> PrimarySchools => GroupedSchools
         .Where(s => s.OverallPhase == OverallPhaseTypes.Primary)
         .SelectMany(s => s.Schools);
 
-    public IEnumerable<RagSchoolViewModel> SecondarySchools => GroupedSchoolRags
+    public IEnumerable<RagSchoolViewModel> SecondarySchools => GroupedSchools
         .Where(s => s.OverallPhase == OverallPhaseTypes.Secondary)
         .SelectMany(s => s.Schools);
 
-    public IEnumerable<RagSchoolViewModel> Special => GroupedSchoolRags
+    public IEnumerable<RagSchoolViewModel> Special => GroupedSchools
         .Where(s => s.OverallPhase is OverallPhaseTypes.Special)
         .SelectMany(s => s.Schools);
 
-    public IEnumerable<RagSchoolViewModel> AlternativeProvision => GroupedSchoolRags
+    public IEnumerable<RagSchoolViewModel> AlternativeProvision => GroupedSchools
         .Where(s => s.OverallPhase is OverallPhaseTypes.AlternativeProvision)
         .SelectMany(s => s.Schools);
 
-    public IEnumerable<RagSchoolViewModel> AllThroughSchools => GroupedSchoolRags
+    public IEnumerable<RagSchoolViewModel> AllThroughSchools => GroupedSchools
         .Where(s => s.OverallPhase == OverallPhaseTypes.AllThrough)
         .SelectMany(s => s.Schools);
 
-    public IEnumerable<RagSchoolViewModel> UniversityTechnicalColleges => GroupedSchoolRags
+    public IEnumerable<RagSchoolViewModel> UniversityTechnicalColleges => GroupedSchools
         .Where(s => s.OverallPhase == OverallPhaseTypes.UniversityTechnicalCollege)
         .SelectMany(s => s.Schools);
 
-    public IEnumerable<RagSchoolViewModel> PostSixteen => GroupedSchoolRags
+    public IEnumerable<RagSchoolViewModel> PostSixteen => GroupedSchools
         .Where(s => s.OverallPhase == OverallPhaseTypes.PostSixteen)
         .SelectMany(s => s.Schools);
 
-    // todo: build from rag summaries, taking top 5 per
-    private IEnumerable<(string? OverallPhase, IEnumerable<RagSchoolViewModel> Schools)> GroupedSchoolRags =>
-    [
-        new ValueTuple<string?, IEnumerable<RagSchoolViewModel>>(OverallPhaseTypes.Primary, new List<RagSchoolViewModel>
-            {
-                new("123451", "Stub school 1", 1, 3, 0),
-                new("123452", "Stub school 2", 1, 2, 1),
-                new("123453", "Stub school 3", 2, 1, 2),
-                new("123454", "Stub school 4", 2, 3, 3),
-                new("123455", "Stub school 5", 3, 2, 4),
-                new("123456", "Stub school 6", 3, 1, 5),
-            }.OrderByDescending(o => o.RedRatio)
-            .ThenByDescending(o => o.AmberRatio)
-            .ThenBy(o => o.Name)
-            .Take(5)),
-        new ValueTuple<string?, IEnumerable<RagSchoolViewModel>>(OverallPhaseTypes.Secondary, new List<RagSchoolViewModel>
-            {
-                new("223451", "Stub school 7", 1, 3, 0),
-                new("223452", "Stub school 8", 1, 2, 1),
-                new("223453", "Stub school 9", 2, 1, 2),
-                new("223454", "Stub school 10", 2, 3, 3),
-                new("223455", "Stub school 11", 3, 2, 4),
-                new("223456", "Stub school 12", 3, 1, 5),
-            }.OrderByDescending(o => o.RedRatio)
-            .ThenByDescending(o => o.AmberRatio)
-            .ThenBy(o => o.Name)
-            .Take(5))
-    ];
+    private IEnumerable<(string? OverallPhase, IEnumerable<RagSchoolViewModel> Schools)> GroupedSchools => ragRatings
+        .GroupBy(x => x.OverallPhase)
+        .Select(x => (
+            OverallPhase: x.Key,
+            Schools: x
+                .Select(s => new RagSchoolViewModel(
+                    s.URN,
+                    s.SchoolName,
+                    s.Red ?? 0,
+                    s.Amber ?? 0,
+                    s.Green ?? 0
+                )).OrderByDescending(o => o.RedRatio)
+                .ThenByDescending(o => o.AmberRatio)
+                .ThenBy(o => o.Name)
+                .Take(5)));
 
     private static int GetLaPhaseOrder(string? phase)
     {

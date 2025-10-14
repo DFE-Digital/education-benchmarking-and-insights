@@ -46,6 +46,7 @@ public static class Api
     public static class MetricRagRating
     {
         public static string Default => "api/metric-rag/default";
+        public static string Summary => "api/metric-rag/summary";
         public static string Single(string? identifier) => $"api/metric-rag/{identifier}";
     }
 
