@@ -12,6 +12,8 @@ public class LocalAuthoritySchoolFinancialViewComponent : ViewComponent
     {
         var (selectedOverallPhases, resultAs) = ParseQuery(Request.Query, formPrefix);
 
+        // todo: call API to get results
+
         var viewModel = new LocalAuthoritySchoolFinancialViewModel(code, formPrefix)
         {
             SelectedOverallPhases = selectedOverallPhases.ToArray(),
