@@ -348,7 +348,7 @@ public class WhenViewingFinancialBenchmarkingInsightsSummary(SchoolBenchmarkingW
                 var expectedCategory = expected.TopCategories[j];
                 var column = categoryColumns[j];
 
-                Assert.Contains(expectedCategory.Category, column.QuerySelector(".key-spend-category")?.TextContent.Trim());
+                Assert.Contains(expectedCategory.Category, column.QuerySelector("[data-testid='key-spend-category']")?.TextContent.Trim());
                 Assert.Contains(expectedCategory.Value.ToCurrency(), column.QuerySelector(".govuk-body-l strong")?.TextContent.Trim());
                 Assert.Contains(expectedCategory.Unit, column.QuerySelectorAll(".govuk-body")[1].TextContent.Trim());
             }
