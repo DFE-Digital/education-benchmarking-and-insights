@@ -1,0 +1,26 @@
+[
+  {
+    "urn": "777042",
+    "category": "Educational ICT",
+    "subCategory": "Total",
+    "value": 37.59,
+    "median": 67.38,
+    "diffMedian": -29.79,
+    "percentDiff": -79.26,
+    "percentile": 22.33,
+    "decile": 2.0,
+    "rag": "amber"
+  },
+  {
+    "urn": "777042",
+    "category": "Utilities",
+    "subCategory": "Total",
+    "value": 9.08,
+    "median": 10.45,
+    "diffMedian": -1.37,
+    "percentDiff": -15.12,
+    "percentile": 39.0,
+    "decile": 3.0,
+    "rag": "amber"
+  }
+]
