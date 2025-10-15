@@ -11,47 +11,24 @@
     </div>
 
     <div class="app-filter__body">
-        <div class="govuk-accordion" data-module="govuk-accordion" id="accordion-default">
-            <div class="govuk-accordion__section">
-                <div class="govuk-accordion__section-header">
-                    <h2 class="govuk-accordion__section-heading">
-                            <span class="govuk-accordion__section-button" id="accordion-default-heading-1">
-                                Phase
-                                @if (Model.SelectedOverallPhases.Length > 0)
-                                {
-                                    <span
-                                        class="govuk-hint app-filter__selected-hint">@($"{Model.SelectedOverallPhases.Length} selected")</span>
-                                }
-                            </span>
-                    </h2>
-                </div>
-                <div id="accordion-default-content-1" class="govuk-accordion__section-content">
-                    <div class="govuk-form-group">
-                        <fieldset class="govuk-fieldset">
-                            <div class="govuk-checkboxes govuk-checkboxes--small"
-                                 data-module="govuk-checkboxes">
-                                @foreach (var overallPhase in OverallPhaseTypes.AllFilters)
-                                {
-                                    var name = $"{Model.FormPrefix}{LocalAuthoritySchoolFinancialViewModel.FormNames.SelectedOverallPhases}";
-                                    <div class="govuk-checkboxes__item">
-                                        <input class="govuk-checkboxes__input"
-                                               id="@(name)-@overallPhase"
-                                               name="@name"
-                                               value="@((int)overallPhase)"
-                                               type="checkbox"
-                                               @(Model.SelectedOverallPhases.Contains(overallPhase) ? "checked" : "")>
-                                        <label class="govuk-label govuk-checkboxes__label"
-                                               for="@(name)-@overallPhase">
-                                            @overallPhase.GetFilterDescription()
-                                        </label>
-                                    </div>
-                                }
-                            </div>
-                        </fieldset>
-                    </div>
-                </div>
-            </div>
-        </div>
+
+        @await Html.PartialAsync("Components/LocalAuthoritySchoolFinancial/_SchoolsFilterAccordion", new LocalAuthoritySchoolFilterAccordionViewModel<OverallPhaseTypes.OverallPhaseTypeFilter>(
+            Model.FormPrefix,
+            "Phase",
+            LocalAuthoritySchoolFinancialFormViewModel.FormFieldNames.SelectedOverallPhases,
+            OverallPhaseTypes.AllFilters,
+            Model.SelectedOverallPhases,
+            f => f.GetFilterDescription(),
+            f => ((int)f).ToString()))
+
+        @await Html.PartialAsync("Components/LocalAuthoritySchoolFinancial/_SchoolsFilterAccordion", new LocalAuthoritySchoolFilterAccordionViewModel<NurseryProvisions.NurseryProvisionFilter>(
+            Model.FormPrefix,
+            "Nursery provision",
+            LocalAuthoritySchoolFinancialFormViewModel.FormFieldNames.SelectedNurseryProvisions,
+            NurseryProvisions.AllFilters,
+            Model.SelectedNurseryProvisions,
+            f => f.GetFilterDescription(),
+            f => ((int)f).ToString()))
 
         <div class="govuk-form-group">
             <fieldset class="govuk-fieldset">
@@ -62,9 +39,9 @@
                 </legend>
                 <div class="govuk-radios govuk-radios--small" data-module="govuk-radios"
                      id="@nameof(LocalAuthoritySchoolFinancialViewModel.ResultAs)">
-                    @foreach (var dimension in LocalAuthoritySchoolFinancialViewModel.FilterDimensions)
+                    @foreach (var dimension in LocalAuthoritySchoolFinancialFormViewModel.FilterDimensions)
                     {
-                        var name = $"{Model.FormPrefix}{LocalAuthoritySchoolFinancialViewModel.FormNames.ResultAs}";
+                        var name = $"{Model.FormPrefix}{LocalAuthoritySchoolFinancialFormViewModel.FormFieldNames.ResultAs}";
                         <div class="govuk-radios__item">
                             <input class="govuk-radios__input"
                                    id="@(name)-@dimension"
@@ -81,6 +58,7 @@
                 </div>
             </fieldset>
         </div>
+
         <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
         <button type="submit" class="govuk-button govuk-!-margin-bottom-3" data-module="govuk-button">
             Apply filters

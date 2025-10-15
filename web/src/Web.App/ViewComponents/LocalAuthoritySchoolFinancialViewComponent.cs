@@ -10,30 +10,35 @@ public class LocalAuthoritySchoolFinancialViewComponent : ViewComponent
 {
     public async Task<IViewComponentResult> InvokeAsync(string code, string formPrefix)
     {
-        var (selectedOverallPhases, resultAs) = ParseQuery(Request.Query, formPrefix);
+        var (resultAs, selectedOverallPhases, selectedNurseryProvisions) = ParseQuery(Request.Query, formPrefix);
 
         // todo: call API to get results
 
         var viewModel = new LocalAuthoritySchoolFinancialViewModel(code, formPrefix)
         {
+            ResultAs = resultAs,
             SelectedOverallPhases = selectedOverallPhases.ToArray(),
-            ResultAs = resultAs
+            SelectedNurseryProvisions = selectedNurseryProvisions.ToArray()
         };
 
         return await Task.FromResult(View(viewModel));
     }
 
     private static (
+        Dimensions.ResultAsOptions resultAs,
         OverallPhaseTypes.OverallPhaseTypeFilter[] selectedOverallPhases,
-        Dimensions.ResultAsOptions resultAs) ParseQuery(IQueryCollection query, string formPrefix)
+        NurseryProvisions.NurseryProvisionFilter[] selectedNurseryProvisions) ParseQuery(IQueryCollection query, string formPrefix)
     {
-        var selectedOverallPhases = query[$"{formPrefix}{LocalAuthoritySchoolFinancialViewModel.FormNames.SelectedOverallPhases}"]
-            .CastQueryToEnum<OverallPhaseTypes.OverallPhaseTypeFilter>()
-            .ToArray();
-        var resultAs = query[$"{formPrefix}{LocalAuthoritySchoolFinancialViewModel.FormNames.ResultAs}"]
+        var resultAs = query[$"{formPrefix}{LocalAuthoritySchoolFinancialFormViewModel.FormFieldNames.ResultAs}"]
             .CastQueryToEnum<Dimensions.ResultAsOptions>()
             .FirstOrDefault();
+        var selectedOverallPhases = query[$"{formPrefix}{LocalAuthoritySchoolFinancialFormViewModel.FormFieldNames.SelectedOverallPhases}"]
+            .CastQueryToEnum<OverallPhaseTypes.OverallPhaseTypeFilter>()
+            .ToArray();
+        var selectedNurseryProvisions = query[$"{formPrefix}{LocalAuthoritySchoolFinancialFormViewModel.FormFieldNames.SelectedNurseryProvisions}"]
+            .CastQueryToEnum<NurseryProvisions.NurseryProvisionFilter>()
+            .ToArray();
 
-        return (selectedOverallPhases, resultAs);
+        return (resultAs, selectedOverallPhases, selectedNurseryProvisions);
     }
 }
