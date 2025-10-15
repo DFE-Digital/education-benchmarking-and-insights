@@ -92,27 +92,28 @@
                         
                         <p class="govuk-body-m govuk-!-font-weight-bold">Key spending priorities at this school</p>
 
-                        <div class="panel panel--grey">
+                        <div class="panel panel--grey key-spend-panel">
                             <div class="govuk-grid-row">
                                 @for (var i = 0; i < school.TopCategories.Count; i++)
                                 {
                                     var topSpend = school.TopCategories[i];
                                     var borderClass = i == 1 ? "key-spend-border" : "";
 
-                                    <div class="govuk-grid-column-one-half @borderClass">
-                                        <p class="govuk-body key-spend-category">
+                                    <div class="govuk-grid-column-one-half key-spend-column @borderClass">
+                                        <p class="govuk-body" data-testid="key-spend-category">
                                             @topSpend.Category
                                         </p>
+                                        
+                                            
+                                            <p class="govuk-body-l">
+                                                <strong>
+                                                    @topSpend.Value.ToCurrency()
+                                                </strong>
+                                            </p>
 
-                                        <p class="govuk-body-l">
-                                            <strong>
-                                                @topSpend.Value.ToCurrency()
-                                            </strong>
-                                        </p>
-
-                                        <p class="govuk-body">
-                                            @topSpend.Unit
-                                        </p>
+                                            <p class="govuk-body">
+                                                @topSpend.Unit
+                                            </p>
                                     </div>
                                 }
                             </div>

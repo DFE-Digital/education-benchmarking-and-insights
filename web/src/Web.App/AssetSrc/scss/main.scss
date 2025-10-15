@@ -113,11 +113,25 @@
   color: $govuk-text-colour;
 }
 
+.key-spend-panel > .govuk-grid-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+}
+
+.key-spend-column {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  box-sizing: border-box;
+}
+
 .key-spend-border {
   border-left: 1px solid govuk-colour("dark-grey");
 
   @include govuk-media-query($until: tablet) {
     border-left: none;
+    padding-top: govuk-spacing(2);
   }
 }
 
