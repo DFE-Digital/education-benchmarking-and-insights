@@ -51,11 +51,7 @@ public class LocalAuthorityController(
     }
 
     [HttpPost]
-    public IActionResult Index(
-        [FromRoute] string code,
-        [FromForm] string formPrefix,
-        [FromForm] string? other,
-        IFormCollection collection)
+    public IActionResult Index(string code, IFormCollection collection)
     {
         var routeValues = new RouteValueDictionary
         {
@@ -64,7 +60,7 @@ public class LocalAuthorityController(
 
         foreach (var key in collection.Keys)
         {
-            if (key.StartsWith(formPrefix))
+            if (!key.StartsWith("__"))
             {
                 routeValues.Add(key, collection[key]);
             }

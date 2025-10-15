@@ -15,8 +15,13 @@ public class LocalAuthoritySchoolFinancialViewModel(string code, string formPref
 
     public string Code => code;
     public string FormPrefix => formPrefix;
-    public string? Other => "{\"something\":123}";
 
-    public Dimensions.ResultAsOptions ResultAs { get; set; } = Dimensions.ResultAsOptions.SpendPerPupil;
-    public OverallPhaseTypes.OverallPhaseTypeFilter[] SelectedOverallPhases { get; set; } = [];
+    public Dimensions.ResultAsOptions ResultAs { get; init; } = Dimensions.ResultAsOptions.SpendPerPupil;
+    public OverallPhaseTypes.OverallPhaseTypeFilter[] SelectedOverallPhases { get; init; } = [];
+
+    public class FormNames
+    {
+        public const string ResultAs = "as";
+        public const string SelectedOverallPhases = "phase";
+    }
 }

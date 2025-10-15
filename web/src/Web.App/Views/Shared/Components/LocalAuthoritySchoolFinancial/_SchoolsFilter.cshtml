@@ -11,23 +11,10 @@
     </div>
 
     <div class="app-filter__body">
-        @using (Html.BeginForm(FormMethod.Post, true, new
-                    {
-                        novalidate = "novalidate",
-                        role = "search"
-                    }))
-        {
-            @Html.HiddenFor(x => x.FormPrefix)
-            
-            @if (!string.IsNullOrWhiteSpace(Model.Other))
-            {
-                @Html.Hidden("other", Model.Other)
-            }
-
-            <div class="govuk-accordion" data-module="govuk-accordion" id="accordion-default">
-                <div class="govuk-accordion__section">
-                    <div class="govuk-accordion__section-header">
-                        <h2 class="govuk-accordion__section-heading">
+        <div class="govuk-accordion" data-module="govuk-accordion" id="accordion-default">
+            <div class="govuk-accordion__section">
+                <div class="govuk-accordion__section-header">
+                    <h2 class="govuk-accordion__section-heading">
                             <span class="govuk-accordion__section-button" id="accordion-default-heading-1">
                                 Phase
                                 @if (Model.SelectedOverallPhases.Length > 0)
@@ -36,68 +23,67 @@
                                         class="govuk-hint app-filter__selected-hint">@($"{Model.SelectedOverallPhases.Length} selected")</span>
                                 }
                             </span>
-                        </h2>
-                    </div>
-                    <div id="accordion-default-content-1" class="govuk-accordion__section-content">
-                        <div class="govuk-form-group">
-                            <fieldset class="govuk-fieldset">
-                                <div class="govuk-checkboxes govuk-checkboxes--small"
-                                     data-module="govuk-checkboxes">
-                                    @foreach (var overallPhase in OverallPhaseTypes.AllFilters)
-                                    {
-                                        var name = $"{Model.FormPrefix}phase";
-                                        <div class="govuk-checkboxes__item">
-                                            <input class="govuk-checkboxes__input"
-                                                   id="@(name)-@overallPhase"
-                                                   name="@name"
-                                                   value="@((int)overallPhase)"
-                                                   type="checkbox"
-                                                   @(Model.SelectedOverallPhases.Contains(overallPhase) ? "checked" : "")>
-                                            <label class="govuk-label govuk-checkboxes__label"
-                                                   for="@(name)-@overallPhase">
-                                                @overallPhase.GetFilterDescription()
-                                            </label>
-                                        </div>
-                                    }
-                                </div>
-                            </fieldset>
-                        </div>
+                    </h2>
+                </div>
+                <div id="accordion-default-content-1" class="govuk-accordion__section-content">
+                    <div class="govuk-form-group">
+                        <fieldset class="govuk-fieldset">
+                            <div class="govuk-checkboxes govuk-checkboxes--small"
+                                 data-module="govuk-checkboxes">
+                                @foreach (var overallPhase in OverallPhaseTypes.AllFilters)
+                                {
+                                    var name = $"{Model.FormPrefix}{LocalAuthoritySchoolFinancialViewModel.FormNames.SelectedOverallPhases}";
+                                    <div class="govuk-checkboxes__item">
+                                        <input class="govuk-checkboxes__input"
+                                               id="@(name)-@overallPhase"
+                                               name="@name"
+                                               value="@((int)overallPhase)"
+                                               type="checkbox"
+                                               @(Model.SelectedOverallPhases.Contains(overallPhase) ? "checked" : "")>
+                                        <label class="govuk-label govuk-checkboxes__label"
+                                               for="@(name)-@overallPhase">
+                                            @overallPhase.GetFilterDescription()
+                                        </label>
+                                    </div>
+                                }
+                            </div>
+                        </fieldset>
                     </div>
                 </div>
             </div>
+        </div>
 
-            <div class="govuk-form-group">
-                <fieldset class="govuk-fieldset">
-                    <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
-                        <h2 class="govuk-fieldset__heading">
-                            Show result as
-                        </h2>
-                    </legend>
-                    <div class="govuk-radios govuk-radios--small" data-module="govuk-radios"
-                         id="@nameof(LocalAuthoritySchoolFinancialViewModel.ResultAs)">
-                        @foreach (var dimension in LocalAuthoritySchoolFinancialViewModel.FilterDimensions)
-                        {
-                            var name = $"{Model.FormPrefix}dimension";
-                            <div class="govuk-radios__item">
-                                <input class="govuk-radios__input"
-                                       id="@(name)-@dimension"
-                                       name="@name"
-                                       type="radio"
-                                       value="@((int)dimension)"
-                                       @(Model.ResultAs == dimension ? "checked" : "")>
-                                <label class="govuk-label govuk-radios__label"
-                                       for="@(name)-@dimension">
-                                    @dimension.GetDescription()
-                                </label>
-                            </div>
-                        }
-                    </div>
-                </fieldset>
-            </div>
-            <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
-            <button type="submit" class="govuk-button govuk-!-margin-bottom-3" data-module="govuk-button">
-                Apply filters
-            </button>
-        }
+        <div class="govuk-form-group">
+            <fieldset class="govuk-fieldset">
+                <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
+                    <h2 class="govuk-fieldset__heading">
+                        Show result as
+                    </h2>
+                </legend>
+                <div class="govuk-radios govuk-radios--small" data-module="govuk-radios"
+                     id="@nameof(LocalAuthoritySchoolFinancialViewModel.ResultAs)">
+                    @foreach (var dimension in LocalAuthoritySchoolFinancialViewModel.FilterDimensions)
+                    {
+                        var name = $"{Model.FormPrefix}{LocalAuthoritySchoolFinancialViewModel.FormNames.ResultAs}";
+                        <div class="govuk-radios__item">
+                            <input class="govuk-radios__input"
+                                   id="@(name)-@dimension"
+                                   name="@name"
+                                   type="radio"
+                                   value="@((int)dimension)"
+                                   @(Model.ResultAs == dimension ? "checked" : "")>
+                            <label class="govuk-label govuk-radios__label"
+                                   for="@(name)-@dimension">
+                                @dimension.GetDescription()
+                            </label>
+                        </div>
+                    }
+                </div>
+            </fieldset>
+        </div>
+        <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
+        <button type="submit" class="govuk-button govuk-!-margin-bottom-3" data-module="govuk-button">
+            Apply filters
+        </button>
     </div>
 </div>
