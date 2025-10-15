@@ -1,3 +1,9 @@
 ﻿@model Web.App.ViewModels.Components.LocalAuthoritySchoolFinancialViewModel
 
-todo: @Model.Code
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-one-third">
+        @await Html.PartialAsync("Components/LocalAuthoritySchoolFinancial/_SchoolsFilter", Model)
+    </div>
+    <div class="govuk-grid-column-two-thirds">
+    </div>
+</div>
