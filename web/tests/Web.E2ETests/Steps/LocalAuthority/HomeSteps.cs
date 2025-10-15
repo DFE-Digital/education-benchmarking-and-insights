@@ -102,5 +102,12 @@ public class HomeSteps(PageDriver driver)
         await _localAuthorityHomePage.IsSchoolsAccordionDisplayed(false);
     }
 
+    [Then("the priority school RAGs section should be displayed for '(.*)' containing the following rows:")]
+    public async Task ThenThePrioritySchoolRaGsSectionShouldBeDisplayedForContainingTheFollowingRows(string overallPhase, DataTable table)
+    {
+        Assert.NotNull(_localAuthorityHomePage);
+        await _localAuthorityHomePage.ContainsPriorityRagsForPhase(overallPhase, table);
+    }
+
     private static string LocalAuthorityHomeUrl(string laCode) => $"{TestConfiguration.ServiceUrl}/local-authority/{laCode}";
 }

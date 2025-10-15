@@ -1,4 +1,6 @@
 ﻿using Microsoft.Playwright;
+using Web.E2ETests.Assist;
+using Xunit;
 
 namespace Web.E2ETests.Pages.LocalAuthority;
 
@@ -92,5 +94,35 @@ public class HomePage(IPage page)
         {
             await locator.ShouldNotBeVisible();
         }
+    }
+
+    public async Task ContainsPriorityRagsForPhase(string overallPhase, DataTable table)
+    {
+        var grid = page.Locator($"#school-rag-{overallPhase.ToSlug()}");
+        await grid.ShouldBeVisible();
+
+        var rows = grid.Locator(".govuk-grid-row");
+        var set = new List<dynamic>();
+        var i = 0;
+        foreach (var row in await rows.AllAsync())
+        {
+            var cols = row.Locator(".govuk-grid-column-one-half");
+            if (i == 0)
+            {
+                Assert.Equal(overallPhase, await cols.First.InnerTextAsync());
+            }
+            else
+            {
+                set.Add(new
+                {
+                    School = await cols.First.InnerTextAsync(),
+                    Status = await cols.Last.Locator("title").InnerHTMLAsync()
+                });
+            }
+
+            i++;
+        }
+
+        table.CompareToDynamicSet(set, false);
     }
 }
