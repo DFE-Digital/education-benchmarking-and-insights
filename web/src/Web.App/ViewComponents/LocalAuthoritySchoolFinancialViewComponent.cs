@@ -10,7 +10,7 @@ public class LocalAuthoritySchoolFinancialViewComponent : ViewComponent
 {
     public async Task<IViewComponentResult> InvokeAsync(string code, string formPrefix)
     {
-        var (selectedOverallPhases, resultAs) = ParseQuery(Request.Query);
+        var (selectedOverallPhases, resultAs) = ParseQuery(Request.Query, formPrefix);
 
         var viewModel = new LocalAuthoritySchoolFinancialViewModel(code, formPrefix)
         {
@@ -23,12 +23,12 @@ public class LocalAuthoritySchoolFinancialViewComponent : ViewComponent
 
     private static (
         OverallPhaseTypes.OverallPhaseTypeFilter[] selectedOverallPhases,
-        Dimensions.ResultAsOptions resultAs) ParseQuery(IQueryCollection query)
+        Dimensions.ResultAsOptions resultAs) ParseQuery(IQueryCollection query, string formPrefix)
     {
-        var selectedOverallPhases = query[nameof(LocalAuthoritySchoolFinancialViewModel.SelectedOverallPhases)]
+        var selectedOverallPhases = query[$"{formPrefix}{LocalAuthoritySchoolFinancialViewModel.FormNames.SelectedOverallPhases}"]
             .CastQueryToEnum<OverallPhaseTypes.OverallPhaseTypeFilter>()
             .ToArray();
-        var resultAs = query[nameof(LocalAuthoritySchoolFinancialViewModel.ResultAs)]
+        var resultAs = query[$"{formPrefix}{LocalAuthoritySchoolFinancialViewModel.FormNames.ResultAs}"]
             .CastQueryToEnum<Dimensions.ResultAsOptions>()
             .FirstOrDefault();
 
