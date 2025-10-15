@@ -74,7 +74,8 @@
             <div class="govuk-tabs__panel" id="financial">
                 @await Component.InvokeAsync("LocalAuthoritySchoolFinancial", new
                 {
-                    code = Model.Code
+                    code = Model.Code,
+                    formPrefix = "f."
                 })
             </div>
         </div>

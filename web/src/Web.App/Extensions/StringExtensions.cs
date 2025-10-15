@@ -2,6 +2,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Text;
 using System.Text.RegularExpressions;
+using Microsoft.Extensions.Primitives;
 
 namespace Web.App.Extensions;
 
@@ -145,6 +146,18 @@ public static partial class StringExtensions
             .Replace(WhitespaceRegex(), "-")
             .Replace(NonAlphanumericOrHyphenRegex(), string.Empty)
             .ToLower();
+    }
+
+    public static IEnumerable<T> CastQueryToEnum<T>(this StringValues values)
+    {
+        var validValues = values.ToArray().Where(v => !string.IsNullOrWhiteSpace(v));
+        foreach (var value in validValues)
+        {
+            if (int.TryParse(value!, out var parsed))
+            {
+                yield return (T)Enum.ToObject(typeof(T), parsed);
+            }
+        }
     }
 
     private static string Replace(this string source, Regex regex, string replacement)

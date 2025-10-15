@@ -50,6 +50,29 @@ public class LocalAuthorityController(
         }
     }
 
+    [HttpPost]
+    public IActionResult Index(
+        [FromRoute] string code,
+        [FromForm] string formPrefix,
+        [FromForm] string? other,
+        IFormCollection collection)
+    {
+        var routeValues = new RouteValueDictionary
+        {
+            { "code", code }
+        };
+
+        foreach (var key in collection.Keys)
+        {
+            if (key.StartsWith(formPrefix))
+            {
+                routeValues.Add(key, collection[key]);
+            }
+        }
+
+        return RedirectToAction("Index", routeValues);
+    }
+
     [HttpGet]
     [Route("find-ways-to-spend-less")]
     [LocalAuthorityRequestTelemetry(TrackedRequestFeature.Resources)]
