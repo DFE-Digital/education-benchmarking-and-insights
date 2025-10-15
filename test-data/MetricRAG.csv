@@ -1055,3 +1055,12 @@ default,2022,990750,Catering staff and supplies,Catering supplies,468.00,221.00,
 default,2022,990751,Catering staff and supplies,Catering staff,0.00,0.00,0.00,0.00,79.00,7.00,red
 default,2022,990752,Administrative supplies,Administrative supplies (non educational),270.00,59.00,211.00,78.00,92.00,9.00,red
 default,2022,990753,Catering staff and supplies,Total,480.00,260.00,219.00,46.00,96.00,9.00,green
+default,some-user-defined-id,990036,Administrative supplies,Total,199.68,445.71,-246.04,-123.22,9.00,0.00,green
+default,some-user-defined-id,990036,Catering staff and supplies,Total,591.81,314.50,277.32,46.86,85.67,8.00,red
+default,some-user-defined-id,990036,Educational ICT,Total,255.08,359.50,-104.42,-40.94,39.00,3.00,green
+default,some-user-defined-id,990036,Educational supplies,Total,745.76,850.62,-104.86,-14.06,42.33,4.00,green
+default,some-user-defined-id,990036,Non-educational support staff and services,Total,2989.41,3961.56,-972.15,-32.52,22.33,2.00,green
+default,some-user-defined-id,990036,Other costs,Total,1469.43,1216.42,253.01,17.22,62.33,6.00,amber
+default,some-user-defined-id,990036,Premises staff and services,Total,65.67,32.48,33.20,50.55,89.00,8.00,red
+default,some-user-defined-id,990036,Teaching and Teaching support staff,Total,41324.05,30518.52,10805.54,26.15,72.33,7.00,amber
+default,some-user-defined-id,990036,Utilities,Total,13.38,10.39,2.99,22.36,72.33,7.00,amber
