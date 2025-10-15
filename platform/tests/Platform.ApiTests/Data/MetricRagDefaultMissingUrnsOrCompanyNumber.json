@@ -1,0 +1,7 @@
+[
+  {
+    "severity": "Error",
+    "propertyName": "Urns",
+    "errorMessage": "Either a collection of URNs or CompanyNumber must be specified"
+  }
+]

@@ -1,0 +1,110 @@
+[
+  {
+    "urn": "990036",
+    "category": "Administrative supplies",
+    "subCategory": "Total",
+    "value": 199.68,
+    "median": 445.71,
+    "diffMedian": -246.04,
+    "percentDiff": -123.22,
+    "percentile": 9.0,
+    "decile": 0.0,
+    "rag": "green"
+  },
+  {
+    "urn": "990036",
+    "category": "Catering staff and supplies",
+    "subCategory": "Total",
+    "value": 591.81,
+    "median": 314.5,
+    "diffMedian": 277.32,
+    "percentDiff": 46.86,
+    "percentile": 85.67,
+    "decile": 8.0,
+    "rag": "red"
+  },
+  {
+    "urn": "990036",
+    "category": "Educational ICT",
+    "subCategory": "Total",
+    "value": 255.08,
+    "median": 359.5,
+    "diffMedian": -104.42,
+    "percentDiff": -40.94,
+    "percentile": 39.0,
+    "decile": 3.0,
+    "rag": "green"
+  },
+  {
+    "urn": "990036",
+    "category": "Educational supplies",
+    "subCategory": "Total",
+    "value": 745.76,
+    "median": 850.62,
+    "diffMedian": -104.86,
+    "percentDiff": -14.06,
+    "percentile": 42.33,
+    "decile": 4.0,
+    "rag": "green"
+  },
+  {
+    "urn": "990036",
+    "category": "Non-educational support staff and services",
+    "subCategory": "Total",
+    "value": 2989.41,
+    "median": 3961.56,
+    "diffMedian": -972.15,
+    "percentDiff": -32.52,
+    "percentile": 22.33,
+    "decile": 2.0,
+    "rag": "green"
+  },
+  {
+    "urn": "990036",
+    "category": "Other costs",
+    "subCategory": "Total",
+    "value": 1469.43,
+    "median": 1216.42,
+    "diffMedian": 253.01,
+    "percentDiff": 17.22,
+    "percentile": 62.33,
+    "decile": 6.0,
+    "rag": "amber"
+  },
+  {
+    "urn": "990036",
+    "category": "Premises staff and services",
+    "subCategory": "Total",
+    "value": 65.67,
+    "median": 32.48,
+    "diffMedian": 33.2,
+    "percentDiff": 50.55,
+    "percentile": 89.0,
+    "decile": 8.0,
+    "rag": "red"
+  },
+  {
+    "urn": "990036",
+    "category": "Teaching and Teaching support staff",
+    "subCategory": "Total",
+    "value": 41324.05,
+    "median": 30518.52,
+    "diffMedian": 10805.54,
+    "percentDiff": 26.15,
+    "percentile": 72.33,
+    "decile": 7.0,
+    "rag": "amber"
+  },
+  {
+    "urn": "990036",
+    "category": "Utilities",
+    "subCategory": "Total",
+    "value": 13.38,
+    "median": 10.39,
+    "diffMedian": 2.99,
+    "percentDiff": 22.36,
+    "percentile": 72.33,
+    "decile": 7.0,
+    "rag": "amber"
+  }
+]

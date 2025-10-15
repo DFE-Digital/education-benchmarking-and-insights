@@ -80,25 +80,8 @@ public class MetricRagRatingsBalanceSteps(InsightApiDriver api)
         await api.Send();
     }
 
-    [Then("the metric rag rating result should be ok and contain:")]
-    public async Task ThenTheMetricRagRatingResultShouldBeOkAndContain(DataTable table)
-    {
-        var response = api[MetricRagRatingsKey].Response;
-        AssertHttpResponse.IsOk(response);
-
-        var content = await response.Content.ReadAsByteArrayAsync();
-        var result = content.FromJson<MetricRagRating[]>();
-        table.CompareToSet(result);
-    }
-
-    [Then("the metric rag rating result should be bad request")]
-    public void ThenTheMetricRagRatingResultShouldBeBadRequest()
-    {
-        AssertHttpResponse.IsBadRequest(api[MetricRagRatingsKey].Response);
-    }
-
-    [Then("the default metric rag rating summary should be OK and match the expected output in '(.*)'")]
-    public async Task ThenTheDefaultMetricRagRatingSummaryShouldBeOkAndMatchTheExpectedOutputIn(string testFile)
+    [Then("the metric rag rating result should be OK and match the expected output in '(.*)'")]
+    public async Task ThenTheMetricRagRatingResultShouldBeOkAndMatchTheExpectedOutputIn(string testFile)
     {
         var response = api[MetricRagRatingsKey].Response;
         AssertHttpResponse.IsOk(response);
@@ -111,8 +94,8 @@ public class MetricRagRatingsBalanceSteps(InsightApiDriver api)
         actual.AssertDeepEquals(expected);
     }
 
-    [Then("the default metric rag rating summary should bad request and match the expected output in '(.*)'")]
-    public async Task ThenTheDefaultMetricRagRatingSummaryShouldBadRequestAndMatchTheExpectedOutputIn(string testFile)
+    [Then("the metric rag rating result should be bad request and match the expected output in '(.*)'")]
+    public async Task ThenTheMetricRagRatingResultShouldBeBadRequestAndMatchTheExpectedOutputIn(string testFile)
     {
         var response = api[MetricRagRatingsKey].Response;
         AssertHttpResponse.IsBadRequest(response);
