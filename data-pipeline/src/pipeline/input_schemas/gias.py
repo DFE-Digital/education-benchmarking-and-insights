@@ -35,6 +35,7 @@ gias = {
         "Address3": "string",
         "Town": "string",
         "County (name)": "string",
+        "SpecialClasses (name)": "string",
     },
     2024: {
         "URN": "Int64",
@@ -69,6 +70,7 @@ gias = {
         "Address3": "string",
         "Town": "string",
         "County (name)": "string",
+        "SpecialClasses (name)": "string",
     },
     2025: {
         "URN": "Int64",
@@ -103,5 +105,6 @@ gias = {
         "Address3": "string",
         "Town": "string",
         "County (name)": "string",
+        "SpecialClasses (name)": "string",
     },
 }
