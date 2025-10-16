@@ -27,7 +27,7 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
     [InlineData(true, true, OverallPhaseTypes.Primary, OverallPhaseTypes.Secondary, OverallPhaseTypes.Special, OverallPhaseTypes.PupilReferralUnit)]
     public async Task CanDisplay(bool showBanner, bool hasMissingRag, params string[] phaseTypes)
     {
-        var (page, authority, schools, ratings, banner) = await SetupNavigateInitPage(showBanner, true, hasMissingRag, phaseTypes);
+        var (page, authority, schools, ratings, banner) = await SetupNavigateInitPage(showBanner, true, hasMissingRag, null, phaseTypes);
 
         AssertPageLayout(page, authority, schools, ratings, banner, true);
     }
@@ -45,7 +45,7 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
     [InlineData(true, OverallPhaseTypes.Primary, OverallPhaseTypes.Secondary, OverallPhaseTypes.Special, OverallPhaseTypes.PupilReferralUnit)]
     public async Task CanDisplayWhenAuthorityHomepageV2Disabled(bool showBanner, params string[] phaseTypes)
     {
-        var (page, authority, schools, _, banner) = await SetupNavigateInitPage(showBanner, false, false, phaseTypes);
+        var (page, authority, schools, _, banner) = await SetupNavigateInitPage(showBanner, false, false, null, phaseTypes);
 
         AssertPageLayout(page, authority, schools, [], banner, false);
     }
@@ -169,10 +169,99 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
         DocumentAssert.AssertPageUrl(page, Paths.LocalAuthorityHome(code).ToAbsolute(), HttpStatusCode.InternalServerError);
     }
 
+    [Fact]
+    public async Task CanSubmitFinancialFilters()
+    {
+        var (page, authority, _, _, _) = await SetupNavigateInitPage(false, true, false, null, OverallPhaseTypes.Primary);
+
+        var tab = AssertFinancialsTab(page);
+
+        var form = page.QuerySelector("form[role='search']");
+        Assert.NotNull(form);
+
+        var phaseInputs = tab.QuerySelectorAll("input[name='f.phase'][type='checkbox']");
+        Assert.Equal(9, phaseInputs.Length);
+
+        var nurseryInputs = tab.QuerySelectorAll("input[name='f.nursery'][type='checkbox']");
+        Assert.Equal(4, nurseryInputs.Length);
+
+        var specialInputs = tab.QuerySelectorAll("input[name='f.special'][type='checkbox']");
+        Assert.Equal(4, specialInputs.Length);
+
+        var sixthFormInputs = tab.QuerySelectorAll("input[name='f.sixth'][type='checkbox']");
+        Assert.Equal(4, sixthFormInputs.Length);
+
+        var dimensionInputs = tab.QuerySelectorAll("input[name='f.as'][type='radio']");
+        Assert.Equal(4, dimensionInputs.Length);
+
+        var submitButton = tab.QuerySelector("button[type=submit]");
+        Assert.NotNull(submitButton);
+
+        page = await Client.SubmitForm(form, submitButton, f =>
+        {
+            f.SetFormValues(new Dictionary<string, string>
+            {
+                { phaseInputs.ElementAt(0).Attributes["name"]!.Value, phaseInputs.ElementAt(0).Attributes["value"]!.Value },
+                { nurseryInputs.ElementAt(0).Attributes["name"]!.Value, nurseryInputs.ElementAt(0).Attributes["value"]!.Value },
+                { specialInputs.ElementAt(0).Attributes["name"]!.Value, specialInputs.ElementAt(0).Attributes["value"]!.Value },
+                { sixthFormInputs.ElementAt(0).Attributes["name"]!.Value, sixthFormInputs.ElementAt(0).Attributes["value"]!.Value },
+                { dimensionInputs.ElementAt(0).Attributes["name"]!.Value, dimensionInputs.ElementAt(0).Attributes["value"]!.Value }
+            });
+        });
+
+        const string expectedQuery = "?f.phase=0&f.nursery=0&f.special=0&f.sixth=0&f.as=0";
+        DocumentAssert.AssertPageUrl(page, $"{Paths.LocalAuthorityHome(authority.Code).ToAbsolute()}{expectedQuery}");
+    }
+
+    [Fact]
+    public async Task CanSetFinancialFilters()
+    {
+        const string queryString = "?f.phase=0&f.nursery=0&f.special=0&f.sixth=0&f.as=0";
+        var (page, authority, _, _, _) = await SetupNavigateInitPage(false, true, false, queryString, OverallPhaseTypes.Primary);
+
+        var tab = AssertFinancialsTab(page);
+        var phaseInputs = tab.QuerySelectorAll("input[name='f.phase'][type='checkbox']");
+        var nurseryInputs = tab.QuerySelectorAll("input[name='f.nursery'][type='checkbox']");
+        var specialInputs = tab.QuerySelectorAll("input[name='f.special'][type='checkbox']");
+        var sixthFormInputs = tab.QuerySelectorAll("input[name='f.sixth'][type='checkbox']");
+        var dimensionInputs = tab.QuerySelectorAll("input[name='f.as'][type='radio']");
+
+        for (var i = 0; i < phaseInputs.Length; i++)
+        {
+            var input = phaseInputs[i];
+            Assert.Equal(i == 0, input.HasAttribute("checked"));
+        }
+
+        for (var i = 0; i < nurseryInputs.Length; i++)
+        {
+            var input = nurseryInputs[i];
+            Assert.Equal(i == 0, input.HasAttribute("checked"));
+        }
+
+        for (var i = 0; i < specialInputs.Length; i++)
+        {
+            var input = specialInputs[i];
+            Assert.Equal(i == 0, input.HasAttribute("checked"));
+        }
+
+        for (var i = 0; i < sixthFormInputs.Length; i++)
+        {
+            var input = sixthFormInputs[i];
+            Assert.Equal(i == 0, input.HasAttribute("checked"));
+        }
+
+        for (var i = 0; i < dimensionInputs.Length; i++)
+        {
+            var input = dimensionInputs[i];
+            Assert.Equal(i == 0, input.HasAttribute("checked"));
+        }
+    }
+
     private async Task<(IHtmlDocument page, LocalAuthority authority, LocalAuthoritySchool[] schools, RagRatingSummary[] ratings, Banner? banner)> SetupNavigateInitPage(
         bool showBanner = false,
         bool localAuthorityHomepageV2Enabled = false,
         bool hasMissingRag = false,
+        string? queryString = null,
         params string[] phaseTypes)
     {
         var authority = Fixture.Build<LocalAuthority>()
@@ -217,7 +306,7 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
             .SetupLocalAuthoritiesComparators(authority.Code!, [])
             .SetupBanner(banner)
             .SetupMetricRagRatingSummary(localAuthorityHomepageV2Enabled ? ratings : [])
-            .Navigate(Paths.LocalAuthorityHome(authority.Code));
+            .Navigate($"{Paths.LocalAuthorityHome(authority.Code)}{queryString}");
 
         return (page, authority, schools, ratings, banner);
     }
@@ -258,6 +347,7 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
         if (localAuthorityHomepageV2Enabled)
         {
             Assert.Null(accordion);
+            AssertFinancialsTab(page);
             AssertPrioritySchoolsSection(page, ratings);
         }
         else
@@ -395,6 +485,12 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
                 }
             }
         }
+    }
 
+    private static IElement AssertFinancialsTab(IHtmlDocument page)
+    {
+        var tab = page.QuerySelector(".govuk-tabs > #financial");
+        Assert.NotNull(tab);
+        return tab;
     }
 }
