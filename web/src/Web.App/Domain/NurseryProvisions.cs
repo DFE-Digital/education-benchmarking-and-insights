@@ -1,6 +1,5 @@
 namespace Web.App.Domain;
 
-// todo: unit test
 public static class NurseryProvisions
 {
     public enum NurseryProvisionFilter
