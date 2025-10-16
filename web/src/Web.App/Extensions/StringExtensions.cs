@@ -148,7 +148,6 @@ public static partial class StringExtensions
             .ToLower();
     }
 
-    // todo: unit test
     public static IEnumerable<T> CastQueryToEnum<T>(this StringValues values)
     {
         var validValues = values.ToArray().Where(v => !string.IsNullOrWhiteSpace(v));

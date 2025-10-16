@@ -2,6 +2,9 @@
 @using Web.App.Domain.Charts
 @using Web.App.ViewModels.Components
 @model Web.App.ViewModels.Components.LocalAuthoritySchoolFinancialViewModel
+@{
+    const string accordionId = "accordion-financial-filters";
+}
 
 <div class="app-filter">
     <div class="app-filter__header">
@@ -11,24 +14,29 @@
     </div>
 
     <div class="app-filter__body">
+        <div class="govuk-accordion" data-module="govuk-accordion" id="@accordionId">
+            @await Html.PartialAsync("Components/LocalAuthoritySchoolFinancial/_SchoolsFilterAccordionSection", new LocalAuthoritySchoolFinancialFinancialFilterAccordionSectionViewModel<OverallPhaseTypes.OverallPhaseTypeFilter>(
+                accordionId,
+                1,
+                Model.FormPrefix,
+                "Phase",
+                LocalAuthoritySchoolFinancialFormViewModel.FormFieldNames.SelectedOverallPhases,
+                OverallPhaseTypes.AllFilters,
+                Model.SelectedOverallPhases,
+                f => f.GetFilterDescription(),
+                f => ((int)f).ToString()))
 
-        @await Html.PartialAsync("Components/LocalAuthoritySchoolFinancial/_SchoolsFilterAccordion", new LocalAuthoritySchoolFilterAccordionViewModel<OverallPhaseTypes.OverallPhaseTypeFilter>(
-            Model.FormPrefix,
-            "Phase",
-            LocalAuthoritySchoolFinancialFormViewModel.FormFieldNames.SelectedOverallPhases,
-            OverallPhaseTypes.AllFilters,
-            Model.SelectedOverallPhases,
-            f => f.GetFilterDescription(),
-            f => ((int)f).ToString()))
-
-        @await Html.PartialAsync("Components/LocalAuthoritySchoolFinancial/_SchoolsFilterAccordion", new LocalAuthoritySchoolFilterAccordionViewModel<NurseryProvisions.NurseryProvisionFilter>(
-            Model.FormPrefix,
-            "Nursery provision",
-            LocalAuthoritySchoolFinancialFormViewModel.FormFieldNames.SelectedNurseryProvisions,
-            NurseryProvisions.AllFilters,
-            Model.SelectedNurseryProvisions,
-            f => f.GetFilterDescription(),
-            f => ((int)f).ToString()))
+            @await Html.PartialAsync("Components/LocalAuthoritySchoolFinancial/_SchoolsFilterAccordionSection", new LocalAuthoritySchoolFinancialFinancialFilterAccordionSectionViewModel<NurseryProvisions.NurseryProvisionFilter>(
+                accordionId,
+                2,
+                Model.FormPrefix,
+                "Nursery provision",
+                LocalAuthoritySchoolFinancialFormViewModel.FormFieldNames.SelectedNurseryProvisions,
+                NurseryProvisions.AllFilters,
+                Model.SelectedNurseryProvisions,
+                f => f.GetFilterDescription(),
+                f => ((int)f).ToString()))
+        </div>
 
         <div class="govuk-form-group">
             <fieldset class="govuk-fieldset">
