@@ -1,5 +1,6 @@
 namespace Web.App.Domain;
 
+// todo: unit test
 public static class OverallPhaseTypes
 {
     public enum OverallPhaseTypeFilter
