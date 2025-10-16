@@ -32,6 +32,41 @@ public class LocalAuthoritySchoolFinancialViewComponentTests
         };
     }
 
+    public static TheoryData<
+        string,
+        string,
+        Dimensions.ResultAsOptions,
+        OverallPhaseTypes.OverallPhaseTypeFilter[],
+        NurseryProvisions.NurseryProvisionFilter[],
+        SpecialProvisions.SpecialProvisionFilter[],
+        SixthFormProvisions.SixthFormProvisionFilter[]> FormValuesTestData => new()
+    {
+        { "f.", "", Dimensions.ResultAsOptions.SpendPerPupil, [], [], [], [] },
+        { "f.", "?f.as=0", Dimensions.ResultAsOptions.SpendPerPupil, [], [], [], [] },
+        { "f.", "?f.as=1", Dimensions.ResultAsOptions.Actuals, [], [], [], [] },
+        { "f.", "?f.as=2", Dimensions.ResultAsOptions.PercentExpenditure, [], [], [], [] },
+        { "f.", "?f.as=3", Dimensions.ResultAsOptions.PercentIncome, [], [], [], [] },
+        {
+            "f.", "?f.phase=0&f.phase=1&f.phase=2", Dimensions.ResultAsOptions.SpendPerPupil, [
+                OverallPhaseTypes.OverallPhaseTypeFilter.Primary,
+                OverallPhaseTypes.OverallPhaseTypeFilter.Secondary,
+                OverallPhaseTypes.OverallPhaseTypeFilter.Special
+            ],
+            [], [], []
+        },
+        {
+            "f.", "?f.phase=0&f.phase=1&f.as=1&other=value", Dimensions.ResultAsOptions.Actuals, [
+                OverallPhaseTypes.OverallPhaseTypeFilter.Primary,
+                OverallPhaseTypes.OverallPhaseTypeFilter.Secondary
+            ],
+            [], [], []
+        },
+        { "f.", "?f.phase=0", Dimensions.ResultAsOptions.SpendPerPupil, [OverallPhaseTypes.OverallPhaseTypeFilter.Primary], [], [], [] },
+        { "f.", "?f.nursery=1", Dimensions.ResultAsOptions.SpendPerPupil, [], [NurseryProvisions.NurseryProvisionFilter.HasNoNurseryClasses], [], [] },
+        { "f.", "?f.special=2", Dimensions.ResultAsOptions.SpendPerPupil, [], [], [SpecialProvisions.SpecialProvisionFilter.NotApplicable], [] },
+        { "f.", "?f.sixth=3", Dimensions.ResultAsOptions.SpendPerPupil, [], [], [], [SixthFormProvisions.SixthFormProvisionFilter.NotRecorded] }
+    };
+
     [Fact]
     public async Task ShouldReturnCodeAndFormPrefix()
     {
@@ -51,15 +86,15 @@ public class LocalAuthoritySchoolFinancialViewComponentTests
     }
 
     [Theory]
-    [InlineData("f.", "", new OverallPhaseTypes.OverallPhaseTypeFilter[0], Dimensions.ResultAsOptions.SpendPerPupil)]
-    [InlineData("f.", "?f.as=0", new OverallPhaseTypes.OverallPhaseTypeFilter[0], Dimensions.ResultAsOptions.SpendPerPupil)]
-    [InlineData("f.", "?f.as=1", new OverallPhaseTypes.OverallPhaseTypeFilter[0], Dimensions.ResultAsOptions.Actuals)]
-    [InlineData("f.", "?f.as=2", new OverallPhaseTypes.OverallPhaseTypeFilter[0], Dimensions.ResultAsOptions.PercentExpenditure)]
-    [InlineData("f.", "?f.as=3", new OverallPhaseTypes.OverallPhaseTypeFilter[0], Dimensions.ResultAsOptions.PercentIncome)]
-    [InlineData("f.", "?f.phase=0", new[] { OverallPhaseTypes.OverallPhaseTypeFilter.Primary }, Dimensions.ResultAsOptions.SpendPerPupil)]
-    [InlineData("f.", "?f.phase=0&f.phase=1&f.phase=2", new[] { OverallPhaseTypes.OverallPhaseTypeFilter.Primary, OverallPhaseTypes.OverallPhaseTypeFilter.Secondary, OverallPhaseTypes.OverallPhaseTypeFilter.Special }, Dimensions.ResultAsOptions.SpendPerPupil)]
-    [InlineData("f.", "?f.phase=0&f.phase=1&f.as=1&other=value", new[] { OverallPhaseTypes.OverallPhaseTypeFilter.Primary, OverallPhaseTypes.OverallPhaseTypeFilter.Secondary }, Dimensions.ResultAsOptions.Actuals)]
-    public async Task ShouldReturnFormValuesFromQuery(string formPrefix, string query, OverallPhaseTypes.OverallPhaseTypeFilter[] expectedSelectedOverallPhases, Dimensions.ResultAsOptions expectedResultAs)
+    [MemberData(nameof(FormValuesTestData))]
+    public async Task ShouldReturnFormValuesFromQuery(
+        string formPrefix,
+        string query,
+        Dimensions.ResultAsOptions expectedResultAs,
+        OverallPhaseTypes.OverallPhaseTypeFilter[] expectedSelectedOverallPhases,
+        NurseryProvisions.NurseryProvisionFilter[] expectedSelectedNurseryProvisions,
+        SpecialProvisions.SpecialProvisionFilter[] expectedSelectedSpecialProvisions,
+        SixthFormProvisions.SixthFormProvisionFilter[] expectedSelectedSixthFormProvisions)
     {
         // arrange
         const string code = nameof(code);
@@ -72,7 +107,10 @@ public class LocalAuthoritySchoolFinancialViewComponentTests
         Assert.NotNull(result);
         var model = result.ViewData?.Model as LocalAuthoritySchoolFinancialViewModel;
         Assert.NotNull(model);
-        Assert.Equal(expectedSelectedOverallPhases, model.SelectedOverallPhases);
         Assert.Equal(expectedResultAs, model.ResultAs);
+        Assert.Equal(expectedSelectedOverallPhases, model.SelectedOverallPhases);
+        Assert.Equal(expectedSelectedNurseryProvisions, model.SelectedNurseryProvisions);
+        Assert.Equal(expectedSelectedSpecialProvisions, model.SelectedSpecialProvisions);
+        Assert.Equal(expectedSelectedSixthFormProvisions, model.SelectedSixthFormProvisions);
     }
 }

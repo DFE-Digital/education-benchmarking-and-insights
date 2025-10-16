@@ -4,15 +4,20 @@ namespace Web.App.Extensions;
 
 public static class StringValuesExtensions
 {
-    // todo: unit test
     public static IEnumerable<T> CastQueryToEnum<T>(this StringValues values)
     {
         var validValues = values.ToArray().Where(v => !string.IsNullOrWhiteSpace(v));
         foreach (var value in validValues)
         {
-            if (int.TryParse(value!, out var parsed))
+            if (!int.TryParse(value!, out var parsedInt))
             {
-                yield return (T)Enum.ToObject(typeof(T), parsed);
+                continue;
+            }
+
+            var parsedEnum = Enum.ToObject(typeof(T), parsedInt);
+            if (Enum.IsDefined(typeof(T), parsedEnum))
+            {
+                yield return (T)parsedEnum;
             }
         }
     }

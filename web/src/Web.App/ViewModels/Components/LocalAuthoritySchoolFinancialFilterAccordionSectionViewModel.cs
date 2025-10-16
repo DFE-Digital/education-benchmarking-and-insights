@@ -1,6 +1,5 @@
 namespace Web.App.ViewModels.Components;
 
-// todo: unit test
 public class LocalAuthoritySchoolFinancialFinancialFilterAccordionSectionViewModel<T> : LocalAuthoritySchoolFinancialFilterAccordionSectionViewModelBase
 {
     public LocalAuthoritySchoolFinancialFinancialFilterAccordionSectionViewModel
@@ -22,6 +21,12 @@ public class LocalAuthoritySchoolFinancialFinancialFilterAccordionSectionViewMod
     }
 }
 
+/// <summary>
+/// This non-generic base model must be consumed by the partial view due to
+/// c# type invariance when attempting to use a generic type parameter for the model.
+/// The generic class above is only used to provide type safety when providing data
+/// to the partial view and otherwise boxes the type when setting the base properties.
+/// </summary>
 public abstract class LocalAuthoritySchoolFinancialFilterAccordionSectionViewModelBase(
     string accordionId,
     int sectionIndex,

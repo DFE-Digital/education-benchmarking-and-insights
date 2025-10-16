@@ -59,4 +59,50 @@ public class GivenAnOverallPhaseTypes
 
         Assert.Equal(expected, actual);
     }
+
+    [Fact]
+    public void ShouldReturnExpectedAllPhaseTypeFilters()
+    {
+        OverallPhaseTypes.OverallPhaseTypeFilter[] expected =
+        [
+            OverallPhaseTypes.OverallPhaseTypeFilter.Primary,
+            OverallPhaseTypes.OverallPhaseTypeFilter.Secondary,
+            OverallPhaseTypes.OverallPhaseTypeFilter.Special,
+            OverallPhaseTypes.OverallPhaseTypeFilter.PupilReferralUnit,
+            OverallPhaseTypes.OverallPhaseTypeFilter.AllThrough,
+            OverallPhaseTypes.OverallPhaseTypeFilter.Nursery,
+            OverallPhaseTypes.OverallPhaseTypeFilter.PostSixteen,
+            OverallPhaseTypes.OverallPhaseTypeFilter.AlternativeProvision,
+            OverallPhaseTypes.OverallPhaseTypeFilter.UniversityTechnicalCollege
+        ];
+
+        var actual = OverallPhaseTypes.AllFilters;
+
+        Assert.Equal(expected, actual);
+    }
+
+    [Theory]
+    [InlineData(OverallPhaseTypes.OverallPhaseTypeFilter.Primary, OverallPhaseTypes.Primary)]
+    [InlineData(OverallPhaseTypes.OverallPhaseTypeFilter.Secondary, OverallPhaseTypes.Secondary)]
+    [InlineData(OverallPhaseTypes.OverallPhaseTypeFilter.Special, OverallPhaseTypes.Special)]
+    [InlineData(OverallPhaseTypes.OverallPhaseTypeFilter.PupilReferralUnit, OverallPhaseTypes.PupilReferralUnit)]
+    [InlineData(OverallPhaseTypes.OverallPhaseTypeFilter.AllThrough, OverallPhaseTypes.AllThrough)]
+    [InlineData(OverallPhaseTypes.OverallPhaseTypeFilter.Nursery, OverallPhaseTypes.Nursery)]
+    [InlineData(OverallPhaseTypes.OverallPhaseTypeFilter.PostSixteen, OverallPhaseTypes.PostSixteen)]
+    [InlineData(OverallPhaseTypes.OverallPhaseTypeFilter.AlternativeProvision, OverallPhaseTypes.AlternativeProvision)]
+    [InlineData(OverallPhaseTypes.OverallPhaseTypeFilter.UniversityTechnicalCollege, OverallPhaseTypes.UniversityTechnicalCollege)]
+    public void ShouldReturnExpectedFilterDescriptions(OverallPhaseTypes.OverallPhaseTypeFilter filter, string expected)
+    {
+        var actual = filter.GetFilterDescription();
+
+        Assert.Equal(expected, actual);
+    }
+
+    [Fact]
+    public void ShouldThrowExceptionForOutOfRangeFilterDescription()
+    {
+        var exception = Assert.Throws<ArgumentException>(() => ((OverallPhaseTypes.OverallPhaseTypeFilter)999).GetFilterDescription());
+
+        Assert.NotNull(exception);
+    }
 }

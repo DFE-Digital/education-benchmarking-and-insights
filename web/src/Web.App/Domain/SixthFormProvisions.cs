@@ -1,6 +1,5 @@
 namespace Web.App.Domain;
 
-// todo: unit test
 public static class SixthFormProvisions
 {
     public enum SixthFormProvisionFilter

@@ -6,7 +6,6 @@ using Web.App.ViewModels.Components;
 
 namespace Web.App.ViewComponents;
 
-// todo: update unit tests
 public class LocalAuthoritySchoolFinancialViewComponent : ViewComponent
 {
     public async Task<IViewComponentResult> InvokeAsync(string code, string formPrefix)
