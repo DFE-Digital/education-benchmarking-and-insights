@@ -47,6 +47,17 @@
                 Model.SelectedSpecialProvisions,
                 f => f.GetFilterDescription(),
                 f => ((int)f).ToString()))
+            
+            @await Html.PartialAsync("Components/LocalAuthoritySchoolFinancial/_SchoolsFilterAccordionSection", new LocalAuthoritySchoolFinancialFinancialFilterAccordionSectionViewModel<SixthFormProvisions.SixthFormProvisionFilter>(
+                accordionId,
+                4,
+                Model.FormPrefix,
+                "Sixth form provision",
+                LocalAuthoritySchoolFinancialFormViewModel.FormFieldNames.SelectedSixthFormProvisions,
+                SixthFormProvisions.AllFilters,
+                Model.SelectedSixthFormProvisions,
+                f => f.GetFilterDescription(),
+                f => ((int)f).ToString()))
         </div>
 
         <div class="govuk-form-group">

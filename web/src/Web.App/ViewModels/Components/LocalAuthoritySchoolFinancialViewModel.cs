@@ -22,6 +22,7 @@ public class LocalAuthoritySchoolFinancialFormViewModel(string code, string form
     public OverallPhaseTypes.OverallPhaseTypeFilter[] SelectedOverallPhases { get; init; } = [];
     public NurseryProvisions.NurseryProvisionFilter[] SelectedNurseryProvisions { get; init; } = [];
     public SpecialProvisions.SpecialProvisionFilter[] SelectedSpecialProvisions { get; init; } = [];
+    public SixthFormProvisions.SixthFormProvisionFilter[] SelectedSixthFormProvisions { get; init; } = [];
 
     public static class FormFieldNames
     {
@@ -29,5 +30,6 @@ public class LocalAuthoritySchoolFinancialFormViewModel(string code, string form
         public const string SelectedOverallPhases = "phase";
         public const string SelectedNurseryProvisions = "nursery";
         public const string SelectedSpecialProvisions = "special";
+        public const string SelectedSixthFormProvisions = "sixth";
     }
 }
