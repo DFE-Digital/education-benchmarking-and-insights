@@ -310,6 +310,9 @@ def insert_schools_and_local_authorities(
         "Town": "AddressTown",
         "County (name)": "AddressCounty",
         "Postcode": "AddressPostcode",
+        "NurseryProvision (name)": "NurseryProvision",
+        "SpecialClasses (name)": "SpecialClassProvision",
+        "OfficialSixthForm (name)": "SixthFormProvision",
     }
 
     write_frame = (
