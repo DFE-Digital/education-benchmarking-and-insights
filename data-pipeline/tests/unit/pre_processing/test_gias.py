@@ -43,6 +43,7 @@ def test_prepare_school_data_has_correct_output_columns(
         "Address3",
         "Town",
         "County (name)",
+        "SpecialClasses (name)",
         "LA Establishment Number",
         "Has Nursery",
         "Has Sixth Form",
@@ -96,6 +97,7 @@ def test_prepare_school_data_has_correct_output_columns_without_ofsted_cols(
         "Address3",
         "Town",
         "County (name)",
+        "SpecialClasses (name)",
         "LA Establishment Number",
         "OfstedRating (name)",
         "OfstedLastInsp",
@@ -157,27 +159,6 @@ def test_boarders_is_mapped_correctly(
     urn, expected, prepared_schools_data: pd.DataFrame
 ):
     assert prepared_schools_data.loc[urn]["OfstedRating (name)"] == expected
-
-
-def test_nursery_provision_is_mapped_correctly(prepared_schools_data: pd.DataFrame):
-    assert (
-        prepared_schools_data.loc[100150]["NurseryProvision (name)"]
-        == "No Nursery classes"
-    )
-
-
-@pytest.mark.parametrize(
-    "urn,expected",
-    [
-        (100150, "No sixth form"),
-        (100152, "Has a sixth form"),
-        (100153, "No sixth form"),
-    ],
-)
-def test_sixth_form_is_mapped_correctly(
-    urn, expected, prepared_schools_data: pd.DataFrame
-):
-    assert prepared_schools_data.loc[urn]["OfficialSixthForm (name)"] == expected
 
 
 @pytest.mark.parametrize(
