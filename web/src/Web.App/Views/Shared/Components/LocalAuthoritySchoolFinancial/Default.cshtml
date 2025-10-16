@@ -21,5 +21,52 @@
         }
     </div>
     <div class="govuk-grid-column-two-thirds">
+
+        @* temporary table below to prove header button logic *@
+        @{
+            var sortKey = $"{Model.FormPrefix}sort";
+        }
+        <table class="govuk-table">
+            <thead class="govuk-table__head">
+            <tr class="govuk-table__row">
+                @await Component.InvokeAsync("SortableTableHeaderCell", new
+                {
+                    label = "School name",
+                    sortField = "name",
+                    sortKey,
+                    button = true
+                })
+                @await Component.InvokeAsync("SortableTableHeaderCell", new
+                {
+                    label = "Pupils",
+                    sortField = "pupils",
+                    sortKey,
+                    button = true
+                })
+                @await Component.InvokeAsync("SortableTableHeaderCell", new
+                {
+                    label = "Expenditure as % of income",
+                    sortField = "exp",
+                    sortKey,
+                    className = "govuk-table__header--numeric",
+                    button = true
+                })
+            </tr>
+            </thead>
+            <tbody class="govuk-table__body">
+            <tr class="govuk-table__row">
+                <td class="govuk-table__cell" colspan="3">
+                    <div class="govuk-warning-text govuk-!-margin-top-5">
+                        <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
+                        <strong class="govuk-warning-text__text">
+                            <span class="govuk-visually-hidden">Warning</span>
+                            No data available.
+                        </strong>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
     </div>
 </div>
