@@ -62,6 +62,8 @@ def prepare_combined_gias_data(base_data_path, links_data_path, year: int):
         "Not recorded"
     )
 
+    gias["SpecialClasses (name)"] = gias["SpecialClasses (name)"].fillna("Not recorded")
+
     gias["Has Nursery"] = gias["NurseryProvision (name)"].map(mappings.map_has_nursery)
 
     gias["OfficialSixthForm (name)"] = (
