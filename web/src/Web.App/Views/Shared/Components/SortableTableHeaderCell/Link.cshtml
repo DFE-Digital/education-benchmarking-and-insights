@@ -1,0 +1,9 @@
+@model Web.App.ViewModels.Components.SortableTableHeaderCellLinkViewModel
+
+<th data-field="@Model.SortField" scope="col" class="govuk-table__header govuk-table__header--sortable @Model.ClassName"
+    aria-sort="@Model.AriaSort">
+    <a href="@Model.Href" class="govuk-link govuk-link--no-visited-state">
+        @Model.Label
+        @await Html.PartialAsync("Components/SortableTableHeaderCell/_Icon", Model.Sort)
+    </a>
+</th>
