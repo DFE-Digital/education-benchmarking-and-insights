@@ -12,17 +12,17 @@ Progress 8 is a school performance measure used in England. It's designed to sho
 
 #### Understanding Progress 8 and Attainment 8 score
 
-Attainment 8 is a performance measure for schools in England that shows the average academic achievement of pupils at the end of Key Stage 4 (KS4). It is calculated by adding together pupils' highest scores from eight government-approved GCSE subjects. While these numbers are not made publicly available on a pupil-by-pupil basis, scores taken from across a school year group are averaged to produce a school's overall attainment 8 score.
+**Attainment 8** is a performance measure for schools in England that shows the average academic achievement of pupils at the end of Key Stage 4 (KS4). It is calculated by adding together pupils' highest scores from eight government-approved GCSE subjects. While these numbers are not made publicly available on a pupil-by-pupil basis, scores taken from across a school year group are averaged to produce a school's overall attainment 8 score.
 
-The Progress 8 score is calculated by comparing a pupil's actual GCSE results (their Attainment 8 score) with the average Attainment 8 score of all pupils nationally who had a similar academic starting point based on their Key Stage 2 results. This individual progress is then averaged across all students at the school to get the final score. [Good schools guide](https://www.goodschoolsguide.co.uk/uk-schools/advice/progress-8-and-attainment-8-explained) holds detailed description of both Progress 8 and Attainment 8 scores.
+Progress 8 score is calculated by comparing a pupil's actual GCSE results (their Attainment 8 score) with the average Attainment 8 score of all pupils nationally who had a similar academic starting point based on their Key Stage 2 results. This individual progress is then averaged across all students at the school to get the final score. [Good schools guide](https://www.goodschoolsguide.co.uk/uk-schools/advice/progress-8-and-attainment-8-explained) holds detailed description of both Progress 8 and Attainment 8 scores.
 
-#### Why Are Progress Indicators Important?
+#### Why is the Progress 8 Important?
 
-Progress indicators are considered a fairer way to judge schools because they account for the different academic abilities of students upon entry. A school with a high attainment score might simply have a more academically advantaged intake of students. A school with a strong progress score, however, is demonstrating that it is effective at helping all students, regardless of their starting point, to achieve their potential. Essentially, attainment tells you where a student *ended up*, while progress tells you *how far they travelled* to get there.
+Progress 8 is considered a fairer way to judge schools because it account for the different academic abilities of students upon entry. A school with a high attainment score might simply have a more academically advantaged intake of students. A school with a strong progress score, however, is demonstrating that it is effective at helping all students, regardless of their starting point, to achieve their potential. Essentially, attainment tells you where a student *ended up*, while progress tells you *how far they travelled* to get there.
 
 ### Progress 8 Data Source for FBIT
 
-The official and most reliable source for Progress 8 data is the from [Compare school and college performance in England](https://www.compare-school-performance.service.gov.uk/download-data). On this website, one can search for any school in England, view detailed performance data, including Progress 8 score as well as download key stage 4 related data. Please see [key-stage-4](documentation\data\source-files\key-stage-4.md) for more details on progress 8 score source file for FBIT. The below SQL query within FBIT `data` database shows schools with KS4 related data for 2023-24 academic year.
+The official and most reliable source for Progress 8 data is the from [Compare school and college performance in England](https://www.compare-school-performance.service.gov.uk/download-data). On this website, one can search for any school in England, view detailed performance data, including Progress 8 score as well as download key stage 4 related data. Please see [key-stage-4](documentation\data\source-files\key-stage-4.md) for more details on progress 8 source file for FBIT. The below SQL query within FBIT `data` database shows schools with KS4 related data for 2023-24 academic year.
 
 ```sql
 SELECT [URN]
@@ -43,7 +43,7 @@ Progress 8 scores will not be produced for the academic years 2024-25 and 2025-2
 The score is usually a decimal number (float), which can be positive, negative, or close to zero.
 
 | Progress 8 Score (P8MEA) | Progress 8 Banding (P8_BANDING) | Interpretation |
-|--------------------------|:-------------------------------:|:--------------:|
+|--------------------------|:-------------------------------|:--------------|
 | +0.50 or higher   | Well above average | On average, pupils at this school achieve half a grade higher in each of their 8 subjects than other pupils with the same prior attainment nationally.|
 | +0.20 to 0.49    | Above average      | On average, pupils at this school achieve a quarter of a grade higher per subject than their national peers with a similar starting point.|
 | +0.19 to -0.19     | Average            | On average, pupils at this school make the expected amount of progress. Their performance is in line with the national average for pupils with similar prior attainment.|
