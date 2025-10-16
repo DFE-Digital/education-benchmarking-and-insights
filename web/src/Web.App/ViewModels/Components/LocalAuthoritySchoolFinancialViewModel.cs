@@ -21,11 +21,13 @@ public class LocalAuthoritySchoolFinancialFormViewModel(string code, string form
     public Dimensions.ResultAsOptions ResultAs { get; init; } = Dimensions.ResultAsOptions.SpendPerPupil;
     public OverallPhaseTypes.OverallPhaseTypeFilter[] SelectedOverallPhases { get; init; } = [];
     public NurseryProvisions.NurseryProvisionFilter[] SelectedNurseryProvisions { get; init; } = [];
+    public SpecialProvisions.SpecialProvisionFilter[] SelectedSpecialProvisions { get; init; } = [];
 
     public static class FormFieldNames
     {
         public const string ResultAs = "as";
         public const string SelectedOverallPhases = "phase";
         public const string SelectedNurseryProvisions = "nursery";
+        public const string SelectedSpecialProvisions = "special";
     }
 }

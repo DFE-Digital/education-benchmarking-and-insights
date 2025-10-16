@@ -6,11 +6,15 @@ using Web.App.ViewModels.Components;
 
 namespace Web.App.ViewComponents;
 
+// todo: update unit tests
 public class LocalAuthoritySchoolFinancialViewComponent : ViewComponent
 {
     public async Task<IViewComponentResult> InvokeAsync(string code, string formPrefix)
     {
-        var (resultAs, selectedOverallPhases, selectedNurseryProvisions) = ParseQuery(Request.Query, formPrefix);
+        var (resultAs,
+            selectedOverallPhases,
+            selectedNurseryProvisions,
+            selectedSpecialProvisions) = ParseQuery(Request.Query, formPrefix);
 
         // todo: call API to get results
 
@@ -18,7 +22,8 @@ public class LocalAuthoritySchoolFinancialViewComponent : ViewComponent
         {
             ResultAs = resultAs,
             SelectedOverallPhases = selectedOverallPhases.ToArray(),
-            SelectedNurseryProvisions = selectedNurseryProvisions.ToArray()
+            SelectedNurseryProvisions = selectedNurseryProvisions.ToArray(),
+            SelectedSpecialProvisions = selectedSpecialProvisions.ToArray()
         };
 
         return await Task.FromResult(View(viewModel));
@@ -27,7 +32,8 @@ public class LocalAuthoritySchoolFinancialViewComponent : ViewComponent
     private static (
         Dimensions.ResultAsOptions resultAs,
         OverallPhaseTypes.OverallPhaseTypeFilter[] selectedOverallPhases,
-        NurseryProvisions.NurseryProvisionFilter[] selectedNurseryProvisions) ParseQuery(IQueryCollection query, string formPrefix)
+        NurseryProvisions.NurseryProvisionFilter[] selectedNurseryProvisions,
+        SpecialProvisions.SpecialProvisionFilter[] selectedSpecialProvisions) ParseQuery(IQueryCollection query, string formPrefix)
     {
         var resultAs = query[$"{formPrefix}{LocalAuthoritySchoolFinancialFormViewModel.FormFieldNames.ResultAs}"]
             .CastQueryToEnum<Dimensions.ResultAsOptions>()
@@ -38,7 +44,10 @@ public class LocalAuthoritySchoolFinancialViewComponent : ViewComponent
         var selectedNurseryProvisions = query[$"{formPrefix}{LocalAuthoritySchoolFinancialFormViewModel.FormFieldNames.SelectedNurseryProvisions}"]
             .CastQueryToEnum<NurseryProvisions.NurseryProvisionFilter>()
             .ToArray();
+        var selectedSpecialProvisions = query[$"{formPrefix}{LocalAuthoritySchoolFinancialFormViewModel.FormFieldNames.SelectedSpecialProvisions}"]
+            .CastQueryToEnum<SpecialProvisions.SpecialProvisionFilter>()
+            .ToArray();
 
-        return (resultAs, selectedOverallPhases, selectedNurseryProvisions);
+        return (resultAs, selectedOverallPhases, selectedNurseryProvisions, selectedSpecialProvisions);
     }
 }
