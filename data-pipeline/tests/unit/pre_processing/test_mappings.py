@@ -75,33 +75,14 @@ def test_map_boarders(boarder, expected):
 @pytest.mark.parametrize(
     "sixth_form,expected",
     [
-        ("Has a sixth form", "Has a sixth form"),
-        ("Does not have a sixth form", "No sixth form"),
-        ("Other", "Unknown"),
+        ("Has a sixth form", True),
+        ("Does not have a sixth form", False),
+        ("Not applicable", False),
+        ("Not recorded", False),
     ],
 )
-def test_map_sixth_form(sixth_form, expected):
-    assert mappings.map_sixth_form(sixth_form) == expected
-
-
-@pytest.mark.parametrize(
-    "sixth_form,expected",
-    [("Has a sixth form", True), ("No sixth form", False), ("Other", False)],
-)
-def test_map_sixth_form(sixth_form, expected):
+def test_has_map_sixth_form(sixth_form, expected):
     assert mappings.map_has_sixth_form(sixth_form) == expected
-
-
-@pytest.mark.parametrize(
-    "sixth_form,expected",
-    [
-        ("Has a sixth form", "Has a sixth form"),
-        ("Does not have a sixth form", "No sixth form"),
-        ("Other", "Unknown"),
-    ],
-)
-def test_map_has_sixth_form(sixth_form, expected):
-    assert mappings.map_sixth_form(sixth_form) == expected
 
 
 @pytest.mark.parametrize(

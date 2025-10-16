@@ -81,16 +81,6 @@ def map_boarders(boarder: str):
             return "Unknown"
 
 
-def map_sixth_form(sixth_form: str):
-    match sixth_form.lower():
-        case "has a sixth form":
-            return "Has a sixth form"
-        case "does not have a sixth form" | "not applicable":
-            return "No sixth form"
-        case _:
-            return "Unknown"
-
-
 def map_has_sixth_form(has_sixth_form: str):
     return has_sixth_form.lower() == "has a sixth form"
 
