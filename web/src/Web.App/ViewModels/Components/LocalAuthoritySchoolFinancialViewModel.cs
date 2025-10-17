@@ -18,6 +18,7 @@ public class LocalAuthoritySchoolFinancialFormViewModel(string code, string form
     public string Code => code;
     public string FormPrefix => formPrefix;
 
+    public bool FiltersVisible { get; init; } = true;
     public Dimensions.ResultAsOptions ResultAs { get; init; } = Dimensions.ResultAsOptions.SpendPerPupil;
     public OverallPhaseTypes.OverallPhaseTypeFilter[] SelectedOverallPhases { get; init; } = [];
     public NurseryProvisions.NurseryProvisionFilter[] SelectedNurseryProvisions { get; init; } = [];
@@ -26,6 +27,7 @@ public class LocalAuthoritySchoolFinancialFormViewModel(string code, string form
 
     public static class FormFieldNames
     {
+        public const string FiltersVisible = "filter";
         public const string ResultAs = "as";
         public const string SelectedOverallPhases = "phase";
         public const string SelectedNurseryProvisions = "nursery";
