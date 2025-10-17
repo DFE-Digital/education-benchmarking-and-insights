@@ -12,7 +12,8 @@ public class SortableTableHeaderCellViewComponent : ViewComponent
         string sortKey = "sort",
         string sortDelimeter = "~",
         bool button = false,
-        string? className = null)
+        string? className = null,
+        string? tableId = null)
     {
         // strip existing sort key/value pairs from query string
         var query = new Dictionary<string, StringValues>();
@@ -35,12 +36,12 @@ public class SortableTableHeaderCellViewComponent : ViewComponent
 
         if (button)
         {
-            var formModel = new SortableTableHeaderCellButtonViewModel(label, sortField, sortDelimeter, sortKey, currentSortField, currentSort, className);
+            var formModel = new SortableTableHeaderCellButtonViewModel(label, sortField, sortDelimeter, sortKey, currentSortField, currentSort, className, tableId);
             return View("Button", formModel);
         }
 
         var baseUrl = $"{Request.Path}{QueryString.Create(query)}".TrimEnd('?').TrimEnd('&');
-        var linkModel = new SortableTableHeaderCellLinkViewModel(label, sortField, sortKey, sortDelimeter, currentSortField, currentSort, baseUrl, className);
+        var linkModel = new SortableTableHeaderCellLinkViewModel(label, sortField, sortKey, sortDelimeter, currentSortField, currentSort, baseUrl, className, tableId);
         return View("Link", linkModel);
     }
 }

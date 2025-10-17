@@ -32,12 +32,13 @@ public class SortableTableHeaderCellViewComponentTests
     }
 
     [Fact]
-    public void ShouldReturnLabelSortFieldAndClassNameForLink()
+    public void ShouldReturnPassThroughValuesForLink()
     {
         // arrange
         const string label = nameof(label);
         const string sortField = nameof(sortField);
         const string className = nameof(className);
+        const string tableId = nameof(tableId);
 
         // act
         var result = _component.Invoke(label, sortField, className: className) as ViewViewComponentResult;
@@ -49,6 +50,7 @@ public class SortableTableHeaderCellViewComponentTests
         Assert.Equal(label, model.Label);
         Assert.Equal(sortField, model.SortField);
         Assert.Equal(className, model.ClassName);
+        Assert.Equal(tableId, model.TableId);
     }
 
     [Theory]
@@ -143,12 +145,13 @@ public class SortableTableHeaderCellViewComponentTests
     }
 
     [Fact]
-    public void ShouldReturnLabelSortFieldAndClassNameForButton()
+    public void ShouldReturnPassThroughValuesForButton()
     {
         // arrange
         const string label = nameof(label);
         const string sortField = nameof(sortField);
         const string className = nameof(className);
+        const string tableId = nameof(tableId);
 
         // act
         var result = _component.Invoke(label, sortField, className: className, button: true) as ViewViewComponentResult;
@@ -160,6 +163,7 @@ public class SortableTableHeaderCellViewComponentTests
         Assert.Equal(label, model.Label);
         Assert.Equal(sortField, model.SortField);
         Assert.Equal(className, model.ClassName);
+        Assert.Equal(tableId, model.TableId);
     }
 
     [Theory]
@@ -228,11 +232,11 @@ public class SortableTableHeaderCellViewComponentTests
     }
 
     [Theory]
-    [InlineData("testField", "sortKey", "~", "testField", "asc", "ascending")]
-    [InlineData("testField", "sortKey", "~", "testField", "desc", "descending")]
-    [InlineData("testField", "sortKey", "~", null, null, "none")]
-    [InlineData("testField", "sortKey", "~", "otherField", "asc", "none")]
-    public void ShouldReturnCurrentAriaSortForFieldForButton(string sortField, string sortKey, string sortDelimeter, string? currentSortField, string? currentSortOrder, string? expectedAriaSort)
+    [InlineData("testField", "sortKey", "~", "testField", "asc", "ascending", "true")]
+    [InlineData("testField", "sortKey", "~", "testField", "desc", "descending", "true")]
+    [InlineData("testField", "sortKey", "~", null, null, "none", "mixed")]
+    [InlineData("testField", "sortKey", "~", "otherField", "asc", "none", "false")]
+    public void ShouldReturnCurrentAriaValuesForFieldForButton(string sortField, string sortKey, string sortDelimeter, string? currentSortField, string? currentSortOrder, string? expectedAriaSort, string? expectedAriaPressed)
     {
         // arrange
         const string label = nameof(label);
@@ -252,5 +256,6 @@ public class SortableTableHeaderCellViewComponentTests
         var model = result.ViewData?.Model as SortableTableHeaderCellButtonViewModel;
         Assert.NotNull(model);
         Assert.Equal(expectedAriaSort, model.AriaSort);
+        Assert.Equal(expectedAriaPressed, model.AriaPressed);
     }
 }
