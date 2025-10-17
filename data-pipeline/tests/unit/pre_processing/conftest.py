@@ -509,6 +509,11 @@ def gias_data() -> pd.DataFrame:
             "Address3": [None, None, None],
             "Town": ["London", "Coventry", "Leeds"],
             "County (name)": [None, None, None],
+            "SpecialClasses (name)": [
+                "No Special Classes",
+                "Has Special Classes",
+                "Not applicable",
+            ],
         }
     )
 

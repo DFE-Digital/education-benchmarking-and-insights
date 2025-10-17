@@ -75,50 +75,24 @@ def test_map_boarders(boarder, expected):
 @pytest.mark.parametrize(
     "sixth_form,expected",
     [
-        ("Has a sixth form", "Has a sixth form"),
-        ("Does not have a sixth form", "No sixth form"),
-        ("Other", "Unknown"),
+        ("Has a sixth form", True),
+        ("Does not have a sixth form", False),
+        ("Not applicable", False),
+        ("Not recorded", False),
     ],
 )
-def test_map_sixth_form(sixth_form, expected):
-    assert mappings.map_sixth_form(sixth_form) == expected
-
-
-@pytest.mark.parametrize(
-    "sixth_form,expected",
-    [("Has a sixth form", True), ("No sixth form", False), ("Other", False)],
-)
-def test_map_sixth_form(sixth_form, expected):
+def test_has_map_sixth_form(sixth_form, expected):
     assert mappings.map_has_sixth_form(sixth_form) == expected
 
 
 @pytest.mark.parametrize(
-    "sixth_form,expected",
-    [
-        ("Has a sixth form", "Has a sixth form"),
-        ("Does not have a sixth form", "No sixth form"),
-        ("Other", "Unknown"),
-    ],
-)
-def test_map_has_sixth_form(sixth_form, expected):
-    assert mappings.map_sixth_form(sixth_form) == expected
-
-
-@pytest.mark.parametrize(
-    "nursery,provision,expected",
-    [
-        ("Has nursery classes", "Primary", "Has Nursery classes"),
-        (" ", "Primary", "Unknown"),
-        ("Other", "Secondary", "No Nursery classes"),
-    ],
-)
-def test_map_nursery(nursery, provision, expected):
-    assert mappings.map_nursery(nursery, provision) == expected
-
-
-@pytest.mark.parametrize(
     "nursery,expected",
-    [("Has nursery classes", True), ("No nursery classes", False), ("Other", False)],
+    [
+        ("Has nursery classes", True),
+        ("No nursery classes", False),
+        ("Not applicable", False),
+        ("Not recorded", False),
+    ],
 )
 def test_map_has_nursery(nursery, expected):
     assert mappings.map_has_nursery(nursery) == expected

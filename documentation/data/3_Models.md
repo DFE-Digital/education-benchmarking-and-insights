@@ -46,6 +46,7 @@ _Mappings_ and _Derivations_ will be listed.
 | Address3                   | string    |
 | Town                       | string    |
 | County (name)              | string    |
+| SpecialClasses (name)      | string    |
 
 **gias_links:**
 
@@ -828,6 +829,9 @@ erDiagram
         nvarchar AddressTown
         nvarchar AddressCounty
         nvarchar AddressPostcode
+        nvarchar NurseryProvision
+        nvarchar SixthFormProvision
+        nvarchar SpecialClassProvision
     }
 
     Trust {
@@ -1254,6 +1258,9 @@ It is also key to note that within the service, metrics such as "cost per pupil"
 | aar                            | PFI School                  | Is PFI                      | IsPFISchool           | Assigned through boolean logic operation                                                                |
 | gias                           | OfstedLastInsp              | OfstedLastInsp              | OfstedDate            |                                                                                                         |
 | gias                           | OfstedRating (name)         | OfstedRating (name)         | OfstedDescription     |                                                                                                         |
+| gias                           | NurseryProvision (name)         | NurseryProvision (name)         | NurseryProvision     |                                                                                                         |
+| gias                           | OfficialSixthForm (name)        | OfficialSixthForm (name)         | SixthFormProvision     |                                                                                                         |
+| gias                           | SpecialClasses (name)        | SpecialClasses (name)        | SpecialClassProvision     |                                                                                                         |
 
 **MetricRAG:**
 
