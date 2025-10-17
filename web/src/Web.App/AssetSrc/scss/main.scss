@@ -616,9 +616,26 @@ hr.govuk-section-break--print {
         }
 
         &.govuk-table__header--sortable {
-          a {
+          a, button {
             display: inline-flex;
             text-decoration: none;
+          }
+
+          button {
+            margin: govuk-spacing(0);
+            padding: govuk-spacing(0);
+            border-width: 0;
+            color: govuk-colour("blue");
+            background-color: transparent;
+            box-shadow: 0 0 0 0;
+            cursor: pointer;
+
+            &:focus {
+              outline: none;
+              color: govuk-colour("black");
+              background-color: govuk-colour("yellow");
+              box-shadow: 0 -2px govuk-colour("yellow"), 0 4px govuk-colour("black");
+            }
           }
         }
       }
