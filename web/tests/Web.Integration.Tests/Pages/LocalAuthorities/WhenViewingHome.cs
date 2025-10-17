@@ -499,6 +499,18 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
                 var urn = actual.Attributes["data-key"]?.Value;
                 Assert.Equal(expected.Urn, urn);
 
+                if (expected.Total > 0)
+                {
+                    var schoolNameCta = actual.QuerySelector(".govuk-link");
+                    Assert.NotNull(schoolNameCta);
+
+                    Assert.NotNull(expected.Name);
+                    DocumentAssert.Link(
+                        schoolNameCta,
+                        expected.Name,
+                        Paths.SchoolHome(expected.Urn).ToAbsolute());
+                }
+
                 var ragStack = actual.QuerySelector(".rag-stack");
                 if (expected.Total > 0)
                 {
