@@ -194,7 +194,7 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
         var dimensionInputs = tab.QuerySelectorAll("input[name='f.as'][type='radio']");
         Assert.Equal(4, dimensionInputs.Length);
 
-        var submitButton = tab.QuerySelector("button[type=submit]");
+        var submitButton = tab.QuerySelector("button[data-testid='apply-financial-filters']");
         Assert.NotNull(submitButton);
 
         page = await Client.SubmitForm(form, submitButton, f =>
@@ -255,6 +255,33 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
             var input = dimensionInputs[i];
             Assert.Equal(i == 0, input.HasAttribute("checked"));
         }
+    }
+
+    [Theory]
+    [InlineData(null, true, "?f.filter=hide&f.as=0")]
+    [InlineData("?f.filter=hide", false, "?f.filter=show&f.as=0")]
+    public async Task CanToggleFinancialFilters(string? queryString, bool expectedVisible, string expectedQuery)
+    {
+        var (page, authority, _, _, _) = await SetupNavigateInitPage(false, true, false, queryString, OverallPhaseTypes.Primary);
+
+        var tab = AssertFinancialsTab(page);
+
+        var form = page.QuerySelector("form[role='search']");
+        Assert.NotNull(form);
+
+        var toggleButton = tab.QuerySelector("button[data-testid='toggle-financial-filters']");
+        Assert.NotNull(toggleButton);
+        Assert.Equal(expectedVisible ? "Hide filters" : "Show filters", toggleButton.TextContent.Trim());
+
+        page = await Client.SubmitForm(form, toggleButton, f =>
+        {
+            f.SetFormValues(new Dictionary<string, string>
+            {
+                { toggleButton.Attributes["name"]!.Value, toggleButton.Attributes["value"]!.Value },
+            });
+        });
+
+        DocumentAssert.AssertPageUrl(page, $"{Paths.LocalAuthorityHome(authority.Code).ToAbsolute()}{expectedQuery}");
     }
 
     private async Task<(IHtmlDocument page, LocalAuthority authority, LocalAuthoritySchool[] schools, RagRatingSummary[] ratings, Banner? banner)> SetupNavigateInitPage(

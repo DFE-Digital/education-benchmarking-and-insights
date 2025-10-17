@@ -1,8 +1,24 @@
-﻿@model Web.App.ViewModels.Components.LocalAuthoritySchoolFinancialViewModel
+﻿@using Web.App.ViewModels.Components
+@model Web.App.ViewModels.Components.LocalAuthoritySchoolFinancialViewModel
 
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-one-third">
-        @await Html.PartialAsync("Components/LocalAuthoritySchoolFinancial/_SchoolsFilter", Model)
+        <div class="govuk-!-margin-bottom-4">
+            <button type="submit" class="govuk-button govuk-button--secondary" data-testid="toggle-financial-filters"
+                    name="@Model.FormPrefix@LocalAuthoritySchoolFinancialFormViewModel.FormFieldNames.FiltersVisible"
+                    value="@(Model.FiltersVisible ? "hide" : "show")">
+                @(Model.FiltersVisible ? "Hide filters" : "Show filters")
+            </button>
+        </div>
+
+        @if (Model.FiltersVisible)
+        {
+            @await Html.PartialAsync("Components/LocalAuthoritySchoolFinancial/_SchoolsFilter", Model)
+        }
+        else
+        {
+            @await Html.PartialAsync("Components/LocalAuthoritySchoolFinancial/_SchoolsFilterHidden", Model)
+        }
     </div>
     <div class="govuk-grid-column-two-thirds">
     </div>

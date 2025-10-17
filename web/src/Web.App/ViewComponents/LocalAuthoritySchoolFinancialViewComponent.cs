@@ -10,7 +10,8 @@ public class LocalAuthoritySchoolFinancialViewComponent : ViewComponent
 {
     public async Task<IViewComponentResult> InvokeAsync(string code, string formPrefix)
     {
-        var (resultAs,
+        var (filtersVisible,
+            resultAs,
             selectedOverallPhases,
             selectedNurseryProvisions,
             selectedSpecialProvisions,
@@ -20,6 +21,7 @@ public class LocalAuthoritySchoolFinancialViewComponent : ViewComponent
 
         var viewModel = new LocalAuthoritySchoolFinancialViewModel(code, formPrefix)
         {
+            FiltersVisible = filtersVisible,
             ResultAs = resultAs,
             SelectedOverallPhases = selectedOverallPhases.ToArray(),
             SelectedNurseryProvisions = selectedNurseryProvisions.ToArray(),
@@ -31,12 +33,14 @@ public class LocalAuthoritySchoolFinancialViewComponent : ViewComponent
     }
 
     private static (
+        bool filtersVisible,
         Dimensions.ResultAsOptions resultAs,
         OverallPhaseTypes.OverallPhaseTypeFilter[] selectedOverallPhases,
         NurseryProvisions.NurseryProvisionFilter[] selectedNurseryProvisions,
         SpecialProvisions.SpecialProvisionFilter[] selectedSpecialProvisions,
         SixthFormProvisions.SixthFormProvisionFilter[] selectedSixthFormProvisions) ParseQuery(IQueryCollection query, string formPrefix)
     {
+        var filtersVisible = query[$"{formPrefix}{LocalAuthoritySchoolFinancialFormViewModel.FormFieldNames.FiltersVisible}"] != "hide";
         var resultAs = query[$"{formPrefix}{LocalAuthoritySchoolFinancialFormViewModel.FormFieldNames.ResultAs}"]
             .CastQueryToEnum<Dimensions.ResultAsOptions>()
             .FirstOrDefault();
@@ -53,6 +57,6 @@ public class LocalAuthoritySchoolFinancialViewComponent : ViewComponent
             .CastQueryToEnum<SixthFormProvisions.SixthFormProvisionFilter>()
             .ToArray();
 
-        return (resultAs, selectedOverallPhases, selectedNurseryProvisions, selectedSpecialProvisions, selectedSixthFormProvisions);
+        return (filtersVisible, resultAs, selectedOverallPhases, selectedNurseryProvisions, selectedSpecialProvisions, selectedSixthFormProvisions);
     }
 }
