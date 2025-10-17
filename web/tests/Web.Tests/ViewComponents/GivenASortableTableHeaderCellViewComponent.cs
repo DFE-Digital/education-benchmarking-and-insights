@@ -41,7 +41,7 @@ public class SortableTableHeaderCellViewComponentTests
         const string tableId = nameof(tableId);
 
         // act
-        var result = _component.Invoke(label, sortField, className: className) as ViewViewComponentResult;
+        var result = _component.Invoke(label, sortField, className: className, tableId: tableId) as ViewViewComponentResult;
 
         // assert
         Assert.NotNull(result);
@@ -154,7 +154,7 @@ public class SortableTableHeaderCellViewComponentTests
         const string tableId = nameof(tableId);
 
         // act
-        var result = _component.Invoke(label, sortField, className: className, button: true) as ViewViewComponentResult;
+        var result = _component.Invoke(label, sortField, button: true, className: className, tableId: tableId) as ViewViewComponentResult;
 
         // assert
         Assert.NotNull(result);

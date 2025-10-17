@@ -1,7 +1,7 @@
 @model Web.App.ViewModels.Components.SortableTableHeaderCellLinkViewModel
 
-<th data-field="@Model.SortField" scope="col" class="govuk-table__header govuk-table__header--sortable @Model.ClassName"
-    aria-sort="@Model.AriaSort" aria-label="Sort by @Model.Label">
+<th scope="col" class="govuk-table__header govuk-table__header--sortable @Model.ClassName" aria-sort="@Model.AriaSort" 
+    aria-label="Sort by @Model.Label">
     <a href="@Model.Href" class="govuk-link govuk-link--no-visited-state" 
         aria-label="Sort by @Model.Label, @(Model.SortIntent)ending" aria-controls="@Model.TableId">
         @Model.Label
