@@ -1,7 +1,7 @@
 @model Web.App.ViewModels.Components.SortableTableHeaderCellButtonViewModel
 
-<th data-field="@Model.SortField" scope="col" class="govuk-table__header govuk-table__header--sortable @Model.ClassName"
-    aria-sort="@Model.AriaSort" aria-label="Sort by @Model.Label">
+<th scope="col" class="govuk-table__header govuk-table__header--sortable @Model.ClassName" aria-sort="@Model.AriaSort"
+    aria-label="Sort by @Model.Label">
     <button type="submit" class="govuk-body govuk-link govuk-link--no-underline govuk-!-font-weight-bold"
             name="@Model.SortKey" value="@Model.SortValue" aria-pressed="@(Model.AriaPressed)"
             aria-label="Sort by @Model.Label, @(Model.SortIntent)ending" aria-controls="@Model.TableId">
