@@ -25,8 +25,11 @@
         @* temporary table below to prove header button logic *@
         @{
             var sortKey = $"{Model.FormPrefix}sort";
+            const string tableId = "la-financial-table";
         }
-        <table class="govuk-table">
+        @* To persist the sort order on modifying filters, as well as toggling filter visibility, do something like this: *@
+        @* <input type="hidden" name="@sortKey" value="@Model.Sort" /> *@
+        <table class="govuk-table" id="@tableId">
             <thead class="govuk-table__head">
             <tr class="govuk-table__row">
                 @await Component.InvokeAsync("SortableTableHeaderCell", new
@@ -34,14 +37,16 @@
                     label = "School name",
                     sortField = "name",
                     sortKey,
-                    button = true
+                    button = true,
+                    tableId
                 })
                 @await Component.InvokeAsync("SortableTableHeaderCell", new
                 {
                     label = "Pupils",
                     sortField = "pupils",
                     sortKey,
-                    button = true
+                    button = true,
+                    tableId
                 })
                 @await Component.InvokeAsync("SortableTableHeaderCell", new
                 {
@@ -49,7 +54,8 @@
                     sortField = "exp",
                     sortKey,
                     className = "govuk-table__header--numeric",
-                    button = true
+                    button = true,
+                    tableId
                 })
             </tr>
             </thead>
