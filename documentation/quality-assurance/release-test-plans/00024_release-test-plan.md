@@ -56,6 +56,7 @@ This release delivers a combination of new features, enhancements, refactoring, 
 - UAT completed and any findings have been 
 - No critical or high-severity defects remain open.
 - Stakeholder approval obtained for release progression.
+- Files moved to new storage account as per updates in [278870](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_workitems/edit/278870)
 
 ## Roles and Responsibilities
 
