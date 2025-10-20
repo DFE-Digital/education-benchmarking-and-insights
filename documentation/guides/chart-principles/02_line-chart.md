@@ -99,7 +99,7 @@ The School Historical Data is located within the `Resources` section of the FBIT
 
 **Opportunity:**
 
-I recommend we standardise the casing of our data labels and tooltip text in the chat interface. Inconsistent capitalisation and the use of different terminologies to mean the same thing may create a distracting user experience. Aligning on a single style will improve clarity and reinforce the charting principles ultimately leading to a more user-friendly experience.
+Casing will be standardised on data labels and tooltip text in all chat interface. Inconsistent capitalisation and the use of different terminologies to mean the same thing may create a distracting user experience. Aligning on a single style will improve clarity and reinforce the charting principles ultimately leading to a more user-friendly experience.
 
 ## Alternatives
 
