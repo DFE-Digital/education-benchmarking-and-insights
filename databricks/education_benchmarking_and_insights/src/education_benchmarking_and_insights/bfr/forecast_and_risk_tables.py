@@ -56,12 +56,19 @@ def _build_bfr_historical_data(
     # Filter bfr_sofa_historical for pupil number and rename Y1P2
     sofa_pupil_number = bfr_sofa_historical.filter(
         col("EFALineNo") == SOFA_PUPIL_NUMBER_EFALINE
-    ).select("TrustUPIN", col("Y1P2").alias("TotalPupilsInTrust"))
+    ).select("TrustUPIN", col("Y1P2").alias("SofaPupilsInTrust"))
 
-    # Merge again for pupil numbers
+    # Merge again for pupil numbers, using SOFA data if academies data is missing
     historic_bfr_with_crn = historic_bfr_with_crn.join(
         sofa_pupil_number, on="TrustUPIN", how="left_outer"
-    )
+    ).withColumn(
+        "TotalPupilsInTrust",
+        coalesce(
+            col("TotalPupilsInTrust"), 
+            col("SofaPupilsInTrust"),
+            lit(0).cast(IntegerType())
+        )
+    ).drop("SofaPupilsInTrust")
     return historic_bfr_with_crn
 
 

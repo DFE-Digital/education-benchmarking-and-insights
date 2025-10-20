@@ -129,7 +129,7 @@ def preprocess_bfr_3y(bfr_3y_mv, year):
         )
 
     return bfr_3y_filtered.select(
-        "TrustUPIN", "EFALineNo", "Category", *config.THREE_YEAR_PROJECTION_COLS
+        "TrustUPIN", "EFALineNo", *config.THREE_YEAR_PROJECTION_COLS
     )
 
 

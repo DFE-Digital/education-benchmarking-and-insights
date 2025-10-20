@@ -11,29 +11,28 @@ from pyspark.sql.types import (
     StructType,
 )
 
-from education_benchmarking_and_insights.bfr.it_spend import BFRITSpendCalculator
+from education_benchmarking_and_insights.bfr.it_spend_tables import (
+    melt_it_spend_rows_from_bfr,
+    melt_it_spend_pupil_numbers_from_bfr,
+)
+from education_benchmarking_and_insights.bfr.config import (
+    SOFA_IT_SPEND_LINES,
+    SOFA_PUPIL_NUMBER_EFALINE,
+)
 
 
-class MockPipelineConfig:
-    SOFA_IT_SPEND_LINES = [423, 424]
-    SOFA_PUPIL_NUMBER_EFALINE = 999
+# Test constants
+TEST_SOFA_IT_SPEND_LINES = [423, 424]
+TEST_SOFA_PUPIL_NUMBER_EFALINE = 999
+TEST_YEAR = 2024
 
 
-@pytest.fixture
-def bfr_it_spend_calculator(spark: SparkSession):
-    year = 2024
-    config = MockPipelineConfig()
-    return BFRITSpendCalculator(year, spark, config)
-
-
-def test_melt_it_spend_rows_from_bfr(
-    bfr_it_spend_calculator: BFRITSpendCalculator, spark: SparkSession
-):
+def test_melt_it_spend_rows_from_bfr(spark: SparkSession):
     # Given
     schema = StructType(
         [
             StructField("Category", StringType(), True),
-            StructField("Company Registration Number", IntegerType(), True),
+            StructField("Company_Number", IntegerType(), True),
             StructField("EFALineNo", IntegerType(), True),
             StructField("Y1P1", DecimalType(18, 2), True),
             StructField("Y1P2", DecimalType(18, 2), True),
@@ -81,13 +80,13 @@ def test_melt_it_spend_rows_from_bfr(
     bfr_df = spark.createDataFrame(bfr_data, schema)
 
     # When
-    result_df = bfr_it_spend_calculator._melt_it_spend_rows_from_bfr(bfr_df)
+    result_df = melt_it_spend_rows_from_bfr(bfr_df, TEST_YEAR, TEST_SOFA_IT_SPEND_LINES)
 
     # Then
     expected_schema = StructType(
         [
             StructField("Category", StringType(), True),
-            StructField("Company Registration Number", IntegerType(), True),
+            StructField("Company_Number", IntegerType(), True),
             StructField("Year", LongType(), True),
             StructField("Value", DecimalType(19, 2), True),
         ]
@@ -108,23 +107,21 @@ def test_melt_it_spend_rows_from_bfr(
 
     # Sort both DataFrames before collecting for comparison
     sorted_result_df = result_df_ordered.orderBy(
-        "Company Registration Number", "Year", "Category"
+        "Company_Number", "Year", "Category"
     )
     sorted_expected_df = expected_df.orderBy(
-        "Company Registration Number", "Year", "Category"
+        "Company_Number", "Year", "Category"
     )
 
     assert sorted_result_df.collect() == sorted_expected_df.collect()
     assert sorted_result_df.schema == sorted_expected_df.schema
 
 
-def test_melt_it_spend_pupil_numbers_from_bfr(
-    bfr_it_spend_calculator: BFRITSpendCalculator, spark: SparkSession
-):
+def test_melt_it_spend_pupil_numbers_from_bfr(spark: SparkSession):
     # Given
     schema = StructType(
         [
-            StructField("Company Registration Number", IntegerType(), True),
+            StructField("Company_Number", IntegerType(), True),
             StructField("EFALineNo", StringType(), True),
             StructField("Y1P1", DecimalType(18, 2), True),
             StructField("Y1P2", DecimalType(18, 2), True),
@@ -161,12 +158,12 @@ def test_melt_it_spend_pupil_numbers_from_bfr(
     bfr_df = spark.createDataFrame(bfr_data, schema)
 
     # When
-    result_df = bfr_it_spend_calculator._melt_it_spend_pupil_numbers_from_bfr(bfr_df)
+    result_df = melt_it_spend_pupil_numbers_from_bfr(bfr_df, TEST_YEAR, TEST_SOFA_PUPIL_NUMBER_EFALINE)
 
     # Then
     expected_schema = StructType(
         [
-            StructField("Company Registration Number", IntegerType(), True),
+            StructField("Company_Number", IntegerType(), True),
             StructField("Year", LongType(), True),
             StructField("Pupils", DecimalType(18, 2), True),
         ]
@@ -186,21 +183,19 @@ def test_melt_it_spend_pupil_numbers_from_bfr(
     result_df_ordered = result_df.select(expected_cols)
 
     # Sort both DataFrames before collecting for comparison
-    sorted_result_df = result_df_ordered.orderBy("Company Registration Number", "Year")
-    sorted_expected_df = expected_df.orderBy("Company Registration Number", "Year")
+    sorted_result_df = result_df_ordered.orderBy("Company_Number", "Year")
+    sorted_expected_df = expected_df.orderBy("Company_Number", "Year")
 
     assert sorted_result_df.collect() == sorted_expected_df.collect()
     assert sorted_result_df.schema == sorted_expected_df.schema
 
 
-def test_get_bfr_it_spend_rows(
-    bfr_it_spend_calculator: BFRITSpendCalculator, spark: SparkSession
-):
+def test_get_bfr_it_spend_rows(spark: SparkSession):
     # Given
     bfr_schema = StructType(
         [
             StructField("Category", StringType(), True),
-            StructField("Company Registration Number", IntegerType(), True),
+            StructField("Company_Number", IntegerType(), True),
             StructField("EFALineNo", IntegerType(), True),
             StructField("Y1P1", DecimalType(18, 2), True),
             StructField("Y1P2", DecimalType(18, 2), True),
@@ -269,14 +264,20 @@ def test_get_bfr_it_spend_rows(
     ]
     bfr_df = spark.createDataFrame(bfr_data, bfr_schema)
 
-    # When
-    result_df = bfr_it_spend_calculator.get_bfr_it_spend_rows(bfr_df)
+    # When - simulate the join that happens in the DLT table
+    it_spend_melted = melt_it_spend_rows_from_bfr(bfr_df, TEST_YEAR, TEST_SOFA_IT_SPEND_LINES)
+    pupil_numbers_melted = melt_it_spend_pupil_numbers_from_bfr(bfr_df, TEST_YEAR, TEST_SOFA_PUPIL_NUMBER_EFALINE)
+    result_df = it_spend_melted.join(
+        pupil_numbers_melted,
+        on=["Company_Number", "Year"],
+        how="left_outer",
+    )
 
     # Then
     expected_schema = StructType(
         [
             StructField("Category", StringType(), True),
-            StructField("Company Registration Number", IntegerType(), True),
+            StructField("Company_Number", IntegerType(), True),
             StructField("Year", LongType(), True),
             StructField("Value", DecimalType(19, 2), True),
             StructField("Pupils", DecimalType(18, 2), True),
@@ -301,10 +302,10 @@ def test_get_bfr_it_spend_rows(
 
     # Sort both DataFrames before collecting for comparison
     sorted_result_df = result_df_ordered.orderBy(
-        "Company Registration Number", "Year", "Category"
+        "Company_Number", "Year", "Category"
     )
     sorted_expected_df = expected_df.orderBy(
-        "Company Registration Number", "Year", "Category"
+        "Company_Number", "Year", "Category"
     )
 
     assert sorted_result_df.collect() == sorted_expected_df.collect()
