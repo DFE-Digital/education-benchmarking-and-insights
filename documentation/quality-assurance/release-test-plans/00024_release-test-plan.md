@@ -5,7 +5,7 @@
 
 ## Introduction
 
-This plan defines the approach for testing release `2025.10.0`, covering smoke, sanity, and data testing activities required for the platform and data pipeline.  
+This plan defines the approach for testing release `2025.10.1`, covering smoke, sanity, and data testing activities required for the platform and data pipeline.  
 This release delivers a combination of new features, enhancements, refactoring, and maintenance updates to improve performance, maintainability, and user experience across the platform.
 
 ## Scope
@@ -13,28 +13,28 @@ This release delivers a combination of new features, enhancements, refactoring, 
 **In-scope:**
 
 - **New Features**
-  - Introduction of *BFR Benchmark IT Spending page for Trusts*.
-  - Creation of a *FBIS for Trust page* to enhance financial insights.
+  - Added BFR Benchmark IT Spending page for Trusts providing a benchmarking view and allowing Trusts to compare IT spending across peers, improving financial transparency and efficiency tracking.
+  - Added a dedicated Financial Benchmarking Insights Summary page for Trusts, providing high-level financial overviews and key performance indicators.
 
 - **Enhancements**
-  - Aggregated workforce metrics to improve reporting and comparability.
-  - Implemented changes to High Needs section following the Red Line Review.
-  - Files and images storage updated to be served from Blob storage
+  - Aggregated workforce metrics for schools in federations in schools to improve reporting and comparability.
+  - Refined the LA homepage to add High Needs section as per red line review.
+  - Files and images storage updated to be served from Blob storage for improved platform performance, scalability, and reliability.
 
 **Out-of-Scope:**
 
-- Refactored comparator set and RAG logic for maintainability and performance.
-- Nightly monitoring of commercial resource links to ensure reliability.
-- Updated copy for revenue reserve on the *Historic data → Balance* tab.
-- Improved clarity in total expenditure with updated MAT central spend apportionment logic.
-- Refreshed LA homepage (top and bottom sections).
+- Simplified and refactored comparator set and RAG backend logic for better maintainability and consistent performance.
+- Introduced automated nightly checks to validate that all commercial resource links remain active.
+- Updated copy for revenue reserve on the Historic data → Balance tab.
+- Updated total expenditure computation logic for MAT schools.
 - Removed Direct Revenue Financing from Other cost category.
-- Removed redundant feature flags and legacy code for FilteredSearch and HistoricalTrends.
+- Cleaned up unused flags and removes deprecated logic for maintainability.
 - High-level DfE Databricks slides added for internal use.
-- Login initiation tracking with improved action context.
+- Added richer tracking of user login activity for analytics and behavioural insights.
 - September 2025 dependency updates reviewed and merged.
-- Implementation of *News pages* for improved content management.
+- Implemented News pages for improved content management and news visibility.
 - Excluded false positives from WAF configurations.
+- Refreshed LA homepage layout (WIP and won't be included in this release).
 
 ## Test Strategy
 
@@ -53,7 +53,7 @@ This release delivers a combination of new features, enhancements, refactoring, 
 **Exit Criteria:**
 
 - All smoke, sanity, and data validation checks pass successfully.
-- UAT completed and any findings have been 
+- UAT completed and any findings have been satisfied.
 - No critical or high-severity defects remain open.
 - Stakeholder approval obtained for release progression.
 - Files moved to new storage account as per updates in [278870](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_workitems/edit/278870)
@@ -128,8 +128,8 @@ Nightly link monitoring and performance improvements have been included as part 
 | Test Category           | Total Tests | Passed | Failed | Pass Rate |  
 |-------------------------|:-----------:|:------:|:------:|:---------:|  
 | Smoke Tests - Prod      |     TBC     |   -    |   -    |     -     |  
-| Sanity Tests - Pre Prod |     TBC     |   -    |   -    |     -     |  
-| Data Smoke Tests        |     TBC     |   -    |   -    |     -     |  
+| Sanity Tests - Pre Prod |     16      |   16   |   0    |   100%    |  
+| Data Smoke Tests        |      2      |   2    |   0    |    100    |  
 | Total                   |     TBC     |   -    |   -    |     -     |  
 
 <!-- Leave the rest of this page blank -->
