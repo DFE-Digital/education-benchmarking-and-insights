@@ -9,11 +9,21 @@ try:
     from databricks.sdk import WorkspaceClient
     from pyspark.sql import SparkSession
     import pytest
-    from unittest.mock import patch
+    from unittest.mock import patch, MagicMock
 except ImportError:
     raise ImportError(
         "Test dependencies not found.\n\nRun tests using 'uv run pytest'. See http://docs.astral.sh/uv to learn more about uv."
     )
+
+# Import our mock pipelines module
+try:
+    from .mock_pipelines import mock_pipelines
+except ImportError:
+    # Fallback for when running pytest directly
+    import sys
+    import os
+    sys.path.insert(0, os.path.dirname(__file__))
+    from mock_pipelines import mock_pipelines
 
 
 def enable_fallback_compute():
@@ -44,6 +54,9 @@ def pytest_configure(config: pytest.Config):
     """Configure pytest session."""
     with allow_stderr_output(config):
         enable_fallback_compute()
+
+        # Mock the pyspark.pipelines module for testing
+        sys.modules['pyspark.pipelines'] = mock_pipelines
 
         # Initialize Spark session eagerly, so it is available even when
         # SparkSession.builder.getOrCreate() is used. For DB Connect 15+,

@@ -1,4 +1,5 @@
 import pytest
+from pyspark.sql import SparkSession
 
 from education_benchmarking_and_insights.bfr import config
 from education_benchmarking_and_insights.bfr.bfr_pyspark_mocks import (
@@ -6,26 +7,28 @@ from education_benchmarking_and_insights.bfr.bfr_pyspark_mocks import (
     get_mock_bfr_sofa_mv,
     get_mock_bfr_three_year_mv,
 )
-from education_benchmarking_and_insights.bfr.preprocessor import BFRPreprocessor
+from education_benchmarking_and_insights.bfr.preprocessed_tables import (
+    preprocess_bfr_sofa,
+    preprocess_bfr_3y,
+)
 
 BFR_3Y_TO_SOFA_MAPPINGS_REVERSE = {
     v: k for k, v in config.BFR_3Y_TO_SOFA_MAPPINGS.items()
 }
 
 
-@pytest.fixture
-def preprocessor(spark):
-    return BFRPreprocessor(year=2024, spark=spark, config=config)
+# Test constants
+TEST_YEAR = 2024
 
 
-def test_preprocess_bfr_sofa_scaling(preprocessor, spark):
-    mock_bfr_sofa_mv_data = get_mock_bfr_sofa_mv(spark, year=2024)
-    processed_df = preprocessor.preprocess_bfr_sofa(mock_bfr_sofa_mv_data)
+def test_preprocess_bfr_sofa_scaling(spark):
+    mock_bfr_sofa_mv_data = get_mock_bfr_sofa_mv(spark, year=TEST_YEAR)
+    processed_df = preprocess_bfr_sofa(mock_bfr_sofa_mv_data, TEST_YEAR)
 
-    # Trust UPIN is IntegerType in mock, so filter by Integer
+    # TrustUPIN is IntegerType in mock, so filter by Integer
     # Pupil Number (EFALine 999) should not be scaled
     pupil_number_row = (
-        processed_df.filter(processed_df["Trust UPIN"] == 100001)
+        processed_df.filter(processed_df["TrustUPIN"] == 100001)
         .filter(processed_df["EFALineNo"] == config.SOFA_PUPIL_NUMBER_EFALINE)
         .first()
     )
@@ -35,7 +38,7 @@ def test_preprocess_bfr_sofa_scaling(preprocessor, spark):
 
     # Test scaling for an IT Spend line (e.g., 336) which is scaled but not aggregated into a custom category
     it_spend_row = (
-        processed_df.filter(processed_df["Trust UPIN"] == 100001)
+        processed_df.filter(processed_df["TrustUPIN"] == 100001)
         .filter(processed_df["EFALineNo"] == 336)
         .first()
     )
@@ -44,10 +47,10 @@ def test_preprocess_bfr_sofa_scaling(preprocessor, spark):
     assert it_spend_row["Y1P2"] == 11.0 * 1000
 
 
-def test_preprocess_bfr_sofa_aggregation(preprocessor, spark):
-    mock_bfr_sofa_mv_data = get_mock_bfr_sofa_mv(spark, year=2024)
-    processed_df = preprocessor.preprocess_bfr_sofa(mock_bfr_sofa_mv_data)
-    upin_mask = processed_df["Trust UPIN"] == 100001
+def test_preprocess_bfr_sofa_aggregation(spark):
+    mock_bfr_sofa_mv_data = get_mock_bfr_sofa_mv(spark, year=TEST_YEAR)
+    processed_df = preprocess_bfr_sofa(mock_bfr_sofa_mv_data, TEST_YEAR)
+    upin_mask = processed_df["TrustUPIN"] == 100001
 
     # Check aggregated 'Self-generated income'
     self_gen_income_row = (
@@ -73,13 +76,13 @@ def test_preprocess_bfr_sofa_aggregation(preprocessor, spark):
     assert grant_funding_agg_row["Y1P2"] == 210.0 * 1000
 
 
-def test_preprocess_bfr_sofa_category_rename(preprocessor, spark):
-    mock_bfr_sofa_mv_data = get_mock_bfr_sofa_mv(spark, year=2024)
-    processed_df = preprocessor.preprocess_bfr_sofa(mock_bfr_sofa_mv_data)
+def test_preprocess_bfr_sofa_category_rename(spark):
+    mock_bfr_sofa_mv_data = get_mock_bfr_sofa_mv(spark, year=TEST_YEAR)
+    processed_df = preprocess_bfr_sofa(mock_bfr_sofa_mv_data, TEST_YEAR)
 
     # "Balance c/f to next period " should be renamed to "Revenue reserve"
     revenue_reserve_row = (
-        processed_df.filter(processed_df["Trust UPIN"] == 100001)
+        processed_df.filter(processed_df["TrustUPIN"] == 100001)
         .filter(processed_df["EFALineNo"] == config.SOFA_TRUST_REVENUE_RESERVE_EFALINE)
         .first()
     )
@@ -88,7 +91,7 @@ def test_preprocess_bfr_sofa_category_rename(preprocessor, spark):
 
     # "Pupil numbers (actual and estimated)" should be renamed to "Pupil numbers"
     pupil_numbers_row = (
-        processed_df.filter(processed_df["Trust UPIN"] == 100001)
+        processed_df.filter(processed_df["TrustUPIN"] == 100001)
         .filter(processed_df["EFALineNo"] == config.SOFA_PUPIL_NUMBER_EFALINE)
         .first()
     )
@@ -96,14 +99,14 @@ def test_preprocess_bfr_sofa_category_rename(preprocessor, spark):
     assert pupil_numbers_row["Category"] == "Pupil numbers"
 
 
-def test_preprocess_bfr_3y_normalization_and_scaling(preprocessor, spark):
+def test_preprocess_bfr_3y_normalization_and_scaling(spark):
     mock_bfr_three_year_mv_data = get_mock_bfr_three_year_mv(spark)
-    processed_df = preprocessor.preprocess_bfr_3y(mock_bfr_three_year_mv_data)
+    processed_df = preprocess_bfr_3y(mock_bfr_three_year_mv_data, TEST_YEAR)
 
     # Check normalization of EFALineNo and scaling
     # Original 3Y EFALine 2980 maps to SOFA_TOTAL_REVENUE_INCOME (298)
     normalized_income_row = (
-        processed_df.filter(processed_df["Trust UPIN"] == 100001)
+        processed_df.filter(processed_df["TrustUPIN"] == 100001)
         .filter(processed_df["EFALineNo"] == config.SOFA_TOTAL_REVENUE_INCOME)
         .first()
     )
@@ -114,7 +117,7 @@ def test_preprocess_bfr_3y_normalization_and_scaling(preprocessor, spark):
 
     # Original 3Y EFALine 4300 maps to SOFA_TRUST_REVENUE_RESERVE_EFALINE (430)
     normalized_reserve_row = (
-        processed_df.filter(processed_df["Trust UPIN"] == 100001)
+        processed_df.filter(processed_df["TrustUPIN"] == 100001)
         .filter(processed_df["EFALineNo"] == config.SOFA_TRUST_REVENUE_RESERVE_EFALINE)
         .first()
     )
@@ -125,7 +128,7 @@ def test_preprocess_bfr_3y_normalization_and_scaling(preprocessor, spark):
 
     # Check a line that doesn't need mapping (OTHER_COSTS_EFALINE = 335) and is scaled
     other_costs_row = (
-        processed_df.filter(processed_df["Trust UPIN"] == 100001)
+        processed_df.filter(processed_df["TrustUPIN"] == 100001)
         .filter(processed_df["EFALineNo"] == config.OTHER_COSTS_EFALINE)
         .first()
     )
@@ -135,20 +138,36 @@ def test_preprocess_bfr_3y_normalization_and_scaling(preprocessor, spark):
     )  # Value from mock_bfr_three_year_mv_data for 335 (Y2)
 
 
-def test_preprocess_data_merge_and_crn(preprocessor, spark):
-    mock_academies_data = get_mock_academies_df(spark, year=2024)
+def test_preprocess_data_merge_and_crn(spark):
+    mock_academies_data = get_mock_academies_df(spark, year=TEST_YEAR)
     mock_bfr_three_year_mv_data = get_mock_bfr_three_year_mv(spark)
-    mock_bfr_sofa_mv_data = get_mock_bfr_sofa_mv(spark, year=2024)
-    merged_df = preprocessor.preprocess_data(
-        mock_bfr_sofa_mv_data, mock_bfr_three_year_mv_data, mock_academies_data
+    mock_bfr_sofa_mv_data = get_mock_bfr_sofa_mv(spark, year=TEST_YEAR)
+    
+    # Simulate the preprocessing pipeline
+    bfr_sofa_preprocessed = preprocess_bfr_sofa(mock_bfr_sofa_mv_data, TEST_YEAR)
+    bfr_3y_preprocessed = preprocess_bfr_3y(mock_bfr_three_year_mv_data, TEST_YEAR)
+    
+    # Join SOFA and 3Y data
+    merged_bfr = bfr_sofa_preprocessed.join(
+        bfr_3y_preprocessed,
+        on=["TrustUPIN", "EFALineNo"],
+        how="left_outer"
     )
+    
+    # Add CRN from academies data
+    academies_with_crn = (
+        mock_academies_data
+        .select("Company_Number", mock_academies_data["Lead_UPIN"].alias("TrustUPIN"))
+        .dropDuplicates(subset=["TrustUPIN"])
+    )
+    merged_df = academies_with_crn.join(merged_bfr, on="TrustUPIN", how="inner")
 
     # Check schema and number of rows
-    expected_sofa_year_cols = config.get_sofa_year_cols(preprocessor.year)
+    expected_sofa_year_cols = config.get_sofa_year_cols(TEST_YEAR)
     expected_3y_cols = config.THREE_YEAR_PROJECTION_COLS
     expected_columns = [
-        "Company Registration Number",
-        "Trust UPIN",
+        "Company_Number",
+        "TrustUPIN",
         "EFALineNo",
         "Category",
         *expected_sofa_year_cols,
@@ -157,15 +176,15 @@ def test_preprocess_data_merge_and_crn(preprocessor, spark):
     assert set(merged_df.columns) == set(expected_columns)
     assert merged_df.count() > 0
 
-    # Check CRN merge for Trust UPIN 100001
-    crn_row = merged_df.filter(merged_df["Trust UPIN"] == 100001).first()
+    # Check CRN merge for TrustUPIN 100001
+    crn_row = merged_df.filter(merged_df["TrustUPIN"] == 100001).first()
     assert crn_row is not None
-    assert crn_row["Company Registration Number"] == "CRN001"
+    assert crn_row["Company_Number"] == "CRN001"
 
-    # Check data from both SOFA and 3Y are present for Trust UPIN 100001
+    # Check data from both SOFA and 3Y are present for TrustUPIN 100001
     # EFALineNo for Total revenue income (298)
     sofa_and_3y_row = merged_df.filter(
-        (merged_df["Trust UPIN"] == 100001)
+        (merged_df["TrustUPIN"] == 100001)
         & (merged_df["EFALineNo"] == config.SOFA_TOTAL_REVENUE_INCOME)
     ).first()
     assert sofa_and_3y_row is not None
@@ -177,7 +196,7 @@ def test_preprocess_data_merge_and_crn(preprocessor, spark):
     # Check that rows with SOFA_PUPIL_NUMBER_EFALINE (999) have both SOFA and 3Y data
     # as 999 is present in both mock SOFA and 3Y (via mapping from 9000)
     pupil_row = merged_df.filter(
-        (merged_df["Trust UPIN"] == 100001)
+        (merged_df["TrustUPIN"] == 100001)
         & (merged_df["EFALineNo"] == config.SOFA_PUPIL_NUMBER_EFALINE)
     ).first()
     assert pupil_row is not None
@@ -191,7 +210,7 @@ def test_preprocess_data_merge_and_crn(preprocessor, spark):
     # Checking if 336 is in SOFA_IT_SPEND_LINES, it should be filtered and scaled.
     # It should not have 3Y projection columns filled.
     it_spend_sofa_only_row = merged_df.filter(
-        (merged_df["Trust UPIN"] == 100001) & (merged_df["EFALineNo"] == 336)
+        (merged_df["TrustUPIN"] == 100001) & (merged_df["EFALineNo"] == 336)
     ).first()
     assert it_spend_sofa_only_row is not None
     assert it_spend_sofa_only_row["Y1P1"] == 10.0 * 1000  # Scaled SOFA value
