@@ -1,3 +1,0 @@
-BRONZE_BFR_CATALOG_PATH = "catalog_30_bronze.bfr"
-BRONZE_AAR_CATALOG_PATH = "catalog_30_bronze.aar"
-COPPER_FBIT_CATALOG_PATH = "catalog_40_copper_financial_benchmarking_insights.financial_benchmarking_insights"
