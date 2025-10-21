@@ -224,12 +224,16 @@ resource "azurerm_cdn_frontdoor_firewall_policy" "web-app-front-door-waf" {
 
       override {
         rule_group_name = "RFI"
-        rule_ids        = ["931130"]
 
-        exclusion {
-          match_variable = "RequestFormPostParamNames"
-          operator       = "Equals"
-          selector       = "iss"
+        rule {
+          rule_id = "931130"
+          action  = "Log"
+
+          exclusion {
+            match_variable = "RequestFormPostParamNames"
+            operator       = "Equals"
+            selector       = "iss"
+          }
         }
       }
     }
