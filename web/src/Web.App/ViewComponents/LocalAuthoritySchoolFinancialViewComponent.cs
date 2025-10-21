@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Primitives;
 using Web.App.Domain;
 using Web.App.Domain.Charts;
 using Web.App.Extensions;
@@ -15,7 +16,8 @@ public class LocalAuthoritySchoolFinancialViewComponent : ViewComponent
             selectedOverallPhases,
             selectedNurseryProvisions,
             selectedSpecialProvisions,
-            selectedSixthFormProvisions) = ParseQuery(Request.Query, formPrefix);
+            selectedSixthFormProvisions,
+            sort) = ParseQuery(Request.Query, formPrefix);
 
         // todo: replace stub with call to API to get results
         var results = await Task.FromResult(new[]
@@ -58,6 +60,11 @@ public class LocalAuthoritySchoolFinancialViewComponent : ViewComponent
             viewModel.ResultAs = resultAs.Value;
         }
 
+        if (!string.IsNullOrWhiteSpace(sort))
+        {
+            viewModel.Sort = sort;
+        }
+
         return View(viewModel);
     }
 
@@ -67,7 +74,8 @@ public class LocalAuthoritySchoolFinancialViewComponent : ViewComponent
         OverallPhaseTypes.OverallPhaseTypeFilter[] selectedOverallPhases,
         NurseryProvisions.NurseryProvisionFilter[] selectedNurseryProvisions,
         SpecialProvisions.SpecialProvisionFilter[] selectedSpecialProvisions,
-        SixthFormProvisions.SixthFormProvisionFilter[] selectedSixthFormProvisions) ParseQuery(IQueryCollection query, string formPrefix)
+        SixthFormProvisions.SixthFormProvisionFilter[] selectedSixthFormProvisions,
+        string? sort) ParseQuery(IQueryCollection query, string formPrefix)
     {
         var filtersVisible = query[$"{formPrefix}{LocalAuthoritySchoolFinancialFormViewModel.FormFieldNames.FiltersVisible}"] != "hide";
 
@@ -93,6 +101,15 @@ public class LocalAuthoritySchoolFinancialViewComponent : ViewComponent
             .CastQueryToEnum<SixthFormProvisions.SixthFormProvisionFilter>()
             .ToArray();
 
-        return (filtersVisible, resultAs, selectedOverallPhases, selectedNurseryProvisions, selectedSpecialProvisions, selectedSixthFormProvisions);
+        var sort = query[$"{formPrefix}{LocalAuthoritySchoolFinancialFormViewModel.FormFieldNames.Sort}"];
+
+        return (
+            filtersVisible,
+            resultAs,
+            selectedOverallPhases,
+            selectedNurseryProvisions,
+            selectedSpecialProvisions,
+            selectedSixthFormProvisions,
+            sort == StringValues.Empty ? null : sort.ToString());
     }
 }

@@ -4,27 +4,29 @@
 @using Web.App.ViewModels.Components
 @model Web.App.ViewModels.Components.LocalAuthoritySchoolFinancialViewModel
 @{
+    var tableId = LocalAuthoritySchoolFinancialFormViewModel.TableId;
     var tableHeader = Model.ResultAs.GetTableHeaderSuffix();
+    var sortKey = $"{Model.FormPrefix}{LocalAuthoritySchoolFinancialFormViewModel.FormFieldNames.Sort}";
 }
 
-<table class="govuk-table" id="@LocalAuthoritySchoolFinancialFormViewModel.TableId">
+<table class="govuk-table" id="@tableId">
     <thead class="govuk-table__head">
     <tr class="govuk-table__row">
         @await Component.InvokeAsync("SortableTableHeaderCell", new
         {
             label = "School name",
             sortField = nameof(LocalAuthoritySchoolFinancial.SchoolName),
-            sortKey = LocalAuthoritySchoolFinancialFormViewModel.FormFieldNames.Sort,
+            sortKey,
             className = "govuk-!-width-one-quarter",
-            tableId = LocalAuthoritySchoolFinancialFormViewModel.TableId
+            tableId
         })
         @await Component.InvokeAsync("SortableTableHeaderCell", new
         {
             label = "Pupils",
             sortField = nameof(LocalAuthoritySchoolFinancial.TotalPupils),
-            sortKey = LocalAuthoritySchoolFinancialFormViewModel.FormFieldNames.Sort,
+            sortKey,
             className = "govuk-table__header--numeric",
-            tableId = LocalAuthoritySchoolFinancialFormViewModel.TableId
+            tableId
         })
         <th scope="col" class="govuk-table__header govuk-table__header--numeric">
             Expenditure @tableHeader
