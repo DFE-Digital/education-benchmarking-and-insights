@@ -40,10 +40,10 @@ Each metric has its own detailed document in the `/metrics` folder.
 
 | Metric Name                     | Purpose                                                                                                                   | Active | Code Definition                              | Detail Link                                          |
 |---------------------------------|---------------------------------------------------------------------------------------------------------------------------|--------|---------------------------------------------|------------------------------------------------------|
-| LA Homepage: High needs comparators | How easy is it to get to the high needs comparators page? | ✅ | TBC | link |
-| LA Homepage: School breakdown table usage | Are the new components on the LA homepage being used? | ✅ | TBC | link |
-| LA Homepage: School journeys started | Are the new components on the LA homepage being used? | ✅ | TBC | link |
-| LA Homepage: Change local authority button usage | Theory: this button isn't used. | ✅ | TBC | link |
+| LA Homepage: High needs comparators | How easy is it to get to the high needs comparators page? | ✅ | TBC | [View](metrics/015_la-homepage-high-needs-comparators-clicks.md) |
+| LA Homepage: School breakdown table usage | Are the new components on the LA homepage being used? | ✅ | TBC | [View](metrics/014_la-homepage-school-breakdown-table-elements-usage.md) |
+| LA Homepage: School journeys started | Are the new components on the LA homepage being used? | ✅ | TBC | [View](metrics/016_la-homepage-school-journeys-started.md) |
+| LA Homepage: Change local authority button usage | Theory: this button isn't used. | ✅ | TBC | [View](metrics/017_la-homepage-change-authority-button-usage.md) |
 
 <!-- Leave the rest of this page blank -->
 \newpage
