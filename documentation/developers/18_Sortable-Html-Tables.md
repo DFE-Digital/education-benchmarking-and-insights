@@ -56,7 +56,7 @@ The `<button>` elements are designed to be very similar to the GOV.UK Design Sys
 1. Inconsistent styling across browsers
    - Overriding button styles to mimic links may lead to inconsistent or unexpected UI on some devices or browsers.
 
-The MOJ component runs client side, which may be why `<button>` was chosen originally. It is assumed that as per GDS, a significant amount of [user research](design-system.service.gov.uk/community/design-system-working-group/) has gone into the usability of this component. Even so, if feedback is received that advises that this is not suitable for use across FBIT than the `<a>` should be reverted to instead.
+The MOJ component runs client side, which may be why `<button>` was chosen originally. It is assumed that as per GDS, a significant amount of [user research](design-system.service.gov.uk/community/design-system-working-group/) has gone into the usability of this component. Even so, if feedback is received that advises that this is not suitable for use across FBIT than the `<a>` should be reverted to instead (see below).
 
 ### `aria-` attributes
 
@@ -76,4 +76,4 @@ These may be seen in the basic composition above, with the addition of `scope="c
 
 ## Reverting to `<a>`
 
-The alternative header cell implementation is to use an `<a>` with the `href` attribute set to the current request URI with the `sort` query string component updated to the correct context. The implementation in the Web app service is to support this toggle based on a view component input parameter and alternative Razor view.
+The original header cell implementation was to use an `<a>` with the `href` attribute set to the current request URI with the `sort` query string component updated to the correct context. This was removed as part of [#3114](https://github.com/DFE-Digital/education-benchmarking-and-insights/pull/3114).

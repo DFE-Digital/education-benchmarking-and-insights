@@ -37,7 +37,6 @@
                     label = "School name",
                     sortField = "name",
                     sortKey,
-                    button = true,
                     tableId
                 })
                 @await Component.InvokeAsync("SortableTableHeaderCell", new
@@ -45,7 +44,6 @@
                     label = "Pupils",
                     sortField = "pupils",
                     sortKey,
-                    button = true,
                     tableId
                 })
                 @await Component.InvokeAsync("SortableTableHeaderCell", new
@@ -54,7 +52,6 @@
                     sortField = "exp",
                     sortKey,
                     className = "govuk-table__header--numeric",
-                    button = true,
                     tableId
                 })
             </tr>
