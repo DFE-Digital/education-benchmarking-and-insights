@@ -54,7 +54,7 @@ The score is usually a decimal number (float), which can be positive, negative, 
 
 Some schools will display a code instead of a Progress 8 score or banding. This simply means a valid performance score is unavailable for that institution and the code is used to explain why. Therefore, when creating any comparator set that correlates finance with performance, schools with these codes must be excluded as spending cannot be benchmarked against an invalid performance outcome.
 
-For instance;
+Possible edge case scenarios include;
 
 - a school could have p8 score but SUPP banding.
 - a school could have SUPP p8 score with no banding
