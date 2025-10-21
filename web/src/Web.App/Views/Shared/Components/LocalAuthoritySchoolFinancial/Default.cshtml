@@ -2,74 +2,24 @@
 @model Web.App.ViewModels.Components.LocalAuthoritySchoolFinancialViewModel
 
 <div class="govuk-grid-row">
-    <div class="govuk-grid-column-one-third">
-        <div class="govuk-!-margin-bottom-4">
-            <button type="submit" class="govuk-button govuk-button--secondary" data-testid="toggle-financial-filters"
-                    name="@Model.FormPrefix@LocalAuthoritySchoolFinancialFormViewModel.FormFieldNames.FiltersVisible"
-                    value="@(Model.FiltersVisible ? "hide" : "show")">
-                @(Model.FiltersVisible ? "Hide filters" : "Show filters")
-            </button>
-        </div>
-
-        @if (Model.FiltersVisible)
-        {
-            @await Html.PartialAsync("Components/LocalAuthoritySchoolFinancial/_SchoolsFilter", Model)
-        }
-        else
-        {
-            @await Html.PartialAsync("Components/LocalAuthoritySchoolFinancial/_SchoolsFilterHidden", Model)
-        }
+    <div class="govuk-grid-column-full govuk-!-margin-bottom-4">
+        <button type="submit" class="govuk-button govuk-button--secondary" data-testid="toggle-financial-filters"
+                name="@Model.FormPrefix@LocalAuthoritySchoolFinancialFormViewModel.FormFieldNames.FiltersVisible"
+                value="@(Model.FiltersVisible ? "hide" : "show")">
+            @(Model.FiltersVisible ? "Hide filters" : "Show filters")
+        </button>
     </div>
-    <div class="govuk-grid-column-two-thirds">
-
-        @* temporary table below to prove header button logic *@
-        @{
-            var sortKey = $"{Model.FormPrefix}sort";
-            const string tableId = "la-financial-table";
-        }
-        @* To persist the sort order on modifying filters, as well as toggling filter visibility, do something like this: *@
-        @* <input type="hidden" name="@sortKey" value="@Model.Sort" /> *@
-        <table class="govuk-table" id="@tableId">
-            <thead class="govuk-table__head">
-            <tr class="govuk-table__row">
-                @await Component.InvokeAsync("SortableTableHeaderCell", new
-                {
-                    label = "School name",
-                    sortField = "name",
-                    sortKey,
-                    tableId
-                })
-                @await Component.InvokeAsync("SortableTableHeaderCell", new
-                {
-                    label = "Pupils",
-                    sortField = "pupils",
-                    sortKey,
-                    tableId
-                })
-                @await Component.InvokeAsync("SortableTableHeaderCell", new
-                {
-                    label = "Expenditure as % of income",
-                    sortField = "exp",
-                    sortKey,
-                    className = "govuk-table__header--numeric",
-                    tableId
-                })
-            </tr>
-            </thead>
-            <tbody class="govuk-table__body">
-            <tr class="govuk-table__row">
-                <td class="govuk-table__cell" colspan="3">
-                    <div class="govuk-warning-text govuk-!-margin-top-5">
-                        <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
-                        <strong class="govuk-warning-text__text">
-                            <span class="govuk-visually-hidden">Warning</span>
-                            No data available.
-                        </strong>
-                    </div>
-                </td>
-            </tr>
-            </tbody>
-        </table>
-
+    @if (Model.FiltersVisible)
+    {
+        <div class="govuk-grid-column-one-third">
+            @await Html.PartialAsync("Components/LocalAuthoritySchoolFinancial/_SchoolsFilter", Model)
+        </div>
+    }
+    else
+    {
+        @await Html.PartialAsync("Components/LocalAuthoritySchoolFinancial/_SchoolsFilterHidden", Model)
+    }
+    <div class="govuk-grid-column-@(Model.FiltersVisible ? "two-thirds" : "full")">
+        @await Html.PartialAsync("Components/LocalAuthoritySchoolFinancial/_SchoolsTable", Model)
     </div>
 </div>

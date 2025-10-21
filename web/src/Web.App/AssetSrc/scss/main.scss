@@ -626,6 +626,8 @@ hr.govuk-section-break--print {
             background-color: transparent;
             box-shadow: 0 0 0 0;
             cursor: pointer;
+            text-align: left;
+            align-items: center;
 
             &:focus {
               outline: none;

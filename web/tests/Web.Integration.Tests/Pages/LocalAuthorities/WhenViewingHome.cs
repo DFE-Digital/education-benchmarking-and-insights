@@ -209,7 +209,7 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
             });
         });
 
-        const string expectedQuery = "?f.phase=0&f.nursery=0&f.special=0&f.sixth=0&f.as=0";
+        const string expectedQuery = "?f.phase=0&f.nursery=0&f.special=0&f.sixth=0&f.as=3";
         DocumentAssert.AssertPageUrl(page, $"{Paths.LocalAuthorityHome(authority.Code).ToAbsolute()}{expectedQuery}");
     }
 
@@ -258,8 +258,8 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
     }
 
     [Theory]
-    [InlineData(null, true, "?f.filter=hide&f.as=0")]
-    [InlineData("?f.filter=hide", false, "?f.filter=show&f.as=0")]
+    [InlineData(null, true, "?f.filter=hide&f.as=3")]
+    [InlineData("?f.filter=hide", false, "?f.filter=show&f.as=3")]
     public async Task CanToggleFinancialFilters(string? queryString, bool expectedVisible, string expectedQuery)
     {
         var (page, authority, _, _, _) = await SetupNavigateInitPage(false, true, false, queryString, OverallPhaseTypes.Primary);
@@ -277,7 +277,7 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
         {
             f.SetFormValues(new Dictionary<string, string>
             {
-                { toggleButton.Attributes["name"]!.Value, toggleButton.Attributes["value"]!.Value },
+                { toggleButton.Attributes["name"]!.Value, toggleButton.Attributes["value"]!.Value }
             });
         });
 
