@@ -212,10 +212,10 @@ FROM VW_SchoolsFinancialSummaryDefaultPerUnit
 WHERE RunId = (SELECT Value FROM Parameters WHERE Name = 'CurrentYear')
     GO
 
-DROP VIEW IF EXISTS VVW_SchoolsFinancialSummaryDefaultCurrentPercentExpenditure
+DROP VIEW IF EXISTS VW_SchoolsFinancialSummaryDefaultCurrentPercentExpenditure
     GO
 
-CREATE VIEW VVW_SchoolsFinancialSummaryDefaultCurrentPercentExpenditure AS
+CREATE VIEW VW_SchoolsFinancialSummaryDefaultCurrentPercentExpenditure AS
 SELECT URN,
        TotalPupils,
        TotalExpenditure,
