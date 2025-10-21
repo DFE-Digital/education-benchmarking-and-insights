@@ -4,7 +4,7 @@
 User Insight
 
 **Data Source:**  
-Web server logs
+Custom code-level application tracking
 
 **Purpose:**  
 Test the theory that the change local authority button on the LA Homepage isn't used.
