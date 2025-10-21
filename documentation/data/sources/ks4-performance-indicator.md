@@ -1,4 +1,4 @@
-# School Progress Indicator
+# Key Stage 4 (KS4) Performance Indicator
 
 ## Overview
 
@@ -49,6 +49,24 @@ The score is usually a decimal number (float), which can be positive, negative, 
 | +0.19 to -0.19     | Average            | On average, pupils at this school make the expected amount of progress. Their performance is in line with the national average for pupils with similar prior attainment.|
 | -0.20 to -0.49    | Below average      | On average, pupils at this school achieve a quarter of a grade lower per subject than their national peers with a similar starting point.|
 | -0.50 and lower  | Well below average | On average, pupils at this school achieve half a grade lower in each of their 8 subjects than other pupils with the same prior attainment nationally.|
+
+### Progress 8 (P8) Score & Banding Edge Cases
+
+Some schools will display a code instead of a Progress 8 score or banding. This simply means a valid performance score is unavailable for that institution and the code is used to explain why. Therefore, when creating any comparator set that correlates finance with performance, schools with these codes must be excluded as their spending cannot be benchmarked against a performance outcome because no valid performance outcome exists.
+
+For instance;
+a school could have p8 score but SUPP banding.
+a school could have SUPP p8 score with no banding
+a school could have NE p8 score with no banding.
+a school could have LOWCOV p8 score with no banding.
+a school could have NP p8 score with no banding.
+
+| Code | Full Name | Interpretation |
+|--------------------------|:-------------------------------|:--------------|
+| NE   | No Entries | The school or college did not enter any pupils or students for the qualifications covered by the measure.|
+| NP   | Not Published | The DfE has data for the school, but has chosen not to publish it. This often happens if a school is independent or has recently become an academy, merged, or has undergone a significant change. The DfE considers the data to be unrepresentative of the "new" school's performance.|
+| LOWCOV   | Low Coverage | A Progress 8 score was calculated but is considered unreliable because it's based on too few pupils. This happens when fewer than 50% of the pupils at the end of KS4 are included in the Progress 8 calculation. This can occur in special schools, UTCs, or studio schools where many pupils have dis-applied KS2 results or take non-standard qualifications.|
+| SUPP   | Low Coverage | A Progress 8 score was calculated, but the cohort of pupils is too small to publish (typically 5 pupils or fewer). The data is hidden to protect individual pupil anonymity and is not statistically reliable.|
 
 ### How Progress 8 data is surfaced within FBIT
 
