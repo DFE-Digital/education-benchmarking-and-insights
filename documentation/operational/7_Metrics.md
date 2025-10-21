@@ -40,8 +40,10 @@ Each metric has its own detailed document in the `/metrics` folder.
 
 | Metric Name                     | Purpose                                                                                                                   | Active | Code Definition                              | Detail Link                                          |
 |---------------------------------|---------------------------------------------------------------------------------------------------------------------------|--------|---------------------------------------------|------------------------------------------------------|
-
-*No user insight metrics currently defined. Consider adding metrics for user behavior, engagement, and product outcomes.*
+| LA Homepage: High needs comparators | How easy is it to get to the high needs comparators page? | ✅ | TBC | link |
+| LA Homepage: School breakdown table usage | Are the new components on the LA homepage being used? | ✅ | TBC | link |
+| LA Homepage: School journeys started | Are the new components on the LA homepage being used? | ✅ | TBC | link |
+| LA Homepage: Change local authority button usage | Theory: this button isn't used. | ✅ | TBC | link |
 
 <!-- Leave the rest of this page blank -->
 \newpage
