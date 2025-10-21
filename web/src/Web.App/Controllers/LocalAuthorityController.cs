@@ -10,6 +10,7 @@ using Web.App.Infrastructure.Extensions;
 using Web.App.Services;
 using Web.App.TagHelpers;
 using Web.App.ViewModels;
+using Web.App.ViewModels.Components;
 
 namespace Web.App.Controllers;
 
@@ -51,18 +52,35 @@ public class LocalAuthorityController(
     }
 
     [HttpPost]
-    public IActionResult Index(string code, IFormCollection collection)
+    public IActionResult Index(string code, IFormCollection form)
     {
         var routeValues = new RouteValueDictionary
         {
             { "code", code }
         };
 
-        foreach (var key in collection.Keys)
+        var resetFields = form[LocalAuthoritySchoolFinancialFormViewModel.FormFieldNames.ResetFields]
+            .SelectMany(v => (v ?? string.Empty).Split(","))
+            .ToArray();
+        foreach (var key in form.Keys)
         {
-            if (!key.StartsWith("__"))
+            // exclude special fields
+            if (key.StartsWith("__") || resetFields.Contains(key))
             {
-                routeValues.Add(key, collection[key]);
+                continue;
+            }
+
+            var values = form[key];
+
+            // disallow multiple sort and filter fields
+            if (key.EndsWith(LocalAuthoritySchoolFinancialFormViewModel.FormFieldNames.Sort)
+                || key.EndsWith(LocalAuthoritySchoolFinancialFormViewModel.FormFieldNames.FiltersVisible))
+            {
+                routeValues[key] = values.Last();
+            }
+            else
+            {
+                routeValues[key] = values;
             }
         }
 

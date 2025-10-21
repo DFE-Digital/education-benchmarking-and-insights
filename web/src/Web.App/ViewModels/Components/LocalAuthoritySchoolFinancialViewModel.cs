@@ -28,10 +28,12 @@ public class LocalAuthoritySchoolFinancialFormViewModel(string code, string form
     public NurseryProvisions.NurseryProvisionFilter[] SelectedNurseryProvisions { get; init; } = [];
     public SpecialProvisions.SpecialProvisionFilter[] SelectedSpecialProvisions { get; init; } = [];
     public SixthFormProvisions.SixthFormProvisionFilter[] SelectedSixthFormProvisions { get; init; } = [];
+    public string? Sort { get; set; }
 
     public static class FormFieldNames
     {
         public const string FiltersVisible = "filter";
+        public const string ResetFields = "__resetFields";
         public const string ResultAs = "as";
         public const string SelectedOverallPhases = "phase";
         public const string SelectedNurseryProvisions = "nursery";

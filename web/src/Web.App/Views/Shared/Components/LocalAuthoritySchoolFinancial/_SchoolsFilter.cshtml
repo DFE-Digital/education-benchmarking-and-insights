@@ -4,6 +4,11 @@
 @model Web.App.ViewModels.Components.LocalAuthoritySchoolFinancialViewModel
 @{
     const string accordionId = "accordion-financial-filters";
+    List<string> resetFields = [];
+    if (Model.Sort != null)
+    {
+        resetFields.Add($"{Model.FormPrefix}{LocalAuthoritySchoolFinancialFormViewModel.FormFieldNames.Sort}");
+    }
 }
 
 <div class="app-filter">
@@ -36,7 +41,7 @@
                 Model.SelectedNurseryProvisions,
                 f => f.GetFilterDescription(),
                 f => ((int)f).ToString()))
-            
+
             @await Html.PartialAsync("Components/LocalAuthoritySchoolFinancial/_SchoolsFilterAccordionSection", new LocalAuthoritySchoolFinancialFinancialFilterAccordionSectionViewModel<SpecialProvisions.SpecialProvisionFilter>(
                 accordionId,
                 3,
@@ -47,7 +52,7 @@
                 Model.SelectedSpecialProvisions,
                 f => f.GetFilterDescription(),
                 f => ((int)f).ToString()))
-            
+
             @await Html.PartialAsync("Components/LocalAuthoritySchoolFinancial/_SchoolsFilterAccordionSection", new LocalAuthoritySchoolFinancialFinancialFilterAccordionSectionViewModel<SixthFormProvisions.SixthFormProvisionFilter>(
                 accordionId,
                 4,
@@ -91,7 +96,9 @@
 
         <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
         <button type="submit" class="govuk-button govuk-!-margin-bottom-3" data-module="govuk-button"
-                data-testid="apply-financial-filters">
+                data-testid="apply-financial-filters"
+                name="@LocalAuthoritySchoolFinancialFormViewModel.FormFieldNames.ResetFields"
+                value="@(string.Join(',', resetFields))">
             Apply filters
         </button>
     </div>
