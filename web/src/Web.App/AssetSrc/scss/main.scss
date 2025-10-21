@@ -616,12 +616,9 @@ hr.govuk-section-break--print {
         }
 
         &.govuk-table__header--sortable {
-          a, button {
+          button {
             display: inline-flex;
             text-decoration: none;
-          }
-
-          button {
             margin: govuk-spacing(0);
             padding: govuk-spacing(0);
             border-width: 0;
