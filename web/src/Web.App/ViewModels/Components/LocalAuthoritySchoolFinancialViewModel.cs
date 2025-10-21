@@ -15,11 +15,15 @@ public class LocalAuthoritySchoolFinancialFormViewModel(string code, string form
         Dimensions.ResultAsOptions.PercentIncome
     ];
 
+    public LocalAuthoritySchoolFinancial[] Results = [];
+
+    public static string TableId => "local-authority-school-financial-table";
+
     public string Code => code;
     public string FormPrefix => formPrefix;
 
     public bool FiltersVisible { get; init; } = true;
-    public Dimensions.ResultAsOptions ResultAs { get; init; } = Dimensions.ResultAsOptions.SpendPerPupil;
+    public Dimensions.ResultAsOptions ResultAs { get; set; } = Dimensions.ResultAsOptions.PercentIncome;
     public OverallPhaseTypes.OverallPhaseTypeFilter[] SelectedOverallPhases { get; init; } = [];
     public NurseryProvisions.NurseryProvisionFilter[] SelectedNurseryProvisions { get; init; } = [];
     public SpecialProvisions.SpecialProvisionFilter[] SelectedSpecialProvisions { get; init; } = [];
@@ -33,5 +37,6 @@ public class LocalAuthoritySchoolFinancialFormViewModel(string code, string form
         public const string SelectedNurseryProvisions = "nursery";
         public const string SelectedSpecialProvisions = "special";
         public const string SelectedSixthFormProvisions = "sixth";
+        public const string Sort = "sort";
     }
 }

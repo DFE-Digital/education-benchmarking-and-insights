@@ -1,0 +1,68 @@
+@using Web.App.Domain
+@using Web.App.Domain.Charts
+@using Web.App.Extensions
+@using Web.App.ViewModels.Components
+@model Web.App.ViewModels.Components.LocalAuthoritySchoolFinancialViewModel
+@{
+    var tableHeader = Model.ResultAs.GetTableHeaderSuffix();
+}
+
+<table class="govuk-table" id="@LocalAuthoritySchoolFinancialFormViewModel.TableId">
+    <thead class="govuk-table__head">
+    <tr class="govuk-table__row">
+        @await Component.InvokeAsync("SortableTableHeaderCell", new
+        {
+            label = "School name",
+            sortField = nameof(LocalAuthoritySchoolFinancial.SchoolName),
+            sortKey = LocalAuthoritySchoolFinancialFormViewModel.FormFieldNames.Sort,
+            className = "govuk-!-width-one-quarter",
+            tableId = LocalAuthoritySchoolFinancialFormViewModel.TableId
+        })
+        @await Component.InvokeAsync("SortableTableHeaderCell", new
+        {
+            label = "Pupils",
+            sortField = nameof(LocalAuthoritySchoolFinancial.TotalPupils),
+            sortKey = LocalAuthoritySchoolFinancialFormViewModel.FormFieldNames.Sort,
+            className = "govuk-table__header--numeric",
+            tableId = LocalAuthoritySchoolFinancialFormViewModel.TableId
+        })
+        <th scope="col" class="govuk-table__header govuk-table__header--numeric">
+            Expenditure @tableHeader
+        </th>
+        <th scope="col" class="govuk-table__header govuk-table__header--numeric">
+            Staffing spend @tableHeader
+        </th>
+        <th scope="col" class="govuk-table__header govuk-table__header--numeric">
+            Reserves @tableHeader
+        </th>
+    </tr>
+    </thead>
+    <tbody class="govuk-table__body">
+    @foreach (var row in Model.Results)
+    {
+        <tr class="govuk-table__row">
+            <td class="govuk-table__cell">
+                <a class="govuk-link govuk-link--no-visited-state" href=@($"/school/{row.Urn}")>@row.SchoolName</a>
+                @if (row.PeriodCoveredByReturn is not 12)
+                {
+                    <p class="govuk-table__cell_commentary">
+                        <strong class="govuk-tag govuk-tag--red">
+                            Only has @row.PeriodCoveredByReturn
+                            @(row.PeriodCoveredByReturn == 1 ? "month" : "months") of data
+                        </strong>
+                    </p>
+                }
+            </td>
+            <td class="govuk-table__cell govuk-table__cell--numeric">
+                @row.TotalPupils.ToSimpleDisplay()
+            </td>
+            <td class="govuk-table__cell govuk-table__cell--numeric">
+            </td>
+            <td class="govuk-table__cell govuk-table__cell--numeric">
+            </td>
+            <td class="govuk-table__cell govuk-table__cell--numeric">
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>

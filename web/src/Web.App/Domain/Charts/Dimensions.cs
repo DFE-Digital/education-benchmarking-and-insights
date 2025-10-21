@@ -51,12 +51,21 @@ public static class Dimensions
         _ => throw new ArgumentOutOfRangeException(nameof(option))
     };
 
+    public static string GetTableHeaderSuffix(this ResultAsOptions option) => option switch
+    {
+        ResultAsOptions.SpendPerPupil => "as spend per pupil",
+        ResultAsOptions.Actuals => string.Empty,
+        ResultAsOptions.PercentExpenditure => "as % of expenditure",
+        ResultAsOptions.PercentIncome => "as % of income",
+        _ => throw new ArgumentOutOfRangeException(nameof(option))
+    };
+
     public static string GetDescription(this ResultAsOptions option) => option switch
     {
         ResultAsOptions.SpendPerPupil => "Spend per pupil",
         ResultAsOptions.Actuals => "Actuals",
         ResultAsOptions.PercentExpenditure => "Percentage of expenditure",
         ResultAsOptions.PercentIncome => "Percentage of income",
-        _ => throw new ArgumentException(nameof(option))
+        _ => throw new ArgumentOutOfRangeException(nameof(option))
     };
 }

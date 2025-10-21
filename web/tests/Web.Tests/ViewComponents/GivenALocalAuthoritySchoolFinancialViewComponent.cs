@@ -42,15 +42,15 @@ public class LocalAuthoritySchoolFinancialViewComponentTests
         SpecialProvisions.SpecialProvisionFilter[],
         SixthFormProvisions.SixthFormProvisionFilter[]> FormValuesTestData => new()
     {
-        { "f.", "", true, Dimensions.ResultAsOptions.SpendPerPupil, [], [], [], [] },
-        { "f.", "?f.filter=show", true, Dimensions.ResultAsOptions.SpendPerPupil, [], [], [], [] },
-        { "f.", "?f.filter=hide", false, Dimensions.ResultAsOptions.SpendPerPupil, [], [], [], [] },
+        { "f.", "", true, Dimensions.ResultAsOptions.PercentIncome, [], [], [], [] },
+        { "f.", "?f.filter=show", true, Dimensions.ResultAsOptions.PercentIncome, [], [], [], [] },
+        { "f.", "?f.filter=hide", false, Dimensions.ResultAsOptions.PercentIncome, [], [], [], [] },
         { "f.", "?f.as=0", true, Dimensions.ResultAsOptions.SpendPerPupil, [], [], [], [] },
         { "f.", "?f.as=1", true, Dimensions.ResultAsOptions.Actuals, [], [], [], [] },
         { "f.", "?f.as=2", true, Dimensions.ResultAsOptions.PercentExpenditure, [], [], [], [] },
         { "f.", "?f.as=3", true, Dimensions.ResultAsOptions.PercentIncome, [], [], [], [] },
         {
-            "f.", "?f.phase=0&f.phase=1&f.phase=2", true, Dimensions.ResultAsOptions.SpendPerPupil, [
+            "f.", "?f.phase=0&f.phase=1&f.phase=2", true, Dimensions.ResultAsOptions.PercentIncome, [
                 OverallPhaseTypes.OverallPhaseTypeFilter.Primary,
                 OverallPhaseTypes.OverallPhaseTypeFilter.Secondary,
                 OverallPhaseTypes.OverallPhaseTypeFilter.Special
@@ -64,10 +64,10 @@ public class LocalAuthoritySchoolFinancialViewComponentTests
             ],
             [], [], []
         },
-        { "f.", "?f.phase=0", true, Dimensions.ResultAsOptions.SpendPerPupil, [OverallPhaseTypes.OverallPhaseTypeFilter.Primary], [], [], [] },
-        { "f.", "?f.nursery=1", true, Dimensions.ResultAsOptions.SpendPerPupil, [], [NurseryProvisions.NurseryProvisionFilter.HasNoNurseryClasses], [], [] },
-        { "f.", "?f.special=2", true, Dimensions.ResultAsOptions.SpendPerPupil, [], [], [SpecialProvisions.SpecialProvisionFilter.NotApplicable], [] },
-        { "f.", "?f.sixth=3", true, Dimensions.ResultAsOptions.SpendPerPupil, [], [], [], [SixthFormProvisions.SixthFormProvisionFilter.NotRecorded] }
+        { "f.", "?f.phase=0", true, Dimensions.ResultAsOptions.PercentIncome, [OverallPhaseTypes.OverallPhaseTypeFilter.Primary], [], [], [] },
+        { "f.", "?f.nursery=1", true, Dimensions.ResultAsOptions.PercentIncome, [], [NurseryProvisions.NurseryProvisionFilter.HasNoNurseryClasses], [], [] },
+        { "f.", "?f.special=2", true, Dimensions.ResultAsOptions.PercentIncome, [], [], [SpecialProvisions.SpecialProvisionFilter.NotApplicable], [] },
+        { "f.", "?f.sixth=3", true, Dimensions.ResultAsOptions.PercentIncome, [], [], [], [SixthFormProvisions.SixthFormProvisionFilter.NotRecorded] }
     };
 
     [Fact]

@@ -17,33 +17,69 @@ public class LocalAuthoritySchoolFinancialViewComponent : ViewComponent
             selectedSpecialProvisions,
             selectedSixthFormProvisions) = ParseQuery(Request.Query, formPrefix);
 
-        // todo: call API to get results
+        // todo: replace stub with call to API to get results
+        var results = await Task.FromResult(new[]
+        {
+            new LocalAuthoritySchoolFinancial
+            {
+                SchoolName = "Stub school 1",
+                Urn = "000001",
+                TotalPupils = 1234,
+                PeriodCoveredByReturn = 12
+            },
+            new LocalAuthoritySchoolFinancial
+            {
+                SchoolName = "Stub school 2",
+                Urn = "000002",
+                TotalPupils = 567,
+                PeriodCoveredByReturn = 12
+            },
+            new LocalAuthoritySchoolFinancial
+            {
+                SchoolName = "Stub school 3",
+                Urn = "000003",
+                TotalPupils = 890,
+                PeriodCoveredByReturn = 10
+            }
+        });
 
         var viewModel = new LocalAuthoritySchoolFinancialViewModel(code, formPrefix)
         {
             FiltersVisible = filtersVisible,
-            ResultAs = resultAs,
+            Results = results,
             SelectedOverallPhases = selectedOverallPhases.ToArray(),
             SelectedNurseryProvisions = selectedNurseryProvisions.ToArray(),
             SelectedSpecialProvisions = selectedSpecialProvisions.ToArray(),
             SelectedSixthFormProvisions = selectedSixthFormProvisions.ToArray()
         };
 
-        return await Task.FromResult(View(viewModel));
+        if (resultAs != null)
+        {
+            viewModel.ResultAs = resultAs.Value;
+        }
+
+        return View(viewModel);
     }
 
     private static (
         bool filtersVisible,
-        Dimensions.ResultAsOptions resultAs,
+        Dimensions.ResultAsOptions? resultAs,
         OverallPhaseTypes.OverallPhaseTypeFilter[] selectedOverallPhases,
         NurseryProvisions.NurseryProvisionFilter[] selectedNurseryProvisions,
         SpecialProvisions.SpecialProvisionFilter[] selectedSpecialProvisions,
         SixthFormProvisions.SixthFormProvisionFilter[] selectedSixthFormProvisions) ParseQuery(IQueryCollection query, string formPrefix)
     {
         var filtersVisible = query[$"{formPrefix}{LocalAuthoritySchoolFinancialFormViewModel.FormFieldNames.FiltersVisible}"] != "hide";
-        var resultAs = query[$"{formPrefix}{LocalAuthoritySchoolFinancialFormViewModel.FormFieldNames.ResultAs}"]
+
+        Dimensions.ResultAsOptions? resultAs = null;
+        var resultsAs = query[$"{formPrefix}{LocalAuthoritySchoolFinancialFormViewModel.FormFieldNames.ResultAs}"]
             .CastQueryToEnum<Dimensions.ResultAsOptions>()
-            .FirstOrDefault();
+            .ToArray();
+        if (resultsAs.Length > 0)
+        {
+            resultAs = resultsAs.First();
+        }
+
         var selectedOverallPhases = query[$"{formPrefix}{LocalAuthoritySchoolFinancialFormViewModel.FormFieldNames.SelectedOverallPhases}"]
             .CastQueryToEnum<OverallPhaseTypes.OverallPhaseTypeFilter>()
             .ToArray();
