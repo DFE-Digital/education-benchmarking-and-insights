@@ -67,7 +67,7 @@ Possible edge case scenarios include;
 | NE   | No Entries | The school institution did not enter any pupils or students for the qualifications covered by the measure.|
 | NP   | Not Published | The DfE has data for the school, but has chosen not to publish it. This often happens if a school is independent or has recently become an academy, merged, or has undergone a significant change. The DfE considers the data to be unrepresentative of the "new" school's performance.|
 | LOWCOV   | Low Coverage | A Progress 8 score was calculated but is considered unreliable because it's based on too few pupils. This happens when fewer than 50% of the pupils at the end of KS4 are included in the Progress 8 calculation. This can occur in special schools, UTCs, or studio schools where many pupils have dis-applied KS2 results or take non-standard qualifications.|
-| SUPP   | Low Coverage | A Progress 8 score was calculated, but the cohort of pupils is too small to publish (typically 5 pupils or fewer). The data is hidden to protect individual pupil anonymity and is not statistically reliable.|
+| SUPP   | Suppressed | A Progress 8 score was calculated, but the cohort of pupils is too small to publish (typically 5 pupils or fewer). The data is hidden to protect individual pupil anonymity and is not statistically reliable.|
 
 ### How Progress 8 data is surfaced within FBIT
 
