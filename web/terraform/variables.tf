@@ -125,9 +125,9 @@ variable "configuration" {
       sku_name                       = "B1"
       zone_balancing_enabled         = false
       worker_count                   = 1
-      front_door_profile_sku_name    = "Standard_AzureFrontDoor"
-      front_door_waf_policy_sku_name = "Standard_AzureFrontDoor"
-      waf_mode                       = "Detection"
+      front_door_profile_sku_name    = "Premium_AzureFrontDoor" // ⚠️   do 
+      front_door_waf_policy_sku_name = "Premium_AzureFrontDoor" // ⚠️  not 
+      waf_mode                       = "Prevention"             // ⚠️ merge!
       features = {
         News                     = true
         LocalAuthorityHomepageV2 = true
