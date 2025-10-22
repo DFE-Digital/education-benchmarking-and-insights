@@ -205,7 +205,8 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
                 { nurseryInputs.ElementAt(0).Attributes["name"]!.Value, nurseryInputs.ElementAt(0).Attributes["value"]!.Value },
                 { specialInputs.ElementAt(0).Attributes["name"]!.Value, specialInputs.ElementAt(0).Attributes["value"]!.Value },
                 { sixthFormInputs.ElementAt(0).Attributes["name"]!.Value, sixthFormInputs.ElementAt(0).Attributes["value"]!.Value },
-                { dimensionInputs.ElementAt(0).Attributes["name"]!.Value, dimensionInputs.ElementAt(0).Attributes["value"]!.Value }
+                { dimensionInputs.ElementAt(0).Attributes["name"]!.Value, dimensionInputs.ElementAt(0).Attributes["value"]!.Value },
+                { submitButton.Attributes["name"]!.Value, submitButton.Attributes["value"]!.Value }
             });
         });
 
@@ -217,7 +218,7 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
     public async Task CanSetFinancialFilters()
     {
         const string queryString = "?f.phase=0&f.nursery=0&f.special=0&f.sixth=0&f.as=0";
-        var (page, authority, _, _, _) = await SetupNavigateInitPage(false, true, false, queryString, OverallPhaseTypes.Primary);
+        var (page, _, _, _, _) = await SetupNavigateInitPage(false, true, false, queryString, OverallPhaseTypes.Primary);
 
         var tab = AssertFinancialsTab(page);
         var phaseInputs = tab.QuerySelectorAll("input[name='f.phase'][type='checkbox']");
@@ -259,7 +260,9 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
 
     [Theory]
     [InlineData(null, true, "?f.filter=hide&f.as=3")]
-    [InlineData("?f.filter=hide", false, "?f.filter=show&f.as=3")]
+    [InlineData("?f.filter=hide", false, "?f.as=3&f.filter=show")]
+    [InlineData("?f.sort=SchoolName~asc&f.filter=hide&f.phase=1&f.phase=2&f.as=0", false, "?f.sort=SchoolName~asc&f.phase=1&f.phase=2&f.as=0&f.filter=show")]
+    [InlineData("?f.sort=SchoolName~asc&f.filter=show&f.phase=1&f.phase=2&f.as=0", true, "?f.sort=SchoolName~asc&f.filter=hide&f.phase=1&f.phase=2&f.as=0")]
     public async Task CanToggleFinancialFilters(string? queryString, bool expectedVisible, string expectedQuery)
     {
         var (page, authority, _, _, _) = await SetupNavigateInitPage(false, true, false, queryString, OverallPhaseTypes.Primary);
@@ -278,6 +281,32 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
             f.SetFormValues(new Dictionary<string, string>
             {
                 { toggleButton.Attributes["name"]!.Value, toggleButton.Attributes["value"]!.Value }
+            });
+        });
+
+        DocumentAssert.AssertPageUrl(page, $"{Paths.LocalAuthorityHome(authority.Code).ToAbsolute()}{expectedQuery}");
+    }
+
+    [Theory]
+    [InlineData("?f.sort=SchoolName~asc&f.phase=1&f.phase=2&f.as=0", "?f.phase=1&f.phase=2&f.as=0")]
+    [InlineData("?f.sort=SchoolName~desc&f.filter=show&f.phase=1&f.phase=2&f.as=0", "?f.phase=1&f.phase=2&f.as=0")]
+    public async Task CanResetFinancialSortOnNewFilter(string? queryString, string expectedQuery)
+    {
+        var (page, authority, _, _, _) = await SetupNavigateInitPage(false, true, false, queryString, OverallPhaseTypes.Primary);
+
+        var tab = AssertFinancialsTab(page);
+
+        var form = page.QuerySelector("form[role='search']");
+        Assert.NotNull(form);
+
+        var submitButton = tab.QuerySelector("button[data-testid='apply-financial-filters']");
+        Assert.NotNull(submitButton);
+
+        page = await Client.SubmitForm(form, submitButton, f =>
+        {
+            f.SetFormValues(new Dictionary<string, string>
+            {
+                { submitButton.Attributes["name"]!.Value, submitButton.Attributes["value"]!.Value }
             });
         });
 
