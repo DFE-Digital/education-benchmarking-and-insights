@@ -18,7 +18,7 @@ public class PostSchoolComparatorsFunction(ISchoolComparatorsService service)
     //TODO : Consider request validation
     [Function(nameof(PostSchoolComparatorsFunction))]
     [OpenApiSecurityHeader]
-    [OpenApiOperation(nameof(PostSchoolComparatorsFunction), Constants.Features.Schools)]
+    [OpenApiOperation(nameof(PostSchoolComparatorsFunction), Constants.Features.Schools, Deprecated = true)]
     [OpenApiParameter("identifier", Type = typeof(string), Required = true)]
     [OpenApiRequestBody(ContentType.ApplicationJson, typeof(SchoolComparatorsRequest), Description = "The comparator characteristics object")]
     [OpenApiResponseWithBody(HttpStatusCode.OK, ContentType.ApplicationJson, typeof(SchoolComparators))]

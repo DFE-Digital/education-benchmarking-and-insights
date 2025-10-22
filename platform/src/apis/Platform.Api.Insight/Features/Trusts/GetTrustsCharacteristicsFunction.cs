@@ -20,7 +20,7 @@ public class GetTrustsCharacteristicsFunction(ITrustsService service)
     //TODO: Move to Establishment API
     [Function(nameof(GetTrustsCharacteristicsFunction))]
     [OpenApiSecurityHeader]
-    [OpenApiOperation(nameof(GetTrustsCharacteristicsFunction), Constants.Features.Trust)]
+    [OpenApiOperation(nameof(GetTrustsCharacteristicsFunction), Constants.Features.Trust, Deprecated = true)]
     [OpenApiParameter("companyNumbers", In = ParameterLocation.Query, Description = "List of trust company numbers", Type = typeof(string[]), Required = true)]
     [OpenApiResponseWithBody(HttpStatusCode.OK, ContentType.ApplicationJson, typeof(TrustCharacteristic[]))]
     public async Task<HttpResponseData> RunAsync(

@@ -74,14 +74,20 @@ public class EstablishmentApi(HttpClient httpClient, string? key = default) : Ap
 public interface IEstablishmentApi
 {
     Task<ApiResult> GetSchool(string? identifier, CancellationToken cancellationToken = default);
+    
+    [Obsolete("Needs to be updated to use new API structure")]
     Task<ApiResult> GetTrust(string? identifier, CancellationToken cancellationToken = default);
     Task<ApiResult> GetLocalAuthority(string? identifier, CancellationToken cancellationToken = default);
     Task<ApiResult> GetLocalAuthorityStatisticalNeighbours(string? identifier, CancellationToken cancellationToken = default);
     Task<ApiResult> GetLocalAuthorities(CancellationToken cancellationToken = default);
     Task<ApiResult> SuggestSchools(string search, string[]? exclude = null, bool? excludeMissingFinancialData = null, CancellationToken cancellationToken = default);
+    
+    [Obsolete("Needs to be updated to use new API structure")]
     Task<ApiResult> SuggestTrusts(string search, string[]? exclude = null, CancellationToken cancellationToken = default);
     Task<ApiResult> SuggestLocalAuthorities(string search, string[]? exclude = null, CancellationToken cancellationToken = default);
     Task<ApiResult> SearchSchools(SearchRequest request, CancellationToken cancellationToken = default);
+    
+    [Obsolete("Needs to be updated to use new API structure")]
     Task<ApiResult> SearchTrusts(SearchRequest request, CancellationToken cancellationToken = default);
     Task<ApiResult> SearchLocalAuthorities(SearchRequest request, CancellationToken cancellationToken = default);
 }

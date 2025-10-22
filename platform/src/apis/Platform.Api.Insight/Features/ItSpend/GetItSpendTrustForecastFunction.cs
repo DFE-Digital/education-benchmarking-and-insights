@@ -20,7 +20,7 @@ public class GetItSpendTrustForecastFunction(IItSpendService service)
 {
     [Function(nameof(GetItSpendTrustForecastFunction))]
     [OpenApiSecurityHeader]
-    [OpenApiOperation(nameof(GetItSpendTrustForecastFunction), Constants.Features.ItSpend)]
+    [OpenApiOperation(nameof(GetItSpendTrustForecastFunction), Constants.Features.ItSpend, Deprecated = true)]
     [OpenApiParameter("companyNumber", Type = typeof(string), Required = true)]
     [OpenApiResponseWithBody(HttpStatusCode.OK, ContentType.ApplicationJson, typeof(ItSpendTrustForecastResponse[]))]
     [OpenApiResponseWithoutBody(HttpStatusCode.NotFound)]

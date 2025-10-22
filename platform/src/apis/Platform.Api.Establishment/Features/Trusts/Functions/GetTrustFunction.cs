@@ -17,12 +17,13 @@ public class GetTrustFunction(IVersionedHandlerDispatcher<IGetTrustHandler> disp
 {
     [Function(nameof(GetTrustFunction))]
     [OpenApiSecurityHeader]
-    [OpenApiOperation(nameof(GetTrustFunction), Constants.Features.Trusts)]
+    [OpenApiOperation(nameof(GetTrustFunction), Constants.Features.Trusts, Deprecated = true)]
     [OpenApiParameter("identifier", Type = typeof(string), Required = true)]
     [OpenApiParameter(Platform.Functions.Constants.ApiVersion, Type = typeof(string), Required = false, In = ParameterLocation.Header)]
     [OpenApiResponseWithBody(HttpStatusCode.OK, ContentType.ApplicationJson, typeof(Trust))]
     [OpenApiResponseWithBody(HttpStatusCode.BadRequest, ContentType.ApplicationJsonProblem, typeof(ProblemDetails))]
     [OpenApiResponseWithoutBody(HttpStatusCode.NotFound)]
+
     public async Task<HttpResponseData> RunAsync(
         [HttpTrigger(AuthorizationLevel.Admin, MethodType.Get, Route = Routes.Trust)] HttpRequestData req,
         string identifier,

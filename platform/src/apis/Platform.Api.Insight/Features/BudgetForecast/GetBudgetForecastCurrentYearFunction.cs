@@ -15,7 +15,7 @@ namespace Platform.Api.Insight.Features.BudgetForecast;
 public class GetBudgetForecastCurrentYearFunction(IBudgetForecastService service)
 {
     [Function(nameof(GetBudgetForecastCurrentYearFunction))]
-    [OpenApiOperation(nameof(GetBudgetForecastCurrentYearFunction), Constants.Features.BudgetForecast)]
+    [OpenApiOperation(nameof(GetBudgetForecastCurrentYearFunction), Constants.Features.BudgetForecast, Deprecated = true)]
     [OpenApiParameter("companyNumber", Type = typeof(string), Required = true)]
     [OpenApiParameter("runType", In = ParameterLocation.Query, Description = "Forecast run type", Type = typeof(string), Example = typeof(ExampleBudgetForecastRunType))]
     [OpenApiParameter("category", In = ParameterLocation.Query, Description = "Forecast run category", Type = typeof(string), Required = false, Example = typeof(ExampleBudgetForecastRunCategory))]

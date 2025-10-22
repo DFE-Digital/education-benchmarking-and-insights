@@ -13,7 +13,7 @@ using Platform.Functions.Extensions;
 using Platform.Functions.OpenApi;
 using Platform.Search;
 
-namespace Platform.Api.Establishment.Features.Trusts;
+namespace Platform.Api.Establishment.Features.Trusts.Functions;
 
 public class PostTrustsSearchFunction(
     ITrustsService service,
@@ -21,7 +21,7 @@ public class PostTrustsSearchFunction(
 {
     [Function(nameof(PostTrustsSearchFunction))]
     [OpenApiSecurityHeader]
-    [OpenApiOperation(nameof(PostTrustsSearchFunction), Constants.Features.Trusts)]
+    [OpenApiOperation(nameof(PostTrustsSearchFunction), Constants.Features.Trusts, Deprecated = true)]
     [OpenApiRequestBody(ContentType.ApplicationJson, typeof(SearchRequest), Description = "The search request")]
     [OpenApiResponseWithBody(HttpStatusCode.OK, ContentType.ApplicationJson, typeof(SearchResponse<TrustSummary>))]
     [OpenApiResponseWithBody(HttpStatusCode.BadRequest, ContentType.ApplicationJson, typeof(ValidationError[]))]

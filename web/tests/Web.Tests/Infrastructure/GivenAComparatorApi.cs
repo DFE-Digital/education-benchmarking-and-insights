@@ -2,6 +2,7 @@ using Newtonsoft.Json;
 using Web.App.Extensions;
 using Web.App.Infrastructure.Apis;
 using Web.App.Infrastructure.Apis.Benchmark;
+using Web.App.Infrastructure.Apis.Establishment;
 using Web.App.ViewModels;
 using Xunit;
 using Xunit.Abstractions;

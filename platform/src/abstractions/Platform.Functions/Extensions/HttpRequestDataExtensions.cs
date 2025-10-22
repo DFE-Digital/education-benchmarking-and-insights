@@ -114,6 +114,24 @@ public static class HttpRequestDataExtensions
         return await req.CreateJsonResponseAsync(failures.Select(e => new ValidationError(e.Severity, e.PropertyName, e.ErrorMessage)), statusCode, cancellationToken);
     }
 
+    public static async Task<HttpResponseData> CreateValidationErrorsResponseAsync(this HttpRequestData request, ValidationResult result, CancellationToken cancellationToken)
+    {
+        var errors = result.Errors
+            .GroupBy(e => e.PropertyName)
+            .ToDictionary(g => g.Key, g => g.Select(e => e.ErrorMessage).ToArray());
+
+        var problem = new ValidationProblemDetails(errors)
+        {
+            Title = "Validation failed.",
+            Status = (int)HttpStatusCode.BadRequest,
+            Instance = request.Url.AbsolutePath
+        };
+
+        var response = request.CreateResponse(HttpStatusCode.BadRequest);
+        await response.WriteAsJsonAsync(problem, ContentType.ApplicationJsonProblem, cancellationToken);
+        return response;
+    }
+
     public static HttpResponseData CreateErrorResponse(this HttpRequestData req, int statusCode = (int)HttpStatusCode.InternalServerError) => req.CreateResponse((HttpStatusCode)statusCode);
 
     public static HttpResponseData CreateNotFoundResponse(this HttpRequestData req) => req.CreateResponse(HttpStatusCode.NotFound);

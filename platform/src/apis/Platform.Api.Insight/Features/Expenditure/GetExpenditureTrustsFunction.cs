@@ -21,7 +21,7 @@ public class GetExpenditureTrustsFunction(IExpenditureService service, IValidato
 {
     [Function(nameof(GetExpenditureTrustsFunction))]
     [OpenApiSecurityHeader]
-    [OpenApiOperation(nameof(GetExpenditureTrustsFunction), Constants.Features.Expenditure)]
+    [OpenApiOperation(nameof(GetExpenditureTrustsFunction), Constants.Features.Expenditure, Deprecated = true)]
     [OpenApiParameter("companyNumbers", In = ParameterLocation.Query, Description = "List of trust company numbers", Type = typeof(string[]), Required = true)]
     [OpenApiParameter("category", In = ParameterLocation.Query, Description = "Expenditure category", Type = typeof(string), Example = typeof(ExampleCategoryCost))]
     [OpenApiParameter("dimension", In = ParameterLocation.Query, Description = "Dimension for response values", Type = typeof(string), Example = typeof(ExampleDimensionFinance))]

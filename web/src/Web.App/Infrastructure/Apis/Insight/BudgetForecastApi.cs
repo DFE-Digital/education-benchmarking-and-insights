@@ -1,5 +1,6 @@
 ﻿namespace Web.App.Infrastructure.Apis.Insight;
 
+[Obsolete("Needs to be updated to use new API structure")]
 public interface IBudgetForecastApi
 {
     Task<ApiResult> BudgetForecastReturns(string? companyNo, ApiQuery? query = null, CancellationToken cancellationToken = default);

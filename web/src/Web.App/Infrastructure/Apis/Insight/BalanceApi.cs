@@ -3,9 +3,15 @@
 public interface IBalanceApi
 {
     Task<ApiResult> School(string? urn, ApiQuery? query = null, CancellationToken cancellationToken = default);
+    
+    [Obsolete("Needs to be updated to use new API structure")]
     Task<ApiResult> Trust(string? companyNo, ApiQuery? query = null, CancellationToken cancellationToken = default);
     Task<ApiResult> SchoolHistory(string? urn, ApiQuery? query = null, CancellationToken cancellationToken = default);
+    
+    [Obsolete("Needs to be updated to use new API structure")]
     Task<ApiResult> TrustHistory(string? companyNo, ApiQuery? query = null, CancellationToken cancellationToken = default);
+    
+    [Obsolete("Needs to be updated to use new API structure")]
     Task<ApiResult> QueryTrusts(ApiQuery? query = null, CancellationToken cancellationToken = default);
 }
 

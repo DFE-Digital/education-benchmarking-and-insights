@@ -20,7 +20,7 @@ public class GetExpenditureTrustHistoryFunction(IExpenditureService service, IVa
 {
     [Function(nameof(GetExpenditureTrustHistoryFunction))]
     [OpenApiSecurityHeader]
-    [OpenApiOperation(nameof(GetExpenditureTrustHistoryFunction), Constants.Features.Expenditure)]
+    [OpenApiOperation(nameof(GetExpenditureTrustHistoryFunction), Constants.Features.Expenditure, Deprecated = true)]
     [OpenApiParameter("companyNumber", Type = typeof(string), Required = true)]
     [OpenApiParameter("dimension", In = ParameterLocation.Query, Description = "Dimension for response values", Type = typeof(string), Required = true, Example = typeof(ExampleDimensionFinance))]
     [OpenApiResponseWithBody(HttpStatusCode.OK, ContentType.ApplicationJson, typeof(ExpenditureHistoryResponse))]

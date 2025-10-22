@@ -21,7 +21,7 @@ public class GetBalanceTrustsFunction(IBalanceService service)
     //TODO: Consider replacing with comparator-set endpoint balance/trust/{companyNumber}/comparator-set/{id}
     [Function(nameof(GetBalanceTrustsFunction))]
     [OpenApiSecurityHeader]
-    [OpenApiOperation(nameof(GetBalanceTrustsFunction), Constants.Features.Balance)]
+    [OpenApiOperation(nameof(GetBalanceTrustsFunction), Constants.Features.Balance, Deprecated = true)]
     [OpenApiParameter("companyNumbers", In = ParameterLocation.Query, Description = "List of trust company numbers", Type = typeof(string[]), Required = true)]
     [OpenApiParameter("dimension", In = ParameterLocation.Query, Description = "Value dimension", Type = typeof(string), Required = true, Example = typeof(ExampleDimensionFinance))]
     [OpenApiResponseWithBody(HttpStatusCode.OK, ContentType.ApplicationJson, typeof(BalanceTrustResponse[]))]

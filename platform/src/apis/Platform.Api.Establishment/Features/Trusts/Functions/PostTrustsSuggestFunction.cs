@@ -13,13 +13,13 @@ using Platform.Functions.Extensions;
 using Platform.Functions.OpenApi;
 using Platform.Search;
 
-namespace Platform.Api.Establishment.Features.Trusts;
+namespace Platform.Api.Establishment.Features.Trusts.Functions;
 
 public class PostTrustsSuggestFunction(ITrustsService service, IValidator<SuggestRequest> validator)
 {
     [Function(nameof(PostTrustsSuggestFunction))]
     [OpenApiSecurityHeader]
-    [OpenApiOperation(nameof(PostTrustsSuggestFunction), Constants.Features.Trusts)]
+    [OpenApiOperation(nameof(PostTrustsSuggestFunction), Constants.Features.Trusts, Deprecated = true)]
     [OpenApiRequestBody(ContentType.ApplicationJson, typeof(TrustSuggestRequest), Description = "The suggest object")]
     [OpenApiResponseWithBody(HttpStatusCode.OK, ContentType.ApplicationJson, typeof(SuggestResponse<TrustSummary>))]
     [OpenApiResponseWithBody(HttpStatusCode.BadRequest, ContentType.ApplicationJson, typeof(ValidationError[]))]

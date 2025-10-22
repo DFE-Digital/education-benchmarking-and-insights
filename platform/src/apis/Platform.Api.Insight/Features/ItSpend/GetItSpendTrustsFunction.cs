@@ -20,7 +20,7 @@ public class GetItSpendTrustsFunction(IItSpendService service, IValidator<ItSpen
 {
     [Function(nameof(GetItSpendTrustsFunction))]
     [OpenApiSecurityHeader]
-    [OpenApiOperation(nameof(GetItSpendTrustsFunction), Constants.Features.ItSpend)]
+    [OpenApiOperation(nameof(GetItSpendTrustsFunction), Constants.Features.ItSpend, Deprecated = true)]
     [OpenApiParameter("companyNumbers", In = ParameterLocation.Query, Description = "List of trust company numbers", Type = typeof(string[]), Required = true)]
     [OpenApiResponseWithBody(HttpStatusCode.OK, ContentType.ApplicationJson, typeof(ItSpendTrustResponse[]))]
     [OpenApiResponseWithBody(HttpStatusCode.BadRequest, ContentType.ApplicationJson, typeof(ValidationError[]))]

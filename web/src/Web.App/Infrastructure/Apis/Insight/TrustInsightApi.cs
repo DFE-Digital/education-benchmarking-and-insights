@@ -5,6 +5,7 @@ public class TrustInsightApi(HttpClient httpClient, string? key = default) : Api
     public async Task<ApiResult> GetCharacteristicsAsync(ApiQuery? query = null) => await GetAsync($"{Api.TrustInsight.TrustsCharacteristics}{query?.ToQueryString()}");
 }
 
+[Obsolete("Needs to be updated to use new API structure")]
 public interface ITrustInsightApi
 {
     Task<ApiResult> GetCharacteristicsAsync(ApiQuery? query = null);

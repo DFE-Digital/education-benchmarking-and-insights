@@ -16,7 +16,7 @@ public class GetSchoolFunction(ISchoolsService service)
 {
     [Function(nameof(GetSchoolFunction))]
     [OpenApiSecurityHeader]
-    [OpenApiOperation(nameof(GetSchoolFunction), Constants.Features.Schools)]
+    [OpenApiOperation(nameof(GetSchoolFunction), Constants.Features.Schools, Deprecated = true)]
     [OpenApiParameter("identifier", Type = typeof(string), Required = true)]
     [OpenApiResponseWithBody(HttpStatusCode.OK, ContentType.ApplicationJson, typeof(School))]
     [OpenApiResponseWithoutBody(HttpStatusCode.NotFound)]

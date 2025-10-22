@@ -10,6 +10,10 @@ public interface IItSpendApi
 public class ItSpendApi(HttpClient httpClient, string? key = default) : ApiBase(httpClient, key), IItSpendApi
 {
     public async Task<ApiResult> QuerySchools(ApiQuery? query = null, CancellationToken cancellationToken = default) => await GetAsync($"{Api.ItSpend.Schools}{query?.ToQueryString()}", cancellationToken);
+    
+    [Obsolete("Needs to be updated to use new API structure")]
     public async Task<ApiResult> QueryTrusts(ApiQuery? query = null, CancellationToken cancellationToken = default) => await GetAsync($"{Api.ItSpend.Trusts}{query?.ToQueryString()}", cancellationToken);
+    
+    [Obsolete("Needs to be updated to use new API structure")]
     public async Task<ApiResult> TrustForecast(string? companyNumber, CancellationToken cancellationToken = default) => await GetAsync(Api.ItSpend.TrustForecast(companyNumber), cancellationToken);
 }
