@@ -20,7 +20,7 @@ variable "configuration" {
       SchoolSpendingPrioritiesSsrCharts = optional(bool, true)
       CfrItSpendBreakdown               = optional(bool, true)
       News                              = optional(bool, false)
-      TrustItSpendBreakdown             = optional(bool, false)
+      TrustItSpendBreakdown             = optional(bool, true)
       FbisForTrust                      = optional(bool, false)
       LocalAuthorityHomepageV2          = optional(bool, false)
     })
@@ -50,7 +50,6 @@ variable "configuration" {
       waf_mode                       = "Detection"
       features = {
         News                     = true
-        TrustItSpendBreakdown    = true
         FbisForTrust             = true
         LocalAuthorityHomepageV2 = true
       },
@@ -79,7 +78,6 @@ variable "configuration" {
       waf_mode                       = "Detection"
       features = {
         News                     = true
-        TrustItSpendBreakdown    = true
         FbisForTrust             = true
         LocalAuthorityHomepageV2 = true
       },
@@ -107,7 +105,6 @@ variable "configuration" {
       waf_mode                       = "Prevention"
       features = {
         News                     = true
-        TrustItSpendBreakdown    = true
         FbisForTrust             = true
         LocalAuthorityHomepageV2 = true
       },
@@ -135,9 +132,7 @@ variable "configuration" {
       front_door_waf_policy_sku_name = "Standard_AzureFrontDoor"
       waf_mode                       = "Detection"
       features = {
-        CfrItSpendBreakdown      = true
         News                     = true
-        TrustItSpendBreakdown    = true
         FbisForTrust             = true
         LocalAuthorityHomepageV2 = true
       },
