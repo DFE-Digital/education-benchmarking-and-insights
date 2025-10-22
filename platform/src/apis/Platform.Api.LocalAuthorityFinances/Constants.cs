@@ -11,5 +11,6 @@ public static class Constants
     {
         public const string HealthCheck = "Health Check";
         public const string HighNeeds = "High Needs";
+        public const string Schools = "Schools";
     }
 }

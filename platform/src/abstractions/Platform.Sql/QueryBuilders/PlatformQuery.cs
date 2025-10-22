@@ -396,4 +396,40 @@ public abstract class PlatformQuery : SqlBuilder
         Where(sql, parameters);
         return this;
     }
+
+    public PlatformQuery WhereNurseryProvisionIn(params string[] nurseryProvision)
+    {
+        const string sql = "NurseryProvision IN @NurseryProvision";
+        var parameters = new
+        {
+            NurseryProvision = nurseryProvision
+        };
+
+        Where(sql, parameters);
+        return this;
+    }
+
+    public PlatformQuery WhereSixthFormProvisionIn(params string[] sixthFormProvision)
+    {
+        const string sql = "SixthFormProvision IN @SixthFormProvision";
+        var parameters = new
+        {
+            SixthFormProvision = sixthFormProvision
+        };
+
+        Where(sql, parameters);
+        return this;
+    }
+
+    public PlatformQuery WhereSpecialClassesProvisionIn(params string[] specialClassProvision)
+    {
+        const string sql = "SpecialClassProvision IN @SpecialClassProvision";
+        var parameters = new
+        {
+            SpecialClassProvision = specialClassProvision
+        };
+
+        Where(sql, parameters);
+        return this;
+    }
 }

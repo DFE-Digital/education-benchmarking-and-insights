@@ -5,6 +5,7 @@ using Microsoft.ApplicationInsights.DependencyCollector;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Extensions.DependencyInjection;
 using Platform.Api.LocalAuthorityFinances.Features.HighNeeds;
+using Platform.Api.LocalAuthorityFinances.Features.Schools;
 using Platform.Functions;
 using Platform.Json;
 using Platform.Sql;
@@ -61,5 +62,6 @@ internal static class Services
         .AddPlatformSql();
 
     private static IServiceCollection AddFeatures(this IServiceCollection serviceCollection) => serviceCollection
-        .AddHighNeedsFeature();
+        .AddHighNeedsFeature()
+        .AddSchoolsFeature();
 }
