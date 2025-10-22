@@ -27,7 +27,10 @@ public class LocalAuthoritySchoolFinancialViewComponent : ViewComponent
                 SchoolName = "Stub school 1",
                 Urn = "000001",
                 TotalPupils = 1234,
-                PeriodCoveredByReturn = 12
+                PeriodCoveredByReturn = 12,
+                TotalExpenditure = 123.45m,
+                TotalTeachingSupportStaffCosts = 67.89m,
+                RevenueReserve = 98.7m
             },
             new LocalAuthoritySchoolFinancial
             {

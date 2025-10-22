@@ -7,6 +7,13 @@
     var tableId = LocalAuthoritySchoolFinancialFormViewModel.TableId;
     var tableHeader = Model.ResultAs.GetTableHeaderSuffix();
     var sortKey = $"{Model.FormPrefix}{LocalAuthoritySchoolFinancialFormViewModel.FormFieldNames.Sort}";
+
+    string ValueSelector(LocalAuthoritySchoolFinancial row, Func<LocalAuthoritySchoolFinancial, decimal?> selector)
+    {
+        return Model.ResultAs is Dimensions.ResultAsOptions.PercentExpenditure or Dimensions.ResultAsOptions.PercentIncome
+            ? selector(row).ToPercent()
+            : selector(row).ToCurrency();
+    }
 }
 
 <table class="govuk-table" id="@tableId">
@@ -28,15 +35,30 @@
             className = "govuk-table__header--numeric",
             tableId
         })
-        <th scope="col" class="govuk-table__header govuk-table__header--numeric">
-            Expenditure @tableHeader
-        </th>
-        <th scope="col" class="govuk-table__header govuk-table__header--numeric">
-            Staffing spend @tableHeader
-        </th>
-        <th scope="col" class="govuk-table__header govuk-table__header--numeric">
-            Reserves @tableHeader
-        </th>
+        @await Component.InvokeAsync("SortableTableHeaderCell", new
+        {
+            label = $"Expenditure {tableHeader}",
+            sortField = nameof(LocalAuthoritySchoolFinancial.TotalExpenditure),
+            sortKey,
+            className = "govuk-table__header--numeric",
+            tableId
+        })
+        @await Component.InvokeAsync("SortableTableHeaderCell", new
+        {
+            label = $"Staffing spend {tableHeader}",
+            sortField = nameof(LocalAuthoritySchoolFinancial.TotalTeachingSupportStaffCosts),
+            sortKey,
+            className = "govuk-table__header--numeric",
+            tableId
+        })
+        @await Component.InvokeAsync("SortableTableHeaderCell", new
+        {
+            label = $"Reserves {tableHeader}",
+            sortField = nameof(LocalAuthoritySchoolFinancial.RevenueReserve),
+            sortKey,
+            className = "govuk-table__header--numeric",
+            tableId
+        })
     </tr>
     </thead>
     <tbody class="govuk-table__body">
@@ -59,10 +81,13 @@
                 @row.TotalPupils.ToSimpleDisplay()
             </td>
             <td class="govuk-table__cell govuk-table__cell--numeric">
+                @ValueSelector(row, r => r.TotalExpenditure)
             </td>
             <td class="govuk-table__cell govuk-table__cell--numeric">
+                @ValueSelector(row, r => r.TotalTeachingSupportStaffCosts)
             </td>
             <td class="govuk-table__cell govuk-table__cell--numeric">
+                @ValueSelector(row, r => r.RevenueReserve)
             </td>
         </tr>
     }

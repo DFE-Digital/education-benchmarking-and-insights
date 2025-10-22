@@ -626,7 +626,7 @@ hr.govuk-section-break--print {
             background-color: transparent;
             box-shadow: 0 0 0 0;
             cursor: pointer;
-            text-align: left;
+            text-align: inherit;
             align-items: center;
 
             &:focus {
@@ -634,6 +634,10 @@ hr.govuk-section-break--print {
               color: govuk-colour("black");
               background-color: govuk-colour("yellow");
               box-shadow: 0 -2px govuk-colour("yellow"), 0 4px govuk-colour("black");
+            }
+
+            > svg {
+              flex: none;
             }
           }
         }

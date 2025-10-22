@@ -8,4 +8,7 @@ public class LocalAuthoritySchoolFinancial
     public string? SchoolName { get; set; }
     public int? PeriodCoveredByReturn { get; set; }
     public decimal? TotalPupils { get; set; }
+    public decimal? TotalExpenditure { get; set; }
+    public decimal? TotalTeachingSupportStaffCosts { get; set; }
+    public decimal? RevenueReserve { get; set; }
 }
