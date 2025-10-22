@@ -21,7 +21,7 @@ variable "configuration" {
       CfrItSpendBreakdown               = optional(bool, true)
       News                              = optional(bool, false)
       TrustItSpendBreakdown             = optional(bool, true)
-      FbisForTrust                      = optional(bool, false)
+      FbisForTrust                      = optional(bool, true)
       LocalAuthorityHomepageV2          = optional(bool, false)
     })
     CacheOptions = object({
@@ -50,7 +50,6 @@ variable "configuration" {
       waf_mode                       = "Detection"
       features = {
         News                     = true
-        FbisForTrust             = true
         LocalAuthorityHomepageV2 = true
       },
       CacheOptions = {
@@ -78,7 +77,6 @@ variable "configuration" {
       waf_mode                       = "Detection"
       features = {
         News                     = true
-        FbisForTrust             = true
         LocalAuthorityHomepageV2 = true
       },
       CacheOptions = {
@@ -105,7 +103,6 @@ variable "configuration" {
       waf_mode                       = "Prevention"
       features = {
         News                     = true
-        FbisForTrust             = true
         LocalAuthorityHomepageV2 = true
       },
       CacheOptions = {
@@ -133,7 +130,6 @@ variable "configuration" {
       waf_mode                       = "Detection"
       features = {
         News                     = true
-        FbisForTrust             = true
         LocalAuthorityHomepageV2 = true
       },
       CacheOptions = {
