@@ -180,7 +180,7 @@ resource "azurerm_cdn_frontdoor_firewall_policy" "web-app-front-door-waf" {
         }
 
         exclusion {
-          match_variable = "RequestFormPostParamNames"
+          match_variable = "RequestBodyPostArgNames"
           operator       = "StartsWith"
           selector       = "__RequestVerificationToken"
         }
@@ -216,7 +216,7 @@ resource "azurerm_cdn_frontdoor_firewall_policy" "web-app-front-door-waf" {
         }
 
         exclusion {
-          match_variable = "RequestFormPostParamNames"
+          match_variable = "RequestBodyPostArgNames"
           operator       = "Equals"
           selector       = "state"
         }
@@ -230,7 +230,7 @@ resource "azurerm_cdn_frontdoor_firewall_policy" "web-app-front-door-waf" {
           action  = "Log"
 
           exclusion {
-            match_variable = "RequestFormPostParamNames"
+            match_variable = "RequestBodyPostArgNames"
             operator       = "Equals"
             selector       = "iss"
           }
