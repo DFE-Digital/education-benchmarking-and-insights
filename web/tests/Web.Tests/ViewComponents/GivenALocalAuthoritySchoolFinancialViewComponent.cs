@@ -40,34 +40,36 @@ public class LocalAuthoritySchoolFinancialViewComponentTests
         OverallPhaseTypes.OverallPhaseTypeFilter[],
         NurseryProvisions.NurseryProvisionFilter[],
         SpecialProvisions.SpecialProvisionFilter[],
-        SixthFormProvisions.SixthFormProvisionFilter[]> FormValuesTestData => new()
+        SixthFormProvisions.SixthFormProvisionFilter[],
+        string?> FormValuesTestData => new()
     {
-        { "f.", "", true, Dimensions.ResultAsOptions.PercentIncome, [], [], [], [] },
-        { "f.", "?f.filter=show", true, Dimensions.ResultAsOptions.PercentIncome, [], [], [], [] },
-        { "f.", "?f.filter=hide", false, Dimensions.ResultAsOptions.PercentIncome, [], [], [], [] },
-        { "f.", "?f.as=0", true, Dimensions.ResultAsOptions.SpendPerPupil, [], [], [], [] },
-        { "f.", "?f.as=1", true, Dimensions.ResultAsOptions.Actuals, [], [], [], [] },
-        { "f.", "?f.as=2", true, Dimensions.ResultAsOptions.PercentExpenditure, [], [], [], [] },
-        { "f.", "?f.as=3", true, Dimensions.ResultAsOptions.PercentIncome, [], [], [], [] },
+        { "f.", "", true, Dimensions.ResultAsOptions.PercentIncome, [], [], [], [], null },
+        { "f.", "?f.filter=show", true, Dimensions.ResultAsOptions.PercentIncome, [], [], [], [], null },
+        { "f.", "?f.filter=hide", false, Dimensions.ResultAsOptions.PercentIncome, [], [], [], [], null },
+        { "f.", "?f.as=0", true, Dimensions.ResultAsOptions.SpendPerPupil, [], [], [], [], null },
+        { "f.", "?f.as=1", true, Dimensions.ResultAsOptions.Actuals, [], [], [], [], null },
+        { "f.", "?f.as=2", true, Dimensions.ResultAsOptions.PercentExpenditure, [], [], [], [], null },
+        { "f.", "?f.as=3", true, Dimensions.ResultAsOptions.PercentIncome, [], [], [], [], null },
         {
             "f.", "?f.phase=0&f.phase=1&f.phase=2", true, Dimensions.ResultAsOptions.PercentIncome, [
                 OverallPhaseTypes.OverallPhaseTypeFilter.Primary,
                 OverallPhaseTypes.OverallPhaseTypeFilter.Secondary,
                 OverallPhaseTypes.OverallPhaseTypeFilter.Special
             ],
-            [], [], []
+            [], [], [], null
         },
         {
             "f.", "?f.phase=0&f.phase=1&f.as=1&other=value", true, Dimensions.ResultAsOptions.Actuals, [
                 OverallPhaseTypes.OverallPhaseTypeFilter.Primary,
                 OverallPhaseTypes.OverallPhaseTypeFilter.Secondary
             ],
-            [], [], []
+            [], [], [], null
         },
-        { "f.", "?f.phase=0", true, Dimensions.ResultAsOptions.PercentIncome, [OverallPhaseTypes.OverallPhaseTypeFilter.Primary], [], [], [] },
-        { "f.", "?f.nursery=1", true, Dimensions.ResultAsOptions.PercentIncome, [], [NurseryProvisions.NurseryProvisionFilter.HasNoNurseryClasses], [], [] },
-        { "f.", "?f.special=2", true, Dimensions.ResultAsOptions.PercentIncome, [], [], [SpecialProvisions.SpecialProvisionFilter.NotApplicable], [] },
-        { "f.", "?f.sixth=3", true, Dimensions.ResultAsOptions.PercentIncome, [], [], [], [SixthFormProvisions.SixthFormProvisionFilter.NotRecorded] }
+        { "f.", "?f.phase=0", true, Dimensions.ResultAsOptions.PercentIncome, [OverallPhaseTypes.OverallPhaseTypeFilter.Primary], [], [], [], null },
+        { "f.", "?f.nursery=1", true, Dimensions.ResultAsOptions.PercentIncome, [], [NurseryProvisions.NurseryProvisionFilter.HasNoNurseryClasses], [], [], null },
+        { "f.", "?f.special=2", true, Dimensions.ResultAsOptions.PercentIncome, [], [], [SpecialProvisions.SpecialProvisionFilter.NotApplicable], [], null },
+        { "f.", "?f.sixth=3", true, Dimensions.ResultAsOptions.PercentIncome, [], [], [], [SixthFormProvisions.SixthFormProvisionFilter.NotRecorded], null },
+        { "f.", "?f.sort=SchoolName~asc", true, Dimensions.ResultAsOptions.PercentIncome, [], [], [], [], "SchoolName~asc" }
     };
 
     [Fact]
@@ -98,7 +100,8 @@ public class LocalAuthoritySchoolFinancialViewComponentTests
         OverallPhaseTypes.OverallPhaseTypeFilter[] expectedSelectedOverallPhases,
         NurseryProvisions.NurseryProvisionFilter[] expectedSelectedNurseryProvisions,
         SpecialProvisions.SpecialProvisionFilter[] expectedSelectedSpecialProvisions,
-        SixthFormProvisions.SixthFormProvisionFilter[] expectedSelectedSixthFormProvisions)
+        SixthFormProvisions.SixthFormProvisionFilter[] expectedSelectedSixthFormProvisions,
+        string? expectedSort)
     {
         // arrange
         const string code = nameof(code);
@@ -117,5 +120,6 @@ public class LocalAuthoritySchoolFinancialViewComponentTests
         Assert.Equal(expectedSelectedNurseryProvisions, model.SelectedNurseryProvisions);
         Assert.Equal(expectedSelectedSpecialProvisions, model.SelectedSpecialProvisions);
         Assert.Equal(expectedSelectedSixthFormProvisions, model.SelectedSixthFormProvisions);
+        Assert.Equal(expectedSort, model.Sort);
     }
 }
