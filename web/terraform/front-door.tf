@@ -228,6 +228,7 @@ resource "azurerm_cdn_frontdoor_firewall_policy" "web-app-front-door-waf" {
         rule {
           rule_id = "931130"
           action  = "Log"
+          enabled = true
 
           exclusion {
             match_variable = "RequestBodyPostArgNames"
