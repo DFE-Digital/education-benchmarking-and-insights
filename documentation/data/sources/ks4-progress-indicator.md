@@ -22,7 +22,7 @@ Progress 8 is considered a fairer way to judge schools because it account for th
 
 ### Progress 8 Data Source for FBIT
 
-The official and most reliable source for Progress 8 data is the from [Compare school and college performance in England](https://www.compare-school-performance.service.gov.uk/download-data). On this website, one can search for any school in England, view detailed performance data, including Progress 8 score as well as download key stage 4 related data. Please see [key-stage-4](documentation\data\source-files\key-stage-4.md) for more details on progress 8 source file for FBIT. The below SQL query within FBIT `data` database shows schools with KS4 related data for 2023-24 academic year.
+The official and most reliable source for Progress 8 data is the from [compare school and college performance in England](https://www.compare-school-performance.service.gov.uk/download-data). On this website, one can search for any school in England, view detailed performance data, including Progress 8 score as well as download key stage 4 related data. Please see [key-stage-4](documentation\data\source-files\key-stage-4.md) for more details on progress 8 source file for FBIT. The below SQL query within FBIT `data` database shows schools with KS4 related data for 2023-24 academic year.
 
 ```sql
 SELECT [URN]
@@ -52,7 +52,7 @@ The score is usually a decimal number (float), which can be positive, negative, 
 
 ### Progress 8 (P8) Score & Banding Edge Cases
 
-Some schools will display a code instead of a Progress 8 score or banding. This simply means a valid performance score is unavailable for that institution and the code is used to explain why. Therefore, when creating any comparator set that correlates finance with performance, schools with these codes must be excluded as spending cannot be benchmarked against an invalid performance outcome.
+Some schools will display a code instead of a Progress 8 score or banding. This simply means a valid performance score is unavailable for that institution and the code is used to explain why. Therefore, when creating any comparator set that correlates finance with performance, schools with these codes must be excluded as spending cannot be benchmarked against an invalid performance outcome. The `abbrebiations.xslx` file within the subfolder of [compare school and college performance table download](https://www.compare-school-performance.service.gov.uk/download-data?download=true&regions=KS4PROV&filters=meta&fileformat=csv&year=2024-2025&meta=true) contains full description and meaning of all P8 related codes.
 
 Possible edge case scenarios include;
 
