@@ -119,7 +119,7 @@ stages:
           environment: $(Pipeline.Environment)
           cipEnvironment: 'Dev'
           dependsOn: [ZipStaticCoreArtifacts, BuildCore]
-          disablePurgeProtection: 'true'
+          disablePurgeProtection: 'false'
           supportAlertEmail: $(support-alert-email)
 
   - stage: BuildDataPipeline
