@@ -13,7 +13,7 @@ Measure how many school journeys are started from the LA Homepage. The proxy for
 If very few schools are clicked on, consider removing the hyperlink to the school.
 
 **Target / Threshold:**  
-If the ratio of page views to click throughs to change local authority is below 5%, remove it.
+If the ratio of page views to click throughs to individual schools is below 5%, remove it.
 
 **Reporting Frequency:**  
 Report after 1 month from release

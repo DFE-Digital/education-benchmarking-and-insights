@@ -13,7 +13,7 @@ Measure the usage of interactive elements like filter and sort on the new school
 If usage is very low of an interactive element, consider removing the element.
 
 **Target / Threshold:**  
-If the ratio of page views to click throughs to change local authority is below 5%, remove the element.
+If the ratio of page views to interactions with an element in the school breakdown table is below 5%, remove the element.
 
 **Reporting Frequency:**  
 Report after 1 month from release
