@@ -23,6 +23,7 @@
         </h2>
     </div>
 
+    @await Html.PartialAsync("Components/LocalAuthoritySchoolFinancial/_SchoolsFilterSelected", Model)
     <div class="app-filter__body">
         <div class="govuk-accordion" data-module="govuk-accordion" id="@accordionId">
             @await Html.PartialAsync("Components/LocalAuthoritySchoolFinancial/_SchoolsFilterAccordionSection", new LocalAuthoritySchoolFinancialFinancialFilterAccordionSectionViewModel<OverallPhaseTypes.OverallPhaseTypeFilter>(
@@ -106,9 +107,12 @@
                 value="@(string.Join(',', resetFields))">
             Apply filters
         </button>
-        
+
         <div class="govuk-button-group govuk-!-margin-bottom-0">
-            <a href="@Url.Action("DownloadSchoolsFinance", "LocalAuthority", new { code = Model.Code })" role="button"
+            <a href="@Url.Action("DownloadSchoolsFinance", "LocalAuthority", new
+                     {
+                         code = Model.Code
+                     })" role="button"
                class="govuk-button govuk-button--secondary" data-module="govuk-button">
                 Save table data
             </a>
