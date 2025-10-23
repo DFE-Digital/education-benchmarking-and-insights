@@ -1,0 +1,20 @@
+[
+  {
+    "urn": "990134",
+    "schoolName": "Test school 1",
+    "totalPupils": 232.0,
+    "totalExpenditure": 100.0,
+    "totalTeachingSupportStaffCosts": 67.79595082082315,
+    "revenueReserve": -5.745097927589943,
+    "periodCoveredByReturn": 12
+  },
+  {
+    "urn": "990116",
+    "schoolName": "Test school 237",
+    "totalPupils": 231.0,
+    "totalExpenditure": 100.0,
+    "totalTeachingSupportStaffCosts": 69.44910144416012,
+    "revenueReserve": 9.228181304456388,
+    "periodCoveredByReturn": 12
+  }
+]
