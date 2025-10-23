@@ -3,10 +3,11 @@ using Web.App.Domain.Charts;
 
 namespace Web.App.ViewModels.Components;
 
-public class LocalAuthoritySchoolFinancialViewModel(string code, string formPrefix, int maxRows)
-    : LocalAuthoritySchoolFinancialFormViewModel(code, formPrefix, maxRows);
+// todo: deprecate base class
+public class LocalAuthoritySchoolFinancialViewModel(string code, string formPrefix, int maxRows, string defaultSort)
+    : LocalAuthoritySchoolFinancialFormViewModel(code, formPrefix, maxRows, defaultSort);
 
-public class LocalAuthoritySchoolFinancialFormViewModel(string code, string formPrefix, int maxRows)
+public class LocalAuthoritySchoolFinancialFormViewModel(string code, string formPrefix, int maxRows, string defaultSort)
 {
     public static readonly Dimensions.ResultAsOptions[] FilterDimensions =
     [
@@ -23,10 +24,11 @@ public class LocalAuthoritySchoolFinancialFormViewModel(string code, string form
     public string Code => code;
     public string FormPrefix => formPrefix;
     public int MaxRows => maxRows;
+    public string DefaultSort => defaultSort;
 
     public bool AllRows { get; init; }
     public bool FiltersVisible { get; init; }
-    public Dimensions.ResultAsOptions ResultAs { get; set; } = Dimensions.ResultAsOptions.PercentIncome;
+    public Dimensions.ResultAsOptions ResultAs { get; init; } = Dimensions.ResultAsOptions.PercentIncome;
     public OverallPhaseTypes.OverallPhaseTypeFilter[] SelectedOverallPhases { get; init; } = [];
     public NurseryProvisions.NurseryProvisionFilter[] SelectedNurseryProvisions { get; init; } = [];
     public SpecialProvisions.SpecialProvisionFilter[] SelectedSpecialProvisions { get; init; } = [];

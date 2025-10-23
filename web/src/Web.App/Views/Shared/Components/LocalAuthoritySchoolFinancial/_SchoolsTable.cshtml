@@ -25,7 +25,8 @@
             sortField = nameof(LocalAuthoritySchoolFinancial.SchoolName),
             sortKey,
             className = "govuk-!-width-one-quarter",
-            tableId
+            tableId,
+            defaultSort = Model.DefaultSort.StartsWith(nameof(LocalAuthoritySchoolFinancial.SchoolName)) ? Model.DefaultSort : null
         })
         @await Component.InvokeAsync("SortableTableHeaderCell", new
         {
@@ -33,7 +34,8 @@
             sortField = nameof(LocalAuthoritySchoolFinancial.TotalPupils),
             sortKey,
             className = "govuk-table__header--numeric",
-            tableId
+            tableId,
+            defaultSort = Model.DefaultSort.StartsWith(nameof(LocalAuthoritySchoolFinancial.TotalPupils)) ? Model.DefaultSort : null
         })
         @await Component.InvokeAsync("SortableTableHeaderCell", new
         {
@@ -41,7 +43,8 @@
             sortField = nameof(LocalAuthoritySchoolFinancial.TotalExpenditure),
             sortKey,
             className = "govuk-table__header--numeric",
-            tableId
+            tableId,
+            defaultSort = Model.DefaultSort.StartsWith(nameof(LocalAuthoritySchoolFinancial.TotalExpenditure)) ? Model.DefaultSort : null
         })
         @await Component.InvokeAsync("SortableTableHeaderCell", new
         {
@@ -49,7 +52,8 @@
             sortField = nameof(LocalAuthoritySchoolFinancial.TotalTeachingSupportStaffCosts),
             sortKey,
             className = "govuk-table__header--numeric",
-            tableId
+            tableId,
+            defaultSort = Model.DefaultSort.StartsWith(nameof(LocalAuthoritySchoolFinancial.TotalTeachingSupportStaffCosts)) ? Model.DefaultSort : null
         })
         @await Component.InvokeAsync("SortableTableHeaderCell", new
         {
@@ -57,7 +61,8 @@
             sortField = nameof(LocalAuthoritySchoolFinancial.RevenueReserve),
             sortKey,
             className = "govuk-table__header--numeric",
-            tableId
+            tableId,
+            defaultSort = Model.DefaultSort.StartsWith(nameof(LocalAuthoritySchoolFinancial.RevenueReserve)) ? Model.DefaultSort : null
         })
     </tr>
     </thead>

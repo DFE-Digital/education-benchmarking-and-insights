@@ -3,119 +3,57 @@ using Microsoft.Extensions.Primitives;
 using Web.App.Domain;
 using Web.App.Domain.Charts;
 using Web.App.Extensions;
+using Web.App.Infrastructure.Apis;
+using Web.App.Infrastructure.Apis.LocalAuthorities;
+using Web.App.Infrastructure.Extensions;
 using Web.App.ViewModels.Components;
 
 namespace Web.App.ViewComponents;
 
-public class LocalAuthoritySchoolFinancialViewComponent : ViewComponent
+public class LocalAuthoritySchoolFinancialViewComponent(ILocalAuthoritiesApi localAuthoritiesApi) : ViewComponent
 {
-    public async Task<IViewComponentResult> InvokeAsync(string code, string formPrefix, int maxRows)
+    public async Task<IViewComponentResult> InvokeAsync(string code, string formPrefix, int maxRows, string defaultSort)
     {
-        var (filtersVisible,
+        var query = ParseQueryString(Request.Query, formPrefix, defaultSort);
+        var results = await localAuthoritiesApi
+            .GetSchoolsFinance(code, BuildQuery(query, maxRows))
+            .GetResultOrDefault<LocalAuthoritySchoolFinancial[]>() ?? [];
+
+        var (allRows,
+            filtersVisible,
             resultAs,
             selectedOverallPhases,
             selectedNurseryProvisions,
             selectedSpecialProvisions,
             selectedSixthFormProvisions,
-            sort,
-            allRows) = ParseQuery(Request.Query, formPrefix);
-
-        // todo: replace stub with call to API to get results
-        var results = await Task.FromResult(new[]
-        {
-            new LocalAuthoritySchoolFinancial
-            {
-                SchoolName = "Stub school 1",
-                Urn = "000001",
-                TotalPupils = 1234,
-                PeriodCoveredByReturn = 12,
-                TotalExpenditure = 123.45m,
-                TotalTeachingSupportStaffCosts = 67.89m,
-                RevenueReserve = 98.7m
-            },
-            new LocalAuthoritySchoolFinancial
-            {
-                SchoolName = "Stub school 2",
-                Urn = "000002",
-                TotalPupils = 567,
-                PeriodCoveredByReturn = 12
-            },
-            new LocalAuthoritySchoolFinancial
-            {
-                SchoolName = "Stub school 3",
-                Urn = "000003",
-                TotalPupils = 890,
-                PeriodCoveredByReturn = 10
-            },
-            new LocalAuthoritySchoolFinancial
-            {
-                SchoolName = "Stub school 4",
-                Urn = "000004",
-                TotalPupils = 987,
-                PeriodCoveredByReturn = 12
-            },
-            new LocalAuthoritySchoolFinancial
-            {
-                SchoolName = "Stub school 5",
-                Urn = "000005",
-                TotalPupils = 654,
-                PeriodCoveredByReturn = 12
-            },
-            new LocalAuthoritySchoolFinancial
-            {
-                SchoolName = "Stub school 6",
-                Urn = "000006",
-                TotalPupils = 321,
-                PeriodCoveredByReturn = 12
-            },
-            new LocalAuthoritySchoolFinancial
-            {
-                SchoolName = "Stub school 7",
-                Urn = "000007",
-                TotalPupils = 890,
-                PeriodCoveredByReturn = 12
-            }
-        });
-
-        var viewModel = new LocalAuthoritySchoolFinancialViewModel(code, formPrefix, maxRows)
+            sort) = query;
+        var viewModel = new LocalAuthoritySchoolFinancialViewModel(code, formPrefix, maxRows, defaultSort)
         {
             AllRows = allRows,
             FiltersVisible = filtersVisible,
+            ResultAs = resultAs,
             Results = results,
             SelectedOverallPhases = selectedOverallPhases.ToArray(),
             SelectedNurseryProvisions = selectedNurseryProvisions.ToArray(),
             SelectedSpecialProvisions = selectedSpecialProvisions.ToArray(),
             SelectedSixthFormProvisions = selectedSixthFormProvisions.ToArray(),
-            Sort = string.IsNullOrWhiteSpace(sort) ? null : sort
+            Sort = sort
         };
-
-        if (resultAs != null)
-        {
-            viewModel.ResultAs = resultAs.Value;
-        }
 
         return View(viewModel);
     }
 
-    private static (
-        bool filtersVisible,
-        Dimensions.ResultAsOptions? resultAs,
-        OverallPhaseTypes.OverallPhaseTypeFilter[] selectedOverallPhases,
-        NurseryProvisions.NurseryProvisionFilter[] selectedNurseryProvisions,
-        SpecialProvisions.SpecialProvisionFilter[] selectedSpecialProvisions,
-        SixthFormProvisions.SixthFormProvisionFilter[] selectedSixthFormProvisions,
-        string? sort,
-        bool allRows) ParseQuery(IQueryCollection query, string formPrefix)
+    private static ParsedQueryString ParseQueryString(IQueryCollection query, string formPrefix, string defaultSort)
     {
         var filtersVisible = query[$"{formPrefix}{LocalAuthoritySchoolFinancialFormViewModel.FormFieldNames.FiltersVisible}"] == LocalAuthoritySchoolFinancialFormViewModel.FormFieldValues.Show;
 
-        Dimensions.ResultAsOptions? resultAs = null;
-        var resultsAs = query[$"{formPrefix}{LocalAuthoritySchoolFinancialFormViewModel.FormFieldNames.ResultAs}"]
+        var resultAs = Dimensions.ResultAsOptions.PercentIncome;
+        var resultsAsValues = query[$"{formPrefix}{LocalAuthoritySchoolFinancialFormViewModel.FormFieldNames.ResultAs}"]
             .CastQueryToEnum<Dimensions.ResultAsOptions>()
             .ToArray();
-        if (resultsAs.Length > 0)
+        if (resultsAsValues.Length > 0)
         {
-            resultAs = resultsAs.First();
+            resultAs = resultsAsValues.First();
         }
 
         var selectedOverallPhases = query[$"{formPrefix}{LocalAuthoritySchoolFinancialFormViewModel.FormFieldNames.SelectedOverallPhases}"]
@@ -131,17 +69,40 @@ public class LocalAuthoritySchoolFinancialViewComponent : ViewComponent
             .CastQueryToEnum<SixthFormProvisions.SixthFormProvisionFilter>()
             .ToArray();
 
-        var sort = query[$"{formPrefix}{LocalAuthoritySchoolFinancialFormViewModel.FormFieldNames.Sort}"];
+        var sortValues = query[$"{formPrefix}{LocalAuthoritySchoolFinancialFormViewModel.FormFieldNames.Sort}"];
+        var sort = sortValues == StringValues.Empty ? defaultSort : sortValues.ToString();
         var allRows = query[$"{formPrefix}{LocalAuthoritySchoolFinancialFormViewModel.FormFieldNames.Rows}"] == LocalAuthoritySchoolFinancialFormViewModel.FormFieldValues.All;
 
-        return (
+        return new ParsedQueryString(
+            allRows,
             filtersVisible,
             resultAs,
             selectedOverallPhases,
             selectedNurseryProvisions,
             selectedSpecialProvisions,
             selectedSixthFormProvisions,
-            sort == StringValues.Empty ? null : sort.ToString(),
-            allRows);
+            sort);
     }
+
+    private static ApiQuery BuildQuery(ParsedQueryString queryString, int maxRows)
+    {
+        var sort = queryString.Sort.Split("~");
+        var query = new ApiQuery()
+            .AddIfNotNull("dimension", queryString.ResultAs.GetQueryParam())
+            .AddIfNotNull("sortField", sort.FirstOrDefault())
+            .AddIfNotNull("sortOrder", sort.LastOrDefault())
+            .AddIfNotNull("limit", queryString.AllRows ? null : maxRows.ToString());
+
+        return query;
+    }
+
+    private record ParsedQueryString(
+        bool AllRows,
+        bool FiltersVisible,
+        Dimensions.ResultAsOptions ResultAs,
+        OverallPhaseTypes.OverallPhaseTypeFilter[] SelectedOverallPhases,
+        NurseryProvisions.NurseryProvisionFilter[] SelectedNurseryProvisions,
+        SpecialProvisions.SpecialProvisionFilter[] SelectedSpecialProvisions,
+        SixthFormProvisions.SixthFormProvisionFilter[] SelectedSixthFormProvisions,
+        string Sort);
 }

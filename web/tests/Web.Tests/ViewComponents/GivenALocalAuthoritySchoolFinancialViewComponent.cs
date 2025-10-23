@@ -1,19 +1,29 @@
+using System.Diagnostics.CodeAnalysis;
+using AutoFixture;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.ViewComponents;
+using Moq;
 using Web.App.Domain;
 using Web.App.Domain.Charts;
+using Web.App.Infrastructure.Apis;
+using Web.App.Infrastructure.Apis.LocalAuthorities;
 using Web.App.ViewComponents;
 using Web.App.ViewModels.Components;
 using Xunit;
 
 namespace Web.Tests.ViewComponents;
 
+[SuppressMessage("Usage", "xUnit1045:Avoid using TheoryData type arguments that might not be serializable")]
 public class LocalAuthoritySchoolFinancialViewComponentTests
 {
     private readonly LocalAuthoritySchoolFinancialViewComponent _component;
     private readonly HttpContext _httpContext;
     private readonly PathString _path = "/test/path";
+    private readonly Mock<ILocalAuthoritiesApi> _localAuthorityApi = new();
+    private readonly Fixture _fixture = new();
+    private const Dimensions.ResultAsOptions DefaultDimension = Dimensions.ResultAsOptions.PercentIncome;
+    private const string DefaultSort = "TotalExpenditure~desc";
 
     public LocalAuthoritySchoolFinancialViewComponentTests()
     {
@@ -23,7 +33,7 @@ public class LocalAuthoritySchoolFinancialViewComponentTests
         {
             HttpContext = _httpContext
         };
-        _component = new LocalAuthoritySchoolFinancialViewComponent
+        _component = new LocalAuthoritySchoolFinancialViewComponent(_localAuthorityApi.Object)
         {
             ViewComponentContext = new ViewComponentContext
             {
@@ -44,34 +54,46 @@ public class LocalAuthoritySchoolFinancialViewComponentTests
         SixthFormProvisions.SixthFormProvisionFilter[],
         string?> FormValuesTestData => new()
     {
-        { "f.", "", false, false, Dimensions.ResultAsOptions.PercentIncome, [], [], [], [], null },
-        { "f.", "?f.filter=show", false, true, Dimensions.ResultAsOptions.PercentIncome, [], [], [], [], null },
-        { "f.", "?f.filter=hide", false, false, Dimensions.ResultAsOptions.PercentIncome, [], [], [], [], null },
-        { "f.", "?f.as=0", false, false, Dimensions.ResultAsOptions.SpendPerPupil, [], [], [], [], null },
-        { "f.", "?f.as=1", false, false, Dimensions.ResultAsOptions.Actuals, [], [], [], [], null },
-        { "f.", "?f.as=2", false, false, Dimensions.ResultAsOptions.PercentExpenditure, [], [], [], [], null },
-        { "f.", "?f.as=3", false, false, Dimensions.ResultAsOptions.PercentIncome, [], [], [], [], null },
+        { "f.", "", false, false, DefaultDimension, [], [], [], [], DefaultSort },
+        { "f.", "?f.filter=show", false, true, DefaultDimension, [], [], [], [], DefaultSort },
+        { "f.", "?f.filter=hide", false, false, DefaultDimension, [], [], [], [], DefaultSort },
+        { "f.", "?f.as=0", false, false, Dimensions.ResultAsOptions.SpendPerPupil, [], [], [], [], DefaultSort },
+        { "f.", "?f.as=1", false, false, Dimensions.ResultAsOptions.Actuals, [], [], [], [], DefaultSort },
+        { "f.", "?f.as=2", false, false, Dimensions.ResultAsOptions.PercentExpenditure, [], [], [], [], DefaultSort },
+        { "f.", "?f.as=3", false, false, Dimensions.ResultAsOptions.PercentIncome, [], [], [], [], DefaultSort },
         {
-            "f.", "?f.phase=0&f.phase=1&f.phase=2", false, false, Dimensions.ResultAsOptions.PercentIncome, [
+            "f.", "?f.phase=0&f.phase=1&f.phase=2", false, false, DefaultDimension, [
                 OverallPhaseTypes.OverallPhaseTypeFilter.Primary,
                 OverallPhaseTypes.OverallPhaseTypeFilter.Secondary,
                 OverallPhaseTypes.OverallPhaseTypeFilter.Special
             ],
-            [], [], [], null
+            [], [], [], DefaultSort
         },
         {
             "f.", "?f.phase=0&f.phase=1&f.as=1&other=value", false, false, Dimensions.ResultAsOptions.Actuals, [
                 OverallPhaseTypes.OverallPhaseTypeFilter.Primary,
                 OverallPhaseTypes.OverallPhaseTypeFilter.Secondary
             ],
-            [], [], [], null
+            [], [], [], DefaultSort
         },
-        { "f.", "?f.phase=0", false, false, Dimensions.ResultAsOptions.PercentIncome, [OverallPhaseTypes.OverallPhaseTypeFilter.Primary], [], [], [], null },
-        { "f.", "?f.nursery=1", false, false, Dimensions.ResultAsOptions.PercentIncome, [], [NurseryProvisions.NurseryProvisionFilter.HasNoNurseryClasses], [], [], null },
-        { "f.", "?f.special=2", false, false, Dimensions.ResultAsOptions.PercentIncome, [], [], [SpecialProvisions.SpecialProvisionFilter.NotApplicable], [], null },
-        { "f.", "?f.sixth=3", false, false, Dimensions.ResultAsOptions.PercentIncome, [], [], [], [SixthFormProvisions.SixthFormProvisionFilter.NotRecorded], null },
-        { "f.", "?f.sort=SchoolName~asc", false, false, Dimensions.ResultAsOptions.PercentIncome, [], [], [], [], "SchoolName~asc" },
-        { "f.", "?f.rows=all", true, false, Dimensions.ResultAsOptions.PercentIncome, [], [], [], [], null }
+        { "f.", "?f.phase=0", false, false, DefaultDimension, [OverallPhaseTypes.OverallPhaseTypeFilter.Primary], [], [], [], DefaultSort },
+        { "f.", "?f.nursery=1", false, false, DefaultDimension, [], [NurseryProvisions.NurseryProvisionFilter.HasNoNurseryClasses], [], [], DefaultSort },
+        { "f.", "?f.special=2", false, false, DefaultDimension, [], [], [SpecialProvisions.SpecialProvisionFilter.NotApplicable], [], DefaultSort },
+        { "f.", "?f.sixth=3", false, false, DefaultDimension, [], [], [], [SixthFormProvisions.SixthFormProvisionFilter.NotRecorded], DefaultSort },
+        { "f.", "?f.sort=SchoolName~asc", false, false, DefaultDimension, [], [], [], [], "SchoolName~asc" },
+        { "f.", "?f.rows=all", true, false, DefaultDimension, [], [], [], [], DefaultSort }
+    };
+
+    public static TheoryData<
+        string,
+        int,
+        string,
+        List<QueryParameter>> ApiQueryTestData => new()
+    {
+        { "f.", 5, "", [new QueryParameter("dimension", DefaultDimension.GetQueryParam()), new QueryParameter("sortField", DefaultSort.Split("~").First()), new QueryParameter("sortOrder", DefaultSort.Split("~").Last()), new QueryParameter("limit", "5")] },
+        { "f.", 5, "?f.as=1", [new QueryParameter("dimension", Dimensions.ResultAsOptions.Actuals.GetQueryParam()), new QueryParameter("sortField", DefaultSort.Split("~").First()), new QueryParameter("sortOrder", DefaultSort.Split("~").Last()), new QueryParameter("limit", "5")] },
+        { "f.", 5, "?f.sort=SchoolName~asc", [new QueryParameter("dimension", DefaultDimension.GetQueryParam()), new QueryParameter("sortField", "SchoolName"), new QueryParameter("sortOrder", "asc"), new QueryParameter("limit", "5")] },
+        { "f.", 5, "?f.rows=all", [new QueryParameter("dimension", DefaultDimension.GetQueryParam()), new QueryParameter("sortField", DefaultSort.Split("~").First()), new QueryParameter("sortOrder", DefaultSort.Split("~").Last())] }
     };
 
     [Fact]
@@ -83,7 +105,7 @@ public class LocalAuthoritySchoolFinancialViewComponentTests
         const int maxRows = 123;
 
         // act
-        var result = await _component.InvokeAsync(code, formPrefix, maxRows) as ViewViewComponentResult;
+        var result = await _component.InvokeAsync(code, formPrefix, maxRows, DefaultSort) as ViewViewComponentResult;
 
         // assert
         Assert.NotNull(result);
@@ -114,7 +136,7 @@ public class LocalAuthoritySchoolFinancialViewComponentTests
         _httpContext.Request.QueryString = new QueryString(query);
 
         // act
-        var result = await _component.InvokeAsync(code, formPrefix, maxRows) as ViewViewComponentResult;
+        var result = await _component.InvokeAsync(code, formPrefix, maxRows, DefaultSort) as ViewViewComponentResult;
 
         // assert
         Assert.NotNull(result);
@@ -128,5 +150,43 @@ public class LocalAuthoritySchoolFinancialViewComponentTests
         Assert.Equal(expectedSelectedSpecialProvisions, model.SelectedSpecialProvisions);
         Assert.Equal(expectedSelectedSixthFormProvisions, model.SelectedSixthFormProvisions);
         Assert.Equal(expectedSort, model.Sort);
+    }
+
+    [Theory]
+    [MemberData(nameof(ApiQueryTestData))]
+    public async Task ShouldCallApiWithValuesFromQuery(
+        string formPrefix,
+        int maxRows,
+        string query,
+        List<QueryParameter> expectedQuery)
+    {
+        // arrange
+        const string code = nameof(code);
+        _httpContext.Request.QueryString = new QueryString(query);
+
+        var rows = _fixture
+            .Build<LocalAuthoritySchoolFinancial>()
+            .CreateMany(maxRows)
+            .ToArray();
+        ApiQuery? actualQuery = null;
+        _localAuthorityApi
+            .Setup(l => l.GetSchoolsFinance(code, It.IsAny<ApiQuery?>(), It.IsAny<CancellationToken>()))
+            .Callback<string, ApiQuery?, CancellationToken>((_, apiQuery, _) =>
+            {
+                actualQuery = apiQuery;
+            })
+            .ReturnsAsync(ApiResult.Ok(rows))
+            .Verifiable();
+
+        // act
+        var result = await _component.InvokeAsync(code, formPrefix, maxRows, DefaultSort) as ViewViewComponentResult;
+
+        // assert
+        _localAuthorityApi.Verify();
+        Assert.NotNull(result);
+        var model = result.ViewData?.Model as LocalAuthoritySchoolFinancialViewModel;
+        Assert.NotNull(model);
+        Assert.Equivalent(rows, model.Results);
+        Assert.Equivalent(expectedQuery, actualQuery);
     }
 }

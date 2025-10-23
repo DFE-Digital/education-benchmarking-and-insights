@@ -54,12 +54,13 @@ public class SortableTableHeaderCellViewComponentTests
     }
 
     [Theory]
-    [InlineData("testField", "sortKey", "~", "testField", "asc", "other=value", "testField~desc")]
-    [InlineData("testField", "sortKey", "~", "testField", "desc", "other=value", "testField~asc")]
-    [InlineData("testField", "sortKey", "~", null, null, "other=value", "testField~asc")]
-    [InlineData("testField", "sortKey", "~", null, null, null, "testField~asc")]
-    [InlineData("testField", "sortKey", "~", "otherField", "asc", null, "testField~asc")]
-    public void ShouldGenerateSortValueWithSortFieldAndSortOrderFor(string sortField, string sortKey, string sortDelimeter, string? currentSortField, string? currentSortOrder, string? baseQuery, string expectedSortValue)
+    [InlineData("testField", "sortKey", "~", "testField", "asc", "other=value", null, "testField~desc")]
+    [InlineData("testField", "sortKey", "~", "testField", "desc", "other=value", null, "testField~asc")]
+    [InlineData("testField", "sortKey", "~", null, null, "other=value", null, "testField~asc")]
+    [InlineData("testField", "sortKey", "~", null, null, null, null, "testField~asc")]
+    [InlineData("testField", "sortKey", "~", null, null, null, "testField~asc", "testField~desc")]
+    [InlineData("testField", "sortKey", "~", "otherField", "asc", null, null, "testField~asc")]
+    public void ShouldGenerateSortValueWithSortFieldAndSortOrderFor(string sortField, string sortKey, string sortDelimeter, string? currentSortField, string? currentSortOrder, string? baseQuery, string? defaultSort, string expectedSortValue)
     {
         // arrange
         const string label = nameof(label);
@@ -81,7 +82,7 @@ public class SortableTableHeaderCellViewComponentTests
         _httpContext.Request.QueryString = queryValues.Count > 0 ? QueryString.Create(queryValues) : QueryString.Empty;
 
         // act
-        var result = _component.Invoke(label, sortField, sortKey, sortDelimeter) as ViewViewComponentResult;
+        var result = _component.Invoke(label, sortField, sortKey, sortDelimeter, defaultSort: defaultSort) as ViewViewComponentResult;
 
         // assert
         Assert.NotNull(result);
@@ -92,11 +93,13 @@ public class SortableTableHeaderCellViewComponentTests
     }
 
     [Theory]
-    [InlineData("testField", "sortKey", "~", "testField", "asc", "asc")]
-    [InlineData("testField", "sortKey", "~", "testField", "desc", "desc")]
-    [InlineData("testField", "sortKey", "~", null, null, null)]
-    [InlineData("testField", "sortKey", "~", "otherField", "asc", null)]
-    public void ShouldReturnCurrentSortForFieldFor(string sortField, string sortKey, string sortDelimeter, string? currentSortField, string? currentSortOrder, string? expectedSort)
+    [InlineData("testField", "sortKey", "~", "testField", "asc", null, "asc")]
+    [InlineData("testField", "sortKey", "~", "testField", "desc", null, "desc")]
+    [InlineData("testField", "sortKey", "~", null, null, null, null)]
+    [InlineData("testField", "sortKey", "~", "otherField", "asc", null, null)]
+    [InlineData("testField", "sortKey", "~", null, null, "testField~asc", "asc")]
+    [InlineData("testField", "sortKey", "~", null, null, "otherField~asc", null)]
+    public void ShouldReturnCurrentSortForFieldFor(string sortField, string sortKey, string sortDelimeter, string? currentSortField, string? currentSortOrder, string? defaultSort, string? expectedSort)
     {
         // arrange
         const string label = nameof(label);
@@ -109,7 +112,7 @@ public class SortableTableHeaderCellViewComponentTests
         _httpContext.Request.QueryString = queryValues.Count > 0 ? QueryString.Create(queryValues) : QueryString.Empty;
 
         // act
-        var result = _component.Invoke(label, sortField, sortKey, sortDelimeter) as ViewViewComponentResult;
+        var result = _component.Invoke(label, sortField, sortKey, sortDelimeter, defaultSort: defaultSort) as ViewViewComponentResult;
 
         // assert
         Assert.NotNull(result);
