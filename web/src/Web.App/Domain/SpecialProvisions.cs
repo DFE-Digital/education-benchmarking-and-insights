@@ -24,6 +24,15 @@ public static class SpecialProvisions
         SpecialProvisionFilter.HasNoSpecialClasses => "Has no special classes",
         SpecialProvisionFilter.NotApplicable => "Not applicable",
         SpecialProvisionFilter.NotRecorded => "Not recorded",
-        _ => throw new ArgumentException(nameof(filter))
+        _ => throw new ArgumentOutOfRangeException(nameof(filter))
+    };
+
+    public static string GetQueryParam(this SpecialProvisionFilter filter) => filter switch
+    {
+        SpecialProvisionFilter.HasSpecialClasses => "Has Special Classes",
+        SpecialProvisionFilter.HasNoSpecialClasses => "No Special Classes",
+        SpecialProvisionFilter.NotApplicable => "Not applicable",
+        SpecialProvisionFilter.NotRecorded => "Not recorded",
+        _ => throw new ArgumentOutOfRangeException(nameof(filter))
     };
 }

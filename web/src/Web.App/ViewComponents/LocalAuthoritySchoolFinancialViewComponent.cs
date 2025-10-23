@@ -93,6 +93,26 @@ public class LocalAuthoritySchoolFinancialViewComponent(ILocalAuthoritiesApi loc
             .AddIfNotNull("sortOrder", sort.LastOrDefault())
             .AddIfNotNull("limit", queryString.AllRows ? null : maxRows.ToString());
 
+        foreach (var filter in queryString.SelectedOverallPhases)
+        {
+            query.AddIfNotNull("overallPhase", filter.GetQueryParam());
+        }
+
+        foreach (var filter in queryString.SelectedNurseryProvisions)
+        {
+            query.AddIfNotNull("nurseryProvision", filter.GetQueryParam());
+        }
+
+        foreach (var filter in queryString.SelectedSpecialProvisions)
+        {
+            query.AddIfNotNull("specialClassesProvision", filter.GetQueryParam());
+        }
+
+        foreach (var filter in queryString.SelectedSixthFormProvisions)
+        {
+            query.AddIfNotNull("sixthFormProvision", filter.GetQueryParam());
+        }
+
         return query;
     }
 

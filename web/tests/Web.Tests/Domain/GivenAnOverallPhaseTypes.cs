@@ -105,4 +105,29 @@ public class GivenAnOverallPhaseTypes
 
         Assert.NotNull(exception);
     }
+
+    [Theory]
+    [InlineData(OverallPhaseTypes.OverallPhaseTypeFilter.Primary, OverallPhaseTypes.Primary)]
+    [InlineData(OverallPhaseTypes.OverallPhaseTypeFilter.Secondary, OverallPhaseTypes.Secondary)]
+    [InlineData(OverallPhaseTypes.OverallPhaseTypeFilter.Special, OverallPhaseTypes.Special)]
+    [InlineData(OverallPhaseTypes.OverallPhaseTypeFilter.PupilReferralUnit, OverallPhaseTypes.PupilReferralUnit)]
+    [InlineData(OverallPhaseTypes.OverallPhaseTypeFilter.AllThrough, OverallPhaseTypes.AllThrough)]
+    [InlineData(OverallPhaseTypes.OverallPhaseTypeFilter.Nursery, OverallPhaseTypes.Nursery)]
+    [InlineData(OverallPhaseTypes.OverallPhaseTypeFilter.PostSixteen, OverallPhaseTypes.PostSixteen)]
+    [InlineData(OverallPhaseTypes.OverallPhaseTypeFilter.AlternativeProvision, OverallPhaseTypes.AlternativeProvision)]
+    [InlineData(OverallPhaseTypes.OverallPhaseTypeFilter.UniversityTechnicalCollege, OverallPhaseTypes.UniversityTechnicalCollege)]
+    public void ShouldReturnExpectedQueryParam(OverallPhaseTypes.OverallPhaseTypeFilter filter, string expected)
+    {
+        var actual = filter.GetQueryParam();
+
+        Assert.Equal(expected, actual);
+    }
+
+    [Fact]
+    public void ShouldThrowExceptionForOutOfRangeQueryParam()
+    {
+        var exception = Assert.Throws<ArgumentOutOfRangeException>(() => ((OverallPhaseTypes.OverallPhaseTypeFilter)999).GetQueryParam());
+
+        Assert.NotNull(exception);
+    }
 }

@@ -82,4 +82,18 @@ public static class OverallPhaseTypes
         OverallPhaseTypeFilter.UniversityTechnicalCollege => UniversityTechnicalCollege,
         _ => throw new ArgumentException(nameof(filter))
     };
+
+    public static string GetQueryParam(this OverallPhaseTypeFilter filter) => filter switch
+    {
+        OverallPhaseTypeFilter.Primary => Primary,
+        OverallPhaseTypeFilter.Secondary => Secondary,
+        OverallPhaseTypeFilter.Special => Special,
+        OverallPhaseTypeFilter.PupilReferralUnit => PupilReferralUnit,
+        OverallPhaseTypeFilter.AllThrough => AllThrough,
+        OverallPhaseTypeFilter.Nursery => Nursery,
+        OverallPhaseTypeFilter.PostSixteen => PostSixteen,
+        OverallPhaseTypeFilter.AlternativeProvision => AlternativeProvision,
+        OverallPhaseTypeFilter.UniversityTechnicalCollege => UniversityTechnicalCollege,
+        _ => throw new ArgumentOutOfRangeException(nameof(filter))
+    };
 }
