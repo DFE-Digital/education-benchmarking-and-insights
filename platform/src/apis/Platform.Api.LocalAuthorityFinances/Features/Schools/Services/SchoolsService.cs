@@ -43,7 +43,6 @@ public class SchoolsService(IDatabaseFactory dbFactory) : ISchoolsService
             .WhereFinanceTypeEqual(FinanceType.Maintained);
 
         builder.OrderBy($"{sortField.Trim()} {sortOrder.Trim()}");
-        // builder.OrderBy("TotalExpenditure DESC");
 
         if (limit is <= 1 or > 100)
         {
