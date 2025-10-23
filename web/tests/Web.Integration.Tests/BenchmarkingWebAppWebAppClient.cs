@@ -659,6 +659,7 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
         LocalAuthoritiesApi.Reset();
         LocalAuthoritiesApi.Setup(api => api.GetHighNeeds(It.IsAny<ApiQuery>(), It.IsAny<CancellationToken>())).Throws(new Exception());
         LocalAuthoritiesApi.Setup(api => api.GetHighNeedsHistory(It.IsAny<ApiQuery>(), It.IsAny<CancellationToken>())).Throws(new Exception());
+        LocalAuthoritiesApi.Setup(api => api.GetSchoolsFinance(It.IsAny<string>(), It.IsAny<ApiQuery>(), It.IsAny<CancellationToken>())).Throws(new Exception());
         return this;
     }
 
@@ -667,6 +668,13 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
         LocalAuthoritiesApi.Reset();
         LocalAuthoritiesApi.Setup(api => api.GetHighNeeds(It.IsAny<ApiQuery>(), It.IsAny<CancellationToken>())).ReturnsAsync(ApiResult.Ok(highNeeds ?? []));
         LocalAuthoritiesApi.Setup(api => api.GetHighNeedsHistory(It.IsAny<ApiQuery>(), It.IsAny<CancellationToken>())).ReturnsAsync(ApiResult.Ok(history));
+        return this;
+    }
+
+    public BenchmarkingWebAppClient SetupLocalAuthoritySchools(LocalAuthoritySchoolFinancial[]? schoolFinancials)
+    {
+        LocalAuthoritiesApi.Reset();
+        LocalAuthoritiesApi.Setup(api => api.GetSchoolsFinance(It.IsAny<string>(), It.IsAny<ApiQuery>(), It.IsAny<CancellationToken>())).ReturnsAsync(ApiResult.Ok(schoolFinancials ?? []));
         return this;
     }
 
