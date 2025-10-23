@@ -85,13 +85,13 @@
             <td class="govuk-table__cell govuk-table__cell--numeric">
                 @row.TotalPupils.ToSimpleDisplay()
             </td>
-            <td class="govuk-table__cell govuk-table__cell--numeric">
+            <td class="govuk-table__cell govuk-table__cell--numeric govuk-table__cell--nowrap">
                 @ValueSelector(row, r => r.TotalExpenditure)
             </td>
-            <td class="govuk-table__cell govuk-table__cell--numeric">
+            <td class="govuk-table__cell govuk-table__cell--numeric govuk-table__cell--nowrap">
                 @ValueSelector(row, r => r.TotalTeachingSupportStaffCosts)
             </td>
-            <td class="govuk-table__cell govuk-table__cell--numeric">
+            <td class="govuk-table__cell govuk-table__cell--numeric govuk-table__cell--nowrap">
                 @ValueSelector(row, r => r.RevenueReserve)
             </td>
         </tr>
