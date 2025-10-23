@@ -1,11 +1,15 @@
-﻿using Microsoft.AspNetCore.Http.Extensions;
+﻿using System.Net;
+using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
+using Web.App.ActionResults;
 using Web.App.Attributes;
 using Web.App.Attributes.RequestTelemetry;
 using Web.App.Domain;
+using Web.App.Domain.Charts;
 using Web.App.Infrastructure.Apis;
 using Web.App.Infrastructure.Apis.Establishment;
 using Web.App.Infrastructure.Apis.Insight;
+using Web.App.Infrastructure.Apis.LocalAuthorities;
 using Web.App.Infrastructure.Extensions;
 using Web.App.Services;
 using Web.App.TagHelpers;
@@ -21,7 +25,8 @@ public class LocalAuthorityController(
     ILogger<LocalAuthorityController> logger,
     IEstablishmentApi establishmentApi,
     IMetricRagRatingApi metricRagRatingApi,
-    ICommercialResourcesService commercialResourcesService)
+    ICommercialResourcesService commercialResourcesService,
+    ILocalAuthoritiesApi localAuthoritiesApi)
     : Controller
 {
     [HttpGet]
@@ -112,6 +117,34 @@ public class LocalAuthorityController(
             {
                 logger.LogError(e, "An error displaying local authority resources: {DisplayUrl}", Request.GetDisplayUrl());
                 return e is StatusCodeException s ? StatusCode((int)s.Status) : StatusCode(500);
+            }
+        }
+    }
+
+    [HttpGet]
+    [Produces("application/zip")]
+    [ProducesResponseType<byte[]>(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    [Route("download/schools/finance")]
+    public async Task<IActionResult> DownloadSchoolsFinance(string code)
+    {
+        using (logger.BeginScope(new
+        {
+            code
+        }))
+        {
+            try
+            {
+                var results = await localAuthoritiesApi
+                    .GetSchoolsFinance(code, [new QueryParameter("dimension", Dimensions.ResultAsOptions.Actuals.GetQueryParam())])
+                    .GetResultOrDefault<LocalAuthoritySchoolFinancial[]>() ?? [];
+
+                return new CsvResults([new CsvResult(results, $"la-schools-finance-{code}.csv")], $"la-schools-finance-{code}.zip");
+            }
+            catch (Exception e)
+            {
+                logger.LogError(e, "An error downloading LA schools financial data: {DisplayUrl}", Request.GetDisplayUrl());
+                return StatusCode(500);
             }
         }
     }

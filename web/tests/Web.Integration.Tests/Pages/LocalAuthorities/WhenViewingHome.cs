@@ -358,6 +358,22 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
         Assert.NotNull(noRowsMessage);
     }
 
+    [Fact]
+    public async Task CanDownloadPageData()
+    {
+        var (page, authority, _, _, _, _) = await SetupNavigateInitPage(false, true, false, null, "?f.filter=show", OverallPhaseTypes.Primary);
+
+        var tab = AssertFinancialsTab(page);
+
+        var anchor = tab.QuerySelectorAll(".app-filter a.govuk-button")
+            .FirstOrDefault(x => x.TextContent.Trim() == "Save table data");
+        Assert.NotNull(anchor);
+
+        var newPage = await Client.Follow(anchor);
+
+        DocumentAssert.AssertPageUrl(newPage, Paths.LocalAuthoritySchoolsFinanceDownload(authority.Code).ToAbsolute());
+    }
+
     private async Task<(
         IHtmlDocument page,
         LocalAuthority authority,

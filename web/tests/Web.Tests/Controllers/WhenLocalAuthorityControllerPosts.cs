@@ -8,6 +8,7 @@ using Moq;
 using Web.App.Controllers;
 using Web.App.Infrastructure.Apis.Establishment;
 using Web.App.Infrastructure.Apis.Insight;
+using Web.App.Infrastructure.Apis.LocalAuthorities;
 using Web.App.Services;
 using Xunit;
 
@@ -17,14 +18,11 @@ namespace Web.Tests.Controllers;
 public class WhenLocalAuthorityControllerPosts
 {
     private readonly LocalAuthorityController _api;
-    private readonly Mock<ICommercialResourcesService> _commercialResourcesService = new();
-    private readonly Mock<IEstablishmentApi> _establishmentApi = new();
     private readonly NullLogger<LocalAuthorityController> _logger = new();
-    private readonly Mock<IMetricRagRatingApi> _metricRagRatingApi = new();
 
     public WhenLocalAuthorityControllerPosts()
     {
-        _api = new LocalAuthorityController(_logger, _establishmentApi.Object, _metricRagRatingApi.Object, _commercialResourcesService.Object);
+        _api = new LocalAuthorityController(_logger, Mock.Of<IEstablishmentApi>(), Mock.Of<IMetricRagRatingApi>(), Mock.Of<ICommercialResourcesService>(), Mock.Of<ILocalAuthoritiesApi>());
     }
 
     public static TheoryData<
