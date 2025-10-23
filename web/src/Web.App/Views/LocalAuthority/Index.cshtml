@@ -81,7 +81,8 @@
                     @await Component.InvokeAsync("LocalAuthoritySchoolFinancial", new
                     {
                         code = Model.Code,
-                        formPrefix = "f."
+                        formPrefix = "f.",
+                        maxRows = 7
                     })
                 </div>
             </div>

@@ -3,9 +3,10 @@ using Web.App.Domain.Charts;
 
 namespace Web.App.ViewModels.Components;
 
-public class LocalAuthoritySchoolFinancialViewModel(string code, string formPrefix) : LocalAuthoritySchoolFinancialFormViewModel(code, formPrefix);
+public class LocalAuthoritySchoolFinancialViewModel(string code, string formPrefix, int maxRows)
+    : LocalAuthoritySchoolFinancialFormViewModel(code, formPrefix, maxRows);
 
-public class LocalAuthoritySchoolFinancialFormViewModel(string code, string formPrefix)
+public class LocalAuthoritySchoolFinancialFormViewModel(string code, string formPrefix, int maxRows)
 {
     public static readonly Dimensions.ResultAsOptions[] FilterDimensions =
     [
@@ -21,7 +22,9 @@ public class LocalAuthoritySchoolFinancialFormViewModel(string code, string form
 
     public string Code => code;
     public string FormPrefix => formPrefix;
+    public int MaxRows => maxRows;
 
+    public bool AllRows { get; init; }
     public bool FiltersVisible { get; init; } = true;
     public Dimensions.ResultAsOptions ResultAs { get; set; } = Dimensions.ResultAsOptions.PercentIncome;
     public OverallPhaseTypes.OverallPhaseTypeFilter[] SelectedOverallPhases { get; init; } = [];
@@ -35,10 +38,18 @@ public class LocalAuthoritySchoolFinancialFormViewModel(string code, string form
         public const string FiltersVisible = "filter";
         public const string ResetFields = "__resetFields";
         public const string ResultAs = "as";
+        public const string Rows = "rows";
         public const string SelectedOverallPhases = "phase";
         public const string SelectedNurseryProvisions = "nursery";
         public const string SelectedSpecialProvisions = "special";
         public const string SelectedSixthFormProvisions = "sixth";
         public const string Sort = "sort";
+    }
+
+    public static class FormFieldValues
+    {
+        public const string All = "all";
+        public const string Hide = "hide";
+        public const string Show = "show";
     }
 }

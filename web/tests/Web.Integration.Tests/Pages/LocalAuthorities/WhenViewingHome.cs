@@ -11,6 +11,7 @@ using Xunit;
 
 namespace Web.Integration.Tests.Pages.LocalAuthorities;
 
+// todo: when stub replaced with API call, add test case for zero financial rows message
 public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<SchoolBenchmarkingWebAppClient>(client)
 {
     [Theory]
@@ -290,7 +291,8 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
     [Theory]
     [InlineData("?f.sort=SchoolName~asc&f.phase=1&f.phase=2&f.as=0", "?f.phase=1&f.phase=2&f.as=0")]
     [InlineData("?f.sort=SchoolName~desc&f.filter=show&f.phase=1&f.phase=2&f.as=0", "?f.phase=1&f.phase=2&f.as=0")]
-    public async Task CanResetFinancialSortOnNewFilter(string? queryString, string expectedQuery)
+    [InlineData("?f.rows=all&f.filter=show&f.phase=1&f.phase=2&f.as=0", "?f.phase=1&f.phase=2&f.as=0")]
+    public async Task CanResetFieldsOnNewFilter(string? queryString, string expectedQuery)
     {
         var (page, authority, _, _, _) = await SetupNavigateInitPage(false, true, false, queryString, OverallPhaseTypes.Primary);
 
@@ -311,6 +313,31 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
         });
 
         DocumentAssert.AssertPageUrl(page, $"{Paths.LocalAuthorityHome(authority.Code).ToAbsolute()}{expectedQuery}");
+    }
+
+    // todo: when stub replaced with API call, add case when result count is less than maximum rows
+    [Theory]
+    [InlineData(null, true, "?f.rows=all")]
+    [InlineData("?f.filter=show", true, "?f.filter=show&f.rows=all")]
+    [InlineData("?f.rows=all", false, null)]
+    public async Task CanViewAllRows(string? queryString, bool expectedVisible, string? expectedQuery)
+    {
+        var (page, authority, _, _, _) = await SetupNavigateInitPage(false, true, false, queryString, OverallPhaseTypes.Primary);
+
+        var tab = AssertFinancialsTab(page);
+
+        var form = page.QuerySelector("form[role='search']");
+        Assert.NotNull(form);
+
+        var toggleLink = tab.QuerySelector("a[data-testid='toggle-financial-all']");
+        if (!expectedVisible)
+        {
+            Assert.Null(toggleLink);
+            return;
+        }
+
+        Assert.NotNull(toggleLink);
+        Assert.Equal($"{Paths.LocalAuthorityHome(authority.Code)}{expectedQuery}", toggleLink.Attributes["href"]?.Value);
     }
 
     private async Task<(IHtmlDocument page, LocalAuthority authority, LocalAuthoritySchool[] schools, RagRatingSummary[] ratings, Banner? banner)> SetupNavigateInitPage(
