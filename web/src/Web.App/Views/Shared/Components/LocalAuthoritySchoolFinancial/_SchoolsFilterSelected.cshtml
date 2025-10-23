@@ -1,0 +1,111 @@
+@using Web.App.Domain
+@using Web.App.ViewModels.Components
+@model Web.App.ViewModels.Components.LocalAuthoritySchoolFinancialViewModel
+
+@if (Model.SelectedOverallPhases.Length == 0
+     && Model.SelectedNurseryProvisions.Length == 0
+     && Model.SelectedSpecialProvisions.Length == 0
+     && Model.SelectedSixthFormProvisions.Length == 0)
+{
+    return;
+}
+
+<div class="app-filter__selected">
+    <div class="app-filter__selected-header">
+        <h2 class="govuk-heading-m">
+            Selected filters
+        </h2>
+        <a href="@Url.Action("Index", "LocalAuthority", new RouteValueDictionary
+                 {
+                     { "code", Model.Code },
+                     { $"{Model.FormPrefix}{LocalAuthoritySchoolFinancialFormViewModel.FormFieldNames.FiltersVisible}", LocalAuthoritySchoolFinancialFormViewModel.FormFieldValues.Show },
+                 { $"{Model.FormPrefix}{LocalAuthoritySchoolFinancialFormViewModel.FormFieldNames.ResultAs}", (int)Model.ResultAs },
+                     { $"{Model.FormPrefix}{LocalAuthoritySchoolFinancialFormViewModel.FormFieldNames.Sort}", Model.Sort }
+                 })" class="govuk-link govuk-link--no-visited-state">Clear</a>
+    </div>
+    
+    @* todo: refactor into reusable partials *@
+    @if (Model.SelectedOverallPhases.Length > 0)
+    {
+        <h3 class="govuk-heading-s">
+            Phases
+        </h3>
+        <ul class="govuk-list">
+            @foreach (var filter in Model.SelectedOverallPhases)
+            {
+                var query = (Context.Request.QueryString.Value ?? string.Empty)
+                    .Replace($"{Model.FormPrefix}{LocalAuthoritySchoolFinancialFormViewModel.FormFieldNames.SelectedOverallPhases}={(int)filter}", string.Empty)
+                    .Replace("?&", "&")
+                    .Replace("&&", "&");
+                <li>
+                    <a href="@Context.Request.Path@query" class="app-filter__tag">
+                        @filter.GetFilterDescription()
+                    </a>
+                </li>
+            }
+        </ul>
+    }
+    
+    @if (Model.SelectedNurseryProvisions.Length > 0)
+    {
+        <h3 class="govuk-heading-s">
+            Nursery provisions
+        </h3>
+        <ul class="govuk-list">
+            @foreach (var filter in Model.SelectedNurseryProvisions)
+            {
+                var query = (Context.Request.QueryString.Value ?? string.Empty)
+                    .Replace($"{Model.FormPrefix}{LocalAuthoritySchoolFinancialFormViewModel.FormFieldNames.SelectedNurseryProvisions}={(int)filter}", string.Empty)
+                    .Replace("?&", "&")
+                    .Replace("&&", "&");
+                <li>
+                    <a href="@Context.Request.Path@query" class="app-filter__tag">
+                        @filter.GetFilterDescription()
+                    </a>
+                </li>
+            }
+        </ul>
+    }
+    
+    @if (Model.SelectedSpecialProvisions.Length > 0)
+    {
+        <h3 class="govuk-heading-s">
+            Special class provisions
+        </h3>
+        <ul class="govuk-list">
+            @foreach (var filter in Model.SelectedSpecialProvisions)
+            {
+                var query = (Context.Request.QueryString.Value ?? string.Empty)
+                    .Replace($"{Model.FormPrefix}{LocalAuthoritySchoolFinancialFormViewModel.FormFieldNames.SelectedSpecialProvisions}={(int)filter}", string.Empty)
+                    .Replace("?&", "&")
+                    .Replace("&&", "&");
+                <li>
+                    <a href="@Context.Request.Path@query" class="app-filter__tag">
+                        @filter.GetFilterDescription()
+                    </a>
+                </li>
+            }
+        </ul>
+    }
+
+    @if (Model.SelectedSixthFormProvisions.Length > 0)
+    {
+        <h3 class="govuk-heading-s">
+            Sixth form provisions
+        </h3>
+        <ul class="govuk-list">
+            @foreach (var filter in Model.SelectedSixthFormProvisions)
+            {
+                var query = (Context.Request.QueryString.Value ?? string.Empty)
+                    .Replace($"{Model.FormPrefix}{LocalAuthoritySchoolFinancialFormViewModel.FormFieldNames.SelectedSixthFormProvisions}={(int)filter}", string.Empty)
+                    .Replace("?&", "&")
+                    .Replace("&&", "&");
+                <li>
+                    <a href="@Context.Request.Path@query" class="app-filter__tag">
+                        @filter.GetFilterDescription()
+                    </a>
+                </li>
+            }
+        </ul>
+    }
+</div>

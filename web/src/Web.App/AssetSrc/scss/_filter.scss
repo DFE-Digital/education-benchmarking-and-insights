@@ -17,6 +17,10 @@
       display: flex;
       justify-content: space-between;
       align-items: baseline;
+
+      > a {
+        @include govuk-font-size($size: 16);
+      }
     }
 
     .app-filter__tag {
