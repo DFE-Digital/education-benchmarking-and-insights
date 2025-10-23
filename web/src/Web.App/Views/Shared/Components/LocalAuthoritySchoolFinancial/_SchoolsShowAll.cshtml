@@ -1,0 +1,17 @@
+@using Web.App.ViewModels.Components
+@model Web.App.ViewModels.Components.LocalAuthoritySchoolFinancialViewModel
+@{
+    if (Model.AllRows || Model.Results.Length < Model.MaxRows)
+    {
+        return;
+    }
+
+    var query = QueryString.Create(Context.Request.Query);
+    query = query.Add(
+        $"{Model.FormPrefix}{LocalAuthoritySchoolFinancialFormViewModel.FormFieldNames.Rows}",
+        LocalAuthoritySchoolFinancialFormViewModel.FormFieldValues.All);
+    <p class="govuk-body">
+        <a href="@Context.Request.Path@query" class="govuk-link govuk-link--no-visited-state"
+           data-testid="toggle-financial-all">Show all schools</a>
+    </p>
+}

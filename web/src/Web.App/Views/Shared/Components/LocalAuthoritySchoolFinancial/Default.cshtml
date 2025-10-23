@@ -3,6 +3,8 @@
 
 <input type="hidden" name="@Model.FormPrefix@LocalAuthoritySchoolFinancialFormViewModel.FormFieldNames.Sort"
        value="@Model.Sort"/>
+<input type="hidden" name="@Model.FormPrefix@LocalAuthoritySchoolFinancialFormViewModel.FormFieldNames.Rows"
+       value="@(Model.AllRows ? LocalAuthoritySchoolFinancialFormViewModel.FormFieldValues.All : string.Empty)"/>
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-full govuk-!-margin-bottom-4">
         @if (!Model.FiltersVisible)
@@ -12,7 +14,7 @@
 
         <button type="submit" class="govuk-button govuk-button--secondary" data-testid="toggle-financial-filters"
                 name="@Model.FormPrefix@LocalAuthoritySchoolFinancialFormViewModel.FormFieldNames.FiltersVisible"
-                value="@(Model.FiltersVisible ? "hide" : "show")">
+                value="@(Model.FiltersVisible ? LocalAuthoritySchoolFinancialFormViewModel.FormFieldValues.Hide : LocalAuthoritySchoolFinancialFormViewModel.FormFieldValues.Show)">
             @(Model.FiltersVisible ? "Hide filters" : "Show filters")
         </button>
     </div>
@@ -24,6 +26,18 @@
     }
 
     <div class="govuk-grid-column-@(Model.FiltersVisible ? "two-thirds" : "full")">
-        @await Html.PartialAsync("Components/LocalAuthoritySchoolFinancial/_SchoolsTable", Model)
+        @if (Model.Results.Length == 0)
+        {
+            <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible govuk-!-margin-top-0">
+            <p id="search-warning" class="govuk-body-s govuk-!-margin-top-6">
+                We couldn't find any schools matching your search criteria.
+            </p>
+            <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible govuk-!-margin-top-6">
+        }
+        else
+        {
+            @await Html.PartialAsync("Components/LocalAuthoritySchoolFinancial/_SchoolsTable", Model)
+            @await Html.PartialAsync("Components/LocalAuthoritySchoolFinancial/_SchoolsShowAll", Model)
+        }
     </div>
 </div>

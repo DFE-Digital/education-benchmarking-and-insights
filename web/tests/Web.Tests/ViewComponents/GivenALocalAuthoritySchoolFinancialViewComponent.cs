@@ -36,6 +36,7 @@ public class LocalAuthoritySchoolFinancialViewComponentTests
         string,
         string,
         bool,
+        bool,
         Dimensions.ResultAsOptions,
         OverallPhaseTypes.OverallPhaseTypeFilter[],
         NurseryProvisions.NurseryProvisionFilter[],
@@ -43,15 +44,15 @@ public class LocalAuthoritySchoolFinancialViewComponentTests
         SixthFormProvisions.SixthFormProvisionFilter[],
         string?> FormValuesTestData => new()
     {
-        { "f.", "", true, Dimensions.ResultAsOptions.PercentIncome, [], [], [], [], null },
-        { "f.", "?f.filter=show", true, Dimensions.ResultAsOptions.PercentIncome, [], [], [], [], null },
-        { "f.", "?f.filter=hide", false, Dimensions.ResultAsOptions.PercentIncome, [], [], [], [], null },
-        { "f.", "?f.as=0", true, Dimensions.ResultAsOptions.SpendPerPupil, [], [], [], [], null },
-        { "f.", "?f.as=1", true, Dimensions.ResultAsOptions.Actuals, [], [], [], [], null },
-        { "f.", "?f.as=2", true, Dimensions.ResultAsOptions.PercentExpenditure, [], [], [], [], null },
-        { "f.", "?f.as=3", true, Dimensions.ResultAsOptions.PercentIncome, [], [], [], [], null },
+        { "f.", "", false, true, Dimensions.ResultAsOptions.PercentIncome, [], [], [], [], null },
+        { "f.", "?f.filter=show", false, true, Dimensions.ResultAsOptions.PercentIncome, [], [], [], [], null },
+        { "f.", "?f.filter=hide", false, false, Dimensions.ResultAsOptions.PercentIncome, [], [], [], [], null },
+        { "f.", "?f.as=0", false, true, Dimensions.ResultAsOptions.SpendPerPupil, [], [], [], [], null },
+        { "f.", "?f.as=1", false, true, Dimensions.ResultAsOptions.Actuals, [], [], [], [], null },
+        { "f.", "?f.as=2", false, true, Dimensions.ResultAsOptions.PercentExpenditure, [], [], [], [], null },
+        { "f.", "?f.as=3", false, true, Dimensions.ResultAsOptions.PercentIncome, [], [], [], [], null },
         {
-            "f.", "?f.phase=0&f.phase=1&f.phase=2", true, Dimensions.ResultAsOptions.PercentIncome, [
+            "f.", "?f.phase=0&f.phase=1&f.phase=2", false, true, Dimensions.ResultAsOptions.PercentIncome, [
                 OverallPhaseTypes.OverallPhaseTypeFilter.Primary,
                 OverallPhaseTypes.OverallPhaseTypeFilter.Secondary,
                 OverallPhaseTypes.OverallPhaseTypeFilter.Special
@@ -59,28 +60,30 @@ public class LocalAuthoritySchoolFinancialViewComponentTests
             [], [], [], null
         },
         {
-            "f.", "?f.phase=0&f.phase=1&f.as=1&other=value", true, Dimensions.ResultAsOptions.Actuals, [
+            "f.", "?f.phase=0&f.phase=1&f.as=1&other=value", false, true, Dimensions.ResultAsOptions.Actuals, [
                 OverallPhaseTypes.OverallPhaseTypeFilter.Primary,
                 OverallPhaseTypes.OverallPhaseTypeFilter.Secondary
             ],
             [], [], [], null
         },
-        { "f.", "?f.phase=0", true, Dimensions.ResultAsOptions.PercentIncome, [OverallPhaseTypes.OverallPhaseTypeFilter.Primary], [], [], [], null },
-        { "f.", "?f.nursery=1", true, Dimensions.ResultAsOptions.PercentIncome, [], [NurseryProvisions.NurseryProvisionFilter.HasNoNurseryClasses], [], [], null },
-        { "f.", "?f.special=2", true, Dimensions.ResultAsOptions.PercentIncome, [], [], [SpecialProvisions.SpecialProvisionFilter.NotApplicable], [], null },
-        { "f.", "?f.sixth=3", true, Dimensions.ResultAsOptions.PercentIncome, [], [], [], [SixthFormProvisions.SixthFormProvisionFilter.NotRecorded], null },
-        { "f.", "?f.sort=SchoolName~asc", true, Dimensions.ResultAsOptions.PercentIncome, [], [], [], [], "SchoolName~asc" }
+        { "f.", "?f.phase=0", false, true, Dimensions.ResultAsOptions.PercentIncome, [OverallPhaseTypes.OverallPhaseTypeFilter.Primary], [], [], [], null },
+        { "f.", "?f.nursery=1", false, true, Dimensions.ResultAsOptions.PercentIncome, [], [NurseryProvisions.NurseryProvisionFilter.HasNoNurseryClasses], [], [], null },
+        { "f.", "?f.special=2", false, true, Dimensions.ResultAsOptions.PercentIncome, [], [], [SpecialProvisions.SpecialProvisionFilter.NotApplicable], [], null },
+        { "f.", "?f.sixth=3", false, true, Dimensions.ResultAsOptions.PercentIncome, [], [], [], [SixthFormProvisions.SixthFormProvisionFilter.NotRecorded], null },
+        { "f.", "?f.sort=SchoolName~asc", false, true, Dimensions.ResultAsOptions.PercentIncome, [], [], [], [], "SchoolName~asc" },
+        { "f.", "?f.rows=all", true, true, Dimensions.ResultAsOptions.PercentIncome, [], [], [], [], null }
     };
 
     [Fact]
-    public async Task ShouldReturnCodeAndFormPrefix()
+    public async Task ShouldReturnPassThroughValues()
     {
         // arrange
         const string code = nameof(code);
         const string formPrefix = nameof(formPrefix);
+        const int maxRows = 123;
 
         // act
-        var result = await _component.InvokeAsync(code, formPrefix) as ViewViewComponentResult;
+        var result = await _component.InvokeAsync(code, formPrefix, maxRows) as ViewViewComponentResult;
 
         // assert
         Assert.NotNull(result);
@@ -88,6 +91,7 @@ public class LocalAuthoritySchoolFinancialViewComponentTests
         Assert.NotNull(model);
         Assert.Equal(code, model.Code);
         Assert.Equal(formPrefix, model.FormPrefix);
+        Assert.Equal(maxRows, model.MaxRows);
     }
 
     [Theory]
@@ -95,6 +99,7 @@ public class LocalAuthoritySchoolFinancialViewComponentTests
     public async Task ShouldReturnFormValuesFromQuery(
         string formPrefix,
         string query,
+        bool expectedAllRows,
         bool expectedFiltersVisible,
         Dimensions.ResultAsOptions expectedResultAs,
         OverallPhaseTypes.OverallPhaseTypeFilter[] expectedSelectedOverallPhases,
@@ -105,15 +110,17 @@ public class LocalAuthoritySchoolFinancialViewComponentTests
     {
         // arrange
         const string code = nameof(code);
+        const int maxRows = 3;
         _httpContext.Request.QueryString = new QueryString(query);
 
         // act
-        var result = await _component.InvokeAsync(code, formPrefix) as ViewViewComponentResult;
+        var result = await _component.InvokeAsync(code, formPrefix, maxRows) as ViewViewComponentResult;
 
         // assert
         Assert.NotNull(result);
         var model = result.ViewData?.Model as LocalAuthoritySchoolFinancialViewModel;
         Assert.NotNull(model);
+        Assert.Equal(expectedAllRows, model.AllRows);
         Assert.Equal(expectedFiltersVisible, model.FiltersVisible);
         Assert.Equal(expectedResultAs, model.ResultAs);
         Assert.Equal(expectedSelectedOverallPhases, model.SelectedOverallPhases);

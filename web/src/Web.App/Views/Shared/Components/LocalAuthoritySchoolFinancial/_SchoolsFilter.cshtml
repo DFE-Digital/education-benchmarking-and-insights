@@ -9,6 +9,11 @@
     {
         resetFields.Add($"{Model.FormPrefix}{LocalAuthoritySchoolFinancialFormViewModel.FormFieldNames.Sort}");
     }
+
+    if (Model.AllRows)
+    {
+        resetFields.Add($"{Model.FormPrefix}{LocalAuthoritySchoolFinancialFormViewModel.FormFieldNames.Rows}");
+    }
 }
 
 <div class="app-filter">

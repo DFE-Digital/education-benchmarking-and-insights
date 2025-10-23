@@ -9,7 +9,7 @@ namespace Web.App.ViewComponents;
 
 public class LocalAuthoritySchoolFinancialViewComponent : ViewComponent
 {
-    public async Task<IViewComponentResult> InvokeAsync(string code, string formPrefix)
+    public async Task<IViewComponentResult> InvokeAsync(string code, string formPrefix, int maxRows)
     {
         var (filtersVisible,
             resultAs,
@@ -17,7 +17,8 @@ public class LocalAuthoritySchoolFinancialViewComponent : ViewComponent
             selectedNurseryProvisions,
             selectedSpecialProvisions,
             selectedSixthFormProvisions,
-            sort) = ParseQuery(Request.Query, formPrefix);
+            sort,
+            allRows) = ParseQuery(Request.Query, formPrefix);
 
         // todo: replace stub with call to API to get results
         var results = await Task.FromResult(new[]
@@ -45,27 +46,52 @@ public class LocalAuthoritySchoolFinancialViewComponent : ViewComponent
                 Urn = "000003",
                 TotalPupils = 890,
                 PeriodCoveredByReturn = 10
+            },
+            new LocalAuthoritySchoolFinancial
+            {
+                SchoolName = "Stub school 4",
+                Urn = "000004",
+                TotalPupils = 987,
+                PeriodCoveredByReturn = 12
+            },
+            new LocalAuthoritySchoolFinancial
+            {
+                SchoolName = "Stub school 5",
+                Urn = "000005",
+                TotalPupils = 654,
+                PeriodCoveredByReturn = 12
+            },
+            new LocalAuthoritySchoolFinancial
+            {
+                SchoolName = "Stub school 6",
+                Urn = "000006",
+                TotalPupils = 321,
+                PeriodCoveredByReturn = 12
+            },
+            new LocalAuthoritySchoolFinancial
+            {
+                SchoolName = "Stub school 7",
+                Urn = "000007",
+                TotalPupils = 890,
+                PeriodCoveredByReturn = 12
             }
         });
 
-        var viewModel = new LocalAuthoritySchoolFinancialViewModel(code, formPrefix)
+        var viewModel = new LocalAuthoritySchoolFinancialViewModel(code, formPrefix, maxRows)
         {
+            AllRows = allRows,
             FiltersVisible = filtersVisible,
             Results = results,
             SelectedOverallPhases = selectedOverallPhases.ToArray(),
             SelectedNurseryProvisions = selectedNurseryProvisions.ToArray(),
             SelectedSpecialProvisions = selectedSpecialProvisions.ToArray(),
-            SelectedSixthFormProvisions = selectedSixthFormProvisions.ToArray()
+            SelectedSixthFormProvisions = selectedSixthFormProvisions.ToArray(),
+            Sort = string.IsNullOrWhiteSpace(sort) ? null : sort
         };
 
         if (resultAs != null)
         {
             viewModel.ResultAs = resultAs.Value;
-        }
-
-        if (!string.IsNullOrWhiteSpace(sort))
-        {
-            viewModel.Sort = sort;
         }
 
         return View(viewModel);
@@ -78,9 +104,10 @@ public class LocalAuthoritySchoolFinancialViewComponent : ViewComponent
         NurseryProvisions.NurseryProvisionFilter[] selectedNurseryProvisions,
         SpecialProvisions.SpecialProvisionFilter[] selectedSpecialProvisions,
         SixthFormProvisions.SixthFormProvisionFilter[] selectedSixthFormProvisions,
-        string? sort) ParseQuery(IQueryCollection query, string formPrefix)
+        string? sort,
+        bool allRows) ParseQuery(IQueryCollection query, string formPrefix)
     {
-        var filtersVisible = query[$"{formPrefix}{LocalAuthoritySchoolFinancialFormViewModel.FormFieldNames.FiltersVisible}"] != "hide";
+        var filtersVisible = query[$"{formPrefix}{LocalAuthoritySchoolFinancialFormViewModel.FormFieldNames.FiltersVisible}"] != LocalAuthoritySchoolFinancialFormViewModel.FormFieldValues.Hide;
 
         Dimensions.ResultAsOptions? resultAs = null;
         var resultsAs = query[$"{formPrefix}{LocalAuthoritySchoolFinancialFormViewModel.FormFieldNames.ResultAs}"]
@@ -105,6 +132,7 @@ public class LocalAuthoritySchoolFinancialViewComponent : ViewComponent
             .ToArray();
 
         var sort = query[$"{formPrefix}{LocalAuthoritySchoolFinancialFormViewModel.FormFieldNames.Sort}"];
+        var allRows = query[$"{formPrefix}{LocalAuthoritySchoolFinancialFormViewModel.FormFieldNames.Rows}"] == LocalAuthoritySchoolFinancialFormViewModel.FormFieldValues.All;
 
         return (
             filtersVisible,
@@ -113,6 +141,7 @@ public class LocalAuthoritySchoolFinancialViewComponent : ViewComponent
             selectedNurseryProvisions,
             selectedSpecialProvisions,
             selectedSixthFormProvisions,
-            sort == StringValues.Empty ? null : sort.ToString());
+            sort == StringValues.Empty ? null : sort.ToString(),
+            allRows);
     }
 }
