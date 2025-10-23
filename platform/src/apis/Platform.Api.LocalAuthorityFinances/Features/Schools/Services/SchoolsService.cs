@@ -20,7 +20,7 @@ public interface ISchoolsService
         int? limit,
         string sortField,
         string sortOrder,
-        string? overallPhase = null,
+        string[] overallPhase,
         CancellationToken cancellationToken = default);
 }
 
@@ -35,7 +35,7 @@ public class SchoolsService(IDatabaseFactory dbFactory) : ISchoolsService
         int? limit,
         string sortField,
         string sortOrder,
-        string? overallPhase = null,
+        string[] overallPhase,
         CancellationToken cancellationToken = default)
     {
         var builder = new SchoolsFinanceSummaryDefaultCurrentQuery(dimension)
@@ -51,9 +51,9 @@ public class SchoolsService(IDatabaseFactory dbFactory) : ISchoolsService
 
         builder.Select(limit.HasValue ? $"TOP({limit.Value}) *" : "*");
 
-        if (!string.IsNullOrWhiteSpace(overallPhase))
+        if (overallPhase.Length > 0)
         {
-            builder.WhereOverallPhaseEqual(overallPhase);
+            builder.WhereOverallPhaseIn(overallPhase);
         }
 
         if (nurseryProvision.Length > 0)

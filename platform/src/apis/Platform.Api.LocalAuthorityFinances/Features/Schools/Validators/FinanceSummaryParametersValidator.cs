@@ -16,7 +16,7 @@ public class FinanceSummaryParametersValidator : AbstractValidator<FinanceSummar
             .WithMessage($"{{PropertyName}} must be one of the supported values: {string.Join(", ", Dimensions.Finance.All)}");
 
         RuleFor(x => x.OverallPhase)
-            .Must(BeEmptyOrAValidPhase)
+            .Must(x => x.IsEmpty() || x.All(BeValidPhase))
             .WithMessage($"{{PropertyName}} must be empty or one of the supported values: {string.Join(", ", OverallPhase.All)}");
 
         RuleFor(x => x.Limit)
@@ -48,7 +48,7 @@ public class FinanceSummaryParametersValidator : AbstractValidator<FinanceSummar
 
     private static bool MustBeEmptyOrAValidNumber(string? limit) => string.IsNullOrWhiteSpace(limit) || (int.TryParse(limit, out var parsed) && parsed is >= 1 and <= 100);
     private static bool BeAValidDimension(string dimension) => Dimensions.Finance.IsValid(dimension);
-    private static bool BeEmptyOrAValidPhase(string? overallPhase) => string.IsNullOrWhiteSpace(overallPhase) || OverallPhase.IsValid(overallPhase);
+    private static bool BeValidPhase(string? overallPhase) => OverallPhase.IsValid(overallPhase);
     private static bool BeAValidNurseryProvision(string nurseryProvision) => NurseryProvision.IsValid(nurseryProvision);
     private static bool BeAValidSixthFormProvision(string sixthFormProvision) => SixthFormProvision.IsValid(sixthFormProvision);
     private static bool BeAValidSpecialClassProvision(string specialClassProvision) => SpecialClassProvision.IsValid(specialClassProvision);

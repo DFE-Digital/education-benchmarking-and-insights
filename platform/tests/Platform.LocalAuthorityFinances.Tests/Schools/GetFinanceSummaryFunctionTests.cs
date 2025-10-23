@@ -47,7 +47,7 @@ public class GetFinanceSummaryFunctionTests : FunctionsTestBase
                 It.IsAny<int?>(),
                 It.IsAny<string>(),
                 It.IsAny<string>(),
-                It.IsAny<string>(),
+                It.IsAny<string[]>(),
                 It.IsAny<CancellationToken>()))
             .ReturnsAsync(model);
 
@@ -90,7 +90,7 @@ public class GetFinanceSummaryFunctionTests : FunctionsTestBase
                 It.IsAny<int?>(),
                 It.IsAny<string>(),
                 It.IsAny<string>(),
-                It.IsAny<string>(),
+                It.IsAny<string[]>(),
                 It.IsAny<CancellationToken>()), Times.Never);
     }
 
@@ -111,7 +111,7 @@ public class GetFinanceSummaryFunctionTests : FunctionsTestBase
                 It.IsAny<int?>(),
                 It.IsAny<string>(),
                 It.IsAny<string>(),
-                It.IsAny<string>(),
+                It.IsAny<string[]>(),
                 It.IsAny<CancellationToken>()))
             .ReturnsAsync([]);
 

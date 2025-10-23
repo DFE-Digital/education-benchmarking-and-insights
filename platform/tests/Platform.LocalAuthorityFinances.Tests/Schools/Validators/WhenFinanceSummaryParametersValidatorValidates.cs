@@ -40,6 +40,7 @@ public class WhenFinanceSummaryParametersValidatorValidates
     [InlineData("")]
     [InlineData("Primary")]
     [InlineData("Secondary")]
+    [InlineData("Primary, Secondary")]
     public async Task ShouldBeValidWithValidOverallPhase(string overallPhase)
     {
         var parameters = new FinanceSummaryParameters();
@@ -52,6 +53,7 @@ public class WhenFinanceSummaryParametersValidatorValidates
     [Theory]
     [InlineData("Unknown")]
     [InlineData("123")]
+    [InlineData("Unknown, 123")]
     public async Task ShouldBeInvalidWithInvalidOverallPhase(string overallPhase)
     {
         var parameters = new FinanceSummaryParameters();
@@ -93,6 +95,7 @@ public class WhenFinanceSummaryParametersValidatorValidates
     [InlineData("No Nursery Classes")]
     [InlineData("Not applicable")]
     [InlineData("Not recorded")]
+    [InlineData("Not applicable, Not recorded")]
     public async Task ShouldBeValidWithValidNurseryProvision(string provision)
     {
         var parameters = new FinanceSummaryParameters();
@@ -117,6 +120,7 @@ public class WhenFinanceSummaryParametersValidatorValidates
     [InlineData("Does not have a sixth form")]
     [InlineData("Not applicable")]
     [InlineData("Not recorded")]
+    [InlineData("Not applicable, Not recorded")]
     public async Task ShouldBeValidWithValidSixthFormProvision(string provision)
     {
         var parameters = new FinanceSummaryParameters();
@@ -141,6 +145,7 @@ public class WhenFinanceSummaryParametersValidatorValidates
     [InlineData("No Special Classes")]
     [InlineData("Not applicable")]
     [InlineData("Not recorded")]
+    [InlineData("Not applicable, Not recorded")]
     public async Task ShouldBeValidWithValidSpecialClassesProvision(string provision)
     {
         var parameters = new FinanceSummaryParameters();

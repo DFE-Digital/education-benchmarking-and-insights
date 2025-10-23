@@ -11,7 +11,7 @@ public record FinanceSummaryParameters : QueryParameters
     public string Dimension { get; private set; } = Dimensions.Finance.Actuals;
     public string SortField { get; private set; } = FinanceSummarySortFields.SchoolName;
     public string SortOrder { get; private set; } = SortDirection.Asc;
-    public string? OverallPhase { get; private set; }
+    public string[] OverallPhase { get; private set; } = [];
     public string[] NurseryProvision { get; private set; } = [];
     public string[] SixthFormProvision { get; private set; } = [];
     public string[] SpecialClassesProvision { get; private set; } = [];
@@ -22,7 +22,7 @@ public record FinanceSummaryParameters : QueryParameters
         Dimension = query["dimension"] ?? Dimensions.Finance.Actuals;
         SortField = query["sortField"] ?? FinanceSummarySortFields.SchoolName;
         SortOrder = query["sortOrder"] ?? SortDirection.Asc;
-        OverallPhase = query["overallPhase"];
+        OverallPhase = query.ToStringArray("overallPhase");
         NurseryProvision = query.ToStringArray("nurseryProvision");
         SixthFormProvision = query.ToStringArray("sixthFormProvision");
         SpecialClassesProvision = query.ToStringArray("specialClassesProvision");

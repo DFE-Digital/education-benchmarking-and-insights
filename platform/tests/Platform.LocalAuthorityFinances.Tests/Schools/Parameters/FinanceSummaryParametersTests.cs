@@ -30,7 +30,7 @@ public class FinanceSummaryParametersTests
         Assert.Equal("Actuals", parameters.Dimension);
         Assert.Equal("TotalExpenditure", parameters.SortField);
         Assert.Equal("DESC", parameters.SortOrder);
-        Assert.Equal("Primary", parameters.OverallPhase);
+        Assert.Equal(["Primary"], parameters.OverallPhase);
         Assert.Equal(["Not applicable", "Has Nursery Classes"], parameters.NurseryProvision);
         Assert.Equal(["Has a sixth form"], parameters.SixthFormProvision);
         Assert.Equal(["Has Special Classes"], parameters.SpecialClassesProvision);
@@ -48,7 +48,7 @@ public class FinanceSummaryParametersTests
         Assert.Equal(Dimensions.Finance.Actuals, parameters.Dimension);
         Assert.Equal(FinanceSummarySortFields.SchoolName, parameters.SortField);
         Assert.Equal(SortDirection.Asc, parameters.SortOrder);
-        Assert.Null(parameters.OverallPhase);
+        Assert.Empty(parameters.OverallPhase);
         Assert.Empty(parameters.NurseryProvision);
         Assert.Empty(parameters.SixthFormProvision);
         Assert.Empty(parameters.SpecialClassesProvision);

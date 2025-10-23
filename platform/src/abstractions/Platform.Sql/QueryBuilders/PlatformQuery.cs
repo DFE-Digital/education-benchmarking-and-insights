@@ -432,4 +432,16 @@ public abstract class PlatformQuery : SqlBuilder
         Where(sql, parameters);
         return this;
     }
+
+    public PlatformQuery WhereOverallPhaseIn(params string[] phase)
+    {
+        const string sql = "OverallPhase IN @Phase";
+        var parameters = new
+        {
+            Phase = phase
+        };
+
+        Where(sql, parameters);
+        return this;
+    }
 }
