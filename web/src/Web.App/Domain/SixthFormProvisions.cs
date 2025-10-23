@@ -24,6 +24,15 @@ public static class SixthFormProvisions
         SixthFormProvisionFilter.HasNoSixthFormClasses => "Does not have a sixth form",
         SixthFormProvisionFilter.NotApplicable => "Not applicable",
         SixthFormProvisionFilter.NotRecorded => "Not recorded",
-        _ => throw new ArgumentException(nameof(filter))
+        _ => throw new ArgumentOutOfRangeException(nameof(filter))
+    };
+
+    public static string GetQueryParam(this SixthFormProvisionFilter filter) => filter switch
+    {
+        SixthFormProvisionFilter.HasSixthFormClasses => "Has a sixth form",
+        SixthFormProvisionFilter.HasNoSixthFormClasses => "Does not have a sixth form",
+        SixthFormProvisionFilter.NotApplicable => "Not applicable",
+        SixthFormProvisionFilter.NotRecorded => "Not recorded",
+        _ => throw new ArgumentOutOfRangeException(nameof(filter))
     };
 }

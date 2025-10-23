@@ -93,7 +93,11 @@ public class LocalAuthoritySchoolFinancialViewComponentTests
         { "f.", 5, "", [new QueryParameter("dimension", DefaultDimension.GetQueryParam()), new QueryParameter("sortField", DefaultSort.Split("~").First()), new QueryParameter("sortOrder", DefaultSort.Split("~").Last()), new QueryParameter("limit", "5")] },
         { "f.", 5, "?f.as=1", [new QueryParameter("dimension", Dimensions.ResultAsOptions.Actuals.GetQueryParam()), new QueryParameter("sortField", DefaultSort.Split("~").First()), new QueryParameter("sortOrder", DefaultSort.Split("~").Last()), new QueryParameter("limit", "5")] },
         { "f.", 5, "?f.sort=SchoolName~asc", [new QueryParameter("dimension", DefaultDimension.GetQueryParam()), new QueryParameter("sortField", "SchoolName"), new QueryParameter("sortOrder", "asc"), new QueryParameter("limit", "5")] },
-        { "f.", 5, "?f.rows=all", [new QueryParameter("dimension", DefaultDimension.GetQueryParam()), new QueryParameter("sortField", DefaultSort.Split("~").First()), new QueryParameter("sortOrder", DefaultSort.Split("~").Last())] }
+        { "f.", 5, "?f.rows=all", [new QueryParameter("dimension", DefaultDimension.GetQueryParam()), new QueryParameter("sortField", DefaultSort.Split("~").First()), new QueryParameter("sortOrder", DefaultSort.Split("~").Last())] },
+        { "f.", 5, "?f.phase=0&f.phase=1", [new QueryParameter("dimension", DefaultDimension.GetQueryParam()), new QueryParameter("sortField", DefaultSort.Split("~").First()), new QueryParameter("sortOrder", DefaultSort.Split("~").Last()), new QueryParameter("limit", "5"), new QueryParameter ( "overallPhase", "Primary" ), new QueryParameter ( "overallPhase", "Secondary" )] },
+        { "f.", 5, "?f.nursery=1", [new QueryParameter("dimension", DefaultDimension.GetQueryParam()), new QueryParameter("sortField", DefaultSort.Split("~").First()), new QueryParameter("sortOrder", DefaultSort.Split("~").Last()), new QueryParameter("limit", "5"), new QueryParameter ( "nurseryProvision", "No Nursery Classes" )] },
+        { "f.", 5, "?f.special=2", [new QueryParameter("dimension", DefaultDimension.GetQueryParam()), new QueryParameter("sortField", DefaultSort.Split("~").First()), new QueryParameter("sortOrder", DefaultSort.Split("~").Last()), new QueryParameter("limit", "5"), new QueryParameter ( "specialClassesProvision", "Not applicable" )] },
+        { "f.", 5, "?f.sixth=3", [new QueryParameter("dimension", DefaultDimension.GetQueryParam()), new QueryParameter("sortField", DefaultSort.Split("~").First()), new QueryParameter("sortOrder", DefaultSort.Split("~").Last()), new QueryParameter("limit", "5"), new QueryParameter ( "sixthFormProvision", "Not recorded" )] }
     };
 
     [Fact]
@@ -187,6 +191,6 @@ public class LocalAuthoritySchoolFinancialViewComponentTests
         var model = result.ViewData?.Model as LocalAuthoritySchoolFinancialViewModel;
         Assert.NotNull(model);
         Assert.Equivalent(rows, model.Results);
-        Assert.Equivalent(expectedQuery, actualQuery);
+        Assert.Equivalent(expectedQuery.Select(q => q), actualQuery?.Select(q => q), true);
     }
 }

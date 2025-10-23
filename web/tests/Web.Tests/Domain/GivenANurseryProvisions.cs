@@ -36,7 +36,27 @@ public class GivenANurseryProvisions
     [Fact]
     public void ShouldThrowExceptionForOutOfRangeFilterDescription()
     {
-        var exception = Assert.Throws<ArgumentException>(() => ((NurseryProvisions.NurseryProvisionFilter)999).GetFilterDescription());
+        var exception = Assert.Throws<ArgumentOutOfRangeException>(() => ((NurseryProvisions.NurseryProvisionFilter)999).GetFilterDescription());
+
+        Assert.NotNull(exception);
+    }
+
+    [Theory]
+    [InlineData(NurseryProvisions.NurseryProvisionFilter.HasNurseryClasses, "Has Nursery Classes")]
+    [InlineData(NurseryProvisions.NurseryProvisionFilter.HasNoNurseryClasses, "No Nursery Classes")]
+    [InlineData(NurseryProvisions.NurseryProvisionFilter.NotApplicable, "Not applicable")]
+    [InlineData(NurseryProvisions.NurseryProvisionFilter.NotRecorded, "Not recorded")]
+    public void ShouldReturnExpectedQueryParam(NurseryProvisions.NurseryProvisionFilter filter, string expected)
+    {
+        var actual = filter.GetQueryParam();
+
+        Assert.Equal(expected, actual);
+    }
+
+    [Fact]
+    public void ShouldThrowExceptionForOutOfRangeQueryParam()
+    {
+        var exception = Assert.Throws<ArgumentOutOfRangeException>(() => ((NurseryProvisions.NurseryProvisionFilter)999).GetQueryParam());
 
         Assert.NotNull(exception);
     }

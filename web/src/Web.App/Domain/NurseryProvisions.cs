@@ -24,6 +24,15 @@ public static class NurseryProvisions
         NurseryProvisionFilter.HasNoNurseryClasses => "Has no nursery classes",
         NurseryProvisionFilter.NotApplicable => "Not applicable",
         NurseryProvisionFilter.NotRecorded => "Not recorded",
-        _ => throw new ArgumentException(nameof(filter))
+        _ => throw new ArgumentOutOfRangeException(nameof(filter))
+    };
+
+    public static string GetQueryParam(this NurseryProvisionFilter filter) => filter switch
+    {
+        NurseryProvisionFilter.HasNurseryClasses => "Has Nursery Classes",
+        NurseryProvisionFilter.HasNoNurseryClasses => "No Nursery Classes",
+        NurseryProvisionFilter.NotApplicable => "Not applicable",
+        NurseryProvisionFilter.NotRecorded => "Not recorded",
+        _ => throw new ArgumentOutOfRangeException(nameof(filter))
     };
 }
