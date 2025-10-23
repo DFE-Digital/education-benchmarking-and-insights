@@ -45,6 +45,7 @@ public class ApiQuery : List<QueryParameter>
     }
 }
 
+[Serializable]
 public class QueryParameter(string key, string value)
 {
     public string Key => key;

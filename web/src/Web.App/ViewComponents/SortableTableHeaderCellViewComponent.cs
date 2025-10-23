@@ -12,10 +12,11 @@ public class SortableTableHeaderCellViewComponent : ViewComponent
         string sortKey = "sort",
         string sortDelimeter = "~",
         string? className = null,
-        string? tableId = null)
+        string? tableId = null,
+        string? defaultSort = null)
     {
         var sort = Request.Query[sortKey];
-        var currentSortKvp = (sort == StringValues.Empty ? string.Empty : sort.ToString()).Split(sortDelimeter);
+        var currentSortKvp = (sort == StringValues.Empty ? defaultSort ?? string.Empty : sort.ToString()).Split(sortDelimeter);
         var currentSortField = currentSortKvp.First();
         var currentSort = currentSortKvp.Last();
         var formModel = new SortableTableHeaderCellViewModel(label, sortField, sortDelimeter, sortKey, currentSortField, currentSort, className, tableId);
