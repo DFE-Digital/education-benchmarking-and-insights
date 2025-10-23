@@ -107,7 +107,7 @@ public class LocalAuthoritySchoolFinancialViewComponent : ViewComponent
         string? sort,
         bool allRows) ParseQuery(IQueryCollection query, string formPrefix)
     {
-        var filtersVisible = query[$"{formPrefix}{LocalAuthoritySchoolFinancialFormViewModel.FormFieldNames.FiltersVisible}"] != LocalAuthoritySchoolFinancialFormViewModel.FormFieldValues.Hide;
+        var filtersVisible = query[$"{formPrefix}{LocalAuthoritySchoolFinancialFormViewModel.FormFieldNames.FiltersVisible}"] == LocalAuthoritySchoolFinancialFormViewModel.FormFieldValues.Show;
 
         Dimensions.ResultAsOptions? resultAs = null;
         var resultsAs = query[$"{formPrefix}{LocalAuthoritySchoolFinancialFormViewModel.FormFieldNames.ResultAs}"]

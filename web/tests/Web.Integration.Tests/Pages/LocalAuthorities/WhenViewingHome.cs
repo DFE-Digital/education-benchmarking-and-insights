@@ -173,7 +173,7 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
     [Fact]
     public async Task CanSubmitFinancialFilters()
     {
-        var (page, authority, _, _, _) = await SetupNavigateInitPage(false, true, false, null, OverallPhaseTypes.Primary);
+        var (page, authority, _, _, _) = await SetupNavigateInitPage(false, true, false, "?f.filter=show", OverallPhaseTypes.Primary);
 
         var tab = AssertFinancialsTab(page);
 
@@ -211,14 +211,14 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
             });
         });
 
-        const string expectedQuery = "?f.phase=0&f.nursery=0&f.special=0&f.sixth=0&f.as=3";
+        const string expectedQuery = "?f.filter=show&f.phase=0&f.nursery=0&f.special=0&f.sixth=0&f.as=3";
         DocumentAssert.AssertPageUrl(page, $"{Paths.LocalAuthorityHome(authority.Code).ToAbsolute()}{expectedQuery}");
     }
 
     [Fact]
     public async Task CanSetFinancialFilters()
     {
-        const string queryString = "?f.phase=0&f.nursery=0&f.special=0&f.sixth=0&f.as=0";
+        const string queryString = "?f.filter=show&f.phase=0&f.nursery=0&f.special=0&f.sixth=0&f.as=0";
         var (page, _, _, _, _) = await SetupNavigateInitPage(false, true, false, queryString, OverallPhaseTypes.Primary);
 
         var tab = AssertFinancialsTab(page);
@@ -260,7 +260,7 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
     }
 
     [Theory]
-    [InlineData(null, true, "?f.filter=hide&f.as=3")]
+    [InlineData(null, false, "?f.as=3&f.filter=show")]
     [InlineData("?f.filter=hide", false, "?f.as=3&f.filter=show")]
     [InlineData("?f.sort=SchoolName~asc&f.filter=hide&f.phase=1&f.phase=2&f.as=0", false, "?f.sort=SchoolName~asc&f.phase=1&f.phase=2&f.as=0&f.filter=show")]
     [InlineData("?f.sort=SchoolName~asc&f.filter=show&f.phase=1&f.phase=2&f.as=0", true, "?f.sort=SchoolName~asc&f.filter=hide&f.phase=1&f.phase=2&f.as=0")]
@@ -289,9 +289,8 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
     }
 
     [Theory]
-    [InlineData("?f.sort=SchoolName~asc&f.phase=1&f.phase=2&f.as=0", "?f.phase=1&f.phase=2&f.as=0")]
-    [InlineData("?f.sort=SchoolName~desc&f.filter=show&f.phase=1&f.phase=2&f.as=0", "?f.phase=1&f.phase=2&f.as=0")]
-    [InlineData("?f.rows=all&f.filter=show&f.phase=1&f.phase=2&f.as=0", "?f.phase=1&f.phase=2&f.as=0")]
+    [InlineData("?f.sort=SchoolName~desc&f.filter=show&f.phase=1&f.phase=2&f.as=0", "?f.filter=show&f.phase=1&f.phase=2&f.as=0")]
+    [InlineData("?f.rows=all&f.filter=show&f.phase=1&f.phase=2&f.as=0", "?f.filter=show&f.phase=1&f.phase=2&f.as=0")]
     public async Task CanResetFieldsOnNewFilter(string? queryString, string expectedQuery)
     {
         var (page, authority, _, _, _) = await SetupNavigateInitPage(false, true, false, queryString, OverallPhaseTypes.Primary);

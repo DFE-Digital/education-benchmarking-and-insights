@@ -44,15 +44,15 @@ public class LocalAuthoritySchoolFinancialViewComponentTests
         SixthFormProvisions.SixthFormProvisionFilter[],
         string?> FormValuesTestData => new()
     {
-        { "f.", "", false, true, Dimensions.ResultAsOptions.PercentIncome, [], [], [], [], null },
+        { "f.", "", false, false, Dimensions.ResultAsOptions.PercentIncome, [], [], [], [], null },
         { "f.", "?f.filter=show", false, true, Dimensions.ResultAsOptions.PercentIncome, [], [], [], [], null },
         { "f.", "?f.filter=hide", false, false, Dimensions.ResultAsOptions.PercentIncome, [], [], [], [], null },
-        { "f.", "?f.as=0", false, true, Dimensions.ResultAsOptions.SpendPerPupil, [], [], [], [], null },
-        { "f.", "?f.as=1", false, true, Dimensions.ResultAsOptions.Actuals, [], [], [], [], null },
-        { "f.", "?f.as=2", false, true, Dimensions.ResultAsOptions.PercentExpenditure, [], [], [], [], null },
-        { "f.", "?f.as=3", false, true, Dimensions.ResultAsOptions.PercentIncome, [], [], [], [], null },
+        { "f.", "?f.as=0", false, false, Dimensions.ResultAsOptions.SpendPerPupil, [], [], [], [], null },
+        { "f.", "?f.as=1", false, false, Dimensions.ResultAsOptions.Actuals, [], [], [], [], null },
+        { "f.", "?f.as=2", false, false, Dimensions.ResultAsOptions.PercentExpenditure, [], [], [], [], null },
+        { "f.", "?f.as=3", false, false, Dimensions.ResultAsOptions.PercentIncome, [], [], [], [], null },
         {
-            "f.", "?f.phase=0&f.phase=1&f.phase=2", false, true, Dimensions.ResultAsOptions.PercentIncome, [
+            "f.", "?f.phase=0&f.phase=1&f.phase=2", false, false, Dimensions.ResultAsOptions.PercentIncome, [
                 OverallPhaseTypes.OverallPhaseTypeFilter.Primary,
                 OverallPhaseTypes.OverallPhaseTypeFilter.Secondary,
                 OverallPhaseTypes.OverallPhaseTypeFilter.Special
@@ -60,18 +60,18 @@ public class LocalAuthoritySchoolFinancialViewComponentTests
             [], [], [], null
         },
         {
-            "f.", "?f.phase=0&f.phase=1&f.as=1&other=value", false, true, Dimensions.ResultAsOptions.Actuals, [
+            "f.", "?f.phase=0&f.phase=1&f.as=1&other=value", false, false, Dimensions.ResultAsOptions.Actuals, [
                 OverallPhaseTypes.OverallPhaseTypeFilter.Primary,
                 OverallPhaseTypes.OverallPhaseTypeFilter.Secondary
             ],
             [], [], [], null
         },
-        { "f.", "?f.phase=0", false, true, Dimensions.ResultAsOptions.PercentIncome, [OverallPhaseTypes.OverallPhaseTypeFilter.Primary], [], [], [], null },
-        { "f.", "?f.nursery=1", false, true, Dimensions.ResultAsOptions.PercentIncome, [], [NurseryProvisions.NurseryProvisionFilter.HasNoNurseryClasses], [], [], null },
-        { "f.", "?f.special=2", false, true, Dimensions.ResultAsOptions.PercentIncome, [], [], [SpecialProvisions.SpecialProvisionFilter.NotApplicable], [], null },
-        { "f.", "?f.sixth=3", false, true, Dimensions.ResultAsOptions.PercentIncome, [], [], [], [SixthFormProvisions.SixthFormProvisionFilter.NotRecorded], null },
-        { "f.", "?f.sort=SchoolName~asc", false, true, Dimensions.ResultAsOptions.PercentIncome, [], [], [], [], "SchoolName~asc" },
-        { "f.", "?f.rows=all", true, true, Dimensions.ResultAsOptions.PercentIncome, [], [], [], [], null }
+        { "f.", "?f.phase=0", false, false, Dimensions.ResultAsOptions.PercentIncome, [OverallPhaseTypes.OverallPhaseTypeFilter.Primary], [], [], [], null },
+        { "f.", "?f.nursery=1", false, false, Dimensions.ResultAsOptions.PercentIncome, [], [NurseryProvisions.NurseryProvisionFilter.HasNoNurseryClasses], [], [], null },
+        { "f.", "?f.special=2", false, false, Dimensions.ResultAsOptions.PercentIncome, [], [], [SpecialProvisions.SpecialProvisionFilter.NotApplicable], [], null },
+        { "f.", "?f.sixth=3", false, false, Dimensions.ResultAsOptions.PercentIncome, [], [], [], [SixthFormProvisions.SixthFormProvisionFilter.NotRecorded], null },
+        { "f.", "?f.sort=SchoolName~asc", false, false, Dimensions.ResultAsOptions.PercentIncome, [], [], [], [], "SchoolName~asc" },
+        { "f.", "?f.rows=all", true, false, Dimensions.ResultAsOptions.PercentIncome, [], [], [], [], null }
     };
 
     [Fact]

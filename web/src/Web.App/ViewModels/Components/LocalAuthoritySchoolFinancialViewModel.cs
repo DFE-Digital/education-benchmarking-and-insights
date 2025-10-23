@@ -25,13 +25,13 @@ public class LocalAuthoritySchoolFinancialFormViewModel(string code, string form
     public int MaxRows => maxRows;
 
     public bool AllRows { get; init; }
-    public bool FiltersVisible { get; init; } = true;
+    public bool FiltersVisible { get; init; }
     public Dimensions.ResultAsOptions ResultAs { get; set; } = Dimensions.ResultAsOptions.PercentIncome;
     public OverallPhaseTypes.OverallPhaseTypeFilter[] SelectedOverallPhases { get; init; } = [];
     public NurseryProvisions.NurseryProvisionFilter[] SelectedNurseryProvisions { get; init; } = [];
     public SpecialProvisions.SpecialProvisionFilter[] SelectedSpecialProvisions { get; init; } = [];
     public SixthFormProvisions.SixthFormProvisionFilter[] SelectedSixthFormProvisions { get; init; } = [];
-    public string? Sort { get; set; }
+    public string? Sort { get; init; }
 
     public static class FormFieldNames
     {
