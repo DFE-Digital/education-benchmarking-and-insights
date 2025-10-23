@@ -11,5 +11,5 @@ public record FinanceSummaryResponse
     public decimal? TotalExpenditure { get; set; }
     public decimal? TotalTeachingSupportStaffCosts { get; set; }
     public decimal? RevenueReserve { get; set; }
-    public int? PeriodsCoveredByReturn { get; set; }
+    public int? PeriodCoveredByReturn { get; set; }
 }
