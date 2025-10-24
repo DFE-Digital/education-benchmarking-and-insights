@@ -52,7 +52,7 @@ def run_rag_for_urn_worker(school_urn: str) -> list:
 def _run_rag_computation_engine(
     processed_data: pd.DataFrame,
     comparator_map: dict[str, dict[str, list[int]]],
-    target_urn: Optional[str] = None,
+    target_urn: Optional[int] = None,
 ) -> pd.DataFrame:
     """
     Core RAG computation engine. Orchestrates serial or parallel execution.
