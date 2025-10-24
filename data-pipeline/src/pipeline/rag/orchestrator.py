@@ -15,7 +15,7 @@ logger = setup_logger(__name__)
 
 
 def run_rag_pipeline(
-    run_type: str, run_id: str, target_urn: Optional[str] = None
+    run_type: str, run_id: str, target_urn: Optional[int] = None
 ) -> float:
     """
     Perform default RAG calculations for both maintained schools and academies.
