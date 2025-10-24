@@ -97,7 +97,7 @@ def handle_msg(
                 msg_payload["comparator_set_duration"] = run_comparator_sets_pipeline(
                     run_type=run_type,
                     run_id=msg_payload["runId"],
-                    target_urn=msg_payload["urn"],
+                    target_urn=int(msg_payload["urn"]),
                 )
                 msg_payload["rag_duration"] = run_rag_pipeline(
                     run_type=run_type,
