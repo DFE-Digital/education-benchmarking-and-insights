@@ -23,7 +23,7 @@ public class GetFinanceSummaryFunction(ISchoolsService service, IValidator<Finan
     [OpenApiSecurityHeader]
     [OpenApiOperation(nameof(GetFinanceSummaryFunction), Constants.Features.Schools)]
     [OpenApiParameter("code", Type = typeof(string), Required = true)]
-    [OpenApiParameter("dimension", In = ParameterLocation.Query, Description = "Dimension for resultant values", Type = typeof(string), Required = true, Example = typeof(ExampleDimensionFinance))]
+    [OpenApiParameter("dimension", In = ParameterLocation.Query, Description = "Dimension for resultant values", Type = typeof(string), Example = typeof(ExampleDimensionFinance))]
     [OpenApiParameter("nurseryProvision", In = ParameterLocation.Query, Description = "List of nursery provisions to filter resultant values", Type = typeof(string[]), Required = false)]
     [OpenApiParameter("sixthFormProvision", In = ParameterLocation.Query, Description = "List of sixth provisions filter resultant values", Type = typeof(string[]), Required = false)]
     [OpenApiParameter("specialClassesProvision", In = ParameterLocation.Query, Description = "List of special class provisions filter resultant values", Type = typeof(string[]), Required = false)]
