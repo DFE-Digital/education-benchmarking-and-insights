@@ -138,6 +138,7 @@ public class BenchmarkItSpendingPage(IPage page)
 
     private async Task AssertTableCount(int expectedCount)
     {
+        await TableContainers.First.ShouldBeVisible();
         var count = await TableContainers.CountAsync();
         Assert.Equal(expectedCount, count);
     }
