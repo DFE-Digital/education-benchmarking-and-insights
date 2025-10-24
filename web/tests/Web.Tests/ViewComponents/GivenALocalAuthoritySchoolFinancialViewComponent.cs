@@ -47,41 +47,39 @@ public class LocalAuthoritySchoolFinancialViewComponentTests
         string,
         bool,
         bool,
+        bool,
         Dimensions.ResultAsOptions,
-        OverallPhaseTypes.OverallPhaseTypeFilter[],
-        NurseryProvisions.NurseryProvisionFilter[],
-        SpecialProvisions.SpecialProvisionFilter[],
-        SixthFormProvisions.SixthFormProvisionFilter[],
+        TheoryFilters,
         string?> FormValuesTestData => new()
     {
-        { "f.", "", false, false, DefaultDimension, [], [], [], [], DefaultSort },
-        { "f.", "?f.filter=show", false, true, DefaultDimension, [], [], [], [], DefaultSort },
-        { "f.", "?f.filter=hide", false, false, DefaultDimension, [], [], [], [], DefaultSort },
-        { "f.", "?f.as=0", false, false, Dimensions.ResultAsOptions.SpendPerPupil, [], [], [], [], DefaultSort },
-        { "f.", "?f.as=1", false, false, Dimensions.ResultAsOptions.Actuals, [], [], [], [], DefaultSort },
-        { "f.", "?f.as=2", false, false, Dimensions.ResultAsOptions.PercentExpenditure, [], [], [], [], DefaultSort },
-        { "f.", "?f.as=3", false, false, Dimensions.ResultAsOptions.PercentIncome, [], [], [], [], DefaultSort },
+        { "f.", "", false, false, false, DefaultDimension, new TheoryFilters([], [], [], []), DefaultSort },
+        { "f.", "?f.filter=show", false, true, false, DefaultDimension, new TheoryFilters([], [], [], []), DefaultSort },
+        { "f.", "?f.filter=hide", false, false, false, DefaultDimension, new TheoryFilters([], [], [], []), DefaultSort },
+        { "f.", "?f.as=0", false, false, false, Dimensions.ResultAsOptions.SpendPerPupil, new TheoryFilters([], [], [], []), DefaultSort },
+        { "f.", "?f.as=1", false, false, false, Dimensions.ResultAsOptions.Actuals, new TheoryFilters([], [], [], []), DefaultSort },
+        { "f.", "?f.as=2", false, false, false, Dimensions.ResultAsOptions.PercentExpenditure, new TheoryFilters([], [], [], []), DefaultSort },
+        { "f.", "?f.as=3", false, false, false, Dimensions.ResultAsOptions.PercentIncome, new TheoryFilters([], [], [], []), DefaultSort },
         {
-            "f.", "?f.phase=0&f.phase=1&f.phase=2", false, false, DefaultDimension, [
+            "f.", "?f.phase=0&f.phase=1&f.phase=2", false, false, true, DefaultDimension, new TheoryFilters([
                 OverallPhaseTypes.OverallPhaseTypeFilter.Primary,
                 OverallPhaseTypes.OverallPhaseTypeFilter.Secondary,
                 OverallPhaseTypes.OverallPhaseTypeFilter.Special
             ],
-            [], [], [], DefaultSort
+            [], [], []), DefaultSort
         },
         {
-            "f.", "?f.phase=0&f.phase=1&f.as=1&other=value", false, false, Dimensions.ResultAsOptions.Actuals, [
+            "f.", "?f.phase=0&f.phase=1&f.as=1&other=value", false, false, true, Dimensions.ResultAsOptions.Actuals, new TheoryFilters([
                 OverallPhaseTypes.OverallPhaseTypeFilter.Primary,
                 OverallPhaseTypes.OverallPhaseTypeFilter.Secondary
             ],
-            [], [], [], DefaultSort
+            [], [], []), DefaultSort
         },
-        { "f.", "?f.phase=0", false, false, DefaultDimension, [OverallPhaseTypes.OverallPhaseTypeFilter.Primary], [], [], [], DefaultSort },
-        { "f.", "?f.nursery=1", false, false, DefaultDimension, [], [NurseryProvisions.NurseryProvisionFilter.HasNoNurseryClasses], [], [], DefaultSort },
-        { "f.", "?f.special=2", false, false, DefaultDimension, [], [], [SpecialProvisions.SpecialProvisionFilter.NotApplicable], [], DefaultSort },
-        { "f.", "?f.sixth=3", false, false, DefaultDimension, [], [], [], [SixthFormProvisions.SixthFormProvisionFilter.NotRecorded], DefaultSort },
-        { "f.", "?f.sort=SchoolName~asc", false, false, DefaultDimension, [], [], [], [], "SchoolName~asc" },
-        { "f.", "?f.rows=all", true, false, DefaultDimension, [], [], [], [], DefaultSort }
+        { "f.", "?f.phase=0", false, false, true, DefaultDimension, new TheoryFilters([OverallPhaseTypes.OverallPhaseTypeFilter.Primary], [], [], []), DefaultSort },
+        { "f.", "?f.nursery=1", false, false, true, DefaultDimension, new TheoryFilters([], [NurseryProvisions.NurseryProvisionFilter.HasNoNurseryClasses], [], []), DefaultSort },
+        { "f.", "?f.special=2", false, false, true, DefaultDimension, new TheoryFilters([], [], [SpecialProvisions.SpecialProvisionFilter.NotApplicable], []), DefaultSort },
+        { "f.", "?f.sixth=3", false, false, true, DefaultDimension, new TheoryFilters([], [], [], [SixthFormProvisions.SixthFormProvisionFilter.NotRecorded]), DefaultSort },
+        { "f.", "?f.sort=SchoolName~asc", false, false, false, DefaultDimension, new TheoryFilters([], [], [], []), "SchoolName~asc" },
+        { "f.", "?f.rows=all", true, false, false, DefaultDimension, new TheoryFilters([], [], [], []), DefaultSort }
     };
 
     public static TheoryData<
@@ -127,17 +125,19 @@ public class LocalAuthoritySchoolFinancialViewComponentTests
         string query,
         bool expectedAllRows,
         bool expectedFiltersVisible,
+        bool expectedHasFilters,
         Dimensions.ResultAsOptions expectedResultAs,
-        OverallPhaseTypes.OverallPhaseTypeFilter[] expectedSelectedOverallPhases,
-        NurseryProvisions.NurseryProvisionFilter[] expectedSelectedNurseryProvisions,
-        SpecialProvisions.SpecialProvisionFilter[] expectedSelectedSpecialProvisions,
-        SixthFormProvisions.SixthFormProvisionFilter[] expectedSelectedSixthFormProvisions,
+        TheoryFilters expectedFilters,
         string? expectedSort)
     {
         // arrange
         const string code = nameof(code);
         const int maxRows = 3;
         _httpContext.Request.QueryString = new QueryString(query);
+        var (expectedSelectedOverallPhases,
+            expectedSelectedNurseryProvisions,
+            expectedSelectedSpecialProvisions,
+            expectedSelectedSixthFormProvisions) = expectedFilters;
 
         // act
         var result = await _component.InvokeAsync(code, formPrefix, maxRows, DefaultSort) as ViewViewComponentResult;
@@ -148,6 +148,7 @@ public class LocalAuthoritySchoolFinancialViewComponentTests
         Assert.NotNull(model);
         Assert.Equal(expectedAllRows, model.AllRows);
         Assert.Equal(expectedFiltersVisible, model.FiltersVisible);
+        Assert.Equal(expectedHasFilters, model.HasFilters);
         Assert.Equal(expectedResultAs, model.ResultAs);
         Assert.Equal(expectedSelectedOverallPhases, model.SelectedOverallPhases);
         Assert.Equal(expectedSelectedNurseryProvisions, model.SelectedNurseryProvisions);
@@ -193,4 +194,10 @@ public class LocalAuthoritySchoolFinancialViewComponentTests
         Assert.Equivalent(rows, model.Results);
         Assert.Equivalent(expectedQuery.Select(q => q), actualQuery?.Select(q => q), true);
     }
+
+    public record TheoryFilters(
+        OverallPhaseTypes.OverallPhaseTypeFilter[] Phases,
+        NurseryProvisions.NurseryProvisionFilter[] NurseryProvisions,
+        SpecialProvisions.SpecialProvisionFilter[] SpecialProvisions,
+        SixthFormProvisions.SixthFormProvisionFilter[] SixthFormProvisions);
 }
