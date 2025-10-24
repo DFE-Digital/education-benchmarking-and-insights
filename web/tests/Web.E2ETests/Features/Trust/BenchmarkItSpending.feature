@@ -69,9 +69,7 @@ Feature: Trust benchmark IT spending
           | ICT costs: Other hardware                      |
           
     Scenario: Can view IT spending tables
-        Given I am not logged in
-        And I have signed in with organisation '013: FBIT TEST - Single-Academy Trust 1 (Open)'
-        When I am on it spend page for trust with company number '00000002'
+        Given I am on it spend page for trust with company number '10192252'
         When I click to view results as 'Table'
         And I click Apply filters
         Then I should see the following IT spend tables on the page:
