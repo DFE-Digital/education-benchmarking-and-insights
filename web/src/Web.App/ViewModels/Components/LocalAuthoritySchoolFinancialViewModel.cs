@@ -35,6 +35,11 @@ public class LocalAuthoritySchoolFinancialFormViewModel(string code, string form
     public SixthFormProvisions.SixthFormProvisionFilter[] SelectedSixthFormProvisions { get; init; } = [];
     public string? Sort { get; init; }
 
+    public bool HasFilters => SelectedOverallPhases.Length > 0
+                              || SelectedNurseryProvisions.Length > 0
+                              || SelectedSpecialProvisions.Length > 0
+                              || SelectedSixthFormProvisions.Length > 0;
+
     public static class FormFieldNames
     {
         public const string FiltersVisible = "filter";

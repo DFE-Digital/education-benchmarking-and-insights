@@ -2,10 +2,7 @@
 @using Web.App.ViewModels.Components
 @model Web.App.ViewModels.Components.LocalAuthoritySchoolFinancialViewModel
 
-@if (Model.SelectedOverallPhases.Length == 0
-     && Model.SelectedNurseryProvisions.Length == 0
-     && Model.SelectedSpecialProvisions.Length == 0
-     && Model.SelectedSixthFormProvisions.Length == 0)
+@if (!Model.HasFilters)
 {
     return;
 }
@@ -19,93 +16,40 @@
                  {
                      { "code", Model.Code },
                      { $"{Model.FormPrefix}{LocalAuthoritySchoolFinancialFormViewModel.FormFieldNames.FiltersVisible}", LocalAuthoritySchoolFinancialFormViewModel.FormFieldValues.Show },
-                 { $"{Model.FormPrefix}{LocalAuthoritySchoolFinancialFormViewModel.FormFieldNames.ResultAs}", (int)Model.ResultAs },
+                     { $"{Model.FormPrefix}{LocalAuthoritySchoolFinancialFormViewModel.FormFieldNames.ResultAs}", (int)Model.ResultAs },
                      { $"{Model.FormPrefix}{LocalAuthoritySchoolFinancialFormViewModel.FormFieldNames.Sort}", Model.Sort }
                  })" class="govuk-link govuk-link--no-visited-state">Clear</a>
     </div>
-    
-    @* todo: refactor into reusable partials *@
-    @if (Model.SelectedOverallPhases.Length > 0)
-    {
-        <h3 class="govuk-heading-s">
-            Phases
-        </h3>
-        <ul class="govuk-list">
-            @foreach (var filter in Model.SelectedOverallPhases)
-            {
-                var query = (Context.Request.QueryString.Value ?? string.Empty)
-                    .Replace($"{Model.FormPrefix}{LocalAuthoritySchoolFinancialFormViewModel.FormFieldNames.SelectedOverallPhases}={(int)filter}", string.Empty)
-                    .Replace("?&", "&")
-                    .Replace("&&", "&");
-                <li>
-                    <a href="@Context.Request.Path@query" class="app-filter__tag">
-                        @filter.GetFilterDescription()
-                    </a>
-                </li>
-            }
-        </ul>
-    }
-    
-    @if (Model.SelectedNurseryProvisions.Length > 0)
-    {
-        <h3 class="govuk-heading-s">
-            Nursery provisions
-        </h3>
-        <ul class="govuk-list">
-            @foreach (var filter in Model.SelectedNurseryProvisions)
-            {
-                var query = (Context.Request.QueryString.Value ?? string.Empty)
-                    .Replace($"{Model.FormPrefix}{LocalAuthoritySchoolFinancialFormViewModel.FormFieldNames.SelectedNurseryProvisions}={(int)filter}", string.Empty)
-                    .Replace("?&", "&")
-                    .Replace("&&", "&");
-                <li>
-                    <a href="@Context.Request.Path@query" class="app-filter__tag">
-                        @filter.GetFilterDescription()
-                    </a>
-                </li>
-            }
-        </ul>
-    }
-    
-    @if (Model.SelectedSpecialProvisions.Length > 0)
-    {
-        <h3 class="govuk-heading-s">
-            Special class provisions
-        </h3>
-        <ul class="govuk-list">
-            @foreach (var filter in Model.SelectedSpecialProvisions)
-            {
-                var query = (Context.Request.QueryString.Value ?? string.Empty)
-                    .Replace($"{Model.FormPrefix}{LocalAuthoritySchoolFinancialFormViewModel.FormFieldNames.SelectedSpecialProvisions}={(int)filter}", string.Empty)
-                    .Replace("?&", "&")
-                    .Replace("&&", "&");
-                <li>
-                    <a href="@Context.Request.Path@query" class="app-filter__tag">
-                        @filter.GetFilterDescription()
-                    </a>
-                </li>
-            }
-        </ul>
-    }
 
-    @if (Model.SelectedSixthFormProvisions.Length > 0)
-    {
-        <h3 class="govuk-heading-s">
-            Sixth form provisions
-        </h3>
-        <ul class="govuk-list">
-            @foreach (var filter in Model.SelectedSixthFormProvisions)
-            {
-                var query = (Context.Request.QueryString.Value ?? string.Empty)
-                    .Replace($"{Model.FormPrefix}{LocalAuthoritySchoolFinancialFormViewModel.FormFieldNames.SelectedSixthFormProvisions}={(int)filter}", string.Empty)
-                    .Replace("?&", "&")
-                    .Replace("&&", "&");
-                <li>
-                    <a href="@Context.Request.Path@query" class="app-filter__tag">
-                        @filter.GetFilterDescription()
-                    </a>
-                </li>
-            }
-        </ul>
-    }
+    @await Html.PartialAsync("Components/LocalAuthoritySchoolFinancial/_SchoolsFilterSelectedItems", new LocalAuthoritySchoolFinancialFilterSelectedItemsViewModel<OverallPhaseTypes.OverallPhaseTypeFilter>(
+        Model.FormPrefix,
+        "Phases",
+        LocalAuthoritySchoolFinancialFormViewModel.FormFieldNames.SelectedOverallPhases,
+        Model.SelectedOverallPhases,
+        f => f.GetFilterDescription(),
+        f => ((int)f).ToString()))
+
+    @await Html.PartialAsync("Components/LocalAuthoritySchoolFinancial/_SchoolsFilterSelectedItems", new LocalAuthoritySchoolFinancialFilterSelectedItemsViewModel<NurseryProvisions.NurseryProvisionFilter>(
+        Model.FormPrefix,
+        "Nursery provisions",
+        LocalAuthoritySchoolFinancialFormViewModel.FormFieldNames.SelectedNurseryProvisions,
+        Model.SelectedNurseryProvisions,
+        f => f.GetFilterDescription(),
+        f => ((int)f).ToString()))
+
+    @await Html.PartialAsync("Components/LocalAuthoritySchoolFinancial/_SchoolsFilterSelectedItems", new LocalAuthoritySchoolFinancialFilterSelectedItemsViewModel<SpecialProvisions.SpecialProvisionFilter>(
+        Model.FormPrefix,
+        "Special class provisions",
+        LocalAuthoritySchoolFinancialFormViewModel.FormFieldNames.SelectedSpecialProvisions,
+        Model.SelectedSpecialProvisions,
+        f => f.GetFilterDescription(),
+        f => ((int)f).ToString()))
+
+    @await Html.PartialAsync("Components/LocalAuthoritySchoolFinancial/_SchoolsFilterSelectedItems", new LocalAuthoritySchoolFinancialFilterSelectedItemsViewModel<SixthFormProvisions.SixthFormProvisionFilter>(
+        Model.FormPrefix,
+        "Sixth form provisions",
+        LocalAuthoritySchoolFinancialFormViewModel.FormFieldNames.SelectedSixthFormProvisions,
+        Model.SelectedSixthFormProvisions,
+        f => f.GetFilterDescription(),
+        f => ((int)f).ToString()))
 </div>

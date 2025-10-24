@@ -358,6 +358,48 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
         Assert.NotNull(noRowsMessage);
     }
 
+    [Theory]
+    [InlineData("?f.sort=SchoolName~desc&f.filter=show&f.phase=0&f.phase=1&f.phase=2&f.as=0", "Primary", true, "?f.sort=SchoolName~desc&f.filter=show&f.phase=1&f.phase=2&f.as=0")]
+    [InlineData("?f.sort=SchoolName~desc&f.filter=show&f.phase=0&f.phase=1&f.phase=2&f.as=0", "Secondary", true, "?f.sort=SchoolName~desc&f.filter=show&f.phase=0&f.phase=2&f.as=0")]
+    [InlineData("?f.sort=SchoolName~desc&f.filter=show&f.phase=0&f.phase=1&f.phase=2&f.as=0", "Special", true, "?f.sort=SchoolName~desc&f.filter=show&f.phase=0&f.phase=1&f.as=0")]
+    [InlineData("?f.sort=SchoolName~desc&f.filter=show&f.as=0", null, false, null)]
+    public async Task CanDisplayRemoveFinancialFilterTag(string queryString, string? tagText, bool expectedVisible, string? expectedQuery)
+    {
+        var (page, authority, _, _, _, _) = await SetupNavigateInitPage(false, true, false, 5, queryString, OverallPhaseTypes.Primary);
+
+        var tab = AssertFinancialsTab(page);
+        var selectedFilters = tab.QuerySelector(".app-filter__selected");
+        if (!expectedVisible)
+        {
+            Assert.Null(selectedFilters);
+            return;
+        }
+
+        Assert.NotNull(selectedFilters);
+        var tag = selectedFilters.QuerySelectorAll("a.app-filter__tag")
+            .FirstOrDefault(el => el.TextContent.Trim().Equals(tagText));
+        Assert.NotNull(tag);
+
+        Assert.Equal($"{Paths.LocalAuthorityHome(authority.Code)}{expectedQuery}", tag.Attributes["href"]?.Value);
+    }
+
+    [Theory]
+    [InlineData("?f.sort=SchoolName~desc&f.filter=show&f.phase=0&f.phase=1&f.phase=2&f.as=0", "?f.filter=show&f.as=0&f.sort=SchoolName~desc")]
+    public async Task CanDisplayClearAllFinancialFilters(string queryString, string expectedQuery)
+    {
+        var (page, authority, _, _, _, _) = await SetupNavigateInitPage(false, true, false, 5, queryString, OverallPhaseTypes.Primary);
+
+        var tab = AssertFinancialsTab(page);
+        var selectedFilters = tab.QuerySelector(".app-filter__selected");
+        Assert.NotNull(selectedFilters);
+
+        var clear = selectedFilters.QuerySelectorAll("a")
+            .FirstOrDefault(x => x.TextContent.Trim() == "Clear");
+        Assert.NotNull(clear);
+
+        Assert.Equal($"{Paths.LocalAuthorityHome(authority.Code)}{expectedQuery}", clear.Attributes["href"]?.Value);
+    }
+
     [Fact]
     public async Task CanDownloadPageData()
     {

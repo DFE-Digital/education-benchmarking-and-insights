@@ -1,0 +1,22 @@
+@model Web.App.ViewModels.Components.LocalAuthoritySchoolFinancialFilterSelectedItemsViewModelBase
+
+@if (Model.SelectedFilters.Length > 0)
+{
+    <h3 class="govuk-heading-s">
+        @Model.Heading
+    </h3>
+    <ul class="govuk-list">
+        @foreach (var filter in Model.SelectedFilters)
+        {
+            var query = (Context.Request.QueryString.Value ?? string.Empty)
+                .Replace($"{Model.FormFieldName}={Model.ValueSelector(filter)}", string.Empty)
+                .Replace("?&", "&")
+                .Replace("&&", "&");
+            <li>
+                <a href="@Context.Request.Path@query" class="app-filter__tag">
+                    @Model.LabelSelector(filter)
+                </a>
+            </li>
+        }
+    </ul>
+}
