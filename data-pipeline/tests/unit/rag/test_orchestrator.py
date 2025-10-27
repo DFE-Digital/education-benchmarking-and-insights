@@ -117,7 +117,6 @@ def test_run_user_defined_rag_pipeline_orchestration(
     mock_write_blob.assert_called_once()
     mock_insert.assert_called_once()
 
-    # Crucially, check that the comparator_set was correctly formatted for the engine
     args, _ = mock_engine.call_args
     comparator_map_arg = args[1]
     expected_map = {101: {"Pupil": [102, 103], "Building": [102, 103]}}
@@ -138,6 +137,36 @@ def test_run_user_defined_rag_pipeline_target_not_found(
         run_user_defined_rag_pipeline(
             year=2023, run_id="user123", target_urn=101, comparator_set=[102, 103]
         )
+
+
+@patch("pipeline.rag.orchestrator.insert_metric_rag")
+@patch("pipeline.rag.orchestrator.write_blob")
+@patch("pipeline.rag.orchestrator._run_rag_computation_engine")
+@patch("pipeline.rag.orchestrator.load_school_data_and_comparators")
+def test_run_rag_pipeline_orchestration_single_school_type_target(
+    mock_load_data,
+    mock_engine,
+    mock_write_blob,
+    mock_insert,
+    sample_rag_df,
+    cols_for_prepare_data,
+):
+    mock_load_data.side_effect = [
+        (pd.DataFrame(columns=cols_for_prepare_data), pd.DataFrame({})),  # maintained_schools: no target_urn
+        (pd.DataFrame(index=[101], columns=cols_for_prepare_data), pd.DataFrame({})),  # academies: target_urn present
+    ]
+    mock_engine.return_value = sample_rag_df
+
+    run_rag_pipeline(run_type="default", run_id="123", target_urn=101)
+
+    assert mock_load_data.call_count == 2
+    assert mock_engine.call_count == 2 # Engine still called for both, but one might get empty data
+    assert mock_write_blob.call_count == 2 # Expect two files to be written
+    mock_insert.assert_called_once() # Combined results should still be inserted
+
+    args, _ = mock_insert.call_args
+    combined_df = args[2]
+    assert combined_df.shape == (4, 10)
 
 
 def test_load_school_data_and_comparators_negative_unknown_type():
