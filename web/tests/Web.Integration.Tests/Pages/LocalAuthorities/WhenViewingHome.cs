@@ -210,7 +210,7 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
             });
         });
 
-        const string expectedQuery = "?f.filter=show&f.phase=0&f.nursery=0&f.special=0&f.sixth=0&f.as=3";
+        const string expectedQuery = "?f.filter=show&f.phase=0&f.nursery=0&f.special=0&f.sixth=0&f.as=3&w.sort=PupilTeacherRatio~desc&w.as=0";
         DocumentAssert.AssertPageUrl(page, $"{Paths.LocalAuthorityHome(authority.Code).ToAbsolute()}{expectedQuery}");
     }
 
@@ -259,10 +259,10 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
     }
 
     [Theory]
-    [InlineData(null, false, "?f.sort=TotalExpenditure~desc&f.as=3&f.filter=show")]
-    [InlineData("?f.filter=hide", false, "?f.sort=TotalExpenditure~desc&f.as=3&f.filter=show")]
-    [InlineData("?f.sort=SchoolName~asc&f.filter=hide&f.phase=1&f.phase=2&f.as=0", false, "?f.sort=SchoolName~asc&f.phase=1&f.phase=2&f.as=0&f.filter=show")]
-    [InlineData("?f.sort=SchoolName~asc&f.filter=show&f.phase=1&f.phase=2&f.as=0", true, "?f.sort=SchoolName~asc&f.filter=hide&f.phase=1&f.phase=2&f.as=0")]
+    [InlineData(null, false, "?f.sort=TotalExpenditure~desc&f.as=3&f.filter=show&w.sort=PupilTeacherRatio~desc&w.as=0")]
+    [InlineData("?f.filter=hide", false, "?f.sort=TotalExpenditure~desc&f.as=3&f.filter=show&w.sort=PupilTeacherRatio~desc&w.as=0")]
+    [InlineData("?f.sort=SchoolName~asc&f.filter=hide&f.phase=1&f.phase=2&f.as=0", false, "?f.sort=SchoolName~asc&f.phase=1&f.phase=2&f.as=0&f.filter=show&w.sort=PupilTeacherRatio~desc&w.as=0")]
+    [InlineData("?f.sort=SchoolName~asc&f.filter=show&f.phase=1&f.phase=2&f.as=0", true, "?f.sort=SchoolName~asc&f.filter=hide&f.phase=1&f.phase=2&f.as=0&w.sort=PupilTeacherRatio~desc&w.as=0")]
     public async Task CanToggleFinancialFilters(string? queryString, bool expectedVisible, string expectedQuery)
     {
         var (page, authority, _, _, _, _) = await SetupNavigateInitPage(false, true, false, null, queryString, OverallPhaseTypes.Primary);
@@ -288,8 +288,8 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
     }
 
     [Theory]
-    [InlineData("?f.sort=SchoolName~desc&f.filter=show&f.phase=1&f.phase=2&f.as=0", "?f.filter=show&f.phase=1&f.phase=2&f.as=0")]
-    [InlineData("?f.rows=all&f.filter=show&f.phase=1&f.phase=2&f.as=0", "?f.filter=show&f.phase=1&f.phase=2&f.as=0")]
+    [InlineData("?f.sort=SchoolName~desc&f.filter=show&f.phase=1&f.phase=2&f.as=0", "?f.filter=show&f.phase=1&f.phase=2&f.as=0&w.sort=PupilTeacherRatio~desc&w.as=0")]
+    [InlineData("?f.rows=all&f.filter=show&f.phase=1&f.phase=2&f.as=0", "?f.filter=show&f.phase=1&f.phase=2&f.as=0&w.sort=PupilTeacherRatio~desc&w.as=0")]
     public async Task CanResetFieldsOnNewFilter(string? queryString, string expectedQuery)
     {
         var (page, authority, _, _, _, _) = await SetupNavigateInitPage(false, true, false, null, queryString, OverallPhaseTypes.Primary);
@@ -390,6 +390,277 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
         var (page, authority, _, _, _, _) = await SetupNavigateInitPage(false, true, false, 5, queryString, OverallPhaseTypes.Primary);
 
         var tab = AssertFinancialsTab(page);
+        var selectedFilters = tab.QuerySelector(".app-filter__selected");
+        Assert.NotNull(selectedFilters);
+
+        var clear = selectedFilters.QuerySelectorAll("a")
+            .FirstOrDefault(x => x.TextContent.Trim() == "Clear");
+        Assert.NotNull(clear);
+
+        Assert.Equal($"{Paths.LocalAuthorityHome(authority.Code)}{expectedQuery}", clear.Attributes["href"]?.Value);
+    }
+
+    [Fact]
+    public async Task CanSubmitWorkforceFilters()
+    {
+        var (page, authority, _, _, _, _) = await SetupNavigateInitPage(false, true, false, null, "?w.filter=show", OverallPhaseTypes.Primary);
+
+        var tab = AssertWorkforceTab(page);
+
+        var form = page.QuerySelector("form[role='search']");
+        Assert.NotNull(form);
+
+        var phaseInputs = tab.QuerySelectorAll("input[name='w.phase'][type='checkbox']");
+        Assert.Equal(9, phaseInputs.Length);
+
+        var nurseryInputs = tab.QuerySelectorAll("input[name='w.nursery'][type='checkbox']");
+        Assert.Equal(4, nurseryInputs.Length);
+
+        var specialInputs = tab.QuerySelectorAll("input[name='w.special'][type='checkbox']");
+        Assert.Equal(4, specialInputs.Length);
+
+        var sixthFormInputs = tab.QuerySelectorAll("input[name='w.sixth'][type='checkbox']");
+        Assert.Equal(4, sixthFormInputs.Length);
+
+        var dimensionInputs = tab.QuerySelectorAll("input[name='w.as'][type='radio']");
+        Assert.Equal(2, dimensionInputs.Length);
+
+        var submitButton = tab.QuerySelector("button[data-testid='apply-workforce-filters']");
+        Assert.NotNull(submitButton);
+
+        page = await Client.SubmitForm(form, submitButton, f =>
+        {
+            f.SetFormValues(new Dictionary<string, string>
+            {
+                { phaseInputs.ElementAt(0).Attributes["name"]!.Value, phaseInputs.ElementAt(0).Attributes["value"]!.Value },
+                { nurseryInputs.ElementAt(0).Attributes["name"]!.Value, nurseryInputs.ElementAt(0).Attributes["value"]!.Value },
+                { specialInputs.ElementAt(0).Attributes["name"]!.Value, specialInputs.ElementAt(0).Attributes["value"]!.Value },
+                { sixthFormInputs.ElementAt(0).Attributes["name"]!.Value, sixthFormInputs.ElementAt(0).Attributes["value"]!.Value },
+                { dimensionInputs.ElementAt(0).Attributes["name"]!.Value, dimensionInputs.ElementAt(0).Attributes["value"]!.Value },
+                { submitButton.Attributes["name"]!.Value, submitButton.Attributes["value"]!.Value }
+            });
+        });
+
+        const string expectedQuery = "?f.sort=TotalExpenditure~desc&f.as=3&w.filter=show&w.phase=0&w.nursery=0&w.special=0&w.sixth=0&w.as=0";
+        DocumentAssert.AssertPageUrl(page, $"{Paths.LocalAuthorityHome(authority.Code).ToAbsolute()}{expectedQuery}");
+    }
+
+    [Fact]
+    public async Task CanSetWorkforceFilters()
+    {
+        const string queryString = "?w.filter=show&w.phase=0&w.nursery=0&w.special=0&w.sixth=0&w.as=0";
+        var (page, _, _, _, _, _) = await SetupNavigateInitPage(false, true, false, null, queryString, OverallPhaseTypes.Primary);
+
+        var tab = AssertWorkforceTab(page);
+        var phaseInputs = tab.QuerySelectorAll("input[name='w.phase'][type='checkbox']");
+        var nurseryInputs = tab.QuerySelectorAll("input[name='w.nursery'][type='checkbox']");
+        var specialInputs = tab.QuerySelectorAll("input[name='w.special'][type='checkbox']");
+        var sixthFormInputs = tab.QuerySelectorAll("input[name='w.sixth'][type='checkbox']");
+        var dimensionInputs = tab.QuerySelectorAll("input[name='w.as'][type='radio']");
+
+        for (var i = 0; i < phaseInputs.Length; i++)
+        {
+            var input = phaseInputs[i];
+            Assert.Equal(i == 0, input.HasAttribute("checked"));
+        }
+
+        for (var i = 0; i < nurseryInputs.Length; i++)
+        {
+            var input = nurseryInputs[i];
+            Assert.Equal(i == 0, input.HasAttribute("checked"));
+        }
+
+        for (var i = 0; i < specialInputs.Length; i++)
+        {
+            var input = specialInputs[i];
+            Assert.Equal(i == 0, input.HasAttribute("checked"));
+        }
+
+        for (var i = 0; i < sixthFormInputs.Length; i++)
+        {
+            var input = sixthFormInputs[i];
+            Assert.Equal(i == 0, input.HasAttribute("checked"));
+        }
+
+        for (var i = 0; i < dimensionInputs.Length; i++)
+        {
+            var input = dimensionInputs[i];
+            Assert.Equal(i == 0, input.HasAttribute("checked"));
+        }
+    }
+
+    [Fact]
+    public async Task CanSetWorkforceFiltersAndPreserveExistingFinancialFilters()
+    {
+        const string queryString = "?f.filter=show&f.phase=1&f.nursery=1&f.special=1&f.sixth=1&f.as=0&w.filter=show&w.phase=0&w.nursery=0&w.special=0&w.sixth=0&w.as=0";
+        var (page, _, _, _, _, _) = await SetupNavigateInitPage(false, true, false, null, queryString, OverallPhaseTypes.Primary);
+
+        var financialTab = AssertFinancialsTab(page);
+        var financialPhaseInputs = financialTab.QuerySelectorAll("input[name='w.phase'][type='checkbox']");
+        var financialNurseryInputs = financialTab.QuerySelectorAll("input[name='w.nursery'][type='checkbox']");
+        var financialSpecialInputs = financialTab.QuerySelectorAll("input[name='w.special'][type='checkbox']");
+        var financialSixthFormInputs = financialTab.QuerySelectorAll("input[name='w.sixth'][type='checkbox']");
+        var financialDimensionInputs = financialTab.QuerySelectorAll("input[name='w.as'][type='radio']");
+
+        for (var i = 0; i < financialPhaseInputs.Length; i++)
+        {
+            var input = financialPhaseInputs[i];
+            Assert.Equal(i == 1, input.HasAttribute("checked"));
+        }
+
+        for (var i = 0; i < financialNurseryInputs.Length; i++)
+        {
+            var input = financialNurseryInputs[i];
+            Assert.Equal(i == 1, input.HasAttribute("checked"));
+        }
+
+        for (var i = 0; i < financialSpecialInputs.Length; i++)
+        {
+            var input = financialSpecialInputs[i];
+            Assert.Equal(i == 1, input.HasAttribute("checked"));
+        }
+
+        for (var i = 1; i < financialSixthFormInputs.Length; i++)
+        {
+            var input = financialSixthFormInputs[i];
+            Assert.Equal(i == 1, input.HasAttribute("checked"));
+        }
+
+        for (var i = 0; i < financialDimensionInputs.Length; i++)
+        {
+            var input = financialDimensionInputs[i];
+            Assert.Equal(i == 0, input.HasAttribute("checked"));
+        }
+
+        var workforceTab = AssertWorkforceTab(page);
+        var workforcePhaseInputs = workforceTab.QuerySelectorAll("input[name='w.phase'][type='checkbox']");
+        var workforceNurseryInputs = workforceTab.QuerySelectorAll("input[name='w.nursery'][type='checkbox']");
+        var workforceSpecialInputs = workforceTab.QuerySelectorAll("input[name='w.special'][type='checkbox']");
+        var workforceSixthFormInputs = workforceTab.QuerySelectorAll("input[name='w.sixth'][type='checkbox']");
+        var workforceDimensionInputs = workforceTab.QuerySelectorAll("input[name='w.as'][type='radio']");
+
+        for (var i = 0; i < workforcePhaseInputs.Length; i++)
+        {
+            var input = workforcePhaseInputs[i];
+            Assert.Equal(i == 0, input.HasAttribute("checked"));
+        }
+
+        for (var i = 0; i < workforceNurseryInputs.Length; i++)
+        {
+            var input = workforceNurseryInputs[i];
+            Assert.Equal(i == 0, input.HasAttribute("checked"));
+        }
+
+        for (var i = 0; i < workforceSpecialInputs.Length; i++)
+        {
+            var input = workforceSpecialInputs[i];
+            Assert.Equal(i == 0, input.HasAttribute("checked"));
+        }
+
+        for (var i = 0; i < workforceSixthFormInputs.Length; i++)
+        {
+            var input = workforceSixthFormInputs[i];
+            Assert.Equal(i == 0, input.HasAttribute("checked"));
+        }
+
+        for (var i = 0; i < workforceDimensionInputs.Length; i++)
+        {
+            var input = workforceDimensionInputs[i];
+            Assert.Equal(i == 0, input.HasAttribute("checked"));
+        }
+    }
+
+    [Theory]
+    [InlineData(null, false, "?f.sort=TotalExpenditure~desc&f.as=3&w.sort=PupilTeacherRatio~desc&w.as=0&w.filter=show")]
+    [InlineData("?w.filter=hide", false, "?f.sort=TotalExpenditure~desc&f.as=3&w.sort=PupilTeacherRatio~desc&w.as=0&w.filter=show")]
+    [InlineData("?w.sort=SchoolName~asc&w.filter=hide&w.phase=1&w.phase=2&w.as=0", false, "?f.sort=TotalExpenditure~desc&f.as=3&w.sort=SchoolName~asc&w.phase=1&w.phase=2&w.as=0&w.filter=show")]
+    [InlineData("?w.sort=SchoolName~asc&w.filter=show&w.phase=1&w.phase=2&w.as=0", true, "?f.sort=TotalExpenditure~desc&f.as=3&w.sort=SchoolName~asc&w.filter=hide&w.phase=1&w.phase=2&w.as=0")]
+    public async Task CanToggleWorkforceFilters(string? queryString, bool expectedVisible, string expectedQuery)
+    {
+        var (page, authority, _, _, _, _) = await SetupNavigateInitPage(false, true, false, null, queryString, OverallPhaseTypes.Primary);
+
+        var tab = AssertWorkforceTab(page);
+
+        var form = page.QuerySelector("form[role='search']");
+        Assert.NotNull(form);
+
+        var toggleButton = tab.QuerySelector("button[data-testid='toggle-workforce-filters']");
+        Assert.NotNull(toggleButton);
+        Assert.Equal(expectedVisible ? "Hide filters" : "Show filters", toggleButton.TextContent.Trim());
+
+        page = await Client.SubmitForm(form, toggleButton, f =>
+        {
+            f.SetFormValues(new Dictionary<string, string>
+            {
+                { toggleButton.Attributes["name"]!.Value, toggleButton.Attributes["value"]!.Value }
+            });
+        });
+
+        DocumentAssert.AssertPageUrl(page, $"{Paths.LocalAuthorityHome(authority.Code).ToAbsolute()}{expectedQuery}");
+    }
+
+    [Theory]
+    [InlineData("?w.sort=SchoolName~desc&w.filter=show&w.phase=1&w.phase=2&w.as=0", "?f.sort=TotalExpenditure~desc&f.as=3&w.filter=show&w.phase=1&w.phase=2&w.as=0")]
+    [InlineData("?w.rows=all&w.filter=show&w.phase=1&w.phase=2&w.as=0", "?f.sort=TotalExpenditure~desc&f.as=3&w.filter=show&w.phase=1&w.phase=2&w.as=0")]
+    public async Task CanResetWorkforceFieldsOnNewFilter(string? queryString, string expectedQuery)
+    {
+        var (page, authority, _, _, _, _) = await SetupNavigateInitPage(false, true, false, null, queryString, OverallPhaseTypes.Primary);
+
+        var tab = AssertWorkforceTab(page);
+
+        var form = page.QuerySelector("form[role='search']");
+        Assert.NotNull(form);
+
+        var submitButton = tab.QuerySelector("button[data-testid='apply-workforce-filters']");
+        Assert.NotNull(submitButton);
+
+        page = await Client.SubmitForm(form, submitButton, f =>
+        {
+            f.SetFormValues(new Dictionary<string, string>
+            {
+                { submitButton.Attributes["name"]!.Value, submitButton.Attributes["value"]!.Value }
+            });
+        });
+
+        DocumentAssert.AssertPageUrl(page, $"{Paths.LocalAuthorityHome(authority.Code).ToAbsolute()}{expectedQuery}");
+    }
+
+    // TODO: CanViewWorkforceAllRows
+
+    // TODO: CanViewWorkforceNoRowsMessage
+
+    [Theory]
+    [InlineData("?w.sort=SchoolName~desc&w.filter=show&w.phase=0&w.phase=1&w.phase=2&w.as=0", "Primary", true, "?w.sort=SchoolName~desc&w.filter=show&w.phase=1&w.phase=2&w.as=0")]
+    [InlineData("?w.sort=SchoolName~desc&w.filter=show&w.phase=0&w.phase=1&w.phase=2&w.as=0", "Secondary", true, "?w.sort=SchoolName~desc&w.filter=show&w.phase=0&w.phase=2&w.as=0")]
+    [InlineData("?w.sort=SchoolName~desc&w.filter=show&w.phase=0&w.phase=1&w.phase=2&w.as=0", "Special", true, "?w.sort=SchoolName~desc&w.filter=show&w.phase=0&w.phase=1&w.as=0")]
+    [InlineData("?w.sort=SchoolName~desc&w.filter=show&w.as=0", null, false, null)]
+    public async Task CanDisplayRemoveWorkforceFilterTag(string queryString, string? tagText, bool expectedVisible, string? expectedQuery)
+    {
+        var (page, authority, _, _, _, _) = await SetupNavigateInitPage(false, true, false, 5, queryString, OverallPhaseTypes.Primary);
+
+        var tab = AssertWorkforceTab(page);
+        var selectedFilters = tab.QuerySelector(".app-filter__selected");
+        if (!expectedVisible)
+        {
+            Assert.Null(selectedFilters);
+            return;
+        }
+
+        Assert.NotNull(selectedFilters);
+        var tag = selectedFilters.QuerySelectorAll("a.app-filter__tag")
+            .FirstOrDefault(el => el.TextContent.Trim().Equals(tagText));
+        Assert.NotNull(tag);
+
+        Assert.Equal($"{Paths.LocalAuthorityHome(authority.Code)}{expectedQuery}", tag.Attributes["href"]?.Value);
+    }
+
+    [Theory]
+    [InlineData("?w.sort=SchoolName~desc&w.filter=show&w.phase=0&w.phase=1&w.phase=2&w.as=0", "?w.filter=show&w.as=0&w.sort=SchoolName~desc")]
+    public async Task CanDisplayClearAllWorkforceFilters(string queryString, string expectedQuery)
+    {
+        var (page, authority, _, _, _, _) = await SetupNavigateInitPage(false, true, false, 5, queryString, OverallPhaseTypes.Primary);
+
+        var tab = AssertWorkforceTab(page);
         var selectedFilters = tab.QuerySelector(".app-filter__selected");
         Assert.NotNull(selectedFilters);
 
@@ -523,6 +794,7 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
         {
             Assert.Null(accordion);
             AssertFinancialsTab(page);
+            AssertWorkforceTab(page);
             AssertPrioritySchoolsSection(page, ratings);
         }
         else
@@ -677,6 +949,13 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
     private static IElement AssertFinancialsTab(IHtmlDocument page)
     {
         var tab = page.QuerySelector(".govuk-tabs > #financial");
+        Assert.NotNull(tab);
+        return tab;
+    }
+
+    private static IElement AssertWorkforceTab(IHtmlDocument page)
+    {
+        var tab = page.QuerySelector(".govuk-tabs > #workforce");
         Assert.NotNull(tab);
         return tab;
     }

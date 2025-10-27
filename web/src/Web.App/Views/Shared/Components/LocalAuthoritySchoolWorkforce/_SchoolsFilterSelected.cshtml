@@ -1,0 +1,55 @@
+@using Web.App.Domain
+@using Web.App.ViewModels.Components
+@model Web.App.ViewModels.Components.LocalAuthoritySchoolWorkforceViewModel
+
+@if (!Model.HasFilters)
+{
+    return;
+}
+
+<div class="app-filter__selected">
+    <div class="app-filter__selected-header">
+        <h2 class="govuk-heading-m">
+            Selected filters
+        </h2>
+        <a href="@Url.Action("Index", "LocalAuthority", new RouteValueDictionary
+                 {
+                     { "code", Model.Code },
+                     { $"{Model.FormPrefix}{LocalAuthoritySchoolWorkforceFormViewModel.FormFieldNames.FiltersVisible}", LocalAuthoritySchoolWorkforceFormViewModel.FormFieldValues.Show },
+                     { $"{Model.FormPrefix}{LocalAuthoritySchoolWorkforceFormViewModel.FormFieldNames.ResultAs}", (int)Model.ResultAs },
+                     { $"{Model.FormPrefix}{LocalAuthoritySchoolWorkforceFormViewModel.FormFieldNames.Sort}", Model.Sort }
+                 })" class="govuk-link govuk-link--no-visited-state">Clear</a>
+    </div>
+
+    @await Html.PartialAsync("Components/LocalAuthoritySchoolWorkforce/_SchoolsFilterSelectedItems", new LocalAuthoritySchoolFilterSelectedItemsViewModel<OverallPhaseTypes.OverallPhaseTypeFilter>(
+        Model.FormPrefix,
+        "Phases",
+        LocalAuthoritySchoolWorkforceFormViewModel.FormFieldNames.SelectedOverallPhases,
+        Model.SelectedOverallPhases,
+        f => f.GetFilterDescription(),
+        f => ((int)f).ToString()))
+
+    @await Html.PartialAsync("Components/LocalAuthoritySchoolWorkforce/_SchoolsFilterSelectedItems", new LocalAuthoritySchoolFilterSelectedItemsViewModel<NurseryProvisions.NurseryProvisionFilter>(
+        Model.FormPrefix,
+        "Nursery provisions",
+        LocalAuthoritySchoolWorkforceFormViewModel.FormFieldNames.SelectedNurseryProvisions,
+        Model.SelectedNurseryProvisions,
+        f => f.GetFilterDescription(),
+        f => ((int)f).ToString()))
+
+    @await Html.PartialAsync("Components/LocalAuthoritySchoolWorkforce/_SchoolsFilterSelectedItems", new LocalAuthoritySchoolFilterSelectedItemsViewModel<SpecialProvisions.SpecialProvisionFilter>(
+        Model.FormPrefix,
+        "Special class provisions",
+        LocalAuthoritySchoolWorkforceFormViewModel.FormFieldNames.SelectedSpecialProvisions,
+        Model.SelectedSpecialProvisions,
+        f => f.GetFilterDescription(),
+        f => ((int)f).ToString()))
+
+    @await Html.PartialAsync("Components/LocalAuthoritySchoolWorkforce/_SchoolsFilterSelectedItems", new LocalAuthoritySchoolFilterSelectedItemsViewModel<SixthFormProvisions.SixthFormProvisionFilter>(
+        Model.FormPrefix,
+        "Sixth form provisions",
+        LocalAuthoritySchoolWorkforceFormViewModel.FormFieldNames.SelectedSixthFormProvisions,
+        Model.SelectedSixthFormProvisions,
+        f => f.GetFilterDescription(),
+        f => ((int)f).ToString()))
+</div>

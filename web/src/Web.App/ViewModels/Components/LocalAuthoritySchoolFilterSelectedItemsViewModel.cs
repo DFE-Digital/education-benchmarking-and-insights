@@ -1,8 +1,8 @@
 namespace Web.App.ViewModels.Components;
 
-public class LocalAuthoritySchoolFinancialFilterSelectedItemsViewModel<T> : LocalAuthoritySchoolFinancialFilterSelectedItemsViewModelBase
+public class LocalAuthoritySchoolFilterSelectedItemsViewModel<T> : LocalAuthoritySchoolFilterSelectedItemsViewModelBase
 {
-    public LocalAuthoritySchoolFinancialFilterSelectedItemsViewModel
+    public LocalAuthoritySchoolFilterSelectedItemsViewModel
     (
         string formPrefix,
         string heading,
@@ -23,7 +23,7 @@ public class LocalAuthoritySchoolFinancialFilterSelectedItemsViewModel<T> : Loca
 ///     The generic class above is only used to provide type safety when providing data
 ///     to the partial view and otherwise boxes the type when setting the base properties.
 /// </summary>
-public abstract class LocalAuthoritySchoolFinancialFilterSelectedItemsViewModelBase(
+public abstract class LocalAuthoritySchoolFilterSelectedItemsViewModelBase(
     string formPrefix,
     string heading,
     string formFieldName)
