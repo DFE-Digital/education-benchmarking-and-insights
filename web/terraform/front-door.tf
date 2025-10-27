@@ -156,14 +156,14 @@ resource "azurerm_cdn_frontdoor_firewall_policy" "web-app-front-door-waf" {
     content {
       type    = "Microsoft_DefaultRuleSet"
       version = "2.0"
-      action  = "Log"
+      action  = "Block"
 
       #NB: explicitly add overrides to align with Azure defaults
       override {
         rule_group_name = "MS-ThreatIntel-WebShells"
         rule {
           rule_id = "99005006"
-          action  = "Block"
+          action  = "Log"
           enabled = false
         }
       }
@@ -173,22 +173,22 @@ resource "azurerm_cdn_frontdoor_firewall_policy" "web-app-front-door-waf" {
         rule_group_name = "MS-ThreatIntel-CVEs"
         rule {
           rule_id = "99001014"
-          action  = "AnomalyScoring"
+          action  = "Log"
           enabled = false
         }
         rule {
           rule_id = "99001015"
-          action  = "AnomalyScoring"
+          action  = "Log"
           enabled = false
         }
         rule {
           rule_id = "99001016"
-          action  = "AnomalyScoring"
+          action  = "Log"
           enabled = false
         }
         rule {
           rule_id = "99001017"
-          action  = "AnomalyScoring"
+          action  = "Log"
           enabled = false
         }
       }
@@ -199,17 +199,17 @@ resource "azurerm_cdn_frontdoor_firewall_policy" "web-app-front-door-waf" {
         #NB: explicitly added rules to align with Azure defaults
         rule {
           rule_id = "942110"
-          action  = "AnomalyScoring"
+          action  = "Log"
           enabled = false
         }
         rule {
           rule_id = "942430"
-          action  = "AnomalyScoring"
+          action  = "Log"
           enabled = false
         }
         rule {
           rule_id = "942440"
-          action  = "AnomalyScoring"
+          action  = "Log"
           enabled = false
         }
       }
