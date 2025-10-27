@@ -22,7 +22,40 @@ locals {
       origin-path   = "/images"
     }
   })
+  paths = [
+    "css",
+    "js",
+    "assets",
+    "files",
+    "images",
+    "school",
+    "api",
+    "trust",
+    "local-authority",
+    "find-organisation",
+    "contact",
+    "cookies",
+    "data-sources",
+    "accessibility",
+    "sign-in",
+    "sign-out",
+    "news",
+    "auth",
+    "signout",
+    "error",
+    "guidance"
+  ]
+
+  capturing_group = join("|", local.paths)
+
+  path_regex = "^https:\\/\\/[^\\/]+\\/(?:${local.capturing_group})(?:[\\/\\?#]|$)"
+  fqdn       = "https://${local.host_name}"
+  static_routes = [
+    "${local.fqdn}/",
+    "${local.fqdn}/favicon.ico"
+  ]
 }
+
 
 resource "azurerm_cdn_frontdoor_profile" "web-app-front-door-profile" {
   name                = "${var.environment-prefix}-education-benchmarking-fd-profile"
@@ -131,6 +164,30 @@ resource "azurerm_cdn_frontdoor_firewall_policy" "web-app-front-door-waf" {
     }
   }
 
+  custom_rule {
+    name     = "blockrequesturi"
+    action   = "Block"
+    priority = 200
+    type     = "MatchRule"
+
+    match_condition {
+      match_variable     = "RequestUri"
+      operator           = "RegEx"
+      negation_condition = true
+      transforms         = ["Lowercase"]
+      match_values       = [local.path_regex]
+    }
+
+    match_condition {
+      match_variable     = "RequestUri"
+      operator           = "Equal"
+      negation_condition = true
+      transforms         = ["Lowercase"]
+      match_values       = local.static_routes
+    }
+  }
+
+
   dynamic "custom_rule" {
     for_each = var.environment == "test" ? ["apply"] : []
 
@@ -154,9 +211,44 @@ resource "azurerm_cdn_frontdoor_firewall_policy" "web-app-front-door-waf" {
     for_each = (azurerm_cdn_frontdoor_profile.web-app-front-door-profile.sku_name == "Premium_AzureFrontDoor" ?
     ["apply"] : [])
     content {
-      type    = "DefaultRuleSet"
-      version = "1.0"
-      action  = "Log"
+      type    = "Microsoft_DefaultRuleSet"
+      version = "2.1"
+      action  = "Block"
+
+      #NB: explicitly add overrides to align with Azure defaults
+      override {
+        rule_group_name = "MS-ThreatIntel-WebShells"
+        rule {
+          rule_id = "99005006"
+          action  = "AnomalyScoring"
+          enabled = false
+        }
+      }
+
+      #NB: explicitly add overrides to align with Azure defaults
+      override {
+        rule_group_name = "MS-ThreatIntel-CVEs"
+        rule {
+          rule_id = "99001014"
+          action  = "AnomalyScoring"
+          enabled = false
+        }
+        rule {
+          rule_id = "99001015"
+          action  = "AnomalyScoring"
+          enabled = false
+        }
+        rule {
+          rule_id = "99001016"
+          action  = "AnomalyScoring"
+          enabled = false
+        }
+        rule {
+          rule_id = "99001017"
+          action  = "AnomalyScoring"
+          enabled = false
+        }
+      }
 
       override {
         rule_group_name = "SQLI"
@@ -166,69 +258,110 @@ resource "azurerm_cdn_frontdoor_firewall_policy" "web-app-front-door-waf" {
           operator       = "StartsWith"
           selector       = "dsi-education-benchmarking"
         }
-
         exclusion {
           match_variable = "RequestCookieNames"
           operator       = "StartsWith"
           selector       = ".AspNetCore.Antiforgery"
         }
-
         exclusion {
           match_variable = "RequestCookieNames"
           operator       = "StartsWith"
           selector       = ".AspNetCore.OpenIdConnect.Nonce"
         }
-
         exclusion {
           match_variable = "RequestBodyPostArgNames"
           operator       = "StartsWith"
           selector       = "__RequestVerificationToken"
         }
-
         exclusion {
           match_variable = "RequestCookieNames"
           operator       = "Equals"
           selector       = "cookies_policy"
         }
-
         exclusion {
           match_variable = "RequestCookieNames"
           operator       = "Equals"
           selector       = "_gcl_aw"
         }
-
         exclusion {
           match_variable = "RequestCookieNames"
           operator       = "Equals"
           selector       = "ai_session"
         }
-
         exclusion {
           match_variable = "RequestCookieNames"
           operator       = "Equals"
           selector       = "session"
         }
-
         exclusion {
           match_variable = "RequestCookieNames"
           operator       = "StartsWith"
           selector       = ".AspNetCore.Mvc.CookieTempDataProvider"
         }
-
         exclusion {
           match_variable = "RequestBodyPostArgNames"
           operator       = "Equals"
           selector       = "state"
         }
+        exclusion {
+          match_variable = "RequestCookieNames"
+          operator       = "Equals"
+          selector       = "ai_user"
+        }
+        exclusion {
+          match_variable = "RequestCookieNames"
+          operator       = "Equals"
+          selector       = "AspNetCore.Session"
+        }
+        exclusion {
+          match_variable = "RequestCookieNames"
+          operator       = "Equals"
+          selector       = "cf_clearance"
+        }
+        exclusion {
+          match_variable = "RequestCookieNames"
+          operator       = "Equals"
+          selector       = "_scid"
+        }
+        exclusion {
+          match_variable = "RequestCookieNames"
+          operator       = "Equals"
+          selector       = "_gcl_dc"
+        }
+        #NB: explicitly added rules to align with Azure defaults
+        rule {
+          rule_id = "942110"
+          action  = "AnomalyScoring"
+          enabled = false
+        }
+        rule {
+          rule_id = "942150"
+          action  = "AnomalyScoring"
+          enabled = false
+        }
+        rule {
+          rule_id = "942260"
+          action  = "AnomalyScoring"
+          enabled = false
+        }
+        rule {
+          rule_id = "942430"
+          action  = "AnomalyScoring"
+          enabled = false
+        }
+        rule {
+          rule_id = "942440"
+          action  = "AnomalyScoring"
+          enabled = false
+        }
       }
 
       override {
         rule_group_name = "RFI"
-
         rule {
           rule_id = "931130"
-          action  = "Log"
-
+          action  = "AnomalyScoring"
+          enabled = true
           exclusion {
             match_variable = "RequestBodyPostArgNames"
             operator       = "Equals"
@@ -244,8 +377,105 @@ resource "azurerm_cdn_frontdoor_firewall_policy" "web-app-front-door-waf" {
     ["apply"] : [])
     content {
       type    = "Microsoft_BotManagerRuleSet"
-      version = "1.0"
-      action  = "Log"
+      version = "1.1"
+      action  = "Log" #NB: not respected by Azure for Microsoft_BotManagerRuleSet
+
+      #NB: explicitly add overrides for BadBots, GoodBots & UnknownBots to align with Azure defaults
+
+      override {
+        rule_group_name = "BadBots"
+        rule {
+          rule_id = "Bot100100"
+          action  = "Block"
+          enabled = true
+        }
+        rule {
+          rule_id = "Bot100200"
+          action  = "Block"
+          enabled = true
+        }
+        rule {
+          rule_id = "Bot100300"
+          action  = "Block"
+          enabled = true
+        }
+      }
+      override {
+        rule_group_name = "GoodBots"
+        rule {
+          rule_id = "Bot200100"
+          action  = "Allow"
+          enabled = true
+        }
+        rule {
+          rule_id = "Bot200200"
+          action  = "Allow"
+          enabled = true
+        }
+        rule {
+          rule_id = "Bot200300"
+          action  = "Allow"
+          enabled = true
+        }
+        rule {
+          rule_id = "Bot200400"
+          action  = "Allow"
+          enabled = true
+        }
+        rule {
+          rule_id = "Bot200500"
+          action  = "Allow"
+          enabled = true
+        }
+        rule {
+          rule_id = "Bot200600"
+          action  = "Allow"
+          enabled = true
+        }
+        rule {
+          rule_id = "Bot200700"
+          action  = "Allow"
+          enabled = true
+        }
+      }
+      override {
+        rule_group_name = "UnknownBots"
+        rule {
+          rule_id = "Bot300100"
+          action  = "Log"
+          enabled = true
+        }
+        rule {
+          rule_id = "Bot300200"
+          action  = "Log"
+          enabled = true
+        }
+        rule {
+          rule_id = "Bot300300"
+          action  = "Log"
+          enabled = true
+        }
+        rule {
+          rule_id = "Bot300400"
+          action  = "Log"
+          enabled = true
+        }
+        rule {
+          rule_id = "Bot300500"
+          action  = "Log"
+          enabled = true
+        }
+        rule {
+          rule_id = "Bot300600"
+          action  = "Log"
+          enabled = true
+        }
+        rule {
+          rule_id = "Bot300700"
+          action  = "Log"
+          enabled = true
+        }
+      }
     }
   }
 }
