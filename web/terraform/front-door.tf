@@ -155,7 +155,7 @@ resource "azurerm_cdn_frontdoor_firewall_policy" "web-app-front-door-waf" {
     ["apply"] : [])
     content {
       type    = "Microsoft_DefaultRuleSet"
-      version = "2.0"
+      version = "2.1"
       action  = "Block"
 
       #NB: explicitly add overrides to align with Azure defaults
@@ -163,7 +163,7 @@ resource "azurerm_cdn_frontdoor_firewall_policy" "web-app-front-door-waf" {
         rule_group_name = "MS-ThreatIntel-WebShells"
         rule {
           rule_id = "99005006"
-          action  = "Log"
+          action  = "AnomalyScoring"
           enabled = false
         }
       }
@@ -173,22 +173,22 @@ resource "azurerm_cdn_frontdoor_firewall_policy" "web-app-front-door-waf" {
         rule_group_name = "MS-ThreatIntel-CVEs"
         rule {
           rule_id = "99001014"
-          action  = "Log"
+          action  = "AnomalyScoring"
           enabled = false
         }
         rule {
           rule_id = "99001015"
-          action  = "Log"
+          action  = "AnomalyScoring"
           enabled = false
         }
         rule {
           rule_id = "99001016"
-          action  = "Log"
+          action  = "AnomalyScoring"
           enabled = false
         }
         rule {
           rule_id = "99001017"
-          action  = "Log"
+          action  = "AnomalyScoring"
           enabled = false
         }
       }
@@ -259,17 +259,27 @@ resource "azurerm_cdn_frontdoor_firewall_policy" "web-app-front-door-waf" {
         #NB: explicitly added rules to align with Azure defaults
         rule {
           rule_id = "942110"
-          action  = "Log"
+          action  = "AnomalyScoring"
+          enabled = false
+        }
+        rule {
+          rule_id = "942150"
+          action  = "AnomalyScoring"
+          enabled = false
+        }
+        rule {
+          rule_id = "942260"
+          action  = "AnomalyScoring"
           enabled = false
         }
         rule {
           rule_id = "942430"
-          action  = "Log"
+          action  = "AnomalyScoring"
           enabled = false
         }
         rule {
           rule_id = "942440"
-          action  = "Log"
+          action  = "AnomalyScoring"
           enabled = false
         }
       }
