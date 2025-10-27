@@ -43,7 +43,7 @@
           | Test school 102 | 6 high, 2 medium and 0 low priorities for Test school 102 |
 
     @LocalAuthorityHomepageV2FlagEnabled
-    Scenario: Can apply filters on the financal data
+    Scenario: Can apply filters on the financal tab
         Given I am on local authority homepage for local authority with code '205'
         And I should see the following table data in financial tab
           | School name     | Pupils | Expenditure as % of income | Staffing spend as % of income | Reserves as % of income |
