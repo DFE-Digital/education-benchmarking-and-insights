@@ -172,12 +172,12 @@ resource "azurerm_cdn_frontdoor_firewall_policy" "web-app-front-door-waf" {
       override {
         rule_group_name = "MS-ThreatIntel-CVEs"
         rule {
-          rule_id = "99005006"
+          rule_id = "99001014"
           action  = "AnomalyScoring"
           enabled = false
         }
         rule {
-          rule_id = "99001014"
+          rule_id = "99001015"
           action  = "AnomalyScoring"
           enabled = false
         }
@@ -192,7 +192,6 @@ resource "azurerm_cdn_frontdoor_firewall_policy" "web-app-front-door-waf" {
           enabled = false
         }
       }
-
 
       override {
         rule_group_name = "SQLI"
