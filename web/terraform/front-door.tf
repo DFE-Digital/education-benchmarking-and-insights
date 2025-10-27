@@ -154,11 +154,11 @@ resource "azurerm_cdn_frontdoor_firewall_policy" "web-app-front-door-waf" {
     for_each = (azurerm_cdn_frontdoor_profile.web-app-front-door-profile.sku_name == "Premium_AzureFrontDoor" ?
     ["apply"] : [])
     content {
-      type    = "DefaultRuleSet"
-      version = "1.0"
+      type    = "Microsoft_DefaultRuleSet"
+      version = "2.0"
       action  = "Log"
 
-      override {
+      /* override {
         rule_group_name = "SQLI"
 
         exclusion {
@@ -224,10 +224,10 @@ resource "azurerm_cdn_frontdoor_firewall_policy" "web-app-front-door-waf" {
 
       override {
         rule_group_name = "RFI"
-
+        action          = "Log"
         rule {
           rule_id = "931130"
-          action  = "Log"
+
 
           exclusion {
             match_variable = "RequestBodyPostArgNames"
@@ -235,7 +235,7 @@ resource "azurerm_cdn_frontdoor_firewall_policy" "web-app-front-door-waf" {
             selector       = "iss"
           }
         }
-      }
+      }*/
     }
   }
 
@@ -244,8 +244,105 @@ resource "azurerm_cdn_frontdoor_firewall_policy" "web-app-front-door-waf" {
     ["apply"] : [])
     content {
       type    = "Microsoft_BotManagerRuleSet"
-      version = "1.0"
-      action  = "Log"
+      version = "1.1"
+      action  = "Log" #NB: not respected by Azure for Microsoft_BotManagerRuleSet
+
+      #NB: explicitly add overrides for BadBots, GoodBots & UnknownBots to match Azure defaults
+
+      override {
+        rule_group_name = "BadBots"
+        rule {
+          rule_id = "Bot100100"
+          action  = "Block"
+          enabled = true
+        }
+        rule {
+          rule_id = "Bot100200"
+          action  = "Block"
+          enabled = true
+        }
+        rule {
+          rule_id = "Bot100300"
+          action  = "Block"
+          enabled = true
+        }
+      }
+      override {
+        rule_group_name = "GoodBots"
+        rule {
+          rule_id = "Bot200100"
+          action  = "Allow"
+          enabled = true
+        }
+        rule {
+          rule_id = "Bot200200"
+          action  = "Allow"
+          enabled = true
+        }
+        rule {
+          rule_id = "Bot200300"
+          action  = "Allow"
+          enabled = true
+        }
+        rule {
+          rule_id = "Bot200400"
+          action  = "Allow"
+          enabled = true
+        }
+        rule {
+          rule_id = "Bot200500"
+          action  = "Allow"
+          enabled = true
+        }
+        rule {
+          rule_id = "Bot200600"
+          action  = "Allow"
+          enabled = true
+        }
+        rule {
+          rule_id = "Bot200700"
+          action  = "Allow"
+          enabled = true
+        }
+      }
+      override {
+        rule_group_name = "UnknownBots"
+        rule {
+          rule_id = "Bot300100"
+          action  = "Log"
+          enabled = true
+        }
+        rule {
+          rule_id = "Bot300200"
+          action  = "Log"
+          enabled = true
+        }
+        rule {
+          rule_id = "Bot300300"
+          action  = "Log"
+          enabled = true
+        }
+        rule {
+          rule_id = "Bot300400"
+          action  = "Log"
+          enabled = true
+        }
+        rule {
+          rule_id = "Bot300500"
+          action  = "Log"
+          enabled = true
+        }
+        rule {
+          rule_id = "Bot300600"
+          action  = "Log"
+          enabled = true
+        }
+        rule {
+          rule_id = "Bot300700"
+          action  = "Log"
+          enabled = true
+        }
+      }
     }
   }
 }
