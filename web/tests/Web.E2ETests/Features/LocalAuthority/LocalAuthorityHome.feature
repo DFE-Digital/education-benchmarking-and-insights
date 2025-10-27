@@ -41,3 +41,17 @@
           | School          | Status                                                    |
           | Test school 240 | 1 high, 0 medium and 0 low priorities for Test school 240 |
           | Test school 102 | 6 high, 2 medium and 0 low priorities for Test school 102 |
+
+    @LocalAuthorityHomepageV2FlagEnabled
+    Scenario: Can apply filters on the financal data
+        Given I am on local authority homepage for local authority with code '205'
+        And I should see the following table data in financial tab
+          | School name     | Pupils | Expenditure as % of income | Staffing spend as % of income | Reserves as % of income |
+          | Test school 102 | 212    | 98.3%                      | 71.4%                         | 10.1%                   |
+          | Test school 240 | 235    | 98.1%                      | 69.4%                         | 5.8%                    |
+        When I click on show filters
+        And I apply has nursery classes filter
+        And I click Apply filters
+        Then I should see the following table data in financial tab
+          | School name     | Pupils | Expenditure as % of income | Staffing spend as % of income | Reserves as % of income |
+          | Test school 102 | 212    | 98.3%                      | 71.4%                         | 10.1%                   |

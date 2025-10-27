@@ -227,4 +227,7 @@ public static class Selectors
     public const string SsrChartContainer = ".costs-chart-container";
     public const string SsrOrgNamesLinksInCharts = ".link-tick .govuk-link";
     public const string EnhancementSchoolChartTooltip = ".school-chart-tooltip";
+    public const string LocalAuthoritySchoolFinancialTabTable = "#local-authority-school-financial-table";
+    public const string FinancialTabHasNuseryCheckBox = "#f\\.nursery-HasNurseryClasses";
+    public const string ApplyFiltersBtnLAFinancialTab = "[data-testid='apply-financial-filters']";
 }

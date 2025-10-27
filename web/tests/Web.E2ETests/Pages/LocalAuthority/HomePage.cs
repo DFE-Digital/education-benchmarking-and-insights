@@ -33,6 +33,20 @@ public class HomePage(IPage page)
     private ILocator BannerTitle => page.Locator(Selectors.GovNotificationBannerTitle);
     private ILocator BannerHeading => page.Locator(Selectors.GovNotificationBannerHeading);
     private ILocator BannerBody => page.Locator(Selectors.GovNotificationBannerBody);
+    private ILocator SchoolFinancialTable => page.Locator(Selectors.LocalAuthoritySchoolFinancialTabTable);
+
+    private ILocator ToggleFinancialFiltersCta => page.Locator(Selectors.Button, new PageLocatorOptions
+    {
+        HasText = "Show filters"
+    });
+
+    private ILocator FinancialHasNurseryClassesCheckBox => page.Locator(Selectors.FinancialTabHasNuseryCheckBox);
+    private ILocator FinancialApplyFilters => page.Locator(Selectors.ApplyFiltersBtnLAFinancialTab);
+
+    private ILocator NurseryProvisionAccordion => page.Locator("button.govuk-accordion__section-button", new PageLocatorOptions
+    {
+        HasText = "Nursery provision"
+    });
 
     public async Task IsDisplayed()
     {
@@ -124,5 +138,38 @@ public class HomePage(IPage page)
         }
 
         table.CompareToDynamicSet(set, false);
+    }
+
+    public async Task IsTableDataDisplayed(List<List<string>> expected)
+    {
+        await SchoolFinancialTable.ShouldBeVisible();
+        await SchoolFinancialTable.ShouldHaveTableContent(expected, true);
+    }
+
+    public async Task ClickToggleFinancialFiltersBtn()
+    {
+        await ToggleFinancialFiltersCta.Click();
+    }
+
+    public async Task ClickHasNurseryClassesCheckBox()
+    {
+        await ExpandAccordionIfNotExpanded(NurseryProvisionAccordion);
+        await FinancialHasNurseryClassesCheckBox.ShouldBeVisible();
+        await FinancialHasNurseryClassesCheckBox.Click();
+    }
+
+    public async Task ClickApplyFilters()
+    {
+        await FinancialApplyFilters.ShouldBeVisible();
+        await FinancialApplyFilters.Click();
+    }
+
+    private async Task ExpandAccordionIfNotExpanded(ILocator accordionButton)
+    {
+        var isExpanded = await accordionButton.GetAttributeAsync("aria-expanded");
+        if (isExpanded != "true")
+        {
+            await accordionButton.Click();
+        }
     }
 }
