@@ -196,41 +196,6 @@ resource "azurerm_cdn_frontdoor_firewall_policy" "web-app-front-door-waf" {
       override {
         rule_group_name = "SQLI"
 
-        #NB: explicitly added rules to align with Azure defaults
-        rule {
-          rule_id = "942110"
-          action  = "Log"
-          enabled = false
-        }
-        rule {
-          rule_id = "942430"
-          action  = "Log"
-          enabled = false
-        }
-        rule {
-          rule_id = "942440"
-          action  = "Log"
-          enabled = false
-        }
-      }
-
-      override {
-        rule_group_name = "RFI"
-        rule {
-          rule_id = "931130"
-          action  = "AnomalyScoring"
-          exclusion {
-            match_variable = "RequestBodyPostArgNames"
-            operator       = "Equals"
-            selector       = "iss"
-          }
-        }
-      }
-
-
-      /* override {
-        rule_group_name = "SQLI"
-
         exclusion {
           match_variable = "RequestCookieNames"
           operator       = "StartsWith"
@@ -290,9 +255,38 @@ resource "azurerm_cdn_frontdoor_firewall_policy" "web-app-front-door-waf" {
           operator       = "Equals"
           selector       = "state"
         }
+
+        #NB: explicitly added rules to align with Azure defaults
+        rule {
+          rule_id = "942110"
+          action  = "Log"
+          enabled = false
+        }
+        rule {
+          rule_id = "942430"
+          action  = "Log"
+          enabled = false
+        }
+        rule {
+          rule_id = "942440"
+          action  = "Log"
+          enabled = false
+        }
       }
 
-*/
+      override {
+        rule_group_name = "RFI"
+        rule {
+          rule_id = "931130"
+          action  = "AnomalyScoring"
+          enabled = true
+          exclusion {
+            match_variable = "RequestBodyPostArgNames"
+            operator       = "Equals"
+            selector       = "iss"
+          }
+        }
+      }
     }
   }
 
