@@ -158,6 +158,63 @@ resource "azurerm_cdn_frontdoor_firewall_policy" "web-app-front-door-waf" {
       version = "2.0"
       action  = "Log"
 
+      #NB: explicitly add overrides to align with Azure defaults
+      override {
+        rule_group_name = "MS-ThreatIntel-WebShells"
+        rule {
+          rule_id = "99005006"
+          action  = "AnomalyScoring"
+          enabled = false
+        }
+      }
+
+      #NB: explicitly add overrides to align with Azure defaults
+      override {
+        rule_group_name = "MS-ThreatIntel-CVEs"
+        rule {
+          rule_id = "99005006"
+          action  = "AnomalyScoring"
+          enabled = false
+        }
+        rule {
+          rule_id = "99001014"
+          action  = "AnomalyScoring"
+          enabled = false
+        }
+        rule {
+          rule_id = "99001016"
+          action  = "AnomalyScoring"
+          enabled = false
+        }
+        rule {
+          rule_id = "99001017"
+          action  = "AnomalyScoring"
+          enabled = false
+        }
+      }
+
+
+      override {
+        rule_group_name = "SQLI"
+
+        #NB: explicitly added rules to align with Azure defaults
+        rule {
+          rule_id = "942110"
+          action  = "AnomalyScoring"
+          enabled = false
+        }
+        rule {
+          rule_id = "942430"
+          action  = "AnomalyScoring"
+          enabled = false
+        }
+        rule {
+          rule_id = "942440"
+          action  = "AnomalyScoring"
+          enabled = false
+        }
+      }
+
       /* override {
         rule_group_name = "SQLI"
 
@@ -247,7 +304,7 @@ resource "azurerm_cdn_frontdoor_firewall_policy" "web-app-front-door-waf" {
       version = "1.1"
       action  = "Log" #NB: not respected by Azure for Microsoft_BotManagerRuleSet
 
-      #NB: explicitly add overrides for BadBots, GoodBots & UnknownBots to match Azure defaults
+      #NB: explicitly add overrides for BadBots, GoodBots & UnknownBots to align with Azure defaults
 
       override {
         rule_group_name = "BadBots"
