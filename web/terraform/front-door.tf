@@ -163,7 +163,7 @@ resource "azurerm_cdn_frontdoor_firewall_policy" "web-app-front-door-waf" {
         rule_group_name = "MS-ThreatIntel-WebShells"
         rule {
           rule_id = "99005006"
-          action  = "AnomalyScoring"
+          action  = "Block"
           enabled = false
         }
       }
