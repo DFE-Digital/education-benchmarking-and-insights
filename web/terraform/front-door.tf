@@ -214,6 +214,20 @@ resource "azurerm_cdn_frontdoor_firewall_policy" "web-app-front-door-waf" {
         }
       }
 
+      override {
+        rule_group_name = "RFI"
+        rule {
+          rule_id = "931130"
+          action  = "AnomalyScoring"
+          exclusion {
+            match_variable = "RequestBodyPostArgNames"
+            operator       = "Equals"
+            selector       = "iss"
+          }
+        }
+      }
+
+
       /* override {
         rule_group_name = "SQLI"
 
@@ -278,20 +292,7 @@ resource "azurerm_cdn_frontdoor_firewall_policy" "web-app-front-door-waf" {
         }
       }
 
-      override {
-        rule_group_name = "RFI"
-        action          = "Log"
-        rule {
-          rule_id = "931130"
-
-
-          exclusion {
-            match_variable = "RequestBodyPostArgNames"
-            operator       = "Equals"
-            selector       = "iss"
-          }
-        }
-      }*/
+*/
     }
   }
 
