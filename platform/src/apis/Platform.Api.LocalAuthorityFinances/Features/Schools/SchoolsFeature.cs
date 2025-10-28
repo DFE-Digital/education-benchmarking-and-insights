@@ -16,7 +16,8 @@ public static class SchoolsFeature
             .AddSingleton<ISchoolsService, SchoolsService>();
 
         serviceCollection
-            .AddTransient<IValidator<FinanceSummaryParameters>, FinanceSummaryParametersValidator>();
+            .AddTransient<IValidator<FinanceSummaryParameters>, FinanceSummaryParametersValidator>()
+            .AddTransient<IValidator<WorkforceSummaryParameters>, WorkforceSummaryParametersValidator>();
 
         return serviceCollection;
     }
