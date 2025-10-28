@@ -22,7 +22,7 @@ Progress 8 is considered a fairer way to judge schools because it account for th
 
 ### Progress 8 Data Source for FBIT
 
-The official and most reliable source for Progress 8 data is the from [compare school and college performance in England](https://www.compare-school-performance.service.gov.uk/download-data). On this website, one can search for any school in England, view detailed performance data, including Progress 8 score as well as download key stage 4 related data. Please see [key-stage-4](/documentation/data/source-files/key-stage-4.md) for more details on progress 8 source file for FBIT. The below SQL query within FBIT `data` database shows schools with KS4 related data for 2023-24 academic year.
+The official and most reliable source for Progress 8 data is the from [compare school and college performance in England](https://www.compare-school-performance.service.gov.uk/download-data). On this website, one can search for any school in England, view detailed performance data, including Progress 8 score as well as download key stage 4 related data. Please see [key-stage-4](/documentation/data/source-files/key-stage-4.md) and [Sources](/documentation/data/2_Sources.md) for more details on progress 8 source file for FBIT. The below SQL query within FBIT `data` database shows schools with KS4 related data for 2023-24 academic year.
 
 ```sql
 SELECT [URN]
