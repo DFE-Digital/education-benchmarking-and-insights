@@ -10,7 +10,7 @@
 
     string ValueSelector(LocalAuthoritySchoolWorkforce row, Func<LocalAuthoritySchoolWorkforce, decimal?> selector)
     {
-        return Model.ResultAs is WorkforceDimensions.ResultAsOptions.PercentPerPupil
+        return Model.ResultAs is WorkforceDimensions.ResultAsOptions.PercentPupil
             ? selector(row).ToPercent()
             : selector(row).ToSimpleDisplay();
     }

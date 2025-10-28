@@ -11,7 +11,7 @@ public class LocalAuthoritySchoolWorkforceFormViewModel(string code, string form
 {
     public static readonly WorkforceDimensions.ResultAsOptions[] FilterDimensions =
     [
-        WorkforceDimensions.ResultAsOptions.PercentPerPupil,
+        WorkforceDimensions.ResultAsOptions.PercentPupil,
         WorkforceDimensions.ResultAsOptions.Actuals,
     ];
 
@@ -26,7 +26,7 @@ public class LocalAuthoritySchoolWorkforceFormViewModel(string code, string form
 
     public bool AllRows { get; init; }
     public bool FiltersVisible { get; init; }
-    public WorkforceDimensions.ResultAsOptions ResultAs { get; init; } = WorkforceDimensions.ResultAsOptions.PercentPerPupil;
+    public WorkforceDimensions.ResultAsOptions ResultAs { get; init; } = WorkforceDimensions.ResultAsOptions.PercentPupil;
     public OverallPhaseTypes.OverallPhaseTypeFilter[] SelectedOverallPhases { get; init; } = [];
     public NurseryProvisions.NurseryProvisionFilter[] SelectedNurseryProvisions { get; init; } = [];
     public SpecialProvisions.SpecialProvisionFilter[] SelectedSpecialProvisions { get; init; } = [];

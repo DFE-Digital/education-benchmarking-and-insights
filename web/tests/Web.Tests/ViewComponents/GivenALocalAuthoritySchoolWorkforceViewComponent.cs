@@ -18,7 +18,7 @@ public class LocalAuthoritySchoolWorkforceViewComponentTests
     private readonly LocalAuthoritySchoolWorkforceViewComponent _component;
     private readonly HttpContext _httpContext;
     private readonly PathString _path = "/test/path";
-    private const WorkforceDimensions.ResultAsOptions DefaultDimension = WorkforceDimensions.ResultAsOptions.PercentPerPupil;
+    private const WorkforceDimensions.ResultAsOptions DefaultDimension = WorkforceDimensions.ResultAsOptions.PercentPupil;
     private const string DefaultSort = "TotalExpenditure~desc";
 
     public LocalAuthoritySchoolWorkforceViewComponentTests()
@@ -51,7 +51,7 @@ public class LocalAuthoritySchoolWorkforceViewComponentTests
         { "w.", "", false, false, false, DefaultDimension, new TheoryFilters([], [], [], []), DefaultSort },
         { "w.", "?w.filter=show", false, true, false, DefaultDimension, new TheoryFilters([], [], [], []), DefaultSort },
         { "w.", "?w.filter=hide", false, false, false, DefaultDimension, new TheoryFilters([], [], [], []), DefaultSort },
-        { "w.", "?w.as=0", false, false, false, WorkforceDimensions.ResultAsOptions.PercentPerPupil, new TheoryFilters([], [], [], []), DefaultSort },
+        { "w.", "?w.as=0", false, false, false, WorkforceDimensions.ResultAsOptions.PercentPupil, new TheoryFilters([], [], [], []), DefaultSort },
         { "w.", "?w.as=1", false, false, false, WorkforceDimensions.ResultAsOptions.Actuals, new TheoryFilters([], [], [], []), DefaultSort },
         {
             "w.", "?w.phase=0&w.phase=1&w.phase=2", false, false, true, DefaultDimension, new TheoryFilters([

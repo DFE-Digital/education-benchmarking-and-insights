@@ -77,7 +77,7 @@ public class LocalAuthoritySchoolWorkforceViewComponent : ViewComponent
     {
         var filtersVisible = query[$"{formPrefix}{LocalAuthoritySchoolWorkforceFormViewModel.FormFieldNames.FiltersVisible}"] == LocalAuthoritySchoolWorkforceFormViewModel.FormFieldValues.Show;
 
-        var resultAs = WorkforceDimensions.ResultAsOptions.PercentPerPupil;
+        var resultAs = WorkforceDimensions.ResultAsOptions.PercentPupil;
         var resultsAsValues = query[$"{formPrefix}{LocalAuthoritySchoolWorkforceFormViewModel.FormFieldNames.ResultAs}"]
             .CastQueryToEnum<WorkforceDimensions.ResultAsOptions>()
             .ToArray();

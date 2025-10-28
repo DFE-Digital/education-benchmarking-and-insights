@@ -4,27 +4,27 @@ public static class WorkforceDimensions
 {
     public enum ResultAsOptions
     {
-        PercentPerPupil = 0,
+        PercentPupil = 0,
         Actuals = 1,
     }
 
     public static string GetQueryParam(this ResultAsOptions option) => option switch
     {
-        ResultAsOptions.PercentPerPupil => "PercentPerPupil",
+        ResultAsOptions.PercentPupil => "PercentPupil",
         ResultAsOptions.Actuals => "Actuals",
         _ => throw new ArgumentOutOfRangeException(nameof(option))
     };
 
     public static string GetTableHeaderPrefix(this ResultAsOptions option) => option switch
     {
-        ResultAsOptions.PercentPerPupil => "% with ",
+        ResultAsOptions.PercentPupil => "% with ",
         ResultAsOptions.Actuals => string.Empty,
         _ => throw new ArgumentOutOfRangeException(nameof(option))
     };
 
     public static string GetDescription(this ResultAsOptions option) => option switch
     {
-        ResultAsOptions.PercentPerPupil => "Percentage of pupils",
+        ResultAsOptions.PercentPupil => "Percentage of pupils",
         ResultAsOptions.Actuals => "Pupil numbers",
         _ => throw new ArgumentOutOfRangeException(nameof(option))
     };
