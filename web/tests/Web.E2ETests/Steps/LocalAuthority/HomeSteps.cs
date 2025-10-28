@@ -109,5 +109,45 @@ public class HomeSteps(PageDriver driver)
         await _localAuthorityHomePage.ContainsPriorityRagsForPhase(overallPhase, table);
     }
 
+    [Given("I should see the following table data in financial tab")]
+    [Then("I should see the following table data in financial tab")]
+    public async Task GivenIShouldSeeTheFollowingTableDataInTab(Table table)
+    {
+        var expected = GetExpectedTableData(table);
+        Assert.NotNull(_localAuthorityHomePage);
+        await _localAuthorityHomePage.IsTableDataDisplayed(expected);
+    }
+
+    [When("I click on show filters")]
+    public async Task WhenIClickOnShowFilters()
+    {
+        Assert.NotNull(_localAuthorityHomePage);
+        await _localAuthorityHomePage.ClickToggleFinancialFiltersBtn();
+    }
+
+    [When("I apply has nursery classes filter")]
+    public async Task WhenIApplyHasNurseryClassesFilter()
+    {
+        Assert.NotNull(_localAuthorityHomePage);
+        await _localAuthorityHomePage.ClickHasNurseryClassesCheckBox();
+    }
+
+    [When("I click Apply filters")]
+    public async Task WhenIClickApplyFilters()
+    {
+        Assert.NotNull(_localAuthorityHomePage);
+        await _localAuthorityHomePage.ClickApplyFilters();
+    }
+
     private static string LocalAuthorityHomeUrl(string laCode) => $"{TestConfiguration.ServiceUrl}/local-authority/{laCode}";
+
+    private List<List<string>> GetExpectedTableData(Table table)
+    {
+        var expected = new List<List<string>>();
+        var headers = table.Header.ToList();
+        expected.Add(headers);
+        expected.AddRange(table.Rows.Select(row => row.Select(cell => cell.Value).ToList()));
+
+        return expected;
+    }
 }
