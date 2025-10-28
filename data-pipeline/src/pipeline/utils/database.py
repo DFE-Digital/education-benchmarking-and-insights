@@ -410,6 +410,8 @@ def insert_non_financial_data(
         "Percentage SEN": "PercentSpecialEducationNeeds",
         "Percentage with EHC": "PercentWithEducationalHealthCarePlan",
         "Percentage without EHC": "PercentWithoutEducationalHealthCarePlan",
+        "EHC plan": "EHCPlan",
+        "SEN support": "SENSupport",
         "Ks2Progress": "KS2Progress",
         "Progress8Measure": "KS4Progress",
         "Progress8Banding": "KS4ProgressBanding",
