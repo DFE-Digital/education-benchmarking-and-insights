@@ -713,7 +713,7 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
     }
 
     [Fact]
-    public async Task CanDownloadPageData()
+    public async Task CanDownloadFinancePageData()
     {
         var (page, authority, _, _, _, _) = await SetupNavigateInitPage(false, true, false, null, null, "?f.filter=show", OverallPhaseTypes.Primary);
 
@@ -726,6 +726,22 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
         var newPage = await Client.Follow(anchor);
 
         DocumentAssert.AssertPageUrl(newPage, Paths.LocalAuthoritySchoolsFinanceDownload(authority.Code).ToAbsolute());
+    }
+
+    [Fact]
+    public async Task CanDownloadWorkforcePageData()
+    {
+        var (page, authority, _, _, _, _) = await SetupNavigateInitPage(false, true, false, null, null, "?w.filter=show", OverallPhaseTypes.Primary);
+
+        var tab = AssertWorkforceTab(page);
+
+        var anchor = tab.QuerySelectorAll(".app-filter a.govuk-button")
+            .FirstOrDefault(x => x.TextContent.Trim() == "Save table data");
+        Assert.NotNull(anchor);
+
+        var newPage = await Client.Follow(anchor);
+
+        DocumentAssert.AssertPageUrl(newPage, Paths.LocalAuthoritySchoolsWorkforceDownload(authority.Code).ToAbsolute());
     }
 
     private async Task<(

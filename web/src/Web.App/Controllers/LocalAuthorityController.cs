@@ -149,6 +149,34 @@ public class LocalAuthorityController(
         }
     }
 
+    [HttpGet]
+    [Produces("application/zip")]
+    [ProducesResponseType<byte[]>(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    [Route("download/schools/workforce")]
+    public async Task<IActionResult> DownloadSchoolsWorkforce(string code)
+    {
+        using (logger.BeginScope(new
+        {
+            code
+        }))
+        {
+            try
+            {
+                var results = await localAuthoritiesApi
+                    .GetSchoolsWorkforce(code, [new QueryParameter("dimension", SchoolsSummaryWorkforceDimensions.ResultAsOptions.Actuals.GetQueryParam())])
+                    .GetResultOrDefault<LocalAuthoritySchoolWorkforce[]>() ?? [];
+
+                return new CsvResults([new CsvResult(results, $"la-schools-workforce-{code}.csv")], $"la-schools-workforce-{code}.zip");
+            }
+            catch (Exception e)
+            {
+                logger.LogError(e, "An error downloading LA schools workforce data: {DisplayUrl}", Request.GetDisplayUrl());
+                return StatusCode(500);
+            }
+        }
+    }
+
     private async Task<LocalAuthority> LocalAuthority(string code) => await establishmentApi
         .GetLocalAuthority(code)
         .GetResultOrThrow<LocalAuthority>();

@@ -107,6 +107,14 @@
             Apply filters
         </button>
 
-        @*TODO: add download button*@
+        <div class="govuk-button-group govuk-!-margin-bottom-0">
+            <a href="@Url.Action("DownloadSchoolsWorkforce", "LocalAuthority", new
+                     {
+                         code = Model.Code
+                     })" role="button"
+               class="govuk-button govuk-button--secondary" data-module="govuk-button">
+                Save table data
+            </a>
+        </div>
     </div>
 </div>
