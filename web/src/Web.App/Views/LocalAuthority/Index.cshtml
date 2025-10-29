@@ -76,6 +76,11 @@
                             Financial
                         </a>
                     </li>
+                    <li class="govuk-tabs__list-item">
+                        <a class="govuk-tabs__tab" href="#workforce">
+                            Pupil and workforce
+                        </a>
+                    </li>
                 </ul>
                 <div class="govuk-tabs__panel" id="financial">
                     @await Component.InvokeAsync("LocalAuthoritySchoolFinancial", new
@@ -84,6 +89,15 @@
                         formPrefix = "f.",
                         maxRows = 7,
                         defaultSort = $"{nameof(LocalAuthoritySchoolFinancial.TotalExpenditure)}~desc"
+                    })
+                </div>
+                <div class="govuk-tabs__panel govuk-tabs__panel--hidden" id="workforce">
+                    @await Component.InvokeAsync("LocalAuthoritySchoolWorkforce", new
+                    {
+                        code = Model.Code,
+                        formPrefix = "w.",
+                        maxRows = 7,
+                        defaultSort = $"{nameof(LocalAuthoritySchoolWorkforce.PupilTeacherRatio)}~desc"
                     })
                 </div>
             </div>

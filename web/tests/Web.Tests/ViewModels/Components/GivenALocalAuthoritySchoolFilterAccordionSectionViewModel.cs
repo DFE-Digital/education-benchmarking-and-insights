@@ -3,7 +3,7 @@ using Xunit;
 
 namespace Web.Tests.ViewModels.Components;
 
-public class GivenALocalAuthoritySchoolFinancialFinancialFilterAccordionSectionViewModel
+public class GivenALocalAuthoritySchoolFilterAccordionSectionViewModel
 {
     private enum TestEnum
     {
@@ -25,7 +25,7 @@ public class GivenALocalAuthoritySchoolFinancialFinancialFilterAccordionSectionV
         string LabelSelector(TestEnum e) => $"Label {e}";
         string ValueSelector(TestEnum e) => $"Value {(int)e}";
 
-        LocalAuthoritySchoolFinancialFilterAccordionSectionViewModelBase model = new LocalAuthoritySchoolFinancialFinancialFilterAccordionSectionViewModel<TestEnum>(accordionId, sectionIndex, formPrefix, heading, formFieldName, allFilters, selectedFilters, LabelSelector, ValueSelector);
+        LocalAuthoritySchoolFilterAccordionSectionViewModelBase model = new LocalAuthoritySchoolFilterAccordionSectionViewModel<TestEnum>(accordionId, sectionIndex, formPrefix, heading, formFieldName, allFilters, selectedFilters, LabelSelector, ValueSelector);
 
         Assert.Equal(accordionId, model.AccordionId);
         Assert.Equal(sectionIndex, model.SectionIndex);

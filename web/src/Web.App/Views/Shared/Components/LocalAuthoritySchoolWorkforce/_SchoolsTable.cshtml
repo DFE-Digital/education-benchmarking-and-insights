@@ -1,0 +1,99 @@
+@using Web.App.Domain
+@using Web.App.Extensions
+@using Web.App.ViewModels.Components
+@model Web.App.ViewModels.Components.LocalAuthoritySchoolWorkforceViewModel
+@{
+    var tableId = LocalAuthoritySchoolWorkforceFormViewModel.TableId;
+    var tableHeaderPrefix = Model.ResultAs.GetTableHeaderPrefix();
+    var sortKey = $"{Model.FormPrefix}{LocalAuthoritySchoolWorkforceFormViewModel.FormFieldNames.Sort}";
+
+    string ValueSelector(LocalAuthoritySchoolWorkforce row, Func<LocalAuthoritySchoolWorkforce, decimal?> selector)
+    {
+        return Model.ResultAs is SchoolsSummaryWorkforceDimensions.ResultAsOptions.PercentPupil
+            ? selector(row).ToPercent()
+            : selector(row).ToSimpleDisplay();
+    }
+}
+
+<table class="govuk-table" id="@tableId">
+    <thead class="govuk-table__head">
+    <tr class="govuk-table__row">
+        @await Component.InvokeAsync("SortableTableHeaderCell", new
+        {
+            label = "School name",
+            sortField = nameof(LocalAuthoritySchoolWorkforce.SchoolName),
+            sortKey,
+            className = "govuk-!-width-one-quarter",
+            tableId,
+            defaultSort = Model.DefaultSort.StartsWith(nameof(LocalAuthoritySchoolWorkforce.SchoolName)) ? Model.DefaultSort : null
+        })
+        @await Component.InvokeAsync("SortableTableHeaderCell", new
+        {
+            label = "Pupils",
+            sortField = nameof(LocalAuthoritySchoolWorkforce.TotalPupils),
+            sortKey,
+            className = "govuk-table__header--numeric",
+            tableId,
+            defaultSort = Model.DefaultSort.StartsWith(nameof(LocalAuthoritySchoolWorkforce.TotalPupils)) ? Model.DefaultSort : null
+        })
+        @await Component.InvokeAsync("SortableTableHeaderCell", new
+        {
+            label = "Pupil:teacher ratio",
+            sortField = nameof(LocalAuthoritySchoolWorkforce.PupilTeacherRatio),
+            sortKey,
+            className = "govuk-table__header--numeric",
+            tableId,
+            defaultSort = Model.DefaultSort.StartsWith(nameof(LocalAuthoritySchoolWorkforce.PupilTeacherRatio)) ? Model.DefaultSort : null
+        })
+        @await Component.InvokeAsync("SortableTableHeaderCell", new
+        {
+            label = $"{tableHeaderPrefix}EHC plan",
+            sortField = nameof(LocalAuthoritySchoolWorkforce.EhcPlan),
+            sortKey,
+            className = "govuk-table__header--numeric",
+            tableId,
+            defaultSort = Model.DefaultSort.StartsWith(nameof(LocalAuthoritySchoolWorkforce.EhcPlan)) ? Model.DefaultSort : null
+        })
+        @await Component.InvokeAsync("SortableTableHeaderCell", new
+        {
+            label = $"{tableHeaderPrefix}SEN support",
+            sortField = nameof(LocalAuthoritySchoolWorkforce.SenSupport),
+            sortKey,
+            className = "govuk-table__header--numeric",
+            tableId,
+            defaultSort = Model.DefaultSort.StartsWith(nameof(LocalAuthoritySchoolWorkforce.SenSupport)) ? Model.DefaultSort : null
+        })
+    </tr>
+    </thead>
+    <tbody class="govuk-table__body">
+    @foreach (var row in Model.Results)
+    {
+        <tr class="govuk-table__row">
+            <td class="govuk-table__cell">
+                <a class="govuk-link govuk-link--no-visited-state" href=@($"/school/{row.Urn}")>@row.SchoolName</a>
+                @if (row.PeriodCoveredByReturn is not 12)
+                {
+                    <p class="govuk-table__cell_commentary">
+                        <strong class="govuk-tag govuk-tag--red">
+                            Only has @row.PeriodCoveredByReturn
+                            @(row.PeriodCoveredByReturn == 1 ? "month" : "months") of data
+                        </strong>
+                    </p>
+                }
+            </td>
+            <td class="govuk-table__cell govuk-table__cell--numeric">
+                @row.TotalPupils.ToSimpleDisplay()
+            </td>
+            <td class="govuk-table__cell govuk-table__cell--numeric govuk-table__cell--nowrap">
+                @row.PupilTeacherRatio.ToSimpleDisplay()
+            </td>
+            <td class="govuk-table__cell govuk-table__cell--numeric govuk-table__cell--nowrap">
+                @ValueSelector(row, r => r.EhcPlan)
+            </td>
+            <td class="govuk-table__cell govuk-table__cell--numeric govuk-table__cell--nowrap">
+                @ValueSelector(row, r => r.SenSupport)
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>

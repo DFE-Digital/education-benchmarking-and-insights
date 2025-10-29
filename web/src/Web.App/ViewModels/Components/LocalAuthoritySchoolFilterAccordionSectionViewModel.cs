@@ -1,8 +1,8 @@
 namespace Web.App.ViewModels.Components;
 
-public class LocalAuthoritySchoolFinancialFinancialFilterAccordionSectionViewModel<T> : LocalAuthoritySchoolFinancialFilterAccordionSectionViewModelBase
+public class LocalAuthoritySchoolFilterAccordionSectionViewModel<T> : LocalAuthoritySchoolFilterAccordionSectionViewModelBase
 {
-    public LocalAuthoritySchoolFinancialFinancialFilterAccordionSectionViewModel
+    public LocalAuthoritySchoolFilterAccordionSectionViewModel
     (
         string accordionId,
         int sectionIndex,
@@ -27,7 +27,7 @@ public class LocalAuthoritySchoolFinancialFinancialFilterAccordionSectionViewMod
 /// The generic class above is only used to provide type safety when providing data
 /// to the partial view and otherwise boxes the type when setting the base properties.
 /// </summary>
-public abstract class LocalAuthoritySchoolFinancialFilterAccordionSectionViewModelBase(
+public abstract class LocalAuthoritySchoolFilterAccordionSectionViewModelBase(
     string accordionId,
     int sectionIndex,
     string formPrefix,
