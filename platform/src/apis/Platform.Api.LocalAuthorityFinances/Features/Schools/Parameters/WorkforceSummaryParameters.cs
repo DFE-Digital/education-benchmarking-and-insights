@@ -8,8 +8,8 @@ namespace Platform.Api.LocalAuthorityFinances.Features.Schools.Parameters;
 
 public record WorkforceSummaryParameters : QueryParameters
 {
-    public string Dimension { get; private set; } = Dimensions.Finance.Actuals;
-    public string SortField { get; private set; } = FinanceSummarySortFields.SchoolName;
+    public string Dimension { get; private set; } = Dimensions.SchoolsSummaryWorkforce.Actuals;
+    public string SortField { get; private set; } = WorkforceSummarySortFields.SchoolName;
     public string SortOrder { get; private set; } = SortDirection.Asc;
     public string[] OverallPhase { get; private set; } = [];
     public string[] NurseryProvision { get; private set; } = [];
@@ -19,8 +19,8 @@ public record WorkforceSummaryParameters : QueryParameters
 
     public override void SetValues(NameValueCollection query)
     {
-        Dimension = query["dimension"] ?? Dimensions.Finance.Actuals;
-        SortField = query["sortField"] ?? FinanceSummarySortFields.SchoolName;
+        Dimension = query["dimension"] ?? Dimensions.SchoolsSummaryWorkforce.Actuals;
+        SortField = query["sortField"] ?? WorkforceSummarySortFields.SchoolName;
         SortOrder = query["sortOrder"] ?? SortDirection.Asc;
         OverallPhase = query.ToStringArray("overallPhase");
         NurseryProvision = query.ToStringArray("nurseryProvision");
