@@ -8,8 +8,8 @@ public class SchoolsWorkforceSummaryDefaultCurrentQuery(string dimension) : Plat
     {
         return dimension switch
         {
-            Dimensions.Workforce.Actuals => "SELECT /**select**/ FROM VW_SchoolsWorkforceSummaryDefaultCurrentActual /**where**/ /**orderby**/",
-            Dimensions.Workforce.PercentPupil => "SELECT /**select**/ FROM VW_SchoolsWorkforceSummaryDefaultCurrentPercentPupil /**where**/ /**orderby**/",
+            Dimensions.SchoolsSummaryWorkforce.Actuals => "SELECT /**select**/ FROM VW_SchoolsWorkforceSummaryDefaultCurrentActual /**where**/ /**orderby**/",
+            Dimensions.SchoolsSummaryWorkforce.PercentPupil => "SELECT /**select**/ FROM VW_SchoolsWorkforceSummaryDefaultCurrentPercentPupil /**where**/ /**orderby**/",
             _ => throw new ArgumentOutOfRangeException(nameof(dimension), "Unknown dimension")
         };
     }

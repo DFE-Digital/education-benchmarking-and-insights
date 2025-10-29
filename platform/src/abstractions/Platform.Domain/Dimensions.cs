@@ -67,8 +67,7 @@ public static class Dimensions
         public static bool IsValid(string? dimension) => All.Any(a => a == dimension);
     }
 
-    // TODO: what is this, workforce? la workforce? census version 2?
-    public static class Workforce
+    public static class SchoolsSummaryWorkforce
     {
         public const string Actuals = nameof(Actuals);
         public const string PercentPupil = nameof(PercentPupil);

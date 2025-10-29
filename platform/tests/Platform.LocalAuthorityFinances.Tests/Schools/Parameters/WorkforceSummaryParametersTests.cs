@@ -45,7 +45,7 @@ public class WorkforceSummaryParametersTests
         var parameters = new WorkforceSummaryParameters();
         parameters.SetValues(values);
 
-        Assert.Equal(Dimensions.Workforce.Actuals, parameters.Dimension);
+        Assert.Equal(Dimensions.SchoolsSummaryWorkforce.Actuals, parameters.Dimension);
         Assert.Equal(WorkforceSummarySortFields.SchoolName, parameters.SortField);
         Assert.Equal(SortDirection.Asc, parameters.SortOrder);
         Assert.Empty(parameters.OverallPhase);

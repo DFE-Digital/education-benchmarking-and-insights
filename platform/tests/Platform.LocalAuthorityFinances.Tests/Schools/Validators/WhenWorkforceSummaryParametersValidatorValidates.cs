@@ -11,8 +11,8 @@ public class WhenWorkforceSummaryParametersValidatorValidates
     private readonly WorkforceSummaryParametersValidator _validator = new();
 
     [Theory]
-    [InlineData(Dimensions.Workforce.Actuals)]
-    [InlineData(Dimensions.Workforce.PercentPupil)]
+    [InlineData(Dimensions.SchoolsSummaryWorkforce.Actuals)]
+    [InlineData(Dimensions.SchoolsSummaryWorkforce.PercentPupil)]
     public async Task ShouldBeValidWithValidDimension(string dimension)
     {
         var parameters = new WorkforceSummaryParameters();

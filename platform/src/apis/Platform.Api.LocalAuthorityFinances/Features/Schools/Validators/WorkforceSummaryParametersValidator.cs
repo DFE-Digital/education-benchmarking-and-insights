@@ -13,7 +13,7 @@ public class WorkforceSummaryParametersValidator : AbstractValidator<WorkforceSu
     {
         RuleFor(x => x.Dimension)
             .Must(BeAValidDimension)
-            .WithMessage($"{{PropertyName}} must be one of the supported values: {string.Join(", ", Dimensions.Workforce.All)}");
+            .WithMessage($"{{PropertyName}} must be one of the supported values: {string.Join(", ", Dimensions.SchoolsSummaryWorkforce.All)}");
 
         RuleFor(x => x.OverallPhase)
             .Must(x => x.IsEmpty() || x.All(BeValidPhase))
@@ -45,7 +45,7 @@ public class WorkforceSummaryParametersValidator : AbstractValidator<WorkforceSu
     }
 
     private static bool MustBeEmptyOrAValidNumber(string? limit) => string.IsNullOrWhiteSpace(limit) || (int.TryParse(limit, out var parsed) && parsed is >= 1 and <= 100);
-    private static bool BeAValidDimension(string dimension) => Dimensions.Workforce.IsValid(dimension);
+    private static bool BeAValidDimension(string dimension) => Dimensions.SchoolsSummaryWorkforce.IsValid(dimension);
     private static bool BeValidPhase(string? overallPhase) => OverallPhase.IsValid(overallPhase);
     private static bool BeAValidNurseryProvision(string nurseryProvision) => NurseryProvision.IsValid(nurseryProvision);
     private static bool BeAValidSixthFormProvision(string sixthFormProvision) => SixthFormProvision.IsValid(sixthFormProvision);
