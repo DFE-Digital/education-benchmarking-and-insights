@@ -85,7 +85,7 @@
                 @row.TotalPupils.ToSimpleDisplay()
             </td>
             <td class="govuk-table__cell govuk-table__cell--numeric govuk-table__cell--nowrap">
-                @ValueSelector(row, r => r.PupilTeacherRatio)
+                @row.PupilTeacherRatio.ToSimpleDisplay()
             </td>
             <td class="govuk-table__cell govuk-table__cell--numeric govuk-table__cell--nowrap">
                 @ValueSelector(row, r => r.EhcPlan)
