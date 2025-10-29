@@ -1,5 +1,4 @@
 using Web.App.Domain;
-using Web.App.Domain.LocalAuthorities;
 
 namespace Web.App.ViewModels.Components;
 
@@ -9,10 +8,10 @@ public class LocalAuthoritySchoolWorkforceViewModel(string code, string formPref
 
 public class LocalAuthoritySchoolWorkforceFormViewModel(string code, string formPrefix, int maxRows, string defaultSort)
 {
-    public static readonly WorkforceDimensions.ResultAsOptions[] FilterDimensions =
+    public static readonly SchoolsSummaryWorkforceDimensions.ResultAsOptions[] FilterDimensions =
     [
-        WorkforceDimensions.ResultAsOptions.PercentPupil,
-        WorkforceDimensions.ResultAsOptions.Actuals,
+        SchoolsSummaryWorkforceDimensions.ResultAsOptions.PercentPupil,
+        SchoolsSummaryWorkforceDimensions.ResultAsOptions.Actuals,
     ];
 
     public LocalAuthoritySchoolWorkforce[] Results = [];
@@ -26,7 +25,7 @@ public class LocalAuthoritySchoolWorkforceFormViewModel(string code, string form
 
     public bool AllRows { get; init; }
     public bool FiltersVisible { get; init; }
-    public WorkforceDimensions.ResultAsOptions ResultAs { get; init; } = WorkforceDimensions.ResultAsOptions.PercentPupil;
+    public SchoolsSummaryWorkforceDimensions.ResultAsOptions ResultAs { get; init; } = SchoolsSummaryWorkforceDimensions.ResultAsOptions.PercentPupil;
     public OverallPhaseTypes.OverallPhaseTypeFilter[] SelectedOverallPhases { get; init; } = [];
     public NurseryProvisions.NurseryProvisionFilter[] SelectedNurseryProvisions { get; init; } = [];
     public SpecialProvisions.SpecialProvisionFilter[] SelectedSpecialProvisions { get; init; } = [];

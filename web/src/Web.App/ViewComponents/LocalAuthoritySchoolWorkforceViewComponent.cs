@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Primitives;
 using Web.App.Domain;
-using Web.App.Domain.LocalAuthorities;
 using Web.App.Extensions;
 using Web.App.Infrastructure.Apis;
 using Web.App.ViewModels.Components;
@@ -77,9 +76,9 @@ public class LocalAuthoritySchoolWorkforceViewComponent : ViewComponent
     {
         var filtersVisible = query[$"{formPrefix}{LocalAuthoritySchoolWorkforceFormViewModel.FormFieldNames.FiltersVisible}"] == LocalAuthoritySchoolWorkforceFormViewModel.FormFieldValues.Show;
 
-        var resultAs = WorkforceDimensions.ResultAsOptions.PercentPupil;
+        var resultAs = SchoolsSummaryWorkforceDimensions.ResultAsOptions.PercentPupil;
         var resultsAsValues = query[$"{formPrefix}{LocalAuthoritySchoolWorkforceFormViewModel.FormFieldNames.ResultAs}"]
-            .CastQueryToEnum<WorkforceDimensions.ResultAsOptions>()
+            .CastQueryToEnum<SchoolsSummaryWorkforceDimensions.ResultAsOptions>()
             .ToArray();
         if (resultsAsValues.Length > 0)
         {
@@ -149,7 +148,7 @@ public class LocalAuthoritySchoolWorkforceViewComponent : ViewComponent
     private record ParsedQueryString(
         bool AllRows,
         bool FiltersVisible,
-        WorkforceDimensions.ResultAsOptions ResultAs,
+        SchoolsSummaryWorkforceDimensions.ResultAsOptions ResultAs,
         OverallPhaseTypes.OverallPhaseTypeFilter[] SelectedOverallPhases,
         NurseryProvisions.NurseryProvisionFilter[] SelectedNurseryProvisions,
         SpecialProvisions.SpecialProvisionFilter[] SelectedSpecialProvisions,

@@ -2,10 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.ViewComponents;
-using Moq;
 using Web.App.Domain;
-using Web.App.Domain.LocalAuthorities;
-using Web.App.Infrastructure.Apis.LocalAuthorities;
 using Web.App.ViewComponents;
 using Web.App.ViewModels.Components;
 using Xunit;
@@ -18,7 +15,7 @@ public class LocalAuthoritySchoolWorkforceViewComponentTests
     private readonly LocalAuthoritySchoolWorkforceViewComponent _component;
     private readonly HttpContext _httpContext;
     private readonly PathString _path = "/test/path";
-    private const WorkforceDimensions.ResultAsOptions DefaultDimension = WorkforceDimensions.ResultAsOptions.PercentPupil;
+    private const SchoolsSummaryWorkforceDimensions.ResultAsOptions DefaultDimension = SchoolsSummaryWorkforceDimensions.ResultAsOptions.PercentPupil;
     private const string DefaultSort = "TotalExpenditure~desc";
 
     public LocalAuthoritySchoolWorkforceViewComponentTests()
@@ -44,15 +41,15 @@ public class LocalAuthoritySchoolWorkforceViewComponentTests
         bool,
         bool,
         bool,
-        WorkforceDimensions.ResultAsOptions,
+        SchoolsSummaryWorkforceDimensions.ResultAsOptions,
         TheoryFilters,
         string?> FormValuesTestData => new()
     {
         { "w.", "", false, false, false, DefaultDimension, new TheoryFilters([], [], [], []), DefaultSort },
         { "w.", "?w.filter=show", false, true, false, DefaultDimension, new TheoryFilters([], [], [], []), DefaultSort },
         { "w.", "?w.filter=hide", false, false, false, DefaultDimension, new TheoryFilters([], [], [], []), DefaultSort },
-        { "w.", "?w.as=0", false, false, false, WorkforceDimensions.ResultAsOptions.PercentPupil, new TheoryFilters([], [], [], []), DefaultSort },
-        { "w.", "?w.as=1", false, false, false, WorkforceDimensions.ResultAsOptions.Actuals, new TheoryFilters([], [], [], []), DefaultSort },
+        { "w.", "?w.as=0", false, false, false, SchoolsSummaryWorkforceDimensions.ResultAsOptions.PercentPupil, new TheoryFilters([], [], [], []), DefaultSort },
+        { "w.", "?w.as=1", false, false, false, SchoolsSummaryWorkforceDimensions.ResultAsOptions.Actuals, new TheoryFilters([], [], [], []), DefaultSort },
         {
             "w.", "?w.phase=0&w.phase=1&w.phase=2", false, false, true, DefaultDimension, new TheoryFilters([
                 OverallPhaseTypes.OverallPhaseTypeFilter.Primary,
@@ -62,7 +59,7 @@ public class LocalAuthoritySchoolWorkforceViewComponentTests
             [], [], []), DefaultSort
         },
         {
-            "w.", "?w.phase=0&w.phase=1&w.as=1&other=value", false, false, true, WorkforceDimensions.ResultAsOptions.Actuals, new TheoryFilters([
+            "w.", "?w.phase=0&w.phase=1&w.as=1&other=value", false, false, true, SchoolsSummaryWorkforceDimensions.ResultAsOptions.Actuals, new TheoryFilters([
                 OverallPhaseTypes.OverallPhaseTypeFilter.Primary,
                 OverallPhaseTypes.OverallPhaseTypeFilter.Secondary
             ],
@@ -104,7 +101,7 @@ public class LocalAuthoritySchoolWorkforceViewComponentTests
         bool expectedAllRows,
         bool expectedFiltersVisible,
         bool expectedHasFilters,
-        WorkforceDimensions.ResultAsOptions expectedResultAs,
+        SchoolsSummaryWorkforceDimensions.ResultAsOptions expectedResultAs,
         TheoryFilters expectedFilters,
         string? expectedSort)
     {

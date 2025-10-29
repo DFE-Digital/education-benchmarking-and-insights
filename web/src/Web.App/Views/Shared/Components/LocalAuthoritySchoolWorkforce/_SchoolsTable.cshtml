@@ -1,5 +1,4 @@
 @using Web.App.Domain
-@using Web.App.Domain.LocalAuthorities
 @using Web.App.Extensions
 @using Web.App.ViewModels.Components
 @model Web.App.ViewModels.Components.LocalAuthoritySchoolWorkforceViewModel
@@ -10,7 +9,7 @@
 
     string ValueSelector(LocalAuthoritySchoolWorkforce row, Func<LocalAuthoritySchoolWorkforce, decimal?> selector)
     {
-        return Model.ResultAs is WorkforceDimensions.ResultAsOptions.PercentPupil
+        return Model.ResultAs is SchoolsSummaryWorkforceDimensions.ResultAsOptions.PercentPupil
             ? selector(row).ToPercent()
             : selector(row).ToSimpleDisplay();
     }

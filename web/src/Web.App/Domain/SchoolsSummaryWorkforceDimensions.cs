@@ -1,6 +1,6 @@
-﻿namespace Web.App.Domain.LocalAuthorities;
+﻿namespace Web.App.Domain;
 
-public static class WorkforceDimensions
+public static class SchoolsSummaryWorkforceDimensions
 {
     public enum ResultAsOptions
     {
