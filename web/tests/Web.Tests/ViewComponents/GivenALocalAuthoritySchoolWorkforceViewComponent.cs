@@ -1,8 +1,12 @@
 ﻿using System.Diagnostics.CodeAnalysis;
+using AutoFixture;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.ViewComponents;
+using Moq;
 using Web.App.Domain;
+using Web.App.Infrastructure.Apis;
+using Web.App.Infrastructure.Apis.LocalAuthorities;
 using Web.App.ViewComponents;
 using Web.App.ViewModels.Components;
 using Xunit;
@@ -15,8 +19,10 @@ public class LocalAuthoritySchoolWorkforceViewComponentTests
     private readonly LocalAuthoritySchoolWorkforceViewComponent _component;
     private readonly HttpContext _httpContext;
     private readonly PathString _path = "/test/path";
+    private readonly Mock<ILocalAuthoritiesApi> _localAuthorityApi = new();
+    private readonly Fixture _fixture = new();
     private const SchoolsSummaryWorkforceDimensions.ResultAsOptions DefaultDimension = SchoolsSummaryWorkforceDimensions.ResultAsOptions.PercentPupil;
-    private const string DefaultSort = "TotalExpenditure~desc";
+    private const string DefaultSort = "PupilTeacherRatio~desc";
 
     public LocalAuthoritySchoolWorkforceViewComponentTests()
     {
@@ -26,7 +32,7 @@ public class LocalAuthoritySchoolWorkforceViewComponentTests
         {
             HttpContext = _httpContext
         };
-        _component = new LocalAuthoritySchoolWorkforceViewComponent
+        _component = new LocalAuthoritySchoolWorkforceViewComponent(_localAuthorityApi.Object)
         {
             ViewComponentContext = new ViewComponentContext
             {
@@ -71,6 +77,22 @@ public class LocalAuthoritySchoolWorkforceViewComponentTests
         { "w.", "?w.sixth=3", false, false, true, DefaultDimension, new TheoryFilters([], [], [], [SixthFormProvisions.SixthFormProvisionFilter.NotRecorded]), DefaultSort },
         { "w.", "?w.sort=SchoolName~asc", false, false, false, DefaultDimension, new TheoryFilters([], [], [], []), "SchoolName~asc" },
         { "w.", "?w.rows=all", true, false, false, DefaultDimension, new TheoryFilters([], [], [], []), DefaultSort }
+    };
+
+    public static TheoryData<
+        string,
+        int,
+        string,
+        List<QueryParameter>> ApiQueryTestData => new()
+    {
+        { "w.", 5, "", [new QueryParameter("dimension", DefaultDimension.GetQueryParam()), new QueryParameter("sortField", DefaultSort.Split("~").First()), new QueryParameter("sortOrder", DefaultSort.Split("~").Last()), new QueryParameter("limit", "5")] },
+        { "w.", 5, "?w.as=1", [new QueryParameter("dimension", SchoolsSummaryWorkforceDimensions.ResultAsOptions.Actuals.GetQueryParam()), new QueryParameter("sortField", DefaultSort.Split("~").First()), new QueryParameter("sortOrder", DefaultSort.Split("~").Last()), new QueryParameter("limit", "5")] },
+        { "w.", 5, "?w.sort=SchoolName~asc", [new QueryParameter("dimension", DefaultDimension.GetQueryParam()), new QueryParameter("sortField", "SchoolName"), new QueryParameter("sortOrder", "asc"), new QueryParameter("limit", "5")] },
+        { "w.", 5, "?w.rows=all", [new QueryParameter("dimension", DefaultDimension.GetQueryParam()), new QueryParameter("sortField", DefaultSort.Split("~").First()), new QueryParameter("sortOrder", DefaultSort.Split("~").Last())] },
+        { "w.", 5, "?w.phase=0&w.phase=1", [new QueryParameter("dimension", DefaultDimension.GetQueryParam()), new QueryParameter("sortField", DefaultSort.Split("~").First()), new QueryParameter("sortOrder", DefaultSort.Split("~").Last()), new QueryParameter("limit", "5"), new QueryParameter ( "overallPhase", "Primary" ), new QueryParameter ( "overallPhase", "Secondary" )] },
+        { "w.", 5, "?w.nursery=1", [new QueryParameter("dimension", DefaultDimension.GetQueryParam()), new QueryParameter("sortField", DefaultSort.Split("~").First()), new QueryParameter("sortOrder", DefaultSort.Split("~").Last()), new QueryParameter("limit", "5"), new QueryParameter ( "nurseryProvision", "No Nursery Classes" )] },
+        { "w.", 5, "?w.special=2", [new QueryParameter("dimension", DefaultDimension.GetQueryParam()), new QueryParameter("sortField", DefaultSort.Split("~").First()), new QueryParameter("sortOrder", DefaultSort.Split("~").Last()), new QueryParameter("limit", "5"), new QueryParameter ( "specialClassesProvision", "Not applicable" )] },
+        { "w.", 5, "?w.sixth=3", [new QueryParameter("dimension", DefaultDimension.GetQueryParam()), new QueryParameter("sortField", DefaultSort.Split("~").First()), new QueryParameter("sortOrder", DefaultSort.Split("~").Last()), new QueryParameter("limit", "5"), new QueryParameter ( "sixthFormProvision", "Not recorded" )] }
     };
 
     [Fact]
@@ -132,7 +154,43 @@ public class LocalAuthoritySchoolWorkforceViewComponentTests
         Assert.Equal(expectedSort, model.Sort);
     }
 
-    //TODO: add test to cover assertions for api calls
+    [Theory]
+    [MemberData(nameof(ApiQueryTestData))]
+    public async Task ShouldCallApiWithValuesFromQuery(
+        string formPrefix,
+        int maxRows,
+        string query,
+        List<QueryParameter> expectedQuery)
+    {
+        // arrange
+        const string code = nameof(code);
+        _httpContext.Request.QueryString = new QueryString(query);
+
+        var rows = _fixture
+            .Build<LocalAuthoritySchoolWorkforce>()
+            .CreateMany(maxRows)
+            .ToArray();
+        ApiQuery? actualQuery = null;
+        _localAuthorityApi
+            .Setup(l => l.GetSchoolsWorkforce(code, It.IsAny<ApiQuery?>(), It.IsAny<CancellationToken>()))
+            .Callback<string, ApiQuery?, CancellationToken>((_, apiQuery, _) =>
+            {
+                actualQuery = apiQuery;
+            })
+            .ReturnsAsync(ApiResult.Ok(rows))
+            .Verifiable();
+
+        // act
+        var result = await _component.InvokeAsync(code, formPrefix, maxRows, DefaultSort) as ViewViewComponentResult;
+
+        // assert
+        _localAuthorityApi.Verify();
+        Assert.NotNull(result);
+        var model = result.ViewData?.Model as LocalAuthoritySchoolWorkforceFormViewModel;
+        Assert.NotNull(model);
+        Assert.Equivalent(rows, model.Results);
+        Assert.Equivalent(expectedQuery.Select(q => q), actualQuery?.Select(q => q), true);
+    }
 
     public record TheoryFilters(
         OverallPhaseTypes.OverallPhaseTypeFilter[] Phases,
