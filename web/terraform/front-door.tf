@@ -23,12 +23,14 @@ locals {
     }
   })
   paths = [
-    "school",
-    "api",
-    "trust",
     "css",
     "js",
     "assets",
+    "files",
+    "images",
+    "school",
+    "api",
+    "trust",
     "find-organisation",
     "contact",
     "cookies",
@@ -36,12 +38,18 @@ locals {
     "accessibility",
     "sign-in",
     "sign-out",
-    "news"
+    "news",
+    "auth"
   ]
 
   capturing_group = join("|", local.paths)
 
-  full_regex = "^(?:https?:\\/\\/)${local.host_name}\\/(?:${local.capturing_group})(?:[\\/\\?#]|$)"
+  path_regex = "^https:\\/\\/${local.host_name}\\/(?:${local.capturing_group})(?:[\\/\\?#]|$)"
+  fqdn       = "https://${local.host_name}"
+  static_routes = [
+    "${local.fqdn}/",
+    "${local.fqdn}/favicon.ico"
+  ]
 }
 
 
@@ -163,20 +171,16 @@ resource "azurerm_cdn_frontdoor_firewall_policy" "web-app-front-door-waf" {
       operator           = "RegEx"
       negation_condition = true
       transforms         = ["Lowercase"]
-      match_values       = [local.full_regex]
+      match_values       = [local.path_regex]
     }
 
-    /*  match_conditions {
-      match_variables {
-        variable_name = "RequestUri"
-      }
-
-      operator           = "Equals"
+    match_condition {
+      match_variable     = "RequestUri"
+      operator           = "Equal"
       negation_condition = true
-      match_values       = ["/"]
+      transforms         = ["Lowercase"]
+      match_values       = local.static_routes
     }
-
-    match_processing_behavior = "MatchAll" */
   }
 
 
