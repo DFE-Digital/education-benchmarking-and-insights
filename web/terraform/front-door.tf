@@ -160,7 +160,7 @@ resource "azurerm_cdn_frontdoor_firewall_policy" "web-app-front-door-waf" {
 
     match_condition {
       match_variable     = "RequestUri"
-      operator           = "Regex"
+      operator           = "RegEx"
       negation_condition = true
       transforms         = ["Lowercase"]
       match_values       = [local.full_regex]
