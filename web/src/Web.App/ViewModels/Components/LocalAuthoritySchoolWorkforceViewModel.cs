@@ -37,6 +37,8 @@ public class LocalAuthoritySchoolWorkforceFormViewModel(string code, string form
                               || SelectedSpecialProvisions.Length > 0
                               || SelectedSixthFormProvisions.Length > 0;
 
+    // TODO: refactor to use the same form fields across both components
+    // note future refactoring for form behaviour may change this altogether
     public static class FormFieldNames
     {
         public const string FiltersVisible = "filter";
