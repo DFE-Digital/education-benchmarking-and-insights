@@ -290,7 +290,7 @@ public static class Paths
 
     public static string LocalAuthorityHighNeedsHistoricData(string? code) => $"/local-authority/{code}/high-needs/history";
     public static string LocalAuthoritySchoolsFinanceDownload(string? code) => $"/local-authority/{code}/download/schools/finance";
-
+    public static string LocalAuthoritySchoolsWorkforceDownload(string? code) => $"/local-authority/{code}/download/schools/workforce";
     public static string SchoolResources(string? urn) => $"/school/{urn}/find-ways-to-spend-less";
 
     public static string News(string? slug = null) => $"/news/{slug}".TrimEnd('/');
