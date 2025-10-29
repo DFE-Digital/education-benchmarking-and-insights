@@ -23,8 +23,7 @@ public class GetWorkforceSummaryFunction(ISchoolsService service, IValidator<Wor
     [OpenApiSecurityHeader]
     [OpenApiOperation(nameof(GetWorkforceSummaryFunction), Constants.Features.Schools)]
     [OpenApiParameter("code", Type = typeof(string), Required = true)]
-    // TODO: Add example for dimension
-    [OpenApiParameter("dimension", In = ParameterLocation.Query, Description = "Dimension for resultant values", Type = typeof(string))]
+    [OpenApiParameter("dimension", In = ParameterLocation.Query, Description = "Dimension for resultant values", Type = typeof(string), Example = typeof(ExampleDimensionSchoolsSummaryWorkforce))]
     [OpenApiParameter("nurseryProvision", In = ParameterLocation.Query, Description = "List of nursery provisions to filter resultant values", Type = typeof(string[]), Required = false)]
     [OpenApiParameter("sixthFormProvision", In = ParameterLocation.Query, Description = "List of sixth provisions filter resultant values", Type = typeof(string[]), Required = false)]
     [OpenApiParameter("specialClassesProvision", In = ParameterLocation.Query, Description = "List of special class provisions filter resultant values", Type = typeof(string[]), Required = false)]
