@@ -31,6 +31,7 @@ locals {
     "school",
     "api",
     "trust",
+    "local-authority",
     "find-organisation",
     "contact",
     "cookies",
@@ -39,7 +40,10 @@ locals {
     "sign-in",
     "sign-out",
     "news",
-    "auth"
+    "auth",
+    "signout",
+    "error",
+    "guidance"
   ]
 
   capturing_group = join("|", local.paths)
