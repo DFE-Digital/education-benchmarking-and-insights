@@ -671,10 +671,11 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
         return this;
     }
 
-    public BenchmarkingWebAppClient SetupLocalAuthoritySchools(LocalAuthoritySchoolFinancial[]? schoolFinancials)
+    public BenchmarkingWebAppClient SetupLocalAuthoritySchools(LocalAuthoritySchoolFinancial[]? schoolFinancials, LocalAuthoritySchoolWorkforce[]? schoolWorkforces = null)
     {
         LocalAuthoritiesApi.Reset();
         LocalAuthoritiesApi.Setup(api => api.GetSchoolsFinance(It.IsAny<string>(), It.IsAny<ApiQuery>(), It.IsAny<CancellationToken>())).ReturnsAsync(ApiResult.Ok(schoolFinancials ?? []));
+        LocalAuthoritiesApi.Setup(api => api.GetSchoolsWorkforce(It.IsAny<string>(), It.IsAny<ApiQuery>(), It.IsAny<CancellationToken>())).ReturnsAsync(ApiResult.Ok(schoolWorkforces ?? []));
         return this;
     }
 
