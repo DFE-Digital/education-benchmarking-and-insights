@@ -42,7 +42,7 @@ else
         else
         {
             @await Html.PartialAsync("Components/LocalAuthoritySchoolWorkforce/_SchoolsTable", Model)
-            // TODO: show all
+            @await Html.PartialAsync("Components/LocalAuthoritySchoolWorkforce/_SchoolsShowAll", Model)
         }
     </div>
 </div>

@@ -27,7 +27,7 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
     [InlineData(true, true, OverallPhaseTypes.Primary, OverallPhaseTypes.Secondary, OverallPhaseTypes.Special, OverallPhaseTypes.PupilReferralUnit)]
     public async Task CanDisplay(bool showBanner, bool hasMissingRag, params string[] phaseTypes)
     {
-        var (page, authority, schools, ratings, banner, _) = await SetupNavigateInitPage(showBanner, true, hasMissingRag, null, null, phaseTypes);
+        var (page, authority, schools, ratings, banner, _) = await SetupNavigateInitPage(showBanner, true, hasMissingRag, null, null, null, phaseTypes);
 
         AssertPageLayout(page, authority, schools, ratings, banner, true);
     }
@@ -45,7 +45,7 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
     [InlineData(true, OverallPhaseTypes.Primary, OverallPhaseTypes.Secondary, OverallPhaseTypes.Special, OverallPhaseTypes.PupilReferralUnit)]
     public async Task CanDisplayWhenAuthorityHomepageV2Disabled(bool showBanner, params string[] phaseTypes)
     {
-        var (page, authority, schools, _, banner, _) = await SetupNavigateInitPage(showBanner, false, false, null, null, phaseTypes);
+        var (page, authority, schools, _, banner, _) = await SetupNavigateInitPage(showBanner, false, false, null, null, null, phaseTypes);
 
         AssertPageLayout(page, authority, schools, [], banner, false);
     }
@@ -172,7 +172,7 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
     [Fact]
     public async Task CanSubmitFinancialFilters()
     {
-        var (page, authority, _, _, _, _) = await SetupNavigateInitPage(false, true, false, null, "?f.filter=show", OverallPhaseTypes.Primary);
+        var (page, authority, _, _, _, _) = await SetupNavigateInitPage(false, true, false, null, null, "?f.filter=show", OverallPhaseTypes.Primary);
 
         var tab = AssertFinancialsTab(page);
 
@@ -218,7 +218,7 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
     public async Task CanSetFinancialFilters()
     {
         const string queryString = "?f.filter=show&f.phase=0&f.nursery=0&f.special=0&f.sixth=0&f.as=0";
-        var (page, _, _, _, _, _) = await SetupNavigateInitPage(false, true, false, null, queryString, OverallPhaseTypes.Primary);
+        var (page, _, _, _, _, _) = await SetupNavigateInitPage(false, true, false, null, null, queryString, OverallPhaseTypes.Primary);
 
         var tab = AssertFinancialsTab(page);
         var phaseInputs = tab.QuerySelectorAll("input[name='f.phase'][type='checkbox']");
@@ -265,7 +265,7 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
     [InlineData("?f.sort=SchoolName~asc&f.filter=show&f.phase=1&f.phase=2&f.as=0", true, "?f.sort=SchoolName~asc&f.filter=hide&f.phase=1&f.phase=2&f.as=0&w.sort=PupilTeacherRatio~desc&w.as=0")]
     public async Task CanToggleFinancialFilters(string? queryString, bool expectedVisible, string expectedQuery)
     {
-        var (page, authority, _, _, _, _) = await SetupNavigateInitPage(false, true, false, null, queryString, OverallPhaseTypes.Primary);
+        var (page, authority, _, _, _, _) = await SetupNavigateInitPage(false, true, false, null, null, queryString, OverallPhaseTypes.Primary);
 
         var tab = AssertFinancialsTab(page);
 
@@ -292,7 +292,7 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
     [InlineData("?f.rows=all&f.filter=show&f.phase=1&f.phase=2&f.as=0", "?f.filter=show&f.phase=1&f.phase=2&f.as=0&w.sort=PupilTeacherRatio~desc&w.as=0")]
     public async Task CanResetFieldsOnNewFilter(string? queryString, string expectedQuery)
     {
-        var (page, authority, _, _, _, _) = await SetupNavigateInitPage(false, true, false, null, queryString, OverallPhaseTypes.Primary);
+        var (page, authority, _, _, _, _) = await SetupNavigateInitPage(false, true, false, null, null, queryString, OverallPhaseTypes.Primary);
 
         var tab = AssertFinancialsTab(page);
 
@@ -320,7 +320,7 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
     [InlineData(null, 1, false, null)]
     public async Task CanViewAllRows(string? queryString, int resultRows, bool expectedVisible, string? expectedQuery)
     {
-        var (page, authority, _, _, _, _) = await SetupNavigateInitPage(false, true, false, resultRows, queryString, OverallPhaseTypes.Primary);
+        var (page, authority, _, _, _, _) = await SetupNavigateInitPage(false, true, false, resultRows, null, queryString, OverallPhaseTypes.Primary);
 
         var tab = AssertFinancialsTab(page);
 
@@ -344,7 +344,7 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
     [InlineData(null, 0, true)]
     public async Task CanViewNoRowsMessage(string? queryString, int resultRows, bool expectedVisible)
     {
-        var (page, _, _, _, _, _) = await SetupNavigateInitPage(false, true, false, resultRows, queryString, OverallPhaseTypes.Primary);
+        var (page, _, _, _, _, _) = await SetupNavigateInitPage(false, true, false, resultRows, null, queryString, OverallPhaseTypes.Primary);
 
         var tab = AssertFinancialsTab(page);
 
@@ -365,7 +365,7 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
     [InlineData("?f.sort=SchoolName~desc&f.filter=show&f.as=0", null, false, null)]
     public async Task CanDisplayRemoveFinancialFilterTag(string queryString, string? tagText, bool expectedVisible, string? expectedQuery)
     {
-        var (page, authority, _, _, _, _) = await SetupNavigateInitPage(false, true, false, 5, queryString, OverallPhaseTypes.Primary);
+        var (page, authority, _, _, _, _) = await SetupNavigateInitPage(false, true, false, 5, null, queryString, OverallPhaseTypes.Primary);
 
         var tab = AssertFinancialsTab(page);
         var selectedFilters = tab.QuerySelector(".app-filter__selected");
@@ -387,7 +387,7 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
     [InlineData("?f.sort=SchoolName~desc&f.filter=show&f.phase=0&f.phase=1&f.phase=2&f.as=0", "?f.filter=show&f.as=0&f.sort=SchoolName~desc")]
     public async Task CanDisplayClearAllFinancialFilters(string queryString, string expectedQuery)
     {
-        var (page, authority, _, _, _, _) = await SetupNavigateInitPage(false, true, false, 5, queryString, OverallPhaseTypes.Primary);
+        var (page, authority, _, _, _, _) = await SetupNavigateInitPage(false, true, false, 5, null, queryString, OverallPhaseTypes.Primary);
 
         var tab = AssertFinancialsTab(page);
         var selectedFilters = tab.QuerySelector(".app-filter__selected");
@@ -403,7 +403,7 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
     [Fact]
     public async Task CanSubmitWorkforceFilters()
     {
-        var (page, authority, _, _, _, _) = await SetupNavigateInitPage(false, true, false, null, "?w.filter=show", OverallPhaseTypes.Primary);
+        var (page, authority, _, _, _, _) = await SetupNavigateInitPage(false, true, false, null, null, "?w.filter=show", OverallPhaseTypes.Primary);
 
         var tab = AssertWorkforceTab(page);
 
@@ -449,7 +449,7 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
     public async Task CanSetWorkforceFilters()
     {
         const string queryString = "?w.filter=show&w.phase=0&w.nursery=0&w.special=0&w.sixth=0&w.as=0";
-        var (page, _, _, _, _, _) = await SetupNavigateInitPage(false, true, false, null, queryString, OverallPhaseTypes.Primary);
+        var (page, _, _, _, _, _) = await SetupNavigateInitPage(false, true, false, null, null, queryString, OverallPhaseTypes.Primary);
 
         var tab = AssertWorkforceTab(page);
         var phaseInputs = tab.QuerySelectorAll("input[name='w.phase'][type='checkbox']");
@@ -493,7 +493,7 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
     public async Task CanSetWorkforceFiltersAndPreserveExistingFinancialFilters()
     {
         const string queryString = "?f.filter=show&f.phase=1&f.nursery=1&f.special=1&f.sixth=1&f.as=0&w.filter=show&w.phase=0&w.nursery=0&w.special=0&w.sixth=0&w.as=0";
-        var (page, _, _, _, _, _) = await SetupNavigateInitPage(false, true, false, null, queryString, OverallPhaseTypes.Primary);
+        var (page, _, _, _, _, _) = await SetupNavigateInitPage(false, true, false, null, null, queryString, OverallPhaseTypes.Primary);
 
         var financialTab = AssertFinancialsTab(page);
         var financialPhaseInputs = financialTab.QuerySelectorAll("input[name='w.phase'][type='checkbox']");
@@ -577,7 +577,7 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
     [InlineData("?w.sort=SchoolName~asc&w.filter=show&w.phase=1&w.phase=2&w.as=0", true, "?f.sort=TotalExpenditure~desc&f.as=3&w.sort=SchoolName~asc&w.filter=hide&w.phase=1&w.phase=2&w.as=0")]
     public async Task CanToggleWorkforceFilters(string? queryString, bool expectedVisible, string expectedQuery)
     {
-        var (page, authority, _, _, _, _) = await SetupNavigateInitPage(false, true, false, null, queryString, OverallPhaseTypes.Primary);
+        var (page, authority, _, _, _, _) = await SetupNavigateInitPage(false, true, false, null, null, queryString, OverallPhaseTypes.Primary);
 
         var tab = AssertWorkforceTab(page);
 
@@ -604,7 +604,7 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
     [InlineData("?w.rows=all&w.filter=show&w.phase=1&w.phase=2&w.as=0", "?f.sort=TotalExpenditure~desc&f.as=3&w.filter=show&w.phase=1&w.phase=2&w.as=0")]
     public async Task CanResetWorkforceFieldsOnNewFilter(string? queryString, string expectedQuery)
     {
-        var (page, authority, _, _, _, _) = await SetupNavigateInitPage(false, true, false, null, queryString, OverallPhaseTypes.Primary);
+        var (page, authority, _, _, _, _) = await SetupNavigateInitPage(false, true, false, null, null, queryString, OverallPhaseTypes.Primary);
 
         var tab = AssertWorkforceTab(page);
 
@@ -625,7 +625,30 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
         DocumentAssert.AssertPageUrl(page, $"{Paths.LocalAuthorityHome(authority.Code).ToAbsolute()}{expectedQuery}");
     }
 
-    // TODO: CanViewWorkforceAllRows
+    [Theory]
+    [InlineData(null, 10, true, "?w.rows=all")]
+    [InlineData("?w.filter=show", 10, true, "?w.filter=show&w.rows=all")]
+    [InlineData("?w.rows=all", 10, false, null)]
+    [InlineData(null, 1, false, null)]
+    public async Task CanViewWorkforceAllRows(string? queryString, int resultRows, bool expectedVisible, string? expectedQuery)
+    {
+        var (page, authority, _, _, _, _) = await SetupNavigateInitPage(false, true, false, null, resultRows, queryString, OverallPhaseTypes.Primary);
+
+        var tab = AssertWorkforceTab(page);
+
+        var form = page.QuerySelector("form[role='search']");
+        Assert.NotNull(form);
+
+        var toggleLink = tab.QuerySelector("a[data-testid='toggle-workforce-all']");
+        if (!expectedVisible)
+        {
+            Assert.Null(toggleLink);
+            return;
+        }
+
+        Assert.NotNull(toggleLink);
+        Assert.Equal($"{Paths.LocalAuthorityHome(authority.Code)}{expectedQuery}", toggleLink.Attributes["href"]?.Value);
+    }
 
     // TODO: CanViewWorkforceNoRowsMessage
 
@@ -636,7 +659,7 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
     [InlineData("?w.sort=SchoolName~desc&w.filter=show&w.as=0", null, false, null)]
     public async Task CanDisplayRemoveWorkforceFilterTag(string queryString, string? tagText, bool expectedVisible, string? expectedQuery)
     {
-        var (page, authority, _, _, _, _) = await SetupNavigateInitPage(false, true, false, 5, queryString, OverallPhaseTypes.Primary);
+        var (page, authority, _, _, _, _) = await SetupNavigateInitPage(false, true, false, 5, null, queryString, OverallPhaseTypes.Primary);
 
         var tab = AssertWorkforceTab(page);
         var selectedFilters = tab.QuerySelector(".app-filter__selected");
@@ -658,7 +681,7 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
     [InlineData("?w.sort=SchoolName~desc&w.filter=show&w.phase=0&w.phase=1&w.phase=2&w.as=0", "?w.filter=show&w.as=0&w.sort=SchoolName~desc")]
     public async Task CanDisplayClearAllWorkforceFilters(string queryString, string expectedQuery)
     {
-        var (page, authority, _, _, _, _) = await SetupNavigateInitPage(false, true, false, 5, queryString, OverallPhaseTypes.Primary);
+        var (page, authority, _, _, _, _) = await SetupNavigateInitPage(false, true, false, 5, null, queryString, OverallPhaseTypes.Primary);
 
         var tab = AssertWorkforceTab(page);
         var selectedFilters = tab.QuerySelector(".app-filter__selected");
@@ -674,7 +697,7 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
     [Fact]
     public async Task CanDownloadPageData()
     {
-        var (page, authority, _, _, _, _) = await SetupNavigateInitPage(false, true, false, null, "?f.filter=show", OverallPhaseTypes.Primary);
+        var (page, authority, _, _, _, _) = await SetupNavigateInitPage(false, true, false, null, null, "?f.filter=show", OverallPhaseTypes.Primary);
 
         var tab = AssertFinancialsTab(page);
 
@@ -698,6 +721,7 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
         bool localAuthorityHomepageV2Enabled = false,
         bool hasMissingRag = false,
         int? schoolFinancialRows = null,
+        int? schoolWorkforceRows = null,
         string? queryString = null,
         params string[] phaseTypes)
     {
@@ -744,6 +768,14 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
                 .ToArray();
         }
 
+        LocalAuthoritySchoolWorkforce[] schoolWorkforces = [];
+        if (schoolWorkforceRows.GetValueOrDefault() > 0)
+        {
+            schoolWorkforces = Fixture.Build<LocalAuthoritySchoolWorkforce>()
+                .CreateMany(schoolWorkforceRows.GetValueOrDefault())
+                .ToArray();
+        }
+
         var page = await Client
             .SetupDisableFeatureFlags(localAuthorityHomepageV2Enabled ? [] : [FeatureFlags.LocalAuthorityHomepageV2])
             .SetupEstablishment(authorityWithNeighbours, [authority])
@@ -751,7 +783,7 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
             .SetupLocalAuthoritiesComparators(authority.Code!, [])
             .SetupBanner(banner)
             .SetupMetricRagRatingSummary(localAuthorityHomepageV2Enabled ? ratings : [])
-            .SetupLocalAuthoritySchools(schoolFinancials)
+            .SetupLocalAuthoritySchools(schoolFinancials, schoolWorkforces)
             .Navigate($"{Paths.LocalAuthorityHome(authority.Code)}{queryString}");
 
         return (page, authority, schools, ratings, banner, schoolFinancials);
