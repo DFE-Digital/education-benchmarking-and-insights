@@ -3,50 +3,20 @@ using Microsoft.Extensions.Primitives;
 using Web.App.Domain;
 using Web.App.Extensions;
 using Web.App.Infrastructure.Apis;
+using Web.App.Infrastructure.Apis.LocalAuthorities;
+using Web.App.Infrastructure.Extensions;
 using Web.App.ViewModels.Components;
 
 namespace Web.App.ViewComponents;
 
-public class LocalAuthoritySchoolWorkforceViewComponent : ViewComponent
+public class LocalAuthoritySchoolWorkforceViewComponent(ILocalAuthoritiesApi localAuthoritiesApi) : ViewComponent
 {
     public async Task<IViewComponentResult> InvokeAsync(string code, string formPrefix, int maxRows, string defaultSort)
     {
         var query = ParseQueryString(Request.Query, formPrefix, defaultSort);
-
-        // TODO: replace stubbed out schools with api call once work on backend complete
-        var results = new[]
-        {
-            new LocalAuthoritySchoolWorkforce
-            {
-                Urn = "000001",
-                SchoolName = "Stub 1",
-                PeriodCoveredByReturn = 12,
-                TotalPupils = 320,
-                PupilTeacherRatio = 18.5m,
-                EhcPlan = 12.3m,
-                SenSupport = 8.7m
-            },
-            new LocalAuthoritySchoolWorkforce
-            {
-                Urn = "000002",
-                SchoolName = "Stub 2",
-                PeriodCoveredByReturn = 11,
-                TotalPupils = 450,
-                PupilTeacherRatio = 16.2m,
-                EhcPlan = 10.1m,
-                SenSupport = 9.4m
-            },
-            new LocalAuthoritySchoolWorkforce
-            {
-                Urn = "000003",
-                SchoolName = "Stub 3",
-                PeriodCoveredByReturn = 12,
-                TotalPupils = 780,
-                PupilTeacherRatio = 14.8m,
-                EhcPlan = 7.9m,
-                SenSupport = 6.5m
-            }
-        };
+        var results = await localAuthoritiesApi
+            .GetSchoolsWorkforce(code, BuildQuery(query, maxRows))
+            .GetResultOrDefault<LocalAuthoritySchoolWorkforce[]>() ?? [];
 
         var (allRows,
             filtersVisible,
