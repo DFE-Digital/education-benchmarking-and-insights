@@ -650,7 +650,25 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
         Assert.Equal($"{Paths.LocalAuthorityHome(authority.Code)}{expectedQuery}", toggleLink.Attributes["href"]?.Value);
     }
 
-    // TODO: CanViewWorkforceNoRowsMessage
+    [Theory]
+    [InlineData(null, 10, false)]
+    [InlineData(null, 1, false)]
+    [InlineData(null, 0, true)]
+    public async Task CanViewWorkforceNoRowsMessage(string? queryString, int resultRows, bool expectedVisible)
+    {
+        var (page, _, _, _, _, _) = await SetupNavigateInitPage(false, true, false, null, resultRows, queryString, OverallPhaseTypes.Primary);
+
+        var tab = AssertWorkforceTab(page);
+
+        var noRowsMessage = tab.QuerySelector("p[data-testid='workforce-search-warning']");
+        if (!expectedVisible)
+        {
+            Assert.Null(noRowsMessage);
+            return;
+        }
+
+        Assert.NotNull(noRowsMessage);
+    }
 
     [Theory]
     [InlineData("?w.sort=SchoolName~desc&w.filter=show&w.phase=0&w.phase=1&w.phase=2&w.as=0", "Primary", true, "?w.sort=SchoolName~desc&w.filter=show&w.phase=1&w.phase=2&w.as=0")]
