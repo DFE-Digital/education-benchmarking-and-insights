@@ -39,6 +39,16 @@ def run_comparator_sets_pipeline(
             preprocessed_data = pd.read_parquet(get_blob("pre-processed", blob_path))
             logger.info(f"Loaded {school_type} data. Shape: {preprocessed_data.shape}")
 
+            # 2. Do more preprocessing, mostly filling NaNs. Persist this again.
+            # TODO Move this to preprocessing
+            prepared_data = prepare_data(preprocessed_data)
+            if prepared_data is not None:
+                write_blob(
+                    container_name="comparator-sets",
+                    blob_name=blob_path,
+                    data=prepared_data.to_parquet(),
+                )
+
             # For custom runs the target urn will only be one school type,
             # but RAG still expects a comparators file for both types
             if target_urn and target_urn not in preprocessed_data.index:
@@ -55,16 +65,6 @@ def run_comparator_sets_pipeline(
                     data=empty_comparators_df.to_parquet(index=True),
                 )
                 continue
-
-            # 2. Do more preprocessing, mostly filling NaNs. Persist this again.
-            # TODO Move this to preprocessing
-            prepared_data = prepare_data(preprocessed_data)
-            if prepared_data is not None:
-                write_blob(
-                    container_name="comparator-sets",
-                    blob_name=blob_path,
-                    data=prepared_data.to_parquet(),
-                )
 
             # 3. Instantiate comparator calculator and calculate comparator sets
             calculator = ComparatorCalculator(prepared_data=prepared_data)
