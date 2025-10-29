@@ -35,10 +35,7 @@ public class HomePage(IPage page)
     private ILocator BannerBody => page.Locator(Selectors.GovNotificationBannerBody);
     private ILocator SchoolFinancialTable => page.Locator(Selectors.LocalAuthoritySchoolFinancialTabTable);
 
-    private ILocator ToggleFinancialFiltersCta => page.Locator(Selectors.Button, new PageLocatorOptions
-    {
-        HasText = "Show filters"
-    });
+    private ILocator ToggleFinancialFiltersCta => page.Locator("[data-testid='toggle-financial-filters']");
 
     private ILocator FinancialHasNurseryClassesCheckBox => page.Locator(Selectors.FinancialTabHasNuseryCheckBox);
     private ILocator FinancialApplyFilters => page.Locator(Selectors.ApplyFiltersBtnLAFinancialTab);
