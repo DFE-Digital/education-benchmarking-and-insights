@@ -22,44 +22,34 @@ locals {
       origin-path   = "/images"
     }
   })
-
-  asset_paths = [
+  paths = [
     "css",
     "js",
     "assets",
     "files",
     "images",
-  ]
-  admin_paths = [
-    "auth",
-    "signout",
-    "error",
-    "sign-in",
-    "sign-out",
-  ]
-  static_paths = [
+    "school",
+    "api",
+    "trust",
+    "local-authority",
     "find-organisation",
     "contact",
     "cookies",
     "data-sources",
     "accessibility",
-  ]
-  core_paths = [
-    "school",
-    "api",
-    "trust",
-    "local-authority",
+    "sign-in",
+    "sign-out",
     "news",
+    "auth",
+    "signout",
+    "error",
     "guidance"
   ]
 
-  paths_regex = [
-    "^https:\\/\\/${local.host_name}\\/(?:${join("|", local.asset_paths)})(?:[\\/\\?#]|$)",
-    "^https:\\/\\/${local.host_name}\\/(?:${join("|", local.admin_paths)})(?:[\\/\\?#]|$)",
-    "^https:\\/\\/${local.host_name}\\/(?:${join("|", local.static_paths)})(?:[\\/\\?#]|$)",
-    "^https:\\/\\/${local.host_name}\\/(?:${join("|", local.core_paths)})(?:[\\/\\?#]|$)",
-  ]
-  fqdn = "https://${local.host_name}"
+  capturing_group = join("|", local.paths)
+
+  path_regex = "^https:\\/\\/[^\\/]+\\/(?:${local.capturing_group})(?:[\\/\\?#]|$)"
+  fqdn       = "https://${local.host_name}"
   static_routes = [
     "${local.fqdn}/",
     "${local.fqdn}/favicon.ico"
@@ -185,7 +175,7 @@ resource "azurerm_cdn_frontdoor_firewall_policy" "web-app-front-door-waf" {
       operator           = "RegEx"
       negation_condition = true
       transforms         = ["Lowercase"]
-      match_values       = local.paths_regex
+      match_values       = [local.path_regex]
     }
 
     match_condition {
