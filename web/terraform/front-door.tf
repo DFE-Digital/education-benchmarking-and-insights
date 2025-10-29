@@ -22,7 +22,28 @@ locals {
       origin-path   = "/images"
     }
   })
+  paths = [
+    "school",
+    "api",
+    "trust",
+    "css",
+    "js",
+    "assets",
+    "find-organisation",
+    "contact",
+    "cookies",
+    "data-sources",
+    "accessibility",
+    "sign-in",
+    "sign-out",
+    "news"
+  ]
+
+  capturing_group = join("|", local.paths)
+
+  full_regex = "^(?:https?:\\/\\/)${local.host_name}\\/(?:${local.capturing_group})(?:[\\/\\?#]|$)"
 }
+
 
 resource "azurerm_cdn_frontdoor_profile" "web-app-front-door-profile" {
   name                = "${var.environment-prefix}-education-benchmarking-fd-profile"
@@ -131,6 +152,34 @@ resource "azurerm_cdn_frontdoor_firewall_policy" "web-app-front-door-waf" {
     }
   }
 
+  custom_rule {
+    name      = "blockrequesturi"
+    priority  = 1
+    rule_type = "MatchRule"
+    action    = "Block"
+
+    match_condition {
+      variable_name      = "RequestUri"
+      operator           = "Regex"
+      negation_condition = true
+      transforms         = ["Lowercase"]
+      match_values       = [local.full_regex]
+    }
+
+    /*  match_conditions {
+      match_variables {
+        variable_name = "RequestUri"
+      }
+
+      operator           = "Equals"
+      negation_condition = true
+      match_values       = ["/"]
+    }
+
+    match_processing_behavior = "MatchAll" */
+  }
+
+
   dynamic "custom_rule" {
     for_each = var.environment == "test" ? ["apply"] : []
 
@@ -201,61 +250,76 @@ resource "azurerm_cdn_frontdoor_firewall_policy" "web-app-front-door-waf" {
           operator       = "StartsWith"
           selector       = "dsi-education-benchmarking"
         }
-
         exclusion {
           match_variable = "RequestCookieNames"
           operator       = "StartsWith"
           selector       = ".AspNetCore.Antiforgery"
         }
-
         exclusion {
           match_variable = "RequestCookieNames"
           operator       = "StartsWith"
           selector       = ".AspNetCore.OpenIdConnect.Nonce"
         }
-
         exclusion {
           match_variable = "RequestBodyPostArgNames"
           operator       = "StartsWith"
           selector       = "__RequestVerificationToken"
         }
-
         exclusion {
           match_variable = "RequestCookieNames"
           operator       = "Equals"
           selector       = "cookies_policy"
         }
-
         exclusion {
           match_variable = "RequestCookieNames"
           operator       = "Equals"
           selector       = "_gcl_aw"
         }
-
         exclusion {
           match_variable = "RequestCookieNames"
           operator       = "Equals"
           selector       = "ai_session"
         }
-
         exclusion {
           match_variable = "RequestCookieNames"
           operator       = "Equals"
           selector       = "session"
         }
-
         exclusion {
           match_variable = "RequestCookieNames"
           operator       = "StartsWith"
           selector       = ".AspNetCore.Mvc.CookieTempDataProvider"
         }
-
         exclusion {
           match_variable = "RequestBodyPostArgNames"
           operator       = "Equals"
           selector       = "state"
         }
-
+        exclusion {
+          match_variable = "RequestCookieNames"
+          operator       = "Equals"
+          selector       = "ai_user"
+        }
+        exclusion {
+          match_variable = "RequestCookieNames"
+          operator       = "Equals"
+          selector       = "AspNetCore.Session"
+        }
+        exclusion {
+          match_variable = "RequestCookieNames"
+          operator       = "Equals"
+          selector       = "cf_clearance"
+        }
+        exclusion {
+          match_variable = "RequestCookieNames"
+          operator       = "Equals"
+          selector       = "_scid"
+        }
+        exclusion {
+          match_variable = "RequestCookieNames"
+          operator       = "Equals"
+          selector       = "_gcl_dc"
+        }
         #NB: explicitly added rules to align with Azure defaults
         rule {
           rule_id = "942110"
