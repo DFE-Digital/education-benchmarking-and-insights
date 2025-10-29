@@ -153,13 +153,13 @@ resource "azurerm_cdn_frontdoor_firewall_policy" "web-app-front-door-waf" {
   }
 
   custom_rule {
-    name      = "blockrequesturi"
-    priority  = 1
-    rule_type = "MatchRule"
-    action    = "Block"
+    name     = "blockrequesturi"
+    action   = "Block"
+    priority = 200
+    type     = "MatchRule"
 
     match_condition {
-      variable_name      = "RequestUri"
+      match_variable     = "RequestUri"
       operator           = "Regex"
       negation_condition = true
       transforms         = ["Lowercase"]
