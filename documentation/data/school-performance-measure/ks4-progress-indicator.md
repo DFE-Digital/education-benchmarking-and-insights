@@ -1,4 +1,4 @@
-# School Progress Indicator
+# Key Stage 4 (KS4) Progress Indicator
 
 ## Overview
 
@@ -22,7 +22,7 @@ Progress 8 is considered a fairer way to judge schools because it account for th
 
 ### Progress 8 Data Source for FBIT
 
-The official and most reliable source for Progress 8 data is the from [Compare school and college performance in England](https://www.compare-school-performance.service.gov.uk/download-data). On this website, one can search for any school in England, view detailed performance data, including Progress 8 score as well as download key stage 4 related data. Please see [key-stage-4](documentation\data\source-files\key-stage-4.md) for more details on progress 8 source file for FBIT. The below SQL query within FBIT `data` database shows schools with KS4 related data for 2023-24 academic year.
+The official and most reliable source for Progress 8 data is the from [compare school and college performance in England](https://www.compare-school-performance.service.gov.uk/download-data). On this website, one can search for any school in England, view detailed performance data, including Progress 8 score as well as download key stage 4 related data. Please see [key-stage-4](/documentation/data/source-files/key-stage-4.md) and [Sources](/documentation/data/2_Sources.md) for more details on progress 8 source file for FBIT. The below SQL query within FBIT `data` database shows schools with KS4 related data for 2023-24 academic year.
 
 ```sql
 SELECT [URN]
@@ -50,11 +50,30 @@ The score is usually a decimal number (float), which can be positive, negative, 
 | -0.20 to -0.49    | Below average      | On average, pupils at this school achieve a quarter of a grade lower per subject than their national peers with a similar starting point.|
 | -0.50 and lower  | Well below average | On average, pupils at this school achieve half a grade lower in each of their 8 subjects than other pupils with the same prior attainment nationally.|
 
+### Progress 8 (P8) Score & Banding Edge Cases
+
+Some schools will display a code instead of a Progress 8 score or banding. This simply means a valid performance score is unavailable for that institution and the code is used to explain why. Therefore, when creating any comparator set that correlates finance with performance, schools with these codes must be excluded as spending cannot be benchmarked against an invalid performance outcome. The `abbrebiations.xslx` file within the subfolder of [compare school and college performance table download](https://www.compare-school-performance.service.gov.uk/download-data?download=true&regions=KS4PROV&filters=meta&fileformat=csv&year=2024-2025&meta=true) contains full description and meaning of all P8 related codes.
+
+Possible edge case scenarios include;
+
+- a school could have p8 score but SUPP banding.
+- a school could have SUPP p8 score with no banding
+- a school could have NE p8 score with no banding.
+- a school could have LOWCOV p8 score with no banding.
+- a school could have NP p8 score with no banding.
+
+| Code | Full Name | Interpretation |
+|--------------------------|:-------------------------------|:--------------|
+| NE   | No Entries | The school institution did not enter any pupils or students for the qualifications covered by the measure.|
+| NP   | Not Published | The DfE has data for the school, but has chosen not to publish it. This often happens if a school is independent or has recently become an academy, merged, or has undergone a significant change. The DfE considers the data to be unrepresentative of the "new" school's performance.|
+| LOWCOV   | Low Coverage | A Progress 8 score was calculated but is considered unreliable because it's based on too few pupils. This happens when fewer than 50% of the pupils at the end of KS4 are included in the Progress 8 calculation. This can occur in special schools, UTCs, or studio schools where many pupils have dis-applied KS2 results or take non-standard qualifications.|
+| SUPP   | Suppressed | A Progress 8 score was calculated, but the cohort of pupils is too small to publish (typically 5 pupils or fewer). The data is hidden to protect individual pupil anonymity and is not statistically reliable.|
+
 ### How Progress 8 data is surfaced within FBIT
 
 For all schools that partake in Key Stage 4, their official DfE Progress 8 banding will be clearly displayed within the FBIT interface. The focus will be on identifying schools with positive performance outcomes.
 
-- The P8 score and banding would be made visible on the school's summary view within FBIT regardless of the score and banding.
+- The P8 score and banding would be made visible on the school's summary view within FBIT regardless of the score and banding (excluding edge cases as described above).
 
 - The FBIT service provides functionality for users to include or exclude P8 related data when benchmarking.
 
