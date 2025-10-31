@@ -1,0 +1,7 @@
+[
+  {
+    "severity": "Error",
+    "propertyName": "SpecialClassesProvision",
+    "errorMessage": "Special Classes Provision must be empty or one of the supported values: Has Special Classes, No Special Classes, Not applicable, Not recorded"
+  }
+]

@@ -1,0 +1,7 @@
+[
+  {
+    "severity": "Error",
+    "propertyName": "NurseryProvision",
+    "errorMessage": "Nursery Provision must be empty or one of the supported values: Has Nursery Classes, No Nursery Classes, Not applicable, Not recorded"
+  }
+]
