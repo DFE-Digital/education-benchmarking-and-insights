@@ -4,6 +4,9 @@
 @model Web.App.ViewModels.LocalAuthorityViewModel
 @{
     ViewData[ViewDataKeys.Title] = PageTitles.LocalAuthorityHome;
+    const int maxSchoolRows = 7;
+    const string schoolFinancialPrefix = "f.";
+    const string schoolWorkforcePrefix = "w.";
 }
 
 <div class="govuk-grid-row">
@@ -59,49 +62,47 @@
 {
     <feature name="@FeatureFlags.LocalAuthorityHomepageV2">
         <h2 class="govuk-heading-m">Maintained schools</h2>
-
-        @using (Html.BeginForm(FormMethod.Post, true, new
-                    {
-                        novalidate = "novalidate",
-                        role = "search"
-                    }))
-        {
-            <div class="govuk-tabs" data-module="govuk-tabs">
-                <h2 class="govuk-tabs__title">
-                    Data view
-                </h2>
-                <ul class="govuk-tabs__list">
-                    <li class="govuk-tabs__list-item govuk-tabs__list-item--selected">
-                        <a class="govuk-tabs__tab" href="#financial">
-                            Financial
-                        </a>
-                    </li>
-                    <li class="govuk-tabs__list-item">
-                        <a class="govuk-tabs__tab" href="#workforce">
-                            Pupil and workforce
-                        </a>
-                    </li>
-                </ul>
-                <div class="govuk-tabs__panel" id="financial">
-                    @await Component.InvokeAsync("LocalAuthoritySchoolFinancial", new
-                    {
-                        code = Model.Code,
-                        formPrefix = "f.",
-                        maxRows = 7,
-                        defaultSort = $"{nameof(LocalAuthoritySchoolFinancial.TotalExpenditure)}~desc"
-                    })
-                </div>
-                <div class="govuk-tabs__panel govuk-tabs__panel--hidden" id="workforce">
-                    @await Component.InvokeAsync("LocalAuthoritySchoolWorkforce", new
-                    {
-                        code = Model.Code,
-                        formPrefix = "w.",
-                        maxRows = 7,
-                        defaultSort = $"{nameof(LocalAuthoritySchoolWorkforce.PupilTeacherRatio)}~desc"
-                    })
-                </div>
+        <div class="govuk-tabs" data-module="govuk-tabs">
+            <h2 class="govuk-tabs__title">
+                Data view
+            </h2>
+            <ul class="govuk-tabs__list">
+                <li class="govuk-tabs__list-item govuk-tabs__list-item--selected">
+                    <a class="govuk-tabs__tab" href="#financial">
+                        Financial
+                    </a>
+                </li>
+                <li class="govuk-tabs__list-item">
+                    <a class="govuk-tabs__tab" href="#workforce">
+                        Pupil and workforce
+                    </a>
+                </li>
+            </ul>
+            <div class="govuk-tabs__panel" id="financial">
+                @await Component.InvokeAsync("LocalAuthoritySchoolFinancialForm", new
+                {
+                    code = Model.Code,
+                    formPrefix = schoolFinancialPrefix,
+                    maxRows = maxSchoolRows,
+                    defaultSort = $"{nameof(LocalAuthoritySchoolFinancial.TotalExpenditure)}~desc",
+                    resetFieldName = LocalAuthorityViewModel.FormFieldNames.ResetFields,
+                    otherFormFieldName = LocalAuthorityViewModel.FormFieldNames.OtherFormFields,
+                    otherFormValues = Context.Request.Query.Where(q => q.Key.StartsWith(schoolWorkforcePrefix)).ToDictionary()
+                })
             </div>
-        }
+            <div class="govuk-tabs__panel govuk-tabs__panel--hidden" id="workforce">
+                @await Component.InvokeAsync("LocalAuthoritySchoolWorkforceForm", new
+                {
+                    code = Model.Code,
+                    formPrefix = schoolWorkforcePrefix,
+                    maxRows = maxSchoolRows,
+                    defaultSort = $"{nameof(LocalAuthoritySchoolWorkforce.PupilTeacherRatio)}~desc",
+                    resetFieldName = LocalAuthorityViewModel.FormFieldNames.ResetFields,
+                    otherFormFieldName = LocalAuthorityViewModel.FormFieldNames.OtherFormFields,
+                    otherFormValues = Context.Request.Query.Where(q => q.Key.StartsWith(schoolFinancialPrefix)).ToDictionary()
+                })
+            </div>
+        </div>
 
         <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
 

@@ -2,9 +2,9 @@
 @using Web.App.Domain.Charts
 @using Web.App.Extensions
 @using Web.App.ViewModels.Components
-@model Web.App.ViewModels.Components.LocalAuthoritySchoolFinancialViewModel
+@model Web.App.ViewModels.Components.LocalAuthoritySchoolFinancialFormViewModel
 @{
-    var tableId = LocalAuthoritySchoolFinancialFormViewModel.TableId;
+    var tableId = $"{LocalAuthoritySchoolFinancialFormViewModel.IdPrefix}table";
     var tableHeader = Model.ResultAs.GetTableHeaderSuffix();
     var sortKey = $"{Model.FormPrefix}{LocalAuthoritySchoolFinancialFormViewModel.FormFieldNames.Sort}";
 

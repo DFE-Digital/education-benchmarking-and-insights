@@ -1,18 +1,17 @@
 @using Web.App.Domain
-@using Web.App.Domain.Charts
 @using Web.App.ViewModels.Components
-@model Web.App.ViewModels.Components.LocalAuthoritySchoolFinancialViewModel
+@model Web.App.ViewModels.Components.LocalAuthoritySchoolWorkforceFormViewModel
 @{
-    const string accordionId = "accordion-financial-filters";
+    const string accordionId = "accordion-workforce-filters";
     List<string> resetFields = [];
     if (Model.Sort != null)
     {
-        resetFields.Add($"{Model.FormPrefix}{LocalAuthoritySchoolFinancialFormViewModel.FormFieldNames.Sort}");
+        resetFields.Add($"{Model.FormPrefix}{LocalAuthoritySchoolWorkforceFormViewModel.FormFieldNames.Sort}");
     }
 
     if (Model.AllRows)
     {
-        resetFields.Add($"{Model.FormPrefix}{LocalAuthoritySchoolFinancialFormViewModel.FormFieldNames.Rows}");
+        resetFields.Add($"{Model.FormPrefix}{LocalAuthoritySchoolWorkforceFormViewModel.FormFieldNames.Rows}");
     }
 }
 
@@ -23,48 +22,48 @@
         </h2>
     </div>
 
-    @await Html.PartialAsync("Components/LocalAuthoritySchoolFinancial/_SchoolsFilterSelected", Model)
+    @await Html.PartialAsync("Components/LocalAuthoritySchoolWorkforceForm/_SchoolsFilterSelected", Model)
     <div class="app-filter__body">
         <div class="govuk-accordion" data-module="govuk-accordion" id="@accordionId">
-            @await Html.PartialAsync("Components/LocalAuthoritySchoolFinancial/_SchoolsFilterAccordionSection", new LocalAuthoritySchoolFilterAccordionSectionViewModel<OverallPhaseTypes.OverallPhaseTypeFilter>(
+            @await Html.PartialAsync("Components/LocalAuthoritySchoolWorkforceForm/_SchoolsFilterAccordionSection", new LocalAuthoritySchoolFilterAccordionSectionViewModel<OverallPhaseTypes.OverallPhaseTypeFilter>(
                 accordionId,
                 1,
                 Model.FormPrefix,
                 "Phase",
-                LocalAuthoritySchoolFinancialFormViewModel.FormFieldNames.SelectedOverallPhases,
+                LocalAuthoritySchoolWorkforceFormViewModel.FormFieldNames.SelectedOverallPhases,
                 OverallPhaseTypes.AllFilters,
                 Model.SelectedOverallPhases,
                 f => f.GetFilterDescription(),
                 f => ((int)f).ToString()))
 
-            @await Html.PartialAsync("Components/LocalAuthoritySchoolFinancial/_SchoolsFilterAccordionSection", new LocalAuthoritySchoolFilterAccordionSectionViewModel<NurseryProvisions.NurseryProvisionFilter>(
+            @await Html.PartialAsync("Components/LocalAuthoritySchoolWorkforceForm/_SchoolsFilterAccordionSection", new LocalAuthoritySchoolFilterAccordionSectionViewModel<NurseryProvisions.NurseryProvisionFilter>(
                 accordionId,
                 2,
                 Model.FormPrefix,
                 "Nursery provision",
-                LocalAuthoritySchoolFinancialFormViewModel.FormFieldNames.SelectedNurseryProvisions,
+                LocalAuthoritySchoolWorkforceFormViewModel.FormFieldNames.SelectedNurseryProvisions,
                 NurseryProvisions.AllFilters,
                 Model.SelectedNurseryProvisions,
                 f => f.GetFilterDescription(),
                 f => ((int)f).ToString()))
 
-            @await Html.PartialAsync("Components/LocalAuthoritySchoolFinancial/_SchoolsFilterAccordionSection", new LocalAuthoritySchoolFilterAccordionSectionViewModel<SpecialProvisions.SpecialProvisionFilter>(
+            @await Html.PartialAsync("Components/LocalAuthoritySchoolWorkforceForm/_SchoolsFilterAccordionSection", new LocalAuthoritySchoolFilterAccordionSectionViewModel<SpecialProvisions.SpecialProvisionFilter>(
                 accordionId,
                 3,
                 Model.FormPrefix,
                 "Special class provision",
-                LocalAuthoritySchoolFinancialFormViewModel.FormFieldNames.SelectedSpecialProvisions,
+                LocalAuthoritySchoolWorkforceFormViewModel.FormFieldNames.SelectedSpecialProvisions,
                 SpecialProvisions.AllFilters,
                 Model.SelectedSpecialProvisions,
                 f => f.GetFilterDescription(),
                 f => ((int)f).ToString()))
 
-            @await Html.PartialAsync("Components/LocalAuthoritySchoolFinancial/_SchoolsFilterAccordionSection", new LocalAuthoritySchoolFilterAccordionSectionViewModel<SixthFormProvisions.SixthFormProvisionFilter>(
+            @await Html.PartialAsync("Components/LocalAuthoritySchoolWorkforceForm/_SchoolsFilterAccordionSection", new LocalAuthoritySchoolFilterAccordionSectionViewModel<SixthFormProvisions.SixthFormProvisionFilter>(
                 accordionId,
                 4,
                 Model.FormPrefix,
                 "Sixth form provision",
-                LocalAuthoritySchoolFinancialFormViewModel.FormFieldNames.SelectedSixthFormProvisions,
+                LocalAuthoritySchoolWorkforceFormViewModel.FormFieldNames.SelectedSixthFormProvisions,
                 SixthFormProvisions.AllFilters,
                 Model.SelectedSixthFormProvisions,
                 f => f.GetFilterDescription(),
@@ -79,10 +78,10 @@
                     </h2>
                 </legend>
                 <div class="govuk-radios govuk-radios--small" data-module="govuk-radios"
-                     id="@nameof(LocalAuthoritySchoolFinancialViewModel.ResultAs)">
-                    @foreach (var dimension in LocalAuthoritySchoolFinancialFormViewModel.FilterDimensions)
+                     id="@nameof(LocalAuthoritySchoolWorkforceFormViewModel.ResultAs)">
+                    @foreach (var dimension in LocalAuthoritySchoolWorkforceFormViewModel.FilterDimensions)
                     {
-                        var name = $"{Model.FormPrefix}{LocalAuthoritySchoolFinancialFormViewModel.FormFieldNames.ResultAs}";
+                        var name = $"{Model.FormPrefix}{LocalAuthoritySchoolWorkforceFormViewModel.FormFieldNames.ResultAs}";
                         <div class="govuk-radios__item">
                             <input class="govuk-radios__input"
                                    id="@(name)-@dimension"
@@ -102,14 +101,13 @@
 
         <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
         <button type="submit" class="govuk-button govuk-!-margin-bottom-3" data-module="govuk-button"
-                data-testid="apply-financial-filters"
-                name="@LocalAuthoritySchoolFinancialFormViewModel.FormFieldNames.ResetFields"
+                data-testid="apply-workforce-filters" name="@Model.ResetFieldName"
                 value="@(string.Join(',', resetFields))">
             Apply filters
         </button>
 
         <div class="govuk-button-group govuk-!-margin-bottom-0">
-            <a href="@Url.Action("DownloadSchoolsFinance", "LocalAuthority", new
+            <a href="@Url.Action("DownloadSchoolsWorkforce", "LocalAuthority", new
                      {
                          code = Model.Code
                      })" role="button"

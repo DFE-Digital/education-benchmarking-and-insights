@@ -1,0 +1,24 @@
+@using Web.App.ViewModels.Components
+@model Web.App.ViewModels.Components.LocalAuthoritySchoolWorkforceFormViewModel
+
+@foreach (var item in Model.SelectedOverallPhases)
+{
+    @Html.Hidden($"{Model.FormPrefix}{LocalAuthoritySchoolWorkforceFormViewModel.FormFieldNames.SelectedOverallPhases}", (int)item)
+}
+
+@foreach (var item in Model.SelectedNurseryProvisions)
+{
+    @Html.Hidden($"{Model.FormPrefix}{LocalAuthoritySchoolWorkforceFormViewModel.FormFieldNames.SelectedNurseryProvisions}", (int)item)
+}
+
+@foreach (var item in Model.SelectedSpecialProvisions)
+{
+    @Html.Hidden($"{Model.FormPrefix}{LocalAuthoritySchoolWorkforceFormViewModel.FormFieldNames.SelectedSpecialProvisions}", (int)item)
+}
+
+@foreach (var item in Model.SelectedSixthFormProvisions)
+{
+    @Html.Hidden($"{Model.FormPrefix}{LocalAuthoritySchoolWorkforceFormViewModel.FormFieldNames.SelectedSixthFormProvisions}", (int)item)
+}
+
+@Html.Hidden($"{Model.FormPrefix}{LocalAuthoritySchoolWorkforceFormViewModel.FormFieldNames.ResultAs}", (int)Model.ResultAs)

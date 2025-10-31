@@ -1,34 +1,38 @@
+using Microsoft.Extensions.Primitives;
 using Web.App.Domain;
-using Web.App.Domain.Charts;
 
 namespace Web.App.ViewModels.Components;
 
-// todo: deprecate base class
-public class LocalAuthoritySchoolFinancialViewModel(string code, string formPrefix, int maxRows, string defaultSort)
-    : LocalAuthoritySchoolFinancialFormViewModel(code, formPrefix, maxRows, defaultSort);
-
-public class LocalAuthoritySchoolFinancialFormViewModel(string code, string formPrefix, int maxRows, string defaultSort)
+public class LocalAuthoritySchoolWorkforceFormViewModel(
+    string code,
+    string formPrefix,
+    int maxRows,
+    string defaultSort,
+    string resetFieldName,
+    string otherFormFieldName,
+    Dictionary<string, StringValues> otherFormValues)
 {
-    public static readonly Dimensions.ResultAsOptions[] FilterDimensions =
+    public static readonly SchoolsSummaryWorkforceDimensions.ResultAsOptions[] FilterDimensions =
     [
-        Dimensions.ResultAsOptions.SpendPerPupil,
-        Dimensions.ResultAsOptions.Actuals,
-        Dimensions.ResultAsOptions.PercentExpenditure,
-        Dimensions.ResultAsOptions.PercentIncome
+        SchoolsSummaryWorkforceDimensions.ResultAsOptions.PercentPupil,
+        SchoolsSummaryWorkforceDimensions.ResultAsOptions.Actuals
     ];
 
-    public LocalAuthoritySchoolFinancial[] Results = [];
+    public LocalAuthoritySchoolWorkforce[] Results = [];
 
-    public static string TableId => "local-authority-school-financial-table";
+    public static string IdPrefix => "local-authority-school-workforce-";
 
     public string Code => code;
     public string FormPrefix => formPrefix;
     public int MaxRows => maxRows;
     public string DefaultSort => defaultSort;
+    public string ResetFieldName => resetFieldName;
+    public string OtherFormFieldName => otherFormFieldName;
+    public Dictionary<string, StringValues> OtherFormValues => otherFormValues;
 
     public bool AllRows { get; init; }
     public bool FiltersVisible { get; init; }
-    public Dimensions.ResultAsOptions ResultAs { get; init; } = Dimensions.ResultAsOptions.PercentIncome;
+    public SchoolsSummaryWorkforceDimensions.ResultAsOptions ResultAs { get; init; } = SchoolsSummaryWorkforceDimensions.ResultAsOptions.PercentPupil;
     public OverallPhaseTypes.OverallPhaseTypeFilter[] SelectedOverallPhases { get; init; } = [];
     public NurseryProvisions.NurseryProvisionFilter[] SelectedNurseryProvisions { get; init; } = [];
     public SpecialProvisions.SpecialProvisionFilter[] SelectedSpecialProvisions { get; init; } = [];
@@ -43,7 +47,6 @@ public class LocalAuthoritySchoolFinancialFormViewModel(string code, string form
     public static class FormFieldNames
     {
         public const string FiltersVisible = "filter";
-        public const string ResetFields = "__resetFields";
         public const string ResultAs = "as";
         public const string Rows = "rows";
         public const string SelectedOverallPhases = "phase";

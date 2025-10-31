@@ -1,6 +1,6 @@
 @using Web.App.Domain
 @using Web.App.ViewModels.Components
-@model Web.App.ViewModels.Components.LocalAuthoritySchoolFinancialViewModel
+@model Web.App.ViewModels.Components.LocalAuthoritySchoolFinancialFormViewModel
 
 @if (!Model.HasFilters)
 {
@@ -21,7 +21,7 @@
                  })" class="govuk-link govuk-link--no-visited-state">Clear</a>
     </div>
 
-    @await Html.PartialAsync("Components/LocalAuthoritySchoolFinancial/_SchoolsFilterSelectedItems", new LocalAuthoritySchoolFilterSelectedItemsViewModel<OverallPhaseTypes.OverallPhaseTypeFilter>(
+    @await Html.PartialAsync("Components/LocalAuthoritySchoolFinancialForm/_SchoolsFilterSelectedItems", new LocalAuthoritySchoolFilterSelectedItemsViewModel<OverallPhaseTypes.OverallPhaseTypeFilter>(
         Model.FormPrefix,
         "Phases",
         LocalAuthoritySchoolFinancialFormViewModel.FormFieldNames.SelectedOverallPhases,
@@ -29,7 +29,7 @@
         f => f.GetFilterDescription(),
         f => ((int)f).ToString()))
 
-    @await Html.PartialAsync("Components/LocalAuthoritySchoolFinancial/_SchoolsFilterSelectedItems", new LocalAuthoritySchoolFilterSelectedItemsViewModel<NurseryProvisions.NurseryProvisionFilter>(
+    @await Html.PartialAsync("Components/LocalAuthoritySchoolFinancialForm/_SchoolsFilterSelectedItems", new LocalAuthoritySchoolFilterSelectedItemsViewModel<NurseryProvisions.NurseryProvisionFilter>(
         Model.FormPrefix,
         "Nursery provisions",
         LocalAuthoritySchoolFinancialFormViewModel.FormFieldNames.SelectedNurseryProvisions,
@@ -37,7 +37,7 @@
         f => f.GetFilterDescription(),
         f => ((int)f).ToString()))
 
-    @await Html.PartialAsync("Components/LocalAuthoritySchoolFinancial/_SchoolsFilterSelectedItems", new LocalAuthoritySchoolFilterSelectedItemsViewModel<SpecialProvisions.SpecialProvisionFilter>(
+    @await Html.PartialAsync("Components/LocalAuthoritySchoolFinancialForm/_SchoolsFilterSelectedItems", new LocalAuthoritySchoolFilterSelectedItemsViewModel<SpecialProvisions.SpecialProvisionFilter>(
         Model.FormPrefix,
         "Special class provisions",
         LocalAuthoritySchoolFinancialFormViewModel.FormFieldNames.SelectedSpecialProvisions,
@@ -45,7 +45,7 @@
         f => f.GetFilterDescription(),
         f => ((int)f).ToString()))
 
-    @await Html.PartialAsync("Components/LocalAuthoritySchoolFinancial/_SchoolsFilterSelectedItems", new LocalAuthoritySchoolFilterSelectedItemsViewModel<SixthFormProvisions.SixthFormProvisionFilter>(
+    @await Html.PartialAsync("Components/LocalAuthoritySchoolFinancialForm/_SchoolsFilterSelectedItems", new LocalAuthoritySchoolFilterSelectedItemsViewModel<SixthFormProvisions.SixthFormProvisionFilter>(
         Model.FormPrefix,
         "Sixth form provisions",
         LocalAuthoritySchoolFinancialFormViewModel.FormFieldNames.SelectedSixthFormProvisions,

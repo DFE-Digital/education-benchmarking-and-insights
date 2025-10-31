@@ -1,11 +1,12 @@
-﻿using System.Net;
-using Microsoft.AspNetCore.Http.Extensions;
+﻿using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Primitives;
 using Web.App.ActionResults;
 using Web.App.Attributes;
 using Web.App.Attributes.RequestTelemetry;
 using Web.App.Domain;
 using Web.App.Domain.Charts;
+using Web.App.Extensions;
 using Web.App.Infrastructure.Apis;
 using Web.App.Infrastructure.Apis.Establishment;
 using Web.App.Infrastructure.Apis.Insight;
@@ -64,31 +65,8 @@ public class LocalAuthorityController(
             { "code", code }
         };
 
-        var resetFields = form[LocalAuthoritySchoolFinancialFormViewModel.FormFieldNames.ResetFields]
-            .SelectMany(v => (v ?? string.Empty).Split(","))
-            .ToArray();
-        foreach (var key in form.Keys)
-        {
-            // exclude special fields
-            if (key.StartsWith("__") || resetFields.Contains(key))
-            {
-                continue;
-            }
-
-            var values = form[key];
-
-            // disallow multiple sort and filter fields
-            if (key.EndsWith(LocalAuthoritySchoolFinancialFormViewModel.FormFieldNames.Sort)
-                || key.EndsWith(LocalAuthoritySchoolFinancialFormViewModel.FormFieldNames.FiltersVisible))
-            {
-                routeValues[key] = values.Last();
-            }
-            else
-            {
-                routeValues[key] = values;
-            }
-        }
-
+        ResetFormFields(form, routeValues);
+        MergeOtherFormFields(form, routeValues);
         return RedirectToAction("Index", routeValues);
     }
 
@@ -195,5 +173,54 @@ public class LocalAuthorityController(
         var query = new ApiQuery();
         query.AddIfNotNull("laCode", code);
         return query;
+    }
+
+    private static void ResetFormFields(IFormCollection form, RouteValueDictionary routeValues)
+    {
+        var resetFields = form[LocalAuthorityViewModel.FormFieldNames.ResetFields]
+            .SelectMany(v => (v ?? string.Empty).Split(","))
+            .ToArray();
+        foreach (var key in form.Keys)
+        {
+            // exclude special fields
+            if (key.StartsWith("__") || resetFields.Contains(key))
+            {
+                continue;
+            }
+
+            var values = form[key];
+
+            // disallow multiple sort and filter fields
+            if (key.EndsWith(LocalAuthoritySchoolFinancialFormViewModel.FormFieldNames.Sort)
+                || key.EndsWith(LocalAuthoritySchoolFinancialFormViewModel.FormFieldNames.FiltersVisible))
+            {
+                routeValues[key] = values.Last();
+            }
+            else
+            {
+                routeValues[key] = values;
+            }
+        }
+    }
+
+    private static void MergeOtherFormFields(IFormCollection form, RouteValueDictionary routeValues)
+    {
+        // include fields from 'other' form in route values, if present
+        var otherForm = form[LocalAuthorityViewModel.FormFieldNames.OtherFormFields].ToString();
+        if (string.IsNullOrWhiteSpace(otherForm))
+        {
+            return;
+        }
+
+        var otherValues = otherForm.FromJson<Dictionary<string, string[]>>();
+        if (otherValues == null)
+        {
+            return;
+        }
+
+        foreach (var key in otherValues.Keys)
+        {
+            routeValues[key] = new StringValues(otherValues[key]);
+        }
     }
 }
