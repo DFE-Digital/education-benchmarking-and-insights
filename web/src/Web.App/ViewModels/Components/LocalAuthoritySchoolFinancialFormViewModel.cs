@@ -9,9 +9,8 @@ public class LocalAuthoritySchoolFinancialFormViewModel(
     string formPrefix,
     int maxRows,
     string defaultSort,
-    string resetFieldName,
-    string otherFormFieldName,
-    Dictionary<string, StringValues> otherFormValues)
+    Dictionary<string, StringValues> otherFormValues,
+    string tabId)
 {
     public static readonly Dimensions.ResultAsOptions[] FilterDimensions =
     [
@@ -29,9 +28,8 @@ public class LocalAuthoritySchoolFinancialFormViewModel(
     public string FormPrefix => formPrefix;
     public int MaxRows => maxRows;
     public string DefaultSort => defaultSort;
-    public string ResetFieldName => resetFieldName;
-    public string OtherFormFieldName => otherFormFieldName;
     public Dictionary<string, StringValues> OtherFormValues => otherFormValues;
+    public string TabId => tabId;
 
     public bool AllRows { get; init; }
     public bool FiltersVisible { get; init; }

@@ -68,7 +68,13 @@ public class LocalAuthorityController(
 
         ResetFormFields(form, routeValues);
         MergeOtherFormFields(form, routeValues);
-        return RedirectToAction("Index", routeValues);
+
+        var url = Url.Action("Index", routeValues);
+        var fragment = form[LocalAuthorityViewModel.FormFieldNames.Fragment].ToString();
+
+        // Include the `#` fragment in the Location header in the 302 redirect, if present in the posted form.
+        // See https://datatracker.ietf.org/doc/html/rfc9110#section-10.2.2 (published June 2022)
+        return Redirect($"{url}{(string.IsNullOrWhiteSpace(fragment) ? string.Empty : $"#{fragment}")}");
     }
 
     [HttpGet]

@@ -8,6 +8,8 @@
     const int maxSchoolRows = 7;
     const string schoolFinancialPrefix = "f.";
     const string schoolWorkforcePrefix = "w.";
+    const string financialTabId = "financial";
+    const string workforceTabId = "workforce";
 }
 
 <div class="govuk-grid-row">
@@ -69,38 +71,36 @@
             </h2>
             <ul class="govuk-tabs__list">
                 <li class="govuk-tabs__list-item govuk-tabs__list-item--selected">
-                    <a class="govuk-tabs__tab" href="#financial">
+                    <a class="govuk-tabs__tab" href="#@financialTabId">
                         Financial
                     </a>
                 </li>
                 <li class="govuk-tabs__list-item">
-                    <a class="govuk-tabs__tab" href="#workforce">
+                    <a class="govuk-tabs__tab" href="#@workforceTabId">
                         Pupil and workforce
                     </a>
                 </li>
             </ul>
-            <div class="govuk-tabs__panel" id="financial">
+            <div class="govuk-tabs__panel" id="@financialTabId">
                 @await Component.InvokeAsync("LocalAuthoritySchoolFinancialForm", new
                 {
                     code = Model.Code,
                     formPrefix = schoolFinancialPrefix,
                     maxRows = maxSchoolRows,
                     defaultSort = $"{nameof(LocalAuthoritySchoolFinancial.TotalExpenditure)}~desc",
-                    resetFieldName = LocalAuthorityViewModel.FormFieldNames.ResetFields,
-                    otherFormFieldName = LocalAuthorityViewModel.FormFieldNames.OtherFormFields,
-                    otherFormValues = Context.Request.Query.Where(q => q.Key.StartsWith(schoolWorkforcePrefix)).ToDictionary()
+                    otherFormValues = Context.Request.Query.Where(q => q.Key.StartsWith(schoolWorkforcePrefix)).ToDictionary(),
+                    tabId = financialTabId
                 })
             </div>
-            <div class="govuk-tabs__panel govuk-tabs__panel--hidden" id="workforce">
+            <div class="govuk-tabs__panel govuk-tabs__panel--hidden" id="@workforceTabId">
                 @await Component.InvokeAsync("LocalAuthoritySchoolWorkforceForm", new
                 {
                     code = Model.Code,
                     formPrefix = schoolWorkforcePrefix,
                     maxRows = maxSchoolRows,
                     defaultSort = $"{nameof(LocalAuthoritySchoolWorkforce.PupilTeacherRatio)}~desc",
-                    resetFieldName = LocalAuthorityViewModel.FormFieldNames.ResetFields,
-                    otherFormFieldName = LocalAuthorityViewModel.FormFieldNames.OtherFormFields,
-                    otherFormValues = Context.Request.Query.Where(q => q.Key.StartsWith(schoolFinancialPrefix)).ToDictionary()
+                    otherFormValues = Context.Request.Query.Where(q => q.Key.StartsWith(schoolFinancialPrefix)).ToDictionary(),
+                    tabId = workforceTabId
                 })
             </div>
         </div>

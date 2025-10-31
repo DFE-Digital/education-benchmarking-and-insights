@@ -1,5 +1,6 @@
 ﻿@using Newtonsoft.Json
 @using Web.App.Extensions
+@using Web.App.ViewModels
 @using Web.App.ViewModels.Components
 @model Web.App.ViewModels.Components.LocalAuthoritySchoolWorkforceFormViewModel
 
@@ -12,7 +13,8 @@
             role = "search"
         }))
 {
-    @Html.Hidden(Model.OtherFormFieldName, Model.OtherFormValues.ToJson(Formatting.None))
+    @Html.Hidden(LocalAuthorityViewModel.FormFieldNames.Fragment, Model.TabId)
+    @Html.Hidden(LocalAuthorityViewModel.FormFieldNames.OtherFormFields, Model.OtherFormValues.ToJson(Formatting.None))
     @Html.Hidden($"{Model.FormPrefix}{LocalAuthoritySchoolWorkforceFormViewModel.FormFieldNames.Sort}", Model.Sort)
     @Html.Hidden($"{Model.FormPrefix}{LocalAuthoritySchoolWorkforceFormViewModel.FormFieldNames.Rows}", Model.AllRows ? LocalAuthoritySchoolWorkforceFormViewModel.FormFieldValues.All : string.Empty)
 

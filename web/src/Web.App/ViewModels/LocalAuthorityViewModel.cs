@@ -53,6 +53,7 @@ public class LocalAuthorityViewModel(LocalAuthority localAuthority, RagRatingSum
 
     public static class FormFieldNames
     {
+        public const string Fragment = "__fragment";
         public const string OtherFormFields = "__otherForm";
         public const string ResetFields = "__resetFields";
     }
