@@ -12,13 +12,8 @@
         <h2 class="govuk-heading-m">
             Selected filters
         </h2>
-        <a href="@Url.Action("Index", "LocalAuthority", new RouteValueDictionary
-                 {
-                     { "code", Model.Code },
-                     { $"{Model.FormPrefix}{LocalAuthoritySchoolFinancialFormViewModel.FormFieldNames.FiltersVisible}", LocalAuthoritySchoolFinancialFormViewModel.FormFieldValues.Show },
-                     { $"{Model.FormPrefix}{LocalAuthoritySchoolFinancialFormViewModel.FormFieldNames.ResultAs}", (int)Model.ResultAs },
-                     { $"{Model.FormPrefix}{LocalAuthoritySchoolFinancialFormViewModel.FormFieldNames.Sort}", Model.Sort }
-                 })" class="govuk-link govuk-link--no-visited-state">Clear</a>
+        <a href="@($"{Url.Action("Index", "LocalAuthority", Model.RouteValuesOnClear)}#{Model.TabId}")" class="govuk-link govuk-link--no-visited-state">Clear</a>
+
     </div>
 
     @await Html.PartialAsync("Components/LocalAuthoritySchoolFinancialForm/_SchoolsFilterSelectedItems", new LocalAuthoritySchoolFilterSelectedItemsViewModel<OverallPhaseTypes.OverallPhaseTypeFilter>(
