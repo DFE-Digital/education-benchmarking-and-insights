@@ -150,6 +150,29 @@ public class LocalAuthoritySchoolFinancialFormViewComponentTests
         Assert.Equal(maxRows, model.MaxRows);
         Assert.Equal(otherFormValues, model.OtherFormValues);
         Assert.Equal(tabId, model.TabId);
+        Assert.Equal(_path, model.Path);
+        Assert.NotNull(model.Query);
+    }
+
+    [Theory]
+    [InlineData(null, null)]
+    [InlineData("tab-id", "#tab-id")]
+    public async Task ShouldReturnExpectedFragment(string? tabId, string? expectedFragment)
+    {
+        // arrange
+        const string code = nameof(code);
+        const string formPrefix = nameof(formPrefix);
+        const int maxRows = 123;
+        var otherFormValues = new Dictionary<string, StringValues>();
+
+        // act
+        var result = await _component.InvokeAsync(code, formPrefix, maxRows, DefaultSort, otherFormValues, tabId ?? string.Empty) as ViewViewComponentResult;
+
+        // assert
+        Assert.NotNull(result);
+        var model = result.ViewData?.Model as LocalAuthoritySchoolFinancialFormViewModel;
+        Assert.NotNull(model);
+        Assert.Equal(expectedFragment, model.Fragment);
     }
 
     [Theory]

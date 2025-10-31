@@ -10,7 +10,9 @@ public class LocalAuthoritySchoolFinancialFormViewModel(
     int maxRows,
     string defaultSort,
     Dictionary<string, StringValues> otherFormValues,
-    string tabId)
+    string tabId,
+    string path,
+    IQueryCollection query)
 {
     public static readonly Dimensions.ResultAsOptions[] FilterDimensions =
     [
@@ -30,6 +32,8 @@ public class LocalAuthoritySchoolFinancialFormViewModel(
     public string DefaultSort => defaultSort;
     public Dictionary<string, StringValues> OtherFormValues => otherFormValues;
     public string TabId => tabId;
+    public string Path => path;
+    public IQueryCollection Query => query;
 
     public bool AllRows { get; init; }
     public bool FiltersVisible { get; init; }
@@ -44,6 +48,8 @@ public class LocalAuthoritySchoolFinancialFormViewModel(
                               || SelectedNurseryProvisions.Length > 0
                               || SelectedSpecialProvisions.Length > 0
                               || SelectedSixthFormProvisions.Length > 0;
+
+    public string? Fragment => string.IsNullOrWhiteSpace(tabId) ? null : $"#{tabId}";
 
     public RouteValueDictionary RouteValuesOnClear =>
         new(

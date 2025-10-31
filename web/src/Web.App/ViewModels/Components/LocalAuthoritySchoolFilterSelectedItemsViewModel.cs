@@ -7,13 +7,17 @@ public class LocalAuthoritySchoolFilterSelectedItemsViewModel<T> : LocalAuthorit
         string formPrefix,
         string heading,
         string formFieldName,
+        string path,
+        IQueryCollection query,
+        string? fragment,
         T[] selectedFilters,
         Func<T, string> labelSelector,
-        Func<T, string> valueSelector) : base(formPrefix, heading, formFieldName)
+        Func<T, string> valueSelector) : base(formPrefix, heading, formFieldName, path, fragment)
     {
         SelectedFilters = selectedFilters.Cast<object>().ToArray();
         LabelSelector = l => labelSelector.Invoke((T)l);
         ValueSelector = v => valueSelector.Invoke((T)v);
+        Query = QueryString.Create(query).Value;
     }
 }
 
@@ -26,10 +30,15 @@ public class LocalAuthoritySchoolFilterSelectedItemsViewModel<T> : LocalAuthorit
 public abstract class LocalAuthoritySchoolFilterSelectedItemsViewModelBase(
     string formPrefix,
     string heading,
-    string formFieldName)
+    string formFieldName,
+    string path,
+    string? fragment)
 {
     public string Heading => heading;
     public string FormFieldName => $"{formPrefix}{formFieldName}";
+    public string Path => path;
+    public string? Query { get; init; }
+    public string? Fragment => fragment;
     public object[] AllFilters { get; init; } = [];
     public object[] SelectedFilters { get; init; } = [];
     public Func<object, string> LabelSelector { get; init; } = _ => string.Empty;
