@@ -22,7 +22,7 @@ SELECT f.RunType,
        s.SixthFormProvision
 FROM Financial f
          LEFT JOIN School s on f.URN = s.URN
--- exclude none lead federation schools
+-- exclude non-lead federation schools
 WHERE s.FederationLeadURN = s.URN -- federation lead
 OR s.FederationLeadURN IS NULL -- not federated
     GO
