@@ -9,8 +9,7 @@
         }, FormMethod.Post, true, new
         {
             novalidate = "novalidate",
-            role = "search",
-            id = $"{LocalAuthoritySchoolWorkforceFormViewModel.IdPrefix}form"
+            role = "search"
         }))
 {
     @Html.Hidden(Model.OtherFormFieldName, Model.OtherFormValues.ToJson(Formatting.None))

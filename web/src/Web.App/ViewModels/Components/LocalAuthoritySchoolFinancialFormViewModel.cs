@@ -23,7 +23,7 @@ public class LocalAuthoritySchoolFinancialFormViewModel(
 
     public LocalAuthoritySchoolFinancial[] Results = [];
 
-    public static string IdPrefix => "local-authority-school-financial-";
+    public static string TableId => "local-authority-school-financial-table";
 
     public string Code => code;
     public string FormPrefix => formPrefix;

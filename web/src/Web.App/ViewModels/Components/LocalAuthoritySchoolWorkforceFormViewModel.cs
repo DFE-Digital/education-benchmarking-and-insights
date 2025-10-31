@@ -20,7 +20,7 @@ public class LocalAuthoritySchoolWorkforceFormViewModel(
 
     public LocalAuthoritySchoolWorkforce[] Results = [];
 
-    public static string IdPrefix => "local-authority-school-workforce-";
+    public static string TableId => "local-authority-school-workforce-table";
 
     public string Code => code;
     public string FormPrefix => formPrefix;
