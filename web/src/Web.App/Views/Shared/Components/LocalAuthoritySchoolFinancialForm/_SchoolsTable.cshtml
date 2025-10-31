@@ -4,7 +4,7 @@
 @using Web.App.ViewModels.Components
 @model Web.App.ViewModels.Components.LocalAuthoritySchoolFinancialFormViewModel
 @{
-    var tableId = $"{LocalAuthoritySchoolFinancialFormViewModel.IdPrefix}table";
+    var tableId = LocalAuthoritySchoolFinancialFormViewModel.TableId;
     var tableHeader = Model.ResultAs.GetTableHeaderSuffix();
     var sortKey = $"{Model.FormPrefix}{LocalAuthoritySchoolFinancialFormViewModel.FormFieldNames.Sort}";
 
