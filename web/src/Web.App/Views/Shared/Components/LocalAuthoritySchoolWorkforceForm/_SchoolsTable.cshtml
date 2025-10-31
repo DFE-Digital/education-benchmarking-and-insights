@@ -1,9 +1,9 @@
 @using Web.App.Domain
 @using Web.App.Extensions
 @using Web.App.ViewModels.Components
-@model Web.App.ViewModels.Components.LocalAuthoritySchoolWorkforceViewModel
+@model Web.App.ViewModels.Components.LocalAuthoritySchoolWorkforceFormViewModel
 @{
-    var tableId = LocalAuthoritySchoolWorkforceFormViewModel.TableId;
+    var tableId = $"{LocalAuthoritySchoolWorkforceFormViewModel.IdPrefix}table";
     var tableHeaderPrefix = Model.ResultAs.GetTableHeaderPrefix();
     var sortKey = $"{Model.FormPrefix}{LocalAuthoritySchoolWorkforceFormViewModel.FormFieldNames.Sort}";
 

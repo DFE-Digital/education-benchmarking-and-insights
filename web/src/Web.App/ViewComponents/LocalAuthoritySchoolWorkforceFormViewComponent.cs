@@ -9,9 +9,16 @@ using Web.App.ViewModels.Components;
 
 namespace Web.App.ViewComponents;
 
-public class LocalAuthoritySchoolWorkforceViewComponent(ILocalAuthoritiesApi localAuthoritiesApi) : ViewComponent
+public class LocalAuthoritySchoolWorkforceFormViewComponent(ILocalAuthoritiesApi localAuthoritiesApi) : ViewComponent
 {
-    public async Task<IViewComponentResult> InvokeAsync(string code, string formPrefix, int maxRows, string defaultSort)
+    public async Task<IViewComponentResult> InvokeAsync(
+        string code,
+        string formPrefix,
+        int maxRows,
+        string defaultSort,
+        string resetFieldName,
+        string otherFormFieldName,
+        Dictionary<string, StringValues> otherFormValues)
     {
         var query = ParseQueryString(Request.Query, formPrefix, defaultSort);
         var results = await localAuthoritiesApi
@@ -26,7 +33,7 @@ public class LocalAuthoritySchoolWorkforceViewComponent(ILocalAuthoritiesApi loc
             selectedSpecialProvisions,
             selectedSixthFormProvisions,
             sort) = query;
-        var viewModel = new LocalAuthoritySchoolWorkforceViewModel(code, formPrefix, maxRows, defaultSort)
+        var viewModel = new LocalAuthoritySchoolWorkforceFormViewModel(code, formPrefix, maxRows, defaultSort, resetFieldName, otherFormFieldName, otherFormValues)
         {
             AllRows = allRows,
             FiltersVisible = filtersVisible,

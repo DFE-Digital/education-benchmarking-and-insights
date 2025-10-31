@@ -15,17 +15,17 @@ using Xunit;
 namespace Web.Tests.ViewComponents;
 
 [SuppressMessage("Usage", "xUnit1045:Avoid using TheoryData type arguments that might not be serializable")]
-public class LocalAuthoritySchoolFinancialViewComponentTests
+public class LocalAuthoritySchoolFinancialFormViewComponentTests
 {
-    private readonly LocalAuthoritySchoolFinancialViewComponent _component;
-    private readonly HttpContext _httpContext;
-    private readonly PathString _path = "/test/path";
-    private readonly Mock<ILocalAuthoritiesApi> _localAuthorityApi = new();
-    private readonly Fixture _fixture = new();
     private const Dimensions.ResultAsOptions DefaultDimension = Dimensions.ResultAsOptions.PercentIncome;
     private const string DefaultSort = "TotalExpenditure~desc";
+    private readonly LocalAuthoritySchoolFinancialFormViewComponent _component;
+    private readonly Fixture _fixture = new();
+    private readonly HttpContext _httpContext;
+    private readonly Mock<ILocalAuthoritiesApi> _localAuthorityApi = new();
+    private readonly PathString _path = "/test/path";
 
-    public LocalAuthoritySchoolFinancialViewComponentTests()
+    public LocalAuthoritySchoolFinancialFormViewComponentTests()
     {
         _httpContext = new DefaultHttpContext();
         _httpContext.Request.Path = _path;
@@ -33,7 +33,7 @@ public class LocalAuthoritySchoolFinancialViewComponentTests
         {
             HttpContext = _httpContext
         };
-        _component = new LocalAuthoritySchoolFinancialViewComponent(_localAuthorityApi.Object)
+        _component = new LocalAuthoritySchoolFinancialFormViewComponent(_localAuthorityApi.Object)
         {
             ViewComponentContext = new ViewComponentContext
             {
@@ -61,18 +61,20 @@ public class LocalAuthoritySchoolFinancialViewComponentTests
         { "f.", "?f.as=3", false, false, false, Dimensions.ResultAsOptions.PercentIncome, new TheoryFilters([], [], [], []), DefaultSort },
         {
             "f.", "?f.phase=0&f.phase=1&f.phase=2", false, false, true, DefaultDimension, new TheoryFilters([
-                OverallPhaseTypes.OverallPhaseTypeFilter.Primary,
-                OverallPhaseTypes.OverallPhaseTypeFilter.Secondary,
-                OverallPhaseTypes.OverallPhaseTypeFilter.Special
-            ],
-            [], [], []), DefaultSort
+                    OverallPhaseTypes.OverallPhaseTypeFilter.Primary,
+                    OverallPhaseTypes.OverallPhaseTypeFilter.Secondary,
+                    OverallPhaseTypes.OverallPhaseTypeFilter.Special
+                ],
+                [], [], []),
+            DefaultSort
         },
         {
             "f.", "?f.phase=0&f.phase=1&f.as=1&other=value", false, false, true, Dimensions.ResultAsOptions.Actuals, new TheoryFilters([
-                OverallPhaseTypes.OverallPhaseTypeFilter.Primary,
-                OverallPhaseTypes.OverallPhaseTypeFilter.Secondary
-            ],
-            [], [], []), DefaultSort
+                    OverallPhaseTypes.OverallPhaseTypeFilter.Primary,
+                    OverallPhaseTypes.OverallPhaseTypeFilter.Secondary
+                ],
+                [], [], []),
+            DefaultSort
         },
         { "f.", "?f.phase=0", false, false, true, DefaultDimension, new TheoryFilters([OverallPhaseTypes.OverallPhaseTypeFilter.Primary], [], [], []), DefaultSort },
         { "f.", "?f.nursery=1", false, false, true, DefaultDimension, new TheoryFilters([], [NurseryProvisions.NurseryProvisionFilter.HasNoNurseryClasses], [], []), DefaultSort },
@@ -89,13 +91,40 @@ public class LocalAuthoritySchoolFinancialViewComponentTests
         List<QueryParameter>> ApiQueryTestData => new()
     {
         { "f.", 5, "", [new QueryParameter("dimension", DefaultDimension.GetQueryParam()), new QueryParameter("sortField", DefaultSort.Split("~").First()), new QueryParameter("sortOrder", DefaultSort.Split("~").Last()), new QueryParameter("limit", "5")] },
-        { "f.", 5, "?f.as=1", [new QueryParameter("dimension", Dimensions.ResultAsOptions.Actuals.GetQueryParam()), new QueryParameter("sortField", DefaultSort.Split("~").First()), new QueryParameter("sortOrder", DefaultSort.Split("~").Last()), new QueryParameter("limit", "5")] },
+        {
+            "f.", 5, "?f.as=1",
+            [new QueryParameter("dimension", Dimensions.ResultAsOptions.Actuals.GetQueryParam()), new QueryParameter("sortField", DefaultSort.Split("~").First()), new QueryParameter("sortOrder", DefaultSort.Split("~").Last()), new QueryParameter("limit", "5")]
+        },
         { "f.", 5, "?f.sort=SchoolName~asc", [new QueryParameter("dimension", DefaultDimension.GetQueryParam()), new QueryParameter("sortField", "SchoolName"), new QueryParameter("sortOrder", "asc"), new QueryParameter("limit", "5")] },
         { "f.", 5, "?f.rows=all", [new QueryParameter("dimension", DefaultDimension.GetQueryParam()), new QueryParameter("sortField", DefaultSort.Split("~").First()), new QueryParameter("sortOrder", DefaultSort.Split("~").Last())] },
-        { "f.", 5, "?f.phase=0&f.phase=1", [new QueryParameter("dimension", DefaultDimension.GetQueryParam()), new QueryParameter("sortField", DefaultSort.Split("~").First()), new QueryParameter("sortOrder", DefaultSort.Split("~").Last()), new QueryParameter("limit", "5"), new QueryParameter ( "overallPhase", "Primary" ), new QueryParameter ( "overallPhase", "Secondary" )] },
-        { "f.", 5, "?f.nursery=1", [new QueryParameter("dimension", DefaultDimension.GetQueryParam()), new QueryParameter("sortField", DefaultSort.Split("~").First()), new QueryParameter("sortOrder", DefaultSort.Split("~").Last()), new QueryParameter("limit", "5"), new QueryParameter ( "nurseryProvision", "No Nursery Classes" )] },
-        { "f.", 5, "?f.special=2", [new QueryParameter("dimension", DefaultDimension.GetQueryParam()), new QueryParameter("sortField", DefaultSort.Split("~").First()), new QueryParameter("sortOrder", DefaultSort.Split("~").Last()), new QueryParameter("limit", "5"), new QueryParameter ( "specialClassesProvision", "Not applicable" )] },
-        { "f.", 5, "?f.sixth=3", [new QueryParameter("dimension", DefaultDimension.GetQueryParam()), new QueryParameter("sortField", DefaultSort.Split("~").First()), new QueryParameter("sortOrder", DefaultSort.Split("~").Last()), new QueryParameter("limit", "5"), new QueryParameter ( "sixthFormProvision", "Not recorded" )] }
+        {
+            "f.", 5, "?f.phase=0&f.phase=1",
+            [
+                new QueryParameter("dimension", DefaultDimension.GetQueryParam()), new QueryParameter("sortField", DefaultSort.Split("~").First()), new QueryParameter("sortOrder", DefaultSort.Split("~").Last()), new QueryParameter("limit", "5"),
+                new QueryParameter("overallPhase", "Primary"), new QueryParameter("overallPhase", "Secondary")
+            ]
+        },
+        {
+            "f.", 5, "?f.nursery=1",
+            [
+                new QueryParameter("dimension", DefaultDimension.GetQueryParam()), new QueryParameter("sortField", DefaultSort.Split("~").First()), new QueryParameter("sortOrder", DefaultSort.Split("~").Last()), new QueryParameter("limit", "5"),
+                new QueryParameter("nurseryProvision", "No Nursery Classes")
+            ]
+        },
+        {
+            "f.", 5, "?f.special=2",
+            [
+                new QueryParameter("dimension", DefaultDimension.GetQueryParam()), new QueryParameter("sortField", DefaultSort.Split("~").First()), new QueryParameter("sortOrder", DefaultSort.Split("~").Last()), new QueryParameter("limit", "5"),
+                new QueryParameter("specialClassesProvision", "Not applicable")
+            ]
+        },
+        {
+            "f.", 5, "?f.sixth=3",
+            [
+                new QueryParameter("dimension", DefaultDimension.GetQueryParam()), new QueryParameter("sortField", DefaultSort.Split("~").First()), new QueryParameter("sortOrder", DefaultSort.Split("~").Last()), new QueryParameter("limit", "5"),
+                new QueryParameter("sixthFormProvision", "Not recorded")
+            ]
+        }
     };
 
     [Fact]
@@ -111,7 +140,7 @@ public class LocalAuthoritySchoolFinancialViewComponentTests
 
         // assert
         Assert.NotNull(result);
-        var model = result.ViewData?.Model as LocalAuthoritySchoolFinancialViewModel;
+        var model = result.ViewData?.Model as LocalAuthoritySchoolFinancialFormViewModel;
         Assert.NotNull(model);
         Assert.Equal(code, model.Code);
         Assert.Equal(formPrefix, model.FormPrefix);
@@ -144,7 +173,7 @@ public class LocalAuthoritySchoolFinancialViewComponentTests
 
         // assert
         Assert.NotNull(result);
-        var model = result.ViewData?.Model as LocalAuthoritySchoolFinancialViewModel;
+        var model = result.ViewData?.Model as LocalAuthoritySchoolFinancialFormViewModel;
         Assert.NotNull(model);
         Assert.Equal(expectedAllRows, model.AllRows);
         Assert.Equal(expectedFiltersVisible, model.FiltersVisible);
@@ -189,7 +218,7 @@ public class LocalAuthoritySchoolFinancialViewComponentTests
         // assert
         _localAuthorityApi.Verify();
         Assert.NotNull(result);
-        var model = result.ViewData?.Model as LocalAuthoritySchoolFinancialViewModel;
+        var model = result.ViewData?.Model as LocalAuthoritySchoolFinancialFormViewModel;
         Assert.NotNull(model);
         Assert.Equivalent(rows, model.Results);
         Assert.Equivalent(expectedQuery.Select(q => q), actualQuery?.Select(q => q), true);

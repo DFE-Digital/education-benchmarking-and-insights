@@ -50,6 +50,12 @@ public class LocalAuthorityViewModel(LocalAuthority localAuthority, RagRatingSum
             _ => 99
         };
     }
+
+    public static class FormFieldNames
+    {
+        public const string OtherFormFields = "__otherForm";
+        public const string ResetFields = "__resetFields";
+    }
 }
 
 public class LocalAuthoritySchoolNamesSectionViewModel

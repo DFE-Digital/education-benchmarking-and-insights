@@ -1,0 +1,60 @@
+﻿@using Newtonsoft.Json
+@using Web.App.Extensions
+@using Web.App.ViewModels.Components
+@model Web.App.ViewModels.Components.LocalAuthoritySchoolWorkforceFormViewModel
+
+@using (Html.BeginForm("Index", "LocalAuthority", new
+        {
+            code = Model.Code
+        }, FormMethod.Post, true, new
+        {
+            novalidate = "novalidate",
+            role = "search",
+            id = $"{LocalAuthoritySchoolWorkforceFormViewModel.IdPrefix}form"
+        }))
+{
+    @Html.Hidden(Model.OtherFormFieldName, Model.OtherFormValues.ToJson(Formatting.None))
+    @Html.Hidden($"{Model.FormPrefix}{LocalAuthoritySchoolWorkforceFormViewModel.FormFieldNames.Sort}", Model.Sort)
+    @Html.Hidden($"{Model.FormPrefix}{LocalAuthoritySchoolWorkforceFormViewModel.FormFieldNames.Rows}", Model.AllRows ? LocalAuthoritySchoolWorkforceFormViewModel.FormFieldValues.All : string.Empty)
+
+    @if (Model.FiltersVisible)
+    {
+        @Html.Hidden($"{Model.FormPrefix}{LocalAuthoritySchoolWorkforceFormViewModel.FormFieldNames.FiltersVisible}", LocalAuthoritySchoolWorkforceFormViewModel.FormFieldValues.Show)
+    }
+    else
+    {
+        @await Html.PartialAsync("Components/LocalAuthoritySchoolWorkforceForm/_SchoolsFilterHidden", Model)
+    }
+
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-full govuk-!-margin-bottom-4">
+            <button type="submit" class="govuk-button govuk-button--secondary" data-testid="toggle-workforce-filters"
+                    name="@Model.FormPrefix@LocalAuthoritySchoolWorkforceFormViewModel.FormFieldNames.FiltersVisible"
+                    value="@(Model.FiltersVisible ? LocalAuthoritySchoolWorkforceFormViewModel.FormFieldValues.Hide : LocalAuthoritySchoolWorkforceFormViewModel.FormFieldValues.Show)">
+                @(Model.FiltersVisible ? "Hide filters" : "Show filters")
+            </button>
+        </div>
+        @if (Model.FiltersVisible)
+        {
+            <div class="govuk-grid-column-one-third">
+                @await Html.PartialAsync("Components/LocalAuthoritySchoolWorkforceForm/_SchoolsFilter", Model)
+            </div>
+        }
+
+        <div class="govuk-grid-column-@(Model.FiltersVisible ? "two-thirds" : "full")">
+            @if (Model.Results.Length == 0)
+            {
+                <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible govuk-!-margin-top-0">
+                <p data-testid="workforce-search-warning" class="govuk-body-s govuk-!-margin-top-6">
+                    We couldn't find any schools matching your filters.
+                </p>
+                <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible govuk-!-margin-top-6">
+            }
+            else
+            {
+                @await Html.PartialAsync("Components/LocalAuthoritySchoolWorkforceForm/_SchoolsTable", Model)
+                @await Html.PartialAsync("Components/LocalAuthoritySchoolWorkforceForm/_SchoolsShowAll", Model)
+            }
+        </div>
+    </div>
+}
