@@ -135,12 +135,11 @@ public class LocalAuthoritySchoolFinancialFormViewComponentTests
         const string code = nameof(code);
         const string formPrefix = nameof(formPrefix);
         const int maxRows = 123;
-        const string resetFieldName = nameof(resetFieldName);
-        const string otherFormFieldName = nameof(otherFormFieldName);
         var otherFormValues = new Dictionary<string, StringValues>();
+        const string tabId = nameof(tabId);
 
         // act
-        var result = await _component.InvokeAsync(code, formPrefix, maxRows, DefaultSort, resetFieldName, otherFormFieldName, otherFormValues) as ViewViewComponentResult;
+        var result = await _component.InvokeAsync(code, formPrefix, maxRows, DefaultSort, otherFormValues, tabId) as ViewViewComponentResult;
 
         // assert
         Assert.NotNull(result);
@@ -149,9 +148,8 @@ public class LocalAuthoritySchoolFinancialFormViewComponentTests
         Assert.Equal(code, model.Code);
         Assert.Equal(formPrefix, model.FormPrefix);
         Assert.Equal(maxRows, model.MaxRows);
-        Assert.Equal(resetFieldName, model.ResetFieldName);
-        Assert.Equal(otherFormFieldName, model.OtherFormFieldName);
         Assert.Equal(otherFormValues, model.OtherFormValues);
+        Assert.Equal(tabId, model.TabId);
     }
 
     [Theory]
@@ -169,9 +167,8 @@ public class LocalAuthoritySchoolFinancialFormViewComponentTests
         // arrange
         const string code = nameof(code);
         const int maxRows = 3;
-        const string resetFieldName = nameof(resetFieldName);
-        const string otherFormFieldName = nameof(otherFormFieldName);
         var otherFormValues = new Dictionary<string, StringValues>();
+        const string tabId = nameof(tabId);
         _httpContext.Request.QueryString = new QueryString(query);
         var (expectedSelectedOverallPhases,
             expectedSelectedNurseryProvisions,
@@ -179,7 +176,7 @@ public class LocalAuthoritySchoolFinancialFormViewComponentTests
             expectedSelectedSixthFormProvisions) = expectedFilters;
 
         // act
-        var result = await _component.InvokeAsync(code, formPrefix, maxRows, DefaultSort, resetFieldName, otherFormFieldName, otherFormValues) as ViewViewComponentResult;
+        var result = await _component.InvokeAsync(code, formPrefix, maxRows, DefaultSort, otherFormValues, tabId) as ViewViewComponentResult;
 
         // assert
         Assert.NotNull(result);
@@ -206,9 +203,8 @@ public class LocalAuthoritySchoolFinancialFormViewComponentTests
     {
         // arrange
         const string code = nameof(code);
-        const string resetFieldName = nameof(resetFieldName);
-        const string otherFormFieldName = nameof(otherFormFieldName);
         var otherFormValues = new Dictionary<string, StringValues>();
+        const string tabId = nameof(tabId);
         _httpContext.Request.QueryString = new QueryString(query);
 
         var rows = _fixture
@@ -226,7 +222,7 @@ public class LocalAuthoritySchoolFinancialFormViewComponentTests
             .Verifiable();
 
         // act
-        var result = await _component.InvokeAsync(code, formPrefix, maxRows, DefaultSort, resetFieldName, otherFormFieldName, otherFormValues) as ViewViewComponentResult;
+        var result = await _component.InvokeAsync(code, formPrefix, maxRows, DefaultSort, otherFormValues, tabId) as ViewViewComponentResult;
 
         // assert
         _localAuthorityApi.Verify();

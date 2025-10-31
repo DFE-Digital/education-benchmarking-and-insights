@@ -17,9 +17,8 @@ public class LocalAuthoritySchoolWorkforceFormViewComponent(ILocalAuthoritiesApi
         string formPrefix,
         int maxRows,
         string defaultSort,
-        string resetFieldName,
-        string otherFormFieldName,
-        Dictionary<string, StringValues> otherFormValues)
+        Dictionary<string, StringValues> otherFormValues,
+        string tabId)
     {
         var query = ParseQueryString(Request.Query, formPrefix, defaultSort);
         var results = await localAuthoritiesApi
@@ -34,7 +33,13 @@ public class LocalAuthoritySchoolWorkforceFormViewComponent(ILocalAuthoritiesApi
             selectedSpecialProvisions,
             selectedSixthFormProvisions,
             sort) = query;
-        var viewModel = new LocalAuthoritySchoolWorkforceFormViewModel(code, formPrefix, maxRows, defaultSort, resetFieldName, otherFormFieldName, otherFormValues)
+        var viewModel = new LocalAuthoritySchoolWorkforceFormViewModel(
+            code,
+            formPrefix,
+            maxRows,
+            defaultSort,
+            otherFormValues,
+            tabId)
         {
             AllRows = allRows,
             FiltersVisible = filtersVisible,

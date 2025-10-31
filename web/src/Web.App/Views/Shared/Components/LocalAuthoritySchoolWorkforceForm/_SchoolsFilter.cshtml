@@ -1,4 +1,5 @@
 @using Web.App.Domain
+@using Web.App.ViewModels
 @using Web.App.ViewModels.Components
 @model Web.App.ViewModels.Components.LocalAuthoritySchoolWorkforceFormViewModel
 @{
@@ -101,7 +102,7 @@
 
         <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
         <button type="submit" class="govuk-button govuk-!-margin-bottom-3" data-module="govuk-button"
-                data-testid="apply-workforce-filters" name="@Model.ResetFieldName"
+                data-testid="apply-workforce-filters" name="@LocalAuthorityViewModel.FormFieldNames.ResetFields"
                 value="@(string.Join(',', resetFields))">
             Apply filters
         </button>
