@@ -25,6 +25,9 @@ FROM NonFinancial n
             ON n.RunId = f.RunId 
             AND n.RunType = f.RunType 
             AND n.URN = f.URN
+-- exclude none lead federation schools
+WHERE s.FederationLeadURN = s.URN -- federation lead
+OR s.FederationLeadURN IS NULL -- not federated
     GO
 
 DROP VIEW IF EXISTS VW_SchoolsWorkforceSummaryPercentPupil
