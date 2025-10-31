@@ -171,9 +171,9 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
     }
 
     [Theory]
-    [InlineData("?f.filter=show", "?f.filter=show&f.phase=0&f.nursery=0&f.special=0&f.sixth=0&f.as=3#financial")]
-    [InlineData("?f.filter=show&w.sort=PupilTeacherRatio~desc&w.as=0", "?f.filter=show&f.phase=0&f.nursery=0&f.special=0&f.sixth=0&f.as=3&w.sort=PupilTeacherRatio~desc&w.as=0#financial")]
-    public async Task CanSubmitFinancialFilters(string queryString, string expectedQuery)
+    [InlineData("?f.filter=show", "?f.filter=show&f.phase=0&f.nursery=0&f.special=0&f.sixth=0&f.as=3", "#financial")]
+    [InlineData("?f.filter=show&w.sort=PupilTeacherRatio~desc&w.as=0", "?f.filter=show&f.phase=0&f.nursery=0&f.special=0&f.sixth=0&f.as=3&w.sort=PupilTeacherRatio~desc&w.as=0", "#financial")]
+    public async Task CanSubmitFinancialFilters(string queryString, string expectedQuery, string? expectedFragment)
     {
         var (page, authority, _, _, _, _) = await SetupNavigateInitPage(false, true, false, null, null, queryString, OverallPhaseTypes.Primary);
 
@@ -213,7 +213,7 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
             });
         });
 
-        DocumentAssert.AssertPageUrl(page, $"{Paths.LocalAuthorityHome(authority.Code).ToAbsolute()}{expectedQuery}");
+        DocumentAssert.AssertPageUrl(page, $"{Paths.LocalAuthorityHome(authority.Code).ToAbsolute()}{expectedQuery}{expectedFragment}");
     }
 
     [Fact]
@@ -261,11 +261,11 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
     }
 
     [Theory]
-    [InlineData(null, false, "?f.sort=TotalExpenditure~desc&f.as=3&f.filter=show#financial")]
-    [InlineData("?f.filter=hide&w.sort=PupilTeacherRatio~desc&w.as=0", false, "?f.sort=TotalExpenditure~desc&f.as=3&f.filter=show&w.sort=PupilTeacherRatio~desc&w.as=0#financial")]
-    [InlineData("?f.sort=SchoolName~asc&f.filter=hide&f.phase=1&f.phase=2&f.as=0&w.sort=PupilTeacherRatio~desc&w.as=0", false, "?f.sort=SchoolName~asc&f.phase=1&f.phase=2&f.as=0&f.filter=show&w.sort=PupilTeacherRatio~desc&w.as=0#financial")]
-    [InlineData("?f.sort=SchoolName~asc&f.filter=show&f.phase=1&f.phase=2&f.as=0&w.sort=PupilTeacherRatio~desc&w.as=0", true, "?f.sort=SchoolName~asc&f.filter=hide&f.phase=1&f.phase=2&f.as=0&w.sort=PupilTeacherRatio~desc&w.as=0#financial")]
-    public async Task CanToggleFinancialFilters(string? queryString, bool expectedVisible, string expectedQuery)
+    [InlineData(null, false, "?f.sort=TotalExpenditure~desc&f.as=3&f.filter=show", "#financial")]
+    [InlineData("?f.filter=hide&w.sort=PupilTeacherRatio~desc&w.as=0", false, "?f.sort=TotalExpenditure~desc&f.as=3&f.filter=show&w.sort=PupilTeacherRatio~desc&w.as=0", "#financial")]
+    [InlineData("?f.sort=SchoolName~asc&f.filter=hide&f.phase=1&f.phase=2&f.as=0&w.sort=PupilTeacherRatio~desc&w.as=0", false, "?f.sort=SchoolName~asc&f.phase=1&f.phase=2&f.as=0&f.filter=show&w.sort=PupilTeacherRatio~desc&w.as=0", "#financial")]
+    [InlineData("?f.sort=SchoolName~asc&f.filter=show&f.phase=1&f.phase=2&f.as=0&w.sort=PupilTeacherRatio~desc&w.as=0", true, "?f.sort=SchoolName~asc&f.filter=hide&f.phase=1&f.phase=2&f.as=0&w.sort=PupilTeacherRatio~desc&w.as=0", "#financial")]
+    public async Task CanToggleFinancialFilters(string? queryString, bool expectedVisible, string expectedQuery, string? expectedFragment)
     {
         var (page, authority, _, _, _, _) = await SetupNavigateInitPage(false, true, false, null, null, queryString, OverallPhaseTypes.Primary);
 
@@ -286,14 +286,14 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
             });
         });
 
-        DocumentAssert.AssertPageUrl(page, $"{Paths.LocalAuthorityHome(authority.Code).ToAbsolute()}{expectedQuery}");
+        DocumentAssert.AssertPageUrl(page, $"{Paths.LocalAuthorityHome(authority.Code).ToAbsolute()}{expectedQuery}{expectedFragment}");
     }
 
     [Theory]
-    [InlineData("?f.sort=SchoolName~desc&f.filter=show&f.phase=1&f.phase=2&f.as=0", "?f.filter=show&f.phase=1&f.phase=2&f.as=0#financial")]
-    [InlineData("?f.sort=SchoolName~desc&f.filter=show&f.phase=1&f.phase=2&f.as=0&w.sort=PupilTeacherRatio~desc&w.as=0", "?f.filter=show&f.phase=1&f.phase=2&f.as=0&w.sort=PupilTeacherRatio~desc&w.as=0#financial")]
-    [InlineData("?f.rows=all&f.filter=show&f.phase=1&f.phase=2&f.as=0", "?f.filter=show&f.phase=1&f.phase=2&f.as=0#financial")]
-    public async Task CanResetFieldsOnNewFilter(string? queryString, string expectedQuery)
+    [InlineData("?f.sort=SchoolName~desc&f.filter=show&f.phase=1&f.phase=2&f.as=0", "?f.filter=show&f.phase=1&f.phase=2&f.as=0", "#financial")]
+    [InlineData("?f.sort=SchoolName~desc&f.filter=show&f.phase=1&f.phase=2&f.as=0&w.sort=PupilTeacherRatio~desc&w.as=0", "?f.filter=show&f.phase=1&f.phase=2&f.as=0&w.sort=PupilTeacherRatio~desc&w.as=0", "#financial")]
+    [InlineData("?f.rows=all&f.filter=show&f.phase=1&f.phase=2&f.as=0", "?f.filter=show&f.phase=1&f.phase=2&f.as=0", "#financial")]
+    public async Task CanResetFieldsOnNewFilter(string? queryString, string expectedQuery, string? expectedFragment)
     {
         var (page, authority, _, _, _, _) = await SetupNavigateInitPage(false, true, false, null, null, queryString, OverallPhaseTypes.Primary);
 
@@ -313,7 +313,7 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
             });
         });
 
-        DocumentAssert.AssertPageUrl(page, $"{Paths.LocalAuthorityHome(authority.Code).ToAbsolute()}{expectedQuery}");
+        DocumentAssert.AssertPageUrl(page, $"{Paths.LocalAuthorityHome(authority.Code).ToAbsolute()}{expectedQuery}{expectedFragment}");
     }
 
     [Theory]
@@ -362,11 +362,11 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
     }
 
     [Theory]
-    [InlineData("?f.sort=SchoolName~desc&f.filter=show&f.phase=0&f.phase=1&f.phase=2&f.as=0", "Primary", true, "?f.sort=SchoolName~desc&f.filter=show&f.phase=1&f.phase=2&f.as=0")]
-    [InlineData("?f.sort=SchoolName~desc&f.filter=show&f.phase=0&f.phase=1&f.phase=2&f.as=0", "Secondary", true, "?f.sort=SchoolName~desc&f.filter=show&f.phase=0&f.phase=2&f.as=0")]
-    [InlineData("?f.sort=SchoolName~desc&f.filter=show&f.phase=0&f.phase=1&f.phase=2&f.as=0", "Special", true, "?f.sort=SchoolName~desc&f.filter=show&f.phase=0&f.phase=1&f.as=0")]
-    [InlineData("?f.sort=SchoolName~desc&f.filter=show&f.as=0", null, false, null)]
-    public async Task CanDisplayRemoveFinancialFilterTag(string queryString, string? tagText, bool expectedVisible, string? expectedQuery)
+    [InlineData("?f.sort=SchoolName~desc&f.filter=show&f.phase=0&f.phase=1&f.phase=2&f.as=0", "Primary", true, "?f.sort=SchoolName~desc&f.filter=show&f.phase=1&f.phase=2&f.as=0", "#financial")]
+    [InlineData("?f.sort=SchoolName~desc&f.filter=show&f.phase=0&f.phase=1&f.phase=2&f.as=0", "Secondary", true, "?f.sort=SchoolName~desc&f.filter=show&f.phase=0&f.phase=2&f.as=0", "#financial")]
+    [InlineData("?f.sort=SchoolName~desc&f.filter=show&f.phase=0&f.phase=1&f.phase=2&f.as=0", "Special", true, "?f.sort=SchoolName~desc&f.filter=show&f.phase=0&f.phase=1&f.as=0", "#financial")]
+    [InlineData("?f.sort=SchoolName~desc&f.filter=show&f.as=0", null, false, null, null)]
+    public async Task CanDisplayRemoveFinancialFilterTag(string queryString, string? tagText, bool expectedVisible, string? expectedQuery, string? expectedFragment)
     {
         var (page, authority, _, _, _, _) = await SetupNavigateInitPage(false, true, false, 5, null, queryString, OverallPhaseTypes.Primary);
 
@@ -383,7 +383,7 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
             .FirstOrDefault(el => el.TextContent.Trim().Equals(tagText));
         Assert.NotNull(tag);
 
-        Assert.Equal($"{Paths.LocalAuthorityHome(authority.Code)}{expectedQuery}", tag.Attributes["href"]?.Value);
+        Assert.Equal($"{Paths.LocalAuthorityHome(authority.Code)}{expectedQuery}{expectedFragment}", tag.Attributes["href"]?.Value);
     }
 
     [Theory]
@@ -404,9 +404,9 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
     }
 
     [Theory]
-    [InlineData("?w.filter=show", "?w.filter=show&w.phase=0&w.nursery=0&w.special=0&w.sixth=0&w.as=0#workforce")]
-    [InlineData("?w.filter=show&f.sort=TotalExpenditure~desc&f.as=3", "?w.filter=show&w.phase=0&w.nursery=0&w.special=0&w.sixth=0&w.as=0&f.sort=TotalExpenditure~desc&f.as=3#workforce")]
-    public async Task CanSubmitWorkforceFilters(string queryString, string expectedQuery)
+    [InlineData("?w.filter=show", "?w.filter=show&w.phase=0&w.nursery=0&w.special=0&w.sixth=0&w.as=0", "#workforce")]
+    [InlineData("?w.filter=show&f.sort=TotalExpenditure~desc&f.as=3", "?w.filter=show&w.phase=0&w.nursery=0&w.special=0&w.sixth=0&w.as=0&f.sort=TotalExpenditure~desc&f.as=3", "#workforce")]
+    public async Task CanSubmitWorkforceFilters(string queryString, string expectedQuery, string? expectedFragment)
     {
         var (page, authority, _, _, _, _) = await SetupNavigateInitPage(false, true, false, null, null, queryString, OverallPhaseTypes.Primary);
 
@@ -446,7 +446,7 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
             });
         });
 
-        DocumentAssert.AssertPageUrl(page, $"{Paths.LocalAuthorityHome(authority.Code).ToAbsolute()}{expectedQuery}");
+        DocumentAssert.AssertPageUrl(page, $"{Paths.LocalAuthorityHome(authority.Code).ToAbsolute()}{expectedQuery}{expectedFragment}");
     }
 
     [Fact]
@@ -575,11 +575,11 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
     }
 
     [Theory]
-    [InlineData(null, false, "?w.sort=PupilTeacherRatio~desc&w.as=0&w.filter=show#workforce")]
-    [InlineData("?w.filter=hide&f.sort=TotalExpenditure~desc&f.as=3", false, "?w.sort=PupilTeacherRatio~desc&w.as=0&w.filter=show&f.sort=TotalExpenditure~desc&f.as=3#workforce")]
-    [InlineData("?w.sort=SchoolName~asc&w.filter=hide&w.phase=1&w.phase=2&w.as=0&f.sort=TotalExpenditure~desc&f.as=3", false, "?w.sort=SchoolName~asc&w.phase=1&w.phase=2&w.as=0&w.filter=show&f.sort=TotalExpenditure~desc&f.as=3#workforce")]
-    [InlineData("?w.sort=SchoolName~asc&w.filter=show&w.phase=1&w.phase=2&w.as=0&f.sort=TotalExpenditure~desc&f.as=3", true, "?w.sort=SchoolName~asc&w.filter=hide&w.phase=1&w.phase=2&w.as=0&f.sort=TotalExpenditure~desc&f.as=3#workforce")]
-    public async Task CanToggleWorkforceFilters(string? queryString, bool expectedVisible, string expectedQuery)
+    [InlineData(null, false, "?w.sort=PupilTeacherRatio~desc&w.as=0&w.filter=show", "#workforce")]
+    [InlineData("?w.filter=hide&f.sort=TotalExpenditure~desc&f.as=3", false, "?w.sort=PupilTeacherRatio~desc&w.as=0&w.filter=show&f.sort=TotalExpenditure~desc&f.as=3", "#workforce")]
+    [InlineData("?w.sort=SchoolName~asc&w.filter=hide&w.phase=1&w.phase=2&w.as=0&f.sort=TotalExpenditure~desc&f.as=3", false, "?w.sort=SchoolName~asc&w.phase=1&w.phase=2&w.as=0&w.filter=show&f.sort=TotalExpenditure~desc&f.as=3", "#workforce")]
+    [InlineData("?w.sort=SchoolName~asc&w.filter=show&w.phase=1&w.phase=2&w.as=0&f.sort=TotalExpenditure~desc&f.as=3", true, "?w.sort=SchoolName~asc&w.filter=hide&w.phase=1&w.phase=2&w.as=0&f.sort=TotalExpenditure~desc&f.as=3", "#workforce")]
+    public async Task CanToggleWorkforceFilters(string? queryString, bool expectedVisible, string expectedQuery, string? expectedFragment)
     {
         var (page, authority, _, _, _, _) = await SetupNavigateInitPage(false, true, false, null, null, queryString, OverallPhaseTypes.Primary);
 
@@ -600,14 +600,14 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
             });
         });
 
-        DocumentAssert.AssertPageUrl(page, $"{Paths.LocalAuthorityHome(authority.Code).ToAbsolute()}{expectedQuery}");
+        DocumentAssert.AssertPageUrl(page, $"{Paths.LocalAuthorityHome(authority.Code).ToAbsolute()}{expectedQuery}{expectedFragment}");
     }
 
     [Theory]
-    [InlineData("?w.sort=SchoolName~desc&w.filter=show&w.phase=1&w.phase=2&w.as=0", "?w.filter=show&w.phase=1&w.phase=2&w.as=0#workforce")]
-    [InlineData("?w.sort=SchoolName~desc&w.filter=show&w.phase=1&w.phase=2&w.as=0&f.sort=TotalExpenditure~desc&f.as=3", "?w.filter=show&w.phase=1&w.phase=2&w.as=0&f.sort=TotalExpenditure~desc&f.as=3#workforce")]
-    [InlineData("?w.rows=all&w.filter=show&w.phase=1&w.phase=2&w.as=0", "?w.filter=show&w.phase=1&w.phase=2&w.as=0#workforce")]
-    public async Task CanResetWorkforceFieldsOnNewFilter(string? queryString, string expectedQuery)
+    [InlineData("?w.sort=SchoolName~desc&w.filter=show&w.phase=1&w.phase=2&w.as=0", "?w.filter=show&w.phase=1&w.phase=2&w.as=0", "#workforce")]
+    [InlineData("?w.sort=SchoolName~desc&w.filter=show&w.phase=1&w.phase=2&w.as=0&f.sort=TotalExpenditure~desc&f.as=3", "?w.filter=show&w.phase=1&w.phase=2&w.as=0&f.sort=TotalExpenditure~desc&f.as=3", "#workforce")]
+    [InlineData("?w.rows=all&w.filter=show&w.phase=1&w.phase=2&w.as=0", "?w.filter=show&w.phase=1&w.phase=2&w.as=0", "#workforce")]
+    public async Task CanResetWorkforceFieldsOnNewFilter(string? queryString, string expectedQuery, string? expectedFragment)
     {
         var (page, authority, _, _, _, _) = await SetupNavigateInitPage(false, true, false, null, null, queryString, OverallPhaseTypes.Primary);
 
@@ -627,7 +627,7 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
             });
         });
 
-        DocumentAssert.AssertPageUrl(page, $"{Paths.LocalAuthorityHome(authority.Code).ToAbsolute()}{expectedQuery}");
+        DocumentAssert.AssertPageUrl(page, $"{Paths.LocalAuthorityHome(authority.Code).ToAbsolute()}{expectedQuery}{expectedFragment}");
     }
 
     [Theory]
@@ -676,11 +676,11 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
     }
 
     [Theory]
-    [InlineData("?w.sort=SchoolName~desc&w.filter=show&w.phase=0&w.phase=1&w.phase=2&w.as=0", "Primary", true, "?w.sort=SchoolName~desc&w.filter=show&w.phase=1&w.phase=2&w.as=0")]
-    [InlineData("?w.sort=SchoolName~desc&w.filter=show&w.phase=0&w.phase=1&w.phase=2&w.as=0", "Secondary", true, "?w.sort=SchoolName~desc&w.filter=show&w.phase=0&w.phase=2&w.as=0")]
-    [InlineData("?w.sort=SchoolName~desc&w.filter=show&w.phase=0&w.phase=1&w.phase=2&w.as=0", "Special", true, "?w.sort=SchoolName~desc&w.filter=show&w.phase=0&w.phase=1&w.as=0")]
-    [InlineData("?w.sort=SchoolName~desc&w.filter=show&w.as=0", null, false, null)]
-    public async Task CanDisplayRemoveWorkforceFilterTag(string queryString, string? tagText, bool expectedVisible, string? expectedQuery)
+    [InlineData("?w.sort=SchoolName~desc&w.filter=show&w.phase=0&w.phase=1&w.phase=2&w.as=0", "Primary", true, "?w.sort=SchoolName~desc&w.filter=show&w.phase=1&w.phase=2&w.as=0", "#workforce")]
+    [InlineData("?w.sort=SchoolName~desc&w.filter=show&w.phase=0&w.phase=1&w.phase=2&w.as=0", "Secondary", true, "?w.sort=SchoolName~desc&w.filter=show&w.phase=0&w.phase=2&w.as=0", "#workforce")]
+    [InlineData("?w.sort=SchoolName~desc&w.filter=show&w.phase=0&w.phase=1&w.phase=2&w.as=0", "Special", true, "?w.sort=SchoolName~desc&w.filter=show&w.phase=0&w.phase=1&w.as=0", "#workforce")]
+    [InlineData("?w.sort=SchoolName~desc&w.filter=show&w.as=0", null, false, null, null)]
+    public async Task CanDisplayRemoveWorkforceFilterTag(string queryString, string? tagText, bool expectedVisible, string? expectedQuery, string? expectedFragment)
     {
         var (page, authority, _, _, _, _) = await SetupNavigateInitPage(false, true, false, 5, null, queryString, OverallPhaseTypes.Primary);
 
@@ -697,7 +697,7 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
             .FirstOrDefault(el => el.TextContent.Trim().Equals(tagText));
         Assert.NotNull(tag);
 
-        Assert.Equal($"{Paths.LocalAuthorityHome(authority.Code)}{expectedQuery}", tag.Attributes["href"]?.Value);
+        Assert.Equal($"{Paths.LocalAuthorityHome(authority.Code)}{expectedQuery}{expectedFragment}", tag.Attributes["href"]?.Value);
     }
 
     [Theory]
