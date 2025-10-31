@@ -25,6 +25,8 @@ public class LocalAuthoritySchoolFinancialFormViewModel(
 
     public static string TableId => "local-authority-school-financial-table";
 
+    public string TabId => "financial";
+
     public string Code => code;
     public string FormPrefix => formPrefix;
     public int MaxRows => maxRows;
@@ -46,6 +48,18 @@ public class LocalAuthoritySchoolFinancialFormViewModel(
                               || SelectedNurseryProvisions.Length > 0
                               || SelectedSpecialProvisions.Length > 0
                               || SelectedSixthFormProvisions.Length > 0;
+
+    public RouteValueDictionary RouteValuesOnClear =>
+        new(
+            new[]
+                {
+                    new KeyValuePair<string, object?>("code", Code),
+                    new KeyValuePair<string, object?>($"{FormPrefix}{FormFieldNames.FiltersVisible}", FormFieldValues.Show),
+                    new KeyValuePair<string, object?>($"{FormPrefix}{FormFieldNames.ResultAs}", (int)ResultAs),
+                    new KeyValuePair<string, object?>($"{FormPrefix}{FormFieldNames.Sort}", Sort)
+                }
+                .Concat(OtherFormValues.Select(kvp => new KeyValuePair<string, object?>(kvp.Key, kvp.Value)))
+        );
 
     public static class FormFieldNames
     {

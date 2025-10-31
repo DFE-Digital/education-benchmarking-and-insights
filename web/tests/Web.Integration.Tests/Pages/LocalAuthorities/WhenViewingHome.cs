@@ -399,7 +399,7 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
     }
 
     [Theory]
-    [InlineData("?f.sort=SchoolName~desc&f.filter=show&f.phase=0&f.phase=1&f.phase=2&f.as=0", "?f.filter=show&f.as=0&f.sort=SchoolName~desc")]
+    [InlineData("?f.sort=SchoolName~desc&f.filter=show&f.phase=0&f.phase=1&f.phase=2&f.as=0", "?f.filter=show&f.as=0&f.sort=SchoolName~desc#financial")]
     public async Task CanDisplayClearAllFinancialFilters(string queryString, string expectedQuery)
     {
         var (page, authority, _, _, _, _) = await SetupNavigateInitPage(false, true, false, 5, null, queryString, OverallPhaseTypes.Primary);
@@ -725,7 +725,7 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
     }
 
     [Theory]
-    [InlineData("?w.sort=SchoolName~desc&w.filter=show&w.phase=0&w.phase=1&w.phase=2&w.as=0", "?w.filter=show&w.as=0&w.sort=SchoolName~desc")]
+    [InlineData("?w.sort=SchoolName~desc&w.filter=show&w.phase=0&w.phase=1&w.phase=2&w.as=0", "?w.filter=show&w.as=0&w.sort=SchoolName~desc#workforce")]
     public async Task CanDisplayClearAllWorkforceFilters(string queryString, string expectedQuery)
     {
         var (page, authority, _, _, _, _) = await SetupNavigateInitPage(false, true, false, 5, null, queryString, OverallPhaseTypes.Primary);
