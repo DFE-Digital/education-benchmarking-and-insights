@@ -39,7 +39,9 @@ public class LocalAuthoritySchoolFinancialFormViewComponent(ILocalAuthoritiesApi
             maxRows,
             defaultSort,
             otherFormValues,
-            tabId)
+            tabId,
+            Request.Path,
+            Request.Query)
         {
             AllRows = allRows,
             FiltersVisible = filtersVisible,
