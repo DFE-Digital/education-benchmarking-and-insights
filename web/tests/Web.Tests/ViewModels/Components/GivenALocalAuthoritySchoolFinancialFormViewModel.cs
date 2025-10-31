@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Primitives;
 using Web.App.ViewModels.Components;
 using Xunit;
@@ -16,6 +17,8 @@ public class GivenALocalAuthoritySchoolFinancialFormViewModel
         const string defaultSort = "test-default-sort";
         const string tabId = "test-id";
         const string sort = "test-sort";
+        const string path = "path";
+        var query = new QueryCollection();
 
         var otherFormValues = new Dictionary<string, StringValues>
         {
@@ -29,7 +32,9 @@ public class GivenALocalAuthoritySchoolFinancialFormViewModel
             maxRows,
             defaultSort,
             otherFormValues,
-            tabId
+            tabId,
+            path,
+            query
         )
         {
             Sort = sort,
