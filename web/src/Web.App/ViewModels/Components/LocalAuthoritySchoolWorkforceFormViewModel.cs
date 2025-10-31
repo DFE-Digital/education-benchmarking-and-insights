@@ -1,5 +1,6 @@
 using Microsoft.Extensions.Primitives;
 using Web.App.Domain;
+using Web.App.Domain.LocalAuthorities;
 
 namespace Web.App.ViewModels.Components;
 

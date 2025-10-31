@@ -660,6 +660,7 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
         LocalAuthoritiesApi.Setup(api => api.GetHighNeeds(It.IsAny<ApiQuery>(), It.IsAny<CancellationToken>())).Throws(new Exception());
         LocalAuthoritiesApi.Setup(api => api.GetHighNeedsHistory(It.IsAny<ApiQuery>(), It.IsAny<CancellationToken>())).Throws(new Exception());
         LocalAuthoritiesApi.Setup(api => api.GetSchoolsFinance(It.IsAny<string>(), It.IsAny<ApiQuery>(), It.IsAny<CancellationToken>())).Throws(new Exception());
+        LocalAuthoritiesApi.Setup(api => api.GetSchoolsWorkforce(It.IsAny<string>(), It.IsAny<ApiQuery>(), It.IsAny<CancellationToken>())).Throws(new Exception());
         return this;
     }
 
