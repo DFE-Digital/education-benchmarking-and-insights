@@ -5,6 +5,7 @@ using AutoFixture;
 using Web.App;
 using Web.App.Domain;
 using Web.App.Domain.Content;
+using Web.App.Domain.LocalAuthorities;
 using Web.App.Extensions;
 using Web.App.ViewModels;
 using Xunit;

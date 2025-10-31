@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc.ViewComponents;
 using Microsoft.Extensions.Primitives;
 using Moq;
 using Web.App.Domain;
+using Web.App.Domain.LocalAuthorities;
 using Web.App.Infrastructure.Apis;
 using Web.App.Infrastructure.Apis.LocalAuthorities;
 using Web.App.ViewComponents;
