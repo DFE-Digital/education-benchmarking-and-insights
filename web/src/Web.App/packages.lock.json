@@ -85,11 +85,11 @@
       },
       "Microsoft.AspNetCore.Mvc.NewtonsoftJson": {
         "type": "Direct",
-        "requested": "[8.0.20, )",
-        "resolved": "8.0.20",
-        "contentHash": "objl2pJl5Kij+xVGFu8CRBKy6t/qd6/3IAom0tgjJaspX0rCIZNZud3FNOy/wh94JhQ3jjWclBBTBLq+mk5VSg==",
+        "requested": "[8.0.21, )",
+        "resolved": "8.0.21",
+        "contentHash": "DB+CnY/7/rBeJoZqEPC6+N/mLQTE/wuf4ZNwkbCjebj7OML1dpE5YzDRdxLG6Ya5yPYcQEDxXJuNv60kiyKcBg==",
         "dependencies": {
-          "Microsoft.AspNetCore.JsonPatch": "8.0.20",
+          "Microsoft.AspNetCore.JsonPatch": "8.0.21",
           "Newtonsoft.Json": "13.0.3",
           "Newtonsoft.Json.Bson": "1.0.2"
         }
@@ -399,8 +399,8 @@
       },
       "Microsoft.AspNetCore.JsonPatch": {
         "type": "Transitive",
-        "resolved": "8.0.20",
-        "contentHash": "TzUsNUkkQcg0gsgW6hqLSRiZiku5+mpmj17s90jKUiLjYdIAEbXIYb/6BXgjNe8RDFAUJuo7uD/4u/R5x/iwHA==",
+        "resolved": "8.0.21",
+        "contentHash": "OCky+q8QKEHnaslT4kMHohziP2hSw2IP8/LTK9F0xpC9ORmauzVAWPZf6jWCj8LGA4TBUvOXZF+OxkYQLuteFA==",
         "dependencies": {
           "Microsoft.CSharp": "4.7.0",
           "Newtonsoft.Json": "13.0.3"
