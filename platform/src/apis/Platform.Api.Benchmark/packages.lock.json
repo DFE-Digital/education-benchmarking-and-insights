@@ -38,12 +38,12 @@
       },
       "Microsoft.Azure.Functions.Worker": {
         "type": "Direct",
-        "requested": "[2.1.0, )",
-        "resolved": "2.1.0",
-        "contentHash": "dBtdnPZxjgqEEXuYtOVdRbe20k3KK3cxmby3QqKdh04kHhlwkfP7tvuwZ+iFQgq9jeI4Q7LegvW2WVbkT0GYQw==",
+        "requested": "[2.2.0, )",
+        "resolved": "2.2.0",
+        "contentHash": "L2NP+chi1sw9QY9YeJ0KgMomEP5QKpp7T1mIcVGEwys4qSCiNWpWv7Vos+4CanoLI7p2tLdASybJ/lCXm3dAzg==",
         "dependencies": {
-          "Microsoft.Azure.Functions.Worker.Core": "2.1.0",
-          "Microsoft.Azure.Functions.Worker.Grpc": "2.1.0"
+          "Microsoft.Azure.Functions.Worker.Core": "2.2.0",
+          "Microsoft.Azure.Functions.Worker.Grpc": "2.2.0"
         }
       },
       "Microsoft.Azure.Functions.Worker.ApplicationInsights": {
@@ -471,12 +471,12 @@
       },
       "Microsoft.Azure.Functions.Worker.Grpc": {
         "type": "Transitive",
-        "resolved": "2.1.0",
-        "contentHash": "b7MFp1afoQptoz/ZtD9oEqmGJsxC02oVuMhxz8+YE/WerjdRLRRAYSmgfxrUrqbrsJGIWaP+UPbJajVTf9F9Lw==",
+        "resolved": "2.2.0",
+        "contentHash": "zjfDNi7MOzFKSkUOnF0/6gvokxIp1hEPHrB43w7ijZGoxNurMt7XjAFUNd0oEsyDsyyCHWGXxUo2K0+Ukj6XuA==",
         "dependencies": {
           "Google.Protobuf": "3.28.0",
           "Grpc.Net.ClientFactory": "2.65.0",
-          "Microsoft.Azure.Functions.Worker.Core": "2.1.0",
+          "Microsoft.Azure.Functions.Worker.Core": "2.2.0",
           "Microsoft.Azure.Functions.Worker.Extensions.Abstractions": "1.3.0"
         }
       },
@@ -2047,8 +2047,8 @@
       "Microsoft.Azure.Functions.Worker.Core": {
         "type": "CentralTransitive",
         "requested": "[2.1.0, )",
-        "resolved": "2.1.0",
-        "contentHash": "YxgP3Fqqe//sk7D14zjDLCFAkxoIt8jA5yrrDpBnkgejyqvQX6Gl0LZO2GLNRxp5rb5YYczwRmFTxdthWdjl0w==",
+        "resolved": "2.2.0",
+        "contentHash": "FRzalHQXIMKVcInSQN1v/LNNV0FiAgbkUoNr9VGhpw+wgMNP2Lj5//1Z1+f2xawS2xWmiQUeBkOorc6ZGPFshw==",
         "dependencies": {
           "Azure.Core": "1.44.1",
           "Microsoft.Extensions.Hosting": "8.0.1"
