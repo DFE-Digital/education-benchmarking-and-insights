@@ -88,7 +88,7 @@
                     formPrefix = schoolFinancialPrefix,
                     maxRows = maxSchoolRows,
                     defaultSort = $"{nameof(LocalAuthoritySchoolFinancial.TotalExpenditure)}~desc",
-                    otherFormValues = Context.Request.Query.Where(q => q.Key.StartsWith(schoolWorkforcePrefix)).ToDictionary(),
+                    otherFormPrefix = schoolWorkforcePrefix,
                     tabId = financialTabId
                 })
             </div>
@@ -99,7 +99,7 @@
                     formPrefix = schoolWorkforcePrefix,
                     maxRows = maxSchoolRows,
                     defaultSort = $"{nameof(LocalAuthoritySchoolWorkforce.PupilTeacherRatio)}~desc",
-                    otherFormValues = Context.Request.Query.Where(q => q.Key.StartsWith(schoolFinancialPrefix)).ToDictionary(),
+                    otherFormPrefix = schoolFinancialPrefix,
                     tabId = workforceTabId
                 })
             </div>

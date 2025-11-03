@@ -17,7 +17,7 @@ public class LocalAuthoritySchoolFinancialFormViewComponent(IHttpContextAccessor
         string formPrefix,
         int maxRows,
         string defaultSort,
-        Dictionary<string, StringValues> otherFormValues,
+        string otherFormPrefix,
         string tabId)
     {
         var query = ParseQueryString(contextAccessor.HttpContext?.Request.Query, formPrefix, defaultSort);
@@ -33,13 +33,17 @@ public class LocalAuthoritySchoolFinancialFormViewComponent(IHttpContextAccessor
             selectedSpecialProvisions,
             selectedSixthFormProvisions,
             sort) = query;
+        var otherFormValues = contextAccessor.HttpContext?.Request.Query
+            .Where(q => q.Key.StartsWith(otherFormPrefix))
+            .ToDictionary();
+
         var viewModel = new LocalAuthoritySchoolFinancialFormViewModel(
             code,
             formPrefix,
             maxRows,
             defaultSort,
-            otherFormValues,
             tabId,
+            otherFormValues,
             contextAccessor.HttpContext?.Request.Path,
             contextAccessor.HttpContext?.Request.Query)
         {
