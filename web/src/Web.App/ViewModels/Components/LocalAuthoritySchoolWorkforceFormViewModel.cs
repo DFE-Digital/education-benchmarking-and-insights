@@ -49,17 +49,32 @@ public class LocalAuthoritySchoolWorkforceFormViewModel(
     public IQueryCollection Query => query ?? new QueryCollection();
     public string? Fragment => string.IsNullOrWhiteSpace(tabId) ? null : $"#{tabId}";
 
-    public RouteValueDictionary RouteValuesOnClear =>
-        new(
-            new[]
-                {
+    public RouteValueDictionary RouteValuesOnClear
+    {
+        get
+        {
+            RouteValueDictionary routeValues = new(
+                [
                     new KeyValuePair<string, object?>("code", Code),
                     new KeyValuePair<string, object?>($"{FormPrefix}{FormFieldNames.FiltersVisible}", FormFieldValues.Show),
                     new KeyValuePair<string, object?>($"{FormPrefix}{FormFieldNames.ResultAs}", (int)ResultAs),
                     new KeyValuePair<string, object?>($"{FormPrefix}{FormFieldNames.Sort}", Sort)
-                }
-                .Concat(OtherFormValues.Select(kvp => new KeyValuePair<string, object?>(kvp.Key, kvp.Value)))
-        );
+                ]
+            );
+
+            if (OtherFormValues == null)
+            {
+                return routeValues;
+            }
+
+            foreach (var (key, value) in OtherFormValues)
+            {
+                routeValues[key] = value;
+            }
+
+            return routeValues;
+        }
+    }
 
     public static class FormFieldNames
     {
