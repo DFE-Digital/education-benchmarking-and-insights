@@ -63,7 +63,6 @@ stages:
               databricks bundle validate
             displayName: 'Validate Bundle Configuration'
             env:
-              DATABRICKS_HOST: $(DATABRICKS_HOST)
               DATABRICKS_TOKEN: $(DATABRICKS_TOKEN)
 
   - stage: DeployDev
@@ -73,7 +72,6 @@ stages:
     jobs:
       - deployment: DeployDevBundle
         displayName: 'Deploy to Dev Environment'
-        environment: 'databricks-dev'
         strategy:
           runOnce:
             deploy:
@@ -102,7 +100,6 @@ stages:
                     databricks bundle deploy --target dev
                   displayName: 'Deploy Bundle to Dev'
                   env:
-                    DATABRICKS_HOST: $(DATABRICKS_HOST)
                     DATABRICKS_TOKEN: $(DATABRICKS_TOKEN)
 
                 - script: |
@@ -110,7 +107,6 @@ stages:
                     databricks bundle summary --target dev
                   displayName: 'Deployment Summary'
                   env:
-                    DATABRICKS_HOST: $(DATABRICKS_HOST)
                     DATABRICKS_TOKEN: $(DATABRICKS_TOKEN)
 
   - stage: DeployProd
@@ -120,7 +116,6 @@ stages:
     jobs:
       - deployment: DeployProdBundle
         displayName: 'Deploy to Production Environment'
-        environment: 'databricks-prod'
         strategy:
           runOnce:
             deploy:
@@ -149,7 +144,6 @@ stages:
                     databricks bundle deploy --target prod
                   displayName: 'Deploy Bundle to Production'
                   env:
-                    DATABRICKS_HOST: $(DATABRICKS_HOST)
                     DATABRICKS_TOKEN: $(DATABRICKS_TOKEN)
 
                 - script: |
@@ -157,5 +151,4 @@ stages:
                     databricks bundle summary --target prod
                   displayName: 'Deployment Summary'
                   env:
-                    DATABRICKS_HOST: $(DATABRICKS_HOST)
                     DATABRICKS_TOKEN: $(DATABRICKS_TOKEN)
