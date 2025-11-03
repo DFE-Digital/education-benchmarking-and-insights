@@ -17,14 +17,9 @@ SELECT n.RunType,
        s.TrustCompanyNumber,
        s.NurseryProvision,
        s.SpecialClassProvision,
-       s.SixthFormProvision,
-       f.PeriodCoveredByReturn
+       s.SixthFormProvision
 FROM NonFinancial n
          LEFT JOIN School s on n.URN = s.URN
-         LEFT JOIN Financial f 
-            ON n.RunId = f.RunId 
-            AND n.RunType = f.RunType 
-            AND n.URN = f.URN
 -- exclude non-lead federation schools
 WHERE s.FederationLeadURN = s.URN -- federation lead
 OR s.FederationLeadURN IS NULL -- not federated
@@ -42,7 +37,6 @@ SELECT RunType,
        PupilTeacherRatio,
        IIF(TotalPupils > 0.0, (EHCPlan / TotalPupils) * 100, NULL)      AS EHCPlan,
        IIF(TotalPupils > 0.0, (SENSupport / TotalPupils) * 100, NULL)   AS SENSupport,
-       PeriodCoveredByReturn,
        FinanceType,
        OverallPhase,
        SchoolName,
@@ -64,7 +58,6 @@ SELECT RunId,
        PupilTeacherRatio,
        EHCPlan,
        SENSupport,
-       PeriodCoveredByReturn,
        FinanceType,
        OverallPhase,
        SchoolName,
@@ -87,7 +80,6 @@ SELECT RunId,
        PupilTeacherRatio,
        EHCPlan,
        SENSupport,
-       PeriodCoveredByReturn,
        FinanceType,
        OverallPhase,
        SchoolName,
@@ -109,7 +101,6 @@ SELECT URN,
        PupilTeacherRatio,
        EHCPlan,
        SENSupport,
-       PeriodCoveredByReturn,
        FinanceType,
        OverallPhase,
        SchoolName,
@@ -131,7 +122,6 @@ SELECT URN,
        PupilTeacherRatio,
        EHCPlan,
        SENSupport,
-       PeriodCoveredByReturn,
        FinanceType,
        OverallPhase,
        SchoolName,
