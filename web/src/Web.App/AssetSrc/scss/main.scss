@@ -643,6 +643,12 @@ hr.govuk-section-break--print {
         }
       }
     }
+
+    &.govuk-table__head--sticky {
+      position: sticky;
+      top: 0;
+      background-color: govuk-colour("white");
+    }
   }
 
   tbody {

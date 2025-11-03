@@ -17,7 +17,7 @@
 }
 
 <table class="govuk-table" id="@tableId">
-    <thead class="govuk-table__head">
+    <thead class="govuk-table__head@(Model.AllRows ? " govuk-table__head--sticky" : string.Empty)">
     <tr class="govuk-table__row">
         @await Component.InvokeAsync("SortableTableHeaderCell", new
         {
