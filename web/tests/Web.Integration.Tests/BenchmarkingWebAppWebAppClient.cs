@@ -807,7 +807,7 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
         return this;
     }
 
-    public BenchmarkingWebAppClient SetupHttpContextAccessor(ConcurrentDictionary<string, byte[]>? items = null)
+    public BenchmarkingWebAppClient SetupHttpContextAccessor(ConcurrentDictionary<string, byte[]>? items = null, string? path = null, string? query = null)
     {
         HttpContextAccessor.Reset();
         var session = new SessionStub(items);
@@ -815,6 +815,16 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
         {
             Session = session
         };
+
+        if (!string.IsNullOrWhiteSpace(path))
+        {
+            context.Request.Path = path;
+        }
+
+        if (!string.IsNullOrWhiteSpace(query))
+        {
+            context.Request.QueryString = QueryString.FromUriComponent(query);
+        }
 
         HttpContextAccessor.Setup(a => a.HttpContext).Returns(context);
         return this;
