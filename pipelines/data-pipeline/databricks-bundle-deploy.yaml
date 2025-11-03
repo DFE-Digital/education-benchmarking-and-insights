@@ -33,7 +33,7 @@ stages:
           - script: |
               ls
               uv sync
-            workingDirectory: $(Agent.BuildDirectory)
+            workingDirectory: $(System.DefaultWorkingDirectory)/databricks/education_benchmarking_and_insights
             displayName: 'Install Dependencies with uv'
 
           - script: |
