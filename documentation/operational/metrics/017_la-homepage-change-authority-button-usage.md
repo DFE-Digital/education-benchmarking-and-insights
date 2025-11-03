@@ -21,5 +21,31 @@ Report after 1 month from release
 **Notes / Links:**
 At least 1,000 page visits will give better statistical significance.
 
+**Log Analytics Query:**
+
+```kql
+let requestCount = toscalar(GetEstablishmentRequests
+    | where Establishment == "local-authority" 
+    | where Feature == "home"
+    | where ResultCode == 200
+    | summarize count());
+let clickCount = toscalar(GetTrackedLinks
+    | where Name == "change-organisation"
+    | where Source contains "/local-authority/"
+    | summarize count());
+union
+    (print Metric = "RequestCount", Value = requestCount * 1.0),
+    (print Metric = "ClickCount", Value = clickCount * 1.0),
+    (print Metric = "Ratio_ClickToRequest", Value = clickCount * 1.0 / requestCount)
+```
+
+_Sample response:_
+
+| Metric               | Value               |
+|----------------------|---------------------|
+| RequestCount         | 66                  |
+| ClickCount           | 12                  |
+| Ratio_ClickToRequest | 0.18181818181818182 |
+
 <!-- Leave the rest of this page blank -->
 \newpage
