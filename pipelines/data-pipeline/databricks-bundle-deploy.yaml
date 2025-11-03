@@ -32,7 +32,7 @@ stages:
 
           - script: |
               uv sync
-            workingDirectory: $(Build.SourcesDirectory)/databricks/education-benchmarking-and-insights
+            workingDirectory: $(Pipeline.Workspace)/databricks/education-benchmarking-and-insights
             displayName: 'Install Dependencies with uv'
 
           - script: |
