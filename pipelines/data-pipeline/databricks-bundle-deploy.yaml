@@ -1,0 +1,160 @@
+trigger:
+  branches:
+    include:
+      - main
+      - develop
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+variables:
+  - group: databricks-vars
+  - name: PYTHON_VERSION
+    value: '3.12'
+
+stages:
+  - stage: Validate
+    displayName: 'Validate and Test'
+    jobs:
+      - job: ValidateAndTest
+        displayName: 'Validate Bundle and Run Tests'
+        steps:
+          - task: UsePythonVersion@0
+            inputs:
+              versionSpec: '$(PYTHON_VERSION)'
+            displayName: 'Use Python $(PYTHON_VERSION)'
+
+          - script: |
+              curl -LsSf https://astral.sh/uv/install.sh | sh
+              echo "##vso[task.prependpath]$HOME/.cargo/bin"
+            displayName: 'Install uv'
+
+          - script: |
+              uv sync
+            displayName: 'Install Dependencies with uv'
+
+          - script: |
+              uv run pytest tests/ -v --junitxml=test-results.xml --cov=. --cov-report=xml --cov-report=html
+            displayName: 'Run Tests'
+            continueOnError: false
+
+          - task: PublishTestResults@2
+            inputs:
+              testResultsFormat: 'JUnit'
+              testResultsFiles: '**/test-results.xml'
+              failTaskOnFailedTests: true
+            displayName: 'Publish Test Results'
+            condition: always()
+
+          - task: PublishCodeCoverageResults@1
+            inputs:
+              codeCoverageTool: 'Cobertura'
+              summaryFileLocation: '$(System.DefaultWorkingDirectory)/coverage.xml'
+              reportDirectory: '$(System.DefaultWorkingDirectory)/htmlcov'
+            displayName: 'Publish Coverage Results'
+            condition: always()
+
+          - script: |
+              python -m pip install databricks-cli
+            displayName: 'Install Databricks CLI'
+
+          - script: |
+              databricks bundle validate
+            displayName: 'Validate Bundle Configuration'
+            env:
+              DATABRICKS_HOST: $(DATABRICKS_HOST)
+              DATABRICKS_TOKEN: $(DATABRICKS_TOKEN)
+
+  - stage: DeployDev
+    displayName: 'Deploy to Dev'
+    dependsOn: Validate
+    condition: and(succeeded(), in(variables['Build.SourceBranch'], 'refs/heads/develop', 'refs/heads/main'))
+    jobs:
+      - deployment: DeployDevBundle
+        displayName: 'Deploy to Dev Environment'
+        environment: 'databricks-dev'
+        strategy:
+          runOnce:
+            deploy:
+              steps:
+                - checkout: self
+
+                - task: UsePythonVersion@0
+                  inputs:
+                    versionSpec: '$(PYTHON_VERSION)'
+                  displayName: 'Use Python $(PYTHON_VERSION)'
+
+                - script: |
+                    curl -LsSf https://astral.sh/uv/install.sh | sh
+                    echo "##vso[task.prependpath]$HOME/.cargo/bin"
+                  displayName: 'Install uv'
+
+                - script: |
+                    uv sync
+                  displayName: 'Install Dependencies with uv'
+
+                - script: |
+                    python -m pip install databricks-cli
+                  displayName: 'Install Databricks CLI'
+
+                - script: |
+                    databricks bundle deploy --target dev
+                  displayName: 'Deploy Bundle to Dev'
+                  env:
+                    DATABRICKS_HOST: $(DATABRICKS_HOST)
+                    DATABRICKS_TOKEN: $(DATABRICKS_TOKEN)
+
+                - script: |
+                    echo "Bundle deployed successfully to dev"
+                    databricks bundle summary --target dev
+                  displayName: 'Deployment Summary'
+                  env:
+                    DATABRICKS_HOST: $(DATABRICKS_HOST)
+                    DATABRICKS_TOKEN: $(DATABRICKS_TOKEN)
+
+  - stage: DeployProd
+    displayName: 'Deploy to Production'
+    dependsOn: DeployDev
+    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/main'))
+    jobs:
+      - deployment: DeployProdBundle
+        displayName: 'Deploy to Production Environment'
+        environment: 'databricks-prod'
+        strategy:
+          runOnce:
+            deploy:
+              steps:
+                - checkout: self
+
+                - task: UsePythonVersion@0
+                  inputs:
+                    versionSpec: '$(PYTHON_VERSION)'
+                  displayName: 'Use Python $(PYTHON_VERSION)'
+
+                - script: |
+                    curl -LsSf https://astral.sh/uv/install.sh | sh
+                    echo "##vso[task.prependpath]$HOME/.cargo/bin"
+                  displayName: 'Install uv'
+
+                - script: |
+                    uv sync
+                  displayName: 'Install Dependencies with uv'
+
+                - script: |
+                    python -m pip install databricks-cli
+                  displayName: 'Install Databricks CLI'
+
+                - script: |
+                    databricks bundle deploy --target prod
+                  displayName: 'Deploy Bundle to Production'
+                  env:
+                    DATABRICKS_HOST: $(DATABRICKS_HOST)
+                    DATABRICKS_TOKEN: $(DATABRICKS_TOKEN)
+
+                - script: |
+                    echo "Bundle deployed successfully to production"
+                    databricks bundle summary --target prod
+                  displayName: 'Deployment Summary'
+                  env:
+                    DATABRICKS_HOST: $(DATABRICKS_HOST)
+                    DATABRICKS_TOKEN: $(DATABRICKS_TOKEN)
