@@ -5,8 +5,7 @@
     "totalPupils": 225.0,
     "pupilTeacherRatio": 1.8907563025210083,
     "ehcPlan": 4,
-    "senSupport": 12,
-    "periodCoveredByReturn": 12
+    "senSupport": 12
   },
   {
     "urn": "990134",
@@ -14,7 +13,6 @@
     "totalPupils": 271.0,
     "pupilTeacherRatio": 1.8187919463087248,
     "ehcPlan": 14,
-    "senSupport": 32,
-    "periodCoveredByReturn": 12
+    "senSupport": 32
   }
 ]

@@ -12,5 +12,4 @@ public record WorkforceSummaryResponse
     public decimal? PupilTeacherRatio { get; set; }
     public decimal? EHCPlan { get; set; }
     public decimal? SENSupport { get; set; }
-    public int? PeriodCoveredByReturn { get; set; }
 }
