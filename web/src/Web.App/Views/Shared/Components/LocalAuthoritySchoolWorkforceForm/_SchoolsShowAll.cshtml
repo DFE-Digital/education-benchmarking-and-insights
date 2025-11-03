@@ -6,11 +6,11 @@
         return;
     }
 
-    var query = QueryString.Create(Context.Request.Query);
+    var query = QueryString.Create(Model.Query);
     query = query.Add(
         $"{Model.FormPrefix}{LocalAuthoritySchoolWorkforceFormViewModel.FormFieldNames.Rows}",
         LocalAuthoritySchoolWorkforceFormViewModel.FormFieldValues.All);
-    var url = $"{Context.Request.Path}{query}#{Model.TabId}";
+    var url = $"{Model.Path}{query}#{Model.TabId}";
     <p class="govuk-body">
         <a href="@url" class="govuk-link govuk-link--no-visited-state"
            data-testid="toggle-workforce-all">Show all schools</a>
