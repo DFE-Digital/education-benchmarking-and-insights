@@ -9,8 +9,8 @@ public class LocalAuthoritySchoolFinancialFormViewModel(
     string formPrefix,
     int maxRows,
     string defaultSort,
-    Dictionary<string, StringValues> otherFormValues,
     string tabId,
+    Dictionary<string, StringValues>? otherFormValues,
     string? path,
     IQueryCollection? query)
 {
@@ -30,7 +30,7 @@ public class LocalAuthoritySchoolFinancialFormViewModel(
     public string FormPrefix => formPrefix;
     public int MaxRows => maxRows;
     public string DefaultSort => defaultSort;
-    public Dictionary<string, StringValues> OtherFormValues => otherFormValues;
+    public Dictionary<string, StringValues>? OtherFormValues => otherFormValues;
     public string TabId => tabId;
 
     public bool AllRows { get; init; }

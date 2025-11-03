@@ -14,7 +14,11 @@
         }))
 {
     @Html.Hidden(LocalAuthorityViewModel.FormFieldNames.Fragment, Model.TabId)
-    @Html.Hidden(LocalAuthorityViewModel.FormFieldNames.OtherFormFields, Model.OtherFormValues.ToJson(Formatting.None))
+    if (Model.OtherFormValues != null)
+    {
+        @Html.Hidden(LocalAuthorityViewModel.FormFieldNames.OtherFormFields, Model.OtherFormValues.ToJson(Formatting.None))
+    }
+
     @Html.Hidden($"{Model.FormPrefix}{LocalAuthoritySchoolFinancialFormViewModel.FormFieldNames.Sort}", Model.Sort)
     @Html.Hidden($"{Model.FormPrefix}{LocalAuthoritySchoolFinancialFormViewModel.FormFieldNames.Rows}", Model.AllRows ? LocalAuthoritySchoolFinancialFormViewModel.FormFieldValues.All : string.Empty)
 
