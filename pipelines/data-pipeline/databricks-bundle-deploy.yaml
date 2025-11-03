@@ -33,7 +33,7 @@ stages:
           - script: |
               ls
               uv sync
-            workingDirectory: $(Pipeline.Workspace)
+            workingDirectory: $(Agent.BuildDirectory)
             displayName: 'Install Dependencies with uv'
 
           - script: |
