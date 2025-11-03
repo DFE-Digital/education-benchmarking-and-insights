@@ -173,9 +173,7 @@ public class LocalAuthoritySchoolFinancialFormViewComponentTests
     }
 
     [Theory]
-    [InlineData("?key=value", """
-                              [{"key":"key","value":["value"]}]
-                              """)]
+    [InlineData("?key=value", """[{"key":"key","value":["value"]}]""")]
     [InlineData(null, "[]")]
     public async Task ShouldReturnExpectedQuery(string? query, string? expectedQuery)
     {
@@ -203,11 +201,9 @@ public class LocalAuthoritySchoolFinancialFormViewComponentTests
         Assert.NotNull(model);
         Assert.Equal(expectedQuery, model.Query.ToJson(Formatting.None));
     }
-    
+
     [Theory]
-    [InlineData("?x.a=1&x.b=2&y.c=3&y.d=4&z.e=5", "x.", """
-                                                        {"x.a":["1"],"x.b":["2"]}
-                                                        """)]
+    [InlineData("?x.a=1&x.b=2&y.c=3&y.d=4&z.e=5", "x.", """{"x.a":["1"],"x.b":["2"]}""")]
     public async Task ShouldReturnExpectedOtherFormValues(string query, string otherFormPrefix, string? expectedOtherFormValues)
     {
         // arrange
@@ -246,6 +242,27 @@ public class LocalAuthoritySchoolFinancialFormViewComponentTests
         var model = result.ViewData?.Model as LocalAuthoritySchoolFinancialFormViewModel;
         Assert.NotNull(model);
         Assert.Equal(expectedFragment, model.Fragment);
+    }
+
+    [Theory]
+    [InlineData("123", "?w.other=keep&f.sort=TotalPupils~desc&f.filter=show&f.as=1&f.phase=drop", "f.", "w.", """{"code":"123","f.filter":"show","f.as":1,"f.sort":"TotalPupils~desc","w.other":["keep"]}""")]
+    [InlineData("123", "?f.sort=TotalPupils~desc&f.filter=show&f.as=1&f.phase=drop", "f.", "w.", """{"code":"123","f.filter":"show","f.as":1,"f.sort":"TotalPupils~desc"}""")]
+    [InlineData("123", "?w.other=drop&f.sort=TotalPupils~desc&f.filter=show&f.as=1&f.phase=drop", "f.", "x.", """{"code":"123","f.filter":"show","f.as":1,"f.sort":"TotalPupils~desc"}""")]
+    public async Task ShouldReturnExpectedRouteValuesOnClear(string code, string query, string formPrefix, string otherFormPrefix, string? expectedRouteValues)
+    {
+        // arrange
+        const int maxRows = 123;
+        const string tabId = nameof(tabId);
+        _httpContext.Request.QueryString = QueryString.FromUriComponent(query);
+
+        // act
+        var result = await _component.InvokeAsync(code, formPrefix, maxRows, DefaultSort, otherFormPrefix, tabId) as ViewViewComponentResult;
+
+        // assert
+        Assert.NotNull(result);
+        var model = result.ViewData?.Model as LocalAuthoritySchoolFinancialFormViewModel;
+        Assert.NotNull(model);
+        Assert.Equal(expectedRouteValues, model.RouteValuesOnClear.ToJson(Formatting.None));
     }
 
     [Theory]

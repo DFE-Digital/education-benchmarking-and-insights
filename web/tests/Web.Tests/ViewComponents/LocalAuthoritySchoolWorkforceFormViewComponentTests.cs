@@ -174,9 +174,7 @@ public class LocalAuthoritySchoolWorkforceFormViewComponentTests
     }
 
     [Theory]
-    [InlineData("?key=value", """
-                              [{"key":"key","value":["value"]}]
-                              """)]
+    [InlineData("?key=value", """[{"key":"key","value":["value"]}]""")]
     [InlineData(null, "[]")]
     public async Task ShouldReturnExpectedQuery(string? query, string? expectedQuery)
     {
@@ -206,9 +204,7 @@ public class LocalAuthoritySchoolWorkforceFormViewComponentTests
     }
 
     [Theory]
-    [InlineData("?x.a=1&x.b=2&y.c=3&y.d=4&z.e=5", "x.", """
-                                                        {"x.a":["1"],"x.b":["2"]}
-                                                        """)]
+    [InlineData("?x.a=1&x.b=2&y.c=3&y.d=4&z.e=5", "x.", """{"x.a":["1"],"x.b":["2"]}""")]
     public async Task ShouldReturnExpectedOtherFormValues(string query, string otherFormPrefix, string? expectedOtherFormValues)
     {
         // arrange
@@ -247,6 +243,27 @@ public class LocalAuthoritySchoolWorkforceFormViewComponentTests
         var model = result.ViewData?.Model as LocalAuthoritySchoolWorkforceFormViewModel;
         Assert.NotNull(model);
         Assert.Equal(expectedFragment, model.Fragment);
+    }
+
+    [Theory]
+    [InlineData("123", "?f.other=keep&w.sort=TotalPupils~desc&w.filter=show&w.as=1&w.phase=drop", "w.", "f.", """{"code":"123","w.filter":"show","w.as":1,"w.sort":"TotalPupils~desc","f.other":["keep"]}""")]
+    [InlineData("123", "?w.sort=TotalPupils~desc&w.filter=show&w.as=1&w.phase=drop", "w.", "f.", """{"code":"123","w.filter":"show","w.as":1,"w.sort":"TotalPupils~desc"}""")]
+    [InlineData("123", "?f.other=drop&w.sort=TotalPupils~desc&w.filter=show&w.as=1&w.phase=drop", "w.", "x.", """{"code":"123","w.filter":"show","w.as":1,"w.sort":"TotalPupils~desc"}""")]
+    public async Task ShouldReturnExpectedRouteValuesOnClear(string code, string query, string formPrefix, string otherFormPrefix, string? expectedRouteValues)
+    {
+        // arrange
+        const int maxRows = 123;
+        const string tabId = nameof(tabId);
+        _httpContext.Request.QueryString = QueryString.FromUriComponent(query);
+
+        // act
+        var result = await _component.InvokeAsync(code, formPrefix, maxRows, DefaultSort, otherFormPrefix, tabId) as ViewViewComponentResult;
+
+        // assert
+        Assert.NotNull(result);
+        var model = result.ViewData?.Model as LocalAuthoritySchoolWorkforceFormViewModel;
+        Assert.NotNull(model);
+        Assert.Equal(expectedRouteValues, model.RouteValuesOnClear.ToJson(Formatting.None));
     }
 
     [Theory]

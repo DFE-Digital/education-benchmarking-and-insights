@@ -5,7 +5,7 @@ public static class SchoolsSummaryWorkforceDimensions
     public enum ResultAsOptions
     {
         PercentPupil = 0,
-        Actuals = 1,
+        Actuals = 1
     }
 
     public static string GetQueryParam(this ResultAsOptions option) => option switch
