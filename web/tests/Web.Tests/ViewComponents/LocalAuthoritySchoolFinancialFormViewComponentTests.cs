@@ -1,12 +1,13 @@
 using System.Diagnostics.CodeAnalysis;
 using AutoFixture;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.ViewComponents;
 using Microsoft.Extensions.Primitives;
 using Moq;
+using Newtonsoft.Json;
 using Web.App.Domain;
 using Web.App.Domain.Charts;
+using Web.App.Extensions;
 using Web.App.Infrastructure.Apis;
 using Web.App.Infrastructure.Apis.LocalAuthorities;
 using Web.App.ViewComponents;
@@ -23,6 +24,7 @@ public class LocalAuthoritySchoolFinancialFormViewComponentTests
     private readonly LocalAuthoritySchoolFinancialFormViewComponent _component;
     private readonly Fixture _fixture = new();
     private readonly HttpContext _httpContext;
+    private readonly Mock<IHttpContextAccessor> _contextAccessor = new();
     private readonly Mock<ILocalAuthoritiesApi> _localAuthorityApi = new();
     private readonly PathString _path = "/test/path";
 
@@ -30,17 +32,8 @@ public class LocalAuthoritySchoolFinancialFormViewComponentTests
     {
         _httpContext = new DefaultHttpContext();
         _httpContext.Request.Path = _path;
-        var viewContext = new ViewContext
-        {
-            HttpContext = _httpContext
-        };
-        _component = new LocalAuthoritySchoolFinancialFormViewComponent(_localAuthorityApi.Object)
-        {
-            ViewComponentContext = new ViewComponentContext
-            {
-                ViewContext = viewContext
-            }
-        };
+        _contextAccessor.Setup(a => a.HttpContext).Returns(_httpContext);
+        _component = new LocalAuthoritySchoolFinancialFormViewComponent(_contextAccessor.Object, _localAuthorityApi.Object);
     }
 
     public static TheoryData<
@@ -150,8 +143,67 @@ public class LocalAuthoritySchoolFinancialFormViewComponentTests
         Assert.Equal(maxRows, model.MaxRows);
         Assert.Equal(otherFormValues, model.OtherFormValues);
         Assert.Equal(tabId, model.TabId);
-        Assert.Equal(_path, model.Path);
-        Assert.NotNull(model.Query);
+    }
+
+    [Theory]
+    [InlineData("/path", "/path")]
+    [InlineData(null, "")]
+    public async Task ShouldReturnExpectedPath(string? path, string expectedPath)
+    {
+        // arrange
+        const string code = nameof(code);
+        const string formPrefix = nameof(formPrefix);
+        const int maxRows = 123;
+        var otherFormValues = new Dictionary<string, StringValues>();
+        const string tabId = nameof(tabId);
+
+        _contextAccessor.Reset();
+        if (path != null)
+        {
+            _httpContext.Request.Path = path;
+            _contextAccessor.Setup(a => a.HttpContext).Returns(_httpContext);
+        }
+
+        // act
+        var result = await _component.InvokeAsync(code, formPrefix, maxRows, DefaultSort, otherFormValues, tabId) as ViewViewComponentResult;
+
+        // assert
+        Assert.NotNull(result);
+        var model = result.ViewData?.Model as LocalAuthoritySchoolFinancialFormViewModel;
+        Assert.NotNull(model);
+        Assert.Equal(expectedPath, model.Path);
+    }
+
+    [Theory]
+    [InlineData("?key=value", """
+                              [{"key":"key","value":["value"]}]
+                              """)]
+    [InlineData(null, "[]")]
+    public async Task ShouldReturnExpectedQuery(string? query, string? expectedQuery)
+    {
+        // arrange
+        const string code = nameof(code);
+        const string formPrefix = nameof(formPrefix);
+        const int maxRows = 123;
+        var otherFormValues = new Dictionary<string, StringValues>();
+        const string tabId = nameof(tabId);
+
+        _contextAccessor.Reset();
+        if (query != null)
+        {
+            _httpContext.Request.Path = _path;
+            _httpContext.Request.QueryString = QueryString.FromUriComponent(query);
+            _contextAccessor.Setup(a => a.HttpContext).Returns(_httpContext);
+        }
+
+        // act
+        var result = await _component.InvokeAsync(code, formPrefix, maxRows, DefaultSort, otherFormValues, tabId) as ViewViewComponentResult;
+
+        // assert
+        Assert.NotNull(result);
+        var model = result.ViewData?.Model as LocalAuthoritySchoolFinancialFormViewModel;
+        Assert.NotNull(model);
+        Assert.Equal(expectedQuery, model.Query.ToJson(Formatting.None));
     }
 
     [Theory]

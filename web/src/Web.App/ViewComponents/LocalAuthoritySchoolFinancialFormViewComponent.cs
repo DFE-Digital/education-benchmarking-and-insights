@@ -10,7 +10,7 @@ using Web.App.ViewModels.Components;
 
 namespace Web.App.ViewComponents;
 
-public class LocalAuthoritySchoolFinancialFormViewComponent(ILocalAuthoritiesApi localAuthoritiesApi) : ViewComponent
+public class LocalAuthoritySchoolFinancialFormViewComponent(IHttpContextAccessor contextAccessor, ILocalAuthoritiesApi localAuthoritiesApi) : ViewComponent
 {
     public async Task<IViewComponentResult> InvokeAsync(
         string code,
@@ -20,7 +20,7 @@ public class LocalAuthoritySchoolFinancialFormViewComponent(ILocalAuthoritiesApi
         Dictionary<string, StringValues> otherFormValues,
         string tabId)
     {
-        var query = ParseQueryString(Request.Query, formPrefix, defaultSort);
+        var query = ParseQueryString(contextAccessor.HttpContext?.Request.Query, formPrefix, defaultSort);
         var results = await localAuthoritiesApi
             .GetSchoolsFinance(code, BuildQuery(query, maxRows))
             .GetResultOrDefault<LocalAuthoritySchoolFinancial[]>() ?? [];
@@ -40,8 +40,8 @@ public class LocalAuthoritySchoolFinancialFormViewComponent(ILocalAuthoritiesApi
             defaultSort,
             otherFormValues,
             tabId,
-            Request.Path,
-            Request.Query)
+            contextAccessor.HttpContext?.Request.Path,
+            contextAccessor.HttpContext?.Request.Query)
         {
             AllRows = allRows,
             FiltersVisible = filtersVisible,
@@ -57,11 +57,16 @@ public class LocalAuthoritySchoolFinancialFormViewComponent(ILocalAuthoritiesApi
         return View(viewModel);
     }
 
-    private static ParsedQueryString ParseQueryString(IQueryCollection query, string formPrefix, string defaultSort)
+    private static ParsedQueryString ParseQueryString(IQueryCollection? query, string formPrefix, string defaultSort)
     {
+        var resultAs = Dimensions.ResultAsOptions.PercentIncome;
+        if (query == null || query.Count == 0)
+        {
+            return new ParsedQueryString(false, false, resultAs, [], [], [], [], defaultSort);
+        }
+
         var filtersVisible = query[$"{formPrefix}{LocalAuthoritySchoolFinancialFormViewModel.FormFieldNames.FiltersVisible}"] == LocalAuthoritySchoolFinancialFormViewModel.FormFieldValues.Show;
 
-        var resultAs = Dimensions.ResultAsOptions.PercentIncome;
         var resultsAsValues = query[$"{formPrefix}{LocalAuthoritySchoolFinancialFormViewModel.FormFieldNames.ResultAs}"]
             .CastQueryToEnum<Dimensions.ResultAsOptions>()
             .ToArray();

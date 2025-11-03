@@ -10,7 +10,7 @@ using Web.App.ViewModels.Components;
 
 namespace Web.App.ViewComponents;
 
-public class LocalAuthoritySchoolWorkforceFormViewComponent(ILocalAuthoritiesApi localAuthoritiesApi) : ViewComponent
+public class LocalAuthoritySchoolWorkforceFormViewComponent(IHttpContextAccessor contextAccessor, ILocalAuthoritiesApi localAuthoritiesApi) : ViewComponent
 {
     public async Task<IViewComponentResult> InvokeAsync(
         string code,
@@ -20,7 +20,7 @@ public class LocalAuthoritySchoolWorkforceFormViewComponent(ILocalAuthoritiesApi
         Dictionary<string, StringValues> otherFormValues,
         string tabId)
     {
-        var query = ParseQueryString(Request.Query, formPrefix, defaultSort);
+        var query = ParseQueryString(contextAccessor.HttpContext?.Request.Query, formPrefix, defaultSort);
         var results = await localAuthoritiesApi
             .GetSchoolsWorkforce(code, BuildQuery(query, maxRows))
             .GetResultOrDefault<LocalAuthoritySchoolWorkforce[]>() ?? [];
@@ -40,8 +40,8 @@ public class LocalAuthoritySchoolWorkforceFormViewComponent(ILocalAuthoritiesApi
             defaultSort,
             otherFormValues,
             tabId,
-            Request.Path,
-            Request.Query)
+            contextAccessor.HttpContext?.Request.Path,
+            contextAccessor.HttpContext?.Request.Query)
         {
             AllRows = allRows,
             FiltersVisible = filtersVisible,
@@ -57,11 +57,16 @@ public class LocalAuthoritySchoolWorkforceFormViewComponent(ILocalAuthoritiesApi
         return View(viewModel);
     }
 
-    private static ParsedQueryString ParseQueryString(IQueryCollection query, string formPrefix, string defaultSort)
+    private static ParsedQueryString ParseQueryString(IQueryCollection? query, string formPrefix, string defaultSort)
     {
+        var resultAs = SchoolsSummaryWorkforceDimensions.ResultAsOptions.PercentPupil;
+        if (query == null || query.Count == 0)
+        {
+            return new ParsedQueryString(false, false, resultAs, [], [], [], [], defaultSort);
+        }
+
         var filtersVisible = query[$"{formPrefix}{LocalAuthoritySchoolWorkforceFormViewModel.FormFieldNames.FiltersVisible}"] == LocalAuthoritySchoolWorkforceFormViewModel.FormFieldValues.Show;
 
-        var resultAs = SchoolsSummaryWorkforceDimensions.ResultAsOptions.PercentPupil;
         var resultsAsValues = query[$"{formPrefix}{LocalAuthoritySchoolWorkforceFormViewModel.FormFieldNames.ResultAs}"]
             .CastQueryToEnum<SchoolsSummaryWorkforceDimensions.ResultAsOptions>()
             .ToArray();

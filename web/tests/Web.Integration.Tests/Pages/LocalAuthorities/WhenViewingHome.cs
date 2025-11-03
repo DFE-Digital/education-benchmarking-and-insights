@@ -815,15 +815,17 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
                 .ToArray();
         }
 
+        var path = Paths.LocalAuthorityHome(authority.Code);
         var page = await Client
             .SetupDisableFeatureFlags(localAuthorityHomepageV2Enabled ? [] : [FeatureFlags.LocalAuthorityHomepageV2])
+            .SetupHttpContextAccessor(null, path, queryString)
             .SetupEstablishment(authorityWithNeighbours, [authority])
             .SetupInsights()
             .SetupLocalAuthoritiesComparators(authority.Code!, [])
             .SetupBanner(banner)
             .SetupMetricRagRatingSummary(localAuthorityHomepageV2Enabled ? ratings : [])
             .SetupLocalAuthoritySchools(schoolFinancials, schoolWorkforces)
-            .Navigate($"{Paths.LocalAuthorityHome(authority.Code)}{queryString}");
+            .Navigate($"{path}{queryString}");
 
         return (page, authority, schools, ratings, banner, schoolFinancials);
     }

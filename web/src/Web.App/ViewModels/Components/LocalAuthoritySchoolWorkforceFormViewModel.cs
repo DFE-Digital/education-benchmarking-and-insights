@@ -11,8 +11,8 @@ public class LocalAuthoritySchoolWorkforceFormViewModel(
     string defaultSort,
     Dictionary<string, StringValues> otherFormValues,
     string tabId,
-    string path,
-    IQueryCollection query)
+    string? path,
+    IQueryCollection? query)
 {
     public static readonly SchoolsSummaryWorkforceDimensions.ResultAsOptions[] FilterDimensions =
     [
@@ -30,8 +30,6 @@ public class LocalAuthoritySchoolWorkforceFormViewModel(
     public string DefaultSort => defaultSort;
     public Dictionary<string, StringValues> OtherFormValues => otherFormValues;
     public string TabId => tabId;
-    public string Path => path;
-    public IQueryCollection Query => query;
 
     public bool AllRows { get; init; }
     public bool FiltersVisible { get; init; }
@@ -47,6 +45,8 @@ public class LocalAuthoritySchoolWorkforceFormViewModel(
                               || SelectedSpecialProvisions.Length > 0
                               || SelectedSixthFormProvisions.Length > 0;
 
+    public string Path => path ?? string.Empty;
+    public IQueryCollection Query => query ?? new QueryCollection();
     public string? Fragment => string.IsNullOrWhiteSpace(tabId) ? null : $"#{tabId}";
 
     public RouteValueDictionary RouteValuesOnClear =>
