@@ -111,10 +111,10 @@ public class GivenDimensionsGetTableHeader
 public class GivenDimensionsGetTableHeaderSuffix
 {
     [Theory]
-    [InlineData(Dimensions.ResultAsOptions.Actuals, "")]
-    [InlineData(Dimensions.ResultAsOptions.PercentExpenditure, "as % of expenditure")]
-    [InlineData(Dimensions.ResultAsOptions.PercentIncome, "as % of income")]
-    [InlineData(Dimensions.ResultAsOptions.SpendPerPupil, "as spend per pupil")]
+    [InlineData(Dimensions.ResultAsOptions.Actuals, "(£)")]
+    [InlineData(Dimensions.ResultAsOptions.PercentExpenditure, "(%)")]
+    [InlineData(Dimensions.ResultAsOptions.PercentIncome, "(%)")]
+    [InlineData(Dimensions.ResultAsOptions.SpendPerPupil, "(£)")]
     public void WhenResultAsOptionsIs(Dimensions.ResultAsOptions option, string expected)
     {
         var actual = option.GetTableHeaderSuffix();

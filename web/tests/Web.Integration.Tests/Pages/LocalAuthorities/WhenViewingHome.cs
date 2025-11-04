@@ -14,6 +14,20 @@ namespace Web.Integration.Tests.Pages.LocalAuthorities;
 
 public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<SchoolBenchmarkingWebAppClient>(client)
 {
+    public static TheoryData<string, Func<decimal?, string>> FinancialTableTestData => new()
+    {
+        { "?f.as=0", x => x.ToCurrency() },
+        { "?f.as=1", x => x.ToCurrency() },
+        { "?f.as=2", x => x.ToPercent() },
+        { "?f.as=3", x => x.ToPercent() }
+    };
+
+    public static TheoryData<string, Func<decimal?, string>> WorkforceTableTestData => new()
+    {
+        { "?w.as=0", x => x.ToPercent() },
+        { "?w.as=1", x => x.ToSimpleDisplay() }
+    };
+
     [Theory]
     [InlineData(false, false, OverallPhaseTypes.Primary, OverallPhaseTypes.Secondary, OverallPhaseTypes.Special, OverallPhaseTypes.PupilReferralUnit, OverallPhaseTypes.AllThrough, OverallPhaseTypes.Nursery)]
     [InlineData(false, false, OverallPhaseTypes.Primary, OverallPhaseTypes.Secondary, OverallPhaseTypes.PupilReferralUnit, OverallPhaseTypes.AllThrough, OverallPhaseTypes.Nursery)]
@@ -28,7 +42,7 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
     [InlineData(true, true, OverallPhaseTypes.Primary, OverallPhaseTypes.Secondary, OverallPhaseTypes.Special, OverallPhaseTypes.PupilReferralUnit)]
     public async Task CanDisplay(bool showBanner, bool hasMissingRag, params string[] phaseTypes)
     {
-        var (page, authority, schools, ratings, banner, _) = await SetupNavigateInitPage(showBanner, true, hasMissingRag, null, null, null, phaseTypes);
+        var (page, authority, schools, ratings, banner, _, _) = await SetupNavigateInitPage(showBanner, true, hasMissingRag, null, null, null, phaseTypes);
 
         AssertPageLayout(page, authority, schools, ratings, banner, true);
     }
@@ -46,7 +60,7 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
     [InlineData(true, OverallPhaseTypes.Primary, OverallPhaseTypes.Secondary, OverallPhaseTypes.Special, OverallPhaseTypes.PupilReferralUnit)]
     public async Task CanDisplayWhenAuthorityHomepageV2Disabled(bool showBanner, params string[] phaseTypes)
     {
-        var (page, authority, schools, _, banner, _) = await SetupNavigateInitPage(showBanner, false, false, null, null, null, phaseTypes);
+        var (page, authority, schools, _, banner, _, _) = await SetupNavigateInitPage(showBanner, false, false, null, null, null, phaseTypes);
 
         AssertPageLayout(page, authority, schools, [], banner, false);
     }
@@ -54,7 +68,7 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
     [Fact]
     public async Task CanNavigateToChangeAuthority()
     {
-        var (page, _, _, _, _, _) = await SetupNavigateInitPage();
+        var (page, _, _, _, _, _, _) = await SetupNavigateInitPage();
 
         var anchor = page.QuerySelectorAll("a").FirstOrDefault(x => x.TextContent.Trim() == "Change local authority");
         Assert.NotNull(anchor);
@@ -67,7 +81,7 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
     [Fact]
     public async Task CanNavigateToResources()
     {
-        var (page, authority, _, _, _, _) = await SetupNavigateInitPage();
+        var (page, authority, _, _, _, _, _) = await SetupNavigateInitPage();
 
         var anchor = page.QuerySelectorAll("a").FirstOrDefault(x => x.TextContent.Trim() == "Find ways to spend less");
         Assert.NotNull(anchor);
@@ -79,7 +93,7 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
     [Fact]
     public async Task CanNavigateToHighNeedsBenchmarking()
     {
-        var (page, authority, _, _, _, _) = await SetupNavigateInitPage();
+        var (page, authority, _, _, _, _, _) = await SetupNavigateInitPage();
 
         var anchor = page.QuerySelectorAll("a").FirstOrDefault(x => x.TextContent.Trim() == "Benchmark high needs");
         Assert.NotNull(anchor);
@@ -91,7 +105,7 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
     [Fact]
     public async Task CanNavigateToHighNeedsHistory()
     {
-        var (page, authority, _, _, _, _) = await SetupNavigateInitPage();
+        var (page, authority, _, _, _, _, _) = await SetupNavigateInitPage();
 
         var anchor = page.QuerySelectorAll("a").FirstOrDefault(x => x.TextContent.Trim() == "View high needs historical data");
         Assert.NotNull(anchor);
@@ -99,43 +113,6 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
         page = await Client.Follow(anchor);
         DocumentAssert.AssertPageUrl(page, Paths.LocalAuthorityHighNeedsHistoricData(authority.Code).ToAbsolute());
     }
-
-    // TODO: review for public beta
-    //[Fact]
-    //public async Task CanNavigateToServiceHelp()
-    //{
-    //    var (page, _, _) = await SetupNavigateInitPage();
-
-    //    var anchor = page.QuerySelectorAll("a").FirstOrDefault(x => x.TextContent.Trim() == "Help with this service");
-    //    Assert.NotNull(anchor);
-
-    //    page = await Client.Follow(anchor);
-    //    DocumentAssert.AssertPageUrl(page, Paths.ServiceHelp.ToAbsolute());
-    //}
-
-    //[Fact]
-    //public async Task CanNavigateToAskForHelp()
-    //{
-    //    var (page, _, _) = await SetupNavigateInitPage();
-
-    //    var anchor = page.QuerySelectorAll("a").FirstOrDefault(x => x.TextContent.Trim() == "Ask for help from a school resource management advisor (SRMA)");
-    //    Assert.NotNull(anchor);
-
-    //    page = await Client.Follow(anchor);
-    //    DocumentAssert.AssertPageUrl(page, Paths.AskForHelp.ToAbsolute());
-    //}
-
-    //[Fact]
-    //public async Task CanNavigateToSubmitAnEnquiry()
-    //{
-    //    var (page, _, _) = await SetupNavigateInitPage();
-
-    //    var anchor = page.QuerySelectorAll("a").FirstOrDefault(x => x.TextContent.Trim() == "Submit an enquiry");
-    //    Assert.NotNull(anchor);
-
-    //    page = await Client.Follow(anchor);
-    //    DocumentAssert.AssertPageUrl(page, Paths.SubmitEnquiry.ToAbsolute());
-    //}
 
     [Fact]
     public async Task CanDisplayNotFound()
@@ -175,7 +152,7 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
     [InlineData("?f.filter=show&w.sort=PupilTeacherRatio~desc&w.as=0", "?f.filter=show&f.phase=0&f.nursery=0&f.special=0&f.sixth=0&f.as=3&w.sort=PupilTeacherRatio~desc&w.as=0", "#financial")]
     public async Task CanSubmitFinancialFilters(string queryString, string expectedQuery, string? expectedFragment)
     {
-        var (page, authority, _, _, _, _) = await SetupNavigateInitPage(false, true, false, null, null, queryString, OverallPhaseTypes.Primary);
+        var (page, authority, _, _, _, _, _) = await SetupNavigateInitPage(false, true, false, null, null, queryString, OverallPhaseTypes.Primary);
 
         var tab = AssertFinancialsTab(page);
 
@@ -220,7 +197,7 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
     public async Task CanSetFinancialFilters()
     {
         const string queryString = "?f.filter=show&f.phase=0&f.nursery=0&f.special=0&f.sixth=0&f.as=0";
-        var (page, _, _, _, _, _) = await SetupNavigateInitPage(false, true, false, null, null, queryString, OverallPhaseTypes.Primary);
+        var (page, _, _, _, _, _, _) = await SetupNavigateInitPage(false, true, false, null, null, queryString, OverallPhaseTypes.Primary);
 
         var tab = AssertFinancialsTab(page);
         var phaseInputs = tab.QuerySelectorAll("input[name='f.phase'][type='checkbox']");
@@ -267,7 +244,7 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
     [InlineData("?f.sort=SchoolName~asc&f.filter=show&f.phase=1&f.phase=2&f.as=0&w.sort=PupilTeacherRatio~desc&w.as=0", true, "?f.sort=SchoolName~asc&f.filter=hide&f.phase=1&f.phase=2&f.as=0&w.sort=PupilTeacherRatio~desc&w.as=0", "#financial")]
     public async Task CanToggleFinancialFilters(string? queryString, bool expectedVisible, string expectedQuery, string? expectedFragment)
     {
-        var (page, authority, _, _, _, _) = await SetupNavigateInitPage(false, true, false, null, null, queryString, OverallPhaseTypes.Primary);
+        var (page, authority, _, _, _, _, _) = await SetupNavigateInitPage(false, true, false, null, null, queryString, OverallPhaseTypes.Primary);
 
         var tab = AssertFinancialsTab(page);
 
@@ -295,7 +272,7 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
     [InlineData("?f.rows=all&f.filter=show&f.phase=1&f.phase=2&f.as=0", "?f.filter=show&f.phase=1&f.phase=2&f.as=0", "#financial")]
     public async Task CanResetFieldsOnNewFilter(string? queryString, string expectedQuery, string? expectedFragment)
     {
-        var (page, authority, _, _, _, _) = await SetupNavigateInitPage(false, true, false, null, null, queryString, OverallPhaseTypes.Primary);
+        var (page, authority, _, _, _, _, _) = await SetupNavigateInitPage(false, true, false, null, null, queryString, OverallPhaseTypes.Primary);
 
         var tab = AssertFinancialsTab(page);
 
@@ -323,7 +300,7 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
     [InlineData(null, 1, false, null)]
     public async Task CanViewAllRows(string? queryString, int resultRows, bool expectedVisible, string? expectedQuery)
     {
-        var (page, authority, _, _, _, _) = await SetupNavigateInitPage(false, true, false, resultRows, null, queryString, OverallPhaseTypes.Primary);
+        var (page, authority, _, _, _, _, _) = await SetupNavigateInitPage(false, true, false, resultRows, null, queryString, OverallPhaseTypes.Primary);
 
         var tab = AssertFinancialsTab(page);
 
@@ -347,7 +324,7 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
     [InlineData(null, 0, true)]
     public async Task CanViewNoRowsMessage(string? queryString, int resultRows, bool expectedVisible)
     {
-        var (page, _, _, _, _, _) = await SetupNavigateInitPage(false, true, false, resultRows, null, queryString, OverallPhaseTypes.Primary);
+        var (page, _, _, _, _, _, _) = await SetupNavigateInitPage(false, true, false, resultRows, null, queryString, OverallPhaseTypes.Primary);
 
         var tab = AssertFinancialsTab(page);
 
@@ -368,7 +345,7 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
     [InlineData("?f.sort=SchoolName~desc&f.filter=show&f.as=0", null, false, null, null)]
     public async Task CanDisplayRemoveFinancialFilterTag(string queryString, string? tagText, bool expectedVisible, string? expectedQuery, string? expectedFragment)
     {
-        var (page, authority, _, _, _, _) = await SetupNavigateInitPage(false, true, false, 5, null, queryString, OverallPhaseTypes.Primary);
+        var (page, authority, _, _, _, _, _) = await SetupNavigateInitPage(false, true, false, 5, null, queryString, OverallPhaseTypes.Primary);
 
         var tab = AssertFinancialsTab(page);
         var selectedFilters = tab.QuerySelector(".app-filter__selected");
@@ -390,7 +367,7 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
     [InlineData("?f.sort=SchoolName~desc&f.filter=show&f.phase=0&f.phase=1&f.phase=2&f.as=0", "?f.filter=show&f.as=0&f.sort=SchoolName~desc#financial")]
     public async Task CanDisplayClearAllFinancialFilters(string queryString, string expectedQuery)
     {
-        var (page, authority, _, _, _, _) = await SetupNavigateInitPage(false, true, false, 5, null, queryString, OverallPhaseTypes.Primary);
+        var (page, authority, _, _, _, _, _) = await SetupNavigateInitPage(false, true, false, 5, null, queryString, OverallPhaseTypes.Primary);
 
         var tab = AssertFinancialsTab(page);
         var selectedFilters = tab.QuerySelector(".app-filter__selected");
@@ -404,11 +381,118 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
     }
 
     [Theory]
+    [InlineData("?f.as=0", "All values are shown as spend per pupil (£).")]
+    [InlineData("?f.as=1", null)]
+    [InlineData("?f.as=2", "All values are shown as percentage of expenditure.")]
+    [InlineData("?f.as=3", "All values are shown as percentage of income.")]
+    public async Task CanDisplayFinancialDimensionCommentary(string queryString, string? expectedCommentary)
+    {
+        var (page, _, _, _, _, _, _) = await SetupNavigateInitPage(false, true, false, 5, null, queryString, OverallPhaseTypes.Primary);
+
+        var tab = AssertFinancialsTab(page);
+        var commentary = tab.QuerySelector("button[data-testid='toggle-financial-filters'] ~ p");
+        if (string.IsNullOrWhiteSpace(expectedCommentary))
+        {
+            Assert.Null(commentary);
+        }
+        else
+        {
+            Assert.NotNull(commentary);
+            Assert.Equal(expectedCommentary, commentary.TextContent.Trim());
+        }
+    }
+
+    [Theory]
+    [InlineData("?f.as=0", "School name", "Pupils", "Expenditure (£)", "Staffing spend (£)", "Revenue reserves (£)")]
+    [InlineData("?f.as=1", "School name", "Pupils", "Expenditure (£)", "Staffing spend (£)", "Revenue reserves (£)")]
+    [InlineData("?f.as=2", "School name", "Pupils", "Expenditure (%)", "Staffing spend (%)", "Revenue reserves (%)")]
+    [InlineData("?f.as=3", "School name", "Pupils", "Expenditure (%)", "Staffing spend (%)", "Revenue reserves (%)")]
+    public async Task CanDisplayFinancialTableHeader(string queryString, string expectedCol1Header, string expectedCol2Header, string expectedCol3Header, string expectedCol4Header, string expectedCol5Header)
+    {
+        var (page, _, _, _, _, _, _) = await SetupNavigateInitPage(false, true, false, 5, null, queryString, OverallPhaseTypes.Primary);
+
+        var tab = AssertFinancialsTab(page);
+        var table = tab.QuerySelector("#local-authority-school-financial-table");
+        Assert.NotNull(table);
+
+        var thead = table.QuerySelector("thead");
+        Assert.NotNull(thead);
+
+        var tr = thead.QuerySelector("tr");
+        Assert.NotNull(tr);
+
+        var th1 = tr.QuerySelector("th:nth-child(1)");
+        Assert.NotNull(th1);
+        Assert.Equal(expectedCol1Header, th1.TextContent.Trim());
+
+        var th2 = tr.QuerySelector("th:nth-child(2)");
+        Assert.NotNull(th2);
+        Assert.Equal(expectedCol2Header, th2.TextContent.Trim());
+
+        var th3 = tr.QuerySelector("th:nth-child(3)");
+        Assert.NotNull(th3);
+        Assert.Equal(expectedCol3Header, th3.TextContent.Trim());
+
+        var th4 = tr.QuerySelector("th:nth-child(4)");
+        Assert.NotNull(th4);
+        Assert.Equal(expectedCol4Header, th4.TextContent.Trim());
+
+        var th5 = tr.QuerySelector("th:nth-child(5)");
+        Assert.NotNull(th5);
+        Assert.Equal(expectedCol5Header, th5.TextContent.Trim());
+    }
+
+    [Theory]
+    [MemberData(nameof(FinancialTableTestData))]
+    public async Task CanDisplayFinancialTableBody(string queryString, Func<decimal?, string> expectedValueSelector)
+    {
+        const int rows = 3;
+        var (page, _, _, _, _, financials, _) = await SetupNavigateInitPage(false, true, false, rows, null, queryString, OverallPhaseTypes.Primary);
+
+        var tab = AssertFinancialsTab(page);
+        var table = tab.QuerySelector("#local-authority-school-financial-table");
+        Assert.NotNull(table);
+
+        var tbody = table.QuerySelector("tbody");
+        Assert.NotNull(tbody);
+
+        var tr = tbody.QuerySelectorAll("tr");
+        Assert.Equal(rows, tr.Length);
+
+        for (var i = 0; i < tr.Length; i++)
+        {
+            var row = tr.ElementAt(i);
+            var financial = financials.ElementAt(i);
+
+            var td1 = row.QuerySelector("td:nth-child(1)");
+            Assert.NotNull(td1);
+            Assert.Equal($"{financial.SchoolName}{(financial.PeriodCoveredByReturn == 12 ? string.Empty : $" Only has {financial.PeriodCoveredByReturn} month{(financial.PeriodCoveredByReturn == 1 ? string.Empty : "s")} of data")}",
+                td1.TextContent.Replace(StringExtensions.WhitespaceRegex(), " ").Trim());
+
+            var td2 = row.QuerySelector("td:nth-child(2)");
+            Assert.NotNull(td2);
+            Assert.Equal($"{financial.TotalPupils}", td2.TextContent.Trim());
+
+            var td3 = row.QuerySelector("td:nth-child(3)");
+            Assert.NotNull(td3);
+            Assert.Equal($"{expectedValueSelector.Invoke(financial.TotalExpenditure)}", td3.TextContent.Trim());
+
+            var td4 = row.QuerySelector("td:nth-child(4)");
+            Assert.NotNull(td4);
+            Assert.Equal($"{expectedValueSelector.Invoke(financial.TotalTeachingSupportStaffCosts)}", td4.TextContent.Trim());
+
+            var td5 = row.QuerySelector("td:nth-child(5)");
+            Assert.NotNull(td5);
+            Assert.Equal($"{expectedValueSelector.Invoke(financial.RevenueReserve)}", td5.TextContent.Trim());
+        }
+    }
+
+    [Theory]
     [InlineData("?w.filter=show", "?w.filter=show&w.phase=0&w.nursery=0&w.special=0&w.sixth=0&w.as=0", "#workforce")]
     [InlineData("?w.filter=show&f.sort=TotalExpenditure~desc&f.as=3", "?w.filter=show&w.phase=0&w.nursery=0&w.special=0&w.sixth=0&w.as=0&f.sort=TotalExpenditure~desc&f.as=3", "#workforce")]
     public async Task CanSubmitWorkforceFilters(string queryString, string expectedQuery, string? expectedFragment)
     {
-        var (page, authority, _, _, _, _) = await SetupNavigateInitPage(false, true, false, null, null, queryString, OverallPhaseTypes.Primary);
+        var (page, authority, _, _, _, _, _) = await SetupNavigateInitPage(false, true, false, null, null, queryString, OverallPhaseTypes.Primary);
 
         var tab = AssertWorkforceTab(page);
 
@@ -453,7 +537,7 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
     public async Task CanSetWorkforceFilters()
     {
         const string queryString = "?w.filter=show&w.phase=0&w.nursery=0&w.special=0&w.sixth=0&w.as=0";
-        var (page, _, _, _, _, _) = await SetupNavigateInitPage(false, true, false, null, null, queryString, OverallPhaseTypes.Primary);
+        var (page, _, _, _, _, _, _) = await SetupNavigateInitPage(false, true, false, null, null, queryString, OverallPhaseTypes.Primary);
 
         var tab = AssertWorkforceTab(page);
         var phaseInputs = tab.QuerySelectorAll("input[name='w.phase'][type='checkbox']");
@@ -497,7 +581,7 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
     public async Task CanSetWorkforceFiltersAndPreserveExistingFinancialFilters()
     {
         const string queryString = "?f.filter=show&f.phase=1&f.nursery=1&f.special=1&f.sixth=1&f.as=0&w.filter=show&w.phase=0&w.nursery=0&w.special=0&w.sixth=0&w.as=0";
-        var (page, _, _, _, _, _) = await SetupNavigateInitPage(false, true, false, null, null, queryString, OverallPhaseTypes.Primary);
+        var (page, _, _, _, _, _, _) = await SetupNavigateInitPage(false, true, false, null, null, queryString, OverallPhaseTypes.Primary);
 
         var financialTab = AssertFinancialsTab(page);
         var financialPhaseInputs = financialTab.QuerySelectorAll("input[name='w.phase'][type='checkbox']");
@@ -581,7 +665,7 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
     [InlineData("?w.sort=SchoolName~asc&w.filter=show&w.phase=1&w.phase=2&w.as=0&f.sort=TotalExpenditure~desc&f.as=3", true, "?w.sort=SchoolName~asc&w.filter=hide&w.phase=1&w.phase=2&w.as=0&f.sort=TotalExpenditure~desc&f.as=3", "#workforce")]
     public async Task CanToggleWorkforceFilters(string? queryString, bool expectedVisible, string expectedQuery, string? expectedFragment)
     {
-        var (page, authority, _, _, _, _) = await SetupNavigateInitPage(false, true, false, null, null, queryString, OverallPhaseTypes.Primary);
+        var (page, authority, _, _, _, _, _) = await SetupNavigateInitPage(false, true, false, null, null, queryString, OverallPhaseTypes.Primary);
 
         var tab = AssertWorkforceTab(page);
 
@@ -609,7 +693,7 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
     [InlineData("?w.rows=all&w.filter=show&w.phase=1&w.phase=2&w.as=0", "?w.filter=show&w.phase=1&w.phase=2&w.as=0", "#workforce")]
     public async Task CanResetWorkforceFieldsOnNewFilter(string? queryString, string expectedQuery, string? expectedFragment)
     {
-        var (page, authority, _, _, _, _) = await SetupNavigateInitPage(false, true, false, null, null, queryString, OverallPhaseTypes.Primary);
+        var (page, authority, _, _, _, _, _) = await SetupNavigateInitPage(false, true, false, null, null, queryString, OverallPhaseTypes.Primary);
 
         var tab = AssertWorkforceTab(page);
 
@@ -637,7 +721,7 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
     [InlineData(null, 1, false, null)]
     public async Task CanViewWorkforceAllRows(string? queryString, int resultRows, bool expectedVisible, string? expectedQuery)
     {
-        var (page, authority, _, _, _, _) = await SetupNavigateInitPage(false, true, false, null, resultRows, queryString, OverallPhaseTypes.Primary);
+        var (page, authority, _, _, _, _, _) = await SetupNavigateInitPage(false, true, false, null, resultRows, queryString, OverallPhaseTypes.Primary);
 
         var tab = AssertWorkforceTab(page);
 
@@ -661,7 +745,7 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
     [InlineData(null, 0, true)]
     public async Task CanViewWorkforceNoRowsMessage(string? queryString, int resultRows, bool expectedVisible)
     {
-        var (page, _, _, _, _, _) = await SetupNavigateInitPage(false, true, false, null, resultRows, queryString, OverallPhaseTypes.Primary);
+        var (page, _, _, _, _, _, _) = await SetupNavigateInitPage(false, true, false, null, resultRows, queryString, OverallPhaseTypes.Primary);
 
         var tab = AssertWorkforceTab(page);
 
@@ -682,7 +766,7 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
     [InlineData("?w.sort=SchoolName~desc&w.filter=show&w.as=0", null, false, null, null)]
     public async Task CanDisplayRemoveWorkforceFilterTag(string queryString, string? tagText, bool expectedVisible, string? expectedQuery, string? expectedFragment)
     {
-        var (page, authority, _, _, _, _) = await SetupNavigateInitPage(false, true, false, 5, null, queryString, OverallPhaseTypes.Primary);
+        var (page, authority, _, _, _, _, _) = await SetupNavigateInitPage(false, true, false, 5, null, queryString, OverallPhaseTypes.Primary);
 
         var tab = AssertWorkforceTab(page);
         var selectedFilters = tab.QuerySelector(".app-filter__selected");
@@ -704,7 +788,7 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
     [InlineData("?w.sort=SchoolName~desc&w.filter=show&w.phase=0&w.phase=1&w.phase=2&w.as=0", "?w.filter=show&w.as=0&w.sort=SchoolName~desc#workforce")]
     public async Task CanDisplayClearAllWorkforceFilters(string queryString, string expectedQuery)
     {
-        var (page, authority, _, _, _, _) = await SetupNavigateInitPage(false, true, false, 5, null, queryString, OverallPhaseTypes.Primary);
+        var (page, authority, _, _, _, _, _) = await SetupNavigateInitPage(false, true, false, 5, null, queryString, OverallPhaseTypes.Primary);
 
         var tab = AssertWorkforceTab(page);
         var selectedFilters = tab.QuerySelector(".app-filter__selected");
@@ -717,10 +801,112 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
         Assert.Equal($"{Paths.LocalAuthorityHome(authority.Code)}{expectedQuery}", clear.Attributes["href"]?.Value);
     }
 
+    [Theory]
+    [InlineData("?w.as=0", "EHC plan and SEN support data are shown as percentages of total pupils.")]
+    [InlineData("?w.as=1", null)]
+    public async Task CanDisplayWorkforceDimensionCommentary(string queryString, string? expectedCommentary)
+    {
+        var (page, _, _, _, _, _, _) = await SetupNavigateInitPage(false, true, false, null, 5, queryString, OverallPhaseTypes.Primary);
+
+        var tab = AssertWorkforceTab(page);
+        var commentary = tab.QuerySelector("button[data-testid='toggle-workforce-filters'] ~ p");
+        if (string.IsNullOrWhiteSpace(expectedCommentary))
+        {
+            Assert.Null(commentary);
+        }
+        else
+        {
+            Assert.NotNull(commentary);
+            Assert.Equal(expectedCommentary, commentary.TextContent.Trim());
+        }
+    }
+
+    [Theory]
+    [InlineData("?w.as=0", "School name", "Pupils", "Pupil:teacher ratio", "EHC plan (%)", "SEN support (%)")]
+    [InlineData("?w.as=1", "School name", "Pupils", "Pupil:teacher ratio", "EHC plan", "SEN support")]
+    public async Task CanDisplayWorkforceTableHeader(string queryString, string expectedCol1Header, string expectedCol2Header, string expectedCol3Header, string expectedCol4Header, string expectedCol5Header)
+    {
+        var (page, _, _, _, _, _, _) = await SetupNavigateInitPage(false, true, false, null, 5, queryString, OverallPhaseTypes.Primary);
+
+        var tab = AssertWorkforceTab(page);
+        var table = tab.QuerySelector("#local-authority-school-workforce-table");
+        Assert.NotNull(table);
+
+        var thead = table.QuerySelector("thead");
+        Assert.NotNull(thead);
+
+        var tr = thead.QuerySelector("tr");
+        Assert.NotNull(tr);
+
+        var th1 = tr.QuerySelector("th:nth-child(1)");
+        Assert.NotNull(th1);
+        Assert.Equal(expectedCol1Header, th1.TextContent.Trim());
+
+        var th2 = tr.QuerySelector("th:nth-child(2)");
+        Assert.NotNull(th2);
+        Assert.Equal(expectedCol2Header, th2.TextContent.Trim());
+
+        var th3 = tr.QuerySelector("th:nth-child(3)");
+        Assert.NotNull(th3);
+        Assert.Equal(expectedCol3Header, th3.TextContent.Trim());
+
+        var th4 = tr.QuerySelector("th:nth-child(4)");
+        Assert.NotNull(th4);
+        Assert.Equal(expectedCol4Header, th4.TextContent.Trim());
+
+        var th5 = tr.QuerySelector("th:nth-child(5)");
+        Assert.NotNull(th5);
+        Assert.Equal(expectedCol5Header, th5.TextContent.Trim());
+    }
+
+    [Theory]
+    [MemberData(nameof(WorkforceTableTestData))]
+    public async Task CanDisplayWorkforceTableBody(string queryString, Func<decimal?, string> expectedValueSelector)
+    {
+        const int rows = 3;
+        var (page, _, _, _, _, _, workforces) = await SetupNavigateInitPage(false, true, false, null, rows, queryString, OverallPhaseTypes.Primary);
+
+        var tab = AssertWorkforceTab(page);
+        var table = tab.QuerySelector("#local-authority-school-workforce-table");
+        Assert.NotNull(table);
+
+        var tbody = table.QuerySelector("tbody");
+        Assert.NotNull(tbody);
+
+        var tr = tbody.QuerySelectorAll("tr");
+        Assert.Equal(rows, tr.Length);
+
+        for (var i = 0; i < tr.Length; i++)
+        {
+            var row = tr.ElementAt(i);
+            var workforce = workforces.ElementAt(i);
+
+            var td1 = row.QuerySelector("td:nth-child(1)");
+            Assert.NotNull(td1);
+            Assert.Equal(workforce.SchoolName, td1.TextContent.Trim());
+
+            var td2 = row.QuerySelector("td:nth-child(2)");
+            Assert.NotNull(td2);
+            Assert.Equal($"{workforce.TotalPupils}", td2.TextContent.Trim());
+
+            var td3 = row.QuerySelector("td:nth-child(3)");
+            Assert.NotNull(td3);
+            Assert.Equal($"{workforce.PupilTeacherRatio}", td3.TextContent.Trim());
+
+            var td4 = row.QuerySelector("td:nth-child(4)");
+            Assert.NotNull(td4);
+            Assert.Equal($"{expectedValueSelector.Invoke(workforce.EhcPlan)}", td4.TextContent.Trim());
+
+            var td5 = row.QuerySelector("td:nth-child(5)");
+            Assert.NotNull(td5);
+            Assert.Equal($"{expectedValueSelector.Invoke(workforce.SenSupport)}", td5.TextContent.Trim());
+        }
+    }
+
     [Fact]
     public async Task CanDownloadFinancePageData()
     {
-        var (page, authority, _, _, _, _) = await SetupNavigateInitPage(false, true, false, null, null, "?f.filter=show", OverallPhaseTypes.Primary);
+        var (page, authority, _, _, _, _, _) = await SetupNavigateInitPage(false, true, false, null, null, "?f.filter=show", OverallPhaseTypes.Primary);
 
         var tab = AssertFinancialsTab(page);
 
@@ -736,7 +922,7 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
     [Fact]
     public async Task CanDownloadWorkforcePageData()
     {
-        var (page, authority, _, _, _, _) = await SetupNavigateInitPage(false, true, false, null, null, "?w.filter=show", OverallPhaseTypes.Primary);
+        var (page, authority, _, _, _, _, _) = await SetupNavigateInitPage(false, true, false, null, null, "?w.filter=show", OverallPhaseTypes.Primary);
 
         var tab = AssertWorkforceTab(page);
 
@@ -755,7 +941,8 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
         LocalAuthoritySchool[] schools,
         RagRatingSummary[] ratings,
         Banner? banner,
-        LocalAuthoritySchoolFinancial[] schoolFinancials)> SetupNavigateInitPage(
+        LocalAuthoritySchoolFinancial[] schoolFinancials,
+        LocalAuthoritySchoolWorkforce[] schoolWorkforces)> SetupNavigateInitPage(
         bool showBanner = false,
         bool localAuthorityHomepageV2Enabled = false,
         bool hasMissingRag = false,
@@ -803,6 +990,7 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
         if (schoolFinancialRows.GetValueOrDefault() > 0)
         {
             schoolFinancials = Fixture.Build<LocalAuthoritySchoolFinancial>()
+                .With(f => f.PeriodCoveredByReturn, random.Next(1, 12))
                 .CreateMany(schoolFinancialRows.GetValueOrDefault())
                 .ToArray();
         }
@@ -827,7 +1015,7 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
             .SetupLocalAuthoritySchools(schoolFinancials, schoolWorkforces)
             .Navigate($"{path}{queryString}");
 
-        return (page, authority, schools, ratings, banner, schoolFinancials);
+        return (page, authority, schools, ratings, banner, schoolFinancials, schoolWorkforces);
     }
 
     private LocalAuthoritySchool[] GenerateSchools(string phaseType)

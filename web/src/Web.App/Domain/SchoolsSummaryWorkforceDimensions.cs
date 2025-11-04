@@ -15,9 +15,9 @@ public static class SchoolsSummaryWorkforceDimensions
         _ => throw new ArgumentOutOfRangeException(nameof(option))
     };
 
-    public static string GetTableHeaderPrefix(this ResultAsOptions option) => option switch
+    public static string GetTableHeaderSuffix(this ResultAsOptions option) => option switch
     {
-        ResultAsOptions.PercentPupil => "% with ",
+        ResultAsOptions.PercentPupil => "(%)",
         ResultAsOptions.Actuals => string.Empty,
         _ => throw new ArgumentOutOfRangeException(nameof(option))
     };

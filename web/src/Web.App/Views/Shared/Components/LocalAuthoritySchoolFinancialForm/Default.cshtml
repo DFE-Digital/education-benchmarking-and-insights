@@ -38,6 +38,10 @@
                     value="@(Model.FiltersVisible ? LocalAuthoritySchoolFinancialFormViewModel.FormFieldValues.Hide : LocalAuthoritySchoolFinancialFormViewModel.FormFieldValues.Show)">
                 @(Model.FiltersVisible ? "Hide filters" : "Show filters")
             </button>
+            @if (!string.IsNullOrWhiteSpace(Model.DimensionCommentary))
+            {
+                <p class="govuk-body-s govuk-!-margin-bottom-0">@Model.DimensionCommentary</p>
+            }
         </div>
         @if (Model.FiltersVisible)
         {
