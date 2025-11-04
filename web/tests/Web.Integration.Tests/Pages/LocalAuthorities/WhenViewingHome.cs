@@ -381,13 +381,17 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
     }
 
     [Theory]
-    [InlineData("?f.as=0", "All values are shown as spend per pupil (£).")]
-    [InlineData("?f.as=1", null)]
-    [InlineData("?f.as=2", "All values are shown as percentage of expenditure.")]
-    [InlineData("?f.as=3", "All values are shown as percentage of income.")]
-    public async Task CanDisplayFinancialDimensionCommentary(string queryString, string? expectedCommentary)
+    [InlineData("?f.as=0", 5, "All values are shown as spend per pupil (£).")]
+    [InlineData("?f.as=1", 5, null)]
+    [InlineData("?f.as=2", 5, "All values are shown as percentage of expenditure.")]
+    [InlineData("?f.as=3", 5, "All values are shown as percentage of income.")]
+    [InlineData("?f.as=0", 0, null)]
+    [InlineData("?f.as=1", 0, null)]
+    [InlineData("?f.as=2", 0, null)]
+    [InlineData("?f.as=3", 0, null)]
+    public async Task CanDisplayFinancialDimensionCommentary(string queryString, int rows, string? expectedCommentary)
     {
-        var (page, _, _, _, _, _, _) = await SetupNavigateInitPage(false, true, false, 5, null, queryString, OverallPhaseTypes.Primary);
+        var (page, _, _, _, _, _, _) = await SetupNavigateInitPage(false, true, false, rows, null, queryString, OverallPhaseTypes.Primary);
 
         var tab = AssertFinancialsTab(page);
         var commentary = tab.QuerySelector("button[data-testid='toggle-financial-filters'] ~ p");
@@ -802,11 +806,13 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
     }
 
     [Theory]
-    [InlineData("?w.as=0", "EHC plan and SEN support data are shown as percentages of total pupils.")]
-    [InlineData("?w.as=1", null)]
-    public async Task CanDisplayWorkforceDimensionCommentary(string queryString, string? expectedCommentary)
+    [InlineData("?w.as=0", 5, "EHC plan and SEN support data are shown as percentages of total pupils.")]
+    [InlineData("?w.as=1", 5, null)]
+    [InlineData("?w.as=0", 0, null)]
+    [InlineData("?w.as=1", 0, null)]
+    public async Task CanDisplayWorkforceDimensionCommentary(string queryString, int rows, string? expectedCommentary)
     {
-        var (page, _, _, _, _, _, _) = await SetupNavigateInitPage(false, true, false, null, 5, queryString, OverallPhaseTypes.Primary);
+        var (page, _, _, _, _, _, _) = await SetupNavigateInitPage(false, true, false, null, rows, queryString, OverallPhaseTypes.Primary);
 
         var tab = AssertWorkforceTab(page);
         var commentary = tab.QuerySelector("button[data-testid='toggle-workforce-filters'] ~ p");

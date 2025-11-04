@@ -38,7 +38,7 @@
                     value="@(Model.FiltersVisible ? LocalAuthoritySchoolWorkforceFormViewModel.FormFieldValues.Hide : LocalAuthoritySchoolWorkforceFormViewModel.FormFieldValues.Show)">
                 @(Model.FiltersVisible ? "Hide filters" : "Show filters")
             </button>
-            @if (!string.IsNullOrWhiteSpace(Model.DimensionCommentary))
+            @if (Model.Results.Length > 0 && !string.IsNullOrWhiteSpace(Model.DimensionCommentary))
             {
                 <p class="govuk-body-s govuk-!-margin-bottom-0">@Model.DimensionCommentary</p>
             }
