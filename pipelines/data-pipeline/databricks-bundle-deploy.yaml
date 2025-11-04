@@ -16,7 +16,6 @@ variables:
 stages:
   - stage: Validate
     displayName: 'Validate and Test'
-    workingDirectory: $(System.DefaultWorkingDirectory)/databricks/education_benchmarking_and_insights
     jobs:
       - job: ValidateAndTest
         displayName: 'Validate Bundle and Run Tests'
@@ -33,10 +32,12 @@ stages:
 
           - script: |
               uv sync --dev
+            workingDirectory: $(System.DefaultWorkingDirectory)/databricks/education_benchmarking_and_insights
             displayName: 'Install Dependencies with uv'
 
           - script: |
               uv run pytest -v
+            workingDirectory: $(System.DefaultWorkingDirectory)/databricks/education_benchmarking_and_insights
             displayName: 'Run Tests'
             continueOnError: false
             env:
@@ -45,6 +46,7 @@ stages:
 
           - script: |
               databricks bundle validate
+            workingDirectory: $(System.DefaultWorkingDirectory)/databricks/education_benchmarking_and_insights
             displayName: 'Validate Bundle Configuration'
             env:
               DATABRICKS_HOST: $(DATABRICKS_HOST)
