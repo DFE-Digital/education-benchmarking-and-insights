@@ -7,7 +7,8 @@ AppEvents
     isempty(SyntheticSource)
 | extend
     Source = tostring(Properties["uri"]),
-    Target = tostring(Properties["targetUri"])
+    Target = tostring(Properties["targetUri"]),
+    Properties = iif(isempty(Properties["content"]), dynamic(null), parse_json(Properties["content"]))
 | join kind=leftouter
     GetEstablishmentRequests
     on $left.ParentId == $right.OperationId
@@ -20,6 +21,7 @@ AppEvents
     UserId,
     Establishment,
     Feature,
-    Identifier
+    Identifier,
+    Properties
 | order by 
     TimeGenerated asc

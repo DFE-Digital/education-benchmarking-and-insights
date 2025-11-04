@@ -71,7 +71,17 @@
     {
         <tr class="govuk-table__row">
             <td class="govuk-table__cell">
-                <a class="govuk-link govuk-link--no-visited-state" href=@($"/school/{row.Urn}")>@row.SchoolName</a>
+                @Html.TrackedAnchor(
+                    TrackedLinks.LaSchoolHomepage,
+                    Url.Action("Index", "School", new
+                    {
+                        urn = row.Urn
+                    }),
+                    row.SchoolName!,
+                    properties: new Dictionary<string, string>
+                    {
+                        { "element", "pupil-workforce-table" }
+                    })
             </td>
             <td class="govuk-table__cell govuk-table__cell--numeric">
                 @row.TotalPupils.ToSimpleDisplay()

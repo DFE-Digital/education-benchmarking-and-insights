@@ -100,6 +100,7 @@ variable "trackedEvents" {
     "download-page-data",
     "gias-school-details",
     "guidance-resource",
+    "la-school-homepage",
     "organisation",
     "save-chart-as-image",
     "service-banner",

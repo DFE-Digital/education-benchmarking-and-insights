@@ -6,8 +6,18 @@ namespace Web.App.Extensions;
 
 public static class HtmlHelperExtensions
 {
-    public static IHtmlContent TrackedAnchor(this IHtmlHelper htmlHelper, TrackedLinks link, string? href, string content,
-        string? hiddenContent = null, string? target = null, string[]? rel = null, params string[] classes)
+    private const string CustomEventPrefix = "data-custom-event-";
+
+    public static IHtmlContent TrackedAnchor(
+        this IHtmlHelper _,
+        TrackedLinks link,
+        string? href,
+        string content,
+        string? hiddenContent = null,
+        string? target = null,
+        string[]? rel = null,
+        Dictionary<string, string>? properties = null,
+        params string[] classes)
     {
         if (string.IsNullOrWhiteSpace(href))
         {
@@ -21,7 +31,7 @@ public static class HtmlHelperExtensions
         anchorTag.AddCssClass(string.Join(" ", classes));
         anchorTag.InnerHtml.Append(content);
         anchorTag.MergeAttribute("href", href);
-        anchorTag.MergeAttribute("data-custom-event-id", link.GetStringValue());
+        anchorTag.MergeAttribute($"{CustomEventPrefix}id", link.GetStringValue());
 
         if (rel is not null && rel.Length > 0)
         {
@@ -36,6 +46,14 @@ public static class HtmlHelperExtensions
         if (!string.IsNullOrEmpty(hiddenContent))
         {
             anchorTag.InnerHtml.AppendHtml($"<span class=\"govuk-visually-hidden\"> {hiddenContent}</span>");
+        }
+
+        if (properties != null)
+        {
+            foreach (var (key, value) in properties)
+            {
+                anchorTag.MergeAttribute($"{CustomEventPrefix}{key}", value);
+            }
         }
 
         return anchorTag;

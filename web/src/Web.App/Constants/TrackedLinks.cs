@@ -11,5 +11,6 @@ public enum TrackedLinks
     [StringValue("organisation")] Organisation,
     [StringValue("service-banner")] ServiceBanner,
     [StringValue("change-organisation")] ChangeOrganisation,
-    [StringValue("survey")] Survey
+    [StringValue("survey")] Survey,
+    [StringValue("la-school-homepage")] LaSchoolHomepage
 }

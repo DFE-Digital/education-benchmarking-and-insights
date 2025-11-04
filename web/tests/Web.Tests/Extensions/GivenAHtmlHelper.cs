@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Text.Encodings.Web;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Moq;
@@ -10,14 +9,44 @@ namespace Web.Tests.Extensions;
 
 public class GivenAHtmlHelper
 {
+    public static TheoryData<TrackedLinks, string, string, string, string, string[], string[], Dictionary<string, string>?, string> TrackedAnchorTestData = new()
+    {
+        { TrackedLinks.SchoolDetails, "http://www.example.com", "content", "", "", [], [], null, "<a class=\"govuk-link govuk-link--no-visited-state\" data-custom-event-id=\"gias-school-details\" href=\"http://www.example.com\">content</a>" },
+        {
+            TrackedLinks.SchoolDetails, "http://www.example.com", "content", "hidden", "", [], [], null,
+            "<a class=\"govuk-link govuk-link--no-visited-state\" data-custom-event-id=\"gias-school-details\" href=\"http://www.example.com\">content<span class=\"govuk-visually-hidden\"> hidden</span></a>"
+        },
+        { TrackedLinks.SchoolDetails, "http://www.example.com", "content", "", "_blank", [], [], null, "<a class=\"govuk-link govuk-link--no-visited-state\" data-custom-event-id=\"gias-school-details\" href=\"http://www.example.com\" target=\"_blank\">content</a>" },
+        {
+            TrackedLinks.SchoolDetails, "http://www.example.com", "content", "", "", ["noopener", "noreferrer", "external"], [], null,
+            "<a class=\"govuk-link govuk-link--no-visited-state\" data-custom-event-id=\"gias-school-details\" href=\"http://www.example.com\" rel=\"noopener noreferrer external\">content</a>"
+        },
+        { TrackedLinks.SchoolDetails, "http://www.example.com", "content", "", "", [], ["govuk-button"], null, "<a class=\"govuk-button\" data-custom-event-id=\"gias-school-details\" href=\"http://www.example.com\">content</a>" },
+        {
+            TrackedLinks.LaSchoolHomepage, "http://www.example.com", "content", "", "", [], [], new Dictionary<string, string>
+            {
+                { "key", "value" }
+            },
+            "<a class=\"govuk-link govuk-link--no-visited-state\" data-custom-event-id=\"la-school-homepage\" data-custom-event-key=\"value\" href=\"http://www.example.com\">content</a>"
+        }
+    };
+
     [Theory]
-    [ClassData(typeof(TrackedAnchorTestData))]
-    public void TrackedAnchorShouldBeValid(TrackedLinks link, string href, string content, string hidden, string target,
-        string[] rel, string[] classes, string expected)
+    [MemberData(nameof(TrackedAnchorTestData))]
+    public void TrackedAnchorShouldBeValid(
+        TrackedLinks link,
+        string href,
+        string content,
+        string hidden,
+        string target,
+        string[] rel,
+        string[] classes,
+        Dictionary<string, string>? properties,
+        string expected)
     {
         var helper = new Mock<IHtmlHelper>();
 
-        var actual = helper.Object.TrackedAnchor(link, href, content, hidden, target, rel, classes);
+        var actual = helper.Object.TrackedAnchor(link, href, content, hidden, target, rel, properties, classes);
 
         using var writer = new StringWriter();
         actual.WriteTo(writer, HtmlEncoder.Default);
@@ -25,73 +54,4 @@ public class GivenAHtmlHelper
 
         Assert.Equal(expected, output);
     }
-}
-
-public class TrackedAnchorTestData : IEnumerable<object[]>
-{
-    private readonly List<object[]> _data =
-    [
-        [
-            TrackedLinks.SchoolDetails,
-            "http://www.example.com",
-            "content",
-            "",
-            "",
-            Array.Empty<string>(),
-            Array.Empty<string>(),
-            "<a class=\"govuk-link govuk-link--no-visited-state\" data-custom-event-id=\"gias-school-details\" href=\"http://www.example.com\">content</a>"
-        ],
-        [
-            TrackedLinks.SchoolDetails,
-            "http://www.example.com",
-            "content",
-            "hidden",
-            "",
-            Array.Empty<string>(),
-            Array.Empty<string>(),
-            "<a class=\"govuk-link govuk-link--no-visited-state\" data-custom-event-id=\"gias-school-details\" href=\"http://www.example.com\">content<span class=\"govuk-visually-hidden\"> hidden</span></a>"
-        ],
-        [
-            TrackedLinks.SchoolDetails,
-            "http://www.example.com",
-            "content",
-            "",
-            "_blank",
-            Array.Empty<string>(),
-            Array.Empty<string>(),
-            "<a class=\"govuk-link govuk-link--no-visited-state\" data-custom-event-id=\"gias-school-details\" href=\"http://www.example.com\" target=\"_blank\">content</a>"
-        ],
-        [
-            TrackedLinks.SchoolDetails,
-            "http://www.example.com",
-            "content",
-            "",
-            "",
-            new[]
-            {
-                "noopener",
-                "noreferrer",
-                "external"
-            },
-            Array.Empty<string>(),
-            "<a class=\"govuk-link govuk-link--no-visited-state\" data-custom-event-id=\"gias-school-details\" href=\"http://www.example.com\" rel=\"noopener noreferrer external\">content</a>"
-        ],
-        [
-            TrackedLinks.SchoolDetails,
-            "http://www.example.com",
-            "content",
-            "",
-            "",
-            Array.Empty<string>(),
-            new[]
-            {
-                "govuk-button"
-            },
-            "<a class=\"govuk-button\" data-custom-event-id=\"gias-school-details\" href=\"http://www.example.com\">content</a>"
-        ]
-    ];
-
-    public IEnumerator<object[]> GetEnumerator() => _data.GetEnumerator();
-
-    IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 }
