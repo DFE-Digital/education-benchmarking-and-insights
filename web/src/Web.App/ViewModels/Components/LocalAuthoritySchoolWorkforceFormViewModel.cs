@@ -49,6 +49,14 @@ public class LocalAuthoritySchoolWorkforceFormViewModel(
     public IQueryCollection Query => query ?? new QueryCollection();
     public string? Fragment => string.IsNullOrWhiteSpace(tabId) ? null : $"#{tabId}";
 
+    public string DimensionCommentary =>
+        ResultAs switch
+        {
+            SchoolsSummaryWorkforceDimensions.ResultAsOptions.PercentPupil => "EHC plan and SEN support data are shown as percentages of total pupils.",
+            SchoolsSummaryWorkforceDimensions.ResultAsOptions.Actuals => string.Empty,
+            _ => throw new ArgumentOutOfRangeException(nameof(ResultAs))
+        };
+
     public RouteValueDictionary RouteValuesOnClear
     {
         get

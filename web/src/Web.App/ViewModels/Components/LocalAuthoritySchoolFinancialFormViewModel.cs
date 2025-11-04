@@ -51,6 +51,16 @@ public class LocalAuthoritySchoolFinancialFormViewModel(
     public IQueryCollection Query => query ?? new QueryCollection();
     public string? Fragment => string.IsNullOrWhiteSpace(tabId) ? null : $"#{tabId}";
 
+    public string DimensionCommentary =>
+        ResultAs switch
+        {
+            Dimensions.ResultAsOptions.SpendPerPupil => "All values are shown as spend per pupil (£).",
+            Dimensions.ResultAsOptions.Actuals => string.Empty,
+            Dimensions.ResultAsOptions.PercentExpenditure => "All values are shown as percentage of expenditure.",
+            Dimensions.ResultAsOptions.PercentIncome => "All values are shown as percentage of income.",
+            _ => throw new ArgumentOutOfRangeException(nameof(ResultAs))
+        };
+
     public RouteValueDictionary RouteValuesOnClear
     {
         get

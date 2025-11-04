@@ -21,9 +21,9 @@ public class LocalAuthoritySchoolFinancialFormViewComponentTests
     private const Dimensions.ResultAsOptions DefaultDimension = Dimensions.ResultAsOptions.PercentIncome;
     private const string DefaultSort = "TotalExpenditure~desc";
     private readonly LocalAuthoritySchoolFinancialFormViewComponent _component;
+    private readonly Mock<IHttpContextAccessor> _contextAccessor = new();
     private readonly Fixture _fixture = new();
     private readonly HttpContext _httpContext;
-    private readonly Mock<IHttpContextAccessor> _contextAccessor = new();
     private readonly Mock<ILocalAuthoritiesApi> _localAuthorityApi = new();
     private readonly PathString _path = "/test/path";
 
@@ -91,29 +91,25 @@ public class LocalAuthoritySchoolFinancialFormViewComponentTests
         { "f.", 5, "?f.sort=SchoolName~asc", [new QueryParameter("dimension", DefaultDimension.GetQueryParam()), new QueryParameter("sortField", "SchoolName"), new QueryParameter("sortOrder", "asc"), new QueryParameter("limit", "5")] },
         { "f.", 5, "?f.rows=all", [new QueryParameter("dimension", DefaultDimension.GetQueryParam()), new QueryParameter("sortField", DefaultSort.Split("~").First()), new QueryParameter("sortOrder", DefaultSort.Split("~").Last())] },
         {
-            "f.", 5, "?f.phase=0&f.phase=1",
-            [
+            "f.", 5, "?f.phase=0&f.phase=1", [
                 new QueryParameter("dimension", DefaultDimension.GetQueryParam()), new QueryParameter("sortField", DefaultSort.Split("~").First()), new QueryParameter("sortOrder", DefaultSort.Split("~").Last()), new QueryParameter("limit", "5"),
                 new QueryParameter("overallPhase", "Primary"), new QueryParameter("overallPhase", "Secondary")
             ]
         },
         {
-            "f.", 5, "?f.nursery=1",
-            [
+            "f.", 5, "?f.nursery=1", [
                 new QueryParameter("dimension", DefaultDimension.GetQueryParam()), new QueryParameter("sortField", DefaultSort.Split("~").First()), new QueryParameter("sortOrder", DefaultSort.Split("~").Last()), new QueryParameter("limit", "5"),
                 new QueryParameter("nurseryProvision", "No Nursery Classes")
             ]
         },
         {
-            "f.", 5, "?f.special=2",
-            [
+            "f.", 5, "?f.special=2", [
                 new QueryParameter("dimension", DefaultDimension.GetQueryParam()), new QueryParameter("sortField", DefaultSort.Split("~").First()), new QueryParameter("sortOrder", DefaultSort.Split("~").Last()), new QueryParameter("limit", "5"),
                 new QueryParameter("specialClassesProvision", "Not applicable")
             ]
         },
         {
-            "f.", 5, "?f.sixth=3",
-            [
+            "f.", 5, "?f.sixth=3", [
                 new QueryParameter("dimension", DefaultDimension.GetQueryParam()), new QueryParameter("sortField", DefaultSort.Split("~").First()), new QueryParameter("sortOrder", DefaultSort.Split("~").Last()), new QueryParameter("limit", "5"),
                 new QueryParameter("sixthFormProvision", "Not recorded")
             ]
@@ -263,6 +259,30 @@ public class LocalAuthoritySchoolFinancialFormViewComponentTests
         var model = result.ViewData?.Model as LocalAuthoritySchoolFinancialFormViewModel;
         Assert.NotNull(model);
         Assert.Equal(expectedRouteValues, model.RouteValuesOnClear.ToJson(Formatting.None));
+    }
+
+    [Theory]
+    [InlineData("?f.as=0", "f.", "All values are shown as spend per pupil (£).")]
+    [InlineData("?f.as=1", "f.", "")]
+    [InlineData("?f.as=2", "f.", "All values are shown as percentage of expenditure.")]
+    [InlineData("?f.as=3", "f.", "All values are shown as percentage of income.")]
+    public async Task ShouldReturnExpectedDimensionCommentary(string query, string formPrefix, string expected)
+    {
+        // arrange
+        const string code = nameof(code);
+        const int maxRows = 123;
+        const string otherFormPrefix = nameof(otherFormPrefix);
+        const string tabId = nameof(tabId);
+        _httpContext.Request.QueryString = QueryString.FromUriComponent(query);
+
+        // act
+        var result = await _component.InvokeAsync(code, formPrefix, maxRows, DefaultSort, otherFormPrefix, tabId) as ViewViewComponentResult;
+
+        // assert
+        Assert.NotNull(result);
+        var model = result.ViewData?.Model as LocalAuthoritySchoolFinancialFormViewModel;
+        Assert.NotNull(model);
+        Assert.Equal(expected, model.DimensionCommentary);
     }
 
     [Theory]

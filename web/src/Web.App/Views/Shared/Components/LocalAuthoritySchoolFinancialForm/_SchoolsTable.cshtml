@@ -5,7 +5,7 @@
 @model Web.App.ViewModels.Components.LocalAuthoritySchoolFinancialFormViewModel
 @{
     var tableId = LocalAuthoritySchoolFinancialFormViewModel.TableId;
-    var tableHeader = Model.ResultAs.GetTableHeaderSuffix();
+    var tableHeaderSuffix = Model.ResultAs.GetTableHeaderSuffix();
     var sortKey = $"{Model.FormPrefix}{LocalAuthoritySchoolFinancialFormViewModel.FormFieldNames.Sort}";
 
     string ValueSelector(LocalAuthoritySchoolFinancial row, Func<LocalAuthoritySchoolFinancial, decimal?> selector)
@@ -39,7 +39,7 @@
         })
         @await Component.InvokeAsync("SortableTableHeaderCell", new
         {
-            label = $"Expenditure {tableHeader}",
+            label = $"Expenditure {tableHeaderSuffix}",
             sortField = nameof(LocalAuthoritySchoolFinancial.TotalExpenditure),
             sortKey,
             className = "govuk-table__header--numeric",
@@ -48,7 +48,7 @@
         })
         @await Component.InvokeAsync("SortableTableHeaderCell", new
         {
-            label = $"Staffing spend {tableHeader}",
+            label = $"Staffing spend {tableHeaderSuffix}",
             sortField = nameof(LocalAuthoritySchoolFinancial.TotalTeachingSupportStaffCosts),
             sortKey,
             className = "govuk-table__header--numeric",
@@ -57,7 +57,7 @@
         })
         @await Component.InvokeAsync("SortableTableHeaderCell", new
         {
-            label = $"Reserves {tableHeader}",
+            label = $"Revenue reserves {tableHeaderSuffix}",
             sortField = nameof(LocalAuthoritySchoolFinancial.RevenueReserve),
             sortKey,
             className = "govuk-table__header--numeric",

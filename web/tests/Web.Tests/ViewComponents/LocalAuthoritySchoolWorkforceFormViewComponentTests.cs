@@ -21,9 +21,9 @@ public class LocalAuthoritySchoolWorkforceFormViewComponentTests
     private const SchoolsSummaryWorkforceDimensions.ResultAsOptions DefaultDimension = SchoolsSummaryWorkforceDimensions.ResultAsOptions.PercentPupil;
     private const string DefaultSort = "PupilTeacherRatio~desc";
     private readonly LocalAuthoritySchoolWorkforceFormViewComponent _component;
+    private readonly Mock<IHttpContextAccessor> _contextAccessor = new();
     private readonly Fixture _fixture = new();
     private readonly HttpContext _httpContext;
-    private readonly Mock<IHttpContextAccessor> _contextAccessor = new();
     private readonly Mock<ILocalAuthoritiesApi> _localAuthorityApi = new();
     private readonly PathString _path = "/test/path";
 
@@ -83,8 +83,7 @@ public class LocalAuthoritySchoolWorkforceFormViewComponentTests
     {
         { "w.", 5, "", [new QueryParameter("dimension", DefaultDimension.GetQueryParam()), new QueryParameter("sortField", DefaultSort.Split("~").First()), new QueryParameter("sortOrder", DefaultSort.Split("~").Last()), new QueryParameter("limit", "5")] },
         {
-            "w.", 5, "?w.as=1",
-            [
+            "w.", 5, "?w.as=1", [
                 new QueryParameter("dimension", SchoolsSummaryWorkforceDimensions.ResultAsOptions.Actuals.GetQueryParam()), new QueryParameter("sortField", DefaultSort.Split("~").First()), new QueryParameter("sortOrder", DefaultSort.Split("~").Last()),
                 new QueryParameter("limit", "5")
             ]
@@ -92,29 +91,25 @@ public class LocalAuthoritySchoolWorkforceFormViewComponentTests
         { "w.", 5, "?w.sort=SchoolName~asc", [new QueryParameter("dimension", DefaultDimension.GetQueryParam()), new QueryParameter("sortField", "SchoolName"), new QueryParameter("sortOrder", "asc"), new QueryParameter("limit", "5")] },
         { "w.", 5, "?w.rows=all", [new QueryParameter("dimension", DefaultDimension.GetQueryParam()), new QueryParameter("sortField", DefaultSort.Split("~").First()), new QueryParameter("sortOrder", DefaultSort.Split("~").Last())] },
         {
-            "w.", 5, "?w.phase=0&w.phase=1",
-            [
+            "w.", 5, "?w.phase=0&w.phase=1", [
                 new QueryParameter("dimension", DefaultDimension.GetQueryParam()), new QueryParameter("sortField", DefaultSort.Split("~").First()), new QueryParameter("sortOrder", DefaultSort.Split("~").Last()), new QueryParameter("limit", "5"),
                 new QueryParameter("overallPhase", "Primary"), new QueryParameter("overallPhase", "Secondary")
             ]
         },
         {
-            "w.", 5, "?w.nursery=1",
-            [
+            "w.", 5, "?w.nursery=1", [
                 new QueryParameter("dimension", DefaultDimension.GetQueryParam()), new QueryParameter("sortField", DefaultSort.Split("~").First()), new QueryParameter("sortOrder", DefaultSort.Split("~").Last()), new QueryParameter("limit", "5"),
                 new QueryParameter("nurseryProvision", "No Nursery Classes")
             ]
         },
         {
-            "w.", 5, "?w.special=2",
-            [
+            "w.", 5, "?w.special=2", [
                 new QueryParameter("dimension", DefaultDimension.GetQueryParam()), new QueryParameter("sortField", DefaultSort.Split("~").First()), new QueryParameter("sortOrder", DefaultSort.Split("~").Last()), new QueryParameter("limit", "5"),
                 new QueryParameter("specialClassesProvision", "Not applicable")
             ]
         },
         {
-            "w.", 5, "?w.sixth=3",
-            [
+            "w.", 5, "?w.sixth=3", [
                 new QueryParameter("dimension", DefaultDimension.GetQueryParam()), new QueryParameter("sortField", DefaultSort.Split("~").First()), new QueryParameter("sortOrder", DefaultSort.Split("~").Last()), new QueryParameter("limit", "5"),
                 new QueryParameter("sixthFormProvision", "Not recorded")
             ]
@@ -264,6 +259,28 @@ public class LocalAuthoritySchoolWorkforceFormViewComponentTests
         var model = result.ViewData?.Model as LocalAuthoritySchoolWorkforceFormViewModel;
         Assert.NotNull(model);
         Assert.Equal(expectedRouteValues, model.RouteValuesOnClear.ToJson(Formatting.None));
+    }
+
+    [Theory]
+    [InlineData("?f.as=0", "f.", "EHC plan and SEN support data are shown as percentages of total pupils.")]
+    [InlineData("?f.as=1", "f.", "")]
+    public async Task ShouldReturnExpectedDimensionCommentary(string query, string formPrefix, string expected)
+    {
+        // arrange
+        const string code = nameof(code);
+        const int maxRows = 123;
+        const string otherFormPrefix = nameof(otherFormPrefix);
+        const string tabId = nameof(tabId);
+        _httpContext.Request.QueryString = QueryString.FromUriComponent(query);
+
+        // act
+        var result = await _component.InvokeAsync(code, formPrefix, maxRows, DefaultSort, otherFormPrefix, tabId) as ViewViewComponentResult;
+
+        // assert
+        Assert.NotNull(result);
+        var model = result.ViewData?.Model as LocalAuthoritySchoolWorkforceFormViewModel;
+        Assert.NotNull(model);
+        Assert.Equal(expected, model.DimensionCommentary);
     }
 
     [Theory]

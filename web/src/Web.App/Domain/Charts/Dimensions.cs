@@ -53,10 +53,8 @@ public static class Dimensions
 
     public static string GetTableHeaderSuffix(this ResultAsOptions option) => option switch
     {
-        ResultAsOptions.SpendPerPupil => "as spend per pupil",
-        ResultAsOptions.Actuals => string.Empty,
-        ResultAsOptions.PercentExpenditure => "as % of expenditure",
-        ResultAsOptions.PercentIncome => "as % of income",
+        ResultAsOptions.SpendPerPupil or ResultAsOptions.Actuals => "(£)",
+        ResultAsOptions.PercentExpenditure or ResultAsOptions.PercentIncome => "(%)",
         _ => throw new ArgumentOutOfRangeException(nameof(option))
     };
 
