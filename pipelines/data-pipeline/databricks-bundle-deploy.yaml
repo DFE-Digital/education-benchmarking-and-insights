@@ -43,8 +43,6 @@ stages:
             env:
               DATABRICKS_HOST: $(DATABRICKS_HOST)
               DATABRICKS_TOKEN: $(DATABRICKS_TOKEN)
-          
-          - uses: databricks/setup-cli@main
 
           - script: |
               databricks bundle validate
