@@ -43,7 +43,7 @@ stages:
             displayName: 'Install Dependencies with uv'
 
           - script: |
-              uv run pytest tests/bfr/test_it_spend.py -v
+              uv run pytest -v
             workingDirectory: $(System.DefaultWorkingDirectory)/databricks/education_benchmarking_and_insights
             displayName: 'Run Tests'
             continueOnError: false
