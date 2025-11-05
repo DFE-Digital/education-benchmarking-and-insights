@@ -31,34 +31,20 @@ stages:
             displayName: 'Install uv'
 
           - script: |
-              uv sync --dev
+              uv sync
             workingDirectory: $(System.DefaultWorkingDirectory)/databricks/education_benchmarking_and_insights
             displayName: 'Install Dependencies with uv'
 
           - script: |
-              echo "=== Environment Variables ==="
-              env | sort
-              echo ""
-              echo "=== Python Version ==="
-              python --version
-              echo ""
-              echo "=== Installed Packages ==="
-              uv pip list
-              echo ""
-              echo "=== Current Directory ==="
-              pwd
-              ls -la
-              echo ""
               uv run pytest tests/bfr/test_it_spend.py -v
             workingDirectory: $(System.DefaultWorkingDirectory)/databricks/education_benchmarking_and_insights
             displayName: 'Run Tests'
             continueOnError: false
             env:
-              SPARK_LOCAL_IP: 127.0.0.1
-              PYSPARK_PYTHON: python
-              PYSPARK_DRIVER_PYTHON: python
               DATABRICKS_HOST: $(DATABRICKS_HOST)
               DATABRICKS_TOKEN: $(DATABRICKS_TOKEN)
+          
+          - uses: databricks/setup-cli@main
 
           - script: |
               databricks bundle validate
