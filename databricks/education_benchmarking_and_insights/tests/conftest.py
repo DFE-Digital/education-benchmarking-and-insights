@@ -1,68 +1,25 @@
-"""This file configures pytest."""
 
-import os, sys, pathlib
-from contextlib import contextmanager
-
-
-try:
-    from databricks.connect import DatabricksSession
-    from databricks.sdk import WorkspaceClient
-    from pyspark.sql import SparkSession
-    import pytest
-    from unittest.mock import patch, MagicMock
-except ImportError:
-    raise ImportError(
-        "Test dependencies not found.\n\nRun tests using 'uv run pytest'. See http://docs.astral.sh/uv to learn more about uv."
-    )
-
-# Import our mock pipelines module
-try:
-    from .mock_pipelines import mock_pipelines
-except ImportError:
-    # Fallback for when running pytest directly
-    import sys
-    import os
-    sys.path.insert(0, os.path.dirname(__file__))
-    from mock_pipelines import mock_pipelines
-
-
-def enable_fallback_compute():
-    """Enable serverless compute if no compute is specified."""
-    conf = WorkspaceClient().config
-    if conf.serverless_compute_id or conf.cluster_id or os.environ.get("SPARK_REMOTE"):
-        return
-
-    url = "https://docs.databricks.com/dev-tools/databricks-connect/cluster-config"
-    print("☁️ no compute specified, falling back to serverless compute", file=sys.stderr)
-    print(f"  see {url} for manual configuration", file=sys.stderr)
-
-    os.environ["DATABRICKS_SERVERLESS_COMPUTE_ID"] = "auto"
-
-
-@contextmanager
-def allow_stderr_output(config: pytest.Config):
-    """Temporarily disable pytest output capture."""
-    capman = config.pluginmanager.get_plugin("capturemanager")
-    if capman:
-        with capman.global_and_fixture_disabled():
-            yield
-    else:
-        yield
+from pyspark.sql import SparkSession
+import pytest
+from unittest.mock import patch
+from mock_pipelines import mock_pipelines
+import sys
 
 
 def pytest_configure(config: pytest.Config):
-    """Configure pytest session."""
-    with allow_stderr_output(config):
-        enable_fallback_compute()
-
-        # Mock the pyspark.pipelines module for testing
-        sys.modules['pyspark.pipelines'] = mock_pipelines
+    sys.modules['pyspark.pipelines'] = mock_pipelines
 
 
 @pytest.fixture(scope="session")
 def spark() -> SparkSession:
     """Provide a SparkSession fixture for tests."""
-    return DatabricksSession.builder.getOrCreate()
+    return (
+        SparkSession.builder
+        .master("local[2]")
+        .appName("pytest")
+        .config("spark.sql.shuffle.partitions", "2")
+        .getOrCreate()
+    )
 
 
 @pytest.fixture
