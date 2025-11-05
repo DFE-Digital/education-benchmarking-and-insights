@@ -46,27 +46,27 @@
     Scenario: Can apply filters on the financal tab
         Given I am on local authority homepage for local authority with code '205'
         And I should see the following table data in financial tab
-          | School name     | Pupils | Expenditure as % of income | Staffing spend as % of income | Reserves as % of income |
-          | Test school 102 | 212    | 98.3%                      | 71.4%                         | 10.1%                   |
-          | Test school 240 | 235    | 98.1%                      | 69.4%                         | 5.8%                    |
+          | School name     | Pupils | Expenditure (%) | Staffing spend (%) | Revenue reserves (%) |
+          | Test school 102 | 212    | 98.3%           | 71.4%              | 10.1%                |
+          | Test school 240 | 235    | 98.1%           | 69.4%              | 5.8%                 |
         When I click on show filters on the financial tab
         And I apply has nursery classes filter on the financial tab
         And I click Apply filters on the financial tab
         Then I should see the following table data in financial tab
-          | School name     | Pupils | Expenditure as % of income | Staffing spend as % of income | Reserves as % of income |
-          | Test school 102 | 212    | 98.3%                      | 71.4%                         | 10.1%                   |
+          | School name     | Pupils | Expenditure (%) | Staffing spend (%) | Revenue reserves (%) |
+          | Test school 102 | 212    | 98.3%           | 71.4%              | 10.1%                |
           
     @LocalAuthorityHomepageV2FlagEnabled
     Scenario: Can apply filters on the workforce tab
         Given I am on local authority homepage for local authority with code '201'
         And I click on the workforce tab
         And I should see the following table data in workforce tab
-          | School name     | Pupils | Pupil:teacher ratio | % with EHC plan | % with SEN support |
-          | Test school 237 | 225    | 1.89                | 1.8%            | 5.3%               |
-          | Test school 1   | 271    | 1.82                | 5.2%            | 11.8%              |
+          | School name     | Pupils | Pupil:teacher ratio | EHC plan (%) | SEN support (%) |
+          | Test school 237 | 225    | 1.89                | 1.8%         | 5.3%            |
+          | Test school 1   | 271    | 1.82                | 5.2%         | 11.8%           |
         When I click on show filters on the workforce tab
         And I apply has nursery classes filter on the workforce tab
         And I click Apply filters on the workforce tab
         Then I should see the following table data in workforce tab
-          | School name     | Pupils | Pupil:teacher ratio | % with EHC plan | % with SEN support |
-          | Test school 237 | 225    | 1.89                | 1.8%            | 5.3%               |
+          | School name     | Pupils | Pupil:teacher ratio | EHC plan (%) | SEN support (%) |
+          | Test school 237 | 225    | 1.89                | 1.8%         | 5.3%            |
