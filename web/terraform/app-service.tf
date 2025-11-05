@@ -73,6 +73,7 @@ resource "azurerm_windows_web_app" "education-benchmarking-as" {
     "FeatureManagement__TrustItSpendBreakdown"              = var.configuration[var.environment].features.TrustItSpendBreakdown
     "FeatureManagement__FbisForTrust"                       = var.configuration[var.environment].features.FbisForTrust
     "FeatureManagement__LocalAuthorityHomepageV2"           = var.configuration[var.environment].features.LocalAuthorityHomepageV2
+    "FeatureManagement__KS4ProgressBanding"                 = var.configuration[var.environment].features.KS4ProgressBanding
     "Apis__Insight__Url"                                    = "@Microsoft.KeyVault(SecretUri=${data.azurerm_key_vault_secret.insight-api-host.versionless_id})"
     "Apis__Insight__Key"                                    = "@Microsoft.KeyVault(SecretUri=${data.azurerm_key_vault_secret.insight-api-key.versionless_id})"
     "Apis__Establishment__Url"                              = "@Microsoft.KeyVault(SecretUri=${data.azurerm_key_vault_secret.establishment-api-host.versionless_id})"

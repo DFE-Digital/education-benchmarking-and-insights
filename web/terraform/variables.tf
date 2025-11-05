@@ -23,6 +23,7 @@ variable "configuration" {
       TrustItSpendBreakdown             = optional(bool, true)
       FbisForTrust                      = optional(bool, true)
       LocalAuthorityHomepageV2          = optional(bool, false)
+      KS4ProgressBanding                = optional(bool, false)
     })
     CacheOptions = object({
       ReturnYears = object({
@@ -51,6 +52,7 @@ variable "configuration" {
       features = {
         News                     = true
         LocalAuthorityHomepageV2 = true
+        KS4ProgressBanding       = true
       },
       CacheOptions = {
         ReturnYears = {
@@ -78,6 +80,7 @@ variable "configuration" {
       features = {
         News                     = true
         LocalAuthorityHomepageV2 = true
+        KS4ProgressBanding       = false # until E2E tests visited in AB#288369
       },
       CacheOptions = {
         ReturnYears = {
@@ -104,6 +107,7 @@ variable "configuration" {
       features = {
         News                     = true
         LocalAuthorityHomepageV2 = true
+        KS4ProgressBanding       = true
       },
       CacheOptions = {
         ReturnYears = {
@@ -131,6 +135,7 @@ variable "configuration" {
       features = {
         News                     = true
         LocalAuthorityHomepageV2 = true
+        KS4ProgressBanding       = true
       },
       CacheOptions = {
         ReturnYears = {
