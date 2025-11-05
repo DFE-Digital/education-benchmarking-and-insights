@@ -38,7 +38,7 @@ stages:
             displayName: 'Install uv'
 
           - script: |
-              uv sync
+              uv sync --group unit-test
             workingDirectory: $(System.DefaultWorkingDirectory)/databricks/education_benchmarking_and_insights
             displayName: 'Install Dependencies with uv'
 
