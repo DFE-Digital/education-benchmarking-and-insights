@@ -26,7 +26,8 @@ stages:
             displayName: 'Use Python $(PYTHON_VERSION)'
 
           - script: |
-              apt-get install temurin-17-jdk
+              sudo apt-get update
+              sudo apt-get install temurin-17-jdk
             displayName: 'Install Java 17'
 
           - script: |
