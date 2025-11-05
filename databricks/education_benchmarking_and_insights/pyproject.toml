@@ -5,14 +5,11 @@ authors = [{ name = "murdo.moyse@education.gov.uk" }]
 requires-python = ">=3.10,<=3.13"
 
 [dependency-groups]
-unit-test = [
-    "numpy>=2.2.6",
-    "pandas>=2.3.3",
-    "pyarrow>=22.0.0",
-    "pyspark>=4.0.1",
-    "pytest>=8.4.2",
-]
 dev = [
+    "databricks-dlt",
+    "pytest",
+]
+unit-test = [
     "numpy>=2.2.6",
     "pandas>=2.3.3",
     "pyarrow>=22.0.0",
