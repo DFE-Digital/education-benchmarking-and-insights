@@ -45,7 +45,7 @@ stages:
           #     DATABRICKS_TOKEN: $(DATABRICKS_TOKEN)
 
           - script: |
-              uv pip install databricks-cli
+              pip install databricks-cli
             workingDirectory: $(System.DefaultWorkingDirectory)/databricks/education_benchmarking_and_insights
             displayName: 'Install Dependencies with uv'
 
