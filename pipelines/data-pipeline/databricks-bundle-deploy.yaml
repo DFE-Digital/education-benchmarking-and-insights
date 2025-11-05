@@ -42,11 +42,11 @@ stages:
             workingDirectory: $(System.DefaultWorkingDirectory)/databricks/education_benchmarking_and_insights
             displayName: 'Install Dependencies with uv'
 
-          # - script: |
-          #     uv run pytest tests/bfr/test_it_spend.py -v
-          #   workingDirectory: $(System.DefaultWorkingDirectory)/databricks/education_benchmarking_and_insights
-          #   displayName: 'Run Tests'
-          #   continueOnError: false
+          - script: |
+              uv run pytest tests/bfr/test_it_spend.py -v
+            workingDirectory: $(System.DefaultWorkingDirectory)/databricks/education_benchmarking_and_insights
+            displayName: 'Run Tests'
+            continueOnError: false
           #   env:
           #     DATABRICKS_HOST: $(DATABRICKS_HOST)
           #     DATABRICKS_TOKEN: $(DATABRICKS_TOKEN)
