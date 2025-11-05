@@ -3,14 +3,13 @@ name = "education_benchmarking_and_insights"
 version = "0.0.1"
 authors = [{ name = "murdo.moyse@education.gov.uk" }]
 requires-python = ">=3.10,<=3.13"
+dependencies = [
+    "databricks-dlt>=0.3.0",
+    "pytest>=8.4.2",
+]
 
 [dependency-groups]
 dev = [
-    "pytest",
-
-    # Code completion support for Lakeflow Declarative Pipelines, also install databricks-connect
-    "databricks-dlt",
-
     # databricks-connect can be used to run parts of this project locally.
     # Note that for local development, you should use a version that is not newer
     # than the remote cluster or serverless compute you connect to.
