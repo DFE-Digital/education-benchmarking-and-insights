@@ -45,7 +45,8 @@ stages:
           #     DATABRICKS_TOKEN: $(DATABRICKS_TOKEN)
 
           - script: |
-              pip install databricks-cli
+              brew tap databricks/tap
+              brew install databricks
             workingDirectory: $(System.DefaultWorkingDirectory)/databricks/education_benchmarking_and_insights
             displayName: 'Install Dependencies with uv'
 
