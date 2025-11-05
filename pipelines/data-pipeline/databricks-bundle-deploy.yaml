@@ -26,6 +26,10 @@ stages:
             displayName: 'Use Python $(PYTHON_VERSION)'
 
           - script: |
+              apt-get install temurin-17-jdk
+            displayName: 'Install Java 17'
+
+          - script: |
               curl -LsSf https://astral.sh/uv/install.sh | sh
               echo "##vso[task.prependpath]$HOME/.cargo/bin"
             displayName: 'Install uv'
