@@ -45,11 +45,8 @@ stages:
           - script: |
               uv run pytest -v
             workingDirectory: $(System.DefaultWorkingDirectory)/databricks/education_benchmarking_and_insights
-            displayName: 'Run Tests'
+            displayName: 'Run unit tests'
             continueOnError: false
-          #   env:
-          #     DATABRICKS_HOST: $(DATABRICKS_HOST)
-          #     DATABRICKS_TOKEN: $(DATABRICKS_TOKEN)
 
           - script: |
               curl -fsSL https://raw.githubusercontent.com/databricks/setup-cli/main/install.sh | sh
