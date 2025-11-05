@@ -58,19 +58,17 @@ def pytest_configure(config: pytest.Config):
         # Mock the pyspark.pipelines module for testing
         sys.modules['pyspark.pipelines'] = mock_pipelines
 
-        # Initialize Spark session eagerly, so it is available even when
-        # SparkSession.builder.getOrCreate() is used. For DB Connect 15+,
-        # we validate version compatibility with the remote cluster.
-        if hasattr(DatabricksSession.builder, "validateSession"):
-            DatabricksSession.builder.validateSession().getOrCreate()
-        else:
-            DatabricksSession.builder.getOrCreate()
-
 
 @pytest.fixture(scope="session")
 def spark() -> SparkSession:
     """Provide a SparkSession fixture for tests."""
-    return DatabricksSession.builder.getOrCreate()
+    return (
+        SparkSession.builder
+        .master("local[2]")
+        .appName("pytest")
+        .config("spark.sql.shuffle.partitions", "2")
+        .getOrCreate()
+    )
 
 
 @pytest.fixture
