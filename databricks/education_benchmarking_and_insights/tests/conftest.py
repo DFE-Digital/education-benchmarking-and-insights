@@ -63,7 +63,7 @@ def pytest_configure(config: pytest.Config):
 def spark() -> SparkSession:
     """Provide a SparkSession fixture for tests."""
     return (
-        DatabricksSession.builder
+        SparkSession.builder
         .master("local[2]")
         .appName("pytest")
         .config("spark.sql.shuffle.partitions", "2")
