@@ -111,32 +111,69 @@ public class HomeSteps(PageDriver driver)
 
     [Given("I should see the following table data in financial tab")]
     [Then("I should see the following table data in financial tab")]
-    public async Task GivenIShouldSeeTheFollowingTableDataInTab(Table table)
+    public async Task GivenIShouldSeeTheFollowingTableDataInFinancialTab(Table table)
     {
         var expected = GetExpectedTableData(table);
         Assert.NotNull(_localAuthorityHomePage);
-        await _localAuthorityHomePage.IsTableDataDisplayed(expected);
+        await _localAuthorityHomePage.IsFinancialTableDataDisplayed(expected);
     }
 
-    [When("I click on show filters")]
-    public async Task WhenIClickOnShowFilters()
+    [When("I click on show filters on the financial tab")]
+    public async Task WhenIClickOnShowFiltersOnTheFinancialTab()
     {
         Assert.NotNull(_localAuthorityHomePage);
         await _localAuthorityHomePage.ClickToggleFinancialFiltersBtn();
     }
 
-    [When("I apply has nursery classes filter")]
-    public async Task WhenIApplyHasNurseryClassesFilter()
+    [When("I apply has nursery classes filter on the financial tab")]
+    public async Task WhenIApplyHasNurseryClassesFilterOnTheFinancialTab()
     {
         Assert.NotNull(_localAuthorityHomePage);
-        await _localAuthorityHomePage.ClickHasNurseryClassesCheckBox();
+        await _localAuthorityHomePage.ClickHasNurseryClassesFinancialCheckBox();
     }
 
-    [When("I click Apply filters")]
-    public async Task WhenIClickApplyFilters()
+    [When("I click Apply filters on the financial tab")]
+    public async Task WhenIClickApplyFiltersOnTheFinancialTab()
     {
         Assert.NotNull(_localAuthorityHomePage);
-        await _localAuthorityHomePage.ClickApplyFilters();
+        await _localAuthorityHomePage.ClickFinancialApplyFilters();
+    }
+
+    [Given("I should see the following table data in workforce tab")]
+    [Then("I should see the following table data in workforce tab")]
+    public async Task GivenIShouldSeeTheFollowingTableDataInWorkforceTab(Table table)
+    {
+        var expected = GetExpectedTableData(table);
+        Assert.NotNull(_localAuthorityHomePage);
+        await _localAuthorityHomePage.IsWorkforceTableDataDisplayed(expected);
+    }
+
+    [Given("I click on the workforce tab")]
+    public async Task GivenIClickOnTheWorkforceTab()
+    {
+        Assert.NotNull(_localAuthorityHomePage);
+        await _localAuthorityHomePage.ClickWorkforceTab();
+    }
+
+    [When("I click on show filters on the workforce tab")]
+    public async Task WhenIClickOnShowFiltersOnTheWorkforceTab()
+    {
+        Assert.NotNull(_localAuthorityHomePage);
+        await _localAuthorityHomePage.ClickToggleWorkforceFiltersBtn();
+    }
+
+    [When("I apply has nursery classes filter on the workforce tab")]
+    public async Task WhenIApplyHasNurseryClassesFilterOnTheWorkforceTab()
+    {
+        Assert.NotNull(_localAuthorityHomePage);
+        await _localAuthorityHomePage.ClickHasNurseryClassesWorkforceCheckBox();
+    }
+
+    [When("I click Apply filters on the workforce tab")]
+    public async Task WhenIClickApplyFiltersOnTheWorkforceTab()
+    {
+        Assert.NotNull(_localAuthorityHomePage);
+        await _localAuthorityHomePage.ClickWorkforceApplyFilters();
     }
 
     private static string LocalAuthorityHomeUrl(string laCode) => $"{TestConfiguration.ServiceUrl}/local-authority/{laCode}";

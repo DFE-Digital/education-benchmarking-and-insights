@@ -34,11 +34,15 @@ public class HomePage(IPage page)
     private ILocator BannerHeading => page.Locator(Selectors.GovNotificationBannerHeading);
     private ILocator BannerBody => page.Locator(Selectors.GovNotificationBannerBody);
     private ILocator SchoolFinancialTable => page.Locator(Selectors.LocalAuthoritySchoolFinancialTabTable);
-
+    private ILocator SchoolWorkforceTable => page.Locator(Selectors.LocalAuthoritySchoolWorkforceTabTable);
+    private ILocator SchoolWorkforceTabLink => page.Locator(Selectors.LocalAuthoritySchoolWorkforceTabLink);
     private ILocator ToggleFinancialFiltersCta => page.Locator("[data-testid='toggle-financial-filters']");
+    private ILocator ToggleWorkforceFiltersCta => page.Locator("[data-testid='toggle-workforce-filters']");
 
-    private ILocator FinancialHasNurseryClassesCheckBox => page.Locator(Selectors.FinancialTabHasNuseryCheckBox);
+    private ILocator FinancialHasNurseryClassesCheckBox => page.Locator(Selectors.FinancialTabHasNurseryCheckBox);
+    private ILocator WorkforceHasNurseryClassesCheckBox => page.Locator(Selectors.WorkforceTabHasNurseryCheckBox);
     private ILocator FinancialApplyFilters => page.Locator(Selectors.ApplyFiltersBtnLAFinancialTab);
+    private ILocator WorkforceApplyFilters => page.Locator(Selectors.ApplyFiltersBtnLAWorkforceTab);
 
     private ILocator NurseryProvisionAccordion => page.Locator("button.govuk-accordion__section-button", new PageLocatorOptions
     {
@@ -137,10 +141,21 @@ public class HomePage(IPage page)
         table.CompareToDynamicSet(set, false);
     }
 
-    public async Task IsTableDataDisplayed(List<List<string>> expected)
+    public async Task IsFinancialTableDataDisplayed(List<List<string>> expected)
     {
         await SchoolFinancialTable.ShouldBeVisible();
         await SchoolFinancialTable.ShouldHaveTableContent(expected, true);
+    }
+
+    public async Task ClickWorkforceTab()
+    {
+        await SchoolWorkforceTabLink.Click();
+    }
+
+    public async Task IsWorkforceTableDataDisplayed(List<List<string>> expected)
+    {
+        await SchoolWorkforceTable.ShouldBeVisible();
+        await SchoolWorkforceTable.ShouldHaveTableContent(expected, true);
     }
 
     public async Task ClickToggleFinancialFiltersBtn()
@@ -148,17 +163,35 @@ public class HomePage(IPage page)
         await ToggleFinancialFiltersCta.Click();
     }
 
-    public async Task ClickHasNurseryClassesCheckBox()
+    public async Task ClickToggleWorkforceFiltersBtn()
+    {
+        await ToggleWorkforceFiltersCta.Click();
+    }
+
+    public async Task ClickHasNurseryClassesFinancialCheckBox()
     {
         await ExpandAccordionIfNotExpanded(NurseryProvisionAccordion);
         await FinancialHasNurseryClassesCheckBox.ShouldBeVisible();
         await FinancialHasNurseryClassesCheckBox.Click();
     }
 
-    public async Task ClickApplyFilters()
+    public async Task ClickHasNurseryClassesWorkforceCheckBox()
+    {
+        await ExpandAccordionIfNotExpanded(NurseryProvisionAccordion);
+        await WorkforceHasNurseryClassesCheckBox.ShouldBeVisible();
+        await WorkforceHasNurseryClassesCheckBox.Click();
+    }
+
+    public async Task ClickFinancialApplyFilters()
     {
         await FinancialApplyFilters.ShouldBeVisible();
         await FinancialApplyFilters.Click();
+    }
+
+    public async Task ClickWorkforceApplyFilters()
+    {
+        await WorkforceApplyFilters.ShouldBeVisible();
+        await WorkforceApplyFilters.Click();
     }
 
     private async Task ExpandAccordionIfNotExpanded(ILocator accordionButton)
