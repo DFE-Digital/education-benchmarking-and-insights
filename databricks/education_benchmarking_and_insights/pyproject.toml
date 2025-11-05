@@ -3,7 +3,16 @@ name = "education_benchmarking_and_insights"
 version = "0.0.1"
 authors = [{ name = "murdo.moyse@education.gov.uk" }]
 requires-python = ">=3.10,<=3.13"
-dependencies = [
+
+[dependency-groups]
+unit-test = [
+    "numpy>=2.2.6",
+    "pandas>=2.3.3",
+    "pyarrow>=22.0.0",
+    "pyspark>=4.0.1",
+    "pytest>=8.4.2",
+]
+dev = [
     "numpy>=2.2.6",
     "pandas>=2.3.3",
     "pyarrow>=22.0.0",
@@ -11,8 +20,6 @@ dependencies = [
     "pytest>=8.4.2",
 ]
 
-[dependency-groups]
-dev = []
 
 [tool.pytest.ini_options]
 pythonpath = "src"
