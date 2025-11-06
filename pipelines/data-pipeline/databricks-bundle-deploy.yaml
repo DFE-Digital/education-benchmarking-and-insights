@@ -2,8 +2,10 @@ trigger:
   branches:
     include:
       - main
-      - develop
       - feature/databricks-notebooks
+
+pr:
+  - main
 
 pool:
   vmImage: 'ubuntu-latest'
@@ -28,8 +30,6 @@ stages:
           - script: |
               sudo apt-get update
               sudo apt-get install temurin-17-jdk
-              export JAVA_HOME=$(/usr/libexec/java_home -v 17)
-              export PATH="$JAVA_HOME/bin:$PATH"
             displayName: 'Install Java 17'
 
           - script: |
