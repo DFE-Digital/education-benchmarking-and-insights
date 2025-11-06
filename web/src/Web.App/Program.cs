@@ -50,6 +50,7 @@ builder.Services
     .AddScoped<IBannerService, BannerService>()
     .AddScoped<ICostCodesService, CostCodesService>()
     .AddScoped<ITrustItSpendChartService, TrustItSpendChartService>()
+    .AddScoped<IProgressBandingsService, ProgressBandingsService>()
     .AddValidation()
     .AddActionResults();
 

@@ -24,7 +24,8 @@ public class SchoolComparisonController(
     ILogger<SchoolComparisonController> logger,
     IUserDataService userDataService,
     ISchoolComparatorSetService schoolComparatorSetService,
-    ICostCodesService costCodesService)
+    ICostCodesService costCodesService,
+    IProgressBandingsService progressBandingsService)
     : Controller
 {
     [HttpGet]
@@ -45,7 +46,17 @@ public class SchoolComparisonController(
                 var defaultComparatorSet = await comparatorSetApi.GetDefaultSchoolAsync(urn).GetResultOrDefault<SchoolComparatorSet>();
                 var userData = await userDataService.GetSchoolDataAsync(User, urn);
                 var costCodes = await costCodesService.GetCostCodes(school.IsPartOfTrust);
-                var viewModel = new SchoolComparisonViewModel(school, costCodes, userData.ComparatorSet, userData.CustomData, expenditure, defaultComparatorSet);
+
+                string[]? customComparatorSet = null;
+                if (userData.ComparatorSet != null)
+                {
+                    var userDefinedSet = await comparatorSetApi.GetUserDefinedSchoolAsync(urn, userData.ComparatorSet)
+                        .GetResultOrDefault<UserDefinedSchoolComparatorSet>();
+                    customComparatorSet = userDefinedSet?.Set;
+                }
+
+                var bandings = await progressBandingsService.GetKS4ProgressBandings(customComparatorSet ?? defaultComparatorSet?.Pupil ?? []);
+                var viewModel = new SchoolComparisonViewModel(school, costCodes, userData.ComparatorSet, userData.CustomData, expenditure, defaultComparatorSet, bandings);
 
                 return View(viewModel);
             }
