@@ -26,6 +26,7 @@ public record SchoolCharacteristic
     public decimal? TotalPupilsSixthForm { get; set; }
     public decimal? KS2Progress { get; set; }
     public decimal? KS4Progress { get; set; }
+    public string? KS4ProgressBanding { get; set; }
     public decimal? PercentWithVI { get; set; }
     public decimal? PercentWithSPLD { get; set; }
     public decimal? PercentWithSLD { get; set; }
