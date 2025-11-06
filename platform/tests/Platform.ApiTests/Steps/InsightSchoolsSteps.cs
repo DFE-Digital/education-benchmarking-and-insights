@@ -1,6 +1,8 @@
-﻿using Platform.Api.Insight.Features.Schools.Models;
+﻿using Newtonsoft.Json.Linq;
+using Platform.Api.Insight.Features.Schools.Models;
 using Platform.ApiTests.Assertion;
 using Platform.ApiTests.Drivers;
+using Platform.ApiTests.TestDataHelpers;
 using Platform.Json;
 
 namespace Platform.ApiTests.Steps;
@@ -47,32 +49,38 @@ public class InsightSchoolsSteps(InsightApiDriver api)
         await api.Send();
     }
 
-    [Then("the school characteristics result should be ok and contain:")]
-    public async Task ThenTheSchoolCharacteristicsResultShouldBeOkAndContain(DataTable table)
-    {
-        var response = api[InsightSchoolsKey].Response;
-        AssertHttpResponse.IsOk(response);
-
-        var content = await response.Content.ReadAsByteArrayAsync();
-        var result = content.FromJson<SchoolCharacteristic>();
-        table.CompareToInstance(result);
-    }
-
     [Then("the school characteristics result should be not found")]
     public void ThenTheSchoolCharacteristicsResultShouldBeNotFound()
     {
         AssertHttpResponse.IsNotFound(api[InsightSchoolsKey].Response);
     }
-
-    [Then("the school characteristics results should be ok and contain:")]
-    public async Task ThenTheSchoolCharacteristicsResultsShouldBeOkAndContain(DataTable table)
+    
+    [Then("the school characteristics result should be ok and match the expected output of '(.*)'")]
+    public async Task ThenTheSchoolCharacteristicsResultShouldBeOkAndMatchTheExpectedOutputOf(string testFile)
     {
         var response = api[InsightSchoolsKey].Response;
         AssertHttpResponse.IsOk(response);
 
-        var content = await response.Content.ReadAsByteArrayAsync();
-        var results = content.FromJson<SchoolCharacteristic[]>();
-        table.CompareToSet(results);
+        var content = await response.Content.ReadAsStringAsync();
+        var actual = JObject.Parse(content);
+
+        var expected = TestDataProvider.GetJsonObjectData(testFile);
+
+        actual.AssertDeepEquals(expected);
+    }
+    
+    [Then("the schools characteristics result should be ok and match the expected output of '(.*)'")]
+    public async Task ThenTheSchoolsCharacteristicsResultShouldBeOkAndMatchTheExpectedOutputOf(string testFile)
+    {
+        var response = api[InsightSchoolsKey].Response;
+        AssertHttpResponse.IsOk(response);
+
+        var content = await response.Content.ReadAsStringAsync();
+        var actual = JArray.Parse(content);
+
+        var expected = TestDataProvider.GetJsonArrayData(testFile);
+
+        actual.AssertDeepEquals(expected);
     }
 
     private static IEnumerable<string> GetFirstColumnsFromTableRowsAsString(DataTable table)
