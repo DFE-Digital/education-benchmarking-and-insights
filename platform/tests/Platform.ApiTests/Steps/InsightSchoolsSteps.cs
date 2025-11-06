@@ -54,7 +54,7 @@ public class InsightSchoolsSteps(InsightApiDriver api)
     {
         AssertHttpResponse.IsNotFound(api[InsightSchoolsKey].Response);
     }
-    
+
     [Then("the school characteristics result should be ok and match the expected output of '(.*)'")]
     public async Task ThenTheSchoolCharacteristicsResultShouldBeOkAndMatchTheExpectedOutputOf(string testFile)
     {
@@ -68,7 +68,7 @@ public class InsightSchoolsSteps(InsightApiDriver api)
 
         actual.AssertDeepEquals(expected);
     }
-    
+
     [Then("the schools characteristics result should be ok and match the expected output of '(.*)'")]
     public async Task ThenTheSchoolsCharacteristicsResultShouldBeOkAndMatchTheExpectedOutputOf(string testFile)
     {
