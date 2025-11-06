@@ -105,6 +105,26 @@ Test data for local unit tests should use small, representative samples. Integra
 
 ## Deployment and Execution
 
+### CICD Pipeline flow
+
+graph LR
+  A[PR to Main] --> B[Run Unit Tests]
+  B --> C[DAB Validate]
+  C --> D{Manual Approval}
+  D --> E[Deploy to Dev]
+
+  F[Merge to Main] --> G[Run Unit Tests]
+  G --> H[DAB Validate]
+  H --> I[Deploy to Dev]
+  I --> J{Manual Approval}
+  J --> K[Deploy to Prod]
+  
+  style A fill:#e1f5ff
+  style F fill:#e1f5ff
+  style K fill:#ffebe6
+
+As elsewhere in the service, failures in the pipeline are fixed forward and there is not a rollback functionality. Builds are tagged with a version as part of CICD.
+
 ### Service Account for CI/CD
 
 Currently, bundle deployments are performed manually by developers using their personal credentials. We plan to implement a service account for CI/CD once:
