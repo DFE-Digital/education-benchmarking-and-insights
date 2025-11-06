@@ -107,7 +107,6 @@ Test data for local unit tests should use small, representative samples. Integra
 
 ### CICD Pipeline flow
 
-```mermaid
 graph LR
   A[PR to Main] --> B[Run Unit Tests]
   B --> C[DAB Validate]
@@ -123,7 +122,6 @@ graph LR
   style A fill:#e1f5ff
   style F fill:#e1f5ff
   style K fill:#ffebe6
-```
 
 As elsewhere in the service, failures in the pipeline are fixed forward and there is not a rollback functionality. Builds are tagged with a version as part of CICD.
 
