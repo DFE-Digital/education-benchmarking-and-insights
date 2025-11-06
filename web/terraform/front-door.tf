@@ -156,7 +156,7 @@ resource "azurerm_cdn_frontdoor_firewall_policy" "web-app-front-door-waf" {
     content {
       type    = "DefaultRuleSet"
       version = "1.0"
-      action  = "Block"
+      action  = "Log"
 
       override {
         rule_group_name = "SQLI"
@@ -180,7 +180,7 @@ resource "azurerm_cdn_frontdoor_firewall_policy" "web-app-front-door-waf" {
         }
 
         exclusion {
-          match_variable = "RequestFormPostParamNames"
+          match_variable = "RequestBodyPostArgNames"
           operator       = "StartsWith"
           selector       = "__RequestVerificationToken"
         }
@@ -193,12 +193,30 @@ resource "azurerm_cdn_frontdoor_firewall_policy" "web-app-front-door-waf" {
 
         exclusion {
           match_variable = "RequestCookieNames"
-          operator       = "StartsWith"
-          selector       = ".AspNetCore.Mvc.CookieTempDataProvider"          
+          operator       = "Equals"
+          selector       = "_gcl_aw"
         }
 
         exclusion {
-          match_variable = "RequestFormPostParamNames"
+          match_variable = "RequestCookieNames"
+          operator       = "Equals"
+          selector       = "ai_session"
+        }
+
+        exclusion {
+          match_variable = "RequestCookieNames"
+          operator       = "Equals"
+          selector       = "session"
+        }
+
+        exclusion {
+          match_variable = "RequestCookieNames"
+          operator       = "StartsWith"
+          selector       = ".AspNetCore.Mvc.CookieTempDataProvider"
+        }
+
+        exclusion {
+          match_variable = "RequestBodyPostArgNames"
           operator       = "Equals"
           selector       = "state"
         }
@@ -206,12 +224,16 @@ resource "azurerm_cdn_frontdoor_firewall_policy" "web-app-front-door-waf" {
 
       override {
         rule_group_name = "RFI"
-        rule_ids        = ["931130"]
 
-        exclusion {
-          match_variable = "RequestFormPostParamNames"
-          operator       = "Equals"
-          selector       = "iss"
+        rule {
+          rule_id = "931130"
+          action  = "Log"
+
+          exclusion {
+            match_variable = "RequestBodyPostArgNames"
+            operator       = "Equals"
+            selector       = "iss"
+          }
         }
       }
     }

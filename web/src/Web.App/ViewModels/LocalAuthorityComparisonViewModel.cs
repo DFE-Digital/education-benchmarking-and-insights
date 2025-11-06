@@ -21,6 +21,5 @@ public class LocalAuthorityComparisonViewModel(LocalAuthority localAuthority, Co
 
     public FinanceToolsViewModel Tools => new(
         localAuthority.Code,
-        FinanceTools.BenchmarkCensus,
-        FinanceTools.HighNeeds);
+        FinanceTools.BenchmarkCensus);
 }

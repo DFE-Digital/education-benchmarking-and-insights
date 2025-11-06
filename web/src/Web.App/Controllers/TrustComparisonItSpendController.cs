@@ -1,13 +1,18 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using System.Net;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.FeatureManagement.Mvc;
+using Web.App.ActionResults;
 using Web.App.Attributes;
 using Web.App.Attributes.RequestTelemetry;
 using Web.App.Domain;
+using Web.App.Domain.Charts;
+using Web.App.Extensions;
 using Web.App.Infrastructure.Apis;
 using Web.App.Infrastructure.Apis.Benchmark;
 using Web.App.Infrastructure.Apis.Establishment;
+using Web.App.Infrastructure.Apis.Insight;
 using Web.App.Infrastructure.Extensions;
 using Web.App.Services;
 using Web.App.ViewModels;
@@ -20,15 +25,22 @@ namespace Web.App.Controllers;
 [ValidateCompanyNumber]
 [FeatureGate(FeatureFlags.TrustItSpendBreakdown)]
 public class TrustComparisonItSpendController(
-    ILogger<TrustComparisonItSpendController> logger,
     IEstablishmentApi establishmentApi,
     IComparatorSetApi comparatorSetApi,
-    IUserDataService userDataService) : Controller
+    IItSpendApi itSpendApi,
+    ITrustItSpendChartService chartService,
+    IUserDataService userDataService,
+    IBudgetForecastApi budgetForecastApi,
+    IConfiguration configuration,
+    ILogger<TrustComparisonItSpendController> logger) : Controller
 {
     [HttpGet]
     [TrustRequestTelemetry(TrackedRequestFeature.BenchmarkItSpend)]
     public async Task<IActionResult> Index(string companyNumber,
-        [FromQuery(Name = "comparator-generated")] bool? comparatorGenerated)
+        [FromQuery(Name = "comparator-generated")] bool? comparatorGenerated,
+        ItSpendingCategories.SubCategoryFilter[] selectedSubCategories,
+        Dimensions.ResultAsOptions resultAs = Dimensions.ResultAsOptions.Actuals,
+        Views.ViewAsOptions viewAs = Views.ViewAsOptions.Chart)
     {
         using (logger.BeginScope(new
         {
@@ -42,8 +54,10 @@ public class TrustComparisonItSpendController(
                 {
                     companyNumber
                 });
-                var userData = await userDataService.GetTrustDataAsync(User, companyNumber);
-                if (userData.ComparatorSet == null)
+
+                var (userDataComparatorSet, userDefinedSet, hasTrustAuthorisation) = await GetTrustUserContextAsync(companyNumber);
+
+                if (userDataComparatorSet == null)
                 {
                     return RedirectToAction("Index", "TrustComparatorsCreateBy", new
                     {
@@ -52,17 +66,180 @@ public class TrustComparisonItSpendController(
                     });
                 }
 
-                var userDefinedSet = await comparatorSetApi.GetUserDefinedTrustAsync(companyNumber, userData.ComparatorSet)
-                    .GetResultOrDefault<UserDefinedSchoolComparatorSet>();
+                if (userDefinedSet == null || userDefinedSet.Set.Length == 0)
+                {
+                    return RedirectToAction("UserDefined", "TrustComparators", new
+                    {
+                        companyNumber,
+                        redirectUri
+                    });
+                }
 
-                var viewModel = new TrustComparisonItSpendViewModel(trust, comparatorGenerated, redirectUri, userDefinedSet?.Set);
-                return View(viewModel);
+                return await TrustComparisonItSpend(trust, userDefinedSet.Set, comparatorGenerated, redirectUri, hasTrustAuthorisation, selectedSubCategories, resultAs, viewAs);
             }
             catch (Exception e)
             {
-                logger.LogError(e, "An error displaying trust IT spend landing: {DisplayUrl}", Request.GetDisplayUrl());
+                logger.LogError(e, "An error displaying trust IT spending comparison: {DisplayUrl}", Request.GetDisplayUrl());
                 return e is StatusCodeException s ? StatusCode((int)s.Status) : StatusCode(500);
             }
         }
+    }
+
+    [HttpPost]
+    public IActionResult Index(string companyNumber, int viewAs, int resultAs, int[]? selectedSubCategories) => RedirectToAction("Index", new
+    {
+        companyNumber,
+        viewAs,
+        resultAs,
+        selectedSubCategories
+    });
+
+    [HttpGet]
+    [Produces("application/zip")]
+    [ProducesResponseType<byte[]>(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    [Route("download")]
+    public async Task<IActionResult> Download(string companyNumber)
+    {
+        using (logger.BeginScope(new
+        {
+            companyNumber
+        }))
+        {
+            try
+            {
+                var (userDataComparatorSet, userDefinedSet, hasTrustAuthorisation) = await GetTrustUserContextAsync(companyNumber);
+
+                if (userDataComparatorSet == null || userDefinedSet == null || userDefinedSet.Set.Length == 0)
+                {
+                    return StatusCode((int)HttpStatusCode.NotFound);
+                }
+
+                var (_, expenditures, forecasts) = await GetTrustItSpendAsync(companyNumber, Dimensions.ResultAsOptions.Actuals, userDefinedSet.Set, hasTrustAuthorisation);
+
+                var csvList = new List<CsvResult>
+                {
+                    new (expenditures, $"benchmark-it-spending-previous-year-{companyNumber}.csv")
+                };
+
+                if (forecasts == null)
+                {
+                    return new CsvResults(csvList, $"benchmark-it-spending-{companyNumber}.zip");
+                }
+
+                var forecastCsv = new CsvResult(forecasts, $"benchmark-it-spending-forecast-{companyNumber}.csv");
+                csvList.Add(forecastCsv);
+
+                return new CsvResults(csvList, $"benchmark-it-spending-{companyNumber}.zip");
+            }
+            catch (Exception e)
+            {
+                logger.LogError(e, "An error downloading IT expenditure data: {DisplayUrl}", Request.GetDisplayUrl());
+                return StatusCode(500);
+            }
+        }
+    }
+
+    private async Task<(string? userDataComparatorSet, UserDefinedSchoolComparatorSet? userDefinedSet, bool hasTrustAuthorisation)> GetTrustUserContextAsync(string companyNumber)
+    {
+        var userData = await userDataService.GetTrustDataAsync(User, companyNumber);
+
+        var userDefinedSet = await comparatorSetApi.GetUserDefinedTrustAsync(companyNumber, userData.ComparatorSet)
+            .GetResultOrDefault<UserDefinedSchoolComparatorSet>();
+
+        var hasTrustAuthorisation = Request.HttpContext.User.HasTrustAuthorisation(companyNumber, configuration);
+
+        return (userData.ComparatorSet, userDefinedSet, hasTrustAuthorisation);
+    }
+
+    private async Task<IActionResult> TrustComparisonItSpend(
+        Trust trust,
+        string[] comparatorSet,
+        bool? comparatorGenerated,
+        string? redirectUri,
+        bool hasTrustAuthorisation,
+        ItSpendingCategories.SubCategoryFilter[] selectedSubCategories,
+        Dimensions.ResultAsOptions resultAs,
+        Views.ViewAsOptions viewAs)
+    {
+        var (bfrYear, expenditures, forecasts) = await GetTrustItSpendAsync(trust.CompanyNumber, resultAs, comparatorSet, hasTrustAuthorisation);
+
+        var subCategories = new TrustComparisonSubCategoriesViewModel(trust.CompanyNumber!, expenditures, forecasts, selectedSubCategories);
+        if (viewAs == Views.ViewAsOptions.Chart)
+        {
+            var charts = await chartService.BuildChartsAsync(
+                trust.CompanyNumber!,
+                resultAs,
+                subCategories,
+                format => Uri.UnescapeDataString(Url.Action("Index", "Trust", new { companyNumber = format }) ?? string.Empty)
+            );
+
+
+            foreach (var chart in charts)
+            {
+                var category = subCategories.Items.FirstOrDefault(r => r.Uuid == chart.Id);
+                if (category != null)
+                {
+                    category.ChartSvg = chart.Html;
+                }
+            }
+
+            if (forecasts != null)
+            {
+                charts = await chartService.BuildForecastChartsAsync(resultAs, subCategories);
+
+                foreach (var chart in charts)
+                {
+                    var category = subCategories.Items.FirstOrDefault(r => r.Uuid == chart.Id);
+                    if (category != null)
+                    {
+                        category.ForecastChartSvg = chart.Html;
+                    }
+                }
+            }
+        }
+
+        var viewModel = new TrustComparisonItSpendViewModel(trust, comparatorGenerated, redirectUri, comparatorSet, subCategories, bfrYear)
+        {
+            SelectedSubCategories = selectedSubCategories,
+            ViewAs = viewAs,
+            ResultAs = resultAs
+        };
+
+        return View(viewModel);
+    }
+
+    private async Task<(int bfrYear, TrustItSpend[] expenditures, TrustItSpendForecastYear[]? forecasts)> GetTrustItSpendAsync(
+        string? companyNumber,
+        Dimensions.ResultAsOptions resultAs,
+        string[] comparatorSet,
+        bool hasTrustAuthorisation)
+    {
+        var bfrYear = await budgetForecastApi
+            .GetCurrentBudgetForecastYear(companyNumber)
+            .GetResultOrDefault(Constants.CurrentYear - 1);
+
+        var expenditures = await itSpendApi
+            .QueryTrusts(BuildApiQuery(resultAs, comparatorSet))
+            .GetResultOrDefault<TrustItSpend[]>() ?? [];
+
+        var forecasts = hasTrustAuthorisation
+            ? await itSpendApi.TrustForecast(companyNumber).GetResultOrDefault<TrustItSpendForecastYear[]>()
+            : null;
+
+        return (bfrYear, expenditures, forecasts);
+    }
+
+    private static ApiQuery BuildApiQuery(Dimensions.ResultAsOptions resultAs, IEnumerable<string> companyNumbers)
+    {
+        var query = new ApiQuery();
+        foreach (var companyNumber in companyNumbers)
+        {
+            query.AddIfNotNull("companyNumbers", companyNumber);
+        }
+
+        query.AddIfNotNull("dimension", resultAs.GetQueryParam());
+        return query;
     }
 }

@@ -49,6 +49,23 @@ def run_comparator_sets_pipeline(
                     data=prepared_data.to_parquet(),
                 )
 
+            # For custom runs the target urn will only be one school type,
+            # but RAG still expects a comparators file for both types
+            if target_urn and target_urn not in preprocessed_data.index:
+                logger.info(f"{target_urn} not found in {school_type}, creating empty comparators file")
+                # Create an empty DataFrame with the expected columns to ensure a file is always created
+                empty_comparators_df = pd.DataFrame(
+                    columns=[*cols_for_comparators_parquet, "URN"]).set_index("URN")
+                comparators_parquet_filename_prefix = (
+                    "academy" if school_type == "academies" else school_type
+                )
+                write_blob(
+                    container_name="comparator-sets",
+                    blob_name=f"{run_type}/{run_id}/{comparators_parquet_filename_prefix}_comparators.parquet",
+                    data=empty_comparators_df.to_parquet(index=True),
+                )
+                continue
+
             # 3. Instantiate comparator calculator and calculate comparator sets
             calculator = ComparatorCalculator(prepared_data=prepared_data)
             comparator_sets_df = calculator.calculate_comparator_sets(

@@ -310,6 +310,9 @@ def insert_schools_and_local_authorities(
         "Town": "AddressTown",
         "County (name)": "AddressCounty",
         "Postcode": "AddressPostcode",
+        "NurseryProvision (name)": "NurseryProvision",
+        "SpecialClasses (name)": "SpecialClassProvision",
+        "OfficialSixthForm (name)": "SixthFormProvision",
     }
 
     write_frame = (
@@ -407,8 +410,11 @@ def insert_non_financial_data(
         "Percentage SEN": "PercentSpecialEducationNeeds",
         "Percentage with EHC": "PercentWithEducationalHealthCarePlan",
         "Percentage without EHC": "PercentWithoutEducationalHealthCarePlan",
+        "EHC plan": "EHCPlan",
+        "SEN support": "SENSupport",
         "Ks2Progress": "KS2Progress",
         "Progress8Measure": "KS4Progress",
+        "Progress8Banding": "KS4ProgressBanding",
         "Percentage Primary Need VI": "PercentWithVI",
         "Percentage Primary Need SPLD": "PercentWithSPLD",
         "Percentage Primary Need SLD": "PercentWithSLD",

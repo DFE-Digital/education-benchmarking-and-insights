@@ -1,0 +1,36 @@
+@using Web.App.Extensions
+@model Web.App.ViewModels.ITrustKeyInformationViewModel
+@{
+    var summary = false;
+    if (ViewData.TryGetValue("Summary", out var parsedSummary))
+    {
+        summary = parsedSummary as bool? == true;
+    }
+
+    var itemClassList = summary ? "app-headline-figures app-headline-summary" : "app-headline-figures";
+    var labelClassList = summary
+        ? "govuk-body-m govuk-!-margin-bottom-2"
+        : "govuk-body-l govuk-!-font-weight-bold govuk-!-margin-bottom-4";
+    var valueClassList = summary
+        ? "govuk-body-l govuk-!-font-weight-bold govuk-!-margin-bottom-2"
+        : "govuk-body-l govuk-!-margin-bottom-2";
+}
+
+<div class="govuk-grid-row govuk-!-margin-bottom-5">
+    <div class="govuk-grid-column-full">
+        <ul class="app-headline app-headline-3 govuk-!-text-align-centre govuk-!-margin-0">
+            <li class="@itemClassList">
+                <p class="@labelClassList">In year balance</p>
+                <p class="@valueClassList">@Model.InYearBalance.ToCurrency()</p>
+            </li>
+            <li class="@itemClassList">
+                <p class="@labelClassList">Revenue reserve</p>
+                <p class="@valueClassList">@Model.RevenueReserve.ToCurrency()</p>
+            </li>
+            <li class="@itemClassList">
+                <p class="@labelClassList">Academies</p>
+                <p class="@valueClassList">@Model.NumberSchools</p>
+            </li>
+        </ul>
+    </div>
+</div>

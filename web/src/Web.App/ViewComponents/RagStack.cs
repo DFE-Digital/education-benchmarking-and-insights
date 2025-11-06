@@ -10,11 +10,11 @@ public class RagStack : ViewComponent
         int red,
         int amber,
         int green,
-        bool small = false,
+        string? className,
         string? redHref = null,
         string? amberHref = null,
         string? greenHref = null)
-        => View(new RagStackViewModel(identifier, red, amber, green, small)
+        => View(new RagStackViewModel(identifier, red, amber, green, className)
         {
             RedHref = redHref,
             AmberHref = amberHref,

@@ -1,0 +1,25 @@
+@using Web.App.ViewModels.Components
+@model Web.App.ViewModels.Components.LocalAuthoritySchoolFinancialFormViewModel
+
+@foreach (var item in Model.SelectedOverallPhases)
+{
+    @Html.Hidden($"{Model.FormPrefix}{LocalAuthoritySchoolFinancialFormViewModel.FormFieldNames.SelectedOverallPhases}", (int)item)
+}
+
+@foreach (var item in Model.SelectedNurseryProvisions)
+{
+    @Html.Hidden($"{Model.FormPrefix}{LocalAuthoritySchoolFinancialFormViewModel.FormFieldNames.SelectedNurseryProvisions}", (int)item)
+}
+
+@foreach (var item in Model.SelectedSpecialProvisions)
+{
+    @Html.Hidden($"{Model.FormPrefix}{LocalAuthoritySchoolFinancialFormViewModel.FormFieldNames.SelectedSpecialProvisions}", (int)item)
+}
+
+@foreach (var item in Model.SelectedSixthFormProvisions)
+{
+    @Html.Hidden($"{Model.FormPrefix}{LocalAuthoritySchoolFinancialFormViewModel.FormFieldNames.SelectedSixthFormProvisions}", (int)item)
+}
+
+@Html.Hidden($"{Model.FormPrefix}{LocalAuthoritySchoolFinancialFormViewModel.FormFieldNames.ResultAs}", (int)Model.ResultAs)
+

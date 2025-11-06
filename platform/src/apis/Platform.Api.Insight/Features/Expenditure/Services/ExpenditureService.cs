@@ -86,7 +86,8 @@ public class ExpenditureService(IDatabaseFactory dbFactory, ICacheKeyFactory cac
     {
         using var conn = await dbFactory.GetConnection();
         var builder = new ExpenditureSchoolCustomQuery(dimension)
-            .WhereUrnEqual(urn);
+            .WhereUrnEqual(urn)
+            .WhereRunIdEqual(identifier);
 
         return await conn.QueryFirstOrDefaultAsync<ExpenditureSchoolModel>(builder, cancellationToken);
     }

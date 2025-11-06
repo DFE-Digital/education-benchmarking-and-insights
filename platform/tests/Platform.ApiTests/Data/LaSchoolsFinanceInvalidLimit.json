@@ -1,0 +1,7 @@
+[
+  {
+    "severity": "Error",
+    "propertyName": "Limit",
+    "errorMessage": "Limit must be empty or a number between 1 and 100."
+  }
+]

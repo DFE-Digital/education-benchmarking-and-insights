@@ -1,0 +1,138 @@
+@using Web.App.Extensions
+@model Web.App.ViewModels.TrustFinancialBenchmarkingInsightsSummaryViewModel
+
+<section id="priority-schools-section" aria-labelledby="priority-schools">
+    <h2 class="govuk-heading-l" id="priority-schools">Spending at schools in this trust</h2>
+
+    <p class="govuk-body">
+        Key highlights from @(Model.Schools.Count() > 1 ? "two schools" : "the school") in your trust.
+    </p>
+
+    <div class="dashboard-row">
+        @foreach (var school in Model.PrioritySchools)
+        {
+            <div class="dashboard-column-one-half">
+                <div class="govuk-summary-card">
+                    <div class="govuk-summary-card__title-wrapper">
+                        <h2 class="govuk-summary-card__title">@school.Name</h2>
+                    </div>
+                    <div class="govuk-summary-card__content">
+                        <p class="govuk-body-m govuk-!-font-weight-bold">All spending priorities</p>
+
+                        <div class="govuk-grid-row">
+                            <div class="govuk-grid-column-one-third">
+                                <strong
+                                    class="govuk-tag priority-count-tag--red govuk-!-margin-bottom-0 govuk-!-padding-top-1 govuk-!-padding-right-2 govuk-!-padding-bottom-1 govuk-!-padding-left-2">
+                                    High
+                                </strong>
+                                <p class="priority-count high govuk-body govuk-!-padding-2" data-testid="priority-red">
+                                    <strong>
+                                        @if (school.Red > 0)
+                                        {
+                                            <a class="govuk-link govuk-link--no-visited-state" href="@Url.Action("Index", "SchoolSpending", new
+                                                     {
+                                                         urn = school.Urn
+                                                     })#high-priority">@school.Red</a>
+
+                                        }
+                                        else
+                                        {
+                                            @school.Red
+                                        }
+                                    </strong>
+                                </p>
+                            </div>
+
+                            <div class="govuk-grid-column-one-third">
+                                <strong
+                                    class="govuk-tag priority-count-tag--yellow govuk-!-margin-bottom-0 govuk-!-padding-top-1 govuk-!-padding-right-2 govuk-!-padding-bottom-1 govuk-!-padding-left-2">
+                                    Medium
+                                </strong>
+                                <p class="priority-count medium govuk-body govuk-!-padding-2" data-testid="priority-amber">
+                                    <strong>
+                                        @if (school.Amber > 0)
+                                        {
+                                            <a class="govuk-link govuk-link--no-visited-state" href="@Url.Action("Index", "SchoolSpending", new
+                                                     {
+                                                         urn = school.Urn
+                                                     })#medium-priority">@school.Amber</a>
+
+                                        }
+                                        else
+                                        {
+                                            @school.Amber
+                                        }
+                                    </strong>
+                                </p>
+                            </div>
+
+                            <div class="govuk-grid-column-one-third">
+                                <strong
+                                    class="govuk-tag priority-count-tag--green govuk-!-margin-bottom-0 govuk-!-padding-top-1 govuk-!-padding-right-2 govuk-!-padding-bottom-1 govuk-!-padding-left-2">
+                                    Low
+                                </strong>
+                                <p class="priority-count low govuk-body govuk-!-padding-2" data-testid="priority-green">
+                                    <strong>
+                                        @if (school.Green > 0)
+                                        {
+                                            <a class="govuk-link govuk-link--no-visited-state" href="@Url.Action("Index", "SchoolSpending", new
+                                                     {
+                                                         urn = school.Urn
+                                                     })#low-priority">@school.Green</a>
+
+                                        }
+                                        else
+                                        {
+                                            @school.Green
+                                        }
+                                    </strong>
+                                </p>
+                            </div>
+                        </div>
+                        
+                        <p class="govuk-body-m govuk-!-font-weight-bold">Key spending priorities at this school</p>
+
+                        <div class="panel panel--grey key-spend-panel">
+                            <div class="govuk-grid-row">
+                                @for (var i = 0; i < school.TopCategories.Count; i++)
+                                {
+                                    var topSpend = school.TopCategories[i];
+                                    var borderClass = i == 1 ? "key-spend-border" : "";
+
+                                    <div class="govuk-grid-column-one-half key-spend-column @borderClass">
+                                        <p class="govuk-body" data-testid="key-spend-category">
+                                            @topSpend.Category
+                                        </p>
+                                        
+                                            
+                                            <p class="govuk-body-l">
+                                                <strong>
+                                                    @topSpend.Value.ToCurrency()
+                                                </strong>
+                                            </p>
+
+                                            <p class="govuk-body">
+                                                @topSpend.Unit
+                                            </p>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+
+                    
+                </div>
+            </div>
+        }
+        </div>
+
+    <p class="govuk-body govuk-!-display-none-print" data-testid="view-more-info-trust-home">
+        @Html.ActionLink("View more information about schools at this trust", "Index", "Trust", new
+        {
+            companyNumber = Model.CompanyNumber
+        }, new
+        {
+            @class = "govuk-link"
+        })
+    </p>
+    </section>

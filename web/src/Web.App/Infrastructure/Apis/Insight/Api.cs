@@ -46,6 +46,7 @@ public static class Api
     public static class MetricRagRating
     {
         public static string Default => "api/metric-rag/default";
+        public static string Summary => "api/metric-rag/summary";
         public static string Single(string? identifier) => $"api/metric-rag/{identifier}";
     }
 
@@ -63,5 +64,7 @@ public static class Api
     public static class ItSpend
     {
         public static string Schools => "api/it-spend/schools";
+        public static string Trusts => "api/it-spend/trusts";
+        public static string TrustForecast(string? companyNumber) => $"api/it-spend/trust/{companyNumber}/forecast";
     }
 }

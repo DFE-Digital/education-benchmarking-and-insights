@@ -61,8 +61,8 @@ public class SearchPageSteps(PageDriver driver)
         _localAuthoritySearchResultsPage = await _localAuthoritySearchPage.ClickSearch(p => new SearchResultsPage(p));
     }
 
-    [Then("the local authority homepage is displayed")]
-    public async Task ThenTheLocalAuthorityHomepageIsDisplayed()
+    [Then("the local authority home page is displayed")]
+    public async Task ThenTheLocalAuthorityHomePageIsDisplayed()
     {
         Assert.NotNull(_localAuthorityHomePage);
         await _localAuthorityHomePage.IsDisplayed();

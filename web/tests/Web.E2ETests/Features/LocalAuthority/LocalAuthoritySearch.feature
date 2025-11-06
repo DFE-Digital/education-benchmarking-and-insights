@@ -4,13 +4,13 @@
         Given I am on local authority search page
         When I type '201' into the search bar
         And I click Search after selecting a result
-        Then the local authority homepage is displayed
+        Then the local authority home page is displayed
 
     Scenario: Go to local authority homepage using keyboard
         Given I am on local authority search page
         When I type '201' into the search bar
         And I press the enter key after selecting a result
-        Then the local authority homepage is displayed
+        Then the local authority home page is displayed
 
     Scenario: Displaying relevant search suggestions when entering a keyword
         Given I am on local authority search page

@@ -7,6 +7,7 @@ import {
   shortValueFormatter,
   sortData,
   getDomain,
+  isAllCaps,
 } from "../../src/functions/utils";
 import { ValueType } from "../../src/functions/index";
 import theoretically from "jest-theories";
@@ -129,6 +130,12 @@ describe("getDomain", () => {
     { category: "G", value: 10 },
   ];
 
+  const sampleZeroData = [
+    { category: "A", value: 0 },
+    { category: "B", value: 0 },
+    { category: "C", value: 0 },
+  ];
+
   it("should return default domain if not supplied", () => {
     const result = getDomain(sampleData, "value");
     expect(result).toEqual([0, 100]);
@@ -142,6 +149,16 @@ describe("getDomain", () => {
   it("should return fallback domain if out of range", () => {
     const result = getDomain(sampleData, "value", 6, 99);
     expect(result).toEqual([5, 100]);
+  });
+
+  it("should return arbitrary default domain if all values are 0", () => {
+    const result = getDomain(sampleZeroData, "value");
+    expect(result).toEqual([0, 1000]);
+  });
+
+  it("should return arbitrary domain if range is 0, 0", () => {
+    const result = getDomain(sampleZeroData, "value", 0, 0);
+    expect(result).toEqual([0, 1000]);
   });
 });
 
@@ -285,6 +302,25 @@ describe("shortValueFormatter()", () => {
       ({ input, expected }) => {
         const result = shortValueFormatter(input as number, "percent");
         expect(result).toBe(expected);
+      }
+    );
+  });
+});
+
+describe("isAllCaps", () => {
+  describe("should return true for all caps strings", () => {
+    const theories: { input: string; expected: boolean }[] = [
+      { input: "HELLO", expected: true },
+      { input: "HELLO WORLD", expected: true },
+      { input: "World", expected: false },
+      { input: "123", expected: false },
+    ];
+
+    theoretically(
+      "the key {input} returns the expected group(s) {expected}",
+      theories,
+      ({ input, expected }) => {
+        expect(isAllCaps(input)).toBe(expected);
       }
     );
   });

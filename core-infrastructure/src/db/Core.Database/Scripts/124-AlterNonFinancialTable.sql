@@ -1,0 +1,1 @@
+ALTER TABLE NonFinancial ADD KS4ProgressBanding nvarchar(50) NULL;

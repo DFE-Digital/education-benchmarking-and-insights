@@ -7,7 +7,7 @@ public class BenchmarkItSpendPage(IPage page)
 {
     private ILocator PageH1Heading => page.Locator(Selectors.H1);
     private ILocator ChartContainers => page.Locator(Selectors.SsrChartContainer);
-    private ILocator SchoolLinksInCharts => page.Locator(Selectors.SsrSchoolNamesLinksInCharts);
+    private ILocator SchoolLinksInCharts => page.Locator(Selectors.SsrOrgNamesLinksInCharts);
 
     private ILocator ComparatorSetDetails =>
         page.Locator(Selectors.GovLink,

@@ -3,7 +3,7 @@ using Web.App.ViewModels.Shared;
 
 namespace Web.App.ViewModels;
 
-public class TrustViewModel(Trust trust)
+public class TrustViewModel(Trust trust) : ITrustKeyInformationViewModel
 {
     public TrustViewModel(
         Trust trust,

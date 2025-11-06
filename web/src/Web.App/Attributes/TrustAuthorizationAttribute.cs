@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
-using Web.App.Identity;
+using Web.App.Extensions;
 
 namespace Web.App.Attributes;
 
@@ -11,15 +11,9 @@ public class TrustAuthorizationAttribute : AuthorizeAttribute, IAuthorizationFil
     public void OnAuthorization(AuthorizationFilterContext context)
     {
         var configuration = context.HttpContext.RequestServices.GetRequiredService<IConfiguration>();
-        if (configuration.GetValue<bool>(EnvironmentVariables.DisableOrganisationClaimCheck))
-        {
-            return;
-        }
-
         var companyNumber = context.RouteData.Values["companyNumber"]?.ToString();
 
-        var isValid = context.HttpContext.User.Claims.Any(c =>
-            companyNumber != null && c.Type == ClaimNames.Trusts && c.Value.Contains(companyNumber));
+        var isValid = context.HttpContext.User.HasTrustAuthorisation(companyNumber, configuration);
         if (!isValid)
         {
             context.Result = new ViewResult

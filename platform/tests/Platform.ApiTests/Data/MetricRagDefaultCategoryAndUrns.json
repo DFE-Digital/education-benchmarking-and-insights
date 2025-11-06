@@ -1,0 +1,26 @@
+[
+  {
+    "urn": "777042",
+    "category": "Administrative supplies",
+    "subCategory": "Total",
+    "value": 429.07,
+    "median": 47.78,
+    "diffMedian": 381.28,
+    "percentDiff": 88.86,
+    "percentile": 99.0,
+    "decile": 9.0,
+    "rag": "red"
+  },
+  {
+    "urn": "777042",
+    "category": "Catering staff and supplies",
+    "subCategory": "Total",
+    "value": 362.59,
+    "median": 173.19,
+    "diffMedian": 189.4,
+    "percentDiff": 52.23,
+    "percentile": 92.33,
+    "decile": 9.0,
+    "rag": "red"
+  }
+]

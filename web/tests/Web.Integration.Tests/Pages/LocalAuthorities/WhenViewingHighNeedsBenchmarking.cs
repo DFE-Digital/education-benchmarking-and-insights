@@ -73,10 +73,23 @@ public class WhenViewingHighNeedsBenchmarking(SchoolBenchmarkingWebAppClient cli
         DocumentAssert.Breadcrumbs(page, expectedBreadcrumbs);
 
         Assert.NotNull(authority.Name);
-        DocumentAssert.TitleAndH1(page, "Benchmark High needs - Financial Benchmarking and Insights Tool - GOV.UK", "Benchmark High needs");
+        DocumentAssert.TitleAndH1(page, "Benchmark high needs - Financial Benchmarking and Insights Tool - GOV.UK", "Benchmark high needs");
 
-        var backLink = page.QuerySelector("a.govuk-back-link") as IHtmlAnchorElement;
-        Assert.NotNull(backLink);
-        Assert.Equal(Paths.LocalAuthorityHighNeedsDashboard(authority.Code).ToAbsolute(), backLink.Href);
+        AssertHelpSection(page);
+    }
+
+    private static void AssertHelpSection(IHtmlDocument page)
+    {
+        var links = page.QuerySelectorAll(".app-links li > a");
+        Assert.Equal(8, links.Length);
+
+        Assert.Equal("SEND framework", links.ElementAt(0).TextContent.Trim());
+        Assert.Equal("High needs budgets: effective management in LAs", links.ElementAt(1).TextContent.Trim());
+        Assert.Equal("SEND2", links.ElementAt(2).TextContent.Trim());
+        Assert.Equal("Section 251 (outturn)", links.ElementAt(3).TextContent.Trim());
+        Assert.Equal("Section 251 (planned expenditure)", links.ElementAt(4).TextContent.Trim());
+        Assert.Equal("Statistical neighbours", links.ElementAt(5).TextContent.Trim());
+        Assert.Equal("Population", links.ElementAt(6).TextContent.Trim());
+        Assert.Equal("Glossary of terms (opens in new tab)", links.ElementAt(7).TextContent.Replace(StringExtensions.WhitespaceRegex(), " ").Trim());
     }
 }

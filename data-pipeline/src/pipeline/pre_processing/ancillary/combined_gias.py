@@ -58,19 +58,16 @@ def prepare_combined_gias_data(base_data_path, links_data_path, year: int):
         gias["TypeOfEstablishment (name)"].fillna("").map(lambda x: x.strip())
     )
 
-    gias["NurseryProvision (name)"] = gias["NurseryProvision (name)"].fillna("")
-
-    gias["NurseryProvision (name)"] = gias.apply(
-        lambda df: mappings.map_nursery(
-            df["NurseryProvision (name)"], df["PhaseOfEducation (name)"]
-        ),
-        axis=1,
+    gias["NurseryProvision (name)"] = gias["NurseryProvision (name)"].fillna(
+        "Not recorded"
     )
+
+    gias["SpecialClasses (name)"] = gias["SpecialClasses (name)"].fillna("Not recorded")
 
     gias["Has Nursery"] = gias["NurseryProvision (name)"].map(mappings.map_has_nursery)
 
-    gias["OfficialSixthForm (name)"] = (
-        gias["OfficialSixthForm (name)"].fillna("").map(mappings.map_sixth_form)
+    gias["OfficialSixthForm (name)"] = gias["OfficialSixthForm (name)"].fillna(
+        "Not recorded"
     )
 
     gias["Has Sixth Form"] = gias["OfficialSixthForm (name)"].map(

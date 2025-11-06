@@ -1,0 +1,37 @@
+@model Web.App.ViewModels.Components.LocalAuthoritySchoolFilterAccordionSectionViewModelBase
+
+<div
+    class="govuk-accordion__section @(Model.SelectedFilters.Length > 0 ? "govuk-accordion__section--expanded" : string.Empty)">
+    <div class="govuk-accordion__section-header">
+        <h2 class="govuk-accordion__section-heading">
+                <span class="govuk-accordion__section-button" id="@Model.AccordionId-heading-@Model.SectionIndex">
+                    @Model.Heading
+                    @if (Model.SelectedFilters.Length > 0)
+                    {
+                        <span class="govuk-hint app-filter__selected-hint">
+                            @($"{Model.SelectedFilters.Length} selected")
+                        </span>
+                    }
+                </span>
+        </h2>
+    </div>
+    <div id="@Model.AccordionId-content-@Model.SectionIndex" class="govuk-accordion__section-content">
+        <div class="govuk-form-group">
+            <fieldset class="govuk-fieldset">
+                <div class="govuk-checkboxes govuk-checkboxes--small" data-module="govuk-checkboxes">
+                    @foreach (var filter in Model.AllFilters)
+                    {
+                        <div class="govuk-checkboxes__item">
+                            <input class="govuk-checkboxes__input" id="@(Model.FormFieldName)-@filter"
+                                   name="@Model.FormFieldName" value="@Model.ValueSelector(filter)" type="checkbox"
+                                   @(Model.SelectedFilters.Contains(filter) ? "checked" : "")>
+                            <label class="govuk-label govuk-checkboxes__label" for="@(Model.FormFieldName)-@filter">
+                                @Model.LabelSelector(filter)
+                            </label>
+                        </div>
+                    }
+                </div>
+            </fieldset>
+        </div>
+    </div>
+</div>

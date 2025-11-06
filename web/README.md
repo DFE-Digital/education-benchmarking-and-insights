@@ -94,11 +94,13 @@ Feature flags may also be defined in the `FeatureManagement` section:
 | Name                                | Purpose                                                                                                                            |
 |-------------------------------------|------------------------------------------------------------------------------------------------------------------------------------|
 | `HighExecutivePay`                  | Toggles the High Executive Pay feature, which affects the Trust to Trust comparison page                                           |
-| `HighNeeds`                         | Toggles the High Needs feature, which affects the Local Authority pages                                                            |
 | `SchoolSpendingPrioritiesSsrCharts` | Replaces the client rendered React/Recharts-derived charts on the School Spending Priorities page with server side rendered charts |
 | `CfrItSpendBreakdown`               | Displays IT spend within subcategories as submitted in CFRs from 2024-5 onwards                                                    |
 | `News`                              | Displays news article pages, index and footer link                                                                                 |
 | `TrustItSpendBreakdown`             | Displays IT spend in Trust-Trust benchmarking as submitted in BFRs from 2024-5 onwards                                             |
+| `FbisForTrust`                      | Toggles the Financial Benchmarking and Insights Summary for multi academy Trusts                                                   |
+| `LocalAuthorityHomepageV2`          | Toggles the alternative Local Authority home page                                                                                  |
+| `KS4ProgressBanding`                | Displays KS4 progress bandings on School homepage, cost comparison and workforce comparison pages                                  |
 
 #### CacheOptions
 

@@ -1,6 +1,5 @@
 ﻿Feature: Local Authority high needs historic data
 
-    @HighNeedsFlagEnabled
     Scenario: Show all should expand all sections on Section 251 tab
         Given I am on 'section 251' high needs history page for local authority with code '201'
         When I click on show all sections on 'section 251'
@@ -34,7 +33,6 @@
           | Post-school top up funding per head 2-18 population (non-maintained)           |
           | Top up funding income per head 2-18 population (non-maintained)                |
 
-    @HighNeedsFlagEnabled
     Scenario: Expected categories are displayed on Section 251 tab
         Given I am on 'section 251' high needs history page for local authority with code '201'
         Then the expected categories should be displayed on 'section 251':
@@ -44,7 +42,6 @@
           | High needs amount per head of 2 to 18 population: top up funding (maintained schools, academies, free schools and colleges) split by phase (for mainstream) and type of institution (for specialist provision)    |
           | High needs amount per head of 2 to 18 population: top up funding (non-maintained schools and independent schools and colleges) split by phase (for mainstream) and type of institution (for specialist provision) |
 
-    @HighNeedsFlagEnabled
     Scenario Outline: Expected number of charts are displayed
         Given I am on '<tab>' high needs history page for local authority with code '201'
         And all sections are shown on '<tab>'
@@ -56,7 +53,6 @@
           | section 251 | 25     | 0        |
           | send 2      | 7      | 1        |
 
-    @HighNeedsFlagEnabled
     Scenario Outline: Change all charts to table view
         Given I am on '<tab>' high needs history page for local authority with code '201'
         And all sections are shown on '<tab>'
@@ -68,37 +64,33 @@
           | section 251 |
           | send 2      |
 
-    @HighNeedsFlagEnabled
     Scenario: Hide single section section 251
         Given I am on 'section 251' high needs history page for local authority with code '201'
         And all sections are shown on 'section 251'
         When I click section link for 'place funding'
         Then the section 'place funding' is hidden
 
-    @HighNeedsFlagEnabled
     Scenario Outline: Viewing chart legend
         Given I am on '<tab>' high needs history page for local authority with code '201'
         And all sections are shown on '<tab>'
         Then the '<tab>' tab '<chart>' chart shows the legend '<legend>' using separator ','
 
         Examples:
-          | tab         | chart                                               | legend          |
-          | section 251 | Total place funding for special schools and AP/PRUs | Outturn, Budget |
+          | tab         | chart                                               | legend                       |
+          | section 251 | Total place funding for special schools and AP/PRUs | Outturn, Planned expenditure |
 
-    @HighNeedsFlagEnabled
     Scenario: Viewing data in table view section 251
         Given I am on 'section 251' high needs history page for local authority with code '204'
         And all sections are shown on 'section 251'
         When I click on view as table on 'section 251' tab
         Then the table on the 'section 251' tab 'Primary place funding per head 2-18 population' chart contains:
-          | Year         | Outturn | Budget |
-          | 2019 to 2020 |         |        |
-          | 2020 to 2021 | £6      |        |
-          | 2021 to 2022 | £9      | £8     |
-          | 2022 to 2023 | £8      | £8     |
-          | 2023 to 2024 | £11     | £8     |
+          | Year         | Outturn | PlannedExpenditure |
+          | 2019 to 2020 |         |                    |
+          | 2020 to 2021 | £6      |                    |
+          | 2021 to 2022 | £9      | £8                 |
+          | 2022 to 2023 | £8      | £8                 |
+          | 2023 to 2024 | £11     | £8                 |
 
-    @HighNeedsFlagEnabled
     Scenario: Show all should expand all sections on Send 2 tab
         Given I am on 'send 2' high needs history page for local authority with code '201'
         When I click on show all sections on 'send 2'
@@ -114,14 +106,12 @@
           | Post 16                                         |
           | Other                                           |
 
-    @HighNeedsFlagEnabled
     Scenario: Hide single section send 2
         Given I am on 'send 2' high needs history page for local authority with code '201'
         And all sections are shown on 'send 2'
         When I click section link for 'Placement of pupils aged up to 25 with SEN statement or EHC plan (per 1000 2 to 18 population)'
         Then the section 'Placement of pupils aged up to 25 with SEN statement or EHC plan (per 1000 2 to 18 population)' is hidden
 
-    @HighNeedsFlagEnabled
     Scenario: Viewing data in table view send 2
         Given I am on 'send 2' high needs history page for local authority with code '201'
         When I click on view as table on 'send 2' tab

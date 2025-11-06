@@ -1,0 +1,7 @@
+[
+  {
+    "severity": "Error",
+    "propertyName": "SixthFormProvision",
+    "errorMessage": "Sixth Form Provision must be empty or one of the supported values: Has a sixth form, Does not have a sixth form, Not applicable, Not recorded"
+  }
+]

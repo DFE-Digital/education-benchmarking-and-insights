@@ -29,7 +29,7 @@
                     <li>
                         <a href="@Url.Action("Index", "SchoolComparisonItSpend", new { Model.Urn, viewAs = (int)Model.ViewAs, resultAs = (int)Model.ResultAs, selectedSubCategories = Model.SelectedSubCategories.Where(x => x != category).Select(x => (int)x) })"
                            class="app-filter__tag">
-                            @category.GetFilterDescription()
+                            @category.GetFilterDescriptionForSchool()
                         </a>
                     </li>
                 }
@@ -73,7 +73,7 @@
                                                    @(Model.SelectedSubCategories.Contains(category) ? "checked" : "")>
                                             <label class="govuk-label govuk-checkboxes__label"
                                                    for="category-@category">
-                                                @category.GetFilterDescription()
+                                                @category.GetFilterDescriptionForSchool()
                                             </label>
                                         </div>
                                     }

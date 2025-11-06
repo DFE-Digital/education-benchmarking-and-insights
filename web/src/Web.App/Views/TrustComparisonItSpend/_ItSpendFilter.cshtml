@@ -1,0 +1,157 @@
+@using Web.App.Domain
+@using Web.App.Domain.Charts
+@using Web.App.ViewModels
+@model Web.App.ViewModels.TrustComparisonItSpendViewModel
+
+<div class="app-filter">
+    <div class="app-filter__header">
+        <h2 class="govuk-heading-m govuk-!-margin-0">
+            Filters
+        </h2>
+    </div>
+
+    @if (Model.SelectedSubCategories.Length > 0)
+    {
+        <div class="app-filter__selected">
+            <div class="app-filter__selected-header">
+                <h2 class="govuk-heading-m">
+                    Selected filters
+                </h2>
+                <a href="@Url.Action("Index", "TrustComparisonItSpend", new { Model.CompanyNumber, viewAs = (int)Model.ViewAs, resultAs = (int)Model.ResultAs })"
+                   class="govuk-link govuk-link--no-visited-state">Clear</a>
+            </div>
+            <h3 class="govuk-heading-s">
+                Sub categories
+            </h3>
+            <ul class="govuk-list">
+                @foreach (var category in Model.SelectedSubCategories)
+                {
+                    <li>
+                        <a href="@Url.Action("Index", "TrustComparisonItSpend", new { Model.CompanyNumber, viewAs = (int)Model.ViewAs, resultAs = (int)Model.ResultAs, selectedSubCategories = Model.SelectedSubCategories.Where(x => x != category).Select(x => (int)x) })"
+                           class="app-filter__tag">
+                            @category.GetFilterDescriptionForTrust()
+                        </a>
+                    </li>
+                }
+            </ul>
+        </div>
+    }
+    <div class="app-filter__body">
+        @using (Html.BeginForm(FormMethod.Post, true, new { novalidate = "novalidate", role = "search" }))
+        {
+            <input type="hidden"
+                   name="@nameof(TrustComparisonItSpendViewModel.SelectedSubCategories)"
+                   value="@Model.SelectedSubCategories"/>
+
+            <div class="govuk-accordion" data-module="govuk-accordion" id="accordion-default">
+                <div class="govuk-accordion__section">
+                    <div class="govuk-accordion__section-header">
+                        <h2 class="govuk-accordion__section-heading">
+                            <span class="govuk-accordion__section-button" id="accordion-default-heading-1">
+                                Sub categories
+                                @if (Model.SelectedSubCategories.Length > 0)
+                                {
+                                    <span
+                                        class="govuk-hint app-filter__selected-hint">@($"{Model.SelectedSubCategories.Length} selected")</span>
+                                }
+                            </span>
+                        </h2>
+                    </div>
+                    <div id="accordion-default-content-1" class="govuk-accordion__section-content">
+                        <div class="govuk-form-group">
+                            <fieldset class="govuk-fieldset">
+                                <div class="govuk-checkboxes govuk-checkboxes--small"
+                                     data-module="govuk-checkboxes">
+                                    @foreach (var category in ItSpendingCategories.All)
+                                    {
+                                        <div class="govuk-checkboxes__item">
+                                            <input class="govuk-checkboxes__input"
+                                                   id="category-@category"
+                                                   name="@nameof(Model.SelectedSubCategories)"
+                                                   value="@((int)category)"
+                                                   type="checkbox"
+                                                   @(Model.SelectedSubCategories.Contains(category) ? "checked" : "")>
+                                            <label class="govuk-label govuk-checkboxes__label"
+                                                   for="category-@category">
+                                                @category.GetFilterDescriptionForTrust()
+                                            </label>
+                                        </div>
+                                    }
+                                </div>
+                            </fieldset>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="govuk-form-group">
+                <fieldset class="govuk-fieldset">
+                    <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
+                        <h2 class="govuk-fieldset__heading">
+                            Show result as
+                        </h2>
+                    </legend>
+                    <div class="govuk-radios govuk-radios--small" data-module="govuk-radios"
+                         id="@nameof(TrustComparisonItSpendViewModel.ResultAs)">
+                        @foreach (var dimension in TrustComparisonItSpendViewModel.FilterDimensions)
+                        {
+                            <div class="govuk-radios__item">
+                                <input class="govuk-radios__input"
+                                       id="dimension-@dimension"
+                                       name="@nameof(TrustComparisonItSpendViewModel.ResultAs)" type="radio"
+                                       value="@((int)dimension)"
+                                       @(Model.ResultAs == dimension ? "checked" : "")>
+                                <label class="govuk-label govuk-radios__label"
+                                       for="dimension-@dimension">
+                                    @dimension.GetDescription()
+                                </label>
+                            </div>
+                        }
+                    </div>
+                </fieldset>
+            </div>
+            <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
+            <div class="govuk-form-group">
+                <fieldset class="govuk-fieldset">
+                    <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
+                        <h2 class="govuk-fieldset__heading">
+                            View as
+                        </h2>
+                    </legend>
+                    <div class="govuk-radios govuk-radios--small" data-module="govuk-radios"
+                         id="@nameof(TrustComparisonItSpendViewModel.ViewAs)">
+                        @foreach (var view in Views.All)
+                        {
+                            <div class="govuk-radios__item">
+                                <input class="govuk-radios__input"
+                                       id="view-@view"
+                                       name="@nameof(TrustComparisonItSpendViewModel.ViewAs)" type="radio"
+                                       value="@((int)view)"
+                                       @(Model.ViewAs == view ? "checked" : "")>
+                                <label class="govuk-label govuk-radios__label"
+                                       for="view-@view">
+                                    @view.GetDescription()
+                                </label>
+                            </div>
+                        }
+                    </div>
+                </fieldset>
+            </div>
+            <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
+            <button type="submit" class="govuk-button govuk-!-margin-bottom-3" data-module="govuk-button">
+                Apply filters
+            </button>
+            
+            <div class="govuk-button-group govuk-!-margin-bottom-0">
+                @if (Model.ViewAs == Views.ViewAsOptions.Chart)
+                {
+                    <div id="page-actions-button"></div>
+                }
+                <a href="@Url.Action("Download", "TrustComparisonItSpend", new { companyNumber = Model.CompanyNumber })" role="button"
+               class="govuk-button govuk-button--secondary" data-module="govuk-button">
+                Download page data
+            </a>
+            </div>
+        }
+    </div>
+</div>

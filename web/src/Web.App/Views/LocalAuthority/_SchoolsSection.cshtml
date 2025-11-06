@@ -1,23 +1,49 @@
-﻿@model Web.App.ViewModels.LocalAuthoritySchoolsSectionViewModel
+﻿@using Web.App.Extensions
+@model Web.App.ViewModels.LocalAuthoritySchoolsSectionViewModel
 
-<div class="govuk-accordion__section">
-    <div class="govuk-accordion__section-header">
-        <h3 class="govuk-accordion__section-heading">
-            <span class="govuk-accordion__section-button" id="accordion-schools-heading-@Model.Id">
-                @Model.Heading
-            </span>
-        </h3>
+@if (Model.Schools.Any())
+{
+    <div class="govuk-!-margin-top-4" id="school-rag-@Model.Heading.ToSlug()">
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-one-half">
+                <p class="govuk-body govuk-!-font-weight-bold">@Model.Heading</p>
+            </div>
+            <div class="govuk-grid-column-one-half">
+                <p class="govuk-body govuk-!-font-weight-bold">Status</p>
+            </div>
+        </div>
+
+        @foreach (var school in Model.Schools)
+        {
+            <div class="govuk-grid-row" data-key="@school.Urn">
+                <div class="govuk-grid-column-one-half govuk-body block-single-line">
+                    @if (school.Total <= 0)
+                    {
+                        @school.Name
+                    }
+                    else
+                    {
+                        <a class="govuk-link govuk-link--no-visited-state"
+                           href="@Url.Action("Index", "School", new
+                                 {
+                                     urn = school.Urn
+                                 })">@school.Name</a>
+                    }
+                </div>
+                <div class="govuk-grid-column-one-half">
+                    @await Component.InvokeAsync("RagStack", new
+                    {
+                        identifier = school.Name,
+                        red = school.Red,
+                        amber = school.Amber,
+                        green = school.Green,
+                        className = "rag-stack-medium",
+                        redHref = $"{Url.Action("Index", "SchoolSpending", new { urn = school.Urn })}#high-priority",
+                        amberHref = $"{Url.Action("Index", "SchoolSpending", new { urn = school.Urn })}#medium-priority",
+                        greenHref = $"{Url.Action("Index", "SchoolSpending", new { urn = school.Urn })}#low-priority"
+                    })
+                </div>
+            </div>
+        }
     </div>
-    <div id="accordion-schools-content-@Model.Id" class="govuk-accordion__section-content">
-        <ul class="govuk-list">
-            @foreach (var school in Model.Schools)
-            {
-                <li>
-                    <a class="govuk-link govuk-link--no-visited-state" href="@Url.Action("Index", "School", new {urn = school.URN})">@school.SchoolName</a>
-                </li>
-            }
-        </ul>
-    </div>
-</div>
-
-
+}

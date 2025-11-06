@@ -1,9 +1,16 @@
 @using Web.App.ViewModels.Shared
 @model Web.App.ViewModels.Shared.FinanceToolsViewModel
 
-<div class="govuk-grid-row">
+<div class="govuk-grid-row" id="finance-tools">
     <div class="govuk-grid-column-full">
-        <h2 class="govuk-heading-m">Finance tools</h2>
+        <h2 class="govuk-heading-m">
+            <feature negate="true" name="@FeatureFlags.LocalAuthorityHomepageV2">
+                Finance tools
+            </feature>
+            <feature name="@FeatureFlags.LocalAuthorityHomepageV2">
+                Benchmarking tools
+            </feature>
+        </h2>
         <ul class="app-links">
             @foreach (var tool in Model.Tools)
             {
@@ -28,23 +35,6 @@
                                 View pupil and workforce data for other schools in this local authority.
                             </p>
                         </li>
-                        break;
-                    case FinanceTools.HighNeeds:
-                        <feature name="@FeatureFlags.HighNeeds">
-                            <li>
-                                <h3 class="govuk-heading-s">
-                                    <a href="@Url.Action("Index", "LocalAuthorityHighNeeds", new
-                                             {
-                                                 code = Model.Identifier
-                                             })" class="govuk-link govuk-link--no-visited-state">
-                                        High needs benchmarking
-                                    </a>
-                                </h3>
-                                <p class="govuk-body">
-                                    Benchmark spending against statistical neighbours or other local authorities of your choice.
-                                </p>
-                            </li>
-                        </feature>
                         break;
                 }
             }

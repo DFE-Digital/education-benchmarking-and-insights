@@ -1,0 +1,135 @@
+@using Web.App.Domain
+@using Web.App.Extensions
+@model Web.App.ViewModels.TrustFinancialBenchmarkingInsightsSummaryViewModel
+
+<section id="spending-priorities-section" aria-labelledby="spending-priorities">
+    <h2 class="govuk-heading-l" id="spending-priorities">Spending priorities at this trust</h2>
+
+    <p class="govuk-body">
+        The priority spending compared across all of the schools in your trust.
+    </p>
+
+    <details class="govuk-details">
+        <summary class="govuk-details__summary">
+            <span class="govuk-details__summary-text">
+                Help with red, amber and green (RAG) priority ratings
+            </span>
+        </summary>
+        <div class="govuk-details__text">
+            <p class="govuk-body">
+                Red, amber and green (RAG) priority ratings are shown
+                to give an indication of the spending compared to similar
+                schools.
+            </p>
+            <p class="govuk-body">
+                The rating is not an indication of performance. It is used to
+                display if spending is significantly more or less than similar
+                schools. This does not consider any individual spending
+                strategies which might apply.
+            </p>
+            <p class="govuk-body">
+                The ratings are intended for schools and trusts to identify
+                potential areas to help them make informed spending
+                decisions.
+            </p>
+        </div>
+    </details>
+
+    <div class="dashboard-row">
+        @foreach (var priority in Model.SpendingPriorities)
+        {
+            <div class="dashboard-column-one-half">
+                <div class="govuk-summary-card">
+                    <div class="govuk-summary-card__title-wrapper">
+                        <h2 class="govuk-summary-card__title">@priority.Category</h2>
+                    </div>
+                    <div class="govuk-summary-card__content">
+
+                        @if (priority.Red > 0)
+                        {
+                            <div class="govuk-!-margin-top-1">
+                                <strong
+                                    class="govuk-tag app-tag--red govuk-!-margin-bottom-0 govuk-!-padding-top-1 govuk-!-padding-right-2 govuk-!-padding-bottom-1 govuk-!-padding-left-2">
+                                    High priority
+                                </strong>
+                                <p class="priority-wrapper high govuk-body govuk-!-padding-2">
+                                    <strong>
+                                        @priority.Red
+                                    </strong>
+                                    out of
+                                    <strong>
+                                        @Model.NumberSchools
+                                    </strong>
+                                    @(Model.NumberSchools == 1 ? "school" : "schools")
+                                    in the high priority range.
+                                </p>
+                            </div>
+                        }
+                        else if (priority.Amber > 0)
+                        {
+                            <div class="govuk-!-margin-top-1">
+                                <strong
+                                    class="govuk-tag app-tag--yellow govuk-!-margin-bottom-0 govuk-!-padding-top-1 govuk-!-padding-right-2 govuk-!-padding-bottom-1 govuk-!-padding-left-2">
+                                    Medium priority
+                                </strong>
+                                <p class="priority-wrapper medium govuk-body govuk-!-padding-2">
+                                    <strong>
+                                        @priority.Amber
+                                    </strong>
+                                    out of
+                                    <strong>
+                                        @Model.NumberSchools
+                                    </strong>
+                                    @(Model.NumberSchools == 1 ? "school" : "schools")
+                                    in the medium priority range.
+                                </p>
+                            </div>
+                        }
+
+                        <p class="govuk-body-m govuk-!-font-weight-bold">Key highlights</p>
+
+                        <div class="panel panel--grey">
+                            @if (Category.InvertRagValueCategories.Contains(priority.Category))
+                            {
+                                <p class="govuk-body">Highest spend in this cost category</p>
+                                <p class="govuk-body-l govuk-!-font-weight-bold">
+                                   @(Model.RagRatings
+                                    .Where(r => r.Category == priority.Category)
+                                    .OrderByDescending(r => r.Value)
+                                    .Select(r => r.Value)
+                                    .FirstOrDefault()
+                                    .ToCurrency())
+                                </p>
+                            }
+                            else
+                            {
+                                var highlightRag = Model.RagRatings
+                                    .Where(r => r.Category == priority.Category)
+                                    .Where(r => r.Value >= 0)
+                                    .OrderByDescending(r => Math.Abs(r.DiffMedian ?? 0))
+                                    .FirstOrDefault();
+                                <p class="govuk-body">@(highlightRag?.Value > highlightRag?.Median ? "Highest" : "Lowest") spend in this cost category</p>
+                                <p class="govuk-body-l govuk-!-font-weight-bold">@highlightRag?.Value.ToCurrency()</p>
+                            }
+
+                            <p class="govuk-body">
+                                @(priority.Category == null ? null : Lookups.CategoryUnitMap[priority.Category ?? string.Empty])
+                            </p>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+
+    <p class="govuk-body govuk-!-display-none-print">
+        @Html.ActionLink("View all spending priorities at this trust", "Index", "TrustSpending", new
+        {
+            companyNumber = Model.CompanyNumber
+        }, new
+        {
+            @class = "govuk-link"
+        })
+    </p>
+</section>

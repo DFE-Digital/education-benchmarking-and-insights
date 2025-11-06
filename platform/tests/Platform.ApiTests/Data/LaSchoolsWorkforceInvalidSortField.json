@@ -1,0 +1,7 @@
+[
+  {
+    "severity": "Error",
+    "propertyName": "SortField",
+    "errorMessage": "Sort Field must be one of the supported values: SchoolName, TotalPupils, PupilTeacherRatio, EHCPlan, SENSupport"
+  }
+]

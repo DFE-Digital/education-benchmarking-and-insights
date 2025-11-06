@@ -1,7 +1,6 @@
 @using Web.App.Extensions
 @using Web.App.ViewModels
 @using Web.App.ViewModels.Components
-@using Web.App.ViewModels.Shared
 @model Web.App.ViewModels.TrustViewModel
 @{
     ViewData[ViewDataKeys.Title] = PageTitles.TrustHome;
@@ -45,24 +44,7 @@ else
         isPartOfTrust = true
     })
 
-    <div class="govuk-grid-row govuk-!-margin-bottom-5">
-        <div class="govuk-grid-column-full">
-            <ul class="app-headline app-headline-3 govuk-!-text-align-centre govuk-!-margin-0">
-                <li class="app-headline-figures">
-                    <p class="govuk-body-l govuk-!-font-weight-bold govuk-!-margin-bottom-4">In year balance</p>
-                    <p class="govuk-body-l govuk-!-margin-bottom-2">@Model.InYearBalance.ToCurrency()</p>
-                </li>
-                <li class="app-headline-figures">
-                    <p class="govuk-body-l govuk-!-font-weight-bold govuk-!-margin-bottom-4">Revenue reserve</p>
-                    <p class="govuk-body-l govuk-!-margin-bottom-2">@Model.RevenueReserve.ToCurrency()</p>
-                </li>
-                <li class="app-headline-figures">
-                    <p class="govuk-body-l govuk-!-font-weight-bold govuk-!-margin-bottom-4">Number of academies</p>
-                    <p class="govuk-body-l govuk-!-margin-bottom-2">@Model.NumberSchools</p>
-                </li>
-            </ul>
-        </div>
-    </div>
+    @await Html.PartialAsync("_TrustKeyInformation", Model)
 }
 
 @if (Model.Ratings.Any())
@@ -190,7 +172,8 @@ else
         Resources.TrustResources,
         Resources.TrustHistoricData,
         Resources.TrustDetails,
-        Resources.DataSource
+        Resources.DataSource,
+        Resources.TrustFinancialBenchmarkingInsightsSummary
     }
 })
 

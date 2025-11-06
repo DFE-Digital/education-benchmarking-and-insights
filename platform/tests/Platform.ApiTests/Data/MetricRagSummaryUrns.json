@@ -1,0 +1,18 @@
+[
+  {
+    "urn": "777042",
+    "schoolName": "Test school 102",
+    "overallPhase": "Primary",
+    "redCount": 6,
+    "amberCount": 2,
+    "greenCount": 0
+  },
+  {
+    "urn": "777049",
+    "schoolName": "Test academy school 319",
+    "overallPhase": "Primary",
+    "redCount": 6,
+    "amberCount": 2,
+    "greenCount": 0
+  }
+]

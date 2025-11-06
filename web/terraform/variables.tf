@@ -17,11 +17,13 @@ variable "configuration" {
     waf_mode                       = string
     features = object({
       HighExecutivePay                  = optional(bool, true)
-      HighNeeds                         = optional(bool, true)
       SchoolSpendingPrioritiesSsrCharts = optional(bool, true)
       CfrItSpendBreakdown               = optional(bool, true)
       News                              = optional(bool, false)
-      TrustItSpendBreakdown             = optional(bool, false)
+      TrustItSpendBreakdown             = optional(bool, true)
+      FbisForTrust                      = optional(bool, true)
+      LocalAuthorityHomepageV2          = optional(bool, false)
+      KS4ProgressBanding                = optional(bool, false)
     })
     CacheOptions = object({
       ReturnYears = object({
@@ -48,8 +50,9 @@ variable "configuration" {
       front_door_waf_policy_sku_name = "Standard_AzureFrontDoor"
       waf_mode                       = "Detection"
       features = {
-        News                  = true
-        TrustItSpendBreakdown = true
+        News                     = true
+        LocalAuthorityHomepageV2 = true
+        KS4ProgressBanding       = true
       },
       CacheOptions = {
         ReturnYears = {
@@ -75,8 +78,9 @@ variable "configuration" {
       front_door_waf_policy_sku_name = "Standard_AzureFrontDoor"
       waf_mode                       = "Detection"
       features = {
-        News                  = true
-        TrustItSpendBreakdown = true
+        News                     = true
+        LocalAuthorityHomepageV2 = true
+        KS4ProgressBanding       = false # until E2E tests visited in AB#288369
       },
       CacheOptions = {
         ReturnYears = {
@@ -101,8 +105,9 @@ variable "configuration" {
       front_door_waf_policy_sku_name = "Standard_AzureFrontDoor"
       waf_mode                       = "Prevention"
       features = {
-        News                  = true
-        TrustItSpendBreakdown = true
+        News                     = true
+        LocalAuthorityHomepageV2 = true
+        KS4ProgressBanding       = true
       },
       CacheOptions = {
         ReturnYears = {
@@ -128,9 +133,9 @@ variable "configuration" {
       front_door_waf_policy_sku_name = "Standard_AzureFrontDoor"
       waf_mode                       = "Detection"
       features = {
-        CfrItSpendBreakdown   = true
-        News                  = true
-        TrustItSpendBreakdown = true
+        News                     = true
+        LocalAuthorityHomepageV2 = true
+        KS4ProgressBanding       = true
       },
       CacheOptions = {
         ReturnYears = {
@@ -178,7 +183,7 @@ variable "configuration" {
       worker_count                   = 1
       front_door_profile_sku_name    = "Premium_AzureFrontDoor"
       front_door_waf_policy_sku_name = "Premium_AzureFrontDoor"
-      waf_mode                       = "Detection"
+      waf_mode                       = "Prevention"
       features = {
       },
       CacheOptions = {

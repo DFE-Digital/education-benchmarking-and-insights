@@ -31,15 +31,22 @@ public static class Paths
 
     public static string TrustComparisonItSpend(string? companyNumber) => $"/trust/{companyNumber}/benchmark-it-spending";
 
+    public static string TrustComparisonItSpendDownload(string? companyNumber) => $"/trust/{companyNumber}/benchmark-it-spending/download";
+
     public static string TrustCensus(string? companyNumber) => $"/trust/{companyNumber}/census";
 
     public static string TrustFinancialPlanning(string? companyNumber) => $"/trust/{companyNumber}/financial-planning";
 
-    public static string TrustSpending(string? companyNumber, string[] categories, string[] priorities)
+    public static string TrustSpending(string? companyNumber, string[]? categories = null, string[]? priorities = null)
     {
-        return $"/trust/{companyNumber}/spending-and-costs" +
-               $"?{string.Join("&", priorities.Select(p => $"priority={p.ToLower().Replace(" ", "%20")}"))}" +
-               $"&{string.Join("&", categories.Select(c => $"category={c.ToLower().Replace(" ", "%20")}"))}";
+        var path = $"/trust/{companyNumber}/spending-and-costs";
+        if (categories != null || priorities != null)
+        {
+            return path + $"?{string.Join("&", (priorities ?? []).Select(p => $"priority={p.ToLower().Replace(" ", "%20")}"))}" +
+                   $"&{string.Join("&", (categories ?? []).Select(c => $"category={c.ToLower().Replace(" ", "%20")}"))}";
+        }
+
+        return path;
     }
 
     public static string TrustForecast(string? companyNumber) => $"/trust/{companyNumber}/forecast";
@@ -47,6 +54,8 @@ public static class Paths
     public static string TrustResources(string? companyNumber) => $"/trust/{companyNumber}/find-ways-to-spend-less";
 
     public static string TrustHistory(string? companyNumber) => $"/trust/{companyNumber}/history";
+
+    public static string TrustFinancialBenchmarkingInsightsSummary(string? companyNumber) => $"/trust/{companyNumber}/summary";
 
     public static string SchoolComparatorSet(string? urn, string referrer) => $"/school/{urn}/comparator-set?referrer={referrer}";
 
@@ -254,8 +263,6 @@ public static class Paths
 
     public static string ApiCensusHistoryComparison(string id, string dimension, string? phase, string? financeType) => $"api/census/history/comparison?id={id}&dimension={dimension}&phase={phase}&financeType={financeType}";
 
-    public static string ApiNationalRank(string ranking, string? sort) => $"api/local-authorities/national-rank?ranking={ranking}&sort={sort}";
-
     public static string ApiHighNeedsComparison(string code, string[] set) => $"api/local-authorities/high-needs/comparison?code={code}&set={string.Join("&set=", set)}";
 
     public static string ApiHighNeedsHistory(string code) => $"api/local-authorities/high-needs/history?code={code}";
@@ -267,8 +274,6 @@ public static class Paths
     public static string LocalAuthorityHome(string? code) => $"/local-authority/{code}";
 
     public static string LocalAuthorityResources(string? code) => $"/local-authority/{code}/find-ways-to-spend-less";
-
-    public static string LocalAuthorityHighNeedsDashboard(string? code) => $"/local-authority/{code}/high-needs";
 
     public static string LocalAuthorityHighNeedsBenchmarking(string? code) => $"/local-authority/{code}/high-needs/benchmarking";
 
@@ -283,10 +288,9 @@ public static class Paths
         return $"/local-authority/{code}/high-needs/benchmarking/comparators{suffix}";
     }
 
-    public static string LocalAuthorityHighNeedsNationalRankings(string? code) => $"/local-authority/{code}/high-needs/national-rank";
-
     public static string LocalAuthorityHighNeedsHistoricData(string? code) => $"/local-authority/{code}/high-needs/history";
-
+    public static string LocalAuthoritySchoolsFinanceDownload(string? code) => $"/local-authority/{code}/download/schools/finance";
+    public static string LocalAuthoritySchoolsWorkforceDownload(string? code) => $"/local-authority/{code}/download/schools/workforce";
     public static string SchoolResources(string? urn) => $"/school/{urn}/find-ways-to-spend-less";
 
     public static string News(string? slug = null) => $"/news/{slug}".TrimEnd('/');

@@ -107,3 +107,45 @@ public class GivenDimensionsGetTableHeader
         Assert.NotNull(actual);
     }
 }
+
+public class GivenDimensionsGetTableHeaderSuffix
+{
+    [Theory]
+    [InlineData(Dimensions.ResultAsOptions.Actuals, "(£)")]
+    [InlineData(Dimensions.ResultAsOptions.PercentExpenditure, "(%)")]
+    [InlineData(Dimensions.ResultAsOptions.PercentIncome, "(%)")]
+    [InlineData(Dimensions.ResultAsOptions.SpendPerPupil, "(£)")]
+    public void WhenResultAsOptionsIs(Dimensions.ResultAsOptions option, string expected)
+    {
+        var actual = option.GetTableHeaderSuffix();
+        Assert.Equal(expected, actual);
+    }
+
+    [Fact]
+    public void WhenResultAsOptionsIsOutOfRange()
+    {
+        var actual = Assert.Throws<ArgumentOutOfRangeException>(() => ((Dimensions.ResultAsOptions)999).GetTableHeaderSuffix());
+        Assert.NotNull(actual);
+    }
+}
+
+public class GivenDimensionsGetDescription
+{
+    [Theory]
+    [InlineData(Dimensions.ResultAsOptions.Actuals, "Actuals")]
+    [InlineData(Dimensions.ResultAsOptions.PercentExpenditure, "Percentage of expenditure")]
+    [InlineData(Dimensions.ResultAsOptions.PercentIncome, "Percentage of income")]
+    [InlineData(Dimensions.ResultAsOptions.SpendPerPupil, "Spend per pupil")]
+    public void WhenResultAsOptionsIs(Dimensions.ResultAsOptions option, string expected)
+    {
+        var actual = option.GetDescription();
+        Assert.Equal(expected, actual);
+    }
+
+    [Fact]
+    public void WhenResultAsOptionsIsOutOfRange()
+    {
+        var actual = Assert.Throws<ArgumentOutOfRangeException>(() => ((Dimensions.ResultAsOptions)999).GetDescription());
+        Assert.NotNull(actual);
+    }
+}

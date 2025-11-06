@@ -6,7 +6,7 @@
     ViewData[ViewDataKeys.Title] = PageTitles.LocalAuthorityHighNeedsStartBenchmarking;
     var referrer = Url.Action(
         "Index",
-        Model.Referrer == "benchmarking" ? "LocalAuthorityHighNeedsBenchmarking" : "LocalAuthorityHighNeeds",
+        Model.Referrer == "benchmarking" ? "LocalAuthorityHighNeedsBenchmarking" : "LocalAuthority",
         new { Model.Code });
 }
 

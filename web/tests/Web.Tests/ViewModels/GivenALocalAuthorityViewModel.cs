@@ -37,31 +37,77 @@ public class GivenALocalAuthorityViewModel
     [Fact]
     public void WhenContainsSchools()
     {
-        var vm = new LocalAuthorityViewModel(_localAuthority);
+        var vm = new LocalAuthorityViewModel(_localAuthority, []);
 
         var nurserySchools = _schools
             .Where(s => int.Parse(s.URN!) < 2)
             .OrderBy(s => s.SchoolName);
-        Assert.Equal(nurserySchools, vm.GroupedSchools
+        Assert.Equal(nurserySchools, vm.GroupedSchoolNames
             .Where(g => g.Key == OverallPhaseTypes.Nursery)
             .SelectMany(g => g));
 
         var primarySchools = _schools
             .Where(s => int.Parse(s.URN!) >= 2 && int.Parse(s.URN!) < 6)
             .OrderBy(s => s.SchoolName);
-        Assert.Equal(primarySchools, vm.GroupedSchools
+        Assert.Equal(primarySchools, vm.GroupedSchoolNames
             .Where(g => g.Key == OverallPhaseTypes.Primary)
             .SelectMany(g => g));
 
         var secondarySchools = _schools
             .Where(s => int.Parse(s.URN!) >= 6)
             .OrderBy(s => s.SchoolName);
-        Assert.Equal(secondarySchools, vm.GroupedSchools
+        Assert.Equal(secondarySchools, vm.GroupedSchoolNames
             .Where(g => g.Key == OverallPhaseTypes.Secondary)
             .SelectMany(g => g));
 
-        Assert.Equal([OverallPhaseTypes.Primary, OverallPhaseTypes.Secondary, OverallPhaseTypes.Nursery], vm.GroupedSchools.Select(g => g.Key));
+        Assert.Equal([OverallPhaseTypes.Primary, OverallPhaseTypes.Secondary, OverallPhaseTypes.Nursery], vm.GroupedSchoolNames.Select(g => g.Key));
         Assert.Equal(_localAuthority.Code, vm.Code);
         Assert.Equal(_localAuthority.Name, vm.Name);
+        Assert.Equal(_schools.Length, vm.NumberOfSchools);
+    }
+
+    [Theory]
+    [InlineData(OverallPhaseTypes.Primary)]
+    [InlineData(OverallPhaseTypes.Secondary)]
+    [InlineData(OverallPhaseTypes.Nursery)]
+    public void WhenContainsOverallPhase(string overallPhase)
+    {
+        var random = new Random();
+        var ratings = _schools
+            .Select(s => _fixture
+                .Build<RagRatingSummary>()
+                .With(r => r.URN, s.URN)
+                .With(r => r.SchoolName, s.SchoolName)
+                .With(r => r.OverallPhase, s.OverallPhase)
+                .With(r => r.RedCount, random.Next(0, 8))
+                .With(r => r.AmberCount, random.Next(0, 8))
+                .With(r => r.GreenCount, random.Next(0, 8))
+                .Create())
+            .ToArray();
+
+        var actual = new LocalAuthorityViewModel(_localAuthority, ratings).GroupedSchools
+            .Where(g => g.OverallPhase == overallPhase)
+            .SelectMany(g => g.Schools)
+            .Select(s => s.Urn);
+
+        var expected = ratings
+            .GroupBy(x => x.OverallPhase)
+            .Select(x => (
+                OverallPhase: x.Key,
+                Schools: x
+                    .Select(s => new RagSchoolViewModel(
+                        s.URN,
+                        s.SchoolName,
+                        s.RedCount ?? 0,
+                        s.AmberCount ?? 0,
+                        s.GreenCount ?? 0
+                    )).OrderByDescending(o => o.RedRatio)
+                    .ThenByDescending(o => o.AmberRatio)
+                    .ThenBy(o => o.Name)
+                    .Take(5)))
+            .Where(g => g.OverallPhase == overallPhase)
+            .SelectMany(g => g.Schools)
+            .Select(s => s.Urn);
+        Assert.Equal(expected, actual);
     }
 }

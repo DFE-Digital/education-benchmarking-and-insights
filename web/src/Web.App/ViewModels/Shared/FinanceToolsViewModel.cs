@@ -15,6 +15,5 @@ public enum FinanceTools
     ForecastRisk,
     SpendingComparison,
     SpendingComparisonIt,
-    Spending,
-    HighNeeds
+    Spending
 }

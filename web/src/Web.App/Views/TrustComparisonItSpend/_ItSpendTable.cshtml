@@ -1,0 +1,133 @@
+@using Web.App.Domain.Charts
+@model Web.App.ViewModels.TrustComparisonItSpendTableViewModel
+
+@if (Model.SubCategory.Data == null)
+{
+    <div
+        class="govuk-warning-text govuk-!-margin-top-2 govuk-!-margin-bottom-2 ssr-chart-warning">
+        <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
+        <strong class="govuk-warning-text__text">
+            <span class="govuk-visually-hidden">Warning</span>
+            Unable to display data
+        </strong>
+    </div>
+    return;
+}
+
+@if (Model.SubCategory.ForecastData == null)
+{
+    <div>
+        <table class="govuk-table">
+            <caption class="govuk-table__caption govuk-table__caption--m govuk-visually-hidden">@Model.SubCategory.SubCategory</caption>
+            <thead class="govuk-table__head">
+            <tr class="govuk-table__row">
+                <th scope="col" class="govuk-table__header">Trust name</th>
+                <th scope="col"
+                    class="govuk-table__header govuk-table__cell--numeric">@(Model.CurrentBfrYear - 2) – @(Model.CurrentBfrYear - 1)</th>
+            </tr>
+            </thead>
+            <tbody class="govuk-table__body">
+            @foreach (var row in Model.SubCategory.Data)
+            {
+                <tr class="govuk-table__row" data-key="@row.CompanyNumber">
+                    <td class="govuk-table__cell">
+                        @if (row.CompanyNumber == Model.CompanyNumber)
+                        {
+                            <strong>
+                                <a class="govuk-link govuk-link--no-visited-state"
+                                   href=@($"/trust/{row.CompanyNumber}")>@row.TrustName</a>
+                            </strong>
+                        }
+                        else
+                        {
+                            <a class="govuk-link govuk-link--no-visited-state"
+                               href=@($"/trust/{row.CompanyNumber}")>@row.TrustName</a>
+                        }
+                    </td>
+                    <td class="govuk-table__cell govuk-table__cell--numeric">
+                        @if (row.Expenditure == null)
+                        {
+                            <p class="govuk-table__cell_commentary">
+                                <strong class="govuk-tag govuk-tag--red">
+                                    No data submitted
+                                </strong>
+                            </p>
+                        }
+                        else
+                        {
+                            @Model.ResultAs.GetFormattedValue(row.Expenditure)
+                        }
+                    </td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    </div>
+    return;
+}
+
+<div>
+    <table class="govuk-table">
+        <caption class="govuk-table__caption govuk-table__caption--m govuk-visually-hidden">@Model.SubCategory.SubCategory</caption>
+        <thead class="govuk-table__head">
+        <tr class="govuk-table__row">
+            <th scope="col" class="govuk-table__header">Trust name</th>
+            <th scope="col"
+                class="govuk-table__header govuk-table__cell--numeric govuk-table__header--nowrap">@(Model.CurrentBfrYear - 2) – @(Model.CurrentBfrYear - 1)</th>
+            <th scope="col"
+                class="govuk-table__header govuk-table__cell--numeric govuk-table__header--nowrap">@(Model.CurrentBfrYear - 1) – @(Model.CurrentBfrYear)</th>
+            <th scope="col"
+                class="govuk-table__header govuk-table__cell--numeric govuk-table__header--nowrap">@(Model.CurrentBfrYear) – @(Model.CurrentBfrYear + 1)</th>
+        </tr>
+        </thead>
+        <tbody class="govuk-table__body">
+        @foreach (var row in Model.SubCategory.Data)
+        {
+            <tr class="govuk-table__row" data-key="@row.CompanyNumber">
+                @if (row.CompanyNumber == Model.CompanyNumber)
+                {
+                    <td class="govuk-table__cell">
+                        <strong>
+                            <a class="govuk-link govuk-link--no-visited-state"
+                               href=@($"/trust/{row.CompanyNumber}")>@row.TrustName</a>
+                        </strong>
+                    </td>
+
+                    @for (var y = Model.CurrentBfrYear - 1; y <= Model.CurrentBfrYear + 1; y++)
+                    {
+                        <td class="govuk-table__cell govuk-table__cell--numeric">
+                            @Model.ResultAs.GetFormattedValue(Model.SubCategory.ForecastData.Where(f => f.Year == y).Select(f => f.Expenditure).FirstOrDefault())
+                        </td>
+                    }
+                }
+                else
+                {
+                    <td class="govuk-table__cell">
+                        <a class="govuk-link govuk-link--no-visited-state"
+                           href=@($"/trust/{row.CompanyNumber}")>@row.TrustName</a>
+                    </td>
+
+                    if (row.Expenditure == null)
+                    {
+                        <td class="govuk-table__cell govuk-table__cell--numeric" colspan="3">
+                            <p class="govuk-table__cell_commentary">
+                                <strong class="govuk-tag govuk-tag--red">
+                                    No data submitted
+                                </strong>
+                            </p>
+                        </td>
+                    }
+                    else
+                    {
+                        <td class="govuk-table__cell govuk-table__cell--numeric">
+                            @Model.ResultAs.GetFormattedValue(row.Expenditure)
+                        </td>
+                        <td class="govuk-table__cell govuk-table__cell--numeric">Data not available</td>
+                        <td class="govuk-table__cell govuk-table__cell--numeric">Data not available</td>
+                    }
+                }
+            </tr>
+        }
+        </tbody>
+    </table>
+</div>

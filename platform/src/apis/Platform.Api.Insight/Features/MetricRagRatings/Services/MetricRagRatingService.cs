@@ -6,6 +6,7 @@ using Dapper;
 using Platform.Api.Insight.Features.MetricRagRatings.Models;
 using Platform.Domain;
 using Platform.Sql;
+using Platform.Sql.QueryBuilders;
 
 namespace Platform.Api.Insight.Features.MetricRagRatings.Services;
 
@@ -16,10 +17,15 @@ public interface IMetricRagRatingsService
         string[] categories,
         string[] statuses,
         string? companyNumber,
-        string? laCode,
-        string? phase,
         string runType = Pipeline.RunType.Default,
         bool includeSubCategories = false,
+        CancellationToken cancellationToken = default);
+
+    Task<IEnumerable<MetricRagRatingSummary>> QuerySummaryAsync(
+        string[] urns,
+        string? companyNumber,
+        string? laCode,
+        string? overallPhases,
         CancellationToken cancellationToken = default);
 
     Task<IEnumerable<MetricRagRating>> UserDefinedAsync(
@@ -36,8 +42,6 @@ public class MetricRagRatingsService(IDatabaseFactory dbFactory) : IMetricRagRat
         string[] categories,
         string[] statuses,
         string? companyNumber,
-        string? laCode,
-        string? phase,
         string runType = Pipeline.RunType.Default,
         bool includeSubCategories = false,
         CancellationToken cancellationToken = default)
@@ -47,63 +51,76 @@ public class MetricRagRatingsService(IDatabaseFactory dbFactory) : IMetricRagRat
         using var conn = await dbFactory.GetConnection();
         var year = await conn.QueryFirstAsync<string>(paramSql, cancellationToken: cancellationToken);
 
-        var builder = new SqlBuilder();
-        var template = builder.AddTemplate("SELECT * from SchoolMetricRAG /**where**/");
-        builder.Where("RunType = @RunType AND RunId = @RunId", new
-        {
-            RunType = runType,
-            RunId = year
-        });
+        var builder = new SchoolMetricRagQuery()
+            .WhereRunTypeEqual(runType)
+            .WhereRunIdEqual(year);
 
         if (urns.Length != 0)
         {
-            builder.Where("URN IN @URNS", new
-            {
-                URNS = urns
-            });
+            builder = builder.WhereUrnIn(urns);
         }
         else if (!string.IsNullOrWhiteSpace(companyNumber))
         {
-            builder.Where("TrustCompanyNumber = @CompanyNumber", new
-            {
-                CompanyNumber = companyNumber
-            });
-        }
-        else if (!string.IsNullOrWhiteSpace(laCode))
-        {
-            builder.Where("LaCode = @LaCode AND OverallPhase = @Phase", new
-            {
-                LaCode = laCode,
-                Phase = phase
-            });
+            builder = builder.WhereTrustCompanyNumberEqual(companyNumber);
         }
         else
         {
-            throw new ArgumentNullException(nameof(urns), $"{nameof(urns)} or {nameof(companyNumber)} or {nameof(laCode)} must be supplied");
+            throw new ArgumentNullException(nameof(urns), $"{nameof(urns)} or {nameof(companyNumber)} must be supplied");
         }
 
         if (!includeSubCategories)
         {
-            builder.Where("SubCategory = 'Total'");
+            builder = builder.WhereSubCategoryEqual("Total");
         }
 
         if (categories.Length != 0)
         {
-            builder.Where("Category IN @categories", new
-            {
-                categories
-            });
+            builder = builder.WhereCategoryIn(categories);
         }
 
         if (statuses.Length != 0)
         {
-            builder.Where("RAG IN @statuses", new
-            {
-                statuses
-            });
+            builder = builder.WhereRagIn(statuses);
         }
 
-        return await conn.QueryAsync<MetricRagRating>(template.RawSql, template.Parameters, cancellationToken);
+        return await conn.QueryAsync<MetricRagRating>(builder, cancellationToken);
+    }
+
+    public async Task<IEnumerable<MetricRagRatingSummary>> QuerySummaryAsync(
+        string[] urns,
+        string? companyNumber,
+        string? laCode,
+        string? overallPhase,
+        CancellationToken cancellationToken = default)
+    {
+        using var conn = await dbFactory.GetConnection();
+
+        var builder = new MetricRagSummaryQuery();
+
+        if (urns.Length != 0)
+        {
+            builder.WhereUrnIn(urns);
+        }
+        else if (!string.IsNullOrWhiteSpace(companyNumber))
+        {
+            builder.WhereTrustCompanyNumberEqual(companyNumber);
+        }
+        else if (!string.IsNullOrWhiteSpace(laCode))
+        {
+            builder.WhereLaCodeEqual(laCode)
+                .WhereFinanceTypeEqual(FinanceType.Maintained);
+        }
+        else
+        {
+            throw new ArgumentNullException($"{nameof(urns)}, {nameof(laCode)} or {nameof(companyNumber)} must be supplied");
+        }
+
+        if (!string.IsNullOrWhiteSpace(overallPhase))
+        {
+            builder.WhereOverallPhaseEqual(overallPhase);
+        }
+
+        return await conn.QueryAsync<MetricRagRatingSummary>(builder, cancellationToken);
     }
 
     public async Task<IEnumerable<MetricRagRating>> UserDefinedAsync(

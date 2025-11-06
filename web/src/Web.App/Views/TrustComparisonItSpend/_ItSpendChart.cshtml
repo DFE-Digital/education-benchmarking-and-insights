@@ -1,0 +1,41 @@
+@model Web.App.ViewModels.TrustComparisonItSpendChartViewModel
+
+@if (string.IsNullOrWhiteSpace(Model.SubCategory.ChartSvg))
+{
+    <div
+        class="govuk-warning-text govuk-!-margin-top-2 govuk-!-margin-bottom-2 ssr-chart-warning">
+        <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
+        <strong class="govuk-warning-text__text">
+            <span class="govuk-visually-hidden">Warning</span>
+            Unable to display chart
+        </strong>
+    </div>
+    return;
+}
+
+<p class="govuk-body govuk-!-margin-bottom-0 chart-context">
+    This shows the previous year spend for @(Model.CurrentBfrYear - 2) to @(Model.CurrentBfrYear - 1).
+</p>
+
+<div id="@Model.Uuid" class="costs-chart-container" data-title="@Model.SubCategory.SubCategory">
+    <div class="costs-chart-wrapper">
+        <div class="govuk-!-margin-bottom-2 ssr-chart horizontal-bar-chart horizontal-bar-chart__no-hover">
+            @Html.Raw(Model.SubCategory.ChartSvg)
+        </div>
+    </div>
+</div>
+
+@if (!string.IsNullOrWhiteSpace(Model.SubCategory.ForecastChartSvg))
+{
+    <p class="govuk-body govuk-!-margin-bottom-0">
+        This shows your trust's current and forecast spend. This is only visible to you.
+    </p>
+
+    <div id="@Model.Uuid-forecast" class="costs-chart-container" data-title="@Model.SubCategory.SubCategory (forecast)">
+        <div class="costs-chart-wrapper">
+            <div class="govuk-!-margin-bottom-2 ssr-chart horizontal-bar-chart horizontal-bar-chart__no-hover">
+                @Html.Raw(Model.SubCategory.ForecastChartSvg)
+            </div>
+        </div>
+    </div>
+}

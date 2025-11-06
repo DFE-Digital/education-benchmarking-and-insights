@@ -29,6 +29,13 @@ public class SignInSteps(PageDriver driver)
         await SignOut();
     }
 
+    [Then("I should be redirected to the sign-in page")]
+    public async Task ThenIShouldBeRedirectedToTheSignInPage()
+    {
+        var page = await driver.Current;
+        await page.Locator("H1").ShouldContainText("Sign-in");
+    }
+
     private async Task SignInWithOrganisation(string organisation)
     {
         var page = await driver.Current;

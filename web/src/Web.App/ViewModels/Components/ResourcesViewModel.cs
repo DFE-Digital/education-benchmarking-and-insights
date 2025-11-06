@@ -16,5 +16,6 @@ public enum Resources
     TrustDetails,
     LocalAuthorityResources,
     DataSource,
-    FinancialBenchmarkingInsightsSummary
+    FinancialBenchmarkingInsightsSummary,
+    TrustFinancialBenchmarkingInsightsSummary
 }

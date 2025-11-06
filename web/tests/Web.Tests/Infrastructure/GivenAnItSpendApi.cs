@@ -27,4 +27,30 @@ public class GivenAnItSpendApi(ITestOutputHelper testOutputHelper) : ApiClientTe
 
         VerifyCall(HttpMethod.Get, "api/it-spend/schools?urn=123456&urn=654321");
     }
+
+    [Fact]
+    public async Task QueryTrustsShouldCallCorrectUrl()
+    {
+        var api = new ItSpendApi(HttpClient);
+
+        var query = new ApiQuery()
+            .AddIfNotNull("companyNumber", "12345678")
+            .AddIfNotNull("companyNumber", "87654321");
+
+        await api.QueryTrusts(query);
+
+        VerifyCall(HttpMethod.Get, "api/it-spend/trusts?companyNumber=12345678&companyNumber=87654321");
+    }
+
+    [Fact]
+    public async Task TrustForecastShouldCallCorrectUrl()
+    {
+        var api = new ItSpendApi(HttpClient);
+
+        const string companyNumber = "12345678";
+
+        await api.TrustForecast(companyNumber);
+
+        VerifyCall(HttpMethod.Get, "api/it-spend/trust/12345678/forecast");
+    }
 }

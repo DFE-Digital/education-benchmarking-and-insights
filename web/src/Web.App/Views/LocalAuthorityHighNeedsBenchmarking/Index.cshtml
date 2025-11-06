@@ -5,8 +5,6 @@
     ViewData[ViewDataKeys.Title] = PageTitles.LocalAuthorityHighNeedsBenchmarking;
 }
 
-@Html.ActionLink(PageTitles.LocalAuthorityHighNeeds, "Index", "LocalAuthorityHighNeeds", new { code = Model.Code }, new { @class = "govuk-back-link govuk-!-margin-top-0" })
-
 @await Component.InvokeAsync("EstablishmentHeading", new
 {
     title = ViewData[ViewDataKeys.Title],
@@ -24,3 +22,7 @@ pageTitle = ViewData[ViewDataKeys.Title]
 
 <div id="benchmark-data-high-needs" data-code="@Model.Code" data-set="@Model.Comparators.ToJson(Formatting.None)"
      data-edit-link="@Url.Action("Comparators", "LocalAuthorityHighNeedsBenchmarking", new { code = Model.Code, referrer = "benchmarking" })"></div>
+
+<hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+
+@await Component.InvokeAsync("LocalAuthorityHighNeedsHelp")

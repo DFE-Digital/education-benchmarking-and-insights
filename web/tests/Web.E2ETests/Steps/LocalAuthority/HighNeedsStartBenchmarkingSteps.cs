@@ -9,7 +9,7 @@ namespace Web.E2ETests.Steps.LocalAuthority;
 public class HighNeedsStartBenchmarkingSteps(PageDriver driver, PageDriverWithJavaScriptDisabled driverNoJs)
 {
     private HighNeedsBenchmarkingPage? _highNeedsBenchmarkingPage;
-    private HighNeedsDashboardPage? _highNeedsDashboardPage;
+    private HomePage? _localAuthorityHomePage;
     private HighNeedsStartBenchmarkingPage? _highNeedsStartBenchmarkingPage;
     private bool _javascriptDisabled;
 
@@ -95,15 +95,15 @@ public class HighNeedsStartBenchmarkingSteps(PageDriver driver, PageDriverWithJa
         }
         else
         {
-            _highNeedsDashboardPage = await _highNeedsStartBenchmarkingPage.ClickCancelButton(p => new HighNeedsDashboardPage(p));
+            _localAuthorityHomePage = await _highNeedsStartBenchmarkingPage.ClickCancelButton(p => new HomePage(p));
         }
     }
 
-    [Then("the local authority high needs dashboard page is displayed")]
-    public async Task ThenTheLocalAuthorityHighNeedsDashboardPageIsDisplayed()
+    [Then("the local authority home page is displayed")]
+    public async Task ThenTheLocalAuthorityHomePageIsDisplayed()
     {
-        Assert.NotNull(_highNeedsDashboardPage);
-        await _highNeedsDashboardPage.IsDisplayed();
+        Assert.NotNull(_localAuthorityHomePage);
+        await _localAuthorityHomePage.IsDisplayed();
     }
 
     private async Task SetupHighNeedsStartBenchmarkingPage(string laCode, string? referrer = null)

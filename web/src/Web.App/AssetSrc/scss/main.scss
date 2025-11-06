@@ -82,6 +82,59 @@
   }
 }
 
+.priority-count {
+  border: 2px solid $govuk-border-colour;
+
+  &.high {
+    border-color: $rag-red-colour;
+  }
+
+  &.medium {
+    border-color: $rag-amber-colour;
+  }
+
+  &.low {
+    border-color: $rag-green-colour;
+  }
+}
+
+.priority-count-tag--red {
+  background-color: $rag-red-colour;
+  color: $rag-red-text-colour;
+}
+
+.priority-count-tag--yellow {
+  background-color: $rag-amber-colour;
+  color: $govuk-text-colour;
+}
+
+.priority-count-tag--green {
+  background-color: $rag-green-colour;
+  color: $govuk-text-colour;
+}
+
+.key-spend-panel > .govuk-grid-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+}
+
+.key-spend-column {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  box-sizing: border-box;
+}
+
+.key-spend-border {
+  border-left: 1px solid govuk-colour("dark-grey");
+
+  @include govuk-media-query($until: tablet) {
+    border-left: none;
+    padding-top: govuk-spacing(2);
+  }
+}
+
 .app-tag--red {
   background-color: $rag-red-colour;
   color: $rag-red-text-colour;
@@ -291,6 +344,14 @@ svg.rag-stack {
 
   &.rag-stack-small {
     height: 15px;
+  }
+
+  &.rag-stack-medium {
+    height: 22px;
+  }
+
+  @include govuk-media-query($until: tablet) {
+    margin-bottom: govuk-spacing(4);
   }
 }
 
@@ -546,6 +607,53 @@ hr.govuk-section-break--print {
       }
     }
   }
+
+  thead {
+    tr {
+      th {
+        &.govuk-table__header--nowrap {
+          white-space: pre;
+        }
+
+        &.govuk-table__header--sortable {
+          button {
+            display: inline-flex;
+            text-decoration: none;
+            margin: govuk-spacing(0);
+            padding: govuk-spacing(0);
+            border-width: 0;
+            color: govuk-colour("blue");
+            background-color: transparent;
+            box-shadow: 0 0 0 0;
+            cursor: pointer;
+            text-align: inherit;
+            align-items: center;
+
+            &:focus {
+              outline: none;
+              color: govuk-colour("black");
+              background-color: govuk-colour("yellow");
+              box-shadow: 0 -2px govuk-colour("yellow"), 0 4px govuk-colour("black");
+            }
+
+            > svg {
+              flex: none;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  tbody {
+    tr {
+      td {
+        &.govuk-table__cell--nowrap {
+          white-space: nowrap;
+        }
+      }
+    }
+  }
 }
 
 .trend-indicator {
@@ -790,20 +898,34 @@ table#current-comparators-la {
       }
     }
 
-    .chart-cell {
-      &.chart-cell__series-0:hover {
-        cursor: pointer;
+    &:not(.horizontal-bar-chart__no-hover) {
+      .chart-cell {
+        &.chart-cell__series-0:hover {
+          cursor: pointer;
 
-        &:not(.chart-cell__highlight,
-        .chart-cell__group-part-year,
-        .chart-cell__group-previous,
-        .chart-cell__group-current,
-        .chart-cell__group-forecast) {
+          &:not(
+            .chart-cell__highlight,
+            .chart-cell__group-part-year,
+            .chart-cell__group-previous,
+            .chart-cell__group-current,
+            .chart-cell__group-forecast) {
+            fill: govuk-colour("dark-grey");
+            stroke: govuk-colour("dark-grey");
+          }
+        }
+      }
+    }
+
+    &.horizontal-bar-chart__no-hover {
+      .chart-cell {
+        &.chart-cell__highlight {
           fill: govuk-colour("dark-grey");
           stroke: govuk-colour("dark-grey");
         }
       }
+    }
 
+    .chart-cell {
       &.chart-cell__group-previous {
         fill: $chart-bar-group-1-colour;
         stroke: $chart-bar-group-1-colour;
@@ -951,4 +1073,23 @@ table#current-comparators-la {
     @include govuk-font($size: 14);
     max-width: 200px;
   }
+}
+
+.panel {
+  margin: govuk-spacing(1) govuk-spacing(0);
+  padding: govuk-spacing(2) govuk-spacing(3);
+
+  &.panel--grey {
+    background-color: govuk-colour("light-grey");
+  }
+
+  .govuk-body, .govuk-body-l {
+    margin-bottom: govuk-spacing(1);
+  }
+}
+
+.block-single-line {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
 }

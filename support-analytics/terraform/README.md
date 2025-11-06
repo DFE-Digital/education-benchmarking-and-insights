@@ -4,13 +4,13 @@
 | Name | Version |
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.9.8 |
-| <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm) | ~> 4.40.0 |
+| <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm) | ~> 4.51.0 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| <a name="provider_azurerm"></a> [azurerm](#provider\_azurerm) | 4.40.0 |
+| <a name="provider_azurerm"></a> [azurerm](#provider\_azurerm) | 4.51.0 |
 | <a name="provider_random"></a> [random](#provider\_random) | 3.7.2 |
 
 ## Modules
@@ -157,18 +157,18 @@ No modules.
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | <a name="input_cip-environment"></a> [cip-environment](#input\_cip-environment) | n/a | `any` | n/a | yes |
-| <a name="input_configuration"></a> [configuration](#input\_configuration) | n/a | <pre>map(object({<br>    alerts_enabled       = bool<br>    email_alerts_enabled = bool<br>    smart_alerts_enabled = bool<br>    thresholds = object({<br>      availability = number<br>      cpu          = number<br>      memory       = number<br>      error        = number<br>    })<br>  }))</pre> | <pre>{<br>  "automated-test": {<br>    "alerts_enabled": false,<br>    "email_alerts_enabled": false,<br>    "smart_alerts_enabled": false,<br>    "thresholds": {<br>      "availability": 90,<br>      "cpu": 95,<br>      "error": 5,<br>      "memory": 95<br>    }<br>  },<br>  "development": {<br>    "alerts_enabled": false,<br>    "email_alerts_enabled": false,<br>    "smart_alerts_enabled": true,<br>    "thresholds": {<br>      "availability": 90,<br>      "cpu": 95,<br>      "error": 5,<br>      "memory": 95<br>    }<br>  },<br>  "feature": {<br>    "alerts_enabled": false,<br>    "email_alerts_enabled": false,<br>    "smart_alerts_enabled": false,<br>    "thresholds": {<br>      "availability": 90,<br>      "cpu": 95,<br>      "error": 5,<br>      "memory": 95<br>    }<br>  },<br>  "pre-production": {<br>    "alerts_enabled": true,<br>    "email_alerts_enabled": false,<br>    "smart_alerts_enabled": true,<br>    "thresholds": {<br>      "availability": 99.9,<br>      "cpu": 85,<br>      "error": 1,<br>      "memory": 85<br>    }<br>  },<br>  "production": {<br>    "alerts_enabled": true,<br>    "email_alerts_enabled": true,<br>    "smart_alerts_enabled": true,<br>    "thresholds": {<br>      "availability": 99.9,<br>      "cpu": 85,<br>      "error": 1,<br>      "memory": 85<br>    }<br>  },<br>  "test": {<br>    "alerts_enabled": false,<br>    "email_alerts_enabled": false,<br>    "smart_alerts_enabled": false,<br>    "thresholds": {<br>      "availability": 90,<br>      "cpu": 95,<br>      "error": 5,<br>      "memory": 95<br>    }<br>  }<br>}</pre> | no |
+| <a name="input_configuration"></a> [configuration](#input\_configuration) | n/a | <pre>map(object({<br/>    alerts_enabled       = bool<br/>    email_alerts_enabled = bool<br/>    smart_alerts_enabled = bool<br/>    thresholds = object({<br/>      availability = number<br/>      cpu          = number<br/>      memory       = number<br/>      error        = number<br/>    })<br/>  }))</pre> | <pre>{<br/>  "automated-test": {<br/>    "alerts_enabled": false,<br/>    "email_alerts_enabled": false,<br/>    "smart_alerts_enabled": false,<br/>    "thresholds": {<br/>      "availability": 90,<br/>      "cpu": 95,<br/>      "error": 5,<br/>      "memory": 95<br/>    }<br/>  },<br/>  "development": {<br/>    "alerts_enabled": false,<br/>    "email_alerts_enabled": false,<br/>    "smart_alerts_enabled": true,<br/>    "thresholds": {<br/>      "availability": 90,<br/>      "cpu": 95,<br/>      "error": 5,<br/>      "memory": 95<br/>    }<br/>  },<br/>  "feature": {<br/>    "alerts_enabled": false,<br/>    "email_alerts_enabled": false,<br/>    "smart_alerts_enabled": false,<br/>    "thresholds": {<br/>      "availability": 90,<br/>      "cpu": 95,<br/>      "error": 5,<br/>      "memory": 95<br/>    }<br/>  },<br/>  "pre-production": {<br/>    "alerts_enabled": true,<br/>    "email_alerts_enabled": false,<br/>    "smart_alerts_enabled": true,<br/>    "thresholds": {<br/>      "availability": 99.9,<br/>      "cpu": 85,<br/>      "error": 1,<br/>      "memory": 85<br/>    }<br/>  },<br/>  "production": {<br/>    "alerts_enabled": true,<br/>    "email_alerts_enabled": true,<br/>    "smart_alerts_enabled": true,<br/>    "thresholds": {<br/>      "availability": 99.9,<br/>      "cpu": 85,<br/>      "error": 1,<br/>      "memory": 85<br/>    }<br/>  },<br/>  "test": {<br/>    "alerts_enabled": false,<br/>    "email_alerts_enabled": false,<br/>    "smart_alerts_enabled": false,<br/>    "thresholds": {<br/>      "availability": 90,<br/>      "cpu": 95,<br/>      "error": 5,<br/>      "memory": 95<br/>    }<br/>  }<br/>}</pre> | no |
 | <a name="input_environment"></a> [environment](#input\_environment) | n/a | `any` | n/a | yes |
 | <a name="input_environment-prefix"></a> [environment-prefix](#input\_environment-prefix) | n/a | `any` | n/a | yes |
-| <a name="input_establishmentTypes"></a> [establishmentTypes](#input\_establishmentTypes) | n/a | `list(string)` | <pre>[<br>  "school",<br>  "trust",<br>  "local-authority"<br>]</pre> | no |
+| <a name="input_establishmentTypes"></a> [establishmentTypes](#input\_establishmentTypes) | n/a | `list(string)` | <pre>[<br/>  "school",<br/>  "trust",<br/>  "local-authority"<br/>]</pre> | no |
 | <a name="input_location"></a> [location](#input\_location) | n/a | `any` | n/a | yes |
 | <a name="input_support-alert-email"></a> [support-alert-email](#input\_support-alert-email) | n/a | `any` | n/a | yes |
 | <a name="input_teams-channel-id"></a> [teams-channel-id](#input\_teams-channel-id) | n/a | `any` | n/a | yes |
 | <a name="input_teams-channel-id-dev"></a> [teams-channel-id-dev](#input\_teams-channel-id-dev) | n/a | `any` | n/a | yes |
 | <a name="input_teams-channel-id-preprod"></a> [teams-channel-id-preprod](#input\_teams-channel-id-preprod) | n/a | `any` | n/a | yes |
 | <a name="input_teams-team-id"></a> [teams-team-id](#input\_teams-team-id) | n/a | `any` | n/a | yes |
-| <a name="input_trackedAuthEvents"></a> [trackedAuthEvents](#input\_trackedAuthEvents) | n/a | `list(string)` | <pre>[<br>  "user-sign-in-initiated",<br>  "user-sign-in-success"<br>]</pre> | no |
-| <a name="input_trackedEvents"></a> [trackedEvents](#input\_trackedEvents) | n/a | `list(string)` | <pre>[<br>  "change-organisation",<br>  "commercial-resource",<br>  "copy-chart-as-image",<br>  "data-source",<br>  "download-page-data",<br>  "gias-school-details",<br>  "guidance-resource",<br>  "organisation",<br>  "save-chart-as-image",<br>  "service-banner",<br>  "survey"<br>]</pre> | no |
+| <a name="input_trackedAuthEvents"></a> [trackedAuthEvents](#input\_trackedAuthEvents) | n/a | `list(string)` | <pre>[<br/>  "user-sign-in-initiated",<br/>  "user-sign-in-success"<br/>]</pre> | no |
+| <a name="input_trackedEvents"></a> [trackedEvents](#input\_trackedEvents) | n/a | `list(string)` | <pre>[<br/>  "change-organisation",<br/>  "commercial-resource",<br/>  "copy-chart-as-image",<br/>  "data-source",<br/>  "download-page-data",<br/>  "gias-school-details",<br/>  "guidance-resource",<br/>  "organisation",<br/>  "save-chart-as-image",<br/>  "service-banner",<br/>  "survey"<br/>]</pre> | no |
 
 ## Outputs
 

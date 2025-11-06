@@ -101,6 +101,11 @@ export function getDomain<T>(
   const dataMax = max(filteredData, (d) => d[valueField] as number) ?? 0;
   const maximum = !domainMax || domainMax < dataMax ? dataMax : domainMax;
 
+  if (minimum === 0 && maximum === 0) {
+    // 1000 is arbitrary for allowing zeroes to render correctly
+    return [0, 1000];
+  }
+
   return [minimum, maximum];
 }
 
@@ -188,4 +193,12 @@ export function escapeXml(unsafe: string | undefined) {
         };`
     ) ?? ""
   );
+}
+
+/**
+ * Checks if all characters are uppercase or spaces and ensures the string contains at least one letter
+ */
+export function isAllCaps(value: string) {
+  const lettersOnly = value.replace(/[^A-Za-z]/g, "");
+  return lettersOnly.length > 0 && lettersOnly === lettersOnly.toUpperCase();
 }

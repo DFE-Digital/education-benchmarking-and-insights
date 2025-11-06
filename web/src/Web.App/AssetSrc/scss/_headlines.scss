@@ -40,6 +40,13 @@
   }
 }
 
+.app-headline-summary {
+  background-color: govuk-colour("blue");
+
+  > p:last-of-type {
+    @include govuk-font-size($size: 36);
+  }
+}
 
 .app-headline {
   display: flex;

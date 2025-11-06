@@ -1,0 +1,100 @@
+@using Web.App.Domain
+@using Web.App.Domain.Charts
+@using Web.App.Extensions
+@using Web.App.ViewModels.Components
+@model Web.App.ViewModels.Components.LocalAuthoritySchoolFinancialFormViewModel
+@{
+    var tableId = LocalAuthoritySchoolFinancialFormViewModel.TableId;
+    var tableHeaderSuffix = Model.ResultAs.GetTableHeaderSuffix();
+    var sortKey = $"{Model.FormPrefix}{LocalAuthoritySchoolFinancialFormViewModel.FormFieldNames.Sort}";
+
+    string ValueSelector(LocalAuthoritySchoolFinancial row, Func<LocalAuthoritySchoolFinancial, decimal?> selector)
+    {
+        return Model.ResultAs is Dimensions.ResultAsOptions.PercentExpenditure or Dimensions.ResultAsOptions.PercentIncome
+            ? selector(row).ToPercent()
+            : selector(row).ToCurrency();
+    }
+}
+
+<table class="govuk-table" id="@tableId">
+    <thead class="govuk-table__head">
+    <tr class="govuk-table__row">
+        @await Component.InvokeAsync("SortableTableHeaderCell", new
+        {
+            label = "School name",
+            sortField = nameof(LocalAuthoritySchoolFinancial.SchoolName),
+            sortKey,
+            className = "govuk-!-width-one-quarter",
+            tableId,
+            defaultSort = Model.DefaultSort.StartsWith(nameof(LocalAuthoritySchoolFinancial.SchoolName)) ? Model.DefaultSort : null
+        })
+        @await Component.InvokeAsync("SortableTableHeaderCell", new
+        {
+            label = "Pupils",
+            sortField = nameof(LocalAuthoritySchoolFinancial.TotalPupils),
+            sortKey,
+            className = "govuk-table__header--numeric",
+            tableId,
+            defaultSort = Model.DefaultSort.StartsWith(nameof(LocalAuthoritySchoolFinancial.TotalPupils)) ? Model.DefaultSort : null
+        })
+        @await Component.InvokeAsync("SortableTableHeaderCell", new
+        {
+            label = $"Expenditure {tableHeaderSuffix}",
+            sortField = nameof(LocalAuthoritySchoolFinancial.TotalExpenditure),
+            sortKey,
+            className = "govuk-table__header--numeric",
+            tableId,
+            defaultSort = Model.DefaultSort.StartsWith(nameof(LocalAuthoritySchoolFinancial.TotalExpenditure)) ? Model.DefaultSort : null
+        })
+        @await Component.InvokeAsync("SortableTableHeaderCell", new
+        {
+            label = $"Staffing spend {tableHeaderSuffix}",
+            sortField = nameof(LocalAuthoritySchoolFinancial.TotalTeachingSupportStaffCosts),
+            sortKey,
+            className = "govuk-table__header--numeric",
+            tableId,
+            defaultSort = Model.DefaultSort.StartsWith(nameof(LocalAuthoritySchoolFinancial.TotalTeachingSupportStaffCosts)) ? Model.DefaultSort : null
+        })
+        @await Component.InvokeAsync("SortableTableHeaderCell", new
+        {
+            label = $"Revenue reserves {tableHeaderSuffix}",
+            sortField = nameof(LocalAuthoritySchoolFinancial.RevenueReserve),
+            sortKey,
+            className = "govuk-table__header--numeric",
+            tableId,
+            defaultSort = Model.DefaultSort.StartsWith(nameof(LocalAuthoritySchoolFinancial.RevenueReserve)) ? Model.DefaultSort : null
+        })
+    </tr>
+    </thead>
+    <tbody class="govuk-table__body">
+    @foreach (var row in Model.Results)
+    {
+        <tr class="govuk-table__row">
+            <td class="govuk-table__cell">
+                <a class="govuk-link govuk-link--no-visited-state" href=@($"/school/{row.Urn}")>@row.SchoolName</a>
+                @if (row.PeriodCoveredByReturn is not 12)
+                {
+                    <p class="govuk-table__cell_commentary">
+                        <strong class="govuk-tag govuk-tag--red">
+                            Only has @row.PeriodCoveredByReturn
+                            @(row.PeriodCoveredByReturn == 1 ? "month" : "months") of data
+                        </strong>
+                    </p>
+                }
+            </td>
+            <td class="govuk-table__cell govuk-table__cell--numeric">
+                @row.TotalPupils.ToSimpleDisplay()
+            </td>
+            <td class="govuk-table__cell govuk-table__cell--numeric govuk-table__cell--nowrap">
+                @ValueSelector(row, r => r.TotalExpenditure)
+            </td>
+            <td class="govuk-table__cell govuk-table__cell--numeric govuk-table__cell--nowrap">
+                @ValueSelector(row, r => r.TotalTeachingSupportStaffCosts)
+            </td>
+            <td class="govuk-table__cell govuk-table__cell--numeric govuk-table__cell--nowrap">
+                @ValueSelector(row, r => r.RevenueReserve)
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>

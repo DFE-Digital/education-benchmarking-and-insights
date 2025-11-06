@@ -60,6 +60,18 @@ public abstract class PlatformQuery : SqlBuilder
         return this;
     }
 
+    public PlatformQuery WhereRunTypeEqual(string runType)
+    {
+        const string sql = "RunType = @RunType";
+        var parameters = new
+        {
+            RunType = runType
+        };
+
+        Where(sql, parameters);
+        return this;
+    }
+
     public PlatformQuery WhereTrustCompanyNumberEqual(string companyNumber)
     {
         const string sql = "TrustCompanyNumber = @CompanyNumber";
@@ -343,6 +355,90 @@ public abstract class PlatformQuery : SqlBuilder
         var parameters = new
         {
             Slug = slug
+        };
+
+        Where(sql, parameters);
+        return this;
+    }
+
+    public PlatformQuery WhereSubCategoryEqual(string subCategory)
+    {
+        const string sql = "SubCategory = @SubCategory";
+        var parameters = new
+        {
+            SubCategory = subCategory
+        };
+
+        Where(sql, parameters);
+        return this;
+    }
+
+    public PlatformQuery WhereCategoryIn(params string[] categories)
+    {
+        const string sql = "Category IN @Categories";
+        var parameters = new
+        {
+            Categories = categories
+        };
+
+        Where(sql, parameters);
+        return this;
+    }
+
+    public PlatformQuery WhereRagIn(params string[] rags)
+    {
+        const string sql = "RAG IN @RAGs";
+        var parameters = new
+        {
+            RAGs = rags
+        };
+
+        Where(sql, parameters);
+        return this;
+    }
+
+    public PlatformQuery WhereNurseryProvisionIn(params string[] nurseryProvision)
+    {
+        const string sql = "NurseryProvision IN @NurseryProvision";
+        var parameters = new
+        {
+            NurseryProvision = nurseryProvision
+        };
+
+        Where(sql, parameters);
+        return this;
+    }
+
+    public PlatformQuery WhereSixthFormProvisionIn(params string[] sixthFormProvision)
+    {
+        const string sql = "SixthFormProvision IN @SixthFormProvision";
+        var parameters = new
+        {
+            SixthFormProvision = sixthFormProvision
+        };
+
+        Where(sql, parameters);
+        return this;
+    }
+
+    public PlatformQuery WhereSpecialClassesProvisionIn(params string[] specialClassProvision)
+    {
+        const string sql = "SpecialClassProvision IN @SpecialClassProvision";
+        var parameters = new
+        {
+            SpecialClassProvision = specialClassProvision
+        };
+
+        Where(sql, parameters);
+        return this;
+    }
+
+    public PlatformQuery WhereOverallPhaseIn(params string[] phase)
+    {
+        const string sql = "OverallPhase IN @Phase";
+        var parameters = new
+        {
+            Phase = phase
         };
 
         Where(sql, parameters);

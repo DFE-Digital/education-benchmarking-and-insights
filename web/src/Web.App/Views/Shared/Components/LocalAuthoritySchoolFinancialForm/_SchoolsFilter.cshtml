@@ -1,0 +1,121 @@
+@using Web.App.Domain
+@using Web.App.Domain.Charts
+@using Web.App.ViewModels
+@using Web.App.ViewModels.Components
+@model Web.App.ViewModels.Components.LocalAuthoritySchoolFinancialFormViewModel
+@{
+    const string accordionId = "accordion-financial-filters";
+    List<string> resetFields = [];
+    if (Model.Sort != null)
+    {
+        resetFields.Add($"{Model.FormPrefix}{LocalAuthoritySchoolFinancialFormViewModel.FormFieldNames.Sort}");
+    }
+
+    if (Model.AllRows)
+    {
+        resetFields.Add($"{Model.FormPrefix}{LocalAuthoritySchoolFinancialFormViewModel.FormFieldNames.Rows}");
+    }
+}
+
+<div class="app-filter">
+    <div class="app-filter__header">
+        <h2 class="govuk-heading-m govuk-!-margin-0">
+            Filters
+        </h2>
+    </div>
+
+    @await Html.PartialAsync("Components/LocalAuthoritySchoolFinancialForm/_SchoolsFilterSelected", Model)
+    <div class="app-filter__body">
+        <div class="govuk-accordion" data-module="govuk-accordion" id="@accordionId">
+            @await Html.PartialAsync("Components/LocalAuthoritySchoolFinancialForm/_SchoolsFilterAccordionSection", new LocalAuthoritySchoolFilterAccordionSectionViewModel<OverallPhaseTypes.OverallPhaseTypeFilter>(
+                accordionId,
+                1,
+                Model.FormPrefix,
+                "Phase",
+                LocalAuthoritySchoolFinancialFormViewModel.FormFieldNames.SelectedOverallPhases,
+                OverallPhaseTypes.AllFilters,
+                Model.SelectedOverallPhases,
+                f => f.GetFilterDescription(),
+                f => ((int)f).ToString()))
+
+            @await Html.PartialAsync("Components/LocalAuthoritySchoolFinancialForm/_SchoolsFilterAccordionSection", new LocalAuthoritySchoolFilterAccordionSectionViewModel<NurseryProvisions.NurseryProvisionFilter>(
+                accordionId,
+                2,
+                Model.FormPrefix,
+                "Nursery provision",
+                LocalAuthoritySchoolFinancialFormViewModel.FormFieldNames.SelectedNurseryProvisions,
+                NurseryProvisions.AllFilters,
+                Model.SelectedNurseryProvisions,
+                f => f.GetFilterDescription(),
+                f => ((int)f).ToString()))
+
+            @await Html.PartialAsync("Components/LocalAuthoritySchoolFinancialForm/_SchoolsFilterAccordionSection", new LocalAuthoritySchoolFilterAccordionSectionViewModel<SpecialProvisions.SpecialProvisionFilter>(
+                accordionId,
+                3,
+                Model.FormPrefix,
+                "Special class provision",
+                LocalAuthoritySchoolFinancialFormViewModel.FormFieldNames.SelectedSpecialProvisions,
+                SpecialProvisions.AllFilters,
+                Model.SelectedSpecialProvisions,
+                f => f.GetFilterDescription(),
+                f => ((int)f).ToString()))
+
+            @await Html.PartialAsync("Components/LocalAuthoritySchoolFinancialForm/_SchoolsFilterAccordionSection", new LocalAuthoritySchoolFilterAccordionSectionViewModel<SixthFormProvisions.SixthFormProvisionFilter>(
+                accordionId,
+                4,
+                Model.FormPrefix,
+                "Sixth form provision",
+                LocalAuthoritySchoolFinancialFormViewModel.FormFieldNames.SelectedSixthFormProvisions,
+                SixthFormProvisions.AllFilters,
+                Model.SelectedSixthFormProvisions,
+                f => f.GetFilterDescription(),
+                f => ((int)f).ToString()))
+        </div>
+
+        <div class="govuk-form-group">
+            <fieldset class="govuk-fieldset">
+                <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
+                    <h2 class="govuk-fieldset__heading">
+                        Show result as
+                    </h2>
+                </legend>
+                <div class="govuk-radios govuk-radios--small" data-module="govuk-radios"
+                     id="@nameof(LocalAuthoritySchoolFinancialFormViewModel.ResultAs)">
+                    @foreach (var dimension in LocalAuthoritySchoolFinancialFormViewModel.FilterDimensions)
+                    {
+                        var name = $"{Model.FormPrefix}{LocalAuthoritySchoolFinancialFormViewModel.FormFieldNames.ResultAs}";
+                        <div class="govuk-radios__item">
+                            <input class="govuk-radios__input"
+                                   id="@(name)-@dimension"
+                                   name="@name"
+                                   type="radio"
+                                   value="@((int)dimension)"
+                                   @(Model.ResultAs == dimension ? "checked" : "")>
+                            <label class="govuk-label govuk-radios__label"
+                                   for="@(name)-@dimension">
+                                @dimension.GetDescription()
+                            </label>
+                        </div>
+                    }
+                </div>
+            </fieldset>
+        </div>
+
+        <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
+        <button type="submit" class="govuk-button govuk-!-margin-bottom-3" data-module="govuk-button"
+                data-testid="apply-financial-filters" name="@LocalAuthorityViewModel.FormFieldNames.ResetFields"
+                value="@(string.Join(',', resetFields))">
+            Apply filters
+        </button>
+
+        <div class="govuk-button-group govuk-!-margin-bottom-0">
+            <a href="@Url.Action("DownloadSchoolsFinance", "LocalAuthority", new
+                     {
+                         code = Model.Code
+                     })" role="button"
+               class="govuk-button govuk-button--secondary" data-module="govuk-button">
+                Save table data
+            </a>
+        </div>
+    </div>
+</div>
