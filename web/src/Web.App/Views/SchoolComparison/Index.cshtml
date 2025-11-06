@@ -69,7 +69,8 @@
          data-suppress-negative-or-zero="true"
          data-dispatch-event-type="@eventType"
          data-cost-code-map="@Model.CostCodeMap.ToJson(Formatting.None)"
-         data-is-part-of-trust="@Model.IsPartOfTrust.ToString().ToLower()">
+         data-is-part-of-trust="@Model.IsPartOfTrust.ToString().ToLower()"
+         data-progress-indicators="@Model.WellOrAboveAverageKS4ProgressBandingsInComparatorSet.ToJson(Formatting.None)">
     </div>
 }
 

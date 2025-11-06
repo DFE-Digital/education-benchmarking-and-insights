@@ -4,13 +4,15 @@ using Web.App.ViewModels.Shared;
 
 namespace Web.App.ViewModels;
 
+// todo: unit tests
 public class SchoolComparisonViewModel(
     School school,
     CostCodes costCodes,
     string? userDefinedSetId = null,
     string? customDataId = null,
     SchoolExpenditure? expenditure = null,
-    SchoolComparatorSet? defaultComparatorSet = null)
+    SchoolComparatorSet? defaultComparatorSet = null,
+    KS4ProgressBandings? ks4ProgressBandings = null)
 {
     public string? Urn => school.URN;
     public string? Name => school.SchoolName;
@@ -24,6 +26,11 @@ public class SchoolComparisonViewModel(
                                                || defaultComparatorSet.Pupil.Any(p => !string.IsNullOrWhiteSpace(p)));
 
     public Dictionary<string, StringValues> CostCodeMap => costCodes.SubCategoryToCostCodeMap;
+
+    public KS4ProgressBanding[] WellOrAboveAverageKS4ProgressBandingsInComparatorSet => ks4ProgressBandings?.Items
+        .Where(i => i.Banding is KS4ProgressBandings.Banding.WellAboveAverage or KS4ProgressBandings.Banding.AboveAverage)
+        .ToArray() ?? [];
+    public bool HasProgressIndicators => WellOrAboveAverageKS4ProgressBandingsInComparatorSet.Length > 0;
 
     public FinanceToolsViewModel Tools => new(
         school.URN,
