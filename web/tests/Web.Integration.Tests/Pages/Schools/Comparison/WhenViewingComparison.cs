@@ -3,6 +3,7 @@ using AngleSharp.Dom;
 using AngleSharp.Html.Dom;
 using AngleSharp.XPath;
 using AutoFixture;
+using Web.App;
 using Web.App.Domain;
 using Xunit;
 
@@ -12,13 +13,15 @@ public class WhenViewingComparison(SchoolBenchmarkingWebAppClient client)
     : PageBase<SchoolBenchmarkingWebAppClient>(client)
 {
     [Theory]
-    [InlineData(EstablishmentTypes.Academies)]
-    [InlineData(EstablishmentTypes.Maintained)]
-    public async Task CanDisplay(string financeType)
+    [InlineData(EstablishmentTypes.Academies, true)]
+    [InlineData(EstablishmentTypes.Maintained, true)]
+    [InlineData(EstablishmentTypes.Academies, false)]
+    [InlineData(EstablishmentTypes.Maintained, false)]
+    public async Task CanDisplay(string financeType, bool ks4ProgressBandingEnabled)
     {
-        var (page, school) = await SetupNavigateInitPage(financeType);
+        var (page, school) = await SetupNavigateInitPage(financeType, ks4ProgressBandingEnabled);
 
-        AssertPageLayout(page, school);
+        AssertPageLayout(page, school, ks4ProgressBandingEnabled);
     }
 
     [Theory]
@@ -91,7 +94,7 @@ public class WhenViewingComparison(SchoolBenchmarkingWebAppClient client)
             HttpStatusCode.InternalServerError);
     }
 
-    private async Task<(IHtmlDocument page, School school)> SetupNavigateInitPage(string financeType)
+    private async Task<(IHtmlDocument page, School school)> SetupNavigateInitPage(string financeType, bool ks4ProgressBandingEnabled = true)
     {
         var school = Fixture.Build<School>()
             .With(x => x.URN, "123456")
@@ -102,7 +105,10 @@ public class WhenViewingComparison(SchoolBenchmarkingWebAppClient client)
             .With(x => x.Building, ["building"])
             .Create();
 
-        var page = await Client.SetupEstablishment(school)
+        string[] features = ks4ProgressBandingEnabled ? [] : [FeatureFlags.KS4ProgressBanding];
+        var page = await Client
+            .SetupDisableFeatureFlags(features)
+            .SetupEstablishment(school)
             .SetupInsights()
             .SetupExpenditure(school)
             .SetupUserData()
@@ -112,7 +118,7 @@ public class WhenViewingComparison(SchoolBenchmarkingWebAppClient client)
         return (page, school);
     }
 
-    private static void AssertPageLayout(IHtmlDocument page, School school)
+    private static void AssertPageLayout(IHtmlDocument page, School school, bool ks4ProgressBandingEnabled = true)
     {
         var expectedBreadcrumbs = new[]
         {
@@ -138,7 +144,7 @@ public class WhenViewingComparison(SchoolBenchmarkingWebAppClient client)
             DocumentAssert.TextEqual(dataSourceElement.ElementAt(1), "This school's data covers the financial year April 2020 to March 2021 consistent financial reporting return (CFR).");
         }
 
-        var comparisonComponent = page.GetElementById("compare-your-costs");
+        var comparisonComponent = page.GetElementById(ks4ProgressBandingEnabled ? "compare-your-costs-2" : "compare-your-costs");
         Assert.NotNull(comparisonComponent);
 
         var toolsListSection = page.Body.SelectSingleNode("//main/div/div[6]");

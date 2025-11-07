@@ -5,17 +5,20 @@ import {
   BenchmarkDataHighNeeds,
   CompareYourCensus,
   CompareYourCosts,
+  CompareYourCosts2,
   CompareYourTrust,
   CostCodeMap,
   DeploymentPlan,
   HistoricData,
   HistoricData2,
   HistoricData2SectionName,
+  ProgressIndicators,
 } from "src/views";
 import {
   BenchmarkDataHighNeedsElementId,
   BudgetForecastReturnsElementId,
   CompareCensusElementId,
+  CompareCosts2ElementId,
   CompareCostsElementId,
   CompareTrustElementId,
   DeploymentPlanElementId,
@@ -135,6 +138,50 @@ if (compareCostsElement) {
             isPartOfTrust === "true" ? ["% of central services"] : undefined
           }
           type={type as "school" | "trust"}
+        />
+      </React.StrictMode>
+    );
+  }
+}
+
+const compareCosts2Element = document.getElementById(CompareCosts2ElementId);
+
+if (compareCosts2Element) {
+  const {
+    costCodeMap,
+    customDataId,
+    dispatchEventType,
+    id,
+    isPartOfTrust,
+    phases,
+    suppressNegativeOrZero,
+    type,
+    progressIndicators,
+  } = compareCosts2Element.dataset;
+  if (type && id) {
+    const root = ReactDOM.createRoot(compareCosts2Element);
+    const phasesParsed = phases ? (JSON.parse(phases) as string[]) : null;
+    const costCodeMapParsed = costCodeMap
+      ? (JSON.parse(costCodeMap) as CostCodeMap)
+      : undefined;
+    const progressIndicatorsParsed = progressIndicators
+      ? (JSON.parse(progressIndicators) as ProgressIndicators)
+      : undefined;
+
+    root.render(
+      <React.StrictMode>
+        <CompareYourCosts2
+          costCodeMap={costCodeMapParsed}
+          customDataId={customDataId}
+          dispatchEventType={dispatchEventType}
+          id={id}
+          phases={phasesParsed}
+          suppressNegativeOrZero={suppressNegativeOrZero === "true"}
+          tags={
+            isPartOfTrust === "true" ? ["% of central services"] : undefined
+          }
+          type={type as "school" | "trust"}
+          progressIndicators={progressIndicatorsParsed}
         />
       </React.StrictMode>
     );
