@@ -1,8 +1,10 @@
 ﻿// ReSharper disable NotAccessedPositionalProperty.Global
+
+using System.Runtime.Serialization;
+
 namespace Web.App.Domain;
 
-// todo: unit tests
-public class KS4ProgressBandings
+public class KS4ProgressBandings : ISerializable
 {
     public enum Banding
     {
@@ -15,9 +17,9 @@ public class KS4ProgressBandings
 
     private readonly Dictionary<string, Banding> _items = new();
 
-    public KS4ProgressBandings(IEnumerable<KeyValuePair<string, string?>> select)
+    public KS4ProgressBandings(IEnumerable<KeyValuePair<string, string?>> bandings)
     {
-        foreach (var (key, value) in select)
+        foreach (var (key, value) in bandings)
         {
             var banding = value.ToBanding();
             if (banding.HasValue)
@@ -27,9 +29,17 @@ public class KS4ProgressBandings
         }
     }
 
-    public IEnumerable<KS4ProgressBanding> Items => _items.Select(d => new KS4ProgressBanding(d.Key, d.Value));
+    public KS4ProgressBanding[] Items => _items
+        .Select(d => new KS4ProgressBanding(d.Key, d.Value))
+        .ToArray();
+
+    public void GetObjectData(SerializationInfo info, StreamingContext context)
+    {
+        info.AddValue(nameof(Items), Items);
+    }
 }
 
+[Serializable]
 public record KS4ProgressBanding(string Urn, KS4ProgressBandings.Banding Banding);
 
 public static class BandingExtensions

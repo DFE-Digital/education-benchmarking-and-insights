@@ -7,22 +7,20 @@ namespace Web.App.Services;
 
 public interface IProgressBandingsService
 {
-    Task<KS4ProgressBandings?> GetKS4ProgressBandings(IEnumerable<string> set, CancellationToken cancellationToken = default);
+    Task<KS4ProgressBandings?> GetKS4ProgressBandings(string[] urns, CancellationToken cancellationToken = default);
 }
 
-// todo: unit tests
 public class ProgressBandingsService(ISchoolInsightApi schoolInsightApi) : IProgressBandingsService
 {
-    public async Task<KS4ProgressBandings?> GetKS4ProgressBandings(IEnumerable<string> set, CancellationToken cancellationToken = default)
+    public async Task<KS4ProgressBandings?> GetKS4ProgressBandings(string[] urns, CancellationToken cancellationToken = default)
     {
         var query = new ApiQuery();
-        var schools = set as string[] ?? set.ToArray();
-        if (schools.Length == 0)
+        if (urns.Length == 0)
         {
             return null;
         }
 
-        foreach (var urn in schools)
+        foreach (var urn in urns)
         {
             query.AddIfNotNull("urns", urn);
         }
