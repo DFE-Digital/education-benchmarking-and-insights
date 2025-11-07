@@ -1,10 +1,11 @@
-import { PropsWithChildren, useState } from "react";
+import { PropsWithChildren, useMemo, useState } from "react";
 import {
   ChartModeContext,
   CentralServicesBreakdownContext,
   CostCodeMapContext,
+  ProgressIndicatorsContext,
 } from "./contexts";
-import { CostCodeMap } from "src/views";
+import { CostCodeMap, ProgressBanding, ProgressIndicators } from "src/views";
 
 type ChartModeProviderProps = PropsWithChildren<{
   initialValue: string;
@@ -262,5 +263,55 @@ export const CostCodeMapProvider = ({
     <CostCodeMapContext.Provider value={{ costCodeMap, getCostCodes, tags }}>
       {children}
     </CostCodeMapContext.Provider>
+  );
+};
+
+type ProgressIndicatorsProviderProps = PropsWithChildren<{
+  data?: ProgressIndicators;
+}>;
+
+export const ProgressIndicatorsProvider = ({
+  children,
+  data,
+}: ProgressIndicatorsProviderProps) => {
+  const [selected, setSelected] = useState<ProgressBanding[]>([]);
+  const available = useMemo(() => {
+    if (!data) {
+      return [];
+    }
+
+    return Array.from(new Set(data.map((d) => d.banding)));
+  }, [data]);
+
+  const getProgressSorter = (banding: ProgressBanding) => {
+    switch (banding) {
+      case ProgressBanding.WellBelowAverage:
+        return 5;
+      case ProgressBanding.BelowAverage:
+        return 4;
+      case ProgressBanding.Average:
+        return 3;
+      case ProgressBanding.AboveAverage:
+        return 2;
+      case ProgressBanding.WellAboveAverage:
+        return 1;
+      default:
+        return 999;
+    }
+  };
+
+  return (
+    <ProgressIndicatorsContext.Provider
+      value={{
+        data,
+        available: available.sort((a, b) => {
+          return getProgressSorter(a) - getProgressSorter(b);
+        }),
+        selected,
+        setSelected,
+      }}
+    >
+      {children}
+    </ProgressIndicatorsContext.Provider>
   );
 };

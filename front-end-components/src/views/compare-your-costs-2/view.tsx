@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   TotalExpenditure,
   ExpenditureAccordion,
@@ -7,29 +7,25 @@ import { CompareYourCosts2ViewProps } from "src/views/compare-your-costs-2";
 import { ChartModeChart } from "src/components";
 import {
   SelectedEstablishmentContext,
-  PhaseContext,
   CustomDataContext,
   ChartModeProvider,
   SuppressNegativeOrZeroContext,
   CostCodeMapProvider,
+  ProgressIndicatorsProvider,
 } from "src/contexts";
 import { useGovUk } from "src/hooks/useGovUk";
-import { ChartOptionsPhaseMode } from "src/components/chart-options-phase-mode";
+import { ChartOptionsProgress } from "src/components/chart-options-progress";
 
 export const CompareYourCosts2: React.FC<CompareYourCosts2ViewProps> = ({
   costCodeMap,
   customDataId,
   dispatchEventType,
   id,
-  phases,
   suppressNegativeOrZero,
   tags,
   type,
+  progressIndicators,
 }) => {
-  const [phase, setPhase] = useState<string | undefined>(
-    phases ? phases[0] : undefined
-  );
-
   const handleFetching = (fetching: boolean) => {
     if (dispatchEventType) {
       document.dispatchEvent(
@@ -46,28 +42,30 @@ export const CompareYourCosts2: React.FC<CompareYourCosts2ViewProps> = ({
 
   return (
     <SelectedEstablishmentContext.Provider value={id}>
-      <PhaseContext.Provider value={phase}>
-        <CustomDataContext.Provider value={customDataId}>
-          <SuppressNegativeOrZeroContext.Provider
-            value={{ suppressNegativeOrZero, message }}
-          >
-            <CostCodeMapProvider costCodeMap={costCodeMap} tags={tags}>
-              <ChartModeProvider initialValue={ChartModeChart}>
-                <ChartOptionsPhaseMode
-                  phases={phases}
-                  handlePhaseChange={setPhase}
-                />
+      <CustomDataContext.Provider value={customDataId}>
+        <SuppressNegativeOrZeroContext.Provider
+          value={{ suppressNegativeOrZero, message }}
+        >
+          <CostCodeMapProvider costCodeMap={costCodeMap} tags={tags}>
+            <ChartModeProvider initialValue={ChartModeChart}>
+              <ProgressIndicatorsProvider data={progressIndicators}>
+                <div className="govuk-grid-row">
+                  <div className="govuk-grid-column-one-half">
+                    <ChartOptionsProgress />
+                  </div>
+                </div>
+                <hr className="govuk-section-break govuk-section-break--l govuk-section-break--visible govuk-!-margin-top-0" />
                 <TotalExpenditure
                   id={id}
                   type={type}
                   onFetching={handleFetching}
                 />
                 <ExpenditureAccordion id={id} type={type} />
-              </ChartModeProvider>
-            </CostCodeMapProvider>
-          </SuppressNegativeOrZeroContext.Provider>
-        </CustomDataContext.Provider>
-      </PhaseContext.Provider>
+              </ProgressIndicatorsProvider>
+            </ChartModeProvider>
+          </CostCodeMapProvider>
+        </SuppressNegativeOrZeroContext.Provider>
+      </CustomDataContext.Provider>
     </SelectedEstablishmentContext.Provider>
   );
 };
