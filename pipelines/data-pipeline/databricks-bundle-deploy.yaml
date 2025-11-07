@@ -8,7 +8,7 @@ pr:
   - main
 
 pool:
-  vmImage: 'ubuntu-latest'
+  name: DD-Hosted-Prod
 
 variables:
   - group: databricks-vars
@@ -92,6 +92,15 @@ stages:
                 - script: |
                     python -m pip install databricks-cli
                   displayName: 'Install Databricks CLI'
+
+                # Generate version from commit SHA
+                - script: |
+                    export GIT_COMMIT=$(git rev-parse --short HEAD)
+                    export BRANCH_NAME=$(echo $(Build.SourceBranch) | sed 's/refs\/heads\///')
+                    export BUNDLE_VERSION="${BRANCH_NAME}-${GIT_COMMIT}"
+                    echo "##vso[task.setvariable variable=BUNDLE_VERSION]${BUNDLE_VERSION}"
+                    echo "##vso[task.setvariable variable=GIT_COMMIT]${GIT_COMMIT}"
+                  displayName: 'Generate Bundle Version'
 
                 - script: |
                     databricks bundle deploy --target dev
