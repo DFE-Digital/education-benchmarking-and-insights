@@ -27,6 +27,9 @@ export const EducationalIct: React.FC<CompareYourCosts2Props> = ({
   const [dimension, setDimension] = useState(PoundsPerPupil);
   const phase = useContext(PhaseContext);
   const customDataId = useContext(CustomDataContext);
+  const [expenditureData, setExpenditureData] = useState<
+    EducationalIctExpenditure[] | null
+  >();
   const [data, setData] = useState<EducationalIctData[] | null>();
   const { abort, signal } = useAbort();
   const getData = useCallback(async () => {
@@ -41,26 +44,30 @@ export const EducationalIct: React.FC<CompareYourCosts2Props> = ({
       [signal]
     );
   }, [type, id, dimension.value, phase, customDataId, signal]);
-  const { data: progressIndicators } = useProgressIndicatorsContext();
+  const { progressIndicators } = useProgressIndicatorsContext();
 
   useEffect(() => {
     getData().then((result) => {
-      const merged = result
-        ? result.reduce<EducationalIctData[]>(
-            (acc: EducationalIctData[], curr: EducationalIctExpenditure) => {
-              acc.push({
-                ...curr,
-                progressBanding: progressIndicators[curr.urn],
-              });
-              return acc;
-            },
-            []
-          )
-        : null;
-
-      setData(merged);
+      setExpenditureData(result);
     });
-  }, [getData, progressIndicators]);
+  }, [getData]);
+
+  useEffect(() => {
+    const merged = expenditureData
+      ? expenditureData.reduce<EducationalIctData[]>(
+          (acc: EducationalIctData[], curr: EducationalIctExpenditure) => {
+            acc.push({
+              ...curr,
+              progressBanding: progressIndicators[curr.urn],
+            });
+            return acc;
+          },
+          []
+        )
+      : null;
+
+    setData(merged);
+  }, [expenditureData, progressIndicators]);
 
   const handleDimensionChange = (value: string) => {
     abort();

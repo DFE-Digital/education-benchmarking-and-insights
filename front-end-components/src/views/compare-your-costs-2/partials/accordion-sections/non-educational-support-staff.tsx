@@ -30,10 +30,13 @@ export const NonEducationalSupportStaff: React.FC<CompareYourCosts2Props> = ({
   const [dimension, setDimension] = useState(PoundsPerPupil);
   const phase = useContext(PhaseContext);
   const customDataId = useContext(CustomDataContext);
+  const [expenditureData, setExpenditureData] = useState<
+    NonEducationalSupportStaffExpenditure[] | null
+  >();
   const [data, setData] = useState<NonEducationalSupportStaffData[] | null>();
   const { abort, signal } = useAbort();
   const getData = useCallback(async () => {
-    setData(null);
+    setExpenditureData(null);
     return await ExpenditureApi.query<NonEducationalSupportStaffExpenditure>(
       type,
       id,
@@ -44,29 +47,59 @@ export const NonEducationalSupportStaff: React.FC<CompareYourCosts2Props> = ({
       [signal]
     );
   }, [type, id, dimension.value, phase, customDataId, signal]);
-  const { data: progressIndicators } = useProgressIndicatorsContext();
+  const { progressIndicators } = useProgressIndicatorsContext();
 
   useEffect(() => {
     getData().then((result) => {
-      const merged = result
-        ? result.reduce<NonEducationalSupportStaffData[]>(
-            (
-              acc: NonEducationalSupportStaffData[],
-              curr: NonEducationalSupportStaffExpenditure
-            ) => {
-              acc.push({
-                ...curr,
-                progressBanding: progressIndicators[curr.urn],
-              });
-              return acc;
-            },
-            []
-          )
-        : null;
-
-      setData(merged);
+      setExpenditureData(result);
     });
-  }, [getData, progressIndicators]);
+  }, [getData]);
+
+  useEffect(() => {
+    const merged = expenditureData
+      ? expenditureData.reduce<NonEducationalSupportStaffData[]>(
+          (
+            acc: NonEducationalSupportStaffData[],
+            curr: NonEducationalSupportStaffExpenditure
+          ) => {
+            acc.push({
+              ...curr,
+              progressBanding: progressIndicators[curr.urn],
+            });
+            return acc;
+          },
+          []
+        )
+      : null;
+
+    setData(merged);
+  }, [expenditureData, progressIndicators]);
+
+  useEffect(() => {
+    getData().then((result) => {
+      setExpenditureData(result);
+    });
+  }, [getData]);
+
+  useEffect(() => {
+    const merged = expenditureData
+      ? expenditureData.reduce<NonEducationalSupportStaffData[]>(
+          (
+            acc: NonEducationalSupportStaffData[],
+            curr: NonEducationalSupportStaffExpenditure
+          ) => {
+            acc.push({
+              ...curr,
+              progressBanding: progressIndicators[curr.urn],
+            });
+            return acc;
+          },
+          []
+        )
+      : null;
+
+    setData(merged);
+  }, [expenditureData, progressIndicators]);
 
   const tableHeadings = useMemo(
     () => [
@@ -183,7 +216,7 @@ export const NonEducationalSupportStaff: React.FC<CompareYourCosts2Props> = ({
       ]}
       dimension={dimension}
       handleDimensionChange={handleDimensionChange}
-      hasNoData={data?.length === 0}
+      hasNoData={expenditureData?.length === 0}
       index={2}
       showCopyImageButton
       title="Non-educational support staff and services"

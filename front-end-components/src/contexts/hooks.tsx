@@ -79,7 +79,7 @@ export const useProgressIndicatorsContext = (
 
     return {
       available: [],
-      data: {},
+      progressIndicators: {},
       selected: [],
       setSelected: () => {},
     };

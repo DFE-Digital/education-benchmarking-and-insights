@@ -24,6 +24,9 @@ export const OtherCosts: React.FC<CompareYourCosts2Props> = ({ type, id }) => {
   const [dimension, setDimension] = useState(PoundsPerPupil);
   const phase = useContext(PhaseContext);
   const customDataId = useContext(CustomDataContext);
+  const [expenditureData, setExpenditureData] = useState<
+    OtherCostsDataExpenditure[] | null
+  >();
   const [data, setData] = useState<OtherCostsData[] | null>();
   const { abort, signal } = useAbort();
   const getData = useCallback(async () => {
@@ -38,26 +41,30 @@ export const OtherCosts: React.FC<CompareYourCosts2Props> = ({ type, id }) => {
       [signal]
     );
   }, [type, id, dimension.value, phase, customDataId, signal]);
-  const { data: progressIndicators } = useProgressIndicatorsContext();
+  const { progressIndicators } = useProgressIndicatorsContext();
 
   useEffect(() => {
     getData().then((result) => {
-      const merged = result
-        ? result.reduce<OtherCostsData[]>(
-            (acc: OtherCostsData[], curr: OtherCostsDataExpenditure) => {
-              acc.push({
-                ...curr,
-                progressBanding: progressIndicators[curr.urn],
-              });
-              return acc;
-            },
-            []
-          )
-        : null;
-
-      setData(merged);
+      setExpenditureData(result);
     });
-  }, [getData, progressIndicators]);
+  }, [getData]);
+
+  useEffect(() => {
+    const merged = expenditureData
+      ? expenditureData.reduce<OtherCostsData[]>(
+          (acc: OtherCostsData[], curr: OtherCostsDataExpenditure) => {
+            acc.push({
+              ...curr,
+              progressBanding: progressIndicators[curr.urn],
+            });
+            return acc;
+          },
+          []
+        )
+      : null;
+
+    setData(merged);
+  }, [expenditureData, progressIndicators]);
 
   const tableHeadings = useMemo(
     () => [
