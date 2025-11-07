@@ -4,7 +4,6 @@ using Web.App.ViewModels.Shared;
 
 namespace Web.App.ViewModels;
 
-// todo: unit tests
 public class SchoolComparisonViewModel(
     School school,
     CostCodes costCodes,

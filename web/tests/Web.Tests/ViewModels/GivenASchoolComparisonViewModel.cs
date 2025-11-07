@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using AutoFixture;
 using Web.App.Domain;
 using Web.App.ViewModels;
@@ -5,6 +6,7 @@ using Xunit;
 
 namespace Web.Tests.ViewModels;
 
+[SuppressMessage("Usage", "xUnit1045:Avoid using TheoryData type arguments that might not be serializable")]
 public class GivenASchoolComparisonViewModel
 {
     private readonly CostCodes _costCodes;
@@ -60,6 +62,34 @@ public class GivenASchoolComparisonViewModel
             }
         };
 
+    public static TheoryData<KS4ProgressBandings?, KS4ProgressBanding[], bool> Ks4ProgressBandingsInput
+    {
+        get
+        {
+            var outOfRange = new KeyValuePair<string, string?>("000000", "Out of range");
+            var wellBelowAverage = new KeyValuePair<string, string?>("000001", "Well below average");
+            var belowAverage = new KeyValuePair<string, string?>("000002", "Below average");
+            var average = new KeyValuePair<string, string?>("000003", "Average");
+            var aboveAverage = new KeyValuePair<string, string?>("000004", "Above average");
+            var wellAboveAverage = new KeyValuePair<string, string?>("000005", "Well above average");
+
+            return new TheoryData<KS4ProgressBandings?, KS4ProgressBanding[], bool>
+            {
+                { null, [], false },
+                { new KS4ProgressBandings([outOfRange]), [], false },
+                { new KS4ProgressBandings([wellBelowAverage]), [], false },
+                { new KS4ProgressBandings([belowAverage]), [], false },
+                { new KS4ProgressBandings([average]), [], false },
+                { new KS4ProgressBandings([aboveAverage, average]), [new KS4ProgressBanding(aboveAverage.Key, KS4ProgressBandings.Banding.AboveAverage)], true },
+                { new KS4ProgressBandings([wellAboveAverage, average]), [new KS4ProgressBanding(wellAboveAverage.Key, KS4ProgressBandings.Banding.WellAboveAverage)], true },
+                {
+                    new KS4ProgressBandings([wellAboveAverage, aboveAverage, average]), [new KS4ProgressBanding(wellAboveAverage.Key, KS4ProgressBandings.Banding.WellAboveAverage), new KS4ProgressBanding(aboveAverage.Key, KS4ProgressBandings.Banding.AboveAverage)],
+                    true
+                }
+            };
+        }
+    }
+
     [Fact]
     public void WhenContainsSchool()
     {
@@ -106,5 +136,15 @@ public class GivenASchoolComparisonViewModel
         var vm = new SchoolComparisonViewModel(_school, _costCodes, null, null, null, defaultComparatorSet);
 
         Assert.Equal(expected, vm.HasDefaultComparatorSet);
+    }
+
+    [Theory]
+    [MemberData(nameof(Ks4ProgressBandingsInput))]
+    public void WhenContainsKs4ProgressBandings(KS4ProgressBandings? ks4ProgressBandings, KS4ProgressBanding[] expectedBandings, bool expectedProgressIndicators)
+    {
+        var vm = new SchoolComparisonViewModel(_school, _costCodes, ks4ProgressBandings: ks4ProgressBandings);
+
+        Assert.Equal(expectedBandings, vm.WellOrAboveAverageKS4ProgressBandingsInComparatorSet);
+        Assert.Equal(expectedProgressIndicators, vm.HasProgressIndicators);
     }
 }
