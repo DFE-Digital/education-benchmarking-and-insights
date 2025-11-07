@@ -1,4 +1,5 @@
 export const CompareCostsElementId = "compare-your-costs";
+export const CompareCosts2ElementId = "compare-your-costs-2";
 export const CompareTrustElementId = "compare-your-trust";
 export const CompareCensusElementId = "compare-your-census";
 export const DeploymentPlanElementId = "deployment-plan";
