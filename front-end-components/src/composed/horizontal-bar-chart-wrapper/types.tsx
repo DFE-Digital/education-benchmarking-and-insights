@@ -13,6 +13,8 @@ export type HorizontalBarChartWrapperProps<
   | "chartTitle"
   | "linkToEstablishment"
   | "missingDataKeys"
+  | "progressAboveAverageKeys"
+  | "progressWellAboveAverageKeys"
   | "showCopyImageButton"
   | "valueUnit"
 > & {

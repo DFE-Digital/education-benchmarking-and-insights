@@ -117,6 +117,7 @@ export const TotalExpenditure: React.FC<CompareYourCosts2Props> = ({
       })}
       handleDimensionChange={handleDimensionChange}
       hasNoData={data?.length === 0}
+      progressIndicators={progressIndicators}
       showCopyImageButton
       topLevel
     />

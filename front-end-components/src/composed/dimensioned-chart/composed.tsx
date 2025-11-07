@@ -11,6 +11,7 @@ import {
   TrustChartData,
 } from "src/components/charts/table-chart";
 import { DimensionedChartProps } from "./types";
+import { ProgressBanding } from "src/views";
 
 export function DimensionedChart<
   TData extends SchoolChartData | TrustChartData,
@@ -21,6 +22,7 @@ export function DimensionedChart<
   handleDimensionChange,
   hasNoData,
   options,
+  progressIndicators,
   topLevel,
   ...props
 }: DimensionedChartProps<TData>) {
@@ -66,6 +68,20 @@ export function DimensionedChart<
               linkToEstablishment
               tooltip
               override={override}
+              progressAboveAverageKeys={
+                progressIndicators
+                  ? Object.entries(progressIndicators)
+                      .filter((e) => e[1] === ProgressBanding.AboveAverage)
+                      .map((e) => e[0])
+                  : undefined
+              }
+              progressWellAboveAverageKeys={
+                progressIndicators
+                  ? Object.entries(progressIndicators)
+                      .filter((e) => e[1] === ProgressBanding.WellAboveAverage)
+                      .map((e) => e[0])
+                  : undefined
+              }
               {...props}
             >
               {topLevel ? (
