@@ -10,7 +10,11 @@ import {
   CompareYourCosts2Props,
 } from "src/views/compare-your-costs-2/partials/accordion-sections/types";
 import { CostCategories, PoundsPerPupil } from "src/components";
-import { PhaseContext, CustomDataContext } from "src/contexts";
+import {
+  PhaseContext,
+  CustomDataContext,
+  useProgressIndicatorsContext,
+} from "src/contexts";
 import { HorizontalBarChartWrapperData } from "src/composed/horizontal-bar-chart-wrapper";
 import {
   ExpenditureApi,
@@ -26,9 +30,7 @@ export const AdministrativeSupplies: React.FC<CompareYourCosts2Props> = ({
   const [dimension, setDimension] = useState(PoundsPerPupil);
   const phase = useContext(PhaseContext);
   const customDataId = useContext(CustomDataContext);
-  const [data, setData] = useState<
-    AdministrativeSuppliesExpenditure[] | null
-  >();
+  const [data, setData] = useState<AdministrativeSuppliesData[] | null>();
   const { abort, signal } = useAbort();
   const getData = useCallback(async () => {
     setData(null);
@@ -42,12 +44,29 @@ export const AdministrativeSupplies: React.FC<CompareYourCosts2Props> = ({
       [signal]
     );
   }, [type, id, dimension.value, phase, customDataId, signal]);
+  const { data: progressIndicators } = useProgressIndicatorsContext();
 
   useEffect(() => {
     getData().then((result) => {
-      setData(result);
+      const merged = result
+        ? result.reduce<AdministrativeSuppliesData[]>(
+            (
+              acc: AdministrativeSuppliesData[],
+              curr: AdministrativeSuppliesExpenditure
+            ) => {
+              acc.push({
+                ...curr,
+                progressBanding: progressIndicators[curr.urn],
+              });
+              return acc;
+            },
+            []
+          )
+        : null;
+
+      setData(merged);
     });
-  }, [getData]);
+  }, [getData, progressIndicators]);
 
   const handleDimensionChange = (value: string) => {
     abort();

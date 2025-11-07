@@ -10,7 +10,11 @@ import {
   OtherCostsData,
 } from "src/views/compare-your-costs-2/partials/accordion-sections/types";
 import { CostCategories, PoundsPerPupil } from "src/components";
-import { PhaseContext, CustomDataContext } from "src/contexts";
+import {
+  PhaseContext,
+  CustomDataContext,
+  useProgressIndicatorsContext,
+} from "src/contexts";
 import { HorizontalBarChartWrapperData } from "src/composed/horizontal-bar-chart-wrapper";
 import { ExpenditureApi, OtherCostsDataExpenditure } from "src/services";
 import { AccordionSection } from "src/composed/accordion-section";
@@ -20,7 +24,7 @@ export const OtherCosts: React.FC<CompareYourCosts2Props> = ({ type, id }) => {
   const [dimension, setDimension] = useState(PoundsPerPupil);
   const phase = useContext(PhaseContext);
   const customDataId = useContext(CustomDataContext);
-  const [data, setData] = useState<OtherCostsDataExpenditure[] | null>();
+  const [data, setData] = useState<OtherCostsData[] | null>();
   const { abort, signal } = useAbort();
   const getData = useCallback(async () => {
     setData(null);
@@ -34,12 +38,26 @@ export const OtherCosts: React.FC<CompareYourCosts2Props> = ({ type, id }) => {
       [signal]
     );
   }, [type, id, dimension.value, phase, customDataId, signal]);
+  const { data: progressIndicators } = useProgressIndicatorsContext();
 
   useEffect(() => {
     getData().then((result) => {
-      setData(result);
+      const merged = result
+        ? result.reduce<OtherCostsData[]>(
+            (acc: OtherCostsData[], curr: OtherCostsDataExpenditure) => {
+              acc.push({
+                ...curr,
+                progressBanding: progressIndicators[curr.urn],
+              });
+              return acc;
+            },
+            []
+          )
+        : null;
+
+      setData(merged);
     });
-  }, [getData]);
+  }, [getData, progressIndicators]);
 
   const tableHeadings = useMemo(
     () => [
