@@ -36,6 +36,9 @@ export const CateringStaffServices: React.FC<CompareYourCosts2Props> = ({
   const [dimension, setDimension] = useState(PoundsPerPupil);
   const phase = useContext(PhaseContext);
   const customDataId = useContext(CustomDataContext);
+  const [expenditureData, setExpenditureData] = useState<
+    CateringStaffServicesExpenditure[] | null
+  >();
   const [data, setData] = useState<CateringStaffServicesData[] | null>();
   const [totalCateringCostsField, setTotalCateringCostsField] =
     useState<TotalCateringCostsField>("totalGrossCateringCosts");
@@ -52,29 +55,33 @@ export const CateringStaffServices: React.FC<CompareYourCosts2Props> = ({
       [signal]
     );
   }, [type, id, dimension.value, phase, customDataId, signal]);
-  const { data: progressIndicators } = useProgressIndicatorsContext();
+  const { progressIndicators } = useProgressIndicatorsContext();
 
   useEffect(() => {
     getData().then((result) => {
-      const merged = result
-        ? result.reduce<CateringStaffServicesData[]>(
-            (
-              acc: CateringStaffServicesData[],
-              curr: CateringStaffServicesExpenditure
-            ) => {
-              acc.push({
-                ...curr,
-                progressBanding: progressIndicators[curr.urn],
-              });
-              return acc;
-            },
-            []
-          )
-        : null;
-
-      setData(merged);
+      setExpenditureData(result);
     });
-  }, [getData, progressIndicators]);
+  }, [getData]);
+
+  useEffect(() => {
+    const merged = expenditureData
+      ? expenditureData.reduce<CateringStaffServicesData[]>(
+          (
+            acc: CateringStaffServicesData[],
+            curr: CateringStaffServicesExpenditure
+          ) => {
+            acc.push({
+              ...curr,
+              progressBanding: progressIndicators[curr.urn],
+            });
+            return acc;
+          },
+          []
+        )
+      : null;
+
+    setData(merged);
+  }, [expenditureData, progressIndicators]);
 
   const tableHeadings = useMemo(
     () => [
