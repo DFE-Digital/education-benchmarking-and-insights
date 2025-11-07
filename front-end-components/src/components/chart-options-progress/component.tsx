@@ -4,20 +4,11 @@ import {
   useProgressIndicatorsContext,
 } from "src/contexts";
 import { ChartProgress } from "../chart-progress";
-import { ProgressBanding } from "src/views";
 import "./styles.scss";
 
 export const ChartOptionsProgress = () => {
   const { chartMode, setChartMode } = useChartModeContext();
   const { available, selected, setSelected } = useProgressIndicatorsContext();
-
-  const handleChecked = (progress: ProgressBanding) => {
-    if (selected.includes(progress)) {
-      setSelected(selected.filter((s) => s != progress));
-    } else {
-      setSelected([...selected, progress]);
-    }
-  };
 
   return (
     <div className="chart-options-flex">
@@ -27,8 +18,8 @@ export const ChartOptionsProgress = () => {
       <div>
         <ChartProgress
           options={available}
-          selected={selected}
-          onChecked={handleChecked}
+          defaultSelected={selected}
+          onChanged={setSelected}
           stacked
         />
       </div>

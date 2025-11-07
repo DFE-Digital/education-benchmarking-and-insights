@@ -1,17 +1,30 @@
 import classNames from "classnames";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { ChartProgressProps } from "src/components/chart-progress";
 import { ProgressBanding } from "src/views";
 
 export const ChartProgress: React.FC<ChartProgressProps> = ({
   options,
-  selected,
+  defaultSelected,
   stacked,
-  onChecked,
+  onChanged,
 }) => {
+  const [selected, setSelected] = useState<ProgressBanding[]>(defaultSelected);
+  useEffect(() => {
+    onChanged(selected);
+  }, [onChanged, selected]);
+
   if (!options || options.length === 0) {
     return null;
   }
+
+  const handleChecked = (progress: ProgressBanding) => {
+    if (selected.includes(progress)) {
+      setSelected(selected.filter((s) => s != progress));
+    } else {
+      setSelected([...selected, progress]);
+    }
+  };
 
   return (
     <div className="govuk-form-group">
@@ -45,7 +58,7 @@ export const ChartProgress: React.FC<ChartProgressProps> = ({
                   name={o}
                   type="checkbox"
                   value={o}
-                  onChange={() => onChecked(o)}
+                  onChange={() => handleChecked(o)}
                   checked={selected.includes(o)}
                 />
                 <label
