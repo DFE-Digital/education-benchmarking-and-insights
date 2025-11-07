@@ -153,14 +153,12 @@ if (compareCosts2Element) {
     dispatchEventType,
     id,
     isPartOfTrust,
-    phases,
     suppressNegativeOrZero,
     type,
     progressIndicators,
   } = compareCosts2Element.dataset;
   if (type && id) {
     const root = ReactDOM.createRoot(compareCosts2Element);
-    const phasesParsed = phases ? (JSON.parse(phases) as string[]) : null;
     const costCodeMapParsed = costCodeMap
       ? (JSON.parse(costCodeMap) as CostCodeMap)
       : undefined;
@@ -175,7 +173,6 @@ if (compareCosts2Element) {
           customDataId={customDataId}
           dispatchEventType={dispatchEventType}
           id={id}
-          phases={phasesParsed}
           suppressNegativeOrZero={suppressNegativeOrZero === "true"}
           tags={
             isPartOfTrust === "true" ? ["% of central services"] : undefined

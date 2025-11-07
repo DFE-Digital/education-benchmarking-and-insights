@@ -1,3 +1,4 @@
+import classNames from "classnames";
 import React from "react";
 import {
   ChartModeChart,
@@ -5,9 +6,12 @@ import {
   ChartModeTable,
 } from "src/components/chart-mode";
 
-export const ChartMode: React.FC<ChartModeProps> = (props) => {
-  const { chartMode, handleChange, prefix } = props;
-
+export const ChartMode: React.FC<ChartModeProps> = ({
+  chartMode,
+  handleChange,
+  prefix,
+  stacked,
+}) => {
   return (
     <div className="govuk-form-group">
       <fieldset className="govuk-fieldset">
@@ -15,7 +19,10 @@ export const ChartMode: React.FC<ChartModeProps> = (props) => {
           <h2 className="govuk-fieldset__heading">View as</h2>
         </legend>
         <div
-          className="govuk-radios govuk-radios--small govuk-radios--inline chart-mode-radios"
+          className={classNames(
+            "govuk-radios govuk-radios--small chart-mode-radios",
+            { "govuk-radios--inline": !stacked }
+          )}
           data-module="govuk-radios"
         >
           <div className="govuk-radios__item">

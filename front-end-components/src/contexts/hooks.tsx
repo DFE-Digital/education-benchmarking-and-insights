@@ -6,6 +6,8 @@ import {
   CentralServicesBreakdownContextValue,
   CostCodeMapContext,
   CostCodeMapContextValues,
+  ProgressIndicatorsContextValue,
+  ProgressIndicatorsContext,
 } from "./contexts";
 
 export const useChartModeContext = (
@@ -62,4 +64,21 @@ export const useCostCodeMapContext = (
   const { getCostCodes, tags } = costCodeMapContext;
   const categoryCostCodes = getCostCodes(category).filter((code) => !!code);
   return { categoryCostCodes, tags };
+};
+
+export const useProgressIndicatorsContext = (
+  throwIfUndefined?: boolean
+): ProgressIndicatorsContextValue => {
+  const progressIndicatorsContext = useContext(ProgressIndicatorsContext);
+  if (progressIndicatorsContext === undefined) {
+    if (throwIfUndefined) {
+      throw new Error(
+        "progressIndicatorsContext must be inside a <ProgressIndicatorsProvider>"
+      );
+    }
+
+    return { available: [], selected: [], setSelected: () => {} };
+  }
+
+  return progressIndicatorsContext;
 };

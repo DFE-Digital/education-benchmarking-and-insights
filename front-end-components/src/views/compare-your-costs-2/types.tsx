@@ -5,13 +5,12 @@ export type CompareYourCosts2ViewProps = CompareYourCosts2Props & {
   costCodeMap?: CostCodeMap;
   customDataId: string | undefined;
   dispatchEventType?: string;
-  phases: string[] | null;
   suppressNegativeOrZero: boolean;
   tags?: string[];
   progressIndicators?: ProgressIndicators;
 };
 
-export enum Banding {
+export enum ProgressBanding {
   WellBelowAverage = "WellBelowAverage",
   BelowAverage = "BelowAverage",
   Average = "Average",
@@ -21,7 +20,7 @@ export enum Banding {
 
 export type KS4ProgressBanding = {
   urn: string;
-  banding: Banding;
+  banding: ProgressBanding;
 };
 
 export type ProgressIndicators = KS4ProgressBanding[];

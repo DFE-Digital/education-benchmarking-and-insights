@@ -1,0 +1,11 @@
+.chart-options-flex {
+  display: flex;
+  gap: 40px;
+  width: 100%;
+
+  .progress-checkboxes {
+    .govuk-checkboxes__label {
+      max-width: none;
+    }
+  }
+}
