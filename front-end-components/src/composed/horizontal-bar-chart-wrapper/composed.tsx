@@ -45,6 +45,8 @@ export function HorizontalBarChartWrapper<
   linkToEstablishment,
   localAuthority,
   missingDataKeys,
+  progressAboveAverageKeys,
+  progressWellAboveAverageKeys,
   showCopyImageButton,
   sort,
   tooltip,
@@ -55,7 +57,7 @@ export function HorizontalBarChartWrapper<
 }: HorizontalBarChartWrapperProps<TData>) {
   const { chartMode } = useChartModeContext();
   const dimension = useContext(ChartDimensionContext);
-  const selectedEstabishment = useContext(SelectedEstablishmentContext);
+  const selectedEstablishment = useContext(SelectedEstablishmentContext);
   const [imageLoading, setImageLoading] = useState<boolean>();
   const [imageCopied, setImageCopied] = useState<boolean>();
   const [tickFocused, setTickFocused] = useState<Record<string, boolean>>({});
@@ -273,7 +275,7 @@ export function HorizontalBarChartWrapper<
                   data={sortedDataPoints}
                   highlightActive
                   highlightedItemKeys={
-                    selectedEstabishment ? [selectedEstabishment] : undefined
+                    selectedEstablishment ? [selectedEstablishment] : undefined
                   }
                   keyField={keyField}
                   onImageCopied={handleImageCopied}
@@ -285,13 +287,15 @@ export function HorizontalBarChartWrapper<
                   specialItemKeys={{
                     partYear: partYearKeys,
                     missingData: missingDataKeys,
+                    progressAboveAverage: progressAboveAverageKeys,
+                    progressWellAboveAverage: progressWellAboveAverageKeys,
                   }}
                   tickWidth={localAuthority ? 200 : 400}
                   tick={(t) => {
                     return (
                       <EstablishmentTick
                         {...t}
-                        highlightedItemKey={selectedEstabishment}
+                        highlightedItemKey={selectedEstablishment}
                         linkToEstablishment={linkToEstablishment}
                         href={(id) =>
                           `/${localAuthority ? "local-authority" : trust ? "trust" : "school"}/${id}`

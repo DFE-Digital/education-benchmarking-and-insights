@@ -41,6 +41,8 @@ export interface ChartProps<TData extends ChartDataSeries>
   multiLineAxisLabel?: boolean;
   onImageCopied?: (fileName: string) => void;
   onImageLoading?: (loading: boolean) => void;
+  progressAboveAverageKeys?: string[];
+  progressWellAboveAverageKeys?: string[];
   ref?: Ref<ChartHandler>;
   seriesConfig?: ChartSeriesConfig<TData>;
   seriesLabel?: string;
@@ -107,7 +109,11 @@ export type ValueFormatterType = (
   options?: Partial<ValueFormatterOptions>
 ) => string;
 
-export type SpecialItemFlag = "partYear" | "missingData";
+export type SpecialItemFlag =
+  | "missingData"
+  | "partYear"
+  | "progressAboveAverage"
+  | "progressWellAboveAverage";
 
 export type CategoricalChartWrapper = PureComponent<
   unknown,

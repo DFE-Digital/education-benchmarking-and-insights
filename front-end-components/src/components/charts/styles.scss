@@ -19,6 +19,8 @@ $stack-1-highlight-colour: #94c4ed;
 $bar-chart-stroke-width: 3px;
 $line-chart-stroke-width: 5px;
 $grid-colour-light: #f0f0f0;
+$progress-above-average-colour: #5794CA;
+$progress-well-above-average-colour: #28A297;
 
 .recharts-wrapper {
 
@@ -35,7 +37,11 @@ $grid-colour-light: #f0f0f0;
     &.chart-cell-active {
       stroke: $series-0-active-colour;
 
-      &:not(.chart-cell-highlight, .chart-cell.chart-cell-part-year) {
+      &:not(
+        .chart-cell-highlight, 
+        .chart-cell.chart-cell-part-year,
+        .chart-cell.chart-cell-progress-above-average,
+        .chart-cell.chart-cell-progress-well-above-average) {
         fill: $series-0-active-colour;
       }
     }
@@ -78,6 +84,16 @@ $grid-colour-light: #f0f0f0;
         stroke: $warning-colour;
         fill: $warning-colour;
       }
+    }
+
+    &.chart-cell-progress-above-average {
+      stroke: $progress-above-average-colour;
+      fill: $progress-above-average-colour;
+    }
+
+    &.chart-cell-progress-well-above-average {
+      stroke: $progress-well-above-average-colour;
+      fill: $progress-well-above-average-colour;
     }
 
     &.chart-cell-series-2.chart-cell-active:not(.chart-cell-highlight) {

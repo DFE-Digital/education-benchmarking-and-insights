@@ -178,6 +178,12 @@ function HorizontalBarChartInner<TData extends ChartDataSeries>(
         "chart-cell-part-year": (specialItemKeys?.partYear || []).includes(
           entry[keyField]
         ),
+        "chart-cell-progress-above-average": (
+          specialItemKeys?.progressAboveAverage || []
+        ).includes(entry[keyField]),
+        "chart-cell-progress-well-above-average": (
+          specialItemKeys?.progressWellAboveAverage || []
+        ).includes(entry[keyField]),
         "chart-cell-active": highlightActive && dataIndex === activeItemIndex,
         "chart-cell-stack": !!config?.stackId,
         [`chart-cell-stack-${config?.stackId}`]: !!config?.stackId,
