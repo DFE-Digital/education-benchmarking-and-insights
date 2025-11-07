@@ -24,3 +24,12 @@ export type KS4ProgressBanding = {
 };
 
 export type ProgressIndicators = KS4ProgressBanding[];
+
+export type SchoolExpenditureCommon = {
+  urn: string;
+  schoolType: string;
+  totalPupils: bigint;
+  schoolName: string;
+  laName: string;
+  progressBanding: ProgressBanding | undefined;
+};

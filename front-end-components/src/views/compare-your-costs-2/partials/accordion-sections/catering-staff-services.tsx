@@ -14,7 +14,11 @@ import {
   PoundsPerPupil,
   ChartDimensions,
 } from "src/components";
-import { CustomDataContext, PhaseContext } from "src/contexts";
+import {
+  CustomDataContext,
+  PhaseContext,
+  useProgressIndicatorsContext,
+} from "src/contexts";
 import { HorizontalBarChartWrapperData } from "src/composed/horizontal-bar-chart-wrapper";
 import {
   ExpenditureApi,
@@ -32,7 +36,7 @@ export const CateringStaffServices: React.FC<CompareYourCosts2Props> = ({
   const [dimension, setDimension] = useState(PoundsPerPupil);
   const phase = useContext(PhaseContext);
   const customDataId = useContext(CustomDataContext);
-  const [data, setData] = useState<CateringStaffServicesExpenditure[] | null>();
+  const [data, setData] = useState<CateringStaffServicesData[] | null>();
   const [totalCateringCostsField, setTotalCateringCostsField] =
     useState<TotalCateringCostsField>("totalGrossCateringCosts");
   const { abort, signal } = useAbort();
@@ -48,12 +52,29 @@ export const CateringStaffServices: React.FC<CompareYourCosts2Props> = ({
       [signal]
     );
   }, [type, id, dimension.value, phase, customDataId, signal]);
+  const { data: progressIndicators } = useProgressIndicatorsContext();
 
   useEffect(() => {
     getData().then((result) => {
-      setData(result);
+      const merged = result
+        ? result.reduce<CateringStaffServicesData[]>(
+            (
+              acc: CateringStaffServicesData[],
+              curr: CateringStaffServicesExpenditure
+            ) => {
+              acc.push({
+                ...curr,
+                progressBanding: progressIndicators[curr.urn],
+              });
+              return acc;
+            },
+            []
+          )
+        : null;
+
+      setData(merged);
     });
-  }, [getData]);
+  }, [getData, progressIndicators]);
 
   const tableHeadings = useMemo(
     () => [

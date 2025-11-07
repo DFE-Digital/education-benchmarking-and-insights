@@ -6,7 +6,11 @@ import React, {
   useState,
 } from "react";
 import { TotalExpenditureData } from "src/views/compare-your-costs-2/partials";
-import { CustomDataContext, PhaseContext } from "src/contexts";
+import {
+  CustomDataContext,
+  PhaseContext,
+  useProgressIndicatorsContext,
+} from "src/contexts";
 import {
   CostCategories,
   PoundsPerPupil,
@@ -26,7 +30,7 @@ export const TotalExpenditure: React.FC<CompareYourCosts2Props> = ({
   const [dimension, setDimension] = useState(PoundsPerPupil);
   const phase = useContext(PhaseContext);
   const customDataId = useContext(CustomDataContext);
-  const [data, setData] = useState<TotalExpenditureExpenditure[] | null>();
+  const [data, setData] = useState<TotalExpenditureData[] | null>();
   const { abort, signal } = useAbort();
   const getData = useCallback(async () => {
     setData(null);
@@ -40,12 +44,29 @@ export const TotalExpenditure: React.FC<CompareYourCosts2Props> = ({
       [signal]
     );
   }, [type, id, dimension.value, phase, customDataId, signal]);
+  const { data: progressIndicators } = useProgressIndicatorsContext();
 
   useEffect(() => {
     getData().then((result) => {
-      setData(result);
+      const merged = result
+        ? result.reduce<TotalExpenditureData[]>(
+            (
+              acc: TotalExpenditureData[],
+              curr: TotalExpenditureExpenditure
+            ) => {
+              acc.push({
+                ...curr,
+                progressBanding: progressIndicators[curr.urn],
+              });
+              return acc;
+            },
+            []
+          )
+        : null;
+
+      setData(merged);
     });
-  }, [getData]);
+  }, [getData, progressIndicators]);
 
   useEffect(() => {
     if (onFetching) {

@@ -1,98 +1,58 @@
-export type TeachingSupportStaffData = {
-  urn: string;
-  schoolType: string;
+import { SchoolExpenditureCommon } from "../../types";
+
+export type TeachingSupportStaffData = SchoolExpenditureCommon & {
   totalTeachingSupportStaffCosts: number;
   teachingStaffCosts: number;
   supplyTeachingStaffCosts: number;
   educationalConsultancyCosts: number;
   educationSupportStaffCosts: number;
   agencySupplyTeachingStaffCosts: number;
-  totalPupils: bigint;
-  schoolName: string;
-  laName: string;
 };
 
-export type NonEducationalSupportStaffData = {
-  urn: string;
-  schoolType: string;
+export type NonEducationalSupportStaffData = SchoolExpenditureCommon & {
   totalNonEducationalSupportStaffCosts: number;
   administrativeClericalStaffCosts: number;
   auditorsCosts: number;
   otherStaffCosts: number;
   professionalServicesNonCurriculumCosts: number;
-  totalPupils: bigint;
-  schoolName: string;
-  laName: string;
 };
 
-export type EducationalSuppliesData = {
-  urn: string;
-  schoolType: string;
+export type EducationalSuppliesData = SchoolExpenditureCommon & {
   totalEducationalSuppliesCosts: number;
   examinationFeesCosts: number;
   learningResourcesNonIctCosts: number;
-  totalPupils: bigint;
-  schoolName: string;
-  laName: string;
 };
 
-export type EducationalIctData = {
-  urn: string;
-  schoolType: string;
+export type EducationalIctData = SchoolExpenditureCommon & {
   learningResourcesIctCosts: number;
-  totalPupils: bigint;
-  schoolName: string;
-  laName: string;
 };
 
-export type PremisesStaffServicesData = {
-  urn: string;
-  schoolType: string;
+export type PremisesStaffServicesData = SchoolExpenditureCommon & {
   totalPremisesStaffServiceCosts: number;
   cleaningCaretakingCosts: number;
   maintenancePremisesCosts: number;
   otherOccupationCosts: number;
   premisesStaffCosts: number;
-  totalPupils: bigint;
-  schoolName: string;
-  laName: string;
 };
 
-export type UtilitiesData = {
-  urn: string;
-  schoolType: string;
+export type UtilitiesData = SchoolExpenditureCommon & {
   totalUtilitiesCosts: number;
   energyCosts: number;
   waterSewerageCosts: number;
-  totalPupils: bigint;
-  schoolName: string;
-  laName: string;
 };
 
-export type AdministrativeSuppliesData = {
-  urn: string;
-  schoolType: string;
+export type AdministrativeSuppliesData = SchoolExpenditureCommon & {
   administrativeSuppliesNonEducationalCosts: number;
-  totalPupils: bigint;
-  schoolName: string;
-  laName: string;
 };
 
-export type CateringStaffServicesData = {
-  urn: string;
-  schoolType: string;
+export type CateringStaffServicesData = SchoolExpenditureCommon & {
   totalGrossCateringCosts: number;
   totalNetCateringCosts: number;
   cateringStaffCosts: number;
   cateringSuppliesCosts: number;
-  totalPupils: bigint;
-  schoolName: string;
-  laName: string;
 };
 
-export type OtherCostsData = {
-  urn: string;
-  schoolType: string;
+export type OtherCostsData = SchoolExpenditureCommon & {
   totalOtherCosts: number;
   otherInsurancePremiumsCosts: number;
   groundsMaintenanceCosts: number;
@@ -106,9 +66,6 @@ export type OtherCostsData = {
   supplyTeacherInsurableCosts: number;
   communityFocusedSchoolStaff: number;
   communityFocusedSchoolCosts: number;
-  totalPupils: bigint;
-  schoolName: string;
-  laName: string;
 };
 
 export type CompareYourCosts2Props = {

@@ -1,6 +1,6 @@
 import { createContext } from "react";
 import { Dimension } from "src/components";
-import { CostCodeMap, ProgressBanding, ProgressIndicators } from "src/views";
+import { CostCodeMap, ProgressBanding } from "src/views";
 
 export interface ChartModeContextValue {
   chartMode: string;
@@ -62,8 +62,8 @@ export const ShowHighExecutivePayContext = createContext<boolean | undefined>(
 );
 
 export interface ProgressIndicatorsContextValue {
-  data?: ProgressIndicators;
   available: ProgressBanding[];
+  data: Record<string, ProgressBanding>;
   selected: ProgressBanding[];
   setSelected: React.Dispatch<React.SetStateAction<ProgressBanding[]>>;
 }

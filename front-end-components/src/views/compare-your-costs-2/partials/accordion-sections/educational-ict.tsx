@@ -10,7 +10,11 @@ import {
   EducationalIctData,
 } from "src/views/compare-your-costs-2/partials/accordion-sections/types";
 import { CostCategories, PoundsPerPupil } from "src/components";
-import { PhaseContext, CustomDataContext } from "src/contexts";
+import {
+  PhaseContext,
+  CustomDataContext,
+  useProgressIndicatorsContext,
+} from "src/contexts";
 import { HorizontalBarChartWrapperData } from "src/composed/horizontal-bar-chart-wrapper";
 import { ExpenditureApi, EducationalIctExpenditure } from "src/services";
 import { AccordionSection } from "src/composed/accordion-section";
@@ -23,7 +27,7 @@ export const EducationalIct: React.FC<CompareYourCosts2Props> = ({
   const [dimension, setDimension] = useState(PoundsPerPupil);
   const phase = useContext(PhaseContext);
   const customDataId = useContext(CustomDataContext);
-  const [data, setData] = useState<EducationalIctExpenditure[] | null>();
+  const [data, setData] = useState<EducationalIctData[] | null>();
   const { abort, signal } = useAbort();
   const getData = useCallback(async () => {
     setData(null);
@@ -37,12 +41,26 @@ export const EducationalIct: React.FC<CompareYourCosts2Props> = ({
       [signal]
     );
   }, [type, id, dimension.value, phase, customDataId, signal]);
+  const { data: progressIndicators } = useProgressIndicatorsContext();
 
   useEffect(() => {
     getData().then((result) => {
-      setData(result);
+      const merged = result
+        ? result.reduce<EducationalIctData[]>(
+            (acc: EducationalIctData[], curr: EducationalIctExpenditure) => {
+              acc.push({
+                ...curr,
+                progressBanding: progressIndicators[curr.urn],
+              });
+              return acc;
+            },
+            []
+          )
+        : null;
+
+      setData(merged);
     });
-  }, [getData]);
+  }, [getData, progressIndicators]);
 
   const handleDimensionChange = (value: string) => {
     abort();

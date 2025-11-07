@@ -275,13 +275,20 @@ export const ProgressIndicatorsProvider = ({
   data,
 }: ProgressIndicatorsProviderProps) => {
   const [selected, setSelected] = useState<ProgressBanding[]>([]);
-  const available = useMemo(() => {
-    if (!data) {
-      return [];
-    }
-
-    return Array.from(new Set(data.map((d) => d.banding)));
+  const dataDictionary = useMemo(() => {
+    return (
+      data?.reduce(
+        (acc, banding) => {
+          acc[banding.urn] = banding.banding;
+          return acc;
+        },
+        {} as Record<string, ProgressBanding>
+      ) ?? {}
+    );
   }, [data]);
+  const available = useMemo(() => {
+    return Array.from(new Set(Object.values(dataDictionary)));
+  }, [dataDictionary]);
 
   const getProgressSorter = (banding: ProgressBanding) => {
     switch (banding) {
@@ -303,7 +310,7 @@ export const ProgressIndicatorsProvider = ({
   return (
     <ProgressIndicatorsContext.Provider
       value={{
-        data,
+        data: dataDictionary,
         available: available.sort((a, b) => {
           return getProgressSorter(a) - getProgressSorter(b);
         }),
