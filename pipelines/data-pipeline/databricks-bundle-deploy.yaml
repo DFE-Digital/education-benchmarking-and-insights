@@ -54,7 +54,7 @@ stages:
             displayName: 'Copy source files to staging'
             inputs:
               SourceFolder: '$(Build.SourcesDirectory)'
-              Contents: '**'
+              Contents: 'databricks/'
               TargetFolder: '$(Build.ArtifactStagingDirectory)'
               CleanTargetFolder: true
           
