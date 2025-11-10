@@ -7,4 +7,5 @@ public class FinanceYears
     public string? Aar { get; set; }
     public string? Cfr { get; set; }
     public string? S251 { get; set; }
+    public string? Ks4Progress { get; set; }
 }
