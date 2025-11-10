@@ -90,7 +90,7 @@ stages:
 
   - stage: DeployDev
     displayName: 'Deploy to Dev'
-    dependsOn: Validate
+    dependsOn: Bundle_Validate
     condition: and(succeeded(), in(variables['Build.SourceBranch'], 'refs/heads/develop', 'refs/heads/main'))
     jobs:
       - deployment: DeployDevBundle
