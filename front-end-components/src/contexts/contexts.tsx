@@ -1,4 +1,5 @@
 import { createContext } from "react";
+import { ContentType } from "recharts/types/component/DefaultLegendContent";
 import { Dimension } from "src/components";
 import { CostCodeMap, ProgressBanding, ProgressIndicators } from "src/views";
 
@@ -65,6 +66,7 @@ export interface ProgressIndicatorsContextValue {
   available: ProgressBanding[];
   data?: ProgressIndicators;
   progressIndicators: Record<string, ProgressBanding>;
+  renderChartLegend?: ContentType;
   selected: ProgressBanding[];
   setSelected: React.Dispatch<React.SetStateAction<ProgressBanding[]>>;
 }

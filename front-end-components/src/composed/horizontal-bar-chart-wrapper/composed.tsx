@@ -54,6 +54,7 @@ export function HorizontalBarChartWrapper<
   valueUnit,
   xAxisLabel,
   override,
+  ...props
 }: HorizontalBarChartWrapperProps<TData>) {
   const { chartMode } = useChartModeContext();
   const dimension = useContext(ChartDimensionContext);
@@ -167,7 +168,7 @@ export function HorizontalBarChartWrapper<
   };
 
   const renderTooltip = (
-    props: TooltipProps<ValueType, NameType>,
+    tooltipProps: TooltipProps<ValueType, NameType>,
     tick?: { payload: CartesianTickItem }
   ) => {
     const payloadProps: {
@@ -189,17 +190,17 @@ export function HorizontalBarChartWrapper<
     }
 
     if (override?.customTooltip === "highExec") {
-      return <PayBandDataTooltip {...props} {...payloadProps} />;
+      return <PayBandDataTooltip {...tooltipProps} {...payloadProps} />;
     }
 
     return trust ? (
       <TrustDataTooltip
-        {...props}
+        {...tooltipProps}
         {...payloadProps}
         valueUnit={valueUnit ?? dimension.unit}
       />
     ) : (
-      <SchoolDataTooltip {...props} {...payloadProps} />
+      <SchoolDataTooltip {...tooltipProps} {...payloadProps} />
     );
   };
 
@@ -316,6 +317,7 @@ export function HorizontalBarChartWrapper<
                   valueFormatter={chartValueFormatter}
                   valueLabel={valueLabel}
                   valueUnit={resolvedValueUnit}
+                  {...props}
                 />
               )}
               <div

@@ -71,6 +71,7 @@ function HorizontalBarChartInner<TData extends ChartDataSeries>(
     labelListSeriesName,
     labels,
     legend,
+    legendContent,
     legendHorizontalAlign,
     legendVerticalAlign,
     margin: _margin,
@@ -378,6 +379,7 @@ function HorizontalBarChartInner<TData extends ChartDataSeries>(
               {legend && (
                 <Legend
                   align={legendHorizontalAlign ?? "right"}
+                  content={legendContent}
                   verticalAlign={legendVerticalAlign ?? "top"}
                   formatter={(value) =>
                     (seriesConfig && seriesConfig[value]?.label) || value

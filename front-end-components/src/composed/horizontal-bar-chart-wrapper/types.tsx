@@ -12,6 +12,10 @@ export type HorizontalBarChartWrapperProps<
   ChartProps<TData>,
   | "chartTitle"
   | "linkToEstablishment"
+  | "legend"
+  | "legendContent"
+  | "legendHorizontalAlign"
+  | "legendVerticalAlign"
   | "missingDataKeys"
   | "progressAboveAverageKeys"
   | "progressWellAboveAverageKeys"

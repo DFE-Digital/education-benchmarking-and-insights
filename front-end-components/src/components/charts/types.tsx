@@ -1,6 +1,7 @@
 import { CSSProperties, PureComponent, Ref, SVGProps } from "react";
 import { CategoricalChartState } from "recharts/types/chart/types";
 import {
+  ContentType as LegendContentType,
   HorizontalAlignmentType,
   IconType,
   VerticalAlignmentType,
@@ -9,7 +10,7 @@ import {
   NameType,
   ValueType,
 } from "recharts/types/component/DefaultTooltipContent";
-import { ContentType } from "recharts/types/component/Tooltip";
+import { ContentType as TooltipContentType } from "recharts/types/component/Tooltip";
 import { CartesianTickItem } from "recharts/types/util/types";
 import { DownloadMode } from "src/services";
 
@@ -30,6 +31,7 @@ export interface ChartProps<TData extends ChartDataSeries>
   keyField: keyof TData;
   labels?: boolean;
   legend?: boolean;
+  legendContent?: LegendContentType;
   legendIconSize?: number;
   legendIconType?: IconType | "default";
   legendHorizontalAlign?: HorizontalAlignmentType;
@@ -50,7 +52,7 @@ export interface ChartProps<TData extends ChartDataSeries>
   seriesFormatter?: (value: unknown) => string;
   showCopyImageButton?: boolean;
   suffix?: string;
-  tooltip?: ContentType<ValueType, NameType>;
+  tooltip?: TooltipContentType<ValueType, NameType>;
   valueLabel?: string;
   valueUnit?: ChartSeriesValueUnit;
 }

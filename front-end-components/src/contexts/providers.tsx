@@ -6,6 +6,8 @@ import {
   ProgressIndicatorsContext,
 } from "./contexts";
 import { CostCodeMap, ProgressBanding, ProgressIndicators } from "src/views";
+import { DefaultLegendContent } from "recharts";
+import { Payload } from "recharts/types/component/DefaultLegendContent";
 
 type ChartModeProviderProps = PropsWithChildren<{
   initialValue: string;
@@ -268,11 +270,13 @@ export const CostCodeMapProvider = ({
 
 type ProgressIndicatorsProviderProps = PropsWithChildren<{
   data?: ProgressIndicators;
+  id: string;
 }>;
 
 export const ProgressIndicatorsProvider = ({
   children,
   data,
+  id,
 }: ProgressIndicatorsProviderProps) => {
   const [selected, setSelected] = useState<ProgressBanding[]>([]);
   const available = useMemo(() => {
@@ -313,6 +317,36 @@ export const ProgressIndicatorsProvider = ({
     }
   };
 
+  const renderChartLegend = () => {
+    const bandings = Object.entries(progressIndicators)
+      .filter((i) => i[0] != id)
+      .map((i) => i[1]);
+    const type = "square";
+    const payload: Payload[] = [
+      {
+        value: "Your chosen school",
+        type,
+        inactive: bandings.length == 0,
+      },
+      {
+        value: "Well above average",
+        type,
+        inactive: bandings.every((p) => p != ProgressBanding.WellAboveAverage),
+      },
+      {
+        value: "Above average",
+        type,
+        inactive: bandings.every((p) => p != ProgressBanding.AboveAverage),
+      },
+    ];
+
+    return (
+      <div className="recharts-legend-progress-indicator-wrapper">
+        <DefaultLegendContent payload={payload} />
+      </div>
+    );
+  };
+
   return (
     <ProgressIndicatorsContext.Provider
       value={{
@@ -321,6 +355,7 @@ export const ProgressIndicatorsProvider = ({
         available: available.sort((a, b) => {
           return getProgressSorter(a) - getProgressSorter(b);
         }),
+        renderChartLegend,
         selected,
         setSelected,
       }}
