@@ -16,8 +16,8 @@ variables:
     value: '3.12'
 
 stages:
-  - stage: Validate
-    displayName: 'Validate and Test'
+  - stage: Test
+    displayName: 'Test and create artifact'
     jobs:
       - job: Test
         displayName: 'Unit Tests, generate artifact'
@@ -65,7 +65,7 @@ stages:
               ArtifactName: '$(artifactName)'
               publishLocation: 'Container'
 
-      - job: Bundle Validate
+      - job: Bundle_Validate
         pool:
           name: DD-Hosted-Prod
         steps:
