@@ -86,7 +86,7 @@ stages:
 
           - script: |
               databricks bundle validate
-            workingDirectory: $(artifactName)/databricks/education_benchmarking_and_insights
+            workingDirectory: $(System.ArtifactsDirectory)/databricks/education_benchmarking_and_insights
             displayName: 'Validate Bundle Configuration'
             env:
               DATABRICKS_HOST: $(DATABRICKS_HOST)
