@@ -19,6 +19,7 @@ The table `[dbo].[Parameters]` contains the following values for the current yea
 - `LatestAARYear`
 - `LatestCFRYear`
 - `LatestS251Year`
+- `LatestKS4ProgressYear`
 
 ### Consuming pages
 
