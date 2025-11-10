@@ -19,7 +19,7 @@ stages:
   - stage: Test
     displayName: 'Test and create artifact'
     jobs:
-      - job: Test
+      - job: unit_tests
         displayName: 'Unit Tests, generate artifact'
         pool:
           vmImage: 'ubuntu-latest'
@@ -68,6 +68,7 @@ stages:
       - job: Bundle_Validate
         pool:
           name: DD-Hosted-Prod
+        dependsOn: unit_tests
         steps:
           - checkout: none
             displayName: 'Skip checkout (using artifact)'
