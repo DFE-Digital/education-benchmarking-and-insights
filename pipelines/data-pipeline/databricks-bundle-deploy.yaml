@@ -90,7 +90,7 @@ stages:
 
   - stage: DeployDev
     displayName: 'Deploy to Dev'
-    dependsOn: Bundle_Validate
+    dependsOn: Test
     condition: and(succeeded(), in(variables['Build.SourceBranch'], 'refs/heads/develop', 'refs/heads/main'))
     jobs:
       - deployment: DeployDevBundle
@@ -144,47 +144,47 @@ stages:
                     DATABRICKS_HOST: $(DATABRICKS_HOST)
                     DATABRICKS_TOKEN: $(DATABRICKS_TOKEN)
 
-  - stage: DeployProd
-    displayName: 'Deploy to Production'
-    dependsOn: DeployDev
-    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/main'))
-    jobs:
-      - deployment: DeployProdBundle
-        displayName: 'Deploy to Production Environment'
-        environment: 'development'
-        strategy:
-          runOnce:
-            deploy:
-              steps:
-                - checkout: self
+  # - stage: DeployProd
+  #   displayName: 'Deploy to Production'
+  #   dependsOn: DeployDev
+  #   condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/main'))
+  #   jobs:
+  #     - deployment: DeployProdBundle
+  #       displayName: 'Deploy to Production Environment'
+  #       environment: 'development'
+  #       strategy:
+  #         runOnce:
+  #           deploy:
+  #             steps:
+  #               - checkout: self
 
-                - task: UsePythonVersion@0
-                  inputs:
-                    versionSpec: '$(PYTHON_VERSION)'
-                  displayName: 'Use Python $(PYTHON_VERSION)'
+  #               - task: UsePythonVersion@0
+  #                 inputs:
+  #                   versionSpec: '$(PYTHON_VERSION)'
+  #                 displayName: 'Use Python $(PYTHON_VERSION)'
 
-                - script: |
-                    curl -LsSf https://astral.sh/uv/install.sh | sh
-                    echo "##vso[task.prependpath]$HOME/.cargo/bin"
-                  displayName: 'Install uv'
+  #               - script: |
+  #                   curl -LsSf https://astral.sh/uv/install.sh | sh
+  #                   echo "##vso[task.prependpath]$HOME/.cargo/bin"
+  #                 displayName: 'Install uv'
 
-                - script: |
-                    uv sync
-                  displayName: 'Install Dependencies with uv'
+  #               - script: |
+  #                   uv sync
+  #                 displayName: 'Install Dependencies with uv'
 
-                - script: |
-                    python -m pip install databricks-cli
-                  displayName: 'Install Databricks CLI'
+  #               - script: |
+  #                   python -m pip install databricks-cli
+  #                 displayName: 'Install Databricks CLI'
 
-                - script: |
-                    databricks bundle deploy --target prod
-                  displayName: 'Deploy Bundle to Production'
-                  env:
-                    DATABRICKS_TOKEN: $(DATABRICKS_TOKEN)
+  #               - script: |
+  #                   databricks bundle deploy --target prod
+  #                 displayName: 'Deploy Bundle to Production'
+  #                 env:
+  #                   DATABRICKS_TOKEN: $(DATABRICKS_TOKEN)
 
-                - script: |
-                    echo "Bundle deployed successfully to production"
-                    databricks bundle summary --target prod
-                  displayName: 'Deployment Summary'
-                  env:
-                    DATABRICKS_TOKEN: $(DATABRICKS_TOKEN)
+  #               - script: |
+  #                   echo "Bundle deployed successfully to production"
+  #                   databricks bundle summary --target prod
+  #                 displayName: 'Deployment Summary'
+  #                 env:
+  #                   DATABRICKS_TOKEN: $(DATABRICKS_TOKEN)
