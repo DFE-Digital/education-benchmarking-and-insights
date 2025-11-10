@@ -148,6 +148,7 @@ export const Utilities: React.FC<CompareYourCosts2Props> = ({ type, id }) => {
       handleDimensionChange={handleDimensionChange}
       hasNoData={data?.length === 0}
       index={6}
+      progressIndicators={progressIndicators}
       showCopyImageButton
       title="Utilities"
     />

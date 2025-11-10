@@ -86,12 +86,12 @@ $progress-well-above-average-colour: #28A297;
       }
     }
 
-    &.chart-cell-progress-above-average {
+    &.chart-cell-progress-above-average:not(.chart-cell-highlight) {
       stroke: $progress-above-average-colour;
       fill: $progress-above-average-colour;
     }
 
-    &.chart-cell-progress-well-above-average {
+    &.chart-cell-progress-well-above-average:not(.chart-cell-highlight) {
       stroke: $progress-well-above-average-colour;
       fill: $progress-well-above-average-colour;
     }

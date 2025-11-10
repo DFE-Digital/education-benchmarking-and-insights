@@ -181,6 +181,7 @@ export const PremisesStaffServices: React.FC<CompareYourCosts2Props> = ({
       handleDimensionChange={handleDimensionChange}
       hasNoData={data?.length === 0}
       index={5}
+      progressIndicators={progressIndicators}
       showCopyImageButton
       title="Premises staff and services"
     />

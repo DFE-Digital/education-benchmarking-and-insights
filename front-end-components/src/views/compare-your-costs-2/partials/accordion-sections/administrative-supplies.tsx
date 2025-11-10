@@ -117,6 +117,7 @@ export const AdministrativeSupplies: React.FC<CompareYourCosts2Props> = ({
       handleDimensionChange={handleDimensionChange}
       hasNoData={data?.length === 0}
       index={7}
+      progressIndicators={progressIndicators}
       showCopyImageButton
       title="Administrative supplies"
     />

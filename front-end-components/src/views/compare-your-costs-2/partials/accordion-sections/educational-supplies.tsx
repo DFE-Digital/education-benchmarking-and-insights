@@ -153,6 +153,7 @@ export const EducationalSupplies: React.FC<CompareYourCosts2Props> = ({
       handleDimensionChange={handleDimensionChange}
       hasNoData={data?.length === 0}
       index={3}
+      progressIndicators={progressIndicators}
       showCopyImageButton
       title="Educational supplies"
     />
