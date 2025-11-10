@@ -41,7 +41,8 @@ export const Utilities: React.FC<CompareYourCosts2Props> = ({ type, id }) => {
       [signal]
     );
   }, [type, id, dimension.value, phase, customDataId, signal]);
-  const { progressIndicators } = useProgressIndicatorsContext();
+  const { progressIndicators, renderChartLegend } =
+    useProgressIndicatorsContext();
 
   useEffect(() => {
     getData().then((result) => {
@@ -148,6 +149,10 @@ export const Utilities: React.FC<CompareYourCosts2Props> = ({ type, id }) => {
       handleDimensionChange={handleDimensionChange}
       hasNoData={data?.length === 0}
       index={6}
+      legend
+      legendContent={renderChartLegend}
+      legendHorizontalAlign="center"
+      legendVerticalAlign="bottom"
       progressIndicators={progressIndicators}
       showCopyImageButton
       title="Utilities"

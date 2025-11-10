@@ -47,7 +47,8 @@ export const NonEducationalSupportStaff: React.FC<CompareYourCosts2Props> = ({
       [signal]
     );
   }, [type, id, dimension.value, phase, customDataId, signal]);
-  const { progressIndicators } = useProgressIndicatorsContext();
+  const { progressIndicators, renderChartLegend } =
+    useProgressIndicatorsContext();
 
   useEffect(() => {
     getData().then((result) => {
@@ -218,6 +219,10 @@ export const NonEducationalSupportStaff: React.FC<CompareYourCosts2Props> = ({
       handleDimensionChange={handleDimensionChange}
       hasNoData={expenditureData?.length === 0}
       index={2}
+      legend
+      legendContent={renderChartLegend}
+      legendHorizontalAlign="center"
+      legendVerticalAlign="bottom"
       progressIndicators={progressIndicators}
       showCopyImageButton
       title="Non-educational support staff and services"

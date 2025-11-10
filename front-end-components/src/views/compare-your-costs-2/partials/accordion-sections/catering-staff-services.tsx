@@ -55,7 +55,8 @@ export const CateringStaffServices: React.FC<CompareYourCosts2Props> = ({
       [signal]
     );
   }, [type, id, dimension.value, phase, customDataId, signal]);
-  const { progressIndicators } = useProgressIndicatorsContext();
+  const { progressIndicators, renderChartLegend } =
+    useProgressIndicatorsContext();
 
   useEffect(() => {
     getData().then((result) => {
@@ -187,6 +188,10 @@ export const CateringStaffServices: React.FC<CompareYourCosts2Props> = ({
           </div>
         </div>
       }
+      legend
+      legendContent={renderChartLegend}
+      legendHorizontalAlign="center"
+      legendVerticalAlign="bottom"
       progressIndicators={progressIndicators}
       showCopyImageButton
       title="Catering staff and supplies"

@@ -47,7 +47,8 @@ export const AdministrativeSupplies: React.FC<CompareYourCosts2Props> = ({
       [signal]
     );
   }, [type, id, dimension.value, phase, customDataId, signal]);
-  const { progressIndicators } = useProgressIndicatorsContext();
+  const { progressIndicators, renderChartLegend } =
+    useProgressIndicatorsContext();
 
   useEffect(() => {
     getData().then((result) => {
@@ -117,6 +118,10 @@ export const AdministrativeSupplies: React.FC<CompareYourCosts2Props> = ({
       handleDimensionChange={handleDimensionChange}
       hasNoData={data?.length === 0}
       index={7}
+      legend
+      legendContent={renderChartLegend}
+      legendHorizontalAlign="center"
+      legendVerticalAlign="bottom"
       progressIndicators={progressIndicators}
       showCopyImageButton
       title="Administrative supplies"
