@@ -8,4 +8,5 @@ public class FinanceYears
     public int Aar { get; set; }
     public int Cfr { get; set; }
     public int S251 { get; set; }
+    public int Ks4Progress { get; set; }
 }

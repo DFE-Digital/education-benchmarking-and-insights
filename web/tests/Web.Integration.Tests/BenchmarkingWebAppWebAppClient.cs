@@ -402,7 +402,8 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
         {
             Aar = 2022,
             Cfr = 2021,
-            S251 = 2024
+            S251 = 2024,
+            Ks4Progress = 2024,
         }));
 
         return this;
