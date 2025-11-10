@@ -19,7 +19,8 @@ public class WhenFinanceServiceIsCalled
     {
         Aar = 2023,
         Cfr = 2023,
-        S251 = 2024
+        S251 = 2024,
+        Ks4Progress = 2024
     };
 
     private static (IMemoryCache mockCache, IOptions<CacheOptions> options) CreateCacheAndOptions()
@@ -55,6 +56,7 @@ public class WhenFinanceServiceIsCalled
         Assert.Equal(_financeYears.Aar, actual.Aar);
         Assert.Equal(_financeYears.Cfr, actual.Cfr);
         Assert.Equal(_financeYears.S251, actual.S251);
+        Assert.Equal(_financeYears.Ks4Progress, actual.Ks4Progress);
     }
 
     [Fact]
@@ -75,6 +77,7 @@ public class WhenFinanceServiceIsCalled
         Assert.Equal(_financeYears.Aar, cachedYears.Aar);
         Assert.Equal(_financeYears.Cfr, cachedYears.Cfr);
         Assert.Equal(_financeYears.S251, cachedYears.S251);
+        Assert.Equal(_financeYears.Ks4Progress, cachedYears.Ks4Progress);
     }
 
     [Fact]
@@ -94,5 +97,6 @@ public class WhenFinanceServiceIsCalled
         Assert.Equal(_financeYears.Aar, actual.Aar);
         Assert.Equal(_financeYears.Cfr, actual.Cfr);
         Assert.Equal(_financeYears.S251, actual.S251);
+        Assert.Equal(_financeYears.Ks4Progress, actual.Ks4Progress);
     }
 }
