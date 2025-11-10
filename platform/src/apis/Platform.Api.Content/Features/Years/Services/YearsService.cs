@@ -19,15 +19,18 @@ public class YearsService(IDatabaseFactory dbFactory) : IYearsService
         var aarBuilder = new ParametersQuery("LatestAARYear");
         var cfrBuilder = new ParametersQuery("LatestCFRYear");
         var s251Builder = new ParametersQuery("LatestS251Year");
+        var ks4ProgressBuilder = new ParametersQuery("LatestKS4ProgressYear");
 
         var aar = await conn.QueryFirstOrDefaultAsync<string>(aarBuilder, cancellationToken);
         var cfr = await conn.QueryFirstOrDefaultAsync<string>(cfrBuilder, cancellationToken);
         var s251 = await conn.QueryFirstOrDefaultAsync<string>(s251Builder, cancellationToken);
+        var ks4Progress = await conn.QueryFirstOrDefaultAsync<string>(ks4ProgressBuilder, cancellationToken);
         return new FinanceYears
         {
             Aar = aar,
             Cfr = cfr,
-            S251 = s251
+            S251 = s251,
+            Ks4Progress = ks4Progress
         };
     }
 }
