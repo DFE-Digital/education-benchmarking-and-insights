@@ -54,7 +54,10 @@ stages:
             displayName: 'Copy source files to staging'
             inputs:
               SourceFolder: '$(Build.SourcesDirectory)'
-              Contents: 'databricks/**'
+              Contents: |
+                databricks/**
+                !databricks/**/.pytest_cache/**
+                !databricks/**/.venv/**
               TargetFolder: '$(Build.ArtifactStagingDirectory)'
               CleanTargetFolder: true
           
