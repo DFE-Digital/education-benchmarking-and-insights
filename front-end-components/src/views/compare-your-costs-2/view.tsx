@@ -48,7 +48,7 @@ export const CompareYourCosts2: React.FC<CompareYourCosts2ViewProps> = ({
         >
           <CostCodeMapProvider costCodeMap={costCodeMap} tags={tags}>
             <ChartModeProvider initialValue={ChartModeChart}>
-              <ProgressIndicatorsProvider data={progressIndicators}>
+              <ProgressIndicatorsProvider data={progressIndicators} id={id}>
                 <div className="govuk-grid-row">
                   <div className="govuk-grid-column-one-half">
                     <ChartOptionsProgress />

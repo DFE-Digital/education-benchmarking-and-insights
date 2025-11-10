@@ -35,7 +35,12 @@ export type DimensionedChartProps<
   TData extends SchoolChartData | TrustChartData,
 > = Pick<
   HorizontalBarChartWrapperProps<TData>,
-  "showCopyImageButton" | "trust"
+  | "legend"
+  | "legendContent"
+  | "legendHorizontalAlign"
+  | "legendVerticalAlign"
+  | "showCopyImageButton"
+  | "trust"
 > & {
   charts: DimensionedChart<TData>[];
   dimension: Dimension;

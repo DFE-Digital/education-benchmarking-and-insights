@@ -305,6 +305,37 @@ $progress-well-above-average-colour: govuk-colour("turquoise");
     }
   }
 
+  .recharts-legend-wrapper {
+    .recharts-legend-progress-indicator-wrapper {
+      margin-top: 20px;
+
+      .recharts-legend-item { 
+        &.legend-item-0 {
+          .recharts-symbols {
+            fill: $chart-series-0-colour;
+          }
+        }
+        &.legend-item-1 {
+          .recharts-symbols {
+            fill: $progress-well-above-average-colour;
+          }
+        }
+        &.legend-item-2 {
+          .recharts-symbols {
+            fill: $progress-above-average-colour;
+          }
+        }
+        &.inactive {
+          display: none !important;
+        }
+
+        .recharts-legend-item-text {
+          vertical-align: middle;
+        }
+      }
+    }
+  }
+
   &.horizontal-bar-chart-wrapper,
   &.horizontal-bar-chart-multi-series {
       &:not(:last-child) {
