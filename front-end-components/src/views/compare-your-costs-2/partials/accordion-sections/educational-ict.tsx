@@ -111,6 +111,7 @@ export const EducationalIct: React.FC<CompareYourCosts2Props> = ({
       handleDimensionChange={handleDimensionChange}
       hasNoData={data?.length === 0}
       index={4}
+      progressIndicators={progressIndicators}
       showCopyImageButton
       title="Educational ICT"
     />

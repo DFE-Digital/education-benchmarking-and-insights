@@ -218,6 +218,7 @@ export const NonEducationalSupportStaff: React.FC<CompareYourCosts2Props> = ({
       handleDimensionChange={handleDimensionChange}
       hasNoData={expenditureData?.length === 0}
       index={2}
+      progressIndicators={progressIndicators}
       showCopyImageButton
       title="Non-educational support staff and services"
     />

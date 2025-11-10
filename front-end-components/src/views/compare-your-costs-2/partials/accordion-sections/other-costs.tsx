@@ -318,6 +318,7 @@ export const OtherCosts: React.FC<CompareYourCosts2Props> = ({ type, id }) => {
       handleDimensionChange={handleDimensionChange}
       hasNoData={data?.length === 0}
       index={9}
+      progressIndicators={progressIndicators}
       showCopyImageButton
       title="Other costs"
     />
