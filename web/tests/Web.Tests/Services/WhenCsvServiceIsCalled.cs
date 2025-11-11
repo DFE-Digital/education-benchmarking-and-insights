@@ -1,4 +1,5 @@
-﻿using Web.App.Services;
+﻿using Web.App.Attributes;
+using Web.App.Services;
 using Xunit;
 
 // ReSharper disable UnusedAutoPropertyAccessor.Local
@@ -78,6 +79,36 @@ public class WhenCsvServiceIsCalled
     }
 
     [Fact]
+    public void ShouldReturnCsvStringForValidCollectionWithOrderedColumns()
+    {
+        var items = new List<OrderedTestObject>
+        {
+            new()
+            {
+                Id = 1,
+                Value = "Value",
+                Ordered = "Ordered 1",
+                AnotherOrdered = "Another ordered 1"
+            },
+            new()
+            {
+                Id = 2,
+                Value = "Another value"
+            },
+            new()
+            {
+                Id = 2,
+                Value = "Value, with a comma"
+            }
+        };
+
+        var result = _service.SaveToCsv(items);
+
+        var expected = $"Id,Value,AnotherOrdered,Ordered{Environment.NewLine}1,Value,Another ordered 1,Ordered 1{Environment.NewLine}2,Another value,,{Environment.NewLine}2,\"Value, with a comma\",,";
+        Assert.Equal(expected, result);
+    }
+
+    [Fact]
     public void ShouldReturnCsvStringForValidCollectionContainingNulls()
     {
         var items = new List<TestObject?>
@@ -121,5 +152,14 @@ public class WhenCsvServiceIsCalled
     {
         public string? Ignore { get; set; }
         public string? AnotherIgnore { get; set; }
+    }
+
+    private class OrderedTestObject : TestObject
+    {
+        [PropertyOrder(2_000)]
+        public string? Ordered { get; set; }
+
+        [PropertyOrder(1_000)]
+        public string? AnotherOrdered { get; set; }
     }
 }
