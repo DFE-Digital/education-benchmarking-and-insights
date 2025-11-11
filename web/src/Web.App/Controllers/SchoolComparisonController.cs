@@ -311,6 +311,7 @@ public class SchoolComparisonController(
             }
         }
 
+        [PropertyOrder(int.MaxValue)]
         public string? ProgressBanding { get; set; }
     }
 }

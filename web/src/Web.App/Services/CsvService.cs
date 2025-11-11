@@ -1,4 +1,5 @@
 using System.ComponentModel;
+using Web.App.Attributes;
 
 namespace Web.App.Services;
 
@@ -26,7 +27,13 @@ public class CsvService : ICsvService
             return string.Empty;
         }
 
-        var props = TypeDescriptor.GetProperties(objectType).OfType<PropertyDescriptor>();
+        var props = TypeDescriptor.GetProperties(objectType)
+            .OfType<PropertyDescriptor>()
+            .OrderBy(p =>
+            {
+                var attr = (PropertyOrderAttribute?)p.Attributes[typeof(PropertyOrderAttribute)];
+                return attr?.Order ?? 0;
+            });
         var propertyNames = props
             .Select(p => p.Name)
             .Where(n => !exclude.Contains(n))
