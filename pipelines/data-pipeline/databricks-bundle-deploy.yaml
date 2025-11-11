@@ -75,7 +75,7 @@ stages:
             displayName: 'Publish Databricks CLI artifact'
             inputs:
               PathtoPublish: '$(Build.ArtifactStagingDirectory)/databricks-cli'
-              ArtifactName: 'databricks-cli'
+              ArtifactName: '$(artifactName)'
               publishLocation: 'Container'
 
       - job: Bundle_Validate
