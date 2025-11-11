@@ -37,6 +37,8 @@ public class KS4ProgressBandings : ISerializable
     {
         info.AddValue(nameof(Items), Items);
     }
+
+    public KS4ProgressBanding? this[string? urn] => Items.SingleOrDefault(i => i.Urn == urn);
 }
 
 [Serializable]
