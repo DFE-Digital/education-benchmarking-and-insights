@@ -34,8 +34,7 @@ stages:
             inputs:
               versionSpec: '17'
               jdkArchitectureOption: 'x64'
-              jdkSourceOption: 'AdoptOpenJDK'
-              jdkDistribution: 'temurin'
+              jdkSourceOption: 'AzureStorage'
 
           - script: |
               curl -LsSf https://astral.sh/uv/install.sh | sh
