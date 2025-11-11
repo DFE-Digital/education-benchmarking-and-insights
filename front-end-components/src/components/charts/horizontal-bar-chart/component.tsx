@@ -50,6 +50,10 @@ import { Props } from "recharts/types/component/Label";
 import { CartesianViewBox } from "recharts/types/util/types";
 import { DownloadMode } from "src/services";
 import "../styles.scss";
+import {
+  ContentType,
+  Props as LegendProps,
+} from "recharts/types/component/DefaultLegendContent";
 
 function HorizontalBarChartInner<TData extends ChartDataSeries>(
   props: HorizontalBarChartProps<TData>,
@@ -267,6 +271,17 @@ function HorizontalBarChartInner<TData extends ChartDataSeries>(
     );
   }
 
+  const renderLegendContent: ContentType = (props: LegendProps) => {
+    if (!legendContent) {
+      return undefined;
+    }
+
+    return legendContent(
+      props,
+      filteredData.map((d) => d[keyField].toString())
+    );
+  };
+
   const legendHeight = 30;
 
   return (
@@ -379,7 +394,7 @@ function HorizontalBarChartInner<TData extends ChartDataSeries>(
               {legend && (
                 <Legend
                   align={legendHorizontalAlign ?? "right"}
-                  content={legendContent}
+                  content={renderLegendContent}
                   verticalAlign={legendVerticalAlign ?? "top"}
                   formatter={(value) =>
                     (seriesConfig && seriesConfig[value]?.label) || value

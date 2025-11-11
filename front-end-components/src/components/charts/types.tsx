@@ -1,10 +1,10 @@
-import { CSSProperties, PureComponent, Ref, SVGProps } from "react";
+import { CSSProperties, PureComponent, ReactNode, Ref, SVGProps } from "react";
 import { CategoricalChartState } from "recharts/types/chart/types";
 import {
-  ContentType as LegendContentType,
   HorizontalAlignmentType,
   IconType,
   VerticalAlignmentType,
+  Props as LegendProps,
 } from "recharts/types/component/DefaultLegendContent";
 import {
   NameType,
@@ -31,7 +31,7 @@ export interface ChartProps<TData extends ChartDataSeries>
   keyField: keyof TData;
   labels?: boolean;
   legend?: boolean;
-  legendContent?: LegendContentType;
+  legendContent?: (props: LegendProps, keys: string[]) => ReactNode;
   legendIconSize?: number;
   legendIconType?: IconType | "default";
   legendHorizontalAlign?: HorizontalAlignmentType;
