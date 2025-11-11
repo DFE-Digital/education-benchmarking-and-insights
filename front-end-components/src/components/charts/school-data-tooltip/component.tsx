@@ -5,17 +5,28 @@ import {
 import { SchoolTooltipProps } from "src/components/charts/school-data-tooltip";
 import { SchoolChartData } from "../table-chart";
 import { PartYearDataWarning } from "../part-year-data-warning";
+import { useProgressIndicatorsContext } from "src/contexts";
+import { ProgressBandingTag } from "src/components/progress-banding-tag";
 
 export function SchoolDataTooltip<
   TValue extends ValueType,
   TName extends NameType,
 >({ active, payload }: SchoolTooltipProps<TValue, TName>) {
+  const { progressIndicators } = useProgressIndicatorsContext();
+
   if (!active || !payload || !payload.length) {
     return null;
   }
 
-  const { laName, periodCoveredByReturn, schoolName, schoolType, totalPupils } =
-    payload[0].payload as SchoolChartData;
+  const {
+    laName,
+    periodCoveredByReturn,
+    schoolName,
+    schoolType,
+    totalPupils,
+    urn,
+  } = payload[0].payload as SchoolChartData;
+  const progressBanding = progressIndicators[urn];
   return (
     <>
       {periodCoveredByReturn !== undefined && periodCoveredByReturn < 12 && (
@@ -56,6 +67,16 @@ export function SchoolDataTooltip<
             </th>
             <td className="govuk-table__cell">{String(totalPupils)}</td>
           </tr>
+          {!!progressBanding && (
+            <tr className="govuk-table__row">
+              <th scope="row" className="govuk-table__header">
+                Progress 8 banding
+              </th>
+              <td className="govuk-table__cell">
+                <ProgressBandingTag banding={progressBanding} />
+              </td>
+            </tr>
+          )}
         </tbody>
       </table>
     </>
