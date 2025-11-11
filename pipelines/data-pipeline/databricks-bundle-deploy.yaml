@@ -55,6 +55,7 @@ stages:
                 databricks/**
                 !databricks/**/.pytest_cache/**
                 !databricks/**/.venv/**
+                !databricks/**/__pycache__/**
               TargetFolder: '$(Build.ArtifactStagingDirectory)'
               CleanTargetFolder: true
 
@@ -65,20 +66,17 @@ stages:
               ArtifactName: '$(artifactName)'
               publishLocation: 'Container'
 
-          # - bash: |
-          #     # Download the Databricks CLI binary for Windows (target platform)
-          #     curl -fsSL https://github.com/databricks/cli/releases/latest/download/databricks_cli_windows_amd64.zip -o $(Build.ArtifactStagingDirectory)/databricks-cli.zip
-              
-          #     # Extract it
-          #     unzip $(Build.ArtifactStagingDirectory)/databricks-cli.zip -d $(Build.ArtifactStagingDirectory)/databricks-cli
-          #   displayName: 'Download Databricks CLI binary for Windows'
+          - bash: |
+              curl -fsSL https://github.com/databricks/cli/releases/download/v0.276.0/databricks_cli_0.276.0_windows_amd64.zip -o $(Build.ArtifactStagingDirectory)/databricks-cli.zip
+              unzip $(Build.ArtifactStagingDirectory)/databricks-cli.zip -d $(Build.ArtifactStagingDirectory)/databricks-cli
+            displayName: 'Download Databricks CLI binary for Windows'
 
-          # - task: PublishBuildArtifacts@1
-          #   displayName: 'Publish Databricks CLI artifact'
-          #   inputs:
-          #     PathtoPublish: '$(Build.ArtifactStagingDirectory)/databricks-cli'
-          #     ArtifactName: 'databricks-cli'
-          #     publishLocation: 'Container'
+          - task: PublishBuildArtifacts@1
+            displayName: 'Publish Databricks CLI artifact'
+            inputs:
+              PathtoPublish: '$(Build.ArtifactStagingDirectory)/databricks-cli'
+              ArtifactName: 'databricks-cli'
+              publishLocation: 'Container'
 
       - job: Bundle_Validate
         pool:
@@ -97,9 +95,9 @@ stages:
               downloadPath: '$(System.ArtifactsDirectory)'
 
           - script: |
-              winget search databricks
-              winget install Databricks.DatabricksCLI
-            displayName: 'Install Databricks CLI'
+              set PATH=$(System.ArtifactsDirectory)\databricks-cli;%PATH%
+              databricks --version
+            displayName: 'Verify Databricks CLI'
 
           - script: |
               databricks bundle validate
