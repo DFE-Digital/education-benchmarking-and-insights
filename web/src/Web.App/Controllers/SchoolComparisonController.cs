@@ -55,7 +55,7 @@ public class SchoolComparisonController(
                     customComparatorSet = userDefinedSet?.Set;
                 }
 
-                var bandings = await progressBandingsService.GetKS4ProgressBandings(customComparatorSet ?? defaultComparatorSet?.Pupil ?? []);
+                var bandings = await progressBandingsService.GetKS4ProgressBandings(customComparatorSet ?? defaultComparatorSet?.All ?? []);
                 var viewModel = new SchoolComparisonViewModel(school, costCodes, userData.ComparatorSet, userData.CustomData, expenditure, defaultComparatorSet, bandings);
 
                 return View(viewModel);
