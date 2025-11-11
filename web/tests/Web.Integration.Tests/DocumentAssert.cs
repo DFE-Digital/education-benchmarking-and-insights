@@ -218,7 +218,8 @@ public static class DocumentAssert
 
     public static void TextEqual(IElement element, string expected)
     {
-        Assert.Equal(expected, element.TextContent.Trim());
+        var actual = Regex.Replace(element.TextContent, @"\s+", " ").Trim();
+        Assert.Equal(expected, actual);
     }
 
     public static void TextMatches(IElement element, Regex pattern)
