@@ -7,9 +7,6 @@ trigger:
 pr:
   - main
 
-# pool:
-#   name: DD-Hosted-Prod
-
 variables:
   - group: databricks-vars
   - name: PYTHON_VERSION
@@ -83,6 +80,11 @@ stages:
               downloadType: 'single'
               artifactName: '$(artifactName)'
               downloadPath: '$(System.ArtifactsDirectory)'
+              
+          - task: UsePythonVersion@0
+            inputs:
+              versionSpec: '$(PYTHON_VERSION)'
+            displayName: 'Use Python $(PYTHON_VERSION)'
 
           - script: |
               pip install databricks-cli
