@@ -29,12 +29,10 @@ stages:
               versionSpec: '$(PYTHON_VERSION)'
             displayName: 'Use Python $(PYTHON_VERSION)'
 
-          - task: JavaToolInstaller@0
+          - script: |
+              sudo apt-get update
+              sudo apt-get install temurin-17-jdk
             displayName: 'Install Java 17'
-            inputs:
-              versionSpec: '17'
-              jdkArchitectureOption: 'x64'
-              jdkSourceOption: 'AzureStorage'
 
           - script: |
               curl -LsSf https://astral.sh/uv/install.sh | sh
