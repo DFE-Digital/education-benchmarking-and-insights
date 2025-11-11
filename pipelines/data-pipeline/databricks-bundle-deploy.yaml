@@ -59,22 +59,23 @@ stages:
               TargetFolder: '$(Build.ArtifactStagingDirectory)'
               CleanTargetFolder: true
 
-          - task: PublishBuildArtifacts@1
-            displayName: 'Publish source code artifact'
-            inputs:
-              PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-              ArtifactName: '$(artifactName)'
-              publishLocation: 'Container'
+          - script: |
+              pip install databricks-cli
+            displayName: 'Install Databricks CLI'
+          
+          - script: |
+              databricks bundle build --output $(Build.ArtifactStagingDirectory)/bundle
+            displayName: 'Pre-build databricks bundle'
 
-          - bash: |
+          - script: |
               curl -fsSL https://github.com/databricks/cli/releases/download/v0.276.0/databricks_cli_0.276.0_windows_amd64.zip -o $(Build.ArtifactStagingDirectory)/databricks-cli.zip
               unzip $(Build.ArtifactStagingDirectory)/databricks-cli.zip -d $(Build.ArtifactStagingDirectory)/databricks-cli
             displayName: 'Download Databricks CLI binary for Windows'
 
           - task: PublishBuildArtifacts@1
-            displayName: 'Publish Databricks CLI artifact'
+            displayName: 'Publish Artifact'
             inputs:
-              PathtoPublish: '$(Build.ArtifactStagingDirectory)/databricks-cli'
+              PathtoPublish: '$(Build.ArtifactStagingDirectory)'
               ArtifactName: '$(artifactName)'
               publishLocation: 'Container'
 
@@ -95,8 +96,7 @@ stages:
               downloadPath: '$(System.ArtifactsDirectory)'
 
           - script: |
-              set PATH=$(System.ArtifactsDirectory)\$(artifactName);%PATH%
-              databricks bundle validate
+              $(System.ArtifactsDirectory)\databricks-cli\databricks.exe bundle validate
             workingDirectory: $(System.ArtifactsDirectory)\$(artifactName)\databricks\education_benchmarking_and_insights
             displayName: 'Validate Bundle Configuration'
             env:
@@ -105,8 +105,7 @@ stages:
 
           - script: |
               set PATH=$(System.ArtifactsDirectory)\$(artifactName);%PATH%
-              databricks bundle deploy --target dev
-            workingDirectory: $(System.ArtifactsDirectory)\$(artifactName)\databricks\education_benchmarking_and_insights
+              $(System.ArtifactsDirectory)\databricks-cli\databricks.exe bundle deploy --build-output $(System.ArtifactsDirectory)\databricks-bundle --target dev
             displayName: 'Validate Bundle Configuration'
             env:
               DATABRICKS_HOST: $(DATABRICKS_HOST)
