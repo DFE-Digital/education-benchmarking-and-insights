@@ -95,7 +95,7 @@ stages:
               downloadPath: '$(System.ArtifactsDirectory)'
 
           - script: |
-              set PATH=$(System.ArtifactsDirectory)\databricks-cli;%PATH%
+              set PATH=$(System.ArtifactsDirectory)\$(artifactName)\databricks-cli;%PATH%
               databricks --version
             displayName: 'Verify Databricks CLI'
 
