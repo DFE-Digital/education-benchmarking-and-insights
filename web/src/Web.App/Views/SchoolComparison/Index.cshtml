@@ -41,16 +41,28 @@
 
 @if (!hasMissingComparatorSet)
 {
-    @await Component.InvokeAsync("DataSource", new
-    {
-        organisationType = OrganisationTypes.School,
-        sourceType = DataSourceTypes.Spending,
-        isPartOfTrust = Model.IsPartOfTrust,
-        additionText = new[]
+    <feature name="@FeatureFlags.KS4ProgressBanding">
+        @await Component.InvokeAsync("DataSourceInset", new
         {
-            "Benchmark your spending against similar schools."
-        }
-    })
+            organisationType = OrganisationTypes.School,
+            sourceType = DataSourceTypes.Spending,
+            isPartOfTrust = Model.IsPartOfTrust,
+            showKs4Progress = Model.HasProgressIndicators,
+            urn = Model.Urn
+        })
+    </feature>
+    <feature name="@FeatureFlags.KS4ProgressBanding" negate="true">
+        @await Component.InvokeAsync("DataSource", new
+        {
+            organisationType = OrganisationTypes.School,
+            sourceType = DataSourceTypes.Spending,
+            isPartOfTrust = Model.IsPartOfTrust,
+            additionText = new[]
+            {
+                "Benchmark your spending against similar schools."
+            }
+        })
+    </feature>
 }
 
 @await Component.InvokeAsync("ComparatorSetDetails", new
