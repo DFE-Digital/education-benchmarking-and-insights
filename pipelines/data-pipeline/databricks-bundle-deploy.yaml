@@ -29,10 +29,13 @@ stages:
               versionSpec: '$(PYTHON_VERSION)'
             displayName: 'Use Python $(PYTHON_VERSION)'
 
-          - script: |
-              sudo apt-get update
-              sudo apt-get install temurin-17-jdk
+          - task: JavaToolInstaller@0
             displayName: 'Install Java 17'
+            inputs:
+              versionSpec: '17'
+              jdkArchitectureOption: 'x64'
+              jdkSourceOption: 'AdoptOpenJDK'
+              jdkDistribution: 'temurin'
 
           - script: |
               curl -LsSf https://astral.sh/uv/install.sh | sh
@@ -83,6 +86,10 @@ stages:
               downloadType: 'single'
               artifactName: '$(artifactName)'
               downloadPath: '$(System.ArtifactsDirectory)'
+
+          - script: |
+              pip install databricks-cli
+            displayName: 'Install Databricks CLI'
 
           - script: |
               databricks bundle validate
