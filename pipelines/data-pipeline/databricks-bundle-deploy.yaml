@@ -100,16 +100,18 @@ stages:
               downloadPath: '$(System.ArtifactsDirectory)'
 
           - script: |
+              set PATH=$(System.ArtifactsDirectory)\deployment-package/databricks-cli;$(PATH)
               databricks bundle validate
             workingDirectory: $(System.ArtifactsDirectory)\$(artifactName)\databricks\education_benchmarking_and_insights
             displayName: 'Validate Bundle Configuration'
             env:
-              PATH: $(System.ArtifactsDirectory)\deployment-package\databricks-cli;$(PATH)
               DATABRICKS_HOST: $(DATABRICKS_HOST)
               DATABRICKS_TOKEN: $(DATABRICKS_TOKEN)
 
           - script: |
-              databricks bundle deploy --build-output $(System.ArtifactsDirectory)\databricks-bundle --target dev
+              set PATH=$(System.ArtifactsDirectory)\deployment-package/databricks-cli;$(PATH)
+              set PATH=$(System.ArtifactsDirectory)\deployment-package/uv;$(PATH)
+              databricks bundle deploy --build-output $(System.ArtifactsDirectory)/databricks-bundle --target dev
             displayName: 'Validate Bundle Configuration'
             env:
               PATH: $(System.ArtifactsDirectory)\deployment-package\uv;$(System.ArtifactsDirectory)\deployment-package\databricks-cli;$(PATH)
