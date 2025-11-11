@@ -60,7 +60,7 @@ stages:
               CleanTargetFolder: true
 
           - script: |
-              pip install databricks-cli
+              curl -fsSL https://raw.githubusercontent.com/databricks/setup-cli/main/install.sh | sh
             displayName: 'Install Databricks CLI'
           
           - script: |
