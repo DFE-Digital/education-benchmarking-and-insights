@@ -109,8 +109,9 @@ stages:
               DATABRICKS_TOKEN: $(DATABRICKS_TOKEN)
 
           - script: |
-              databricks bundle deploy --build-output $(System.ArtifactsDirectory)/databricks-bundle --target dev
+              databricks bundle deploy --target dev
             displayName: 'Validate Bundle Configuration'
+            workingDirectory: $(System.ArtifactsDirectory)\$(artifactName)\databricks\education_benchmarking_and_insights
             env:
               PATH: $(System.ArtifactsDirectory)\$(artifactName)\uv;$(System.ArtifactsDirectory)\$(artifactName)\databricks-cli;$(PATH)
               DATABRICKS_HOST: $(DATABRICKS_HOST)
