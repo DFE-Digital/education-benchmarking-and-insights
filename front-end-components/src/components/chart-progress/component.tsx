@@ -50,6 +50,8 @@ export const ChartProgress: React.FC<ChartProgressProps> = ({
                 break;
             }
 
+            const checked = selected.includes(o);
+
             return (
               <div key={i} className="govuk-checkboxes__item">
                 <input
@@ -59,7 +61,10 @@ export const ChartProgress: React.FC<ChartProgressProps> = ({
                   type="checkbox"
                   value={o}
                   onChange={() => handleChecked(o)}
-                  checked={selected.includes(o)}
+                  checked={checked}
+                  data-custom-event-id="progress-banding-toggle"
+                  data-custom-event-banding={o.toString()}
+                  data-custom-event-checked={!checked}
                 />
                 <label
                   className="govuk-label govuk-checkboxes__label"

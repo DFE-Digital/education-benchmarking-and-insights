@@ -101,6 +101,7 @@ variable "trackedEvents" {
     "gias-school-details",
     "guidance-resource",
     "organisation",
+    "progress-banding-toggle",
     "save-chart-as-image",
     "service-banner",
     "survey"
