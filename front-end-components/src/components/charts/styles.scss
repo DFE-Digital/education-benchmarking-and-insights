@@ -19,8 +19,8 @@ $stack-1-highlight-colour: #94c4ed;
 $bar-chart-stroke-width: 3px;
 $line-chart-stroke-width: 5px;
 $grid-colour-light: #f0f0f0;
-$progress-above-average-colour: #5794CA;
-$progress-well-above-average-colour: #28A297;
+$progress-above-average-colour: govuk-colour("light-blue");
+$progress-well-above-average-colour: govuk-colour("turquoise");
 
 .recharts-wrapper {
 
