@@ -103,6 +103,15 @@ stages:
               DATABRICKS_HOST: $(DATABRICKS_HOST)
               DATABRICKS_TOKEN: $(DATABRICKS_TOKEN)
 
+          - script: |
+              set PATH=$(System.ArtifactsDirectory)\$(artifactName);%PATH%
+              databricks bundle deploy --target dev
+            workingDirectory: $(System.ArtifactsDirectory)\$(artifactName)\databricks\education_benchmarking_and_insights
+            displayName: 'Validate Bundle Configuration'
+            env:
+              DATABRICKS_HOST: $(DATABRICKS_HOST)
+              DATABRICKS_TOKEN: $(DATABRICKS_TOKEN)
+
   - stage: DeployDev
     displayName: 'Deploy to Dev'
     dependsOn: Test
