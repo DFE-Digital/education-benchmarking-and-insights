@@ -112,7 +112,7 @@ stages:
               databricks bundle deploy --build-output $(System.ArtifactsDirectory)/databricks-bundle --target dev
             displayName: 'Validate Bundle Configuration'
             env:
-              PATH: $(System.ArtifactsDirectory)\deployment-package\uv;$(System.ArtifactsDirectory)\deployment-package\databricks-cli;$(PATH)
+              PATH: $(System.ArtifactsDirectory)\$(artifactName)\uv;$(System.ArtifactsDirectory)\$(artifactName)\databricks-cli;$(PATH)
               DATABRICKS_HOST: $(DATABRICKS_HOST)
               DATABRICKS_TOKEN: $(DATABRICKS_TOKEN)
 
