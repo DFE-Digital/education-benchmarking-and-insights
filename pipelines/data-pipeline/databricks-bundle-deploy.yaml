@@ -96,10 +96,6 @@ stages:
 
           - script: |
               set PATH=$(System.ArtifactsDirectory)\$(artifactName);%PATH%
-              databricks --version
-            displayName: 'Verify Databricks CLI'
-
-          - script: |
               databricks bundle validate
             workingDirectory: $(System.ArtifactsDirectory)\$(artifactName)\databricks\education_benchmarking_and_insights
             displayName: 'Validate Bundle Configuration'
