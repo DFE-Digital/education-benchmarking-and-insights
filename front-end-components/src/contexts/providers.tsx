@@ -7,7 +7,10 @@ import {
 } from "./contexts";
 import { CostCodeMap, ProgressBanding, ProgressIndicators } from "src/views";
 import { DefaultLegendContent } from "recharts";
-import { Payload } from "recharts/types/component/DefaultLegendContent";
+import {
+  Payload,
+  Props as LegendProps,
+} from "recharts/types/component/DefaultLegendContent";
 
 type ChartModeProviderProps = PropsWithChildren<{
   initialValue: string;
@@ -317,9 +320,10 @@ export const ProgressIndicatorsProvider = ({
     }
   };
 
-  const renderChartLegend = () => {
+  const renderChartLegend = (_props: LegendProps, keys?: string[]) => {
     const bandings = Object.entries(progressIndicators)
       .filter((i) => i[0] != id)
+      .filter((i) => !keys || keys.includes(i[0]))
       .map((i) => i[1]);
     const type = "square";
     const payload: Payload[] = [
