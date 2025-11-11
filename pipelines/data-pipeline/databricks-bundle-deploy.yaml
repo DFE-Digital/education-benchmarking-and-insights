@@ -54,23 +54,27 @@ stages:
               Contents: |
                 databricks/**
                 !databricks/**/.pytest_cache/**
-                !databricks/**/.venv/**
                 !databricks/**/__pycache__/**
               TargetFolder: '$(Build.ArtifactStagingDirectory)'
               CleanTargetFolder: true
 
-          - script: |
-              curl -fsSL https://raw.githubusercontent.com/databricks/setup-cli/main/install.sh | sh
-            displayName: 'Install Databricks CLI'
+          # - script: |
+          #     curl -fsSL https://raw.githubusercontent.com/databricks/setup-cli/main/install.sh | sh
+          #   displayName: 'Install Databricks CLI'
           
-          - script: |
-              databricks bundle build --output $(Build.ArtifactStagingDirectory)/bundle
-            displayName: 'Pre-build databricks bundle'
+          # - script: |
+          #     databricks bundle build --output '$(Build.ArtifactStagingDirectory)/bundle'
+          #   displayName: 'Pre-build databricks bundle'
 
           - script: |
               curl -fsSL https://github.com/databricks/cli/releases/download/v0.276.0/databricks_cli_0.276.0_windows_amd64.zip -o $(Build.ArtifactStagingDirectory)/databricks-cli.zip
               unzip $(Build.ArtifactStagingDirectory)/databricks-cli.zip -d $(Build.ArtifactStagingDirectory)/databricks-cli
             displayName: 'Download Databricks CLI binary for Windows'
+
+          - script: |
+              curl -LsSf https://github.com/astral-sh/uv/releases/latest/download/uv-x86_64-pc-windows-msvc.zip -o $(Build.ArtifactStagingDirectory)/uv.zip
+              unzip $(Build.ArtifactStagingDirectory)/uv.zip -d $(Build.ArtifactStagingDirectory)/uv
+            displayName: 'Download uv for Windows'
 
           - task: PublishBuildArtifacts@1
             displayName: 'Publish Artifact'
@@ -96,18 +100,19 @@ stages:
               downloadPath: '$(System.ArtifactsDirectory)'
 
           - script: |
-              $(System.ArtifactsDirectory)\databricks-cli\databricks.exe bundle validate
+              databricks bundle validate
             workingDirectory: $(System.ArtifactsDirectory)\$(artifactName)\databricks\education_benchmarking_and_insights
             displayName: 'Validate Bundle Configuration'
             env:
+              PATH: $(System.ArtifactsDirectory)\deployment-package\databricks-cli;$(PATH)
               DATABRICKS_HOST: $(DATABRICKS_HOST)
               DATABRICKS_TOKEN: $(DATABRICKS_TOKEN)
 
           - script: |
-              set PATH=$(System.ArtifactsDirectory)\$(artifactName);%PATH%
-              $(System.ArtifactsDirectory)\databricks-cli\databricks.exe bundle deploy --build-output $(System.ArtifactsDirectory)\databricks-bundle --target dev
+              databricks bundle deploy --build-output $(System.ArtifactsDirectory)\databricks-bundle --target dev
             displayName: 'Validate Bundle Configuration'
             env:
+              PATH: $(System.ArtifactsDirectory)\deployment-package\uv;$(System.ArtifactsDirectory)\deployment-package\databricks-cli;$(PATH)
               DATABRICKS_HOST: $(DATABRICKS_HOST)
               DATABRICKS_TOKEN: $(DATABRICKS_TOKEN)
 
