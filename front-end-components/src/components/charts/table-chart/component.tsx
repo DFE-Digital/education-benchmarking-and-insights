@@ -15,6 +15,7 @@ import { BreakdownInclude } from "src/components/central-services-breakdown";
 import { ErrorBanner } from "src/components/error-banner";
 import "./styles.scss";
 import { TableCellEstablishmentName } from "./partials";
+import { ProgressBandingTag } from "src/components/progress-banding-tag";
 
 export const TableChart: React.FC<
   TableChartProps<SchoolChartData | TrustChartData | LaChartData>
@@ -61,6 +62,10 @@ export const TableChart: React.FC<
     selectedEstablishment,
   ]);
 
+  const hasProgressBandings = data?.some(
+    (d) => !!(d as SchoolChartData).progressBanding
+  );
+
   return (
     <>
       {filteredData && data && (
@@ -89,7 +94,14 @@ export const TableChart: React.FC<
               const schoolRow = row as SchoolChartData;
               const trustRow = row as TrustChartData;
               const laRow = row as LaChartData;
-              const { laName, schoolType, totalPupils, urn, value } = schoolRow;
+              const {
+                laName,
+                progressBanding,
+                schoolType,
+                totalPupils,
+                urn,
+                value,
+              } = schoolRow;
               const { totalValue, schoolValue, centralValue, companyNumber } =
                 trustRow;
               const { budget, laCode, population } = laRow;
@@ -167,12 +179,21 @@ export const TableChart: React.FC<
                       </td>
                     </>
                   ) : (
-                    <td className="govuk-table__cell table-cell-value">
-                      {resolvedValueFormatter(value, {
-                        valueUnit,
-                        forDisplay: true,
-                      })}
-                    </td>
+                    <>
+                      <td className="govuk-table__cell table-cell-value">
+                        {resolvedValueFormatter(value, {
+                          valueUnit,
+                          forDisplay: true,
+                        })}
+                      </td>
+                      {hasProgressBandings && (
+                        <td className="govuk-table__cell">
+                          {progressBanding && (
+                            <ProgressBandingTag banding={progressBanding} />
+                          )}
+                        </td>
+                      )}
+                    </>
                   )}
                 </tr>
               );

@@ -67,16 +67,21 @@ export const OtherCosts: React.FC<CompareYourCosts2Props> = ({ type, id }) => {
     setData(merged);
   }, [expenditureData, progressIndicators]);
 
-  const tableHeadings = useMemo(
-    () => [
+  const tableHeadings = useMemo(() => {
+    const headings = [
       "School name",
       "Local Authority",
       "School type",
       "Number of pupils",
       dimension.heading,
-    ],
-    [dimension]
-  );
+    ];
+
+    if (Object.keys(progressIndicators).length > 0) {
+      headings.push("Progress 8 banding");
+    }
+
+    return headings;
+  }, [dimension, progressIndicators]);
 
   const handleDimensionChange = (value: string) => {
     abort();
