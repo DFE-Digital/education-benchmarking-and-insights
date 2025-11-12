@@ -65,7 +65,7 @@ public static class Paths
 
     public static string SchoolComparisonCustomData(string? urn) => $"/school/{urn}/comparison/custom-data";
 
-    public static string SchoolComparisonDownload(string? urn) => $"/school/{urn}/comparison/download";
+    public static string SchoolComparisonDownload(string? urn, string? customDataId = null) => $"/school/{urn}/comparison/download{(customDataId == null ? string.Empty : $"?customDataId={customDataId}")}";
 
     public static string SchoolComparisonItSpendDownload(string? urn) => $"/school/{urn}/benchmark-it-spending/download";
 
@@ -245,11 +245,13 @@ public static class Paths
 
     public static string TrustComparatorsCreateSubmit(string? companyNumber, string? redirectUri = null) => $"/trust/{companyNumber}/comparators/create/submit{(redirectUri == null ? string.Empty : $"?redirectUri={redirectUri}")}";
 
-    public static string TrustComparatorsCreateSubmitted(string? companyNumber, bool? isEdit, string? redirectUri = null) => $"/trust/{companyNumber}/comparators/create/submitted{(isEdit == true ? "?updating=true" : string.Empty)}{(redirectUri == null ? string.Empty : $"{(isEdit == true ? "&" : "?")}redirectUri={redirectUri}")}";
+    public static string TrustComparatorsCreateSubmitted(string? companyNumber, bool? isEdit, string? redirectUri = null) =>
+        $"/trust/{companyNumber}/comparators/create/submitted{(isEdit == true ? "?updating=true" : string.Empty)}{(redirectUri == null ? string.Empty : $"{(isEdit == true ? "&" : "?")}redirectUri={redirectUri}")}";
 
     public static string TrustComparatorsRevert(string? companyNumber, string? redirectUri = null) => $"/trust/{companyNumber}/comparators/revert{(redirectUri == null ? string.Empty : $"?redirectUri={redirectUri}")}";
 
-    public static string TrustComparatorsUserDefined(string? companyNumber, string? identifier = null, string? redirectUri = null) => $"/trust/{companyNumber}/comparators/user-defined{(identifier == null ? string.Empty : $"/{identifier}")}{(redirectUri == null ? string.Empty : $"?redirectUri={redirectUri}")}";
+    public static string TrustComparatorsUserDefined(string? companyNumber, string? identifier = null, string? redirectUri = null) =>
+        $"/trust/{companyNumber}/comparators/user-defined{(identifier == null ? string.Empty : $"/{identifier}")}{(redirectUri == null ? string.Empty : $"?redirectUri={redirectUri}")}";
 
     public static string ApiSuggest(string search, string type) => $"api/suggest?search={search}&type={type}";
 

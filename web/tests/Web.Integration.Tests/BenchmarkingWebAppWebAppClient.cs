@@ -403,7 +403,7 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
             Aar = 2022,
             Cfr = 2021,
             S251 = 2024,
-            Ks4Progress = 2024,
+            Ks4Progress = 2024
         }));
 
         return this;
@@ -584,6 +584,21 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
     {
         ComparatorSetApi.Reset();
         ComparatorSetApi.Setup(api => api.GetDefaultSchoolAsync(school.URN!, It.IsAny<CancellationToken>())).ReturnsAsync(ApiResult.Ok(comparatorSet));
+        return this;
+    }
+
+    public BenchmarkingWebAppClient SetupComparatorSet(School school, UserDefinedSchoolComparatorSet? userDefinedComparatorSet)
+    {
+        ComparatorSetApi.Reset();
+        ComparatorSetApi.Setup(api => api.GetUserDefinedSchoolAsync(school.URN!, It.IsAny<string>(), It.IsAny<CancellationToken>())).ReturnsAsync(ApiResult.Ok(userDefinedComparatorSet));
+        return this;
+    }
+
+    public BenchmarkingWebAppClient SetupCustomComparatorSet(School school, SchoolComparatorSet comparatorSet, UserDefinedSchoolComparatorSet? userDefinedComparatorSet)
+    {
+        ComparatorSetApi.Reset();
+        ComparatorSetApi.Setup(api => api.GetCustomSchoolAsync(school.URN!, It.IsAny<string>(), It.IsAny<CancellationToken>())).ReturnsAsync(ApiResult.Ok(comparatorSet));
+        ComparatorSetApi.Setup(api => api.GetUserDefinedSchoolAsync(school.URN!, It.IsAny<string>(), It.IsAny<CancellationToken>())).ReturnsAsync(ApiResult.Ok(userDefinedComparatorSet));
         return this;
     }
 
