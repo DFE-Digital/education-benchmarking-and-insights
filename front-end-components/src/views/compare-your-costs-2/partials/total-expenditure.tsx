@@ -79,16 +79,24 @@ export const TotalExpenditure: React.FC<CompareYourCosts2Props> = ({
     }
   }, [data, onFetching]);
 
+  const tableHeadings = useMemo(() => {
+    const headings = [
+      "School name",
+      "Local Authority",
+      "School type",
+      "Number of pupils",
+      dimension.heading,
+    ];
+
+    if (Object.keys(progressIndicators).length > 0) {
+      headings.push("Progress 8 banding");
+    }
+
+    return headings;
+  }, [dimension, progressIndicators]);
+
   const chartData: HorizontalBarChartWrapperData<TotalExpenditureData> =
     useMemo(() => {
-      const tableHeadings = [
-        "School name",
-        "Local Authority",
-        "School type",
-        "Number of pupils",
-        dimension.heading,
-      ];
-
       return {
         dataPoints:
           data?.map((school) => {
@@ -99,7 +107,7 @@ export const TotalExpenditure: React.FC<CompareYourCosts2Props> = ({
           }) ?? [],
         tableHeadings,
       };
-    }, [dimension, data]);
+    }, [data, tableHeadings]);
 
   const handleDimensionChange = (value: string) => {
     abort();

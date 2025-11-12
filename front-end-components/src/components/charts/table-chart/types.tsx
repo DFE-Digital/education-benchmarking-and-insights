@@ -3,6 +3,7 @@ import {
   ValueFormatterType,
 } from "src/components/charts/types";
 import { TableCellEstablishmentNameProps } from "./partials";
+import { ProgressBanding } from "src/views";
 
 export type TableChartProps<
   TData extends SchoolChartData | TrustChartData | LaChartData,
@@ -24,6 +25,7 @@ export type SchoolChartData = {
   laName: string;
   value?: number;
   periodCoveredByReturn?: number;
+  progressBanding?: ProgressBanding;
 };
 
 export type TrustChartData = {

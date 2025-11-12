@@ -84,16 +84,24 @@ export const AdministrativeSupplies: React.FC<CompareYourCosts2Props> = ({
     setDimension(dimension);
   };
 
+  const tableHeadings = useMemo(() => {
+    const headings = [
+      "School name",
+      "Local Authority",
+      "School type",
+      "Number of pupils",
+      dimension.heading,
+    ];
+
+    if (Object.keys(progressIndicators).length > 0) {
+      headings.push("Progress 8 banding");
+    }
+
+    return headings;
+  }, [dimension, progressIndicators]);
+
   const administrativeSuppliesBarData: HorizontalBarChartWrapperData<AdministrativeSuppliesData> =
     useMemo(() => {
-      const tableHeadings = [
-        "School name",
-        "Local Authority",
-        "School type",
-        "Number of pupils",
-        dimension.heading,
-      ];
-
       return {
         dataPoints:
           data?.map((school) => {
@@ -104,7 +112,7 @@ export const AdministrativeSupplies: React.FC<CompareYourCosts2Props> = ({
           }) ?? [],
         tableHeadings,
       };
-    }, [data, dimension]);
+    }, [data, tableHeadings]);
 
   return (
     <AccordionSection
