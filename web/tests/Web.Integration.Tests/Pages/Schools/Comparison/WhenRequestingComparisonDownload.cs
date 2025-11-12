@@ -49,7 +49,111 @@ public class WhenRequestingComparisonDownload : PageBase<SchoolBenchmarkingWebAp
             Assert.Contains(tuple.fileName, expectedFileNames);
 
             var csvLines = tuple.content.Split(Environment.NewLine);
-            var expectedColumns = "URN,SchoolName,SchoolType,LAName,PeriodCoveredByReturn,TotalPupils,TotalExpenditure,TotalTeachingSupportStaffCosts,TeachingStaffCosts,SupplyTeachingStaffCosts,EducationalConsultancyCosts,EducationSupportStaffCosts,AgencySupplyTeachingStaffCosts,TotalNonEducationalSupportStaffCosts,AdministrativeClericalStaffCosts,AuditorsCosts,OtherStaffCosts,ProfessionalServicesNonCurriculumCosts,TotalEducationalSuppliesCosts,ExaminationFeesCosts,LearningResourcesNonIctCosts,LearningResourcesIctCosts,TotalPremisesStaffServiceCosts,CleaningCaretakingCosts,MaintenancePremisesCosts,OtherOccupationCosts,PremisesStaffCosts,TotalUtilitiesCosts,EnergyCosts,WaterSewerageCosts,AdministrativeSuppliesNonEducationalCosts,TotalGrossCateringCosts,TotalNetCateringCosts,CateringStaffCosts,CateringSuppliesCosts,TotalOtherCosts,GroundsMaintenanceCosts,IndirectEmployeeExpenses,InterestChargesLoanBank,OtherInsurancePremiumsCosts,PrivateFinanceInitiativeCharges,RentRatesCosts,SpecialFacilitiesCosts,StaffDevelopmentTrainingCosts,StaffRelatedInsuranceCosts,SupplyTeacherInsurableCosts,CommunityFocusedSchoolStaff,CommunityFocusedSchoolCosts";
+            var expectedColumns =
+                "URN,SchoolName,SchoolType,LAName,PeriodCoveredByReturn,TotalPupils,TotalExpenditure,TotalTeachingSupportStaffCosts,TeachingStaffCosts,SupplyTeachingStaffCosts,EducationalConsultancyCosts,EducationSupportStaffCosts,AgencySupplyTeachingStaffCosts,TotalNonEducationalSupportStaffCosts,AdministrativeClericalStaffCosts,AuditorsCosts,OtherStaffCosts,ProfessionalServicesNonCurriculumCosts,TotalEducationalSuppliesCosts,ExaminationFeesCosts,LearningResourcesNonIctCosts,LearningResourcesIctCosts,TotalPremisesStaffServiceCosts,CleaningCaretakingCosts,MaintenancePremisesCosts,OtherOccupationCosts,PremisesStaffCosts,TotalUtilitiesCosts,EnergyCosts,WaterSewerageCosts,AdministrativeSuppliesNonEducationalCosts,TotalGrossCateringCosts,TotalNetCateringCosts,CateringStaffCosts,CateringSuppliesCosts,TotalOtherCosts,GroundsMaintenanceCosts,IndirectEmployeeExpenses,InterestChargesLoanBank,OtherInsurancePremiumsCosts,PrivateFinanceInitiativeCharges,RentRatesCosts,SpecialFacilitiesCosts,StaffDevelopmentTrainingCosts,StaffRelatedInsuranceCosts,SupplyTeacherInsurableCosts,CommunityFocusedSchoolStaff,CommunityFocusedSchoolCosts";
+            if (ks4ProgressBandingEnabled)
+            {
+                expectedColumns += ",ProgressBanding";
+            }
+
+            Assert.Equal(expectedColumns, csvLines.First());
+            Assert.Equal(_schoolExpenditures.Length, csvLines.Length - 1);
+        }
+    }
+
+    [Theory]
+    [InlineData(false)]
+    [InlineData(true)]
+    public async Task CanReturnOkForUserDefinedComparatorSet(bool ks4ProgressBandingEnabled)
+    {
+        var school = Fixture.Build<School>()
+            .With(x => x.URN, "123456")
+            .Create();
+
+        var comparatorSet = Fixture.Build<UserDefinedSchoolComparatorSet>()
+            .Create();
+
+        var userData = new[]
+        {
+            new UserData
+            {
+                Type = "comparator-set",
+                Id = "Id"
+            }
+        };
+
+        string[] features = ks4ProgressBandingEnabled ? [] : [FeatureFlags.KS4ProgressBanding];
+        var response = await _client
+            .SetupDisableFeatureFlags(features)
+            .SetupComparatorSet(school, comparatorSet)
+            .SetupExpenditure(_schoolExpenditures)
+            .SetupUserData(userData)
+            .Get(Paths.SchoolComparisonDownload(school.URN!));
+
+        Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+        var expectedFileNames = new[]
+        {
+            "comparison-123456-pupil.csv",
+            "comparison-123456-building.csv"
+        };
+        await foreach (var tuple in response.GetFilesFromZip())
+        {
+            Assert.Contains(tuple.fileName, expectedFileNames);
+
+            var csvLines = tuple.content.Split(Environment.NewLine);
+            var expectedColumns =
+                "URN,SchoolName,SchoolType,LAName,PeriodCoveredByReturn,TotalPupils,TotalExpenditure,TotalTeachingSupportStaffCosts,TeachingStaffCosts,SupplyTeachingStaffCosts,EducationalConsultancyCosts,EducationSupportStaffCosts,AgencySupplyTeachingStaffCosts,TotalNonEducationalSupportStaffCosts,AdministrativeClericalStaffCosts,AuditorsCosts,OtherStaffCosts,ProfessionalServicesNonCurriculumCosts,TotalEducationalSuppliesCosts,ExaminationFeesCosts,LearningResourcesNonIctCosts,LearningResourcesIctCosts,TotalPremisesStaffServiceCosts,CleaningCaretakingCosts,MaintenancePremisesCosts,OtherOccupationCosts,PremisesStaffCosts,TotalUtilitiesCosts,EnergyCosts,WaterSewerageCosts,AdministrativeSuppliesNonEducationalCosts,TotalGrossCateringCosts,TotalNetCateringCosts,CateringStaffCosts,CateringSuppliesCosts,TotalOtherCosts,GroundsMaintenanceCosts,IndirectEmployeeExpenses,InterestChargesLoanBank,OtherInsurancePremiumsCosts,PrivateFinanceInitiativeCharges,RentRatesCosts,SpecialFacilitiesCosts,StaffDevelopmentTrainingCosts,StaffRelatedInsuranceCosts,SupplyTeacherInsurableCosts,CommunityFocusedSchoolStaff,CommunityFocusedSchoolCosts";
+            if (ks4ProgressBandingEnabled)
+            {
+                expectedColumns += ",ProgressBanding";
+            }
+
+            Assert.Equal(expectedColumns, csvLines.First());
+            Assert.Equal(_schoolExpenditures.Length, csvLines.Length - 1);
+        }
+    }
+
+    [Theory]
+    [InlineData(false)]
+    [InlineData(true)]
+    public async Task CanReturnOkForCustomDataComparatorSet(bool ks4ProgressBandingEnabled)
+    {
+        const string customDataId = nameof(customDataId);
+        var school = Fixture.Build<School>()
+            .With(x => x.URN, "123456")
+            .Create();
+
+        var userDefinedComparatorSet = Fixture.Build<UserDefinedSchoolComparatorSet>()
+            .Create();
+
+        var comparatorSet = Fixture.Build<SchoolComparatorSet>()
+            .With(x => x.Pupil, ["pupil"])
+            .With(x => x.Building, ["building"])
+            .Create();
+
+        var expenditure = Fixture.Build<SchoolExpenditure>().Create();
+
+        string[] features = ks4ProgressBandingEnabled ? [] : [FeatureFlags.KS4ProgressBanding];
+        var response = await _client
+            .SetupDisableFeatureFlags(features)
+            .SetupCustomComparatorSet(school, comparatorSet, userDefinedComparatorSet)
+            .SetupExpenditure(_schoolExpenditures)
+            .SetupExpenditureForCustomData(school, school.URN!, expenditure)
+            .Get(Paths.SchoolComparisonDownload(school.URN!, customDataId));
+
+        Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+        var expectedFileNames = new[]
+        {
+            "comparison-123456-pupil.csv",
+            "comparison-123456-building.csv"
+        };
+        await foreach (var tuple in response.GetFilesFromZip())
+        {
+            Assert.Contains(tuple.fileName, expectedFileNames);
+
+            var csvLines = tuple.content.Split(Environment.NewLine);
+            var expectedColumns =
+                "URN,SchoolName,SchoolType,LAName,PeriodCoveredByReturn,TotalPupils,TotalExpenditure,TotalTeachingSupportStaffCosts,TeachingStaffCosts,SupplyTeachingStaffCosts,EducationalConsultancyCosts,EducationSupportStaffCosts,AgencySupplyTeachingStaffCosts,TotalNonEducationalSupportStaffCosts,AdministrativeClericalStaffCosts,AuditorsCosts,OtherStaffCosts,ProfessionalServicesNonCurriculumCosts,TotalEducationalSuppliesCosts,ExaminationFeesCosts,LearningResourcesNonIctCosts,LearningResourcesIctCosts,TotalPremisesStaffServiceCosts,CleaningCaretakingCosts,MaintenancePremisesCosts,OtherOccupationCosts,PremisesStaffCosts,TotalUtilitiesCosts,EnergyCosts,WaterSewerageCosts,AdministrativeSuppliesNonEducationalCosts,TotalGrossCateringCosts,TotalNetCateringCosts,CateringStaffCosts,CateringSuppliesCosts,TotalOtherCosts,GroundsMaintenanceCosts,IndirectEmployeeExpenses,InterestChargesLoanBank,OtherInsurancePremiumsCosts,PrivateFinanceInitiativeCharges,RentRatesCosts,SpecialFacilitiesCosts,StaffDevelopmentTrainingCosts,StaffRelatedInsuranceCosts,SupplyTeacherInsurableCosts,CommunityFocusedSchoolStaff,CommunityFocusedSchoolCosts";
             if (ks4ProgressBandingEnabled)
             {
                 expectedColumns += ",ProgressBanding";
