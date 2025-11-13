@@ -199,7 +199,7 @@ public class WhenViewingHomeAsFederation(SchoolBenchmarkingWebAppClient client) 
             Assert.NotNull(message);
             DocumentAssert.TextEqual(
                 message,
-                "This school's finance data is not displayed, as it's part of a federated budget. The full federated data is\n            shown on the federation page.");
+                "This school's finance data is not displayed, as it's part of a federated budget. The full federated data is shown on the federation page.");
 
             var federationLeadCta = message.QuerySelector("a");
             DocumentAssert.Link(federationLeadCta, "federation page", Paths.SchoolHome(school.FederationLeadURN).ToAbsolute());
