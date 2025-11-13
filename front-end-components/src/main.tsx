@@ -150,12 +150,14 @@ if (compareCosts2Element) {
   const {
     costCodeMap,
     customDataId,
-    dispatchEventType,
+    downloadLink,
     id,
     isPartOfTrust,
-    pageActionsDownloadLink,
-    pageActionsSaveId,
     progressIndicators,
+    saveClassName,
+    saveFileName,
+    saveModalPortalId,
+    saveTitleAttr,
     suppressNegativeOrZero,
     type,
   } = compareCosts2Element.dataset;
@@ -173,11 +175,13 @@ if (compareCosts2Element) {
         <CompareYourCosts2
           costCodeMap={costCodeMapParsed}
           customDataId={customDataId}
-          dispatchEventType={dispatchEventType}
           id={id}
-          pageActionsDownloadLink={pageActionsDownloadLink}
-          pageActionsSaveId={pageActionsSaveId}
+          downloadLink={downloadLink}
           progressIndicators={progressIndicatorsParsed}
+          saveClassName={saveClassName}
+          saveFileName={saveFileName}
+          saveModalPortalId={saveModalPortalId}
+          saveTitleAttr={saveTitleAttr}
           suppressNegativeOrZero={suppressNegativeOrZero === "true"}
           tags={
             isPartOfTrust === "true" ? ["% of central services"] : undefined

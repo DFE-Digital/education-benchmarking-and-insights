@@ -1,6 +1,5 @@
 ﻿@using Newtonsoft.Json
 @using Web.App.Extensions
-@using Web.App.ViewModels.Enhancements
 @model Web.App.ViewModels.SchoolComparisonViewModel
 @{
     ViewData[ViewDataKeys.Title] = PageTitles.Comparison;
@@ -8,7 +7,7 @@
     var hasCustomData = !string.IsNullOrEmpty(Model.CustomDataId);
     var hasMissingComparatorSet = !hasUserDefinedSet && !Model.HasDefaultComparatorSet;
     const string eventType = "compare-your-costs-loaded";
-    const string pageActionsButtonId = "page-actions-button";
+    const string saveModalPortalId = "compare-your-costs-portal";
     const string saveClassName = "costs-chart-wrapper";
     const string saveTitleAttr = "data-title";
     var saveFileName = $"benchmark-spending-{Model.Urn}.zip";
@@ -108,16 +107,15 @@
              data-cost-code-map="@Model.CostCodeMap.ToJson(Formatting.None)"
              data-is-part-of-trust="@Model.IsPartOfTrust.ToString().ToLower()"
              data-progress-indicators="@Model.WellOrAboveAverageKS4ProgressBandingsInComparatorSet.ToJson(Formatting.None)"
-             data-page-actions-save-id="@pageActionsButtonId"
-             data-download-link="@downloadLink">
+             data-save-class-name="@saveClassName"
+             data-save-title-attr="@saveTitleAttr"
+             data-save-file-name="@saveFileName"
+             data-download-link="@downloadLink"
+             data-save-modal-portal-id="@saveModalPortalId">
         </div>
-        @await Html.PartialAsync("Enhancements/_PageActions", new PageActionsViewModel
-        {
-            ElementId = pageActionsButtonId,
-            SaveClassName = saveClassName,
-            SaveFileName = saveFileName,
-            SaveTitleAttr = saveTitleAttr
-        })
+        @section modal {
+            <div id="@saveModalPortalId"></div>
+        }
     </feature>
     <feature name="@FeatureFlags.KS4ProgressBanding" negate="true">
         <div id="compare-your-costs"

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   TotalExpenditure,
   ExpenditureAccordion,
@@ -20,23 +20,20 @@ import { PageActions } from "src/components/page-actions";
 export const CompareYourCosts2: React.FC<CompareYourCosts2ViewProps> = ({
   costCodeMap,
   customDataId,
-  dispatchEventType,
+  downloadLink,
+  saveClassName,
+  saveFileName,
+  saveModalPortalId,
+  saveTitleAttr,
   id,
   suppressNegativeOrZero,
   tags,
   type,
-  pageActionsDownloadLink,
-  pageActionsSaveId,
   progressIndicators,
 }) => {
+  const [fetching, setFetching] = useState(true);
   const handleFetching = (fetching: boolean) => {
-    if (dispatchEventType) {
-      document.dispatchEvent(
-        new CustomEvent<boolean>(dispatchEventType, {
-          detail: !fetching,
-        })
-      );
-    }
+    setFetching(fetching);
   };
 
   const message = "Only displaying schools with positive expenditure.";
@@ -58,8 +55,12 @@ export const CompareYourCosts2: React.FC<CompareYourCosts2ViewProps> = ({
                   </div>
                   <div className="govuk-grid-column-one-half">
                     <PageActions
-                      downloadLink={pageActionsDownloadLink}
-                      saveButtonId={pageActionsSaveId}
+                      downloadLink={downloadLink}
+                      saveClassName={saveClassName}
+                      saveDisabled={fetching}
+                      saveFileName={saveFileName}
+                      saveModalPortalId={saveModalPortalId}
+                      saveTitleAttr={saveTitleAttr}
                     />
                   </div>
                 </div>
