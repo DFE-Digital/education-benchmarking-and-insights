@@ -153,9 +153,11 @@ if (compareCosts2Element) {
     dispatchEventType,
     id,
     isPartOfTrust,
+    pageActionsDownloadLink,
+    pageActionsSaveId,
+    progressIndicators,
     suppressNegativeOrZero,
     type,
-    progressIndicators,
   } = compareCosts2Element.dataset;
   if (type && id) {
     const root = ReactDOM.createRoot(compareCosts2Element);
@@ -173,12 +175,14 @@ if (compareCosts2Element) {
           customDataId={customDataId}
           dispatchEventType={dispatchEventType}
           id={id}
+          pageActionsDownloadLink={pageActionsDownloadLink}
+          pageActionsSaveId={pageActionsSaveId}
+          progressIndicators={progressIndicatorsParsed}
           suppressNegativeOrZero={suppressNegativeOrZero === "true"}
           tags={
             isPartOfTrust === "true" ? ["% of central services"] : undefined
           }
           type={type as "school" | "trust"}
-          progressIndicators={progressIndicatorsParsed}
         />
       </React.StrictMode>
     );
