@@ -5,4 +5,6 @@ export type ModalSaveImagesProps = Pick<
   ModalSaveImagesButtonProps,
   "buttonLabel"
 > &
-  Omit<ModalSaveImagesModalProps, "onCloseModal"> & {};
+  Omit<ModalSaveImagesModalProps, "onCloseModal"> & {
+    disabled?: boolean;
+  };
