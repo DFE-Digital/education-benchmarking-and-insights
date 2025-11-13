@@ -1,9 +1,8 @@
-﻿@using Microsoft.FeatureManagement.Mvc.TagHelpers
-@using Web.App.ViewModels.Components
+﻿@using Web.App.ViewModels.Components
 @model Web.App.ViewModels.Components.ComparatorSetDetailsViewModel
 
 <div class="govuk-grid-row govuk-!-margin-bottom-6">
-    <div class="govuk-grid-column-full">
+    <div class="govuk-grid-column-full" data-testid="comparator-set-details">
         @if (Model.HasUserDefinedSet)
         {
             <p class="govuk-body">

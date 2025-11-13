@@ -165,6 +165,8 @@ public static class Paths
 
     public static string SchoolComparatorsRevert(string? urn) => $"/school/{urn}/comparators/revert";
 
+    public static string SchoolComparatorsUserDefined(string? urn) => $"/school/{urn}/comparators/user-defined";
+
     public static string SchoolSearchResults(string? term = null, string? sort = null, string[]? phases = null, int? page = null)
     {
         var queryString = new QueryString();
