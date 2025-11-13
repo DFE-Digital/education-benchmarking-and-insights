@@ -1,5 +1,6 @@
 ﻿@using Newtonsoft.Json
 @using Web.App.Extensions
+@using Web.App.ViewModels.Enhancements
 @model Web.App.ViewModels.SchoolComparisonViewModel
 @{
     ViewData[ViewDataKeys.Title] = PageTitles.Comparison;
@@ -7,6 +8,15 @@
     var hasCustomData = !string.IsNullOrEmpty(Model.CustomDataId);
     var hasMissingComparatorSet = !hasUserDefinedSet && !Model.HasDefaultComparatorSet;
     const string eventType = "compare-your-costs-loaded";
+    const string pageActionsButtonId = "page-actions-button";
+    const string saveClassName = "costs-chart-wrapper";
+    const string saveTitleAttr = "data-title";
+    var saveFileName = $"benchmark-spending-{Model.Urn}.zip";
+    var downloadLink = Url.ActionLink("Download", "SchoolComparison", new
+    {
+        urn = Model.Urn,
+        customDataId = Model.CustomDataId
+    });
 }
 
 @if (Model is { PeriodCoveredByReturn: < 12 })
@@ -16,19 +26,21 @@
 
 @if (!hasMissingComparatorSet)
 {
-    @await Component.InvokeAsync("PageActions", new
-    {
-        actions = new[] { PageActions.SaveChartImages, PageActions.DownloadData },
-        saveClassName = "costs-chart-wrapper",
-        saveTitleAttr = "data-title",
-        saveFileName = $"benchmark-spending-{Model.Urn}.zip",
-        waitForEventType = eventType,
-        downloadLink = Url.ActionLink("Download", "SchoolComparison", new
+    <feature name="@FeatureFlags.KS4ProgressBanding" negate="true">
+        @await Component.InvokeAsync("PageActions", new
         {
-            urn = Model.Urn,
-            customDataId = Model.CustomDataId
+            actions = new[]
+            {
+                PageActions.SaveChartImages,
+                PageActions.DownloadData
+            },
+            saveClassName,
+            saveTitleAttr,
+            saveFileName,
+            waitForEventType = eventType,
+            downloadLink
         })
-    })
+    </feature>
 }
 
 @await Component.InvokeAsync("EstablishmentHeading", new
@@ -95,8 +107,17 @@
              data-dispatch-event-type="@eventType"
              data-cost-code-map="@Model.CostCodeMap.ToJson(Formatting.None)"
              data-is-part-of-trust="@Model.IsPartOfTrust.ToString().ToLower()"
-             data-progress-indicators="@Model.WellOrAboveAverageKS4ProgressBandingsInComparatorSet.ToJson(Formatting.None)">
+             data-progress-indicators="@Model.WellOrAboveAverageKS4ProgressBandingsInComparatorSet.ToJson(Formatting.None)"
+             data-page-actions-save-id="@pageActionsButtonId"
+             data-download-link="@downloadLink">
         </div>
+        @await Html.PartialAsync("Enhancements/_PageActions", new PageActionsViewModel
+        {
+            ElementId = pageActionsButtonId,
+            SaveClassName = saveClassName,
+            SaveFileName = saveFileName,
+            SaveTitleAttr = saveTitleAttr
+        })
     </feature>
     <feature name="@FeatureFlags.KS4ProgressBanding" negate="true">
         <div id="compare-your-costs"

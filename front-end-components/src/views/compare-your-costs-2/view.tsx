@@ -15,6 +15,7 @@ import {
 } from "src/contexts";
 import { useGovUk } from "src/hooks/useGovUk";
 import { ChartOptionsProgress } from "src/components/chart-options-progress";
+import { PageActions } from "src/components/page-actions";
 
 export const CompareYourCosts2: React.FC<CompareYourCosts2ViewProps> = ({
   costCodeMap,
@@ -24,6 +25,8 @@ export const CompareYourCosts2: React.FC<CompareYourCosts2ViewProps> = ({
   suppressNegativeOrZero,
   tags,
   type,
+  pageActionsDownloadLink,
+  pageActionsSaveId,
   progressIndicators,
 }) => {
   const handleFetching = (fetching: boolean) => {
@@ -52,6 +55,12 @@ export const CompareYourCosts2: React.FC<CompareYourCosts2ViewProps> = ({
                 <div className="govuk-grid-row">
                   <div className="govuk-grid-column-one-half">
                     <ChartOptionsProgress />
+                  </div>
+                  <div className="govuk-grid-column-one-half">
+                    <PageActions
+                      downloadLink={pageActionsDownloadLink}
+                      saveButtonId={pageActionsSaveId}
+                    />
                   </div>
                 </div>
                 <hr className="govuk-section-break govuk-section-break--l govuk-section-break--visible govuk-!-margin-top-0" />
