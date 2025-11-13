@@ -1,4 +1,8 @@
 export type PageActionsProps = {
   downloadLink?: string;
-  saveButtonId?: string;
+  saveClassName?: string;
+  saveDisabled?: boolean;
+  saveFileName?: string;
+  saveModalPortalId?: string;
+  saveTitleAttr?: string;
 };

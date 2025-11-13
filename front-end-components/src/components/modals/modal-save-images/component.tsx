@@ -8,6 +8,7 @@ import { ModalSaveImagesModal } from "./modal-save-images-modal";
 
 export function ModalSaveImages({
   buttonLabel,
+  disabled,
   waitForEventType,
   ...props
 }: ModalSaveImagesProps) {
@@ -27,6 +28,12 @@ export function ModalSaveImages({
       );
     }
   }, [waitForEventType]);
+
+  useEffect(() => {
+    if (disabled !== undefined) {
+      setButtonDisabled(disabled);
+    }
+  }, [disabled]);
 
   const handleOpenModal = async () => {
     setButtonDisabled(true);

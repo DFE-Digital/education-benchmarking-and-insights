@@ -1,16 +1,17 @@
+import { PageActionsProps } from "src/components/page-actions";
 import { CostCodeMap } from "../compare-your-costs/types";
 import { CompareYourCosts2Props } from "./partials/accordion-sections/types";
 
-export type CompareYourCosts2ViewProps = CompareYourCosts2Props & {
-  costCodeMap?: CostCodeMap;
-  customDataId: string | undefined;
-  dispatchEventType?: string;
-  pageActionsDownloadLink?: string;
-  pageActionsSaveId?: string;
-  progressIndicators?: ProgressIndicators;
-  suppressNegativeOrZero: boolean;
-  tags?: string[];
-};
+export type CompareYourCosts2ViewProps = CompareYourCosts2Props &
+  PageActionsProps & {
+    costCodeMap?: CostCodeMap;
+    customDataId: string | undefined;
+    pageActionsDownloadLink?: string;
+    pageActionsSaveId?: string;
+    progressIndicators?: ProgressIndicators;
+    suppressNegativeOrZero: boolean;
+    tags?: string[];
+  };
 
 export enum ProgressBanding {
   WellBelowAverage = "WellBelowAverage",
