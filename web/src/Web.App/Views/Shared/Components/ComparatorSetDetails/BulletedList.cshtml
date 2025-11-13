@@ -1,0 +1,146 @@
+﻿@using Web.App.ViewModels.Components
+@model Web.App.ViewModels.Components.ComparatorSetDetailsViewModel
+
+<div class="govuk-grid-row govuk-!-margin-bottom-6">
+    <div class="govuk-grid-column-two-thirds" data-testid="comparator-set-details">
+        @if (Model.HasUserDefinedSet)
+        {
+            <p class="govuk-body">
+                You are now comparing with your chosen schools.
+            </p>
+            <p class="govuk-body">
+                You can:
+            </p>
+            <ul class="govuk-list govuk-list--bullet">
+                <li>
+                    <p class="govuk-body">
+                        <a class="govuk-link govuk-link--no-visited-state"
+                           href="@Url.Action("UserDefined", "SchoolComparators", new
+                                 {
+                                     urn = Model.Identifier
+                                 })">
+                            Change your similar schools
+                        </a>
+                    </p>
+                </li>
+            </ul>
+        }
+        else if(Model.HasCustomData)
+        {
+            <p class="govuk-body">
+                The information displayed is the originally reported data, not the customised data that was provided.
+            </p>
+            <p class="govuk-body">
+                You can:
+            </p>
+            <ul class="govuk-list govuk-list--bullet">
+                <li>
+                    <p class="govuk-body">
+                        <a class="govuk-link govuk-link--no-visited-state"
+                               href="@Url.Action(Model.Type == ComparatorSetType.Workforce ? "Workforce" : "Index", "SchoolComparators", new
+                                     {
+                                         urn = Model.Identifier
+                                     })">
+                                view the 2 sets of similar schools we've chosen
+                            </a> to benchmark this school's @(Model.Type == ComparatorSetType.Workforce ? "pupil and workforce data" : "spending") against
+                    </p>
+                </li>
+                <li>
+                    <p class="govuk-body">
+                        <a class="govuk-link govuk-link--no-visited-state"
+                           id="custom-data-link"
+                           href="@Url.Action("CustomData", "School", new
+                                 {
+                                     urn = Model.Identifier
+                                 })">
+                            View custom data set
+                        </a>
+                    </p>
+                </li>
+            </ul>
+        }
+        else
+        {
+            if (Model.HasMissingComparatorSet)
+            {
+                <div class="govuk-warning-text">
+                    <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
+                    <strong class="govuk-warning-text__text">
+                        <span class="govuk-visually-hidden">Warning</span>
+                        There isn't enough information available to create a set of similar schools.
+                    </strong>
+                </div>
+                <p class="govuk-body">
+                    You can:
+                </p>
+                <ul class="govuk-list govuk-list--bullet">
+                    <li>
+                        <p class="govuk-body">
+                            <a class="govuk-link govuk-link--no-visited-state"
+                               href="@Url.Action("Index", "SchoolComparatorsCreate", new
+                                     {
+                                         urn = Model.Identifier
+                                     })">
+                                create or save your own set of schools
+                            </a> to benchmark against
+                        </p>
+                    </li>
+                    <li>
+                        <p class="govuk-body">
+                            <a class="govuk-link govuk-link--no-visited-state"
+                               id="custom-data-link"
+                               href="@Url.Action("Index", "SchoolCustomData", new
+                                     {
+                                         urn = Model.Identifier
+                                     })">
+                                Change the data
+                            </a> for this school
+                        </p>
+                    </li>
+                </ul>
+            }
+            else
+            {
+                <p class="govuk-body">
+                    You can:
+                </p>
+                <ul class="govuk-list govuk-list--bullet">
+                    <li>
+                        <p class="govuk-body">
+                            <a class="govuk-link govuk-link--no-visited-state"
+                               href="@Url.Action(Model.Type == ComparatorSetType.Workforce ? "Workforce" : "Index", "SchoolComparators", new
+                                     {
+                                         urn = Model.Identifier
+                                     })">
+                                view the 2 sets of similar schools we've chosen
+                            </a> to benchmark this school's @(Model.Type == ComparatorSetType.Workforce ? "pupil and workforce data" : "spending") against
+                        </p>
+                    </li>
+                    <li>
+                        <p class="govuk-body">
+                            <a class="govuk-link govuk-link--no-visited-state"
+                               href="@Url.Action("Index", "SchoolComparatorsCreate", new
+                                     {
+                                         urn = Model.Identifier
+                                     })">
+                                create or save your own set of schools
+                            </a> to benchmark against
+                        </p>
+                    </li>
+                    <li>
+                        <p class="govuk-body">
+                            <a class="govuk-link govuk-link--no-visited-state"
+                               id="custom-data-link"
+                               href="@Url.Action("Index", "SchoolCustomData", new
+                                     {
+                                         urn = Model.Identifier
+                                     })">
+                                Change the data
+                            </a> for this school
+                        </p>
+                    </li>
+                </ul>
+            }
+        }
+    </div>
+</div>

@@ -64,14 +64,26 @@
         })
     </feature>
 }
+<feature name="@FeatureFlags.KS4ProgressBanding">
+    @await Component.InvokeAsync("ComparatorSetDetails", new
+    {
+        identifier = Model.Urn,
+        hasUserDefinedSet,
+        hasCustomData,
+        hasMissingComparatorSet,
+        showAsBulletedList = true
+    })
+</feature>
 
-@await Component.InvokeAsync("ComparatorSetDetails", new
-{
-    identifier = Model.Urn,
-    hasUserDefinedSet,
-    hasCustomData,
-    hasMissingComparatorSet
-})
+<feature name="@FeatureFlags.KS4ProgressBanding" negate="true">
+    @await Component.InvokeAsync("ComparatorSetDetails", new
+    {
+        identifier = Model.Urn,
+        hasUserDefinedSet,
+        hasCustomData,
+        hasMissingComparatorSet
+    })
+</feature>
 
 @if (!hasMissingComparatorSet)
 {
