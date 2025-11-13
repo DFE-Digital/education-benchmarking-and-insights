@@ -5,9 +5,11 @@ export type CompareYourCosts2ViewProps = CompareYourCosts2Props & {
   costCodeMap?: CostCodeMap;
   customDataId: string | undefined;
   dispatchEventType?: string;
+  pageActionsDownloadLink?: string;
+  pageActionsSaveId?: string;
+  progressIndicators?: ProgressIndicators;
   suppressNegativeOrZero: boolean;
   tags?: string[];
-  progressIndicators?: ProgressIndicators;
 };
 
 export enum ProgressBanding {

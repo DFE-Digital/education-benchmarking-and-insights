@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 import { onMounted, onUnmounted, ref, useTemplateRef, watch, watchEffect } from "vue";
 import type { PageActionsProps } from ".";
 import { ModalDialog, ProgressIndicator } from "@/main";
@@ -154,11 +154,11 @@ defineOptions({
 
 <template>
   <button
+    ref="button"
+    :aria-disabled="open"
+    :disabled="open"
     class="govuk-button govuk-button--secondary"
     data-module="govuk-button"
-    ref="button"
-    :disabled="open"
-    :aria-disabled="open"
     @click="open = true"
   >
     {{ buttonLabel ?? "Save all" }}
@@ -175,8 +175,8 @@ defineOptions({
       :data-custom-event-chart-name="saveEventId && modalTitle ? modalTitle : undefined"
       :data-custom-event-id="saveEventId"
       :ok="cancelMode || !startImmediately"
-      :ok-label="cancelMode ? 'OK' : 'Start'"
       :ok-disabled="!cancelMode && (imagesLoading || progress === 100)"
+      :ok-label="cancelMode ? 'OK' : 'Start'"
       :title="modalTitle"
       @cancel="cancel()"
       @close="close(true)"
@@ -187,7 +187,7 @@ defineOptions({
         Are you sure you want to cancel saving your images?
       </div>
       <template v-if="!cancelMode">
-        <div className="govuk-body">
+        <div class="govuk-body">
           <span v-if="progress === 100">
             Your file has been saved and downloaded successfully.
           </span>
@@ -210,10 +210,10 @@ defineOptions({
         />
         <ProgressIndicator
           v-if="showProgress && !!progress"
-          complete-message="Your file has been saved and downloaded successfully."
           :percentage="progress"
           :progressId="progressId"
           :size="100"
+          complete-message="Your file has been saved and downloaded successfully."
         />
       </template>
     </ModalDialog>
