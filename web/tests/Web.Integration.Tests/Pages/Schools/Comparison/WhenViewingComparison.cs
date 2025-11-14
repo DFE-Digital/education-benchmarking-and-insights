@@ -213,7 +213,7 @@ public class WhenViewingComparison(SchoolBenchmarkingWebAppClient client)
         Assert.Equal(3, text.Length);
         DocumentAssert.TextEqual(text[0], "This school's data covers the financial year September 2021 to August 2022 academies accounts return (AAR).");
         DocumentAssert.TextEqual(text[1], "Data for academies in a Multi-Academy Trust (MAT) includes a share of MAT central finance.");
-        DocumentAssert.TextEqual(text[2], "Progress 8 data uses the latest data available from the academic year 2023 to 2024 and is taken from Compare school and college performance in England");
+        DocumentAssert.TextEqual(text[2], "Progress 8 data uses the latest data available from the academic year 2023 to 2024 and is taken from Compare school and college performance in England", true);
 
         var link = text[2].QuerySelector("a");
         DocumentAssert.Link(link, "Compare school and college performance in England", $"https://www.compare-school-performance.service.gov.uk/school/{school.URN}");

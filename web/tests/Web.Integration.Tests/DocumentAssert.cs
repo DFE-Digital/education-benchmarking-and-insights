@@ -4,6 +4,7 @@ using System.Text.RegularExpressions;
 using AngleSharp.Dom;
 using AngleSharp.Html.Dom;
 using Web.App.Domain.Content;
+using Web.App.Extensions;
 using Xunit;
 
 namespace Web.Integration.Tests;
@@ -216,9 +217,11 @@ public static class DocumentAssert
         }
     }
 
-    public static void TextEqual(IElement element, string expected)
+    public static void TextEqual(IElement element, string expected, bool normaliseWhitespace = false)
     {
-        var actual = Regex.Replace(element.TextContent, @"\s+", " ").Trim();
+        var actual = normaliseWhitespace
+            ? element.TextContent.NormaliseWhitespace().Trim()
+            : element.TextContent.Trim();
         Assert.Equal(expected, actual);
     }
 
