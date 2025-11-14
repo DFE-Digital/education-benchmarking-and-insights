@@ -42,13 +42,13 @@ Progress 8 scores will not be produced for the academic years 2024-25 and 2025-2
 
 The score is usually a decimal number (float), which can be positive, negative, or close to zero.
 
-| Progress 8 Score (P8MEA) | Progress 8 Banding (P8_BANDING) | Interpretation |
-|--------------------------|:-------------------------------|:--------------|
-| +0.50 or higher   | Well above average | On average, pupils at this school achieve half a grade higher in each of their 8 subjects than other pupils with the same prior attainment nationally.|
-| +0.20 to 0.49    | Above average      | On average, pupils at this school achieve a quarter of a grade higher per subject than their national peers with a similar starting point.|
-| +0.19 to -0.19     | Average            | On average, pupils at this school make the expected amount of progress. Their performance is in line with the national average for pupils with similar prior attainment.|
-| -0.20 to -0.49    | Below average      | On average, pupils at this school achieve a quarter of a grade lower per subject than their national peers with a similar starting point.|
-| -0.50 and lower  | Well below average | On average, pupils at this school achieve half a grade lower in each of their 8 subjects than other pupils with the same prior attainment nationally.|
+| Progress 8 Score (P8MEA) | Progress 8 Banding (P8_BANDING) | Interpretation                                                                                                                                                           |
+|--------------------------|:--------------------------------|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| +0.50 or higher          | Well above average              | On average, pupils at this school achieve half a grade higher in each of their 8 subjects than other pupils with the same prior attainment nationally.                   |
+| +0.20 to 0.49            | Above average                   | On average, pupils at this school achieve a quarter of a grade higher per subject than their national peers with a similar starting point.                               |
+| +0.19 to -0.19           | Average                         | On average, pupils at this school make the expected amount of progress. Their performance is in line with the national average for pupils with similar prior attainment. |
+| -0.20 to -0.49           | Below average                   | On average, pupils at this school achieve a quarter of a grade lower per subject than their national peers with a similar starting point.                                |
+| -0.50 and lower          | Well below average              | On average, pupils at this school achieve half a grade lower in each of their 8 subjects than other pupils with the same prior attainment nationally.                    |
 
 ### Progress 8 (P8) Score & Banding Edge Cases
 
@@ -62,12 +62,12 @@ Possible edge case scenarios include;
 - a school could have LOWCOV p8 score with no banding.
 - a school could have NP p8 score with no banding.
 
-| Code | Full Name | Interpretation |
-|--------------------------|:-------------------------------|:--------------|
-| NE   | No Entries | The school institution did not enter any pupils or students for the qualifications covered by the measure.|
-| NP   | Not Published | The DfE has data for the school, but has chosen not to publish it. This often happens if a school is independent or has recently become an academy, merged, or has undergone a significant change. The DfE considers the data to be unrepresentative of the "new" school's performance.|
-| LOWCOV   | Low Coverage | A Progress 8 score was calculated but is considered unreliable because it's based on too few pupils. This happens when fewer than 50% of the pupils at the end of KS4 are included in the Progress 8 calculation. This can occur in special schools, UTCs, or studio schools where many pupils have dis-applied KS2 results or take non-standard qualifications.|
-| SUPP   | Suppressed | A Progress 8 score was calculated, but the cohort of pupils is too small to publish (typically 5 pupils or fewer). The data is hidden to protect individual pupil anonymity and is not statistically reliable.|
+| Code   | Full Name     | Interpretation                                                                                                                                                                                                                                                                                                                                                   |
+|--------|:--------------|:-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| NE     | No Entries    | The school institution did not enter any pupils or students for the qualifications covered by the measure.                                                                                                                                                                                                                                                       |
+| NP     | Not Published | The DfE has data for the school, but has chosen not to publish it. This often happens if a school is independent or has recently become an academy, merged, or has undergone a significant change. The DfE considers the data to be unrepresentative of the "new" school's performance.                                                                          |
+| LOWCOV | Low Coverage  | A Progress 8 score was calculated but is considered unreliable because it's based on too few pupils. This happens when fewer than 50% of the pupils at the end of KS4 are included in the Progress 8 calculation. This can occur in special schools, UTCs, or studio schools where many pupils have dis-applied KS2 results or take non-standard qualifications. |
+| SUPP   | Suppressed    | A Progress 8 score was calculated, but the cohort of pupils is too small to publish (typically 5 pupils or fewer). The data is hidden to protect individual pupil anonymity and is not statistically reliable.                                                                                                                                                   |
 
 ### How Progress 8 data is surfaced within FBIT
 

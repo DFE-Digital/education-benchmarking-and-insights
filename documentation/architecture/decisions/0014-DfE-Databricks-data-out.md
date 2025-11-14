@@ -32,13 +32,13 @@ The data extracts are not large and not run often. The cost is likely to be low 
 
 ### Evaluation
 
-| Trade-off Area | Option 1: FBIT-owned Databricks Jobs | Option 2: ADF with ADA Data Engineers |
-|---|---|---|
-| **Control vs. Dependency** | Full autonomy over job creation, scheduling, and execution | Dependency on ADA team for changes and troubleshooting |
-| **Speed vs. Expertise** | Faster iteration and troubleshooting capability | Leverages centralized monitoring and ADA expertise |
-| **Operational Burden** | Requires FBIT to develop Databricks expertise and operational capabilities | Reduced operational burden on FBIT |
-| **Standards vs. Flexibility** | Potential for configuration drift from organizational standards | Better integration with existing data infrastructure but less flexibility in scheduling and execution parameters |
-| **Efficiency vs. Consistency** | May duplicate effort if similar patterns emerge across teams | Centralized approach reduces duplication but may cause delays in implementing extract modifications |
+| Trade-off Area                 | Option 1: FBIT-owned Databricks Jobs                                       | Option 2: ADF with ADA Data Engineers                                                                            |
+|--------------------------------|----------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------|
+| **Control vs. Dependency**     | Full autonomy over job creation, scheduling, and execution                 | Dependency on ADA team for changes and troubleshooting                                                           |
+| **Speed vs. Expertise**        | Faster iteration and troubleshooting capability                            | Leverages centralized monitoring and ADA expertise                                                               |
+| **Operational Burden**         | Requires FBIT to develop Databricks expertise and operational capabilities | Reduced operational burden on FBIT                                                                               |
+| **Standards vs. Flexibility**  | Potential for configuration drift from organizational standards            | Better integration with existing data infrastructure but less flexibility in scheduling and execution parameters |
+| **Efficiency vs. Consistency** | May duplicate effort if similar patterns emerge across teams               | Centralized approach reduces duplication but may cause delays in implementing extract modifications              |
 
 ## Decision Outcome
 
