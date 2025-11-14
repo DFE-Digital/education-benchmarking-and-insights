@@ -99,6 +99,16 @@
 @if (!hasMissingComparatorSet)
 {
     <feature name="@FeatureFlags.KS4ProgressBanding">
+        <noscript>
+            @await Component.InvokeAsync("PageActions", new
+            {
+                actions = new[]
+                {
+                    PageActions.DownloadData
+                },
+                downloadLink
+            })
+        </noscript>
         <div id="compare-your-costs-2"
              data-type="@OrganisationTypes.School"
              data-id="@Model.Urn"
@@ -113,9 +123,11 @@
              data-download-link="@downloadLink"
              data-save-modal-portal-id="@saveModalPortalId">
         </div>
+
         @section modal {
             <div id="@saveModalPortalId"></div>
         }
+
     </feature>
     <feature name="@FeatureFlags.KS4ProgressBanding" negate="true">
         <div id="compare-your-costs"
