@@ -1,5 +1,4 @@
-﻿@model Web.App.ViewModels.Components.PhaseBannerViewModel 
-
+﻿@using Web.App.Extensions
 <div class="govuk-full-width-container govuk-!-display-none-print">
     <div class="govuk-phase-banner">
         <p class="govuk-phase-banner__content">
@@ -7,7 +6,15 @@
                 Beta
             </strong>
             <span class="govuk-phase-banner__text">
-                This is a new service – your <a class="govuk-link" href="@Url.Action("Contact", "StaticContent")#send-us-feedback">feedback</a> will help us to improve it.
+                This is a new service – your
+                @Html.TrackedAnchor(
+                    TrackedLinks.Survey,
+                    Constants.SurveyUrl,
+                    "feedback",
+                    "Opens in a new window",
+                    "_blank",
+                    ["noopener", "noreferrer", "external"])
+                will help us to improve it.
             </span>
         </p>
     </div>
