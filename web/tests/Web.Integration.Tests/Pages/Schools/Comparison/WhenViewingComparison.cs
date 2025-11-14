@@ -225,7 +225,7 @@ public class WhenViewingComparison(SchoolBenchmarkingWebAppClient client)
         DocumentAssert.TitleAndH1(page, "Benchmark spending - Financial Benchmarking and Insights Tool - GOV.UK",
             "Benchmark spending");
 
-        var dataSourceElement = page.QuerySelector("main > div > div:nth-child(3) > div");
+        var dataSourceElement = page.QuerySelector("div[data-test-id='data-source-wrapper']");
         Assert.NotNull(dataSourceElement);
         AssertDataSource(dataSourceElement, school, ks4ProgressBandingEnabled, hasProgressIndicators);
 
@@ -236,7 +236,8 @@ public class WhenViewingComparison(SchoolBenchmarkingWebAppClient client)
         var comparisonComponent = page.GetElementById(ks4ProgressBandingEnabled ? "compare-your-costs-2" : "compare-your-costs");
         Assert.NotNull(comparisonComponent);
 
-        var toolsListSection = page.Body.SelectSingleNode("//main/div/div[6]");
+        var toolsListSection = page.GetElementById("benchmarking-and-planning-tools");
+        Assert.NotNull(toolsListSection);
         DocumentAssert.Heading2(toolsListSection, "Benchmarking and planning tools");
 
         var toolsLinks = toolsListSection.ChildNodes.QuerySelectorAll("ul> li > h3 > a").ToList();

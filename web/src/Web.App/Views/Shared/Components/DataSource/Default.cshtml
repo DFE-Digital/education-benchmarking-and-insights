@@ -1,6 +1,6 @@
 ﻿@model Web.App.ViewModels.Components.DataSourceViewModel
 
-<div class="@(Model.WrapperClassName)">
+<div class="@(Model.WrapperClassName)" data-test-id="data-source-wrapper">
     <div class="@(Model.ClassName)">
         @foreach (var text in Model.AdditionText)
         {
