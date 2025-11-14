@@ -1,0 +1,11 @@
+.share-buttons-container {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 15px;
+
+  .share-buttons-column {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+}

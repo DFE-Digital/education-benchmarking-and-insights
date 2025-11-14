@@ -1,8 +1,32 @@
-import React, { PropsWithChildren } from "react";
+import React, { PropsWithChildren, useContext } from "react";
+import { ShareButtonsLayoutContext } from "src/contexts";
 import { ShareContentProps } from "./types";
 import classNames from "classnames";
+import "./styles.scss";
 
-export const ShareContent: React.FC<PropsWithChildren<ShareContentProps>> = ({
+export const ShareContent: React.FC<PropsWithChildren<ShareContentProps>> = (
+  props
+) => {
+  const layout = useContext(ShareButtonsLayoutContext);
+
+  if (layout === "column") {
+    return (
+      <div className="share-buttons-container">
+        <div className="share-buttons-column">
+          <ShareButtons {...props} />
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="share-buttons">
+      <ShareButtons {...props} />
+    </div>
+  );
+};
+
+const ShareButtons: React.FC<PropsWithChildren<ShareContentProps>> = ({
   children,
   copied,
   copiedLabel,
@@ -19,12 +43,12 @@ export const ShareContent: React.FC<PropsWithChildren<ShareContentProps>> = ({
   const props = {
     "data-module": "govuk-button",
     "data-prevent-double-click": "true",
-    disabled: disabled,
+    disabled,
     "aria-disabled": disabled,
   };
 
   return (
-    <div className="share-buttons">
+    <>
       {showSave && (
         <button
           className={classNames(classes, "share-button--save")}
@@ -33,9 +57,7 @@ export const ShareContent: React.FC<PropsWithChildren<ShareContentProps>> = ({
           data-custom-event-id={saveEventId}
           {...props}
         >
-          {children ? (
-            children
-          ) : (
+          {children ?? (
             <>
               Save <span className="govuk-visually-hidden">{title}</span> as
               image
@@ -51,17 +73,16 @@ export const ShareContent: React.FC<PropsWithChildren<ShareContentProps>> = ({
           data-custom-event-id={copyEventId}
           {...props}
         >
-          {copied ? (
-            (copiedLabel ?? "Copied")
-          ) : children ? (
-            children
-          ) : (
-            <>
-              Copy <span className="govuk-visually-hidden">{title}</span> image
-            </>
-          )}
+          {copied
+            ? (copiedLabel ?? "Copied")
+            : (children ?? (
+                <>
+                  Copy <span className="govuk-visually-hidden">{title}</span>{" "}
+                  image
+                </>
+              ))}
         </button>
       )}
-    </div>
+    </>
   );
 };
