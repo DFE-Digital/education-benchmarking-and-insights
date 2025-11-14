@@ -74,3 +74,8 @@ export interface ProgressIndicatorsContextValue {
 export const ProgressIndicatorsContext = createContext<
   ProgressIndicatorsContextValue | undefined
 >(undefined);
+
+export const ShareButtonsLayoutContext =
+  createContext<ShareButtonsLayout>(null);
+
+export type ShareButtonsLayout = "column" | null;

@@ -9,6 +9,7 @@ import {
   SelectedEstablishmentContext,
   CustomDataContext,
   ChartModeProvider,
+  ShareButtonsLayoutContext,
   SuppressNegativeOrZeroContext,
   CostCodeMapProvider,
   ProgressIndicatorsProvider,
@@ -49,28 +50,30 @@ export const CompareYourCosts2: React.FC<CompareYourCosts2ViewProps> = ({
           <CostCodeMapProvider costCodeMap={costCodeMap} tags={tags}>
             <ChartModeProvider initialValue={ChartModeChart}>
               <ProgressIndicatorsProvider data={progressIndicators} id={id}>
-                <div className="govuk-grid-row">
-                  <div className="govuk-grid-column-one-half">
-                    <ChartOptionsProgress />
+                <ShareButtonsLayoutContext.Provider value="column">
+                  <div className="govuk-grid-row">
+                    <div className="govuk-grid-column-one-half">
+                      <ChartOptionsProgress />
+                    </div>
+                    <div className="govuk-grid-column-one-half">
+                      <PageActions
+                        downloadLink={downloadLink}
+                        saveClassName={saveClassName}
+                        saveDisabled={fetching}
+                        saveFileName={saveFileName}
+                        saveModalPortalId={saveModalPortalId}
+                        saveTitleAttr={saveTitleAttr}
+                      />
+                    </div>
                   </div>
-                  <div className="govuk-grid-column-one-half">
-                    <PageActions
-                      downloadLink={downloadLink}
-                      saveClassName={saveClassName}
-                      saveDisabled={fetching}
-                      saveFileName={saveFileName}
-                      saveModalPortalId={saveModalPortalId}
-                      saveTitleAttr={saveTitleAttr}
-                    />
-                  </div>
-                </div>
-                <hr className="govuk-section-break govuk-section-break--l govuk-section-break--visible govuk-!-margin-top-0" />
-                <TotalExpenditure
-                  id={id}
-                  type={type}
-                  onFetching={handleFetching}
-                />
-                <ExpenditureAccordion id={id} type={type} />
+                  <hr className="govuk-section-break govuk-section-break--l govuk-section-break--visible govuk-!-margin-top-0" />
+                  <TotalExpenditure
+                    id={id}
+                    type={type}
+                    onFetching={handleFetching}
+                  />
+                  <ExpenditureAccordion id={id} type={type} />
+                </ShareButtonsLayoutContext.Provider>
               </ProgressIndicatorsProvider>
             </ChartModeProvider>
           </CostCodeMapProvider>
