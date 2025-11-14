@@ -62,15 +62,15 @@ As well as, document the key activities carried out to ensure the release is exe
 
 - Test summary report
 
-| Test case Id    | Test Suite | Status |
-| -------- | ------- | ------- |
-| 234829 | 234828 | PASS  |
-| 234842 | 234828 | PASS  |
-| 234826 | 234825 | PASS  |
-| 234843 | 234825 | PASS  |
-| 234657 | 234655 | PASS  |
-| 234831 | 234655 | PASS  |
-| 234822 | 229049 | PASS  |
+| Test case Id | Test Suite | Status |
+|--------------|------------|--------|
+| 234829       | 234828     | PASS   |
+| 234842       | 234828     | PASS   |
+| 234826       | 234825     | PASS   |
+| 234843       | 234825     | PASS   |
+| 234657       | 234655     | PASS   |
+| 234831       | 234655     | PASS   |
+| 234822       | 229049     | PASS   |
 
 ## Entry and Exit Criteria
 

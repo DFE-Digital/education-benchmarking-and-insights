@@ -2,12 +2,12 @@
 
 ## Incident levels
 
-|   | Incident levels  |Comms update targets   | Target time to fix once issue triaged<br/>(working hours) |
-|---|---|---|--------------------------------------------|
-|P1 - major incident   |Full service outage, or more than 50% functionality of the service unavailable  |Every 2 hours   |4 hours (0.5 working days)                                            |
-|P2 - significant incident   |Between 10% - 50% of service functionality unavailable  |Every 4 hours   |8 hours (1 working day)                                            |
-|P3 - Minimal incident   |Less than 10% service functionality unavailable  |Every 8 hours   |24 hours (3 working days)                                            |
-|P4 - Negligible incident   |Reduced functionality within the service   |On request   |40 hours (5 working days)                                            |
+|                           | Incident levels                                                                | Comms update targets | Target time to fix once issue triaged<br/>(working hours) |
+|---------------------------|--------------------------------------------------------------------------------|----------------------|-----------------------------------------------------------|
+| P1 - major incident       | Full service outage, or more than 50% functionality of the service unavailable | Every 2 hours        | 4 hours (0.5 working days)                                |
+| P2 - significant incident | Between 10% - 50% of service functionality unavailable                         | Every 4 hours        | 8 hours (1 working day)                                   |
+| P3 - Minimal incident     | Less than 10% service functionality unavailable                                | Every 8 hours        | 24 hours (3 working days)                                 |
+| P4 - Negligible incident  | Reduced functionality within the service                                       | On request           | 40 hours (5 working days)                                 |
 
 ## Incident communications
 

@@ -77,18 +77,18 @@ flowchart TD
 
 On the Web side, `GET /api/suggest` proxies to the Establishment API based on the `type` in the query string:
 
-| Type| Method | URL| Body |
-|-------|--------|----------------|-----------------------------------------|
-| `school` | `POST` | `/api/schools/suggest` | `{ "searchText": 'XXX', "size": 10, "suggesterName": "school-suggester" }` |
-| `trust` | `POST` | `/api/trusts/suggest` | `{ "searchText": 'XXX', "size": 10, "suggesterName": "trust-suggester" }` |
-| `local-authority` | `POST` | `/api/trusts/suggest` | `{ "searchText": 'XXX', "size": 10, "suggesterName": "local-authorities-suggester" }` |
+| Type              | Method | URL                    | Body                                                                                  |
+|-------------------|--------|------------------------|---------------------------------------------------------------------------------------|
+| `school`          | `POST` | `/api/schools/suggest` | `{ "searchText": 'XXX', "size": 10, "suggesterName": "school-suggester" }`            |
+| `trust`           | `POST` | `/api/trusts/suggest`  | `{ "searchText": 'XXX', "size": 10, "suggesterName": "trust-suggester" }`             |
+| `local-authority` | `POST` | `/api/trusts/suggest`  | `{ "searchText": 'XXX', "size": 10, "suggesterName": "local-authorities-suggester" }` |
 
 In the Establishment API, a `SearchService` for each of the above types executes `SearchClient.SuggestAsync<T>()` with a set of response field names relevant to each search type to return from the index, and search result highlight configuration.
 
-| Type | Model |
-|----------|-----------------------|
-| `school` | [`SchoolSummary`](../../platform/src/apis/Platform.Api.Establishment/Features/Schools/Models/SchoolSummary.cs) |
-| `trust` | [`TrustSummary`](../../platform/src/apis/Platform.Api.Establishment/Features/Trusts/Models/TrustSummary.cs) |
+| Type              | Model                                                                                                                                   |
+|-------------------|-----------------------------------------------------------------------------------------------------------------------------------------|
+| `school`          | [`SchoolSummary`](../../platform/src/apis/Platform.Api.Establishment/Features/Schools/Models/SchoolSummary.cs)                          |
+| `trust`           | [`TrustSummary`](../../platform/src/apis/Platform.Api.Establishment/Features/Trusts/Models/TrustSummary.cs)                             |
 | `local-authority` | [`LocalAuthoritySummary`](../../platform/src/apis/Platform.Api.Establishment/Features/LocalAuthorities/Models/LocalAuthoritySummary.cs) |
 
 The response payload from the above is in the following format, where `*` has been specified in the search highlight configuration:
@@ -130,10 +130,10 @@ flowchart TD
 
 In the Establishment API, each type uses a corresponding `SearchService` to call `SearchClient.SearchAsync<T>()`, returning relevant fields from the index.
 
-| Type | Model |
-|----------|-----------------------|
-| `school` | [`SchoolSummary`](../../platform/src/apis/Platform.Api.Establishment/Features/Schools/Models/SchoolSummary.cs) |
-| `trust` | [`TrustSummary`](../../platform/src/apis/Platform.Api.Establishment/Features/Trusts/Models/TrustSummary.cs) |
+| Type              | Model                                                                                                                                   |
+|-------------------|-----------------------------------------------------------------------------------------------------------------------------------------|
+| `school`          | [`SchoolSummary`](../../platform/src/apis/Platform.Api.Establishment/Features/Schools/Models/SchoolSummary.cs)                          |
+| `trust`           | [`TrustSummary`](../../platform/src/apis/Platform.Api.Establishment/Features/Trusts/Models/TrustSummary.cs)                             |
 | `local-authority` | [`LocalAuthoritySummary`](../../platform/src/apis/Platform.Api.Establishment/Features/LocalAuthorities/Models/LocalAuthoritySummary.cs) |
 
 The response payload from the above is in the following format:
@@ -167,12 +167,12 @@ The response payload from the above is in the following format:
 
 Each page is orchestrated by its controller, view model, and Razor view:
 
-| Feature               | Controller                                                                 | View Model                                                                 | View                                                                 |
-|-----------------------|----------------------------------------------------------------------------|-----------------------------------------------------------------------------|----------------------------------------------------------------------|
-| FindOrganisation      | [FindOrganisationController.cs](../../web/src/Web.App/Controllers/FindOrganisationController.cs)      | [FindOrganisationViewModel.cs](../../web/src/Web.App/ViewModels/FindOrganisationViewModel.cs)      | [Index.cshtml](../../web/src/Web.App/Views/FindOrganisation/Index.cshtml)      |
-| SchoolSearch          | [SchoolSearchController.cs](../../web/src/Web.App/Controllers/SchoolSearchController.cs)              | [SchoolSearchViewModel.cs](../../web/src/Web.App/ViewModels/Search/SchoolSearchViewModel.cs)              | [Index.cshtml](../../web/src/Web.App/Views/SchoolSearch/Index.cshtml)          |
-| TrustSearch           | [TrustSearchController.cs](../../web/src/Web.App/Controllers/TrustSearchController.cs)                | [TrustSearchViewModel.cs](../../web/src/Web.App/ViewModels/Search/TrustSearchViewModel.cs)                | [Index.cshtml](../../web/src/Web.App/Views/TrustSearch/Index.cshtml)           |
-| LocalAuthoritySearch  | [LocalAuthoritySearchController.cs](../../web/src/Web.App/Controllers/LocalAuthoritySearchController.cs) | [LocalAuthoritySearchViewModel.cs](../../web/src/Web.App/ViewModels/Search/LocalAuthoritySearchViewModel.cs) | [Index.cshtml](../../web/src/Web.App/Views/LocalAuthoritySearch/Index.cshtml)  |
+| Feature              | Controller                                                                                               | View Model                                                                                                   | View                                                                          |
+|----------------------|----------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------|
+| FindOrganisation     | [FindOrganisationController.cs](../../web/src/Web.App/Controllers/FindOrganisationController.cs)         | [FindOrganisationViewModel.cs](../../web/src/Web.App/ViewModels/FindOrganisationViewModel.cs)                | [Index.cshtml](../../web/src/Web.App/Views/FindOrganisation/Index.cshtml)     |
+| SchoolSearch         | [SchoolSearchController.cs](../../web/src/Web.App/Controllers/SchoolSearchController.cs)                 | [SchoolSearchViewModel.cs](../../web/src/Web.App/ViewModels/Search/SchoolSearchViewModel.cs)                 | [Index.cshtml](../../web/src/Web.App/Views/SchoolSearch/Index.cshtml)         |
+| TrustSearch          | [TrustSearchController.cs](../../web/src/Web.App/Controllers/TrustSearchController.cs)                   | [TrustSearchViewModel.cs](../../web/src/Web.App/ViewModels/Search/TrustSearchViewModel.cs)                   | [Index.cshtml](../../web/src/Web.App/Views/TrustSearch/Index.cshtml)          |
+| LocalAuthoritySearch | [LocalAuthoritySearchController.cs](../../web/src/Web.App/Controllers/LocalAuthoritySearchController.cs) | [LocalAuthoritySearchViewModel.cs](../../web/src/Web.App/ViewModels/Search/LocalAuthoritySearchViewModel.cs) | [Index.cshtml](../../web/src/Web.App/Views/LocalAuthoritySearch/Index.cshtml) |
 
 The suggester is implemented as a [progressive enhancement](./8_Progressive_Enhancements.md) to improve the experience when JavaScript is available.
 
@@ -182,10 +182,10 @@ The suggester is implemented as a [progressive enhancement](./8_Progressive_Enha
 
 In Establishment API:
 
-| Setting | Example value |
-|---------------|----------------|
+| Setting       | Example value         |
+|---------------|-----------------------|
 | `Search:Name` | `s198d01-ebis-search` |
-| `Search:Key` | `api-key` |
+| `Search:Key`  | `api-key`             |
 
 ## Deployment
 

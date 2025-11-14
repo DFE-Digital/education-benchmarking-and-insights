@@ -19,12 +19,12 @@ Feature flags are configuration switches used to turn features on or off in an a
 
 To ensure that features are properly tested before they are live, we should follow the principle that features must be enabled in lower environments before they are enabled in production.
 
-| Lower Environments | Production | Allowed? | Notes                           |
-|--------------------|------------|----------|---------------------------------|
-| ON                 | ON         | ✅ Yes   | Correct rollout pattern.        |
-| ON                 | OFF        | ✅ Yes   |Testing before production rollout.|
-| OFF                | OFF        | ✅ Yes   | Feature is disabled everywhere. |
-| OFF                | ON         | ❌ No    | Not allowed. Risky and untested. |
+| Lower Environments | Production | Allowed? | Notes                              |
+|--------------------|------------|----------|------------------------------------|
+| ON                 | ON         | ✅ Yes    | Correct rollout pattern.           |
+| ON                 | OFF        | ✅ Yes    | Testing before production rollout. |
+| OFF                | OFF        | ✅ Yes    | Feature is disabled everywhere.    |
+| OFF                | ON         | ❌ No     | Not allowed. Risky and untested.   |
 
 ## Enabling a Feature Flag
 
