@@ -4,6 +4,7 @@ public static class Constants
 {
     public const string ServiceName = "Financial Benchmarking and Insights Tool";
     public const string SupportEmail = "benchmarking.support@education.gov.uk";
+    public const string SurveyUrl = "https://forms.microsoft.com/e/MNrDFuZvte";
     public const string CookieSettingsName = "cookie_policy";
 
     public static int CurrentYear => DateTime.UtcNow.Month < 9 ? DateTime.UtcNow.Year - 1 : DateTime.UtcNow.Year;
