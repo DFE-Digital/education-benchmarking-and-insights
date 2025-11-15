@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   TotalExpenditure,
   ExpenditureAccordion,
@@ -15,25 +15,25 @@ import {
 } from "src/contexts";
 import { useGovUk } from "src/hooks/useGovUk";
 import { ChartOptionsProgress } from "src/components/chart-options-progress";
+import { PageActions } from "src/components/page-actions";
 
 export const CompareYourCosts2: React.FC<CompareYourCosts2ViewProps> = ({
   costCodeMap,
   customDataId,
-  dispatchEventType,
+  downloadLink,
+  saveClassName,
+  saveFileName,
+  saveModalPortalId,
+  saveTitleAttr,
   id,
   suppressNegativeOrZero,
   tags,
   type,
   progressIndicators,
 }) => {
+  const [fetching, setFetching] = useState(true);
   const handleFetching = (fetching: boolean) => {
-    if (dispatchEventType) {
-      document.dispatchEvent(
-        new CustomEvent<boolean>(dispatchEventType, {
-          detail: !fetching,
-        })
-      );
-    }
+    setFetching(fetching);
   };
 
   const message = "Only displaying schools with positive expenditure.";
@@ -52,6 +52,16 @@ export const CompareYourCosts2: React.FC<CompareYourCosts2ViewProps> = ({
                 <div className="govuk-grid-row">
                   <div className="govuk-grid-column-one-half">
                     <ChartOptionsProgress />
+                  </div>
+                  <div className="govuk-grid-column-one-half">
+                    <PageActions
+                      downloadLink={downloadLink}
+                      saveClassName={saveClassName}
+                      saveDisabled={fetching}
+                      saveFileName={saveFileName}
+                      saveModalPortalId={saveModalPortalId}
+                      saveTitleAttr={saveTitleAttr}
+                    />
                   </div>
                 </div>
                 <hr className="govuk-section-break govuk-section-break--l govuk-section-break--visible govuk-!-margin-top-0" />

@@ -150,12 +150,16 @@ if (compareCosts2Element) {
   const {
     costCodeMap,
     customDataId,
-    dispatchEventType,
+    downloadLink,
     id,
     isPartOfTrust,
+    progressIndicators,
+    saveClassName,
+    saveFileName,
+    saveModalPortalId,
+    saveTitleAttr,
     suppressNegativeOrZero,
     type,
-    progressIndicators,
   } = compareCosts2Element.dataset;
   if (type && id) {
     const root = ReactDOM.createRoot(compareCosts2Element);
@@ -171,14 +175,18 @@ if (compareCosts2Element) {
         <CompareYourCosts2
           costCodeMap={costCodeMapParsed}
           customDataId={customDataId}
-          dispatchEventType={dispatchEventType}
           id={id}
+          downloadLink={downloadLink}
+          progressIndicators={progressIndicatorsParsed}
+          saveClassName={saveClassName}
+          saveFileName={saveFileName}
+          saveModalPortalId={saveModalPortalId}
+          saveTitleAttr={saveTitleAttr}
           suppressNegativeOrZero={suppressNegativeOrZero === "true"}
           tags={
             isPartOfTrust === "true" ? ["% of central services"] : undefined
           }
           type={type as "school" | "trust"}
-          progressIndicators={progressIndicatorsParsed}
         />
       </React.StrictMode>
     );
