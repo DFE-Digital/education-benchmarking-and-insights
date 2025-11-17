@@ -80,7 +80,7 @@ variable "configuration" {
       features = {
         News                     = true
         LocalAuthorityHomepageV2 = true
-        KS4ProgressBanding       = false # until E2E tests visited in AB#288369
+        KS4ProgressBanding       = true
       },
       CacheOptions = {
         ReturnYears = {
