@@ -29,14 +29,14 @@ Requests from the Web App Service log custom properties along with the base
 [Request telemetry](https://github.com/DFE-Digital/education-benchmarking-and-insights/tree/main/web/src/Web.App/Attributes/RequestTelemetry).
 Some of these are consumed by Functions or Queries defined above, and include:
 
-| Name            | Purpose               | Example       | Enum |
-|-----------------|-----------------------|---------------|------|
-| `Code`          | Local Authority code  | `123`         |      |
-| `CompanyNumber` | Trust company number  | `012354678`   |      |
+| Name            | Purpose               | Example       | Enum                                                                                                                                                            |
+|-----------------|-----------------------|---------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `Code`          | Local Authority code  | `123`         |                                                                                                                                                                 |
+| `CompanyNumber` | Trust company number  | `012354678`   |                                                                                                                                                                 |
 | `Establishment` | Type of establishment | `school`      | [TrackedRequestEstablishmentType](https://github.com/DFE-Digital/education-benchmarking-and-insights/blob/main/web/src/Web.App/Constants/TrackedRequestType.cs) |
-| `Feature`       | Feature name          | `home`        | [TrackedRequestFeature](https://github.com/DFE-Digital/education-benchmarking-and-insights/blob/main/web/src/Web.App/Constants/TrackedRequestType.cs)     |
-| `Referrer`      | Referrer name         | `school-home` |      |
-| `Urn`           | School URN            | `123546`      |      |
+| `Feature`       | Feature name          | `home`        | [TrackedRequestFeature](https://github.com/DFE-Digital/education-benchmarking-and-insights/blob/main/web/src/Web.App/Constants/TrackedRequestType.cs)           |
+| `Referrer`      | Referrer name         | `school-home` |                                                                                                                                                                 |
+| `Urn`           | School URN            | `123546`      |                                                                                                                                                                 |
 
 ## Dashboards
 
