@@ -5,7 +5,8 @@
     // Disable some built-in rules
     "config": {
         "line-length": {
-            "line_length": 130
+            "line_length": 130,
+            "tables": false
         }
     },
     // Define glob expressions to ignore
