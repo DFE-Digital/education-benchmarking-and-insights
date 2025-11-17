@@ -1,7 +1,7 @@
-﻿using Platform.Api.Content.Features.Years.Models;
+﻿using Newtonsoft.Json.Linq;
 using Platform.ApiTests.Assertion;
 using Platform.ApiTests.Drivers;
-using Platform.Json;
+using Platform.ApiTests.TestDataHelpers;
 
 namespace Platform.ApiTests.Steps;
 
@@ -34,16 +34,18 @@ public class ContentYearsSteps(ContentApiDriver api)
         await api.Send();
     }
 
-    [Then("the current return years result should be:")]
-    public async Task ThenTheCurrentReturnYearsResultShouldBe(DataTable table)
+    [Then("the current return years result should be ok and match the expected output of '(.*)'")]
+    public async Task ThenTheCurrentReturnYearsResultShouldBeOkAndMatchTheExpectedOutputOf(string testFile)
     {
         var response = api[Key].Response;
         AssertHttpResponse.IsOk(response);
 
         var content = await response.Content.ReadAsStringAsync();
-        var result = content.FromJson<FinanceYears>();
+        var actual = JObject.Parse(content);
 
-        table.CompareToInstance(result);
+        var expected = TestDataProvider.GetJsonObjectData(testFile);
+
+        actual.AssertDeepEquals(expected);
     }
 
     [Then("the current return years result should be bad request")]
