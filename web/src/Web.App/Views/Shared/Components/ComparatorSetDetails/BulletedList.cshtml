@@ -28,27 +28,19 @@
             </p>
             <ul class="govuk-list govuk-list--bullet">
                 <li>
-                    <p class="govuk-body">
-                        <a class="govuk-link govuk-link--no-visited-state"
-                               href="@Url.Action(Model.Type == ComparatorSetType.Workforce ? "Workforce" : "Index", "SchoolComparators", new
-                                     {
-                                         urn = Model.Identifier
-                                     })">
-                                view the 2 sets of similar schools we've chosen
-                            </a> to benchmark this school's @(Model.Type == ComparatorSetType.Workforce ? "pupil and workforce data" : "spending") against
-                    </p>
+                    <a class="govuk-link govuk-link--no-visited-state"
+                       href="@Url.Action(Model.Type == ComparatorSetType.Workforce ? "Workforce" : "Index", "SchoolComparators", new
+                             {
+                                 urn = Model.Identifier
+                             })">view the 2 sets of similar schools we've chosen</a> to benchmark this school's @(Model.Type == ComparatorSetType.Workforce ? "pupil and workforce data" : "spending") against
                 </li>
                 <li>
-                    <p class="govuk-body">
-                        <a class="govuk-link govuk-link--no-visited-state"
-                           id="custom-data-link"
-                           href="@Url.Action("CustomData", "School", new
-                                 {
-                                     urn = Model.Identifier
-                                 })">
-                            view custom data set
-                        </a>
-                    </p>
+                    <a class="govuk-link govuk-link--no-visited-state"
+                       id="custom-data-link"
+                       href="@Url.Action("CustomData", "School", new
+                             {
+                                 urn = Model.Identifier
+                             })">view custom data set</a>
                 </li>
             </ul>
         }
@@ -68,27 +60,19 @@
                 </p>
                 <ul class="govuk-list govuk-list--bullet">
                     <li>
-                        <p class="govuk-body">
-                            <a class="govuk-link govuk-link--no-visited-state"
-                               href="@Url.Action("Index", "SchoolComparatorsCreate", new
-                                     {
-                                         urn = Model.Identifier
-                                     })">
-                                create or save your own set of schools
-                            </a> to benchmark against
-                        </p>
+                        <a class="govuk-link govuk-link--no-visited-state"
+                           href="@Url.Action("Index", "SchoolComparatorsCreate", new
+                                 {
+                                     urn = Model.Identifier
+                                 })">create or save your own set of schools</a> to benchmark against
                     </li>
                     <li>
-                        <p class="govuk-body">
-                            <a class="govuk-link govuk-link--no-visited-state"
-                               id="custom-data-link"
-                               href="@Url.Action("Index", "SchoolCustomData", new
-                                     {
-                                         urn = Model.Identifier
-                                     })">
-                                change the data
-                            </a> for this school
-                        </p>
+                        <a class="govuk-link govuk-link--no-visited-state"
+                           id="custom-data-link"
+                           href="@Url.Action("Index", "SchoolCustomData", new
+                                 {
+                                     urn = Model.Identifier
+                                 })">change the data</a> for this school
                     </li>
                 </ul>
             }
@@ -99,38 +83,27 @@
                 </p>
                 <ul class="govuk-list govuk-list--bullet">
                     <li>
-                        <p class="govuk-body">
-                            <a class="govuk-link govuk-link--no-visited-state"
-                               href="@Url.Action(Model.Type == ComparatorSetType.Workforce ? "Workforce" : "Index", "SchoolComparators", new
-                                     {
-                                         urn = Model.Identifier
-                                     })">
-                                view the 2 sets of similar schools we've chosen
-                            </a> to benchmark this school's @(Model.Type == ComparatorSetType.Workforce ? "pupil and workforce data" : "spending") against
-                        </p>
+                        <a class="govuk-link govuk-link--no-visited-state"
+                           href="@Url.Action(Model.Type == ComparatorSetType.Workforce ? "Workforce" : "Index", "SchoolComparators", new
+                                 {
+                                     urn = Model.Identifier
+                                 })">view the 2 sets of similar schools we've chosen</a> to benchmark this school's @(Model.Type == ComparatorSetType.Workforce ? "pupil and workforce data" : "spending") against
                     </li>
                     <li>
-                        <p class="govuk-body">
-                            <a class="govuk-link govuk-link--no-visited-state"
-                               href="@Url.Action("Index", "SchoolComparatorsCreate", new
-                                     {
-                                         urn = Model.Identifier
-                                     })">
-                                create or save your own set of schools
-                            </a> to benchmark against
-                        </p>
+                        <a class="govuk-link govuk-link--no-visited-state"
+                           href="@Url.Action("Index", "SchoolComparatorsCreate", new
+                                 {
+                                     urn = Model.Identifier
+                                 })">create or save your own set of schools</a> to benchmark against
                     </li>
                     <li>
-                        <p class="govuk-body">
-                            <a class="govuk-link govuk-link--no-visited-state"
-                               id="custom-data-link"
-                               href="@Url.Action("Index", "SchoolCustomData", new
-                                     {
-                                         urn = Model.Identifier
-                                     })">
-                                change the data
-                            </a> for this school
-                        </p>
+                        <a class="govuk-link govuk-link--no-visited-state"
+                           id="custom-data-link"
+                           href="@Url.Action("Index", "SchoolCustomData", new
+                                 {
+                                     urn = Model.Identifier
+                                 })">
+                            change the data</a> for this school
                     </li>
                 </ul>
             }
