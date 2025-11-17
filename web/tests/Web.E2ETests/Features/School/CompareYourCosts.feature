@@ -411,3 +411,76 @@ Feature: School compare your costs
           | Staff development and training costs            | BAE090, % of central services                                                                         |
           | Staff-related insurance costs                   | BAE110, % of central services                                                                         |
           | Supply teacher insurance costs                  | BAE100, % of central services                                                                         |
+
+    Scenario: Table view should not display progress bandings when checkbox not selected
+        Given I am on compare your costs page for school with URN '990002'
+        And table view is selected
+        Then the following is shown for 'total expenditure'
+          | School name             | Local Authority                  | School type                    | Number of pupils | Amount   |
+          | Test school 22          | Cheshire East                    | Voluntary aided school         | 17               | £112,411 |
+          | Test academy school 231 | West Berkshire                   | Academy sponsor led            | 17               | £112,411 |
+          | Test academy school 274 | Lambeth                          | Academy converter              | 37               | £50,829  |
+          | Test academy school 144 | Dudley                           | Free school special            | 37               | £50,829  |
+          | Test school 208         | Southend-on-Sea                  | Community school               | 883              | £10,121  |
+          | Test school 140         | Bury                             | Foundation special school      | 317              | £9,705   |
+          | Test school 118         | Haringey                         | Voluntary aided school         | 260              | £9,068   |
+          | Test academy school 470 | Waltham Forest                   | Academy 16-19 converter        | 167              | £9,050   |
+          | Test academy school 469 | Hillingdon                       | Free school 16 to 19           | 235              | £8,981   |
+          | Test school 154         | Test Local Authority             | Community school               | 174              | £8,882   |
+          | Test school 138         | Sefton                           | Voluntary aided school         | 399              | £8,584   |
+          | Test school 26          | Hounslow                         | Community school               | 769              | £8,089   |
+          | Test academy school 4   | Hillingdon                       | Academy converter              | 769              | £8,089   |
+          | Test academy school 228 | Swindon                          | Academy sponsor led            | 991              | £8,088   |
+          | Test school 70          | Bournemouth Christchurch & Poole | Local authority nursery school | 407              | £8,028   |
+          | Test school 215         | Blackpool                        | Voluntary aided school         | 853              | £7,880   |
+          | Test academy school 146 | Cheshire East                    | Academy special converter      | 335              | £7,754   |
+          | Test academy school 364 | North East Lincolnshire          | Academy special converter      | 367              | £7,703   |
+          | Test school 76          | Portsmouth                       | Community school               | 212              | £7,487   |
+          | Test academy school 200 | Hillingdon                       | Academy sponsor led            | 446              | £7,342   |
+          | Test school 228         | Oxfordshire                      | Community school               | 339              | £7,318   |
+          | Test academy school 412 | Cheshire East                    | Academy converter              | 339              | £7,318   |
+          | Test school 97          | Southend-on-Sea                  | Voluntary aided school         | 1045             | £7,302   |
+          | Test academy school 208 | Wigan                            | Academy sponsor led            | 210              | £6,990   |
+          | Test academy school 176 | Wandsworth                       | Academy sponsor led            | 204              | £6,985   |
+          | Test academy school 421 | Southwark                        | Free school                    | 231              | £6,918   |
+          | Test academy school 56  | Trafford                         | Academy sponsor led            | 232              | £6,814   |
+          | Test school 176         | Test Local Authority             | Voluntary aided school         | 418              | £6,676   |
+          | Test academy school 88  | Portsmouth                       | Academy converter              | 418              | £6,676   |
+          | Test school 19          | Leicestershire                   | Local authority nursery school | 190              | £6,208   |
+
+    Scenario: Table view should display correct progress bandings when checkbox selected
+        Given I am on compare your costs page for school with URN '990002'
+        And table view is selected
+        When I click 'Well above average' school performance
+        Then the following is shown for 'total expenditure'
+          | School name             | Local Authority                  | School type                    | Number of pupils | Amount   | Progress 8 banding |
+          | Test school 22          | Cheshire East                    | Voluntary aided school         | 17               | £112,411 |                    |
+          | Test academy school 231 | West Berkshire                   | Academy sponsor led            | 17               | £112,411 |                    |
+          | Test academy school 274 | Lambeth                          | Academy converter              | 37               | £50,829  |                    |
+          | Test academy school 144 | Dudley                           | Free school special            | 37               | £50,829  |                    |
+          | Test school 208         | Southend-on-Sea                  | Community school               | 883              | £10,121  |                    |
+          | Test school 140         | Bury                             | Foundation special school      | 317              | £9,705   |                    |
+          | Test school 118         | Haringey                         | Voluntary aided school         | 260              | £9,068   |                    |
+          | Test academy school 470 | Waltham Forest                   | Academy 16-19 converter        | 167              | £9,050   |                    |
+          | Test academy school 469 | Hillingdon                       | Free school 16 to 19           | 235              | £8,981   |                    |
+          | Test school 154         | Test Local Authority             | Community school               | 174              | £8,882   |                    |
+          | Test school 138         | Sefton                           | Voluntary aided school         | 399              | £8,584   |                    |
+          | Test school 26          | Hounslow                         | Community school               | 769              | £8,089   |                    |
+          | Test academy school 4   | Hillingdon                       | Academy converter              | 769              | £8,089   |                    |
+          | Test academy school 228 | Swindon                          | Academy sponsor led            | 991              | £8,088   |                    |
+          | Test school 70          | Bournemouth Christchurch & Poole | Local authority nursery school | 407              | £8,028   |                    |
+          | Test school 215         | Blackpool                        | Voluntary aided school         | 853              | £7,880   |                    |
+          | Test academy school 146 | Cheshire East                    | Academy special converter      | 335              | £7,754   |                    |
+          | Test academy school 364 | North East Lincolnshire          | Academy special converter      | 367              | £7,703   |                    |
+          | Test school 76          | Portsmouth                       | Community school               | 212              | £7,487   |                    |
+          | Test academy school 200 | Hillingdon                       | Academy sponsor led            | 446              | £7,342   |                    |
+          | Test school 228         | Oxfordshire                      | Community school               | 339              | £7,318   |                    |
+          | Test academy school 412 | Cheshire East                    | Academy converter              | 339              | £7,318   |                    |
+          | Test school 97          | Southend-on-Sea                  | Voluntary aided school         | 1045             | £7,302   |                    |
+          | Test academy school 208 | Wigan                            | Academy sponsor led            | 210              | £6,990   |                    |
+          | Test academy school 176 | Wandsworth                       | Academy sponsor led            | 204              | £6,985   |                    |
+          | Test academy school 421 | Southwark                        | Free school                    | 231              | £6,918   |                    |
+          | Test academy school 56  | Trafford                         | Academy sponsor led            | 232              | £6,814   |                    |
+          | Test school 176         | Test Local Authority             | Voluntary aided school         | 418              | £6,676   | Well above average |
+          | Test academy school 88  | Portsmouth                       | Academy converter              | 418              | £6,676   |                    |
+          | Test school 19          | Leicestershire                   | Local authority nursery school | 190              | £6,208   |                    |

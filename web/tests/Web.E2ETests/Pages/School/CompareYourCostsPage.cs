@@ -30,7 +30,7 @@ public class CompareYourCostsPage(IPage page)
     private ILocator TotalExpenditureChart => page.Locator(Selectors.TotalExpenditureChart);
     private ILocator ViewAsTableRadio => page.Locator(Selectors.ModeTable);
     private ILocator ViewAsChartRadio => page.Locator(Selectors.ModeChart);
-    private ILocator TotalExpenditureTable => page.Locator(Selectors.ComparisonTables).First;
+    private ILocator TotalExpenditureTable => page.Locator(Selectors.ComparisonTables2).First;
     private ILocator ShowHideAllSectionsLink => page.Locator(Selectors.GovShowAllLinkText);
     private ILocator Sections => page.Locator(Selectors.GovAccordionSection);
     private ILocator Tables => page.Locator(Selectors.SectionTable);
@@ -96,7 +96,7 @@ public class CompareYourCostsPage(IPage page)
         page.Locator(Selectors.GovLink,
             new PageLocatorOptions
             {
-                HasText = "We've chosen 2 sets of similar schools"
+                HasText = "view the 2 sets of similar schools we've chosen"
             });
 
     private ILocator ComparatorSetLink => page.Locator(Selectors.GovLink,
@@ -108,13 +108,13 @@ public class CompareYourCostsPage(IPage page)
     private ILocator CustomComparatorLink => page.Locator(Selectors.GovLink,
         new PageLocatorOptions
         {
-            HasText = "Create or save your own set of schools to benchmark against"
+            HasText = "create or save your own set of schools"
         });
 
     private ILocator CustomDataLink => page.Locator(Selectors.GovLink,
         new PageLocatorOptions
         {
-            HasText = "Change the data for this school"
+            HasText = "change the data"
         });
 
     private ILocator SimilarSchoolLink => page.Locator(Selectors.GovLink,
@@ -130,6 +130,12 @@ public class CompareYourCostsPage(IPage page)
     private ILocator SchoolLinksInCharts => page.Locator(Selectors.SchoolNamesLinksInCharts);
     private ILocator TeachingSupportStaffWarning => page.Locator($"{Selectors.TeachingAndTeachingSupportStaff} {Selectors.GovWarning}");
     private ILocator SaveChartImagesButton => page.Locator(Selectors.SaveChartImages);
+
+    private ILocator SchoolPerformanceCheckbox(string banding) => page.Locator(Selectors.GovCheckboxLabel,
+        new PageLocatorOptions
+        {
+            HasText = banding
+        });
 
     public async Task IsDisplayed(bool isPartYear = false, bool isMissingComparatorSet = false)
     {
@@ -205,6 +211,13 @@ public class CompareYourCostsPage(IPage page)
     public async Task ClickViewAsTable()
     {
         await ViewAsTableRadio.Click();
+    }
+
+    public async Task ClickSchoolPerformanceCheckbox(string banding)
+    {
+        var checkbox = SchoolPerformanceCheckbox(banding);
+        await checkbox.ShouldBeVisible();
+        await checkbox.Click();
     }
 
     public async Task IsTableDataForChartDisplayed(ComparisonChartNames chartName, List<List<string>> expectedData, string? subCategory = null)
@@ -296,7 +309,7 @@ public class CompareYourCostsPage(IPage page)
 
     public async Task AreComparisonChartsAndTablesDisplayed(bool displayed = true)
     {
-        var locator = page.Locator(Selectors.ComparisonChartsAndTables);
+        var locator = page.Locator(Selectors.ComparisonChartsAndTables2);
         if (displayed)
         {
             await locator.ShouldBeVisible();

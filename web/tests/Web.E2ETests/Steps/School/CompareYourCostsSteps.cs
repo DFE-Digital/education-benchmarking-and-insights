@@ -100,6 +100,13 @@ public class CompareYourCostsSteps(PageDriver driver)
         await _comparisonPage.ClickViewAsTable();
     }
 
+    [When("I click '(.*)' school performance")]
+    public async Task WhenIClickSchoolPerformance(string banding)
+    {
+        Assert.NotNull(_comparisonPage);
+        await _comparisonPage.ClickSchoolPerformanceCheckbox(banding);
+    }
+
     [Then("the following is shown for '(.*)'")]
     public async Task ThenTheFollowingIsShownFor(string chartName, Table table)
     {

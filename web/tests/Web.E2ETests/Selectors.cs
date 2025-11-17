@@ -32,6 +32,8 @@ public static class Selectors
     public const string GovNotificationBannerBody = $"{GovNotificationBanner} .govuk-notification-banner__content > p";
     public const string GovList = ".govuk-list";
     public const string GovListResult = $"{GovList}.govuk-list--result";
+    public const string GovCheckboxes = ".govuk-checkboxes";
+    public const string GovCheckboxLabel = $"{GovCheckboxes} .govuk-checkboxes__label";
 
     public const string ModeChart = "#mode-chart";
     public const string ModeTable = "#mode-table";
@@ -76,7 +78,9 @@ public static class Selectors
     public const string WarningButton = "button.govuk-button--warning";
 
     public const string ComparisonChartsAndTables = "#compare-your-costs";
-    public const string ComparisonTables = "#compare-your-costs table.govuk-table";
+    public const string ComparisonChartsAndTables2 = "#compare-your-costs-2";
+    public const string ComparisonTables = $"{ComparisonChartsAndTables} table.govuk-table";
+    public const string ComparisonTables2 = $"{ComparisonChartsAndTables2} table.govuk-table";
     public const string TrustComparisonTitles = "#compare-your-trust h2";
     public const string TrustComparisonTables = "#compare-your-trust table.govuk-table";
 
