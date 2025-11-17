@@ -9,21 +9,14 @@
                 You are now comparing with your chosen schools.
             </p>
             <p class="govuk-body">
-                You can:
+                <a class="govuk-link govuk-link--no-visited-state"
+                   href="@Url.Action("UserDefined", "SchoolComparators", new
+                         {
+                             urn = Model.Identifier
+                         })">
+                    Change your similar schools.
+                </a>
             </p>
-            <ul class="govuk-list govuk-list--bullet">
-                <li>
-                    <p class="govuk-body">
-                        <a class="govuk-link govuk-link--no-visited-state"
-                           href="@Url.Action("UserDefined", "SchoolComparators", new
-                                 {
-                                     urn = Model.Identifier
-                                 })">
-                            Change your similar schools
-                        </a>
-                    </p>
-                </li>
-            </ul>
         }
         else if(Model.HasCustomData)
         {
@@ -53,7 +46,7 @@
                                  {
                                      urn = Model.Identifier
                                  })">
-                            View custom data set
+                            view custom data set
                         </a>
                     </p>
                 </li>
@@ -93,7 +86,7 @@
                                      {
                                          urn = Model.Identifier
                                      })">
-                                Change the data
+                                change the data
                             </a> for this school
                         </p>
                     </li>
@@ -135,7 +128,7 @@
                                      {
                                          urn = Model.Identifier
                                      })">
-                                Change the data
+                                change the data
                             </a> for this school
                         </p>
                     </li>

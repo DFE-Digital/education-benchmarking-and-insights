@@ -317,8 +317,8 @@ public class WhenViewingComparison(SchoolBenchmarkingWebAppClient client)
             DocumentAssert.TextEqual(listItems[1], "create or save your own set of schools to benchmark against", true);
             DocumentAssert.Link(listItems[1].QuerySelector("a"), "create or save your own set of schools", Paths.SchoolComparatorsCreate(school.URN).ToAbsolute());
 
-            DocumentAssert.TextEqual(listItems[2], "Change the data for this school", true);
-            DocumentAssert.Link(listItems[2].QuerySelector("a"), "Change the data", Paths.SchoolCustomData(school.URN).ToAbsolute());
+            DocumentAssert.TextEqual(listItems[2], "change the data for this school", true);
+            DocumentAssert.Link(listItems[2].QuerySelector("a"), "change the data", Paths.SchoolCustomData(school.URN).ToAbsolute());
         }
         else
         {
@@ -356,8 +356,8 @@ public class WhenViewingComparison(SchoolBenchmarkingWebAppClient client)
             DocumentAssert.TextEqual(listItems[0], "create or save your own set of schools to benchmark against", true);
             DocumentAssert.Link(listItems[0].QuerySelector("a"), "create or save your own set of schools", Paths.SchoolComparatorsCreate(school.URN).ToAbsolute());
 
-            DocumentAssert.TextEqual(listItems[1], "Change the data for this school", true);
-            DocumentAssert.Link(listItems[1].QuerySelector("a"), "Change the data", Paths.SchoolCustomData(school.URN).ToAbsolute());
+            DocumentAssert.TextEqual(listItems[1], "change the data for this school", true);
+            DocumentAssert.Link(listItems[1].QuerySelector("a"), "change the data", Paths.SchoolCustomData(school.URN).ToAbsolute());
         }
         else
         {
@@ -386,15 +386,8 @@ public class WhenViewingComparison(SchoolBenchmarkingWebAppClient client)
             Assert.Equal(2, paragraphs.Length);
 
             DocumentAssert.TextEqual(paragraphs[0], "You are now comparing with your chosen schools.");
-            DocumentAssert.TextEqual(paragraphs[1], "You can:");
-
-            var list = comparatorSetDetailsElement.QuerySelector("ul.govuk-list.govuk-list--bullet");
-            Assert.NotNull(list);
-            var listItems = list.QuerySelectorAll("li");
-            Assert.Equal(1, listItems.Length);
-
-            DocumentAssert.TextEqual(listItems[0], "Change your similar schools");
-            DocumentAssert.Link(listItems[0].QuerySelector("a"), "Change your similar schools", Paths.SchoolComparatorsUserDefined(school.URN).ToAbsolute());
+            DocumentAssert.TextEqual(paragraphs[1], "Change your similar schools.");
+            DocumentAssert.Link(paragraphs[1].QuerySelector("a"), "Change your similar schools.", Paths.SchoolComparatorsUserDefined(school.URN).ToAbsolute());
         }
         else
         {
@@ -427,8 +420,8 @@ public class WhenViewingComparison(SchoolBenchmarkingWebAppClient client)
             DocumentAssert.TextEqual(listItems[0], "view the 2 sets of similar schools we've chosen to benchmark this school's spending against", true);
             DocumentAssert.Link(listItems[0].QuerySelector("a"), "view the 2 sets of similar schools we've chosen", Paths.SchoolComparators(school.URN).ToAbsolute());
 
-            DocumentAssert.TextEqual(listItems[1], "View custom data set");
-            DocumentAssert.Link(listItems[1].QuerySelector("a"), "View custom data set", Paths.SchoolCustomisedData(school.URN).ToAbsolute());
+            DocumentAssert.TextEqual(listItems[1], "view custom data set");
+            DocumentAssert.Link(listItems[1].QuerySelector("a"), "view custom data set", Paths.SchoolCustomisedData(school.URN).ToAbsolute());
         }
         else
         {
