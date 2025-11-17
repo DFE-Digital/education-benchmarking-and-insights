@@ -10,4 +10,5 @@ public static class FeatureFlags
     public const string FbisForTrust = nameof(FbisForTrust);
     public const string LocalAuthorityHomepageV2 = nameof(LocalAuthorityHomepageV2);
     public const string KS4ProgressBanding = nameof(KS4ProgressBanding);
+    public const string KS4ProgressBandingSchoolHome = nameof(KS4ProgressBandingSchoolHome);
 }
