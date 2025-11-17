@@ -3,20 +3,12 @@
     Scenario: Sending a valid finance year request
         Given a current return years request
         When I submit the request
-        Then the current return years result should be:
-          | Field | Value |
-          | Aar   | 2022  |
-          | Cfr   | 2022  |
-          | S251  | 2024  |
+        Then the current return years result should be ok and match the expected output of 'ContentCurrentYears.json'
 
     Scenario: Sending a valid request for API version 1.0
         Given a current return years request with API version '1.0'
         When I submit the request
-        Then the current return years result should be:
-          | Field | Value |
-          | Aar   | 2022  |
-          | Cfr   | 2022  |
-          | S251  | 2024  |
+        Then the current return years result should be ok and match the expected output of 'ContentCurrentYears.json'
           
     Scenario: Sending a valid request for unsupported API version
         Given a current return years request with API version 'version'
