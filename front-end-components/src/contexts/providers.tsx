@@ -2,7 +2,7 @@ import { PropsWithChildren, useMemo, useState } from "react";
 import {
   ChartModeContext,
   CentralServicesBreakdownContext,
-  CostCodeMapContext,
+  CostCodesContext,
   ProgressIndicatorsContext,
 } from "./contexts";
 import { CostCodeMap, ProgressBanding, ProgressIndicators } from "src/views";
@@ -46,16 +46,20 @@ export const BreakdownProvider = ({
   );
 };
 
-type CostCodeMapProviderProps = PropsWithChildren<{
+type CostCodesProviderProps = PropsWithChildren<{
   costCodeMap?: CostCodeMap;
+  itemClassName?: string;
+  label?: string;
   tags?: string[];
 }>;
 
-export const CostCodeMapProvider = ({
+export const CostCodesProvider = ({
   children,
   costCodeMap,
+  itemClassName,
+  label,
   tags,
-}: CostCodeMapProviderProps) => {
+}: CostCodesProviderProps) => {
   /**
    * This function duplicates the mapping logic found in `CostCodes.cs` within Web.App.
    * The duplication exists due to inconsistencies in chart-to-subcategory naming,
@@ -265,9 +269,11 @@ export const CostCodeMapProvider = ({
   };
 
   return (
-    <CostCodeMapContext.Provider value={{ costCodeMap, getCostCodes, tags }}>
+    <CostCodesContext.Provider
+      value={{ costCodeMap, getCostCodes, itemClassName, label, tags }}
+    >
       {children}
-    </CostCodeMapContext.Provider>
+    </CostCodesContext.Provider>
   );
 };
 

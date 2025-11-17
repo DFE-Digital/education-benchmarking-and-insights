@@ -497,7 +497,7 @@ public class CompareYourCostsPage(IPage page)
 
     public async Task HasCostCodesForChart(string chartName, string[] expected)
     {
-        var costCodes = await page.Locator($"#{chartName.ToSlug()}-tags .govuk-tag").AllTextContentsAsync();
+        var costCodes = await page.Locator($"#{chartName.ToSlug()}-tags li").AllTextContentsAsync();
         Assert.True(expected.SequenceEqual(costCodes), $"Test fails on {chartName}. Expected: {string.Join(", ", expected)}, Actual: {string.Join(", ", costCodes)}");
     }
 

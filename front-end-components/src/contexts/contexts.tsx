@@ -43,18 +43,20 @@ export const SuppressNegativeOrZeroContext =
     message: "",
   });
 
-export const CostCodeMapContext = createContext<
-  CostCodeMapContextValue | undefined
+export const CostCodesContext = createContext<
+  CostCodesContextValue | undefined
 >(undefined);
 
-export interface CostCodeMapContextValue {
+export interface CostCodesContextValue
+  extends Omit<CostCodesContextValues, "categoryCostCodes"> {
   costCodeMap?: CostCodeMap;
   getCostCodes: (category: string) => string[];
-  tags?: string[];
 }
 
-export interface CostCodeMapContextValues {
+export interface CostCodesContextValues {
   categoryCostCodes: string[];
+  itemClassName?: string;
+  label?: string;
   tags?: string[];
 }
 
