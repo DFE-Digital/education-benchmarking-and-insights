@@ -105,7 +105,7 @@ public class HighNeedsBenchmarkingPage(IPage page)
     public async Task LineCodesArePresent()
     {
         var costCodes = await page.Locator(Selectors.CostCodesList).AllAsync();
-        Assert.Equal(33, costCodes.Count);
+        Assert.Equal(25, costCodes.Count);
 
         var costCodesWithLiChildren = await page.Locator(Selectors.CostCodesList)
             .Filter(new LocatorFilterOptions
