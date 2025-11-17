@@ -11,7 +11,7 @@ import {
   ChartModeProvider,
   ShareButtonsLayoutContext,
   SuppressNegativeOrZeroContext,
-  CostCodeMapProvider,
+  CostCodesProvider,
   ProgressIndicatorsProvider,
 } from "src/contexts";
 import { useGovUk } from "src/hooks/useGovUk";
@@ -47,7 +47,12 @@ export const CompareYourCosts2: React.FC<CompareYourCosts2ViewProps> = ({
         <SuppressNegativeOrZeroContext.Provider
           value={{ suppressNegativeOrZero, message }}
         >
-          <CostCodeMapProvider costCodeMap={costCodeMap} tags={tags}>
+          <CostCodesProvider
+            costCodeMap={costCodeMap}
+            itemClassName="cost-code-item"
+            label="Cost category codes:"
+            tags={tags}
+          >
             <ChartModeProvider initialValue={ChartModeChart}>
               <ProgressIndicatorsProvider data={progressIndicators} id={id}>
                 <ShareButtonsLayoutContext.Provider value="column">
@@ -76,7 +81,7 @@ export const CompareYourCosts2: React.FC<CompareYourCosts2ViewProps> = ({
                 </ShareButtonsLayoutContext.Provider>
               </ProgressIndicatorsProvider>
             </ChartModeProvider>
-          </CostCodeMapProvider>
+          </CostCodesProvider>
         </SuppressNegativeOrZeroContext.Provider>
       </CustomDataContext.Provider>
     </SelectedEstablishmentContext.Provider>

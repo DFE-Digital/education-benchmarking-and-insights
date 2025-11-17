@@ -4,8 +4,8 @@ import {
   ChartModeContextValue,
   CentralServicesBreakdownContext,
   CentralServicesBreakdownContextValue,
-  CostCodeMapContext,
-  CostCodeMapContextValues,
+  CostCodesContext,
+  CostCodesContextValues,
   ProgressIndicatorsContextValue,
   ProgressIndicatorsContext,
 } from "./contexts";
@@ -44,16 +44,14 @@ export const useCentralServicesBreakdownContext = (
   return centralServicesBreakdownContext;
 };
 
-export const useCostCodeMapContext = (
+export const useCostCodesContext = (
   category: string,
   throwIfUndefined?: boolean
-): CostCodeMapContextValues => {
-  const costCodeMapContext = useContext(CostCodeMapContext);
-  if (costCodeMapContext === undefined) {
+): CostCodesContextValues => {
+  const costCodesContext = useContext(CostCodesContext);
+  if (costCodesContext === undefined) {
     if (throwIfUndefined) {
-      throw new Error(
-        "costCodeMapContext must be inside a <CostCodeMapProvider>"
-      );
+      throw new Error("costCodesContext must be inside a <CostCodeProvider>");
     }
 
     return {
@@ -61,9 +59,9 @@ export const useCostCodeMapContext = (
     };
   }
 
-  const { getCostCodes, tags } = costCodeMapContext;
+  const { getCostCodes, itemClassName, label, tags } = costCodesContext;
   const categoryCostCodes = getCostCodes(category).filter((code) => !!code);
-  return { categoryCostCodes, tags };
+  return { categoryCostCodes, itemClassName, label, tags };
 };
 
 export const useProgressIndicatorsContext = (

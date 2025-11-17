@@ -496,15 +496,40 @@ hr.govuk-section-break--print {
   min-height: 335px;
 }
 
-.app-cost-code-list {
+ul.app-cost-code-list,
+div.app-cost-code-list > .govuk-list {
   display: flex;
-  gap: 10px;
+  gap: govuk-spacing(2);
   flex-wrap: wrap;
   list-style: none;
-  padding: 0;
+  padding: govuk-spacing(0);
+  margin: govuk-spacing(3) govuk-spacing(0);
 
   .govuk-tag {
     max-width: none;
+  }
+}
+
+div.app-cost-code-list {
+  display: flex;
+  align-items: baseline;
+
+  &:has(.cost-code-item) {
+    gap: govuk-spacing(3);
+  }
+
+  > p {
+    margin: govuk-spacing(3) govuk-spacing(0);
+    color: govuk-colour("dark-grey");
+  }
+
+  > ul {
+    gap: govuk-spacing(3);
+
+    .cost-code-item {
+      @include govuk-font-size($size: 16);
+      color: govuk-colour("dark-grey");
+    }
   }
 }
 
