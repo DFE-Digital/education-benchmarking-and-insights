@@ -6,7 +6,7 @@
 ## Introduction
 
 This plan defines the approach for testing release `2025.11.1`, covering smoke and sanity testing activities.
-This release delivers a combination of enhancements, custom data gernation fix and maintenance updates to improve performance, maintainability, and user experience across the platform.
+This release delivers a combination of enhancements, custom data generation fix and maintenance updates to improve performance, maintainability, and user experience across the platform.
 
 ## Scope
 
@@ -14,6 +14,7 @@ This release delivers a combination of enhancements, custom data gernation fix a
 
 - **Enhancements**
   - Local authority home page updated to show pupil, workforce, financial and priority schools RAG ratings.
+  - Progress 8 score added on benchmark spending page giving users a combined view of spend vs outcomes. 
   
 - **Bug Fixes**
   - Issues with custom data generation has also been fixed.
@@ -26,6 +27,7 @@ This release delivers a combination of enhancements, custom data gernation fix a
 
 - **Sanity Testing:** Validate that the application and pipeline deploy successfully and operate as expected with new and refactored components.
 - **Smoke Testing:** Execute smoke tests to confirm platform stability and availability post-deployment.
+- **UAT Testing:** UAT on enhancements on benchmark spending page to show progress 8 data.
 
 ## Entry and Exit Criteria
 
@@ -80,6 +82,7 @@ This release delivers a combination of enhancements, custom data gernation fix a
 - [286933 - Unable to generate custom data](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_workitems/edit/286933)
 - [281519 - LA Homepage - Financial data tab](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_workitems/edit/281519)
 - [265003 - Review & merge November '25 dependency updates](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_workitems/edit/265003)
+- [283987 - Benchmark spending - Surface Progress 8 Data for KS4 schools](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/283987)
 
 ## Appendix
 
@@ -91,6 +94,7 @@ This release delivers a combination of enhancements, custom data gernation fix a
 |-------------------------|:-----------:|:------:|:------:|:-----------:|  
 | Smoke Tests - Prod      |             |        |        |             |  
 | Sanity Tests - Pre Prod |             |        |        |             |  
+| UAT - Pre Prod          |             |        |        |             |  
 | Total                   |             |        |        |             |  
 
 <!-- Leave the rest of this page blank -->
