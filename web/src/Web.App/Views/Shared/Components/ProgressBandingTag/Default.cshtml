@@ -1,0 +1,5 @@
+﻿@model Web.App.ViewModels.Components.ProgressBandingTagViewModel
+
+<strong class="govuk-tag@(Model.Colour == null ? string.Empty : $" govuk-tag--{Model.Colour}")">
+    @Model.Label
+</strong>

@@ -1,0 +1,65 @@
+@using Web.App.Extensions
+@model Web.App.ViewModels.SchoolViewModel
+
+@if (!Model.KS4Progress.HasValue || !Model.KS4ProgressBanding.HasValue)
+{
+    return;
+}
+
+<feature name="@($"{FeatureFlags.KS4ProgressBanding},{FeatureFlags.KS4ProgressBandingSchoolHome}")">
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-full">
+            <h2 class="govuk-heading-m">Performance for this school</h2>
+        </div>
+        <div class="govuk-grid-column-one-half">
+            <div class="stat-boxes">
+                <div class="stat-box">
+                    <h3 class="govuk-heading-s">Progress 8</h3>
+                    <dl class="govuk-summary-list govuk-summary-list--no-border govuk-!-margin-bottom-0">
+                        <div class="govuk-summary-list__row">
+                            <dt class="govuk-summary-list__key govuk-!-padding-top-0">
+                                Banding
+                            </dt>
+                            <dd class="govuk-summary-list__value govuk-!-padding-top-0">
+                                @await Component.InvokeAsync("ProgressBandingTag", new
+                                {
+                                    banding = Model.KS4ProgressBanding
+                                })
+                            </dd>
+                        </div>
+                        <div class="govuk-summary-list__row">
+                            <dt class="govuk-summary-list__key govuk-!-padding-0">
+                                Score
+                            </dt>
+                            <dd class="govuk-summary-list__value govuk-!-padding-0">
+                                @Model.KS4Progress.ToSimpleDisplay()
+                            </dd>
+                        </div>
+                    </dl>
+                </div>
+            </div>
+            <details class="govuk-details">
+                <summary class="govuk-details__summary">
+                    <span class="govuk-details__summary-text">
+                        View more details on this score
+                    </span>
+                </summary>
+                <div class="govuk-details__text">
+                    <p class="govuk-body">
+                        The service currently shows Progress 8 scores and banding for academic year 2023 to 2024. The
+                        scores only show when data is available for the school on
+                        <a
+                            class="govuk-link govuk-link--no-visited-state"
+                            href="@($"https://www.compare-school-performance.service.gov.uk/school/{Model.Urn}")">Compare
+                            school and college performance in England</a>.
+                    </p>
+                    <p class="govuk-body">
+                        This score shows how much progress pupils at this school made between the end of key stage 2 and
+                        the end of key stage 4, compared to pupils across England who got similar results at the end of
+                        key stage 2.
+                    </p>
+                </div>
+            </details>
+        </div>
+    </div>
+</feature>
