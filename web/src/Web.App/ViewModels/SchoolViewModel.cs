@@ -104,8 +104,9 @@ public class SchoolViewModel(School school) : ISchoolKeyInformationViewModel
         FinanceTools.Spending,
         FinanceTools.BenchmarkCensus);
 
-    public decimal? KS4Progress { get; set; }
-    public KS4ProgressBandings.Banding? KS4ProgressBanding { get; set; }
+    public decimal? KS4Progress { get; }
+    public KS4ProgressBandings.Banding? KS4ProgressBanding { get; }
+    public bool HasProgressIndicator => KS4Progress.HasValue && KS4ProgressBanding.HasValue;
 
     public string? OverallPhase => school.OverallPhase;
     public decimal? InYearBalance { get; }

@@ -162,6 +162,17 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
         AssertSchoolPerformance(page, characteristic, expectedVisible);
     }
 
+    [Theory]
+    [InlineData(false, false, false)]
+    [InlineData(false, true, false)]
+    [InlineData(true, false, false)]
+    [InlineData(true, true, true)]
+    public async Task CanDisplayResources(bool ks4ProgressBandingEnabled, bool hasProgressIndicators, bool expectedComparePerformanceVisible)
+    {
+        var (page, _, _, _, _) = await SetupNavigateInitPage(EstablishmentTypes.Maintained, ks4ProgressBandingEnabled: ks4ProgressBandingEnabled, hasProgressIndicators: hasProgressIndicators);
+        AssertResources(page, expectedComparePerformanceVisible);
+    }
+
     private async Task<(IHtmlDocument page, School school, SchoolBalance balance, Banner? banner, SchoolCharacteristic characteristic)> SetupNavigateInitPage(
         string financeType,
         bool isPartOfTrust = false,
@@ -300,5 +311,44 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
         DocumentAssert.TextEqual(defList, $"Banding {characteristic.KS4ProgressBanding} Score {characteristic.KS4Progress}", true);
 
         Assert.NotNull(section.QuerySelector("details"));
+    }
+
+    private static void AssertResources(IHtmlDocument page, bool expectedComparePerformanceVisible)
+    {
+        var section = page.GetElementById("establishment-resources");
+        Assert.NotNull(section);
+        DocumentAssert.Heading2(section, "Resources");
+
+        var resources = section.QuerySelectorAll(".app-links > li");
+        Assert.Equal(expectedComparePerformanceVisible ? 6 : 5, resources.Length);
+
+        var resource1 = resources.ElementAtOrDefault(0);
+        Assert.NotNull(resource1);
+        DocumentAssert.Heading3(resource1, "Find ways to spend less");
+
+        var resource2 = resources.ElementAtOrDefault(1);
+        Assert.NotNull(resource2);
+        DocumentAssert.Heading3(resource2, "View historic data");
+
+        var resource3 = resources.ElementAtOrDefault(2);
+        Assert.NotNull(resource3);
+        DocumentAssert.Heading3(resource3, "School contact details");
+
+        var resource4 = resources.ElementAtOrDefault(3);
+        Assert.NotNull(resource4);
+        DocumentAssert.Heading3(resource4, "Data sources and interpretation");
+
+        var resource5 = resources.ElementAtOrDefault(4);
+        Assert.NotNull(resource5);
+        DocumentAssert.Heading3(resource5, "Financial Benchmarking and Insights Summary");
+
+        if (!expectedComparePerformanceVisible)
+        {
+            return;
+        }
+
+        var resource6 = resources.ElementAtOrDefault(5);
+        Assert.NotNull(resource6);
+        DocumentAssert.Heading3(resource6, "Compare school and college performance in England");
     }
 }

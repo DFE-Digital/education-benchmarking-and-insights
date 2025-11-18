@@ -2,7 +2,7 @@
 @using Web.App.Extensions
 @model Web.App.ViewModels.SchoolViewModel
 
-@if (!Model.KS4Progress.HasValue || !Model.KS4ProgressBanding.HasValue)
+@if (!Model.HasProgressIndicator)
 {
     return;
 }
@@ -50,7 +50,7 @@
                         scores only show when data is available for the school on
                         <a
                             class="govuk-link govuk-link--no-visited-state"
-                            href="@($"https://www.compare-school-performance.service.gov.uk/school/{Model.Urn}")">Compare
+                            href="@Constants.CompareSchoolPerformanceUrl(Model.Urn)">Compare
                             school and college performance in England</a>.
                     </p>
                     <p class="govuk-body">
