@@ -528,10 +528,11 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
         return this;
     }
 
-    public BenchmarkingWebAppClient SetupSchoolInsight(IEnumerable<SchoolCharacteristic>? characteristics = null)
+    public BenchmarkingWebAppClient SetupSchoolInsight(params SchoolCharacteristic[] characteristics)
     {
         SchoolInsightApi.Reset();
-        SchoolInsightApi.Setup(api => api.GetCharacteristicsAsync(It.IsAny<ApiQuery?>(), It.IsAny<CancellationToken>())).ReturnsAsync(ApiResult.Ok(characteristics ?? []));
+        SchoolInsightApi.Setup(api => api.GetCharacteristicsAsync(It.IsAny<string>(), It.IsAny<CancellationToken>())).ReturnsAsync(ApiResult.Ok(characteristics.FirstOrDefault()));
+        SchoolInsightApi.Setup(api => api.GetCharacteristicsAsync(It.IsAny<ApiQuery?>(), It.IsAny<CancellationToken>())).ReturnsAsync(ApiResult.Ok(characteristics));
         return this;
     }
 

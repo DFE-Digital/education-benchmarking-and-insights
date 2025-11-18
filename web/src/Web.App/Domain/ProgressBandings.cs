@@ -33,12 +33,12 @@ public class KS4ProgressBandings : ISerializable
         .Select(d => new KS4ProgressBanding(d.Key, d.Value))
         .ToArray();
 
+    public KS4ProgressBanding? this[string? urn] => Items.SingleOrDefault(i => i.Urn == urn);
+
     public void GetObjectData(SerializationInfo info, StreamingContext context)
     {
         info.AddValue(nameof(Items), Items);
     }
-
-    public KS4ProgressBanding? this[string? urn] => Items.SingleOrDefault(i => i.Urn == urn);
 }
 
 [Serializable]
@@ -69,6 +69,16 @@ public static class BandingExtensions
         KS4ProgressBandings.Banding.Average => Average,
         KS4ProgressBandings.Banding.AboveAverage => AboveAverage,
         KS4ProgressBandings.Banding.WellAboveAverage => WellAboveAverage,
+        _ => throw new ArgumentOutOfRangeException(nameof(banding))
+    };
+
+    public static string ToGdsColour(this KS4ProgressBandings.Banding banding) => banding switch
+    {
+        KS4ProgressBandings.Banding.WellBelowAverage => "red",
+        KS4ProgressBandings.Banding.BelowAverage => "orange",
+        KS4ProgressBandings.Banding.Average => "yellow",
+        KS4ProgressBandings.Banding.AboveAverage => "blue",
+        KS4ProgressBandings.Banding.WellAboveAverage => "turquoise",
         _ => throw new ArgumentOutOfRangeException(nameof(banding))
     };
 }
