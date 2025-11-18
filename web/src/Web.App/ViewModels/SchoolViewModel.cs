@@ -9,6 +9,7 @@ public class SchoolViewModel(School school) : ISchoolKeyInformationViewModel
         School school,
         SchoolBalance? balance,
         IEnumerable<RagRating> ratings,
+        SchoolCharacteristic? characteristic,
         bool? comparatorGenerated = false,
         bool? comparatorReverted = false,
         string? userDefinedSetId = null,
@@ -22,6 +23,8 @@ public class SchoolViewModel(School school) : ISchoolKeyInformationViewModel
         PeriodCoveredByReturn = balance?.PeriodCoveredByReturn;
         ComparatorGenerated = comparatorGenerated;
         ComparatorReverted = comparatorReverted;
+        KS4Progress = characteristic?.KS4Progress;
+        KS4ProgressBanding = characteristic?.KS4ProgressBanding.ToBanding();
 
         var ratingsArray = ratings.ToArray();
 
@@ -100,6 +103,9 @@ public class SchoolViewModel(School school) : ISchoolKeyInformationViewModel
         FinanceTools.CompareYourCosts,
         FinanceTools.Spending,
         FinanceTools.BenchmarkCensus);
+
+    public decimal? KS4Progress { get; set; }
+    public KS4ProgressBandings.Banding? KS4ProgressBanding { get; set; }
 
     public string? OverallPhase => school.OverallPhase;
     public decimal? InYearBalance { get; }

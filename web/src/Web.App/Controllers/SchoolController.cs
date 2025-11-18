@@ -23,7 +23,8 @@ public class SchoolController(
     IMetricRagRatingApi metricRagRatingApi,
     IUserDataService userDataService,
     ICensusApi censusApi,
-    ICommercialResourcesService commercialResourcesService)
+    ICommercialResourcesService commercialResourcesService,
+    ISchoolInsightApi schoolInsightApi)
     : Controller
 {
     [HttpGet]
@@ -58,8 +59,9 @@ public class SchoolController(
                     var ratings = string.IsNullOrEmpty(comparatorSet)
                         ? await RagRatingsDefault(urn)
                         : await RagRatingsUserDefined(comparatorSet);
+                    var characteristic = await SchoolCharacteristic(urn);
 
-                    var viewModel = new SchoolViewModel(school, balance, ratings, comparatorGenerated, comparatorReverted, comparatorSet, customData);
+                    var viewModel = new SchoolViewModel(school, balance, ratings, characteristic, comparatorGenerated, comparatorReverted, comparatorSet, customData);
                     return View(viewModel);
                 }
             }
@@ -231,6 +233,10 @@ public class SchoolController(
     private async Task<RagRating[]> RagRatingsUserDefined(string comparatorSetId) => await metricRagRatingApi
         .UserDefinedAsync(comparatorSetId)
         .GetResultOrThrow<RagRating[]>();
+
+    private async Task<SchoolCharacteristic?> SchoolCharacteristic(string urn) => await schoolInsightApi
+        .GetCharacteristicsAsync(urn)
+        .GetResultOrDefault<SchoolCharacteristic>();
 
     private BacklinkInfo HomeLink(string urn) => new(Url.Action("Index", new
     {

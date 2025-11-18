@@ -74,7 +74,8 @@
   }
 }
 
-.priority-wrapper {
+.priority-wrapper,
+.stat-box {
   border: 2px solid $govuk-border-colour;
 
   &.high {
@@ -162,13 +163,22 @@ p.priority .govuk-tag {
   }
 }
 
-.top-categories {
-  div {
+.top-categories,
+.stat-boxes {
+  > div {
     background-color: #eeefef;
     padding: 20px;
     margin-bottom: 20px;
-  }
 
+    @include govuk-media-query($from: tablet) {
+      dd {
+        text-align: right;
+      }
+    }
+  }
+}
+
+.top-categories {
   .priority {
     margin-bottom: 0;
   }
