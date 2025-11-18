@@ -14,7 +14,7 @@ This release delivers a combination of enhancements, custom data generation fix 
 
 - **Enhancements**
   - Local authority home page updated to show pupil, workforce, financial and priority schools RAG ratings.
-  - Progress 8 score added on benchmark spending page giving users a combined view of spend vs outcomes. 
+  - Progress 8 score added on benchmark spending page giving users a combined view of spend vs outcomes. (will be switched off in production)
   
 - **Bug Fixes**
   - Issues with custom data generation has also been fixed.
@@ -54,8 +54,8 @@ This release delivers a combination of enhancements, custom data generation fix 
 
 - **Risk:** Dependency updates may cause unexpected regressions in unrelated platform components.
   - **Mitigation:** Run extended smoke tests on critical user journeys after deployment.
-- **Risk:** We might encounter errors during production deployment due to WAF configuration changes, which cannot be validated in earlier environments.
-  - **Mitigation:** Start release early in the day giving enough time to put in a fix and do another release.
+- **Risk:** During UAT, critical issues may be identified in the Progress 8 functionality.
+  - **Mitigation:** Progress 8 feature is controlled by a feature flag. Initial plan is to keep it switched off in production until December.
 
 ## Test Deliverables
 
