@@ -130,6 +130,23 @@
                             </li>
                         </feature>
                         break;
+                    case Resources.SchoolPerformance:
+                        <feature
+                            name="@($"{FeatureFlags.KS4ProgressBanding},{FeatureFlags.KS4ProgressBandingSchoolHome}")">
+                            <li>
+                                <h3 class="govuk-heading-s">
+                                    <a href="@Constants.CompareSchoolPerformanceUrl(Model.Identifier)"
+                                       class="govuk-link govuk-link--no-visited-state">
+                                        Compare school and college performance in England
+                                    </a>
+                                </h3>
+                                <p class="govuk-body">
+                                    View primary, secondary and special needs schools and colleges near you, and compare
+                                    their performance.
+                                </p>
+                            </li>
+                        </feature>
+                        break;
                 }
             }
         </ul>

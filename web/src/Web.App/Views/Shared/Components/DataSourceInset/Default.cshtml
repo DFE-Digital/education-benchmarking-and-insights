@@ -10,8 +10,8 @@
             @if (Model.ShowKs4Progress)
             {
                 <p class="govuk-body">
-                    Progress 8 data uses the latest data available from the academic year @(Model.Ks4ProgressYear-1) to @Model.Ks4ProgressYear and is taken from 
-                    <a class="govuk-link govuk-link--no-visited-state" href="@($"https://www.compare-school-performance.service.gov.uk/school/{Model.Urn}")">Compare school and college performance in England</a>
+                    Progress 8 data uses the latest data available from the academic year @(Model.Ks4ProgressYear - 1) to @Model.Ks4ProgressYear and is taken from
+                    <a class="govuk-link govuk-link--no-visited-state" href="@Constants.CompareSchoolPerformanceUrl(Model.Urn)">Compare school and college performance in England</a>
                 </p>
             }
         </div>
