@@ -142,7 +142,8 @@ public class WhenViewingCensus : PageBase<SchoolBenchmarkingWebAppClient>
         var characteristics = Fixture.Build<SchoolCharacteristic>()
             .With(x => x.URN, "123456")
             .With(x => x.KS4ProgressBanding, hasProgressIndicators ? "Well above average" : "Below average")
-            .CreateMany();
+            .CreateMany()
+            .ToArray();
 
         var comparatorSet = Fixture.Build<SchoolComparatorSet>()
             .With(x => x.Pupil, ["pupil"])
