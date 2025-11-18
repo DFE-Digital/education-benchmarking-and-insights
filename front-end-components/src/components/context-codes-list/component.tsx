@@ -9,7 +9,7 @@ export const ContextCodesList: React.FC<ContextCodesListProps> = ({
   codes &&
   codes.length > 0 && (
     <div className="app-cost-code-list">
-      {label && <p className="govuk-body-s">{label}</p>}
+      {label && <p className="govuk-body">{label}</p>}
       <ul
         className="govuk-list"
         id={
