@@ -113,8 +113,7 @@ stages:
 
           - script: |
               ipconfig
-              ping registry.terraform.io
-              databricks bundle deploy --target dev
+              databricks bundle deploy --target dev --log-level debug
             displayName: 'Validate Bundle Configuration'
             workingDirectory: $(System.ArtifactsDirectory)\$(artifactName)\databricks\education_benchmarking_and_insights
             env:
