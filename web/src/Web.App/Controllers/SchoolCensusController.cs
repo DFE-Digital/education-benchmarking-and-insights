@@ -44,13 +44,21 @@ public class SchoolCensusController(
 
                 var school = await School(urn);
                 var census = await Census(urn);
-                var (customData, comparatorSet) = await UserData(urn);
+                var userData = await UserData(urn);
                 var defaultComparatorSet = await comparatorSetApi.GetDefaultSchoolAsync(urn).GetResultOrDefault<SchoolComparatorSet>();
-                var bandings = await featureManager.IsEnabledAsync(FeatureFlags.KS4ProgressBanding)
-                    ? await progressBandingsService.GetKS4ProgressBandings(defaultComparatorSet?.Pupil ?? [])
-                    : null;
 
-                var viewModel = new SchoolCensusViewModel(school, comparatorSet, customData, census, defaultComparatorSet, bandings);
+                string[]? customComparatorSet = null;
+                if (userData.ComparatorSet != null)
+                {
+                    var userDefinedSet = await comparatorSetApi.GetUserDefinedSchoolAsync(urn, userData.ComparatorSet)
+                        .GetResultOrDefault<UserDefinedSchoolComparatorSet>();
+                    customComparatorSet = userDefinedSet?.Set;
+                }
+
+                var bandings = await featureManager.IsEnabledAsync(FeatureFlags.KS4ProgressBanding)
+                    ? await progressBandingsService.GetKS4ProgressBandings(customComparatorSet ?? defaultComparatorSet?.Pupil ?? [])
+                    : null;
+                var viewModel = new SchoolCensusViewModel(school, userData.ComparatorSet, userData.CustomData, census, defaultComparatorSet, bandings);
                 return View(viewModel);
             }
             catch (Exception e)

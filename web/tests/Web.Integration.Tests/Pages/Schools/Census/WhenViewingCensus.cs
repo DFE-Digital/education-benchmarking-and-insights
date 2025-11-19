@@ -29,7 +29,33 @@ public class WhenViewingCensus : PageBase<SchoolBenchmarkingWebAppClient>
     {
         var (page, school) = await SetupNavigateInitPage(financeType, ks4ProgressBandingEnabled, hasProgressIndicators);
 
-        AssertPageLayout(page, school, ks4ProgressBandingEnabled);
+        AssertPageLayout(page, school, ks4ProgressBandingEnabled, hasProgressIndicators);
+    }
+
+    [Theory]
+    [InlineData(true, false, false)]
+    [InlineData(false, false, false)]
+    [InlineData(true, true, false)]
+    [InlineData(false, true, false)]
+    [InlineData(true, false, true)]
+    [InlineData(false, false, true)]
+    public async Task CanDisplayCorrectComparatorSetDetails(
+        bool ks4ProgressBandingEnabled,
+        bool withCustomUserData,
+        bool withUserDefinedUserData)
+    {
+        var (page, school) = await SetupNavigateInitPage(
+            EstablishmentTypes.Maintained,
+            ks4ProgressBandingEnabled,
+            true,
+            withCustomUserData,
+            withUserDefinedUserData);
+
+        AssertPageLayout(
+            page,
+            school,
+            ks4ProgressBandingEnabled,
+            true);
     }
 
     [Theory]
@@ -104,7 +130,9 @@ public class WhenViewingCensus : PageBase<SchoolBenchmarkingWebAppClient>
     private async Task<(IHtmlDocument page, School school)> SetupNavigateInitPage(
         string financeType,
         bool ks4ProgressBandingEnabled = true,
-        bool hasProgressIndicators = true)
+        bool hasProgressIndicators = true,
+        bool withCustomUserData = false,
+        bool withUserDefinedUserData = false)
     {
         var school = Fixture.Build<School>()
             .With(x => x.URN, "123456")
@@ -120,6 +148,25 @@ public class WhenViewingCensus : PageBase<SchoolBenchmarkingWebAppClient>
             .With(x => x.Pupil, ["pupil"])
             .Create();
 
+        var customUserData = new[]
+        {
+            new UserData
+            {
+                Type = "custom-data",
+                Id = "123",
+                Status = "complete"
+            }
+        };
+
+        var userDefinedSetUserData = new[]
+        {
+            new UserData
+            {
+                Type = "comparator-set",
+                Id = "456"
+            }
+        };
+
         string[] features = ks4ProgressBandingEnabled ? [] : [FeatureFlags.KS4ProgressBanding];
         var page = await Client
             .SetupDisableFeatureFlags(features)
@@ -127,7 +174,10 @@ public class WhenViewingCensus : PageBase<SchoolBenchmarkingWebAppClient>
             .SetupInsights()
             .SetupSchoolInsight(characteristics)
             .SetupExpenditure(school)
-            .SetupUserData()
+            .SetupUserData(withUserDefinedUserData
+                ? userDefinedSetUserData
+                : withCustomUserData
+                    ? customUserData : null)
             .SetupCensus(school, _census)
             .SetupComparatorSet(school, comparatorSet)
             .Navigate(Paths.SchoolCensus(school.URN));
@@ -138,7 +188,8 @@ public class WhenViewingCensus : PageBase<SchoolBenchmarkingWebAppClient>
     private static void AssertPageLayout(
         IHtmlDocument page,
         School school,
-        bool ks4ProgressBandingEnabled = true)
+        bool ks4ProgressBandingEnabled = true,
+        bool hasProgressIndicators = true)
     {
         var expectedBreadcrumbs = new[]
         {
