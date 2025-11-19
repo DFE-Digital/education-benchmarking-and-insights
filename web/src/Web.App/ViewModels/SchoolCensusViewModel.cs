@@ -25,7 +25,7 @@ public class SchoolCensusViewModel(
         .Where(i => i.Banding is KS4ProgressBandings.Banding.WellAboveAverage or KS4ProgressBandings.Banding.AboveAverage)
         .ToArray() ?? [];
     public bool HasProgressIndicators => WellOrAboveAverageKS4ProgressBandingsInComparatorSet.Length > 0;
-    
+
     public FinanceToolsViewModel Tools => new(
         school.URN,
         FinanceTools.FinancialPlanning,
