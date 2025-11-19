@@ -1,11 +1,11 @@
-﻿# Release Test Plan: 2025.11.1
+﻿# Release Test Plan: 2025.11.0
 
-**Release Date:** TBC  
-**Release Label:** 2025.11.1
+**Release Date:** 2025/11/19  
+**Release Label:** 2025.11.0
 
 ## Introduction
 
-This plan defines the approach for testing release `2025.11.1`, covering smoke and sanity testing activities.
+This plan defines the approach for testing release `2025.11.0`, covering smoke and sanity testing activities.
 This release delivers a combination of enhancements, custom data generation fix and maintenance updates to improve performance, maintainability, and user experience across the platform.
 
 ## Scope
