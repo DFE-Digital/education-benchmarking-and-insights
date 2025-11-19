@@ -47,9 +47,9 @@ public class SchoolCensusController(
                 var (customData, comparatorSet) = await UserData(urn);
                 var defaultComparatorSet = await comparatorSetApi.GetDefaultSchoolAsync(urn).GetResultOrDefault<SchoolComparatorSet>();
                 var bandings = await featureManager.IsEnabledAsync(FeatureFlags.KS4ProgressBanding)
-                    ? await progressBandingsService.GetKS4ProgressBandings(defaultComparatorSet?.All ?? [])
+                    ? await progressBandingsService.GetKS4ProgressBandings(defaultComparatorSet?.Pupil ?? [])
                     : null;
-                
+
                 var viewModel = new SchoolCensusViewModel(school, comparatorSet, customData, census, defaultComparatorSet, bandings);
                 return View(viewModel);
             }

@@ -2,6 +2,7 @@
 using AngleSharp.Dom;
 using AngleSharp.Html.Dom;
 using AutoFixture;
+using Web.App;
 using Web.App.Domain;
 using Xunit;
 
@@ -18,13 +19,17 @@ public class WhenViewingCensus : PageBase<SchoolBenchmarkingWebAppClient>
     }
 
     [Theory]
-    [InlineData(EstablishmentTypes.Academies)]
-    [InlineData(EstablishmentTypes.Maintained)]
-    public async Task CanDisplay(string financeType)
+    [InlineData(EstablishmentTypes.Academies, false, false)]
+    [InlineData(EstablishmentTypes.Academies, false, true)]
+    [InlineData(EstablishmentTypes.Academies, true, false)]
+    [InlineData(EstablishmentTypes.Academies, true, true)]
+    [InlineData(EstablishmentTypes.Maintained, false, false)]
+    [InlineData(EstablishmentTypes.Maintained, true, true)]
+    public async Task CanDisplay(string financeType, bool ks4ProgressBandingEnabled, bool hasProgressIndicators)
     {
-        var (page, school) = await SetupNavigateInitPage(financeType);
+        var (page, school) = await SetupNavigateInitPage(financeType, ks4ProgressBandingEnabled, hasProgressIndicators);
 
-        AssertPageLayout(page, school);
+        AssertPageLayout(page, school, ks4ProgressBandingEnabled);
     }
 
     [Theory]
@@ -96,19 +101,31 @@ public class WhenViewingCensus : PageBase<SchoolBenchmarkingWebAppClient>
         DocumentAssert.AssertPageUrl(page, Paths.SchoolCensus(urn).ToAbsolute(), HttpStatusCode.InternalServerError);
     }
 
-    private async Task<(IHtmlDocument page, School school)> SetupNavigateInitPage(string financeType)
+    private async Task<(IHtmlDocument page, School school)> SetupNavigateInitPage(
+        string financeType,
+        bool ks4ProgressBandingEnabled = true,
+        bool hasProgressIndicators = true)
     {
         var school = Fixture.Build<School>()
             .With(x => x.URN, "123456")
             .With(x => x.FinanceType, financeType)
             .Create();
 
+        var characteristics = Fixture.Build<SchoolCharacteristic>()
+            .With(x => x.URN, "123456")
+            .With(x => x.KS4ProgressBanding, hasProgressIndicators ? "Well above average" : "Below average")
+            .CreateMany();
+
         var comparatorSet = Fixture.Build<SchoolComparatorSet>()
             .With(x => x.Pupil, ["pupil"])
             .Create();
 
-        var page = await Client.SetupEstablishment(school)
+        string[] features = ks4ProgressBandingEnabled ? [] : [FeatureFlags.KS4ProgressBanding];
+        var page = await Client
+            .SetupDisableFeatureFlags(features)
+            .SetupEstablishment(school)
             .SetupInsights()
+            .SetupSchoolInsight(characteristics)
             .SetupExpenditure(school)
             .SetupUserData()
             .SetupCensus(school, _census)
@@ -118,7 +135,10 @@ public class WhenViewingCensus : PageBase<SchoolBenchmarkingWebAppClient>
         return (page, school);
     }
 
-    private static void AssertPageLayout(IHtmlDocument page, School school)
+    private static void AssertPageLayout(
+        IHtmlDocument page,
+        School school,
+        bool ks4ProgressBandingEnabled = true)
     {
         var expectedBreadcrumbs = new[]
         {
@@ -131,7 +151,7 @@ public class WhenViewingCensus : PageBase<SchoolBenchmarkingWebAppClient>
         DocumentAssert.TitleAndH1(page, "Benchmark pupil and workforce data - Financial Benchmarking and Insights Tool - GOV.UK",
             "Benchmark pupil and workforce data");
 
-        var component = page.GetElementById("compare-your-census");
+        var component = page.GetElementById(ks4ProgressBandingEnabled ? "compare-your-census-2" : "compare-your-census");
         Assert.NotNull(component);
 
         var toolsSection = page.GetElementById("benchmarking-and-planning-tools");
