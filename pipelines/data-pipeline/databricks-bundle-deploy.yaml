@@ -113,7 +113,7 @@ stages:
 
           - script: |
               ipconfig
-              iwr https://registry.terraform.io
+              python -c "import requests; print(requests.get('https://registry.terraform.io').text)"
               databricks bundle deploy --target dev
             displayName: 'Validate Bundle Configuration'
             workingDirectory: $(System.ArtifactsDirectory)\$(artifactName)\databricks\education_benchmarking_and_insights
