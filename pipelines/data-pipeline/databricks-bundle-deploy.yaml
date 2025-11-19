@@ -47,6 +47,14 @@ stages:
           #   displayName: 'Run unit tests'
           #   continueOnError: false
 
+          - script: |
+              uv pip install pytest>=8.4.2 pyspark>=4.0.1 pyarrow>=22.0.0 pandas>=2.3.3 numpy>=2.2.6\
+                --python-platform windows \
+                --python-version 3.11 \
+                --cache-dir $(Build.ArtifactStagingDirectory)/windows
+            workingDirectory: $(System.DefaultWorkingDirectory)/databricks/education_benchmarking_and_insights
+            displayName: "Download windows wheels for remote runner"
+
           - task: CopyFiles@2
             displayName: 'Copy source files to staging'
             inputs:
@@ -58,14 +66,6 @@ stages:
               TargetFolder: '$(Build.ArtifactStagingDirectory)'
               CleanTargetFolder: true
 
-          # - script: |
-          #     curl -fsSL https://raw.githubusercontent.com/databricks/setup-cli/main/install.sh | sh
-          #   displayName: 'Install Databricks CLI'
-          
-          # - script: |
-          #     databricks bundle build --output '$(Build.ArtifactStagingDirectory)/bundle'
-          #   displayName: 'Pre-build databricks bundle'
-
           - script: |
               curl -fsSL https://github.com/databricks/cli/releases/download/v0.276.0/databricks_cli_0.276.0_windows_amd64.zip -o $(Build.ArtifactStagingDirectory)/databricks-cli.zip
               unzip $(Build.ArtifactStagingDirectory)/databricks-cli.zip -d $(Build.ArtifactStagingDirectory)/databricks-cli
@@ -75,14 +75,6 @@ stages:
               curl -LsSf https://github.com/astral-sh/uv/releases/latest/download/uv-x86_64-pc-windows-msvc.zip -o $(Build.ArtifactStagingDirectory)/uv.zip
               unzip $(Build.ArtifactStagingDirectory)/uv.zip -d $(Build.ArtifactStagingDirectory)/uv
             displayName: 'Download uv for Windows'
-          
-          - script: |
-              uv pip install pytest>=8.4.2 pyspark>=4.0.1 pyarrow>=22.0.0 pandas>=2.3.3 numpy>=2.2.6\
-                --python-platform windows \
-                --python-version 3.11 \
-                --cache-dir $(Build.ArtifactStagingDirectory)/windows
-            workingDirectory: $(System.DefaultWorkingDirectory)/databricks/education_benchmarking_and_insights
-            displayName: "Download windows wheels for remote runner"
 
           - task: PublishBuildArtifacts@1
             displayName: 'Publish Artifact'
