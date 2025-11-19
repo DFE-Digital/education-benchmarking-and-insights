@@ -3,6 +3,12 @@
 @model Web.App.ViewModels.SchoolViewModel
 @{
     ViewData[ViewDataKeys.Title] = PageTitles.SchoolHome;
+    var additionText = string.IsNullOrEmpty(Model.UserDefinedSetId)
+        ? null
+        : new[]
+        {
+            "You are now comparing with your chosen schools."
+        };
 }
 
 @if (Model is { PeriodCoveredByReturn: < 12 })
@@ -38,18 +44,26 @@
     @await Html.PartialAsync("_FederationSchools", Model)
 }
 
-@await Component.InvokeAsync("DataSource", new
-{
-    organisationType = OrganisationTypes.School,
-    sourceType = DataSourceTypes.Spending,
-    isPartOfTrust = Model.IsPartOfTrust,
-    additionText = string.IsNullOrEmpty(Model.UserDefinedSetId)
-        ? null
-        : new[]
-        {
-            "You are now comparing with your chosen schools."
-        }
-})
+<feature name="@($"{FeatureFlags.KS4ProgressBanding},{FeatureFlags.KS4ProgressBandingSchoolHome}")">
+    @await Component.InvokeAsync("DataSourceInset", new
+    {
+        organisationType = OrganisationTypes.School,
+        sourceType = DataSourceTypes.Spending,
+        isPartOfTrust = Model.IsPartOfTrust,
+        showKs4Progress = Model.HasProgressIndicator,
+        urn = Model.Urn,
+        additionText
+    })
+</feature>
+<feature name="@($"{FeatureFlags.KS4ProgressBanding},{FeatureFlags.KS4ProgressBandingSchoolHome}")" negate="true">
+    @await Component.InvokeAsync("DataSource", new
+    {
+        organisationType = OrganisationTypes.School,
+        sourceType = DataSourceTypes.Spending,
+        isPartOfTrust = Model.IsPartOfTrust,
+        additionText
+    })
+</feature>
 
 @await Html.PartialAsync("_SchoolKeyInformation", Model)
 

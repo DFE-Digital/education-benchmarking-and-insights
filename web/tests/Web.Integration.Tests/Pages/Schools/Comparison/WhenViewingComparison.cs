@@ -1,7 +1,6 @@
 ﻿using System.Net;
 using AngleSharp.Dom;
 using AngleSharp.Html.Dom;
-using AngleSharp.XPath;
 using AutoFixture;
 using Web.App;
 using Web.App.Domain;
@@ -255,29 +254,27 @@ public class WhenViewingComparison(SchoolBenchmarkingWebAppClient client)
         {
             case true when hasProgressIndicators:
                 {
-                    var text = GetInsetText(dataSourceElement);
                     if (school.IsPartOfTrust)
-                        AssertTrustWithIndicators(text, school);
+                        SchoolDocumentAssert.AssertAcademyWithIndicators(dataSourceElement, school.URN!);
                     else
-                        AssertNonTrustWithIndicators(text, school);
+                        SchoolDocumentAssert.AssertMaintainedSchoolWithIndicators(dataSourceElement, school.URN!);
                     break;
                 }
             case true:
                 {
-                    var text = GetInsetText(dataSourceElement);
                     if (school.IsPartOfTrust)
-                        AssertTrustNoIndicators(text);
+                        SchoolDocumentAssert.AssertAcademyNoIndicators(dataSourceElement);
                     else
-                        AssertNonTrustNoIndicators(text);
+                        SchoolDocumentAssert.AssertMaintainedSchoolNoIndicators(dataSourceElement);
                     break;
                 }
             default:
                 {
-                    var text = GetPlainText(dataSourceElement);
+                    const string additionalText = "Benchmark your spending against similar schools.";
                     if (school.IsPartOfTrust)
-                        AssertTrustNoBanding(text);
+                        SchoolDocumentAssert.AssertAcademyNoBanding(dataSourceElement, additionalText);
                     else
-                        AssertNonTrustNoBanding(text);
+                        SchoolDocumentAssert.AssertMaintainedSchoolNoBanding(dataSourceElement, additionalText);
                     break;
                 }
         }
@@ -437,72 +434,6 @@ public class WhenViewingComparison(SchoolBenchmarkingWebAppClient client)
 
             DocumentAssert.TextEqual(paragraphs[2], "View custom data set");
             DocumentAssert.Link(paragraphs[2].QuerySelector("a"), "View custom data set", Paths.SchoolCustomisedData(school.URN).ToAbsolute());
-
         }
-    }
-
-    private static IHtmlCollection<IElement> GetInsetText(IElement element)
-    {
-        var inset = element.QuerySelector(".govuk-inset-text");
-        Assert.NotNull(inset);
-        var text = inset.QuerySelectorAll("p");
-        Assert.NotNull(text);
-        return text;
-    }
-
-    private static IHtmlCollection<IElement> GetPlainText(IElement element)
-    {
-        var text = element.QuerySelectorAll("p");
-        Assert.NotNull(text);
-        return text;
-    }
-
-    private static void AssertTrustWithIndicators(IHtmlCollection<IElement> text, School school)
-    {
-        Assert.Equal(3, text.Length);
-        DocumentAssert.TextEqual(text[0], "This school's data covers the financial year September 2021 to August 2022 academies accounts return (AAR).");
-        DocumentAssert.TextEqual(text[1], "Data for academies in a Multi-Academy Trust (MAT) includes a share of MAT central finance.");
-        DocumentAssert.TextEqual(text[2], "Progress 8 data uses the latest data available from the academic year 2023 to 2024 and is taken from Compare school and college performance in England", true);
-
-        var link = text[2].QuerySelector("a");
-        DocumentAssert.Link(link, "Compare school and college performance in England", $"https://www.compare-school-performance.service.gov.uk/school/{school.URN}");
-    }
-
-    private static void AssertNonTrustWithIndicators(IHtmlCollection<IElement> text, School school)
-    {
-        Assert.Equal(2, text.Length);
-        DocumentAssert.TextEqual(text[0], "This school's data covers the financial year April 2020 to March 2021 consistent financial reporting return (CFR).");
-        DocumentAssert.TextEqual(text[1], "Progress 8 data uses the latest data available from the academic year 2023 to 2024 and is taken from Compare school and college performance in England", true);
-
-        var link = text[1].QuerySelector("a");
-        DocumentAssert.Link(link, "Compare school and college performance in England", $"https://www.compare-school-performance.service.gov.uk/school/{school.URN}");
-    }
-
-    private static void AssertTrustNoIndicators(IHtmlCollection<IElement> text)
-    {
-        Assert.Equal(2, text.Length);
-        DocumentAssert.TextEqual(text[0], "This school's data covers the financial year September 2021 to August 2022 academies accounts return (AAR).");
-        DocumentAssert.TextEqual(text[1], "Data for academies in a Multi-Academy Trust (MAT) includes a share of MAT central finance.");
-    }
-
-    private static void AssertNonTrustNoIndicators(IHtmlCollection<IElement> text)
-    {
-        Assert.Equal(1, text.Length);
-        DocumentAssert.TextEqual(text[0], "This school's data covers the financial year April 2020 to March 2021 consistent financial reporting return (CFR).");
-    }
-
-    private static void AssertTrustNoBanding(IHtmlCollection<IElement> text)
-    {
-        Assert.Equal(3, text.Length);
-        DocumentAssert.TextEqual(text[0], "Benchmark your spending against similar schools.");
-        DocumentAssert.TextEqual(text[1], "This school's data covers the financial year September 2021 to August 2022 academies accounts return (AAR).");
-        DocumentAssert.TextEqual(text[2], "Data for academies in a Multi-Academy Trust (MAT) includes a share of MAT central finance.");
-    }
-
-    private static void AssertNonTrustNoBanding(IHtmlCollection<IElement> text)
-    {
-        Assert.Equal(2, text.Length);
-        DocumentAssert.TextEqual(text[0], "Benchmark your spending against similar schools.");
-        DocumentAssert.TextEqual(text[1], "This school's data covers the financial year April 2020 to March 2021 consistent financial reporting return (CFR).");
     }
 }

@@ -64,7 +64,7 @@ public class WhenViewingComparatorsRevert(SchoolBenchmarkingWebAppClient client)
 
             client
                 .SetupUserData([userData])
-                .SetupMetricRagRatingUserDefined()
+                .SetupMetricRagRating()
                 .SetupBalance(balance);
         }
 
