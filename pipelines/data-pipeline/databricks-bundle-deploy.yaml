@@ -59,13 +59,13 @@ stages:
               TargetFolder: '$(Build.ArtifactStagingDirectory)'
               CleanTargetFolder: true
 
-          - script: |
-              uv pip install pytest>=8.4.2 pyspark>=4.0.1 pyarrow>=22.0.0 pandas>=2.3.3 numpy>=2.2.6 \
-                --python-platform windows \
-                --python-version 3.13 \
-                --cache-dir $(Build.ArtifactStagingDirectory)/windows
-            workingDirectory: $(System.DefaultWorkingDirectory)/databricks/education_benchmarking_and_insights
-            displayName: "Download windows wheels for remote runner"
+          # - script: |
+          #     uv pip install pytest>=8.4.2 pyspark>=4.0.1 pyarrow>=22.0.0 pandas>=2.3.3 numpy>=2.2.6 \
+          #       --python-platform windows \
+          #       --python-version 3.13 \
+          #       --cache-dir $(Build.ArtifactStagingDirectory)/windows
+          #   workingDirectory: $(System.DefaultWorkingDirectory)/databricks/education_benchmarking_and_insights
+          #   displayName: "Download windows wheels for remote runner"
 
           - script: |
               curl -fsSL https://github.com/databricks/cli/releases/download/v0.276.0/databricks_cli_0.276.0_windows_amd64.zip -o $(Build.ArtifactStagingDirectory)/databricks-cli.zip
@@ -111,7 +111,7 @@ stages:
 
           - script: |
               ipconfig
-              uv run python --version
+              curl https://registry.terraform.io
               databricks bundle deploy --target dev
             displayName: 'Validate Bundle Configuration'
             workingDirectory: $(System.ArtifactsDirectory)\$(artifactName)\databricks\education_benchmarking_and_insights
