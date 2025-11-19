@@ -70,11 +70,13 @@ stages:
           - script: |
               curl -fsSL https://github.com/databricks/cli/releases/download/v0.276.0/databricks_cli_0.276.0_windows_amd64.zip -o $(Build.ArtifactStagingDirectory)/databricks-cli.zip
               unzip $(Build.ArtifactStagingDirectory)/databricks-cli.zip -d $(Build.ArtifactStagingDirectory)/databricks-cli
+              rm $(Build.ArtifactStagingDirectory)/databricks-cli.zip
             displayName: 'Download Databricks CLI binary for Windows'
 
           - script: |
               curl -LsSf https://github.com/astral-sh/uv/releases/latest/download/uv-x86_64-pc-windows-msvc.zip -o $(Build.ArtifactStagingDirectory)/uv.zip
               unzip $(Build.ArtifactStagingDirectory)/uv.zip -d $(Build.ArtifactStagingDirectory)/uv
+              rm $(Build.ArtifactStagingDirectory)/uv.zip
             displayName: 'Download uv for Windows'
 
           - task: PublishBuildArtifacts@1
@@ -111,7 +113,7 @@ stages:
 
           - script: |
               ipconfig
-              curl https://registry.terraform.io
+              iwr https://registry.terraform.io
               databricks bundle deploy --target dev
             displayName: 'Validate Bundle Configuration'
             workingDirectory: $(System.ArtifactsDirectory)\$(artifactName)\databricks\education_benchmarking_and_insights
