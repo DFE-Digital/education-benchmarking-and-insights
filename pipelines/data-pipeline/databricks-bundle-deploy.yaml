@@ -75,6 +75,16 @@ stages:
               curl -LsSf https://github.com/astral-sh/uv/releases/latest/download/uv-x86_64-pc-windows-msvc.zip -o $(Build.ArtifactStagingDirectory)/uv.zip
               unzip $(Build.ArtifactStagingDirectory)/uv.zip -d $(Build.ArtifactStagingDirectory)/uv
             displayName: 'Download uv for Windows'
+          
+          - script: |
+              uv export --frozen --no-hashes > requirements.txt
+              uv pip download \
+                --python-platform windows \
+                --python-version 3.11 \
+                -r requirements.txt \
+                -d $(Build.ArtifactStagingDirectory)/windows
+            workingDirectory: $(System.DefaultWorkingDirectory)/databricks/education_benchmarking_and_insights
+            displayName: "Download windows wheels for remote runner"
 
           - task: PublishBuildArtifacts@1
             displayName: 'Publish Artifact'
@@ -117,6 +127,8 @@ stages:
               PATH: $(System.ArtifactsDirectory)\$(artifactName)\uv;$(System.ArtifactsDirectory)\$(artifactName)\databricks-cli;$(PATH)
               DATABRICKS_HOST: $(DATABRICKS_HOST)
               DATABRICKS_TOKEN: $(DATABRICKS_TOKEN)
+              UV_NO_INDEX: '1'
+              UV_FIND_LINKS: $(System.ArtifactsDirectory)\$(artifactName)\windows
 
   - stage: DeployDev
     displayName: 'Deploy to Dev'
