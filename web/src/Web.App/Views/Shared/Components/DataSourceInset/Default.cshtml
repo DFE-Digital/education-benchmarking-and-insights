@@ -2,7 +2,11 @@
 
 <div class="govuk-grid-row" data-test-id="data-source-wrapper">
     <div class="govuk-grid-column-two-thirds">
-        <div class="govuk-inset-text">
+        @foreach (var text in Model.AdditionText)
+        {
+            <p class="govuk-body">@text</p>    
+        }
+        <div class="govuk-inset-text govuk-!-margin-top-2">
             @foreach (var dataSource in Model.DataSource)
             {
                 <p class="govuk-body">@dataSource</p>

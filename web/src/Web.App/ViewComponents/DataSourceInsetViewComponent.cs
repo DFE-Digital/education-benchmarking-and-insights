@@ -12,7 +12,8 @@ public class DataSourceInsetViewComponent(IFinanceService financeService) : View
         string sourceType,
         bool? isPartOfTrust,
         bool showKs4Progress = false,
-        string? urn = null
+        string? urn = null,
+        string[]? additionText = null
     )
     {
         var years = await financeService.GetYears();
@@ -29,7 +30,7 @@ public class DataSourceInsetViewComponent(IFinanceService financeService) : View
             _ => throw new ArgumentOutOfRangeException(nameof(sourceType))
         };
 
-        return View(new DataSourceInsetViewModel(dataSource, showKs4Progress, urn, ks4ProgressYear));
+        return View(new DataSourceInsetViewModel(dataSource, showKs4Progress, urn, ks4ProgressYear, additionText));
     }
 
     private static string[] GetSpendingDataSource(string organisationType, bool isPartOfTrust, FinanceYears years)

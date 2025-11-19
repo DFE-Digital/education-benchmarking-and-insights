@@ -422,19 +422,13 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
         return this;
     }
 
-    public BenchmarkingWebAppClient SetupMetricRagRating(IEnumerable<RagRating>? ratings = null)
+    public BenchmarkingWebAppClient SetupMetricRagRating(IEnumerable<RagRating>? ratings = null, IEnumerable<RagRating>? userDefinedRating = null)
     {
         MetricRagRatingApi.Reset();
 
         MetricRagRatingApi.Setup(api => api.GetDefaultAsync(It.IsAny<ApiQuery?>())).ReturnsAsync(ApiResult.Ok(ratings ?? []));
+        MetricRagRatingApi.Setup(api => api.UserDefinedAsync(It.IsAny<string>())).ReturnsAsync(ApiResult.Ok(userDefinedRating ?? []));
 
-        return this;
-    }
-
-    public BenchmarkingWebAppClient SetupMetricRagRatingUserDefined(IEnumerable<RagRating>? ratings = null)
-    {
-        MetricRagRatingApi.Reset();
-        MetricRagRatingApi.Setup(api => api.UserDefinedAsync(It.IsAny<string>())).ReturnsAsync(ApiResult.Ok(ratings ?? []));
         return this;
     }
 

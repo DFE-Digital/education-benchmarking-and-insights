@@ -3,6 +3,7 @@ using AngleSharp.Dom;
 using AngleSharp.Html.Dom;
 using AngleSharp.XPath;
 using AutoFixture;
+using Web.App;
 using Web.App.Domain;
 using Xunit;
 
@@ -11,13 +12,17 @@ namespace Web.Integration.Tests.Pages.Schools;
 public class WhenViewingHomeAsFederation(SchoolBenchmarkingWebAppClient client) : PageBase<SchoolBenchmarkingWebAppClient>(client)
 {
     [Theory]
-    [InlineData(true)]
-    [InlineData(false)]
-    public async Task CanDisplay(bool isNonLeadFederation)
+    [InlineData(true, false, false, false)]
+    [InlineData(true, true, true, false)]
+    [InlineData(true, true, true, true)]
+    [InlineData(false, false, false, false)]
+    [InlineData(false, true, true, false)]
+    [InlineData(false, true, true, true)]
+    public async Task CanDisplay(bool isNonLeadFederation, bool ks4ProgressBandingEnabled, bool hasProgressIndicator, bool withUserDefinedUserData)
     {
-        var (page, school, _) = await SetupNavigateInitPage(isNonLeadFederation);
+        var (page, school, _) = await SetupNavigateInitPage(isNonLeadFederation, ks4ProgressBandingEnabled, hasProgressIndicator, withUserDefinedUserData);
 
-        AssertPageLayout(page, school);
+        AssertPageLayout(page, school, ks4ProgressBandingEnabled, hasProgressIndicator, withUserDefinedUserData);
     }
 
     [Fact]
@@ -132,7 +137,11 @@ public class WhenViewingHomeAsFederation(SchoolBenchmarkingWebAppClient client) 
         AssertAppHeadlines(page, school, balance);
     }
 
-    private async Task<(IHtmlDocument page, School school, SchoolBalance balance)> SetupNavigateInitPage(bool isNonLeadFederation = false)
+    private async Task<(IHtmlDocument page, School school, SchoolBalance balance)> SetupNavigateInitPage(
+        bool isNonLeadFederation = false,
+        bool ks4ProgressBandingEnabled = true,
+        bool hasProgressIndicator = true,
+        bool withUserDefinedUserData = false)
     {
         var federationLeadSchool = new FederationSchool
         {
@@ -166,22 +175,45 @@ public class WhenViewingHomeAsFederation(SchoolBenchmarkingWebAppClient client) 
             .Without(c => c.Building)
             .Create();
 
+        var characteristic = Fixture.Build<SchoolCharacteristic>()
+                    .With(x => x.KS4ProgressBanding, hasProgressIndicator ? "Well above average" : null)
+                    .Create();
+
+        var userDefinedSetUserData = new[]
+        {
+                    new UserData
+                    {
+                        Type = "comparator-set",
+                        Id = "456"
+                    }
+                };
+
+        var userDefinedRatings = withUserDefinedUserData ? CreateRagRatings(school.URN!) : [];
+
+        string[] features = ks4ProgressBandingEnabled ? [] : [FeatureFlags.KS4ProgressBanding, FeatureFlags.KS4ProgressBandingSchoolHome];
         var page = await Client
+            .SetupDisableFeatureFlags(features)
             .SetupEstablishment(school)
-            .SetupMetricRagRating()
+            .SetupMetricRagRating([], userDefinedRatings)
             .SetupInsights()
             .SetupExpenditure(school)
             .SetupBalance(balance)
-            .SetupUserData()
+            .SetupUserData(withUserDefinedUserData ? userDefinedSetUserData : null)
             .SetupCensus(school, census)
             .SetupComparatorSet(school, comparatorSet)
             .SetupItSpend()
+            .SetupSchoolInsight(characteristic)
             .Navigate(Paths.SchoolHome(school.URN));
 
         return (page, school, balance);
     }
 
-    private static void AssertPageLayout(IHtmlDocument page, School school)
+    private static void AssertPageLayout(
+        IHtmlDocument page,
+        School school,
+        bool ks4ProgressBandingEnabled = true,
+        bool hasProgressIndicator = true,
+        bool withUserDefinedUserData = false)
     {
         DocumentAssert.AssertPageUrl(page, Paths.SchoolHome(school.URN).ToAbsolute());
 
@@ -227,9 +259,9 @@ public class WhenViewingHomeAsFederation(SchoolBenchmarkingWebAppClient client) 
                 DocumentAssert.Link(anchor, federationSchool.SchoolName, Paths.SchoolHome(federationSchool.URN).ToAbsolute());
             }
 
-            var dataSourceElement = page.QuerySelector("main > div > div:nth-child(4) > div > p");
+            var dataSourceElement = page.QuerySelector("div[data-test-id='data-source-wrapper']");
             Assert.NotNull(dataSourceElement);
-            DocumentAssert.TextEqual(dataSourceElement, "This school's data covers the financial year April 2020 to March 2021 consistent financial reporting return (CFR).");
+            AssertDataSource(dataSourceElement, school, ks4ProgressBandingEnabled, hasProgressIndicator, withUserDefinedUserData);
 
             var toolsSection = page.GetElementById("benchmarking-and-planning-tools");
             DocumentAssert.Heading2(toolsSection, "Benchmarking and planning tools");
@@ -256,5 +288,51 @@ public class WhenViewingHomeAsFederation(SchoolBenchmarkingWebAppClient client) 
             $"Revenue reserve  £{balance.RevenueReserve}",
             $"School phase  {school.OverallPhase}"
         ], headlineFiguresTexts);
+    }
+
+    private static void AssertDataSource(
+        IElement dataSourceElement,
+        School school,
+        bool ks4ProgressBandingEnabled,
+        bool hasProgressIndicator,
+        bool withUserDefinedUserData)
+    {
+        string? additionalText = null;
+        if (withUserDefinedUserData)
+        {
+            additionalText = "You are now comparing with your chosen schools.";
+        }
+
+        switch (ks4ProgressBandingEnabled)
+        {
+            case true when hasProgressIndicator:
+                {
+                    SchoolDocumentAssert.AssertMaintainedSchoolWithIndicators(dataSourceElement, school.URN!, additionalText);
+                    break;
+                }
+            case true:
+                {
+                    SchoolDocumentAssert.AssertMaintainedSchoolNoIndicators(dataSourceElement, additionalText);
+                    break;
+                }
+            default:
+                {
+                    SchoolDocumentAssert.AssertMaintainedSchoolNoBanding(dataSourceElement, additionalText);
+                    break;
+                }
+        }
+    }
+
+    private RagRating[] CreateRagRatings(string urn)
+    {
+        var random = new Random();
+        var statusKeys = Lookups.StatusPriorityMap.Keys.ToList();
+        return Category.All
+            .Select(category => Fixture.Build<RagRating>()
+                .With(r => r.Category, category)
+                .With(r => r.RAG, () => statusKeys[random.Next(statusKeys.Count)])
+                .With(r => r.URN, urn)
+                .Create())
+            .ToArray();
     }
 }

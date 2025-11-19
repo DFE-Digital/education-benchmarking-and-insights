@@ -13,16 +13,23 @@ namespace Web.Integration.Tests.Pages.Schools;
 public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<SchoolBenchmarkingWebAppClient>(client)
 {
     [Theory]
-    [InlineData(EstablishmentTypes.Academies, true, false)]
-    [InlineData(EstablishmentTypes.Academies, false, false)]
-    [InlineData(EstablishmentTypes.Academies, true, true)]
-    [InlineData(EstablishmentTypes.Maintained, false, false)]
-    [InlineData(EstablishmentTypes.Maintained, false, true)]
-    public async Task CanDisplay(string financeType, bool isPartOfTrust, bool showBanner)
+    [InlineData(EstablishmentTypes.Academies, true, false, false, false, false)]
+    [InlineData(EstablishmentTypes.Academies, true, false, false, true, false)]
+    [InlineData(EstablishmentTypes.Academies, true, false, true, false, false)]
+    [InlineData(EstablishmentTypes.Academies, true, false, true, false, true)]
+    [InlineData(EstablishmentTypes.Academies, true, false, true, true, false)]
+    [InlineData(EstablishmentTypes.Academies, true, false, true, true, true)]
+    [InlineData(EstablishmentTypes.Academies, false, false, false, false, false)]
+    [InlineData(EstablishmentTypes.Academies, false, false, true, true, false)]
+    [InlineData(EstablishmentTypes.Academies, false, false, true, true, true)]
+    [InlineData(EstablishmentTypes.Academies, true, true, false, false, false)]
+    [InlineData(EstablishmentTypes.Maintained, false, false, false, false, false)]
+    [InlineData(EstablishmentTypes.Maintained, false, true, false, false, false)]
+    public async Task CanDisplay(string financeType, bool isPartOfTrust, bool showBanner, bool ks4ProgressBandingEnabled, bool hasProgressIndicator, bool withUserDefinedUserData)
     {
-        var (page, school, _, banner, _) = await SetupNavigateInitPage(financeType, isPartOfTrust, showBanner);
+        var (page, school, _, banner, _) = await SetupNavigateInitPage(financeType, isPartOfTrust, showBanner, ks4ProgressBandingEnabled, hasProgressIndicator, withUserDefinedUserData);
 
-        AssertPageLayout(page, school, banner);
+        AssertPageLayout(page, school, banner, ks4ProgressBandingEnabled, hasProgressIndicator, withUserDefinedUserData);
     }
 
     [Theory]
@@ -158,7 +165,7 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
     [InlineData(true, true, true)]
     public async Task CanDisplaySchoolPerformance(bool ks4ProgressBandingEnabled, bool hasProgressIndicators, bool expectedVisible)
     {
-        var (page, _, _, _, characteristic) = await SetupNavigateInitPage(EstablishmentTypes.Maintained, ks4ProgressBandingEnabled: ks4ProgressBandingEnabled, hasProgressIndicators: hasProgressIndicators);
+        var (page, _, _, _, characteristic) = await SetupNavigateInitPage(EstablishmentTypes.Maintained, ks4ProgressBandingEnabled: ks4ProgressBandingEnabled, hasProgressIndicator: hasProgressIndicators);
         AssertSchoolPerformance(page, characteristic, expectedVisible);
     }
 
@@ -167,9 +174,9 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
     [InlineData(false, true, false)]
     [InlineData(true, false, true)]
     [InlineData(true, true, true)]
-    public async Task CanDisplayResources(bool ks4ProgressBandingEnabled, bool hasProgressIndicators, bool expectedComparePerformanceVisible)
+    public async Task CanDisplayResources(bool ks4ProgressBandingEnabled, bool hasProgressIndicator, bool expectedComparePerformanceVisible)
     {
-        var (page, _, _, _, _) = await SetupNavigateInitPage(EstablishmentTypes.Maintained, ks4ProgressBandingEnabled: ks4ProgressBandingEnabled, hasProgressIndicators: hasProgressIndicators);
+        var (page, _, _, _, _) = await SetupNavigateInitPage(EstablishmentTypes.Maintained, ks4ProgressBandingEnabled: ks4ProgressBandingEnabled, hasProgressIndicator: hasProgressIndicator);
         AssertResources(page, expectedComparePerformanceVisible);
     }
 
@@ -178,7 +185,8 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
         bool isPartOfTrust = false,
         bool showBanner = false,
         bool ks4ProgressBandingEnabled = true,
-        bool hasProgressIndicators = true)
+        bool hasProgressIndicator = true,
+        bool withUserDefinedUserData = false)
     {
         var school = Fixture.Build<School>()
             .With(x => x.URN, "123456")
@@ -204,18 +212,29 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
             .Create();
 
         var characteristic = Fixture.Build<SchoolCharacteristic>()
-            .With(x => x.KS4ProgressBanding, hasProgressIndicators ? "Well above average" : null)
+            .With(x => x.KS4ProgressBanding, hasProgressIndicator ? "Well above average" : null)
             .Create();
+
+        var userDefinedSetUserData = new[]
+        {
+            new UserData
+            {
+                Type = "comparator-set",
+                Id = "456"
+            }
+        };
+
+        var userDefinedRatings = withUserDefinedUserData ? CreateRagRatings(school.URN!) : [];
 
         string[] features = ks4ProgressBandingEnabled ? [] : [FeatureFlags.KS4ProgressBanding, FeatureFlags.KS4ProgressBandingSchoolHome];
         var page = await Client
             .SetupDisableFeatureFlags(features)
             .SetupEstablishment(school)
-            .SetupMetricRagRating()
+            .SetupMetricRagRating([], userDefinedRatings)
             .SetupInsights()
             .SetupExpenditure(school)
             .SetupBalance(balance)
-            .SetupUserData()
+            .SetupUserData(withUserDefinedUserData ? userDefinedSetUserData : null)
             .SetupBanner(banner)
             .SetupComparatorSet(school, comparatorSet)
             .SetupItSpend()
@@ -225,7 +244,13 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
         return (page, school, balance, banner, characteristic);
     }
 
-    private static void AssertPageLayout(IHtmlDocument page, School school, Banner? banner)
+    private static void AssertPageLayout(
+        IHtmlDocument page,
+        School school,
+        Banner? banner,
+        bool ks4ProgressBandingEnabled = true,
+        bool hasProgressIndicator = true,
+        bool withUserDefinedUserData = false)
     {
         var expectedBreadcrumbs = new[]
         {
@@ -242,18 +267,9 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
             DocumentAssert.Heading2(page, $"Part of {school.TrustName}");
         }
 
-        var dataSourceElement = page.QuerySelectorAll($"main > div > div:nth-child({(banner == null ? "3" : "4")}) > div > p");
+        var dataSourceElement = page.QuerySelector("div[data-test-id='data-source-wrapper']");
         Assert.NotNull(dataSourceElement);
-
-        if (school.IsPartOfTrust)
-        {
-            DocumentAssert.TextEqual(dataSourceElement.ElementAt(0), "This school's data covers the financial year September 2021 to August 2022 academies accounts return (AAR).");
-            DocumentAssert.TextEqual(dataSourceElement.ElementAt(1), "Data for academies in a Multi-Academy Trust (MAT) includes a share of MAT central finance.");
-        }
-        else
-        {
-            DocumentAssert.TextEqual(dataSourceElement.ElementAt(0), "This school's data covers the financial year April 2020 to March 2021 consistent financial reporting return (CFR).");
-        }
+        AssertDataSource(dataSourceElement, school, ks4ProgressBandingEnabled, hasProgressIndicator, withUserDefinedUserData);
 
         var changeLinkElement = page.QuerySelectorAll("a").FirstOrDefault(x => x.TextContent.Trim() == "Change school");
 
@@ -350,5 +366,60 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
         var resource6 = resources.ElementAtOrDefault(5);
         Assert.NotNull(resource6);
         DocumentAssert.Heading3(resource6, "Compare school and college performance in England");
+    }
+
+    private static void AssertDataSource(
+        IElement dataSourceElement,
+        School school,
+        bool ks4ProgressBandingEnabled,
+        bool hasProgressIndicator,
+        bool withUserDefinedUserData)
+    {
+        string? additionalText = null;
+        if (withUserDefinedUserData)
+        {
+            additionalText = "You are now comparing with your chosen schools.";
+        }
+
+        switch (ks4ProgressBandingEnabled)
+        {
+            case true when hasProgressIndicator:
+                {
+                    if (school.IsPartOfTrust)
+                        SchoolDocumentAssert.AssertAcademyWithIndicators(dataSourceElement, school.URN!, additionalText);
+                    else
+                        SchoolDocumentAssert.AssertMaintainedSchoolWithIndicators(dataSourceElement, school.URN!, additionalText);
+                    break;
+                }
+            case true:
+                {
+                    if (school.IsPartOfTrust)
+                        SchoolDocumentAssert.AssertAcademyNoIndicators(dataSourceElement, additionalText);
+                    else
+                        SchoolDocumentAssert.AssertMaintainedSchoolNoIndicators(dataSourceElement, additionalText);
+                    break;
+                }
+            default:
+                {
+                    if (school.IsPartOfTrust)
+                        SchoolDocumentAssert.AssertAcademyNoBanding(dataSourceElement, additionalText);
+                    else
+                        SchoolDocumentAssert.AssertMaintainedSchoolNoBanding(dataSourceElement, additionalText);
+                    break;
+                }
+        }
+    }
+
+    private RagRating[] CreateRagRatings(string urn)
+    {
+        var random = new Random();
+        var statusKeys = Lookups.StatusPriorityMap.Keys.ToList();
+        return Category.All
+            .Select(category => Fixture.Build<RagRating>()
+                .With(r => r.Category, category)
+                .With(r => r.RAG, () => statusKeys[random.Next(statusKeys.Count)])
+                .With(r => r.URN, urn)
+            .Create())
+            .ToArray();
     }
 }
