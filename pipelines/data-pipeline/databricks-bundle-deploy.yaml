@@ -77,10 +77,10 @@ stages:
             displayName: 'Download uv for Windows'
           
           - script: |
-              uv pip download pytest>=8.4.2 pyspark>=4.0.1 pyarrow>=22.0.0 pandas>=2.3.3 numpy>=2.2.6\
+              uv pip install pytest>=8.4.2 pyspark>=4.0.1 pyarrow>=22.0.0 pandas>=2.3.3 numpy>=2.2.6\
                 --python-platform windows \
                 --python-version 3.11 \
-                -d $(Build.ArtifactStagingDirectory)/windows
+                --cache-dir $(Build.ArtifactStagingDirectory)/windows
             workingDirectory: $(System.DefaultWorkingDirectory)/databricks/education_benchmarking_and_insights
             displayName: "Download windows wheels for remote runner"
 
