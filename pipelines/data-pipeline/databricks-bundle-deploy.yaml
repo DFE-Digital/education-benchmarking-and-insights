@@ -120,8 +120,6 @@ stages:
               PATH: $(System.ArtifactsDirectory)\$(artifactName)\uv;$(System.ArtifactsDirectory)\$(artifactName)\databricks-cli;$(PATH)
               DATABRICKS_HOST: $(DATABRICKS_HOST)
               DATABRICKS_TOKEN: $(DATABRICKS_TOKEN)
-              UV_NO_INDEX: '1'
-              UV_FIND_LINKS: $(System.ArtifactsDirectory)\$(artifactName)\windows
 
   - stage: DeployDev
     displayName: 'Deploy to Dev'
