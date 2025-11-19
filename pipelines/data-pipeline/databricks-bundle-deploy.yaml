@@ -36,10 +36,10 @@ stages:
               echo "##vso[task.prependpath]$HOME/.cargo/bin"
             displayName: 'Install uv'
 
-          # - script: |
-          #     uv sync --group unit-test
-          #   workingDirectory: $(System.DefaultWorkingDirectory)/databricks/education_benchmarking_and_insights
-          #   displayName: 'Install Dependencies with uv'
+          - script: |
+              uv sync --group unit-test
+            workingDirectory: $(System.DefaultWorkingDirectory)/databricks/education_benchmarking_and_insights
+            displayName: 'Install Dependencies with uv'
 
           # - script: |
           #     uv run pytest -v
@@ -48,7 +48,7 @@ stages:
           #   continueOnError: false
 
           - script: |
-              uv pip install pytest>=8.4.2 pyspark>=4.0.1 pyarrow>=22.0.0 pandas>=2.3.3 numpy>=2.2.6\
+              uv pip install pytest>=8.4.2 pyspark>=4.0.1 pyarrow>=22.0.0 pandas>=2.3.3 numpy>=2.2.6 \
                 --python-platform windows \
                 --python-version 3.11 \
                 --cache-dir $(Build.ArtifactStagingDirectory)/windows
