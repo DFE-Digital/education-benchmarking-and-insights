@@ -1,24 +1,28 @@
-﻿@using Web.App.ViewModels.Components
-@using Web.App.ViewModels.Shared
+﻿@using Newtonsoft.Json
+@using Web.App.Extensions
+@using Web.App.ViewModels.Components
 @model Web.App.ViewModels.SchoolCensusViewModel
 @{
     ViewData[ViewDataKeys.Title] = PageTitles.Census;
     var hasUserDefinedSet = !string.IsNullOrEmpty(Model.UserDefinedSetId);
     var hasCustomData = !string.IsNullOrEmpty(Model.CustomDataId);
     var hasMissingComparatorSet = !hasUserDefinedSet && !Model.HasDefaultComparatorSet;
+    var downloadLink = Url.ActionLink("Download", "SchoolCensus", new
+    {
+        urn = Model.Urn,
+        customDataId = Model.CustomDataId
+    });
 }
 
 @if (!hasMissingComparatorSet)
 {
-    @await Component.InvokeAsync("PageActions", new
-    {
-        actions = new[] { PageActions.DownloadData },
-        downloadLink = Url.ActionLink("Download", "SchoolCensus", new
+    <feature name="@FeatureFlags.KS4ProgressBanding" negate="true">
+        @await Component.InvokeAsync("PageActions", new
         {
-            urn = Model.Urn,
-            customDataId = Model.CustomDataId
+            actions = new[] { PageActions.DownloadData },
+            downloadLink
         })
-    })
+    </feature>
 }
 
 @await Component.InvokeAsync("EstablishmentHeading", new
@@ -53,7 +57,17 @@
 
 @if (!hasMissingComparatorSet)
 {
-    <div id="compare-your-census" data-type="@OrganisationTypes.School" data-id="@Model.Urn"></div>
+    <feature name="@FeatureFlags.KS4ProgressBanding">
+        <div id="compare-your-census-2"
+             data-type="@OrganisationTypes.School"
+             data-id="@Model.Urn"
+             data-progress-indicators="@Model.WellOrAboveAverageKS4ProgressBandingsInComparatorSet.ToJson(Formatting.None)"
+             data-download-link="@downloadLink">
+        </div>
+    </feature>
+    <feature name="@FeatureFlags.KS4ProgressBanding" negate="true">
+        <div id="compare-your-census" data-type="@OrganisationTypes.School" data-id="@Model.Urn"></div>
+    </feature>
 }
 
 @await Html.PartialAsync("FinanceTools/_School", Model.Tools)

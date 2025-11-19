@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.FeatureManagement;
 using Web.App.ActionResults;
 using Web.App.Attributes;
 using Web.App.Attributes.RequestTelemetry;
@@ -23,7 +24,9 @@ public class SchoolCensusController(
     IComparatorSetApi comparatorSetApi,
     ILogger<SchoolCensusController> logger,
     IUserDataService userDataService,
-    ISchoolComparatorSetService schoolComparatorSetService)
+    ISchoolComparatorSetService schoolComparatorSetService,
+    IProgressBandingsService progressBandingsService,
+    IFeatureManager featureManager)
     : Controller
 {
     [HttpGet]
@@ -41,10 +44,13 @@ public class SchoolCensusController(
 
                 var school = await School(urn);
                 var census = await Census(urn);
-                var userData = await UserData(urn);
+                var (customData, comparatorSet) = await UserData(urn);
                 var defaultComparatorSet = await comparatorSetApi.GetDefaultSchoolAsync(urn).GetResultOrDefault<SchoolComparatorSet>();
-
-                var viewModel = new SchoolCensusViewModel(school, userData.ComparatorSet, userData.CustomData, census, defaultComparatorSet);
+                var bandings = await featureManager.IsEnabledAsync(FeatureFlags.KS4ProgressBanding)
+                    ? await progressBandingsService.GetKS4ProgressBandings(defaultComparatorSet?.All ?? [])
+                    : null;
+                
+                var viewModel = new SchoolCensusViewModel(school, comparatorSet, customData, census, defaultComparatorSet, bandings);
                 return View(viewModel);
             }
             catch (Exception e)
