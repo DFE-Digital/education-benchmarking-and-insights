@@ -1,3 +1,4 @@
+disable_checkpoint = true
 provider_installation {
     filesystem_mirror {
         path = "C:/temp/tf_binaries"
