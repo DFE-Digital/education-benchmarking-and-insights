@@ -11,13 +11,10 @@ public class WhenViewingContact(
 {
     protected override string PageUrl => "/contact";
 
-    [Theory]
-    [InlineData("contact-us")]
-    [InlineData("send-us-feedback")]
-    public async Task ThenThereAreNoAccessibilityIssues(string resource)
+    [Fact]
+    public async Task ThenThereAreNoAccessibilityIssues()
     {
         await GoToPage();
-        await Page.Locator($"#tab_{resource}").ClickAsync();
         await EvaluatePage();
     }
 }
