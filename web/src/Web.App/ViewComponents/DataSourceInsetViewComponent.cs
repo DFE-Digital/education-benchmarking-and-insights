@@ -27,7 +27,7 @@ public class DataSourceInsetViewComponent(IFinanceService financeService) : View
         {
             DataSourceTypes.Spending =>
                 GetSpendingDataSource(organisationType, isPartOfTrust == true, years),
-            _ => throw new ArgumentOutOfRangeException(nameof(sourceType))
+            _ => []
         };
 
         return View(new DataSourceInsetViewModel(dataSource, showKs4Progress, urn, ks4ProgressYear, additionText));
@@ -49,7 +49,7 @@ public class DataSourceInsetViewComponent(IFinanceService financeService) : View
             [
                 $"This school's data covers the financial year April {years.Cfr - 1} to March {years.Cfr} consistent financial reporting return (CFR)."
             ],
-            _ => throw new ArgumentOutOfRangeException(nameof(organisationType))
+            _ => []
         };
     }
 }
