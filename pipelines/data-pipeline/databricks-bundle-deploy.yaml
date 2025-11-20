@@ -17,7 +17,7 @@ stages:
     displayName: 'Test and create artifact'
     jobs:
       - job: unit_tests
-        displayName: 'Unit Tests, generate artifact'
+        displayName: 'Unit Tests'
         pool:
           vmImage: 'ubuntu-latest'
         steps:
@@ -47,6 +47,11 @@ stages:
           #   displayName: 'Run unit tests'
           #   continueOnError: false
 
+      - job: prepare_artifacts
+        displayName: 'Prepare artifacts for the restricted windows deployment runner'
+        pool:
+          vmImage: 'ubuntu-latest'
+        steps:
           - task: CopyFiles@2
             displayName: 'Copy source files to staging'
             inputs:
@@ -101,7 +106,7 @@ stages:
           
           - script: |
               robocopy $(System.ArtifactsDirectory)\$(artifactName)\tf_binaries C:/temp/tf_binaries
-              robocopy $(System.ArtifactsDirectory)\$(artifactName) %APPDATA% terraform.rc
+              robocopy $(System.ArtifactsDirectory)\$(artifactName)\databricks %APPDATA% terraform.rc
             displayName: 'Configure terraform to use local databricks provider'
 
           - script: |
