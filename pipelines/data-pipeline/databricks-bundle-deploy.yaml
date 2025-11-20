@@ -106,7 +106,7 @@ stages:
           
           - script: |
               robocopy $(System.ArtifactsDirectory)\$(artifactName)\tf_binaries C:/temp/tf_binaries
-              robocopy $(System.ArtifactsDirectory)\$(artifactName)\databricks %APPDATA% terraform.rc
+              copy $(System.ArtifactsDirectory)\$(artifactName)\databricks\terraform.rc %APPDATA%
             displayName: 'Configure terraform to use local databricks provider'
 
           - script: |
