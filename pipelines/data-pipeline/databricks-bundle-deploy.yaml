@@ -71,6 +71,7 @@ stages:
               archiveFilePatterns: '**/*.zip'
               destinationFolder: $(Build.ArtifactStagingDirectory)
               cleanDestinationFolder: false
+            displayName: 'Unzip terraform provider binaries'
 
           - script: |
               curl -fsSL https://github.com/databricks/cli/releases/download/v0.276.0/databricks_cli_0.276.0_windows_amd64.zip -o $(Build.ArtifactStagingDirectory)/databricks-cli.zip
@@ -106,11 +107,6 @@ stages:
               downloadType: 'single'
               artifactName: '$(artifactName)'
               downloadPath: '$(System.ArtifactsDirectory)'
-          
-          - script: |
-              robocopy $(System.ArtifactsDirectory)\$(artifactName)\tf_binaries C:/temp/tf_binaries
-              copy $(System.ArtifactsDirectory)\$(artifactName)\databricks\terraform.rc %APPDATA%
-            displayName: 'Configure terraform to use local databricks provider'
 
           - script: |
               databricks bundle validate
@@ -122,7 +118,7 @@ stages:
               DATABRICKS_TOKEN: $(DATABRICKS_TOKEN)
 
           - script: |
-              ipconfig
+              databricks bundle debug terraform
               databricks bundle deploy --target dev --log-level debug
             displayName: 'Validate Bundle Configuration'
             workingDirectory: $(System.ArtifactsDirectory)\$(artifactName)\databricks\education_benchmarking_and_insights
@@ -130,6 +126,10 @@ stages:
               PATH: $(System.ArtifactsDirectory)\$(artifactName)\uv;$(System.ArtifactsDirectory)\$(artifactName)\databricks-cli;$(PATH)
               DATABRICKS_HOST: $(DATABRICKS_HOST)
               DATABRICKS_TOKEN: $(DATABRICKS_TOKEN)
+              DATABRICKS_TF_VERSION: 1.5.5
+              DATABRICKS_TF_EXEC_PATH: $(System.ArtifactsDirectory)\$(artifactName)\tf_binaries\terraform.exe
+              DATABRICKS_TF_PROVIDER_VERSION: 1.97.0
+              DATABRICKS_TF_CLI_CONFIG_FILE: $(System.ArtifactsDirectory)\$(artifactName)\databricks\terraform.rc
 
   - stage: DeployDev
     displayName: 'Deploy to Dev'
