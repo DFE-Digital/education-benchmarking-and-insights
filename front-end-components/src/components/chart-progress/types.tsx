@@ -1,4 +1,4 @@
-import { ProgressBanding } from "src/views";
+import { ProgressBanding } from "src/components";
 
 export type ChartProgressProps = {
   options: ProgressBanding[];

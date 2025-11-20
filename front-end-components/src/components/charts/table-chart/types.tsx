@@ -3,7 +3,7 @@ import {
   ValueFormatterType,
 } from "src/components/charts/types";
 import { TableCellEstablishmentNameProps } from "./partials";
-import { ProgressBanding } from "src/views";
+import { ProgressBanding } from "src/components/progress-banding-tag";
 
 export type TableChartProps<
   TData extends SchoolChartData | TrustChartData | LaChartData,

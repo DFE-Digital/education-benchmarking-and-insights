@@ -1,7 +1,7 @@
 import { createContext, ReactNode } from "react";
 import { Props as LegendProps } from "recharts/types/component/DefaultLegendContent";
-import { Dimension } from "src/components";
-import { CostCodeMap, ProgressBanding, ProgressIndicators } from "src/views";
+import { Dimension, ProgressBanding, ProgressIndicators } from "src/components";
+import { CostCodeMap } from "src/views";
 
 export interface ChartModeContextValue {
   chartMode: string;

@@ -1,5 +1,4 @@
-import { ProgressBanding } from "src/views";
-import { ProgressBandingTagProps } from "./types";
+import { ProgressBanding, ProgressBandingTagProps } from "./types";
 
 export const ProgressBandingTag: React.FC<ProgressBandingTagProps> = ({
   banding,

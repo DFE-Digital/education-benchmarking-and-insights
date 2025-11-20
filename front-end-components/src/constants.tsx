@@ -2,6 +2,7 @@ export const CompareCostsElementId = "compare-your-costs";
 export const CompareCosts2ElementId = "compare-your-costs-2";
 export const CompareTrustElementId = "compare-your-trust";
 export const CompareCensusElementId = "compare-your-census";
+export const CompareCensus2ElementId = "compare-your-census-2";
 export const DeploymentPlanElementId = "deployment-plan";
 export const HorizontalBarChart1SeriesElementId = "horizontal-chart-1-series";
 export const HorizontalChartTrustFinancialElementId =

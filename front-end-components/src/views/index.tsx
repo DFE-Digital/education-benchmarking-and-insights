@@ -3,6 +3,7 @@ export * from "src/views/compare-your-costs";
 export * from "src/views/compare-your-costs-2";
 export * from "src/views/compare-your-trust";
 export * from "src/views/compare-your-census";
+export * from "src/views/compare-your-census-2";
 export * from "src/views/historic-data";
 export * from "src/views/historic-data-2";
 export * from "src/views/deployment-plan";

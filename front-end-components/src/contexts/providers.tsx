@@ -5,12 +5,13 @@ import {
   CostCodesContext,
   ProgressIndicatorsContext,
 } from "./contexts";
-import { CostCodeMap, ProgressBanding, ProgressIndicators } from "src/views";
+import { CostCodeMap } from "src/views";
 import { DefaultLegendContent } from "recharts";
 import {
   Payload,
   Props as LegendProps,
 } from "recharts/types/component/DefaultLegendContent";
+import { ProgressBanding, ProgressIndicators } from "src/components";
 
 type ChartModeProviderProps = PropsWithChildren<{
   initialValue: string;

@@ -1,7 +1,6 @@
 import classNames from "classnames";
 import React, { useEffect, useState } from "react";
-import { ChartProgressProps } from "src/components/chart-progress";
-import { ProgressBanding } from "src/views";
+import { ChartProgressProps, ProgressBanding } from "src/components";
 
 export const ChartProgress: React.FC<ChartProgressProps> = ({
   options,
