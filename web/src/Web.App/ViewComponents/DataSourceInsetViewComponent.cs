@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Web.App.Domain;
 using Web.App.Domain.Content;
 using Web.App.Services;
 using Web.App.ViewModels.Components;
@@ -11,18 +12,12 @@ public class DataSourceInsetViewComponent(IFinanceService financeService) : View
         string organisationType,
         string sourceType,
         bool? isPartOfTrust,
-        bool showKs4Progress = false,
-        string? urn = null,
+        Ks4ProgressProps showKs4Progress = default,
         string[]? additionText = null
     )
     {
         var years = await financeService.GetYears();
-        var ks4ProgressYear = years.Ks4Progress;
 
-        if (showKs4Progress)
-        {
-            ArgumentNullException.ThrowIfNull(urn);
-        }
         var dataSource = sourceType switch
         {
             DataSourceTypes.Spending =>
@@ -34,7 +29,7 @@ public class DataSourceInsetViewComponent(IFinanceService financeService) : View
             _ => []
         };
 
-        return View(new DataSourceInsetViewModel(dataSource, showKs4Progress, urn, ks4ProgressYear, additionText));
+        return View(new DataSourceInsetViewModel(dataSource, showKs4Progress, years.Ks4Progress, additionText));
     }
 
     private static string[] GetSpendingDataSource(string organisationType, bool isPartOfTrust, FinanceYears years)

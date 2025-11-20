@@ -1,10 +1,12 @@
-﻿namespace Web.App.ViewModels.Components;
+﻿using Web.App.Domain;
 
-public class DataSourceInsetViewModel(string[] dataSource, bool showKs4Progress, string? urn, int ks4ProgressYear, string[]? additionText)
+namespace Web.App.ViewModels.Components;
+
+public class DataSourceInsetViewModel(string[] dataSource, Ks4ProgressProps props, int ks4ProgressYear, string[]? additionText)
 {
     public string[] DataSource => dataSource;
-    public bool ShowKs4Progress => showKs4Progress;
-    public string? Urn => urn;
+    public bool ShowKs4Progress => props.Show;
+    public string Urn => props.Urn;
     public int Ks4ProgressYear => ks4ProgressYear;
     public string[] AdditionText => additionText ?? [];
 }

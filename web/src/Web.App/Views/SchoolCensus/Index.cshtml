@@ -1,4 +1,5 @@
 ﻿@using Newtonsoft.Json
+@using Web.App.Domain
 @using Web.App.Extensions
 @using Web.App.ViewModels.Components
 @model Web.App.ViewModels.SchoolCensusViewModel
@@ -40,8 +41,9 @@
         {
             organisationType = OrganisationTypes.School,
             sourceType = DataSourceTypes.Census,
-            showKs4Progress = Model.HasProgressIndicators,
-            urn = Model.Urn
+            showKs4Progress = Model is { HasProgressIndicators: true, Urn: not null }
+                ? new Ks4ProgressProps(Model.Urn) 
+                : new Ks4ProgressProps()
         })
     </feature>
     <feature name="@FeatureFlags.KS4ProgressBanding" negate="true">
