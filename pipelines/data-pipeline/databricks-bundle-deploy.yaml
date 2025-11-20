@@ -52,10 +52,6 @@ stages:
         pool:
           vmImage: 'ubuntu-latest'
         steps:
-          - script: |
-              unzip $(System.DefaultWorkingDirectory)/databricks/tf_binaries.zip
-            displayName: 'Prepare Windows terraform/databricks binaries'
-
           - task: CopyFiles@2
             displayName: 'Copy source files to staging'
             inputs:
@@ -68,6 +64,11 @@ stages:
                 !databricks/tf_binaries.zip
               TargetFolder: '$(Build.ArtifactStagingDirectory)'
               CleanTargetFolder: true
+
+          - script: |
+              unzip $(System.SourcesDirectory)/databricks/tf_binaries.zip
+              cp -r $(System.SourcesDirectory)/databricks/tf_binaries $(Build.ArtifactStagingDirectory)
+            displayName: 'Prepare Windows terraform/databricks binaries'
 
           - script: |
               curl -fsSL https://github.com/databricks/cli/releases/download/v0.276.0/databricks_cli_0.276.0_windows_amd64.zip -o $(Build.ArtifactStagingDirectory)/databricks-cli.zip
