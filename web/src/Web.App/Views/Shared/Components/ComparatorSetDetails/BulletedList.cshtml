@@ -32,7 +32,7 @@
                        href="@Url.Action(Model.Type == ComparatorSetType.Workforce ? "Workforce" : "Index", "SchoolComparators", new
                              {
                                  urn = Model.Identifier
-                             })">view the 2 sets of similar schools we've chosen</a> to benchmark this school's @(Model.Type == ComparatorSetType.Workforce ? "pupil and workforce data" : "spending") against
+                             })">view the @(Model.Type == ComparatorSetType.Workforce ? "set" : "2 sets") of similar schools we've chosen</a> to benchmark this school's @(Model.Type == ComparatorSetType.Workforce ? "pupil and workforce data" : "spending") against
                 </li>
                 <li>
                     <a class="govuk-link govuk-link--no-visited-state"
@@ -87,7 +87,7 @@
                            href="@Url.Action(Model.Type == ComparatorSetType.Workforce ? "Workforce" : "Index", "SchoolComparators", new
                                  {
                                      urn = Model.Identifier
-                                 })">view the 2 sets of similar schools we've chosen</a> to benchmark this school's @(Model.Type == ComparatorSetType.Workforce ? "pupil and workforce data" : "spending") against
+                                 })">view the @(Model.Type == ComparatorSetType.Workforce ? "set" : "2 sets") of similar schools we've chosen</a> to benchmark this school's @(Model.Type == ComparatorSetType.Workforce ? "pupil and workforce data" : "spending") against
                     </li>
                     <li>
                         <a class="govuk-link govuk-link--no-visited-state"
