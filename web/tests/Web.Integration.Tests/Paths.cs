@@ -75,7 +75,7 @@ public static class Paths
 
     public static string SchoolCensusCustomData(string? urn) => $"/school/{urn}/census/custom-data";
 
-    public static string SchoolCensusDownload(string? urn) => $"/school/{urn}/census/download";
+    public static string SchoolCensusDownload(string? urn, string? customDataId = null) => $"/school/{urn}/census/download{(customDataId == null ? string.Empty : $"?customDataId={customDataId}")}";
 
     public static string SchoolSpending(string? urn) => $"/school/{urn}/spending-and-costs";
 

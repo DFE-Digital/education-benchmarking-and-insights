@@ -12,6 +12,8 @@ using Web.App.Infrastructure.Apis.Insight;
 using Web.App.Infrastructure.Extensions;
 using Web.App.Services;
 using Web.App.ViewModels;
+// ReSharper disable UnusedAutoPropertyAccessor.Local
+// ReSharper disable InvertIf
 
 namespace Web.App.Controllers;
 
@@ -123,7 +125,17 @@ public class SchoolCensusController(
                 var result = customDataId is not null
                     ? await GetCustomAsync(urn, customDataId)
                     : await GetDefaultAsync(urn);
-                return new CsvResults([new CsvResult(result, $"census-{urn}.csv")], $"census-{urn}.zip");
+
+                KS4ProgressBandings? bandings = null;
+                if (await featureManager.IsEnabledAsync(FeatureFlags.KS4ProgressBanding))
+                {
+                    var urns = result
+                        .Where(r => !string.IsNullOrWhiteSpace(r.URN))
+                        .Select(r => r.URN!);
+                    bandings = await progressBandingsService.GetKS4ProgressBandings(urns?.ToArray() ?? []);
+                }
+
+                return new CsvResults([new CsvResult(MergeProgressBandings(result, bandings), $"census-{urn}.csv")], $"census-{urn}.zip");
             }
             catch (Exception e)
             {
@@ -195,5 +207,45 @@ public class SchoolCensusController(
         }
 
         return query;
+    }
+
+    private static IEnumerable<object>? MergeProgressBandings(Census[]? censuses, KS4ProgressBandings? bandings)
+    {
+        if (censuses == null || bandings == null)
+        {
+            return censuses;
+        }
+
+        return censuses.Select(e => new CensusWithProgress(e, bandings[e.URN]));
+    }
+
+    private record CensusWithProgress : Census
+    {
+        public CensusWithProgress(Census census, KS4ProgressBanding? banding) : base(census)
+        {
+            Workforce = census.Workforce;
+            WorkforceHeadcount = census.WorkforceHeadcount;
+            Teachers = census.Teachers;
+            SeniorLeadership = census.SeniorLeadership;
+            TeachingAssistant = census.TeachingAssistant;
+            TeachingAssistant = census.TeachingAssistant;
+            NonClassroomSupportStaff = census.NonClassroomSupportStaff;
+            AuxiliaryStaff = census.AuxiliaryStaff;
+            PercentTeacherWithQualifiedStatus = census.PercentTeacherWithQualifiedStatus;
+
+            URN = census.URN;
+            SchoolName = census.SchoolName;
+            SchoolType = census.SchoolType;
+            LAName = census.LAName;
+            TotalPupils = census.TotalPupils;
+
+            if (banding?.Banding is KS4ProgressBandings.Banding.AboveAverage or KS4ProgressBandings.Banding.WellAboveAverage)
+            {
+                ProgressBanding = banding.Banding.ToStringValue();
+            }
+        }
+
+        [PropertyOrder(int.MaxValue)]
+        public string? ProgressBanding { get; set; }
     }
 }
