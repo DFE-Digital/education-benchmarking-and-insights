@@ -4,6 +4,7 @@ import { format } from "date-fns";
 import {
   BenchmarkDataHighNeeds,
   CompareYourCensus,
+  CompareYourCensus2,
   CompareYourCosts,
   CompareYourCosts2,
   CompareYourTrust,
@@ -12,14 +13,14 @@ import {
   HistoricData,
   HistoricData2,
   HistoricData2SectionName,
-  ProgressIndicators,
 } from "src/views";
 import {
   BenchmarkDataHighNeedsElementId,
   BudgetForecastReturnsElementId,
   CompareCensusElementId,
-  CompareCosts2ElementId,
+  CompareCensus2ElementId,
   CompareCostsElementId,
+  CompareCosts2ElementId,
   CompareTrustElementId,
   DeploymentPlanElementId,
   HistoricData2ElementId,
@@ -46,6 +47,7 @@ import {
   ChartSeriesConfigItem,
   ChartSeriesValueUnit,
   ChartSortDirection,
+  ProgressIndicators,
   ValueFormatterValue,
 } from "./components";
 import { ComparisonChartSummary } from "./composed/comparison-chart-summary";
@@ -226,6 +228,33 @@ if (compareCensusElement) {
           id={id}
           phases={phasesParsed}
           customDataId={customDataId}
+        />
+      </React.StrictMode>
+    );
+  }
+}
+
+const compareCensus2Element = document.getElementById(CompareCensus2ElementId);
+
+if (compareCensus2Element) {
+  const { customDataId, downloadLink, id, phases, type, progressIndicators } =
+    compareCensus2Element.dataset;
+  if (type && id) {
+    const root = ReactDOM.createRoot(compareCensus2Element);
+    const phasesParsed = phases ? (JSON.parse(phases) as string[]) : null;
+    const progressIndicatorsParsed = progressIndicators
+      ? (JSON.parse(progressIndicators) as ProgressIndicators)
+      : undefined;
+
+    root.render(
+      <React.StrictMode>
+        <CompareYourCensus2
+          customDataId={customDataId}
+          downloadLink={downloadLink}
+          id={id}
+          phases={phasesParsed}
+          progressIndicators={progressIndicatorsParsed}
+          type={type}
         />
       </React.StrictMode>
     );

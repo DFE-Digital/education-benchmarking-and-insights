@@ -1,5 +1,9 @@
 import { useContext } from "react";
-import { CostCategories, ChartDimensions } from "src/components";
+import {
+  CostCategories,
+  ChartDimensions,
+  ProgressBanding,
+} from "src/components";
 import {
   ChartDimensionContext,
   SuppressNegativeOrZeroContext,
@@ -11,7 +15,6 @@ import {
   TrustChartData,
 } from "src/components/charts/table-chart";
 import { DimensionedChartProps } from "./types";
-import { ProgressBanding } from "src/views";
 
 export function DimensionedChart<
   TData extends SchoolChartData | TrustChartData,

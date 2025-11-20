@@ -2,6 +2,7 @@ import { ReactNode } from "react";
 import {
   ChartSeriesValueUnit,
   Dimension,
+  ProgressBanding,
   ValueFormatterType,
 } from "src/components";
 import {
@@ -10,7 +11,6 @@ import {
 } from "src/components/charts/table-chart";
 import { HorizontalBarChartWrapperProps } from "src/composed/horizontal-bar-chart-wrapper";
 import { SuppressNegativeOrZero } from "src/contexts";
-import { ProgressBanding } from "src/views";
 
 type DimensionedChart<TData extends SchoolChartData | TrustChartData> = Pick<
   HorizontalBarChartWrapperProps<TData>,
