@@ -1,6 +1,6 @@
 ﻿# Release Test Plan: 2025.11.0
 
-**Release Date:** 2025/11/19  
+**Release Date:** 2025/11/20  
 **Release Label:** 2025.11.0
 
 ## Introduction
