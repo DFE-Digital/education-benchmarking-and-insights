@@ -17,12 +17,11 @@ Choose how you want to work on this project:
 
 (c) With command line tools, see https://docs.databricks.com/dev-tools/cli/databricks-cli.html
 
-
 Dependencies for this project should be installed using uv:
 
-*  Make sure you have the UV package manager installed.
+* Make sure you have the UV package manager installed.
    It's an alternative to tools like pip: https://docs.astral.sh/uv/getting-started/installation/.
-*  Run `uv sync --dev` to install the project's dependencies.
+* Run `uv sync --dev` to install the project's dependencies.
 
 # Using this project using the CLI
 
@@ -30,12 +29,14 @@ The Databricks workspace and IDE extensions provide a graphical interface for wo
 with this project. It's also possible to interact with it directly using the CLI:
 
 1. Authenticate to your Databricks workspace, if you have not done so already:
-    ```
+
+    ```bash
     $ databricks configure
     ```
 
 2. To deploy a development copy of this project, type:
-    ```
+
+    ```bash
     $ databricks bundle deploy --target dev
     ```
     (Note that "dev" is the default target, so the `--target` parameter
@@ -46,7 +47,7 @@ with this project. It's also possible to interact with it directly using the CLI
     `[dev yourname] education_benchmarking_and_insights_job` to your workspace.
     You can find that job by opening your workpace and clicking on **Jobs & Pipelines**.
 
-3. Similarly, to deploy a production copy, type:
+1. Similarly, to deploy a production copy, type:
    ```
    $ databricks bundle deploy --target prod
    ```
@@ -56,12 +57,12 @@ with this project. It's also possible to interact with it directly using the CLI
    is paused when deploying in development mode (see
    https://docs.databricks.com/dev-tools/bundles/deployment-modes.html).
 
-4. To run a job or pipeline, use the "run" command:
+2. To run a job or pipeline, use the "run" command:
    ```
    $ databricks bundle run
    ```
 
-5. Finally, to run tests locally, use `pytest`:
+3. Finally, to run tests locally, use `pytest`:
    ```
    $ uv run pytest
    ```
