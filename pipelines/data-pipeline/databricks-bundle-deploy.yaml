@@ -119,8 +119,8 @@ stages:
 
           - script: |
               copy $(System.ArtifactsDirectory)\$(artifactName)\tf_binaries\tf_binaries\registry.terraform.io\databricks\databricks\terraform-provider-databricks_1.96.0_windows_amd64.zip C:\temp\tf_binaries\registry.terraform.io\databricks\databricks\terraform-provider-databricks_1.96.0_windows_amd64.zip
-              databricks bundle deploy --target dev --log-level debug
-            displayName: 'Validate Bundle Configuration'
+              databricks bundle deploy --target dev
+            displayName: 'Deploy Bundle'
             workingDirectory: $(System.ArtifactsDirectory)\$(artifactName)\databricks\education_benchmarking_and_insights
             env:
               PATH: $(System.ArtifactsDirectory)\$(artifactName)\uv;$(System.ArtifactsDirectory)\$(artifactName)\databricks-cli;$(PATH)
