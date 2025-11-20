@@ -394,7 +394,7 @@ function HorizontalBarChartInner<TData extends ChartDataSeries>(
               {legend && (
                 <Legend
                   align={legendHorizontalAlign ?? "right"}
-                  content={renderLegendContent}
+                  content={legendContent ? renderLegendContent : undefined}
                   verticalAlign={legendVerticalAlign ?? "top"}
                   formatter={(value) =>
                     (seriesConfig && seriesConfig[value]?.label) || value
