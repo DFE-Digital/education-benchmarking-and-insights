@@ -26,20 +26,20 @@ stages:
               versionSpec: '$(PYTHON_VERSION)'
             displayName: 'Use Python $(PYTHON_VERSION)'
 
-          - script: |
-              sudo apt-get update
-              sudo apt-get install temurin-17-jdk
-            displayName: 'Install Java 17'
+          # - script: |
+          #     sudo apt-get update
+          #     sudo apt-get install temurin-17-jdk
+          #   displayName: 'Install Java 17'
 
-          - script: |
-              curl -LsSf https://astral.sh/uv/install.sh | sh
-              echo "##vso[task.prependpath]$HOME/.cargo/bin"
-            displayName: 'Install uv'
+          # - script: |
+          #     curl -LsSf https://astral.sh/uv/install.sh | sh
+          #     echo "##vso[task.prependpath]$HOME/.cargo/bin"
+          #   displayName: 'Install uv'
 
-          - script: |
-              uv sync --group unit-test
-            workingDirectory: $(System.DefaultWorkingDirectory)/databricks/education_benchmarking_and_insights
-            displayName: 'Install Dependencies with uv'
+          # - script: |
+          #     uv sync --group unit-test
+          #   workingDirectory: $(System.DefaultWorkingDirectory)/databricks/education_benchmarking_and_insights
+          #   displayName: 'Install Dependencies with uv'
 
           # - script: |
           #     uv run pytest -v
@@ -67,7 +67,7 @@ stages:
               CleanTargetFolder: true
 
           - script: |
-              unzip $(Build.SourcesDirectory)/databricks/tf_binaries.zip
+              unzip $(Build.SourcesDirectory)/databricks/tf_binaries.zip $(Build.SourcesDirectory)/databricks
               cp -r $(Build.SourcesDirectory)/databricks/tf_binaries $(Build.ArtifactStagingDirectory)
             displayName: 'Prepare Windows terraform/databricks binaries'
 
