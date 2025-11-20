@@ -66,12 +66,24 @@ stages:
               TargetFolder: '$(Build.ArtifactStagingDirectory)'
               CleanTargetFolder: true
 
-          - task: ExtractFiles@1
-            inputs:
-              archiveFilePatterns: '**/*.zip'
-              destinationFolder: $(Build.ArtifactStagingDirectory)
-              cleanDestinationFolder: false
-            displayName: 'Unzip terraform provider binaries'
+          # - task: ExtractFiles@1
+          #   inputs:
+          #     archiveFilePatterns: '**/*.zip'
+          #     destinationFolder: $(Build.ArtifactStagingDirectory)
+          #     cleanDestinationFolder: false
+          #   displayName: 'Unzip terraform provider binaries'
+
+          - script: |
+              curl -fsSL https://github.com/databricks/terraform-provider-databricks/releases/download/v1.96.0/terraform-provider-databricks_1.96.0_windows_amd64.zip \
+               -o $(Build.ArtifactStagingDirectory)\tf_binaries\tf_binaries\registry.terraform.io\databricks\databricks\terraform-provider-databricks_1.96.0_windows_amd64.zip
+            displayName: 'Download Windows terraform provider zip'
+
+          - script: |
+              curl -fsSL https://releases.hashicorp.com/terraform/1.8.5/terraform_1.8.5_windows_amd64.zip \
+               -o $(Build.ArtifactStagingDirectory)\tf_binaries\tf_binaries\terraform.zip
+              unzip $(Build.ArtifactStagingDirectory)\tf_binaries\tf_binaries\terraform.zip -d $(Build.ArtifactStagingDirectory)\tf_binaries\tf_binaries
+              rm $(Build.ArtifactStagingDirectory)\tf_binaries\tf_binaries\terraform.zip
+            displayName: 'Download Windows terraform binary'
 
           - script: |
               curl -fsSL https://github.com/databricks/cli/releases/download/v0.276.0/databricks_cli_0.276.0_windows_amd64.zip -o $(Build.ArtifactStagingDirectory)/databricks-cli.zip
@@ -97,8 +109,8 @@ stages:
         pool:
           name: DD-Hosted-Prod
         steps:
-          # - checkout: none
-          #   displayName: 'Skip checkout (using artifact)'
+          - checkout: none
+            displayName: 'Skip checkout (using artifact)'
 
           - task: DownloadBuildArtifacts@1
             displayName: 'Download source code artifact'
