@@ -48,6 +48,7 @@ stages:
           #   continueOnError: false
 
       - job: prepare_artifacts
+        dependsOn: unit_tests
         displayName: 'Prepare artifacts for the restricted windows deployment runner'
         pool:
           vmImage: 'ubuntu-latest'
@@ -66,8 +67,8 @@ stages:
               CleanTargetFolder: true
 
           - script: |
-              unzip $(System.SourcesDirectory)/databricks/tf_binaries.zip
-              cp -r $(System.SourcesDirectory)/databricks/tf_binaries $(Build.ArtifactStagingDirectory)
+              unzip $(Build.SourcesDirectory)/databricks/tf_binaries.zip
+              cp -r $(Build.SourcesDirectory)/databricks/tf_binaries $(Build.ArtifactStagingDirectory)
             displayName: 'Prepare Windows terraform/databricks binaries'
 
           - script: |
@@ -90,9 +91,9 @@ stages:
               publishLocation: 'Container'
 
       - job: Bundle_Validate
+        dependsOn: prepare_artifacts
         pool:
           name: DD-Hosted-Prod
-        dependsOn: unit_tests
         steps:
           - checkout: none
             displayName: 'Skip checkout (using artifact)'
