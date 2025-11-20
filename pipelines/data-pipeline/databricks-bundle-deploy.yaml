@@ -62,13 +62,14 @@ stages:
                 !databricks/**/.pytest_cache/**
                 !databricks/**/__pycache__/**
                 !databricks/**/.venv/**
+                !databricks/tf_binaries.zip
               TargetFolder: '$(Build.ArtifactStagingDirectory)'
               CleanTargetFolder: true
 
-          - script: |
-              unzip $(Build.ArtifactStagingDirectory)/databricks/tf_binaries.zip $(Build.ArtifactStagingDirectory)
-              cp -r $(Build.SourcesDirectory)/databricks/tf_binaries $(Build.ArtifactStagingDirectory)
-            displayName: 'Prepare Windows terraform/databricks binaries'
+          - task: ExtractFiles@1
+            inputs:
+              archiveFilePatterns: '**/*.zip'
+              destinationFolder: $(Build.ArtifactStagingDirectory)
 
           - script: |
               curl -fsSL https://github.com/databricks/cli/releases/download/v0.276.0/databricks_cli_0.276.0_windows_amd64.zip -o $(Build.ArtifactStagingDirectory)/databricks-cli.zip
