@@ -118,7 +118,7 @@ stages:
               DATABRICKS_TOKEN: $(DATABRICKS_TOKEN)
 
           - script: |
-              databricks bundle debug terraform
+              robocopy $(System.ArtifactsDirectory)\$(artifactName)\tf_binaries C:/temp/tf_binaries
               databricks bundle deploy --target dev --log-level debug
             displayName: 'Validate Bundle Configuration'
             workingDirectory: $(System.ArtifactsDirectory)\$(artifactName)\databricks\education_benchmarking_and_insights
