@@ -101,8 +101,8 @@ stages:
           
           - script: |
               robocopy $(System.ArtifactsDirectory)\$(artifactName)\tf_binaries C:/temp/tf_binaries
-              robocopy $(System.ArtifactsDirectory)\$(artifactName)\terraform.rc %APPDATA%
-            displayName: 'Configure terraform to use local'
+              robocopy $(System.ArtifactsDirectory)\$(artifactName) %APPDATA% terraform.rc
+            displayName: 'Configure terraform to use local databricks provider'
 
           - script: |
               databricks bundle validate
