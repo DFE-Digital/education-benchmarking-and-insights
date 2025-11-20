@@ -76,7 +76,7 @@ This release delivers a combination of enhancements, custom data generation fix 
 
 **Release Overview:**
 
-The release was completed successfully with no issues. Manual WAF changes were made post deployment and a follow-up task will be done to make the code changes for the manual WAF changes. 
+The release was completed successfully with no issues. Manual WAF changes were made post deployment and a follow-up task will be done to make the code changes for the manual WAF changes.
 
 **[Azure Release Test Plan](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_testPlans/define?planId=288905&suiteId=288906)**
 
