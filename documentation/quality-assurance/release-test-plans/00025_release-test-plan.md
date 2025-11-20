@@ -74,6 +74,10 @@ This release delivers a combination of enhancements, custom data generation fix 
 
 ## Notes
 
+**Release Overview:**
+
+The release was completed successfully with no issues. Manual WAF changes were made post deployment and a follow-up task will be done to make the code changes for the manual WAF changes. 
+
 **[Azure Release Test Plan](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_testPlans/define?planId=288905&suiteId=288906)**
 
 **Azure DevOps tickets included in this release:**
@@ -91,12 +95,12 @@ This release delivers a combination of enhancements, custom data generation fix 
 
 **Summary of results:**
 
-| Test Category           | Total Tests | Passed | Failed |  Pass Rate  |  
-|-------------------------|:-----------:|:------:|:------:|:-----------:|  
-| Smoke Tests - Prod      |             |        |        |             |  
-| Sanity Tests - Pre Prod |             |        |        |             |  
-| UAT - Pre Prod          |             |        |        |             |  
-| Total                   |             |        |        |             |  
+| Test Category           | Total Tests | Passed | Failed | Pass Rate |  
+|-------------------------|:-----------:|:------:|:------:|:---------:|  
+| Smoke Tests - Prod      |      1      |   1    |   0    |   100%    |  
+| Sanity Tests - Pre Prod |     29      |   29   |   0    |   100%    |  
+| UAT - Pre Prod          |      1      |   1    |   0    |   100%    |  
+| Total                   |     31      |   31   |   0    |   100%    |  
 
 <!-- Leave the rest of this page blank -->
 \newpage
