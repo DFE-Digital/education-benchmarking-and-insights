@@ -27,6 +27,10 @@ public class DataSourceInsetViewComponent(IFinanceService financeService) : View
         {
             DataSourceTypes.Spending =>
                 GetSpendingDataSource(organisationType, isPartOfTrust == true, years),
+            DataSourceTypes.Census =>
+            [
+                "Workforce data is taken from the workforce census. Pupil data is taken from the school census data set in January."
+            ],
             _ => []
         };
 
