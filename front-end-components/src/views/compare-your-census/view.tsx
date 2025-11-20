@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { CompareYourCensusViewProps } from "src/views";
-import { ChartModeChart } from "src/components";
+import { ChartModeChart, ChartPhases } from "src/components";
 import {
   SelectedEstablishmentContext,
   PhaseContext,
@@ -17,7 +17,6 @@ import {
   TotalTeachers,
   TotalTeachersQualified,
 } from "src/views/compare-your-census/partials";
-import { ChartOptionsPhaseMode } from "src/components/chart-options-phase-mode";
 
 export const CompareYourCensus: React.FC<CompareYourCensusViewProps> = (
   props
@@ -32,10 +31,7 @@ export const CompareYourCensus: React.FC<CompareYourCensusViewProps> = (
       <PhaseContext.Provider value={phase}>
         <CustomDataContext.Provider value={customDataId}>
           <ChartModeProvider initialValue={ChartModeChart}>
-            <ChartOptionsPhaseMode
-              phases={phases}
-              handlePhaseChange={setPhase}
-            />
+            <ChartPhases phases={phases} handlePhaseChange={setPhase} />
             <SchoolWorkforce id={id} type={type} />
             <TotalTeachers id={id} type={type} />
             <TotalTeachersQualified id={id} type={type} />

@@ -4,7 +4,7 @@ import {
   ExpenditureAccordion,
 } from "src/views/compare-your-costs/partials";
 import { CompareYourCostsViewProps } from "src/views/compare-your-costs";
-import { ChartModeChart } from "src/components";
+import { ChartModeChart, ChartPhases } from "src/components";
 import {
   SelectedEstablishmentContext,
   PhaseContext,
@@ -14,7 +14,6 @@ import {
   CostCodesProvider,
 } from "src/contexts";
 import { useGovUk } from "src/hooks/useGovUk";
-import { ChartOptionsPhaseMode } from "src/components/chart-options-phase-mode";
 
 export const CompareYourCosts: React.FC<CompareYourCostsViewProps> = ({
   costCodeMap,
@@ -53,10 +52,7 @@ export const CompareYourCosts: React.FC<CompareYourCostsViewProps> = ({
           >
             <CostCodesProvider costCodeMap={costCodeMap} tags={tags}>
               <ChartModeProvider initialValue={ChartModeChart}>
-                <ChartOptionsPhaseMode
-                  phases={phases}
-                  handlePhaseChange={setPhase}
-                />
+                <ChartPhases phases={phases} handlePhaseChange={setPhase} />
                 <TotalExpenditure
                   id={id}
                   type={type}
