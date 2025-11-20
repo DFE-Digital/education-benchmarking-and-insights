@@ -56,22 +56,19 @@ stages:
                 !databricks/**/.pytest_cache/**
                 !databricks/**/__pycache__/**
                 !databricks/**/.venv/**
+                !databricks/tf_binaries.zip
               TargetFolder: '$(Build.ArtifactStagingDirectory)'
               CleanTargetFolder: true
 
-          # - script: |
-          #     uv pip install pytest>=8.4.2 pyspark>=4.0.1 pyarrow>=22.0.0 pandas>=2.3.3 numpy>=2.2.6 \
-          #       --python-platform windows \
-          #       --python-version 3.13 \
-          #       --cache-dir $(Build.ArtifactStagingDirectory)/windows
-          #   workingDirectory: $(System.DefaultWorkingDirectory)/databricks/education_benchmarking_and_insights
-          #   displayName: "Download windows wheels for remote runner"
+          - script: |
+              unzip $(System.DefaultWorkingDirectory)/databricks/tf_binaries.zip -d $(Build.ArtifactStagingDirectory)/tf_binaries
+            displayName: 'Prepare Windows terraform/databricks binaries'
 
           - script: |
               curl -fsSL https://github.com/databricks/cli/releases/download/v0.276.0/databricks_cli_0.276.0_windows_amd64.zip -o $(Build.ArtifactStagingDirectory)/databricks-cli.zip
               unzip $(Build.ArtifactStagingDirectory)/databricks-cli.zip -d $(Build.ArtifactStagingDirectory)/databricks-cli
               rm $(Build.ArtifactStagingDirectory)/databricks-cli.zip
-            displayName: 'Download Databricks CLI binary for Windows'
+            displayName: 'Download Windows Databricks CLI binary'
 
           - script: |
               curl -LsSf https://github.com/astral-sh/uv/releases/latest/download/uv-x86_64-pc-windows-msvc.zip -o $(Build.ArtifactStagingDirectory)/uv.zip
@@ -101,6 +98,11 @@ stages:
               downloadType: 'single'
               artifactName: '$(artifactName)'
               downloadPath: '$(System.ArtifactsDirectory)'
+          
+          - script: |
+              robocopy $(System.ArtifactsDirectory)\$(artifactName)\tf_binaries C:/temp/tf_binaries
+              robocopy $(System.ArtifactsDirectory)\$(artifactName)\terraform.rc 
+            displayName: 'Configure terraform to use local'
 
           - script: |
               databricks bundle validate
