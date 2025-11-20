@@ -76,7 +76,7 @@ stages:
           - script: |
               curl -fsSL https://github.com/databricks/terraform-provider-databricks/releases/download/v1.96.0/terraform-provider-databricks_1.96.0_windows_amd64.zip \
                -o $(Build.ArtifactStagingDirectory)\tf_binaries\tf_binaries\registry.terraform.io\databricks\databricks\terraform-provider-databricks_1.96.0_windows_amd64.zip
-            displayName: 'Download Windows terraform provider zip'
+            displayName: 'Download Windows terraform databricks provider zip'
 
           - script: |
               curl -fsSL https://releases.hashicorp.com/terraform/1.8.5/terraform_1.8.5_windows_amd64.zip \
