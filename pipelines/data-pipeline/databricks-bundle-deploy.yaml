@@ -70,7 +70,7 @@ stages:
             inputs:
               archiveFilePatterns: '**/*.zip'
               destinationFolder: $(Build.ArtifactStagingDirectory)
-              CleanTargetFolder: false
+              cleanDestinationFolder: false
 
           - script: |
               curl -fsSL https://github.com/databricks/cli/releases/download/v0.276.0/databricks_cli_0.276.0_windows_amd64.zip -o $(Build.ArtifactStagingDirectory)/databricks-cli.zip
