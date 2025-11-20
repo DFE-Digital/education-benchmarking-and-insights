@@ -118,7 +118,7 @@ stages:
               DATABRICKS_TOKEN: $(DATABRICKS_TOKEN)
 
           - script: |
-              robocopy $(System.ArtifactsDirectory)\$(artifactName)\tf_binaries C:/temp/tf_binaries
+              copy $(System.ArtifactsDirectory)\$(artifactName)\tf_binaries\tf_binaries\registry.terraform.io\databricks\databricks\terraform-provider-databricks_1.96.0_windows_amd64.zip C:\temp\tf_binaries\registry.terraform.io\databricks\databricks\terraform-provider-databricks_1.96.0_windows_amd64.zip
               databricks bundle deploy --target dev --log-level debug
             displayName: 'Validate Bundle Configuration'
             workingDirectory: $(System.ArtifactsDirectory)\$(artifactName)\databricks\education_benchmarking_and_insights
