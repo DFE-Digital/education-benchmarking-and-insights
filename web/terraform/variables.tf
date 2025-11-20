@@ -22,7 +22,7 @@ variable "configuration" {
       News                              = optional(bool, false)
       TrustItSpendBreakdown             = optional(bool, true)
       FbisForTrust                      = optional(bool, true)
-      LocalAuthorityHomepageV2          = optional(bool, false)
+      LocalAuthorityHomepageV2          = optional(bool, true)
       KS4ProgressBanding                = optional(bool, false)
     })
     CacheOptions = object({
@@ -50,9 +50,8 @@ variable "configuration" {
       front_door_waf_policy_sku_name = "Standard_AzureFrontDoor"
       waf_mode                       = "Detection"
       features = {
-        News                     = true
-        LocalAuthorityHomepageV2 = true
-        KS4ProgressBanding       = true
+        News               = true
+        KS4ProgressBanding = true
       },
       CacheOptions = {
         ReturnYears = {
@@ -78,9 +77,8 @@ variable "configuration" {
       front_door_waf_policy_sku_name = "Standard_AzureFrontDoor"
       waf_mode                       = "Detection"
       features = {
-        News                     = true
-        LocalAuthorityHomepageV2 = true
-        KS4ProgressBanding       = true
+        News               = true
+        KS4ProgressBanding = true
       },
       CacheOptions = {
         ReturnYears = {
@@ -105,9 +103,8 @@ variable "configuration" {
       front_door_waf_policy_sku_name = "Standard_AzureFrontDoor"
       waf_mode                       = "Prevention"
       features = {
-        News                     = true
-        LocalAuthorityHomepageV2 = true
-        KS4ProgressBanding       = true
+        News               = true
+        KS4ProgressBanding = true
       },
       CacheOptions = {
         ReturnYears = {
@@ -133,9 +130,8 @@ variable "configuration" {
       front_door_waf_policy_sku_name = "Standard_AzureFrontDoor"
       waf_mode                       = "Detection"
       features = {
-        News                     = true
-        LocalAuthorityHomepageV2 = true
-        KS4ProgressBanding       = true
+        News               = true
+        KS4ProgressBanding = true
       },
       CacheOptions = {
         ReturnYears = {
