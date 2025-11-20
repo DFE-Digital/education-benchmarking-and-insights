@@ -1,16 +1,7 @@
 @using Web.App.ViewModels
-@using Web.App.ViewModels.Components
 @model Web.App.ViewModels.SchoolViewModel
 @{
     ViewData[ViewDataKeys.Title] = PageTitles.SchoolHome;
-    Resources[] resources =
-    [
-        Resources.SchoolResources,
-        Resources.SchoolHistoricData,
-        Resources.SchoolDetails,
-        Resources.DataSource,
-        Resources.FinancialBenchmarkingInsightsSummary
-    ];
 }
 
 @if (Model is { PeriodCoveredByReturn: < 12 })
@@ -74,7 +65,7 @@
 @await Component.InvokeAsync("Resources", new
 {
     identifier = Model.Urn,
-    resources = Model.HasProgressIndicator ? resources.Concat([Resources.SchoolPerformance]).ToArray() : resources
+    resources = Model.Resources
 })
 
 @* TODO: review for public beta

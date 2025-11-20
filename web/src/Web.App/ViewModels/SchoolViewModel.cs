@@ -104,6 +104,29 @@ public class SchoolViewModel(School school) : ISchoolKeyInformationViewModel
         FinanceTools.Spending,
         FinanceTools.BenchmarkCensus);
 
+    public Components.Resources[] Resources
+    {
+        get
+        {
+            var resources = new List<Components.Resources>
+            {
+                Components.Resources.SchoolResources,
+                Components.Resources.SchoolHistoricData,
+                Components.Resources.SchoolDetails,
+                Components.Resources.DataSource,
+                Components.Resources.FinancialBenchmarkingInsightsSummary
+            };
+
+            if (!HasProgressIndicator)
+            {
+                return resources.ToArray();
+            }
+
+            resources.Add(Components.Resources.SchoolPerformance);
+            return resources.ToArray();
+        }
+    }
+
     public decimal? KS4Progress { get; }
     public KS4ProgressBandings.Banding? KS4ProgressBanding { get; }
     public bool HasProgressIndicator => KS4Progress.HasValue && KS4ProgressBanding.HasValue;
