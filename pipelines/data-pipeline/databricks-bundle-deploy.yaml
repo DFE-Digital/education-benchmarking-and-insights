@@ -62,12 +62,11 @@ stages:
                 !databricks/**/.pytest_cache/**
                 !databricks/**/__pycache__/**
                 !databricks/**/.venv/**
-                !databricks/tf_binaries.zip
               TargetFolder: '$(Build.ArtifactStagingDirectory)'
               CleanTargetFolder: true
 
           - script: |
-              unzip $(Build.SourcesDirectory)/databricks/tf_binaries.zip $(Build.SourcesDirectory)/databricks
+              unzip $(Build.ArtifactStagingDirectory)/databricks/tf_binaries.zip $(Build.ArtifactStagingDirectory)
               cp -r $(Build.SourcesDirectory)/databricks/tf_binaries $(Build.ArtifactStagingDirectory)
             displayName: 'Prepare Windows terraform/databricks binaries'
 
