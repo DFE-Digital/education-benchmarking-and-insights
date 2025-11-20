@@ -15,22 +15,22 @@ import {
   ProgressIndicatorsProvider,
 } from "src/contexts";
 import { useGovUk } from "src/hooks/useGovUk";
-import { ChartOptionsProgress } from "src/components/chart-options-progress";
+import { ChartOptions } from "src/components/chart-options";
 import { PageActions } from "src/components/page-actions";
 
 export const CompareYourCosts2: React.FC<CompareYourCosts2ViewProps> = ({
   costCodeMap,
   customDataId,
   downloadLink,
+  id,
+  progressIndicators,
   saveClassName,
   saveFileName,
   saveModalPortalId,
   saveTitleAttr,
-  id,
   suppressNegativeOrZero,
   tags,
   type,
-  progressIndicators,
 }) => {
   const [fetching, setFetching] = useState(true);
   const handleFetching = (fetching: boolean) => {
@@ -58,7 +58,7 @@ export const CompareYourCosts2: React.FC<CompareYourCosts2ViewProps> = ({
                 <ShareButtonsLayoutContext.Provider value="column">
                   <div className="govuk-grid-row">
                     <div className="govuk-grid-column-one-half">
-                      <ChartOptionsProgress />
+                      <ChartOptions />
                     </div>
                     <div className="govuk-grid-column-one-half">
                       <PageActions

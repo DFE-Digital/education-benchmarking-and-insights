@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 import { CompareYourCensus2ViewProps } from "src/views";
-import { ChartModeChart } from "src/components";
+import { ChartModeChart, ChartOptions, PageActions } from "src/components";
 import {
   SelectedEstablishmentContext,
   PhaseContext,
   ChartModeProvider,
   CustomDataContext,
+  ProgressIndicatorsProvider,
+  ShareButtonsLayoutContext,
 } from "src/contexts";
 import {
   AuxiliaryStaff,
@@ -17,12 +19,12 @@ import {
   TotalTeachers,
   TotalTeachersQualified,
 } from "src/views/compare-your-census-2/partials";
-import { ChartOptionsPhaseMode } from "src/components/chart-options-phase-mode";
 
 export const CompareYourCensus2: React.FC<CompareYourCensus2ViewProps> = (
   props
 ) => {
-  const { type, id, phases, customDataId } = props;
+  const { customDataId, downloadLink, id, phases, progressIndicators, type } =
+    props;
   const [phase, setPhase] = useState<string | undefined>(
     phases ? phases[0] : undefined
   );
@@ -32,18 +34,30 @@ export const CompareYourCensus2: React.FC<CompareYourCensus2ViewProps> = (
       <PhaseContext.Provider value={phase}>
         <CustomDataContext.Provider value={customDataId}>
           <ChartModeProvider initialValue={ChartModeChart}>
-            <ChartOptionsPhaseMode
-              phases={phases}
-              handlePhaseChange={setPhase}
-            />
-            <SchoolWorkforce id={id} type={type} />
-            <TotalTeachers id={id} type={type} />
-            <TotalTeachersQualified id={id} type={type} />
-            <SeniorLeadership id={id} type={type} />
-            <TeachingAssistants id={id} type={type} />
-            <NonClassroomSupport id={id} type={type} />
-            <AuxiliaryStaff id={id} type={type} />
-            <Headcount id={id} type={type} />
+            <ProgressIndicatorsProvider data={progressIndicators} id={id}>
+              <ShareButtonsLayoutContext.Provider value="column">
+                <div className="govuk-grid-row">
+                  <div className="govuk-grid-column-one-half">
+                    <ChartOptions
+                      phases={phases}
+                      handlePhaseChange={setPhase}
+                    />
+                  </div>
+                  <div className="govuk-grid-column-one-half">
+                    <PageActions downloadLink={downloadLink} />
+                  </div>
+                </div>
+                <hr className="govuk-section-break govuk-section-break--l govuk-section-break--visible govuk-!-margin-top-0" />
+                <SchoolWorkforce id={id} type={type} />
+                <TotalTeachers id={id} type={type} />
+                <TotalTeachersQualified id={id} type={type} />
+                <SeniorLeadership id={id} type={type} />
+                <TeachingAssistants id={id} type={type} />
+                <NonClassroomSupport id={id} type={type} />
+                <AuxiliaryStaff id={id} type={type} />
+                <Headcount id={id} type={type} />
+              </ShareButtonsLayoutContext.Provider>
+            </ProgressIndicatorsProvider>
           </ChartModeProvider>
         </CustomDataContext.Provider>
       </PhaseContext.Provider>
