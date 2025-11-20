@@ -61,7 +61,7 @@ stages:
               CleanTargetFolder: true
 
           - script: |
-              unzip $(System.DefaultWorkingDirectory)/databricks/tf_binaries.zip -d $(Build.ArtifactStagingDirectory)/tf_binaries
+              unzip $(System.DefaultWorkingDirectory)/databricks/tf_binaries.zip -d $(Build.ArtifactStagingDirectory)
             displayName: 'Prepare Windows terraform/databricks binaries'
 
           - script: |
@@ -101,7 +101,7 @@ stages:
           
           - script: |
               robocopy $(System.ArtifactsDirectory)\$(artifactName)\tf_binaries C:/temp/tf_binaries
-              robocopy $(System.ArtifactsDirectory)\$(artifactName)\terraform.rc 
+              robocopy $(System.ArtifactsDirectory)\$(artifactName)\terraform.rc %APPDATA%
             displayName: 'Configure terraform to use local'
 
           - script: |
