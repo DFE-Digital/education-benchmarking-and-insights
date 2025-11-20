@@ -14,7 +14,7 @@ This release delivers a combination of enhancements, custom data generation fix 
 
 - **Enhancements**
   - Local authority home page updated to show pupil, workforce, financial and priority schools RAG ratings.
-  - Progress 8 score added on benchmark spending page giving users a combined view of spend vs outcomes. (will be switched off in production)
+  - Progress 8 score added on benchmark spending page giving users a combined view of spend vs outcomes.
   
 - **Bug Fixes**
   - Issues with custom data generation has also been fixed.
@@ -41,6 +41,7 @@ This release delivers a combination of enhancements, custom data generation fix 
 - All smoke, sanity checks pass successfully.
 - No critical or high-severity defects remain open.
 - Stakeholder approval obtained for release progression.
+- Manual WAF changes have been made in production.
 
 ## Roles and Responsibilities
 
