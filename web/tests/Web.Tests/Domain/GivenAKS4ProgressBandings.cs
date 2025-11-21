@@ -9,17 +9,19 @@ public class GivenAKS4ProgressBandings
     {
         get
         {
-            var outOfRange = new KeyValuePair<string, string?>("000000", "Out of range");
-            var wellBelowAverage = new KeyValuePair<string, string?>("000001", "Well below average");
-            var belowAverage = new KeyValuePair<string, string?>("000002", "Below average");
-            var average = new KeyValuePair<string, string?>("000003", "Average");
-            var aboveAverage = new KeyValuePair<string, string?>("000004", "Above average");
-            var wellAboveAverage = new KeyValuePair<string, string?>("000005", "Well above average");
+            var missing = new KeyValuePair<string, string?>("000000", null);
+            var outOfRange = new KeyValuePair<string, string?>("000001", "Out of range");
+            var wellBelowAverage = new KeyValuePair<string, string?>("000002", "Well below average");
+            var belowAverage = new KeyValuePair<string, string?>("000003", "Below average");
+            var average = new KeyValuePair<string, string?>("000004", "Average");
+            var aboveAverage = new KeyValuePair<string, string?>("000005", "Above average");
+            var wellAboveAverage = new KeyValuePair<string, string?>("000006", "Well above average");
 
             return new TheoryData<IEnumerable<KeyValuePair<string, string?>>, KS4ProgressBanding[]>
             {
                 { [], [] },
-                { [outOfRange], [] },
+                { [missing], [] },
+                { [outOfRange], [new KS4ProgressBanding(outOfRange.Key, KS4ProgressBandings.Banding.Unknown)] },
                 { [wellBelowAverage], [new KS4ProgressBanding(wellBelowAverage.Key, KS4ProgressBandings.Banding.WellBelowAverage)] },
                 { [belowAverage], [new KS4ProgressBanding(belowAverage.Key, KS4ProgressBandings.Banding.BelowAverage)] },
                 { [average], [new KS4ProgressBanding(average.Key, KS4ProgressBandings.Banding.Average)] },
@@ -43,13 +45,15 @@ public class GivenAKS4ProgressBandings
 public class GivenAKS4ProgressBandingToStringValue
 {
     [Theory]
-    [InlineData("Out of range", null)]
+    [InlineData(null, null)]
+    [InlineData("", null)]
+    [InlineData("Out of range", KS4ProgressBandings.Banding.Unknown)]
     [InlineData("Well below average", KS4ProgressBandings.Banding.WellBelowAverage)]
     [InlineData("Below average", KS4ProgressBandings.Banding.BelowAverage)]
     [InlineData("Average", KS4ProgressBandings.Banding.Average)]
     [InlineData("Above average", KS4ProgressBandings.Banding.AboveAverage)]
     [InlineData("Well above average", KS4ProgressBandings.Banding.WellAboveAverage)]
-    public void WhenBandingStringIs(string banding, KS4ProgressBandings.Banding? expected)
+    public void WhenBandingStringIs(string? banding, KS4ProgressBandings.Banding? expected)
     {
         var result = banding.ToBanding();
         Assert.Equal(expected, result);
@@ -61,8 +65,9 @@ public class GivenAKS4ProgressBandingToStringValue
     [InlineData(KS4ProgressBandings.Banding.Average, "Average")]
     [InlineData(KS4ProgressBandings.Banding.AboveAverage, "Above average")]
     [InlineData(KS4ProgressBandings.Banding.WellAboveAverage, "Well above average")]
-    [InlineData((KS4ProgressBandings.Banding)999, null)]
-    public void WhenBandingIs(KS4ProgressBandings.Banding banding, string? expected)
+    [InlineData(KS4ProgressBandings.Banding.Unknown, "Unknown")]
+    [InlineData((KS4ProgressBandings.Banding)999, "Unknown")]
+    public void WhenBandingIs(KS4ProgressBandings.Banding banding, string expected)
     {
         var result = banding.ToStringValue();
         Assert.Equal(expected, result);

@@ -12,7 +12,8 @@ public class KS4ProgressBandings : ISerializable
         BelowAverage,
         Average,
         AboveAverage,
-        WellAboveAverage
+        WellAboveAverage,
+        Unknown
     }
 
     private readonly Dictionary<string, Banding> _items = new();
@@ -33,7 +34,20 @@ public class KS4ProgressBandings : ISerializable
         .Select(d => new KS4ProgressBanding(d.Key, d.Value))
         .ToArray();
 
-    public KS4ProgressBanding? this[string? urn] => Items.SingleOrDefault(i => i.Urn == urn);
+    public KS4ProgressBanding? this[string? urn]
+    {
+        get
+        {
+            if (urn is null)
+            {
+                return null;
+            }
+
+            return _items.TryGetValue(urn, out var banding)
+                ? new KS4ProgressBanding(urn, banding)
+                : null;
+        }
+    }
 
     public void GetObjectData(SerializationInfo info, StreamingContext context)
     {
@@ -51,25 +65,34 @@ public static class BandingExtensions
     private const string Average = "Average";
     private const string AboveAverage = "Above average";
     private const string WellAboveAverage = "Well above average";
+    private const string Unknown = "Unknown";
 
-    public static KS4ProgressBandings.Banding? ToBanding(this string? banding) => banding switch
+    public static KS4ProgressBandings.Banding? ToBanding(this string? banding)
     {
-        WellBelowAverage => KS4ProgressBandings.Banding.WellBelowAverage,
-        BelowAverage => KS4ProgressBandings.Banding.BelowAverage,
-        Average => KS4ProgressBandings.Banding.Average,
-        AboveAverage => KS4ProgressBandings.Banding.AboveAverage,
-        WellAboveAverage => KS4ProgressBandings.Banding.WellAboveAverage,
-        _ => null
-    };
+        if (string.IsNullOrWhiteSpace(banding))
+        {
+            return null;
+        }
 
-    public static string? ToStringValue(this KS4ProgressBandings.Banding banding) => banding switch
+        return banding switch
+        {
+            WellBelowAverage => KS4ProgressBandings.Banding.WellBelowAverage,
+            BelowAverage => KS4ProgressBandings.Banding.BelowAverage,
+            Average => KS4ProgressBandings.Banding.Average,
+            AboveAverage => KS4ProgressBandings.Banding.AboveAverage,
+            WellAboveAverage => KS4ProgressBandings.Banding.WellAboveAverage,
+            _ => KS4ProgressBandings.Banding.Unknown
+        };
+    }
+
+    public static string ToStringValue(this KS4ProgressBandings.Banding banding) => banding switch
     {
         KS4ProgressBandings.Banding.WellBelowAverage => WellBelowAverage,
         KS4ProgressBandings.Banding.BelowAverage => BelowAverage,
         KS4ProgressBandings.Banding.Average => Average,
         KS4ProgressBandings.Banding.AboveAverage => AboveAverage,
         KS4ProgressBandings.Banding.WellAboveAverage => WellAboveAverage,
-        _ => null
+        _ => Unknown
     };
 
     public static string ToGdsColour(this KS4ProgressBandings.Banding banding) => banding switch
