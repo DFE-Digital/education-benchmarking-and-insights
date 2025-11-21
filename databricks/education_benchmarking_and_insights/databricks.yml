@@ -9,6 +9,11 @@ artifacts:
     type: whl
     build: uv build --wheel
 
+variables:
+  git_commit:
+    description: Git commit corresponding to the DAB's source code
+    default: unknown
+
 include:
   - resources/*.yml
   - resources/*/*.yml
