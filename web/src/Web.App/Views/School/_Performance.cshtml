@@ -1,3 +1,4 @@
+@using Web.App.Domain
 @using Web.App.Extensions
 @model Web.App.ViewModels.SchoolViewModel
 
@@ -21,10 +22,9 @@
                                 Banding
                             </dt>
                             <dd class="govuk-summary-list__value govuk-!-padding-top-0">
-                                @await Component.InvokeAsync("ProgressBandingTag", new
-                                {
-                                    banding = Model.KS4ProgressBanding
-                                })
+                                <strong class="govuk-tag govuk-tag--@Model.KS4ProgressBanding?.ToGdsColour()">
+                                    @Model.KS4ProgressBanding?.ToStringValue()
+                                </strong>
                             </dd>
                         </div>
                         <div class="govuk-summary-list__row">

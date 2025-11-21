@@ -62,14 +62,14 @@ public static class BandingExtensions
         _ => null
     };
 
-    public static string ToStringValue(this KS4ProgressBandings.Banding banding) => banding switch
+    public static string? ToStringValue(this KS4ProgressBandings.Banding banding) => banding switch
     {
         KS4ProgressBandings.Banding.WellBelowAverage => WellBelowAverage,
         KS4ProgressBandings.Banding.BelowAverage => BelowAverage,
         KS4ProgressBandings.Banding.Average => Average,
         KS4ProgressBandings.Banding.AboveAverage => AboveAverage,
         KS4ProgressBandings.Banding.WellAboveAverage => WellAboveAverage,
-        _ => throw new ArgumentOutOfRangeException(nameof(banding))
+        _ => null
     };
 
     public static string ToGdsColour(this KS4ProgressBandings.Banding banding) => banding switch
@@ -79,6 +79,6 @@ public static class BandingExtensions
         KS4ProgressBandings.Banding.Average => "yellow",
         KS4ProgressBandings.Banding.AboveAverage => "blue",
         KS4ProgressBandings.Banding.WellAboveAverage => "turquoise",
-        _ => throw new ArgumentOutOfRangeException(nameof(banding))
+        _ => "grey"
     };
 }
