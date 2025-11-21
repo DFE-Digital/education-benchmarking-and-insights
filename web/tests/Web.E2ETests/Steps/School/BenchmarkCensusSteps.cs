@@ -163,6 +163,13 @@ public class BenchmarkCensusSteps(PageDriver driver)
         _download = await page.RunAndWaitForDownloadAsync(() => _censusPage.ClickDownloadDataButton());
     }
 
+    [When("I click '(.*)' school performance")]
+    public async Task WhenIClickSchoolPerformance(string banding)
+    {
+        Assert.NotNull(_censusPage);
+        await _censusPage.ClickSchoolPerformanceCheckbox(banding);
+    }
+
     [Then("the file '(.*)' is downloaded")]
     public void ThenTheFileIsDownloaded(string fileName)
     {
@@ -255,5 +262,23 @@ public class BenchmarkCensusSteps(PageDriver driver)
         await _schoolHomePage.IsDisplayed();
     }
 
+    [Then("the following is shown for '(.*)'")]
+    public async Task ThenTheFollowingIsShownFor(string chartName, Table table)
+    {
+        var expected = GetExpectedTableData(table);
+        Assert.NotNull(_censusPage);
+        await _censusPage.IsTableDataForChartDisplayed(chartName, expected);
+    }
+
     private static string BenchmarkCensusUrl(string urn) => $"{TestConfiguration.ServiceUrl}/school/{urn}/census";
+
+    private static List<List<string>> GetExpectedTableData(Table table)
+    {
+        var expected = new List<List<string>>();
+        var headers = table.Header.ToList();
+        expected.Add(headers);
+        expected.AddRange(table.Rows.Select(row => row.Select(cell => cell.Value).ToList()));
+
+        return expected;
+    }
 }

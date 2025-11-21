@@ -33,6 +33,7 @@ public class BenchmarkCensusPage(IPage page)
     private ILocator Tables => page.Locator(Selectors.Table);
     private ILocator SaveImageSchoolWorkforce => page.Locator(Selectors.SchoolWorkforceSaveAsImage);
     private ILocator CopyImageSchoolWorkforce => page.Locator(Selectors.SchoolWorkforceCopyImage);
+    private ILocator ChartByDataTitle(string title) => page.Locator($"[data-title='{title}']");
 
     private ILocator DownloadDataButton =>
         page.Locator(Selectors.Button, new PageLocatorOptions
@@ -56,25 +57,30 @@ public class BenchmarkCensusPage(IPage page)
         page.Locator(Selectors.GovLink,
             new PageLocatorOptions
             {
-                HasText = "We've chosen this set of similar schools"
+                HasText = "view the set of similar schools we've chosen"
             });
 
     private ILocator CustomComparatorLink => page.Locator(Selectors.GovLink,
         new PageLocatorOptions
         {
-            HasText = "Create or save your own set of schools to benchmark against"
+            HasText = "create or save your own set of schools"
         });
 
     private ILocator CustomDataLink => page.Locator(Selectors.GovLink,
         new PageLocatorOptions
         {
-            HasText = "Change the data for this school"
+            HasText = "change the data"
         });
 
     private ILocator ChartBars => page.Locator(Selectors.ChartBars);
     private ILocator AdditionalDetailsPopUps => page.Locator(Selectors.AdditionalDetailsPopUps);
     private ILocator SchoolLinksInCharts => page.Locator(Selectors.SchoolNamesLinksInCharts);
     private ILocator IncompleteFinancialBanner => page.Locator(Selectors.GovWarning);
+    private ILocator SchoolPerformanceCheckbox(string banding) => page.Locator(Selectors.GovCheckboxLabel,
+        new PageLocatorOptions
+        {
+            HasText = banding
+        });
 
     public async Task IsDisplayed(bool isPartYear = false)
     {
@@ -250,6 +256,20 @@ public class BenchmarkCensusPage(IPage page)
     public async Task ClickDownloadDataButton()
     {
         await DownloadDataButton.Click();
+    }
+
+    public async Task IsTableDataForChartDisplayed(string chartName, List<List<string>> expectedData)
+    {
+        var table = ChartByDataTitle(chartName);
+        await table.ShouldBeVisible();
+        await table.ShouldHaveTableContent(expectedData, true);
+    }
+
+    public async Task ClickSchoolPerformanceCheckbox(string banding)
+    {
+        var checkbox = SchoolPerformanceCheckbox(banding);
+        await checkbox.ShouldBeVisible();
+        await checkbox.Click();
     }
 
     private ILocator ChartDimensionDropdown(CensusChartNames chartName)
