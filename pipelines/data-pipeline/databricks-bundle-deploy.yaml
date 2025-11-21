@@ -167,7 +167,7 @@ stages:
                     DATABRICKS_TF_EXEC_PATH: $(System.ArtifactsDirectory)\$(artifactName)\tf_binaries\tf_binaries\terraform.exe
                     DATABRICKS_TF_PROVIDER_VERSION: 1.96.0
                     DATABRICKS_TF_CLI_CONFIG_FILE: $(System.ArtifactsDirectory)\$(artifactName)\databricks\terraform.rc
-                    GIT_COMMIT: $[ stageDependencies.Test.SetVersion.outputs['setVars.GIT_COMMIT'] ]
+                    GIT_COMMIT: $[ stageDependencies.Test.bundle_validate.outputs['SetVersion.GIT_COMMIT'] ]
 
   # - stage: DeployProd
   #   displayName: 'Deploy to Production'
