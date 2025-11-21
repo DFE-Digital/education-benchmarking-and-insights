@@ -19,6 +19,11 @@ This guide defines a consistent and user-centred approach to charting and data v
 - Labelling conventions and data formatting
 - Interactivity and user behaviour
 
+**Document rationale for inconsistency and edge case handling:**
+
+- Meticulously document instances where axis label patterns, color and highlight application, font choices, and image placement deviate from established design standards, providing the underlying rationale or outlining the agreed-upon future standard for achieving uniformity.
+- Technical and design debt should be tagged and documented in risk log. A ticket to address trade-offs should be created in the backlog.
+
 **Reference to user research:**
 
 - Draw on existing user research (VMFI, SFB, and current service research) to validate or challenge existing design choices.
