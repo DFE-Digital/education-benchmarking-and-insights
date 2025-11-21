@@ -1,4 +1,5 @@
 @using Web.App.ViewModels
+@using Web.App.ViewModels.Components
 @model Web.App.ViewModels.SchoolViewModel
 @{
     ViewData[ViewDataKeys.Title] = PageTitles.SchoolHome;
@@ -62,11 +63,35 @@
 
 <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
 
-@await Component.InvokeAsync("Resources", new
-{
-    identifier = Model.Urn,
-    resources = Model.Resources
-})
+<feature name="@($"{FeatureFlags.KS4ProgressBanding},{FeatureFlags.KS4ProgressBandingSchoolHome}")">
+    @await Component.InvokeAsync("Resources", new
+    {
+        identifier = Model.Urn,
+        resources = new[]
+        {
+            Resources.SchoolResources,
+            Resources.SchoolHistoricData,
+            Resources.SchoolDetails,
+            Resources.DataSource,
+            Resources.FinancialBenchmarkingInsightsSummary,
+            Resources.SchoolPerformance
+        }
+    })
+</feature>
+<feature name="@($"{FeatureFlags.KS4ProgressBanding},{FeatureFlags.KS4ProgressBandingSchoolHome}")" negate="true">
+    @await Component.InvokeAsync("Resources", new
+    {
+        identifier = Model.Urn,
+        resources = new[]
+        {
+            Resources.SchoolResources,
+            Resources.SchoolHistoricData,
+            Resources.SchoolDetails,
+            Resources.DataSource,
+            Resources.FinancialBenchmarkingInsightsSummary
+        }
+    })
+</feature>
 
 @* TODO: review for public beta
 <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">

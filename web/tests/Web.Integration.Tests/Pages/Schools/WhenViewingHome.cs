@@ -165,7 +165,7 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
     [Theory]
     [InlineData(false, false, false)]
     [InlineData(false, true, false)]
-    [InlineData(true, false, false)]
+    [InlineData(true, false, true)]
     [InlineData(true, true, true)]
     public async Task CanDisplayResources(bool ks4ProgressBandingEnabled, bool hasProgressIndicators, bool expectedComparePerformanceVisible)
     {
