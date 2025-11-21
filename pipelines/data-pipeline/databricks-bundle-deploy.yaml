@@ -73,12 +73,12 @@ stages:
               cleanDestinationFolder: false
             displayName: 'Unzip terraform provider binaries'
 
-          - script: |
-              curl -fsSL https://releases.hashicorp.com/terraform/1.8.5/terraform_1.8.5_windows_amd64.zip \
-               -o $(Build.ArtifactStagingDirectory)\tf_binaries\tf_binaries\terraform.zip
-              unzip $(Build.ArtifactStagingDirectory)\tf_binaries\tf_binaries\terraform.zip -d $(Build.ArtifactStagingDirectory)\tf_binaries\tf_binaries
-              rm $(Build.ArtifactStagingDirectory)\tf_binaries\tf_binaries\terraform.zip
-            displayName: 'Download Windows terraform binary'
+          # - script: |
+          #     curl -fsSL https://releases.hashicorp.com/terraform/1.8.5/terraform_1.8.5_windows_amd64.zip \
+          #      -o $(Build.ArtifactStagingDirectory)\tf_binaries\tf_binaries\terraform.zip
+          #     unzip $(Build.ArtifactStagingDirectory)\tf_binaries\tf_binaries\terraform.zip -d $(Build.ArtifactStagingDirectory)\tf_binaries\tf_binaries
+          #     rm $(Build.ArtifactStagingDirectory)\tf_binaries\tf_binaries\terraform.zip
+          #   displayName: 'Download Windows terraform binary'
 
           - script: |
               curl -fsSL https://github.com/databricks/cli/releases/download/v0.276.0/databricks_cli_0.276.0_windows_amd64.zip -o $(Build.ArtifactStagingDirectory)/databricks-cli.zip
