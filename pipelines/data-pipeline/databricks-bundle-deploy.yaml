@@ -127,7 +127,6 @@ stages:
 
   - stage: DeployDev
     displayName: 'Deploy to Dev'
-    dependsOn: Test
     condition: and(succeeded())
     trigger: manual
     jobs:
