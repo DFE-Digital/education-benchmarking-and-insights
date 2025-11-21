@@ -99,7 +99,7 @@ stages:
               ArtifactName: '$(artifactName)'
               publishLocation: 'Container'
 
-      - job: Bundle_Validate
+      - job: bundle_validate
         dependsOn: prepare_artifacts
         pool:
           name: DD-Hosted-Prod
@@ -123,29 +123,23 @@ stages:
               PATH: $(System.ArtifactsDirectory)\$(artifactName)\databricks-cli;$(PATH)
               DATABRICKS_HOST: $(DATABRICKS_HOST)
               DATABRICKS_TOKEN: $(DATABRICKS_TOKEN)
-
+          
           - script: |
-              copy $(System.ArtifactsDirectory)\$(artifactName)\tf_binaries\tf_binaries\registry.terraform.io\databricks\databricks\terraform-provider-databricks_1.96.0_windows_amd64.zip C:\temp\tf_binaries\registry.terraform.io\databricks\databricks\terraform-provider-databricks_1.96.0_windows_amd64.zip
-              databricks bundle deploy --target dev
-            displayName: 'Deploy Bundle'
-            workingDirectory: $(System.ArtifactsDirectory)\$(artifactName)\databricks\education_benchmarking_and_insights
-            env:
-              PATH: $(System.ArtifactsDirectory)\$(artifactName)\uv;$(System.ArtifactsDirectory)\$(artifactName)\databricks-cli;$(PATH)
-              DATABRICKS_HOST: $(DATABRICKS_HOST)
-              DATABRICKS_TOKEN: $(DATABRICKS_TOKEN)
-              DATABRICKS_TF_VERSION: 1.8.5
-              DATABRICKS_TF_EXEC_PATH: $(System.ArtifactsDirectory)\$(artifactName)\tf_binaries\tf_binaries\terraform.exe
-              DATABRICKS_TF_PROVIDER_VERSION: 1.96.0
-              DATABRICKS_TF_CLI_CONFIG_FILE: $(System.ArtifactsDirectory)\$(artifactName)\databricks\terraform.rc
+              echo "##vso[task.setvariable variable=GIT_COMMIT;isOutput=true]$(Build.SourceVersion)"
+            displayName: 'Generate Bundle Version'
 
   - stage: DeployDev
     displayName: 'Deploy to Dev'
     dependsOn: Test
-    condition: and(succeeded(), in(variables['Build.SourceBranch'], 'refs/heads/develop', 'refs/heads/main'))
+    variables:
+      GIT_COMMIT: $[ dependencies.SetVersion.outputs['setVars.GIT_COMMIT'] ]
+    # condition: and(succeeded(), in(variables['Build.SourceBranch'], 'refs/heads/develop', 'refs/heads/main'))
     jobs:
       - deployment: DeployDevBundle
         displayName: 'Deploy to Dev Environment'
         environment: 'development'
+        pool:
+          name: DD-Hosted-Prod
         strategy:
           runOnce:
             deploy:
@@ -161,7 +155,6 @@ stages:
                     artifactName: '$(artifactName)'
                     downloadPath: '$(System.ArtifactsDirectory)'
 
-                # Generate version from commit SHA
                 - script: |
                     export GIT_COMMIT=$(git rev-parse --short HEAD)
                     export BRANCH_NAME=$(echo $(Build.SourceBranch) | sed 's/refs\/heads\///')
@@ -173,7 +166,6 @@ stages:
                 - script: |
                     copy $(System.ArtifactsDirectory)\$(artifactName)\tf_binaries\tf_binaries\registry.terraform.io\databricks\databricks\terraform-provider-databricks_1.96.0_windows_amd64.zip C:\temp\tf_binaries\registry.terraform.io\databricks\databricks\terraform-provider-databricks_1.96.0_windows_amd64.zip
                     databricks bundle deploy --target dev \
-                      --var="version=$(BUNDLE_VERSION)" \
                       --var="git_commit=$(GIT_COMMIT)"
                   displayName: 'Deploy Bundle'
                   workingDirectory: $(System.ArtifactsDirectory)\$(artifactName)\databricks\education_benchmarking_and_insights
