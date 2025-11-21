@@ -5,26 +5,6 @@ namespace Web.Tests;
 
 public class WhenConstants
 {
-    [Theory]
-    [InlineData("123456", "https://www.get-information-schools.service.gov.uk/establishments/establishment/details/123456")]
-    [InlineData("", null)]
-    [InlineData(null, null)]
-    public void ShouldReturnExpectedUrlWhenGettingGiasSchoolUrl(string? urn, string? expected)
-    {
-        var actual = Constants.GiasSchoolUrl(urn);
-        Assert.Equal(expected, actual);
-    }
-
-    [Theory]
-    [InlineData("123456", "https://www.get-information-schools.service.gov.uk/groups/group/details/123456")]
-    [InlineData("", null)]
-    [InlineData(null, null)]
-    public void ShouldReturnExpectedUrlWhenGettingGiasTrustUrl(string? uid, string? expected)
-    {
-        var actual = Constants.GiasTrustUrl(uid);
-        Assert.Equal(expected, actual);
-    }
-
     [Fact]
     public void ShouldReturnExpectedAvailableYears()
     {

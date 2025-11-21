@@ -83,7 +83,7 @@ public static class DocumentAssert
     public static void Link(IElement? element, string contents, string url)
     {
         Assert.NotNull(element);
-        TextEqual(element, contents);
+        TextEqual(element, contents, true);
         Assert.True(element.ClassList.Contains("govuk-link"), "A link should have the class govuk-link");
 
         switch (element)

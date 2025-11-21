@@ -9,7 +9,8 @@ public class TrustViewModel(Trust trust) : ITrustKeyInformationViewModel
         Trust trust,
         TrustBalance? balance,
         IEnumerable<RagRating>? ratings,
-        bool? comparatorReverted = false)
+        bool? comparatorReverted = false,
+        string? giasTrustUrl = null)
         : this(trust)
     {
         NumberSchools = Schools.Count();
@@ -17,6 +18,7 @@ public class TrustViewModel(Trust trust) : ITrustKeyInformationViewModel
         RevenueReserve = balance?.RevenueReserve;
         InYearBalance = balance?.InYearBalance;
         ComparatorReverted = comparatorReverted;
+        GiasTrustUrl = giasTrustUrl;
 
         var ratingsArray = ratings?.ToArray() ?? [];
 
@@ -69,6 +71,8 @@ public class TrustViewModel(Trust trust) : ITrustKeyInformationViewModel
     public TrustBalance? Balance { get; }
     public IEnumerable<TrustSchool> Schools => trust.Schools;
     public IEnumerable<RagCostCategoryViewModel> Ratings { get; } = [];
+
+    public string? GiasTrustUrl { get; }
 
     public IEnumerable<RagSchoolViewModel> PrimarySchools => GroupedSchools
         .Where(s => s.OverallPhase == OverallPhaseTypes.Primary)

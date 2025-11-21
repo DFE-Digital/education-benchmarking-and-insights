@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Web.App.Attributes;
 using Web.App.Attributes.RequestTelemetry;
+using Web.App.Builders;
 using Web.App.Domain;
 using Web.App.Infrastructure.Apis;
 using Web.App.Infrastructure.Apis.Establishment;
@@ -24,7 +25,8 @@ public class SchoolController(
     IUserDataService userDataService,
     ICensusApi censusApi,
     ICommercialResourcesService commercialResourcesService,
-    ISchoolInsightApi schoolInsightApi)
+    ISchoolInsightApi schoolInsightApi,
+    IUriBuilder uriBuilder)
     : Controller
 {
     [HttpGet]
@@ -60,8 +62,20 @@ public class SchoolController(
                         ? await RagRatingsDefault(urn)
                         : await RagRatingsUserDefined(comparatorSet);
                     var characteristic = await SchoolCharacteristic(urn);
+                    var giasSchoolUrl = uriBuilder.GiasSchoolUrl(urn);
+                    var compareSchoolPerformanceUrl = uriBuilder.CompareSchoolPerformanceUrl(urn);
 
-                    var viewModel = new SchoolViewModel(school, balance, ratings, characteristic, comparatorGenerated, comparatorReverted, comparatorSet, customData);
+                    var viewModel = new SchoolViewModel(
+                        school,
+                        balance,
+                        ratings,
+                        characteristic,
+                        comparatorGenerated,
+                        comparatorReverted,
+                        comparatorSet,
+                        customData,
+                        giasSchoolUrl,
+                        compareSchoolPerformanceUrl);
                     return View(viewModel);
                 }
             }

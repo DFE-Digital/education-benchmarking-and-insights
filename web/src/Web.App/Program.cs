@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.FeatureManagement;
 using Serilog;
 using SmartBreadcrumbs.Extensions;
+using Web.App.Builders;
 using Web.App.Cache;
 using Web.App.Extensions;
 using Web.App.Handlers;
@@ -17,6 +18,7 @@ using Web.App.Middleware;
 using Web.App.Services;
 using Web.App.Telemetry;
 using Westwind.AspNetCore.Markdown;
+using UriBuilder = Web.App.Builders.UriBuilder;
 
 [assembly: InternalsVisibleTo("Web.Tests")]
 
@@ -121,7 +123,8 @@ if (!builder.Environment.IsIntegration())
         .AddNonFinancialApi()
         .AddChartRenderingApi()
         .AddContentApi()
-        .AddWebAssets();
+        .AddWebAssets()
+        .AddUriBuilder();
 
     builder.AddSwaggerService();
 }

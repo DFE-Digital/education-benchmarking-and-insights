@@ -1,11 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Web.App.Builders;
 using Web.App.Domain.Content;
 using Web.App.Services;
 using Web.App.ViewModels.Components;
 
 namespace Web.App.ViewComponents;
 
-public class DataSourceInsetViewComponent(IFinanceService financeService) : ViewComponent
+public class DataSourceInsetViewComponent(IFinanceService financeService, IUriBuilder uriBuilder) : ViewComponent
 {
     public async Task<IViewComponentResult> InvokeAsync(
         string organisationType,
@@ -17,6 +18,7 @@ public class DataSourceInsetViewComponent(IFinanceService financeService) : View
     )
     {
         var years = await financeService.GetYears();
+        var compareSchoolPerformanceUrl = uriBuilder.CompareSchoolPerformanceUrl(urn);
 
         var dataSource = sourceType switch
         {
@@ -29,7 +31,7 @@ public class DataSourceInsetViewComponent(IFinanceService financeService) : View
             _ => []
         };
 
-        return View(new DataSourceInsetViewModel(dataSource, showKs4Progress, urn, years.Ks4Progress, additionText));
+        return View(new DataSourceInsetViewModel(dataSource, showKs4Progress, years.Ks4Progress, additionText, compareSchoolPerformanceUrl));
     }
 
     private static string[] GetSpendingDataSource(string organisationType, bool isPartOfTrust, FinanceYears years)
