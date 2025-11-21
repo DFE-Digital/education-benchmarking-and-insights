@@ -131,8 +131,6 @@ stages:
   - stage: DeployDev
     displayName: 'Deploy to Dev'
     dependsOn: Test
-    variables:
-      GIT_COMMIT: $[ dependencies.SetVersion.outputs['setVars.GIT_COMMIT'] ]
     # condition: and(succeeded(), in(variables['Build.SourceBranch'], 'refs/heads/develop', 'refs/heads/main'))
     jobs:
       - deployment: DeployDevBundle
@@ -168,6 +166,7 @@ stages:
                     DATABRICKS_TF_EXEC_PATH: $(System.ArtifactsDirectory)\$(artifactName)\tf_binaries\tf_binaries\terraform.exe
                     DATABRICKS_TF_PROVIDER_VERSION: 1.96.0
                     DATABRICKS_TF_CLI_CONFIG_FILE: $(System.ArtifactsDirectory)\$(artifactName)\databricks\terraform.rc
+                    GIT_COMMIT: $[ dependencies.SetVersion.outputs['setVars.GIT_COMMIT'] ]
 
   # - stage: DeployProd
   #   displayName: 'Deploy to Production'
