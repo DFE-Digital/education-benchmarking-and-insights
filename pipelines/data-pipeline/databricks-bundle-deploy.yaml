@@ -156,14 +156,6 @@ stages:
                     downloadPath: '$(System.ArtifactsDirectory)'
 
                 - script: |
-                    export GIT_COMMIT=$(git rev-parse --short HEAD)
-                    export BRANCH_NAME=$(echo $(Build.SourceBranch) | sed 's/refs\/heads\///')
-                    export BUNDLE_VERSION="${BRANCH_NAME}-${GIT_COMMIT}"
-                    echo "##vso[task.setvariable variable=BUNDLE_VERSION]${BUNDLE_VERSION}"
-                    echo "##vso[task.setvariable variable=GIT_COMMIT]${GIT_COMMIT}"
-                  displayName: 'Generate Bundle Version'
-
-                - script: |
                     copy $(System.ArtifactsDirectory)\$(artifactName)\tf_binaries\tf_binaries\registry.terraform.io\databricks\databricks\terraform-provider-databricks_1.96.0_windows_amd64.zip C:\temp\tf_binaries\registry.terraform.io\databricks\databricks\terraform-provider-databricks_1.96.0_windows_amd64.zip
                     databricks bundle deploy --target dev \
                       --var="git_commit=$(GIT_COMMIT)"
@@ -177,14 +169,6 @@ stages:
                     DATABRICKS_TF_EXEC_PATH: $(System.ArtifactsDirectory)\$(artifactName)\tf_binaries\tf_binaries\terraform.exe
                     DATABRICKS_TF_PROVIDER_VERSION: 1.96.0
                     DATABRICKS_TF_CLI_CONFIG_FILE: $(System.ArtifactsDirectory)\$(artifactName)\databricks\terraform.rc
-
-                - script: |
-                    echo "Bundle deployed successfully to dev"
-                    databricks bundle summary --target dev
-                  displayName: 'Deployment Summary'
-                  env:
-                    DATABRICKS_HOST: $(DATABRICKS_HOST)
-                    DATABRICKS_TOKEN: $(DATABRICKS_TOKEN)
 
   # - stage: DeployProd
   #   displayName: 'Deploy to Production'
