@@ -8,19 +8,17 @@ The goal is to create a record of the underlying rationale for deviating from ou
 
 ### X-Axis Scale Inconsistency
 
-- Trust to trust benchmarking: Balance Visualization & Axis Logic
-
+**Trust to trust benchmarking: Balance Visualization & Axis Logic**
 This chart development has been adapted to accommodate the bi-directional nature of the trust's financial data (both deficit and surplus balance states). The X-axis in this view employs adaptive scaling to align tick marks directly with specific data values and the zero-baseline. This approach prioritises the visibility of exact currency milestones over the set standard of variable interval spacing, also, the rendering of negative values is context-dependent, dynamically adjusting the axis origin to maximise data density and reduce visual clutter in surplus only scenarios.
 
-    ![Benchmarking balance - In-year balance](./images/trust-balance-axis-label-inconsistency.png)
+![Benchmarking balance - In-year balance](./images/trust-balance-axis-label-inconsistency.png)
 
 ### Blue Highlight Inconsistency
 
-- Benchmark IT Spending: Previous year spend
-
+**Benchmark IT Spending: Previous year spend**
 While standard designs rely on blue highlights for benchmarking consistency, the Trust IT Benchmarking required a new approach to handle the dense, multi-trust view and strict data sensitivity. The colour palette was expanded to comply with data governance (current and future data are protected under strict governance rules) and for this reason, the neutral grey highlight is used specifically to illustrate the previous year spend. This visually separates the open and shareable historical data from the protected spend that is visible only to the specific trust. The result is a clear signal of data status that keeps visual noise low across these complex comparisons.
 
-    ![Benchmark IT Spend - previous year](./images/trust-it-benchmark-highlight-inconsistency.png)
+![Benchmark IT Spend - previous year](./images/trust-it-benchmark-highlight-inconsistency.png)
 
 ### Missing Hover Behaviour
 
