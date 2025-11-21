@@ -137,6 +137,10 @@ Currently, bundle deployments are performed manually by developers using their p
 
 **Responsible party**: Data engineering lead to track migration progress and initiate service account setup when ready.
 
+### CI/CD Runners
+
+The Databricks instance in DfE has a firewall. Microsoft CICD runners have a non-static IP range and so can't be whitelisted for access to the Databricks API. To resolve this, FBIT have got access to a custom set of Windows runners owned by the infrastructure team which **are** whitelisted for access. They don't have internet access, so our CICD pipeline passes the necessary programs to the runners via pipeline artifacts.
+
 ### Pipeline Execution
 
 Pipeline runs are currently **manual** via the Databricks workspace UI under Workflows > Delta Live Tables. Navigate to the appropriate pipeline and click "Start" to trigger a run.
