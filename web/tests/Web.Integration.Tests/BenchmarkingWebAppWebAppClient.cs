@@ -4,6 +4,7 @@ using Microsoft.Extensions.Options;
 using Microsoft.FeatureManagement;
 using Moq;
 using Web.App;
+using Web.App.Builders;
 using Web.App.Cache;
 using Web.App.Domain;
 using Web.App.Domain.Charts;
@@ -22,6 +23,7 @@ using Web.App.Infrastructure.WebAssets;
 using Web.App.Services;
 using Xunit.Abstractions;
 using File = Web.App.Domain.Content.File;
+using UriBuilder = Web.App.Builders.UriBuilder;
 
 // ReSharper disable MemberCanBePrivate.Global
 // ReSharper disable ClassNeverInstantiated.Global
@@ -85,6 +87,12 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
         }
     });
 
+    public IUriBuilder UriBuilder { get; } = new UriBuilder(Options.Create(new UriOptions
+    {
+        GiasBaseUrl = "https://www.get-information-schools.service.gov.uk/",
+        CompareSchoolPerformanceBaseUrl = "https://www.compare-school-performance.service.gov.uk/"
+    }));
+
     protected override void Configure(IServiceCollection services)
     {
         services.AddDistributedMemoryCache();
@@ -116,6 +124,8 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
         services.AddSingleton(ItSpendApi.Object);
         services.AddSingleton(NewsApi.Object);
         services.AddSingleton(CacheOptions);
+        services.AddSingleton(CacheOptions);
+        services.AddSingleton(UriBuilder);
 
         EnableFeatures();
     }
