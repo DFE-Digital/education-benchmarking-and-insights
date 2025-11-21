@@ -61,18 +61,11 @@ public class GivenAKS4ProgressBandingToStringValue
     [InlineData(KS4ProgressBandings.Banding.Average, "Average")]
     [InlineData(KS4ProgressBandings.Banding.AboveAverage, "Above average")]
     [InlineData(KS4ProgressBandings.Banding.WellAboveAverage, "Well above average")]
+    [InlineData((KS4ProgressBandings.Banding)999, null)]
     public void WhenBandingIs(KS4ProgressBandings.Banding banding, string? expected)
     {
         var result = banding.ToStringValue();
         Assert.Equal(expected, result);
-    }
-
-    [Theory]
-    [InlineData((KS4ProgressBandings.Banding)999)]
-    public void WhenBandingIsOutOfRange(KS4ProgressBandings.Banding banding)
-    {
-        var result = Assert.Throws<ArgumentOutOfRangeException>(() => banding.ToStringValue());
-        Assert.NotNull(result);
     }
 }
 
@@ -84,17 +77,10 @@ public class GivenAKS4ProgressBandingToGdsColour
     [InlineData(KS4ProgressBandings.Banding.Average, "yellow")]
     [InlineData(KS4ProgressBandings.Banding.AboveAverage, "blue")]
     [InlineData(KS4ProgressBandings.Banding.WellAboveAverage, "turquoise")]
-    public void WhenBandingIs(KS4ProgressBandings.Banding banding, string? expected)
+    [InlineData((KS4ProgressBandings.Banding)999, "grey")]
+    public void WhenBandingIs(KS4ProgressBandings.Banding banding, string expected)
     {
         var result = banding.ToGdsColour();
         Assert.Equal(expected, result);
-    }
-
-    [Theory]
-    [InlineData((KS4ProgressBandings.Banding)999)]
-    public void WhenBandingIsOutOfRange(KS4ProgressBandings.Banding banding)
-    {
-        var result = Assert.Throws<ArgumentOutOfRangeException>(() => banding.ToGdsColour());
-        Assert.NotNull(result);
     }
 }
