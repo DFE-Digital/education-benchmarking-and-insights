@@ -14,7 +14,7 @@ variables:
 
 stages:
   - stage: Test
-    displayName: 'Test and create artifact'
+    displayName: 'Test and Validate'
     jobs:
       - job: unit_tests
         displayName: 'Unit Tests'
@@ -26,26 +26,26 @@ stages:
               versionSpec: '$(PYTHON_VERSION)'
             displayName: 'Use Python $(PYTHON_VERSION)'
 
-          # - script: |
-          #     sudo apt-get update
-          #     sudo apt-get install temurin-17-jdk
-          #   displayName: 'Install Java 17'
+          - script: |
+              sudo apt-get update
+              sudo apt-get install temurin-17-jdk
+            displayName: 'Install Java 17'
 
-          # - script: |
-          #     curl -LsSf https://astral.sh/uv/install.sh | sh
-          #     echo "##vso[task.prependpath]$HOME/.cargo/bin"
-          #   displayName: 'Install uv'
+          - script: |
+              curl -LsSf https://astral.sh/uv/install.sh | sh
+              echo "##vso[task.prependpath]$HOME/.cargo/bin"
+            displayName: 'Install uv'
 
-          # - script: |
-          #     uv sync --group unit-test
-          #   workingDirectory: $(System.DefaultWorkingDirectory)/databricks/education_benchmarking_and_insights
-          #   displayName: 'Install Dependencies with uv'
+          - script: |
+              uv sync --group unit-test
+            workingDirectory: $(System.DefaultWorkingDirectory)/databricks/education_benchmarking_and_insights
+            displayName: 'Install Dependencies with uv'
 
-          # - script: |
-          #     uv run pytest -v
-          #   workingDirectory: $(System.DefaultWorkingDirectory)/databricks/education_benchmarking_and_insights
-          #   displayName: 'Run unit tests'
-          #   continueOnError: false
+          - script: |
+              uv run pytest -v
+            workingDirectory: $(System.DefaultWorkingDirectory)/databricks/education_benchmarking_and_insights
+            displayName: 'Run unit tests'
+            continueOnError: false
 
       - job: prepare_artifacts
         dependsOn: unit_tests
@@ -66,17 +66,12 @@ stages:
               TargetFolder: '$(Build.ArtifactStagingDirectory)'
               CleanTargetFolder: true
 
-          # - task: ExtractFiles@1
-          #   inputs:
-          #     archiveFilePatterns: '**/*.zip'
-          #     destinationFolder: $(Build.ArtifactStagingDirectory)
-          #     cleanDestinationFolder: false
-          #   displayName: 'Unzip terraform provider binaries'
-
-          - script: |
-              curl -fsSL https://github.com/databricks/terraform-provider-databricks/releases/download/v1.96.0/terraform-provider-databricks_1.96.0_windows_amd64.zip \
-               -o $(Build.ArtifactStagingDirectory)\tf_binaries\tf_binaries\registry.terraform.io\databricks\databricks\terraform-provider-databricks_1.96.0_windows_amd64.zip
-            displayName: 'Download Windows terraform databricks provider zip'
+          - task: ExtractFiles@1
+            inputs:
+              archiveFilePatterns: '**/*.zip'
+              destinationFolder: $(Build.ArtifactStagingDirectory)
+              cleanDestinationFolder: false
+            displayName: 'Unzip terraform provider binaries'
 
           - script: |
               curl -fsSL https://releases.hashicorp.com/terraform/1.8.5/terraform_1.8.5_windows_amd64.zip \
@@ -155,25 +150,16 @@ stages:
           runOnce:
             deploy:
               steps:
-                - checkout: self
+                - checkout: none
+                  displayName: 'Skip checkout (using artifact)'
 
-                - task: UsePythonVersion@0
+                - task: DownloadBuildArtifacts@1
+                  displayName: 'Download source code artifact'
                   inputs:
-                    versionSpec: '$(PYTHON_VERSION)'
-                  displayName: 'Use Python $(PYTHON_VERSION)'
-
-                - script: |
-                    curl -LsSf https://astral.sh/uv/install.sh | sh
-                    echo "##vso[task.prependpath]$HOME/.cargo/bin"
-                  displayName: 'Install uv'
-
-                - script: |
-                    uv sync
-                  displayName: 'Install Dependencies with uv'
-
-                - script: |
-                    python -m pip install databricks-cli
-                  displayName: 'Install Databricks CLI'
+                    buildType: 'current'
+                    downloadType: 'single'
+                    artifactName: '$(artifactName)'
+                    downloadPath: '$(System.ArtifactsDirectory)'
 
                 # Generate version from commit SHA
                 - script: |
@@ -185,11 +171,20 @@ stages:
                   displayName: 'Generate Bundle Version'
 
                 - script: |
-                    databricks bundle deploy --target dev
-                  displayName: 'Deploy Bundle to Dev'
+                    copy $(System.ArtifactsDirectory)\$(artifactName)\tf_binaries\tf_binaries\registry.terraform.io\databricks\databricks\terraform-provider-databricks_1.96.0_windows_amd64.zip C:\temp\tf_binaries\registry.terraform.io\databricks\databricks\terraform-provider-databricks_1.96.0_windows_amd64.zip
+                    databricks bundle deploy --target dev \
+                      --var="version=$(BUNDLE_VERSION)" \
+                      --var="git_commit=$(GIT_COMMIT)"
+                  displayName: 'Deploy Bundle'
+                  workingDirectory: $(System.ArtifactsDirectory)\$(artifactName)\databricks\education_benchmarking_and_insights
                   env:
+                    PATH: $(System.ArtifactsDirectory)\$(artifactName)\uv;$(System.ArtifactsDirectory)\$(artifactName)\databricks-cli;$(PATH)
                     DATABRICKS_HOST: $(DATABRICKS_HOST)
                     DATABRICKS_TOKEN: $(DATABRICKS_TOKEN)
+                    DATABRICKS_TF_VERSION: 1.8.5
+                    DATABRICKS_TF_EXEC_PATH: $(System.ArtifactsDirectory)\$(artifactName)\tf_binaries\tf_binaries\terraform.exe
+                    DATABRICKS_TF_PROVIDER_VERSION: 1.96.0
+                    DATABRICKS_TF_CLI_CONFIG_FILE: $(System.ArtifactsDirectory)\$(artifactName)\databricks\terraform.rc
 
                 - script: |
                     echo "Bundle deployed successfully to dev"
