@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Web.App.Attributes;
 using Web.App.Attributes.RequestTelemetry;
+using Web.App.Builders;
 using Web.App.Domain;
 using Web.App.Infrastructure.Apis;
 using Web.App.Infrastructure.Apis.Establishment;
@@ -21,7 +22,8 @@ public class TrustController(
     IEstablishmentApi establishmentApi,
     IBalanceApi balanceApi,
     IMetricRagRatingApi metricRagRatingApi,
-    ICommercialResourcesService commercialResourcesService)
+    ICommercialResourcesService commercialResourcesService,
+    IUriBuilder uriBuilder)
     : Controller
 {
     [HttpGet]
@@ -41,8 +43,9 @@ public class TrustController(
                 var trust = await Trust(companyNumber);
                 var balance = await TrustBalance(companyNumber);
                 var ratings = await RagRatings(companyNumber);
+                var giasTrustUrl = uriBuilder.GiasTrustUrl(companyNumber);
 
-                var viewModel = new TrustViewModel(trust, balance, ratings, comparatorReverted);
+                var viewModel = new TrustViewModel(trust, balance, ratings, comparatorReverted, giasTrustUrl);
                 return View(viewModel);
             }
             catch (Exception e)

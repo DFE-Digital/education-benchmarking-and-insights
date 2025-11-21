@@ -13,7 +13,9 @@ public class SchoolViewModel(School school) : ISchoolKeyInformationViewModel
         bool? comparatorGenerated = false,
         bool? comparatorReverted = false,
         string? userDefinedSetId = null,
-        string? customDataId = null)
+        string? customDataId = null,
+        string? giasSchoolUrl = null,
+        string? compareSchoolPerformanceUrl = null)
         : this(school)
     {
         UserDefinedSetId = userDefinedSetId;
@@ -25,6 +27,8 @@ public class SchoolViewModel(School school) : ISchoolKeyInformationViewModel
         ComparatorReverted = comparatorReverted;
         KS4Progress = characteristic?.KS4Progress;
         KS4ProgressBanding = characteristic?.KS4ProgressBanding.ToBanding();
+        GiasSchoolUrl = giasSchoolUrl;
+        CompareSchoolPerformanceUrl = compareSchoolPerformanceUrl;
 
         var ratingsArray = ratings.ToArray();
 
@@ -107,6 +111,9 @@ public class SchoolViewModel(School school) : ISchoolKeyInformationViewModel
     public decimal? KS4Progress { get; }
     public KS4ProgressBandings.Banding? KS4ProgressBanding { get; }
     public bool HasProgressIndicator => KS4Progress.HasValue && KS4ProgressBanding.HasValue;
+
+    public string? GiasSchoolUrl { get; }
+    public string? CompareSchoolPerformanceUrl { get; }
 
     public string? OverallPhase => school.OverallPhase;
     public decimal? InYearBalance { get; }

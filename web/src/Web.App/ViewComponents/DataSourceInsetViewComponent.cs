@@ -1,11 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Web.App.Builders;
 using Web.App.Domain.Content;
 using Web.App.Services;
 using Web.App.ViewModels.Components;
 
 namespace Web.App.ViewComponents;
 
-public class DataSourceInsetViewComponent(IFinanceService financeService) : ViewComponent
+public class DataSourceInsetViewComponent(IFinanceService financeService, IUriBuilder uriBuilder) : ViewComponent
 {
     public async Task<IViewComponentResult> InvokeAsync(
         string organisationType,
@@ -18,6 +19,7 @@ public class DataSourceInsetViewComponent(IFinanceService financeService) : View
     {
         var years = await financeService.GetYears();
         var ks4ProgressYear = years.Ks4Progress;
+        var compareSchoolPerformanceUrl = uriBuilder.CompareSchoolPerformanceUrl(urn);
 
         if (showKs4Progress)
         {
@@ -30,7 +32,7 @@ public class DataSourceInsetViewComponent(IFinanceService financeService) : View
             _ => throw new ArgumentOutOfRangeException(nameof(sourceType))
         };
 
-        return View(new DataSourceInsetViewModel(dataSource, showKs4Progress, urn, ks4ProgressYear, additionText));
+        return View(new DataSourceInsetViewModel(dataSource, showKs4Progress, urn, ks4ProgressYear, additionText, compareSchoolPerformanceUrl));
     }
 
     private static string[] GetSpendingDataSource(string organisationType, bool isPartOfTrust, FinanceYears years)

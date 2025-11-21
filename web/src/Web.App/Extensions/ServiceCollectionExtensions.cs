@@ -10,6 +10,7 @@ using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using Microsoft.IdentityModel.Tokens;
 using Web.App.ActionResults;
+using Web.App.Builders;
 using Web.App.Identity;
 using Web.App.Identity.Models;
 using Web.App.Infrastructure.Apis;
@@ -26,12 +27,14 @@ using Web.App.Services;
 using Web.App.Telemetry;
 using Web.App.Validators;
 using Westwind.AspNetCore.Markdown;
+using UriBuilder = Web.App.Builders.UriBuilder;
 
 namespace Web.App.Extensions;
 
 public static class ServiceCollectionExtensions
 {
     private const string WebAssetsConfigSectionPath = "WebAssets";
+    private const string UrisConfigSectionPath = "Uris";
 
     public static IServiceCollection AddDfeSignIn(this IServiceCollection services,
         Action<DfeSignInOptions>? optionCfg = null)
@@ -357,4 +360,14 @@ public static class ServiceCollectionExtensions
     public static IServiceCollection AddValidation(this IServiceCollection services) => services
         .AddScoped<IFinancialPlanStageValidator, FinancialPlanStageValidator>()
         .AddScoped<IValidator<OrganisationIdentifier>, OrganisationIdentifierValidator>();
+
+    public static IServiceCollection AddUriBuilder(this IServiceCollection services)
+    {
+        services.AddOptions<UriOptions>()
+            .BindConfiguration(UrisConfigSectionPath)
+            .ValidateDataAnnotations();
+
+        services.AddScoped<IUriBuilder, UriBuilder>();
+        return services;
+    }
 }
