@@ -20,9 +20,9 @@
         {
             <p class="govuk-body">
                 <a class="govuk-link govuk-link--no-visited-state"
-                   href="@Url.Action("Index", "SchoolComparators", new { urn = Model.Identifier })">
-                    We've chosen 2 sets of similar schools
-                </a> to benchmark this school's spending against.
+                   href="@Url.Action(Model.Type == ComparatorSetType.Workforce ? "Workforce" : "Index", "SchoolComparators", new { urn = Model.Identifier })">
+                    We've chosen @(Model.Type == ComparatorSetType.Workforce ? "this set" : "2 sets") of similar schools
+                </a> to benchmark this school's @(Model.Type == ComparatorSetType.Workforce ? "pupil and workforce data" : "spending") against.
             </p>
             <p class="govuk-body">
                 The information displayed is the originally reported data, not the customised data that was provided.

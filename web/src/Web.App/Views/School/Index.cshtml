@@ -1,3 +1,4 @@
+@using Web.App.Domain
 @using Web.App.ViewModels
 @using Web.App.ViewModels.Components
 @model Web.App.ViewModels.SchoolViewModel
@@ -50,8 +51,9 @@
         organisationType = OrganisationTypes.School,
         sourceType = DataSourceTypes.Spending,
         isPartOfTrust = Model.IsPartOfTrust,
-        showKs4Progress = Model.HasProgressIndicator,
-        urn = Model.Urn,
+        showKs4Progress = Model is { HasProgressIndicator: true, Urn: not null }
+            ? new Ks4ProgressProps(Model.Urn) 
+            : new Ks4ProgressProps(),
         additionText
     })
 </feature>

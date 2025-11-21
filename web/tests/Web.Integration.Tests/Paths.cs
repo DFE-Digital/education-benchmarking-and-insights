@@ -149,6 +149,8 @@ public static class Paths
 
     public static string SchoolComparators(string? urn) => $"/school/{urn}/comparators";
 
+    public static string SchoolComparatorsWorkforce(string? urn) => $"/school/{urn}/comparators/workforce";
+
     public static string SchoolComparatorsCreate(string? urn) => $"/school/{urn}/comparators/create";
 
     public static string SchoolComparatorsCreateBy(string? urn) => $"/school/{urn}/comparators/create/by";
