@@ -121,7 +121,7 @@ stages:
   - stage: DeployDev
     displayName: 'Deploy to Dev'
     dependsOn: Test
-    condition: and(succeeded())
+    condition: succeeded()
     jobs:
       - deployment: DeployDevBundle
         displayName: 'Deploy to Dev Environment'
