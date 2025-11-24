@@ -17,7 +17,6 @@ public class DataSourceInsetViewComponent(IFinanceService financeService) : View
     )
     {
         var years = await financeService.GetYears();
-        var ks4ProgressYear = years.Ks4Progress;
 
         var dataSource = sourceType switch
         {
@@ -30,7 +29,7 @@ public class DataSourceInsetViewComponent(IFinanceService financeService) : View
             _ => []
         };
 
-        return View(new DataSourceInsetViewModel(dataSource, showKs4Progress, urn, ks4ProgressYear, additionText));
+        return View(new DataSourceInsetViewModel(dataSource, showKs4Progress, urn, years.Ks4Progress, additionText));
     }
 
     private static string[] GetSpendingDataSource(string organisationType, bool isPartOfTrust, FinanceYears years)
