@@ -4,7 +4,7 @@ This page documents known charting inconsistencies within the FBIT service, spec
 
 ## Objective
 
-The goal is to create a record of the underlying rationale for deviating from our core design standards, whether due to specific use-case requirements, strategic decisions, or implementation constraints. This reference is a living document linked to the [chart-development-workflow](/documentation/guides/chart-development-workflow/1_Chart-Development-Workflow.md) guide. To ensure accountability and set consistency goal, where possible, technical and design debt identified here should be formally tagged in the risk log with corresponding tickets created in the backlog for continuous improvement.
+The goal is to create a record of the underlying rationale for deviating from our core design standards, whether due to specific use-case requirements, strategic decisions, or implementation constraints. This reference is a living document linked to the [chart-development-workflow](/documentation/guides/chart-development-workflow/1_Chart-Development-Workflow.md) guide. To ensure accountability and consistency goal, where applicable, technical and design debt identified here should be formally tagged in the risk log with corresponding tickets created in the backlog for continuous improvement.
 
 ### X-Axis Scale Inconsistency
 
@@ -32,7 +32,6 @@ School, Trust, and Local Authority entities are displayed in their raw state as 
 
 To maximise the screen real estate available for data visualization, the Y-axis is restricted to a fixed-width container. The effect of this width restriction is that label text is right-aligned to ensure immediate proximity to the corresponding data bars, minimizing eye-scanning distance. For entities with lengthy descriptions, strict horizontal clipping is applied at the container edge therefore creates a 'hard cut' effect where words may be truncated mid-character. This method is utilised to maintain a rigid vertical rhythm and prevent variable row heights from distorting the chart’s scale.
 
-### Unit Value
+### Unit in Data Label Inconsistency
 
-- less than 1000 should not have a unit
-- 1 vs 2 vs o decimal point
+- values less than 1000 ???
