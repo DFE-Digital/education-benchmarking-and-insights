@@ -45,15 +45,13 @@ public class InsightBalanceSteps(InsightApiDriver api)
         });
     }
 
-    [Given("a valid trust balance request with company number '(.*)', dimension '(.*)'")]
-    public void GivenAValidTrustBalanceRequestWithCompanyNumberDimension(
-        string companyNumber,
-        string dimension)
+    [Given("a valid trust balance request with company number '(.*)'")]
+    public void GivenAValidTrustBalanceRequestWithCompanyNumber(string companyNumber)
     {
         api.CreateRequest(TrustBalanceKey, new HttpRequestMessage
         {
             RequestUri = new Uri(
-                $"/api/balance/trust/{companyNumber}?dimension={dimension}",
+                $"/api/balance/trust/{companyNumber}",
                 UriKind.Relative),
             Method = HttpMethod.Get
         });
@@ -69,12 +67,12 @@ public class InsightBalanceSteps(InsightApiDriver api)
         });
     }
 
-    [Given("a valid trust balance history request with company number '(.*)'")]
-    public void GivenAValidTrustBalanceHistoryRequestWithCompanyNumber(string companyNumber)
+    [Given("a valid trust balance history request with company number '(.*)', dimension '(.*)'")]
+    public void GivenAValidTrustBalanceHistoryRequestWithCompanyNumberDimension(string companyNumber, string dimension)
     {
         api.CreateRequest(TrustBalanceKey, new HttpRequestMessage
         {
-            RequestUri = new Uri($"/api/balance/trust/{companyNumber}/history", UriKind.Relative),
+            RequestUri = new Uri($"/api/balance/trust/{companyNumber}/history?dimension={dimension}", UriKind.Relative),
             Method = HttpMethod.Get
         });
     }

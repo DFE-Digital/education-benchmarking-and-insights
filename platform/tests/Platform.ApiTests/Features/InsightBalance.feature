@@ -25,8 +25,8 @@
           | 2021 |  100522.00     | 79032.00       |
           | 2022 |  121827.00     | 441008.00      |
 
-    Scenario: Sending a valid trust balance request with dimension
-        Given a valid trust balance request with company number '10192252', dimension 'Actuals'
+    Scenario: Sending a valid trust balance request
+        Given a valid trust balance request with company number '10192252'
         When I submit the insights balance request
         Then the trust balance result should be ok and contain:
           | Field               | Value                  |
@@ -41,11 +41,25 @@
         Then the trust balance result should be not found
 
     Scenario: Sending a valid trust balance history request
-        Given a valid trust balance history request with company number '10192252'
+        Given a valid trust balance history request with company number '10192252', dimension 'Actuals'
         When I submit the insights balance request
         Then the trust balance history result should be ok and contain:
           | Year | InYearBalance | RevenueReserve |
           | 2022 | 364946.00     | 871095.00      |
+          
+    Scenario: Sending a valid trust balance history request with PercentIncome dimension
+        Given a valid trust balance history request with company number '10192252', dimension 'PercentIncome'
+        When I submit the insights balance request
+        Then the trust balance history result should be ok and contain:
+          | Year | InYearBalance        | RevenueReserve        |
+          | 2022 | 6.696835634786052150 | 15.984775932011738990 |
+          
+    Scenario: Sending a valid trust balance history request with PercentExpenditure dimension
+        Given a valid trust balance history request with company number '10192252', dimension 'PercentExpenditure'
+        When I submit the insights balance request
+        Then the trust balance history result should be ok and contain:
+          | Year | InYearBalance        | RevenueReserve        |
+          | 2022 | 7.177501085143068760 | 17.132083397989569640 |
 
     Scenario: Sending a valid trust balance query request
         Given a valid trust balance query request with company numbers:

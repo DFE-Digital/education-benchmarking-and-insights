@@ -84,7 +84,7 @@ CREATE VIEW VW_BalanceTrustDefaultPercentIncome AS
 SELECT CompanyNumber,
        RunId,
        IIF(TotalIncome != 0, (InYearBalance / TotalIncome) * 100, NULL) AS 'InYearBalance',
-       IIF(TotalIncome != 0, (RevenueReserve / TotalExpenditure) * 100, NULL) AS 'RevenueReserve'
+       IIF(TotalIncome != 0, (RevenueReserve / TotalIncome) * 100, NULL) AS 'RevenueReserve'
 FROM VW_TrustFinancialDefault
 GO
 
