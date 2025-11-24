@@ -68,7 +68,7 @@ stages:
 
           - task: ExtractFiles@1
             inputs:
-              archiveFilePatterns: '**/*.zip'
+              archiveFilePatterns: '**/tf_binaries.zip'
               destinationFolder: $(Build.ArtifactStagingDirectory)
               cleanDestinationFolder: false
             displayName: 'Unzip terraform provider binaries'
@@ -120,7 +120,8 @@ stages:
 
   - stage: DeployDev
     displayName: 'Deploy to Dev'
-    trigger: manual
+    dependsOn: Test
+    condition: and(succeeded())
     jobs:
       - deployment: DeployDevBundle
         displayName: 'Deploy to Dev Environment'
