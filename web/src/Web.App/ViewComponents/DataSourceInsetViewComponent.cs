@@ -19,10 +19,6 @@ public class DataSourceInsetViewComponent(IFinanceService financeService) : View
         var years = await financeService.GetYears();
         var ks4ProgressYear = years.Ks4Progress;
 
-        if (showKs4Progress)
-        {
-            ArgumentNullException.ThrowIfNull(urn);
-        }
         var dataSource = sourceType switch
         {
             DataSourceTypes.Spending =>
