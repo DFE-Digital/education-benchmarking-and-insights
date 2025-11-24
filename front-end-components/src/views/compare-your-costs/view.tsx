@@ -4,7 +4,7 @@ import {
   ExpenditureAccordion,
 } from "src/views/compare-your-costs/partials";
 import { CompareYourCostsViewProps } from "src/views/compare-your-costs";
-import { ChartModeChart, ChartPhases } from "src/components";
+import { ChartModeChart, ChartOptions } from "src/components";
 import {
   SelectedEstablishmentContext,
   PhaseContext,
@@ -52,7 +52,11 @@ export const CompareYourCosts: React.FC<CompareYourCostsViewProps> = ({
           >
             <CostCodesProvider costCodeMap={costCodeMap} tags={tags}>
               <ChartModeProvider initialValue={ChartModeChart}>
-                <ChartPhases phases={phases} handlePhaseChange={setPhase} />
+                <ChartOptions
+                  className="flex-spaced"
+                  phases={phases}
+                  handlePhaseChange={setPhase}
+                />
                 <TotalExpenditure
                   id={id}
                   type={type}

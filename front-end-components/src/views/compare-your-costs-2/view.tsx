@@ -58,7 +58,7 @@ export const CompareYourCosts2: React.FC<CompareYourCosts2ViewProps> = ({
                 <ShareButtonsLayoutContext.Provider value="column">
                   <div className="govuk-grid-row">
                     <div className="govuk-grid-column-one-half">
-                      <ChartOptions />
+                      <ChartOptions stacked />
                     </div>
                     <div className="govuk-grid-column-one-half">
                       <PageActions
