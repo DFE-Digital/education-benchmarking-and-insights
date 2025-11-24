@@ -77,6 +77,13 @@ public class HighNeedsBenchmarkingSteps(PageDriver driver)
         await _highNeedsBenchmarkingPage.AreChartsDisplayed(int.Parse(charts));
     }
 
+    [Then("the legend is visible on all s251 charts")]
+    public async Task ThenTheLegendIsVisibleOnAllSCharts()
+    {
+        Assert.NotNull(_highNeedsBenchmarkingPage);
+        await _highNeedsBenchmarkingPage.AreS251ChartLegendsDisplayed(24, "Outturn", "Planned expenditure");
+    }
+
     [Then("table view is visible, showing '(\\d+)' tables")]
     public async Task ThenTableViewIsVisibleShowingTables(string tables)
     {
