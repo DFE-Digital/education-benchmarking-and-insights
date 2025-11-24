@@ -33,7 +33,7 @@ def bfr_three_year_forecast_current_year():
 @dp.view()
 def academies_current_year():
     """
-    Loads the current year academies data. (TODO: get rid of the mock)
+    Loads the current year academies data.
     """
     spark = SparkSession.builder.getOrCreate()
     current_year = int(spark.conf.get("pipeline.aar_year"))

@@ -34,11 +34,12 @@ with this project. It's also possible to interact with it directly using the CLI
     $ databricks configure
     ```
 
-2. To deploy a development copy of this project, type:
+1. To deploy a development copy of this project, type:
 
     ```bash
     $ databricks bundle deploy --target dev
     ```
+
     (Note that "dev" is the default target, so the `--target` parameter
     is optional here.)
 
@@ -48,7 +49,8 @@ with this project. It's also possible to interact with it directly using the CLI
     You can find that job by opening your workpace and clicking on **Jobs & Pipelines**.
 
 1. Similarly, to deploy a production copy, type:
-   ```
+
+   ```bash
    $ databricks bundle deploy --target prod
    ```
 
@@ -57,12 +59,14 @@ with this project. It's also possible to interact with it directly using the CLI
    is paused when deploying in development mode (see
    https://docs.databricks.com/dev-tools/bundles/deployment-modes.html).
 
-2. To run a job or pipeline, use the "run" command:
-   ```
+1. To run a job or pipeline, use the "run" command:
+
+   ```bash
    $ databricks bundle run
    ```
 
-3. Finally, to run tests locally, use `pytest`:
-   ```
+1. Finally, to run tests locally, use `pytest`:
+
+   ```bash
    $ uv run pytest
    ```
