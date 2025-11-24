@@ -18,6 +18,7 @@
     Scenario: Can view local authority benchmarking charts
         Given I am on local authority high needs benchmarking for local authority with code '201'
         Then chart view is visible, showing '33' charts
+        And the legend is visible on all s251 charts
 
     Scenario: Can view local authority benchmarking tables
         Given I am on local authority high needs benchmarking for local authority with code '201'

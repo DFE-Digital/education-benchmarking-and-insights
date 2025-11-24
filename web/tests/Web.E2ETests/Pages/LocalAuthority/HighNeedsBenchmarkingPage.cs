@@ -12,11 +12,11 @@ public class HighNeedsBenchmarkingPage(IPage page)
     private ILocator Charts => page.Locator(Selectors.Charts);
     private ILocator Tables => page.Locator(Selectors.GovTable);
     private ILocator Commentary => page.Locator("#benchmark-data-high-needs > .govuk-grid-row > .govuk-grid-column-two-thirds > p");
-
     private ILocator ChangeComparatorsButton => page.Locator(Selectors.CtaButton, new PageLocatorOptions
     {
         HasText = "Change comparators"
     });
+    private static ILocator ChartLegend(ILocator chart) => chart.Locator("//following-sibling::div[1]/ul");
 
     public async Task IsDisplayed()
     {
@@ -45,6 +45,22 @@ public class HighNeedsBenchmarkingPage(IPage page)
         var charts = await Charts.AllAsync();
         Assert.Equal(count, charts.Count);
         await charts.ShouldBeVisible();
+    }
+
+    public async Task AreS251ChartLegendsDisplayed(int count, params string[] seriesNames)
+    {
+        var charts = await Charts.AllAsync();
+        var i = 0;
+        foreach (var chart in charts)
+        {
+            if (i < count)
+            {
+                var legend = await ChartLegend(chart).ShouldBeVisible();
+                Assert.Equivalent(seriesNames, (await legend.AllInnerTextsAsync()).SelectMany(t => t.Split("\n")));
+            }
+
+            i++;
+        }
     }
 
     public async Task ClickViewAsTable()
