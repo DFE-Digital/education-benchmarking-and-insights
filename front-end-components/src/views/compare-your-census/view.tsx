@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { CompareYourCensusViewProps } from "src/views";
-import { ChartModeChart, ChartPhases } from "src/components";
+import { ChartModeChart, ChartOptions } from "src/components";
 import {
   SelectedEstablishmentContext,
   PhaseContext,
@@ -31,7 +31,11 @@ export const CompareYourCensus: React.FC<CompareYourCensusViewProps> = (
       <PhaseContext.Provider value={phase}>
         <CustomDataContext.Provider value={customDataId}>
           <ChartModeProvider initialValue={ChartModeChart}>
-            <ChartPhases phases={phases} handlePhaseChange={setPhase} />
+            <ChartOptions
+              className="flex-spaced"
+              phases={phases}
+              handlePhaseChange={setPhase}
+            />
             <SchoolWorkforce id={id} type={type} />
             <TotalTeachers id={id} type={type} />
             <TotalTeachersQualified id={id} type={type} />

@@ -3,6 +3,10 @@
   gap: 40px;
   width: 100%;
 
+  &.flex-spaced {
+    justify-content: space-between;
+  }
+
   .progress-checkboxes {
     .govuk-checkboxes__label {
       max-width: none;

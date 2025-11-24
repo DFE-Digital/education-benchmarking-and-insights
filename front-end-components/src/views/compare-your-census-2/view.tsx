@@ -41,6 +41,7 @@ export const CompareYourCensus2: React.FC<CompareYourCensus2ViewProps> = (
                     <ChartOptions
                       phases={phases}
                       handlePhaseChange={setPhase}
+                      stacked
                     />
                   </div>
                   <div className="govuk-grid-column-one-half">

@@ -7,19 +7,19 @@ import { ChartProgress } from "../chart-progress";
 import "./styles.scss";
 import { ChartOptionsProps } from "./types";
 import { ChartPhases } from "../chart-phases";
+import classNames from "classnames";
 
 export const ChartOptions = ({
+  className,
   phases,
+  stacked,
   handlePhaseChange,
 }: ChartOptionsProps) => {
   const { chartMode, setChartMode } = useChartModeContext();
   const { available, selected, setSelected } = useProgressIndicatorsContext();
 
   return (
-    <div className="chart-options-flex">
-      <div>
-        <ChartMode chartMode={chartMode} handleChange={setChartMode} stacked />
-      </div>
+    <div className={classNames("chart-options-flex", className)}>
       {phases && (
         <div>
           <ChartPhases
@@ -29,13 +29,22 @@ export const ChartOptions = ({
         </div>
       )}
       <div>
-        <ChartProgress
-          options={available}
-          defaultSelected={selected}
-          onChanged={setSelected}
-          stacked
+        <ChartMode
+          chartMode={chartMode}
+          handleChange={setChartMode}
+          stacked={stacked}
         />
       </div>
+      {available && available.length > 0 && (
+        <div>
+          <ChartProgress
+            options={available}
+            defaultSelected={selected}
+            onChanged={setSelected}
+            stacked={stacked}
+          />
+        </div>
+      )}
     </div>
   );
 };
