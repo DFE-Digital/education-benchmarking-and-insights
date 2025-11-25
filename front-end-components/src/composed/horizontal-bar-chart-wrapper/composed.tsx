@@ -310,6 +310,7 @@ export function HorizontalBarChartWrapper<
                         tooltip={(p) => renderTooltip(p, t)}
                         specialItemFlags={getSpecialItemFlags}
                         onFocused={handleTickFocused}
+                        showWarningIcon={!warningTag}
                       />
                     );
                   }}

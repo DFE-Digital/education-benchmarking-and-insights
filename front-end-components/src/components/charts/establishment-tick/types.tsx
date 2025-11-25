@@ -19,6 +19,7 @@ export interface EstablishmentTickProps
   linkToEstablishment?: boolean;
   onFocused?: (key: string, focused: boolean) => void;
   payload: CartesianTickItem;
+  showWarningIcon?: boolean;
   specialItemFlags?: (key: string) => SpecialItemFlag[];
   tooltip?: FunctionComponent<TooltipProps<ValueType, NameType>>;
   verticalAnchor: unknown;
