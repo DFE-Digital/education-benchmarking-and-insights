@@ -338,13 +338,6 @@ public class CompareYourCostsSteps(PageDriver driver)
         _comparisonPage = new CompareYourCostsPage(page);
     }
 
-    [Then("the message stating reason for less schools is visible in '(.*)' section")]
-    public async Task ThenTheMessageStatingReasonForLessSchoolsIsVisibleInSection(string subCategorySection)
-    {
-        Assert.NotNull(_comparisonPage);
-        await _comparisonPage.IsWarningTextVisible(subCategorySection);
-    }
-
     [Then("all sections on the page have the correct dimension options:")]
     public async Task ThenAllSectionsOnThePageHaveTheCorrectDimensionOptions(DataTable table)
     {

@@ -418,16 +418,6 @@ public class CompareYourCostsPage(IPage page)
         return new CreateComparatorsPage(page);
     }
 
-    public async Task IsWarningTextVisible(string subCategoryName)
-    {
-        var subCategory = subCategoryName switch
-        {
-            "Supply teaching staff costs" => TeachingSupportStaffWarning.First,
-            _ => throw new ArgumentOutOfRangeException(nameof(subCategoryName))
-        };
-        await subCategory.ShouldBeVisible();
-    }
-
     public async Task IsSaveImagesButtonDisplayed()
     {
         await SaveImagesButton.ShouldBeVisible();
