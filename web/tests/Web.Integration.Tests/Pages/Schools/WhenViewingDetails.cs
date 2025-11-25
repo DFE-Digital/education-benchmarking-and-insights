@@ -100,5 +100,9 @@ public class WhenViewingDetails(SchoolBenchmarkingWebAppClient client) : PageBas
         {
             DocumentAssert.Heading2(page, $"Part of {school.TrustName}");
         }
+
+        var giasLink = page.QuerySelector(".govuk-link[data-custom-event-id='gias-school-details']");
+        Assert.NotNull(giasLink);
+        DocumentAssert.Link(giasLink, "Get more information about this school Opens in a new window", $"https://www.get-information-schools.service.gov.uk/establishments/establishment/details/{school.URN}");
     }
 }

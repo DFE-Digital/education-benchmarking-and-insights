@@ -236,6 +236,11 @@ public class WhenViewingHomeAsFederation(SchoolBenchmarkingWebAppClient client) 
 
             var federationLeadCta = message.QuerySelector("a");
             DocumentAssert.Link(federationLeadCta, "federation page", Paths.SchoolHome(school.FederationLeadURN).ToAbsolute());
+
+            var giasLink = page.QuerySelector(".govuk-link[data-custom-event-id='gias-school-details']");
+            Assert.NotNull(giasLink);
+            DocumentAssert.Link(giasLink, "Get more information about this school Opens in a new window", $"https://www.get-information-schools.service.gov.uk/establishments/establishment/details/{school.URN}");
+
         }
         // assertions for lead federation schools
         else
