@@ -9,6 +9,7 @@
             <p class="govuk-body">
                 You are now comparing with your chosen schools.
             </p>
+            @await Html.PartialAsync("_IntroductionDataInformation")
             <p class="govuk-body">
                 <a class="govuk-link govuk-link--no-visited-state"
                    href="@Url.Action("UserDefined", "SchoolComparators", new
@@ -24,10 +25,11 @@
             <p class="govuk-body">
                 The information displayed is the originally reported data, not the customised data that was provided.
             </p>
+            @await Html.PartialAsync("_IntroductionDataInformation")
             <p class="govuk-body">
                 You can:
             </p>
-            <ul class="govuk-list govuk-list--bullet">
+            <ul class="govuk-list govuk-list--bullet" data-testid="actions-list">
                 <li>
                     <a class="govuk-link govuk-link--no-visited-state"
                        href="@Url.Action(Model.Type == ComparatorSetType.Workforce ? "Workforce" : "Index", "SchoolComparators", new
@@ -55,7 +57,7 @@
                 <p class="govuk-body">
                     You can:
                 </p>
-                <ul class="govuk-list govuk-list--bullet">
+                <ul class="govuk-list govuk-list--bullet" data-testid="actions-list">
                     <li>
                         <a class="govuk-link govuk-link--no-visited-state"
                            href="@Url.Action("Index", "SchoolComparatorsCreate", new
@@ -75,10 +77,11 @@
             }
             else
             {
+                @await Html.PartialAsync("_IntroductionDataInformation")
                 <p class="govuk-body">
                     You can:
                 </p>
-                <ul class="govuk-list govuk-list--bullet">
+                <ul class="govuk-list govuk-list--bullet" data-testid="actions-list">
                     <li>
                         <a class="govuk-link govuk-link--no-visited-state"
                            href="@Url.Action(Model.Type == ComparatorSetType.Workforce ? "Workforce" : "Index", "SchoolComparators", new
