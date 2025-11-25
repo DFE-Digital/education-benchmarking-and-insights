@@ -136,6 +136,7 @@ public class CompareYourCostsPage(IPage page)
         {
             HasText = banding
         });
+    private ILocator MissingComparatorSetMessage => page.Locator(Selectors.MissingComparatorSetMessage);
 
     public async Task IsDisplayed(bool isPartYear = false, bool isMissingComparatorSet = false)
     {
@@ -171,8 +172,8 @@ public class CompareYourCostsPage(IPage page)
             return;
         }
 
-        await IncompleteFinancialBanner.Last.ShouldContainText(
-            "There isn't enough information available to create a set of similar schools.");
+        await MissingComparatorSetMessage.ShouldContainText(
+            "There is not enough information available to create a set of similar schools.");
     }
 
     public async Task ClickSaveAsImage(ComparisonChartNames chartName)

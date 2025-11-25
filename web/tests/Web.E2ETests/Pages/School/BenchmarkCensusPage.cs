@@ -75,7 +75,7 @@ public class BenchmarkCensusPage(IPage page)
     private ILocator ChartBars => page.Locator(Selectors.ChartBars);
     private ILocator AdditionalDetailsPopUps => page.Locator(Selectors.AdditionalDetailsPopUps);
     private ILocator SchoolLinksInCharts => page.Locator(Selectors.SchoolNamesLinksInCharts);
-    private ILocator IncompleteFinancialBanner => page.Locator(Selectors.GovWarning);
+    private ILocator MissingComparatorSetMessage => page.Locator(Selectors.MissingComparatorSetMessage);
     private ILocator SchoolPerformanceCheckbox(string banding) => page.Locator(Selectors.GovCheckboxLabel,
         new PageLocatorOptions
         {
@@ -101,9 +101,9 @@ public class BenchmarkCensusPage(IPage page)
             return;
         }
 
-        await IncompleteFinancialBanner.First.ShouldBeVisible();
-        await IncompleteFinancialBanner.First.ShouldContainText(
-            "There isn't enough information available to create a set of similar schools.");
+        await MissingComparatorSetMessage.First.ShouldBeVisible();
+        await MissingComparatorSetMessage.First.ShouldContainText(
+            "There is not enough information available to create a set of similar schools.");
     }
 
     public async Task ClickSaveAsImage(CensusChartNames chartName)
