@@ -28,6 +28,7 @@ export const TableChart: React.FC<
   trust,
   valueUnit,
   valueFormatter,
+  warningTag,
 }) => {
   const selectedEstablishment = useContext(SelectedEstablishmentContext);
   const { breakdown } = useCentralServicesBreakdownContext();
@@ -124,6 +125,7 @@ export const TableChart: React.FC<
                     preventFocus={preventFocus}
                     row={row}
                     trust={trust}
+                    warningTag={warningTag}
                   />
                   {additionalData &&
                     Object.values(additionalData).map((filteredData, i) => {

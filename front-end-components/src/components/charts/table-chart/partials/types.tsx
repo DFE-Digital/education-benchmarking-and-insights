@@ -11,6 +11,7 @@ export type SelectedAnchorProps = Omit<AnchorProps, "href"> & {
   linkToEstablishment?: boolean;
   localAuthority?: boolean;
   trust?: boolean;
+  warningTag?: boolean;
 };
 
 export type AnchorProps = {
