@@ -51,7 +51,8 @@ public class SchoolController(
                 if (isNonLeadFederation)
                 {
                     var census = await Census(urn);
-                    var viewModel = new NonLeadFederationSchoolViewModel(school, census);
+                    var giasSchoolUrl = uriBuilder.GiasSchoolUrl(urn);
+                    var viewModel = new NonLeadFederationSchoolViewModel(school, census, giasSchoolUrl);
                     return View("NonLeadFederation", viewModel);
                 }
                 else
@@ -62,7 +63,6 @@ public class SchoolController(
                         ? await RagRatingsDefault(urn)
                         : await RagRatingsUserDefined(comparatorSet);
                     var characteristic = await SchoolCharacteristic(urn);
-                    var giasSchoolUrl = uriBuilder.GiasSchoolUrl(urn);
                     var compareSchoolPerformanceUrl = uriBuilder.CompareSchoolPerformanceUrl(urn);
 
                     var viewModel = new SchoolViewModel(
@@ -74,7 +74,6 @@ public class SchoolController(
                         comparatorReverted,
                         comparatorSet,
                         customData,
-                        giasSchoolUrl,
                         compareSchoolPerformanceUrl);
                     return View(viewModel);
                 }
@@ -128,7 +127,8 @@ public class SchoolController(
                 ViewData[ViewDataKeys.Backlink] = HomeLink(urn);
 
                 var school = await School(urn);
-                var viewModel = new SchoolViewModel(school);
+                var giasSchoolUrl = uriBuilder.GiasSchoolUrl(urn);
+                var viewModel = new SchoolDetailsViewModel(school, giasSchoolUrl);
                 return View(viewModel);
             }
             catch (Exception e)

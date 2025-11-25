@@ -14,7 +14,6 @@ public class SchoolViewModel(School school) : ISchoolKeyInformationViewModel
         bool? comparatorReverted = false,
         string? userDefinedSetId = null,
         string? customDataId = null,
-        string? giasSchoolUrl = null,
         string? compareSchoolPerformanceUrl = null)
         : this(school)
     {
@@ -27,7 +26,6 @@ public class SchoolViewModel(School school) : ISchoolKeyInformationViewModel
         ComparatorReverted = comparatorReverted;
         KS4Progress = characteristic?.KS4Progress;
         KS4ProgressBanding = characteristic?.KS4ProgressBanding.ToBanding();
-        GiasSchoolUrl = giasSchoolUrl;
         CompareSchoolPerformanceUrl = compareSchoolPerformanceUrl;
 
         var ratingsArray = ratings.ToArray();
@@ -52,33 +50,11 @@ public class SchoolViewModel(School school) : ISchoolKeyInformationViewModel
     public string? Name => school.SchoolName;
     public string? Urn => school.URN;
     public bool IsPartOfTrust => school.IsPartOfTrust;
-    public string? Address => school.Address;
-    public string? Telephone => school.Telephone;
-    public string? LocalAuthorityName => school.LAName;
     public string? TrustIdentifier => school.TrustCompanyNumber;
     public string? TrustName => school.TrustName;
 
     public int? PeriodCoveredByReturn { get; }
-    public string? FederationLeadUrn => school.FederationLeadURN;
-    public bool HasNursery => school.HasNursery;
-    public string? SchoolType => school.SchoolType;
-    public bool HasSixthForm => school.HasSixthForm;
     public FederationSchool[] FederationSchools => school.FederationSchools;
-
-    public string Website
-    {
-        get
-        {
-            var url = school.Website;
-            if (!string.IsNullOrEmpty(url) && !url.StartsWith("http", StringComparison.CurrentCultureIgnoreCase))
-            {
-                url = "http://" + url;
-            }
-
-
-            return Uri.IsWellFormedUriString(url, UriKind.Absolute) ? url : "";
-        }
-    }
 
     public string? UserDefinedSetId { get; }
     public string? CustomDataId { get; }
@@ -112,7 +88,6 @@ public class SchoolViewModel(School school) : ISchoolKeyInformationViewModel
     public KS4ProgressBandings.Banding? KS4ProgressBanding { get; }
     public bool HasProgressIndicator => KS4Progress.HasValue && KS4ProgressBanding.HasValue;
 
-    public string? GiasSchoolUrl { get; }
     public string? CompareSchoolPerformanceUrl { get; }
 
     public string? OverallPhase => school.OverallPhase;
