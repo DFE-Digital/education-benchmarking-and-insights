@@ -34,7 +34,7 @@ export const CustomDataContext = createContext<string | undefined>(undefined);
 
 export type SuppressNegativeOrZero = {
   suppressNegativeOrZero: boolean;
-  message: string;
+  message?: string;
 };
 
 export const SuppressNegativeOrZeroContext =
