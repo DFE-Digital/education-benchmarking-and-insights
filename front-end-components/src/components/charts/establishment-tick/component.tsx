@@ -20,6 +20,7 @@ export function EstablishmentTick(props: EstablishmentTickProps) {
     linkToEstablishment,
     onFocused,
     payload: { value, index },
+    showWarningIcon,
     specialItemFlags,
     tickFormatter,
     tooltip,
@@ -67,7 +68,7 @@ export function EstablishmentTick(props: EstablishmentTickProps) {
   if (!key || !linkToEstablishment) {
     return (
       <>
-        {(partYear || missingData) && (
+        {showWarningIcon && (partYear || missingData) && (
           <Exclamation x={textBoundingBox?.x} y={textBoundingBox?.y} />
         )}
         <text {...textProps} ref={textRef} {...rest}>
@@ -91,7 +92,7 @@ export function EstablishmentTick(props: EstablishmentTickProps) {
         height={rest.height}
         className="establishment-tick-focus"
       ></line>
-      {(partYear || missingData) && (
+      {showWarningIcon && (partYear || missingData) && (
         <Exclamation x={textBoundingBox?.x} y={textBoundingBox?.y} />
       )}
       <text {...textProps} ref={textRef} {...rest}>
