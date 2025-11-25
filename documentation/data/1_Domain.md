@@ -104,7 +104,7 @@ projection can be compiled for an organisation. This enables:
   - LA expenditure is sorted into cost categories, normalised (eg per pupil), and benchmarked against comparators.
   - Used on the High Needs page (which replaced the old High Needs Benchmarking Tool/HNBT) to show spending priorities for LAs.
 - **Ancillary Data**:
-  - Statistical Neighbours Data - This model is sourced from the Local Authority Interactive Tool (LAIT) and used for the Forecast and Risk page to suggest LAs to benchmark against. Joined to s251 on LA code.
+  - Statistical Neighbours Data - This model is sourced from the [Local Authority Interactive Tool](https://www.gov.uk/government/publications/local-authority-interactive-tool-lait) (LAIT) and used for the Forecast and Risk page to suggest LAs to benchmark against. Joined to s251 on LA code.
   - Age-related Population Estimates - ONS data to normalise LA spending per population. Joined on LA code. These estimates are from 2018 and so have 2018 LA geograhies, so do not match the current year s251 LA submissions in every case (most are fine).
   - Local Authority SEN2 ECHP plan values - Historical to current SEN expenditure data for LAs. Joined on both old and new LA code.
   
