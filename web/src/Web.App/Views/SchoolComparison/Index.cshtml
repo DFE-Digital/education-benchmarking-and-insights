@@ -50,18 +50,19 @@
     kind = OrganisationTypes.School
 })
 
+<feature name="@FeatureFlags.KS4ProgressBanding">
+    @await Component.InvokeAsync("DataSourceInset", new
+    {
+        organisationType = OrganisationTypes.School,
+        sourceType = DataSourceTypes.Spending,
+        isPartOfTrust = Model.IsPartOfTrust,
+        showKs4Progress = Model.HasProgressIndicators,
+        urn = Model.Urn
+    })
+</feature>
+
 @if (!hasMissingComparatorSet)
 {
-    <feature name="@FeatureFlags.KS4ProgressBanding">
-        @await Component.InvokeAsync("DataSourceInset", new
-        {
-            organisationType = OrganisationTypes.School,
-            sourceType = DataSourceTypes.Spending,
-            isPartOfTrust = Model.IsPartOfTrust,
-            showKs4Progress = Model.HasProgressIndicators,
-            urn = Model.Urn
-        })
-    </feature>
     <feature name="@FeatureFlags.KS4ProgressBanding" negate="true">
         @await Component.InvokeAsync("DataSource", new
         {
