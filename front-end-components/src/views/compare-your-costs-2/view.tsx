@@ -37,15 +37,13 @@ export const CompareYourCosts2: React.FC<CompareYourCosts2ViewProps> = ({
     setFetching(fetching);
   };
 
-  const message = "Only displaying schools with positive expenditure.";
-
   useGovUk();
 
   return (
     <SelectedEstablishmentContext.Provider value={id}>
       <CustomDataContext.Provider value={customDataId}>
         <SuppressNegativeOrZeroContext.Provider
-          value={{ suppressNegativeOrZero, message }}
+          value={{ suppressNegativeOrZero }}
         >
           <CostCodesProvider
             costCodeMap={costCodeMap}
