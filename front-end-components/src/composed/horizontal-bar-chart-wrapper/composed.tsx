@@ -341,6 +341,7 @@ export function HorizontalBarChartWrapper<
                   trust={trust}
                   valueUnit={resolvedValueUnit}
                   valueFormatter={tableValueFormatter}
+                  warningTag={warningTag}
                 />
               </div>
             </>

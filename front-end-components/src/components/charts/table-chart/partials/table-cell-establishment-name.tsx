@@ -15,6 +15,7 @@ export function TableCellEstablishmentName<
   localAuthority,
   row,
   trust,
+  warningTag,
   ...props
 }: TableCellEstablishmentNameProps<TData>) {
   const { periodCoveredByReturn, schoolName, urn } = row as SchoolChartData;
@@ -25,7 +26,9 @@ export function TableCellEstablishmentName<
     <td
       className={classNames("govuk-table__cell", {
         "table-cell-warning":
-          periodCoveredByReturn !== undefined && periodCoveredByReturn < 12,
+          !warningTag &&
+          periodCoveredByReturn !== undefined &&
+          periodCoveredByReturn < 12,
         "govuk-!-width-one-third": !!localAuthority,
       })}
     >
@@ -36,9 +39,18 @@ export function TableCellEstablishmentName<
         trust={trust}
         {...props}
       />
-      {periodCoveredByReturn !== undefined && periodCoveredByReturn < 12 && (
-        <PartYearDataWarning periodCoveredByReturn={periodCoveredByReturn} />
-      )}
+      {periodCoveredByReturn !== undefined &&
+        periodCoveredByReturn < 12 &&
+        (warningTag ? (
+          <p className="govuk-table__cell_commentary">
+            <PartYearDataWarning
+              periodCoveredByReturn={periodCoveredByReturn}
+              tag
+            />
+          </p>
+        ) : (
+          <PartYearDataWarning periodCoveredByReturn={periodCoveredByReturn} />
+        ))}
     </td>
   );
 }

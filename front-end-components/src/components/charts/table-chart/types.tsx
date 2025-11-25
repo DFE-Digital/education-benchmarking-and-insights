@@ -7,7 +7,10 @@ import { ProgressBanding } from "src/components/progress-banding-tag";
 
 export type TableChartProps<
   TData extends SchoolChartData | TrustChartData | LaChartData,
-> = Pick<TableCellEstablishmentNameProps<TData>, "preventFocus"> & {
+> = Pick<
+  TableCellEstablishmentNameProps<TData>,
+  "preventFocus" | "warningTag"
+> & {
   data?: TData[];
   linkToEstablishment?: boolean;
   localAuthority?: boolean;
