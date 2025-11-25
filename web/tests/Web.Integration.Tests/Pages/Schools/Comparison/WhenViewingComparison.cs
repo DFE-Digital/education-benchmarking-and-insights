@@ -338,13 +338,10 @@ public class WhenViewingComparison(SchoolBenchmarkingWebAppClient client)
     {
         if (ks4ProgressBandingEnabled)
         {
-            var warning = comparatorSetDetailsElement.QuerySelector("div.govuk-warning-text strong.govuk-warning-text__text");
-            Assert.NotNull(warning);
-            DocumentAssert.TextEqual(warning, "Warning There isn't enough information available to create a set of similar schools.", true);
-
-            var introParagraph = comparatorSetDetailsElement.QuerySelector("p.govuk-body");
-            Assert.NotNull(introParagraph);
-            DocumentAssert.TextEqual(introParagraph, "You can:");
+            var introParagraphs = comparatorSetDetailsElement.QuerySelectorAll("p.govuk-body");
+            Assert.Equal(2, introParagraphs.Length);
+            DocumentAssert.TextEqual(introParagraphs[0], "There is not enough information available to create a set of similar schools.", true);
+            DocumentAssert.TextEqual(introParagraphs[1], "You can:");
 
             var list = comparatorSetDetailsElement.QuerySelector("ul.govuk-list.govuk-list--bullet");
             Assert.NotNull(list);

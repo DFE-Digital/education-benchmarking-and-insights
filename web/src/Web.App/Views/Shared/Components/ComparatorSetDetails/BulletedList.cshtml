@@ -3,6 +3,7 @@
 
 <div class="govuk-grid-row govuk-!-margin-bottom-6">
     <div class="govuk-grid-column-two-thirds" data-testid="comparator-set-details">
+        <h2 class="govuk-heading-m">How data is presented</h2>
         @if (Model.HasUserDefinedSet)
         {
             <p class="govuk-body">
@@ -48,13 +49,9 @@
         {
             if (Model.HasMissingComparatorSet)
             {
-                <div class="govuk-warning-text">
-                    <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
-                    <strong class="govuk-warning-text__text">
-                        <span class="govuk-visually-hidden">Warning</span>
-                        There isn't enough information available to create a set of similar schools.
-                    </strong>
-                </div>
+                <p class="govuk-body">
+                    There is not enough information available to create a set of similar schools.
+                </p>
                 <p class="govuk-body">
                     You can:
                 </p>
