@@ -139,7 +139,7 @@ Currently, bundle deployments are performed manually by developers using their p
 
 ### CI/CD Runners
 
-The Databricks instance in DfE has a firewall. Microsoft CICD runners have a non-static IP range and so can't be whitelisted for access to the Databricks API. To resolve this, FBIT have got access to a custom set of Windows runners owned by the infrastructure team which **are** whitelisted for access. They don't have internet access, so our CICD pipeline passes the necessary programs to the runners via pipeline artifacts.
+The Databricks instance in DfE has a firewall. Microsoft CICD runners have a non-static IP range and so can't be whitelisted for access to the Databricks API. To resolve this, FBIT have got access to a custom set of Windows jumpboxes owned by the infrastructure team which **are** whitelisted for access. They don't have internet access, so our CICD pipeline passes the necessary programs to the runners via pipeline artifacts. For support on these runners, raise a support request "Any other request" and mention the Azure Jumpboxes.
 
 ### Pipeline Execution
 
