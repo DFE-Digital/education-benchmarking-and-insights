@@ -39,9 +39,9 @@ export type DimensionedChartProps<
   | "legendContent"
   | "legendHorizontalAlign"
   | "legendVerticalAlign"
-  | "partYearWarningAsTag"
   | "showCopyImageButton"
   | "trust"
+  | "warningTag"
 > & {
   charts: DimensionedChart<TData>[];
   dimension: Dimension;

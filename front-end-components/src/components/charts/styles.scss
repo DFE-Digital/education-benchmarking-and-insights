@@ -19,6 +19,7 @@ $stack-1-highlight-colour: #94c4ed;
 $bar-chart-stroke-width: 3px;
 $line-chart-stroke-width: 5px;
 $grid-colour-light: #f0f0f0;
+$part-year-colour: govuk-colour("red");
 $progress-above-average-colour: govuk-colour("light-blue");
 $progress-well-above-average-colour: govuk-colour("turquoise");
 
@@ -40,6 +41,7 @@ $progress-well-above-average-colour: govuk-colour("turquoise");
       &:not(
         .chart-cell-highlight, 
         .chart-cell.chart-cell-part-year,
+        .chart-cell.chart-cell-warning,
         .chart-cell.chart-cell-progress-above-average,
         .chart-cell.chart-cell-progress-well-above-average) {
         fill: $series-0-active-colour;
@@ -83,6 +85,16 @@ $progress-well-above-average-colour: govuk-colour("turquoise");
       &.chart-cell-highlight {
         stroke: $warning-colour;
         fill: $warning-colour;
+      }
+    }
+
+    &.chart-cell-warning {
+      stroke: $part-year-colour;
+      fill: $part-year-colour;
+
+      &.chart-cell-highlight {
+        stroke: $part-year-colour;
+        fill: $part-year-colour;
       }
     }
 

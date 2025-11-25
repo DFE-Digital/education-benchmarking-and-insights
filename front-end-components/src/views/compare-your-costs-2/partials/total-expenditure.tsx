@@ -130,10 +130,10 @@ export const TotalExpenditure: React.FC<CompareYourCosts2Props> = ({
       legendContent={renderChartLegend}
       legendHorizontalAlign="center"
       legendVerticalAlign="bottom"
-      partYearWarningAsTag
       progressIndicators={progressIndicators}
       showCopyImageButton
       topLevel
+      warningTag
     />
   );
 };

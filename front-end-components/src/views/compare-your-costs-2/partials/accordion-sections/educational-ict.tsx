@@ -124,10 +124,10 @@ export const EducationalIct: React.FC<CompareYourCosts2Props> = ({
       legendContent={renderChartLegend}
       legendHorizontalAlign="center"
       legendVerticalAlign="bottom"
-      partYearWarningAsTag
       progressIndicators={progressIndicators}
       showCopyImageButton
       title="Educational ICT"
+      warningTag
     />
   );
 };

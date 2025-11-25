@@ -21,12 +21,12 @@ export type HorizontalBarChartWrapperProps<
   | "progressWellAboveAverageKeys"
   | "showCopyImageButton"
   | "valueUnit"
+  | "warningTag"
 > & {
   children?: React.ReactNode[] | React.ReactNode;
   data: HorizontalBarChartWrapperPropsData<TData>;
   localAuthority?: boolean;
   override?: DimensionChartOverride;
-  partYearWarningAsTag?: boolean;
   sort?: ChartDataSeriesSortMode<TData>;
   tooltip?: boolean;
   trust?: boolean;

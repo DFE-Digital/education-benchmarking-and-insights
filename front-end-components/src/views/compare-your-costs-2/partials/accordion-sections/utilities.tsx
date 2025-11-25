@@ -158,10 +158,10 @@ export const Utilities: React.FC<CompareYourCosts2Props> = ({ type, id }) => {
       legendContent={renderChartLegend}
       legendHorizontalAlign="center"
       legendVerticalAlign="bottom"
-      partYearWarningAsTag
       progressIndicators={progressIndicators}
       showCopyImageButton
       title="Utilities"
+      warningTag
     />
   );
 };
