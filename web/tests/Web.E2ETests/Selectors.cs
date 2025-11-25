@@ -238,4 +238,5 @@ public static class Selectors
     public const string WorkforceTabHasNurseryCheckBox = "#w\\.nursery-HasNurseryClasses";
     public const string ApplyFiltersBtnLAFinancialTab = "[data-testid='apply-financial-filters']";
     public const string ApplyFiltersBtnLAWorkforceTab = "[data-testid='apply-workforce-filters']";
+    public const string MissingComparatorSetMessage = "[data-testid='missing-comparator-set-message']";
 }
