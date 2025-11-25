@@ -388,7 +388,7 @@ public class CompareYourCostsPage(IPage page)
     public async Task IsPartYearWarningInTooltipDisplayed(int months)
     {
         await TooltipIsDisplayed();
-        await ChartTooltip.Locator(".tooltip-part-year-warning").ShouldHaveText($"!\nWarning\nThis school only has {months} months of data available.");
+        await ChartTooltip.Locator(".school-tags").ShouldHaveText($"Only has {months} months of data");
     }
 
     public async Task IsGraphTickTextEqual(int nth, string text)
@@ -398,9 +398,17 @@ public class CompareYourCostsPage(IPage page)
         Assert.Equal(text, actual);
     }
 
-    public async Task IsWarningIconDisplayedOnGraphTick(int nth)
+    public async Task IsWarningIconDisplayedOnGraphTick(int nth, bool displayed)
     {
-        await ChartTicks.Nth(nth).Locator("circle").ShouldBeVisible();
+        var locator = ChartTicks.Nth(nth).Locator("circle");
+        if (displayed)
+        {
+            await locator.ShouldBeVisible();
+        }
+        else
+        {
+            await locator.ShouldNotBeVisible();
+        }
     }
 
     public async Task<CreateComparatorsPage> ClickCreateUserDefinedComparatorSet()
