@@ -243,6 +243,15 @@ $progress-well-above-average-colour: govuk-colour("turquoise");
         padding-right: 10px;
       }
     }
+
+    .school-tags {
+      margin: govuk-spacing(2) govuk-spacing(2) govuk-spacing(0) govuk-spacing(2);
+
+      .govuk-tag {
+        @include govuk-font($size: 14);
+        max-width: 200px;
+      }
+    }
   }
 
   .recharts-reference-line>line {

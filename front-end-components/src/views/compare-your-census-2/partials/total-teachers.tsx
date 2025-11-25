@@ -118,6 +118,7 @@ export const TotalTeachers: React.FC<{ type: string; id: string }> = ({
       legendContent={renderChartLegend}
       legendHorizontalAlign="center"
       legendVerticalAlign="bottom"
+      partYearWarningAsTag
       progressIndicators={progressIndicators}
       topLevel
     />

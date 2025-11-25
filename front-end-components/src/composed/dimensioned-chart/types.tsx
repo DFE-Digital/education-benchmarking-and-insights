@@ -39,6 +39,7 @@ export type DimensionedChartProps<
   | "legendContent"
   | "legendHorizontalAlign"
   | "legendVerticalAlign"
+  | "partYearWarningAsTag"
   | "showCopyImageButton"
   | "trust"
 > & {

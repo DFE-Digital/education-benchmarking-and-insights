@@ -24,12 +24,13 @@ export type HorizontalBarChartWrapperProps<
 > & {
   children?: React.ReactNode[] | React.ReactNode;
   data: HorizontalBarChartWrapperPropsData<TData>;
-  sort?: ChartDataSeriesSortMode<TData>;
-  trust?: boolean;
   localAuthority?: boolean;
-  tooltip?: boolean;
-  xAxisLabel?: string;
   override?: DimensionChartOverride;
+  partYearWarningAsTag?: boolean;
+  sort?: ChartDataSeriesSortMode<TData>;
+  tooltip?: boolean;
+  trust?: boolean;
+  xAxisLabel?: string;
 };
 
 export type HorizontalBarChartWrapperPropsData<
