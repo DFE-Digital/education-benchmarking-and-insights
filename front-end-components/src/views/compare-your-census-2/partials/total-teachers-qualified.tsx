@@ -106,6 +106,7 @@ export const TotalTeachersQualified: React.FC<{ type: string; id: string }> = ({
         legendHorizontalAlign="center"
         legendVerticalAlign="bottom"
         linkToEstablishment
+        partYearWarningAsTag
         progressAboveAverageKeys={
           progressIndicators
             ? Object.entries(progressIndicators)

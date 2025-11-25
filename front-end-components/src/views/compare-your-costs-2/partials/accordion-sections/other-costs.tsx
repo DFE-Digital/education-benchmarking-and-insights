@@ -328,6 +328,7 @@ export const OtherCosts: React.FC<CompareYourCosts2Props> = ({ type, id }) => {
       legendContent={renderChartLegend}
       legendHorizontalAlign="center"
       legendVerticalAlign="bottom"
+      partYearWarningAsTag
       progressIndicators={progressIndicators}
       showCopyImageButton
       title="Other costs"

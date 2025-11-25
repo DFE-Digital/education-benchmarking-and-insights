@@ -45,6 +45,8 @@ export function HorizontalBarChartWrapper<
   linkToEstablishment,
   localAuthority,
   missingDataKeys,
+  override,
+  partYearWarningAsTag,
   progressAboveAverageKeys,
   progressWellAboveAverageKeys,
   showCopyImageButton,
@@ -53,7 +55,6 @@ export function HorizontalBarChartWrapper<
   trust,
   valueUnit,
   xAxisLabel,
-  override,
   ...props
 }: HorizontalBarChartWrapperProps<TData>) {
   const { chartMode } = useChartModeContext();
@@ -200,7 +201,11 @@ export function HorizontalBarChartWrapper<
         valueUnit={valueUnit ?? dimension.unit}
       />
     ) : (
-      <SchoolDataTooltip {...tooltipProps} {...payloadProps} />
+      <SchoolDataTooltip
+        {...tooltipProps}
+        {...payloadProps}
+        partYearWarningAsTag={partYearWarningAsTag}
+      />
     );
   };
 

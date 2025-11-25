@@ -197,6 +197,7 @@ export const CateringStaffServices: React.FC<CompareYourCosts2Props> = ({
       legendContent={renderChartLegend}
       legendHorizontalAlign="center"
       legendVerticalAlign="bottom"
+      partYearWarningAsTag
       progressIndicators={progressIndicators}
       showCopyImageButton
       title="Catering staff and supplies"

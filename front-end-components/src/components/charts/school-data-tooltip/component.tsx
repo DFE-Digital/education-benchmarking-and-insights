@@ -7,11 +7,16 @@ import { SchoolChartData } from "../table-chart";
 import { PartYearDataWarning } from "../part-year-data-warning";
 import { useProgressIndicatorsContext } from "src/contexts";
 import { ProgressBandingTag } from "src/components/progress-banding-tag";
+import classNames from "classnames";
 
 export function SchoolDataTooltip<
   TValue extends ValueType,
   TName extends NameType,
->({ active, payload }: SchoolTooltipProps<TValue, TName>) {
+>({
+  active,
+  partYearWarningAsTag,
+  payload,
+}: SchoolTooltipProps<TValue, TName>) {
   const { progressIndicators } = useProgressIndicatorsContext();
 
   if (!active || !payload || !payload.length) {
@@ -30,8 +35,16 @@ export function SchoolDataTooltip<
   return (
     <>
       {periodCoveredByReturn !== undefined && periodCoveredByReturn < 12 && (
-        <div className="tooltip-part-year-warning">
-          <PartYearDataWarning periodCoveredByReturn={periodCoveredByReturn} />
+        <div
+          className={classNames({
+            "tooltip-part-year-warning": !partYearWarningAsTag,
+            "school-tags": partYearWarningAsTag,
+          })}
+        >
+          <PartYearDataWarning
+            periodCoveredByReturn={periodCoveredByReturn}
+            tag={partYearWarningAsTag}
+          />
         </div>
       )}
       <table className="govuk-table govuk-table--small-text-until-tablet tooltip-table">

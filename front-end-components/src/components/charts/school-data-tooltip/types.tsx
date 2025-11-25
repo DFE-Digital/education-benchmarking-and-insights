@@ -7,4 +7,6 @@ import {
 export interface SchoolTooltipProps<
   TValue extends ValueType,
   TName extends NameType,
-> extends TooltipProps<TValue, TName> {}
+> extends TooltipProps<TValue, TName> {
+  partYearWarningAsTag?: boolean;
+}
