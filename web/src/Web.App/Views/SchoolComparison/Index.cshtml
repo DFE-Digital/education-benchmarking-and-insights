@@ -18,10 +18,12 @@
     });
 }
 
-@if (Model is { PeriodCoveredByReturn: < 12 })
-{
-    @await Html.PartialAsync("_IncompleteFinances")
-}
+<feature name="@FeatureFlags.KS4ProgressBanding" negate="true">
+    @if (Model is { PeriodCoveredByReturn: < 12 })
+    {
+        @await Html.PartialAsync("_IncompleteFinances")
+    }
+</feature>
 
 @if (!hasMissingComparatorSet)
 {
