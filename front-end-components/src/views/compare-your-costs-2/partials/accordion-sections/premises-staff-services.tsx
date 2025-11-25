@@ -191,10 +191,10 @@ export const PremisesStaffServices: React.FC<CompareYourCosts2Props> = ({
       legendContent={renderChartLegend}
       legendHorizontalAlign="center"
       legendVerticalAlign="bottom"
-      partYearWarningAsTag
       progressIndicators={progressIndicators}
       showCopyImageButton
       title="Premises staff and services"
+      warningTag
     />
   );
 };

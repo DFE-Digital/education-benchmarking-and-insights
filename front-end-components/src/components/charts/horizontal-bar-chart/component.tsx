@@ -87,10 +87,11 @@ function HorizontalBarChartInner<TData extends ChartDataSeries>(
     tick,
     tickWidth,
     tooltip,
+    trust,
     valueFormatter,
     valueLabel,
     valueUnit,
-    trust,
+    warningTag,
   } = props;
 
   const { suppressNegativeOrZero, message } = useContext(
@@ -174,15 +175,20 @@ function HorizontalBarChartInner<TData extends ChartDataSeries>(
     seriesIndex: number,
     config?: Partial<Record<keyof TData, ChartSeriesConfigItem>>[keyof TData]
   ) => {
+    const partYear = (specialItemKeys?.partYear || []).includes(
+      entry[keyField]
+    );
+    const missing = (specialItemKeys?.missingData || []).includes(
+      entry[keyField]
+    );
     const className = classNames(
       "chart-cell",
       {
         "chart-cell-highlight": (highlightedItemKeys || []).includes(
           entry[keyField]
         ),
-        "chart-cell-part-year": (specialItemKeys?.partYear || []).includes(
-          entry[keyField]
-        ),
+        "chart-cell-part-year": !warningTag && partYear,
+        "chart-cell-warning": warningTag && (partYear || missing),
         "chart-cell-progress-above-average": (
           specialItemKeys?.progressAboveAverage || []
         ).includes(entry[keyField]),

@@ -55,6 +55,7 @@ export interface ChartProps<TData extends ChartDataSeries>
   tooltip?: TooltipContentType<ValueType, NameType>;
   valueLabel?: string;
   valueUnit?: ChartSeriesValueUnit;
+  warningTag?: boolean;
 }
 
 export interface ChartSeriesConfigItem extends ValueFormatterProps {

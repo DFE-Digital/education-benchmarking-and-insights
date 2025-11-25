@@ -12,11 +12,7 @@ import classNames from "classnames";
 export function SchoolDataTooltip<
   TValue extends ValueType,
   TName extends NameType,
->({
-  active,
-  partYearWarningAsTag,
-  payload,
-}: SchoolTooltipProps<TValue, TName>) {
+>({ active, payload, warningTag }: SchoolTooltipProps<TValue, TName>) {
   const { progressIndicators } = useProgressIndicatorsContext();
 
   if (!active || !payload || !payload.length) {
@@ -37,13 +33,13 @@ export function SchoolDataTooltip<
       {periodCoveredByReturn !== undefined && periodCoveredByReturn < 12 && (
         <div
           className={classNames({
-            "tooltip-part-year-warning": !partYearWarningAsTag,
-            "school-tags": partYearWarningAsTag,
+            "tooltip-part-year-warning": !warningTag,
+            "school-tags": warningTag,
           })}
         >
           <PartYearDataWarning
             periodCoveredByReturn={periodCoveredByReturn}
-            tag={partYearWarningAsTag}
+            tag={warningTag}
           />
         </div>
       )}
