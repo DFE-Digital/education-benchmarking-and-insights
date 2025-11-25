@@ -7,8 +7,8 @@ namespace Web.Tests.Builders;
 
 public class WhenUriBuilder
 {
-    private const string? GiasBaseUrl = "https://gias/";
-    private const string? CompareSchoolPerformanceBaseUrl = "https://csp/";
+    private const string GiasBaseUrl = "https://gias/";
+    private const string CompareSchoolPerformanceBaseUrl = "https://csp/";
     private readonly UriBuilder _builder;
 
     public WhenUriBuilder()

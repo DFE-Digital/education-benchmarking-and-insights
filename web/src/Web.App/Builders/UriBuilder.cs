@@ -11,8 +11,8 @@ public interface IUriBuilder
 
 public class UriBuilder(IOptions<UriOptions> options) : IUriBuilder
 {
-    private readonly string? _giasBaseUrl = options.Value.GiasBaseUrl.TrimEnd('/');
-    private readonly string? _compareSchoolPerformanceBaseUrl = options.Value.CompareSchoolPerformanceBaseUrl.TrimEnd('/');
+    private readonly string _giasBaseUrl = options.Value.GiasBaseUrl.TrimEnd('/');
+    private readonly string _compareSchoolPerformanceBaseUrl = options.Value.CompareSchoolPerformanceBaseUrl.TrimEnd('/');
 
     public string? GiasSchoolUrl(string? urn) => string.IsNullOrWhiteSpace(urn)
         ? null
