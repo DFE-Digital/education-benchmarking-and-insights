@@ -300,13 +300,12 @@ public class WhenViewingComparison(SchoolBenchmarkingWebAppClient client)
     {
         if (ks4ProgressBandingEnabled)
         {
-            var introParagraph = comparatorSetDetailsElement.QuerySelector("p.govuk-body");
-            Assert.NotNull(introParagraph);
-            Assert.Equal("You can:", introParagraph.TextContent.Trim());
+            var introParagraphs = comparatorSetDetailsElement.QuerySelectorAll("p.govuk-body");
+            Assert.Equal(2, introParagraphs.Length);
+            Assert.Equal("To make the data easier to read, we have:", introParagraphs[0].TextContent.Trim());
+            Assert.Equal("You can:", introParagraphs[1].TextContent.Trim());
 
-            var list = comparatorSetDetailsElement.QuerySelector("ul");
-            Assert.NotNull(list);
-            var listItems = list.QuerySelectorAll("li");
+            var listItems = comparatorSetDetailsElement.QuerySelectorAll("ul[data-testid='actions-list'] li");
             Assert.Equal(3, listItems.Length);
 
             DocumentAssert.TextEqual(listItems[0], "view the 2 sets of similar schools we've chosen to benchmark this school's spending against", true);
@@ -378,11 +377,12 @@ public class WhenViewingComparison(SchoolBenchmarkingWebAppClient client)
         {
             var paragraphs = comparatorSetDetailsElement.QuerySelectorAll(":scope > p.govuk-body");
             Assert.NotNull(paragraphs);
-            Assert.Equal(2, paragraphs.Length);
+            Assert.Equal(3, paragraphs.Length);
 
             DocumentAssert.TextEqual(paragraphs[0], "You are now comparing with your chosen schools.");
-            DocumentAssert.TextEqual(paragraphs[1], "Change your similar schools.");
-            DocumentAssert.Link(paragraphs[1].QuerySelector("a"), "Change your similar schools.", Paths.SchoolComparatorsUserDefined(school.URN).ToAbsolute());
+            DocumentAssert.TextEqual(paragraphs[1], "To make the data easier to read, we have:");
+            DocumentAssert.TextEqual(paragraphs[2], "Change your similar schools.");
+            DocumentAssert.Link(paragraphs[2].QuerySelector("a"), "Change your similar schools.", Paths.SchoolComparatorsUserDefined(school.URN).ToAbsolute());
         }
         else
         {
@@ -402,14 +402,13 @@ public class WhenViewingComparison(SchoolBenchmarkingWebAppClient client)
         {
             var paragraphs = comparatorSetDetailsElement.QuerySelectorAll(":scope > p.govuk-body");
             Assert.NotNull(paragraphs);
-            Assert.Equal(2, paragraphs.Length);
+            Assert.Equal(3, paragraphs.Length);
 
             DocumentAssert.TextEqual(paragraphs[0], "The information displayed is the originally reported data, not the customised data that was provided.");
-            DocumentAssert.TextEqual(paragraphs[1], "You can:");
+            DocumentAssert.TextEqual(paragraphs[1], "To make the data easier to read, we have:");
+            DocumentAssert.TextEqual(paragraphs[2], "You can:");
 
-            var list = comparatorSetDetailsElement.QuerySelector("ul.govuk-list.govuk-list--bullet");
-            Assert.NotNull(list);
-            var listItems = list.QuerySelectorAll("li");
+            var listItems = comparatorSetDetailsElement.QuerySelectorAll("ul[data-testid='actions-list'] li");
             Assert.Equal(2, listItems.Length);
 
             DocumentAssert.TextEqual(listItems[0], "view the 2 sets of similar schools we've chosen to benchmark this school's spending against", true);
