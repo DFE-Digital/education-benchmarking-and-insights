@@ -34,6 +34,7 @@ public class BenchmarkCensusPage(IPage page)
     private ILocator SaveImageSchoolWorkforce => page.Locator(Selectors.SchoolWorkforceSaveAsImage);
     private ILocator CopyImageSchoolWorkforce => page.Locator(Selectors.SchoolWorkforceCopyImage);
     private ILocator ChartByDataTitle(string title) => page.Locator($"[data-title='{title}']");
+    private ILocator ChartTableByDataTitle(string title) => ChartByDataTitle(title).Locator("table.govuk-table");
 
     private ILocator DownloadDataButton =>
         page.Locator(Selectors.Button, new PageLocatorOptions
@@ -260,7 +261,7 @@ public class BenchmarkCensusPage(IPage page)
 
     public async Task IsTableDataForChartDisplayed(string chartName, List<List<string>> expectedData)
     {
-        var table = ChartByDataTitle(chartName);
+        var table = ChartTableByDataTitle(chartName);
         await table.ShouldBeVisible();
         await table.ShouldHaveTableContent(expectedData, true);
     }
