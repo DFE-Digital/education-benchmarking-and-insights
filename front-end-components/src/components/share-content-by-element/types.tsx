@@ -5,4 +5,5 @@ export type ShareContentByElementProps = Omit<
   "onSaveClick" | "onCopyClick"
 > & {
   elementSelector: () => HTMLElement | undefined;
+  resolveCostCodes?: boolean;
 };
