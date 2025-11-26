@@ -35,12 +35,14 @@ import { SchoolExpenditure } from "src/services";
 import { ShareContentByElement } from "src/components/share-content-by-element";
 import { v4 as uuidv4 } from "uuid";
 import { CostCodesList } from "src/components/cost-codes-list";
+import classNames from "classnames";
 
 export function HorizontalBarChartWrapper<
   TData extends SchoolChartData | TrustChartData | LaChartData,
 >({
   chartTitle,
   children,
+  costCodesUnderTitle,
   data,
   linkToEstablishment,
   localAuthority,
@@ -238,10 +240,18 @@ export function HorizontalBarChartWrapper<
 
   return (
     <div className="horizontal-bar-chart-wrapper">
-      <div className="govuk-grid-row">
+      <div
+        className={classNames("govuk-grid-row", {
+          "govuk-grid-row__flex": costCodesUnderTitle,
+        })}
+      >
         <div className="govuk-grid-column-two-thirds">{children}</div>
         {chartMode == ChartModeChart && (
-          <div className="govuk-grid-column-one-third">
+          <div
+            className={classNames("govuk-grid-column-one-third", {
+              "govuk-grid-column__flex__bottom": costCodesUnderTitle,
+            })}
+          >
             <ShareContentByElement
               copied={imageCopied}
               disabled={imageLoading || !hasData}
@@ -273,7 +283,7 @@ export function HorizontalBarChartWrapper<
         >
           {hasData ? (
             <>
-              <CostCodesList category={chartTitle} />
+              {!costCodesUnderTitle && <CostCodesList category={chartTitle} />}
               {chartMode == ChartModeChart && (
                 <HorizontalBarChart
                   barCategoryGap={3}

@@ -529,12 +529,13 @@ div.app-cost-code-list {
   }
 
   > p {
-    margin: govuk-spacing(3) govuk-spacing(0);
+    margin: govuk-spacing(1) govuk-spacing(0) govuk-spacing(3);
     color: govuk-colour("dark-grey");
   }
 
-  > ul {
+  > ul.govuk-list {
     gap: govuk-spacing(3);
+    margin-top: govuk-spacing(1);
 
     .cost-code-item {
       color: govuk-colour("dark-grey");
@@ -1126,4 +1127,29 @@ table#current-comparators-la {
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
+}
+
+.govuk-grid-row {
+  &.govuk-grid-row__flex {
+    @include govuk-media-query($from: desktop) {
+      display: flex;
+    }
+
+    div[class^="govuk-grid-column-"] {
+      float: none;
+      width: inherit;
+
+      &.govuk-grid-column-two-thirds {
+        flex-grow: 2;
+      }
+
+      &.govuk-grid-column-one-third {
+        flex-grow: 1;
+      }
+
+      &.govuk-grid-column__flex__bottom {
+        align-self: flex-end;
+      }
+    }
+  }
 }

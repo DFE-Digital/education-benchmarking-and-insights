@@ -111,6 +111,7 @@ export const TotalTeachers: React.FC<{ type: string; id: string }> = ({
           title: "Total number of teachers (Full Time Equivalent)",
         },
       ]}
+      costCodesUnderTitle
       dimension={dimension}
       dimensions={CensusCategories}
       handleDimensionChange={handleDimensionChange}

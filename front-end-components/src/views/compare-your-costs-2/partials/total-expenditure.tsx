@@ -120,6 +120,7 @@ export const TotalExpenditure: React.FC<CompareYourCosts2Props> = ({
   return (
     <DimensionedChart
       charts={[{ data: chartData, title: "Total expenditure" }]}
+      costCodesUnderTitle
       dimension={dimension}
       dimensions={CostCategories.filter(function (category) {
         return category !== PercentageExpenditure;

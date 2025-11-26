@@ -112,6 +112,7 @@ export const NonClassroomSupport: React.FC<{ type: string; id: string }> = ({
             "Non-classroom support staff - excluding auxiliary staff (Full Time Equivalent)",
         },
       ]}
+      costCodesUnderTitle
       dimension={dimension}
       dimensions={CensusCategories}
       handleDimensionChange={handleDimensionChange}

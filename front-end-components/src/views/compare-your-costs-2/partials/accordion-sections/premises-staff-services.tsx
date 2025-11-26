@@ -183,6 +183,7 @@ export const PremisesStaffServices: React.FC<CompareYourCosts2Props> = ({
         { data: otherOccupationBarData, title: "Other occupation costs" },
         { data: premisesStaffBarData, title: "Premises staff costs" },
       ]}
+      costCodesUnderTitle
       dimension={dimension}
       handleDimensionChange={handleDimensionChange}
       hasNoData={data?.length === 0}

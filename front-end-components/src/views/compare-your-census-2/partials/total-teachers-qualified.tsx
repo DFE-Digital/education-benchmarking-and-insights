@@ -100,6 +100,7 @@ export const TotalTeachersQualified: React.FC<{ type: string; id: string }> = ({
     <ChartDimensionContext.Provider value={Percent}>
       <HorizontalBarChartWrapper
         chartTitle={title}
+        costCodesUnderTitle
         data={chartData}
         legend
         legendContent={renderChartLegend}

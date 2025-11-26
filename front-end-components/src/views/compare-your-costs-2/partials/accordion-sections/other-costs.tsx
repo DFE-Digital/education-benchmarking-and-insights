@@ -320,6 +320,7 @@ export const OtherCosts: React.FC<CompareYourCosts2Props> = ({ type, id }) => {
           title: "Community focused school costs (maintained schools only)",
         },
       ]}
+      costCodesUnderTitle
       dimension={dimension}
       handleDimensionChange={handleDimensionChange}
       hasNoData={data?.length === 0}

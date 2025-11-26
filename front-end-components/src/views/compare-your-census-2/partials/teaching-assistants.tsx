@@ -111,6 +111,7 @@ export const TeachingAssistants: React.FC<{ type: string; id: string }> = ({
           title: "Teaching Assistants (Full Time Equivalent)",
         },
       ]}
+      costCodesUnderTitle
       dimension={dimension}
       dimensions={CensusCategories}
       handleDimensionChange={handleDimensionChange}

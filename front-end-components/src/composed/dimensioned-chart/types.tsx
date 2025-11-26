@@ -35,6 +35,7 @@ export type DimensionedChartProps<
   TData extends SchoolChartData | TrustChartData,
 > = Pick<
   HorizontalBarChartWrapperProps<TData>,
+  | "costCodesUnderTitle"
   | "legend"
   | "legendContent"
   | "legendHorizontalAlign"

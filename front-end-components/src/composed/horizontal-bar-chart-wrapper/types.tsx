@@ -24,6 +24,7 @@ export type HorizontalBarChartWrapperProps<
   | "warningTag"
 > & {
   children?: React.ReactNode[] | React.ReactNode;
+  costCodesUnderTitle?: boolean;
   data: HorizontalBarChartWrapperPropsData<TData>;
   localAuthority?: boolean;
   override?: DimensionChartOverride;
