@@ -9,7 +9,7 @@
             <p class="govuk-body">
                 You are now comparing with your chosen schools.
             </p>
-            @await Html.PartialAsync("_IntroductionDataInformation")
+            @await Html.PartialAsync("Components/ComparatorSetDetails/_DataInformation")
             <p class="govuk-body">
                 <a class="govuk-link govuk-link--no-visited-state"
                    href="@Url.Action("UserDefined", "SchoolComparators", new
@@ -25,7 +25,7 @@
             <p class="govuk-body">
                 The information displayed is the originally reported data, not the customised data that was provided.
             </p>
-            @await Html.PartialAsync("_IntroductionDataInformation")
+            @await Html.PartialAsync("Components/ComparatorSetDetails/_DataInformation")
             <p class="govuk-body">
                 You can:
             </p>
@@ -77,7 +77,7 @@
             }
             else
             {
-                @await Html.PartialAsync("_IntroductionDataInformation")
+                @await Html.PartialAsync("Components/ComparatorSetDetails/_DataInformation")
                 <p class="govuk-body">
                     You can:
                 </p>
