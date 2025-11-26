@@ -531,14 +531,19 @@ div.app-cost-code-list {
   > p {
     margin: govuk-spacing(1) govuk-spacing(0) govuk-spacing(3);
     color: govuk-colour("dark-grey");
+    white-space: nowrap;
   }
 
   > ul.govuk-list {
-    gap: govuk-spacing(3);
+    gap: govuk-spacing(0);
     margin-top: govuk-spacing(1);
 
-    .cost-code-item {
-      color: govuk-colour("dark-grey");
+    > li {
+      margin-right: govuk-spacing(3);
+
+      .cost-code-item {
+        color: govuk-colour("dark-grey");
+      }
     }
   }
 }
@@ -1138,6 +1143,7 @@ table#current-comparators-la {
     div[class^="govuk-grid-column-"] {
       float: none;
       width: inherit;
+      flex-basis: min-content;
 
       &.govuk-grid-column-two-thirds {
         flex-grow: 2;
