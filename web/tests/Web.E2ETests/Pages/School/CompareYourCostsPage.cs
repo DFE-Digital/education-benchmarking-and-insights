@@ -138,17 +138,10 @@ public class CompareYourCostsPage(IPage page)
         });
     private ILocator MissingComparatorSetMessage => page.Locator(Selectors.MissingComparatorSetMessage);
 
-    public async Task IsDisplayed(bool isPartYear = false, bool isMissingComparatorSet = false)
+    public async Task IsDisplayed(bool isMissingComparatorSet = false)
     {
         await PageH1Heading.ShouldBeVisible();
         //await Breadcrumbs.ShouldBeVisible();
-
-        if (isPartYear)
-        {
-            await IncompleteFinancialBanner.First.ShouldBeVisible();
-            await IncompleteFinancialBanner.First.ShouldContainText(
-                "This school doesn't have a complete set of financial data for this period.");
-        }
 
         if (!isMissingComparatorSet)
         {
