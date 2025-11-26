@@ -32,7 +32,7 @@ export function HorizontalBarChartMultiSeries<TData extends LaChartData>({
   lineCodes,
 }: HorizontalBarChartMultiSeriesProps<TData>) {
   const { chartMode } = useChartModeContext();
-  const selectedEstabishment = useContext(SelectedEstablishmentContext);
+  const selectedEstablishment = useContext(SelectedEstablishmentContext);
   const [imageLoading, setImageLoading] = useState<boolean>();
   const [imageCopied, setImageCopied] = useState<boolean>();
 
@@ -106,7 +106,7 @@ export function HorizontalBarChartMultiSeries<TData extends LaChartData>({
                   data={data.dataPoints}
                   highlightActive
                   highlightedItemKeys={
-                    selectedEstabishment ? [selectedEstabishment] : undefined
+                    selectedEstablishment ? [selectedEstablishment] : undefined
                   }
                   keyField={keyField}
                   onImageCopied={handleImageCopied}
@@ -124,7 +124,7 @@ export function HorizontalBarChartMultiSeries<TData extends LaChartData>({
                     return (
                       <EstablishmentTick
                         {...t}
-                        highlightedItemKey={selectedEstabishment}
+                        highlightedItemKey={selectedEstablishment}
                         establishmentKeyResolver={(_: string, index) =>
                           getEstablishmentKey(index)
                         }

@@ -14,6 +14,7 @@ export function ModalSaveImagesModal({
   elementClassName,
   elementTitleAttr,
   costCodesAttr,
+  costCodesLabel,
   fileName,
   modalTitle,
   onCloseModal,
@@ -41,6 +42,7 @@ export function ModalSaveImagesModal({
   };
 
   const downloadPngs = useDownloadPngImages({
+    costCodesLabel,
     elementsSelector: () => (all ? allElements : selectedElements),
     fileName,
     onImagesLoading: setImagesLoading,

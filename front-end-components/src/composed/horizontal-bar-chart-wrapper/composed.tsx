@@ -10,6 +10,7 @@ import {
   ChartDimensionContext,
   SelectedEstablishmentContext,
   useChartModeContext,
+  useCostCodesContext,
 } from "src/contexts";
 import { Loading } from "src/components/loading";
 import { ChartSeriesConfigItem, SpecialItemFlag } from "src/components/charts";
@@ -65,6 +66,9 @@ export function HorizontalBarChartWrapper<
   const [imageLoading, setImageLoading] = useState<boolean>();
   const [imageCopied, setImageCopied] = useState<boolean>();
   const [tickFocused, setTickFocused] = useState<Record<string, boolean>>({});
+  const { categoryCostCodes, label: categoryCostCodesLabel } =
+    useCostCodesContext(chartTitle);
+
   const keyField = (
     localAuthority ? "laCode" : trust ? "companyNumber" : "urn"
   ) as keyof TData;
@@ -238,6 +242,13 @@ export function HorizontalBarChartWrapper<
   const hasData = sortedDataPoints.length > 0;
   const uuid = uuidv4();
 
+  let costCodesProps = {};
+  if (costCodesUnderTitle) {
+    costCodesProps = {
+      "data-cost-codes": JSON.stringify(categoryCostCodes),
+    };
+  }
+
   return (
     <div className="horizontal-bar-chart-wrapper">
       <div
@@ -266,7 +277,10 @@ export function HorizontalBarChartWrapper<
               showSave
               showTitle
               title={chartTitle}
-              resolveCostCodes={costCodesUnderTitle}
+              costCodes={costCodesUnderTitle ? categoryCostCodes : undefined}
+              costCodesLabel={
+                costCodesUnderTitle ? categoryCostCodesLabel : undefined
+              }
             />
           </div>
         )}
@@ -281,6 +295,7 @@ export function HorizontalBarChartWrapper<
           className="govuk-grid-column-full costs-chart-wrapper"
           data-chart-uuid={uuid}
           data-title={chartTitle}
+          {...costCodesProps}
         >
           {hasData ? (
             <>
