@@ -66,8 +66,11 @@ export function HorizontalBarChartWrapper<
   const [imageLoading, setImageLoading] = useState<boolean>();
   const [imageCopied, setImageCopied] = useState<boolean>();
   const [tickFocused, setTickFocused] = useState<Record<string, boolean>>({});
-  const { categoryCostCodes, label: categoryCostCodesLabel } =
-    useCostCodesContext(chartTitle);
+  const {
+    categoryCostCodes,
+    label: categoryCostCodesLabel,
+    tags,
+  } = useCostCodesContext(chartTitle);
 
   const keyField = (
     localAuthority ? "laCode" : trust ? "companyNumber" : "urn"
@@ -245,7 +248,7 @@ export function HorizontalBarChartWrapper<
   let costCodesProps = {};
   if (costCodesUnderTitle) {
     costCodesProps = {
-      "data-cost-codes": JSON.stringify(categoryCostCodes),
+      "data-cost-codes": JSON.stringify(categoryCostCodes.concat(tags ?? [])),
     };
   }
 
@@ -277,7 +280,11 @@ export function HorizontalBarChartWrapper<
               showSave
               showTitle
               title={chartTitle}
-              costCodes={costCodesUnderTitle ? categoryCostCodes : undefined}
+              costCodes={
+                costCodesUnderTitle
+                  ? categoryCostCodes.concat(tags ?? [])
+                  : undefined
+              }
               costCodesLabel={
                 costCodesUnderTitle ? categoryCostCodesLabel : undefined
               }
