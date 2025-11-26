@@ -8,6 +8,7 @@ export const PageActions: React.FC<PageActionsProps> = ({
   saveFileName,
   saveModalPortalId,
   saveTitleAttr,
+  ...props
 }: PageActionsProps) => {
   return (
     <div className="page-actions-wrapper">
@@ -25,6 +26,7 @@ export const PageActions: React.FC<PageActionsProps> = ({
             showProgress
             showTitles
             disabled={saveDisabled}
+            {...props}
           />
         )}
         {downloadLink && (

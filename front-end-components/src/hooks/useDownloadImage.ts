@@ -319,7 +319,7 @@ function createCostCodeList(
     li.style.fontFamily = '"GDS Transport", arial, sans-serif';
     li.style.fontSize = "1rem";
     li.style.display = "inline-block";
-    li.style.color = "#505a5f";
+    li.style.color = "rgb(80, 90, 95)";
     li.style.padding = "2px 0";
     costCodeList.appendChild(li);
   }
@@ -332,7 +332,7 @@ function createCostCodeList(
     li.style.display = "inline-block";
 
     if (costCodesLabel) {
-      li.style.color = "#505a5f";
+      li.style.color = "rgb(80, 90, 95)";
       li.style.fontWeight = "bold";
       li.style.padding = "2px 4px 3px 4px";
     } else {

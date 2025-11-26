@@ -60,6 +60,8 @@ export const CompareYourCosts2: React.FC<CompareYourCosts2ViewProps> = ({
                     </div>
                     <div className="govuk-grid-column-one-half">
                       <PageActions
+                        costCodesAttr="data-cost-codes"
+                        costCodesLabel="Cost category codes:"
                         downloadLink={downloadLink}
                         saveClassName={saveClassName}
                         saveDisabled={fetching}

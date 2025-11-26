@@ -45,7 +45,11 @@ export const CompareYourCensus2: React.FC<CompareYourCensus2ViewProps> = (
                     />
                   </div>
                   <div className="govuk-grid-column-one-half">
-                    <PageActions downloadLink={downloadLink} />
+                    <PageActions
+                      costCodesAttr="data-cost-codes"
+                      costCodesLabel="Cost category codes:"
+                      downloadLink={downloadLink}
+                    />
                   </div>
                 </div>
                 <hr className="govuk-section-break govuk-section-break--l govuk-section-break--visible govuk-!-margin-top-0" />
