@@ -26,10 +26,10 @@ When using Azure Front Door with WAF enabled:
 - A WAF policy can include both **managed rule-sets** (preconfigured by Microsoft) and **custom rules** (tailored to application needs). Custom rules are evaluated **before** managed rules.
 - Supported actions for rules: `Allow`, `Block`, `Log`, `Redirect`, or anomaly-scoring based blocking (depending on rule-set version).
 - WAF has two “modes”:
-    - **Detection:** logs matching requests but doesn’t block them (useful for tuning and analysing traffic).
-    - **Prevention:** actively blocks requests matching rules. 
+  - **Detection:** logs matching requests but doesn’t block them (useful for tuning and analysing traffic).
+  - **Prevention:** actively blocks requests matching rules.
 
-- The default managed rule-set (the Default Rule Set, DRS) covers a broad range of common attack vectors: XSS, SQL injection, remote file inclusion, protocol attacks, etc. 
+- The default managed rule-set (the Default Rule Set, DRS) covers a broad range of common attack vectors: XSS, SQL injection, remote file inclusion, protocol attacks, etc.
 - Because managed rule-sets are updated by Microsoft, if you manually tune or exclude rules, it’s strongly recommended to maintain WAF configuration “as code” (IaC, e.g. with Bicep / Terraform / ARM / Azure CLI) to avoid manual drift.
 
 ## WAF Log Review — KQL-Based Analysis

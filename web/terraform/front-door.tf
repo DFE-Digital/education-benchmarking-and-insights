@@ -272,7 +272,7 @@ resource "azurerm_cdn_frontdoor_firewall_policy" "web-app-front-door-waf" {
           operator       = "Equals"
           selector       = "_gcl_dc"
         }
-      
+
         #NB: explicitly added rules to align with Azure defaults
         rule {
           rule_id = "942110"
@@ -345,7 +345,7 @@ resource "azurerm_cdn_frontdoor_firewall_policy" "web-app-front-door-waf" {
           enabled = true
         }
       }
-    
+
       override {
         rule_group_name = "GoodBots"
         rule {
@@ -384,7 +384,7 @@ resource "azurerm_cdn_frontdoor_firewall_policy" "web-app-front-door-waf" {
           enabled = true
         }
       }
-    
+
       override {
         rule_group_name = "UnknownBots"
         rule {
