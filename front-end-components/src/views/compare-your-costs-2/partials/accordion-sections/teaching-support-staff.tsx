@@ -209,6 +209,7 @@ export const TeachingSupportStaff: React.FC<CompareYourCosts2Props> = ({
           title: "Agency supply teaching staff costs",
         },
       ]}
+      costCodesUnderTitle
       dimension={dimension}
       handleDimensionChange={handleDimensionChange}
       hasNoData={data?.length === 0}

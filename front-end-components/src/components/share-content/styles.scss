@@ -1,11 +1,22 @@
 .share-buttons-container {
-  display: flex;
+  @include govuk-media-query($from: desktop) {
+    display: flex;
+  }
+
   justify-content: flex-end;
-  margin-bottom: 15px;
+  margin-bottom: govuk-spacing(3);
 
   .share-buttons-column {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: govuk-spacing(2)
+  }
 }
+
+@include govuk-media-query($from: desktop) {
+  .govuk-grid-column__flex__bottom {
+    .share-buttons-container {
+      margin-bottom: govuk-spacing(6);
+    }    
+  }
 }

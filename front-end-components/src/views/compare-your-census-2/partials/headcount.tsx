@@ -111,6 +111,7 @@ export const Headcount: React.FC<{ type: string; id: string }> = ({
   return (
     <DimensionedChart
       charts={[{ data: chartData, title: "School workforce (Headcount)" }]}
+      costCodesUnderTitle
       dimension={dimension}
       dimensions={CensusCategories.filter(
         (category) =>

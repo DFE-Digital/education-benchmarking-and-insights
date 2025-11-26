@@ -172,6 +172,7 @@ export const CateringStaffServices: React.FC<CompareYourCosts2Props> = ({
           title: "Catering supplies costs",
         },
       ]}
+      costCodesUnderTitle
       dimension={dimension}
       hasNoData={data?.length === 0}
       index={8}

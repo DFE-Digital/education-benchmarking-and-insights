@@ -116,6 +116,7 @@ export const EducationalIct: React.FC<CompareYourCosts2Props> = ({
           title: "Educational learning resources costs",
         },
       ]}
+      costCodesUnderTitle
       dimension={dimension}
       handleDimensionChange={handleDimensionChange}
       hasNoData={data?.length === 0}

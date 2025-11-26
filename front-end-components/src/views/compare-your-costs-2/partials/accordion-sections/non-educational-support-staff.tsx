@@ -220,6 +220,7 @@ export const NonEducationalSupportStaff: React.FC<CompareYourCosts2Props> = ({
           title: "Professional services (non-curriculum) costs",
         },
       ]}
+      costCodesUnderTitle
       dimension={dimension}
       handleDimensionChange={handleDimensionChange}
       hasNoData={expenditureData?.length === 0}

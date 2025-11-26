@@ -108,6 +108,7 @@ export const SeniorLeadership: React.FC<{ type: string; id: string }> = ({
       charts={[
         { data: chartData, title: "Senior Leadership (Full Time Equivalent)" },
       ]}
+      costCodesUnderTitle
       dimension={dimension}
       dimensions={CensusCategories}
       handleDimensionChange={handleDimensionChange}

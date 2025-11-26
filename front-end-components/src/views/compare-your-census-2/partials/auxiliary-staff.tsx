@@ -108,6 +108,7 @@ export const AuxiliaryStaff: React.FC<{ type: string; id: string }> = ({
       charts={[
         { data: chartData, title: "Auxiliary staff (Full Time Equivalent)" },
       ]}
+      costCodesUnderTitle
       dimension={dimension}
       dimensions={CensusCategories}
       handleDimensionChange={handleDimensionChange}

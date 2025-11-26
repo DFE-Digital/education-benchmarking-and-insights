@@ -112,6 +112,7 @@ export const SchoolWorkforce: React.FC<{ type: string; id: string }> = ({
       charts={[
         { data: chartData, title: "School workforce (Full Time Equivalent)" },
       ]}
+      costCodesUnderTitle
       dimension={dimension}
       dimensions={CensusCategories.filter(
         (category) => category !== PercentageOfWorkforce

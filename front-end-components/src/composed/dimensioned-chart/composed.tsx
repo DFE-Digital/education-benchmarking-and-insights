@@ -15,11 +15,13 @@ import {
   TrustChartData,
 } from "src/components/charts/table-chart";
 import { DimensionedChartProps } from "./types";
+import { CostCodesList } from "src/components/cost-codes-list";
 
 export function DimensionedChart<
   TData extends SchoolChartData | TrustChartData,
 >({
   charts,
+  costCodesUnderTitle,
   dimension,
   dimensions,
   handleDimensionChange,
@@ -67,6 +69,7 @@ export function DimensionedChart<
           >
             <HorizontalBarChartWrapper
               chartTitle={title}
+              costCodesUnderTitle={costCodesUnderTitle}
               data={data}
               linkToEstablishment
               tooltip
@@ -92,6 +95,7 @@ export function DimensionedChart<
               ) : (
                 <h3 className="govuk-heading-s">{title}</h3>
               )}
+              {costCodesUnderTitle && <CostCodesList category={title} />}
               {(i === 0 || selector) &&
                 (options ?? (
                   <ChartDimensions

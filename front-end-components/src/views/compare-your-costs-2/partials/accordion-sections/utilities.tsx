@@ -150,6 +150,7 @@ export const Utilities: React.FC<CompareYourCosts2Props> = ({ type, id }) => {
           title: "Water and sewerage costs",
         },
       ]}
+      costCodesUnderTitle
       dimension={dimension}
       handleDimensionChange={handleDimensionChange}
       hasNoData={data?.length === 0}
