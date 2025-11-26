@@ -34,7 +34,7 @@ public class CompareYourCostsSteps(PageDriver driver)
         await page.GotoAndWaitForLoadAsync(url);
 
         _comparisonPage = new CompareYourCostsPage(page);
-        await _comparisonPage.IsDisplayed(true);
+        await _comparisonPage.IsDisplayed();
     }
 
     [Given("I am on compare your costs page for missing comparator school with URN '(.*)'")]
@@ -45,7 +45,7 @@ public class CompareYourCostsSteps(PageDriver driver)
         await page.GotoAndWaitForLoadAsync(url);
 
         _comparisonPage = new CompareYourCostsPage(page);
-        await _comparisonPage.IsDisplayed(false, true);
+        await _comparisonPage.IsDisplayed(true);
     }
 
     [When("I click on save as image for '(.*)'")]

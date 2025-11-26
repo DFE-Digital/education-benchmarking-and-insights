@@ -83,7 +83,7 @@ public class HomeSteps(PageDriver driver)
     public async Task ThenTheCompareYourCostsPageIsDisplayedForPartYear()
     {
         Assert.NotNull(_compareYourCostsPage);
-        await _compareYourCostsPage.IsDisplayed(true);
+        await _compareYourCostsPage.IsDisplayed();
     }
 
     [When("I click on curriculum and financial planning")]
