@@ -67,7 +67,7 @@ timeline
 
 ## Use of DSG in FBIT
 
-Given that the DSG iss the principal source of funding for schools it is used by Local Authorities to determine the amount that each school can spend in an academic year and is therefore used to set the school budget.  The value will be used in the FBIT service to compare to the actual amount spent by schools in each local authority to benchmark the alignment to the DSG.
+Given that the DSG is the principal source of funding for schools it is used by Local Authorities to determine the amount that each school can spend in an academic year and is therefore used to set the school budget.  The value will be used in the FBIT service to compare to the actual amount spent by schools in each local authority to benchmark the alignment to the DSG.
 
 ### Data Source
 
