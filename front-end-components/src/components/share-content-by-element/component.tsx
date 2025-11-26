@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { ShareContentByElementProps } from "./types";
 import { useDownloadPngImage } from "src/hooks/useDownloadImage";
 import { ShareContent } from "../share-content";
+import { useCostCodesContext } from "src/contexts";
 
 export const ShareContentByElement: React.FC<ShareContentByElementProps> = ({
   disabled,
@@ -9,10 +10,12 @@ export const ShareContentByElement: React.FC<ShareContentByElementProps> = ({
   title,
   showTitle,
   costCodes,
+  resolveCostCodes,
   ...props
 }) => {
   const [imageLoading, setImageLoading] = useState<boolean>();
   const [imageCopied, setImageCopied] = useState<boolean>();
+  const { categoryCostCodes, label } = useCostCodesContext(title ?? "");
 
   const handleImageCopied = () => {
     setImageCopied(true);
@@ -27,7 +30,8 @@ export const ShareContentByElement: React.FC<ShareContentByElementProps> = ({
     onLoading: setImageLoading,
     title,
     showTitle,
-    costCodes,
+    costCodes: resolveCostCodes ? categoryCostCodes : costCodes,
+    costCodesLabel: label,
   });
 
   return (

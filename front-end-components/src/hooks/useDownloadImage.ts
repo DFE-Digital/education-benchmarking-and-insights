@@ -11,9 +11,8 @@ export type DownloadPngImageOptions<T> = {
   onSaved?: (fileName: string) => void;
   ref?: React.RefObject<T>;
   showTitle?: boolean;
-  costCodes?: string[];
   title?: string;
-} & Pick<ImageOptions, "filter">;
+} & Pick<DownloadPngImagesOptions, "filter" | "costCodes" | "costCodesLabel">;
 
 export type ElementAndAttributes = {
   element: HTMLElement;
@@ -28,6 +27,7 @@ export type DownloadPngImagesOptions = {
   onProgress?: (percentage: number) => void;
   showTitles?: boolean;
   costCodes?: string[];
+  costCodesLabel?: string;
   signal?: AbortSignal;
 } & Pick<ImageOptions, "filter">;
 
@@ -45,6 +45,7 @@ export function useDownloadPngImage<T>({
   onSaved,
   showTitle,
   costCodes,
+  costCodesLabel,
   ref,
   title,
 }: DownloadPngImageOptions<T>) {
@@ -60,7 +61,15 @@ export function useDownloadPngImage<T>({
       const getBlob = async () => {
         return await ImageService.toBlob(
           element,
-          getImageOptions(element, type, title, showTitle, costCodes, filter)
+          getImageOptions(
+            element,
+            type,
+            title,
+            showTitle,
+            costCodes,
+            costCodesLabel,
+            filter
+          )
         );
       };
 
@@ -128,6 +137,7 @@ export function useDownloadPngImage<T>({
       showTitle,
       title,
       costCodes,
+      costCodesLabel,
     ]
   );
 
@@ -135,6 +145,7 @@ export function useDownloadPngImage<T>({
 }
 
 export function useDownloadPngImages({
+  costCodesLabel,
   elementsSelector,
   fileName: fileNameProp,
   filter,
@@ -166,7 +177,15 @@ export function useDownloadPngImages({
           });
           ImageService.toBlob(
             element,
-            getImageOptions(element, type, title, showTitles, costCodes, filter)
+            getImageOptions(
+              element,
+              type,
+              title,
+              showTitles,
+              costCodes,
+              costCodesLabel,
+              filter
+            )
           ).then(resolve);
         });
 
@@ -212,6 +231,7 @@ export function useDownloadPngImages({
       await download();
     }
   }, [
+    costCodesLabel,
     elementsSelector,
     fileName,
     filter,
@@ -242,7 +262,8 @@ const getImageOptions = (
   type: string,
   title?: string,
   showTitle?: boolean,
-  costCodes?: string[] | undefined,
+  costCodes?: string[],
+  costCodesLabel?: string,
   filter?: (domNode: HTMLElement) => boolean
 ): ImageOptions => {
   let height = element.clientHeight;
@@ -260,7 +281,10 @@ const getImageOptions = (
 
   const onCloned = (node: HTMLElement): void => {
     if (costCodes) {
-      node.insertBefore(createCostCodeList(costCodes), node.firstChild);
+      node.insertBefore(
+        createCostCodeList(costCodes, costCodesLabel),
+        node.firstChild
+      );
     }
     if (title && showTitle) {
       node.insertBefore(createTitleElement(title), node.firstChild);
@@ -278,7 +302,10 @@ const getImageOptions = (
   };
 };
 
-function createCostCodeList(costCodes: string[]): HTMLElement {
+function createCostCodeList(
+  costCodes: string[],
+  costCodesLabel?: string
+): HTMLElement {
   const costCodeList = document.createElement("ul") as HTMLElement;
   costCodeList.style.display = "flex";
   costCodeList.style.flexWrap = "wrap";
@@ -286,16 +313,35 @@ function createCostCodeList(costCodes: string[]): HTMLElement {
   costCodeList.style.listStyle = "none";
   costCodeList.style.padding = "0px";
 
+  if (costCodesLabel && costCodes.length > 0) {
+    const li = document.createElement("li");
+    li.innerHTML = costCodesLabel;
+    li.style.fontFamily = '"GDS Transport", arial, sans-serif';
+    li.style.fontSize = "1rem";
+    li.style.display = "inline-block";
+    li.style.color = "#505a5f";
+    li.style.padding = "2px 0";
+    costCodeList.appendChild(li);
+  }
+
   costCodes.forEach((costCode) => {
     const li = document.createElement("li");
     li.innerText = costCode;
     li.style.fontFamily = '"GDS Transport", arial, sans-serif';
     li.style.fontSize = "1rem";
     li.style.display = "inline-block";
-    li.style.color = "rgb(12, 45, 74)";
-    li.style.backgroundColor = "rgb(187, 212, 234)";
+
+    if (costCodesLabel) {
+      li.style.color = "#505a5f";
+      li.style.fontWeight = "bold";
+      li.style.padding = "2px 4px 3px 4px";
+    } else {
+      li.style.color = "rgb(12, 45, 74)";
+      li.style.backgroundColor = "rgb(187, 212, 234)";
+      li.style.padding = "2px 8px 3px 8px";
+    }
+
     li.style.overflowWrap = "break-word";
-    li.style.padding = "2px 8px 3px 8px";
 
     costCodeList.appendChild(li);
   });

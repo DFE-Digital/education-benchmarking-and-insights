@@ -266,6 +266,7 @@ export function HorizontalBarChartWrapper<
               showSave
               showTitle
               title={chartTitle}
+              resolveCostCodes={costCodesUnderTitle}
             />
           </div>
         )}
