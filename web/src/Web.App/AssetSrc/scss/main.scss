@@ -1140,7 +1140,7 @@ table#current-comparators-la {
       display: flex;
     }
 
-    div[class^="govuk-grid-column-"] {
+    > div[class^="govuk-grid-column-"] {
       float: none;
       width: inherit;
       flex-basis: min-content;
