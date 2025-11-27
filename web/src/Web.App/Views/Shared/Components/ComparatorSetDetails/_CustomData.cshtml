@@ -1,0 +1,29 @@
+﻿@using Web.App.ViewModels.Components
+
+<p class="govuk-body">
+    The information displayed is the originally reported data, not the customised data that was provided.
+</p>
+@if (Model.Type == ComparatorSetType.Costs)
+{
+    @await Html.PartialAsync("Components/ComparatorSetDetails/_DataInformation")
+}
+<p class="govuk-body">
+    You can:
+</p>
+<ul class="govuk-list govuk-list--bullet" data-testid="actions-list">
+    <li>
+        <a class="govuk-link govuk-link--no-visited-state"
+           href="@Url.Action(Model.Type == ComparatorSetType.Workforce ? "Workforce" : "Index", "SchoolComparators", new
+                 {
+                     urn = Model.Identifier
+                 })">view the @(Model.Type == ComparatorSetType.Workforce ? "set" : "2 sets") of similar schools we've chosen</a> to benchmark this school's @(Model.Type == ComparatorSetType.Workforce ? "pupil and workforce data" : "spending") against
+    </li>
+    <li>
+        <a class="govuk-link govuk-link--no-visited-state"
+           id="custom-data-link"
+           href="@Url.Action("CustomData", "School", new
+                 {
+                     urn = Model.Identifier
+                 })">view custom data set</a>
+    </li>
+</ul>

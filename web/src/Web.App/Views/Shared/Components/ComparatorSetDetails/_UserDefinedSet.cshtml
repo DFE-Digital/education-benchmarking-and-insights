@@ -1,0 +1,18 @@
+﻿@using Web.App.ViewModels.Components
+
+<p class="govuk-body">
+    You are now comparing with your chosen schools.
+</p>
+@if (Model.Type == ComparatorSetType.Costs)
+{
+    @await Html.PartialAsync("Components/ComparatorSetDetails/_DataInformation")
+}
+<p class="govuk-body">
+    <a class="govuk-link govuk-link--no-visited-state"
+       href="@Url.Action("UserDefined", "SchoolComparators", new
+             {
+                 urn = Model.Identifier
+             })">
+        Change your similar schools.
+    </a>
+</p>
