@@ -11,7 +11,6 @@ la_budget = {
         "la_name": "string",
         "old_la_code": "Int64",
         "new_la_code": "string",
-        "main_category_planned_expenditure": "string",
         "category_of_planned_expenditure": "string",
         "early_years_establishments": "float",
         "primary_schools": "float",
@@ -37,7 +36,6 @@ la_outturn = {
         "la_name": "string",
         "old_la_code": "Int64",
         "new_la_code": "string",
-        "main_category": "string",
         "category_of_expenditure": "string",
         "early_years_establishments": "float",
         "primary_schools": "float",
@@ -51,7 +49,8 @@ la_outturn = {
         "net_per_capita_expenditure": "float",
     }
 }
-la_section_251_na_values = {"default": ["c", "x", "z", ":"]}
+la_outturn_encoding = {"default": "cp1252", 2025: "utf-8"}
+la_section_251_na_values = {"default": ["c", "x", "z", ":", "u"]}
 la_section_251_category_prefixes = {
     "default": (
         "1.0.2 ",
@@ -83,7 +82,6 @@ la_budget_pivot = {
             "la_name",
             "old_la_code",
             "new_la_code",
-            "main_category_planned_expenditure",
         ],
         "columns": ["category_of_planned_expenditure"],
         "values": [
@@ -113,7 +111,6 @@ la_outturn_pivot = {
             "la_name",
             "old_la_code",
             "new_la_code",
-            "main_category",
         ],
         "columns": ["category_of_expenditure"],
         "values": [
@@ -215,7 +212,56 @@ la_outturn_column_mappings = {
         "1.2.2 Top-up funding – academies, free schools and colleges__income": "1.2.2 Top-up funding - academies, free schools and colleges__income",
         "1.2.2 Top-up funding – academies, free schools and colleges__net_expenditure": "1.2.2 Top-up funding - academies, free schools and colleges__net_expenditure",
         "1.2.2 Top-up funding – academies, free schools and colleges__net_per_capita_expenditure": "1.2.2 Top-up funding - academies, free schools and colleges__net_per_capita_expenditure",
-    }
+    },
+    2025: {
+        "1.0.2 High needs place funding within Individual Schools Budget (after academies recoupment), including all pre- and post-16 place funding for maintained schools__early_years_establishments": "1.0.2 EarlyYears",
+        "1.0.2 High needs place funding within Individual Schools Budget (after academies recoupment), including all pre- and post-16 place funding for maintained schools__primary_schools": "1.0.2 Primaries",
+        "1.0.2 High needs place funding within Individual Schools Budget (after academies recoupment), including all pre- and post-16 place funding for maintained schools__secondary_schools": "1.0.2 Secondary",
+        "1.0.2 High needs place funding within Individual Schools Budget (after academies recoupment), including all pre- and post-16 place funding for maintained schools__sen_and_special_schools": "1.0.2 SENSpecial",
+        "1.0.2 High needs place funding within Individual Schools Budget (after academies recoupment), including all pre- and post-16 place funding for maintained schools__pupil_referral_units_and_alt_provision": "1.0.2 APPRU",
+        "1.0.2 High needs place funding within Individual Schools Budget (after academies recoupment), including all pre- and post-16 place funding for maintained schools__post_16": "1.0.2 PostSchool",
+        "1.0.2 High needs place funding within Individual Schools Budget (after academies recoupment), including all pre- and post-16 place funding for maintained schools__net_expenditure": "1.0.2 Net total",
+        "1.2.3 Top-up and other funding – non-maintained and independent providers__net_expenditure": "1.2.3 Net total",
+        "1.2.3 Top-up and other funding – non-maintained and independent providers__early_years_establishments": "1.2.3 EarlyYears",
+        "1.2.3 Top-up and other funding – non-maintained and independent providers__primary_schools": "1.2.3 Primaries",
+        "1.2.3 Top-up and other funding – non-maintained and independent providers__secondary_schools": "1.2.3 Secondary",
+        "1.2.3 Top-up and other funding – non-maintained and independent providers__sen_and_special_schools": "1.2.3 SENSpecial",
+        "1.2.3 Top-up and other funding – non-maintained and independent providers__pupil_referral_units_and_alt_provision": "1.2.3 APPRU",
+        "1.2.3 Top-up and other funding – non-maintained and independent providers__post_16": "1.2.3 PostSchool",
+        "1.2.3 Top-up and other funding – non-maintained and independent providers__income": "1.2.3 Income",
+        "1.2.6 Hospital education services__net_expenditure": "1.2.6 Net total",
+        "1.2.7 Other alternative provision services__net_expenditure": "1.2.7 Net total",
+        "1.2.13 Therapies and other health related services__net_expenditure": "1.2.13 Net total",
+        # note: below renamed to replace non-ASCII characters.
+        "1.2.1 Top up funding - maintained schools__early_years_establishments": "1.2.1 Top-up funding - maintained schools__early_years_establishments",
+        "1.2.1 Top up funding - maintained schools__primary_schools": "1.2.1 Top-up funding - maintained schools__primary_schools",
+        "1.2.1 Top up funding - maintained schools__secondary_schools": "1.2.1 Top-up funding - maintained schools__secondary_schools",
+        "1.2.1 Top up funding - maintained schools__sen_and_special_schools": "1.2.1 Top-up funding - maintained schools__sen_and_special_schools",
+        "1.2.1 Top up funding - maintained schools__pupil_referral_units_and_alt_provision": "1.2.1 Top-up funding - maintained schools__pupil_referral_units_and_alt_provision",
+        "1.2.1 Top up funding - maintained schools__post_16": "1.2.1 Top-up funding - maintained schools__post_16",
+        "1.2.1 Top up funding - maintained schools__gross_expenditure": "1.2.1 Top-up funding - maintained schools__gross_expenditure",
+        "1.2.1 Top up funding - maintained schools__income": "1.2.1 Top-up funding - maintained schools__income",
+        "1.2.1 Top up funding - maintained schools__net_expenditure": "1.2.1 Top-up funding - maintained schools__net_expenditure",
+        "1.2.1 Top up funding - maintained schools__net_per_capita_expenditure": "1.2.1 Top-up funding - maintained schools__net_per_capita_expenditure",
+        "1.2.2 Top-up funding – academies, free schools and colleges__early_years_establishments": "1.2.2 Top-up funding - academies, free schools and colleges__early_years_establishments",
+        "1.2.2 Top-up funding – academies, free schools and colleges__primary_schools": "1.2.2 Top-up funding - academies, free schools and colleges__primary_schools",
+        "1.2.2 Top-up funding – academies, free schools and colleges__secondary_schools": "1.2.2 Top-up funding - academies, free schools and colleges__secondary_schools",
+        "1.2.2 Top-up funding – academies, free schools and colleges__sen_and_special_schools": "1.2.2 Top-up funding - academies, free schools and colleges__sen_and_special_schools",
+        "1.2.2 Top-up funding – academies, free schools and colleges__pupil_referral_units_and_alt_provision": "1.2.2 Top-up funding - academies, free schools and colleges__pupil_referral_units_and_alt_provision",
+        "1.2.2 Top-up funding – academies, free schools and colleges__post_16": "1.2.2 Top-up funding - academies, free schools and colleges__post_16",
+        "1.2.2 Top-up funding – academies, free schools and colleges__gross_expenditure": "1.2.2 Top-up funding - academies, free schools and colleges__gross_expenditure",
+        "1.2.2 Top-up funding – academies, free schools and colleges__income": "1.2.2 Top-up funding - academies, free schools and colleges__income",
+        "1.2.2 Top-up funding – academies, free schools and colleges__net_expenditure": "1.2.2 Top-up funding - academies, free schools and colleges__net_expenditure",
+        "1.2.2 Top-up funding – academies, free schools and colleges__net_per_capita_expenditure": "1.2.2 Top-up funding - academies, free schools and colleges__net_per_capita_expenditure",
+        "1.2.5 SEN support services__net_expenditure": "1.2.5 SEN support service__net_expenditure",
+        "1.2.5 SEN support services__early_years_establishments": "1.2.5 SEN support service__early_years_establishments",
+        "1.2.5 SEN support services__primary_schools": "1.2.5 SEN support service__primary_schools",
+        "1.2.5 SEN support services__secondary_schools": "1.2.5 SEN support service__secondary_schools",
+        "1.2.5 SEN support services__sen_and_special_schools": "1.2.5 SEN support service__sen_and_special_schools",
+        "1.2.5 SEN support services__pupil_referral_units_and_alt_provision": "1.2.5 SEN support service__pupil_referral_units_and_alt_provision",
+        "1.2.5 SEN support services__post_16": "1.2.5 SEN support service__post_16",
+        "1.2.5 SEN support services__income": "1.2.5 SEN support service__income",
+    },
 }
 
 la_budget_column_eval = {
@@ -655,6 +701,49 @@ la_sen2_eval = {
             "`Further education__General FE and tertiary colleges/HE` + "
             "`Further education__Other FE` + "
             "`Further education__Sixth form college` + "
+            "`Further education__Specialist post-16 institutions`"
+        ),
+        "EHCPOther": (
+            "`EHCPTotal` - "
+            "`EHCPMainstream` - "
+            "`EHCPResourced` - "
+            "`EHCPSpecial` - "
+            "`EHCPIndependent` - "
+            "`EHCPHospital` - "
+            "`EHCPPost16`"
+        ),
+    },
+    2025: {
+        "EHCPTotal": "`Total__Total`",
+        "EHCPMainstream": (
+            "`Mainstream school__Mainstream - LA maintained` + "
+            "`Mainstream school__Mainstream - Free school` + "
+            "`Mainstream school__Mainstream - Academy`"
+        ),
+        "EHCPResourced": (
+            "`Mainstream school__Mainstream - Academy - Resourced Provision` + "
+            "`Mainstream school__Mainstream - Academy - SEN unit` + "
+            "`Mainstream school__Mainstream - Free school - Resourced provision` + "
+            "`Mainstream school__Mainstream - Free school - SEN unit` + "
+            "`Mainstream school__Mainstream - LA maintained - Resourced provision` + "
+            "`Mainstream school__Mainstream - LA maintained - SEN unit`"
+        ),
+        "EHCPSpecial": (
+            "`Special school__Special - LA maintained` + "
+            "`Special school__Special - Academy/free`"
+        ),
+        "EHCPIndependent": (
+            "`Mainstream school__Mainstream - Independent` + "
+            "`Special school__Special - Independent` + "
+            "`Special school__Special - Non-maintained`"
+        ),
+        "EHCPHospital": (
+            "`Alternative provision/Pupil referral unit__AP/PRU - Academy` + "
+            "`Alternative provision/Pupil referral unit__AP/PRU - Free school` + "
+            "`Alternative provision/Pupil referral unit__AP/PRU - LA maintained`"
+        ),
+        "EHCPPost16": (
+            "`Further education__General FE and tertiary colleges/HE` + "
             "`Further education__Specialist post-16 institutions`"
         ),
         "EHCPOther": (

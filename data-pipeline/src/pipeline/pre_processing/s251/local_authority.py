@@ -156,7 +156,9 @@ def _build_section_251_data(
         column_pivot=input_schemas.la_outturn_pivot.get(
             year, input_schemas.la_outturn_pivot["default"]
         ),
-        encoding="cp1252",
+        encoding=input_schemas.la_outturn_encoding.get(
+            year, input_schemas.la_outturn_encoding["default"]
+        ),
     ).rename(
         columns=input_schemas.la_section_251_column_mappings.get(
             year,
@@ -228,7 +230,6 @@ def _prepare_la_section_251_data(
         keep_default_na=True,
         encoding=encoding,
     )
-
     df = df[~df["old_la_code"].isna()]
 
     df = df[df["time_period"] == f"{year // 100}{(year % 100) - 1}{year % 100}"]

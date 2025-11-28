@@ -45,6 +45,7 @@ from .local_authority import (  # noqa
     la_ons_population,
     la_ons_population_index_column,
     la_outturn,
+    la_outturn_encoding,
     la_outturn_column_eval,
     la_outturn_column_mappings,
     la_outturn_pivot,
