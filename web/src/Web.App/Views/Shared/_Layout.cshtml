@@ -1,4 +1,7 @@
 ﻿@using Web.App.Extensions
+@{
+    var request = ViewContext.HttpContext.Request;
+}
 <!DOCTYPE html>
 <html lang="en" class="govuk-template">
 <head>
@@ -14,13 +17,14 @@
         }
     </title>
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-    <meta name="theme-color" content="#0b0c0c">
+    <meta name="theme-color" content="#1d70b8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <link rel="icon" sizes="48x48" href="/assets/images/favicon.ico">
-    <link rel="icon" sizes="any" href="/assets/images/favicon.svg" type="image/svg+xml">
-    <link rel="mask-icon" href="/assets/images/govuk-icon-mask.svg" color="#0b0c0c">
-    <link rel="apple-touch-icon" href="/assets/images/govuk-icon-180.png">
-    <link rel="manifest" href="/assets/manifest.json">
+    <link rel="icon" sizes="48x48" href="/assets/rebrand/images/favicon.ico">
+    <link rel="icon" sizes="any" href="/assets/rebrand/images/favicon.svg" type="image/svg+xml">
+    <link rel="mask-icon" href="/assets/rebrand/images/govuk-icon-mask.svg" color="#1d70b8">
+    <link rel="apple-touch-icon" href="/assets/rebrand/images/govuk-icon-180.png">
+    <link rel="manifest" href="/assets/rebrand/manifest.json">
+    <meta property="og:image" content="@request.Scheme@request.Host/assets/rebrand/images/govuk-opengraph-image.png">
     <link rel="stylesheet" href="/css/front-end.css" asp-append-version="true"/>
     <link rel="stylesheet" href="/css/main.css" asp-append-version="true"/>
     <link rel="stylesheet" href="/css/enhancements.css" asp-append-version="true"/>
@@ -70,7 +74,7 @@
             {
                 @Html.ActionLink("Sign in", "Signin", "Home", new
                 {
-                    redirectUri = ViewContext.HttpContext.Request.Path
+                    redirectUri = request.Path
                 }, new
                 {
                     @class = "govuk-header__link govuk-header__service-name app-signin govuk-!-display-none-print"
