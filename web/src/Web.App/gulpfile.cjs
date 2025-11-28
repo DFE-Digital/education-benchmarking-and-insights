@@ -24,7 +24,7 @@ const copyStaticAssets = () =>
     .on("end", () =>
       gulp
         .src(
-          ["node_modules/govuk-frontend/dist/govuk/assets/images/favicon.ico"],
+          ["node_modules/govuk-frontend/dist/govuk/assets/rebrand/images/favicon.ico"],
           { encoding: false }
         )
         .pipe(gulp.dest("wwwroot/"))
@@ -33,7 +33,7 @@ const copyStaticAssets = () =>
       gulp
         .src(
           [
-            "node_modules/govuk-frontend/dist/govuk/assets/images/govuk-icon-180.png",
+            "node_modules/govuk-frontend/dist/govuk/assets/rebrand/images/govuk-icon-180.png",
           ],
           { encoding: false }
         )
