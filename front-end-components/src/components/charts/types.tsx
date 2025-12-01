@@ -14,8 +14,9 @@ import { ContentType as TooltipContentType } from "recharts/types/component/Tool
 import { CartesianTickItem } from "recharts/types/util/types";
 import { DownloadMode } from "src/services";
 
-export interface ChartProps<TData extends ChartDataSeries>
-  extends ValueFormatterProps {
+export interface ChartProps<
+  TData extends ChartDataSeries,
+> extends ValueFormatterProps {
   barCategoryGap?: string | number;
   barGap?: string | number;
   barHeight?: number;

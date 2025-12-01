@@ -7,13 +7,11 @@ import {
 } from "src/components";
 
 export interface HorizontalBarChartProps<TData extends ChartDataSeries>
-  extends ChartProps<TData>,
-    Pick<BaseAxisProps, "tick"> {
+  extends ChartProps<TData>, Pick<BaseAxisProps, "tick"> {
   tickWidth?: number;
   labelListSeriesName?: keyof TData;
   trust?: boolean;
 }
 
 export interface LabelListContentProps
-  extends Omit<LabelProps, "formatter">,
-    ValueFormatterProps {}
+  extends Omit<LabelProps, "formatter">, ValueFormatterProps {}

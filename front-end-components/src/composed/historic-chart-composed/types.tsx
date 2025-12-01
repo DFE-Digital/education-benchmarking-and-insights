@@ -7,8 +7,10 @@ import {
 import { ResolvedStatProps } from "src/components/charts/resolved-stat";
 import { LineChartProps } from "src/components/charts/line-chart";
 
-export interface HistoricChartProps<T extends ChartDataSeries>
-  extends Pick<LineChartProps<T>, "showCopyImageButton"> {
+export interface HistoricChartProps<T extends ChartDataSeries> extends Pick<
+  LineChartProps<T>,
+  "showCopyImageButton"
+> {
   chartTitle: string;
   data: T[];
   seriesConfig: ChartProps<T>["seriesConfig"];
