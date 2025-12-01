@@ -72,6 +72,7 @@ This release delivers a combination of enhancements of Progress 8 data, updating
 ## Notes
 
 **Release Overview:**
+**[Azure Release Test Plan](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_testPlans/define?planId=292376&suiteId=292377)**
 
 **Azure DevOps tickets included in this release:**
 
@@ -94,7 +95,7 @@ This release delivers a combination of enhancements of Progress 8 data, updating
 | Test Category           | Total Tests | Passed | Failed | Pass Rate |  
 |-------------------------|:-----------:|:------:|:------:|:---------:|  
 | Smoke Tests - Prod      |      x      |   x    |   0    |    x%     |  
-| Sanity Tests - Pre Prod |      x      |   x    |   0    |    x%     |  
+| Sanity Tests - Pre Prod |      6      |   6    |   0    |   100%    |  
 | UAT - Pre Prod          |      x      |   x    |   0    |    x%     |  
 | Total                   |      x      |   x    |   0    |    x%     |  
 
