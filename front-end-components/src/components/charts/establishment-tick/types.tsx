@@ -8,7 +8,8 @@ import {
 } from "recharts/types/component/DefaultTooltipContent";
 
 export interface EstablishmentTickProps
-  extends Omit<BaseAxisProps, "scale">,
+  extends
+    Omit<BaseAxisProps, "scale">,
     Omit<TickProps, "href" | "type" | "onClick" | "ref" | "textAnchor"> {
   establishmentKeyResolver?: (
     name: string,

@@ -14,15 +14,15 @@ import { LineChartProps } from "src/components/charts/line-chart";
 export interface HistoricChartSection251Props<
   TData extends LocalAuthoritySection251,
 > extends Pick<
-    LineChartProps<TData>,
-    | "legend"
-    | "legendIconSize"
-    | "legendIconType"
-    | "legendHorizontalAlign"
-    | "legendVerticalAlign"
-    | "legendWrapperStyle"
-    | "showCopyImageButton"
-  > {
+  LineChartProps<TData>,
+  | "legend"
+  | "legendIconSize"
+  | "legendIconType"
+  | "legendHorizontalAlign"
+  | "legendVerticalAlign"
+  | "legendWrapperStyle"
+  | "showCopyImageButton"
+> {
   chartTitle: string;
   data: LocalAuthoritySection251History<TData>[] | undefined;
   valueField: ResolvedStatProps<TData>["valueField"];

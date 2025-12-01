@@ -10,7 +10,9 @@ export interface HistoricTooltipProps<
   TData extends ChartDataSeries,
   TValue extends ValueType,
   TName extends NameType,
-> extends TooltipProps<TValue, TName>,
+>
+  extends
+    TooltipProps<TValue, TName>,
     Pick<LineChartProps<TData>, "valueFormatter" | "valueUnit"> {
   dimension: string;
 }
