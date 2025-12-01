@@ -7,7 +7,7 @@ import {
   HistoricData2SectionName,
   HistoricData2ViewProps,
 } from "src/views/historic-data-2/types";
-import { SchoolEstablishment } from "src/constants";
+import { HistoricData2ElementId, SchoolEstablishment } from "src/constants";
 import { useGovUk } from "src/hooks/useGovUk";
 import { ChartModeChart } from "src/components";
 import { ChartModeProvider } from "src/contexts";
@@ -20,7 +20,7 @@ export const HistoricData2: React.FC<HistoricData2ViewProps> = ({
   const [loadedSections, setLoadedSections] = useState<
     HistoricData2SectionName[]
   >(preLoadSections ?? ["spending"]);
-  useGovUk();
+  useGovUk(document.querySelector(`#${HistoricData2ElementId}`));
 
   const handleSectionLoad = (section: HistoricData2SectionName) => {
     if (loadedSections.includes(section)) {

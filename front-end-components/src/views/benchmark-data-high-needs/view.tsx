@@ -3,11 +3,12 @@ import { useGovUk } from "src/hooks/useGovUk";
 import { ChartModeChart } from "src/components";
 import { ChartModeProvider, SelectedEstablishmentContext } from "src/contexts";
 import { BenchmarkHighNeeds } from "./partials/benchmark-high-needs";
+import { BenchmarkDataHighNeedsElementId } from "src/constants";
 
 export const BenchmarkDataHighNeeds: React.FC<
   BenchmarkDataHighNeedsViewProps
 > = ({ code, ...props }) => {
-  useGovUk();
+  useGovUk(document.querySelector(`#${BenchmarkDataHighNeedsElementId}`));
 
   return (
     <SelectedEstablishmentContext.Provider value={code}>

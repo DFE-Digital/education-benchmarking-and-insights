@@ -10,6 +10,7 @@ import {
   Section251Section,
   Send2Section,
 } from "src/views/historic-data-high-needs/partials";
+import { HistoricDataHighNeedsElementId } from "src/constants";
 
 export const HistoricDataHighNeeds: React.FC<
   HistoricDataHighNeedsViewProps
@@ -17,7 +18,7 @@ export const HistoricDataHighNeeds: React.FC<
   const [loadedSections, setLoadedSections] = useState<
     HistoricDataHighNeedsSectionName[]
   >(preLoadSections ?? ["section-251"]);
-  useGovUk();
+  useGovUk(document.querySelector(`#${HistoricDataHighNeedsElementId}`));
 
   const handleSectionLoad = (section: HistoricDataHighNeedsSectionName) => {
     if (loadedSections.includes(section)) {

@@ -95,7 +95,7 @@
     <!--suppress JSFileReferences -->
     <script type="module" add-nonce="true">
         import { initAll } from '/js/govuk-frontend.min.js';
-        initAll();
+        initAll({ scope: document.querySelector(".govuk-main-wrapper") });
 
         const currentTotalExpenditureElement = document.getElementById("current-TotalExpenditure");
         const customTotalExpenditureElement = document.getElementById("custom-TotalExpenditure");

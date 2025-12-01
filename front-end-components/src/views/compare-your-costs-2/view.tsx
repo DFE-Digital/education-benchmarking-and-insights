@@ -17,6 +17,7 @@ import {
 import { useGovUk } from "src/hooks/useGovUk";
 import { ChartOptions } from "src/components/chart-options";
 import { PageActions } from "src/components/page-actions";
+import { CompareCosts2ElementId } from "src/constants";
 
 export const CompareYourCosts2: React.FC<CompareYourCosts2ViewProps> = ({
   costCodeMap,
@@ -37,7 +38,7 @@ export const CompareYourCosts2: React.FC<CompareYourCosts2ViewProps> = ({
     setFetching(fetching);
   };
 
-  useGovUk();
+  useGovUk(document.querySelector(`#${CompareCosts2ElementId}`));
 
   return (
     <SelectedEstablishmentContext.Provider value={id}>
