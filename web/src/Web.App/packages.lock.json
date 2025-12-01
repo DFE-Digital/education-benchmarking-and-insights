@@ -204,12 +204,12 @@
       },
       "Serilog.Sinks.ApplicationInsights": {
         "type": "Direct",
-        "requested": "[4.0.0, )",
-        "resolved": "4.0.0",
-        "contentHash": "AlYq1JFqh+RFKwLKZ3X224Zbe1gnkMbqSELp2FApLN0iMyRPdwwxMJBCCrk49C8qOefBd4zN+J/1Tq3i75DunA==",
+        "requested": "[4.1.0, )",
+        "resolved": "4.1.0",
+        "contentHash": "IC7su1J9FFkceWESs1A+AfM/NnBEKRpLpNYzEl+SYPe+RQWgs9PhPSgrIzsj3Un8oGgC/F9OrxibNNZwe+RDTg==",
         "dependencies": {
-          "Microsoft.ApplicationInsights": "2.20.0",
-          "Serilog": "2.11.0"
+          "Microsoft.ApplicationInsights": "2.23.0",
+          "Serilog": "4.2.0"
         }
       },
       "SmartBreadcrumbs": {
