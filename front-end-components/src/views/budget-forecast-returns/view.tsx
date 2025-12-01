@@ -4,11 +4,12 @@ import { SelectedEstablishmentContext } from "src/contexts";
 import { YearEnd } from "./partials/year-end";
 import { BudgetForecastReturnsProps } from "./types";
 import "./styles.scss";
+import { BudgetForecastReturnsElementId } from "src/constants";
 
 export const BudgetForecastReturns: React.FC<BudgetForecastReturnsProps> = ({
   id,
 }) => {
-  useGovUk();
+  useGovUk(document.querySelector(`#${BudgetForecastReturnsElementId}`));
 
   return (
     <SelectedEstablishmentContext.Provider value={id}>

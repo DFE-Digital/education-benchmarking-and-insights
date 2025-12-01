@@ -72,49 +72,48 @@
     </div>
 </header>
 
-<div>
-<section aria-label="Service information" class="govuk-service-navigation"
-         data-module="govuk-service-navigation">
-    <div class="govuk-width-container">
-        <div class="govuk-service-navigation__container">
-            <span class="govuk-service-navigation__service-name">
-                @Html.TrackedAnchor(
-                    TrackedLinks.ServiceBanner,
-                    "/",
-                    Constants.ServiceName,
-                    classes: ["govuk-service-navigation__link"])
-            </span>
-            <nav aria-label="Menu" class="govuk-service-navigation__wrapper">
-                <button type="button" class="govuk-service-navigation__toggle govuk-js-service-navigation-toggle"
-                        aria-controls="navigation" hidden>
-                    Menu
-                </button>
-                <ul class="govuk-service-navigation__list" id="navigation">
-                    <li class="govuk-service-navigation__item">
-                        @if (User.Identity is { IsAuthenticated: true })
-                        {
-                            @Html.ActionLink("Sign out", "Signout", "Home", null, new
+<section>
+    <div aria-label="Service information" class="govuk-service-navigation" data-module="govuk-service-navigation">
+        <div class="govuk-width-container">
+            <div class="govuk-service-navigation__container">
+                <span class="govuk-service-navigation__service-name">
+                    @Html.TrackedAnchor(
+                        TrackedLinks.ServiceBanner,
+                        "/",
+                        Constants.ServiceName,
+                        classes: ["govuk-service-navigation__link"])
+                </span>
+                <nav aria-label="Menu" class="govuk-service-navigation__wrapper">
+                    <button type="button" class="govuk-service-navigation__toggle govuk-js-service-navigation-toggle"
+                            aria-controls="navigation" hidden>
+                        Menu
+                    </button>
+                    <ul class="govuk-service-navigation__list" id="navigation">
+                        <li class="govuk-service-navigation__item">
+                            @if (User.Identity is { IsAuthenticated: true })
                             {
-                                @class = "govuk-service-navigation__link app-signin govuk-!-display-none-print"
-                            })
-                        }
-                        else
-                        {
-                            @Html.ActionLink("Sign in", "Signin", "Home", new
+                                @Html.ActionLink("Sign out", "Signout", "Home", null, new
+                                {
+                                    @class = "govuk-service-navigation__link app-signin govuk-!-display-none-print"
+                                })
+                            }
+                            else
                             {
-                                redirectUri = request.Path
-                            }, new
-                            {
-                                @class = "govuk-service-navigation__link app-signin govuk-!-display-none-print"
-                            })
-                        }
-                    </li>
-                </ul>
-            </nav>
+                                @Html.ActionLink("Sign in", "Signin", "Home", new
+                                {
+                                    redirectUri = request.Path
+                                }, new
+                                {
+                                    @class = "govuk-service-navigation__link app-signin govuk-!-display-none-print"
+                                })
+                            }
+                        </li>
+                    </ul>
+                </nav>
+            </div>
         </div>
     </div>
 </section>
-</div>
 
 <nav>
     <div class="govuk-width-container">

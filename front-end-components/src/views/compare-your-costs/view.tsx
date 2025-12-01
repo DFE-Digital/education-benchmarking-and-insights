@@ -14,6 +14,7 @@ import {
   CostCodesProvider,
 } from "src/contexts";
 import { useGovUk } from "src/hooks/useGovUk";
+import { CompareCostsElementId } from "src/constants";
 
 export const CompareYourCosts: React.FC<CompareYourCostsViewProps> = ({
   costCodeMap,
@@ -41,7 +42,7 @@ export const CompareYourCosts: React.FC<CompareYourCostsViewProps> = ({
 
   const message = "Only displaying schools with positive expenditure.";
 
-  useGovUk();
+  useGovUk(document.querySelector(`#${CompareCostsElementId}`));
 
   return (
     <SelectedEstablishmentContext.Provider value={id}>
