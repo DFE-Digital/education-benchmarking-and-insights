@@ -155,8 +155,6 @@ def la_statistical_neighbours() -> io.StringIO:
         "SN8",
         "SN9",
         "SN10",
-        "GOInd",
-        "GOReg",
     ]
 
     data = [

@@ -40,8 +40,6 @@ def expected_columns():
         "SN8Code",
         "SN9Code",
         "SN10Code",
-        "GOInd",
-        "GOReg",
     ]
 
 

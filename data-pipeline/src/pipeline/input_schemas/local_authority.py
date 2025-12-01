@@ -495,8 +495,6 @@ la_statistical_neighbours = {
         "SN8.2": "Int64",
         "SN9.2": "Int64",
         "SN10.2": "Int64",
-        "GOInd": "Int64",
-        "GOReg": "string",
     }
 }
 
