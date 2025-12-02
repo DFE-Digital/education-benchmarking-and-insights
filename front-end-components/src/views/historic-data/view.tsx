@@ -7,11 +7,13 @@ import { HistoricDataViewProps } from "src/views/historic-data/types";
 import { useGovUk } from "src/hooks/useGovUk";
 import { ChartModeChart } from "src/components";
 import { ChartModeProvider } from "src/contexts";
-import { HistoricDataElementId } from "src/constants";
 
-export const HistoricData: React.FC<HistoricDataViewProps> = (props) => {
-  const { type, id } = props;
-  useGovUk(document.querySelector(`#${HistoricDataElementId}`));
+export const HistoricData: React.FC<HistoricDataViewProps> = ({
+  id,
+  rootEl,
+  type,
+}) => {
+  useGovUk(rootEl);
 
   return (
     <div className="govuk-tabs" data-module="govuk-tabs">

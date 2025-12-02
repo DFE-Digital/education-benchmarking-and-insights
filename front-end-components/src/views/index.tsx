@@ -8,3 +8,4 @@ export * from "src/views/historic-data";
 export * from "src/views/historic-data-2";
 export * from "src/views/deployment-plan";
 export * from "src/views/benchmark-data-high-needs";
+export * from "src/views/historic-data-high-needs";

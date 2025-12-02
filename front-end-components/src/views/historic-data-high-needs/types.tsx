@@ -5,6 +5,7 @@ import {
   LocalAuthoritySection251,
   LocalAuthorityEducationHealthCarePlan,
 } from "src/services";
+import { ViewProps } from "../types";
 
 export type HistoricDataHighNeedsProps = {
   code: string;
@@ -12,12 +13,10 @@ export type HistoricDataHighNeedsProps = {
   fetchTimeout?: number;
 };
 
-export type HistoricDataHighNeedsViewProps = Omit<
-  HistoricDataHighNeedsProps,
-  "load"
-> & {
-  preLoadSections?: HistoricDataHighNeedsSectionName[];
-};
+export type HistoricDataHighNeedsViewProps = ViewProps &
+  Omit<HistoricDataHighNeedsProps, "load"> & {
+    preLoadSections?: HistoricDataHighNeedsSectionName[];
+  };
 
 export type HistoricDataHighNeedsSectionName = "section-251" | "send-2";
 

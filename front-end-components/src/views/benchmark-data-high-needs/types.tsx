@@ -4,6 +4,7 @@ import {
   LocalAuthoritySection251,
   LocalAuthorityEducationHealthCarePlan,
 } from "src/services";
+import { ViewProps } from "../types";
 
 export type BenchmarkDataHighNeedsProps = {
   code: string;
@@ -12,7 +13,8 @@ export type BenchmarkDataHighNeedsProps = {
   set: string[];
 };
 
-export type BenchmarkDataHighNeedsViewProps = BenchmarkDataHighNeedsProps & {};
+export type BenchmarkDataHighNeedsViewProps = ViewProps &
+  BenchmarkDataHighNeedsProps & {};
 
 export type BenchmarkDataHighNeedsAccordionProps = Omit<
   BenchmarkDataHighNeedsProps,
