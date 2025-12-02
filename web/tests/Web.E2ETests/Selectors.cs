@@ -34,6 +34,7 @@ public static class Selectors
     public const string GovListResult = $"{GovList}.govuk-list--result";
     public const string GovCheckboxes = ".govuk-checkboxes";
     public const string GovCheckboxLabel = $"{GovCheckboxes} .govuk-checkboxes__label";
+    public const string GovServiceNavigation = $".govuk-service-navigation";
 
     public const string ModeChart = "#mode-chart";
     public const string ModeTable = "#mode-table";
@@ -197,8 +198,8 @@ public static class Selectors
     public const string RunningCostCategoriesTab = "#tab_running";
     public const string BuildingCostCategoriesTab = "#tab_building";
 
-    public const string SignInLink = "header a.app-signin:text-is('Sign in')";
-    public const string SignOutLink = "header a.app-signin:text-is('Sign out')";
+    public const string SignInLink = $"{GovServiceNavigation} a.app-signin:text-is('Sign in')";
+    public const string SignOutLink = $"{GovServiceNavigation} a.app-signin:text-is('Sign out')";
 
     public const string FbisIntroduction = "#introduction";
     public const string FbisKeyInformation = "#key-information-section";
