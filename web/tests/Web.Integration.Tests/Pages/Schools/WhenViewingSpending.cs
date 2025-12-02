@@ -72,7 +72,7 @@ public class WhenViewingSpending(SchoolBenchmarkingWebAppClient client)
     {
         var (page, school, _, _) = await SetupNavigateInitPage(isPartOfTrust);
 
-        var categorySections = page.QuerySelectorAll("section");
+        var categorySections = page.QuerySelectorAll("main section");
 
         Assert.Equal(8, categorySections.Length);
 
@@ -255,7 +255,7 @@ public class WhenViewingSpending(SchoolBenchmarkingWebAppClient client)
             DocumentAssert.TextEqual(dataSourceElement.ElementAt(0), "This school's data covers the financial year April 2020 to March 2021 consistent financial reporting return (CFR).");
         }
 
-        var categorySections = page.QuerySelectorAll("section");
+        var categorySections = page.QuerySelectorAll("main section");
 
         foreach (var section in categorySections)
         {

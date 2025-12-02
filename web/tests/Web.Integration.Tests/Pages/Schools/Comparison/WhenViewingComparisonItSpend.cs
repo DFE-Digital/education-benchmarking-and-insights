@@ -318,7 +318,7 @@ public class WhenViewingComparisonItSpend(SchoolBenchmarkingWebAppClient client)
 
         AssertFilterSectionLayout(filterSection, viewAs, resultAs, expectedSubCategories);
 
-        var subCategorySections = page.QuerySelectorAll("section");
+        var subCategorySections = page.QuerySelectorAll("main section");
         Assert.Equal(expectedSubCategories.Length, subCategorySections.Length);
 
         for (var i = 0; i < subCategorySections.Length; i++)
