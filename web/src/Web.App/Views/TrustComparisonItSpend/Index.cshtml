@@ -107,7 +107,7 @@
     <script type="module" add-nonce="true">
         import {initAll} from '/js/govuk-frontend.min.js'
 
-        initAll({ scope: document.querySelector(".govuk-main-wrapper") })
+        initAll({ scope: document.querySelector("main") })
     </script>
     
     @await Html.PartialAsync("Enhancements/_PageActions", new PageActionsViewModel
