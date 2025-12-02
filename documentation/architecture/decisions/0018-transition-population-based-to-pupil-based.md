@@ -29,9 +29,9 @@ To improve the accuracy of benchmarking and needs analysis, we require a shift t
 Updating the existing data pipeline and API to support Pupil counts natively, leveraging the work already done during the standardisation/normalisation investigation.
 
 * **Pros:**
-    * **Minimizes Rework:** We are building the foundation for the future phase now.
-    * **Robustness:** Automated, reproducible, and robust.
-    * **Extensibility:** Leverages existing API extensionality.
+  * **Minimizes Rework:** We are building the foundation for the future phase now.
+  * **Robustness:** Automated, reproducible, and robust.
+  * **Extensibility:** Leverages existing API extensionality.
 * **Cons:** Slightly higher initial development complexity than a "hacky" fix, but safer in the long run.
 * **Outcome:** Selected.
 
@@ -40,11 +40,11 @@ Updating the existing data pipeline and API to support Pupil counts natively, le
 Wait until the scheduled "complete solution" phase in the future roadmap to implement these changes.
 
 * **Pros:**
-    * Zero immediate effort.
-    * Allows the team to focus entirely on the current backlog without context switching.
+  * Zero immediate effort.
+  * Allows the team to focus entirely on the current backlog without context switching.
 * **Cons:**
-    * **Business Impact:** The current ONS population data is leading to inaccuracies in benchmarking. The business requires accurate per-pupil data immediately to support current decision-making; deferring would prolong the use of less accurate metrics.
-    * **Missed Opportunity:** We miss the chance to build the foundational data structures now, which actively reduces the complexity of the future roadmap item.
+  * **Business Impact:** The current ONS population data is leading to inaccuracies in benchmarking. The business requires accurate per-pupil data immediately to support current decision-making; deferring would prolong the use of less accurate metrics.
+  * **Missed Opportunity:** We miss the chance to build the foundational data structures now, which actively reduces the complexity of the future roadmap item.
 * **Outcome:** Rejected.
 
 ## The Decision
@@ -70,9 +70,9 @@ This approach mitigates the risk of rework because the API schema changes and pi
 **Web / Frontend:**
 
 * **Benchmarking Page:**
-    * Update table columns to display per-pupil metrics.
-    * Update chart titles and introductory text.
-    * Remove legacy references/links to ONS data in the Help & Support section.
+  * Update table columns to display per-pupil metrics.
+  * Update chart titles and introductory text.
+  * Remove legacy references/links to ONS data in the Help & Support section.
 * **Historic Data:** Update chart titles and descriptors.
 * **Mapping:** Ensure the UI correctly maps to the new API fields.
 
@@ -95,10 +95,13 @@ While the changes can technically occur in parallel, reducing the critical path,
 
 ## Notes & Discounted Alternatives
 
-**Discounted: Manual Data Injection (Hotfix)**
+**Discounted: Manual Data Injection (Hotfix):**
 
 We discounted the option of manually calculating and injecting pupil numbers (via SQL script) for the following reasons:
 
 1. **Data Integrity:** It breaks the idempotency of the data pipeline. Manual changes would be overwritten every time the pipeline runs, requiring constant manual maintenance.
 2. **Speed vs. Risk:** While theoretically bypassing pipeline code, the effort required to write and validate safe SQL scripts neutralizes the speed benefit.
 3. **Validation:** High QA overhead due to the risk of human error in manual entry.
+
+<!-- Leave the rest of this page blank -->
+\newpage
