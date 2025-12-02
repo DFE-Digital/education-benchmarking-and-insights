@@ -112,15 +112,6 @@
 
 @await Component.InvokeAsync("GetHelp") *@
 
-@section scripts
-{
-    <script type="module" add-nonce="true">
-        import {initAll} from '/js/govuk-frontend.min.js'
-
-        initAll({ scope: document.querySelector("main") })
-    </script>
-}
-
 @section banner {
     @if (string.IsNullOrEmpty(Model.CustomDataId)
          && Model.ComparatorReverted != true

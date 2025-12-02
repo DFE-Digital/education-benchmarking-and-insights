@@ -72,45 +72,43 @@
     </div>
 </header>
 
-<section>
-    <div aria-label="Service information" class="govuk-service-navigation" data-module="govuk-service-navigation">
-        <div class="govuk-width-container">
-            <div class="govuk-service-navigation__container">
-                <span class="govuk-service-navigation__service-name">
-                    @Html.TrackedAnchor(
-                        TrackedLinks.ServiceBanner,
-                        "/",
-                        Constants.ServiceName,
-                        classes: ["govuk-service-navigation__link"])
-                </span>
-                <nav aria-label="Menu" class="govuk-service-navigation__wrapper">
-                    <button type="button" class="govuk-service-navigation__toggle govuk-js-service-navigation-toggle"
-                            aria-controls="navigation" hidden>
-                        Menu
-                    </button>
-                    <ul class="govuk-service-navigation__list" id="navigation">
-                        <li class="govuk-service-navigation__item">
-                            @if (User.Identity is { IsAuthenticated: true })
+<section aria-label="Service information" class="govuk-service-navigation" data-module="govuk-service-navigation">
+    <div class="govuk-width-container">
+        <div class="govuk-service-navigation__container">
+            <span class="govuk-service-navigation__service-name">
+                @Html.TrackedAnchor(
+                    TrackedLinks.ServiceBanner,
+                    "/",
+                    Constants.ServiceName,
+                    classes: ["govuk-service-navigation__link"])
+            </span>
+            <nav aria-label="Menu" class="govuk-service-navigation__wrapper">
+                <button type="button" class="govuk-service-navigation__toggle govuk-js-service-navigation-toggle"
+                        aria-controls="navigation" hidden>
+                    Menu
+                </button>
+                <ul class="govuk-service-navigation__list" id="navigation">
+                    <li class="govuk-service-navigation__item">
+                        @if (User.Identity is { IsAuthenticated: true })
+                        {
+                            @Html.ActionLink("Sign out", "Signout", "Home", null, new
                             {
-                                @Html.ActionLink("Sign out", "Signout", "Home", null, new
-                                {
-                                    @class = "govuk-service-navigation__link app-signin govuk-!-display-none-print"
-                                })
-                            }
-                            else
+                                @class = "govuk-service-navigation__link app-signin govuk-!-display-none-print"
+                            })
+                        }
+                        else
+                        {
+                            @Html.ActionLink("Sign in", "Signin", "Home", new
                             {
-                                @Html.ActionLink("Sign in", "Signin", "Home", new
-                                {
-                                    redirectUri = request.Path
-                                }, new
-                                {
-                                    @class = "govuk-service-navigation__link app-signin govuk-!-display-none-print"
-                                })
-                            }
-                        </li>
-                    </ul>
-                </nav>
-            </div>
+                                redirectUri = request.Path
+                            }, new
+                            {
+                                @class = "govuk-service-navigation__link app-signin govuk-!-display-none-print"
+                            })
+                        }
+                    </li>
+                </ul>
+            </nav>
         </div>
     </div>
 </section>
@@ -223,6 +221,11 @@
     </div>
 </footer>
 
+<script type="module" add-nonce="true">
+    import {initAll} from "/js/govuk-frontend.min.js";
+
+    initAll();
+</script>
 <script type="module" src="/js/front-end.js" asp-append-version="true"></script>
 <script add-nonce="true">
     document.getElementById("js-back-link")?.addEventListener('click', function (ev) {
@@ -240,13 +243,7 @@
         });
     })
 </script>
-<script type="module" add-nonce="true">
-    import {initAll} from "/js/govuk-frontend.min.js";
-    const serviceNavigation = document.querySelector("[data-module='govuk-service-navigation']");
-    if (serviceNavigation) {
-        initAll({ scope: serviceNavigation.parentElement });
-    }
-</script>
+
 @await RenderSectionAsync("scripts", false)
 
 </body>
