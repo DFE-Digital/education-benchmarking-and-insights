@@ -12,13 +12,13 @@ import {
   ShowHighExecutivePayContext,
 } from "src/contexts";
 import "./styles.scss";
-import { CompareTrustElementId } from "src/constants";
 
 export const CompareYourTrust: React.FC<CompareYourTrustViewProps> = ({
   id,
+  rootEl,
   showHighExecutivePay,
 }) => {
-  useGovUk(document.querySelector(`#${CompareTrustElementId}`));
+  useGovUk(rootEl);
 
   return (
     <div className="govuk-tabs" data-module="govuk-tabs">

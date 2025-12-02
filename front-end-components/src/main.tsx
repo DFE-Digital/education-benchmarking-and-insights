@@ -11,6 +11,8 @@ import {
   CostCodeMap,
   DeploymentPlan,
   HistoricData,
+  HistoricDataHighNeeds,
+  HistoricDataHighNeedsSectionName,
   HistoricData2,
   HistoricData2SectionName,
 } from "src/views";
@@ -66,10 +68,6 @@ import { TrustChartData } from "./components/charts/table-chart";
 import { BudgetForecastReturns } from "./views/budget-forecast-returns";
 import { ShareContentByElement } from "./components/share-content-by-element";
 import { ModalSaveImages } from "./components/modals/modal-save-images";
-import {
-  HistoricDataHighNeeds,
-  HistoricDataHighNeedsSectionName,
-} from "./views/historic-data-high-needs";
 
 const historicDataElement = document.getElementById(HistoricDataElementId);
 if (historicDataElement) {
@@ -78,7 +76,7 @@ if (historicDataElement) {
     const root = ReactDOM.createRoot(historicDataElement);
     root.render(
       <React.StrictMode>
-        <HistoricData type={type} id={id} />
+        <HistoricData type={type} id={id} rootEl={historicDataElement} />
       </React.StrictMode>
     );
   }
@@ -101,6 +99,7 @@ if (historicData2Element) {
             hash ? [hash as HistoricData2SectionName] : undefined
           }
           fetchTimeout={30_000}
+          rootEl={historicData2Element}
         />
       </React.StrictMode>
     );
@@ -140,6 +139,7 @@ if (compareCostsElement) {
             isPartOfTrust === "true" ? ["% of central services"] : undefined
           }
           type={type as "school" | "trust"}
+          rootEl={compareCostsElement}
         />
       </React.StrictMode>
     );
@@ -189,6 +189,7 @@ if (compareCosts2Element) {
             isPartOfTrust === "true" ? ["% of central services"] : undefined
           }
           type={type as "school" | "trust"}
+          rootEl={compareCosts2Element}
         />
       </React.StrictMode>
     );
@@ -208,6 +209,7 @@ if (compareCostsTrustElement) {
         <CompareYourTrust
           id={id}
           showHighExecutivePay={showHighExec === "true"}
+          rootEl={compareCostsTrustElement}
         />
       </React.StrictMode>
     );
@@ -946,7 +948,7 @@ if (budgetForecastReturnsElement) {
 
     root.render(
       <React.StrictMode>
-        <BudgetForecastReturns id={id} />
+        <BudgetForecastReturns id={id} rootEl={budgetForecastReturnsElement} />
       </React.StrictMode>
     );
   }
@@ -1066,6 +1068,7 @@ if (historicDataHighNeedsElement) {
             hash ? [hash as HistoricDataHighNeedsSectionName] : undefined
           }
           fetchTimeout={30_000}
+          rootEl={historicDataHighNeedsElement}
         />
       </React.StrictMode>
     );
@@ -1086,6 +1089,7 @@ if (benchmarkDataHighNeedsElement) {
           set={set ? (JSON.parse(set) as string[]) : []}
           editLink={editLink}
           fetchTimeout={30_000}
+          rootEl={benchmarkDataHighNeedsElement}
         />
       </React.StrictMode>
     );
