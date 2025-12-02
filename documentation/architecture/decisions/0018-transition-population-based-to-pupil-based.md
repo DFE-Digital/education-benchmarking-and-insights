@@ -16,6 +16,8 @@ Currently, the application calculates funding and metric comparisons using Offic
 
 To improve the accuracy of benchmarking and needs analysis, we require a shift to **Per Pupil** calculations based on actual school census data.
 
+Census data for school pupils is source from [explore education statistics](https://explore-education-statistics.service.gov.uk/find-statistics/school-pupils-and-their-characteristics).
+
 **Key Constraints & Risks:**
 
 * **Future Roadmap:** A more comprehensive version of this logic is planned for a future phase.
@@ -57,7 +59,7 @@ This approach mitigates the risk of rework because the API schema changes and pi
 
 **Data Pipeline & Database:**
 
-* **Action:** Update the ETL (Extract, Transform, Load) pipeline to output pupil figures aggregated at the Local Authority (LA) level.
+* **Action:** Update the ETL (Extract, Transform, Load) pipeline to output pupil figures aggregated at the Local Authority (LA) level. NB: pupil figures already calculated at school level.
 * **Note:** This utilizes the school data previously prepared during the standardisation/normalisation analysis.
 * **New Views:** Implement associated database views to support the specific "Need Calculation" logic.
 
