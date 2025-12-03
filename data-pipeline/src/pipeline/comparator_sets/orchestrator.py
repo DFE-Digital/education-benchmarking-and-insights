@@ -52,10 +52,13 @@ def run_comparator_sets_pipeline(
             # For custom runs the target urn will only be one school type,
             # but RAG still expects a comparators file for both types
             if target_urn and target_urn not in preprocessed_data.index:
-                logger.info(f"{target_urn} not found in {school_type}, creating empty comparators file")
+                logger.info(
+                    f"{target_urn} not found in {school_type}, creating empty comparators file"
+                )
                 # Create an empty DataFrame with the expected columns to ensure a file is always created
                 empty_comparators_df = pd.DataFrame(
-                    columns=[*cols_for_comparators_parquet, "URN"]).set_index("URN")
+                    columns=[*cols_for_comparators_parquet, "URN"]
+                ).set_index("URN")
                 comparators_parquet_filename_prefix = (
                     "academy" if school_type == "academies" else school_type
                 )
