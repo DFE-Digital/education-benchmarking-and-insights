@@ -27,18 +27,18 @@ As the service expands to display Local Authority data—specifically Financial 
 **The Problem:**
 A decision is needed on the best source for this figure. The chosen metric must satisfy three criteria:
 
-1.  **Completeness:** Does it give a representative picture of the LA?
-2.  **Relatability & Explainability:** Can the figure be easily explained to users, particularly when comparing the LA total against the supporting list of schools?
-3.  **Strategic Focus:** Does the source solve a verified user problem, rather than adding complexity based on assumptions?
+1. **Completeness:** Does it give a representative picture of the LA?
+2. **Relatability & Explainability:** Can the figure be easily explained to users, particularly when comparing the LA total against the supporting list of schools?
+3. **Strategic Focus:** Does the source solve a verified user problem, rather than adding complexity based on assumptions?
 
 ## Options Considered
 
 The following sources were evaluated:
 
-1.  **Aggregated School Census (Recommended):** Summing the pupil numbers from the schools already present in the FBIT data.
-2.  **DSG Funding Figures:** Using the pupil count found in the Dedicated Schools Grant data.
-3.  **Census + Home Schooled:** Appending a separate dataset for home-schooled pupils to Option 1.
-4.  **External Investigation:** Conducting a discovery phase to identify other external pupil datasets.
+1. **Aggregated School Census (Recommended):** Summing the pupil numbers from the schools already present in the FBIT data.
+2. **DSG Funding Figures:** Using the pupil count found in the Dedicated Schools Grant data.
+3. **Census + Home Schooled:** Appending a separate dataset for home-schooled pupils to Option 1.
+4. **External Investigation:** Conducting a discovery phase to identify other external pupil datasets.
 
 ## Recommendation: Option 1 (Aggregated School Census)
 
@@ -65,9 +65,12 @@ By summing the pupil numbers from the schools already held in the database to fo
 ### Risks
 
 * **Perceived Completeness:** The aggregated figure technically excludes pupils not registered in the census (e.g., home-schooled).
-    * *Mitigation:* The metric should be clearly labeled (e.g., "Maintained Schools Pupil Count") rather than a generic "Total Children in Area" to manage expectations.
+  * *Mitigation:* The metric should be clearly labeled (e.g., "Maintained Schools Pupil Count") rather than a generic "Total Children in Area" to manage expectations.
 
 ### Required Actions
 
-1.  **Documentation:** While data documentation is strong, a gap exists regarding full **Data Lineage**. It is recommended that documentation is written specifically to explain *why* the aggregated census is the chosen source.
-2.  **Research Constraint (The "Problem First" Rule):** It is formally recommended that **future investigation into alternative data sources be deferred** until specific research has been conducted to define the problem. Proceeding without this understanding carries the risk of solving the wrong problem and failing to address the user's complete picture.
+1. **Documentation:** While data documentation is strong, a gap exists regarding full **Data Lineage**. It is recommended that documentation is written specifically to explain *why* the aggregated census is the chosen source.
+2. **Research Constraint (The "Problem First" Rule):** It is formally recommended that **future investigation into alternative data sources be deferred** until specific research has been conducted to define the problem. Proceeding without this understanding carries the risk of solving the wrong problem and failing to address the user's complete picture.
+
+<!-- Leave the rest of this page blank -->
+\newpage
