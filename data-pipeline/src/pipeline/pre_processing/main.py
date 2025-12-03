@@ -125,7 +125,7 @@ def pre_process_data(
         academies_data_ref["high_exec_pay"],
     )
 
-    pre_process_all_schools(
+    all_schools = pre_process_all_schools(
         run_type,
         run_id,
         (academies, maintained_schools, trusts),
@@ -133,7 +133,7 @@ def pre_process_data(
 
     pre_process_bfr(run_id, bfr_year)
 
-    pre_process_local_authorities(s251_year, run_id)
+    pre_process_local_authorities(s251_year, run_id, all_schools)
 
     time_taken = time.time() - start_time
     logger.info(f"Pre-processing data done in {time_taken:,.2f} seconds")
@@ -353,6 +353,8 @@ def pre_process_all_schools(run_type, run_id, data_ref):
     insert_financial_data(run_type, run_id, all_schools)
     insert_trust_financial_data(run_type, run_id, trusts)
 
+    return all_schools
+
 
 def pre_process_bfr(run_id: str, year: int):
     """
@@ -508,6 +510,7 @@ def pre_process_bfr(run_id: str, year: int):
 def pre_process_local_authorities(
     year: int,
     run_id: str,
+    all_schools: pd.DataFrame
 ):
     """
     Process Local Authority data.
@@ -519,6 +522,7 @@ def pre_process_local_authorities(
 
     :param run_id: unique identifier for processing
     :param year: financial year in question
+    :param all_schools: Schools data for pupil numbers
     """
     logger.info(
         f"Reading LA Section 251 budget data: default/{year}/plannedexpenditure_schools_other_education_la_unrounded_data.csv"
@@ -567,6 +571,7 @@ def pre_process_local_authorities(
         la_statistical_neighbours_data,
         la_ons_data,
         la_sen2_data,
+        all_schools,
         year,
     )
     logger.info(
