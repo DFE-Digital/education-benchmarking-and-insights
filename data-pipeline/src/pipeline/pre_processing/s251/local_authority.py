@@ -15,6 +15,7 @@ def build_local_authorities(
     ),
     ons_filepath_or_buffer: FilePath | ReadCsvBuffer[bytes] | ReadCsvBuffer[str],
     sen2_filepath_or_buffer: FilePath | ReadCsvBuffer[bytes] | ReadCsvBuffer[str],
+    all_schools: pd.DataFrame,
     year: int,
 ):
     """
@@ -25,6 +26,7 @@ def build_local_authorities(
     :param statistical_neighbours_filepath: source for LA statistical neighbours data
     :param ons_filepath_or_buffer: source for ONS LA data
     :param sen2_filepath_or_buffer: source for LA SEN2 data
+    :param all_schools: FBIT schools data for pupil aggregations
     :param year: financial year in question
     :return: Local Authority data
     """
@@ -47,6 +49,8 @@ def build_local_authorities(
 
     logger.info("Processing Local Authority combined data.")
 
+    fbit_pupils_per_la = _aggregate_fbit_pupil_numbers_to_la_level(all_schools)
+
     local_authority_data = (
         section_251_data.merge(
             statistical_neighbours_data,
@@ -66,6 +70,12 @@ def build_local_authorities(
             right_index=True,
             how="left",
         )
+        .merge(
+            fbit_pupils_per_la,
+            left_on="old_la_code",
+            right_index=True,
+            how="left",
+        )
     )
 
     logger.info(
@@ -73,6 +83,13 @@ def build_local_authorities(
     )
 
     return local_authority_data
+
+
+def _aggregate_fbit_pupil_numbers_to_la_level(
+    all_schools: pd.DataFrame,
+) -> pd.DataFrame:
+    """Aggregate FBIT adjusted pupil numbers per LA"""
+    return all_schools.groupby("LA Code").agg({"Number of pupils": "sum"})
 
 
 def _build_section_251_data(

@@ -73,12 +73,12 @@ def get_message_type(message: dict) -> MessageType:
                 "101277",
                 "130302",
                 "102131",
-                "100449",
-            ],
+                "100449"
+            ]
         },
         "jobId": "7af1abc5-88a9-4447-bdf7-92f4f95dc772",
         "type": "comparator-set",
-        "runType": "default",
+        "runType": "default"
     }
     ```
 
@@ -139,7 +139,7 @@ def get_message_type(message: dict) -> MessageType:
             "teachingAssistantFTE": 0.0,
             "nonClassroomSupportStaffFTE": 0.0,
             "auxiliaryStaffFTE": 0.0,
-            "workforceHeadcount": 0.0,
+            "workforceHeadcount": 0.0
         }
     }
     ```

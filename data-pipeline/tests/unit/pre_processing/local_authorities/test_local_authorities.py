@@ -11,6 +11,7 @@ def test_local_authorities(
     la_statistical_neighbours: io.StringIO,
     la_ons: pd.DataFrame,
     la_sen2: pd.DataFrame,
+    la_all_schools: pd.DataFrame,
 ):
     year = 2024
 
@@ -20,6 +21,7 @@ def test_local_authorities(
         la_statistical_neighbours,
         io.StringIO(la_ons.to_csv()),
         io.StringIO(la_sen2.to_csv()),
+        la_all_schools,
         year,
     )
 
