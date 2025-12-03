@@ -4,6 +4,14 @@ import random
 import pandas as pd
 import pytest
 
+@pytest.fixture
+def la_all_schools() -> pd.DataFrame:
+    return pd.DataFrame(data={
+        "LA": [101, 101, 102, 102, 102, 103],
+        "URN": [1,2,3,4,5,6],
+        "Number of pupils": [200.02, 1.345, 54.0, 2005.7, 3007.9, 12]
+    })
+
 
 @pytest.fixture
 def la_budget() -> pd.DataFrame:
