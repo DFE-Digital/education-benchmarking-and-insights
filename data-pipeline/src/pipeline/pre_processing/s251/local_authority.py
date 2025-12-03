@@ -89,7 +89,7 @@ def _aggregate_fbit_pupil_numbers_to_la_level(
     all_schools: pd.DataFrame,
 ) -> pd.DataFrame:
     """Aggregate FBIT adjusted pupil numbers per LA"""
-    return all_schools.groupby("LA").agg({"Number of pupils": "sum"})
+    return all_schools.groupby("LA Code").agg({"Number of pupils": "sum"})
 
 
 def _build_section_251_data(
