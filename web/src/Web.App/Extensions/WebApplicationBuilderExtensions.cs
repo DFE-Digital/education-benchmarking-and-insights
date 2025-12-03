@@ -1,5 +1,5 @@
 ﻿using System.Reflection;
-using Microsoft.OpenApi.Models;
+using Microsoft.OpenApi;
 using Web.App.Infrastructure.Cosmos;
 
 namespace Web.App.Extensions;
