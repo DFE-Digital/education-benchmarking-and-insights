@@ -1,10 +1,10 @@
+@import "../fonts/Inter/inter.css";
+@import "settings";
 @import "../../node_modules/govuk-frontend/dist/govuk/index";
-
 @import "dfe";
 @import "headlines";
 @import "link-list";
 @import "filter";
-@import "school-chart-tooltip";
 
 .app-signin {
   float: right;

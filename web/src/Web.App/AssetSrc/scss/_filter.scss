@@ -108,4 +108,10 @@
       }
     }
   }
+
+  @include govuk-media-query($until: tablet) {
+    #page-actions-button {
+      width: 100%;
+    }
+  }
 }
