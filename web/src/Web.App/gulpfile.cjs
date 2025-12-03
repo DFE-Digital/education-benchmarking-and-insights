@@ -75,6 +75,14 @@ const copyStaticAssets = () =>
       gulp
         .src(["dist/vite/*"], { encoding: false })
         .pipe(gulp.dest("wwwroot/js/"))
+    )
+    .on("end", () =>
+      gulp
+        .src(
+          ["AssetSrc/fonts/Inter/*.woff2"],
+          { encoding: false } // bypass encoding to avoid `Failed to convert WOFF 2.0 font to SFNT` in browser
+        )
+        .pipe(gulp.dest("wwwroot/fonts/Inter"))
     );
 
 gulp.task("build-fe", () => {

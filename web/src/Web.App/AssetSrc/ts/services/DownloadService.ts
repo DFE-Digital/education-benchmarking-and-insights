@@ -250,7 +250,7 @@ function createCostCodeList(costCodes: string[]): HTMLElement {
   costCodes.forEach((costCode) => {
     const li = document.createElement("li");
     li.innerText = costCode;
-    li.style.fontFamily = '"GDS Transport", arial, sans-serif';
+    li.style.fontFamily = "Inter, sans-serif";
     li.style.fontSize = "1rem";
     li.style.display = "inline-block";
     li.style.color = "rgb(12, 45, 74)";
@@ -267,7 +267,7 @@ function createCostCodeList(costCodes: string[]): HTMLElement {
 function createTitleElement(title: string): HTMLElement {
   const child = document.createElement("h2");
   child.innerText = title;
-  child.style.fontFamily = '"GDS Transport", arial, sans-serif';
+  child.style.fontFamily = "Inter, sans-serif";
   child.style.fontSize = "1.25rem";
   child.style.fontWeight = "700";
   child.style.height = `${imageTitleHeight}px`;
