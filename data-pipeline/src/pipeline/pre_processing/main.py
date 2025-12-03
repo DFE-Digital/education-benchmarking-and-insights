@@ -507,11 +507,7 @@ def pre_process_bfr(run_id: str, year: int):
     insert_bfr_metrics(run_id, year, bfr_metrics)
 
 
-def pre_process_local_authorities(
-    year: int,
-    run_id: str,
-    all_schools: pd.DataFrame
-):
+def pre_process_local_authorities(year: int, run_id: str, all_schools: pd.DataFrame):
     """
     Process Local Authority data.
 
