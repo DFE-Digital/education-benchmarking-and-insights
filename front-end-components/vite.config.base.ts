@@ -18,6 +18,8 @@ const baseConfig: UserConfig = {
       scss: {
         additionalData: `
           @use "sass:color";
+          $govuk-font-family: Inter, sans-serif;
+          $govuk-suppressed-warnings: "govuk-typography-scale-14";
           @import "govuk-frontend/dist/govuk/settings/_index.scss";
           @import "govuk-frontend/dist/govuk/helpers/_index.scss";
           @import "govuk-frontend/dist/govuk/core/_govuk-frontend-properties.scss";
