@@ -37,10 +37,10 @@ public class LocalAuthorityHighNeedsHistoricDataController(
 
                 var authority = await LocalAuthority(code);
 
-                // #254461: Get the 'current' year's 'per population' HighNeeds result to determine whether to 
+                // #254461: Get the 'current' year's 'per pupil' HighNeeds result to determine whether to 
                 // display historic data across all years. This excludes local authorities that have missing
-                // population data. This will likely be refactored into Establishment API as part of future work.
-                var query = BuildQuery([code], "PerHead");
+                // pupil data. This will likely be refactored into Establishment API as part of future work.
+                var query = BuildQuery([code], "PerPupil");
                 var highNeeds = await localAuthoritiesApi
                     .GetHighNeeds(query)
                     .GetResultOrDefault<LocalAuthority<HighNeeds>[]>();
