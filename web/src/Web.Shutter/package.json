@@ -12,10 +12,13 @@
     "clean-modules": "shx rm -rf node_modules",
     "compile": "tsc",
     "fix": "gts fix",
-    "assets": "shx mkdir -p src/assets && shx cp -r node_modules/govuk-frontend/dist/govuk/assets src && shx mkdir -p src/assets/rebrand/styles && shx cp node_modules/govuk-frontend/dist/govuk/govuk-frontend.min.css* src/assets/rebrand/styles",
-    "build": "npm run clean && npm run compile && npm run assets && shx cp -r src/views dist/src/views && shx cp -r src/assets dist/src/assets",
+    "assets": "shx mkdir -p src/assets && shx cp -r node_modules/govuk-frontend/dist/govuk/assets src && shx mkdir -p src/assets/rebrand/styles && shx cp node_modules/govuk-frontend/dist/govuk/govuk-frontend.min.css* src/assets/rebrand/styles && shx cp -r assetSrc/images src/assets",
+    "build": "npm run clean && npm run compile && npm run assets && npm run sass:build && shx cp -r src/views dist/src/views && shx cp -r src/assets dist/src/assets",
     "start": "node --require ./dist/src/instrumentation.js dist/src/index.js",
-    "dev": "npm run assets && dotenvx run -- nodemon --require ./src/instrumentation.ts src/index.ts"
+    "start:dev": "dotenvx run -- nodemon --require ./src/instrumentation.ts src/index.ts",
+    "dev": "npm run assets && npm-run-all --parallel sass:watch start:dev",
+    "sass:build": "sass src/scss/main.scss src/assets/styles/main.css --style=compressed",
+    "sass:watch": "sass src/scss/main.scss src/assets/styles/main.css --watch"
   },
   "dependencies": {
     "@azure/monitor-opentelemetry-exporter": "^1.0.0-beta.32",
@@ -40,6 +43,8 @@
     "@types/trusted-types": "^2.0.7",
     "gts": "^6.0.2",
     "nodemon": "^3.1.10",
+    "npm-run-all": "^4.1.5",
+    "sass": "^1.94.2",
     "shx": "^0.4.0",
     "ts-node": "^10.9.2",
     "typescript": "^5.9.2"
