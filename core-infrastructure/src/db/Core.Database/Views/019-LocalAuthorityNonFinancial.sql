@@ -7,6 +7,7 @@ AS
         RunType,
         LaCode,
         Population2To18,
+        TotalPupils,
         EHCPTotal AS Total,
         EHCPMainstream AS Mainstream,
         EHCPResourced AS Resourced,
@@ -38,6 +39,26 @@ AS
     FROM LocalAuthorityNonFinancial
 GO
 
+DROP VIEW IF EXISTS VW_LocalAuthorityEducationHealthCarePlansPerPupil
+    GO
+
+CREATE VIEW VW_LocalAuthorityEducationHealthCarePlansPerPupil
+AS
+    SELECT RunId,
+           RunType,
+           LaCode,
+           TotalPupils,
+           IIF(TotalPupils > 0.0, EHCPTotal / (TotalPupils / 1000), NULL) AS Total,
+           IIF(TotalPupils > 0.0, EHCPMainstream / (TotalPupils / 1000), NULL) AS Mainstream,
+           IIF(TotalPupils > 0.0, EHCPResourced / (TotalPupils / 1000), NULL) AS Resourced,
+           IIF(TotalPupils > 0.0, EHCPSpecial / (TotalPupils / 1000), NULL) AS Special,
+           IIF(TotalPupils > 0.0, EHCPIndependent / (TotalPupils / 1000), NULL) AS Independent,
+           IIF(TotalPupils > 0.0, EHCPHospital / (TotalPupils / 1000), NULL) AS Hospital,
+           IIF(TotalPupils > 0.0, EHCPPost16 / (TotalPupils / 1000), NULL) AS Post16,
+           IIF(TotalPupils > 0.0, EHCPOther / (TotalPupils / 1000), NULL) AS Other
+    FROM LocalAuthorityNonFinancial
+GO
+
 DROP VIEW IF EXISTS VW_LocalAuthorityEducationHealthCarePlansDefaultActual
 GO
 
@@ -55,6 +76,16 @@ CREATE VIEW VW_LocalAuthorityEducationHealthCarePlansDefaultPerPopulation
 AS
     SELECT *
     FROM VW_LocalAuthorityEducationHealthCarePlansPerPopulation
+    WHERE RunType = 'default'
+GO
+
+DROP VIEW IF EXISTS VW_LocalAuthorityEducationHealthCarePlansDefaultPerPupil
+GO
+
+CREATE VIEW VW_LocalAuthorityEducationHealthCarePlansDefaultPerPupil
+AS
+    SELECT *
+    FROM VW_LocalAuthorityEducationHealthCarePlansPerPupil
     WHERE RunType = 'default'
 GO
 
@@ -81,6 +112,20 @@ AS
         l.Name
     FROM LocalAuthority l
         LEFT JOIN VW_LocalAuthorityEducationHealthCarePlansDefaultPerPopulation c ON c.LaCode = l.Code
+    WHERE c.RunId = (SELECT Value
+    FROM Parameters
+    WHERE Name = 'CurrentYear')
+GO
+
+DROP VIEW IF EXISTS VW_LocalAuthorityEducationHealthCarePlansDefaultCurrentPerPupil
+GO
+
+CREATE VIEW VW_LocalAuthorityEducationHealthCarePlansDefaultCurrentPerPupil
+AS
+    SELECT c.*,
+           l.Name
+    FROM LocalAuthority l
+        LEFT JOIN VW_LocalAuthorityEducationHealthCarePlansDefaultPerPupil c ON c.LaCode = l.Code
     WHERE c.RunId = (SELECT Value
     FROM Parameters
     WHERE Name = 'CurrentYear')
