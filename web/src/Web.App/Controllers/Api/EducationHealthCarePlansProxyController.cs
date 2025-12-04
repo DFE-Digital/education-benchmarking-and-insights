@@ -38,12 +38,12 @@ public class EducationHealthCarePlansProxyController(
             var query = BuildQuery(new[]
             {
                 code
-            }.Concat(set).ToArray(), "Per1000");
+            }.Concat(set).ToArray(), "Per1000Pupil");
             var plans = await educationHealthCarePlansApi
                 .GetEducationHealthCarePlans(query, cancellationToken)
                 .GetResultOrThrow<LocalAuthorityNumberOfPlans[]>();
 
-            return new JsonResult(plans.MapToApiResponse());
+            return new JsonResult(plans.MapToApiResponse().ToArray());
         }
         catch (Exception e)
         {
@@ -65,12 +65,12 @@ public class EducationHealthCarePlansProxyController(
     {
         try
         {
-            var query = BuildQuery([code], "Per1000");
+            var query = BuildQuery([code], "Per1000Pupil");
             var history = await educationHealthCarePlansApi
                 .GetEducationHealthCarePlansHistory(query, cancellationToken)
                 .GetResultOrThrow<EducationHealthCarePlansHistory<LocalAuthorityNumberOfPlansYear>>();
 
-            return new JsonResult(history.MapToApiResponse(code));
+            return new JsonResult(history.MapToApiResponse(code).ToArray());
         }
         catch (Exception e)
         {
