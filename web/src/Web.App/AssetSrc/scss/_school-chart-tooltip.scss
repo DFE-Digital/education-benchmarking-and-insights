@@ -10,7 +10,7 @@
     margin: govuk-spacing(2) govuk-spacing(2) govuk-spacing(0) govuk-spacing(2);
 
     .govuk-tag {
-      @include govuk-font($size: 14);
+      @include govuk-font-size($size: 14);
       max-width: 200px;
     }
   }
@@ -20,11 +20,14 @@
   margin-bottom: 0;
 
   > tbody {
-    font-size: 0.8em;
-
     .govuk-table__row {
       > th {
         width: 150px;
+        @include govuk-font-size($size: 14);
+      }
+
+      > td {
+        @include govuk-font-size($size: 14);
       }
 
       &:first-child {
@@ -51,6 +54,7 @@
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
+    @include govuk-font-size($size: 16);
   }
 
   > caption,
