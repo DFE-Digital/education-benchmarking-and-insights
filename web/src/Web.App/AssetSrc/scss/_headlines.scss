@@ -5,7 +5,7 @@
 
   p {
     color: white;
-    
+
     @media print {
       color: #000;
     }
@@ -52,11 +52,12 @@
   display: flex;
   flex-wrap: wrap;
   list-style: none;
-  padding: 0;
-  gap: 15px;
+  align-items: flex-start;
+  padding: govuk-spacing(0);
+  gap: govuk-spacing(3);
 
   li {
-    padding: 15px;
+    padding: govuk-spacing(3);;
   }
 }
 
