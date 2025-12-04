@@ -1,0 +1,38 @@
+﻿[
+  {
+    "code": "201",
+    "name": "City of London",
+    "population2To18": 1756,
+    "totalPupils": 1650,
+    "total": 10.82004555808656,
+    "mainstream": 5.69476082004555,
+    "resourced": 5.69476082004555,
+    "special": 1.70842824601366,
+    "independent": 1.13895216400911,
+    "hospital": 0.0
+  },
+  {
+    "code": "202",
+    "name": "Camden",
+    "population2To18": 52239,
+    "totalPupils": 50101,
+    "total": 27.5656118991558,
+    "mainstream": 11.29424376423744,
+    "resourced": 15.14194375849461,
+    "special": 6.18311989126897,
+    "independent": 1.81856467390263,
+    "hospital": 0.32542736269836
+  },
+  {
+    "code": "203",
+    "name": "Greenwich",
+    "population2To18": 65643,
+    "totalPupils": 63850,
+    "total": 33.20993860731532,
+    "mainstream": 12.79649010557104,
+    "resourced": 16.57450147007297,
+    "special": 8.48529165333698,
+    "independent": 1.67573084715811,
+    "hospital": 0.86833325716374
+  }
+]

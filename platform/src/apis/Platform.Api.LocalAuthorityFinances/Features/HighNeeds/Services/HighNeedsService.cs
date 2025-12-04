@@ -4,6 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Platform.Api.LocalAuthorityFinances.Features.HighNeeds.Models;
 using Platform.Api.LocalAuthorityFinances.Shared;
+using Platform.Domain;
 using Platform.Sql;
 using Platform.Sql.QueryBuilders;
 
@@ -24,6 +25,7 @@ public class HighNeedsService(IDatabaseFactory dbFactory) : IHighNeedsService
             // LocalAuthorityBase
             "LaCode AS [Code]",
             "[Name]",
+            "[TotalPupils]",
             "[Population2To18]",
             // HighNeedsBase
             "OutturnTotalHighNeeds AS [Total]",

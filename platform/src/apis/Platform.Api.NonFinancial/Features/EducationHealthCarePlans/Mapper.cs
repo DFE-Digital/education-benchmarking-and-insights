@@ -9,6 +9,7 @@ public static class Mapper
         Code = value.LaCode,
         Name = value.Name,
         Population2To18 = value.Population2To18,
+        TotalPupils = value.TotalPupils,
         Total = value.Total,
         Mainstream = value.Mainstream,
         Resourced = value.Resourced,
