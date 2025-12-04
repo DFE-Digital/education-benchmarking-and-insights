@@ -8,6 +8,7 @@ public record LocalAuthority<T>
     public string? Code { get; set; }
     public string? Name { get; set; }
     public double? Population2To18 { get; set; }
+    public double? TotalPupils { get; set; }
     public T? Outturn { get; set; }
     public T? Budget { get; set; }
 }
