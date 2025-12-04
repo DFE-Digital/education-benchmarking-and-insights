@@ -81,7 +81,7 @@ public class WhenViewingHighNeedsBenchmarking(SchoolBenchmarkingWebAppClient cli
     private static void AssertHelpSection(IHtmlDocument page)
     {
         var links = page.QuerySelectorAll(".app-links li > a");
-        Assert.Equal(8, links.Length);
+        Assert.Equal(7, links.Length);
 
         Assert.Equal("SEND framework", links.ElementAt(0).TextContent.Trim());
         Assert.Equal("High needs budgets: effective management in LAs", links.ElementAt(1).TextContent.Trim());
@@ -89,7 +89,6 @@ public class WhenViewingHighNeedsBenchmarking(SchoolBenchmarkingWebAppClient cli
         Assert.Equal("Section 251 (outturn)", links.ElementAt(3).TextContent.Trim());
         Assert.Equal("Section 251 (planned expenditure)", links.ElementAt(4).TextContent.Trim());
         Assert.Equal("Statistical neighbours", links.ElementAt(5).TextContent.Trim());
-        Assert.Equal("Population", links.ElementAt(6).TextContent.Trim());
-        Assert.Equal("Glossary of terms (opens in new tab)", links.ElementAt(7).TextContent.Replace(StringExtensions.WhitespaceRegex(), " ").Trim());
+        Assert.Equal("Glossary of terms (opens in new tab)", links.ElementAt(6).TextContent.Replace(StringExtensions.WhitespaceRegex(), " ").Trim());
     }
 }
