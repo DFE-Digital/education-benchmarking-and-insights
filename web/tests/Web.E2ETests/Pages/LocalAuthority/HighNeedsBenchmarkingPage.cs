@@ -12,10 +12,12 @@ public class HighNeedsBenchmarkingPage(IPage page)
     private ILocator Charts => page.Locator(Selectors.Charts);
     private ILocator Tables => page.Locator(Selectors.GovTable);
     private ILocator Commentary => page.Locator("#benchmark-data-high-needs > .govuk-grid-row > .govuk-grid-column-two-thirds > p");
+
     private ILocator ChangeComparatorsButton => page.Locator(Selectors.CtaButton, new PageLocatorOptions
     {
         HasText = "Change comparators"
     });
+
     private static ILocator ChartLegend(ILocator chart) => chart.Locator("//following-sibling::div[1]/ul");
 
     public async Task IsDisplayed()
@@ -90,7 +92,7 @@ public class HighNeedsBenchmarkingPage(IPage page)
                 Name = await cells.ElementAt(0).InnerTextAsync(),
                 Actual = await cells.ElementAt(1).InnerTextAsync(),
                 Planned = await cells.ElementAt(2).InnerTextAsync(),
-                Population = await cells.ElementAt(3).InnerTextAsync()
+                NumberPupils = await cells.ElementAt(3).InnerTextAsync()
             });
         }
 
@@ -111,7 +113,7 @@ public class HighNeedsBenchmarkingPage(IPage page)
             {
                 Name = await cells.ElementAt(0).InnerTextAsync(),
                 Amount = await cells.ElementAt(1).InnerTextAsync(),
-                Population = await cells.ElementAt(2).InnerTextAsync()
+                NumberPupils = await cells.ElementAt(2).InnerTextAsync()
             });
         }
 

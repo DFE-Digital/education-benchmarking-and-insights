@@ -28,18 +28,18 @@
     Scenario: Can view local authority benchmarking table data for S251
         Given I am on local authority high needs benchmarking for local authority with code '201'
         When I click on view as table
-        Then the table for 'High needs amount per head 2-18 population' contains the following S251 values:
-          | Name           | Actual | Planned | Population |
-          | City of London | £0     | £0      | 1,756      |
-          | Hackney        | £115   | £114    | 59,677     |
+        Then the table for 'High needs amount per pupil' contains the following S251 values:
+          | Name           | Actual | Planned | NumberPupils |
+          | City of London | £0     | £0      |              |
+          | Hackney        | £115   | £114    |              |
 
     Scenario: Can view local authority benchmarking table data for SEND2
         Given I am on local authority high needs benchmarking for local authority with code '201'
         When I click on view as table
         Then the table for 'Number aged up to 25 with SEN statement or EHC plan' contains the following SEND2 values:
-          | Name           | Amount | Population |
-          | City of London | 10.82  | 1,756      |
-          | Hackney        | 51.31  | 59,677     |
+          | Name           | Amount | NumberPupils |
+          | City of London | 10.82  |              |
+          | Hackney        | 51.31  |              |
 
     Scenario: Line codes are displayed
         Given I am on local authority high needs benchmarking for local authority with code '201'
