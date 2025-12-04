@@ -7,7 +7,7 @@ export function PartYearDataWarning({
 }: PartYearDataWarningProps) {
   if (tag) {
     return (
-      <strong className="govuk-tag govuk-tag--red">
+      <strong className="govuk-tag govuk-tag--red govuk-!-font-size-14">
         Only has {periodCoveredByReturn}{" "}
         {periodCoveredByReturn === 1 ? "month" : "months"} of data
       </strong>

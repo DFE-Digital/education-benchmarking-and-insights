@@ -1,7 +1,9 @@
 @using Web.App.Domain
 @using Web.App.Extensions
 @model Web.App.ViewModels.TrustFinancialBenchmarkingInsightsSummaryViewModel
-
+@{
+    const string tagClasses = "govuk-tag govuk-!-margin-bottom-0 govuk-!-padding-top-1 govuk-!-padding-right-2 govuk-!-padding-bottom-1 govuk-!-padding-left-2 govuk-!-font-size-16";
+}
 <section id="spending-priorities-section" aria-labelledby="spending-priorities">
     <h2 class="govuk-heading-l" id="spending-priorities">Spending priorities at this trust</h2>
 
@@ -49,7 +51,7 @@
                         {
                             <div class="govuk-!-margin-top-1">
                                 <strong
-                                    class="govuk-tag app-tag--red govuk-!-margin-bottom-0 govuk-!-padding-top-1 govuk-!-padding-right-2 govuk-!-padding-bottom-1 govuk-!-padding-left-2">
+                                    class="app-tag--red @tagClasses">
                                     High priority
                                 </strong>
                                 <p class="priority-wrapper high govuk-body govuk-!-padding-2">
@@ -69,7 +71,7 @@
                         {
                             <div class="govuk-!-margin-top-1">
                                 <strong
-                                    class="govuk-tag app-tag--yellow govuk-!-margin-bottom-0 govuk-!-padding-top-1 govuk-!-padding-right-2 govuk-!-padding-bottom-1 govuk-!-padding-left-2">
+                                    class="app-tag--yellow @tagClasses">
                                     Medium priority
                                 </strong>
                                 <p class="priority-wrapper medium govuk-body govuk-!-padding-2">
