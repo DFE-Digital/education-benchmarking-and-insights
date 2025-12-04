@@ -38,7 +38,7 @@ export function BenchmarkChartSection251<
             isNaN(budgetValue)
               ? undefined
               : budgetValue,
-          population: s.population2To18,
+          totalPupils: s.totalPupils,
         });
       });
     }
@@ -48,7 +48,7 @@ export function BenchmarkChartSection251<
         "Local authority",
         "Outturn",
         "Planned expenditure",
-        "2 to 18 Population",
+        "Number of pupils",
       ],
       dataPoints,
     };

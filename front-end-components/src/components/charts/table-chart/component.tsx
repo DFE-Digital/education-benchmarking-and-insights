@@ -52,7 +52,7 @@ export const TableChart: React.FC<
     return data?.filter((d) =>
       suppressNegativeOrZero
         ? (d[dataPointKey] as number) > 0 ||
-          d[keyField] === selectedEstablishment
+          d[keyField]?.toString() === selectedEstablishment
         : true
     );
   }, [
@@ -105,7 +105,7 @@ export const TableChart: React.FC<
               } = schoolRow;
               const { totalValue, schoolValue, centralValue, companyNumber } =
                 trustRow;
-              const { budget, laCode, population } = laRow;
+              const { budget, laCode, totalPupils: laTotalPupils } = laRow;
               const additionalData = schoolRow.urn
                 ? {
                     laName,
@@ -175,7 +175,7 @@ export const TableChart: React.FC<
                         </td>
                       )}
                       <td className="govuk-table__cell table-cell-value">
-                        {resolvedValueFormatter(population, {
+                        {resolvedValueFormatter(laTotalPupils, {
                           valueUnit: "amount",
                         })}
                       </td>

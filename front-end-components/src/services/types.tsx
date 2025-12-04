@@ -402,6 +402,7 @@ export type LocalAuthorityBenchmarkBase = {
   code: string;
   name: string;
   population2To18?: number;
+  totalPupils?: number;
 };
 
 export type LocalAuthoritySection251Benchmark<
