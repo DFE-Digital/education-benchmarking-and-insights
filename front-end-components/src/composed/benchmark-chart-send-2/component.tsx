@@ -22,13 +22,13 @@ export function BenchmarkChartSend2<
             value === undefined || value === null || isNaN(value)
               ? undefined
               : value,
-          population: s.population2To18,
+          totalPupils: s.totalPupils,
         });
       });
     }
 
     return {
-      tableHeadings: ["Local authority", "Amount", "2 to 18 Population"],
+      tableHeadings: ["Local authority", "Amount", "Number of pupils"],
       dataPoints,
     };
   }, [data, valueField]);

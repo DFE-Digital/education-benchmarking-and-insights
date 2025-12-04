@@ -14,7 +14,7 @@ export * from "src/views/historic-data-high-needs/partials/send-2-section.tsx";
 export const section251Sections: HistoricChartSection251Section<LocalAuthoritySection251>[] =
   [
     {
-      heading: "High needs amount per head of 2 to 18 population",
+      heading: "High needs amount per pupil",
       charts: [
         {
           name: "Total place funding for special schools and AP/PRUs",
@@ -48,90 +48,90 @@ export const section251Sections: HistoricChartSection251Section<LocalAuthoritySe
     },
     {
       heading:
-        "High needs amount per head of 2 to 18 population: place funding split by phase (for mainstream) and type of institution (for specialist provision)",
+        "High needs amount per pupil: place funding split by phase (for mainstream) and type of institution (for specialist provision)",
       charts: [
         {
-          name: "Primary place funding per head 2-18 population",
+          name: "Primary place funding per pupil",
           field: "placeFundingPrimary",
         },
         {
-          name: "Secondary place funding per head 2-18 population",
+          name: "Secondary place funding per pupil",
           field: "placeFundingSecondary",
         },
         {
-          name: "Special place funding per head 2-18 population",
+          name: "Special place funding per pupil",
           field: "placeFundingSpecial",
         },
         {
-          name: "PRU and alternative provision place funding per head 2-18",
+          name: "PRU and alternative provision place funding per pupil",
           field: "placeFundingAlternativeProvision",
         },
       ],
     },
     {
       heading:
-        "High needs amount per head of 2 to 18 population: top up funding (maintained schools, academies, free schools and colleges) split by phase (for mainstream) and type of institution (for specialist provision)",
+        "High needs amount per pupil: top up funding (maintained schools, academies, free schools and colleges) split by phase (for mainstream) and type of institution (for specialist provision)",
       charts: [
         {
-          name: "Early years top up funding per head 2-18 population (maintained)",
+          name: "Early years top up funding per pupil (maintained)",
           field: "maintainedEarlyYears",
         },
         {
-          name: "Primary top up funding per head 2-18 population (maintained)",
+          name: "Primary top up funding per pupil (maintained)",
           field: "maintainedPrimary",
         },
         {
-          name: "Secondary top up funding per head 2-18 population (maintained)",
+          name: "Secondary top up funding per pupil (maintained)",
           field: "maintainedSecondary",
         },
         {
-          name: "Special top up funding per head 2-18 population (maintained)",
+          name: "Special top up funding per pupil (maintained)",
           field: "maintainedSpecial",
         },
         {
-          name: "Alternative provision top up funding per head 2-18 population (maintained)",
+          name: "Alternative provision top up funding per pupil (maintained)",
           field: "maintainedAlternativeProvision",
         },
         {
-          name: "Post-school top up funding per head 2-18 population (maintained)",
+          name: "Post-school top up funding per pupil (maintained)",
           field: "maintainedPostSchool",
         },
         {
-          name: "Top up funding income per head 2-18 population (maintained)",
+          name: "Top up funding income per pupil (maintained)",
           field: "maintainedIncome",
         },
       ],
     },
     {
       heading:
-        "High needs amount per head of 2 to 18 population: top up funding (non-maintained schools and independent schools and colleges) split by phase (for mainstream) and type of institution (for specialist provision)",
+        "High needs amount per pupil: top up funding (non-maintained schools and independent schools and colleges) split by phase (for mainstream) and type of institution (for specialist provision)",
       charts: [
         {
-          name: "Early years top up funding per head 2-18 population (non-maintained)",
+          name: "Early years top up funding per pupil (non-maintained)",
           field: "nonMaintainedEarlyYears",
         },
         {
-          name: "Primary top up funding per head 2-18 population (non-maintained)",
+          name: "Primary top up funding per pupil (non-maintained)",
           field: "nonMaintainedPrimary",
         },
         {
-          name: "Secondary top up funding per head 2-18 population (non-maintained)",
+          name: "Secondary top up funding per pupil (non-maintained)",
           field: "nonMaintainedSecondary",
         },
         {
-          name: "Special top up funding per head 2-18 population (non-maintained)",
+          name: "Special top up funding per pupil (non-maintained)",
           field: "nonMaintainedSpecial",
         },
         {
-          name: "Alternative provision top up funding per head 2-18 population (non-maintained)",
+          name: "Alternative provision top up funding per pupil (non-maintained)",
           field: "nonMaintainedAlternativeProvision",
         },
         {
-          name: "Post-school top up funding per head 2-18 population (non-maintained)",
+          name: "Post-school top up funding per pupil (non-maintained)",
           field: "nonMaintainedPostSchool",
         },
         {
-          name: "Top up funding income per head 2-18 population (non-maintained)",
+          name: "Top up funding income per pupil (non-maintained)",
           field: "nonMaintainedIncome",
         },
       ],
@@ -142,7 +142,7 @@ export const send2LeadSection: HistoricChartSend2Section<LocalAuthorityEducation
   {
     charts: [
       {
-        name: "Number aged up to 25 with SEN statement or EHC plan (per 1000 of 2 to 18 population)",
+        name: "Number aged up to 25 with SEN statement or EHC plan (per 1000 pupils)",
         field: "total",
       },
     ],
@@ -150,7 +150,7 @@ export const send2LeadSection: HistoricChartSend2Section<LocalAuthorityEducation
 export const send2AccordionSection: HistoricChartSend2Section<LocalAuthorityEducationHealthCarePlan> =
   {
     heading:
-      "Placement of pupils aged up to 25 with SEN statement or EHC plan (per 1000 of 2 to 18 population)",
+      "Placement of pupils aged up to 25 with SEN statement or EHC plan (per 1000 pupils)",
     charts: [
       {
         name: "Mainstream schools or academies",

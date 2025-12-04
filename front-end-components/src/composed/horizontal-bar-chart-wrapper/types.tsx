@@ -43,7 +43,7 @@ export type HorizontalBarChartWrapperPropsData<
 export type HorizontalBarChartWrapperData<
   TData extends Omit<
     SchoolChartData | TrustChartData | LaChartData,
-    "value" | "totalValue" | "schoolValue" | "centralValue"
+    "value" | "totalValue" | "schoolValue" | "centralValue" | "totalPupils"
   >,
 > = {
   tableHeadings: string[];

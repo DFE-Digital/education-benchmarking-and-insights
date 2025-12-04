@@ -44,7 +44,7 @@ export type TrustChartData = {
 export type LaChartData = {
   laCode: string;
   laName: string;
-  population?: number;
+  totalPupils?: number;
   value?: number;
   outturn?: number;
   budget?: number;
