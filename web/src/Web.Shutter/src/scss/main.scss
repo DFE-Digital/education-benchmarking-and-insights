@@ -1,0 +1,8 @@
+.govuk-header__link .govuk-header__logotype {
+  height: 30px;
+}
+
+.govuk-header__link:focus .govuk-header__logotype {
+  content: url(/assets/images/department-for-education_black.png);
+  height: 30px;
+}
