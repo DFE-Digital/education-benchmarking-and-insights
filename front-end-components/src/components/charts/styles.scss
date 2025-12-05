@@ -24,6 +24,7 @@ $progress-above-average-colour: govuk-colour("light-blue");
 $progress-well-above-average-colour: govuk-colour("turquoise");
 
 .recharts-wrapper {
+  font-size: 14px;
 
   .chart-cell,
   .chart-cell.chart-cell-series-0,
@@ -396,6 +397,10 @@ $progress-well-above-average-colour: govuk-colour("turquoise");
     .recharts-default-legend .legend-item-1 path {
       fill: $chart-series-1-colour;
     }
+  }
+
+  .recharts-default-legend {
+    font-size: inherit;
   }
 }
 

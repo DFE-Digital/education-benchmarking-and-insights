@@ -1,14 +1,19 @@
 @import "variables";
+@import "../../node_modules/govuk-frontend/dist/govuk/helpers/index";
 
 .app-links {
   display: flex;
   flex-wrap: wrap;
   list-style: none;
-  padding: 0;
+  padding: govuk-spacing(0);
   gap: 15px;
 
   > li {
     width: calc(calc(100% - 30px) / 3);
+
+    .govuk-tag {
+      @include govuk-font-size($size: 16);
+    }
   }
 
   &.app-links-two-columns {
@@ -23,7 +28,7 @@
     display: flex;
     flex-wrap: wrap;
     list-style: none;
-    padding: 0;
+    padding: govuk-spacing(0);
     gap: 15px;
 
     > li {

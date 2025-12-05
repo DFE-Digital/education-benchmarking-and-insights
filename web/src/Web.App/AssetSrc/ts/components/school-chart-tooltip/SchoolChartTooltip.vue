@@ -44,7 +44,7 @@ watch(tooltip, () => {
     ref="tooltip"
   >
     <div v-if="!(datum?.periodCoveredByReturn === 12)" class="school-tags">
-      <strong class="govuk-tag govuk-tag--red">
+      <strong class="govuk-tag govuk-tag--red govuk-!-font-size-14">
         Only has {{ datum?.periodCoveredByReturn }}
         {{ datum?.periodCoveredByReturn === 1 ? "month" : "months" }} of data
       </strong>

@@ -6,6 +6,7 @@
     "accessible-autocomplete": "^3.0.0",
     "async": "^3.2.5",
     "classnames": "^2.5.1",
+    "dfe-frontend": "^2.0.1",
     "file-saver": "^2.0.5",
     "front-end": "^1.2.27",
     "govuk-frontend": "^5.13.0",
