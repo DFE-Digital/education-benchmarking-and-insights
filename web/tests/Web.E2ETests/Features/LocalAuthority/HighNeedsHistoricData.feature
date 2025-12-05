@@ -86,10 +86,10 @@
         Then the table on the 'section 251' tab 'Primary place funding per pupil' chart contains:
           | Year         | Outturn | PlannedExpenditure |
           | 2019 to 2020 |         |                    |
-          | 2020 to 2021 | £6      |                    |
+          | 2020 to 2021 | £7      |                    |
           | 2021 to 2022 | £9      | £8                 |
           | 2022 to 2023 | £8      | £8                 |
-          | 2023 to 2024 | £11     | £8                 |
+          | 2023 to 2024 | £12     | £8                 |
 
     Scenario: Show all should expand all sections on Send 2 tab
         Given I am on 'send 2' high needs history page for local authority with code '201'
@@ -118,7 +118,7 @@
         Then the table on the 'send 2' tab 'Number aged up to 25 with SEN statement or EHC plan (per 1000 pupils)' chart contains:
           | Year         | Amount |
           | 2019 to 2020 |        |
-          | 2020 to 2021 | 11.94  |
-          | 2021 to 2022 | 10.82  |
-          | 2022 to 2023 | 11.64  |
-          | 2023 to 2024 | 13     |
+          | 2020 to 2021 | 13.24  |
+          | 2021 to 2022 | 11.52  |
+          | 2022 to 2023 | 12.05  |
+          | 2023 to 2024 | 13.72  |
