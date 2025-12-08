@@ -14,16 +14,15 @@ This release delivers a combination of dependency updates, branding alignment wi
 
 - **Enhancements**
 
-  - Transition from population‑based to pupil‑based normalisation across relevant benchmarking calculations.
-  - S251 data ingestion for 2025
+  - S251 data ingested for 2025
+  - Added a total pupil count for each Local Authority. This figure represents the combined number of pupils across all schools in that area, providing a more complete and accurate picture of the population. This new measure now replaces the previous population figures used in the service.
 
 **Out-of-Scope:**
 
 - Any feature development unrelated to branding, normalisation, or S251 ingestion.
-- Non‑S251 data refreshes.
-- Update FBIT branding to align with the GOV.UK Design System.
-- Integrate DfE Design System branding elements into the service.
-- Review and merge December ’25 dependency updates to ensure platform compatibility, stability, and security compliance.
+- Updated FBIT branding to align with the GOV.UK Design System.
+- Integrated DfE Design System branding elements into the service.
+- Reviewed and merge December ’25 dependency updates to ensure platform compatibility, stability, and security compliance.
 
 ## Test Strategy
 
