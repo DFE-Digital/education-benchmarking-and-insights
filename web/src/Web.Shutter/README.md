@@ -7,7 +7,7 @@ The GOV.UK Design System templates are used throughout.
 ## Prerequisites
 
 - Install [Node 22](https://nodejs.org/en/download) and/or switch to this version
-using [nvm](https://github.com/nvm-sh/nvm)
+  using [nvm](https://github.com/nvm-sh/nvm)
 - Add `.env` file in the project root in the following format (see below for variables):
 
 ```sh
@@ -32,9 +32,9 @@ PORT=8080
 1. `npm i`
 2. `npm run build`
 
-Build output will be published to the `dist` folder by `tsc`, along with static assets,
-ready for deployment in a Node app service. This `build` script may be used by CI
-pipelines.
+Build output will be published to the `dist` folder by `tsc`, along with static
+assets, ready for deployment in a Node app service. This `build` script may be
+used by CI pipelines.
 
 ### Start
 
@@ -62,6 +62,6 @@ before pushing into the Nunjucks variable `markdown_content`.
 1. `npm i`
 2. `npm run dev`
 
-Open the dev server at (e.g.) `http://localhost:8080` in the web browser. Any changes
-made to the Nunjucks template(s) will trigger a rebuild, so refreshing the page should
-pull in those changes.
+Open the dev server at (e.g.) `http://localhost:8080` in the web browser. Any
+changes made to the Nunjucks template(s) will trigger a rebuild, so refreshing
+the page should pull in those changes.

@@ -8,7 +8,8 @@
       "line_length": 140,
       "tables": false
     },
-    "no-blanks-blockquote": false
+    "no-blanks-blockquote": false,
+    "table-column-style": false
   },
   // Define glob expressions to ignore
   "ignores": [
