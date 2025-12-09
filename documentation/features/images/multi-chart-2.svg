@@ -1,0 +1,17 @@
+<svg width="928" height="118" viewBox="0,0,928,118" data-chart-id="id"
+    xmlns="http://www.w3.org/2000/svg">
+    <g>
+        <g transform="translate(0,22.6)">
+            <rect x="317.3333333333333" y="1" width="188.5555555555556" height="20.8" data-key="00001" class="chart-cell chart-cell__series-0"/>
+            <text x="513.8888888888889" y="11" dy="0.35em" class="chart-label chart-label__series-0">1</text>
+        </g>
+        <g transform="translate(0,48.6)">
+            <rect x="317.3333333333333" y="1" width="377.11111111111114" height="20.8" data-key="00002" class="chart-cell chart-cell__series-0"/>
+            <text x="702.4444444444445" y="11" dy="0.35em" class="chart-label chart-label__series-0">2</text>
+        </g>
+        <g transform="translate(0,74.6)">
+            <rect x="317.3333333333333" y="1" width="565.6666666666667" height="20.8" data-key="00003" class="chart-cell chart-cell__series-0"/>
+            <text x="891" y="11" dy="0.35em" class="chart-label chart-label__series-0">3</text>
+        </g>
+    </g>
+</svg>
