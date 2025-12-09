@@ -113,7 +113,7 @@ def _join_sen_to_local_authority_data(
     )
 
     # If there are any duplicates in `sen_2_data`'s `old_la_code`, try to keep the one with data.
-    # This is a workaround for 2024, in which there are multiple old/new LA code combinations.
+    # This is a workaround for 2024, in which there are multiple new LA codes per old LA code.
     if second_join_to_sen_data.duplicated(subset=local_authority_data.columns).any():
         second_join_to_sen_data.dropna(subset=["EHCPTotal"], inplace=True)
         if second_join_to_sen_data.duplicated(
