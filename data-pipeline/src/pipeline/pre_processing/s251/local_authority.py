@@ -65,12 +65,6 @@ def build_local_authorities(
             how="left",
         )
         .merge(
-            sen_2_data,
-            left_index=True,
-            right_index=True,
-            how="left",
-        )
-        .merge(
             fbit_pupils_per_la,
             left_on="old_la_code",
             right_index=True,
@@ -78,12 +72,61 @@ def build_local_authorities(
         )
     )
 
+    local_authority_data_with_sen = _join_sen_to_local_authority_data(
+        local_authority_data, 
+        sen_2_data
+    )
+
     logger.info(
         f"Processed {len(local_authority_data.index)} combined Local Authority rows."
     )
 
-    return local_authority_data
+    return local_authority_data_with_sen
 
+
+def _join_sen_to_local_authority_data(
+    local_authority_data: pd.DataFrame, sen_2_data: pd.DataFrame
+):
+    """If EHCP data doesn't join on old and new LA code, try just joining on old LA code."""
+    first_join_to_sen_data = local_authority_data.merge(
+        sen_2_data,
+        left_index=True,
+        right_index=True,
+        how="left",
+    )
+    la_data_which_succeeded_sen_join = first_join_to_sen_data[
+        first_join_to_sen_data["EHCPTotal"].notna()
+    ]
+
+    la_data_which_failed_sen_join = local_authority_data.loc[
+        first_join_to_sen_data[first_join_to_sen_data["EHCPTotal"].isna()].index
+    ]
+    # Resetting the index is needed to maintain the multiindex, preferring the new_la_code from s251
+    second_join_to_sen_data = (
+        la_data_which_failed_sen_join
+        .reset_index()
+        .merge(
+            sen_2_data,
+            left_on="old_la_code",
+            right_on="old_la_code",
+            how="left",
+        )
+        .set_index(["new_la_code", "old_la_code"])
+    )
+
+    # If there are any duplicates in `sen_2_data`'s `old_la_code`, try to keep the one with data.
+    # This is a workaround for 2024, in which there are multiple old/new LA code combinations.
+    if second_join_to_sen_data.duplicated(subset=local_authority_data.columns).any():
+        second_join_to_sen_data.dropna(subset=["EHCPTotal"], inplace=True)
+        if second_join_to_sen_data.duplicated(subset=local_authority_data.columns).any():
+            logger.info(f"EHCP file linkage broken for LA codes {str(list(second_join_to_sen_data.index))}")
+
+    combined_la_join_to_sen = pd.concat([
+        la_data_which_succeeded_sen_join, second_join_to_sen_data
+    ])
+
+    return combined_la_join_to_sen
+    
 
 def _aggregate_fbit_pupil_numbers_to_la_level(
     all_schools: pd.DataFrame,
