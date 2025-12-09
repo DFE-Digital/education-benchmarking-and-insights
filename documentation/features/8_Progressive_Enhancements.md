@@ -146,7 +146,7 @@ Component styling specific to progressive enhancements should be either added to
 
 ## Debugging
 
-When running the Vue dev server, the [Vue DevTools](https://devtools.vuejs.org/) are enabled by default. These may be used to mutate state to validate reactiveness, for example. The standard browser dev tools may also be used in conjunction with this. For a production build, source maps have been configured making it easy to step through `.vue` or other utlitity `.ts` files.
+When running the Vue dev server, the [Vue DevTools](https://devtools.vuejs.org/) are enabled by default. These may be used to mutate state to validate reactiveness, for example. The standard browser dev tools may also be used in conjunction with this. For a production build, source maps have been configured making it easy to step through `.vue` or other utility `.ts` files.
 
 <!-- Leave the rest of this page blank -->
 \newpage
