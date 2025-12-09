@@ -1,0 +1,8 @@
+<svg width="928" height="500" viewBox="0,0,928,500" data-chart-id="id"
+    xmlns="http://www.w3.org/2000/svg">
+    <g>
+        <rect x="60.625" y="340.00000000000006" height="159.99999999999994" width="230.5" data-bar-index="0" class="chart-cell chart-cell__series-0"/>
+        <rect x="348.75" y="180.00000000000003" height="320" width="230.5" data-bar-index="1" class="chart-cell chart-cell__series-0"/>
+        <rect x="636.875" y="20" height="480" width="230.5" data-bar-index="2" class="chart-cell chart-cell__series-0"/>
+    </g>
+</svg>

@@ -21,10 +21,14 @@ As discussed across other documentation above, the need across the service to se
 
 ### Primary Goal
 
-The chart rendering API should support the following chart types, with one endpoint for each:
+The chart rendering API should return a visual representation of input data and configuration for the following chart types:
 
 - Vertical bar chart
 - Horizontal bar chart
+
+The response should include an SVG containing the various correctly dimensioned and positioned elements only, with minimal responsibility over styles. Instead, well-known CSS classes should be set allowing the consumer to resolve to the required styles in the client browser. This helps to reduce the amount of logic in each chart builder as well as bandwidth required for each response.
+
+The endpoints should support single or batched chart requests, and in the case of the latter, resultant SVG should be cross referenced to its original requesting identifier.
 
 ### Secondary Goals
 
@@ -41,6 +45,7 @@ Support future extensibility through backwards-compatible configuration.
 - Various npm packages, notably:
   - [D3](https://d3js.org/) for chart rendering
   - [Jest](https://jestjs.io/) for unit tests
+- App Insights for (optional) dependency tracking
 
 ### Internal Dependencies
 
@@ -55,44 +60,44 @@ Support future extensibility through backwards-compatible configuration.
 
 The payload expected by this endpoint is either a single or multiple `HorizontalBarChartDefinition` types:
 
-| Required Property | Type     | Definition                                                              |
-|-------------------|----------|-------------------------------------------------------------------------|
-| `data`            | object[] | Array of items to render                                                |
-| `keyField`        | string   | Key identifier. Must resolve to a property on object types in `data`.   |
-| `valueField`      | string   | Value identifier. Must resolve to a property on object types in `data`. |
+| Required Property | Type                    | Definition                                                              |
+|-------------------|-------------------------|-------------------------------------------------------------------------|
+| `data`            | object[]                | Array of items to render                                                |
+| `keyField`        | string                  | Key identifier. Must resolve to a property on object types in `data`.   |
+| `valueField`      | string                  | Value identifier. Must resolve to a property on object types in `data`. |
+| `valueType`       | `percent` or `currency` | Describes how values on the chart should be interpreted and formatted   |
 
 > ℹ️ If multiple definitions are supplied, the `id` property below is mandatory for each so as to not fail validation.
 
-| Optional Property       | Type                    | Default                | Definition                                                                                 |
-|-------------------------|-------------------------|------------------------|--------------------------------------------------------------------------------------------|
-| `barHeight`             | number                  | `25`                   | Height of horizontal bars                                                                  |
-| `domainMax`             | number                  | Maximum resolved value | Maximum value for the chart domain. Value may be normalised in case out-of-range.          |
-| `domainMin`             | number                  | 0                      | Minimum value for the chart domain. Value may be normalised in case out-of-range.          |
-| `groupedKeys`           | object                  |                        | Dictionary of group name to array of key values within that group to apply known styles to |
-| `highlightKey`          | string                  |                        | Key of an item in `data` to assign highlight styles to                                     |
-| `id`                    | string                  | New UUID v4            | Unique identifier of the chart data/configuration combination                              |
-| `labelField`            | string                  |                        | Keyed off object types in `data`                                                           |
-| `labelFormat`           | string                  |                        | Format string to use for labels on y-axis, where `%1` is the key and `%2` is the label     |
-| `linkFormat`            | string                  |                        | Format string to use for rendering y-axis labels as links, where `%1` is the key           |
-| `missingDataLabel`      | string                  |                        | Label to render in the case of a data point containing null or undefined value             |
-| `missingDataLabelWidth` | number                  |                        | Width in pixels of the above label (for positioning, due to unpredictable typeface)        |
-| `paddingInner`          | number                  | `0.2`                  | The ratio of the range for blank space between bands                                       |
-| `paddingOuter`          | number                  | `0.1`                  | The ratio of the range for blank space before the first and after the last band            |
-| `sort`                  | `asc` or `desc`         |                        | Sort `data` by resolved values after normalisation                                         |
-| `valueType`             | `Percent` or `Currency` |                        | Describes how values on the chart should be interpreted and formatted                      |
-| `width`                 | number                  | `928`                  | Width of chart surface                                                                     |
-| `xAxisLabel`            | string                  |                        | Label to render on the x-axis                                                              |
+| Optional Property       | Type            | Default                | Definition                                                                                 |
+|-------------------------|-----------------|------------------------|--------------------------------------------------------------------------------------------|
+| `barHeight`             | number          | `25`                   | Height of horizontal bars                                                                  |
+| `domainMax`             | number          | Maximum resolved value | Maximum value for the chart domain. Value may be normalised in case out-of-range.          |
+| `domainMin`             | number          | `0`                    | Minimum value for the chart domain. Value may be normalised in case out-of-range.          |
+| `groupedKeys`           | object          |                        | Dictionary of group name to array of key values within that group to apply known styles to |
+| `highlightKey`          | string          |                        | Key of an item in `data` to assign highlight styles to                                     |
+| `id`                    | string          | New UUID v4            | Unique identifier of the chart data/configuration combination                              |
+| `labelField`            | string          |                        | Keyed off object types in `data`                                                           |
+| `labelFormat`           | string          |                        | Format string to use for labels on y-axis, where `%1` is the key and `%2` is the label     |
+| `linkFormat`            | string          |                        | Format string to use for rendering y-axis labels as links, where `%1` is the key           |
+| `missingDataLabel`      | string          |                        | Label to render in the case of a data point containing null or undefined value             |
+| `missingDataLabelWidth` | number          |                        | Width in pixels of the above label (for positioning, due to unpredictable typeface)        |
+| `paddingInner`          | number          | `0.2`                  | The ratio of the range for blank space between bands                                       |
+| `paddingOuter`          | number          | `0.1`                  | The ratio of the range for blank space before the first and after the last band            |
+| `sort`                  | `asc` or `desc` |                        | Sort `data` by resolved values after normalisation                                         |
+| `width`                 | number          | `928`                  | Width of chart surface                                                                     |
+| `xAxisLabel`            | string          |                        | Label to render on the x-axis                                                              |
 
 #### Output
 
-| Status code | Condition                                                                                | Response type      | Response body definition                                                                                                         |
-|-------------|------------------------------------------------------------------------------------------|--------------------|----------------------------------------------------------------------------------------------------------------------------------|
-| `200`       | Single definition in payload with `data` only                                            | `application/json` | JSON in the format: `{ "id": "new uuidv4", "html": "<svg />" }`                                                                  |
-| `200`       | Single definition in payload with `data` only and `x-accept` header of `"image/svg+xml"` | `image/svg+xml`    | `<svg />`                                                                                                                        |
-| `200`       | Single definition in payload with `data` and `id`                                        | `application/json` | JSON in the format: `{ "id": "id from payload", "html": "<svg />" }`                                                             |
-| `200`       | Array of definitions in payload with `data` and `id`                                     | `application/json` | JSON in the format: `[{ "id": "id from payload", "html": "<svg />" }, { "id": "next id from payload", "html": "<svg />" }, ...]` |
-| `400`       | Invalid payload                                                                          | `application/json` | JSON in the format: `{ error: "Message"; errors: ["Details"] }`                                                                  |
-| `500`       | Unhandled processing error                                                               | `application/json` | JSON in the format: `{ error: "Message" }`                                                                                       |
+| Status code | Condition                                                                              | Response type      | Response body definition                                                                                                         |
+|-------------|----------------------------------------------------------------------------------------|--------------------|----------------------------------------------------------------------------------------------------------------------------------|
+| `200`       | Single definition in payload with `data` only                                          | `application/json` | JSON in the format: `{ "id": "new uuidv4", "html": "<svg />" }`                                                                  |
+| `200`       | Single definition in payload with `data` only and `x-accept` header of `image/svg+xml` | `image/svg+xml`    | `<svg />`                                                                                                                        |
+| `200`       | Single definition in payload with `data` and `id`                                      | `application/json` | JSON in the format: `{ "id": "id from payload", "html": "<svg />" }`                                                             |
+| `200`       | Array of definitions in payload with `data` and `id`                                   | `application/json` | JSON in the format: `[{ "id": "id from payload", "html": "<svg />" }, { "id": "next id from payload", "html": "<svg />" }, ...]` |
+| `400`       | Invalid payload                                                                        | `application/json` | JSON in the format: `{ error: "Message"; errors: ["Details"] }`                                                                  |
+| `500`       | Unhandled processing error                                                             | `application/json` | JSON in the format: `{ error: "Message" }`                                                                                       |
 
 #### Process
 
@@ -119,7 +124,7 @@ flowchart TD
     G --> H[Resolve domain]
     H --> I[Build linear scale for x with domain]
     I --> J[Build banded scale for y with normalised data]
-    J --> K[Build bar &lt;rect&gt; templates]
+    J --> K[Build bar &lt;rect&gt; templates, assigning series, highlight and group CSS classes]
     K --> L[Build bar label &lt;text&gt; templates]
     L --> M{Missing labels configured?}
     M -->|Yes| N[Build missing label &lt;rect&gt; and &lt;text&gt; templates]
@@ -130,7 +135,156 @@ flowchart TD
     Q --> R[Return 200]
 ```
 
+#### Minimal example
+
+##### Request
+
+```sh
+curl -X 'POST' \
+  'http://localhost:7076/api/horizontalBarChart' \
+  -H 'accept: application/json' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  "id": "id",
+  "keyField": "key",
+  "valueField": "value",
+  "valueType": "currency",
+  "data": [
+    {
+      "key": "00001",
+      "value": "1"
+    },
+    {
+      "key": "00002",
+      "value": "2"
+    },
+    {
+      "key": "00003",
+      "value": "3"
+    }
+  ]
+}'
+```
+
+##### Response body
+
+```json
+{
+  "id": "id",
+  "html": "<svg width=\"928\" height=\"118\" viewBox=\"0,0,928,118\" data-chart-id=\"id\" xmlns=\"http://www.w3.org/2000/svg\"><g><rect x=\"317.3333333333333\" y=\"22.6\" width=\"188.5555555555556\" height=\"20.8\" data-key=\"00001\" class=\"chart-cell chart-cell__series-0\"/><rect x=\"317.3333333333333\" y=\"48.6\" width=\"377.11111111111114\" height=\"20.8\" data-key=\"00002\" class=\"chart-cell chart-cell__series-0\"/><rect x=\"317.3333333333333\" y=\"74.6\" width=\"565.6666666666667\" height=\"20.8\" data-key=\"00003\" class=\"chart-cell chart-cell__series-0\"/></g><g><text x=\"513.8888888888889\" y=\"33\" dy=\"0.35em\" class=\"chart-label chart-label__series-0\">1</text><text x=\"702.4444444444445\" y=\"59\" dy=\"0.35em\" class=\"chart-label chart-label__series-0\">2</text><text x=\"891\" y=\"85\" dy=\"0.35em\" class=\"chart-label chart-label__series-0\">3</text></g><g class=\"chart-axis chart-axis__x\" transform=\"translate(-2,98)\"><path class=\"domain\" stroke=\"currentColor\" d=\"M317.8333333333333,1V0.5H883.5V1\"/><g class=\"chart-tick\" transform=\"translate(317.8333333333333,0)\"><line y2=\"6\" x1=\"1\" x2=\"1\"/><text y=\"9\" dy=\"0.71em\" x1=\"1\" x2=\"1\">£0</text></g><g class=\"chart-tick\" transform=\"translate(506.3888888888889,0)\"><line y2=\"6\" x1=\"1\" x2=\"1\"/><text y=\"9\" dy=\"0.71em\" x1=\"1\" x2=\"1\">£1</text></g><g class=\"chart-tick\" transform=\"translate(694.9444444444445,0)\"><line y2=\"6\" x1=\"1\" x2=\"1\"/><text y=\"9\" dy=\"0.71em\" x1=\"1\" x2=\"1\">£2</text></g><g class=\"chart-tick\" transform=\"translate(883.5,0)\"><line y2=\"6\" x1=\"1\" x2=\"1\"/><text y=\"9\" dy=\"0.71em\" x1=\"1\" x2=\"1\">£3</text></g></g><g class=\"chart-axis chart-axis__y\" transform=\"translate(314.3333333333333,0)\"><path class=\"domain\" stroke=\"currentColor\" d=\"M0,20.5H0.5V98.5H0\" transform=\"translate(0,0)\"/><g class=\"chart-tick\" transform=\"translate(0,33)\"><line x2=\"-6\"/><text x=\"-9\" dy=\"0.32em\">00001</text></g><g class=\"chart-tick\" transform=\"translate(0,59)\"><line x2=\"-6\"/><text x=\"-9\" dy=\"0.32em\">00002</text></g><g class=\"chart-tick\" transform=\"translate(0,85)\"><line x2=\"-6\"/><text x=\"-9\" dy=\"0.32em\">00003</text></g></g></svg>"
+}
+```
+
+##### Response body as raw SVG
+
+![Horizontal bar chart response](./images/horizontal-bar-chart-response.svg)
+
+##### Response body as styled SVG (from browser style sheet)
+
+![Horizontal bar chart response](./images/horizontal-bar-chart-response.png)
+
 ### `POST api/verticalBarChart`
+
+#### Input
+
+The payload expected by this endpoint is either a single or multiple `VerticalBarChartDefinition` types:
+
+| Required Property | Type     | Definition                                                              |
+|-------------------|----------|-------------------------------------------------------------------------|
+| `data`            | object[] | Array of items to render                                                |
+| `keyField`        | string   | Key identifier. Must resolve to a property on object types in `data`.   |
+| `valueField`      | string   | Value identifier. Must resolve to a property on object types in `data`. |
+
+> ℹ️ If multiple definitions are supplied, the `id` property below is mandatory for each so as to not fail validation.
+
+| Optional Property | Type            | Default                | Definition                                                                        |
+|-------------------|-----------------|------------------------|-----------------------------------------------------------------------------------|
+| `domainMax`       | number          | Maximum resolved value | Maximum value for the chart domain. Value may be normalised in case out-of-range. |
+| `domainMin`       | number          | `0`                    | Minimum value for the chart domain. Value may be normalised in case out-of-range. |
+| `height`          | number          | `500`                  | Height of chart surface                                                           |
+| `highlightKey`    | string          |                        | Key of an item in `data` to assign highlight styles to                            |
+| `id`              | string          | New UUID v4            | Unique identifier of the chart data/configuration combination                     |
+| `sort`            | `asc` or `desc` |                        | Sort `data` by resolved values after normalisation                                |
+| `width`           | number          | `928`                  | Width of chart surface                                                            |
+
+#### Output
+
+| Status code | Condition                                                                              | Response type      | Response body definition                                                                                                         |
+|-------------|----------------------------------------------------------------------------------------|--------------------|----------------------------------------------------------------------------------------------------------------------------------|
+| `200`       | Single definition in payload with `data` only                                          | `application/json` | JSON in the format: `{ "id": "new uuidv4", "html": "<svg />" }`                                                                  |
+| `200`       | Single definition in payload with `data` only and `x-accept` header of `image/svg+xml` | `image/svg+xml`    | `<svg />`                                                                                                                        |
+| `200`       | Single definition in payload with `data` and `id`                                      | `application/json` | JSON in the format: `{ "id": "id from payload", "html": "<svg />" }`                                                             |
+| `200`       | Array of definitions in payload with `data` and `id`                                   | `application/json` | JSON in the format: `[{ "id": "id from payload", "html": "<svg />" }, { "id": "next id from payload", "html": "<svg />" }, ...]` |
+| `400`       | Invalid payload                                                                        | `application/json` | JSON in the format: `{ error: "Message"; errors: ["Details"] }`                                                                  |
+| `500`       | Unhandled processing error                                                             | `application/json` | JSON in the format: `{ error: "Message" }`                                                                                       |
+
+#### Process
+
+The 'build template' steps below refer to standard JavaScript string templates as above.
+
+```mermaid
+flowchart TD
+    accDescr: Vertical bar chart request
+    
+    A[Request received] --> B{Payload parsed?}
+    B -->|No| C[Return 400]
+    B -->|Yes| D{Payload validated?}
+    D -->|No| C[Return 400]
+    B -->|Yes| E[Sort data]
+    E --> F[Build banded scale for x with domain as all keys]
+    F --> G[Resolve domain]
+    G --> H[Build linear scale for y]
+    H --> I[Build bar &lt;rect&gt; templates, assigning series and highlight CSS classes]
+    I --> J[Render templates to &lt;svg&gt;]
+    J --> K[Return 200]
+```
+
+#### Minimal example
+
+##### Request
+
+```sh
+curl -X 'POST' \
+  'http://localhost:7076/api/verticalBarChart' \
+  -H 'accept: application/json' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  "id": "id",
+  "keyField": "key",
+  "valueField": "value",
+  "data": [
+    {
+      "key": "00001",
+      "value": "1"
+    },
+    {
+      "key": "00002",
+      "value": "2"
+    },
+    {
+      "key": "00003",
+      "value": "3"
+    }
+  ]
+}'
+```
+
+##### Response body
+
+```json
+{
+  "id": "id",
+  "html": "<svg width=\"928\" height=\"500\" viewBox=\"0,0,928,500\" data-chart-id=\"id\" xmlns=\"http://www.w3.org/2000/svg\"><g><rect x=\"60.625\" y=\"340.00000000000006\" height=\"159.99999999999994\" width=\"230.5\" data-bar-index=\"0\" class=\"chart-cell chart-cell__series-0\"/><rect x=\"348.75\" y=\"180.00000000000003\" height=\"320\" width=\"230.5\" data-bar-index=\"1\" class=\"chart-cell chart-cell__series-0\"/><rect x=\"636.875\" y=\"20\" height=\"480\" width=\"230.5\" data-bar-index=\"2\" class=\"chart-cell chart-cell__series-0\"/></g></svg>"
+}
+```
+
+##### Response body as raw SVG
+
+![Vertical bar chart response](./images/vertical-bar-chart-response.svg)
+
+##### Response body as styled SVG (from browser style sheet)
+
+![Vertical bar chart response](./images/vertical-bar-chart-response.png)
 
 ### `GET api/health`
 
@@ -142,7 +296,7 @@ Gets [OpenAPI](https://www.openapis.org/) spec for consumption by Swagger UI.
 
 ### `GET api/swagger/{*swaggerAsset}`
 
-Resolves [Swagger UI](https://swagger.io/tools/swagger-ui/) assets.
+Resolves [Swagger UI](https://swagger.io/tools/swagger-ui/) assets to host `http://localhost:7076/api/swagger/` locally.
 
 ### `POST api/horizontalBarChart/dom` (local development)
 
@@ -163,13 +317,29 @@ See above.
 
 ## Deployment
 
-[Describe the deployment process for releasing the feature to production or staging environments.]
+The Chart Rendering function app is deployed and managed along with the other function apps in the Platform solution within the monorepo. The Terraform is slightly different due to this being a Node rather than .NET function app, but this is all managed within the `functions` TF module:
+
+1. `azurerm_linux_function_app` resource type used instead of `azurerm_windows_function_app` along with `22` for the `node_version`
+1. Above resource's identity assigned to dependent service access policies instead of the `windows` equivalent
+1. Optional (elastic/standard) worker count variables supported for fine-tuning configuration
+1. Separate SKU variable (from `windows` equivalent) to support alternative app service plans per environment
+
+### API Tests
+
+API tests against the Chart Rendering endpoints takes place within pipeline runs against `main`, as per the other function apps. Assertions are done against expected JSON or SVG responses rather than explicit deeper inspection. There are no additional dependencies (such as seeded test data).
 
 ## Known Issues
 
-### Horizontal bar charts
+1. Results are not cached. So far this has not raised any performance concerns.
 
-1. No support for negative values
+### Horizontal bar chart
+
+1. Negative values filtered out from chart with CSS class alone applied to identify as such
+
+### Vertical bar chart
+
+1. Vertical bars only are the only rendered elements at this time as relative entries alone required by consumer
+1. Negative values may cause unexpected behaviour due to lack of data normalisation
 
 ## Future features
 
