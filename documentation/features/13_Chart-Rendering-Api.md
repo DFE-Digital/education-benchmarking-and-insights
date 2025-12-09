@@ -302,7 +302,7 @@ Resolves [Swagger UI](https://swagger.io/tools/swagger-ui/) assets to host `http
 
 > ⚠️ This endpoint is excluded from production builds via [TSConfig](https://www.typescriptlang.org/tsconfig/).
 
-During initial rapid development of this chart type, D3 was used to render directly to a virtual DOM using [xmldom](https://github.com/xmldom/xmldom). Performance of using a virtual DOM was not suitable for production use even with explicit worker management (see ADRs above) but the endpoint remains for local development.
+During initial rapid development of this chart type, D3 was used to render directly to a virtual DOM using [d3-selection](https://d3js.org/d3-selection) and [xmldom](https://github.com/xmldom/xmldom). Performance of using a virtual DOM was not suitable for production use even with explicit worker management (see ADRs above) but the endpoint remains for local development.
 
 See also:
 
@@ -334,16 +334,122 @@ API tests against the Chart Rendering endpoints takes place within pipeline runs
 
 ### Horizontal bar chart
 
-1. Negative values filtered out from chart with CSS class alone applied to identify as such
+1. Negative values filtered out from chart with CSS class alone applied to identify as such.
 
 ### Vertical bar chart
 
-1. Vertical bars only are the only rendered elements at this time as relative entries alone required by consumer
-1. Negative values may cause unexpected behaviour due to lack of data normalisation
+1. Vertical bars only are the only rendered elements at this time as relative entries alone required by consumer.
+1. Negative values may cause unexpected behaviour due to lack of data normalisation.
 
 ## Future features
 
 ### Multi-series horizontal bar chart
+
+The horizontal bar charts only support a single series, by design. To support multiple series the input configuration will need to be modified. In `front-end-components` a separate chart type has been defined for this purpose, which should be avoided unless absolutely necessary for the production-ready version. Prototyping using the existing `d3-selection`/virtual DOM endpoint would be acceptable in order to identify what changes would need to be merged into the 'string template' version.
+
+Looking at [various](https://observablehq.com/@slowkow/horizontal-grouped-bar-chart) [examples](https://gist.github.com/erikvullings/51cc5332439939f1f292) there appear to be many ways of solving this problem. To provide backwards compatibility with single-series charts the best solution would probably be to:
+
+1. Include multiple series (including padding) in surface height calculation.
+1. Modify the `<rect>` string templates for bars to loop through all keys defined in the multi series configuration. Calculate `y` to be relative to the key index (achieved with a separate scale band for `y` using the series keys for the domain), to allow offset from the parent `<g>` (see below).
+
+  ```js
+  // e.g., from example above
+  const y0 = d3.scaleBand()
+    .domain(data.map(d => d[groupKey]))
+    .rangeRound([margin.top, height - margin.bottom])
+    .paddingInner(0.1);
+  const y1 = d3.scaleBand()
+    .domain(keys)
+    .rangeRound([y0.bandwidth(), 0])
+    .padding(0.1)
+  ```
+
+1. Assign series index or other identifier to `<rect>` as well as class (currently hard-coded to `chart-cell__series-0`).
+1. Modify the `<text>` string templates for labels similar to above.
+1. Add wrapper `<g>` around each of the above with a `transform` to offset the `y` attribute to be the number of items in the series multiplied by the bar height (plus some padding).
+
+  ```js
+  // e.g., from example above
+  .join("g")
+    .attr("transform", d => `translate(0,${y0(d[groupKey])})`)
+  ```
+
+#### SVG snippet
+
+```xml
+<!-- current -->
+<svg width="928" height="118" viewBox="0,0,928,118" data-chart-id="id" xmlns="http://www.w3.org/2000/svg">
+    <g>
+        <rect x="317.3333333333333" y="22.6" width="188.5555555555556" height="20.8" data-key="00001" class="chart-cell chart-cell__series-0"/>
+        <rect x="317.3333333333333" y="48.6" width="377.11111111111114" height="20.8" data-key="00002" class="chart-cell chart-cell__series-0"/>
+        <rect x="317.3333333333333" y="74.6" width="565.6666666666667" height="20.8" data-key="00003" class="chart-cell chart-cell__series-0"/>
+    </g>
+    <g>
+        <text x="513.8888888888889" y="33" dy="0.35em" class="chart-label chart-label__series-0">1</text>
+        <text x="702.4444444444445" y="59" dy="0.35em" class="chart-label chart-label__series-0">2</text>
+        <text x="891" y="85" dy="0.35em" class="chart-label chart-label__series-0">3</text>
+    </g>
+</svg>
+```
+
+![Current SVG snippet](./images/multi-chart-1.svg)
+
+```xml
+<!-- proposed single series -->
+<svg width="928" height="118" viewBox="0,0,928,118" data-chart-id="id" xmlns="http://www.w3.org/2000/svg">
+    <g>
+        <g transform="translate(0,22.6)">
+            <rect x="317.3333333333333" y="1" width="188.5555555555556" height="20.8" data-key="00001" class="chart-cell chart-cell__series-0"/>
+            <text x="513.8888888888889" y="11" dy="0.35em" class="chart-label chart-label__series-0">1</text>
+        </g>
+        <g transform="translate(0,48.6)">
+            <rect x="317.3333333333333" y="1" width="377.11111111111114" height="20.8" data-key="00002" class="chart-cell chart-cell__series-0"/>
+            <text x="702.4444444444445" y="11" dy="0.35em" class="chart-label chart-label__series-0">2</text>
+        </g>
+        <g transform="translate(0,74.6)">
+            <rect x="317.3333333333333" y="1" width="565.6666666666667" height="20.8" data-key="00003" class="chart-cell chart-cell__series-0"/>
+            <text x="891" y="11" dy="0.35em" class="chart-label chart-label__series-0">3</text>
+        </g>
+    </g>
+</svg>
+```
+
+![Proposed SVG snippet](./images/multi-chart-2.svg)
+
+```xml
+<!-- proposed multi series -->
+<svg width="928" height="170" viewBox="0,0,928,170" data-chart-id="id" xmlns="http://www.w3.org/2000/svg">
+    <g>
+        <g transform="translate(0,22.6)">
+            <rect x="317.3333333333333" y="1" width="188.5555555555556" height="20.8" data-key="00001" class="chart-cell chart-cell__series-0"/>
+            <text x="513.8888888888889" y="11" dy="0.35em" class="chart-label chart-label__series-0">1</text>
+            <rect x="317.3333333333333" y="24" width="565.6666666666667" height="20.8" data-key="00003" class="chart-cell chart-cell__series-1"/>
+            <text x="891" y="34" dy="0.35em" class="chart-label chart-label__series-1">3</text>
+        </g>
+        <g transform="translate(0,72.6)">
+            <rect x="317.3333333333333" y="1" width="377.11111111111114" height="20.8" data-key="00002" class="chart-cell chart-cell__series-0"/>
+            <text x="702.4444444444445" y="11" dy="0.35em" class="chart-label chart-label__series-0">2</text>
+            <rect x="317.3333333333333" y="24" width="188.5555555555556" height="20.8" data-key="00001" class="chart-cell chart-cell__series-1"/>
+            <text x="513.8888888888889" y="34" dy="0.35em" class="chart-label chart-label__series-1">1</text>
+        </g>
+        <g transform="translate(0,122.6)">
+            <rect x="317.3333333333333" y="1" width="565.6666666666667" height="20.8" data-key="00003" class="chart-cell chart-cell__series-0"/>
+            <text x="891" y="11" dy="0.35em" class="chart-label chart-label__series-0">3</text>
+            <rect x="317.3333333333333" y="24" width="377.11111111111114" height="20.8" data-key="00002" class="chart-cell chart-cell__series-1"/>
+            <text x="702.4444444444445" y="34" dy="0.35em" class="chart-label chart-label__series-1">2</text>
+        </g>
+    </g>
+</svg>
+```
+
+![Proposed multi series SVG snippet](./images/multi-chart-3.svg)
+
+#### Other things to note
+
+1. If developing first in the `d3-selection`/virtual DOM endpoint then it may be worth retrospectively updating that with the latest changes from the 'string template' version. A brand new endpoint could also be used, possibly based off one of the identified similar examples.
+1. Domain calculations for `x` will need to take multiple series into account so as to not inadvertently truncate any bars.
+1. Styles may need to be defined in consuming service for newly rendered CSS classes.
+1. Although the above proposal should work for 'single series' charts the SVG output will be different and so API tests will initially fail.
 
 ### Line chart
 
