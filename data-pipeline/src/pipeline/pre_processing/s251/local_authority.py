@@ -73,8 +73,7 @@ def build_local_authorities(
     )
 
     local_authority_data_with_sen = _join_sen_to_local_authority_data(
-        local_authority_data, 
-        sen_2_data
+        local_authority_data, sen_2_data
     )
 
     logger.info(
@@ -103,8 +102,7 @@ def _join_sen_to_local_authority_data(
     ]
     # Resetting the index is needed to maintain the multiindex, preferring the new_la_code from s251
     second_join_to_sen_data = (
-        la_data_which_failed_sen_join
-        .reset_index()
+        la_data_which_failed_sen_join.reset_index()
         .merge(
             sen_2_data,
             left_on="old_la_code",
@@ -118,15 +116,19 @@ def _join_sen_to_local_authority_data(
     # This is a workaround for 2024, in which there are multiple old/new LA code combinations.
     if second_join_to_sen_data.duplicated(subset=local_authority_data.columns).any():
         second_join_to_sen_data.dropna(subset=["EHCPTotal"], inplace=True)
-        if second_join_to_sen_data.duplicated(subset=local_authority_data.columns).any():
-            logger.info(f"EHCP file linkage broken for LA codes {str(list(second_join_to_sen_data.index))}")
+        if second_join_to_sen_data.duplicated(
+            subset=local_authority_data.columns
+        ).any():
+            logger.info(
+                f"EHCP file linkage broken for LA codes {str(list(second_join_to_sen_data.index))}"
+            )
 
-    combined_la_join_to_sen = pd.concat([
-        la_data_which_succeeded_sen_join, second_join_to_sen_data
-    ])
+    combined_la_join_to_sen = pd.concat(
+        [la_data_which_succeeded_sen_join, second_join_to_sen_data]
+    )
 
     return combined_la_join_to_sen
-    
+
 
 def _aggregate_fbit_pupil_numbers_to_la_level(
     all_schools: pd.DataFrame,
