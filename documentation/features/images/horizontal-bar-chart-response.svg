@@ -1,0 +1,47 @@
+<svg width="928" height="118" viewBox="0,0,928,118" data-chart-id="id"
+    xmlns="http://www.w3.org/2000/svg">
+    <g>
+        <rect x="317.3333333333333" y="22.6" width="188.5555555555556" height="20.8" data-key="00001" class="chart-cell chart-cell__series-0"/>
+        <rect x="317.3333333333333" y="48.6" width="377.11111111111114" height="20.8" data-key="00002" class="chart-cell chart-cell__series-0"/>
+        <rect x="317.3333333333333" y="74.6" width="565.6666666666667" height="20.8" data-key="00003" class="chart-cell chart-cell__series-0"/>
+    </g>
+    <g>
+        <text x="513.8888888888889" y="33" dy="0.35em" class="chart-label chart-label__series-0">1</text>
+        <text x="702.4444444444445" y="59" dy="0.35em" class="chart-label chart-label__series-0">2</text>
+        <text x="891" y="85" dy="0.35em" class="chart-label chart-label__series-0">3</text>
+    </g>
+    <g class="chart-axis chart-axis__x" transform="translate(-2,98)">
+        <path class="domain" stroke="currentColor" d="M317.8333333333333,1V0.5H883.5V1"/>
+        <g class="chart-tick" transform="translate(317.8333333333333,0)">
+            <line y2="6" x1="1" x2="1"/>
+            <text y="9" dy="0.71em" x1="1" x2="1">£0</text>
+        </g>
+        <g class="chart-tick" transform="translate(506.3888888888889,0)">
+            <line y2="6" x1="1" x2="1"/>
+            <text y="9" dy="0.71em" x1="1" x2="1">£1</text>
+        </g>
+        <g class="chart-tick" transform="translate(694.9444444444445,0)">
+            <line y2="6" x1="1" x2="1"/>
+            <text y="9" dy="0.71em" x1="1" x2="1">£2</text>
+        </g>
+        <g class="chart-tick" transform="translate(883.5,0)">
+            <line y2="6" x1="1" x2="1"/>
+            <text y="9" dy="0.71em" x1="1" x2="1">£3</text>
+        </g>
+    </g>
+    <g class="chart-axis chart-axis__y" transform="translate(314.3333333333333,0)">
+        <path class="domain" stroke="currentColor" d="M0,20.5H0.5V98.5H0" transform="translate(0,0)"/>
+        <g class="chart-tick" transform="translate(0,33)">
+            <line x2="-6"/>
+            <text x="-9" dy="0.32em">00001</text>
+        </g>
+        <g class="chart-tick" transform="translate(0,59)">
+            <line x2="-6"/>
+            <text x="-9" dy="0.32em">00002</text>
+        </g>
+        <g class="chart-tick" transform="translate(0,85)">
+            <line x2="-6"/>
+            <text x="-9" dy="0.32em">00003</text>
+        </g>
+    </g>
+</svg>
