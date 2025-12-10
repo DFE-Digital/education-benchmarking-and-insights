@@ -1,27 +1,32 @@
-﻿# Release Test Plan: 2025.12.0
+﻿# Release Test Plan: 2025.12.1
 
 **Release Date:** TBC  
-**Release Label:** 2025.12.0
+**Release Label:** 2025.12.1
 
 ## Introduction
 
-This plan defines the approach for testing release `2025.12.0`, covering smoke, sanity, and UAT testing activities.  
+This plan defines the approach for testing release `2025.12.1`, covering smoke, sanity, and UAT testing activities.  
 This release delivers a combination of dependency updates, branding alignment with the GOV.UK and DfE Design Systems, S251 data refresh, and a change to normalisation methodology for Pupil count in LAs.
 
 ## Scope
 
 **In-scope:**
 
+- **Data Updates**
+
+  - Ingested S251 data into the service for 2025.
+  - CFR 2024/2025 transparency file added to the service. 
+
 - **Enhancements**
 
-  - S251 data ingested for 2025
   - Added a total pupil count for each Local Authority. This figure represents the combined number of pupils across all schools in that area, providing a more complete and accurate picture of the population. This new measure now replaces the previous population figures used in the service.
+  - Updated FBIT branding to align with the GOV.UK Design System.
+  - Integrated DfE Design System branding elements into the service.
+
 
 **Out-of-Scope:**
 
 - Any feature development unrelated to branding, normalisation, or S251 ingestion.
-- Updated FBIT branding to align with the GOV.UK Design System.
-- Integrated DfE Design System branding elements into the service.
 - Reviewed and merge December ’25 dependency updates to ensure platform compatibility, stability, and security compliance.
 
 ## Test Strategy
