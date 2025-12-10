@@ -12,6 +12,23 @@ def la_all_schools() -> pd.DataFrame:
             "LA Code": [101, 101, 102, 102, 102, 103],
             "URN": [1, 2, 3, 4, 5, 6],
             "Number of pupils": [200.02, 1.345, 54.0, 2005.7, 3007.9, 12],
+            "Finance Type": [
+                "Maintained",
+                "Maintained",
+                "Academy",
+                "Academy",
+                "Academy",
+                "Academy",
+            ],
+            "Lead school in federation": [
+                "1011234",
+                "1016736",
+                "1026671",
+                "1021111",
+                "1021253",
+                "1032813",
+            ],
+            "EstablishmentNumber": ["1234", "7456", "5522", "1993", "5623", "9978"],
         }
     )
 
