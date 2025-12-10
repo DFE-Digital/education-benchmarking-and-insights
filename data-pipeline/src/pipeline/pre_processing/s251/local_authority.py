@@ -134,7 +134,27 @@ def _aggregate_fbit_pupil_numbers_to_la_level(
     all_schools: pd.DataFrame,
 ) -> pd.DataFrame:
     """Aggregate FBIT adjusted pupil numbers per LA"""
-    return all_schools.groupby("LA Code").agg({"Number of pupils": "sum"})
+    # Lead federated schools have the pupil total for their federation already aggregated, so
+    # non-lead schools shouldn't be counted or double counting will occur
+    non_lead_federated_schools_mask = (
+        (all_schools["Finance Type"] == "Maintained")
+        & all_schools["Lead school in federation"].notna()
+        & (all_schools["Lead school in federation"] != "0")
+        & (
+            all_schools["LA Code"].map(str)
+            + all_schools["EstablishmentNumber"].map(str)
+            != all_schools["Lead school in federation"]
+        )
+    )
+    # Deselect these schools to aggregate pupil numbers per LA
+    all_schools_without_non_lead_federated_schools = all_schools[
+        ~non_lead_federated_schools_mask
+    ]
+
+    pupils_per_la = all_schools_without_non_lead_federated_schools.groupby(
+        "LA Code"
+    ).agg({"Number of pupils": "sum"})
+    return pupils_per_la
 
 
 def _build_section_251_data(
