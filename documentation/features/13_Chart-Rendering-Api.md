@@ -453,5 +453,69 @@ Looking at [various](https://observablehq.com/@slowkow/horizontal-grouped-bar-ch
 
 ### Line chart
 
+This chart type does not yet exist in the Chart Rendering API. When implementing, the following features must be configurable:
+
+1. Single/multi series
+1. X-axis label (values/visibility)
+1. X-axis tick formatter
+1. Legend (values/visibility/position)
+1. Value type
+1. Value dots (visibility)
+1. Value labels (visibility)
+
+The following features must always be supported:
+
+1. Y-axis ticks
+1. X-axis ticks
+1. Horizontal grid lines
+1. Domain management (will be different from that used for bar charts; see [#233948](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_workitems/edit/233948) and associated existing implementation)
+
+The current implementation in `front-end-components` includes all of the above features.
+
+#### Examples
+
+As per other guidance above, best practice would be to first implement this new chart type based on existing examples using D3 and the virtual DOM. Once this has been completed and the expected SVG outputted the rewrite to use string templates may proceed. Below are some examples to use as a starting point:
+
+1. [Line chart, multiple series](https://observablehq.com/@d3/multi-line-chart/2)
+1. [Line chart](https://observablehq.com/@d3/line-chart/2)
+1. [Line chart gallery](https://d3-graph-gallery.com/line.html)
+
+#### Styles
+
+As per the other endpoints, inline styles via SVG attributes should be kept to a minimum and instead class names should be used. To help support line formatting, for example, the following is rendered in the existing client side line charts for a dashed line:
+
+```xml
+<g class="recharts-layer recharts-line chart-line chart-line-series-1">
+    <path stroke-width="3" class="recharts-curve recharts-line-curve" stroke-dasharray="20 7" stroke="#3182bd"
+        fill="none" width="860" height="300" d="M130,181.192L282,193.423L434,56.346L586,86.577L738,187.538L890,337.538">
+    </path>
+</g>
+```
+
+For the proposed server rendered version this should be something like:
+
+```xml
+<g class="chart-line chart-line-series-1">
+    <path class="line-curve" fill="none" width="860" height="300"
+        d="M130,181.192L282,193.423L434,56.346L586,86.577L738,187.538L890,337.538"></path>
+</g>
+```
+
+with CSS managing the styles:
+
+```css
+.chart-line.chart-line-series-1 > .line-curve {
+    stroke-dasharray: 20px 7px;
+    stroke-width: 5px;
+    stroke: #3182bd;
+}
+```
+
+This CSS definition could also then be re-used in the legend for consistency.
+
+#### Progressive enhancement
+
+The existing client side line charts optionally support tooltips when the mouse enters a value dot. As per the [Progressive Enhancements](../features/8_Progressive_Enhancements.md) feature, this should be added in once the server rendered chart has been implemented.
+
 <!-- Leave the rest of this page blank -->
 \newpage
