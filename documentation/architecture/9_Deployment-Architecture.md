@@ -6,7 +6,38 @@
 
 ### Production release
 
-TODO
+This documentation does not cover the process of release planning and approval, rather the process to initiate a production-ready release to pre-prod and then approval onto prod after UAT sign-off.
+
+Usually the release is taken off the artifacts produced from the latest merge to `main` for each project in the monorepo. The version numbers associated with each of these may be found in Azure DevOps at the following locations:
+
+| Project                                                                                                                                                                           |
+|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| [Core infrastructure](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_build?definitionId=2862&branchFilter=39627%2C39627%2C39627%2C39627%2C39627%2C39627)         |
+| [Data pipeline](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_build?definitionId=2879&branchFilter=39627%2C39627%2C39627)                                       |
+| [Platform](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_build?definitionId=2865&branchFilter=39627%2C39627%2C39627%2C39627%2C39627%2C39627)                    |
+| [Web](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_build?definitionId=2866&branchFilter=39627%2C39627%2C39627%2C39627%2C39627%2C39627%2C39627%2C39627%2C39627) |
+
+For example, the latest build against `main` that would have gone through QA in `t01` for the Core project in the example below has version `1.2.35`:
+
+![Latest builds on Core on main](./images/latest-core-builds-main.png)
+
+Once all of the latest version numbers have been gathered, a new pipeline run can be initiated from the [Release pipeline page](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_build?definitionId=2878) in DevOps. Leave the source branch as `main` and enter each of the four version numbers gathered previously. Any leading `#` symbols should _not_ be included with the version value provided. Then click `Run`.
+
+![Run release pipeline](./images/run-release-pipeline.png)
+
+The deployment to the pre-production environment will then commence and once complete, will be available for post-release tasks (such as running data pipelines), sanity testing and then onto UAT. The release version number should be communicated with relevant parties in order to cross-reference in documentation.
+
+![Release approval](./images/release-approval.png)
+
+At this stage, if issues are identified during UAT the release may be abandoned, a fix issued and the above process repeated. Alternatively, it may be approved for release to production. Either way, an action from the 'Review' dialog should be taken. If no action is taken after 24 hours then the approval is automatically rejected.
+
+> **NOTE:** Only users in the `Release approvers` for the `production` environment may perform a Review action. There are no such restrictions on the initial deployment to pre-prod.
+
+![Release review](./images/release-review.png)
+
+Once approval has been made the deployment will continue onto production and once complete, will be available for post-release tasks and then smoke testing.
+
+![Complete release pipeline](./images/complete-release-pipeline.png)
 
 ### Feature release
 
