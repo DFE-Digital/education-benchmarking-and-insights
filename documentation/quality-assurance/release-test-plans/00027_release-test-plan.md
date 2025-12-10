@@ -75,6 +75,8 @@ This release delivers a combination of dependency updates, branding alignment wi
 
 **Release Overview:**
 
+**[Azure Release Test Plan](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_testPlans/define?planId=294446&suiteId=294447)**
+
 **Azure DevOps tickets included in this release:**
 
 - [290280 - Review & merge December '25 dependency updates](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/290280)
