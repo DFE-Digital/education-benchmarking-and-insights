@@ -271,6 +271,8 @@ From the root of the `web` run
 dotnet test tests\Web.E2ETests
 ```
 
+See [E2E README](./tests/Web.E2ETests/README.md) for more details.
+
 #### Accessibility Tests
 
 Add the following configuration in `appsettings.local.json` in the root of `Web.A11yTests`
