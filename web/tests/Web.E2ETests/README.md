@@ -1,6 +1,7 @@
 ﻿# Running Automated End-to-End (E2E) Tests Locally
 
-This guide provides an overview for setting up and running automated E2E tests for the project, aligned with the CI/CD pipeline setup.  
+This guide provides an overview for setting up and running automated E2E tests for the project, aligned with the CI/CD
+pipeline setup.  
 It complements the more detailed instructions already available in [`web/README.md`](../../README.md#end-to-end-tests).
 
 ## 🚀 Getting Started
@@ -14,24 +15,37 @@ Create or update your `appsettings.local.json` file in the `Web.E2ETests` projec
 
 Ensure you:
 
-- Set the correct `"ServiceUrl"` for the [automated test environment](https://s198d02-education-benchmarking-fqhxhwdsdyh3cded.a02.azurefd.net)
+- Set the correct `"ServiceUrl"` for
+  the [automated test environment](https://s198d02-education-benchmarking-fqhxhwdsdyh3cded.a02.azurefd.net)
 
 ### 2. Manage Credentials Securely
 
 - **Credentials** (`dfe-signin-test-username` and `dfe-signin-test-password`) are stored securely in Azure DevOps:
 
   > `Library` → `Automated Tests App Settings`
-  
-Fetch any other required variable values from the same library.  
+
+Fetch any other required variable values from the same library.
 
 ### 3. Running the Tests
 
-Once your `appsettings.local.json` is configured, build and run the E2E test project using the following command from the `web` directory root:
+Once your `appsettings.local.json` is configured, build and run the E2E test project using the following command from
+the `web` directory root:
 
 ```bash
-dotnet test tests/Web.E2ETests
+dotnet test tests/Web.E2ETests -e Serilog__MinimumLevel__Default=Warning
 ```
 
-As part of a Debug build, the `xunit.runner.json` file will be included with the binaries. 
-This controls the [maximum parallelism](https://xunit.net/docs/config-xunit-runner-json#maxParallelThreads) 
+As part of a Debug build, the `xunit.runner.json` file will be included with the binaries.
+This controls the [maximum parallelism](https://xunit.net/docs/config-xunit-runner-json#maxParallelThreads)
 of E2E test runs due to timeout issues when executing the full E2E suite locally.
+
+### 4. Running the Tests against the local dev server
+
+If targeting the local web server with `http://localhost:7095` as the `ServiceUrl` ensure that the console logging is
+less verbose to reduce the likelihood of test timeouts. e.g.:
+
+```bash
+dotnet run --project src/Web.App -e Serilog__MinimumLevel__Default=Warning
+```
+
+Alternatively, run the `Web.App: https:e2e` configuration from Rider IDE.
