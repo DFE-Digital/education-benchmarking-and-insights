@@ -30,12 +30,12 @@
     <link rel="stylesheet" href="/css/enhancements.css" asp-append-version="true"/>
     @await Component.InvokeAsync("Analytics")
 </head>
-<body class="govuk-template__body govuk-frontend-supported">
+<body class="govuk-template__body">
 <script add-nonce="true">
-    document.body.className = ((document.body.className) ? document.body.className + ' js-enabled' : 'js-enabled');
+    document.body.className += ' js-enabled' + ('noModule' in HTMLScriptElement.prototype ? ' govuk-frontend-supported' : '');
 </script>
 
-<a href="#main-content" class="govuk-skip-link">Skip to main content</a>
+<a href="#main-content" class="govuk-skip-link" data-module="govuk-skip-link">Skip to main content</a>
 @await Component.InvokeAsync("Cookies")
 
 <header class="govuk-header" data-module="govuk-header">
