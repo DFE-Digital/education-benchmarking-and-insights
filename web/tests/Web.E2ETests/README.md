@@ -30,3 +30,8 @@ Once your `appsettings.local.json` is configured, build and run the E2E test pro
 
 ```bash
 dotnet test tests/Web.E2ETests
+```
+
+As part of a Debug build, the `xunit.runner.json` file will be included with the binaries. 
+This controls the [maximum parallelism](https://xunit.net/docs/config-xunit-runner-json#maxParallelThreads) 
+of E2E test runs due to timeout issues when executing the full E2E suite locally.
