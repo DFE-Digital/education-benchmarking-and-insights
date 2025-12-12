@@ -9,11 +9,7 @@
 
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-full">
-        <h2 class="govuk-heading-m">Spending priorities for this school</h2>
-        @if (Model.Ratings.Any())
-        {
-            <h3 class="govuk-heading-s">Top spending priorities</h3>
-        }
+        <h2 class="govuk-heading-m">Spending focus for this school</h2>
     </div>
     @if (Model.Ratings.Any())
     {
@@ -41,7 +37,7 @@
     }
     <div class="govuk-grid-column-one-half govuk-body" id="rag-guidance">
         <p>
-            Red, amber and green (RAG) priority ratings are shown to give an indication of the spending compared to
+            Red, amber and green (RAG) ratings are shown to give an indication of the spending compared to
             similar schools.
         </p>
         <p>
@@ -60,7 +56,7 @@
                              urn = Model.Urn
                          })"
                    class="govuk-link govuk-link--no-visited-state">
-                    View all spending priorities for this school
+                    View all spending foci for this school
                 </a>
             </strong>
         </p>
