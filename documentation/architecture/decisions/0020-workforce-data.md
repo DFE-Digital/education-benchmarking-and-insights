@@ -14,15 +14,14 @@ Recommendation
 
 The Financial Benchmarking and Insights Tool (FBIT) requires workforce data about senior leadership roles in schools which is not part of the settled school workforce file which is published as part of the annual 'School workforce in England' survey results.
 
-**Recommendation:** It is proposed to use continue to use the 'school workforce' file (School_Tables_School_Workforce_Census_2024.xlsx) as the primary source of school workforce data and join to the 'la school file workforce' file (workforce_2010_2024_fte_hc_nat_reg_la_sch.csv) to add the 4 senior leaderships fields where present for the schools included in the school workforce file.
-
+**Recommendation:** Is to use continue to use the 'school workforce' file (School_Tables_School_Workforce_Census_2024.xlsx) as the primary source of school workforce data and join to the 'la school file workforce' file (workforce_2010_2024_fte_hc_nat_reg_la_sch.csv) to add the 4 senior leaderships fields where present for the schools included in the school workforce file.  
 
 ## Context and Problem Statement
 
-FBIT currently sources information for school workforce from the 'school workforce' file (School_Tables_School_Workforce_Census_2024.xlsx) so the number of teaching and support staff at each school can be used in the benchmarking functionality included in the service.
+FBIT currently sources information for school workforce from the 'school workforce' file (School_Tables_School_Workforce_Census_2024.xlsx), which is part of the ['School workforce in England']( https://explore-education-statistics.service.gov.uk/find-statistics/school-workforce-in-england/2024) publication, so the number of teaching and support staff at each school can be used in the benchmarking functionality included in the service.
 
 **The Problem:**
-A decision is needed on the best
+The 'school workforce' file does not include the 4 
 
 1. **Completeness:** Does it provide the required additional data
 2. **Relatability & Explainability:** Can the figure be easily explained
