@@ -2,7 +2,7 @@
 
 _*Release version updated to 2025.12.2 following resolution of TotalPupils count for local authorities which have federations which was incorrectly computed previously._*
 
-**Release Date:** TBC  
+**Release Date:** 12/12/2025  
 **Release Label:** 2025.12.2
 
 ## Introduction
@@ -81,7 +81,7 @@ This release delivers a combination of dependency updates, branding alignment wi
 
 **Release Overview:**
 
-{fill in these details after release is completed }
+The release completed successfully with no issues. There was an issue identified in UAT for which the fix was deployed. 
 
 **Release (First Update):**
 
@@ -108,14 +108,13 @@ The initial release encountered an issue with TotalPupils calculations for LAs. 
 ### Test Summary Report
 
 **Summary of results:**  
-(To be completed post‑testing)
 
 | Test Category           | Total Tests | Passed | Failed | Pass Rate |  
 |-------------------------|:-----------:|:------:|:------:|:---------:|  
-| Smoke Tests - Prod      |      -      |   -    |   -    |     -     |  
+| Smoke Tests - Prod      |      1      |   1    |   0    |   100%    |  
 | Sanity Tests - Pre Prod |      2      |   2    |   0    |   100%    |  
-| UAT - Pre Prod          |      -      |   -    |   -    |     -     |  
-| Total                   |      -      |   -    |   -    |     -     |  
+| UAT - Pre Prod          |      1      |   1    |   0    |   100%    |  
+| Total                   |      1      |   1    |   0    |   100%    |  
 
 <!-- Leave the rest of this page blank -->
 \newpage
