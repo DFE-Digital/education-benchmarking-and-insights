@@ -19,6 +19,16 @@
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Test"
       }
+    },
+    "https:e2e": {
+      "commandName": "Project",
+      "dotnetRunMessages": true,
+      "launchBrowser": false,
+      "applicationUrl": "https://localhost:7095",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "Serilog__MinimumLevel__Default": "Warning"
+      }
     }
   }
 }
