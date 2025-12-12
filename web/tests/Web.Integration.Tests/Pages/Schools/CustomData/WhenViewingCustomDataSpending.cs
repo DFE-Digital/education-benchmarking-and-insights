@@ -218,8 +218,8 @@ public class WhenViewingCustomDataSpending(SchoolBenchmarkingWebAppClient client
     private static void AssertPageLayout(IHtmlDocument page, School school, RagRating[] ratings, SchoolExpenditure? expenditure, bool ssrCharts = false, bool chartError = false)
     {
         DocumentAssert.AssertPageUrl(page, Paths.SchoolSpendingCustomData(school.URN).ToAbsolute());
-        DocumentAssert.TitleAndH1(page, "Spending priorities for this school - Financial Benchmarking and Insights Tool - GOV.UK",
-            "Spending priorities for this school");
+        DocumentAssert.TitleAndH1(page, "Spending focus for this school - Financial Benchmarking and Insights Tool - GOV.UK",
+            "Spending focus for this school");
 
         var categorySections = page.QuerySelectorAll("main section");
 
