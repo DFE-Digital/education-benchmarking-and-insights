@@ -2,6 +2,7 @@ import { ReactNode } from "react";
 import { ResolvedStatProps } from "src/components/charts/resolved-stat";
 import { HistoricChart2Props } from "src/composed/historic-chart-2-composed";
 import { HistoryBase } from "src/services";
+import { ViewProps } from "../types";
 
 export type HistoricData2Props = {
   type: string;
@@ -12,9 +13,10 @@ export type HistoricData2Props = {
   fetchTimeout?: number;
 };
 
-export type HistoricData2ViewProps = Omit<HistoricData2Props, "load"> & {
-  preLoadSections?: HistoricData2SectionName[];
-};
+export type HistoricData2ViewProps = ViewProps &
+  Omit<HistoricData2Props, "load"> & {
+    preLoadSections?: HistoricData2SectionName[];
+  };
 
 export type HistoricData2SectionName =
   | "spending"

@@ -1,0 +1,292 @@
+﻿{
+  "startYear": 2020,
+  "endYear": 2024,
+  "outturn": [
+    {
+      "code": "201",
+      "year": 2021,
+      "highNeedsAmount": {
+        "totalPlaceFunding": 0.0,
+        "topUpFundingMaintained": 45.54136333553938,
+        "topUpFundingNonMaintained": 209.2733289212442,
+        "senServices": 82.53143613500993,
+        "alternativeProvisionServices": 0.0,
+        "hospitalServices": 0.0,
+        "otherHealthServices": 0.0
+      },
+      "maintained": {
+        "earlyYears": 0.0,
+        "primary": 45.54136333553938,
+        "secondary": 0.0,
+        "special": 0.0,
+        "alternativeProvision": 0.0,
+        "postSchool": 0.0,
+        "income": 0.0
+      },
+      "nonMaintained": {
+        "earlyYears": 0.0,
+        "primary": 0.0,
+        "secondary": 40.6982131039047,
+        "special": 168.5751158173395,
+        "alternativeProvision": 0.0,
+        "postSchool": 0.0,
+        "income": 0.0
+      },
+      "placeFunding": {
+        "primary": 0.0,
+        "secondary": 0.0,
+        "special": 0.0,
+        "alternativeProvision": 0.0
+      },
+      "total": 337.3461283917935
+    },
+    {
+      "code": "201",
+      "year": 2022,
+      "highNeedsAmount": {
+        "totalPlaceFunding": 0.0,
+        "topUpFundingMaintained": 35.95454545454545,
+        "topUpFundingNonMaintained": 166.55939393939394,
+        "senServices": 79.32787878787879,
+        "alternativeProvisionServices": 0.0,
+        "hospitalServices": 0.0,
+        "otherHealthServices": 7.0636363636363635
+      },
+      "maintained": {
+        "earlyYears": 0.0,
+        "primary": 35.95454545454545,
+        "secondary": 0.0,
+        "special": 0.0,
+        "alternativeProvision": 0.0,
+        "postSchool": 0.0,
+        "income": 0.0
+      },
+      "nonMaintained": {
+        "earlyYears": 0.0,
+        "primary": 0.0,
+        "secondary": 59.75757575757576,
+        "special": 84.74363636363637,
+        "alternativeProvision": 0.0,
+        "postSchool": 22.05878787878788,
+        "income": 0.0
+      },
+      "placeFunding": {
+        "primary": 0.0,
+        "secondary": 0.0,
+        "special": 0.0,
+        "alternativeProvision": 0.0
+      },
+      "total": 288.9054545454545
+    },
+    {
+      "code": "201",
+      "year": 2023,
+      "highNeedsAmount": {
+        "totalPlaceFunding": 0.0,
+        "topUpFundingMaintained": 44.79690189328743,
+        "topUpFundingNonMaintained": 163.56397016637982,
+        "senServices": 101.69305794607,
+        "alternativeProvisionServices": 15.838209982788296,
+        "hospitalServices": 0.0,
+        "otherHealthServices": 7.104417670682731
+      },
+      "maintained": {
+        "earlyYears": 0.0,
+        "primary": 3.2518646012621915,
+        "secondary": 8.056798623063683,
+        "special": 0.0,
+        "alternativeProvision": 0.0,
+        "postSchool": 33.48823866896156,
+        "income": 0.0
+      },
+      "nonMaintained": {
+        "earlyYears": 0.0,
+        "primary": 3.9730349971313825,
+        "secondary": 81.97016637980494,
+        "special": 77.62076878944349,
+        "alternativeProvision": 0.0,
+        "postSchool": 0.0,
+        "income": 0.0
+      },
+      "placeFunding": {
+        "primary": 0.0,
+        "secondary": 0.0,
+        "special": 0.0,
+        "alternativeProvision": 0.0
+      },
+      "total": 332.99655765920824
+    },
+    {
+      "code": "201",
+      "year": 2024,
+      "highNeedsAmount": {
+        "totalPlaceFunding": 0.0,
+        "topUpFundingMaintained": 154.66437964551173,
+        "topUpFundingNonMaintained": 172.67695826186392,
+        "senServices": 81.92052601486564,
+        "alternativeProvisionServices": 0.0,
+        "hospitalServices": 0.0,
+        "otherHealthServices": 5.948542024013722
+      },
+      "maintained": {
+        "earlyYears": 0.0,
+        "primary": 79.55746140651802,
+        "secondary": 71.19954259576902,
+        "special": 3.9073756432246998,
+        "alternativeProvision": 0.0,
+        "postSchool": 0.0,
+        "income": 0.0
+      },
+      "nonMaintained": {
+        "earlyYears": 0.0,
+        "primary": 7.918810748999428,
+        "secondary": 0.0,
+        "special": 164.75757575757575,
+        "alternativeProvision": 0.0,
+        "postSchool": 0.0,
+        "income": 0.0
+      },
+      "placeFunding": {
+        "primary": 0.0,
+        "secondary": 0.0,
+        "special": 0.0,
+        "alternativeProvision": 0.0
+      },
+      "total": 415.210405946255
+    }
+  ],
+  "budget": [
+    {
+      "code": "201",
+      "year": 2021,
+      "highNeedsAmount": {
+        "totalPlaceFunding": 0.0,
+        "topUpFundingMaintained": 0.0,
+        "senServices": 0.0
+      },
+      "maintained": {
+        "earlyYears": 0.0,
+        "primary": 0.0,
+        "secondary": 0.0,
+        "special": 0.0,
+        "alternativeProvision": 0.0,
+        "postSchool": 0.0,
+        "income": 0.0
+      }
+    },
+    {
+      "code": "201",
+      "year": 2022,
+      "highNeedsAmount": {
+        "totalPlaceFunding": 0.0,
+        "topUpFundingMaintained": 192.12121212121212,
+        "topUpFundingNonMaintained": 117.57575757575758,
+        "senServices": 78.78787878787878,
+        "alternativeProvisionServices": 0.0,
+        "hospitalServices": 0.0,
+        "otherHealthServices": 0.0
+      },
+      "maintained": {
+        "earlyYears": 0.0,
+        "primary": 41.81818181818182,
+        "secondary": 32.72727272727273,
+        "special": 117.57575757575758,
+        "alternativeProvision": 0.0,
+        "postSchool": 0.0,
+        "income": 0.0
+      },
+      "nonMaintained": {
+        "earlyYears": 0.0,
+        "primary": 0.0,
+        "secondary": 0.0,
+        "special": 117.57575757575758,
+        "alternativeProvision": 0.0,
+        "postSchool": 0.0,
+        "income": 0.0
+      },
+      "placeFunding": {
+        "primary": 0.0,
+        "secondary": 0.0,
+        "special": 0.0,
+        "alternativeProvision": 0.0
+      },
+      "total": 388.4848484848485
+    },
+    {
+      "code": "201",
+      "year": 2023,
+      "highNeedsAmount": {
+        "totalPlaceFunding": 0.0,
+        "topUpFundingMaintained": 113.5972461273666,
+        "topUpFundingNonMaintained": 138.267355134825,
+        "senServices": 75.15777395295467,
+        "alternativeProvisionServices": 0.0,
+        "hospitalServices": 0.0,
+        "otherHealthServices": 0.0
+      },
+      "maintained": {
+        "earlyYears": 0.0,
+        "primary": 49.91394148020654,
+        "secondary": 63.68330464716007,
+        "special": 0.0,
+        "alternativeProvision": 0.0,
+        "postSchool": 0.0,
+        "income": 0.0
+      },
+      "nonMaintained": {
+        "earlyYears": 0.0,
+        "primary": 0.0,
+        "secondary": 0.0,
+        "special": 138.267355134825,
+        "alternativeProvision": 0.0,
+        "postSchool": 0.0,
+        "income": 0.0
+      },
+      "placeFunding": {
+        "primary": 0.0,
+        "secondary": 0.0,
+        "special": 0.0,
+        "alternativeProvision": 0.0
+      },
+      "total": 327.0223752151463
+    },
+    {
+      "code": "201",
+      "year": 2024,
+      "highNeedsAmount": {
+        "totalPlaceFunding": 0.0,
+        "topUpFundingMaintained": 63.46483704974271,
+        "topUpFundingNonMaintained": 137.7930245854774,
+        "senServices": 78.33047455688965,
+        "alternativeProvisionServices": 0.0,
+        "hospitalServices": 0.0,
+        "otherHealthServices": 0.0
+      },
+      "maintained": {
+        "earlyYears": 0.0,
+        "primary": 0.0,
+        "secondary": 63.46483704974271,
+        "special": 0.0,
+        "alternativeProvision": 0.0,
+        "postSchool": 0.0,
+        "income": 0.0
+      },
+      "nonMaintained": {
+        "earlyYears": 0.0,
+        "primary": 0.0,
+        "secondary": 0.0,
+        "special": 137.7930245854774,
+        "alternativeProvision": 0.0,
+        "postSchool": 0.0,
+        "income": 0.0
+      },
+      "placeFunding": {
+        "primary": 0.0,
+        "secondary": 0.0,
+        "special": 0.0,
+        "alternativeProvision": 0.0
+      },
+      "total": 279.58833619210975
+    }
+  ]
+}

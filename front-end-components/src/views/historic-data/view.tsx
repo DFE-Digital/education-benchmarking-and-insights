@@ -8,9 +8,12 @@ import { useGovUk } from "src/hooks/useGovUk";
 import { ChartModeChart } from "src/components";
 import { ChartModeProvider } from "src/contexts";
 
-export const HistoricData: React.FC<HistoricDataViewProps> = (props) => {
-  const { type, id } = props;
-  useGovUk();
+export const HistoricData: React.FC<HistoricDataViewProps> = ({
+  id,
+  rootEl,
+  type,
+}) => {
+  useGovUk(rootEl);
 
   return (
     <div className="govuk-tabs" data-module="govuk-tabs">

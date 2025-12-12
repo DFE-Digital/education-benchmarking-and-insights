@@ -15,6 +15,7 @@ def build_local_authorities(
     ),
     ons_filepath_or_buffer: FilePath | ReadCsvBuffer[bytes] | ReadCsvBuffer[str],
     sen2_filepath_or_buffer: FilePath | ReadCsvBuffer[bytes] | ReadCsvBuffer[str],
+    all_schools: pd.DataFrame,
     year: int,
 ):
     """
@@ -25,6 +26,7 @@ def build_local_authorities(
     :param statistical_neighbours_filepath: source for LA statistical neighbours data
     :param ons_filepath_or_buffer: source for ONS LA data
     :param sen2_filepath_or_buffer: source for LA SEN2 data
+    :param all_schools: FBIT schools data for pupil aggregations
     :param year: financial year in question
     :return: Local Authority data
     """
@@ -47,6 +49,8 @@ def build_local_authorities(
 
     logger.info("Processing Local Authority combined data.")
 
+    fbit_pupils_per_la = _aggregate_fbit_pupil_numbers_to_la_level(all_schools)
+
     local_authority_data = (
         section_251_data.merge(
             statistical_neighbours_data,
@@ -61,18 +65,96 @@ def build_local_authorities(
             how="left",
         )
         .merge(
-            sen_2_data,
-            left_index=True,
+            fbit_pupils_per_la,
+            left_on="old_la_code",
             right_index=True,
             how="left",
         )
+    )
+
+    local_authority_data_with_sen = _join_sen_to_local_authority_data(
+        local_authority_data, sen_2_data
     )
 
     logger.info(
         f"Processed {len(local_authority_data.index)} combined Local Authority rows."
     )
 
-    return local_authority_data
+    return local_authority_data_with_sen
+
+
+def _join_sen_to_local_authority_data(
+    local_authority_data: pd.DataFrame, sen_2_data: pd.DataFrame
+):
+    """If EHCP data doesn't join on old and new LA code, try just joining on old LA code."""
+    first_join_to_sen_data = local_authority_data.merge(
+        sen_2_data,
+        left_index=True,
+        right_index=True,
+        how="left",
+    )
+    la_data_which_succeeded_sen_join = first_join_to_sen_data[
+        first_join_to_sen_data["EHCPTotal"].notna()
+    ]
+
+    la_data_which_failed_sen_join = local_authority_data.loc[
+        first_join_to_sen_data[first_join_to_sen_data["EHCPTotal"].isna()].index
+    ]
+    # Resetting the index is needed to maintain the multiindex, preferring the new_la_code from s251
+    second_join_to_sen_data = (
+        la_data_which_failed_sen_join.reset_index()
+        .merge(
+            sen_2_data,
+            left_on="old_la_code",
+            right_on="old_la_code",
+            how="left",
+        )
+        .set_index(["new_la_code", "old_la_code"])
+    )
+
+    # If there are any duplicates in `sen_2_data`'s `old_la_code`, try to keep the one with data.
+    # This is a workaround for 2024, in which there are multiple new LA codes per old LA code.
+    if second_join_to_sen_data.duplicated(subset=local_authority_data.columns).any():
+        second_join_to_sen_data.dropna(subset=["EHCPTotal"], inplace=True)
+        if second_join_to_sen_data.duplicated(
+            subset=local_authority_data.columns
+        ).any():
+            logger.info(
+                f"EHCP file linkage broken for LA codes {str(list(second_join_to_sen_data.index))}"
+            )
+
+    combined_la_join_to_sen = pd.concat(
+        [la_data_which_succeeded_sen_join, second_join_to_sen_data]
+    )
+
+    return combined_la_join_to_sen
+
+
+def _aggregate_fbit_pupil_numbers_to_la_level(
+    all_schools: pd.DataFrame,
+) -> pd.DataFrame:
+    """Aggregate FBIT adjusted pupil numbers per LA"""
+    # Lead federated schools have the pupil total for their federation already aggregated, so
+    # non-lead schools shouldn't be counted or double counting will occur
+    non_lead_federated_schools_mask = (
+        (all_schools["Finance Type"] == "Maintained")
+        & all_schools["Lead school in federation"].notna()
+        & (all_schools["Lead school in federation"] != "0")
+        & (
+            all_schools["LA Code"].map(str)
+            + all_schools["EstablishmentNumber"].map(str)
+            != all_schools["Lead school in federation"]
+        )
+    )
+    # Deselect these schools to aggregate pupil numbers per LA
+    all_schools_without_non_lead_federated_schools = all_schools[
+        ~non_lead_federated_schools_mask
+    ]
+
+    pupils_per_la = all_schools_without_non_lead_federated_schools.groupby(
+        "LA Code"
+    ).agg({"Number of pupils": "sum"})
+    return pupils_per_la
 
 
 def _build_section_251_data(
@@ -156,7 +238,9 @@ def _build_section_251_data(
         column_pivot=input_schemas.la_outturn_pivot.get(
             year, input_schemas.la_outturn_pivot["default"]
         ),
-        encoding="cp1252",
+        encoding=input_schemas.la_outturn_encoding.get(
+            year, input_schemas.la_outturn_encoding["default"]
+        ),
     ).rename(
         columns=input_schemas.la_section_251_column_mappings.get(
             year,
@@ -228,7 +312,6 @@ def _prepare_la_section_251_data(
         keep_default_na=True,
         encoding=encoding,
     )
-
     df = df[~df["old_la_code"].isna()]
 
     df = df[df["time_period"] == f"{year // 100}{(year % 100) - 1}{year % 100}"]

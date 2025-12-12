@@ -9,7 +9,8 @@
         "no-duplicate-heading": {
             "siblings_only": true
         },
-        "descriptive-link-text": false
+        "descriptive-link-text": false,
+        "table-column-style": false
     },
     // Define glob expressions to ignore
     "ignores": [

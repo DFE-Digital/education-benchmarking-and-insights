@@ -24,7 +24,7 @@ const copyStaticAssets = () =>
     .on("end", () =>
       gulp
         .src(
-          ["node_modules/govuk-frontend/dist/govuk/assets/images/favicon.ico"],
+          ["node_modules/govuk-frontend/dist/govuk/assets/rebrand/images/favicon.ico"],
           { encoding: false }
         )
         .pipe(gulp.dest("wwwroot/"))
@@ -33,7 +33,7 @@ const copyStaticAssets = () =>
       gulp
         .src(
           [
-            "node_modules/govuk-frontend/dist/govuk/assets/images/govuk-icon-180.png",
+            "node_modules/govuk-frontend/dist/govuk/assets/rebrand/images/govuk-icon-180.png",
           ],
           { encoding: false }
         )
@@ -75,6 +75,14 @@ const copyStaticAssets = () =>
       gulp
         .src(["dist/vite/*"], { encoding: false })
         .pipe(gulp.dest("wwwroot/js/"))
+    )
+    .on("end", () =>
+      gulp
+        .src(
+          ["AssetSrc/fonts/Inter/*.woff2"],
+          { encoding: false } // bypass encoding to avoid `Failed to convert WOFF 2.0 font to SFNT` in browser
+        )
+        .pipe(gulp.dest("wwwroot/fonts/Inter"))
     );
 
 gulp.task("build-fe", () => {

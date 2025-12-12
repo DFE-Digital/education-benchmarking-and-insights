@@ -24,6 +24,7 @@ export const CompareYourCosts2: React.FC<CompareYourCosts2ViewProps> = ({
   downloadLink,
   id,
   progressIndicators,
+  rootEl,
   saveClassName,
   saveFileName,
   saveModalPortalId,
@@ -36,8 +37,7 @@ export const CompareYourCosts2: React.FC<CompareYourCosts2ViewProps> = ({
   const handleFetching = (fetching: boolean) => {
     setFetching(fetching);
   };
-
-  useGovUk();
+  useGovUk(rootEl);
 
   return (
     <SelectedEstablishmentContext.Provider value={id}>

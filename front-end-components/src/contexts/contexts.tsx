@@ -47,8 +47,10 @@ export const CostCodesContext = createContext<
   CostCodesContextValue | undefined
 >(undefined);
 
-export interface CostCodesContextValue
-  extends Omit<CostCodesContextValues, "categoryCostCodes"> {
+export interface CostCodesContextValue extends Omit<
+  CostCodesContextValues,
+  "categoryCostCodes"
+> {
   costCodeMap?: CostCodeMap;
   getCostCodes: (category: string) => string[];
 }

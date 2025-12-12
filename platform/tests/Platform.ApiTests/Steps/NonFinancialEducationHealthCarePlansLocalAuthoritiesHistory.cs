@@ -1,8 +1,7 @@
-﻿using Platform.Api.NonFinancial.Features.EducationHealthCarePlans.Models;
+﻿using Newtonsoft.Json.Linq;
 using Platform.ApiTests.Assertion;
 using Platform.ApiTests.Drivers;
-using Platform.Json;
-using Xunit;
+using Platform.ApiTests.TestDataHelpers;
 
 namespace Platform.ApiTests.Steps;
 
@@ -12,16 +11,14 @@ public class NonFinancialEducationHealthCarePlansLocalAuthoritiesHistory(NonFina
 {
     private const string Key = "education-health-care-plans";
     private const string HistoryKey = "education-health-care-plans-history";
-    private History<LocalAuthorityNumberOfPlansYearResponse>? _historyResult;
-    private LocalAuthorityNumberOfPlansResponse[] _results = [];
 
-    [Given("an education health care plans history request with LA codes:")]
-    public void GivenAnEducationHealthCarePlansHistoryRequestWithLaCodes(DataTable table)
+    [Given("an education health care plans history request with dimension '(.*)' and LA codes:")]
+    public void GivenAnEducationHealthCarePlansHistoryRequestWithDimensionAndLaCodes(string dimension, DataTable table)
     {
         var codes = table.Rows.Select(r => r["Code"]);
         api.CreateRequest(HistoryKey, new HttpRequestMessage
         {
-            RequestUri = new Uri($"/api/education-health-care-plans/local-authorities/history?code={string.Join("&code=", codes)}", UriKind.Relative),
+            RequestUri = new Uri($"/api/education-health-care-plans/local-authorities/history?code={string.Join("&code=", codes)}&dimension={dimension}", UriKind.Relative),
             Method = HttpMethod.Get
         });
     }
@@ -35,56 +32,6 @@ public class NonFinancialEducationHealthCarePlansLocalAuthoritiesHistory(NonFina
             RequestUri = new Uri($"/api/education-health-care-plans/local-authorities?code={string.Join("&code=", codes)}&dimension={dimension}", UriKind.Relative),
             Method = HttpMethod.Get
         });
-    }
-
-    [When("I submit the education health care plans request")]
-    public async Task WhenISubmitTheEducationHealthCarePlansRequest()
-    {
-        await api.Send();
-    }
-
-    [Then("the education health care plans history result should be ok and have the following values:")]
-    public async Task ThenTheEducationHealthCarePlansHistoryResultShouldBeOkAndHaveTheFollowingValues(DataTable table)
-    {
-        var response = api[HistoryKey].Response;
-        AssertHttpResponse.IsOk(response);
-
-        var content = await response.Content.ReadAsByteArrayAsync();
-        _historyResult = content.FromJson<History<LocalAuthorityNumberOfPlansYearResponse>>();
-        var startYear = table.Rows.First()["StartYear"];
-        var endYear = table.Rows.First()["EndYear"];
-
-        Assert.Equal(startYear, _historyResult.StartYear.ToString());
-        Assert.Equal(endYear, _historyResult.EndYear.ToString());
-    }
-
-    [Then("the education health care plans history result should have the following plan for '(.*)':")]
-    public void ThenTheEducationHealthCarePlansHistoryResultShouldHaveTheFollowingPlanFor(int year, DataTable table)
-    {
-        var actual = _historyResult?.Plans?.FirstOrDefault(p => p.Year == year);
-
-        Assert.NotNull(actual);
-        table.CompareToInstance(actual);
-    }
-
-    [Then("the education health care plans history result should not have a plan for '(.*)'")]
-    public void ThenTheEducationHealthCarePlansHistoryResultShouldNotHaveAPlanFor(int year)
-    {
-        var actual = _historyResult?.Plans?.FirstOrDefault(p => p.Year == year);
-
-        Assert.Null(actual);
-    }
-
-    [Then("the education health care plans result should be ok and contain the following values:")]
-    public async Task ThenTheEducationHealthCarePlansResultShouldBeOkAndContainTheFollowingValues(DataTable table)
-    {
-        var response = api[Key].Response;
-        AssertHttpResponse.IsOk(response);
-
-        var content = await response.Content.ReadAsByteArrayAsync();
-        _results = content.FromJson<LocalAuthorityNumberOfPlansResponse[]>();
-
-        table.CompareToSet(_results);
     }
 
     [Given("an education health care plans history request with no codes")]
@@ -105,6 +52,40 @@ public class NonFinancialEducationHealthCarePlansLocalAuthoritiesHistory(NonFina
             RequestUri = new Uri("/api/education-health-care-plans/local-authorities", UriKind.Relative),
             Method = HttpMethod.Get
         });
+    }
+
+    [When("I submit the education health care plans request")]
+    public async Task WhenISubmitTheEducationHealthCarePlansRequest()
+    {
+        await api.Send();
+    }
+
+    [Then("the education health care plans history result should be ok and match the expected output of '(.*)'")]
+    public async Task ThenTheEducationHealthCarePlansHistoryResultShouldBeOkAndMatchTheExpectedOutputOf(string testFile)
+    {
+        var response = api[HistoryKey].Response;
+        AssertHttpResponse.IsOk(response);
+
+        var content = await response.Content.ReadAsStringAsync();
+        var actual = JObject.Parse(content);
+
+        var expected = TestDataProvider.GetJsonObjectData(testFile);
+
+        actual.AssertDeepEquals(expected);
+    }
+
+    [Then("the education health care plans result should be ok and match the expected output of '(.*)'")]
+    public async Task ThenTheEducationHealthCarePlansResultShouldBeOkAndMatchTheExpectedOutputOf(string testFile)
+    {
+        var response = api[Key].Response;
+        AssertHttpResponse.IsOk(response);
+
+        var content = await response.Content.ReadAsStringAsync();
+        var actual = JArray.Parse(content);
+
+        var expected = TestDataProvider.GetJsonArrayData(testFile);
+
+        actual.AssertDeepEquals(expected);
     }
 
     [Then("the education health care plans history result should be bad request")]

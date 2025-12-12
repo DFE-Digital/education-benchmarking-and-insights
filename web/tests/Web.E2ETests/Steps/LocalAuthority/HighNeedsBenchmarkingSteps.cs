@@ -91,7 +91,7 @@ public class HighNeedsBenchmarkingSteps(PageDriver driver)
         await _highNeedsBenchmarkingPage.AreTablesDisplayed(int.Parse(tables));
     }
 
-    [Then("the table for 'High needs amount per head 2-18 population' contains the following S251 values:")]
+    [Then("the table for 'High needs amount per pupil' contains the following S251 values:")]
     public async Task ThenTheTableForContainsTheFollowingSValues(DataTable table)
     {
         Assert.NotNull(_highNeedsBenchmarkingPage);

@@ -38,12 +38,12 @@ public class HighNeedsProxyController(
             var query = BuildQuery(new[]
             {
                 code
-            }.Concat(set).ToArray(), "PerHead");
+            }.Concat(set).ToArray(), "PerPupil");
             var localAuthorities = await localAuthoritiesApi
                 .GetHighNeeds(query, cancellationToken)
                 .GetResultOrThrow<LocalAuthority<HighNeeds>[]>();
 
-            return new JsonResult(localAuthorities.MapToApiResponse());
+            return new JsonResult(localAuthorities.MapToApiResponse().ToArray());
         }
         catch (Exception e)
         {
@@ -65,12 +65,12 @@ public class HighNeedsProxyController(
     {
         try
         {
-            var query = BuildQuery([code], "PerHead");
+            var query = BuildQuery([code], "PerPupil");
             var history = await localAuthoritiesApi
                 .GetHighNeedsHistory(query, cancellationToken)
                 .GetResultOrThrow<HighNeedsHistory<HighNeedsYear>>();
 
-            return new JsonResult(history.MapToApiResponse(code));
+            return new JsonResult(history.MapToApiResponse(code).ToArray());
         }
         catch (Exception e)
         {

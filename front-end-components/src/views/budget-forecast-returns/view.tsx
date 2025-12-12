@@ -7,8 +7,9 @@ import "./styles.scss";
 
 export const BudgetForecastReturns: React.FC<BudgetForecastReturnsProps> = ({
   id,
+  rootEl,
 }) => {
-  useGovUk();
+  useGovUk(rootEl);
 
   return (
     <SelectedEstablishmentContext.Provider value={id}>

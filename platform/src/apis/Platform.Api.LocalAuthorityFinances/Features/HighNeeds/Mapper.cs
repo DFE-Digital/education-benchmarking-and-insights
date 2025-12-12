@@ -23,6 +23,7 @@ public static class Mapper
             Code = localAuthority?.Code,
             Name = localAuthority?.Name,
             Population2To18 = localAuthority?.Population2To18,
+            TotalPupils = localAuthority?.TotalPupils,
             Outturn = new Models.HighNeeds
             {
                 Total = outturn?.Total,

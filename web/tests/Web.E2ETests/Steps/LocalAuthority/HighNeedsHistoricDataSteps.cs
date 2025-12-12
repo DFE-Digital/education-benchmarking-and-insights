@@ -124,7 +124,7 @@ public class HighNeedsHistoricDataSteps(PageDriver driver)
         return chartName switch
         {
             "place funding" => HistoricDataCategoryNames.PlaceFunding,
-            "Placement of pupils aged up to 25 with SEN statement or EHC plan (per 1000 2 to 18 population)" => HistoricDataCategoryNames.PlacementOfPupils,
+            "Placement of pupils aged up to 25 with SEN statement or EHC plan (per 1000 pupils)" => HistoricDataCategoryNames.PlacementOfPupils,
             _ => throw new ArgumentOutOfRangeException(nameof(chartName))
         };
     }

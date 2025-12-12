@@ -21,6 +21,7 @@ export const CompareYourCosts: React.FC<CompareYourCostsViewProps> = ({
   dispatchEventType,
   id,
   phases,
+  rootEl,
   suppressNegativeOrZero,
   tags,
   type,
@@ -40,8 +41,7 @@ export const CompareYourCosts: React.FC<CompareYourCostsViewProps> = ({
   };
 
   const message = "Only displaying schools with positive expenditure.";
-
-  useGovUk();
+  useGovUk(rootEl);
 
   return (
     <SelectedEstablishmentContext.Provider value={id}>

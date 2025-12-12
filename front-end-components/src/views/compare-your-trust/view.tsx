@@ -15,9 +15,10 @@ import "./styles.scss";
 
 export const CompareYourTrust: React.FC<CompareYourTrustViewProps> = ({
   id,
+  rootEl,
   showHighExecutivePay,
 }) => {
-  useGovUk();
+  useGovUk(rootEl);
 
   return (
     <div className="govuk-tabs" data-module="govuk-tabs">

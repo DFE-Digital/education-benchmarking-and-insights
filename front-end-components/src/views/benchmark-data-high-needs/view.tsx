@@ -6,8 +6,8 @@ import { BenchmarkHighNeeds } from "./partials/benchmark-high-needs";
 
 export const BenchmarkDataHighNeeds: React.FC<
   BenchmarkDataHighNeedsViewProps
-> = ({ code, ...props }) => {
-  useGovUk();
+> = ({ code, rootEl, ...props }) => {
+  useGovUk(rootEl);
 
   return (
     <SelectedEstablishmentContext.Provider value={code}>

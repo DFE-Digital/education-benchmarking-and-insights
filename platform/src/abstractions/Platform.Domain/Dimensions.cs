@@ -43,11 +43,13 @@ public static class Dimensions
     {
         public const string Actuals = nameof(Actuals);
         public const string PerHead = nameof(PerHead);
+        public const string PerPupil = nameof(PerPupil);
 
         public static readonly string[] All =
         [
             Actuals,
-            PerHead
+            PerHead,
+            PerPupil
         ];
 
         public static bool IsValid(string? dimension) => All.Any(a => a == dimension);
@@ -57,11 +59,13 @@ public static class Dimensions
     {
         public const string Actuals = nameof(Actuals);
         public const string Per1000 = nameof(Per1000);
+        public const string Per1000Pupil = nameof(Per1000Pupil);
 
         public static readonly string[] All =
         [
             Actuals,
-            Per1000
+            Per1000,
+            Per1000Pupil
         ];
 
         public static bool IsValid(string? dimension) => All.Any(a => a == dimension);

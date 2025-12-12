@@ -12,6 +12,7 @@ public class WhenEducationHealthCarePlansDimensionedParametersValidatorValidates
     [Theory]
     [InlineData("101", "")]
     [InlineData("101", "Per1000")]
+    [InlineData("101", "Per1000Pupil")]
     [InlineData("101,102,103,104,105,106,107,108,109,110", "Per1000")]
     public async Task ShouldBeValidWithGoodParameters(string codes, string dimension)
     {

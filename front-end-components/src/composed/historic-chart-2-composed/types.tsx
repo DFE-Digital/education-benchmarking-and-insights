@@ -8,17 +8,16 @@ import { HistoryBase, SchoolHistoryComparison } from "src/services";
 import { LineChartProps } from "src/components/charts/line-chart";
 import { Dimension } from "src/components";
 
-export interface HistoricChart2Props<T extends HistoryBase>
-  extends Pick<
-    LineChartProps<T>,
-    | "legend"
-    | "legendIconSize"
-    | "legendIconType"
-    | "legendHorizontalAlign"
-    | "legendVerticalAlign"
-    | "legendWrapperStyle"
-    | "showCopyImageButton"
-  > {
+export interface HistoricChart2Props<T extends HistoryBase> extends Pick<
+  LineChartProps<T>,
+  | "legend"
+  | "legendIconSize"
+  | "legendIconType"
+  | "legendHorizontalAlign"
+  | "legendVerticalAlign"
+  | "legendWrapperStyle"
+  | "showCopyImageButton"
+> {
   chartTitle: string;
   data: SchoolHistoryComparison<T>;
   valueField: ResolvedStatProps<T>["valueField"];

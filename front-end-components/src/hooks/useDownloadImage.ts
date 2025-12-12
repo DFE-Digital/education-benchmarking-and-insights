@@ -316,7 +316,7 @@ function createCostCodeList(
   if (costCodesLabel && costCodes.length > 0) {
     const li = document.createElement("li");
     li.innerHTML = costCodesLabel;
-    li.style.fontFamily = '"GDS Transport", arial, sans-serif';
+    li.style.fontFamily = "Inter, arial, sans-serif";
     li.style.fontSize = "1rem";
     li.style.display = "inline-block";
     li.style.color = "rgb(80, 90, 95)";
@@ -327,7 +327,7 @@ function createCostCodeList(
   costCodes.forEach((costCode) => {
     const li = document.createElement("li");
     li.innerText = costCode;
-    li.style.fontFamily = '"GDS Transport", arial, sans-serif';
+    li.style.fontFamily = "Inter, arial, sans-serif";
     li.style.fontSize = "1rem";
     li.style.display = "inline-block";
 
@@ -352,7 +352,7 @@ function createCostCodeList(
 function createTitleElement(title: string): HTMLElement {
   const child = document.createElement("h2");
   child.innerText = title;
-  child.style.fontFamily = '"GDS Transport", arial, sans-serif';
+  child.style.fontFamily = "Inter, arial, sans-serif";
   child.style.fontSize = "1.25rem";
   child.style.fontWeight = "700";
   child.style.height = `${imageTitleHeight}px`;

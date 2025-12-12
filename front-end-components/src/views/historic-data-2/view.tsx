@@ -15,12 +15,13 @@ import { useState } from "react";
 
 export const HistoricData2: React.FC<HistoricData2ViewProps> = ({
   preLoadSections,
+  rootEl,
   ...props
 }) => {
   const [loadedSections, setLoadedSections] = useState<
     HistoricData2SectionName[]
   >(preLoadSections ?? ["spending"]);
-  useGovUk();
+  useGovUk(rootEl);
 
   const handleSectionLoad = (section: HistoricData2SectionName) => {
     if (loadedSections.includes(section)) {

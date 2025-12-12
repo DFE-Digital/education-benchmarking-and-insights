@@ -40,8 +40,6 @@ def expected_columns():
         "SN8Code",
         "SN9Code",
         "SN10Code",
-        "GOInd",
-        "GOReg",
     ]
 
 
@@ -78,8 +76,6 @@ def expected_la_1_values():
         109,
         110,
         111,
-        3,
-        "London (Inner)",
     ]
 
 
@@ -116,8 +112,6 @@ def expected_la_2_values():
         110,
         111,
         112,
-        8,
-        "West Midlands",
     ]
 
 

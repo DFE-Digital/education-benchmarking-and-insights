@@ -7,6 +7,7 @@ AS
         RunType,
         LaCode,
         Population2To18,
+        TotalPupils,
         OutturnTotalHighNeeds,
         OutturnTotalPlaceFunding,
         OutturnTotalTopUpFundingMaintained,
@@ -71,6 +72,7 @@ AS
         RunType,
         LaCode,
         Population2To18,
+        TotalPupils,
         IIF(Population2To18 > 0.0, OutturnTotalHighNeeds / Population2To18, NULL) AS OutturnTotalHighNeeds,
         IIF(Population2To18 > 0.0, OutturnTotalPlaceFunding / Population2To18, NULL) AS OutturnTotalPlaceFunding,
         IIF(Population2To18 > 0.0, OutturnTotalTopUpFundingMaintained / Population2To18, NULL) AS OutturnTotalTopUpFundingMaintained,
@@ -126,6 +128,71 @@ AS
     FROM LocalAuthorityFinancial
 GO
 
+DROP VIEW IF EXISTS VW_LocalAuthorityFinancialPerPupil
+    GO
+
+CREATE VIEW VW_LocalAuthorityFinancialPerPupil
+AS
+SELECT RunId,
+       RunType,
+       LaCode,
+       Population2To18,
+       TotalPupils,
+       IIF(TotalPupils > 0.0, OutturnTotalHighNeeds / TotalPupils, NULL) AS OutturnTotalHighNeeds,
+       IIF(TotalPupils > 0.0, OutturnTotalPlaceFunding / TotalPupils, NULL) AS OutturnTotalPlaceFunding,
+       IIF(TotalPupils > 0.0, OutturnTotalTopUpFundingMaintained / TotalPupils, NULL) AS OutturnTotalTopUpFundingMaintained,
+       IIF(TotalPupils > 0.0, OutturnTotalTopUpFundingNonMaintained / TotalPupils, NULL) AS OutturnTotalTopUpFundingNonMaintained,
+       IIF(TotalPupils > 0.0, OutturnTotalSenServices / TotalPupils, NULL) AS OutturnTotalSenServices,
+       IIF(TotalPupils > 0.0, OutturnTotalAlternativeProvisionServices / TotalPupils, NULL) AS OutturnTotalAlternativeProvisionServices,
+       IIF(TotalPupils > 0.0, OutturnTotalHospitalServices / TotalPupils, NULL) AS OutturnTotalHospitalServices,
+       IIF(TotalPupils > 0.0, OutturnTotalOtherHealthServices / TotalPupils, NULL) AS OutturnTotalOtherHealthServices,
+       IIF(TotalPupils > 0.0, OutturnTopFundingMaintainedEarlyYears / TotalPupils, NULL) AS OutturnTopFundingMaintainedEarlyYears,
+       IIF(TotalPupils > 0.0, OutturnTopFundingMaintainedPrimary / TotalPupils, NULL) AS OutturnTopFundingMaintainedPrimary,
+       IIF(TotalPupils > 0.0, OutturnTopFundingMaintainedSecondary / TotalPupils, NULL) AS OutturnTopFundingMaintainedSecondary,
+       IIF(TotalPupils > 0.0, OutturnTopFundingMaintainedSpecial / TotalPupils, NULL) AS OutturnTopFundingMaintainedSpecial,
+       IIF(TotalPupils > 0.0, OutturnTopFundingMaintainedAlternativeProvision / TotalPupils, NULL) AS OutturnTopFundingMaintainedAlternativeProvision,
+       IIF(TotalPupils > 0.0, OutturnTopFundingMaintainedPostSchool / TotalPupils, NULL) AS OutturnTopFundingMaintainedPostSchool,
+       IIF(TotalPupils > 0.0, OutturnTopFundingMaintainedIncome / TotalPupils, NULL) AS OutturnTopFundingMaintainedIncome,
+       IIF(TotalPupils > 0.0, OutturnTopFundingNonMaintainedEarlyYears / TotalPupils, NULL) AS OutturnTopFundingNonMaintainedEarlyYears,
+       IIF(TotalPupils > 0.0, OutturnTopFundingNonMaintainedPrimary / TotalPupils, NULL) AS OutturnTopFundingNonMaintainedPrimary,
+       IIF(TotalPupils > 0.0, OutturnTopFundingNonMaintainedSecondary / TotalPupils, NULL) AS OutturnTopFundingNonMaintainedSecondary,
+       IIF(TotalPupils > 0.0, OutturnTopFundingNonMaintainedSpecial / TotalPupils, NULL) AS OutturnTopFundingNonMaintainedSpecial,
+       IIF(TotalPupils > 0.0, OutturnTopFundingNonMaintainedAlternativeProvision / TotalPupils, NULL) AS OutturnTopFundingNonMaintainedAlternativeProvision,
+       IIF(TotalPupils > 0.0, OutturnTopFundingNonMaintainedPostSchool / TotalPupils, NULL) AS OutturnTopFundingNonMaintainedPostSchool,
+       IIF(TotalPupils > 0.0, OutturnTopFundingNonMaintainedIncome / TotalPupils, NULL) AS OutturnTopFundingNonMaintainedIncome,
+       IIF(TotalPupils > 0.0, OutturnPlaceFundingPrimary / TotalPupils, NULL) AS OutturnPlaceFundingPrimary,
+       IIF(TotalPupils > 0.0, OutturnPlaceFundingSecondary / TotalPupils, NULL) AS OutturnPlaceFundingSecondary,
+       IIF(TotalPupils > 0.0, OutturnPlaceFundingSpecial / TotalPupils, NULL) AS OutturnPlaceFundingSpecial,
+       IIF(TotalPupils > 0.0, OutturnPlaceFundingAlternativeProvision / TotalPupils, NULL) AS OutturnPlaceFundingAlternativeProvision,
+       IIF(TotalPupils > 0.0, BudgetTotalHighNeeds / TotalPupils, NULL) AS BudgetTotalHighNeeds,
+       IIF(TotalPupils > 0.0, BudgetTotalPlaceFunding / TotalPupils, NULL) AS BudgetTotalPlaceFunding,
+       IIF(TotalPupils > 0.0, BudgetTotalTopUpFundingMaintained / TotalPupils, NULL) AS BudgetTotalTopUpFundingMaintained,
+       IIF(TotalPupils > 0.0, BudgetTotalTopUpFundingNonMaintained / TotalPupils, NULL) AS BudgetTotalTopUpFundingNonMaintained,
+       IIF(TotalPupils > 0.0, BudgetTotalSenServices / TotalPupils, NULL) AS BudgetTotalSenServices,
+       IIF(TotalPupils > 0.0, BudgetTotalAlternativeProvisionServices / TotalPupils, NULL) AS BudgetTotalAlternativeProvisionServices,
+       IIF(TotalPupils > 0.0, BudgetTotalHospitalServices / TotalPupils, NULL) AS BudgetTotalHospitalServices,
+       IIF(TotalPupils > 0.0, BudgetTotalOtherHealthServices / TotalPupils, NULL) AS BudgetTotalOtherHealthServices,
+       IIF(TotalPupils > 0.0, BudgetTopFundingMaintainedEarlyYears / TotalPupils, NULL) AS BudgetTopFundingMaintainedEarlyYears,
+       IIF(TotalPupils > 0.0, BudgetTopFundingMaintainedPrimary / TotalPupils, NULL) AS BudgetTopFundingMaintainedPrimary,
+       IIF(TotalPupils > 0.0, BudgetTopFundingMaintainedSecondary / TotalPupils, NULL) AS BudgetTopFundingMaintainedSecondary,
+       IIF(TotalPupils > 0.0, BudgetTopFundingMaintainedSpecial / TotalPupils, NULL) AS BudgetTopFundingMaintainedSpecial,
+       IIF(TotalPupils > 0.0, BudgetTopFundingMaintainedAlternativeProvision / TotalPupils, NULL) AS BudgetTopFundingMaintainedAlternativeProvision,
+       IIF(TotalPupils > 0.0, BudgetTopFundingMaintainedPostSchool / TotalPupils, NULL) AS BudgetTopFundingMaintainedPostSchool,
+       IIF(TotalPupils > 0.0, BudgetTopFundingMaintainedIncome / TotalPupils, NULL) AS BudgetTopFundingMaintainedIncome,
+       IIF(TotalPupils > 0.0, BudgetTopFundingNonMaintainedEarlyYears / TotalPupils, NULL) AS BudgetTopFundingNonMaintainedEarlyYears,
+       IIF(TotalPupils > 0.0, BudgetTopFundingNonMaintainedPrimary / TotalPupils, NULL) AS BudgetTopFundingNonMaintainedPrimary,
+       IIF(TotalPupils > 0.0, BudgetTopFundingNonMaintainedSecondary / TotalPupils, NULL) AS BudgetTopFundingNonMaintainedSecondary,
+       IIF(TotalPupils > 0.0, BudgetTopFundingNonMaintainedSpecial / TotalPupils, NULL) AS BudgetTopFundingNonMaintainedSpecial,
+       IIF(TotalPupils > 0.0, BudgetTopFundingNonMaintainedAlternativeProvision / TotalPupils, NULL) AS BudgetTopFundingNonMaintainedAlternativeProvision,
+       IIF(TotalPupils > 0.0, BudgetTopFundingNonMaintainedPostSchool / TotalPupils, NULL) AS BudgetTopFundingNonMaintainedPostSchool,
+       IIF(TotalPupils > 0.0, BudgetTopFundingNonMaintainedIncome / TotalPupils, NULL) AS BudgetTopFundingNonMaintainedIncome,
+       IIF(TotalPupils > 0.0, BudgetPlaceFundingPrimary / TotalPupils, NULL) AS BudgetPlaceFundingPrimary,
+       IIF(TotalPupils > 0.0, BudgetPlaceFundingSecondary / TotalPupils, NULL) AS BudgetPlaceFundingSecondary,
+       IIF(TotalPupils > 0.0, BudgetPlaceFundingSpecial / TotalPupils, NULL) AS BudgetPlaceFundingSpecial,
+       IIF(TotalPupils > 0.0, BudgetPlaceFundingAlternativeProvision / TotalPupils, NULL) AS BudgetPlaceFundingAlternativeProvision
+    FROM LocalAuthorityFinancial
+GO
+
 DROP VIEW IF EXISTS VW_LocalAuthorityFinancialDefaultActual
 GO
 
@@ -143,6 +210,16 @@ CREATE VIEW VW_LocalAuthorityFinancialDefaultPerPopulation
 AS
     SELECT *
     FROM VW_LocalAuthorityFinancialPerPopulation
+    WHERE RunType = 'default'
+GO
+
+DROP VIEW IF EXISTS VW_LocalAuthorityFinancialDefaultPerPupil
+GO
+
+CREATE VIEW VW_LocalAuthorityFinancialDefaultPerPupil
+AS
+    SELECT *
+    FROM VW_LocalAuthorityFinancialPerPupil
     WHERE RunType = 'default'
 GO
 
@@ -169,6 +246,20 @@ AS
         l.Name
     FROM LocalAuthority l
         LEFT JOIN VW_LocalAuthorityFinancialDefaultPerPopulation c ON c.LaCode = l.Code
+    WHERE c.RunId = (SELECT Value
+    FROM Parameters
+    WHERE Name = 'CurrentYear')
+GO
+
+DROP VIEW IF EXISTS VW_LocalAuthorityFinancialDefaultCurrentPerPupil
+GO
+
+CREATE VIEW VW_LocalAuthorityFinancialDefaultCurrentPerPupil
+AS
+    SELECT c.*,
+        l.Name
+    FROM LocalAuthority l
+        LEFT JOIN VW_LocalAuthorityFinancialDefaultPerPupil c ON c.LaCode = l.Code
     WHERE c.RunId = (SELECT Value
     FROM Parameters
     WHERE Name = 'CurrentYear')

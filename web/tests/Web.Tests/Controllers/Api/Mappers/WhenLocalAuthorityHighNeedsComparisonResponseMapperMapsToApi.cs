@@ -21,7 +21,7 @@ public class WhenLocalAuthorityHighNeedsComparisonResponseMapperMapsToApi
         };
 
         var plans = codes.Select(c => Fixture
-                .Build<LocalAuthority<HighNeeds>>()
+                .Build<LocalAuthority<App.Domain.LocalAuthorities.HighNeeds>>()
                 .With(p => p.Code, c)
                 .Create())
             .ToArray();
@@ -36,12 +36,13 @@ public class WhenLocalAuthorityHighNeedsComparisonResponseMapperMapsToApi
             Assert.Equal(expected.Code, actual.Code);
             Assert.Equal(expected.Name, actual.Name);
             Assert.Equal(expected.Population2To18, actual.Population2To18);
+            Assert.Equal(expected.TotalPupils, actual.TotalPupils);
             AssertFieldsMapped(expected.Outturn!, actual.Outturn);
             AssertFieldsMapped(expected.Budget!, actual.Budget);
         }
     }
 
-    private static void AssertFieldsMapped(HighNeeds expected, LocalAuthorityHighNeedsApiResponse? actual)
+    private static void AssertFieldsMapped(App.Domain.LocalAuthorities.HighNeeds expected, LocalAuthorityHighNeedsApiResponse? actual)
     {
         Assert.Equal(expected.HighNeedsAmount?.TotalPlaceFunding, actual?.HighNeedsAmountTotalPlaceFunding);
         Assert.Equal(expected.HighNeedsAmount?.TopUpFundingMaintained, actual?.HighNeedsAmountTopUpFundingMaintained);

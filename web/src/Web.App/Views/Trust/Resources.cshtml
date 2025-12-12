@@ -11,12 +11,3 @@
         @await Html.PartialAsync("CommercialResource/AllResources")
     </div>
 </div>
-
-
-@section scripts
-{
-    <script type="module" add-nonce="true">
-      import { initAll } from '/js/govuk-frontend.min.js'
-      initAll()
-    </script>
-}

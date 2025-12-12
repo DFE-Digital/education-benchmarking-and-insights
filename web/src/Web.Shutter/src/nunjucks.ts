@@ -18,7 +18,7 @@ const configure = (app: express.Express) => {
   };
 
   const env = new nunjucks.Environment(loader, options);
-  env.addGlobal("govukRebrand", false);
+  env.addGlobal("govukRebrand", true);
   env.express(app);
   app.set("view engine", "njk");
   use({ renderer: markdownRenderer });

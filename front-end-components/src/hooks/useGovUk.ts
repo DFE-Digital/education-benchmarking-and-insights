@@ -1,30 +1,25 @@
-import { useLayoutEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { initAll } from "govuk-frontend";
 
 // https://frontend.design-system.service.gov.uk/javascript-api-reference/
-export function useGovUk() {
+export function useGovUk(scope?: Element | null) {
   const [isLoaded, setIsLoaded] = useState<boolean>();
 
-  useLayoutEffect(() => {
+  // https://react.dev/reference/react/useEffect#my-effect-runs-twice-when-the-component-mounts
+  useEffect(() => {
     if (!isLoaded) {
-      initAll();
+      if (scope) {
+        initAll({ scope });
+      } else {
+        initAll();
+      }
     }
 
     setIsLoaded(true);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  /**
-   * See https://frontend.design-system.service.gov.uk/configure-components/#initialise-only-part-of-a-page
-   */
-  const reInit = (scope: Element) => {
-    if (scope) {
-      initAll({ scope });
-    }
-  };
-
   return {
     isLoaded,
-    reInit,
   };
 }

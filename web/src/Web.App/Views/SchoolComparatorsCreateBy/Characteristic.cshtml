@@ -463,9 +463,6 @@
 @section scripts
 {
     <script type="module" add-nonce="true">
-      import { initAll } from '/js/govuk-frontend.min.js';
-      initAll();
-      
       @if (Model.Data.LaNamesMutated == true)
       {
           @:document.getElementById("@nameof(Model.Data.LaSelection)").scrollIntoView();

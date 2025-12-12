@@ -12,6 +12,7 @@ public class WhenHighNeedsDimensionedParametersValidatorValidates
     [Theory]
     [InlineData("code1", "")]
     [InlineData("code1", "PerHead")]
+    [InlineData("code1", "PerPupil")]
     [InlineData("code1,code2,code3", "PerHead")]
     [InlineData("code1,code2,code3,code4,code5,code6,code7,code9,code9,code10", "PerHead")]
     public async Task ShouldValidateAndEvaluateGoodParametersAsValid(string codes, string dimension)

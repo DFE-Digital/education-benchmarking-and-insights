@@ -79,7 +79,7 @@ public class WhenViewingCustomDataSpending(SchoolBenchmarkingWebAppClient client
     {
         var (page, school, _, _) = await SetupNavigateInitPage(true);
 
-        var categorySections = page.QuerySelectorAll("section");
+        var categorySections = page.QuerySelectorAll("main section");
 
         Assert.Equal(8, categorySections.Length);
 
@@ -221,7 +221,7 @@ public class WhenViewingCustomDataSpending(SchoolBenchmarkingWebAppClient client
         DocumentAssert.TitleAndH1(page, "Spending priorities for this school - Financial Benchmarking and Insights Tool - GOV.UK",
             "Spending priorities for this school");
 
-        var categorySections = page.QuerySelectorAll("section");
+        var categorySections = page.QuerySelectorAll("main section");
 
         foreach (var section in categorySections)
         {

@@ -152,17 +152,25 @@ def test_run_rag_pipeline_orchestration_single_school_type_target(
     cols_for_prepare_data,
 ):
     mock_load_data.side_effect = [
-        (pd.DataFrame(columns=cols_for_prepare_data), pd.DataFrame({})),  # maintained_schools: no target_urn
-        (pd.DataFrame(index=[101], columns=cols_for_prepare_data), pd.DataFrame({})),  # academies: target_urn present
+        (
+            pd.DataFrame(columns=cols_for_prepare_data),
+            pd.DataFrame({}),
+        ),  # maintained_schools: no target_urn
+        (
+            pd.DataFrame(index=[101], columns=cols_for_prepare_data),
+            pd.DataFrame({}),
+        ),  # academies: target_urn present
     ]
     mock_engine.return_value = sample_rag_df
 
     run_rag_pipeline(run_type="default", run_id="123", target_urn=101)
 
     assert mock_load_data.call_count == 2
-    assert mock_engine.call_count == 2 # Engine still called for both, but one might get empty data
-    assert mock_write_blob.call_count == 2 # Expect two files to be written
-    mock_insert.assert_called_once() # Combined results should still be inserted
+    assert (
+        mock_engine.call_count == 2
+    )  # Engine still called for both, but one might get empty data
+    assert mock_write_blob.call_count == 2  # Expect two files to be written
+    mock_insert.assert_called_once()  # Combined results should still be inserted
 
     args, _ = mock_insert.call_args
     combined_df = args[2]

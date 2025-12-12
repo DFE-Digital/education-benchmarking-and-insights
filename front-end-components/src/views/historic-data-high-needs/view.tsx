@@ -13,11 +13,11 @@ import {
 
 export const HistoricDataHighNeeds: React.FC<
   HistoricDataHighNeedsViewProps
-> = ({ preLoadSections, ...props }) => {
+> = ({ preLoadSections, rootEl, ...props }) => {
   const [loadedSections, setLoadedSections] = useState<
     HistoricDataHighNeedsSectionName[]
   >(preLoadSections ?? ["section-251"]);
-  useGovUk();
+  useGovUk(rootEl);
 
   const handleSectionLoad = (section: HistoricDataHighNeedsSectionName) => {
     if (loadedSections.includes(section)) {
