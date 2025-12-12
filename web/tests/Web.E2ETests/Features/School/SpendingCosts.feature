@@ -3,15 +3,15 @@
     Scenario: Categories in the correct priority order
         Given I am on spending and costs page for school with URN '777042'
         Then the priority order of charts is
-          | Name                                | Priority        |
-          | Teaching and Teaching support staff | High priority   |
-          | Non-educational support staff       | High priority   |
-          | Administrative supplies             | High priority   |
-          | Educational supplies                | High priority   |
-          | Catering staff and supplies         | High priority   |
-          | Premises staff and services         | High priority   |
-          | Utilities                           | Medium priority |
-          | Educational ICT                     | Medium priority |
+          | Name                                | Priority |
+          | Teaching and Teaching support staff | High     |
+          | Non-educational support staff       | High     |
+          | Administrative supplies             | High     |
+          | Educational supplies                | High     |
+          | Catering staff and supplies         | High     |
+          | Premises staff and services         | High     |
+          | Utilities                           | Medium   |
+          | Educational ICT                     | Medium   |
 
     Scenario: Categories have the correct RAG commentary
         Given I am on spending and costs page for school with URN '777042'

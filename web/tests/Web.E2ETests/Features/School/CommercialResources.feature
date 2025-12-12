@@ -3,14 +3,14 @@
     Scenario: View all resources
         Given I am on 'recommended' resources page for school with URN '777042'
         And the following priority categories are shown on the page
-          | Name                                       | Priority        |
-          | Teaching and Teaching support staff        | High priority   |
-          | Non-educational support staff and services | High priority   |
-          | Administrative supplies                    | High priority   |
-          | Educational supplies                       | High priority   |
-          | Catering staff and supplies                | High priority   |
-          | Premises staff and services                | High priority   |
-          | Utilities                                  | Medium priority |
+          | Name                                       | Priority |
+          | Teaching and Teaching support staff        | High     |
+          | Non-educational support staff and services | High     |
+          | Administrative supplies                    | High     |
+          | Educational supplies                       | High     |
+          | Catering staff and supplies                | High     |
+          | Premises staff and services                | High     |
+          | Utilities                                  | Medium   |
         When I click on all resources
         Then all resources tab is displayed
 

@@ -17,9 +17,9 @@ public static class Lookups
 
     public static Dictionary<string, (TagColour Colour, string DisplayText, string Class)> StatusPriorityMap => new()
     {
-        { "red", (TagColour.Red, "High priority", "high") },
-        { "amber", (TagColour.Yellow, "Medium priority", "medium") },
-        { "green", (TagColour.Green, "Low priority", "low") }
+        { "red", (TagColour.Red, "High", "high") },
+        { "amber", (TagColour.Yellow, "Medium", "medium") },
+        { "green", (TagColour.Green, "Low", "low") }
     };
 
     public static Dictionary<string, int> StatusOrderMap => new()
