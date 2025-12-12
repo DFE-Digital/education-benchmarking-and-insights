@@ -39,8 +39,8 @@
         Given I am on local authority homepage for local authority with code '205'
         Then the priority school RAGs section should be displayed for 'Primary schools' containing the following rows:
           | School          | Status                                                    |
-          | Test school 240 | 1 high, 0 medium and 0 low priorities for Test school 240 |
-          | Test school 102 | 6 high, 2 medium and 0 low priorities for Test school 102 |
+          | Test school 240 | 1 high, 0 medium and 0 low for Test school 240 |
+          | Test school 102 | 6 high, 2 medium and 0 low for Test school 102 |
 
     @LocalAuthorityHomepageV2FlagEnabled
     Scenario: Can apply filters on the financal tab

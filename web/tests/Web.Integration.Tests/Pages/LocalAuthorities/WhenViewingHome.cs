@@ -1202,7 +1202,7 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
                 if (expected.Total > 0)
                 {
                     Assert.NotNull(ragStack);
-                    Assert.Equal($"{expected.Red} high, {expected.Amber} medium and {expected.Green} low priorities for {expected.Name}", ragStack.TextContent.Trim());
+                    Assert.Equal($"{expected.Red} high, {expected.Amber} medium and {expected.Green} low for {expected.Name}", ragStack.TextContent.Trim());
                 }
                 else
                 {
