@@ -21,7 +21,7 @@ The Financial Benchmarking and Insights Tool (FBIT) requires workforce data abou
 FBIT currently sources information for school workforce from the 'school workforce' file (School_Tables_School_Workforce_Census_2024.xlsx), which is part of the ['School workforce in England']( https://explore-education-statistics.service.gov.uk/find-statistics/school-workforce-in-england/2024) publication, so the number of teaching and support staff at each school can be used in the benchmarking functionality included in the service.
 
 **The Problem:**
-The 'school workforce' file does not include the 4 
+The 'school workforce' file does not include the 4
 
 1. **Completeness:** Does it provide the required additional data
 2. **Relatability & Explainability:** Can the figure be easily explained
@@ -35,11 +35,11 @@ The following sources were evaluated:
 2. Append/join workforce dataset to school dataset/table (school left join workforce)
 3. Replace school dataset with workforce dataset
 
-## Recommendation: Option 
+## Recommendation: Option
 
 It is recommended to proceed with **Option 1**.
 
-By 
+By
 
 ### Rationale
 
@@ -51,7 +51,7 @@ By
 
 | Option                             | Reason for Rejection                                                                                                                                                                                                                                                |
 |:-----------------------------------|:--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| **xxxxx (Opt 2)**            | Add reason.
+| **xxxxx (Opt 2)**            | Add reason.|
 
 ## Risks and Required Actions
 
