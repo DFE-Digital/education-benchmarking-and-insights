@@ -12,14 +12,14 @@ Recommendation
 
 ## Executive Summary
 
-The Financial Benchmarking and Insights Tool (FBIT) requires uses the .
+The Financial Benchmarking and Insights Tool (FBIT) requires workforce data about senior leadership roles in schools which is not part of the settled school workforce file which is published as part of the annual 'School workforce in England' survey results.
 
-**Recommendation:** It is proposed to  **aggregating the existing School Census data** (summing the individual schools to create the LA total).
+**Recommendation:** It is proposed to use continue to use the 'school workforce' file (School_Tables_School_Workforce_Census_2024.xlsx) as the primary source of school workforce data and join to the 'la school file workforce' file (workforce_2010_2024_fte_hc_nat_reg_la_sch.csv) to add the 4 senior leaderships fields where present for the schools included in the school workforce file.
 
 
 ## Context and Problem Statement
 
-FBIT currently sources information for
+FBIT currently sources information for school workforce from the 'school workforce' file (School_Tables_School_Workforce_Census_2024.xlsx) so the number of teaching and support staff at each school can be used in the benchmarking functionality included in the service.
 
 **The Problem:**
 A decision is needed on the best
@@ -32,10 +32,9 @@ A decision is needed on the best
 
 The following sources were evaluated:
 
-1.
-2.
-3.
-4.
+1. Do nothing
+2. Append/join workforce dataset to school dataset/table (school left join workforce)
+3. Replace school dataset with workforce dataset
 
 ## Recommendation: Option 
 
