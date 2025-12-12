@@ -1,11 +1,13 @@
-﻿# Release Test Plan: 2025.12.1
+﻿# Release Test Plan: 2025.12.2
+
+_*Release version updated to 2025.12.2 following resolution of TotalPupils count for local authorities which have federations which was incorrectly computed previously._*
 
 **Release Date:** TBC  
-**Release Label:** 2025.12.1
+**Release Label:** 2025.12.2
 
 ## Introduction
 
-This plan defines the approach for testing release `2025.12.1`, covering smoke, sanity, and UAT testing activities.  
+This plan defines the approach for testing release `2025.12.2`, covering smoke, sanity, and UAT testing activities.  
 This release delivers a combination of dependency updates, branding alignment with the GOV.UK and DfE Design Systems, S251 data refresh, and a change to normalisation methodology for Pupil count in LAs.
 
 ## Scope
@@ -15,14 +17,13 @@ This release delivers a combination of dependency updates, branding alignment wi
 - **Data Updates**
 
   - Ingested S251 data into the service for 2025.
-  - CFR 2024/2025 transparency file added to the service. 
+  - CFR 2024/2025 transparency file added to the service.
 
 - **Enhancements**
 
   - Added a total pupil count for each Local Authority. This figure represents the combined number of pupils across all schools in that area, providing a more complete and accurate picture of the population. This new measure now replaces the previous population figures used in the service.
   - Updated FBIT branding to align with the GOV.UK Design System.
   - Integrated DfE Design System branding elements into the service.
-
 
 **Out-of-Scope:**
 
@@ -80,6 +81,18 @@ This release delivers a combination of dependency updates, branding alignment wi
 
 **Release Overview:**
 
+{fill in these details after release is completed }
+
+**Release (First Update):**
+
+The initial release encountered an issue with TotalPupils calculations for LAs. A fix was put in place for that.
+
+- **Original Planned Release:** 2025.12.1
+- **Hotfix Release Version:** 2025.12.2
+- **Issue Identified:** TotalPupils were calculated incorrectly for LAs with has federations.
+- **Fix Implemented:** TotalPupils computations logic updated to exclude Non Lead federations schools when computing the total pupils.
+- **Testing Impact:** Verify the changes are reflected along with no regression issue has surfaced with the change.
+
 **[Azure Release Test Plan](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_testPlans/define?planId=294446&suiteId=294447)**
 
 **Azure DevOps tickets included in this release:**
@@ -100,7 +113,7 @@ This release delivers a combination of dependency updates, branding alignment wi
 | Test Category           | Total Tests | Passed | Failed | Pass Rate |  
 |-------------------------|:-----------:|:------:|:------:|:---------:|  
 | Smoke Tests - Prod      |      -      |   -    |   -    |     -     |  
-| Sanity Tests - Pre Prod |      -      |   -    |   -    |     -     |  
+| Sanity Tests - Pre Prod |      2      |   2    |   0    |   100%    |  
 | UAT - Pre Prod          |      -      |   -    |   -    |     -     |  
 | Total                   |      -      |   -    |   -    |     -     |  
 
