@@ -46,7 +46,7 @@ public class HomePage(IPage page)
     private ILocator SpendingPrioritiesLink => page.Locator(Selectors.GovLink,
         new PageLocatorOptions
         {
-            HasText = "View all spending priorities for this school"
+            HasText = "View all spending foci for this school"
         });
 
     private ILocator FindWaysToSpendLessLink => page.Locator(Selectors.GovLink,
@@ -81,7 +81,7 @@ public class HomePage(IPage page)
         List<string> expectedH2Texts = ["Benchmarking and planning tools", "Resources"];
         if (!isPartYear && !isUserDefinedComparator && !isMissingRags)
         {
-            expectedH2Texts.Insert(0, "Spending priorities for this school");
+            expectedH2Texts.Insert(0, "Spending focus for this school");
         }
 
         if (!string.IsNullOrWhiteSpace(trustName))
