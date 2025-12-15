@@ -58,14 +58,15 @@ By joining the workforce dataset to school dataset/table, the required fields, w
 
 ### Risks
 
-* **Perceived Completeness:** The aggregated file
-  * *Mitigation:* The metric should be
+* **Perceived Completeness:** The combined file is not a signed off publication, there may be instances where the additional fields are later to be incorrect, the perceived risk of the is low.
 
 ### Required Actions
 
 1. **Documentation:**
+Add a document to the repo to explain how the data is sourced and combined so this can be understood for future data ingestion tasks.
 
 2. **Data pipeline changes:**
+Change the data pipeline to take in both workforce files and combine the data as needed.
 
 <!-- Leave the rest of this page blank -->
 \newpage
