@@ -5,7 +5,7 @@
 The `sen2_estab_caseload.csv` file is an ancillary non-financial dataset used to enrich the Section 251 (S251) financial data within the Financial Benchmarking and Insights Tool (FBIT).
 >_See [FBIT Domain](/documentation/data/1_Domain.md) for more information on FBIT Financial and non financial data._
 
-This document outlines the transformation process used to align the current EHCP file to the structure of the previous year's dataset.
+This document outlines the transformation process used to align the 2025 EHCP file to the structure of the previous year's dataset.
 >_See [FBIT Sources](/documentation/data/2_Sources.md) for description and sources of financial and non financial data._
 
 ### Get started
