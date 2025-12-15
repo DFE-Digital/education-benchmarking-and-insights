@@ -46,7 +46,7 @@ By joining the workforce dataset to school dataset/table, the required fields, w
 ### Rationale
 
 * **Correlation & Accuracy:** Investigation has confirmed that the 'school workforce' file is considered to be the settled and signed off version of the workforce data and should therefore be considered to be the default source for school workforce data.
-* **Explainability:** If a user sees an LA total of 50,000 pupils, and then inspects the list of schools within that LA, the numbers will sum perfectly to 50,000, this builds user trust.  Also defaulting to the stable dataset is consistent with all datasets used in the FBIT service.
+* **Explainability:** By defaulting to the stable dataset wherever possible the data is consistent with the published source and this can be referenced in the service to help with user queries.  This is consistent with all datasets used in the FBIT service.
 * **Problem-First Approach:** The additional fields are added as they are not present in the 'school workforce' file, in all other fields present in both files, where records exist in both files, the data is consistent between them.
 
 ## Analysis of Alternatives
