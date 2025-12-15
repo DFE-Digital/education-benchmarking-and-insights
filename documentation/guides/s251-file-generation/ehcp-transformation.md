@@ -1,4 +1,4 @@
-# EEducation, health and care plans (EHCP) file transformation
+# Education, health and care plans (EHCP) file transformation
 
 ## Overview
 
