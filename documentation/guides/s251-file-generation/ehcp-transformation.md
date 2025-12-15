@@ -39,7 +39,6 @@ The [power query transformation steps](https://educationgovuk.sharepoint.com/:t:
 3. Select `Edit` to view transformation steps or/and to edit query.
 
 ```pq
-
 let
     Source = Excel.CurrentWorkbook(){[Name="Table1"]}[Content],
     #"Changed Type" = Table.TransformColumnTypes(Source,{{"time_period", Int64.Type}, {"time_identifier", type text}, {"geographic_level", type text}, {"country_code", type text}, {"country_name", type text}, {"region_code", type text}, {"region_name", type text}, {"new_la_code", type text}, {"old_la_code", Int64.Type}, {"la_name", type text}, {"breakdown_topic", type text}, {"breakdown", type any}, {"ehcplans", Int64.Type}, {"mainstream_la_maintained", Int64.Type}, {"mainstream_la_maintained_resourced_provision", Int64.Type}, {"mainstream_la_maintained_senunit", Int64.Type}, {"mainstream_academy", Int64.Type}, {"mainstream_academy_resourced_provision", Int64.Type}, {"mainstream_academy_senunit", Int64.Type}, {"mainstream_free_school", Int64.Type}, {"mainstream_free_school_resourced_provision", Int64.Type}, {"mainstream_free_school_senunit", Int64.Type}, {"mainstream_independent", Int64.Type}, {"mainstream_total", Int64.Type}, {"mainstream_total_pc", type number}, {"special_la_maintained", Int64.Type}, {"special_academy_free", Int64.Type}, {"special_independent", Int64.Type}, {"special_non_maintained", Int64.Type}, {"special_total", Int64.Type}, {"special_total_pc", type number}, {"ap_pru_academy", Int64.Type}, {"ap_pru_free_school", Int64.Type}, {"ap_pru_la_maintained", Int64.Type}, {"ap_pru_total", Int64.Type}, {"AP_PRU_total_pc", type number}, {"general_fe_tertiary_colleges", Int64.Type}, {"specialist_post_16_institutions", Int64.Type}, {"ukrlp_provider", Int64.Type}, {"fe_total", Int64.Type}, {"fe_total_pc", type number}, {"elective_home_education", Int64.Type}, {"other_arrangements_la", Int64.Type}, {"other_arrangements_parents", Int64.Type}, {"online_provider", type text}, {"w_settings", type text}, {"other_schools", type text}, {"other_placement_settings", Int64.Type}, {"neet", Int64.Type}, {"neet_ntci", Int64.Type}, {"neet_other", Int64.Type}, {"neet_other_csa", Int64.Type}, {"ed_elsewhere", Int64.Type}, {"ed_elsewhere_pc", type number}, {"nm_early_years", Int64.Type}, {"nm_early_years_pc", type number}, {"placement_unknown", Int64.Type}, {"placement_unknown_pc", type number}, {"await_prov_2022", type text}, {"perm_ex_2022", type text}}),
@@ -77,7 +76,6 @@ let
     #"Renamed Columns" = Table.RenameColumns(#"Reordered Columns",{{"Attribute", "establishment_type"}, {"Value", "num_caseload"}, {"breakdown", "ehcp_or_statement"}})
 in
     #"Renamed Columns"
-
 ```
 
 _**TIPS!!**_
