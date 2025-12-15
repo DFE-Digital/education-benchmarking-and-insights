@@ -28,7 +28,7 @@
                     </span>
                 </p>
                 <p class="govuk-body govuk-!-margin-bottom-1">@($"(was {@Model.HighHeadline.OriginalCount})")</p>
-                <p class="govuk-body govuk-!-margin-bottom-1">High priority costs</p>
+                <p class="govuk-body govuk-!-margin-bottom-1">High</p>
             </li>
             <li class="app-headline-medium">
                 <p class="govuk-body govuk-!-font-size-48 govuk-!-margin-bottom-1">
@@ -43,7 +43,7 @@
                     </span>
                 </p>
                 <p class="govuk-body govuk-!-margin-bottom-1">@($"(was {@Model.MediumHeadline.OriginalCount})")</p>
-                <p class="govuk-body govuk-!-margin-bottom-1">Medium priority costs</p>
+                <p class="govuk-body govuk-!-margin-bottom-1">Medium</p>
             </li>
             <li class="app-headline-low">
                 <p class="govuk-body govuk-!-font-size-48 govuk-!-margin-bottom-1">
@@ -58,7 +58,7 @@
                     </span>
                 </p>
                 <p class="govuk-body govuk-!-margin-bottom-1">@($"(was {@Model.LowHeadline.OriginalCount})")</p>
-                <p class="govuk-body govuk-!-margin-bottom-1">Low priority costs</p>
+                <p class="govuk-body govuk-!-margin-bottom-1">Low</p>
             </li>
         </ul>
     </div>
@@ -66,7 +66,7 @@
 
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-full">
-        @await Html.PartialAsync("_CategoryList", new CategoryListSectionViewModel { Heading = "Categories with changes to priority", CategoryList = Model.GroupedComparisonResultsChange })
+        @await Html.PartialAsync("_CategoryList", new CategoryListSectionViewModel { Heading = "Categories with changes to focus", CategoryList = Model.GroupedComparisonResultsChange })
         @await Html.PartialAsync("_CategoryList", new CategoryListSectionViewModel { Heading = "Other categories", CategoryList = Model.GroupedComparisonResultsNoChange })
     </div>
 </div>
