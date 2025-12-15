@@ -93,12 +93,11 @@
         {
             @foreach (var rating in Model.RatingsByPriority)
             {
-                <h2 class="govuk-heading-m" id="@rating.PriorityTag?.DisplayText.ToSlug()">@rating.PriorityTag?.DisplayText</h2>
                 <section id="@rating.PriorityTag?.DisplayText.ToSlug()-section">
                     @foreach (var category in rating.Categories)
                     {
                         <div>
-                            <h3 class="govuk-heading-s">@category.Category</h3>
+                            <h2 class="govuk-heading-m">@category.Category</h2>
                             @await Html.PartialAsync("_PriorityStatus", new TrustSpendingPriorityStatusViewModel(rating.PriorityTag, category.Schools.Count(), Model.NumberSchools))
                             @await Html.PartialAsync("_PriorityTable", category.Schools, new ViewDataDictionary(ViewData)
                             {

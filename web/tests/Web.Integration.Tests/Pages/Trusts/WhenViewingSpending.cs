@@ -145,13 +145,7 @@ public partial class WhenViewingSpending(SchoolBenchmarkingWebAppClient client) 
             var heading2s = page.QuerySelectorAll("#spending-tables h2");
             foreach (var heading2 in heading2s)
             {
-                Assert.EndsWith(" priority", heading2.GetInnerText());
-            }
-
-            var heading3s = page.QuerySelectorAll("#spending-tables h3");
-            foreach (var heading3 in heading3s)
-            {
-                Assert.Contains(heading3.GetInnerText(), AllCostCategories.Values);
+                Assert.Contains(heading2.GetInnerText(), AllCostCategories.Values);
             }
         }
 
