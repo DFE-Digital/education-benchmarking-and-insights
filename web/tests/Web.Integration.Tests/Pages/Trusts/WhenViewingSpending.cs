@@ -124,7 +124,7 @@ public partial class WhenViewingSpending(SchoolBenchmarkingWebAppClient client) 
         DocumentAssert.TextEqual(dataSourceElement, "This trust's data covers the financial year September 2021 to August 2022 academies accounts return (AAR).");
 
         Assert.NotNull(trust.TrustName);
-        DocumentAssert.TitleAndH1(page, "Spending priorities for this trust - Financial Benchmarking and Insights Tool - GOV.UK", "Spending priorities for this trust");
+        DocumentAssert.TitleAndH1(page, "Spending focus for this trust - Financial Benchmarking and Insights Tool - GOV.UK", "Spending focus for this trust");
 
         if (categories.Length > 0)
         {
