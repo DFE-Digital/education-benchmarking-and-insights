@@ -203,8 +203,8 @@ public static class Selectors
 
     public const string FbisIntroduction = "#introduction";
     public const string FbisKeyInformation = "#key-information-section";
-    public const string FbisPriorityAreas = "#priority-areas-all-schools-section";
-    public const string FbisOtherPriorityAreas = "#priority-areas-other-section";
+    public const string FbisPriorityAreas = "#focus-areas-all-schools-section";
+    public const string FbisOtherPriorityAreas = "#focus-areas-other-section";
     public const string FbisPupilWorkforce = "#pupil-workforce-metrics-section";
     public const string FbisNextSteps = "#next-steps-section";
     public const string KeyInformationContent = "ul.app-headline.app-headline-3 li";
