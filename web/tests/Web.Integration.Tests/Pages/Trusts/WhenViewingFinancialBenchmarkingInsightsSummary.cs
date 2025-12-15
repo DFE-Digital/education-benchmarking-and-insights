@@ -154,9 +154,9 @@ public class WhenViewingFinancialBenchmarkingInsightsSummary(SchoolBenchmarkingW
 
     private static void AssertSpendingPrioritiesSection(IHtmlDocument page, Trust trust, RagRating[] ragRatings, TrustSchool[] schools)
     {
-        var spendingPrioritiesSection = page.QuerySelector("section#spending-priorities-section");
+        var spendingPrioritiesSection = page.QuerySelector("section#spending-focus-section");
         Assert.NotNull(spendingPrioritiesSection);
-        DocumentAssert.Heading2(spendingPrioritiesSection, "Spending priorities at this trust");
+        DocumentAssert.Heading2(spendingPrioritiesSection, "Spending focus for this trust");
 
         var cards = spendingPrioritiesSection.QuerySelectorAll(".govuk-summary-card");
         Assert.NotNull(cards);
