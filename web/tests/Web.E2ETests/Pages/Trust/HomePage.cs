@@ -18,9 +18,9 @@ public class HomePage(IPage page)
         HasText = "Trust to trust benchmarking"
     });
 
-    private ILocator SpendingPrioritiesLink => page.Locator(Selectors.GovLink, new PageLocatorOptions
+    private ILocator SpendingFocusLink => page.Locator(Selectors.GovLink, new PageLocatorOptions
     {
-        HasText = "View all spending priorities for this trust"
+        HasText = "View spending focus for this trust"
     });
 
     private ILocator BenchmarkCensusDataLink => page.Locator(Selectors.GovLink, new PageLocatorOptions
@@ -63,9 +63,9 @@ public class HomePage(IPage page)
         return new CompareYourCostsPage(page);
     }
 
-    public async Task<SpendingCostsPage> ClickSpendingPriorities()
+    public async Task<SpendingCostsPage> ClickSpendingFocus()
     {
-        await SpendingPrioritiesLink.Click();
+        await SpendingFocusLink.Click();
         return new SpendingCostsPage(page);
     }
 

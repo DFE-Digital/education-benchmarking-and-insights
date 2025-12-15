@@ -42,11 +42,11 @@ public class HomeSteps(PageDriver driver)
         await _compareYourCostsPage.IsDisplayed();
     }
 
-    [When("I click on view all spending priorities for this trust")]
-    public async Task WhenIClickOnViewAllSpendingPrioritiesForThisTrust()
+    [When("I click on view all spending focus for this trust")]
+    public async Task WhenIClickOnViewAllSpendingFocusForThisTrust()
     {
         Assert.NotNull(_trustHomePage);
-        _spendingCostsPage = await _trustHomePage.ClickSpendingPriorities();
+        _spendingCostsPage = await _trustHomePage.ClickSpendingFocus();
     }
 
     [Then("the spending and costs page is displayed")]
