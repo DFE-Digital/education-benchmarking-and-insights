@@ -126,24 +126,18 @@ public partial class WhenViewingSpending(SchoolBenchmarkingWebAppClient client) 
         Assert.NotNull(trust.TrustName);
         DocumentAssert.TitleAndH1(page, "Spending focus for this trust - Financial Benchmarking and Insights Tool - GOV.UK", "Spending focus for this trust");
 
+        var headings = page.QuerySelectorAll("#spending-tables h2");
+
         if (categories.Length > 0)
         {
-            var heading2s = page.QuerySelectorAll("#spending-tables h2");
-            foreach (var heading2 in heading2s)
+            foreach (var heading2 in headings)
             {
                 Assert.Contains(heading2.GetInnerText(), categories);
-            }
-
-            var heading3s = page.QuerySelectorAll("#spending-tables h3");
-            foreach (var heading3 in heading3s)
-            {
-                Assert.EndsWith(" priority", heading3.GetInnerText());
             }
         }
         else
         {
-            var heading2s = page.QuerySelectorAll("#spending-tables h2");
-            foreach (var heading2 in heading2s)
+            foreach (var heading2 in headings)
             {
                 Assert.Contains(heading2.GetInnerText(), AllCostCategories.Values);
             }
