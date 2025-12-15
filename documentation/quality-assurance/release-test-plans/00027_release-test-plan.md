@@ -81,7 +81,7 @@ This release delivers a combination of dependency updates, branding alignment wi
 
 **Release Overview:**
 
-The release completed successfully with no issues. There was an issue identified in UAT for which the fix was deployed. 
+The release completed successfully with no issues. There was an issue identified in UAT for which the fix was deployed.
 
 **Release (First Update):**
 
