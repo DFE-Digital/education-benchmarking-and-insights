@@ -41,6 +41,8 @@ The recommendation is to proceed with **Option 2**.
 
 By joining the workforce dataset to school dataset/table, the required fields, which are not available in the stable dataset, can be added to provide the additional information needed, while preserving the data integrity of the existing workforce data.
 
+![Join from existing workforce data to new senior leadership breakdowns](./images/senior_leadership_workforce_data_join.png)
+
 ### Rationale
 
 * **Correlation & Accuracy:** Investigation has confirmed that the 'school workforce' file is considered to be the settled and signed off version of the workforce data and should therefore be considered to be the default source for school workforce data.
