@@ -25,18 +25,18 @@
 
 <div class="govuk-grid-row">
     <aside class="govuk-grid-column-one-quarter">
-        <h3 class="govuk-heading-s">Filter priority schools</h3>
+        <h3 class="govuk-heading-s">Filter schools</h3>
 
         <form method="get" action="">
             <div class="govuk-form-group">
                 <label class="govuk-label" for="priority">
-                    Priority
+                    RAG rating
                 </label>
                 <select class="govuk-select" id="priority" name="priority">
-                    <option value="">All priorities</option>
-                    <option value="high" selected="@(Model.IsPriorityHigh ? "selected" : null)">High priority</option>
-                    <option value="medium" selected="@(Model.IsPriorityMedium ? "selected" : null)">Medium priority</option>
-                    <option value="low" selected="@(Model.IsPriorityLow ? "selected" : null)">Low priority</option>
+                    <option value="">All ratings</option>
+                    <option value="high" selected="@(Model.IsPriorityHigh ? "selected" : null)">High</option>
+                    <option value="medium" selected="@(Model.IsPriorityMedium ? "selected" : null)">Medium</option>
+                    <option value="low" selected="@(Model.IsPriorityLow ? "selected" : null)">Low</option>
                 </select>
             </div>
 
