@@ -7,7 +7,7 @@
 
     Scenario: Go to spending and costs page
         Given I am on trust homepage for trust with company number '08104190'
-        When I click on view all spending priorities for this trust
+        When I click on view all spending focus for this trust
         Then the spending and costs page is displayed
 
     Scenario: View RAG ratings for cost categories in trust
