@@ -10,7 +10,7 @@ public class TrustFinancialBenchmarkingInsightsSummaryPage(IPage page)
     private ILocator SpendingAtSchoolsSection => page.Locator("section#priority-schools-section");
     private ILocator NextStepsSection => page.Locator("section#next-steps-section");
     private ILocator ViewMoreInsightsInFbitLink => KeyInformationSection.Locator("a.govuk-link:has-text('Financial Benchmarking and Insights Tool')");
-    private ILocator ViewAllSpendingPrioritiesLink => SpendingPrioritiesSection.Locator("a.govuk-link:has-text('View all spending priorities at this trust')");
+    private ILocator ViewAllSpendingPrioritiesLink => SpendingPrioritiesSection.Locator("a.govuk-link:has-text('View spending focus for this trust')");
     private ILocator ViewMoreInformationAboutSchoolsLink => SpendingAtSchoolsSection.Locator("a.govuk-link:has-text('View more information about schools at this trust')");
     private ILocator FirstPriorityCountLink => SpendingAtSchoolsSection.Locator(".priority-count a.govuk-link").First;
 
