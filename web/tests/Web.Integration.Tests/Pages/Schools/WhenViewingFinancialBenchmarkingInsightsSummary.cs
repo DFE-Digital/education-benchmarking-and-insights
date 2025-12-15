@@ -240,7 +240,7 @@ public class WhenViewingFinancialBenchmarkingInsightsSummary(SchoolBenchmarkingW
     private static void AssertPriorityAreasAllSchoolsSection(IHtmlDocument page, School school)
     {
         var priorityAreasAllSchoolsSection = page.Body.SelectSingleNode("//main/div/section[3]");
-        DocumentAssert.Heading2(priorityAreasAllSchoolsSection, "Your spend in priority areas for all schools");
+        DocumentAssert.Heading2(priorityAreasAllSchoolsSection, "Your spend in focus areas for all schools");
 
         var header3Texts = priorityAreasAllSchoolsSection.ChildNodes
             .QuerySelectorAll("h3")
@@ -256,7 +256,7 @@ public class WhenViewingFinancialBenchmarkingInsightsSummary(SchoolBenchmarkingW
     private static void AssertPriorityAreasOtherSection(IHtmlDocument page, School school)
     {
         var priorityAreasOtherSection = page.Body.SelectSingleNode("//main/div/section[4]");
-        DocumentAssert.Heading2(priorityAreasOtherSection, "Other top spending priorities for your school");
+        DocumentAssert.Heading2(priorityAreasOtherSection, "Your school's top three areas in other spend categories");
 
         var header3Texts = priorityAreasOtherSection.ChildNodes
             .QuerySelectorAll("h3")
