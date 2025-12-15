@@ -31,9 +31,8 @@ The 'school workforce' file does not include the 3 senior leadership roles break
 
 The following sources were evaluated:
 
-1. Do nothing is not an option, as we need the additional data points for the senior leadership breakdown enhancement.
-2. Append/join workforce dataset to school dataset/table (school left join workforce)
-3. Replace school dataset with workforce dataset
+1. Append/join workforce dataset to school dataset/table (school left join workforce)
+2. Replace school dataset with workforce dataset
 
 ## Recommendation: Option
 
@@ -51,7 +50,7 @@ By
 
 | Option                             | Reason for Rejection                                                                                                                                                                                                                                                |
 |:-----------------------------------|:--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| **xxxxx (Opt 2)**            | Add reason.|
+| **xxxxx (Opt 2)**            | We investigated why the Workforce file contain data for more schools than the School file that FBIT currently ingests. The difference is that the Workforce file includes schools that failed to provide complete data. The current School file used by FBIT excludes these non-reporting schools and serves as the official, signed-off dataset. FBIT continue to ingest the School_Tables_20xx signed-off file for benchmarks. To action the Senior Leadership Epic, workforce dataset would be left joined to school dataset (from school left join workforce). This will ensure that we bring in only signed off data to FBIT|
 
 ## Risks and Required Actions
 
