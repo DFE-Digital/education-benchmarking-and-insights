@@ -58,12 +58,12 @@ const copyStaticAssets = () =>
     )
     .on("end", () =>
       gulp
-        .src(["node_modules/front-end/dist/front-end.js"])
+        .src(["node_modules/front-end/dist/front-end.js"], { allowEmpty: true })
         .pipe(gulp.dest("wwwroot/js/"))
     )
     .on("end", () =>
       gulp
-        .src(["node_modules/front-end/dist/front-end.css"])
+        .src(["node_modules/front-end/dist/front-end.css"], { allowEmpty: true })
         .pipe(gulp.dest("wwwroot/css/"))
     )
     .on("end", () =>
