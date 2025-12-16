@@ -302,13 +302,6 @@ public class CompareYourCostsSteps(PageDriver driver)
         await _comparisonPage.IsGraphTickTextEqual(nth, name);
     }
 
-    [Then("the nth chart bar (.*) does not display the warning icon")]
-    public async Task ThenTheNthChartBarDoesNotDisplayTheWarningIcon(int nth)
-    {
-        Assert.NotNull(_comparisonPage);
-        await _comparisonPage.IsWarningIconDisplayedOnGraphTick(nth, false);
-    }
-
     [Then("the benchmarking charts are not displayed")]
     public async Task ThenTheBenchmarkingChartsAreNotDisplayed()
     {

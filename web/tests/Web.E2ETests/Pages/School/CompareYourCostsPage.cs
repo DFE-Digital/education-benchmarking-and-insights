@@ -392,19 +392,6 @@ public class CompareYourCostsPage(IPage page)
         Assert.Equal(text, actual);
     }
 
-    public async Task IsWarningIconDisplayedOnGraphTick(int nth, bool displayed)
-    {
-        var locator = ChartTicks.Nth(nth).Locator("circle");
-        if (displayed)
-        {
-            await locator.ShouldBeVisible();
-        }
-        else
-        {
-            await locator.ShouldNotBeVisible();
-        }
-    }
-
     public async Task<CreateComparatorsPage> ClickCreateUserDefinedComparatorSet()
     {
         await CustomComparatorLink.ClickAsync();

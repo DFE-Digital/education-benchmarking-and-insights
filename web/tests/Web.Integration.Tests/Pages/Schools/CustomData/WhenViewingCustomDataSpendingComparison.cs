@@ -310,7 +310,7 @@ public class WhenViewingCustomDataSpendingComparison(SchoolBenchmarkingWebAppCli
 
         DocumentAssert.Link(toolsLinks[0], "Benchmark spending",
             Paths.SchoolComparisonCustomData(school.URN).ToAbsolute());
-        DocumentAssert.Link(toolsLinks[1], "Spending focus for this school",
+        DocumentAssert.Link(toolsLinks[1], "Spending for this school",
             Paths.SchoolSpendingCustomData(school.URN).ToAbsolute());
         DocumentAssert.Link(toolsLinks[2], "Benchmark pupil and workforce data",
             Paths.SchoolCensusCustomData(school.URN).ToAbsolute());
