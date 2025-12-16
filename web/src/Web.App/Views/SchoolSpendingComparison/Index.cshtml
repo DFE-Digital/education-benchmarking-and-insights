@@ -66,7 +66,7 @@
 
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-full">
-        @await Html.PartialAsync("_CategoryList", new CategoryListSectionViewModel { Heading = "Categories with changes to focus", CategoryList = Model.GroupedComparisonResultsChange })
+        @await Html.PartialAsync("_CategoryList", new CategoryListSectionViewModel { Heading = "Categories with changes to RAG rating", CategoryList = Model.GroupedComparisonResultsChange })
         @await Html.PartialAsync("_CategoryList", new CategoryListSectionViewModel { Heading = "Other categories", CategoryList = Model.GroupedComparisonResultsNoChange })
     </div>
 </div>

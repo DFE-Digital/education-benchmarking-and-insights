@@ -193,7 +193,7 @@ public class WhenViewingFinancialBenchmarkingInsightsSummary(SchoolBenchmarkingW
         Assert.Equal(category, card.QuerySelector(".govuk-summary-card__title")?.TextContent.Trim());
 
         Assert.Equal(
-            $"{(red > 0 ? red : amber)} out of {schools} schools in the {(red > 0 ? "high" : "medium")} priority range.",
+            $"{(red > 0 ? red : amber)} out of {schools} schools in the {(red > 0 ? "high" : "medium")} RAG rating range.",
             card.QuerySelector(".priority-wrapper")?.TextContent.Trim().Replace(StringExtensions.WhitespaceRegex(), " "));
 
         var lowestHighest = "Highest";
