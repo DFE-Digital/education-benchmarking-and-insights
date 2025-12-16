@@ -205,6 +205,13 @@ To use the GOV.UK Design System, progressive enhancements and front-end componen
 For more information on managing the progressive enhancements please refer to
 the [documented feature](../documentation/features/8_Progressive_Enhancements.md).
 
+##### Bypass ADO auth
+
+If authentication with ADO is not possible with a PAT the `front-end` assets may still be resolved by copying from
+`front-end-components` locally using one of the `copy-js` scripts in that project's root. To enable `npm i` to succeed
+remove or empty the `.npmrc` file, remove `front-end` from `package.json` and delete `package-lock.json`. Running
+`npm run build` should then succeed.
+
 ##### Develop the front-end Vue components
 
 Once the above steps have been completed, run the dev server to launch the component playground:
