@@ -239,8 +239,8 @@ public class WhenViewingSpending(SchoolBenchmarkingWebAppClient client)
         bool cfrItSpendBreakdown = false)
     {
         DocumentAssert.AssertPageUrl(page, Paths.SchoolSpending(school.URN).ToAbsolute());
-        DocumentAssert.TitleAndH1(page, "Spending focus for this school - Financial Benchmarking and Insights Tool - GOV.UK",
-            "Spending focus for this school");
+        DocumentAssert.TitleAndH1(page, "Spending for this school - Financial Benchmarking and Insights Tool - GOV.UK",
+            "Spending for this school");
 
         var dataSourceElement = page.QuerySelectorAll("main > div > div:nth-child(3) > div > p");
         Assert.NotNull(dataSourceElement);

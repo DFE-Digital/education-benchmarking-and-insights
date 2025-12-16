@@ -158,7 +158,7 @@ public class WhenViewingCustomDataCensus(SchoolBenchmarkingWebAppClient client)
             Paths.SchoolSpendingComparison(school.URN).ToAbsolute());
         DocumentAssert.Link(toolsLinks[1], "Benchmark spending",
             Paths.SchoolComparisonCustomData(school.URN).ToAbsolute());
-        DocumentAssert.Link(toolsLinks[2], "Spending focus for this school",
+        DocumentAssert.Link(toolsLinks[2], "Spending for this school",
             Paths.SchoolSpendingCustomData(school.URN).ToAbsolute());
     }
 

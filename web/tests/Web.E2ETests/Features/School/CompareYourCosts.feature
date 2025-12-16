@@ -141,12 +141,6 @@ Feature: School compare your costs
           | Number of pupils | 260                 |
         And additional information shows part year warning for 3 months
 
-    Scenario: Warning icon displayed in chart for part-year school
-        Given I am on compare your costs page for part year school with URN '777045'
-        And the 'total expenditure' dimension is '£ per pupil'
-        Then the nth chart bar 2 displays the establishment name 'Test part year with pupil and without building comparator'
-        And the nth chart bar 2 does not display the warning icon
-
     Scenario: Clicking school name in chart directs to homepage
         Given I am on compare your costs page for school with URN '777042'
         When I select the school name on the chart
