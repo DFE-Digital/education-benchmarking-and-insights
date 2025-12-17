@@ -3,7 +3,6 @@
         <TargetFramework>net8.0</TargetFramework>
         <AzureFunctionsVersion>v4</AzureFunctionsVersion>
         <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
-        <RuntimeIdentifier>win-x64</RuntimeIdentifier>
         <Nullable>enable</Nullable>
         <OutputType>Exe</OutputType>
         <ImplicitUsings>enabled</ImplicitUsings>
