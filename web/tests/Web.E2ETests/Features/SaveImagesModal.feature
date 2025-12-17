@@ -32,7 +32,7 @@
         When I click the save chart images button
         And I click the start button
         Then the start button is disabled
-        And the 'spending-priorities-777042.zip' file is downloaded
+        And the 'spending-777042.zip' file is downloaded
 
     Scenario: Validation error if none selected
         Given I am on spending and costs page for school with URN '777042'
