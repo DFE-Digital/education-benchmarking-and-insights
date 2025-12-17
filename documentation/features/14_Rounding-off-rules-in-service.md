@@ -2,7 +2,7 @@
 
 ## Introduction
 
-This document describes the rounding logic used across tables and charts within the service. The goal is to ensure numerical values are displayed consistently and clearly while maintaining accuracy where appropriate.
+This document describes the rounding logic used across tables, charts, and tooltips within the service. The goal is to ensure numerical values are displayed consistently and clearly while maintaining accuracy where appropriate.
 
 ## Overview
 
@@ -10,9 +10,11 @@ Rounding rules differ depending on:
 
 - Whether the value contains decimals
 - Whether the value is **currency**, **percentage**, or a **ratio**
-- Whether the value is displayed in a **table** or a **chart**
+- Whether the value is displayed in a **table**, a **chart**, or a **tooltip**
 - Whether the value is **above or below 1000** (currency only)
 - Whether the value is a **ratio**, which is rounded to **2 decimal places**
+- Whether the value is an **average**, which is rounded to **1 decimal place** in tooltips
+- Whether the value is **total pupils**, which is rounded to **1 decimal place** in tooltips
 
 These rules must be applied in the correct order to ensure consistent behaviour.
 
@@ -22,7 +24,7 @@ These rules must be applied in the correct order to ensure consistent behaviour.
 
 Any currency value containing decimals is rounded to the nearest whole pound before any further formatting.
 
-This applies to **both table and chart views**.
+This applies to **both table and chart views**, and also to **currency values in tooltips**.
 
 ### Chart‑Specific Rounding for Currency Values ≥ 1000
 
@@ -34,12 +36,14 @@ After rounding to the nearest pound:
 
 The chart format rules are based on [SI prefixes](https://en.wikipedia.org/wiki/Metric_prefix#List_of_SI_prefixes)
 
+These same formatting rules apply to **currency values in tooltips on the historic page**.
+
 ### Percentage Rounding
 
-Percentage values follow a different rule:
+Percentage values follow a separate rule:
 
 - Percentages are **always rounded to 1 decimal place**.
-- This applies to **both table and chart views**.
+- This applies to **tables**, **charts**, and **tooltips**.
 - No “k” or “m” formatting is ever applied to percentages.
 - The rounded value is displayed exactly as rounded (e.g., 12.345% → 12.3%).
 
@@ -48,45 +52,65 @@ Percentage values follow a different rule:
 Ratios follow their own rule:
 
 - Ratios are **always rounded to 2 decimal places**.
-- This applies to **both table and chart views**.
+- This applies to **tables**, **charts**, and **tooltips**.
 - No “k” or “m” formatting is ever applied to ratios.
 - The rounded value is displayed exactly as rounded (e.g., 0.12345 → 0.12).
+
+## Tooltip Formatting Rules
+
+Tooltips follow specific formatting rules depending on the type of value.
+
+### Currency in Tooltips
+- Currency values follow **the same formatting rules as charts**:
+  - Rounded to nearest pound
+  - < 1000 → shown as rounded value
+  - ≥ 1000 → “k” format (1 dp)
+  - ≥ 1,000,000 → “m” format (1 dp)
+
+### Averages in Tooltips
+- Averages are **always rounded to 1 decimal place**.
+
+### Ratios in Tooltips
+- Ratios are **always rounded to 2 decimal places**.
+
+### Total Pupils in Tooltips
+- Total pupil counts shown in tooltips are **rounded to 1 decimal place**.
 
 ## Summary of Behaviour
 
 ### Table View
-
-- Currency values are rounded to the nearest pound.
-- Percentage values are rounded to **1 decimal place**.
-- Ratio values are rounded to **2 decimal places**.
-- No “k” or “m” formatting is used.
+- Currency → rounded to nearest pound
+- Percentages → rounded to 1 decimal place
+- Ratios → rounded to 2 decimal places
+- No k/m formatting
 
 ### Chart View
+- Currency → rounded to nearest pound, then if:
+  - < 1000 → shown as rounded value
+  - ≥ 1000 and < 1,000,000 → “k” format
+  - ≥ 1,000,000 → “m” format
+- Percentages → rounded to 1 decimal place
+- Ratios → rounded to 2 decimal places
+- Only currency uses SI‑prefix formatting
 
-- Currency values are rounded to the nearest pound, then:
-  - If < 1000 → shown as the rounded value
-  - If ≥ 1000 and < 1,000,000 → formatted as “k”
-  - If ≥ 1,000,000 → formatted as “m”
-- Percentage values are rounded to **1 decimal place** and shown exactly as rounded.
-- Ratio values are rounded to **2 decimal places** and shown exactly as rounded.
-- Only currency values use SI‑prefix‑based formatting.
+### Tooltip View
+- Currency → same formatting as charts
+- Averages → rounded to 1 decimal place
+- Ratios → rounded to 2 decimal places
+- Total pupils → rounded to 1 decimal place
 
 ## Screenshots
 
 ### Currency Rounding (Nearest Pound)
-
 ![Currency rounding example](./images/Table-rounded-to-nearest-£.png)
 
 ### Currency Rounding in Charts (k Format)
-
 ![Currency k-format example](./images/charts-rounded-to-K-format.png)
 
 ### Percentage Rounding (1 Decimal Place)
-
 ![Percentage rounding example](./images/chart-percentage-rounding.png)
 
 ### Ratio Rounding (2 Decimal Places)
-
 ![Ratio rounding example](./images/chart-ratio-rounding.png)
 
 ## Future Enhancements
