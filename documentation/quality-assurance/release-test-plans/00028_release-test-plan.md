@@ -71,7 +71,7 @@ This release delivers a combination of accessibility and behaviour fixes to the 
 
 **Release Overview:**
 
-This release includes a fix to ensure GDS‑compliant behaviour on the LA homepage when JavaScript is disabled, and updates terminology across the service to replace *priority* with *focus*.
+This release includes a fix to ensure GDS‑compliant behaviour for accordion component in filter and updates terminology across the service to replace *priority* with *focus*.
 
 **Azure DevOps tickets included in this release:**
 
