@@ -13,15 +13,14 @@ This release delivers a combination of accessibility and behaviour fixes on the 
 **In-scope:**
 
 - **Enhancements**
-    - Removal of the word *priority* across the service and replacement with *focus* to reflect updated terminology and user feedback.
+  - Removal of the word *priority* across the service and replacement with *focus* to reflect updated terminology and user feedback.
 
 - **Bug Fixes**
-    - Fix applied to ensure the accordion within the filter component on the LA homepage behaves correctly when JavaScript is turned off, aligning with standard GDS behaviour.
+  - Fix applied to ensure the accordion within the filter component on the LA homepage behaves correctly when JavaScript is turned off, aligning with standard GDS behaviour.
 
 **Out-of-Scope:**
 
 - No additional feature development or data updates.
-- No UAT activities required for this release.
 
 ## Test Strategy
 
@@ -51,7 +50,7 @@ This release delivers a combination of accessibility and behaviour fixes on the 
 ## Risk Analysis
 
 - **Risk:** Content updates replacing *priority* with *focus* may lead to inconsistent terminology.
-    - **Mitigation:** Conducted a focused content review in lower environment to ensure consistency.
+  - **Mitigation:** Conducted a focused content review in lower environment to ensure consistency.
 
 ## Test Deliverables
 
