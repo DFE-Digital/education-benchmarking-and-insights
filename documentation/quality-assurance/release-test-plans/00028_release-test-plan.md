@@ -6,7 +6,7 @@
 ## Introduction
 
 This plan defines the approach for testing release `2025.12.3`, covering smoke and sanity testing activities.  
-This release delivers a combination of accessibility and behaviour fixes on the LA homepage and content updates across the service to replace the term *priority* with *focus* based on user feedback.
+This release delivers a combination of accessibility and behaviour fixes to the accordion component used in filter across the service, along with content updates to replace the term *priority* with *focus* based on user feedback.
 
 ## Scope
 
@@ -16,7 +16,8 @@ This release delivers a combination of accessibility and behaviour fixes on the 
   - Removal of the word *priority* across the service and replacement with *focus* to reflect updated terminology and user feedback.
 
 - **Bug Fixes**
-  - Fix applied to ensure the accordion within the filter component on the LA homepage behaves correctly when JavaScript is turned off, aligning with standard GDS behaviour.
+  - Fix applied to ensure the accordion within the filter component behaves correctly when JavaScript is turned off, aligning with standard GDS behaviour.  
+    This update applies to all pages where the filter component is used.
 
 **Out-of-Scope:**
 
