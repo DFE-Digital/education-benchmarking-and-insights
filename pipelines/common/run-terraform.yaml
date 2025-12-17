@@ -31,7 +31,7 @@ steps:
         echo "Resource group created"
         
         storageAccountName=${{ parameters.environmentPrefix }}storagetf
-        az storage account create --name $storageAccountName --resource-group ${{ parameters.environmentPrefix }}-ebis-terraform --location ${{ parameters.location }} --sku Standard_LRS
+        az storage account create --name $storageAccountName --resource-group ${{ parameters.environmentPrefix }}-ebis-terraform --location ${{ parameters.location }} --sku Standard_LRS --min-tls-version TLS1_2
         echo "Storage account created"
         
         az storage account blob-service-properties update --account-name $storageAccountName --resource-group ${{ parameters.environmentPrefix }}-ebis-terraform --enable-delete-retention true --delete-retention-days 7 --container-retention true --container-days 7 --enable-versioning true
