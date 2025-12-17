@@ -50,8 +50,8 @@ This release delivers a combination of accessibility and behaviour fixes to the 
 
 ## Risk Analysis
 
-- **Risk:** Content updates replacing *priority* with *focus* may lead to inconsistent terminology.
-  - **Mitigation:** Conducted a focused content review in lower environment to ensure consistency.
+- **Risk:** Content updates replacing priority with focus may lead to unclear wording across the service.
+  - **Mitigation:** Conducted a focused content review in lower environment to ensure clarity.
 
 ## Test Deliverables
 
