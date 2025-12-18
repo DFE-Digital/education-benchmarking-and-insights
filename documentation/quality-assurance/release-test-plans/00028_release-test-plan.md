@@ -83,7 +83,7 @@ This release includes a fix to ensure GDS‑compliant behaviour for accordion co
 ### Test Summary Report
 
 **Summary of results:**  
-release completed successfully with no issues. 
+release completed successfully with no issues.
 
 | Test Category           | Total Tests | Passed | Failed | Pass Rate |  
 |-------------------------|:-----------:|:------:|:------:|:---------:|  
