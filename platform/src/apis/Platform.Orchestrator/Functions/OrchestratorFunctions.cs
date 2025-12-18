@@ -76,7 +76,7 @@ public class OrchestratorFunctions(ILogger<OrchestratorFunctions> logger, ITelem
     private async Task OrchestrateDefaultMessage(TaskOrchestrationContext context, PipelinePending input)
     {
         var message = PipelineStartDefault.FromPending(input);
-        await context.CallActivityAsync(nameof(ActivityTriggerFunctions.OnStartDefaultJobTrigger), message);
+        await context.CallActivityAsync<string[]>(nameof(ActivityTriggerFunctions.OnStartDefaultJobTrigger), message);
 
         logger.LogInformation("Waiting for finished event for default message {JobId}", message.JobId);
         var success = await context.WaitForExternalEvent<bool>(nameof(PipelineQueueTriggerFunctions.PipelineJobFinished));
@@ -93,7 +93,7 @@ public class OrchestratorFunctions(ILogger<OrchestratorFunctions> logger, ITelem
     private async Task OrchestrateCustomMessage(TaskOrchestrationContext context, PipelinePending input)
     {
         var message = PipelineStartCustom.FromPending(input);
-        await context.CallActivityAsync(nameof(ActivityTriggerFunctions.OnStartCustomJobTrigger), message);
+        await context.CallActivityAsync<string[]>(nameof(ActivityTriggerFunctions.OnStartCustomJobTrigger), message);
 
         logger.LogInformation("Waiting for finished event for custom message {JobId}", message.JobId);
         var success = await context.WaitForExternalEvent<bool>(nameof(PipelineQueueTriggerFunctions.PipelineJobFinished));

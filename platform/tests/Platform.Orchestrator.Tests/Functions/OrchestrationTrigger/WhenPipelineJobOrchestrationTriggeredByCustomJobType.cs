@@ -39,7 +39,7 @@ public abstract class WhenPipelineJobOrchestrationTriggeredByCustomJobType : Orc
     public async Task ShouldCallOnStartCustomJobTriggerActivity()
     {
         _context
-            .Setup(c => c.CallActivityAsync(nameof(ActivityTriggerFunctions.OnStartCustomJobTrigger), It.IsAny<PipelineStartCustom>(), It.IsAny<TaskOptions?>()))
+            .Setup(c => c.CallActivityAsync<string[]>(nameof(ActivityTriggerFunctions.OnStartCustomJobTrigger), It.IsAny<PipelineStartCustom>(), It.IsAny<TaskOptions?>()))
             .Verifiable();
 
         await Functions.PipelineJobOrchestrator(_context.Object);

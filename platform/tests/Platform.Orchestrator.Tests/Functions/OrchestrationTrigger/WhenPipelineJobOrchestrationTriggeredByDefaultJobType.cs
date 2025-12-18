@@ -34,7 +34,7 @@ public class WhenPipelineJobOrchestrationTriggeredByDefaultJobType : Orchestrati
     public async Task ShouldCallOnStartDefaultJobTriggerActivity()
     {
         _context
-            .Setup(c => c.CallActivityAsync(nameof(ActivityTriggerFunctions.OnStartDefaultJobTrigger), It.IsAny<PipelineStartDefault>(), It.IsAny<TaskOptions?>()))
+            .Setup(c => c.CallActivityAsync<string[]>(nameof(ActivityTriggerFunctions.OnStartDefaultJobTrigger), It.IsAny<PipelineStartDefault>(), It.IsAny<TaskOptions?>()))
             .Verifiable();
 
         await Functions.PipelineJobOrchestrator(_context.Object);
