@@ -1,6 +1,6 @@
 ﻿# Release Test Plan: 2025.12.3
 
-**Release Date:** 2025/12/19  
+**Release Date:** 2025/12/18  
 **Release Label:** 2025.12.3
 
 ## Introduction
@@ -83,13 +83,13 @@ This release includes a fix to ensure GDS‑compliant behaviour for accordion co
 ### Test Summary Report
 
 **Summary of results:**  
-(To be completed post‑testing)
+release completed successfully with no issues. 
 
 | Test Category           | Total Tests | Passed | Failed | Pass Rate |  
 |-------------------------|:-----------:|:------:|:------:|:---------:|  
-| Smoke Tests - Prod      |      -      |   -    |   -    |     -     |  
-| Sanity Tests - Pre Prod |      -      |   -    |   -    |     -     |  
-| Total                   |      -      |   -    |   -    |     -     |  
+| Smoke Tests - Prod      |      1      |   1    |   0    |   100%    |  
+| Sanity Tests - Pre Prod |      1      |   1    |   0    |   100%    |  
+| Total                   |      2      |   2    |   0    |   100%    |  
 
 <!-- Leave the rest of this page blank -->
 \newpage
