@@ -272,6 +272,11 @@ resource "azurerm_cdn_frontdoor_firewall_policy" "web-app-front-door-waf" {
           operator       = "Equals"
           selector       = "_gcl_dc"
         }
+        exclusion {
+          match_variable = "RequestBodyPostArgNames"
+          operator       = "StartsWith"
+          selector       = "__otherForm"
+        }
 
         #NB: explicitly added rules to align with Azure defaults
         rule {
