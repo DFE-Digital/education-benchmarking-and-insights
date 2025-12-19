@@ -51,7 +51,7 @@ This release delivers a combination of accessibility and behaviour fixes to the 
 ## Risk Analysis
 
 - **Risk:** Content updates replacing priority with focus may lead to unclear wording across the service.
-  - **Mitigation:** Conducted a focused content review in lower environment to ensure clarity.
+  - **Mitigation:** User research was conducted to validate the terminology change, ensuring that users correctly interpreted and accepted the revised wording. Following this, a structured content review in a lower environment confirmed clarity and consistency across the service before rollout.
 
 ## Test Deliverables
 
