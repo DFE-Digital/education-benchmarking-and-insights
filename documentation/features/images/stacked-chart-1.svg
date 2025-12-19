@@ -1,0 +1,40 @@
+<svg width="928" height="118" viewBox="0,0,928,118" data-chart-id="123"
+    xmlns="http://www.w3.org/2000/svg">
+    <g data-stack="0" fill="red">
+        <rect x="317.3333333333333" y="22.6" width="94.27777777777777" height="20.8" data-key="000001" class="chart-cell chart-cell__series-0"/>
+        <rect x="317.3333333333333" y="48.6" width="94.27777777777777" height="20.8" data-key="000002" class="chart-cell chart-cell__series-0"/>
+        <rect x="317.3333333333333" y="74.6" width="0" height="20.8" data-key="000003" class="chart-cell chart-cell__series-0"/>
+    </g>
+    <g data-stack="1" fill="orange">
+        <rect x="411.6111111111111" y="22.6" width="188.55555555555554" height="20.8" data-key="000001" class="chart-cell chart-cell__series-0"/>
+        <rect x="411.6111111111111" y="48.6" width="94.27777777777783" height="20.8" data-key="000002" class="chart-cell chart-cell__series-0"/>
+        <rect x="317.3333333333333" y="74.6" width="188.5555555555556" height="20.8" data-key="000003" class="chart-cell chart-cell__series-0"/>
+    </g>
+    <g data-stack="2" fill="green">
+        <rect x="600.1666666666666" y="22.6" width="282.83333333333337" height="20.8" data-key="000001" class="chart-cell chart-cell__series-0"/>
+        <rect x="505.8888888888889" y="48.6" width="377.1111111111111" height="20.8" data-key="000002" class="chart-cell chart-cell__series-0"/>
+        <rect x="505.8888888888889" y="74.6" width="282.83333333333337" height="20.8" data-key="000003" class="chart-cell chart-cell__series-0"/>
+    </g>
+    <g class="chart-axis chart-axis__x" transform="translate(-2,98)">
+        <path class="domain" stroke="currentColor" d="M317.8333333333333,1V0.5H883.5V1"/>
+        <g class="chart-tick" transform="translate(317.8333333333333,0)">
+            <line y2="6" x1="1" x2="1"/>
+            <text y="9" dy="0.71em" x1="1" x2="1">0</text>
+        </g>
+        <g class="chart-tick" transform="translate(506.3888888888889,0)">
+            <line y2="6" x1="1" x2="1"/>
+            <text y="9" dy="0.71em" x1="1" x2="1">2</text>
+        </g>
+        <g class="chart-tick" transform="translate(694.9444444444445,0)">
+            <line y2="6" x1="1" x2="1"/>
+            <text y="9" dy="0.71em" x1="1" x2="1">4</text>
+        </g>
+        <g class="chart-tick" transform="translate(883.5,0)">
+            <line y2="6" x1="1" x2="1"/>
+            <text y="9" dy="0.71em" x1="1" x2="1">6</text>
+        </g>
+    </g>
+    <g class="chart-axis chart-axis__y" transform="translate(314.3333333333333,0)">
+        <path class="domain" stroke="currentColor" d="M0,20.5H0.5V98.5H0" transform="translate(0,0)"/>
+    </g>
+</svg>
