@@ -16,7 +16,7 @@ public class GetLocalAuthorityStatisticalNeighboursFunction(ILocalAuthoritiesSer
 {
     [Function(nameof(GetLocalAuthorityStatisticalNeighboursFunction))]
     [OpenApiSecurityHeader]
-    [OpenApiOperation(nameof(GetLocalAuthorityStatisticalNeighboursFunction), Constants.Features.LocalAuthorities)]
+    [OpenApiOperation(nameof(GetLocalAuthorityStatisticalNeighboursFunction), Constants.Features.LocalAuthorities, Deprecated = true)]
     [OpenApiParameter("identifier", Type = typeof(string), Required = true)]
     [OpenApiResponseWithBody(HttpStatusCode.OK, ContentType.ApplicationJson, typeof(LocalAuthorityStatisticalNeighboursResponse))]
     [OpenApiResponseWithoutBody(HttpStatusCode.NotFound)]

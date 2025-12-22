@@ -17,7 +17,7 @@ public class GetLocalAuthoritiesFunction(ILocalAuthoritiesService service)
 {
     [Function(nameof(GetLocalAuthoritiesFunction))]
     [OpenApiSecurityHeader]
-    [OpenApiOperation(nameof(GetLocalAuthoritiesFunction), Constants.Features.LocalAuthorities)]
+    [OpenApiOperation(nameof(GetLocalAuthoritiesFunction), Constants.Features.LocalAuthorities, Deprecated = true)]
     [OpenApiResponseWithBody(HttpStatusCode.OK, ContentType.ApplicationJson, typeof(IEnumerable<LocalAuthority>))]
     public async Task<HttpResponseData> RunAsync(
         [HttpTrigger(AuthorizationLevel.Admin, MethodType.Get, Route = Routes.LocalAuthorities)] HttpRequestData req,

@@ -4,7 +4,9 @@ using System.Text.Json;
 using Microsoft.ApplicationInsights.DependencyCollector;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Extensions.DependencyInjection;
+using Platform.Api.LocalAuthority.Features.Details;
 using Platform.Api.LocalAuthority.Features.Search;
+using Platform.Api.LocalAuthority.Features.StatisticalNeighbours;
 using Platform.Functions;
 using Platform.Json;
 using Platform.Search;
@@ -64,5 +66,7 @@ internal static class Services
         .AddPlatformSql();
 
     private static IServiceCollection AddFeatures(this IServiceCollection serviceCollection) => serviceCollection
+        .AddDetailsFeature()
+        .AddStatisticalNeighboursFeature()
         .AddSearchFeature();
 }

@@ -16,7 +16,7 @@ public class GetLocalAuthorityFunction(ILocalAuthoritiesService service)
 {
     [Function(nameof(GetLocalAuthorityFunction))]
     [OpenApiSecurityHeader]
-    [OpenApiOperation(nameof(GetLocalAuthorityFunction), Constants.Features.LocalAuthorities)]
+    [OpenApiOperation(nameof(GetLocalAuthorityFunction), Constants.Features.LocalAuthorities, Deprecated = true)]
     [OpenApiParameter("identifier", Type = typeof(string), Required = true)]
     [OpenApiResponseWithBody(HttpStatusCode.OK, ContentType.ApplicationJson, typeof(LocalAuthority))]
     [OpenApiResponseWithoutBody(HttpStatusCode.NotFound)]

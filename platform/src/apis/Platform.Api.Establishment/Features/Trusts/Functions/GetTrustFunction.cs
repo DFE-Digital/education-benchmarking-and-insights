@@ -17,7 +17,7 @@ public class GetTrustFunction(IVersionedHandlerDispatcher<IGetTrustHandler> disp
 {
     [Function(nameof(GetTrustFunction))]
     [OpenApiSecurityHeader]
-    [OpenApiOperation(nameof(GetTrustFunction), Constants.Features.Trusts)]
+    [OpenApiOperation(nameof(GetTrustFunction), Constants.Features.Trusts, Deprecated = true)]
     [OpenApiParameter("identifier", Type = typeof(string), Required = true)]
     [OpenApiParameter(Platform.Functions.Constants.ApiVersion, Type = typeof(string), Required = false, In = ParameterLocation.Header)]
     [OpenApiResponseWithBody(HttpStatusCode.OK, ContentType.ApplicationJson, typeof(Trust))]

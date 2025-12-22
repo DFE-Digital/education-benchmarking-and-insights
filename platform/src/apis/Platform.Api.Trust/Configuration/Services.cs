@@ -4,6 +4,8 @@ using System.Text.Json;
 using Microsoft.ApplicationInsights.DependencyCollector;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Extensions.DependencyInjection;
+using Platform.Api.Trust.Features.Comparators;
+using Platform.Api.Trust.Features.Details;
 using Platform.Api.Trust.Features.Search;
 using Platform.Functions;
 using Platform.Json;
@@ -64,5 +66,7 @@ internal static class Services
         .AddPlatformSql();
 
     private static IServiceCollection AddFeatures(this IServiceCollection serviceCollection) => serviceCollection
-        .AddSearchFeature();
+        .AddSearchFeature()
+        .AddDetailsFeature()
+        .AddComparatorsFeature();
 }
