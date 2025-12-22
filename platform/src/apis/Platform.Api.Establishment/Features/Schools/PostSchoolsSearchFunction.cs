@@ -21,7 +21,7 @@ public class PostSchoolsSearchFunction(
 {
     [Function(nameof(PostSchoolsSearchFunction))]
     [OpenApiSecurityHeader]
-    [OpenApiOperation(nameof(PostSchoolsSearchFunction), Constants.Features.Schools)]
+    [OpenApiOperation(nameof(PostSchoolsSearchFunction), Constants.Features.Schools, Deprecated = true)]
     [OpenApiRequestBody(ContentType.ApplicationJson, typeof(SearchRequest), Description = "The search request")]
     [OpenApiResponseWithBody(HttpStatusCode.OK, ContentType.ApplicationJson, typeof(SearchResponse<SchoolSummary>))]
     [OpenApiResponseWithBody(HttpStatusCode.BadRequest, ContentType.ApplicationJson, typeof(ValidationError[]))]

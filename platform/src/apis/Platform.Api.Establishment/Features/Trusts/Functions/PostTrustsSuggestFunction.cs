@@ -19,7 +19,7 @@ public class PostTrustsSuggestFunction(ITrustsService service, IValidator<Sugges
 {
     [Function(nameof(PostTrustsSuggestFunction))]
     [OpenApiSecurityHeader]
-    [OpenApiOperation(nameof(PostTrustsSuggestFunction), Constants.Features.Trusts)]
+    [OpenApiOperation(nameof(PostTrustsSuggestFunction), Constants.Features.Trusts, Deprecated = true)]
     [OpenApiRequestBody(ContentType.ApplicationJson, typeof(TrustSuggestRequest), Description = "The suggest object")]
     [OpenApiResponseWithBody(HttpStatusCode.OK, ContentType.ApplicationJson, typeof(SuggestResponse<TrustSummary>))]
     [OpenApiResponseWithBody(HttpStatusCode.BadRequest, ContentType.ApplicationJson, typeof(ValidationError[]))]

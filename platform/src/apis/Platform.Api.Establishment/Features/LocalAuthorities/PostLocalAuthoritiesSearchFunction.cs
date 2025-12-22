@@ -21,7 +21,7 @@ public class PostLocalAuthoritiesSearchFunction(
 {
     [Function(nameof(PostLocalAuthoritiesSearchFunction))]
     [OpenApiSecurityHeader]
-    [OpenApiOperation(nameof(PostLocalAuthoritiesSearchFunction), Constants.Features.LocalAuthorities)]
+    [OpenApiOperation(nameof(PostLocalAuthoritiesSearchFunction), Constants.Features.LocalAuthorities, Deprecated = true)]
     [OpenApiRequestBody(ContentType.ApplicationJson, typeof(SearchRequest), Description = "The search request")]
     [OpenApiResponseWithBody(HttpStatusCode.OK, ContentType.ApplicationJson, typeof(SearchResponse<LocalAuthoritySummary>))]
     [OpenApiResponseWithBody(HttpStatusCode.BadRequest, ContentType.ApplicationJson, typeof(ValidationError[]))]

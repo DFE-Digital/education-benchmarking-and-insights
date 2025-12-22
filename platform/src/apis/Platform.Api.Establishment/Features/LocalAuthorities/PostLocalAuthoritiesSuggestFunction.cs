@@ -19,7 +19,7 @@ public class PostLocalAuthoritiesSuggestFunction(ILocalAuthoritiesService servic
 {
     [Function(nameof(PostLocalAuthoritiesSuggestFunction))]
     [OpenApiSecurityHeader]
-    [OpenApiOperation(nameof(PostLocalAuthoritiesSuggestFunction), Constants.Features.LocalAuthorities)]
+    [OpenApiOperation(nameof(PostLocalAuthoritiesSuggestFunction), Constants.Features.LocalAuthorities, Deprecated = true)]
     [OpenApiRequestBody(ContentType.ApplicationJson, typeof(LocalAuthoritySuggestRequest), Description = "The suggest object")]
     [OpenApiResponseWithBody(HttpStatusCode.OK, ContentType.ApplicationJson, typeof(SuggestResponse<LocalAuthoritySummary>))]
     [OpenApiResponseWithBody(HttpStatusCode.BadRequest, ContentType.ApplicationJson, typeof(ValidationError[]))]

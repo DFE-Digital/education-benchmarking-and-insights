@@ -19,7 +19,7 @@ public class PostSchoolsSuggestFunction(ISchoolsService service, IValidator<Sugg
 {
     [Function(nameof(PostSchoolsSuggestFunction))]
     [OpenApiSecurityHeader]
-    [OpenApiOperation(nameof(PostSchoolsSuggestFunction), Constants.Features.Schools)]
+    [OpenApiOperation(nameof(PostSchoolsSuggestFunction), Constants.Features.Schools, Deprecated = true)]
     [OpenApiRequestBody(ContentType.ApplicationJson, typeof(SchoolSuggestRequest), Description = "The suggest object")]
     [OpenApiResponseWithBody(HttpStatusCode.OK, ContentType.ApplicationJson, typeof(SuggestResponse<SchoolSummary>))]
     [OpenApiResponseWithBody(HttpStatusCode.BadRequest, ContentType.ApplicationJson, typeof(ValidationError[]))]

@@ -21,7 +21,7 @@ public class PostTrustsSearchFunction(
 {
     [Function(nameof(PostTrustsSearchFunction))]
     [OpenApiSecurityHeader]
-    [OpenApiOperation(nameof(PostTrustsSearchFunction), Constants.Features.Trusts)]
+    [OpenApiOperation(nameof(PostTrustsSearchFunction), Constants.Features.Trusts, Deprecated = true)]
     [OpenApiRequestBody(ContentType.ApplicationJson, typeof(SearchRequest), Description = "The search request")]
     [OpenApiResponseWithBody(HttpStatusCode.OK, ContentType.ApplicationJson, typeof(SearchResponse<TrustSummary>))]
     [OpenApiResponseWithBody(HttpStatusCode.BadRequest, ContentType.ApplicationJson, typeof(ValidationError[]))]

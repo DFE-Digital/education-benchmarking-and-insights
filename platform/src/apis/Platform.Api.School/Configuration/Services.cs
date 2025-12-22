@@ -4,8 +4,10 @@ using System.Text.Json;
 using Microsoft.ApplicationInsights.DependencyCollector;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Extensions.DependencyInjection;
+using Platform.Api.School.Features.Search;
 using Platform.Functions;
 using Platform.Json;
+using Platform.Search;
 using Platform.Sql;
 
 // ReSharper disable UnusedMethodReturnValue.Local
@@ -33,6 +35,7 @@ internal static class Services
     {
         serviceCollection
             .AddHealthChecks()
+            .AddPlatformSearch()
             .AddPlatformSql();
 
         return serviceCollection;
@@ -57,7 +60,9 @@ internal static class Services
     }
 
     private static IServiceCollection AddPlatformServices(this IServiceCollection serviceCollection) => serviceCollection
+        .AddPlatformSearch()
         .AddPlatformSql();
 
-    private static IServiceCollection AddFeatures(this IServiceCollection serviceCollection) => serviceCollection;
+    private static IServiceCollection AddFeatures(this IServiceCollection serviceCollection) => serviceCollection
+        .AddSearchFeature();
 }

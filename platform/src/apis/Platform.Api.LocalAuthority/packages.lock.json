@@ -1934,6 +1934,18 @@
           "Newtonsoft.Json": "[13.0.4, )"
         }
       },
+      "platform.search": {
+        "type": "Project",
+        "dependencies": {
+          "AspNetCore.HealthChecks.AzureSearch": "[9.0.0, )",
+          "Azure.Search.Documents": "[11.7.0, )",
+          "FluentValidation": "[12.1.0, )",
+          "Microsoft.ApplicationInsights": "[2.23.0, )",
+          "Microsoft.Extensions.DependencyInjection.Abstractions": "[10.0.0, )",
+          "Microsoft.Extensions.Diagnostics.HealthChecks": "[10.0.0, )",
+          "Platform.Infrastructure": "[1.0.0, )"
+        }
+      },
       "platform.sql": {
         "type": "Project",
         "dependencies": {
@@ -1947,6 +1959,16 @@
           "Platform.Domain": "[1.0.0, )"
         }
       },
+      "AspNetCore.HealthChecks.AzureSearch": {
+        "type": "CentralTransitive",
+        "requested": "[9.0.0, )",
+        "resolved": "9.0.0",
+        "contentHash": "+S8xLA2tAfVO+pYtLEYsGO+LnOuT3njdGBFZF6ENZ31e5X9BaybBmdM0FKqGP+281L+Qo+VCPV/e9GKAcCznHA==",
+        "dependencies": {
+          "Azure.Search.Documents": "11.5.0",
+          "Microsoft.Extensions.Diagnostics.HealthChecks": "8.0.11"
+        }
+      },
       "AspNetCore.HealthChecks.SqlServer": {
         "type": "CentralTransitive",
         "requested": "[9.0.0, )",
@@ -1955,6 +1977,15 @@
         "dependencies": {
           "Microsoft.Data.SqlClient": "5.2.2",
           "Microsoft.Extensions.Diagnostics.HealthChecks": "8.0.11"
+        }
+      },
+      "Azure.Search.Documents": {
+        "type": "CentralTransitive",
+        "requested": "[11.7.0, )",
+        "resolved": "11.7.0",
+        "contentHash": "48yBLnsf8SSgowe/OQDCNg9+G9WjzRmLX6Bghjlshxu+5Mhh4maTXvSWKi4o568ZqV6GoOYhiKPbCm/QYoufwA==",
+        "dependencies": {
+          "Azure.Core": "1.49.0"
         }
       },
       "Azure.Storage.Queues": {

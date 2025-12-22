@@ -22,8 +22,8 @@ When developing this application in Visual Studio Code, the following extensions
 
 ## Build & validate
 
-The 'build and copy' scripts within this project's root folder may be used to generate a version of the
-components to use for local validation within the consuming Web project.
+The 'build and copy' scripts within this project's root folder may be used to generate a version of
+the components to use for local validation within the consuming Web project.
 
 ## Build & release
 
