@@ -22,7 +22,7 @@ public class GetEducationHealthCarePlansLocalAuthoritiesFunction(
 {
     [Function(nameof(GetEducationHealthCarePlansLocalAuthoritiesFunction))]
     [OpenApiSecurityHeader]
-    [OpenApiOperation(nameof(GetEducationHealthCarePlansLocalAuthoritiesFunction), Constants.Features.HighNeeds)]
+    [OpenApiOperation(nameof(GetEducationHealthCarePlansLocalAuthoritiesFunction), Constants.Features.HighNeeds, Deprecated = true)]
     [OpenApiParameter("code", In = ParameterLocation.Query, Description = "List of local authority codes", Type = typeof(string[]), Required = true)]
     [OpenApiParameter("dimension", In = ParameterLocation.Query, Description = "Dimension for resultant values", Type = typeof(string), Required = true, Example = typeof(ExampleEducationHealthCarePlansDimension))]
     [OpenApiResponseWithBody(HttpStatusCode.OK, ContentType.ApplicationJson, typeof(LocalAuthorityNumberOfPlansResponse[]))]

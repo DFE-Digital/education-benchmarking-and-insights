@@ -13,5 +13,6 @@ public static class Constants
         public const string Search = "Search";
         public const string Details = "Details";
         public const string StatisticalNeighbours = "Statistical Neighbours";
+        public const string EducationHealthCarePlans = "Education Health Care Plans";
     }
 }
