@@ -49,6 +49,9 @@ steps:
       publishWebProjects: false
       packagesDirectory: $(PLATFORM_NUGET_CACHE)
       projects: |
+        platform/src/apis/Platform.Api.Benchmark/Platform.Api.LocalAuthority.csproj
+        platform/src/apis/Platform.Api.Benchmark/Platform.Api.School.csproj
+        platform/src/apis/Platform.Api.Benchmark/Platform.Api.Trust.csproj
         platform/src/apis/Platform.Api.Benchmark/Platform.Api.Benchmark.csproj
         platform/src/apis/Platform.Api.Insight/Platform.Api.Insight.csproj
         platform/src/apis/Platform.Api.Establishment/Platform.Api.Establishment.csproj

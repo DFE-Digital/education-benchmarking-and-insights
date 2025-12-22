@@ -1,0 +1,9 @@
+{
+  "profiles": {
+    "Platform.Api.Trust": {
+      "commandName": "Project",
+      "commandLineArgs": "--port 7303",
+      "launchBrowser": false
+    }
+  }
+}

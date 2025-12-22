@@ -165,12 +165,57 @@ jobs:
                 appSettings: '-WEBSITE_RUN_FROM_PACKAGE 1'
                 deploymentMethod: 'runFromPackage'
 
+            - task: AzureFunctionApp@2
+              displayName: 'Deploy local authority function app'
+              inputs:
+                azureSubscription: ${{ parameters.subscription }}
+                appType: functionApp
+                appName: '${{ parameters.environmentPrefix }}-ebis-local-authority-fa'
+                deployToSlotOrASE: true
+                resourceGroupName: '${{ parameters.environmentPrefix }}-ebis-platform'
+                package: '${{ parameters.workspaceDir }}/platform-apis/Platform.Api.LocalAuthority.zip'
+                slotName: production
+                appSettings: '-WEBSITE_RUN_FROM_PACKAGE 1'
+                deploymentMethod: 'runFromPackage'
+
+            - task: AzureFunctionApp@2
+              displayName: 'Deploy school function app'
+              inputs:
+                azureSubscription: ${{ parameters.subscription }}
+                appType: functionApp
+                appName: '${{ parameters.environmentPrefix }}-ebis-school-fa'
+                deployToSlotOrASE: true
+                resourceGroupName: '${{ parameters.environmentPrefix }}-ebis-platform'
+                package: '${{ parameters.workspaceDir }}/platform-apis/Platform.Api.School.zip'
+                slotName: production
+                appSettings: '-WEBSITE_RUN_FROM_PACKAGE 1'
+                deploymentMethod: 'runFromPackage'
+
+            - task: AzureFunctionApp@2
+              displayName: 'Deploy trust function app'
+              inputs:
+                azureSubscription: ${{ parameters.subscription }}
+                appType: functionApp
+                appName: '${{ parameters.environmentPrefix }}-ebis-trust-fa'
+                deployToSlotOrASE: true
+                resourceGroupName: '${{ parameters.environmentPrefix }}-ebis-platform'
+                package: '${{ parameters.workspaceDir }}/platform-apis/Platform.Api.Trust.zip'
+                slotName: production
+                appSettings: '-WEBSITE_RUN_FROM_PACKAGE 1'
+                deploymentMethod: 'runFromPackage'
+
   - template: ../common/app-service-settings-refresh.yaml
     parameters:
       subscription: ${{ parameters.subscription }}
       resourceGroup: '${{ parameters.environmentPrefix }}-ebis-platform'
       alias: 'platform'
-      resources: 
+      resources:
+        - name: '${{ parameters.environmentPrefix }}-ebis-local-authority-fa'
+          alias: 'local_authority'
+        - name: '${{ parameters.environmentPrefix }}-ebis-school-fa'
+          alias: 'school'
+        - name: '${{ parameters.environmentPrefix }}-ebis-trust-fa'
+          alias: 'trust'
         - name: '${{ parameters.environmentPrefix }}-ebis-benchmark-fa'
           alias: 'benchmark'
         - name: '${{ parameters.environmentPrefix }}-ebis-insight-fa'
@@ -178,11 +223,11 @@ jobs:
         - name: '${{ parameters.environmentPrefix }}-ebis-establishment-fa'
           alias: 'establishment'
         - name: '${{ parameters.environmentPrefix }}-ebis-local-authority-finances-fa'
-          alias: 'localauthorityfinances'
+          alias: 'local_authority_finances'
         - name: '${{ parameters.environmentPrefix }}-ebis-non-financial-fa'
           alias: 'nonfinancial'
         - name: '${{ parameters.environmentPrefix }}-ebis-chart-rendering-fa'
-          alias: 'chartrendering'
+          alias: 'chart_rendering'
         - name: '${{ parameters.environmentPrefix }}-ebis-content-fa'
           alias: 'content'
         - name: '${{ parameters.environmentPrefix }}-ebis-orchestrator-fa'

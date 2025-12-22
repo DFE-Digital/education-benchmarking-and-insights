@@ -1,0 +1,9 @@
+{
+  "profiles": {
+    "Platform.Api.School": {
+      "commandName": "Project",
+      "commandLineArgs": "--port 7302",
+      "launchBrowser": false
+    }
+  }
+}

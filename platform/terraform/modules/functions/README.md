@@ -11,8 +11,8 @@
 
 | Name | Version |
 |------|---------|
-| <a name="provider_azapi"></a> [azapi](#provider\_azapi) | 2.7.0 |
-| <a name="provider_azurerm"></a> [azurerm](#provider\_azurerm) | 4.47.0 |
+| <a name="provider_azapi"></a> [azapi](#provider\_azapi) | ~> 2.7.0 |
+| <a name="provider_azurerm"></a> [azurerm](#provider\_azurerm) | n/a |
 | <a name="provider_mssql"></a> [mssql](#provider\_mssql) | 0.3.1 |
 
 ## Modules
@@ -61,7 +61,7 @@ No modules.
 | <a name="input_redis-cache-id"></a> [redis-cache-id](#input\_redis-cache-id) | n/a | `string` | `null` | no |
 | <a name="input_requires-keys"></a> [requires-keys](#input\_requires-keys) | n/a | `bool` | `true` | no |
 | <a name="input_resource-group-name"></a> [resource-group-name](#input\_resource-group-name) | n/a | `string` | n/a | yes |
-| <a name="input_sku"></a> [sku](#input\_sku) | n/a | <pre>object({<br/>    size = string<br/>  })</pre> | <pre>{<br/>  "size": "Y1"<br/>}</pre> | no |
+| <a name="input_sku"></a> [sku](#input\_sku) | n/a | <pre>object({<br>    size = string<br>  })</pre> | <pre>{<br>  "size": "Y1"<br>}</pre> | no |
 | <a name="input_sql-server-fqdn"></a> [sql-server-fqdn](#input\_sql-server-fqdn) | n/a | `string` | n/a | yes |
 | <a name="input_sql-server-password"></a> [sql-server-password](#input\_sql-server-password) | n/a | `string` | n/a | yes |
 | <a name="input_sql-server-username"></a> [sql-server-username](#input\_sql-server-username) | n/a | `string` | n/a | yes |

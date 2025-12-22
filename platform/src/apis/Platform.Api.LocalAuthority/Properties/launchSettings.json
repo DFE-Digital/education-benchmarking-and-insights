@@ -1,0 +1,9 @@
+{
+  "profiles": {
+    "Platform.Api.LocalAuthority": {
+      "commandName": "Project",
+      "commandLineArgs": "--port 7301",
+      "launchBrowser": false
+    }
+  }
+}
