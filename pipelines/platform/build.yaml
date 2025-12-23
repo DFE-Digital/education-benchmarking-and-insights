@@ -27,8 +27,6 @@ variables:
     value: 30
   - name: NUGET_PLUGIN_REQUEST_TIMEOUT_IN_SECONDS
     value: 30
-  - name: apiProjects
-    value: 'LocalAuthority,School,Trust'
 
 name: $(Version)$(Version.Revision.Separator)$(Version.Revision).$(Rev:r)
 
@@ -151,20 +149,47 @@ stages:
               custom: 'tool'
               arguments: 'install -g Microsoft.Azure.WebJobs.Extensions.OpenApi.CLI'
 
-          - ${{ each api in split(variables.apiProjects, ',') }}:
-              - task: DotNetCoreCLI@2
-                displayName: 'Generate Swagger for Platform.Api.${{ api }}'
-                inputs:
-                  command: 'custom'
-                  custom: 'run'
-                  arguments: >
-                    --project platform/src/apis/Platform.Api.${{ api }}/Platform.Api.${{ api }csproj
-                    --no-build
-                    --
-                    /azfuncopenapi/generate
-                    --output $(Build.ArtifactStagingDirectory)/swagger/Platform.Api.${{ api }}.json
-                    --format json
-                    --version v3
+          - task: DotNetCoreCLI@2
+            displayName: 'Generate Swagger for Local Authority API'
+            inputs:
+              command: 'custom'
+              custom: 'run'
+              arguments: >
+                --project platform/src/apis/Platform.Api.LocalAuthority/Platform.Api.LocalAuthority.csproj
+                --no-build
+                --
+                /azfuncopenapi/generate
+                --output $(Build.ArtifactStagingDirectory)/swagger/Platform.Api.LocalAuthority.json
+                --format json
+                --version v3
+
+          - task: DotNetCoreCLI@2
+            displayName: 'Generate Swagger for School API'
+            inputs:
+              command: 'custom'
+              custom: 'run'
+              arguments: >
+                --project platform/src/apis/Platform.Api.LocalAuthority/Platform.Api.School.csproj
+                --no-build
+                --
+                /azfuncopenapi/generate
+                --output $(Build.ArtifactStagingDirectory)/swagger/Platform.Api.School.json
+                --format json
+                --version v3
+
+          - task: DotNetCoreCLI@2
+            displayName: 'Generate Swagger for Trust API'
+            inputs:
+              command: 'custom'
+              custom: 'run'
+              arguments: >
+                --project platform/src/apis/Platform.Api.LocalAuthority/Platform.Api.Trust.csproj
+                --no-build
+                --
+                /azfuncopenapi/generate
+                --output $(Build.ArtifactStagingDirectory)/swagger/Platform.Api.Trust.json
+                --format json
+                --version v3                
 
           - task: PublishBuildArtifacts@1
             displayName: 'Publish Swagger Artifacts'
