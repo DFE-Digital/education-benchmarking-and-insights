@@ -21,7 +21,7 @@ public class GetWorkforceSummaryFunction(ISchoolsService service, IValidator<Wor
 {
     [Function(nameof(GetWorkforceSummaryFunction))]
     [OpenApiSecurityHeader]
-    [OpenApiOperation(nameof(GetWorkforceSummaryFunction), Constants.Features.Schools)]
+    [OpenApiOperation(nameof(GetWorkforceSummaryFunction), Constants.Features.Schools, Deprecated = true)]
     [OpenApiParameter("code", Type = typeof(string), Required = true)]
     [OpenApiParameter("dimension", In = ParameterLocation.Query, Description = "Dimension for resultant values", Type = typeof(string), Example = typeof(ExampleDimensionSchoolsSummaryWorkforce))]
     [OpenApiParameter("nurseryProvision", In = ParameterLocation.Query, Description = "List of nursery provisions to filter resultant values", Type = typeof(string[]), Required = false)]

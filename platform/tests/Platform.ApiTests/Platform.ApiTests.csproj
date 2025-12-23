@@ -45,4 +45,12 @@
         <EmbeddedResource Include="Data\*.json"/>
         <EmbeddedResource Include="Data\*.svg"/>
     </ItemGroup>
+    <ItemGroup>
+      <Folder Include="Data\LocalAuthority\" />
+      <Folder Include="Data\School\" />
+      <Folder Include="Data\Trust\" />
+      <Folder Include="Features\LocalAuthority\" />
+      <Folder Include="Features\School\" />
+      <Folder Include="Features\Trust\" />
+    </ItemGroup>
 </Project>
