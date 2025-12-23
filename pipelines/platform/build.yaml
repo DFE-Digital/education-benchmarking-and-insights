@@ -143,8 +143,7 @@ stages:
         displayName: 'Generate API documentation'
         steps:
           - script: |
-              dotnet new tool-manifest
-              dotnet tool install Microsoft.Azure.WebJobs.Extensions.OpenApi.CLI --add-source https://api.nuget.org/v3/index.json
+              dotnet tool install -g Microsoft.Azure.WebJobs.Extensions.OpenApi.Cli
               npm install -g swagger-markdown
             displayName: 'Install OpenAPI CLI Tool'
 
