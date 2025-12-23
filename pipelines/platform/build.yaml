@@ -143,7 +143,10 @@ stages:
         displayName: 'Generate API documentation'
         steps:
           - script: |
-              dotnet tool install -g Microsoft.Azure.WebJobs.Extensions.OpenApi.Cli
+              dotnet new tool-manifest
+              dotnet tool install Microsoft.Azure.WebJobs.Extensions.OpenApi.Cli
+              dotnet tool restore
+              dotnet openapi --help
               npm install -g swagger-markdown
             displayName: 'Install OpenAPI CLI Tool'
 
