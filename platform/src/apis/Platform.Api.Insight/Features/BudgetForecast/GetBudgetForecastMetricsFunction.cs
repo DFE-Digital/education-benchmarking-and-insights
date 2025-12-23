@@ -16,7 +16,7 @@ namespace Platform.Api.Insight.Features.BudgetForecast;
 public class GetBudgetForecastMetricsFunction(IBudgetForecastService service)
 {
     [Function(nameof(GetBudgetForecastMetricsFunction))]
-    [OpenApiOperation(nameof(GetBudgetForecastMetricsFunction), Constants.Features.BudgetForecast)]
+    [OpenApiOperation(nameof(GetBudgetForecastMetricsFunction), Constants.Features.BudgetForecast, Deprecated = true)]
     [OpenApiParameter("companyNumber", Type = typeof(string), Required = true)]
     [OpenApiSecurityHeader]
     [OpenApiResponseWithBody(HttpStatusCode.OK, "application/json", typeof(BudgetForecastReturnMetricResponse[]))]

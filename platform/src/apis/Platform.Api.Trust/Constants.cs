@@ -13,5 +13,7 @@ public static class Constants
         public const string Search = "Search";
         public const string Details = "Details";
         public const string Comparators = "Comparators";
+        public const string BudgetForecast = "Budget Forecast";
+        public const string Accounts = "Accounts Return";
     }
 }
