@@ -20,7 +20,7 @@ public class GetExpenditureTrustFunction(IExpenditureService service, IValidator
 {
     [Function(nameof(GetExpenditureTrustFunction))]
     [OpenApiSecurityHeader]
-    [OpenApiOperation(nameof(GetExpenditureTrustFunction), Constants.Features.Expenditure)]
+    [OpenApiOperation(nameof(GetExpenditureTrustFunction), Constants.Features.Expenditure, Deprecated = true)]
     [OpenApiParameter("companyNumber", Type = typeof(string), Required = true)]
     [OpenApiParameter("category", In = ParameterLocation.Query, Description = "Expenditure category", Type = typeof(string), Example = typeof(ExampleCategoryCost))]
     [OpenApiParameter("dimension", In = ParameterLocation.Query, Description = "Dimension for response values", Type = typeof(string), Example = typeof(ExampleDimensionFinance))]

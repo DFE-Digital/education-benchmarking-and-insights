@@ -142,23 +142,19 @@ stages:
       - job:
         displayName: 'Generate API documentation'
         steps:
-          - task: DotNetCoreCLI@2
+          - script: |
+              dotnet new tool-manifest
+              dotnet tool install Microsoft.Azure.WebJobs.Extensions.OpenApi.CLI
             displayName: 'Install OpenAPI CLI Tool'
-            inputs:
-              command: 'custom'
-              custom: 'tool'
-              arguments: 'install -g Microsoft.Azure.WebJobs.Extensions.OpenApi.CLI'
 
           - task: DotNetCoreCLI@2
             displayName: 'Generate Swagger for Local Authority API'
             inputs:
               command: 'custom'
-              custom: 'run'
+              custom: 'tool'
               arguments: >
+                run azfuncopenapi generate
                 --project platform/src/apis/Platform.Api.LocalAuthority/Platform.Api.LocalAuthority.csproj
-                --no-build
-                --
-                /azfuncopenapi/generate
                 --output $(Build.ArtifactStagingDirectory)/swagger/Platform.Api.LocalAuthority.json
                 --format json
                 --version v3
@@ -167,12 +163,10 @@ stages:
             displayName: 'Generate Swagger for School API'
             inputs:
               command: 'custom'
-              custom: 'run'
+              custom: 'tool'
               arguments: >
-                --project platform/src/apis/Platform.Api.LocalAuthority/Platform.Api.School.csproj
-                --no-build
-                --
-                /azfuncopenapi/generate
+                run azfuncopenapi generate
+                --project platform/src/apis/Platform.Api.School/Platform.Api.School.csproj
                 --output $(Build.ArtifactStagingDirectory)/swagger/Platform.Api.School.json
                 --format json
                 --version v3
@@ -181,15 +175,13 @@ stages:
             displayName: 'Generate Swagger for Trust API'
             inputs:
               command: 'custom'
-              custom: 'run'
+              custom: 'tool'
               arguments: >
-                --project platform/src/apis/Platform.Api.LocalAuthority/Platform.Api.Trust.csproj
-                --no-build
-                --
-                /azfuncopenapi/generate
+                run azfuncopenapi generate
+                --project platform/src/apis/Platform.Api.Trust/Platform.Api.Trust.csproj
                 --output $(Build.ArtifactStagingDirectory)/swagger/Platform.Api.Trust.json
                 --format json
-                --version v3                
+                --version v3             
 
           - task: PublishBuildArtifacts@1
             displayName: 'Publish Swagger Artifacts'

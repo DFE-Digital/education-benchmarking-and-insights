@@ -16,7 +16,7 @@ public class GetBalanceTrustFunction(IBalanceService service)
 {
     [Function(nameof(GetBalanceTrustFunction))]
     [OpenApiSecurityHeader]
-    [OpenApiOperation(nameof(GetBalanceTrustFunction), Constants.Features.Balance)]
+    [OpenApiOperation(nameof(GetBalanceTrustFunction), Constants.Features.Balance, Deprecated = true)]
     [OpenApiParameter("companyNumber", Type = typeof(string), Required = true)]
     [OpenApiResponseWithBody(HttpStatusCode.OK, ContentType.ApplicationJson, typeof(BalanceTrustResponse))]
     [OpenApiResponseWithoutBody(HttpStatusCode.NotFound)]

@@ -4,6 +4,7 @@ using System.Text.Json;
 using Microsoft.ApplicationInsights.DependencyCollector;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Extensions.DependencyInjection;
+using Platform.Api.Trust.Features.Accounts;
 using Platform.Api.Trust.Features.BudgetForecast;
 using Platform.Api.Trust.Features.Comparators;
 using Platform.Api.Trust.Features.Details;
@@ -70,5 +71,6 @@ internal static class Services
         .AddSearchFeature()
         .AddDetailsFeature()
         .AddBudgetForecastFeature()
+        .AddAccountsFeature()
         .AddComparatorsFeature();
 }
