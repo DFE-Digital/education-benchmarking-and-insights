@@ -144,7 +144,8 @@ stages:
         steps:
           - script: |
               dotnet new tool-manifest
-              dotnet tool install Microsoft.Azure.WebJobs.Extensions.OpenApi.CLI
+              dotnet tool install Microsoft.Azure.WebJobs.Extensions.OpenApi.CLI --add-source https://api.nuget.org/v3/index.json
+              npm install -g swagger-markdown
             displayName: 'Install OpenAPI CLI Tool'
 
           - task: DotNetCoreCLI@2
@@ -155,9 +156,13 @@ stages:
               arguments: >
                 run azfuncopenapi generate
                 --project platform/src/apis/Platform.Api.LocalAuthority/Platform.Api.LocalAuthority.csproj
-                --output $(Build.ArtifactStagingDirectory)/swagger/Platform.Api.LocalAuthority.json
+                --output $(Build.ArtifactStagingDirectory)/docs/Platform.Api.LocalAuthority.json
                 --format json
                 --version v3
+
+          - script: |
+              swagger-markdown -i $(Build.ArtifactStagingDirectory)/docs/Platform.Api.LocalAuthority.json -o $(Build.ArtifactStagingDirectory)/docs/Platform.LocalAuthority.School.md
+            displayName: 'Convert Local Authority API Swagger to Markdown'
 
           - task: DotNetCoreCLI@2
             displayName: 'Generate Swagger for School API'
@@ -167,9 +172,14 @@ stages:
               arguments: >
                 run azfuncopenapi generate
                 --project platform/src/apis/Platform.Api.School/Platform.Api.School.csproj
-                --output $(Build.ArtifactStagingDirectory)/swagger/Platform.Api.School.json
+                --output $(Build.ArtifactStagingDirectory)/docs/Platform.Api.School.json
                 --format json
                 --version v3
+
+          - script: |
+              swagger-markdown -i $(Build.ArtifactStagingDirectory)/docs/Platform.Api.School.json -o $(Build.ArtifactStagingDirectory)/docs/Platform.Api.School.md
+            displayName: 'Convert School API Swagger to Markdown'
+
 
           - task: DotNetCoreCLI@2
             displayName: 'Generate Swagger for Trust API'
@@ -179,14 +189,18 @@ stages:
               arguments: >
                 run azfuncopenapi generate
                 --project platform/src/apis/Platform.Api.Trust/Platform.Api.Trust.csproj
-                --output $(Build.ArtifactStagingDirectory)/swagger/Platform.Api.Trust.json
+                --output $(Build.ArtifactStagingDirectory)/docs/Platform.Api.Trust.json
                 --format json
                 --version v3             
+
+          - script: |
+              swagger-markdown -i $(Build.ArtifactStagingDirectory)/docs/Platform.Api.Trust.json -o $(Build.ArtifactStagingDirectory)/docs/Platform.Api.Trust.md
+            displayName: 'Convert Trust API Swagger to Markdown'
 
           - task: PublishBuildArtifacts@1
             displayName: 'Publish Swagger Artifacts'
             inputs:
-              PathtoPublish: '$(Build.ArtifactStagingDirectory)/swagger'
+              PathtoPublish: '$(Build.ArtifactStagingDirectory)/docs'
               ArtifactName: 'api-documentation'
               publishLocation: 'Container'
 
