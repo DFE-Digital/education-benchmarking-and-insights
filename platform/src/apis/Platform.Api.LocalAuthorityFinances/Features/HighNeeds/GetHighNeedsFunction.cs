@@ -20,7 +20,7 @@ public class GetHighNeedsFunction(IHighNeedsService service, IValidator<HighNeed
 {
     [Function(nameof(GetHighNeedsFunction))]
     [OpenApiSecurityHeader]
-    [OpenApiOperation(nameof(GetHighNeedsFunction), Constants.Features.HighNeeds)]
+    [OpenApiOperation(nameof(GetHighNeedsFunction), Constants.Features.HighNeeds, Deprecated = true)]
     [OpenApiParameter("code", In = ParameterLocation.Query, Type = typeof(string[]), Required = true)]
     [OpenApiParameter("dimension", In = ParameterLocation.Query, Description = "Dimension for resultant values", Type = typeof(string), Required = true, Example = typeof(ExampleHighNeedsDimension))]
     [OpenApiResponseWithBody(HttpStatusCode.OK, ContentType.ApplicationJson, typeof(LocalAuthority<HighNeedsYear>[]))]

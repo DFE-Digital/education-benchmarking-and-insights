@@ -4,6 +4,7 @@ using System.Text.Json;
 using Microsoft.ApplicationInsights.DependencyCollector;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Extensions.DependencyInjection;
+using Platform.Api.LocalAuthority.Features.Accounts;
 using Platform.Api.LocalAuthority.Features.Details;
 using Platform.Api.LocalAuthority.Features.EducationHealthCarePlans;
 using Platform.Api.LocalAuthority.Features.Search;
@@ -70,5 +71,6 @@ internal static class Services
         .AddDetailsFeature()
         .AddStatisticalNeighboursFeature()
         .AddEducationHealthCarePlansFeature()
+        .AddAccountsFeature()
         .AddSearchFeature();
 }
