@@ -14,6 +14,7 @@ This plan defines the QA strategy to validate the ingestion and transformation o
 - **Data Reconciliation:** Ensuring database records match source file totals and counts.
 - **Service/UI Validation:** Functional verification of the FBIT front-end for the 2025 reporting year.
 - **Regression Testing:** Verification that historical AAR data (2024 and prior) remains immutable.
+- **AAR 2025 Transparency File Integration:** Addition of the transparency dataset into the service.
 
 ### Out of Scope
 
@@ -28,6 +29,7 @@ This plan defines the QA strategy to validate the ingestion and transformation o
 | Organisational | GIAS, GIAS Links |
 | Census Data | Pupil Census, Workforce Census, Workforce Census 2 (Senior Leadership) |
 | Educational/Financial | SEN, CDC, KS2, KS4, CFO, ILR, High Exec Pay |
+| Transparency | AAR 2025 Transparency File |
 
 ## Test Activities & Methodologies
 
@@ -76,6 +78,12 @@ This plan defines the QA strategy to validate the ingestion and transformation o
 - Data Accuracy: Spot-check high-value metrics against raw source files.
 - Fallback States: Ensure UI handles missing data gracefully (e.g., N/A instead of errors).
 
+### AAR 2025 Transparency File Integration
+
+**Goal:** Ensure the transparency dataset is correctly ingested, processed, and displayed in the service.
+
+- Validation steps to be added here.
+
 ## Responsibilities & Environment
 
 ### Responsibilities
@@ -99,3 +107,4 @@ This plan defines the QA strategy to validate the ingestion and transformation o
 - [ ] Pipeline completes E2E with no High or Critical errors
 - [ ] Regression tests confirm historical data integrity
 - [ ] UI displays 2025 data accurately across all metrics and filters
+- [ ] Transparency file successfully integrated
