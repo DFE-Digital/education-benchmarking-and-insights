@@ -4,6 +4,7 @@ using System.Text.Json;
 using Microsoft.ApplicationInsights.DependencyCollector;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Extensions.DependencyInjection;
+using Platform.Api.School.Features.Accounts;
 using Platform.Api.School.Features.Comparators;
 using Platform.Api.School.Features.Details;
 using Platform.Api.School.Features.MetricRagRatings;
@@ -70,5 +71,6 @@ internal static class Services
         .AddComparatorsFeature()
         .AddDetailsFeature()
         .AddMetricRagRatingsFeature()
+        .AddAccountsFeature()
         .AddSearchFeature();
 }

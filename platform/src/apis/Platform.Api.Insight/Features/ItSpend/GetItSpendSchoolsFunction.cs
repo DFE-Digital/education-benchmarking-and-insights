@@ -20,7 +20,7 @@ public class GetItSpendSchoolsFunction(IItSpendService service, IValidator<ItSpe
 {
     [Function(nameof(GetItSpendSchoolsFunction))]
     [OpenApiSecurityHeader]
-    [OpenApiOperation(nameof(GetItSpendSchoolsFunction), Constants.Features.ItSpend)]
+    [OpenApiOperation(nameof(GetItSpendSchoolsFunction), Constants.Features.ItSpend, Deprecated = true)]
     [OpenApiParameter("urns", In = ParameterLocation.Query, Description = "List of school URNs", Type = typeof(string[]), Required = false)]
     [OpenApiParameter("dimension", In = ParameterLocation.Query, Description = "Dimension for response values", Type = typeof(string), Example = typeof(ExampleDimensionFinance))]
     [OpenApiResponseWithBody(HttpStatusCode.OK, ContentType.ApplicationJson, typeof(ItSpendSchoolResponse[]))]
