@@ -2,5 +2,5 @@
 
 public static class Routes
 {
-    public const string Comparators = "schools/{urn}/comparators";
+    public const string Comparators = $"schools/{Constants.UrnParam}/comparators";
 }

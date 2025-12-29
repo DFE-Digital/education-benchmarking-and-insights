@@ -6,6 +6,7 @@ namespace Platform.Api.LocalAuthority;
 public static class Constants
 {
     public const string ApplicationName = "local-authority-api";
+    public const string CodeParam = "{code:regex(^\\d{{3}}$)}";
 
     public static class Features
     {

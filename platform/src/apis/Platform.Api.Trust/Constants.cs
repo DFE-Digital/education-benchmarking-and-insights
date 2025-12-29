@@ -6,6 +6,7 @@ namespace Platform.Api.Trust;
 public static class Constants
 {
     public const string ApplicationName = "trust-api";
+    public const string CompanyNumberParam = "{companyNumber:regex(^\\d{{8}}$)}";
 
     public static class Features
     {

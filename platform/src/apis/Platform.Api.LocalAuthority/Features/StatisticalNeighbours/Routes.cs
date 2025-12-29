@@ -2,5 +2,5 @@
 
 public static class Routes
 {
-    public const string StatisticalNeighbours = "local-authorities/{code:regex(^\\d{{3}}$)}/statistical-neighbours";
+    public const string StatisticalNeighbours = $"local-authorities/{Constants.CodeParam}/statistical-neighbours";
 }

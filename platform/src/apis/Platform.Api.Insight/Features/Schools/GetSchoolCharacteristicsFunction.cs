@@ -14,7 +14,7 @@ namespace Platform.Api.Insight.Features.Schools;
 public class GetSchoolCharacteristicsFunction(ISchoolsService service)
 {
     [Function(nameof(GetSchoolCharacteristicsFunction))]
-    [OpenApiOperation(nameof(GetSchoolCharacteristicsFunction), Constants.Features.Schools)]
+    [OpenApiOperation(nameof(GetSchoolCharacteristicsFunction), Constants.Features.Schools, Deprecated = true)]
     [OpenApiParameter("urn", Type = typeof(string), Required = true)]
     [OpenApiSecurityHeader]
     [OpenApiResponseWithBody(HttpStatusCode.OK, "application/json", typeof(SchoolCharacteristic))]
