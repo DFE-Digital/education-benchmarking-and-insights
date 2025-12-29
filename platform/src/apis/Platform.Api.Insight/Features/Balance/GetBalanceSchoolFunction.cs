@@ -16,7 +16,7 @@ public class GetBalanceSchoolFunction(IBalanceService service)
 {
     [Function(nameof(GetBalanceSchoolFunction))]
     [OpenApiSecurityHeader]
-    [OpenApiOperation(nameof(GetBalanceSchoolFunction), Constants.Features.Balance)]
+    [OpenApiOperation(nameof(GetBalanceSchoolFunction), Constants.Features.Balance, Deprecated = true)]
     [OpenApiParameter("urn", Type = typeof(string), Required = true)]
     [OpenApiResponseWithBody(HttpStatusCode.OK, ContentType.ApplicationJson, typeof(BalanceSchoolResponse))]
     [OpenApiResponseWithoutBody(HttpStatusCode.NotFound)]

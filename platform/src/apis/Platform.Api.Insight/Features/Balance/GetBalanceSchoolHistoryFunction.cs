@@ -20,7 +20,7 @@ public class GetBalanceSchoolHistoryFunction(IBalanceService service)
     //TODO: Consider adding validation for parameters
     [Function(nameof(GetBalanceSchoolHistoryFunction))]
     [OpenApiSecurityHeader]
-    [OpenApiOperation(nameof(GetBalanceSchoolHistoryFunction), Constants.Features.Balance)]
+    [OpenApiOperation(nameof(GetBalanceSchoolHistoryFunction), Constants.Features.Balance, Deprecated = true)]
     [OpenApiParameter("urn", Type = typeof(string), Required = true)]
     [OpenApiParameter("dimension", In = ParameterLocation.Query, Description = "Dimension for response values", Type = typeof(string), Example = typeof(ExampleDimensionFinance))]
     [OpenApiResponseWithBody(HttpStatusCode.OK, ContentType.ApplicationJson, typeof(BalanceHistoryResponse))]

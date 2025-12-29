@@ -54,6 +54,50 @@ public static class Mapper
         };
     }
 
+    public static BalanceResponse MapToApiResponse(this BalanceModelDto model)
+    {
+        if (model == null)
+        {
+            throw new ArgumentNullException(nameof(model), "Model cannot be null.");
+        }
+
+        return new BalanceResponse
+        {
+            URN = model.URN,
+            SchoolName = model.SchoolName,
+            SchoolType = model.SchoolType,
+            LAName = model.LAName,
+            PeriodCoveredByReturn = model.PeriodCoveredByReturn,
+            InYearBalance = model.InYearBalance,
+            RevenueReserve = model.RevenueReserve
+        };
+    }
+
+    public static BalanceHistoryResponse MapToApiResponse(this YearsModelDto years, IEnumerable<BalanceHistoryModelDto> models)
+    {
+        return new BalanceHistoryResponse
+        {
+            StartYear = years.StartYear,
+            EndYear = years.EndYear,
+            Rows = models.Select(x => x.MapToApiResponse())
+        };
+    }
+
+    private static BalanceHistoryRowResponse MapToApiResponse(this BalanceHistoryModelDto model)
+    {
+        if (model == null)
+        {
+            throw new ArgumentNullException(nameof(model), "Model cannot be null.");
+        }
+
+        return new BalanceHistoryRowResponse
+        {
+            Year = model.RunId,
+            InYearBalance = model.InYearBalance,
+            RevenueReserve = model.RevenueReserve
+        };
+    }
+
     private static IncomeHistoryRowResponse MapToApiResponse(this IncomeHistoryModelDto model)
     {
         if (model == null)

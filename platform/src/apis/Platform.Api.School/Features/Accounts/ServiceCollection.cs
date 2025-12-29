@@ -18,13 +18,18 @@ public static class ServiceCollection
             .AddSingleton<IQueryItSpendingHandler, QueryItSpendingV1Handler>()
             .AddSingleton<IGetIncomeHandler, GetIncomeV1Handler>()
             .AddSingleton<IGetIncomeHistoryHandler, GetIncomeHistoryV1Handler>()
+            .AddSingleton<IGetBalanceHandler, GetBalanceV1Handler>()
+            .AddSingleton<IGetBalanceHistoryHandler, GetBalanceHistoryV1Handler>()
             .AddSingleton<IVersionedHandlerDispatcher<IQueryItSpendingHandler>, VersionedHandlerDispatcher<IQueryItSpendingHandler>>()
             .AddSingleton<IVersionedHandlerDispatcher<IGetIncomeHandler>, VersionedHandlerDispatcher<IGetIncomeHandler>>()
             .AddSingleton<IVersionedHandlerDispatcher<IGetIncomeHistoryHandler>, VersionedHandlerDispatcher<IGetIncomeHistoryHandler>>()
+            .AddSingleton<IVersionedHandlerDispatcher<IGetBalanceHandler>, VersionedHandlerDispatcher<IGetBalanceHandler>>()
+            .AddSingleton<IVersionedHandlerDispatcher<IGetBalanceHistoryHandler>, VersionedHandlerDispatcher<IGetBalanceHistoryHandler>>()
             .AddTransient<IValidator<ItSpendingParameters>, ItSpendingParametersValidator>()
             .AddTransient<IValidator<IncomeParameters>, IncomeParametersValidator>()
             .AddSingleton<IItSpendingService, ItSpendingService>()
-            .AddSingleton<IIncomeService, IncomeService>();
+            .AddSingleton<IIncomeService, IncomeService>()
+            .AddSingleton<IBalanceService, BalanceService>();
 
         return serviceCollection;
     }
