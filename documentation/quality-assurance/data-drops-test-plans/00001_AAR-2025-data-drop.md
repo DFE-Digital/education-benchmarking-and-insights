@@ -25,9 +25,9 @@ This plan defines the QA strategy to validate the 2024/25 Data Release, specific
 | Category | Files / Sources |
 |---------|-----------------|
 | Primary AAR | `aar.csv` (School-level), `aar_cs.csv` (Trust Central Services) |
-| Organisational | GIAS, GIAS Links |
-| Census Data | Pupil Census, Workforce Census, Workforce Census 2 (Senior Leadership) |
-| Educational/Financial | SEN, CDC, KS2, KS4, CFO, ILR, High Exec Pay |
+| Organisational | gias.csv, gias_links.csv |
+| Census Data | census_pupils.csv, census_workforce.xlsx, Workforce_2010_2024_fte_hc_nat_reg_la_sch.csv |
+| Educational/Financial | sen.csv, cdc.csv, ks2.xlsx, ks4.xlsx, cfo.xlsx, ILR R06 cut with FSM and EHCP.xlsx, HExP.csv |
 | Transparency | AAR 2025 Transparency File |
 
 ## Test Activities & Methodologies
