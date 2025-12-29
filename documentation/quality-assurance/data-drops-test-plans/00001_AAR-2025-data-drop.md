@@ -88,11 +88,15 @@ This plan defines the QA strategy to validate the 2024/25 Data Release, specific
 
 ### Responsibilities
 
-| Role          | Responsibility                                                             |
-|---------------|----------------------------------------------------------------------------|
-| Data Engineer | Pipeline execution, log provision, environment readiness                   |
-| QA Engineer   | Script development, logic verification, regression testing, defect logging |
-| Product Owner | Business logic sign-off and UAT approval                                   |
+| Role                | Responsibility                                                                                     |
+|:--------------------|:---------------------------------------------------------------------------------------------------|
+| **Data Analyst(s)** | Produce and review source files for accuracy before the data release.                              |
+| **Data Engineer**   | Execute pipeline runs, provide logs, and support technical testing activities.                     |
+| **QA Lead**         | Prepare test plans/scripts; manage overall testing and delegate tasks across the engineering team. |
+| **Engineer(s)**     | Assist in test execution and script verification under the guidance of QA.                         |
+| **Technical Lead**  | Oversee the technical quality and architectural integrity of the overall data release.             |
+| **Stakeholders**    | Conduct User Acceptance Testing (UAT) and provide formal sign-off.                                 |
+| **Project Lead**    | Final Go/No-Go decision for the Data Release.                                                      |
 
 ### Environments
 
