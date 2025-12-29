@@ -16,9 +16,15 @@ public static class ServiceCollection
     {
         serviceCollection
             .AddSingleton<IQueryItSpendingHandler, QueryItSpendingV1Handler>()
+            .AddSingleton<IGetIncomeHandler, GetIncomeV1Handler>()
+            .AddSingleton<IGetIncomeHistoryHandler, GetIncomeHistoryV1Handler>()
             .AddSingleton<IVersionedHandlerDispatcher<IQueryItSpendingHandler>, VersionedHandlerDispatcher<IQueryItSpendingHandler>>()
+            .AddSingleton<IVersionedHandlerDispatcher<IGetIncomeHandler>, VersionedHandlerDispatcher<IGetIncomeHandler>>()
+            .AddSingleton<IVersionedHandlerDispatcher<IGetIncomeHistoryHandler>, VersionedHandlerDispatcher<IGetIncomeHistoryHandler>>()
             .AddTransient<IValidator<ItSpendingParameters>, ItSpendingParametersValidator>()
-            .AddSingleton<IItSpendingService, ItSpendingService>();
+            .AddTransient<IValidator<IncomeParameters>, IncomeParametersValidator>()
+            .AddSingleton<IItSpendingService, ItSpendingService>()
+            .AddSingleton<IIncomeService, IncomeService>();
 
         return serviceCollection;
     }

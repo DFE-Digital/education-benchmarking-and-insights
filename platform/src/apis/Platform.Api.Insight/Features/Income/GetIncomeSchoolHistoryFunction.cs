@@ -20,7 +20,7 @@ public class GetIncomeSchoolHistoryFunction(IIncomeService service, IValidator<I
 {
     [Function(nameof(GetIncomeSchoolHistoryFunction))]
     [OpenApiSecurityHeader]
-    [OpenApiOperation(nameof(GetIncomeSchoolHistoryFunction), Constants.Features.Income)]
+    [OpenApiOperation(nameof(GetIncomeSchoolHistoryFunction), Constants.Features.Income, Deprecated = true)]
     [OpenApiParameter("urn", Type = typeof(string), Required = true)]
     [OpenApiParameter("dimension", In = ParameterLocation.Query, Description = "Dimension for response values", Type = typeof(string), Required = true, Example = typeof(ExampleDimensionFinance))]
     [OpenApiResponseWithBody(HttpStatusCode.OK, ContentType.ApplicationJson, typeof(IncomeHistoryResponse))]

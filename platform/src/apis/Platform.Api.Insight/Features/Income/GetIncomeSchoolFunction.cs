@@ -16,7 +16,7 @@ public class GetIncomeSchoolFunction(IIncomeService service)
 {
     [Function(nameof(GetIncomeSchoolFunction))]
     [OpenApiSecurityHeader]
-    [OpenApiOperation(nameof(GetIncomeSchoolFunction), Constants.Features.Income)]
+    [OpenApiOperation(nameof(GetIncomeSchoolFunction), Constants.Features.Income, Deprecated = true)]
     [OpenApiParameter("urn", Type = typeof(string), Required = true)]
     [OpenApiResponseWithBody(HttpStatusCode.OK, ContentType.ApplicationJson, typeof(IncomeSchoolResponse))]
     [OpenApiResponseWithoutBody(HttpStatusCode.NotFound)]
