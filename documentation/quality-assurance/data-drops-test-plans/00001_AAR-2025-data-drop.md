@@ -1,24 +1,24 @@
-﻿# Test Plan: AAR Data Ingestion – 2025
+﻿# Test Plan: AAR Data Release – 2025
 
 ## Purpose
 
-This plan defines the QA strategy to validate the ingestion and transformation of the 2025 AAR (Academy Accounts Return) dataset into the FBIT platform. The primary focus is ensuring the integrity of the ingestion pipeline for `aar.csv` and `aar_cs.csv`, the accurate integration of 12 ancillary datasets, and the correct execution of complex trust-level Central Service (CS) fund allocation logic.
+This plan defines the QA strategy to validate the 2024/25 Data Release, specifically the ingestion and transformation of the AAR 2025 dataset into the FBIT platform. The primary focus is ensuring the integrity of the pipeline for `aar.csv` and `aar_cs.csv`, the accurate integration of 12 ancillary datasets, and the correct execution of trust-level Central Service (CS) fund allocation logic.
 
 ## Scope
 
 ### In Scope
 
-- **Schema & Structural Validation:** Strict contract checking for primary AAR files and all listed ancillary datasets (GIAS, Pupil/Workforce Census, SEN, CDC, KS2/4, CFO, ILR, High Exec Pay).
+- **Schema & Structural Validation:** Strict contract checking for primary AAR files and all listed ancillary datasets (GIAS, Pupil/Workforce Census, SEN, CDC, KS2/4, CFO, ILR, High Exec Pay) within this Data Release.
 - **Trust CS Fund Allocation Logic:** Validation of apportionment based on pupil counts, part-year membership, and new academy joiners.
-- **End-to-End (E2E) Pipeline:** Monitoring of the ingestion process from raw file landing to database persistence.
+- **End-to-End (E2E) Pipeline:** Monitoring of the **Data Release** process from raw file landing to database persistence.
 - **Data Reconciliation:** Ensuring database records match source file totals and counts.
 - **Service/UI Validation:** Functional verification of the FBIT front-end for the 2025 reporting year.
-- **Regression Testing:** Verification that historical AAR data (2024 and prior) remains immutable.
+- **Regression Testing:** Verification that historical AAR data (2024 and prior) remains unchanged during this data release.
 - **AAR 2025 Transparency File Integration:** Addition of the transparency dataset into the service.
 
 ### Out of Scope
 
-- Validation of the accuracy of data within the raw source files (upstream responsibility).
+- Validation of the accuracy of data within the raw source files (upstream responsibility of Data Analysts).
 - Functional validation of Workforce Census 2 internal logic (validated as a standalone dependency).
 
 ## Test Data Profile
@@ -47,7 +47,7 @@ This plan defines the QA strategy to validate the ingestion and transformation o
 
 - Cross-Reference Validation: Ensure ancillary data (e.g., KS2/KS4) correctly maps to the URNs present in the primary `aar.csv`.
 - Metrics Generation:
-  - Volume Check: Record count comparison against previous year's drop.
+  - Volume Check: Record count comparison against previous year's data drop.
   - Orphan Reporting: Identify academies present in AAR but missing from specific ancillary sets.
   - Summary Table: High-level report of "Completeness %" per dataset.
 
@@ -80,7 +80,7 @@ This plan defines the QA strategy to validate the ingestion and transformation o
 
 ### AAR 2025 Transparency File Integration
 
-**Goal:** Ensure the transparency dataset is correctly ingested, processed, and displayed in the service.
+**Goal:** Ensure the transparency is correctly produced.
 
 - Validation steps to be added here.
 
@@ -106,5 +106,5 @@ This plan defines the QA strategy to validate the ingestion and transformation o
 - [ ] CS fund allocation logic verified with 0% variance
 - [ ] Pipeline completes E2E with no High or Critical errors
 - [ ] Regression tests confirm historical data integrity
-- [ ] UI displays 2025 data accurately across all metrics and filters
-- [ ] Transparency file successfully integrated
+- [ ] UI displays AAR 2025 data accurately across all metrics and filters
+- [ ] Transparency file successfully verified
