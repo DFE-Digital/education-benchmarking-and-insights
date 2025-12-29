@@ -19,7 +19,6 @@ This plan defines the QA strategy to validate the 2024/25 Data Release, specific
 ### Out of Scope
 
 - Validation of the accuracy of data within the raw source files (upstream responsibility of Data Analysts).
-- Functional validation of Workforce Census 2 internal logic (validated as a standalone dependency).
 
 ## Test Data Profile
 
@@ -35,7 +34,7 @@ This plan defines the QA strategy to validate the 2024/25 Data Release, specific
 
 ### Schema & File Integrity Validation
 
-**Goal:** Prevent "Garbage In, Garbage Out" by enforcing strict file constraints.
+**Goal:** Ensure structural integrity to prevent pipeline failures and schema-level data loss during the data release.
 
 - Constraint Checking: Validate headers, data types (String, Decimal, Date), and mandatory/non-nullable fields (URN, Trust UID).
 - Identifier Consistency: Verify URNs and Trust UIDs follow the standard 6 and 4–8 digit formats respectively.
