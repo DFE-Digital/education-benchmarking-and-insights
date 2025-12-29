@@ -21,7 +21,7 @@ public class GetDefaultMetricRagRatingsSummaryFunction(
     IValidator<MetricRagRatingSummaryParameters> metricRagRatingSummaryParametersValidator)
 {
     [Function(nameof(GetDefaultMetricRagRatingsSummaryFunction))]
-    [OpenApiOperation(nameof(GetDefaultMetricRagRatingsSummaryFunction), "Metric RAG Ratings")]
+    [OpenApiOperation(nameof(GetDefaultMetricRagRatingsSummaryFunction), "Metric RAG Ratings", Deprecated = true)]
     [OpenApiParameter("urns", In = ParameterLocation.Query, Description = "List of school URNs", Type = typeof(string[]))]
     [OpenApiParameter("companyNumber", In = ParameterLocation.Query, Description = "Eight digit trust company number", Type = typeof(string))]
     [OpenApiParameter("laCode", In = ParameterLocation.Query, Description = "Three digit Local Authority code", Type = typeof(string))]

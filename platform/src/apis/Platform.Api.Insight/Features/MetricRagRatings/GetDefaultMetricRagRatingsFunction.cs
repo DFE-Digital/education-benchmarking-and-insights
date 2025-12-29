@@ -22,7 +22,7 @@ public class GetDefaultMetricRagRatingsFunction(
     IValidator<MetricRagRatingsParameters> metricRagRatingsParametersValidator)
 {
     [Function(nameof(GetDefaultMetricRagRatingsFunction))]
-    [OpenApiOperation(nameof(GetDefaultMetricRagRatingsFunction), "Metric RAG Ratings")]
+    [OpenApiOperation(nameof(GetDefaultMetricRagRatingsFunction), "Metric RAG Ratings", Deprecated = true)]
     [OpenApiParameter("urns", In = ParameterLocation.Query, Description = "List of school URNs", Type = typeof(string[]), Required = false)]
     [OpenApiParameter("companyNumber", In = ParameterLocation.Query, Description = "Eight digit trust company number", Type = typeof(string))]
     [OpenApiParameter("categories", In = ParameterLocation.Query, Description = "List of cost category", Type = typeof(string[]), Example = typeof(ExampleCategoryCost))]

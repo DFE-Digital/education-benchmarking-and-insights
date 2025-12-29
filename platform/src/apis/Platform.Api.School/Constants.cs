@@ -14,5 +14,6 @@ public static class Constants
         public const string Search = "Search";
         public const string Details = "Details";
         public const string Comparators = "Comparators";
+        public const string MetricRagRatings = "Metric RAG Ratings";
     }
 }

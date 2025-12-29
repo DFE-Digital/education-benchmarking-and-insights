@@ -16,7 +16,7 @@ namespace Platform.Api.Insight.Features.MetricRagRatings;
 public class GetUserDefinedMetricRagRatingsFunction(IMetricRagRatingsService service)
 {
     [Function(nameof(GetUserDefinedMetricRagRatingsFunction))]
-    [OpenApiOperation(nameof(GetUserDefinedMetricRagRatingsFunction), "Metric RAG Ratings")]
+    [OpenApiOperation(nameof(GetUserDefinedMetricRagRatingsFunction), "Metric RAG Ratings", Deprecated = true)]
     [OpenApiParameter("identifier", Type = typeof(string), Required = true)]
     [OpenApiParameter("useCustomData", In = ParameterLocation.Query, Description = "Sets whether or not to use custom data context", Type = typeof(bool))]
     [OpenApiSecurityHeader]
