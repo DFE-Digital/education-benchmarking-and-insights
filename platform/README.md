@@ -26,6 +26,81 @@ docker-compose up
 
 ### Running Platform APIs
 
+#### Local Authority Function App
+
+Add configuration in `local.settings.json` for `Platform.Api.LocalAuthority`
+
+```json
+{
+  "IsEncrypted": false,
+  "Values": {
+    "FUNCTIONS_WORKER_RUNTIME": "dotnet-isolated",
+    "ASPNETCORE_ENVIRONMENT": "Development",
+    "Sql__ConnectionString": "[INSERT CONNECTION STRING VALUE]",
+    "Sql__TelemetryEnabled": true,
+    "AzureFunctionsJobHost__logging__logLevel__default": "Information",
+    "AzureFunctionsJobHost__logging__logLevel__Function": "Information",
+    "Search__Name": "s198d01-ebis-search",
+    "Search__Key": "[INSERT KEY VALUE]"
+  },
+  "Host": {
+    "CORS": "*",
+    "LocalHttpPort": 7301
+  }
+}
+```
+
+#### School Function App
+
+Add configuration in `local.settings.json` for `Platform.Api.School`
+
+```json
+{
+  "IsEncrypted": false,
+  "Values": {
+    "FUNCTIONS_WORKER_RUNTIME": "dotnet-isolated",
+    "ASPNETCORE_ENVIRONMENT": "Development",
+    "Sql__ConnectionString": "[INSERT CONNECTION STRING VALUE]",
+    "Sql__TelemetryEnabled": true,
+    "AzureFunctionsJobHost__logging__logLevel__default": "Information",
+    "AzureFunctionsJobHost__logging__logLevel__Function": "Information",
+    "Cache__Host": "localhost",
+    "Cache__Port": "6379",
+    "Cache__Password": "[PASSWORD DEFINED ABOVE IN redis.env]",
+    "Search__Name": "s198d01-ebis-search",
+    "Search__Key": "[INSERT KEY VALUE]"
+  },
+  "Host": {
+    "CORS": "*",
+    "LocalHttpPort": 7302
+  }
+}
+```
+
+#### Trust Function App
+
+Add configuration in `local.settings.json` for `Platform.Api.Trust`
+
+```json
+{
+  "IsEncrypted": false,
+  "Values": {
+    "FUNCTIONS_WORKER_RUNTIME": "dotnet-isolated",
+    "ASPNETCORE_ENVIRONMENT": "Development",
+    "Sql__ConnectionString": "[INSERT CONNECTION STRING VALUE]",
+    "Sql__TelemetryEnabled": true,
+    "AzureFunctionsJobHost__logging__logLevel__default": "Information",
+    "AzureFunctionsJobHost__logging__logLevel__Function": "Information",
+    "Search__Name": "s198d01-ebis-search",
+    "Search__Key": "[INSERT KEY VALUE]"
+  },
+  "Host": {
+    "CORS": "*",
+    "LocalHttpPort": 7303
+  }
+}
+```
+
 #### Establishment Function App
 
 Add configuration in `local.settings.json` for `Platform.Api.Establishment`
