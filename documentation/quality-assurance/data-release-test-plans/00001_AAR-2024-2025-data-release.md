@@ -1,8 +1,8 @@
-﻿# Test Plan: AAR Data Release – 2025
+﻿# Test Plan: AAR Data Release – 2024-2025
 
 ## Purpose
 
-This plan defines the QA strategy to validate the Data Release for the **Academies Accounts Return (AAR) covering the 2024/25 financial year**.
+This plan defines the QA strategy to validate the Data Release for the **Academies Accounts Return (AAR) covering the 2024-2025**.
 
 The primary focus is ensuring the integrity of the ingestion and transformation pipeline for `aar.csv` and `aar_cs.csv` into the FBIT platform, the accurate integration of 12 ancillary datasets, and the correct execution of trust-level Central Service (CS) fund allocation logic.
 
@@ -16,7 +16,7 @@ The primary focus is ensuring the integrity of the ingestion and transformation 
 - **Data Reconciliation:** Ensuring database records match source file totals and counts.
 - **Service/UI Validation:** Functional verification of the FBIT front-end for the 2025 reporting year.
 - **Regression Testing:** Verification that historical AAR data (2024 and prior) remains unchanged during this data release.
-- **AAR 2025 Transparency File Integration:** Addition of the transparency dataset into the service.
+- **AAR 2024-2025 Transparency File Integration:** Addition of the transparency dataset into the service.
 
 ### Out of Scope
 
@@ -79,7 +79,7 @@ The primary focus is ensuring the integrity of the ingestion and transformation 
 - Data Accuracy: Spot-check high-value metrics against raw source files.
 - Fallback States: Ensure UI handles missing data gracefully (e.g., N/A instead of errors).
 
-### AAR 2025 Transparency File Integration
+### AAR 2024-2025 Transparency File Integration
 
 **Goal:** Ensure the transparency is correctly produced.
 
