@@ -2,7 +2,9 @@
 
 ## Purpose
 
-This plan defines the QA strategy to validate the data release, specifically the ingestion and transformation of the AAR 2025 dataset into the FBIT platform. The primary focus is ensuring the integrity of the pipeline for `aar.csv` and `aar_cs.csv`, the accurate integration of 12 ancillary datasets, and the correct execution of trust-level Central Service (CS) fund allocation logic.
+This plan defines the QA strategy to validate the Data Release for the **Academies Accounts Return (AAR) covering the 2024/25 financial year**.
+
+The primary focus is ensuring the integrity of the ingestion and transformation pipeline for `aar.csv` and `aar_cs.csv` into the FBIT platform, the accurate integration of 12 ancillary datasets, and the correct execution of trust-level Central Service (CS) fund allocation logic.
 
 ## Scope
 
@@ -46,7 +48,7 @@ This plan defines the QA strategy to validate the data release, specifically the
 
 - Cross-Reference Validation: Ensure ancillary data (e.g., KS2/KS4) correctly maps to the URNs present in the primary `aar.csv`.
 - Metrics Generation:
-  - Volume Check: Record count comparison against previous year's data drop.
+  - Volume Check: Record count comparison against previous year's data release.
   - Orphan Reporting: Identify academies present in AAR but missing from specific ancillary sets.
   - Summary Table: High-level report of "Completeness %" per dataset.
 
