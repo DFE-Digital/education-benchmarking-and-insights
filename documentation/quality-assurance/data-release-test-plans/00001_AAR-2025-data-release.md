@@ -2,7 +2,7 @@
 
 ## Purpose
 
-This plan defines the QA strategy to validate the 2024/25 Data Release, specifically the ingestion and transformation of the AAR 2025 dataset into the FBIT platform. The primary focus is ensuring the integrity of the pipeline for `aar.csv` and `aar_cs.csv`, the accurate integration of 12 ancillary datasets, and the correct execution of trust-level Central Service (CS) fund allocation logic.
+This plan defines the QA strategy to validate the data release, specifically the ingestion and transformation of the AAR 2025 dataset into the FBIT platform. The primary focus is ensuring the integrity of the pipeline for `aar.csv` and `aar_cs.csv`, the accurate integration of 12 ancillary datasets, and the correct execution of trust-level Central Service (CS) fund allocation logic.
 
 ## Scope
 
@@ -37,7 +37,7 @@ This plan defines the QA strategy to validate the 2024/25 Data Release, specific
 **Goal:** Ensure structural integrity to prevent pipeline failures and schema-level data loss during the data release.
 
 - Constraint Checking: Validate headers, data types (String, Decimal, Date), and mandatory/non-nullable fields (URN, Trust UID).
-- Identifier Consistency: Verify URNs and Trust UIDs follow the standard 6 and 4–8 digit formats respectively.
+- Identifier Consistency: Verify URNs and Trust company numbers follow the standard 6 and 8 digit formats respectively.
 - Uniqueness: Confirm no duplicate primary keys across URN/Trust combinations.
 
 ### Ancillary Data & Completeness Reporting
