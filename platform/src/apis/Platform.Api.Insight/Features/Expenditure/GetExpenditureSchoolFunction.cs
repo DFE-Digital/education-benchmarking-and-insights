@@ -20,7 +20,7 @@ public class GetExpenditureSchoolFunction(IExpenditureService service, IValidato
 {
     [Function(nameof(GetExpenditureSchoolFunction))]
     [OpenApiSecurityHeader]
-    [OpenApiOperation(nameof(GetExpenditureSchoolFunction), Constants.Features.Expenditure)]
+    [OpenApiOperation(nameof(GetExpenditureSchoolFunction), Constants.Features.Expenditure, Deprecated = true)]
     [OpenApiParameter("urn", Type = typeof(string), Required = true)]
     [OpenApiParameter("category", In = ParameterLocation.Query, Description = "Expenditure category", Type = typeof(string), Example = typeof(ExampleCategoryCost))]
     [OpenApiParameter("dimension", In = ParameterLocation.Query, Description = "Dimension for response values", Type = typeof(string), Example = typeof(ExampleDimensionFinance))]

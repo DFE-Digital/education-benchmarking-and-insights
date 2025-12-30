@@ -20,7 +20,7 @@ public class GetExpenditureSchoolHistoryComparatorSetAverageFunction(IExpenditur
 {
     [Function(nameof(GetExpenditureSchoolHistoryComparatorSetAverageFunction))]
     [OpenApiSecurityHeader]
-    [OpenApiOperation(nameof(GetExpenditureSchoolHistoryComparatorSetAverageFunction), Constants.Features.Expenditure)]
+    [OpenApiOperation(nameof(GetExpenditureSchoolHistoryComparatorSetAverageFunction), Constants.Features.Expenditure, Deprecated = true)]
     [OpenApiParameter("urn", Type = typeof(string), Required = true)]
     [OpenApiParameter("dimension", In = ParameterLocation.Query, Description = "Dimension for response values", Type = typeof(string), Required = true, Example = typeof(ExampleDimensionFinance))]
     [OpenApiResponseWithBody(HttpStatusCode.OK, ContentType.ApplicationJson, typeof(ExpenditureHistoryResponse))]

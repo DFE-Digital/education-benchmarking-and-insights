@@ -10,13 +10,52 @@ namespace Platform.Api.School.Features.Accounts;
 public static class OpenApiExamples
 {
     [ExcludeFromCodeCoverage]
-    public class DimensionFinance : OpenApiExample<string>
+    public class Dimension : OpenApiExample<string>
     {
         public override IOpenApiExample<string> Build(NamingStrategy namingStrategy = null!)
         {
             foreach (var dimension in Dimensions.Finance.All)
             {
                 Examples.Add(OpenApiExampleResolver.Resolve(dimension, dimension, namingStrategy));
+            }
+
+            return this;
+        }
+    }
+
+    public class Category : OpenApiExample<string>
+    {
+        public override IOpenApiExample<string> Build(NamingStrategy namingStrategy = null!)
+        {
+            foreach (var dimension in Categories.Cost.All)
+            {
+                Examples.Add(OpenApiExampleResolver.Resolve(dimension, dimension, namingStrategy));
+            }
+
+            return this;
+        }
+    }
+
+    public class Phase : OpenApiExample<string>
+    {
+        public override IOpenApiExample<string> Build(NamingStrategy namingStrategy = null!)
+        {
+            foreach (var phase in OverallPhase.All)
+            {
+                Examples.Add(OpenApiExampleResolver.Resolve(phase, phase, namingStrategy));
+            }
+
+            return this;
+        }
+    }
+
+    internal class FinanceTypes : OpenApiExample<string>
+    {
+        public override IOpenApiExample<string> Build(NamingStrategy namingStrategy = null!)
+        {
+            foreach (var type in FinanceType.All)
+            {
+                Examples.Add(OpenApiExampleResolver.Resolve(type, type, namingStrategy));
             }
 
             return this;

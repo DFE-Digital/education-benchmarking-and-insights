@@ -13,18 +13,18 @@ using Platform.Functions.OpenApi;
 
 namespace Platform.Api.School.Features.Accounts.Functions;
 
-public class GetIncomeHistoryFunction(IVersionedHandlerDispatcher<IGetIncomeHistoryHandler> dispatcher) : VersionedFunctionBase<IGetIncomeHistoryHandler>(dispatcher)
+public class GetExpenditureHistoryFunction(IVersionedHandlerDispatcher<IGetExpenditureHistoryHandler> dispatcher) : VersionedFunctionBase<IGetExpenditureHistoryHandler>(dispatcher)
 {
-    [Function(nameof(GetIncomeHistoryFunction))]
+    [Function(nameof(GetExpenditureHistoryFunction))]
     [OpenApiSecurityHeader]
-    [OpenApiOperation(nameof(GetIncomeHistoryFunction), Constants.Features.Accounts)]
+    [OpenApiOperation(nameof(GetExpenditureHistoryFunction), Constants.Features.Accounts)]
     [OpenApiParameter("urn", Type = typeof(string), Required = true)]
     [OpenApiParameter("dimension", In = ParameterLocation.Query, Description = "Dimension for response values", Type = typeof(string), Required = true, Example = typeof(OpenApiExamples.Dimension))]
-    [OpenApiResponseWithBody(HttpStatusCode.OK, ContentType.ApplicationJson, typeof(IncomeHistoryResponse))]
+    [OpenApiResponseWithBody(HttpStatusCode.OK, ContentType.ApplicationJson, typeof(ExpenditureHistoryResponse))]
     [OpenApiResponseWithBody(HttpStatusCode.BadRequest, ContentType.ApplicationJsonProblem, typeof(ValidationProblemDetails), Description = "Validation errors or bad request.")]
     [OpenApiResponseWithoutBody(HttpStatusCode.NotFound)]
     public async Task<HttpResponseData> RunAsync(
-        [HttpTrigger(AuthorizationLevel.Admin, MethodType.Get, Route = Routes.IncomeHistory)] HttpRequestData req,
+        [HttpTrigger(AuthorizationLevel.Admin, MethodType.Get, Route = Routes.ExpenditureHistory)] HttpRequestData req,
         string urn,
         CancellationToken token = default)
     {

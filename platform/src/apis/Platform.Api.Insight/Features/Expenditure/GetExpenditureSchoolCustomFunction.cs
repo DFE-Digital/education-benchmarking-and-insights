@@ -20,7 +20,7 @@ public class GetExpenditureSchoolCustomFunction(IExpenditureService service, IVa
 {
     [Function(nameof(GetExpenditureSchoolCustomFunction))]
     [OpenApiSecurityHeader]
-    [OpenApiOperation(nameof(GetExpenditureSchoolCustomFunction), Constants.Features.Expenditure)]
+    [OpenApiOperation(nameof(GetExpenditureSchoolCustomFunction), Constants.Features.Expenditure, Deprecated = true)]
     [OpenApiParameter("urn", Type = typeof(string), Required = true)]
     [OpenApiParameter("identifier", Type = typeof(string), Required = true)]
     [OpenApiParameter("category", In = ParameterLocation.Query, Description = "Expenditure category", Type = typeof(string), Example = typeof(ExampleCategoryCost))]

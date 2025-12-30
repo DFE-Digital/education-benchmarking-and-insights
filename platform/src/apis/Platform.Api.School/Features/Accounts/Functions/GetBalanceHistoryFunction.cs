@@ -20,7 +20,7 @@ public class GetBalanceHistoryFunction(IVersionedHandlerDispatcher<IGetBalanceHi
     [OpenApiSecurityHeader]
     [OpenApiOperation(nameof(GetBalanceHistoryFunction), Constants.Features.Accounts)]
     [OpenApiParameter("urn", Type = typeof(string), Required = true)]
-    [OpenApiParameter("dimension", In = ParameterLocation.Query, Description = "Dimension for response values", Type = typeof(string), Example = typeof(OpenApiExamples.DimensionFinance))]
+    [OpenApiParameter("dimension", In = ParameterLocation.Query, Description = "Dimension for response values", Type = typeof(string), Example = typeof(OpenApiExamples.Dimension))]
     [OpenApiResponseWithBody(HttpStatusCode.OK, ContentType.ApplicationJson, typeof(BalanceHistoryResponse))]
     [OpenApiResponseWithBody(HttpStatusCode.BadRequest, ContentType.ApplicationJsonProblem, typeof(ProblemDetails))]
     [OpenApiResponseWithoutBody(HttpStatusCode.NotFound)]

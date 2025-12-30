@@ -13,24 +13,24 @@ using Platform.Functions.OpenApi;
 
 namespace Platform.Api.School.Features.Accounts.Functions;
 
-public class GetIncomeHistoryFunction(IVersionedHandlerDispatcher<IGetIncomeHistoryHandler> dispatcher) : VersionedFunctionBase<IGetIncomeHistoryHandler>(dispatcher)
+public class GetExpenditureNationalAverageHistoryFunction(IVersionedHandlerDispatcher<IGetExpenditureNationalAverageHistoryHandler> dispatcher) : VersionedFunctionBase<IGetExpenditureNationalAverageHistoryHandler>(dispatcher)
 {
-    [Function(nameof(GetIncomeHistoryFunction))]
+    [Function(nameof(GetExpenditureNationalAverageHistoryFunction))]
     [OpenApiSecurityHeader]
-    [OpenApiOperation(nameof(GetIncomeHistoryFunction), Constants.Features.Accounts)]
-    [OpenApiParameter("urn", Type = typeof(string), Required = true)]
+    [OpenApiOperation(nameof(GetExpenditureNationalAverageHistoryFunction), Constants.Features.Accounts)]
     [OpenApiParameter("dimension", In = ParameterLocation.Query, Description = "Dimension for response values", Type = typeof(string), Required = true, Example = typeof(OpenApiExamples.Dimension))]
-    [OpenApiResponseWithBody(HttpStatusCode.OK, ContentType.ApplicationJson, typeof(IncomeHistoryResponse))]
+    [OpenApiParameter("phase", In = ParameterLocation.Query, Description = "Overall phase for response values", Type = typeof(string), Required = true, Example = typeof(OpenApiExamples.Phase))]
+    [OpenApiParameter("financeType", In = ParameterLocation.Query, Description = "Finance type for response values", Type = typeof(string), Required = true, Example = typeof(OpenApiExamples.FinanceTypes))]
+    [OpenApiResponseWithBody(HttpStatusCode.OK, ContentType.ApplicationJson, typeof(ExpenditureHistoryResponse))]
     [OpenApiResponseWithBody(HttpStatusCode.BadRequest, ContentType.ApplicationJsonProblem, typeof(ValidationProblemDetails), Description = "Validation errors or bad request.")]
     [OpenApiResponseWithoutBody(HttpStatusCode.NotFound)]
     public async Task<HttpResponseData> RunAsync(
-        [HttpTrigger(AuthorizationLevel.Admin, MethodType.Get, Route = Routes.IncomeHistory)] HttpRequestData req,
-        string urn,
+        [HttpTrigger(AuthorizationLevel.Admin, MethodType.Get, Route = Routes.ExpenditureNationalAverageHistory)] HttpRequestData req,
         CancellationToken token = default)
     {
         return await WithHandlerAsync(
             req,
-            handler => handler.HandleAsync(req, urn, token),
+            handler => handler.HandleAsync(req, token),
             token);
     }
 }

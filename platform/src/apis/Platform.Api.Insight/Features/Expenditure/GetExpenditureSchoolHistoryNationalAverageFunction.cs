@@ -21,7 +21,7 @@ public class GetExpenditureSchoolHistoryNationalAverageFunction(IExpenditureServ
 {
     [Function(nameof(GetExpenditureSchoolHistoryNationalAverageFunction))]
     [OpenApiSecurityHeader]
-    [OpenApiOperation(nameof(GetExpenditureSchoolHistoryNationalAverageFunction), Constants.Features.Expenditure)]
+    [OpenApiOperation(nameof(GetExpenditureSchoolHistoryNationalAverageFunction), Constants.Features.Expenditure, Deprecated = true)]
     [OpenApiParameter("dimension", In = ParameterLocation.Query, Description = "Dimension for response values", Type = typeof(string), Required = true, Example = typeof(ExampleDimensionFinance))]
     [OpenApiParameter("phase", In = ParameterLocation.Query, Description = "Overall phase for response values", Type = typeof(string), Required = true, Example = typeof(ExampleOverallPhase))]
     [OpenApiParameter("financeType", In = ParameterLocation.Query, Description = "Finance type for response values", Type = typeof(string), Required = true, Example = typeof(ExampleFinanceTypes))]

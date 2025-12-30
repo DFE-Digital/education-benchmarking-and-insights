@@ -13,17 +13,21 @@ using Platform.Functions.OpenApi;
 
 namespace Platform.Api.School.Features.Accounts.Functions;
 
-public class QueryItSpendingFunction(IVersionedHandlerDispatcher<IQueryItSpendingHandler> dispatcher) : VersionedFunctionBase<IQueryItSpendingHandler>(dispatcher)
+public class QueryExpenditureFunction(IVersionedHandlerDispatcher<IQueryExpenditureHandler> dispatcher) : VersionedFunctionBase<IQueryExpenditureHandler>(dispatcher)
 {
-    [Function(nameof(QueryItSpendingFunction))]
+    [Function(nameof(QueryExpenditureFunction))]
     [OpenApiSecurityHeader]
-    [OpenApiOperation(nameof(QueryItSpendingFunction), Constants.Features.Accounts)]
+    [OpenApiOperation(nameof(QueryExpenditureFunction), Constants.Features.Accounts)]
     [OpenApiParameter("urns", In = ParameterLocation.Query, Description = "List of school URNs", Type = typeof(string[]), Required = false)]
+    [OpenApiParameter("phase", In = ParameterLocation.Query, Description = "School overall phase", Type = typeof(string), Example = typeof(OpenApiExamples.Phase))]
+    [OpenApiParameter("companyNumber", In = ParameterLocation.Query, Description = "Eight digit trust company number", Type = typeof(string))]
+    [OpenApiParameter("laCode", In = ParameterLocation.Query, Description = "Local authority three digit code", Type = typeof(string))]
+    [OpenApiParameter("category", In = ParameterLocation.Query, Description = "Expenditure category", Type = typeof(string), Example = typeof(OpenApiExamples.Category))]
     [OpenApiParameter("dimension", In = ParameterLocation.Query, Description = "Dimension for response values", Type = typeof(string), Example = typeof(OpenApiExamples.Dimension))]
-    [OpenApiResponseWithBody(HttpStatusCode.OK, ContentType.ApplicationJson, typeof(ItSpendingResponse[]))]
+    [OpenApiResponseWithBody(HttpStatusCode.OK, ContentType.ApplicationJson, typeof(ExpenditureResponse[]))]
     [OpenApiResponseWithBody(HttpStatusCode.BadRequest, ContentType.ApplicationJsonProblem, typeof(ValidationProblemDetails), Description = "Validation errors or bad request.")]
     public async Task<HttpResponseData> RunAsync(
-        [HttpTrigger(AuthorizationLevel.Admin, MethodType.Get, Route = Routes.ItSpending)] HttpRequestData req,
+        [HttpTrigger(AuthorizationLevel.Admin, MethodType.Get, Route = Routes.ExpenditureCollection)] HttpRequestData req,
         CancellationToken token = default)
     {
         return await WithHandlerAsync(

@@ -7,4 +7,10 @@ public static class Routes
     public const string Income = $"schools/{Constants.UrnParam}/accounts/income";
     public const string BalanceHistory = $"schools/{Constants.UrnParam}/accounts/balance/history";
     public const string Balance = $"schools/{Constants.UrnParam}/accounts/balance";
+    public const string ExpenditureUserDefined = $"schools/{Constants.UrnParam}/user-defined/{{identifier}}/accounts/expenditure";
+    public const string ExpenditureSingle = $"schools/{Constants.UrnParam}/accounts/expenditure";
+    public const string ExpenditureComparatorSetAverageHistory = $"schools/{Constants.UrnParam}/comparator-set-average/accounts/expenditure/history";
+    public const string ExpenditureHistory = $"schools/{Constants.UrnParam}/accounts/expenditure/history";
+    public const string ExpenditureNationalAverageHistory = "schools/national-average/accounts/expenditure/history/";
+    public const string ExpenditureCollection = "schools/accounts/expenditure";
 }

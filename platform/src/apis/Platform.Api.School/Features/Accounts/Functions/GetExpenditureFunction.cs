@@ -13,22 +13,25 @@ using Platform.Functions.OpenApi;
 
 namespace Platform.Api.School.Features.Accounts.Functions;
 
-public class QueryItSpendingFunction(IVersionedHandlerDispatcher<IQueryItSpendingHandler> dispatcher) : VersionedFunctionBase<IQueryItSpendingHandler>(dispatcher)
+public class GetExpenditureFunction(IVersionedHandlerDispatcher<IGetExpenditureHandler> dispatcher) : VersionedFunctionBase<IGetExpenditureHandler>(dispatcher)
 {
-    [Function(nameof(QueryItSpendingFunction))]
+    [Function(nameof(GetExpenditureFunction))]
     [OpenApiSecurityHeader]
-    [OpenApiOperation(nameof(QueryItSpendingFunction), Constants.Features.Accounts)]
-    [OpenApiParameter("urns", In = ParameterLocation.Query, Description = "List of school URNs", Type = typeof(string[]), Required = false)]
+    [OpenApiOperation(nameof(GetExpenditureFunction), Constants.Features.Accounts)]
+    [OpenApiParameter("urn", Type = typeof(string), Required = true)]
+    [OpenApiParameter("category", In = ParameterLocation.Query, Description = "Expenditure category", Type = typeof(string), Example = typeof(OpenApiExamples.Category))]
     [OpenApiParameter("dimension", In = ParameterLocation.Query, Description = "Dimension for response values", Type = typeof(string), Example = typeof(OpenApiExamples.Dimension))]
-    [OpenApiResponseWithBody(HttpStatusCode.OK, ContentType.ApplicationJson, typeof(ItSpendingResponse[]))]
+    [OpenApiResponseWithBody(HttpStatusCode.OK, ContentType.ApplicationJson, typeof(ExpenditureResponse))]
     [OpenApiResponseWithBody(HttpStatusCode.BadRequest, ContentType.ApplicationJsonProblem, typeof(ValidationProblemDetails), Description = "Validation errors or bad request.")]
+    [OpenApiResponseWithoutBody(HttpStatusCode.NotFound)]
     public async Task<HttpResponseData> RunAsync(
-        [HttpTrigger(AuthorizationLevel.Admin, MethodType.Get, Route = Routes.ItSpending)] HttpRequestData req,
+        [HttpTrigger(AuthorizationLevel.Admin, MethodType.Get, Route = Routes.ExpenditureSingle)] HttpRequestData req,
+        string urn,
         CancellationToken token = default)
     {
         return await WithHandlerAsync(
             req,
-            handler => handler.HandleAsync(req, token),
+            handler => handler.HandleAsync(req, urn, token),
             token);
     }
 }

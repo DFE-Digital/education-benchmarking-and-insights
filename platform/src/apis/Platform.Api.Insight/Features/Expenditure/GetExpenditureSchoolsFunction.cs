@@ -20,7 +20,7 @@ public class GetExpenditureSchoolsFunction(IExpenditureService service, IValidat
 {
     [Function(nameof(GetExpenditureSchoolsFunction))]
     [OpenApiSecurityHeader]
-    [OpenApiOperation(nameof(GetExpenditureSchoolsFunction), Constants.Features.Expenditure)]
+    [OpenApiOperation(nameof(GetExpenditureSchoolsFunction), Constants.Features.Expenditure, Deprecated = true)]
     [OpenApiParameter("urns", In = ParameterLocation.Query, Description = "List of school URNs", Type = typeof(string[]), Required = false)]
     [OpenApiParameter("phase", In = ParameterLocation.Query, Description = "School overall phase", Type = typeof(string), Example = typeof(ExampleOverallPhase))]
     [OpenApiParameter("companyNumber", In = ParameterLocation.Query, Description = "Eight digit trust company number", Type = typeof(string))]

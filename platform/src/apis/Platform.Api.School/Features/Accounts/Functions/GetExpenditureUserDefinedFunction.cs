@@ -13,22 +13,27 @@ using Platform.Functions.OpenApi;
 
 namespace Platform.Api.School.Features.Accounts.Functions;
 
-public class QueryItSpendingFunction(IVersionedHandlerDispatcher<IQueryItSpendingHandler> dispatcher) : VersionedFunctionBase<IQueryItSpendingHandler>(dispatcher)
+public class GetExpenditureUserDefinedFunction(IVersionedHandlerDispatcher<IGetExpenditureUserDefinedHandler> dispatcher) : VersionedFunctionBase<IGetExpenditureUserDefinedHandler>(dispatcher)
 {
-    [Function(nameof(QueryItSpendingFunction))]
+    [Function(nameof(GetExpenditureUserDefinedFunction))]
     [OpenApiSecurityHeader]
-    [OpenApiOperation(nameof(QueryItSpendingFunction), Constants.Features.Accounts)]
-    [OpenApiParameter("urns", In = ParameterLocation.Query, Description = "List of school URNs", Type = typeof(string[]), Required = false)]
+    [OpenApiOperation(nameof(GetExpenditureUserDefinedFunction), Constants.Features.Accounts)]
+    [OpenApiParameter("urn", Type = typeof(string), Required = true)]
+    [OpenApiParameter("identifier", Type = typeof(string), Required = true)]
+    [OpenApiParameter("category", In = ParameterLocation.Query, Description = "Expenditure category", Type = typeof(string), Example = typeof(OpenApiExamples.Category))]
     [OpenApiParameter("dimension", In = ParameterLocation.Query, Description = "Dimension for response values", Type = typeof(string), Example = typeof(OpenApiExamples.Dimension))]
-    [OpenApiResponseWithBody(HttpStatusCode.OK, ContentType.ApplicationJson, typeof(ItSpendingResponse[]))]
+    [OpenApiResponseWithBody(HttpStatusCode.OK, ContentType.ApplicationJson, typeof(ExpenditureResponse))]
     [OpenApiResponseWithBody(HttpStatusCode.BadRequest, ContentType.ApplicationJsonProblem, typeof(ValidationProblemDetails), Description = "Validation errors or bad request.")]
+    [OpenApiResponseWithoutBody(HttpStatusCode.NotFound)]
     public async Task<HttpResponseData> RunAsync(
-        [HttpTrigger(AuthorizationLevel.Admin, MethodType.Get, Route = Routes.ItSpending)] HttpRequestData req,
+        [HttpTrigger(AuthorizationLevel.Admin, MethodType.Get, Route = Routes.ExpenditureUserDefined)] HttpRequestData req,
+        string urn,
+        string identifier,
         CancellationToken token = default)
     {
         return await WithHandlerAsync(
             req,
-            handler => handler.HandleAsync(req, token),
+            handler => handler.HandleAsync(req, urn, identifier, token),
             token);
     }
 }

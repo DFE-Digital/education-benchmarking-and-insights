@@ -15,6 +15,7 @@
     <browser url="http://localhost:7072" />
     <method v="2">
       <option name="Build" />
+      <option name="RunConfigurationTask" enabled="true" run_configuration_name="Services" run_configuration_type="docker-deploy" />
     </method>
   </configuration>
 </component>

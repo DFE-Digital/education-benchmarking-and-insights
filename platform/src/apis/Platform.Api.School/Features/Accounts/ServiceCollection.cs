@@ -20,16 +20,32 @@ public static class ServiceCollection
             .AddSingleton<IGetIncomeHistoryHandler, GetIncomeHistoryV1Handler>()
             .AddSingleton<IGetBalanceHandler, GetBalanceV1Handler>()
             .AddSingleton<IGetBalanceHistoryHandler, GetBalanceHistoryV1Handler>()
+            .AddSingleton<IGetExpenditureComparatorSetAverageHistoryHandler, GetExpenditureComparatorSetAverageHistoryV1Handler>()
+            .AddSingleton<IGetExpenditureHandler, GetExpenditureV1Handler>()
+            .AddSingleton<IGetExpenditureHistoryHandler, GetExpenditureHistoryV1Handler>()
+            .AddSingleton<IGetExpenditureNationalAverageHistoryHandler, GetExpenditureNationalAverageHistoryV1Handler>()
+            .AddSingleton<IGetExpenditureUserDefinedHandler, GetExpenditureUserDefinedV1Handler>()
+            .AddSingleton<IQueryExpenditureHandler, QueryExpenditureV1Handler>()
             .AddSingleton<IVersionedHandlerDispatcher<IQueryItSpendingHandler>, VersionedHandlerDispatcher<IQueryItSpendingHandler>>()
             .AddSingleton<IVersionedHandlerDispatcher<IGetIncomeHandler>, VersionedHandlerDispatcher<IGetIncomeHandler>>()
             .AddSingleton<IVersionedHandlerDispatcher<IGetIncomeHistoryHandler>, VersionedHandlerDispatcher<IGetIncomeHistoryHandler>>()
             .AddSingleton<IVersionedHandlerDispatcher<IGetBalanceHandler>, VersionedHandlerDispatcher<IGetBalanceHandler>>()
             .AddSingleton<IVersionedHandlerDispatcher<IGetBalanceHistoryHandler>, VersionedHandlerDispatcher<IGetBalanceHistoryHandler>>()
+            .AddSingleton<IVersionedHandlerDispatcher<IGetExpenditureComparatorSetAverageHistoryHandler>, VersionedHandlerDispatcher<IGetExpenditureComparatorSetAverageHistoryHandler>>()
+            .AddSingleton<IVersionedHandlerDispatcher<IGetExpenditureHandler>, VersionedHandlerDispatcher<IGetExpenditureHandler>>()
+            .AddSingleton<IVersionedHandlerDispatcher<IGetExpenditureHistoryHandler>, VersionedHandlerDispatcher<IGetExpenditureHistoryHandler>>()
+            .AddSingleton<IVersionedHandlerDispatcher<IGetExpenditureNationalAverageHistoryHandler>, VersionedHandlerDispatcher<IGetExpenditureNationalAverageHistoryHandler>>()
+            .AddSingleton<IVersionedHandlerDispatcher<IGetExpenditureUserDefinedHandler>, VersionedHandlerDispatcher<IGetExpenditureUserDefinedHandler>>()
+            .AddSingleton<IVersionedHandlerDispatcher<IQueryExpenditureHandler>, VersionedHandlerDispatcher<IQueryExpenditureHandler>>()
             .AddTransient<IValidator<ItSpendingParameters>, ItSpendingParametersValidator>()
             .AddTransient<IValidator<IncomeParameters>, IncomeParametersValidator>()
+            .AddTransient<IValidator<ExpenditureParameters>, ExpenditureParametersValidator>()
+            .AddTransient<IValidator<ExpenditureNationalAvgParameters>, ExpenditureNationalAvgParametersValidator>()
+            .AddTransient<IValidator<ExpenditureQueryParameters>, ExpenditureQueryParametersValidator>()
             .AddSingleton<IItSpendingService, ItSpendingService>()
             .AddSingleton<IIncomeService, IncomeService>()
-            .AddSingleton<IBalanceService, BalanceService>();
+            .AddSingleton<IBalanceService, BalanceService>()
+            .AddSingleton<IExpenditureService, ExpenditureService>();
 
         return serviceCollection;
     }
