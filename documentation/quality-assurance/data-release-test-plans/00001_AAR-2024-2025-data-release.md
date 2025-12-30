@@ -24,13 +24,13 @@ The primary focus is ensuring the integrity of the ingestion and transformation 
 
 ## Test Data Profile
 
-| Category | Files / Sources |
-|---------|-----------------|
-| Primary AAR | `aar.csv` (School-level), `aar_cs.csv` (Trust Central Services) |
-| Organisational | gias.csv, gias_links.csv |
-| Census Data | census_pupils.csv, census_workforce.xlsx, Workforce_2010_2024_fte_hc_nat_reg_la_sch.csv |
+| Category | Files / Sources                                                                              |
+|---------|----------------------------------------------------------------------------------------------|
+| Primary AAR | `aar.csv` (School-level), `aar_cs.csv` (Trust Central Services)                              |
+| Organisational | gias.csv, gias_links.csv                                                                     |
+| Census Data | census_pupils.csv, census_workforce.xlsx, Workforce_2010_2024_fte_hc_nat_reg_la_sch.csv      |
 | Educational/Financial | sen.csv, cdc.csv, ks2.xlsx, ks4.xlsx, cfo.xlsx, ILR R06 cut with FSM and EHCP.xlsx, HExP.csv |
-| Transparency | AAR 2025 Transparency File |
+| Transparency | AAR 2024-2025 Transparency File                                                              |
 
 ## Test Activities & Methodologies
 
@@ -112,4 +112,4 @@ The primary focus is ensuring the integrity of the ingestion and transformation 
 - [ ] Pipeline completes E2E with no High or Critical errors
 - [ ] Regression tests confirm historical data integrity
 - [ ] UI displays AAR 2025 data accurately across all metrics and filters
-- [ ] Transparency file successfully verified
+- [ ] AAR 2024-2025 Transparency file successfully verified
