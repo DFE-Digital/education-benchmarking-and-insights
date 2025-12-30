@@ -2,7 +2,7 @@
 
 ## Purpose
 
-This plan defines the QA strategy to validate the Data Release for the **Academies Accounts Return (AAR) covering the 2024-2025**.
+This plan defines the QA strategy to validate the Data Release for the **Academies Accounts Return (AAR) covering the 2024-2025 period**.
 
 The primary focus is ensuring the integrity of the ingestion and transformation pipeline for `aar.csv` and `aar_cs.csv` into the FBIT platform, the accurate integration of 12 ancillary datasets, and the correct execution of trust-level Central Service (CS) fund allocation logic.
 
