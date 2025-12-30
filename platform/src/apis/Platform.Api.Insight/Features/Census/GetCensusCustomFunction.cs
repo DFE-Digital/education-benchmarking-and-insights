@@ -20,7 +20,7 @@ public class GetCensusCustomFunction(ICensusService service, IValidator<CensusPa
 {
     [Function(nameof(GetCensusCustomFunction))]
     [OpenApiSecurityHeader]
-    [OpenApiOperation(nameof(GetCensusCustomFunction), Constants.Features.Census)]
+    [OpenApiOperation(nameof(GetCensusCustomFunction), Constants.Features.Census, Deprecated = true)]
     [OpenApiParameter("urn", Type = typeof(string), Required = true)]
     [OpenApiParameter("identifier", Type = typeof(string), Required = true)]
     [OpenApiParameter("category", In = ParameterLocation.Query, Description = "Census category", Type = typeof(string), Required = false, Example = typeof(ExampleCategoryCensus))]

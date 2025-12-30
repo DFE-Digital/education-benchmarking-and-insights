@@ -21,7 +21,7 @@ public class GetCensusHistoryNationalAverageFunction(ICensusService service, IVa
 {
     [Function(nameof(GetCensusHistoryNationalAverageFunction))]
     [OpenApiSecurityHeader]
-    [OpenApiOperation(nameof(GetCensusHistoryNationalAverageFunction), Constants.Features.Census)]
+    [OpenApiOperation(nameof(GetCensusHistoryNationalAverageFunction), Constants.Features.Census, Deprecated = true)]
     [OpenApiParameter("dimension", In = ParameterLocation.Query, Description = "Dimension for response values", Type = typeof(string), Required = true, Example = typeof(ExampleDimensionCensus))]
     [OpenApiParameter("phase", In = ParameterLocation.Query, Description = "Overall phase for response values", Type = typeof(string), Required = true, Example = typeof(ExampleOverallPhase))]
     [OpenApiParameter("financeType", In = ParameterLocation.Query, Description = "Finance type for response values", Type = typeof(string), Required = true, Example = typeof(ExampleFinanceTypes))]

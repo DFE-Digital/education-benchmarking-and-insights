@@ -16,7 +16,7 @@ public class GetCensusFunction(ICensusService service)
 {
     [Function(nameof(GetCensusFunction))]
     [OpenApiSecurityHeader]
-    [OpenApiOperation(nameof(GetCensusFunction), Constants.Features.Census)]
+    [OpenApiOperation(nameof(GetCensusFunction), Constants.Features.Census, Deprecated = true)]
     [OpenApiParameter("urn", Type = typeof(string), Required = true)]
     [OpenApiResponseWithBody(HttpStatusCode.OK, ContentType.ApplicationJson, typeof(CensusResponse))]
     [OpenApiResponseWithoutBody(HttpStatusCode.NotFound)]

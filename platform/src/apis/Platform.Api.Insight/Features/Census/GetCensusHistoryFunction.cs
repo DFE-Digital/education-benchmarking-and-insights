@@ -20,7 +20,7 @@ public class GetCensusHistoryFunction(ICensusService service, IValidator<CensusP
 {
     [Function(nameof(GetCensusHistoryFunction))]
     [OpenApiSecurityHeader]
-    [OpenApiOperation(nameof(GetCensusHistoryFunction), Constants.Features.Census)]
+    [OpenApiOperation(nameof(GetCensusHistoryFunction), Constants.Features.Census, Deprecated = true)]
     [OpenApiParameter("urn", Type = typeof(string), Required = true)]
     [OpenApiParameter("dimension", In = ParameterLocation.Query, Description = "Dimension for response values", Type = typeof(string), Required = true, Example = typeof(ExampleDimensionCensus))]
     [OpenApiResponseWithBody(HttpStatusCode.OK, ContentType.ApplicationJson, typeof(CensusHistoryResponse))]

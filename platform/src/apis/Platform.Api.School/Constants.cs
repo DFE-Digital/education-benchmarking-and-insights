@@ -16,5 +16,6 @@ public static class Constants
         public const string Comparators = "Comparators";
         public const string MetricRagRatings = "Metric RAG Ratings";
         public const string Accounts = "Accounts Return";
+        public const string Census = "Census";
     }
 }

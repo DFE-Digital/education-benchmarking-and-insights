@@ -20,7 +20,7 @@ public class GetCensusHistoryComparatorSetAverageFunctions(ICensusService servic
 {
     [Function(nameof(GetCensusHistoryComparatorSetAverageFunctions))]
     [OpenApiSecurityHeader]
-    [OpenApiOperation(nameof(GetCensusHistoryComparatorSetAverageFunctions), Constants.Features.Census)]
+    [OpenApiOperation(nameof(GetCensusHistoryComparatorSetAverageFunctions), Constants.Features.Census, Deprecated = true)]
     [OpenApiParameter("urn", Type = typeof(string), Required = true)]
     [OpenApiParameter("dimension", In = ParameterLocation.Query, Description = "Dimension for response values", Type = typeof(string), Required = true, Example = typeof(ExampleDimensionCensus))]
     [OpenApiResponseWithBody(HttpStatusCode.OK, ContentType.ApplicationJson, typeof(CensusHistoryResponse))]

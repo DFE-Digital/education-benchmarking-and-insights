@@ -21,7 +21,7 @@ public class GetCensusQueryFunction(ICensusService service, IValidator<CensusQue
     //TODO: Consider separate end points for Trust and LA (i.e. census/trust/{id}/schools)
     [Function(nameof(GetCensusQueryFunction))]
     [OpenApiSecurityHeader]
-    [OpenApiOperation(nameof(GetCensusQueryFunction), Constants.Features.Census)]
+    [OpenApiOperation(nameof(GetCensusQueryFunction), Constants.Features.Census, Deprecated = true)]
     [OpenApiParameter("urns", In = ParameterLocation.Query, Description = "List of school URNs", Type = typeof(string[]), Required = false)]
     [OpenApiParameter("phase", In = ParameterLocation.Query, Description = "School overall phase", Type = typeof(string), Example = typeof(ExampleOverallPhase))]
     [OpenApiParameter("companyNumber", In = ParameterLocation.Query, Description = "Eight digit trust company number", Type = typeof(string))]

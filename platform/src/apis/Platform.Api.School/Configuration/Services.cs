@@ -5,10 +5,12 @@ using Microsoft.ApplicationInsights.DependencyCollector;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Extensions.DependencyInjection;
 using Platform.Api.School.Features.Accounts;
+using Platform.Api.School.Features.Census;
 using Platform.Api.School.Features.Comparators;
 using Platform.Api.School.Features.Details;
 using Platform.Api.School.Features.MetricRagRatings;
 using Platform.Api.School.Features.Search;
+using Platform.Cache;
 using Platform.Functions;
 using Platform.Json;
 using Platform.Search;
@@ -40,7 +42,8 @@ internal static class Services
         serviceCollection
             .AddHealthChecks()
             .AddPlatformSearch()
-            .AddPlatformSql();
+            .AddPlatformSql()
+            .AddPlatformCache();
 
         return serviceCollection;
     }
@@ -65,12 +68,14 @@ internal static class Services
 
     private static IServiceCollection AddPlatformServices(this IServiceCollection serviceCollection) => serviceCollection
         .AddPlatformSearch()
-        .AddPlatformSql();
+        .AddPlatformSql()
+        .AddPlatformCache();
 
     private static IServiceCollection AddFeatures(this IServiceCollection serviceCollection) => serviceCollection
         .AddComparatorsFeature()
         .AddDetailsFeature()
         .AddMetricRagRatingsFeature()
         .AddAccountsFeature()
+        .AddCensusFeature()
         .AddSearchFeature();
 }

@@ -20,6 +20,7 @@
         </None>
         <PackageReference Include="Dapper.Contrib"/>
         <PackageReference Include="Dapper.SqlBuilder"/>
+        <ProjectReference Include="..\..\abstractions\Platform.Cache\Platform.Cache.csproj" />
         <ProjectReference Include="..\..\abstractions\Platform.Functions\Platform.Functions.csproj"/>
         <PackageReference Include="Microsoft.ApplicationInsights.WorkerService"/>
         <PackageReference Include="Microsoft.Azure.Functions.Worker.ApplicationInsights"/>
