@@ -1,76 +1,24 @@
+using System.Diagnostics.CodeAnalysis;
+
 namespace Web.App.Infrastructure.Apis.Establishment;
 
-public class EstablishmentApi(HttpClient httpClient, string? key = default) : ApiBase(httpClient, key), IEstablishmentApi
+[ExcludeFromCodeCoverage, Obsolete(message: "Use LocalAuthorityApi, SchoolApi or TrustApi instead.")]
+public class EstablishmentApi(ILocalAuthorityApi localAuthorityApi, ISchoolApi schoolApi, ITrustApi trustApi) : IEstablishmentApi
 {
-    public Task<ApiResult> GetSchool(string? identifier, CancellationToken cancellationToken = default) => GetAsync(Api.Establishment.School(identifier), cancellationToken);
-
-    public Task<ApiResult> GetTrust(string? identifier, CancellationToken cancellationToken = default) => GetAsync(Api.Establishment.Trust(identifier), cancellationToken);
-
-    public Task<ApiResult> GetLocalAuthority(string? identifier, CancellationToken cancellationToken = default) => GetAsync(Api.Establishment.LocalAuthority(identifier), cancellationToken);
-
-    public Task<ApiResult> GetLocalAuthorityStatisticalNeighbours(string? identifier, CancellationToken cancellationToken = default) => GetAsync(Api.Establishment.LocalAuthorityStatisticalNeighbours(identifier), cancellationToken);
-
-    public Task<ApiResult> GetLocalAuthorities(CancellationToken cancellationToken = default) => GetAsync(Api.Establishment.LocalAuthorities, cancellationToken);
-
-    public Task<ApiResult> SuggestSchools(string search, string[]? exclude = null, bool? excludeMissingFinancialData = null, CancellationToken cancellationToken = default) => SendAsync(new HttpRequestMessage
-    {
-        Method = HttpMethod.Post,
-        RequestUri = new Uri($"{Api.Establishment.SchoolSuggest}", UriKind.Relative),
-        Content = new JsonContent(new SchoolSuggestRequest
-        {
-            SearchText = search,
-            Size = 10,
-            Exclude = exclude,
-            ExcludeMissingFinancialData = excludeMissingFinancialData
-        })
-    }, cancellationToken);
-
-    public Task<ApiResult> SuggestTrusts(string search, string[]? exclude = null, CancellationToken cancellationToken = default) => SendAsync(new HttpRequestMessage
-    {
-        Method = HttpMethod.Post,
-        RequestUri = new Uri($"{Api.Establishment.TrustSuggest}", UriKind.Relative),
-        Content = new JsonContent(new
-        {
-            SearchText = search,
-            Size = 10,
-            Exclude = exclude
-        })
-    }, cancellationToken);
-
-    public Task<ApiResult> SuggestLocalAuthorities(string search, string[]? exclude = null, CancellationToken cancellationToken = default) => SendAsync(new HttpRequestMessage
-    {
-        Method = HttpMethod.Post,
-        RequestUri = new Uri($"{Api.Establishment.LocalAuthoritySuggest}", UriKind.Relative),
-        Content = new JsonContent(new
-        {
-            SearchText = search,
-            Size = 10,
-            Exclude = exclude
-        })
-    }, cancellationToken);
-
-    public Task<ApiResult> SearchSchools(SearchRequest request, CancellationToken cancellationToken = default) => SendAsync(new HttpRequestMessage
-    {
-        Method = HttpMethod.Post,
-        RequestUri = new Uri(Api.Establishment.SchoolSearch, UriKind.Relative),
-        Content = new JsonContent(request)
-    }, cancellationToken);
-
-    public Task<ApiResult> SearchTrusts(SearchRequest request, CancellationToken cancellationToken = default) => SendAsync(new HttpRequestMessage
-    {
-        Method = HttpMethod.Post,
-        RequestUri = new Uri(Api.Establishment.TrustSearch, UriKind.Relative),
-        Content = new JsonContent(request)
-    }, cancellationToken);
-
-    public Task<ApiResult> SearchLocalAuthorities(SearchRequest request, CancellationToken cancellationToken = default) => SendAsync(new HttpRequestMessage
-    {
-        Method = HttpMethod.Post,
-        RequestUri = new Uri(Api.Establishment.LocalAuthoritySearch, UriKind.Relative),
-        Content = new JsonContent(request)
-    }, cancellationToken);
+    public Task<ApiResult> GetSchool(string? identifier, CancellationToken cancellationToken = default) => schoolApi.SingleAsync(identifier, cancellationToken);
+    public Task<ApiResult> GetTrust(string? identifier, CancellationToken cancellationToken = default) => trustApi.SingleAsync(identifier, cancellationToken);
+    public Task<ApiResult> GetLocalAuthority(string? identifier, CancellationToken cancellationToken = default) => localAuthorityApi.SingleAsync(identifier, cancellationToken);
+    public Task<ApiResult> GetLocalAuthorityStatisticalNeighbours(string? identifier, CancellationToken cancellationToken = default) => localAuthorityApi.StatisticalNeighboursAsync(identifier, cancellationToken);
+    public Task<ApiResult> GetLocalAuthorities(CancellationToken cancellationToken = default) => localAuthorityApi.QueryAsync(cancellationToken);
+    public Task<ApiResult> SuggestSchools(string search, string[]? exclude = null, bool? excludeMissingFinancialData = null, CancellationToken cancellationToken = default) => schoolApi.SuggestAsync(search, exclude, excludeMissingFinancialData, cancellationToken);
+    public Task<ApiResult> SuggestTrusts(string search, string[]? exclude = null, CancellationToken cancellationToken = default) => trustApi.SuggestAsync(search, exclude, cancellationToken);
+    public Task<ApiResult> SuggestLocalAuthorities(string search, string[]? exclude = null, CancellationToken cancellationToken = default) => localAuthorityApi.SuggestAsync(search, exclude, cancellationToken);
+    public Task<ApiResult> SearchSchools(SearchRequest request, CancellationToken cancellationToken = default) => schoolApi.SearchAsync(request, cancellationToken);
+    public Task<ApiResult> SearchTrusts(SearchRequest request, CancellationToken cancellationToken = default) => trustApi.SearchAsync(request, cancellationToken);
+    public Task<ApiResult> SearchLocalAuthorities(SearchRequest request, CancellationToken cancellationToken = default) => localAuthorityApi.SearchAsync(request, cancellationToken);
 }
 
+[Obsolete(message: "Use ILocalAuthorityApi, ISchoolApi or ITrustApi instead.")]
 public interface IEstablishmentApi
 {
     Task<ApiResult> GetSchool(string? identifier, CancellationToken cancellationToken = default);

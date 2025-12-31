@@ -1,8 +1,10 @@
 ﻿namespace Web.App.Infrastructure.Apis;
 
-public class HealthApi(HttpClient httpClient, string? key = default) : ApiBase(httpClient, key), IHealthApi
+public class HealthApi(HttpClient httpClient, string? key = null) : ApiBase(httpClient, key), IHealthApi
 {
-    public Task<ApiResult> GetHealth() => GetAsync("api/health");
+    private const string HealthPath = "api/health";
+
+    public Task<ApiResult> GetHealth() => GetAsync(HealthPath);
 }
 
 public interface IHealthApi

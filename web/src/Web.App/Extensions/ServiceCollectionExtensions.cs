@@ -73,7 +73,8 @@ public static class ServiceCollectionExtensions
     {
         const string section = "Apis:Establishment";
 
-        services.AddHttpClient<IEstablishmentApi, EstablishmentApi>().Configure<EstablishmentApi>(section);
+        services.AddScoped<IEstablishmentApi, EstablishmentApi>();
+
         services.AddHttpClient<IHealthApi, HealthApi>(section).Configure<HealthApi>(section);
         services.AddHttpClient<IComparatorApi, ComparatorApi>().Configure<ComparatorApi>(section);
 
@@ -127,7 +128,7 @@ public static class ServiceCollectionExtensions
 
         return services;
     }
-    
+
     public static IServiceCollection AddSchoolApi(this IServiceCollection services)
     {
         const string section = "Apis:School";
@@ -137,7 +138,7 @@ public static class ServiceCollectionExtensions
 
         return services;
     }
-    
+
     public static IServiceCollection AddTrustApi(this IServiceCollection services)
     {
         const string section = "Apis:Trust";
@@ -147,7 +148,7 @@ public static class ServiceCollectionExtensions
 
         return services;
     }
-    
+
     public static IServiceCollection AddChartRenderingApi(this IServiceCollection services)
     {
         const string section = "Apis:ChartRendering";

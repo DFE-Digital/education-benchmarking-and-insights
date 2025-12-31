@@ -4,25 +4,27 @@ namespace Web.E2ETests.Pages;
 
 public class HomePage(IPage page) : BasePage(page)
 {
+    private readonly IPage _page = page;
+
     private ILocator DataSourcesLink =>
-        page.Locator(Selectors.GovFooterLink, new PageLocatorOptions
+        _page.Locator(Selectors.GovFooterLink, new PageLocatorOptions
         {
             HasText = "Data Sources"
         });
 
     private ILocator StartNowButton =>
-        page.Locator(Selectors.GovButton, new PageLocatorOptions
+        _page.Locator(Selectors.GovButton, new PageLocatorOptions
         {
             HasText = "Start now"
         });
 
-    private ILocator Banner => page.Locator(Selectors.GovNotificationBanner);
-    private ILocator BannerTitle => page.Locator(Selectors.GovNotificationBannerTitle);
-    private ILocator BannerHeading => page.Locator(Selectors.GovNotificationBannerHeading);
-    private ILocator BannerBody => page.Locator(Selectors.GovNotificationBannerBody);
+    private ILocator Banner => _page.Locator(Selectors.GovNotificationBanner);
+    private ILocator BannerTitle => _page.Locator(Selectors.GovNotificationBannerTitle);
+    private ILocator BannerHeading => _page.Locator(Selectors.GovNotificationBannerHeading);
+    private ILocator BannerBody => _page.Locator(Selectors.GovNotificationBannerBody);
 
     private ILocator NewsLink =>
-        page.Locator(Selectors.GovFooterLink, new PageLocatorOptions
+        _page.Locator(Selectors.GovFooterLink, new PageLocatorOptions
         {
             HasText = "News"
         });
@@ -35,19 +37,19 @@ public class HomePage(IPage page) : BasePage(page)
     public async Task<DataSourcesPage> ClickDataSourcesLink()
     {
         await DataSourcesLink.ClickAsync();
-        return new DataSourcesPage(page);
+        return new DataSourcesPage(_page);
     }
 
     public async Task<FindOrganisationPage> ClickStartNowButton()
     {
         await StartNowButton.ClickAsync();
-        return new FindOrganisationPage(page);
+        return new FindOrganisationPage(_page);
     }
 
     public async Task<NewsPage> ClickNewsLink()
     {
         await NewsLink.ClickAsync();
-        return new NewsPage(page);
+        return new NewsPage(_page);
     }
 
     public async Task HasBanner(string title, string heading, string body)

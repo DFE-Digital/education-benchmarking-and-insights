@@ -11,7 +11,6 @@ namespace Web.E2ETests.Steps;
 public class FindOrganisationSteps(PageDriver driver)
 {
     private FindOrganisationPage? _findOrganisationPage;
-    private HomePage? _schoolHomePage;
     private SearchPage? _schoolSearchPage;
 
     [Given(@"I am on find organisation page")]
@@ -23,13 +22,6 @@ public class FindOrganisationSteps(PageDriver driver)
 
         _findOrganisationPage = new FindOrganisationPage(page);
         await _findOrganisationPage.IsDisplayed();
-    }
-
-    [Then("the school homepage is displayed")]
-    public async Task ThenTheSchoolHomepageIsDisplayed()
-    {
-        Assert.NotNull(_schoolHomePage);
-        await _schoolHomePage.IsDisplayed();
     }
 
     [Given("'(.*)' organisation type is selected")]
