@@ -384,8 +384,8 @@ def workforce_census_data() -> pd.DataFrame:
             "Total Number of Auxiliary Staff (Full-Time Equivalent)": [2.3, 2.3, 5.4],
             "Total Number of Auxiliary Staff (Headcount)": [3, 3, 9],
             "Total School Workforce (Headcount)": [61, 62, 50],
-            'Total Number of Leadership Non-Teachers (Headcount)': [1, 3, 0],
-            'Total Number of Leadership Non-Teachers (FTE)': [1, 2, 0]
+            "Total Number of Leadership Non-Teachers (Headcount)": [1, 3, 0],
+            "Total Number of Leadership Non-Teachers (FTE)": [1, 2, 0],
         }
     )
 
@@ -433,14 +433,13 @@ def pupil_census_data() -> pd.DataFrame:
             "number_of_dual_subsidiary_registrations": ["z", 29, 0],
         }
     )
-    
 
 
 @pytest.fixture
 def prepared_census_data(
     workforce_census_data: pd.DataFrame,
     pupil_census_data: pd.DataFrame,
-    headteacher_workforce_census_data: pd.DataFrame
+    headteacher_workforce_census_data: pd.DataFrame,
 ) -> pd.DataFrame:
     output = BytesIO()
     writer = pd.ExcelWriter(output)
@@ -451,10 +450,10 @@ def prepared_census_data(
     output.seek(0)
 
     return prepare_census_data(
-        output, 
-        StringIO(headteacher_workforce_census_data.to_csv()), 
+        output,
+        StringIO(headteacher_workforce_census_data.to_csv()),
         StringIO(pupil_census_data.to_csv()),
-        2023
+        2023,
     )
 
 

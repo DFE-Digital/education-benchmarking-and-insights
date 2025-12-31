@@ -238,7 +238,7 @@ def _federation_lead_school_agg(df: pd.DataFrame, year: int) -> pd.DataFrame:
         2024: aggregations_1,
         2025: aggregations_1,
     }
-    selected_aggregation = aggregations.get(year, aggregations['default'])
+    selected_aggregation = aggregations.get(year, aggregations["default"])
 
     lead_schools_agg = (
         df[df["Lead school in federation"] != "0"]
@@ -294,7 +294,9 @@ def join_federations(df: pd.DataFrame, year: int) -> pd.DataFrame:
             "LAEstab": "Federation LAEstab",
         }
     )
-    schools_who_lead_federations_aggregated_metrics = _federation_lead_school_agg(df, year)
+    schools_who_lead_federations_aggregated_metrics = _federation_lead_school_agg(
+        df, year
+    )
 
     schools_with_federation_lead_details = df.merge(
         schools_who_lead_federations,

@@ -92,15 +92,16 @@ def prepare_census_data(
         head_teacher_breakdowns_path, year=year
     )
 
-    census = school_pupil_census.join(
-        school_workforce_census,
-        how="outer",
-        rsuffix="_pupil",
-        lsuffix="_workforce",
-    ).join(
-        head_teacher_breakdowns, 
-        how="left"
-    ).rename(columns=config.census_column_map)
+    census = (
+        school_pupil_census.join(
+            school_workforce_census,
+            how="outer",
+            rsuffix="_pupil",
+            lsuffix="_workforce",
+        )
+        .join(head_teacher_breakdowns, how="left")
+        .rename(columns=config.census_column_map)
+    )
 
     census["Number of pupils"] = (
         census["Number of pupils"] + census["Pupil Dual Registrations"]
@@ -138,8 +139,8 @@ def get_census_head_teacher_breakdowns(
         head_teacher_breakdowns["time_period"] == academic_year_code
     ]
 
-    head_teacher_breakdowns_preprocessed = (head_teacher_breakdowns_filtered
-        .drop(columns=["time_period"])
+    head_teacher_breakdowns_preprocessed = (
+        head_teacher_breakdowns_filtered.drop(columns=["time_period"])
         .rename(columns={"school_urn": "URN"})
         .set_index("URN")
     )

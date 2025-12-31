@@ -39,7 +39,8 @@ def pre_process_census(run_type: str, year: int, run_id: str) -> pd.DataFrame:
         raw_container, f"{run_type}/{year}/census_workforce.xlsx"
     )
     head_teacher_breakdowns_census_data = try_get_blob(
-        raw_container, f"{run_type}/{year}/Workforce_2010_2024_fte_hc_nat_reg_la_sch.csv"
+        raw_container,
+        f"{run_type}/{year}/Workforce_2010_2024_fte_hc_nat_reg_la_sch.csv",
     )
     pupil_census_data = get_blob(
         raw_container, f"{run_type}/{year}/census_pupils.csv", encoding="cp1252"

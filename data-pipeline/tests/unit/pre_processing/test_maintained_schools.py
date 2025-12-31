@@ -263,14 +263,14 @@ def test_federation_lead_school_agg_index():
                 80.0,
                 80.0,
             ],
-            'Total Number of Leadership Non-Teachers (Headcount)': [1, 3, 0, 1],
-            'Total Number of Leadership Non-Teachers (FTE)': [1, 2, 0, 1],
-            'fte_assistant_head_teachers': [1, 2, 3, 4], 
-            'fte_deputy_head_teachers': [1, 2, 3, 4], 
-            'fte_head_teachers': [1, 2, 3, 4], 
-            'hc_assistant_head_teachers': [1, 2, 3, 4],
-            'hc_deputy_head_teachers': [1, 2, 3, 4], 
-            'hc_head_teachers': [1, 2, 3, 4]
+            "Total Number of Leadership Non-Teachers (Headcount)": [1, 3, 0, 1],
+            "Total Number of Leadership Non-Teachers (FTE)": [1, 2, 0, 1],
+            "fte_assistant_head_teachers": [1, 2, 3, 4],
+            "fte_deputy_head_teachers": [1, 2, 3, 4],
+            "fte_head_teachers": [1, 2, 3, 4],
+            "hc_assistant_head_teachers": [1, 2, 3, 4],
+            "hc_deputy_head_teachers": [1, 2, 3, 4],
+            "hc_head_teachers": [1, 2, 3, 4],
         }
     )
 
@@ -317,14 +317,14 @@ def test_federation_lead_school_agg_pupils():
                 80.0,
                 80.0,
             ],
-            'Total Number of Leadership Non-Teachers (Headcount)': [1, 3, 0, 1],
-            'Total Number of Leadership Non-Teachers (FTE)': [1, 2, 0, 1],
-            'fte_assistant_head_teachers': [1, 2, 3, 4], 
-            'fte_deputy_head_teachers': [1, 2, 3, 4], 
-            'fte_head_teachers': [1, 2, 3, 4], 
-            'hc_assistant_head_teachers': [1, 2, 3, 4],
-            'hc_deputy_head_teachers': [1, 2, 3, 4], 
-            'hc_head_teachers': [1, 2, 3, 4]
+            "Total Number of Leadership Non-Teachers (Headcount)": [1, 3, 0, 1],
+            "Total Number of Leadership Non-Teachers (FTE)": [1, 2, 0, 1],
+            "fte_assistant_head_teachers": [1, 2, 3, 4],
+            "fte_deputy_head_teachers": [1, 2, 3, 4],
+            "fte_head_teachers": [1, 2, 3, 4],
+            "hc_assistant_head_teachers": [1, 2, 3, 4],
+            "hc_deputy_head_teachers": [1, 2, 3, 4],
+            "hc_head_teachers": [1, 2, 3, 4],
         }
     )
 
@@ -372,14 +372,14 @@ def test_federation_lead_school_agg_fsm():
                 80.0,
                 80.0,
             ],
-            'Total Number of Leadership Non-Teachers (Headcount)': [1, 3, 0, 1],
-            'Total Number of Leadership Non-Teachers (FTE)': [1, 2, 0, 1],
-            'fte_assistant_head_teachers': [1, 2, 3, 4], 
-            'fte_deputy_head_teachers': [1, 2, 3, 4], 
-            'fte_head_teachers': [1, 2, 3, 4], 
-            'hc_assistant_head_teachers': [1, 2, 3, 4],
-            'hc_deputy_head_teachers': [1, 2, 3, 4], 
-            'hc_head_teachers': [1, 2, 3, 4]
+            "Total Number of Leadership Non-Teachers (Headcount)": [1, 3, 0, 1],
+            "Total Number of Leadership Non-Teachers (FTE)": [1, 2, 0, 1],
+            "fte_assistant_head_teachers": [1, 2, 3, 4],
+            "fte_deputy_head_teachers": [1, 2, 3, 4],
+            "fte_head_teachers": [1, 2, 3, 4],
+            "hc_assistant_head_teachers": [1, 2, 3, 4],
+            "hc_deputy_head_teachers": [1, 2, 3, 4],
+            "hc_head_teachers": [1, 2, 3, 4],
         }
     )
 
@@ -427,14 +427,14 @@ def test_federation_lead_school_agg_sen():
                 80.0,
                 80.0,
             ],
-            'Total Number of Leadership Non-Teachers (Headcount)': [1, 3, 0, 1],
-            'Total Number of Leadership Non-Teachers (FTE)': [1, 2, 0, 1],
-            'fte_assistant_head_teachers': [1, 2, 3, 4], 
-            'fte_deputy_head_teachers': [1, 2, 3, 4], 
-            'fte_head_teachers': [1, 2, 3, 4], 
-            'hc_assistant_head_teachers': [1, 2, 3, 4],
-            'hc_deputy_head_teachers': [1, 2, 3, 4], 
-            'hc_head_teachers': [1, 2, 3, 4]
+            "Total Number of Leadership Non-Teachers (Headcount)": [1, 3, 0, 1],
+            "Total Number of Leadership Non-Teachers (FTE)": [1, 2, 0, 1],
+            "fte_assistant_head_teachers": [1, 2, 3, 4],
+            "fte_deputy_head_teachers": [1, 2, 3, 4],
+            "fte_head_teachers": [1, 2, 3, 4],
+            "hc_assistant_head_teachers": [1, 2, 3, 4],
+            "hc_deputy_head_teachers": [1, 2, 3, 4],
+            "hc_head_teachers": [1, 2, 3, 4],
         }
     )
 
@@ -482,14 +482,14 @@ def test_federation_lead_school_agg_building_age():
                 80.0,
                 80.0,
             ],
-            'Total Number of Leadership Non-Teachers (Headcount)': [1, 3, 0, 1],
-            'Total Number of Leadership Non-Teachers (FTE)': [1, 2, 0, 1],
-            'fte_assistant_head_teachers': [1, 2, 3, 4], 
-            'fte_deputy_head_teachers': [1, 2, 3, 4], 
-            'fte_head_teachers': [1, 2, 3, 4], 
-            'hc_assistant_head_teachers': [1, 2, 3, 4],
-            'hc_deputy_head_teachers': [1, 2, 3, 4], 
-            'hc_head_teachers': [1, 2, 3, 4]
+            "Total Number of Leadership Non-Teachers (Headcount)": [1, 3, 0, 1],
+            "Total Number of Leadership Non-Teachers (FTE)": [1, 2, 0, 1],
+            "fte_assistant_head_teachers": [1, 2, 3, 4],
+            "fte_deputy_head_teachers": [1, 2, 3, 4],
+            "fte_head_teachers": [1, 2, 3, 4],
+            "hc_assistant_head_teachers": [1, 2, 3, 4],
+            "hc_deputy_head_teachers": [1, 2, 3, 4],
+            "hc_head_teachers": [1, 2, 3, 4],
         }
     )
 
@@ -540,14 +540,14 @@ def test_join_federations_unmodified():
                 80.0,
                 80.0,
             ],
-            'Total Number of Leadership Non-Teachers (Headcount)': [1, 3, 0, 1],
-            'Total Number of Leadership Non-Teachers (FTE)': [1, 2, 0, 1],
-            'fte_assistant_head_teachers': [1, 2, 3, 4], 
-            'fte_deputy_head_teachers': [1, 2, 3, 4], 
-            'fte_head_teachers': [1, 2, 3, 4], 
-            'hc_assistant_head_teachers': [1, 2, 3, 4],
-            'hc_deputy_head_teachers': [1, 2, 3, 4], 
-            'hc_head_teachers': [1, 2, 3, 4]
+            "Total Number of Leadership Non-Teachers (Headcount)": [1, 3, 0, 1],
+            "Total Number of Leadership Non-Teachers (FTE)": [1, 2, 0, 1],
+            "fte_assistant_head_teachers": [1, 2, 3, 4],
+            "fte_deputy_head_teachers": [1, 2, 3, 4],
+            "fte_head_teachers": [1, 2, 3, 4],
+            "hc_assistant_head_teachers": [1, 2, 3, 4],
+            "hc_deputy_head_teachers": [1, 2, 3, 4],
+            "hc_head_teachers": [1, 2, 3, 4],
         }
     )
 
