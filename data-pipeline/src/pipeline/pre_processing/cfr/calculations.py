@@ -217,6 +217,7 @@ def _federation_lead_school_agg(df: pd.DataFrame, year: int) -> pd.DataFrame:
         "hc_head_teachers": "sum",
         "hc_deputy_head_teachers": "sum",
         "hc_assistant_head_teachers": "sum",
+        "SeniorLeadershipFTE": "sum",
         "fte_head_teachers": "sum",
         "fte_deputy_head_teachers": "sum",
         "fte_assistant_head_teachers": "sum",
