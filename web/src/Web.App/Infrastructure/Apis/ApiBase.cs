@@ -6,7 +6,7 @@ public abstract class ApiBase
 {
     private readonly HttpClient _httpClient;
 
-    protected ApiBase(HttpClient httpClient, string? key = default)
+    protected ApiBase(HttpClient httpClient, string? key = null)
     {
         _httpClient = httpClient;
 

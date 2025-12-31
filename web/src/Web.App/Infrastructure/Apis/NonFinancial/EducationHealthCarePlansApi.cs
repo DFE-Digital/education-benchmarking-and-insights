@@ -1,12 +1,13 @@
 namespace Web.App.Infrastructure.Apis.NonFinancial;
 
-public class EducationHealthCarePlansApi(HttpClient httpClient, string? key = default) : ApiBase(httpClient, key), IEducationHealthCarePlansApi
+[Obsolete(message: "Use LocalAuthorityApi instead.")]
+public class EducationHealthCarePlansApi(ILocalAuthorityApi localAuthorityApi) : IEducationHealthCarePlansApi
 {
-    public Task<ApiResult> GetEducationHealthCarePlans(ApiQuery? query = null, CancellationToken cancellationToken = default) => GetAsync($"{Api.EducationHealthCarePlans.LocalAuthorities}{query?.ToQueryString()}", cancellationToken);
-
-    public Task<ApiResult> GetEducationHealthCarePlansHistory(ApiQuery? query = null, CancellationToken cancellationToken = default) => GetAsync($"{Api.EducationHealthCarePlans.LocalAuthoritiesHistory}{query?.ToQueryString()}", cancellationToken);
+    public Task<ApiResult> GetEducationHealthCarePlans(ApiQuery? query = null, CancellationToken cancellationToken = default) => localAuthorityApi.QueryEhcpAsync(query, cancellationToken);
+    public Task<ApiResult> GetEducationHealthCarePlansHistory(ApiQuery? query = null, CancellationToken cancellationToken = default) => localAuthorityApi.QueryEhcpHistoryAsync(query, cancellationToken);
 }
 
+[Obsolete(message: "Use ILocalAuthorityApi instead.")]
 public interface IEducationHealthCarePlansApi
 {
     Task<ApiResult> GetEducationHealthCarePlans(ApiQuery? query = null, CancellationToken cancellationToken = default);

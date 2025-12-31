@@ -9,7 +9,6 @@ using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.FeatureManagement;
 using Serilog;
 using SmartBreadcrumbs.Extensions;
-using Web.App.Builders;
 using Web.App.Cache;
 using Web.App.Extensions;
 using Web.App.Handlers;
@@ -18,7 +17,6 @@ using Web.App.Middleware;
 using Web.App.Services;
 using Web.App.Telemetry;
 using Westwind.AspNetCore.Markdown;
-using UriBuilder = Web.App.Builders.UriBuilder;
 
 [assembly: InternalsVisibleTo("Web.Tests")]
 
@@ -119,8 +117,7 @@ if (!builder.Environment.IsIntegration())
         .AddBenchmarkApi()
         .AddEstablishmentApi()
         .AddInsightApi()
-        .AddLocalAuthorityFinancesApi()
-        .AddNonFinancialApi()
+        .AddLegacyApis()
         .AddLocalAuthorityApi()
         .AddSchoolApi()
         .AddTrustApi()

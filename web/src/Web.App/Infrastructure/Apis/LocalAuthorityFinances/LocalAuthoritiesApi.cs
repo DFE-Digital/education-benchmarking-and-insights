@@ -1,15 +1,15 @@
 namespace Web.App.Infrastructure.Apis.LocalAuthorityFinances;
 
-public class LocalAuthorityFinancesApi(HttpClient httpClient, string? key = default) : ApiBase(httpClient, key), ILocalAuthorityFinancesApi
+[Obsolete(message: "Use LocalAuthorityApi instead.")]
+public class LocalAuthorityFinancesApi(ILocalAuthorityApi localAuthorityApi) : ILocalAuthorityFinancesApi
 {
-    public Task<ApiResult> GetHighNeeds(ApiQuery? query = null, CancellationToken cancellationToken = default) => GetAsync($"{Api.LocalAuthorityFinances.HighNeeds}{query?.ToQueryString()}", cancellationToken);
-
-    public Task<ApiResult> GetHighNeedsHistory(ApiQuery? query = null, CancellationToken cancellationToken = default) => GetAsync($"{Api.LocalAuthorityFinances.HighNeedsHistory}{query?.ToQueryString()}", cancellationToken);
-
-    public Task<ApiResult> GetSchoolsFinance(string code, ApiQuery? query = null, CancellationToken cancellationToken = default) => GetAsync($"{Api.LocalAuthorityFinances.SchoolsFinance(code)}{query?.ToQueryString()}", cancellationToken);
-    public Task<ApiResult> GetSchoolsWorkforce(string code, ApiQuery? query = null, CancellationToken cancellationToken = default) => GetAsync($"{Api.LocalAuthorityFinances.SchoolsWorkforce(code)}{query?.ToQueryString()}", cancellationToken);
+    public Task<ApiResult> GetHighNeeds(ApiQuery? query = null, CancellationToken cancellationToken = default) => localAuthorityApi.QueryHighNeedsAsync(query, cancellationToken);
+    public Task<ApiResult> GetHighNeedsHistory(ApiQuery? query = null, CancellationToken cancellationToken = default) => localAuthorityApi.QueryHighNeedsHistoryAsync(query, cancellationToken);
+    public Task<ApiResult> GetSchoolsFinance(string code, ApiQuery? query = null, CancellationToken cancellationToken = default) => localAuthorityApi.QueryMaintainedSchoolsFinanceAsync(code, query, cancellationToken);
+    public Task<ApiResult> GetSchoolsWorkforce(string code, ApiQuery? query = null, CancellationToken cancellationToken = default) => localAuthorityApi.QueryMaintainedSchoolsWorkforceAsync(code, query, cancellationToken);
 }
 
+[Obsolete(message: "Use ILocalAuthorityApi instead.")]
 public interface ILocalAuthorityFinancesApi
 {
     Task<ApiResult> GetHighNeeds(ApiQuery? query = null, CancellationToken cancellationToken = default);

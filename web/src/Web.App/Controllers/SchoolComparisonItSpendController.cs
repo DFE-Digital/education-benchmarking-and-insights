@@ -10,7 +10,6 @@ using Web.App.Domain;
 using Web.App.Domain.Charts;
 using Web.App.Infrastructure.Apis;
 using Web.App.Infrastructure.Apis.Benchmark;
-using Web.App.Infrastructure.Apis.ChartRendering;
 using Web.App.Infrastructure.Apis.Establishment;
 using Web.App.Infrastructure.Apis.Insight;
 using Web.App.Infrastructure.Extensions;

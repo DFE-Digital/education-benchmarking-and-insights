@@ -13,7 +13,6 @@ using Web.App.Domain.LocalAuthorities;
 using Web.App.Domain.NonFinancial;
 using Web.App.Infrastructure.Apis;
 using Web.App.Infrastructure.Apis.Benchmark;
-using Web.App.Infrastructure.Apis.ChartRendering;
 using Web.App.Infrastructure.Apis.Content;
 using Web.App.Infrastructure.Apis.Establishment;
 using Web.App.Infrastructure.Apis.Insight;

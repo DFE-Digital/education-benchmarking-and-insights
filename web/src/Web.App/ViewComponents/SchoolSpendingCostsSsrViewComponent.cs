@@ -3,7 +3,6 @@ using Web.App.Domain;
 using Web.App.Domain.Charts;
 using Web.App.Domain.Content;
 using Web.App.Infrastructure.Apis;
-using Web.App.Infrastructure.Apis.ChartRendering;
 using Web.App.Infrastructure.Extensions;
 using Web.App.Services;
 using Web.App.ViewModels.Components;

@@ -15,7 +15,6 @@ using Web.App.Identity;
 using Web.App.Identity.Models;
 using Web.App.Infrastructure.Apis;
 using Web.App.Infrastructure.Apis.Benchmark;
-using Web.App.Infrastructure.Apis.ChartRendering;
 using Web.App.Infrastructure.Apis.Content;
 using Web.App.Infrastructure.Apis.Establishment;
 using Web.App.Infrastructure.Apis.Insight;
@@ -73,8 +72,6 @@ public static class ServiceCollectionExtensions
     {
         const string section = "Apis:Establishment";
 
-        services.AddScoped<IEstablishmentApi, EstablishmentApi>();
-
         services.AddHttpClient<IHealthApi, HealthApi>(section).Configure<HealthApi>(section);
         services.AddHttpClient<IComparatorApi, ComparatorApi>().Configure<ComparatorApi>(section);
 
@@ -99,32 +96,12 @@ public static class ServiceCollectionExtensions
         return services;
     }
 
-    public static IServiceCollection AddLocalAuthorityFinancesApi(this IServiceCollection services)
-    {
-        const string section = "Apis:LocalAuthorityFinances";
-
-        services.AddHttpClient<IHealthApi, HealthApi>(section).Configure<HealthApi>(section);
-        services.AddHttpClient<ILocalAuthorityFinancesApi, LocalAuthorityFinancesApi>().Configure<LocalAuthorityFinancesApi>(section);
-
-        return services;
-    }
-
-    public static IServiceCollection AddNonFinancialApi(this IServiceCollection services)
-    {
-        const string section = "Apis:NonFinancial";
-
-        services.AddHttpClient<IHealthApi, HealthApi>(section).Configure<HealthApi>(section);
-        services.AddHttpClient<IEducationHealthCarePlansApi, EducationHealthCarePlansApi>().Configure<EducationHealthCarePlansApi>(section);
-
-        return services;
-    }
-
     public static IServiceCollection AddLocalAuthorityApi(this IServiceCollection services)
     {
         const string section = "Apis:LocalAuthority";
 
         services.AddHttpClient<IHealthApi, HealthApi>(section).Configure<HealthApi>(section);
-        services.AddHttpClient<ILocalAuthorityApi, LocalAuthorityApi>().Configure<LocalAuthorityFinancesApi>(section);
+        services.AddHttpClient<ILocalAuthorityApi, LocalAuthorityApi>().Configure<LocalAuthorityApi>(section);
 
         return services;
     }
@@ -155,6 +132,15 @@ public static class ServiceCollectionExtensions
 
         services.AddHttpClient<IHealthApi, HealthApi>(section).Configure<HealthApi>(section);
         services.AddHttpClient<IChartRenderingApi, ChartRenderingApi>().Configure<ChartRenderingApi>(section);
+
+        return services;
+    }
+
+    public static IServiceCollection AddLegacyApis(this IServiceCollection services)
+    {
+        services.AddScoped<ILocalAuthorityFinancesApi, LocalAuthorityFinancesApi>();
+        services.AddScoped<IEducationHealthCarePlansApi, EducationHealthCarePlansApi>();
+        services.AddScoped<IEstablishmentApi, EstablishmentApi>();
 
         return services;
     }

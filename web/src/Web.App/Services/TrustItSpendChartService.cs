@@ -1,6 +1,5 @@
 ﻿using Web.App.Domain.Charts;
 using Web.App.Infrastructure.Apis;
-using Web.App.Infrastructure.Apis.ChartRendering;
 using Web.App.Infrastructure.Extensions;
 using Web.App.ViewModels;
 

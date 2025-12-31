@@ -4,7 +4,6 @@ using Moq;
 using Web.App.Domain;
 using Web.App.Domain.Charts;
 using Web.App.Infrastructure.Apis;
-using Web.App.Infrastructure.Apis.ChartRendering;
 using Web.App.Services;
 using Web.App.ViewModels;
 using Xunit;
