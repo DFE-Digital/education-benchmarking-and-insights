@@ -1,7 +1,7 @@
 import logging
 
-import pandas as pd
 import numpy as np
+import pandas as pd
 
 import pipeline.config as config
 import pipeline.input_schemas as input_schemas
@@ -56,7 +56,9 @@ def prepare_census_data(
         .drop_duplicates()
         .set_index(input_schemas.workforce_census_index_col)
     )
-    school_workforce_census = ensure_non_leadership_teacher_columns_are_present(school_workforce_census)
+    school_workforce_census = ensure_non_leadership_teacher_columns_are_present(
+        school_workforce_census
+    )
 
     for column, eval_ in input_schemas.workforce_census_column_eval.get(
         year, input_schemas.workforce_census_column_eval["default"]
@@ -150,7 +152,9 @@ def get_census_head_teacher_breakdowns(
     return head_teacher_breakdowns_preprocessed
 
 
-def ensure_non_leadership_teacher_columns_are_present(school_workforce_census: pd.DataFrame) -> pd.DataFrame:
+def ensure_non_leadership_teacher_columns_are_present(
+    school_workforce_census: pd.DataFrame,
+) -> pd.DataFrame:
     """
     The non leadership teacher breakdowns were introduced in 2024, but we always want the columns
     to be there as the database write expects them to be there.
