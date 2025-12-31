@@ -75,6 +75,12 @@ resource "azurerm_windows_web_app" "education-benchmarking-as" {
     "FeatureManagement__LocalAuthorityHomepageV2"           = var.configuration[var.environment].features.LocalAuthorityHomepageV2
     "FeatureManagement__KS4ProgressBanding"                 = var.configuration[var.environment].features.KS4ProgressBanding
     "FeatureManagement__KS4ProgressBandingSchoolHome"       = var.configuration[var.environment].features.KS4ProgressBandingSchoolHome
+    "Apis__School__Url"                                     = "@Microsoft.KeyVault(SecretUri=${data.azurerm_key_vault_secret.school-api-host.versionless_id})"
+    "Apis__School__Key"                                     = "@Microsoft.KeyVault(SecretUri=${data.azurerm_key_vault_secret.school-api-key.versionless_id})"
+    "Apis__Trust__Url"                                      = "@Microsoft.KeyVault(SecretUri=${data.azurerm_key_vault_secret.trust-api-host.versionless_id})"
+    "Apis__Trust__Key"                                      = "@Microsoft.KeyVault(SecretUri=${data.azurerm_key_vault_secret.trust-api-key.versionless_id})"
+    "Apis__LocalAuthority__Url"                             = "@Microsoft.KeyVault(SecretUri=${data.azurerm_key_vault_secret.local-authority-api-host.versionless_id})"
+    "Apis__LocalAuthority__Key"                             = "@Microsoft.KeyVault(SecretUri=${data.azurerm_key_vault_secret.local-authority-api-key.versionless_id})"
     "Apis__Insight__Url"                                    = "@Microsoft.KeyVault(SecretUri=${data.azurerm_key_vault_secret.insight-api-host.versionless_id})"
     "Apis__Insight__Key"                                    = "@Microsoft.KeyVault(SecretUri=${data.azurerm_key_vault_secret.insight-api-key.versionless_id})"
     "Apis__Establishment__Url"                              = "@Microsoft.KeyVault(SecretUri=${data.azurerm_key_vault_secret.establishment-api-host.versionless_id})"

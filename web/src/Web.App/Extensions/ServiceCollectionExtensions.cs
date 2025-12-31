@@ -118,6 +118,36 @@ public static class ServiceCollectionExtensions
         return services;
     }
 
+    public static IServiceCollection AddLocalAuthorityApi(this IServiceCollection services)
+    {
+        const string section = "Apis:LocalAuthority";
+
+        services.AddHttpClient<IHealthApi, HealthApi>(section).Configure<HealthApi>(section);
+        services.AddHttpClient<ILocalAuthorityApi, LocalAuthorityApi>().Configure<LocalAuthorityFinancesApi>(section);
+
+        return services;
+    }
+    
+    public static IServiceCollection AddSchoolApi(this IServiceCollection services)
+    {
+        const string section = "Apis:School";
+
+        services.AddHttpClient<IHealthApi, HealthApi>(section).Configure<HealthApi>(section);
+        services.AddHttpClient<ISchoolApi, SchoolApi>().Configure<SchoolApi>(section);
+
+        return services;
+    }
+    
+    public static IServiceCollection AddTrustApi(this IServiceCollection services)
+    {
+        const string section = "Apis:Trust";
+
+        services.AddHttpClient<IHealthApi, HealthApi>(section).Configure<HealthApi>(section);
+        services.AddHttpClient<ITrustApi, TrustApi>().Configure<TrustApi>(section);
+
+        return services;
+    }
+    
     public static IServiceCollection AddChartRenderingApi(this IServiceCollection services)
     {
         const string section = "Apis:ChartRendering";

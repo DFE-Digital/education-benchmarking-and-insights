@@ -19,6 +19,36 @@ data "azurerm_key_vault" "key-vault" {
   resource_group_name = "${var.environment-prefix}-ebis-core"
 }
 
+data "azurerm_key_vault_secret" "school-api-key" {
+  name         = "school-host-key"
+  key_vault_id = data.azurerm_key_vault.key-vault.id
+}
+
+data "azurerm_key_vault_secret" "school-api-host" {
+  name         = "school-host"
+  key_vault_id = data.azurerm_key_vault.key-vault.id
+}
+
+data "azurerm_key_vault_secret" "trust-api-key" {
+  name         = "trust-host-key"
+  key_vault_id = data.azurerm_key_vault.key-vault.id
+}
+
+data "azurerm_key_vault_secret" "trust-api-host" {
+  name         = "trust-host"
+  key_vault_id = data.azurerm_key_vault.key-vault.id
+}
+
+data "azurerm_key_vault_secret" "local-authority-api-key" {
+  name         = "local-authority-host-key"
+  key_vault_id = data.azurerm_key_vault.key-vault.id
+}
+
+data "azurerm_key_vault_secret" "local-authority-api-host" {
+  name         = "local-authority-host"
+  key_vault_id = data.azurerm_key_vault.key-vault.id
+}
+
 data "azurerm_key_vault_secret" "insight-api-key" {
   name         = "insight-host-key"
   key_vault_id = data.azurerm_key_vault.key-vault.id
