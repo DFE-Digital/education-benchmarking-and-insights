@@ -115,7 +115,6 @@ if (!builder.Environment.IsIntegration())
 
     builder.Services
         .AddBenchmarkApi()
-        .AddEstablishmentApi()
         .AddInsightApi()
         .AddLegacyApis()
         .AddLocalAuthorityApi()

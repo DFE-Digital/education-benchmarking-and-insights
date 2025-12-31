@@ -1,6 +1,7 @@
 using Newtonsoft.Json;
 using Web.App.Extensions;
 using Web.App.Infrastructure.Apis;
+using Web.App.ViewModels;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -47,5 +48,17 @@ public class GivenAnTrustApi(ITestOutputHelper testOutputHelper) : ApiClientTest
         await api.SearchAsync(request);
 
         VerifyCall(HttpMethod.Post, "api/trusts/search", request.ToJson(Formatting.None));
+    }
+
+    [Fact]
+    public async Task CreateComparatorsAsyncShouldCallCorrectUrl()
+    {
+        var api = new TrustApi(HttpClient);
+        var request = new PostTrustComparatorsRequest(new UserDefinedTrustCharacteristicViewModel());
+        const string companyNumber = "companyNumber";
+
+        await api.CreateComparatorsAsync(companyNumber, request);
+
+        VerifyCall(HttpMethod.Post, $"api/trusts/{companyNumber}/comparators", request.ToJson(Formatting.None));
     }
 }

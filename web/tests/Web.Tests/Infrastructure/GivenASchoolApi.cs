@@ -1,6 +1,7 @@
 using Newtonsoft.Json;
 using Web.App.Extensions;
 using Web.App.Infrastructure.Apis;
+using Web.App.ViewModels;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -66,8 +67,6 @@ public class GivenASchoolApi(ITestOutputHelper testOutputHelper) : ApiClientTest
             "{\"searchText\":\"term\",\"size\":10,\"excludeMissingFinancialData\":true}");
     }
 
-
-
     [Fact]
     public async Task SearchShouldCallCorrectUrl()
     {
@@ -79,4 +78,15 @@ public class GivenASchoolApi(ITestOutputHelper testOutputHelper) : ApiClientTest
         VerifyCall(HttpMethod.Post, "api/schools/search", request.ToJson(Formatting.None));
     }
 
+    [Fact]
+    public async Task CreateComparatorsAsyncShouldCallCorrectUrl()
+    {
+        var api = new SchoolApi(HttpClient);
+        var request = new PostSchoolComparatorsRequest("laName", new UserDefinedSchoolCharacteristicViewModel());
+        const string urn = "urn";
+
+        await api.CreateComparatorsAsync(urn, request);
+
+        VerifyCall(HttpMethod.Post, $"api/schools/{urn}/comparators", request.ToJson(Formatting.None));
+    }
 }

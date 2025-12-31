@@ -68,16 +68,6 @@ public static class ServiceCollectionExtensions
         return services;
     }
 
-    public static IServiceCollection AddEstablishmentApi(this IServiceCollection services)
-    {
-        const string section = "Apis:Establishment";
-
-        services.AddHttpClient<IHealthApi, HealthApi>(section).Configure<HealthApi>(section);
-        services.AddHttpClient<IComparatorApi, ComparatorApi>().Configure<ComparatorApi>(section);
-
-        return services;
-    }
-
     public static IServiceCollection AddInsightApi(this IServiceCollection services)
     {
         const string section = "Apis:Insight";
@@ -141,6 +131,7 @@ public static class ServiceCollectionExtensions
         services.AddScoped<ILocalAuthorityFinancesApi, LocalAuthorityFinancesApi>();
         services.AddScoped<IEducationHealthCarePlansApi, EducationHealthCarePlansApi>();
         services.AddScoped<IEstablishmentApi, EstablishmentApi>();
+        services.AddScoped<IComparatorApi, ComparatorApi>();
 
         return services;
     }

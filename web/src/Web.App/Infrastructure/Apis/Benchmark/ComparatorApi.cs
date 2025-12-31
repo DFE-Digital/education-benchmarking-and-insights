@@ -1,14 +1,15 @@
 ﻿namespace Web.App.Infrastructure.Apis.Benchmark;
 
-public class ComparatorApi(HttpClient httpClient, string? key = default) : ApiBase(httpClient, key), IComparatorApi
+[Obsolete(message: "Use SchoolApi or TrustApi instead.")]
+public class ComparatorApi(ITrustApi trustApi, ISchoolApi schoolApi) : IComparatorApi
 {
-    public Task<ApiResult> CreateSchoolsAsync(string urn, PostSchoolComparatorsRequest request)
-        => PostAsync(Api.Comparator.Schools(urn), new JsonContent(request));
+    public Task<ApiResult> CreateSchoolsAsync(string urn, PostSchoolComparatorsRequest request) => schoolApi.CreateComparatorsAsync(urn, request);
 
-    public Task<ApiResult> CreateTrustsAsync(string companyNumber, PostTrustComparatorsRequest request)
-        => PostAsync(Api.Comparator.Trusts(companyNumber), new JsonContent(request));
+    public Task<ApiResult> CreateTrustsAsync(string companyNumber, PostTrustComparatorsRequest request) => trustApi.CreateComparatorsAsync(companyNumber, request);
 }
 
+
+[Obsolete(message: "Use ISchoolApi or ITrustApi instead.")]
 public interface IComparatorApi
 {
     Task<ApiResult> CreateSchoolsAsync(string urn, PostSchoolComparatorsRequest request);

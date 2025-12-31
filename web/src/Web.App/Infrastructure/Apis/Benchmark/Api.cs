@@ -2,14 +2,6 @@
 
 public static class Api
 {
-    public static class Comparator
-    {
-        private const string BasePath = "api";
-
-        public static string Schools(string urn) => $"{BasePath}/school/{urn}/comparators";
-        public static string Trusts(string companyNumber) => $"{BasePath}/trust/{companyNumber}/comparators";
-    }
-
     public static class ComparatorSet
     {
         private const string BasePath = "api/comparator-set";

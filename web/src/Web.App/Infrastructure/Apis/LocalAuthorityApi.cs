@@ -70,5 +70,4 @@ public interface ILocalAuthorityApi
     Task<ApiResult> QueryHighNeedsHistoryAsync(ApiQuery? query = null, CancellationToken cancellationToken = default);
     Task<ApiResult> QueryMaintainedSchoolsFinanceAsync(string code, ApiQuery? query = null, CancellationToken cancellationToken = default);
     Task<ApiResult> QueryMaintainedSchoolsWorkforceAsync(string code, ApiQuery? query = null, CancellationToken cancellationToken = default);
-
 }
