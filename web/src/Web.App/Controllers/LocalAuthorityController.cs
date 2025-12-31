@@ -11,7 +11,7 @@ using Web.App.Extensions;
 using Web.App.Infrastructure.Apis;
 using Web.App.Infrastructure.Apis.Establishment;
 using Web.App.Infrastructure.Apis.Insight;
-using Web.App.Infrastructure.Apis.LocalAuthorities;
+using Web.App.Infrastructure.Apis.LocalAuthorityFinances;
 using Web.App.Infrastructure.Extensions;
 using Web.App.Services;
 using Web.App.TagHelpers;
@@ -28,7 +28,7 @@ public class LocalAuthorityController(
     IEstablishmentApi establishmentApi,
     IMetricRagRatingApi metricRagRatingApi,
     ICommercialResourcesService commercialResourcesService,
-    ILocalAuthoritiesApi localAuthoritiesApi)
+    ILocalAuthorityFinancesApi localAuthorityFinancesApi)
     : Controller
 {
     [HttpGet]
@@ -120,7 +120,7 @@ public class LocalAuthorityController(
         {
             try
             {
-                var results = await localAuthoritiesApi
+                var results = await localAuthorityFinancesApi
                     .GetSchoolsFinance(code, [new QueryParameter("dimension", Dimensions.ResultAsOptions.Actuals.GetQueryParam())])
                     .GetResultOrDefault<LocalAuthoritySchoolFinancial[]>() ?? [];
 
@@ -148,7 +148,7 @@ public class LocalAuthorityController(
         {
             try
             {
-                var results = await localAuthoritiesApi
+                var results = await localAuthorityFinancesApi
                     .GetSchoolsWorkforce(code, [new QueryParameter("dimension", SchoolsSummaryWorkforceDimensions.ResultAsOptions.Actuals.GetQueryParam())])
                     .GetResultOrDefault<LocalAuthoritySchoolWorkforce[]>() ?? [];
 

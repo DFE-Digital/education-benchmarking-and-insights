@@ -7,7 +7,7 @@ using Web.App.Domain;
 using Web.App.Domain.LocalAuthorities;
 using Web.App.Infrastructure.Apis;
 using Web.App.Infrastructure.Apis.Establishment;
-using Web.App.Infrastructure.Apis.LocalAuthorities;
+using Web.App.Infrastructure.Apis.LocalAuthorityFinances;
 using Web.App.Infrastructure.Extensions;
 using Web.App.ViewModels;
 
@@ -19,7 +19,7 @@ namespace Web.App.Controllers;
 public class LocalAuthorityHighNeedsHistoricDataController(
     ILogger<LocalAuthorityHighNeedsHistoricDataController> logger,
     IEstablishmentApi establishmentApi,
-    ILocalAuthoritiesApi localAuthoritiesApi)
+    ILocalAuthorityFinancesApi localAuthorityFinancesApi)
     : Controller
 {
     [HttpGet]
@@ -41,7 +41,7 @@ public class LocalAuthorityHighNeedsHistoricDataController(
                 // display historic data across all years. This excludes local authorities that have missing
                 // pupil data. This will likely be refactored into Establishment API as part of future work.
                 var query = BuildQuery([code], "PerPupil");
-                var highNeeds = await localAuthoritiesApi
+                var highNeeds = await localAuthorityFinancesApi
                     .GetHighNeeds(query)
                     .GetResultOrDefault<LocalAuthority<HighNeeds>[]>();
 

@@ -17,7 +17,7 @@ using Web.App.Infrastructure.Apis.ChartRendering;
 using Web.App.Infrastructure.Apis.Content;
 using Web.App.Infrastructure.Apis.Establishment;
 using Web.App.Infrastructure.Apis.Insight;
-using Web.App.Infrastructure.Apis.LocalAuthorities;
+using Web.App.Infrastructure.Apis.LocalAuthorityFinances;
 using Web.App.Infrastructure.Apis.NonFinancial;
 using Web.App.Infrastructure.WebAssets;
 using Web.App.Services;
@@ -62,7 +62,7 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
     public IOptions<WebAssetsOptions> WebAssetsOptions { get; } = Options.Create(new WebAssetsOptions());
     public Mock<IFeatureManager> FeatureManager { get; } = new();
     public Mock<IFilesApi> FilesApi { get; } = new();
-    public Mock<ILocalAuthoritiesApi> LocalAuthoritiesApi { get; } = new();
+    public Mock<ILocalAuthorityFinancesApi> LocalAuthoritiesApi { get; } = new();
     public Mock<IEducationHealthCarePlansApi> EducationHealthCarePlansApi { get; } = new();
     public Mock<ILocalAuthorityComparatorSetService> LocalAuthorityComparatorSetService { get; } = new();
     public Mock<IChartRenderingApi> ChartRenderingApi { get; } = new();

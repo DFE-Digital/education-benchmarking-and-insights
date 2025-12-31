@@ -19,7 +19,7 @@ using Web.App.Infrastructure.Apis.ChartRendering;
 using Web.App.Infrastructure.Apis.Content;
 using Web.App.Infrastructure.Apis.Establishment;
 using Web.App.Infrastructure.Apis.Insight;
-using Web.App.Infrastructure.Apis.LocalAuthorities;
+using Web.App.Infrastructure.Apis.LocalAuthorityFinances;
 using Web.App.Infrastructure.Apis.NonFinancial;
 using Web.App.Infrastructure.WebAssets;
 using Web.App.Middleware.Markdown;
@@ -103,7 +103,7 @@ public static class ServiceCollectionExtensions
         const string section = "Apis:LocalAuthorityFinances";
 
         services.AddHttpClient<IHealthApi, HealthApi>(section).Configure<HealthApi>(section);
-        services.AddHttpClient<ILocalAuthoritiesApi, LocalAuthoritiesApi>().Configure<LocalAuthoritiesApi>(section);
+        services.AddHttpClient<ILocalAuthorityFinancesApi, LocalAuthorityFinancesApi>().Configure<LocalAuthorityFinancesApi>(section);
 
         return services;
     }

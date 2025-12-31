@@ -4,13 +4,13 @@ using Web.App.Domain;
 using Web.App.Domain.LocalAuthorities;
 using Web.App.Extensions;
 using Web.App.Infrastructure.Apis;
-using Web.App.Infrastructure.Apis.LocalAuthorities;
+using Web.App.Infrastructure.Apis.LocalAuthorityFinances;
 using Web.App.Infrastructure.Extensions;
 using Web.App.ViewModels.Components;
 
 namespace Web.App.ViewComponents;
 
-public class LocalAuthoritySchoolWorkforceFormViewComponent(IHttpContextAccessor contextAccessor, ILocalAuthoritiesApi localAuthoritiesApi) : ViewComponent
+public class LocalAuthoritySchoolWorkforceFormViewComponent(IHttpContextAccessor contextAccessor, ILocalAuthorityFinancesApi localAuthorityFinancesApi) : ViewComponent
 {
     public async Task<IViewComponentResult> InvokeAsync(
         string code,
@@ -21,7 +21,7 @@ public class LocalAuthoritySchoolWorkforceFormViewComponent(IHttpContextAccessor
         string tabId)
     {
         var query = ParseQueryString(contextAccessor.HttpContext?.Request.Query, formPrefix, defaultSort);
-        var results = await localAuthoritiesApi
+        var results = await localAuthorityFinancesApi
             .GetSchoolsWorkforce(code, BuildQuery(query, maxRows))
             .GetResultOrDefault<LocalAuthoritySchoolWorkforce[]>() ?? [];
 

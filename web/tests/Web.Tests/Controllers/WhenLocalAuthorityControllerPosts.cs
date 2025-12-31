@@ -10,7 +10,7 @@ using Moq;
 using Web.App.Controllers;
 using Web.App.Infrastructure.Apis.Establishment;
 using Web.App.Infrastructure.Apis.Insight;
-using Web.App.Infrastructure.Apis.LocalAuthorities;
+using Web.App.Infrastructure.Apis.LocalAuthorityFinances;
 using Web.App.Services;
 using Xunit;
 
@@ -66,7 +66,7 @@ public class WhenLocalAuthorityControllerPosts
                 return $"{actualController}/{actualAction}?{routeValuesAsQuery.ToString().TrimEnd('&')}{actualFragment}";
             });
 
-        _controller = new LocalAuthorityController(_logger, Mock.Of<IEstablishmentApi>(), Mock.Of<IMetricRagRatingApi>(), Mock.Of<ICommercialResourcesService>(), Mock.Of<ILocalAuthoritiesApi>())
+        _controller = new LocalAuthorityController(_logger, Mock.Of<IEstablishmentApi>(), Mock.Of<IMetricRagRatingApi>(), Mock.Of<ICommercialResourcesService>(), Mock.Of<ILocalAuthorityFinancesApi>())
         {
             Url = _mockUrlHelper.Object
         };

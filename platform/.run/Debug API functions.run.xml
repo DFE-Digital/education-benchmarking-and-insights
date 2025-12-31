@@ -9,7 +9,7 @@
         </option>
         <option name="executable">
           <ExecutableSnapshot>
-            <option name="id" value="runConfig:Azure - Run Function App.Platform.Api.Benchmark" />
+            <option name="id" value="runConfig:npm.Platform.Api.ChartRendering" />
           </ExecutableSnapshot>
         </option>
       </ExecutableRowSnapshot>
@@ -21,7 +21,31 @@
         </option>
         <option name="executable">
           <ExecutableSnapshot>
-            <option name="id" value="runConfig:npm.Platform.Api.ChartRendering" />
+            <option name="id" value="runConfig:Azure - Run Function App.Platform.Api.LocalAuthority" />
+          </ExecutableSnapshot>
+        </option>
+      </ExecutableRowSnapshot>
+      <ExecutableRowSnapshot>
+        <option name="condition">
+          <ConditionSnapshot>
+            <option name="type" value="immediately" />
+          </ConditionSnapshot>
+        </option>
+        <option name="executable">
+          <ExecutableSnapshot>
+            <option name="id" value="runConfig:Azure - Run Function App.Platform.Api.School" />
+          </ExecutableSnapshot>
+        </option>
+      </ExecutableRowSnapshot>
+      <ExecutableRowSnapshot>
+        <option name="condition">
+          <ConditionSnapshot>
+            <option name="type" value="immediately" />
+          </ConditionSnapshot>
+        </option>
+        <option name="executable">
+          <ExecutableSnapshot>
+            <option name="id" value="runConfig:Azure - Run Function App.Platform.Api.Trust" />
           </ExecutableSnapshot>
         </option>
       </ExecutableRowSnapshot>
@@ -45,7 +69,7 @@
         </option>
         <option name="executable">
           <ExecutableSnapshot>
-            <option name="id" value="runConfig:Azure - Run Function App.Platform.Api.Establishment" />
+            <option name="id" value="runConfig:Azure - Run Function App.Platform.Api.Benchmark" />
           </ExecutableSnapshot>
         </option>
       </ExecutableRowSnapshot>
@@ -57,7 +81,7 @@
         </option>
         <option name="executable">
           <ExecutableSnapshot>
-            <option name="id" value="runConfig:Azure - Run Function App.Platform.Api.Insight" />
+            <option name="id" value="runConfig:Azure - Run Function App.Platform.Api.NonFinancial" />
           </ExecutableSnapshot>
         </option>
       </ExecutableRowSnapshot>
@@ -81,7 +105,19 @@
         </option>
         <option name="executable">
           <ExecutableSnapshot>
-            <option name="id" value="runConfig:Azure - Run Function App.Platform.Api.NonFinancial" />
+            <option name="id" value="runConfig:Azure - Run Function App.Platform.Api.Insight" />
+          </ExecutableSnapshot>
+        </option>
+      </ExecutableRowSnapshot>
+      <ExecutableRowSnapshot>
+        <option name="condition">
+          <ConditionSnapshot>
+            <option name="type" value="immediately" />
+          </ConditionSnapshot>
+        </option>
+        <option name="executable">
+          <ExecutableSnapshot>
+            <option name="id" value="runConfig:Azure - Run Function App.Platform.Api.Establishment" />
           </ExecutableSnapshot>
         </option>
       </ExecutableRowSnapshot>

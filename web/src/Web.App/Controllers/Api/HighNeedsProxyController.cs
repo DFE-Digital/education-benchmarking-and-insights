@@ -5,7 +5,7 @@ using Web.App.Controllers.Api.Mappers;
 using Web.App.Controllers.Api.Responses;
 using Web.App.Domain.LocalAuthorities;
 using Web.App.Infrastructure.Apis;
-using Web.App.Infrastructure.Apis.LocalAuthorities;
+using Web.App.Infrastructure.Apis.LocalAuthorityFinances;
 using Web.App.Infrastructure.Extensions;
 
 namespace Web.App.Controllers.Api;
@@ -14,7 +14,7 @@ namespace Web.App.Controllers.Api;
 [Route("api/local-authorities/high-needs")]
 public class HighNeedsProxyController(
     ILogger<HighNeedsProxyController> logger,
-    ILocalAuthoritiesApi localAuthoritiesApi) : Controller
+    ILocalAuthorityFinancesApi localAuthorityFinancesApi) : Controller
 {
     /// <param name="code" example="201"></param>
     /// <param name="set" example="202,203,204"></param>
@@ -39,7 +39,7 @@ public class HighNeedsProxyController(
             {
                 code
             }.Concat(set).ToArray(), "PerPupil");
-            var localAuthorities = await localAuthoritiesApi
+            var localAuthorities = await localAuthorityFinancesApi
                 .GetHighNeeds(query, cancellationToken)
                 .GetResultOrThrow<LocalAuthority<HighNeeds>[]>();
 
@@ -66,7 +66,7 @@ public class HighNeedsProxyController(
         try
         {
             var query = BuildQuery([code], "PerPupil");
-            var history = await localAuthoritiesApi
+            var history = await localAuthorityFinancesApi
                 .GetHighNeedsHistory(query, cancellationToken)
                 .GetResultOrThrow<HighNeedsHistory<HighNeedsYear>>();
 

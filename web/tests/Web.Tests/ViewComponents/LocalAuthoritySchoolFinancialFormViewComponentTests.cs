@@ -8,7 +8,7 @@ using Web.App.Domain;
 using Web.App.Domain.Charts;
 using Web.App.Extensions;
 using Web.App.Infrastructure.Apis;
-using Web.App.Infrastructure.Apis.LocalAuthorities;
+using Web.App.Infrastructure.Apis.LocalAuthorityFinances;
 using Web.App.ViewComponents;
 using Web.App.ViewModels.Components;
 using Xunit;
@@ -24,7 +24,7 @@ public class LocalAuthoritySchoolFinancialFormViewComponentTests
     private readonly Mock<IHttpContextAccessor> _contextAccessor = new();
     private readonly Fixture _fixture = new();
     private readonly HttpContext _httpContext;
-    private readonly Mock<ILocalAuthoritiesApi> _localAuthorityApi = new();
+    private readonly Mock<ILocalAuthorityFinancesApi> _localAuthorityApi = new();
     private readonly PathString _path = "/test/path";
 
     public LocalAuthoritySchoolFinancialFormViewComponentTests()

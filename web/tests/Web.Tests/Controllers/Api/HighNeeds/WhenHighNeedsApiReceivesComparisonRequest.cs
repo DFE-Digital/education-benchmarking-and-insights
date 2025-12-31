@@ -6,7 +6,7 @@ using Web.App.Controllers.Api;
 using Web.App.Controllers.Api.Responses;
 using Web.App.Domain.LocalAuthorities;
 using Web.App.Infrastructure.Apis;
-using Web.App.Infrastructure.Apis.LocalAuthorities;
+using Web.App.Infrastructure.Apis.LocalAuthorityFinances;
 using Xunit;
 
 namespace Web.Tests.Controllers.Api.HighNeeds;
@@ -14,7 +14,7 @@ namespace Web.Tests.Controllers.Api.HighNeeds;
 public class WhenHighNeedsApiReceivesComparisonRequest
 {
     private readonly HighNeedsProxyController _api;
-    private readonly Mock<ILocalAuthoritiesApi> _localAuthoritiesApi = new();
+    private readonly Mock<ILocalAuthorityFinancesApi> _localAuthoritiesApi = new();
     private readonly Fixture _fixture;
     private readonly NullLogger<HighNeedsProxyController> _logger = new();
 
