@@ -219,7 +219,7 @@ def test_federation_mapping(
         year=None,
     )
 
-    actual = maintained_schools.join_federations(master_list)
+    actual = maintained_schools.join_federations(master_list, 2023)
 
     # Beware: `nan != nan`; 100154 removed as per `test_create_master_list()`.
     assert list(actual["Federation Name"].fillna("")) == ["A", "", "A"]
@@ -263,10 +263,18 @@ def test_federation_lead_school_agg_index():
                 80.0,
                 80.0,
             ],
+            'Total Number of Leadership Non-Teachers (Headcount)': [1, 3, 0, 1],
+            'Total Number of Leadership Non-Teachers (FTE)': [1, 2, 0, 1],
+            'fte_assistant_head_teachers': [1, 2, 3, 4], 
+            'fte_deputy_head_teachers': [1, 2, 3, 4], 
+            'fte_head_teachers': [1, 2, 3, 4], 
+            'hc_assistant_head_teachers': [1, 2, 3, 4],
+            'hc_deputy_head_teachers': [1, 2, 3, 4], 
+            'hc_head_teachers': [1, 2, 3, 4]
         }
     )
 
-    actual = maintained_schools._federation_lead_school_agg(df)
+    actual = maintained_schools._federation_lead_school_agg(df, 2023)
 
     assert len(actual.index) == 3
     assert actual.index.name == "Federation LAEstab"
@@ -309,10 +317,18 @@ def test_federation_lead_school_agg_pupils():
                 80.0,
                 80.0,
             ],
+            'Total Number of Leadership Non-Teachers (Headcount)': [1, 3, 0, 1],
+            'Total Number of Leadership Non-Teachers (FTE)': [1, 2, 0, 1],
+            'fte_assistant_head_teachers': [1, 2, 3, 4], 
+            'fte_deputy_head_teachers': [1, 2, 3, 4], 
+            'fte_head_teachers': [1, 2, 3, 4], 
+            'hc_assistant_head_teachers': [1, 2, 3, 4],
+            'hc_deputy_head_teachers': [1, 2, 3, 4], 
+            'hc_head_teachers': [1, 2, 3, 4]
         }
     )
 
-    actual = maintained_schools._federation_lead_school_agg(df)
+    actual = maintained_schools._federation_lead_school_agg(df, 2023)
 
     assert actual.loc["10000", "Number of pupils"] == 2_000
     assert actual.loc["10001", "Number of pupils"] == 1_000
@@ -356,10 +372,18 @@ def test_federation_lead_school_agg_fsm():
                 80.0,
                 80.0,
             ],
+            'Total Number of Leadership Non-Teachers (Headcount)': [1, 3, 0, 1],
+            'Total Number of Leadership Non-Teachers (FTE)': [1, 2, 0, 1],
+            'fte_assistant_head_teachers': [1, 2, 3, 4], 
+            'fte_deputy_head_teachers': [1, 2, 3, 4], 
+            'fte_head_teachers': [1, 2, 3, 4], 
+            'hc_assistant_head_teachers': [1, 2, 3, 4],
+            'hc_deputy_head_teachers': [1, 2, 3, 4], 
+            'hc_head_teachers': [1, 2, 3, 4]
         }
     )
 
-    actual = maintained_schools._federation_lead_school_agg(df)
+    actual = maintained_schools._federation_lead_school_agg(df, 2023)
 
     assert actual.loc["10000", "Percentage Free school meals"] == 30.0
     assert actual.loc["10001", "Percentage Free school meals"] == 25.0
@@ -403,10 +427,18 @@ def test_federation_lead_school_agg_sen():
                 80.0,
                 80.0,
             ],
+            'Total Number of Leadership Non-Teachers (Headcount)': [1, 3, 0, 1],
+            'Total Number of Leadership Non-Teachers (FTE)': [1, 2, 0, 1],
+            'fte_assistant_head_teachers': [1, 2, 3, 4], 
+            'fte_deputy_head_teachers': [1, 2, 3, 4], 
+            'fte_head_teachers': [1, 2, 3, 4], 
+            'hc_assistant_head_teachers': [1, 2, 3, 4],
+            'hc_deputy_head_teachers': [1, 2, 3, 4], 
+            'hc_head_teachers': [1, 2, 3, 4]
         }
     )
 
-    actual = maintained_schools._federation_lead_school_agg(df)
+    actual = maintained_schools._federation_lead_school_agg(df, 2023)
 
     assert actual.loc["10000", "Percentage SEN"] == 30.0
     assert actual.loc["10001", "Percentage SEN"] == 25.0
@@ -450,10 +482,18 @@ def test_federation_lead_school_agg_building_age():
                 80.0,
                 80.0,
             ],
+            'Total Number of Leadership Non-Teachers (Headcount)': [1, 3, 0, 1],
+            'Total Number of Leadership Non-Teachers (FTE)': [1, 2, 0, 1],
+            'fte_assistant_head_teachers': [1, 2, 3, 4], 
+            'fte_deputy_head_teachers': [1, 2, 3, 4], 
+            'fte_head_teachers': [1, 2, 3, 4], 
+            'hc_assistant_head_teachers': [1, 2, 3, 4],
+            'hc_deputy_head_teachers': [1, 2, 3, 4], 
+            'hc_head_teachers': [1, 2, 3, 4]
         }
     )
 
-    actual = maintained_schools._federation_lead_school_agg(df)
+    actual = maintained_schools._federation_lead_school_agg(df, 2023)
 
     assert actual.loc["10000", "Building Age"] == 1995.0
     assert actual.loc["10001", "Building Age"] == 1990.0
@@ -500,10 +540,18 @@ def test_join_federations_unmodified():
                 80.0,
                 80.0,
             ],
+            'Total Number of Leadership Non-Teachers (Headcount)': [1, 3, 0, 1],
+            'Total Number of Leadership Non-Teachers (FTE)': [1, 2, 0, 1],
+            'fte_assistant_head_teachers': [1, 2, 3, 4], 
+            'fte_deputy_head_teachers': [1, 2, 3, 4], 
+            'fte_head_teachers': [1, 2, 3, 4], 
+            'hc_assistant_head_teachers': [1, 2, 3, 4],
+            'hc_deputy_head_teachers': [1, 2, 3, 4], 
+            'hc_head_teachers': [1, 2, 3, 4]
         }
     )
 
-    actual = maintained_schools.join_federations(df)
+    actual = maintained_schools.join_federations(df, 2023)
 
     assert len(actual.index) == 4
     # value for lead-school should be aggregated…

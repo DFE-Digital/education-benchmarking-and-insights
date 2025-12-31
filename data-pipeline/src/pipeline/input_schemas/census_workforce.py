@@ -109,3 +109,16 @@ workforce_census_column_eval = {
         "SeniorLeadershipFTE": "`Total Number of Teachers in the Leadership Group (Full-time Equivalent)` + `Total Number of Leadership Non-Teachers (FTE)`",
     },
 }
+
+head_teacher_breakdowns = {
+    "default": {
+        "time_period": "Int64",
+        "school_urn": "Int64",
+        "fte_head_teachers": "float",
+        "fte_deputy_head_teachers": "float",
+        "fte_assistant_head_teachers": "float",
+        "hc_head_teachers": "float",
+        "hc_deputy_head_teachers": "float",
+        "hc_assistant_head_teachers": "float",
+    }
+}

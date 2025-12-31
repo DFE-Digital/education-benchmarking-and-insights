@@ -21,6 +21,7 @@ from .census_workforce import (  # noqa
     workforce_census_column_mappings,
     workforce_census_header_row,
     workforce_census_index_col,
+    head_teacher_breakdowns
 )
 from .cfo import cfo, cfo_column_eval, cfo_column_mappings  # noqa
 from .gias import gias, gias_index_col  # noqa

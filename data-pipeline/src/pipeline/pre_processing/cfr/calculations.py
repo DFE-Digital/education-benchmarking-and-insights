@@ -178,7 +178,7 @@ def calc_catering_net_costs(maintained_schools: pd.DataFrame) -> pd.DataFrame:
     return maintained_schools
 
 
-def _federation_lead_school_agg(df: pd.DataFrame) -> pd.DataFrame:
+def _federation_lead_school_agg(df: pd.DataFrame, year: int) -> pd.DataFrame:
     """
     Calculate aggregated metrics for Federation lead-schools.
 
@@ -203,32 +203,48 @@ def _federation_lead_school_agg(df: pd.DataFrame) -> pd.DataFrame:
         df["Teachers with Qualified Teacher Status (%) (Headcount)"] / 100.0
     ) * df["Total Number of Teachers (Headcount)"]
 
+    aggregations_base = {
+        "Number of pupils": "sum",
+        "_Number of pupils FSM": "sum",
+        "_Number of pupils SEN": "sum",
+        "Total Internal Floor Area": "sum",
+        "Building Age": "mean",
+        "Total School Workforce (Headcount)": "sum",
+        "Total School Workforce (Full-Time Equivalent)": "sum",
+        "Total Number of Teachers (Headcount)": "sum",
+        "Total Number of Teachers (Full-Time Equivalent)": "sum",
+        "SeniorLeadershipHeadcount": "sum",
+        "hc_head_teachers": "sum",
+        "hc_deputy_head_teachers": "sum",
+        "hc_assistant_head_teachers": "sum",
+        "fte_head_teachers": "sum",
+        "fte_deputy_head_teachers": "sum",
+        "fte_assistant_head_teachers": "sum",
+        "Total Number of Teaching Assistants (Headcount)": "sum",
+        "Total Number of Teaching Assistants (Full-Time Equivalent)": "sum",
+        "NonClassroomSupportStaffHeadcount": "sum",
+        "NonClassroomSupportStaffFTE": "sum",
+        "Total Number of Auxiliary Staff (Headcount)": "sum",
+        "Total Number of Auxiliary Staff (Full-Time Equivalent)": "sum",
+        "_Teachers with QTS (Headcount)": "sum",
+    }
+    aggregations_1 = {
+        **aggregations_base,
+        "Total Number of Leadership Non-Teachers (Headcount)": "sum",
+        "Total Number of Leadership Non-Teachers (FTE)": "sum",
+    }
+    aggregations = {
+        "default": aggregations_base,
+        2024: aggregations_1,
+        2025: aggregations_1,
+    }
+    selected_aggregation = aggregations.get(year, aggregations['default'])
+
     lead_schools_agg = (
         df[df["Lead school in federation"] != "0"]
         .rename(columns={"Lead school in federation": "Federation LAEstab"})
         .groupby(["Federation LAEstab"])
-        .agg(
-            {
-                "Number of pupils": "sum",
-                "_Number of pupils FSM": "sum",
-                "_Number of pupils SEN": "sum",
-                "Total Internal Floor Area": "sum",
-                "Building Age": "mean",
-                "Total School Workforce (Headcount)": "sum",
-                "Total School Workforce (Full-Time Equivalent)": "sum",
-                "Total Number of Teachers (Headcount)": "sum",
-                "Total Number of Teachers (Full-Time Equivalent)": "sum",
-                "SeniorLeadershipHeadcount": "sum",
-                "SeniorLeadershipFTE": "sum",
-                "Total Number of Teaching Assistants (Headcount)": "sum",
-                "Total Number of Teaching Assistants (Full-Time Equivalent)": "sum",
-                "NonClassroomSupportStaffHeadcount": "sum",
-                "NonClassroomSupportStaffFTE": "sum",
-                "Total Number of Auxiliary Staff (Headcount)": "sum",
-                "Total Number of Auxiliary Staff (Full-Time Equivalent)": "sum",
-                "_Teachers with QTS (Headcount)": "sum",
-            }
-        )
+        .agg(selected_aggregation)
     )
 
     lead_schools_agg["Percentage Free school meals"] = (
@@ -256,7 +272,7 @@ def _federation_lead_school_agg(df: pd.DataFrame) -> pd.DataFrame:
     )
 
 
-def join_federations(df: pd.DataFrame) -> pd.DataFrame:
+def join_federations(df: pd.DataFrame, year: int) -> pd.DataFrame:
     """
     Set Federation-related values.
 
@@ -278,7 +294,7 @@ def join_federations(df: pd.DataFrame) -> pd.DataFrame:
             "LAEstab": "Federation LAEstab",
         }
     )
-    schools_who_lead_federations_aggregated_metrics = _federation_lead_school_agg(df)
+    schools_who_lead_federations_aggregated_metrics = _federation_lead_school_agg(df, year)
 
     schools_with_federation_lead_details = df.merge(
         schools_who_lead_federations,
