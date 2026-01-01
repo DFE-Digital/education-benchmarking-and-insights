@@ -26,7 +26,7 @@
     "@opentelemetry/resources": "^2.2.0",
     "@opentelemetry/sdk-node": "^0.206.0",
     "@opentelemetry/sdk-trace-node": "^2.1.0",
-    "@opentelemetry/semantic-conventions": "^1.36.0",
+    "@opentelemetry/semantic-conventions": "^1.38.0",
     "@opentelemetry/winston-transport": "^0.14.1",
     "express": "^5.1.0",
     "govuk-frontend": "^5.13.0",
