@@ -1,5 +1,6 @@
 import logging
 
+import numpy as np
 import pandas as pd
 
 import pipeline.config as config
@@ -11,9 +12,10 @@ logger = logging.getLogger("fbit-data-pipeline")
 # noinspection PyTypeChecker
 def prepare_census_data(
     workforce_census_path,
+    head_teacher_breakdowns_path,
     pupil_census_path,
     year: int,
-):
+) -> pd.DataFrame:
     """
     Prepare workforce- and pupil-census data.
 
@@ -54,6 +56,9 @@ def prepare_census_data(
         .drop_duplicates()
         .set_index(input_schemas.workforce_census_index_col)
     )
+    school_workforce_census = ensure_non_leadership_teacher_columns_are_present(
+        school_workforce_census
+    )
 
     for column, eval_ in input_schemas.workforce_census_column_eval.get(
         year, input_schemas.workforce_census_column_eval["default"]
@@ -87,12 +92,20 @@ def prepare_census_data(
         "Pupil Dual Registrations", pd.Series(0, index=school_pupil_census.index)
     ).fillna(0)
 
-    census = school_pupil_census.join(
-        school_workforce_census,
-        how="outer",
-        rsuffix="_pupil",
-        lsuffix="_workforce",
-    ).rename(columns=config.census_column_map)
+    head_teacher_breakdowns = get_census_head_teacher_breakdowns(
+        head_teacher_breakdowns_path, year=year
+    )
+
+    census = (
+        school_pupil_census.join(
+            school_workforce_census,
+            how="outer",
+            rsuffix="_pupil",
+            lsuffix="_workforce",
+        )
+        .join(head_teacher_breakdowns, how="left")
+        .rename(columns=config.census_column_map)
+    )
 
     census["Number of pupils"] = (
         census["Number of pupils"] + census["Pupil Dual Registrations"]
@@ -111,3 +124,48 @@ def prepare_census_data(
     )
 
     return census
+
+
+def get_census_head_teacher_breakdowns(
+    head_teacher_breakdowns_path,
+    year: int,
+) -> pd.DataFrame:
+    head_teacher_breakdowns = pd.read_csv(
+        head_teacher_breakdowns_path,
+        usecols=input_schemas.head_teacher_breakdowns["default"].keys(),
+        dtype=input_schemas.head_teacher_breakdowns["default"],
+        encoding="latin-1",
+        na_values=["x"],
+    )
+
+    academic_year_code = ((year - 1) * 100) + year % 100
+    head_teacher_breakdowns_filtered = head_teacher_breakdowns[
+        head_teacher_breakdowns["time_period"] == academic_year_code
+    ]
+
+    head_teacher_breakdowns_preprocessed = (
+        head_teacher_breakdowns_filtered.drop(columns=["time_period"])
+        .rename(columns={"school_urn": "URN"})
+        .set_index("URN")
+    )
+
+    return head_teacher_breakdowns_preprocessed
+
+
+def ensure_non_leadership_teacher_columns_are_present(
+    school_workforce_census: pd.DataFrame,
+) -> pd.DataFrame:
+    """
+    The non leadership teacher breakdowns were introduced in 2024, but we always want the columns
+    to be there as the database write expects them to be there.
+    """
+    non_leadership_teacher_columns = [
+        "Total Number of Leadership Non-Teachers (Headcount)",
+        "Total Number of Leadership Non-Teachers (FTE)",
+    ]
+
+    for col in non_leadership_teacher_columns:
+        if col not in school_workforce_census.columns:
+            school_workforce_census[col] = np.nan
+
+    return school_workforce_census
