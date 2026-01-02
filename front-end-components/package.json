@@ -63,7 +63,7 @@
     "jest-theories": "^1.5.1",
     "prettier": "^3.7.3",
     "prettier-eslint": "^16.4.1",
-    "sass-embedded": "^1.93.3",
+    "sass-embedded": "^1.97.1",
     "typescript": "^5.7.2",
     "typescript-eslint": "^8.48.0",
     "vite": "^7.2.6"
