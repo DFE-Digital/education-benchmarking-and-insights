@@ -86,9 +86,9 @@ The primary focus is ensuring the integrity of the ingestion and transformation 
 
 ## Exit Criteria (Sign-off Requirements)
 
-- [ ] All BFR primary schemas pass validation
-- [ ] Pipeline completes E2E with no High or Critical errors in logs
-- [ ] Database record counts match source `BFR_SOFA` and `BFR_3Y` files
-- [ ] Regression tests confirm historical BFR data integrity (2024 and prior)
-- [ ] UI/Service displays 2025 BFR data accurately with correct metrics
-- [ ] Product Owner/BA sign-off received
+- [x] All BFR primary schemas pass validation
+- [x] Pipeline completes E2E with no High or Critical errors in logs
+- [x] Database record counts match source `BFR_SOFA` and `BFR_3Y` files
+- [x] Regression tests confirm historical BFR data integrity (2024 and prior)
+- [x] UI/Service displays 2025 BFR data accurately with correct metrics
+- [x] Product Owner/BA sign-off received
