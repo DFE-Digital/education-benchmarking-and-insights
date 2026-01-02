@@ -1,12 +1,13 @@
 ﻿namespace Web.App.Infrastructure.Apis.Insight;
 
-public class SchoolInsightApi(HttpClient httpClient, string? key = default) : ApiBase(httpClient, key), ISchoolInsightApi
+[Obsolete(message: "Use SchoolApi instead.")]
+public class SchoolInsightApi(ISchoolApi schoolApi) : ISchoolInsightApi
 {
-    public async Task<ApiResult> GetCharacteristicsAsync(ApiQuery? query = null, CancellationToken cancellationToken = default) => await GetAsync($"{Api.SchoolInsight.SchoolsCharacteristics}{query?.ToQueryString()}", cancellationToken);
-
-    public async Task<ApiResult> GetCharacteristicsAsync(string urn, CancellationToken cancellationToken = default) => await GetAsync(Api.SchoolInsight.SchoolCharacteristics(urn), cancellationToken);
+    public async Task<ApiResult> GetCharacteristicsAsync(ApiQuery? query = null, CancellationToken cancellationToken = default) => await schoolApi.QueryAsync(query, cancellationToken);
+    public async Task<ApiResult> GetCharacteristicsAsync(string urn, CancellationToken cancellationToken = default) => await schoolApi.CharacteristicsAsync(urn, cancellationToken);
 }
 
+[Obsolete(message: "Use ISchoolApi instead.")]
 public interface ISchoolInsightApi
 {
     Task<ApiResult> GetCharacteristicsAsync(ApiQuery? query = null, CancellationToken cancellationToken = default);

@@ -1,4 +1,4 @@
-﻿namespace Web.App.Infrastructure.Apis.Benchmark;
+﻿namespace Web.App.Infrastructure.Apis.Establishment;
 
 [Obsolete(message: "Use SchoolApi or TrustApi instead.")]
 public class ComparatorApi(ITrustApi trustApi, ISchoolApi schoolApi) : IComparatorApi

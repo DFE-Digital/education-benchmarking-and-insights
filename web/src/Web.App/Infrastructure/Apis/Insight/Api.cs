@@ -43,24 +43,6 @@ public static class Api
         public static string TrustHistory(string? companyNo) => $"api/income/trust/{companyNo}/history";
     }
 
-    public static class MetricRagRating
-    {
-        public static string Default => "api/metric-rag/default";
-        public static string Summary => "api/metric-rag/summary";
-        public static string Single(string? identifier) => $"api/metric-rag/{identifier}";
-    }
-
-    public static class SchoolInsight
-    {
-        public static string SchoolsCharacteristics => "api/schools/characteristics";
-        public static string SchoolCharacteristics(string? urn) => $"api/school/{urn}/characteristics";
-    }
-
-    public static class TrustInsight
-    {
-        public static string TrustsCharacteristics => "api/trusts/characteristics";
-    }
-
     public static class ItSpend
     {
         public static string Schools => "api/it-spend/schools";

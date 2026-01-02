@@ -76,9 +76,6 @@ public static class ServiceCollectionExtensions
         services.AddHttpClient<IIncomeApi, IncomeApi>().Configure<IncomeApi>(section);
         services.AddHttpClient<IBalanceApi, BalanceApi>().Configure<BalanceApi>(section);
         services.AddHttpClient<IExpenditureApi, ExpenditureApi>().Configure<ExpenditureApi>(section);
-        services.AddHttpClient<IMetricRagRatingApi, MetricRagRatingApi>().Configure<MetricRagRatingApi>(section);
-        services.AddHttpClient<ISchoolInsightApi, SchoolInsightApi>().Configure<SchoolInsightApi>(section);
-        services.AddHttpClient<ITrustInsightApi, TrustInsightApi>().Configure<TrustInsightApi>(section);
         services.AddHttpClient<IBudgetForecastApi, BudgetForecastApi>().Configure<BudgetForecastApi>(section);
         services.AddHttpClient<IItSpendApi, ItSpendApi>().Configure<ItSpendApi>(section);
         services.AddHttpClient<IHealthApi, HealthApi>(section).Configure<HealthApi>(section);
@@ -128,6 +125,9 @@ public static class ServiceCollectionExtensions
 
     public static IServiceCollection AddLegacyApis(this IServiceCollection services)
     {
+        services.AddScoped<IMetricRagRatingApi, MetricRagRatingApi>();
+        services.AddScoped<ISchoolInsightApi, SchoolInsightApi>();
+        services.AddScoped<ITrustInsightApi, TrustInsightApi>();
         services.AddScoped<ILocalAuthorityFinancesApi, LocalAuthorityFinancesApi>();
         services.AddScoped<IEducationHealthCarePlansApi, EducationHealthCarePlansApi>();
         services.AddScoped<IEstablishmentApi, EstablishmentApi>();
