@@ -77,7 +77,6 @@ public static class ServiceCollectionExtensions
         services.AddHttpClient<IBalanceApi, BalanceApi>().Configure<BalanceApi>(section);
         services.AddHttpClient<IExpenditureApi, ExpenditureApi>().Configure<ExpenditureApi>(section);
         services.AddHttpClient<IBudgetForecastApi, BudgetForecastApi>().Configure<BudgetForecastApi>(section);
-        services.AddHttpClient<IItSpendApi, ItSpendApi>().Configure<ItSpendApi>(section);
         services.AddHttpClient<IHealthApi, HealthApi>(section).Configure<HealthApi>(section);
 
         return services;
@@ -125,6 +124,7 @@ public static class ServiceCollectionExtensions
 
     public static IServiceCollection AddLegacyApis(this IServiceCollection services)
     {
+        services.AddScoped<IItSpendApi, ItSpendApi>();
         services.AddScoped<IMetricRagRatingApi, MetricRagRatingApi>();
         services.AddScoped<ISchoolInsightApi, SchoolInsightApi>();
         services.AddScoped<ITrustInsightApi, TrustInsightApi>();
