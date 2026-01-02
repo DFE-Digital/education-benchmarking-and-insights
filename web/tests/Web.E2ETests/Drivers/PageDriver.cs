@@ -38,7 +38,7 @@ public class PageDriver : IDisposable
     public async Task WaitForPendingRequests(int millisecondsDelay = 100)
     {
         const int maxLoop = 100; // max wait of 10 secs
-        
+
         await Task.Delay(millisecondsDelay);
         var count = 0;
         while (!_pendingRequests.IsEmpty && count < maxLoop)
@@ -49,7 +49,7 @@ public class PageDriver : IDisposable
             {
                 _output.WriteLine($"Pending request key : {p.Key}");
             }
-            
+
             count++;
             await Task.Delay(100);
         }
