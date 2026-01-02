@@ -3,7 +3,6 @@
 ## Purpose
 
 This plan defines the QA strategy to validate the Data Release for the **Consistent Financial Reporting (CFR) covering the 2024-2025 period**.
-
 The primary focus is ensuring the integrity of the ingestion and transformation pipeline for the `maintained_schools_master_list.csv` into the FBIT platform, the accurate integration of ancillary datasets, and the verification of data availability and accuracy within the service.
 
 ## Scope
