@@ -8,18 +8,15 @@ using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Attributes;
 using Microsoft.OpenApi.Models;
 using Platform.Api.School.Features.MetricRagRatings.Handlers;
 using Platform.Api.School.Features.MetricRagRatings.Models;
-using Platform.Api.School.Features.MetricRagRatings.Parameters;
-using Platform.Api.School.Features.MetricRagRatings.Services;
 using Platform.Functions;
-using Platform.Functions.Extensions;
 using Platform.Functions.OpenApi;
 
 namespace Platform.Api.School.Features.MetricRagRatings.Functions;
 
-public class GetUserDefinedFunction(IVersionedHandlerDispatcher<IGetUserDefinedHandler> dispatcher) : VersionedFunctionBase<IGetUserDefinedHandler>(dispatcher)
+public class GetMetricRagRatingsUserDefinedFunction(IVersionedHandlerDispatcher<IGetUserDefinedHandler> dispatcher) : VersionedFunctionBase<IGetUserDefinedHandler>(dispatcher)
 {
-    [Function(nameof(GetUserDefinedFunction))]
-    [OpenApiOperation(nameof(GetUserDefinedFunction), Constants.Features.MetricRagRatings)]
+    [Function(nameof(GetMetricRagRatingsUserDefinedFunction))]
+    [OpenApiOperation(nameof(GetMetricRagRatingsUserDefinedFunction), Constants.Features.MetricRagRatings)]
     [OpenApiParameter("identifier", Type = typeof(string), Required = true)]
     [OpenApiParameter("useCustomData", In = ParameterLocation.Query, Description = "Sets whether or not to use custom data context", Type = typeof(bool), Required = false)]
     [OpenApiSecurityHeader]

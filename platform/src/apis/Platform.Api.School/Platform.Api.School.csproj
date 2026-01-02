@@ -34,7 +34,4 @@
         <ProjectReference Include="..\..\abstractions\Platform.Search\Platform.Search.csproj" />
         <ProjectReference Include="..\..\abstractions\Platform.Sql\Platform.Sql.csproj"/>
     </ItemGroup>
-    <ItemGroup>
-      <Folder Include="Features\Accounts\Expenditure\" />
-    </ItemGroup>
 </Project>

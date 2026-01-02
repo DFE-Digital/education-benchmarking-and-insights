@@ -13,11 +13,11 @@ using Platform.Functions.OpenApi;
 
 namespace Platform.Api.School.Features.Census.Functions;
 
-public class GetUserDefinedFunction(IVersionedHandlerDispatcher<IGetUserDefinedHandler> dispatcher) : VersionedFunctionBase<IGetUserDefinedHandler>(dispatcher)
+public class GetCensusUserDefinedFunction(IVersionedHandlerDispatcher<IGetUserDefinedHandler> dispatcher) : VersionedFunctionBase<IGetUserDefinedHandler>(dispatcher)
 {
-    [Function(nameof(GetUserDefinedFunction))]
+    [Function(nameof(GetCensusUserDefinedFunction))]
     [OpenApiSecurityHeader]
-    [OpenApiOperation(nameof(GetUserDefinedFunction), Constants.Features.Census)]
+    [OpenApiOperation(nameof(GetCensusUserDefinedFunction), Constants.Features.Census)]
     [OpenApiParameter("urn", Type = typeof(string), Required = true)]
     [OpenApiParameter("identifier", Type = typeof(string), Required = true)]
     [OpenApiParameter("category", In = ParameterLocation.Query, Description = "Census category", Type = typeof(string), Required = false, Example = typeof(OpenApiExamples.Category))]
