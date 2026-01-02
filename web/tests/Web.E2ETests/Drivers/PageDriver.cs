@@ -37,11 +37,20 @@ public class PageDriver : IDisposable
 
     public async Task WaitForPendingRequests(int millisecondsDelay = 100)
     {
+        const int maxLoop = 100; // max wait of 10 secs
+        
         await Task.Delay(millisecondsDelay);
-
-        while (!_pendingRequests.IsEmpty)
+        var count = 0;
+        while (!_pendingRequests.IsEmpty && count < maxLoop)
         {
-            _output.WriteLine($"Awaiting for pending requests. Count : {_pendingRequests.Count}");
+            var pending = _pendingRequests.ToList();
+            _output.WriteLine($"Awaiting for pending requests. Count : {pending.Count}");
+            foreach (var p in pending)
+            {
+                _output.WriteLine($"Pending request key : {p.Key}");
+            }
+            
+            count++;
             await Task.Delay(100);
         }
     }

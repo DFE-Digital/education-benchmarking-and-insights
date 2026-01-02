@@ -1,9 +1,5 @@
 ﻿Feature: Trust benchmark census data
 
-    Background:
-        Given I am on the service home
-        And I am not logged in
-
     Scenario: Download school workforce chart
         Given I am on census page for trust with company number '08104190'
         When I click on save as image for 'school workforce'
