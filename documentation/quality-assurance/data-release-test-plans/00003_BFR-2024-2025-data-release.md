@@ -3,7 +3,6 @@
 ## Purpose
 
 This plan defines the QA strategy to validate the Data Release for the **Budget Forecast Return (BFR) covering the 2024-2025 period**.
-
 The primary focus is ensuring the integrity of the ingestion and transformation pipeline for `BFR_SOFA_raw.csv` and `BFR_3Y_raw.csv` into the FBIT platform, verifying the accuracy of the Statement of Financial Activities (SOFA) and three-year forecast data, and ensuring correct data presentation within the service.
 
 ## Scope
