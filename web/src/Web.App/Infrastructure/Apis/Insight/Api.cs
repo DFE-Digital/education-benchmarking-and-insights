@@ -42,11 +42,4 @@ public static class Api
         public static string SchoolHistory(string? urn) => $"api/income/school/{urn}/history";
         public static string TrustHistory(string? companyNo) => $"api/income/trust/{companyNo}/history";
     }
-
-    public static class ItSpend
-    {
-        public static string Schools => "api/it-spend/schools";
-        public static string Trusts => "api/it-spend/trusts";
-        public static string TrustForecast(string? companyNumber) => $"api/it-spend/trust/{companyNumber}/forecast";
-    }
 }

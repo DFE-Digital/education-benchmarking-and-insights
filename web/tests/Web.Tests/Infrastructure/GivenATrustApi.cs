@@ -61,4 +61,30 @@ public class GivenAnTrustApi(ITestOutputHelper testOutputHelper) : ApiClientTest
 
         VerifyCall(HttpMethod.Post, $"api/trusts/{companyNumber}/comparators", request.ToJson(Formatting.None));
     }
+
+    [Fact]
+    public async Task QueryItSpendingShouldCallCorrectUrl()
+    {
+        var api = new TrustApi(HttpClient);
+
+        var query = new ApiQuery()
+            .AddIfNotNull("companyNumber", "12345678")
+            .AddIfNotNull("companyNumber", "87654321");
+
+        await api.QueryItSpendingAsync(query);
+
+        VerifyCall(HttpMethod.Get, "api/trusts/budget-forecast/it-spending?companyNumber=12345678&companyNumber=87654321");
+    }
+
+    [Fact]
+    public async Task ItSpendingForecastShouldCallCorrectUrl()
+    {
+        var api = new TrustApi(HttpClient);
+
+        const string companyNumber = "12345678";
+
+        await api.ItSpendingForecastAsync(companyNumber);
+
+        VerifyCall(HttpMethod.Get, "api/trusts/12345678/budget-forecast/it-spending/forecast");
+    }
 }

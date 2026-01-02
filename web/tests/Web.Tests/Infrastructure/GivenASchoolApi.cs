@@ -89,4 +89,18 @@ public class GivenASchoolApi(ITestOutputHelper testOutputHelper) : ApiClientTest
 
         VerifyCall(HttpMethod.Post, $"api/schools/{urn}/comparators", request.ToJson(Formatting.None));
     }
+
+    [Fact]
+    public async Task QuerySchoolsShouldCallCorrectUrl()
+    {
+        var api = new SchoolApi(HttpClient);
+
+        var query = new ApiQuery()
+            .AddIfNotNull("urn", "123456")
+            .AddIfNotNull("urn", "654321");
+
+        await api.QueryItSpendingAsync(query);
+
+        VerifyCall(HttpMethod.Get, "api/schools/accounts/it-spending?urn=123456&urn=654321");
+    }
 }

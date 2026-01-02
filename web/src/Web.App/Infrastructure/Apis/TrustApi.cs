@@ -27,6 +27,10 @@ public class TrustApi(HttpClient httpClient, string? key = null) : ApiBase(httpC
 
     public async Task<ApiResult> QueryAsync(ApiQuery? query = null, CancellationToken cancellationToken = default) => await GetAsync($"{Routes.Query}{query?.ToQueryString()}", cancellationToken);
 
+    public async Task<ApiResult> QueryItSpendingAsync(ApiQuery? query = null, CancellationToken cancellationToken = default) => await GetAsync($"{Routes.QueryItSpending}{query?.ToQueryString()}", cancellationToken);
+
+    public async Task<ApiResult> ItSpendingForecastAsync(string? companyNumber, CancellationToken cancellationToken = default) => await GetAsync(Routes.ItSpendingForecast(companyNumber), cancellationToken);
+
     private static class Routes
     {
         private const string Base = "api/trusts";
@@ -36,6 +40,8 @@ public class TrustApi(HttpClient httpClient, string? key = null) : ApiBase(httpC
         public static string Suggest => $"{Base}/suggest";
         public static string Search => $"{Base}/search";
         public static string Comparators(string? identifier) => $"{Base}/{identifier}/comparators";
+        public static string QueryItSpending => $"{Base}/budget-forecast/it-spending";
+        public static string ItSpendingForecast(string? identifier) => $"{Base}/{identifier}/budget-forecast/it-spending/forecast";
     }
 }
 
@@ -46,4 +52,6 @@ public interface ITrustApi
     Task<ApiResult> SearchAsync(SearchRequest request, CancellationToken cancel = default);
     Task<ApiResult> SuggestAsync(string search, string[]? exclude = null, CancellationToken cancellationToken = default);
     Task<ApiResult> CreateComparatorsAsync(string companyNumber, PostTrustComparatorsRequest request, CancellationToken cancellationToken = default);
+    Task<ApiResult> QueryItSpendingAsync(ApiQuery? query = null, CancellationToken cancellationToken = default);
+    Task<ApiResult> ItSpendingForecastAsync(string? companyNumber, CancellationToken cancellationToken = default);
 }

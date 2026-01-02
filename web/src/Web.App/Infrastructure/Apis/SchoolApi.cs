@@ -36,6 +36,8 @@ public class SchoolApi(HttpClient httpClient, string? key = null) : ApiBase(http
 
     public async Task<ApiResult> QueryMetricRagRatingDetailsAsync(ApiQuery? query = null, CancellationToken cancellationToken = default) => await GetAsync($"{Routes.QueryMetricRagRatingsDetails}{query?.ToQueryString()}", cancellationToken);
 
+    public async Task<ApiResult> QueryItSpendingAsync(ApiQuery? query = null, CancellationToken cancellationToken = default) => await GetAsync($"{Routes.QueryItSpending}{query?.ToQueryString()}", cancellationToken);
+
     private static class Routes
     {
         private const string Base = "api/schools";
@@ -49,6 +51,7 @@ public class SchoolApi(HttpClient httpClient, string? key = null) : ApiBase(http
         public static string QueryMetricRagRatingsDetails => $"{Base}/metric-rag-ratings/details";
         public static string QueryMetricRagRatings => $"{Base}/metric-rag-ratings";
         public static string MetricRagRatingsUserDefined(string? identifier) => $"{Base}/user-defined/{identifier}/metric-rag-ratings";
+        public static string QueryItSpending => $"{Base}/accounts/it-spending";
     }
 }
 
@@ -63,5 +66,5 @@ public interface ISchoolApi
     Task<ApiResult> QueryMetricRagRatingsAsync(ApiQuery? query = null, CancellationToken cancellationToken = default);
     Task<ApiResult> MetricRagRatingsUserDefinedAsync(string identifier, ApiQuery? query = null, CancellationToken cancellationToken = default);
     Task<ApiResult> QueryMetricRagRatingDetailsAsync(ApiQuery? query = null, CancellationToken cancellationToken = default);
-
+    Task<ApiResult> QueryItSpendingAsync(ApiQuery? query = null, CancellationToken cancellationToken = default);
 }
