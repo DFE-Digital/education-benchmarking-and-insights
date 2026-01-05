@@ -1,0 +1,10 @@
+{
+  "title": "Validation failed.",
+  "status": 400,
+  "instance": "/api/local-authorities/201/maintained-schools/workforce",
+  "errors": {
+    "SortField": [
+      "Sort Field must be one of the supported values: SchoolName, TotalPupils, PupilTeacherRatio, EHCPlan, SENSupport"
+    ]
+  }
+}

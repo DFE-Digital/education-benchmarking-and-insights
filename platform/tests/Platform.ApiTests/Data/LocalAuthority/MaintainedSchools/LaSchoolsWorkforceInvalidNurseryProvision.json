@@ -1,0 +1,10 @@
+{
+  "title": "Validation failed.",
+  "status": 400,
+  "instance": "/api/local-authorities/201/maintained-schools/workforce",
+  "errors": {
+    "NurseryProvision": [
+      "Nursery Provision must be empty or one of the supported values: Has Nursery Classes, No Nursery Classes, Not applicable, Not recorded"
+    ]
+  }
+}

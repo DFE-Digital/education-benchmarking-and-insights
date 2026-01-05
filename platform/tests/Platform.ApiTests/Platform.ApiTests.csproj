@@ -42,11 +42,10 @@
         <ProjectReference Include="..\..\src\apis\Platform.Api.NonFinancial\Platform.Api.NonFinancial.csproj"/>
     </ItemGroup>
     <ItemGroup>
-        <EmbeddedResource Include="Data\*.json"/>
-        <EmbeddedResource Include="Data\*.svg"/>
+        <EmbeddedResource Include="Data\**\*.json"/>
+        <EmbeddedResource Include="Data\**\*.svg"/>
     </ItemGroup>
     <ItemGroup>
-      <Folder Include="Data\LocalAuthority\" />
       <Folder Include="Data\School\" />
       <Folder Include="Data\Trust\" />
     </ItemGroup>

@@ -1,0 +1,10 @@
+{
+  "title": "Validation failed.",
+  "status": 400,
+  "instance": "/api/local-authorities/201/maintained-schools/finance",
+  "errors": {
+    "Dimension": [
+      "Dimension must be one of the supported values: Actuals, PerUnit, PercentExpenditure, PercentIncome"
+    ]
+  }
+}

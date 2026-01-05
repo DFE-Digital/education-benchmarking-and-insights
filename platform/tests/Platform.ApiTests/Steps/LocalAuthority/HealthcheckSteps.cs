@@ -5,7 +5,7 @@ namespace Platform.ApiTests.Steps.LocalAuthority;
 
 [Binding]
 [Scope(Feature = "Local Authority Healthcheck")]
-public class HealthcheckSteps(NonFinancialApiDriver api) : BaseHealthcheckSteps(api)
+public class HealthcheckSteps(LocalAuthorityApiDriver api) : BaseHealthcheckSteps(api)
 {
     [Given("a valid request")]
     private void GivenAValidRequest()

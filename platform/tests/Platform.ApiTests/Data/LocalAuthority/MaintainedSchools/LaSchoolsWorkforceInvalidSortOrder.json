@@ -1,0 +1,10 @@
+{
+  "title": "Validation failed.",
+  "status": 400,
+  "instance": "/api/local-authorities/201/maintained-schools/workforce",
+  "errors": {
+    "SortOrder": [
+      "Sort Order must be one of the supported values: ASC, DESC"
+    ]
+  }
+}

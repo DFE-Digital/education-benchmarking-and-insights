@@ -22,6 +22,10 @@ public static class TestConfiguration
     public static ApiEndpoint ChartRendering => Instance.GetSection(nameof(ChartRendering)).Get<ApiEndpoint>() ?? throw new ArgumentNullException(nameof(ChartRendering));
     public static ApiEndpoint Content => Instance.GetSection(nameof(Content)).Get<ApiEndpoint>() ?? throw new ArgumentNullException(nameof(Content));
 
+    public static ApiEndpoint LocalAuthority => Instance.GetSection(nameof(LocalAuthority)).Get<ApiEndpoint>() ?? throw new ArgumentNullException(nameof(LocalAuthority));
+    public static ApiEndpoint School => Instance.GetSection(nameof(School)).Get<ApiEndpoint>() ?? throw new ArgumentNullException(nameof(School));
+    public static ApiEndpoint Trust => Instance.GetSection(nameof(Trust)).Get<ApiEndpoint>() ?? throw new ArgumentNullException(nameof(Trust));
+
 
 #nullable disable warnings
     public record ApiEndpoint

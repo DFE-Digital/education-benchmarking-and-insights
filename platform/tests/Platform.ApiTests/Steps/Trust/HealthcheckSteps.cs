@@ -5,7 +5,7 @@ namespace Platform.ApiTests.Steps.Trust;
 
 [Binding]
 [Scope(Feature = "Trust Healthcheck")]
-public class HealthcheckSteps(NonFinancialApiDriver api) : BaseHealthcheckSteps(api)
+public class HealthcheckSteps(TrustApiDriver api) : BaseHealthcheckSteps(api)
 {
     [Given("a valid request")]
     private void GivenAValidRequest()

@@ -1,0 +1,10 @@
+{
+  "title": "Validation failed.",
+  "status": 400,
+  "instance": "/api/local-authorities/201/maintained-schools/finance",
+  "errors": {
+    "OverallPhase": [
+      "Overall Phase must be empty or one of the supported values: Primary, Secondary, Special, Pupil Referral Unit, All-through, Nursery, Post-16, Alternative Provision, University Technical College"
+    ]
+  }
+}

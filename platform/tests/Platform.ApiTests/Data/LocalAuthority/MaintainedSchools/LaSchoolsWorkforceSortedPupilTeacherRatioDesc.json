@@ -1,0 +1,18 @@
+[
+  {
+    "urn": "990116",
+    "schoolName": "Test school 237",
+    "totalPupils": 225.0,
+    "pupilTeacherRatio": 1.8907563025210083,
+    "ehcPlan": 4,
+    "senSupport": 12
+  },
+  {
+    "urn": "990134",
+    "schoolName": "Test school 1",
+    "totalPupils": 271.0,
+    "pupilTeacherRatio": 1.8187919463087248,
+    "ehcPlan": 14,
+    "senSupport": 32
+  }
+]

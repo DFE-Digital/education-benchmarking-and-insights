@@ -1,0 +1,50 @@
+﻿{
+  "startYear": 2020,
+  "endYear": 2024,
+  "plans": [
+    {
+      "year": 2021,
+      "code": "201",
+      "total": 20,
+      "mainstream": 14,
+      "resourced": 14,
+      "special": 1,
+      "independent": 3,
+      "hospital": 0
+    },
+    {
+      "year": 2022,
+      "code": "201",
+      "total": 19,
+      "mainstream": 10,
+      "resourced": 10,
+      "special": 3,
+      "independent": 2,
+      "hospital": 0
+    },
+    {
+      "year": 2023,
+      "code": "201",
+      "total": 21,
+      "mainstream": 13,
+      "resourced": 14,
+      "special": 2,
+      "independent": 3,
+      "hospital": 0,
+      "post16": 2,
+      "other": 8
+    },
+    {
+      "year": 2024,
+      "code": "201",
+      "total": 24,
+      "mainstream": 13,
+      "resourced": 14,
+      "special": 4,
+      "independent": 3,
+      "hospital": 0,
+      "post16": 1,
+      "other": 13
+    }
+  ]
+}

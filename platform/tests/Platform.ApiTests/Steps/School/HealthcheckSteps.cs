@@ -5,7 +5,7 @@ namespace Platform.ApiTests.Steps.School;
 
 [Binding]
 [Scope(Feature = "School Healthcheck")]
-public class HealthcheckSteps(NonFinancialApiDriver api) : BaseHealthcheckSteps(api)
+public class HealthcheckSteps(SchoolApiDriver api) : BaseHealthcheckSteps(api)
 {
     [Given("a valid request")]
     private void GivenAValidRequest()
