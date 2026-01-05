@@ -1,5 +1,6 @@
 import pandas as pd
 
+from pipeline.input_schemas import head_teacher_breakdowns_filenames
 from pipeline.pre_processing.aar.academies import prepare_aar_data
 from pipeline.pre_processing.aar.central_services import prepare_central_services_data
 from pipeline.utils.log import setup_logger
@@ -34,9 +35,14 @@ def pre_process_cdc(run_type: str, year: int, run_id: str) -> pd.DataFrame:
 
 def pre_process_census(run_type: str, year: int, run_id: str) -> pd.DataFrame:
     logger.info(f"Processing Census Data: {run_type}/{year}/census_workforce.xlsx")
+    head_teacher_breakdowns_filename = head_teacher_breakdowns_filenames.get(year)
 
     workforce_census_data = get_blob(
         raw_container, f"{run_type}/{year}/census_workforce.xlsx"
+    )
+    head_teacher_breakdowns_census_data = try_get_blob(
+        raw_container,
+        f"{run_type}/{year}/{head_teacher_breakdowns_filename}",
     )
     pupil_census_data = get_blob(
         raw_container, f"{run_type}/{year}/census_pupils.csv", encoding="cp1252"
@@ -44,6 +50,7 @@ def pre_process_census(run_type: str, year: int, run_id: str) -> pd.DataFrame:
 
     census = prepare_census_data(
         workforce_census_data,
+        head_teacher_breakdowns_census_data,
         pupil_census_data,
         year,
     )

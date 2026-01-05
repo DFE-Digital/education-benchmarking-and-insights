@@ -84,7 +84,7 @@ def build_maintained_school_data(
         maintained_schools, maintained_schools_column_eval
     )
 
-    maintained_schools = join_federations(maintained_schools)
+    maintained_schools = join_federations(maintained_schools, year)
 
     maintained_schools = calc_rag_cost_series(
         maintained_schools, config.rag_category_settings

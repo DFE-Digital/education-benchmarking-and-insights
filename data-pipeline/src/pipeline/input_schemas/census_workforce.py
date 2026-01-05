@@ -109,3 +109,27 @@ workforce_census_column_eval = {
         "SeniorLeadershipFTE": "`Total Number of Teachers in the Leadership Group (Full-time Equivalent)` + `Total Number of Leadership Non-Teachers (FTE)`",
     },
 }
+
+
+# Pre 2025, we use the historical data from the 2025 file. For future releases,
+# we will use that year's data file.
+head_teacher_breakdowns_filenames = {
+    2021: "Workforce_2010_2024_fte_hc_nat_reg_la_sch.csv",
+    2022: "Workforce_2010_2024_fte_hc_nat_reg_la_sch.csv",
+    2023: "Workforce_2010_2024_fte_hc_nat_reg_la_sch.csv",
+    2024: "Workforce_2010_2024_fte_hc_nat_reg_la_sch.csv",
+    2025: "Workforce_2010_2024_fte_hc_nat_reg_la_sch.csv",
+}
+
+head_teacher_breakdowns = {
+    "default": {
+        "time_period": "Int64",
+        "school_urn": "Int64",
+        "fte_head_teachers": "float",
+        "fte_deputy_head_teachers": "float",
+        "fte_assistant_head_teachers": "float",
+        "hc_head_teachers": "float",
+        "hc_deputy_head_teachers": "float",
+        "hc_assistant_head_teachers": "float",
+    }
+}
