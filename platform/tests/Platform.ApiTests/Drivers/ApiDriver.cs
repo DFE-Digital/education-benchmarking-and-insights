@@ -59,3 +59,17 @@ public abstract class ApiDriver : Dictionary<string, ApiDriver.ApiMessage>
         }
     }
 }
+
+public class BenchmarkApiDriver(IReqnrollOutputHelper output) : ApiDriver(TestConfiguration.Benchmark, output);
+
+public class ChartRenderingApiDriver(IReqnrollOutputHelper output) : ApiDriver(TestConfiguration.ChartRendering, output);
+
+public class ContentApiDriver(IReqnrollOutputHelper output) : ApiDriver(TestConfiguration.Content, output);
+
+public class EstablishmentApiDriver(IReqnrollOutputHelper output) : ApiDriver(TestConfiguration.Establishment, output);
+
+public class InsightApiDriver(IReqnrollOutputHelper output) : ApiDriver(TestConfiguration.Insight, output);
+
+public class LocalAuthorityFinancesApiDriver(IReqnrollOutputHelper output) : ApiDriver(TestConfiguration.LocalAuthorityFinances, output);
+
+public class NonFinancialApiDriver(IReqnrollOutputHelper output) : ApiDriver(TestConfiguration.NonFinancial, output);

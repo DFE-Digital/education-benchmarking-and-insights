@@ -151,7 +151,7 @@ public class EstablishmentTrustsSteps(EstablishmentApiDriver api)
         AssertHttpResponse.IsOk(response);
 
         var content = await response.Content.ReadAsByteArrayAsync();
-        var result = content.FromJson<Trust>();
+        var result = content.FromJson<Api.Establishment.Features.Trusts.Models.Trust>();
 
         table.CompareToInstance(result);
     }
@@ -162,7 +162,7 @@ public class EstablishmentTrustsSteps(EstablishmentApiDriver api)
         var response = api[RequestKey].Response;
 
         var content = await response.Content.ReadAsByteArrayAsync();
-        var result = content.FromJson<Trust>();
+        var result = content.FromJson<Api.Establishment.Features.Trusts.Models.Trust>();
 
         var set = result.Schools!.Select(s => new
         {

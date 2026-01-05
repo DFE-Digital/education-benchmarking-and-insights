@@ -184,7 +184,7 @@ public class EstablishmentLocalAuthoritiesSteps(EstablishmentApiDriver api)
         AssertHttpResponse.IsOk(response);
 
         var content = await response.Content.ReadAsByteArrayAsync();
-        var result = content.FromJson<LocalAuthority>();
+        var result = content.FromJson<Api.Establishment.Features.LocalAuthorities.Models.LocalAuthority>();
 
         table.CompareToInstance(result);
     }
@@ -194,7 +194,7 @@ public class EstablishmentLocalAuthoritiesSteps(EstablishmentApiDriver api)
     {
         var response = api[RequestKey].Response;
         var content = await response.Content.ReadAsByteArrayAsync();
-        var result = content.FromJson<LocalAuthority>();
+        var result = content.FromJson<Api.Establishment.Features.LocalAuthorities.Models.LocalAuthority>();
 
         var set = result.Schools!.Select(s => new
         {
@@ -307,7 +307,7 @@ public class EstablishmentLocalAuthoritiesSteps(EstablishmentApiDriver api)
         AssertHttpResponse.IsOk(response);
 
         var content = await response.Content.ReadAsByteArrayAsync();
-        var result = content.FromJson<LocalAuthority>();
+        var result = content.FromJson<Api.Establishment.Features.LocalAuthorities.Models.LocalAuthority>();
 
         table.CompareToInstance(result);
     }
@@ -337,7 +337,7 @@ public class EstablishmentLocalAuthoritiesSteps(EstablishmentApiDriver api)
         AssertHttpResponse.IsOk(response);
 
         var content = await response.Content.ReadAsByteArrayAsync();
-        var result = content.FromJson<IEnumerable<LocalAuthority>>();
+        var result = content.FromJson<IEnumerable<Api.Establishment.Features.LocalAuthorities.Models.LocalAuthority>>();
         var set = result.Select(s => new
         {
             s.Code,
