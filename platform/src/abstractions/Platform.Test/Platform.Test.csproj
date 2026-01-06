@@ -8,11 +8,15 @@
         <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
     </PropertyGroup>
     <ItemGroup>
+        <PackageReference Include="AutoFixture" />
         <PackageReference Include="Microsoft.ApplicationInsights"/>
         <PackageReference Include="Microsoft.Azure.Functions.Worker"/>
         <PackageReference Include="Microsoft.NET.Test.Sdk"/>
         <PackageReference Include="Moq"/>
         <AssemblyAttribute Include="System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute"/>
         <PackageReference Include="xunit.abstractions"/>
+    </ItemGroup>
+    <ItemGroup>
+      <ProjectReference Include="..\Platform.Functions\Platform.Functions.csproj" />
     </ItemGroup>
 </Project>

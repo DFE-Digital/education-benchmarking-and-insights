@@ -1998,10 +1998,12 @@
       "platform.test": {
         "type": "Project",
         "dependencies": {
+          "AutoFixture": "[4.18.1, )",
           "Microsoft.ApplicationInsights": "[2.23.0, )",
           "Microsoft.Azure.Functions.Worker": "[2.51.0, )",
           "Microsoft.NET.Test.Sdk": "[18.0.0, )",
           "Moq": "[4.20.72, )",
+          "Platform.Functions": "[1.0.0, )",
           "xunit.abstractions": "[2.0.3, )"
         }
       },

@@ -1,3 +1,4 @@
+// ReSharper disable ClassNeverInstantiated.Global
 namespace Platform.ApiTests.Drivers;
 
 public abstract class ApiDriver : Dictionary<string, ApiDriver.ApiMessage>
