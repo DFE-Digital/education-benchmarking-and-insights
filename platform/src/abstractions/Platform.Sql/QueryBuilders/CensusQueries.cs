@@ -76,3 +76,16 @@ public class CensusSchoolDefaultComparatorAveQuery(string dimension) : PlatformQ
         };
     }
 }
+
+public class SchoolSeniorLeadershipDefaultCurrentQuery(string dimension) : PlatformQuery(GetSql(dimension))
+{
+    private static string GetSql(string dimension)
+    {
+        return dimension switch
+        {
+            Dimensions.Census.Total => "SELECT * FROM VW_SchoolSeniorLeadershipCurrentDefaultActual /**where**/",
+            Dimensions.Census.PercentWorkforce => "SELECT * FROM VW_SchoolSeniorLeadershipCurrentDefaultPercentWorkforce /**where**/",
+            _ => throw new ArgumentOutOfRangeException(nameof(dimension), "Unknown dimension")
+        };
+    }
+}

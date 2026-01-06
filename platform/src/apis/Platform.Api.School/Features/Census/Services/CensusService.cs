@@ -19,6 +19,7 @@ public interface ICensusService
     Task<IEnumerable<CensusModelDto>> QueryAsync(string[] urns, string? companyNumber, string? laCode, string? phase, string dimension, CancellationToken cancellationToken = default);
     Task<(YearsModelDto?, IEnumerable<CensusHistoryModelDto>)> GetComparatorAveHistoryAsync(string urn, string dimension, CancellationToken cancellationToken = default);
     Task<(YearsModelDto?, IEnumerable<CensusHistoryModelDto>)> GetNationalAvgHistoryAsync(string overallPhase, string financeType, string dimension, CancellationToken cancellationToken = default);
+    Task<IEnumerable<SeniorLeadershipResponse>> QuerySeniorLeadershipAsync(string[] urns, string dimension, CancellationToken cancellationToken = default);
 }
 
 [ExcludeFromCodeCoverage]
@@ -118,6 +119,23 @@ public class CensusService(IDatabaseFactory dbFactory, ICacheKeyFactory cacheKey
         var cacheKey = cacheKeyFactory.CreateCensusHistoryNationalAverageCacheKey(years.EndYear, overallPhase, financeType, dimension);
         var history = await cache.GetSetAsync(cacheKey, () => GetNationalAvgHistoryAsync(conn, years, overallPhase, financeType, dimension, cancellationToken));
         return (years, history);
+    }
+
+    public async Task<IEnumerable<SeniorLeadershipResponse>> QuerySeniorLeadershipAsync(string[] urns, string dimension, CancellationToken cancellationToken = default)
+    {
+        var builder = new SchoolSeniorLeadershipDefaultCurrentQuery(dimension);
+
+        if (urns.Length != 0)
+        {
+            builder.WhereUrnIn(urns);
+        }
+        else
+        {
+            throw new ArgumentNullException(nameof(urns), $"{nameof(urns)} must be supplied");
+        }
+
+        using var conn = await dbFactory.GetConnection();
+        return await conn.QueryAsync<SeniorLeadershipResponse>(builder, cancellationToken);
     }
 
     private static async Task<IEnumerable<CensusHistoryModelDto>> GetNationalAvgHistoryAsync(IDatabaseConnection conn, YearsModelDto years, string overallPhase, string financeType, string dimension, CancellationToken cancellationToken = default)
