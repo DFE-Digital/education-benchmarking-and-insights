@@ -21,9 +21,11 @@ public static class ServiceCollection
             .AddSingleton<IGetHistoryHandler, GetHistoryV1Handler>()
             .AddSingleton<IGetHandler, GetV1Handler>()
             .AddSingleton<IGetComparatorSetAverageHistoryHandler, GetComparatorSetAverageHistoryV1Handler>()
+            .AddSingleton<IQuerySeniorLeadershipHandler, QuerySeniorLeadershipV1Handler>()
             .AddTransient<IValidator<GetParameters>, GetParametersValidator>()
             .AddTransient<IValidator<QueryCensusParameters>, QueryParametersValidator>()
             .AddTransient<IValidator<NationalAvgParameters>, NationalAvgParametersValidator>()
+            .AddTransient<IValidator<SeniorLeadershipParameters>, SeniorLeadershipParametersValidator>()
             .AddSingleton<ICensusService, CensusService>();
 
         return serviceCollection;

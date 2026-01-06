@@ -60,4 +60,15 @@ public static class OpenApiExamples
             return this;
         }
     }
+
+    public class SeniorLeadershipDimension : OpenApiExample<string>
+    {
+        public override IOpenApiExample<string> Build(NamingStrategy namingStrategy = null!)
+        {
+            Examples.Add(OpenApiExampleResolver.Resolve(Dimensions.Census.Total, Dimensions.Census.Total, namingStrategy));
+            Examples.Add(OpenApiExampleResolver.Resolve(Dimensions.Census.PercentWorkforce, Dimensions.Census.PercentWorkforce, namingStrategy));
+
+            return this;
+        }
+    }
 }
