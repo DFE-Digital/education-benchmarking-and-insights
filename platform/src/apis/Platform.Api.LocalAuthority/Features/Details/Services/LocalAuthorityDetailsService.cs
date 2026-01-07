@@ -16,7 +16,6 @@ public interface ILocalAuthorityDetailsService
 
 }
 
-[ExcludeFromCodeCoverage]
 public class LocalAuthorityDetailsService(IDatabaseFactory dbFactory) : ILocalAuthorityDetailsService
 {
     public async Task<LocalAuthorityResponse?> GetAsync(string code, CancellationToken cancellationToken = default)

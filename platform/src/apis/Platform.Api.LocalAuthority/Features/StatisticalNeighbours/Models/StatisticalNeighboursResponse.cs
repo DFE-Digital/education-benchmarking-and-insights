@@ -1,7 +1,10 @@
 ﻿// ReSharper disable UnusedAutoPropertyAccessor.Global
 
+using System.Diagnostics.CodeAnalysis;
+
 namespace Platform.Api.LocalAuthority.Features.StatisticalNeighbours.Models;
 
+[ExcludeFromCodeCoverage]
 public record StatisticalNeighboursResponse
 {
     public string? Code { get; init; }
@@ -9,6 +12,7 @@ public record StatisticalNeighboursResponse
     public StatisticalNeighbourResponse[]? StatisticalNeighbours { get; init; }
 }
 
+[ExcludeFromCodeCoverage]
 public record StatisticalNeighbourResponse
 {
     public string? Code { get; init; }

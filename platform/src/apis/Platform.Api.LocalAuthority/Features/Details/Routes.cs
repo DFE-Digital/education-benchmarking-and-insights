@@ -1,5 +1,8 @@
-﻿namespace Platform.Api.LocalAuthority.Features.Details;
+﻿using System.Diagnostics.CodeAnalysis;
 
+namespace Platform.Api.LocalAuthority.Features.Details;
+
+[ExcludeFromCodeCoverage]
 public static class Routes
 {
     public const string LocalAuthoritySingle = $"local-authorities/{Constants.CodeParam}";

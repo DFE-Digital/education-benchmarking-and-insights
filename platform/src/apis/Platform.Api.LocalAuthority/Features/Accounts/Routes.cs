@@ -1,5 +1,8 @@
-﻿namespace Platform.Api.LocalAuthority.Features.Accounts;
+﻿using System.Diagnostics.CodeAnalysis;
 
+namespace Platform.Api.LocalAuthority.Features.Accounts;
+
+[ExcludeFromCodeCoverage]
 public static class Routes
 {
     public const string HighNeeds = "local-authorities/accounts/high-needs";

@@ -1,8 +1,11 @@
 ﻿// ReSharper disable PropertyCanBeMadeInitOnly.Global
 // ReSharper disable UnusedAutoPropertyAccessor.Global
 
+using System.Diagnostics.CodeAnalysis;
+
 namespace Platform.Api.LocalAuthority.Features.Accounts.Models;
 
+[ExcludeFromCodeCoverage]
 public record HighNeeds : HighNeedsBase
 {
     public HighNeedsAmount? HighNeedsAmount { get; set; }
@@ -11,6 +14,7 @@ public record HighNeeds : HighNeedsBase
     public PlaceFunding? PlaceFunding { get; set; }
 }
 
+[ExcludeFromCodeCoverage]
 public record HighNeedsBase
 {
     public decimal? Total { get; set; }

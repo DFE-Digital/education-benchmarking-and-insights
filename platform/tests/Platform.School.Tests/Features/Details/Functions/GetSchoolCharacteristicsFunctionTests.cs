@@ -6,7 +6,7 @@ using Platform.Test;
 
 namespace Platform.School.Tests.Features.Details.Functions;
 
-public class GetSchoolCharacteristicsFunctionTests: FunctionRunAsyncReflectionTestsBase<GetSchoolCharacteristicsFunction, IGetSchoolCharacteristicsHandler, IdContext>
+public class GetSchoolCharacteristicsFunctionTests : FunctionRunAsyncReflectionTestsBase<GetSchoolCharacteristicsFunction, IGetSchoolCharacteristicsHandler, IdContext>
 {
     protected override GetSchoolCharacteristicsFunction CreateFunction(IEnumerable<IGetSchoolCharacteristicsHandler> handlers) => new(handlers);
 

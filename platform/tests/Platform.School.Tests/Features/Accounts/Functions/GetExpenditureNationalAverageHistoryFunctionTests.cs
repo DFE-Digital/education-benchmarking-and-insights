@@ -6,7 +6,7 @@ using Platform.Test;
 
 namespace Platform.School.Tests.Features.Accounts.Functions;
 
-public class GetExpenditureNationalAverageHistoryFunctionTests: FunctionRunAsyncReflectionTestsBase<GetExpenditureNationalAverageHistoryFunction, IGetExpenditureNationalAverageHistoryHandler, BasicContext>
+public class GetExpenditureNationalAverageHistoryFunctionTests : FunctionRunAsyncReflectionTestsBase<GetExpenditureNationalAverageHistoryFunction, IGetExpenditureNationalAverageHistoryHandler, BasicContext>
 {
     protected override GetExpenditureNationalAverageHistoryFunction CreateFunction(IEnumerable<IGetExpenditureNationalAverageHistoryHandler> handlers) => new(handlers);
 

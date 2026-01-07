@@ -1,11 +1,12 @@
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 
 // ReSharper disable InconsistentNaming
 
 namespace Platform.Api.LocalAuthority.Features.Details.Models;
 
-
+[ExcludeFromCodeCoverage]
 public static class FinanceSummarySortFields
 {
     public const string SchoolName = nameof(LocalAuthoritySchoolFinanceSummaryResponse.SchoolName);
@@ -26,6 +27,7 @@ public static class FinanceSummarySortFields
     public static bool IsValid(string? type) => All.Any(a => a.Equals(type, StringComparison.OrdinalIgnoreCase));
 }
 
+[ExcludeFromCodeCoverage]
 public static class WorkforceSummarySortFields
 {
     public const string SchoolName = nameof(LocalAuthoritySchoolWorkforceSummaryResponse.SchoolName);

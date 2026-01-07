@@ -6,7 +6,7 @@ using Platform.Test;
 
 namespace Platform.School.Tests.Features.Accounts.Functions;
 
-public class GetExpenditureHistoryFunctionTests: FunctionRunAsyncReflectionTestsBase<GetExpenditureHistoryFunction, IGetExpenditureHistoryHandler, IdContext>
+public class GetExpenditureHistoryFunctionTests : FunctionRunAsyncReflectionTestsBase<GetExpenditureHistoryFunction, IGetExpenditureHistoryHandler, IdContext>
 {
     protected override GetExpenditureHistoryFunction CreateFunction(IEnumerable<IGetExpenditureHistoryHandler> handlers) => new(handlers);
 

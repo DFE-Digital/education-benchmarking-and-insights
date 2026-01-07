@@ -6,7 +6,7 @@ using Platform.Test;
 
 namespace Platform.School.Tests.Features.Census.Functions;
 
-public class GetComparatorSetAverageHistoryFunctionTests: FunctionRunAsyncReflectionTestsBase<GetComparatorSetAverageHistoryFunction, IGetComparatorSetAverageHistoryHandler, IdContext>
+public class GetComparatorSetAverageHistoryFunctionTests : FunctionRunAsyncReflectionTestsBase<GetComparatorSetAverageHistoryFunction, IGetComparatorSetAverageHistoryHandler, IdContext>
 {
     protected override GetComparatorSetAverageHistoryFunction CreateFunction(IEnumerable<IGetComparatorSetAverageHistoryHandler> handlers) => new(handlers);
 

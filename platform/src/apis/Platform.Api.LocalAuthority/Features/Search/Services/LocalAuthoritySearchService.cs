@@ -15,7 +15,6 @@ public interface ILocalAuthoritySearchService
     Task<SearchResponse<LocalAuthoritySummaryResponse>> SearchAsync(SearchRequest request, CancellationToken cancellationToken = default);
 }
 
-[ExcludeFromCodeCoverage]
 public class LocalAuthoritySearchService(
     [FromKeyedServices(ResourceNames.Search.Indexes.LocalAuthority)] IIndexClient client) : SearchService<LocalAuthoritySummaryResponse>(client), ILocalAuthoritySearchService
 {

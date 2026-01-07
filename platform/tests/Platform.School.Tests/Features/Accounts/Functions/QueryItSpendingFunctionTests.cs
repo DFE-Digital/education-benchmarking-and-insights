@@ -6,7 +6,7 @@ using Platform.Test;
 
 namespace Platform.School.Tests.Features.Accounts.Functions;
 
-public class QueryItSpendingFunctionTests: FunctionRunAsyncReflectionTestsBase<QueryItSpendingFunction, IQueryItSpendingHandler, BasicContext>
+public class QueryItSpendingFunctionTests : FunctionRunAsyncReflectionTestsBase<QueryItSpendingFunction, IQueryItSpendingHandler, BasicContext>
 {
     protected override QueryItSpendingFunction CreateFunction(IEnumerable<IQueryItSpendingHandler> handlers) => new(handlers);
 

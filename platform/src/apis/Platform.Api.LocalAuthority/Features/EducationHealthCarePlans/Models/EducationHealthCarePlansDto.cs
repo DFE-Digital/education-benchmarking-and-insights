@@ -2,8 +2,11 @@
 // ReSharper disable UnusedAutoPropertyAccessor.Global
 // ReSharper disable UnusedMember.Global
 
+using System.Diagnostics.CodeAnalysis;
+
 namespace Platform.Api.LocalAuthority.Features.EducationHealthCarePlans.Models;
 
+[ExcludeFromCodeCoverage]
 public record EducationHealthCarePlansDto
 {
     public string? LaCode { get; set; }
@@ -20,6 +23,7 @@ public record EducationHealthCarePlansDto
     public decimal? Other { get; set; }
 }
 
+[ExcludeFromCodeCoverage]
 public record EducationHealthCarePlansYearDto : EducationHealthCarePlansDto
 {
     public string? RunId { get; set; }

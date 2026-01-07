@@ -10,5 +10,5 @@ public class GetMetricRagRatingsUserDefinedFunctionTests : FunctionRunAsyncRefle
 {
     protected override GetMetricRagRatingsUserDefinedFunction CreateFunction(IEnumerable<IGetUserDefinedHandler> handlers) => new(handlers);
 
-    protected override object[] GetRunAsyncArguments(HttpRequestData request) => [request,"id", CancellationToken.None];
+    protected override object[] GetRunAsyncArguments(HttpRequestData request) => [request, "id", CancellationToken.None];
 }

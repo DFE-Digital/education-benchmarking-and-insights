@@ -13,7 +13,6 @@ public interface IStatisticalNeighboursService
     Task<IEnumerable<StatisticalNeighbourDto>> GetAsync(string identifier, CancellationToken cancellationToken = default);
 }
 
-[ExcludeFromCodeCoverage]
 public class StatisticalNeighboursService(IDatabaseFactory dbFactory) : IStatisticalNeighboursService
 {
     public async Task<IEnumerable<StatisticalNeighbourDto>> GetAsync(string code, CancellationToken cancellationToken = default)

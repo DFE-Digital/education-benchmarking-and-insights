@@ -6,7 +6,7 @@ using Platform.Test;
 
 namespace Platform.School.Tests.Features.Census.Functions;
 
-public class GetCensusUserDefinedFunctionTests: FunctionRunAsyncReflectionTestsBase<GetCensusUserDefinedFunction, IGetUserDefinedHandler, IdPairContext>
+public class GetCensusUserDefinedFunctionTests : FunctionRunAsyncReflectionTestsBase<GetCensusUserDefinedFunction, IGetUserDefinedHandler, IdPairContext>
 {
     protected override GetCensusUserDefinedFunction CreateFunction(IEnumerable<IGetUserDefinedHandler> handlers) => new(handlers);
 

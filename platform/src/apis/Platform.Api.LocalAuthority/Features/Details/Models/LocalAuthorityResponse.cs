@@ -11,18 +11,21 @@ public record LocalAuthorityResponse
     public IEnumerable<LocalAuthoritySchoolResponse>? Schools { get; set; }
 }
 
+[ExcludeFromCodeCoverage]
 public record LocalAuthoritySchoolResponseBase
 {
     public string? URN { get; set; }
     public string? SchoolName { get; set; }
 }
 
+[ExcludeFromCodeCoverage]
 public record LocalAuthoritySchoolResponse : LocalAuthoritySchoolResponseBase
 {
     public static readonly string[] Fields = [nameof(URN), nameof(SchoolName), nameof(OverallPhase)];
     public string? OverallPhase { get; set; }
 }
 
+[ExcludeFromCodeCoverage]
 public record LocalAuthoritySchoolFinanceSummaryResponse : LocalAuthoritySchoolResponseBase
 {
     public decimal? TotalPupils { get; set; }
@@ -32,7 +35,7 @@ public record LocalAuthoritySchoolFinanceSummaryResponse : LocalAuthoritySchoolR
     public int? PeriodCoveredByReturn { get; set; }
 }
 
-
+[ExcludeFromCodeCoverage]
 public record LocalAuthoritySchoolWorkforceSummaryResponse : LocalAuthoritySchoolResponseBase
 {
     public decimal? TotalPupils { get; set; }
