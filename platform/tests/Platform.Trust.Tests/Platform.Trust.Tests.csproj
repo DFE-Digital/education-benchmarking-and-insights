@@ -26,11 +26,11 @@
         <AssemblyAttribute Include="System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute"/>
     </ItemGroup>
     <ItemGroup>
-      <Folder Include="Features\Accounts\" />
-      <Folder Include="Features\BudgetForecast\" />
-      <Folder Include="Features\Comparators\" />
-      <Folder Include="Features\Details\" />
-      <Folder Include="Features\Search\" />
+      <Folder Include="Features\Accounts\Functions\" />
+      <Folder Include="Features\BudgetForecast\Functions\" />
+      <Folder Include="Features\Comparators\Functions\" />
+      <Folder Include="Features\Details\Functions\" />
+      <Folder Include="Features\Search\Functions\" />
     </ItemGroup>
 
 </Project>

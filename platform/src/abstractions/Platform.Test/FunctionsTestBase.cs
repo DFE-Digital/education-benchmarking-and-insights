@@ -1,9 +1,11 @@
-using AutoFixture;
+using System.Net;
+using System.Reflection;
 using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Extensions.Primitives;
 using Moq;
 using Platform.Functions;
 using Platform.Test.Mocks;
+using Xunit;
 
 namespace Platform.Test;
 
@@ -33,27 +35,88 @@ public class FunctionsTestBase
     }
 }
 
-/*public abstract class VersionedFunctionTestBase<THandler> : FunctionsTestBase where THandler : class, IVersionedHandler
+public abstract class FunctionRunAsyncReflectionTestsBase<TFunction, THandler, TContext> : FunctionsTestBase
+    where TFunction : class
+    where THandler : class, IVersionedHandler<TContext>
+    where TContext : HandlerContext
 {
-    protected readonly Mock<IVersionedHandlerDispatcher<THandler>> Dispatcher;
-    protected readonly Mock<THandler> Handler;
-    protected readonly Fixture Fixture = new();
+    protected abstract TFunction CreateFunction(IEnumerable<THandler> handlers);
 
-    protected VersionedFunctionTestBase()
+    protected abstract object[] GetRunAsyncArguments(HttpRequestData request);
+
+    private static Mock<THandler> CreateHandler(string version, HttpResponseData response)
     {
-        Handler = new Mock<THandler>();
-        Dispatcher = new Mock<IVersionedHandlerDispatcher<THandler>>();
-
-        Dispatcher
-            .Setup(d => d.GetHandler("1.0"))
-            .Returns(Handler.Object);
-
-        Dispatcher
-            .Setup(d => d.GetHandler("9.9"))
-            .Returns((THandler?)null);
-
-        Dispatcher
-            .Setup(d => d.GetHandler(null))
-            .Returns(Handler.Object);
+        var mock = new Mock<THandler>();
+        mock.SetupGet(h => h.Version).Returns(version);
+        mock.Setup(h => h.HandleAsync(It.IsAny<TContext>()))
+            .ReturnsAsync(response);
+        return mock;
     }
-}*/
+
+    private static MethodInfo GetRunAsyncMethod()
+    {
+        var method = typeof(TFunction)
+            .GetMethods()
+            .Single(m => m.Name == "RunAsync" && typeof(Task<HttpResponseData>).IsAssignableFrom(m.ReturnType));
+
+        return method;
+    }
+
+    [Fact]
+    public async Task RunAsync_NoVersion_UsesLatestHandler()
+    {
+        var request = CreateHttpRequestData();
+        var expectedResponse = HttpResponseDataFactory.Create();
+
+        var v1Handler = CreateHandler("1.0", HttpResponseDataFactory.Create());
+        var v2Handler = CreateHandler("2.0", expectedResponse);
+
+        var function = CreateFunction([v1Handler.Object, v2Handler.Object]);
+        var args = GetRunAsyncArguments(request);
+        var method = GetRunAsyncMethod();
+
+        var task = (Task<HttpResponseData>)method.Invoke(function, args)!;
+        var response = await task;
+
+        Assert.Same(expectedResponse, response);
+        v2Handler.Verify(h => h.HandleAsync(It.IsAny<TContext>()), Times.Once);
+        v1Handler.Verify(h => h.HandleAsync(It.IsAny<TContext>()), Times.Never);
+    }
+
+    [Fact]
+    public async Task RunAsync_UnsupportedVersion_ReturnsUnsupportedVersionResponse()
+    {
+        var kvp = new KeyValuePair<string, string>("x-api-version", "99.0");
+        var request = CreateHttpRequestData(null, new HttpHeadersCollection([kvp]));
+
+        var handler = CreateHandler("1.0", HttpResponseDataFactory.Create());
+        var function = CreateFunction([handler.Object]);
+        var args = GetRunAsyncArguments(request);
+        var method = GetRunAsyncMethod();
+
+        var task = (Task<HttpResponseData>)method.Invoke(function, args)!;
+        var response = await task;
+
+        Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
+        handler.Verify(h => h.HandleAsync(It.IsAny<TContext>()), Times.Never);
+    }
+
+    [Fact]
+    public async Task RunAsync_HandlerResponse_IsReturnedUnmodified()
+    {
+        var kvp = new KeyValuePair<string, string>("x-api-version", "1.0");
+        var request = CreateHttpRequestData(null, new HttpHeadersCollection([kvp]));
+        var expectedResponse = HttpResponseDataFactory.Create();
+
+        var handler = CreateHandler("1.0", expectedResponse);
+        var function = CreateFunction([handler.Object]);
+        var args = GetRunAsyncArguments(request);
+        var method = GetRunAsyncMethod();
+
+        var task = (Task<HttpResponseData>)method.Invoke(function, args)!;
+        var response = await task;
+
+        Assert.Same(expectedResponse, response);
+        handler.Verify(h => h.HandleAsync(It.IsAny<TContext>()), Times.Once);
+    }
+}

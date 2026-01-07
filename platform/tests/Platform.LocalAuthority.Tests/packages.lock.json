@@ -1903,11 +1903,6 @@
         "resolved": "1.18.0",
         "contentHash": "OtFMHN8yqIcYP9wcVIgJrq01AfTxijjAqVDy/WeQVSyrDC1RzBWeQPztL49DN2syXRah8TYnfvk035s7L95EZQ=="
       },
-      "xunit.assert": {
-        "type": "Transitive",
-        "resolved": "2.9.3",
-        "contentHash": "/Kq28fCE7MjOV42YLVRAJzRF0WmEqsmflm0cfpMjGtzQ2lR5mYVj1/i0Y8uDAOLczkL3/jArrwehfMD0YogMAA=="
-      },
       "xunit.core": {
         "type": "Transitive",
         "resolved": "2.9.3",
@@ -1915,14 +1910,6 @@
         "dependencies": {
           "xunit.extensibility.core": "[2.9.3]",
           "xunit.extensibility.execution": "[2.9.3]"
-        }
-      },
-      "xunit.extensibility.core": {
-        "type": "Transitive",
-        "resolved": "2.9.3",
-        "contentHash": "kf3si0YTn2a8J8eZNb+zFpwfoyvIrQ7ivNk5ZYA5yuYk1bEtMe4DxJ2CF/qsRgmEnDr7MnW1mxylBaHTZ4qErA==",
-        "dependencies": {
-          "xunit.abstractions": "2.0.3"
         }
       },
       "xunit.extensibility.execution": {
@@ -2023,7 +2010,9 @@
           "Microsoft.NET.Test.Sdk": "[18.0.0, )",
           "Moq": "[4.20.72, )",
           "Platform.Functions": "[1.0.0, )",
-          "xunit.abstractions": "[2.0.3, )"
+          "xunit.abstractions": "[2.0.3, )",
+          "xunit.assert": "[2.9.3, )",
+          "xunit.extensibility.core": "[2.9.3, )"
         }
       },
       "AspNetCore.HealthChecks.AzureSearch": {
@@ -2436,6 +2425,21 @@
         "requested": "[2.0.3, )",
         "resolved": "2.0.3",
         "contentHash": "pot1I4YOxlWjIb5jmwvvQNbTrZ3lJQ+jUGkGjWE3hEFM0l5gOnBWS+H3qsex68s5cO52g+44vpGzhAt+42vwKg=="
+      },
+      "xunit.assert": {
+        "type": "CentralTransitive",
+        "requested": "[2.9.3, )",
+        "resolved": "2.9.3",
+        "contentHash": "/Kq28fCE7MjOV42YLVRAJzRF0WmEqsmflm0cfpMjGtzQ2lR5mYVj1/i0Y8uDAOLczkL3/jArrwehfMD0YogMAA=="
+      },
+      "xunit.extensibility.core": {
+        "type": "CentralTransitive",
+        "requested": "[2.9.3, )",
+        "resolved": "2.9.3",
+        "contentHash": "kf3si0YTn2a8J8eZNb+zFpwfoyvIrQ7ivNk5ZYA5yuYk1bEtMe4DxJ2CF/qsRgmEnDr7MnW1mxylBaHTZ4qErA==",
+        "dependencies": {
+          "xunit.abstractions": "2.0.3"
+        }
       }
     }
   }

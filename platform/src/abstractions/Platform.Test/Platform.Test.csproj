@@ -15,6 +15,8 @@
         <PackageReference Include="Moq"/>
         <AssemblyAttribute Include="System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute"/>
         <PackageReference Include="xunit.abstractions"/>
+        <PackageReference Include="xunit.assert" />
+        <PackageReference Include="xunit.extensibility.core" />
     </ItemGroup>
     <ItemGroup>
       <ProjectReference Include="..\Platform.Functions\Platform.Functions.csproj" />

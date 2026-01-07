@@ -26,12 +26,9 @@
         <AssemblyAttribute Include="System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute"/>
     </ItemGroup>
     <ItemGroup>
-      <Folder Include="Features\Accounts\" />
-      <Folder Include="Features\Census\" />
-      <Folder Include="Features\Comparators\" />
-      <Folder Include="Features\Details\" />
-      <Folder Include="Features\MetricRagRatings\" />
-      <Folder Include="Features\Search\" />
+      <ProjectReference Include="..\..\src\abstractions\Platform.Functions\Platform.Functions.csproj" />
+      <ProjectReference Include="..\..\src\abstractions\Platform.Test\Platform.Test.csproj" />
+      <ProjectReference Include="..\..\src\apis\Platform.Api.School\Platform.Api.School.csproj" />
     </ItemGroup>
 
 </Project>

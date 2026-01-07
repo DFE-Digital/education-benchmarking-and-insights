@@ -14,11 +14,11 @@ using Platform.Functions.OpenApi;
 
 namespace Platform.Api.School.Features.Census.Functions;
 
-public class GetComparatorSetAverageHistoryFunctions(IEnumerable<IGetComparatorSetAverageHistoryHandler> handlers) : VersionedFunctionBase<IGetComparatorSetAverageHistoryHandler, IdContext>(handlers)
+public class GetComparatorSetAverageHistoryFunction(IEnumerable<IGetComparatorSetAverageHistoryHandler> handlers) : VersionedFunctionBase<IGetComparatorSetAverageHistoryHandler, IdContext>(handlers)
 {
-    [Function(nameof(GetComparatorSetAverageHistoryFunctions))]
+    [Function(nameof(GetComparatorSetAverageHistoryFunction))]
     [OpenApiSecurityHeader]
-    [OpenApiOperation(nameof(GetComparatorSetAverageHistoryFunctions), Constants.Features.Census)]
+    [OpenApiOperation(nameof(GetComparatorSetAverageHistoryFunction), Constants.Features.Census)]
     [OpenApiParameter("urn", Type = typeof(string), Required = true)]
     [OpenApiParameter("dimension", In = ParameterLocation.Query, Description = "Dimension for response values", Type = typeof(string), Required = true, Example = typeof(OpenApiExamples.Dimension))]
     [OpenApiResponseWithBody(HttpStatusCode.OK, ContentType.ApplicationJson, typeof(CensusHistoryResponse))]
