@@ -12,6 +12,7 @@
         <PackageReference Include="Microsoft.Azure.StackExchangeRedis"/>
         <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions"/>
         <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" />
+    <PackageReference Include="Microsoft.Extensions.Options" VersionOverride="10.0.1" />
         <PackageReference Include="Newtonsoft.Json"/>
         <PackageReference Include="Newtonsoft.Json.Bson"/>
     </ItemGroup>
