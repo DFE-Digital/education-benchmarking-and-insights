@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System.Collections.Generic;
+using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -13,7 +14,7 @@ using Platform.Functions.OpenApi;
 
 namespace Platform.Api.Content.Features.Banners;
 
-public class GetBannerFunction(IVersionedHandlerDispatcher<IGetBannerHandler> dispatcher) : VersionedFunctionBase<IGetBannerHandler>(dispatcher)
+public class GetBannerFunction(IEnumerable<IGetBannerHandler> handlers) : VersionedFunctionBase<IGetBannerHandler, IdContext>(handlers)
 {
     [Function(nameof(GetBannerFunction))]
     [OpenApiSecurityHeader]
@@ -26,11 +27,9 @@ public class GetBannerFunction(IVersionedHandlerDispatcher<IGetBannerHandler> di
     public async Task<HttpResponseData> RunAsync(
         [HttpTrigger(AuthorizationLevel.Admin, MethodType.Get, Route = Routes.Banner)] HttpRequestData req,
         string target,
-        CancellationToken cancellationToken = default)
+        CancellationToken token = default)
     {
-        return await WithHandlerAsync(
-            req,
-            handler => handler.HandleAsync(req, target, cancellationToken),
-            cancellationToken);
+        var context = new IdContext(req, token, target);
+        return await RunAsync(context);
     }
 }

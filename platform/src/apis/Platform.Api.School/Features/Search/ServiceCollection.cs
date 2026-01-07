@@ -17,8 +17,6 @@ public static class ServiceCollection
         serviceCollection
             .AddSingleton<IPostSearchHandler, PostSearchV1Handler>()
             .AddSingleton<IPostSuggestHandler, PostSuggestV1Handler>()
-            .AddSingleton<IVersionedHandlerDispatcher<IPostSearchHandler>, VersionedHandlerDispatcher<IPostSearchHandler>>()
-            .AddSingleton<IVersionedHandlerDispatcher<IPostSuggestHandler>, VersionedHandlerDispatcher<IPostSuggestHandler>>()
             .AddSingleton<ISchoolSearchService, SchoolSearchService>();
 
         serviceCollection

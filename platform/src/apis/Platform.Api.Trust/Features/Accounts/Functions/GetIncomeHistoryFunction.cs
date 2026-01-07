@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System.Collections.Generic;
+using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -13,7 +14,7 @@ using Platform.Functions.OpenApi;
 
 namespace Platform.Api.Trust.Features.Accounts.Functions;
 
-public class GetIncomeHistoryFunction(IVersionedHandlerDispatcher<IGetIncomeHistoryHandler> dispatcher) : VersionedFunctionBase<IGetIncomeHistoryHandler>(dispatcher)
+public class GetIncomeHistoryFunction(IEnumerable<IGetIncomeHistoryHandler> handlers) : VersionedFunctionBase<IGetIncomeHistoryHandler, IdContext>(handlers)
 {
     [Function(nameof(GetIncomeHistoryFunction))]
     [OpenApiSecurityHeader]
@@ -29,9 +30,7 @@ public class GetIncomeHistoryFunction(IVersionedHandlerDispatcher<IGetIncomeHist
         string companyNumber,
         CancellationToken token = default)
     {
-        return await WithHandlerAsync(
-            req,
-            handler => handler.HandleAsync(req, companyNumber, token),
-            token);
+        var context = new IdContext(req, token, companyNumber);
+        return await RunAsync(context);
     }
 }

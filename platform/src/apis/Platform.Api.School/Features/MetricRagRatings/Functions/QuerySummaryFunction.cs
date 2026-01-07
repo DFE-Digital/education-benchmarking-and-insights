@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
@@ -13,7 +14,7 @@ using Platform.Functions.OpenApi;
 
 namespace Platform.Api.School.Features.MetricRagRatings.Functions;
 
-public class QuerySummaryFunction(IVersionedHandlerDispatcher<IQuerySummaryHandler> dispatcher) : VersionedFunctionBase<IQuerySummaryHandler>(dispatcher)
+public class QuerySummaryFunction(IEnumerable<IQuerySummaryHandler> handlers) : VersionedFunctionBase<IQuerySummaryHandler, BasicContext>(handlers)
 {
     [Function(nameof(QuerySummaryFunction))]
     [OpenApiOperation(nameof(QuerySummaryFunction), Constants.Features.MetricRagRatings)]
@@ -28,9 +29,7 @@ public class QuerySummaryFunction(IVersionedHandlerDispatcher<IQuerySummaryHandl
         [HttpTrigger(AuthorizationLevel.Admin, MethodType.Get, Route = Routes.Summary)] HttpRequestData req,
         CancellationToken token = default)
     {
-        return await WithHandlerAsync(
-            req,
-            handler => handler.HandleAsync(req, token),
-            token);
+        var context = new BasicContext(req, token);
+        return await RunAsync(context);
     }
 }

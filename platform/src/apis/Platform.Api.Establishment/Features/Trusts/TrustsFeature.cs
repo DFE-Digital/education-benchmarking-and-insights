@@ -16,7 +16,6 @@ public static class TrustsFeature
     {
         serviceCollection
             .AddSingleton<IGetTrustHandler, GetTrustV1Handler>()
-            .AddSingleton<IVersionedHandlerDispatcher<IGetTrustHandler>, VersionedHandlerDispatcher<IGetTrustHandler>>()
             .AddSingleton<ITrustsService, TrustsService>()
             .AddSingleton<ITrustComparatorsService, TrustComparatorsService>();
 

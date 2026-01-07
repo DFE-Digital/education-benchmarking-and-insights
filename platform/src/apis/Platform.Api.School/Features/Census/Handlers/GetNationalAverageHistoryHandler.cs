@@ -1,5 +1,4 @@
-﻿using System.Threading;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using FluentValidation;
 using Microsoft.Azure.Functions.Worker.Http;
 using Platform.Api.School.Features.Census.Models;
@@ -10,29 +9,26 @@ using Platform.Functions.Extensions;
 
 namespace Platform.Api.School.Features.Census.Handlers;
 
-public interface IGetNationalAverageHistoryHandler : IVersionedHandler
-{
-    Task<HttpResponseData> HandleAsync(HttpRequestData request, CancellationToken cancellationToken);
-}
+public interface IGetNationalAverageHistoryHandler : IVersionedHandler<BasicContext>;
 
 public class GetNationalAverageHistoryV1Handler(ICensusService service, IValidator<NationalAvgParameters> validator) : IGetNationalAverageHistoryHandler
 {
     public string Version => "1.0";
 
-    public async Task<HttpResponseData> HandleAsync(HttpRequestData request, CancellationToken cancellationToken)
+    public async Task<HttpResponseData> HandleAsync(BasicContext context)
     {
-        var queryParams = request.GetParameters<NationalAvgParameters>();
+        var queryParams = context.Request.GetParameters<NationalAvgParameters>();
 
-        var validationResult = await validator.ValidateAsync(queryParams, cancellationToken);
+        var validationResult = await validator.ValidateAsync(queryParams, context.Token);
         if (!validationResult.IsValid)
         {
-            return await request.CreateValidationErrorsResponseAsync(validationResult, cancellationToken);
+            return await context.Request.CreateValidationErrorsResponseAsync(validationResult, context.Token);
         }
 
         var (years, rows) = await service.GetNationalAvgHistoryAsync(queryParams.OverallPhase, queryParams.FinanceType,
-            queryParams.Dimension, cancellationToken);
+            queryParams.Dimension, context.Token);
         return years == null
-            ? await request.CreateJsonResponseAsync(new CensusHistoryResponse(), cancellationToken)
-            : await request.CreateJsonResponseAsync(years.MapToApiResponse(rows), cancellationToken);
+            ? await context.Request.CreateJsonResponseAsync(new CensusHistoryResponse(), context.Token)
+            : await context.Request.CreateJsonResponseAsync(years.MapToApiResponse(rows), context.Token);
     }
 }

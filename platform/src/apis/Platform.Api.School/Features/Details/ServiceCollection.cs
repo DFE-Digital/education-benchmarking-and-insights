@@ -15,9 +15,6 @@ public static class ServiceCollection
             .AddSingleton<IGetSchoolHandler, GetSchoolV1Handler>()
             .AddSingleton<IQuerySchoolsHandler, QuerySchoolsV1Handler>()
             .AddSingleton<IGetSchoolCharacteristicsHandler, GetSchoolCharacteristicsV1Handler>()
-            .AddSingleton<IVersionedHandlerDispatcher<IGetSchoolHandler>, VersionedHandlerDispatcher<IGetSchoolHandler>>()
-            .AddSingleton<IVersionedHandlerDispatcher<IQuerySchoolsHandler>, VersionedHandlerDispatcher<IQuerySchoolsHandler>>()
-            .AddSingleton<IVersionedHandlerDispatcher<IGetSchoolCharacteristicsHandler>, VersionedHandlerDispatcher<IGetSchoolCharacteristicsHandler>>()
             .AddSingleton<ISchoolDetailsService, SchoolDetailsService>();
 
 

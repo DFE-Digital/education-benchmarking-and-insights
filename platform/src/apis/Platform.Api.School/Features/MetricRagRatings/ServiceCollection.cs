@@ -18,9 +18,6 @@ public static class ServiceCollection
             .AddSingleton<IGetUserDefinedHandler, GetUserDefinedV1Handler>()
             .AddSingleton<IQueryDetailsHandler, QueryDetailsV1Handler>()
             .AddSingleton<IQuerySummaryHandler, QuerySummaryV1Handler>()
-            .AddSingleton<IVersionedHandlerDispatcher<IGetUserDefinedHandler>, VersionedHandlerDispatcher<IGetUserDefinedHandler>>()
-            .AddSingleton<IVersionedHandlerDispatcher<IQueryDetailsHandler>, VersionedHandlerDispatcher<IQueryDetailsHandler>>()
-            .AddSingleton<IVersionedHandlerDispatcher<IQuerySummaryHandler>, VersionedHandlerDispatcher<IQuerySummaryHandler>>()
             .AddTransient<IValidator<DetailParameters>, DetailParametersValidator>()
             .AddTransient<IValidator<SummaryParameters>, SummaryParametersValidator>()
             .AddSingleton<IMetricRagRatingsService, MetricRagRatingsService>();

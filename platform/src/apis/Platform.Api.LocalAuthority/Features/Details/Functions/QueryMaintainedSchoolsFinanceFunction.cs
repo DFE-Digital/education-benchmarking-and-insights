@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System.Collections.Generic;
+using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -13,7 +14,7 @@ using Platform.Functions.OpenApi;
 
 namespace Platform.Api.LocalAuthority.Features.Details.Functions;
 
-public class QueryMaintainedSchoolsFinanceFunction(IVersionedHandlerDispatcher<IQueryMaintainedSchoolFinanceHandler> dispatcher) : VersionedFunctionBase<IQueryMaintainedSchoolFinanceHandler>(dispatcher)
+public class QueryMaintainedSchoolsFinanceFunction(IEnumerable<IQueryMaintainedSchoolFinanceHandler> handlers) : VersionedFunctionBase<IQueryMaintainedSchoolFinanceHandler, IdContext>(handlers)
 {
     [Function(nameof(QueryMaintainedSchoolsFinanceFunction))]
     [OpenApiSecurityHeader]
@@ -36,9 +37,7 @@ public class QueryMaintainedSchoolsFinanceFunction(IVersionedHandlerDispatcher<I
         string code,
         CancellationToken token = default)
     {
-        return await WithHandlerAsync(
-            req,
-            handler => handler.HandleAsync(req, code, token),
-            token);
+        var context = new IdContext(req, token, code);
+        return await RunAsync(context);
     }
 }

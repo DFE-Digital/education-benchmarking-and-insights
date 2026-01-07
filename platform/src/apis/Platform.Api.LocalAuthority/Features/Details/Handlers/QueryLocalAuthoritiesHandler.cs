@@ -7,18 +7,15 @@ using Platform.Functions.Extensions;
 
 namespace Platform.Api.LocalAuthority.Features.Details.Handlers;
 
-public interface IQueryLocalAuthoritiesHandler : IVersionedHandler
-{
-    Task<HttpResponseData> HandleAsync(HttpRequestData request, CancellationToken cancellationToken);
-}
+public interface IQueryLocalAuthoritiesHandler : IVersionedHandler<BasicContext>;
 
 public class QueryLocalAuthoritiesV1Handler(ILocalAuthorityDetailsService service) : IQueryLocalAuthoritiesHandler
 {
     public string Version => "1.0";
 
-    public async Task<HttpResponseData> HandleAsync(HttpRequestData request, CancellationToken cancellationToken)
+    public async Task<HttpResponseData> HandleAsync(BasicContext context)
     {
-        var localAuthorities = await service.QueryAsync(cancellationToken);
-        return await request.CreateJsonResponseAsync(localAuthorities, cancellationToken);
+        var localAuthorities = await service.QueryAsync(context.Token);
+        return await context.Request.CreateJsonResponseAsync(localAuthorities, context.Token);
     }
 }

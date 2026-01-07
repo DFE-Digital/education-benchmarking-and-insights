@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System.Collections.Generic;
+using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -13,7 +14,7 @@ using Platform.Functions.OpenApi;
 
 namespace Platform.Api.LocalAuthority.Features.Details.Functions;
 
-public class QueryLocalAuthoritiesFunction(IVersionedHandlerDispatcher<IQueryLocalAuthoritiesHandler> dispatcher) : VersionedFunctionBase<IQueryLocalAuthoritiesHandler>(dispatcher)
+public class QueryLocalAuthoritiesFunction(IEnumerable<IQueryLocalAuthoritiesHandler> handlers) : VersionedFunctionBase<IQueryLocalAuthoritiesHandler, BasicContext>(handlers)
 {
     [Function(nameof(QueryLocalAuthoritiesFunction))]
     [OpenApiSecurityHeader]
@@ -25,9 +26,7 @@ public class QueryLocalAuthoritiesFunction(IVersionedHandlerDispatcher<IQueryLoc
         [HttpTrigger(AuthorizationLevel.Admin, MethodType.Get, Route = Routes.LocalAuthorityCollection)] HttpRequestData req,
         CancellationToken token = default)
     {
-        return await WithHandlerAsync(
-            req,
-            handler => handler.HandleAsync(req, token),
-            token);
+        var context = new BasicContext(req, token);
+        return await RunAsync(context);
     }
 }

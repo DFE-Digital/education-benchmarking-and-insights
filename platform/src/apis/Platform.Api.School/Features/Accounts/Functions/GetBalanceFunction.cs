@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System.Collections.Generic;
+using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -12,7 +13,7 @@ using Platform.Functions.OpenApi;
 
 namespace Platform.Api.School.Features.Accounts.Functions;
 
-public class GetBalanceFunction(IVersionedHandlerDispatcher<IGetBalanceHandler> dispatcher) : VersionedFunctionBase<IGetBalanceHandler>(dispatcher)
+public class GetBalanceFunction(IEnumerable<IGetBalanceHandler> handlers) : VersionedFunctionBase<IGetBalanceHandler, IdContext>(handlers)
 {
     [Function(nameof(GetBalanceFunction))]
     [OpenApiSecurityHeader]
@@ -26,9 +27,7 @@ public class GetBalanceFunction(IVersionedHandlerDispatcher<IGetBalanceHandler> 
         string urn,
         CancellationToken token = default)
     {
-        return await WithHandlerAsync(
-            req,
-            handler => handler.HandleAsync(req, urn, token),
-            token);
+        var context = new IdContext(req, token, urn);
+        return await RunAsync(context);
     }
 }

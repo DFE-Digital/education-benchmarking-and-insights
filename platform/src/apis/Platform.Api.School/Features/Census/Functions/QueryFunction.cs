@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System.Collections.Generic;
+using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -13,7 +14,7 @@ using Platform.Functions.OpenApi;
 
 namespace Platform.Api.School.Features.Census.Functions;
 
-public class QueryFunction(IVersionedHandlerDispatcher<IQueryHandler> dispatcher) : VersionedFunctionBase<IQueryHandler>(dispatcher)
+public class QueryFunction(IEnumerable<IQueryHandler> handlers) : VersionedFunctionBase<IQueryHandler, BasicContext>(handlers)
 {
     //TODO: Consider separate end points for Trust and LA (i.e. census/trust/{id}/schools)
     [Function(nameof(QueryFunction))]
@@ -31,9 +32,7 @@ public class QueryFunction(IVersionedHandlerDispatcher<IQueryHandler> dispatcher
         [HttpTrigger(AuthorizationLevel.Admin, MethodType.Get, Route = Routes.Collection)] HttpRequestData req,
         CancellationToken token = default)
     {
-        return await WithHandlerAsync(
-            req,
-            handler => handler.HandleAsync(req, token),
-            token);
+        var context = new BasicContext(req, token);
+        return await RunAsync(context);
     }
 }

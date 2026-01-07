@@ -1,5 +1,4 @@
-﻿using System.Threading;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using FluentValidation;
 using Microsoft.Azure.Functions.Worker.Http;
 using Platform.Api.School.Features.Accounts.Parameters;
@@ -9,28 +8,25 @@ using Platform.Functions.Extensions;
 
 namespace Platform.Api.School.Features.Accounts.Handlers;
 
-public interface IGetExpenditureComparatorSetAverageHistoryHandler : IVersionedHandler
-{
-    Task<HttpResponseData> HandleAsync(HttpRequestData request, string identifier, CancellationToken cancellationToken);
-}
+public interface IGetExpenditureComparatorSetAverageHistoryHandler : IVersionedHandler<IdContext>;
 
 public class GetExpenditureComparatorSetAverageHistoryV1Handler(IExpenditureService service, IValidator<ExpenditureParameters> validator) : IGetExpenditureComparatorSetAverageHistoryHandler
 {
     public string Version => "1.0";
 
-    public async Task<HttpResponseData> HandleAsync(HttpRequestData request, string identifier, CancellationToken cancellationToken)
+    public async Task<HttpResponseData> HandleAsync(IdContext context)
     {
-        var queryParams = request.GetParameters<ExpenditureParameters>();
+        var queryParams = context.Request.GetParameters<ExpenditureParameters>();
 
-        var validationResult = await validator.ValidateAsync(queryParams, cancellationToken);
+        var validationResult = await validator.ValidateAsync(queryParams, context.Token);
         if (!validationResult.IsValid)
         {
-            return await request.CreateValidationErrorsResponseAsync(validationResult, cancellationToken);
+            return await context.Request.CreateValidationErrorsResponseAsync(validationResult, context.Token);
         }
 
-        var (years, rows) = await service.GetComparatorAveHistoryAsync(identifier, queryParams.Dimension, cancellationToken);
+        var (years, rows) = await service.GetComparatorAveHistoryAsync(context.Id, queryParams.Dimension, context.Token);
         return years == null
-            ? request.CreateNotFoundResponse()
-            : await request.CreateJsonResponseAsync(years.MapToApiResponse(rows), cancellationToken);
+            ? context.Request.CreateNotFoundResponse()
+            : await context.Request.CreateJsonResponseAsync(years.MapToApiResponse(rows), context.Token);
     }
 }

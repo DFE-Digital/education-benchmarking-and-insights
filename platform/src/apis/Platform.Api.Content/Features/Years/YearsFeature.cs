@@ -13,7 +13,6 @@ public static class YearsFeature
     {
         serviceCollection
             .AddSingleton<IGetCurrentReturnYearsHandler, GetCurrentReturnYearsV1Handler>()
-            .AddSingleton<IVersionedHandlerDispatcher<IGetCurrentReturnYearsHandler>, VersionedHandlerDispatcher<IGetCurrentReturnYearsHandler>>()
             .AddSingleton<IYearsService, YearsService>();
 
         return serviceCollection;

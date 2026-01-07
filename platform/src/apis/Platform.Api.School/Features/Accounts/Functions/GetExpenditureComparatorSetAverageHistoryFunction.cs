@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System.Collections.Generic;
+using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -13,7 +14,7 @@ using Platform.Functions.OpenApi;
 
 namespace Platform.Api.School.Features.Accounts.Functions;
 
-public class GetExpenditureComparatorSetAverageHistoryFunction(IVersionedHandlerDispatcher<IGetExpenditureComparatorSetAverageHistoryHandler> dispatcher) : VersionedFunctionBase<IGetExpenditureComparatorSetAverageHistoryHandler>(dispatcher)
+public class GetExpenditureComparatorSetAverageHistoryFunction(IEnumerable<IGetExpenditureComparatorSetAverageHistoryHandler> handlers) : VersionedFunctionBase<IGetExpenditureComparatorSetAverageHistoryHandler, IdContext>(handlers)
 {
     [Function(nameof(GetExpenditureComparatorSetAverageHistoryFunction))]
     [OpenApiSecurityHeader]
@@ -28,9 +29,7 @@ public class GetExpenditureComparatorSetAverageHistoryFunction(IVersionedHandler
         string urn,
         CancellationToken token = default)
     {
-        return await WithHandlerAsync(
-            req,
-            handler => handler.HandleAsync(req, urn, token),
-            token);
+        var context = new IdContext(req, token, urn);
+        return await RunAsync(context);
     }
 }

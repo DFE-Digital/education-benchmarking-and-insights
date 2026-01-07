@@ -33,7 +33,7 @@ public class FunctionsTestBase
     }
 }
 
-public abstract class VersionedFunctionTestBase<THandler> : FunctionsTestBase where THandler : class, IVersionedHandler
+/*public abstract class VersionedFunctionTestBase<THandler> : FunctionsTestBase where THandler : class, IVersionedHandler
 {
     protected readonly Mock<IVersionedHandlerDispatcher<THandler>> Dispatcher;
     protected readonly Mock<THandler> Handler;
@@ -56,4 +56,4 @@ public abstract class VersionedFunctionTestBase<THandler> : FunctionsTestBase wh
             .Setup(d => d.GetHandler(null))
             .Returns(Handler.Object);
     }
-}
+}*/

@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System.Collections.Generic;
+using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -13,7 +14,7 @@ using Platform.Functions.OpenApi;
 
 namespace Platform.Api.LocalAuthority.Features.EducationHealthCarePlans.Functions;
 
-public class QueryEducationHealthCarePlansHistoryFunction(IVersionedHandlerDispatcher<IQueryEducationHealthCarePlansHistoryHandler> dispatcher) : VersionedFunctionBase<IQueryEducationHealthCarePlansHistoryHandler>(dispatcher)
+public class QueryEducationHealthCarePlansHistoryFunction(IEnumerable<IQueryEducationHealthCarePlansHistoryHandler> handlers) : VersionedFunctionBase<IQueryEducationHealthCarePlansHistoryHandler, BasicContext>(handlers)
 {
     [Function(nameof(QueryEducationHealthCarePlansHistoryFunction))]
     [OpenApiSecurityHeader]
@@ -28,9 +29,7 @@ public class QueryEducationHealthCarePlansHistoryFunction(IVersionedHandlerDispa
         [HttpTrigger(AuthorizationLevel.Admin, MethodType.Get, Route = Routes.EducationHealthCarePlansHistoryCollection)] HttpRequestData req,
         CancellationToken token = default)
     {
-        return await WithHandlerAsync(
-            req,
-            handler => handler.HandleAsync(req, token),
-            token);
+        var context = new BasicContext(req, token);
+        return await RunAsync(context);
     }
 }

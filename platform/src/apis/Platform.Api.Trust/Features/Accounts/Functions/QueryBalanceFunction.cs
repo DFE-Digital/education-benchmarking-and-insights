@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System.Collections.Generic;
+using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -13,7 +14,7 @@ using Platform.Functions.OpenApi;
 
 namespace Platform.Api.Trust.Features.Accounts.Functions;
 
-public class QueryBalanceFunction(IVersionedHandlerDispatcher<IQueryBalanceHandler> dispatcher) : VersionedFunctionBase<IQueryBalanceHandler>(dispatcher)
+public class QueryBalanceFunction(IEnumerable<IQueryBalanceHandler> handlers) : VersionedFunctionBase<IQueryBalanceHandler, BasicContext>(handlers)
 {
     //TODO: Consider adding validation for parameters
     //TODO: Consider replacing with comparator-set endpoint balance/trust/{companyNumber}/comparator-set/{id}
@@ -29,9 +30,7 @@ public class QueryBalanceFunction(IVersionedHandlerDispatcher<IQueryBalanceHandl
         [HttpTrigger(AuthorizationLevel.Admin, MethodType.Get, Route = Routes.BalanceCollection)] HttpRequestData req,
         CancellationToken token = default)
     {
-        return await WithHandlerAsync(
-            req,
-            handler => handler.HandleAsync(req, token),
-            token);
+        var context = new BasicContext(req, token);
+        return await RunAsync(context);
     }
 }

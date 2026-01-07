@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System.Collections.Generic;
+using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -13,7 +14,7 @@ using Platform.Functions.OpenApi;
 
 namespace Platform.Api.Trust.Features.Comparators.Functions;
 
-public class PostComparatorsFunction(IVersionedHandlerDispatcher<IPostComparatorsHandler> dispatcher) : VersionedFunctionBase<IPostComparatorsHandler>(dispatcher)
+public class PostComparatorsFunction(IEnumerable<IPostComparatorsHandler> handlers) : VersionedFunctionBase<IPostComparatorsHandler, IdContext>(handlers)
 {
     //TODO : Consider request validation
     [Function(nameof(PostComparatorsFunction))]
@@ -29,9 +30,7 @@ public class PostComparatorsFunction(IVersionedHandlerDispatcher<IPostComparator
         string companyNumber,
         CancellationToken token = default)
     {
-        return await WithHandlerAsync(
-            req,
-            handler => handler.HandleAsync(req, companyNumber, token),
-            token);
+        var context = new IdContext(req, token, companyNumber);
+        return await RunAsync(context);
     }
 }

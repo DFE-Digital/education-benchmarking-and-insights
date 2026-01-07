@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System.Collections.Generic;
+using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -13,7 +14,7 @@ using Platform.Functions.OpenApi;
 
 namespace Platform.Api.Content.Features.Files;
 
-public class GetTransparencyFilesFunction(IVersionedHandlerDispatcher<IGetTransparencyFilesHandler> dispatcher) : VersionedFunctionBase<IGetTransparencyFilesHandler>(dispatcher)
+public class GetTransparencyFilesFunction(IEnumerable<IGetTransparencyFilesHandler> handlers) : VersionedFunctionBase<IGetTransparencyFilesHandler, BasicContext>(handlers)
 {
     [Function(nameof(GetTransparencyFilesFunction))]
     [OpenApiSecurityHeader]
@@ -23,11 +24,9 @@ public class GetTransparencyFilesFunction(IVersionedHandlerDispatcher<IGetTransp
     [OpenApiResponseWithBody(HttpStatusCode.BadRequest, ContentType.ApplicationJsonProblem, typeof(ProblemDetails))]
     public async Task<HttpResponseData> RunAsync(
         [HttpTrigger(AuthorizationLevel.Admin, MethodType.Get, Route = Routes.Transparency)] HttpRequestData req,
-        CancellationToken cancellationToken = default)
+        CancellationToken token = default)
     {
-        return await WithHandlerAsync(
-            req,
-            handler => handler.HandleAsync(req, cancellationToken),
-            cancellationToken);
+        var context = new BasicContext(req, token);
+        return await RunAsync(context);
     }
 }

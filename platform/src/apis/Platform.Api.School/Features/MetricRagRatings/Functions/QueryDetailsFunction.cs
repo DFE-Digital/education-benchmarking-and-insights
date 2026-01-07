@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System.Collections.Generic;
+using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -13,7 +14,7 @@ using Platform.Functions.OpenApi;
 
 namespace Platform.Api.School.Features.MetricRagRatings.Functions;
 
-public class QueryDetailsFunction(IVersionedHandlerDispatcher<IQueryDetailsHandler> dispatcher) : VersionedFunctionBase<IQueryDetailsHandler>(dispatcher)
+public class QueryDetailsFunction(IEnumerable<IQueryDetailsHandler> handlers) : VersionedFunctionBase<IQueryDetailsHandler, BasicContext>(handlers)
 {
     [Function(nameof(QueryDetailsFunction))]
     [OpenApiOperation(nameof(QueryDetailsFunction), Constants.Features.MetricRagRatings)]
@@ -28,9 +29,7 @@ public class QueryDetailsFunction(IVersionedHandlerDispatcher<IQueryDetailsHandl
         [HttpTrigger(AuthorizationLevel.Admin, MethodType.Get, Route = Routes.Details)] HttpRequestData req,
         CancellationToken token = default)
     {
-        return await WithHandlerAsync(
-            req,
-            handler => handler.HandleAsync(req, token),
-            token);
+        var context = new BasicContext(req, token);
+        return await RunAsync(context);
     }
 }

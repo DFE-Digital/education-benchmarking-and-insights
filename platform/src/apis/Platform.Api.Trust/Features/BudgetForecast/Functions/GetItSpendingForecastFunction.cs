@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System.Collections.Generic;
+using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -13,7 +14,7 @@ using Platform.Functions.OpenApi;
 
 namespace Platform.Api.Trust.Features.BudgetForecast.Functions;
 
-public class GetItSpendingForecastFunction(IVersionedHandlerDispatcher<IGetItSpendingForecastHandler> dispatcher) : VersionedFunctionBase<IGetItSpendingForecastHandler>(dispatcher)
+public class GetItSpendingForecastFunction(IEnumerable<IGetItSpendingForecastHandler> handlers) : VersionedFunctionBase<IGetItSpendingForecastHandler, IdContext>(handlers)
 {
     [Function(nameof(GetItSpendingForecastFunction))]
     [OpenApiSecurityHeader]
@@ -28,9 +29,7 @@ public class GetItSpendingForecastFunction(IVersionedHandlerDispatcher<IGetItSpe
         string companyNumber,
         CancellationToken token = default)
     {
-        return await WithHandlerAsync(
-            req,
-            handler => handler.HandleAsync(req, companyNumber, token),
-            token);
+        var context = new IdContext(req, token, companyNumber);
+        return await RunAsync(context);
     }
 }

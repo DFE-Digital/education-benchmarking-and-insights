@@ -14,8 +14,6 @@ public static class NewsFeature
         serviceCollection
             .AddSingleton<IGetNewsHandler, GetNewsV1Handler>()
             .AddSingleton<IGetNewsArticleHandler, GetNewsArticleV1Handler>()
-            .AddSingleton<IVersionedHandlerDispatcher<IGetNewsHandler>, VersionedHandlerDispatcher<IGetNewsHandler>>()
-            .AddSingleton<IVersionedHandlerDispatcher<IGetNewsArticleHandler>, VersionedHandlerDispatcher<IGetNewsArticleHandler>>()
             .AddSingleton<INewsService, NewsService>();
 
         return serviceCollection;

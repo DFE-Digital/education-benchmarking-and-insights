@@ -9,28 +9,25 @@ using Platform.Functions.Extensions;
 
 namespace Platform.Api.School.Features.Census.Handlers;
 
-public interface IGetHistoryHandler : IVersionedHandler
-{
-    Task<HttpResponseData> HandleAsync(HttpRequestData request, string identifier, CancellationToken cancellationToken);
-}
+public interface IGetHistoryHandler : IVersionedHandler<IdContext>;
 
 public class GetHistoryV1Handler(ICensusService service, IValidator<GetParameters> validator) : IGetHistoryHandler
 {
     public string Version => "1.0";
 
-    public async Task<HttpResponseData> HandleAsync(HttpRequestData request, string identifier, CancellationToken cancellationToken)
+    public async Task<HttpResponseData> HandleAsync(IdContext context)
     {
-        var queryParams = request.GetParameters<GetParameters>();
+        var queryParams = context.Request.GetParameters<GetParameters>();
 
-        var validationResult = await validator.ValidateAsync(queryParams, cancellationToken);
+        var validationResult = await validator.ValidateAsync(queryParams, context.Token);
         if (!validationResult.IsValid)
         {
-            return await request.CreateValidationErrorsResponseAsync(validationResult, cancellationToken);
+            return await context.Request.CreateValidationErrorsResponseAsync(validationResult, context.Token);
         }
 
-        var (years, rows) = await service.GetHistoryAsync(identifier, queryParams.Dimension, cancellationToken);
+        var (years, rows) = await service.GetHistoryAsync(context.Id, queryParams.Dimension, context.Token);
         return years == null
-            ? request.CreateNotFoundResponse()
-            : await request.CreateJsonResponseAsync(years.MapToApiResponse(rows), cancellationToken);
+            ? context.Request.CreateNotFoundResponse()
+            : await context.Request.CreateJsonResponseAsync(years.MapToApiResponse(rows), context.Token);
     }
 }

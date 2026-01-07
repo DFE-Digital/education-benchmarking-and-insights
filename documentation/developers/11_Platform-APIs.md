@@ -39,13 +39,13 @@ The platform utilises a Header-Based Versioning strategy to ensure backward comp
 
 * Header: Clients specify the version via the api-version HTTP header.
 * Default: If the header is omitted, the API defaults to latest version.
-* Selection: The VersionedHandlerDispatcher<T> uses this header value to resolve and execute the correct versioned handler.
+* Selection: The `VersionedFunctionBase` uses this header value to resolve and execute the correct versioned handler.
 
 **Versioned implementation pattern:**
 
 * Define Handlers: Create separate classes for each version (e.g., `GetExpenditureV1Handler.cs` and `GetExpenditureV2Handler.cs`).
 * Inherit Abstractions: Use `VersionedFunctionBase` to access `ReadVersion()` methods within the Function entry point.
-* Registration: Register both the versioned handlers and the dispatcher in the service collection.
+* Registration: Register the versioned handlers in the service collection.
 
 ## External Shared Abstractions
 

@@ -13,7 +13,6 @@ public static class ServiceCollection
     {
         serviceCollection
             .AddSingleton<IPostComparatorsHandler, PostComparatorsV1Handler>()
-            .AddSingleton<IVersionedHandlerDispatcher<IPostComparatorsHandler>, VersionedHandlerDispatcher<IPostComparatorsHandler>>()
             .AddSingleton<IComparatorsService, ComparatorsService>();
 
         return serviceCollection;

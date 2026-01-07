@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System.Collections.Generic;
+using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -13,7 +14,7 @@ using Platform.Functions.OpenApi;
 
 namespace Platform.Api.Trust.Features.BudgetForecast.Functions;
 
-public class QueryItSpendingFunction(IVersionedHandlerDispatcher<IQueryItSpendingHandler> dispatcher) : VersionedFunctionBase<IQueryItSpendingHandler>(dispatcher)
+public class QueryItSpendingFunction(IEnumerable<IQueryItSpendingHandler> handlers) : VersionedFunctionBase<IQueryItSpendingHandler, BasicContext>(handlers)
 {
     [Function(nameof(QueryItSpendingFunction))]
     [OpenApiSecurityHeader]
@@ -26,9 +27,7 @@ public class QueryItSpendingFunction(IVersionedHandlerDispatcher<IQueryItSpendin
         [HttpTrigger(AuthorizationLevel.Admin, MethodType.Get, Route = Routes.ItSpendingCollection)] HttpRequestData req,
         CancellationToken token = default)
     {
-        return await WithHandlerAsync(
-            req,
-            handler => handler.HandleAsync(req, token),
-            token);
+        var context = new BasicContext(req, token);
+        return await RunAsync(context);
     }
 }

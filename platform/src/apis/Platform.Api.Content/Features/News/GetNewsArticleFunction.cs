@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System.Collections.Generic;
+using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Azure.Functions.Worker;
@@ -11,7 +12,7 @@ using Platform.Functions.OpenApi;
 
 namespace Platform.Api.Content.Features.News;
 
-public class GetNewsArticleFunction(IVersionedHandlerDispatcher<IGetNewsArticleHandler> dispatcher) : VersionedFunctionBase<IGetNewsArticleHandler>(dispatcher)
+public class GetNewsArticleFunction(IEnumerable<IGetNewsArticleHandler> handlers) : VersionedFunctionBase<IGetNewsArticleHandler, IdContext>(handlers)
 {
     [Function(nameof(GetNewsArticleFunction))]
     [OpenApiSecurityHeader]
@@ -23,11 +24,9 @@ public class GetNewsArticleFunction(IVersionedHandlerDispatcher<IGetNewsArticleH
     public async Task<HttpResponseData> RunAsync(
         [HttpTrigger(AuthorizationLevel.Admin, MethodType.Get, Route = Routes.NewsArticle)] HttpRequestData req,
         string slug,
-        CancellationToken cancellationToken = default)
+        CancellationToken token = default)
     {
-        return await WithHandlerAsync(
-            req,
-            handler => handler.HandleAsync(req, slug, cancellationToken),
-            cancellationToken);
+        var context = new IdContext(req, token, slug);
+        return await RunAsync(context);
     }
 }

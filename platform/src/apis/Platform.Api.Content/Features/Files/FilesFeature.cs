@@ -13,7 +13,6 @@ public static class FilesFeature
     {
         serviceCollection
             .AddSingleton<IGetTransparencyFilesHandler, GetTransparencyFilesV1Handler>()
-            .AddSingleton<IVersionedHandlerDispatcher<IGetTransparencyFilesHandler>, VersionedHandlerDispatcher<IGetTransparencyFilesHandler>>()
             .AddSingleton<IFilesService, FilesService>();
 
         return serviceCollection;

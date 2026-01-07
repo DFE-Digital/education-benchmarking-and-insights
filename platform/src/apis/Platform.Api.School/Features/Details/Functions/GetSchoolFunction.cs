@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System.Collections.Generic;
+using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -13,7 +14,7 @@ using Platform.Functions.OpenApi;
 
 namespace Platform.Api.School.Features.Details.Functions;
 
-public class GetSchoolFunction(IVersionedHandlerDispatcher<IGetSchoolHandler> dispatcher) : VersionedFunctionBase<IGetSchoolHandler>(dispatcher)
+public class GetSchoolFunction(IEnumerable<IGetSchoolHandler> handlers) : VersionedFunctionBase<IGetSchoolHandler, IdContext>(handlers)
 {
     [Function(nameof(GetSchoolFunction))]
     [OpenApiSecurityHeader]
@@ -28,9 +29,7 @@ public class GetSchoolFunction(IVersionedHandlerDispatcher<IGetSchoolHandler> di
         string urn,
         CancellationToken token = default)
     {
-        return await WithHandlerAsync(
-            req,
-            handler => handler.HandleAsync(req, urn, token),
-            token);
+        var context = new IdContext(req, token, urn);
+        return await RunAsync(context);
     }
 }

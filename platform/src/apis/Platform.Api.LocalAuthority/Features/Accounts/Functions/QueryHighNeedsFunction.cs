@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System.Collections.Generic;
+using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -13,7 +14,7 @@ using Platform.Functions.OpenApi;
 
 namespace Platform.Api.LocalAuthority.Features.Accounts.Functions;
 
-public class QueryHighNeedsFunction(IVersionedHandlerDispatcher<IQueryHighNeedsHandler> dispatcher) : VersionedFunctionBase<IQueryHighNeedsHandler>(dispatcher)
+public class QueryHighNeedsFunction(IEnumerable<IQueryHighNeedsHandler> handlers) : VersionedFunctionBase<IQueryHighNeedsHandler, BasicContext>(handlers)
 {
     [Function(nameof(QueryHighNeedsFunction))]
     [OpenApiSecurityHeader]
@@ -28,9 +29,7 @@ public class QueryHighNeedsFunction(IVersionedHandlerDispatcher<IQueryHighNeedsH
         [HttpTrigger(AuthorizationLevel.Admin, MethodType.Get, Route = Routes.HighNeeds)] HttpRequestData req,
         CancellationToken token = default)
     {
-        return await WithHandlerAsync(
-            req,
-            handler => handler.HandleAsync(req, token),
-            token);
+        var context = new BasicContext(req, token);
+        return await RunAsync(context);
     }
 }

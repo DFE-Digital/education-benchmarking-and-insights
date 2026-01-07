@@ -1,5 +1,4 @@
-﻿using System.Threading;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using FluentValidation;
 using Microsoft.Azure.Functions.Worker.Http;
 using Platform.Api.Trust.Features.Accounts.Parameters;
@@ -9,28 +8,25 @@ using Platform.Functions.Extensions;
 
 namespace Platform.Api.Trust.Features.Accounts.Handlers;
 
-public interface IGetExpenditureHandler : IVersionedHandler
-{
-    Task<HttpResponseData> HandleAsync(HttpRequestData request, string identifier, CancellationToken cancellationToken);
-}
+public interface IGetExpenditureHandler : IVersionedHandler<IdContext>;
 
 public class GetExpenditureV1Handler(IAccountsService service, IValidator<ExpenditureParameters> validator) : IGetExpenditureHandler
 {
     public string Version => "1.0";
 
-    public async Task<HttpResponseData> HandleAsync(HttpRequestData request, string identifier, CancellationToken cancellationToken)
+    public async Task<HttpResponseData> HandleAsync(IdContext context)
     {
-        var queryParams = request.GetParameters<ExpenditureParameters>();
+        var queryParams = context.Request.GetParameters<ExpenditureParameters>();
 
-        var validationResult = await validator.ValidateAsync(queryParams, cancellationToken);
+        var validationResult = await validator.ValidateAsync(queryParams, context.Token);
         if (!validationResult.IsValid)
         {
-            return await request.CreateValidationErrorsResponseAsync(validationResult, cancellationToken: cancellationToken);
+            return await context.Request.CreateValidationErrorsResponseAsync(validationResult, context.Token);
         }
 
-        var result = await service.GetExpenditureAsync(identifier, queryParams.Dimension, cancellationToken);
+        var result = await service.GetExpenditureAsync(context.Id, queryParams.Dimension, context.Token);
         return result == null
-            ? request.CreateNotFoundResponse()
-            : await request.CreateJsonResponseAsync(result.MapToApiResponse(queryParams.Category), cancellationToken);
+            ? context.Request.CreateNotFoundResponse()
+            : await context.Request.CreateJsonResponseAsync(result.MapToApiResponse(queryParams.Category), context.Token);
     }
 }

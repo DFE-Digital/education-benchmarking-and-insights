@@ -13,7 +13,6 @@ public static class BannersFeature
     {
         serviceCollection
             .AddSingleton<IGetBannerHandler, GetBannerV1Handler>()
-            .AddSingleton<IVersionedHandlerDispatcher<IGetBannerHandler>, VersionedHandlerDispatcher<IGetBannerHandler>>()
             .AddSingleton<IBannersService, BannersService>();
 
         return serviceCollection;

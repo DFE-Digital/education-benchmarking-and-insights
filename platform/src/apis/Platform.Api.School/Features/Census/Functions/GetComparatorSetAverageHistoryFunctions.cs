@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System.Collections.Generic;
+using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -13,7 +14,7 @@ using Platform.Functions.OpenApi;
 
 namespace Platform.Api.School.Features.Census.Functions;
 
-public class GetComparatorSetAverageHistoryFunctions(IVersionedHandlerDispatcher<IGetComparatorSetAverageHistoryHandler> dispatcher) : VersionedFunctionBase<IGetComparatorSetAverageHistoryHandler>(dispatcher)
+public class GetComparatorSetAverageHistoryFunctions(IEnumerable<IGetComparatorSetAverageHistoryHandler> handlers) : VersionedFunctionBase<IGetComparatorSetAverageHistoryHandler, IdContext>(handlers)
 {
     [Function(nameof(GetComparatorSetAverageHistoryFunctions))]
     [OpenApiSecurityHeader]
@@ -27,9 +28,7 @@ public class GetComparatorSetAverageHistoryFunctions(IVersionedHandlerDispatcher
         string urn,
         CancellationToken token = default)
     {
-        return await WithHandlerAsync(
-            req,
-            handler => handler.HandleAsync(req, urn, token),
-            token);
+        var context = new IdContext(req, token, urn);
+        return await RunAsync(context);
     }
 }

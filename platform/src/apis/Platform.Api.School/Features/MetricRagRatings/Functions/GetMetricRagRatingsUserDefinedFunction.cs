@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System.Collections.Generic;
+using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -13,7 +14,7 @@ using Platform.Functions.OpenApi;
 
 namespace Platform.Api.School.Features.MetricRagRatings.Functions;
 
-public class GetMetricRagRatingsUserDefinedFunction(IVersionedHandlerDispatcher<IGetUserDefinedHandler> dispatcher) : VersionedFunctionBase<IGetUserDefinedHandler>(dispatcher)
+public class GetMetricRagRatingsUserDefinedFunction(IEnumerable<IGetUserDefinedHandler> handlers) : VersionedFunctionBase<IGetUserDefinedHandler, IdContext>(handlers)
 {
     [Function(nameof(GetMetricRagRatingsUserDefinedFunction))]
     [OpenApiOperation(nameof(GetMetricRagRatingsUserDefinedFunction), Constants.Features.MetricRagRatings)]
@@ -27,9 +28,7 @@ public class GetMetricRagRatingsUserDefinedFunction(IVersionedHandlerDispatcher<
         string identifier,
         CancellationToken token = default)
     {
-        return await WithHandlerAsync(
-            req,
-            handler => handler.HandleAsync(req, identifier, token),
-            token);
+        var context = new IdContext(req, token, identifier);
+        return await RunAsync(context);
     }
 }

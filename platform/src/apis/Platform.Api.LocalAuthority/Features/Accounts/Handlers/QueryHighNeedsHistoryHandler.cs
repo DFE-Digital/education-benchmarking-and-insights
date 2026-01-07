@@ -9,28 +9,25 @@ using Platform.Functions.Extensions;
 
 namespace Platform.Api.LocalAuthority.Features.Accounts.Handlers;
 
-public interface IQueryHighNeedsHistoryHandler : IVersionedHandler
-{
-    Task<HttpResponseData> HandleAsync(HttpRequestData request, CancellationToken cancellationToken);
-}
+public interface IQueryHighNeedsHistoryHandler : IVersionedHandler<BasicContext>;
 
 public class QueryHighNeedsHistoryV1Handler(IHighNeedsService service, IValidator<HighNeedsParameters> validator) : IQueryHighNeedsHistoryHandler
 {
     public string Version => "1.0";
 
-    public async Task<HttpResponseData> HandleAsync(HttpRequestData request, CancellationToken cancellationToken)
+    public async Task<HttpResponseData> HandleAsync(BasicContext context)
     {
-        var queryParams = request.GetParameters<HighNeedsParameters>();
+        var queryParams = context.Request.GetParameters<HighNeedsParameters>();
 
-        var validationResult = await validator.ValidateAsync(queryParams, cancellationToken);
+        var validationResult = await validator.ValidateAsync(queryParams, context.Token);
         if (!validationResult.IsValid)
         {
-            return await request.CreateValidationErrorsResponseAsync(validationResult, cancellationToken);
+            return await context.Request.CreateValidationErrorsResponseAsync(validationResult, context.Token);
         }
 
-        var history = await service.QueryHistoryAsync(queryParams.Codes, queryParams.Dimension, cancellationToken);
+        var history = await service.QueryHistoryAsync(queryParams.Codes, queryParams.Dimension, context.Token);
         return history == null
-            ? request.CreateNotFoundResponse()
-            : await request.CreateJsonResponseAsync(history, cancellationToken);
+            ? context.Request.CreateNotFoundResponse()
+            : await context.Request.CreateJsonResponseAsync(history, context.Token);
     }
 }

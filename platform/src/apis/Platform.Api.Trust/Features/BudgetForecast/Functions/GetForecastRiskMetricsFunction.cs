@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System.Collections.Generic;
+using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -13,7 +14,7 @@ using Platform.Functions.OpenApi;
 
 namespace Platform.Api.Trust.Features.BudgetForecast.Functions;
 
-public class GetForecastRiskMetricsFunction(IVersionedHandlerDispatcher<IGetForecastRiskMetricsHandler> dispatcher) : VersionedFunctionBase<IGetForecastRiskMetricsHandler>(dispatcher)
+public class GetForecastRiskMetricsFunction(IEnumerable<IGetForecastRiskMetricsHandler> handlers) : VersionedFunctionBase<IGetForecastRiskMetricsHandler, IdContext>(handlers)
 {
     [Function(nameof(GetForecastRiskMetricsFunction))]
     [OpenApiSecurityHeader]
@@ -27,9 +28,7 @@ public class GetForecastRiskMetricsFunction(IVersionedHandlerDispatcher<IGetFore
         string companyNumber,
         CancellationToken token = default)
     {
-        return await WithHandlerAsync(
-            req,
-            handler => handler.HandleAsync(req, companyNumber, token),
-            token);
+        var context = new IdContext(req, token, companyNumber);
+        return await RunAsync(context);
     }
 }

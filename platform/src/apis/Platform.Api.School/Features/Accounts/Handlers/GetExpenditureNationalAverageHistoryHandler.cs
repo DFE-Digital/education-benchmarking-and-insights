@@ -1,5 +1,4 @@
-﻿using System.Threading;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using FluentValidation;
 using Microsoft.Azure.Functions.Worker.Http;
 using Platform.Api.School.Features.Accounts.Models;
@@ -10,29 +9,26 @@ using Platform.Functions.Extensions;
 
 namespace Platform.Api.School.Features.Accounts.Handlers;
 
-public interface IGetExpenditureNationalAverageHistoryHandler : IVersionedHandler
-{
-    Task<HttpResponseData> HandleAsync(HttpRequestData request, CancellationToken cancellationToken);
-}
+public interface IGetExpenditureNationalAverageHistoryHandler : IVersionedHandler<BasicContext>;
 
 public class GetExpenditureNationalAverageHistoryV1Handler(IExpenditureService service, IValidator<ExpenditureNationalAvgParameters> validator) : IGetExpenditureNationalAverageHistoryHandler
 {
     public string Version => "1.0";
 
-    public async Task<HttpResponseData> HandleAsync(HttpRequestData request, CancellationToken cancellationToken)
+    public async Task<HttpResponseData> HandleAsync(BasicContext context)
     {
-        var queryParams = request.GetParameters<ExpenditureNationalAvgParameters>();
+        var queryParams = context.Request.GetParameters<ExpenditureNationalAvgParameters>();
 
-        var validationResult = await validator.ValidateAsync(queryParams, cancellationToken);
+        var validationResult = await validator.ValidateAsync(queryParams, context.Token);
         if (!validationResult.IsValid)
         {
-            return await request.CreateValidationErrorsResponseAsync(validationResult.Errors, cancellationToken: cancellationToken);
+            return await context.Request.CreateValidationErrorsResponseAsync(validationResult, context.Token);
         }
 
         var (years, rows) = await service.GetNationalAvgHistoryAsync(queryParams.OverallPhase, queryParams.FinanceType,
-            queryParams.Dimension, cancellationToken);
+            queryParams.Dimension, context.Token);
         return years == null
-            ? await request.CreateJsonResponseAsync(new ExpenditureHistoryResponse(), cancellationToken)
-            : await request.CreateJsonResponseAsync(years.MapToApiResponse(rows), cancellationToken);
+            ? await context.Request.CreateJsonResponseAsync(new ExpenditureHistoryResponse(), context.Token)
+            : await context.Request.CreateJsonResponseAsync(years.MapToApiResponse(rows), context.Token);
     }
 }

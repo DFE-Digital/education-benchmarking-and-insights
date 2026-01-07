@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System.Collections.Generic;
+using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -13,7 +14,7 @@ using Platform.Functions.OpenApi;
 
 namespace Platform.Api.School.Features.Census.Functions;
 
-public class GetNationalAverageHistoryFunction(IVersionedHandlerDispatcher<IGetNationalAverageHistoryHandler> dispatcher) : VersionedFunctionBase<IGetNationalAverageHistoryHandler>(dispatcher)
+public class GetNationalAverageHistoryFunction(IEnumerable<IGetNationalAverageHistoryHandler> handlers) : VersionedFunctionBase<IGetNationalAverageHistoryHandler, BasicContext>(handlers)
 {
     [Function(nameof(GetNationalAverageHistoryFunction))]
     [OpenApiSecurityHeader]
@@ -27,9 +28,7 @@ public class GetNationalAverageHistoryFunction(IVersionedHandlerDispatcher<IGetN
         [HttpTrigger(AuthorizationLevel.Admin, MethodType.Get, Route = Routes.NationalAverageHistory)] HttpRequestData req,
         CancellationToken token = default)
     {
-        return await WithHandlerAsync(
-            req,
-            handler => handler.HandleAsync(req, token),
-            token);
+        var context = new BasicContext(req, token);
+        return await RunAsync(context);
     }
 }

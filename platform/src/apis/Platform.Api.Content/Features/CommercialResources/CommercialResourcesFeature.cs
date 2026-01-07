@@ -13,7 +13,6 @@ public static class CommercialResourcesFeature
     {
         serviceCollection
             .AddSingleton<IGetCommercialResourcesHandler, GetCommercialResourcesV1Handler>()
-            .AddSingleton<IVersionedHandlerDispatcher<IGetCommercialResourcesHandler>, VersionedHandlerDispatcher<IGetCommercialResourcesHandler>>()
             .AddSingleton<ICommercialResourcesService, CommercialResourcesService>();
 
         return serviceCollection;

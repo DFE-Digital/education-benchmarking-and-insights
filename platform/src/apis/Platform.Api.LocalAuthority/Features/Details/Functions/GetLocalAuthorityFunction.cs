@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System.Collections.Generic;
+using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -13,7 +14,7 @@ using Platform.Functions.OpenApi;
 
 namespace Platform.Api.LocalAuthority.Features.Details.Functions;
 
-public class GetLocalAuthorityFunction(IVersionedHandlerDispatcher<IGetLocalAuthorityHandler> dispatcher) : VersionedFunctionBase<IGetLocalAuthorityHandler>(dispatcher)
+public class GetLocalAuthorityFunction(IEnumerable<IGetLocalAuthorityHandler> handlers) : VersionedFunctionBase<IGetLocalAuthorityHandler, IdContext>(handlers)
 {
     [Function(nameof(GetLocalAuthorityFunction))]
     [OpenApiSecurityHeader]
@@ -28,9 +29,7 @@ public class GetLocalAuthorityFunction(IVersionedHandlerDispatcher<IGetLocalAuth
         string code,
         CancellationToken token = default)
     {
-        return await WithHandlerAsync(
-            req,
-            handler => handler.HandleAsync(req, code, token),
-            token);
+        var context = new IdContext(req, token, code);
+        return await RunAsync(context);
     }
 }

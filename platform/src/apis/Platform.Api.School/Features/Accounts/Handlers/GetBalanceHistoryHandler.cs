@@ -1,5 +1,4 @@
-﻿using System.Threading;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Microsoft.Azure.Functions.Worker.Http;
 using Platform.Api.School.Features.Accounts.Parameters;
 using Platform.Api.School.Features.Accounts.Services;
@@ -8,22 +7,19 @@ using Platform.Functions.Extensions;
 
 namespace Platform.Api.School.Features.Accounts.Handlers;
 
-public interface IGetBalanceHistoryHandler : IVersionedHandler
-{
-    Task<HttpResponseData> HandleAsync(HttpRequestData request, string identifier, CancellationToken cancellationToken);
-}
+public interface IGetBalanceHistoryHandler : IVersionedHandler<IdContext>;
 
 public class GetBalanceHistoryV1Handler(IBalanceService service) : IGetBalanceHistoryHandler
 {
     public string Version => "1.0";
 
-    public async Task<HttpResponseData> HandleAsync(HttpRequestData request, string identifier, CancellationToken cancellationToken)
+    public async Task<HttpResponseData> HandleAsync(IdContext context)
     {
-        var queryParams = request.GetParameters<BalanceParameters>();
+        var queryParams = context.Request.GetParameters<BalanceParameters>();
 
-        var (years, rows) = await service.GetHistoryAsync(identifier, queryParams.Dimension, cancellationToken);
+        var (years, rows) = await service.GetHistoryAsync(context.Id, queryParams.Dimension, context.Token);
         return years == null
-            ? request.CreateNotFoundResponse()
-            : await request.CreateJsonResponseAsync(years.MapToApiResponse(rows), cancellationToken);
+            ? context.Request.CreateNotFoundResponse()
+            : await context.Request.CreateJsonResponseAsync(years.MapToApiResponse(rows), context.Token);
     }
 }

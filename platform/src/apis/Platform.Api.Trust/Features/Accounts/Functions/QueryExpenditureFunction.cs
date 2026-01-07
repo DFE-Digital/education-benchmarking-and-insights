@@ -14,7 +14,7 @@ using Platform.Functions.OpenApi;
 
 namespace Platform.Api.Trust.Features.Accounts.Functions;
 
-public class QueryExpenditureFunction(IVersionedHandlerDispatcher<IQueryExpenditureHandler> dispatcher) : VersionedFunctionBase<IQueryExpenditureHandler>(dispatcher)
+public class QueryExpenditureFunction(IEnumerable<IQueryExpenditureHandler> handlers) : VersionedFunctionBase<IQueryExpenditureHandler, BasicContext>(handlers)
 {
     [Function(nameof(QueryExpenditureFunction))]
     [OpenApiSecurityHeader]
@@ -30,9 +30,7 @@ public class QueryExpenditureFunction(IVersionedHandlerDispatcher<IQueryExpendit
         [HttpTrigger(AuthorizationLevel.Admin, MethodType.Get, Route = Routes.ExpenditureCollection)] HttpRequestData req,
         CancellationToken token = default)
     {
-        return await WithHandlerAsync(
-            req,
-            handler => handler.HandleAsync(req, token),
-            token);
+        var context = new BasicContext(req, token);
+        return await RunAsync(context);
     }
 }

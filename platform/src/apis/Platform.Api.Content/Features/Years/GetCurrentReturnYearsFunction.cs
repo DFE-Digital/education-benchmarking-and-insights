@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
@@ -13,7 +14,7 @@ using Platform.Functions.OpenApi;
 
 namespace Platform.Api.Content.Features.Years;
 
-public class GetCurrentReturnYearsFunction(IVersionedHandlerDispatcher<IGetCurrentReturnYearsHandler> dispatcher) : VersionedFunctionBase<IGetCurrentReturnYearsHandler>(dispatcher)
+public class GetCurrentReturnYearsFunction(IEnumerable<IGetCurrentReturnYearsHandler> handlers) : VersionedFunctionBase<IGetCurrentReturnYearsHandler, BasicContext>(handlers)
 {
     [Function(nameof(GetCurrentReturnYearsFunction))]
     [OpenApiSecurityHeader]
@@ -23,11 +24,9 @@ public class GetCurrentReturnYearsFunction(IVersionedHandlerDispatcher<IGetCurre
     [OpenApiResponseWithBody(HttpStatusCode.BadRequest, ContentType.ApplicationJsonProblem, typeof(ProblemDetails))]
     public async Task<HttpResponseData> RunAsync(
         [HttpTrigger(AuthorizationLevel.Admin, MethodType.Get, Route = Routes.CurrentReturn)] HttpRequestData req,
-        CancellationToken cancellationToken = default)
+        CancellationToken token = default)
     {
-        return await WithHandlerAsync(
-            req,
-            handler => handler.HandleAsync(req, cancellationToken),
-            cancellationToken);
+        var context = new BasicContext(req, token);
+        return await RunAsync(context);
     }
 }

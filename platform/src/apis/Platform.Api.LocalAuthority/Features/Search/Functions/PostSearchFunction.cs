@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System.Collections.Generic;
+using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -14,7 +15,7 @@ using Platform.Search;
 
 namespace Platform.Api.LocalAuthority.Features.Search.Functions;
 
-public class PostSearchFunction(IVersionedHandlerDispatcher<IPostSearchHandler> dispatcher) : VersionedFunctionBase<IPostSearchHandler>(dispatcher)
+public class PostSearchFunction(IEnumerable<IPostSearchHandler> handlers) : VersionedFunctionBase<IPostSearchHandler, BasicContext>(handlers)
 {
     [Function(nameof(PostSearchFunction))]
     [OpenApiSecurityHeader]
@@ -27,9 +28,7 @@ public class PostSearchFunction(IVersionedHandlerDispatcher<IPostSearchHandler> 
         [HttpTrigger(AuthorizationLevel.Admin, MethodType.Post, Route = Routes.Search)] HttpRequestData req,
         CancellationToken token = default)
     {
-        return await WithHandlerAsync(
-            req,
-            handler => handler.HandleAsync(req, token),
-            token);
+        var context = new BasicContext(req, token);
+        return await RunAsync(context);
     }
 }

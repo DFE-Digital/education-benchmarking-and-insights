@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System.Collections.Generic;
+using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -13,7 +14,7 @@ using Platform.Functions.OpenApi;
 
 namespace Platform.Api.Trust.Features.Details.Functions;
 
-public class QueryTrustsFunction(IVersionedHandlerDispatcher<IQueryTrustsHandler> dispatcher) : VersionedFunctionBase<IQueryTrustsHandler>(dispatcher)
+public class QueryTrustsFunction(IEnumerable<IQueryTrustsHandler> handlers) : VersionedFunctionBase<IQueryTrustsHandler, BasicContext>(handlers)
 {
     [Function(nameof(QueryTrustsFunction))]
     [OpenApiSecurityHeader]
@@ -26,9 +27,7 @@ public class QueryTrustsFunction(IVersionedHandlerDispatcher<IQueryTrustsHandler
         [HttpTrigger(AuthorizationLevel.Admin, MethodType.Get, Route = Routes.TrustCollection)] HttpRequestData req,
         CancellationToken token = default)
     {
-        return await WithHandlerAsync(
-            req,
-            handler => handler.HandleAsync(req, token),
-            token);
+        var context = new BasicContext(req, token);
+        return await RunAsync(context);
     }
 }

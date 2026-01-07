@@ -2,7 +2,6 @@
 using Microsoft.Extensions.DependencyInjection;
 using Platform.Api.Trust.Features.Comparators.Handlers;
 using Platform.Api.Trust.Features.Comparators.Services;
-using Platform.Functions;
 
 namespace Platform.Api.Trust.Features.Comparators;
 
@@ -13,7 +12,6 @@ public static class ServiceCollection
     {
         serviceCollection
             .AddSingleton<IPostComparatorsHandler, PostComparatorsV1Handler>()
-            .AddSingleton<IVersionedHandlerDispatcher<IPostComparatorsHandler>, VersionedHandlerDispatcher<IPostComparatorsHandler>>()
             .AddSingleton<IComparatorsService, ComparatorsService>();
 
         return serviceCollection;

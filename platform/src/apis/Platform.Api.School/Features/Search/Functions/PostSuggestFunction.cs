@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System.Collections.Generic;
+using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -14,7 +15,7 @@ using Platform.Search;
 
 namespace Platform.Api.School.Features.Search.Functions;
 
-public class PostSuggestFunction(IVersionedHandlerDispatcher<IPostSuggestHandler> dispatcher) : VersionedFunctionBase<IPostSuggestHandler>(dispatcher)
+public class PostSuggestFunction(IEnumerable<IPostSuggestHandler> handlers) : VersionedFunctionBase<IPostSuggestHandler, BasicContext>(handlers)
 {
     [Function(nameof(PostSuggestFunction))]
     [OpenApiSecurityHeader]
@@ -27,9 +28,7 @@ public class PostSuggestFunction(IVersionedHandlerDispatcher<IPostSuggestHandler
         [HttpTrigger(AuthorizationLevel.Admin, MethodType.Post, Route = Routes.Suggest)] HttpRequestData req,
         CancellationToken token = default)
     {
-        return await WithHandlerAsync(
-            req,
-            handler => handler.HandleAsync(req, token),
-            token);
+        var context = new BasicContext(req, token);
+        return await RunAsync(context);
     }
 }

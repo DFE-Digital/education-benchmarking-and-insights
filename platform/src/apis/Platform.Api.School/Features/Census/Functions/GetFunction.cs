@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System.Collections.Generic;
+using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -12,7 +13,7 @@ using Platform.Functions.OpenApi;
 
 namespace Platform.Api.School.Features.Census.Functions;
 
-public class GetFunction(IVersionedHandlerDispatcher<IGetHandler> dispatcher) : VersionedFunctionBase<IGetHandler>(dispatcher)
+public class GetFunction(IEnumerable<IGetHandler> handlers) : VersionedFunctionBase<IGetHandler, IdContext>(handlers)
 {
     [Function(nameof(GetFunction))]
     [OpenApiSecurityHeader]
@@ -26,9 +27,7 @@ public class GetFunction(IVersionedHandlerDispatcher<IGetHandler> dispatcher) : 
         string urn,
         CancellationToken token = default)
     {
-        return await WithHandlerAsync(
-            req,
-            handler => handler.HandleAsync(req, urn, token),
-            token);
+        var context = new IdContext(req, token, urn);
+        return await RunAsync(context);
     }
 }

@@ -5,7 +5,6 @@ using Platform.Api.LocalAuthority.Features.EducationHealthCarePlans.Handlers;
 using Platform.Api.LocalAuthority.Features.EducationHealthCarePlans.Parameters;
 using Platform.Api.LocalAuthority.Features.EducationHealthCarePlans.Services;
 using Platform.Api.LocalAuthority.Features.EducationHealthCarePlans.Validators;
-using Platform.Functions;
 
 namespace Platform.Api.LocalAuthority.Features.EducationHealthCarePlans;
 
@@ -17,8 +16,6 @@ public static class ServiceCollection
         serviceCollection
             .AddSingleton<IQueryEducationHealthCarePlansHandler, QueryEducationHealthCarePlansV1Handler>()
             .AddSingleton<IQueryEducationHealthCarePlansHistoryHandler, QueryEducationHealthCarePlansHistoryV1Handler>()
-            .AddSingleton<IVersionedHandlerDispatcher<IQueryEducationHealthCarePlansHandler>, VersionedHandlerDispatcher<IQueryEducationHealthCarePlansHandler>>()
-            .AddSingleton<IVersionedHandlerDispatcher<IQueryEducationHealthCarePlansHistoryHandler>, VersionedHandlerDispatcher<IQueryEducationHealthCarePlansHistoryHandler>>()
             .AddSingleton<IEducationHealthCarePlansService, EducationHealthCarePlansService>()
             .AddTransient<IValidator<EducationHealthCarePlansParameters>, EducationHealthCarePlansParametersValidator>();
 

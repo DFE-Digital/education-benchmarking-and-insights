@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
@@ -13,7 +14,7 @@ using Platform.Functions.OpenApi;
 
 namespace Platform.Api.Establishment.Features.Trusts.Functions;
 
-public class GetTrustFunction(IVersionedHandlerDispatcher<IGetTrustHandler> dispatcher) : VersionedFunctionBase<IGetTrustHandler>(dispatcher)
+public class GetTrustFunction(IEnumerable<IGetTrustHandler> handlers) : VersionedFunctionBase<IGetTrustHandler, IdContext>(handlers)
 {
     [Function(nameof(GetTrustFunction))]
     [OpenApiSecurityHeader]
@@ -28,9 +29,7 @@ public class GetTrustFunction(IVersionedHandlerDispatcher<IGetTrustHandler> disp
         string identifier,
         CancellationToken token = default)
     {
-        return await WithHandlerAsync(
-            req,
-            handler => handler.HandleAsync(req, identifier, token),
-            token);
+        var context = new IdContext(req, token, identifier);
+        return await RunAsync(context);
     }
 }

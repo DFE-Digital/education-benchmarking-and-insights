@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System.Collections.Generic;
+using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -13,7 +14,7 @@ using Platform.Functions.OpenApi;
 
 namespace Platform.Api.School.Features.Census.Functions;
 
-public class GetCensusUserDefinedFunction(IVersionedHandlerDispatcher<IGetUserDefinedHandler> dispatcher) : VersionedFunctionBase<IGetUserDefinedHandler>(dispatcher)
+public class GetCensusUserDefinedFunction(IEnumerable<IGetUserDefinedHandler> handlers) : VersionedFunctionBase<IGetUserDefinedHandler, IdPairContext>(handlers)
 {
     [Function(nameof(GetCensusUserDefinedFunction))]
     [OpenApiSecurityHeader]
@@ -31,9 +32,7 @@ public class GetCensusUserDefinedFunction(IVersionedHandlerDispatcher<IGetUserDe
         string identifier,
         CancellationToken token = default)
     {
-        return await WithHandlerAsync(
-            req,
-            handler => handler.HandleAsync(req, urn, identifier, token),
-            token);
+        var context = new IdPairContext(req, token, urn, identifier);
+        return await RunAsync(context);
     }
 }

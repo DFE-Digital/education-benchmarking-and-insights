@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System.Collections.Generic;
+using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -12,7 +13,7 @@ using Platform.Functions.OpenApi;
 
 namespace Platform.Api.School.Features.Accounts.Functions;
 
-public class GetIncomeFunction(IVersionedHandlerDispatcher<IGetIncomeHandler> dispatcher) : VersionedFunctionBase<IGetIncomeHandler>(dispatcher)
+public class GetIncomeFunction(IEnumerable<IGetIncomeHandler> handlers) : VersionedFunctionBase<IGetIncomeHandler, IdContext>(handlers)
 {
     [Function(nameof(GetIncomeFunction))]
     [OpenApiSecurityHeader]
@@ -26,9 +27,7 @@ public class GetIncomeFunction(IVersionedHandlerDispatcher<IGetIncomeHandler> di
         string urn,
         CancellationToken token = default)
     {
-        return await WithHandlerAsync(
-            req,
-            handler => handler.HandleAsync(req, urn, token),
-            token);
+        var context = new IdContext(req, token, urn);
+        return await RunAsync(context);
     }
 }
