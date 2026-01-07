@@ -79,7 +79,7 @@ The primary focus is ensuring the integrity of the ingestion and transformation 
 - Data Accuracy: Spot-check high-value metrics against raw source files.
 - Fallback States: Ensure UI handles missing data gracefully (e.g., N/A instead of errors).
 
-### AAR 2025 Transparency File Integration
+### AAR 2024-2025 Transparency File Integration
 
 **Goal:** Ensure the transparency dataset is correctly calculated, produced, and integrated into the service with 100% computational accuracy.
 
