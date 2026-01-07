@@ -17,6 +17,7 @@
         <PackageReference Include="AspNetCore.HealthChecks.AzureSearch"/>
     </ItemGroup>
     <ItemGroup>
+      <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" />
       <ProjectReference Include="..\Platform.Infrastructure\Platform.Infrastructure.csproj" />
     </ItemGroup>
 
