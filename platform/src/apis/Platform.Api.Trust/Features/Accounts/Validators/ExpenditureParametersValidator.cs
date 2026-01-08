@@ -5,7 +5,6 @@ using Platform.Domain;
 
 namespace Platform.Api.Trust.Features.Accounts.Validators;
 
-[ExcludeFromCodeCoverage]
 public class ExpenditureParametersValidator : AbstractValidator<ExpenditureParameters>
 {
     public ExpenditureParametersValidator()
@@ -23,7 +22,6 @@ public class ExpenditureParametersValidator : AbstractValidator<ExpenditureParam
     private static bool BeAValidDimension(string? dimension) => Dimensions.Finance.IsValid(dimension);
 }
 
-[ExcludeFromCodeCoverage]
 public class ExpenditureQueryParametersValidator : AbstractValidator<ExpenditureQueryParameters>
 {
     public ExpenditureQueryParametersValidator()

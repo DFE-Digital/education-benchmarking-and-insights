@@ -1,10 +1,8 @@
-﻿using System.Diagnostics.CodeAnalysis;
-using FluentValidation;
+﻿using FluentValidation;
 using Platform.Api.Trust.Features.BudgetForecast.Parameters;
 
 namespace Platform.Api.Trust.Features.BudgetForecast.Validators;
 
-[ExcludeFromCodeCoverage]
 public class ItSpendingParametersValidator : AbstractValidator<ItSpendingParameters>
 {
     public ItSpendingParametersValidator()

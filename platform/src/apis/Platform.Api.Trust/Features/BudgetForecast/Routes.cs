@@ -1,5 +1,8 @@
-﻿namespace Platform.Api.Trust.Features.BudgetForecast;
+﻿using System.Diagnostics.CodeAnalysis;
 
+namespace Platform.Api.Trust.Features.BudgetForecast;
+
+[ExcludeFromCodeCoverage]
 public static class Routes
 {
     public const string ForecastRiskSingle = $"trusts/{Constants.CompanyNumberParam}/budget-forecast/forecast-and-risk";

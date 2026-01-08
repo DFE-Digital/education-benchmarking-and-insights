@@ -1,5 +1,8 @@
-﻿namespace Platform.Api.Trust.Features.Accounts;
+﻿using System.Diagnostics.CodeAnalysis;
 
+namespace Platform.Api.Trust.Features.Accounts;
+
+[ExcludeFromCodeCoverage]
 public static class Routes
 {
 

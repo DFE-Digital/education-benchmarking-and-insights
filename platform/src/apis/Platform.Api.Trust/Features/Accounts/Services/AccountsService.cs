@@ -20,7 +20,6 @@ public interface IAccountsService
     Task<IEnumerable<ExpenditureModelDto>> QueryExpenditureAsync(string[] companyNumbers, string dimension, CancellationToken cancellationToken = default);
 }
 
-[ExcludeFromCodeCoverage]
 public class AccountsService(IDatabaseFactory dbFactory) : IAccountsService
 {
     public async Task<(YearsModelDto?, IEnumerable<IncomeHistoryModelDto>)> GetIncomeHistoryAsync(string companyNumber, string dimension, CancellationToken cancellationToken = default)

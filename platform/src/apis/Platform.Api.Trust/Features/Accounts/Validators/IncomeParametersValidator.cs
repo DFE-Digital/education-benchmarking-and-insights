@@ -5,7 +5,6 @@ using Platform.Domain;
 
 namespace Platform.Api.Trust.Features.Accounts.Validators;
 
-[ExcludeFromCodeCoverage]
 public class IncomeParametersValidator : AbstractValidator<IncomeParameters>
 {
     public IncomeParametersValidator()

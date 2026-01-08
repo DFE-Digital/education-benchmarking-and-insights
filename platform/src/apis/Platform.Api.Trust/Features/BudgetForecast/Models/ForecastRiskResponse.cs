@@ -1,5 +1,8 @@
-﻿namespace Platform.Api.Trust.Features.BudgetForecast.Models;
+﻿using System.Diagnostics.CodeAnalysis;
 
+namespace Platform.Api.Trust.Features.BudgetForecast.Models;
+
+[ExcludeFromCodeCoverage]
 public record ForecastRiskResponse
 {
     public int? Year { get; set; }

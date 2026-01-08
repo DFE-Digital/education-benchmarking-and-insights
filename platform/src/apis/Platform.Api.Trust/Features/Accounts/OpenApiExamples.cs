@@ -22,7 +22,7 @@ public static class OpenApiExamples
         }
     }
 
-    public class CategoryCost : OpenApiExample<string>
+    internal class CategoryCost : OpenApiExample<string>
     {
         public override IOpenApiExample<string> Build(NamingStrategy namingStrategy = null!)
         {

@@ -7,7 +7,6 @@ using Platform.Domain;
 
 namespace Platform.Api.Trust.Features.Accounts;
 
-[ExcludeFromCodeCoverage]
 public static class Mapper
 {
     public static IncomeHistoryResponse MapToApiResponse(this YearsModelDto years, IEnumerable<IncomeHistoryModelDto> models)
