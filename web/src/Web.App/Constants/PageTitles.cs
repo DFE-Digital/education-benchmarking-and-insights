@@ -37,6 +37,7 @@ public static class PageTitles
     public const string SchoolComparatorsPreview = "Schools successfully matched";
     public const string SchoolComparatorsSubmitEdit = "Updating benchmarking data";
     public const string SchoolComparatorsSubmit = "Generating benchmarking data";
+    public const string SeniorLeadership = "Benchmark senior leadership group";
     public const string TrustHome = "Your trust";
     public const string TrustComparison = "View school spending";
     public const string TrustCensus = "View pupil and workforce data";

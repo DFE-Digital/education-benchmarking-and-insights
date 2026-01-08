@@ -169,6 +169,8 @@ public static class Paths
 
     public static string SchoolComparatorsUserDefined(string? urn) => $"/school/{urn}/comparators/user-defined";
 
+    public static string SchoolSeniorLeadership(string? urn) => $"/school/{urn}/senior-leadership";
+
     public static string SchoolSearchResults(string? term = null, string? sort = null, string[]? phases = null, int? page = null)
     {
         var queryString = new QueryString();
