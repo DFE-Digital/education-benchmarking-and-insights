@@ -20,7 +20,7 @@ public class MaintainedSchoolsSteps(SchoolApiDriver api)
 
         api.CreateRequest(SchoolsKey, new HttpRequestMessage
         {
-            RequestUri = new Uri($"/api/schools/senior-leadership/census{queryString}", UriKind.Relative),
+            RequestUri = new Uri($"/api/schools/census/senior-leadership{queryString}", UriKind.Relative),
             Method = HttpMethod.Get
         });
     }
