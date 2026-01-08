@@ -75,6 +75,7 @@ resource "azurerm_windows_web_app" "education-benchmarking-as" {
     "FeatureManagement__LocalAuthorityHomepageV2"           = var.configuration[var.environment].features.LocalAuthorityHomepageV2
     "FeatureManagement__KS4ProgressBanding"                 = var.configuration[var.environment].features.KS4ProgressBanding
     "FeatureManagement__KS4ProgressBandingSchoolHome"       = var.configuration[var.environment].features.KS4ProgressBandingSchoolHome
+    "FeatureManagement__SeniorLeadership"                   = var.configuration[var.environment].features.SeniorLeadership
     "Apis__School__Url"                                     = "@Microsoft.KeyVault(SecretUri=${data.azurerm_key_vault_secret.school-api-host.versionless_id})"
     "Apis__School__Key"                                     = "@Microsoft.KeyVault(SecretUri=${data.azurerm_key_vault_secret.school-api-key.versionless_id})"
     "Apis__Trust__Url"                                      = "@Microsoft.KeyVault(SecretUri=${data.azurerm_key_vault_secret.trust-api-host.versionless_id})"

@@ -102,6 +102,7 @@ Feature flags may also be defined in the `FeatureManagement` section:
 | `LocalAuthorityHomepageV2`          | Toggles the alternative Local Authority home page                                                                                  |
 | `KS4ProgressBanding`                | Displays KS4 progress bandings on cost comparison and workforce comparison pages                                                   |
 | `KS4ProgressBandingSchoolHome`      | Displays KS4 progress bandings on School homepage                                                                                  |
+| `SeniorLeadership`                  | Displays Benchmark senior leadership group page                                                                                  |
 
 #### CacheOptions
 

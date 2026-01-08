@@ -141,7 +141,8 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
             FeatureFlags.FbisForTrust,
             FeatureFlags.LocalAuthorityHomepageV2,
             FeatureFlags.KS4ProgressBanding,
-            FeatureFlags.KS4ProgressBandingSchoolHome
+            FeatureFlags.KS4ProgressBandingSchoolHome,
+            FeatureFlags.SeniorLeadership
         };
 
         foreach (var feature in features.Where(x => !ignoreFeatures.Contains(x)))
