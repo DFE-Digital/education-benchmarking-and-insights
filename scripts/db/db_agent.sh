@@ -5,6 +5,7 @@
 # ==========================================
 MODELS_DIR="platform/src"
 SQL_DIR="core-infrastructure/src/db/Core.Database/Scripts"
+GEMINI_MODEL="gemini-3-deep-think" # The latest high-reasoning model for complex coding tasks
 
 # Check for Argument
 if [ -z "$1" ]; then
@@ -14,7 +15,7 @@ if [ -z "$1" ]; then
 fi
 
 FEATURE_NAME=$1
-echo "🚀 Starting Gemini Agent for Feature: '$FEATURE_NAME'"
+echo "🚀 Starting Gemini Agent for Feature: '$FEATURE_NAME' using Model: $GEMINI_MODEL"
 
 # Auto-discover all model files to build context
 # (Gemini 1.5 Pro has a large enough context window to read all models in most repos)
@@ -31,7 +32,7 @@ ADR_DOC="artifact_05_adr.md"
 
 # --- STEP 0: Intent Inference (The Magic Step) ---
 echo "🧠 [0/5] Inferring Feature Scope from Codebase..."
-gemini -p "Task: Define the Technical Scope for a new feature named '$FEATURE_NAME'.
+gemini -m "$GEMINI_MODEL" -p "Task: Define the Technical Scope for a new feature named '$FEATURE_NAME'.
 Context:
 - SQL Schema: $SQL_FILES
 - Existing Models: $MODEL_FILES
@@ -48,7 +49,7 @@ echo "   ℹ️  Inferred Scope: $FEATURE_DESCRIPTION"
 
 # --- STEP 1: Schema Analysis ---
 echo "🔍 [1/5] Extracting Relevant Schema..."
-gemini -p "Task: Analyze the SQL Schema.
+gemini -m "$GEMINI_MODEL" -p "Task: Analyze the SQL Schema.
 Context:
 - SQL Schema: $SQL_FILES
 - Target Feature: '$FEATURE_NAME'
@@ -60,7 +61,7 @@ Instructions:
 
 # --- STEP 2: Dapper Implementation ---
 echo "💻 [2/5] Generating Dapper Implementation..."
-gemini -p "Task: Write a C# Azure Function using Dapper.
+gemini -m "$GEMINI_MODEL" -p "Task: Write a C# Azure Function using Dapper.
 Input: Schema in @$SCHEMA_DOC
 Feature Name: '$FEATURE_NAME'
 Scope: $FEATURE_DESCRIPTION
@@ -73,7 +74,7 @@ Instructions:
 
 # --- STEP 3: Optimization Review ---
 echo "⚖️ [3/5] Reviewing for Performance..."
-gemini -p "Task: Optimization Review.
+gemini -m "$GEMINI_MODEL" -p "Task: Optimization Review.
 Input: Code in @$CODE_FILE and Schema in @$SCHEMA_DOC
 
 Instructions:
@@ -83,7 +84,7 @@ Instructions:
 
 # --- STEP 4: Migration Script ---
 echo "📦 [4/5] Generating SQL Migration..."
-gemini -p "Task: Create SQL Migration Script.
+gemini -m "$GEMINI_MODEL" -p "Task: Create SQL Migration Script.
 Input: Optimization advice in @$OPTIMIZATION_DOC
 
 Instructions:
@@ -94,7 +95,7 @@ Instructions:
 
 # --- STEP 5: Documentation (ADR) ---
 echo "📄 [5/5] Writing Architecture Decision Record..."
-gemini -p "Task: Write an ADR in Markdown.
+gemini -m "$GEMINI_MODEL" -p "Task: Write an ADR in Markdown.
 Inputs:
 - Code: @$CODE_FILE
 - Scope: @$SCOPE_DOC
