@@ -1,7 +1,7 @@
 {
   "title": "Validation failed.",
   "status": 400,
-  "instance": "/api/schools/senior-leadership/census",
+  "instance": "/api/schools/census/senior-leadership",
   "errors": {
     "Urns": [
       "A collection of URNs must be specified"
