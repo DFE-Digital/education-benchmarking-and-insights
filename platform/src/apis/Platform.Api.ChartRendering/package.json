@@ -32,7 +32,7 @@
     "@types/d3": "^7.4.3",
     "@types/jsdom": "^27.0.0",
     "@types/node": "^24.9.2",
-    "@types/pg": "^8.15.6",
+    "@types/pg": "^8.16.0",
     "@types/sprintf-js": "^1.1.4",
     "@typescript-eslint/eslint-plugin": "^8.46.0",
     "@typescript-eslint/parser": "^8.48.1",
