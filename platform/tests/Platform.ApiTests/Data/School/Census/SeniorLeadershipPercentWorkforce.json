@@ -1,0 +1,24 @@
+[
+  {
+    "urn": "990000",
+    "schoolName": "Test school 176",
+    "laName": "Test Local Authority",
+    "totalPupils": 337.0,
+    "seniorLeadership": 55.172413793103445,
+    "headTeacher": 3.4482758620689653,
+    "deputyHeadTeacher": 6.896551724137931,
+    "assistantHeadTeacher": 17.24137931034483,
+    "leadershipNonTeacher": 27.586206896551722
+  },
+  {
+    "urn": "990002",
+    "schoolName": "Test school 224",
+    "laName": "Isle of Wight",
+    "totalPupils": 86.0,
+    "seniorLeadership": 26.666666666666668,
+    "headTeacher": 6.666666666666667,
+    "deputyHeadTeacher": 6.666666666666667,
+    "assistantHeadTeacher": 6.666666666666667,
+    "leadershipNonTeacher": 6.666666666666667
+  }
+]
