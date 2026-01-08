@@ -1,0 +1,35 @@
+[
+  {
+    "urn": "990000",
+    "schoolName": "Test school 176",
+    "laName": "Test Local Authority",
+    "totalPupils": 337.0,
+    "seniorLeadership": 16.0,
+    "headTeacher": 1.0,
+    "deputyHeadTeacher": 2.0,
+    "assistantHeadTeacher": 5.0,
+    "leadershipNonTeacher": 8.0
+  },
+  {
+    "urn": "990001",
+    "schoolName": "Test school 241",
+    "laName": "Islington",
+    "totalPupils": 164.0,
+    "seniorLeadership": 11.0,
+    "headTeacher": 1.0,
+    "deputyHeadTeacher": 4.0,
+    "assistantHeadTeacher": 4.0,
+    "leadershipNonTeacher": 2.0
+  },
+  {
+    "urn": "990002",
+    "schoolName": "Test school 224",
+    "laName": "Isle of Wight",
+    "totalPupils": 86.0,
+    "seniorLeadership": 4.0,
+    "headTeacher": 1.0,
+    "deputyHeadTeacher": 1.0,
+    "assistantHeadTeacher": 1.0,
+    "leadershipNonTeacher": 1.0
+  }
+]

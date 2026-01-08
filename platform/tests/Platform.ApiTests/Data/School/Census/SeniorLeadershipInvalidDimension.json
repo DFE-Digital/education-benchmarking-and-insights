@@ -1,0 +1,13 @@
+{
+  "title": "Validation failed.",
+  "status": 400,
+  "instance": "/api/schools/senior-leadership/census",
+  "errors": {
+    "Urns": [
+      "A collection of URNs must be specified"
+    ],
+    "Dimension": [
+      "Dimension must be empty or one of the supported values: Total or PercentWorkforce"
+    ]
+  }
+}

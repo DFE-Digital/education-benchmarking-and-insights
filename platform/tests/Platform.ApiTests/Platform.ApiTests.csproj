@@ -46,7 +46,6 @@
         <EmbeddedResource Include="Data\**\*.svg"/>
     </ItemGroup>
     <ItemGroup>
-      <Folder Include="Data\School\" />
       <Folder Include="Data\Trust\" />
     </ItemGroup>
 </Project>
