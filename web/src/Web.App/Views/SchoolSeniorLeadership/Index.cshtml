@@ -1,0 +1,34 @@
+@using Newtonsoft.Json
+@using Web.App.Extensions
+@using Web.App.ViewModels.Components
+@model Web.App.ViewModels.SchoolSeniorLeadershipViewModel
+@{
+    ViewData[ViewDataKeys.Title] = PageTitles.SeniorLeadership;
+}
+
+@await Component.InvokeAsync("EstablishmentHeading", new
+{
+    title = ViewData[ViewDataKeys.Title],
+    name = Model.Name,
+    id = Model.Urn,
+    kind = OrganisationTypes.School
+})
+
+@await Component.InvokeAsync("DataSourceInset", new
+{
+    organisationType = OrganisationTypes.School,
+    sourceType = DataSourceTypes.Census,
+})
+
+@await Component.InvokeAsync("ComparatorSetDetails", new
+{
+    identifier = Model.Urn,
+    hasUserDefinedSet = false,
+    hasCustomData = false,
+    hasMissingComparatorSet = false,
+    type = ComparatorSetType.Workforce,
+    showAsBulletedList = true
+})
+
+
+@await Html.PartialAsync("FinanceTools/_School", Model.Tools)
