@@ -32,7 +32,7 @@ There is capability to report user interactions based on visited school pages wi
 
 #### Total Schools
 
-The workbook's `SchoolData` sheet is updated and loaded (overwrite) after a successful refresh. The `Financial` table in the `data` SQL database is updated after a new financial data load with a corresponding RunId , it is typical to have the same records of school data loaded through out an academic/financial year.
+The workbook's `SchoolData` sheet is updated and loaded (overwrite) after a successful refresh. The `Financial` table in the `data` SQL database is updated after a new financial data load with a corresponding RunId. This ensures that we are reporting only on schools that made financial submission for the reporting year. It is typical to have the same records of school data loaded through out an academic/financial year.
 
 #### CFP Completion
 
