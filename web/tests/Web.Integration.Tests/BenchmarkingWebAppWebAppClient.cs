@@ -69,6 +69,7 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
     public Mock<IBannerApi> BannerApi { get; } = new();
     public Mock<IItSpendApi> ItSpendApi { get; } = new();
     public Mock<INewsApi> NewsApi { get; } = new();
+    public Mock<ISchoolApi> SchoolApi { get; } = new();
 
     public IOptions<CacheOptions> CacheOptions { get; } = Options.Create(new CacheOptions
     {
@@ -121,6 +122,7 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
         services.AddSingleton(CommercialResourcesApi.Object);
         services.AddSingleton(BannerApi.Object);
         services.AddSingleton(ItSpendApi.Object);
+        services.AddSingleton(SchoolApi.Object);
         services.AddSingleton(NewsApi.Object);
         services.AddSingleton(CacheOptions);
         services.AddSingleton(CacheOptions);
@@ -850,6 +852,26 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
         }
 
         HttpContextAccessor.Setup(a => a.HttpContext).Returns(context);
+        return this;
+    }
+
+    public BenchmarkingWebAppClient SetupSchool(School school)
+    {
+        SchoolApi.Reset();
+        SchoolApi.Setup(api => api.SingleAsync(It.IsAny<string>(), It.IsAny<CancellationToken>())).ReturnsAsync(ApiResult.Ok(school));
+        return this;
+    }
+    public BenchmarkingWebAppClient SetupSchoolWithNotFound()
+    {
+        SchoolApi.Reset();
+        SchoolApi.Setup(api => api.SingleAsync(It.IsAny<string>(), It.IsAny<CancellationToken>())).ReturnsAsync(ApiResult.NotFound);
+        return this;
+    }
+
+    public BenchmarkingWebAppClient SetupSchoolWithException()
+    {
+        SchoolApi.Reset();
+        SchoolApi.Setup(api => api.SingleAsync(It.IsAny<string>(), It.IsAny<CancellationToken>())).Throws(new Exception());
         return this;
     }
 
