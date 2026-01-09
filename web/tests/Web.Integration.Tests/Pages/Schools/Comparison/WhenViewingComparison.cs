@@ -193,6 +193,7 @@ public class WhenViewingComparison(SchoolBenchmarkingWebAppClient client)
         var page = await Client
             .SetupDisableFeatureFlags(features)
             .SetupEstablishment(school)
+            .SetupSchool(school)
             .SetupInsights()
             .SetupSchoolInsight(characteristics)
             .SetupExpenditure(school)

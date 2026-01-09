@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.FeatureManagement;
+using Microsoft.FeatureManagement.Mvc;
 using Web.App.ActionResults;
 using Web.App.Attributes;
 using Web.App.Attributes.RequestTelemetry;
@@ -21,9 +22,9 @@ namespace Web.App.Controllers;
 [Route("school/{urn}/census")]
 [ValidateUrn]
 public class SchoolCensusController(
-    IEstablishmentApi establishmentApi,
     ICensusApi censusApi,
     IComparatorSetApi comparatorSetApi,
+    ISchoolApi schoolApi,
     ILogger<SchoolCensusController> logger,
     IUserDataService userDataService,
     ISchoolComparatorSetService schoolComparatorSetService,
@@ -109,6 +110,31 @@ public class SchoolCensusController(
     }
 
     [HttpGet]
+    [Route("senior-leadership")]
+    [FeatureGate(FeatureFlags.SeniorLeadership)]
+    public async Task<IActionResult> SeniorLeadership(string urn)
+    {
+        using (logger.BeginScope(new
+        {
+            urn
+        }))
+        {
+            try
+            {
+                var school = await School(urn);
+
+                var viewModel = new SchoolSeniorLeadershipViewModel(school);
+                return View(viewModel);
+            }
+            catch (Exception e)
+            {
+                logger.LogError(e, "An error displaying school census senior leadership: {DisplayUrl}", Request.GetDisplayUrl());
+                return e is StatusCodeException s ? StatusCode((int)s.Status) : StatusCode(500);
+            }
+        }
+    }
+
+    [HttpGet]
     [Produces("application/zip")]
     [ProducesResponseType<byte[]>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -145,8 +171,8 @@ public class SchoolCensusController(
         }
     }
 
-    private async Task<School> School(string urn) => await establishmentApi
-        .GetSchool(urn)
+    private async Task<School> School(string urn) => await schoolApi
+        .SingleAsync(urn)
         .GetResultOrThrow<School>();
 
     private async Task<Census?> Census(string urn) => await censusApi

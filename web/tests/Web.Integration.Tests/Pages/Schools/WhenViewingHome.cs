@@ -230,6 +230,7 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
         var page = await Client
             .SetupDisableFeatureFlags(features)
             .SetupEstablishment(school)
+            .SetupSchool(school)
             .SetupMetricRagRating([], userDefinedRatings)
             .SetupInsights()
             .SetupExpenditure(school)

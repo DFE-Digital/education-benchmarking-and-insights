@@ -198,6 +198,7 @@ public class WhenViewingCustomDataSpendingComparison(SchoolBenchmarkingWebAppCli
         else
         {
             page = await Client.SetupEstablishment(school)
+                .SetupSchool(school)
                 .SetupMetricRagRating()
                 .SetupInsights()
                 .SetupUserData()

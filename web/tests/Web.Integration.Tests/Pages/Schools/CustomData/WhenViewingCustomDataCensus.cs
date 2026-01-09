@@ -55,7 +55,7 @@ public class WhenViewingCustomDataCensus(SchoolBenchmarkingWebAppClient client)
         };
 
         const string urn = "123456";
-        var page = await Client.SetupEstablishmentWithNotFound()
+        var page = await Client.SetupSchoolWithNotFound()
             .SetupUserData(userData)
             .Navigate(Paths.SchoolCensusCustomData(urn));
 
@@ -77,7 +77,7 @@ public class WhenViewingCustomDataCensus(SchoolBenchmarkingWebAppClient client)
         };
 
         const string urn = "123456";
-        var page = await Client.SetupEstablishmentWithException()
+        var page = await Client.SetupSchoolWithException()
             .SetupUserData(userData)
             .Navigate(Paths.SchoolCensusCustomData(urn));
 
@@ -112,7 +112,8 @@ public class WhenViewingCustomDataCensus(SchoolBenchmarkingWebAppClient client)
 
         if (withUserData)
         {
-            page = await Client.SetupEstablishment(school)
+            page = await Client
+                .SetupSchool(school)
                 .SetupUserData(userData)
                 .SetupMetricRagRatingIncCustom(customDataId, customRatings)
                 .Navigate(Paths.SchoolCensusCustomData(school.URN));
@@ -120,6 +121,7 @@ public class WhenViewingCustomDataCensus(SchoolBenchmarkingWebAppClient client)
         else
         {
             page = await Client.SetupEstablishment(school)
+                .SetupSchool(school)
                 .SetupMetricRagRating()
                 .SetupInsights()
                 .SetupUserData()

@@ -194,6 +194,7 @@ public class WhenViewingHomeAsFederation(SchoolBenchmarkingWebAppClient client) 
         var page = await Client
             .SetupDisableFeatureFlags(features)
             .SetupEstablishment(school)
+            .SetupSchool(school)
             .SetupMetricRagRating([], userDefinedRatings)
             .SetupInsights()
             .SetupExpenditure(school)
