@@ -82,4 +82,11 @@ public static class HtmlExtensions
         Assert.NotNull(main);
         return main.Descendants<T>();
     }
+
+    public static IReadOnlyList<string> TableCells(this IElement row)
+    {
+        return row.QuerySelectorAll("td")
+            .Select(td => td.TextContent.Trim())
+            .ToList();
+    }
 }

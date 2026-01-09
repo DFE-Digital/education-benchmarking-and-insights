@@ -855,12 +855,14 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
         return this;
     }
 
-    public BenchmarkingWebAppClient SetupSchool(School school)
+    public BenchmarkingWebAppClient SetupSchool(School school, SeniorLeadershipGroup[]? group = null)
     {
         SchoolApi.Reset();
         SchoolApi.Setup(api => api.SingleAsync(It.IsAny<string>(), It.IsAny<CancellationToken>())).ReturnsAsync(ApiResult.Ok(school));
+        SchoolApi.Setup(api => api.QuerySeniorLeadershipAsync(It.IsAny<ApiQuery>(), It.IsAny<CancellationToken>())).ReturnsAsync(ApiResult.Ok(group ?? []));
         return this;
     }
+
     public BenchmarkingWebAppClient SetupSchoolWithNotFound()
     {
         SchoolApi.Reset();

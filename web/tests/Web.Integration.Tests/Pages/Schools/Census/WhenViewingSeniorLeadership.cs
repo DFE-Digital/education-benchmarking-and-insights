@@ -15,9 +15,9 @@ public class WhenViewingSeniorLeadership(SchoolBenchmarkingWebAppClient client) 
     [Fact]
     public async Task CanDisplay()
     {
-        var (page, school) = await SetupNavigateInitPage();
+        var (page, school, group) = await SetupNavigateInitPage();
 
-        AssertPageLayout(page, school);
+        AssertPageLayout(page, school, group);
     }
 
     [Fact]
@@ -43,23 +43,34 @@ public class WhenViewingSeniorLeadership(SchoolBenchmarkingWebAppClient client) 
             HttpStatusCode.InternalServerError);
     }
 
-    private async Task<(IHtmlDocument page, School school)> SetupNavigateInitPage()
+    private async Task<(IHtmlDocument page, School school, SeniorLeadershipGroup[] group)> SetupNavigateInitPage()
     {
         var school = Fixture.Build<School>()
             .With(x => x.URN, "123456")
             .Create();
 
+        var comparatorSet = Fixture.Build<SchoolComparatorSet>()
+            .With(c => c.Pupil, Fixture.CreateMany<string>().ToArray())
+            .Without(c => c.Building)
+            .Create();
+
+        var group = Fixture.Build<SeniorLeadershipGroup>()
+            .CreateMany()
+            .ToArray();
+        group.ElementAt(0).URN = school.URN;
+
         Assert.NotNull(school.URN);
 
         var page = await Client
             .SetupInsights()
-            .SetupSchool(school)
+            .SetupSchool(school, group)
+            .SetupComparatorSet(school, comparatorSet)
             .Navigate(Paths.SchoolSeniorLeadership(school.URN));
 
-        return (page, school);
+        return (page, school, group);
     }
 
-    private static void AssertPageLayout(IHtmlDocument page, School school)
+    private static void AssertPageLayout(IHtmlDocument page, School school, SeniorLeadershipGroup[] group)
     {
         DocumentAssert.AssertPageUrl(page, Paths.SchoolSeniorLeadership(school.URN).ToAbsolute());
         DocumentAssert.TitleAndH1(page, "Benchmark senior leadership group - Financial Benchmarking and Insights Tool - GOV.UK",
@@ -72,6 +83,8 @@ public class WhenViewingSeniorLeadership(SchoolBenchmarkingWebAppClient client) 
         var comparatorSetDetailsElement = page.QuerySelector("[data-testid=comparator-set-details]");
         Assert.NotNull(comparatorSetDetailsElement);
 
+        AssertTableSection(page, group);
+
         var toolsSection = page.GetElementById("benchmarking-and-planning-tools");
         DocumentAssert.Heading2(toolsSection, "Benchmarking and planning tools");
 
@@ -81,5 +94,35 @@ public class WhenViewingSeniorLeadership(SchoolBenchmarkingWebAppClient client) 
         DocumentAssert.Link(toolsLinks?.ElementAtOrDefault(0), "Curriculum and financial planning", Paths.SchoolFinancialPlanning(school.URN).ToAbsolute());
         DocumentAssert.Link(toolsLinks?.ElementAtOrDefault(1), "Benchmark spending", Paths.SchoolComparison(school.URN).ToAbsolute());
         DocumentAssert.Link(toolsLinks?.ElementAtOrDefault(2), "Benchmark pupil and workforce data", Paths.SchoolCensus(school.URN).ToAbsolute());
+    }
+
+    private static void AssertTableSection(IHtmlDocument page, SeniorLeadershipGroup[] group)
+    {
+        var table = page.QuerySelector(".govuk-table");
+        Assert.NotNull(table);
+
+        var rows = table.QuerySelectorAll("tbody tr");
+        Assert.Equal(group.Length, rows.Length);
+
+        foreach (var row in rows)
+        {
+            var cells = row.TableCells();
+
+            var expected = group.FirstOrDefault(g => g.SchoolName == cells[0]);
+            Assert.NotNull(expected);
+
+            var schoolLink = row.QuerySelector(".govuk-link");
+
+            Assert.NotNull(expected.SchoolName);
+            DocumentAssert.Link(schoolLink, expected.SchoolName, Paths.SchoolHome(expected.URN).ToAbsolute());
+
+            Assert.Equal(cells[1], expected.LAName);
+            Assert.Equal(decimal.Parse(cells[2]), expected.TotalPupils);
+            Assert.Equal(decimal.Parse(cells[3]), expected.SeniorLeadership);
+            Assert.Equal(decimal.Parse(cells[4]), expected.HeadTeacher);
+            Assert.Equal(decimal.Parse(cells[5]), expected.DeputyHeadTeacher);
+            Assert.Equal(decimal.Parse(cells[6]), expected.AssistantHeadTeacher);
+            Assert.Equal(decimal.Parse(cells[7]), expected.LeadershipNonTeacher);
+        }
     }
 }
