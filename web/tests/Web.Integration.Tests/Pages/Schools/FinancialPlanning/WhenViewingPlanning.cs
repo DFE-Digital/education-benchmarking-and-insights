@@ -89,6 +89,7 @@ public class WhenViewingPlanning(SchoolBenchmarkingWebAppClient client) : PageBa
             .Create();
 
         var page = await Client.SetupEstablishment(school)
+            .SetupSchool(school)
             .SetupMetricRagRating()
             .SetupInsights()
             .SetupBalance()

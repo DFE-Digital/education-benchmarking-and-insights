@@ -129,7 +129,7 @@ public class WhenViewingCensus : PageBase<SchoolBenchmarkingWebAppClient>
     public async Task CanDisplayNotFound()
     {
         const string urn = "123456";
-        var page = await Client.SetupEstablishmentWithNotFound()
+        var page = await Client.SetupSchoolWithNotFound()
             .Navigate(Paths.SchoolCensus(urn));
 
         PageAssert.IsNotFoundPage(page);
@@ -140,7 +140,7 @@ public class WhenViewingCensus : PageBase<SchoolBenchmarkingWebAppClient>
     public async Task CanDisplayProblemWithService()
     {
         const string urn = "123456";
-        var page = await Client.SetupEstablishmentWithException()
+        var page = await Client.SetupSchoolWithException()
             .Navigate(Paths.SchoolCensus(urn));
 
         PageAssert.IsProblemPage(page);
@@ -198,6 +198,7 @@ public class WhenViewingCensus : PageBase<SchoolBenchmarkingWebAppClient>
         var page = await Client
             .SetupDisableFeatureFlags(features)
             .SetupEstablishment(school)
+            .SetupSchool(school)
             .SetupInsights()
             .SetupSchoolInsight(characteristics)
             .SetupExpenditure(school)
