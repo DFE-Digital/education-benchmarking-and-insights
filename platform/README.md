@@ -220,6 +220,8 @@ Add configuration in `local.settings.json` for `Platform.Api.NonFinancial`
 
 #### ChartRendering Function App
 
+Install [Azure Functions Core Tools](https://learn.microsoft.com/en-us/azure/azure-functions/functions-run-local?tabs=windows%2Cisolated-process%2Cnode-v4%2Cpython-v2%2Chttp-trigger%2Ccontainer-apps&pivots=programming-language-javascript)
+
 Add configuration in `local.settings.json` for `Platform.Api.ChartRendering`
 
 ```json
