@@ -8,7 +8,7 @@ variables:
   azureServiceConnection: 's198d.azdo-deployment'
   resourceGroupName: 's198d01-databricks-lz'
   location: 'westeurope'
-  storageAccountName: 's198d01-databricks-lz'
+  storageAccountName: 's198d01databrickslz'
   containerName: 'landing'
   
 pool:
