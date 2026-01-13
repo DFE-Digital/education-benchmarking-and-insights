@@ -1159,3 +1159,16 @@ table#current-comparators-la {
     }
   }
 }
+
+.actions-form
+{
+  display: flex;
+  gap: govuk-spacing(3);
+  align-items: flex-start;
+}
+
+.actions-form__button
+{
+  align-self: flex-end;
+  margin-bottom: govuk-spacing(2);
+}

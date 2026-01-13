@@ -1,11 +1,10 @@
 using System.Net;
 using AngleSharp.Dom;
-using System.Net;
-using AngleSharp.Dom;
 using AngleSharp.Html.Dom;
 using AutoFixture;
-using Web.App;
 using Web.App.Domain;
+using Web.App.Domain.Charts;
+using Web.App.ViewModels;
 using Xunit;
 
 namespace Web.Integration.Tests.Pages.Schools.Census;
@@ -43,7 +42,59 @@ public class WhenViewingSeniorLeadership(SchoolBenchmarkingWebAppClient client) 
             HttpStatusCode.InternalServerError);
     }
 
-    private async Task<(IHtmlDocument page, School school, SeniorLeadershipGroup[] group)> SetupNavigateInitPage()
+    [Theory]
+    [InlineData(0, "?viewAs=0&resultAs=0")]
+    [InlineData(1, "?viewAs=1&resultAs=0")]
+    public async Task CanSubmitOptionsForViewAs(int viewAs, string expectedQueryParams)
+    {
+        var (page, school, group) = await SetupNavigateInitPage(expectedQueryParams);
+
+        var action = page.QuerySelectorAll("button").FirstOrDefault(x => x.TextContent.Trim() == "Apply");
+        Assert.NotNull(action);
+
+        page = await Client.SubmitForm(page.Forms[0], action, f =>
+        {
+            f.SetFormValues(new Dictionary<string, string>
+            {
+                { "ViewAs", viewAs.ToString() }
+            });
+        });
+
+        AssertPageLayout(
+            page,
+            school,
+            group,
+            viewAs: viewAs,
+            expectedQueryParams: expectedQueryParams);
+    }
+
+    [Theory]
+    [InlineData(0, "?viewAs=0&resultAs=0")]
+    [InlineData(1, "?viewAs=0&resultAs=1")]
+    public async Task CanSubmitOptionsForResultsAs(int resultAs, string expectedQueryParams)
+    {
+        var (page, school, group) = await SetupNavigateInitPage(expectedQueryParams);
+
+        var action = page.QuerySelectorAll("button").FirstOrDefault(x => x.TextContent.Trim() == "Apply");
+        Assert.NotNull(action);
+
+        page = await Client.SubmitForm(page.Forms[0], action, f =>
+        {
+            f.SetFormValues(new Dictionary<string, string>
+            {
+                { "ResultAs", resultAs.ToString() }
+            });
+        });
+
+        AssertPageLayout(
+            page,
+            school,
+            group,
+            resultAs: resultAs,
+            expectedQueryParams: expectedQueryParams);
+    }
+
+    private async Task<(IHtmlDocument page, School school, SeniorLeadershipGroup[] group)> SetupNavigateInitPage(string queryParams = "")
     {
         var school = Fixture.Build<School>()
             .With(x => x.URN, "123456")
@@ -65,14 +116,20 @@ public class WhenViewingSeniorLeadership(SchoolBenchmarkingWebAppClient client) 
             .SetupInsights()
             .SetupSchool(school, group)
             .SetupComparatorSet(school, comparatorSet)
-            .Navigate(Paths.SchoolSeniorLeadership(school.URN));
+            .Navigate($"{Paths.SchoolSeniorLeadership(school.URN)}{queryParams}");
 
         return (page, school, group);
     }
 
-    private static void AssertPageLayout(IHtmlDocument page, School school, SeniorLeadershipGroup[] group)
+    private static void AssertPageLayout(
+        IHtmlDocument page,
+        School school,
+        SeniorLeadershipGroup[] group,
+        int viewAs = 0,
+        int resultAs = 0,
+        string expectedQueryParams = "")
     {
-        DocumentAssert.AssertPageUrl(page, Paths.SchoolSeniorLeadership(school.URN).ToAbsolute());
+        DocumentAssert.AssertPageUrl(page, $"{Paths.SchoolSeniorLeadership(school.URN)}{expectedQueryParams}".ToAbsolute());
         DocumentAssert.TitleAndH1(page, "Benchmark senior leadership group - Financial Benchmarking and Insights Tool - GOV.UK",
             "Benchmark senior leadership group");
 
@@ -83,7 +140,19 @@ public class WhenViewingSeniorLeadership(SchoolBenchmarkingWebAppClient client) 
         var comparatorSetDetailsElement = page.QuerySelector("[data-testid=comparator-set-details]");
         Assert.NotNull(comparatorSetDetailsElement);
 
-        AssertTableSection(page, group);
+        var form = page.QuerySelector(".actions-form");
+        Assert.NotNull(form);
+
+        AssertFormOptions(form, viewAs, resultAs);
+
+        if (viewAs == 0)
+        {
+            // TODO: update with assertions for chart svg once implemented
+        }
+        else
+        {
+            AssertTableSection(page, group);
+        }
 
         var toolsSection = page.GetElementById("benchmarking-and-planning-tools");
         DocumentAssert.Heading2(toolsSection, "Benchmarking and planning tools");
@@ -124,5 +193,53 @@ public class WhenViewingSeniorLeadership(SchoolBenchmarkingWebAppClient client) 
             Assert.Equal(decimal.Parse(cells[6]), expected.AssistantHeadTeacher);
             Assert.Equal(decimal.Parse(cells[7]), expected.LeadershipNonTeacher);
         }
+    }
+
+    private static void AssertFormOptions(
+        IElement form,
+        int viewAs = 0,
+        int resultAs = 0)
+    {
+        var viewAsContainer = form.QuerySelector("#ViewAs");
+        Assert.NotNull(viewAsContainer);
+
+        var radioInputs = viewAsContainer.QuerySelectorAll("input[type='radio']");
+        Assert.Equal(Views.All.Length, radioInputs.Length);
+
+        foreach (var view in Views.All)
+        {
+            var value = ((int)view).ToString();
+
+            var input = radioInputs.FirstOrDefault(x => x.GetAttribute("value") == value);
+            Assert.NotNull(input);
+
+            var shouldBeChecked = viewAs == (int)view;
+            var isChecked = input.HasAttribute("checked");
+
+            Assert.Equal(shouldBeChecked, isChecked);
+        }
+
+        var resultAsSelect = form.QuerySelector("select[name='ResultAs']");
+        Assert.NotNull(resultAsSelect);
+
+        var optionEls = resultAsSelect.QuerySelectorAll("option");
+        Assert.Equal(CensusDimensions.All.Length, optionEls.Length);
+
+        foreach (var option in CensusDimensions.All)
+        {
+            var value = ((int)option).ToString();
+
+            var optionEl = optionEls.FirstOrDefault(x => x.GetAttribute("value") == value);
+            Assert.NotNull(optionEl);
+
+            var isSelected = optionEl.HasAttribute("selected");
+            var shouldBeSelected = resultAs == (int)option;
+
+            Assert.Equal(shouldBeSelected, isSelected);
+        }
+
+        var applyButton = form.QuerySelector("button.govuk-button--secondary");
+        Assert.NotNull(applyButton);
+        DocumentAssert.TextEqual(applyButton, "Apply");
     }
 }

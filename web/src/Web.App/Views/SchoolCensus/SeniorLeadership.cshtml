@@ -1,3 +1,5 @@
+@using Web.App.Domain.Charts
+@using Web.App.ViewModels
 @using Web.App.ViewModels.Components
 @model Web.App.ViewModels.SchoolSeniorLeadershipViewModel
 @{
@@ -32,9 +34,70 @@
     <div class="govuk-grid-column-full">
         <h2 class="govuk-heading-m">Senior leadership composition (Full Time Equivalent)</h2>
         
-        @await Html.PartialAsync("_SeniorLeadershipTable")
+        @using (Html.BeginForm(FormMethod.Post, true, new
+                {
+                    @class = "actions-form",
+                    novalidate = "novalidate",
+                    role = "search"
+                }))
+        {
+            <div class="govuk-form-group">
+                <fieldset class="govuk-fieldset">
+                    <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
+                        View as
+                    </legend>
+                    <div class="govuk-radios govuk-radios--inline govuk-radios--small" data-module="govuk-radios"
+                         id="@nameof(SchoolSeniorLeadershipViewModel.ViewAs)">
+                        @foreach (var view in Views.All)
+                        {
+                            <div class="govuk-radios__item">
+                                <input class="govuk-radios__input"
+                                       id="view-@view"
+                                       name="@nameof(SchoolSeniorLeadershipViewModel.ViewAs)" type="radio"
+                                       value="@((int)view)"
+                                       @(Model.ViewAs == view ? "checked" : "")>
+                                <label class="govuk-label govuk-radios__label"
+                                       for="view-@view">
+                                    @view.GetDescription()
+                                </label>
+                            </div>
+                        }
+                    </div>
+                </fieldset>
+            </div>
+        
+            <div class="govuk-form-group">
+                <label class="govuk-label" for="@nameof(SchoolSeniorLeadershipViewModel.ResultAs)">
+                    Compare by
+                </label>
+                <select class="govuk-select" id="@nameof(SchoolSeniorLeadershipViewModel.ResultAs)" name="@nameof(SchoolSeniorLeadershipViewModel.ResultAs)">
+                    @foreach (var option in CensusDimensions.All)
+                    {
+                        <option
+                            value="@((int)option)"
+                            selected="@(Model.ResultAs == option ? "selected" : null)">
+                            @option.GetDescription()
+                        </option>
+                    }
+                </select>
+            </div>
+            
+            <div class="actions-form__button">
+                <button type="submit" class="govuk-button govuk-button--secondary" data-module="govuk-button">
+                    Apply
+                </button>
+            </div>
+        }
+
+        @if (Model.ViewAs == Views.ViewAsOptions.Chart)
+        {
+            <p class="govuk-body-l">Chart under construction</p>
+        }
+        else
+        {
+            @await Html.PartialAsync("_SeniorLeadershipTable")
+        }
     </div>
+
+    @await Html.PartialAsync("FinanceTools/_School", Model.Tools)
 </div>
-
-
-@await Html.PartialAsync("FinanceTools/_School", Model.Tools)

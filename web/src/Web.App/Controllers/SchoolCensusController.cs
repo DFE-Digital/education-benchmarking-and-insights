@@ -9,7 +9,6 @@ using Web.App.Domain;
 using Web.App.Domain.Charts;
 using Web.App.Infrastructure.Apis;
 using Web.App.Infrastructure.Apis.Benchmark;
-using Web.App.Infrastructure.Apis.Establishment;
 using Web.App.Infrastructure.Apis.Insight;
 using Web.App.Infrastructure.Extensions;
 using Web.App.Services;
@@ -114,7 +113,8 @@ public class SchoolCensusController(
     [Route("senior-leadership")]
     [FeatureGate(FeatureFlags.SeniorLeadership)]
     public async Task<IActionResult> SeniorLeadership(string urn,
-        CensusDimensions.ResultAsOptions resultAs = CensusDimensions.ResultAsOptions.Total)
+        CensusDimensions.ResultAsOptions resultAs = CensusDimensions.ResultAsOptions.Total,
+        Views.ViewAsOptions viewAs = Views.ViewAsOptions.Chart)
     {
         using (logger.BeginScope(new
         {
@@ -131,7 +131,12 @@ public class SchoolCensusController(
                 var group = await schoolApi.QuerySeniorLeadershipAsync(BuildResultAsApiQuery(set.Pupil, resultAs))
                     .GetResultOrThrow<SeniorLeadershipGroup[]>();
 
-                var viewModel = new SchoolSeniorLeadershipViewModel(school, group);
+                var viewModel = new SchoolSeniorLeadershipViewModel(school, group)
+                {
+                    ViewAs = viewAs,
+                    ResultAs = resultAs
+                };
+
                 return View(viewModel);
             }
             catch (Exception e)
@@ -141,6 +146,16 @@ public class SchoolCensusController(
             }
         }
     }
+
+    [HttpPost]
+    [Route("senior-leadership")]
+    [FeatureGate(FeatureFlags.SeniorLeadership)]
+    public IActionResult SeniorLeadership(string urn, int viewAs, int resultAs) => RedirectToAction("SeniorLeadership", new
+    {
+        urn,
+        viewAs,
+        resultAs,
+    });
 
     [HttpGet]
     [Produces("application/zip")]
