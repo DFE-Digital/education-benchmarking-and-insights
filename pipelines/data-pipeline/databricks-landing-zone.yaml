@@ -51,7 +51,7 @@ stages:
                 az group create \
                   --name $(resourceGroupName) \
                   --location $(location) \
-                  --tags Environment=Production Purpose=DatabricksExternalVolume
+                  --tags Environment=Dev Product='DfE Financial Benchmarking service'
                 
                 echo "Resource group created successfully"
 
@@ -72,7 +72,7 @@ stages:
                   --hns \
                   --https-only true \
                   --min-tls-version TLS1_2 \
-                  --tags Purpose=DatabricksExternalVolume
+                  --tags Environment=Dev Product='DfE Financial Benchmarking service'
                 
                 echo "Storage account created with hierarchical namespace enabled"
 
