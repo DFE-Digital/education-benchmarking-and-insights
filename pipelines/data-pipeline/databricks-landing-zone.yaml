@@ -6,9 +6,9 @@ trigger:
 
 variables:
   azureServiceConnection: 's198d.azdo-deployment'
-  resourceGroupName: 's198d01-databricks-landing-zone'
+  resourceGroupName: 's198d01-databricks-lz'
   location: 'westeurope'
-  storageAccountName: 's198d01-databricks-landing-zone'  # Must be globally unique, 3-24 chars, lowercase alphanumeric
+  storageAccountName: 's198d01-databricks-lz'
   containerName: 'landing'
   
 pool:
