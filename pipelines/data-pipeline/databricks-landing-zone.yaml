@@ -1,15 +1,11 @@
-trigger:
-  branches:
-    include:
-      - main
-      - feature/296817/databricks-landing-zone
+trigger: none
 
 variables:
   azureServiceConnection: 's198d.azdo-deployment'
   resourceGroupName: 's198d01-databricks-lz'
   location: 'westeurope'
   storageAccountName: 's198d01databrickslz'
-  containerName: 'landing'
+  containerName: 'landing-zone'
   
 pool:
   vmImage: 'ubuntu-latest'
