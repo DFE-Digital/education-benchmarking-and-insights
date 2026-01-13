@@ -70,8 +70,9 @@ stages:
                   --sku Standard_LRS \
                   --kind StorageV2 \
                   --hns \
-                  --enable-large-file-share \
-                  --tags Environment=Production Purpose=DatabricksExternalVolume
+                  --https-only true \
+                  --min-tls-version TLS1_2 \
+                  --tags Purpose=DatabricksExternalVolume
                 
                 echo "Storage account created with hierarchical namespace enabled"
 
