@@ -13,7 +13,6 @@ pool:
 stages:
   - stage: Deploy
     displayName: 'Deploy Storage Infrastructure'
-    dependsOn: Validate
     jobs:
       - job: CreateResources
         displayName: 'Create Storage Resources'
