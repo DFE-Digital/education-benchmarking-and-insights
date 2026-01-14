@@ -1,4 +1,5 @@
-﻿@using Newtonsoft.Json
+﻿
+@using Newtonsoft.Json
 @using Web.App.Extensions
 @using Web.App.ViewModels.Components
 @model Web.App.ViewModels.SchoolCensusViewModel
@@ -12,88 +13,116 @@
         urn = Model.Urn,
         customDataId = Model.CustomDataId
     });
-}
-
-@if (!hasMissingComparatorSet)
-{
-    <feature name="@FeatureFlags.KS4ProgressBanding" negate="true">
-        @await Component.InvokeAsync("PageActions", new
-        {
-            actions = new[] { PageActions.DownloadData },
-            downloadLink
-        })
-    </feature>
-}
-
-@await Component.InvokeAsync("EstablishmentHeading", new
-{
-    title = ViewData[ViewDataKeys.Title],
-    name = Model.Name,
-    id = Model.Urn,
-    kind = OrganisationTypes.School
-})
-
-<feature name="@FeatureFlags.KS4ProgressBanding">
-    @await Component.InvokeAsync("DataSourceInset", new
-    {
-        organisationType = OrganisationTypes.School,
-        sourceType = DataSourceTypes.Census,
-        showKs4Progress = Model.HasProgressIndicators,
-        urn = Model.Urn
-    })
-</feature>
-
-@if (!hasMissingComparatorSet)
-{
-    <feature name="@FeatureFlags.KS4ProgressBanding" negate="true">
-        @await Component.InvokeAsync("DataSource", new
-        {
-            organisationType = OrganisationTypes.School,
-            sourceType = DataSourceTypes.Census,
-            additionText = new[]
-            {
-                "Benchmark your pupil and workforce data against similar schools."
-            }
-        })
-    </feature>
+    
+    string? elementId = null; 
+    string? progressIndicators = null;
+    string? seniorLeadershipUrl = null;
 }
 
 <feature name="@FeatureFlags.KS4ProgressBanding">
-    @await Component.InvokeAsync("ComparatorSetDetails", new
-    {
-        identifier = Model.Urn,
-        hasUserDefinedSet,
-        hasCustomData,
-        hasMissingComparatorSet,
-        type = ComparatorSetType.Workforce,
-        showAsBulletedList = true
-    })
-</feature>
+    @{
+        elementId = "compare-your-census-2";
+        progressIndicators = Model.WellOrAboveAverageKS4ProgressBandingsInComparatorSet.ToJson(Formatting.None);
+    }
+  </feature> 
 
 <feature name="@FeatureFlags.KS4ProgressBanding" negate="true">
-    @await Component.InvokeAsync("ComparatorSetDetails", new
-    {
-        identifier = Model.Urn,
-        hasUserDefinedSet,
-        hasCustomData,
-        hasMissingComparatorSet,
-        type = ComparatorSetType.Workforce
-    })
+    @{
+        elementId = "compare-your-census";
+    }
+</feature>
+
+<feature name="@FeatureFlags.SeniorLeadership">
+    @{
+        seniorLeadershipUrl = Url.ActionLink("SeniorLeadership", "SchoolCensus", new
+        {
+            urn = Model.Urn
+        });
+    }
+</feature>
+
+<feature name="@FeatureFlags.SeniorLeadership" negate="true">
+    @{
+        seniorLeadershipUrl = null;
+    }
 </feature>
 
 @if (!hasMissingComparatorSet)
-{
-    <feature name="@FeatureFlags.KS4ProgressBanding">
-        <div id="compare-your-census-2"
-             data-type="@OrganisationTypes.School"
-             data-id="@Model.Urn"
-             data-progress-indicators="@Model.WellOrAboveAverageKS4ProgressBandingsInComparatorSet.ToJson(Formatting.None)"
-             data-download-link="@downloadLink">
-        </div>
+  {
+      <feature name="@FeatureFlags.KS4ProgressBanding" negate="true">
+        @await Component.InvokeAsync("PageActions", new
+          {
+              actions = new[] { PageActions.DownloadData },
+              downloadLink
+          })
     </feature>
-    <feature name="@FeatureFlags.KS4ProgressBanding" negate="true">
-        <div id="compare-your-census" data-type="@OrganisationTypes.School" data-id="@Model.Urn"></div>
-    </feature>
-}
+  }
 
-@await Html.PartialAsync("FinanceTools/_School", Model.Tools)
+      @await Component.InvokeAsync("EstablishmentHeading", new
+      {
+          title = ViewData[ViewDataKeys.Title],
+          name = Model.Name,
+          id = Model.Urn,
+          kind = OrganisationTypes.School
+      })
+
+      <feature name="@FeatureFlags.KS4ProgressBanding">
+    @await Component.InvokeAsync("DataSourceInset", new
+      {
+          organisationType = OrganisationTypes.School,
+          sourceType = DataSourceTypes.Census,
+          showKs4Progress = Model.HasProgressIndicators,
+          urn = Model.Urn
+      })
+</feature>
+
+      @if (!hasMissingComparatorSet)
+      {
+          <feature name="@FeatureFlags.KS4ProgressBanding" negate="true">
+        @await Component.InvokeAsync("DataSource", new
+          {
+              organisationType = OrganisationTypes.School,
+              sourceType = DataSourceTypes.Census,
+              additionText = new[]
+              {
+                  "Benchmark your pupil and workforce data against similar schools."
+              }
+          })
+    </feature>
+      }
+
+      <feature name="@FeatureFlags.KS4ProgressBanding">
+    @await Component.InvokeAsync("ComparatorSetDetails", new
+      {
+          identifier = Model.Urn,
+          hasUserDefinedSet,
+          hasCustomData,
+          hasMissingComparatorSet,
+          type = ComparatorSetType.Workforce,
+          showAsBulletedList = true
+      })
+</feature>
+
+      <feature name="@FeatureFlags.KS4ProgressBanding" negate="true">
+    @await Component.InvokeAsync("ComparatorSetDetails", new
+      {
+          identifier = Model.Urn,
+          hasUserDefinedSet,
+          hasCustomData,
+          hasMissingComparatorSet,
+          type = ComparatorSetType.Workforce
+      })
+</feature>
+
+      @if (!hasMissingComparatorSet)
+      {
+          <div 
+        id="@elementId" 
+        data-type="@OrganisationTypes.School" 
+        data-id="@Model.Urn" 
+        data-progress-indicators="@progressIndicators" 
+        data-senior-leadership-url="@seniorLeadershipUrl" 
+        data-download-link="@downloadLink"> </div>
+      }
+
+      @await Html.PartialAsync("FinanceTools/_School", Model.Tools)
