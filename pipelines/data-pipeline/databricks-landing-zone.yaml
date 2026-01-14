@@ -2,7 +2,7 @@ trigger: none
 
 variables:
   azureServiceConnection: 's198d.azdo-deployment'
-  resourceGroupName: 's198d01-databricks-lz'
+  resourceGroupName: 's198d01-ebis-databricks-lz'
   location: 'westeurope'
   storageAccountName: 's198d01databrickslz'
   containerName: 'landing-zone'
@@ -11,24 +11,6 @@ pool:
   vmImage: 'ubuntu-latest'
 
 stages:
-  - stage: Validate
-    displayName: 'Validate Configuration'
-    jobs:
-      - job: ValidateJob
-        displayName: 'Validate Parameters'
-        steps:
-          - task: AzureCLI@2
-            displayName: 'Validate Azure CLI Version'
-            inputs:
-              azureSubscription: $(azureServiceConnection)
-              scriptType: 'bash'
-              scriptLocation: 'inlineScript'
-              inlineScript: |
-                echo "Azure CLI Version:"
-                az version
-                echo "Logged in as:"
-                az account show --query user.name -o tsv
-
   - stage: Deploy
     displayName: 'Deploy Storage Infrastructure'
     dependsOn: Validate
