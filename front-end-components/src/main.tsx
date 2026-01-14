@@ -219,7 +219,8 @@ if (compareCostsTrustElement) {
 const compareCensusElement = document.getElementById(CompareCensusElementId);
 
 if (compareCensusElement) {
-  const { type, id, phases, customDataId } = compareCensusElement.dataset;
+  const { type, id, phases, customDataId, seniorLeadershipUrl } =
+    compareCensusElement.dataset;
   if (type && id) {
     const root = ReactDOM.createRoot(compareCensusElement);
     const phasesParsed = phases ? (JSON.parse(phases) as string[]) : null;
@@ -230,6 +231,7 @@ if (compareCensusElement) {
           id={id}
           phases={phasesParsed}
           customDataId={customDataId}
+          seniorLeadershipUrl={seniorLeadershipUrl}
         />
       </React.StrictMode>
     );
@@ -239,8 +241,15 @@ if (compareCensusElement) {
 const compareCensus2Element = document.getElementById(CompareCensus2ElementId);
 
 if (compareCensus2Element) {
-  const { customDataId, downloadLink, id, phases, type, progressIndicators } =
-    compareCensus2Element.dataset;
+  const {
+    customDataId,
+    downloadLink,
+    id,
+    phases,
+    type,
+    progressIndicators,
+    seniorLeadershipUrl,
+  } = compareCensus2Element.dataset;
   if (type && id) {
     const root = ReactDOM.createRoot(compareCensus2Element);
     const phasesParsed = phases ? (JSON.parse(phases) as string[]) : null;
@@ -257,6 +266,7 @@ if (compareCensus2Element) {
           phases={phasesParsed}
           progressIndicators={progressIndicatorsParsed}
           type={type}
+          seniorLeadershipUrl={seniorLeadershipUrl}
         />
       </React.StrictMode>
     );
