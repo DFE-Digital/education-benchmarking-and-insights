@@ -17,10 +17,11 @@ import { Census, CensusApi } from "src/services";
 import { DimensionedChart } from "src/composed/dimensioned-chart";
 import { useAbort } from "src/hooks/useAbort";
 
-export const SeniorLeadership: React.FC<{ type: string; id: string }> = ({
-  type,
-  id,
-}) => {
+export const SeniorLeadership: React.FC<{
+  type: string;
+  id: string;
+  seniorLeadershipUrl: string | undefined;
+}> = ({ type, id, seniorLeadershipUrl }) => {
   const phase = useContext(PhaseContext);
   const customDataId = useContext(CustomDataContext);
   const [dimension, setDimension] = useState(PupilsPerStaffRole);
@@ -104,21 +105,36 @@ export const SeniorLeadership: React.FC<{ type: string; id: string }> = ({
   };
 
   return (
-    <DimensionedChart
-      charts={[
-        { data: chartData, title: "Senior Leadership (Full Time Equivalent)" },
-      ]}
-      costCodesUnderTitle
-      dimension={dimension}
-      dimensions={CensusCategories}
-      handleDimensionChange={handleDimensionChange}
-      legend
-      legendContent={renderChartLegend}
-      legendHorizontalAlign="center"
-      legendVerticalAlign="bottom"
-      progressIndicators={progressIndicators}
-      topLevel
-      warningTag
-    />
+    <>
+      <DimensionedChart
+        charts={[
+          {
+            data: chartData,
+            title: "Senior Leadership (Full Time Equivalent)",
+          },
+        ]}
+        costCodesUnderTitle
+        dimension={dimension}
+        dimensions={CensusCategories}
+        handleDimensionChange={handleDimensionChange}
+        legend
+        legendContent={renderChartLegend}
+        legendHorizontalAlign="center"
+        legendVerticalAlign="bottom"
+        progressIndicators={progressIndicators}
+        topLevel
+        warningTag
+      />
+      {seniorLeadershipUrl && (
+        <p className="govuk-body">
+          <a
+            href={seniorLeadershipUrl}
+            className={"govuk-link govuk-link--no-visited-state"}
+          >
+            View more details on the composition of Senior Leadership
+          </a>
+        </p>
+      )}
+    </>
   );
 };

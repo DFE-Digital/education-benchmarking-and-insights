@@ -21,7 +21,7 @@ import {
 export const CompareYourCensus: React.FC<CompareYourCensusViewProps> = (
   props
 ) => {
-  const { type, id, phases, customDataId } = props;
+  const { type, id, phases, customDataId, seniorLeadershipUrl } = props;
   const [phase, setPhase] = useState<string | undefined>(
     phases ? phases[0] : undefined
   );
@@ -39,7 +39,11 @@ export const CompareYourCensus: React.FC<CompareYourCensusViewProps> = (
             <SchoolWorkforce id={id} type={type} />
             <TotalTeachers id={id} type={type} />
             <TotalTeachersQualified id={id} type={type} />
-            <SeniorLeadership id={id} type={type} />
+            <SeniorLeadership
+              id={id}
+              type={type}
+              seniorLeadershipUrl={seniorLeadershipUrl}
+            />
             <TeachingAssistants id={id} type={type} />
             <NonClassroomSupport id={id} type={type} />
             <AuxiliaryStaff id={id} type={type} />

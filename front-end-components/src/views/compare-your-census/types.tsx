@@ -3,4 +3,5 @@ export type CompareYourCensusViewProps = {
   id: string;
   phases: string[] | null;
   customDataId: string | undefined;
+  seniorLeadershipUrl: string | undefined;
 };

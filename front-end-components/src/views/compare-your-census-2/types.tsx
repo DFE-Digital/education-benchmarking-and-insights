@@ -10,6 +10,7 @@ export type CompareYourCensus2ViewProps = PageActionsProps & {
   phases: string[] | null;
   progressIndicators?: ProgressIndicators;
   type: string;
+  seniorLeadershipUrl: string | undefined;
 };
 
 export type SchoolCensusCommon = {
