@@ -38,14 +38,12 @@
                     @if (row.URN == Model.Urn)
                     {
                         <strong>
-                            <a class="govuk-link govuk-link--no-visited-state"
-                               href=@($"/school/{row.URN}")>@row.SchoolName</a>
+                            <a class="govuk-link govuk-link--no-visited-state" href="@Url.ActionLink("Index", "School", new { urn = row.URN })">@row.SchoolName</a>
                         </strong>
                     }
                     else
                     {
-                        <a class="govuk-link govuk-link--no-visited-state"
-                           href=@($"/school/{row.URN}")>@row.SchoolName</a>
+                        <a class="govuk-link govuk-link--no-visited-state" href="@Url.ActionLink("Index", "School", new { urn = row.URN })">@row.SchoolName</a>
                     }
                 </td>
                 <td class="govuk-table__cell">@row.LAName</td>
