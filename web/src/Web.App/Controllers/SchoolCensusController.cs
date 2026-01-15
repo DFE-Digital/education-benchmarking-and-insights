@@ -24,6 +24,7 @@ namespace Web.App.Controllers;
 public class SchoolCensusController(
     ICensusApi censusApi,
     IComparatorSetApi comparatorSetApi,
+    IChartRenderingApi chartRenderingApi,
     ISchoolApi schoolApi,
     ILogger<SchoolCensusController> logger,
     IUserDataService userDataService,
@@ -131,10 +132,31 @@ public class SchoolCensusController(
                 var group = await schoolApi.QuerySeniorLeadershipAsync(BuildResultAsApiQuery(set.Pupil, resultAs))
                     .GetResultOrThrow<SeniorLeadershipGroup[]>();
 
+                ChartResponse? chart = null;
+
+                if (viewAs == Views.ViewAsOptions.Chart)
+                {
+                    var request = new SchoolSeniorLeadershipHorizontalBarChartRequest(
+                        Guid.NewGuid().ToString(),
+                        urn,
+                        group,
+                        format => Uri.UnescapeDataString(
+                            Url.Action("Index", "School", new
+                            {
+                                urn = format
+                            }) ?? string.Empty),
+                        resultAs);
+
+                    chart = await chartRenderingApi
+                        .PostHorizontalBarChart(request)
+                        .GetResultOrDefault<ChartResponse>();
+                }
+
                 var viewModel = new SchoolSeniorLeadershipViewModel(school, group)
                 {
                     ViewAs = viewAs,
-                    ResultAs = resultAs
+                    ResultAs = resultAs,
+                    ChartSvg = chart?.Html ?? string.Empty
                 };
 
                 return View(viewModel);

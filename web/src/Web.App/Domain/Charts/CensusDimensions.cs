@@ -23,6 +23,20 @@ public static class CensusDimensions
         _ => throw new ArgumentOutOfRangeException(nameof(option))
     };
 
+    public static string GetValueType(this ResultAsOptions option) => option switch
+    {
+        ResultAsOptions.Total => ValueType.Numeric,
+        ResultAsOptions.PercentWorkforce => ValueType.Percent,
+        _ => throw new ArgumentOutOfRangeException(nameof(option))
+    };
+
+    public static string GetXAxisLabel(this ResultAsOptions option) => option switch
+    {
+        ResultAsOptions.Total => "total",
+        ResultAsOptions.PercentWorkforce => "percentage of workforce",
+        _ => throw new ArgumentOutOfRangeException(nameof(option))
+    };
+
     public static string GetFormattedValue(this ResultAsOptions option, decimal? value) => option switch
     {
         ResultAsOptions.Total => value.ToSimpleDisplay(),

@@ -4,4 +4,5 @@ public static class ValueType
 {
     public const string Currency = "currency";
     public const string Percent = "percent";
+    public const string Numeric = "numeric";
 }
