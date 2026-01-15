@@ -1,8 +1,12 @@
 ﻿
+@using Microsoft.FeatureManagement
 @using Newtonsoft.Json
 @using Web.App.Extensions
 @using Web.App.ViewModels.Components
 @model Web.App.ViewModels.SchoolCensusViewModel
+
+@inject IFeatureManager FeatureManager
+
 @{
     ViewData[ViewDataKeys.Title] = PageTitles.Census;
     var hasUserDefinedSet = !string.IsNullOrEmpty(Model.UserDefinedSetId);
@@ -14,38 +18,19 @@
         customDataId = Model.CustomDataId
     });
     
-    string? elementId = null; 
-    string? progressIndicators = null;
-    string? seniorLeadershipUrl = null;
-}
-
-<feature name="@FeatureFlags.KS4ProgressBanding">
-    @{
-        elementId = "compare-your-census-2";
-        progressIndicators = Model.WellOrAboveAverageKS4ProgressBandingsInComparatorSet.ToJson(Formatting.None);
-    }
-  </feature> 
-
-<feature name="@FeatureFlags.KS4ProgressBanding" negate="true">
-    @{
-        elementId = "compare-your-census";
-    }
-</feature>
-
-<feature name="@FeatureFlags.SeniorLeadership">
-    @{
-        seniorLeadershipUrl = Url.ActionLink("SeniorLeadership", "SchoolCensus", new
+    var elementId = await FeatureManager.IsEnabledAsync(FeatureFlags.KS4ProgressBanding) 
+        ? "compare-your-census-2" 
+        : "compare-your-census"; 
+    var progressIndicators = await FeatureManager.IsEnabledAsync(FeatureFlags.KS4ProgressBanding) 
+        ? Model.WellOrAboveAverageKS4ProgressBandingsInComparatorSet.ToJson(Formatting.None) 
+        : null;
+    var seniorLeadershipUrl = await FeatureManager.IsEnabledAsync(FeatureFlags.SeniorLeadership) 
+        ? Url.ActionLink("SeniorLeadership", "SchoolCensus", new
         {
             urn = Model.Urn
-        });
-    }
-</feature>
-
-<feature name="@FeatureFlags.SeniorLeadership" negate="true">
-    @{
-        seniorLeadershipUrl = null;
-    }
-</feature>
+        }) 
+        : null;
+}
 
 @if (!hasMissingComparatorSet)
   {
