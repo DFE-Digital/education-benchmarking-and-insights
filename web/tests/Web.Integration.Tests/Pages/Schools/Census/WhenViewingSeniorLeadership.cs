@@ -94,6 +94,19 @@ public class WhenViewingSeniorLeadership(SchoolBenchmarkingWebAppClient client) 
             expectedQueryParams: expectedQueryParams);
     }
 
+    [Fact]
+    public async Task CanDownloadPageData()
+    {
+        var (page, school, _) = await SetupNavigateInitPage();
+
+        var action = page.QuerySelectorAll("button").FirstOrDefault(x => x.TextContent.Trim() == "Download page data");
+        Assert.NotNull(action);
+
+        page = await Client.SubmitForm(page.Forms[0], action);
+
+        DocumentAssert.AssertPageUrl(page, Paths.SchoolSeniorLeadershipDownload(school.URN).ToAbsolute());
+    }
+
     private async Task<(IHtmlDocument page, School school, SeniorLeadershipGroup[] group)> SetupNavigateInitPage(string queryParams = "")
     {
         var school = Fixture.Build<School>()

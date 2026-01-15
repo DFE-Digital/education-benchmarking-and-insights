@@ -194,6 +194,36 @@ public class SchoolCensusController(
         }
     }
 
+    [HttpGet]
+    [Produces("application/zip")]
+    [ProducesResponseType<byte[]>(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    [Route("senior-leadership/download")]
+    public async Task<IActionResult> SeniorLeadershipDownload(string urn)
+    {
+        using (logger.BeginScope(new
+        {
+            urn
+        }))
+        {
+            try
+            {
+                var set = await comparatorSetApi.GetDefaultSchoolAsync(urn)
+                    .GetResultOrThrow<SchoolComparatorSet>(); ;
+
+                var group = await schoolApi.QuerySeniorLeadershipAsync(BuildResultAsApiQuery(set.Pupil, CensusDimensions.ResultAsOptions.Total))
+                    .GetResultOrThrow<SeniorLeadershipGroup[]>();
+
+                return new CsvResults([new CsvResult(group, $"benchmark-senior-leadership-group-{urn}.csv")], $"benchmark-senior-leadership-group-{urn}.zip");
+            }
+            catch (Exception e)
+            {
+                logger.LogError(e, "An error downloading senior leadership census data: {DisplayUrl}", Request.GetDisplayUrl());
+                return StatusCode(500);
+            }
+        }
+    }
+
     private async Task<School> School(string urn) => await schoolApi
         .SingleAsync(urn)
         .GetResultOrThrow<School>();

@@ -171,6 +171,8 @@ public static class Paths
 
     public static string SchoolSeniorLeadership(string? urn) => $"/school/{urn}/census/senior-leadership";
 
+    public static string SchoolSeniorLeadershipDownload(string? urn) => $"/school/{urn}/census/senior-leadership/download";
+
     public static string SchoolSearchResults(string? term = null, string? sort = null, string[]? phases = null, int? page = null)
     {
         var queryString = new QueryString();
