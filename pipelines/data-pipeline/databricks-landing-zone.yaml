@@ -1,0 +1,69 @@
+trigger: none
+
+variables:
+  azureServiceConnection: 's198d.azdo-deployment'
+  resourceGroupName: 's198d01-ebis-databricks-lz'
+  location: 'westeurope'
+  storageAccountName: 's198d01databrickslz'
+  containerName: 'landing-zone'
+  
+pool:
+  vmImage: 'ubuntu-latest'
+
+stages:
+  - stage: Deploy
+    displayName: 'Deploy Storage Infrastructure'
+    jobs:
+      - job: CreateResources
+        displayName: 'Create Storage Resources'
+        steps:
+          - task: AzureCLI@2
+            displayName: 'Create Resource Group'
+            inputs:
+              azureSubscription: $(azureServiceConnection)
+              scriptType: 'bash'
+              scriptLocation: 'inlineScript'
+              inlineScript: |
+                echo "Creating resource group: $(resourceGroupName)"
+                az group create \
+                  --name $(resourceGroupName) \
+                  --location $(location) \
+                  --tags Environment=Dev Product='DfE Financial Benchmarking service'
+                
+                echo "Resource group created successfully"
+
+          - task: AzureCLI@2
+            displayName: 'Create Storage Account'
+            inputs:
+              azureSubscription: $(azureServiceConnection)
+              scriptType: 'bash'
+              scriptLocation: 'inlineScript'
+              inlineScript: |
+                echo "Creating storage account: $(storageAccountName)"
+                az storage account create \
+                  --name $(storageAccountName) \
+                  --resource-group $(resourceGroupName) \
+                  --location $(location) \
+                  --sku Standard_LRS \
+                  --kind StorageV2 \
+                  --hns \
+                  --https-only true \
+                  --min-tls-version TLS1_2 \
+                  --tags Environment=Dev Product='DfE Financial Benchmarking service'
+                
+                echo "Storage account created with hierarchical namespace enabled"
+
+          - task: AzureCLI@2
+            displayName: 'Create Storage Container'
+            inputs:
+              azureSubscription: $(azureServiceConnection)
+              scriptType: 'bash'
+              scriptLocation: 'inlineScript'
+              inlineScript: |
+                echo "Creating container: $(containerName)"
+                az storage container create \
+                  --name $(containerName) \
+                  --account-name $(storageAccountName) \
+                  --auth-mode login
+                
+                echo "Container created successfully"
