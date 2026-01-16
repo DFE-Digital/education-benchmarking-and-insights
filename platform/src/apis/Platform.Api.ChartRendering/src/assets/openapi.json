@@ -781,6 +781,7 @@
         "title": "ValueType",
         "enum": [
           "currency",
+          "numeric",
           "percent"
         ],
         "type": "string"
@@ -794,7 +795,17 @@
             "title": "keyField"
           },
           "valueField": {
-            "type": "string",
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            ],
             "title": "valueField"
           }
         },

@@ -1,4 +1,5 @@
 import { NumberValue, scaleBand, scaleLinear } from "d3-scale";
+import { stack } from "d3-shape";
 import classnames from "classnames";
 import {
   ChartBuilderResult,
@@ -12,6 +13,7 @@ import {
   getGroups,
   isAllCaps,
   normaliseData,
+  sumValueFields,
   shortValueFormatter,
   sortData,
 } from "../utils";
@@ -35,20 +37,35 @@ export default class HorizontalBarChartTemplate {
     paddingOuter,
     sort,
     valueField,
+//    valueFieldLabels, <-- reinstate once web is updated to include in request
     valueType,
     width,
     xAxisLabel,
   }: HorizontalBarChartBuilderOptions<T>): ChartBuilderResult {
     const suggestedXAxisTickCount = 4;
 
+    // normalise value field(s)
+    let valueFields : (keyof T)[];
+    if (Array.isArray(valueField)) {
+      valueFields = valueField;
+    }
+    else
+    {
+      valueFields = [ valueField ];
+    }
+
+    const stackedChart: boolean = valueFields.length > 1;
+
     // Declare the chart dimensions and margins.
+    const legendHeight = stackedChart ? 40 : 0;
     const marginTop = 20;
     const marginRight = 40;
-    const marginBottom = 20;
     const marginLeft = 3;
+    const marginBottom = 20;
     const labelHeight = 40;
+
     let height =
-      Math.ceil((data.length + 0.1) * barHeight) + marginTop + marginBottom;
+      Math.ceil((data.length + 0.1) * barHeight) + marginTop + marginBottom + legendHeight;
     if (xAxisLabel) {
       height += labelHeight;
     }
@@ -57,18 +74,27 @@ export default class HorizontalBarChartTemplate {
     const tickWidth = width / 3;
     const truncateLabelAt = width ? Math.floor(width / 22) : 30;
 
-    const normalisedData = normaliseData(
-      data,
-      valueField,
-      valueType,
-      missingDataLabel ? null : undefined
-    );
+    let normalisedData = data;
+    let field : keyof T;
+    let summationField : keyof T = "valueFieldSum" as keyof T;
+
+    for (field of valueFields) {
+      normalisedData = normaliseData(
+        normalisedData,
+        field,
+        valueType,
+        missingDataLabel ? null : undefined
+      );
+    }
 
     const groups = (key: DatumKey) => getGroups(groupedKeys, key);
-    sortData(normalisedData, valueField, sort);
+
+    sumValueFields(normalisedData, valueFields, summationField);
+
+    sortData(normalisedData, summationField, sort);
 
     // Create the scales.
-    const domain = getDomain(normalisedData, valueField, domainMin, domainMax);
+    const domain = getDomain(normalisedData, summationField, domainMin, domainMax);
     const x = scaleLinear()
       .domain(domain)
       .range([marginLeft + tickWidth + 5, width - marginRight - 5])
@@ -79,7 +105,7 @@ export default class HorizontalBarChartTemplate {
       .domain(normalisedData.map((d) => d[keyField] as string))
       .range([
         marginTop,
-        height - marginBottom - (xAxisLabel ? labelHeight : 0),
+        height - marginBottom - legendHeight - (xAxisLabel ? labelHeight : 0),
       ])
       .paddingInner(paddingInner ?? 0.2)
       .paddingOuter(paddingOuter ?? 0.1);
@@ -89,38 +115,44 @@ export default class HorizontalBarChartTemplate {
       return shortValueFormatter(d, valueType);
     };
 
-    // Append a rect for each bar.
-    const rects = normalisedData
-      .filter((d) => d[valueField] !== null)
-      .map((d) => {
-        const xAttr = x(xAxisTicks[0]);
-        const yAttr = y(d[keyField] as string)!;
-        let widthAttr = x(d[valueField] as number) - xAttr;
+    // create a stack generator
+    const stackGen = stack<T, keyof T>().keys(valueFields);
 
-        // do not allow negative bars at this time
-        if (widthAttr < 0) {
-          widthAttr = 0;
-        }
+    // generate the data stacks
+    // returns an array of { 0: number; 1: number; data: T; }, where `0` is `y0`, the lower value (baseline) and `1` is `y1` (topline)
+    const stackedSeries = stackGen(normalisedData);
 
-        const heightAttr = y.bandwidth();
-        const dataKeyAttr = d[keyField] as string;
-        const classAttr = classnames(
-          "chart-cell",
-          "chart-cell__series-0",
-          {
-            "chart-cell__highlight": d[keyField] === highlightKey,
-          },
-          groups(d[keyField] as DatumKey).map((g) => `chart-cell__group-${g}`)
-        );
+    const stacks = stackedSeries.map((stack, i) => {
+      const rects = stack
+        .filter((d) => d.data[summationField] !== null)
+        .map((d) => {
+          const xAttr = x(d[0]); // positioned at the origin
+          const yAttr = y(d.data[keyField] as string)!;
+          const widthAttr = x(d[1]) - xAttr; // increasing width for each bar (render order determines layering)
+          const heightAttr = y.bandwidth();
+          const dataKeyAttr = d.data[keyField] as string;
+          const stackCss = stackedChart ? "chart-data-stack-" + i : "";
+          const classAttr = classnames(
+            "chart-cell",
+            "chart-cell__series-0",
+            {
+              "chart-cell__highlight": d.data[keyField] === highlightKey && !stackedChart,
+            },
+            groups(d.data[keyField] as DatumKey).map((g) => `chart-cell__group-${g}`),
+            stackCss
+          );
 
-        return `<rect x="${xAttr}" y="${yAttr}" width="${widthAttr}" height="${heightAttr}" data-key="${dataKeyAttr}" class="${classAttr}"/>`;
-      });
+          return `<rect x="${xAttr}" y="${yAttr}" width="${widthAttr}" height="${heightAttr}" data-key="${dataKeyAttr}" class="${classAttr}" />`;
+        });
+
+      return `<g data-stack="${i}">${rects.join("")}</g>`;
+    });
 
     // Append a label for each bar.
     const labels = normalisedData
-      .filter((d) => d[valueField] !== null)
+      .filter((d) => d[summationField] !== null)
       .map((d) => {
-        let value = d[valueField] as number;
+        let value = d[summationField] as number;
 
         // do not allow negative labels at this time
         if (value < 0) {
@@ -129,22 +161,22 @@ export default class HorizontalBarChartTemplate {
 
         const xAttr = x(value) + Math.sign(value - 0) * 8;
         const yAttr = y(d[keyField] as string)! + y.bandwidth() / 2;
-        const text = valueFormatter(d[valueField] as number);
+        const text = valueFormatter(d[summationField] as number);
         const classAttr = classnames("chart-label", "chart-label__series-0", {
           "chart-label__highlight": d[keyField] === highlightKey,
-          "chart-label__negative": (d[valueField] as number) < 0,
+          "chart-label__negative": (d[summationField] as number) < 0,
         });
 
         return `<text x="${xAttr}" y="${yAttr}" dy="0.35em" class="${classAttr}">${text}</text>`;
       });
 
-    const barsAndLabels = `<g>${rects.join("")}</g><g>${labels.join("")}</g>`;
+    const barsAndLabels = `<g>${stacks.join("")}</g><g>${labels.join("")}</g>`;
 
     let missingDataLabels = "";
     if (missingDataLabel) {
       // Append a rect for each missing entry
       const rects = normalisedData
-        .filter((d) => d[valueField] === null)
+        .filter((d) => d[summationField] === null)
         .map((d) => {
           const xAttr = x(xAxisTicks[0]);
           const yAttr = y(d[keyField] as string)! - y.bandwidth() * 0.5;
@@ -157,7 +189,7 @@ export default class HorizontalBarChartTemplate {
 
       // Append a label for each missing entry
       const labels = normalisedData
-        .filter((d) => d[valueField] === null)
+        .filter((d) => d[summationField] === null)
         .map((d) => {
           const xAttr = x(xAxisTicks[0]) + 5;
           const yAttr = y(d[keyField] as string)! + y.bandwidth() / 2;
@@ -178,7 +210,7 @@ export default class HorizontalBarChartTemplate {
 </g>`;
     });
 
-    const xAxis = `<g class="chart-axis chart-axis__x" transform="translate(-2,${height - marginBottom - (xAxisLabel ? labelHeight : 0)})">
+    const xAxis = `<g class="chart-axis chart-axis__x" transform="translate(-2,${height - marginBottom - legendHeight - (xAxisLabel ? labelHeight : 0)})">
   <path class="domain" stroke="currentColor" d="M${x(xAxisTicks[0]) + xAxisTickOffset},1V0.5H${x(xAxisTicks[xAxisTicks.length - 1]) + xAxisTickOffset}V1"/>
   ${xAxisChartTicks.join("")}
   ${xAxisLabel ? `<text x="${(width - tickWidth) / 2 + tickWidth - marginRight}" y="${marginBottom + labelHeight / 1.5}">${xAxisLabel}</text>` : ""}
@@ -252,9 +284,34 @@ export default class HorizontalBarChartTemplate {
     });
 
     const yAxis = `<g class="chart-axis chart-axis__y" transform="translate(${marginLeft + tickWidth + 2},0)">
-  <path class="domain" stroke="currentColor" d="M0,20.5H0.5V${height - marginBottom - (xAxisLabel ? labelHeight : 0)}.5H0" transform="translate(0,0)"/>
+  <path class="domain" stroke="currentColor" d="M0,20.5H0.5V${height - marginBottom - legendHeight - (xAxisLabel ? labelHeight : 0)}.5H0" transform="translate(0,0)"/>
   ${yAxisChartTicks.join("")}
 </g>`;
+
+    // Create a legend
+    let legend: string = "";
+    let boxDim: number = y.bandwidth() / 2;
+    let xPos: number = 0;
+    let valueFieldLabels = valueFields;
+
+    if (stackedChart) {
+      const rectsAndLabels = valueFieldLabels.map((f, i) => {
+        let field = f as string;
+        let box: string = `<rect class="chart-cell chart-data-stack-${i}" height="${boxDim}" width="${boxDim}" x="${xPos}" />`;
+        xPos += boxDim + 5;
+        let label: string = `<text x="${xPos}" dy="${boxDim}">${field}</text>`;
+        xPos += (field.length * 9);
+        return `${box}${label}`;
+      });
+
+      // the width of the svg minus the width of the legend, all halved
+      let legendX = (width - xPos) / 2; 
+      // the height of the svg, minus the space reserved for the legend, plus a buffer between the x-axis and the legend
+      let legendY = height - legendHeight + 5; 
+
+      legend = `<g transform="translate(${legendX},${legendY})">${rectsAndLabels}</g>`;
+    }
+
 
     // Create the SVG container.
     const svg = `<svg width="${width}" height="${height}" viewBox="0,0,${width},${height}" data-chart-id="${id}" xmlns="http://www.w3.org/2000/svg">
@@ -262,7 +319,9 @@ export default class HorizontalBarChartTemplate {
   ${missingDataLabels}
   ${xAxis}
   ${yAxis}
+  ${legend}
 </svg>`;
+
 
     return { id, html: svg.replace(/\n\s*/g, "") };
   }
