@@ -132,31 +132,18 @@ public class SchoolCensusController(
                 var group = await schoolApi.QuerySeniorLeadershipAsync(BuildResultAsApiQuery(set.Pupil, resultAs))
                     .GetResultOrThrow<SeniorLeadershipGroup[]>();
 
-                string? chartSvg = null;
+                var chartSvg = string.Empty;
 
                 if (viewAs == Views.ViewAsOptions.Chart)
                 {
-                    var request = new SchoolSeniorLeadershipHorizontalBarChartRequest(
-                        Guid.NewGuid().ToString(),
-                        urn,
-                        group,
-                        format => Uri.UnescapeDataString(
-                            Url.Action("Index", "School", new
-                            {
-                                urn = format
-                            }) ?? string.Empty),
-                        resultAs);
-
-                    chartSvg = await chartRenderingApi
-                        .PostHorizontalBarChart(request)
-                        .GetResultOrDefault<string>();
+                    chartSvg = await BuildChart(urn, resultAs, group);
                 }
 
                 var viewModel = new SchoolSeniorLeadershipViewModel(school, group)
                 {
                     ViewAs = viewAs,
                     ResultAs = resultAs,
-                    ChartSvg = chartSvg ?? string.Empty
+                    ChartSvg = chartSvg
                 };
 
                 return View(viewModel);
@@ -331,6 +318,36 @@ public class SchoolCensusController(
         }
 
         return censuses.Select(e => new CensusWithProgress(e, bandings[e.URN]));
+    }
+
+    private async Task<string?> BuildChart(string urn, CensusDimensions.ResultAsOptions resultAs, SeniorLeadershipGroup[] group)
+    {
+
+        var request = new SchoolSeniorLeadershipHorizontalBarChartRequest(
+            Guid.NewGuid().ToString(),
+            urn,
+            group,
+            format => Uri.UnescapeDataString(
+                Url.Action("Index", "School", new
+                {
+                    urn = format
+                }) ?? string.Empty),
+            resultAs);
+
+        var chartSvg = string.Empty;
+
+        try
+        {
+            chartSvg = await chartRenderingApi
+                .PostHorizontalBarChart(request)
+                .GetResultOrDefault<string>() ?? string.Empty;
+        }
+        catch (Exception e)
+        {
+            logger.LogWarning(e, "Unable to load chart from API");
+        }
+
+        return chartSvg;
     }
 
     private record CensusWithProgress : Census

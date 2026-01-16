@@ -768,6 +768,13 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
         return this;
     }
 
+    public BenchmarkingWebAppClient SetupSingleChartRendering<T>(string chartSvg)
+    {
+        ChartRenderingApi.Reset();
+        ChartRenderingApi.Setup(api => api.PostHorizontalBarChart(It.IsAny<PostHorizontalBarChartRequest<T>>(), It.IsAny<CancellationToken>())).ReturnsAsync(ApiResult.Ok(chartSvg));
+        return this;
+    }
+
     //TODO: what kind of assertions are needed
     public BenchmarkingWebAppClient SetupCommercialResources(CommercialResourceCategorised[] resources)
     {
@@ -807,7 +814,7 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
 
     public BenchmarkingWebAppClient SetupChartRenderingWithException<T>()
     {
-        CensusApi.Reset();
+        ChartRenderingApi.Reset();
         ChartRenderingApi.Setup(api => api.PostHorizontalBarChart(It.IsAny<PostHorizontalBarChartRequest<T>>(), It.IsAny<CancellationToken>())).Throws(new Exception());
         ChartRenderingApi.Setup(api => api.PostHorizontalBarCharts(It.IsAny<PostHorizontalBarChartsRequest<T>>(), It.IsAny<CancellationToken>())).Throws(new Exception());
         ChartRenderingApi.Setup(api => api.PostVerticalBarChart(It.IsAny<PostVerticalBarChartRequest<T>>(), It.IsAny<CancellationToken>())).Throws(new Exception());
