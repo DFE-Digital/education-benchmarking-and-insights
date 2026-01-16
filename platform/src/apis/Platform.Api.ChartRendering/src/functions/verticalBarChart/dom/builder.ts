@@ -22,6 +22,9 @@ export default class VerticalBarChartBuilder {
     );
     const d3 = await _d3;
 
+    // valueField will only be a singe data key, not an array of keys
+    valueField = valueField as keyof T;
+
     // Declare the chart dimensions and margins.
     const marginTop = 20;
     const marginRight = 3;

@@ -67,6 +67,9 @@ export default class HorizontalBarChartBuilder {
     const tickWidth = width / 3;
     const truncateLabelAt = width ? Math.floor(width / 22) : 30;
 
+    // assume we're dealing with a single data key, not an array
+    valueField = valueField as keyof T;
+
     const normalisedData = normaliseData(data, valueField, valueType);
     const valueFormat = getValueFormat(valueType);
     const groups = (key: DatumKey) => getGroups(groupedKeys, key);

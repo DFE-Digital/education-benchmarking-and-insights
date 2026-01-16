@@ -1,6 +1,6 @@
 type ChartDefinition = {
   keyField: string;
-  valueField: string;
+  valueField: string | string[];
 };
 
 /**
@@ -14,7 +14,9 @@ export type VerticalBarChartDefinition = Pick<
   Partial<
     Pick<
       ChartBuilderOptions<unknown>,
-      "domainMax" | "domainMin" | "highlightKey" | "id" | "sort" | "width"
+// reinstate once web is updated to include in request
+//      "domainMax" | "domainMin" | "highlightKey" | "id" | "sort" | "valueFieldLabels" | "width"
+        "domainMax" | "domainMin" | "highlightKey" | "id" | "sort" | "width"
     >
   > &
   ChartDefinition;
@@ -37,6 +39,7 @@ export type HorizontalBarChartDefinition = Pick<
       | "missingDataLabelWidth"
       | "paddingInner"
       | "paddingOuter"
+//      | "valueFieldLabels" reinstate once web is updated to include in request
       | "valueType"
       | "xAxisLabel"
     >
@@ -72,7 +75,8 @@ type ChartBuilderOptions<T> = {
   id: string;
   keyField: keyof T;
   sort?: "asc" | "desc" | undefined;
-  valueField: keyof T;
+  valueField: keyof T | (keyof T)[];
+  //valueFieldLabels: string[]; reinstate once web is updated to include in request
   width: number;
 };
 
@@ -114,7 +118,7 @@ export type HorizontalBarChartBuilderOptions<T> = ChartBuilderOptions<T> & {
    * This determines both the visual representation (e.g. percentage or currency)
    * and any necessary normalisation (e.g. dividing percent values by 100).
    * Must be one of the predefined `ValueType` options.
-   * @example "Percent" | "Currency"
+   * @example "Percent" | "Currency" | "Numeric"
    */
   valueType: ValueType;
   xAxisLabel: string;
@@ -125,4 +129,4 @@ type ChartBuilderResult = {
   html: string | undefined;
 };
 
-export type ValueType = "percent" | "currency";
+export type ValueType = "percent" | "currency" | "numeric";

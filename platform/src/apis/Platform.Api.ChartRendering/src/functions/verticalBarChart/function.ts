@@ -47,6 +47,8 @@ export async function verticalBarChart(
 
   try {
     charts = definitions.map(
+// reinstate once web is updated to include in request   
+//      ({ data, height, id, keyField, valueField, valueFieldLabels, width, ...rest }) =>
       ({ data, height, id, keyField, valueField, width, ...rest }) =>
         verticalBarChartTemplate.buildChart({
           data,
@@ -54,6 +56,7 @@ export async function verticalBarChart(
           id: id || uuidv4(),
           keyField: keyField as never,
           valueField: valueField as never,
+//          valueFieldLabels: valueFieldLabels as never, reinstate once web is updated to include in request
           width: width || 928,
           ...rest,
         })

@@ -1,6 +1,7 @@
 import { ascending, descending, max, min } from "d3-array";
 import { NumberValue } from "d3-scale";
 import { DatumKey, Group, ValueType } from "./index";
+import HorizontalBarChartTemplate from "./horizontalBarChart/template";
 
 export function normaliseData<T>(
   data: T[],
@@ -24,6 +25,7 @@ export function normaliseData<T>(
       }));
 
     case "currency":
+    case "numeric":
       return data.map((d) => ({
         ...d,
         [valueField]:
@@ -69,6 +71,24 @@ export function sortData<T>(
       isNaN(aValue as number) || aValue === null ? -Infinity : aValue,
       isNaN(bValue as number) || bValue === null ? -Infinity : bValue
     );
+  });
+}
+
+/**
+ * Creates a new field in the data which is the sum of the values of all the valuefields
+ * for sorting and domain creation
+ */
+export function sumValueFields<T>(
+  data: T[],
+  valueFields: (keyof T)[],
+  summationField: keyof T
+): T[] {
+  return data.map((d) => {
+    (d[summationField] as number) = 0;
+    for (let valueField of valueFields) {
+      (d[summationField] as number) += (d[valueField] as number);
+    }
+    return d;
   });
 }
 
@@ -145,7 +165,9 @@ export function shortValueFormatter(
         ? "currency"
         : dataType === "percent"
           ? "percent"
-          : undefined,
+          : dataType === "numeric"
+            ? "decimal"
+            : undefined,
     currency: dataType === "currency" ? "GBP" : undefined,
     maximumFractionDigits:
       dataType === "currency"
