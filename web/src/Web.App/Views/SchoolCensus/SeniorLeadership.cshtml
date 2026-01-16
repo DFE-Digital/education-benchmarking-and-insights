@@ -91,13 +91,13 @@
 
         @if (Model.ViewAs == Views.ViewAsOptions.Chart)
         {
-            <p class="govuk-body-l">Chart under construction</p>
+            @await Html.PartialAsync("_SeniorLeadershipChart")
         }
         else
         {
             @await Html.PartialAsync("_SeniorLeadershipTable")
         }
     </div>
-
-    @await Html.PartialAsync("FinanceTools/_School", Model.Tools)
 </div>
+
+@await Html.PartialAsync("FinanceTools/_School", Model.Tools)

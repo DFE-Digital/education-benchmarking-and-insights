@@ -9,6 +9,7 @@ public class SchoolSeniorLeadershipViewModel(School school, SeniorLeadershipGrou
     public string? Urn => school.URN;
     public string? Name => school.SchoolName;
     public SeniorLeadershipGroup[] Group => group;
+    public string? ChartSvg { get; set; }
 
     public Views.ViewAsOptions ViewAs { get; set; } = Views.ViewAsOptions.Chart;
     public CensusDimensions.ResultAsOptions ResultAs { get; set; } = CensusDimensions.ResultAsOptions.Total;
