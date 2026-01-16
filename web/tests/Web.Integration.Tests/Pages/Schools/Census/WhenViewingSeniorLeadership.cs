@@ -4,19 +4,20 @@ using AngleSharp.Html.Dom;
 using AutoFixture;
 using Web.App.Domain;
 using Web.App.Domain.Charts;
-using Web.App.ViewModels;
 using Xunit;
 
 namespace Web.Integration.Tests.Pages.Schools.Census;
 
 public class WhenViewingSeniorLeadership(SchoolBenchmarkingWebAppClient client) : PageBase<SchoolBenchmarkingWebAppClient>(client)
 {
-    [Fact]
-    public async Task CanDisplay()
+    [Theory]
+    [InlineData(true)]
+    [InlineData(false)]
+    public async Task CanDisplay(bool chartError)
     {
-        var (page, school, group) = await SetupNavigateInitPage();
+        var (page, school, group) = await SetupNavigateInitPage(chartApiException: chartError);
 
-        AssertPageLayout(page, school, group);
+        AssertPageLayout(page, school, group, chartError: chartError);
     }
 
     [Fact]
@@ -107,8 +108,12 @@ public class WhenViewingSeniorLeadership(SchoolBenchmarkingWebAppClient client) 
         DocumentAssert.AssertPageUrl(page, Paths.SchoolSeniorLeadershipDownload(school.URN).ToAbsolute());
     }
 
-    private async Task<(IHtmlDocument page, School school, SeniorLeadershipGroup[] group)> SetupNavigateInitPage(string queryParams = "")
+    private async Task<(IHtmlDocument page, School school, SeniorLeadershipGroup[] group)> SetupNavigateInitPage(
+        string queryParams = "",
+        bool chartApiException = false)
     {
+        const string chartSvg = "<svg />";
+
         var school = Fixture.Build<School>()
             .With(x => x.URN, "123456")
             .Create();
@@ -125,11 +130,17 @@ public class WhenViewingSeniorLeadership(SchoolBenchmarkingWebAppClient client) 
 
         Assert.NotNull(school.URN);
 
-        var page = await Client
-            .SetupInsights()
+        var client = Client.SetupInsights()
             .SetupSchool(school, group)
             .SetupComparatorSet(school, comparatorSet)
-            .Navigate($"{Paths.SchoolSeniorLeadership(school.URN)}{queryParams}");
+            .SetupSingleChartRendering<SeniorLeadershipGroup>(chartSvg);
+
+        if (chartApiException)
+        {
+            client.SetupChartRenderingWithException<SeniorLeadershipGroup>();
+        }
+
+        var page = await client.Navigate($"{Paths.SchoolSeniorLeadership(school.URN)}{queryParams}");
 
         return (page, school, group);
     }
@@ -140,7 +151,8 @@ public class WhenViewingSeniorLeadership(SchoolBenchmarkingWebAppClient client) 
         SeniorLeadershipGroup[] group,
         int viewAs = 0,
         int resultAs = 0,
-        string expectedQueryParams = "")
+        string expectedQueryParams = "",
+        bool chartError = false)
     {
         DocumentAssert.AssertPageUrl(page, $"{Paths.SchoolSeniorLeadership(school.URN)}{expectedQueryParams}".ToAbsolute());
         DocumentAssert.TitleAndH1(page, "Benchmark senior leadership group - Financial Benchmarking and Insights Tool - GOV.UK",
@@ -160,7 +172,7 @@ public class WhenViewingSeniorLeadership(SchoolBenchmarkingWebAppClient client) 
 
         if (viewAs == 0)
         {
-            // TODO: update with assertions for chart svg once implemented
+            AssertChartSection(page, chartError);
         }
         else
         {
@@ -254,5 +266,22 @@ public class WhenViewingSeniorLeadership(SchoolBenchmarkingWebAppClient client) 
         var applyButton = form.QuerySelector("button.govuk-button--secondary");
         Assert.NotNull(applyButton);
         DocumentAssert.TextEqual(applyButton, "Apply");
+    }
+
+    private static void AssertChartSection(IHtmlDocument page, bool chartError)
+    {
+        var chartSvg = page.QuerySelector(".ssr-chart");
+        var chartWarning = page.QuerySelector(".ssr-chart-warning");
+
+        if (chartError)
+        {
+            Assert.NotNull(chartWarning);
+            Assert.Null(chartSvg);
+        }
+        else
+        {
+            Assert.NotNull(chartSvg);
+            Assert.Null(chartWarning);
+        }
     }
 }
