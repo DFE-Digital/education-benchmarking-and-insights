@@ -7,7 +7,11 @@ namespace Web.App.Domain.Charts;
 
 public record SchoolSeniorLeadershipHorizontalBarChartRequest : PostHorizontalBarChartRequest<SeniorLeadershipGroup>
 {
+    // TODO: Move these into the base type once the Web Chart Rendering contract is finalised.
+    // They may become a single combined type for easier mapping.
+    // For now, LegendLabels must align with ValueField by index.
     public new string[]? ValueField { get; set; }
+    public string[]? LegendLabels { get; set; }
 
     public SchoolSeniorLeadershipHorizontalBarChartRequest(
         string uuid,
@@ -33,6 +37,7 @@ public record SchoolSeniorLeadershipHorizontalBarChartRequest : PostHorizontalBa
             JsonNamingPolicy.CamelCase.ConvertName(nameof(SeniorLeadershipGroup.AssistantHeadTeacher)),
             JsonNamingPolicy.CamelCase.ConvertName(nameof(SeniorLeadershipGroup.LeadershipNonTeacher))
         ];
+        LegendLabels = ["Head teachers", "Deputy head teachers", "Assistant head teachers", "Leadership non‑teachers"];
         ValueType = resultsAs.GetValueType();
         XAxisLabel = resultsAs.GetXAxisLabel();
     }
