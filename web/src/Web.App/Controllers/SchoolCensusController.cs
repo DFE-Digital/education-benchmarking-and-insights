@@ -132,7 +132,7 @@ public class SchoolCensusController(
                 var group = await schoolApi.QuerySeniorLeadershipAsync(BuildResultAsApiQuery(set.Pupil, resultAs))
                     .GetResultOrThrow<SeniorLeadershipGroup[]>();
 
-                ChartResponse? chart = null;
+                string? chartSvg = null;
 
                 if (viewAs == Views.ViewAsOptions.Chart)
                 {
@@ -147,16 +147,16 @@ public class SchoolCensusController(
                             }) ?? string.Empty),
                         resultAs);
 
-                    chart = await chartRenderingApi
+                    chartSvg = await chartRenderingApi
                         .PostHorizontalBarChart(request)
-                        .GetResultOrDefault<ChartResponse>();
+                        .GetResultOrDefault<string>();
                 }
 
                 var viewModel = new SchoolSeniorLeadershipViewModel(school, group)
                 {
                     ViewAs = viewAs,
                     ResultAs = resultAs,
-                    ChartSvg = chart?.Html ?? string.Empty
+                    ChartSvg = chartSvg ?? string.Empty
                 };
 
                 return View(viewModel);
