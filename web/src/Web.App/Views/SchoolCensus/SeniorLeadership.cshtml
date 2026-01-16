@@ -4,6 +4,10 @@
 @model Web.App.ViewModels.SchoolSeniorLeadershipViewModel
 @{
     ViewData[ViewDataKeys.Title] = PageTitles.SeniorLeadership;
+    var downloadLink = Url.ActionLink("SeniorLeadershipDownload", "SchoolCensus", new
+    {
+        urn = Model.Urn
+    });
 }
 
 @await Component.InvokeAsync("EstablishmentHeading", new
@@ -28,6 +32,15 @@
     hasMissingComparatorSet = false,
     type = ComparatorSetType.Workforce,
     showAsBulletedList = true
+})
+
+@await Component.InvokeAsync("PageActions", new
+{
+    actions = new[]
+    {
+        PageActions.DownloadData
+    },
+    downloadLink
 })
 
 <div class="govuk-grid-row">
