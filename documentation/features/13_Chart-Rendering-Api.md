@@ -68,7 +68,6 @@ The payload expected by this endpoint is either a single or multiple `Horizontal
 | `valueType`       | `percent`, `currency`, or `numeric` | Describes how values on the chart should be interpreted and formatted           |
 
 > ℹ️ If multiple definitions are supplied, the `id` property below is mandatory for each so as to not fail validation.
-
 > ℹ️ Where an array of strings is passed in `valueField`, each value will be represented as a "stack" on the chart
 
 | Optional Property       | Type            | Default                | Definition                                                                                 |
@@ -81,7 +80,7 @@ The payload expected by this endpoint is either a single or multiple `Horizontal
 | `id`                    | string          | New UUID v4            | Unique identifier of the chart data/configuration combination                              |
 | `labelField`            | string          |                        | Keyed off object types in `data`                                                           |
 | `labelFormat`           | string          |                        | Format string to use for labels on y-axis, where `%1` is the key and `%2` is the label     |
-| `legendLabels`          | string[]        |                        | Array of strings to display in the legend of a stacked bar chart.  Array order must match the entries in the `valueField` array
+| `legendLabels`          | string[]        |                        | Array of strings to display in the legend of a stacked bar chart.  Array order must match the entries in the `valueField` array |
 | `linkFormat`            | string          |                        | Format string to use for rendering y-axis labels as links, where `%1` is the key           |
 | `missingDataLabel`      | string          |                        | Label to render in the case of a data point containing null or undefined value             |
 | `missingDataLabelWidth` | number          |                        | Width in pixels of the above label (for positioning, due to unpredictable typeface)        |
@@ -352,7 +351,7 @@ When support for stacked bar charts was added, it was decided that all horizonta
 
 The legend on a stacked horizontal bar chart is built using the `legendLabels` request property. The `valueField` property must be an array of strings, each string being a property on objects in `data`.  `legendLabels` should contain the names of these properties, eg.:
 
-```
+```json
 {
   ...
 
