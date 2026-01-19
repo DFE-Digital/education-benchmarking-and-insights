@@ -11,13 +11,17 @@ namespace Web.Integration.Tests.Pages.Schools.Census;
 public class WhenViewingSeniorLeadership(SchoolBenchmarkingWebAppClient client) : PageBase<SchoolBenchmarkingWebAppClient>(client)
 {
     [Theory]
-    [InlineData(true)]
-    [InlineData(false)]
-    public async Task CanDisplay(bool chartError)
+    [InlineData(true, true)]
+    [InlineData(false, true)]
+    [InlineData(true, false)]
+    [InlineData(false, false)]
+    public async Task CanDisplay(bool chartError, bool withUserDefinedUserData)
     {
-        var (page, school, group) = await SetupNavigateInitPage(chartApiException: chartError);
+        var (page, school, group) = await SetupNavigateInitPage(
+            chartApiException: chartError,
+            withUserDefinedUserData: withUserDefinedUserData);
 
-        AssertPageLayout(page, school, group, chartError: chartError);
+        AssertPageLayout(page, school, group, chartError: chartError, withUserDefinedUserData: withUserDefinedUserData);
     }
 
     [Fact]
@@ -96,6 +100,17 @@ public class WhenViewingSeniorLeadership(SchoolBenchmarkingWebAppClient client) 
     }
 
     [Fact]
+    public async Task CanDisplayCorrectComparatorSetDetailsWhenMissingComparatorSet()
+    {
+        var (page, school, _) = await SetupNavigateInitPage(withMissingComparatorSet: true);
+
+        var comparatorSetDetailsElement = page.QuerySelector("[data-testid=comparator-set-details]"); ;
+        Assert.NotNull(comparatorSetDetailsElement);
+
+        AssertMissingComparatorSetCreatedComparatorSetDetailsContent(comparatorSetDetailsElement, school);
+    }
+
+    [Fact]
     public async Task CanDownloadPageData()
     {
         var (page, school, _) = await SetupNavigateInitPage();
@@ -110,7 +125,9 @@ public class WhenViewingSeniorLeadership(SchoolBenchmarkingWebAppClient client) 
 
     private async Task<(IHtmlDocument page, School school, SeniorLeadershipGroup[] group)> SetupNavigateInitPage(
         string queryParams = "",
-        bool chartApiException = false)
+        bool chartApiException = false,
+        bool withUserDefinedUserData = false,
+        bool withMissingComparatorSet = false)
     {
         const string chartSvg = "<svg />";
 
@@ -123,6 +140,20 @@ public class WhenViewingSeniorLeadership(SchoolBenchmarkingWebAppClient client) 
             .Without(c => c.Building)
             .Create();
 
+        var emptyComparatorSet = Fixture.Build<SchoolComparatorSet>()
+            .Without(x => x.Building)
+            .Without(x => x.Pupil)
+            .Create();
+
+        var userDefinedSetUserData = new[]
+        {
+            new UserData
+            {
+                Type = "comparator-set",
+                Id = "456"
+            }
+        };
+
         var group = Fixture.Build<SeniorLeadershipGroup>()
             .CreateMany()
             .ToArray();
@@ -132,7 +163,8 @@ public class WhenViewingSeniorLeadership(SchoolBenchmarkingWebAppClient client) 
 
         var client = Client.SetupInsights()
             .SetupSchool(school, group)
-            .SetupComparatorSet(school, comparatorSet)
+            .SetupUserData(withUserDefinedUserData ? userDefinedSetUserData : null)
+            .SetupComparatorSet(school, withMissingComparatorSet ? emptyComparatorSet : comparatorSet)
             .SetupSingleChartRendering<SeniorLeadershipGroup>(chartSvg);
 
         if (chartApiException)
@@ -152,7 +184,8 @@ public class WhenViewingSeniorLeadership(SchoolBenchmarkingWebAppClient client) 
         int viewAs = 0,
         int resultAs = 0,
         string expectedQueryParams = "",
-        bool chartError = false)
+        bool chartError = false,
+        bool withUserDefinedUserData = false)
     {
         DocumentAssert.AssertPageUrl(page, $"{Paths.SchoolSeniorLeadership(school.URN)}{expectedQueryParams}".ToAbsolute());
         DocumentAssert.TitleAndH1(page, "Benchmark senior leadership group - Financial Benchmarking and Insights Tool - GOV.UK",
@@ -164,6 +197,7 @@ public class WhenViewingSeniorLeadership(SchoolBenchmarkingWebAppClient client) 
 
         var comparatorSetDetailsElement = page.QuerySelector("[data-testid=comparator-set-details]");
         Assert.NotNull(comparatorSetDetailsElement);
+        AssertComparatorSetDetails(comparatorSetDetailsElement, school, withUserDefinedUserData);
 
         var form = page.QuerySelector(".actions-form");
         Assert.NotNull(form);
@@ -283,5 +317,49 @@ public class WhenViewingSeniorLeadership(SchoolBenchmarkingWebAppClient client) 
             Assert.NotNull(chartSvg);
             Assert.Null(chartWarning);
         }
+    }
+
+    private static void AssertComparatorSetDetails(IElement comparatorSetDetailsElement, School school, bool withUserDefinedUserData)
+    {
+        if (withUserDefinedUserData)
+        {
+            AssertUserDefinedSetCreatedComparatorSetDetailsContent(comparatorSetDetailsElement, school);
+        }
+        else
+        {
+            AssertComparatorSetDetailsDefaultContent(comparatorSetDetailsElement, school);
+        }
+    }
+
+    private static void AssertComparatorSetDetailsDefaultContent(IElement comparatorSetDetailsElement, School school)
+    {
+        var listItems = comparatorSetDetailsElement.QuerySelectorAll("ul[data-testid='actions-list'] li");
+        Assert.Equal(2, listItems.Length);
+
+        DocumentAssert.TextEqual(listItems[0], "view the set of similar schools we've chosen to benchmark this school's pupil and workforce data against", true);
+        DocumentAssert.Link(listItems[0].QuerySelector("a"), "view the set of similar schools we've chosen", Paths.SchoolComparatorsWorkforce(school.URN).ToAbsolute());
+
+        DocumentAssert.TextEqual(listItems[1], "create or save your own set of schools to benchmark against", true);
+        DocumentAssert.Link(listItems[1].QuerySelector("a"), "create or save your own set of schools", Paths.SchoolComparatorsCreate(school.URN).ToAbsolute());
+    }
+
+    private static void AssertUserDefinedSetCreatedComparatorSetDetailsContent(IElement comparatorSetDetailsElement, School school)
+    {
+        var paragraphs = comparatorSetDetailsElement.QuerySelectorAll("p.govuk-body");
+        Assert.NotNull(paragraphs);
+        Assert.Equal(2, paragraphs.Length);
+
+        DocumentAssert.TextEqual(paragraphs[0], "You are now comparing with your chosen schools.");
+        DocumentAssert.TextEqual(paragraphs[1], "Change your similar schools.");
+        DocumentAssert.Link(paragraphs[1].QuerySelector("a"), "Change your similar schools.", Paths.SchoolComparatorsUserDefined(school.URN).ToAbsolute());
+    }
+
+    private static void AssertMissingComparatorSetCreatedComparatorSetDetailsContent(IElement comparatorSetDetailsElement, School school)
+    {
+        var paragraphs = comparatorSetDetailsElement.QuerySelectorAll("p.govuk-body");
+        Assert.Equal(2, paragraphs.Length);
+        DocumentAssert.TextEqual(paragraphs[0], "There is not enough information available to create a set of similar schools.", true);
+        DocumentAssert.TextEqual(paragraphs[1], "create or save your own set of schools to benchmark against", true);
+        DocumentAssert.Link(paragraphs[1].QuerySelector("a"), "create or save your own set of schools", Paths.SchoolComparatorsCreate(school.URN).ToAbsolute());
     }
 }
