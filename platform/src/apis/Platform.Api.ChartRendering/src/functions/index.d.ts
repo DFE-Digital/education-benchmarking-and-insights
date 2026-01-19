@@ -14,7 +14,13 @@ export type VerticalBarChartDefinition = Pick<
   Partial<
     Pick<
       ChartBuilderOptions<unknown>,
-      "domainMax" | "domainMin" | "highlightKey" | "id" | "sort" | "legendLabels" | "width"
+      | "domainMax"
+      | "domainMin"
+      | "highlightKey"
+      | "id"
+      | "sort"
+      | "legendLabels"
+      | "width"
     >
   > &
   ChartDefinition;

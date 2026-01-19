@@ -21,7 +21,16 @@ export async function verticalBarChartDom(
   let charts: ChartBuilderResult[] = [];
   const definitions = Array.isArray(payload) ? payload : [payload];
   const buildChartPromises = definitions.map(
-    ({ data, height, id, keyField, valueField, legendLabels, width, ...rest }) =>
+    ({
+      data,
+      height,
+      id,
+      keyField,
+      valueField,
+      legendLabels,
+      width,
+      ...rest
+    }) =>
       verticalBarChartBuilder.buildChart({
         data,
         height: height || 500,
