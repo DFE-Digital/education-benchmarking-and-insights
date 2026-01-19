@@ -22,13 +22,16 @@
                          urn = Model.Identifier
                      })">create or save your own set of schools</a> to benchmark against
     </li>
-    <li>
-        <a class="govuk-link govuk-link--no-visited-state"
+    @if (Model.ShowCustomDataOption)
+    {
+        <li>
+            <a class="govuk-link govuk-link--no-visited-state"
                id="custom-data-link"
                href="@Url.Action("Index", "SchoolCustomData", new
                      {
                          urn = Model.Identifier
                      })">
                 change the data</a> for this school
-    </li>
+        </li>
+    }
 </ul>
