@@ -37,7 +37,7 @@ export default class HorizontalBarChartTemplate {
     paddingOuter,
     sort,
     valueField,
-//    valueFieldLabels, <-- reinstate once web is updated to include in request
+    //valueFieldLabels, <-- reinstate once web is updated to include in request
     valueType,
     width,
     xAxisLabel,
@@ -45,13 +45,11 @@ export default class HorizontalBarChartTemplate {
     const suggestedXAxisTickCount = 4;
 
     // normalise value field(s)
-    let valueFields : (keyof T)[];
+    let valueFields: (keyof T)[];
     if (Array.isArray(valueField)) {
       valueFields = valueField;
-    }
-    else
-    {
-      valueFields = [ valueField ];
+    } else {
+      valueFields = [valueField];
     }
 
     const stackedChart: boolean = valueFields.length > 1;
@@ -65,7 +63,11 @@ export default class HorizontalBarChartTemplate {
     const labelHeight = 40;
 
     let height =
-      Math.ceil((data.length + 0.1) * barHeight) + marginTop + marginBottom + legendHeight;
+      Math.ceil((data.length + 0.1) * barHeight) +
+      marginTop +
+      marginBottom +
+      legendHeight;
+
     if (xAxisLabel) {
       height += labelHeight;
     }
@@ -75,8 +77,8 @@ export default class HorizontalBarChartTemplate {
     const truncateLabelAt = width ? Math.floor(width / 22) : 30;
 
     let normalisedData = data;
-    let field : keyof T;
-    let summationField : keyof T = "valueFieldSum" as keyof T;
+    let field: keyof T;
+    const summationField: keyof T = "valueFieldSum" as keyof T;
 
     for (field of valueFields) {
       normalisedData = normaliseData(
@@ -94,7 +96,12 @@ export default class HorizontalBarChartTemplate {
     sortData(normalisedData, summationField, sort);
 
     // Create the scales.
-    const domain = getDomain(normalisedData, summationField, domainMin, domainMax);
+    const domain = getDomain(
+      normalisedData,
+      summationField,
+      domainMin,
+      domainMax
+    );
     const x = scaleLinear()
       .domain(domain)
       .range([marginLeft + tickWidth + 5, width - marginRight - 5])
@@ -136,9 +143,12 @@ export default class HorizontalBarChartTemplate {
             "chart-cell",
             "chart-cell__series-0",
             {
-              "chart-cell__highlight": d.data[keyField] === highlightKey && !stackedChart,
+              "chart-cell__highlight":
+                d.data[keyField] === highlightKey && !stackedChart,
             },
-            groups(d.data[keyField] as DatumKey).map((g) => `chart-cell__group-${g}`),
+            groups(d.data[keyField] as DatumKey).map(
+              (g) => `chart-cell__group-${g}`
+            ),
             stackCss
           );
 
@@ -290,28 +300,27 @@ export default class HorizontalBarChartTemplate {
 
     // Create a legend
     let legend: string = "";
-    let boxDim: number = y.bandwidth() / 2;
+    const boxDim: number = y.bandwidth() / 2;
     let xPos: number = 0;
-    let valueFieldLabels = valueFields;
+    const valueFieldLabels = valueFields;
 
     if (stackedChart) {
       const rectsAndLabels = valueFieldLabels.map((f, i) => {
-        let field = f as string;
-        let box: string = `<rect class="chart-cell chart-data-stack-${i}" height="${boxDim}" width="${boxDim}" x="${xPos}" />`;
+        const field = f as string;
+        const box: string = `<rect class="chart-cell chart-data-stack-${i}" height="${boxDim}" width="${boxDim}" x="${xPos}" />`;
         xPos += boxDim + 5;
-        let label: string = `<text x="${xPos}" dy="${boxDim}">${field}</text>`;
-        xPos += (field.length * 9);
+        const label: string = `<text x="${xPos}" dy="${boxDim}">${field}</text>`;
+        xPos += field.length * 9;
         return `${box}${label}`;
       });
 
       // the width of the svg minus the width of the legend, all halved
-      let legendX = (width - xPos) / 2; 
+      const legendX = (width - xPos) / 2;
       // the height of the svg, minus the space reserved for the legend, plus a buffer between the x-axis and the legend
-      let legendY = height - legendHeight + 5; 
+      const legendY = height - legendHeight + 5;
 
       legend = `<g transform="translate(${legendX},${legendY})">${rectsAndLabels}</g>`;
     }
-
 
     // Create the SVG container.
     const svg = `<svg width="${width}" height="${height}" viewBox="0,0,${width},${height}" data-chart-id="${id}" xmlns="http://www.w3.org/2000/svg">
@@ -321,7 +330,6 @@ export default class HorizontalBarChartTemplate {
   ${yAxis}
   ${legend}
 </svg>`;
-
 
     return { id, html: svg.replace(/\n\s*/g, "") };
   }

@@ -1,7 +1,6 @@
 import { ascending, descending, max, min } from "d3-array";
 import { NumberValue } from "d3-scale";
 import { DatumKey, Group, ValueType } from "./index";
-import HorizontalBarChartTemplate from "./horizontalBarChart/template";
 
 export function normaliseData<T>(
   data: T[],
@@ -85,8 +84,8 @@ export function sumValueFields<T>(
 ): T[] {
   return data.map((d) => {
     (d[summationField] as number) = 0;
-    for (let valueField of valueFields) {
-      (d[summationField] as number) += (d[valueField] as number);
+    for (const valueField of valueFields) {
+      (d[summationField] as number) += d[valueField] as number;
     }
     return d;
   });

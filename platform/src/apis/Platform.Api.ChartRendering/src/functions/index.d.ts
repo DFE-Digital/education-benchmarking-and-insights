@@ -14,9 +14,9 @@ export type VerticalBarChartDefinition = Pick<
   Partial<
     Pick<
       ChartBuilderOptions<unknown>,
-// reinstate once web is updated to include in request
-//      "domainMax" | "domainMin" | "highlightKey" | "id" | "sort" | "valueFieldLabels" | "width"
-        "domainMax" | "domainMin" | "highlightKey" | "id" | "sort" | "width"
+      // reinstate once web is updated to include in request
+      //"domainMax" | "domainMin" | "highlightKey" | "id" | "sort" | "valueFieldLabels" | "width"
+      "domainMax" | "domainMin" | "highlightKey" | "id" | "sort" | "width"
     >
   > &
   ChartDefinition;
@@ -39,7 +39,7 @@ export type HorizontalBarChartDefinition = Pick<
       | "missingDataLabelWidth"
       | "paddingInner"
       | "paddingOuter"
-//      | "valueFieldLabels" reinstate once web is updated to include in request
+      //| "valueFieldLabels" reinstate once web is updated to include in request
       | "valueType"
       | "xAxisLabel"
     >
