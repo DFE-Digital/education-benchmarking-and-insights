@@ -311,7 +311,8 @@ export default class HorizontalBarChartTemplate {
         xPos += boxDim + 5;
         const label: string = `<text x="${xPos}" dy="${boxDim}">${field}</text>`;
         xPos += field.length * 9;
-        return `${box}${label}`;
+        return `${box}
+${label}`;
       });
 
       // the width of the svg minus the width of the legend, all halved
@@ -319,7 +320,9 @@ export default class HorizontalBarChartTemplate {
       // the height of the svg, minus the space reserved for the legend, plus a buffer between the x-axis and the legend
       const legendY = height - legendHeight + 5;
 
-      legend = `<g transform="translate(${legendX},${legendY})">${rectsAndLabels}</g>`;
+      legend = `<g transform="translate(${legendX},${legendY})">
+${rectsAndLabels}
+  </g>`;
     }
 
     // Create the SVG container.
