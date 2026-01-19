@@ -32,7 +32,7 @@ export async function horizontalBarChartDom(
       labelFormat,
       linkFormat,
       valueField,
-      //valueFieldLabels, reinstate once web is updated to include in request
+      legendLabels,
       valueType,
       width,
       xAxisLabel,
@@ -47,7 +47,7 @@ export async function horizontalBarChartDom(
         labelFormat: labelFormat as never,
         linkFormat: linkFormat as never,
         valueField: valueField as never,
-        //valueFieldLabels: valueFieldLabels as never, reinstate once web is updated to include in request
+        legendLabels: legendLabels as never,
         valueType: valueType as never,
         width: width || 928,
         xAxisLabel: xAxisLabel as never,

@@ -37,7 +37,7 @@ export default class HorizontalBarChartTemplate {
     paddingOuter,
     sort,
     valueField,
-    //valueFieldLabels, <-- reinstate once web is updated to include in request
+    legendLabels,
     valueType,
     width,
     xAxisLabel,
@@ -302,10 +302,9 @@ export default class HorizontalBarChartTemplate {
     let legend: string = "";
     const boxDim: number = y.bandwidth() / 2;
     let xPos: number = 0;
-    const valueFieldLabels = valueFields;
 
     if (stackedChart) {
-      const rectsAndLabels = valueFieldLabels.map((f, i) => {
+      const rectsAndLabels = legendLabels.map((f, i) => {
         const field = f as string;
         const box: string = `<rect class="chart-cell chart-data-stack-${i}" height="${boxDim}" width="${boxDim}" x="${xPos}" />`;
         xPos += boxDim + 5;
