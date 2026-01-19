@@ -152,7 +152,7 @@ export default class HorizontalBarChartTemplate {
             stackCss
           );
 
-          return `<rect x="${xAttr}" y="${yAttr}" width="${widthAttr}" height="${heightAttr}" data-key="${dataKeyAttr}" class="${classAttr}" />`;
+          return `<rect x="${xAttr}" y="${yAttr}" width="${widthAttr}" height="${heightAttr}" data-key="${dataKeyAttr}" class="${classAttr}"/>`;
         });
 
       return `<g data-stack="${i}">${rects.join("")}</g>`;
