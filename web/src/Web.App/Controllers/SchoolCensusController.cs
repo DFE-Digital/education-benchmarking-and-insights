@@ -126,11 +126,18 @@ public class SchoolCensusController(
             {
                 var school = await School(urn);
 
-                var set = await comparatorSetApi.GetDefaultSchoolAsync(urn)
-                    .GetResultOrThrow<SchoolComparatorSet>(); ;
+                var userData = await UserData(urn);
+                var defaultComparatorSet = await comparatorSetApi.GetDefaultSchoolAsync(urn).GetResultOrDefault<SchoolComparatorSet>();
 
-                var group = await schoolApi.QuerySeniorLeadershipAsync(BuildResultAsApiQuery(set.Pupil, resultAs))
-                    .GetResultOrThrow<SeniorLeadershipGroup[]>();
+                string[]? userDefinedComparatorSet = null;
+                if (userData.ComparatorSet != null)
+                {
+                    var userDefinedSet = await comparatorSetApi.GetUserDefinedSchoolAsync(urn, userData.ComparatorSet)
+                        .GetResultOrDefault<UserDefinedSchoolComparatorSet>();
+                    userDefinedComparatorSet = userDefinedSet?.Set;
+                }
+
+                var group = await GetSeniorLeadershipAsync(userDefinedComparatorSet, defaultComparatorSet?.Pupil, resultAs);
 
                 var chartSvg = string.Empty;
 
@@ -139,7 +146,7 @@ public class SchoolCensusController(
                     chartSvg = await BuildChart(urn, resultAs, group);
                 }
 
-                var viewModel = new SchoolSeniorLeadershipViewModel(school, group)
+                var viewModel = new SchoolSeniorLeadershipViewModel(school, group, userData.ComparatorSet, defaultComparatorSet)
                 {
                     ViewAs = viewAs,
                     ResultAs = resultAs,
@@ -308,6 +315,19 @@ public class SchoolCensusController(
         }
 
         return query;
+    }
+
+    private async Task<SeniorLeadershipGroup[]> GetSeniorLeadershipAsync(string[]? userDefinedComparatorSet, string[]? defaultComparatorSet, CensusDimensions.ResultAsOptions resultAs)
+    {
+        var set = userDefinedComparatorSet ?? defaultComparatorSet;
+
+        if (set is null or { Length: 0 })
+        {
+            return [];
+        }
+
+        return await schoolApi.QuerySeniorLeadershipAsync(BuildResultAsApiQuery(set, resultAs))
+            .GetResultOrThrow<SeniorLeadershipGroup[]>();
     }
 
     private static IEnumerable<object>? MergeProgressBandings(Census[]? censuses, KS4ProgressBandings? bandings)
