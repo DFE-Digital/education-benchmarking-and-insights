@@ -83,9 +83,16 @@ export function sumValueFields<T>(
   summationField: keyof T
 ): T[] {
   return data.map((d) => {
+    let missingData: boolean = true;
     (d[summationField] as number) = 0;
     for (const valueField of valueFields) {
+      if (d[valueField] !== null) {
+        missingData = false;
+      }
       (d[summationField] as number) += d[valueField] as number;
+    }
+    if (missingData) {
+      (d[summationField] as null) = null;
     }
     return d;
   });

@@ -376,6 +376,7 @@ describe("sumValueFields", () => {
     { field1: 0, field2: 0, field3: 0, field4: 1, total: null },
     { field1: 1, field2: -1, field3: 2, field4: 1, total: null },
     { field1: 1, field2: -1, field3: -1, field4: 1, total: null },
+    { field1: null, field2: null, field3: null, field4: 1, total: null },
   ];
 
   it("should return specified values summed as summationField", () => {
@@ -385,6 +386,7 @@ describe("sumValueFields", () => {
       { field1: 0, field2: 0, field3: 0, field4: 1, total: 0 },
       { field1: 1, field2: -1, field3: 2, field4: 1, total: 2 },
       { field1: 1, field2: -1, field3: -1, field4: 1, total: -1 },
+      { field1: null, field2: null, field3: null, field4: 1, total: null },
     ]);
   });
 });
