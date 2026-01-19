@@ -60,14 +60,16 @@ Support future extensibility through backwards-compatible configuration.
 
 The payload expected by this endpoint is either a single or multiple `HorizontalBarChartDefinition` types:
 
-| Required Property | Type                    | Definition                                                              |
-|-------------------|-------------------------|-------------------------------------------------------------------------|
-| `data`            | object[]                | Array of items to render                                                |
-| `keyField`        | string                  | Key identifier. Must resolve to a property on object types in `data`.   |
-| `valueField`      | string                  | Value identifier. Must resolve to a property on object types in `data`. |
-| `valueType`       | `percent` or `currency` | Describes how values on the chart should be interpreted and formatted   |
+| Required Property | Type                    | Definition                                                                      |
+|-------------------|-------------------------|---------------------------------------------------------------------------------|
+| `data`            | object[]                            | Array of items to render                                                        |
+| `keyField`        | string                              | Key identifier. Must resolve to a property on object types in `data`.           |
+| `valueField`      | string or string[]                  | Value identifier(s). Each must resolve to a property on object types in `data`. |
+| `valueType`       | `percent`, `currency`, or `numeric` | Describes how values on the chart should be interpreted and formatted           |
 
 > ℹ️ If multiple definitions are supplied, the `id` property below is mandatory for each so as to not fail validation.
+
+> ℹ️ Where an array of strings is passed in `valueField`, each value will be represented as a "stack" on the chart
 
 | Optional Property       | Type            | Default                | Definition                                                                                 |
 |-------------------------|-----------------|------------------------|--------------------------------------------------------------------------------------------|
@@ -79,6 +81,7 @@ The payload expected by this endpoint is either a single or multiple `Horizontal
 | `id`                    | string          | New UUID v4            | Unique identifier of the chart data/configuration combination                              |
 | `labelField`            | string          |                        | Keyed off object types in `data`                                                           |
 | `labelFormat`           | string          |                        | Format string to use for labels on y-axis, where `%1` is the key and `%2` is the label     |
+| `legendLabels`          | string[]        |                        | Array of strings to display in the legend of a stacked bar chart.  Array order must match the entries in the `valueField` array
 | `linkFormat`            | string          |                        | Format string to use for rendering y-axis labels as links, where `%1` is the key           |
 | `missingDataLabel`      | string          |                        | Label to render in the case of a data point containing null or undefined value             |
 | `missingDataLabelWidth` | number          |                        | Width in pixels of the above label (for positioning, due to unpredictable typeface)        |
@@ -341,177 +344,36 @@ API tests against the Chart Rendering endpoints takes place within pipeline runs
 1. Vertical bars only are the only rendered elements at this time as relative entries alone required by consumer.
 1. Negative values may cause unexpected behaviour due to lack of data normalisation.
 
-## Future features
+## Horizontal stacked bar charts
+
+When support for stacked bar charts was added, it was decided that all horizontal bar charts would be stacked charts, with existing charts simply rendering with a single data stack, and being visually identical to a non-stacked chart.
 
 ### Chart legend
 
-None of the charts currently have support for a legend/key. Future requirements make this a necessity, at least for horizontal bar charts. The way this is handled in the existing `front-end-components` with a Recharts `<Legend>` is to render a `<div>` outside the `<svg>`, positioned before or after the chart as configured, e.g.:
+The legend on a stacked horizontal bar chart is built using the `legendLabels` request property. The `valueField` property must be an array of strings, each string being a property on objects in `data`.  `legendLabels` should contain the names of these properties, eg.:
 
-```html
-<div class="recharts-responsive-container">
-    <div class="recharts-wrapper">
-        <svg class="recharts-surface">
-            <!-- chart elements -->
-        </svg>
-        <div class="recharts-legend-wrapper">
-            <ul class="recharts-default-legend">
-                <li class="recharts-legend-item">
-                    <svg class="recharts-surface">
-                        <!-- legend item 1 identifier -->
-                    </svg>
-                    <span class="recharts-legend-item-text">
-                        <!-- legend item 1 label -->
-                    </span>
-                </li>
-                <li class="recharts-legend-item">
-                    <svg class="recharts-surface">
-                        <!-- legend item 2 identifier -->
-                    </svg>
-                    <span class="recharts-legend-item-text">
-                        <!-- legend item 2 label -->
-                    </span>
-                </li>
-            </ul>
-        </div>
-    </div>
-</div>
+```
+{
+  ...
+
+  "valueField": [
+    "headTeachers",
+    "deputyHeadTeachers",
+    "assistantHeadTeachers",
+    "leadershipNonTeachers"
+  ],
+  "legendLabels": [
+    "Head teachers",
+    "Deputy head teachers",
+    "Assistant head teachers",
+    "Leadership non-teachers"
+  ]
+
+  ...
+}
 ```
 
-One of the advantages of the above is that the positioning of the legend is managed in the CSS by horizontally stacking the list items. This reduces the risk around needing to absolutely position these elements in an SVG where font sizes are difficult to predict, and to instead let the browser deal with this.
-
-If this pattern is to be followed, a decision will need to be made as to how to render the legend:
-
-1. Return as a separate item in the response, alongside the `id` and `html` fields
-    - Care around `x-accept` requests that expect SVG alone to be returned (potentially drop this feature?)
-1. Wrap `<svg>` in a `<div>` to include the legend separately
-    - Breaks some existing naming conventions, but would be valid semantically
-1. Render the legend in the Razor view rather than SSR API
-    - May lead to inconsistencies and would require duplicate logic in Web to determine stacks from source data
-
-### Stacked horizontal bar chart
-
-The horizontal bar charts only support a single bar per data point, by design. To support stacked bars input configuration will need to be modified. In `front-end-components` the series configuration includes a `stackId` for this purpose, which could be an approach done here as it would support both stack and multi series charts (see below). Prototyping using the existing `d3-selection`/virtual DOM endpoint would be acceptable in order to identify what changes would need to be merged into the 'string template' version but the following proof of concept may mean that this step is not required.
-
-As per the other future features below, the best place to start is by looking at [existing](https://observablehq.com/@d3/stacked-horizontal-bar-chart/2) [examples](https://using-d3js.com/05_06_stacks.html). These all have the use of `d3-stack` in common with one another (e.g. `import { stack } from "d3-shape";`), which builds a stack generator based on the set of fields in the source data to include in the stack.
-
-```ts
-// e.g., where T is { urn: string; headTeachers: number; deputyHeadTeachers: number; assistantHeadTeachers: number; }
-const valueFields: (keyof T)[] = [
-  "headTeachers",
-  "deputyHeadTeachers",
-  "assistantHeadTeachers",
-];
-const stackGen = stack<T, keyof T>().keys(valueFields);
-```
-
-The stack generator may then be invoked with the dataset in order to build the stacked collection.
-
-```ts
-// returns an array of { 0: number; 1: number; data: T; }, where `0` is `y0`, the lower value (baseline) and `1` is `y1` (topline)
-const stackedSeries = stackGen(normalisedData);
-```
-
-e.g.:
-
-```json
-[
-  {
-    "headTeachers": 1,
-    "deputyHeadTeachers": 2,
-    "assistantHeadTeachers": 3
-  },
-  {
-    "headTeachers": 1,
-    "deputyHeadTeachers": 1,
-    "assistantHeadTeachers": 4
-  },
-  {
-    "headTeachers": 0,
-    "deputyHeadTeachers": 2,
-    "assistantHeadTeachers": 3
-  }
-]
-
-// 👇🏼
-
-[
-  [ 
-    // headTeachers stack
-    [0, 1], [0, 1], [0, 0]
-  ], 
-  [ 
-    // deputyHeadTeachers stack
-    [1, 3], [1, 2], [0, 2]
-  ], 
-  [ 
-    // assistantHeadTeachers stack
-    [3, 6], [2, 6], [2, 5]
-  ]  
-]
-```
-
-The resultant stacks may then be loop through and wrapped in a parent `<g>` with some styling/context in a very similar way to the existing template rendering of `<rect>`s for horizontal bars:
-
-```ts
-const stacks = series.map((stack, i) => {
-  const rects = stack
-    .filter((d) => d.data[valueField] !== null)
-    .map((d) => {
-      const xAttr = x(d[0]); // positioned at the origin
-      const yAttr = y(d.data[keyField] as string)!;
-      const widthAttr = x(d[1]) - xAttr; // increasing width for each bar (render order determines layering)
-      const heightAttr = y.bandwidth();
-
-      // other attributes as per existing 'bar' templates, perhaps with stack ID included in class names
-      return `<rect x="${xAttr}" y="${yAttr}" width="${widthAttr}" height="${heightAttr}" />`;
-    });
-
-  // include some identifier or class name if required in wrapper `<g>` for each stack,
-  // plus a 'stack total' label as calculated/configured, positioned at the end of the bar
-  return `<g data-stack="${i}">${rects.join("")}</g>`;
-});
-```
-
-#### SVG snippet
-
-```xml
-<!-- proposed stacked -->
-<svg width="928" height="118" viewBox="0,0,928,118" xmlns="http://www.w3.org/2000/svg">
-    <g>
-        <g data-stack="0">
-            <rect x="317.3333333333333" y="22.6" width="94.27777777777777" height="20.8" />
-            <rect x="317.3333333333333" y="48.6" width="94.27777777777777" height="20.8" />
-            <rect x="317.3333333333333" y="74.6" width="0" height="20.8" />
-        </g>
-        <g data-stack="1">
-            <rect x="411.6111111111111" y="22.6" width="188.55555555555554" height="20.8" />
-            <rect x="411.6111111111111" y="48.6" width="94.27777777777783" height="20.8" />
-            <rect x="317.3333333333333" y="74.6" width="188.5555555555556" height="20.8" />
-        </g>
-        <g data-stack="2">
-            <rect x="600.1666666666666" y="22.6" width="282.83333333333337" height="20.8" />
-            <rect x="505.8888888888889" y="48.6" width="377.1111111111111" height="20.8" />
-            <rect x="505.8888888888889" y="74.6" width="282.83333333333337" height="20.8" />
-        </g>
-    </g>
-</svg>
-```
-
-![Proposed SVG snippet (with added colour for visibility)](./images/stacked-chart-1.svg)
-
-#### Considerations
-
-##### Sort
-
-Sorting of data will need to take place on the sum of all stacked values for each data item.
-
-##### Domain
-
-Domain calculations will need to consider the upper and lower bounds across the sum of all stacked values across all data items.
-
-##### Labels
-
-Bar labels will need to show the sum of all stacked values for each data item.
+## Future Features
 
 ### Multi-series horizontal bar chart
 
