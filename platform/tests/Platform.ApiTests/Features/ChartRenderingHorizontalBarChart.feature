@@ -138,3 +138,8 @@
           | Id | Highlight | Sort | Width | Height | ValueType | Data |
         When I submit the horizontal bar chart request
         Then the chart response should be bad request, contain a JSON object and match the expected output of 'HorizontalBarChartInvalidMultipleNoChartDefinitions.json'
+        
+    Scenario: Sending a valid single horizontal stacked bar chart request with accept header image/svg+xml returns the correct HTML only
+        Given a single horizontal stacked bar chart request with accept header 'image/svg+xml' and request input from 'HorizontalStackedBarChartValidSingleCurrencyRequest.json'
+        When I submit the horizontal bar chart request
+        Then the response should be ok, contain an SVG document and match the expected output of 'HorizontalStackedBarChartValidSingleCurrency.svg'

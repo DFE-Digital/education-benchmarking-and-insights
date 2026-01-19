@@ -1,0 +1,121 @@
+<svg width="500" height="371" viewBox="0,0,500,371" data-chart-id="test-uuid" xmlns="http://www.w3.org/2000/svg">
+    <g>
+        <g data-stack="0">
+            <rect x="174.66666666666666" y="24.932203389830505" width="0" height="9.864406779661017" data-key="123454" class="chart-cell chart-cell__series-0 chart-data-stack-0" />
+            <rect x="174.66666666666666" y="49.593220338983045" width="18.688888888888897" height="9.864406779661017" data-key="123450" class="chart-cell chart-cell__series-0 chart-data-stack-0" />
+            <rect x="174.66666666666666" y="74.25423728813558" width="18.688888888888897" height="9.864406779661017" data-key="123458" class="chart-cell chart-cell__series-0 chart-data-stack-0" />
+            <rect x="174.66666666666666" y="98.91525423728812" width="0" height="9.864406779661017" data-key="123460" class="chart-cell chart-cell__series-0 chart-data-stack-0" />
+            <rect x="174.66666666666666" y="123.57627118644066" width="18.688888888888897" height="9.864406779661017" data-key="123457" class="chart-cell chart-cell__series-0 chart-data-stack-0" />
+            <rect x="174.66666666666666" y="148.2372881355932" width="37.377777777777766" height="9.864406779661017" data-key="123455" class="chart-cell chart-cell__series-0 chart-data-stack-0" />
+            <rect x="174.66666666666666" y="172.89830508474574" width="56.06666666666666" height="9.864406779661017" data-key="123456" class="chart-cell chart-cell__series-0 chart-data-stack-0" />
+            <rect x="174.66666666666666" y="197.55932203389827" width="205.57777777777775" height="9.864406779661017" data-key="123452" class="chart-cell chart-cell__series-0 chart-data-stack-0" />
+            <rect x="174.66666666666666" y="222.22033898305082" width="205.57777777777775" height="9.864406779661017" data-key="123451" class="chart-cell chart-cell__series-0 chart-data-stack-0" />
+            <rect x="174.66666666666666" y="246.88135593220338" width="205.57777777777775" height="9.864406779661017" data-key="123453" class="chart-cell chart-cell__series-0 chart-data-stack-0" />
+        </g>
+        <g data-stack="1">
+            <rect x="174.66666666666666" y="24.932203389830505" width="18.688888888888897" height="9.864406779661017" data-key="123454" class="chart-cell chart-cell__series-0 chart-data-stack-1" />
+            <rect x="193.35555555555555" y="49.593220338983045" width="18.68888888888887" height="9.864406779661017" data-key="123450" class="chart-cell chart-cell__series-0 chart-data-stack-1" />
+            <rect x="193.35555555555555" y="74.25423728813558" width="18.68888888888887" height="9.864406779661017" data-key="123458" class="chart-cell chart-cell__series-0 chart-data-stack-1" />
+            <rect x="174.66666666666666" y="98.91525423728812" width="37.377777777777766" height="9.864406779661017" data-key="123460" class="chart-cell chart-cell__series-0 chart-data-stack-1" />
+            <rect x="193.35555555555555" y="123.57627118644066" width="37.377777777777766" height="9.864406779661017" data-key="123457" class="chart-cell chart-cell__series-0 chart-data-stack-1" />
+            <rect x="212.04444444444442" y="148.2372881355932" width="37.377777777777794" height="9.864406779661017" data-key="123455" class="chart-cell chart-cell__series-0 chart-data-stack-1" />
+            <rect x="230.73333333333332" y="172.89830508474574" width="18.688888888888897" height="9.864406779661017" data-key="123456" class="chart-cell chart-cell__series-0 chart-data-stack-1" />
+            <rect x="380.2444444444444" y="197.55932203389827" width="18.688888888888926" height="9.864406779661017" data-key="123452" class="chart-cell chart-cell__series-0 chart-data-stack-1" />
+            <rect x="380.2444444444444" y="222.22033898305082" width="37.37777777777785" height="9.864406779661017" data-key="123451" class="chart-cell chart-cell__series-0 chart-data-stack-1" />
+            <rect x="380.2444444444444" y="246.88135593220338" width="37.37777777777785" height="9.864406779661017" data-key="123453" class="chart-cell chart-cell__series-0 chart-data-stack-1" />
+        </g>
+    </g>
+    <g>
+        <text x="201.35555555555555" y="29.864406779661014" dy="0.35em" class="chart-label chart-label__series-0">£1</text>
+        <text x="220.04444444444442" y="54.52542372881355" dy="0.35em" class="chart-label chart-label__series-0">£2</text>
+        <text x="220.04444444444442" y="79.18644067796609" dy="0.35em" class="chart-label chart-label__series-0">£2</text>
+        <text x="220.04444444444442" y="103.84745762711863" dy="0.35em" class="chart-label chart-label__series-0">£2</text>
+        <text x="238.73333333333332" y="128.50847457627117" dy="0.35em" class="chart-label chart-label__series-0">£3</text>
+        <text x="257.4222222222222" y="153.1694915254237" dy="0.35em" class="chart-label chart-label__series-0">£4</text>
+        <text x="257.4222222222222" y="177.83050847457625" dy="0.35em" class="chart-label chart-label__series-0 chart-label__highlight">£4</text>
+        <text x="406.93333333333334" y="202.49152542372877" dy="0.35em" class="chart-label chart-label__series-0">£12</text>
+        <text x="425.62222222222226" y="227.15254237288133" dy="0.35em" class="chart-label chart-label__series-0">£13</text>
+        <text x="425.62222222222226" y="251.81355932203388" dy="0.35em" class="chart-label chart-label__series-0">£13</text>
+    </g>
+    <g>
+        <rect x="174.66666666666666" y="266.61016949152537" width="115" height="18.742372881355934" data-key="123459" class="chart-missing-data" />
+        <rect x="174.66666666666666" y="291.27118644067787" width="115" height="18.742372881355934" data-key="123461" class="chart-missing-data" />
+    </g>
+    <g>
+        <text x="179.66666666666666" y="276.47457627118644" dy="0.35em" class="chart-missing-data-label">No data submitted</text>
+        <text x="179.66666666666666" y="301.13559322033893" dy="0.35em" class="chart-missing-data-label">No data submitted</text>
+    </g>
+    <g class="chart-axis chart-axis__x" transform="translate(-2,311)">
+        <path class="domain" stroke="currentColor" d="M175.16666666666666,1V0.5H455.5V1" />
+        <g class="chart-tick" transform="translate(175.16666666666666,0)">
+            <line y2="6" x1="1" x2="1" />
+            <text y="9" dy="0.71em" x1="1" x2="1">£0</text>
+        </g>
+        <g class="chart-tick" transform="translate(268.6111111111111,0)">
+            <line y2="6" x1="1" x2="1" />
+            <text y="9" dy="0.71em" x1="1" x2="1">£5</text>
+        </g>
+        <g class="chart-tick" transform="translate(362.05555555555554,0)">
+            <line y2="6" x1="1" x2="1" />
+            <text y="9" dy="0.71em" x1="1" x2="1">£10</text>
+        </g>
+        <g class="chart-tick" transform="translate(455.5,0)">
+            <line y2="6" x1="1" x2="1" />
+            <text y="9" dy="0.71em" x1="1" x2="1">£15</text>
+        </g>
+    </g>
+    <g class="chart-axis chart-axis__y" transform="translate(171.66666666666666,0)">
+        <path class="domain" stroke="currentColor" d="M0,20.5H0.5V311.5H0" transform="translate(0,0)" />
+        <g class="chart-tick" transform="translate(0,29.864406779661014)">
+            <line x2="-6" />
+            <text x="-9" dy="0.32em">123454</text>
+        </g>
+        <g class="chart-tick" transform="translate(0,54.52542372881355)">
+            <line x2="-6" />
+            <text x="-9" dy="0.32em">123450</text>
+        </g>
+        <g class="chart-tick" transform="translate(0,79.18644067796609)">
+            <line x2="-6" />
+            <text x="-9" dy="0.32em">123458</text>
+        </g>
+        <g class="chart-tick" transform="translate(0,103.84745762711863)">
+            <line x2="-6" />
+            <text x="-9" dy="0.32em">123460</text>
+        </g>
+        <g class="chart-tick" transform="translate(0,128.50847457627117)">
+            <line x2="-6" />
+            <text x="-9" dy="0.32em">123457</text>
+        </g>
+        <g class="chart-tick" transform="translate(0,153.1694915254237)">
+            <line x2="-6" />
+            <text x="-9" dy="0.32em">123455</text>
+        </g>
+        <g class="chart-tick" transform="translate(0,177.83050847457625)">
+            <line x2="-6" />
+            <text x="-9" dy="0.32em">123456</text>
+        </g>
+        <g class="chart-tick" transform="translate(0,202.49152542372877)">
+            <line x2="-6" />
+            <text x="-9" dy="0.32em">123452</text>
+        </g>
+        <g class="chart-tick" transform="translate(0,227.15254237288133)">
+            <line x2="-6" />
+            <text x="-9" dy="0.32em">123451</text>
+        </g>
+        <g class="chart-tick" transform="translate(0,251.81355932203388)">
+            <line x2="-6" />
+            <text x="-9" dy="0.32em">123453</text>
+        </g>
+        <g class="chart-tick" transform="translate(0,276.47457627118644)">
+            <line x2="-6" />
+            <text x="-9" dy="0.32em">123459</text>
+        </g>
+        <g class="chart-tick" transform="translate(0,301.13559322033893)">
+            <line x2="-6" />
+            <text x="-9" dy="0.32em">123461</text>
+        </g>
+    </g>
+    <g transform="translate(186.0677966101695,336)">
+        <rect class="chart-cell chart-data-stack-0" height="4.932203389830509" width="4.932203389830509" x="0" />
+        <text x="9.932203389830509" dy="4.932203389830509">value1</text>,<rect class="chart-cell chart-data-stack-1" height="4.932203389830509" width="4.932203389830509" x="63.932203389830505" /><text x="73.86440677966101" dy="4.932203389830509">value2</text></g>
+</svg>
