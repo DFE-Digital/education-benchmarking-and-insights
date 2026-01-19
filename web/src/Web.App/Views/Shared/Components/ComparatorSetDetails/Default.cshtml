@@ -66,13 +66,16 @@
                         Create or save your own set of schools to benchmark against
                     </a>
                 </p>
-                <p class="govuk-body govuk-!-margin-bottom-0">
-                    <a class="govuk-link govuk-link--no-visited-state"
+                if (Model.ShowCustomDataOption)
+                {
+                    <p class="govuk-body govuk-!-margin-bottom-0">
+                        <a class="govuk-link govuk-link--no-visited-state"
                        id="custom-data-link"
                        href="@Url.Action("Index", "SchoolCustomData", new { urn = Model.Identifier })">
                         Change the data for this school
                     </a>
-                </p>
+                    </p>
+                }
             }
             else
             {
@@ -102,13 +105,16 @@
                         Create or save your own set of schools to benchmark against
                     </a>
                 </p>
-                <p class="govuk-body govuk-!-margin-bottom-0">
-                    <a class="govuk-link govuk-link--no-visited-state"
+                @if (Model.ShowCustomDataOption)
+                {
+                    <p class="govuk-body govuk-!-margin-bottom-0">
+                        <a class="govuk-link govuk-link--no-visited-state"
                        id="custom-data-link"
                        href="@Url.Action("Index", "SchoolCustomData", new { urn = Model.Identifier })">
                         Change the data for this school
                     </a>
-                </p>
+                    </p>
+                }
             }
         }
     </div>
