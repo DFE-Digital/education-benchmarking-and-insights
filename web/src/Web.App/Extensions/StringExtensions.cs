@@ -150,8 +150,6 @@ public static partial class StringExtensions
     private static string Replace(this string source, Regex regex, string replacement)
         => string.IsNullOrWhiteSpace(source) ? source : regex.Replace(source, replacement);
 
-    public static string NormaliseWhitespace(this string source) => source.Replace(WhitespaceRegex(), " ").Trim();
-
     [GeneratedRegex("[^a-z0-9\\-]", RegexOptions.IgnoreCase, "en-GB")]
     private static partial Regex NonAlphanumericOrHyphenRegex();
 
