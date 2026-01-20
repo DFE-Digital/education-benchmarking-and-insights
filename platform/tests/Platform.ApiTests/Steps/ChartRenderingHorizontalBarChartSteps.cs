@@ -176,7 +176,7 @@ public class ChartRenderingHorizontalBarChartSteps(ChartRenderingApiDriver api)
     };
 
     private static PostHorizontalBarChartRequest<TestDatum>? BuildRequest(string inputFile) => TestDataProvider.GetJsonObjectData(inputFile).ToObject<PostHorizontalBarChartRequest<TestDatum>>();
-    
+
     private static PostHorizontalStackedBarChartRequest<TestDatumStacked>? BuildStackedRequest(string inputFile) => TestDataProvider.GetJsonObjectData(inputFile).ToObject<PostHorizontalStackedBarChartRequest<TestDatumStacked>>();
 
 }
