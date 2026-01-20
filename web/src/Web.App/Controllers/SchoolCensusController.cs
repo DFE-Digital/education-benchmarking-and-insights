@@ -224,11 +224,18 @@ public class SchoolCensusController(
         {
             try
             {
-                var set = await comparatorSetApi.GetDefaultSchoolAsync(urn)
-                    .GetResultOrThrow<SchoolComparatorSet>(); ;
+                var userData = await UserData(urn);
+                var defaultComparatorSet = await comparatorSetApi.GetDefaultSchoolAsync(urn).GetResultOrDefault<SchoolComparatorSet>();
 
-                var group = await schoolApi.QuerySeniorLeadershipAsync(BuildResultAsApiQuery(set.Pupil, CensusDimensions.ResultAsOptions.Total))
-                    .GetResultOrThrow<SeniorLeadershipGroup[]>();
+                string[]? userDefinedComparatorSet = null;
+                if (userData.ComparatorSet != null)
+                {
+                    var userDefinedSet = await comparatorSetApi.GetUserDefinedSchoolAsync(urn, userData.ComparatorSet)
+                        .GetResultOrDefault<UserDefinedSchoolComparatorSet>();
+                    userDefinedComparatorSet = userDefinedSet?.Set;
+                }
+
+                var group = await GetSeniorLeadershipAsync(userDefinedComparatorSet, defaultComparatorSet?.Pupil, CensusDimensions.ResultAsOptions.Total);
 
                 return new CsvResults([new CsvResult(group, $"benchmark-senior-leadership-group-{urn}.csv")], $"benchmark-senior-leadership-group-{urn}.zip");
             }
