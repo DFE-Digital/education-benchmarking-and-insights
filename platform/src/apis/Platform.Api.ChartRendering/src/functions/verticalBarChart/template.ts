@@ -22,6 +22,9 @@ export default class VerticalBarChartTemplate {
     const marginBottom = 0;
     const marginLeft = 3;
 
+    // valueField will only be a singe data key, not an array of keys
+    valueField = valueField as keyof T;
+
     // Declare the x (horizontal position) scale.
     sortData(data, valueField, sort);
     const x = scaleBand()

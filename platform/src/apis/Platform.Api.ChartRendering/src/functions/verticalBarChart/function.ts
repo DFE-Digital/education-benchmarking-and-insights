@@ -47,13 +47,23 @@ export async function verticalBarChart(
 
   try {
     charts = definitions.map(
-      ({ data, height, id, keyField, valueField, width, ...rest }) =>
+      ({
+        data,
+        height,
+        id,
+        keyField,
+        valueField,
+        legendLabels,
+        width,
+        ...rest
+      }) =>
         verticalBarChartTemplate.buildChart({
           data,
           height: height || 500,
           id: id || uuidv4(),
           keyField: keyField as never,
           valueField: valueField as never,
+          legendLabels: legendLabels as never,
           width: width || 928,
           ...rest,
         })

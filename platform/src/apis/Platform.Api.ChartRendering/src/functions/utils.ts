@@ -24,6 +24,7 @@ export function normaliseData<T>(
       }));
 
     case "currency":
+    case "numeric":
       return data.map((d) => ({
         ...d,
         [valueField]:
@@ -69,6 +70,31 @@ export function sortData<T>(
       isNaN(aValue as number) || aValue === null ? -Infinity : aValue,
       isNaN(bValue as number) || bValue === null ? -Infinity : bValue
     );
+  });
+}
+
+/**
+ * Creates a new field in the data which is the sum of the values of all the valuefields
+ * for sorting and domain creation
+ */
+export function sumValueFields<T>(
+  data: T[],
+  valueFields: (keyof T)[],
+  summationField: keyof T
+): T[] {
+  return data.map((d) => {
+    let missingData: boolean = true;
+    (d[summationField] as number) = 0;
+    for (const valueField of valueFields) {
+      if (d[valueField] !== null) {
+        missingData = false;
+      }
+      (d[summationField] as number) += d[valueField] as number;
+    }
+    if (missingData) {
+      (d[summationField] as null) = null;
+    }
+    return d;
   });
 }
 
@@ -145,7 +171,9 @@ export function shortValueFormatter(
         ? "currency"
         : dataType === "percent"
           ? "percent"
-          : undefined,
+          : dataType === "numeric"
+            ? "decimal"
+            : undefined,
     currency: dataType === "currency" ? "GBP" : undefined,
     maximumFractionDigits:
       dataType === "currency"

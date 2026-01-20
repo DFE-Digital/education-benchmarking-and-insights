@@ -1,19 +1,21 @@
 ﻿<svg width="500" height="322" viewBox="0,0,500,322" data-chart-id="test-uuid" xmlns="http://www.w3.org/2000/svg">
     <g>
-        <rect x="174.66666666666666" y="22.014285714285705" width="0" height="16.114285714285714" data-key="123460" class="chart-cell chart-cell__series-0" />
-        <rect x="174.66666666666666" y="42.157142857142844" width="0" height="16.114285714285714" data-key="123461" class="chart-cell chart-cell__series-0" />
-        <rect x="174.66666666666666" y="62.29999999999999" width="0.015859858333328702" height="16.114285714285714" data-key="123463" class="chart-cell chart-cell__series-0" />
-        <rect x="174.66666666666666" y="82.44285714285714" width="0.028839291666685085" height="16.114285714285714" data-key="123462" class="chart-cell chart-cell__series-0" />
-        <rect x="174.66666666666666" y="102.58571428571427" width="233.61111111111111" height="16.114285714285714" data-key="123454" class="chart-cell chart-cell__series-0" />
-        <rect x="174.66666666666666" y="122.72857142857141" width="233.61111111111111" height="16.114285714285714" data-key="123455" class="chart-cell chart-cell__series-0" />
-        <rect x="174.66666666666666" y="142.87142857142857" width="233.61134472222224" height="16.114285714285714" data-key="123450" class="chart-cell chart-cell__series-0" />
-        <rect x="174.66666666666666" y="163.0142857142857" width="233.61368083333335" height="16.114285714285714" data-key="123452" class="chart-cell chart-cell__series-0" />
-        <rect x="174.66666666666666" y="183.15714285714284" width="233.63704194444446" height="16.114285714285714" data-key="123451" class="chart-cell chart-cell__series-0" />
-        <rect x="174.66666666666666" y="203.29999999999998" width="233.84495583333333" height="16.114285714285714" data-key="123457" class="chart-cell chart-cell__series-0" />
-        <rect x="174.66666666666666" y="223.44285714285712" width="235.94745583333335" height="16.114285714285714" data-key="123458" class="chart-cell chart-cell__series-0" />
-        <rect x="174.66666666666666" y="243.58571428571426" width="236.20676416666666" height="16.114285714285714" data-key="123453" class="chart-cell chart-cell__series-0" />
-        <rect x="174.66666666666666" y="263.7285714285714" width="256.97245583333336" height="16.114285714285714" data-key="123459" class="chart-cell chart-cell__series-0" />
-        <rect x="174.66666666666666" y="283.8714285714285" width="259.5678752777777" height="16.114285714285714" data-key="123456" class="chart-cell chart-cell__series-0 chart-cell__highlight" />
+        <g data-stack="0">
+            <rect x="174.66666666666666" y="22.014285714285705" width="0" height="16.114285714285714" data-key="123460" class="chart-cell chart-cell__series-0" />
+            <rect x="174.66666666666666" y="42.157142857142844" width="0" height="16.114285714285714" data-key="123461" class="chart-cell chart-cell__series-0" />
+            <rect x="174.66666666666666" y="62.29999999999999" width="0.015859858333328702" height="16.114285714285714" data-key="123463" class="chart-cell chart-cell__series-0" />
+            <rect x="174.66666666666666" y="82.44285714285714" width="0.028839291666685085" height="16.114285714285714" data-key="123462" class="chart-cell chart-cell__series-0" />
+            <rect x="174.66666666666666" y="102.58571428571427" width="233.61111111111111" height="16.114285714285714" data-key="123454" class="chart-cell chart-cell__series-0" />
+            <rect x="174.66666666666666" y="122.72857142857141" width="233.61111111111111" height="16.114285714285714" data-key="123455" class="chart-cell chart-cell__series-0" />
+            <rect x="174.66666666666666" y="142.87142857142857" width="233.61134472222224" height="16.114285714285714" data-key="123450" class="chart-cell chart-cell__series-0" />
+            <rect x="174.66666666666666" y="163.0142857142857" width="233.61368083333335" height="16.114285714285714" data-key="123452" class="chart-cell chart-cell__series-0" />
+            <rect x="174.66666666666666" y="183.15714285714284" width="233.63704194444446" height="16.114285714285714" data-key="123451" class="chart-cell chart-cell__series-0" />
+            <rect x="174.66666666666666" y="203.29999999999998" width="233.84495583333333" height="16.114285714285714" data-key="123457" class="chart-cell chart-cell__series-0" />
+            <rect x="174.66666666666666" y="223.44285714285712" width="235.94745583333335" height="16.114285714285714" data-key="123458" class="chart-cell chart-cell__series-0" />
+            <rect x="174.66666666666666" y="243.58571428571426" width="236.20676416666666" height="16.114285714285714" data-key="123453" class="chart-cell chart-cell__series-0" />
+            <rect x="174.66666666666666" y="263.7285714285714" width="256.97245583333336" height="16.114285714285714" data-key="123459" class="chart-cell chart-cell__series-0" />
+            <rect x="174.66666666666666" y="283.8714285714285" width="259.5678752777777" height="16.114285714285714" data-key="123456" class="chart-cell chart-cell__series-0 chart-cell__highlight" />
+        </g>
     </g>
     <g>
         <text x="174.66666666666666" y="30.071428571428562" dy="0.35em" class="chart-label chart-label__series-0">£0</text>

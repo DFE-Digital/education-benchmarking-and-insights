@@ -8,6 +8,7 @@ import {
   sortData,
   getDomain,
   isAllCaps,
+  sumValueFields,
 } from "../../src/functions/utils";
 import { ValueType } from "../../src/functions/index";
 import theoretically from "jest-theories";
@@ -43,6 +44,17 @@ describe("normaliseData", () => {
         { category: "E", value: 0 },
       ]);
     });
+
+    it("should return original data for 'numeric' type or normalise to 0", () => {
+      const result = normaliseData(sampleData, "value", "numeric");
+      expect(result).toEqual([
+        { category: "A", value: 50 },
+        { category: "B", value: 100 },
+        { category: "C", value: 0 },
+        { category: "D", value: 0 },
+        { category: "E", value: 0 },
+      ]);
+    });
   });
 
   describe("with normaliseDefault as null", () => {
@@ -59,6 +71,17 @@ describe("normaliseData", () => {
 
     it("should return original data for 'currency' type or normalise to null", () => {
       const result = normaliseData(sampleData, "value", "currency", null);
+      expect(result).toEqual([
+        { category: "A", value: 50 },
+        { category: "B", value: 100 },
+        { category: "C", value: 0 },
+        { category: "D", value: null },
+        { category: "E", value: null },
+      ]);
+    });
+
+    it("should return original data for 'numeric' type or normalise to null", () => {
+      const result = normaliseData(sampleData, "value", "numeric", null);
       expect(result).toEqual([
         { category: "A", value: 50 },
         { category: "B", value: 100 },
@@ -305,6 +328,27 @@ describe("shortValueFormatter()", () => {
       }
     );
   });
+
+  describe("with numeric option", () => {
+    const theories: { input: number | string; expected: string }[] = [
+      { input: -987.65, expected: "-987.65" },
+      { input: 0, expected: "0" },
+      { input: 1, expected: "1" },
+      { input: 2.3456789, expected: "2.35" },
+      { input: 12345.67, expected: "12.35k" },
+      { input: 890123456, expected: "890.12m" },
+      { input: "not-a-number", expected: "not-a-number" },
+    ];
+
+    theoretically(
+      "the value {input} is formatted using compact notation (decimal) as {expected}",
+      theories,
+      ({ input, expected }) => {
+        const result = shortValueFormatter(input as number, "numeric");
+        expect(result).toBe(expected);
+      }
+    );
+  });
 });
 
 describe("isAllCaps", () => {
@@ -323,5 +367,26 @@ describe("isAllCaps", () => {
         expect(isAllCaps(input)).toBe(expected);
       }
     );
+  });
+});
+
+describe("sumValueFields", () => {
+  const sampleData = [
+    { field1: 1, field2: 1, field3: 1, field4: 1, total: null },
+    { field1: 0, field2: 0, field3: 0, field4: 1, total: null },
+    { field1: 1, field2: -1, field3: 2, field4: 1, total: null },
+    { field1: 1, field2: -1, field3: -1, field4: 1, total: null },
+    { field1: null, field2: null, field3: null, field4: 1, total: null },
+  ];
+
+  it("should return specified values summed as summationField", () => {
+    sumValueFields(sampleData, ["field1", "field2", "field3"], "total");
+    expect(sampleData).toEqual([
+      { field1: 1, field2: 1, field3: 1, field4: 1, total: 3 },
+      { field1: 0, field2: 0, field3: 0, field4: 1, total: 0 },
+      { field1: 1, field2: -1, field3: 2, field4: 1, total: 2 },
+      { field1: 1, field2: -1, field3: -1, field4: 1, total: -1 },
+      { field1: null, field2: null, field3: null, field4: 1, total: null },
+    ]);
   });
 });

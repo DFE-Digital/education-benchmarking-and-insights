@@ -1,14 +1,16 @@
 ﻿<svg width="500" height="259" viewBox="0,0,500,259" data-chart-id="test-uuid" xmlns="http://www.w3.org/2000/svg">
     <g>
-        <rect x="174.66666666666666" y="22.433333333333323" width="140.16666666666666" height="19.46666666666667" data-key="123454" class="chart-cell chart-cell__series-0" />
-        <rect x="174.66666666666666" y="46.76666666666665" width="140.16666666666666" height="19.46666666666667" data-key="123455" class="chart-cell chart-cell__series-0" />
-        <rect x="174.66666666666666" y="71.1" width="140.1668068333333" height="19.46666666666667" data-key="123450" class="chart-cell chart-cell__series-0" />
-        <rect x="174.66666666666666" y="95.43333333333332" width="140.16820849999996" height="19.46666666666667" data-key="123452" class="chart-cell chart-cell__series-0" />
-        <rect x="174.66666666666666" y="119.76666666666665" width="140.18222516666665" height="19.46666666666667" data-key="123451" class="chart-cell chart-cell__series-0" />
-        <rect x="174.66666666666666" y="144.09999999999997" width="140.3069735" height="19.46666666666667" data-key="123457" class="chart-cell chart-cell__series-0" />
-        <rect x="174.66666666666666" y="168.43333333333334" width="141.56847349999995" height="19.46666666666667" data-key="123458" class="chart-cell chart-cell__series-0" />
-        <rect x="174.66666666666666" y="192.76666666666665" width="141.72405850000004" height="19.46666666666667" data-key="123453" class="chart-cell chart-cell__series-0" />
-        <rect x="174.66666666666666" y="217.09999999999997" width="155.7407251666667" height="19.46666666666667" data-key="123456" class="chart-cell chart-cell__series-0 chart-cell__highlight" />
+        <g data-stack="0">
+            <rect x="174.66666666666666" y="22.433333333333323" width="140.16666666666666" height="19.46666666666667" data-key="123454" class="chart-cell chart-cell__series-0" />
+            <rect x="174.66666666666666" y="46.76666666666665" width="140.16666666666666" height="19.46666666666667" data-key="123455" class="chart-cell chart-cell__series-0" />
+            <rect x="174.66666666666666" y="71.1" width="140.1668068333333" height="19.46666666666667" data-key="123450" class="chart-cell chart-cell__series-0" />
+            <rect x="174.66666666666666" y="95.43333333333332" width="140.16820849999996" height="19.46666666666667" data-key="123452" class="chart-cell chart-cell__series-0" />
+            <rect x="174.66666666666666" y="119.76666666666665" width="140.18222516666665" height="19.46666666666667" data-key="123451" class="chart-cell chart-cell__series-0" />
+            <rect x="174.66666666666666" y="144.09999999999997" width="140.3069735" height="19.46666666666667" data-key="123457" class="chart-cell chart-cell__series-0" />
+            <rect x="174.66666666666666" y="168.43333333333334" width="141.56847349999995" height="19.46666666666667" data-key="123458" class="chart-cell chart-cell__series-0" />
+            <rect x="174.66666666666666" y="192.76666666666665" width="141.72405850000004" height="19.46666666666667" data-key="123453" class="chart-cell chart-cell__series-0" />
+            <rect x="174.66666666666666" y="217.09999999999997" width="155.7407251666667" height="19.46666666666667" data-key="123456" class="chart-cell chart-cell__series-0 chart-cell__highlight" />
+        </g>
     </g>
     <g>
         <text x="322.8333333333333" y="32.16666666666666" dy="0.35em" class="chart-label chart-label__series-0">£1m</text>

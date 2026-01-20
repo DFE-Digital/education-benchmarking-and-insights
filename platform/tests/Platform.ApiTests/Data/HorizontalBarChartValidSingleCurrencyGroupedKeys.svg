@@ -1,8 +1,10 @@
 ﻿<svg width="500" height="102" viewBox="0,0,500,102" data-chart-id="test-uuid" xmlns="http://www.w3.org/2000/svg">
     <g>
-        <rect x="174.66666666666666" y="22.066666666666666" width="248.07257333333334" height="16.533333333333335" data-key="2023 – 2024" class="chart-cell chart-cell__series-0 chart-cell__group-previous" />
-        <rect x="174.66666666666666" y="42.733333333333334" width="225.64590666666666" height="16.533333333333335" data-key="2024 – 2025" class="chart-cell chart-cell__series-0 chart-cell__group-current" />
-        <rect x="174.66666666666666" y="63.400000000000006" width="203.21923999999999" height="16.533333333333335" data-key="2025 – 2026" class="chart-cell chart-cell__series-0 chart-cell__group-forecast" />
+        <g data-stack="0">
+            <rect x="174.66666666666666" y="22.066666666666666" width="248.07257333333334" height="16.533333333333335" data-key="2023 – 2024" class="chart-cell chart-cell__series-0 chart-cell__group-previous" />
+            <rect x="174.66666666666666" y="42.733333333333334" width="225.64590666666666" height="16.533333333333335" data-key="2024 – 2025" class="chart-cell chart-cell__series-0 chart-cell__group-current" />
+            <rect x="174.66666666666666" y="63.400000000000006" width="203.21923999999999" height="16.533333333333335" data-key="2025 – 2026" class="chart-cell chart-cell__series-0 chart-cell__group-forecast" />
+        </g>
     </g>
     <g>
         <text x="430.73924" y="30.333333333333336" dy="0.35em" class="chart-label chart-label__series-0">£22k</text>

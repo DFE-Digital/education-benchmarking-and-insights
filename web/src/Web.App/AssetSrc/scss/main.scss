@@ -884,6 +884,23 @@ table#current-comparators-la {
       fill: govuk-colour("red");
       stroke: govuk-colour("red");
     }
+
+    &.chart-data-stack-0 {
+      fill: govuk-colour("light-blue");
+      stroke: govuk-colour("light-blue");
+    }
+    &.chart-data-stack-1 {
+      fill: govuk-colour("turquoise");
+      stroke: govuk-colour("turquoise");
+    }
+    &.chart-data-stack-2 {
+      fill: govuk-colour("blue");
+      stroke: govuk-colour("blue");
+    }
+    &.chart-data-stack-3 {
+      fill: govuk-colour("dark-blue");
+      stroke: govuk-colour("dark-blue");
+    }
   }
 
   .chart-label {
