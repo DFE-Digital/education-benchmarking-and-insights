@@ -12,7 +12,7 @@ public class SchoolSeniorLeadershipViewModel(
 {
     public string? Urn => school.URN;
     public string? Name => school.SchoolName;
-    public SeniorLeadershipGroup[] Group => group;
+    public SeniorLeadershipGroup[] Group => group.OrderByDescending(g => g.SeniorLeadership).ToArray();
     public string? ChartSvg { get; set; }
     public bool HasUserDefinedSet => !string.IsNullOrEmpty(userDefinedSetId);
     public bool HasDefaultComparatorSet => defaultComparatorSet != null
