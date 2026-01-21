@@ -687,6 +687,13 @@
           {
             "type": "object",
             "properties": {
+              "legendLabels": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "title": "legendLabels"
+              },
               "barHeight": {
                 "type": "number",
                 "title": "barHeight"
@@ -2484,6 +2491,13 @@
               "highlightKey": {
                 "type": "string",
                 "title": "highlightKey"
+              },
+              "legendLabels": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "title": "legendLabels"
               }
             }
           },

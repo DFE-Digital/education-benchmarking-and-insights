@@ -55,7 +55,10 @@ export default class HorizontalBarChartTemplate {
     const stackedChart: boolean = valueFields.length > 1;
 
     // Declare the chart dimensions and margins.
-    const legendHeight = stackedChart ? 40 : 0;
+    const legendRows = stackedChart
+      ? Math.floor((legendLabels.length + 1) / 2) // two legend labels per row
+      : 0;
+    const legendHeight = stackedChart ? legendRows * 25 + 10 : 0;
     const marginTop = 20;
     const marginRight = 40;
     const marginLeft = 3;
@@ -302,14 +305,20 @@ export default class HorizontalBarChartTemplate {
     let legend: string = "";
     const boxDim: number = y.bandwidth() / 2;
     let xPos: number = 0;
+    let yPos: number = 0;
 
     if (stackedChart) {
       const rectsAndLabels = legendLabels.map((f, i) => {
+        if (i % 2 == 0) {
+          xPos = 0;
+          yPos = Math.floor((i + 1) / 2) * 25;
+        }
+
         const field = f as string;
-        const box: string = `<rect class="chart-cell chart-data-stack-${i}" height="${boxDim}" width="${boxDim}" x="${xPos}" />`;
+        const box: string = `<rect class="chart-cell chart-data-stack-${i}" height="${boxDim}" width="${boxDim}" x="${xPos}" y="${yPos}" />`;
         xPos += boxDim + 5;
-        const label: string = `<text x="${xPos}" dy="${boxDim}">${field}</text>`;
-        xPos += field.length * 9;
+        const label: string = `<text x="${xPos}" y="${yPos}" dy="${boxDim}">${field}</text>`;
+        xPos += 180;
         return `${box}
 ${label}`;
       });
