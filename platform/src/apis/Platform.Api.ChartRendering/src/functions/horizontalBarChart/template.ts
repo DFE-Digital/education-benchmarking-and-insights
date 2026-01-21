@@ -58,7 +58,7 @@ export default class HorizontalBarChartTemplate {
     const legendRows = stackedChart
       ? Math.floor((legendLabels.length + 1) / 2) // two legend labels per row
       : 0;
-    const legendHeight = stackedChart ? (legendRows * 25) + 10 : 0;
+    const legendHeight = stackedChart ? legendRows * 25 + 10 : 0;
     const marginTop = 20;
     const marginRight = 40;
     const marginLeft = 3;
@@ -313,7 +313,7 @@ export default class HorizontalBarChartTemplate {
           xPos = 0;
           yPos = Math.floor((i + 1) / 2) * 25;
         }
-        
+
         const field = f as string;
         const box: string = `<rect class="chart-cell chart-data-stack-${i}" height="${boxDim}" width="${boxDim}" x="${xPos}" y="${yPos}" />`;
         xPos += boxDim + 5;
