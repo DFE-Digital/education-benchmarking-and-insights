@@ -14,6 +14,7 @@
           | AAR 2020/21 | AAR_2020-21_download.xlsx           |
           | AAR 2021/22 | AAR_2021-22_download.xlsx           |
           | AAR 2022/23 | AAR_2022-23_download.xlsx           |
+          | AAR 2023/24 | AAR_2023-24_download.xlsx           |
           | CFR 2014/15 | CFR_2014-15_Full_Data_Workbook.xlsx |
           | CFR 2015/16 | CFR_2015-16_Full_Data_Workbook.xlsx |
           | CFR 2016/17 | CFR_2016-17_Full_Data_Workbook.xlsx |
@@ -23,6 +24,7 @@
           | CFR 2020/21 | CFR_2020-21_Full_Data_Workbook.xlsx |
           | CFR 2021/22 | CFR_2021-22_Full_Data_Workbook.xlsx |
           | CFR 2022/23 | CFR_2022-23_Full_Data_Workbook.xlsx |
+          | CFR 2023/24 | CFR_2023-24_Full_Data_Workbook.xlsx |
           
     Scenario: Sending a valid transparency files request for unsupported API version
         Given a transparency files request with API version 'invalid'
