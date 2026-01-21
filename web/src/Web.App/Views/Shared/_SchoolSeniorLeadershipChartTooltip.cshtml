@@ -1,0 +1,15 @@
+﻿@using Web.App.Extensions
+@model Web.App.ViewModels.SchoolSeniorLeadershipChartTooltipViewModel
+
+<script type="module" add-nonce="true">
+    import {createApp, SeniorLeadershipChartTooltips} from "@Html.FileVersionedPath("/js/main.js")";
+
+    const data = @Html.Raw(Json.Serialize(Model.Data));
+
+    const container = document.createElement("div");
+    const main = document.querySelector("main");
+    main.appendChild(container);
+
+    const app = createApp(SeniorLeadershipChartTooltips, {data});
+    const vm = app.mount(container);
+</script>

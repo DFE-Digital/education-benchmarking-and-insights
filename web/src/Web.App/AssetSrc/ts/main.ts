@@ -5,7 +5,18 @@ import PageActions from "./components/page-actions/PageActions.vue";
 import ProgressIndicator from "./components/progress-indicator/ProgressIndicator.vue";
 import SchoolChartTooltip from "./components/school-chart-tooltip/SchoolChartTooltip.vue";
 import SchoolChartTooltips from "./components/school-chart-tooltip/SchoolChartTooltips.vue";
+import SeniorLeadershipChartTooltip from "./components/senior-leadership-chart-tooltip/SeniorLeadershipChartTooltip.vue";
+import SeniorLeadershipChartTooltips from "./components/senior-leadership-chart-tooltip/SeniorLeadershipChartTooltips.vue";
 import { Suggester } from "./components/suggester/Suggester.ts";
 
 export { createApp };
-export { ChartActions, ModalDialog, PageActions, ProgressIndicator, SchoolChartTooltip, SchoolChartTooltips, Suggester };
+export { ChartActions,
+         ModalDialog,
+         PageActions,
+         ProgressIndicator,
+         SchoolChartTooltip,
+         SchoolChartTooltips,
+         SeniorLeadershipChartTooltip,
+         SeniorLeadershipChartTooltips,
+         Suggester
+};

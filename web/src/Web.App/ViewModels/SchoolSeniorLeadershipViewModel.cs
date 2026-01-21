@@ -27,4 +27,19 @@ public class SchoolSeniorLeadershipViewModel(
         FinanceTools.FinancialPlanning,
         FinanceTools.CompareYourCosts,
         FinanceTools.BenchmarkCensus);
+
+
+    public SchoolSeniorLeadershipChartTooltipData[] TooltipData => Group.Select(x => new SchoolSeniorLeadershipChartTooltipData()
+    {
+
+        Urn = x.URN,
+        SchoolName = x.SchoolName,
+        LAName = x.LAName,
+        TotalPupils = x.TotalPupils,
+        HeadTeachers = x.HeadTeacher,
+        DeputyHeadTeachers = x.DeputyHeadTeacher,
+        AssistantHeadTeachers = x.AssistantHeadTeacher,
+        LeadershipNonTeachers = x.LeadershipNonTeacher
+    }).ToArray();
+
 }

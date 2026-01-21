@@ -118,3 +118,11 @@
 }
 
 @await Html.PartialAsync("FinanceTools/_School", Model.Tools)
+
+@section scripts
+{
+    @await Html.PartialAsync("_SchoolSeniorLeadershipChartTooltip", new SchoolSeniorLeadershipChartTooltipViewModel
+    {
+        Data = Model.TooltipData
+    })
+}
