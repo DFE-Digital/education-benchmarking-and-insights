@@ -10,7 +10,7 @@ public class SchoolSeniorLeadershipPage(IPage page)
     private ILocator SchoolLinksInCharts => page.Locator(Selectors.SsrOrgNamesLinksInCharts);
     private ILocator ChartTooltip => page.Locator(Selectors.EnhancementSchoolChartTooltip);
     private ILocator ActionControls => page.Locator(".actions-form .govuk-button");
-    
+
     private ILocator ChartContainer(string chartName) => page.Locator($"[data-title=\"{chartName}\"]");
     private ILocator ChartBars(string urn) => page.Locator($"rect.chart-cell[data-key='{urn}']");
 
@@ -49,7 +49,7 @@ public class SchoolSeniorLeadershipPage(IPage page)
         await ChartTooltip.ShouldBeVisible();
         await ChartTooltip.Locator("caption").ShouldContainText(name);
     }
-    
+
     public async Task FocusLastActionControl()
     {
         await ActionControls.Last.FocusAsync();
@@ -59,7 +59,7 @@ public class SchoolSeniorLeadershipPage(IPage page)
     {
         await page.Keyboard.PressAsync("Tab");
     }
-    
+
     private async Task AssertChartCount(int expectedCount)
     {
         var count = await ChartContainers.CountAsync();
