@@ -21,7 +21,7 @@
 
     Scenario: Tabbing between school names in chart shows tooltip
         Given I am on school senior leadership page for school with URN '990002'
-        And the focused element is the last action control
+        And the focused element is the save as image control
         When I press tab to select the school with urn '990000' in a chart
         Then the tooltip for 'Test school 176' is correctly displayed
         When I press tab to select the school with urn '990027' in a chart

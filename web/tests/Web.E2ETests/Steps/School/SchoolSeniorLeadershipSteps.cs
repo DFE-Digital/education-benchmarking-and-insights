@@ -19,11 +19,11 @@ public class SchoolSeniorLeadershipSteps(PageDriver driver)
         await _seniorLeadershipPage.IsDisplayed();
     }
 
-    [Given("the focused element is the last action control")]
-    public async Task GivenTheFocusedElementIsTheLastActionControl()
+    [Given("the focused element is the save as image control")]
+    public async Task GivenTheFocusedElementIsTheImageSaveControl()
     {
         Assert.NotNull(_seniorLeadershipPage);
-        await _seniorLeadershipPage.FocusLastActionControl();
+        await _seniorLeadershipPage.FocusImageSaveControl();
     }
 
     [When("I click on the school name on the chart")]
