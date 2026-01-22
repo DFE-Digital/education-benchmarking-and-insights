@@ -140,17 +140,19 @@ public class SchoolCensusController(
                 var group = await GetSeniorLeadershipAsync(userDefinedComparatorSet, defaultComparatorSet?.Pupil, resultAs);
 
                 var chartSvg = string.Empty;
+                var chartId = Guid.NewGuid().ToString();
 
                 if (viewAs == Views.ViewAsOptions.Chart)
                 {
-                    chartSvg = await BuildChart(urn, resultAs, group);
+                    chartSvg = await BuildChart(urn, resultAs, group, chartId);
                 }
 
                 var viewModel = new SchoolSeniorLeadershipViewModel(school, group, userData.ComparatorSet, defaultComparatorSet)
                 {
                     ViewAs = viewAs,
                     ResultAs = resultAs,
-                    ChartSvg = chartSvg
+                    ChartSvg = chartSvg,
+                    ChartId = chartId
                 };
 
                 return View(viewModel);
@@ -347,11 +349,11 @@ public class SchoolCensusController(
         return censuses.Select(e => new CensusWithProgress(e, bandings[e.URN]));
     }
 
-    private async Task<string?> BuildChart(string urn, CensusDimensions.ResultAsOptions resultAs, SeniorLeadershipGroup[] group)
+    private async Task<string?> BuildChart(string urn, CensusDimensions.ResultAsOptions resultAs, SeniorLeadershipGroup[] group, string chartId)
     {
 
         var request = new SchoolSeniorLeadershipHorizontalBarChartRequest(
-            Guid.NewGuid().ToString(),
+            chartId,
             urn,
             group,
             format => Uri.UnescapeDataString(

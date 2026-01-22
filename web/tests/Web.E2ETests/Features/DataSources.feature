@@ -5,6 +5,7 @@
         When I click on the data sources link
         Then the following CFR data sources are listed:
           | Label       | FileName                            |
+          | CFR 2023/24 | CFR_2023-24_Full_Data_Workbook.xlsx |
           | CFR 2022/23 | CFR_2022-23_Full_Data_Workbook.xlsx |
           | CFR 2021/22 | CFR_2021-22_Full_Data_Workbook.xlsx |
           | CFR 2020/21 | CFR_2020-21_Full_Data_Workbook.xlsx |
@@ -16,6 +17,7 @@
           | CFR 2014/15 | CFR_2014-15_Full_Data_Workbook.xlsx |
         And the following AAR data sources are listed:
           | Label       | FileName                    |
+          | AAR 2023/24 | AAR_2023-24_download.xlsx   |
           | AAR 2022/23 | AAR_2022-23_download.xlsx   |
           | AAR 2021/22 | AAR_2021-22_download.xlsx   |
           | AAR 2020/21 | AAR_2020-21_download.xlsx   |

@@ -14,6 +14,7 @@ public class SchoolSeniorLeadershipViewModel(
     public string? Name => school.SchoolName;
     public SeniorLeadershipGroup[] Group => group.OrderByDescending(g => g.SeniorLeadership).ToArray();
     public string? ChartSvg { get; set; }
+    public string? ChartId { get; set; }
     public bool HasUserDefinedSet => !string.IsNullOrEmpty(userDefinedSetId);
     public bool HasDefaultComparatorSet => defaultComparatorSet != null
                                            && defaultComparatorSet.Pupil.Any(p => !string.IsNullOrWhiteSpace(p));
