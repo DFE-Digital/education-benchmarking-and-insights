@@ -47,12 +47,12 @@
                     }
                 </td>
                 <td class="govuk-table__cell">@row.LAName</td>
-                <td class="govuk-table__cell govuk-table__cell--numeric">@row.TotalPupils.ToSimpleDisplay()</td>
-                <td class="govuk-table__cell govuk-table__cell--numeric">@Model.ResultAs.GetFormattedValue(row.SeniorLeadership)</td>
-                <td class="govuk-table__cell govuk-table__cell--numeric">@Model.ResultAs.GetFormattedValue(row.HeadTeacher)</td>
-                <td class="govuk-table__cell govuk-table__cell--numeric">@Model.ResultAs.GetFormattedValue(row.DeputyHeadTeacher)</td>
-                <td class="govuk-table__cell govuk-table__cell--numeric">@Model.ResultAs.GetFormattedValue(row.AssistantHeadTeacher)</td>
-                <td class="govuk-table__cell govuk-table__cell--numeric">@Model.ResultAs.GetFormattedValue(row.LeadershipNonTeacher)</td>
+                <td class="govuk-table__cell govuk-table__cell--numeric">@((row.TotalPupils ?? 0).ToSimpleDisplay())</td>
+                <td class="govuk-table__cell govuk-table__cell--numeric">@Model.ResultAs.GetFormattedValue(row.SeniorLeadership ?? 0)</td>
+                <td class="govuk-table__cell govuk-table__cell--numeric">@Model.ResultAs.GetFormattedValue(row.HeadTeacher ?? 0)</td>
+                <td class="govuk-table__cell govuk-table__cell--numeric">@Model.ResultAs.GetFormattedValue(row.DeputyHeadTeacher ?? 0)</td>
+                <td class="govuk-table__cell govuk-table__cell--numeric">@Model.ResultAs.GetFormattedValue(row.AssistantHeadTeacher ?? 0)</td>
+                <td class="govuk-table__cell govuk-table__cell--numeric">@Model.ResultAs.GetFormattedValue(row.LeadershipNonTeacher ?? 0)</td>
             </tr>
         }
         </tbody>
