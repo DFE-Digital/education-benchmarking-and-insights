@@ -69,6 +69,7 @@
   "paddingOuter": 0.2,
   "sort": "asc",
   "valueField": ["value1","value2"],
+  "legendLabels": ["value1","value2"],
   "valueType": "currency",
   "width": 500
 }

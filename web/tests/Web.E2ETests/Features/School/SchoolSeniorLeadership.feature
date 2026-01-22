@@ -1,6 +1,6 @@
 ﻿Feature: School senior leadership
 
-    Scenario: Before interacting with filters all charts should be displayed
+    Scenario: Before interacting with form options the chart should be displayed
         Given I am on school senior leadership page for school with URN '990001'
         Then I should see the school senior leadership chart
 

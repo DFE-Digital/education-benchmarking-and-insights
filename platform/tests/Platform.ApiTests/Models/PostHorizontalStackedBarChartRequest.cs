@@ -15,6 +15,7 @@ public record PostHorizontalStackedBarChartRequest<T> : ChartRequest<T>
     public decimal? PaddingInner { get; set; }
     public decimal? PaddingOuter { get; set; }
     public string[]? ValueField { get; set; }
+    public string[]? LegendLabels { get; set; }
     public string? ValueType { get; set; }
     public string? XAxisLabel { get; set; }
 }
