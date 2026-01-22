@@ -1,4 +1,4 @@
-<svg width="500" height="371" viewBox="0,0,500,371" data-chart-id="test-uuid" xmlns="http://www.w3.org/2000/svg">
+<svg width="500" height="366" viewBox="0,0,500,366" data-chart-id="test-uuid" xmlns="http://www.w3.org/2000/svg">
     <g>
         <g data-stack="0">
             <rect x="174.66666666666666" y="24.932203389830505" width="0" height="9.864406779661017" data-key="123454" class="chart-cell chart-cell__series-0 chart-data-stack-0" />
@@ -115,7 +115,7 @@
             <text x="-9" dy="0.32em">123461</text>
         </g>
     </g>
-    <g transform="translate(186.0677966101695,336)">
-        <rect class="chart-cell chart-data-stack-0" height="4.932203389830509" width="4.932203389830509" x="0" />
-        <text x="9.932203389830509" dy="4.932203389830509">value1</text>,<rect class="chart-cell chart-data-stack-1" height="4.932203389830509" width="4.932203389830509" x="63.932203389830505" /><text x="73.86440677966101" dy="4.932203389830509">value2</text></g>
+    <g transform="translate(60.067796610169495,336)">
+        <rect class="chart-cell chart-data-stack-0" height="4.932203389830509" width="4.932203389830509" x="0" y="0" />
+        <text x="9.932203389830509" y="0" dy="4.932203389830509">value1</text>,<rect class="chart-cell chart-data-stack-1" height="4.932203389830509" width="4.932203389830509" x="189.9322033898305" y="0" /><text x="199.864406779661" y="0" dy="4.932203389830509">value2</text></g>
 </svg>
