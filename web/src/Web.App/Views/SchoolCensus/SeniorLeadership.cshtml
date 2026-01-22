@@ -140,6 +140,11 @@
 
 @section scripts
 {
+    @await Html.PartialAsync("_SchoolSeniorLeadershipChartTooltip", new SchoolSeniorLeadershipChartTooltipViewModel
+    {
+        Data = Model.TooltipData
+    })
+  
     @await Html.PartialAsync("Enhancements/_ChartActions", new Web.App.ViewModels.Enhancements.ChartActionsViewModel
     {
         DataSetAttribute = "chart-actions",
