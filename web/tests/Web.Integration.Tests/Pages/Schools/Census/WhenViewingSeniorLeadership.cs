@@ -56,8 +56,9 @@ public class WhenViewingSeniorLeadership(SchoolBenchmarkingWebAppClient client) 
 
         var action = page.QuerySelectorAll("button").FirstOrDefault(x => x.TextContent.Trim() == "Apply");
         Assert.NotNull(action);
-
-        page = await Client.SubmitForm(page.Forms[0], action, f =>
+        var form = action.Closest("form");
+        Assert.NotNull(form);
+        page = await Client.SubmitForm(form, action, f =>
         {
             f.SetFormValues(new Dictionary<string, string>
             {
@@ -82,8 +83,9 @@ public class WhenViewingSeniorLeadership(SchoolBenchmarkingWebAppClient client) 
 
         var action = page.QuerySelectorAll("button").FirstOrDefault(x => x.TextContent.Trim() == "Apply");
         Assert.NotNull(action);
-
-        page = await Client.SubmitForm(page.Forms[0], action, f =>
+        var form = action.Closest("form");
+        Assert.NotNull(form);
+        page = await Client.SubmitForm(form, action, f =>
         {
             f.SetFormValues(new Dictionary<string, string>
             {
@@ -117,8 +119,9 @@ public class WhenViewingSeniorLeadership(SchoolBenchmarkingWebAppClient client) 
 
         var action = page.QuerySelectorAll("button").FirstOrDefault(x => x.TextContent.Trim() == "Download page data");
         Assert.NotNull(action);
-
-        page = await Client.SubmitForm(page.Forms[0], action);
+        var form = action.Closest("form");
+        Assert.NotNull(form);
+        page = await Client.SubmitForm(form, action);
 
         DocumentAssert.AssertPageUrl(page, Paths.SchoolSeniorLeadershipDownload(school.URN).ToAbsolute());
     }

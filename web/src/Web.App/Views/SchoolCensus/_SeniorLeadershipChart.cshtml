@@ -13,7 +13,7 @@
     return;
 }
 
-<div class="costs-chart-container">
+<div id="@Model.ChartId" class="costs-chart-container">
     <div class="costs-chart-wrapper">
         <div class="ssr-chart horizontal-bar-chart">
             @Html.Raw(Model.ChartSvg)
