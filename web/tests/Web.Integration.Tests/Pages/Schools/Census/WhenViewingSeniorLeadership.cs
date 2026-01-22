@@ -126,11 +126,28 @@ public class WhenViewingSeniorLeadership(SchoolBenchmarkingWebAppClient client) 
         DocumentAssert.AssertPageUrl(page, Paths.SchoolSeniorLeadershipDownload(school.URN).ToAbsolute());
     }
 
+    [Fact]
+    public async Task MissingTableDataCorrectlyShownAsZero()
+    {
+        var (page, school, group) = await SetupNavigateInitPage(
+            queryParams: "?viewAs=1&resultAs=0",
+            withMissingGroupValues: true);
+
+        AssertPageLayout(
+            page,
+            school,
+            group,
+            viewAs: 1,
+            resultAs: 0,
+            expectedQueryParams: "?viewAs=1&resultAs=0");
+    }
+
     private async Task<(IHtmlDocument page, School school, SeniorLeadershipGroup[] group)> SetupNavigateInitPage(
         string queryParams = "",
         bool chartApiException = false,
         bool withUserDefinedUserData = false,
-        bool withMissingComparatorSet = false)
+        bool withMissingComparatorSet = false,
+        bool withMissingGroupValues = false)
     {
         const string chartSvg = "<svg />";
 
@@ -157,10 +174,31 @@ public class WhenViewingSeniorLeadership(SchoolBenchmarkingWebAppClient client) 
             }
         };
 
-        var group = Fixture.Build<SeniorLeadershipGroup>()
-            .CreateMany()
-            .ToArray();
-        group.ElementAt(0).URN = school.URN;
+        SeniorLeadershipGroup[] group;
+
+        if (!withMissingGroupValues)
+        {
+            group = Fixture.Build<SeniorLeadershipGroup>()
+                .CreateMany()
+                .ToArray();
+            group.ElementAt(0).URN = school.URN;
+        }
+        else
+        {
+            var otherSchools = Fixture.Build<SeniorLeadershipGroup>()
+                .CreateMany(2)
+                .ToList();
+
+            var selectedSchool = Fixture.Build<SeniorLeadershipGroup>()
+                .Without(x => x.SeniorLeadership)
+                .Without(x => x.HeadTeacher)
+                .Without(x => x.DeputyHeadTeacher)
+                .Without(x => x.AssistantHeadTeacher)
+                .Without(x => x.LeadershipNonTeacher)
+                .Create();
+
+            group = otherSchools.Append(selectedSchool).ToArray();
+        }
 
         Assert.NotNull(school.URN);
 
@@ -248,14 +286,16 @@ public class WhenViewingSeniorLeadership(SchoolBenchmarkingWebAppClient client) 
             DocumentAssert.Link(schoolLink, expected.SchoolName, Paths.SchoolHome(expected.URN).ToAbsolute());
 
             Assert.Equal(cells[1], expected.LAName);
-            Assert.Equal(decimal.Parse(cells[2]), expected.TotalPupils);
-            Assert.Equal(decimal.Parse(cells[3]), expected.SeniorLeadership);
-            Assert.Equal(decimal.Parse(cells[4]), expected.HeadTeacher);
-            Assert.Equal(decimal.Parse(cells[5]), expected.DeputyHeadTeacher);
-            Assert.Equal(decimal.Parse(cells[6]), expected.AssistantHeadTeacher);
-            Assert.Equal(decimal.Parse(cells[7]), expected.LeadershipNonTeacher);
+            Assert.Equal(decimal.Parse(cells[2]), AsDecimalOrZero(expected.TotalPupils));
+            Assert.Equal(decimal.Parse(cells[3]), AsDecimalOrZero(expected.SeniorLeadership));
+            Assert.Equal(decimal.Parse(cells[4]), AsDecimalOrZero(expected.HeadTeacher));
+            Assert.Equal(decimal.Parse(cells[5]), AsDecimalOrZero(expected.DeputyHeadTeacher));
+            Assert.Equal(decimal.Parse(cells[6]), AsDecimalOrZero(expected.AssistantHeadTeacher));
+            Assert.Equal(decimal.Parse(cells[7]), AsDecimalOrZero(expected.LeadershipNonTeacher));
         }
     }
+
+    private static decimal AsDecimalOrZero(decimal? value) => value ?? 0;
 
     private static void AssertFormOptions(
         IElement form,
