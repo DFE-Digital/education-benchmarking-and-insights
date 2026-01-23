@@ -29,7 +29,7 @@ public record SchoolSeniorLeadershipHorizontalBarChartRequest : PostHorizontalBa
         LabelFormat = "%2$s";
         LinkFormat = linkFormatter("%1$s");
         Sort = "desc";
-        Width = 610;
+        Width = 700;
         ValueField =
         [
             JsonNamingPolicy.CamelCase.ConvertName(nameof(SeniorLeadershipGroup.HeadTeacher)),
