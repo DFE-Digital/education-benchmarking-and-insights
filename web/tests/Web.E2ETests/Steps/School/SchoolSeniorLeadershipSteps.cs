@@ -11,6 +11,7 @@ public class SchoolSeniorLeadershipSteps(PageDriver driver)
 {
     private SchoolSeniorLeadershipPage? _seniorLeadershipPage;
     private HomePage? _schoolHomePage;
+    private IDownload? _download;
 
     [Given("I am on school senior leadership page for school with URN '(.*)'")]
     public async Task GivenIAmOnSeniorLeadershipPageForSchoolWithUrn(string urn)
@@ -54,6 +55,14 @@ public class SchoolSeniorLeadershipSteps(PageDriver driver)
         await _seniorLeadershipPage.PressTab();
     }
 
+    [When("I click on save as image")]
+    public async Task WhenIClickOnSaveAsImageFor()
+    {
+        Assert.NotNull(_seniorLeadershipPage);
+        var page = await driver.Current;
+        _download = await page.RunAndWaitForDownloadAsync(() => _seniorLeadershipPage.ClickImageSaveControl());
+    }
+
     [Then("I should see the school senior leadership chart")]
     public async Task ThenIShouldSeeTheSchoolSeniorLeadershipChart()
     {
@@ -74,6 +83,21 @@ public class SchoolSeniorLeadershipSteps(PageDriver driver)
     {
         Assert.NotNull(_seniorLeadershipPage);
         await _seniorLeadershipPage.TooltipIsDisplayed(name);
+    }
+
+    [Then("the '(.*)' chart image is downloaded")]
+    public void ThenTheChartImageIsDownloaded(string downloadedFileName)
+    {
+        Assert.NotNull(_seniorLeadershipPage);
+        ChartDownloaded(downloadedFileName);
+    }
+
+    private void ChartDownloaded(string downloadedFileName)
+    {
+        Assert.NotNull(_download);
+
+        var downloadedFilePath = _download.SuggestedFilename;
+        Assert.Equal($"{downloadedFileName}.png", downloadedFilePath);
     }
 
     private async Task<SchoolSeniorLeadershipPage> LoadSchoolSeniorLeadershipPageForSchoolWithUrn(string urn)

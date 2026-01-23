@@ -65,4 +65,9 @@ public class SchoolSeniorLeadershipPage(IPage page)
         var count = await ChartContainers.CountAsync();
         Assert.Equal(expectedCount, count);
     }
+
+    public async Task ClickImageSaveControl()
+    {
+        await ImageSaveControl.Click();
+    }
 }
