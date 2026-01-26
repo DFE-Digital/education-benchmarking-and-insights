@@ -37,10 +37,10 @@ public class SchoolSeniorLeadershipViewModel(
         SchoolName = x.SchoolName,
         LAName = x.LAName,
         TotalPupils = x.TotalPupils,
-        HeadTeachers = x.HeadTeacher,
-        DeputyHeadTeachers = x.DeputyHeadTeacher,
-        AssistantHeadTeachers = x.AssistantHeadTeacher,
-        LeadershipNonTeachers = x.LeadershipNonTeacher
+        HeadTeachers = x.HeadTeacher == 0 ? string.Empty : ResultAs.GetFormattedValue(x.HeadTeacher),
+        DeputyHeadTeachers = x.DeputyHeadTeacher == 0 ? string.Empty : ResultAs.GetFormattedValue(x.DeputyHeadTeacher),
+        AssistantHeadTeachers = x.AssistantHeadTeacher == 0 ? string.Empty : ResultAs.GetFormattedValue(x.AssistantHeadTeacher),
+        LeadershipNonTeachers = x.LeadershipNonTeacher == 0 ? string.Empty : ResultAs.GetFormattedValue(x.LeadershipNonTeacher)
     }).ToArray();
 
 }
