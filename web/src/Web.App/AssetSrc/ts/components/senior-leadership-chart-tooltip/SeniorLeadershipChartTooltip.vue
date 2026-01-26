@@ -66,7 +66,7 @@ watch(tooltip, () => {
             {{ datum?.totalPupils?.toString() }}
           </td>
         </tr>
-        <tr v-if="datum.headTeachers && datum.headTeachers > 0"
+        <tr v-if="datum.headTeachers && datum.headTeachers.length > 0"
             class="govuk-table__row"
         >
           <th scope="row" class="govuk-table__header">Head teachers</th>
@@ -74,7 +74,7 @@ watch(tooltip, () => {
             {{ datum?.headTeachers?.toString() }}
           </td>
         </tr>
-        <tr v-if="datum.deputyHeadTeachers && datum.deputyHeadTeachers > 0"
+        <tr v-if="datum.deputyHeadTeachers && datum.deputyHeadTeachers.length > 0"
             class="govuk-table__row"
         >
           <th scope="row" class="govuk-table__header">Deputy head teachers</th>
@@ -82,7 +82,7 @@ watch(tooltip, () => {
             {{ datum?.deputyHeadTeachers?.toString() }}
           </td>
         </tr>
-        <tr v-if="datum.assistantHeadTeachers && datum.assistantHeadTeachers > 0"
+        <tr v-if="datum.assistantHeadTeachers && datum.assistantHeadTeachers.length > 0"
             class="govuk-table__row"
         >
           <th scope="row" class="govuk-table__header">Assistant head teachers</th>
@@ -90,7 +90,7 @@ watch(tooltip, () => {
             {{ datum?.assistantHeadTeachers?.toString() }}
           </td>
         </tr>
-        <tr v-if="datum.leadershipNonTeachers && datum.leadershipNonTeachers > 0"
+        <tr v-if="datum.leadershipNonTeachers && datum.leadershipNonTeachers.length > 0"
             class="govuk-table__row"
         >
           <th scope="row" class="govuk-table__header">Leadership non-teachers</th>

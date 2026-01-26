@@ -7,8 +7,8 @@ public record SchoolSeniorLeadershipChartTooltipViewModel
 
 public record SchoolSeniorLeadershipChartTooltipData : SchoolChartTooltipData
 {
-    public decimal? HeadTeachers { get; init; }
-    public decimal? DeputyHeadTeachers { get; init; }
-    public decimal? AssistantHeadTeachers { get; init; }
-    public decimal? LeadershipNonTeachers { get; init; }
+    public string? HeadTeachers { get; init; }
+    public string? DeputyHeadTeachers { get; init; }
+    public string? AssistantHeadTeachers { get; init; }
+    public string? LeadershipNonTeachers { get; init; }
 }
