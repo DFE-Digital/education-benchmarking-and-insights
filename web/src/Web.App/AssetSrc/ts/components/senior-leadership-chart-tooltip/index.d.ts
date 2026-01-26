@@ -10,10 +10,10 @@ export interface SeniorLeadershipChartTooltipPropsData {
   schoolName?: string;
   laName?: string;
   totalPupils?: number;
-  headTeachers?: number;
-  deputyHeadTeachers?: number;
-  assistantHeadTeachers?: number;
-  leadershipNonTeachers?: number;
+  headTeachers?: string;
+  deputyHeadTeachers?: string;
+  assistantHeadTeachers?: string;
+  leadershipNonTeachers?: string;
 }
 
 export interface SeniorLeadershipChartTooltipsProps {
