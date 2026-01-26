@@ -73,12 +73,19 @@ public class HomePage(IPage page)
         string? trustName = null,
         bool isUserDefinedComparator = false,
         bool isMissingRags = false,
-        bool isCustomData = false)
+        bool isCustomData = false,
+        bool hasProgressIndicators = false)
     {
         await PageH1Heading.ShouldBeVisible();
         //await Breadcrumbs.ShouldBeVisible();
 
         List<string> expectedH2Texts = ["Benchmarking and planning tools", "Resources"];
+
+        if (hasProgressIndicators)
+        {
+            expectedH2Texts.Insert(0, "Performance for this school");
+        }
+
         if (!isPartYear && !isUserDefinedComparator && !isMissingRags)
         {
             expectedH2Texts.Insert(0, "Spending for this school");
