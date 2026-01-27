@@ -85,7 +85,7 @@ This release delivers the benchmark senior leadership feature behind a feature f
 | Test Category           | Total Tests | Passed | Failed | Pass Rate |  
 |-------------------------|:-----------:|:------:|:------:|:---------:|  
 | Smoke Tests - Prod      |      -      |   -    |   -    |   -       |  
-| Sanity Tests - Pre Prod |      -      |   -    |   -    |   -       |  
+| Smoke Tests - Pre Prod  |      1      |   1    |   0    |   100%    |  
 | Total                   |      -      |   -    |   -    |   -       |  
 
 <!-- Leave the rest of this page blank -->
