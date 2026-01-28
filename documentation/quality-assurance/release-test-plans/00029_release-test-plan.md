@@ -22,7 +22,9 @@ This release delivers the benchmark senior leadership feature behind a feature f
 
 ## Test Strategy
 
-- **Sanity Testing:** Validate that the application is deployed successfully to pre-production and operates as expected with the updated content and behaviour fixes.
+- **Sanity Testing:** Validate that the application is deployed successfully to pre-production and operates as expected with the updated content and behaviour
+fixes.
+- **Regression Testing:** Validate the horizontal bar charts for benchmark IT spending are visually unchanged following the changes to accommodate stacked bar charts.
 - **Smoke Testing:** Execute smoke tests in production to confirm platform stability and availability post-deployment.
 
 ## Entry and Exit Criteria
@@ -85,7 +87,7 @@ This release delivers the benchmark senior leadership feature behind a feature f
 | Test Category           | Total Tests | Passed | Failed | Pass Rate |  
 |-------------------------|:-----------:|:------:|:------:|:---------:|  
 | Smoke Tests - Prod      |      -      |   -    |   -    |   -       |  
-| Smoke Tests - Pre Prod  |      1      |   1    |   0    |   100%    |  
+| Smoke Tests - Pre Prod  |      2      |   2    |   0    |   100%    |  
 | Total                   |      -      |   -    |   -    |   -       |  
 
 <!-- Leave the rest of this page blank -->
