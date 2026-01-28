@@ -22,8 +22,7 @@ This release delivers the benchmark senior leadership feature behind a feature f
 
 ## Test Strategy
 
-- **Sanity Testing:** Validate that the application is deployed successfully to pre-production and operates as expected with the updated content and behaviour
-fixes.
+- **Sanity Testing:** Validate that the application is deployed successfully to pre-production and operates as expected including the senior leadership group page once feature flag is enabled.
 - **Regression Testing:** Validate the horizontal bar charts for benchmark IT spending are visually unchanged following the changes to accommodate stacked bar charts.
 - **Smoke Testing:** Execute smoke tests in production to confirm platform stability and availability post-deployment.
 
