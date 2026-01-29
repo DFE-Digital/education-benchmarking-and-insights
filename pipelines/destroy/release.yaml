@@ -12,20 +12,20 @@ parameters:
     values:
       - development
       - pre-production
-#  - name: featureEnvironment
-#    displayName: 'Target feature environment to destroy'
-#    type: string
-#    default: ''
-#    values:
-#      - 11
-#      - 12
-#      - 13
-#      - 14
-#      - 15
-#      - 16
-#      - 17
-#      - 18
-#      - 19
+  - name: featureEnvironment
+    displayName: 'Target feature environment to destroy'
+    type: string
+    default: ''
+    values:
+      - 11
+      - 12
+      - 13
+      - 14
+      - 15
+      - 16
+      - 17
+      - 18
+      - 19
 #  - name: areYouSure
 #    displayName: 'Are you sure you wish to destroy this environment?'
 #    type: string
