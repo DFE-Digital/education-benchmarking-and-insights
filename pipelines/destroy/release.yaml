@@ -1,9 +1,8 @@
+trigger: none
+pr: none
+
 pool:
   vmImage: 'ubuntu-20.04'
-
-trigger: none
-
-pr: none
 
 parameters:
   - name: environment
@@ -30,7 +29,7 @@ parameters:
   - name: areYouSure
     displayName: 'Are you sure you wish to destroy this environment?'
     type: string
-    default: No
+    default: 'No'
     values:
       - Yes
       - No
@@ -75,12 +74,12 @@ stages:
   - stage: Destroy
     dependsOn: [ BuildNumber ]
     displayName: 'Destroy Environment'
-    variables: 
+    variables:
     - group: 'dsi pre-prod'
     - group: 'support'
     - name: environmentPrefix
       value: $[ stageDependencies.BuildNumber.SetBuildNumber.outputs['outputVars.Environment_Prefix'] ]
-    - name: environmentName 
+    - name: environmentName
       value: $[ stageDependencies.BuildNumber.SetBuildNumber.outputs['outputVars.Environment_Name'] ]
     jobs:
       - template: destroy.yaml
