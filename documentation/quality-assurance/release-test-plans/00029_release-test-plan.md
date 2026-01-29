@@ -68,7 +68,7 @@ This release delivers the benchmark senior leadership feature behind a feature f
 
 **Release Overview:**
 
-<!-- TODO summary of outcome -->
+The release completed successfully with no issues.
 
 **Azure DevOps tickets included in this release:**
 
@@ -81,13 +81,15 @@ This release delivers the benchmark senior leadership feature behind a feature f
 ### Test Summary Report
 
 **Summary of results:**  
-<!-- TODO -- outcome and test results below -->
 
-| Test Category           | Total Tests | Passed | Failed | Pass Rate |  
-|-------------------------|:-----------:|:------:|:------:|:---------:|  
-| Smoke Tests - Prod      |      -      |   -    |   -    |   -       |  
-| Smoke Tests - Pre Prod  |      2      |   2    |   0    |   100%    |  
-| Total                   |      -      |   -    |   -    |   -       |  
+Release completed successfully with no issues.
+
+| Test Category                | Total Tests | Passed | Failed | Pass Rate |  
+|------------------------------|:-----------:|:------:|:------:|:---------:|  
+| Smoke Tests - Prod           |      1      |   -    |   -    |   -       |  
+| Smoke Tests - Pre Prod       |      1      |   1    |   0    |   100%    |
+| Regression Tests - Pre Prod  |      1      |   1    |   0    |   100%    |  
+| Total                        |      3      |   3    |   0    |   100%    |  
 
 <!-- Leave the rest of this page blank -->
 \newpage
