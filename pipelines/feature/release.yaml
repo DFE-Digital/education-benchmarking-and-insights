@@ -16,7 +16,7 @@ parameters:
   - name: featureEnvironment
     displayName: 'Target feature environment to create or update'
     type: string
-    default: ''
+    default: 11
     values:
       - 11
       - 12
