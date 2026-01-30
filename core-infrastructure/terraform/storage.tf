@@ -206,3 +206,51 @@ resource "azurerm_key_vault_secret" "backup-storage-key" {
   content_type = "token"
   depends_on   = [azurerm_key_vault_access_policy.terraform_sp_access]
 }
+
+resource "azurerm_storage_account" "databrickslz" {
+  #checkov:skip=CKV_AZURE_43:False positive on storage account adhering to the naming rules
+  #checkov:skip=CKV2_AZURE_33:See ADO backlog AB#206389
+  #checkov:skip=CKV2_AZURE_1:See ADO backlog AB#206389
+  #checkov:skip=CKV2_AZURE_40:See ADO backlog AB#206389
+  #checkov:skip=CKV2_AZURE_41:See ADO backlog AB#206389
+  #checkov:skip=CKV_AZURE_59:See ADO backlog AB#206389
+  #checkov:skip=CKV2_AZURE_50:potential false positive https://github.com/bridgecrewio/checkov/issues/6388
+  #checkov:skip=CKV_AZURE_33:False positive on queue logging due to new azurerm_storage_account_queue_properties resource (https://github.com/bridgecrewio/checkov/issues/7174)
+  name                            = "${var.environment-prefix}databrickslz"
+  location                        = azurerm_resource_group.resource-group.location
+  resource_group_name             = azurerm_resource_group.resource-group.name
+  account_tier                    = "Standard"
+  account_replication_type        = "GRS"
+  account_kind                    = "StorageV2"
+  is_hns_enabled                  = true # Required for Databricks/ADLS Gen2
+  https_traffic_only_enabled      = true
+  min_tls_version                 = "TLS1_2"
+  allow_nested_items_to_be_public = false
+  local_user_enabled              = false
+  tags                            = local.common-tags
+
+  blob_properties {
+    delete_retention_policy {
+      days = 7
+    }
+    container_delete_retention_policy {
+      days = 7
+    }
+    versioning_enabled = true
+  }
+
+  lifecycle {
+    prevent_destroy = true
+  }
+}
+
+resource "azurerm_storage_container" "landing-zone" {
+  #checkov:skip=CKV2_AZURE_21:Public access is disabled at account level
+  name                  = "landing-zone"
+  storage_account_id    = azurerm_storage_account.databrickslz.id
+  container_access_type = "private"
+
+  lifecycle {
+    prevent_destroy = true
+  }
+}
