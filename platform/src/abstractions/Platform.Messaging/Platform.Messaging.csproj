@@ -9,6 +9,8 @@
 
     <ItemGroup>
       <PackageReference Include="Azure.Storage.Queues" />
+      <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" />
+      <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" />
     </ItemGroup>
 
     <ItemGroup>
