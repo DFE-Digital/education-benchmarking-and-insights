@@ -239,9 +239,9 @@ resource "azurerm_storage_account" "databrickslz" {
     versioning_enabled = true
   }
 
-  lifecycle {
-    prevent_destroy = true
-  }
+  # lifecycle {
+  #   prevent_destroy = true
+  # }
 }
 
 resource "azurerm_storage_container" "landing-zone" {
