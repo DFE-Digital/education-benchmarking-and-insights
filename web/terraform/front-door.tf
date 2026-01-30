@@ -319,6 +319,20 @@ resource "azurerm_cdn_frontdoor_firewall_policy" "web-app-front-door-waf" {
           }
         }
       }
+
+      override {
+        rule_group_name = "PHP"
+        rule {
+          rule_id = "933210"
+          action  = "AnomalyScoring"
+          enabled = true
+          exclusion {
+            match_variable = "RequestBodyPostArgNames"
+            operator       = "Contains"
+            selector       = "Term"
+          }
+        }
+      }
     }
   }
 
