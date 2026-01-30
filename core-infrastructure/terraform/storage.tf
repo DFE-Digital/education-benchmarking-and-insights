@@ -236,7 +236,6 @@ resource "azurerm_storage_account" "databrickslz" {
     container_delete_retention_policy {
       days = 7
     }
-    versioning_enabled = true
   }
 
   # lifecycle {
