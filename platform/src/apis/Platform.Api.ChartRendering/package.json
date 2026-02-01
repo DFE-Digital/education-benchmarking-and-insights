@@ -18,7 +18,7 @@
     "api": "ts-oas ./src/openapi/index.ts /^\\w+Api$/ -o ./src/assets/openapi.json -c ./src/openapi/tsconfig.json -p ./ts-oas.json"
   },
   "dependencies": {
-    "@azure/functions": "^4.9.0",
+    "@azure/functions": "^4.11.0",
     "@xmldom/xmldom": "^0.9.8",
     "applicationinsights": "^3.12.1",
     "classnames": "^2.5.1",
