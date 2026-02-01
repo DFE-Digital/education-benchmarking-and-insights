@@ -40,7 +40,7 @@
     <PackageVersion Include="Newtonsoft.Json" Version="13.0.4" />
     <PackageVersion Include="Serilog.AspNetCore" Version="10.0.0" />
     <PackageVersion Include="Serilog.Enrichers.CorrelationId" Version="3.0.1" />
-    <PackageVersion Include="Serilog.Sinks.ApplicationInsights" Version="4.1.0" />
+    <PackageVersion Include="Serilog.Sinks.ApplicationInsights" Version="5.0.0" />
     <PackageVersion Include="SmartBreadcrumbs" Version="3.6.1" />
     <PackageVersion Include="Deque.AxeCore.Playwright" Version="4.11.0" />
     <PackageVersion Include="Microsoft.Extensions.Configuration" Version="10.0.2" />
