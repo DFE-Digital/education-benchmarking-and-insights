@@ -109,8 +109,8 @@ public class LocalAuthorityHighNeedsBenchmarkingController(
                     case FormAction.Add when string.IsNullOrWhiteSpace(viewModel.LaInput):
                         ModelState.AddModelError(nameof(viewModel.LaInput), "Select a local authority");
                         break;
-                    case FormAction.Add when comparators.Count >= 9:
-                        ModelState.AddModelError(nameof(viewModel.LaInput), "Select up to 9 comparator local authorities");
+                    case FormAction.Add when comparators.Count >= 19:
+                        ModelState.AddModelError(nameof(viewModel.LaInput), "Select up to 19 comparator local authorities");
                         break;
                     case FormAction.Add:
                         comparators.Add(viewModel.LaInput);
@@ -118,8 +118,8 @@ public class LocalAuthorityHighNeedsBenchmarkingController(
                     case FormAction.Remove when !string.IsNullOrWhiteSpace(action.Identifier):
                         comparators.Remove(action.Identifier);
                         break;
-                    case FormAction.Continue when comparators.Count is < 1 or > 9:
-                        ModelState.AddModelError(nameof(viewModel.LaInput), "Select between 1 and 9 comparator local authorities");
+                    case FormAction.Continue when comparators.Count is < 1 or > 19:
+                        ModelState.AddModelError(nameof(viewModel.LaInput), "Select between 1 and 19 comparator local authorities");
                         break;
                 }
 

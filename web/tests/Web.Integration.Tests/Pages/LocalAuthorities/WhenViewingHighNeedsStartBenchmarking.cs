@@ -75,6 +75,35 @@ public class WhenViewingHighNeedsStartBenchmarking(SchoolBenchmarkingWebAppClien
         Assert.Equal(expectedOptions, options);
     }
 
+    /*
+    [Fact]
+    public async Task CannotAddTwentiethComparator()
+    {
+        string[] selectedLAs = [
+            "LA01", "LA02", "LA03", "LA04", "LA05", "LA06", "LA07", "LA08", "LA09", "LA10",
+            "LA11", "LA12", "LA13", "LA14", "LA15", "LA16", "LA17", "LA18", "LA19"
+        ];
+        
+        var (page, _, authorities) = await SetupNavigateInitPage(selectedLAs);
+        var code = authorities.First().Code!;
+
+        var addButton = page.QuerySelector("button[name='action'][value='add']");
+        Assert.NotNull(addButton);
+
+        page = await Client.SubmitForm(page.Forms[0], addButton, f =>
+        {
+            f.SetFormValues(new Dictionary<string, string>
+            {
+                { "LaInput", code }
+            });
+        });
+
+        var errorSummary = page.QuerySelector(".govuk-error-summary");
+        Assert.NotNull(errorSummary);
+        Assert.Equal("There is a problem\nSelect between 1 and 19 comparator local authorities", errorSummary.GetInnerText().Trim());
+    }
+    */
+    
     [Fact]
     public async Task CanRemoveComparators()
     {
@@ -119,7 +148,7 @@ public class WhenViewingHighNeedsStartBenchmarking(SchoolBenchmarkingWebAppClien
 
         var errorSummary = page.QuerySelector(".govuk-error-summary");
         Assert.NotNull(errorSummary);
-        Assert.Equal("There is a problem\nSelect between 1 and 9 comparator local authorities", errorSummary.GetInnerText().Trim());
+        Assert.Equal("There is a problem\nSelect between 1 and 19 comparator local authorities", errorSummary.GetInnerText().Trim());
     }
 
     [Fact]
