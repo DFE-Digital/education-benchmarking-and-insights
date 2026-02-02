@@ -12,9 +12,9 @@ public class WhenViewingHighNeedsStartBenchmarking(SchoolBenchmarkingWebAppClien
     [Fact]
     public async Task CanDisplay()
     {
-        var (page, authority, authorities) = await SetupNavigateInitPage();
+        var (page, authority, _, otherAuthorities) = await SetupNavigateInitPage();
 
-        AssertPageLayout(page, authority, authorities);
+        AssertPageLayout(page, authority, otherAuthorities);
     }
 
     [Fact]
@@ -42,8 +42,8 @@ public class WhenViewingHighNeedsStartBenchmarking(SchoolBenchmarkingWebAppClien
     [Fact]
     public async Task CanAddComparators()
     {
-        var (page, _, authorities) = await SetupNavigateInitPage();
-        var code = authorities.First().Code!;
+        var (page, authority, _, otherAuthorities) = await SetupNavigateInitPage();
+        var code = otherAuthorities.First().Code!;
 
         var addButton = page.QuerySelector("button[name='action'][value='add']");
         Assert.NotNull(addButton);
@@ -59,8 +59,10 @@ public class WhenViewingHighNeedsStartBenchmarking(SchoolBenchmarkingWebAppClien
         var selectedTable = page.QuerySelector("#current-comparators-la");
         Assert.NotNull(selectedTable);
         var rows = selectedTable.QuerySelectorAll("tbody > tr");
-        Assert.Single(rows);
-        Assert.Equal(authorities.First().Name!, rows.Single().QuerySelector("> td")?.TextContent);
+        Assert.Equal(authority.StatisticalNeighbours!.Count() + 1, rows.Length);
+
+        var added = rows.Single(r => r.QuerySelector(">td")?.TextContent.Trim() == otherAuthorities.First().Name);
+        Assert.NotNull(added);
 
         var comparatorSelector = page.QuerySelector("#LaInput");
         Assert.NotNull(comparatorSelector);
@@ -68,10 +70,12 @@ public class WhenViewingHighNeedsStartBenchmarking(SchoolBenchmarkingWebAppClien
         var expectedOptions = new[]
         {
             "Choose local authority"
-        }.Concat(authorities
-            .Except([authorities.First()])
+        }.Concat(otherAuthorities
+            .Except([otherAuthorities.First()])
+            .OrderBy(n => n.Name)
             .Select(n => n.Name)
             .ToArray());
+
         Assert.Equal(expectedOptions, options);
     }
 
@@ -107,8 +111,8 @@ public class WhenViewingHighNeedsStartBenchmarking(SchoolBenchmarkingWebAppClien
     [Fact]
     public async Task CanRemoveComparators()
     {
-        var (page, _, authorities) = await SetupNavigateInitPage();
-        var code = authorities.First().Code!;
+        var (page, _, neighbourAuthorities, otherAuthorities) = await SetupNavigateInitPage();
+        var code = otherAuthorities.First().Code!;
 
         var addButton = page.QuerySelector("button[name='action'][value='add']");
         Assert.NotNull(addButton);
@@ -121,25 +125,54 @@ public class WhenViewingHighNeedsStartBenchmarking(SchoolBenchmarkingWebAppClien
             });
         });
 
+        var selectedTable = page.QuerySelector("#current-comparators-la");
+        Assert.NotNull(selectedTable);
+
+        var rows = selectedTable.QuerySelectorAll("tbody > tr");
+        Assert.Equal(neighbourAuthorities.Length + 1, rows.Length);
+
+
         var removeButton = page.QuerySelector($"button[name='action'][value='remove-{code}']");
         Assert.NotNull(removeButton);
+
         page = await Client.SubmitForm(page.Forms[0], removeButton, f =>
         {
             f.SetFormValues(new Dictionary<string, string>
             {
-                { "LaInput", code },
-                { "Selected", code }
+                { "LaInput", code }
             });
         });
 
-        var selectedTable = page.QuerySelector("#current-comparators-la");
-        Assert.Null(selectedTable);
+        selectedTable = page.QuerySelector("#current-comparators-la");
+        Assert.NotNull(selectedTable);
+
+        rows = selectedTable.QuerySelectorAll("tbody > tr");
+        Assert.Equal(neighbourAuthorities.Length, rows.Length);
+
+        Assert.DoesNotContain(rows, r => r.QuerySelector(">td")?.TextContent.Trim() == otherAuthorities.First().Name);
     }
 
     [Fact]
     public async Task CanDisplayValidationError()
     {
-        var (page, _, _) = await SetupNavigateInitPage();
+        var (page, _, neighbourAuthorities, _) = await SetupNavigateInitPage();
+
+        // remove each neighbour from the pre-selected LAs
+        foreach (var neighbour in neighbourAuthorities)
+        {
+            var code = neighbour.Code;
+            Assert.NotNull(code);
+            var removeButton = page.QuerySelector($"button[name='action'][value='remove-{code}']");
+            Assert.NotNull(removeButton);
+
+            page = await Client.SubmitForm(page.Forms[0], removeButton, f =>
+            {
+                f.SetFormValues(new Dictionary<string, string>
+                {
+                    { "LaInput", code }
+                });
+            });
+        }
 
         var continueButton = page.QuerySelector("button[name='action'][value='continue']");
         Assert.NotNull(continueButton);
@@ -154,7 +187,7 @@ public class WhenViewingHighNeedsStartBenchmarking(SchoolBenchmarkingWebAppClien
     [Fact]
     public async Task CanContinue()
     {
-        var (page, authority, authorities) = await SetupNavigateInitPage(["code1"]);
+        var (page, authority, authorities, _) = await SetupNavigateInitPage(["code1"]);
         var code = authorities.First().Code!;
 
         var addButton = page.QuerySelector("button[name='action'][value='add']");
@@ -174,30 +207,77 @@ public class WhenViewingHighNeedsStartBenchmarking(SchoolBenchmarkingWebAppClien
         page = await Client.SubmitForm(page.Forms[0], continueButton);
         DocumentAssert.AssertPageUrl(page, Paths.LocalAuthorityHighNeedsBenchmarking(authority.Code).ToAbsolute());
     }
+    
+    [Fact]
+    public async Task CanDisplayNeighboursPreSelected()
+    {
+        var (page, authority, neighbourAuthorities, _) = await SetupNavigateInitPage();
 
-    private async Task<(IHtmlDocument page, LocalAuthorityStatisticalNeighbours authority, LocalAuthority[] authorities)> SetupNavigateInitPage(string[]? comparators = null, string? referrer = null)
+        DocumentAssert.AssertPageUrl(page, Paths.LocalAuthorityHighNeedsStartBenchmarking(authority.Code).ToAbsolute());
+
+        var selectedTable = page.QuerySelector("#current-comparators-la");
+        Assert.NotNull(selectedTable);
+        var rows = selectedTable.QuerySelectorAll("tbody > tr");
+        Assert.NotNull(rows);
+        Assert.Equal(neighbourAuthorities.Length, rows.Length);
+
+        foreach (var neighbour in neighbourAuthorities)
+        {
+            var row = rows.SingleOrDefault(r => r.QuerySelector(">td")?.TextContent.Trim() == neighbour.Name);
+            Assert.NotNull(row);
+        }
+    }
+
+    private async Task<(
+        IHtmlDocument page,
+        LocalAuthorityStatisticalNeighbours authority,
+        LocalAuthority[] neighbourAuthorities,
+        LocalAuthority[] otherAuthorities)>
+        SetupNavigateInitPage(string[]? comparators = null, string? referrer = null)
     {
         var authority = Fixture.Build<LocalAuthorityStatisticalNeighbours>()
             .With(a => a.Code, "123")
             .Create();
 
-        var statisticalNeighbours = Fixture.Build<LocalAuthorityStatisticalNeighbour>()
-            .CreateMany()
+        var codes = Enumerable.Range(200, 30)
+            .Select(i => i.ToString())
             .ToArray();
 
-        var random = new Random();
-        authority.StatisticalNeighbours = statisticalNeighbours;
-        var authorities = Fixture.Build<LocalAuthority>()
-            .With(l => l.Code, () => random.Next(100, 999).ToString())
-            .CreateMany()
+        var statisticalNeighbours = codes.Take(9)
+            .Select(code => new LocalAuthorityStatisticalNeighbour
+            {
+                Code = code,
+                Name = $"neighbour{code}"
+            })
             .ToArray();
+
+        authority.StatisticalNeighbours = statisticalNeighbours;
+
+        var neighbourAuthorities = statisticalNeighbours
+            .Select(n => new LocalAuthority
+            {
+                Code = n.Code,
+                Name = n.Name
+            })
+            .ToArray();
+
+        var otherAuthorities = codes.Skip(9)
+            .Select(code => new LocalAuthority
+            {
+                Code = code,
+                Name = $"other{code}"
+            })
+            .ToArray();
+
+        var authorities = neighbourAuthorities
+            .Concat(otherAuthorities).ToArray();
 
         var page = await Client.SetupEstablishment(authority, authorities)
             .SetupInsights()
             .SetupLocalAuthoritiesComparators(authority.Code!, comparators ?? [])
             .Navigate(Paths.LocalAuthorityHighNeedsStartBenchmarking(authority.Code, referrer));
 
-        return (page, authority, authorities);
+        return (page, authority, neighbourAuthorities, otherAuthorities);
     }
 
     private static void AssertPageLayout(IHtmlDocument page, LocalAuthorityStatisticalNeighbours authority, LocalAuthority[] authorities)
