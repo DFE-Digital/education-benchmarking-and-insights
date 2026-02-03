@@ -157,16 +157,16 @@ public class LocalAuthorityHighNeedsBenchmarkingController(
 
     private string[] GetComparators(IEnumerable<LocalAuthorityStatisticalNeighbour>? neighbours, string code)
     {
-        var sessionSet = localAuthorityComparatorSetService
+        var sessionComparators = localAuthorityComparatorSetService
             .ReadUserDefinedComparatorSetFromSession(code)
             .Set;
 
-        return sessionSet.Length > 0
-            ? sessionSet
-            : InitialSetFromNeighbours(neighbours);
+        return sessionComparators.Length > 0
+            ? sessionComparators
+            : InitialComparatorSetFromNeighbours(neighbours);
     }
 
-    private static string[] InitialSetFromNeighbours(IEnumerable<LocalAuthorityStatisticalNeighbour>? neighbours)
+    private static string[] InitialComparatorSetFromNeighbours(IEnumerable<LocalAuthorityStatisticalNeighbour>? neighbours)
     {
         return (neighbours ?? [])
             .Select(n => n.Code)
