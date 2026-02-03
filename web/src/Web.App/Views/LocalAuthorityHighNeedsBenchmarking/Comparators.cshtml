@@ -60,8 +60,12 @@
 }
 
 <h2 class="govuk-heading-m">
-    Add local authorities
+    Add a local authority
 </h2>
+
+<p class="govuk-body">
+    You can compare up to 20 local authorities at a time.
+</p>
 
 <form action="@Url.Action("Comparators", "LocalAuthorityHighNeedsBenchmarking", new { Model.Code })" method="post">
     @if (!string.IsNullOrWhiteSpace(Model.Referrer))
