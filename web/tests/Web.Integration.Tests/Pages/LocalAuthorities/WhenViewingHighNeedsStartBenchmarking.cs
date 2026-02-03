@@ -103,7 +103,7 @@ public class WhenViewingHighNeedsStartBenchmarking(SchoolBenchmarkingWebAppClien
         Assert.Equal("There is a problem\nSelect between 1 and 19 comparator local authorities", errorSummary.GetInnerText().Trim());
     }
     */
-    
+
     [Fact]
     public async Task CanRemoveComparators()
     {
