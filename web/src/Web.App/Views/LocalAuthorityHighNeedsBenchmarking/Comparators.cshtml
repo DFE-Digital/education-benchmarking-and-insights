@@ -49,15 +49,23 @@
     </details>
 }
 
-<h2 class="govuk-heading-m">
-    Add a local authority
-</h2>
-
-<p class="govuk-body">
-    You can compare up to 20 local authorities at a time.
-</p>
-
 <form action="@Url.Action("Comparators", "LocalAuthorityHighNeedsBenchmarking", new { Model.Code })" method="post">
+
+    <div class="govuk-button-group">
+        <button type="submit" class="govuk-button" data-module="govuk-button" name="action"
+                value="@FormAction.Continue">
+            Benchmark high needs spending
+        </button>
+    </div>
+
+    <h2 class="govuk-heading-m">
+        Add a local authority
+    </h2>
+
+    <p class="govuk-body">
+        You can compare up to 20 local authorities at a time.
+    </p>
+
     @if (!string.IsNullOrWhiteSpace(Model.Referrer))
     {
         <input name="@nameof(LocalAuthorityHighNeedsStartBenchmarkingViewModel.Referrer)" value="@Model.Referrer"
@@ -70,15 +78,6 @@
         Model.Comparators
     })
 
-    <div class="govuk-button-group">
-        <button type="submit" class="govuk-button" data-module="govuk-button" name="action"
-                value="@FormAction.Continue">
-            Save and continue
-        </button>
-        <a class="govuk-link govuk-link--no-visited-state" href="@referrer">
-            Cancel
-        </a>
-    </div>
 </form>
 
 @section scripts
