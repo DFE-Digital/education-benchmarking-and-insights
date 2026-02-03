@@ -175,27 +175,6 @@ public class WhenViewingHighNeedsStartBenchmarking(SchoolBenchmarkingWebAppClien
         DocumentAssert.AssertPageUrl(page, Paths.LocalAuthorityHighNeedsBenchmarking(authority.Code).ToAbsolute());
     }
 
-    [Theory]
-    [InlineData("")]
-    [InlineData("benchmarking")]
-    public async Task CanCancel(string referrer)
-    {
-        var (page, authority, _) = await SetupNavigateInitPage(null, referrer);
-
-        var cancelButton = page.QuerySelector("a.govuk-link:contains('Cancel')") as IHtmlAnchorElement;
-        Assert.NotNull(cancelButton);
-
-        page = await Client.Follow(cancelButton);
-        if (referrer == "benchmarking")
-        {
-            DocumentAssert.AssertPageUrl(page, Paths.LocalAuthorityHighNeedsBenchmarking(authority.Code).ToAbsolute(), HttpStatusCode.NotFound);
-        }
-        else
-        {
-            DocumentAssert.AssertPageUrl(page, Paths.LocalAuthorityHome(authority.Code).ToAbsolute());
-        }
-    }
-
     private async Task<(IHtmlDocument page, LocalAuthorityStatisticalNeighbours authority, LocalAuthority[] authorities)> SetupNavigateInitPage(string[]? comparators = null, string? referrer = null)
     {
         var authority = Fixture.Build<LocalAuthorityStatisticalNeighbours>()
@@ -232,17 +211,7 @@ public class WhenViewingHighNeedsStartBenchmarking(SchoolBenchmarkingWebAppClien
         DocumentAssert.Breadcrumbs(page, expectedBreadcrumbs);
 
         Assert.NotNull(authority.Name);
-        DocumentAssert.TitleAndH1(page, "Choose local authorities to benchmark against - Financial Benchmarking and Insights Tool - GOV.UK", "Choose local authorities to benchmark against");
-
-        var orderedList = page.QuerySelector("ol.govuk-list--number");
-        Assert.NotNull(orderedList);
-        var listItems = orderedList.QuerySelectorAll("li").Select(q => q.TextContent).ToArray();
-        var expectedListItems = authority.StatisticalNeighbours?
-            .OrderBy(n => n.Position)
-            .ThenBy(n => n.Name)
-            .Select(n => n.Name)
-            .ToArray();
-        Assert.Equal(expectedListItems, listItems);
+        DocumentAssert.TitleAndH1(page, "Choose local authorities to compare high needs spending - Financial Benchmarking and Insights Tool - GOV.UK", "Choose local authorities to compare high needs spending");
 
         var comparatorSelector = page.QuerySelector("#LaInput");
         Assert.NotNull(comparatorSelector);
@@ -260,8 +229,5 @@ public class WhenViewingHighNeedsStartBenchmarking(SchoolBenchmarkingWebAppClien
 
         var continueButton = page.QuerySelector("button[name='action'][value='continue']");
         Assert.NotNull(continueButton);
-
-        var cancelButton = page.QuerySelector("a.govuk-link:contains('Cancel')");
-        Assert.NotNull(cancelButton);
     }
 }
