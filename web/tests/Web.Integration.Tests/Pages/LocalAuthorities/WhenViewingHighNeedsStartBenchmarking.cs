@@ -207,7 +207,7 @@ public class WhenViewingHighNeedsStartBenchmarking(SchoolBenchmarkingWebAppClien
         page = await Client.SubmitForm(page.Forms[0], continueButton);
         DocumentAssert.AssertPageUrl(page, Paths.LocalAuthorityHighNeedsBenchmarking(authority.Code).ToAbsolute());
     }
-    
+
     [Fact]
     public async Task CanDisplayNeighboursPreSelected()
     {
