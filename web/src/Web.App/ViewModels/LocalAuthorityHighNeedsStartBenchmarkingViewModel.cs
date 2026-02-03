@@ -20,4 +20,12 @@ public class LocalAuthorityHighNeedsStartBenchmarkingViewModel(LocalAuthoritySta
         .Where(c => c != Code)
         .Distinct()
         .ToArray();
+
+    public string[] NeighbourComparators => Comparators
+        .Where(c => localAuthority.StatisticalNeighbours != null && localAuthority.StatisticalNeighbours.Any(n => n.Code == c))
+        .ToArray();
+
+    public string[] OtherComparators => Comparators
+        .Where(c => localAuthority.StatisticalNeighbours != null && localAuthority.StatisticalNeighbours.All(n => n.Code != c))
+        .ToArray();
 }

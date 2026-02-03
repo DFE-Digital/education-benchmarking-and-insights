@@ -40,10 +40,18 @@ public class WhenViewingHighNeedsStartBenchmarking(SchoolBenchmarkingWebAppClien
     }
 
     [Fact]
-    public async Task CanAddComparators()
+    public async Task CanAddOtherComparators()
     {
-        var (page, authority, _, otherAuthorities) = await SetupNavigateInitPage();
+        var (page, _, neighbourAuthorities, otherAuthorities) = await SetupNavigateInitPage();
         var code = otherAuthorities.First().Code!;
+
+        var neighbourSelectedTable = page.QuerySelector("#current-comparators-neighbours");
+        Assert.NotNull(neighbourSelectedTable);
+        var neighbourRows = neighbourSelectedTable.QuerySelectorAll("tbody > tr");
+        Assert.Equal(neighbourAuthorities.Length, neighbourRows.Length);
+
+        var otherSelectedTable = page.QuerySelector("#current-comparators-others");
+        Assert.Null(otherSelectedTable);
 
         var addButton = page.QuerySelector("button[name='action'][value='add']");
         Assert.NotNull(addButton);
@@ -56,13 +64,15 @@ public class WhenViewingHighNeedsStartBenchmarking(SchoolBenchmarkingWebAppClien
             });
         });
 
-        var selectedTable = page.QuerySelector("#current-comparators-la");
-        Assert.NotNull(selectedTable);
-        var rows = selectedTable.QuerySelectorAll("tbody > tr");
-        Assert.Equal(authority.StatisticalNeighbours!.Count() + 1, rows.Length);
+        neighbourSelectedTable = page.QuerySelector("#current-comparators-neighbours");
+        Assert.NotNull(neighbourSelectedTable);
+        neighbourRows = neighbourSelectedTable.QuerySelectorAll("tbody > tr");
+        Assert.Equal(neighbourAuthorities.Length, neighbourRows.Length);
 
-        var added = rows.Single(r => r.QuerySelector(">td")?.TextContent.Trim() == otherAuthorities.First().Name);
-        Assert.NotNull(added);
+        otherSelectedTable = page.QuerySelector("#current-comparators-others");
+        Assert.NotNull(otherSelectedTable);
+        var otherRows = otherSelectedTable.QuerySelectorAll("tbody > tr");
+        Assert.Equal(1, otherRows.Length);
 
         var comparatorSelector = page.QuerySelector("#LaInput");
         Assert.NotNull(comparatorSelector);
@@ -109,13 +119,16 @@ public class WhenViewingHighNeedsStartBenchmarking(SchoolBenchmarkingWebAppClien
     */
 
     [Fact]
-    public async Task CanRemoveComparators()
+    public async Task CanRemoveOtherComparators()
     {
         var (page, _, neighbourAuthorities, otherAuthorities) = await SetupNavigateInitPage();
         var code = otherAuthorities.First().Code!;
 
         var addButton = page.QuerySelector("button[name='action'][value='add']");
         Assert.NotNull(addButton);
+
+        var otherSelectedTable = page.QuerySelector("#current-comparators-others");
+        Assert.Null(otherSelectedTable);
 
         page = await Client.SubmitForm(page.Forms[0], addButton, f =>
         {
@@ -125,11 +138,11 @@ public class WhenViewingHighNeedsStartBenchmarking(SchoolBenchmarkingWebAppClien
             });
         });
 
-        var selectedTable = page.QuerySelector("#current-comparators-la");
-        Assert.NotNull(selectedTable);
+        otherSelectedTable = page.QuerySelector("#current-comparators-others");
+        Assert.NotNull(otherSelectedTable);
 
-        var rows = selectedTable.QuerySelectorAll("tbody > tr");
-        Assert.Equal(neighbourAuthorities.Length + 1, rows.Length);
+        var otherRows = otherSelectedTable.QuerySelectorAll("tbody > tr");
+        Assert.Equal(1, otherRows.Length);
 
 
         var removeButton = page.QuerySelector($"button[name='action'][value='remove-{code}']");
@@ -143,13 +156,52 @@ public class WhenViewingHighNeedsStartBenchmarking(SchoolBenchmarkingWebAppClien
             });
         });
 
-        selectedTable = page.QuerySelector("#current-comparators-la");
-        Assert.NotNull(selectedTable);
+        var neighboursSelectedTable = page.QuerySelector("#current-comparators-neighbours");
+        Assert.NotNull(neighboursSelectedTable);
 
-        rows = selectedTable.QuerySelectorAll("tbody > tr");
-        Assert.Equal(neighbourAuthorities.Length, rows.Length);
+        var neighboursRows = neighboursSelectedTable.QuerySelectorAll("tbody > tr");
+        Assert.Equal(neighbourAuthorities.Length, neighboursRows.Length);
+    }
 
-        Assert.DoesNotContain(rows, r => r.QuerySelector(">td")?.TextContent.Trim() == otherAuthorities.First().Name);
+    [Fact]
+    public async Task CanRemoveNeighbourComparators()
+    {
+        var (page, _, neighbourAuthorities, _) = await SetupNavigateInitPage();
+        var code = neighbourAuthorities.First().Code!;
+
+        var addButton = page.QuerySelector("button[name='action'][value='add']");
+        Assert.NotNull(addButton);
+
+        page = await Client.SubmitForm(page.Forms[0], addButton, f =>
+        {
+            f.SetFormValues(new Dictionary<string, string>
+            {
+                { "LaInput", code }
+            });
+        });
+
+        var neighbourSelectedTable = page.QuerySelector("#current-comparators-neighbours");
+        Assert.NotNull(neighbourSelectedTable);
+
+        var neighboursRows = neighbourSelectedTable.QuerySelectorAll("tbody > tr");
+        Assert.Equal(neighbourAuthorities.Length, neighboursRows.Length);
+
+        var removeButton = page.QuerySelector($"button[name='action'][value='remove-{code}']");
+        Assert.NotNull(removeButton);
+
+        page = await Client.SubmitForm(page.Forms[0], removeButton, f =>
+        {
+            f.SetFormValues(new Dictionary<string, string>
+            {
+                { "LaInput", code }
+            });
+        });
+
+        neighbourSelectedTable = page.QuerySelector("#current-comparators-neighbours");
+        Assert.NotNull(neighbourSelectedTable);
+
+        neighboursRows = neighbourSelectedTable.QuerySelectorAll("tbody > tr");
+        Assert.Equal(neighbourAuthorities.Length - 1, neighboursRows.Length);
     }
 
     [Fact]
@@ -215,7 +267,7 @@ public class WhenViewingHighNeedsStartBenchmarking(SchoolBenchmarkingWebAppClien
 
         DocumentAssert.AssertPageUrl(page, Paths.LocalAuthorityHighNeedsStartBenchmarking(authority.Code).ToAbsolute());
 
-        var selectedTable = page.QuerySelector("#current-comparators-la");
+        var selectedTable = page.QuerySelector("#current-comparators-neighbours");
         Assert.NotNull(selectedTable);
         var rows = selectedTable.QuerySelectorAll("tbody > tr");
         Assert.NotNull(rows);
