@@ -77,7 +77,7 @@ public class LocalAuthorityHighNeedsBenchmarkingController(
                 var localAuthority = await LocalAuthorityStatisticalNeighbours(code);
                 var viewModel = new LocalAuthorityHighNeedsStartBenchmarkingViewModel(
                     localAuthority,
-                    localAuthorityComparatorSetService.ReadUserDefinedComparatorSetFromSession(code).Set,
+                    GetComparators(localAuthority.StatisticalNeighbours, code),
                     referrer);
                 return View(viewModel);
             }
@@ -154,4 +154,23 @@ public class LocalAuthorityHighNeedsBenchmarkingController(
     private async Task<LocalAuthorityStatisticalNeighbours> LocalAuthorityStatisticalNeighbours(string code) => await establishmentApi
         .GetLocalAuthorityStatisticalNeighbours(code)
         .GetResultOrThrow<LocalAuthorityStatisticalNeighbours>();
+
+    private string[] GetComparators(IEnumerable<LocalAuthorityStatisticalNeighbour>? neighbours, string code)
+    {
+        var sessionComparators = localAuthorityComparatorSetService
+            .ReadUserDefinedComparatorSetFromSession(code)
+            .Set;
+
+        return sessionComparators.Length > 0
+            ? sessionComparators
+            : InitialComparatorSetFromNeighbours(neighbours);
+    }
+
+    private static string[] InitialComparatorSetFromNeighbours(IEnumerable<LocalAuthorityStatisticalNeighbour>? neighbours)
+    {
+        return (neighbours ?? [])
+            .Select(n => n.Code)
+            .Cast<string>()
+            .ToArray();
+    }
 }
