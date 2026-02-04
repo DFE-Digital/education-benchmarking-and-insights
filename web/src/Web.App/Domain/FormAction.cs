@@ -9,6 +9,7 @@ public class FormAction
     public const string Remove = "remove";
     public const string Add = "add";
     public const string Continue = "continue";
+    public const string Clear = "clear";
 
     public string? Action { get; private set; }
     public string? Identifier { get; private set; }
