@@ -124,7 +124,7 @@ public class LocalAuthorityHighNeedsBenchmarkingController(
                         ModelState.AddModelError(nameof(viewModel.LaInput), "Select between 1 and 19 comparator local authorities");
                         break;
                     case FormAction.Reset:
-                        comparators = InitialComparatorSetFromNeighbours(localAuthority.StatisticalNeighbours).ToList();
+                        comparators = InitialComparatorSetFromNeighbours(localAuthority.StatisticalNeighbours);
                         break;
                     case FormAction.Clear:
                         comparators = [];
@@ -169,14 +169,11 @@ public class LocalAuthorityHighNeedsBenchmarkingController(
 
         return sessionComparators.Length > 0
             ? sessionComparators
-            : InitialComparatorSetFromNeighbours(neighbours);
+            : InitialComparatorSetFromNeighbours(neighbours).ToArray();
     }
 
-    private static string[] InitialComparatorSetFromNeighbours(IEnumerable<LocalAuthorityStatisticalNeighbour>? neighbours)
-    {
-        return (neighbours ?? [])
-            .Select(n => n.Code)
-            .Cast<string>()
-            .ToArray();
-    }
+    private static List<string> InitialComparatorSetFromNeighbours(IEnumerable<LocalAuthorityStatisticalNeighbour>? neighbours) => (neighbours ?? [])
+        .Select(n => n.Code)
+        .Cast<string>()
+        .ToList();
 }
