@@ -8,11 +8,11 @@ namespace Web.App.ViewComponents;
 
 public class LocalAuthorityComparatorsViewComponent(IEstablishmentApi establishmentApi) : ViewComponent
 {
-    public async Task<IViewComponentResult> InvokeAsync(string code, string[] comparators)
+    public async Task<IViewComponentResult> InvokeAsync(string code, string[] comparators, string[] neighbourComparators, string[] otherComparators)
     {
         var localAuthorities = await establishmentApi
             .GetLocalAuthorities()
             .GetResultOrThrow<IEnumerable<LocalAuthority>>();
-        return View(new LocalAuthorityComparatorsViewModel(code, localAuthorities, comparators));
+        return View(new LocalAuthorityComparatorsViewModel(code, localAuthorities, comparators, neighbourComparators, otherComparators));
     }
 }
