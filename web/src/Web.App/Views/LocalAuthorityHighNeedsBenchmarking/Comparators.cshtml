@@ -10,6 +10,10 @@
         new { Model.Code });
 }
 
+<p class="govuk-body">
+    <a class="govuk-back-link" href="@referrer">Back</a>
+</p>
+
 @await Component.InvokeAsync("EstablishmentHeading", new
 {
     title = ViewData[ViewDataKeys.Title],
