@@ -239,8 +239,8 @@ public class WhenViewingHighNeedsStartBenchmarking(SchoolBenchmarkingWebAppClien
     [Fact]
     public async Task CanContinue()
     {
-        var (page, authority, authorities, _) = await SetupNavigateInitPage(["code1"]);
-        var code = authorities.First().Code!;
+        var (page, authority, _, otherAuthorities) = await SetupNavigateInitPage(["code1"]);
+        var code = otherAuthorities.First().Code!;
 
         var addButton = page.QuerySelector("button[name='action'][value='add']");
         Assert.NotNull(addButton);
@@ -278,6 +278,70 @@ public class WhenViewingHighNeedsStartBenchmarking(SchoolBenchmarkingWebAppClien
             var row = rows.SingleOrDefault(r => r.QuerySelector(">td")?.TextContent.Trim() == neighbour.Name);
             Assert.NotNull(row);
         }
+    }
+
+    [Fact]
+    public async Task CanRemoveAllComparators()
+    {
+        var (page, authority, _, otherAuthorities) = await SetupNavigateInitPage();
+
+        var code = otherAuthorities.First().Code!;
+        var addButton = page.QuerySelector("button[name='action'][value='add']");
+        Assert.NotNull(addButton);
+
+        page = await Client.SubmitForm(page.Forms[0], addButton, f =>
+        {
+            f.SetFormValues(new Dictionary<string, string>
+            {
+                { "LaInput", code }
+            });
+        });
+
+        var removeAllButton = page.QuerySelector("button[name='action'][value='clear']");
+        Assert.NotNull(removeAllButton);
+
+        page = await Client.SubmitForm(page.Forms[0], removeAllButton);
+
+        DocumentAssert.AssertPageUrl(page, Paths.LocalAuthorityHighNeedsStartBenchmarking(authority.Code).ToAbsolute());
+
+        var neighbourSelectedTable = page.QuerySelector("#current-comparators-neighbours");
+        Assert.Null(neighbourSelectedTable);
+        var otherSelectedTable = page.QuerySelector("#current-comparators-others");
+        Assert.Null(otherSelectedTable);
+    }
+
+    [Fact]
+    public async Task CanResetToNeighboursComparators()
+    {
+        var (page, authority, neighbourAuthorities, otherAuthorities) = await SetupNavigateInitPage();
+
+        var code = otherAuthorities.First().Code!;
+        var addButton = page.QuerySelector("button[name='action'][value='add']");
+        Assert.NotNull(addButton);
+
+        page = await Client.SubmitForm(page.Forms[0], addButton, f =>
+        {
+            f.SetFormValues(new Dictionary<string, string>
+            {
+                { "LaInput", code }
+            });
+        });
+
+        var resetButton = page.QuerySelector("button[name='action'][value='reset']");
+        Assert.NotNull(resetButton);
+
+        page = await Client.SubmitForm(page.Forms[0], resetButton);
+
+        DocumentAssert.AssertPageUrl(page, Paths.LocalAuthorityHighNeedsStartBenchmarking(authority.Code).ToAbsolute());
+
+        var neighbourSelectedTable = page.QuerySelector("#current-comparators-neighbours");
+        Assert.NotNull(neighbourSelectedTable);
+        var rows = neighbourSelectedTable.QuerySelectorAll("tbody > tr");
+        Assert.NotNull(rows);
+        Assert.Equal(neighbourAuthorities.Length, rows.Length);
+
+        var otherSelectedTable = page.QuerySelector("#current-comparators-others");
+        Assert.Null(otherSelectedTable);
     }
 
     private async Task<(
@@ -361,5 +425,11 @@ public class WhenViewingHighNeedsStartBenchmarking(SchoolBenchmarkingWebAppClien
 
         var continueButton = page.QuerySelector("button[name='action'][value='continue']");
         Assert.NotNull(continueButton);
+
+        var removeAllButton = page.QuerySelector("button[name='action'][value='clear']");
+        Assert.NotNull(removeAllButton);
+
+        var resetButton = page.QuerySelector("button[name='action'][value='reset']");
+        Assert.NotNull(resetButton);
     }
 }
