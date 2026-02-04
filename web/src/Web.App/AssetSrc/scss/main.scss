@@ -1206,3 +1206,36 @@ table#current-comparators-la {
     margin-top: govuk-spacing(6);
   }
 }
+
+.app-card-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: govuk-spacing(4);
+  margin-bottom: govuk-spacing(4);
+}
+
+.app-removable-card {
+  box-sizing: border-box;
+  flex: 1 1 100%;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid $govuk-border-colour;
+  gap: govuk-spacing(4);
+  align-items: center;
+  text-align: center;
+  padding: govuk-spacing(4);
+
+  @media ((min-width: 665px)) {
+    flex: 0 0 calc((100% - #{govuk-spacing(4)}) / 2);
+    flex-direction: row;
+    justify-content: space-between;
+    text-align: left;
+  }
+
+  @media (min-width: 980px) {
+    flex: 0 0 calc((100% - (2 * #{govuk-spacing(4)})) / 3);
+    flex-direction: row;
+    justify-content: space-between;
+    text-align: left;
+  }
+}

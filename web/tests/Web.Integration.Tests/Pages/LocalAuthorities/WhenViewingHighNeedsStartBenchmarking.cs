@@ -45,13 +45,13 @@ public class WhenViewingHighNeedsStartBenchmarking(SchoolBenchmarkingWebAppClien
         var (page, _, neighbourAuthorities, otherAuthorities) = await SetupNavigateInitPage();
         var code = otherAuthorities.First().Code!;
 
-        var neighbourSelectedTable = page.QuerySelector("#current-comparators-neighbours");
-        Assert.NotNull(neighbourSelectedTable);
-        var neighbourRows = neighbourSelectedTable.QuerySelectorAll("tbody > tr");
-        Assert.Equal(neighbourAuthorities.Length, neighbourRows.Length);
+        var neighboursSelected = page.QuerySelector("#current-comparators-neighbours");
+        Assert.NotNull(neighboursSelected);
+        var neighbourCards = neighboursSelected.QuerySelectorAll(".app-removable-card");
+        Assert.Equal(neighbourAuthorities.Length, neighbourCards.Length);
 
-        var otherSelectedTable = page.QuerySelector("#current-comparators-others");
-        Assert.Null(otherSelectedTable);
+        var othersSelected = page.QuerySelector("#current-comparators-others");
+        Assert.Null(othersSelected);
 
         var addButton = page.QuerySelector("button[name='action'][value='add']");
         Assert.NotNull(addButton);
@@ -64,15 +64,15 @@ public class WhenViewingHighNeedsStartBenchmarking(SchoolBenchmarkingWebAppClien
             });
         });
 
-        neighbourSelectedTable = page.QuerySelector("#current-comparators-neighbours");
-        Assert.NotNull(neighbourSelectedTable);
-        neighbourRows = neighbourSelectedTable.QuerySelectorAll("tbody > tr");
-        Assert.Equal(neighbourAuthorities.Length, neighbourRows.Length);
+        neighboursSelected = page.QuerySelector("#current-comparators-neighbours");
+        Assert.NotNull(neighboursSelected);
+        neighbourCards = neighboursSelected.QuerySelectorAll(".app-removable-card");
+        Assert.Equal(neighbourAuthorities.Length, neighbourCards.Length);
 
-        otherSelectedTable = page.QuerySelector("#current-comparators-others");
-        Assert.NotNull(otherSelectedTable);
-        var otherRows = otherSelectedTable.QuerySelectorAll("tbody > tr");
-        Assert.Equal(1, otherRows.Length);
+        othersSelected = page.QuerySelector("#current-comparators-others");
+        Assert.NotNull(othersSelected);
+        var otherCards = othersSelected.QuerySelectorAll(".app-removable-card");
+        Assert.Equal(1, otherCards.Length);
 
         var comparatorSelector = page.QuerySelector("#LaInput");
         Assert.NotNull(comparatorSelector);
@@ -127,8 +127,8 @@ public class WhenViewingHighNeedsStartBenchmarking(SchoolBenchmarkingWebAppClien
         var addButton = page.QuerySelector("button[name='action'][value='add']");
         Assert.NotNull(addButton);
 
-        var otherSelectedTable = page.QuerySelector("#current-comparators-others");
-        Assert.Null(otherSelectedTable);
+        var othersSelected = page.QuerySelector("#current-comparators-others");
+        Assert.Null(othersSelected);
 
         page = await Client.SubmitForm(page.Forms[0], addButton, f =>
         {
@@ -138,11 +138,11 @@ public class WhenViewingHighNeedsStartBenchmarking(SchoolBenchmarkingWebAppClien
             });
         });
 
-        otherSelectedTable = page.QuerySelector("#current-comparators-others");
-        Assert.NotNull(otherSelectedTable);
+        othersSelected = page.QuerySelector("#current-comparators-others");
+        Assert.NotNull(othersSelected);
 
-        var otherRows = otherSelectedTable.QuerySelectorAll("tbody > tr");
-        Assert.Equal(1, otherRows.Length);
+        var othersCards = othersSelected.QuerySelectorAll(".app-removable-card");
+        Assert.Equal(1, othersCards.Length);
 
 
         var removeButton = page.QuerySelector($"button[name='action'][value='remove-{code}']");
@@ -156,11 +156,11 @@ public class WhenViewingHighNeedsStartBenchmarking(SchoolBenchmarkingWebAppClien
             });
         });
 
-        var neighboursSelectedTable = page.QuerySelector("#current-comparators-neighbours");
-        Assert.NotNull(neighboursSelectedTable);
+        var neighboursSelected = page.QuerySelector("#current-comparators-neighbours");
+        Assert.NotNull(neighboursSelected);
 
-        var neighboursRows = neighboursSelectedTable.QuerySelectorAll("tbody > tr");
-        Assert.Equal(neighbourAuthorities.Length, neighboursRows.Length);
+        var neighboursCards = neighboursSelected.QuerySelectorAll(".app-removable-card");
+        Assert.Equal(neighbourAuthorities.Length, neighboursCards.Length);
     }
 
     [Fact]
@@ -180,11 +180,11 @@ public class WhenViewingHighNeedsStartBenchmarking(SchoolBenchmarkingWebAppClien
             });
         });
 
-        var neighbourSelectedTable = page.QuerySelector("#current-comparators-neighbours");
-        Assert.NotNull(neighbourSelectedTable);
+        var neighboursSelected = page.QuerySelector("#current-comparators-neighbours");
+        Assert.NotNull(neighboursSelected);
 
-        var neighboursRows = neighbourSelectedTable.QuerySelectorAll("tbody > tr");
-        Assert.Equal(neighbourAuthorities.Length, neighboursRows.Length);
+        var neighboursCards = neighboursSelected.QuerySelectorAll(".app-removable-card");
+        Assert.Equal(neighbourAuthorities.Length, neighboursCards.Length);
 
         var removeButton = page.QuerySelector($"button[name='action'][value='remove-{code}']");
         Assert.NotNull(removeButton);
@@ -197,11 +197,11 @@ public class WhenViewingHighNeedsStartBenchmarking(SchoolBenchmarkingWebAppClien
             });
         });
 
-        neighbourSelectedTable = page.QuerySelector("#current-comparators-neighbours");
-        Assert.NotNull(neighbourSelectedTable);
+        neighboursSelected = page.QuerySelector("#current-comparators-neighbours");
+        Assert.NotNull(neighboursSelected);
 
-        neighboursRows = neighbourSelectedTable.QuerySelectorAll("tbody > tr");
-        Assert.Equal(neighbourAuthorities.Length - 1, neighboursRows.Length);
+        neighboursCards = neighboursSelected.QuerySelectorAll(".app-removable-card");
+        Assert.Equal(neighbourAuthorities.Length - 1, neighboursCards.Length);
     }
 
     [Fact]
@@ -267,16 +267,16 @@ public class WhenViewingHighNeedsStartBenchmarking(SchoolBenchmarkingWebAppClien
 
         DocumentAssert.AssertPageUrl(page, Paths.LocalAuthorityHighNeedsStartBenchmarking(authority.Code).ToAbsolute());
 
-        var selectedTable = page.QuerySelector("#current-comparators-neighbours");
-        Assert.NotNull(selectedTable);
-        var rows = selectedTable.QuerySelectorAll("tbody > tr");
-        Assert.NotNull(rows);
-        Assert.Equal(neighbourAuthorities.Length, rows.Length);
+        var selectedNeighbours = page.QuerySelector("#current-comparators-neighbours");
+        Assert.NotNull(selectedNeighbours);
+        var cards = selectedNeighbours.QuerySelectorAll(".app-removable-card");
+        Assert.NotNull(cards);
+        Assert.Equal(neighbourAuthorities.Length, cards.Length);
 
         foreach (var neighbour in neighbourAuthorities)
         {
-            var row = rows.SingleOrDefault(r => r.QuerySelector(">td")?.TextContent.Trim() == neighbour.Name);
-            Assert.NotNull(row);
+            var card = cards.SingleOrDefault(r => r.QuerySelector("p")?.TextContent.Trim() == neighbour.Name);
+            Assert.NotNull(card);
         }
     }
 
@@ -326,10 +326,10 @@ public class WhenViewingHighNeedsStartBenchmarking(SchoolBenchmarkingWebAppClien
         removeAllButton = page.QuerySelector("button[name='action'][value='clear']");
         Assert.Null(removeAllButton);
 
-        var neighbourSelectedTable = page.QuerySelector("#current-comparators-neighbours");
-        Assert.Null(neighbourSelectedTable);
-        var otherSelectedTable = page.QuerySelector("#current-comparators-others");
-        Assert.Null(otherSelectedTable);
+        var neighboursSelected = page.QuerySelector("#current-comparators-neighbours");
+        Assert.Null(neighboursSelected);
+        var othersSelected = page.QuerySelector("#current-comparators-others");
+        Assert.Null(othersSelected);
     }
 
     [Fact]
@@ -356,14 +356,14 @@ public class WhenViewingHighNeedsStartBenchmarking(SchoolBenchmarkingWebAppClien
 
         DocumentAssert.AssertPageUrl(page, Paths.LocalAuthorityHighNeedsStartBenchmarking(authority.Code).ToAbsolute());
 
-        var neighbourSelectedTable = page.QuerySelector("#current-comparators-neighbours");
-        Assert.NotNull(neighbourSelectedTable);
-        var rows = neighbourSelectedTable.QuerySelectorAll("tbody > tr");
-        Assert.NotNull(rows);
-        Assert.Equal(neighbourAuthorities.Length, rows.Length);
+        var neighboursSelected = page.QuerySelector("#current-comparators-neighbours");
+        Assert.NotNull(neighboursSelected);
+        var cards = neighboursSelected.QuerySelectorAll(".app-removable-card");
+        Assert.NotNull(cards);
+        Assert.Equal(neighbourAuthorities.Length, cards.Length);
 
-        var otherSelectedTable = page.QuerySelector("#current-comparators-others");
-        Assert.Null(otherSelectedTable);
+        var othersSelected = page.QuerySelector("#current-comparators-others");
+        Assert.Null(othersSelected);
     }
 
     private async Task<(
