@@ -280,6 +280,25 @@ public class WhenViewingHighNeedsStartBenchmarking(SchoolBenchmarkingWebAppClien
         }
     }
 
+    [Theory]
+    [InlineData(null)]
+    [InlineData("benchmarking")]
+    public async Task CanNavigateBack(string? referrer)
+    {
+        var (page, authority, _, _) = await SetupNavigateInitPage(["code1"], referrer);
+
+        var backLink = page.QuerySelector("a.govuk-back-link") as IHtmlElement;
+        Assert.NotNull(backLink);
+
+        var newPage = await Client.Follow(backLink);
+
+        var expectedPage = string.IsNullOrEmpty(referrer)
+            ? Paths.LocalAuthorityHome(authority.Code).ToAbsolute()
+            : Paths.LocalAuthorityHighNeedsBenchmarking(authority.Code).ToAbsolute();
+
+        DocumentAssert.AssertPageUrl(newPage, expectedPage);
+    }
+
     [Fact]
     public async Task CanRemoveAllComparators()
     {
