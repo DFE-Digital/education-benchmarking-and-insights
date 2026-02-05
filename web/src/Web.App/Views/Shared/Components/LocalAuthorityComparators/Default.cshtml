@@ -6,7 +6,7 @@
     var hasLaInputError = ViewData.ModelState.HasError(nameof(LocalAuthorityComparatorViewModel.LaInput));
 }
 
-<div class="select-row">
+<div class="select-row govuk-!-margin-bottom-0">
     <div class="select-column-two-thirds">
         <div
             class="govuk-form-group govuk-!-width-full@(hasLaInputError ? " govuk-form-group--error" : string.Empty)">
@@ -42,6 +42,28 @@
             Add
         </button>
     </div>
+</div>
+
+<div class="govuk-button-group">
+    <button 
+        type="submit" 
+        class="govuk-button govuk-button--secondary"
+        data-module="govuk-button"
+        name="action"
+        value="@FormAction.Reset">
+        Reset to statistical neighbours
+    </button>
+    @if (Model.SelectedNeighbours.Any() || Model.SelectedOthers.Any())
+    {
+        <button 
+            type="submit" 
+            class="govuk-button govuk-button--secondary"
+            data-module="govuk-button"
+            name="action"
+            value="@FormAction.Clear">
+            Remove all local authorities
+        </button>
+    }
 </div>
 
 <h3 class="govuk-heading-m">

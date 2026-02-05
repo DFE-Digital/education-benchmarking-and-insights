@@ -101,6 +101,8 @@ public class LocalAuthorityHighNeedsBenchmarkingController(
         {
             try
             {
+                var localAuthority = await LocalAuthorityStatisticalNeighbours(code);
+
                 var comparators = new List<string>(viewModel.Selected);
                 FormAction action = viewModel.Action ?? throw new ArgumentNullException(nameof(viewModel));
 
@@ -121,6 +123,12 @@ public class LocalAuthorityHighNeedsBenchmarkingController(
                     case FormAction.Continue when comparators.Count is < 1 or > 19:
                         ModelState.AddModelError(nameof(viewModel.LaInput), "Select between 1 and 19 comparator local authorities");
                         break;
+                    case FormAction.Reset:
+                        comparators = InitialComparatorSetFromNeighbours(localAuthority.StatisticalNeighbours);
+                        break;
+                    case FormAction.Clear:
+                        comparators = [];
+                        break;
                 }
 
                 if (!ModelState.IsValid)
@@ -139,8 +147,6 @@ public class LocalAuthorityHighNeedsBenchmarkingController(
                         code
                     });
                 }
-
-                var localAuthority = await LocalAuthorityStatisticalNeighbours(code);
                 return View(nameof(Comparators), new LocalAuthorityHighNeedsStartBenchmarkingViewModel(localAuthority, comparators.ToArray(), viewModel.Referrer));
             }
             catch (Exception e)
@@ -163,14 +169,11 @@ public class LocalAuthorityHighNeedsBenchmarkingController(
 
         return sessionComparators.Length > 0
             ? sessionComparators
-            : InitialComparatorSetFromNeighbours(neighbours);
+            : InitialComparatorSetFromNeighbours(neighbours).ToArray();
     }
 
-    private static string[] InitialComparatorSetFromNeighbours(IEnumerable<LocalAuthorityStatisticalNeighbour>? neighbours)
-    {
-        return (neighbours ?? [])
-            .Select(n => n.Code)
-            .Cast<string>()
-            .ToArray();
-    }
+    private static List<string> InitialComparatorSetFromNeighbours(IEnumerable<LocalAuthorityStatisticalNeighbour>? neighbours) => (neighbours ?? [])
+        .Select(n => n.Code)
+        .Cast<string>()
+        .ToList();
 }
