@@ -285,18 +285,18 @@ public class WhenViewingHighNeedsStartBenchmarking(SchoolBenchmarkingWebAppClien
     [InlineData("benchmarking")]
     public async Task CanNavigateBack(string? referrer)
     {
-        var (page, x, y, z) = await SetupNavigateInitPage([], referrer);
+        var (page, authority, _, _) = await SetupNavigateInitPage(["code1"], referrer);
 
         var backLink = page.QuerySelector("a.govuk-back-link") as IHtmlElement;
         Assert.NotNull(backLink);
 
         var newPage = await Client.Follow(backLink);
 
-        var expectedUrl = string.IsNullOrEmpty(referrer)
-            ? Paths.LocalAuthorityHome("123").ToAbsolute()
-            : Paths.LocalAuthorityHighNeedsBenchmarking("123").ToAbsolute();
+        var expectedPage = string.IsNullOrEmpty(referrer)
+            ? Paths.LocalAuthorityHome(authority.Code).ToAbsolute()
+            : Paths.LocalAuthorityHighNeedsBenchmarking(authority.Code).ToAbsolute();
 
-        Assert.Equal(newPage.Url, expectedUrl);
+        DocumentAssert.AssertPageUrl(newPage, expectedPage);
     }
 
     [Fact]
