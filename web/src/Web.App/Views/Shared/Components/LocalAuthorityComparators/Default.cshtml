@@ -53,14 +53,17 @@
         value="@FormAction.Reset">
         Reset to statistical neighbours
     </button>
-    <button 
-        type="submit" 
-        class="govuk-button govuk-button--secondary"
-        data-module="govuk-button"
-        name="action"
-        value="@FormAction.Clear">
-        Remove all local authorities
-    </button>
+    @if (Model.SelectedNeighbours.Any() || Model.SelectedOthers.Any())
+    {
+        <button 
+            type="submit" 
+            class="govuk-button govuk-button--secondary"
+            data-module="govuk-button"
+            name="action"
+            value="@FormAction.Clear">
+            Remove all local authorities
+        </button>
+    }
 </div>
 
 <h3 class="govuk-heading-m">

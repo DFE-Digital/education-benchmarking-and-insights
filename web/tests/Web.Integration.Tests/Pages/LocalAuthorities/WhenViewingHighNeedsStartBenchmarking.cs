@@ -304,6 +304,9 @@ public class WhenViewingHighNeedsStartBenchmarking(SchoolBenchmarkingWebAppClien
 
         DocumentAssert.AssertPageUrl(page, Paths.LocalAuthorityHighNeedsStartBenchmarking(authority.Code).ToAbsolute());
 
+        removeAllButton = page.QuerySelector("button[name='action'][value='clear']");
+        Assert.Null(removeAllButton);
+
         var neighbourSelectedTable = page.QuerySelector("#current-comparators-neighbours");
         Assert.Null(neighbourSelectedTable);
         var otherSelectedTable = page.QuerySelector("#current-comparators-others");
