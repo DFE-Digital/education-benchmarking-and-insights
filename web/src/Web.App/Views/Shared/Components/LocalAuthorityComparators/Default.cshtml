@@ -76,10 +76,10 @@
         Statistical neighbours
     </h4>
     
-    @await Component.InvokeAsync("RemovableItemCardGrid", 
-        new {
-            cards = Model.SelectedNeighbours, 
-            inputName = nameof(LocalAuthorityComparatorViewModel.Selected),
+    @await Html.PartialAsync("_RemovableItemCardGrid", 
+        new RemovableItemCardGridViewModel {
+            Cards = Model.SelectedNeighbours, 
+            InputName = nameof(LocalAuthorityComparatorViewModel.Selected),
             Id = "current-comparators-neighbours"
         })
 }
@@ -106,10 +106,10 @@ else
         Other local authorities
     </h4>
     
-    @await Component.InvokeAsync("RemovableItemCardGrid", 
-        new {
-            cards = Model.SelectedOthers, 
-            inputName = nameof(LocalAuthorityComparatorViewModel.Selected),
+    @await Html.PartialAsync("_RemovableItemCardGrid", 
+        new RemovableItemCardGridViewModel {
+            Cards = Model.SelectedOthers, 
+            InputName = nameof(LocalAuthorityComparatorViewModel.Selected),
             Id = "current-comparators-others"
         })
 }

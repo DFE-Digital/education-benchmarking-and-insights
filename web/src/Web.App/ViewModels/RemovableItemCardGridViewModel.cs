@@ -1,4 +1,4 @@
-namespace Web.App.ViewModels.Components;
+namespace Web.App.ViewModels;
 
 public class RemovableItemCardGridViewModel
 {
