@@ -89,4 +89,11 @@ public static class HtmlExtensions
             .Select(td => td.TextContent.Trim())
             .ToList();
     }
+
+    public static IElement GetElementAndAssert(this IHtmlDocument page, string selector, Action<IElement> assertion)
+    {
+        var element = page.QuerySelector(selector)!;
+        assertion.Invoke(element);
+        return element;
+    }
 }
