@@ -9,6 +9,8 @@ namespace Web.Integration.Tests.Pages.LocalAuthorities;
 
 public class WhenViewingHighNeedsStartBenchmarking(SchoolBenchmarkingWebAppClient client) : PageBase<SchoolBenchmarkingWebAppClient>(client)
 {
+    #region Tests
+
     [Fact]
     public async Task CanDisplay()
     {
@@ -45,16 +47,13 @@ public class WhenViewingHighNeedsStartBenchmarking(SchoolBenchmarkingWebAppClien
         var (page, _, neighbourAuthorities, otherAuthorities) = await SetupNavigateInitPage();
         var code = otherAuthorities.First().Code!;
 
-        var neighboursSelected = page.QuerySelector("#current-comparators-neighbours");
-        Assert.NotNull(neighboursSelected);
+        var neighboursSelected = page.GetElementAndAssert("#current-comparators-neighbours", Assert.NotNull);
         var neighbourCards = neighboursSelected.QuerySelectorAll(".app-removable-card");
         Assert.Equal(neighbourAuthorities.Length, neighbourCards.Length);
 
-        var othersSelected = page.QuerySelector("#current-comparators-others");
-        Assert.Null(othersSelected);
+        page.GetElementAndAssert("#current-comparators-others", Assert.Null);
 
-        var addButton = page.QuerySelector("button[name='action'][value='add']");
-        Assert.NotNull(addButton);
+        var addButton = page.GetElementAndAssert("button[name='action'][value='add']", Assert.NotNull);
 
         page = await Client.SubmitForm(page.Forms[0], addButton, f =>
         {
@@ -64,18 +63,15 @@ public class WhenViewingHighNeedsStartBenchmarking(SchoolBenchmarkingWebAppClien
             });
         });
 
-        neighboursSelected = page.QuerySelector("#current-comparators-neighbours");
-        Assert.NotNull(neighboursSelected);
+        neighboursSelected = page.GetElementAndAssert("#current-comparators-neighbours", Assert.NotNull);
         neighbourCards = neighboursSelected.QuerySelectorAll(".app-removable-card");
         Assert.Equal(neighbourAuthorities.Length, neighbourCards.Length);
 
-        othersSelected = page.QuerySelector("#current-comparators-others");
-        Assert.NotNull(othersSelected);
+        var othersSelected = page.GetElementAndAssert("#current-comparators-others", Assert.NotNull);
         var otherCards = othersSelected.QuerySelectorAll(".app-removable-card");
         Assert.Equal(1, otherCards.Length);
 
-        var comparatorSelector = page.QuerySelector("#LaInput");
-        Assert.NotNull(comparatorSelector);
+        var comparatorSelector = page.GetElementAndAssert("#LaInput", Assert.NotNull);
         var options = comparatorSelector.QuerySelectorAll("option").Select(q => q.TextContent).ToArray();
         var expectedOptions = new[]
         {
@@ -89,34 +85,33 @@ public class WhenViewingHighNeedsStartBenchmarking(SchoolBenchmarkingWebAppClien
         Assert.Equal(expectedOptions, options);
     }
 
-    /*
     [Fact]
     public async Task CannotAddTwentiethComparator()
     {
-        string[] selectedLAs = [
-            "LA01", "LA02", "LA03", "LA04", "LA05", "LA06", "LA07", "LA08", "LA09", "LA10",
-            "LA11", "LA12", "LA13", "LA14", "LA15", "LA16", "LA17", "LA18", "LA19"
-        ];
-        
-        var (page, _, authorities) = await SetupNavigateInitPage(selectedLAs);
-        var code = authorities.First().Code!;
+        var selectedLAs = new List<string>();
+        for (var x = 0; x < 19; x++)
+        {
+            // the LAs w/code 209+ are the otherAuthorities
+            selectedLAs.Add((x + 209).ToString());
+        }
 
-        var addButton = page.QuerySelector("button[name='action'][value='add']");
-        Assert.NotNull(addButton);
+        var (page, _, neighbourAuthorities, otherAuthorities) = await SetupNavigateInitPage(selectedLAs.ToArray());
+        var addLACode = neighbourAuthorities.First().Code!; // make sure we try to add an LA that isn't already selected
+
+        var addButton = page.GetElementAndAssert("button[name='action'][value='add']", Assert.NotNull);
 
         page = await Client.SubmitForm(page.Forms[0], addButton, f =>
         {
             f.SetFormValues(new Dictionary<string, string>
             {
-                { "LaInput", code }
+                { "LaInput", addLACode },
+                { "Selected", selectedLAs.ToString()! }
             });
         });
 
-        var errorSummary = page.QuerySelector(".govuk-error-summary");
-        Assert.NotNull(errorSummary);
-        Assert.Equal("There is a problem\nSelect between 1 and 19 comparator local authorities", errorSummary.GetInnerText().Trim());
+        var errorSummary = page.GetElementAndAssert(".govuk-error-summary", Assert.NotNull);
+        Assert.Equal("There is a problem\nSelect up to 19 comparator local authorities", errorSummary.GetInnerText().Trim());
     }
-    */
 
     [Fact]
     public async Task CanRemoveOtherComparators()
@@ -124,11 +119,9 @@ public class WhenViewingHighNeedsStartBenchmarking(SchoolBenchmarkingWebAppClien
         var (page, _, neighbourAuthorities, otherAuthorities) = await SetupNavigateInitPage();
         var code = otherAuthorities.First().Code!;
 
-        var addButton = page.QuerySelector("button[name='action'][value='add']");
-        Assert.NotNull(addButton);
+        var addButton = page.GetElementAndAssert("button[name='action'][value='add']", Assert.NotNull);
 
-        var othersSelected = page.QuerySelector("#current-comparators-others");
-        Assert.Null(othersSelected);
+        page.GetElementAndAssert("#current-comparators-others", Assert.Null);
 
         page = await Client.SubmitForm(page.Forms[0], addButton, f =>
         {
@@ -138,15 +131,11 @@ public class WhenViewingHighNeedsStartBenchmarking(SchoolBenchmarkingWebAppClien
             });
         });
 
-        othersSelected = page.QuerySelector("#current-comparators-others");
-        Assert.NotNull(othersSelected);
-
+        var othersSelected = page.GetElementAndAssert("#current-comparators-others", Assert.NotNull);
         var othersCards = othersSelected.QuerySelectorAll(".app-removable-card");
         Assert.Equal(1, othersCards.Length);
 
-
-        var removeButton = page.QuerySelector($"button[name='action'][value='remove-{code}']");
-        Assert.NotNull(removeButton);
+        var removeButton = page.GetElementAndAssert($"button[name='action'][value='remove-{code}']", Assert.NotNull);
 
         page = await Client.SubmitForm(page.Forms[0], removeButton, f =>
         {
@@ -156,8 +145,7 @@ public class WhenViewingHighNeedsStartBenchmarking(SchoolBenchmarkingWebAppClien
             });
         });
 
-        var neighboursSelected = page.QuerySelector("#current-comparators-neighbours");
-        Assert.NotNull(neighboursSelected);
+        var neighboursSelected = page.GetElementAndAssert("#current-comparators-neighbours", Assert.NotNull);
 
         var neighboursCards = neighboursSelected.QuerySelectorAll(".app-removable-card");
         Assert.Equal(neighbourAuthorities.Length, neighboursCards.Length);
@@ -169,8 +157,7 @@ public class WhenViewingHighNeedsStartBenchmarking(SchoolBenchmarkingWebAppClien
         var (page, _, neighbourAuthorities, _) = await SetupNavigateInitPage();
         var code = neighbourAuthorities.First().Code!;
 
-        var addButton = page.QuerySelector("button[name='action'][value='add']");
-        Assert.NotNull(addButton);
+        var addButton = page.GetElementAndAssert("button[name='action'][value='add']", Assert.NotNull);
 
         page = await Client.SubmitForm(page.Forms[0], addButton, f =>
         {
@@ -180,14 +167,12 @@ public class WhenViewingHighNeedsStartBenchmarking(SchoolBenchmarkingWebAppClien
             });
         });
 
-        var neighboursSelected = page.QuerySelector("#current-comparators-neighbours");
-        Assert.NotNull(neighboursSelected);
+        var neighboursSelected = page.GetElementAndAssert("#current-comparators-neighbours", Assert.NotNull);
 
         var neighboursCards = neighboursSelected.QuerySelectorAll(".app-removable-card");
         Assert.Equal(neighbourAuthorities.Length, neighboursCards.Length);
 
-        var removeButton = page.QuerySelector($"button[name='action'][value='remove-{code}']");
-        Assert.NotNull(removeButton);
+        var removeButton = page.GetElementAndAssert($"button[name='action'][value='remove-{code}']", Assert.NotNull);
 
         page = await Client.SubmitForm(page.Forms[0], removeButton, f =>
         {
@@ -197,8 +182,7 @@ public class WhenViewingHighNeedsStartBenchmarking(SchoolBenchmarkingWebAppClien
             });
         });
 
-        neighboursSelected = page.QuerySelector("#current-comparators-neighbours");
-        Assert.NotNull(neighboursSelected);
+        neighboursSelected = page.GetElementAndAssert("#current-comparators-neighbours", Assert.NotNull);
 
         neighboursCards = neighboursSelected.QuerySelectorAll(".app-removable-card");
         Assert.Equal(neighbourAuthorities.Length - 1, neighboursCards.Length);
@@ -214,8 +198,7 @@ public class WhenViewingHighNeedsStartBenchmarking(SchoolBenchmarkingWebAppClien
         {
             var code = neighbour.Code;
             Assert.NotNull(code);
-            var removeButton = page.QuerySelector($"button[name='action'][value='remove-{code}']");
-            Assert.NotNull(removeButton);
+            var removeButton = page.GetElementAndAssert($"button[name='action'][value='remove-{code}']", Assert.NotNull);
 
             page = await Client.SubmitForm(page.Forms[0], removeButton, f =>
             {
@@ -226,13 +209,11 @@ public class WhenViewingHighNeedsStartBenchmarking(SchoolBenchmarkingWebAppClien
             });
         }
 
-        var continueButton = page.QuerySelector("button[name='action'][value='continue']");
-        Assert.NotNull(continueButton);
+        var continueButton = page.GetElementAndAssert("button[name='action'][value='continue']", Assert.NotNull);
 
         page = await Client.SubmitForm(page.Forms[0], continueButton);
 
-        var errorSummary = page.QuerySelector(".govuk-error-summary");
-        Assert.NotNull(errorSummary);
+        var errorSummary = page.GetElementAndAssert(".govuk-error-summary", Assert.NotNull);
         Assert.Equal("There is a problem\nSelect between 1 and 19 comparator local authorities", errorSummary.GetInnerText().Trim());
     }
 
@@ -242,8 +223,7 @@ public class WhenViewingHighNeedsStartBenchmarking(SchoolBenchmarkingWebAppClien
         var (page, authority, _, otherAuthorities) = await SetupNavigateInitPage(["code1"]);
         var code = otherAuthorities.First().Code!;
 
-        var addButton = page.QuerySelector("button[name='action'][value='add']");
-        Assert.NotNull(addButton);
+        var addButton = page.GetElementAndAssert("button[name='action'][value='add']", Assert.NotNull);
 
         page = await Client.SubmitForm(page.Forms[0], addButton, f =>
         {
@@ -253,8 +233,7 @@ public class WhenViewingHighNeedsStartBenchmarking(SchoolBenchmarkingWebAppClien
             });
         });
 
-        var continueButton = page.QuerySelector("button[name='action'][value='continue']");
-        Assert.NotNull(continueButton);
+        var continueButton = page.GetElementAndAssert("button[name='action'][value='continue']", Assert.NotNull);
 
         page = await Client.SubmitForm(page.Forms[0], continueButton);
         DocumentAssert.AssertPageUrl(page, Paths.LocalAuthorityHighNeedsBenchmarking(authority.Code).ToAbsolute());
@@ -267,8 +246,7 @@ public class WhenViewingHighNeedsStartBenchmarking(SchoolBenchmarkingWebAppClien
 
         DocumentAssert.AssertPageUrl(page, Paths.LocalAuthorityHighNeedsStartBenchmarking(authority.Code).ToAbsolute());
 
-        var selectedNeighbours = page.QuerySelector("#current-comparators-neighbours");
-        Assert.NotNull(selectedNeighbours);
+        var selectedNeighbours = page.GetElementAndAssert("#current-comparators-neighbours", Assert.NotNull);
         var cards = selectedNeighbours.QuerySelectorAll(".app-removable-card");
         Assert.NotNull(cards);
         Assert.Equal(neighbourAuthorities.Length, cards.Length);
@@ -287,8 +265,7 @@ public class WhenViewingHighNeedsStartBenchmarking(SchoolBenchmarkingWebAppClien
     {
         var (page, authority, _, _) = await SetupNavigateInitPage(["code1"], referrer);
 
-        var backLink = page.QuerySelector("a.govuk-back-link") as IHtmlElement;
-        Assert.NotNull(backLink);
+        var backLink = page.GetElementAndAssert("a.govuk-back-link", Assert.NotNull);
 
         var newPage = await Client.Follow(backLink);
 
@@ -305,8 +282,7 @@ public class WhenViewingHighNeedsStartBenchmarking(SchoolBenchmarkingWebAppClien
         var (page, authority, _, otherAuthorities) = await SetupNavigateInitPage();
 
         var code = otherAuthorities.First().Code!;
-        var addButton = page.QuerySelector("button[name='action'][value='add']");
-        Assert.NotNull(addButton);
+        var addButton = page.GetElementAndAssert("button[name='action'][value='add']", Assert.NotNull);
 
         page = await Client.SubmitForm(page.Forms[0], addButton, f =>
         {
@@ -316,20 +292,15 @@ public class WhenViewingHighNeedsStartBenchmarking(SchoolBenchmarkingWebAppClien
             });
         });
 
-        var removeAllButton = page.QuerySelector("button[name='action'][value='clear']");
-        Assert.NotNull(removeAllButton);
+        var removeAllButton = page.GetElementAndAssert("button[name='action'][value='clear']", Assert.NotNull);
 
         page = await Client.SubmitForm(page.Forms[0], removeAllButton);
 
         DocumentAssert.AssertPageUrl(page, Paths.LocalAuthorityHighNeedsStartBenchmarking(authority.Code).ToAbsolute());
 
-        removeAllButton = page.QuerySelector("button[name='action'][value='clear']");
-        Assert.Null(removeAllButton);
-
-        var neighboursSelected = page.QuerySelector("#current-comparators-neighbours");
-        Assert.Null(neighboursSelected);
-        var othersSelected = page.QuerySelector("#current-comparators-others");
-        Assert.Null(othersSelected);
+        page.GetElementAndAssert("button[name='action'][value='clear']", Assert.Null);
+        page.GetElementAndAssert("#current-comparators-neighbours", Assert.Null);
+        page.GetElementAndAssert("#current-comparators-others", Assert.Null);
     }
 
     [Fact]
@@ -338,8 +309,7 @@ public class WhenViewingHighNeedsStartBenchmarking(SchoolBenchmarkingWebAppClien
         var (page, authority, neighbourAuthorities, otherAuthorities) = await SetupNavigateInitPage();
 
         var code = otherAuthorities.First().Code!;
-        var addButton = page.QuerySelector("button[name='action'][value='add']");
-        Assert.NotNull(addButton);
+        var addButton = page.GetElementAndAssert("button[name='action'][value='add']", Assert.NotNull);
 
         page = await Client.SubmitForm(page.Forms[0], addButton, f =>
         {
@@ -349,22 +319,23 @@ public class WhenViewingHighNeedsStartBenchmarking(SchoolBenchmarkingWebAppClien
             });
         });
 
-        var resetButton = page.QuerySelector("button[name='action'][value='reset']");
-        Assert.NotNull(resetButton);
+        var resetButton = page.GetElementAndAssert("button[name='action'][value='reset']", Assert.NotNull);
 
         page = await Client.SubmitForm(page.Forms[0], resetButton);
 
         DocumentAssert.AssertPageUrl(page, Paths.LocalAuthorityHighNeedsStartBenchmarking(authority.Code).ToAbsolute());
 
-        var neighboursSelected = page.QuerySelector("#current-comparators-neighbours");
-        Assert.NotNull(neighboursSelected);
+        var neighboursSelected = page.GetElementAndAssert("#current-comparators-neighbours", Assert.NotNull);
         var cards = neighboursSelected.QuerySelectorAll(".app-removable-card");
         Assert.NotNull(cards);
         Assert.Equal(neighbourAuthorities.Length, cards.Length);
 
-        var othersSelected = page.QuerySelector("#current-comparators-others");
-        Assert.Null(othersSelected);
+        page.GetElementAndAssert("#current-comparators-others", Assert.Null);
     }
+
+    #endregion
+
+    #region Helper Methods
 
     private async Task<(
         IHtmlDocument page,
@@ -431,8 +402,7 @@ public class WhenViewingHighNeedsStartBenchmarking(SchoolBenchmarkingWebAppClien
         Assert.NotNull(authority.Name);
         DocumentAssert.TitleAndH1(page, "Choose local authorities to compare high needs spending - Financial Benchmarking and Insights Tool - GOV.UK", "Choose local authorities to compare high needs spending");
 
-        var comparatorSelector = page.QuerySelector("#LaInput");
-        Assert.NotNull(comparatorSelector);
+        var comparatorSelector = page.GetElementAndAssert("#LaInput", Assert.NotNull);
         var options = comparatorSelector.QuerySelectorAll("option").Select(q => q.TextContent).ToArray();
         var expectedOptions = new[]
         {
@@ -442,16 +412,11 @@ public class WhenViewingHighNeedsStartBenchmarking(SchoolBenchmarkingWebAppClien
             .ToArray());
         Assert.Equal(expectedOptions, options);
 
-        var addButton = page.QuerySelector("button[name='action'][value='add']");
-        Assert.NotNull(addButton);
-
-        var continueButton = page.QuerySelector("button[name='action'][value='continue']");
-        Assert.NotNull(continueButton);
-
-        var removeAllButton = page.QuerySelector("button[name='action'][value='clear']");
-        Assert.NotNull(removeAllButton);
-
-        var resetButton = page.QuerySelector("button[name='action'][value='reset']");
-        Assert.NotNull(resetButton);
+        page.GetElementAndAssert("button[name='action'][value='add']", Assert.NotNull);
+        page.GetElementAndAssert("button[name='action'][value='continue']", Assert.NotNull);
+        page.GetElementAndAssert("button[name='action'][value='clear']", Assert.NotNull);
+        page.GetElementAndAssert("button[name='action'][value='reset']", Assert.NotNull);
     }
+
+    #endregion
 }
