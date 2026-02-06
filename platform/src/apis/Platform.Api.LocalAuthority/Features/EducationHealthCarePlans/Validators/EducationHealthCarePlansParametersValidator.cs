@@ -10,11 +10,11 @@ public class EducationHealthCarePlansParametersValidator : AbstractValidator<Edu
     {
         RuleFor(x => x.Codes)
             .NotEmpty()
-            .WithMessage("Between 1 and 10 codes must be supplied");
+            .WithMessage("Between 1 and 30 local authority codes must be supplied");
 
         RuleFor(x => x.Codes)
-            .Must(codes => codes.Length <= 10)
-            .WithMessage("Between 1 and 10 codes must be supplied");
+            .Must(codes => codes.Length <= 30)
+            .WithMessage("Between 1 and 30 local authority codes must be supplied");
 
         RuleFor(x => x.Dimension)
             .Must(BeAValidDimension)

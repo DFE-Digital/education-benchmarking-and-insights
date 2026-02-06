@@ -26,20 +26,8 @@
         When I submit the request
         Then the history result should be bad request
 
-    Scenario: Sending an invalid education health care plans history request with >10 la codes returns bad request
-        Given a history request with dimension 'Actuals' and LA codes:
-          | Code |
-          | 101  |
-          | 102  |
-          | 103  |
-          | 104  |
-          | 105  |
-          | 106  |
-          | 107  |
-          | 108  |
-          | 109  |
-          | 110  |
-          | 201  |
+    Scenario: Sending an invalid education health care plans history request more than 30 codes la codes returns bad request
+        Given an invalid history request with more than 30 codes
         When I submit the request
         Then the history result should be bad request
 
@@ -75,19 +63,7 @@
         When I submit the request
         Then the result should be bad request
 
-    Scenario: Sending an invalid education health care plans request with default dimension and >10 la codes returns a validation error
-        Given a request with dimension '' and LA codes:
-          | Code |
-          | 101  |
-          | 102  |
-          | 103  |
-          | 104  |
-          | 105  |
-          | 106  |
-          | 107  |
-          | 108  |
-          | 109  |
-          | 110  |
-          | 201  |
+    Scenario: Sending an invalid education health care plans request with default dimension and more than 30 codes la codes returns a validation error
+        Given an invalid request with more than 30 codes
         When I submit the request
         Then the result should be bad request
