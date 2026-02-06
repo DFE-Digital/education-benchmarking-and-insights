@@ -16,13 +16,18 @@ public class LocalAuthorityComparatorsViewModel(
         .Where(l => !comparators.Contains(l.Code))
         .ToArray();
 
-    public LocalAuthority[] SelectedNeighbours => neighbourComparators
-        .Join(localAuthorities, c => c, l => l.Code, (_, localAuthority) => localAuthority)
+    public RemovableItemCardViewModel[] SelectedNeighbours => neighbourComparators
+        .Join(localAuthorities, c => c, l => l.Code, (_, la) => la)
         .OrderBy(l => l.Name)
+        .Select(ToCard)
         .ToArray();
 
-    public LocalAuthority[] SelectedOthers => otherComparators
-        .Join(localAuthorities, c => c, l => l.Code, (_, localAuthority) => localAuthority)
+    public RemovableItemCardViewModel[] SelectedOthers => otherComparators
+        .Join(localAuthorities, c => c, l => l.Code, (_, la) => la)
         .OrderBy(l => l.Name)
+        .Select(ToCard)
         .ToArray();
+
+    private static RemovableItemCardViewModel ToCard(LocalAuthority la) =>
+        new() { Title = la.Name, Identifier = la.Code };
 }

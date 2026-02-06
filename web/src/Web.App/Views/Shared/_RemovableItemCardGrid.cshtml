@@ -1,0 +1,33 @@
+@using Web.App.Domain
+@model Web.App.ViewModels.RemovableItemCardGridViewModel
+
+@if (Model.Cards.Length > 0)
+{
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-full">
+            <div class="app-card-row" id="@Model.Id">
+            @foreach (var card in Model.Cards)
+            {
+                <div class="app-removable-card">
+                    <p class="govuk-body govuk-!-margin-bottom-0">@card.Title</p>
+
+                    <input
+                        type="hidden"
+                        name="@Model.InputName"
+                        value="@card.Identifier" />
+
+                    <button
+                        type="submit"
+                        class="govuk-button govuk-button--secondary govuk-!-margin-bottom-0"
+                        data-module="govuk-button"
+                        name="action"
+                        value="@FormAction.Remove-@card.Identifier">
+                        Remove
+                    </button>
+                </div>
+            }
+            </div>
+        </div>
+    </div>
+}
+
