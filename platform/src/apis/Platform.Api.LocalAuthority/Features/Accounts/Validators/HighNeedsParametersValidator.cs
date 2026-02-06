@@ -10,8 +10,8 @@ public class HighNeedsParametersValidator : AbstractValidator<HighNeedsParameter
     {
         RuleFor(x => x.Codes)
             .NotEmpty()
-            .Must(c => c.Length <= 10)
-            .WithMessage("One or more local authority codes must be supplied");
+            .Must(c => c.Length <= 30)
+            .WithMessage("Between 1 and 30 local authority codes must be supplied");
 
         RuleFor(x => x.Dimension)
             .Must(BeAValidDimension)

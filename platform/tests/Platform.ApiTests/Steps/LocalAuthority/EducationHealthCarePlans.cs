@@ -56,6 +56,28 @@ public class EducationHealthCarePlans(LocalAuthorityApiDriver api)
         });
     }
 
+    [Given("an invalid history request with more than 30 codes")]
+    public void GivenAnInvalidHistoryRequestWithMoreThan30Codes()
+    {
+        var codes = Enumerable.Range(1, 31).Select(i => (100 + i).ToString());
+        api.CreateRequest(HistoryKey, new HttpRequestMessage
+        {
+            RequestUri = new Uri($"/api/local-authorities/education-health-care-plans/history?code={string.Join("&code=", codes)}", UriKind.Relative),
+            Method = HttpMethod.Get
+        });
+    }
+
+    [Given("an invalid request with more than 30 codes")]
+    public void GivenAnInvalidRequestWithMoreThan30Codes()
+    {
+        var codes = Enumerable.Range(1, 31).Select(i => (100 + i).ToString());
+        api.CreateRequest(Key, new HttpRequestMessage
+        {
+            RequestUri = new Uri($"/api/local-authorities/education-health-care-plans?code={string.Join("&code=", codes)}", UriKind.Relative),
+            Method = HttpMethod.Get
+        });
+    }
+
     [When("I submit the request")]
     public async Task WhenISubmitTheRequest()
     {
