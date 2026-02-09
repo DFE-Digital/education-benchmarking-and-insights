@@ -33,22 +33,6 @@ public class HighNeedsBenchmarkingSteps(PageDriver driver)
         await _highNeedsBenchmarkingPage.IsDisplayed();
     }
 
-    [Given("I have no comparators selected")]
-    public async Task GivenIHaveNoComparatorsSelected()
-    {
-        Assert.NotNull(_highNeedsStartBenchmarkingPage);
-        while (await _highNeedsStartBenchmarkingPage.HasComparators()) await _highNeedsStartBenchmarkingPage.ClickRemoveButton();
-    }
-
-    [Given("I add the comparator matching the value '(.*)'")]
-    public async Task GivenIAddTheComparatorMatchingTheValue(string name)
-    {
-        Assert.NotNull(_highNeedsStartBenchmarkingPage);
-        await _highNeedsStartBenchmarkingPage.TypeIntoInputField(name);
-        await _highNeedsStartBenchmarkingPage.PressEnterKey();
-        await _highNeedsStartBenchmarkingPage.PressEnterKey();
-    }
-
     [Given("I click the Save and continue button")]
     public async Task GivenIClickTheSaveAndContinueButton()
     {

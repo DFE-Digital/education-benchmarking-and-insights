@@ -9,7 +9,6 @@ namespace Web.E2ETests.Steps.LocalAuthority;
 public class HighNeedsStartBenchmarkingSteps(PageDriver driver, PageDriverWithJavaScriptDisabled driverNoJs)
 {
     private HighNeedsBenchmarkingPage? _highNeedsBenchmarkingPage;
-    private HomePage? _localAuthorityHomePage;
     private HighNeedsStartBenchmarkingPage? _highNeedsStartBenchmarkingPage;
     private bool _javascriptDisabled;
 
@@ -82,28 +81,6 @@ public class HighNeedsStartBenchmarkingSteps(PageDriver driver, PageDriverWithJa
     {
         Assert.NotNull(_highNeedsBenchmarkingPage);
         await _highNeedsBenchmarkingPage.IsDisplayed();
-    }
-
-    [When("I click the cancel button")]
-    public async Task WhenIClickTheCancelButton()
-    {
-        Assert.NotNull(_highNeedsStartBenchmarkingPage);
-        var page = await (_javascriptDisabled ? driverNoJs : driver).Current;
-        if (page.Url.Contains("?referrer=benchmarking"))
-        {
-            _highNeedsBenchmarkingPage = await _highNeedsStartBenchmarkingPage.ClickCancelButton(p => new HighNeedsBenchmarkingPage(p));
-        }
-        else
-        {
-            _localAuthorityHomePage = await _highNeedsStartBenchmarkingPage.ClickCancelButton(p => new HomePage(p));
-        }
-    }
-
-    [Then("the local authority home page is displayed")]
-    public async Task ThenTheLocalAuthorityHomePageIsDisplayed()
-    {
-        Assert.NotNull(_localAuthorityHomePage);
-        await _localAuthorityHomePage.IsDisplayed();
     }
 
     private async Task SetupHighNeedsStartBenchmarkingPage(string laCode, string? referrer = null)
