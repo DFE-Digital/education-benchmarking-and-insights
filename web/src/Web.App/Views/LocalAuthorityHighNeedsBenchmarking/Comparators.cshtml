@@ -10,9 +10,11 @@
         new { Model.Code });
 }
 
-<p class="govuk-body">
-    <a class="govuk-back-link" href="@referrer">Back</a>
-</p>
+@section Backlink {
+    <div class="govuk-width-container">
+        <a class="govuk-back-link" href="@referrer">Back</a>
+    </div>
+}
 
 @await Component.InvokeAsync("EstablishmentHeading", new
 {
