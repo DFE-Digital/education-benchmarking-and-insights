@@ -8,21 +8,10 @@ public class HighNeedsStartBenchmarkingPage(IPage page)
     private ILocator PageH1Heading => page.Locator($"main {Selectors.H1}");
     private ILocator LaInputField => page.Locator("#LaInput");
     private ILocator LaDropdown => page.Locator("#LaInput__listbox");
-    private ILocator ComparatorsTable => page.Locator("#current-comparators-la");
-
+    private ILocator OthersComparatorsCards => page.Locator("#current-comparators-others");
     private ILocator SaveAndContinueButton => page.Locator(Selectors.Button, new PageLocatorOptions
     {
-        HasText = "Save and continue"
-    });
-
-    private ILocator CancelButton => page.Locator(".govuk-link", new PageLocatorOptions
-    {
-        HasText = "Cancel"
-    });
-
-    private ILocator RemoveButtons => page.Locator(Selectors.WarningButton, new PageLocatorOptions
-    {
-        HasText = "Remove"
+        HasText = "Benchmark high needs spending"
     });
 
     public async Task IsDisplayed()
@@ -61,29 +50,15 @@ public class HighNeedsStartBenchmarkingPage(IPage page)
 
     public async Task ComparatorsContains(string name)
     {
-        await ComparatorsTable.ShouldBeVisible();
+        await OthersComparatorsCards.ShouldBeVisible();
 
-        var cells = await ComparatorsTable.Locator("tbody > tr > td:first-child").AllInnerTextsAsync();
-        Assert.Contains(name, cells);
+        var title = await OthersComparatorsCards.Locator(".app-removable-card > p").AllInnerTextsAsync();
+        Assert.Contains(name, title);
     }
 
     public async Task<HighNeedsBenchmarkingPage> ClickSaveAndContinueButton()
     {
         await SaveAndContinueButton.ClickAsync();
-        return new HighNeedsBenchmarkingPage(page);
-    }
-
-    public async Task<T> ClickCancelButton<T>(Func<IPage, T> next)
-    {
-        await CancelButton.ClickAsync();
-        return next(page);
-    }
-
-    public async Task<bool> HasComparators() => await RemoveButtons.CountAsync() > 0;
-
-    public async Task<HighNeedsBenchmarkingPage> ClickRemoveButton()
-    {
-        await RemoveButtons.First.ClickAsync();
         return new HighNeedsBenchmarkingPage(page);
     }
 }

@@ -84,16 +84,24 @@ public class HighNeedsBenchmarkingPage(IPage page)
         var rows = await table.Locator("tbody > tr").AllAsync();
 
         var set = new List<dynamic>();
+
         foreach (var row in rows)
         {
             var cells = await row.Locator("td").AllAsync();
+
             set.Add(new
             {
-                Name = await cells.ElementAt(0).InnerTextAsync(),
-                Actual = await cells.ElementAt(1).InnerTextAsync(),
-                Planned = await cells.ElementAt(2).InnerTextAsync(),
-                NumberPupils = await cells.ElementAt(3).InnerTextAsync()
+                Name = await Get(0),
+                Actual = await Get(1),
+                Planned = await Get(2),
+                NumberPupils = await Get(3)
             });
+            continue;
+
+            // S251 rows render only three <td> elements when values are missing.
+            // This helper safely returns an empty string instead of throwing.
+            async Task<string> Get(int i) =>
+                i < cells.Count ? (await cells[i].InnerTextAsync()).Trim() : "";
         }
 
         expected.CompareToDynamicSet(set, false);

@@ -2,13 +2,11 @@
 
     Background:
         Given I am on local authority high needs start benchmarking for local authority with code '201'
-        And I have no comparators selected
-        And I add the comparator matching the value 'hack'
         And I click the Save and continue button
 
     Scenario: Can view local authority benchmarking commentary
         Given I am on local authority high needs benchmarking for local authority with code '201'
-        Then comparator commentary label is visible, showing local authority count of '1'
+        Then comparator commentary label is visible, showing local authority count of '10'
 
     Scenario: Can click local authority benchmarking CTA
         Given I am on local authority high needs benchmarking for local authority with code '201'
@@ -29,17 +27,33 @@
         Given I am on local authority high needs benchmarking for local authority with code '201'
         When I click on view as table
         Then the table for 'High needs amount per pupil' contains the following S251 values:
-          | Name           | Actual | Planned | NumberPupils |
-          | City of London | £0     | £0      | 1,650        |
-          | Hackney        | £120   | £118    | 57,444       |
+          | Name                   | Actual | Planned | NumberPupils |
+          | City of London         | £0     | £0      | 1,650        |
+          | Camden                 | £150   | £151    | 50,101       |
+          | Greenwich              | £36    | £106    | 63,850       |
+          | Hackney                | £120   | £118    | 57,444       |
+          | Hammersmith and Fulham |        |         |              |
+          | Islington              |        |         |              |
+          | Kensington and Chelsea |        |         |              |
+          | Lambeth                |        |         |              |
+          | Lewisham               |        |         |              |
+          | Southwark              |        |         |              |
 
     Scenario: Can view local authority benchmarking table data for SEND2
         Given I am on local authority high needs benchmarking for local authority with code '201'
         When I click on view as table
         Then the table for 'Number aged up to 25 with SEN statement or EHC plan' contains the following SEND2 values:
-          | Name           | Amount | NumberPupils |
-          | City of London | 11.52  | 1,650        |
-          | Hackney        | 53.3   | 57,444       |
+          | Name                   | Amount | NumberPupils |
+          | City of London         | 11.52  | 1,650        |
+          | Camden                 | 28.74  | 50,101       |
+          | Greenwich              | 34.14  | 63,850       |
+          | Hackney                | 53.3   | 57,444       |
+          | Hammersmith and Fulham |        |              |
+          | Islington              |        |              |
+          | Kensington and Chelsea |        |              |
+          | Lambeth                |        |              |
+          | Lewisham               |        |              |
+          | Southwark              |        |              |              
 
     Scenario: Line codes are displayed
         Given I am on local authority high needs benchmarking for local authority with code '201'
