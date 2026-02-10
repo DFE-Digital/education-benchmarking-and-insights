@@ -18,7 +18,6 @@ public class LocalAuthorityComparatorsViewModel(
 
     public RemovableItemCardViewModel[] SelectedNeighbours => neighbourComparators
         .Join(localAuthorities, c => c, l => l.Code, (_, la) => la)
-        .OrderBy(l => l.Name)
         .Select(ToCard)
         .ToArray();
 

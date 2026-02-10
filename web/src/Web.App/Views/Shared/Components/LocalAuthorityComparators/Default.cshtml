@@ -76,6 +76,10 @@
         Statistical neighbours
     </h4>
     
+    <p class="govuk-body">
+        Your statistical neighbours are listed in order with the statistically closest at the top.
+    </p>
+    
     @await Html.PartialAsync("_RemovableItemCardGrid", 
         new RemovableItemCardGridViewModel {
             Cards = Model.SelectedNeighbours, 
@@ -90,7 +94,7 @@ else if (Model.SelectedOthers.Any())
     </h4>
     
     <p class="govuk-body">
-        No statistical neighbours local authorities have been added.
+        No statistical neighbour local authorities have been added.
     </p>
 }
 else
