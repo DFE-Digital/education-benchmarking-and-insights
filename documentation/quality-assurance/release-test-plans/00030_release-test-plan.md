@@ -91,10 +91,8 @@ This release delivers an enhancement to the high needs benchmarking journey with
 
 | Test Category                | Total Tests | Passed | Failed | Pass Rate |  
 |------------------------------|:-----------:|:------:|:------:|:---------:|  
-| Smoke tests - Prod           |      -      |   -    |   -    |   -       |
 | Sanity tests - Prod          |      -      |   -    |   -    |   -       |
 | Smoke tests - Pre Prod       |      -      |   -    |   -    |   -       |
-| Sanity tests - Pre Prod      |      -      |   -    |   -    |   -       |  
 | Total                        |      -      |   -    |   -    |   -       |  
 
 <!-- Leave the rest of this page blank -->
