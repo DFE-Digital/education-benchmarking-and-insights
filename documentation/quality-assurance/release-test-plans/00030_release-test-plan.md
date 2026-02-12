@@ -1,11 +1,11 @@
-# Release Test Plan: 2026.02.0 <!-- TODO: confirm label -->
+# Release Test Plan: 2026.02.0
 
 **Release Date:** 2026/02/12 <!-- TODO: confirm date -->
-**Release Label:** 2026.02.0 <!-- TODO: confirm label -->
+**Release Label:** 2026.02.0
 
 ## Introduction
 
-This plan defines the approach for testing release `2026.02.0`<!-- TODO: confirm label -->, covering smoke and sanity testing activities.  
+This plan defines the approach for testing release `2026.02.0`, covering smoke and sanity testing activities.  
 This release delivers an enhancement to the high needs benchmarking journey with a redesign for the selection of comparators. Statistical neighbours for the local authority are now pre-selected as default and the layout of the page has been updated.
 
 ## Scope
