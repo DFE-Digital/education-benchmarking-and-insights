@@ -52,6 +52,8 @@ The primary focus is ensuring the integrity of the ingestion and transformation 
   - Orphan Reporting: Identify academies present in AAR but missing from specific ancillary sets.
   - Summary Table: High-level report of "Completeness %" per dataset.
 
+The reusable script for generating completeness reports is located in SharePoint under: Documents > General > Analytics Discovery > Completeness Report - Data Drops
+
 ### Business Logic: Trust CS Fund Allocation
 
 **Goal:** Verify the mathematical accuracy of the FBIT transformation engine.
@@ -108,10 +110,10 @@ The primary focus is ensuring the integrity of the ingestion and transformation 
 
 ## Exit Criteria (Sign-off Requirements)
 
-- [ ] All primary and ancillary schemas pass validation
-- [ ] Completeness report generated and reviewed
-- [ ] CS fund allocation logic verified with 0% variance
-- [ ] Pipeline completes E2E with no High or Critical errors
-- [ ] Regression tests confirm historical data integrity
-- [ ] UI displays AAR 2025 data accurately across all metrics and filters
-- [ ] AAR 2024-2025 Transparency file successfully verified
+- [x] All primary and ancillary schemas pass validation
+- [x] Completeness report generated and reviewed
+- [x] CS fund allocation logic verified with 0% variance
+- [x] Pipeline completes E2E with no High or Critical errors
+- [x] Regression tests confirm historical data integrity
+- [x] UI displays AAR 2025 data accurately across all metrics and filters
+- [x] AAR 2024-2025 Transparency file successfully verified
