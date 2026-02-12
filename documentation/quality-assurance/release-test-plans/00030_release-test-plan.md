@@ -51,7 +51,8 @@ This release delivers an enhancement to the high needs benchmarking journey with
 
 ## Risk Analysis
 
-- **Risk:** Low risk <!-- TODO: discuss with team and update if reqd -->
+- **Risk:** WAF updates can only be applied and validated in production environments, meaning they cannot be fully exercised in standard lower‑tier environments
+  - **Mitigation:** The changes have been deployed and verified in a production‑like feature environment to provide confidence that they will behave as expected.
 
 ## Test Deliverables
 
