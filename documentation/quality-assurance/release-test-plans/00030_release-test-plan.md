@@ -16,7 +16,7 @@ This release delivers an enhancement to the high needs benchmarking journey with
   - Choose local authorities to compare high needs spending page now has statistical neighbours pre-selected as default and the layout has been refreshed.
 
 - **Bug Fixes**
-  - Senior Leadership - error in razor markup
+  - Senior Leadership - stray semicolon in razor markup
 
 **Out-of-Scope:**
 
