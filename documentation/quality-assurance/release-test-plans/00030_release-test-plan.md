@@ -1,6 +1,6 @@
 # Release Test Plan: 2026.02.0
 
-**Release Date:** 2026/02/12 <!-- TODO: confirm date -->
+**Release Date:** 2026/02/12
 **Release Label:** 2026.02.0
 
 ## Introduction
