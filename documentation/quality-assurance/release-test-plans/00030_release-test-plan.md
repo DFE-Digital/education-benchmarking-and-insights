@@ -92,7 +92,7 @@ This release delivers an enhancement to the high needs benchmarking journey with
 
 | Test Category                | Total Tests | Passed | Failed | Pass Rate |  
 |------------------------------|:-----------:|:------:|:------:|:---------:|  
-| Sanity tests - Pre-Prod      |      -      |   -    |   -    |   -       |
+| Sanity tests - Pre-Prod      |      1      |   1    |   0    |   100%    |
 | Smoke tests - Prod           |      -      |   -    |   -    |   -       |
 | Total                        |      -      |   -    |   -    |   -       |  
 
