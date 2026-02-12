@@ -6,14 +6,14 @@
 ## Introduction
 
 This plan defines the approach for testing release `2026.02.0`<!-- TODO: confirm label -->, covering smoke and sanity testing activities.  
-This release delivers an enhancement to the high needs benchmarking journey with a redesign for the selection of comparators. Statitiscal neighbours for the local authority are now pre-selected as default and the layout of the page has been updated.
+This release delivers an enhancement to the high needs benchmarking journey with a redesign for the selection of comparators. Statistical neighbours for the local authority are now pre-selected as default and the layout of the page has been updated.
 
 ## Scope
 
 **In-scope:**
 
 - **Enhancements**
-  - Choose local authorities to compare high needs spending page now has statitiscal neighbours pre-selected as default and the layout has been refreshed.
+  - Choose local authorities to compare high needs spending page now has statistical neighbours pre-selected as default and the layout has been refreshed.
 
 - **Bug Fixes**
   - Senior Leadership - error in razor markup
@@ -91,9 +91,10 @@ This release delivers an enhancement to the high needs benchmarking journey with
 
 | Test Category                | Total Tests | Passed | Failed | Pass Rate |  
 |------------------------------|:-----------:|:------:|:------:|:---------:|  
-| Smoke Tests - Prod           |      -      |   -    |   -    |   -       |  
-| Smoke Tests - Pre Prod       |      -      |   -    |   -    |   -       |
-| Regression Tests - Pre Prod  |      -      |   -    |   -    |   -       |  
+| Smoke tests - Prod           |      -      |   -    |   -    |   -       |
+| Sanity tests - Prod          |      -      |   -    |   -    |   -       |
+| Smoke tests - Pre Prod       |      -      |   -    |   -    |   -       |
+| Sanity tests - Pre Prod      |      -      |   -    |   -    |   -       |  
 | Total                        |      -      |   -    |   -    |   -       |  
 
 <!-- Leave the rest of this page blank -->
