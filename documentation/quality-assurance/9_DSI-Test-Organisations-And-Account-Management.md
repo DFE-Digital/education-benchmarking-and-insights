@@ -1,8 +1,33 @@
-# DSI Pre-Production Test Organisations
+# DSI Pre-Production Test Organisations and Account Management
 
-This document provides an overview of the DSI pre-production test organisations available for testing purposes across the development, testing, and automated test environments, contingent upon the inclusion of relevant data in these environments.
+This document provides an overview of the DSI pre-production test organisations and the management of associated accounts used across automated testing
+
+## Ownership and Administration
+
+The **Test Engineer** on the team is the current owner of these organisations and the associated test accounts.
+
+### Responsibilities
+
+**Primary Ownership:** Responsible for the maintenance and oversight of all test organisations.
+
+**Main Approver:** Acting as the primary approver for access requests within these organisations.
+
+**User Management:** Responsible for adding and managing users within these organisations as needed.
+
+**Role Transition:** In the event of a personnel change, the incoming Test Engineer assumes responsibility for creating new test accounts, assigning correct organisations and management of automated test accounts.
+
+## Automated Test Accounts
+
+The following accounts are managed by the Test Engineer and are linked to specific organisations for automated test suites:
+
+| Test Account Email                                     | Linked Organisations |
+|:-------------------------------------------------------| :--- |
+| `{testEnginnerEmailPrefix}+fbit.e2e@education.gov.uk`  | 002: Local Authority<br>01: Community School<br>010: Multi-Academy Trust<br>013: Single-Academy Trust 1<br>32: Special Post 16 Institution |
+| `{testEnginnerEmailPrefix}+fbit.a11y@education.gov.uk` | 05: Foundation School<br>07: Community Special School |
 
 ## Test Organisations Overview
+
+The Following organsiations have been set up in pre prod.
 
 | Category              | Name                                         | Identifier                            |
 |-----------------------|----------------------------------------------|---------------------------------------|
