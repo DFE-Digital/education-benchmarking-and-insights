@@ -72,7 +72,7 @@ This release delivers an enhancement to the high needs benchmarking journey with
 
 **Release Overview:**
 
-<!-- TODO: update with outcome for this release -->
+The release completed successfully with no issues.
 
 **Azure DevOps tickets included in this release:**
 
@@ -88,13 +88,13 @@ This release delivers an enhancement to the high needs benchmarking journey with
 
 **Summary of results:**  
 
-<!-- TODO: update with outcome for this release and test results -->
+Release completed successfully with no issues.
 
 | Test Category                | Total Tests | Passed | Failed | Pass Rate |  
 |------------------------------|:-----------:|:------:|:------:|:---------:|  
 | Sanity tests - Pre-Prod      |      1      |   1    |   0    |   100%    |
-| Smoke tests - Prod           |      -      |   -    |   -    |   -       |
-| Total                        |      -      |   -    |   -    |   -       |  
+| Smoke tests - Prod           |      1      |   1    |   0    |   100%    |
+| Total                        |      2      |   2    |   0    |   100%    |  
 
 <!-- Leave the rest of this page blank -->
 \newpage
