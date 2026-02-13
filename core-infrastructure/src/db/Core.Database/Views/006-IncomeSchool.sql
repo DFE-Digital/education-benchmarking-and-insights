@@ -37,6 +37,7 @@ GO
 CREATE VIEW VW_IncomeSchoolDefaultActual AS
 SELECT RunId,
        URN,
+       OverallPhase,
        TotalIncome,
        TotalGrantFunding,
        TotalSelfGeneratedFunding,
@@ -64,6 +65,7 @@ GO
 CREATE VIEW VW_IncomeSchoolDefaultPercentExpenditure AS
 SELECT RunId,
        URN,
+       OverallPhase,
        IIF(TotalExpenditure != 0, (TotalIncome / TotalExpenditure) * 100, NULL) AS 'TotalIncome',
        IIF(TotalExpenditure != 0, (TotalGrantFunding / TotalExpenditure) * 100, NULL) AS 'TotalGrantFunding',
        IIF(TotalExpenditure != 0, (TotalSelfGeneratedFunding / TotalExpenditure) * 100, NULL) AS 'TotalSelfGeneratedFunding',
@@ -91,6 +93,7 @@ GO
 CREATE VIEW VW_IncomeSchoolDefaultPercentIncome AS
 SELECT RunId,
        URN,
+       OverallPhase,
        IIF(TotalIncome != 0, (TotalIncome / TotalIncome) * 100, NULL) AS 'TotalIncome',
        IIF(TotalIncome != 0, (TotalGrantFunding / TotalIncome) * 100, NULL) AS 'TotalGrantFunding',
        IIF(TotalIncome != 0, (TotalSelfGeneratedFunding / TotalIncome) * 100, NULL) AS 'TotalSelfGeneratedFunding',
@@ -118,6 +121,7 @@ GO
 CREATE VIEW VW_IncomeSchoolDefaultPerUnit AS
 SELECT RunId,
        URN,
+       OverallPhase,
        IIF(TotalPupils != 0, TotalIncome / TotalPupils, NULL) AS 'TotalIncome',
        IIF(TotalPupils != 0, TotalGrantFunding / TotalPupils, NULL) AS 'TotalGrantFunding',
        IIF(TotalPupils != 0, TotalSelfGeneratedFunding / TotalPupils, NULL) AS 'TotalSelfGeneratedFunding',
@@ -137,4 +141,115 @@ SELECT RunId,
        IIF(TotalPupils != 0, OtherSelfGeneratedIncome / TotalPupils, NULL) AS 'OtherSelfGeneratedIncome'
 FROM Financial
 WHERE RunType = 'default'
+GO
+
+DROP VIEW IF EXISTS VW_IncomeSchoolDefaultNormalisedActual
+GO
+
+CREATE VIEW VW_IncomeSchoolDefaultNormalisedActual AS
+SELECT RunId,
+       URN,
+       OverallPhase,
+       IIF (TotalIncome IS NULL OR TotalIncome = 0, NULL, TotalIncome) AS 'TotalIncome',
+       IIF (TotalGrantFunding IS NULL OR TotalGrantFunding = 0, NULL, TotalGrantFunding) AS 'TotalGrantFunding',
+       IIF (TotalSelfGeneratedFunding IS NULL OR TotalSelfGeneratedFunding = 0, NULL, TotalSelfGeneratedFunding) AS 'TotalSelfGeneratedFunding',
+       IIF (DirectRevenueFinancing IS NULL OR DirectRevenueFinancing = 0, NULL, DirectRevenueFinancing) AS 'DirectRevenueFinancing',
+       IIF (DirectGrants IS NULL OR DirectGrants = 0, NULL, DirectGrants) AS 'DirectGrants',
+       IIF (PrePost16Funding IS NULL OR PrePost16Funding = 0, NULL, PrePost16Funding) AS 'PrePost16Funding',
+       IIF (OtherDfeGrants IS NULL OR OtherDfeGrants = 0, NULL, OtherDfeGrants) AS 'OtherDfeGrants',
+       IIF (OtherIncomeGrants IS NULL OR OtherIncomeGrants = 0, NULL, OtherIncomeGrants) AS 'OtherIncomeGrants',
+       IIF (GovernmentSource IS NULL OR GovernmentSource = 0, NULL, GovernmentSource) AS 'GovernmentSource',
+       IIF (CommunityGrants IS NULL OR CommunityGrants = 0, NULL, CommunityGrants) AS 'CommunityGrants',
+       IIF (Academies IS NULL OR Academies = 0, NULL, Academies) AS 'Academies',
+       IIF (IncomeFacilitiesServices IS NULL OR IncomeFacilitiesServices = 0, NULL, IncomeFacilitiesServices) AS 'IncomeFacilitiesServices',
+       IIF (IncomeCateringServices IS NULL OR IncomeCateringServices = 0, NULL, IncomeCateringServices) AS 'IncomeCateringServices',
+       IIF (DonationsVoluntaryFunds IS NULL OR DonationsVoluntaryFunds = 0, NULL, DonationsVoluntaryFunds) AS 'DonationsVoluntaryFunds',
+       IIF (ReceiptsSupplyTeacherInsuranceClaims IS NULL OR ReceiptsSupplyTeacherInsuranceClaims = 0, NULL, ReceiptsSupplyTeacherInsuranceClaims) AS 'ReceiptsSupplyTeacherInsuranceClaims',
+       IIF (InvestmentIncome IS NULL OR InvestmentIncome = 0, NULL, InvestmentIncome) AS 'InvestmentIncome',
+       IIF (OtherSelfGeneratedIncome IS NULL OR OtherSelfGeneratedIncome = 0, NULL, OtherSelfGeneratedIncome) AS 'OtherSelfGeneratedIncome'
+FROM VW_IncomeSchoolDefaultActual
+GO
+
+DROP VIEW IF EXISTS VW_IncomeSchoolDefaultNormalisedPercentExpenditure
+GO
+
+CREATE VIEW VW_IncomeSchoolDefaultNormalisedPercentExpenditure AS
+SELECT
+    RunId,
+    URN,
+    OverallPhase,
+    IIF (TotalIncome IS NULL OR TotalIncome = 0, NULL, TotalIncome) AS 'TotalIncome',
+    IIF (TotalGrantFunding IS NULL OR TotalGrantFunding = 0, NULL, TotalGrantFunding) AS 'TotalGrantFunding',
+    IIF (TotalSelfGeneratedFunding IS NULL OR TotalSelfGeneratedFunding = 0, NULL, TotalSelfGeneratedFunding) AS 'TotalSelfGeneratedFunding',
+    IIF (DirectRevenueFinancing IS NULL OR DirectRevenueFinancing = 0, NULL, DirectRevenueFinancing) AS 'DirectRevenueFinancing',
+    IIF (DirectGrants IS NULL OR DirectGrants = 0, NULL, DirectGrants) AS 'DirectGrants',
+    IIF (PrePost16Funding IS NULL OR PrePost16Funding = 0, NULL, PrePost16Funding) AS 'PrePost16Funding',
+    IIF (OtherDfeGrants IS NULL OR OtherDfeGrants = 0, NULL, OtherDfeGrants) AS 'OtherDfeGrants',
+    IIF (OtherIncomeGrants IS NULL OR OtherIncomeGrants = 0, NULL, OtherIncomeGrants) AS 'OtherIncomeGrants',
+    IIF (GovernmentSource IS NULL OR GovernmentSource = 0, NULL, GovernmentSource) AS 'GovernmentSource',
+    IIF (CommunityGrants IS NULL OR CommunityGrants = 0, NULL, CommunityGrants) AS 'CommunityGrants',
+    IIF (Academies IS NULL OR Academies = 0, NULL, Academies) AS 'Academies',
+    IIF (IncomeFacilitiesServices IS NULL OR IncomeFacilitiesServices = 0, NULL, IncomeFacilitiesServices) AS 'IncomeFacilitiesServices',
+    IIF (IncomeCateringServices IS NULL OR IncomeCateringServices = 0, NULL, IncomeCateringServices) AS 'IncomeCateringServices',
+    IIF (DonationsVoluntaryFunds IS NULL OR DonationsVoluntaryFunds = 0, NULL, DonationsVoluntaryFunds) AS 'DonationsVoluntaryFunds',
+    IIF (ReceiptsSupplyTeacherInsuranceClaims IS NULL OR ReceiptsSupplyTeacherInsuranceClaims = 0, NULL, ReceiptsSupplyTeacherInsuranceClaims) AS 'ReceiptsSupplyTeacherInsuranceClaims',
+    IIF (InvestmentIncome IS NULL OR InvestmentIncome = 0, NULL, InvestmentIncome) AS 'InvestmentIncome',
+    IIF (OtherSelfGeneratedIncome IS NULL OR OtherSelfGeneratedIncome = 0, NULL, OtherSelfGeneratedIncome) AS 'OtherSelfGeneratedIncome'
+FROM VW_IncomeSchoolDefaultPercentExpenditure
+GO
+
+DROP VIEW IF EXISTS VW_IncomeSchoolDefaultNormalisedPercentIncome
+GO
+
+CREATE VIEW VW_IncomeSchoolDefaultNormalisedPercentIncome AS
+SELECT
+    RunId,
+    URN,
+    OverallPhase,
+    IIF (TotalIncome IS NULL OR TotalIncome = 0, NULL, TotalIncome) AS 'TotalIncome',
+    IIF (TotalGrantFunding IS NULL OR TotalGrantFunding = 0, NULL, TotalGrantFunding) AS 'TotalGrantFunding',
+    IIF (TotalSelfGeneratedFunding IS NULL OR TotalSelfGeneratedFunding = 0, NULL, TotalSelfGeneratedFunding) AS 'TotalSelfGeneratedFunding',
+    IIF (DirectRevenueFinancing IS NULL OR DirectRevenueFinancing = 0, NULL, DirectRevenueFinancing) AS 'DirectRevenueFinancing',
+    IIF (DirectGrants IS NULL OR DirectGrants = 0, NULL, DirectGrants) AS 'DirectGrants',
+    IIF (PrePost16Funding IS NULL OR PrePost16Funding = 0, NULL, PrePost16Funding) AS 'PrePost16Funding',
+    IIF (OtherDfeGrants IS NULL OR OtherDfeGrants = 0, NULL, OtherDfeGrants) AS 'OtherDfeGrants',
+    IIF (OtherIncomeGrants IS NULL OR OtherIncomeGrants = 0, NULL, OtherIncomeGrants) AS 'OtherIncomeGrants',
+    IIF (GovernmentSource IS NULL OR GovernmentSource = 0, NULL, GovernmentSource) AS 'GovernmentSource',
+    IIF (CommunityGrants IS NULL OR CommunityGrants = 0, NULL, CommunityGrants) AS 'CommunityGrants',
+    IIF (Academies IS NULL OR Academies = 0, NULL, Academies) AS 'Academies',
+    IIF (IncomeFacilitiesServices IS NULL OR IncomeFacilitiesServices = 0, NULL, IncomeFacilitiesServices) AS 'IncomeFacilitiesServices',
+    IIF (IncomeCateringServices IS NULL OR IncomeCateringServices = 0, NULL, IncomeCateringServices) AS 'IncomeCateringServices',
+    IIF (DonationsVoluntaryFunds IS NULL OR DonationsVoluntaryFunds = 0, NULL, DonationsVoluntaryFunds) AS 'DonationsVoluntaryFunds',
+    IIF (ReceiptsSupplyTeacherInsuranceClaims IS NULL OR ReceiptsSupplyTeacherInsuranceClaims = 0, NULL, ReceiptsSupplyTeacherInsuranceClaims) AS 'ReceiptsSupplyTeacherInsuranceClaims',
+    IIF (InvestmentIncome IS NULL OR InvestmentIncome = 0, NULL, InvestmentIncome) AS 'InvestmentIncome',
+    IIF (OtherSelfGeneratedIncome IS NULL OR OtherSelfGeneratedIncome = 0, NULL, OtherSelfGeneratedIncome) AS 'OtherSelfGeneratedIncome'
+FROM VW_IncomeSchoolDefaultPercentIncome
+GO
+
+DROP VIEW IF EXISTS VW_IncomeSchoolDefaultNormalisedPerUnit
+GO
+
+CREATE VIEW VW_IncomeSchoolDefaultNormalisedPerUnit AS
+SELECT
+    RunId,
+    URN,
+    OverallPhase,
+    IIF (TotalIncome IS NULL OR TotalIncome = 0, NULL, TotalIncome) AS 'TotalIncome',
+    IIF (TotalGrantFunding IS NULL OR TotalGrantFunding = 0, NULL, TotalGrantFunding) AS 'TotalGrantFunding',
+    IIF (TotalSelfGeneratedFunding IS NULL OR TotalSelfGeneratedFunding = 0, NULL, TotalSelfGeneratedFunding) AS 'TotalSelfGeneratedFunding',
+    IIF (DirectRevenueFinancing IS NULL OR DirectRevenueFinancing = 0, NULL, DirectRevenueFinancing) AS 'DirectRevenueFinancing',
+    IIF (DirectGrants IS NULL OR DirectGrants = 0, NULL, DirectGrants) AS 'DirectGrants',
+    IIF (PrePost16Funding IS NULL OR PrePost16Funding = 0, NULL, PrePost16Funding) AS 'PrePost16Funding',
+    IIF (OtherDfeGrants IS NULL OR OtherDfeGrants = 0, NULL, OtherDfeGrants) AS 'OtherDfeGrants',
+    IIF (OtherIncomeGrants IS NULL OR OtherIncomeGrants = 0, NULL, OtherIncomeGrants) AS 'OtherIncomeGrants',
+    IIF (GovernmentSource IS NULL OR GovernmentSource = 0, NULL, GovernmentSource) AS 'GovernmentSource',
+    IIF (CommunityGrants IS NULL OR CommunityGrants = 0, NULL, CommunityGrants) AS 'CommunityGrants',
+    IIF (Academies IS NULL OR Academies = 0, NULL, Academies) AS 'Academies',
+    IIF (IncomeFacilitiesServices IS NULL OR IncomeFacilitiesServices = 0, NULL, IncomeFacilitiesServices) AS 'IncomeFacilitiesServices',
+    IIF (IncomeCateringServices IS NULL OR IncomeCateringServices = 0, NULL, IncomeCateringServices) AS 'IncomeCateringServices',
+    IIF (DonationsVoluntaryFunds IS NULL OR DonationsVoluntaryFunds = 0, NULL, DonationsVoluntaryFunds) AS 'DonationsVoluntaryFunds',
+    IIF (ReceiptsSupplyTeacherInsuranceClaims IS NULL OR ReceiptsSupplyTeacherInsuranceClaims = 0, NULL, ReceiptsSupplyTeacherInsuranceClaims) AS 'ReceiptsSupplyTeacherInsuranceClaims',
+    IIF (InvestmentIncome IS NULL OR InvestmentIncome = 0, NULL, InvestmentIncome) AS 'InvestmentIncome',
+    IIF (OtherSelfGeneratedIncome IS NULL OR OtherSelfGeneratedIncome = 0, NULL, OtherSelfGeneratedIncome) AS 'OtherSelfGeneratedIncome'
+FROM VW_IncomeSchoolDefaultPerUnit
 GO
