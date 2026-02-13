@@ -54,11 +54,11 @@
       },
       "Microsoft.AspNetCore.Mvc.Testing": {
         "type": "Direct",
-        "requested": "[8.0.22, )",
-        "resolved": "8.0.22",
-        "contentHash": "vQc4KeOLT8JnWEZDcYMMbgMz7E9Mi/u7pSLCZiuxcTNnHWxvzsX+3dahgxwwdsBBec6soTF/kCoitSo48d46oQ==",
+        "requested": "[8.0.23, )",
+        "resolved": "8.0.23",
+        "contentHash": "IYRM+t8bmLw7wr7rMubH0vNBBQf7+6Z0QslF9XATLuFax6r11nq6yYa7y7R/8Vxpx5qvR5DaKGc7MSij06HRZw==",
         "dependencies": {
-          "Microsoft.AspNetCore.TestHost": "8.0.22",
+          "Microsoft.AspNetCore.TestHost": "8.0.23",
           "Microsoft.Extensions.DependencyModel": "8.0.2",
           "Microsoft.Extensions.Hosting": "8.0.1"
         }
@@ -341,8 +341,8 @@
       },
       "Microsoft.AspNetCore.TestHost": {
         "type": "Transitive",
-        "resolved": "8.0.22",
-        "contentHash": "hQqs/MWVb62GSR3oYzktu67wka46a8yql94mnSBaGmDjinWhie0ECIRjca7i6kkZbsWVIb8wrBzo+B2BaPdSKw==",
+        "resolved": "8.0.23",
+        "contentHash": "OWqO+dw6MzefUYxkWsH4+kLGhol6LFf+SRN7xfznZ6tcboK00VnjrRdX31VZBcsi31TJnpTyfG7rbG8J4Bgopg==",
         "dependencies": {
           "System.IO.Pipelines": "8.0.0"
         }
