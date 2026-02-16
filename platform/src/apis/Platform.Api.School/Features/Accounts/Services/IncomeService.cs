@@ -13,6 +13,7 @@ public interface IIncomeService
 {
     Task<IncomeModelDto?> GetAsync(string urn, CancellationToken cancellationToken = default);
     Task<(YearsModelDto? years, IEnumerable<IncomeHistoryModelDto> rows)> GetHistoryAsync(string urn, string dimension, CancellationToken cancellationToken = default);
+    Task<(YearsModelDto? years, IEnumerable<IncomeHistoryModelDto> rows)> GetComparatorAveHistoryAsync(string urn, string dimension, CancellationToken cancellationToken = default);
 }
 
 [ExcludeFromCodeCoverage]
@@ -38,6 +39,23 @@ public class IncomeService(IDatabaseFactory dbFactory) : IIncomeService
         }
 
         var historyBuilder = new IncomeSchoolDefaultQuery(dimension)
+            .WhereUrnEqual(urn)
+            .WhereRunIdBetween(years.StartYear, years.EndYear);
+
+        return (years, await conn.QueryAsync<IncomeHistoryModelDto>(historyBuilder, cancellationToken));
+    }
+
+    public async Task<(YearsModelDto?, IEnumerable<IncomeHistoryModelDto>)> GetComparatorAveHistoryAsync(string urn, string dimension, CancellationToken cancellationToken = default)
+    {
+        using var conn = await dbFactory.GetConnection();
+        var years = await QueryYearsSchoolAsync(conn, urn, cancellationToken);
+
+        if (years == null)
+        {
+            return (null, []);
+        }
+
+        var historyBuilder = new IncomeSchoolDefaultComparatorAvgQuery(dimension)
             .WhereUrnEqual(urn)
             .WhereRunIdBetween(years.StartYear, years.EndYear);
 
