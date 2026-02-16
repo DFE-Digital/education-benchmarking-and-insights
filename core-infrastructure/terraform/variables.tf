@@ -10,7 +10,7 @@ variable "configuration" {
     sql_db_sku_name                  = string
     sql_db_max_size_gb               = number
     databricks_access_connector_name = string
-    databricks_access_connector_name = string
+    databricks_access_connector_rg = string
   }))
   default = {
     development = {
