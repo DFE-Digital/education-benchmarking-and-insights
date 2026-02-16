@@ -43,3 +43,18 @@ public class IncomeSchoolDefaultQuery(string dimension) : PlatformQuery(GetSql(d
         };
     }
 }
+
+public class IncomeSchoolDefaultComparatorAvgQuery(string dimension) : PlatformQuery(GetSql(dimension))
+{
+    private static string GetSql(string dimension)
+    {
+        return dimension switch
+        {
+            Dimensions.Finance.Actuals => "SELECT * FROM VW_IncomeSchoolDefaultComparatorAveActual /**where**/",
+            Dimensions.Finance.PerUnit => "SELECT * FROM VW_IncomeSchoolDefaultComparatorAvePerUnit /**where**/",
+            Dimensions.Finance.PercentExpenditure => "SELECT * FROM VW_IncomeSchoolDefaultComparatorAvePercentExpenditure /**where**/",
+            Dimensions.Finance.PercentIncome => "SELECT * FROM VW_IncomeSchoolDefaultComparatorAvePercentIncome /**where**/",
+            _ => throw new ArgumentOutOfRangeException(nameof(dimension), "Unknown dimension")
+        };
+    }
+}
