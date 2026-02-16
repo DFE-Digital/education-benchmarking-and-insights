@@ -12,7 +12,6 @@ WITH comparators AS (
 )
 SELECT s.URN
      , s.RunId
-     , c.OverallPhase
      , Avg (TotalIncome)                          AS 'TotalIncome'
      , Avg (TotalGrantFunding)                    AS 'TotalGrantFunding'
      , Avg (TotalSelfGeneratedFunding)            AS 'TotalSelfGeneratedFunding'
@@ -40,7 +39,6 @@ FROM comparators s
 GROUP
     BY s.URN
      , s.RunId
-     , c.OverallPhase
 GO
 
 DROP VIEW IF EXISTS VW_IncomeSchoolDefaultComparatorAvePercentExpenditure
@@ -57,7 +55,6 @@ WITH comparators AS (
         )
 SELECT s.URN
      , s.RunId
-     , c.OverallPhase
      , Avg (TotalIncome)                          AS 'TotalIncome'
      , Avg (TotalGrantFunding)                    AS 'TotalGrantFunding'
      , Avg (TotalSelfGeneratedFunding)            AS 'TotalSelfGeneratedFunding'
@@ -85,7 +82,6 @@ FROM comparators s
 GROUP
     BY s.URN
      , s.RunId
-     , c.OverallPhase
 GO
 
 DROP VIEW IF EXISTS VW_IncomeSchoolDefaultComparatorAvePercentIncome
@@ -102,7 +98,6 @@ WITH comparators AS (
         )
 SELECT s.URN
      , s.RunId
-     , c.OverallPhase
      , Avg (TotalIncome)                          AS 'TotalIncome'
      , Avg (TotalGrantFunding)                    AS 'TotalGrantFunding'
      , Avg (TotalSelfGeneratedFunding)            AS 'TotalSelfGeneratedFunding'
@@ -130,7 +125,6 @@ FROM comparators s
 GROUP
     BY s.URN
      , s.RunId
-     , c.OverallPhase
 GO
 
 DROP VIEW IF EXISTS VW_IncomeSchoolDefaultComparatorAvePerUnit
@@ -147,7 +141,6 @@ WITH comparators AS (
         )
 SELECT s.URN
      , s.RunId
-     , c.OverallPhase
      , Avg (TotalIncome)                          AS 'TotalIncome'
      , Avg (TotalGrantFunding)                    AS 'TotalGrantFunding'
      , Avg (TotalSelfGeneratedFunding)            AS 'TotalSelfGeneratedFunding'
@@ -175,5 +168,4 @@ FROM comparators s
 GROUP
     BY s.URN
      , s.RunId
-     , c.OverallPhase
 GO
