@@ -7,8 +7,10 @@ variable "support-alert-email" {}
 
 variable "configuration" {
   type = map(object({
-    sql_db_sku_name    = string
-    sql_db_max_size_gb = number
+    sql_db_sku_name                  = string
+    sql_db_max_size_gb               = number
+    databricks_access_connector_name = string
+    databricks_access_connector_name = string
   }))
   default = {
     development = {
@@ -18,8 +20,10 @@ variable "configuration" {
       databricks_access_connector_rg   = "s101d01-rg-edap"
     }
     automated-test = {
-      sql_db_sku_name    = "S1"
-      sql_db_max_size_gb = 5
+      sql_db_sku_name                  = "S1"
+      sql_db_max_size_gb               = 5
+      databricks_access_connector_name = ""
+      databricks_access_connector_rg   = ""
     }
     test = {
       sql_db_sku_name                  = "S1"
@@ -28,8 +32,10 @@ variable "configuration" {
       databricks_access_connector_rg   = "s101t01-rg-adapt"
     }
     feature = {
-      sql_db_sku_name    = "S0"
-      sql_db_max_size_gb = 5
+      sql_db_sku_name                  = "S0"
+      sql_db_max_size_gb               = 5
+      databricks_access_connector_name = ""
+      databricks_access_connector_rg   = ""
     }
     pre-production = {
       sql_db_sku_name                  = "S1"
