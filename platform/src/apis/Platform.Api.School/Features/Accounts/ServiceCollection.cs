@@ -16,6 +16,7 @@ public static class ServiceCollection
     {
         serviceCollection
             .AddSingleton<IQueryItSpendingHandler, QueryItSpendingV1Handler>()
+            .AddSingleton<IGetIncomeComparatorSetAverageHistoryHandler, GetIncomeComparatorSetAverageHistoryV1Handler>()
             .AddSingleton<IGetIncomeHandler, GetIncomeV1Handler>()
             .AddSingleton<IGetIncomeHistoryHandler, GetIncomeHistoryV1Handler>()
             .AddSingleton<IGetBalanceHandler, GetBalanceV1Handler>()
