@@ -238,9 +238,9 @@ resource "azurerm_storage_account" "databrickslz" {
     }
   }
 
-  # lifecycle {
-  #   prevent_destroy = true
-  # }
+  lifecycle {
+    prevent_destroy = true
+  }
 }
 
 resource "azurerm_storage_container" "landing-zone" {
@@ -252,4 +252,15 @@ resource "azurerm_storage_container" "landing-zone" {
   lifecycle {
     prevent_destroy = true
   }
+}
+
+data "azurerm_databricks_access_connector" "connector" {
+  name                = var.configuration[var.environment].databricks_access_connector_name
+  resource_group_name = var.configuration[var.environment].databricks_access_connector_rg
+}
+
+resource "azurerm_role_assignment" "databricks_blob_access" {
+  scope                = azurerm_storage_account.databrickslz.id
+  role_definition_name = "Storage Blob Data Contributor"
+  principal_id         = data.azurerm_databricks_access_connector.connector.identity[0].principal_id
 }
