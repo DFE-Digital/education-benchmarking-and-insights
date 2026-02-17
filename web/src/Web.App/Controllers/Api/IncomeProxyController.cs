@@ -3,14 +3,13 @@ using Microsoft.AspNetCore.Mvc;
 using Web.App.Attributes;
 using Web.App.Domain;
 using Web.App.Infrastructure.Apis;
-using Web.App.Infrastructure.Apis.Insight;
 using Web.App.Infrastructure.Extensions;
 
 namespace Web.App.Controllers.Api;
 
 [ApiController]
 [Route("api/income")]
-public class IncomeProxyController(ILogger<IncomeProxyController> logger, IIncomeApi api) : Controller
+public class IncomeProxyController(ILogger<IncomeProxyController> logger, ISchoolApi schoolApi, ITrustApi trustApi) : Controller
 {
     /// <param name="type" example="school"></param>
     /// <param name="id" example="140565"></param>
@@ -42,8 +41,8 @@ public class IncomeProxyController(ILogger<IncomeProxyController> logger, IIncom
 
                 var result = type.ToLower() switch
                 {
-                    OrganisationTypes.School => await api.SchoolHistory(id, query, cancellationToken).GetResultOrDefault<IncomeHistoryRows>(),
-                    OrganisationTypes.Trust => await api.TrustHistory(id, query, cancellationToken).GetResultOrDefault<IncomeHistoryRows>(),
+                    OrganisationTypes.School => await schoolApi.QueryIncomeHistoryAsync(id, query, cancellationToken).GetResultOrDefault<IncomeHistoryRows>(),
+                    OrganisationTypes.Trust => await trustApi.QueryIncomeHistoryAsync(id, query, cancellationToken).GetResultOrDefault<IncomeHistoryRows>(),
                     _ => throw new ArgumentOutOfRangeException(nameof(type))
                 };
 
