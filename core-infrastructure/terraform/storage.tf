@@ -255,7 +255,7 @@ resource "azurerm_storage_container" "landing-zone" {
 }
 
 data "azurerm_databricks_access_connector" "connector" {
-  subscription_id     = var.configuration[var.environment].databricks_subscription_id
+  provider            = azurerm.databricks_sub
   name                = var.configuration[var.environment].databricks_access_connector_name
   resource_group_name = var.configuration[var.environment].databricks_access_connector_rg
 }
