@@ -34,6 +34,52 @@ export class HistoryService {
     return HistoryService.populateHistoricYears(historyRows);
   }
 
+  static async getIncomeHistoryComparison(
+    type: string,
+    id: string,
+    dimension: string,
+    overallPhase?: string,
+    financeType?: string,
+    signals?: AbortSignal[]
+  ): Promise<SchoolHistoryComparison<IncomeHistoryItem>> {
+    const {
+      startYear,
+      endYear,
+      school,
+      comparatorSetAverage,
+      nationalAverage,
+    } = await IncomeApi.historyComparison(
+      type,
+      id,
+      dimension,
+      overallPhase,
+      financeType,
+      signals
+    );
+
+    if (!startYear || !endYear) {
+      return {};
+    }
+
+    return {
+      school: HistoryService.populateHistoricYearsRows(
+        school || [],
+        startYear,
+        endYear
+      ),
+      comparatorSetAverage: HistoryService.populateHistoricYearsRows(
+        comparatorSetAverage || [],
+        startYear,
+        endYear
+      ),
+      nationalAverage: HistoryService.populateHistoricYearsRows(
+        nationalAverage || [],
+        startYear,
+        endYear
+      ),
+    };
+  }
+
   static async getCensusHistory(
     id: string,
     dimension: string,

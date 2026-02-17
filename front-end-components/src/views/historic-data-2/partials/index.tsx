@@ -1,4 +1,8 @@
-import { CensusHistoryItem, ExpenditureHistoryItem } from "src/services";
+import {
+  CensusHistoryItem,
+  ExpenditureHistoryItem,
+  IncomeHistoryItem,
+} from "src/services";
 import { HistoricData2Section, HistoricData2SectionChart } from "../types";
 import {
   PoundsPerMetreSq,
@@ -9,6 +13,7 @@ import {
 /* eslint-disable react-refresh/only-export-components */
 export * from "src/views/historic-data-2/partials/spending-section.tsx";
 export * from "src/views/historic-data-2/partials/census-section.tsx";
+export * from "src/views/historic-data-2/partials/income-section.tsx";
 
 export const spendingSections: HistoricData2Section<ExpenditureHistoryItem>[] =
   [
@@ -419,5 +424,319 @@ export const censusCharts: HistoricData2SectionChart<CensusHistoryItem>[] = [
         </>
       ),
     },
+  },
+];
+
+export const incomeSections: HistoricData2Section<IncomeHistoryItem>[] = [
+  {
+    heading: "Grant funding",
+    charts: [
+      {
+        name: "Grant funding total",
+        field: "totalGrantFunding",
+        perUnitDimension: PoundsPerPupil,
+      },
+      {
+        name: "Direct grants",
+        field: "directGrants",
+        perUnitDimension: PoundsPerPupil,
+        details: {
+          label: "More about direct grants",
+          content: (
+            <>
+              <p>Where there is funding, direct grants include:</p>
+              <ul className="govuk-list govuk-list--bullet">
+                <li>pre-16 funding</li>
+                <li>post-16 funding</li>
+                <li>
+                  Department of Education (DfE)/Education Funding Agency (EFA)
+                  revenue grants
+                </li>
+                <li>other DfE or EFA revenue grants</li>
+                <li>
+                  other income (local authority and other government grants)
+                </li>
+                <li>government source (non-grant)</li>
+              </ul>
+            </>
+          ),
+        },
+      },
+      {
+        name: "Pre-16 and post-16 funding",
+        field: "prePost16Funding",
+        perUnitDimension: PoundsPerPupil,
+      },
+      {
+        name: "Other DfE revenue grants",
+        field: "otherDfeGrants",
+        perUnitDimension: PoundsPerPupil,
+      },
+      {
+        name: "Other income (local authority and other government grants)",
+        field: "otherIncomeGrants",
+        perUnitDimension: PoundsPerPupil,
+      },
+      {
+        name: "Government source (non-grant)",
+        field: "governmentSource",
+        perUnitDimension: PoundsPerPupil,
+      },
+      {
+        name: "Community grants",
+        field: "communityGrants",
+        perUnitDimension: PoundsPerPupil,
+      },
+      {
+        name: "Academies",
+        field: "academies",
+        perUnitDimension: PoundsPerPupil,
+      },
+    ],
+  },
+  {
+    heading: "Self-generated",
+    charts: [
+      {
+        name: "Self-generated funding total",
+        field: "totalSelfGeneratedFunding",
+        perUnitDimension: PoundsPerPupil,
+      },
+      {
+        name: "Income from facilities and services",
+        field: "incomeFacilitiesServices",
+        perUnitDimension: PoundsPerPupil,
+        details: {
+          label: "More about income from facilities and services",
+          content: (
+            <>
+              <p>This includes:</p>
+              <ul className="govuk-list govuk-list--bullet">
+                <li>
+                  income from meals provided to external customers, including
+                  other schools
+                </li>
+                <li>
+                  income from assets such as the hire of premises, equipment or
+                  other facilities
+                </li>
+                <li>
+                  all other income the school receives from facilities and
+                  services, like income for consultancy, training courses and
+                  examination fees
+                </li>
+                <li>
+                  any interest payments received from bank accounts held in the
+                  school's name or used to fund school activities
+                </li>
+                <li>
+                  income from the sale of school uniforms, materials, private
+                  phone calls, photocopying, publications, books
+                </li>
+                <li>income from before and after school clubs</li>
+                <li>
+                  income from the re-sale of items to pupils, like musical
+                  instruments, classroom resources, commission on photographs
+                </li>
+                <li>income from non-catering vending machines</li>
+                <li>income from a pupil-focused special facility</li>
+                <li>
+                  rental of school premises including deductions from salaries
+                  where staff live on site
+                </li>
+                <li>income from universities for student/teacher placements</li>
+                <li>income from energy/feed in tariffs</li>
+                <li>
+                  income from SEN and alternative provision support services
+                  commissioned by a local authority or another school, for
+                  delivery under a service level agreement
+                </li>
+              </ul>
+              <p>It excludes:</p>
+              <ul className="govuk-list govuk-list--bullet">
+                <li>
+                  payments received from other schools for which you have not
+                  provided a service
+                </li>
+                <li>income from community-focused special facilities</li>
+                <li>high-needs place funding</li>
+                <li>high-needs top-up funding</li>
+                <li>any balances carried forward from previous years</li>
+              </ul>
+            </>
+          ),
+        },
+      },
+      {
+        name: "Income from catering",
+        field: "incomeCatering",
+        perUnitDimension: PoundsPerPupil,
+        details: {
+          label: "More about income from catering",
+          content: (
+            <>
+              <p>This includes:</p>
+              <ul className="govuk-list govuk-list--bullet">
+                <li>
+                  income from catering, school milk, and catering vending
+                  machines
+                </li>
+                <li>
+                  any payments received from catering contractors, such as where
+                  a contractor has previously overcharged the school
+                </li>
+              </ul>
+              <p>It excludes:</p>
+              <ul className="govuk-list govuk-list--bullet">
+                <li>receipts for catering for external customers</li>
+                <li>income from non-catering vending machines</li>
+                <li>any balances carried forward from previous years</li>
+              </ul>
+            </>
+          ),
+        },
+      },
+      {
+        name: "Donations and/or voluntary funds",
+        field: "donationsVoluntaryFunds",
+        perUnitDimension: PoundsPerPupil,
+        details: {
+          label: "More about donations and/or voluntary funds",
+          content: (
+            <>
+              <p>
+                This is income from private sources under the control of the
+                governing body, including:
+              </p>
+              <ul className="govuk-list govuk-list--bullet">
+                <li>income provided from foundation, diocese or trust funds</li>
+                <li>business sponsorship</li>
+                <li>income from fundraising activities</li>
+                <li>
+                  contributions from parents (not directly requested by the
+                  school) used to provide educational benefits
+                </li>
+              </ul>
+              <p>It excludes:</p>
+              <ul className="govuk-list govuk-list--bullet">
+                <li>
+                  contributions or donations that are not used for the benefit
+                  of students' learning or the school
+                </li>
+                <li>
+                  balances available in trust funds or other private or
+                  non-public accounts
+                </li>
+                <li>balances carried forward from previous years</li>
+              </ul>
+            </>
+          ),
+        },
+      },
+      {
+        name: "Receipts from supply teacher insurance claims",
+        field: "receiptsSupplyTeacherInsuranceClaims",
+        perUnitDimension: PoundsPerPupil,
+        details: {
+          label: "More about receipts from supply teacher insurance claims",
+          content: (
+            <>
+              <p>This includes:</p>
+              <ul className="govuk-list govuk-list--bullet">
+                <li>
+                  payments from staff absence insurance schemes to cover the
+                  cost of supply teachers (including those offered by the local
+                  authority)
+                </li>
+              </ul>
+              <p>It excludes:</p>
+              <ul className="govuk-list govuk-list--bullet">
+                <li>
+                  insurance receipts for any other claim, for example absence of
+                  non-teaching staff, or building, contents, and public
+                  liability
+                </li>
+                <li>balances carried forward from previous years</li>
+              </ul>
+            </>
+          ),
+        },
+      },
+      {
+        name: "Investment income",
+        field: "investmentIncome",
+        perUnitDimension: PoundsPerPupil,
+        details: {
+          label: "More about investment income",
+          content: (
+            <>
+              <p>This includes:</p>
+              <ul className="govuk-list govuk-list--bullet">
+                <li>interest</li>
+                <li>dividend income</li>
+                <li>other investment income</li>
+              </ul>
+            </>
+          ),
+        },
+      },
+      {
+        name: "Other self-generated income",
+        field: "otherSelfGeneratedIncome",
+        perUnitDimension: PoundsPerPupil,
+        details: {
+          label: "More about other self-generated income",
+          content: (
+            <>
+              <p>This includes:</p>
+              <ul className="govuk-list govuk-list--bullet">
+                <li>fundraising activity</li>
+                <li>lettings</li>
+                <li>non-governmental grants</li>
+                <li>commercial sponsorship</li>
+                <li>consultancy</li>
+              </ul>
+            </>
+          ),
+        },
+      },
+    ],
+  },
+  {
+    heading: "Direct revenue financing",
+    charts: [
+      {
+        name: "Direct revenue financing (capital reserves transfers)",
+        field: "directRevenueFinancing",
+        perUnitDimension: PoundsPerPupil,
+        details: {
+          label: "More about direct revenue financing",
+          content: (
+            <>
+              <p>This includes:</p>
+              <ul className="govuk-list govuk-list--bullet">
+                <li>
+                  all amounts transferred to CI04 to be accumulated to fund
+                  capital works (it may include receipts from insurance claims
+                  for capital losses received into income under I11)
+                </li>
+                <li>
+                  any amount transferred to a local authority reserve to part
+                  fund a capital scheme delivered by the local authority
+                </li>
+                <li>
+                  any repayment of principal on a capital loan from the local
+                  authority
+                </li>
+              </ul>
+              <p>It excludes:</p>
+              <ul className="govuk-list govuk-list--bullet">
+                <li>funds specifically provided for capital purposes</li>
+              </ul>
+            </>
+          ),
+        },
+      },
+    ],
   },
 ];
