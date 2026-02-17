@@ -1,4 +1,8 @@
-import { IncomeHistoryRows } from "src/services/types";
+import {
+  IncomeHistoryRow,
+  IncomeHistoryRows,
+  SchoolHistoryComparison,
+} from "src/services/types";
 import { v4 as uuidv4 } from "uuid";
 
 export class IncomeApi {
@@ -15,6 +19,40 @@ export class IncomeApi {
     });
 
     const response = await fetch("/api/income/history?" + params, {
+      redirect: "manual",
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "X-Correlation-ID": uuidv4(),
+      },
+      signal: signals?.length ? AbortSignal.any(signals) : undefined,
+    });
+
+    const json = await response.json();
+    if (json.error) {
+      throw json.error;
+    }
+
+    return json;
+  }
+
+  static async historyComparison(
+    type: string,
+    id: string,
+    dimension: string,
+    overallPhase?: string,
+    financeType?: string,
+    signals?: AbortSignal[]
+  ): Promise<SchoolHistoryComparison<IncomeHistoryRow>> {
+    const params = new URLSearchParams({
+      type: type,
+      id: id,
+      dimension: dimension,
+      phase: overallPhase || "",
+      financeType: financeType || "",
+    });
+
+    const response = await fetch("/api/income/history/comparison?" + params, {
       redirect: "manual",
       method: "GET",
       headers: {
