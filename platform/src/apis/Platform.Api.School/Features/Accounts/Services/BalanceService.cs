@@ -15,6 +15,7 @@ public interface IBalanceService
     Task<BalanceModelDto?> GetAsync(string urn, CancellationToken cancellationToken = default);
     Task<(YearsModelDto? years, IEnumerable<BalanceHistoryModelDto> rows)> GetHistoryAsync(string urn, string dimension, CancellationToken cancellationToken = default);
     Task<(YearsModelDto?, IEnumerable<BalanceHistoryModelDto>)> GetNationalAvgHistoryAsync(string overallPhase, string financeType, string dimension, CancellationToken cancellationToken = default);
+    Task<(YearsModelDto? years, IEnumerable<BalanceHistoryModelDto> rows)> GetComparatorAveHistoryAsync(string urn, string dimension, CancellationToken cancellationToken = default);
 }
 
 [ExcludeFromCodeCoverage]
@@ -46,6 +47,23 @@ public class BalanceService(IDatabaseFactory dbFactory, ICacheKeyFactory cacheKe
         return (years, await conn.QueryAsync<BalanceHistoryModelDto>(historyBuilder, cancellationToken));
     }
 
+    public async Task<(YearsModelDto?, IEnumerable<BalanceHistoryModelDto>)> GetComparatorAveHistoryAsync(string urn, string dimension, CancellationToken cancellationToken = default)
+    {
+        using var conn = await dbFactory.GetConnection();
+        var years = await QueryYearsSchoolAsync(conn, urn, cancellationToken);
+
+        if (years == null)
+        {
+            return (null, []);
+        }
+
+        var historyBuilder = new BalanceSchoolDefaultComparatorAvgQuery(dimension)
+            .WhereUrnEqual(urn)
+            .WhereRunIdBetween(years.StartYear, years.EndYear);
+
+        return (years, await conn.QueryAsync<BalanceHistoryModelDto>(historyBuilder, cancellationToken));
+    }
+    
     public async Task<(YearsModelDto?, IEnumerable<BalanceHistoryModelDto>)> GetNationalAvgHistoryAsync(string overallPhase, string financeType, string dimension, CancellationToken cancellationToken = default)
     {
         using var conn = await dbFactory.GetConnection();
