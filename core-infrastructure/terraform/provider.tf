@@ -30,6 +30,7 @@ provider "azurerm" {
 provider "azurerm" {
   alias           = "databricks_sub"
   subscription_id = var.configuration[var.environment].databricks_subscription_id
+  features {}
 }
 
 provider "azapi" {
