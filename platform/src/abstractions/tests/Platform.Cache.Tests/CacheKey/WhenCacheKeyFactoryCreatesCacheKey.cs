@@ -33,6 +33,14 @@ public class WhenCacheKeyFactoryCreatesCacheKey
     }
 
     [Theory]
+    [InlineData(2000, "overall phase", "finance type", "dimension", "2000:balance:history:national-average:overall.phase|finance.type|dimension")]
+    public void ShouldReturnKeyForBalanceHistoryNationalAverage(int endYear, string overallPhase, string financeType, string dimension, string expected)
+    {
+        var actual = _factory.CreateBalanceHistoryNationalAverageCacheKey(endYear, overallPhase, financeType, dimension);
+        Assert.Equal(expected, actual);
+    }
+
+    [Theory]
     [InlineData(new[]
     {
         "type",

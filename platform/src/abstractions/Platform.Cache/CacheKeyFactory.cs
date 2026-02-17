@@ -13,6 +13,9 @@ public partial class CacheKeyFactory : ICacheKeyFactory
     public string CreateIncomeHistoryNationalAverageCacheKey(int endYear, string overallPhase, string financeType, string dimension) =>
         CreateHistoryCacheKey(endYear, "income", overallPhase, financeType, dimension);
 
+    public string CreateBalanceHistoryNationalAverageCacheKey(int endYear, string overallPhase, string financeType, string dimension) =>
+        CreateHistoryCacheKey(endYear, "balance", overallPhase, financeType, dimension);
+
     public string CreateCacheKey(params string[] parts) => string.Join(":", parts.Select(EncodeKeyPart));
 
     private static string? EncodeKeyPart(string? field) => string.IsNullOrWhiteSpace(field)
@@ -31,5 +34,6 @@ public interface ICacheKeyFactory
     string CreateCensusHistoryNationalAverageCacheKey(int endYear, string overallPhase, string financeType, string dimension);
     string CreateExpenditureHistoryNationalAverageCacheKey(int endYear, string overallPhase, string financeType, string dimension);
     string CreateIncomeHistoryNationalAverageCacheKey(int endYear, string overallPhase, string financeType, string dimension);
+    string CreateBalanceHistoryNationalAverageCacheKey(int endYear, string overallPhase, string financeType, string dimension);
     string CreateCacheKey(params string[] parts);
 }
