@@ -1,7 +1,7 @@
-DROP VIEW IF EXISTS VW_IncomeSchoolDefaultComparatorAveActual
+DROP VIEW IF EXISTS VW_BalanceSchoolDefaultComparatorAveActual
 GO
 
-CREATE VIEW VW_IncomeSchoolDefaultComparatorAveActual AS
+CREATE VIEW VW_BalanceSchoolDefaultComparatorAveActual AS
 WITH comparators AS (
     SELECT RunId
          , URN
