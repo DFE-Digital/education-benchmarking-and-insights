@@ -62,7 +62,7 @@ public class SchoolApi(HttpClient httpClient, string? key = null) : ApiBase(http
         public static string QueryItSpending => $"{Base}/accounts/it-spending";
         public static string QuerySeniorLeadership => $"{Base}/census/senior-leadership";
         public static string QueryIncomeHistory(string? identifier) => $"{Base}/{identifier}/accounts/income/history";
-        public static string QueryIncomeComparatorSetAverageHistory(string? identifier) => $"{Base}/{identifier}/comparator-set-average/accounts/expenditure/history";
+        public static string QueryIncomeComparatorSetAverageHistory(string? identifier) => $"{Base}/{identifier}/comparator-set-average/accounts/income/history";
         public static string QueryIncomeNationalAverageHistory => $"{Base}/national-average/accounts/income/history";
     }
 }
