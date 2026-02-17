@@ -14,7 +14,8 @@ public interface IBalanceService
 {
     Task<BalanceModelDto?> GetAsync(string urn, CancellationToken cancellationToken = default);
     Task<(YearsModelDto? years, IEnumerable<BalanceHistoryModelDto> rows)> GetHistoryAsync(string urn, string dimension, CancellationToken cancellationToken = default);
-    Task<(YearsModelDto?, IEnumerable<BalanceHistoryModelDto>)> GetNationalAvgHistoryAsync(string overallPhase, string financeType, string dimension, CancellationToken cancellationToken = default);}
+    Task<(YearsModelDto?, IEnumerable<BalanceHistoryModelDto>)> GetNationalAvgHistoryAsync(string overallPhase, string financeType, string dimension, CancellationToken cancellationToken = default);
+}
 
 [ExcludeFromCodeCoverage]
 public class BalanceService(IDatabaseFactory dbFactory, ICacheKeyFactory cacheKeyFactory, IDistributedCache cache) : IBalanceService
