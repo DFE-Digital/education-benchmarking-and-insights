@@ -31,6 +31,7 @@ provider "azurerm" {
   alias           = "databricks_sub"
   # subscription_id = var.configuration[var.environment].databricks_subscription_id
   subscription_id = "48ea0797-73c6-4202-bf90-b01c817058e9"
+  resource_provider_registrations = "none"
   features {}
 }
 

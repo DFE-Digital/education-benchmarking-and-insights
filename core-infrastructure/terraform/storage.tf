@@ -264,5 +264,5 @@ resource "azurerm_role_assignment" "databricks_blob_access" {
   scope                = azurerm_storage_account.databrickslz.id
   role_definition_name = "Storage Blob Data Contributor"
   principal_id         = data.azurerm_databricks_access_connector.connector.identity[0].principal_id
-  principal_type       = "Group"
+  # principal_type       = "Service Principal"
 }
