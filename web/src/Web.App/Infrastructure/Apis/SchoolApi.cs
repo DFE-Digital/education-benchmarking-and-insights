@@ -37,7 +37,14 @@ public class SchoolApi(HttpClient httpClient, string? key = null) : ApiBase(http
     public async Task<ApiResult> QueryMetricRagRatingDetailsAsync(ApiQuery? query = null, CancellationToken cancellationToken = default) => await GetAsync($"{Routes.QueryMetricRagRatingsDetails}{query?.ToQueryString()}", cancellationToken);
 
     public async Task<ApiResult> QueryItSpendingAsync(ApiQuery? query = null, CancellationToken cancellationToken = default) => await GetAsync($"{Routes.QueryItSpending}{query?.ToQueryString()}", cancellationToken);
+
     public async Task<ApiResult> QuerySeniorLeadershipAsync(ApiQuery? query = null, CancellationToken cancellationToken = default) => await GetAsync($"{Routes.QuerySeniorLeadership}{query?.ToQueryString()}", cancellationToken);
+
+    public async Task<ApiResult> QueryIncomeHistoryAsync(string identifier, ApiQuery? query = null, CancellationToken cancellationToken = default) => await GetAsync($"{Routes.QueryIncomeHistory(identifier)}{query?.ToQueryString()}", cancellationToken);
+
+    public async Task<ApiResult> QueryIncomeComparatorSetAverageHistoryAsync(string identifier, ApiQuery? query = null, CancellationToken cancellationToken = default) => await GetAsync($"{Routes.QueryIncomeComparatorSetAverageHistory(identifier)}{query?.ToQueryString()}", cancellationToken);
+
+    public async Task<ApiResult> QueryIncomeNationalAverageHistoryAsync(ApiQuery? query = null, CancellationToken cancellationToken = default) => await GetAsync($"{Routes.QueryIncomeNationalAverageHistory}{query?.ToQueryString()}", cancellationToken);
 
     private static class Routes
     {
@@ -54,6 +61,9 @@ public class SchoolApi(HttpClient httpClient, string? key = null) : ApiBase(http
         public static string MetricRagRatingsUserDefined(string? identifier) => $"{Base}/user-defined/{identifier}/metric-rag-ratings";
         public static string QueryItSpending => $"{Base}/accounts/it-spending";
         public static string QuerySeniorLeadership => $"{Base}/census/senior-leadership";
+        public static string QueryIncomeHistory(string? identifier) => $"{Base}/{identifier}/accounts/income/history";
+        public static string QueryIncomeComparatorSetAverageHistory(string? identifier) => $"{Base}/{identifier}/comparator-set-average/accounts/income/history";
+        public static string QueryIncomeNationalAverageHistory => $"{Base}/national-average/accounts/income/history";
     }
 }
 
@@ -70,4 +80,7 @@ public interface ISchoolApi
     Task<ApiResult> QueryMetricRagRatingDetailsAsync(ApiQuery? query = null, CancellationToken cancellationToken = default);
     Task<ApiResult> QueryItSpendingAsync(ApiQuery? query = null, CancellationToken cancellationToken = default);
     Task<ApiResult> QuerySeniorLeadershipAsync(ApiQuery? query = null, CancellationToken cancellationToken = default);
+    Task<ApiResult> QueryIncomeHistoryAsync(string identifier, ApiQuery? query = null, CancellationToken cancellationToken = default);
+    Task<ApiResult> QueryIncomeComparatorSetAverageHistoryAsync(string identifier, ApiQuery? query = null, CancellationToken cancellationToken = default);
+    Task<ApiResult> QueryIncomeNationalAverageHistoryAsync(ApiQuery? query = null, CancellationToken cancellationToken = default);
 }

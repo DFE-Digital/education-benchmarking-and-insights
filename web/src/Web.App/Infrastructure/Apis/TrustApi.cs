@@ -31,6 +31,8 @@ public class TrustApi(HttpClient httpClient, string? key = null) : ApiBase(httpC
 
     public async Task<ApiResult> ItSpendingForecastAsync(string? companyNumber, CancellationToken cancellationToken = default) => await GetAsync(Routes.ItSpendingForecast(companyNumber), cancellationToken);
 
+    public async Task<ApiResult> QueryIncomeHistoryAsync(string? companyNumber, ApiQuery? query = null, CancellationToken cancellationToken = default) => await GetAsync(Routes.QueryIncomeHistory(companyNumber), cancellationToken);
+
     private static class Routes
     {
         private const string Base = "api/trusts";
@@ -42,6 +44,7 @@ public class TrustApi(HttpClient httpClient, string? key = null) : ApiBase(httpC
         public static string Comparators(string? identifier) => $"{Base}/{identifier}/comparators";
         public static string QueryItSpending => $"{Base}/budget-forecast/it-spending";
         public static string ItSpendingForecast(string? identifier) => $"{Base}/{identifier}/budget-forecast/it-spending/forecast";
+        public static string QueryIncomeHistory(string? identifier) => $"{Base}/{identifier}/accounts/income/history";
     }
 }
 
@@ -54,4 +57,5 @@ public interface ITrustApi
     Task<ApiResult> CreateComparatorsAsync(string companyNumber, PostTrustComparatorsRequest request, CancellationToken cancellationToken = default);
     Task<ApiResult> QueryItSpendingAsync(ApiQuery? query = null, CancellationToken cancellationToken = default);
     Task<ApiResult> ItSpendingForecastAsync(string? companyNumber, CancellationToken cancellationToken = default);
+    Task<ApiResult> QueryIncomeHistoryAsync(string? companyNumber, ApiQuery? query = null, CancellationToken cancellationToken = default);
 }

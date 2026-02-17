@@ -70,6 +70,7 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
     public Mock<IItSpendApi> ItSpendApi { get; } = new();
     public Mock<INewsApi> NewsApi { get; } = new();
     public Mock<ISchoolApi> SchoolApi { get; } = new();
+    public Mock<ITrustApi> TrustApi { get; } = new();
 
     public IOptions<CacheOptions> CacheOptions { get; } = Options.Create(new CacheOptions
     {
@@ -124,6 +125,7 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
         services.AddSingleton(ItSpendApi.Object);
         services.AddSingleton(SchoolApi.Object);
         services.AddSingleton(NewsApi.Object);
+        services.AddSingleton(TrustApi.Object);
         services.AddSingleton(CacheOptions);
         services.AddSingleton(CacheOptions);
         services.AddSingleton(UriBuilder);
@@ -862,11 +864,19 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
         return this;
     }
 
-    public BenchmarkingWebAppClient SetupSchool(School school, SeniorLeadershipGroup[]? group = null)
+    public BenchmarkingWebAppClient SetupSchool(
+        School school,
+        SeniorLeadershipGroup[]? group = null,
+        IncomeHistoryRows? historySchool = null,
+        IncomeHistoryRows? historyComparatorSet = null,
+        IncomeHistoryRows? historyNational = null)
     {
         SchoolApi.Reset();
         SchoolApi.Setup(api => api.SingleAsync(It.IsAny<string>(), It.IsAny<CancellationToken>())).ReturnsAsync(ApiResult.Ok(school));
         SchoolApi.Setup(api => api.QuerySeniorLeadershipAsync(It.IsAny<ApiQuery>(), It.IsAny<CancellationToken>())).ReturnsAsync(ApiResult.Ok(group ?? []));
+        SchoolApi.Setup(api => api.QueryIncomeHistoryAsync(It.IsAny<string>(), It.IsAny<ApiQuery>(), It.IsAny<CancellationToken>())).ReturnsAsync(ApiResult.Ok(historySchool));
+        SchoolApi.Setup(api => api.QueryIncomeComparatorSetAverageHistoryAsync(It.IsAny<string>(), It.IsAny<ApiQuery>(), It.IsAny<CancellationToken>())).ReturnsAsync(ApiResult.Ok(historyComparatorSet));
+        SchoolApi.Setup(api => api.QueryIncomeNationalAverageHistoryAsync(It.IsAny<ApiQuery>(), It.IsAny<CancellationToken>())).ReturnsAsync(ApiResult.Ok(historyNational));
         return this;
     }
 
