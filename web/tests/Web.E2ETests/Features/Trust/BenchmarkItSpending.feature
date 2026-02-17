@@ -1,3 +1,4 @@
+@DSISignIn
 Feature: Trust benchmark IT spending
 
     Background:
@@ -44,7 +45,7 @@ Feature: Trust benchmark IT spending
         When I click the save chart images button
         Then the save chart images modal is visible
         And the 'benchmark-it-spending-00000002.zip' file is downloaded
-
+   
     Scenario: Can view IT spending page for claim user
         Given I am not logged in
         And I have signed in with organisation '013: FBIT TEST - Single-Academy Trust 1 (Open)'

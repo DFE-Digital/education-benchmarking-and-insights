@@ -14,6 +14,7 @@
         When I click on compare your costs
         Then the compare your costs page is displayed
 
+    @DSISignIn    
     Scenario: Go to curriculum and financial planning page
         Given I am on school homepage for school with urn '777042'
         And I have signed in with organisation '01: FBIT TEST - Community School (Open)'

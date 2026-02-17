@@ -1,3 +1,4 @@
+@DSISignIn
 Feature: View Trust comparator set
 
     Background:
