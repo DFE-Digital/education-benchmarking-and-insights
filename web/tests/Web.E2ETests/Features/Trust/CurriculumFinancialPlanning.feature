@@ -1,4 +1,5 @@
-﻿Feature: Trust curriculum and financial planning
+﻿@DSISignIn
+Feature: Trust curriculum and financial planning
 
     Background:
         Given I am on the service home

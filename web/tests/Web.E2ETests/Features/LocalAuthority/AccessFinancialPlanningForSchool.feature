@@ -1,4 +1,5 @@
-﻿Feature: Local Authority access to School curriculum and financial planning for its schools.
+﻿@DSISignIn
+Feature: Local Authority access to School curriculum and financial planning for its schools.
 
     Background:
         Given I am on the service home

@@ -1,3 +1,4 @@
+@DSISignIn
 Feature: School create custom data
 
     Background:

@@ -1,3 +1,4 @@
+@DSISignIn
 Feature: Trust create comparator set
 
     Background:

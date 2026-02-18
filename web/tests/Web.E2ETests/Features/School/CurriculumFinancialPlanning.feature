@@ -1,4 +1,5 @@
-﻿Feature: School curriculum and financial planning
+﻿@DSISignIn
+Feature: School curriculum and financial planning
 
     Background:
         Given I am on the service home
