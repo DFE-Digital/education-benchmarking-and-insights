@@ -146,13 +146,13 @@ stages:
           environment: 'automated-test'
           cipEnvironment: 'Dev'
 
-      # - job: RunE2ETests
-      #   dependsOn: [ WebDeployment, "SyncKeyVaultReferences_web" ]
-      #   displayName: 'Run automated e2e tests'
-      #   steps:
-      #     - template: steps\run-e2e-tests.yaml
-      #       parameters:
-      #         workspaceDir: '$(Pipeline.Workspace)'
+      - job: RunE2ETests
+        dependsOn: [ WebDeployment, "SyncKeyVaultReferences_web" ]
+        displayName: 'Run automated e2e tests'
+        steps:
+          - template: steps\run-e2e-tests.yaml
+            parameters:
+              workspaceDir: '$(Pipeline.Workspace)'
 
       - job: RunA11YTests
         dependsOn: [ WebDeployment, "SyncKeyVaultReferences_web" ]
