@@ -82,7 +82,8 @@ To run the pipeline locally, follow these steps:
         --publish 10001:10001 \
         --publish 10002:10002 \
         --detach \
-        mcr.microsoft.com/azure-storage/azurite
+        mcr.microsoft.com/azure-storage/azurite \
+        azurite --blobHost 0.0.0.0 --queueHost 0.0.0.0 --tableHost 0.0.0.0 --skipApiVersionCheck
     ```
 
     For PowerShell:
