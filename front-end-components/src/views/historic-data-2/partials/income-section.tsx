@@ -159,6 +159,18 @@ export const IncomeSection: React.FC<HistoricData2Props> = ({
                     >
                       <h3 className="govuk-heading-s">{chart.name}</h3>
                     </HistoricChart2>
+                    {chart.details && (
+                      <details className="govuk-details">
+                        <summary className="govuk-details__summary">
+                          <span className="govuk-details__summary-text">
+                            {chart.details.label}
+                          </span>
+                        </summary>
+                        <div className="govuk-details__text">
+                          {chart.details.content}
+                        </div>
+                      </details>
+                    )}
                   </section>
                 ))}
             </div>
