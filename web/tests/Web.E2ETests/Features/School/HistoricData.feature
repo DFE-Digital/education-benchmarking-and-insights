@@ -68,7 +68,8 @@
           | spending | actuals           | Total expenditure                       | national average across phase type, average across comparator set, actuals           |
           | spending | £ per pupil       | Total expenditure                       | national average across phase type, average across comparator set, £ per pupil       |
           | spending | £ per pupil       | Total premises staff and services costs | national average across phase type, average across comparator set, £ per m²          |
-          | income   | £ per pupil       | Total income                            |                                                                                      |
+          | income   | actuals           | Total income                            | national average across phase type, average across comparator set, actuals           |
+          | income   | £ per pupil       | Total income                            | national average across phase type, average across comparator set, £ per pupil       |
           | balance  | £ per pupil       | In-year balance                         |                                                                                      |
           | census   | total             | Pupils on roll                          | national average across phase type, average across comparator set, total             |
           | census   | headcount per FTE | Pupils on roll                          | national average across phase type, average across comparator set, total             |
@@ -145,3 +146,51 @@
           | 2019 to 2020 |            |                               |                                    |
           | 2020 to 2021 |            |                               |                                    |
           | 2021 to 2022 | 284.4%     | 444.2%                        | 422.1%                             |
+          
+    Scenario: Change Total income chart to table view when dimension set to per unit
+        Given I am on 'income' history page for school with URN '777042'
+        When I change 'income' dimension to '£ per pupil'
+        And I click on view as table on 'income' tab
+        Then the table on the 'income' tab 'Total income' chart contains:
+          | Year         | Amount | Average across comparator set | National average across phase type |
+          | 2017 to 2018 |        |                               |                                    |
+          | 2018 to 2019 |        |                               |                                    |
+          | 2019 to 2020 |        |                               |                                    |
+          | 2020 to 2021 | £7,072 |                               | £10,936                            |
+          | 2021 to 2022 | £7,615 | £8,088                        | £11,333                            |
+          
+    Scenario: Change Total income chart to table view when dimension set to percentage of expenditure
+        Given I am on 'income' history page for school with URN '777042'
+        When I change 'income' dimension to 'percentage of expenditure'
+        And I click on view as table on 'income' tab
+        Then the table on the 'income' tab 'Total income' chart contains:
+          | Year         | Percentage | Average across comparator set | National average across phase type |
+          | 2017 to 2018 |            |                               |                                    |
+          | 2018 to 2019 |            |                               |                                    |
+          | 2019 to 2020 |            |                               |                                    |
+          | 2020 to 2021 | 98.1%      |                               | 101.6%                             |
+          | 2021 to 2022 | 101.7%     | 99.8%                         | 100.7%                             |
+          
+    Scenario: Change Total income chart to table view when dimension set to percentage of income
+        Given I am on 'income' history page for school with URN '777042'
+        When I change 'income' dimension to 'percentage of income'
+        And I click on view as table on 'income' tab
+        Then the table on the 'income' tab 'Total income' chart contains:
+          | Year         | Percentage | Average across comparator set | National average across phase type |
+          | 2017 to 2018 |            |                               |                                    |
+          | 2018 to 2019 |            |                               |                                    |
+          | 2019 to 2020 |            |                               |                                    |
+          | 2020 to 2021 | 100%       |                               | 100%                               |
+          | 2021 to 2022 | 100%       | 100%                          | 100%                               |
+          
+    Scenario: Change Total income chart to table view
+        Given I am on 'income' history page for school with URN '777042'
+        When I change 'income' dimension to 'actuals'
+        And I click on view as table on 'income' tab
+        Then the table on the 'income' tab 'Total income' chart contains:
+          | Year         | Amount     | Average across comparator set | National average across phase type |
+          | 2017 to 2018 |            |                               |                                    |
+          | 2018 to 2019 |            |                               |                                    |
+          | 2019 to 2020 |            |                               |                                    |
+          | 2020 to 2021 | £3,097,397 |                               | £3,193,335                         |
+          | 2021 to 2022 | £1,614,419 | £2,929,442                    | £3,632,526                         |
