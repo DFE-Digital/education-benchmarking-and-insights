@@ -95,7 +95,7 @@ export const IncomeSection: React.FC<HistoricData2Props> = ({
           <ChartDimensions
             dimensions={CostCategories}
             handleChange={handleSelectChange}
-            elementId="expenditure"
+            elementId="income"
             value={dimension.value}
           />
         </div>
