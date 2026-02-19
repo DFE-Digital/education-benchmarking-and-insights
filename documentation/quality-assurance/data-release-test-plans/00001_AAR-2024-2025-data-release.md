@@ -24,13 +24,14 @@ The primary focus is ensuring the integrity of the ingestion and transformation 
 
 ## Test Data Profile
 
-| Category | Files / Sources                                                                              |
-|---------|----------------------------------------------------------------------------------------------|
-| Primary AAR | `aar.csv` (School-level), `aar_cs.csv` (Trust Central Services)                              |
-| Organisational | gias.csv, gias_links.csv                                                                     |
-| Census Data | census_pupils.csv, census_workforce.xlsx, Workforce_2010_2024_fte_hc_nat_reg_la_sch.csv      |
+| Category              | Files / Sources                                                                              |
+|-----------------------|----------------------------------------------------------------------------------------------|
+| Primary AAR           | `aar.csv` (School-level), `aar_cs.csv` (Trust Central Services)                              |
+| Organisational        | gias.csv, gias_links.csv                                                                     |
+| Census Data           | census_pupils.csv, census_workforce.xlsx, Workforce_2010_2024_fte_hc_nat_reg_la_sch.csv      |
 | Educational/Financial | sen.csv, cdc.csv, ks2.xlsx, ks4.xlsx, cfo.xlsx, ILR R06 cut with FSM and EHCP.xlsx, HExP.csv |
-| Transparency | AAR 2024-2025 Transparency File                                                              |
+| Transparency          | AAR 2024-2025 Transparency File                                                              |
+| High exec pay         | HExP.csv                                                                                     |
 
 ## Test Activities & Methodologies
 
@@ -78,7 +79,7 @@ The reusable script for generating completeness reports is located in SharePoint
 **Goal:** Final user acceptance of the data presentation.
 
 - Year Selection: Verify the 2025 toggle loads the correct dataset.
-- Data Accuracy: Spot-check high-value metrics against raw source files.
+- Data Accuracy: Spot-check high-value metrics against raw source files including High exec pay data.
 - Fallback States: Ensure UI handles missing data gracefully (e.g., N/A instead of errors).
 
 ### AAR 2024-2025 Transparency File Integration
