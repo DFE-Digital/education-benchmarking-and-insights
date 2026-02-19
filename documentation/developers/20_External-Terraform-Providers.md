@@ -1,6 +1,6 @@
 # External Terraform Providers
 
-When configuring terraform for core-resources to connect to other subscriptions, other providers e.g. "databricks_sub" can be defined in code.
+When configuring terraform to connect to resources in other subscriptions, this counts as another provider. For example, the subscriptions which host databricks are registered as another azure sub and aliased "databricks_sub".
 
 ```terraform
 provider "azurerm" {
@@ -12,7 +12,7 @@ provider "azurerm" {
 
 ## Databricks providers
 
-Databricks is in another azure subscription to FBIT, so external providers are defined in code using subscription IDs. This allows our terraform to reference resources in another subscription. For FBIT, this is used to define IAM permissions for the databricks connector resources in s101 which facilitate data out from Databricks.
+Databricks is in another azure subscription to FBIT. Multiple providers are referenced in terraform using subscription IDs. For FBIT, this is used to define IAM permissions for the databricks connector resources in s101 which facilitate data out from Databricks.
 
 <!-- Leave the rest of this page blank -->
 \newpage
