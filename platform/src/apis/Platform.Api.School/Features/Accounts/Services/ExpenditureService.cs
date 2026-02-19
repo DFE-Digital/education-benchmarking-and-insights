@@ -5,6 +5,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Platform.Api.School.Features.Accounts.Models;
 using Platform.Cache;
+using Platform.Domain;
 using Platform.Sql;
 using Platform.Sql.QueryBuilders;
 
@@ -67,6 +68,7 @@ public class ExpenditureService(IDatabaseFactory dbFactory, ICacheKeyFactory cac
         {
             builder
                 .WhereLaCodeEqual(laCode)
+                .WhereFinanceTypeEqual(FinanceType.Maintained)
                 .WhereOverallPhaseEqual(phase);
         }
         else

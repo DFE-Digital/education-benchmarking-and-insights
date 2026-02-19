@@ -78,6 +78,7 @@ public class CensusService(IDatabaseFactory dbFactory, ICacheKeyFactory cacheKey
         {
             builder
                 .WhereLaCodeEqual(laCode)
+                .WhereFinanceTypeEqual(FinanceType.Maintained)
                 .WhereOverallPhaseEqual(phase);
         }
         else
