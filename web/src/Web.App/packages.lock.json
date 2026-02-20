@@ -109,13 +109,13 @@
       },
       "Microsoft.Extensions.Caching.StackExchangeRedis": {
         "type": "Direct",
-        "requested": "[10.0.2, )",
-        "resolved": "10.0.2",
-        "contentHash": "WEx0VM6KVv4Bf6lwe4WQTd4EixIfw38ZU3u/7zMe+uC5fOyiANu8Os/qyiqv2iEsIJb296tbd2E2BTaWIha3Vg==",
+        "requested": "[10.0.3, )",
+        "resolved": "10.0.3",
+        "contentHash": "DarGypNFuSCH6J6N/aMos3X+XuIGz0IvazZLoy8SXe8jKWuzdqvxyrop1CPzv/oYPLbQkt1twEoaWr7arLBe3w==",
         "dependencies": {
-          "Microsoft.Extensions.Caching.Abstractions": "10.0.2",
-          "Microsoft.Extensions.Logging.Abstractions": "10.0.2",
-          "Microsoft.Extensions.Options": "10.0.2",
+          "Microsoft.Extensions.Caching.Abstractions": "10.0.3",
+          "Microsoft.Extensions.Logging.Abstractions": "10.0.3",
+          "Microsoft.Extensions.Options": "10.0.3",
           "StackExchange.Redis": "2.7.27"
         }
       },
@@ -465,10 +465,10 @@
       },
       "Microsoft.Extensions.Caching.Abstractions": {
         "type": "Transitive",
-        "resolved": "10.0.2",
-        "contentHash": "WIRPDa/qoKHmJhTAPCO/zLu9kRLQ2Fd6HD5tzgdXJ3xGEVXDHP6FvakKJjynwKrVDld8H4G4tcbW53wuC/wxMQ==",
+        "resolved": "10.0.3",
+        "contentHash": "5dtXBvI8t3z8pF4tB38JYgi/enCL/DwSXxpqShgFz3SHJ7IzqFIMs6Gu5ik8sNZzcO9qQs3xIDpB3vDamkYG+Q==",
         "dependencies": {
-          "Microsoft.Extensions.Primitives": "10.0.2"
+          "Microsoft.Extensions.Primitives": "10.0.3"
         }
       },
       "Microsoft.Extensions.Caching.Memory": {
