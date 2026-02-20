@@ -2,9 +2,9 @@ import logging
 
 import pandas as pd
 
-import pipeline.input_schemas as input_schemas
+from pipeline import input_schemas
 
-logger = logging.getLogger("fbit-data-pipeline")
+logger = logging.getLogger(__name__)
 
 
 def prepare_ks2_data(ks2_path):

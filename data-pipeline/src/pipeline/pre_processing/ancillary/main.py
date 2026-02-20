@@ -16,6 +16,9 @@ from .ilr import build_ilr_data
 from .ks2 import prepare_ks2_data
 from .ks4 import prepare_ks4_data
 from .sen import prepare_sen_data
+from .sen2 import prepare_sen2_data
+from .ons_population_estimates import prepare_ons_population_estimates
+from .la_statistical_neighbours import prepare_la_statistical_neighbours
 
 logger = setup_logger("preprocessing-ancillary")
 
@@ -279,3 +282,41 @@ def pre_process_central_services(
         return central_services
 
     return None
+
+
+def pre_process_la_statistical_neighbours(s251_year, run_id):
+    logger.info(
+        f"Reading LA statistical neighbours: default/{s251_year}/High-needs-local-authority-benchmarking-tool.xlsm"
+    )
+    la_statistical_neighbours_data = get_blob(
+        raw_container,
+        f"default/{s251_year}/High-needs-local-authority-benchmarking-tool.xlsm",
+    )
+    la_statistical_neighbours = prepare_la_statistical_neighbours(
+        la_statistical_neighbours_data, s251_year
+    )
+    return la_statistical_neighbours
+
+
+def pre_process_ons_population_estimates(s251_year, run_id):
+    logger.info(
+        f"Reading ONS LA population data: default/{s251_year}/2018 SNPP Population persons.csv"
+    )
+    la_ons_data = get_blob(
+        raw_container,
+        f"default/{s251_year}/2018 SNPP Population persons.csv",
+    )
+    ons_population_estimates = prepare_ons_population_estimates(la_ons_data, s251_year)
+    return ons_population_estimates
+
+
+def pre_process_sen2(s251_year, run_id):
+    logger.info(
+        f"Reading LA SEN2 ECHP plan data: default/{s251_year}/sen2_estab_caseload.csv"
+    )
+    la_sen2_data = get_blob(
+        raw_container,
+        f"default/{s251_year}/sen2_estab_caseload.csv",
+    )
+    sen2 = prepare_sen2_data(la_sen2_data, s251_year)
+    return sen2
