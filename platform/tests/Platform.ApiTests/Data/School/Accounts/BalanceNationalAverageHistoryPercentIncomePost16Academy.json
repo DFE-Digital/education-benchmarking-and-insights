@@ -1,0 +1,15 @@
+{
+  "startYear": 2018,
+  "endYear": 2022,
+  "rows": [
+    {
+      "year": 2021,
+      "revenueReserve": 119.00956937799043
+    },
+    {
+      "year": 2022,
+      "inYearBalance": 234.41052631578947,
+      "revenueReserve": 141.31578947368422
+    }
+  ]
+}

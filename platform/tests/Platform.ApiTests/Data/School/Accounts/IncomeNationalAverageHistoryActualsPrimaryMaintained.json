@@ -1,0 +1,38 @@
+{
+  "startYear": 2018,
+  "endYear": 2022,
+  "rows": [
+    {
+      "year": 2021,
+      "totalIncome": 3193334.930693,
+      "totalGrantFunding": 3102984.019801,
+      "totalSelfGeneratedFunding": 85733.737373,
+      "directRevenueFinancing": 65455.341463,
+      "directGrants": 2577135.60396,
+      "prePost16Funding": 2521794.876237,
+      "otherDfeGrants": 43482.035714,
+      "otherIncomeGrants": 46709.605504,
+      "communityGrants": 79682.802139,
+      "incomeFacilitiesServices": 46396.368686,
+      "incomeCatering": 15744.814606,
+      "donationsVoluntaryFunds": 24604.777027,
+      "receiptsSupplyTeacherInsuranceClaims": 6912.0
+    },
+    {
+      "year": 2022,
+      "totalIncome": 3632525.708542,
+      "totalGrantFunding": 3512637.025125,
+      "totalSelfGeneratedFunding": 100945.437185,
+      "directRevenueFinancing": 34696.463414,
+      "directGrants": 3051199.758793,
+      "prePost16Funding": 3006374.603015,
+      "otherDfeGrants": 36050.662921,
+      "otherIncomeGrants": 50102.596491,
+      "communityGrants": 39896.205263,
+      "incomeFacilitiesServices": 41607.185929,
+      "incomeCatering": 15788.904458,
+      "donationsVoluntaryFunds": 37132.728813,
+      "receiptsSupplyTeacherInsuranceClaims": 20556.661971
+    }
+  ]
+}

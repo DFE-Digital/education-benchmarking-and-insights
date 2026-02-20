@@ -1,0 +1,22 @@
+{
+  "startYear": 2018,
+  "endYear": 2022,
+  "rows": [
+    {
+      "year": 2022,
+      "totalIncome": 2929442.1,
+      "totalGrantFunding": 2831042.733333,
+      "totalSelfGeneratedFunding": 90266.233333,
+      "directRevenueFinancing": 92828.8,
+      "directGrants": 2469479.366666,
+      "prePost16Funding": 2410499.566666,
+      "otherDfeGrants": 51135.166666,
+      "otherIncomeGrants": 64209.5,
+      "communityGrants": 44903.413793,
+      "incomeFacilitiesServices": 28877.266666,
+      "incomeCatering": 16887.5,
+      "donationsVoluntaryFunds": 33325.185185,
+      "receiptsSupplyTeacherInsuranceClaims": 24829.75
+    }
+  ]
+}
