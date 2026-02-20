@@ -1,0 +1,10 @@
+{
+  "title": "Validation failed.",
+  "status": 400,
+  "instance": "/api/schools/national-average/accounts/balance/history",
+  "errors": {
+    "Dimension": [
+      "Dimension must be empty or one of the supported values: Actuals, PerUnit, PercentExpenditure, PercentIncome"
+    ]
+  }
+}
