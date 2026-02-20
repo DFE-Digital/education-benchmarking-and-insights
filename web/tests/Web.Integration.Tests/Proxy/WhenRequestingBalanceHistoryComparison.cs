@@ -8,16 +8,16 @@ using Xunit;
 namespace Web.Integration.Tests.Proxy;
 
 [SuppressMessage("Usage", "xUnit1042:The member referenced by the MemberData attribute returns untyped data rows")]
-public class WhenRequestingIncomeHistoryComparison(SchoolBenchmarkingWebAppClient client) : IClassFixture<SchoolBenchmarkingWebAppClient>
+public class WhenRequestingIncomeBalanceComparison(SchoolBenchmarkingWebAppClient client) : IClassFixture<SchoolBenchmarkingWebAppClient>
 {
     private const int StartYear = 2017;
     private const int EndYear = 2022;
     private static readonly Fixture Fixture = new();
-    private static readonly IncomeHistory[] HistorySchool = Fixture.CreateMany<IncomeHistory>().ToArray();
-    private static readonly IncomeHistory[] HistoryComparatorSet = Fixture.CreateMany<IncomeHistory>().ToArray();
-    private static readonly IncomeHistory[] HistoryNational = Fixture.CreateMany<IncomeHistory>().ToArray();
+    private static readonly BalanceHistory[] HistorySchool = Fixture.CreateMany<BalanceHistory>().ToArray();
+    private static readonly BalanceHistory[] HistoryComparatorSet = Fixture.CreateMany<BalanceHistory>().ToArray();
+    private static readonly BalanceHistory[] HistoryNational = Fixture.CreateMany<BalanceHistory>().ToArray();
 
-    public static IEnumerable<object?[]> IncomeHistoryTestData =>
+    public static IEnumerable<object?[]> BalanceHistoryTestData =>
         new List<object?[]>
         {
             new object?[]
@@ -26,7 +26,7 @@ public class WhenRequestingIncomeHistoryComparison(SchoolBenchmarkingWebAppClien
                 "dimension",
                 null,
                 null,
-                new HistoryComparison<IncomeHistory>
+                new HistoryComparison<BalanceHistory>
                 {
                     StartYear = StartYear,
                     EndYear = EndYear,
@@ -41,7 +41,7 @@ public class WhenRequestingIncomeHistoryComparison(SchoolBenchmarkingWebAppClien
                 "dimension",
                 "phase",
                 "financeType",
-                new HistoryComparison<IncomeHistory>
+                new HistoryComparison<BalanceHistory>
                 {
                     StartYear = StartYear,
                     EndYear = EndYear,
@@ -53,8 +53,8 @@ public class WhenRequestingIncomeHistoryComparison(SchoolBenchmarkingWebAppClien
         };
 
     [Theory]
-    [MemberData(nameof(IncomeHistoryTestData))]
-    public async Task CanReturnCorrectResponseForSchool(string urn, string dimension, string? phase, string? financeType, HistoryComparison<IncomeHistory> expected)
+    [MemberData(nameof(BalanceHistoryTestData))]
+    public async Task CanReturnCorrectResponseForSchool(string urn, string dimension, string? phase, string? financeType, HistoryComparison<BalanceHistory> expected)
     {
         var school = new School
         {
@@ -63,21 +63,21 @@ public class WhenRequestingIncomeHistoryComparison(SchoolBenchmarkingWebAppClien
             FinanceType = financeType
         };
 
-        var historySchool = new IncomeHistoryRows
+        var historySchool = new BalanceHistoryRows
         {
             StartYear = StartYear,
             EndYear = EndYear,
             Rows = HistorySchool
         };
 
-        var historyComparatorSet = new IncomeHistoryRows
+        var historyComparatorSet = new BalanceHistoryRows
         {
             StartYear = StartYear,
             EndYear = EndYear,
             Rows = HistoryComparatorSet
         };
 
-        var historyNational = new IncomeHistoryRows
+        var historyNational = new BalanceHistoryRows
         {
             StartYear = StartYear,
             EndYear = EndYear,
@@ -87,16 +87,16 @@ public class WhenRequestingIncomeHistoryComparison(SchoolBenchmarkingWebAppClien
         var response = await client
             .SetupSchool(
                 school,
-                incomeHistorySchool: historySchool,
-                incomeHistoryComparatorSet: historyComparatorSet,
-                incomeHistoryNational: historyNational)
-            .Get(Paths.ApiIncomeHistoryComparison("school", urn, dimension, phase, financeType));
+                balanceHistorySchool: historySchool,
+                balanceHistoryComparatorSet: historyComparatorSet,
+                balanceHistoryNational: historyNational)
+            .Get(Paths.ApiBalanceHistoryComparison("school", urn, dimension, phase, financeType));
 
         Assert.IsType<HttpResponseMessage>(response);
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);
 
         var resultContent = await response.Content.ReadAsStringAsync();
-        var actual = JsonConvert.DeserializeObject<HistoryComparison<IncomeHistory>>(resultContent);
+        var actual = JsonConvert.DeserializeObject<HistoryComparison<BalanceHistory>>(resultContent);
         Assert.Equivalent(expected, actual);
     }
 }

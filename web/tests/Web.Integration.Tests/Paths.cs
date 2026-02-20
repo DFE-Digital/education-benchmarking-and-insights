@@ -283,6 +283,8 @@ public static class Paths
 
     public static string ApiIncomeHistoryComparison(string? type, string? id, string dimension, string? phase, string? financeType) => $"api/income/history/comparison?type={type}&id={id}&dimension={dimension}&phase={phase}&financeType={financeType}";
 
+    public static string ApiBalanceHistoryComparison(string? type, string? id, string dimension, string? phase, string? financeType) => $"api/balance/history/comparison?type={type}&id={id}&dimension={dimension}&phase={phase}&financeType={financeType}";
+
     public static string LocalAuthorityHome(string? code) => $"/local-authority/{code}";
 
     public static string LocalAuthorityResources(string? code) => $"/local-authority/{code}/find-ways-to-spend-less";
