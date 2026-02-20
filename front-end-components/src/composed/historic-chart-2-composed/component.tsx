@@ -17,6 +17,7 @@ import { HistoricDataTooltip } from "src/components/charts/historic-data-tooltip
 import { ResolvedStat } from "src/components/charts/resolved-stat";
 import { ShareContent } from "src/components/share-content";
 import { DataWarning } from "src/components/charts/data-warning";
+import "./styles.scss";
 
 export function HistoricChart2<TData extends HistoryBase>({
   axisLabel,
