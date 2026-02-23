@@ -67,15 +67,14 @@ public class DataSourceViewComponent(IFinanceService financeService) : ViewCompo
         var years = await financeService.GetYears();
         return pageTitle switch
         {
-            PageTitles.LocalAuthorityHighNeedsHistoricData or PageTitles.LocalAuthorityHighNeedsBenchmarking =>
+            PageTitles.LocalAuthorityHighNeedsHistoricData =>
             [
                 $"This data includes section 251 data (s251) for period {years.S251 - 1}-{years.S251} and special educational needs (SEN) data for January {years.S251}. It also includes planned expenditure and outturn spend per pupil, using aggregated s251 categories.",
                 "The outturn does not include place funding for pupils with special educational needs taught in academies."
             ],
-            PageTitles.LocalAuthorityHighNeeds =>
+            PageTitles.LocalAuthorityHighNeedsBenchmarking =>
             [
-                $"This data includes section 251 data (s251) for period {years.S251 - 1}-{years.S251} and special educational needs (SEN) data for January {years.S251}. The outturn does not include place funding for pupils with special educational needs taught in academies."
-            ],
+                $"This data includes Section 251 data (s251) for period {years.S251 - 1}-{years.S251} and special educational needs (SEN) data for January {years.S251}."],
             _ => throw new ArgumentOutOfRangeException(nameof(pageTitle))
         };
     }

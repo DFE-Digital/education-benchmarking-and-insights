@@ -89,11 +89,11 @@ public class HighNeedsBenchmarkingSteps(PageDriver driver)
         await _highNeedsBenchmarkingPage.TableContainsSend2(25, table);
     }
 
-    [When("I click the Change comparators button")]
-    public async Task WhenIClickTheChangeComparatorsButton()
+    [When("I click the Change comparators link")]
+    public async Task WhenIClickTheChangeComparatorsLink()
     {
         Assert.NotNull(_highNeedsBenchmarkingPage);
-        _highNeedsStartBenchmarkingPage = await _highNeedsBenchmarkingPage.ClickChangeComparatorsButton();
+        _highNeedsStartBenchmarkingPage = await _highNeedsBenchmarkingPage.ClickChangeComparatorsLink();
     }
 
     [Then("the local authority high needs start benchmarking page is displayed")]

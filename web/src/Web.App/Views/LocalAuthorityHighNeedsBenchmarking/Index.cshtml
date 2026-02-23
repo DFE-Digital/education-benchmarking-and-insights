@@ -13,15 +13,29 @@
     kind = OrganisationTypes.LocalAuthority
 })
 
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        <p class="govuk-body">
+            <a href="@Url.Action("Comparators", "LocalAuthorityHighNeedsBenchmarking", new
+                     {
+                         code = Model.Code,
+                         referrer = "benchmarking"
+                     })" class="govuk-link govuk-link--no-visited-state">Change local authorities to benchmark against</a>
+        </p>
+    </div>
+</div>
+
 @await Component.InvokeAsync("DataSource", new
 {
 organisationType = OrganisationTypes.LocalAuthority,
 sourceType = DataSourceTypes.HighNeeds,
-pageTitle = ViewData[ViewDataKeys.Title]
+pageTitle = ViewData[ViewDataKeys.Title],
+className = "govuk-grid-column-two-thirds"
 })
 
-<div id="benchmark-data-high-needs" data-code="@Model.Code" data-set="@Model.Comparators.ToJson(Formatting.None)"
-     data-edit-link="@Url.Action("Comparators", "LocalAuthorityHighNeedsBenchmarking", new { code = Model.Code, referrer = "benchmarking" })"></div>
+@await Html.PartialAsync("_HowDataIsPresented")
+
+<div id="benchmark-data-high-needs" data-code="@Model.Code" data-set="@Model.Comparators.ToJson(Formatting.None)"></div>
 
 <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
 

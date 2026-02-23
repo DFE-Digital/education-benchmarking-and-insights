@@ -13,9 +13,9 @@ public class HighNeedsBenchmarkingPage(IPage page)
     private ILocator Tables => page.Locator(Selectors.GovTable);
     private ILocator Commentary => page.Locator("#benchmark-data-high-needs > .govuk-grid-row > .govuk-grid-column-two-thirds > p");
 
-    private ILocator ChangeComparatorsButton => page.Locator(Selectors.CtaButton, new PageLocatorOptions
+    private ILocator ChangeComparatorsLink => page.Locator(".govuk-link", new PageLocatorOptions
     {
-        HasText = "Change comparators"
+        HasText = "Change local authorities to benchmark against"
     });
 
     private static ILocator ChartLegend(ILocator chart) => chart.Locator("//following-sibling::div[1]/ul");
@@ -36,9 +36,9 @@ public class HighNeedsBenchmarkingPage(IPage page)
         await Commentary.ShouldContainText($"Currently comparing against {comparators} local authorit");
     }
 
-    public async Task<HighNeedsStartBenchmarkingPage> ClickChangeComparatorsButton()
+    public async Task<HighNeedsStartBenchmarkingPage> ClickChangeComparatorsLink()
     {
-        await ChangeComparatorsButton.ClickAsync();
+        await ChangeComparatorsLink.ClickAsync();
         return new HighNeedsStartBenchmarkingPage(page);
     }
 
