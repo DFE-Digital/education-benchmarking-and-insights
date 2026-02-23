@@ -21,12 +21,13 @@ Our automated end‑to‑end tests interact with services protected by Multi‑F
 * Option 3: Bypass/Mock DfE Sign‑in MFA in automated tests
 
 ## Decision Outcome
- 
+
 {This section will be completed once the team selects the preferred approach based on R&D outcomes and constraints.}
 
 ### Consequences
 
 {To be added}
+
 ## Validation
 
 Compliance with this ADR will be validated through:
