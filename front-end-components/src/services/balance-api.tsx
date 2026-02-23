@@ -1,5 +1,7 @@
 import {
+  BalanceHistoryRow,
   BalanceHistoryRows,
+  SchoolHistoryComparison,
   BudgetForecastReturn,
   TrustBalance,
 } from "src/services/types";
@@ -19,6 +21,40 @@ export class BalanceApi {
     });
 
     const response = await fetch("/api/balance/history?" + params, {
+      redirect: "manual",
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "X-Correlation-ID": uuidv4(),
+      },
+      signal: signals?.length ? AbortSignal.any(signals) : undefined,
+    });
+
+    const json = await response.json();
+    if (json.error) {
+      throw json.error;
+    }
+
+    return json;
+  }
+
+  static async historyComparison(
+    type: string,
+    id: string,
+    dimension: string,
+    overallPhase?: string,
+    financeType?: string,
+    signals?: AbortSignal[]
+  ): Promise<SchoolHistoryComparison<BalanceHistoryRow>> {
+    const params = new URLSearchParams({
+      type: type,
+      id: id,
+      dimension: dimension,
+      phase: overallPhase || "",
+      financeType: financeType || "",
+    });
+
+    const response = await fetch("/api/balance/history/comparison?" + params, {
       redirect: "manual",
       method: "GET",
       headers: {
