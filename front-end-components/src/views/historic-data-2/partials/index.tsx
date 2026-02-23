@@ -2,6 +2,7 @@ import {
   CensusHistoryItem,
   ExpenditureHistoryItem,
   IncomeHistoryItem,
+  BalanceHistoryItem,
 } from "src/services";
 import { HistoricData2Section, HistoricData2SectionChart } from "../types";
 import {
@@ -14,6 +15,7 @@ import {
 export * from "src/views/historic-data-2/partials/spending-section.tsx";
 export * from "src/views/historic-data-2/partials/census-section.tsx";
 export * from "src/views/historic-data-2/partials/income-section.tsx";
+export * from "src/views/historic-data-2/partials/balance-section.tsx";
 
 export const spendingSections: HistoricData2Section<ExpenditureHistoryItem>[] =
   [
@@ -265,6 +267,73 @@ export const spendingSections: HistoricData2Section<ExpenditureHistoryItem>[] =
       ],
     },
   ];
+
+export const balanceCharts: HistoricData2SectionChart<BalanceHistoryItem>[] = [
+  {
+    name: "In-year balance",
+    field: "inYearBalance",
+    perUnitDimension: PoundsPerPupil,
+  },
+  {
+    name: "Revenue reserve",
+    field: "revenueReserve",
+    perUnitDimension: PoundsPerPupil,
+    details: {
+      label: "More about revenue reserve",
+      content: (
+        <div className="govuk-details__text">
+          <div>
+            <h3 className="govuk-heading-s govuk-!-margin-bottom-1">
+              Local authority maintained schools
+            </h3>
+            <p>
+              Reserves are legally associated with one school and appear in that
+              school's graphs.
+            </p>
+            <p>
+              Reserves include committed and uncommitted revenue balance. They
+              also include the community-focused extended school revenue
+              balance.
+            </p>
+          </div>
+          <div>
+            <h3 className="govuk-heading-s govuk-!-margin-bottom-1">
+              Academy Trusts
+            </h3>
+            <p>
+              The trust is the legal entity and the reserves legally belong to
+              it.
+            </p>
+            <p>
+              Reserves are the carried forward closing balance (restricted and
+              unrestricted funds).
+            </p>
+          </div>
+          <div>
+            <h3 className="govuk-heading-s govuk-!-margin-bottom-1">
+              Single academies in multi-academy trusts (MATs)
+            </h3>
+            <p className="govuk-!-margin-bottom-1">
+              We estimated a value per academy by dividing up and sharing out
+              the trust's reserves on a pro-rata basis. This is calculated by
+              using:
+            </p>
+            <ul className="govuk-list govuk-list--bullet">
+              <li>
+                full-time equivalent (FTE) number of pupils in each academy in
+                that MAT
+              </li>
+              <li>
+                length of time the academy has been part of the trust for the
+                financial year
+              </li>
+            </ul>
+          </div>
+        </div>
+      ),
+    },
+  },
+];
 
 export const censusCharts: HistoricData2SectionChart<CensusHistoryItem>[] = [
   {
