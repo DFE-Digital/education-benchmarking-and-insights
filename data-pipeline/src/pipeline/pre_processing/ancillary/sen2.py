@@ -1,9 +1,11 @@
 import pandas as pd
-from pipeline.utils import log
-from pipeline import input_schemas
 from pandas._typing import FilePath, ReadCsvBuffer
 
+from pipeline import input_schemas
+from pipeline.utils import log
+
 logger = log.setup_logger(__name__)
+
 
 def prepare_sen2_data(
     sen2_filepath_or_buffer: FilePath | ReadCsvBuffer[bytes] | ReadCsvBuffer[str],

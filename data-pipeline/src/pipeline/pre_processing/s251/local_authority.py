@@ -13,7 +13,8 @@ def build_local_authorities(
     la_statistical_neighbours: pd.DataFrame,
     ons_population_estimates: pd.DataFrame,
     sen2: pd.DataFrame,
-    place_funding: pd.DataFrame,
+    place_numbers: pd.DataFrame,
+    dsg: pd.DataFrame,
     all_schools: pd.DataFrame,
     year: int,
 ):
@@ -63,11 +64,90 @@ def build_local_authorities(
         local_authority_data, sen2
     )
 
+    local_authority_data_with_dsg_recoupments = _calculate_dsg_recoupments(
+        local_authority_data_with_sen, all_schools[["LA", "Overall Phase"]], place_numbers, dsg
+    )
+
     logger.info(
         f"Processed {len(local_authority_data.index)} combined Local Authority rows."
     )
 
-    return local_authority_data_with_sen
+    return local_authority_data_with_dsg_recoupments
+
+
+def _calculate_dsg_recoupments(
+    local_authority_data, school_to_la_mapping, place_numbers, dsg
+):
+    place_numbers_with_la = place_numbers.set_index("URN").join(school_to_la_mapping, how="left")
+    six_k_places_col = "2024 to 2025 mainstream academies and free schools - pre-16 SEN Unit/RP Places (@£6k)"
+    ten_k_places_col = "2024 to 2025 mainstream academies and free schools - pre-16 SEN Unit/RP Places (@£10k)"
+    primary = "Primary"
+    secondary = "Secondary"
+    PRIMARY_PLACES_6K = "PrimaryPlaces6000"
+    PRIMARY_PLACES_10K = "PrimaryPlaces10000"
+    SECONDARY_PLACES_6K = "SecondaryPlaces6000"
+    SECONDARY_PLACES_10K = "SecondaryPlaces10000"
+    place_numbers_per_phase_and_la = place_numbers_with_la \
+        .groupby(["LA", "Overall Phase"]) \
+        .agg(
+            {
+                "2024 to 2025 free schools and academies - pre-16 AP places": "sum",
+                six_k_places_col: "sum",
+                ten_k_places_col: "sum",
+            }
+        ).reset_index()
+    place_numbers_pivoted = place_numbers_per_phase_and_la.pivot(index='LA', columns='Overall Phase')
+
+    place_numbers_final = pd.DataFrame(index=place_numbers_pivoted.index)
+    place_numbers_final[PRIMARY_PLACES_6K] = place_numbers_pivoted[(six_k_places_col, primary)]
+    place_numbers_final[PRIMARY_PLACES_10K] = place_numbers_pivoted[(ten_k_places_col, primary)]
+    place_numbers_final[SECONDARY_PLACES_6K] = place_numbers_pivoted[(six_k_places_col, secondary)]
+    place_numbers_final[SECONDARY_PLACES_10K] = place_numbers_pivoted[(ten_k_places_col, secondary)]
+
+    dsg_with_place_numbers = dsg.join(place_numbers_final, how="outer")
+    dsg_with_place_numbers["TotalPlaceFunding"] = (
+        dsg_with_place_numbers[PRIMARY_PLACES_6K] * 6000 
+        + dsg_with_place_numbers[PRIMARY_PLACES_10K] * 10000
+        + dsg_with_place_numbers[SECONDARY_PLACES_6K] * 6000 
+        + dsg_with_place_numbers[SECONDARY_PLACES_10K] * 10000
+    )
+    dsg_with_place_numbers["PrimaryPlaceFundingRatio"] = (
+        (
+            dsg_with_place_numbers[PRIMARY_PLACES_6K] * 6000 
+            + dsg_with_place_numbers[PRIMARY_PLACES_10K] * 10000
+        ) / dsg_with_place_numbers["TotalPlaceFunding"]
+    )
+    dsg_with_place_numbers["SecondaryPlaceFundingRatio"] = (
+        (
+            dsg_with_place_numbers[SECONDARY_PLACES_6K] * 6000 
+            + dsg_with_place_numbers[SECONDARY_PLACES_10K] * 10000
+        ) / dsg_with_place_numbers["TotalPlaceFunding"]
+    )
+
+    dsg_with_place_numbers["NurseryPlaceFunding"] = 0
+    dsg_with_place_numbers["PrimaryAcademyPlaceFunding"] = (
+        dsg_with_place_numbers['Total Mainstream Pre-16 SEN places deduction']
+        * dsg_with_place_numbers["PrimaryPlaceFundingRatio"]
+    )
+    dsg_with_place_numbers["SecondaryAcademyPlaceFunding"] = (
+        dsg_with_place_numbers['Total Mainstream Pre-16 SEN places deduction']
+        * dsg_with_place_numbers["SecondaryPlaceFundingRatio"]
+    )
+
+    las_with_recoupments = local_authority_data.merge(
+        dsg_with_place_numbers,
+        left_on='old_la_code',
+        right_index=True,
+        how='left'
+    )
+
+    # Overwritten in place
+    las_with_recoupments["OutturnPlaceFundingPrimary"] += las_with_recoupments["PrimaryAcademyPlaceFunding"]
+    las_with_recoupments["OutturnPlaceFundingSecondary"] += las_with_recoupments["SecondaryAcademyPlaceFunding"]
+    las_with_recoupments["OutturnPlaceFundingSpecial"] += las_with_recoupments["SENAcademyPlaceFunding"]
+    las_with_recoupments["OutturnPlaceFundingAlternativeProvision"] += las_with_recoupments["APAcademyPlaceFunding"]
+    
+    return las_with_recoupments
 
 
 def _join_sen_to_local_authority_data(

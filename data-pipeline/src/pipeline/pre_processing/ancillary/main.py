@@ -15,10 +15,11 @@ from .high_exec_pay import build_high_exec_pay_data
 from .ilr import build_ilr_data
 from .ks2 import prepare_ks2_data
 from .ks4 import prepare_ks4_data
+from .la_statistical_neighbours import prepare_la_statistical_neighbours
+from .ons_population_estimates import prepare_ons_population_estimates
+from .place_funding import prepare_place_funding_data
 from .sen import prepare_sen_data
 from .sen2 import prepare_sen2_data
-from .ons_population_estimates import prepare_ons_population_estimates
-from .la_statistical_neighbours import prepare_la_statistical_neighbours
 
 logger = setup_logger("preprocessing-ancillary")
 
@@ -320,3 +321,17 @@ def pre_process_sen2(s251_year, run_id):
     )
     sen2 = prepare_sen2_data(la_sen2_data, s251_year)
     return sen2
+
+
+def pre_process_place_funding(s251_year, run_id):
+    logger.info("processing place funding data...")
+    dsg_data = get_blob(
+        raw_container,
+        f"default/{s251_year}/dedicated-schools-grant_2024-to-2025_published-22-07-2025.ods",
+    )
+    place_numbers_data = get_blob(
+        raw_container,
+        f"default/{s251_year}/High_needs_place_numbers_for_the_2024_to_2025_academic_year_September_2025_FINAL_v1.0.ods",
+    )
+    place_funding, dsg = prepare_place_funding_data(dsg_data, place_numbers_data)
+    return place_funding, dsg
