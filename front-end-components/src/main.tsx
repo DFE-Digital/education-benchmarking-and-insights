@@ -1089,7 +1089,7 @@ const benchmarkDataHighNeedsElement = document.getElementById(
   BenchmarkDataHighNeedsElementId
 );
 if (benchmarkDataHighNeedsElement) {
-  const { code, editLink, set } = benchmarkDataHighNeedsElement.dataset;
+  const { code, set } = benchmarkDataHighNeedsElement.dataset;
   if (code) {
     const root = ReactDOM.createRoot(benchmarkDataHighNeedsElement);
     root.render(
@@ -1097,7 +1097,6 @@ if (benchmarkDataHighNeedsElement) {
         <BenchmarkDataHighNeeds
           code={code}
           set={set ? (JSON.parse(set) as string[]) : []}
-          editLink={editLink}
           fetchTimeout={30_000}
           rootEl={benchmarkDataHighNeedsElement}
         />

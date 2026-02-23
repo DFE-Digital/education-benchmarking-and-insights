@@ -8,7 +8,6 @@ import { ViewProps } from "../types";
 
 export type BenchmarkDataHighNeedsProps = {
   code: string;
-  editLink?: string;
   fetchTimeout?: number;
   set: string[];
 };
