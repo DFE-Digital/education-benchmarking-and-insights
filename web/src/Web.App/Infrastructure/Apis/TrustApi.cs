@@ -32,6 +32,7 @@ public class TrustApi(HttpClient httpClient, string? key = null) : ApiBase(httpC
     public async Task<ApiResult> ItSpendingForecastAsync(string? companyNumber, CancellationToken cancellationToken = default) => await GetAsync(Routes.ItSpendingForecast(companyNumber), cancellationToken);
 
     public async Task<ApiResult> QueryIncomeHistoryAsync(string? companyNumber, ApiQuery? query = null, CancellationToken cancellationToken = default) => await GetAsync(Routes.QueryIncomeHistory(companyNumber), cancellationToken);
+    public async Task<ApiResult> QueryBalanceHistoryAsync(string? companyNumber, ApiQuery? query = null, CancellationToken cancellationToken = default) => await GetAsync(Routes.QueryBalanceHistory(companyNumber), cancellationToken);
 
     private static class Routes
     {
@@ -45,6 +46,7 @@ public class TrustApi(HttpClient httpClient, string? key = null) : ApiBase(httpC
         public static string QueryItSpending => $"{Base}/budget-forecast/it-spending";
         public static string ItSpendingForecast(string? identifier) => $"{Base}/{identifier}/budget-forecast/it-spending/forecast";
         public static string QueryIncomeHistory(string? identifier) => $"{Base}/{identifier}/accounts/income/history";
+        public static string QueryBalanceHistory(string? identifier) => $"{Base}/{identifier}/accounts/balance/history";
     }
 }
 
@@ -58,4 +60,5 @@ public interface ITrustApi
     Task<ApiResult> QueryItSpendingAsync(ApiQuery? query = null, CancellationToken cancellationToken = default);
     Task<ApiResult> ItSpendingForecastAsync(string? companyNumber, CancellationToken cancellationToken = default);
     Task<ApiResult> QueryIncomeHistoryAsync(string? companyNumber, ApiQuery? query = null, CancellationToken cancellationToken = default);
+    Task<ApiResult> QueryBalanceHistoryAsync(string? companyNumber, ApiQuery? query = null, CancellationToken cancellationToken = default);
 }
