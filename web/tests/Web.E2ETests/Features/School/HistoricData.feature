@@ -222,7 +222,7 @@
           | 2020 to 2021 | -1.9%      |                               | 4.4%                               |
           | 2021 to 2022 | 1.7%       | 2.3%                          | 3%                                 |
           
-    Scenario: Change balance to table view when dimension set to percentage of income
+    Scenario: Change balance chart to table view when dimension set to percentage of income
         Given I am on 'balance' history page for school with URN '777042'
         When I change 'balance' dimension to 'percentage of income'
         And I click on view as table on 'balance' tab
