@@ -5,6 +5,7 @@ from pipeline.pre_processing.aar.academies import prepare_aar_data
 from pipeline.pre_processing.aar.central_services import prepare_central_services_data
 from pipeline.utils.log import setup_logger
 from pipeline.utils.storage import get_blob, raw_container, try_get_blob, write_blob
+from pipeline.input_schemas import high_needs_places_filenames, dsg_filenames
 
 from .cdc import prepare_cdc_data
 from .census import prepare_census_data
@@ -17,7 +18,8 @@ from .ks2 import prepare_ks2_data
 from .ks4 import prepare_ks4_data
 from .la_statistical_neighbours import prepare_la_statistical_neighbours
 from .ons_population_estimates import prepare_ons_population_estimates
-from .place_funding import prepare_place_funding_data
+from .dsg import prepare_dsg_data
+from .high_needs_places import prepare_high_needs_places_data
 from .sen import prepare_sen_data
 from .sen2 import prepare_sen2_data
 
@@ -323,15 +325,21 @@ def pre_process_sen2(s251_year, run_id):
     return sen2
 
 
-def pre_process_place_funding(s251_year, run_id):
-    logger.info("processing place funding data...")
-    dsg_data = get_blob(
-        raw_container,
-        f"default/{s251_year}/dedicated-schools-grant_2024-to-2025_published-22-07-2025.ods",
-    )
-    place_numbers_data = get_blob(
-        raw_container,
-        f"default/{s251_year}/High_needs_place_numbers_for_the_2024_to_2025_academic_year_September_2025_FINAL_v1.0.ods",
-    )
-    place_funding, dsg = prepare_place_funding_data(dsg_data, place_numbers_data)
-    return place_funding, dsg
+def pre_process_dsg(s251_year):
+    filename = dsg_filenames.get(s251_year)
+    if dsg_data := try_get_blob(raw_container, f"default/{s251_year}/{filename}"):
+        dsg = prepare_dsg_data(dsg_data)
+        logger.info(f"Preprocessed DSG data for {s251_year}")
+        return dsg
+    logger.info(f"DSG data for {s251_year} not found")
+    return None
+
+
+def pre_process_place_funding(s251_year):
+    filename = high_needs_places_filenames.get(s251_year)
+    if place_numbers_data := try_get_blob(raw_container, f"default/{s251_year}/{filename}"):
+        place_funding = prepare_high_needs_places_data(place_numbers_data, s251_year)
+        logger.info(f"Preprocessed high needs places data for {s251_year}")
+        return place_funding
+    logger.info(f"High needs places data for {s251_year} not found")
+    return None

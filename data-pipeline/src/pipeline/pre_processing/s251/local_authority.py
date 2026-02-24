@@ -3,6 +3,7 @@ from pandas._typing import FilePath, ReadCsvBuffer
 
 from pipeline import input_schemas
 from pipeline.utils import log
+from pipeline.input_schemas import SECONDARY_PLACES_6K, SECONDARY_PLACES_10K, PRIMARY_PLACES_10K, PRIMARY_PLACES_6K, primary, secondary
 
 logger = log.setup_logger(__name__)
 
@@ -65,7 +66,7 @@ def build_local_authorities(
     )
 
     local_authority_data_with_dsg_recoupments = _calculate_dsg_recoupments(
-        local_authority_data_with_sen, all_schools[["LA", "Overall Phase"]], place_numbers, dsg
+        local_authority_data_with_sen, all_schools[["LA", "Overall Phase"]], place_numbers, dsg, year
     )
 
     logger.info(
@@ -76,26 +77,14 @@ def build_local_authorities(
 
 
 def _calculate_dsg_recoupments(
-    local_authority_data, school_to_la_mapping, place_numbers, dsg
+    local_authority_data, school_to_la_mapping, place_numbers, dsg, year
 ):
+    six_k_places_col, ten_k_places_col = input_schemas.get_six_and_ten_k_cols(year)
     place_numbers_with_la = place_numbers.set_index("URN").join(school_to_la_mapping, how="left")
-    six_k_places_col = "2024 to 2025 mainstream academies and free schools - pre-16 SEN Unit/RP Places (@£6k)"
-    ten_k_places_col = "2024 to 2025 mainstream academies and free schools - pre-16 SEN Unit/RP Places (@£10k)"
-    primary = "Primary"
-    secondary = "Secondary"
-    PRIMARY_PLACES_6K = "PrimaryPlaces6000"
-    PRIMARY_PLACES_10K = "PrimaryPlaces10000"
-    SECONDARY_PLACES_6K = "SecondaryPlaces6000"
-    SECONDARY_PLACES_10K = "SecondaryPlaces10000"
     place_numbers_per_phase_and_la = place_numbers_with_la \
         .groupby(["LA", "Overall Phase"]) \
-        .agg(
-            {
-                "2024 to 2025 free schools and academies - pre-16 AP places": "sum",
-                six_k_places_col: "sum",
-                ten_k_places_col: "sum",
-            }
-        ).reset_index()
+        .agg({six_k_places_col: "sum", ten_k_places_col: "sum"}) \
+        .reset_index()
     place_numbers_pivoted = place_numbers_per_phase_and_la.pivot(index='LA', columns='Overall Phase')
 
     place_numbers_final = pd.DataFrame(index=place_numbers_pivoted.index)

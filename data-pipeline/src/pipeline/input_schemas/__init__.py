@@ -72,6 +72,8 @@ from .maintained_schools_master_list import (
     maintained_schools_master_list_column_eval,
     maintained_schools_master_list_index_col,
 )
+from .high_needs_places import high_needs_places_columns, high_needs_places_filenames
+from .dsg import dsg_filenames, PRIMARY_PLACES_10K, PRIMARY_PLACES_6K, SECONDARY_PLACES_10K, SECONDARY_PLACES_6K, primary, secondary, get_six_and_ten_k_cols
 
 gias_links_index_col = "URN"
 gias_links = {
