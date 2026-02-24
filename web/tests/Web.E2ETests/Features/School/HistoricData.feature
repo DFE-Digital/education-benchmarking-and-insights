@@ -64,16 +64,19 @@
         And the '<tab>' tab '<chart>' chart shows the legend '<legend>' using separator ','
 
         Examples:
-          | tab      | dimension         | chart                                   | legend                                                                               |
-          | spending | actuals           | Total expenditure                       | national average across phase type, average across comparator set, actuals           |
-          | spending | £ per pupil       | Total expenditure                       | national average across phase type, average across comparator set, £ per pupil       |
-          | spending | £ per pupil       | Total premises staff and services costs | national average across phase type, average across comparator set, £ per m²          |
-          | income   | actuals           | Total income                            | national average across phase type, average across comparator set, actuals           |
-          | income   | £ per pupil       | Total income                            | national average across phase type, average across comparator set, £ per pupil       |
-          | balance  | £ per pupil       | In-year balance                         |                                                                                      |
-          | census   | total             | Pupils on roll                          | national average across phase type, average across comparator set, total             |
-          | census   | headcount per FTE | Pupils on roll                          | national average across phase type, average across comparator set, total             |
-          | census   | headcount per FTE | School workforce (full time equivalent) | national average across phase type, average across comparator set, headcount per FTE |
+          | tab      | dimension                 | chart                                   | legend                                                                                       |
+          | spending | actuals                   | Total expenditure                       | national average across phase type, average across comparator set, actuals                   |
+          | spending | £ per pupil               | Total expenditure                       | national average across phase type, average across comparator set, £ per pupil               |
+          | spending | £ per pupil               | Total premises staff and services costs | national average across phase type, average across comparator set, £ per m²                  |
+          | income   | actuals                   | Total income                            | national average across phase type, average across comparator set, actuals                   |
+          | income   | £ per pupil               | Total income                            | national average across phase type, average across comparator set, £ per pupil               |
+          | balance  | £ per pupil               | In-year balance                         | national average across phase type, average across comparator set, £ per pupil               |
+          | balance  | actuals                   | In-year balance                         | national average across phase type, average across comparator set, actuals                   |
+          | balance  | percentage of expenditure | In-year balance                         | national average across phase type, average across comparator set, percentage of expenditure |
+          | balance  | percentage of income      | In-year balance                         | national average across phase type, average across comparator set, percentage of income      |
+          | census   | total                     | Pupils on roll                          | national average across phase type, average across comparator set, total                     |
+          | census   | headcount per FTE         | Pupils on roll                          | national average across phase type, average across comparator set, total                     |
+          | census   | headcount per FTE         | School workforce (full time equivalent) | national average across phase type, average across comparator set, headcount per FTE         |
 
     Scenario: Change Total expenditure chart to table view
         Given I am on 'spending' history page for school with URN '777042'
@@ -194,3 +197,51 @@
           | 2019 to 2020 |            |                               |                                    |
           | 2020 to 2021 | £3,097,397 |                               | £3,193,335                         |
           | 2021 to 2022 | £1,614,419 | £2,929,442                    | £3,632,526                         |
+          
+    Scenario: Change balance chart to table view when dimension set to per unit
+        Given I am on 'balance' history page for school with URN '777042'
+        When I change 'balance' dimension to '£ per pupil'
+        And I click on view as table on 'balance' tab
+        Then the table on the 'balance' tab 'In-year balance' chart contains:
+          | Year         | Amount  | Average across comparator set | National average across phase type |
+          | 2017 to 2018 |         |                               |                                    |
+          | 2018 to 2019 |         |                               |                                    |
+          | 2019 to 2020 |         |                               |                                    |
+          | 2020 to 2021 | -£137   |                               | £529                               |
+          | 2021 to 2022 | £128    | £176                          | £693                               |
+          
+    Scenario: Change balance chart to table view when dimension set to percentage of expenditure
+        Given I am on 'balance' history page for school with URN '777042'
+        When I change 'balance' dimension to 'percentage of expenditure'
+        And I click on view as table on 'balance' tab
+        Then the table on the 'balance' tab 'In-year balance' chart contains:
+          | Year         | Percentage | Average across comparator set | National average across phase type |
+          | 2017 to 2018 |            |                               |                                    |
+          | 2018 to 2019 |            |                               |                                    |
+          | 2019 to 2020 |            |                               |                                    |
+          | 2020 to 2021 | -1.9%      |                               | 4.4%                               |
+          | 2021 to 2022 | 1.7%       | 2.3%                          | 3%                                 |
+          
+    Scenario: Change balance chart to table view when dimension set to percentage of income
+        Given I am on 'balance' history page for school with URN '777042'
+        When I change 'balance' dimension to 'percentage of income'
+        And I click on view as table on 'balance' tab
+        Then the table on the 'balance' tab 'In-year balance' chart contains:
+          | Year         | Percentage | Average across comparator set | National average across phase type |
+          | 2017 to 2018 |            |                               |                                    |
+          | 2018 to 2019 |            |                               |                                    |
+          | 2019 to 2020 |            |                               |                                    |
+          | 2020 to 2021 | -1.9%      |                               | 4.2%                               |
+          | 2021 to 2022 | 1.7%       | 2.2%                          | 2.8%                               |
+          
+    Scenario: Change balance chart to table view
+        Given I am on 'balance' history page for school with URN '777042'
+        When I change 'balance' dimension to 'actuals'
+        And I click on view as table on 'balance' tab
+        Then the table on the 'balance' tab 'In-year balance' chart contains:
+          | Year         | Amount     | Average across comparator set | National average across phase type |
+          | 2017 to 2018 |            |                               |                                    |
+          | 2018 to 2019 |            |                               |                                    |
+          | 2019 to 2020 |            |                               |                                    |
+          | 2020 to 2021 | -£59,862   |                               | £142,554                           |
+          | 2021 to 2022 | £27,196    | £71,683                       | £122,892                           |
