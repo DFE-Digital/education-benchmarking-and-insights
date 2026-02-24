@@ -67,13 +67,19 @@ public class HighNeedsGlossaryViewModel : GlossaryViewModel
                       local authorities in each financial year.  This is taken from 
                       the s251 outturn statement.
 
-                      **Use of outturn in this service** 
+                      **Place funding in academies (recoupment)** 
 
-                      In this service the academy recoupment amount is added 
-                      to the high needs spend reported by local authorities in 
-                      their s251 outturn statement. This combined figure can 
-                      then be compared against the high needs block amount 
-                      from the DSG for the year.
+                      Where the outturn refers to place funding, or total outturn for 
+                      the local authority, we have included place funding for pupils 
+                      with special educational needs taught in academies.
+                      
+                      While the s251 outturn only records direct Local Authority 
+                      spending, our methodology integrates academy-level data from the 
+                      [High Needs Places](https://www.gov.uk/government/publications/high-needs-allocated-place-numbers) 
+                      publication. We map each academy to its respective category 
+                      (Primary, Secondary, Special, or Alternative Provision). 
+                      We then calculate the total place funding for these academies 
+                      and add it into the outturn.
                       """
         },
         new()
