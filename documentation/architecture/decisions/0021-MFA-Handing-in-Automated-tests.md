@@ -74,7 +74,7 @@ Cons:
 
 ## Validation
 
-This ADR will be validated through: 
+This ADR will be validated through:
 
 * Successful implementation of the mock/bypass MFA mechanism
 * Automated tests running reliably in Azure DevOps pipelines
