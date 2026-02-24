@@ -1,11 +1,15 @@
-# Databricks connectivity to s198
+# Databricks Connectivity to s198
 
-Databricks and FBIT are hosted in [CIP](https://docs.education.gov.uk/gettingStartedCIP/). To migrate our data preprocessing to Databricks, we needed to establish connectivity between Databricks's subscription and FBIT's in CIP, then use [Databricks Access Connectors](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/databricks_access_connector) to allow a storage container in FBIT to be mounted as a volume to Databricks. This allows Databricks users to write data to an FBIT storage container. This architecture is one of a couple that have been architecturally approved by DfE, the other being using Azure Data Factory. Here are some steps:
+Databricks and FBIT are both hosted in [CIP](https://docs.education.gov.uk/gettingStartedCIP/). To move our data preprocessing into Databricks, we needed two things: network connectivity between the Databricks and FBIT subscriptions in CIP, and a way for Databricks to write to FBIT storage. The latter is achieved using [Databricks Access Connectors](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/databricks_access_connector), which allow an FBIT storage container to be mounted as a Databricks volume.
 
-* Create a landing zone storage container with HNS enabled as is required for Databricks
-* Raise a ticket for ADA To create Databricks access connectors for thise storage containers (in s101)
-* Get CIP central services to configure the permissions cross-subscription to allow the connectors to write to the landing zone
-* Test the solution
+This is one of two architecturally approved patterns I know of for this use case in DfE — the other being Azure Data Factory.
+
+## Setup Steps
+
+1. **Create a landing zone storage container** in FBIT with HNS enabled (required for Databricks volume mounting)
+2. **Raise a ticket with ADA** to create Databricks Access Connectors for the storage containers (done from the s101 subscription)
+3. **Request cross-subscription permissions** from CIP central services to allow the connectors to write to the landing zone
+4. **Test the solution**
 
 <!-- Leave the rest of this page blank -->
 \newpage
