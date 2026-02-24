@@ -2,113 +2,84 @@
 
 ## Context and Problem Statement
 
-Our automated end‑to‑end tests interact with services protected by Multi‑Factor Authentication (MFA). MFA blocks automation, and we need a reliable, maintainable, and cost‑effective approach to handle MFA within our CI/CD pipeline. The core question is: **How should we handle MFA for automated tests without compromising security or test coverage?**
+Our automated end‑to‑end tests interact with services protected by Multi‑Factor Authentication (MFA). MFA blocks automation, and we need a reliable, maintainable, and cost‑effective approach to handle MFA within our Azure DevOps CI/CD pipeline.
+
+This ADR is about Should we implement the known, feasible mock/bypass MFA solution, or invest time in researching alternative email‑based MFA solutions that require significant R&D, engineering effort, and their feasibility within our pipeline?
 
 ## Decision Drivers
 
 * Must work reliably in Azure DevOps pipelines using Microsoft‑hosted agents
-* Minimise implementation effort and avoid unnecessary test rework
-* Maintainability and long‑term sustainability
+* Minimise engineering effort and avoid unnecessary test rework
+* Delivery timelines and available team capacity
 * Cost and licensing implications
 * Security and compliance considerations
 * Uncertainty and risk associated with unproven approaches
 * Reliability and stability of automated tests
-* Time constraints and delivery commitments
 
-## Considered Options
+## Considered Approaches
 
-* Option 1: Use Microsoft Graph API with a dedicated email account
-* Option 2: Use Mailosaur (paid service)
-* Option 3: Bypass/Mock DfE Sign‑in MFA in automated tests
+### Email‑Based MFA Solutions (Graph API & Mailosaur)
+
+This category includes:
+
+* Microsoft Graph API with a dedicated mailbox
+* Mailosaur (paid service)
+
+These solutions rely on retrieving MFA codes from email inboxes.
+
+#### Trade‑offs and uncertainties
+
+* **R&D effort:** Both options require substantial investigation to confirm feasibility on Microsoft‑hosted Azure DevOps agents.
+* **Pipeline integration complexity:** Email polling, API authentication, and message retrieval must be proven to work reliably in hosted agents.
+* **Test rework:** Existing tests would need to be redesigned to incorporate email‑based MFA flows.
+* **Implementation impact:** Additional infrastructure, configuration, and error‑handling logic would be required.
+* **Cost:** Mailosaur introduces ongoing subscription costs.
+* **Operational risk:** External dependencies (Mailosaur) or mailbox throttling/permissions (Graph API) may introduce instability.
+* **Uncertain outcome:** After investing time and effort, these solutions may still prove incompatible or too costly to maintain.
+
+### Mock/Bypass DfE Sign‑in MFA (Known Option)
+
+A controlled bypass of MFA for automated tests, while retaining real MFA validation in manual smoke tests.
+
+This is the approach we fully understand today, and it is known to be feasible within our decision drivers.
 
 ## Decision Outcome
 
-We will proceed with Option 3.
+We will proceed with implementing the mock/bypass MFA solution.
 
-Options 1 and 2 require further investigation to determine whether they are technically feasible on Azure DevOps Microsoft‑hosted agents. Both would require significant engineering effort, test rework, and R&D time, with no guarantee of success.
+This decision is based on the following:
 
-Option 3 is the only approach we fully understand today, and it is known to be feasible within our constraints. It meets our immediate needs, unblocks automated testing, and avoids the risk of investing time into solutions that may ultimately prove incompatible with our pipeline.
+* It is the only option with known feasibility.
+* It requires minimal engineering effort and avoids major test rework.
+* It has no additional cost and no external dependencies.
+* It allows us to deliver automated tests within current timelines.
+* The alternative options carry significant uncertainty, R&D cost, implementation impact, and risk.
+
+Given these trade‑offs, Mock/Bypass DfE Sign‑in MFA provides the best balance of reliability, effort, and predictability.
 
 ### Consequences
 
-* Good:
-  * We can implement MFA handling quickly and unblock automated test development.
-  * No dependency on external services or mailbox infrastructure.
-  * Minimal rework required for existing tests.
-  * Predictable and stable behaviour in CI/CD.
+Pors:
 
-* Bad:
-  * We do not achieve full end‑to‑end MFA coverage.
-  * Real MFA behaviour must continue to be validated through manual smoke tests.
-  * If future requirements demand real MFA automation, additional work may be needed.
+* Fastest path to unblock automated testing
+* Minimal implementation effort
+* No dependency on external services or mailbox infrastructure
+* Predictable and stable behaviour in CI/CD
+* No additional licensing or subscription costs
+
+Cons:
+
+* Does not provide true end‑to‑end MFA coverage
+* Real MFA behaviour will need to be validated through manual smoke tests
 
 ## Validation
 
-Compliance with this ADR will be validated through:
+This ADR will be validated through: 
 
-* Implementation of the mock/bypass MFA mechanism in automated tests
-* Successful execution of automated tests in Azure DevOps pipelines
-* Periodic review to ensure the solution remains compatible with DSI and pipeline changes
-* Optional future R&D spikes to reassess Options 1 and 2 if requirements evolve
-
-## Pros and Cons of the Options
-
-### Option 1: Use Microsoft Graph API with a Dedicated Email Account
-
-Status: Requires investigation - feasibility on Microsoft‑hosted agents unknown
-
-Pros:
-
-* Good, because it is a clean, first‑party Microsoft solution with long‑term stability.
-* Good, because it avoids external dependencies and keeps all data within Microsoft 365.
-* Good, because it aligns well with enterprise security and compliance expectations.
-
-Cons:
-
-* Bad, because feasibility on Microsoft‑hosted agents is unconfirmed.
-* Bad, because it requires significant R&D and engineering effort.
-* Bad, because it may require substantial test rework to integrate email‑based MFA flows.
-* Bad, because Graph API throttling, permissions, and token handling add complexity.
-* Bad, because failure modes (mailbox access issues, throttling) could block the pipeline.
-
-### Option 2: Use Mailosaur (Paid Subscription)
-
-Status: Requires investigation - likely feasible but not yet validated
-
-Pros:
-
-* Good, because it is purpose‑built for automated testing.
-* Good, because it offers simple APIs for retrieving MFA codes.
-* Good, because it avoids managing real mailboxes or Graph permissions.
-
-Cons:
-
-* Bad, because it introduces ongoing subscription costs.
-* Bad, because feasibility on Microsoft‑hosted agents must be validated.
-* Bad, because it introduces a third‑party dependency and availability risk.
-* Bad, because adopting it would require test rework and integration effort.
-
-### Option 3: Bypass / Mock DfE Sign‑in MFA in Automated Tests
-
-Status: Known feasible approach - selected
-
-Pros:
-
-* Good, because it is the fastest to implement with minimal R&D.
-* Good, because it avoids external dependencies and infrastructure.
-* Good, because it provides stable, predictable behaviour in CI/CD.
-* Good, because it requires no major rework of existing tests.
-
-Cons:
-
-* Bad, because it does not provide true end‑to‑end MFA coverage.
-* Bad, because differences from production behaviour must be validated manually.
+* Successful implementation of the mock/bypass MFA mechanism
+* Automated tests running reliably in Azure DevOps pipelines
+* Periodic review to ensure compatibility with DSI and pipeline changes
 
 ## More Information
 
-This decision should be revisited if:
-
-* R&D confirms that Options 1 or 2 are feasible and provide clear benefits
-* DSI changes its MFA mechanism
-* Our CI/CD pipeline evolves to support new authentication tools
-* The chosen solution becomes unstable or insufficient for future requirements  
+This decision should be revisited if the chosen solution becomes insufficient for future requirements.
