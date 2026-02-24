@@ -83,3 +83,12 @@ export const ShareButtonsLayoutContext =
   createContext<ShareButtonsLayout>(null);
 
 export type ShareButtonsLayout = "column" | null;
+
+export interface SourceInfoContextValue {
+  yearsLabel?: string;
+  glossaryUrl?: string;
+}
+
+export const SourceInfoContext = createContext<
+  SourceInfoContextValue | undefined
+>(undefined);

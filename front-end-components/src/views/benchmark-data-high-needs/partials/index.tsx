@@ -19,37 +19,51 @@ export const section251Sections: BenchmarkChartSection251Section<LocalAuthorityS
         {
           name: "Total place funding for special schools and AP/PRUs",
           field: "highNeedsAmountTotalPlaceFunding",
-          lineCodes: ["1.0.2"],
+          sourceInfo: {
+            lineCodes: ["1.0.2"],
+          },
         },
         {
           name: "Top up funding (maintained schools, academies, free schools and colleges)",
           field: "highNeedsAmountTopUpFundingMaintained",
-          lineCodes: ["1.2.1", "1.2.2", "1.2.4", "1.2.11"],
+          sourceInfo: {
+            lineCodes: ["1.2.1", "1.2.2", "1.2.4", "1.2.11"],
+          },
         },
         {
           name: "Top up funding (non-maintained and independent schools and colleges)",
           field: "highNeedsAmountTopUpFundingNonMaintained",
-          lineCodes: ["1.2.3"],
+          sourceInfo: {
+            lineCodes: ["1.2.3"],
+          },
         },
         {
           name: "SEN support and inclusion services",
           field: "highNeedsAmountSenServices",
-          lineCodes: ["1.2.5", "1.2.8", "1.2.9"],
+          sourceInfo: {
+            lineCodes: ["1.2.5", "1.2.8", "1.2.9"],
+          },
         },
         {
           name: "Alternative provision services",
           field: "highNeedsAmountAlternativeProvisionServices",
-          lineCodes: ["1.2.7"],
+          sourceInfo: {
+            lineCodes: ["1.2.7"],
+          },
         },
         {
           name: "Hospital education services",
           field: "highNeedsAmountHospitalServices",
-          lineCodes: ["1.2.6"],
+          sourceInfo: {
+            lineCodes: ["1.2.6"],
+          },
         },
         {
           name: "Therapies and other health related services",
           field: "highNeedsAmountOtherHealthServices",
-          lineCodes: ["1.2.13"],
+          sourceInfo: {
+            lineCodes: ["1.2.13"],
+          },
         },
       ],
     },
@@ -60,22 +74,34 @@ export const section251Sections: BenchmarkChartSection251Section<LocalAuthorityS
         {
           name: "Primary place funding per pupil",
           field: "placeFundingPrimary",
-          lineCodes: ["1.0.2"],
+          sourceInfo: {
+            lineCodes: ["1.0.2"],
+            recoupment: true,
+          },
         },
         {
           name: "Secondary place funding per pupil",
           field: "placeFundingSecondary",
-          lineCodes: ["1.0.2"],
+          sourceInfo: {
+            lineCodes: ["1.0.2"],
+            recoupment: true,
+          },
         },
         {
           name: "Special place funding per pupil",
           field: "placeFundingSpecial",
-          lineCodes: ["1.0.2"],
+          sourceInfo: {
+            lineCodes: ["1.0.2"],
+            recoupment: true,
+          },
         },
         {
           name: "PRU and alternative provision place funding per pupil",
           field: "placeFundingAlternativeProvision",
-          lineCodes: ["1.0.2"],
+          sourceInfo: {
+            lineCodes: ["1.0.2"],
+            recoupment: true,
+          },
         },
       ],
     },
@@ -86,37 +112,51 @@ export const section251Sections: BenchmarkChartSection251Section<LocalAuthorityS
         {
           name: "Early years top up funding per pupil (maintained)",
           field: "maintainedEarlyYears",
-          lineCodes: ["1.2.1", "1.2.2", "1.2.4", "1.2.11"],
+          sourceInfo: {
+            lineCodes: ["1.2.1", "1.2.2", "1.2.4", "1.2.11"],
+          },
         },
         {
           name: "Primary top up funding per pupil (maintained)",
           field: "maintainedPrimary",
-          lineCodes: ["1.2.1", "1.2.2", "1.2.4", "1.2.11"],
+          sourceInfo: {
+            lineCodes: ["1.2.1", "1.2.2", "1.2.4", "1.2.11"],
+          },
         },
         {
           name: "Secondary top up funding per pupil (maintained)",
           field: "maintainedSecondary",
-          lineCodes: ["1.2.1", "1.2.2", "1.2.4", "1.2.11"],
+          sourceInfo: {
+            lineCodes: ["1.2.1", "1.2.2", "1.2.4", "1.2.11"],
+          },
         },
         {
           name: "Special top up funding per pupil (maintained)",
           field: "maintainedSpecial",
-          lineCodes: ["1.2.1", "1.2.2", "1.2.4", "1.2.11"],
+          sourceInfo: {
+            lineCodes: ["1.2.1", "1.2.2", "1.2.4", "1.2.11"],
+          },
         },
         {
           name: "Alternative provision top up funding per pupil (maintained)",
           field: "maintainedAlternativeProvision",
-          lineCodes: ["1.2.1", "1.2.2", "1.2.4", "1.2.11"],
+          sourceInfo: {
+            lineCodes: ["1.2.1", "1.2.2", "1.2.4", "1.2.11"],
+          },
         },
         {
           name: "Post-school top up funding per pupil (maintained)",
           field: "maintainedPostSchool",
-          lineCodes: ["1.2.1", "1.2.2", "1.2.4", "1.2.11"],
+          sourceInfo: {
+            lineCodes: ["1.2.1", "1.2.2", "1.2.4", "1.2.11"],
+          },
         },
         {
           name: "Top up funding income per pupil (maintained)",
           field: "maintainedIncome",
-          lineCodes: ["1.2.1", "1.2.2", "1.2.4", "1.2.11"],
+          sourceInfo: {
+            lineCodes: ["1.2.1", "1.2.2", "1.2.4", "1.2.11"],
+          },
         },
       ],
     },
@@ -127,37 +167,51 @@ export const section251Sections: BenchmarkChartSection251Section<LocalAuthorityS
         {
           name: "Early years top up funding per pupil (non-maintained)",
           field: "nonMaintainedEarlyYears",
-          lineCodes: ["1.2.3"],
+          sourceInfo: {
+            lineCodes: ["1.2.3"],
+          },
         },
         {
           name: "Primary top up funding per pupil (non-maintained)",
           field: "nonMaintainedPrimary",
-          lineCodes: ["1.2.3"],
+          sourceInfo: {
+            lineCodes: ["1.2.3"],
+          },
         },
         {
           name: "Secondary top up funding per pupil (non-maintained)",
           field: "nonMaintainedSecondary",
-          lineCodes: ["1.2.3"],
+          sourceInfo: {
+            lineCodes: ["1.2.3"],
+          },
         },
         {
           name: "Special top up funding per pupil (non-maintained)",
           field: "nonMaintainedSpecial",
-          lineCodes: ["1.2.3"],
+          sourceInfo: {
+            lineCodes: ["1.2.3"],
+          },
         },
         {
           name: "Alternative provision top up funding per pupil (non-maintained)",
           field: "nonMaintainedAlternativeProvision",
-          lineCodes: ["1.2.3"],
+          sourceInfo: {
+            lineCodes: ["1.2.3"],
+          },
         },
         {
           name: "Post-school top up funding per pupil (non-maintained)",
           field: "nonMaintainedPostSchool",
-          lineCodes: ["1.2.3"],
+          sourceInfo: {
+            lineCodes: ["1.2.3"],
+          },
         },
         {
           name: "Top up funding income per pupil (non-maintained)",
           field: "nonMaintainedIncome",
-          lineCodes: ["1.2.3"],
+          sourceInfo: {
+            lineCodes: ["1.2.3"],
+          },
         },
       ],
     },

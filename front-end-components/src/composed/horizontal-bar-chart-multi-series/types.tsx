@@ -1,5 +1,6 @@
 import { ChartProps } from "src/components/charts";
 import { LaChartData } from "src/components/charts/table-chart";
+import { SourceInfoProps } from "src/components/source-info";
 
 export type HorizontalBarChartMultiSeriesProps<TData extends LaChartData> =
   Pick<
@@ -15,7 +16,7 @@ export type HorizontalBarChartMultiSeriesProps<TData extends LaChartData> =
     children?: React.ReactNode[] | React.ReactNode;
     data: HorizontalBarChartMultiSeriesPropsData<TData>;
     xAxisLabel?: string;
-    lineCodes?: string[];
+    sourceInfo?: SourceInfoProps;
   };
 
 export type HorizontalBarChartMultiSeriesPropsData<TData extends LaChartData> =

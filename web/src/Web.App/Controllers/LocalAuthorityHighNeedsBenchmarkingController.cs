@@ -19,6 +19,7 @@ namespace Web.App.Controllers;
 public class LocalAuthorityHighNeedsBenchmarkingController(
     ILogger<LocalAuthorityHighNeedsBenchmarkingController> logger,
     IEstablishmentApi establishmentApi,
+    IFinanceService financeService,
     ILocalAuthorityComparatorSetService localAuthorityComparatorSetService)
     : Controller
 {
@@ -49,7 +50,9 @@ public class LocalAuthorityHighNeedsBenchmarkingController(
                     return NotFound();
                 }
 
-                return View(new LocalAuthorityHighNeedsBenchmarkingViewModel(localAuthority, set));
+                var years = await financeService.GetYears();
+
+                return View(new LocalAuthorityHighNeedsBenchmarkingViewModel(localAuthority, set, years));
             }
             catch (Exception e)
             {

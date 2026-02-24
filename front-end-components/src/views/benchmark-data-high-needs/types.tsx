@@ -1,5 +1,6 @@
 import { ReactNode } from "react";
 import { ResolvedStatProps } from "src/components/charts/resolved-stat";
+import { SourceInfoProps } from "src/components/source-info";
 import {
   LocalAuthoritySection251,
   LocalAuthorityEducationHealthCarePlan,
@@ -10,6 +11,8 @@ export type BenchmarkDataHighNeedsProps = {
   code: string;
   fetchTimeout?: number;
   set: string[];
+  yearsLabel?: string;
+  glossaryUrl?: string;
 };
 
 export type BenchmarkDataHighNeedsViewProps = ViewProps &
@@ -36,7 +39,7 @@ export type BenchmarkDataHighNeedsSection251Chart<
     label: string;
     content: ReactNode;
   };
-  lineCodes?: string[];
+  sourceInfo?: SourceInfoProps;
 };
 
 export type BenchmarkChartSend2Section<
