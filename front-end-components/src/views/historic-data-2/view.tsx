@@ -1,7 +1,7 @@
-import { BalanceSection } from "../historic-data/partials";
 import {
   CensusSection,
   IncomeSection,
+  BalanceSection,
   SpendingSection,
 } from "src/views/historic-data-2/partials";
 import {
