@@ -9,5 +9,9 @@ If data is not in the data catalogue but is held in a DfE database you need to c
 * Database, schema, and table identifiers for the data you want added
 * A form filled out called a Data Supply Agreement (DSA) on their [DSA portal](https://apps.powerapps.com/play/e/default-fad277c9-c60a-4da1-b5f3-b3b8b34a82f9/a/b73d96d1-da0b-4045-87ad-21c0e2b01ff8?tenantId=fad277c9-c60a-4da1-b5f3-b3b8b34a82f9&source=portal&screenColor=rgba%280%2C%20176%2C%20240%2C%201%29&skipAppMetadata=true). This requires the dataset you want to be registered on the [Information Asset Register](https://educationgovuk.sharepoint.com/sites/iac/SitePages/Information-Asset-Register.aspx) and approval granted from the relevant Information Asset Officer (IAO) for that dataset. ADA facilitate access but are not data owners.
 
+## Manual additions
+
+Not all datasets will need a formal mirror set up by ADA (this is defined above and constitutes a ADF job which refreshes the data ~daily). Smaller datasets or static ones can be uploaded to Databricks manually. These of course will rely on the uploader for maintenance if needed.
+
 <!-- Leave the rest of this page blank -->
 \newpage
