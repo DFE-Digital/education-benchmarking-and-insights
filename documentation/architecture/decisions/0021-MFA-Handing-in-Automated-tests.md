@@ -59,7 +59,7 @@ Given these trade‑offs, Mock/Bypass DfE Sign‑in MFA provides the best balanc
 
 ### Consequences
 
-Pors:
+Pros:
 
 * Fastest path to unblock automated testing
 * Minimal implementation effort
