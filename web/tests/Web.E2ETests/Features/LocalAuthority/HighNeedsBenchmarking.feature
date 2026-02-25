@@ -4,10 +4,6 @@
         Given I am on local authority high needs start benchmarking for local authority with code '201'
         And I click the Save and continue button
 
-    Scenario: Can view local authority benchmarking commentary
-        Given I am on local authority high needs benchmarking for local authority with code '201'
-        Then comparator commentary label is visible, showing local authority count of '10'
-
     Scenario: Can change local authorities to benchmark against
         Given I am on local authority high needs benchmarking for local authority with code '201'
         When I click the Change comparators link

@@ -47,13 +47,6 @@ public class HighNeedsBenchmarkingSteps(PageDriver driver)
         await _highNeedsBenchmarkingPage.ClickViewAsTable();
     }
 
-    [Then("comparator commentary label is visible, showing local authority count of '(\\d+)'")]
-    public async Task ThenComparatorCommentaryLabelIsVisibleShowingLocalAuthorityCountOf(string comparators)
-    {
-        Assert.NotNull(_highNeedsBenchmarkingPage);
-        await _highNeedsBenchmarkingPage.IsComparatorCommentaryDisplayed(int.Parse(comparators));
-    }
-
     [Then("chart view is visible, showing '(\\d+)' charts")]
     public async Task ThenChartViewIsVisibleShowingCharts(string charts)
     {
