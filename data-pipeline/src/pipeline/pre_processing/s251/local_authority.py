@@ -163,7 +163,6 @@ def _calculate_dsg_recoupments(
         how='left'
     )
 
-    # Overwritten in place
     dsg_breakdown_amounts_cols = [
         "PrimaryAcademyPlaceFunding",
         "SecondaryAcademyPlaceFunding",
@@ -173,6 +172,7 @@ def _calculate_dsg_recoupments(
         "NurseryPlaceFunding",
         "HospitalPlaceFunding",
     ]
+    # Overwritten in place
     las_with_recoupments["OutturnPlaceFundingPrimary"] += las_with_recoupments["PrimaryAcademyPlaceFunding"]
     las_with_recoupments["OutturnPlaceFundingSecondary"] += las_with_recoupments["SecondaryAcademyPlaceFunding"]
     las_with_recoupments["OutturnPlaceFundingSpecial"] += las_with_recoupments["SENAcademyPlaceFunding"]

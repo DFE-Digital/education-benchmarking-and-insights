@@ -335,11 +335,11 @@ def pre_process_dsg(s251_year):
     return None
 
 
-def pre_process_place_funding(s251_year):
+def pre_process_high_needs_places(s251_year):
     filename = high_needs_places_filenames.get(s251_year)
     if place_numbers_data := try_get_blob(raw_container, f"default/{s251_year}/{filename}"):
-        place_funding = prepare_high_needs_places_data(place_numbers_data, s251_year)
+        high_needs_places = prepare_high_needs_places_data(place_numbers_data, s251_year)
         logger.info(f"Preprocessed high needs places data for {s251_year}")
-        return place_funding
+        return high_needs_places
     logger.info(f"High needs places data for {s251_year} not found")
     return None

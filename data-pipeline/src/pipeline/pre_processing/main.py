@@ -38,7 +38,7 @@ from .ancillary.main import (
     pre_process_la_statistical_neighbours,
     pre_process_ons_population_estimates,
     pre_process_dsg,
-    pre_process_place_funding,
+    pre_process_high_needs_places,
     pre_process_sen,
     pre_process_sen2
 )
@@ -585,7 +585,7 @@ def get_s251_ancillary_data(
         "la_statistical_neighbours": pre_process_la_statistical_neighbours(s251_year, run_id),
         "ons_population_estimates":  pre_process_ons_population_estimates(s251_year, run_id),
         "sen2": pre_process_sen2(s251_year, run_id),
-        "place_numbers": pre_process_place_funding(s251_year),
+        "place_numbers": pre_process_high_needs_places(s251_year),
         "dsg": pre_process_dsg(s251_year)
     }
     return s251_ancillary_data
