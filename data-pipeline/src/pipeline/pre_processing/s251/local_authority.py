@@ -1,5 +1,6 @@
 import pandas as pd
 from pandas._typing import FilePath, ReadCsvBuffer
+import numpy as np
 
 from pipeline import input_schemas
 from pipeline.utils import log
@@ -76,9 +77,40 @@ def build_local_authorities(
     return local_authority_data_with_dsg_recoupments
 
 
+def ensure_dsg_recoupment_columns_are_present(
+    local_authority_data
+) -> pd.DataFrame:
+    """
+    DSG recoupment dates back to 2023, but we always want the recoupment columns
+    to be there as the database expects them.
+    """
+    dsg_recoupment_columns = [
+        "PrimaryAcademyPlaceFunding",
+        "SecondaryAcademyPlaceFunding",
+        "SENAcademyPlaceFunding",
+        "APAcademyPlaceFunding",
+        "Post16PlaceFunding",
+        "HospitalPlaceFunding",
+        "PrimaryPlaces6000",
+        "PrimaryPlaces10000",
+        "SecondaryPlaces6000",
+        "SecondaryPlaces10000",
+    ]
+
+    for col in dsg_recoupment_columns:
+        if col not in local_authority_data.columns:
+            local_authority_data[col] = np.nan
+
+    return local_authority_data
+
+
 def _calculate_dsg_recoupments(
     local_authority_data, school_to_la_mapping, place_numbers, dsg, year
 ):
+    if not dsg or place_numbers:
+        logger.info("DSG or Place number data missing, DSG recoupments set to zero")
+        return ensure_dsg_recoupment_columns_are_present(local_authority_data)
+    
     six_k_places_col, ten_k_places_col = input_schemas.get_six_and_ten_k_cols(year)
     place_numbers_with_la = place_numbers.set_index("URN").join(school_to_la_mapping, how="left")
     place_numbers_per_phase_and_la = place_numbers_with_la \
