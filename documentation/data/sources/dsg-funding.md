@@ -69,6 +69,21 @@ timeline
 
 Given that the DSG is the principal source of funding for schools it is used by Local Authorities to determine the amount that each school can spend in an academic year and is therefore used to set the school budget.  The value will be used in the FBIT service to compare to the actual amount spent by schools in each local authority to benchmark the alignment to the DSG.
 
+### Derivation of LA level DSG recoupments
+
+DSG funding breakdowns are reported per LA. Generally DSG breakdowns can be added to breakdowns already existing in FBIT (from S251), however the field `Total Pre-16 SEN places deduction` needs to be further split into primary and secondary deductions to be added to existing categories. The split is achieved by proxy using the ratio of funding reported in the `high_needs_places` file, specifically converting the `Primary/Secondary Places at £6k/£10k` fields to a ratio which can split the deduction found in the DSG.
+
+| Field | Derivation | Added To |
+| --- | --- | --- |
+| Post16PlaceFunding | Pre-16 SEN Places Deductions (Special Academies/Special Free Schools) | - |
+| HospitalPlaceFunding | Total hospital education deduction (£s) | - |
+| NurseryPlaceFunding | This is 0 (TBC) | - |
+| APAcademyPlaceFunding | Pre-16 AP Place deductions (Mainstream, special, special free, AP)| OutturnPlaceFundingAlternativeProvision |
+| SENAcademyPlaceFunding | Post-16 SEN place deductions (Mainstream, special, special free, AP) + FE and ILP deductions | OutturnPlaceFundingSpecial |
+| PrimaryAcademyPlaceFunding | Mainstream Pre-16 SEN places (6&10k) * Primary place ratio from high needs places | OutturnPlaceFundingPrimary |
+| SecondaryAcademyPlaceFunding |  Mainstream Pre-16 SEN places (6&10k) * Secondary place ratio from high needs places | OutturnPlaceFundingPrimary |
+|  | (sum all fields above) | OutturnTotalPlaceFunding |
+
 ### Data Source
 
 As shown in the timeline above the DSG is published at several points through the reporting cycle.  2 of the publications will be ingested into FBIT to align with the s251 datasets, these will the early March variant (start of period version) and the late March version at the end of the period i.e. end of March in the following calendar year.
