@@ -14,6 +14,8 @@ Draft
 
 The category comparison charts for s251 budget and outturn data, shown in the High Needs functionality of the Financial Benchmarking and Insights Tool (FBIT), do not currently include the recoupment amount (place funding for academies) in the outturn.  The affect of this is that the budget and outturn figures do not have equivalent coverage, as the budget values will include the place funding for all schools.  To correct this an additional data source will be added to the FBIT data model which will enable the granular academy place funding amount for each category (i.e. Primary, Secondary, Special, Alternative_Provision) to be worked out and added into each category value accordingly.
 
+![DSG alignment diagram](./images/DSG-alignment.png)
+
 **Recommendation:** Use the Place funding data source to add the number of places in each cost category into the LA_Financial table to be used when determining the cost per pupil for each category.
 
 ## Context and Problem Statement
