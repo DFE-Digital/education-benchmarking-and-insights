@@ -90,6 +90,7 @@ def ensure_dsg_recoupment_columns_are_present(
         "SENAcademyPlaceFunding",
         "APAcademyPlaceFunding",
         "Post16PlaceFunding",
+        "NurseryPlaceFunding",
         "HospitalPlaceFunding",
         "PrimaryPlaces6000",
         "PrimaryPlaces10000",
@@ -107,7 +108,7 @@ def ensure_dsg_recoupment_columns_are_present(
 def _calculate_dsg_recoupments(
     local_authority_data, school_to_la_mapping, place_numbers, dsg, year
 ):
-    if not dsg or place_numbers:
+    if dsg is None or place_numbers is None:
         logger.info("DSG or Place number data missing, DSG recoupments set to zero")
         return ensure_dsg_recoupment_columns_are_present(local_authority_data)
     
@@ -145,7 +146,7 @@ def _calculate_dsg_recoupments(
         ) / dsg_with_place_numbers["TotalPlaceFunding"]
     )
 
-    dsg_with_place_numbers["NurseryPlaceFunding"] = 0
+    dsg_with_place_numbers["NurseryPlaceFunding"] = 0 # TODO once agreed on business wise
     dsg_with_place_numbers["PrimaryAcademyPlaceFunding"] = (
         dsg_with_place_numbers['Total Mainstream Pre-16 SEN places deduction']
         * dsg_with_place_numbers["PrimaryPlaceFundingRatio"]
@@ -163,10 +164,20 @@ def _calculate_dsg_recoupments(
     )
 
     # Overwritten in place
+    dsg_breakdown_amounts_cols = [
+        "PrimaryAcademyPlaceFunding",
+        "SecondaryAcademyPlaceFunding",
+        "SENAcademyPlaceFunding",
+        "APAcademyPlaceFunding",
+        "Post16PlaceFunding",
+        "NurseryPlaceFunding",
+        "HospitalPlaceFunding",
+    ]
     las_with_recoupments["OutturnPlaceFundingPrimary"] += las_with_recoupments["PrimaryAcademyPlaceFunding"]
     las_with_recoupments["OutturnPlaceFundingSecondary"] += las_with_recoupments["SecondaryAcademyPlaceFunding"]
     las_with_recoupments["OutturnPlaceFundingSpecial"] += las_with_recoupments["SENAcademyPlaceFunding"]
     las_with_recoupments["OutturnPlaceFundingAlternativeProvision"] += las_with_recoupments["APAcademyPlaceFunding"]
+    las_with_recoupments["OutturnTotalPlaceFunding"] += las_with_recoupments[dsg_breakdown_amounts_cols].sum(axis=1)
     
     return las_with_recoupments
 

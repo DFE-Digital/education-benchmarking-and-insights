@@ -36,6 +36,7 @@ la_db_financial_projections = {
     "APAcademyPlaceFunding": "APAcademyPlaceFunding",
     "Post16PlaceFunding": "Post16PlaceFunding",
     "HospitalPlaceFunding": "HospitalPlaceFunding",
+    "NurseryPlaceFunding": "NurseryPlaceFunding",
     "PrimaryPlaces6000": "PrimaryPlaces6000",
     "PrimaryPlaces10000": "PrimaryPlaces10000",
     "SecondaryPlaces6000": "SecondaryPlaces6000",
