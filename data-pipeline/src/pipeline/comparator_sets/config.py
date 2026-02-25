@@ -1,20 +1,27 @@
 # Set Sizes
 BASE_SET_SIZE = 60
+#BASE_SET_SIZE = 100
 FINAL_SET_SIZE = 30
 
 # Pupil Calculation Weights (Non-Special)
 PUPILS_WEIGHT = 0.5
 FSM_WEIGHT = 0.4
 SEN_WEIGHT = 0.1
+#PUPILS_WEIGHT = 0.55
+#FSM_WEIGHT = 0.3
+#SEN_WEIGHT = 0.15
 
 # Pupil Calculation Weights (Special)
 SPECIAL_PUPILS_WEIGHT = 0.6
 SPECIAL_FSM_WEIGHT = 0.4
+#SPECIAL_PUPILS_WEIGHT = 0.55
+#SPECIAL_FSM_WEIGHT = 0.45
 
 # Building Calculation Weights
 GIFA_WEIGHT = 0.8
 AGE_WEIGHT = 0.2
-
+#GIFA_WEIGHT = 0.75
+#AGE_WEIGHT = 0.25
 
 class ColumnNames:
     URN = "URN"
