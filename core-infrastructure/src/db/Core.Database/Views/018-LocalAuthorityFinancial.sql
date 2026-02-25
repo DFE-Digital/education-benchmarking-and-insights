@@ -59,7 +59,9 @@ AS
         BudgetPlaceFundingPrimary,
         BudgetPlaceFundingSecondary,
         BudgetPlaceFundingSpecial,
-        BudgetPlaceFundingAlternativeProvision
+        BudgetPlaceFundingAlternativeProvision,
+        Post16PlaceFunding,
+        HospitalPlaceFunding
     FROM LocalAuthorityFinancial
 GO
 
@@ -124,7 +126,9 @@ AS
         IIF(Population2To18 > 0.0, BudgetPlaceFundingPrimary / Population2To18, NULL) AS BudgetPlaceFundingPrimary,
         IIF(Population2To18 > 0.0, BudgetPlaceFundingSecondary / Population2To18, NULL) AS BudgetPlaceFundingSecondary,
         IIF(Population2To18 > 0.0, BudgetPlaceFundingSpecial / Population2To18, NULL) AS BudgetPlaceFundingSpecial,
-        IIF(Population2To18 > 0.0, BudgetPlaceFundingAlternativeProvision / Population2To18, NULL) AS BudgetPlaceFundingAlternativeProvision
+        IIF(Population2To18 > 0.0, BudgetPlaceFundingAlternativeProvision / Population2To18, NULL) AS BudgetPlaceFundingAlternativeProvision,
+        IIF(Population2To18 > 0.0, Post16PlaceFunding / Population2To18, NULL) AS Post16PlaceFunding,
+        IIF(Population2To18 > 0.0, HospitalPlaceFunding / Population2To18, NULL) AS HospitalPlaceFunding
     FROM LocalAuthorityFinancial
 GO
 
@@ -189,7 +193,9 @@ SELECT RunId,
        IIF(TotalPupils > 0.0, BudgetPlaceFundingPrimary / TotalPupils, NULL) AS BudgetPlaceFundingPrimary,
        IIF(TotalPupils > 0.0, BudgetPlaceFundingSecondary / TotalPupils, NULL) AS BudgetPlaceFundingSecondary,
        IIF(TotalPupils > 0.0, BudgetPlaceFundingSpecial / TotalPupils, NULL) AS BudgetPlaceFundingSpecial,
-       IIF(TotalPupils > 0.0, BudgetPlaceFundingAlternativeProvision / TotalPupils, NULL) AS BudgetPlaceFundingAlternativeProvision
+       IIF(TotalPupils > 0.0, BudgetPlaceFundingAlternativeProvision / TotalPupils, NULL) AS BudgetPlaceFundingAlternativeProvision,
+       IIF(TotalPupils > 0.0, Post16PlaceFunding / TotalPupils, NULL) AS Post16PlaceFunding,
+       IIF(TotalPupils > 0.0, HospitalPlaceFunding / TotalPupils, NULL) AS HospitalPlaceFunding
     FROM LocalAuthorityFinancial
 GO
 
