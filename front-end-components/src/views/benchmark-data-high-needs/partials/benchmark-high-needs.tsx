@@ -20,7 +20,7 @@ import { HighNeedsApi } from "src/services/high-needs-api";
 
 export const BenchmarkHighNeeds: React.FC<
   BenchmarkDataHighNeedsAccordionProps
-> = ({ set, editLink, fetchTimeout }) => {
+> = ({ set, fetchTimeout }) => {
   const selectedEstabishment = useContext(SelectedEstablishmentContext);
   const { chartMode, setChartMode } = useChartModeContext();
   const [section251LoadError, setSection251LoadError] = useState<string>();
@@ -84,23 +84,6 @@ export const BenchmarkHighNeeds: React.FC<
     <>
       <div className="govuk-grid-row">
         <div className="govuk-grid-column-two-thirds">
-          {set.length && (
-            <p className="govuk-body govuk-!-font-weight-bold">
-              Currently comparing against {set.length} local
-              {set.length === 1 ? " authority" : " authorities"}
-            </p>
-          )}
-          {editLink && (
-            <a
-              href={editLink}
-              role="button"
-              className="govuk-button govuk-button--secondary govuk-!-margin-bottom-9"
-            >
-              Change comparators
-            </a>
-          )}
-        </div>
-        <div className="govuk-grid-column-one-third">
           <ChartMode chartMode={chartMode} handleChange={setChartMode} />
         </div>
       </div>
