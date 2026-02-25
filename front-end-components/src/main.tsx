@@ -1089,7 +1089,8 @@ const benchmarkDataHighNeedsElement = document.getElementById(
   BenchmarkDataHighNeedsElementId
 );
 if (benchmarkDataHighNeedsElement) {
-  const { code, set } = benchmarkDataHighNeedsElement.dataset;
+  const { code, set, yearsLabel, glossaryUrl } =
+    benchmarkDataHighNeedsElement.dataset;
   if (code) {
     const root = ReactDOM.createRoot(benchmarkDataHighNeedsElement);
     root.render(
@@ -1098,6 +1099,8 @@ if (benchmarkDataHighNeedsElement) {
           code={code}
           set={set ? (JSON.parse(set) as string[]) : []}
           fetchTimeout={30_000}
+          yearsLabel={yearsLabel}
+          glossaryUrl={glossaryUrl}
           rootEl={benchmarkDataHighNeedsElement}
         />
       </React.StrictMode>

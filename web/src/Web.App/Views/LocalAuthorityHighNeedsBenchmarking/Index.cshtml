@@ -35,7 +35,12 @@ className = "govuk-grid-column-two-thirds"
 
 @await Html.PartialAsync("_HowDataIsPresented")
 
-<div id="benchmark-data-high-needs" data-code="@Model.Code" data-set="@Model.Comparators.ToJson(Formatting.None)"></div>
+<div id="benchmark-data-high-needs"
+     data-code="@Model.Code"
+     data-set="@Model.Comparators.ToJson(Formatting.None)"
+     data-years-label="@Model.YearsLabel"
+     data-glossary-url="@Url.ActionLink("HighNeedsGlossary", "StaticContent")"
+     ></div>
 
 <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
 

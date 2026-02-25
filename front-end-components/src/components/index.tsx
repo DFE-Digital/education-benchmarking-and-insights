@@ -7,3 +7,4 @@ export * from "src/components/chart-phases";
 export * from "src/components/chart-progress";
 export * from "src/components/page-actions";
 export * from "src/components/progress-banding-tag";
+export * from "src/components/source-info";

@@ -122,20 +122,14 @@ public class HighNeedsBenchmarkingPage(IPage page)
 
     public async Task LineCodesArePresent()
     {
-        var costCodes = await page.Locator(Selectors.CostCodesList).AllAsync();
-        Assert.Equal(25, costCodes.Count);
+        var lineCodeItems = await page.Locator("[data-test-id='line-code-source']").AllAsync();
+        Assert.Equal(25, lineCodeItems.Count);
 
-        var costCodesWithLiChildren = await page.Locator(Selectors.CostCodesList)
-            .Filter(new LocatorFilterOptions
-            {
-                Has = page.Locator("li")
-            })
-            .AllAsync();
-        Assert.Equal(25, costCodesWithLiChildren.Count);
+        Assert.NotEmpty(lineCodeItems);
 
-        foreach (var costCodeList in costCodesWithLiChildren)
+        foreach (var item in lineCodeItems)
         {
-            await costCodeList.IsVisibleAsync();
+            Assert.True(await item.IsVisibleAsync());
         }
     }
 }

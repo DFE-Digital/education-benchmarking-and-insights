@@ -7,11 +7,11 @@ import {
 } from "src/contexts";
 import { Loading } from "src/components/loading";
 import { HorizontalBarChartMultiSeriesProps } from "src/composed/horizontal-bar-chart-multi-series";
-import { ContextCodesList } from "src/components/context-codes-list";
 import {
   ChartModeChart,
   ChartModeTable,
   SpecialItemFlag,
+  SourceInfo,
 } from "src/components";
 import { shortValueFormatter } from "src/components/charts/utils";
 import { EstablishmentTick } from "src/components/charts/establishment-tick";
@@ -29,7 +29,7 @@ export function HorizontalBarChartMultiSeries<TData extends LaChartData>({
   showCopyImageButton,
   xAxisLabel,
   valueUnit,
-  lineCodes,
+  sourceInfo,
 }: HorizontalBarChartMultiSeriesProps<TData>) {
   const { chartMode } = useChartModeContext();
   const selectedEstablishment = useContext(SelectedEstablishmentContext);
@@ -93,9 +93,6 @@ export function HorizontalBarChartMultiSeries<TData extends LaChartData>({
         >
           {hasData ? (
             <>
-              {lineCodes && lineCodes.length > 0 && (
-                <ContextCodesList codes={lineCodes} />
-              )}
               {chartMode == ChartModeChart && (
                 <HorizontalBarChart
                   barCategoryGap={5}
@@ -153,6 +150,7 @@ export function HorizontalBarChartMultiSeries<TData extends LaChartData>({
                   valueUnit={valueUnit}
                 />
               </div>
+              {sourceInfo && <SourceInfo {...sourceInfo} />}
             </>
           ) : (
             <Loading />

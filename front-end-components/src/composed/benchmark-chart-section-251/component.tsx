@@ -13,7 +13,7 @@ export function BenchmarkChartSection251<
   chartTitle,
   data,
   valueField,
-  lineCodes,
+  sourceInfo,
 }: BenchmarkChartSection251Props<TData>) {
   const mergedData = useMemo(() => {
     const dataPoints: LaChartData[] = [];
@@ -87,7 +87,7 @@ export function BenchmarkChartSection251<
       seriesLabelField="laName"
       showCopyImageButton
       valueUnit="currency"
-      lineCodes={lineCodes}
+      sourceInfo={sourceInfo}
     >
       <h3 className="govuk-heading-s govuk-!-margin-bottom-0">{chartTitle}</h3>
       {missingDataKeys.length > 0 && (
