@@ -7,22 +7,16 @@ high_needs_places_filenames = {
 high_needs_places_columns = {
     2023: [
         "URN",
-        "2022 to 2023 free schools and academies - pre-16 AP places",
-        "2022 to 2023  special schools and academies - pre-16 SEN places",
         "2022 to 2023 mainstream academies and free schools - pre-16 SEN Unit/RP Places (@£6k)",
         "2022 to 2023 mainstream academies and free schools - pre-16 SEN Unit/RP Places (@£10k)",
     ],
     2024: [
         "URN",
-        "2023 to 2024 free schools and academies - pre-16 AP places",
-        "2023 to 2024  special schools and academies - pre-16 SEN places",
         "2023 to 2024 mainstream academies and free schools - pre-16 SEN Unit/RP Places (@£6k)",
         "2023 to 2024 mainstream academies and free schools - pre-16 SEN Unit/RP Places (@£10k)",
     ],
     2025: [
         "URN",
-        "2024 to 2025 free schools and academies - pre-16 AP places",
-        "2024 to 2025  special schools and academies - pre-16 SEN places",
         "2024 to 2025 mainstream academies and free schools - pre-16 SEN Unit/RP Places (@£6k)",
         "2024 to 2025 mainstream academies and free schools - pre-16 SEN Unit/RP Places (@£10k)",
     ]
