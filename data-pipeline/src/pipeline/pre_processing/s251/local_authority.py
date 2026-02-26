@@ -1,10 +1,17 @@
+import numpy as np
 import pandas as pd
 from pandas._typing import FilePath, ReadCsvBuffer
-import numpy as np
 
 from pipeline import input_schemas
+from pipeline.input_schemas import (
+    PRIMARY_PLACES_6K,
+    PRIMARY_PLACES_10K,
+    SECONDARY_PLACES_6K,
+    SECONDARY_PLACES_10K,
+    primary,
+    secondary,
+)
 from pipeline.utils import log
-from pipeline.input_schemas import SECONDARY_PLACES_6K, SECONDARY_PLACES_10K, PRIMARY_PLACES_10K, PRIMARY_PLACES_6K, primary, secondary
 
 logger = log.setup_logger(__name__)
 
@@ -67,7 +74,11 @@ def build_local_authorities(
     )
 
     local_authority_data_with_dsg_recoupments = _calculate_dsg_recoupments(
-        local_authority_data_with_sen, all_schools[["LA", "Overall Phase"]], place_numbers, dsg, year
+        local_authority_data_with_sen,
+        all_schools[["LA", "Overall Phase"]],
+        place_numbers,
+        dsg,
+        year,
     )
 
     logger.info(
@@ -77,9 +88,7 @@ def build_local_authorities(
     return local_authority_data_with_dsg_recoupments
 
 
-def ensure_dsg_recoupment_columns_are_present(
-    local_authority_data
-) -> pd.DataFrame:
+def ensure_dsg_recoupment_columns_are_present(local_authority_data) -> pd.DataFrame:
     """
     DSG recoupment dates back to 2023, but we always want the recoupment columns
     to be there as the database expects them.
@@ -113,55 +122,63 @@ def _calculate_dsg_recoupments(
         return ensure_dsg_recoupment_columns_are_present(local_authority_data)
     
     six_k_places_col, ten_k_places_col = input_schemas.get_six_and_ten_k_cols(year)
-    place_numbers_with_la = place_numbers.set_index("URN").join(school_to_la_mapping, how="left")
-    place_numbers_per_phase_and_la = place_numbers_with_la \
-        .groupby(["LA", "Overall Phase"]) \
-        .agg({six_k_places_col: "sum", ten_k_places_col: "sum"}) \
+    place_numbers_with_la = place_numbers.set_index("URN").join(
+        school_to_la_mapping, how="left"
+    )
+    place_numbers_per_phase_and_la = (
+        place_numbers_with_la.groupby(["LA", "Overall Phase"])
+        .agg({six_k_places_col: "sum", ten_k_places_col: "sum"})
         .reset_index()
-    place_numbers_pivoted = place_numbers_per_phase_and_la.pivot(index='LA', columns='Overall Phase')
+    )
+    place_numbers_pivoted = place_numbers_per_phase_and_la.pivot(
+        index="LA", columns="Overall Phase"
+    )
 
     place_numbers_final = pd.DataFrame(index=place_numbers_pivoted.index)
-    place_numbers_final[PRIMARY_PLACES_6K] = place_numbers_pivoted[(six_k_places_col, primary)]
-    place_numbers_final[PRIMARY_PLACES_10K] = place_numbers_pivoted[(ten_k_places_col, primary)]
-    place_numbers_final[SECONDARY_PLACES_6K] = place_numbers_pivoted[(six_k_places_col, secondary)]
-    place_numbers_final[SECONDARY_PLACES_10K] = place_numbers_pivoted[(ten_k_places_col, secondary)]
+    place_numbers_final[PRIMARY_PLACES_6K] = place_numbers_pivoted[
+        (six_k_places_col, primary)
+    ]
+    place_numbers_final[PRIMARY_PLACES_10K] = place_numbers_pivoted[
+        (ten_k_places_col, primary)
+    ]
+    place_numbers_final[SECONDARY_PLACES_6K] = place_numbers_pivoted[
+        (six_k_places_col, secondary)
+    ]
+    place_numbers_final[SECONDARY_PLACES_10K] = place_numbers_pivoted[
+        (ten_k_places_col, secondary)
+    ]
 
     dsg_with_place_numbers = dsg.join(place_numbers_final, how="outer")
     # Split total place funding into Primary and Secondary
     dsg_with_place_numbers["HighNeedsTotalPlaceFunding"] = (
-        dsg_with_place_numbers[PRIMARY_PLACES_6K] * 6000 
+        dsg_with_place_numbers[PRIMARY_PLACES_6K] * 6000
         + dsg_with_place_numbers[PRIMARY_PLACES_10K] * 10000
-        + dsg_with_place_numbers[SECONDARY_PLACES_6K] * 6000 
+        + dsg_with_place_numbers[SECONDARY_PLACES_6K] * 6000
         + dsg_with_place_numbers[SECONDARY_PLACES_10K] * 10000
     )
     dsg_with_place_numbers["PrimaryPlaceFundingRatio"] = (
-        (
-            dsg_with_place_numbers[PRIMARY_PLACES_6K] * 6000 
-            + dsg_with_place_numbers[PRIMARY_PLACES_10K] * 10000
-        ) / dsg_with_place_numbers["HighNeedsTotalPlaceFunding"]
-    )
+        dsg_with_place_numbers[PRIMARY_PLACES_6K] * 6000
+        + dsg_with_place_numbers[PRIMARY_PLACES_10K] * 10000
+    ) / dsg_with_place_numbers["HighNeedsTotalPlaceFunding"]
     dsg_with_place_numbers["SecondaryPlaceFundingRatio"] = (
-        (
-            dsg_with_place_numbers[SECONDARY_PLACES_6K] * 6000 
-            + dsg_with_place_numbers[SECONDARY_PLACES_10K] * 10000
-        ) / dsg_with_place_numbers["HighNeedsTotalPlaceFunding"]
-    )
+        dsg_with_place_numbers[SECONDARY_PLACES_6K] * 6000
+        + dsg_with_place_numbers[SECONDARY_PLACES_10K] * 10000
+    ) / dsg_with_place_numbers["HighNeedsTotalPlaceFunding"]
 
-    dsg_with_place_numbers["NurseryPlaceFunding"] = 0 # TODO once agreed on business wise
+    dsg_with_place_numbers["NurseryPlaceFunding"] = (
+        0  # TODO once agreed on business wise
+    )
     dsg_with_place_numbers["PrimaryAcademyPlaceFunding"] = (
-        dsg_with_place_numbers['Total Mainstream Pre-16 SEN places deduction']
+        dsg_with_place_numbers["Total Mainstream Pre-16 SEN places deduction"]
         * dsg_with_place_numbers["PrimaryPlaceFundingRatio"]
     )
     dsg_with_place_numbers["SecondaryAcademyPlaceFunding"] = (
-        dsg_with_place_numbers['Total Mainstream Pre-16 SEN places deduction']
+        dsg_with_place_numbers["Total Mainstream Pre-16 SEN places deduction"]
         * dsg_with_place_numbers["SecondaryPlaceFundingRatio"]
     )
 
     las_with_recoupments = local_authority_data.merge(
-        dsg_with_place_numbers,
-        left_on='old_la_code',
-        right_index=True,
-        how='left'
+        dsg_with_place_numbers, left_on="old_la_code", right_index=True, how="left"
     )
 
     dsg_breakdown_cols = [
@@ -174,12 +191,22 @@ def _calculate_dsg_recoupments(
         "HospitalPlaceFunding",
     ]
     # Overwritten in place
-    las_with_recoupments["OutturnPlaceFundingPrimary"] += las_with_recoupments["PrimaryAcademyPlaceFunding"]
-    las_with_recoupments["OutturnPlaceFundingSecondary"] += las_with_recoupments["SecondaryAcademyPlaceFunding"]
-    las_with_recoupments["OutturnPlaceFundingSpecial"] += las_with_recoupments["SENAcademyPlaceFunding"]
-    las_with_recoupments["OutturnPlaceFundingAlternativeProvision"] += las_with_recoupments["APAcademyPlaceFunding"]
-    las_with_recoupments["OutturnTotalPlaceFunding"] += las_with_recoupments[dsg_breakdown_cols].sum(axis=1)
-    
+    las_with_recoupments["OutturnPlaceFundingPrimary"] += las_with_recoupments[
+        "PrimaryAcademyPlaceFunding"
+    ]
+    las_with_recoupments["OutturnPlaceFundingSecondary"] += las_with_recoupments[
+        "SecondaryAcademyPlaceFunding"
+    ]
+    las_with_recoupments["OutturnPlaceFundingSpecial"] += las_with_recoupments[
+        "SENAcademyPlaceFunding"
+    ]
+    las_with_recoupments[
+        "OutturnPlaceFundingAlternativeProvision"
+    ] += las_with_recoupments["APAcademyPlaceFunding"]
+    las_with_recoupments["OutturnTotalPlaceFunding"] += las_with_recoupments[
+        dsg_breakdown_cols
+    ].sum(axis=1)
+
     return las_with_recoupments
 
 
