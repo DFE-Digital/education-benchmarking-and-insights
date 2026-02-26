@@ -1,10 +1,11 @@
-import { useMemo } from "react";
+import { useMemo, useContext } from "react";
 import { BenchmarkChartSection251Props } from "src/composed/benchmark-chart-section-251";
 import { LocalAuthoritySection251 } from "src/services";
 import { HorizontalBarChartMultiSeries } from "../horizontal-bar-chart-multi-series";
 import { ChartSeriesConfigItem } from "src/components";
 import { shortValueFormatter } from "src/components/charts/utils";
 import { LaChartData } from "src/components/charts/table-chart";
+import { SelectedEstablishmentContext } from "src/contexts";
 
 export function BenchmarkChartSection251<
   TData extends LocalAuthoritySection251,
@@ -14,6 +15,8 @@ export function BenchmarkChartSection251<
   valueField,
   sourceInfo,
 }: BenchmarkChartSection251Props<TData>) {
+  const selectedEstablishment = useContext(SelectedEstablishmentContext);
+
   const mergedData = useMemo(() => {
     const dataPoints: LaChartData[] = [];
 
@@ -22,23 +25,26 @@ export function BenchmarkChartSection251<
         const outturnValue = s.outturn?.[valueField] as number | undefined;
         const budgetValue = s.budget?.[valueField] as number | undefined;
 
-        // Skip if either is missing or invalid AB#297723
-        if (
+        const outturnInvalid =
           outturnValue === undefined ||
           outturnValue === null ||
-          isNaN(outturnValue) ||
+          isNaN(outturnValue);
+        const budgetInvalid =
           budgetValue === undefined ||
           budgetValue === null ||
-          isNaN(budgetValue)
-        ) {
+          isNaN(budgetValue);
+        const isSelectedEstablishment = selectedEstablishment === s.code;
+
+        // Skip if either is missing or invalid unless selected authority AB#297723
+        if ((outturnInvalid || budgetInvalid) && !isSelectedEstablishment) {
           return;
         }
 
         dataPoints.push({
           laCode: s.code,
           laName: s.name,
-          outturn: outturnValue,
-          budget: budgetValue,
+          outturn: outturnInvalid ? undefined : outturnValue,
+          budget: budgetInvalid ? undefined : budgetValue,
           totalPupils: s.totalPupils,
         });
       });
@@ -53,7 +59,7 @@ export function BenchmarkChartSection251<
       ],
       dataPoints,
     };
-  }, [data, valueField]);
+  }, [data, valueField, selectedEstablishment]);
 
   const seriesConfig: { [key: string]: ChartSeriesConfigItem } = {
     outturn: {
