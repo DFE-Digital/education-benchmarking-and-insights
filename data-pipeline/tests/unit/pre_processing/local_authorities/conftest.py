@@ -4,10 +4,13 @@ import random
 import numpy as np
 import pandas as pd
 import pytest
+
 from pipeline import input_schemas
-from pipeline.pre_processing.ancillary.ons_population_estimates import prepare_ons_population_estimates
-from pipeline.pre_processing.ancillary.sen2 import prepare_sen2_data
 from pipeline.pre_processing.ancillary.dsg import prepare_dsg_data
+from pipeline.pre_processing.ancillary.ons_population_estimates import (
+    prepare_ons_population_estimates,
+)
+from pipeline.pre_processing.ancillary.sen2 import prepare_sen2_data
 
 
 @pytest.fixture
@@ -35,7 +38,14 @@ def la_all_schools() -> pd.DataFrame:
                 "1032813",
             ],
             "EstablishmentNumber": ["1234", "7456", "5522", "1993", "5623", "9978"],
-            "Overall Phase": [input_schemas.primary, input_schemas.secondary, input_schemas.primary, input_schemas.secondary, input_schemas.primary, "AP"]
+            "Overall Phase": [
+                input_schemas.primary,
+                input_schemas.secondary,
+                input_schemas.primary,
+                input_schemas.secondary,
+                input_schemas.primary,
+                "AP",
+            ],
         }
     )
 
@@ -473,11 +483,9 @@ def la_dsg_raw() -> io.BytesIO:
     """
     columns = [
         ("LA", "", ""),  # first column; will later be renamed to "LA" and used as index
-
         # For SENAcademyPlaceFunding
         ("Special academies", "Pre-16 SEN Places", "SEN places deduction (£s)"),
         ("Special free schools", "Pre-16 SEN places", "SEN places deduction (£s)"),
-
         # For APAcademyPlaceFunding
         (
             "Mainstream academies (special educational needs (SEN) units and resourced provision)",
@@ -491,7 +499,6 @@ def la_dsg_raw() -> io.BytesIO:
             "Pre-16 AP Places",
             "AP places deduction (£s) ",
         ),
-
         # For Post16PlaceFunding
         (
             "Mainstream academies (special educational needs (SEN) units and resourced provision)",
@@ -515,14 +522,12 @@ def la_dsg_raw() -> io.BytesIO:
             "FE and ILP",
             "Total FE and ILP deduction (£s)",
         ),
-
         # For HospitalPlaceFunding
         (
             "Hospital Academies",
             "Hospital Academies funding",
             "Total hospital education deduction (£s)",
         ),
-
         # For "Total Mainstream Pre-16 SEN places deduction"
         (
             "Mainstream academies (special educational needs (SEN) units and resourced provision)",
@@ -540,26 +545,28 @@ def la_dsg_raw() -> io.BytesIO:
 
     # Single LA row with simple, non-zero values so sums are easy to reason about
     la_code = 101
-    values = np.array([
+    values = np.array(
         [
-            la_code,   # "LA"
-            10_000.0,  # Special academies pre-16 SEN
-            5_000.0,   # Special free schools pre-16 SEN
-            2_000.0,   # Mainstream AP places
-            1_000.0,   # Special academies AP
-            500.0,     # Special free schools AP
-            1_500.0,   # AP academies/free schools
-            3_000.0,   # Mainstream post-16 SEN
-            2_000.0,   # Special academies post-16 SEN
-            1_000.0,   # Special free schools post-16 SEN
-            500.0,     # AP post-16 SEN
-            2_500.0,   # 16–19 academies and free schools
-            4_000.0,   # FE/ILP
-            750.0,     # Hospital
-            6_000.0,   # Mainstream pre-16 SEN @£6k
-            4_000.0,   # Mainstream pre-16 SEN @£10k
+            [
+                la_code,  # "LA"
+                10_000.0,  # Special academies pre-16 SEN
+                5_000.0,  # Special free schools pre-16 SEN
+                2_000.0,  # Mainstream AP places
+                1_000.0,  # Special academies AP
+                500.0,  # Special free schools AP
+                1_500.0,  # AP academies/free schools
+                3_000.0,  # Mainstream post-16 SEN
+                2_000.0,  # Special academies post-16 SEN
+                1_000.0,  # Special free schools post-16 SEN
+                500.0,  # AP post-16 SEN
+                2_500.0,  # 16–19 academies and free schools
+                4_000.0,  # FE/ILP
+                750.0,  # Hospital
+                6_000.0,  # Mainstream pre-16 SEN @£6k
+                4_000.0,  # Mainstream pre-16 SEN @£10k
+            ]
         ]
-    ])
+    )
 
     df = pd.DataFrame(values, columns=index)
     buffer = io.BytesIO()

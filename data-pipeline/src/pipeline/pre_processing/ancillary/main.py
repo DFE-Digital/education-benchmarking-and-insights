@@ -1,25 +1,28 @@
 import pandas as pd
 
-from pipeline.input_schemas import head_teacher_breakdowns_filenames
+from pipeline.input_schemas import (
+    dsg_filenames,
+    head_teacher_breakdowns_filenames,
+    high_needs_places_filenames,
+)
 from pipeline.pre_processing.aar.academies import prepare_aar_data
 from pipeline.pre_processing.aar.central_services import prepare_central_services_data
 from pipeline.utils.log import setup_logger
 from pipeline.utils.storage import get_blob, raw_container, try_get_blob, write_blob
-from pipeline.input_schemas import high_needs_places_filenames, dsg_filenames
 
 from .cdc import prepare_cdc_data
 from .census import prepare_census_data
 from .cfo import build_cfo_data
 from .combined_gias import prepare_combined_gias_data
+from .dsg import prepare_dsg_data
 from .gias import predecessor_links
 from .high_exec_pay import build_high_exec_pay_data
+from .high_needs_places import prepare_high_needs_places_data
 from .ilr import build_ilr_data
 from .ks2 import prepare_ks2_data
 from .ks4 import prepare_ks4_data
 from .la_statistical_neighbours import prepare_la_statistical_neighbours
 from .ons_population_estimates import prepare_ons_population_estimates
-from .dsg import prepare_dsg_data
-from .high_needs_places import prepare_high_needs_places_data
 from .sen import prepare_sen_data
 from .sen2 import prepare_sen2_data
 
@@ -337,8 +340,12 @@ def pre_process_dsg(s251_year):
 
 def pre_process_high_needs_places(s251_year):
     filename = high_needs_places_filenames.get(s251_year)
-    if place_numbers_data := try_get_blob(raw_container, f"default/{s251_year}/{filename}"):
-        high_needs_places = prepare_high_needs_places_data(place_numbers_data, s251_year)
+    if place_numbers_data := try_get_blob(
+        raw_container, f"default/{s251_year}/{filename}"
+    ):
+        high_needs_places = prepare_high_needs_places_data(
+            place_numbers_data, s251_year
+        )
         logger.info(f"Preprocessed high needs places data for {s251_year}")
         return high_needs_places
     logger.info(f"High needs places data for {s251_year} not found")

@@ -5,8 +5,8 @@ from pipeline.input_schemas import high_needs_places_columns
 
 
 def prepare_high_needs_places_data(
-        place_numbers_data: FilePath | ReadCsvBuffer[bytes] | ReadCsvBuffer[str],
-        s251_year: int
+    place_numbers_data: FilePath | ReadCsvBuffer[bytes] | ReadCsvBuffer[str],
+    s251_year: int,
 ):
     """SEN place numbers per school"""
     place_cols = high_needs_places_columns.get(s251_year)

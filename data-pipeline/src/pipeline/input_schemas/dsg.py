@@ -4,11 +4,13 @@ dsg_filenames = {
     2025: "dedicated-schools-grant_2024-to-2025_published-22-07-2025.ods",
 }
 
+
 def get_six_and_ten_k_cols(year):
     return (
         f"{year-1} to {year} mainstream academies and free schools - pre-16 SEN Unit/RP Places (@£6k)",
-        f"{year-1} to {year} mainstream academies and free schools - pre-16 SEN Unit/RP Places (@£10k)"
+        f"{year-1} to {year} mainstream academies and free schools - pre-16 SEN Unit/RP Places (@£10k)",
     )
+
 
 primary = "Primary"
 secondary = "Secondary"

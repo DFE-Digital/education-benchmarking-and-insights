@@ -25,8 +25,19 @@ from .census_workforce import (  # noqa
     workforce_census_index_col,
 )
 from .cfo import cfo, cfo_column_eval, cfo_column_mappings  # noqa
+from .dsg import (
+    PRIMARY_PLACES_6K,
+    PRIMARY_PLACES_10K,
+    SECONDARY_PLACES_6K,
+    SECONDARY_PLACES_10K,
+    dsg_filenames,
+    get_six_and_ten_k_cols,
+    primary,
+    secondary,
+)
 from .gias import gias, gias_index_col  # noqa
 from .high_exec_pay import high_exec_pay, high_exec_pay_column_mappings  # noqa
+from .high_needs_places import high_needs_places_columns, high_needs_places_filenames
 from .ilr import (
     ilr_column_mappings,
     ilr_ehcp,
@@ -72,8 +83,6 @@ from .maintained_schools_master_list import (
     maintained_schools_master_list_column_eval,
     maintained_schools_master_list_index_col,
 )
-from .high_needs_places import high_needs_places_columns, high_needs_places_filenames
-from .dsg import dsg_filenames, PRIMARY_PLACES_10K, PRIMARY_PLACES_6K, SECONDARY_PLACES_10K, SECONDARY_PLACES_6K, primary, secondary, get_six_and_ten_k_cols
 
 gias_links_index_col = "URN"
 gias_links = {

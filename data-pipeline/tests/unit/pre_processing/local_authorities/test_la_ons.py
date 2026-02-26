@@ -2,7 +2,9 @@ import io
 
 import pandas as pd
 
-from pipeline.pre_processing.ancillary.ons_population_estimates import prepare_ons_population_estimates
+from pipeline.pre_processing.ancillary.ons_population_estimates import (
+    prepare_ons_population_estimates,
+)
 
 
 def test_la_ons(la_ons_raw: pd.DataFrame):

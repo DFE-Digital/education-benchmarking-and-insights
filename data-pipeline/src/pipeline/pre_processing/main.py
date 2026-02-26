@@ -30,17 +30,17 @@ from .ancillary.main import (
     pre_process_central_services,
     pre_process_cfo,
     pre_process_combined_gias,
+    pre_process_dsg,
     pre_process_gias_links,
     pre_process_high_exec_pay,
+    pre_process_high_needs_places,
     pre_process_ilr_data,
     pre_process_ks2,
     pre_process_ks4,
     pre_process_la_statistical_neighbours,
     pre_process_ons_population_estimates,
-    pre_process_dsg,
-    pre_process_high_needs_places,
     pre_process_sen,
-    pre_process_sen2
+    pre_process_sen2,
 )
 from .bfr.trusts import build_bfr_data, build_bfr_historical_data
 from .cfr.maintained_schools import build_maintained_school_data
@@ -582,11 +582,15 @@ def get_s251_ancillary_data(
     s251_year: int,
 ) -> dict[str, pd.DataFrame | None]:
     s251_ancillary_data = {
-        "la_statistical_neighbours": pre_process_la_statistical_neighbours(s251_year, run_id),
-        "ons_population_estimates":  pre_process_ons_population_estimates(s251_year, run_id),
+        "la_statistical_neighbours": pre_process_la_statistical_neighbours(
+            s251_year, run_id
+        ),
+        "ons_population_estimates": pre_process_ons_population_estimates(
+            s251_year, run_id
+        ),
         "sen2": pre_process_sen2(s251_year, run_id),
         "place_numbers": pre_process_high_needs_places(s251_year),
-        "dsg": pre_process_dsg(s251_year)
+        "dsg": pre_process_dsg(s251_year),
     }
     return s251_ancillary_data
 

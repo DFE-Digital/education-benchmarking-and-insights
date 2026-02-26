@@ -7,6 +7,7 @@ import pytest
 from pipeline.pre_processing.ancillary.sen2 import prepare_sen2_data
 from pipeline.pre_processing.s251 import local_authority
 
+
 def test_sen2(la_sen2_raw: pd.DataFrame):
     """
     The 58 rows for a single LA should be pivoted to a single row.
