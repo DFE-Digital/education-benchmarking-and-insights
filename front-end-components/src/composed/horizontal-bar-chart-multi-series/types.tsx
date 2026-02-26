@@ -7,7 +7,6 @@ export type HorizontalBarChartMultiSeriesProps<TData extends LaChartData> =
     ChartProps<TData>,
     | "chartTitle"
     | "keyField"
-    | "missingDataKeys"
     | "seriesConfig"
     | "seriesLabelField"
     | "showCopyImageButton"
