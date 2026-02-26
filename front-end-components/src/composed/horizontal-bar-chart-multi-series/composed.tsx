@@ -7,12 +7,7 @@ import {
 } from "src/contexts";
 import { Loading } from "src/components/loading";
 import { HorizontalBarChartMultiSeriesProps } from "src/composed/horizontal-bar-chart-multi-series";
-import {
-  ChartModeChart,
-  ChartModeTable,
-  SpecialItemFlag,
-  SourceInfo,
-} from "src/components";
+import { ChartModeChart, ChartModeTable, SourceInfo } from "src/components";
 import { shortValueFormatter } from "src/components/charts/utils";
 import { EstablishmentTick } from "src/components/charts/establishment-tick";
 import { ShareContentByElement } from "src/components/share-content-by-element";
@@ -23,7 +18,6 @@ export function HorizontalBarChartMultiSeries<TData extends LaChartData>({
   children,
   data,
   keyField,
-  missingDataKeys,
   seriesConfig,
   seriesLabelField,
   showCopyImageButton,
@@ -40,15 +34,6 @@ export function HorizontalBarChartMultiSeries<TData extends LaChartData>({
     if (index != undefined && index < data.dataPoints.length) {
       return data.dataPoints[index]?.laCode;
     }
-  };
-
-  const getSpecialItemFlags = (key: string) => {
-    const flags: SpecialItemFlag[] = [];
-    if (missingDataKeys && missingDataKeys.indexOf(key) > -1) {
-      flags.push("missingData");
-    }
-
-    return flags;
   };
 
   const handleImageCopied = () => {
@@ -115,7 +100,6 @@ export function HorizontalBarChartMultiSeries<TData extends LaChartData>({
                   margin={20}
                   seriesConfig={seriesConfig as object}
                   seriesLabelField={seriesLabelField}
-                  specialItemKeys={{ missingData: missingDataKeys }}
                   tickWidth={200}
                   tick={(t) => {
                     return (
@@ -125,7 +109,6 @@ export function HorizontalBarChartMultiSeries<TData extends LaChartData>({
                         establishmentKeyResolver={(_: string, index) =>
                           getEstablishmentKey(index)
                         }
-                        specialItemFlags={getSpecialItemFlags}
                       />
                     );
                   }}
