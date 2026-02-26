@@ -1,6 +1,7 @@
 import { useContext } from "react";
 import { SourceInfoContext } from "src/contexts";
 import { SourceInfoProps } from "src/components/source-info";
+import "./styles.scss";
 
 export const SourceInfo: React.FC<SourceInfoProps> = ({
   recoupment,
@@ -18,13 +19,13 @@ export const SourceInfo: React.FC<SourceInfoProps> = ({
   const lineLabel = `Line${lineCodes.length > 1 ? "s" : ""} ${lineCodes.join(", ")}`;
 
   return recoupment ? (
-    <>
-      <p className="govuk-body-s">Sources:</p>
+    <div className="govuk-body-s govuk-!-margin-bottom-6 app-source-info">
+      <p>Sources:</p>
       <ul className="govuk-list govuk-list--bullet">
-        <li className="govuk-body-s" data-test-id="line-code-source">
+        <li data-test-id="line-code-source">
           {yearsLabel}, {lineLabel}
         </li>
-        <li className="govuk-body-s">
+        <li>
           Place funding for academies. You can read about how we calculate this
           in the{" "}
           <a
@@ -35,9 +36,12 @@ export const SourceInfo: React.FC<SourceInfoProps> = ({
           </a>
         </li>
       </ul>
-    </>
+    </div>
   ) : (
-    <p className="govuk-body-s" data-test-id="line-code-source">
+    <p
+      className="govuk-body-s govuk-!-margin-bottom-6 app-source-info"
+      data-test-id="line-code-source"
+    >
       Source: {yearsLabel}, {lineLabel}
     </p>
   );
