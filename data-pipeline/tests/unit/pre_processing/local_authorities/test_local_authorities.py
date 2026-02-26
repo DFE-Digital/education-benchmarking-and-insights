@@ -10,9 +10,11 @@ from pipeline.pre_processing.s251 import local_authority
 def test_local_authorities(
     la_budget: pd.DataFrame,
     la_outturn: pd.DataFrame,
-    la_statistical_neighbours: io.StringIO,
-    la_ons: pd.DataFrame,
-    la_sen2: pd.DataFrame,
+    la_statistical_neighbours_df: pd.DataFrame,
+    la_ons_preprocessed: pd.DataFrame,
+    la_sen2_preprocessed: pd.DataFrame,
+    la_place_numbers: pd.DataFrame,
+    la_dsg_preprocessed: pd.DataFrame,
     la_all_schools: pd.DataFrame,
 ):
     year = 2024
@@ -20,9 +22,11 @@ def test_local_authorities(
     result = local_authority.build_local_authorities(
         io.StringIO(la_budget.to_csv()),
         io.StringIO(la_outturn.to_csv(encoding="cp1252")),
-        la_statistical_neighbours,
-        io.StringIO(la_ons.to_csv()),
-        io.StringIO(la_sen2.to_csv()),
+        la_statistical_neighbours_df,
+        la_ons_preprocessed,
+        la_sen2_preprocessed,
+        la_place_numbers,
+        la_dsg_preprocessed,
         la_all_schools,
         year,
     )

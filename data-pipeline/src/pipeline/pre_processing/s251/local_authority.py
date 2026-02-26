@@ -127,7 +127,8 @@ def _calculate_dsg_recoupments(
     place_numbers_final[SECONDARY_PLACES_10K] = place_numbers_pivoted[(ten_k_places_col, secondary)]
 
     dsg_with_place_numbers = dsg.join(place_numbers_final, how="outer")
-    dsg_with_place_numbers["TotalPlaceFunding"] = (
+    # Split total place funding into Primary and Secondary
+    dsg_with_place_numbers["HighNeedsTotalPlaceFunding"] = (
         dsg_with_place_numbers[PRIMARY_PLACES_6K] * 6000 
         + dsg_with_place_numbers[PRIMARY_PLACES_10K] * 10000
         + dsg_with_place_numbers[SECONDARY_PLACES_6K] * 6000 
@@ -137,13 +138,13 @@ def _calculate_dsg_recoupments(
         (
             dsg_with_place_numbers[PRIMARY_PLACES_6K] * 6000 
             + dsg_with_place_numbers[PRIMARY_PLACES_10K] * 10000
-        ) / dsg_with_place_numbers["TotalPlaceFunding"]
+        ) / dsg_with_place_numbers["HighNeedsTotalPlaceFunding"]
     )
     dsg_with_place_numbers["SecondaryPlaceFundingRatio"] = (
         (
             dsg_with_place_numbers[SECONDARY_PLACES_6K] * 6000 
             + dsg_with_place_numbers[SECONDARY_PLACES_10K] * 10000
-        ) / dsg_with_place_numbers["TotalPlaceFunding"]
+        ) / dsg_with_place_numbers["HighNeedsTotalPlaceFunding"]
     )
 
     dsg_with_place_numbers["NurseryPlaceFunding"] = 0 # TODO once agreed on business wise
@@ -163,7 +164,7 @@ def _calculate_dsg_recoupments(
         how='left'
     )
 
-    dsg_breakdown_amounts_cols = [
+    dsg_breakdown_cols = [
         "PrimaryAcademyPlaceFunding",
         "SecondaryAcademyPlaceFunding",
         "SENAcademyPlaceFunding",
@@ -177,7 +178,7 @@ def _calculate_dsg_recoupments(
     las_with_recoupments["OutturnPlaceFundingSecondary"] += las_with_recoupments["SecondaryAcademyPlaceFunding"]
     las_with_recoupments["OutturnPlaceFundingSpecial"] += las_with_recoupments["SENAcademyPlaceFunding"]
     las_with_recoupments["OutturnPlaceFundingAlternativeProvision"] += las_with_recoupments["APAcademyPlaceFunding"]
-    las_with_recoupments["OutturnTotalPlaceFunding"] += las_with_recoupments[dsg_breakdown_amounts_cols].sum(axis=1)
+    las_with_recoupments["OutturnTotalPlaceFunding"] += las_with_recoupments[dsg_breakdown_cols].sum(axis=1)
     
     return las_with_recoupments
 

@@ -1,8 +1,13 @@
 import io
 import random
 
+import numpy as np
 import pandas as pd
 import pytest
+from pipeline import input_schemas
+from pipeline.pre_processing.ancillary.ons_population_estimates import prepare_ons_population_estimates
+from pipeline.pre_processing.ancillary.sen2 import prepare_sen2_data
+from pipeline.pre_processing.ancillary.dsg import prepare_dsg_data
 
 
 @pytest.fixture
@@ -10,6 +15,7 @@ def la_all_schools() -> pd.DataFrame:
     return pd.DataFrame(
         data={
             "LA Code": [101, 101, 102, 102, 102, 103],
+            "LA": [101, 101, 102, 102, 102, 103],
             "URN": [1, 2, 3, 4, 5, 6],
             "Number of pupils": [200.02, 1.345, 54.0, 2005.7, 3007.9, 12],
             "Finance Type": [
@@ -29,6 +35,7 @@ def la_all_schools() -> pd.DataFrame:
                 "1032813",
             ],
             "EstablishmentNumber": ["1234", "7456", "5522", "1993", "5623", "9978"],
+            "Overall Phase": [input_schemas.primary, input_schemas.secondary, input_schemas.primary, input_schemas.secondary, input_schemas.primary, "AP"]
         }
     )
 
@@ -150,7 +157,7 @@ def la_outturn() -> pd.DataFrame:
 
 
 @pytest.fixture
-def la_statistical_neighbours() -> io.StringIO:
+def la_statistical_neighbours_df() -> pd.DataFrame:
     columns = [
         "LA number",
         "SN1",
@@ -260,17 +267,19 @@ def la_statistical_neighbours() -> io.StringIO:
         ),
     ]
 
-    test_data_df = pd.DataFrame(data, columns=columns)
+    return pd.DataFrame(data, columns=columns).set_index("LA number")
 
+
+@pytest.fixture
+def la_statistical_neighbours_io(la_statistical_neighbours_df) -> io.BytesIO:
     buffer = io.BytesIO()
-    test_data_df.to_excel(buffer, sheet_name="SNsWithNewDorsetBCP")
+    la_statistical_neighbours_df.to_excel(buffer, sheet_name="SNsWithNewDorsetBCP")
     buffer.seek(0)
-
     return buffer
 
 
 @pytest.fixture
-def la_ons() -> pd.DataFrame:
+def la_ons_raw() -> pd.DataFrame:
     year = 2024
     years = list(map(str, range(year - 5, year + 5)))
     ages = list(map(str, range(1, 43)))
@@ -287,7 +296,12 @@ def la_ons() -> pd.DataFrame:
 
 
 @pytest.fixture
-def la_sen2() -> pd.DataFrame:
+def la_ons_preprocessed(la_ons_raw):
+    return prepare_ons_population_estimates(io.StringIO(la_ons_raw.to_csv()), year=2024)
+
+
+@pytest.fixture
+def la_sen2_raw() -> pd.DataFrame:
     establishment_types = [
         "AP/PRU - Academy",
         "AP/PRU - Free school",
@@ -426,3 +440,134 @@ def la_sen2() -> pd.DataFrame:
         "pc_caseload": [1.0] * len(establishment_types),
     }
     return pd.DataFrame(sen2)
+
+
+@pytest.fixture
+def la_sen2_preprocessed(la_sen2_raw) -> pd.DataFrame:
+    return prepare_sen2_data(io.StringIO(la_sen2_raw.to_csv()), year=2024)
+
+
+@pytest.fixture
+def la_place_numbers() -> pd.DataFrame:
+    """
+    Minimal high needs place-numbers frame keyed by URN, with just the
+    6k/10k columns that are used in the recoupment calculation.
+    """
+    year = 2024
+    six_k_col, ten_k_col = input_schemas.get_six_and_ten_k_cols(year)
+
+    data = {
+        "URN": [3, 4],
+        six_k_col: [10, 5],
+        ten_k_col: [0, 3],
+    }
+
+    return pd.DataFrame(data)
+
+
+@pytest.fixture
+def la_dsg_raw() -> io.BytesIO:
+    """
+    Mimics the DSG 'High_needs_deductions' sheet after
+    pd.read_excel(..., header=[0, 1, 2]) with a 3-level column MultiIndex.
+    """
+    columns = [
+        ("LA", "", ""),  # first column; will later be renamed to "LA" and used as index
+
+        # For SENAcademyPlaceFunding
+        ("Special academies", "Pre-16 SEN Places", "SEN places deduction (£s)"),
+        ("Special free schools", "Pre-16 SEN places", "SEN places deduction (£s)"),
+
+        # For APAcademyPlaceFunding
+        (
+            "Mainstream academies (special educational needs (SEN) units and resourced provision)",
+            "Pre-16 alternative provision (AP) places",
+            "AP places deduction (£s)",
+        ),
+        ("Special academies", "Pre-16 AP Places", "AP places deduction (£s)"),
+        ("Special free schools", "Pre-16 AP Places", "AP places deduction (£s) "),
+        (
+            "Alternative provision (AP) academies and free schools ",
+            "Pre-16 AP Places",
+            "AP places deduction (£s) ",
+        ),
+
+        # For Post16PlaceFunding
+        (
+            "Mainstream academies (special educational needs (SEN) units and resourced provision)",
+            "Post-16 SEN Places",
+            "SEN places deduction (£s)",
+        ),
+        ("Special academies", "Post-16 SEN Places", "SEN places deduction (£s)"),
+        ("Special free schools", "Post-16 SEN places", "SEN places deduction (£s)"),
+        (
+            "Alternative provision (AP) academies and free schools ",
+            "Post-16 SEN places",
+            "SEN places deduction (£s)",
+        ),
+        (
+            "16-19 academies and free schools",
+            "Post-16 SEN places",
+            "SEN places deduction (£s)",
+        ),
+        (
+            "Further education (FE) and independent learning provider (ILP)",
+            "FE and ILP",
+            "Total FE and ILP deduction (£s)",
+        ),
+
+        # For HospitalPlaceFunding
+        (
+            "Hospital Academies",
+            "Hospital Academies funding",
+            "Total hospital education deduction (£s)",
+        ),
+
+        # For "Total Mainstream Pre-16 SEN places deduction"
+        (
+            "Mainstream academies (special educational needs (SEN) units and resourced provision)",
+            "Pre-16 SEN places funded at £6,000",
+            "SEN places deduction (£s)",
+        ),
+        (
+            "Mainstream academies (special educational needs (SEN) units and resourced provision)",
+            "Pre-16 SEN places funded at £10,000",
+            "SEN places deduction (£s)",
+        ),
+    ]
+
+    index = pd.MultiIndex.from_tuples(columns, names=["level_0", "level_1", "level_2"])
+
+    # Single LA row with simple, non-zero values so sums are easy to reason about
+    la_code = 101
+    values = np.array([
+        [
+            la_code,   # "LA"
+            10_000.0,  # Special academies pre-16 SEN
+            5_000.0,   # Special free schools pre-16 SEN
+            2_000.0,   # Mainstream AP places
+            1_000.0,   # Special academies AP
+            500.0,     # Special free schools AP
+            1_500.0,   # AP academies/free schools
+            3_000.0,   # Mainstream post-16 SEN
+            2_000.0,   # Special academies post-16 SEN
+            1_000.0,   # Special free schools post-16 SEN
+            500.0,     # AP post-16 SEN
+            2_500.0,   # 16–19 academies and free schools
+            4_000.0,   # FE/ILP
+            750.0,     # Hospital
+            6_000.0,   # Mainstream pre-16 SEN @£6k
+            4_000.0,   # Mainstream pre-16 SEN @£10k
+        ]
+    ])
+
+    df = pd.DataFrame(values, columns=index)
+    buffer = io.BytesIO()
+    df.to_excel(buffer, engine="odf", sheet_name="High_needs_deductions")
+    buffer.seek(0)
+    return buffer
+
+
+@pytest.fixture
+def la_dsg_preprocessed(la_dsg_raw):
+    return prepare_dsg_data(la_dsg_raw)
