@@ -28,12 +28,7 @@
           | Camden                 | £150   | £151    | 50,101       |
           | Greenwich              | £36    | £106    | 63,850       |
           | Hackney                | £120   | £118    | 57,444       |
-          | Hammersmith and Fulham |        |         |              |
-          | Islington              |        |         |              |
-          | Kensington and Chelsea |        |         |              |
-          | Lambeth                |        |         |              |
-          | Lewisham               |        |         |              |
-          | Southwark              |        |         |              |
+          | Hammersmith and Fulham | £0     | £0      | 18,500       |
 
     Scenario: Can view local authority benchmarking table data for SEND2
         Given I am on local authority high needs benchmarking for local authority with code '201'
@@ -44,12 +39,7 @@
           | Camden                 | 28.74  | 50,101       |
           | Greenwich              | 34.14  | 63,850       |
           | Hackney                | 53.3   | 57,444       |
-          | Hammersmith and Fulham |        |              |
-          | Islington              |        |              |
-          | Kensington and Chelsea |        |              |
-          | Lambeth                |        |              |
-          | Lewisham               |        |              |
-          | Southwark              |        |              |              
+          | Hammersmith and Fulham | 0      | 18,500       |            
 
     Scenario: Line codes are displayed
         Given I am on local authority high needs benchmarking for local authority with code '201'
