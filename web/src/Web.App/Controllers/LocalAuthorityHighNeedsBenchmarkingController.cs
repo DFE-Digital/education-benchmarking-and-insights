@@ -47,7 +47,10 @@ public class LocalAuthorityHighNeedsBenchmarkingController(
                 var set = localAuthorityComparatorSetService.ReadUserDefinedComparatorSetFromSession(code).Set;
                 if (set.Length == 0)
                 {
-                    return NotFound();
+                    return RedirectToAction("Comparators", new
+                    {
+                        code
+                    });
                 }
 
                 var years = await financeService.GetYears();
