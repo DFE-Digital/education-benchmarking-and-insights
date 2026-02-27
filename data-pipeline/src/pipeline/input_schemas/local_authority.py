@@ -408,6 +408,7 @@ la_section_251_column_mappings = {
         "1.0.2 Secondary": "PlaceFundingSecondary",
         "1.0.2 SENSpecial": "PlaceFundingSpecial",
         "1.0.2 APPRU": "PlaceFundingAlternativeProvision",
+        "1.0.2 PostSchool": "PlaceFundingPost16"
     },
 }
 
@@ -453,6 +454,7 @@ la_section_251_columns = {
         "PlaceFundingSecondary",
         "PlaceFundingSpecial",
         "PlaceFundingAlternativeProvision",
+        "PlaceFundingPost16",
     ]
 }
 

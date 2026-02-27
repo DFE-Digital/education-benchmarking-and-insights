@@ -193,16 +193,21 @@ def _calculate_dsg_recoupments(
     # Overwritten in place
     las_with_recoupments["OutturnPlaceFundingPrimary"] += las_with_recoupments[
         "DSGPrimaryAcademyPlaceFunding"
-    ]
+    ].fillna(0)
     las_with_recoupments["OutturnPlaceFundingSecondary"] += las_with_recoupments[
         "DSGSecondaryAcademyPlaceFunding"
-    ]
+    ].fillna(0)
     las_with_recoupments["OutturnPlaceFundingSpecial"] += las_with_recoupments[
         "DSGSENAcademyPlaceFunding"
-    ]
+    ].fillna(0)
     las_with_recoupments[
         "OutturnPlaceFundingAlternativeProvision"
-    ] += las_with_recoupments["DSGAPAcademyPlaceFunding"]
+    ] += las_with_recoupments["DSGAPAcademyPlaceFunding"].fillna(0)
+    # This is null in s251
+    las_with_recoupments["OutturnPlaceFundingPost16"] = (
+        las_with_recoupments["OutturnPlaceFundingPost16"].fillna(0)
+        + las_with_recoupments["DSGPost16PlaceFunding"]
+    )
     las_with_recoupments[
         "OutturnTotalHospitalServices"
     ] += las_with_recoupments["DSGHospitalPlaceFunding"]
