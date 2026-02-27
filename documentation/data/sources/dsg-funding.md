@@ -75,7 +75,7 @@ DSG funding breakdowns are reported per LA. Generally DSG breakdowns can be adde
 
 | Field | Derivation | Added To |
 | --- | --- | --- |
-| DSGPost16PlaceFunding | Pre-16 SEN Places Deductions (Special Academies/Special Free Schools) | - |
+| DSGPost16PlaceFunding | Pre-16 SEN Places Deductions (Special Academies/Special Free Schools) | OutturnPlaceFundingPost16 |
 | DSGHospitalPlaceFunding | Total hospital education deduction (£s) | OutturnTotalHospitalServices |
 | DSGNurseryPlaceFunding | This is 0 (TBC) | - |
 | DSGAPAcademyPlaceFunding | Pre-16 AP Place deductions (Mainstream, special, special free, AP)| OutturnPlaceFundingAlternativeProvision |
