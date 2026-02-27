@@ -94,13 +94,13 @@ def ensure_dsg_recoupment_columns_are_present(local_authority_data) -> pd.DataFr
     to be there as the database expects them.
     """
     dsg_recoupment_columns = [
-        "PrimaryAcademyPlaceFunding",
-        "SecondaryAcademyPlaceFunding",
-        "SENAcademyPlaceFunding",
-        "APAcademyPlaceFunding",
-        "Post16PlaceFunding",
-        "NurseryPlaceFunding",
-        "HospitalPlaceFunding",
+        "DSGPrimaryAcademyPlaceFunding",
+        "DSGSecondaryAcademyPlaceFunding",
+        "DSGSENAcademyPlaceFunding",
+        "DSGAPAcademyPlaceFunding",
+        "DSGPost16PlaceFunding",
+        "DSGNurseryPlaceFunding",
+        "DSGHospitalPlaceFunding",
         "PrimaryPlaces6000",
         "PrimaryPlaces10000",
         "SecondaryPlaces6000",
@@ -165,14 +165,14 @@ def _calculate_dsg_recoupments(
         + dsg_with_place_numbers[SECONDARY_PLACES_10K] * 10000
     ) / dsg_with_place_numbers["HighNeedsTotalPlaceFunding"]
 
-    dsg_with_place_numbers["NurseryPlaceFunding"] = (
+    dsg_with_place_numbers["DSGNurseryPlaceFunding"] = (
         0  # TODO once agreed on business wise
     )
-    dsg_with_place_numbers["PrimaryAcademyPlaceFunding"] = (
+    dsg_with_place_numbers["DSGPrimaryAcademyPlaceFunding"] = (
         dsg_with_place_numbers["Total Mainstream Pre-16 SEN places deduction"]
         * dsg_with_place_numbers["PrimaryPlaceFundingRatio"]
     )
-    dsg_with_place_numbers["SecondaryAcademyPlaceFunding"] = (
+    dsg_with_place_numbers["DSGSecondaryAcademyPlaceFunding"] = (
         dsg_with_place_numbers["Total Mainstream Pre-16 SEN places deduction"]
         * dsg_with_place_numbers["SecondaryPlaceFundingRatio"]
     )
@@ -182,27 +182,30 @@ def _calculate_dsg_recoupments(
     )
 
     dsg_breakdown_cols = [
-        "PrimaryAcademyPlaceFunding",
-        "SecondaryAcademyPlaceFunding",
-        "SENAcademyPlaceFunding",
-        "APAcademyPlaceFunding",
-        "Post16PlaceFunding",
-        "NurseryPlaceFunding",
-        "HospitalPlaceFunding",
+        "DSGPrimaryAcademyPlaceFunding",
+        "DSGSecondaryAcademyPlaceFunding",
+        "DSGSENAcademyPlaceFunding",
+        "DSGAPAcademyPlaceFunding",
+        "DSGPost16PlaceFunding",
+        "DSGNurseryPlaceFunding",
+        "DSGHospitalPlaceFunding",
     ]
     # Overwritten in place
     las_with_recoupments["OutturnPlaceFundingPrimary"] += las_with_recoupments[
-        "PrimaryAcademyPlaceFunding"
+        "DSGPrimaryAcademyPlaceFunding"
     ]
     las_with_recoupments["OutturnPlaceFundingSecondary"] += las_with_recoupments[
-        "SecondaryAcademyPlaceFunding"
+        "DSGSecondaryAcademyPlaceFunding"
     ]
     las_with_recoupments["OutturnPlaceFundingSpecial"] += las_with_recoupments[
-        "SENAcademyPlaceFunding"
+        "DSGSENAcademyPlaceFunding"
     ]
     las_with_recoupments[
         "OutturnPlaceFundingAlternativeProvision"
-    ] += las_with_recoupments["APAcademyPlaceFunding"]
+    ] += las_with_recoupments["DSGAPAcademyPlaceFunding"]
+    las_with_recoupments[
+        "OutturnTotalHospitalServices"
+    ] += las_with_recoupments["DSGHospitalPlaceFunding"]
     las_with_recoupments["OutturnTotalPlaceFunding"] += las_with_recoupments[
         dsg_breakdown_cols
     ].sum(axis=1)

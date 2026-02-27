@@ -75,13 +75,13 @@ DSG funding breakdowns are reported per LA. Generally DSG breakdowns can be adde
 
 | Field | Derivation | Added To |
 | --- | --- | --- |
-| Post16PlaceFunding | Pre-16 SEN Places Deductions (Special Academies/Special Free Schools) | - |
-| HospitalPlaceFunding | Total hospital education deduction (£s) | - |
-| NurseryPlaceFunding | This is 0 (TBC) | - |
-| APAcademyPlaceFunding | Pre-16 AP Place deductions (Mainstream, special, special free, AP)| OutturnPlaceFundingAlternativeProvision |
-| SENAcademyPlaceFunding | Post-16 SEN place deductions (Mainstream, special, special free, AP) + FE and ILP deductions | OutturnPlaceFundingSpecial |
-| PrimaryAcademyPlaceFunding | Mainstream Pre-16 SEN places (6&10k) * Primary place ratio from high needs places | OutturnPlaceFundingPrimary |
-| SecondaryAcademyPlaceFunding |  Mainstream Pre-16 SEN places (6&10k) * Secondary place ratio from high needs places | OutturnPlaceFundingPrimary |
+| DSGPost16PlaceFunding | Pre-16 SEN Places Deductions (Special Academies/Special Free Schools) | - |
+| DSGHospitalPlaceFunding | Total hospital education deduction (£s) | OutturnTotalHospitalServices |
+| DSGNurseryPlaceFunding | This is 0 (TBC) | - |
+| DSGAPAcademyPlaceFunding | Pre-16 AP Place deductions (Mainstream, special, special free, AP)| OutturnPlaceFundingAlternativeProvision |
+| DSGSENAcademyPlaceFunding | Post-16 SEN place deductions (Mainstream, special, special free, AP) + FE and ILP deductions | OutturnPlaceFundingSpecial |
+| DSGPrimaryAcademyPlaceFunding | Mainstream Pre-16 SEN places (6&10k) * Primary place ratio from high needs places | OutturnPlaceFundingPrimary |
+| DSGSecondaryAcademyPlaceFunding |  Mainstream Pre-16 SEN places (6&10k) * Secondary place ratio from high needs places | OutturnPlaceFundingSecondary |
 |  | (sum all fields above) | OutturnTotalPlaceFunding |
 
 ### Data Source

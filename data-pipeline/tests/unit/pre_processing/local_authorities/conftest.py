@@ -483,10 +483,10 @@ def la_dsg_raw() -> io.BytesIO:
     """
     columns = [
         ("LA", "", ""),  # first column; will later be renamed to "LA" and used as index
-        # For SENAcademyPlaceFunding
+        # For DSGSENAcademyPlaceFunding
         ("Special academies", "Pre-16 SEN Places", "SEN places deduction (£s)"),
         ("Special free schools", "Pre-16 SEN places", "SEN places deduction (£s)"),
-        # For APAcademyPlaceFunding
+        # For DSGAPAcademyPlaceFunding
         (
             "Mainstream academies (special educational needs (SEN) units and resourced provision)",
             "Pre-16 alternative provision (AP) places",
@@ -499,7 +499,7 @@ def la_dsg_raw() -> io.BytesIO:
             "Pre-16 AP Places",
             "AP places deduction (£s) ",
         ),
-        # For Post16PlaceFunding
+        # For DSGPost16PlaceFunding
         (
             "Mainstream academies (special educational needs (SEN) units and resourced provision)",
             "Post-16 SEN Places",
@@ -522,7 +522,7 @@ def la_dsg_raw() -> io.BytesIO:
             "FE and ILP",
             "Total FE and ILP deduction (£s)",
         ),
-        # For HospitalPlaceFunding
+        # For DSGHospitalPlaceFunding
         (
             "Hospital Academies",
             "Hospital Academies funding",

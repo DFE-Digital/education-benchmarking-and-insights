@@ -13,13 +13,13 @@ def prepare_dsg_data(dsg_data: FilePath | ReadCsvBuffer[bytes] | ReadCsvBuffer[s
         header=[0, 1, 2],
         engine="odf",
     )
-    dsg["SENAcademyPlaceFunding"] = (
+    dsg["DSGSENAcademyPlaceFunding"] = (
         dsg[("Special academies", "Pre-16 SEN Places", "SEN places deduction (£s)")]
         + dsg[
             ("Special free schools", "Pre-16 SEN places", "SEN places deduction (£s)")
         ]
     )
-    dsg["APAcademyPlaceFunding"] = (
+    dsg["DSGAPAcademyPlaceFunding"] = (
         dsg[
             (
                 "Mainstream academies (special educational needs (SEN) units and resourced provision)",
@@ -37,7 +37,7 @@ def prepare_dsg_data(dsg_data: FilePath | ReadCsvBuffer[bytes] | ReadCsvBuffer[s
             )
         ]
     )
-    dsg["Post16PlaceFunding"] = (
+    dsg["DSGPost16PlaceFunding"] = (
         dsg[
             (
                 "Mainstream academies (special educational needs (SEN) units and resourced provision)",
@@ -71,7 +71,7 @@ def prepare_dsg_data(dsg_data: FilePath | ReadCsvBuffer[bytes] | ReadCsvBuffer[s
             )
         ]
     )
-    dsg["HospitalPlaceFunding"] = dsg[
+    dsg["DSGHospitalPlaceFunding"] = dsg[
         (
             "Hospital Academies",
             "Hospital Academies funding",
@@ -100,10 +100,10 @@ def prepare_dsg_data(dsg_data: FilePath | ReadCsvBuffer[bytes] | ReadCsvBuffer[s
     dsg_preprocessed = dsg.rename({dsg.columns[0]: "LA"}, axis=1).set_index("LA")
     dsg_preprocessed = dsg_preprocessed[
         [
-            "SENAcademyPlaceFunding",
-            "APAcademyPlaceFunding",
-            "Post16PlaceFunding",
-            "HospitalPlaceFunding",
+            "DSGSENAcademyPlaceFunding",
+            "DSGAPAcademyPlaceFunding",
+            "DSGPost16PlaceFunding",
+            "DSGHospitalPlaceFunding",
             "Total Mainstream Pre-16 SEN places deduction",
         ]
     ]
