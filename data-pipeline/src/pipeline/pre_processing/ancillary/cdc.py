@@ -29,7 +29,15 @@ def prepare_cdc_data(cdc_file_path, current_year):
     cdc["Building Age"] = (
         cdc.groupby(by=["URN"])["Indicative Age"].mean().astype("Int64")
     )
-    cdc_generated = cdc[config.cdc_generated_columns]
+    cdc["OldestBuilding"] = cdc.groupby("URN")["Indicative Age"].min().astype("Int64")
+    cdc["NewestBuilding"] = cdc.groupby("URN")["Indicative Age"].max().astype("Int64")
+    cdc["BuildingCount"] = cdc.groupby("URN")["Building Age"].count().astype("Int64")
+    cdc_generated = cdc[[
+        *config.cdc_generated_columns,
+        "OldestBuilding",
+        "NewestBuilding",
+        "BuildingCount"
+    ]]
     cdc_generated_no_dupes = cdc_generated[
         ~cdc_generated.index.duplicated(keep="first")
     ]

@@ -275,6 +275,8 @@ def pre_process_maintained_schools_data(
         maintained_schools_data, year, **cfr_ancillary_data
     )
 
+    maintained_schools["OverCapacity"] = maintained_schools["SchoolCapacity"] < maintained_schools["Number of pupils"]
+
     write_blob(
         "pre-processed",
         f"{run_type}/{run_id}/maintained_schools.parquet",
@@ -330,6 +332,7 @@ def pre_process_all_schools(run_type, run_id, data_ref):
     insert_trusts(run_type, run_id, academies)
     mask = academies.index.duplicated(keep=False) & ~academies["Valid To"].isna()
     academies = academies[~mask]
+    academies["OverCapacity"] = academies["SchoolCapacity"] < academies["Number of pupils"]
     # TODO: this overwrites the previous one inc. transitioning academies.
     write_blob(
         "pre-processed",
