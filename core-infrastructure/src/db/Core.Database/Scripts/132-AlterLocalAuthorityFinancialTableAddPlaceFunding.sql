@@ -3,10 +3,10 @@ ALTER TABLE dbo.LocalAuthorityFinancial
         PrimaryPlaces10000              decimal(16,2) NULL,
         SecondaryPlaces6000             decimal(16,2) NULL,
         SecondaryPlaces10000            decimal(16,2) NULL,
-        NurseryPlaceFunding             decimal(16,2) NULL,
-        PrimaryAcademyPlaceFunding      decimal(16,2) NULL,
-        SecondaryAcademyPlaceFunding    decimal(16,2) NULL,
-        SENAcademyPlaceFunding          decimal(16,2) NULL,
-        APAcademyPlaceFunding           decimal(16,2) NULL,
-        Post16PlaceFunding              decimal(16,2) NULL,
-        HospitalPlaceFunding            decimal(16,2) NULL
+        DSGNurseryPlaceFunding             decimal(16,2) NULL,
+        DSGPrimaryAcademyPlaceFunding      decimal(16,2) NULL,
+        DSGSecondaryAcademyPlaceFunding    decimal(16,2) NULL,
+        DSGSENAcademyPlaceFunding          decimal(16,2) NULL,
+        DSGAPAcademyPlaceFunding           decimal(16,2) NULL,
+        DSGPost16PlaceFunding              decimal(16,2) NULL,
+        DSGHospitalPlaceFunding            decimal(16,2) NULL
