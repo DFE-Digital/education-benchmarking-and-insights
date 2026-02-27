@@ -68,6 +68,7 @@ la_db_financial_projections = {
     "BudgetPlaceFundingSecondary": "BudgetPlaceFundingSecondary",
     "BudgetPlaceFundingSpecial": "BudgetPlaceFundingSpecial",
     "BudgetPlaceFundingAlternativeProvision": "BudgetPlaceFundingAlternativeProvision",
+    "BudgetPlaceFundingPost16": "BudgetPlaceFundingPost16",
 }
 
 la_db_non_financial_projections = {
