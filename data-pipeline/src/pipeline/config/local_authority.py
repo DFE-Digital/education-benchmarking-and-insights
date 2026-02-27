@@ -30,12 +30,10 @@ la_db_financial_projections = {
     "OutturnPlaceFundingSecondary": "OutturnPlaceFundingSecondary",
     "OutturnPlaceFundingSpecial": "OutturnPlaceFundingSpecial",
     "OutturnPlaceFundingAlternativeProvision": "OutturnPlaceFundingAlternativeProvision",
-    "OutturnPlaceFundingPost16": "OutturnPlaceFundingPost16",
     "DSGPrimaryAcademyPlaceFunding": "DSGPrimaryAcademyPlaceFunding",
     "DSGSecondaryAcademyPlaceFunding": "DSGSecondaryAcademyPlaceFunding",
     "DSGSENAcademyPlaceFunding": "DSGSENAcademyPlaceFunding",
     "DSGAPAcademyPlaceFunding": "DSGAPAcademyPlaceFunding",
-    "DSGPost16PlaceFunding": "DSGPost16PlaceFunding",
     "DSGHospitalPlaceFunding": "DSGHospitalPlaceFunding",
     "DSGNurseryPlaceFunding": "DSGNurseryPlaceFunding",
     "PrimaryPlaces6000": "PrimaryPlaces6000",
@@ -68,7 +66,6 @@ la_db_financial_projections = {
     "BudgetPlaceFundingSecondary": "BudgetPlaceFundingSecondary",
     "BudgetPlaceFundingSpecial": "BudgetPlaceFundingSpecial",
     "BudgetPlaceFundingAlternativeProvision": "BudgetPlaceFundingAlternativeProvision",
-    "BudgetPlaceFundingPost16": "BudgetPlaceFundingPost16",
 }
 
 la_db_non_financial_projections = {

@@ -528,7 +528,7 @@ def la_dsg_raw() -> io.BytesIO:
             "Hospital Academies funding",
             "Total hospital education deduction (£s)",
         ),
-        # For "Total Mainstream Pre-16 SEN places deduction"
+        # For "Total Mainstream DSG deduction"
         (
             "Mainstream academies (special educational needs (SEN) units and resourced provision)",
             "Pre-16 SEN places funded at £6,000",

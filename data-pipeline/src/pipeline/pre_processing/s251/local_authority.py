@@ -98,7 +98,6 @@ def ensure_dsg_recoupment_columns_are_present(local_authority_data) -> pd.DataFr
         "DSGSecondaryAcademyPlaceFunding",
         "DSGSENAcademyPlaceFunding",
         "DSGAPAcademyPlaceFunding",
-        "DSGPost16PlaceFunding",
         "DSGNurseryPlaceFunding",
         "DSGHospitalPlaceFunding",
         "PrimaryPlaces6000",
@@ -169,11 +168,11 @@ def _calculate_dsg_recoupments(
         0  # TODO once agreed on business wise
     )
     dsg_with_place_numbers["DSGPrimaryAcademyPlaceFunding"] = (
-        dsg_with_place_numbers["Total Mainstream Pre-16 SEN places deduction"]
+        dsg_with_place_numbers["Total Mainstream DSG deduction"]
         * dsg_with_place_numbers["PrimaryPlaceFundingRatio"]
     )
     dsg_with_place_numbers["DSGSecondaryAcademyPlaceFunding"] = (
-        dsg_with_place_numbers["Total Mainstream Pre-16 SEN places deduction"]
+        dsg_with_place_numbers["Total Mainstream DSG deduction"]
         * dsg_with_place_numbers["SecondaryPlaceFundingRatio"]
     )
 
@@ -186,7 +185,6 @@ def _calculate_dsg_recoupments(
         "DSGSecondaryAcademyPlaceFunding",
         "DSGSENAcademyPlaceFunding",
         "DSGAPAcademyPlaceFunding",
-        "DSGPost16PlaceFunding",
         "DSGNurseryPlaceFunding",
         "DSGHospitalPlaceFunding",
     ]
@@ -203,11 +201,6 @@ def _calculate_dsg_recoupments(
     las_with_recoupments[
         "OutturnPlaceFundingAlternativeProvision"
     ] += las_with_recoupments["DSGAPAcademyPlaceFunding"].fillna(0)
-    # This is null in s251
-    las_with_recoupments["OutturnPlaceFundingPost16"] = (
-        las_with_recoupments["OutturnPlaceFundingPost16"].fillna(0)
-        + las_with_recoupments["DSGPost16PlaceFunding"]
-    )
     las_with_recoupments[
         "OutturnTotalHospitalServices"
     ] += las_with_recoupments["DSGHospitalPlaceFunding"]
