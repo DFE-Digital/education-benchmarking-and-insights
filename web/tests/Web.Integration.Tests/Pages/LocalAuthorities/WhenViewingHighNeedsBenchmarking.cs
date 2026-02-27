@@ -39,22 +39,27 @@ public class WhenViewingHighNeedsBenchmarking(SchoolBenchmarkingWebAppClient cli
     }
 
     [Fact]
-    public async Task CanDisplayNotFoundForSet()
+    public async Task CanRedirectToHighNeedsStartBenchmarkingWithNoSet()
     {
         var (page, authority, _) = await SetupNavigateInitPage([]);
 
-        PageAssert.IsNotFoundPage(page);
-        DocumentAssert.AssertPageUrl(page, Paths.LocalAuthorityHighNeedsBenchmarking(authority.Code).ToAbsolute(), HttpStatusCode.NotFound);
+        DocumentAssert.AssertPageUrl(page, Paths.LocalAuthorityHighNeedsStartBenchmarking(authority.Code).ToAbsolute());
     }
 
     private async Task<(IHtmlDocument page, LocalAuthority authority, string[] set)> SetupNavigateInitPage(string[]? comparatorSet = null)
     {
-        var authority = Fixture.Build<LocalAuthority>()
+        var authorityWithNeighbours = Fixture.Build<LocalAuthorityStatisticalNeighbours>()
             .With(a => a.Code, "123")
             .Create();
+
+        var authority = Fixture.Build<LocalAuthority>()
+            .With(a => a.Code, authorityWithNeighbours.Code)
+            .With(a => a.Name, authorityWithNeighbours.Name)
+            .Create();
+
         var set = comparatorSet ?? Fixture.Build<string>().CreateMany().ToArray();
 
-        var page = await Client.SetupEstablishment(authority)
+        var page = await Client.SetupEstablishment(authorityWithNeighbours, [authority])
             .SetupInsights()
             .SetupLocalAuthoritiesComparators(authority.Code!, set)
             .Navigate(Paths.LocalAuthorityHighNeedsBenchmarking(authority.Code));
