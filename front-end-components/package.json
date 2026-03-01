@@ -65,7 +65,7 @@
     "prettier-eslint": "^16.4.1",
     "sass-embedded": "^1.97.1",
     "typescript": "^5.7.2",
-    "typescript-eslint": "^8.54.0",
+    "typescript-eslint": "^8.56.1",
     "vite": "^7.2.6"
   }
 }
