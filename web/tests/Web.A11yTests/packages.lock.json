@@ -4,11 +4,11 @@
     "net8.0": {
       "Deque.AxeCore.Playwright": {
         "type": "Direct",
-        "requested": "[4.11.0, )",
-        "resolved": "4.11.0",
-        "contentHash": "lqpBLFENo9vtPookW/KfjXurPHWVtBCWiAVv3XF6qBmNzYf5S+qmt1k74yJh/AQoBLQaLcPA7vivd4yLOZprHQ==",
+        "requested": "[4.11.1, )",
+        "resolved": "4.11.1",
+        "contentHash": "MG+gAOkTSc1D4Ep1Y6zQ5Qvo0lNt9c5ZatH5J/bQQlXOMWH7ZoyegDiB6KSJ1hGnvfMO1LI0J0pvO084IyRrww==",
         "dependencies": {
-          "Deque.AxeCore.Commons": "4.11.0",
+          "Deque.AxeCore.Commons": "4.11.1",
           "Microsoft.Playwright": "1.20.2",
           "System.IO.Abstractions": "17.0.24"
         }
@@ -104,8 +104,8 @@
       },
       "Deque.AxeCore.Commons": {
         "type": "Transitive",
-        "resolved": "4.11.0",
-        "contentHash": "lbRbo2HZ/RX4w+HyS/Z1wsWt3sIE2W6P/FhJ2pY6Bxpw+wyua7DQOd2uC6os4uNOrC9NncmIW3E1AMa3R5dRGg==",
+        "resolved": "4.11.1",
+        "contentHash": "idH7E52snMRJ3M1FpFcm+OKB0HGC6UrOX3zdWSM2s9D3Cj2De/B0tlby+VvbzDd0LWeSLU3CUWY2OSyAe5T51Q==",
         "dependencies": {
           "NewtonSoft.Json": "13.0.1"
         }
