@@ -8,7 +8,7 @@
     "lint:fix": "npm run lint -- --fix"
   },
   "dependencies": {
-    "@govuk-prototype-kit/common-templates": "^2.0.1",
+    "@govuk-prototype-kit/common-templates": "^3.0.0",
     "@x-govuk/govuk-prototype-components": "^5.0.2",
     "@x-govuk/govuk-prototype-filters": "^2.1.0",
     "body-parser": "^2.2.2",
