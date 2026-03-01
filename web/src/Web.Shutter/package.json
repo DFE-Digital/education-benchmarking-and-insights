@@ -33,7 +33,7 @@
     "isomorphic-dompurify": "^2.35.0",
     "marked": "^17.0.1",
     "nunjucks": "^3.2.4",
-    "winston": "^3.17.0"
+    "winston": "^3.19.0"
   },
   "devDependencies": {
     "@dotenvx/dotenvx": "^1.51.4",
