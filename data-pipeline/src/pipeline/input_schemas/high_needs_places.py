@@ -9,15 +9,35 @@ high_needs_places_columns = {
         "URN",
         "2022 to 2023 mainstream academies and free schools - pre-16 SEN Unit/RP Places (@£6k)",
         "2022 to 2023 mainstream academies and free schools - pre-16 SEN Unit/RP Places (@£10k)",
+        "2022 to 2023  mainstream free schools and academies - 16 to 18 places",
     ],
     2024: [
         "URN",
         "2023 to 2024 mainstream academies and free schools - pre-16 SEN Unit/RP Places (@£6k)",
         "2023 to 2024 mainstream academies and free schools - pre-16 SEN Unit/RP Places (@£10k)",
+        "2023 to 2024  mainstream free schools and academies - 16 to 18 places",
     ],
     2025: [
         "URN",
         "2024 to 2025 mainstream academies and free schools - pre-16 SEN Unit/RP Places (@£6k)",
         "2024 to 2025 mainstream academies and free schools - pre-16 SEN Unit/RP Places (@£10k)",
+        "2024 to 2025  mainstream free schools and academies - 16 to 18 places",
     ],
 }
+
+
+def get_six_and_ten_k_cols(year) -> tuple:
+    return (
+        f"{year-1} to {year} mainstream academies and free schools - pre-16 SEN Unit/RP Places (@£6k)",
+        f"{year-1} to {year} mainstream academies and free schools - pre-16 SEN Unit/RP Places (@£10k)",
+        f"{year-1} to {year}  mainstream free schools and academies - 16 to 18 places",
+    )
+
+
+primary = "Primary"
+secondary = "Secondary"
+
+PRIMARY_PLACES_6K = "PrimaryPlaces6000"
+PRIMARY_PLACES_10K = "PrimaryPlaces10000"
+SECONDARY_PLACES_6K = "SecondaryPlaces6000"
+SECONDARY_PLACES_10K = "SecondaryPlaces10000"

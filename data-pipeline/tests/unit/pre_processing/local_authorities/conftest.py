@@ -464,13 +464,9 @@ def la_place_numbers() -> pd.DataFrame:
     6k/10k columns that are used in the recoupment calculation.
     """
     year = 2024
-    six_k_col, ten_k_col = input_schemas.get_six_and_ten_k_cols(year)
+    six_k_col, ten_k_col, post_16_col = input_schemas.get_six_and_ten_k_cols(year)
 
-    data = {
-        "URN": [3, 4],
-        six_k_col: [10, 5],
-        ten_k_col: [0, 3],
-    }
+    data = {"URN": [3, 4], six_k_col: [10, 5], ten_k_col: [0, 3], post_16_col: [1, 1]}
 
     return pd.DataFrame(data)
 
@@ -541,24 +537,24 @@ def la_dsg_raw() -> io.BytesIO:
     values = np.array(
         [
             [
-                la_code,    # "LA"
-                10_000.0,   # Special academies pre-16 SEN
-                2_000.0,    # Special academies post-16 SEN
-                1_000.0,    # Special academies pre-16 AP
-                5_000.0,    # Special free schools pre-16 SEN
-                1_000.0,    # Special free schools post-16 SEN
-                500.0,      # Special free schools pre-16 AP
+                la_code,  # "LA"
+                10_000.0,  # Special academies pre-16 SEN
+                2_000.0,  # Special academies post-16 SEN
+                1_000.0,  # Special academies pre-16 AP
+                5_000.0,  # Special free schools pre-16 SEN
+                1_000.0,  # Special free schools post-16 SEN
+                500.0,  # Special free schools pre-16 AP
                 # DSGSENAcademyPlaceFunding = 10k+2k+1k+5k+1k+500 = 19_500
-                1_500.0,    # AP academies pre-16 SEN
-                500.0,      # AP academies post-16 SEN
-                1_500.0,    # AP academies pre-16 AP
+                1_500.0,  # AP academies pre-16 SEN
+                500.0,  # AP academies post-16 SEN
+                1_500.0,  # AP academies pre-16 AP
                 # DSGAPAcademyPlaceFunding = 1.5k+500+1.5k = 3_500
-                750.0,      # Hospital
+                750.0,  # Hospital
                 # DSGHospitalPlaceFunding = 750
-                6_000.0,    # Mainstream pre-16 SEN @£6k
-                4_000.0,    # Mainstream pre-16 SEN @£10k
-                3_000.0,    # Mainstream post-16 SEN
-                2_000.0,    # Mainstream pre-16 AP
+                6_000.0,  # Mainstream pre-16 SEN @£6k
+                4_000.0,  # Mainstream pre-16 SEN @£10k
+                3_000.0,  # Mainstream post-16 SEN
+                2_000.0,  # Mainstream pre-16 AP
                 # Total Mainstream DSG deduction = 6k+4k+3k+2k = 15_000
             ]
         ]

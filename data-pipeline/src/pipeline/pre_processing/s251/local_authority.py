@@ -120,13 +120,15 @@ def _calculate_dsg_recoupments(
         logger.info("DSG or Place number data missing, DSG recoupments set to zero")
         return ensure_dsg_recoupment_columns_are_present(local_authority_data)
 
-    six_k_places_col, ten_k_places_col = input_schemas.get_six_and_ten_k_cols(year)
+    six_k_places_col, ten_k_places_col, post_16_col = (
+        input_schemas.get_six_and_ten_k_cols(year)
+    )
     place_numbers_with_la = place_numbers.set_index("URN").join(
         school_to_la_mapping, how="left"
     )
     place_numbers_per_phase_and_la = (
         place_numbers_with_la.groupby(["LA", "Overall Phase"])
-        .agg({six_k_places_col: "sum", ten_k_places_col: "sum"})
+        .agg({six_k_places_col: "sum", ten_k_places_col: "sum", post_16_col: "sum"})
         .reset_index()
     )
     place_numbers_pivoted = place_numbers_per_phase_and_la.pivot(
@@ -143,9 +145,10 @@ def _calculate_dsg_recoupments(
     place_numbers_final[SECONDARY_PLACES_6K] = place_numbers_pivoted[
         (six_k_places_col, secondary)
     ]
-    place_numbers_final[SECONDARY_PLACES_10K] = place_numbers_pivoted[
-        (ten_k_places_col, secondary)
-    ]
+    place_numbers_final[SECONDARY_PLACES_10K] = (
+        place_numbers_pivoted[(ten_k_places_col, secondary)]
+        + place_numbers_pivoted[(post_16_col, secondary)]
+    )
 
     dsg_with_place_numbers = dsg.join(place_numbers_final, how="outer")
     # Split total place funding into Primary and Secondary

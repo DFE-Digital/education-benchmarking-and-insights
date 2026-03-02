@@ -71,7 +71,7 @@ Given that the DSG is the principal source of funding for schools it is used by 
 
 ### Derivation of LA level DSG recoupments
 
-DSG funding breakdowns are reported per LA. Generally DSG breakdowns can be added to breakdowns already existing in FBIT (from S251), however the Mainstream academies need to be further split into primary and secondary deductions to be added to existing categories. The split is achieved by proxy using the ratio of funding reported in the `high_needs_places` file, specifically converting the `Primary/Secondary Places at £6k/£10k` fields to a ratio which can split the deduction found in the DSG.
+DSG funding breakdowns are reported per LA. Generally DSG breakdowns can be added to breakdowns already existing in FBIT (from S251), however the Mainstream academies need to be further split into primary and secondary deductions to be added to existing categories. The split is achieved by proxy using the ratio of funding reported in the `high_needs_places` file, specifically converting the `Primary/Secondary Places at £6k/£10k` and `...mainstream free schools...16 to 18` fields to a ratio which can split the deduction found in the DSG.
 
 | Field | Derivation | Added To |
 | --- | --- | --- |
