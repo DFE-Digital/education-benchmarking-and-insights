@@ -23,7 +23,6 @@ Feature: Local Authority compare your costs
         When I change 'total expenditure' dimension to 'actuals'
         Then the following is shown for 'total expenditure'
           | School name             | Local Authority | School type            | Number of pupils | Amount     |
-          | Test academy school 239 | City of London  | Academy converter      | 399              | £3,424,906 |
           | Test school 237         | City of London  | Voluntary aided school | 231              | £1,597,953 |
           | Test school 1           | City of London  | Voluntary aided school | 232              | £1,580,913 |
         But save as image buttons are hidden
@@ -55,21 +54,21 @@ Feature: Local Authority compare your costs
         When I hover over a chart bar
         Then additional information is displayed
         And additional information contains
-          | Item             | Value             |
-          | Local authority  | City of London    |
-          | School type      | Academy converter |
-          | Number of pupils | 399               |
+          | Item             | Value                  |
+          | Local authority  | City of London         |
+          | School type      | Voluntary aided school |
+          | Number of pupils | 231                    |
 
     Scenario: Clicking school name in chart directs to homepage
         Given I am on compare your costs page for local authority with code '201'
         When I select the school name on the chart
-        Then I am navigated to selected school home page with Trust name 'Test Company/Trust 31'
+        Then I am navigated to selected school home page
 
     Scenario: Tabbing to and selecting school name in chart directs to homepage
         Given I am on compare your costs page for local authority with code '201'
         When I tab to the school name on the chart
         And I press the Enter key when focused on the school name
-        Then I am navigated to selected school home page with Trust name 'Test Company/Trust 31'
+        Then I am navigated to selected school home page
 
     Scenario: Tabbing to school name in chart displays tooltip
         Given I am on compare your costs page for local authority with code '201'
@@ -83,7 +82,6 @@ Feature: Local Authority compare your costs
         And the 'catering staff' dimension is 'actuals'
         Then the following is shown for 'catering staff'
           | School name             | Local Authority | School type            | Number of pupils | Amount  |
-          | Test academy school 239 | City of London  | Academy converter      | 399              | £95,978 |
           | Test school 237         | City of London  | Voluntary aided school | 231              | £50,014 |
           | Test school 1           | City of London  | Voluntary aided school | 232              | £34,924 |
 
@@ -95,7 +93,6 @@ Feature: Local Authority compare your costs
         When I click on display as Net
         Then the following is shown for 'catering staff'
           | School name             | Local Authority | School type            | Number of pupils | Amount   |
-          | Test academy school 239 | City of London  | Academy converter      | 399              | £109,578 |
           | Test school 237         | City of London  | Voluntary aided school | 231              | £99,307  |
           | Test school 1           | City of London  | Voluntary aided school | 232              | £42,585  |
           
