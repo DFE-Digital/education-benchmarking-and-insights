@@ -119,7 +119,7 @@ def _calculate_dsg_recoupments(
     if dsg is None or place_numbers is None:
         logger.info("DSG or Place number data missing, DSG recoupments set to zero")
         return ensure_dsg_recoupment_columns_are_present(local_authority_data)
-    
+
     six_k_places_col, ten_k_places_col = input_schemas.get_six_and_ten_k_cols(year)
     place_numbers_with_la = place_numbers.set_index("URN").join(
         school_to_la_mapping, how="left"
@@ -201,9 +201,9 @@ def _calculate_dsg_recoupments(
     las_with_recoupments[
         "OutturnPlaceFundingAlternativeProvision"
     ] += las_with_recoupments["DSGAPAcademyPlaceFunding"].fillna(0)
-    las_with_recoupments[
-        "OutturnTotalHospitalServices"
-    ] += las_with_recoupments["DSGHospitalPlaceFunding"]
+    las_with_recoupments["OutturnTotalHospitalServices"] += las_with_recoupments[
+        "DSGHospitalPlaceFunding"
+    ]
     las_with_recoupments["OutturnTotalPlaceFunding"] += las_with_recoupments[
         dsg_breakdown_cols
     ].sum(axis=1)
