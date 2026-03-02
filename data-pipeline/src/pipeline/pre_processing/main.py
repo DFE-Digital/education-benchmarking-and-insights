@@ -98,26 +98,6 @@ def pre_process_data(
         maintained_schools, cfr_year
     )
 
-    if academies_data_ref["ilr"] is not None:
-        # The assert here is to satisfy type checking - gias_links should never be None
-        assert academies_data_ref["gias_links"] is not None
-        academies = patch_missing_sixth_form_data(
-            academies,
-            academies_data_ref["ilr"],
-            academies_data_ref["gias_links"],
-        )
-        academies = total_per_unit.calculate_total_per_unit_costs(academies)
-
-    if maintained_data_ref["ilr"] is not None:
-        maintained_schools = patch_missing_sixth_form_data(
-            maintained_schools,
-            maintained_data_ref["ilr"],
-            maintained_data_ref["gias_links"],
-        )
-        maintained_schools = total_per_unit.calculate_total_per_unit_costs(
-            maintained_schools
-        )
-
     trusts = pre_process_trust_data(
         run_type,
         run_id,

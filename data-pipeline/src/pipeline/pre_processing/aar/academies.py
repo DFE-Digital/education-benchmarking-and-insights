@@ -20,6 +20,8 @@ from pipeline.pre_processing.common.part_year import (
     map_has_building_comparator_data,
     map_has_pupil_comparator_data,
 )
+from pipeline.pre_processing.ancillary.ilr import patch_missing_sixth_form_data
+from pipeline.pre_processing.common import total_per_unit
 
 simplefilter(action="ignore", category=pd.errors.PerformanceWarning)
 simplefilter(action="ignore", category=FutureWarning)
@@ -295,6 +297,10 @@ def build_academy_data(
         axis=1,
     )
 
+    if ilr is not None:
+        assert gias_links is not None
+        academies = patch_missing_sixth_form_data(academies, ilr, gias_links)
+        
     academies["Finance Type"] = "Academy"
     academies["Did Not Submit"] = False
 
@@ -535,6 +541,9 @@ def build_academy_data(
     academies["Company Registration Number"] = academies[
         "Company Registration Number"
     ].map(mappings.map_company_number)
+
+    if ilr is not None:
+        academies = total_per_unit.calculate_total_per_unit_costs(academies)
 
     return academies.set_index("URN")
 
