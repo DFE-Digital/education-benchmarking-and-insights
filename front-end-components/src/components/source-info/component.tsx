@@ -71,6 +71,6 @@ export const SourceInfo: React.FC<SourceInfoProps> = ({
   const content = modeToContent[mode]();
 
   return (
-    <div className="govuk-!-margin-bottom-6 app-source-info">{content}</div>
+    <div className="govuk-!-margin-bottom-7 app-source-info">{content}</div>
   );
 };
