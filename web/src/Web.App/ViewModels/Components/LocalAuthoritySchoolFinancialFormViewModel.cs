@@ -65,14 +65,13 @@ public class LocalAuthoritySchoolFinancialFormViewModel(
     {
         get
         {
-            RouteValueDictionary routeValues = new(
-                [
-                    new KeyValuePair<string, object?>("code", Code),
-                    new KeyValuePair<string, object?>($"{FormPrefix}{FormFieldNames.FiltersVisible}", FormFieldValues.Show),
-                    new KeyValuePair<string, object?>($"{FormPrefix}{FormFieldNames.ResultAs}", (int)ResultAs),
-                    new KeyValuePair<string, object?>($"{FormPrefix}{FormFieldNames.Sort}", Sort)
-                ]
-            );
+            var routeValues = new RouteValueDictionary
+            {
+                ["code"] = Code,
+                [$"{FormPrefix}{FormFieldNames.FiltersVisible}"] = FormFieldValues.Show,
+                [$"{FormPrefix}{FormFieldNames.ResultAs}"] = (int)ResultAs,
+                [$"{FormPrefix}{FormFieldNames.Sort}"] = Sort
+            };
 
             if (OtherFormValues == null)
             {
