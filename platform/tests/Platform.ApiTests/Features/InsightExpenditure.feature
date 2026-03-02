@@ -40,9 +40,9 @@
         Then the school expenditure response should be ok, contain a JSON array and match the expected output of 'SchoolExpenditureTrustSecondary.json'
         
     Scenario: Sending a valid school expenditure query request with LA code and phase
-        Given a valid school expenditure query request with LA code '205' and phase 'Secondary'
+        Given a valid school expenditure query request with LA code '205' and phase 'Primary'
         When I submit the insights expenditure request
-        Then the school expenditure response should be ok, contain a JSON array and match the expected output of 'SchoolExpenditureLASecondary.json'
+        Then the school expenditure response should be ok, contain a JSON array and match the expected output of 'SchoolExpenditureLAPrimary.json'
         
     Scenario: Sending a valid trust expenditure request with category and dimension
         Given a trust expenditure request with company number '10192252', category 'TotalExpenditure' and dimension 'Actuals'
