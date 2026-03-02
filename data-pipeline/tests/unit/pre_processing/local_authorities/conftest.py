@@ -482,53 +482,37 @@ def la_dsg_raw() -> io.BytesIO:
     pd.read_excel(..., header=[0, 1, 2]) with a 3-level column MultiIndex.
     """
     columns = [
-        ("LA", "", ""),  # first column; will later be renamed to "LA" and used as index
-        # For DSGSENAcademyPlaceFunding
+        ("LA", "", ""),
+        # --- DSGSENAcademyPlaceFunding ---
         ("Special academies", "Pre-16 SEN Places", "SEN places deduction (£s)"),
-        ("Special free schools", "Pre-16 SEN places", "SEN places deduction (£s)"),
-        # For DSGAPAcademyPlaceFunding
-        (
-            "Mainstream academies (special educational needs (SEN) units and resourced provision)",
-            "Pre-16 alternative provision (AP) places",
-            "AP places deduction (£s)",
-        ),
+        ("Special academies", "Post-16 SEN Places", "SEN places deduction (£s)"),
         ("Special academies", "Pre-16 AP Places", "AP places deduction (£s)"),
+        ("Special free schools", "Pre-16 SEN places", "SEN places deduction (£s)"),
+        ("Special free schools", "Post-16 SEN places", "SEN places deduction (£s)"),
         ("Special free schools", "Pre-16 AP Places", "AP places deduction (£s) "),
+        # --- DSGAPAcademyPlaceFunding ---
+        (
+            "Alternative provision (AP) academies and free schools ",
+            "Pre-16 SEN places",
+            "SEN places deduction (£s)",
+        ),
+        (
+            "Alternative provision (AP) academies and free schools ",
+            "Post-16 SEN places",
+            "SEN places deduction (£s)",
+        ),
         (
             "Alternative provision (AP) academies and free schools ",
             "Pre-16 AP Places",
             "AP places deduction (£s) ",
         ),
-        # For DSGPost16PlaceFunding
-        (
-            "Mainstream academies (special educational needs (SEN) units and resourced provision)",
-            "Post-16 SEN Places",
-            "SEN places deduction (£s)",
-        ),
-        ("Special academies", "Post-16 SEN Places", "SEN places deduction (£s)"),
-        ("Special free schools", "Post-16 SEN places", "SEN places deduction (£s)"),
-        (
-            "Alternative provision (AP) academies and free schools ",
-            "Post-16 SEN places",
-            "SEN places deduction (£s)",
-        ),
-        (
-            "16-19 academies and free schools",
-            "Post-16 SEN places",
-            "SEN places deduction (£s)",
-        ),
-        (
-            "Further education (FE) and independent learning provider (ILP)",
-            "FE and ILP",
-            "Total FE and ILP deduction (£s)",
-        ),
-        # For DSGHospitalPlaceFunding
+        # --- DSGHospitalPlaceFunding ---
         (
             "Hospital Academies",
             "Hospital Academies funding",
             "Total hospital education deduction (£s)",
         ),
-        # For "Total Mainstream DSG deduction"
+        # --- Total Mainstream DSG deduction ---
         (
             "Mainstream academies (special educational needs (SEN) units and resourced provision)",
             "Pre-16 SEN places funded at £6,000",
@@ -539,31 +523,43 @@ def la_dsg_raw() -> io.BytesIO:
             "Pre-16 SEN places funded at £10,000",
             "SEN places deduction (£s)",
         ),
+        (
+            "Mainstream academies (special educational needs (SEN) units and resourced provision)",
+            "Post-16 SEN Places",
+            "SEN places deduction (£s)",
+        ),
+        (
+            "Mainstream academies (special educational needs (SEN) units and resourced provision)",
+            "Pre-16 alternative provision (AP) places",
+            "AP places deduction (£s)",
+        ),
     ]
 
     index = pd.MultiIndex.from_tuples(columns, names=["level_0", "level_1", "level_2"])
 
-    # Single LA row with simple, non-zero values so sums are easy to reason about
     la_code = 101
     values = np.array(
         [
             [
-                la_code,  # "LA"
-                10_000.0,  # Special academies pre-16 SEN
-                5_000.0,  # Special free schools pre-16 SEN
-                2_000.0,  # Mainstream AP places
-                1_000.0,  # Special academies AP
-                500.0,  # Special free schools AP
-                1_500.0,  # AP academies/free schools
-                3_000.0,  # Mainstream post-16 SEN
-                2_000.0,  # Special academies post-16 SEN
-                1_000.0,  # Special free schools post-16 SEN
-                500.0,  # AP post-16 SEN
-                2_500.0,  # 16–19 academies and free schools
-                4_000.0,  # FE/ILP
-                750.0,  # Hospital
-                6_000.0,  # Mainstream pre-16 SEN @£6k
-                4_000.0,  # Mainstream pre-16 SEN @£10k
+                la_code,    # "LA"
+                10_000.0,   # Special academies pre-16 SEN
+                2_000.0,    # Special academies post-16 SEN
+                1_000.0,    # Special academies pre-16 AP
+                5_000.0,    # Special free schools pre-16 SEN
+                1_000.0,    # Special free schools post-16 SEN
+                500.0,      # Special free schools pre-16 AP
+                # DSGSENAcademyPlaceFunding = 10k+2k+1k+5k+1k+500 = 19_500
+                1_500.0,    # AP academies pre-16 SEN
+                500.0,      # AP academies post-16 SEN
+                1_500.0,    # AP academies pre-16 AP
+                # DSGAPAcademyPlaceFunding = 1.5k+500+1.5k = 3_500
+                750.0,      # Hospital
+                # DSGHospitalPlaceFunding = 750
+                6_000.0,    # Mainstream pre-16 SEN @£6k
+                4_000.0,    # Mainstream pre-16 SEN @£10k
+                3_000.0,    # Mainstream post-16 SEN
+                2_000.0,    # Mainstream pre-16 AP
+                # Total Mainstream DSG deduction = 6k+4k+3k+2k = 15_000
             ]
         ]
     )
