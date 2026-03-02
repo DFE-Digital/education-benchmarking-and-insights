@@ -6,6 +6,7 @@ import {
   BenchmarkChartSection251Section,
   BenchmarkChartSend2Section,
 } from "../types";
+import { SourceInfoModes } from "src/components/source-info";
 
 /* eslint-disable react-refresh/only-export-components */
 export * from "src/views/benchmark-data-high-needs/partials/section-251-section.tsx";
@@ -56,6 +57,7 @@ export const section251Sections: BenchmarkChartSection251Section<LocalAuthorityS
           field: "highNeedsAmountHospitalServices",
           sourceInfo: {
             lineCodes: ["1.2.6"],
+            additionalInfo: SourceInfoModes.Hospital,
           },
         },
         {
@@ -76,7 +78,7 @@ export const section251Sections: BenchmarkChartSection251Section<LocalAuthorityS
           field: "placeFundingPrimary",
           sourceInfo: {
             lineCodes: ["1.0.2"],
-            recoupment: true,
+            additionalInfo: SourceInfoModes.Glossary,
           },
         },
         {
@@ -84,7 +86,7 @@ export const section251Sections: BenchmarkChartSection251Section<LocalAuthorityS
           field: "placeFundingSecondary",
           sourceInfo: {
             lineCodes: ["1.0.2"],
-            recoupment: true,
+            additionalInfo: SourceInfoModes.Glossary,
           },
         },
         {
@@ -92,7 +94,7 @@ export const section251Sections: BenchmarkChartSection251Section<LocalAuthorityS
           field: "placeFundingSpecial",
           sourceInfo: {
             lineCodes: ["1.0.2"],
-            recoupment: true,
+            additionalInfo: SourceInfoModes.Glossary,
           },
         },
         {
@@ -100,7 +102,7 @@ export const section251Sections: BenchmarkChartSection251Section<LocalAuthorityS
           field: "placeFundingAlternativeProvision",
           sourceInfo: {
             lineCodes: ["1.0.2"],
-            recoupment: true,
+            additionalInfo: SourceInfoModes.Glossary,
           },
         },
       ],
