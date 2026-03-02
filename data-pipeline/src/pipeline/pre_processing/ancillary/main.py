@@ -1,6 +1,10 @@
 import pandas as pd
 
-from pipeline.input_schemas import head_teacher_breakdowns_filenames
+from pipeline.input_schemas import (
+    dsg_filenames,
+    head_teacher_breakdowns_filenames,
+    high_needs_places_filenames,
+)
 from pipeline.pre_processing.aar.academies import prepare_aar_data
 from pipeline.pre_processing.aar.central_services import prepare_central_services_data
 from pipeline.utils.log import setup_logger
@@ -10,12 +14,17 @@ from .cdc import prepare_cdc_data
 from .census import prepare_census_data
 from .cfo import build_cfo_data
 from .combined_gias import prepare_combined_gias_data
+from .dsg import prepare_dsg_data
 from .gias import predecessor_links
 from .high_exec_pay import build_high_exec_pay_data
+from .high_needs_places import prepare_high_needs_places_data
 from .ilr import build_ilr_data
 from .ks2 import prepare_ks2_data
 from .ks4 import prepare_ks4_data
+from .la_statistical_neighbours import prepare_la_statistical_neighbours
+from .ons_population_estimates import prepare_ons_population_estimates
 from .sen import prepare_sen_data
+from .sen2 import prepare_sen2_data
 
 logger = setup_logger("preprocessing-ancillary")
 
@@ -278,4 +287,66 @@ def pre_process_central_services(
 
         return central_services
 
+    return None
+
+
+def pre_process_la_statistical_neighbours(s251_year, run_id):
+    logger.info(
+        f"Reading LA statistical neighbours: default/{s251_year}/High-needs-local-authority-benchmarking-tool.xlsm"
+    )
+    la_statistical_neighbours_data = get_blob(
+        raw_container,
+        f"default/{s251_year}/High-needs-local-authority-benchmarking-tool.xlsm",
+    )
+    la_statistical_neighbours = prepare_la_statistical_neighbours(
+        la_statistical_neighbours_data, s251_year
+    )
+    return la_statistical_neighbours
+
+
+def pre_process_ons_population_estimates(s251_year, run_id):
+    logger.info(
+        f"Reading ONS LA population data: default/{s251_year}/2018 SNPP Population persons.csv"
+    )
+    la_ons_data = get_blob(
+        raw_container,
+        f"default/{s251_year}/2018 SNPP Population persons.csv",
+    )
+    ons_population_estimates = prepare_ons_population_estimates(la_ons_data, s251_year)
+    return ons_population_estimates
+
+
+def pre_process_sen2(s251_year, run_id):
+    logger.info(
+        f"Reading LA SEN2 ECHP plan data: default/{s251_year}/sen2_estab_caseload.csv"
+    )
+    la_sen2_data = get_blob(
+        raw_container,
+        f"default/{s251_year}/sen2_estab_caseload.csv",
+    )
+    sen2 = prepare_sen2_data(la_sen2_data, s251_year)
+    return sen2
+
+
+def pre_process_dsg(s251_year):
+    filename = dsg_filenames.get(s251_year)
+    if dsg_data := try_get_blob(raw_container, f"default/{s251_year}/{filename}"):
+        dsg = prepare_dsg_data(dsg_data)
+        logger.info(f"Preprocessed DSG data for {s251_year}")
+        return dsg
+    logger.info(f"DSG data for {s251_year} not found")
+    return None
+
+
+def pre_process_high_needs_places(s251_year):
+    filename = high_needs_places_filenames.get(s251_year)
+    if place_numbers_data := try_get_blob(
+        raw_container, f"default/{s251_year}/{filename}"
+    ):
+        high_needs_places = prepare_high_needs_places_data(
+            place_numbers_data, s251_year
+        )
+        logger.info(f"Preprocessed high needs places data for {s251_year}")
+        return high_needs_places
+    logger.info(f"High needs places data for {s251_year} not found")
     return None

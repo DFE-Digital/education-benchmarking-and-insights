@@ -25,8 +25,20 @@ from .census_workforce import (  # noqa
     workforce_census_index_col,
 )
 from .cfo import cfo, cfo_column_eval, cfo_column_mappings  # noqa
+from .dsg import dsg_filenames
 from .gias import gias, gias_index_col  # noqa
 from .high_exec_pay import high_exec_pay, high_exec_pay_column_mappings  # noqa
+from .high_needs_places import (
+    PRIMARY_PLACES_6K,
+    PRIMARY_PLACES_10K,
+    SECONDARY_PLACES_6K,
+    SECONDARY_PLACES_10K,
+    get_six_and_ten_k_cols,
+    high_needs_places_columns,
+    high_needs_places_filenames,
+    primary,
+    secondary,
+)
 from .ilr import (
     ilr_column_mappings,
     ilr_ehcp,
