@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Platform.Api.Insight.Features.Expenditure.Models;
 using Platform.Api.Insight.Shared;
 using Platform.Cache;
+using Platform.Domain;
 using Platform.Sql;
 using Platform.Sql.QueryBuilders;
 
@@ -71,6 +72,7 @@ public class ExpenditureService(IDatabaseFactory dbFactory, ICacheKeyFactory cac
         {
             builder
                 .WhereLaCodeEqual(laCode)
+                .WhereFinanceTypeEqual(FinanceType.Maintained)
                 .WhereOverallPhaseEqual(phase);
         }
         else

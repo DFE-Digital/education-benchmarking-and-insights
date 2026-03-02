@@ -57,12 +57,13 @@
           | Test academy school 94 | Academy converter | Islington              | 5.00           | 0.00                     | 1.00                              | 20.00            | 113.00   | 1.00              | 389.00      | 777056 | 36.00     | 41.00              |
 
     Scenario: Sending a valid school census query request with LA code and phase
-        Given a valid school census query request with LA code '205' and phase 'Secondary'
+        Given a valid school census query request with LA code '205' and phase 'Primary'
         When I submit the insights census request
         Then the census query result should be ok and contain:
-          | SchoolName             | SchoolType        | LAName                 | AuxiliaryStaff | NonClassroomSupportStaff | PercentTeacherWithQualifiedStatus | SeniorLeadership | Teachers | TeachingAssistant | TotalPupils | URN    | Workforce | WorkforceHeadcount |
-          | Test academy school 93 | Academy converter | Hammersmith and Fulham | 5.00           | 0.00                     | 1.00                              | 19.00            | 128.00   | 1.00              | 350.00      | 777055 | 45.00     | 58.00              |
-
+          | SchoolName      | SchoolType             | LAName                 | AuxiliaryStaff | NonClassroomSupportStaff | PercentTeacherWithQualifiedStatus | SeniorLeadership | Teachers | TeachingAssistant | TotalPupils | URN    | Workforce | WorkforceHeadcount |
+          | Test school 102 | Community school       | Hammersmith and Fulham | 5.00           | 0.00                     | 1.00                              | 19.00            | 128.00   | 1.00              | 350.00      | 777042 | 45.00     | 58.00              |
+          | Test school 240 | Voluntary aided school | Hammersmith and Fulham | 3.00           | 0.00                     | 1.00                              | 19.00            | 112.00   | 1.00              | 352.00      | 990183 | 37.00     | 41.00              |
+          
     Scenario: Sending a valid school average across comparator set census history request with dimension Total
         Given a school average across comparator set census history request with urn '990000' and dimension 'Total'
         When I submit the insights census request
