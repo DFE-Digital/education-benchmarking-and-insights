@@ -193,11 +193,11 @@ public class CompareYourCostsSteps(PageDriver driver)
         _schoolHomePage = await _comparisonPage.PressEnterKey();
     }
 
-    [Then("I am navigated to selected school home page with Trust name '(.*)'")]
-    public async Task ThenIAmNavigatedToSelectedSchoolHomePageWithTrustName(string trustName)
+    [Then("I am navigated to selected school home page")]
+    public async Task ThenIAmNavigatedToSelectedSchoolHomePage()
     {
         Assert.NotNull(_schoolHomePage);
-        await _schoolHomePage.IsDisplayed(trustName: trustName, isMissingRags: true);
+        await _schoolHomePage.IsDisplayed(isMissingRags: true);
     }
 
     [When("I click on display as Net")]
