@@ -71,7 +71,7 @@ export const section251Sections: BenchmarkChartSection251Section<LocalAuthorityS
     },
     {
       heading:
-        "High needs amount per pupil: place funding split by phase (for mainstream and type of institution (for specialist provision)",
+        "High needs amount per pupil: place funding split by phase (for mainstream) and type of institution (for specialist provision)",
       charts: [
         {
           name: "Primary place funding per pupil",
