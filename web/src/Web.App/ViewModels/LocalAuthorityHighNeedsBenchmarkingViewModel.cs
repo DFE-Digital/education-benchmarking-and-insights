@@ -7,7 +7,7 @@ public class LocalAuthorityHighNeedsBenchmarkingViewModel(LocalAuthority localAu
 {
     public string? Code => localAuthority.Code;
     public string? Name => localAuthority.Name;
-    public string? YearsLabel => $"Section 251 ({years.S251 - 1}/{years.S251})";
+    public string? YearsLabel => $"({years.S251 - 1}/{years.S251})";
 
     public string[] Comparators => comparators
         .Where(c => c != Code)
