@@ -275,7 +275,11 @@ def pre_process_maintained_schools_data(
         maintained_schools_data, year, **cfr_ancillary_data
     )
 
-    maintained_schools["OverCapacity"] = maintained_schools["SchoolCapacity"] < maintained_schools["Number of pupils"]
+    #maintained_schools["OverCapacity"] = maintained_schools["SchoolCapacity"] < maintained_schools["Number of pupils"]
+    maintained_schools["OverCapacity"] = maintained_schools["Number of pupils"] - maintained_schools["SchoolCapacity"]
+    maintained_schools["OverCapacity"] = maintained_schools["OverCapacity"].clip(lower=0)
+    maintained_schools["UnderCapacity"] = maintained_schools["SchoolCapacity"] - maintained_schools["Number of pupils"]
+    maintained_schools["UnderCapacity"] = maintained_schools["UnderCapacity"].clip(lower=0)
 
     write_blob(
         "pre-processed",
@@ -332,7 +336,12 @@ def pre_process_all_schools(run_type, run_id, data_ref):
     insert_trusts(run_type, run_id, academies)
     mask = academies.index.duplicated(keep=False) & ~academies["Valid To"].isna()
     academies = academies[~mask]
-    academies["OverCapacity"] = academies["SchoolCapacity"] < academies["Number of pupils"]
+    #academies["OverCapacity"] = academies["SchoolCapacity"] < academies["Number of pupils"]
+    academies["OverCapacity"] = academies["Number of pupils"] - academies["SchoolCapacity"]
+    academies["OverCapacity"] = academies["OverCapacity"].clip(lower=0)
+    academies["UnderCapacity"] = academies["SchoolCapacity"] - academies["Number of pupils"]
+    academies["UnderCapacity"] = academies["UnderCapacity"].clip(lower=0)
+
     # TODO: this overwrites the previous one inc. transitioning academies.
     write_blob(
         "pre-processed",
