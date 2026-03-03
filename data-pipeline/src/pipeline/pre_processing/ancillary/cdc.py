@@ -34,7 +34,7 @@ def prepare_cdc_data(cdc_file_path, current_year):
     cdc["BuildingCount"] = cdc.groupby("URN")["Building Age"].count().astype("Int64")
 
     cdc["OldestBuildingAge"] = (current_year - cdc["OldestBuilding"])
-    cdc["NewestBuildingAge"] = (current_year - cdc["NewestBuildingAge"])
+    cdc["NewestBuildingAge"] = (current_year - cdc["NewestBuilding"])
 
     cdc_generated = cdc[[
         *config.cdc_generated_columns,

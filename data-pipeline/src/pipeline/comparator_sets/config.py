@@ -51,6 +51,11 @@ class ColumnNames:
         "Percentage Primary Need ASD",
         "Percentage Primary Need OTH",
     ]
+    OVERCAPACITY = "OverCapacity",
+    UNDERCAPACITY = "UnderCapacity",
+    OLDESTBUILDINGAGE = "OldestBuildingAge",
+    NEWESTBUILDINGAGE = "NewestBuildingAge",
+    RURALSCORE = "RuralScore"
 
 
 cols_for_comparators_parquet = [
@@ -81,4 +86,9 @@ cols_for_comparators_parquet = [
     "Did Not Submit",
     "Pupil",
     "Building",
+    "OverCapacity",
+    "UnderCapacity",
+    "OldestBuildingAge",
+    "NewestBuildingAge",
+    "RuralScore"
 ]
