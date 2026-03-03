@@ -176,8 +176,12 @@ def patch_missing_sixth_form_data(
     :param gias_links: GIAS-links data for predecessor lookups
     :return: data with missing sixth-form data patched where possible
     """
-    sixth_form_schools = df[
-        df["SchoolPhaseType"].isin(
+    df_indexed = df
+    if "URN" in df.columns and df.index.name != "URN":
+        df_indexed = df.set_index("URN")
+
+    sixth_form_schools = df_indexed[
+        df_indexed["SchoolPhaseType"].isin(
             [
                 "Post-16",
                 "University Technical College",
@@ -185,7 +189,7 @@ def patch_missing_sixth_form_data(
         )
     ]
     logger.info(
-        f"{len(sixth_form_schools.index)} sixth-form orgs. in {len(df.index)} records."
+        f"{len(sixth_form_schools.index)} sixth-form orgs. in {len(df_indexed.index)} records."
     )
     sixth_form_schools = sixth_form_schools[
         (sixth_form_schools["Number of pupils"].isna())
@@ -202,5 +206,8 @@ def patch_missing_sixth_form_data(
         gias_links,
     )
     sixth_form_schools.update(ilr_linked.set_index("URN"), overwrite=False)
+    result = df_indexed.combine_first(sixth_form_schools)
 
-    return map_has_pupil_comparator_data(df.combine_first(sixth_form_schools))
+    result_with_comparator_suitability_flag = map_has_pupil_comparator_data(result)
+
+    return result_with_comparator_suitability_flag
