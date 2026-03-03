@@ -81,7 +81,7 @@ DSG funding breakdowns are reported per LA. Generally DSG breakdowns can be adde
 | DSGSENAcademyPlaceFunding | Special academies (Pre-16 SEN/Post-16 SEN/Pre-16 AP) + Special free schools (Pre-16 SEN/Post-16 SEN/Pre-16 AP) | OutturnPlaceFundingSpecial |
 | DSGPrimaryAcademyPlaceFunding | Mainstream academies (Pre-16 SEN@6k/Pre-16 SEN@10k/Post-16 SEN/Pre-16 AP) * Primary place ratio from high needs places | OutturnPlaceFundingPrimary |
 | DSGSecondaryAcademyPlaceFunding |  Mainstream academies (Pre-16 SEN@6k/Pre-16 SEN@10k/Post-16 SEN/Pre-16 AP) * Secondary place ratio from high needs places | OutturnPlaceFundingSecondary |
-|  | (sum all fields above) | OutturnTotalPlaceFunding |
+|  | DSGAPAcademyPlaceFunding + DSGSENAcademyPlaceFunding | OutturnTotalPlaceFunding |
 
 ### Data Source
 

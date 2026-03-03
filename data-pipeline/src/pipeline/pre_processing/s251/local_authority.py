@@ -183,14 +183,6 @@ def _calculate_dsg_recoupments(
         dsg_with_place_numbers, left_on="old_la_code", right_index=True, how="left"
     )
 
-    dsg_breakdown_cols = [
-        "DSGPrimaryAcademyPlaceFunding",
-        "DSGSecondaryAcademyPlaceFunding",
-        "DSGSENAcademyPlaceFunding",
-        "DSGAPAcademyPlaceFunding",
-        "DSGNurseryPlaceFunding",
-        "DSGHospitalPlaceFunding",
-    ]
     # Overwritten in place
     las_with_recoupments["OutturnPlaceFundingPrimary"] += las_with_recoupments[
         "DSGPrimaryAcademyPlaceFunding"
@@ -208,7 +200,7 @@ def _calculate_dsg_recoupments(
         "DSGHospitalPlaceFunding"
     ]
     las_with_recoupments["OutturnTotalPlaceFunding"] += las_with_recoupments[
-        dsg_breakdown_cols
+        ["DSGSENAcademyPlaceFunding", "DSGAPAcademyPlaceFunding"]
     ].sum(axis=1)
 
     return las_with_recoupments
