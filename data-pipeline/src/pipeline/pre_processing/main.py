@@ -30,12 +30,17 @@ from .ancillary.main import (
     pre_process_central_services,
     pre_process_cfo,
     pre_process_combined_gias,
+    pre_process_dsg,
     pre_process_gias_links,
     pre_process_high_exec_pay,
+    pre_process_high_needs_places,
     pre_process_ilr_data,
     pre_process_ks2,
     pre_process_ks4,
+    pre_process_la_statistical_neighbours,
+    pre_process_ons_population_estimates,
     pre_process_sen,
+    pre_process_sen2,
 )
 from .bfr.trusts import build_bfr_data, build_bfr_historical_data
 from .cfr.maintained_schools import build_maintained_school_data
@@ -536,39 +541,14 @@ def pre_process_local_authorities(year: int, run_id: str, all_schools: pd.DataFr
         f"default/{year}/s251_alleducation_la_regional_national.csv",
     )
 
-    logger.info(
-        f"Reading LA statistical neighbours: default/{year}/High-needs-local-authority-benchmarking-tool.xlsm"
-    )
-    la_statistical_neighbours_data = get_blob(
-        raw_container,
-        f"default/{year}/High-needs-local-authority-benchmarking-tool.xlsm",
-    )
-
-    logger.info(
-        f"Reading ONS LA population data: default/{year}/2018 SNPP Population persons.csv"
-    )
-    la_ons_data = get_blob(
-        raw_container,
-        f"default/{year}/2018 SNPP Population persons.csv",
-    )
-
-    logger.info(
-        f"Reading LA SEN2 ECHP plan data: default/{year}/sen2_estab_caseload.csv"
-    )
-    la_sen2_data = get_blob(
-        raw_container,
-        f"default/{year}/sen2_estab_caseload.csv",
-    )
-
     logger.info("Processing Local Authority data.")
+    local_authorities_ancillary_data = get_s251_ancillary_data(run_id, year)
     local_authorities = build_local_authorities(
         la_expenditure_data,
         la_outturn_data,
-        la_statistical_neighbours_data,
-        la_ons_data,
-        la_sen2_data,
-        all_schools,
-        year,
+        **local_authorities_ancillary_data,
+        all_schools=all_schools,
+        year=year,
     )
     logger.info(
         f"Local Authorities preprocessed' {year=} shape: {local_authorities.shape}"
@@ -595,6 +575,24 @@ def pre_process_local_authorities(year: int, run_id: str, all_schools: pd.DataFr
         run_id=run_id,
         df=local_authorities,
     )
+
+
+def get_s251_ancillary_data(
+    run_id: str,
+    s251_year: int,
+) -> dict[str, pd.DataFrame | None]:
+    s251_ancillary_data = {
+        "la_statistical_neighbours": pre_process_la_statistical_neighbours(
+            s251_year, run_id
+        ),
+        "ons_population_estimates": pre_process_ons_population_estimates(
+            s251_year, run_id
+        ),
+        "sen2": pre_process_sen2(s251_year, run_id),
+        "place_numbers": pre_process_high_needs_places(s251_year),
+        "dsg": pre_process_dsg(s251_year),
+    }
+    return s251_ancillary_data
 
 
 def get_aar_ancillary_data(

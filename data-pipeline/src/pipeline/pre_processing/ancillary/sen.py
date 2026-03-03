@@ -3,9 +3,9 @@ import logging
 import pandas as pd
 
 import pipeline.config as config
-import pipeline.input_schemas as input_schemas
+from pipeline import input_schemas
 
-logger = logging.getLogger("fbit-data-pipeline")
+logger = logging.getLogger(__name__)
 
 
 def prepare_sen_data(sen_path):

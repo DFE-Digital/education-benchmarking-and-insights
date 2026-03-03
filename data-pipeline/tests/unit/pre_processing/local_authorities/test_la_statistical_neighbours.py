@@ -2,8 +2,8 @@ import io
 
 import pytest
 
-from pipeline.pre_processing.s251.local_authority import (
-    _prepare_la_statistical_neighbours,
+from pipeline.pre_processing.ancillary.la_statistical_neighbours import (
+    prepare_la_statistical_neighbours,
 )
 
 
@@ -116,28 +116,28 @@ def expected_la_2_values():
 
 
 def test_prepare_la_statistical_neighbours(
-    la_statistical_neighbours: io.StringIO, expected_columns: list
+    la_statistical_neighbours_io: io.StringIO, expected_columns: list
 ):
     """
     contains correct column names in output
     (column names ingested contain duplicates ensure these are mapped correctly)
     """
-    result = _prepare_la_statistical_neighbours(la_statistical_neighbours, 2022)
+    result = prepare_la_statistical_neighbours(la_statistical_neighbours_io, 2022)
     assert list(result.columns) == expected_columns
 
 
 def test_prepare_la_statistical_neighbours_has_correct_index(
-    la_statistical_neighbours: io.StringIO,
+    la_statistical_neighbours_io: io.StringIO,
 ):
     """
     contains correct index
     """
-    result = _prepare_la_statistical_neighbours(la_statistical_neighbours, 2022)
+    result = prepare_la_statistical_neighbours(la_statistical_neighbours_io, 2022)
     assert result.index.name == "LA number"
 
 
 def test_prepare_la_statistical_neighbours_has_correct_values(
-    la_statistical_neighbours: io.StringIO,
+    la_statistical_neighbours_io: io.StringIO,
     expected_columns: list,
     expected_la_1_values: list,
     expected_la_2_values: list,
@@ -145,6 +145,6 @@ def test_prepare_la_statistical_neighbours_has_correct_values(
     """
     contains correct values in output
     """
-    result = _prepare_la_statistical_neighbours(la_statistical_neighbours, 2022)
+    result = prepare_la_statistical_neighbours(la_statistical_neighbours_io, 2022)
     assert result.loc[101, expected_columns].tolist() == expected_la_1_values
     assert result.loc[102, expected_columns].tolist() == expected_la_2_values
