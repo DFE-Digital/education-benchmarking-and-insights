@@ -2,6 +2,8 @@ import pandas as pd
 
 import pipeline.config as config
 import pipeline.input_schemas as input_schemas
+from pipeline.pre_processing.ancillary.ilr import patch_missing_sixth_form_data
+from pipeline.pre_processing.common import total_per_unit
 
 from ..common.part_year import (
     map_has_building_comparator_data,
@@ -22,8 +24,6 @@ from .calculations import (
     map_submission_attrs,
 )
 from .part_year import map_has_financial_data
-from pipeline.pre_processing.ancillary.ilr import patch_missing_sixth_form_data
-from pipeline.pre_processing.common import total_per_unit
 
 
 def build_maintained_school_data(

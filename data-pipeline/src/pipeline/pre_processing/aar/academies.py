@@ -15,13 +15,12 @@ from pipeline.pre_processing.aar.rollup_assertions import (
     test_trust_rollup,
 )
 from pipeline.pre_processing.ancillary import gias as gias_preprocessing
-from pipeline.pre_processing.common import mappings
+from pipeline.pre_processing.ancillary.ilr import patch_missing_sixth_form_data
+from pipeline.pre_processing.common import mappings, total_per_unit
 from pipeline.pre_processing.common.part_year import (
     map_has_building_comparator_data,
     map_has_pupil_comparator_data,
 )
-from pipeline.pre_processing.ancillary.ilr import patch_missing_sixth_form_data
-from pipeline.pre_processing.common import total_per_unit
 
 simplefilter(action="ignore", category=pd.errors.PerformanceWarning)
 simplefilter(action="ignore", category=FutureWarning)
@@ -300,7 +299,7 @@ def build_academy_data(
     if ilr is not None:
         assert gias_links is not None
         academies = patch_missing_sixth_form_data(academies, ilr, gias_links)
-        
+
     academies["Finance Type"] = "Academy"
     academies["Did Not Submit"] = False
 
