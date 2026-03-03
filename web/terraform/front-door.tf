@@ -304,38 +304,7 @@ resource "azurerm_cdn_frontdoor_firewall_policy" "web-app-front-door-waf" {
           action  = "AnomalyScoring"
           enabled = false
         }
-      }
 
-      override {
-        rule_group_name = "RFI"
-        rule {
-          rule_id = "931130"
-          action  = "AnomalyScoring"
-          enabled = true
-          exclusion {
-            match_variable = "RequestBodyPostArgNames"
-            operator       = "Equals"
-            selector       = "iss"
-          }
-        }
-      }
-
-      override {
-        rule_group_name = "PHP"
-        rule {
-          rule_id = "933210"
-          action  = "AnomalyScoring"
-          enabled = true
-          exclusion {
-            match_variable = "RequestBodyPostArgNames"
-            operator       = "Contains"
-            selector       = "Term"
-          }
-        }
-      }
-      
-      override {
-        rule_group_name = "SQLI"
         rule {
           rule_id = "942200"
           action  = "AnomalyScoring"
@@ -364,6 +333,34 @@ resource "azurerm_cdn_frontdoor_firewall_policy" "web-app-front-door-waf" {
             match_variable = "QueryStringArgNames"
             operator       = "Contains"
             selector       = "search"
+          }
+        }
+      }
+
+      override {
+        rule_group_name = "RFI"
+        rule {
+          rule_id = "931130"
+          action  = "AnomalyScoring"
+          enabled = true
+          exclusion {
+            match_variable = "RequestBodyPostArgNames"
+            operator       = "Equals"
+            selector       = "iss"
+          }
+        }
+      }
+
+      override {
+        rule_group_name = "PHP"
+        rule {
+          rule_id = "933210"
+          action  = "AnomalyScoring"
+          enabled = true
+          exclusion {
+            match_variable = "RequestBodyPostArgNames"
+            operator       = "Contains"
+            selector       = "Term"
           }
         }
       }
