@@ -333,6 +333,40 @@ resource "azurerm_cdn_frontdoor_firewall_policy" "web-app-front-door-waf" {
           }
         }
       }
+      
+      override {
+        rule_group_name = "SQLI"
+        rule {
+          rule_id = "942200"
+          action  = "AnomalyScoring"
+          enabled = true
+          exclusion {
+            match_variable = "RequestBodyPostArgNames"
+            operator       = "Contains"
+            selector       = "term"
+          }
+          exclusion {
+            match_variable = "RequestBodyPostArgNames"
+            operator       = "Contains"
+            selector       = "search"
+          }
+          exclusion {
+            match_variable = "RequestBodyPostArgNames"
+            operator       = "Contains"
+            selector       = "Term"
+          }
+          exclusion {
+            match_variable = "QueryStringArgNames"
+            operator       = "Contains"
+            selector       = "term"
+          }
+          exclusion {
+            match_variable = "QueryStringArgNames"
+            operator       = "Contains"
+            selector       = "search"
+          }
+        }
+      }
     }
   }
 
