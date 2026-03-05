@@ -22,6 +22,7 @@ export const section251Sections: BenchmarkChartSection251Section<LocalAuthorityS
           field: "highNeedsAmountTotalPlaceFunding",
           sourceInfo: {
             lineCodes: ["1.0.2"],
+            additionalInfo: SourceInfoModes.Glossary,
           },
         },
         {
