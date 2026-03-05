@@ -1,27 +1,33 @@
 # Set Sizes
-BASE_SET_SIZE = 60
-#BASE_SET_SIZE = 100
+#BASE_SET_SIZE = 60
+BASE_SET_SIZE = 120
 FINAL_SET_SIZE = 30
 
 # Pupil Calculation Weights (Non-Special)
-PUPILS_WEIGHT = 0.5
-FSM_WEIGHT = 0.4
-SEN_WEIGHT = 0.1
-#PUPILS_WEIGHT = 0.55
-#FSM_WEIGHT = 0.3
-#SEN_WEIGHT = 0.15
+#PUPILS_WEIGHT = 0.5
+#FSM_WEIGHT = 0.4
+#SEN_WEIGHT = 0.1
+PUPILS_WEIGHT = 1/6
+FSM_WEIGHT = 1/6
+SEN_WEIGHT = 1/6
+OVERCAPACITY_WEIGHT = 1/6
+UNDERCAPACITY_WEIGHT = 1/6
+RURALSCORE_WEIGHT = 1/6
 
 # Pupil Calculation Weights (Special)
-SPECIAL_PUPILS_WEIGHT = 0.6
-SPECIAL_FSM_WEIGHT = 0.4
-#SPECIAL_PUPILS_WEIGHT = 0.55
-#SPECIAL_FSM_WEIGHT = 0.45
+#SPECIAL_PUPILS_WEIGHT = 0.6
+#SPECIAL_FSM_WEIGHT = 0.4
+SPECIAL_PUPILS_WEIGHT = 1/2
+SPECIAL_FSM_WEIGHT = 1/2
 
 # Building Calculation Weights
-GIFA_WEIGHT = 0.8
-AGE_WEIGHT = 0.2
-#GIFA_WEIGHT = 0.75
-#AGE_WEIGHT = 0.25
+#GIFA_WEIGHT = 0.8
+#AGE_WEIGHT = 0.2
+GIFA_WEIGHT = 1/5
+AGE_WEIGHT = 1/5
+OLDESTBUILDINGAGE_WEIGHT = 1/5
+NEWESTBUILDINGAGE_WEIGHT = 1/5
+BUILDINGCOUNT_WEIGHT = 1/5
 
 class ColumnNames:
     URN = "URN"
@@ -51,10 +57,11 @@ class ColumnNames:
         "Percentage Primary Need ASD",
         "Percentage Primary Need OTH",
     ]
-    OVERCAPACITY = "OverCapacity",
-    UNDERCAPACITY = "UnderCapacity",
-    OLDESTBUILDINGAGE = "OldestBuildingAge",
-    NEWESTBUILDINGAGE = "NewestBuildingAge",
+    OVERCAPACITY = "OverCapacity"
+    UNDERCAPACITY = "UnderCapacity"
+    OLDESTBUILDINGAGE = "OldestBuildingAge"
+    NEWESTBUILDINGAGE = "NewestBuildingAge"
+    BUILDINGCOUNT = "BuildingCount"
     RURALSCORE = "RuralScore"
 
 
@@ -90,5 +97,6 @@ cols_for_comparators_parquet = [
     "UnderCapacity",
     "OldestBuildingAge",
     "NewestBuildingAge",
+    "BuildingCount",
     "RuralScore"
 ]

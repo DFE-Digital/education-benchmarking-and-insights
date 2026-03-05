@@ -30,6 +30,12 @@ def prepare_data(data: pd.DataFrame) -> pd.DataFrame:
         ColumnNames.SEN,
         ColumnNames.GIFA,
         ColumnNames.AGE_SCORE,
+        ColumnNames.OLDESTBUILDINGAGE,
+        ColumnNames.NEWESTBUILDINGAGE,
+        ColumnNames.BUILDINGCOUNT,
+        ColumnNames.OVERCAPACITY,
+        ColumnNames.UNDERCAPACITY,
+        ColumnNames.RURALSCORE
     ] + ColumnNames.SEN_NEEDS
 
     for col in cols_to_fill:
@@ -97,6 +103,9 @@ class ComparatorCalculator:
                 ColumnNames.PUPILS: PUPILS_WEIGHT,
                 ColumnNames.FSM: FSM_WEIGHT,
                 ColumnNames.SEN: SEN_WEIGHT,
+                ColumnNames.OVERCAPACITY: OVERCAPACITY_WEIGHT, 
+                ColumnNames.UNDERCAPACITY: UNDERCAPACITY_WEIGHT,
+                ColumnNames.RURALSCORE: RURALSCORE_WEIGHT
             }
             return self._compute_weighted_distance(group_data, standard_metrics)
 
@@ -105,6 +114,9 @@ class ComparatorCalculator:
         metrics = {
             ColumnNames.GIFA: GIFA_WEIGHT,
             ColumnNames.AGE_SCORE: AGE_WEIGHT,
+            ColumnNames.OLDESTBUILDINGAGE: OLDESTBUILDINGAGE_WEIGHT,
+            ColumnNames.NEWESTBUILDINGAGE: NEWESTBUILDINGAGE_WEIGHT,
+            ColumnNames.BUILDINGCOUNT: BUILDINGCOUNT_WEIGHT
         }
         return self._compute_weighted_distance(group_data, metrics)
 
