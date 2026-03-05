@@ -15,7 +15,7 @@
     "cookie-parser": "^1.4.7",
     "dotenv": "^17.3.1",
     "express": "^5.1.0",
-    "govuk-frontend": "^5.13.0",
+    "govuk-frontend": "^6.1.0",
     "govuk-prototype-kit": "^13.19.0"
   },
   "devDependencies": {
