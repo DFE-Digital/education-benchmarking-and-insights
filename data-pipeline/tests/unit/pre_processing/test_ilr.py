@@ -35,6 +35,7 @@ def _add_extraneous_columns(count: int) -> dict:
 def df_with_missing():
     return pd.DataFrame(
         {
+            "URN": [101, 102, 103, 104, 105, 106],
             "SchoolPhaseType": [
                 "Primary",
                 "Post-16",
@@ -48,7 +49,6 @@ def df_with_missing():
             "Percentage SEN": [2.0, 3.5, pd.NA, pd.NA, 4.0, 1.0],
         }
         | _add_extraneous_columns(6),
-        index=pd.Index([101, 102, 103, 104, 105, 106], name="URN"),
     )
 
 
@@ -77,7 +77,7 @@ def gias_links_empty():
 
 
 def test_no_missing_sixth_form_data(df_with_missing, ilr_data, gias_links_empty):
-    df_no_missing = df_with_missing.copy()
+    df_no_missing = df_with_missing.copy().set_index("URN")
     df_no_missing.loc[
         102, ["Number of pupils", "Percentage Free school meals", "Percentage SEN"]
     ] = [150, 12.0, 2.5]
@@ -88,7 +88,7 @@ def test_no_missing_sixth_form_data(df_with_missing, ilr_data, gias_links_empty)
         105, ["Number of pupils", "Percentage Free school meals", "Percentage SEN"]
     ] = [210, 22.0, 4.5]
 
-    initial = df_no_missing.copy()
+    initial = df_no_missing.reset_index().copy()
     result = ilr.patch_missing_sixth_form_data(initial, ilr_data, gias_links_empty)
 
     pd.testing.assert_frame_equal(result[initial.columns], initial)
@@ -97,14 +97,14 @@ def test_no_missing_sixth_form_data(df_with_missing, ilr_data, gias_links_empty)
 def test_patching_missing_number_of_pupils(df_with_missing, ilr_data, gias_links_empty):
     df = df_with_missing.copy()
 
-    expected = df_with_missing.copy()
+    expected = df_with_missing.copy().set_index("URN")
     expected.loc[102, "Number of pupils"] = 150
     expected.loc[102, "Percentage Free school meals"] = 12.0
     expected.loc[104, "Number of pupils"] = 250
     expected.loc[104, "Percentage SEN"] = 3.0
     expected.loc[105, "Percentage Free school meals"] = 22.0
 
-    result = ilr.patch_missing_sixth_form_data(df, ilr_data, gias_links_empty)
+    result = ilr.patch_missing_sixth_form_data(df, ilr_data, gias_links_empty).set_index("URN")
 
     assert result.loc[102, "Number of pupils"] == 150
     assert result.loc[104, "Number of pupils"] == 250
@@ -121,9 +121,9 @@ def test_ilr_data_not_affecting_non_sixth_form_schools(
     df_with_missing, ilr_data, gias_links_empty
 ):
     df = df_with_missing.copy()
-    initial = df_with_missing.copy()
+    initial = df_with_missing.copy().set_index("URN")
 
-    result = ilr.patch_missing_sixth_form_data(df, ilr_data, gias_links_empty)
+    result = ilr.patch_missing_sixth_form_data(df, ilr_data, gias_links_empty).set_index("URN")
 
     pd.testing.assert_series_equal(result.loc[101][initial.columns], initial.loc[101])
     pd.testing.assert_series_equal(result.loc[106][initial.columns], initial.loc[106])
@@ -133,9 +133,9 @@ def test_ilr_data_not_affecting_non_sixth_form_schools(
 def test_no_ilr_match_for_missing_data(df_with_missing, ilr_data, gias_links_empty):
     df = df_with_missing.copy()
     empty_ilr = pd.DataFrame(columns=ilr_data.columns)  # Use fixture to get columns
-    initial = df.copy()
+    initial = df.copy().set_index("URN")
 
-    result = ilr.patch_missing_sixth_form_data(df, empty_ilr, gias_links_empty)
+    result = ilr.patch_missing_sixth_form_data(df, empty_ilr, gias_links_empty).set_index("URN")
 
     assert pd.isna(result.loc[102, "Number of pupils"])
     assert pd.isna(result.loc[104, "Number of pupils"])
