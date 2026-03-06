@@ -22,7 +22,6 @@ from pipeline.utils.storage import get_blob, raw_container, try_get_blob, write_
 from .aar.academies import build_academy_data, map_academy_data
 from .aar.trusts import build_trust_data
 from .ancillary.custom_data import update_custom_data
-from .ancillary.ilr import patch_missing_sixth_form_data
 from .ancillary.main import (
     pre_process_academy_ar,
     pre_process_cdc,
@@ -44,7 +43,6 @@ from .ancillary.main import (
 )
 from .bfr.trusts import build_bfr_data, build_bfr_historical_data
 from .cfr.maintained_schools import build_maintained_school_data
-from .common import total_per_unit
 from .s251.local_authority import build_local_authorities
 
 logger = setup_logger(__name__)
@@ -102,26 +100,6 @@ def pre_process_data(
     stats_collector.collect_cfr_la_maintained_school_counts(
         maintained_schools, cfr_year
     )
-
-    if academies_data_ref["ilr"] is not None:
-        # The assert here is to satisfy type checking - gias_links should never be None
-        assert academies_data_ref["gias_links"] is not None
-        academies = patch_missing_sixth_form_data(
-            academies,
-            academies_data_ref["ilr"],
-            academies_data_ref["gias_links"],
-        )
-        academies = total_per_unit.calculate_total_per_unit_costs(academies)
-
-    if maintained_data_ref["ilr"] is not None:
-        maintained_schools = patch_missing_sixth_form_data(
-            maintained_schools,
-            maintained_data_ref["ilr"],
-            maintained_data_ref["gias_links"],
-        )
-        maintained_schools = total_per_unit.calculate_total_per_unit_costs(
-            maintained_schools
-        )
 
     trusts = pre_process_trust_data(
         run_type,

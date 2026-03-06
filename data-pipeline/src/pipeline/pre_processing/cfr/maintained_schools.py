@@ -2,6 +2,8 @@ import pandas as pd
 
 import pipeline.config as config
 import pipeline.input_schemas as input_schemas
+from pipeline.pre_processing.ancillary.ilr import patch_missing_sixth_form_data
+from pipeline.pre_processing.common import total_per_unit
 
 from ..common.part_year import (
     map_has_building_comparator_data,
@@ -96,5 +98,13 @@ def build_maintained_school_data(
     maintained_schools = map_has_financial_data(maintained_schools)
     maintained_schools = map_has_pupil_comparator_data(maintained_schools)
     maintained_schools = map_has_building_comparator_data(maintained_schools)
+
+    if ilr is not None:
+        maintained_schools = patch_missing_sixth_form_data(
+            maintained_schools, ilr, gias_links
+        )
+        maintained_schools = total_per_unit.calculate_total_per_unit_costs(
+            maintained_schools
+        )
 
     return maintained_schools.set_index("URN")
