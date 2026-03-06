@@ -2,84 +2,83 @@
 
 ## Context and Problem Statement
 
-Our automated end‑to‑end tests interact with services protected by Multi‑Factor Authentication (MFA). MFA blocks automation, and we need a reliable, maintainable, and cost‑effective approach to handle MFA within our Azure DevOps CI/CD pipeline.
+Our automated end‑to‑end tests require authentication through DfE Sign‑in, which enforces Multi‑Factor Authentication (MFA). MFA blocks automation unless we adopt a strategy to either bypass MFA or automate the retrieval of MFA codes.
 
-This ADR is about Should we implement the known, feasible mock/bypass MFA solution, or invest time in researching alternative email‑based MFA solutions that require significant R&D, engineering effort, and their feasibility within our pipeline?
+We currently have one known, feasible option (mock/bypass MFA), and two alternative email‑based MFA approaches that may offer more realistic behaviour but require R&D, engineering effort, and integration work.
 
 ## Decision Drivers
 
 * Must work reliably in Azure DevOps pipelines using Microsoft‑hosted agents
-* Minimise engineering effort and avoid unnecessary test rework
-* Delivery timelines and available team capacity
+* Engineering effort required in R&D and implementation
+* Test rework and impact on existing automation
 * Cost and licensing implications
-* Security and compliance considerations
-* Uncertainty and risk associated with unproven approaches
 * Reliability and stability of automated tests
+* Uncertainty and risk associated with unproven approaches
 
-## Considered Approaches
+## Considered Options
 
-### Email‑Based MFA Solutions (Graph API & Mailosaur)
-
-This category includes:
-
-* Microsoft Graph API with a dedicated mailbox
-* Mailosaur (paid service)
-
-These solutions rely on retrieving MFA codes from email inboxes.
-
-#### Trade‑offs and uncertainties
-
-* **R&D effort:** Both options require substantial investigation to confirm feasibility on Microsoft‑hosted Azure DevOps agents.
-* **Pipeline integration complexity:** Email polling, API authentication, and message retrieval must be proven to work reliably in hosted agents.
-* **Test rework:** Existing tests would need to be redesigned to incorporate email‑based MFA flows.
-* **Implementation impact:** Additional infrastructure, configuration, and error‑handling logic would be required.
-* **Cost:** Mailosaur introduces ongoing subscription costs.
-* **Operational risk:** External dependencies (Mailosaur) or mailbox throttling/permissions (Graph API) may introduce instability.
-* **Uncertain outcome:** After investing time and effort, these solutions may still prove incompatible or too costly to maintain.
-
-### Mock/Bypass DfE Sign‑in MFA (Known Option)
-
-A controlled bypass of MFA for automated tests, while retaining real MFA validation in manual smoke tests.
-
-This is the approach we fully understand today, and it is known to be feasible within our decision drivers.
+* **Option 1: Mock/Bypass DfE Sign‑in MFA**
+* **Option 2: Email‑Based MFA Handling**
 
 ## Decision Outcome
 
-We will proceed with implementing the mock/bypass MFA solution.
-
-This decision is based on the following:
-
-* It is the only option with known feasibility.
-* It requires minimal engineering effort and avoids major test rework.
-* It has no additional cost and no external dependencies.
-* It allows us to deliver automated tests within current timelines.
-* The alternative options carry significant uncertainty, R&D cost, implementation impact, and risk.
-
-Given these trade‑offs, Mock/Bypass DfE Sign‑in MFA provides the best balance of reliability, effort, and predictability.
+{add outcomes here}
 
 ### Consequences
 
-Pros:
-
-* Fastest path to unblock automated testing
-* Minimal implementation effort
-* No dependency on external services or mailbox infrastructure
-* Predictable and stable behaviour in CI/CD
-* No additional licensing or subscription costs
-
-Cons:
-
-* Does not provide true end‑to‑end MFA coverage
-* Real MFA behaviour will need to be validated through manual smoke tests
+{add reasoning here}
 
 ## Validation
 
-This ADR will be validated through:
+Validation will occur through:
 
-* Successful implementation of the mock/bypass MFA mechanism
-* Automated tests running reliably in Azure DevOps pipelines
+* Successful execution of automated tests in Azure DevOps pipelines
+* Code review of the implemented MFA handling approach
 * Periodic review to ensure compatibility with DSI and pipeline changes
 
-## More Information
+## Comparison Table Based on Decision Drivers
 
-This decision should be revisited if the chosen solution becomes insufficient for future requirements.
+| Decision Driver | Option 1: Mock/Bypass MFA | Option 2: Email‑Based MFA (Graph API / Mailosaur) |
+|-----------------|----------------------------|---------------------------------------------------|
+| **Azure DevOps Hosted Agent Compatibility** | Known to work | Unconfirmed; requires R&D |
+| **Engineering Effort** | Low | High |
+| **Test Rework Required** | Minimal | Significant (email‑based flows) |
+| **Implementation Complexity** | Low | Medium–High |
+| **Cost** | None | Mailosaur subscription; mailbox licensing |
+| **Reliability in CI/CD** | High | Unknown until validated |
+| **Risk/Uncertainty** | Low | High |
+| **Long‑Term Maintainability** | High | Depends on chosen service and integration |
+
+## Pros and Cons of the Options
+
+### Option 1: Mock/Bypass DfE Sign‑in MFA
+
+A controlled bypass of MFA for automated tests, while retaining real MFA validation in manual smoke tests.
+
+* Good, because it is a known, feasible solution that works with Microsoft‑hosted agents
+* Good, because it requires minimal engineering effort
+* Good, because it avoids test rework and integrates cleanly with existing flows
+* Good, because it has no external dependencies
+* Good, because it provides stable and predictable behaviour in CI/CD
+* Neutral, because manual smoke tests will still validate real MFA behaviour
+* Bad, because it does not provide true end‑to‑end MFA coverage
+* Bad, because differences from production behaviour may require ongoing manual checks
+
+### Option 2: Email‑Based MFA Handling (Graph API or Mailosaur)
+
+This includes:
+* Microsoft Graph API with a dedicated mailbox
+* Mailosaur (paid service)
+
+Both approaches retrieve MFA codes from email inboxes.
+
+* Good, because they provide more realistic MFA handling
+* Good, because they could reduce reliance on manual smoke tests
+* Good, because they align more closely with real‑world authentication flows
+* Neutral, because long‑term benefits depend on feasibility and stability
+* Bad, because feasibility on Microsoft‑hosted Azure DevOps agents is unconfirmed
+* Bad, because they require significant R&D effort to validate
+* Bad, because they may require substantial test rework
+* Bad, because they introduce implementation complexity (API auth, error handling)
+* Bad, because Mailosaur subscription cost is changed
+* Bad, because Graph API introduces changes which requires rework
