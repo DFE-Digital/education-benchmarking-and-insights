@@ -67,6 +67,7 @@ A controlled bypass of MFA for automated tests, while retaining real MFA validat
 ### Option 2: Email‑Based MFA Handling (Graph API or Mailosaur)
 
 This includes:
+
 * Microsoft Graph API with a dedicated mailbox
 * Mailosaur (paid service)
 
