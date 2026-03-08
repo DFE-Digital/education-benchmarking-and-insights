@@ -187,6 +187,12 @@ class ComparatorCalculator:
         pupil_distances = self._compute_pupils_distance(phase, group)
         building_distances = self._compute_buildings_distance(group)
 
+        group.to_csv(f"/Users/benmurch/Documents/debug_{phase}_group.csv")  # Debugging output
+        pupil_distances_df = pd.DataFrame(pupil_distances, index=group.index)
+        pupil_distances_df.to_csv(f"/Users/benmurch/Documents/debug_{phase}_pupil_distances.csv")  # Debugging output
+        building_distances_df = pd.DataFrame(building_distances, index=group.index)
+        building_distances_df.to_csv(f"/Users/benmurch/Documents/debug_{phase}_building_distances.csv")  # Debugging output
+
         pupil_include_mask = (
             ~np.array(group[ColumnNames.PARTIAL_YEARS])
             & ~np.array(group[ColumnNames.DID_NOT_SUBMIT])

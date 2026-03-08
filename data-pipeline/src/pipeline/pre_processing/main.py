@@ -276,19 +276,19 @@ def pre_process_maintained_schools_data(
     )
 
     #maintained_schools["OverCapacity"] = maintained_schools["SchoolCapacity"] < maintained_schools["Number of pupils"]
-    maintained_schools["OverCapacity"] = maintained_schools["Number of pupils"] - maintained_schools["SchoolCapacity"]
-    maintained_schools["OverCapacity"] = maintained_schools["OverCapacity"].clip(lower=0).fillna(0)
-    maintained_schools["UnderCapacity"] = maintained_schools["SchoolCapacity"] - maintained_schools["Number of pupils"]
-    maintained_schools["UnderCapacity"] = maintained_schools["UnderCapacity"].clip(lower=0).fillna(0)
+    maintained_schools.iloc[:,"OverCapacity"] = maintained_schools.iloc[:,"Number of pupils"] - maintained_schools.iloc[:,"SchoolCapacity"]
+    maintained_schools.iloc[:,"OverCapacity"] = maintained_schools.iloc[:,"OverCapacity"].clip(lower=0).fillna(0)
+    maintained_schools.iloc[:,"UnderCapacity"] = maintained_schools.iloc[:,"SchoolCapacity"] - maintained_schools.iloc[:,"Number of pupils"]
+    maintained_schools.iloc[:,"UnderCapacity"] = maintained_schools.iloc[:,"UnderCapacity"].clip(lower=0).fillna(0)
 
-    maintained_schools["RuralScore"] = 0
-    maintained_schools["RuralScore"] = maintained_schools["RuralScore"].case_when([
-        (maintained_schools["UrbanRural (code)"] == "UN1", 0.0),
-        (maintained_schools["UrbanRural (code)"] == "UF1", 0.2),
-        (maintained_schools["UrbanRural (code)"] == "RLN1", 0.4),
-        (maintained_schools["UrbanRural (code)"] == "RSF1", 0.6),
-        (maintained_schools["UrbanRural (code)"] == "RSN1", 0.8),
-        (maintained_schools["UrbanRural (code)"] == "RSF1", 1.0)]
+    maintained_schools.iloc[:,"RuralScore"] = 0
+    maintained_schools.iloc[:,"RuralScore"] = maintained_schools.iloc[:,"RuralScore"].case_when([
+        (maintained_schools.iloc[:,"UrbanRural (code)"] == "UN1", 0.0),
+        (maintained_schools.iloc[:,"UrbanRural (code)"] == "UF1", 0.2),
+        (maintained_schools.iloc[:,"UrbanRural (code)"] == "RLN1", 0.4),
+        (maintained_schools.iloc[:,"UrbanRural (code)"] == "RSF1", 0.6),
+        (maintained_schools.iloc[:,"UrbanRural (code)"] == "RSN1", 0.8),
+        (maintained_schools.iloc[:,"UrbanRural (code)"] == "RSF1", 1.0)]
     ).astype(float)
 
     write_blob(
@@ -347,19 +347,19 @@ def pre_process_all_schools(run_type, run_id, data_ref):
     mask = academies.index.duplicated(keep=False) & ~academies["Valid To"].isna()
     academies = academies[~mask]
     #academies["OverCapacity"] = academies["SchoolCapacity"] < academies["Number of pupils"]
-    academies["OverCapacity"] = academies["Number of pupils"] - academies["SchoolCapacity"]
-    academies["OverCapacity"] = academies["OverCapacity"].clip(lower=0).fillna(0)
-    academies["UnderCapacity"] = academies["SchoolCapacity"] - academies["Number of pupils"]
-    academies["UnderCapacity"] = academies["UnderCapacity"].clip(lower=0).fillna(0)
+    academies.loc[:,"OverCapacity"] = academies.loc[:,"Number of pupils"] - academies.loc[:,"SchoolCapacity"]
+    academies.loc[:,"OverCapacity"] = academies.loc[:,"OverCapacity"].clip(lower=0).fillna(0)
+    academies.loc[:,"UnderCapacity"] = academies.loc[:,"SchoolCapacity"] - academies.loc[:,"Number of pupils"]
+    academies.loc[:,"UnderCapacity"] = academies.loc[:,"UnderCapacity"].clip(lower=0).fillna(0)
 
-    academies["RuralScore"] = 0
-    academies["RuralScore"] = academies["RuralScore"].case_when(
-        [(academies["UrbanRural (code)"] == "UN1", 0.0),
-        (academies["UrbanRural (code)"] == "UF1", 0.2),
-        (academies["UrbanRural (code)"] == "RLN1", 0.4),
-        (academies["UrbanRural (code)"] == "RSF1", 0.6),
-        (academies["UrbanRural (code)"] == "RSN1", 0.8),
-        (academies["UrbanRural (code)"] == "RSF1", 1.0)]
+    academies.loc[:,"RuralScore"] = 0
+    academies.loc[:,"RuralScore"] = academies.loc[:,"RuralScore"].case_when(
+        [(academies.loc[:,"UrbanRural (code)"] == "UN1", 0.0),
+        (academies.loc[:,"UrbanRural (code)"] == "UF1", 0.2),
+        (academies.loc[:,"UrbanRural (code)"] == "RLN1", 0.4),
+        (academies.loc[:,"UrbanRural (code)"] == "RSF1", 0.6),
+        (academies.loc[:,"UrbanRural (code)"] == "RSN1", 0.8),
+        (academies.loc[:,"UrbanRural (code)"] == "RSF1", 1.0)]
         ).astype(float)
 
     # TODO: this overwrites the previous one inc. transitioning academies.

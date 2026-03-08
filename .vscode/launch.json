@@ -1,0 +1,32 @@
+{
+    "configurations": [
+        {
+            "name": "Debug FBIT data pipeline (local)",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "-m",
+            "args": [
+                "pipeline.main"
+            ],
+            "cwd": "${workspaceFolder}/data-pipeline",
+            "python": "/Users/benmurch/Library/Caches/pypoetry/virtualenvs/fbit-data-pipeline-Bffq9wDw-py3.13/bin/python",
+            "console": "integratedTerminal",
+            "justMyCode": true
+        },
+        {
+            "name": "Debug tests",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "-m",
+            "args": [
+                "pytest", 
+                "--junitxml=tests/output/test-output.xml", 
+                "./tests/unit",
+            ],
+            "cwd": "${workspaceFolder}/data-pipeline",
+            "python": "${workspaceFolder}/data-pipeline/.venv/bin/python",
+            "console": "integratedTerminal",
+            "justMyCode": true
+        }
+    ]
+}
