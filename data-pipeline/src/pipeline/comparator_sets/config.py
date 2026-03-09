@@ -3,6 +3,12 @@ BASE_SET_SIZE = 60
 #BASE_SET_SIZE = 120
 FINAL_SET_SIZE = 30
 
+#Selection order/method
+#SELECTION_METHOD = "legacy" # Existing method - pick smallest distance in same region first, then top up to 30 with non-region smallest distance
+#SELECTION_METHOD = "top_up_local" # Pick the ten with the absolute smallest distances, then top up to 30 with the remaining 20 from same region in order of distance
+SELECTION_METHOD = "distance_only" # Pick the 30 with the absolute smallest distances, regardless of region
+
+
 # Pupil Calculation Weights (Non-Special)
 PUPILS_WEIGHT = 0.5
 FSM_WEIGHT = 0.4
@@ -92,7 +98,7 @@ cols_for_comparators_parquet = [
     "Building Comparator Data Present",
     "Did Not Submit",
     "Pupil",
-    "Building"
+    "Building",
     "OverCapacity",
     "UnderCapacity",
     "OldestBuildingAge",

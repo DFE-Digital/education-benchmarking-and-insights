@@ -141,42 +141,115 @@ class ComparatorCalculator:
         pfi_without_target = phase_arrays[ColumnNames.PFI][valid_mask]
         boarding_without_target = phase_arrays[ColumnNames.BOARDERS][valid_mask]
 
-        sorted_indices = np.argsort(other_distances, kind="stable")[:BASE_SET_SIZE]
-        urns_by_distance = urns_without_target[sorted_indices]
+        if SELECTION_METHOD == "legacy":
 
-        target_urn = phase_arrays[ColumnNames.URN][target_index]
-        target_pfi = phase_arrays[ColumnNames.PFI][target_index]
-        target_boarding = phase_arrays[ColumnNames.BOARDERS][target_index]
-        target_region = phase_arrays[ColumnNames.REGION][target_index]
+            sorted_indices = np.argsort(other_distances, kind="stable")[:BASE_SET_SIZE]
+            urns_by_distance = urns_without_target[sorted_indices]
 
-        urns = np.array([target_urn])
+            target_urn = phase_arrays[ColumnNames.URN][target_index]
+            target_pfi = phase_arrays[ColumnNames.PFI][target_index]
+            target_boarding = phase_arrays[ColumnNames.BOARDERS][target_index]
+            target_region = phase_arrays[ColumnNames.REGION][target_index]
 
-        # POTENTIAL ERROR: If a school meets multiple criteria (e.g. same PFI and
-        # same region), its URN will be appended multiple times, creating duplicates
-        # in the final comparator set.
-        if target_pfi:
-            top_pfi = pfi_without_target[sorted_indices]
-            same_pfi = np.argwhere(top_pfi).flatten()
-            urns = np.append(urns, urns_by_distance[same_pfi])
+            urns = np.array([target_urn])
 
-        if target_boarding == "Boarding":
-            top_boarding = boarding_without_target[sorted_indices]
-            same_boarding = np.argwhere(top_boarding == target_boarding).flatten()
-            urns = np.append(urns, urns_by_distance[same_boarding])
+            # POTENTIAL ERROR: If a school meets multiple criteria (e.g. same PFI and
+            # same region), its URN will be appended multiple times, creating duplicates
+            # in the final comparator set.
+            if target_pfi:
+                top_pfi = pfi_without_target[sorted_indices]
+                same_pfi = np.argwhere(top_pfi).flatten()
+                urns = np.append(urns, urns_by_distance[same_pfi])
 
-        top_regions = regions_without_target[sorted_indices]
-        same_region_indices = np.argwhere(top_regions == target_region).flatten()
-        urns = np.append(urns, urns_by_distance[same_region_indices])
+            if target_boarding == "Boarding":
+                top_boarding = boarding_without_target[sorted_indices]
+                same_boarding = np.argwhere(top_boarding == target_boarding).flatten()
+                urns = np.append(urns, urns_by_distance[same_boarding])
 
-        if len(urns) >= FINAL_SET_SIZE:
-            return urns[:FINAL_SET_SIZE]
+            top_regions = regions_without_target[sorted_indices]
+            same_region_indices = np.argwhere(top_regions == target_region).flatten()
+            urns = np.append(urns, urns_by_distance[same_region_indices])
 
-        # POTENTIAL ERROR: This logic only excludes schools already added for being
-        # in the `same_region`. It does NOT exclude schools added for PFI or Boarding
-        # status, so those schools could be added a second time here.
-        fill_count = FINAL_SET_SIZE - len(urns)
-        urns_to_add = np.delete(urns_by_distance, same_region_indices)[:fill_count]
-        urns = np.append(urns, urns_to_add)
+            if len(urns) >= FINAL_SET_SIZE:
+                return urns[:FINAL_SET_SIZE]
+
+            # POTENTIAL ERROR: This logic only excludes schools already added for being
+            # in the `same_region`. It does NOT exclude schools added for PFI or Boarding
+            # status, so those schools could be added a second time here.
+            fill_count = FINAL_SET_SIZE - len(urns)
+            urns_to_add = np.delete(urns_by_distance, same_region_indices)[:fill_count]
+            urns = np.append(urns, urns_to_add)
+
+        elif SELECTION_METHOD == "top_up_local":
+            sorted_indices = np.argsort(other_distances, kind="stable") # Do not restrict the size
+            urns_by_distance = urns_without_target[sorted_indices]
+
+            target_urn = phase_arrays[ColumnNames.URN][target_index]
+            target_pfi = phase_arrays[ColumnNames.PFI][target_index]
+            target_boarding = phase_arrays[ColumnNames.BOARDERS][target_index]
+            target_region = phase_arrays[ColumnNames.REGION][target_index]
+
+            urns = np.array([target_urn])
+
+            # POTENTIAL ERROR: If a school meets multiple criteria (e.g. same PFI and
+            # same region), its URN will be appended multiple times, creating duplicates
+            # in the final comparator set.
+            if target_pfi:
+                top_pfi = pfi_without_target[sorted_indices]
+                same_pfi = np.argwhere(top_pfi).flatten()
+                urns = np.append(urns, urns_by_distance[same_pfi])
+
+            if target_boarding == "Boarding":
+                top_boarding = boarding_without_target[sorted_indices]
+                same_boarding = np.argwhere(top_boarding == target_boarding).flatten()
+                urns = np.append(urns, urns_by_distance[same_boarding])
+
+            top_regions = regions_without_target[sorted_indices]
+            same_region_indices = np.argwhere(top_regions == target_region).flatten()
+
+            closest_10 = urns_by_distance[:10]
+            urns = np.append(urns, closest_10)  # Take the top 10 by distance first
+            # Now top up the remaining slots with the closest schools from the same region
+            local_top_up_urns = urns_by_distance[same_region_indices][~np.isin(urns_by_distance[same_region_indices], closest_10)]
+            urns = np.append(urns, local_top_up_urns)
+
+            if len(urns) >= FINAL_SET_SIZE:
+                return urns[:FINAL_SET_SIZE]
+
+            # POTENTIAL ERROR: This logic only excludes schools already added for being
+            # in the `same_region`. It does NOT exclude schools added for PFI or Boarding
+            # status, so those schools could be added a second time here.
+            fill_count = FINAL_SET_SIZE - len(urns)
+            # Modify this next line so it also removes the top ten absolute shortest distances
+            urns_to_add = np.delete(urns_by_distance[10:], same_region_indices)[:fill_count]
+            urns = np.append(urns, urns_to_add)
+
+        elif SELECTION_METHOD == "distance_only":
+            sorted_indices = np.argsort(other_distances, kind="stable")[:BASE_SET_SIZE]
+            urns = urns_without_target[sorted_indices]
+
+            target_urn = phase_arrays[ColumnNames.URN][target_index]
+            target_pfi = phase_arrays[ColumnNames.PFI][target_index]
+            target_boarding = phase_arrays[ColumnNames.BOARDERS][target_index]
+            target_region = phase_arrays[ColumnNames.REGION][target_index]
+
+            urns = np.array([target_urn])
+
+            # POTENTIAL ERROR: If a school meets multiple criteria (e.g. same PFI and
+            # same region), its URN will be appended multiple times, creating duplicates
+            # in the final comparator set.
+            if target_pfi:
+                top_pfi = pfi_without_target[sorted_indices]
+                same_pfi = np.argwhere(top_pfi).flatten()
+                urns = np.append(urns, urns_by_distance[same_pfi])
+
+            if target_boarding == "Boarding":
+                top_boarding = boarding_without_target[sorted_indices]
+                same_boarding = np.argwhere(top_boarding == target_boarding).flatten()
+                urns = np.append(urns, urns_by_distance[same_boarding])
+            
+            urns_to_include = np.delete(urns_by_distance, np.union1d(same_pfi, same_boarding))
+            urns = np.append(urns, urns_to_include)[:FINAL_SET_SIZE]
 
         return urns
 
@@ -187,11 +260,13 @@ class ComparatorCalculator:
         pupil_distances = self._compute_pupils_distance(phase, group)
         building_distances = self._compute_buildings_distance(group)
 
-        group.to_csv(f"/Users/benmurch/Documents/debug_{phase}_group.csv")  # Debugging output
+        finance_type = group["Finance Type"].iloc[0]
+
+        group.to_csv(f"/Users/benmurch/Documents/debug_{finance_type}_{phase}_group.csv")  # Debugging output
         pupil_distances_df = pd.DataFrame(pupil_distances, index=group.index)
-        pupil_distances_df.to_csv(f"/Users/benmurch/Documents/debug_{phase}_pupil_distances.csv")  # Debugging output
+        pupil_distances_df.to_csv(f"/Users/benmurch/Documents/debug_{finance_type}_{phase}_pupil_distances.csv")  # Debugging output
         building_distances_df = pd.DataFrame(building_distances, index=group.index)
-        building_distances_df.to_csv(f"/Users/benmurch/Documents/debug_{phase}_building_distances.csv")  # Debugging output
+        building_distances_df.to_csv(f"/Users/benmurch/Documents/debug_{finance_type}_{phase}_building_distances.csv")  # Debugging output
 
         pupil_include_mask = (
             ~np.array(group[ColumnNames.PARTIAL_YEARS])

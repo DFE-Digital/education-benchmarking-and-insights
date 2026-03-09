@@ -276,19 +276,19 @@ def pre_process_maintained_schools_data(
     )
 
     #maintained_schools["OverCapacity"] = maintained_schools["SchoolCapacity"] < maintained_schools["Number of pupils"]
-    maintained_schools.iloc[:,"OverCapacity"] = maintained_schools.iloc[:,"Number of pupils"] - maintained_schools.iloc[:,"SchoolCapacity"]
-    maintained_schools.iloc[:,"OverCapacity"] = maintained_schools.iloc[:,"OverCapacity"].clip(lower=0).fillna(0)
-    maintained_schools.iloc[:,"UnderCapacity"] = maintained_schools.iloc[:,"SchoolCapacity"] - maintained_schools.iloc[:,"Number of pupils"]
-    maintained_schools.iloc[:,"UnderCapacity"] = maintained_schools.iloc[:,"UnderCapacity"].clip(lower=0).fillna(0)
+    maintained_schools.loc[:,"OverCapacity"] = maintained_schools.loc[:,"Number of pupils"] - maintained_schools.loc[:,"SchoolCapacity"]
+    maintained_schools.loc[:,"OverCapacity"] = maintained_schools.loc[:,"OverCapacity"].clip(lower=0).fillna(0)
+    maintained_schools.loc[:,"UnderCapacity"] = maintained_schools.loc[:,"SchoolCapacity"] - maintained_schools.loc[:,"Number of pupils"]
+    maintained_schools.loc[:,"UnderCapacity"] = maintained_schools.loc[:,"UnderCapacity"].clip(lower=0).fillna(0)
 
-    maintained_schools.iloc[:,"RuralScore"] = 0
-    maintained_schools.iloc[:,"RuralScore"] = maintained_schools.iloc[:,"RuralScore"].case_when([
-        (maintained_schools.iloc[:,"UrbanRural (code)"] == "UN1", 0.0),
-        (maintained_schools.iloc[:,"UrbanRural (code)"] == "UF1", 0.2),
-        (maintained_schools.iloc[:,"UrbanRural (code)"] == "RLN1", 0.4),
-        (maintained_schools.iloc[:,"UrbanRural (code)"] == "RSF1", 0.6),
-        (maintained_schools.iloc[:,"UrbanRural (code)"] == "RSN1", 0.8),
-        (maintained_schools.iloc[:,"UrbanRural (code)"] == "RSF1", 1.0)]
+    maintained_schools.loc[:,"RuralScore"] = 0
+    maintained_schools.loc[:,"RuralScore"] = maintained_schools.loc[:,"RuralScore"].case_when([
+        (maintained_schools.loc[:,"UrbanRural (code)"] == "UN1", 0.0),
+        (maintained_schools.loc[:,"UrbanRural (code)"] == "UF1", 0.2),
+        (maintained_schools.loc[:,"UrbanRural (code)"] == "RLN1", 0.4),
+        (maintained_schools.loc[:,"UrbanRural (code)"] == "RSF1", 0.6),
+        (maintained_schools.loc[:,"UrbanRural (code)"] == "RSN1", 0.8),
+        (maintained_schools.loc[:,"UrbanRural (code)"] == "RSF1", 1.0)]
     ).astype(float)
 
     write_blob(
