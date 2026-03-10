@@ -6,8 +6,8 @@ FINAL_SET_SIZE = 30
 #Selection order/method
 #SELECTION_METHOD = "legacy" # Existing method - pick smallest distance in same region first, then top up to 30 with non-region smallest distance
 #SELECTION_METHOD = "top_up_local" # Pick the ten with the absolute smallest distances, then top up to 30 with the remaining 20 from same region in order of distance
-SELECTION_METHOD = "distance_only" # Pick the 30 with the absolute smallest distances, regardless of region
-#SELECTION_METHOD = "local_only" # Pick schools from the same region as the target, up to the final set size but less if there aren't enough
+#SELECTION_METHOD = "distance_only" # Pick the 30 with the absolute smallest distances, regardless of region
+SELECTION_METHOD = "local_only" # Pick schools from the same region as the target, up to the final set size but less if there aren't enough
 
 # Pupil Calculation Weights (Non-Special)
 #PUPILS_WEIGHT = 0.5

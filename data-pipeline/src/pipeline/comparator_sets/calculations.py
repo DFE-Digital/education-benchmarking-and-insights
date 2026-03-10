@@ -222,8 +222,12 @@ class ComparatorCalculator:
             # status, so those schools could be added a second time here.
             fill_count = FINAL_SET_SIZE - len(urns)
             # Modify this next line so it also removes the top ten absolute shortest distances
-            urns_to_add = np.delete(urns_by_distance[10:], same_region_indices)[:fill_count]
-            urns = np.append(urns, urns_to_add)[:5] #tmp, for debug
+
+            top_up_mask = np.ones(len(urns_by_distance), dtype=bool)
+            top_up_mask[same_region_indices] = True  # Keep schools from the same region
+            top_up_mask[:10] = False  # Exclude the top 10 by distance
+            urns_to_add = urns_by_distance[top_up_mask][:fill_count]
+            urns = np.append(urns, urns_to_add)
             return urns
         
         elif SELECTION_METHOD == "distance_only":
