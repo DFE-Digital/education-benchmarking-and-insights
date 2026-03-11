@@ -11,5 +11,9 @@ This is one of two architecturally approved patterns I know of for this use case
 3. **Request cross-subscription permissions** from CIP central services to allow the connectors to write to the landing zone
 4. **Test the solution**
 
+## Where are our cross-subscription permissions defined?
+
+These were set up by Infra-ops for us, with the permission of the central Databricks service wrapper team ADA.
+
 <!-- Leave the rest of this page blank -->
 \newpage
