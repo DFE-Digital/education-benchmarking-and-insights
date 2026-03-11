@@ -11,5 +11,11 @@ This is one of two architecturally approved patterns I know of for this use case
 3. **Request cross-subscription permissions** from CIP central services to allow the connectors to write to the landing zone
 4. **Test the solution**
 
+## Where are our cross-subscription permissions defined?
+
+The storage containers which act as landing zones for Databricks are defined in terraform in our service. However the cross-subscription permissions which allow the databricks connectors to write to our Azure area were set up by Infra-ops for us, with the permission of the central Databricks service wrapper team ADA. This is so they could keep control over revoking any access if they wanted to. Note these permissions were manually defined and hardcode the current resource names in them.
+
+If permissions need to be recreated, raise a generic CIP ServiceNow request with resource names of the databricks connectors and the corresponding storage accounts they need write access to. The initial completed ticket ref is `SCTASK0705295`, to refer to for a precedent.
+
 <!-- Leave the rest of this page blank -->
 \newpage
