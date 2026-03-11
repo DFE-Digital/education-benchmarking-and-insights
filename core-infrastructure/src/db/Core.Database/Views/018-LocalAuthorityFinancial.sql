@@ -268,10 +268,10 @@ GO
 DROP VIEW IF EXISTS VW_LocalAuthorityFinancialDefaultCurrentSpendAsPercentageOfBudget 
 GO
 
-DROP VIEW IF EXISTS VW_LocalAuthorityFinancialCurrentHighNeedsDeficit
+DROP VIEW IF EXISTS VW_LocalAuthorityFinancialHeadlineStatistics
 GO
 
-CREATE VIEW VW_LocalAuthorityFinancialCurrentHighNeedsDeficit
+CREATE VIEW VW_LocalAuthorityFinancialHeadlineStatistics
 AS
     WITH ctePreviousPeriod
     AS (
