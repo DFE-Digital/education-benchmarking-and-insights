@@ -280,7 +280,7 @@ AS
         FROM LocalAuthorityFinancial
         WHERE RunId = (SELECT (Value - 1)
             FROM Parameters
-            WHERE Name = 'CurrentYear')
+            WHERE Name = 'LatestS251Year')
         )
     SELECT laf.LaCode,
         laf.DSGHighNeedsAllocation,
@@ -291,5 +291,5 @@ AS
     LEFT JOIN ctePreviousPeriod AS cte ON laf.LaCode = cte.LaCode
     WHERE laf.RunId = (SELECT Value
                    FROM Parameters
-                   WHERE Name = 'CurrentYear')
+                   WHERE Name = 'LatestS251Year')
 GO
