@@ -7,8 +7,8 @@ variable "support-alert-email" {}
 
 variable "configuration" {
   type = map(object({
-    sql_db_sku_name                  = string
-    sql_db_max_size_gb               = number
+    sql_db_sku_name    = string
+    sql_db_max_size_gb = number
   }))
   default = {
     development = {
