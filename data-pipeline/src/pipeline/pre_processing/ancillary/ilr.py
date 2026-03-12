@@ -208,6 +208,8 @@ def patch_missing_sixth_form_data(
     sixth_form_schools.update(ilr_linked.set_index("URN"), overwrite=False)
     result = df_indexed.combine_first(sixth_form_schools)
 
-    result_with_comparator_suitability_flag = map_has_pupil_comparator_data(result).reset_index()
+    result_with_comparator_suitability_flag = map_has_pupil_comparator_data(
+        result
+    ).reset_index()
 
     return result_with_comparator_suitability_flag

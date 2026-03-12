@@ -361,9 +361,7 @@ def _build_section_251_data(
         column_pivot=input_schemas.la_outturn_pivot.get(
             year, input_schemas.la_outturn_pivot["default"]
         ),
-        encoding=input_schemas.la_outturn_encoding.get(
-            year, input_schemas.la_outturn_encoding["default"]
-        ),
+        encoding="cp1252",
     ).rename(
         columns=input_schemas.la_section_251_column_mappings.get(
             year,
