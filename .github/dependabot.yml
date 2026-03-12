@@ -12,7 +12,7 @@
       schedule:
         interval: "monthly"
       commit-message:
-        prefix: "[terraform] "
+        prefix: "chore: "
       labels:
         - "dependencies"
         - "core-infrastructure"
@@ -23,7 +23,7 @@
       schedule:
         interval: "monthly"
       commit-message:
-        prefix: "[npm] "
+        prefix: "chore: "
       open-pull-requests-limit: 10
       # React v18 to v19 major version upgrade affects other packages as at
       # Feb 2025 due to broken peer dependencies. Ignore for the time being.
@@ -46,13 +46,14 @@
         - "dependencies"
         - "front-end-components"
         - "javascript"
+        - "npm"
 
     - package-ecosystem: "terraform"
       directory: "/platform/terraform"
       schedule:
         interval: "monthly"
       commit-message:
-        prefix: "[terraform] "
+        prefix: "chore: "
       labels:
         - "dependencies"
         - "platform"
@@ -63,109 +64,119 @@
       schedule:
         interval: "monthly"
       commit-message:
-        prefix: "[nuget] "
+        prefix: "chore: "
       labels:
         - "dependencies"
         - "platform"
         - "dotnet"
+        - "nuget"
 
     - package-ecosystem: "nuget"
       directory: "/platform/src/abstractions/Platform.Infrastructure"
       schedule:
         interval: "monthly"
       commit-message:
-        prefix: "[nuget] "
+        prefix: "chore: "
       labels:
         - "dependencies"
         - "platform"
         - "dotnet"
+        - "nuget"
 
     - package-ecosystem: "nuget"
       directory: "/platform/src/apis/Platform.Api.Benchmark"
       schedule:
         interval: "monthly"
       commit-message:
-        prefix: "[nuget] "
+        prefix: "chore: "
       labels:
         - "dependencies"
         - "platform"
         - "dotnet"
+        - "nuget"
 
     - package-ecosystem: "npm"
       directory: "/platform/src/apis/Platform.Api.ChartRendering"
       schedule:
         interval: "monthly"
       commit-message:
-        prefix: "[npm] "
+        prefix: "chore: "
       labels:
         - "dependencies"
         - "platform"
         - "javascript"
+        - "npm"
 
     - package-ecosystem: "nuget"
       directory: "/platform/src/apis/Platform.Api.Establishment"
       schedule:
         interval: "monthly"
       commit-message:
-        prefix: "[nuget] "
+        prefix: "chore: "
       labels:
         - "dependencies"
         - "platform"
         - "dotnet"
+        - "nuget"
 
     - package-ecosystem: "nuget"
       directory: "/platform/src/apis/Platform.Api.Insight"
       schedule:
         interval: "monthly"
       commit-message:
-        prefix: "[nuget] "
+        prefix: "chore: "
       labels:
         - "dependencies"
         - "platform"
         - "dotnet"
+        - "nuget"
 
     - package-ecosystem: "nuget"
       directory: "/platform/src/apis/Platform.Api.LocalAuthorityFinances"
       schedule:
         interval: "monthly"
       commit-message:
-        prefix: "[nuget] "
+        prefix: "chore: "
       labels:
         - "dependencies"
         - "platform"
         - "dotnet"
+        - "nuget"
 
     - package-ecosystem: "nuget"
       directory: "/platform/src/apis/Platform.Api.NonFinancial"
       schedule:
         interval: "monthly"
       commit-message:
-        prefix: "[nuget] "
+        prefix: "chore: "
       labels:
         - "dependencies"
         - "platform"
         - "dotnet"
+        - "nuget"
 
     - package-ecosystem: "nuget"
       directory: "/platform/src/apis/Platform.Api.Content"
       schedule:
         interval: "monthly"
       commit-message:
-        prefix: "[nuget] "
+        prefix: "chore: "
       labels:
         - "dependencies"
         - "platform"
         - "dotnet"
+        - "nuget"
 
     - package-ecosystem: "nuget"
       directory: "/platform/src/search/Platform.Search"
       schedule:
         interval: "monthly"
       commit-message:
-        prefix: "[nuget] "
+        prefix: "chore: "
       labels:
         - "dependencies"
         - "platform"
+        - "nuget"
         - "dotnet"
 
     - package-ecosystem: "nuget"
@@ -173,62 +184,67 @@
       schedule:
         interval: "monthly"
       commit-message:
-        prefix: "[nuget] "
+        prefix: "chore: "
       labels:
         - "dependencies"
         - "platform"
         - "dotnet"
+        - "nuget"
 
     - package-ecosystem: "nuget"
       directory: "/platform/src/search/Platform.Search.Processor"
       schedule:
         interval: "monthly"
       commit-message:
-        prefix: "[nuget] "
+        prefix: "chore: "
       labels:
         - "dependencies"
         - "platform"
         - "dotnet"
+        - "nuget"
 
     - package-ecosystem: "nuget"
       directory: "/platform/tests/Platform.ApiTests"
       schedule:
         interval: "monthly"
       commit-message:
-        prefix: "[nuget] "
+        prefix: "chore: "
       labels:
         - "dependencies"
         - "platform"
         - "dotnet"
+        - "nuget"
 
     - package-ecosystem: "nuget"
       directory: "/platform/tests/Platform.Tests"
       schedule:
         interval: "monthly"
       commit-message:
-        prefix: "[nuget] "
+        prefix: "chore: "
       labels:
         - "dependencies"
         - "platform"
         - "dotnet"
+        - "nuget"
 
     - package-ecosystem: "npm"
       directory: "/prototype/src"
       schedule:
         interval: "monthly"
       commit-message:
-        prefix: "[npm] "
+        prefix: "chore: "
       labels:
         - "dependencies"
         - "prototype"
         - "javascript"
+        - "npm"
 
     - package-ecosystem: "terraform"
       directory: "/prototype/terraform"
       schedule:
         interval: "monthly"
       commit-message:
-        prefix: "[terraform] "
+        prefix: "chore: "
       labels:
         - "dependencies"
         - "prototype"
@@ -241,18 +257,19 @@
       schedule:
         interval: "monthly"
       commit-message:
-        prefix: "[npm] "
+        prefix: "chore: "
       labels:
         - "dependencies"
         - "web"
         - "javascript"
+        - "npm"
 
     - package-ecosystem: "terraform"
       directory: "/web/terraform"
       schedule:
         interval: "monthly"
       commit-message:
-        prefix: "[terraform] "
+        prefix: "chore: "
       labels:
         - "dependencies"
         - "web"
@@ -263,11 +280,12 @@
       schedule:
         interval: "monthly"
       commit-message:
-        prefix: "[nuget] "
+        prefix: "chore: "
       labels:
         - "dependencies"
         - "web"
         - "dotnet"
+        - "nuget"
 
     - package-ecosystem: "npm"
       directory: "/web/src/Web.Shutter"
@@ -276,7 +294,7 @@
       schedule:
         interval: "monthly"
       commit-message:
-        prefix: "[npm] "
+        prefix: "chore: "
       ignore:
       # Feb 2026 - See AB#295988
         - dependency-name: "gts"
@@ -285,47 +303,52 @@
         - "dependencies"
         - "web"
         - "javascript"
+        - "npm"
 
     - package-ecosystem: "nuget"
       directory: "/web/tests/Web.A11yTests"
       schedule:
         interval: "monthly"
       commit-message:
-        prefix: "[nuget] "
+        prefix: "chore: "
       labels:
         - "dependencies"
         - "web"
         - "dotnet"
+        - "nuget"
 
     - package-ecosystem: "nuget"
       directory: "/web/tests/Web.E2ETests"
       schedule:
         interval: "monthly"
       commit-message:
-        prefix: "[nuget] "
+        prefix: "chore: "
       labels:
         - "dependencies"
         - "web"
         - "dotnet"
+        - "nuget"
 
     - package-ecosystem: "nuget"
       directory: "/web/tests/Web.Integration.Tests"
       schedule:
         interval: "monthly"
       commit-message:
-        prefix: "[nuget] "
+        prefix: "chore: "
       labels:
         - "dependencies"
         - "web"
         - "dotnet"
+        - "nuget"
 
     - package-ecosystem: "nuget"
       directory: "/web/tests/Web.Tests"
       schedule:
         interval: "monthly"
       commit-message:
-        prefix: "[nuget] "
+        prefix: "chore: "
       labels:
         - "dependencies"
         - "web"
         - "dotnet"
+        - "nuget"
