@@ -227,28 +227,28 @@
         - "dotnet"
         - "nuget"
 
-    - package-ecosystem: "npm"
-      directory: "/prototype/src"
-      schedule:
-        interval: "monthly"
-      commit-message:
-        prefix: "chore: "
-      labels:
-        - "dependencies"
-        - "prototype"
-        - "javascript"
-        - "npm"
-
-    - package-ecosystem: "terraform"
-      directory: "/prototype/terraform"
-      schedule:
-        interval: "monthly"
-      commit-message:
-        prefix: "chore: "
-      labels:
-        - "dependencies"
-        - "prototype"
-        - "terraform"
+#    - package-ecosystem: "npm"
+#      directory: "/prototype/src"
+#      schedule:
+#        interval: "monthly"
+#      commit-message:
+#        prefix: "chore: "
+#      labels:
+#        - "dependencies"
+#        - "prototype"
+#        - "javascript"
+#        - "npm"
+#
+#    - package-ecosystem: "terraform"
+#      directory: "/prototype/terraform"
+#      schedule:
+#        interval: "monthly"
+#      commit-message:
+#        prefix: "chore: "
+#      labels:
+#        - "dependencies"
+#        - "prototype"
+#        - "terraform"
 
     - package-ecosystem: "npm"
       directory: "/web/src/Web.App"
