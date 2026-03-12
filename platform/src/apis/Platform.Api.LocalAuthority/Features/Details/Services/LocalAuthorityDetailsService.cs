@@ -36,6 +36,12 @@ public class LocalAuthorityDetailsService(IDatabaseFactory dbFactory) : ILocalAu
             .WhereUrnInCurrentFinances();
 
         localAuthority.Schools = await conn.QueryAsync<LocalAuthoritySchoolResponse>(schoolsBuilder, cancellationToken);
+
+        var headlineStatisticsBuilder = new LocalAuthorityHeadlineStatisticsQuery()
+            .WhereLaCodeEqual(code);
+
+        localAuthority.HeadlineStatistics = await conn.QueryFirstOrDefaultAsync<LocalAuthorityHeadlineStatisticsResponse?>(headlineStatisticsBuilder, cancellationToken);
+
         return localAuthority;
     }
 

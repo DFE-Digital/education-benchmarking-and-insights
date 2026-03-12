@@ -85,3 +85,8 @@ public class LocalAuthorityEducationHealthCarePlansDefaultQuery(string dimension
         };
     }
 }
+
+public class LocalAuthorityHeadlineStatisticsQuery() : PlatformQuery(Sql)
+{
+    private const string Sql = "SELECT * FROM VW_LocalAuthorityFinancialHeadlineStatistics /**where**/";
+}

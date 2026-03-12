@@ -9,6 +9,7 @@ public record LocalAuthorityResponse
     public string? Code { get; set; }
     public string? Name { get; set; }
     public IEnumerable<LocalAuthoritySchoolResponse>? Schools { get; set; }
+    public LocalAuthorityHeadlineStatisticsResponse? HeadlineStatistics { get; set; }
 }
 
 [ExcludeFromCodeCoverage]
@@ -16,6 +17,14 @@ public record LocalAuthoritySchoolResponseBase
 {
     public string? URN { get; set; }
     public string? SchoolName { get; set; }
+}
+
+public record LocalAuthorityHeadlineStatisticsResponse
+{
+    public decimal? DSGHighNeedsAllocation { get; set; }
+    public decimal? OutturnTotalHighNeeds { get; set; }
+    public decimal? OutturnDSGCarriedForward { get; set; }
+    public decimal? OutturnDSGCarriedForwardPreviousPeriod { get; set; }
 }
 
 [ExcludeFromCodeCoverage]
