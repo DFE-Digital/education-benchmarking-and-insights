@@ -267,3 +267,29 @@ GO
 
 DROP VIEW IF EXISTS VW_LocalAuthorityFinancialDefaultCurrentSpendAsPercentageOfBudget 
 GO
+
+DROP VIEW IF EXISTS VW_LocalAuthorityFinancialHeadlineStatistics
+GO
+
+CREATE VIEW VW_LocalAuthorityFinancialHeadlineStatistics
+AS
+    WITH ctePreviousPeriod
+    AS (
+        SELECT LaCode,
+            OutturnDSGCarriedForward AS OutturnDSGCarriedForwardPreviousPeriod
+        FROM LocalAuthorityFinancial
+        WHERE RunId = (SELECT (Value - 1)
+            FROM Parameters
+            WHERE Name = 'LatestS251Year')
+        )
+    SELECT laf.LaCode,
+        laf.DSGHighNeedsAllocation,
+        laf.OutturnTotalHighNeeds,
+        laf.OutturnDSGCarriedForward,
+        cte.OutturnDSGCarriedForwardPreviousPeriod
+    FROM LocalAuthorityFinancial AS laf
+    LEFT JOIN ctePreviousPeriod AS cte ON laf.LaCode = cte.LaCode
+    WHERE laf.RunId = (SELECT Value
+                   FROM Parameters
+                   WHERE Name = 'LatestS251Year')
+GO
