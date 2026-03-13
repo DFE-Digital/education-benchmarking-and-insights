@@ -435,6 +435,7 @@ def insert_non_financial_data(
         "Percentage Primary Need MLD": "PercentWithMLD",
         "Percentage Primary Need HI": "PercentWithHI",
         "Percentage Primary Need ASD": "PercentWithASD",
+        "Company Registration Number": "TrustCompanyNumber"
     }
 
     write_frame = df.reset_index().rename(columns=projections)[[*projections.values()]]
@@ -595,6 +596,7 @@ def insert_financial_data(
         "E20E  Laptops, desktops and tablets": "LaptopsDesktopsAndTabletsCosts",
         "E20F  Other hardware": "OtherHardwareCosts",
         "E20G  IT support": "ItSupportCosts",
+        "Company Registration Number": "TrustCompanyNumber"
     }
 
     write_frame = df.reset_index().rename(columns=projections)[[*projections.values()]]

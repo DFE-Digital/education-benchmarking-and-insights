@@ -1,0 +1,1 @@
+ALTER TABLE Financial ADD TrustCompanyNumber nvarchar(8) NULL;
