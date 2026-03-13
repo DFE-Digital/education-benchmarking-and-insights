@@ -34,3 +34,7 @@ Under normal circumstances, adding up all the apportioned central service expend
 **Why this happens**: When an academy leaves a trust partway through a year, the trust's central expenditure includes money spent while that academy was still a member. Since the end-of-year members are different, summing their apportioned central service shares may be less than the total central spend.
 
 **The result**: The trust's central expenditure may appear higher than the sum of its current members' apportioned shares, because it includes historical spending on academies that are no longer part of the trust.
+
+## Revenue reserve apportionment
+
+Revenue reserve is treated differently from in-year expenditure because it is a **balance at year end**, not spend across the year. Because revenue reserve is a balance at a point in time (the year end), we only allocate it to academies that are **in the trust at the end of the period**. Academies that have left the trust during the year contribute to the trust’s historical balances, but their share is not shown as an apportioned revenue reserve for them in FBIT.
