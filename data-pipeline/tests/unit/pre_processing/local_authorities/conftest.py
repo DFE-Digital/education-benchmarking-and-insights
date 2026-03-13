@@ -592,5 +592,13 @@ def la_dsg_raw() -> io.BytesIO:
 
 
 @pytest.fixture
-def la_dsg_preprocessed(la_dsg_raw):
+def la_dsg_preprocessed(la_dsg_raw, monkeypatch):
+    monkeypatch.setitem(
+        flat_high_needs_block_cols,
+        9999,
+        (
+            "Unnamed: 1_level_0 Unnamed: 1_level_1 "
+            "Total high needs block before deductions (£s) [I]  = [A] + ( [B] * [C] ) + [D] + [E] + [F] + [H]"
+        ),
+    )
     return prepare_dsg_data(la_dsg_raw, 9999)
