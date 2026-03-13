@@ -104,7 +104,9 @@ def test_patching_missing_number_of_pupils(df_with_missing, ilr_data, gias_links
     expected.loc[104, "Percentage SEN"] = 3.0
     expected.loc[105, "Percentage Free school meals"] = 22.0
 
-    result = ilr.patch_missing_sixth_form_data(df, ilr_data, gias_links_empty).set_index("URN")
+    result = ilr.patch_missing_sixth_form_data(
+        df, ilr_data, gias_links_empty
+    ).set_index("URN")
 
     assert result.loc[102, "Number of pupils"] == 150
     assert result.loc[104, "Number of pupils"] == 250
@@ -123,7 +125,9 @@ def test_ilr_data_not_affecting_non_sixth_form_schools(
     df = df_with_missing.copy()
     initial = df_with_missing.copy().set_index("URN")
 
-    result = ilr.patch_missing_sixth_form_data(df, ilr_data, gias_links_empty).set_index("URN")
+    result = ilr.patch_missing_sixth_form_data(
+        df, ilr_data, gias_links_empty
+    ).set_index("URN")
 
     pd.testing.assert_series_equal(result.loc[101][initial.columns], initial.loc[101])
     pd.testing.assert_series_equal(result.loc[106][initial.columns], initial.loc[106])
@@ -135,7 +139,9 @@ def test_no_ilr_match_for_missing_data(df_with_missing, ilr_data, gias_links_emp
     empty_ilr = pd.DataFrame(columns=ilr_data.columns)  # Use fixture to get columns
     initial = df.copy().set_index("URN")
 
-    result = ilr.patch_missing_sixth_form_data(df, empty_ilr, gias_links_empty).set_index("URN")
+    result = ilr.patch_missing_sixth_form_data(
+        df, empty_ilr, gias_links_empty
+    ).set_index("URN")
 
     assert pd.isna(result.loc[102, "Number of pupils"])
     assert pd.isna(result.loc[104, "Number of pupils"])

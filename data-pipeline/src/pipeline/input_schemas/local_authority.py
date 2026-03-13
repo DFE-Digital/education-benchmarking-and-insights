@@ -49,7 +49,6 @@ la_outturn = {
         "net_per_capita_expenditure": "float",
     }
 }
-la_outturn_encoding = {"default": "cp1252", 2025: "utf-8"}
 la_section_251_na_values = {"default": ["c", "x", "z", ":", "u"]}
 la_section_251_category_prefixes = {
     "default": (
@@ -67,6 +66,7 @@ la_section_251_category_prefixes = {
         "1.2.8 ",
         "1.2.8 ",
         "1.2.9 ",
+        "1.9.3 ",
     )
 }
 la_budget_pivot = {
@@ -169,6 +169,7 @@ la_budget_column_mappings = {
         "1.2.2 Top-up funding – academies, free schools and colleges__income": "1.2.2 Top-up funding - academies, free schools and colleges__income",
         "1.2.2 Top-up funding – academies, free schools and colleges__net_planned_expenditure": "1.2.2 Top-up funding - academies, free schools and colleges__net_planned_expenditure",
         "1.2.2 Top-up funding – academies, free schools and colleges__net_per_capita_planned_expenditure": "1.2.2 Top-up funding - academies, free schools and colleges__net_per_capita_planned_expenditure",
+        "1.9.3 Dedicated Schools Grant carried forward to next year__gross_planned_expenditure": "1.9.3 DSG Carried Forward",
     }
 }
 la_outturn_column_mappings = {
@@ -212,15 +213,16 @@ la_outturn_column_mappings = {
         "1.2.2 Top-up funding – academies, free schools and colleges__income": "1.2.2 Top-up funding - academies, free schools and colleges__income",
         "1.2.2 Top-up funding – academies, free schools and colleges__net_expenditure": "1.2.2 Top-up funding - academies, free schools and colleges__net_expenditure",
         "1.2.2 Top-up funding – academies, free schools and colleges__net_per_capita_expenditure": "1.2.2 Top-up funding - academies, free schools and colleges__net_per_capita_expenditure",
+        "1.9.3 Dedicated Schools Grant carried forward to next year__gross_expenditure": "1.9.3 DSG Carried Forward",
     },
     2025: {
-        "1.0.2 High needs place funding within Individual Schools Budget (after academies recoupment), including all pre- and post-16 place funding for maintained schools__early_years_establishments": "1.0.2 EarlyYears",
-        "1.0.2 High needs place funding within Individual Schools Budget (after academies recoupment), including all pre- and post-16 place funding for maintained schools__primary_schools": "1.0.2 Primaries",
-        "1.0.2 High needs place funding within Individual Schools Budget (after academies recoupment), including all pre- and post-16 place funding for maintained schools__secondary_schools": "1.0.2 Secondary",
-        "1.0.2 High needs place funding within Individual Schools Budget (after academies recoupment), including all pre- and post-16 place funding for maintained schools__sen_and_special_schools": "1.0.2 SENSpecial",
-        "1.0.2 High needs place funding within Individual Schools Budget (after academies recoupment), including all pre- and post-16 place funding for maintained schools__pupil_referral_units_and_alt_provision": "1.0.2 APPRU",
-        "1.0.2 High needs place funding within Individual Schools Budget (after academies recoupment), including all pre- and post-16 place funding for maintained schools__post_16": "1.0.2 PostSchool",
-        "1.0.2 High needs place funding within Individual Schools Budget (after academies recoupment), including all pre- and post-16 place funding for maintained schools__net_expenditure": "1.0.2 Net total",
+        "1.0.2 High needs place funding within Individual Schools Budget__early_years_establishments": "1.0.2 EarlyYears",
+        "1.0.2 High needs place funding within Individual Schools Budget__primary_schools": "1.0.2 Primaries",
+        "1.0.2 High needs place funding within Individual Schools Budget__secondary_schools": "1.0.2 Secondary",
+        "1.0.2 High needs place funding within Individual Schools Budget__sen_and_special_schools": "1.0.2 SENSpecial",
+        "1.0.2 High needs place funding within Individual Schools Budget__pupil_referral_units_and_alt_provision": "1.0.2 APPRU",
+        "1.0.2 High needs place funding within Individual Schools Budget__post_16": "1.0.2 PostSchool",
+        "1.0.2 High needs place funding within Individual Schools Budget__net_expenditure": "1.0.2 Net total",
         "1.2.3 Top-up and other funding – non-maintained and independent providers__net_expenditure": "1.2.3 Net total",
         "1.2.3 Top-up and other funding – non-maintained and independent providers__early_years_establishments": "1.2.3 EarlyYears",
         "1.2.3 Top-up and other funding – non-maintained and independent providers__primary_schools": "1.2.3 Primaries",
@@ -233,16 +235,16 @@ la_outturn_column_mappings = {
         "1.2.7 Other alternative provision services__net_expenditure": "1.2.7 Net total",
         "1.2.13 Therapies and other health related services__net_expenditure": "1.2.13 Net total",
         # note: below renamed to replace non-ASCII characters.
-        "1.2.1 Top up funding - maintained schools__early_years_establishments": "1.2.1 Top-up funding - maintained schools__early_years_establishments",
-        "1.2.1 Top up funding - maintained schools__primary_schools": "1.2.1 Top-up funding - maintained schools__primary_schools",
-        "1.2.1 Top up funding - maintained schools__secondary_schools": "1.2.1 Top-up funding - maintained schools__secondary_schools",
-        "1.2.1 Top up funding - maintained schools__sen_and_special_schools": "1.2.1 Top-up funding - maintained schools__sen_and_special_schools",
-        "1.2.1 Top up funding - maintained schools__pupil_referral_units_and_alt_provision": "1.2.1 Top-up funding - maintained schools__pupil_referral_units_and_alt_provision",
-        "1.2.1 Top up funding - maintained schools__post_16": "1.2.1 Top-up funding - maintained schools__post_16",
-        "1.2.1 Top up funding - maintained schools__gross_expenditure": "1.2.1 Top-up funding - maintained schools__gross_expenditure",
-        "1.2.1 Top up funding - maintained schools__income": "1.2.1 Top-up funding - maintained schools__income",
-        "1.2.1 Top up funding - maintained schools__net_expenditure": "1.2.1 Top-up funding - maintained schools__net_expenditure",
-        "1.2.1 Top up funding - maintained schools__net_per_capita_expenditure": "1.2.1 Top-up funding - maintained schools__net_per_capita_expenditure",
+        "1.2.1 Top-up funding – maintained schools__early_years_establishments": "1.2.1 Top-up funding - maintained schools__early_years_establishments",
+        "1.2.1 Top-up funding – maintained schools__primary_schools": "1.2.1 Top-up funding - maintained schools__primary_schools",
+        "1.2.1 Top-up funding – maintained schools__secondary_schools": "1.2.1 Top-up funding - maintained schools__secondary_schools",
+        "1.2.1 Top-up funding – maintained schools__sen_and_special_schools": "1.2.1 Top-up funding - maintained schools__sen_and_special_schools",
+        "1.2.1 Top-up funding – maintained schools__pupil_referral_units_and_alt_provision": "1.2.1 Top-up funding - maintained schools__pupil_referral_units_and_alt_provision",
+        "1.2.1 Top-up funding – maintained schools__post_16": "1.2.1 Top-up funding - maintained schools__post_16",
+        "1.2.1 Top-up funding – maintained schools__gross_expenditure": "1.2.1 Top-up funding - maintained schools__gross_expenditure",
+        "1.2.1 Top-up funding – maintained schools__income": "1.2.1 Top-up funding - maintained schools__income",
+        "1.2.1 Top-up funding – maintained schools__net_expenditure": "1.2.1 Top-up funding - maintained schools__net_expenditure",
+        "1.2.1 Top-up funding – maintained schools__net_per_capita_expenditure": "1.2.1 Top-up funding - maintained schools__net_per_capita_expenditure",
         "1.2.2 Top-up funding – academies, free schools and colleges__early_years_establishments": "1.2.2 Top-up funding - academies, free schools and colleges__early_years_establishments",
         "1.2.2 Top-up funding – academies, free schools and colleges__primary_schools": "1.2.2 Top-up funding - academies, free schools and colleges__primary_schools",
         "1.2.2 Top-up funding – academies, free schools and colleges__secondary_schools": "1.2.2 Top-up funding - academies, free schools and colleges__secondary_schools",
@@ -261,6 +263,7 @@ la_outturn_column_mappings = {
         "1.2.5 SEN support services__pupil_referral_units_and_alt_provision": "1.2.5 SEN support service__pupil_referral_units_and_alt_provision",
         "1.2.5 SEN support services__post_16": "1.2.5 SEN support service__post_16",
         "1.2.5 SEN support services__income": "1.2.5 SEN support service__income",
+        "1.9.3 Dedicated Schools Grant carried forward to next year__gross_expenditure": "1.9.3 DSG Carried Forward",
     },
 }
 
@@ -408,6 +411,7 @@ la_section_251_column_mappings = {
         "1.0.2 Secondary": "PlaceFundingSecondary",
         "1.0.2 SENSpecial": "PlaceFundingSpecial",
         "1.0.2 APPRU": "PlaceFundingAlternativeProvision",
+        "1.9.3 DSG Carried Forward": "DSGCarriedForward",
     },
 }
 
@@ -453,6 +457,7 @@ la_section_251_columns = {
         "PlaceFundingSecondary",
         "PlaceFundingSpecial",
         "PlaceFundingAlternativeProvision",
+        "DSGCarriedForward",
     ]
 }
 

@@ -331,7 +331,7 @@ def pre_process_sen2(s251_year, run_id):
 def pre_process_dsg(s251_year):
     filename = dsg_filenames.get(s251_year)
     if dsg_data := try_get_blob(raw_container, f"default/{s251_year}/{filename}"):
-        dsg = prepare_dsg_data(dsg_data)
+        dsg = prepare_dsg_data(dsg_data, s251_year)
         logger.info(f"Preprocessed DSG data for {s251_year}")
         return dsg
     logger.info(f"DSG data for {s251_year} not found")

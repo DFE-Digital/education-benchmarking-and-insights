@@ -1,8 +1,12 @@
 import pandas as pd
 from pandas._typing import FilePath, ReadCsvBuffer
 
+from pipeline.input_schemas.dsg import flat_high_needs_block_cols
 
-def prepare_dsg_data(dsg_data: FilePath | ReadCsvBuffer[bytes] | ReadCsvBuffer[str]):
+
+def prepare_dsg_data(
+    dsg_data: FilePath | ReadCsvBuffer[bytes] | ReadCsvBuffer[str], s251_year
+):
     """
     Funding for SEN through the dedicated schools grant (DSG) per local authority (LA)
     """
@@ -15,13 +19,14 @@ def prepare_dsg_data(dsg_data: FilePath | ReadCsvBuffer[bytes] | ReadCsvBuffer[s
     )
     dsg_ap_academies = dsg["Alternative provision (AP) academies and free schools "]
     dsg_mainstream_academies = dsg[
-        "Mainstream academies (special educational needs (SEN) units and resourced provision)"]
+        "Mainstream academies (special educational needs (SEN) units and resourced provision)"
+    ]
     dsg_special_academies = dsg["Special academies"]
     dsg_special_free_schools = dsg["Special free schools"]
     dsg_hospital_schools = dsg["Hospital Academies"]
 
     dsg["DSGSENAcademyPlaceFunding"] = (
-          dsg_special_academies["Pre-16 SEN Places"]["SEN places deduction (£s)"]
+        dsg_special_academies["Pre-16 SEN Places"]["SEN places deduction (£s)"]
         + dsg_special_academies["Post-16 SEN Places"]["SEN places deduction (£s)"]
         + dsg_special_academies["Pre-16 AP Places"]["AP places deduction (£s)"]
         + dsg_special_free_schools["Pre-16 SEN places"]["SEN places deduction (£s)"]
@@ -29,18 +34,25 @@ def prepare_dsg_data(dsg_data: FilePath | ReadCsvBuffer[bytes] | ReadCsvBuffer[s
         + dsg_special_free_schools["Pre-16 AP Places"]["AP places deduction (£s) "]
     )
     dsg["DSGAPAcademyPlaceFunding"] = (
-          dsg_ap_academies["Pre-16 SEN places"]["SEN places deduction (£s)"]
+        dsg_ap_academies["Pre-16 SEN places"]["SEN places deduction (£s)"]
         + dsg_ap_academies["Post-16 SEN places"]["SEN places deduction (£s)"]
         + dsg_ap_academies["Pre-16 AP Places"]["AP places deduction (£s) "]
     )
-    dsg["DSGHospitalPlaceFunding"] = dsg_hospital_schools[
-        "Hospital Academies funding"]["Total hospital education deduction (£s)"]
+    dsg["DSGHospitalPlaceFunding"] = dsg_hospital_schools["Hospital Academies funding"][
+        "Total hospital education deduction (£s)"
+    ]
     # This gets split into Primary/Secondary later
     dsg["Total Mainstream DSG deduction"] = (
-        dsg_mainstream_academies["Pre-16 SEN places funded at £6,000"]["SEN places deduction (£s)"]
-        + dsg_mainstream_academies["Pre-16 SEN places funded at £10,000"]["SEN places deduction (£s)"]
+        dsg_mainstream_academies["Pre-16 SEN places funded at £6,000"][
+            "SEN places deduction (£s)"
+        ]
+        + dsg_mainstream_academies["Pre-16 SEN places funded at £10,000"][
+            "SEN places deduction (£s)"
+        ]
         + dsg_mainstream_academies["Post-16 SEN Places"]["SEN places deduction (£s)"]
-        + dsg_mainstream_academies["Pre-16 alternative provision (AP) places"]["AP places deduction (£s)"]
+        + dsg_mainstream_academies["Pre-16 alternative provision (AP) places"][
+            "AP places deduction (£s)"
+        ]
     )
 
     # Flatten the multindex in the columns
@@ -54,4 +66,35 @@ def prepare_dsg_data(dsg_data: FilePath | ReadCsvBuffer[bytes] | ReadCsvBuffer[s
             "Total Mainstream DSG deduction",
         ]
     ]
+
+    dsg_high_needs_block = pd.read_excel(
+        dsg_data,
+        sheet_name="High_needs_block",
+        skiprows=[3],
+        header=[0, 1, 2],
+        engine="odf",
+    )
+    # Flatten the multiindex
+    dsg_high_needs_block.columns = [
+        " ".join(col) for col in dsg_high_needs_block.columns.values
+    ]
+
+    # LA rows are region breakdowns we don't want e.g. NORTH EAST
+    numeric_series = pd.to_numeric(
+        dsg_high_needs_block[dsg_high_needs_block.columns[0]], errors="coerce"
+    )
+    just_las = dsg_high_needs_block[numeric_series.notna()]
+    flat_high_needs_block_col = flat_high_needs_block_cols.get(s251_year)
+    just_las_cols_renamed = just_las.rename(
+        {
+            just_las.columns[0]: "LA",
+            flat_high_needs_block_col: "DSGHighNeedsAllocation",
+        },
+        axis=1,
+    )
+    just_las_indexed = just_las_cols_renamed.set_index("LA")
+
+    # Add the High Needs Allocation to the High Needs Deductions
+    dsg_preprocessed = dsg_preprocessed.join(just_las_indexed["DSGHighNeedsAllocation"])
+
     return dsg_preprocessed
