@@ -76,7 +76,7 @@ def prepare_dsg_data(
     )
     # Flatten the multiindex
     dsg_high_needs_block.columns = [
-        "".join(col) for col in dsg_high_needs_block.columns.values
+        " ".join(col) for col in dsg_high_needs_block.columns.values
     ]
 
     # LA rows are region breakdowns we don't want e.g. NORTH EAST

@@ -100,6 +100,7 @@ def ensure_dsg_recoupment_columns_are_present(local_authority_data) -> pd.DataFr
         "DSGAPAcademyPlaceFunding",
         "DSGNurseryPlaceFunding",
         "DSGHospitalPlaceFunding",
+        "DSGHighNeedsAllocation",
         "PrimaryPlaces6000",
         "PrimaryPlaces10000",
         "SecondaryPlaces6000",
