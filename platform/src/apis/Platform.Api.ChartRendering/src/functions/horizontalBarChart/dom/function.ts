@@ -20,6 +20,7 @@ export async function horizontalBarChartDom(
 
   const payload = (await request.json()) as HorizontalBarChartPayload;
 
+  // eslint-disable-next-line no-useless-assignment
   let charts: ChartBuilderResult[] = [];
   const definitions = Array.isArray(payload) ? payload : [payload];
   const buildChartPromises = definitions.map(

@@ -42,6 +42,7 @@ export async function verticalBarChart(
     };
   }
 
+  // eslint-disable-next-line no-useless-assignment
   let charts: ChartBuilderResult[] = [];
   const definitions = Array.isArray(payload) ? payload : [payload];
 
