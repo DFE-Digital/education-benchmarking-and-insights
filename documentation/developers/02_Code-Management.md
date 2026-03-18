@@ -34,18 +34,18 @@ To ensure high quality and a clear project history, we follow these manual stand
 We use automation to handle repetitive tasks, allowing the team to focus on logic rather than formatting. These rules are enforced automatically:
 
 * **Branch Naming Standards:** Branches must follow the pattern `<category>/<backlog-item>/<task>-description-in-kebab-case`. This consistent structure helps us identify the purpose and origin of a branch at a glance.
-    * **Categories:** `feature`, `bugfix`, `hotfix`, `exp`, `tech-debt`, `docs`, `prototype`, `dependabot`, or `chore`.
-    * **Backlog Item:** The ID for the user story, bug, or spike (e.g., `1234`). If no formal item exists, we omit this section.
-    * **Task:** The task ID and a **kebab-case** description (e.g., `5678-add-login-validation`).
-    * **Rule:** We create branches **per task** to keep changes focused.
-    * **Example:** `feature/1234/5678-add-login-validation`
+  * **Categories:** `feature`, `bugfix`, `hotfix`, `exp`, `tech-debt`, `docs`, `prototype`, `dependabot`, or `chore`.
+  * **Backlog Item:** The ID for the user story, bug, or spike (e.g., `1234`). If no formal item exists, we omit this section.
+  * **Task:** The task ID and a **kebab-case** description (e.g., `5678-add-login-validation`).
+  * **Rule:** We create branches **per task** to keep changes focused.
+  * **Example:** `feature/1234/5678-add-login-validation`
 * **PR Labels:** Every PR must have a label to help us organise our work. Labels allow anyone to see immediately if a PR is a bug fix, a new feature, or a documentation update.
 * **Commit Title Standards:** PR titles must follow the [Conventional Commits](https://www.conventionalcommits.org) standard using the pattern `<type>(<optional-scope>): <description>`. This consistent structure allows us to generate automatic changelogs and makes our project history easy to read.
-    * **Types:** `feat` (new feature), `fix` (bug fix), `docs`, `style`, `refactor`, `perf`, `test`, or `chore`.
-    * **Scope:** An optional noun describing the section of the codebase (e.g., `auth`).
-    * **Description:** We use the imperative mood (e.g., "add" instead of "added").
-    * **Breaking Changes:** Indicate breaking changes by appending a `!` after the type/scope, or by including a `BREAKING CHANGE:` footer.
-    * **Example:** `feat(auth): add login validation`
+  * **Types:** `feat` (new feature), `fix` (bug fix), `docs`, `style`, `refactor`, `perf`, `test`, or `chore`.
+  * **Scope:** An optional noun describing the section of the codebase (e.g., `auth`).
+  * **Description:** We use the imperative mood (e.g., "add" instead of "added").
+  * **Breaking Changes:** Indicate breaking changes by appending a `!` after the type/scope, or by including a `BREAKING CHANGE:` footer.
+  * **Example:** `feat(auth): add login validation`
 * **Ticket Linking:** Every PR must be linked to an Azure DevOps (ADO) ticket. This provides "traceability," connecting our code changes directly to the original task or requirement. To automatically link a ticket, include `AB#<ticket-number>` (e.g., `AB#1234`) in the PR description or commit message.
 * **Squash and Merge Method:** GitHub is configured to only allow "Squash and merge." This keeps our Git history clean by combining multiple small commits into one polished update upon merging.
 
