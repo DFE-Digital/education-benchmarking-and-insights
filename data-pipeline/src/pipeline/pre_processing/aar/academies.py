@@ -572,7 +572,7 @@ def _trust_revenue_reserve(
     :param central_services: Central Services data
     :return: updated Academy data
     """
-    mask = academies.index.duplicated(keep=False) & ~academies["Valid To"].isna()
+    mask = academies.set_index("URN").index.duplicated(keep=False) & academies["Valid To"].notna()
     _academies = academies[~mask]
 
     trust_revenue_reserve = (
@@ -623,9 +623,9 @@ def _trust_revenue_reserve(
         + (
             (
                 academies["Trust Revenue reserve_CS"]
-                / academies["Total pupils in trust_pro_rata"]
+                / academies["Total pupils in trust_pro_rata"].fillna(0)
             )
-            * academies["Number of pupils_pro_rata"]
+            * academies["Number of pupils_pro_rata"].fillna(0)
         )
     ).fillna(0.0)
 
