@@ -80,17 +80,21 @@ The following quality checks are automated in the pipelines (PR and merge) and s
 ### Tools & commands
 
 #### Terraform
+
 - `terraform fmt`: Rewrites Terraform configuration files to a canonical format.
 - `terraform validate`: Validates configuration files in a directory.
 
 #### .NET
+
 - `dotnet format`: Formats code to match `.editorconfig` settings.
 
 #### JavaScript / React
+
 - `npm run lint`: Checks code against ESLint/Prettier settings.
 - `npm run lint:fix`: Automatically fixes linting issues.
 
 #### Static Analysis (Checkov)
+
 [Checkov](https://www.checkov.io/) is used for scanning IaC files for misconfigurations and security issues.
 
 <!-- Leave the rest of this page blank -->
