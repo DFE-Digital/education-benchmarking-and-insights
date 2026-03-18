@@ -50,6 +50,7 @@ graph TD
 Follow these steps to set up the repository for local development:
 
 1. **Clone the repository:**
+
    ```sh
    git clone https://github.com/DFE-Digital/education-benchmarking-and-insights.git
    ```
