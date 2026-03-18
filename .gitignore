@@ -446,3 +446,5 @@ out
 # Shutter output
 web/src/**/*.env
 web/src/Web.Shutter/src/assets
+
+*.env
