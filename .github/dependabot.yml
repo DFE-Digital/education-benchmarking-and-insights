@@ -30,6 +30,7 @@
       # Feb 2025 html-to-image versions after 1.11.11 cause issues for
       # the styling of front-end-components charts in images.
       # Ignore until resolved.
+      # Mar 2026 govuk-frontend see AB#305693
       ignore:
         - dependency-name: "react"
           versions: [">=19.0.0"]
@@ -42,6 +43,8 @@
         - dependency-name: "html-to-image"
         - dependency-name: "recharts"
           versions: [">=3.0.0"]
+        - dependency-name: "govuk-frontend"
+          versions: [">=6.0.0"]
       labels:
         - "dependencies"
         - "front-end-components"
@@ -258,6 +261,10 @@
         interval: "monthly"
       commit-message:
         prefix: "chore: "
+      # Mar 2026 govuk-frontend see AB#305693
+      ignore:
+        - dependency-name: "govuk-frontend"
+          versions: [">=6.0.0"]
       labels:
         - "dependencies"
         - "web"
