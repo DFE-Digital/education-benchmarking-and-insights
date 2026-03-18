@@ -1,13 +1,42 @@
-@model string
+@model Web.App.ViewModels.LocalAuthorityViewModel
 <div class="govuk-grid-row" id="high-needs">
     <div class="govuk-grid-column-full">
         <h2 class="govuk-heading-m">High needs</h2>
+    </div>
+</div>
+
+<div class="govuk-grid-row" id="data-details">
+    <div class="govuk-grid-column-two-thirds">
+        <details class="govuk-details">
+            <summary class="govuk-details__summary">
+                <span class="govuk-details__summary-text">
+                    Understand the data we use for high needs - details component
+                </span>
+            </summary>
+            <div class="govuk-details__text">
+                <p class="govuk-body">
+                This data covers the period @(Model.HeadlineStatistics.S251Year - 1)-@Model.HeadlineStatistics.S251Year for section 251 data (s251).
+                </p>
+                <p class="govuk-body">
+                The outturn includes place funding for pupils with special educational needs taught in academies. You can read about how we calculate this in the glossary.
+                </p>
+            </div>
+        </details>
+    </div>
+</div>
+
+@await Html.PartialAsync("_HeadlineStatistics", Model.HeadlineStatistics)
+
+<hr class="govuk-section-break govuk-section-break--m">
+
+<div class="govuk-grid-row" id="high-needs-links">
+    <div class="govuk-grid-column-full">
         <ul class="app-links">
             <li>
                 <h3 class="govuk-heading-s">
                     <a href="@Url.Action("Comparators", "LocalAuthorityHighNeedsBenchmarking", new
                              {
-                                 code = Model
+                                 code = Model.Code
                              })" class="govuk-link govuk-link--no-visited-state">
                         Benchmark high needs
                     </a>
@@ -20,7 +49,7 @@
                 <h3 class="govuk-heading-s">
                     <a href="@Url.Action("Index", "LocalAuthorityHighNeedsHistoricData", new
                              {
-                                 code = Model
+                                 code = Model.Code
                              })" class="govuk-link govuk-link--no-visited-state">
                         View high needs historical data
                     </a>

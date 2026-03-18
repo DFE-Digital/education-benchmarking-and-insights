@@ -158,4 +158,23 @@ public static partial class StringExtensions
 
     [GeneratedRegex(@"\w+\b(?<!\b[A-Z]{2,})")]
     private static partial Regex NonInitialsWords();
+
+    public static string RemoveTrailingChar(this string value, string character)
+    {
+        while (true)
+        {
+            if (string.IsNullOrWhiteSpace(value))
+            {
+                return value;
+            }
+
+            if (value.EndsWith(character))
+            {
+                value = value.TrimEnd(character.ToCharArray());
+                continue;
+            }
+
+            return value;
+        }
+    }
 }

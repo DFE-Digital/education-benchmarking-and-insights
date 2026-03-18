@@ -3,7 +3,7 @@ using Web.App.Domain.Content;
 
 namespace Web.App.ViewModels;
 
-public class LocalAuthorityResourcesViewModel(LocalAuthority localAuthority, Dictionary<string, CommercialResourceLink[]> resources)
+public class LocalAuthorityResourcesViewModel(Domain.LocalAuthorities.LocalAuthority localAuthority, Dictionary<string, CommercialResourceLink[]> resources)
 {
     public string? Code => localAuthority.Code;
     public string? Name => localAuthority.Name;

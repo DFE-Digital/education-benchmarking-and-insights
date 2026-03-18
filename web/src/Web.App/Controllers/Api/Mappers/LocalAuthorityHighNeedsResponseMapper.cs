@@ -5,7 +5,7 @@ namespace Web.App.Controllers.Api.Mappers;
 
 public static class LocalAuthorityHighNeedsResponseMapper
 {
-    public static IEnumerable<LocalAuthorityHighNeedsComparisonResponse> MapToApiResponse(this LocalAuthority<HighNeeds>[] localAuthorities)
+    public static IEnumerable<LocalAuthorityHighNeedsComparisonResponse> MapToApiResponse(this LocalAuthorityHighNeeds<HighNeeds>[] localAuthorities)
     {
         return localAuthorities.Select(l => new LocalAuthorityHighNeedsComparisonResponse
         {

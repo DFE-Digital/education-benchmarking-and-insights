@@ -71,6 +71,7 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
     public Mock<INewsApi> NewsApi { get; } = new();
     public Mock<ISchoolApi> SchoolApi { get; } = new();
     public Mock<ITrustApi> TrustApi { get; } = new();
+    public Mock<ILocalAuthorityApi> LocalAuthorityApi { get; } = new();
 
     public IOptions<CacheOptions> CacheOptions { get; } = Options.Create(new CacheOptions
     {
@@ -126,6 +127,7 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
         services.AddSingleton(SchoolApi.Object);
         services.AddSingleton(NewsApi.Object);
         services.AddSingleton(TrustApi.Object);
+        services.AddSingleton(LocalAuthorityApi.Object);
         services.AddSingleton(CacheOptions);
         services.AddSingleton(CacheOptions);
         services.AddSingleton(UriBuilder);
@@ -213,25 +215,33 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
         return this;
     }
 
-    public BenchmarkingWebAppClient SetupEstablishment(LocalAuthority authority)
+    public BenchmarkingWebAppClient SetupEstablishment(App.Domain.LocalAuthorities.LocalAuthority authority)
     {
         EstablishmentApi.Reset();
         EstablishmentApi.Setup(api => api.GetLocalAuthority(authority.Code, It.IsAny<CancellationToken>())).ReturnsAsync(ApiResult.Ok(authority));
+
+        LocalAuthorityApi.Reset();
+        LocalAuthorityApi.Setup(api => api.SingleAsync(authority.Code, It.IsAny<CancellationToken>())).ReturnsAsync(ApiResult.Ok(authority));
+
         return this;
     }
 
-    public BenchmarkingWebAppClient SetupEstablishment(LocalAuthority authority, LocalAuthoritySchool[] schools)
+    public BenchmarkingWebAppClient SetupEstablishment(App.Domain.LocalAuthorities.LocalAuthority authority, App.Domain.LocalAuthorities.LocalAuthoritySchool[] schools)
     {
         EstablishmentApi.Reset();
         authority.Schools = schools;
         EstablishmentApi.Setup(api => api.GetLocalAuthority(authority.Code, It.IsAny<CancellationToken>())).ReturnsAsync(ApiResult.Ok(authority));
+
+        LocalAuthorityApi.Reset();
+        LocalAuthorityApi.Setup(api => api.SingleAsync(authority.Code, It.IsAny<CancellationToken>())).ReturnsAsync(ApiResult.Ok(authority));
+
         return this;
     }
 
     public BenchmarkingWebAppClient SetupEstablishment(
-        LocalAuthority authority,
+        App.Domain.LocalAuthorities.LocalAuthority authority,
         LocalAuthorityStatisticalNeighbours statisticalNeighbours,
-        LocalAuthority[] authorities)
+        App.Domain.LocalAuthorities.LocalAuthority[] authorities)
     {
         SetupEstablishment(authority, []);
         EstablishmentApi.Setup(api => api.GetLocalAuthorityStatisticalNeighbours(authority.Code, It.IsAny<CancellationToken>())).ReturnsAsync(ApiResult.Ok(statisticalNeighbours));
@@ -239,12 +249,16 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
         return this;
     }
 
-    public BenchmarkingWebAppClient SetupEstablishment(LocalAuthorityStatisticalNeighbours authority, LocalAuthority[] authorities)
+    public BenchmarkingWebAppClient SetupEstablishment(LocalAuthorityStatisticalNeighbours authority, App.Domain.LocalAuthorities.LocalAuthority[] authorities)
     {
         EstablishmentApi.Reset();
         EstablishmentApi.Setup(api => api.GetLocalAuthorityStatisticalNeighbours(authority.Code, It.IsAny<CancellationToken>())).ReturnsAsync(ApiResult.Ok(authority));
         EstablishmentApi.Setup(api => api.GetLocalAuthorities(It.IsAny<CancellationToken>())).ReturnsAsync(ApiResult.Ok(authorities));
         EstablishmentApi.Setup(api => api.GetLocalAuthority(It.IsAny<string>(), It.IsAny<CancellationToken>())).ReturnsAsync(ApiResult.Ok(authorities.First()));
+
+        LocalAuthorityApi.Reset();
+        LocalAuthorityApi.Setup(api => api.SingleAsync(authority.Code, It.IsAny<CancellationToken>())).ReturnsAsync(ApiResult.Ok(authorities.First()));
+
         return this;
     }
 
@@ -255,6 +269,10 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
         EstablishmentApi.Setup(api => api.GetTrust(It.IsAny<string>(), It.IsAny<CancellationToken>())).ReturnsAsync(ApiResult.NotFound);
         EstablishmentApi.Setup(api => api.GetLocalAuthority(It.IsAny<string>(), It.IsAny<CancellationToken>())).ReturnsAsync(ApiResult.NotFound);
         EstablishmentApi.Setup(api => api.GetLocalAuthorityStatisticalNeighbours(It.IsAny<string>(), It.IsAny<CancellationToken>())).ReturnsAsync(ApiResult.NotFound);
+
+        LocalAuthorityApi.Reset();
+        LocalAuthorityApi.Setup(api => api.SingleAsync(It.IsAny<string>(), It.IsAny<CancellationToken>())).ReturnsAsync(ApiResult.NotFound());
+
         return this;
     }
 
@@ -272,6 +290,10 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
         EstablishmentApi.Setup(api => api.SearchSchools(It.IsAny<SearchRequest>(), It.IsAny<CancellationToken>())).Throws(new Exception());
         EstablishmentApi.Setup(api => api.SearchTrusts(It.IsAny<SearchRequest>(), It.IsAny<CancellationToken>())).Throws(new Exception());
         EstablishmentApi.Setup(api => api.SearchLocalAuthorities(It.IsAny<SearchRequest>(), It.IsAny<CancellationToken>())).Throws(new Exception());
+
+        LocalAuthorityApi.Reset();
+        LocalAuthorityApi.Setup(api => api.SingleAsync(It.IsAny<string>(), It.IsAny<CancellationToken>())).Throws(new Exception());
+
         return this;
     }
 
@@ -691,7 +713,7 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
         return this;
     }
 
-    public BenchmarkingWebAppClient SetupHighNeeds(LocalAuthority<HighNeeds>[]? highNeeds, HighNeedsHistory<HighNeedsYear>? history)
+    public BenchmarkingWebAppClient SetupHighNeeds(LocalAuthorityHighNeeds<HighNeeds>[]? highNeeds, HighNeedsHistory<HighNeedsYear>? history)
     {
         LocalAuthoritiesApi.Reset();
         LocalAuthoritiesApi.Setup(api => api.GetHighNeeds(It.IsAny<ApiQuery>(), It.IsAny<CancellationToken>())).ReturnsAsync(ApiResult.Ok(highNeeds ?? []));

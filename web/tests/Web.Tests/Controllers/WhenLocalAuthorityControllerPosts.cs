@@ -8,6 +8,7 @@ using Microsoft.Extensions.Logging.Abstractions;
 using Microsoft.Extensions.Primitives;
 using Moq;
 using Web.App.Controllers;
+using Web.App.Infrastructure.Apis;
 using Web.App.Infrastructure.Apis.Establishment;
 using Web.App.Infrastructure.Apis.Insight;
 using Web.App.Infrastructure.Apis.LocalAuthorityFinances;
@@ -66,7 +67,7 @@ public class WhenLocalAuthorityControllerPosts
                 return $"{actualController}/{actualAction}?{routeValuesAsQuery.ToString().TrimEnd('&')}{actualFragment}";
             });
 
-        _controller = new LocalAuthorityController(_logger, Mock.Of<IEstablishmentApi>(), Mock.Of<IMetricRagRatingApi>(), Mock.Of<ICommercialResourcesService>(), Mock.Of<ILocalAuthorityFinancesApi>())
+        _controller = new LocalAuthorityController(_logger, Mock.Of<ILocalAuthorityApi>(), Mock.Of<IMetricRagRatingApi>(), Mock.Of<ICommercialResourcesService>(), Mock.Of<ILocalAuthorityFinancesApi>(), Mock.Of<IFinanceService>())
         {
             Url = _mockUrlHelper.Object
         };

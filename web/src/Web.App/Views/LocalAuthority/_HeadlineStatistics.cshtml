@@ -1,0 +1,36 @@
+@using Web.App.Extensions
+@model Web.App.ViewModels.LocalAuthorityHeadlineStatisticsViewModel
+
+<div class="govuk-grid-row" id="headline-statistics">
+    <div class="govuk-grid-column-full">
+        <ul class="app-headline app-headline-3 govuk-!-margin-0">
+            @if (Model.DsgHighNeedsAllocation != null)
+            {
+                <li class="app-headline-brand">
+                    <p class="govuk-body govuk-!-font-weight-bold govuk-!-margin-bottom-4">High needs DSG allocation @(Model.S251Year - 1)/@Model.S251Year</p>
+                    <p class="govuk-heading-l govuk-!-margin-bottom-4">@Model.DsgHighNeedsAllocation.ToHeadlineStatisticCurrency()</p>
+                </li>
+            }
+            @if (Model.OutturnTotalHighNeeds != null)
+            {
+                <li class="app-headline-brand">
+                    <p class="govuk-body govuk-!-font-weight-bold govuk-!-margin-bottom-4">Total high needs outturn @(Model.S251Year - 1)/@Model.S251Year</p>
+                    <p class="govuk-heading-l govuk-!-margin-bottom-4">@Model.OutturnTotalHighNeeds.ToHeadlineStatisticCurrency()</p>
+                    <p class="govuk-body govuk-!-margin-bottom-0">@($"{Model.OutturnAsPercentageOfAllocation:0.#}")% of high needs DSG allocation</p>
+                </li>
+            }
+            @if (Model.OutturnDsgCarriedForward != null)
+            {
+                <li class="app-headline-brand">
+                    <p class="govuk-body govuk-!-font-weight-bold govuk-!-margin-bottom-4">High needs position carried forward as at March @Model.S251Year</p>
+                    <p class="govuk-heading-l govuk-!-margin-bottom-4">@Model.OutturnDsgCarriedForward.ToHeadlineStatisticCurrency()</p>
+                    @if (Model.OutturnDsgGCarriedForwardPreviousPeriod != null)
+                    {
+                        <p class="govuk-body govuk-!-margin-bottom-0">In March @(Model.S251Year - 1) this was @Model.OutturnDsgGCarriedForwardPreviousPeriod.ToHeadlineStatisticCurrency()</p>
+                    }
+                </li>
+            }
+        </ul>
+    </div>
+</div>
+

@@ -340,8 +340,8 @@ public class WhenViewingHighNeedsStartBenchmarking(SchoolBenchmarkingWebAppClien
     private async Task<(
         IHtmlDocument page,
         LocalAuthorityStatisticalNeighbours authority,
-        LocalAuthority[] neighbourAuthorities,
-        LocalAuthority[] otherAuthorities)>
+        Web.App.Domain.LocalAuthorities.LocalAuthority[] neighbourAuthorities,
+        Web.App.Domain.LocalAuthorities.LocalAuthority[] otherAuthorities)>
         SetupNavigateInitPage(string[]? comparators = null, string? referrer = null)
     {
         var authority = Fixture.Build<LocalAuthorityStatisticalNeighbours>()
@@ -363,7 +363,7 @@ public class WhenViewingHighNeedsStartBenchmarking(SchoolBenchmarkingWebAppClien
         authority.StatisticalNeighbours = statisticalNeighbours;
 
         var neighbourAuthorities = statisticalNeighbours
-            .Select(n => new LocalAuthority
+            .Select(n => new Web.App.Domain.LocalAuthorities.LocalAuthority
             {
                 Code = n.Code,
                 Name = n.Name
@@ -371,7 +371,7 @@ public class WhenViewingHighNeedsStartBenchmarking(SchoolBenchmarkingWebAppClien
             .ToArray();
 
         var otherAuthorities = codes.Skip(9)
-            .Select(code => new LocalAuthority
+            .Select(code => new Web.App.Domain.LocalAuthorities.LocalAuthority
             {
                 Code = code,
                 Name = $"other{code}"
@@ -389,7 +389,7 @@ public class WhenViewingHighNeedsStartBenchmarking(SchoolBenchmarkingWebAppClien
         return (page, authority, neighbourAuthorities, otherAuthorities);
     }
 
-    private static void AssertPageLayout(IHtmlDocument page, LocalAuthorityStatisticalNeighbours authority, LocalAuthority[] authorities)
+    private static void AssertPageLayout(IHtmlDocument page, LocalAuthorityStatisticalNeighbours authority, Web.App.Domain.LocalAuthorities.LocalAuthority[] authorities)
     {
         DocumentAssert.AssertPageUrl(page, Paths.LocalAuthorityHighNeedsStartBenchmarking(authority.Code).ToAbsolute());
 

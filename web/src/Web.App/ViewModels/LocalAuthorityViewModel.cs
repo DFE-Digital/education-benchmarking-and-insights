@@ -1,15 +1,26 @@
 ﻿using Web.App.Domain;
+using Web.App.Domain.LocalAuthorities;
+using Web.App.Domain.Content;
 using Web.App.ViewModels.Shared;
 
 namespace Web.App.ViewModels;
 
-public class LocalAuthorityViewModel(LocalAuthority localAuthority, RagRatingSummary[] ragRatings)
+public class LocalAuthorityViewModel(Domain.LocalAuthorities.LocalAuthority localAuthority, RagRatingSummary[] ragRatings, FinanceYears years)
 {
     public string? Code => localAuthority.Code;
     public string? Name => localAuthority.Name;
     public int? NumberOfSchools => localAuthority.Schools.Length;
 
-    public IEnumerable<IGrouping<string?, LocalAuthoritySchool>> GroupedSchoolNames { get; } = localAuthority.Schools
+    public LocalAuthorityHeadlineStatisticsViewModel? HeadlineStatistics => new LocalAuthorityHeadlineStatisticsViewModel()
+    {
+        DsgHighNeedsAllocation = localAuthority.HeadlineStatistics.DsgHighNeedsAllocation,
+        OutturnTotalHighNeeds = localAuthority.HeadlineStatistics.OutturnTotalHighNeeds,
+        OutturnDsgCarriedForward = localAuthority.HeadlineStatistics.OutturnDsgCarriedForward,
+        OutturnDsgGCarriedForwardPreviousPeriod = localAuthority.HeadlineStatistics.OutturnDsgCarriedForwardPreviousPeriod,
+        S251Year = years.S251
+    };
+
+    public IEnumerable<IGrouping<string?, Domain.LocalAuthorities.LocalAuthoritySchool>> GroupedSchoolNames { get; } = localAuthority.Schools
         .OrderBy(x => x.SchoolName)
         .GroupBy(x => x.OverallPhase)
         .OrderBy(x => GetLaPhaseOrder(x.Key));
@@ -63,11 +74,21 @@ public class LocalAuthoritySchoolNamesSectionViewModel
 {
     public string? Heading { get; init; }
     public int Id { get; init; }
-    public IEnumerable<LocalAuthoritySchool> Schools { get; init; } = [];
+    public IEnumerable<Domain.LocalAuthorities.LocalAuthoritySchool> Schools { get; init; } = [];
 }
 
 public class LocalAuthoritySchoolsSectionViewModel
 {
     public string Heading { get; init; } = string.Empty;
     public IEnumerable<RagSchoolViewModel> Schools { get; init; } = [];
+}
+
+public class LocalAuthorityHeadlineStatisticsViewModel
+{
+    public decimal? DsgHighNeedsAllocation { get; set; }
+    public decimal? OutturnTotalHighNeeds { get; set; }
+    public decimal? OutturnDsgCarriedForward { get; set; }
+    public decimal? OutturnDsgGCarriedForwardPreviousPeriod { get; set; }
+    public int S251Year { get; set; }
+    public decimal? OutturnAsPercentageOfAllocation => (100 / DsgHighNeedsAllocation) * OutturnTotalHighNeeds;
 }

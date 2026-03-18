@@ -943,8 +943,8 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
 
     private async Task<(
         IHtmlDocument page,
-        LocalAuthority authority,
-        LocalAuthoritySchool[] schools,
+        App.Domain.LocalAuthorities.LocalAuthority authority,
+        App.Domain.LocalAuthorities.LocalAuthoritySchool[] schools,
         RagRatingSummary[] ratings,
         Banner? banner,
         LocalAuthoritySchoolFinancial[] schoolFinancials,
@@ -957,7 +957,7 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
         string? queryString = null,
         params string[] phaseTypes)
     {
-        var authority = Fixture.Build<LocalAuthority>()
+        var authority = Fixture.Build<App.Domain.LocalAuthorities.LocalAuthority>()
             .With(a => a.Code, "123")
             .Create();
 
@@ -1024,9 +1024,9 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
         return (page, authority, schools, ratings, banner, schoolFinancials, schoolWorkforces);
     }
 
-    private LocalAuthoritySchool[] GenerateSchools(string phaseType)
+    private App.Domain.LocalAuthorities.LocalAuthoritySchool[] GenerateSchools(string phaseType)
     {
-        return Fixture.Build<LocalAuthoritySchool>()
+        return Fixture.Build<App.Domain.LocalAuthorities.LocalAuthoritySchool>()
             .With(x => x.OverallPhase, phaseType)
             .CreateMany(10)
             .ToArray();
@@ -1034,8 +1034,8 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
 
     private static void AssertPageLayout(
         IHtmlDocument page,
-        LocalAuthority authority,
-        LocalAuthoritySchool[] schools,
+        App.Domain.LocalAuthorities.LocalAuthority authority,
+        App.Domain.LocalAuthorities.LocalAuthoritySchool[] schools,
         RagRatingSummary[] ratings,
         Banner? banner,
         bool localAuthorityHomepageV2Enabled)
@@ -1051,11 +1051,14 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
         Assert.NotNull(authority.Name);
         DocumentAssert.TitleAndH1(page, "Your local authority - Financial Benchmarking and Insights Tool - GOV.UK", authority.Name);
 
-        var dataSourceElement = page.QuerySelector($"main > div > div:nth-child({(banner == null ? "2" : "3")}) > div > p");
-        Assert.NotNull(dataSourceElement);
+        /*
+            Data Source view component has been removed from the page
+            TODO: add tests for the new page content (details component, link to change comparators)
+                var dataSourceElement = page.QuerySelector($"main > div > div:nth-child({(banner == null ? "2" : "3")}) > div > p");
+                Assert.NotNull(dataSourceElement);
 
-        DocumentAssert.TextEqual(dataSourceElement, "This data covers the financial year April 2020 to March 2021 consistent financial reporting return (CFR).");
-
+                DocumentAssert.TextEqual(dataSourceElement, "This data covers the financial year April 2020 to March 2021 consistent financial reporting return (CFR).");
+        */
         var accordion = page.QuerySelector("#accordion-schools");
         if (localAuthorityHomepageV2Enabled)
         {
@@ -1075,7 +1078,7 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
         AssertResourcesSection(page);
     }
 
-    private static void AssertAccordionSection(IElement? accordion, LocalAuthoritySchool[] schools)
+    private static void AssertAccordionSection(IElement? accordion, App.Domain.LocalAuthorities.LocalAuthoritySchool[] schools)
     {
         Assert.NotNull(accordion);
         var accordionSections = accordion.QuerySelectorAll(".govuk-accordion__section");
@@ -1094,7 +1097,7 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
         }
     }
 
-    private static void AssertAccordionContent(IElement element, LocalAuthoritySchool[] schools, string expectedPhaseType)
+    private static void AssertAccordionContent(IElement element, App.Domain.LocalAuthorities.LocalAuthoritySchool[] schools, string expectedPhaseType)
     {
         var expectedSchools = schools.Where(x => x.OverallPhase == expectedPhaseType);
 
@@ -1122,7 +1125,7 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
 
     private static void AssertHighNeedsSection(IHtmlDocument page)
     {
-        var links = page.QuerySelectorAll("#high-needs .app-links > li a");
+        var links = page.QuerySelectorAll("#high-needs-links .app-links > li a");
         Assert.Equal(2, links.Length);
 
         Assert.Equal("Benchmark high needs", links.ElementAt(0).TextContent.Trim());
