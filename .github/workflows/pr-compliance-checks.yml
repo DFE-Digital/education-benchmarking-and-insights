@@ -66,19 +66,41 @@ jobs:
               `- [${ticketValid ? 'x' : ' '}] **Ticket Linking:** Linked to an ADO ticket (contains \`AB#<ticket-number>\`) or is a dependabot PR`
             ].join('\n');
 
-            const reviews = await github.paginate(github.rest.pulls.listReviews, {
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              pull_number: pr.number,
-            });
-            const botReviews = reviews.filter(r => r.user.type === 'Bot' && r.state === 'CHANGES_REQUESTED');
+            const messageBody = allValid ? "✅ **All compliance checks have passed!**\n\n" + checklist : checklist;
 
+            // 1. Manage the Issue Comment (The Checklist)
             const comments = await github.paginate(github.rest.issues.listComments, {
               owner: context.repo.owner,
               repo: context.repo.repo,
               issue_number: pr.number,
             });
             const botComment = comments.find(c => c.user.type === 'Bot' && c.body.includes('## PR Compliance Checklist'));
+
+            if (botComment) {
+              await github.rest.issues.updateComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                comment_id: botComment.id,
+                body: messageBody
+              });
+              console.log("Updated existing compliance checklist comment.");
+            } else {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: pr.number,
+                body: messageBody
+              });
+              console.log("Created new compliance checklist comment.");
+            }
+
+            // 2. Manage the PR Review (Blocking State)
+            const reviews = await github.paginate(github.rest.pulls.listReviews, {
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: pr.number,
+            });
+            const botReviews = reviews.filter(r => r.user.type === 'Bot' && r.state === 'CHANGES_REQUESTED');
 
             if (!allValid) {
               if (botReviews.length === 0) {
@@ -87,17 +109,9 @@ jobs:
                   repo: context.repo.repo,
                   pull_number: pr.number,
                   event: 'REQUEST_CHANGES',
-                  body: "PR does not meet all compliance standards. Please review the checklist and resolve the issues.\n\n" + checklist
+                  body: "PR does not meet all compliance standards. Please review the checklist in the comments and resolve the issues."
                 });
                 console.log("Created a PR review requesting changes.");
-              } else if (botComment) {
-                await github.rest.issues.updateComment({
-                  owner: context.repo.owner,
-                  repo: context.repo.repo,
-                  comment_id: botComment.id,
-                  body: checklist
-                });
-                console.log("Updated existing compliance checklist comment.");
               }
             } else {
               for (const review of botReviews) {
@@ -109,25 +123,5 @@ jobs:
                   message: "All compliance checks have now passed."
                 });
                 console.log(`Dismissed review ${review.id}.`);
-              }
-
-              const successMessage = "✅ **All compliance checks have passed!**\n\n" + checklist;
-              
-              if (botComment) {
-                await github.rest.issues.updateComment({
-                  owner: context.repo.owner,
-                  repo: context.repo.repo,
-                  comment_id: botComment.id,
-                  body: successMessage
-                });
-                console.log("Updated existing comment with success message.");
-              } else {
-                await github.rest.issues.createComment({
-                  owner: context.repo.owner,
-                  repo: context.repo.repo,
-                  issue_number: pr.number,
-                  body: successMessage
-                });
-                console.log("Created success comment.");
               }
             }
