@@ -572,7 +572,10 @@ def _trust_revenue_reserve(
     :param central_services: Central Services data
     :return: updated Academy data
     """
-    mask = academies.set_index("URN").index.duplicated(keep=False) & academies["Valid To"].notna()
+    mask = (
+        academies.set_index("URN").index.duplicated(keep=False)
+        & academies["Valid To"].notna()
+    )
     _academies = academies[~mask]
 
     trust_revenue_reserve = (
@@ -610,12 +613,23 @@ def _trust_revenue_reserve(
         how="left",
     )
 
+    # Revenue reserves are apportioned on current trust membership.
+    # We therefore need a pupil number based on current trust membership.
+    academies["Number of pupils_pro_rata_end_of_period"] = np.where(
+        academies["Valid To"].isna(),
+        academies["Number of pupils_pro_rata"].fillna(0),
+        0,
+    )
+    academies["Total pupils in trust_pro_rata_end_of_period"] = academies.groupby(
+        "Trust UPIN"
+    )["Number of pupils_pro_rata_end_of_period"].transform("sum")
+
     academies["Share Revenue reserve"] = (
         (
             academies["Trust Revenue reserve"]
-            / academies["Total pupils in trust_pro_rata"]
+            / academies["Total pupils in trust_pro_rata_end_of_period"]
         )
-        * academies["Number of pupils_pro_rata"]
+        * academies["Number of pupils_pro_rata_end_of_period"]
     ).fillna(0.0)
 
     academies["Revenue reserve"] = (
@@ -623,9 +637,9 @@ def _trust_revenue_reserve(
         + (
             (
                 academies["Trust Revenue reserve_CS"]
-                / academies["Total pupils in trust_pro_rata"].fillna(0)
+                / academies["Total pupils in trust_pro_rata_end_of_period"].fillna(0)
             )
-            * academies["Number of pupils_pro_rata"].fillna(0)
+            * academies["Number of pupils_pro_rata_end_of_period"].fillna(0)
         )
     ).fillna(0.0)
 

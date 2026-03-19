@@ -147,7 +147,7 @@ def test_revenue_reserve_part_year_academy():
     )
     assert result[(result["URN"] == 1) & (result["Trust UPIN"] == 1)].at[
         2, "Revenue reserve"
-    ] == 1.0 + (20.0 * (10.0 / 15.0))
+    ] == 1.0 + (20.0 * (10.0 / 10.0))
 
     assert result[(result["URN"] == 0) & (result["Trust UPIN"] == 0)].at[
         0, "Share Revenue reserve"
@@ -160,4 +160,4 @@ def test_revenue_reserve_part_year_academy():
     )
     assert result[(result["URN"] == 1) & (result["Trust UPIN"] == 1)].at[
         2, "Share Revenue reserve"
-    ] == 21.0 * (10.0 / 15.0)
+    ] == 21.0 * (10.0 / 10.0)
