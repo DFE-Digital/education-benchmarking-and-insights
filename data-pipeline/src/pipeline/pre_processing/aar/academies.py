@@ -615,7 +615,7 @@ def _trust_revenue_reserve(
 
     # Revenue reserves are apportioned on current trust membership.
     # We therefore need a pupil number based on current trust membership.
-    # First set the pupil number to 0 for academy records which are not up to date.
+    # First set the pupil number to 0 for academy records which are not current.
     academies["Number of pupils_pro_rata_end_of_period"] = np.where(
         academies["Valid To"].isna(),
         academies["Number of pupils_pro_rata"].fillna(0),
