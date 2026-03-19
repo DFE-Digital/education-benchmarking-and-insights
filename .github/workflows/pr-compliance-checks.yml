@@ -30,7 +30,8 @@ jobs:
             // 1. Branch Naming Standards
             const branchRegex = /^(feature|bugfix|hotfix|exp|tech-debt|docs|prototype|dependabot|chore)(\/[0-9]+)?\/.+$/;
             const branchValid = branchRegex.test(branchName);
-
+            console.log(branchValid)
+            
             // 2. PR Labels
             const labelsValid = labels.length > 0;
 
