@@ -17,6 +17,7 @@ We use a **trunk-based** approach, a strategy where all developers work on a sin
 * **What is Trunk-based?** Instead of working on long-running branches for weeks, we break work into the smallest possible parts to keep the codebase moving. This often involves merging incomplete features hidden behind feature toggles. See the [Feature Flags Management Guide](12_Feature-Flags-Management-Guide.md) for more details.
 * **Why we use it:** This approach increases our **speed** by allowing us to release features faster, **reduces conflict** by preventing "merge hell," and improves **team visibility** by keeping everyone aligned in real-time.
 * **Short-lived Branches:** We create small branches that are merged back into main as soon as possible, typically within a day or two.
+* **Rebasing:** When updating branches with the latest changes from `main`, we prefer rebasing (e.g., `git pull --rebase origin main`) over merging. This avoids unnecessary "merge commits" and keeps the PR history focused on the actual changes, making it easier for team members to review.
 * **Branch Protection:** We never push code directly to the main branch. Everything must go through a Pull Request (PR) to ensure it is tested and reviewed. While rare exceptions may be made (such as urgent emergency fixes), these must be agreed upon by the tech lead first.
 
 ## Code Reviews
@@ -29,9 +30,9 @@ To ensure high quality and a clear project history, we follow these manual stand
 * **Encourage Positive Feedback:** We use reviews as an opportunity to support one another. When we encounter clever solutions or clean implementations, we leave a friendly comment to say so. We avoid empty approvals like "LGTM" and instead aim to highlight at least one specific strength of the code.
 * **Quality Gates & Knowledge Sharing:** Pull Requests are our collective quality gate and a vital tool for sharing knowledge. We encourage everyone to perform initial logic checks to learn how the system works. If there is any uncertainty about a change, we bring in others rather than letting it through.
 
-## Automated Checks and Rules
+## Automated Checks
 
-We use automation to handle repetitive tasks, allowing the team to focus on logic rather than formatting. These rules are enforced automatically:
+We use automation to handle repetitive tasks, allowing the team to focus on logic rather than formatting. The following checks/settings are in place:
 
 * **Branch Naming Standards:** Branches must follow the pattern `<category>/<backlog-item>/<task>-description-in-kebab-case`. This consistent structure helps us identify the purpose and origin of a branch at a glance.
   * **Categories:** `feature`, `bugfix`, `hotfix`, `exp`, `tech-debt`, `docs`, `prototype`, `dependabot`, or `chore`.
