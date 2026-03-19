@@ -21,7 +21,7 @@ public class WhenLocalAuthorityHighNeedsComparisonResponseMapperMapsToApi
         };
 
         var plans = codes.Select(c => Fixture
-                .Build<LocalAuthority<App.Domain.LocalAuthorities.HighNeeds>>()
+                .Build<LocalAuthorityHighNeeds<App.Domain.LocalAuthorities.HighNeeds>>()
                 .With(p => p.Code, c)
                 .Create())
             .ToArray();

@@ -46,13 +46,13 @@ public class WhenViewingHighNeedsBenchmarking(SchoolBenchmarkingWebAppClient cli
         DocumentAssert.AssertPageUrl(page, Paths.LocalAuthorityHighNeedsStartBenchmarking(authority.Code).ToAbsolute());
     }
 
-    private async Task<(IHtmlDocument page, LocalAuthority authority, string[] set)> SetupNavigateInitPage(string[]? comparatorSet = null)
+    private async Task<(IHtmlDocument page, Web.App.Domain.LocalAuthorities.LocalAuthority authority, string[] set)> SetupNavigateInitPage(string[]? comparatorSet = null)
     {
         var authorityWithNeighbours = Fixture.Build<LocalAuthorityStatisticalNeighbours>()
             .With(a => a.Code, "123")
             .Create();
 
-        var authority = Fixture.Build<LocalAuthority>()
+        var authority = Fixture.Build<Web.App.Domain.LocalAuthorities.LocalAuthority>()
             .With(a => a.Code, authorityWithNeighbours.Code)
             .With(a => a.Name, authorityWithNeighbours.Name)
             .Create();
@@ -67,7 +67,7 @@ public class WhenViewingHighNeedsBenchmarking(SchoolBenchmarkingWebAppClient cli
         return (page, authority, set);
     }
 
-    private static void AssertPageLayout(IHtmlDocument page, LocalAuthority authority, string[] _)
+    private static void AssertPageLayout(IHtmlDocument page, Web.App.Domain.LocalAuthorities.LocalAuthority authority, string[] _)
     {
         DocumentAssert.AssertPageUrl(page, Paths.LocalAuthorityHighNeedsBenchmarking(authority.Code).ToAbsolute());
 

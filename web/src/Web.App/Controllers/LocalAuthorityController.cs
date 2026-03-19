@@ -25,10 +25,11 @@ namespace Web.App.Controllers;
 [ValidateLaCode]
 public class LocalAuthorityController(
     ILogger<LocalAuthorityController> logger,
-    IEstablishmentApi establishmentApi,
+    ILocalAuthorityApi localAuthorityApi,
     IMetricRagRatingApi metricRagRatingApi,
     ICommercialResourcesService commercialResourcesService,
-    ILocalAuthorityFinancesApi localAuthorityFinancesApi)
+    ILocalAuthorityFinancesApi localAuthorityFinancesApi,
+    IFinanceService financeService)
     : Controller
 {
     [HttpGet]
@@ -46,8 +47,9 @@ public class LocalAuthorityController(
 
                 var authority = await LocalAuthority(code);
                 var ragRatings = await RagRatings(code);
+                var years = await financeService.GetYears();
 
-                var viewModel = new LocalAuthorityViewModel(authority, ragRatings);
+                var viewModel = new LocalAuthorityViewModel(authority, ragRatings, years);
                 return View(viewModel);
             }
             catch (Exception e)
@@ -162,9 +164,9 @@ public class LocalAuthorityController(
         }
     }
 
-    private async Task<LocalAuthority> LocalAuthority(string code) => await establishmentApi
-        .GetLocalAuthority(code)
-        .GetResultOrThrow<LocalAuthority>();
+    private async Task<Domain.LocalAuthorities.LocalAuthority> LocalAuthority(string code) => await localAuthorityApi
+        .SingleAsync(code)
+        .GetResultOrThrow<Domain.LocalAuthorities.LocalAuthority>();
 
     private async Task<RagRatingSummary[]> RagRatings(string code) => await metricRagRatingApi
         .SummaryAsync(BuildQuery(code))

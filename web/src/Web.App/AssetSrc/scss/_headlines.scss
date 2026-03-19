@@ -5,7 +5,7 @@
 
   p {
     color: white;
-    
+
     @media print {
       color: #000;
     }
@@ -94,3 +94,19 @@
     }
   }
 }
+
+.app-headline-brand {
+  background: govuk-colour("blue");
+
+    p {
+      color: white;
+
+      @media print {
+        color: #000;
+      }
+    }
+
+    @media print {
+      background: transparent;
+    }
+  }

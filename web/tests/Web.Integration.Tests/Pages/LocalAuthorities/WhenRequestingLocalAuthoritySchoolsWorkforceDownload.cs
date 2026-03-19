@@ -20,7 +20,7 @@ public class WhenRequestingLocalAuthoritySchoolsWorkforceDownload : PageBase<Sch
     [Fact]
     public async Task CanReturnOk()
     {
-        var localAuthority = Fixture.Build<LocalAuthority>()
+        var localAuthority = Fixture.Build<Web.App.Domain.LocalAuthorities.LocalAuthority>()
             .With(x => x.Code, "123")
             .Create();
 
@@ -53,7 +53,7 @@ public class WhenRequestingLocalAuthoritySchoolsWorkforceDownload : PageBase<Sch
     [Fact]
     public async Task CanReturnInternalServerError()
     {
-        var localAuthority = Fixture.Build<LocalAuthority>()
+        var localAuthority = Fixture.Build<Web.App.Domain.LocalAuthorities.LocalAuthority>()
             .With(x => x.Code, "123")
             .Create();
 

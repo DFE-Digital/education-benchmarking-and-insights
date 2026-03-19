@@ -31,7 +31,7 @@ public class WhenHighNeedsApiReceivesComparisonRequest
         // arrange
         var actualQuery = string.Empty;
         var cancellationToken = CancellationToken.None;
-        var results = _fixture.Build<LocalAuthority<App.Domain.LocalAuthorities.HighNeeds>>()
+        var results = _fixture.Build<LocalAuthorityHighNeeds<App.Domain.LocalAuthorities.HighNeeds>>()
             .CreateMany()
             .ToArray();
 

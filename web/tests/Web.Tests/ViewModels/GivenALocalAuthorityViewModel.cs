@@ -1,5 +1,6 @@
 using AutoFixture;
 using Web.App.Domain;
+using Web.App.Domain.Content;
 using Web.App.ViewModels;
 using Xunit;
 
@@ -8,12 +9,12 @@ namespace Web.Tests.ViewModels;
 public class GivenALocalAuthorityViewModel
 {
     private readonly Fixture _fixture = new();
-    private readonly LocalAuthority _localAuthority;
-    private readonly LocalAuthoritySchool[] _schools;
+    private readonly Web.App.Domain.LocalAuthorities.LocalAuthority _localAuthority;
+    private readonly Web.App.Domain.LocalAuthorities.LocalAuthoritySchool[] _schools;
 
     public GivenALocalAuthorityViewModel()
     {
-        _schools = _fixture.Build<LocalAuthoritySchool>()
+        _schools = _fixture.Build<Web.App.Domain.LocalAuthorities.LocalAuthoritySchool>()
             .Without(x => x.OverallPhase)
             .CreateMany(20)
             .ToArray();
@@ -29,7 +30,7 @@ public class GivenALocalAuthorityViewModel
         }
 
         _localAuthority = _fixture
-            .Build<LocalAuthority>()
+            .Build<Web.App.Domain.LocalAuthorities.LocalAuthority>()
             .With(l => l.Schools, _schools)
             .Create();
     }
@@ -37,7 +38,7 @@ public class GivenALocalAuthorityViewModel
     [Fact]
     public void WhenContainsSchools()
     {
-        var vm = new LocalAuthorityViewModel(_localAuthority, []);
+        var vm = new LocalAuthorityViewModel(_localAuthority, [], new FinanceYears());
 
         var nurserySchools = _schools
             .Where(s => int.Parse(s.URN!) < 2)
@@ -85,7 +86,7 @@ public class GivenALocalAuthorityViewModel
                 .Create())
             .ToArray();
 
-        var actual = new LocalAuthorityViewModel(_localAuthority, ratings).GroupedSchools
+        var actual = new LocalAuthorityViewModel(_localAuthority, ratings, new FinanceYears()).GroupedSchools
             .Where(g => g.OverallPhase == overallPhase)
             .SelectMany(g => g.Schools)
             .Select(s => s.Urn);

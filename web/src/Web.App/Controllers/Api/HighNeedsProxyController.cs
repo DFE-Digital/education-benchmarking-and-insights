@@ -41,7 +41,7 @@ public class HighNeedsProxyController(
             }.Concat(set).ToArray(), "PerPupil");
             var localAuthorities = await localAuthorityFinancesApi
                 .GetHighNeeds(query, cancellationToken)
-                .GetResultOrThrow<LocalAuthority<HighNeeds>[]>();
+                .GetResultOrThrow<LocalAuthorityHighNeeds<HighNeeds>[]>();
 
             return new JsonResult(localAuthorities.MapToApiResponse().ToArray());
         }

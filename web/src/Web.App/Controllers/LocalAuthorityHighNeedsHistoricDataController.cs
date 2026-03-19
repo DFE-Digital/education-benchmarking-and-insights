@@ -18,7 +18,7 @@ namespace Web.App.Controllers;
 [ValidateLaCode]
 public class LocalAuthorityHighNeedsHistoricDataController(
     ILogger<LocalAuthorityHighNeedsHistoricDataController> logger,
-    IEstablishmentApi establishmentApi,
+    ILocalAuthorityApi localAuthorityApi,
     ILocalAuthorityFinancesApi localAuthorityFinancesApi)
     : Controller
 {
@@ -43,7 +43,7 @@ public class LocalAuthorityHighNeedsHistoricDataController(
                 var query = BuildQuery([code], "PerPupil");
                 var highNeeds = await localAuthorityFinancesApi
                     .GetHighNeeds(query)
-                    .GetResultOrDefault<LocalAuthority<HighNeeds>[]>();
+                    .GetResultOrDefault<LocalAuthorityHighNeeds<HighNeeds>[]>();
 
                 var viewModel = new LocalAuthorityHighNeedsHistoricDataViewModel(authority, highNeeds);
                 return View(viewModel);
@@ -56,9 +56,9 @@ public class LocalAuthorityHighNeedsHistoricDataController(
         }
     }
 
-    private async Task<LocalAuthority> LocalAuthority(string code) => await establishmentApi
-        .GetLocalAuthority(code)
-        .GetResultOrThrow<LocalAuthority>();
+    private async Task<Domain.LocalAuthorities.LocalAuthority> LocalAuthority(string code) => await localAuthorityApi
+        .SingleAsync(code)
+        .GetResultOrThrow<Domain.LocalAuthorities.LocalAuthority>();
 
     private static ApiQuery BuildQuery(string[] codes, string dimension)
     {

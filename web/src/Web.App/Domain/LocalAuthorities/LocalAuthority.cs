@@ -3,12 +3,12 @@
 
 namespace Web.App.Domain.LocalAuthorities;
 
-public record LocalAuthority<T>
+public record LocalAuthority
 {
     public string? Code { get; set; }
     public string? Name { get; set; }
     public double? Population2To18 { get; set; }
     public double? TotalPupils { get; set; }
-    public T? Outturn { get; set; }
-    public T? Budget { get; set; }
+    public LocalAuthoritySchool[] Schools { get; set; } = [];
+    public LocalAuthorityHeadlineStatistics HeadlineStatistics { get; set; } = new();
 }

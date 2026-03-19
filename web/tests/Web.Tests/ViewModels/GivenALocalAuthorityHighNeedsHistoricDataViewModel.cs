@@ -9,12 +9,12 @@ namespace Web.Tests.ViewModels;
 public class GivenALocalAuthorityHighNeedsHistoricDataViewModel
 {
     private readonly Fixture _fixture = new();
-    private readonly LocalAuthority _localAuthority;
+    private readonly Web.App.Domain.LocalAuthorities.LocalAuthority _localAuthority;
 
     public GivenALocalAuthorityHighNeedsHistoricDataViewModel()
     {
         _localAuthority = _fixture
-            .Build<LocalAuthority>()
+            .Build<Web.App.Domain.LocalAuthorities.LocalAuthority>()
             .Create();
     }
 
@@ -22,7 +22,7 @@ public class GivenALocalAuthorityHighNeedsHistoricDataViewModel
     public void ShouldSetHasHighNeedsToTrueWhenContainsHighNeeds()
     {
         var highNeeds = _fixture
-            .Build<LocalAuthority<HighNeeds>>()
+            .Build<LocalAuthorityHighNeeds<HighNeeds>>()
             .CreateMany()
             .ToArray();
         var model = new LocalAuthorityHighNeedsHistoricDataViewModel(_localAuthority, highNeeds);
@@ -35,7 +35,7 @@ public class GivenALocalAuthorityHighNeedsHistoricDataViewModel
     [Fact]
     public void ShouldSetHasHighNeedsToFalseWhenContainsEmptyHighNeeds()
     {
-        LocalAuthority<HighNeeds>[] highNeeds = [];
+        LocalAuthorityHighNeeds<HighNeeds>[] highNeeds = [];
         var model = new LocalAuthorityHighNeedsHistoricDataViewModel(_localAuthority, highNeeds);
         Assert.False(model.HasHighNeeds);
     }
@@ -44,7 +44,7 @@ public class GivenALocalAuthorityHighNeedsHistoricDataViewModel
     public void ShouldSetHasHighNeedsToFalseWhenContainsMalformedHighNeeds()
     {
         var highNeeds = _fixture
-            .Build<LocalAuthority<HighNeeds>>()
+            .Build<LocalAuthorityHighNeeds<HighNeeds>>()
             .With(h => h.Outturn, new HighNeeds())
             .CreateMany()
             .ToArray();

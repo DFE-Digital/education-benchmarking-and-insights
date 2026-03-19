@@ -27,7 +27,7 @@ public class WhenRequestingHighNeedsComparison(SchoolBenchmarkingWebAppClient cl
             }
             .Concat(set)
             .Select(c => Fixture
-                .Build<LocalAuthority<HighNeeds>>()
+                .Build<LocalAuthorityHighNeeds<HighNeeds>>()
                 .With(p => p.Code, c)
                 .Create())
             .ToArray();

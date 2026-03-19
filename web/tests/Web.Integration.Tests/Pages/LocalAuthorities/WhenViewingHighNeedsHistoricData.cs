@@ -43,14 +43,14 @@ public class WhenViewingHighNeedsHistoricData(SchoolBenchmarkingWebAppClient cli
 
     private async Task<(
         IHtmlDocument page,
-        LocalAuthority authority,
-        LocalAuthority<HighNeeds>[]? highNeeds)> SetupNavigateInitPage(bool hasHighNeeds = true)
+        Web.App.Domain.LocalAuthorities.LocalAuthority authority,
+        LocalAuthorityHighNeeds<HighNeeds>[]? highNeeds)> SetupNavigateInitPage(bool hasHighNeeds = true)
     {
-        var authority = Fixture.Build<LocalAuthority>()
+        var authority = Fixture.Build<Web.App.Domain.LocalAuthorities.LocalAuthority>()
             .With(a => a.Code, "123")
             .Create();
 
-        var highNeeds = hasHighNeeds ? Fixture.Build<LocalAuthority<HighNeeds>>().CreateMany().ToArray() : [];
+        var highNeeds = hasHighNeeds ? Fixture.Build<LocalAuthorityHighNeeds<HighNeeds>>().CreateMany().ToArray() : [];
 
         var page = await Client.SetupEstablishment(authority)
             .SetupHighNeeds(highNeeds, null)
@@ -62,8 +62,8 @@ public class WhenViewingHighNeedsHistoricData(SchoolBenchmarkingWebAppClient cli
 
     private static void AssertPageLayout(
         IHtmlDocument page,
-        LocalAuthority authority,
-        LocalAuthority<HighNeeds>[]? highNeeds)
+        Web.App.Domain.LocalAuthorities.LocalAuthority authority,
+        LocalAuthorityHighNeeds<HighNeeds>[]? highNeeds)
     {
         DocumentAssert.AssertPageUrl(page, Paths.LocalAuthorityHighNeedsHistoricData(authority.Code).ToAbsolute());
 
