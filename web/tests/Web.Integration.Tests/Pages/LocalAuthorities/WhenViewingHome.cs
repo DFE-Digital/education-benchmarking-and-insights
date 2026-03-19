@@ -941,6 +941,53 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
         DocumentAssert.AssertPageUrl(newPage, Paths.LocalAuthoritySchoolsWorkforceDownload(authority.Code).ToAbsolute());
     }
 
+    [Fact]
+    public async Task CanViewHeadlineStatistics()
+    {
+        var (page, authority, _, _, _, _, _) = await SetupNavigateInitPage();
+
+        var dsgAllocationElement = page.QuerySelector("main > div > div#headline-statistics > div > ul > li:nth-child(1)");
+        Assert.NotNull(dsgAllocationElement);
+
+        var dsgAllocationText = dsgAllocationElement.QuerySelector("p:nth-child(1)");
+        Assert.NotNull(dsgAllocationText);
+        DocumentAssert.TextEqual(dsgAllocationText, "High needs DSG allocation 2023/2024");
+
+        var dsgAllocationFigure = dsgAllocationElement.QuerySelector("p:nth-child(2)");
+        Assert.NotNull(dsgAllocationFigure);
+        DocumentAssert.TextEqual(dsgAllocationFigure, "£999,999");
+
+        var totalOutturnElement = page.QuerySelector("main > div > div#headline-statistics > div > ul > li:nth-child(2)");
+        Assert.NotNull(totalOutturnElement);
+
+        var totalOutturnText = totalOutturnElement.QuerySelector("p:nth-child(1)");
+        Assert.NotNull(totalOutturnText);
+        DocumentAssert.TextEqual(totalOutturnText, "Total high needs outturn 2023/2024");
+
+        var totalOutturnFigure = totalOutturnElement.QuerySelector("p:nth-child(2)");
+        Assert.NotNull(totalOutturnFigure);
+        DocumentAssert.TextEqual(totalOutturnFigure, "£1.1 million");
+
+        var totalOutturnPercentage = totalOutturnElement.QuerySelector("p:nth-child(3)");
+        Assert.NotNull(totalOutturnPercentage);
+        DocumentAssert.TextEqual(totalOutturnPercentage, "110% of high needs DSG allocation");
+
+        var positionCarriedForwardElement = page.QuerySelector("main > div > div#headline-statistics > div > ul > li:nth-child(3)");
+        Assert.NotNull(positionCarriedForwardElement);
+
+        var positionCarriedForwardText = positionCarriedForwardElement.QuerySelector("p:nth-child(1)");
+        Assert.NotNull(positionCarriedForwardText);
+        DocumentAssert.TextEqual(positionCarriedForwardText, "High needs position carried forward as at March 2024");
+
+        var positionCarriedForwardFigure = positionCarriedForwardElement.QuerySelector("p:nth-child(2)");
+        Assert.NotNull(positionCarriedForwardFigure);
+        DocumentAssert.TextEqual(positionCarriedForwardFigure, "£1.23 million");
+
+        var positionCarriedForwardPreviousPeriod = positionCarriedForwardElement.QuerySelector("p:nth-child(3)");
+        Assert.NotNull(positionCarriedForwardPreviousPeriod);
+        DocumentAssert.TextEqual(positionCarriedForwardPreviousPeriod, "In March 2023 this was £1.12 million");
+    }
+
     private async Task<(
         IHtmlDocument page,
         App.Domain.LocalAuthorities.LocalAuthority authority,
@@ -959,6 +1006,13 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
     {
         var authority = Fixture.Build<App.Domain.LocalAuthorities.LocalAuthority>()
             .With(a => a.Code, "123")
+            .With(a => a.HeadlineStatistics, new LocalAuthorityHeadlineStatistics
+            {
+                DsgHighNeedsAllocation = (decimal)999999,
+                OutturnTotalHighNeeds = 1100000,
+                OutturnDsgCarriedForward = 1234567,
+                OutturnDsgCarriedForwardPreviousPeriod = 1122233
+            })
             .Create();
 
         Assert.NotNull(authority.Name);
@@ -1051,14 +1105,18 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
         Assert.NotNull(authority.Name);
         DocumentAssert.TitleAndH1(page, "Your local authority - Financial Benchmarking and Insights Tool - GOV.UK", authority.Name);
 
-        /*
-            Data Source view component has been removed from the page
-            TODO: add tests for the new page content (details component, link to change comparators)
-                var dataSourceElement = page.QuerySelector($"main > div > div:nth-child({(banner == null ? "2" : "3")}) > div > p");
-                Assert.NotNull(dataSourceElement);
+        var dataSourceDetailsSummaryElement = page.QuerySelector($"main > div > div#data-details > div > details > summary > span");
+        Assert.NotNull(dataSourceDetailsSummaryElement);
+        DocumentAssert.TextEqual(dataSourceDetailsSummaryElement, "Understand the data we use for high needs");
 
-                DocumentAssert.TextEqual(dataSourceElement, "This data covers the financial year April 2020 to March 2021 consistent financial reporting return (CFR).");
-        */
+        var dataSourceDetailsTextElement1 = page.QuerySelector($"main > div > div#data-details > div > details > div.govuk-details__text p:nth-child(1)");
+        Assert.NotNull(dataSourceDetailsTextElement1);
+        DocumentAssert.TextEqual(dataSourceDetailsTextElement1, "This data covers the period 2023-2024 for section 251 data (s251).");
+
+        var dataSourceDetailsTextElement2 = page.QuerySelector($"main > div > div#data-details > div > details > div.govuk-details__text p:nth-child(2)");
+        Assert.NotNull(dataSourceDetailsTextElement2);
+        DocumentAssert.TextEqual(dataSourceDetailsTextElement2, "The outturn includes place funding for pupils with special educational needs taught in academies. You can read about how we calculate this in the glossary.");
+
         var accordion = page.QuerySelector("#accordion-schools");
         if (localAuthorityHomepageV2Enabled)
         {
