@@ -38,3 +38,6 @@ Under normal circumstances, adding up all the apportioned central service expend
 ## Revenue reserve apportionment
 
 Revenue reserve is treated differently from in-year expenditure because it is a **balance at year end**, not spend across the year. Because revenue reserve is a balance at a point in time (the year end), we only allocate it to academies that are **in the trust at the end of the period**. Academies that have left the trust during the year contribute to the trust’s historical balances, but their share is not shown as an apportioned revenue reserve for them in FBIT.
+
+Pupil numbers for revenue reserve apportionments need to be based on trust members at the end of the period, rather than pupil numbers including leaving trust members. This ensures that no apportionment is allocated to leaving or closing members of a trust.
+
