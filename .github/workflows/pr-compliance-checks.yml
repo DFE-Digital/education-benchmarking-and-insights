@@ -58,15 +58,15 @@ jobs:
             const allValid = branchValid && labelsValid && titleValid && ticketValid;
 
             const checklist = [
-              `## PR Compliance Checklist`,
+              `## Checklist`,
               ``,
-              `- [${branchValid ? 'x' : ' '}] Branch Naming matches the standard (\`<category>/[<backlog-item>/][<task>-]description-in-kebab-case\`)`,
+              `- [${branchValid ? 'x' : ' '}] Branch naming matches the standard (\`<category>/[<backlog-item>/][<task>-]description-in-kebab-case\`)`,
               `- [${labelsValid ? 'x' : ' '}] Has at least one label attached`,
-              `- [${titleValid ? 'x' : ' '}] PR Title matches Conventional Commits (\`<type>(<optional-scope>): <description>\`)`,
-              `- [${ticketValid ? 'x' : ' '}] Linked to an ADO ticket (contains \`AB#<ticket-number>\`) or is a dependabot PR`
+              `- [${titleValid ? 'x' : ' '}] Title matches Conventional Commits (\`<type>(<optional-scope>): <description>\`)`,
+              `- [${ticketValid ? 'x' : ' '}] Linked to an ADO ticket (contains \`AB#<ticket-number>\`)`
             ].join('\n');
 
-            const messageBody = allValid ? "✅ **All compliance checks have passed!**\n\n" + checklist : checklist;
+            const messageBody = allValid ? "✅ **All checks have passed!**\n\n" + checklist : checklist;
 
             // 1. Manage the Issue Comment (The Checklist)
             const comments = await github.paginate(github.rest.issues.listComments, {
@@ -74,7 +74,7 @@ jobs:
               repo: context.repo.repo,
               issue_number: pr.number,
             });
-            const botComment = comments.find(c => c.user.type === 'Bot' && c.body.includes('## PR Compliance Checklist'));
+            const botComment = comments.find(c => c.user.type === 'Bot' && c.body.includes('## Checklist'));
 
             if (botComment) {
               await github.rest.issues.updateComment({
@@ -83,7 +83,7 @@ jobs:
                 comment_id: botComment.id,
                 body: messageBody
               });
-              console.log("Updated existing compliance checklist comment.");
+              console.log("Updated existing checklist comment.");
             } else {
               await github.rest.issues.createComment({
                 owner: context.repo.owner,
@@ -91,7 +91,7 @@ jobs:
                 issue_number: pr.number,
                 body: messageBody
               });
-              console.log("Created new compliance checklist comment.");
+              console.log("Created new checklist comment.");
             }
 
             // 2. Manage the PR Review (Blocking State)
@@ -109,7 +109,7 @@ jobs:
                   repo: context.repo.repo,
                   pull_number: pr.number,
                   event: 'REQUEST_CHANGES',
-                  body: "PR does not meet all compliance standards. Please review the checklist in the comments and resolve the issues."
+                  body: "PR does not meet all standards. Please review the checklist in the comments and resolve the issues."
                 });
                 console.log("Created a PR review requesting changes.");
               }
@@ -120,7 +120,7 @@ jobs:
                   repo: context.repo.repo,
                   pull_number: pr.number,
                   review_id: review.id,
-                  message: "All compliance checks have now passed."
+                  message: "All checks have now passed."
                 });
                 console.log(`Dismissed review ${review.id}.`);
               }
