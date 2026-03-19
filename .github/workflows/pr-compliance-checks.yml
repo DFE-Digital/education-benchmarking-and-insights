@@ -34,11 +34,13 @@ jobs:
             
             // 2. PR Labels
             const labelsValid = labels.length > 0;
-
+            console.log(labelsValid)
+            
             // 3. Commit Title Standards (PR Title)
             const titleRegex = /^(feat|fix|docs|style|refactor|perf|test|chore)(\([a-zA-Z0-9_-]+\))?!?: .+/;
             const titleValid = titleRegex.test(title);
-
+            console.log(titleValid)
+            
             // 4. Ticket Linking
             const isDependabot = branchName.startsWith('dependabot/');
             
@@ -51,7 +53,8 @@ jobs:
             
             const bodyTitleCommits = body + " " + title + " " + commitMessages;
             const ticketValid = isDependabot || /AB#\d+/.test(bodyTitleCommits);
-
+            console.log(ticketValid)
+            
             const allValid = branchValid && labelsValid && titleValid && ticketValid;
 
             const checklist = [
