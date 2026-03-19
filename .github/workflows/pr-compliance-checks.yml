@@ -60,7 +60,7 @@ jobs:
             const checklist = [
               `## PR Compliance Checklist`,
               ``,
-              `- [${branchValid ? 'x' : ' '}] Branch Naming matches the standard (\`<category>/[<backlog-item>/]<task>-description-in-kebab-case\`)`,
+              `- [${branchValid ? 'x' : ' '}] Branch Naming matches the standard (\`<category>/[<backlog-item>/][<task>-]description-in-kebab-case\`)`,
               `- [${labelsValid ? 'x' : ' '}] Has at least one label attached`,
               `- [${titleValid ? 'x' : ' '}] PR Title matches Conventional Commits (\`<type>(<optional-scope>): <description>\`)`,
               `- [${ticketValid ? 'x' : ' '}] Linked to an ADO ticket (contains \`AB#<ticket-number>\`) or is a dependabot PR`
