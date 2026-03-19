@@ -30,14 +30,14 @@ jobs:
             // 1. Branch Naming Standards
             const branchRegex = /^(feature|bugfix|hotfix|exp|tech-debt|docs|prototype|dependabot|chore)(\/[0-9]+)?\/.+$/;
             const branchValid = branchRegex.test(branchName);
-
+            
             // 2. PR Labels
             const labelsValid = labels.length > 0;
-
+            
             // 3. Commit Title Standards (PR Title)
             const titleRegex = /^(feat|fix|docs|style|refactor|perf|test|chore)(\([a-zA-Z0-9_-]+\))?!?: .+/;
             const titleValid = titleRegex.test(title);
-
+            
             // 4. Ticket Linking
             const isDependabot = branchName.startsWith('dependabot/');
             
@@ -50,31 +50,53 @@ jobs:
             
             const bodyTitleCommits = body + " " + title + " " + commitMessages;
             const ticketValid = isDependabot || /AB#\d+/.test(bodyTitleCommits);
-
+            
             const allValid = branchValid && labelsValid && titleValid && ticketValid;
 
             const checklist = [
-              `## PR Compliance Checklist`,
+              `## Checklist`,
               ``,
-              `- [${branchValid ? 'x' : ' '}] **Branch Naming:** \`${branchName}\` matches the standard (\`<category>/[<backlog-item>/]<task>-description-in-kebab-case\`)`,
-              `- [${labelsValid ? 'x' : ' '}] **PR Labels:** Has at least one label attached`,
-              `- [${titleValid ? 'x' : ' '}] **PR Title:** \`${title}\` matches Conventional Commits (\`<type>(<optional-scope>): <description>\`)`,
-              `- [${ticketValid ? 'x' : ' '}] **Ticket Linking:** Linked to an ADO ticket (contains \`AB#<ticket-number>\`) or is a dependabot PR`
+              `- [${branchValid ? 'x' : ' '}] Branch naming matches the standard (\`<category>/[<backlog-item>/][<task>-]description-in-kebab-case\`)`,
+              `- [${labelsValid ? 'x' : ' '}] Has at least one label attached`,
+              `- [${titleValid ? 'x' : ' '}] Title matches Conventional Commits (\`<type>(<optional-scope>): <description>\`)`,
+              `- [${ticketValid ? 'x' : ' '}] Linked to an ADO ticket (contains \`AB#<ticket-number>\`)`
             ].join('\n');
 
+            const messageBody = allValid ? "✅ **All checks have passed!**\n\n" + checklist : checklist;
+
+            // 1. Manage the Issue Comment (The Checklist)
+            const comments = await github.paginate(github.rest.issues.listComments, {
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: pr.number,
+            });
+            const botComment = comments.find(c => c.user.type === 'Bot' && c.body.includes('## Checklist'));
+
+            if (botComment) {
+              await github.rest.issues.updateComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                comment_id: botComment.id,
+                body: messageBody
+              });
+              console.log("Updated existing checklist comment.");
+            } else {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: pr.number,
+                body: messageBody
+              });
+              console.log("Created new checklist comment.");
+            }
+
+            // 2. Manage the PR Review (Blocking State)
             const reviews = await github.paginate(github.rest.pulls.listReviews, {
               owner: context.repo.owner,
               repo: context.repo.repo,
               pull_number: pr.number,
             });
             const botReviews = reviews.filter(r => r.user.type === 'Bot' && r.state === 'CHANGES_REQUESTED');
-
-            const comments = await github.paginate(github.rest.issues.listComments, {
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              issue_number: pr.number,
-            });
-            const botComment = comments.find(c => c.user.type === 'Bot' && c.body.includes('## PR Compliance Checklist'));
 
             if (!allValid) {
               if (botReviews.length === 0) {
@@ -83,17 +105,9 @@ jobs:
                   repo: context.repo.repo,
                   pull_number: pr.number,
                   event: 'REQUEST_CHANGES',
-                  body: "PR does not meet all compliance standards. Please review the checklist and resolve the issues.\n\n" + checklist
+                  body: "PR does not meet all standards. Please review the checklist in the comments and resolve the issues."
                 });
                 console.log("Created a PR review requesting changes.");
-              } else if (botComment) {
-                await github.rest.issues.updateComment({
-                  owner: context.repo.owner,
-                  repo: context.repo.repo,
-                  comment_id: botComment.id,
-                  body: checklist
-                });
-                console.log("Updated existing compliance checklist comment.");
               }
             } else {
               for (const review of botReviews) {
@@ -102,28 +116,8 @@ jobs:
                   repo: context.repo.repo,
                   pull_number: pr.number,
                   review_id: review.id,
-                  message: "All compliance checks have now passed."
+                  message: "All checks have now passed."
                 });
                 console.log(`Dismissed review ${review.id}.`);
-              }
-
-              const successMessage = "✅ **All compliance checks have passed!**\n\n" + checklist;
-              
-              if (botComment) {
-                await github.rest.issues.updateComment({
-                  owner: context.repo.owner,
-                  repo: context.repo.repo,
-                  comment_id: botComment.id,
-                  body: successMessage
-                });
-                console.log("Updated existing comment with success message.");
-              } else {
-                await github.rest.issues.createComment({
-                  owner: context.repo.owner,
-                  repo: context.repo.repo,
-                  issue_number: pr.number,
-                  body: successMessage
-                });
-                console.log("Created success comment.");
               }
             }
