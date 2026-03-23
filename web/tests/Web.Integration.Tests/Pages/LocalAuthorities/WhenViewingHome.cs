@@ -977,7 +977,7 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
 
         var positionCarriedForwardText = positionCarriedForwardElement.QuerySelector("p:nth-child(1)");
         Assert.NotNull(positionCarriedForwardText);
-        DocumentAssert.TextEqual(positionCarriedForwardText, "High needs position carried forward as at March 2024");
+        DocumentAssert.TextEqual(positionCarriedForwardText, "DSG position carried forward as at March 2024");
 
         var positionCarriedForwardFigure = positionCarriedForwardElement.QuerySelector("p:nth-child(2)");
         Assert.NotNull(positionCarriedForwardFigure);
