@@ -204,6 +204,18 @@ def _calculate_dsg_recoupments(
         ["DSGSENAcademyPlaceFunding", "DSGAPAcademyPlaceFunding"]
     ].sum(axis=1)
 
+    las_with_recoupments["OutturnDSGRecoupmentTotal"] = las_with_recoupments[
+        [
+            "DSGPrimaryAcademyPlaceFunding",
+            "DSGSecondaryAcademyPlaceFunding",
+            "DSGSENAcademyPlaceFunding",
+            "DSGHospitalPlaceFunding",
+            "DSGAPAcademyPlaceFunding",
+            "DSGNurseryPlaceFunding"
+        ]
+    ].sum(axis=1)
+    las_with_recoupments["OutturnTotalHighNeeds"] += las_with_recoupments["OutturnDSGRecoupmentTotal"]
+
     return las_with_recoupments
 
 
