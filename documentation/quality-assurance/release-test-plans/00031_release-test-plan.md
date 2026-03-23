@@ -5,7 +5,7 @@
 
 ## Introduction
 
-This plan defines the approach for testing release `2026.3.0`, covering smoke, sanity, and targeted validation activities.  
+This plan defines the approach for testing release `2026.3.0`, covering smoke, sanity testing activities.  
 This release delivers a combination of dependency updates, financial methodology improvements, data corrections, WAF-related fixes, and enhancements to funding and recoupment calculations across the service.
 
 ## Scope
@@ -15,7 +15,7 @@ This release delivers a combination of dependency updates, financial methodology
 - **Enhancements**
   - In-year balance and revenue reserve historical trends updated to show averages data.
   - Incorporation of low-level recoupment figures into benchmarking charts.
-  - Revenue reserve calculation revision for the FBIT service
+  - Revenue reserve calculation revision for the FBIT service.
   - High-level funding, deficits, and recoupment updates added on LA homepage.
 
 - **Bug Fixes**
@@ -23,11 +23,11 @@ This release delivers a combination of dependency updates, financial methodology
   - Fixed calculation of revenue reserve to be computed once the ILR figures are added.
   - School search blocked by WAF issue resolved.
   - RouteValuesOnClear updated to remove unsupported collection‑expression syntax under allowed SDK versions.
-  - Updated AAR 2024 file to remove schools which were after we done the data release.
+  - Updated AAR 2024 file to remove schools which were added after we have done the data release.
 
 - **Maintenance**
-  - February and March ’26 dependency updates added
-  - Downgrade Chart Rendering Function App Plan from EP1 to Y1 to reduce unnecessary cost
+  - February and March ’26 dependency updates added.
+  - Downgrade Chart Rendering Function App Plan from EP1 to Y1 to reduce unnecessary cost.
 
 **Out-of-Scope:**
 
@@ -36,7 +36,7 @@ This release delivers a combination of dependency updates, financial methodology
 
 ## Test Strategy
 
-- **Sanity Testing:** Validate that the application deploys successfully to pre-production and operates as expected with updated dependencies, financial logic changes, template updates, and WAF fixes.
+- **Sanity Testing:** Validate that the application deploys successfully to pre-production and operates as expected with the updated changes.
 - **Smoke Testing:** Execute smoke tests in production to confirm platform stability and availability post-deployment and also execute smoke tests in pre prod to check the features behind login are working as expected.
 
 ## Entry and Exit Criteria
@@ -56,7 +56,7 @@ This release delivers a combination of dependency updates, financial methodology
 
 ## Roles and Responsibilities
 
-- **QA Lead:** Coordinate smoke, sanity, and targeted validation, and manage overall sign-off.
+- **QA Lead:** Coordinate smoke, sanity testing and manage overall sign-off.
 - **Engineer(s):** Execute validation, defect investigation, and retesting.
 - **Stakeholders:** Provide acceptance sign-off where required.
 - **Technical Lead:** Oversee the overall release and technical quality.
