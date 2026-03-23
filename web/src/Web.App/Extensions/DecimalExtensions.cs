@@ -55,4 +55,18 @@ public static class DecimalExtensions
     public static string ToSimpleDisplay(this decimal value) => $"{value:0.##}";
 
     public static string ToNumberSeparator(this decimal value) => $"{value:N0}";
+
+    public static decimal? SafeDivide(this decimal? numerator, decimal? denominator)
+        => numerator.HasValue && denominator.HasValue
+            ? numerator.Value.SafeDivide(denominator.Value)
+            : null;
+    public static decimal? SafeDivide(this decimal numerator, decimal denominator)
+        => denominator == 0 ? null : numerator / denominator;
+
+    public static decimal? SafePercentageOf(this decimal? value, decimal? total)
+        => value.HasValue && total.HasValue
+            ? value.Value.SafePercentageOf(total.Value)
+            : null;
+    public static decimal? SafePercentageOf(this decimal value, decimal total)
+        => (value * 100m).SafeDivide(total);
 }
