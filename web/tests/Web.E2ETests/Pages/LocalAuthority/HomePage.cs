@@ -104,23 +104,23 @@ public class HomePage(IPage page)
         await statisticsContainer.ShouldBeVisible();
 
         var expectedValues = table.Rows.First();
-        
+
         var allocation = statisticsContainer.Locator("li:nth-child(1)");
         await allocation.ShouldContainText(expectedValues[0]);
-        
+
         var outturn = statisticsContainer.Locator("li:nth-child(2) > p:nth-child(2)");
         await outturn.ShouldContainText(expectedValues[1]);
 
         var percentage = statisticsContainer.Locator("li:nth-child(2) > p:nth-child(3)");
         await percentage.ShouldContainText(expectedValues[2]);
-        
+
         var carriedForward = statisticsContainer.Locator("li:nth-child(3) > p:nth-child(2)");
         await carriedForward.ShouldContainText(expectedValues[3]);
 
         var previousPeriod = statisticsContainer.Locator("li:nth-child(3) > p:nth-child(3)");
         await previousPeriod.ShouldContainText(expectedValues[4]);
     }
-    
+
     public async Task IsSchoolsAccordionDisplayed(bool displayed = true)
     {
         var locator = page.Locator("#accordion-schools");

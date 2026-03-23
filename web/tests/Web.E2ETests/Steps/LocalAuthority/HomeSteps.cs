@@ -94,7 +94,7 @@ public class HomeSteps(PageDriver driver)
         Assert.NotNull(_localAuthorityHomePage);
         await _localAuthorityHomePage.HeadlineStatisticsDisplayed(table);
     }
-    
+
     [Then("the schools accordion should be displayed")]
     public async Task ThenTheSchoolsAccordionShouldBeDisplayed()
     {
@@ -182,7 +182,7 @@ public class HomeSteps(PageDriver driver)
         Assert.NotNull(_localAuthorityHomePage);
         await _localAuthorityHomePage.ClickWorkforceApplyFilters();
     }
-    
+
     private static string LocalAuthorityHomeUrl(string laCode) => $"{TestConfiguration.ServiceUrl}/local-authority/{laCode}";
 
     private List<List<string>> GetExpectedTableData(Table table)
