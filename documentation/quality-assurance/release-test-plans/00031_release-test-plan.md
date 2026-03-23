@@ -6,32 +6,28 @@
 ## Introduction
 
 This plan defines the approach for testing release `2026.3.0`, covering smoke, sanity, and targeted validation activities.  
-This release delivers a combination of dependency updates, financial methodology improvements, data corrections, template changes, WAF-related fixes, and enhancements to funding and recoupment calculations across the service.
+This release delivers a combination of dependency updates, financial methodology improvements, data corrections, WAF-related fixes, and enhancements to funding and recoupment calculations across the service.
 
 ## Scope
 
 **In-scope:**
 
-- **Enhancements** 
-
-- {make these below meaning full} 
-    - In-year balance and revenue reserve historical trending improvements.
-    - Senior Leadership Breakdown added to relevant benchmarking and workforce views.
-    - Incorporation of low-level recoupment into benchmarking charts.
-    - Revenue reserve calculation revision for the FBIT service (WIP).
-    - High-level funding, deficits, and recoupment updates (WIP).
+- **Enhancements**
+  - In-year balance and revenue reserve historical trends updated to show averages data.
+  - Incorporation of low-level recoupment figures into benchmarking charts.
+  - Revenue reserve calculation revision for the FBIT service
+  - High-level funding, deficits, and recoupment updates added on LA homepage.
 
 - **Bug Fixes**
-    - Academies incorrectly displayed with LAMS in LA View School Spending and View Pupil & Workforce Data.
-    - ILR pupil numbers added after revenue reserve calculations.
-    - School search blocked by WAF—issue resolved.
-    - RouteValuesOnClear updated to remove unsupported collection‑expression syntax under allowed SDK versions.
-    - Removal of rows from the 2024 AAR input.
-
+  - Fixed applied on LA benchmarking pages to only show LAMS schools.
+  - Fixed calculation of revenue reserve to be computed once the ILR figures are added.
+  - School search blocked by WAF issue resolved.
+  - RouteValuesOnClear updated to remove unsupported collection‑expression syntax under allowed SDK versions.
+  - Updated AAR 2024 file to remove schools which were after we done the data release.
 
 - **Maintenance**
-    - Review & merge February and March ’26 dependency updates.
-    - Downgrade Chart Rendering Function App Plan from EP1 to Y1 (requires production changes).
+  - February and March ’26 dependency updates added
+  - Downgrade Chart Rendering Function App Plan from EP1 to Y1 to reduce unnecessary cost
 
 **Out-of-Scope:**
 
@@ -41,19 +37,14 @@ This release delivers a combination of dependency updates, financial methodology
 ## Test Strategy
 
 - **Sanity Testing:** Validate that the application deploys successfully to pre-production and operates as expected with updated dependencies, financial logic changes, template updates, and WAF fixes.
-- **Smoke Testing:** Execute smoke tests in production to confirm platform stability and availability post-deployment.
-- **Targeted Validation:**
-    - Validate trending logic, recoupment incorporation, and revenue reserve calculation changes.
-    - Validate AAR template updates and removal of 2024 rows.
-    - Validate corrected ordering of ILR pupil numbers.
-    - Validate school search functionality post-WAF fix.
-    - Validate LA views no longer display academies with LAMS.
+- **Smoke Testing:** Execute smoke tests in production to confirm platform stability and availability post-deployment and also execute smoke tests in pre prod to check the features behind login are working as expected.
 
 ## Entry and Exit Criteria
 
 **Entry Criteria:**
 
 - All code changes have been deployed to pre-production.
+- Data pipeline run completed with the updated files.
 - Pre-production pipeline run is successfully completed.
 
 **Exit Criteria:**
@@ -71,21 +62,21 @@ This release delivers a combination of dependency updates, financial methodology
 - **Technical Lead:** Oversee the overall release and technical quality.
 - **Project Lead:** Own go/no-go decision.
 
-## Risk Analysis { add risks here}
+## Risk Analysis
 
 - **Risk:** Dependency updates may introduce regressions across unrelated components.
-    - **Mitigation:** Run extended smoke checks on critical user journeys.
+  - **Mitigation:** Run extended smoke checks on critical user journeys.
 
 - **Risk:** WAF-related fixes may not fully resolve school search blocking.
-    - **Mitigation:** Perform targeted search validation tests.
+  - **Mitigation:** Perform targeted search validation tests.
 
 - **Risk:** Function App Plan downgrade may impact chart rendering performance.
-    - **Mitigation:** Conduct performance checks post-deployment.
+  - **Mitigation:** Conduct performance checks post-deployment.
 
 ## Test Deliverables
 
 - Test plan document
-- Test cases (smoke, sanity validation)
+- Test cases (smoke, sanity)
 - Test execution results and defect logs
 - Test summary report with final release recommendation
 
@@ -126,6 +117,7 @@ This release delivers a combination of dependency updates, financial methodology
 | Test Category           | Total Tests | Passed | Failed | Pass Rate |  
 |-------------------------|:-----------:|:------:|:------:|:---------:|  
 | Smoke Tests - Prod      |      -      |   -    |   -    |     -     |  
+| Smoke Tests - Pre Prod  |      -      |   -    |   -    |     -     |
 | Sanity Tests - Pre Prod |      -      |   -    |   -    |     -     |  
 | Total                   |      -      |   -    |   -    |     -     |  
 
