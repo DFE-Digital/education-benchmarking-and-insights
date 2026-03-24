@@ -31,6 +31,7 @@ la_db_financial_projections = {
     "OutturnPlaceFundingSpecial": "OutturnPlaceFundingSpecial",
     "OutturnPlaceFundingAlternativeProvision": "OutturnPlaceFundingAlternativeProvision",
     "OutturnDSGCarriedForward": "OutturnDSGCarriedForward",
+    "DSGRecoupmentFBITTotal": "DSGRecoupmentFBITTotal",
     "DSGPrimaryAcademyPlaceFunding": "DSGPrimaryAcademyPlaceFunding",
     "DSGSecondaryAcademyPlaceFunding": "DSGSecondaryAcademyPlaceFunding",
     "DSGSENAcademyPlaceFunding": "DSGSENAcademyPlaceFunding",
