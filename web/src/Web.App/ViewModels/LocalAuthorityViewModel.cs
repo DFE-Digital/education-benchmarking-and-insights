@@ -1,6 +1,7 @@
 ﻿using Web.App.Domain;
 using Web.App.Domain.LocalAuthorities;
 using Web.App.Domain.Content;
+using Web.App.Extensions;
 using Web.App.ViewModels.Shared;
 
 namespace Web.App.ViewModels;
@@ -90,5 +91,5 @@ public class LocalAuthorityHeadlineStatisticsViewModel
     public decimal? OutturnDsgCarriedForward { get; set; }
     public decimal? OutturnDsgGCarriedForwardPreviousPeriod { get; set; }
     public int S251Year { get; set; }
-    public decimal? OutturnAsPercentageOfAllocation => (100 / DsgHighNeedsAllocation) * OutturnTotalHighNeeds;
+    public decimal? OutturnAsPercentageOfAllocation => OutturnTotalHighNeeds.SafePercentageOf(DsgHighNeedsAllocation);
 }
