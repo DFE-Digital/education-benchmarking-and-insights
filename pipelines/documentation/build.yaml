@@ -49,14 +49,6 @@ stages:
   - stage: Validate
     displayName: 'Validate'
     jobs:
-      - job: BranchValidate
-        displayName: "Validate branch name"
-        steps:
-          - checkout: none
-          - template: ..\common\validate-branch.yaml
-            parameters:
-              branchName: $(SourceBranch)
-
       - job: SetBuildNumber
         displayName: 'Set build number'
         steps:
