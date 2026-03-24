@@ -101,7 +101,7 @@ stages:
           - template: steps\build-tests.yaml
 
       - job: BuildWeb
-        dependsOn: [ BranchValidate, SetBuildNumber ]
+        dependsOn: [ SetBuildNumber ]
         displayName: 'Build web'
         steps:
           - template: steps\build.yaml

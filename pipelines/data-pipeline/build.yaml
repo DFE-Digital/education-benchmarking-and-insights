@@ -90,7 +90,7 @@ stages:
           - template: steps\run-unit-tests.yaml
 
       - job: BuildAndPush
-        dependsOn: [ BranchValidate, SetBuildNumber, RunTests ]
+        dependsOn: [ SetBuildNumber, RunTests ]
         displayName: 'Build and push image'
         condition: and(succeeded(), eq(variables['ShouldDeploy'],'true'))
         steps: 

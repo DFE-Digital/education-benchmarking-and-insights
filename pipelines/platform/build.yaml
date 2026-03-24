@@ -108,7 +108,7 @@ stages:
           - template: steps\build-api-tests.yaml
 
       - job: BuildPlatform
-        dependsOn: [ BranchValidate, SetBuildNumber ]
+        dependsOn: [ SetBuildNumber ]
         displayName: 'Build platform'
         steps:
           - task: Npm@1
