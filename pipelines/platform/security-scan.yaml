@@ -140,7 +140,7 @@ jobs:
       - template: ..\common\push-repo-artifacts.yaml
         parameters:
           ArtifactPattern: '**/*.md'
-          BranchName: 'doc/$(Build.BuildNumber)/platform-security-scan'
+          BranchName: 'docs/$(Build.BuildNumber)/platform-security-scan'
           CommitMessage: 'Updated platform security scan documentation'
           CommitTag: 'doc'
           PostProcessScript: |

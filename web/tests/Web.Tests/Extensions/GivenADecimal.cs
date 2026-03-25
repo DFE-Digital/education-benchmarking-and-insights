@@ -43,4 +43,43 @@ public class GivenADecimal
         var result = actual.ToHeadlineStatisticCurrency();
         Assert.Equal(expected, result);
     }
+
+    public static TheoryData<decimal?, decimal?, decimal?> SafeDivideData => new()
+    {
+        { 10, 2, 5 },
+        { 10, 5, 2 },
+        { 123, 1, 123 },
+        { 0m, 2, 0 },
+        { 123, 0, null },
+        { null, 10, null },
+        { null, null, null }
+    };
+
+    [Theory]
+    [MemberData(nameof(SafeDivideData))]
+    public void WhenSafeDivideIsCalled(decimal? numerator, decimal? denominator, decimal? expected)
+    {
+        var result = numerator.SafeDivide(denominator);
+        Assert.Equal(expected, result);
+    }
+
+    public static TheoryData<decimal?, decimal?, decimal?> SafePercentageData => new()
+    {
+        { 2, 10, 20 },
+        { 5, 10, 50 },
+        { 123, 123, 100 },
+        { 1, 100, 1 },
+        { 0, 2, 0 },
+        { 123, 0, null },
+        { null, 10, null },
+        { null, null, null }
+    };
+
+    [Theory]
+    [MemberData(nameof(SafePercentageData))]
+    public void WhenSafePercentageIsCalled(decimal? value, decimal? total, decimal? expected)
+    {
+        var result = value.SafePercentageOf(total);
+        Assert.Equal(expected, result);
+    }
 }

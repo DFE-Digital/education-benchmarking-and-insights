@@ -112,7 +112,7 @@ jobs:
       - template: ..\common\push-repo-artifacts.yaml
         parameters:
           ArtifactPattern: '**/*.md'
-          BranchName: 'doc/$(Build.BuildNumber)/web-security-scan'
+          BranchName: 'docs/$(Build.BuildNumber)/web-security-scan'
           CommitMessage: 'Updated web security scan documentation'
           CommitTag: 'doc'
           PostProcessScript: |

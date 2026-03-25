@@ -32,7 +32,7 @@ def test_la_budget(la_budget: pd.DataFrame):
         ),
     )
 
-    assert len(la_budget) == 14
+    assert len(la_budget) == 15
     assert len(result.index) == 1
 
 
@@ -65,5 +65,5 @@ def test_la_budget_year(la_budget: pd.DataFrame):
         ),
     )
 
-    assert len(combined) == 28
+    assert len(combined) == 30
     assert len(result.index) == 1

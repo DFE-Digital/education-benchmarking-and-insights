@@ -34,14 +34,6 @@ stages:
   - stage: Build
     displayName: 'Build artifacts'
     jobs:
-      - job: BranchValidate
-        displayName: "Validate branch name"
-        steps:
-          - checkout: none
-          - template: ..\common\validate-branch.yaml
-            parameters:
-              branchName: $(SourceBranch)
-
       - job: SetBuildNumber
         displayName: 'Set build number'
         steps:
@@ -116,7 +108,7 @@ stages:
           - template: steps\build-api-tests.yaml
 
       - job: BuildPlatform
-        dependsOn: [ BranchValidate, SetBuildNumber ]
+        dependsOn: [ SetBuildNumber ]
         displayName: 'Build platform'
         steps:
           - task: Npm@1

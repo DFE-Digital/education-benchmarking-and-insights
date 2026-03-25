@@ -66,6 +66,7 @@ la_section_251_category_prefixes = {
         "1.2.8 ",
         "1.2.8 ",
         "1.2.9 ",
+        "1.4.11 ",
         "1.9.3 ",
     )
 }
@@ -169,6 +170,7 @@ la_budget_column_mappings = {
         "1.2.2 Top-up funding – academies, free schools and colleges__income": "1.2.2 Top-up funding - academies, free schools and colleges__income",
         "1.2.2 Top-up funding – academies, free schools and colleges__net_planned_expenditure": "1.2.2 Top-up funding - academies, free schools and colleges__net_planned_expenditure",
         "1.2.2 Top-up funding – academies, free schools and colleges__net_per_capita_planned_expenditure": "1.2.2 Top-up funding - academies, free schools and colleges__net_per_capita_planned_expenditure",
+        "1.4.11 SEN transport__net_planned_expenditure": "1.4.11 SEN transport Net total",
         "1.9.3 Dedicated Schools Grant carried forward to next year__gross_planned_expenditure": "1.9.3 DSG Carried Forward",
     }
 }
@@ -213,6 +215,7 @@ la_outturn_column_mappings = {
         "1.2.2 Top-up funding – academies, free schools and colleges__income": "1.2.2 Top-up funding - academies, free schools and colleges__income",
         "1.2.2 Top-up funding – academies, free schools and colleges__net_expenditure": "1.2.2 Top-up funding - academies, free schools and colleges__net_expenditure",
         "1.2.2 Top-up funding – academies, free schools and colleges__net_per_capita_expenditure": "1.2.2 Top-up funding - academies, free schools and colleges__net_per_capita_expenditure",
+        "1.4.11 SEN transport__net_expenditure": "1.4.11 SEN transport Net total",
         "1.9.3 Dedicated Schools Grant carried forward to next year__gross_expenditure": "1.9.3 DSG Carried Forward",
     },
     2025: {
@@ -263,6 +266,7 @@ la_outturn_column_mappings = {
         "1.2.5 SEN support services__pupil_referral_units_and_alt_provision": "1.2.5 SEN support service__pupil_referral_units_and_alt_provision",
         "1.2.5 SEN support services__post_16": "1.2.5 SEN support service__post_16",
         "1.2.5 SEN support services__income": "1.2.5 SEN support service__income",
+        "1.4.11 SEN transport__net_expenditure": "1.4.11 SEN transport Net total",
         "1.9.3 Dedicated Schools Grant carried forward to next year__gross_expenditure": "1.9.3 DSG Carried Forward",
     },
 }
@@ -424,7 +428,8 @@ la_section_251_column_eval = {
             "TotalAlternativeProvisionServices + "
             "TotalHospitalServices + "
             "TotalOtherHealthServices + "
-            "`1.0.2 Net total`"
+            "`1.0.2 Net total` + "
+            "`1.4.11 SEN transport Net total`"
         ),
     }
 }

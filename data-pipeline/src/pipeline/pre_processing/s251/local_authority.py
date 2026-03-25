@@ -101,6 +101,7 @@ def ensure_dsg_recoupment_columns_are_present(local_authority_data) -> pd.DataFr
         "DSGNurseryPlaceFunding",
         "DSGHospitalPlaceFunding",
         "DSGHighNeedsAllocation",
+        "DSGRecoupmentServiceTotal",
         "PrimaryPlaces6000",
         "PrimaryPlaces10000",
         "SecondaryPlaces6000",
@@ -203,6 +204,20 @@ def _calculate_dsg_recoupments(
     las_with_recoupments["OutturnTotalPlaceFunding"] += las_with_recoupments[
         ["DSGSENAcademyPlaceFunding", "DSGAPAcademyPlaceFunding"]
     ].sum(axis=1)
+
+    las_with_recoupments["DSGRecoupmentServiceTotal"] = las_with_recoupments[
+        [
+            "DSGPrimaryAcademyPlaceFunding",
+            "DSGSecondaryAcademyPlaceFunding",
+            "DSGSENAcademyPlaceFunding",
+            "DSGHospitalPlaceFunding",
+            "DSGAPAcademyPlaceFunding",
+            "DSGNurseryPlaceFunding",
+        ]
+    ].sum(axis=1)
+    las_with_recoupments["OutturnTotalHighNeeds"] += las_with_recoupments[
+        "DSGRecoupmentServiceTotal"
+    ]
 
     return las_with_recoupments
 

@@ -31,14 +31,6 @@ stages:
   - stage: Build
     displayName: 'Build artifacts'
     jobs:
-      - job: BranchValidate
-        displayName: "Validate branch name"
-        steps:
-          - checkout: none
-          - template: ..\common\validate-branch.yaml
-            parameters:
-              branchName: $(SourceBranch)
-
       - job: SetBuildNumber
         displayName: 'Set build number'
         steps:
@@ -96,7 +88,7 @@ stages:
               SolutionDirectory: '$(System.DefaultWorkingDirectory)/core-infrastructure'
 
       - job: BuildCore
-        dependsOn: [ BranchValidate, SetBuildNumber ]
+        dependsOn: [ SetBuildNumber ]
         displayName: 'Build core'
         steps:
           - template: steps\build.yaml

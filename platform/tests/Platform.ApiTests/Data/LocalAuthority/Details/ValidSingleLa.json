@@ -1,0 +1,22 @@
+﻿{
+  "code": "201",
+  "name": "City of London",
+  "schools": [
+    {
+      "overallPhase": "Primary",
+      "urn": "990116",
+      "schoolName": "Test school 237"
+    },
+    {
+      "overallPhase": "Primary",
+      "urn": "990134",
+      "schoolName": "Test school 1"
+    }
+  ],
+  "headlineStatistics": {
+    "dsgHighNeedsAllocation": 123456.0,
+    "outturnTotalHighNeeds": 790987,
+    "outturnDSGCarriedForward": -198981.0,
+    "outturnDSGCarriedForwardPreviousPeriod": -789987.0
+  }
+}
