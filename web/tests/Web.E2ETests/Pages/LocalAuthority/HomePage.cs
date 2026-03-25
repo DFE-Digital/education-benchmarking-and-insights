@@ -110,7 +110,7 @@ public class HomePage(IPage page)
         var percentage = await statisticsContainer.Locator("li:nth-child(2) > p:nth-child(3) > span").InnerTextAsync();
         var carriedForward = await statisticsContainer.Locator("li:nth-child(3) > p:nth-child(2)").InnerTextAsync();
         var previousPeriod = await statisticsContainer.Locator("li:nth-child(3) > p:nth-child(3) > span").InnerTextAsync();
-        
+
         var set = new List<dynamic>
         {
             new
