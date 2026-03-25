@@ -105,20 +105,25 @@ public class HomePage(IPage page)
 
         var expectedValues = table.Rows.First();
 
-        var allocation = statisticsContainer.Locator("li:nth-child(1)");
-        await allocation.ShouldContainText(expectedValues[0]);
+        var allocation = await statisticsContainer.Locator("li:nth-child(1) > p:nth-child(2)").InnerTextAsync();
+        var outturn = await statisticsContainer.Locator("li:nth-child(2) > p:nth-child(2)").InnerTextAsync();
+        var percentage = await statisticsContainer.Locator("li:nth-child(2) > p:nth-child(3) > span").InnerTextAsync();
+        var carriedForward = await statisticsContainer.Locator("li:nth-child(3) > p:nth-child(2)").InnerTextAsync();
+        var previousPeriod = await statisticsContainer.Locator("li:nth-child(3) > p:nth-child(3) > span").InnerTextAsync();
+        
+        var set = new List<dynamic>
+        {
+            new
+            {
+                Allocation = allocation,
+                TotalOutturn = outturn,
+                Percentage = percentage,
+                CarriedForward = carriedForward,
+                PreviousPeriod = previousPeriod
+            }
+        };
 
-        var outturn = statisticsContainer.Locator("li:nth-child(2) > p:nth-child(2)");
-        await outturn.ShouldContainText(expectedValues[1]);
-
-        var percentage = statisticsContainer.Locator("li:nth-child(2) > p:nth-child(3)");
-        await percentage.ShouldContainText(expectedValues[2]);
-
-        var carriedForward = statisticsContainer.Locator("li:nth-child(3) > p:nth-child(2)");
-        await carriedForward.ShouldContainText(expectedValues[3]);
-
-        var previousPeriod = statisticsContainer.Locator("li:nth-child(3) > p:nth-child(3)");
-        await previousPeriod.ShouldContainText(expectedValues[4]);
+        table.CompareToDynamicSet(set, false);
     }
 
     public async Task IsSchoolsAccordionDisplayed(bool displayed = true)

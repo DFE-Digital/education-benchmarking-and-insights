@@ -16,7 +16,7 @@
                 <li class="app-headline-brand">
                     <p class="govuk-body govuk-!-font-weight-bold govuk-!-margin-bottom-4">Total high needs outturn @(Model.S251Year - 1)/@Model.S251Year</p>
                     <p class="govuk-heading-l govuk-!-margin-bottom-4">@Model.OutturnTotalHighNeeds.ToHeadlineStatisticCurrency()</p>
-                    <p class="govuk-body govuk-!-margin-bottom-0">@($"{Model.OutturnAsPercentageOfAllocation:0.#}")% of high needs DSG allocation</p>
+                    <p class="govuk-body govuk-!-margin-bottom-0"><span>@($"{Model.OutturnAsPercentageOfAllocation:0.#}")%</span> of high needs DSG allocation</p>
                 </li>
             }
             @if (Model.OutturnDsgCarriedForward != null)
@@ -26,7 +26,7 @@
                     <p class="govuk-heading-l govuk-!-margin-bottom-4">@Model.OutturnDsgCarriedForward.ToHeadlineStatisticCurrency()</p>
                     @if (Model.OutturnDsgGCarriedForwardPreviousPeriod != null)
                     {
-                        <p class="govuk-body govuk-!-margin-bottom-0">In March @(Model.S251Year - 1) this was @Model.OutturnDsgGCarriedForwardPreviousPeriod.ToHeadlineStatisticCurrency()</p>
+                        <p class="govuk-body govuk-!-margin-bottom-0">In March @(Model.S251Year - 1) this was <span class="app-headline-no-wrap">@Model.OutturnDsgGCarriedForwardPreviousPeriod.ToHeadlineStatisticCurrency()</span></p>
                     }
                 </li>
             }
