@@ -114,6 +114,10 @@
         interval: "monthly"
       commit-message:
         prefix: "chore: "
+      # Mar 2026 Microsoft.ApplicationInsights.WorkerService breaking changes 3.x ignored pending work on AB#305698
+      ignore:
+        - dependency-name: "Microsoft.ApplicationInsights.WorkerService"
+          versions: [">=3.0.0"]
       labels:
         - "dependencies"
         - "platform"
