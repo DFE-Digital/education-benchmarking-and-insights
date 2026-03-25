@@ -16,14 +16,10 @@
                 <li class="app-headline-brand">
                     <p class="govuk-body govuk-!-font-weight-bold govuk-!-margin-bottom-4">Total high needs outturn @(Model.S251Year - 1)/@Model.S251Year</p>
                     <p class="govuk-heading-l govuk-!-margin-bottom-4">@Model.OutturnTotalHighNeeds.ToHeadlineStatisticCurrency()</p>
-<<<<<<< feature/287941/304949-e2e-tests
-                    <p class="govuk-body govuk-!-margin-bottom-0"><span>@($"{Model.OutturnAsPercentageOfAllocation:0.#}")%</span> of high needs DSG allocation</p>
-=======
                     @if (Model.OutturnAsPercentageOfAllocation != null)
                     {
-                        <p class="govuk-body govuk-!-margin-bottom-0">@($"{Model.OutturnAsPercentageOfAllocation:0.#}")% of high needs DSG allocation</p>
+                        <p class="govuk-body govuk-!-margin-bottom-0"><span>@($"{Model.OutturnAsPercentageOfAllocation:0.#}")%</span> of high needs DSG allocation</p>
                     }
->>>>>>> main
                 </li>
             }
             @if (Model.OutturnDsgCarriedForward != null)
