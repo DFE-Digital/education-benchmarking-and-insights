@@ -24,6 +24,12 @@
         When I click on high needs historic data
         Then the High needs historic data page is displayed
 
+    Scenario: Headline statistics are displayed
+        Given I am on local authority homepage for local authority with code '201'
+        Then the headline statistics are displayed containing the following figures:
+           | Allocation | TotalOutturn | Percentage | CarriedForward | PreviousPeriod |
+           | £123,456   | £790,987     | 640.7%     | -£198,981      | -£789,987      |    
+        
     @LocalAuthorityHomepageV2FlagDisabled
     Scenario: Schools accordion is displayed when feature is disabled
         Given I am on local authority homepage for local authority with code '204'

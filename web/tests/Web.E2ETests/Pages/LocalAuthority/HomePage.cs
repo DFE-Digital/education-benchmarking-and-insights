@@ -98,6 +98,34 @@ public class HomePage(IPage page)
         await BannerBody.ShouldContainText(body);
     }
 
+    public async Task HeadlineStatisticsDisplayed(DataTable table)
+    {
+        var statisticsContainer = page.Locator("#headline-statistics");
+        await statisticsContainer.ShouldBeVisible();
+
+        var expectedValues = table.Rows.First();
+
+        var allocation = await statisticsContainer.Locator("li:nth-child(1) > p:nth-child(2)").InnerTextAsync();
+        var outturn = await statisticsContainer.Locator("li:nth-child(2) > p:nth-child(2)").InnerTextAsync();
+        var percentage = await statisticsContainer.Locator("li:nth-child(2) > p:nth-child(3) > span").InnerTextAsync();
+        var carriedForward = await statisticsContainer.Locator("li:nth-child(3) > p:nth-child(2)").InnerTextAsync();
+        var previousPeriod = await statisticsContainer.Locator("li:nth-child(3) > p:nth-child(3) > span").InnerTextAsync();
+
+        var set = new List<dynamic>
+        {
+            new
+            {
+                Allocation = allocation,
+                TotalOutturn = outturn,
+                Percentage = percentage,
+                CarriedForward = carriedForward,
+                PreviousPeriod = previousPeriod
+            }
+        };
+
+        table.CompareToDynamicSet(set, false);
+    }
+
     public async Task IsSchoolsAccordionDisplayed(bool displayed = true)
     {
         var locator = page.Locator("#accordion-schools");
