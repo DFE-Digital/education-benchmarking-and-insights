@@ -98,7 +98,7 @@
       commit-message:
         prefix: "chore: "
       # Mar 2026 Microsoft.Azure.StackExchangeRedis issues with our test setup following 
-      # version 3.3.1, ignored pending work on AB#305698
+      # version 3.3.1, ignored pending work on AB#305821
       ignore:
         - dependency-name: "Microsoft.Azure.StackExchangeRedis"
           versions: [">=3.3.1"]
