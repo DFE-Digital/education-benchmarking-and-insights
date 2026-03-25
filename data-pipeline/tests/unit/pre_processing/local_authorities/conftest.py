@@ -73,6 +73,11 @@ def la_budget() -> pd.DataFrame:
         "1.2.13 Therapies and other health related services",
         "1.4.11 SEN transport",
         "1.9.3 Dedicated Schools Grant carried forward to next year",
+        "2.1.4 Home to school transport (pre 16): SEN transport expenditure",
+        "2.1.6 Home to post-16 provision: SEN/ LLDD transport expenditure (aged 16-18)",
+        "2.1.7 Home to post-16 provision: SEN/ LLDD transport expenditure (aged 19-25)",
+        "2.1.1 Educational psychology service",
+        "2.1.2 SEN administration, assessment and coordination and monitoring",
     ]
 
     def _get_str(value: str) -> list[str]:
@@ -133,6 +138,11 @@ def la_outturn() -> pd.DataFrame:
         "1.2.13 Therapies and other health related services",
         "1.4.11 SEN transport",
         "1.9.3 Dedicated Schools Grant carried forward to next year",
+        "2.1.4 Home to school transport (pre 16): SEN transport expenditure",
+        "2.1.6 Home to post-16 provision: SEN/ LLDD transport expenditure (aged 16-18)",
+        "2.1.7 Home to post-16 provision: SEN/ LLDD transport expenditure (aged 19-25)",
+        "2.1.1 Educational psychology service",
+        "2.1.2 SEN administration, assessment and coordination and monitoring",
     ]
 
     def _get_str(value: str) -> list[str]:
