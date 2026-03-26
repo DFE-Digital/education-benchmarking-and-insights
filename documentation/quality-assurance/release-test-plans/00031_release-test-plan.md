@@ -14,7 +14,7 @@ This release delivers a combination of dependency updates, financial methodology
 
 - **Enhancements**
   - In-year balance and revenue reserve historical trends updated to show averages data for better comparision.
-  - Incorporation of low‑level recoupment figures into the High Needs benchmarking charts, and an update to OutturnTotalHighNeeds to include SEN transport so the budget vs outturn picture is accurate.  
+  - Incorporation of low‑level recoupment figures into the High Needs benchmarking charts, and an update to OutturnTotalHighNeeds to include SEN transport so the budget vs outturn picture is accurate.
   - Revenue reserve calculation revised for the FBIT service to match with the transparency file.
   - High-level funding, deficits, and recoupment updates added on LA homepage.
 
