@@ -13,9 +13,9 @@ This release delivers a combination of dependency updates, financial methodology
 **In-scope:**
 
 - **Enhancements**
-  - In-year balance and revenue reserve historical trends updated to show averages data.
-  - Incorporation of low-level recoupment figures into benchmarking charts.
-  - Revenue reserve calculation revision for the FBIT service.
+  - In-year balance and revenue reserve historical trends updated to show averages data for better comparision.
+  - Incorporation of low-level recoupment figures into High needs benchmarking charts to give a true picture of budget vs outturn.
+  - Revenue reserve calculation revised for the FBIT service to match with the transparency file.
   - High-level funding, deficits, and recoupment updates added on LA homepage.
 
 - **Bug Fixes**
@@ -43,6 +43,7 @@ This release delivers a combination of dependency updates, financial methodology
 
 **Entry Criteria:**
 
+- Manual changes for Function App Plan downgrade completed successfully before code deployment.
 - All code changes have been deployed to pre-production.
 - Data pipeline run completed with the updated files.
 - Pre-production pipeline run is successfully completed.
@@ -52,7 +53,6 @@ This release delivers a combination of dependency updates, financial methodology
 - All smoke and sanity checks pass successfully.
 - No critical or high-severity defects remain open.
 - Stakeholder approval obtained for release progression.
-- Production changes for Function App Plan downgrade completed successfully.
 
 ## Roles and Responsibilities
 
@@ -67,8 +67,8 @@ This release delivers a combination of dependency updates, financial methodology
 - **Risk:** Dependency updates may introduce regressions across unrelated components.
   - **Mitigation:** Run extended smoke checks on critical user journeys.
 
-- **Risk:** WAF-related fixes may not fully resolve school search blocking.
-  - **Mitigation:** Perform targeted search validation tests.
+- **Risk:** WAF updates can only be applied and validated in production environments, meaning they cannot be fully exercised in standard lower‑tier environments
+  - **Mitigation:** The changes have been deployed and verified in a production‑like feature environment to provide confidence that they will behave as expected.
 
 - **Risk:** Function App Plan downgrade may impact chart rendering performance.
   - **Mitigation:** Conduct performance checks post-deployment.
@@ -105,7 +105,7 @@ This release delivers a combination of dependency updates, financial methodology
 - [303965 - RouteValuesOnClear uses unsupported collection‑expression syntax](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/303965)
 - [287941 - High level funding, deficits and recoupment - WIP](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/287941)
 - [305819 - Revenue reserve calculation revision (FBIT service) - WIP](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/305819)
-- [304148 - Downgrade Chart Rendering Function App Plan from EP1 to Y1](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/304148)
+- [304148 - Downgrade Chart Rendering Function App Plan from EP1 to Y1](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/305148)
 
 ## Appendix
 
