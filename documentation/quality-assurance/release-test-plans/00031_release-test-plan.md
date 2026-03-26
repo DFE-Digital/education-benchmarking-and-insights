@@ -105,7 +105,7 @@ This release delivers a combination of dependency updates, financial methodology
 - [303965 - RouteValuesOnClear uses unsupported collection‑expression syntax](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/303965)
 - [287941 - High level funding, deficits and recoupment](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/287941)
 - [305819 - Revenue reserve calculation revision (FBIT service)](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/305819)
-- [304148 - Downgrade Chart Rendering Function App Plan from EP1 to Y1](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/305148)
+- [305148 - Downgrade Chart Rendering Function App Plan from EP1 to Y1](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/305148)
 
 ## Appendix
 
