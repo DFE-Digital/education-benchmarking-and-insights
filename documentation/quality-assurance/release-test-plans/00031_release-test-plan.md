@@ -14,7 +14,7 @@ This release delivers a combination of dependency updates, financial methodology
 
 - **Enhancements**
   - In-year balance and revenue reserve historical trends updated to show averages data for better comparision.
-  - Incorporation of low-level recoupment figures into High needs benchmarking charts to give a true picture of budget vs outturn.
+  - Incorporation of low‑level recoupment figures into the High Needs benchmarking charts, and an update to OutturnTotalHighNeeds to include SEN transport so the budget vs outturn picture is accurate.  
   - Revenue reserve calculation revised for the FBIT service to match with the transparency file.
   - High-level funding, deficits, and recoupment updates added on LA homepage.
 
@@ -103,8 +103,8 @@ This release delivers a combination of dependency updates, financial methodology
 - [303081 - School search blocked by WAF](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/303081)
 - [303287 - Remove rows from 2024 AAR input](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/303287)
 - [303965 - RouteValuesOnClear uses unsupported collection‑expression syntax](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/303965)
-- [287941 - High level funding, deficits and recoupment - WIP](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/287941)
-- [305819 - Revenue reserve calculation revision (FBIT service) - WIP](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/305819)
+- [287941 - High level funding, deficits and recoupment](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/287941)
+- [305819 - Revenue reserve calculation revision (FBIT service)](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/305819)
 - [304148 - Downgrade Chart Rendering Function App Plan from EP1 to Y1](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/305148)
 
 ## Appendix
