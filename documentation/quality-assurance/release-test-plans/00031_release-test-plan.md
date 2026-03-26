@@ -70,8 +70,8 @@ This release delivers a combination of dependency updates, financial methodology
 - **Risk:** WAF updates can only be applied and validated in production environments, meaning they cannot be fully exercised in standard lower‑tier environments
   - **Mitigation:** The changes have been deployed and verified in a production‑like feature environment to provide confidence that they will behave as expected.
 
-- **Risk:** Function App Plan downgrade may impact chart rendering performance.
-  - **Mitigation:** Conduct performance checks post-deployment.
+- **Risk:** Manual steps are required prior for Function App Plan downgrade prior to code release, and missing or incorrectly applying these steps could cause deployment issues or service disruption.
+  - **Mitigation:** All manual steps have been validated in lower environments and will be followed in production using the agreed checklist before code deployment.
 
 ## Test Deliverables
 
