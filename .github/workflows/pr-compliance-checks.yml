@@ -1,9 +1,13 @@
 
-name: "PR Compliance Checks"
+name: "PR Checks"
 
 on:
   pull_request:
     types: [opened, edited, reopened, labeled, unlabeled, synchronize]
+
+concurrency:
+  group: ${{ github.ref }}
+  cancel-in-progress: false
 
 permissions:
   pull-requests: write
