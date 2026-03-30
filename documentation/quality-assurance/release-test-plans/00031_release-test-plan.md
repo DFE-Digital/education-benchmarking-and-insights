@@ -1,6 +1,6 @@
 ﻿# Release Test Plan: 2026.3.0
 
-**Release Date:** TBC  
+**Release Date:** 30/03/2026  
 **Release Label:** 2026.3.0
 
 ## Introduction
@@ -91,7 +91,7 @@ This release delivers a combination of dependency updates, financial methodology
 
 **Release Overview:**
 
-{to be completed post relese }
+The release completed successfully with no issues.
 
 **Azure DevOps tickets included in this release:**
 
@@ -116,10 +116,10 @@ This release delivers a combination of dependency updates, financial methodology
 
 | Test Category           | Total Tests | Passed | Failed | Pass Rate |  
 |-------------------------|:-----------:|:------:|:------:|:---------:|  
-| Smoke Tests - Prod      |      -      |   -    |   -    |     -     |  
-| Smoke Tests - Pre Prod  |      -      |   -    |   -    |     -     |
-| Sanity Tests - Pre Prod |      -      |   -    |   -    |     -     |  
-| Total                   |      -      |   -    |   -    |     -     |  
+| Smoke Tests - Prod      |      1      |   1    |   0    |   100%    |  
+| Smoke Tests - Pre Prod  |      1      |   1    |   0    |   100%    |
+| Sanity Tests - Pre Prod |      1      |   1    |   0    |   100%    |  
+| Total                   |      3      |   3    |   0    |   100%    |  
 
 <!-- Leave the rest of this page blank -->
 \newpage
