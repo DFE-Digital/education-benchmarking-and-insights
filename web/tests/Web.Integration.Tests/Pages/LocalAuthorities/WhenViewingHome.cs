@@ -977,16 +977,21 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
 
         var positionCarriedForwardText = positionCarriedForwardElement.QuerySelector("p:nth-child(1)");
         Assert.NotNull(positionCarriedForwardText);
+        // TODO: update
         DocumentAssert.TextEqual(positionCarriedForwardText, "DSG position carried forward as at March 2024");
 
         var positionCarriedForwardFigure = positionCarriedForwardElement.QuerySelector("p:nth-child(2)");
         Assert.NotNull(positionCarriedForwardFigure);
+        // TODO: update
         DocumentAssert.TextEqual(positionCarriedForwardFigure, "£1.23 million");
 
         var positionCarriedForwardPreviousPeriod = positionCarriedForwardElement.QuerySelector("p:nth-child(3)");
         Assert.NotNull(positionCarriedForwardPreviousPeriod);
+        // TODO: update
         DocumentAssert.TextEqual(positionCarriedForwardPreviousPeriod, "In March 2023 this was £1.12 million");
     }
+    
+    // TODO: new test mock out surplus and deficit combos including zero (as deficit)
 
     private async Task<(
         IHtmlDocument page,

@@ -27,6 +27,7 @@
     Scenario: Headline statistics are displayed
         Given I am on local authority homepage for local authority with code '201'
         Then the headline statistics are displayed containing the following figures:
+        # TODO: update to abs
            | Allocation | TotalOutturn | Percentage | CarriedForward | PreviousPeriod |
            | £123,456   | £790,987     | 640.7%     | -£198,981      | -£789,987      |    
         
