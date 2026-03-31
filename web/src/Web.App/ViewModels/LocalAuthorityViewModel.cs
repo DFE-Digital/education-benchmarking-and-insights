@@ -92,4 +92,13 @@ public class LocalAuthorityHeadlineStatisticsViewModel
     public decimal? OutturnDsgGCarriedForwardPreviousPeriod { get; set; }
     public int S251Year { get; set; }
     public decimal? OutturnAsPercentageOfAllocation => OutturnTotalHighNeeds.SafePercentageOf(DsgHighNeedsAllocation);
+    public string DsgSurplusOrDeficit => DeficitOrSurplus(OutturnDsgCarriedForward);
+    public string DsgSurplusOrDeficitPreviousPeriod => DeficitOrSurplus(OutturnDsgGCarriedForwardPreviousPeriod);
+
+    private static string DeficitOrSurplus(decimal? value)
+    {
+        return value < 0
+            ? "surplus"
+            : "deficit";
+    }
 }

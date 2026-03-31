@@ -25,11 +25,11 @@
             @if (Model.OutturnDsgCarriedForward != null)
             {
                 <li class="app-headline-brand">
-                    <p class="govuk-body govuk-!-font-weight-bold govuk-!-margin-bottom-4">DSG position carried forward as at March @Model.S251Year</p>
-                    <p class="govuk-heading-l govuk-!-margin-bottom-4">@Model.OutturnDsgCarriedForward.ToHeadlineStatisticCurrency()</p>
+                    <p class="govuk-body govuk-!-font-weight-bold govuk-!-margin-bottom-4"><strong>DSG @Model.DsgSurplusOrDeficit</strong> as at March @Model.S251Year</p>
+                    <p class="govuk-heading-l govuk-!-margin-bottom-4">@(Math.Abs((decimal)Model.OutturnDsgCarriedForward).ToHeadlineStatisticCurrency())</p>
                     @if (Model.OutturnDsgGCarriedForwardPreviousPeriod != null)
                     {
-                        <p class="govuk-body govuk-!-margin-bottom-0">In March @(Model.S251Year - 1) this was <span class="app-headline-no-wrap">@Model.OutturnDsgGCarriedForwardPreviousPeriod.ToHeadlineStatisticCurrency()</span></p>
+                        <p class="govuk-body govuk-!-margin-bottom-0">In March @(Model.S251Year - 1) this was a @Model.DsgSurplusOrDeficitPreviousPeriod of @(Math.Abs((decimal)Model.OutturnDsgGCarriedForwardPreviousPeriod).ToHeadlineStatisticCurrency())</p>
                     }
                 </li>
             }
