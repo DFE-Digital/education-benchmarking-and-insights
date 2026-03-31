@@ -13,7 +13,7 @@ This release delivers a single enhancement to improve how DSG carried forward ba
 **In-scope:**
 
 - **Enhancements**
-    - Update to the LA homepage to improve the presentation of High Needs DSG carried forward balances, ensuring the displayed position better reflects the actual deficit.  
+  - Update to the LA homepage to improve the presentation of High Needs DSG carried forward balances, ensuring the displayed position better reflects the actual deficit.  
 
 **Out-of-Scope:**
 
