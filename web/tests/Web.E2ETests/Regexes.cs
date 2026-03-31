@@ -21,4 +21,7 @@ public static partial class Regexes
 
     [GeneratedRegex("Copy.+ image")]
     public static partial Regex CopyImageRegex();
+
+    [GeneratedRegex("£[\\d,]+")]
+    public static partial Regex CurrencyRegex();
 }

@@ -109,7 +109,9 @@ public class HomePage(IPage page)
         var outturn = await statisticsContainer.Locator("li:nth-child(2) > p:nth-child(2)").InnerTextAsync();
         var percentage = await statisticsContainer.Locator("li:nth-child(2) > p:nth-child(3) > span").InnerTextAsync();
         var carriedForward = await statisticsContainer.Locator("li:nth-child(3) > p:nth-child(2)").InnerTextAsync();
-        var previousPeriod = await statisticsContainer.Locator("li:nth-child(3) > p:nth-child(3) > span").InnerTextAsync();
+        var previousPeriodRaw = await statisticsContainer.Locator("li:nth-child(3) > p:nth-child(3)").InnerTextAsync();
+
+        var previousPeriod = Regexes.CurrencyRegex().Match(previousPeriodRaw).Value;
 
         var set = new List<dynamic>
         {
