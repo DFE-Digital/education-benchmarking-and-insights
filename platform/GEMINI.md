@@ -1,9 +1,14 @@
 # Platform Module
 
 ## Module Purpose
-The backend API layer providing core benchmarking, school/trust insights, and search capabilities for the Education Benchmarking and Insights platform. It serves as the primary data access and processing hub, exposing RESTful services to front-end components and external consumers.
+
+The backend API layer providing core benchmarking, school/trust insights, and
+search capabilities for the Education Benchmarking and Insights platform. It
+serves as the primary data access and processing hub, exposing RESTful services
+to front-end components and external consumers.
 
 ## Tech Stack
+
 - **Framework:** .NET 8/9 (C#)
 - **Hosting:** Azure Functions (Isolated Worker Process)
 - **Data Access:** Dapper, Dapper.Contrib, Dapper.SqlBuilder (Micro-ORM)
@@ -15,39 +20,85 @@ The backend API layer providing core benchmarking, school/trust insights, and se
 - **Testing:** xUnit, Moq, AutoFixture, Reqnroll (Behavioral Testing)
 
 ## Core Logic & Data Flow
-1. **API Topology:** The platform is segmented into domain-specific Azure Function applications (e.g., `Platform.Api.Benchmark`, `Platform.Api.Establishment`). All shared interfaces, domain models, and cross-cutting infrastructure reside in the `platform/src/abstractions` project (acting as a Shared Kernel).
-2. **Request Ingress:** HTTP triggers via Azure Functions handle incoming requests.
-3. **Feature Routing:** Requests are routed to specific "Features" (e.g., `ComparatorSets`, `FinancialPlans`).
-4. **Service Layer:** Functions delegate domain logic to specialized services (e.g., `IComparatorSetsService`).
-5. **Data Access:** Services use `IDatabaseFactory` to obtain connections and Dapper to execute SQL against Azure SQL databases or `ISearchService` to query Azure AI Search.
-6. **Response:** Results are returned as JSON, using extension methods like `req.CreateJsonResponseAsync()` and wrapped in a `Result<T>` pattern for consistent error handling and versioning.
+
+1. **API Topology:** The platform is segmented into domain-specific Azure
+   Function applications (e.g., `Platform.Api.Benchmark`,
+   `Platform.Api.Establishment`). All shared interfaces, domain models, and
+   cross-cutting infrastructure reside in the `platform/src/abstractions`
+   project (acting as a Shared Kernel).
+2. **Request Ingress:** HTTP triggers via Azure Functions handle incoming
+   requests.
+3. **Feature Routing:** Requests are routed to specific "Features" (e.g.,
+   `ComparatorSets`, `FinancialPlans`).
+4. **Service Layer:** Functions delegate domain logic to specialized services
+   (e.g., `IComparatorSetsService`).
+5. **Data Access:** Services use `IDatabaseFactory` to obtain connections and
+   Dapper to execute SQL against Azure SQL databases or `ISearchService` to
+   query Azure AI Search.
+6. **Response:** Results are returned as JSON, using extension methods like
+   `req.CreateJsonResponseAsync()` and wrapped in a `Result<T>` pattern for
+   consistent error handling and versioning.
 
 ## Key Definitions
-- **Shared Kernel (`abstractions/`):** The central library containing shared `Platform.Domain` models, `Platform.Sql` extensions, and `Platform.Functions` middleware.
-- **Pipeline.RunType:** Defines the context of data execution (e.g., 'default', 'custom') heavily used in benchmarking queries.
-- **VersionedFunctionBase & Result<T>:** Base class for Azure Functions supporting API versioning. It works alongside `Result<T>` and extension methods to map domain outcomes to standardized HTTP status codes automatically.
-- **IDatabaseFactory:** Abstraction for creating and managing SQL database connections.
-- **Feature-based Slicing:** Organizational pattern where code is grouped by domain feature (Models, Services, Functions, Validators) rather than technical layer.
-- **Dapper:** The primary micro-ORM used for high-performance, SQL-first data access.
+
+- **Shared Kernel (`abstractions/`):** The central library containing shared
+  `Platform.Domain` models, `Platform.Sql` extensions, and `Platform.Functions`
+  middleware.
+- **Pipeline.RunType:** Defines the context of data execution (e.g., 'default',
+  'custom') heavily used in benchmarking queries.
+- **`VersionedFunctionBase` & `Result<T>`:** Base class for Azure Functions
+  supporting API versioning. It works alongside `Result<T>` and extension
+  methods to map domain outcomes to standardized HTTP status codes
+  automatically.
+- **IDatabaseFactory:** Abstraction for creating and managing SQL database
+  connections.
+- **Feature-based Slicing:** Organizational pattern where code is grouped by
+  domain feature (Models, Services, Functions, Validators) rather than
+  technical layer.
+- **Dapper:** The primary micro-ORM used for high-performance, SQL-first data
+  access.
 
 ## Integration Points
-- **Core Infrastructure:** Consumes Azure SQL databases and Storage Accounts provisioned by the `core-infrastructure` module, while provisioning its own Azure Functions, Redis, and AI Search via the local `terraform/` directory.
-- **Front-end Components:** Provides the backend REST/JSON APIs consumed by the Vite/React/TypeScript front-end.
-- **Data Pipeline:** Consumes and processes messages/data generated by the pipeline for consumption via APIs.
+
+- **Core Infrastructure:** Consumes Azure SQL databases and Storage Accounts
+  provisioned by the `core-infrastructure` module, while provisioning its own
+  Azure Functions, Redis, and AI Search via the local `terraform/` directory.
+- **Front-end Components:** Provides the backend REST/JSON APIs consumed by the
+  Vite/React/TypeScript front-end.
+- **Data Pipeline:** Consumes and processes messages/data generated by the
+  pipeline for consumption via APIs.
 
 ## Development Standards
-- **Vertical Slices:** Keep all components of a feature (Functions, Services, Models, Validators) within the feature's directory.
-- **Shared over Duplication:** Before defining a new cross-cutting interface, check the `abstractions` project (e.g., `Platform.Search`, `Platform.Messaging`) to reuse existing infrastructure.
-- **Testing Strategy:** Use `xUnit` and `Moq` for unit testing logic within feature services. Use `Reqnroll` for behavioral/acceptance testing of API endpoints. Always place tests in the `platform/tests/` directory mirroring the corresponding API namespace.
-- **SQL-First:** Prefer writing clean, optimized SQL via Dapper over complex ORM abstractions like Entity Framework.
-- **Centralized Dependencies:** All NuGet package versions must be managed in `Directory.Packages.props`.
-- **Async/Await:** Use asynchronous programming throughout the entire call stack.
-- **Validation:** Every input request must be validated using `FluentValidation` before processing.
-- **OpenAPI:** All public Function endpoints must be decorated with `OpenApi` attributes for documentation.
+
+- **Vertical Slices:** Keep all components of a feature (Functions, Services,
+  Models, Validators) within the feature's directory.
+- **Shared over Duplication:** Before defining a new cross-cutting interface,
+  check the `abstractions` project (e.g., `Platform.Search`,
+  `Platform.Messaging`) to reuse existing infrastructure.
+- **Testing Strategy:** Use `xUnit` and `Moq` for unit testing logic within
+  feature services. Use `Reqnroll` for behavioral/acceptance testing of API
+  endpoints. Always place tests in the `platform/tests/` directory mirroring
+  the corresponding API namespace.
+- **SQL-First:** Prefer writing clean, optimized SQL via Dapper over complex ORM
+  abstractions like Entity Framework.
+- **Centralized Dependencies:** All NuGet package versions must be managed in
+  `Directory.Packages.props`.
+- **Async/Await:** Use asynchronous programming throughout the entire call
+  stack.
+- **Validation:** Every input request must be validated using
+  `FluentValidation` before processing.
+- **OpenAPI:** All public Function endpoints must be decorated with `OpenApi`
+  attributes for documentation.
 
 ## Anti-Patterns
-- **Fat Functions:** Avoid putting domain logic directly in Azure Function triggers; always delegate to a service.
-- **Complex ORMs:** Do not introduce Entity Framework or other heavy ORMs; stick to Dapper for predictability and performance.
-- **Hardcoded Connection Strings:** Never hardcode configuration; use `IOptions` or environment variables managed by Azure Key Vault.
-- **Bypassing Service Layer:** Avoid direct database access from Function triggers; always go through the service layer.
-- **Ignoring CancellationToken:** Always propagate `CancellationToken` through all async calls to support request cancellation.
+
+- **Fat Functions:** Avoid putting domain logic directly in Azure Function
+  triggers; always delegate to a service.
+- **Complex ORMs:** Do not introduce Entity Framework or other heavy ORMs; stick
+  to Dapper for predictability and performance.
+- **Hardcoded Connection Strings:** Never hardcode configuration; use `IOptions`
+  or environment variables managed by Azure Key Vault.
+- **Bypassing Service Layer:** Avoid direct database access from Function
+  triggers; always go through the service layer.
+- **Ignoring CancellationToken:** Always propagate `CancellationToken` through
+  all async calls to support request cancellation.
