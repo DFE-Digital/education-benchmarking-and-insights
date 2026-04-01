@@ -112,7 +112,6 @@ The release completed successfully with no issues.
 ### Test Summary Report
 
 **Summary of results:**  
-Release was completed successfully with no issues. 
 
 | Test Category           | Total Tests | Passed | Failed | Pass Rate |  
 |-------------------------|:-----------:|:------:|:------:|:---------:|  
