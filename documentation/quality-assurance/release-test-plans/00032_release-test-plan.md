@@ -78,13 +78,13 @@ There are no known risks associated with this release.
 ### Test Summary Report
 
 **Summary of results:**  
-(To be completed post‑testing)
+Release completed successfully with no issues.
 
 | Test Category           | Total Tests | Passed | Failed | Pass Rate |  
 |-------------------------|:-----------:|:------:|:------:|:---------:|  
-| Smoke Tests - Prod      |      -      |   -    |   -    |     -     |  
+| Smoke Tests - Prod      |      1      |   1    |   0    |   100%    |  
 | Sanity Tests - Pre Prod |      1      |   1    |   0    |   100%    |  
-| Total                   |      -      |   -    |   -    |     -     |  
+| Total                   |      2      |   2    |   0    |   100%    |  
 
 <!-- Leave the rest of this page blank -->
 \newpage
