@@ -67,7 +67,7 @@ There are no known risks associated with this release.
 
 **Release Overview:**
 
-{to be added here }
+Release completed successfully with no issues.
 
 **Azure DevOps tickets included in this release:**
 
@@ -77,8 +77,7 @@ There are no known risks associated with this release.
 
 ### Test Summary Report
 
-**Summary of results:**  
-Release completed successfully with no issues.
+**Summary of results:**
 
 | Test Category           | Total Tests | Passed | Failed | Pass Rate |  
 |-------------------------|:-----------:|:------:|:------:|:---------:|  
