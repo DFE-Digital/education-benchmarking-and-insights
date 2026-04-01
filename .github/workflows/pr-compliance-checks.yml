@@ -1,4 +1,3 @@
-
 name: "PR Checks"
 
 on:
@@ -11,6 +10,7 @@ concurrency:
 
 permissions:
   pull-requests: write
+  issues: write
 
 jobs:
   check-compliance:
@@ -29,20 +29,53 @@ jobs:
             const branchName = pr.head.ref;
             const title = pr.title || "";
             const body = pr.body || "";
-            const labels = pr.labels.map(label => label.name);
+            let currentLabels = pr.labels.map(label => label.name);
 
             // 1. Branch Naming Standards
             const branchRegex = /^(feature|bugfix|hotfix|exp|tech-debt|docs|prototype|dependabot|chore)(\/[0-9]+)?\/.+$/;
-            const branchValid = branchRegex.test(branchName);
+            const branchMatch = branchName.match(branchRegex);
+            const branchValid = branchMatch !== null;
             
-            // 2. PR Labels
-            const labelsValid = labels.length > 0;
+            // 2. Auto-assign Labels based on Branch Prefix
+            if (branchMatch && context.payload.action === 'opened') {
+              const category = branchMatch[1];
+              const labelMap = {
+                'feature': 'feature',
+                'bugfix': 'bug',
+                'hotfix': 'bug',
+                'tech-debt': 'tech-debt',
+                'docs': 'documentation',
+                'prototype': 'prototype',
+                'chore': 'chore',
+                'exp': 'experiment',
+                'dependabot': 'dependencies'
+              };
+              const labelToAdd = labelMap[category];
+              
+              if (labelToAdd && !currentLabels.includes(labelToAdd)) {
+                try {
+                  await github.rest.issues.addLabels({
+                    owner: context.repo.owner,
+                    repo: context.repo.repo,
+                    issue_number: pr.number,
+                    labels: [labelToAdd]
+                  });
+                  currentLabels.push(labelToAdd);
+                  console.log(`Auto-added label: ${labelToAdd}`);
+                } catch (error) {
+                  console.error(`Failed to add label ${labelToAdd}: ${error}`);
+                }
+              }
+            }
+
+            // 3. PR Labels validation
+            const labelsValid = currentLabels.length > 0;
             
-            // 3. Commit Title Standards (PR Title)
+            // 4. Commit Title Standards (PR Title)
             const titleRegex = /^(feat|fix|docs|style|refactor|perf|test|chore)(\([a-zA-Z0-9_-]+\))?!?: .+/;
             const titleValid = titleRegex.test(title);
             
-            // 4. Ticket Linking
+            // 5. Ticket Linking
             const isDependabot = branchName.startsWith('dependabot/');
             
             const commits = await github.paginate(github.rest.pulls.listCommits, {
@@ -57,6 +90,13 @@ jobs:
             
             const allValid = branchValid && labelsValid && titleValid && ticketValid;
 
+            // 6. PR Size Check
+            const totalLines = pr.additions + pr.deletions;
+            const isLarge = totalLines > 400;
+            const sizeWarning = isLarge 
+              ? `\n\n> ⚠️ **Size Warning:** This PR changes **${totalLines} lines**. Our guidelines recommend keeping PRs under 400 lines to support Trunk-based development and faster reviews. Consider breaking this down if possible.` 
+              : "";
+
             const checklist = [
               `## Checklist`,
               ``,
@@ -66,9 +106,9 @@ jobs:
               `- [${ticketValid ? 'x' : ' '}] Linked to an ADO ticket (contains \`AB#<ticket-number>\`)`
             ].join('\n');
 
-            const messageBody = allValid ? "✅ **All checks have passed!**\n\n" + checklist : checklist;
+            const messageBody = (allValid ? "✅ **All checks have passed!**\n\n" + checklist : checklist) + sizeWarning;
 
-            // 1. Manage the Issue Comment (The Checklist)
+            // 7. Manage the Issue Comment (The Checklist)
             const comments = await github.paginate(github.rest.issues.listComments, {
               owner: context.repo.owner,
               repo: context.repo.repo,
@@ -94,7 +134,7 @@ jobs:
               console.log("Created new checklist comment.");
             }
 
-            // 2. Manage the PR Review (Blocking State)
+            // 8. Manage the PR Review (Blocking State)
             const reviews = await github.paginate(github.rest.pulls.listReviews, {
               owner: context.repo.owner,
               repo: context.repo.repo,
