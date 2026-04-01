@@ -1,11 +1,11 @@
-﻿# Release Test Plan: 2026.4.0
+﻿# Release Test Plan: 2026.04.0
 
 **Release Date:** 01/04/2026  
-**Release Label:** 2026.4.0
+**Release Label:** 2026.04.0
 
 ## Introduction
 
-This plan defines the approach for testing release `2026.4.0`, covering smoke and sanity testing activities.  
+This plan defines the approach for testing release `2026.04.0`, covering smoke and sanity testing activities.  
 This release delivers a single enhancement to improve how DSG carried forward balances are represented on the LA homepage, providing a clearer and more accurate picture of the underlying deficit position.
 
 ## Scope
