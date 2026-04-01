@@ -1,14 +1,15 @@
 ## 🧾 Summary
-> Briefly describe the changes and why they are needed.
+> Briefly describe the new feature and why it's being introduced.
 
-Fixes AB#[issue number] (if applicable)
+Fixes AB#[issue number]
 
-### 🛠️ Changes Made
-> - List the key updates, additions, or structural changes.
+### ✨ Feature Details
+> - **Functionality:** Briefly explain what this feature does or the user impact.
+> - **Implementation:** List key architectural changes, new components, or UI updates.
 
 ## ✅ Checklist
 - [ ] Code follows project coding standards.
-- [ ] Unit and integration tests updated _(if applicable)_.
+- [ ] Unit and integration tests updated.
 - [ ] Tested by running locally.
 - [ ] Relevant documentation updated _(if applicable)_.
 - [ ] Screenshots or Demo included _(if applicable)_.
