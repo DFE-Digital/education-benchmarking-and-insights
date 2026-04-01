@@ -89,8 +89,8 @@ This document defines **how ingestion testing is approached**, including the sco
 
 ## Supporting Documents
 
-- Data Sources: [`documentation/data/2_Sources.md`](../data/2_Sources.md)
-- Releases: [`documentation/data/5_Releases.md`](../data/5_Releases.md)
+- Data Sources: [`documentation/data/02_Sources.md`](../data/02_Sources.md)
+- Releases: [`documentation/data/05_Releases.md`](../data/05_Releases.md)
 - Validation Scripts – for schema, mapping, and regression checks *(links to be added later)*
 
 <!-- Leave the rest of this page blank -->

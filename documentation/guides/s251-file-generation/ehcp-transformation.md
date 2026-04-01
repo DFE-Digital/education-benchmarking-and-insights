@@ -3,16 +3,16 @@
 ## Overview
 
 The `sen2_estab_caseload.csv` file is an ancillary non-financial dataset used to enrich the Section 251 (S251) financial data within the Financial Benchmarking and Insights Tool (FBIT).
->_See [FBIT Domain](/documentation/data/1_Domain.md) for more information on FBIT Financial and non financial data._
+>_See [FBIT Domain](/documentation/data/01_Domain.md) for more information on FBIT Financial and non financial data._
 
 This document outlines the transformation process used to align the 2025 EHCP file to the structure of the previous year's dataset.
->_See [FBIT Sources](/documentation/data/2_Sources.md) for description and sources of financial and non financial data._
+>_See [FBIT Sources](/documentation/data/02_Sources.md) for description and sources of financial and non financial data._
 
 ### Get started
 
 1. Access the [Sen2-caseload transformation.xlsx](https://educationgovuk.sharepoint.com/:x:/r/sites/DfEFinancialBenchmarking/Shared%20Documents/General/Analytics%20Discovery/s251/Sen2-caseload%20transformation.xlsx?d=wdccd3fb3704944f3a46bf4cc37b5615f&csf=1&web=1&e=13uUfn) file in [DfE Financial Benchmark s251 Sharepoint location](https://educationgovuk.sharepoint.com/:f:/r/sites/DfEFinancialBenchmarking/Shared%20Documents/General/Analytics%20Discovery/s251?csf=1&web=1&e=4M38O3), open the report with desktop / app option and not browser.
 
-2. Access the current EHCP file which is named `caseload.csv` from [Explore Education Statistics - Education, health and care plans](https://explore-education-statistics.service.gov.uk/find-statistics/education-health-and-care-plans) as described in [FBIT Sources](/documentation/data/2_Sources.md).
+2. Access the current EHCP file which is named `caseload.csv` from [Explore Education Statistics - Education, health and care plans](https://explore-education-statistics.service.gov.uk/find-statistics/education-health-and-care-plans) as described in [FBIT Sources](/documentation/data/02_Sources.md).
 
 3. In the `caseload.csv` file, filter file on `time_period` field (Col A) to the reporting academic year, for instance, filter on '202425' when reporting for 2024-2025 academic year.
 
