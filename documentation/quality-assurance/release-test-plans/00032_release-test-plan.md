@@ -83,7 +83,7 @@ There are no known risks associated with this release.
 | Test Category           | Total Tests | Passed | Failed | Pass Rate |  
 |-------------------------|:-----------:|:------:|:------:|:---------:|  
 | Smoke Tests - Prod      |      -      |   -    |   -    |     -     |  
-| Sanity Tests - Pre Prod |      -      |   -    |   -    |     -     |  
+| Sanity Tests - Pre Prod |      1      |   1    |   0    |   100%    |  
 | Total                   |      -      |   -    |   -    |     -     |  
 
 <!-- Leave the rest of this page blank -->
