@@ -40,9 +40,9 @@
       },
       "Reqnroll": {
         "type": "Direct",
-        "requested": "[3.3.3, )",
-        "resolved": "3.3.3",
-        "contentHash": "3f4zOQraEDna8x3yZ9sEuPz4eQ60XsVIyYCr9RnzgK9cfb6ykGxWxkYadj7tq3hP+Qy6ox3va8Ma2p18xzRlig==",
+        "requested": "[3.3.4, )",
+        "resolved": "3.3.4",
+        "contentHash": "tFFx0xACekjT9F/aFZjQMNTbaxy7zNU4uXFXvU1Eybuko2Rx1RLCAzN+uPDiDxsGB/Nd0wZC0M8Ho5i9xm8Jdg==",
         "dependencies": {
           "Cucumber.CucumberExpressions": "17.1.0",
           "Cucumber.HtmlFormatter": "22.2.0",
