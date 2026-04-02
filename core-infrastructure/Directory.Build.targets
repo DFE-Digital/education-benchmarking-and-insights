@@ -1,0 +1,15 @@
+<Project>
+  <Target Name="CheckCodeFormatting" BeforeTargets="Build" Condition="'$(CI)' == 'true'">
+    <Exec Command="dotnet format --verify-no-changes --severity error" StandardOutputImportance="High" />
+  </Target>
+  <Target Name="FailIfLockFileMissing" BeforeTargets="Restore"
+          Condition="'$(CI)' == 'true' AND !Exists('$(MSBuildProjectDirectory)/packages.lock.json')">
+    <Error Text="Missing packages.lock.json. Run restore locally and commit lock file." />
+  </Target>
+  <Target Name="BlockDebugInCI" BeforeTargets="Build" Condition="'$(CI)' == 'true' AND '$(Configuration)' == 'Debug'">
+    <Error Text="Debug configuration is not allowed in CI. Use --configuration Release." />
+  </Target>
+  <Target Name="PrintBuildInfo" BeforeTargets="Build">
+    <Message Importance="Low" Text="Building $(MSBuildProjectName) | Config=$(Configuration) | CI=$(CI)" />
+  </Target>
+</Project>

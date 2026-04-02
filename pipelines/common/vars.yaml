@@ -12,6 +12,8 @@
 # Additional commentary may be found at:
 # - https://learn.microsoft.com/en-us/azure/devops/pipelines/process/run-number
 variables:
+  - name: CI
+    value: true
   - name: ShouldDeploy
     value: $[and(eq(variables['Build.SourceBranch'], 'refs/heads/main'), ne(variables['Build.Reason'], 'PullRequest'))]
   - name: Version
