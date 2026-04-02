@@ -29,7 +29,8 @@ This repository uses standardised module-level MSBuild configuration via `Direct
 
 #### Performance
 
-* Parallel builds and shared compilation enabled
+* Parallel builds and shared compilation enabled.
+* **Intentional Trade-off:** While running `dotnet format` as a pre-build target in `Directory.Build.targets` adds a small overhead to each project's build time, this is an intentional design choice. Because our CI pipelines are structured to build and publish projects individually, this approach ensures that each project remains self-validating and consistent with the "MSBuild-Heavy" philosophy defined in [ADR 0022](../architecture/decisions/0022-build-logic-vs-pipeline-orchestration.md). This localized enforcement is preferred over solution-wide formatting steps to maintain modularity and ensure that any project-level build (local or CI) always validates its own integrity.
 
 ## Directory.Packages.props (Central Package Management)
 

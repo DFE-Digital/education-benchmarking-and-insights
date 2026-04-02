@@ -72,7 +72,7 @@ If a task involves external tools, environment-specific checks, or "expensive" v
 ### Risks
 
 * **Complexity in Targets:** MSBuild files (`.props` / `.targets`) are more complex to read than simple shell scripts.
-* **Local Build Performance:** Requires discipline to keep "expensive" tasks out of MSBuild to maintain fast local build times.
+* **Local Build Performance:** Requires discipline to keep "expensive" tasks out of MSBuild to maintain fast local build times. For `dotnet format`, we accept the per-project overhead in CI to ensure that every build is self-contained and self-validating, aligning with our modular project-by-project build pipeline.
 
 ### Required Actions
 
