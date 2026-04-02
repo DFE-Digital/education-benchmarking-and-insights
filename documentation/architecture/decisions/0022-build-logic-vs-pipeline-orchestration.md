@@ -29,6 +29,7 @@ We prioritize **MSBuild** for code-related integrity to ensure the "Inner Loop" 
 ### Rationale
 
 #### 1. MSBuild: The Domain of Integrity & Correctness
+
 If a task is required to ensure the code is valid, formatted, and compilable, it belongs in the project files (MSBuild).
 
 * **The Inner Loop:** Developers get the same feedback locally as they do in CI. If it doesn't pass `dotnet build` on a laptop, it won't pass on the server.
@@ -36,12 +37,14 @@ If a task is required to ensure the code is valid, formatted, and compilable, it
 * **Module-Level Inheritance:** Using `Directory.Build.props` and `Directory.Build.targets` at the module root allows us to enforce module-wide standards cleanly without side-effects across the broader repository.
 
 **Tasks included in MSBuild:**
+
 * **Compilation:** The primary job of MSBuild.
 * **Source Generators:** Vital for code production at compile-time.
 * **Code Analysis (Roslyn Analyzers):** Identifying "code smells" and errors during the build.
 * **Formatting (`dotnet format`):** Ensures the codebase remains idiomatic. We use the `--verify-no-changes` flag in CI to enforce this.
 
 #### 2. Pipeline Steps: The Domain of Quality & Orchestration
+
 If a task involves external tools, environment-specific checks, or "expensive" validations, it belongs in the Pipeline (Azure DevOps / GitHub Actions).
 
 * **Visibility:** Pipeline UI provides immediate, high-level feedback (e.g., "Markdown Lint Failed") without requiring the dev to parse 5,000 lines of MSBuild logs.
@@ -49,6 +52,7 @@ If a task involves external tools, environment-specific checks, or "expensive" v
 * **Tooling Decoupling:** Non-.NET tools (like Node.js based linters) should not be forced into a `.csproj` wrapper.
 
 **Tasks included in Pipelines:**
+
 * **Markdown Linting:** Documentation style shouldn't break a local code compilation.
 * **Security Scanning (SCA/SAST):** Tools like Snyk or Dependabot are more efficiently managed at the orchestrator level.
 * **Integration Testing:** Running tests that require external resources (Databases, APIs) is a pipeline responsibility.
@@ -72,11 +76,11 @@ If a task involves external tools, environment-specific checks, or "expensive" v
 
 ### Required Actions
 
-1.  **Module Logic Distribution:** All shared .NET logic is placed in `Directory.Build.targets` and `Directory.Build.props` at the root of the relevant `.NET` module.
-2.  **CI Detection Property:** We use the `$(CI)` property to toggle stricter checks (e.g., Warnings as Errors).
-    * *Local:* Errors are warnings; formatting is suggested.
-    * *CI:* Errors are blockers; formatting is mandatory.
-3.  **Thin YAML Strategy:** Azure DevOps YAML files remain "thin," primarily calling `dotnet build` and `dotnet test`, while specialized steps handle non-code linting.
+1. **Module Logic Distribution:** All shared .NET logic is placed in `Directory.Build.targets` and `Directory.Build.props` at the root of the relevant `.NET` module.
+2. **CI Detection Property:** We use the `$(CI)` property to toggle stricter checks (e.g., Warnings as Errors).
+   * *Local:* Errors are warnings; formatting is suggested.
+   * *CI:* Errors are blockers; formatting is mandatory.
+3. **Thin YAML Strategy:** Azure DevOps YAML files remain "thin," primarily calling `dotnet build` and `dotnet test`, while specialized steps handle non-code linting.
 
 <!-- Leave the rest of this page blank -->
 \newpage

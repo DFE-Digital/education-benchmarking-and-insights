@@ -83,9 +83,10 @@ You can simulate the CI environment checks locally before pushing by passing the
 ```bash
 dotnet build /p:CI=true --configuration Release
 ```
+
 ## Bootstrapping a New Module
 
-When creating a new .NET module in the repository, you must opt-in to these standards. 
+When creating a new .NET module in the repository, you must opt-in to these standards.
 
 **Do not** start from scratch. Instead, copy the foundational build files from an existing, well-configured module (like `core-infrastructure` or `platform`):
 
