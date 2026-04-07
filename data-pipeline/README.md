@@ -17,6 +17,7 @@ When a message is placed in a run queue, a worker container is triggered to spaw
 * Python > 3.11
 * [Poetry](https://python-poetry.org/docs/)
 * A correctly setup .env file in root of the `data-pipeline` folder
+* [Pre-commit hooks](../documentation/developers/04_Pre-commit-Hooks.md) installed to ensure Python (Black) and Markdown linting checks run automatically on every commit.
 
 Once the above dependencies are installed and working correctly we can install the required project dependencies by running:
 

@@ -6,3 +6,9 @@ repos:
         args:
           - --check
         files: ^data-pipeline/.+\.py$
+
+  - repo: https://github.com/DavidAnson/markdownlint-cli2
+    rev: v0.14.0
+    hooks:
+      - id: markdownlint-cli2
+

@@ -68,7 +68,7 @@ into final artifacts.
 - **Diagrams-as-Code**: Always use Mermaid.js for technical diagrams to ensure
   they are versionable and easy to maintain.
 - **Strict Linting**: All documentation must pass `markdownlint-cli2` checks as
-  defined in `.markdownlint-cli2.jsonc`.
+  defined in the root `.markdownlint-cli2.jsonc` file.
 - **Template-Driven Styling**: Never use inline HTML or custom formatting for
   style; rely on the Pandoc templates.
 

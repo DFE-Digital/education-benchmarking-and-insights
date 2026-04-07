@@ -40,7 +40,9 @@ We use automation to handle repetitive tasks, allowing the team to focus on logi
   * **Task:** The task ID and a **kebab-case** description (e.g., `5678-add-login-validation`).
   * **Rule:** We create branches **per task** to keep changes focused.
   * **Example:** `feature/1234/5678-add-login-validation`
-* **PR Labels:** Every PR must have a label to help us organise our work. Labels allow anyone to see immediately if a PR is a bug fix, a new feature, or a documentation update.
+* **Pre-commit Hooks:** We use [pre-commit](https://pre-commit.com/) to automatically run a set of quality checks before every commit. This includes formatting checks for Python code and linting for Markdown files. See the [Pre-commit Hooks Guide](04_Pre-commit-Hooks.md) for more details.
+* **PR Labels:**
+ Every PR must have a label to help us organise our work. Labels allow anyone to see immediately if a PR is a bug fix, a new feature, or a documentation update.
 * **Commit Title Standards:** PR titles must follow the [Conventional Commits](https://www.conventionalcommits.org) standard using the pattern `<type>(<optional-scope>): <description>`. This consistent structure allows us to generate automatic changelogs and makes our project history easy to read.
   * **Types:** `feat` (new feature), `fix` (bug fix), `docs`, `style`, `refactor`, `perf`, `test`, or `chore`.
   * **Scope:** An optional noun describing the section of the codebase (e.g., `auth`).

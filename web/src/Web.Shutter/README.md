@@ -22,10 +22,11 @@ PORT=8080
 
 ### VS Code Extensions
 
-- [ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint)
-- [markdownlint](https://marketplace.visualstudio.com/items?itemNamedavidanson.vscode-markdownlint)
+For code formatting and linting setup (ESLint, Prettier, Markdownlint), please refer to the centralized [Linting and Formatting guide](../../../../documentation/developers/05_Linting-and-Formatting.md).
+
+The following extension is also recommended for this specific project:
+
 - [Nunjucks Template](https://marketplace.visualstudio.com/items?itemName=eseom.nunjucks-template)
-- [Prettier](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode)
 
 ## Build
 

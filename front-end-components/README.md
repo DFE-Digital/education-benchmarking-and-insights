@@ -6,10 +6,7 @@ This project provides components to be consumed by the front-end ASP.NET Core we
 
 - Install [Node 22](https://nodejs.org/en/download) and/or switch to this version using [nvm](https://github.com/nvm-sh/nvm)
 
-When developing this application in Visual Studio Code, the following extensions are recommended:
-
-- [ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint)
-- [markdownlint](https://marketplace.visualstudio.com/items?itemName=DavidAnson.vscode-markdownlint)
+> **Note:** For IDE configuration (like ESLint and Prettier setup in VS Code), refer to the centralized [Linting and Formatting guide](../documentation/developers/05_Linting-and-Formatting.md).
 
 ## Available views
 

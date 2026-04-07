@@ -16,8 +16,21 @@ jobs:
   check-compliance:
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Markdown Linting
+        id: markdown_lint
+        uses: DavidAnson/markdownlint-cli2-action@v18
+        continue-on-error: true
+        with:
+          globs: "**/*.md"
+          config: ".markdownlint-cli2.jsonc"
+
       - name: Evaluate Compliance and Comment
         uses: actions/github-script@v8
+        env:
+          MARKDOWN_LINT_SUCCESS: ${{ steps.markdown_lint.outcome == 'success' }}
         with:
           script: |
             const pr = context.payload.pull_request;
@@ -88,9 +101,12 @@ jobs:
             const bodyTitleCommits = body + " " + title + " " + commitMessages;
             const ticketValid = isDependabot || /AB#\d+/.test(bodyTitleCommits);
             
-            const allValid = branchValid && labelsValid && titleValid && ticketValid;
+            // 6. Markdown lint check
+            const markdownValid = process.env.MARKDOWN_LINT_SUCCESS === 'true';
 
-            // 6. PR Size Check
+            const allValid = branchValid && labelsValid && titleValid && ticketValid && markdownValid;
+
+            // 7. PR Size Check
             const totalLines = pr.additions + pr.deletions;
             const isLarge = totalLines > 400;
             const sizeWarning = isLarge 
@@ -103,12 +119,13 @@ jobs:
               `- [${branchValid ? 'x' : ' '}] Branch naming matches the standard (\`<category>/[<backlog-item>/][<task>-]description-in-kebab-case\`)`,
               `- [${labelsValid ? 'x' : ' '}] Has at least one label attached`,
               `- [${titleValid ? 'x' : ' '}] Title matches Conventional Commits (\`<type>(<optional-scope>): <description>\`)`,
-              `- [${ticketValid ? 'x' : ' '}] Linked to an ADO ticket (contains \`AB#<ticket-number>\`)`
+              `- [${ticketValid ? 'x' : ' '}] Linked to an ADO ticket (contains \`AB#<ticket-number>\`)`,
+              `- [${markdownValid ? 'x' : ' '}] Markdown files pass linting`
             ].join('\n');
 
             const messageBody = (allValid ? "✅ **All checks have passed!**\n\n" + checklist : checklist) + sizeWarning;
 
-            // 7. Manage the Issue Comment (The Checklist)
+            // 8. Manage the Issue Comment (The Checklist)
             const comments = await github.paginate(github.rest.issues.listComments, {
               owner: context.repo.owner,
               repo: context.repo.repo,
@@ -134,7 +151,7 @@ jobs:
               console.log("Created new checklist comment.");
             }
 
-            // 8. Manage the PR Review (Blocking State)
+            // 9. Manage the PR Review (Blocking State)
             const reviews = await github.paginate(github.rest.pulls.listReviews, {
               owner: context.repo.owner,
               repo: context.repo.repo,

@@ -1,0 +1,21 @@
+{
+    "config": {
+        "no-inline-html": false,
+        "line-length":  false,
+        "code-block-style": false,
+        "no-duplicate-heading": {
+            "siblings_only": true
+        },
+        "descriptive-link-text": false,
+        "table-column-style": false,
+        "no-blanks-blockquote": false
+    },
+    "ignores": [
+        ".github/**",
+        "**/terraform/**",
+        "**/templates/**",
+        "**/security-scan-reports/**",
+        "**/node_modules/**",
+        "**/bin/**"
+    ]
+}

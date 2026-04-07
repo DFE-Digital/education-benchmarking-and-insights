@@ -75,11 +75,7 @@ steps:
       command: 'custom'
       customCommand: 'run lint'
       workingDir: $(WorkingDir)
-
-  - template: ..\common\markdown-lint.yaml
-    parameters:
-      DocumentsDirectory: '$(System.DefaultWorkingDirectory)/front-end-components'
-
+      
   - task: Npm@1
     displayName: 'Build project'
     inputs:

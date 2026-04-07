@@ -64,13 +64,6 @@ stages:
             parameters:
               TerraformDirectory: $(TerraformDirectory)
 
-      - job: MarkdownLint
-        displayName: 'Markdown lint'
-        steps:
-          - template: ..\common\markdown-lint.yaml
-            parameters:
-              DocumentsDirectory: '$(System.DefaultWorkingDirectory)/core-infrastructure'
-
       - job: ZipStaticArtifacts
         displayName: 'Zip static artifacts'
         condition: eq(variables['ShouldDeploy'],'true')

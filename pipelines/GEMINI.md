@@ -25,7 +25,8 @@ infrastructure teardowns.
 1. **Trigger:** Pipelines trigger via PR validation or merges to the `main`
    branch.
 2. **Build Stage:**
-   - Lints code (Markdown, .NET, TS) and formats validation.
+   - Lints code (.NET, TS) and formats validation.
+   - Note: Markdownlint is part of the central `pr-compliance-checks` workflow and reports its status back to the PR checklist.
    - Runs unit tests and Terraform static analysis (Checkov).
    - Packages build artifacts and publishes them to the pipeline workspace.
 3. **Deployment Stages (CI/CD):**

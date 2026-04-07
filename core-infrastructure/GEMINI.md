@@ -59,6 +59,7 @@ repeatable infrastructure and database state across all environments.
 
 - **IaC Only:** Zero manual resource creation in the Azure Portal; all
   infrastructure drift is a defect.
+- **Documentation Quality:** All Markdown files must adhere to the repository-wide linting standards enforced via pre-commit hooks and CI checks.
 - **Atomic Migrations:** Each SQL script in `Scripts/` must perform a single
   logical change and be named sequentially.
 - **Centralized Packages:** Utilize `Directory.Packages.props` for .NET version
