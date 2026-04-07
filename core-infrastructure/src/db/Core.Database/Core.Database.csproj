@@ -14,4 +14,63 @@
         <EmbeddedResource Include="Scripts/*.sql" />
         <EmbeddedResource Include="Views/*.sql" />
     </ItemGroup>
+
+    <PropertyGroup>
+        <ScriptsDir Condition="'$(ScriptsDir)' == ''">$(MSBuildProjectDirectory)\Scripts</ScriptsDir>
+        <ViewsDir Condition="'$(ViewsDir)' == ''">$(MSBuildProjectDirectory)\Views</ViewsDir>
+        <IgnoredDuplicateScripts>
+            004-CreateNonFinancialTable.sql;
+            004-IncreaseLengthOfAddressLine3.sql;
+            017-CreateBFRTable.sql;
+            017-DropUserDefinedComparatorSetTable.sql;
+            036-CleanUpColumnsFinanceTable.sql;
+            036-RefreshCurrentDefaultFinancialView.sql;
+            051-CreateTrustFinancialTable.sql;
+            051-InsertBFRParam.sql
+        </IgnoredDuplicateScripts>
+    </PropertyGroup>
+    
+    <UsingTask TaskName="CheckDuplicateScripts" TaskFactory="RoslynCodeTaskFactory" AssemblyFile="$(MSBuildToolsPath)\Microsoft.Build.Tasks.Core.dll">
+        <ParameterGroup>
+            <ScriptsDir ParameterType="System.String" Required="true" />
+            <IgnoredFiles ParameterType="System.String" Required="false" />
+        </ParameterGroup>
+        <Task>
+            <Using Namespace="System" />
+            <Using Namespace="System.IO" />
+            <Using Namespace="System.Linq" />
+            <Using Namespace="System.Collections.Generic" />
+            <Code Type="Fragment" Language="cs">
+                <![CDATA[
+                    var ignoredFilesList = new HashSet<string>(
+                        (IgnoredFiles ?? string.Empty)
+                            .Split(new[] { ';', '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries)
+                            .Select(f => f.Trim())
+                            .Where(f => !string.IsNullOrEmpty(f)),
+                        StringComparer.OrdinalIgnoreCase);
+
+                    var files = Directory.GetFiles(ScriptsDir, "*.sql").Select(Path.GetFileName);
+                    var duplicates = files
+                        .Where(f => !ignoredFilesList.Contains(f))
+                        .Select(f => new { Name = f, Number = f.Split('-').FirstOrDefault() })
+                        .Where(x => int.TryParse(x.Number, out _))
+                        .GroupBy(x => x.Number)
+                        .Where(g => g.Count() > 1)
+                        .ToList();
+
+                    if (duplicates.Any()) {
+                        string folderName = new DirectoryInfo(ScriptsDir).Name;
+                        foreach (var dup in duplicates) {
+                            Log.LogError($"Compile-Time Validation ({folderName}): Duplicate script numbers found for prefix '{dup.Key}': {string.Join(", ", dup.Select(d => d.Name))}");
+                        }
+                    }
+                ]]>
+            </Code>
+        </Task>
+    </UsingTask>
+    
+    <Target Name="ValidateScriptsCompileTime" BeforeTargets="PreBuildEvent">
+        <CheckDuplicateScripts ScriptsDir="$(ScriptsDir)" IgnoredFiles="$(IgnoredDuplicateScripts)" />
+        <CheckDuplicateScripts ScriptsDir="$(ViewsDir)" />
+    </Target>
 </Project>
