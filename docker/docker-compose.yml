@@ -3,7 +3,7 @@ name: 'fbit-services'
 services:
 
   azurite:
-    container_name: "azurite-fbit"
+    container_name: "azurite"
     hostname: "azurite"
     image: "mcr.microsoft.com/azure-storage/azurite"
     ports:
@@ -14,6 +14,7 @@ services:
       - "./azurite/data:/data"
 
   mssql:
+    container_name: "azure-sql-edge"
     image: mcr.microsoft.com/azure-sql-edge
     ports:
       - "1433:1433"
@@ -25,10 +26,25 @@ services:
       - "./sql/log:/var/opt/mssql/log"
       - "./sql/secrets:/var/opt/mssql/secrets"
 
+  redis:
+    container_name: "redis"
+    image: redis:6.2-alpine
+    ports:
+      - "6379:6379"
+    command:
+      - /bin/sh
+      - -c
+      - redis-server --save 20 1 --loglevel warning --requirepass "$${REDIS_PASSWORD:?REDIS_PASSWORD variable is not set}"
+    env_file:
+      - redis.env
+    volumes:
+      - "./redis/data:/data"
+
   pipeline:
+    container_name: "pipeline"
     build:
-      context: ../
-      dockerfile: ./docker/pipeline-worker/Dockerfile
+      context: ../data-pipeline
+      dockerfile: ../data-pipeline/pipeline-worker/Dockerfile
     environment:
       - STORAGE_CONNECTION_STRING=DefaultEndpointsProtocol=http;AccountName=devstoreaccount1;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;BlobEndpoint=http://azurite:10000/devstoreaccount1;QueueEndpoint=http://azurite:10001/devstoreaccount1;TableEndpoint=http://azurite:10002/devstoreaccount1;
       - WORKER_QUEUE_NAME=data-pipeline-job-default-start
@@ -44,4 +60,5 @@ services:
     depends_on:
       - azurite
       - mssql
+      - redis
 

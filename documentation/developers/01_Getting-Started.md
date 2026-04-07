@@ -22,7 +22,7 @@ Before starting, ensure the following tools are installed on your machine:
 - **Terraform:** Required for infrastructure management.
 - **Python 3.x:** Required for certain build scripts and pre-commit hooks.
 - **pre-commit:** For running local quality checks before committing.
-- **Docker:** Recommended for running local dependencies (SQL Server, Redis, etc.).
+- **Docker:** Recommended for running local dependencies (SQL Server, Redis, etc.). See the [Local Environment with Docker guide](06_Local-Environment-with-Docker.md) for setup instructions.
 
 ### Recommended IDEs
 

@@ -16,13 +16,7 @@ Each .NET project is deployed as an independent Azure Function App.
 
 ## Getting started
 
-> Docker: Compose file contents configuration for running SQL Server, Azurite and Redis locally:
-
-```sh
-cd docker
-echo "REDIS_PASSWORD=a_password_of_your_choice" >| redis.env
-docker-compose up
-```
+> Local dependencies (SQL Server, Azurite, and Redis) are managed via Docker Compose. See the [Local Environment with Docker guide](../documentation/developers/06_Local-Environment-with-Docker.md) for setup instructions.
 
 ### Running Platform APIs
 
