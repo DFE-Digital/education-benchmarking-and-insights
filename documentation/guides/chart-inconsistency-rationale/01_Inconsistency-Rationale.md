@@ -4,7 +4,7 @@ This page documents known charting inconsistencies within the FBIT service, spec
 
 ## Objective
 
-The goal is to create a record of the underlying rationale for deviating from our core design standards, whether due to specific use-case requirements, strategic decisions, or implementation constraints. This reference is a living document linked to the [chart-development-workflow](/documentation/guides/chart-development-workflow/1_Chart-Development-Workflow.md) guide. To ensure accountability and consistency goal, where applicable, technical and design debt identified here should be formally tagged in the risk log with corresponding tickets created in the backlog for continuous improvement.
+The goal is to create a record of the underlying rationale for deviating from our core design standards, whether due to specific use-case requirements, strategic decisions, or implementation constraints. This reference is a living document linked to the [chart-development-workflow](/documentation/design/01_Chart-Development-Workflow.md) guide. To ensure accountability and consistency goal, where applicable, technical and design debt identified here should be formally tagged in the risk log with corresponding tickets created in the backlog for continuous improvement.
 
 > Documentation detailing the number rounding logic for charts and tables can be found [here](/documentation/features/14_Rounding-off-rules-in-service.md)
 

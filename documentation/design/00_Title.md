@@ -1,6 +1,6 @@
 ---
 title: Financial Benchmarking and Insights Tool
-subtitle: Chart Development Workflow
+subtitle: Design
 author: Department for Education
 date: 04/08/2025
 titlepage: true

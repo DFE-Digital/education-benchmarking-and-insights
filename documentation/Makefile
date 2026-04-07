@@ -19,3 +19,12 @@ testing-docx:
 
 testing-jira: 
 	./tools/make-jira.sh testing architecture $(OUTPUT)
+
+design-pdf: 
+	./tools/make-pdf.sh design design $(OUTPUT)
+
+design-docx: 
+	./tools/make-docx.sh design design $(OUTPUT)
+
+design-jira: 
+	./tools/make-jira.sh design design $(OUTPUT)

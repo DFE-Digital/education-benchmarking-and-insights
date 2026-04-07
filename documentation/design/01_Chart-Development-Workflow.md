@@ -1,6 +1,6 @@
 # Chart Development Workflow
 
-This approach integrates **Designers**, **Engineers**, and **Data Analysts** to ensure charts are visually compelling, technically robust, and data-accurate before hitting production.
+Developing data visualizations for the Financial Benchmarking and Insights Tool (FBIT) requires a highly collaborative process. Because our charts are server-side rendered as SVGs via a dedicated API, this approach integrates **Designers**, **Engineers**, and **Data Analysts** to ensure charts are visually compelling, technically robust, and data-accurate before hitting production.
 
 ## Responsibilities
 
@@ -18,7 +18,7 @@ This approach integrates **Designers**, **Engineers**, and **Data Analysts** to 
 
 - Explore D3 gallery for chart types.
 - Sketch layout, labels, and interactions.
-- Define accessibility and usability requirements.
+- Define accessibility (**WCAG 2.2 AA**) and usability requirements in line with the **GOV.UK Design System**.
 - Examine data sources: types, distributions, hierarchies.
 - Identify transformations needed for visualization (aggregations, normalization).
 - Highlight edge cases (nulls, outliers, sparse data).
@@ -64,7 +64,7 @@ This approach integrates **Designers**, **Engineers**, and **Data Analysts** to 
 - Document API inputs, outputs, and example SVGs.
 - Designers confirm visual compliance.
 - Analysts validate that chart conveys the correct data story.
-- Chart principles guide updated.
+- [Chart principles guide](../guides/chart-principles/01_Introduction.md) updated.
 
 <!-- Leave the rest of this page blank -->
 \newpage
