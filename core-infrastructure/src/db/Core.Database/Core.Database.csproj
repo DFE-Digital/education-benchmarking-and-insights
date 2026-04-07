@@ -7,7 +7,6 @@
     <ItemGroup>
         <PackageReference Include="CommandLineParser"/>
         <PackageReference Include="dbup-sqlserver" />
-        <PackageReference Include="Microsoft.Data.SqlClient" />
 
         <AssemblyAttribute Include="System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute"/>
         
@@ -30,7 +29,7 @@
         </IgnoredDuplicateScripts>
     </PropertyGroup>
     
-    <UsingTask TaskName="CheckDuplicateScripts" TaskFactory="RoslynCodeTaskFactory" AssemblyFile="$(MSBuildToolsPath)\Microsoft.Build.Tasks.Core.dll">
+    <UsingTask TaskName="CheckDuplicateScripts" TaskFactory="RoslynCodeTaskFactory" AssemblyFile="$(MSBuildToolsPath)/Microsoft.Build.Tasks.Core.dll">
         <ParameterGroup>
             <ScriptsDir ParameterType="System.String" Required="true" />
             <IgnoredFiles ParameterType="System.String" Required="false" />
@@ -42,6 +41,8 @@
             <Using Namespace="System.Collections.Generic" />
             <Code Type="Fragment" Language="cs">
                 <![CDATA[
+                    if (string.IsNullOrWhiteSpace(ScriptsDir) || !Directory.Exists(ScriptsDir)) return true;
+
                     var ignoredFilesList = new HashSet<string>(
                         (IgnoredFiles ?? string.Empty)
                             .Split(new[] { ';', '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries)
@@ -51,11 +52,10 @@
 
                     var files = Directory.GetFiles(ScriptsDir, "*.sql").Select(Path.GetFileName);
                     var duplicates = files
-                        .Where(f => !ignoredFilesList.Contains(f))
                         .Select(f => new { Name = f, Number = f.Split('-').FirstOrDefault() })
                         .Where(x => int.TryParse(x.Number, out _))
                         .GroupBy(x => x.Number)
-                        .Where(g => g.Count() > 1)
+                        .Where(g => g.Count() > 1 && g.Any(f => !ignoredFilesList.Contains(f.Name)))
                         .ToList();
 
                     if (duplicates.Any()) {

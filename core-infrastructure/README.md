@@ -35,7 +35,7 @@ The `Core.Database` project uses DbUp to manage the schema.
 To run migrations against a target database:
 
 ```powershell
-dotnet run --project src/db/Core.Database -- -c "[CONNECTION_STRING]"
+dotnet run --project core-infrastructure/src/db/Core.Database -- -c "[CONNECTION_STRING]"
 ```
 
 #### Creating a New Migration

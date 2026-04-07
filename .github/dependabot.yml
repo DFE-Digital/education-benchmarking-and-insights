@@ -19,7 +19,7 @@
         - "terraform"
 
     - package-ecosystem: "nuget"
-      directory: "/core-infrastructure/src/db/Core.Database"
+      directory: "core-infrastructure/src/db/Core.Database"
       schedule:
         interval: "monthly"
       commit-message:
