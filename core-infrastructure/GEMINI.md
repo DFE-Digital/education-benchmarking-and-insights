@@ -10,7 +10,7 @@ repeatable infrastructure and database state across all environments.
 ## Tech Stack
 
 - **Infrastructure as Code:** Terraform (AzureRM, AzureAD providers)
-- **Database Migrations:** .NET 8, C#, DbUp (SQL Migration Framework)
+- **Database Migrations:** .NET 10, C#, DbUp (SQL Migration Framework)
 - **Cloud Platform:** Microsoft Azure
 - **Local Emulation:** Docker (SQL Server, Azurite for local dev)
 
@@ -62,8 +62,9 @@ repeatable infrastructure and database state across all environments.
 - **Documentation Quality:** All Markdown files must adhere to the repository-wide linting standards enforced via pre-commit hooks and CI checks.
 - **Atomic Migrations:** Each SQL script in `Scripts/` must perform a single
   logical change and be named sequentially.
-- **Centralized Packages:** Utilize `Directory.Packages.props` for .NET version
-  management.
+- **Centralized Configuration:** Utilize `Directory.Packages.props` for .NET version
+  management and `Directory.Build.props` for global build properties (e.g., Nullable,
+  lock files). Avoid duplicating these settings in individual `.csproj` files.
 - **Resource Tagging:** All Azure resources must inherit the `common-tags`
   defined in `main.tf`.
 - **Local Dev:** Use local Docker containers (SQL Server, Azurite) for testing
