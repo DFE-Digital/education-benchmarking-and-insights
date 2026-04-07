@@ -34,7 +34,6 @@ parameters:
       - developers
       - feature
       - quality-assurance
-      - prototype
       - operational
       - data
   - name: guides
