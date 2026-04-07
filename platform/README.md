@@ -485,3 +485,5 @@ The `dotnet format` command can be used to apply the settings to the code base u
 This is also performed automatically by the CI/CD pipeline. In ReSharper/Rider, the solution context menu item
 `Reformat and Cleanup...` may be used to apply the settings using the layering order above. This may also be achieved
 in the IDE at a project or file level or via the keyboard shortcut `Ctrl+E, C`.
+
+- **Markdown & Pre-commit:** Markdown files are linted via [pre-commit hooks](../documentation/developers/04_Pre-commit-Hooks.md). Developers are encouraged to install pre-commit locally to catch these issues before pushing.

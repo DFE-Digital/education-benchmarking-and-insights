@@ -67,13 +67,6 @@ stages:
               echo "##vso[build.addbuildtag]Documentation"
             displayName: 'Set build tags'
 
-      - job: MarkdownLint
-        displayName: 'Markdown lint'
-        steps:
-          - template: ..\common\markdown-lint.yaml
-            parameters:
-              DocumentsDirectory: '$(System.DefaultWorkingDirectory)/documentation'
-
   - stage: GenerateDocumentation
     dependsOn: [ Validate ]
     displayName: 'Generate'

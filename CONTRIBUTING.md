@@ -33,4 +33,4 @@ We love pull requests from everyone.
 
 - Update README with any needed changes.
 - Ensure each commit has a clear and descriptive message summarising the purpose of the change. This helps us understand the rationale behind your modifications.
-- Follow our coding standards and conventions.
+- Follow our coding standards and conventions, and ensure that your changes pass all local quality checks by [using pre-commit hooks](documentation/developers/04_Pre-commit-Hooks.md).

@@ -20,7 +20,8 @@ Before starting, ensure the following tools are installed on your machine:
 - **.NET 8.0 SDK:** Required for Platform and Web components.
 - **Node.js 22 (LTS):** Required for Front-end and Web components.
 - **Terraform:** Required for infrastructure management.
-- **Python 3.x:** Required for certain build scripts.
+- **Python 3.x:** Required for certain build scripts and pre-commit hooks.
+- **pre-commit:** For running local quality checks before committing.
 - **Docker:** Recommended for running local dependencies (SQL Server, Redis, etc.).
 
 ### Recommended IDEs
@@ -55,7 +56,15 @@ Follow these steps to set up the repository for local development:
    git clone https://github.com/DFE-Digital/education-benchmarking-and-insights.git
    ```
 
-2. **Navigate to a component:**
+2. **Set up pre-commit hooks:**
+   Run the following from the root directory:
+
+   ```sh
+   pipx install pre-commit
+   pre-commit install
+   ```
+
+3. **Navigate to a component:**
    Choose the component you wish to work on and follow its specific README instructions:
    - For the main website: [web/README.md](../../web/README.md)
    - For APIs: [platform/README.md](../../platform/README.md)

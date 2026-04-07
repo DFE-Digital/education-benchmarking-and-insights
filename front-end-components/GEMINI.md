@@ -66,8 +66,8 @@ via specific DOM element targeting.
   `src/services/types.tsx`.
 - **Testing**: Every new view or complex component MUST have a corresponding
   test in the `__tests__` directory or alongside the file.
-- **Formatting & Linting**: Code must pass `npm run lint` (ESLint) and adhere
-  strictly to the local `.prettierrc` configuration.
+- **Formatting & Linting**: TypeScript/React code must pass `npm run lint` (ESLint) and adhere
+  strictly to the local `.prettierrc` configuration. Markdown files are governed by the root `markdownlint-cli2` configuration via pre-commit hooks.
 - **Local Developer Loop**: When testing changes locally alongside the ASP.NET
   Core app, use the `copy-js.ps1` or `copy-js.sh` scripts to push the built
   bundle into the `web` project's static assets.

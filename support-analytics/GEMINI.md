@@ -76,6 +76,7 @@ graph TD
 
 - **KQL Externalization:** KQL must be stored in `.kql` files within
   `terraform/queries/` or `terraform/queries/functions/`.
+- **Documentation Quality:** All Markdown files must adhere to the repository-wide linting standards enforced via pre-commit hooks and CI checks.
 - **Function vs. Query:** Use `azurerm_log_analytics_saved_search` for
   reusable functions and `azurerm_log_analytics_query_pack_query` for
   standalone dashboard/discovery queries.
