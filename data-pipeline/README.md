@@ -71,36 +71,14 @@ These steps will avoid SSL errors due to DfE kit/VPN.
 
 To run the pipeline locally, follow these steps:
 
-1. Set Up an Azurite instance:
+1. Start the local dependencies:
 
-    To start an Azurite instance, use the following command:
+    Start the backing services (Azurite and SQL Server) via the centralized Docker Compose setup.
+    See the [Local Environment with Docker guide](../documentation/developers/06_Local-Environment-with-Docker.md) for instructions.
 
-    ```sh
-    docker run \
-        --name dfe-azurite  \
-        --rm \
-        --publish 10000:10000 \
-        --publish 10001:10001 \
-        --publish 10002:10002 \
-        --detach \
-        mcr.microsoft.com/azure-storage/azurite \
-        azurite --blobHost 0.0.0.0 --queueHost 0.0.0.0 --tableHost 0.0.0.0 --skipApiVersionCheck
-    ```
+2. Set up Storage resources:
 
-    For PowerShell:
-
-    ```pwsh
-    docker run `
-        --name dfe-azurite `
-        --rm `
-        --publish 10000:10000 `
-        --publish 10001:10001 `
-        --publish 10002:10002 `
-        --detach `
-        mcr.microsoft.com/azure-storage/azurite
-    ```
-
-    Using Azure Storage Explorer (default settings), connect to Azurite and manually create the following resources:
+    Using Azure Storage Explorer (default settings), connect to the local Azurite emulator and manually create the following resources:
 
     **Containers**
 
@@ -119,34 +97,6 @@ To run the pipeline locally, follow these steps:
     Upload files into the `raw` container, following this directory structure:
 
     ```raw/default/<year>```
-
-2. Set Up a SQL Server Instance
-
-    To create a SQL Server instance, use the following command:
-
-    ```sh
-    docker run \
-        --name dfe-sql-server \
-        --rm \
-        --publish 1433:1433 \
-        --env SA_PASSWORD='mystrong!Pa55word' \
-        --env ACCEPT_EULA=Y \
-        --detach \
-        mcr.microsoft.com/azure-sql-edge
-    ```
-
-    For PowerShell:
-
-    ```pwsh
-    docker run `
-        --name dfe-sql-server `
-        --rm `
-        --publish 1433:1433 `
-        --env SA_PASSWORD='mystrong!Pa55word' `
-        --env ACCEPT_EULA=Y `
-        --detach `
-        mcr.microsoft.com/azure-sql-edge
-    ```
 
 3. Create the database
 
@@ -213,11 +163,6 @@ To run the pipeline locally, follow these steps:
     }
     ```
 
-> Note: There is a docker compose script that will start Azurite, SQL server, and the FBIT pipeline that can be run from the `docker` directory using
-`docker compose up -d`. Docker compose will _not_ rebuild images on code change. So if you change any of the files in the `src` directory then the
-`fbit-services-pipeline:latest` image will need to be deleted and recreated. However depending on your machine and set up you may have issues running
-everything within Docker due to memory limitations and SSL errors. Following the steps outlined above is preferred.
-
 ### Testing locally
 
 Once the environment is set up as above, and you can successfully run the pipeline it is possible to run the unit and e2e tests locally.
@@ -262,6 +207,6 @@ can always use the [Azure cloud shell](https://learn.microsoft.com/en-gb/azure/c
 ```sh
 az login
 az account set {subscription name}
-az acr build --image fbit-data-pipeline:latest --registry {registry name} --file ./docker/Dockerfile .
+az acr build --image fbit-data-pipeline:latest --registry {registry name} --file ./pipeline-worker/Dockerfile .
 az containerapp up -g {resource group} -n fbit-data-pipeline --logs-workspace-id {log analytics workspace id} --image {registry name}.azurecr.io/fbit-data-pipeline:latest
 ```

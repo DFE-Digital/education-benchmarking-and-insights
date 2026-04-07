@@ -4,7 +4,7 @@ This project contains the core dependencies for the project.
 
 ## Getting started
 
-> Docker: Compose file contents configuration for running SQL server and Azurite locally
+> Local dependencies (SQL Server and Azurite) are managed via Docker Compose. See the [Local Environment with Docker guide](../documentation/developers/06_Local-Environment-with-Docker.md) for setup instructions.
 
 ### Database migrations
 
