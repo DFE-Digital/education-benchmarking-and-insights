@@ -16,6 +16,7 @@ We use **markdownlint-cli2** to ensure consistent formatting across all document
 
 - **Configuration:** The rules are centrally defined in the root `.markdownlint-cli2.jsonc` file. This configures exceptions (like allowing inline HTML where necessary) and ignores certain directories (like `node_modules` and `terraform`).
 - **Enforcement:** Run automatically via the `markdownlint-cli2` pre-commit hook.
+- **Manual Execution:** Run `pre-commit run markdownlint-cli2 --all-files` from the repository root, or run `npx markdownlint-cli2 "**/*.md"`.
 - **IDE Integration (Recommended):**
   - **VS Code:** Install the `DavidAnson.vscode-markdownlint` extension. This will automatically highlight markdown violations in your editor as you type based on the root configuration file.
 
@@ -25,6 +26,7 @@ For the `web`, `platform`, and `core-infrastructure` modules, we use standard .N
 
 - **Configuration:** Formatting rules are governed by standard `.editorconfig` files located in the respective module roots (e.g., `web/.editorconfig`, `platform/.editorconfig`).
 - **Enforcement:** Enforced in the CI pipelines via the `dotnet format` command.
+- **Manual Execution:** Run `dotnet format` from the respective module root directory (`web/`, `platform/`, or `core-infrastructure/`).
 - **IDE Integration (Recommended):**
   - **Rider / Visual Studio:** Both natively support `.editorconfig`. Formatting on save or using the built-in "Reformat Code" shortcut will automatically apply these rules.
   - See [Rider Configuration](./9_Rider-Configuration.md) for more details.
@@ -34,20 +36,33 @@ For the `web`, `platform`, and `core-infrastructure` modules, we use standard .N
 For the Vue.js (Web module) and React (Front-end Components module) front-end code bases, we use **ESLint** and **Prettier**.
 
 - **Configuration:**
-  - ESLint configuration can be found in `front-end-components/eslint.config.mjs`.
-  - Prettier rules are defined in `front-end-components/.prettierrc`.
+  - ESLint configuration can be found in `front-end-components/eslint.config.mjs` and `web/src/Web.App/package.json` (or ESLint config files).
+  - Prettier rules are defined locally to the projects.
 - **Enforcement:** Run locally using NPM scripts. Ensure your code passes `npm run lint` before committing.
+- **Manual Execution:** Run the following commands from `front-end-components/` or `web/src/Web.App/`:
+  - `npm run lint` to check for issues.
+  - `npm run lint:fix` to automatically fix issues.
 - **IDE Integration (Recommended):**
   - **VS Code:** Install the `dbaeumer.vscode-eslint` and `esbenp.prettier-vscode` extensions. Configure VS Code to format on save using Prettier as the default formatter.
 
 ## Python (Data Pipeline)
 
-For the data engineering components in the `data-pipeline` module, we use **Black** as our uncompromising code formatter.
+For the data engineering components in the `data-pipeline` module, we use **Black** and **isort**.
 
 - **Enforcement:** Executed automatically via pre-commit hooks. Note that our pre-commit hook is configured with the `--check` flag. This means it will *fail* the commit if formatting is incorrect rather than silently modifying your files, encouraging developers to run the formatter themselves.
+- **Manual Execution:** Run the following commands from the `data-pipeline/` directory:
+  - `make lint` to automatically format files using Black and isort.
+  - `make lint-check` to verify formatting without modifying files.
 - **IDE Integration (Recommended):**
-  - **VS Code:** Install the `ms-python.black-formatter` extension.
+  - **VS Code:** Install the `ms-python.black-formatter` and `ms-python.isort` extensions.
   - **PyCharm / IntelliJ:** Configure Black as an external tool or use the native Black integration to format on save.
+
+## Terraform (Infrastructure)
+
+For our Infrastructure as Code, we use the built-in Terraform formatting tools.
+
+- **Enforcement:** Enforced in CI pipelines and pre-commit hooks.
+- **Manual Execution:** Run `terraform fmt -recursive` from the root of the repository or within any specific module containing Terraform files (e.g., `core-infrastructure/terraform/`).
 
 <!-- Leave the rest of this page blank -->
 \newpage
