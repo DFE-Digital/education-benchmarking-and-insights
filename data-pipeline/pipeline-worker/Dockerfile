@@ -63,8 +63,8 @@ ENV PATH="$PATH:/opt/mssql-tools18/bin"
 
 # Copy virtual environment from builder stage
 COPY --from=builder-base $VENV_PATH $VENV_PATH
-COPY ./docker/pipeline-worker/docker-entrypoint.sh /docker-entrypoint.sh
-COPY ./docker/pipeline-worker/odbc.ini /odbc.ini
+COPY ./pipeline-worker/docker-entrypoint.sh /docker-entrypoint.sh
+COPY ./pipeline-worker/odbc.ini /odbc.ini
 COPY ./src/pipeline /pipeline
 
 RUN chmod +x /docker-entrypoint.sh && \
