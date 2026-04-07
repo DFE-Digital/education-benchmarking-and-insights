@@ -10,7 +10,7 @@ repeatable infrastructure and database state across all environments.
 ## Tech Stack
 
 - **Infrastructure as Code:** Terraform (AzureRM, AzureAD providers)
-- **Database Migrations:** .NET 8, C#, DbUp (SQL Migration Framework)
+- **Database Migrations:** .NET 10, C#, DbUp (SQL Migration Framework)
 - **Cloud Platform:** Microsoft Azure
 - **Local Emulation:** Docker (SQL Server, Azurite for local dev)
 
