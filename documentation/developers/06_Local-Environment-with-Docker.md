@@ -36,16 +36,20 @@ The shared Docker Compose configuration is located in the `docker` directory at 
 The `docker-compose.yml` file provisions the following services:
 
 ### 1. Azurite (Azure Storage Emulator)
+
 Provides local emulation for Azure Blob Storage, Queue Storage, and Table Storage.
+
 - **Image:** `mcr.microsoft.com/azure-storage/azurite`
 - **Ports:**
   - Blob: `10000`
   - Queue: `10001`
   - Table: `10002`
-- **Interacting:** Use [Azure Storage Explorer](https://azure.microsoft.com/en-us/products/storage/storage-explorer/) and connect to the local emulator. 
+- **Interacting:** Use [Azure Storage Explorer](https://azure.microsoft.com/en-us/products/storage/storage-explorer/) and connect to the local emulator.
 
 ### 2. Azure SQL Edge
+
 Provides a lightweight local SQL Server instance.
+
 - **Image:** `mcr.microsoft.com/azure-sql-edge`
 - **Port:** `1433`
 - **Credentials:**
@@ -54,7 +58,9 @@ Provides a lightweight local SQL Server instance.
 - **Interacting:** Connect using tools like Azure Data Studio, SQL Server Management Studio (SSMS), DataGrip, or `sqlcmd`.
 
 ### 3. Redis
+
 Provides distributed caching for the Platform APIs.
+
 - **Image:** `redis:6.2-alpine`
 - **Port:** `6379`
 - **Credentials:**
@@ -66,12 +72,16 @@ Provides distributed caching for the Platform APIs.
   # Open redis-cli inside the container
   docker exec -it redis redis-cli -a a_password_of_your_choice
   ```
+
   Once connected, you can run commands like `GET test:key`, `DEL test:key`, or `MONITOR` to watch incoming traffic.
 
 ### 4. Data Pipeline Worker
+
 Runs the Python data pipeline worker locally.
+
 - **Build Context:** Uses the `data-pipeline` folder and builds from `pipeline-worker/Dockerfile`.
 - **Note on Code Changes:** Because this service builds an image from the `data-pipeline` source, Docker Compose will *not* automatically rebuild the image on code changes. If you modify files in the `data-pipeline/src` directory, you need to rebuild the service:
+
   ```sh
   docker compose build pipeline
   docker compose up -d pipeline
