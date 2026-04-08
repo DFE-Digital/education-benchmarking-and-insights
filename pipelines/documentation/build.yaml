@@ -36,13 +36,13 @@ parameters:
       - quality-assurance
       - operational
       - data
+      - design
   - name: guides
     type: object
     default:
       - cfr-file-generation
       - monthly-reporting
       - chart-principles
-      - chart-development-workflow
 
 stages:
   - stage: Validate
