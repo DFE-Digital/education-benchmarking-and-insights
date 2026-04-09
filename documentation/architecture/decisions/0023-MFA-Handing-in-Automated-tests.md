@@ -4,8 +4,6 @@
 
 Our automated end‑to‑end tests require authentication through DfE Sign‑in, which enforces Multi‑Factor Authentication (MFA). MFA blocks automation unless we adopt a strategy to either bypass MFA or automate the retrieval of MFA codes.
 
-
-
 ## Decision Drivers
 
 * Must work reliably in Azure DevOps pipelines using Microsoft‑hosted agents
@@ -35,7 +33,6 @@ Validation will occur through:
 * Successful execution of automated tests in Azure DevOps pipelines
 * Code review of the implemented MFA handling approach
 * Periodic review to ensure compatibility with DSI and pipeline changes
-
 
 ## Comparison Table Based on Decision Drivers
 
