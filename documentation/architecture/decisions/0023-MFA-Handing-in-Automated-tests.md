@@ -36,6 +36,7 @@ Validation will occur through:
 * Code review of the implemented MFA handling approach
 * Periodic review to ensure compatibility with DSI and pipeline changes
 
+
 ## Comparison Table Based on Decision Drivers
 
 | Decision Driver | Option 1: Mock/Bypass MFA | Option 2: Email‑Based MFA (Graph API / Mailosaur) |
