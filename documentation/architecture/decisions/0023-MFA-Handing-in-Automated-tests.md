@@ -6,25 +6,23 @@ Our automated end‑to‑end tests require authentication through DfE Sign‑in,
 
 ## Decision Drivers
 
-* Must work reliably in Azure DevOps pipelines using Microsoft‑hosted agents
-* Engineering effort required in R&D and implementation
-* Test rework and impact on existing automation
-* Cost and licensing implications
+* Engineering and implementation effort required
+* Risks associated with the approach
 * Reliability and stability of automated tests
-* Uncertainty and risk associated with unproven approaches
+* Cost and licensing implications
 
 ## Considered Options
 
-* **Option 1: Mock/Bypass DfE Sign‑in MFA**
+* **Option 1: Mock DfE Sign‑in MFA**
 * **Option 2: Email‑Based MFA Handling**
 
 ## Decision Outcome
 
-{add outcomes here}
+{To be decided by the team once both options have been reviewed.}
 
 ### Consequences
 
-{add reasoning here}
+{To be added once the team selects an option.}
 
 ## Validation
 
@@ -36,25 +34,22 @@ Validation will occur through:
 
 ## Comparison Table Based on Decision Drivers
 
-| Decision Driver | Option 1: Mock/Bypass MFA | Option 2: Email‑Based MFA (Graph API / Mailosaur) |
-|-----------------|----------------------------|---------------------------------------------------|
-| **Azure DevOps Hosted Agent Compatibility** | Known to work | Unconfirmed; requires R&D |
-| **Engineering Effort** | Low | High |
-| **Test Rework Required** | Minimal | Significant (email‑based flows) |
-| **Implementation Complexity** | Low | Medium–High |
-| **Cost** | None | Mailosaur subscription; mailbox licensing |
-| **Reliability in CI/CD** | High | Unknown until validated |
-| **Risk/Uncertainty** | Low | High |
-| **Long‑Term Maintainability** | High | Depends on chosen service and integration |
+| Decision Driver               | Option 1: Mock/Bypass MFA (Known) | Option 2: Email‑Based MFA (Graph API / Mailosaur) |
+|-------------------------------|-----------------------------------|---------------------------------------------------|
+| **Engineering & Test Effort** | Low                               | High                                              |
+| **Implementation Complexity** | Low                               | Medium-High                                       |
+| **Cost**                      | None                              | other options are licensed based                  |
+| **Risks**                     | Medium                            | Low                                               |
+| **Long‑Term Maintainability** | High                              | Depends on chosen service and integration         |
 
 ## Pros and Cons of the Options
 
 ### Option 1: Mock/Bypass DfE Sign‑in MFA
 
-A controlled bypass of MFA for automated tests, while retaining real MFA validation in manual smoke tests.
+A mocking of MFA for automated tests, while retaining real MFA validation in manual smoke tests.
 
 * Good, because it is a known, feasible solution that works with Microsoft‑hosted agents
-* Good, because it requires minimal engineering effort
+* Good, because it requires minimal engineering and test effort
 * Good, because it avoids test rework and integrates cleanly with existing flows
 * Good, because it has no external dependencies
 * Good, because it provides stable and predictable behaviour in CI/CD
@@ -71,13 +66,10 @@ This includes:
 
 Both approaches retrieve MFA codes from email inboxes.
 
-* Good, because they provide more realistic MFA handling
 * Good, because they could reduce reliance on manual smoke tests
 * Good, because they align more closely with real‑world authentication flows
 * Neutral, because long‑term benefits depend on feasibility and stability
-* Bad, because feasibility on Microsoft‑hosted Azure DevOps agents is unconfirmed
-* Bad, because they require significant R&D effort to validate
+* Bad, because they require significant R&D effort before they can be evaluated properly
 * Bad, because they may require substantial test rework
 * Bad, because they introduce implementation complexity (API auth, error handling)
-* Bad, because Mailosaur subscription cost is changed
-* Bad, because Graph API introduces changes which requires rework
+* Bad, because these add additional costs
