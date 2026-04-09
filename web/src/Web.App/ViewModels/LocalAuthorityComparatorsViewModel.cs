@@ -2,7 +2,7 @@ using Web.App.Domain;
 
 namespace Web.App.ViewModels;
 
-public class LocalAuthorityHighNeedsStartBenchmarkingViewModel(LocalAuthorityStatisticalNeighbours localAuthority, string[] comparators, string? referrer)
+public class LocalAuthorityComparatorsViewModel(LocalAuthorityStatisticalNeighbours localAuthority, string[] comparators, string? referrer)
 {
     public string? Code => localAuthority.Code;
     public string? Name => localAuthority.Name;

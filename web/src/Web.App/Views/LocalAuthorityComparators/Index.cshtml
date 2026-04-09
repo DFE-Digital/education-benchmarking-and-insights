@@ -1,6 +1,6 @@
 @using Web.App.Domain
 @using Web.App.ViewModels
-@model Web.App.ViewModels.LocalAuthorityHighNeedsStartBenchmarkingViewModel
+@model Web.App.ViewModels.LocalAuthorityComparatorsViewModel
 @{
     ViewData[ViewDataKeys.Title] = PageTitles.LocalAuthorityHighNeedsStartBenchmarking;
     var referrer = Url.Action(
@@ -60,7 +60,7 @@
     </div>
 }
 
-<form action="@Url.Action("Comparators", "LocalAuthorityHighNeedsBenchmarking", new { Model.Code })" method="post">
+<form action="@Url.Action("Index","LocalAuthorityComparators", new { Model.Code })" method="post">
 
     <div class="govuk-button-group">
         <button type="submit" class="govuk-button" data-module="govuk-button" name="action"
@@ -79,7 +79,7 @@
 
     @if (!string.IsNullOrWhiteSpace(Model.Referrer))
     {
-        <input name="@nameof(LocalAuthorityHighNeedsStartBenchmarkingViewModel.Referrer)" value="@Model.Referrer"
+        <input name="@nameof(LocalAuthorityComparatorsViewModel.Referrer)" value="@Model.Referrer"
                type="hidden"/>
     }
     
@@ -97,7 +97,7 @@
 {
     <script src="/js/accessible-autocomplete.min.js"></script>
     <script type="module" add-nonce="true">
-        const element = document.getElementById("@nameof(LocalAuthorityComparatorViewModel.LaInput)");
+        const element = document.getElementById("@nameof(LocalAuthorityComparatorSelectionViewModel.LaInput)");
         if (element) {
             accessibleAutocomplete.enhanceSelectElement({
                 selectElement: element,
