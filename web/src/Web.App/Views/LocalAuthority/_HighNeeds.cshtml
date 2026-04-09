@@ -53,9 +53,10 @@
             <feature name="@FeatureFlags.HighNeedsBenchmarking">
                 <li>
                     <h3 class="govuk-heading-s">
-                        <a href="@Url.Action("Index", "LocalAuthorityHighNeedsSpending", new
+                        <a href="@Url.Action("Index", "LocalAuthorityComparators", new
                                  {
                                      code = Model.Code,
+                                     type = LocalAuthorityBenchmarkType.HighNeedsSpending
                                  })" class="govuk-link govuk-link--no-visited-state">
                             Benchmark high needs spending
                         </a>

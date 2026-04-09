@@ -9,4 +9,5 @@ public static class Referrers
     public const string DeploymentPlan = "deployment-plan";
     public const string BenchmarkHighNeeds = "benchmark-high-needs";
     public const string BenchmarkEducationHealthCarePlans = "benchmark-education-health-care-plans";
+    public const string BenchmarkHighNeedsSpending = "benchmark-high-needs-spending";
 }

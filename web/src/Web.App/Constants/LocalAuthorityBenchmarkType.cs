@@ -3,5 +3,6 @@
 public enum LocalAuthorityBenchmarkType
 {
     HighNeeds,
-    EducationHealthCarePlans
+    EducationHealthCarePlans,
+    HighNeedsSpending
 }
