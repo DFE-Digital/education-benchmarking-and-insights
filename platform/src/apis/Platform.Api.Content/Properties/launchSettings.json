@@ -2,7 +2,7 @@
   "profiles": {
     "Platform.Api.Content": {
       "commandName": "Project",
-      "commandLineArgs": "--port 7029",
+      "commandLineArgs": "--port 7077",
       "launchBrowser": false
     }
   }
