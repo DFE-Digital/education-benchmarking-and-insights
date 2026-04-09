@@ -6,7 +6,7 @@ namespace Web.App.Controllers;
 [Controller]
 [Route("local-authority/{code}/high-needs-spending")]
 [ValidateLaCode]
-public class LocalAuthorityHighNeedsSpendingController 
+public class LocalAuthorityHighNeedsSpendingController
     : Controller
 {
     [HttpGet]
