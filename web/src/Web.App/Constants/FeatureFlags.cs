@@ -12,4 +12,5 @@ public static class FeatureFlags
     public const string KS4ProgressBanding = nameof(KS4ProgressBanding);
     public const string KS4ProgressBandingSchoolHome = nameof(KS4ProgressBandingSchoolHome);
     public const string SeniorLeadership = nameof(SeniorLeadership);
+    public const string HighNeedsBenchmarking = nameof(HighNeedsBenchmarking);
 }
