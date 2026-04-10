@@ -10,7 +10,7 @@ public class WhenViewingHighNeedsBenchmarking(
     WebDriver webDriver)
     : PageBase(testOutputHelper, webDriver)
 {
-    protected override string PageUrl => $"/local-authority/{TestConfiguration.LocalAuthority}/high-needs/benchmarking/comparators";
+    protected override string PageUrl => $"/local-authority/{TestConfiguration.LocalAuthority}/comparators";
 
     [Theory]
     [InlineData("mode-chart")]

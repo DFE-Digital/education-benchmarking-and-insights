@@ -101,6 +101,6 @@ public class HighNeedsStartBenchmarkingSteps(PageDriver driver, PageDriverWithJa
             suffix = $"?referrer={referrer}";
         }
 
-        return $"{TestConfiguration.ServiceUrl}/local-authority/{laCode}/high-needs/benchmarking/comparators{suffix}";
+        return $"{TestConfiguration.ServiceUrl}/local-authority/{laCode}/comparators{suffix}";
     }
 }
