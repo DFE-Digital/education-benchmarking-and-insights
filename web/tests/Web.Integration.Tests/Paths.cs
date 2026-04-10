@@ -1,3 +1,5 @@
+using Web.App;
+
 namespace Web.Integration.Tests;
 
 public static class Paths
@@ -291,9 +293,9 @@ public static class Paths
 
     public static string LocalAuthorityHighNeedsBenchmarking(string? code) => $"/local-authority/{code}/high-needs/benchmarking";
 
-    public static string LocalAuthorityHighNeedsStartBenchmarking(string? code, string? referrer = null) => string.IsNullOrWhiteSpace(referrer)
-            ? $"/local-authority/{code}/comparators"
-            : $"/local-authority/{code}/comparators?referrer={referrer}";
+    public static string LocalAuthorityHighNeedsStartBenchmarking(string? code, LocalAuthorityBenchmarkType type, string? referrer = null) => string.IsNullOrWhiteSpace(referrer)
+            ? $"/local-authority/{code}/comparators?type={type}"
+            : $"/local-authority/{code}/comparators?type={type}&referrer={referrer}";
 
     public static string LocalAuthorityHighNeedsHistoricData(string? code) => $"/local-authority/{code}/high-needs/history";
     public static string LocalAuthoritySchoolsFinanceDownload(string? code) => $"/local-authority/{code}/download/schools/finance";

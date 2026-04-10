@@ -15,10 +15,12 @@
             </summary>
             <div class="govuk-details__text">
                 <p class="govuk-body">
-                This data covers the period @(Model.HeadlineStatistics.S251Year - 1)-@Model.HeadlineStatistics.S251Year for section 251 data (s251).
+                    This data covers the period @(Model.HeadlineStatistics.S251Year - 1)-@Model.HeadlineStatistics.S251Year for section 251 data (s251).
                 </p>
                 <p class="govuk-body">
-                The outturn includes place funding for pupils with special educational needs taught in academies. You can read about how we calculate this in the <a href="@Url.Action("HighNeedsGlossary", "StaticContent")" class="govuk-link govuk-link--no-visited-state">glossary</a>.
+                    The outturn includes place funding for pupils with special educational needs taught in academies. You can read about how we calculate this in the <a
+                        href="@Url.Action("HighNeedsGlossary", "StaticContent")"
+                        class="govuk-link govuk-link--no-visited-state">glossary</a>.
                 </p>
             </div>
         </details>
@@ -37,7 +39,8 @@
                     <h3 class="govuk-heading-s">
                         <a href="@Url.Action("Index", "LocalAuthorityComparators", new
                                  {
-                                     code = Model.Code
+                                     code = Model.Code,
+                                     type = LocalAuthorityBenchmarkType.HighNeeds
                                  })" class="govuk-link govuk-link--no-visited-state">
                             Benchmark high needs
                         </a>
@@ -50,7 +53,10 @@
             <feature name="@FeatureFlags.HighNeedsBenchmarking">
                 <li>
                     <h3 class="govuk-heading-s">
-                        <a href="@Url.Action("Index", "LocalAuthorityHighNeedsSpending", new { code = Model.Code })" class="govuk-link govuk-link--no-visited-state">
+                        <a href="@Url.Action("Index", "LocalAuthorityHighNeedsSpending", new
+                                 {
+                                     code = Model.Code,
+                                 })" class="govuk-link govuk-link--no-visited-state">
                             Benchmark high needs spending
                         </a>
                     </h3>
@@ -60,7 +66,11 @@
                 </li>
                 <li>
                     <h3 class="govuk-heading-s">
-                        <a href="@Url.Action("Index", "LocalAuthorityEducationHealthCarePlans", new { code = Model.Code })" class="govuk-link govuk-link--no-visited-state">
+                        <a href="@Url.Action("Index", "LocalAuthorityComparators", new
+                                 {
+                                     code = Model.Code,
+                                     type = LocalAuthorityBenchmarkType.EducationHealthCarePlans
+                                 })" class="govuk-link govuk-link--no-visited-state">
                             Benchmark education, health and care plans
                         </a>
                     </h3>

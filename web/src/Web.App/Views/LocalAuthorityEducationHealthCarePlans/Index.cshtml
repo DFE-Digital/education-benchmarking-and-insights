@@ -1,0 +1,26 @@
+@model Web.App.ViewModels.LocalAuthorityEducationHealthCarePlansViewModel
+@{
+    ViewData[ViewDataKeys.Title] = PageTitles.LocalAuthorityEducationHealthCarePlans;
+}
+
+@await Component.InvokeAsync("EstablishmentHeading", new
+{
+    title = ViewData[ViewDataKeys.Title],
+    name = Model.Name,
+    id = Model.Code,
+    kind = OrganisationTypes.LocalAuthority
+})
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        <p class="govuk-body">
+            <a href="@Url.Action("Index", "LocalAuthorityComparators", new
+                     {
+                         code = Model.Code,
+                         type = LocalAuthorityBenchmarkType.EducationHealthCarePlans,
+                         referrer = Referrers.BenchmarkEducationHealthCarePlans
+                     })" class="govuk-link govuk-link--no-visited-state">Change local authorities to benchmark against</a>
+        </p>
+    </div>
+</div>
+

@@ -2,6 +2,7 @@
 using AngleSharp.Dom;
 using AngleSharp.Html.Dom;
 using AutoFixture;
+using Web.App;
 using Web.App.Domain;
 using Xunit;
 
@@ -244,7 +245,7 @@ public class WhenViewingHighNeedsStartBenchmarking(SchoolBenchmarkingWebAppClien
     {
         var (page, authority, neighbourAuthorities, _) = await SetupNavigateInitPage();
 
-        DocumentAssert.AssertPageUrl(page, Paths.LocalAuthorityHighNeedsStartBenchmarking(authority.Code).ToAbsolute());
+        DocumentAssert.AssertPageUrl(page, Paths.LocalAuthorityHighNeedsStartBenchmarking(authority.Code, LocalAuthorityBenchmarkType.HighNeeds).ToAbsolute());
 
         var selectedNeighbours = page.GetElementAndAssert("#current-comparators-neighbours", Assert.NotNull);
         var cards = selectedNeighbours.QuerySelectorAll(".app-removable-card");
@@ -260,7 +261,7 @@ public class WhenViewingHighNeedsStartBenchmarking(SchoolBenchmarkingWebAppClien
 
     [Theory]
     [InlineData(null)]
-    [InlineData("benchmarking")]
+    [InlineData("benchmark-high-needs")]
     public async Task CanNavigateBack(string? referrer)
     {
         var (page, authority, _, _) = await SetupNavigateInitPage(["code1"], referrer);
@@ -296,7 +297,7 @@ public class WhenViewingHighNeedsStartBenchmarking(SchoolBenchmarkingWebAppClien
 
         page = await Client.SubmitForm(page.Forms[0], removeAllButton);
 
-        DocumentAssert.AssertPageUrl(page, Paths.LocalAuthorityHighNeedsStartBenchmarking(authority.Code).ToAbsolute());
+        DocumentAssert.AssertPageUrl(page, Paths.LocalAuthorityHighNeedsStartBenchmarking(authority.Code, LocalAuthorityBenchmarkType.HighNeeds).ToAbsolute());
 
         page.GetElementAndAssert("button[name='action'][value='clear']", Assert.Null);
         page.GetElementAndAssert("#current-comparators-neighbours", Assert.Null);
@@ -323,7 +324,7 @@ public class WhenViewingHighNeedsStartBenchmarking(SchoolBenchmarkingWebAppClien
 
         page = await Client.SubmitForm(page.Forms[0], resetButton);
 
-        DocumentAssert.AssertPageUrl(page, Paths.LocalAuthorityHighNeedsStartBenchmarking(authority.Code).ToAbsolute());
+        DocumentAssert.AssertPageUrl(page, Paths.LocalAuthorityHighNeedsStartBenchmarking(authority.Code, LocalAuthorityBenchmarkType.HighNeeds).ToAbsolute());
 
         var neighboursSelected = page.GetElementAndAssert("#current-comparators-neighbours", Assert.NotNull);
         var cards = neighboursSelected.QuerySelectorAll(".app-removable-card");
@@ -384,14 +385,14 @@ public class WhenViewingHighNeedsStartBenchmarking(SchoolBenchmarkingWebAppClien
         var page = await Client.SetupEstablishment(authority, authorities)
             .SetupInsights()
             .SetupLocalAuthoritiesComparators(authority.Code!, comparators ?? [])
-            .Navigate(Paths.LocalAuthorityHighNeedsStartBenchmarking(authority.Code, referrer));
+            .Navigate(Paths.LocalAuthorityHighNeedsStartBenchmarking(authority.Code, LocalAuthorityBenchmarkType.HighNeeds, referrer));
 
         return (page, authority, neighbourAuthorities, otherAuthorities);
     }
 
     private static void AssertPageLayout(IHtmlDocument page, LocalAuthorityStatisticalNeighbours authority, Web.App.Domain.LocalAuthorities.LocalAuthority[] authorities)
     {
-        DocumentAssert.AssertPageUrl(page, Paths.LocalAuthorityHighNeedsStartBenchmarking(authority.Code).ToAbsolute());
+        DocumentAssert.AssertPageUrl(page, Paths.LocalAuthorityHighNeedsStartBenchmarking(authority.Code, LocalAuthorityBenchmarkType.HighNeeds).ToAbsolute());
 
         var expectedBreadcrumbs = new[]
         {

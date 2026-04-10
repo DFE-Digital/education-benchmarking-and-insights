@@ -22,13 +22,9 @@ public class LocalAuthorityComparatorsController(
 {
     [HttpGet]
 
-    public async Task<IActionResult> Index(string code, [FromQuery] string? referrer = null)
+    public async Task<IActionResult> Index(string code, [FromQuery] LocalAuthorityBenchmarkType type, [FromQuery] string? referrer = null)
     {
-        using (logger.BeginScope(new
-        {
-            code,
-            referrer
-        }))
+        using (logger.BeginScope(new { code, type, referrer }))
         {
             try
             {
@@ -38,6 +34,7 @@ public class LocalAuthorityComparatorsController(
                 var viewModel = new LocalAuthorityComparatorsViewModel(
                     localAuthority,
                     GetComparators(localAuthority.StatisticalNeighbours, code),
+                    type,
                     referrer);
                 return View(viewModel);
             }
@@ -50,7 +47,7 @@ public class LocalAuthorityComparatorsController(
     }
 
     [HttpPost]
-    public async Task<IActionResult> Index([FromRoute] string code, [FromForm] LocalAuthorityComparatorSelectionViewModel viewModel)
+    public async Task<IActionResult> Index([FromRoute] string code, [FromQuery] LocalAuthorityBenchmarkType type, [FromForm] LocalAuthorityComparatorSelectionViewModel viewModel)
     {
         using (logger.BeginScope(new
         {
@@ -99,10 +96,10 @@ public class LocalAuthorityComparatorsController(
                 {
                     localAuthorityComparatorSetService.SetUserDefinedComparatorSetInSession(code, new UserDefinedLocalAuthorityComparatorSet { Set = comparators.ToArray() });
 
-                    return RedirectToAction("Index", "LocalAuthorityHighNeedsBenchmarking", new { code });
+                    return ContinueActionResult(code, type);
                 }
 
-                return View(nameof(Index), new LocalAuthorityComparatorsViewModel(localAuthority, comparators.ToArray(), viewModel.Referrer));
+                return View(nameof(Index), new LocalAuthorityComparatorsViewModel(localAuthority, comparators.ToArray(), type, viewModel.Referrer));
             }
             catch (Exception e)
             {
@@ -110,6 +107,19 @@ public class LocalAuthorityComparatorsController(
                 return StatusCode(StatusCodes.Status400BadRequest);
             }
         }
+    }
+
+    private RedirectToActionResult ContinueActionResult(string code, LocalAuthorityBenchmarkType type)
+    {
+        switch (type)
+        {
+            case LocalAuthorityBenchmarkType.EducationHealthCarePlans:
+                return RedirectToAction("Index", "LocalAuthorityEducationHealthCarePlans", new { code });
+            case LocalAuthorityBenchmarkType.HighNeeds:
+            default:
+                return RedirectToAction("Index", "LocalAuthorityHighNeedsBenchmarking", new { code });
+        }
+
     }
 
     private string[] GetComparators(IEnumerable<LocalAuthorityStatisticalNeighbour>? neighbours, string code)

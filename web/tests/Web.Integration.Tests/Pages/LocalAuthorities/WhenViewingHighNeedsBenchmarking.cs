@@ -1,6 +1,7 @@
 ﻿using System.Net;
 using AngleSharp.Html.Dom;
 using AutoFixture;
+using Web.App;
 using Web.App.Domain;
 using Xunit;
 
@@ -43,7 +44,7 @@ public class WhenViewingHighNeedsBenchmarking(SchoolBenchmarkingWebAppClient cli
     {
         var (page, authority, _) = await SetupNavigateInitPage([]);
 
-        DocumentAssert.AssertPageUrl(page, Paths.LocalAuthorityHighNeedsStartBenchmarking(authority.Code).ToAbsolute());
+        DocumentAssert.AssertPageUrl(page, Paths.LocalAuthorityHighNeedsStartBenchmarking(authority.Code, LocalAuthorityBenchmarkType.HighNeeds).ToAbsolute());
     }
 
     private async Task<(IHtmlDocument page, Web.App.Domain.LocalAuthorities.LocalAuthority authority, string[] set)> SetupNavigateInitPage(string[]? comparatorSet = null)

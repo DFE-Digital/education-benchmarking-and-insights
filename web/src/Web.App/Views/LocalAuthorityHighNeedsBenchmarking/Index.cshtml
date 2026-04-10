@@ -19,7 +19,8 @@
             <a href="@Url.Action("Index", "LocalAuthorityComparators", new
                      {
                          code = Model.Code,
-                         referrer = "benchmarking"
+                         type = LocalAuthorityBenchmarkType.HighNeeds,
+                         referrer = Referrers.BenchmarkHighNeeds
                      })" class="govuk-link govuk-link--no-visited-state">Change local authorities to benchmark against</a>
         </p>
     </div>
