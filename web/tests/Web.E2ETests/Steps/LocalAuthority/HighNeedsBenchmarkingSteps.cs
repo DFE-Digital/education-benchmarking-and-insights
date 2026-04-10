@@ -106,5 +106,5 @@ public class HighNeedsBenchmarkingSteps(PageDriver driver)
 
     private static string LocalAuthorityHighNeedsBenchmarkingUrl(string laCode) => $"{TestConfiguration.ServiceUrl}/local-authority/{laCode}/high-needs/benchmarking";
 
-    private static string LocalAuthorityHighNeedsStartBenchmarkingUrl(string laCode) => $"{TestConfiguration.ServiceUrl}/local-authority/{laCode}/high-needs/benchmarking/comparators";
+    private static string LocalAuthorityHighNeedsStartBenchmarkingUrl(string laCode) => $"{TestConfiguration.ServiceUrl}/local-authority/{laCode}/comparators";
 }

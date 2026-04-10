@@ -3,7 +3,7 @@
 @using Web.App.ViewModels
 @model Web.App.ViewModels.Components.LocalAuthorityComparatorsViewModel
 @{
-    var hasLaInputError = ViewData.ModelState.HasError(nameof(LocalAuthorityComparatorViewModel.LaInput));
+    var hasLaInputError = ViewData.ModelState.HasError(nameof(LocalAuthorityComparatorSelectionViewModel.LaInput));
 }
 
 <div class="select-row govuk-!-margin-bottom-0">
@@ -11,20 +11,20 @@
         <div
             class="govuk-form-group govuk-!-width-full@(hasLaInputError ? " govuk-form-group--error" : string.Empty)">
             <label class="govuk-label govuk-visually-hidden"
-                   for="@nameof(LocalAuthorityComparatorViewModel.LaInput)">
+                   for="@nameof(LocalAuthorityComparatorSelectionViewModel.LaInput)">
                 Local authority
             </label>
             @if (hasLaInputError)
             {
-                <p id="@nameof(LocalAuthorityComparatorViewModel.LaInput)-error" class="govuk-error-message">
+                <p id="@nameof(LocalAuthorityComparatorSelectionViewModel.LaInput)-error" class="govuk-error-message">
                     <span class="govuk-visually-hidden">Error:</span>
-                    @ViewData.ModelState[nameof(LocalAuthorityComparatorViewModel.LaInput)]?.Errors.First().ErrorMessage
+                    @ViewData.ModelState[nameof(LocalAuthorityComparatorSelectionViewModel.LaInput)]?.Errors.First().ErrorMessage
                 </p>
             }
             <select
                 class="govuk-select govuk-!-width-full@(hasLaInputError ? " govuk-select--error" : string.Empty)"
-                id="@nameof(LocalAuthorityComparatorViewModel.LaInput)"
-                name="@nameof(LocalAuthorityComparatorViewModel.LaInput)">
+                id="@nameof(LocalAuthorityComparatorSelectionViewModel.LaInput)"
+                name="@nameof(LocalAuthorityComparatorSelectionViewModel.LaInput)">
                 <option value="">Choose local authority</option>
                 @foreach (var localAuthority in Model.AvailableLocalAuthorities)
                 {
@@ -83,7 +83,7 @@
     @await Html.PartialAsync("_RemovableItemCardGrid", 
         new RemovableItemCardGridViewModel {
             Cards = Model.SelectedNeighbours, 
-            InputName = nameof(LocalAuthorityComparatorViewModel.Selected),
+            InputName = nameof(LocalAuthorityComparatorSelectionViewModel.Selected),
             Id = "current-comparators-neighbours"
         })
 }
@@ -113,7 +113,7 @@ else
     @await Html.PartialAsync("_RemovableItemCardGrid", 
         new RemovableItemCardGridViewModel {
             Cards = Model.SelectedOthers, 
-            InputName = nameof(LocalAuthorityComparatorViewModel.Selected),
+            InputName = nameof(LocalAuthorityComparatorSelectionViewModel.Selected),
             Id = "current-comparators-others"
         })
 }

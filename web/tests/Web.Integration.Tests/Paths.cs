@@ -291,16 +291,9 @@ public static class Paths
 
     public static string LocalAuthorityHighNeedsBenchmarking(string? code) => $"/local-authority/{code}/high-needs/benchmarking";
 
-    public static string LocalAuthorityHighNeedsStartBenchmarking(string? code, string? referrer = null)
-    {
-        var suffix = string.Empty;
-        if (!string.IsNullOrWhiteSpace(referrer))
-        {
-            suffix = $"?referrer={referrer}";
-        }
-
-        return $"/local-authority/{code}/high-needs/benchmarking/comparators{suffix}";
-    }
+    public static string LocalAuthorityHighNeedsStartBenchmarking(string? code, string? referrer = null) => string.IsNullOrWhiteSpace(referrer)
+            ? $"/local-authority/{code}/comparators"
+            : $"/local-authority/{code}/comparators?referrer={referrer}";
 
     public static string LocalAuthorityHighNeedsHistoricData(string? code) => $"/local-authority/{code}/high-needs/history";
     public static string LocalAuthoritySchoolsFinanceDownload(string? code) => $"/local-authority/{code}/download/schools/finance";

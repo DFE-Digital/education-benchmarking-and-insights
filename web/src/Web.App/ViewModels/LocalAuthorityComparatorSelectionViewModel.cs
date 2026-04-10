@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Web.App.ViewModels;
 
-public class LocalAuthorityComparatorViewModel
+public class LocalAuthorityComparatorSelectionViewModel
 {
     [Required]
     public string? Action { get; set; }
