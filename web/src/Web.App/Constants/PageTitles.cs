@@ -69,6 +69,7 @@ public static class PageTitles
     public const string LocalAuthorityCensus = "View pupil and workforce data";
     public const string LocalAuthorityHighNeeds = "High needs benchmarking overview";
     public const string LocalAuthorityHighNeedsBenchmarking = "Benchmark high needs";
+    public const string LocalAuthorityEducationHealthCarePlans = "Benchmark education, health care plans";
     public const string LocalAuthorityHighNeedsStartBenchmarking = "Choose local authorities to compare high needs spending";
     public const string LocalAuthorityHighNeedsHistoricData = "High needs historical spending";
     public const string TrustSpending = "Spending focus for this trust";

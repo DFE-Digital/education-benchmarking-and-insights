@@ -94,10 +94,11 @@
     <div class="govuk-width-container">
         @await Component.InvokeAsync("PhaseBanner")
         <navigation></navigation>
+        @await RenderSectionAsync("Backlink", required: false)
     </div>
 </nav>
 
-@RenderSection("Backlink", required: false)
+
 
 <main class="govuk-main-wrapper" id="main-content" role="main">
     <div class="govuk-width-container">
