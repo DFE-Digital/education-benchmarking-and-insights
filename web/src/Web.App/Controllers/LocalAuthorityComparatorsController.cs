@@ -46,7 +46,7 @@ public class LocalAuthorityComparatorsController(
         }
     }
 
-    [HttpPost]
+
     public async Task<IActionResult> Index([FromRoute] string code, [FromQuery] LocalAuthorityBenchmarkType type, [FromForm] LocalAuthorityComparatorSelectionViewModel viewModel)
     {
         using (logger.BeginScope(new
@@ -95,11 +95,11 @@ public class LocalAuthorityComparatorsController(
                 else if (action.Action == FormAction.Continue)
                 {
                     localAuthorityComparatorSetService.SetUserDefinedComparatorSetInSession(code, new UserDefinedLocalAuthorityComparatorSet { Set = comparators.ToArray() });
-
                     return ContinueActionResult(code, type);
                 }
 
                 return View(nameof(Index), new LocalAuthorityComparatorsViewModel(localAuthority, comparators.ToArray(), type, viewModel.Referrer));
+
             }
             catch (Exception e)
             {
@@ -108,6 +108,7 @@ public class LocalAuthorityComparatorsController(
             }
         }
     }
+
 
     private RedirectToActionResult ContinueActionResult(string code, LocalAuthorityBenchmarkType type)
     {
