@@ -26,6 +26,7 @@ public class DataSourceViewComponent(IFinanceService financeService) : ViewCompo
                 "Pupil data is taken from the school census data set in January."
             ],
             DataSourceTypes.HighNeeds => await GetHighNeedsDataSource(pageTitle),
+            DataSourceTypes.LocalAuthorityEducationHealthCarePlans => await LocalAuthorityEducationHealthCarePlansNarrative(),
             _ => throw new ArgumentOutOfRangeException(nameof(sourceType))
         };
 
@@ -77,5 +78,11 @@ public class DataSourceViewComponent(IFinanceService financeService) : ViewCompo
                 $"This data includes Section 251 data (s251) for period {years.S251 - 1}-{years.S251} and special educational needs (SEN) data for January {years.S251}."],
             _ => throw new ArgumentOutOfRangeException(nameof(pageTitle))
         };
+    }
+
+    private async Task<string[]> LocalAuthorityEducationHealthCarePlansNarrative()
+    {
+        var years = await financeService.GetYears();
+        return [$"This data includes special educational needs (SEN) data and is based on the SEN2 data collection as at January {years.S251 - 1}. This covers education, health and care (EHC) plans."];
     }
 }
