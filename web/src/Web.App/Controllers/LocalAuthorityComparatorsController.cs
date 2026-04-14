@@ -114,6 +114,8 @@ public class LocalAuthorityComparatorsController(
     {
         switch (type)
         {
+            case LocalAuthorityBenchmarkType.HighNeedsSpending:
+                return RedirectToAction("Index", "LocalAuthorityHighNeedsSpending", new { code });
             case LocalAuthorityBenchmarkType.EducationHealthCarePlans:
                 return RedirectToAction("Index", "LocalAuthorityEducationHealthCarePlans", new { code });
             case LocalAuthorityBenchmarkType.HighNeeds:

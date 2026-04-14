@@ -27,6 +27,7 @@ public class DataSourceViewComponent(IFinanceService financeService) : ViewCompo
             ],
             DataSourceTypes.HighNeeds => await GetHighNeedsDataSource(pageTitle),
             DataSourceTypes.LocalAuthorityEducationHealthCarePlans => await LocalAuthorityEducationHealthCarePlansNarrative(),
+            DataSourceTypes.LocalAuthorityHighNeedsSpending => await LocalAuthorityHighNeedsSpendingNarrative(),
             _ => throw new ArgumentOutOfRangeException(nameof(sourceType))
         };
 
@@ -84,5 +85,14 @@ public class DataSourceViewComponent(IFinanceService financeService) : ViewCompo
     {
         var years = await financeService.GetYears();
         return [$"This data includes special educational needs (SEN) data and is based on the SEN2 data collection as at January {years.S251 - 1}. This covers education, health and care (EHC) plans."];
+    }
+
+    private async Task<string[]> LocalAuthorityHighNeedsSpendingNarrative()
+    {
+        var years = await financeService.GetYears();
+        return [
+            $"This data includes section 251 data (s251) for period {years.S251 - 1}-{years.S251}. It includes planned expenditure and outturn spend, using aggregated s251 categories.",
+            "The outturn does not include place funding for pupils with special educational needs taught in academies."
+        ];
     }
 }
