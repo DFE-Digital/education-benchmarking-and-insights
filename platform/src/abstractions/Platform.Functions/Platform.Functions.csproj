@@ -19,15 +19,19 @@
         <PackageReference Include="Microsoft.Data.SqlClient"/>
         <PackageReference Include="Microsoft.Extensions.Configuration.Binder">
             <TreatAsUsed>true</TreatAsUsed>
+            <NoWarn>NU1510</NoWarn>
         </PackageReference>
         <PackageReference Include="Microsoft.Extensions.Logging.Abstractions">
             <TreatAsUsed>true</TreatAsUsed>
+            <NoWarn>NU1510</NoWarn>
         </PackageReference>
         <PackageReference Include="Microsoft.Extensions.Logging.Console">
             <TreatAsUsed>true</TreatAsUsed>
+            <NoWarn>NU1510</NoWarn>
         </PackageReference>
         <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions">
             <TreatAsUsed>true</TreatAsUsed>
+            <NoWarn>NU1510</NoWarn>
         </PackageReference>
     </ItemGroup>
     <ItemGroup>
