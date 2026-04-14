@@ -1,0 +1,32 @@
+<Solution>
+  <Folder Name="/db/">
+    <Project Path="src/db/Core.Database/Core.Database.csproj" />
+  </Folder>
+  <Folder Name="/solution-items/">
+    <File Path="Directory.Build.props" />
+    <File Path="Directory.Build.targets" />
+    <File Path="Directory.Packages.props" />
+    <File Path="GEMINI.md" />
+    <File Path="global.json" />
+    <File Path="nuget.config" />
+    <File Path="README.md" />
+  </Folder>
+  <Folder Name="/terraform/">
+    <File Path="terraform/acr.tf" />
+    <File Path="terraform/ai.tf" />
+    <File Path="terraform/automation.tf" />
+    <File Path="terraform/databases.tf" />
+    <File Path="terraform/key-vault.tf" />
+    <File Path="terraform/main.tf" />
+    <File Path="terraform/provider.tf" />
+    <File Path="terraform/README.md" />
+    <File Path="terraform/storage.tf" />
+    <File Path="terraform/terraform.tfvars" />
+    <File Path="terraform/variables.tf" />
+    <File Path="terraform/vnet.tf" />
+  </Folder>
+  <Folder Name="/terraform/scripts/">
+    <File Path="terraform/scripts/backup-container.ps1" />
+    <File Path="terraform/scripts/backup-database.ps1" />
+  </Folder>
+</Solution>
