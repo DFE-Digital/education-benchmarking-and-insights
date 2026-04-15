@@ -11,7 +11,7 @@ SELECTION_METHOD = "distance_boarding_pfi" # Pick the 30 with the absolute small
 #SELECTION_METHOD = "local_only" # Pick schools from the same region as the target, up to the final set size but less if there aren't enough
 
 #Weight scheme/features
-WEIGHT_SCHEME = "ew_with_geog"
+WEIGHT_SCHEME = "afe_with_geog"
 #"geog_dist"
 #"baseline"
 #swc
@@ -104,7 +104,7 @@ elif WEIGHT_SCHEME == "geog_dist":
     EASTING_WEIGHT = 1/2
     NORTHING_WEIGHT = 1/2
 
-elif WEIGHT_SCHEME == "ew_with_geog":
+elif (WEIGHT_SCHEME == "ew_with_geog") | (WEIGHT_SCHEME == "afe_with_geog"):
     SPECIAL_PUPILS_WEIGHT = 1/4
     SPECIAL_FSM_WEIGHT = 1/4
     EASTING_WEIGHT = 1/4
@@ -158,6 +158,15 @@ elif WEIGHT_SCHEME == "ew_with_geog":
     BUILDINGCOUNT_WEIGHT = 0
     EASTING_WEIGHT = 1/4
     NORTHING_WEIGHT = 1/4
+
+elif WEIGHT_SCHEME == "afe_with_geog":
+    GIFA_WEIGHT = 1/7
+    AGE_WEIGHT = 1/7
+    OLDESTBUILDINGAGE_WEIGHT = 1/7
+    NEWESTBUILDINGAGE_WEIGHT = 1/7
+    BUILDINGCOUNT_WEIGHT = 1/7
+    EASTING_WEIGHT = 1/7
+    NORTHING_WEIGHT = 1/7
 
 else:
    raise ValueError("Weight scheme not recognised")
