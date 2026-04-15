@@ -76,3 +76,10 @@
         Then I should see the following table data in workforce tab
           | School name     | Pupils | Pupil:teacher ratio | EHC plan (%) | SEN support (%) |
           | Test school 237 | 225    | 1.89                | 1.8%         | 5.3%            |
+          
+    @HighNeedsBenchmarkingFlagEnabled
+    Scenario: Go to bechmark education, health and care plan page
+        Given I am on local authority homepage for local authority with code '202'
+        When I click on benchmark education health and care plans
+        Then the High needs benchmarking page is displayed    
+    

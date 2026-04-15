@@ -22,6 +22,11 @@ public class HomePage(IPage page)
     {
         HasText = "Benchmark high needs"
     });
+    
+    private ILocator BenchmarkEhcpLink => page.Locator(Selectors.GovLink, new PageLocatorOptions
+    {
+        HasText = "Benchmark education, health and care plans"
+    });
 
     private ILocator HighNeedsHistoryLink => page.Locator(Selectors.GovLink, new PageLocatorOptions
     {
@@ -222,6 +227,12 @@ public class HomePage(IPage page)
     {
         await WorkforceApplyFilters.ShouldBeVisible();
         await WorkforceApplyFilters.Click();
+    }
+    
+    public async Task<HighNeedsStartBenchmarkingPage> ClickBenchmarkEhcp()
+    {
+        await BenchmarkEhcpLink.Click();
+        return new HighNeedsStartBenchmarkingPage(page);
     }
 
     private async Task ExpandAccordionIfNotExpanded(ILocator accordionButton)

@@ -182,6 +182,13 @@ public class HomeSteps(PageDriver driver)
         Assert.NotNull(_localAuthorityHomePage);
         await _localAuthorityHomePage.ClickWorkforceApplyFilters();
     }
+    
+    [When("I click on benchmark education health and care plans")]
+    public async Task WhenIClickOnBenchamarkEducationHealthAndCarePlans()
+    {
+        Assert.NotNull(_localAuthorityHomePage);
+        _benchmarkHighNeedsPage = await _localAuthorityHomePage.ClickBenchmarkEhcp();
+    }
 
     private static string LocalAuthorityHomeUrl(string laCode) => $"{TestConfiguration.ServiceUrl}/local-authority/{laCode}";
 
