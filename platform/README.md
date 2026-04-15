@@ -168,28 +168,6 @@ Add configuration in `local.settings.json` for `Platform.Api.Insight`
 }
 ```
 
-#### LocalAuthorityFinances Function App
-
-Add configuration in `local.settings.json` for `Platform.Api.LocalAuthorityFinances`
-
-```json
-{
-  "IsEncrypted": false,
-  "Values": {
-    "FUNCTIONS_WORKER_RUNTIME": "dotnet-isolated",
-    "ASPNETCORE_ENVIRONMENT": "Development",
-    "Sql__ConnectionString": "[INSERT CONNECTION STRING VALUE]",
-    "Sql__TelemetryEnabled": true,
-    "AzureFunctionsJobHost__logging__logLevel__default": "Information",
-    "AzureFunctionsJobHost__logging__logLevel__Function": "Information"
-  },
-  "Host": {
-    "CORS": "*",
-    "LocalHttpPort": 7074
-  }
-}
-```
-
 #### NonFinancial Function App
 
 Add configuration in `local.settings.json` for `Platform.Api.NonFinancial`
@@ -418,10 +396,6 @@ Add configuration in `appsetings.local.json` for `Platform.ApiTests`
    },
    "Establishment": {
       "Host": "http://localhost:7073",
-      "Key": "xxx"
-   },
-   "LocalAuthorityFinances": {
-      "Host": "http://localhost:7074",
       "Key": "xxx"
    },
    "NonFinancial": {

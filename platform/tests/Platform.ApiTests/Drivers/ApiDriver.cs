@@ -71,10 +71,7 @@ public class EstablishmentApiDriver(IReqnrollOutputHelper output) : ApiDriver(Te
 
 public class InsightApiDriver(IReqnrollOutputHelper output) : ApiDriver(TestConfiguration.Insight, output);
 
-public class LocalAuthorityFinancesApiDriver(IReqnrollOutputHelper output) : ApiDriver(TestConfiguration.LocalAuthorityFinances, output);
-
 public class NonFinancialApiDriver(IReqnrollOutputHelper output) : ApiDriver(TestConfiguration.NonFinancial, output);
-
 
 public class LocalAuthorityApiDriver(IReqnrollOutputHelper output) : ApiDriver(TestConfiguration.LocalAuthority, output);
 public class SchoolApiDriver(IReqnrollOutputHelper output) : ApiDriver(TestConfiguration.School, output);
