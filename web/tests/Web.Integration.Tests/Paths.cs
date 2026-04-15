@@ -292,7 +292,7 @@ public static class Paths
     public static string LocalAuthorityResources(string? code) => $"/local-authority/{code}/find-ways-to-spend-less";
 
     public static string LocalAuthorityHighNeedsBenchmarking(string? code) => $"/local-authority/{code}/high-needs/benchmarking";
-
+    public static string LocalAuthorityEducationHealthCarePlans(string? code) => $"/local-authority/{code}/education-health-care-plans";
     public static string LocalAuthorityHighNeedsStartBenchmarking(string? code, LocalAuthorityBenchmarkType type, string? referrer = null) => string.IsNullOrWhiteSpace(referrer)
             ? $"/local-authority/{code}/comparators?type={type}"
             : $"/local-authority/{code}/comparators?type={type}&referrer={referrer}";

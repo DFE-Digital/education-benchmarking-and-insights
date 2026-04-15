@@ -1,0 +1,37 @@
+@using Web.App.Extensions
+@model Web.App.ViewModels.LocalAuthorityEducationHealthCarePlansTableViewModel
+
+@if (Model.SubCategory.Data is null)
+{
+    <div
+        class="govuk-warning-text govuk-!-margin-top-2 govuk-!-margin-bottom-2 ssr-chart-warning">
+        <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
+        <strong class="govuk-warning-text__text">
+            <span class="govuk-visually-hidden">Warning</span>
+            Unable to display data
+        </strong>
+    </div>
+    return;
+}
+<div>
+
+    <table class="govuk-table">
+        <thead class="govuk-table__head">
+        <tr class="govuk-table__row">
+            <th scope="col" class="govuk-table__header">Local Authority</th>
+            <th scope="col" class="govuk-table__header">@Model.SubCategory.TableHeading</th>
+            <th scope="col" class="govuk-table__header">Pupils</th>
+        </tr>
+        </thead>
+        <tbody class="govuk-table__body">
+        @foreach (var row in Model.SubCategory.Data)
+        {
+            <tr class="govuk-table__row">
+                <td class="govuk-table__cell">@row.Name</td>
+                <td class="govuk-table__cell">@row.Plans.ToSimpleDisplay()</td>
+                <td class="govuk-table__cell govuk-table__cell--numeric">@(row.TotalPupils?.ToString("N0"))</td>
+            </tr>
+        }
+        </tbody>
+    </table>
+</div>

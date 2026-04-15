@@ -1,3 +1,6 @@
+@using Web.App.Domain.Charts
+@using Web.App.Extensions
+@using Web.App.ViewModels
 @model Web.App.ViewModels.LocalAuthorityEducationHealthCarePlansViewModel
 @{
     ViewData[ViewDataKeys.Title] = PageTitles.LocalAuthorityEducationHealthCarePlans;
@@ -33,3 +36,66 @@
 
 @await Html.PartialAsync("_UnderstandTheDataWeUse")
 @await Html.PartialAsync("_HowDataIsPresented")
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
+        @using (Html.BeginForm(FormMethod.Post, true, new
+                {
+                    @class = "actions-form",
+                    novalidate = "novalidate",
+                    role = "search"
+                }))
+        {
+            <div class="govuk-form-group">
+                <fieldset class="govuk-fieldset">
+                    <legend class="govuk-label">
+                        View as
+                    </legend>
+                    <div class="govuk-radios govuk-radios--inline govuk-radios--small" data-module="govuk-radios"
+                         id="@nameof(LocalAuthorityEducationHealthCarePlansViewModel.ViewAs)">
+                        @foreach (var view in Views.All)
+                        {
+                            <div class="govuk-radios__item">
+                                <input class="govuk-radios__input"
+                                       id="view-@view"
+                                       name="@nameof(LocalAuthorityEducationHealthCarePlansViewModel.ViewAs)" type="radio"
+                                       value="@((int)view)"
+                                       @(Model.ViewAs == view ? "checked" : "")>
+                                <label class="govuk-label govuk-radios__label"
+                                       for="view-@view">
+                                    @view.GetDescription()
+                                </label>
+                            </div>
+                        }
+                    </div>
+                </fieldset>
+            </div>
+
+            <div class="actions-form__button">
+                <button type="submit" class="govuk-button govuk-button--secondary" data-module="govuk-button">
+                    Apply
+                </button>
+            </div>
+        }
+        <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
+
+        <h2 class="govuk-heading-m">EHC Plans</h2>
+        @for (var i = 0; i < Model.SubCategories.Count; i++)
+        {
+            var subCategory = Model.SubCategories.ElementAt(i);
+
+            <section id="cost-sub-category-@subCategory.SubCategory?.ToSlug()">
+                <h3 class="govuk-heading-s">@subCategory.SubCategory</h3>
+
+                @if (Model.ViewAs == Views.ViewAsOptions.Chart)
+                {
+                    <p class="govuk-body">chart under construction</p>
+                }
+                else
+                {
+                    @await Html.PartialAsync("_EhcPlanTable", new LocalAuthorityEducationHealthCarePlansTableViewModel(subCategory))
+                }
+            </section>
+        }
+    </div>
+</div>
