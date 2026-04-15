@@ -251,6 +251,33 @@ class ComparatorCalculator:
 
             urns = np.append(urns, urns_by_distance)
             return urns
+        
+        elif SELECTION_METHOD == "distance_boarding_pfi":
+            sorted_indices = np.argsort(other_distances, kind="stable")
+            urns_by_distance = urns_without_target[sorted_indices]
+
+            target_urn = phase_arrays[ColumnNames.URN][target_index]
+            target_pfi = phase_arrays[ColumnNames.PFI][target_index]
+            target_boarding = phase_arrays[ColumnNames.BOARDERS][target_index]
+            target_region = phase_arrays[ColumnNames.REGION][target_index]
+
+            urns = np.array([target_urn])
+
+            # POTENTIAL ERROR: If a school meets multiple criteria (e.g. same PFI and
+            # same region), its URN will be appended multiple times, creating duplicates
+            # in the final comparator set.
+            if target_pfi:
+                top_pfi = pfi_without_target[sorted_indices]
+                same_pfi = np.argwhere(top_pfi).flatten()
+                urns = np.append(urns, urns_by_distance[same_pfi])
+
+            if target_boarding == "Boarding":
+                top_boarding = boarding_without_target[sorted_indices]
+                same_boarding = np.argwhere(top_boarding == target_boarding).flatten()
+                urns = np.append(urns, urns_by_distance[same_boarding])
+
+            urns = np.append(urns, urns_by_distance)
+            return urns[:FINAL_SET_SIZE]
 
         elif SELECTION_METHOD == "local_only":
             sorted_indices = np.argsort(other_distances, kind="stable") # Do not restrict base set size

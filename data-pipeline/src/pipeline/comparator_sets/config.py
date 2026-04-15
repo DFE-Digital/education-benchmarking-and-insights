@@ -6,11 +6,14 @@ FINAL_SET_SIZE = 30
 #Selection order/method
 #SELECTION_METHOD = "legacy" # Existing method - pick smallest distance in same region first, then top up to 30 with non-region smallest distance
 #SELECTION_METHOD = "top_up_local" # Pick the ten with the absolute smallest distances, then top up to 30 with the remaining 20 from same region in order of distance
-SELECTION_METHOD = "distance_only" # Pick the 30 with the absolute smallest distances, regardless of region
+#SELECTION_METHOD = "distance_only" # Pick the 30 with the absolute smallest distances, regardless of region - any locality should be included in the weight scheme with this option, if needed
+SELECTION_METHOD = "distance_boarding_pfi" # Pick the 30 with the absolute smallest distances, but choose schools with the same boarding/PFI status first (as per orginal method) - no selection by region, any geographic distance should be included in the weight scheme with this option
 #SELECTION_METHOD = "local_only" # Pick schools from the same region as the target, up to the final set size but less if there aren't enough
 
 #Weight scheme/features
-WEIGHT_SCHEME = "geog_dist" #"baseline"
+WEIGHT_SCHEME = "ew_with_geog"
+#"geog_dist"
+#"baseline"
 #swc
 #ew
 #afe
@@ -58,6 +61,26 @@ elif WEIGHT_SCHEME == "geog_dist":
     RURALSCORE_WEIGHT = 0
     EASTING_WEIGHT = 1/2
     NORTHING_WEIGHT = 1/2
+
+elif WEIGHT_SCHEME == "ew_with_geog":
+    PUPILS_WEIGHT = 1/5
+    FSM_WEIGHT = 1/5
+    SEN_WEIGHT = 1/5
+    OVERCAPACITY_WEIGHT = 0
+    UNDERCAPACITY_WEIGHT = 0
+    RURALSCORE_WEIGHT = 0
+    EASTING_WEIGHT = 1/5
+    NORTHING_WEIGHT = 1/5
+
+elif WEIGHT_SCHEME == "afe_with_geog":
+    PUPILS_WEIGHT = 1/8
+    FSM_WEIGHT = 1/8
+    SEN_WEIGHT = 1/8
+    OVERCAPACITY_WEIGHT = 1/8
+    UNDERCAPACITY_WEIGHT = 1/8
+    RURALSCORE_WEIGHT = 1/8
+    EASTING_WEIGHT = 1/8
+    NORTHING_WEIGHT = 1/8
 
 else:
    raise ValueError("Weight scheme not recognised") 
