@@ -35,7 +35,9 @@ def prepare_data(data: pd.DataFrame) -> pd.DataFrame:
         ColumnNames.BUILDINGCOUNT,
         ColumnNames.OVERCAPACITY,
         ColumnNames.UNDERCAPACITY,
-        ColumnNames.RURALSCORE
+        ColumnNames.RURALSCORE,
+        ColumnNames.EASTING,
+        ColumnNames.NORTHING,
     ] + ColumnNames.SEN_NEEDS
 
     for col in cols_to_fill:
@@ -93,6 +95,8 @@ class ComparatorCalculator:
             base_metrics = {
                 ColumnNames.PUPILS: SPECIAL_PUPILS_WEIGHT,
                 ColumnNames.FSM: SPECIAL_FSM_WEIGHT,
+                ColumnNames.EASTING: EASTING_WEIGHT,
+                ColumnNames.NORTHING: NORTHING_WEIGHT
             }
             pupil_dist = self._compute_weighted_distance(group_data, base_metrics)
             sen_metrics = {col: 1.0 for col in ColumnNames.SEN_NEEDS}
@@ -105,7 +109,9 @@ class ComparatorCalculator:
                 ColumnNames.SEN: SEN_WEIGHT,
                 ColumnNames.OVERCAPACITY: OVERCAPACITY_WEIGHT, 
                 ColumnNames.UNDERCAPACITY: UNDERCAPACITY_WEIGHT,
-                ColumnNames.RURALSCORE: RURALSCORE_WEIGHT
+                ColumnNames.RURALSCORE: RURALSCORE_WEIGHT,
+                ColumnNames.EASTING: EASTING_WEIGHT,
+                ColumnNames.NORTHING: NORTHING_WEIGHT
             }
             return self._compute_weighted_distance(group_data, standard_metrics)
 
@@ -116,7 +122,9 @@ class ComparatorCalculator:
             ColumnNames.AGE_SCORE: AGE_WEIGHT,
             ColumnNames.OLDESTBUILDINGAGE: OLDESTBUILDINGAGE_WEIGHT,
             ColumnNames.NEWESTBUILDINGAGE: NEWESTBUILDINGAGE_WEIGHT,
-            ColumnNames.BUILDINGCOUNT: BUILDINGCOUNT_WEIGHT
+            ColumnNames.BUILDINGCOUNT: BUILDINGCOUNT_WEIGHT,
+            ColumnNames.EASTING: EASTING_WEIGHT,
+            ColumnNames.NORTHING: NORTHING_WEIGHT
         }
         return self._compute_weighted_distance(group_data, metrics)
 
@@ -231,7 +239,7 @@ class ComparatorCalculator:
             return urns
         
         elif SELECTION_METHOD == "distance_only":
-            sorted_indices = np.argsort(other_distances, kind="stable")[:FINAL_SET_SIZE]
+            sorted_indices = np.argsort(other_distances, kind="stable")[:(FINAL_SET_SIZE-1)]
             urns_by_distance = urns_without_target[sorted_indices]
 
             target_urn = phase_arrays[ColumnNames.URN][target_index]
@@ -277,13 +285,15 @@ class ComparatorCalculator:
         pupil_distances = self._compute_pupils_distance(phase, group)
         building_distances = self._compute_buildings_distance(group)
 
-        #finance_type = group["Finance Type"].iloc[0]
+        if SAVE_SIMILARITY_DISTANCES:
 
-        #group.to_csv(f"/Users/benmurch/Documents/debug_{finance_type}_{phase}_group.csv")  # Debugging output
-        #pupil_distances_df = pd.DataFrame(pupil_distances, index=group.index)
-        #pupil_distances_df.to_csv(f"/Users/benmurch/Documents/debug_{finance_type}_{phase}_pupil_distances.csv")  # Debugging output
-        #building_distances_df = pd.DataFrame(building_distances, index=group.index)
-        #building_distances_df.to_csv(f"/Users/benmurch/Documents/debug_{finance_type}_{phase}_building_distances.csv")  # Debugging output
+            finance_type = group["Finance Type"].iloc[0]
+
+            #group.to_csv(f"/Users/benmurch/Documents/debug_{finance_type}_{phase}_group.csv")  # Debugging output
+            pupil_distances_df = pd.DataFrame(pupil_distances, index=group.index)
+            pupil_distances_df.to_csv(f"/Users/benmurch/Documents/debug_{finance_type}_{phase}_{SELECTION_METHOD}_{WEIGHT_SCHEME}_pupil_distances.csv")
+            building_distances_df = pd.DataFrame(building_distances, index=group.index)
+            building_distances_df.to_csv(f"/Users/benmurch/Documents/debug_{finance_type}_{phase}_{SELECTION_METHOD}_{WEIGHT_SCHEME}_building_distances.csv")
 
         pupil_include_mask = (
             ~np.array(group[ColumnNames.PARTIAL_YEARS])

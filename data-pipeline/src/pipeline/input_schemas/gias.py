@@ -36,6 +36,8 @@ gias = {
         "Town": "string",
         "County (name)": "string",
         "SpecialClasses (name)": "string",
+        "Easting": "Int64",
+        "Northing": "Int64"
     },
     2024: {
         "URN": "Int64",
@@ -109,5 +111,7 @@ gias = {
         "Town": "string",
         "County (name)": "string",
         "SpecialClasses (name)": "string",
+        "Easting": "Int64",
+        "Northing": "Int64"
     },
 }

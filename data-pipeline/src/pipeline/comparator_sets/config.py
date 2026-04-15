@@ -6,34 +6,123 @@ FINAL_SET_SIZE = 30
 #Selection order/method
 #SELECTION_METHOD = "legacy" # Existing method - pick smallest distance in same region first, then top up to 30 with non-region smallest distance
 #SELECTION_METHOD = "top_up_local" # Pick the ten with the absolute smallest distances, then top up to 30 with the remaining 20 from same region in order of distance
-#SELECTION_METHOD = "distance_only" # Pick the 30 with the absolute smallest distances, regardless of region
-SELECTION_METHOD = "local_only" # Pick schools from the same region as the target, up to the final set size but less if there aren't enough
+SELECTION_METHOD = "distance_only" # Pick the 30 with the absolute smallest distances, regardless of region
+#SELECTION_METHOD = "local_only" # Pick schools from the same region as the target, up to the final set size but less if there aren't enough
+
+#Weight scheme/features
+WEIGHT_SCHEME = "geog_dist" #"baseline"
+#swc
+#ew
+#afe
+#geog_dist
+
+SAVE_SIMILARITY_DISTANCES = False
 
 # Pupil Calculation Weights (Non-Special)
-#PUPILS_WEIGHT = 0.5
-#FSM_WEIGHT = 0.4
-#SEN_WEIGHT = 0.1
-PUPILS_WEIGHT = 1/6
-FSM_WEIGHT = 1/6
-SEN_WEIGHT = 1/6
-OVERCAPACITY_WEIGHT = 1/6
-UNDERCAPACITY_WEIGHT = 1/6
-RURALSCORE_WEIGHT = 1/6
+if WEIGHT_SCHEME == "baseline":
+    PUPILS_WEIGHT = 0.5
+    FSM_WEIGHT = 0.4
+    SEN_WEIGHT = 0.1
+    OVERCAPACITY_WEIGHT = 0
+    UNDERCAPACITY_WEIGHT = 0
+    RURALSCORE_WEIGHT = 0
+    EASTING_WEIGHT = 0
+    NORTHING_WEIGHT = 0
+
+elif WEIGHT_SCHEME == "ew":
+    PUPILS_WEIGHT = 1/3
+    FSM_WEIGHT = 1/3
+    SEN_WEIGHT = 1/3
+    OVERCAPACITY_WEIGHT = 0
+    UNDERCAPACITY_WEIGHT = 0
+    RURALSCORE_WEIGHT = 0
+    EASTING_WEIGHT = 0
+    NORTHING_WEIGHT = 0
+
+elif WEIGHT_SCHEME == "afe":
+    PUPILS_WEIGHT = 1/6
+    FSM_WEIGHT = 1/6
+    SEN_WEIGHT = 1/6
+    OVERCAPACITY_WEIGHT = 1/6
+    UNDERCAPACITY_WEIGHT = 1/6
+    RURALSCORE_WEIGHT = 1/6
+    EASTING_WEIGHT = 0
+    NORTHING_WEIGHT = 0
+
+elif WEIGHT_SCHEME == "geog_dist":
+    PUPILS_WEIGHT = 0
+    FSM_WEIGHT = 0
+    SEN_WEIGHT = 0
+    OVERCAPACITY_WEIGHT = 0
+    UNDERCAPACITY_WEIGHT = 0
+    RURALSCORE_WEIGHT = 0
+    EASTING_WEIGHT = 1/2
+    NORTHING_WEIGHT = 1/2
+
+else:
+   raise ValueError("Weight scheme not recognised") 
 
 # Pupil Calculation Weights (Special)
-#SPECIAL_PUPILS_WEIGHT = 0.6
-#SPECIAL_FSM_WEIGHT = 0.4
-SPECIAL_PUPILS_WEIGHT = 1/2
-SPECIAL_FSM_WEIGHT = 1/2
+if WEIGHT_SCHEME == "baseline":
+    SPECIAL_PUPILS_WEIGHT = 0.6
+    SPECIAL_FSM_WEIGHT = 0.4
+    EASTING_WEIGHT = 0
+    NORTHING_WEIGHT = 0
+
+elif (WEIGHT_SCHEME == "ew") | (WEIGHT_SCHEME == "afe"):
+    SPECIAL_PUPILS_WEIGHT = 1/2
+    SPECIAL_FSM_WEIGHT = 1/2
+    EASTING_WEIGHT = 0
+    NORTHING_WEIGHT = 0
+
+elif WEIGHT_SCHEME == "geog_dist":
+    SPECIAL_PUPILS_WEIGHT = 0
+    SPECIAL_FSM_WEIGHT = 0
+    EASTING_WEIGHT = 1/2
+    NORTHING_WEIGHT = 1/2
+
+else:
+   raise ValueError("Weight scheme not recognised")
 
 # Building Calculation Weights
-#GIFA_WEIGHT = 0.8
-#AGE_WEIGHT = 0.2
-GIFA_WEIGHT = 1/5
-AGE_WEIGHT = 1/5
-OLDESTBUILDINGAGE_WEIGHT = 1/5
-NEWESTBUILDINGAGE_WEIGHT = 1/5
-BUILDINGCOUNT_WEIGHT = 1/5
+if WEIGHT_SCHEME == "baseline":
+    GIFA_WEIGHT = 0.8
+    AGE_WEIGHT = 0.2
+    OLDESTBUILDINGAGE_WEIGHT = 0
+    NEWESTBUILDINGAGE_WEIGHT = 0
+    BUILDINGCOUNT_WEIGHT = 0
+    EASTING_WEIGHT = 0
+    NORTHING_WEIGHT = 0
+
+elif WEIGHT_SCHEME == "ew":
+    GIFA_WEIGHT = 1/2
+    AGE_WEIGHT = 1/2
+    OLDESTBUILDINGAGE_WEIGHT = 0
+    NEWESTBUILDINGAGE_WEIGHT = 0
+    BUILDINGCOUNT_WEIGHT = 0
+    EASTING_WEIGHT = 0
+    NORTHING_WEIGHT = 0
+
+elif WEIGHT_SCHEME == "afe":
+    GIFA_WEIGHT = 1/5
+    AGE_WEIGHT = 1/5
+    OLDESTBUILDINGAGE_WEIGHT = 1/5
+    NEWESTBUILDINGAGE_WEIGHT = 1/5
+    BUILDINGCOUNT_WEIGHT = 1/5
+    EASTING_WEIGHT = 0
+    NORTHING_WEIGHT = 0
+
+elif WEIGHT_SCHEME == "geog_dist":
+    GIFA_WEIGHT = 0
+    AGE_WEIGHT = 0
+    OLDESTBUILDINGAGE_WEIGHT = 0
+    NEWESTBUILDINGAGE_WEIGHT = 0
+    BUILDINGCOUNT_WEIGHT = 0
+    EASTING_WEIGHT = 1/2
+    NORTHING_WEIGHT = 1/2
+
+else:
+   raise ValueError("Weight scheme not recognised")
 
 class ColumnNames:
     URN = "URN"
@@ -69,6 +158,8 @@ class ColumnNames:
     NEWESTBUILDINGAGE = "NewestBuildingAge"
     BUILDINGCOUNT = "BuildingCount"
     RURALSCORE = "RuralScore"
+    EASTING = "Easting"
+    NORTHING = "Northing"
 
 
 cols_for_comparators_parquet = [
@@ -104,5 +195,7 @@ cols_for_comparators_parquet = [
     "OldestBuildingAge",
     "NewestBuildingAge",
     "BuildingCount",
-    "RuralScore"
+    "RuralScore",
+    "Easting",
+    "Northing"
 ]
