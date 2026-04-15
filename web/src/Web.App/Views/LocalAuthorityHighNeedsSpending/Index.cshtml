@@ -24,3 +24,12 @@
     </div>
 </div>
 
+@await Component.InvokeAsync("DataSource", new
+{
+    organisationType = OrganisationTypes.LocalAuthority,
+    sourceType = DataSourceTypes.LocalAuthorityHighNeedsSpending,
+    className = "govuk-grid-column-two-thirds"
+})
+
+@await Html.PartialAsync("_UnderstandTheDataWeUse")
+@await Html.PartialAsync("_HowDataIsPresented")
