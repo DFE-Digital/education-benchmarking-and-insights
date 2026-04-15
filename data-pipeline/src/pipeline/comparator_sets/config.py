@@ -104,6 +104,12 @@ elif WEIGHT_SCHEME == "geog_dist":
     EASTING_WEIGHT = 1/2
     NORTHING_WEIGHT = 1/2
 
+elif WEIGHT_SCHEME == "ew_with_geog":
+    SPECIAL_PUPILS_WEIGHT = 1/4
+    SPECIAL_FSM_WEIGHT = 1/4
+    EASTING_WEIGHT = 1/4
+    NORTHING_WEIGHT = 1/4
+
 else:
    raise ValueError("Weight scheme not recognised")
 
@@ -143,6 +149,15 @@ elif WEIGHT_SCHEME == "geog_dist":
     BUILDINGCOUNT_WEIGHT = 0
     EASTING_WEIGHT = 1/2
     NORTHING_WEIGHT = 1/2
+
+elif WEIGHT_SCHEME == "ew_with_geog":
+    GIFA_WEIGHT = 1/4
+    AGE_WEIGHT = 1/4
+    OLDESTBUILDINGAGE_WEIGHT = 0
+    NEWESTBUILDINGAGE_WEIGHT = 0
+    BUILDINGCOUNT_WEIGHT = 0
+    EASTING_WEIGHT = 1/4
+    NORTHING_WEIGHT = 1/4
 
 else:
    raise ValueError("Weight scheme not recognised")
