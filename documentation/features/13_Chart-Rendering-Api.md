@@ -374,16 +374,23 @@ The legend on a stacked horizontal bar chart is built using the `legendLabels` r
 
 ## Future Features
 
-### Multi-series horizontal bar chart
+### Clustered ("multi-series") horizontal bar chart
 
-The horizontal bar charts only support a single series, by design. To support multiple series the input configuration will need to be modified. In `front-end-components` a separate chart type has been defined for this purpose, which should be avoided unless absolutely necessary for the production-ready version. Prototyping using the existing `d3-selection`/virtual DOM endpoint would be acceptable in order to identify what changes would need to be merged into the 'string template' version.
+The horizontal bar charts only support a single series, by design. To support multiple series the input configuration
+will need to be modified. In `front-end-components` a separate chart type has been defined for this purpose, which
+should be avoided unless absolutely necessary for the production-ready version. Prototyping using the existing
+`d3-selection`/virtual DOM endpoint would be acceptable in order to identify what changes would need to be merged into
+the 'string template' version.
 
-Looking at [various](https://observablehq.com/@slowkow/horizontal-grouped-bar-chart) [examples](https://gist.github.com/erikvullings/51cc5332439939f1f292) there appear to be many ways of solving this problem. To provide backwards compatibility with single-series charts the best solution would probably be to:
+Looking at [various](https://observablehq.com/@slowkow/horizontal-grouped-bar-chart)
+[examples](https://gist.github.com/erikvullings/51cc5332439939f1f292) there appear to be many ways of formatting
+a clustered bar chart. To provide backwards compatibility with single-series charts the best solution would probably
+be to:
 
-1. Include multiple series (including padding) in surface height calculation.
-1. Modify the `<rect>` string templates for bars to loop through all keys defined in the multi series configuration. Calculate `y` to be relative to the key index (achieved with a separate scale band for `y` using the series keys for the domain), to allow offset from the parent `<g>` (see below).
+- Include multiple series (including padding) in surface height calculation.
+- Modify the `<rect>` string templates for bars to loop through all keys defined in the multi series configuration. Calculate `y` to be relative to the key index (achieved with a separate scale band for `y` using the series keys for the domain), to allow offset from the parent `<g>` (see below).
 
-  ```js
+```js
   // e.g., from example above
   const y0 = d3.scaleBand()
     .domain(data.map(d => d[groupKey]))
@@ -393,11 +400,11 @@ Looking at [various](https://observablehq.com/@slowkow/horizontal-grouped-bar-ch
     .domain(keys)
     .rangeRound([y0.bandwidth(), 0])
     .padding(0.1)
-  ```
+```
 
-1. Assign series index or other identifier to `<rect>` as well as class (currently hard-coded to `chart-cell__series-0`).
-1. Modify the `<text>` string templates for labels similar to above.
-1. Add wrapper `<g>` around each of the above with a `transform` to offset the `y` attribute to be the number of items in the series multiplied by the bar height (plus some padding).
+- Assign series index or other identifier to `<rect>` as well as class (currently hard-coded to `chart-cell__series-0`).
+- Modify the `<text>` string templates for labels similar to above.
+- Add wrapper `<g>` around each of the above with a `transform` to offset the `y` attribute to be the number of items in the series multiplied by the bar height (plus some padding).
 
   ```js
   // e.g., from example above
@@ -481,6 +488,71 @@ Looking at [various](https://observablehq.com/@slowkow/horizontal-grouped-bar-ch
 1. Domain calculations for `x` will need to take multiple series into account so as to not inadvertently truncate any bars.
 1. Styles may need to be defined in consuming service for newly rendered CSS classes.
 1. Although the above proposal should work for 'single series' charts the SVG output will be different and so API tests will initially fail.
+
+#### Altering the API interface
+
+There are a couple of ways we could change the chart request to support clustered charts.  We already support the
+`valueField` being an array of fields, which tells the renderer to use the different fields to build a stacked chart.
+We could introduce a new request field which controls how the renderer should treat an array of `valueField` fields -
+either as multiple stacks, or as multiple series in a clustered chart.
+
+Alternatively we could allow the `valueField` request property to contain an array of arrays of fields.  Each array of
+fields would represent a data series in a cluster, with each individual field representing a data field in a stacked
+bar.  Therefore the following formats of request would create the follwoing types of chart:
+
+##### Standard horizontal bar chart with a single data value per bar
+
+```js
+"valueField": [
+    ["totalExpenditeure"]
+]
+```
+
+##### Stacked horizontal bar chart with multiple stacked data values per bar
+
+```js
+"valueField": [
+    ["Head teachers", "Deputy head teachers", "Assistant head teachers", "Leadership non-teachers"]
+]
+```
+
+##### Clustered bar chart with a single data value per bar
+
+```js
+"valueField": [
+    ["balance"],
+    ["outturn"]
+]
+```
+
+##### Clustered stacked bar chart with multiple data value per bar
+
+```js
+"valueField": [
+    ["field1", "field2", "field3" ],
+    ["field6", "field5", "field6" ]
+]
+```
+
+It isn't clear that there is a requirement for the final bar chart type there - clustered and stacked - and the
+argument can be made that the complexity in developing it isn't worth the benefits.
+
+Should that type of chart be created, there are a number of considerations in the code.
+
+- Summations of the total value of each stacked bar will need to be stored in an array, to match each series in the
+   data
+
+```ts
+   const summationField: keyof T = "valueFieldSum" as [keyof T];
+   ...
+   sumValueFields(normalisedData, valueFields, summationField);
+```
+
+- The summation field is used to calculate the domain of the x-axis of the chart in `utils.getDomain()`, so this will
+need to be updated to handle an array of summation fields, and for each data item, select the largest value.
+- The `legendLabels` request field will need to contain labels for fields in all data series. This could either be
+done with a single array as at present, or with an array of labels per data series, if the presentation of labels
+needs to take into account the different series visually.
 
 ### Line chart
 
