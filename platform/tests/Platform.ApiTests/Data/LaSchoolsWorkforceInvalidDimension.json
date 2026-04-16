@@ -1,7 +1,0 @@
-[
-  {
-    "severity": "Error",
-    "propertyName": "Dimension",
-    "errorMessage": "Dimension must be one of the supported values: Actuals, PercentPupil"
-  }
-]

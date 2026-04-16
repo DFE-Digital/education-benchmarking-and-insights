@@ -23,7 +23,6 @@
 | <a name="module_establishment-fa"></a> [establishment-fa](#module\_establishment-fa) | ./modules/functions | n/a |
 | <a name="module_insight-fa"></a> [insight-fa](#module\_insight-fa) | ./modules/functions | n/a |
 | <a name="module_local-authority-fa"></a> [local-authority-fa](#module\_local-authority-fa) | ./modules/functions | n/a |
-| <a name="module_local-authority-finances-fa"></a> [local-authority-finances-fa](#module\_local-authority-finances-fa) | ./modules/functions | n/a |
 | <a name="module_maintenance-tasks-fa"></a> [maintenance-tasks-fa](#module\_maintenance-tasks-fa) | ./modules/functions | n/a |
 | <a name="module_non-financial-fa"></a> [non-financial-fa](#module\_non-financial-fa) | ./modules/functions | n/a |
 | <a name="module_orchestrator-fa"></a> [orchestrator-fa](#module\_orchestrator-fa) | ./modules/functions | n/a |
