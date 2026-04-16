@@ -17,8 +17,8 @@ Each component contains its own README with specific, detailed getting started i
 Before starting, ensure the following tools are installed on your machine:
 
 - **Git:** For version control.
-- **.NET 10.0 SDK:** Required for Core infrastructure.
-- **.NET 8.0 SDK:** Required for Platform and Web components.
+- **.NET 10.0 SDK:** Required for Core infrastructure and Web components.
+- **.NET 8.0 SDK:** Required for Platform components.
 - **Node.js 22 (LTS):** Required for Front-end and Web components.
 - **Terraform:** Required for infrastructure management.
 - **Python 3.x:** Required for certain build scripts and pre-commit hooks.
