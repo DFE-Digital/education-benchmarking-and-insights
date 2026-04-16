@@ -9,7 +9,7 @@ multi-year plans, and compare themselves against similar entities.
 
 ## Tech Stack
 
-- **Backend:** .NET 8 (ASP.NET Core MVC)
+- **Backend:** .NET 10 (ASP.NET Core MVC)
 - **Frontend:** Vue 3 (Composition API), Pinia, TypeScript, Vite, GOV.UK
   Frontend (Sass/Nunjucks-compatible templates)
 - **Frontend Build Pipeline:** Orchestrated via `npm scripts` (`vite`,

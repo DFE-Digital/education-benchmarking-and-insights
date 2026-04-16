@@ -8,7 +8,7 @@ with any static pages that need serving
 
 ## Prerequisites
 
-1. Install .NET 8 SDK
+1. Install .NET 10 SDK
 2. Install Visual Studio 2022 Professional (with C#, Node and Azure Workflows) or Rider 2024
 3. ADO private artefact access to install published Front-end components package
 4. Install Node 22 (if necessary, use nvm to switch to this version with `nvm use 22`)
