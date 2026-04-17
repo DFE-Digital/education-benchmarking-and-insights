@@ -1,0 +1,618 @@
+[
+  {
+    "code": "301",
+    "name": "Barking and Dagenham"
+  },
+  {
+    "code": "302",
+    "name": "Barnet"
+  },
+  {
+    "code": "370",
+    "name": "Barnsley"
+  },
+  {
+    "code": "800",
+    "name": "Bath and North East Somerset"
+  },
+  {
+    "code": "822",
+    "name": "Bedford"
+  },
+  {
+    "code": "303",
+    "name": "Bexley"
+  },
+  {
+    "code": "330",
+    "name": "Birmingham"
+  },
+  {
+    "code": "889",
+    "name": "Blackburn with Darwen"
+  },
+  {
+    "code": "890",
+    "name": "Blackpool"
+  },
+  {
+    "code": "350",
+    "name": "Bolton"
+  },
+  {
+    "code": "839",
+    "name": "Bournemouth, Christchurch & Poole"
+  },
+  {
+    "code": "867",
+    "name": "Bracknell Forest"
+  },
+  {
+    "code": "380",
+    "name": "Bradford"
+  },
+  {
+    "code": "304",
+    "name": "Brent"
+  },
+  {
+    "code": "846",
+    "name": "Brighton and Hove"
+  },
+  {
+    "code": "801",
+    "name": "Bristol"
+  },
+  {
+    "code": "305",
+    "name": "Bromley"
+  },
+  {
+    "code": "825",
+    "name": "Buckinghamshire"
+  },
+  {
+    "code": "351",
+    "name": "Bury"
+  },
+  {
+    "code": "381",
+    "name": "Calderdale"
+  },
+  {
+    "code": "873",
+    "name": "Cambridgeshire"
+  },
+  {
+    "code": "202",
+    "name": "Camden"
+  },
+  {
+    "code": "823",
+    "name": "Central Bedfordshire"
+  },
+  {
+    "code": "895",
+    "name": "Cheshire East"
+  },
+  {
+    "code": "896",
+    "name": "Cheshire West & Chester"
+  },
+  {
+    "code": "201",
+    "name": "City of London"
+  },
+  {
+    "code": "908",
+    "name": "Cornwall"
+  },
+  {
+    "code": "840",
+    "name": "County Durham"
+  },
+  {
+    "code": "331",
+    "name": "Coventry"
+  },
+  {
+    "code": "306",
+    "name": "Croydon"
+  },
+  {
+    "code": "942",
+    "name": "Cumberland"
+  },
+  {
+    "code": "841",
+    "name": "Darlington"
+  },
+  {
+    "code": "831",
+    "name": "Derby"
+  },
+  {
+    "code": "830",
+    "name": "Derbyshire"
+  },
+  {
+    "code": "878",
+    "name": "Devon"
+  },
+  {
+    "code": "371",
+    "name": "Doncaster"
+  },
+  {
+    "code": "838",
+    "name": "Dorset"
+  },
+  {
+    "code": "332",
+    "name": "Dudley"
+  },
+  {
+    "code": "307",
+    "name": "Ealing"
+  },
+  {
+    "code": "811",
+    "name": "East Riding of Yorkshire"
+  },
+  {
+    "code": "845",
+    "name": "East Sussex"
+  },
+  {
+    "code": "308",
+    "name": "Enfield"
+  },
+  {
+    "code": "881",
+    "name": "Essex"
+  },
+  {
+    "code": "390",
+    "name": "Gateshead"
+  },
+  {
+    "code": "916",
+    "name": "Gloucestershire"
+  },
+  {
+    "code": "203",
+    "name": "Greenwich"
+  },
+  {
+    "code": "204",
+    "name": "Hackney"
+  },
+  {
+    "code": "876",
+    "name": "Halton"
+  },
+  {
+    "code": "205",
+    "name": "Hammersmith and Fulham"
+  },
+  {
+    "code": "850",
+    "name": "Hampshire"
+  },
+  {
+    "code": "309",
+    "name": "Haringey"
+  },
+  {
+    "code": "310",
+    "name": "Harrow"
+  },
+  {
+    "code": "805",
+    "name": "Hartlepool"
+  },
+  {
+    "code": "311",
+    "name": "Havering"
+  },
+  {
+    "code": "884",
+    "name": "Herefordshire"
+  },
+  {
+    "code": "919",
+    "name": "Hertfordshire"
+  },
+  {
+    "code": "312",
+    "name": "Hillingdon"
+  },
+  {
+    "code": "313",
+    "name": "Hounslow"
+  },
+  {
+    "code": "921",
+    "name": "Isle of Wight"
+  },
+  {
+    "code": "420",
+    "name": "Isles of Scilly"
+  },
+  {
+    "code": "206",
+    "name": "Islington"
+  },
+  {
+    "code": "207",
+    "name": "Kensington and Chelsea"
+  },
+  {
+    "code": "886",
+    "name": "Kent"
+  },
+  {
+    "code": "810",
+    "name": "Kingston Upon Hull"
+  },
+  {
+    "code": "314",
+    "name": "Kingston upon Thames"
+  },
+  {
+    "code": "382",
+    "name": "Kirklees"
+  },
+  {
+    "code": "340",
+    "name": "Knowsley"
+  },
+  {
+    "code": "208",
+    "name": "Lambeth"
+  },
+  {
+    "code": "888",
+    "name": "Lancashire"
+  },
+  {
+    "code": "383",
+    "name": "Leeds"
+  },
+  {
+    "code": "856",
+    "name": "Leicester"
+  },
+  {
+    "code": "855",
+    "name": "Leicestershire"
+  },
+  {
+    "code": "209",
+    "name": "Lewisham"
+  },
+  {
+    "code": "925",
+    "name": "Lincolnshire"
+  },
+  {
+    "code": "341",
+    "name": "Liverpool"
+  },
+  {
+    "code": "821",
+    "name": "Luton"
+  },
+  {
+    "code": "352",
+    "name": "Manchester"
+  },
+  {
+    "code": "887",
+    "name": "Medway"
+  },
+  {
+    "code": "315",
+    "name": "Merton"
+  },
+  {
+    "code": "806",
+    "name": "Middlesbrough"
+  },
+  {
+    "code": "826",
+    "name": "Milton Keynes"
+  },
+  {
+    "code": "391",
+    "name": "Newcastle upon Tyne"
+  },
+  {
+    "code": "316",
+    "name": "Newham"
+  },
+  {
+    "code": "926",
+    "name": "Norfolk"
+  },
+  {
+    "code": "812",
+    "name": "North East Lincolnshire"
+  },
+  {
+    "code": "813",
+    "name": "North Lincolnshire"
+  },
+  {
+    "code": "940",
+    "name": "North Northamptonshire"
+  },
+  {
+    "code": "802",
+    "name": "North Somerset"
+  },
+  {
+    "code": "392",
+    "name": "North Tyneside"
+  },
+  {
+    "code": "815",
+    "name": "North Yorkshire"
+  },
+  {
+    "code": "929",
+    "name": "Northumberland"
+  },
+  {
+    "code": "892",
+    "name": "Nottingham"
+  },
+  {
+    "code": "891",
+    "name": "Nottinghamshire"
+  },
+  {
+    "code": "353",
+    "name": "Oldham"
+  },
+  {
+    "code": "931",
+    "name": "Oxfordshire"
+  },
+  {
+    "code": "874",
+    "name": "Peterborough"
+  },
+  {
+    "code": "879",
+    "name": "Plymouth"
+  },
+  {
+    "code": "851",
+    "name": "Portsmouth"
+  },
+  {
+    "code": "870",
+    "name": "Reading"
+  },
+  {
+    "code": "317",
+    "name": "Redbridge"
+  },
+  {
+    "code": "807",
+    "name": "Redcar and Cleveland"
+  },
+  {
+    "code": "318",
+    "name": "Richmond upon Thames"
+  },
+  {
+    "code": "354",
+    "name": "Rochdale"
+  },
+  {
+    "code": "372",
+    "name": "Rotherham"
+  },
+  {
+    "code": "857",
+    "name": "Rutland"
+  },
+  {
+    "code": "355",
+    "name": "Salford"
+  },
+  {
+    "code": "333",
+    "name": "Sandwell"
+  },
+  {
+    "code": "343",
+    "name": "Sefton"
+  },
+  {
+    "code": "373",
+    "name": "Sheffield"
+  },
+  {
+    "code": "893",
+    "name": "Shropshire"
+  },
+  {
+    "code": "871",
+    "name": "Slough"
+  },
+  {
+    "code": "334",
+    "name": "Solihull"
+  },
+  {
+    "code": "933",
+    "name": "Somerset"
+  },
+  {
+    "code": "803",
+    "name": "South Gloucestershire"
+  },
+  {
+    "code": "393",
+    "name": "South Tyneside"
+  },
+  {
+    "code": "852",
+    "name": "Southampton"
+  },
+  {
+    "code": "882",
+    "name": "Southend-on-Sea"
+  },
+  {
+    "code": "210",
+    "name": "Southwark"
+  },
+  {
+    "code": "342",
+    "name": "St. Helens"
+  },
+  {
+    "code": "860",
+    "name": "Staffordshire"
+  },
+  {
+    "code": "356",
+    "name": "Stockport"
+  },
+  {
+    "code": "808",
+    "name": "Stockton-on-Tees"
+  },
+  {
+    "code": "861",
+    "name": "Stoke-on-Trent"
+  },
+  {
+    "code": "935",
+    "name": "Suffolk"
+  },
+  {
+    "code": "394",
+    "name": "Sunderland"
+  },
+  {
+    "code": "936",
+    "name": "Surrey"
+  },
+  {
+    "code": "319",
+    "name": "Sutton"
+  },
+  {
+    "code": "866",
+    "name": "Swindon"
+  },
+  {
+    "code": "357",
+    "name": "Tameside"
+  },
+  {
+    "code": "894",
+    "name": "Telford and Wrekin"
+  },
+  {
+    "code": "006",
+    "name": "Test Local Authority"
+  },
+  {
+    "code": "883",
+    "name": "Thurrock"
+  },
+  {
+    "code": "880",
+    "name": "Torbay"
+  },
+  {
+    "code": "211",
+    "name": "Tower Hamlets"
+  },
+  {
+    "code": "358",
+    "name": "Trafford"
+  },
+  {
+    "code": "384",
+    "name": "Wakefield"
+  },
+  {
+    "code": "335",
+    "name": "Walsall"
+  },
+  {
+    "code": "320",
+    "name": "Waltham Forest"
+  },
+  {
+    "code": "212",
+    "name": "Wandsworth"
+  },
+  {
+    "code": "877",
+    "name": "Warrington"
+  },
+  {
+    "code": "937",
+    "name": "Warwickshire"
+  },
+  {
+    "code": "869",
+    "name": "West Berkshire"
+  },
+  {
+    "code": "941",
+    "name": "West Northamptonshire"
+  },
+  {
+    "code": "938",
+    "name": "West Sussex"
+  },
+  {
+    "code": "213",
+    "name": "Westminster"
+  },
+  {
+    "code": "943",
+    "name": "Westmorland and Furness"
+  },
+  {
+    "code": "359",
+    "name": "Wigan"
+  },
+  {
+    "code": "865",
+    "name": "Wiltshire"
+  },
+  {
+    "code": "868",
+    "name": "Windsor and Maidenhead"
+  },
+  {
+    "code": "344",
+    "name": "Wirral"
+  },
+  {
+    "code": "872",
+    "name": "Wokingham"
+  },
+  {
+    "code": "336",
+    "name": "Wolverhampton"
+  },
+  {
+    "code": "885",
+    "name": "Worcestershire"
+  },
+  {
+    "code": "816",
+    "name": "York"
+  }
+]

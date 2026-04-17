@@ -1,4 +1,4 @@
-Feature: Local Authority Maintained Schools
+Feature: Local Authority Details - Maintained Schools
 
     Scenario: valid finance summary request
         Given a finance summary request with code '<Code>' and query parameters:
