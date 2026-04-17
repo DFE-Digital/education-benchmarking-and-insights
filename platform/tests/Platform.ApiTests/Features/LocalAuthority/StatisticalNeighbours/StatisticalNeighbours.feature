@@ -5,6 +5,7 @@ Feature: Local Authority Statistical Neighbours
         When I submit the request
         Then the result should be ok and match the expected output of 'ValidStatisticalNeighbours.json'
 
+
     Scenario Outline: not found request for local authority statistical neighbours
         Given a get request for local authority statistical neighbours with code '<code>'
         When I submit the request
@@ -21,3 +22,18 @@ Feature: Local Authority Statistical Neighbours
         Given a get request for local authority statistical neighbours with code '201' and api version '2.0'
         When I submit the request
         Then the result should be bad request and match the expected output of 'UnsupportedApiVersion.json'
+
+    Scenario: invalid request for local authority statistical neighbours with non-numeric code
+        Given a get request for local authority statistical neighbours with code 'abc'
+        When I submit the request
+        Then the result should be not found
+
+    Scenario: invalid request for local authority statistical neighbours with too short code
+        Given a get request for local authority statistical neighbours with code '12'
+        When I submit the request
+        Then the result should be not found
+
+    Scenario: invalid request for local authority statistical neighbours with too long code
+        Given a get request for local authority statistical neighbours with code '1234'
+        When I submit the request
+        Then the result should be not found
