@@ -24,14 +24,14 @@ Feature: Local Authority Accounts - High Needs
       | more than 30 codes | LaHighNeedsHistoryTooManyCodes.json     |
       | invalid dimension  | LaHighNeedsHistoryInvalidDimension.json |
 
-    Scenario: High needs history request for an invalid local authority returns 404 Not Found
+    Scenario: Sending a high needs history request for an invalid local authority returns not found
         Given a valid history request with dimension 'Actuals' and LA codes:
           | Code |
           | 000  |
         When I submit the request
         Then the history result should be not found
 
-    Scenario Outline: High needs request with dimension '<Dimension>' returns 200 OK and expected data
+    Scenario: Sending a valid high needs request returns the expected budget and outturn values
         Given a valid request with dimension '<Dimension>' and LA codes:
           | Code |
           | 201  |
