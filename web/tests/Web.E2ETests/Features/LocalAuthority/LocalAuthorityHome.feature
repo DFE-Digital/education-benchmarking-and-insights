@@ -33,7 +33,7 @@
     @LocalAuthorityHomepageV2FlagDisabled
     Scenario: Schools accordion is displayed when feature is disabled
         Given I am on local authority homepage for local authority with code '204'
-        Then the Choose local authorties to compare page is displayed
+        Then the schools accordion should be displayed
 
     @LocalAuthorityHomepageV2FlagEnabled
     Scenario: Schools accordion is not displayed when feature is enabled
