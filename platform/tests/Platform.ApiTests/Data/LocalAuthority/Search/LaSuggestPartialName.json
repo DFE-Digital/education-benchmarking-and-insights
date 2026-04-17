@@ -1,0 +1,39 @@
+{
+  "results": [
+    {
+      "text": "Bath *and* North East Somerset",
+      "document": {
+        "code": "800",
+        "name": "Bath and North East Somerset"
+      }
+    },
+    {
+      "text": "Telford *and* Wrekin",
+      "document": {
+        "code": "894",
+        "name": "Telford and Wrekin"
+      }
+    },
+    {
+      "text": "Windsor *and* Maidenhead",
+      "document": {
+        "code": "868",
+        "name": "Windsor and Maidenhead"
+      }
+    },
+    {
+      "text": "Barking *and* Dagenham",
+      "document": {
+        "code": "301",
+        "name": "Barking and Dagenham"
+      }
+    },
+    {
+      "text": "Redcar *and* Cleveland",
+      "document": {
+        "code": "807",
+        "name": "Redcar and Cleveland"
+      }
+    }
+  ]
+}

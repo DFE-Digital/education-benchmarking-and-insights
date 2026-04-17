@@ -1,0 +1,10 @@
+{
+  "title": "Validation failed.",
+  "status": 400,
+  "instance": "/api/local-authorities/search",
+  "errors": {
+    "SearchText": [
+      "The length of 'Search Text' must be at least 3 characters. You entered 2 characters."
+    ]
+  }
+}

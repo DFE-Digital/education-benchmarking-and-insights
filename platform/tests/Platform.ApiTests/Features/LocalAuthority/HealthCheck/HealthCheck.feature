@@ -1,4 +1,4 @@
-Feature: Local Authority Healthcheck
+Feature: Local Authority Health Check
 
     Scenario: Sending a valid healthcheck request
         Given a valid request
