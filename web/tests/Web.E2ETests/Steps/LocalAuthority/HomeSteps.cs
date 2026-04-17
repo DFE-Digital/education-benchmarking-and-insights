@@ -11,7 +11,7 @@ public class HomeSteps(PageDriver driver)
     private BenchmarkCensusPage? _benchmarkCensusPage;
     private CompareYourCostsPage? _compareYourCostsPage;
     private HomePage? _localAuthorityHomePage;
-    private HighNeedsStartBenchmarkingPage? _benchmarkHighNeedsPage;
+    private ChooseLocalAuthoritiesToComparePage? _chooseLocalAuthoritiesPage;
     private HighNeedsHistoricDataPage? _highNeedsHistoryPage;
 
     [Given("I am on local authority homepage for local authority with code '(.*)'")]
@@ -50,7 +50,7 @@ public class HomeSteps(PageDriver driver)
     public async Task WhenIClickOnBenchmarkHighNeeds()
     {
         Assert.NotNull(_localAuthorityHomePage);
-        _benchmarkHighNeedsPage = await _localAuthorityHomePage.ClickBenchmarkHighNeeds();
+        _chooseLocalAuthoritiesPage = await _localAuthorityHomePage.ClickBenchmarkHighNeeds();
     }
 
     [When("I click on high needs historic data")]
@@ -74,11 +74,11 @@ public class HomeSteps(PageDriver driver)
         await _localAuthorityHomePage.HasBanner(title, heading, body);
     }
 
-    [Then("the High needs benchmarking page is displayed")]
+    [Then("the Choose local authorties to compare page is displayed")]
     public async Task ThenTheHighNeedsBenchmarkingPageIsDisplayed()
     {
-        Assert.NotNull(_benchmarkHighNeedsPage);
-        await _benchmarkHighNeedsPage.IsDisplayed();
+        Assert.NotNull(_chooseLocalAuthoritiesPage);
+        await _chooseLocalAuthoritiesPage.IsDisplayed();
     }
 
     [Then("the High needs historic data page is displayed")]
@@ -187,7 +187,7 @@ public class HomeSteps(PageDriver driver)
     public async Task WhenIClickOnBenchamarkEducationHealthAndCarePlans()
     {
         Assert.NotNull(_localAuthorityHomePage);
-        _benchmarkHighNeedsPage = await _localAuthorityHomePage.ClickBenchmarkEhcp();
+        _chooseLocalAuthoritiesPage = await _localAuthorityHomePage.ClickBenchmarkEhcp();
     }
 
     private static string LocalAuthorityHomeUrl(string laCode) => $"{TestConfiguration.ServiceUrl}/local-authority/{laCode}";

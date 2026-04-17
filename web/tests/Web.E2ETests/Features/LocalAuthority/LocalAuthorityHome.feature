@@ -17,7 +17,7 @@
     Scenario: Go to High needs benchmarking data page
         Given I am on local authority homepage for local authority with code '204'
         When I click on benchmark high needs
-        Then the High needs benchmarking page is displayed
+        Then the Choose local authorties to compare page is displayed
 
     Scenario: Go to High needs history page
         Given I am on local authority homepage for local authority with code '204'
@@ -33,7 +33,7 @@
     @LocalAuthorityHomepageV2FlagDisabled
     Scenario: Schools accordion is displayed when feature is disabled
         Given I am on local authority homepage for local authority with code '204'
-        Then the schools accordion should be displayed
+        Then the Choose local authorties to compare page is displayed
 
     @LocalAuthorityHomepageV2FlagEnabled
     Scenario: Schools accordion is not displayed when feature is enabled
@@ -81,5 +81,4 @@
     Scenario: Go to bechmark education, health and care plan page
         Given I am on local authority homepage for local authority with code '202'
         When I click on benchmark education health and care plans
-        Then the High needs benchmarking page is displayed    
-    
+        Then the Choose local authorties to compare page is displayed

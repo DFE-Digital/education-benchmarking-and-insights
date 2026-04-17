@@ -3,7 +3,7 @@ using Xunit;
 
 namespace Web.E2ETests.Pages.LocalAuthority;
 
-public class HighNeedsStartBenchmarkingPage(IPage page)
+public class ChooseLocalAuthoritiesToComparePage(IPage page)
 {
     private ILocator PageH1Heading => page.Locator($"main {Selectors.H1}");
     private ILocator LaInputField => page.Locator("#LaInput");
@@ -11,7 +11,7 @@ public class HighNeedsStartBenchmarkingPage(IPage page)
     private ILocator OthersComparatorsCards => page.Locator("#current-comparators-others");
     private ILocator SaveAndContinueButton => page.Locator(Selectors.Button, new PageLocatorOptions
     {
-        HasText = "Start benchmarking"
+        HasText = "Start Benchmarking"
     });
 
     public async Task IsDisplayed()
@@ -42,10 +42,10 @@ public class HighNeedsStartBenchmarkingPage(IPage page)
         await page.Keyboard.PressAsync(Keyboard.TabKey);
     }
 
-    public async Task<HighNeedsStartBenchmarkingPage> PressEnterKey()
+    public async Task<ChooseLocalAuthoritiesToComparePage> PressEnterKey()
     {
         await page.Keyboard.PressAsync(Keyboard.EnterKey);
-        return new HighNeedsStartBenchmarkingPage(page);
+        return new ChooseLocalAuthoritiesToComparePage(page);
     }
 
     public async Task ComparatorsContains(string name)

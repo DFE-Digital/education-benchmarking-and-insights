@@ -9,7 +9,7 @@ namespace Web.E2ETests.Steps.LocalAuthority;
 public class HighNeedsStartBenchmarkingSteps(PageDriver driver, PageDriverWithJavaScriptDisabled driverNoJs)
 {
     private HighNeedsBenchmarkingPage? _highNeedsBenchmarkingPage;
-    private HighNeedsStartBenchmarkingPage? _highNeedsStartBenchmarkingPage;
+    private ChooseLocalAuthoritiesToComparePage? _highNeedsStartBenchmarkingPage;
     private bool _javascriptDisabled;
 
     [Given("JavaScript is '(.*)'")]
@@ -89,7 +89,7 @@ public class HighNeedsStartBenchmarkingSteps(PageDriver driver, PageDriverWithJa
         var page = await (_javascriptDisabled ? driverNoJs : driver).Current;
         await page.GotoAndWaitForLoadAsync(url);
 
-        _highNeedsStartBenchmarkingPage = new HighNeedsStartBenchmarkingPage(page);
+        _highNeedsStartBenchmarkingPage = new ChooseLocalAuthoritiesToComparePage(page);
         await _highNeedsStartBenchmarkingPage.IsDisplayed();
     }
 

@@ -28,10 +28,10 @@ public class HighNeedsBenchmarkingPage(IPage page)
         await ViewAsChartRadio.Click();
     }
 
-    public async Task<HighNeedsStartBenchmarkingPage> ClickChangeComparatorsLink()
+    public async Task<ChooseLocalAuthoritiesToComparePage> ClickChangeComparatorsLink()
     {
         await ChangeComparatorsLink.ClickAsync();
-        return new HighNeedsStartBenchmarkingPage(page);
+        return new ChooseLocalAuthoritiesToComparePage(page);
     }
 
     public async Task AreChartsDisplayed(int count)

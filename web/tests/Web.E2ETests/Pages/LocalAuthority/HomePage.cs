@@ -77,10 +77,10 @@ public class HomePage(IPage page)
         return new BenchmarkCensusPage(page);
     }
 
-    public async Task<HighNeedsStartBenchmarkingPage> ClickBenchmarkHighNeeds()
+    public async Task<ChooseLocalAuthoritiesToComparePage> ClickBenchmarkHighNeeds()
     {
         await HighNeedsBenchmarkingLink.Click();
-        return new HighNeedsStartBenchmarkingPage(page);
+        return new ChooseLocalAuthoritiesToComparePage(page);
     }
 
     public async Task<HighNeedsHistoricDataPage> ClickHighNeedsHistory()
@@ -229,10 +229,10 @@ public class HomePage(IPage page)
         await WorkforceApplyFilters.Click();
     }
     
-    public async Task<HighNeedsStartBenchmarkingPage> ClickBenchmarkEhcp()
+    public async Task<ChooseLocalAuthoritiesToComparePage> ClickBenchmarkEhcp()
     {
         await BenchmarkEhcpLink.Click();
-        return new HighNeedsStartBenchmarkingPage(page);
+        return new ChooseLocalAuthoritiesToComparePage(page);
     }
 
     private async Task ExpandAccordionIfNotExpanded(ILocator accordionButton)
