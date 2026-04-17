@@ -1,6 +1,5 @@
 ﻿Feature: Local Authority Details
     
-
     Scenario Outline: valid request for a single Local Authority
         Given a get request for a single Local Authority with code '<Code>'
         When I submit the request
