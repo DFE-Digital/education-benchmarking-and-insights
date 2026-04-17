@@ -21,7 +21,7 @@ public class SearchSteps(LocalAuthorityApiDriver api)
     [Given("a valid local authorities suggest request with searchText '(.*)'")]
     public void GivenAValidLocalAuthoritiesSuggestRequestWithSearchText(string searchText)
     {
-        var content = new 
+        var content = new
         {
             SuggesterName = ResourceNames.Search.Suggesters.LocalAuthority,
             SearchText = searchText,
@@ -39,7 +39,7 @@ public class SearchSteps(LocalAuthorityApiDriver api)
     [Given("an invalid local authorities suggest request with searchText '(.*)' and size (.*)")]
     public void GivenAnInvalidLocalAuthoritiesSuggestRequestWithSearchTextAndSize(string searchText, int size)
     {
-        var content = new 
+        var content = new
         {
             SuggesterName = ResourceNames.Search.Suggesters.LocalAuthority,
             SearchText = string.IsNullOrWhiteSpace(searchText) ? null : searchText,
