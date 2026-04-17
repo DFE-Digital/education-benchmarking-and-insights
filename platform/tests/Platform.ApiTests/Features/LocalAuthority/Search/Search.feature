@@ -18,6 +18,7 @@ Feature: Local Authority Search
 
     Examples:
       | SearchText                                                                                            | Size | Result                                      |
+      |                                                                                                       | 5    | LaSuggestInvalidSearchTextNull.json         |
       | te                                                                                                    | 5    | LaSuggestInvalidSearchTextTooShort.json     |
       | 0123456789_0123456789_0123456789_0123456789_0123456789_0123456789_0123456789_0123456789_0123456789_01 | 5    | LaSuggestInvalidSearchTextTooLong.json      |
       | test                                                                                                  | 4    | LaSuggestInvalidSize.json                   |
@@ -42,6 +43,7 @@ Feature: Local Authority Search
 
     Examples:
       | SearchText                                                                                            | OrderByField               | OrderByValue | Result                                     |
+      |                                                                                                       | LocalAuthorityNameSortable | asc          | LaSearchInvalidSearchTextNull.json         |
       | te                                                                                                    | LocalAuthorityNameSortable | asc          | LaSearchInvalidSearchTextTooShort.json     |
       | 0123456789_0123456789_0123456789_0123456789_0123456789_0123456789_0123456789_0123456789_0123456789_01 | LocalAuthorityNameSortable | asc          | LaSearchInvalidSearchTextTooLong.json      |
       | test                                                                                                  | InvalidField               | asc          | LaSearchInvalidOrderByField.json           |
