@@ -22,6 +22,7 @@ using Web.App.Infrastructure.WebAssets;
 using Web.App.Services;
 using Xunit.Abstractions;
 using File = Web.App.Domain.Content.File;
+using LocalAuthority = Web.App.Domain.LocalAuthority;
 using UriBuilder = Web.App.Builders.UriBuilder;
 
 // ReSharper disable MemberCanBePrivate.Global
@@ -919,6 +920,30 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
     {
         SchoolApi.Reset();
         SchoolApi.Setup(api => api.SingleAsync(It.IsAny<string>(), It.IsAny<CancellationToken>())).Throws(new Exception());
+        return this;
+    }
+
+    public BenchmarkingWebAppClient SetupLocalAuthorityEndpoints(
+        Web.App.Domain.LocalAuthorities.LocalAuthority localAuthority,
+        EducationHealthCarePlans[]? educationHealthCarePlans = null)
+    {
+        LocalAuthorityApi.Reset();
+        LocalAuthorityApi.Setup(api => api.SingleAsync(It.IsAny<string>(), It.IsAny<CancellationToken>())).ReturnsAsync(ApiResult.Ok(localAuthority));
+        LocalAuthorityApi.Setup(api => api.QueryEhcpAsync(It.IsAny<ApiQuery?>(), It.IsAny<CancellationToken>())).ReturnsAsync(ApiResult.Ok(educationHealthCarePlans ?? []));
+        return this;
+    }
+
+    public BenchmarkingWebAppClient SetupLocalAuthorityEndpointsWithNotFound()
+    {
+        LocalAuthorityApi.Reset();
+        LocalAuthorityApi.Setup(api => api.SingleAsync(It.IsAny<string>(), It.IsAny<CancellationToken>())).ReturnsAsync(ApiResult.NotFound);
+        return this;
+    }
+
+    public BenchmarkingWebAppClient SetupLocalAuthorityEndpointsWithException()
+    {
+        LocalAuthorityApi.Reset();
+        LocalAuthorityApi.Setup(api => api.SingleAsync(It.IsAny<string>(), It.IsAny<CancellationToken>())).Throws(new Exception());
         return this;
     }
 
