@@ -1,0 +1,56 @@
+{
+  "code": "201",
+  "name": "City of London",
+  "statisticalNeighbours": [
+    {
+      "code": "202",
+      "name": "Camden",
+      "position": 1
+    },
+    {
+      "code": "203",
+      "name": "Greenwich",
+      "position": 2
+    },
+    {
+      "code": "204",
+      "name": "Hackney",
+      "position": 3
+    },
+    {
+      "code": "205",
+      "name": "Hammersmith and Fulham",
+      "position": 4
+    },
+    {
+      "code": "206",
+      "name": "Islington",
+      "position": 5
+    },
+    {
+      "code": "207",
+      "name": "Kensington and Chelsea",
+      "position": 6
+    },
+    {
+      "code": "208",
+      "name": "Lambeth",
+      "position": 7
+    },
+    {
+      "code": "209",
+      "name": "Lewisham",
+      "position": 8
+    },
+    {
+      "code": "210",
+      "name": "Southwark",
+      "position": 9
+    },
+    {
+      "code": "211",
+      "name": "Tower Hamlets",
+      "position": 10
+    }
+  ]
+}
