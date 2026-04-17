@@ -63,3 +63,4 @@ Feature: Local Authority Education Health Care Plans
           | willNotBeFound |
         When I submit the request
         Then the result should be ok and match the expected output of 'EchpInvalidLa.json'
+
