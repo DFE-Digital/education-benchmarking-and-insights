@@ -12,9 +12,7 @@ public class StatisticalNeighboursSteps(LocalAuthorityApiDriver api)
     private const string Key = "statistical-neighbours";
     private const string RouteFolder = "LocalAuthority";
     private const string DetailsFolder = "StatisticalNeighbours";
-
-
-
+    
     [Given(@"^a get request for local authority statistical neighbours with code '([^']*)'$")]
     public void GivenAGetRequestForLocalAuthorityStatisticalNeighboursWithCode(string code)
     {
@@ -24,7 +22,6 @@ public class StatisticalNeighboursSteps(LocalAuthorityApiDriver api)
             Method = HttpMethod.Get
         });
     }
-
 
     [Given(@"^a get request for local authority statistical neighbours with code '([^']*)' and api version '([^']*)'$")]
     public void GivenAGetRequestForLocalAuthorityStatisticalNeighboursWithCodeAndApiVersion(string code, string version)
@@ -71,7 +68,7 @@ public class StatisticalNeighboursSteps(LocalAuthorityApiDriver api)
         var response = api[Key].Response;
         AssertHttpResponse.IsBadRequest(response);
     }
-    
+
     [Then("the result should be bad request and match the expected output of '(.*)'")]
     public async Task ThenTheResultShouldBeBadRequestAndMatchTheExpectedOutputOf(string testFile)
     {
