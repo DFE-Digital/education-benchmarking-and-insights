@@ -1,0 +1,16 @@
+{
+  "code": "334",
+  "name": "Solihull",
+  "schools": [
+    {
+      "overallPhase": "Secondary",
+      "urn": "990023",
+      "schoolName": "Test school 132"
+    },
+    {
+      "overallPhase": "Primary",
+      "urn": "990172",
+      "schoolName": "Test school 270"
+    }
+  ]
+}
