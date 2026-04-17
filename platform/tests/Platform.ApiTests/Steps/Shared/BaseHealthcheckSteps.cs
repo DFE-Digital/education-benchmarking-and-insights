@@ -8,6 +8,7 @@ public abstract class BaseHealthcheckSteps(ApiDriver api)
 {
     private const string RequestKey = "health-check";
 
+    [Given("a valid request")]
     protected void CreateRequest()
     {
         api.CreateRequest(RequestKey, new HttpRequestMessage
@@ -17,17 +18,20 @@ public abstract class BaseHealthcheckSteps(ApiDriver api)
         });
     }
 
+    [When("I submit the request")]
     protected async Task SubmitRequest()
     {
         await api.Send();
     }
 
-    protected async Task ValidateResponse()
+    [Then("the result should be '(.*)'")]
+    protected async Task ValidateResponse(string status)
     {
         var result = api[RequestKey].Response;
         AssertHttpResponse.IsOk(result);
+        Assert.Equal("text/plain", result.Content.Headers.ContentType?.MediaType);
 
         var content = await result.Content.ReadAsStringAsync();
-        Assert.Equal("Healthy", content);
+        Assert.Equal(status, content);
     }
 }
