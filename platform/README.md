@@ -439,6 +439,38 @@ at each environment level, as well as other supporting resources such as Azure S
 | `ssr_fa_elastic_max_workers`   | number | Maximum number of total workers allowed for the app service plan (if an elastic plan)                                                                                                  |
 | `ssr_fa_elastic_min_instances` | number | Minimum number of instances for the app service (if an elastic plan). May be set to `0` to scale down to zero if no load is present.                                                   |
 
+## 🤖 AI-Assisted Engineering
+
+This repository includes custom **Gemini CLI Skills** to automate and standardize common engineering tasks.
+
+### API Test Creator Skill
+
+The `fbit-api-test-creator` skill orchestrates the creation and update of functional API tests, ensuring 100% validation coverage and strict JSON assertions.
+
+#### Installation
+
+For new developers or after a fresh clone, install the skill into your local workspace:
+
+```bash
+gemini skills install fbit-api-test-creator.skill --scope workspace
+```
+
+After installation, reload your interactive Gemini session to enable the skill:
+
+```bash
+/skills reload
+```
+
+#### Usage
+
+Trigger the skill by asking Gemini CLI to work on API tests or coverage. For example:
+
+- "Add functional tests for the Search feature in the School API"
+- "Update API test coverage for the LocalAuthority module"
+- "Improve functional tests for [Feature Name]"
+
+The agent will automatically follow the project-specific workflow (Research -> Realignment -> JSON Assertion -> Run & Capture).
+
 ## 🧹 Managing code formatting
 
 The solution uses [EditorConfig](https://editorconfig.org/) to manage code formatting using a set of rules agreed
