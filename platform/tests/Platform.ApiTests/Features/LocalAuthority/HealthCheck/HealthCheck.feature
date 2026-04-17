@@ -1,11 +1,9 @@
 Feature: Local Authority Health Check
 
+
     @healthcheck
-    Scenario Outline: Sending a valid healthcheck request
+    Scenario: Sending a valid healthcheck request
         Given a valid request
         When I submit the request
-        Then the result should be '<Status>'
+        Then the result should be healthy
 
-    Examples:
-      | Status  |
-      | Healthy |
