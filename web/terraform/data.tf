@@ -79,16 +79,6 @@ data "azurerm_key_vault_secret" "establishment-api-key" {
   key_vault_id = data.azurerm_key_vault.key-vault.id
 }
 
-data "azurerm_key_vault_secret" "local-authority-finances-api-key" {
-  name         = "local-authority-finances-host-key"
-  key_vault_id = data.azurerm_key_vault.key-vault.id
-}
-
-data "azurerm_key_vault_secret" "local-authority-finances-api-host" {
-  name         = "local-authority-finances-host"
-  key_vault_id = data.azurerm_key_vault.key-vault.id
-}
-
 data "azurerm_key_vault_secret" "non-financial-api-key" {
   name         = "non-financial-host-key"
   key_vault_id = data.azurerm_key_vault.key-vault.id
