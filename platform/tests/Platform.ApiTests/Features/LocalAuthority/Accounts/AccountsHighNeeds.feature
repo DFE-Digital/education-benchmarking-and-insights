@@ -1,6 +1,6 @@
 Feature: Local Authority Accounts - High Needs
 
-    Scenario: valid high needs history request returns the expected budget and outturn values
+    Scenario Outline: High needs history request with dimension '<Dimension>' returns 200 OK and expected data
         Given a valid history request with dimension '<Dimension>' and LA codes:
           | Code |
           | 201  |
@@ -13,7 +13,7 @@ Feature: Local Authority Accounts - High Needs
       | LaHighNeedsHistoryPerHead.json  | PerHead   |
       | LaHighNeedsHistoryPerPupil.json | PerPupil  |
 
-    Scenario Outline: Sending an invalid high needs history request returns bad request
+    Scenario Outline: High needs history request with invalid parameters '<Issue>' returns 400 Bad Request
         Given an invalid history request with '<Issue>'
         When I submit the request
         Then the history result should be bad request and match the expected output in '<Result>'
@@ -24,14 +24,14 @@ Feature: Local Authority Accounts - High Needs
       | more than 30 codes | LaHighNeedsHistoryTooManyCodes.json     |
       | invalid dimension  | LaHighNeedsHistoryInvalidDimension.json |
 
-    Scenario: Sending a high needs history request for an invalid local authority returns not found
+    Scenario: High needs history request for an invalid local authority returns 404 Not Found
         Given a valid history request with dimension 'Actuals' and LA codes:
           | Code |
           | 000  |
         When I submit the request
         Then the history result should be not found
 
-    Scenario: Sending a valid high needs request returns the expected budget and outturn values
+    Scenario Outline: High needs request with dimension '<Dimension>' returns 200 OK and expected data
         Given a valid request with dimension '<Dimension>' and LA codes:
           | Code |
           | 201  |
@@ -46,7 +46,7 @@ Feature: Local Authority Accounts - High Needs
       | LaHighNeedsPerHead.json  | PerHead   |
       | LaHighNeedsPerPupil.json | PerPupil  |
 
-    Scenario Outline: Sending an invalid high needs request returns bad request
+    Scenario Outline: High needs request with invalid parameters '<Issue>' returns 400 Bad Request
         Given an invalid request with '<Issue>'
         When I submit the request
         Then the result should be bad request and match the expected output in '<Result>'
@@ -56,3 +56,10 @@ Feature: Local Authority Accounts - High Needs
       | no codes           | LaHighNeedsEmptyCodes.json       |
       | more than 30 codes | LaHighNeedsTooManyCodes.json     |
       | invalid dimension  | LaHighNeedsInvalidDimension.json |
+
+    Scenario: High needs request for an invalid local authority returns 200 OK and empty array
+        Given a valid request with dimension 'Actuals' and LA codes:
+          | Code |
+          | 000  |
+        When I submit the request
+        Then the result should be ok and match the expected output of 'LaHighNeedsEmptyArray.json'
