@@ -121,14 +121,14 @@ public class AccountsHighNeedsSteps(LocalAuthorityApiDriver api)
 
         actual.AssertDeepEquals(expected);
     }
-
+    
     [Then("the history result should be not found")]
     public void ThenTheHistoryResultShouldBeNotFound()
     {
         var response = api[HistoryKey].Response;
         AssertHttpResponse.IsNotFound(response);
     }
-
+    
     [Then("the result should be bad request and match the expected output in '(.*)'")]
     public async Task ThenTheResultShouldBeBadRequestAndMatchTheExpectedOutputIn(string testFile)
     {
