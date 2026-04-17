@@ -11,7 +11,7 @@ public class HighNeedsStartBenchmarkingPage(IPage page)
     private ILocator OthersComparatorsCards => page.Locator("#current-comparators-others");
     private ILocator SaveAndContinueButton => page.Locator(Selectors.Button, new PageLocatorOptions
     {
-        HasText = "Benchmark high needs spending"
+        HasText = "Start benchmarking"
     });
 
     public async Task IsDisplayed()
