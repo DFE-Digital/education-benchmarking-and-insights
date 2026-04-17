@@ -36,46 +36,68 @@ public class EducationHealthCarePlans(LocalAuthorityApiDriver api)
         });
     }
 
-    [Given("a history request with no codes")]
-    public void GivenAHistoryRequestWithNoCodes()
+    [Given("a history request with (.*)")]
+    public void GivenAHistoryRequestWithIssue(string issue)
     {
-        api.CreateRequest(HistoryKey, new HttpRequestMessage
+        switch (issue)
         {
-            RequestUri = new Uri("/api/local-authorities/education-health-care-plans/history", UriKind.Relative),
-            Method = HttpMethod.Get
-        });
+            case "no codes":
+                api.CreateRequest(HistoryKey, new HttpRequestMessage
+                {
+                    RequestUri = new Uri("/api/local-authorities/education-health-care-plans/history", UriKind.Relative),
+                    Method = HttpMethod.Get
+                });
+                break;
+            case "more than 30 codes":
+                var codes30 = Enumerable.Range(1, 31).Select(i => (100 + i).ToString());
+                api.CreateRequest(HistoryKey, new HttpRequestMessage
+                {
+                    RequestUri = new Uri($"/api/local-authorities/education-health-care-plans/history?code={string.Join("&code=", codes30)}", UriKind.Relative),
+                    Method = HttpMethod.Get
+                });
+                break;
+            case "invalid dimension":
+                api.CreateRequest(HistoryKey, new HttpRequestMessage
+                {
+                    RequestUri = new Uri("/api/local-authorities/education-health-care-plans/history?code=201&dimension=invalid", UriKind.Relative),
+                    Method = HttpMethod.Get
+                });
+                break;
+            default:
+                throw new ArgumentException($"Unknown issue: {issue}");
+        }
     }
 
-    [Given("a request with no codes")]
-    public void GivenARequestWithNoCodes()
+    [Given("a request with (.*)")]
+    public void GivenARequestWithIssue(string issue)
     {
-        api.CreateRequest(Key, new HttpRequestMessage
+        switch (issue)
         {
-            RequestUri = new Uri("/api/local-authorities/education-health-care-plans", UriKind.Relative),
-            Method = HttpMethod.Get
-        });
-    }
-
-    [Given("an invalid history request with more than 30 codes")]
-    public void GivenAnInvalidHistoryRequestWithMoreThan30Codes()
-    {
-        var codes = Enumerable.Range(1, 31).Select(i => (100 + i).ToString());
-        api.CreateRequest(HistoryKey, new HttpRequestMessage
-        {
-            RequestUri = new Uri($"/api/local-authorities/education-health-care-plans/history?code={string.Join("&code=", codes)}", UriKind.Relative),
-            Method = HttpMethod.Get
-        });
-    }
-
-    [Given("an invalid request with more than 30 codes")]
-    public void GivenAnInvalidRequestWithMoreThan30Codes()
-    {
-        var codes = Enumerable.Range(1, 31).Select(i => (100 + i).ToString());
-        api.CreateRequest(Key, new HttpRequestMessage
-        {
-            RequestUri = new Uri($"/api/local-authorities/education-health-care-plans?code={string.Join("&code=", codes)}", UriKind.Relative),
-            Method = HttpMethod.Get
-        });
+            case "no codes":
+                api.CreateRequest(Key, new HttpRequestMessage
+                {
+                    RequestUri = new Uri("/api/local-authorities/education-health-care-plans", UriKind.Relative),
+                    Method = HttpMethod.Get
+                });
+                break;
+            case "more than 30 codes":
+                var codes30 = Enumerable.Range(1, 31).Select(i => (100 + i).ToString());
+                api.CreateRequest(Key, new HttpRequestMessage
+                {
+                    RequestUri = new Uri($"/api/local-authorities/education-health-care-plans?code={string.Join("&code=", codes30)}", UriKind.Relative),
+                    Method = HttpMethod.Get
+                });
+                break;
+            case "invalid dimension":
+                api.CreateRequest(Key, new HttpRequestMessage
+                {
+                    RequestUri = new Uri("/api/local-authorities/education-health-care-plans?code=201&dimension=invalid", UriKind.Relative),
+                    Method = HttpMethod.Get
+                });
+                break;
+            default:
+                throw new ArgumentException($"Unknown issue: {issue}");
+        }
     }
 
     [When("I submit the request")]
@@ -99,7 +121,7 @@ public class EducationHealthCarePlans(LocalAuthorityApiDriver api)
     }
 
     [Then("the result should be ok and match the expected output of '(.*)'")]
-    private async Task ThenTheResultShouldBeOkAndMatchTheExpectedOutputOf(string testFile)
+    public async Task ThenTheResultShouldBeOkAndMatchTheExpectedOutputOf(string testFile)
     {
         var response = api[Key].Response;
         AssertHttpResponse.IsOk(response);
@@ -112,15 +134,37 @@ public class EducationHealthCarePlans(LocalAuthorityApiDriver api)
         actual.AssertDeepEquals(expected);
     }
 
-    [Then("the history result should be bad request")]
-    public void ThenTheHistoryResultShouldBeBadRequest()
+    [Then("the history result should be bad request and match the expected output of '(.*)'")]
+    public async Task ThenTheHistoryResultShouldBeBadRequestAndMatchTheExpectedOutputOf(string testFile)
     {
-        AssertHttpResponse.IsBadRequest(api[HistoryKey].Response);
+        var response = api[HistoryKey].Response;
+        AssertHttpResponse.IsBadRequest(response);
+
+        var content = await response.Content.ReadAsStringAsync();
+        var actual = JObject.Parse(content);
+
+        var expected = TestDataProvider.GetJsonObjectData(testFile, RouteFolder, SubFolder);
+
+        actual.AssertDeepEquals(expected);
     }
 
-    [Then("the result should be bad request")]
-    public void ThenTheResultShouldBeBadRequest()
+    [Then("the history result should be not found")]
+    public void ThenTheHistoryResultShouldBeNotFound()
     {
-        AssertHttpResponse.IsBadRequest(api[Key].Response);
+        AssertHttpResponse.IsNotFound(api[HistoryKey].Response);
+    }
+
+    [Then("the result should be bad request and match the expected output of '(.*)'")]
+    public async Task ThenTheResultShouldBeBadRequestAndMatchTheExpectedOutputOf(string testFile)
+    {
+        var response = api[Key].Response;
+        AssertHttpResponse.IsBadRequest(response);
+
+        var content = await response.Content.ReadAsStringAsync();
+        var actual = JObject.Parse(content);
+
+        var expected = TestDataProvider.GetJsonObjectData(testFile, RouteFolder, SubFolder);
+
+        actual.AssertDeepEquals(expected);
     }
 }

@@ -1,0 +1,10 @@
+{
+  "title": "Validation failed.",
+  "status": 400,
+  "instance": "/api/local-authorities/education-health-care-plans",
+  "errors": {
+    "Codes": [
+      "Between 1 and 30 local authority codes must be supplied"
+    ]
+  }
+}
