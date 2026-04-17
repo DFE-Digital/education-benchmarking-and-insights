@@ -14,7 +14,7 @@ public class StatisticalNeighboursSteps(LocalAuthorityApiDriver api)
     private const string DetailsFolder = "StatisticalNeighbours";
 
 
-    [Given("a get request for local authority statistical neighbours with code '(.*)'")]
+    [Given(@"^a get request for local authority statistical neighbours with code '([^']*)'$")]
     public void GivenAGetRequestForLocalAuthorityStatisticalNeighboursWithCode(string code)
     {
         api.CreateRequest(Key, new HttpRequestMessage
@@ -24,7 +24,7 @@ public class StatisticalNeighboursSteps(LocalAuthorityApiDriver api)
         });
     }
 
-    [Given("a get request for local authority statistical neighbours with code '(.*)' and api version '(.*)'")]
+    [Given(@"^a get request for local authority statistical neighbours with code '([^']*)' and api version '([^']*)'$")]
     public void GivenAGetRequestForLocalAuthorityStatisticalNeighboursWithCodeAndApiVersion(string code, string version)
     {
         var request = new HttpRequestMessage
@@ -68,5 +68,19 @@ public class StatisticalNeighboursSteps(LocalAuthorityApiDriver api)
     {
         var response = api[Key].Response;
         AssertHttpResponse.IsBadRequest(response);
+    }
+
+    [Then("the result should be bad request and match the expected output of '(.*)'")]
+    public async Task ThenTheResultShouldBeBadRequestAndMatchTheExpectedOutputOf(string testFile)
+    {
+        var response = api[Key].Response;
+        AssertHttpResponse.IsBadRequest(response);
+
+        var content = await response.Content.ReadAsStringAsync();
+        var actual = JObject.Parse(content);
+
+        var expected = TestDataProvider.GetJsonObjectData(testFile, RouteFolder, DetailsFolder);
+
+        actual.AssertDeepEquals(expected);
     }
 }
