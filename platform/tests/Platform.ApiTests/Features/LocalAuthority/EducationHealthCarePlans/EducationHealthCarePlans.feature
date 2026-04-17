@@ -56,3 +56,10 @@ Feature: Local Authority Education Health Care Plans
           | willNotBeFound |
         When I submit the request
         Then the history result should be not found
+
+    Scenario: Sending an education health care plans request for an invalid local authority returns empty
+        Given a request with dimension 'Actuals' and LA codes:
+          | Code           |
+          | willNotBeFound |
+        When I submit the request
+        Then the result should be ok and match the expected output of 'EchpInvalidLa.json'
