@@ -1,4 +1,4 @@
-Feature: Local Authority Accounts High Needs
+Feature: Local Authority Accounts - High Needs
 
     Scenario: valid high needs history request returns the expected budget and outturn values
         Given a valid history request with dimension '<Dimension>' and LA codes:
@@ -23,6 +23,13 @@ Feature: Local Authority Accounts High Needs
       | no codes           | LaHighNeedsHistoryEmptyCodes.json       |
       | more than 30 codes | LaHighNeedsHistoryTooManyCodes.json     |
       | invalid dimension  | LaHighNeedsHistoryInvalidDimension.json |
+
+    Scenario: Sending a high needs history request for an invalid local authority returns not found
+        Given a valid history request with dimension 'Actuals' and LA codes:
+          | Code |
+          | 000  |
+        When I submit the request
+        Then the history result should be not found
 
     Scenario: Sending a valid high needs request returns the expected budget and outturn values
         Given a valid request with dimension '<Dimension>' and LA codes:

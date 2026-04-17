@@ -6,7 +6,7 @@ using Platform.ApiTests.TestDataHelpers;
 namespace Platform.ApiTests.Steps.LocalAuthority;
 
 [Binding]
-[Scope(Feature = "Local Authority Accounts High Needs")]
+[Scope(Feature = "Local Authority Accounts - High Needs")]
 public class AccountsHighNeedsSteps(LocalAuthorityApiDriver api)
 {
     private const string Key = "high-needs";
@@ -120,6 +120,13 @@ public class AccountsHighNeedsSteps(LocalAuthorityApiDriver api)
         var expected = TestDataProvider.GetJsonObjectData(testFile, RouteFolder, AccountsFolder, HighNeedsFolder);
 
         actual.AssertDeepEquals(expected);
+    }
+
+    [Then("the history result should be not found")]
+    public void ThenTheHistoryResultShouldBeNotFound()
+    {
+        var response = api[HistoryKey].Response;
+        AssertHttpResponse.IsNotFound(response);
     }
 
     [Then("the result should be bad request and match the expected output in '(.*)'")]
