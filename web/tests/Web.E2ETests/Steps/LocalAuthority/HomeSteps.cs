@@ -182,7 +182,7 @@ public class HomeSteps(PageDriver driver)
         Assert.NotNull(_localAuthorityHomePage);
         await _localAuthorityHomePage.ClickWorkforceApplyFilters();
     }
-    
+
     [When("I click on benchmark education health and care plans")]
     public async Task WhenIClickOnBenchamarkEducationHealthAndCarePlans()
     {

@@ -22,7 +22,7 @@ public class HomePage(IPage page)
     {
         HasText = "Benchmark high needs"
     });
-    
+
     private ILocator BenchmarkEhcpLink => page.Locator(Selectors.GovLink, new PageLocatorOptions
     {
         HasText = "Benchmark education, health and care plans"
@@ -228,7 +228,7 @@ public class HomePage(IPage page)
         await WorkforceApplyFilters.ShouldBeVisible();
         await WorkforceApplyFilters.Click();
     }
-    
+
     public async Task<ChooseLocalAuthoritiesToComparePage> ClickBenchmarkEhcp()
     {
         await BenchmarkEhcpLink.Click();
