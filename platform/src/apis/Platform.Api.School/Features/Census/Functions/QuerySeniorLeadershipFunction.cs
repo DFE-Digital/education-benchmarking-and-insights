@@ -18,7 +18,7 @@ public class QuerySeniorLeadershipFunction(IEnumerable<IQuerySeniorLeadershipHan
 {
     [Function(nameof(QuerySeniorLeadershipFunction))]
     [OpenApiSecurityHeader]
-    [OpenApiOperation(nameof(QuerySeniorLeadershipFunction), Constants.Features.Census, Summary = "Query Senior Leadership", Description = "Query Senior Leadership.")]
+    [OpenApiOperation(nameof(QuerySeniorLeadershipFunction), Constants.Features.Census, Summary = "Query senior leadership census data", Description = "Returns senior leadership workforce data for a specific collection of schools based on URNs.")]
     [OpenApiUrnsParameter(Required = true)]
     [OpenApiDimensionParameter(Required = false, Example = typeof(OpenApiExamples.SeniorLeadershipDimension))]
     [OpenApiResponseWithBody(HttpStatusCode.OK, ContentType.ApplicationJson, typeof(CensusResponse[]))]

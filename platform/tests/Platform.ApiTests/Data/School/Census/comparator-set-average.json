@@ -1,0 +1,17 @@
+{
+  "startYear": 2018,
+  "endYear": 2022,
+  "rows": [
+    {
+      "year": 2022,
+      "totalPupils": 310.733333,
+      "workforce": 43.866666,
+      "workforceHeadcount": 53.233333,
+      "teachers": 128.166666,
+      "seniorLeadership": 21.733333,
+      "teachingAssistant": 1.033333,
+      "auxiliaryStaff": 3.833333,
+      "percentTeacherWithQualifiedStatus": 1.1
+    }
+  ]
+}

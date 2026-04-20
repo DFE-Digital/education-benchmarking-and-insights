@@ -17,7 +17,7 @@ public class GetFunction(IEnumerable<IGetHandler> handlers) : VersionedFunctionB
 {
     [Function(nameof(GetFunction))]
     [OpenApiSecurityHeader]
-    [OpenApiOperation(nameof(GetFunction), Constants.Features.Census, Summary = "Get", Description = "Get.")]
+    [OpenApiOperation(nameof(GetFunction), Constants.Features.Census, Summary = "Get school census data", Description = "Returns detailed census and workforce data for a specific school.")]
     [OpenApiUrnParameter]
     [OpenApiResponseWithBody(HttpStatusCode.OK, ContentType.ApplicationJson, typeof(CensusResponse))]
     [OpenApiResponseWithBody(HttpStatusCode.BadRequest, ContentType.ApplicationJsonProblem, typeof(ProblemDetails))]

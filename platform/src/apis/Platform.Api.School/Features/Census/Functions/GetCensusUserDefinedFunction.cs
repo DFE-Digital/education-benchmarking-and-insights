@@ -18,7 +18,7 @@ public class GetCensusUserDefinedFunction(IEnumerable<IGetUserDefinedHandler> ha
 {
     [Function(nameof(GetCensusUserDefinedFunction))]
     [OpenApiSecurityHeader]
-    [OpenApiOperation(nameof(GetCensusUserDefinedFunction), Constants.Features.Census, Summary = "Get Census User Defined", Description = "Get Census User Defined.")]
+    [OpenApiOperation(nameof(GetCensusUserDefinedFunction), Constants.Features.Census, Summary = "Get census data for a user-defined comparator set", Description = "Returns average census and workforce data for a user-defined custom comparator set.")]
     [OpenApiUrnParameter]
     [OpenApiIdentifierParameter]
     [OpenApiCategoryParameter(Required = false, Example = typeof(OpenApiExamples.Category))]

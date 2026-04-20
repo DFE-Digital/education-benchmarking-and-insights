@@ -18,7 +18,7 @@ public class GetComparatorSetAverageHistoryFunction(IEnumerable<IGetComparatorSe
 {
     [Function(nameof(GetComparatorSetAverageHistoryFunction))]
     [OpenApiSecurityHeader]
-    [OpenApiOperation(nameof(GetComparatorSetAverageHistoryFunction), Constants.Features.Census, Summary = "Get Comparator Set Average History", Description = "Get Comparator Set Average History.")]
+    [OpenApiOperation(nameof(GetComparatorSetAverageHistoryFunction), Constants.Features.Census, Summary = "Get school census comparator set average history", Description = "Returns historical average census and workforce data for a school's statistical comparator set.")]
     [OpenApiUrnParameter]
     [OpenApiDimensionParameter(Required = true, Example = typeof(OpenApiExamples.Dimension))]
     [OpenApiResponseWithBody(HttpStatusCode.OK, ContentType.ApplicationJson, typeof(CensusHistoryResponse))]

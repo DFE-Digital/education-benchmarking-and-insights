@@ -18,7 +18,7 @@ public class GetNationalAverageHistoryFunction(IEnumerable<IGetNationalAverageHi
 {
     [Function(nameof(GetNationalAverageHistoryFunction))]
     [OpenApiSecurityHeader]
-    [OpenApiOperation(nameof(GetNationalAverageHistoryFunction), Constants.Features.Census, Summary = "Get National Average History", Description = "Get National Average History.")]
+    [OpenApiOperation(nameof(GetNationalAverageHistoryFunction), Constants.Features.Census, Summary = "Get school census national average history", Description = "Returns historical national average census and workforce data for schools, filtered by finance type and phase.")]
     [OpenApiDimensionParameter(Required = true, Example = typeof(OpenApiExamples.Dimension))]
     [OpenApiPhaseParameter(Required = true, Example = typeof(OpenApiExamples.Phase))]
     [OpenApiFinanceTypeParameter(Required = true, Example = typeof(OpenApiExamples.FinanceTypes))]

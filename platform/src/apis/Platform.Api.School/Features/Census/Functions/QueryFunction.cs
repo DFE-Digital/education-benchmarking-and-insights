@@ -19,7 +19,7 @@ public class QueryFunction(IEnumerable<IQueryHandler> handlers) : VersionedFunct
     //TODO: Consider separate end points for Trust and LA (i.e. census/trust/{id}/schools)
     [Function(nameof(QueryFunction))]
     [OpenApiSecurityHeader]
-    [OpenApiOperation(nameof(QueryFunction), Constants.Features.Census, Summary = "Query", Description = "Query.")]
+    [OpenApiOperation(nameof(QueryFunction), Constants.Features.Census, Summary = "Query census data across multiple schools", Description = "Returns census and workforce data for a collection of schools based on URNs, Local Authority code, or Company Number.")]
     [OpenApiUrnsParameter]
     [OpenApiPhaseParameter(Example = typeof(OpenApiExamples.Phase))]
     [OpenApiCompanyNumberParameter]

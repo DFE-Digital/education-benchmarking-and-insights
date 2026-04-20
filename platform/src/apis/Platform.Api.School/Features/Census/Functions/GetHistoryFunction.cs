@@ -18,7 +18,7 @@ public class GetHistoryFunction(IEnumerable<IGetHistoryHandler> handlers) : Vers
 {
     [Function(nameof(GetHistoryFunction))]
     [OpenApiSecurityHeader]
-    [OpenApiOperation(nameof(GetHistoryFunction), Constants.Features.Census, Summary = "Get History", Description = "Get History.")]
+    [OpenApiOperation(nameof(GetHistoryFunction), Constants.Features.Census, Summary = "Get school census history", Description = "Returns a historical time-series of census and workforce data for a specific school.")]
     [OpenApiUrnParameter]
     [OpenApiDimensionParameter(Required = true, Example = typeof(OpenApiExamples.Dimension))]
     [OpenApiResponseWithBody(HttpStatusCode.OK, ContentType.ApplicationJson, typeof(CensusHistoryResponse))]

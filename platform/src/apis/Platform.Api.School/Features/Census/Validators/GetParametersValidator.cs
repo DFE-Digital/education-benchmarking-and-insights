@@ -12,11 +12,11 @@ public class GetParametersValidator : AbstractValidator<GetParameters>
     {
         RuleFor(x => x.Category)
             .Must(BeAnEmptyOrValidCategory)
-            .WithMessage($"'{{PropertyName}}' is not a recognized category. Valid values are: {string.Join(", ", Categories.Census.All)}");
+            .WithMessage($"'{{PropertyName}}' is not a recognized census category. Valid values are: {string.Join(", ", Categories.Census.All)}");
 
         RuleFor(x => x.Dimension)
             .Must(BeAValidDimension)
-            .WithMessage($"'{{PropertyName}}' is not a recognized dimension. Valid values are: {string.Join(", ", Dimensions.Census.All)}");
+            .WithMessage($"'{{PropertyName}}' is not a recognized census dimension. Valid values are: {string.Join(", ", Dimensions.Census.All)}");
     }
 
     private static bool BeAnEmptyOrValidCategory(string? category) => string.IsNullOrWhiteSpace(category) || Categories.Census.IsValid(category);
