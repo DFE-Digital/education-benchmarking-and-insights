@@ -18,7 +18,7 @@ public class QueryItSpendingFunction(IEnumerable<IQueryItSpendingHandler> handle
 {
     [Function(nameof(QueryItSpendingFunction))]
     [OpenApiSecurityHeader]
-    [OpenApiOperation(nameof(QueryItSpendingFunction), Constants.Features.Accounts, Summary = "Query It Spending", Description = "Query It Spending.")]
+    [OpenApiOperation(nameof(QueryItSpendingFunction), Constants.Features.Accounts, Summary = "Query IT spending across schools", Description = "Returns Information and Communication Technology (ICT) expenditure for schools matching the query criteria.")]
     [OpenApiUrnsParameter]
     [OpenApiDimensionParameter(Example = typeof(OpenApiExamples.Dimension))]
     [OpenApiResponseWithBody(HttpStatusCode.OK, ContentType.ApplicationJson, typeof(ItSpendingResponse[]))]

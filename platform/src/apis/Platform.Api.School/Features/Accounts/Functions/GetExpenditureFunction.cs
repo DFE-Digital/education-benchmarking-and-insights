@@ -18,7 +18,7 @@ public class GetExpenditureFunction(IEnumerable<IGetExpenditureHandler> handlers
 {
     [Function(nameof(GetExpenditureFunction))]
     [OpenApiSecurityHeader]
-    [OpenApiOperation(nameof(GetExpenditureFunction), Constants.Features.Accounts, Summary = "Get Expenditure", Description = "Get Expenditure.")]
+    [OpenApiOperation(nameof(GetExpenditureFunction), Constants.Features.Accounts, Summary = "Get school expenditure data", Description = "Returns detailed expenditure data for a specific school, optionally filtered by category.")]
     [OpenApiUrnParameter]
     [OpenApiCategoryParameter(Example = typeof(OpenApiExamples.Category))]
     [OpenApiDimensionParameter(Example = typeof(OpenApiExamples.Dimension))]

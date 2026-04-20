@@ -18,7 +18,7 @@ public class GetExpenditureNationalAverageHistoryFunction(IEnumerable<IGetExpend
 {
     [Function(nameof(GetExpenditureNationalAverageHistoryFunction))]
     [OpenApiSecurityHeader]
-    [OpenApiOperation(nameof(GetExpenditureNationalAverageHistoryFunction), Constants.Features.Accounts, Summary = "Get Expenditure National Average History", Description = "Get Expenditure National Average History.")]
+    [OpenApiOperation(nameof(GetExpenditureNationalAverageHistoryFunction), Constants.Features.Accounts, Summary = "Get school expenditure national average history", Description = "Returns historical national average expenditure for schools, filtered by finance type and phase.")]
     [OpenApiDimensionParameter(Required = true, Example = typeof(OpenApiExamples.Dimension))]
     [OpenApiPhaseParameter(Required = true, Example = typeof(OpenApiExamples.Phase))]
     [OpenApiFinanceTypeParameter(Required = true, Example = typeof(OpenApiExamples.FinanceTypes))]

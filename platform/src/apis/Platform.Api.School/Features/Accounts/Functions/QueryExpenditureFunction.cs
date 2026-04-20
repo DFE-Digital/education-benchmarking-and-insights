@@ -18,7 +18,7 @@ public class QueryExpenditureFunction(IEnumerable<IQueryExpenditureHandler> hand
 {
     [Function(nameof(QueryExpenditureFunction))]
     [OpenApiSecurityHeader]
-    [OpenApiOperation(nameof(QueryExpenditureFunction), Constants.Features.Accounts, Summary = "Query Expenditure", Description = "Query Expenditure.")]
+    [OpenApiOperation(nameof(QueryExpenditureFunction), Constants.Features.Accounts, Summary = "Query expenditure across multiple schools", Description = "Returns expenditure data for a collection of schools based on URNs, Local Authority code, or Company Number.")]
     [OpenApiUrnsParameter]
     [OpenApiPhaseParameter(Example = typeof(OpenApiExamples.Phase))]
     [OpenApiCompanyNumberParameter]

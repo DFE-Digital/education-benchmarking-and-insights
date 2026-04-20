@@ -18,7 +18,7 @@ public class GetExpenditureUserDefinedFunction(IEnumerable<IGetExpenditureUserDe
 {
     [Function(nameof(GetExpenditureUserDefinedFunction))]
     [OpenApiSecurityHeader]
-    [OpenApiOperation(nameof(GetExpenditureUserDefinedFunction), Constants.Features.Accounts, Summary = "Get Expenditure User Defined", Description = "Get Expenditure User Defined.")]
+    [OpenApiOperation(nameof(GetExpenditureUserDefinedFunction), Constants.Features.Accounts, Summary = "Get expenditure for user-defined comparator set", Description = "Returns average expenditure for a user-defined set of schools (custom comparator set).")]
     [OpenApiUrnParameter]
     [OpenApiIdentifierParameter]
     [OpenApiCategoryParameter(Example = typeof(OpenApiExamples.Category))]

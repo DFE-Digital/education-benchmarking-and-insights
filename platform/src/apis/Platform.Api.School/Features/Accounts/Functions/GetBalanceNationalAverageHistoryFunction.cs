@@ -17,7 +17,7 @@ public class GetBalanceNationalAverageHistoryFunction(IEnumerable<IGetBalanceNat
 {
     [Function(nameof(GetBalanceNationalAverageHistoryFunction))]
     [OpenApiSecurityHeader]
-    [OpenApiOperation(nameof(GetBalanceNationalAverageHistoryFunction), Constants.Features.Accounts, Summary = "Get Balance National Average History", Description = "Get Balance National Average History.")]
+    [OpenApiOperation(nameof(GetBalanceNationalAverageHistoryFunction), Constants.Features.Accounts, Summary = "Get school balance national average history", Description = "Returns historical national average in-year and revenue reserve balances for schools, filtered by finance type and phase.")]
     [OpenApiDimensionParameter(Required = true, Example = typeof(OpenApiExamples.Dimension))]
     [OpenApiPhaseParameter(Required = true, Example = typeof(OpenApiExamples.Phase))]
     [OpenApiFinanceTypeParameter(Required = true, Example = typeof(OpenApiExamples.FinanceTypes))]

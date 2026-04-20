@@ -17,7 +17,7 @@ public class GetIncomeFunction(IEnumerable<IGetIncomeHandler> handlers) : Versio
 {
     [Function(nameof(GetIncomeFunction))]
     [OpenApiSecurityHeader]
-    [OpenApiOperation(nameof(GetIncomeFunction), Constants.Features.Accounts, Summary = "Get Income", Description = "Get Income.")]
+    [OpenApiOperation(nameof(GetIncomeFunction), Constants.Features.Accounts, Summary = "Get school income data", Description = "Returns detailed income data for a specific school.")]
     [OpenApiUrnParameter]
     [OpenApiResponseWithBody(HttpStatusCode.OK, ContentType.ApplicationJson, typeof(IncomeResponse))]
     [OpenApiResponseWithBody(HttpStatusCode.BadRequest, ContentType.ApplicationJsonProblem, typeof(ProblemDetails))]

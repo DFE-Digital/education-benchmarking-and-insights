@@ -18,7 +18,7 @@ public class GetIncomeHistoryFunction(IEnumerable<IGetIncomeHistoryHandler> hand
 {
     [Function(nameof(GetIncomeHistoryFunction))]
     [OpenApiSecurityHeader]
-    [OpenApiOperation(nameof(GetIncomeHistoryFunction), Constants.Features.Accounts, Summary = "Get Income History", Description = "Get Income History.")]
+    [OpenApiOperation(nameof(GetIncomeHistoryFunction), Constants.Features.Accounts, Summary = "Get school income history", Description = "Returns a historical time-series of income for a specific school.")]
     [OpenApiUrnParameter]
     [OpenApiDimensionParameter(Required = true, Example = typeof(OpenApiExamples.Dimension))]
     [OpenApiResponseWithBody(HttpStatusCode.OK, ContentType.ApplicationJson, typeof(IncomeHistoryResponse))]

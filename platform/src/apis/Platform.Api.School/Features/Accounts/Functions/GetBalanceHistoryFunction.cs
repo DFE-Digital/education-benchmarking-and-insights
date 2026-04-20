@@ -19,7 +19,7 @@ public class GetBalanceHistoryFunction(IEnumerable<IGetBalanceHistoryHandler> ha
     //TODO: Consider adding validation for parameters
     [Function(nameof(GetBalanceHistoryFunction))]
     [OpenApiSecurityHeader]
-    [OpenApiOperation(nameof(GetBalanceHistoryFunction), Constants.Features.Accounts, Summary = "Get Balance History", Description = "Get Balance History.")]
+    [OpenApiOperation(nameof(GetBalanceHistoryFunction), Constants.Features.Accounts, Summary = "Get school balance history", Description = "Returns a historical time-series of in-year and revenue reserve balances for a specific school.")]
     [OpenApiUrnParameter]
     [OpenApiDimensionParameter(Example = typeof(OpenApiExamples.Dimension))]
     [OpenApiResponseWithBody(HttpStatusCode.OK, ContentType.ApplicationJson, typeof(BalanceHistoryResponse))]

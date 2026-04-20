@@ -18,7 +18,7 @@ public class GetExpenditureComparatorSetAverageHistoryFunction(IEnumerable<IGetE
 {
     [Function(nameof(GetExpenditureComparatorSetAverageHistoryFunction))]
     [OpenApiSecurityHeader]
-    [OpenApiOperation(nameof(GetExpenditureComparatorSetAverageHistoryFunction), Constants.Features.Accounts, Summary = "Get Expenditure Comparator Set Average History", Description = "Get Expenditure Comparator Set Average History.")]
+    [OpenApiOperation(nameof(GetExpenditureComparatorSetAverageHistoryFunction), Constants.Features.Accounts, Summary = "Get school expenditure comparator set average history", Description = "Returns historical average expenditure for a school's statistical comparator set.")]
     [OpenApiUrnParameter]
     [OpenApiDimensionParameter(Required = true, Example = typeof(OpenApiExamples.Dimension))]
     [OpenApiResponseWithBody(HttpStatusCode.OK, ContentType.ApplicationJson, typeof(ExpenditureHistoryResponse))]

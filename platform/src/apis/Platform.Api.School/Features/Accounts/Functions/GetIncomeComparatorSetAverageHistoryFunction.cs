@@ -18,7 +18,7 @@ public class GetIncomeComparatorSetAverageHistoryFunction(IEnumerable<IGetIncome
 {
     [Function(nameof(GetIncomeComparatorSetAverageHistoryFunction))]
     [OpenApiSecurityHeader]
-    [OpenApiOperation(nameof(GetIncomeComparatorSetAverageHistoryFunction), Constants.Features.Accounts, Summary = "Get Income Comparator Set Average History", Description = "Get Income Comparator Set Average History.")]
+    [OpenApiOperation(nameof(GetIncomeComparatorSetAverageHistoryFunction), Constants.Features.Accounts, Summary = "Get school income comparator set average history", Description = "Returns historical average income for a school's statistical comparator set.")]
     [OpenApiUrnParameter]
     [OpenApiDimensionParameter(Required = true, Example = typeof(OpenApiExamples.Dimension))]
     [OpenApiResponseWithBody(HttpStatusCode.OK, ContentType.ApplicationJson, typeof(IncomeHistoryResponse))]

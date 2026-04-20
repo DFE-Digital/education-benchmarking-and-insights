@@ -18,7 +18,7 @@ public class GetExpenditureHistoryFunction(IEnumerable<IGetExpenditureHistoryHan
 {
     [Function(nameof(GetExpenditureHistoryFunction))]
     [OpenApiSecurityHeader]
-    [OpenApiOperation(nameof(GetExpenditureHistoryFunction), Constants.Features.Accounts, Summary = "Get Expenditure History", Description = "Get Expenditure History.")]
+    [OpenApiOperation(nameof(GetExpenditureHistoryFunction), Constants.Features.Accounts, Summary = "Get school expenditure history", Description = "Returns a historical time-series of expenditure for a specific school.")]
     [OpenApiUrnParameter]
     [OpenApiDimensionParameter(Required = true, Example = typeof(OpenApiExamples.Dimension))]
     [OpenApiResponseWithBody(HttpStatusCode.OK, ContentType.ApplicationJson, typeof(ExpenditureHistoryResponse))]

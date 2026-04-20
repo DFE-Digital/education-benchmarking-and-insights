@@ -12,11 +12,11 @@ public class ExpenditureNationalAvgParametersValidator : AbstractValidator<Expen
     {
         RuleFor(x => x.Dimension)
             .Must(BeAValidDimension)
-            .WithMessage($"'{{PropertyName}}' is not a recognized dimension. Valid values are: {string.Join(", ", Dimensions.Finance.All)}");
+            .WithMessage($"'{{PropertyName}}' is not a recognized finance dimension. Valid values are: {string.Join(", ", Dimensions.Finance.All)}");
 
         RuleFor(x => x.OverallPhase)
             .Must(BeAValidPhase)
-            .WithMessage($"'{{PropertyName}}' is not a recognized phase. Valid values are: {string.Join(", ", OverallPhase.All)}");
+            .WithMessage($"'{{PropertyName}}' is not a recognized school phase. Valid values are: {string.Join(", ", OverallPhase.All)}");
 
         RuleFor(x => x.FinanceType)
             .Must(BeAValidFinanceType)

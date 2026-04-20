@@ -17,7 +17,7 @@ public class GetBalanceFunction(IEnumerable<IGetBalanceHandler> handlers) : Vers
 {
     [Function(nameof(GetBalanceFunction))]
     [OpenApiSecurityHeader]
-    [OpenApiOperation(nameof(GetBalanceFunction), Constants.Features.Accounts, Summary = "Get Balance", Description = "Get Balance.")]
+    [OpenApiOperation(nameof(GetBalanceFunction), Constants.Features.Accounts, Summary = "Get school balance data", Description = "Returns the in-year and revenue reserve balance for a specific school.")]
     [OpenApiUrnParameter]
     [OpenApiResponseWithBody(HttpStatusCode.OK, ContentType.ApplicationJson, typeof(BalanceResponse))]
     [OpenApiResponseWithBody(HttpStatusCode.BadRequest, ContentType.ApplicationJsonProblem, typeof(ProblemDetails))]

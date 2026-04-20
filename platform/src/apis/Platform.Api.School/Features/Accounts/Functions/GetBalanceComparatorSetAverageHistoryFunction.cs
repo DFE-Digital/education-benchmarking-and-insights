@@ -18,7 +18,7 @@ public class GetBalanceComparatorSetAverageHistoryFunction(IEnumerable<IGetBalan
 {
     [Function(nameof(GetBalanceComparatorSetAverageHistoryFunction))]
     [OpenApiSecurityHeader]
-    [OpenApiOperation(nameof(GetBalanceComparatorSetAverageHistoryFunction), Constants.Features.Accounts, Summary = "Get Balance Comparator Set Average History", Description = "Get Balance Comparator Set Average History.")]
+    [OpenApiOperation(nameof(GetBalanceComparatorSetAverageHistoryFunction), Constants.Features.Accounts, Summary = "Get school balance comparator set average history", Description = "Returns historical average in-year and revenue reserve balances for a school's statistical comparator set.")]
     [OpenApiUrnParameter]
     [OpenApiDimensionParameter(Required = true, Example = typeof(OpenApiExamples.Dimension))]
     [OpenApiResponseWithBody(HttpStatusCode.OK, ContentType.ApplicationJson, typeof(BalanceHistoryResponse))]

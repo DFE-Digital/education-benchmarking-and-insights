@@ -12,7 +12,7 @@ public class IncomeParametersValidator : AbstractValidator<IncomeParameters>
     {
         RuleFor(x => x.Dimension)
             .Must(BeAValidDimension)
-            .WithMessage($"'{{PropertyName}}' is not a recognized dimension. Valid values are: {string.Join(", ", Dimensions.Finance.All)}");
+            .WithMessage($"'{{PropertyName}}' is not a recognized finance dimension. Valid values are: {string.Join(", ", Dimensions.Finance.All)}");
     }
 
     private static bool BeAValidDimension(string? dimension) => Dimensions.Finance.IsValid(dimension);

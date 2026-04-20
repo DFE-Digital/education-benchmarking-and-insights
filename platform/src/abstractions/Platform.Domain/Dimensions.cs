@@ -47,8 +47,11 @@ public static class Dimensions
 
     public static class HighNeeds
     {
+        /// <summary>Absolute monetary values in pounds.</summary>
         public const string Actuals = nameof(Actuals);
+        /// <summary>Monetary values calculated per head of population.</summary>
         public const string PerHead = nameof(PerHead);
+        /// <summary>Monetary values calculated per pupil.</summary>
         public const string PerPupil = nameof(PerPupil);
 
         public static readonly string[] All =
@@ -63,8 +66,11 @@ public static class Dimensions
 
     public static class EducationHealthCarePlans
     {
+        /// <summary>Absolute monetary values in pounds.</summary>
         public const string Actuals = nameof(Actuals);
+        /// <summary>Values expressed per 1,000 of the relevant population.</summary>
         public const string Per1000 = nameof(Per1000);
+        /// <summary>Values expressed per 1,000 pupils.</summary>
         public const string Per1000Pupil = nameof(Per1000Pupil);
 
         public static readonly string[] All =
@@ -79,7 +85,9 @@ public static class Dimensions
 
     public static class SchoolsSummaryWorkforce
     {
+        /// <summary>Absolute monetary values in pounds.</summary>
         public const string Actuals = nameof(Actuals);
+        /// <summary>Values expressed as a percentage relative to pupil numbers.</summary>
         public const string PercentPupil = nameof(PercentPupil);
 
         public static readonly string[] All =
