@@ -17,7 +17,7 @@
     Scenario: Go to High needs benchmarking data page
         Given I am on local authority homepage for local authority with code '204'
         When I click on benchmark high needs
-        Then the High needs benchmarking page is displayed
+        Then the Choose local authorties to compare page is displayed
 
     Scenario: Go to High needs history page
         Given I am on local authority homepage for local authority with code '204'
@@ -76,3 +76,9 @@
         Then I should see the following table data in workforce tab
           | School name     | Pupils | Pupil:teacher ratio | EHC plan (%) | SEN support (%) |
           | Test school 237 | 225    | 1.89                | 1.8%         | 5.3%            |
+          
+    @HighNeedsBenchmarkingFlagEnabled
+    Scenario: Go to bechmark education, health and care plan page
+        Given I am on local authority homepage for local authority with code '202'
+        When I click on benchmark education health and care plans
+        Then the Choose local authorties to compare page is displayed

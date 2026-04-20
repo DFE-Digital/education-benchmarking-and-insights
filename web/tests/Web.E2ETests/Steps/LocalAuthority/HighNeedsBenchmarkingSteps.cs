@@ -9,7 +9,7 @@ namespace Web.E2ETests.Steps.LocalAuthority;
 public class HighNeedsBenchmarkingSteps(PageDriver driver)
 {
     private HighNeedsBenchmarkingPage? _highNeedsBenchmarkingPage;
-    private HighNeedsStartBenchmarkingPage? _highNeedsStartBenchmarkingPage;
+    private ChooseLocalAuthoritiesToComparePage? _highNeedsStartBenchmarkingPage;
 
     [Given("I am on local authority high needs start benchmarking for local authority with code '(.*)'")]
     public async Task GivenIAmOnLocalAuthorityHighNeedsStartBenchmarkingForLocalAuthorityWithCode(string laCode)
@@ -18,7 +18,7 @@ public class HighNeedsBenchmarkingSteps(PageDriver driver)
         var page = await driver.Current;
         await page.GotoAndWaitForLoadAsync(url);
 
-        _highNeedsStartBenchmarkingPage = new HighNeedsStartBenchmarkingPage(page);
+        _highNeedsStartBenchmarkingPage = new ChooseLocalAuthoritiesToComparePage(page);
         await _highNeedsStartBenchmarkingPage.IsDisplayed();
     }
 
