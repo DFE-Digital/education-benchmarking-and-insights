@@ -10,6 +10,24 @@ There is capability to report user interactions based on visited school pages wi
 
 ### Get started
 
+The monthly MI report is currently created in an Excel workbook, which queries both the FBIT Log Analytics Workspace sp19801-ebis-aiw and the FBIT production database sp198p01-sql, both on the DfE Microsoft Azure workspace.
+
+Before refreshing the report, you need to activate access to the production server and update the firewall rules to allow your current IP address, or else the queries will be blocked. Note that there are different pages with the same names. Follow the sequence below to avoid getting lost.
+
+To do this
+
+1. Log in to the Azure workspace and navigate to the Microsoft Entra Privileged Identity Management page.
+2. On the menu on the left, under "Tasks", click on "my roles"  - you should now be at Home > Privileged Identity Management > My roles. (Do *not* click on "Azure resources" under "Manage", this will take you to the wrong page).
+3. On the menu on the left, click on "Azure resources" under "Activate" - you should now be at Home > Privileged Identity Management > My roles > My roles.
+4. Under "Eligible assignments", click the "Activate" link to the right hand side of the screen, for row where the "Resource" value is "s198-dfebenchmarkingservice-production".
+5. Enter an expiry timeframe (e.g. 8 hours) and a reason for access (e.g. "To update FBIT monthly MI report for [relevant month]")
+6. Wait for email confirmation that the access has been approved.
+7. Go back to the Azure home page and navigate to the sql server s198p01-sql
+8. Click on "networking" in the side bar.
+9. If you have not previously done so, then create a new Firewall rule with a name specific to you which has your current IP address in the "Start IPv4 address" and "End IPv4 address" fields. You can find your current IP address displayed above the rules. If you have previously created a rule, then check and update the two IP address fields to your current IP address. Then click "Save".
+
+Now you can go on to update the report.
+
 1. Locate the [FBIT Report TEMPLATE.xlsx](https://educationgovuk.sharepoint.com/:x:/r/sites/DfEFinancialBenchmarking/Shared%20Documents/FBIT%20Product/Analytics/FBIT%20Report%20TEMPLATE.xlsx?d=wa14a57315df54d14b49a90969d898a9e&csf=1&web=1&e=EvhFNn) file found in this [DfE Sharepoint Location](https://educationgovuk.sharepoint.com/:f:/r/sites/DfEFinancialBenchmarking/Shared%20Documents/FBIT%20Product/Analytics).
 2. Open the report with the `Open in app` option and not the browser option.
 3. In the `Data` Ribbon of excel, locate `Get Data` button, click on the drop down to select `Data Source Settings`.
@@ -18,6 +36,8 @@ There is capability to report user interactions based on visited school pages wi
     - _Use `organization account` for log analytics and `database` for Azure SQL connection_
 
     ![Data source settings](./images/monthly-data-source-settings.png)
+
+    If you have previously logged in to the log analytics server, it will show as active. But you will need to click "sign in as another user" and log back in, using Microsoft Authenticator, to refresh your credentials. You will not need to update the login to the SQL server.
 
 5. Upon successful credential log-in, still on the `Data` ribbon, locate and select the `Queries & Connections` button.
 6. Confirm the seven queries in the `Queries & Connections` view by the right hand side of excel work book.
@@ -56,7 +76,7 @@ The workbook's `CfpData` sheet is updated and loaded (overwrite) after a success
 
 1. In the `PivotTables` sheet of the workbook, refresh all four pivot tables.
 2. In the `Summary` sheet of the workbook, insert a row above `Total Unique Schools` of the School Engagement summary.
-3. Copy the values from `PivotTables` sheet into the relevant section in `Summary`
+3. Copy the values from `PivotTables` sheet into the relevant section in `Summary` (n.b. these are the row for the current month, and the "Total Unique Schools in period" - taken from the pivot table "Grand Total")
 
    > **NOTE:**
    >
@@ -75,11 +95,16 @@ The workbook's `CfpData` sheet is updated and loaded (overwrite) after a success
 
    ![Load SchoolFeatures](./images/monthly-load-school-features.png)
 
+   (n.b. this can also be achieved by selecting the current table cell range in the "Load to" dialogue)
+
 3. Repeat steps 16 and 17 to load `TrustFeatures`, `LAFeatures` and `SfpData` respectively.
 4. Copy the loaded data excluding headers and paste values to overwrite the respective existing summary report.
 5. Upon overwrite completion, delete the loaded data (columns H to J)
-6. Save the Excel workbook.
-7. Make a copy of the saved file and save to the same [DfE Sharepoint Location](https://educationgovuk.sharepoint.com/:f:/r/sites/DfEFinancialBenchmarking/Shared%20Documents/FBIT%20Product/Analytics).
+6. Manually update the bar chart next to the School Engagement table on the Summary tab by extending the data range and resizing.
+7. Manually update the time series chart underneath the School Engagement table by adding the figures from the Percentage row in teh School Engagement table to the AcquisitionOverTime sheet, extending the data range of the chart there, then copying and pasting that chart into the Summary sheet.
+8. Manually update the values of the CFP completion table on the Summary tab from the figures in the two relevant pivot tables on the PivotTables sheet.
+7. Save the Excel workbook.
+8. Make a copy of the saved file and save to the same [DfE Sharepoint Location](https://educationgovuk.sharepoint.com/:f:/r/sites/DfEFinancialBenchmarking/Shared%20Documents/FBIT%20Product/Analytics).
 
     - _Rename file to match `FBIT Report - yyyy-mm`, for instance, if reporting for the month of June in the year 2025, file name should be `FBIT Report - 2025-05`_
 
