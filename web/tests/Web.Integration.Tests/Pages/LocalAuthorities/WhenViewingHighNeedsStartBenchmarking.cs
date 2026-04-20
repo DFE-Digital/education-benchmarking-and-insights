@@ -401,7 +401,7 @@ public class WhenViewingHighNeedsStartBenchmarking(SchoolBenchmarkingWebAppClien
         DocumentAssert.Breadcrumbs(page, expectedBreadcrumbs);
 
         Assert.NotNull(authority.Name);
-        DocumentAssert.TitleAndH1(page, "Choose local authorities to compare high needs spending - Financial Benchmarking and Insights Tool - GOV.UK", "Choose local authorities to compare high needs spending");
+        DocumentAssert.TitleAndH1(page, "Choose local authorities to compare - Financial Benchmarking and Insights Tool - GOV.UK", "Choose local authorities to compare");
 
         var comparatorSelector = page.GetElementAndAssert("#LaInput", Assert.NotNull);
         var options = comparatorSelector.QuerySelectorAll("option").Select(q => q.TextContent).ToArray();
