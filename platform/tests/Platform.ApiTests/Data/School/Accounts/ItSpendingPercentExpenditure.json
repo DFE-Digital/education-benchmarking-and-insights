@@ -1,0 +1,17 @@
+[
+  {
+    "urn": "777042",
+    "schoolName": "Test school 102",
+    "schoolType": "Community school",
+    "laName": "Hammersmith and Fulham",
+    "periodCoveredByReturn": 12,
+    "totalPupils": 212.0,
+    "connectivity": 0.28483710228493414,
+    "onsiteServers": 0.16141399160672443,
+    "itLearningResources": 0.6786696009319422,
+    "administrationSoftwareAndSystems": 0.7047528923156986,
+    "laptopsDesktopsAndTablets": 1.5624143551347227,
+    "otherHardware": 1.1293939162927957,
+    "itSupport": 1.0033876777239241
+  }
+]

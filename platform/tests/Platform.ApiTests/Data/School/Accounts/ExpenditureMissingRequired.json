@@ -1,0 +1,10 @@
+{
+  "title": "Validation failed.",
+  "status": 400,
+  "instance": "/api/schools/accounts/expenditure",
+  "errors": {
+    "Urns": [
+      "Either a collection of URNs or one of CompanyNumber or LaCode must be specified"
+    ]
+  }
+}

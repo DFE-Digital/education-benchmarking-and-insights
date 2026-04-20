@@ -4,10 +4,10 @@ using Platform.ApiTests.Drivers;
 using Platform.ApiTests.TestDataHelpers;
 using Xunit;
 
-namespace Platform.ApiTests.Steps.School;
+namespace Platform.ApiTests.Steps.School.Accounts;
 
 [Binding]
-[Scope(Feature = "School Accounts History Trends")]
+[Scope(Feature = "School Accounts - History Trends")]
 public class AccountsHistoryTrendsSteps(SchoolApiDriver api)
 {
     private const string IncomeSetKey = "income-set-average";

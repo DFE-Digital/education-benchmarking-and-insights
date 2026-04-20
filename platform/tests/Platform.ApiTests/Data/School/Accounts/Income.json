@@ -1,0 +1,20 @@
+{
+  "urn": "777042",
+  "schoolName": "Test school 102",
+  "schoolType": "Community school",
+  "laName": "Hammersmith and Fulham",
+  "periodCoveredByReturn": 12,
+  "totalIncome": 1614419.0,
+  "totalGrantFunding": 1541886.0,
+  "totalSelfGeneratedFunding": 50961.0,
+  "directRevenueFinancing": 0.0,
+  "directGrants": 1274798.0,
+  "prePost16Funding": 1262883.0,
+  "otherDfeGrants": 11915.0,
+  "otherIncomeGrants": 0.0,
+  "communityGrants": 45045.0,
+  "incomeFacilitiesServices": 2071.0,
+  "incomeCatering": 8162.0,
+  "donationsVoluntaryFunds": 29065.0,
+  "receiptsSupplyTeacherInsuranceClaims": 0.0
+}

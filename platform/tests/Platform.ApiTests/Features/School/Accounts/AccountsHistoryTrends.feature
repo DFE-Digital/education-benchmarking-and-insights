@@ -1,4 +1,4 @@
-Feature: School Accounts History Trends
+Feature: School Accounts - History Trends
 
     Scenario: valid balance national average history request
         Given a balance national average history request with query parameters:

@@ -1,0 +1,10 @@
+{
+  "title": "Validation failed.",
+  "status": 400,
+  "instance": "/api/schools/accounts/expenditure",
+  "errors": {
+    "LaCode": [
+      "Either CompanyNumber or LaCode must be specified, not both"
+    ]
+  }
+}
