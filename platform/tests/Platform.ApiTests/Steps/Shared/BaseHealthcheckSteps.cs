@@ -6,7 +6,7 @@ namespace Platform.ApiTests.Steps.Shared;
 
 public abstract class BaseHealthcheckSteps(ApiDriver api)
 {
-    private const string RequestKey = "health-check";
+    protected const string RequestKey = "health-check";
 
     [Given("a valid request")]
     protected void CreateRequest()

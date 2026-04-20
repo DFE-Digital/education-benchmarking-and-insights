@@ -1,7 +1,7 @@
-Feature: School Healthcheck
+Feature: School HealthCheck
 
     @healthcheck
-    Scenario: Sending a valid healthcheck request
+    Scenario: Request health status successfully returns the health status
         Given a valid request
         When I submit the request
         Then the result should be 'Healthy'
