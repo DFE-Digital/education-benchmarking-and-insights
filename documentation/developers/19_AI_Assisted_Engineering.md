@@ -15,19 +15,28 @@ This repository includes custom **Gemini CLI Skills** to automate and standardiz
 
 Skills act as expert procedural guides for the AI agent, dictating exactly how it should perform complex or domain-specific tasks in the context of this monorepo.
 
-### Platform API Test Creator Skill
+### Platform API Testing Skills
 
-The `platform-api-test-creator` skill orchestrates the creation and update of functional API tests, ensuring 100% validation coverage and strict JSON assertions.
+We have separated the API test creation process into two distinct skills for better planning, review, and execution of functional API tests.
+
+#### 1. Platform API Test Planner (`platform-api-test-planner`)
+
+This skill is responsible for researching, evaluating, and planning functional tests for Platform API features. It outputs a formal test plan into the `documentation/quality-assurance/api-test-plans/` directory.
+
+#### 2. Platform API Test Implementer (`platform-api-test-implementer`)
+
+This skill executes the test plan. It creates or updates Gherkin feature files, step bindings, and JSON data files using strict assertions and a fail-first approach, subsequently logging the changes back to the test plan.
 
 #### Installation
 
-For new developers or after a fresh clone, install the skill into your local workspace:
+For new developers or after a fresh clone, install the skills into your local workspace:
 
 ```bash
-gemini skills install skills/platform-api-test-creator.skill --scope workspace
+gemini skills install skills/platform-api-test-planner.skill --scope workspace
+gemini skills install skills/platform-api-test-implementer.skill --scope workspace
 ```
 
-After installation, you must reload your interactive Gemini session to enable the skill:
+After installation, you must reload your interactive Gemini session to enable the skills:
 
 ```bash
 /skills reload
@@ -35,13 +44,15 @@ After installation, you must reload your interactive Gemini session to enable th
 
 #### Usage
 
-Trigger the skill by asking Gemini CLI to work on API tests or coverage. For example:
+First, ask Gemini CLI to research and create a test plan:
 
-- "Add functional tests for the Search feature in the School API"
-- "Update API test coverage for the LocalAuthority module"
-- "Improve functional tests for [Feature Name]"
+- "Plan API tests for the Search feature in the School API"
+- "Create a test plan for the LocalAuthority module API endpoints"
 
-The agent will automatically follow the project-specific workflow (Research -> Realignment -> JSON Assertion -> Run & Capture).
+Once the test plan is generated and reviewed, trigger the implementer:
+
+- "Implement the test plan for the Search feature"
+- "Execute the test plan we just created for the LocalAuthority module"
 
 ## Context Control (GEMINI.md)
 
