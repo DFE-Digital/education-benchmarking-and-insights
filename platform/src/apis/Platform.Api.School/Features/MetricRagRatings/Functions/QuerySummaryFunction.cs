@@ -17,7 +17,7 @@ namespace Platform.Api.School.Features.MetricRagRatings.Functions;
 public class QuerySummaryFunction(IEnumerable<IQuerySummaryHandler> handlers) : VersionedFunctionBase<IQuerySummaryHandler, BasicContext>(handlers)
 {
     [Function(nameof(QuerySummaryFunction))]
-    [OpenApiOperation(nameof(QuerySummaryFunction), Constants.Features.MetricRagRatings, Summary = "Query summary", Description = "Queries summarized metric RAG ratings")]
+    [OpenApiOperation(nameof(QuerySummaryFunction), Constants.Features.MetricRagRatings, Summary = "Query summarized metric RAG ratings", Description = "Returns a summarized view of Red-Amber-Green (RAG) ratings for specified schools, filtered by local authority, trust, or specific URNs.")]
     [OpenApiUrnsParameter(Required = false)]
     [OpenApiCompanyNumberParameter]
     [OpenApiLaCodeParameter]

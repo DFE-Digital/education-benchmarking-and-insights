@@ -10,11 +10,11 @@ public class SummaryParametersValidator : AbstractValidator<SummaryParameters>
     {
         RuleFor(x => x.OverallPhase)
             .Must(BeMissingOrAValidOverallPhase)
-            .WithMessage($"'{{PropertyName}}' is not a recognized overall phase. Valid values are: {string.Join(", ", OverallPhase.All)}");
+            .WithMessage($"'{{PropertyName}}' is not a recognized school overall phase. Valid values are: {string.Join(", ", OverallPhase.All)}");
 
         RuleFor(x => x)
             .Must(x => !string.IsNullOrWhiteSpace(x.LaCode) || !string.IsNullOrWhiteSpace(x.CompanyNumber) || x.Urns.Length > 0)
-            .WithMessage($"Either {nameof(SummaryParameters.LaCode)}, {nameof(SummaryParameters.Urns)}, or {nameof(SummaryParameters.CompanyNumber)} must be specified.");
+            .WithMessage($"To query summarized metric RAG ratings, at least one of the following must be provided: {nameof(SummaryParameters.LaCode)}, {nameof(SummaryParameters.Urns)}, or {nameof(SummaryParameters.CompanyNumber)}.");
     }
     private static bool BeMissingOrAValidOverallPhase(string? overallPhase) => string.IsNullOrWhiteSpace(overallPhase) || OverallPhase.IsValid(overallPhase);
 }

@@ -17,7 +17,7 @@ namespace Platform.Api.School.Features.MetricRagRatings.Functions;
 public class GetMetricRagRatingsUserDefinedFunction(IEnumerable<IGetUserDefinedHandler> handlers) : VersionedFunctionBase<IGetUserDefinedHandler, IdContext>(handlers)
 {
     [Function(nameof(GetMetricRagRatingsUserDefinedFunction))]
-    [OpenApiOperation(nameof(GetMetricRagRatingsUserDefinedFunction), Constants.Features.MetricRagRatings, Summary = "Get user defined metric RAG ratings", Description = "Gets metric RAG ratings based on a user defined identifier")]
+    [OpenApiOperation(nameof(GetMetricRagRatingsUserDefinedFunction), Constants.Features.MetricRagRatings, Summary = "Get user-defined metric RAG ratings", Description = "Returns detailed metric Red-Amber-Green (RAG) ratings for a custom set of schools defined by a user-provided identifier.")]
     [OpenApiIdentifierParameter]
     [OpenApiUseCustomDataParameter]
     [OpenApiSecurityHeader]

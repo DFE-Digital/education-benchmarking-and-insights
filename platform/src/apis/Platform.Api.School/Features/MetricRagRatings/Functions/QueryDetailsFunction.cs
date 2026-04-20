@@ -17,7 +17,7 @@ namespace Platform.Api.School.Features.MetricRagRatings.Functions;
 public class QueryDetailsFunction(IEnumerable<IQueryDetailsHandler> handlers) : VersionedFunctionBase<IQueryDetailsHandler, BasicContext>(handlers)
 {
     [Function(nameof(QueryDetailsFunction))]
-    [OpenApiOperation(nameof(QueryDetailsFunction), Constants.Features.MetricRagRatings, Summary = "Query details", Description = "Queries detailed metric RAG ratings")]
+    [OpenApiOperation(nameof(QueryDetailsFunction), Constants.Features.MetricRagRatings, Summary = "Query detailed metric RAG ratings", Description = "Returns a detailed breakdown of Red-Amber-Green (RAG) ratings for specific cost categories and RAG statuses across specified schools.")]
     [OpenApiUrnsParameter(Required = false)]
     [OpenApiCompanyNumberParameter]
     [OpenApiCategoriesParameter(Example = typeof(OpenApiExamples.CategoryCost))]
