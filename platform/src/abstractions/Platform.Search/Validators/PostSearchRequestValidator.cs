@@ -14,13 +14,15 @@ public class PostSearchRequestValidator : AbstractValidator<SearchRequest>
 
         RuleFor(x => x.OrderBy)
             .Must(orderBy => orderBy == null || Sort.IsValid(orderBy.Value))
-            .WithMessage($"{{PropertyName}} must empty or be one of the supported values: {string.Join(", ", Sort.All)}");
+            .WithMessage($"'{{PropertyName}}' must be empty or one of the supported values: {string.Join(", ", Sort.All)}");
     }
 }
 
 public static class Sort
 {
+    /// <summary>Sort results in ascending order.</summary>
     public const string Asc = nameof(Asc);
+    /// <summary>Sort results in descending order.</summary>
     public const string Desc = nameof(Desc);
 
     public static readonly string[] All =

@@ -17,4 +17,3 @@ public class IncomeParametersValidator : AbstractValidator<IncomeParameters>
 
     private static bool BeAValidDimension(string? dimension) => Dimensions.Finance.IsValid(dimension);
 }
-

@@ -17,4 +17,3 @@ public class BalanceParametersValidator : AbstractValidator<BalanceParameters>
 
     private static bool BeAValidDimension(string? dimension) => Dimensions.Finance.IsValid(dimension);
 }
-

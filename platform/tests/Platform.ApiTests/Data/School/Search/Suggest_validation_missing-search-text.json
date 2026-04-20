@@ -1,0 +1,1 @@
+﻿{"title":"Validation failed.","status":400,"instance":"/api/schools/suggest","errors":{"SearchText":["\u0027Search Text\u0027 must not be empty."]}}

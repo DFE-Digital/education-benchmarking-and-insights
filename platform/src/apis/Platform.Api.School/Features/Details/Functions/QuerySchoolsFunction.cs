@@ -16,7 +16,7 @@ namespace Platform.Api.School.Features.Details.Functions;
 public class QuerySchoolsFunction(IEnumerable<IQuerySchoolsHandler> handlers) : VersionedFunctionBase<IQuerySchoolsHandler, BasicContext>(handlers)
 {
     [Function(nameof(QuerySchoolsFunction))]
-    [OpenApiOperation(nameof(QuerySchoolsFunction), Constants.Features.Details, Summary = "Retrieves characteristics for multiple schools", Description = "Returns a collection of schools with their descriptive characteristics (pupil numbers, phases, types) based on a provided list of Unique Reference Numbers (URNs).")]      
+    [OpenApiOperation(nameof(QuerySchoolsFunction), Constants.Features.Details, Summary = "Retrieves characteristics for multiple schools", Description = "Returns a collection of schools with their descriptive characteristics (pupil numbers, phases, types) based on a provided list of Unique Reference Numbers (URNs).")]
     [OpenApiUrnsParameter(Required = true)]
     [OpenApiSecurityHeader]
     [OpenApiResponseWithBody(HttpStatusCode.OK, ContentType.ApplicationJson, typeof(SchoolCharacteristicResponse[]))]

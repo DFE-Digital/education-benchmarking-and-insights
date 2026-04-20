@@ -33,4 +33,3 @@ public class QueryParametersValidator : AbstractValidator<QueryCensusParameters>
 
     private static bool BeAValidPhase(string? phase) => OverallPhase.IsValid(phase);
 }
-

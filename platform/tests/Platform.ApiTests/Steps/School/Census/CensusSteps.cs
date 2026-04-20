@@ -346,8 +346,8 @@ public class CensusSteps(SchoolApiDriver api)
 
         var actual = content.StartsWith("[") ? (JToken)JArray.Parse(content) : JObject.Parse(content);
 
-        var expected = content.StartsWith("[") 
-            ? (JToken)TestDataProvider.GetJsonArrayData(testFile, RouteFolder, SubFolder) 
+        var expected = content.StartsWith("[")
+            ? (JToken)TestDataProvider.GetJsonArrayData(testFile, RouteFolder, SubFolder)
             : TestDataProvider.GetJsonObjectData(testFile, RouteFolder, SubFolder);
 
         actual.AssertDeepEquals(expected);

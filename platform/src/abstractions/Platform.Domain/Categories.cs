@@ -13,17 +13,17 @@ public static class Categories
         /// <summary>Total full-time equivalent teachers.</summary>
         public const string TeachersFte = nameof(TeachersFte);
         /// <summary>Total full-time equivalent senior leadership staff.</summary>
-        public const string SeniorLeadershipFte = nameof(SeniorLeadershipFte);    
+        public const string SeniorLeadershipFte = nameof(SeniorLeadershipFte);
         /// <summary>Total full-time equivalent teaching assistants.</summary>
         public const string TeachingAssistantsFte = nameof(TeachingAssistantsFte);
         /// <summary>Total full-time equivalent non-classroom support staff.</summary>
         public const string NonClassroomSupportStaffFte = nameof(NonClassroomSupportStaffFte);
         /// <summary>Total full-time equivalent auxiliary staff.</summary>
-        public const string AuxiliaryStaffFte = nameof(AuxiliaryStaffFte);        
+        public const string AuxiliaryStaffFte = nameof(AuxiliaryStaffFte);
         /// <summary>Absolute headcount of the total workforce.</summary>
-        public const string WorkforceHeadcount = nameof(WorkforceHeadcount);      
+        public const string WorkforceHeadcount = nameof(WorkforceHeadcount);
         /// <summary>Total number of qualified teachers.</summary>
-        public const string TeachersQualified = nameof(TeachersQualified);        
+        public const string TeachersQualified = nameof(TeachersQualified);
 
         public static readonly string[] All =        {
             WorkforceFte,
@@ -48,7 +48,7 @@ public static class Categories
         /// <summary>Costs for staff providing non-educational support (e.g., administration, welfare).</summary>
         public const string NonEducationalSupportStaff = nameof(NonEducationalSupportStaff);
         /// <summary>Costs of resources directly used for teaching and learning.</summary>
-        public const string EducationalSupplies = nameof(EducationalSupplies);    
+        public const string EducationalSupplies = nameof(EducationalSupplies);
         /// <summary>Costs associated with educational Information and Communication Technology hardware and software.</summary>
         public const string EducationalIct = nameof(EducationalIct);
         /// <summary>Costs related to building maintenance, premises staff, and related services.</summary>
@@ -62,7 +62,7 @@ public static class Categories
         /// <summary>Miscellaneous costs not covered by other specific categories.</summary>
         public const string Other = nameof(Other);
 
-        public static readonly string[] All =        [
+        public static readonly string[] All = [
             TotalExpenditure,
             TeachingTeachingSupportStaff,
             NonEducationalSupportStaff,

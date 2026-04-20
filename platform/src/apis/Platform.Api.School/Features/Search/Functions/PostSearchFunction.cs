@@ -19,9 +19,9 @@ public class PostSearchFunction(IEnumerable<IPostSearchHandler> handlers) : Vers
 {
     [Function(nameof(PostSearchFunction))]
     [OpenApiSecurityHeader]
-    [OpenApiOperation(nameof(PostSearchFunction), Constants.Features.Search, Summary = "Search schools", Description = "Searches for schools based on the provided request")]
+    [OpenApiOperation(nameof(PostSearchFunction), Constants.Features.Search, Summary = "Search for schools", Description = "Returns a paginated list of schools matching the specified search criteria and filters.")]
     [OpenApiApiVersionParameter]
-    [OpenApiRequestBody(ContentType.ApplicationJson, typeof(SearchRequest), Description = "The search request")]
+    [OpenApiRequestBody(ContentType.ApplicationJson, typeof(SearchRequest), Description = "The school search request containing search text, page information, and filters.")]
     [OpenApiResponseWithBody(HttpStatusCode.OK, ContentType.ApplicationJson, typeof(SearchResponse<SchoolSummaryResponse>))]
     [OpenApiResponseWithBody(HttpStatusCode.BadRequest, ContentType.ApplicationJsonProblem, typeof(ValidationProblemDetails), Description = "Validation errors or bad request.")]
     public async Task<HttpResponseData> RunAsync(

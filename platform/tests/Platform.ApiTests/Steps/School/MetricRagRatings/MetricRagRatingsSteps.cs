@@ -58,11 +58,11 @@ public class MetricRagRatingsSteps(SchoolApiDriver api)
     {
         var urnsParam = string.IsNullOrWhiteSpace(urnsCsv) ? "" : $"urns={urnsCsv.Replace(",", "&urns=")}";
         var queryParts = new List<string> { urnsParam };
-        
+
         if (!string.IsNullOrWhiteSpace(overallPhase)) queryParts.Add($"overallPhase={overallPhase}");
         if (!string.IsNullOrWhiteSpace(laCode)) queryParts.Add($"laCode={laCode}");
         if (!string.IsNullOrWhiteSpace(companyNumber)) queryParts.Add($"companyNumber={companyNumber}");
-        
+
         var query = string.Join("&", queryParts.Where(p => !string.IsNullOrEmpty(p)));
         if (!string.IsNullOrEmpty(query)) query = "?" + query;
 
@@ -109,12 +109,12 @@ public class MetricRagRatingsSteps(SchoolApiDriver api)
     public void GivenADetailsRequestWith(string categoriesCsv, string statusesCsv, string urnsCsv, string companyNumber)
     {
         var queryParts = new List<string>();
-        
+
         if (!string.IsNullOrWhiteSpace(urnsCsv)) queryParts.Add($"urns={urnsCsv.Replace(",", "&urns=")}");
         if (!string.IsNullOrWhiteSpace(categoriesCsv)) queryParts.Add($"categories={categoriesCsv.Replace(",", "&categories=")}");
         if (!string.IsNullOrWhiteSpace(statusesCsv)) queryParts.Add($"statuses={statusesCsv.Replace(",", "&statuses=")}");
         if (!string.IsNullOrWhiteSpace(companyNumber)) queryParts.Add($"companyNumber={companyNumber}");
-        
+
         var query = string.Join("&", queryParts.Where(p => !string.IsNullOrEmpty(p)));
         if (!string.IsNullOrEmpty(query)) query = "?" + query;
 

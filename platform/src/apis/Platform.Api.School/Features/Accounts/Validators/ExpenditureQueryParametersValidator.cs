@@ -33,4 +33,3 @@ public class ExpenditureQueryParametersValidator : AbstractValidator<Expenditure
 
     private static bool BeAValidPhase(string? phase) => OverallPhase.IsValid(phase);
 }
-

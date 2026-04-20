@@ -19,9 +19,9 @@ public class PostSuggestFunction(IEnumerable<IPostSuggestHandler> handlers) : Ve
 {
     [Function(nameof(PostSuggestFunction))]
     [OpenApiSecurityHeader]
-    [OpenApiOperation(nameof(PostSuggestFunction), Constants.Features.Search, Summary = "Suggest schools", Description = "Provides autocomplete suggestions for schools")]
+    [OpenApiOperation(nameof(PostSuggestFunction), Constants.Features.Search, Summary = "Suggest schools for autocomplete", Description = "Returns a list of school suggestions based on a partial search term, typically used for autocomplete functionality.")]
     [OpenApiApiVersionParameter]
-    [OpenApiRequestBody(ContentType.ApplicationJson, typeof(SchoolSuggestRequest), Description = "The suggest object")]
+    [OpenApiRequestBody(ContentType.ApplicationJson, typeof(SchoolSuggestRequest), Description = "The school suggest request object containing the search text and optional exclusions.")]
     [OpenApiResponseWithBody(HttpStatusCode.OK, ContentType.ApplicationJson, typeof(SuggestResponse<SchoolSummaryResponse>))]
     [OpenApiResponseWithBody(HttpStatusCode.BadRequest, ContentType.ApplicationJsonProblem, typeof(ValidationProblemDetails), Description = "Validation errors or bad request.")]
     public async Task<HttpResponseData> RunAsync(

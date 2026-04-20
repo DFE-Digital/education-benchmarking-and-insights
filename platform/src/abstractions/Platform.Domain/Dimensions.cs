@@ -12,9 +12,9 @@ public static class Dimensions
         /// <summary>The proportion of the category relative to the entire workforce.</summary>
         public const string PercentWorkforce = nameof(PercentWorkforce);
         /// <summary>The ratio of total pupils to the specific staff role.</summary>
-        public const string PupilsPerStaffRole = nameof(PupilsPerStaffRole);      
+        public const string PupilsPerStaffRole = nameof(PupilsPerStaffRole);
 
-        public static readonly string[] All =        [
+        public static readonly string[] All = [
             HeadcountPerFte,
             Total,
             PercentWorkforce,
@@ -35,7 +35,7 @@ public static class Dimensions
         /// <summary>Values expressed as a percentage of total income.</summary>
         public const string PercentIncome = nameof(PercentIncome);
 
-        public static readonly string[] All =        [
+        public static readonly string[] All = [
             Actuals,
             PerUnit,
             PercentExpenditure,

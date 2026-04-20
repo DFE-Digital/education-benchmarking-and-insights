@@ -61,4 +61,20 @@ public static class TestDataProvider
             ? $"Platform.ApiTests.Data.{string.Join(".", folders)}.{fileName}"
             : $"Platform.ApiTests.Data.{fileName}";
     }
+
+#if RECORD_API_TESTS
+    public static void OutputTestJsonData(string content, string fileName, params string[] folders)
+    {
+        var basePath = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "..", "..", "..", "Data"));
+        var fullPath = Path.Combine(basePath, Path.Combine(folders), fileName);
+        
+        var directory = Path.GetDirectoryName(fullPath);
+        if (directory != null && !Directory.Exists(directory))
+        {
+            Directory.CreateDirectory(directory);
+        }
+        
+        File.WriteAllText(fullPath, content, Encoding.UTF8);
+    }
+#endif
 }

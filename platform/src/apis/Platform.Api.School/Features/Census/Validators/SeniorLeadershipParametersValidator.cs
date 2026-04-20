@@ -21,4 +21,3 @@ public class SeniorLeadershipParametersValidator : AbstractValidator<SeniorLeade
 
     private static bool BeAValidDimension(string? dimension) => dimension is Dimensions.Census.Total or Dimensions.Census.PercentWorkforce;
 }
-

@@ -17,7 +17,7 @@ public class GetSchoolFunction(IEnumerable<IGetSchoolHandler> handlers) : Versio
 {
     [Function(nameof(GetSchoolFunction))]
     [OpenApiSecurityHeader]
-    [OpenApiOperation(nameof(GetSchoolFunction), Constants.Features.Details, Summary = "Retrieves a single school's core details", Description = "Returns the fundamental details for a specific school, including its name, address, contact information, and trust affiliation, identified by its 6-digit Unique Reference Number (URN).")]    
+    [OpenApiOperation(nameof(GetSchoolFunction), Constants.Features.Details, Summary = "Retrieves a single school's core details", Description = "Returns the fundamental details for a specific school, including its name, address, contact information, and trust affiliation, identified by its 6-digit Unique Reference Number (URN).")]
     [OpenApiUrnParameter]
     [OpenApiApiVersionParameter]
     [OpenApiResponseWithBody(HttpStatusCode.OK, ContentType.ApplicationJson, typeof(SchoolResponse))]

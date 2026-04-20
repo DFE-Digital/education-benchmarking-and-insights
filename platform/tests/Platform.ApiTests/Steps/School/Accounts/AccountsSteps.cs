@@ -20,7 +20,7 @@ public class AccountsSteps(SchoolApiDriver api)
     private const string SchoolExpenditureHistoryKey = "school-expenditure-history";
     private const string ExpenditureSetAverageHistoryKey = "expenditure-set-average-history";
     private const string ExpenditureNationalAverageHistoryKey = "expenditure-national-average-history";
-    
+
     private const string RouteFolder = "School";
     private const string SubFolder = "Accounts";
 
@@ -168,7 +168,7 @@ public class AccountsSteps(SchoolApiDriver api)
         }
 
         var content = await response.Content.ReadAsStringAsync();
-        
+
         // Handle empty response for 'not found' or empty arrays
         if (string.IsNullOrWhiteSpace(content))
         {
@@ -178,8 +178,8 @@ public class AccountsSteps(SchoolApiDriver api)
 
         var actual = content.StartsWith("[") ? (JToken)JArray.Parse(content) : JObject.Parse(content);
 
-        var expected = content.StartsWith("[") 
-            ? (JToken)TestDataProvider.GetJsonArrayData(testFile, RouteFolder, SubFolder) 
+        var expected = content.StartsWith("[")
+            ? (JToken)TestDataProvider.GetJsonArrayData(testFile, RouteFolder, SubFolder)
             : TestDataProvider.GetJsonObjectData(testFile, RouteFolder, SubFolder);
 
         actual.AssertDeepEquals(expected);
@@ -209,7 +209,7 @@ public class AccountsSteps(SchoolApiDriver api)
             .Where(x => !string.IsNullOrWhiteSpace(x[nameColumn]))
             .Select(x => $"{x[nameColumn]}={x[valueColumn]}")
             .ToArray();
-            
+
         return parts.Length > 0
             ? $"?{string.Join("&", parts)}"
             : string.Empty;

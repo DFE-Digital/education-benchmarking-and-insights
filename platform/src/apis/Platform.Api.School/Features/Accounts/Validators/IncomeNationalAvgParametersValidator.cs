@@ -27,4 +27,3 @@ public class IncomeNationalAvgParametersValidator : AbstractValidator<IncomeNati
     private static bool BeAValidPhase(string? phase) => OverallPhase.IsValid(phase);
     private static bool BeAValidFinanceType(string? financeType) => FinanceType.IsValid(financeType);
 }
-
