@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
@@ -17,8 +17,8 @@ public class GetFunction(IEnumerable<IGetHandler> handlers) : VersionedFunctionB
 {
     [Function(nameof(GetFunction))]
     [OpenApiSecurityHeader]
-    [OpenApiOperation(nameof(GetFunction), Constants.Features.Census)]
-    [OpenApiParameter("urn", Type = typeof(string), Required = true)]
+    [OpenApiOperation(nameof(GetFunction), Constants.Features.Census, Summary = "Get", Description = "Get.")]
+    [OpenApiUrnParameter]
     [OpenApiResponseWithBody(HttpStatusCode.OK, ContentType.ApplicationJson, typeof(CensusResponse))]
     [OpenApiResponseWithBody(HttpStatusCode.BadRequest, ContentType.ApplicationJsonProblem, typeof(ProblemDetails))]
     [OpenApiResponseWithoutBody(HttpStatusCode.NotFound)]

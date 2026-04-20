@@ -1,4 +1,4 @@
-﻿using System.Diagnostics.CodeAnalysis;
+using System.Diagnostics.CodeAnalysis;
 using FluentValidation;
 using Platform.Api.School.Features.Census.Parameters;
 using Platform.Domain;
@@ -28,8 +28,9 @@ public class QueryParametersValidator : AbstractValidator<QueryCensusParameters>
             .Must(BeAValidPhase)
             .When(x => x.Urns.Length == 0)
             .When(x => !string.IsNullOrWhiteSpace(x.CompanyNumber) || !string.IsNullOrWhiteSpace(x.LaCode))
-            .WithMessage($"{{PropertyName}} must be be specified when {nameof(QueryCensusParameters.CompanyNumber)} or {nameof(QueryCensusParameters.LaCode)} is supplied and be one of the supported values: {string.Join(", ", OverallPhase.All)}");
+            .WithMessage($"'{{PropertyName}}' must be specified when {nameof(QueryCensusParameters.CompanyNumber)} or {nameof(QueryCensusParameters.LaCode)} is supplied and is not a recognized phase. Valid values are: {string.Join(", ", OverallPhase.All)}");
     }
 
     private static bool BeAValidPhase(string? phase) => OverallPhase.IsValid(phase);
 }
+

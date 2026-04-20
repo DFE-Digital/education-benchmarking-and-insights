@@ -5,13 +5,16 @@ public static class Dimensions
 {
     public static class Census
     {
+        /// <summary>The ratio of total headcount to full-time equivalent staff.</summary>
         public const string HeadcountPerFte = nameof(HeadcountPerFte);
+        /// <summary>The absolute total number for the given category.</summary>
         public const string Total = nameof(Total);
+        /// <summary>The proportion of the category relative to the entire workforce.</summary>
         public const string PercentWorkforce = nameof(PercentWorkforce);
-        public const string PupilsPerStaffRole = nameof(PupilsPerStaffRole);
+        /// <summary>The ratio of total pupils to the specific staff role.</summary>
+        public const string PupilsPerStaffRole = nameof(PupilsPerStaffRole);      
 
-        public static readonly string[] All =
-        [
+        public static readonly string[] All =        [
             HeadcountPerFte,
             Total,
             PercentWorkforce,
@@ -23,13 +26,16 @@ public static class Dimensions
 
     public static class Finance
     {
+        /// <summary>Absolute monetary values in pounds.</summary>
         public const string Actuals = nameof(Actuals);
+        /// <summary>Monetary values calculated per pupil or unit.</summary>
         public const string PerUnit = nameof(PerUnit);
+        /// <summary>Values expressed as a percentage of total expenditure.</summary>
         public const string PercentExpenditure = nameof(PercentExpenditure);
+        /// <summary>Values expressed as a percentage of total income.</summary>
         public const string PercentIncome = nameof(PercentIncome);
 
-        public static readonly string[] All =
-        [
+        public static readonly string[] All =        [
             Actuals,
             PerUnit,
             PercentExpenditure,

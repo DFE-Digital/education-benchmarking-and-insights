@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
@@ -18,9 +18,9 @@ public class GetHistoryFunction(IEnumerable<IGetHistoryHandler> handlers) : Vers
 {
     [Function(nameof(GetHistoryFunction))]
     [OpenApiSecurityHeader]
-    [OpenApiOperation(nameof(GetHistoryFunction), Constants.Features.Census)]
-    [OpenApiParameter("urn", Type = typeof(string), Required = true)]
-    [OpenApiParameter("dimension", In = ParameterLocation.Query, Description = "Dimension for response values", Type = typeof(string), Required = true, Example = typeof(OpenApiExamples.Dimension))]
+    [OpenApiOperation(nameof(GetHistoryFunction), Constants.Features.Census, Summary = "Get History", Description = "Get History.")]
+    [OpenApiUrnParameter]
+    [OpenApiDimensionParameter(Required = true, Example = typeof(OpenApiExamples.Dimension))]
     [OpenApiResponseWithBody(HttpStatusCode.OK, ContentType.ApplicationJson, typeof(CensusHistoryResponse))]
     [OpenApiResponseWithBody(HttpStatusCode.BadRequest, ContentType.ApplicationJsonProblem, typeof(ValidationProblemDetails), Description = "Validation errors or bad request.")]
     [OpenApiResponseWithoutBody(HttpStatusCode.NotFound)]

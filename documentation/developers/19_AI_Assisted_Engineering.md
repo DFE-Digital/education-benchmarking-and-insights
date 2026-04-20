@@ -15,6 +15,10 @@ This repository includes custom **Gemini CLI Skills** to automate and standardiz
 
 Skills act as expert procedural guides for the AI agent, dictating exactly how it should perform complex or domain-specific tasks in the context of this monorepo.
 
+### Platform API Metadata Enrichment Skill
+
+The `platform-api-metadata-enricher` skill systematically enhances Platform APIs with XML documentation, descriptive OpenAPI attributes, and explicit FluentValidation error messages. Use this skill to prepare an API for high-quality test plan generation or to improve Swagger documentation without altering core business logic.
+
 ### Platform API Testing Skills
 
 We have separated the API test creation process into two distinct skills for better planning, review, and execution of functional API tests.
@@ -32,6 +36,7 @@ This skill executes the test plan. It creates or updates Gherkin feature files, 
 For new developers or after a fresh clone, install the skills into your local workspace:
 
 ```bash
+gemini skills install skills/platform-api-metadata-enricher.skill --scope workspace
 gemini skills install skills/platform-api-test-planner.skill --scope workspace
 gemini skills install skills/platform-api-test-implementer.skill --scope workspace
 ```
@@ -44,7 +49,12 @@ After installation, you must reload your interactive Gemini session to enable th
 
 #### Usage
 
-First, ask Gemini CLI to research and create a test plan:
+First, use the enricher to prepare the API metadata:
+
+- "Use the metadata enricher on the Accounts feature of the School API"
+- "Enrich the metadata for the Insight feature in the Trust API"
+
+Then, ask Gemini CLI to research and create a test plan:
 
 - "Plan API tests for the Search feature in the School API"
 - "Create a test plan for the LocalAuthority module API endpoints"

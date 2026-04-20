@@ -18,7 +18,7 @@ public class SchoolsSearchValidator : AbstractValidator<SearchRequest>
 
         RuleForEach(x => x.Filters)
             .Must(f => f.Value != null && OverallPhase.All.Contains(f.Value))
-            .WithMessage($"{{PropertyName}} must be one of the supported values: {string.Join(", ", OverallPhase.All)}");
+            .WithMessage($"'{{PropertyName}}' is not a recognized overall phase. Valid values are: {string.Join(", ", OverallPhase.All)}");
 
         RuleFor(x => x.OrderBy)
             .Must(orderBy => orderBy == null || orderBy.Field == "SchoolNameSortable")

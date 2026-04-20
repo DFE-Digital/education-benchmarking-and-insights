@@ -18,9 +18,9 @@ public class GetSchoolFunction(IEnumerable<IGetSchoolHandler> handlers) : Versio
 {
     [Function(nameof(GetSchoolFunction))]
     [OpenApiSecurityHeader]
-    [OpenApiOperation(nameof(GetSchoolFunction), Constants.Features.Details)]
-    [OpenApiParameter("urn", Type = typeof(string), Required = true)]
-    [OpenApiParameter(Platform.Functions.Constants.ApiVersion, Type = typeof(string), Required = false, In = ParameterLocation.Header)]
+    [OpenApiOperation(nameof(GetSchoolFunction), Constants.Features.Details, Summary = "Get school", Description = "Retrieves details for a school by its URN")]
+    [OpenApiUrnParameter]
+    [OpenApiApiVersionParameter]
     [OpenApiResponseWithBody(HttpStatusCode.OK, ContentType.ApplicationJson, typeof(SchoolResponse))]
     [OpenApiResponseWithBody(HttpStatusCode.BadRequest, ContentType.ApplicationJsonProblem, typeof(ProblemDetails))]
     [OpenApiResponseWithoutBody(HttpStatusCode.NotFound)]

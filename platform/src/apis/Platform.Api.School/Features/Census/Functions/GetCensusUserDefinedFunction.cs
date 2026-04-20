@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
@@ -18,11 +18,11 @@ public class GetCensusUserDefinedFunction(IEnumerable<IGetUserDefinedHandler> ha
 {
     [Function(nameof(GetCensusUserDefinedFunction))]
     [OpenApiSecurityHeader]
-    [OpenApiOperation(nameof(GetCensusUserDefinedFunction), Constants.Features.Census)]
-    [OpenApiParameter("urn", Type = typeof(string), Required = true)]
-    [OpenApiParameter("identifier", Type = typeof(string), Required = true)]
-    [OpenApiParameter("category", In = ParameterLocation.Query, Description = "Census category", Type = typeof(string), Required = false, Example = typeof(OpenApiExamples.Category))]
-    [OpenApiParameter("dimension", In = ParameterLocation.Query, Description = "Dimension for response values", Type = typeof(string), Example = typeof(OpenApiExamples.Dimension))]
+    [OpenApiOperation(nameof(GetCensusUserDefinedFunction), Constants.Features.Census, Summary = "Get Census User Defined", Description = "Get Census User Defined.")]
+    [OpenApiUrnParameter]
+    [OpenApiIdentifierParameter]
+    [OpenApiCategoryParameter(Required = false, Example = typeof(OpenApiExamples.Category))]
+    [OpenApiDimensionParameter(Example = typeof(OpenApiExamples.Dimension))]
     [OpenApiResponseWithBody(HttpStatusCode.OK, ContentType.ApplicationJson, typeof(CensusResponse))]
     [OpenApiResponseWithBody(HttpStatusCode.BadRequest, ContentType.ApplicationJsonProblem, typeof(ValidationProblemDetails), Description = "Validation errors or bad request.")]
     [OpenApiResponseWithoutBody(HttpStatusCode.NotFound)]

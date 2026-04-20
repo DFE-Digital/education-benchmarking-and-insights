@@ -17,8 +17,8 @@ namespace Platform.Api.School.Features.Details.Functions;
 public class QuerySchoolsFunction(IEnumerable<IQuerySchoolsHandler> handlers) : VersionedFunctionBase<IQuerySchoolsHandler, BasicContext>(handlers)
 {
     [Function(nameof(QuerySchoolsFunction))]
-    [OpenApiOperation(nameof(QuerySchoolsFunction), Constants.Features.Details)]
-    [OpenApiParameter("urns", In = ParameterLocation.Query, Description = "List of school URNs", Type = typeof(string[]), Required = true)]
+    [OpenApiOperation(nameof(QuerySchoolsFunction), Constants.Features.Details, Summary = "Query schools", Description = "Queries schools by a list of URNs")]
+    [OpenApiUrnsParameter(Required = true)]
     [OpenApiSecurityHeader]
     [OpenApiResponseWithBody(HttpStatusCode.OK, ContentType.ApplicationJson, typeof(SchoolCharacteristicResponse[]))]
     [OpenApiResponseWithBody(HttpStatusCode.BadRequest, ContentType.ApplicationJsonProblem, typeof(ProblemDetails))]

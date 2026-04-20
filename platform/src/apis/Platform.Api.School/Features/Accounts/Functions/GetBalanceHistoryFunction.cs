@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
@@ -19,9 +19,9 @@ public class GetBalanceHistoryFunction(IEnumerable<IGetBalanceHistoryHandler> ha
     //TODO: Consider adding validation for parameters
     [Function(nameof(GetBalanceHistoryFunction))]
     [OpenApiSecurityHeader]
-    [OpenApiOperation(nameof(GetBalanceHistoryFunction), Constants.Features.Accounts)]
-    [OpenApiParameter("urn", Type = typeof(string), Required = true)]
-    [OpenApiParameter("dimension", In = ParameterLocation.Query, Description = "Dimension for response values", Type = typeof(string), Example = typeof(OpenApiExamples.Dimension))]
+    [OpenApiOperation(nameof(GetBalanceHistoryFunction), Constants.Features.Accounts, Summary = "Get Balance History", Description = "Get Balance History.")]
+    [OpenApiUrnParameter]
+    [OpenApiDimensionParameter(Example = typeof(OpenApiExamples.Dimension))]
     [OpenApiResponseWithBody(HttpStatusCode.OK, ContentType.ApplicationJson, typeof(BalanceHistoryResponse))]
     [OpenApiResponseWithBody(HttpStatusCode.BadRequest, ContentType.ApplicationJsonProblem, typeof(ProblemDetails))]
     [OpenApiResponseWithoutBody(HttpStatusCode.NotFound)]

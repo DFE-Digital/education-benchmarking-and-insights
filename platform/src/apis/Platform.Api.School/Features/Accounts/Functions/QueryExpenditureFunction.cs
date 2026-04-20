@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
@@ -18,13 +18,13 @@ public class QueryExpenditureFunction(IEnumerable<IQueryExpenditureHandler> hand
 {
     [Function(nameof(QueryExpenditureFunction))]
     [OpenApiSecurityHeader]
-    [OpenApiOperation(nameof(QueryExpenditureFunction), Constants.Features.Accounts)]
-    [OpenApiParameter("urns", In = ParameterLocation.Query, Description = "List of school URNs", Type = typeof(string[]), Required = false)]
-    [OpenApiParameter("phase", In = ParameterLocation.Query, Description = "School overall phase", Type = typeof(string), Example = typeof(OpenApiExamples.Phase))]
-    [OpenApiParameter("companyNumber", In = ParameterLocation.Query, Description = "Eight digit trust company number", Type = typeof(string))]
-    [OpenApiParameter("laCode", In = ParameterLocation.Query, Description = "Local authority three digit code", Type = typeof(string))]
-    [OpenApiParameter("category", In = ParameterLocation.Query, Description = "Expenditure category", Type = typeof(string), Example = typeof(OpenApiExamples.Category))]
-    [OpenApiParameter("dimension", In = ParameterLocation.Query, Description = "Dimension for response values", Type = typeof(string), Example = typeof(OpenApiExamples.Dimension))]
+    [OpenApiOperation(nameof(QueryExpenditureFunction), Constants.Features.Accounts, Summary = "Query Expenditure", Description = "Query Expenditure.")]
+    [OpenApiUrnsParameter]
+    [OpenApiPhaseParameter(Example = typeof(OpenApiExamples.Phase))]
+    [OpenApiCompanyNumberParameter]
+    [OpenApiLaCodeParameter]
+    [OpenApiCategoryParameter(Example = typeof(OpenApiExamples.Category))]
+    [OpenApiDimensionParameter(Example = typeof(OpenApiExamples.Dimension))]
     [OpenApiResponseWithBody(HttpStatusCode.OK, ContentType.ApplicationJson, typeof(ExpenditureResponse[]))]
     [OpenApiResponseWithBody(HttpStatusCode.BadRequest, ContentType.ApplicationJsonProblem, typeof(ValidationProblemDetails), Description = "Validation errors or bad request.")]
     public async Task<HttpResponseData> RunAsync(

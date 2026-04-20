@@ -1,4 +1,4 @@
-﻿using System.Diagnostics.CodeAnalysis;
+using System.Diagnostics.CodeAnalysis;
 using FluentValidation;
 using Platform.Api.School.Features.Accounts.Parameters;
 using Platform.Domain;
@@ -12,13 +12,14 @@ public class ExpenditureParametersValidator : AbstractValidator<ExpenditureParam
     {
         RuleFor(x => x.Category)
             .Must(BeAnEmptyOrValidCategory)
-            .WithMessage($"{{PropertyName}} must be empty or one of the supported values: {string.Join(", ", Categories.Cost.All)}");
+            .WithMessage($"'{{PropertyName}}' is not a recognized category. Valid values are: {string.Join(", ", Categories.Cost.All)}");
 
         RuleFor(x => x.Dimension)
             .Must(BeAValidDimension)
-            .WithMessage($"{{PropertyName}} must be empty or one of the supported values: {string.Join(", ", Dimensions.Finance.All)}");
+            .WithMessage($"'{{PropertyName}}' is not a recognized dimension. Valid values are: {string.Join(", ", Dimensions.Finance.All)}");
     }
 
     private static bool BeAnEmptyOrValidCategory(string? category) => string.IsNullOrWhiteSpace(category) || Categories.Cost.IsValid(category);
     private static bool BeAValidDimension(string? dimension) => Dimensions.Finance.IsValid(dimension);
 }
+

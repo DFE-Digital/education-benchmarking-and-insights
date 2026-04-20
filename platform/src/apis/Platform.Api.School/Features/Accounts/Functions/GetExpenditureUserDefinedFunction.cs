@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
@@ -18,11 +18,11 @@ public class GetExpenditureUserDefinedFunction(IEnumerable<IGetExpenditureUserDe
 {
     [Function(nameof(GetExpenditureUserDefinedFunction))]
     [OpenApiSecurityHeader]
-    [OpenApiOperation(nameof(GetExpenditureUserDefinedFunction), Constants.Features.Accounts)]
-    [OpenApiParameter("urn", Type = typeof(string), Required = true)]
-    [OpenApiParameter("identifier", Type = typeof(string), Required = true)]
-    [OpenApiParameter("category", In = ParameterLocation.Query, Description = "Expenditure category", Type = typeof(string), Example = typeof(OpenApiExamples.Category))]
-    [OpenApiParameter("dimension", In = ParameterLocation.Query, Description = "Dimension for response values", Type = typeof(string), Example = typeof(OpenApiExamples.Dimension))]
+    [OpenApiOperation(nameof(GetExpenditureUserDefinedFunction), Constants.Features.Accounts, Summary = "Get Expenditure User Defined", Description = "Get Expenditure User Defined.")]
+    [OpenApiUrnParameter]
+    [OpenApiIdentifierParameter]
+    [OpenApiCategoryParameter(Example = typeof(OpenApiExamples.Category))]
+    [OpenApiDimensionParameter(Example = typeof(OpenApiExamples.Dimension))]
     [OpenApiResponseWithBody(HttpStatusCode.OK, ContentType.ApplicationJson, typeof(ExpenditureResponse))]
     [OpenApiResponseWithBody(HttpStatusCode.BadRequest, ContentType.ApplicationJsonProblem, typeof(ValidationProblemDetails), Description = "Validation errors or bad request.")]
     [OpenApiResponseWithoutBody(HttpStatusCode.NotFound)]

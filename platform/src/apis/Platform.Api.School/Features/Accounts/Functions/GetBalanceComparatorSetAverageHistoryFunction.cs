@@ -18,9 +18,9 @@ public class GetBalanceComparatorSetAverageHistoryFunction(IEnumerable<IGetBalan
 {
     [Function(nameof(GetBalanceComparatorSetAverageHistoryFunction))]
     [OpenApiSecurityHeader]
-    [OpenApiOperation(nameof(GetBalanceComparatorSetAverageHistoryFunction), Constants.Features.Accounts)]
-    [OpenApiParameter("urn", Type = typeof(string), Required = true)]
-    [OpenApiParameter("dimension", In = ParameterLocation.Query, Description = "Dimension for response values", Type = typeof(string), Required = true, Example = typeof(OpenApiExamples.Dimension))]
+    [OpenApiOperation(nameof(GetBalanceComparatorSetAverageHistoryFunction), Constants.Features.Accounts, Summary = "Get Balance Comparator Set Average History", Description = "Get Balance Comparator Set Average History.")]
+    [OpenApiUrnParameter]
+    [OpenApiDimensionParameter(Required = true, Example = typeof(OpenApiExamples.Dimension))]
     [OpenApiResponseWithBody(HttpStatusCode.OK, ContentType.ApplicationJson, typeof(BalanceHistoryResponse))]
     [OpenApiResponseWithBody(HttpStatusCode.BadRequest, ContentType.ApplicationJsonProblem, typeof(ValidationProblemDetails), Description = "Validation errors or bad request.")]
     [OpenApiResponseWithoutBody(HttpStatusCode.NotFound)]

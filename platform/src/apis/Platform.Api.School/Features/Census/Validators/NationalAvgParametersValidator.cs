@@ -1,4 +1,4 @@
-﻿using System.Diagnostics.CodeAnalysis;
+using System.Diagnostics.CodeAnalysis;
 using FluentValidation;
 using Platform.Api.School.Features.Census.Parameters;
 using Platform.Domain;
@@ -12,18 +12,19 @@ public class NationalAvgParametersValidator : AbstractValidator<NationalAvgParam
     {
         RuleFor(x => x.Dimension)
             .Must(BeAValidDimension)
-            .WithMessage($"{{PropertyName}} must be empty or one of the supported values: {string.Join(", ", Dimensions.Census.All)}");
+            .WithMessage($"'{{PropertyName}}' is not a recognized dimension. Valid values are: {string.Join(", ", Dimensions.Census.All)}");
 
         RuleFor(x => x.OverallPhase)
             .Must(BeAValidPhase)
-            .WithMessage($"{{PropertyName}} must be one of the supported values: {string.Join(", ", OverallPhase.All)}");
+            .WithMessage($"'{{PropertyName}}' is not a recognized phase. Valid values are: {string.Join(", ", OverallPhase.All)}");
 
         RuleFor(x => x.FinanceType)
             .Must(BeAValidFinanceType)
-            .WithMessage($"{{PropertyName}} must be one of the supported values: {string.Join(", ", FinanceType.All)}");
+            .WithMessage($"'{{PropertyName}}' is not a recognized finance type. Valid values are: {string.Join(", ", FinanceType.All)}");
     }
 
     private static bool BeAValidDimension(string? dimension) => Dimensions.Census.IsValid(dimension);
     private static bool BeAValidPhase(string? phase) => OverallPhase.IsValid(phase);
     private static bool BeAValidFinanceType(string? financeType) => FinanceType.IsValid(financeType);
 }
+

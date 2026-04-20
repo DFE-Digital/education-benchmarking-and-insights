@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
@@ -17,8 +17,8 @@ public class GetIncomeFunction(IEnumerable<IGetIncomeHandler> handlers) : Versio
 {
     [Function(nameof(GetIncomeFunction))]
     [OpenApiSecurityHeader]
-    [OpenApiOperation(nameof(GetIncomeFunction), Constants.Features.Accounts)]
-    [OpenApiParameter("urn", Type = typeof(string), Required = true)]
+    [OpenApiOperation(nameof(GetIncomeFunction), Constants.Features.Accounts, Summary = "Get Income", Description = "Get Income.")]
+    [OpenApiUrnParameter]
     [OpenApiResponseWithBody(HttpStatusCode.OK, ContentType.ApplicationJson, typeof(IncomeResponse))]
     [OpenApiResponseWithBody(HttpStatusCode.BadRequest, ContentType.ApplicationJsonProblem, typeof(ProblemDetails))]
     [OpenApiResponseWithoutBody(HttpStatusCode.NotFound)]

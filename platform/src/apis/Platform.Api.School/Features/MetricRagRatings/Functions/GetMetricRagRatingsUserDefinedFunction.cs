@@ -17,9 +17,9 @@ namespace Platform.Api.School.Features.MetricRagRatings.Functions;
 public class GetMetricRagRatingsUserDefinedFunction(IEnumerable<IGetUserDefinedHandler> handlers) : VersionedFunctionBase<IGetUserDefinedHandler, IdContext>(handlers)
 {
     [Function(nameof(GetMetricRagRatingsUserDefinedFunction))]
-    [OpenApiOperation(nameof(GetMetricRagRatingsUserDefinedFunction), Constants.Features.MetricRagRatings)]
-    [OpenApiParameter("identifier", Type = typeof(string), Required = true)]
-    [OpenApiParameter("useCustomData", In = ParameterLocation.Query, Description = "Sets whether or not to use custom data context", Type = typeof(bool), Required = false)]
+    [OpenApiOperation(nameof(GetMetricRagRatingsUserDefinedFunction), Constants.Features.MetricRagRatings, Summary = "Get user defined metric RAG ratings", Description = "Gets metric RAG ratings based on a user defined identifier")]
+    [OpenApiIdentifierParameter]
+    [OpenApiUseCustomDataParameter]
     [OpenApiSecurityHeader]
     [OpenApiResponseWithBody(HttpStatusCode.OK, ContentType.ApplicationJson, typeof(DetailResponse[]))]
     [OpenApiResponseWithBody(HttpStatusCode.BadRequest, ContentType.ApplicationJsonProblem, typeof(ProblemDetails))]

@@ -11,11 +11,11 @@ public class DetailParametersValidator : AbstractValidator<DetailParameters>
     {
         RuleFor(x => x.Categories)
             .Must(ContainValidCategories)
-            .WithMessage($"{{PropertyName}} must only contain the supported values: {string.Join(", ", CostCategories.All)}");
+            .WithMessage($"'{{PropertyName}}' contains unsupported values. Valid values are: {string.Join(", ", CostCategories.All)}");
 
         RuleFor(x => x.Statuses)
             .Must(ContainValidStatuses)
-            .WithMessage($"{{PropertyName}} must only contain the supported values: {string.Join(", ", RagRating.All)}");
+            .WithMessage($"'{{PropertyName}}' contains unsupported values. Valid values are: {string.Join(", ", RagRating.All)}");
 
         RuleFor(x => x.Urns)
             .NotEmpty()

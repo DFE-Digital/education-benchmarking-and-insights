@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
@@ -18,9 +18,9 @@ public class GetComparatorSetAverageHistoryFunction(IEnumerable<IGetComparatorSe
 {
     [Function(nameof(GetComparatorSetAverageHistoryFunction))]
     [OpenApiSecurityHeader]
-    [OpenApiOperation(nameof(GetComparatorSetAverageHistoryFunction), Constants.Features.Census)]
-    [OpenApiParameter("urn", Type = typeof(string), Required = true)]
-    [OpenApiParameter("dimension", In = ParameterLocation.Query, Description = "Dimension for response values", Type = typeof(string), Required = true, Example = typeof(OpenApiExamples.Dimension))]
+    [OpenApiOperation(nameof(GetComparatorSetAverageHistoryFunction), Constants.Features.Census, Summary = "Get Comparator Set Average History", Description = "Get Comparator Set Average History.")]
+    [OpenApiUrnParameter]
+    [OpenApiDimensionParameter(Required = true, Example = typeof(OpenApiExamples.Dimension))]
     [OpenApiResponseWithBody(HttpStatusCode.OK, ContentType.ApplicationJson, typeof(CensusHistoryResponse))]
     [OpenApiResponseWithBody(HttpStatusCode.BadRequest, ContentType.ApplicationJsonProblem, typeof(ValidationProblemDetails), Description = "Validation errors or bad request.")]
     public async Task<HttpResponseData> RunAsync(

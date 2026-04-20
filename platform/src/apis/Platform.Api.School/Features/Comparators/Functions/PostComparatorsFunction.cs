@@ -18,9 +18,9 @@ public class PostComparatorsFunction(IEnumerable<IPostComparatorsHandler> handle
 {
     [Function(nameof(PostComparatorsFunction))]
     [OpenApiSecurityHeader]
-    [OpenApiOperation(nameof(PostComparatorsFunction), Constants.Features.Comparators)]
-    [OpenApiParameter("urn", Type = typeof(string), Required = true)]
-    [OpenApiParameter(Platform.Functions.Constants.ApiVersion, Type = typeof(string), Required = false, In = ParameterLocation.Header)]
+    [OpenApiOperation(nameof(PostComparatorsFunction), Constants.Features.Comparators, Summary = "Post comparators", Description = "Creates comparators for a school by URN")]
+    [OpenApiUrnParameter]
+    [OpenApiApiVersionParameter]
     [OpenApiRequestBody(ContentType.ApplicationJson, typeof(ComparatorsRequest), Description = "The comparator characteristics object")]
     [OpenApiResponseWithBody(HttpStatusCode.OK, ContentType.ApplicationJson, typeof(ComparatorsResponse))]
     [OpenApiResponseWithBody(HttpStatusCode.BadRequest, ContentType.ApplicationJsonProblem, typeof(ProblemDetails))]

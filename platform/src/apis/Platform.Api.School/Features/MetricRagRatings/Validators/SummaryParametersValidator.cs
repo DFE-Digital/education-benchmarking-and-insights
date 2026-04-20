@@ -10,7 +10,7 @@ public class SummaryParametersValidator : AbstractValidator<SummaryParameters>
     {
         RuleFor(x => x.OverallPhase)
             .Must(BeMissingOrAValidOverallPhase)
-            .WithMessage($"{{PropertyName}} must be missing or only contain the supported values: {string.Join(", ", OverallPhase.All)}");
+            .WithMessage($"'{{PropertyName}}' is not a recognized overall phase. Valid values are: {string.Join(", ", OverallPhase.All)}");
 
         RuleFor(x => x)
             .Must(x => !string.IsNullOrWhiteSpace(x.LaCode) || !string.IsNullOrWhiteSpace(x.CompanyNumber) || x.Urns.Length > 0)

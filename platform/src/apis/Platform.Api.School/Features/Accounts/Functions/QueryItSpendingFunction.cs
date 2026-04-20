@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
@@ -18,9 +18,9 @@ public class QueryItSpendingFunction(IEnumerable<IQueryItSpendingHandler> handle
 {
     [Function(nameof(QueryItSpendingFunction))]
     [OpenApiSecurityHeader]
-    [OpenApiOperation(nameof(QueryItSpendingFunction), Constants.Features.Accounts)]
-    [OpenApiParameter("urns", In = ParameterLocation.Query, Description = "List of school URNs", Type = typeof(string[]), Required = false)]
-    [OpenApiParameter("dimension", In = ParameterLocation.Query, Description = "Dimension for response values", Type = typeof(string), Example = typeof(OpenApiExamples.Dimension))]
+    [OpenApiOperation(nameof(QueryItSpendingFunction), Constants.Features.Accounts, Summary = "Query It Spending", Description = "Query It Spending.")]
+    [OpenApiUrnsParameter]
+    [OpenApiDimensionParameter(Example = typeof(OpenApiExamples.Dimension))]
     [OpenApiResponseWithBody(HttpStatusCode.OK, ContentType.ApplicationJson, typeof(ItSpendingResponse[]))]
     [OpenApiResponseWithBody(HttpStatusCode.BadRequest, ContentType.ApplicationJsonProblem, typeof(ValidationProblemDetails), Description = "Validation errors or bad request.")]
     public async Task<HttpResponseData> RunAsync(
