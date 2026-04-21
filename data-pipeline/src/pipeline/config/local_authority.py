@@ -4,6 +4,7 @@ la_db_financial_projections = {
     "old_la_code": "LaCode",
     "Population2To18": "Population2To18",
     "Number of pupils": "TotalPupils",
+    "SEN support": "SENSupport",
     "OutturnTotalHighNeeds": "OutturnTotalHighNeeds",
     "OutturnTotalPlaceFunding": "OutturnTotalPlaceFunding",
     "OutturnTotalTopUpFundingMaintained": "OutturnTotalTopUpFundingMaintained",

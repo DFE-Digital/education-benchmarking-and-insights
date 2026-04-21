@@ -22,6 +22,7 @@ def la_all_schools() -> pd.DataFrame:
             "LA": [101, 101, 102, 102, 102, 103],
             "URN": [1, 2, 3, 4, 5, 6],
             "Number of pupils": [200.02, 1.345, 54.0, 2005.7, 3007.9, 12],
+            "SEN support": [90, 80, 1, 0, 34, 220],
             "Finance Type": [
                 "Maintained",
                 "Maintained",
