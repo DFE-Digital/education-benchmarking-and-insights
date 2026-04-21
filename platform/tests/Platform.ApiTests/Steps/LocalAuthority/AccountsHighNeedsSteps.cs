@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json.Linq;
+using Newtonsoft.Json.Linq;
 using Platform.ApiTests.Assertion;
 using Platform.ApiTests.Drivers;
 using Platform.ApiTests.TestDataHelpers;
@@ -6,7 +6,7 @@ using Platform.ApiTests.TestDataHelpers;
 namespace Platform.ApiTests.Steps.LocalAuthority;
 
 [Binding]
-[Scope(Feature = "Local Authority Accounts High Needs")]
+[Scope(Feature = "Local Authority Accounts - High Needs")]
 public class AccountsHighNeedsSteps(LocalAuthorityApiDriver api)
 {
     private const string Key = "high-needs";
@@ -38,22 +38,38 @@ public class AccountsHighNeedsSteps(LocalAuthorityApiDriver api)
         });
     }
 
-    [Given("an invalid history request")]
-    public void GivenAnInvalidHistoryRequest()
+    [Given("an invalid history request with '(.*)'")]
+    public void GivenAnInvalidHistoryRequestWith(string issue)
     {
+        var uri = issue switch
+        {
+            "no codes" => "/api/local-authorities/accounts/high-needs/history",
+            "more than 30 codes" => $"/api/local-authorities/accounts/high-needs/history?{string.Join("&", Enumerable.Range(1, 31).Select(i => $"code={100 + i}"))}",
+            "invalid dimension" => "/api/local-authorities/accounts/high-needs/history?code=201&dimension=invalid",
+            _ => throw new ArgumentOutOfRangeException(nameof(issue), issue, null)
+        };
+
         api.CreateRequest(HistoryKey, new HttpRequestMessage
         {
-            RequestUri = new Uri("/api/local-authorities/accounts/high-needs/history", UriKind.Relative),
+            RequestUri = new Uri(uri, UriKind.Relative),
             Method = HttpMethod.Get
         });
     }
 
-    [Given("an invalid request")]
-    public void GivenAnInvalidRequest()
+    [Given("an invalid request with '(.*)'")]
+    public void GivenAnInvalidRequestWith(string issue)
     {
+        var uri = issue switch
+        {
+            "no codes" => "/api/local-authorities/accounts/high-needs",
+            "more than 30 codes" => $"/api/local-authorities/accounts/high-needs?{string.Join("&", Enumerable.Range(1, 31).Select(i => $"code={100 + i}"))}",
+            "invalid dimension" => "/api/local-authorities/accounts/high-needs?code=201&dimension=invalid",
+            _ => throw new ArgumentOutOfRangeException(nameof(issue), issue, null)
+        };
+
         api.CreateRequest(Key, new HttpRequestMessage
         {
-            RequestUri = new Uri("/api/local-authorities/accounts/high-needs", UriKind.Relative),
+            RequestUri = new Uri(uri, UriKind.Relative),
             Method = HttpMethod.Get
         });
     }
@@ -79,7 +95,7 @@ public class AccountsHighNeedsSteps(LocalAuthorityApiDriver api)
     }
 
     [Then("the result should be ok and match the expected output of '(.*)'")]
-    private async Task ThenTheResultShouldBeOkAndMatchTheExpectedOutputOf(string testFile)
+    public async Task ThenTheResultShouldBeOkAndMatchTheExpectedOutputOf(string testFile)
     {
         var response = api[Key].Response;
         AssertHttpResponse.IsOk(response);
@@ -92,17 +108,38 @@ public class AccountsHighNeedsSteps(LocalAuthorityApiDriver api)
         actual.AssertDeepEquals(expected);
     }
 
-    [Then("the history result should be bad request")]
-    public void ThenTheHistoryResultShouldBeBadRequest()
+    [Then("the history result should be bad request and match the expected output in '(.*)'")]
+    public async Task ThenTheHistoryResultShouldBeBadRequestAndMatchTheExpectedOutputIn(string testFile)
     {
         var response = api[HistoryKey].Response;
         AssertHttpResponse.IsBadRequest(response);
+
+        var content = await response.Content.ReadAsStringAsync();
+        var actual = JObject.Parse(content);
+
+        var expected = TestDataProvider.GetJsonObjectData(testFile, RouteFolder, AccountsFolder, HighNeedsFolder);
+
+        actual.AssertDeepEquals(expected);
     }
 
-    [Then("the result should be bad request")]
-    public void ThenTheResultShouldBeBadRequest()
+    [Then("the history result should be not found")]
+    public void ThenTheHistoryResultShouldBeNotFound()
+    {
+        var response = api[HistoryKey].Response;
+        AssertHttpResponse.IsNotFound(response);
+    }
+
+    [Then("the result should be bad request and match the expected output in '(.*)'")]
+    public async Task ThenTheResultShouldBeBadRequestAndMatchTheExpectedOutputIn(string testFile)
     {
         var response = api[Key].Response;
         AssertHttpResponse.IsBadRequest(response);
+
+        var content = await response.Content.ReadAsStringAsync();
+        var actual = JObject.Parse(content);
+
+        var expected = TestDataProvider.GetJsonObjectData(testFile, RouteFolder, AccountsFolder, HighNeedsFolder);
+
+        actual.AssertDeepEquals(expected);
     }
 }

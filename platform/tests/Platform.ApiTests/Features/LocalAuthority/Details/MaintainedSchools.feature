@@ -1,4 +1,4 @@
-Feature: Local Authority Maintained Schools
+Feature: Local Authority Details - Maintained Schools
 
     Scenario: valid finance summary request
         Given a finance summary request with code '<Code>' and query parameters:
@@ -31,6 +31,8 @@ Feature: Local Authority Maintained Schools
     Examples:
       | Code | Result                                         | ParameterName1          | ParameterValue1 |  
       | 201  | LaSchoolsFinanceInvalidLimit.json              | Limit                   | invalid         |
+      | 201  | LaSchoolsFinanceLimit0.json                    | Limit                   | 0               |
+      | 201  | LaSchoolsFinanceLimit101.json                  | Limit                   | 101             |
       | 201  | LaSchoolsFinanceInvalidDimension.json          | Dimension               | invalid         |
       | 201  | LaSchoolsFinanceInvalidNurseryProvision.json   | NurseryProvision        | invalid         |
       | 201  | LaSchoolsFinanceInvalidSixthFormProvision.json | SixthFormProvision      | invalid         |
@@ -72,6 +74,8 @@ Feature: Local Authority Maintained Schools
     Examples:
       | Code | Result                                           | ParameterName1          | ParameterValue1 |  
       | 201  | LaSchoolsWorkforceInvalidLimit.json              | Limit                   | invalid         |
+      | 201  | LaSchoolsWorkforceLimit0.json                    | Limit                   | 0               |
+      | 201  | LaSchoolsWorkforceLimit101.json                  | Limit                   | 101             |
       | 201  | LaSchoolsWorkforceInvalidDimension.json          | Dimension               | invalid         |
       | 201  | LaSchoolsWorkforceInvalidNurseryProvision.json   | NurseryProvision        | invalid         |
       | 201  | LaSchoolsWorkforceInvalidSixthFormProvision.json | SixthFormProvision      | invalid         |

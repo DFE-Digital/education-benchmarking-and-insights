@@ -6,11 +6,12 @@ using Platform.ApiTests.TestDataHelpers;
 namespace Platform.ApiTests.Steps.LocalAuthority;
 
 [Binding]
-[Scope(Feature = "Local Authority Maintained Schools")]
+[Scope(Feature = "Local Authority Details - Maintained Schools")]
 public class MaintainedSchoolsSteps(LocalAuthorityApiDriver api)
 {
     private const string SchoolsKey = "schools-key";
     private const string RouteFolder = "LocalAuthority";
+    private const string DetailsFolder = "Details";
     private const string SubFolder = "MaintainedSchools";
 
     [Given("a finance summary request with code '(.*)' and query parameters:")]
@@ -73,7 +74,7 @@ public class MaintainedSchoolsSteps(LocalAuthorityApiDriver api)
         var content = await response.Content.ReadAsStringAsync();
         var actual = JArray.Parse(content);
 
-        var expected = TestDataProvider.GetJsonArrayData(testFile, RouteFolder, SubFolder);
+        var expected = TestDataProvider.GetJsonArrayData(testFile, RouteFolder, DetailsFolder, SubFolder);
 
         actual.AssertDeepEquals(expected);
     }
@@ -87,7 +88,7 @@ public class MaintainedSchoolsSteps(LocalAuthorityApiDriver api)
         var content = await response.Content.ReadAsStringAsync();
         var actual = JObject.Parse(content);
 
-        var expected = TestDataProvider.GetJsonObjectData(testFile, RouteFolder, SubFolder);
+        var expected = TestDataProvider.GetJsonObjectData(testFile, RouteFolder, DetailsFolder, SubFolder);
 
         actual.AssertDeepEquals(expected);
     }

@@ -1,0 +1,28 @@
+{
+  "totalResults": 9,
+  "page": 1,
+  "pageSize": 5,
+  "pageCount": 2,
+  "results": [
+    {
+      "code": "301",
+      "name": "Barking and Dagenham"
+    },
+    {
+      "code": "800",
+      "name": "Bath and North East Somerset"
+    },
+    {
+      "code": "846",
+      "name": "Brighton and Hove"
+    },
+    {
+      "code": "205",
+      "name": "Hammersmith and Fulham"
+    },
+    {
+      "code": "207",
+      "name": "Kensington and Chelsea"
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "totalResults": 1,
+  "page": 1,
+  "pageSize": 5,
+  "pageCount": 1,
+  "results": [
+    {
+      "code": "201",
+      "name": "City of London"
+    }
+  ]
+}

@@ -5,23 +5,4 @@ namespace Platform.ApiTests.Steps.School;
 
 [Binding]
 [Scope(Feature = "School Healthcheck")]
-public class HealthcheckSteps(SchoolApiDriver api) : BaseHealthcheckSteps(api)
-{
-    [Given("a valid request")]
-    private void GivenAValidRequest()
-    {
-        CreateRequest();
-    }
-
-    [When("I submit the request")]
-    private async Task WhenISubmitTheRequest()
-    {
-        await SubmitRequest();
-    }
-
-    [Then("the result should be healthy")]
-    private async Task ThenTheResultShouldBeHealthy()
-    {
-        await ValidateResponse();
-    }
-}
+public class HealthcheckSteps(SchoolApiDriver api) : BaseHealthcheckSteps(api);

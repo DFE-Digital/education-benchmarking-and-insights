@@ -4,24 +4,5 @@ using Platform.ApiTests.Steps.Shared;
 namespace Platform.ApiTests.Steps.LocalAuthority;
 
 [Binding]
-[Scope(Feature = "Local Authority Healthcheck")]
-public class HealthcheckSteps(LocalAuthorityApiDriver api) : BaseHealthcheckSteps(api)
-{
-    [Given("a valid request")]
-    private void GivenAValidRequest()
-    {
-        CreateRequest();
-    }
-
-    [When("I submit the request")]
-    private async Task WhenISubmitTheRequest()
-    {
-        await SubmitRequest();
-    }
-
-    [Then("the result should be healthy")]
-    private async Task ThenTheResultShouldBeHealthy()
-    {
-        await ValidateResponse();
-    }
-}
+[Scope(Feature = "Local Authority Health Check")]
+public class HealthcheckSteps(LocalAuthorityApiDriver api) : BaseHealthcheckSteps(api);

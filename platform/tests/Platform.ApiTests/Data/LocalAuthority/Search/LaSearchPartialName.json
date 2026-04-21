@@ -1,0 +1,28 @@
+{
+  "totalResults": 9,
+  "page": 1,
+  "pageSize": 5,
+  "pageCount": 2,
+  "results": [
+    {
+      "code": "894",
+      "name": "Telford and Wrekin"
+    },
+    {
+      "code": "868",
+      "name": "Windsor and Maidenhead"
+    },
+    {
+      "code": "301",
+      "name": "Barking and Dagenham"
+    },
+    {
+      "code": "807",
+      "name": "Redcar and Cleveland"
+    },
+    {
+      "code": "800",
+      "name": "Bath and North East Somerset"
+    }
+  ]
+}

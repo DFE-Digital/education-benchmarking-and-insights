@@ -24,6 +24,16 @@ public class DetailsSteps(LocalAuthorityApiDriver api)
         });
     }
 
+    [Given("a get request for a collection of Local Authorities")]
+    public void GivenAGetRequestForACollectionOfLocalAuthorities()
+    {
+        api.CreateRequest(Key, new HttpRequestMessage
+        {
+            RequestUri = new Uri("/api/local-authorities", UriKind.Relative),
+            Method = HttpMethod.Get
+        });
+    }
+
     [When("I submit the request")]
     public async Task WhenISubmitTheRequest()
     {
@@ -40,6 +50,20 @@ public class DetailsSteps(LocalAuthorityApiDriver api)
         var actual = JObject.Parse(content);
 
         var expected = TestDataProvider.GetJsonObjectData(testFile, RouteFolder, DetailsFolder);
+
+        actual.AssertDeepEquals(expected);
+    }
+
+    [Then("the collection result should be ok and match the expected output of '(.*)'")]
+    public async Task ThenTheCollectionResultShouldBeOkAndMatchTheExpectedOutputOf(string testFile)
+    {
+        var response = api[Key].Response;
+        AssertHttpResponse.IsOk(response);
+
+        var content = await response.Content.ReadAsStringAsync();
+        var actual = JArray.Parse(content);
+
+        var expected = TestDataProvider.GetJsonArrayData(testFile, RouteFolder, DetailsFolder);
 
         actual.AssertDeepEquals(expected);
     }
