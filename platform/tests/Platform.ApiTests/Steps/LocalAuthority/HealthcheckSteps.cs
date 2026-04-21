@@ -6,4 +6,3 @@ namespace Platform.ApiTests.Steps.LocalAuthority;
 [Binding]
 [Scope(Feature = "Local Authority Health Check")]
 public class HealthcheckSteps(LocalAuthorityApiDriver api) : BaseHealthcheckSteps(api);
-

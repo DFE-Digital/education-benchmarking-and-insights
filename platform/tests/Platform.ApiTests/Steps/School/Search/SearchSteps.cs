@@ -109,7 +109,7 @@ public class SearchSteps(SchoolApiDriver api)
     {
         var response = api.ContainsKey(SearchKey) ? api[SearchKey].Response : api[SuggestKey].Response;
         var content = await response.Content.ReadAsStringAsync();
-        
+
         var actual = JObject.Parse(content);
 
         Assert.NotNull(actual["title"]);

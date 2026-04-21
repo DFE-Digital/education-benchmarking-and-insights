@@ -156,7 +156,7 @@ public class InvalidSearchRequestData : IEnumerable<object[]>
                     Value = "test"
                 }
             },
-            $"Order By must empty or be one of the supported values: {string.Join(", ", Sort.All)}"
+            $"'Order By' must be empty or one of the supported values: {string.Join(", ", Sort.All)}"
         ];
     }
 
