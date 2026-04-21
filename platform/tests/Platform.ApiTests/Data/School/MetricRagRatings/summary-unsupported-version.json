@@ -1,0 +1,6 @@
+{
+  "title": "Unsupported API version",
+  "status": 400,
+  "detail": "The API version specified in the 'x-api-version' header is not supported.",
+  "instance": "/api/schools/metric-rag-ratings"
+}

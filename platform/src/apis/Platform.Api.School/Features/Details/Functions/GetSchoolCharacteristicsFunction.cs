@@ -16,8 +16,8 @@ namespace Platform.Api.School.Features.Details.Functions;
 public class GetSchoolCharacteristicsFunction(IEnumerable<IGetSchoolCharacteristicsHandler> handlers) : VersionedFunctionBase<IGetSchoolCharacteristicsHandler, IdContext>(handlers)
 {
     [Function(nameof(GetSchoolCharacteristicsFunction))]
-    [OpenApiOperation(nameof(GetSchoolCharacteristicsFunction), Constants.Features.Details)]
-    [OpenApiParameter("urn", Type = typeof(string), Required = true)]
+    [OpenApiOperation(nameof(GetSchoolCharacteristicsFunction), Constants.Features.Details, Summary = "Retrieves a school's descriptive characteristics", Description = "Returns the benchmarking characteristics for a specific school, such as total pupils, free school meal percentages, and building information, identified by its 6-digit Unique Reference Number (URN).")]
+    [OpenApiUrnParameter]
     [OpenApiSecurityHeader]
     [OpenApiResponseWithBody(HttpStatusCode.OK, ContentType.ApplicationJson, typeof(SchoolCharacteristicResponse))]
     [OpenApiResponseWithBody(HttpStatusCode.BadRequest, ContentType.ApplicationJsonProblem, typeof(ProblemDetails))]

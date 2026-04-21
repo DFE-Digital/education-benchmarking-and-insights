@@ -17,11 +17,11 @@ namespace Platform.Api.School.Features.MetricRagRatings.Functions;
 public class QuerySummaryFunction(IEnumerable<IQuerySummaryHandler> handlers) : VersionedFunctionBase<IQuerySummaryHandler, BasicContext>(handlers)
 {
     [Function(nameof(QuerySummaryFunction))]
-    [OpenApiOperation(nameof(QuerySummaryFunction), Constants.Features.MetricRagRatings)]
-    [OpenApiParameter("urns", In = ParameterLocation.Query, Description = "List of school URNs", Type = typeof(string[]), Required = false)]
-    [OpenApiParameter("companyNumber", In = ParameterLocation.Query, Description = "Eight digit trust company number", Type = typeof(string), Required = false)]
-    [OpenApiParameter("laCode", In = ParameterLocation.Query, Description = "Three digit Local Authority code", Type = typeof(string), Required = false)]
-    [OpenApiParameter("overallPhase", In = ParameterLocation.Query, Description = "School overall phase", Type = typeof(string), Required = false, Example = typeof(OpenApiExamples.Phase))]
+    [OpenApiOperation(nameof(QuerySummaryFunction), Constants.Features.MetricRagRatings, Summary = "Query summarized metric RAG ratings", Description = "Returns a summarized view of Red-Amber-Green (RAG) ratings for specified schools, filtered by local authority, trust, or specific URNs.")]
+    [OpenApiUrnsParameter(Required = false)]
+    [OpenApiCompanyNumberParameter]
+    [OpenApiLaCodeParameter]
+    [OpenApiOverallPhaseParameter(Example = typeof(OpenApiExamples.Phase))]
     [OpenApiSecurityHeader]
     [OpenApiResponseWithBody(HttpStatusCode.OK, ContentType.ApplicationJson, typeof(SummaryResponse[]))]
     [OpenApiResponseWithBody(HttpStatusCode.BadRequest, ContentType.ApplicationJsonProblem, typeof(ValidationProblemDetails), Description = "Validation errors or bad request.")]

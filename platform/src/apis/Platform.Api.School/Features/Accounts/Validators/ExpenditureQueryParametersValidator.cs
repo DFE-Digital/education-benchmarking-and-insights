@@ -1,4 +1,4 @@
-﻿using System.Diagnostics.CodeAnalysis;
+using System.Diagnostics.CodeAnalysis;
 using FluentValidation;
 using Platform.Api.School.Features.Accounts.Parameters;
 using Platform.Domain;
@@ -28,7 +28,7 @@ public class ExpenditureQueryParametersValidator : AbstractValidator<Expenditure
             .Must(BeAValidPhase)
             .When(x => x.Urns.Length == 0)
             .When(x => !string.IsNullOrWhiteSpace(x.CompanyNumber) || !string.IsNullOrWhiteSpace(x.LaCode))
-            .WithMessage($"{{PropertyName}} must be be specified when {nameof(ExpenditureQueryParameters.CompanyNumber)} or {nameof(ExpenditureQueryParameters.LaCode)} is supplied and be one of the supported values: {string.Join(", ", OverallPhase.All)}");
+            .WithMessage($"'{{PropertyName}}' must be specified when {nameof(ExpenditureQueryParameters.CompanyNumber)} or {nameof(ExpenditureQueryParameters.LaCode)} is supplied and is not a recognized school phase. Valid values are: {string.Join(", ", OverallPhase.All)}");
     }
 
     private static bool BeAValidPhase(string? phase) => OverallPhase.IsValid(phase);

@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
@@ -18,10 +18,10 @@ public class GetExpenditureNationalAverageHistoryFunction(IEnumerable<IGetExpend
 {
     [Function(nameof(GetExpenditureNationalAverageHistoryFunction))]
     [OpenApiSecurityHeader]
-    [OpenApiOperation(nameof(GetExpenditureNationalAverageHistoryFunction), Constants.Features.Accounts)]
-    [OpenApiParameter("dimension", In = ParameterLocation.Query, Description = "Dimension for response values", Type = typeof(string), Required = true, Example = typeof(OpenApiExamples.Dimension))]
-    [OpenApiParameter("phase", In = ParameterLocation.Query, Description = "Overall phase for response values", Type = typeof(string), Required = true, Example = typeof(OpenApiExamples.Phase))]
-    [OpenApiParameter("financeType", In = ParameterLocation.Query, Description = "Finance type for response values", Type = typeof(string), Required = true, Example = typeof(OpenApiExamples.FinanceTypes))]
+    [OpenApiOperation(nameof(GetExpenditureNationalAverageHistoryFunction), Constants.Features.Accounts, Summary = "Get school expenditure national average history", Description = "Returns historical national average expenditure for schools, filtered by finance type and phase.")]
+    [OpenApiDimensionParameter(Required = true, Example = typeof(OpenApiExamples.Dimension))]
+    [OpenApiPhaseParameter(Required = true, Example = typeof(OpenApiExamples.Phase))]
+    [OpenApiFinanceTypeParameter(Required = true, Example = typeof(OpenApiExamples.FinanceTypes))]
     [OpenApiResponseWithBody(HttpStatusCode.OK, ContentType.ApplicationJson, typeof(ExpenditureHistoryResponse))]
     [OpenApiResponseWithBody(HttpStatusCode.BadRequest, ContentType.ApplicationJsonProblem, typeof(ValidationProblemDetails), Description = "Validation errors or bad request.")]
     [OpenApiResponseWithoutBody(HttpStatusCode.NotFound)]

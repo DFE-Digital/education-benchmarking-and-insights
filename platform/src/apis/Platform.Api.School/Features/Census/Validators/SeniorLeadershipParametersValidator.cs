@@ -12,11 +12,11 @@ public class SeniorLeadershipParametersValidator : AbstractValidator<SeniorLeade
     {
         RuleFor(x => x.Urns)
             .NotEmpty()
-            .WithMessage("A collection of URNs must be specified");
+            .WithMessage("'{PropertyName}' must be specified");
 
         RuleFor(x => x.Dimension)
             .Must(BeAValidDimension)
-            .WithMessage($"{{PropertyName}} must be empty or one of the supported values: {Dimensions.Census.Total} or {Dimensions.Census.PercentWorkforce}");
+            .WithMessage($"'{{PropertyName}}' is not a recognized census dimension. Valid values are: {Dimensions.Census.Total} or {Dimensions.Census.PercentWorkforce}");
     }
 
     private static bool BeAValidDimension(string? dimension) => dimension is Dimensions.Census.Total or Dimensions.Census.PercentWorkforce;

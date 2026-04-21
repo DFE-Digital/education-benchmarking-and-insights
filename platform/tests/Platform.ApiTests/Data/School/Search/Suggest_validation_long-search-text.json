@@ -1,0 +1,1 @@
+﻿{"title":"Validation failed.","status":400,"instance":"/api/schools/suggest","errors":{"SearchText":["The length of \u0027Search Text\u0027 must be 100 characters or fewer. You entered 101 characters."]}}

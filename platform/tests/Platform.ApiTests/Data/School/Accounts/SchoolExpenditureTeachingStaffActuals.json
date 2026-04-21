@@ -1,0 +1,16 @@
+{
+  "urn": "777042",
+  "schoolName": "Test school 102",
+  "schoolType": "Community school",
+  "laName": "Hammersmith and Fulham",
+  "periodCoveredByReturn": 12,
+  "totalPupils": 212.0,
+  "totalInternalFloorArea": 1284.0,
+  "totalExpenditure": 1587223.0,
+  "totalTeachingSupportStaffCosts": 1153185.0,
+  "teachingStaffCosts": 635145.0,
+  "supplyTeachingStaffCosts": 0.0,
+  "educationalConsultancyCosts": 56343.0,
+  "educationSupportStaffCosts": 449776.0,
+  "agencySupplyTeachingStaffCosts": 11921.0
+}

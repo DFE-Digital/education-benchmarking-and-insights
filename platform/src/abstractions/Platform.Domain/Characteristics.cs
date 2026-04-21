@@ -3,18 +3,27 @@
 namespace Platform.Domain;
 
 [ExcludeFromCodeCoverage]
+/// <summary>
+/// Represents a characteristic that can have multiple string values.
+/// </summary>
 public record CharacteristicList
 {
     public string[] Values { get; init; } = [];
 }
 
 [ExcludeFromCodeCoverage]
+/// <summary>
+/// Represents a characteristic that can have a boolean value.
+/// </summary>
 public record CharacteristicValueBool
 {
     public bool Values { get; init; }
 }
 
 [ExcludeFromCodeCoverage]
+/// <summary>
+/// Represents a characteristic that can have a numeric range.
+/// </summary>
 public record CharacteristicRange
 {
     public decimal From { get; init; }
@@ -22,6 +31,9 @@ public record CharacteristicRange
 }
 
 [ExcludeFromCodeCoverage]
+/// <summary>
+/// Represents a characteristic that can have a date range.
+/// </summary>
 public record CharacteristicDateRange
 {
     public DateTime From { get; init; }

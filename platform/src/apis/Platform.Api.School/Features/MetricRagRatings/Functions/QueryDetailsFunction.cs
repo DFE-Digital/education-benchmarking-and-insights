@@ -17,11 +17,11 @@ namespace Platform.Api.School.Features.MetricRagRatings.Functions;
 public class QueryDetailsFunction(IEnumerable<IQueryDetailsHandler> handlers) : VersionedFunctionBase<IQueryDetailsHandler, BasicContext>(handlers)
 {
     [Function(nameof(QueryDetailsFunction))]
-    [OpenApiOperation(nameof(QueryDetailsFunction), Constants.Features.MetricRagRatings)]
-    [OpenApiParameter("urns", In = ParameterLocation.Query, Description = "List of school URNs", Type = typeof(string[]), Required = false)]
-    [OpenApiParameter("companyNumber", In = ParameterLocation.Query, Description = "Eight digit trust company number", Type = typeof(string), Required = false)]
-    [OpenApiParameter("categories", In = ParameterLocation.Query, Description = "List of cost category", Type = typeof(string[]), Example = typeof(OpenApiExamples.CategoryCost), Required = false)]
-    [OpenApiParameter("statuses", In = ParameterLocation.Query, Description = "List of RAG statuses", Type = typeof(string[]), Example = typeof(OpenApiExamples.RagStatuses), Required = false)]
+    [OpenApiOperation(nameof(QueryDetailsFunction), Constants.Features.MetricRagRatings, Summary = "Query detailed metric RAG ratings", Description = "Returns a detailed breakdown of Red-Amber-Green (RAG) ratings for specific cost categories and RAG statuses across specified schools.")]
+    [OpenApiUrnsParameter(Required = false)]
+    [OpenApiCompanyNumberParameter]
+    [OpenApiCategoriesParameter(Example = typeof(OpenApiExamples.CategoryCost))]
+    [OpenApiStatusesParameter(Example = typeof(OpenApiExamples.RagStatuses))]
     [OpenApiSecurityHeader]
     [OpenApiResponseWithBody(HttpStatusCode.OK, ContentType.ApplicationJson, typeof(DetailResponse[]))]
     [OpenApiResponseWithBody(HttpStatusCode.BadRequest, ContentType.ApplicationJsonProblem, typeof(ValidationProblemDetails), Description = "Validation errors or bad request.")]

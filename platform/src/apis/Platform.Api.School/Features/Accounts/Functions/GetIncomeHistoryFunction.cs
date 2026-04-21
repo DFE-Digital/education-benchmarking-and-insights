@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
@@ -18,9 +18,9 @@ public class GetIncomeHistoryFunction(IEnumerable<IGetIncomeHistoryHandler> hand
 {
     [Function(nameof(GetIncomeHistoryFunction))]
     [OpenApiSecurityHeader]
-    [OpenApiOperation(nameof(GetIncomeHistoryFunction), Constants.Features.Accounts)]
-    [OpenApiParameter("urn", Type = typeof(string), Required = true)]
-    [OpenApiParameter("dimension", In = ParameterLocation.Query, Description = "Dimension for response values", Type = typeof(string), Required = true, Example = typeof(OpenApiExamples.Dimension))]
+    [OpenApiOperation(nameof(GetIncomeHistoryFunction), Constants.Features.Accounts, Summary = "Get school income history", Description = "Returns a historical time-series of income for a specific school.")]
+    [OpenApiUrnParameter]
+    [OpenApiDimensionParameter(Required = true, Example = typeof(OpenApiExamples.Dimension))]
     [OpenApiResponseWithBody(HttpStatusCode.OK, ContentType.ApplicationJson, typeof(IncomeHistoryResponse))]
     [OpenApiResponseWithBody(HttpStatusCode.BadRequest, ContentType.ApplicationJsonProblem, typeof(ValidationProblemDetails), Description = "Validation errors or bad request.")]
     [OpenApiResponseWithoutBody(HttpStatusCode.NotFound)]

@@ -15,19 +15,33 @@ This repository includes custom **Gemini CLI Skills** to automate and standardiz
 
 Skills act as expert procedural guides for the AI agent, dictating exactly how it should perform complex or domain-specific tasks in the context of this monorepo.
 
-### Platform API Test Creator Skill
+### Platform API Metadata Enrichment Skill
 
-The `platform-api-test-creator` skill orchestrates the creation and update of functional API tests, ensuring 100% validation coverage and strict JSON assertions.
+The `platform-api-metadata-enricher` skill systematically enhances Platform APIs with XML documentation, descriptive OpenAPI attributes, and explicit FluentValidation error messages. Use this skill to prepare an API for high-quality test plan generation or to improve Swagger documentation without altering core business logic.
+
+### Platform API Testing Skills
+
+We have separated the API test creation process into two distinct skills for better planning, review, and execution of functional API tests.
+
+#### 1. Platform API Test Planner (`platform-api-test-planner`)
+
+This skill is responsible for researching, evaluating, and planning functional tests for Platform API features. It outputs a formal test plan into the `documentation/quality-assurance/api-test-plans/` directory.
+
+#### 2. Platform API Test Implementer (`platform-api-test-implementer`)
+
+This skill executes the test plan. It creates or updates Gherkin feature files, step bindings, and JSON data files using strict assertions and a fail-first approach, subsequently logging the changes back to the test plan.
 
 #### Installation
 
-For new developers or after a fresh clone, install the skill into your local workspace:
+For new developers or after a fresh clone, install the skills into your local workspace:
 
 ```bash
-gemini skills install skills/platform-api-test-creator.skill --scope workspace
+gemini skills install skills/platform-api-metadata-enricher.skill --scope workspace
+gemini skills install skills/platform-api-test-planner.skill --scope workspace
+gemini skills install skills/platform-api-test-implementer.skill --scope workspace
 ```
 
-After installation, you must reload your interactive Gemini session to enable the skill:
+After installation, you must reload your interactive Gemini session to enable the skills:
 
 ```bash
 /skills reload
@@ -35,13 +49,20 @@ After installation, you must reload your interactive Gemini session to enable th
 
 #### Usage
 
-Trigger the skill by asking Gemini CLI to work on API tests or coverage. For example:
+First, use the enricher to prepare the API metadata:
 
-- "Add functional tests for the Search feature in the School API"
-- "Update API test coverage for the LocalAuthority module"
-- "Improve functional tests for [Feature Name]"
+- "Use the metadata enricher on the Accounts feature of the School API"
+- "Enrich the metadata for the Insight feature in the Trust API"
 
-The agent will automatically follow the project-specific workflow (Research -> Realignment -> JSON Assertion -> Run & Capture).
+Then, ask Gemini CLI to research and create a test plan:
+
+- "Plan API tests for the Search feature in the School API"
+- "Create a test plan for the LocalAuthority module API endpoints"
+
+Once the test plan is generated and reviewed, trigger the implementer:
+
+- "Implement the test plan for the Search feature"
+- "Execute the test plan we just created for the LocalAuthority module"
 
 ## Context Control (GEMINI.md)
 

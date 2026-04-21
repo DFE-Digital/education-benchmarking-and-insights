@@ -1,0 +1,10 @@
+{
+  "title": "Validation failed.",
+  "status": 400,
+  "instance": "/api/schools/metric-rag-ratings/details",
+  "errors": {
+    "Categories": [
+      "Categories must only contain the supported values: Teaching and Teaching support staff, Non-educational support staff and services, Educational supplies, Educational ICT, Premises staff and services, Utilities, Administrative supplies, Catering staff and supplies, Other costs"
+    ]
+  }
+}

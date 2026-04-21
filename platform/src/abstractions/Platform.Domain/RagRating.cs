@@ -3,8 +3,11 @@
 //TODO: Consider converting these to enums
 public static class RagRating
 {
+    /// <summary>Indicates high priority or critical concern (bottom 10%).</summary>
     public const string Red = "red";
+    /// <summary>Indicates medium priority or moderate concern (middle 60%).</summary>
     public const string Amber = "amber";
+    /// <summary>Indicates low priority or healthy performance (top 30%).</summary>
     public const string Green = "green";
 
     public static readonly string[] All =

@@ -17,6 +17,11 @@ Feature: Local Authority Statistical Neighbours
           | 12   |
           | 1234 |
 
+    Scenario: invalid request for local authority statistical neighbours with non-numeric code
+        Given a get request for local authority statistical neighbours with code 'abc'
+        When I submit the request
+        Then the result should be not found
+
     Scenario: request for local authority statistical neighbours with unsupported api version
         Given a get request for local authority statistical neighbours with code '201' and api version '2.0'
         When I submit the request

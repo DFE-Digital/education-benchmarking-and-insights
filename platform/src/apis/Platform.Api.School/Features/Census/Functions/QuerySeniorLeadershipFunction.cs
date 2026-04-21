@@ -18,9 +18,9 @@ public class QuerySeniorLeadershipFunction(IEnumerable<IQuerySeniorLeadershipHan
 {
     [Function(nameof(QuerySeniorLeadershipFunction))]
     [OpenApiSecurityHeader]
-    [OpenApiOperation(nameof(QuerySeniorLeadershipFunction), Constants.Features.Census)]
-    [OpenApiParameter("urns", In = ParameterLocation.Query, Description = "List of school URNs", Type = typeof(string[]), Required = true)]
-    [OpenApiParameter("dimension", In = ParameterLocation.Query, Description = "Value dimension", Type = typeof(string), Required = false, Example = typeof(OpenApiExamples.SeniorLeadershipDimension))]
+    [OpenApiOperation(nameof(QuerySeniorLeadershipFunction), Constants.Features.Census, Summary = "Query senior leadership census data", Description = "Returns senior leadership workforce data for a specific collection of schools based on URNs.")]
+    [OpenApiUrnsParameter(Required = true)]
+    [OpenApiDimensionParameter(Required = false, Example = typeof(OpenApiExamples.SeniorLeadershipDimension))]
     [OpenApiResponseWithBody(HttpStatusCode.OK, ContentType.ApplicationJson, typeof(CensusResponse[]))]
     [OpenApiResponseWithBody(HttpStatusCode.BadRequest, ContentType.ApplicationJsonProblem, typeof(ValidationProblemDetails), Description = "Validation errors or bad request.")]
     public async Task<HttpResponseData> RunAsync(

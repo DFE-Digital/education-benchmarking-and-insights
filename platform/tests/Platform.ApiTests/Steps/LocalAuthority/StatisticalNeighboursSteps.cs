@@ -13,7 +13,6 @@ public class StatisticalNeighboursSteps(LocalAuthorityApiDriver api)
     private const string RouteFolder = "LocalAuthority";
     private const string DetailsFolder = "StatisticalNeighbours";
 
-
     [Given(@"^a get request for local authority statistical neighbours with code '([^']*)'$")]
     public void GivenAGetRequestForLocalAuthorityStatisticalNeighboursWithCode(string code)
     {

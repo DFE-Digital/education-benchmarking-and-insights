@@ -1,0 +1,1 @@
+﻿{"title":"Validation failed.","status":400,"instance":"/api/schools/suggest","errors":{"Size":["\u0027Size\u0027 must be greater than or equal to \u00275\u0027."]}}

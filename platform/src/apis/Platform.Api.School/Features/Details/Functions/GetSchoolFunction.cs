@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Attributes;
-using Microsoft.OpenApi.Models;
 using Platform.Api.School.Features.Details.Handlers;
 using Platform.Api.School.Features.Details.Models;
 using Platform.Functions;
@@ -18,9 +17,9 @@ public class GetSchoolFunction(IEnumerable<IGetSchoolHandler> handlers) : Versio
 {
     [Function(nameof(GetSchoolFunction))]
     [OpenApiSecurityHeader]
-    [OpenApiOperation(nameof(GetSchoolFunction), Constants.Features.Details)]
-    [OpenApiParameter("urn", Type = typeof(string), Required = true)]
-    [OpenApiParameter(Platform.Functions.Constants.ApiVersion, Type = typeof(string), Required = false, In = ParameterLocation.Header)]
+    [OpenApiOperation(nameof(GetSchoolFunction), Constants.Features.Details, Summary = "Retrieves a single school's core details", Description = "Returns the fundamental details for a specific school, including its name, address, contact information, and trust affiliation, identified by its 6-digit Unique Reference Number (URN).")]
+    [OpenApiUrnParameter]
+    [OpenApiApiVersionParameter]
     [OpenApiResponseWithBody(HttpStatusCode.OK, ContentType.ApplicationJson, typeof(SchoolResponse))]
     [OpenApiResponseWithBody(HttpStatusCode.BadRequest, ContentType.ApplicationJsonProblem, typeof(ProblemDetails))]
     [OpenApiResponseWithoutBody(HttpStatusCode.NotFound)]
