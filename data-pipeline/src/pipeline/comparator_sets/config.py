@@ -178,6 +178,162 @@ elif WEIGHT_SCHEME == "afe_with_geog":
     EASTING_WEIGHT = 1/7
     NORTHING_WEIGHT = 1/7
 
+elif WEIGHT_SCHEME == "pupils_gifa_geog":
+    #pupil weights (non-special)
+    PUPILS_WEIGHT = 1/3
+    FSM_WEIGHT = 0
+    SEN_WEIGHT = 0
+    OVERCAPACITY_WEIGHT = 0
+    UNDERCAPACITY_WEIGHT = 0
+    RURALSCORE_WEIGHT = 0
+    EASTING_WEIGHT = 1/3
+    NORTHING_WEIGHT = 1/3
+
+    #pupil weights (special)
+    SPECIAL_PUPILS_WEIGHT = 1/3
+    SPECIAL_FSM_WEIGHT = 0
+    EASTING_WEIGHT = 1/3
+    NORTHING_WEIGHT = 1/3
+
+    #building weights
+    GIFA_WEIGHT = 1/3
+    AGE_WEIGHT = 0
+    OLDESTBUILDINGAGE_WEIGHT = 0
+    NEWESTBUILDINGAGE_WEIGHT = 0
+    BUILDINGCOUNT_WEIGHT = 0
+    EASTING_WEIGHT = 1/3
+    NORTHING_WEIGHT = 1/3
+
+elif WEIGHT_SCHEME == "fsm_age_geog":
+    #pupil weights (non-special)
+    PUPILS_WEIGHT = 0
+    FSM_WEIGHT = 1/3
+    SEN_WEIGHT = 0
+    OVERCAPACITY_WEIGHT = 0
+    UNDERCAPACITY_WEIGHT = 0
+    RURALSCORE_WEIGHT = 0
+    EASTING_WEIGHT = 1/3
+    NORTHING_WEIGHT = 1/3
+
+    #pupil weights (special)
+    SPECIAL_PUPILS_WEIGHT = 0
+    SPECIAL_FSM_WEIGHT = 1/3
+    EASTING_WEIGHT = 1/3
+    NORTHING_WEIGHT = 1/3
+
+    #building weights
+    GIFA_WEIGHT = 0
+    AGE_WEIGHT = 1/3
+    OLDESTBUILDINGAGE_WEIGHT = 0
+    NEWESTBUILDINGAGE_WEIGHT = 0
+    BUILDINGCOUNT_WEIGHT = 0
+    EASTING_WEIGHT = 1/3
+    NORTHING_WEIGHT = 1/3
+
+elif WEIGHT_SCHEME == "sen_oldest_geog":
+    #pupil weights (non-special)
+    PUPILS_WEIGHT = 0
+    FSM_WEIGHT = 0
+    SEN_WEIGHT = 1/3
+    OVERCAPACITY_WEIGHT = 0
+    UNDERCAPACITY_WEIGHT = 0
+    RURALSCORE_WEIGHT = 0
+    EASTING_WEIGHT = 1/3
+    NORTHING_WEIGHT = 1/3
+
+    #pupil weights (special)
+    SPECIAL_PUPILS_WEIGHT = 0
+    SPECIAL_FSM_WEIGHT = 0
+    EASTING_WEIGHT = 1/2
+    NORTHING_WEIGHT = 1/2
+
+    #building weights
+    GIFA_WEIGHT = 0
+    AGE_WEIGHT = 0
+    OLDESTBUILDINGAGE_WEIGHT = 1/3
+    NEWESTBUILDINGAGE_WEIGHT = 0
+    BUILDINGCOUNT_WEIGHT = 0
+    EASTING_WEIGHT = 1/3
+    NORTHING_WEIGHT = 1/3
+
+elif WEIGHT_SCHEME == "overcapacity_newest_geog":
+    #pupil weights (non-special)
+    PUPILS_WEIGHT = 0
+    FSM_WEIGHT = 0
+    SEN_WEIGHT = 0
+    OVERCAPACITY_WEIGHT = 1/3
+    UNDERCAPACITY_WEIGHT = 0
+    RURALSCORE_WEIGHT = 0
+    EASTING_WEIGHT = 1/3
+    NORTHING_WEIGHT = 1/3
+
+    #pupil weights (special)
+    SPECIAL_PUPILS_WEIGHT = 0
+    SPECIAL_FSM_WEIGHT = 0
+    EASTING_WEIGHT = 1/3
+    NORTHING_WEIGHT = 1/3
+
+    #building weights
+    GIFA_WEIGHT = 0
+    AGE_WEIGHT = 0
+    OLDESTBUILDINGAGE_WEIGHT = 0
+    NEWESTBUILDINGAGE_WEIGHT = 1/3
+    BUILDINGCOUNT_WEIGHT = 0
+    EASTING_WEIGHT = 1/3
+    NORTHING_WEIGHT = 1/3
+
+elif WEIGHT_SCHEME == "undercapacity_buildingcount_geog":
+    #pupil weights (non-special)
+    PUPILS_WEIGHT = 0
+    FSM_WEIGHT = 0
+    SEN_WEIGHT = 0
+    OVERCAPACITY_WEIGHT = 0
+    UNDERCAPACITY_WEIGHT = 1/3
+    RURALSCORE_WEIGHT = 0
+    EASTING_WEIGHT = 1/3
+    NORTHING_WEIGHT = 1/3
+
+    #pupil weights (special)
+    SPECIAL_PUPILS_WEIGHT = 0
+    SPECIAL_FSM_WEIGHT = 0
+    EASTING_WEIGHT = 1/2
+    NORTHING_WEIGHT = 1/2
+
+    #building weights
+    GIFA_WEIGHT = 0
+    AGE_WEIGHT = 0
+    OLDESTBUILDINGAGE_WEIGHT = 0
+    NEWESTBUILDINGAGE_WEIGHT = 0
+    BUILDINGCOUNT_WEIGHT = 1/3
+    EASTING_WEIGHT = 1/3
+    NORTHING_WEIGHT = 1/3
+
+elif WEIGHT_SCHEME == "ruralscore_gifa_age_buildingcount_geog":
+    #pupil weights (non-special)
+    PUPILS_WEIGHT = 0
+    FSM_WEIGHT = 0
+    SEN_WEIGHT = 0
+    OVERCAPACITY_WEIGHT = 0
+    UNDERCAPACITY_WEIGHT = 0
+    RURALSCORE_WEIGHT = 1/3
+    EASTING_WEIGHT = 1/3
+    NORTHING_WEIGHT = 1/3
+
+    #pupil weights (special)
+    SPECIAL_PUPILS_WEIGHT = 0
+    SPECIAL_FSM_WEIGHT = 0
+    EASTING_WEIGHT = 1/3
+    NORTHING_WEIGHT = 1/3
+
+    #building weights
+    GIFA_WEIGHT = 1/5
+    AGE_WEIGHT = 1/5
+    OLDESTBUILDINGAGE_WEIGHT = 0
+    NEWESTBUILDINGAGE_WEIGHT = 0
+    BUILDINGCOUNT_WEIGHT = 1/5
+    EASTING_WEIGHT = 1/5
+    NORTHING_WEIGHT = 1/5
+
 else:
    raise ValueError("Weight scheme not recognised") 
 
