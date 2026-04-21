@@ -24,3 +24,9 @@ public class LocalAuthorityEducationHealthCarePlansTableViewModel(
 {
     public BenchmarkingViewModelCostSubCategory<EducationHealthCarePlansComparisonDatum> SubCategory => subCategory;
 }
+
+public class LocalAuthorityEducationHealthCarePlansChartViewModel(
+    BenchmarkingViewModelCostSubCategory<EducationHealthCarePlansComparisonDatum> subCategory)
+{
+    public BenchmarkingViewModelCostSubCategory<EducationHealthCarePlansComparisonDatum> SubCategory => subCategory;
+}

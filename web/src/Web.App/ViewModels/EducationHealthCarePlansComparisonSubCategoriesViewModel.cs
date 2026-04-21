@@ -1,3 +1,4 @@
+using Web.App.Domain.Charts;
 using Web.App.Domain.LocalAuthorities;
 
 namespace Web.App.ViewModels;
@@ -22,6 +23,7 @@ public class EducationHealthCarePlansComparisonSubCategoriesViewModel
         var data = plans
             .Select(p => new EducationHealthCarePlansComparisonDatum
             {
+                Code = p.Code,
                 Name = p.Name,
                 Plans = filter.GetValue(p),
                 TotalPupils = p.TotalPupils
@@ -39,12 +41,4 @@ public class EducationHealthCarePlansComparisonSubCategoriesViewModel
             Data = data
         });
     }
-}
-
-// TODO: as part of chart wiring up move to Domain/Charts
-public class EducationHealthCarePlansComparisonDatum
-{
-    public string? Name { get; set; }
-    public decimal? Plans { get; set; }
-    public decimal? TotalPupils { get; set; }
 }
