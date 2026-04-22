@@ -17,6 +17,7 @@ namespace Web.App.Controllers;
 public class LocalAuthorityEducationHealthCarePlansController(
     ILogger<LocalAuthorityEducationHealthCarePlansController> logger,
     ILocalAuthorityApi api,
+    IChartRenderingApi chartRenderingApi,
     ILocalAuthorityComparatorSetService comparatorSetService)
     : Controller
 {
@@ -41,12 +42,23 @@ public class LocalAuthorityEducationHealthCarePlansController(
                 var query = BuildQuery(new[]
                 {
                     code
-                }.Concat(set).ToArray(), "Per1000Pupil");
+                }.Concat(set).ToArray(), EducationHealthCarePlanProperties.Dimension);
                 var plans = await api
                     .QueryEhcpAsync(query)
                     .GetResultOrThrow<EducationHealthCarePlans[]>();
 
                 var subCategories = new EducationHealthCarePlansComparisonSubCategoriesViewModel(plans, EducationHealthCarePlansCategories.All);
+
+                var charts = await BuildCharts(code, subCategories);
+
+                subCategories.Items!.ForEach(i =>
+                {
+                    var chart = charts.FirstOrDefault(c => c.Id != null && c.Id == i.Uuid);
+                    if (chart != null)
+                    {
+                        i.ChartSvg = chart.Html;
+                    }
+                });
 
                 var viewModel = new LocalAuthorityEducationHealthCarePlansViewModel(la, set, subCategories)
                 {
@@ -80,5 +92,34 @@ public class LocalAuthorityEducationHealthCarePlansController(
 
         query.AddIfNotNull("dimension", dimension);
         return query;
+    }
+
+    private async Task<ChartResponse[]> BuildCharts(string urn,
+        EducationHealthCarePlansComparisonSubCategoriesViewModel subCategories)
+    {
+        var requests = subCategories.Items.Select(c => new EducationHealthCarePlanHorizontalBarChartRequest(
+            c.Uuid!,
+            urn,
+            c.Data!,
+            format => Uri.UnescapeDataString(
+                Url.Action("Index", "School", new
+                {
+                    urn = format
+                }) ?? string.Empty)
+        ));
+
+        ChartResponse[] charts = [];
+        try
+        {
+            charts = await chartRenderingApi
+                .PostHorizontalBarCharts(new PostHorizontalBarChartsRequest<EducationHealthCarePlansComparisonDatum>(requests))
+                .GetResultOrDefault<ChartResponse[]>() ?? [];
+        }
+        catch (Exception e)
+        {
+            logger.LogWarning(e, "Unable to load charts from API");
+        }
+
+        return charts;
     }
 }

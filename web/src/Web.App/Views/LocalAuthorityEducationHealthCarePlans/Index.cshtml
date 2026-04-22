@@ -89,7 +89,7 @@
 
                 @if (Model.ViewAs == Views.ViewAsOptions.Chart)
                 {
-                    <p class="govuk-body">chart under construction</p>
+                    @await Html.PartialAsync("_EhcPlanChart", new LocalAuthorityEducationHealthCarePlansChartViewModel(subCategory))
                 }
                 else
                 {

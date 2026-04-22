@@ -2,6 +2,7 @@ namespace Web.App.Domain.LocalAuthorities;
 
 public record EducationHealthCarePlans
 {
+    public string? Code { get; set; }
     public string? Name { get; set; }
     public decimal? TotalPupils { get; set; }
     public decimal? Total { get; set; }
