@@ -77,6 +77,7 @@ la_db_non_financial_projections = {
     "old_la_code": "LaCode",
     "Population2To18": "Population2To18",
     "Number of pupils": "TotalPupils",
+    "SEN support": "SENSupport",
     "EHCPTotal": "EHCPTotal",
     "EHCPMainstream": "EHCPMainstream",
     "EHCPResourced": "EHCPResourced",

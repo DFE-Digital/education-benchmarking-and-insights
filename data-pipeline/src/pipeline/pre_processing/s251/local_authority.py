@@ -47,6 +47,7 @@ def build_local_authorities(
     logger.info("Processing Local Authority combined data.")
 
     fbit_pupils_per_la = _aggregate_fbit_pupil_numbers_to_la_level(all_schools)
+    sen_support_per_la = _aggregate_sen_support_to_la_level(all_schools)
 
     local_authority_data = (
         section_251_data.merge(
@@ -63,6 +64,12 @@ def build_local_authorities(
         )
         .merge(
             fbit_pupils_per_la,
+            left_on="old_la_code",
+            right_index=True,
+            how="left",
+        )
+        .merge(
+            sen_support_per_la,
             left_on="old_la_code",
             right_index=True,
             how="left",
@@ -294,6 +301,10 @@ def _aggregate_fbit_pupil_numbers_to_la_level(
         "LA Code"
     ).agg({"Number of pupils": "sum"})
     return pupils_per_la
+
+def _aggregate_sen_support_to_la_level(all_schools: pd.DataFrame):
+    """SEN Support isn't aggregated in _federation_lead_school_agg() so can be directly calculated"""
+    return all_schools.groupby("LA Code").agg({"SEN support": "sum"})
 
 
 def _build_section_251_data(
