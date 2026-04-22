@@ -54,7 +54,6 @@ steps:
         platform/src/apis/Platform.Api.Trust/Platform.Api.Trust.csproj
         platform/src/apis/Platform.Api.Benchmark/Platform.Api.Benchmark.csproj
         platform/src/apis/Platform.Api.Insight/Platform.Api.Insight.csproj
-        platform/src/apis/Platform.Api.Establishment/Platform.Api.Establishment.csproj
         platform/src/apis/Platform.Api.LocalAuthorityFinances/Platform.Api.LocalAuthorityFinances.csproj
         platform/src/apis/Platform.Api.Content/Platform.Api.Content.csproj
         platform/src/apis/Platform.Orchestrator/Platform.Orchestrator.csproj

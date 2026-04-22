@@ -57,9 +57,6 @@ jobs:
         benchmark:
           url: $(security-scan-platform-benchmark-api)
           key: benchmark
-        establishment:
-          url: $(security-scan-platform-establishment-api)
-          key: establishment
         insight:
           url: $(security-scan-platform-insight-api)
           key: insight
@@ -141,6 +138,6 @@ jobs:
           CommitMessage: 'Updated platform security scan documentation'
           CommitTag: 'doc'
           PostProcessScript: |
-            find . -type f \( -wholename "./benchmark/*.md" -o -wholename "./establishment/*.md" -o -wholename "./insight/*.md" -o -wholename "./local-authority-finances/*.md" \) -exec sh -c 'echo "\\\newpage" >> "$1"' _ {} \;
-            find . -type f \( -wholename "./benchmark/*.md" -o -wholename "./establishment/*.md" -o -wholename "./insight/*.md" -o -wholename "./local-authority-finances/*.md" \) -exec mv '{}' . \;
+            find . -type f \( -wholename "./benchmark/*.md" -o -wholename "./insight/*.md" -o -wholename "./local-authority-finances/*.md" \) -exec sh -c 'echo "\\\newpage" >> "$1"' _ {} \;
+            find . -type f \( -wholename "./benchmark/*.md" -o -wholename "./insight/*.md" -o -wholename "./local-authority-finances/*.md" \) -exec mv '{}' . \;
           TargetPath: 'documentation/quality-assurance/security-scan-reports'

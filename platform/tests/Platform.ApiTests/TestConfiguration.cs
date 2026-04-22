@@ -16,7 +16,6 @@ public static class TestConfiguration
 
     public static ApiEndpoint Insight => Instance.GetSection(nameof(Insight)).Get<ApiEndpoint>() ?? throw new ArgumentNullException(nameof(Insight));
     public static ApiEndpoint Benchmark => Instance.GetSection(nameof(Benchmark)).Get<ApiEndpoint>() ?? throw new ArgumentNullException(nameof(Benchmark));
-    public static ApiEndpoint Establishment => Instance.GetSection(nameof(Establishment)).Get<ApiEndpoint>() ?? throw new ArgumentNullException(nameof(Establishment));
     public static ApiEndpoint ChartRendering => Instance.GetSection(nameof(ChartRendering)).Get<ApiEndpoint>() ?? throw new ArgumentNullException(nameof(ChartRendering));
     public static ApiEndpoint Content => Instance.GetSection(nameof(Content)).Get<ApiEndpoint>() ?? throw new ArgumentNullException(nameof(Content));
 

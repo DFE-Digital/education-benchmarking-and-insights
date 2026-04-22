@@ -69,16 +69,6 @@ data "azurerm_key_vault_secret" "benchmark-api-host" {
   key_vault_id = data.azurerm_key_vault.key-vault.id
 }
 
-data "azurerm_key_vault_secret" "establishment-api-host" {
-  name         = "establishment-host"
-  key_vault_id = data.azurerm_key_vault.key-vault.id
-}
-
-data "azurerm_key_vault_secret" "establishment-api-key" {
-  name         = "establishment-host-key"
-  key_vault_id = data.azurerm_key_vault.key-vault.id
-}
-
 data "azurerm_key_vault_secret" "chart-rendering-api-key" {
   name         = "chart-rendering-host-key"
   key_vault_id = data.azurerm_key_vault.key-vault.id

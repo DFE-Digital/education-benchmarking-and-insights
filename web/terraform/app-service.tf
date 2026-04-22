@@ -85,8 +85,6 @@ resource "azurerm_windows_web_app" "education-benchmarking-as" {
     "Apis__LocalAuthority__Key"                             = "@Microsoft.KeyVault(SecretUri=${data.azurerm_key_vault_secret.local-authority-api-key.versionless_id})"
     "Apis__Insight__Url"                                    = "@Microsoft.KeyVault(SecretUri=${data.azurerm_key_vault_secret.insight-api-host.versionless_id})"
     "Apis__Insight__Key"                                    = "@Microsoft.KeyVault(SecretUri=${data.azurerm_key_vault_secret.insight-api-key.versionless_id})"
-    "Apis__Establishment__Url"                              = "@Microsoft.KeyVault(SecretUri=${data.azurerm_key_vault_secret.establishment-api-host.versionless_id})"
-    "Apis__Establishment__Key"                              = "@Microsoft.KeyVault(SecretUri=${data.azurerm_key_vault_secret.establishment-api-key.versionless_id})"
     "Apis__Benchmark__Url"                                  = "@Microsoft.KeyVault(SecretUri=${data.azurerm_key_vault_secret.benchmark-api-host.versionless_id})"
     "Apis__Benchmark__Key"                                  = "@Microsoft.KeyVault(SecretUri=${data.azurerm_key_vault_secret.benchmark-api-key.versionless_id})"
     "Apis__ChartRendering__Url"                             = "@Microsoft.KeyVault(SecretUri=${data.azurerm_key_vault_secret.chart-rendering-api-host.versionless_id})"

@@ -67,8 +67,6 @@ public class ChartRenderingApiDriver(IReqnrollOutputHelper output) : ApiDriver(T
 
 public class ContentApiDriver(IReqnrollOutputHelper output) : ApiDriver(TestConfiguration.Content, output);
 
-public class EstablishmentApiDriver(IReqnrollOutputHelper output) : ApiDriver(TestConfiguration.Establishment, output);
-
 public class InsightApiDriver(IReqnrollOutputHelper output) : ApiDriver(TestConfiguration.Insight, output);
 
 public class LocalAuthorityApiDriver(IReqnrollOutputHelper output) : ApiDriver(TestConfiguration.LocalAuthority, output);
