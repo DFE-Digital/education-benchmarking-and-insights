@@ -196,30 +196,6 @@ resource "azurerm_monitor_metric_alert" "local_authority_finances_api_error_aler
   }
 }
 
-resource "azurerm_monitor_metric_alert" "non_financial_api_error_alert" {
-  name                = "non-financial-api-error-alert"
-  resource_group_name = azurerm_resource_group.resource-group.name
-  scopes              = [data.azurerm_windows_function_app.non-financial-api.id]
-  description         = "Alert if HTTP 5xx error count exceeds ${var.configuration[var.environment].thresholds.error}"
-  severity            = 0
-  frequency           = "PT1M"
-  window_size         = "PT30M"
-  enabled             = var.configuration[var.environment].alerts_enabled
-  tags                = local.common-tags
-
-  criteria {
-    metric_namespace = "Microsoft.Web/sites"
-    metric_name      = "Http5xx"
-    aggregation      = "Total"
-    operator         = "GreaterThan"
-    threshold        = var.configuration[var.environment].thresholds.error
-  }
-
-  action {
-    action_group_id = azurerm_monitor_action_group.service-support-action.id
-  }
-}
-
 # performance metrics not available in consumption plan
 resource "azurerm_monitor_metric_alert" "chart_rendering_asp_cpu_alert" {
   count               = substr(data.azurerm_service_plan.chart-rendering-asp.sku_name, 0, 2) == "EP" ? 1 : 0

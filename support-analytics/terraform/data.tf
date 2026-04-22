@@ -35,11 +35,6 @@ data "azurerm_windows_function_app" "local-authority-finances-api" {
   resource_group_name = "${var.environment-prefix}-ebis-platform"
 }
 
-data "azurerm_windows_function_app" "non-financial-api" {
-  name                = "${var.environment-prefix}-ebis-non-financial-fa"
-  resource_group_name = "${var.environment-prefix}-ebis-platform"
-}
-
 data "azurerm_linux_function_app" "chart-rendering-api" {
   name                = "${var.environment-prefix}-ebis-chart-rendering-fa"
   resource_group_name = "${var.environment-prefix}-ebis-platform"
