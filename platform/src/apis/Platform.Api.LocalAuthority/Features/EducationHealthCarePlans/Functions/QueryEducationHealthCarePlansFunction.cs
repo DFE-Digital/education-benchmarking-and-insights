@@ -11,6 +11,7 @@ using Platform.Api.LocalAuthority.Features.EducationHealthCarePlans.Handlers;
 using Platform.Api.LocalAuthority.Features.EducationHealthCarePlans.Models;
 using Platform.Functions;
 using Platform.Functions.OpenApi;
+using Platform.Functions.OpenApi.Attributes;
 
 namespace Platform.Api.LocalAuthority.Features.EducationHealthCarePlans.Functions;
 
@@ -18,13 +19,12 @@ public class QueryEducationHealthCarePlansFunction(IEnumerable<IQueryEducationHe
 {
     [Function(nameof(QueryEducationHealthCarePlansFunction))]
     [OpenApiSecurityHeader]
-    [OpenApiOperation(nameof(QueryEducationHealthCarePlansFunction), Constants.Features.EducationHealthCarePlans)]
-    [OpenApiParameter(Platform.Functions.Constants.ApiVersion, Type = typeof(string), Required = false, In = ParameterLocation.Header)]
-    [OpenApiParameter("code", In = ParameterLocation.Query, Description = "List of local authority codes", Type = typeof(string[]), Required = true)]
-    [OpenApiParameter("dimension", In = ParameterLocation.Query, Description = "Dimension for resultant values", Type = typeof(string), Required = true, Example = typeof(OpenApiExamples.Dimension))]
-    [OpenApiResponseWithBody(HttpStatusCode.OK, ContentType.ApplicationJson, typeof(EducationHealthCarePlansResponse[]))]
-    [OpenApiResponseWithBody(HttpStatusCode.BadRequest, ContentType.ApplicationJsonProblem, typeof(ValidationProblemDetails), Description = "Validation errors or bad request.")]
-
+    [OpenApiOperation(nameof(QueryEducationHealthCarePlansFunction), Constants.Features.EducationHealthCarePlans, Summary = "Get education, health and care plans data", Description = "Returns the education, health and care plans data for the specified local authorities.")]
+    [OpenApiApiVersionParameter]
+    [OpenApiLaCodesParameter("code", isRequired: true)]
+    [OpenApiDimensionParameter(Required = true, Example = typeof(OpenApiExamples.Dimension))]
+    [OpenApiResponseWithBody(HttpStatusCode.OK, ContentType.ApplicationJson, typeof(EducationHealthCarePlansResponse[]), Description = "The education, health and care plans data for the requested local authorities")]
+    [OpenApiResponseWithBody(HttpStatusCode.BadRequest, ContentType.ApplicationJsonProblem, typeof(ValidationProblemDetails), Description = "The request was invalid")]
     public async Task<HttpResponseData> RunAsync(
         [HttpTrigger(AuthorizationLevel.Admin, MethodType.Get, Route = Routes.EducationHealthCarePlansCollection)] HttpRequestData req,
         CancellationToken token = default)

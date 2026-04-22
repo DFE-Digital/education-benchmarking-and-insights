@@ -2,16 +2,16 @@ using System.Diagnostics.CodeAnalysis;
 using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Attributes;
 using Microsoft.OpenApi.Models;
 
-namespace Platform.Functions.OpenApi;
+namespace Platform.Functions.OpenApi.Attributes;
 
 [ExcludeFromCodeCoverage]
 public sealed class OpenApiUrnParameterAttribute : OpenApiParameterAttribute
 {
-    public OpenApiUrnParameterAttribute() : base("urn")
+    public OpenApiUrnParameterAttribute(string name = "urn", ParameterLocation location = ParameterLocation.Path, bool isRequired = true) : base(name)
     {
         Type = typeof(string);
-        Required = true;
+        Required = location == ParameterLocation.Path || isRequired;
         Description = "The 6-digit Unique Reference Number of the school.";
-        In = ParameterLocation.Path;
+        In = location;
     }
 }

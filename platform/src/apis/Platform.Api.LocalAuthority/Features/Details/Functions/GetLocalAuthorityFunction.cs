@@ -11,6 +11,7 @@ using Platform.Api.LocalAuthority.Features.Details.Handlers;
 using Platform.Api.LocalAuthority.Features.Details.Models;
 using Platform.Functions;
 using Platform.Functions.OpenApi;
+using Platform.Functions.OpenApi.Attributes;
 
 namespace Platform.Api.LocalAuthority.Features.Details.Functions;
 
@@ -18,12 +19,12 @@ public class GetLocalAuthorityFunction(IEnumerable<IGetLocalAuthorityHandler> ha
 {
     [Function(nameof(GetLocalAuthorityFunction))]
     [OpenApiSecurityHeader]
-    [OpenApiOperation(nameof(GetLocalAuthorityFunction), Constants.Features.Details)]
-    [OpenApiParameter("code", Type = typeof(string), Required = true)]
-    [OpenApiParameter(Platform.Functions.Constants.ApiVersion, Type = typeof(string), Required = false, In = ParameterLocation.Header)]
-    [OpenApiResponseWithBody(HttpStatusCode.OK, ContentType.ApplicationJson, typeof(LocalAuthorityResponse))]
-    [OpenApiResponseWithBody(HttpStatusCode.BadRequest, ContentType.ApplicationJsonProblem, typeof(ProblemDetails))]
-    [OpenApiResponseWithoutBody(HttpStatusCode.NotFound)]
+    [OpenApiOperation(nameof(GetLocalAuthorityFunction), Constants.Features.Details, Summary = "Get local authority details", Description = "Returns the details for a specified local authority.")]
+    [OpenApiLaCodeParameter("code", ParameterLocation.Path)]
+    [OpenApiApiVersionParameter]
+    [OpenApiResponseWithBody(HttpStatusCode.OK, ContentType.ApplicationJson, typeof(LocalAuthorityResponse), Description = "The local authority details")]
+    [OpenApiResponseWithBody(HttpStatusCode.BadRequest, ContentType.ApplicationJsonProblem, typeof(ProblemDetails), Description = "The request was invalid")]
+    [OpenApiResponseWithoutBody(HttpStatusCode.NotFound, Description = "The requested local authority could not be found")]
     public async Task<HttpResponseData> RunAsync(
         [HttpTrigger(AuthorizationLevel.Admin, MethodType.Get, Route = Routes.LocalAuthoritySingle)] HttpRequestData req,
         string code,

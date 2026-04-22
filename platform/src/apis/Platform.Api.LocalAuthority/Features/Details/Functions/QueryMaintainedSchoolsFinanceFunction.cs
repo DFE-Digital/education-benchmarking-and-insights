@@ -11,6 +11,7 @@ using Platform.Api.LocalAuthority.Features.Details.Handlers;
 using Platform.Api.LocalAuthority.Features.Details.Models;
 using Platform.Functions;
 using Platform.Functions.OpenApi;
+using Platform.Functions.OpenApi.Attributes;
 
 namespace Platform.Api.LocalAuthority.Features.Details.Functions;
 
@@ -18,20 +19,20 @@ public class QueryMaintainedSchoolsFinanceFunction(IEnumerable<IQueryMaintainedS
 {
     [Function(nameof(QueryMaintainedSchoolsFinanceFunction))]
     [OpenApiSecurityHeader]
-    [OpenApiOperation(nameof(QueryMaintainedSchoolsFinanceFunction), Constants.Features.Details)]
-    [OpenApiParameter(Platform.Functions.Constants.ApiVersion, Type = typeof(string), Required = false, In = ParameterLocation.Header)]
-    [OpenApiParameter("code", Type = typeof(string), Required = true)]
-    [OpenApiParameter("dimension", In = ParameterLocation.Query, Description = "Dimension for resultant values", Type = typeof(string), Example = typeof(OpenApiExamples.DimensionFinance))]
-    [OpenApiParameter("nurseryProvision", In = ParameterLocation.Query, Description = "List of nursery provisions to filter resultant values", Type = typeof(string[]), Required = false)]
-    [OpenApiParameter("sixthFormProvision", In = ParameterLocation.Query, Description = "List of sixth provisions filter resultant values", Type = typeof(string[]), Required = false)]
-    [OpenApiParameter("specialClassesProvision", In = ParameterLocation.Query, Description = "List of special class provisions filter resultant values", Type = typeof(string[]), Required = false)]
-    [OpenApiParameter("overallPhase", In = ParameterLocation.Query, Description = "Phase to filter resultant values", Type = typeof(string[]), Required = false)]
-    [OpenApiParameter("sortField", In = ParameterLocation.Query, Description = "Field to sort by", Type = typeof(string), Required = false)]
-    [OpenApiParameter("sortOrder", In = ParameterLocation.Query, Description = "Sort direction: 'asc' or 'desc'", Type = typeof(string), Required = false)]
-    [OpenApiParameter("limit", In = ParameterLocation.Query, Description = "Number of records to return if empty all are returned", Type = typeof(string), Required = false)]
-    [OpenApiResponseWithBody(HttpStatusCode.OK, ContentType.ApplicationJson, typeof(LocalAuthoritySchoolFinanceSummaryResponse[]))]
-    [OpenApiResponseWithBody(HttpStatusCode.BadRequest, ContentType.ApplicationJsonProblem, typeof(ProblemDetails))]
-    [OpenApiResponseWithoutBody(HttpStatusCode.NotFound)]
+    [OpenApiOperation(nameof(QueryMaintainedSchoolsFinanceFunction), Constants.Features.Details, Summary = "Get maintained schools finance summary", Description = "Returns a finance summary for maintained schools within a specified local authority.")]
+    [OpenApiApiVersionParameter]
+    [OpenApiLaCodeParameter("code", ParameterLocation.Path)]
+    [OpenApiDimensionParameter(Example = typeof(OpenApiExamples.DimensionFinance))]
+    [OpenApiNurseryProvisionParameter]
+    [OpenApiSixthFormProvisionParameter]
+    [OpenApiSpecialClassesProvisionParameter]
+    [OpenApiOverallPhaseParameter]
+    [OpenApiSortFieldParameter]
+    [OpenApiSortOrderParameter]
+    [OpenApiLimitParameter]
+    [OpenApiResponseWithBody(HttpStatusCode.OK, ContentType.ApplicationJson, typeof(LocalAuthoritySchoolFinanceSummaryResponse[]), Description = "The finance summary for maintained schools in the requested local authority")]
+    [OpenApiResponseWithBody(HttpStatusCode.BadRequest, ContentType.ApplicationJsonProblem, typeof(ProblemDetails), Description = "The request was invalid")]
+    [OpenApiResponseWithoutBody(HttpStatusCode.NotFound, Description = "The requested local authority could not be found")]
     public async Task<HttpResponseData> RunAsync(
         [HttpTrigger(AuthorizationLevel.Admin, MethodType.Get, Route = Routes.MaintainedSchoolsFinance)] HttpRequestData req,
         string code,

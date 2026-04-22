@@ -11,6 +11,7 @@ using Platform.Api.School.Features.Comparators.Handlers;
 using Platform.Api.School.Features.Comparators.Models;
 using Platform.Functions;
 using Platform.Functions.OpenApi;
+using Platform.Functions.OpenApi.Attributes;
 
 namespace Platform.Api.School.Features.Comparators.Functions;
 

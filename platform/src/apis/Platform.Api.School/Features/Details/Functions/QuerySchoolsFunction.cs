@@ -10,6 +10,7 @@ using Platform.Api.School.Features.Details.Handlers;
 using Platform.Api.School.Features.Details.Models;
 using Platform.Functions;
 using Platform.Functions.OpenApi;
+using Platform.Functions.OpenApi.Attributes;
 
 namespace Platform.Api.School.Features.Details.Functions;
 

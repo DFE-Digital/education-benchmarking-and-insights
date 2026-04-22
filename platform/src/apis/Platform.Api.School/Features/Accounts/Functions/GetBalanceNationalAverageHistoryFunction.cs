@@ -11,6 +11,8 @@ using Platform.Api.School.Features.Accounts.Handlers;
 using Platform.Api.School.Features.Accounts.Models;
 using Platform.Functions;
 using Platform.Functions.OpenApi;
+using Platform.Functions.OpenApi.Attributes;
+
 namespace Platform.Api.School.Features.Accounts.Functions;
 
 public class GetBalanceNationalAverageHistoryFunction(IEnumerable<IGetBalanceNationalAverageHistoryHandler> handlers) : VersionedFunctionBase<IGetBalanceNationalAverageHistoryHandler, BasicContext>(handlers)

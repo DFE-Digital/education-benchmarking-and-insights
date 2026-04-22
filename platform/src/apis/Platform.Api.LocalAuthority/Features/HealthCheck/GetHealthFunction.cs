@@ -17,8 +17,8 @@ public class GetHealthFunction(HealthCheckService healthCheck)
 {
     [Function(nameof(GetHealthFunction))]
     [OpenApiSecurityHeader]
-    [OpenApiOperation(nameof(GetHealthFunction), Constants.Features.HealthCheck)]
-    [OpenApiResponseWithBody(HttpStatusCode.OK, ContentType.TextPlain, typeof(string))]
+    [OpenApiOperation(nameof(GetHealthFunction), Constants.Features.HealthCheck, Summary = "Get API health status", Description = "Returns the current health status of the Local Authority API.")]
+    [OpenApiResponseWithBody(HttpStatusCode.OK, ContentType.TextPlain, typeof(string), Description = "The current health status of the API")]
     public async Task<HttpResponseData> RunAsync(
         [HttpTrigger(AuthorizationLevel.Anonymous, MethodType.Get, Route = Routes.Health)] HttpRequestData req)
     {

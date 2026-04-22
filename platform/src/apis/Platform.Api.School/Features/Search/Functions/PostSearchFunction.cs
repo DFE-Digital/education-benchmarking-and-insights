@@ -11,6 +11,7 @@ using Platform.Api.School.Features.Search.Handlers;
 using Platform.Api.School.Features.Search.Models;
 using Platform.Functions;
 using Platform.Functions.OpenApi;
+using Platform.Functions.OpenApi.Attributes;
 using Platform.Search;
 
 namespace Platform.Api.School.Features.Search.Functions;

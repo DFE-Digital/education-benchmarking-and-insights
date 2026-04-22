@@ -6,11 +6,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Attributes;
-using Microsoft.OpenApi.Models;
 using Platform.Api.LocalAuthority.Features.Details.Handlers;
 using Platform.Api.LocalAuthority.Features.Details.Models;
 using Platform.Functions;
 using Platform.Functions.OpenApi;
+using Platform.Functions.OpenApi.Attributes;
 
 namespace Platform.Api.LocalAuthority.Features.Details.Functions;
 
@@ -18,10 +18,10 @@ public class QueryLocalAuthoritiesFunction(IEnumerable<IQueryLocalAuthoritiesHan
 {
     [Function(nameof(QueryLocalAuthoritiesFunction))]
     [OpenApiSecurityHeader]
-    [OpenApiOperation(nameof(QueryLocalAuthoritiesFunction), Constants.Features.Details)]
-    [OpenApiParameter(Platform.Functions.Constants.ApiVersion, Type = typeof(string), Required = false, In = ParameterLocation.Header)]
-    [OpenApiResponseWithBody(HttpStatusCode.OK, ContentType.ApplicationJson, typeof(LocalAuthorityResponse[]))]
-    [OpenApiResponseWithBody(HttpStatusCode.BadRequest, ContentType.ApplicationJsonProblem, typeof(ProblemDetails))]
+    [OpenApiOperation(nameof(QueryLocalAuthoritiesFunction), Constants.Features.Details, Summary = "Get all local authorities", Description = "Returns a list of all local authorities.")]
+    [OpenApiApiVersionParameter]
+    [OpenApiResponseWithBody(HttpStatusCode.OK, ContentType.ApplicationJson, typeof(LocalAuthorityResponse[]), Description = "The collection of local authorities")]
+    [OpenApiResponseWithBody(HttpStatusCode.BadRequest, ContentType.ApplicationJsonProblem, typeof(ProblemDetails), Description = "The request was invalid")]
     public async Task<HttpResponseData> RunAsync(
         [HttpTrigger(AuthorizationLevel.Admin, MethodType.Get, Route = Routes.LocalAuthorityCollection)] HttpRequestData req,
         CancellationToken token = default)

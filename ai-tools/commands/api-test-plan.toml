@@ -1,9 +1,17 @@
-description = "Research and plan functional tests for a Platform API feature"
+﻿description = "Research and plan functional tests for a Platform API feature"
 prompt = """
-Execute the procedural steps defined in `.gemini/instructions/test-planning.md`.
+Execute the following test planning procedure:
+
+<test_planning_procedure>
+@{ .gemini/instructions/test-planning.md}
+</test_planning_procedure>
 
 Target API and Feature:
 '{{args}}'
 
-NOTE: You MUST provide both an API name and a Feature name (e.g., 'School Search'). If '{{args}}' is incomplete, or if the strict discovery process (defined in `.gemini/instructions/shared-api-discovery.md`) cannot find the target, STOP and ask me to clarify.
+NOTE: You MUST provide both an API name and a Feature name (e.g., 'School Search'). If '{{args}}' is incomplete, or if the strict discovery process below cannot find the target, STOP and ask me to clarify.
+
+<discovery_rules>
+@{ .gemini/instructions/shared-api-discovery.md}
+</discovery_rules>
 """

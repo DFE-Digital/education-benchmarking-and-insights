@@ -2,16 +2,16 @@ using System.Diagnostics.CodeAnalysis;
 using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Attributes;
 using Microsoft.OpenApi.Models;
 
-namespace Platform.Functions.OpenApi;
+namespace Platform.Functions.OpenApi.Attributes;
 
 [ExcludeFromCodeCoverage]
 public sealed class OpenApiUrnsParameterAttribute : OpenApiParameterAttribute
 {
-    public OpenApiUrnsParameterAttribute() : base("urns")
+    public OpenApiUrnsParameterAttribute(string name = "urns", ParameterLocation location = ParameterLocation.Query, bool isRequired = true) : base(name)
     {
         Type = typeof(string[]);
-        Required = true;
+        Required = location == ParameterLocation.Path || isRequired;
         Description = "List of school URNs";
-        In = ParameterLocation.Query;
+        In = location;
     }
 }

@@ -2,16 +2,16 @@ using System.Diagnostics.CodeAnalysis;
 using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Attributes;
 using Microsoft.OpenApi.Models;
 
-namespace Platform.Functions.OpenApi;
+namespace Platform.Functions.OpenApi.Attributes;
 
 [ExcludeFromCodeCoverage]
 public sealed class OpenApiDimensionParameterAttribute : OpenApiParameterAttribute
 {
-    public OpenApiDimensionParameterAttribute() : base("dimension")
+    public OpenApiDimensionParameterAttribute(string name = "dimension", ParameterLocation location = ParameterLocation.Query, bool isRequired = false) : base(name)
     {
         Type = typeof(string);
-        Required = false;
+        Required = location == ParameterLocation.Path || isRequired;
         Description = "Dimension for response values";
-        In = ParameterLocation.Query;
+        In = location;
     }
 }

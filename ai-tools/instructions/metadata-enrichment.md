@@ -19,8 +19,10 @@ This procedural guide details how to enhance the OpenAPI documentation of a spec
 - **Operations:** Locate the `[OpenApiOperation]` attribute. Ensure it has both `Summary` and `Description` properties. Provide a clear, business-readable explanation of what the endpoint does.
 - **Parameters:**
   - **Custom Attributes:** Identify parameters using custom specialized attributes (e.g., `[OpenApiUrnParameter]`, `[OpenApiDimensionParameter]`, `[OpenApiApiVersionParameter]`).
-  - **Check Implementation:** Verify the default `Description` for these attributes in `platform/src/abstractions/Platform.Functions/OpenApi/`.
+  - **Check Implementation:** Verify the default `Description` for these attributes in `platform/src/abstractions/Platform.Functions/OpenApi/Attributes/`.
   - **Avoid Redundancy:** Do NOT add a `Description` property override to a custom attribute if the default description is sufficient. If a redundant `Description` property exists that matches the global standard, REMOVE it to keep the code clean.
+  - **Standardization & Refactoring:** If you encounter standard `[OpenApiParameter]` attributes that represent common domain concepts (e.g., pagination, sorting, common identifiers), replace them with their corresponding custom attributes from `Platform.Functions.OpenApi.Attributes`. If a custom attribute does not exist, consider whether it should be created.
+  - **Constructor Pattern:** When using or creating custom parameter attributes, utilize the standard constructor pattern `(string name, ParameterLocation location, bool isRequired)` to ensure strict OpenAPI compliance (e.g., path parameters must be required).
   - **Standard Parameters:** For generic `[OpenApiParameter]` attributes, ALWAYS ensure a clear `Description` property is present.
 
 ### 3. OpenAPI Enrichment (Inputs & Outputs)
@@ -31,12 +33,14 @@ This procedural guide details how to enhance the OpenAPI documentation of a spec
 ### 4. Model Enrichment (XML Documentation)
 
 - Open each Request/Response Model file identified in Step 1.
+- **Strict Scope:** Before enriching a model, verify that it is explicitly referenced in an `[OpenApiRequestBody]` or `[OpenApiResponseWithBody]` attribute in the function endpoints. DO NOT add XML documentation to internal DTOs (e.g., classes ending in `Dto`, `Base` classes not directly exposed, or models used strictly for database mapping).
 - Add XML `<summary>` tags to the class/record itself and to every public property.
 - Descriptions should be concise and explain the business meaning of the property (e.g., "The unique slug used for the URL of the news article" or "The academic year the financial data relates to").
 
 ### 5. Verification
 
 - Run a build on the specific API project (e.g., `dotnet build platform/src/apis/Platform.Api.[API_NAME]/Platform.Api.[API_NAME].csproj`) to ensure no compilation errors were introduced by syntax typos.
+- **Namespace Checks:** When refactoring parameter locations to use the `ParameterLocation` enum, ensure `using Microsoft.OpenApi.Models;` is present at the top of the file.
 - Inform the user that the OpenAPI and Model documentation enrichment is complete for the specified feature.
 
 ## Constraints

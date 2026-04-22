@@ -6,11 +6,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Attributes;
-using Microsoft.OpenApi.Models;
 using Platform.Api.LocalAuthority.Features.Accounts.Handlers;
 using Platform.Api.LocalAuthority.Features.Accounts.Models;
 using Platform.Functions;
 using Platform.Functions.OpenApi;
+using Platform.Functions.OpenApi.Attributes;
 
 namespace Platform.Api.LocalAuthority.Features.Accounts.Functions;
 
@@ -18,13 +18,13 @@ public class QueryHighNeedsFunction(IEnumerable<IQueryHighNeedsHandler> handlers
 {
     [Function(nameof(QueryHighNeedsFunction))]
     [OpenApiSecurityHeader]
-    [OpenApiOperation(nameof(QueryHighNeedsFunction), Constants.Features.Accounts)]
-    [OpenApiParameter(Platform.Functions.Constants.ApiVersion, Type = typeof(string), Required = false, In = ParameterLocation.Header)]
-    [OpenApiParameter("code", In = ParameterLocation.Query, Description = "List of local authority codes", Type = typeof(string[]), Required = true)]
-    [OpenApiParameter("dimension", In = ParameterLocation.Query, Description = "Dimension for resultant values", Type = typeof(string), Required = true, Example = typeof(OpenApiExamples.DimensionHighNeeds))]
-    [OpenApiResponseWithBody(HttpStatusCode.OK, ContentType.ApplicationJson, typeof(LocalAuthority<HighNeedsYear>[]))]
-    [OpenApiResponseWithBody(HttpStatusCode.BadRequest, ContentType.ApplicationJsonProblem, typeof(ValidationProblemDetails), Description = "Validation errors or bad request.")]
-    [OpenApiResponseWithoutBody(HttpStatusCode.NotFound)]
+    [OpenApiOperation(nameof(QueryHighNeedsFunction), Constants.Features.Accounts, Summary = "Get local authority high needs data", Description = "Returns the high needs data for the specified local authorities.")]
+    [OpenApiApiVersionParameter]
+    [OpenApiLaCodesParameter("code", isRequired: true)]
+    [OpenApiDimensionParameter(Required = true, Example = typeof(OpenApiExamples.DimensionHighNeeds))]
+    [OpenApiResponseWithBody(HttpStatusCode.OK, ContentType.ApplicationJson, typeof(LocalAuthority<HighNeedsYear>[]), Description = "The high needs data for the requested local authorities")]
+    [OpenApiResponseWithBody(HttpStatusCode.BadRequest, ContentType.ApplicationJsonProblem, typeof(ValidationProblemDetails), Description = "The request was invalid")]
+    [OpenApiResponseWithoutBody(HttpStatusCode.NotFound, Description = "The requested local authorities could not be found")]
     public async Task<HttpResponseData> RunAsync(
         [HttpTrigger(AuthorizationLevel.Admin, MethodType.Get, Route = Routes.HighNeeds)] HttpRequestData req,
         CancellationToken token = default)

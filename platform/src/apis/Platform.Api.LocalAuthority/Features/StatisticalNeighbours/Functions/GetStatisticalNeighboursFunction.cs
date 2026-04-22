@@ -11,6 +11,7 @@ using Platform.Api.LocalAuthority.Features.StatisticalNeighbours.Handlers;
 using Platform.Api.LocalAuthority.Features.StatisticalNeighbours.Models;
 using Platform.Functions;
 using Platform.Functions.OpenApi;
+using Platform.Functions.OpenApi.Attributes;
 
 namespace Platform.Api.LocalAuthority.Features.StatisticalNeighbours.Functions;
 
@@ -18,12 +19,12 @@ public class GetStatisticalNeighboursFunction(IEnumerable<IGetStatisticalNeighbo
 {
     [Function(nameof(GetStatisticalNeighboursFunction))]
     [OpenApiSecurityHeader]
-    [OpenApiOperation(nameof(GetStatisticalNeighboursFunction), Constants.Features.StatisticalNeighbours)]
-    [OpenApiParameter("code", Type = typeof(string), Required = true)]
-    [OpenApiParameter(Platform.Functions.Constants.ApiVersion, Type = typeof(string), Required = false, In = ParameterLocation.Header)]
-    [OpenApiResponseWithBody(HttpStatusCode.OK, ContentType.ApplicationJson, typeof(StatisticalNeighboursResponse))]
-    [OpenApiResponseWithBody(HttpStatusCode.BadRequest, ContentType.ApplicationJsonProblem, typeof(ProblemDetails))]
-    [OpenApiResponseWithoutBody(HttpStatusCode.NotFound)]
+    [OpenApiOperation(nameof(GetStatisticalNeighboursFunction), Constants.Features.StatisticalNeighbours, Summary = "Get statistical neighbours", Description = "Returns a list of statistical neighbours for the specified local authority.")]
+    [OpenApiLaCodeParameter("code", ParameterLocation.Path)]
+    [OpenApiApiVersionParameter]
+    [OpenApiResponseWithBody(HttpStatusCode.OK, ContentType.ApplicationJson, typeof(StatisticalNeighboursResponse), Description = "The statistical neighbours for the requested local authority")]
+    [OpenApiResponseWithBody(HttpStatusCode.BadRequest, ContentType.ApplicationJsonProblem, typeof(ProblemDetails), Description = "The request was invalid")]
+    [OpenApiResponseWithoutBody(HttpStatusCode.NotFound, Description = "The requested local authority could not be found")]
     public async Task<HttpResponseData> RunAsync(
         [HttpTrigger(AuthorizationLevel.Admin, MethodType.Get, Route = Routes.StatisticalNeighbours)] HttpRequestData req,
         string code,
