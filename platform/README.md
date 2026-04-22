@@ -207,28 +207,6 @@ Add configuration in `local.settings.json` for `Platform.Api.Insight`
 }
 ```
 
-#### NonFinancial Function App
-
-Add configuration in `local.settings.json` for `Platform.Api.NonFinancial`
-
-```json
-{
-  "IsEncrypted": false,
-  "Values": {
-    "FUNCTIONS_WORKER_RUNTIME": "dotnet-isolated",
-    "ASPNETCORE_ENVIRONMENT": "Development",
-    "Sql__ConnectionString": "[INSERT CONNECTION STRING VALUE]",
-    "Sql__TelemetryEnabled": true,
-    "AzureFunctionsJobHost__logging__logLevel__default": "Information",
-    "AzureFunctionsJobHost__logging__logLevel__Function": "Information"
-  },
-  "Host": {
-    "CORS": "*",
-    "LocalHttpPort": 7075
-  }
-}
-```
-
 #### ChartRendering Function App
 
 Install [Azure Functions Core Tools](https://learn.microsoft.com/en-us/azure/azure-functions/functions-run-local?tabs=windows%2Cisolated-process%2Cnode-v4%2Cpython-v2%2Chttp-trigger%2Ccontainer-apps&pivots=programming-language-javascript)
@@ -435,10 +413,6 @@ Add configuration in `appsetings.local.json` for `Platform.ApiTests`
    },
    "Establishment": {
       "Host": "http://localhost:7073",
-      "Key": "xxx"
-   },
-   "NonFinancial": {
-      "Host": "http://localhost:7075",
       "Key": "xxx"
    },
    "ChartRendering": {
