@@ -29,6 +29,10 @@ Thumbs.db
 *.DotSettings.user
 
 # ==========================================
+# Scripts
+scripts/api-env.json
+scripts/api-tests-env.json
+
 # .NET / Visual Studio
 # ==========================================
 # Build & Output
