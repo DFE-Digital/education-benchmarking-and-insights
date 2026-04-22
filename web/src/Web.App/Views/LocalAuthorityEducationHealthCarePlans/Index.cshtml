@@ -38,7 +38,10 @@
 @await Html.PartialAsync("_HowDataIsPresented")
 
 <div class="govuk-grid-row">
-    <div class="govuk-grid-column-full">
+    <div class="govuk-grid-column-one-third">
+        @await Html.PartialAsync("_PlansFilter", Model)
+    </div>
+    <div class="govuk-grid-column-two-thirds">
         @using (Html.BeginForm(FormMethod.Post, true, new
                 {
                     @class = "actions-form",
