@@ -10,8 +10,11 @@ FINAL_SET_SIZE = 30
 SELECTION_METHOD = "distance_boarding_pfi" # Pick the 30 with the absolute smallest distances, but choose schools with the same boarding/PFI status first (as per orginal method) - no selection by region, any geographic distance should be included in the weight scheme with this option
 #SELECTION_METHOD = "local_only" # Pick schools from the same region as the target, up to the final set size but less if there aren't enough
 
+#TO DO: change weight scheme names to be more transparent
+#this will affect write up of analysis and temporary storage of files etc.
+
 #Weight scheme/features
-WEIGHT_SCHEME = "geog_dist"
+WEIGHT_SCHEME = "pupils_gifa_geog"
 #"geog_dist"
 #"baseline"
 #swc
@@ -333,6 +336,8 @@ elif WEIGHT_SCHEME == "ruralscore_gifa_age_buildingcount_geog":
     BUILDINGCOUNT_WEIGHT = 1/5
     EASTING_WEIGHT = 1/5
     NORTHING_WEIGHT = 1/5
+
+#need to add in weight schemes which include split site and sparsity, once that data is avaialble
 
 else:
    raise ValueError("Weight scheme not recognised") 
