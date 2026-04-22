@@ -4,7 +4,7 @@
   "instance": "/api/local-authorities/search",
   "errors": {
     "OrderBy": [
-      "Order By must empty or be one of the supported values: asc, desc"
+      "'Order By' must be empty or one of the supported values: asc, desc"
     ]
   }
 }

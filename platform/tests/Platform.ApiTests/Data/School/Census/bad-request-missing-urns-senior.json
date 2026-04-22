@@ -4,7 +4,7 @@
   "instance": "/api/schools/census/senior-leadership",
   "errors": {
     "Urns": [
-      "A collection of URNs must be specified"
+      "'Urns' must be specified"
     ]
   }
 }

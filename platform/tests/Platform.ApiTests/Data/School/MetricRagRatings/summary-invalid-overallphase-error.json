@@ -4,7 +4,7 @@
   "instance": "/api/schools/metric-rag-ratings",
   "errors": {
     "OverallPhase": [
-      "Overall Phase must be missing or only contain the supported values: Primary, Secondary, Special, Pupil Referral Unit, All-through, Nursery, Post-16, Alternative Provision, University Technical College"
+      "'Overall Phase' is not a recognized school overall phase. Valid values are: Primary, Secondary, Special, Pupil Referral Unit, All-through, Nursery, Post-16, Alternative Provision, University Technical College"
     ]
   }
 }

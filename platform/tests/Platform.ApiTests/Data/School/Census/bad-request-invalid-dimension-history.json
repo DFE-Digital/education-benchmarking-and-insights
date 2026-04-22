@@ -4,7 +4,7 @@
   "instance": "/api/schools/123456/census/history",
   "errors": {
     "Dimension": [
-      "Dimension must be empty or one of the supported values: HeadcountPerFte, Total, PercentWorkforce, PupilsPerStaffRole"
+      "'Dimension' is not a recognized census dimension. Valid values are: HeadcountPerFte, Total, PercentWorkforce, PupilsPerStaffRole"
     ]
   }
 }

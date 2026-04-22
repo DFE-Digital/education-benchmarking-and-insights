@@ -4,10 +4,10 @@
   "instance": "/api/schools/census/senior-leadership",
   "errors": {
     "Urns": [
-      "A collection of URNs must be specified"
+      "'Urns' must be specified"
     ],
     "Dimension": [
-      "Dimension must be empty or one of the supported values: Total or PercentWorkforce"
+      "'Dimension' is not a recognized census dimension. Valid values are: Total or PercentWorkforce"
     ]
   }
 }

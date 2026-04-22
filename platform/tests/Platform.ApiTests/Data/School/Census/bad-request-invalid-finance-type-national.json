@@ -4,7 +4,7 @@
   "instance": "/api/schools/national-average/census/history",
   "errors": {
     "FinanceType": [
-      "Finance Type must be one of the supported values: Academy, Maintained"
+      "'Finance Type' is not a recognized finance type. Valid values are: Academy, Maintained"
     ]
   }
 }

@@ -4,7 +4,7 @@
   "instance": "/api/schools/metric-rag-ratings/details",
   "errors": {
     "Urns": [
-      "Either a collection of URNs or CompanyNumber must be specified"
+      "Either a collection of school URNs or a trust CompanyNumber must be provided to query metric RAG ratings."
     ]
   }
 }

@@ -4,7 +4,7 @@
   "instance": "/api/schools/national-average/census/history",
   "errors": {
     "OverallPhase": [
-      "Overall Phase must be one of the supported values: Primary, Secondary, Special, Pupil Referral Unit, All-through, Nursery, Post-16, Alternative Provision, University Technical College"
+      "'Overall Phase' is not a recognized school phase. Valid values are: Primary, Secondary, Special, Pupil Referral Unit, All-through, Nursery, Post-16, Alternative Provision, University Technical College"
     ]
   }
 }

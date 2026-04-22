@@ -4,7 +4,7 @@
   "instance": "/api/schools/census",
   "errors": {
     "Phase": [
-      "Phase must be be specified when CompanyNumber or LaCode is supplied and be one of the supported values: Primary, Secondary, Special, Pupil Referral Unit, All-through, Nursery, Post-16, Alternative Provision, University Technical College"
+      "'Phase' must be specified when CompanyNumber or LaCode is supplied and is not a recognized school phase. Valid values are: Primary, Secondary, Special, Pupil Referral Unit, All-through, Nursery, Post-16, Alternative Provision, University Technical College"
     ]
   }
 }

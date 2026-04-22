@@ -4,7 +4,7 @@
   "instance": "/api/schools/777042/accounts/expenditure/history",
   "errors": {
     "Category": [
-      "Category must be empty or one of the supported values: TotalExpenditure, TeachingTeachingSupportStaff, NonEducationalSupportStaff, EducationalSupplies, EducationalIct, PremisesStaffServices, Utilities, AdministrationSupplies, CateringStaffServices, Other"
+      "'Category' is not a recognized expenditure category. Valid values are: TotalExpenditure, TeachingTeachingSupportStaff, NonEducationalSupportStaff, EducationalSupplies, EducationalIct, PremisesStaffServices, Utilities, AdministrationSupplies, CateringStaffServices, Other"
     ]
   }
 }

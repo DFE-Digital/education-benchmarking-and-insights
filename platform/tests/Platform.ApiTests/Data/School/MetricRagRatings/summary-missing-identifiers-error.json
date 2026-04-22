@@ -4,7 +4,7 @@
   "instance": "/api/schools/metric-rag-ratings",
   "errors": {
     "": [
-      "Either LaCode, Urns, or CompanyNumber must be specified."
+      "To query summarized metric RAG ratings, at least one of the following must be provided: LaCode, Urns, or CompanyNumber."
     ]
   }
 }
