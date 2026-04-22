@@ -15,4 +15,3 @@ public sealed class OpenApiCompanyNumberParameterAttribute : OpenApiParameterAtt
         In = location;
     }
 }
-

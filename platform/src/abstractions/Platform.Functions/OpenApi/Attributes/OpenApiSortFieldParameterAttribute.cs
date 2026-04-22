@@ -15,4 +15,3 @@ public sealed class OpenApiSortFieldParameterAttribute : OpenApiParameterAttribu
         In = location;
     }
 }
-

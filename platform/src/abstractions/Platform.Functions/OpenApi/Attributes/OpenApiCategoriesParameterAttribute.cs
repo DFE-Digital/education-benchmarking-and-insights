@@ -15,4 +15,3 @@ public sealed class OpenApiCategoriesParameterAttribute : OpenApiParameterAttrib
         In = location;
     }
 }
-

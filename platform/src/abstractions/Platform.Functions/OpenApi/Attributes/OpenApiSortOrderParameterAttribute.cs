@@ -15,4 +15,3 @@ public sealed class OpenApiSortOrderParameterAttribute : OpenApiParameterAttribu
         In = location;
     }
 }
-

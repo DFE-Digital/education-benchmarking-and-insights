@@ -15,4 +15,3 @@ public sealed class OpenApiPhaseParameterAttribute : OpenApiParameterAttribute
         In = location;
     }
 }
-

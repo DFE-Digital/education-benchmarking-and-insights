@@ -15,4 +15,3 @@ public sealed class OpenApiFinanceTypeParameterAttribute : OpenApiParameterAttri
         In = location;
     }
 }
-

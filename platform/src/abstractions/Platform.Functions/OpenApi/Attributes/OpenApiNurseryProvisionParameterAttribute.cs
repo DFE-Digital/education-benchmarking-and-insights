@@ -15,4 +15,3 @@ public sealed class OpenApiNurseryProvisionParameterAttribute : OpenApiParameter
         In = location;
     }
 }
-

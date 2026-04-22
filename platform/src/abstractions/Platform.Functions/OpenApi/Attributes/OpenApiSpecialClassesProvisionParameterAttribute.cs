@@ -15,4 +15,3 @@ public sealed class OpenApiSpecialClassesProvisionParameterAttribute : OpenApiPa
         In = location;
     }
 }
-

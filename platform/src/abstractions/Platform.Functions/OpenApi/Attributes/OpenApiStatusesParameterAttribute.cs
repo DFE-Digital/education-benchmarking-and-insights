@@ -15,4 +15,3 @@ public sealed class OpenApiStatusesParameterAttribute : OpenApiParameterAttribut
         In = location;
     }
 }
-

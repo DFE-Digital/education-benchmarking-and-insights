@@ -15,4 +15,3 @@ public sealed class OpenApiLimitParameterAttribute : OpenApiParameterAttribute
         In = location;
     }
 }
-

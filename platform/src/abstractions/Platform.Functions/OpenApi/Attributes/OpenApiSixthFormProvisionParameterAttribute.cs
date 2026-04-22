@@ -15,4 +15,3 @@ public sealed class OpenApiSixthFormProvisionParameterAttribute : OpenApiParamet
         In = location;
     }
 }
-

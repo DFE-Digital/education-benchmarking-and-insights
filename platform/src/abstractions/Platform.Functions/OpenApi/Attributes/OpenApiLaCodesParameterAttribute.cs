@@ -15,4 +15,3 @@ public sealed class OpenApiLaCodesParameterAttribute : OpenApiParameterAttribute
         In = location;
     }
 }
-
