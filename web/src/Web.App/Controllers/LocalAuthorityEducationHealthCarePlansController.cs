@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
+using Web.App.ActionResults;
 using Web.App.Attributes;
 using Web.App.Domain.Charts;
 using Web.App.Domain.LocalAuthorities;
@@ -84,6 +85,44 @@ public class LocalAuthorityEducationHealthCarePlansController(
         selectedSubCategories,
         viewAs
     });
+
+    [HttpGet]
+    [Produces("application/zip")]
+    [ProducesResponseType<byte[]>(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    [Route("download")]
+    public async Task<IActionResult> Download(string code)
+    {
+        using (logger.BeginScope(new
+        {
+            code
+        }))
+        {
+            try
+            {
+                var set = comparatorSetService.ReadUserDefinedComparatorSetFromSession(code).Set;
+                if (set.Length == 0)
+                {
+                    return RedirectToAction("Index", "LocalAuthorityComparators", new { code, type = LocalAuthorityBenchmarkType.EducationHealthCarePlans });
+                }
+
+                var query = BuildQuery(new[]
+                {
+                    code
+                }.Concat(set).ToArray(), EducationHealthCarePlanProperties.Dimension);
+                var plans = await api
+                    .QueryEhcpAsync(query)
+                    .GetResultOrThrow<EducationHealthCarePlans[]>();
+
+                return new CsvResults([new CsvResult(plans, $"benchmark-education-health-care-plans-{code}.csv")], $"benchmark-education-health-care-plans-{code}.zip");
+            }
+            catch (Exception e)
+            {
+                logger.LogError(e, "An error downloading education health care plans data: {DisplayUrl}", Request.GetDisplayUrl());
+                return StatusCode(500);
+            }
+        }
+    }
 
     private static ApiQuery BuildQuery(string[] codes, string dimension)
     {

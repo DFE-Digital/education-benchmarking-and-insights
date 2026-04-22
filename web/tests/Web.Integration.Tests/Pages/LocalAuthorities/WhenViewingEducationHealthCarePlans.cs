@@ -67,13 +67,27 @@ public class WhenViewingEducationHealthCarePlans(SchoolBenchmarkingWebAppClient 
             expectedQueryParams: expectedQueryParams);
     }
 
+    [Fact]
+    public async Task CanDownloadPageData()
+    {
+        var (page, authority, _) = await SetupNavigateInitPage();
+
+        var anchor = page.QuerySelectorAll("a.govuk-button")
+            .FirstOrDefault(x => x.TextContent.Trim() == "Download page data");
+        Assert.NotNull(anchor);
+
+        var newPage = await Client.Follow(anchor);
+
+        DocumentAssert.AssertPageUrl(newPage, Paths.LocalAuthorityEducationHealthCarePlansDownload(authority.Code).ToAbsolute());
+    }
+
     private async Task<(
         IHtmlDocument page,
-        Web.App.Domain.LocalAuthorities.LocalAuthority authority,
+        LocalAuthority authority,
         EducationHealthCarePlans[] plans)> SetupNavigateInitPage(
         string queryParams = "")
     {
-        var authority = Fixture.Build<Web.App.Domain.LocalAuthorities.LocalAuthority>()
+        var authority = Fixture.Build<LocalAuthority>()
             .With(a => a.Code, "123")
             .Create();
 
@@ -93,7 +107,7 @@ public class WhenViewingEducationHealthCarePlans(SchoolBenchmarkingWebAppClient 
 
     private static void AssertPageLayout(
         IHtmlDocument page,
-        Web.App.Domain.LocalAuthorities.LocalAuthority authority,
+        LocalAuthority authority,
         EducationHealthCarePlans[] plans,
         int viewAs = 0,
         string expectedQueryParams = "")

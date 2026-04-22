@@ -13,7 +13,7 @@
     return;
 }
 
-<div id="@Model.SubCategory.Uuid" data-title="@Model.SubCategory.SubCategory">
+<div id="@Model.SubCategory.Uuid" class="costs-chart-container" data-title="@Model.SubCategory.SubCategory">
     <div class="costs-chart-wrapper">
         <div class="govuk-!-margin-bottom-2 ssr-chart horizontal-bar-chart">
             @Html.Raw(Model.SubCategory.ChartSvg)
