@@ -51,7 +51,14 @@ public class LocalAuthorityEducationHealthCarePlansController(
 
                 var charts = await BuildCharts(code, subCategories);
 
-                subCategories.Items.ForEach(i => i.ChartSvg = charts.FirstOrDefault(c => c.Id == i.Uuid)!.Html);
+                subCategories.Items!.ForEach(i =>
+                {
+                    var chart = charts.FirstOrDefault(c => c.Id != null && c.Id == i.Uuid);
+                    if (chart != null)
+                    {
+                        i.ChartSvg = chart.Html;
+                    }
+                });
 
                 var viewModel = new LocalAuthorityEducationHealthCarePlansViewModel(la, set, subCategories)
                 {
