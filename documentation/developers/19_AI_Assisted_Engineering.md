@@ -1,71 +1,38 @@
 # AI-Assisted Engineering
 
-This repository supports AI-assisted engineering by incorporating guidelines and toolset configurations tailored for AI development agents (like Gemini CLI). This approach standardizes common engineering tasks and enforces project-specific mandates effectively.
+This repository supports AI-assisted engineering by incorporating guidelines, context files, and optional toolset configurations. Developers are free to use any AI assistant they prefer (such as GitHub Copilot, Cursor, ChatGPT, or Gemini). This guide outlines how to get the most out of your AI tools within this monorepo.
 
-## Gemini CLI Workspaces and `.gemini` Folders
+## General Principles
 
-The codebase is configured to be an intelligent workspace for Gemini CLI.
-Local, user-specific, or session state for the agent is managed in `.gemini` folders. These folders have been added to the project's root `.gitignore` to prevent leaking temporary AI context, user preferences, or session logs into the repository.
+When using an AI assistant to write or review code in this monorepo, the following principles apply:
 
-You can save project-specific AI memories that will be respected by Gemini CLI locally without affecting the shared repository.
+- **Context files over generic prompts**: We organize our repository context based on the target audience: **`README.md` is for humans and AI, while `AGENTS.md` is strictly for AI.** Direct your AI assistant to read both files for the module it is working on before asking it to make changes.
+- **Surgical Updates**: AI agents should prioritize localized, targeted changes over broad refactors. Avoid allowing the AI to make cross-cutting structural changes without clear justification and design approval.
+- **Automated Workflows**: We leverage AI for repetitive or boilerplate-heavy tasks. Common workflows include:
+  - **Metadata Enrichment**: Adding XML documentation and OpenAPI attributes to API endpoints.
+  - **Test Generation**: Following a "Plan -> Review -> Implement" cycle for functional API tests to ensure rigor and correctness before code generation.
 
-## Gemini Skills
+### Context Control: README.md vs AGENTS.md
 
-This repository includes custom **Gemini CLI Skills** to automate and standardize common engineering tasks. These skills are located in the top-level `skills/` directory.
+To avoid duplicating documentation and keep instructions clear, the repository uses a strict separation of concerns:
 
-Skills act as expert procedural guides for the AI agent, dictating exactly how it should perform complex or domain-specific tasks in the context of this monorepo.
+- **`README.md` (Human & AI)**: Contains all architectural context, tech stack details, development standards, and structural anti-patterns. It is the primary source of truth for *what* a module is and *how* it should be built.
+- **`AGENTS.md` (AI Only)**: Contains narrow, AI-specific behavioral guardrails and operational mandates (e.g., "Do not execute raw SQL", "Ensure you run the npm build script", or "Never modify PDF files").
 
-### Platform API Metadata Enrichment Skill
+When interacting with the repository using advanced AI tools, pointing the agent to the relevant `README.md` and `AGENTS.md` files ensures the AI adheres to the local context without needing extensive manual prompting.
 
-The `platform-api-metadata-enricher` skill systematically enhances Platform APIs with XML documentation, descriptive OpenAPI attributes, and explicit FluentValidation error messages. Use this skill to prepare an API for high-quality test plan generation or to improve Swagger documentation without altering core business logic.
+## Optional Tooling: Gemini CLI
 
-### Platform API Testing Skills
+While using Gemini is **not required**, the repository does include pre-configured integrations for [Gemini CLI](https://github.com/google/gemini-cli) for developers who wish to automate complex tasks directly from the terminal.
 
-We have separated the API test creation process into two distinct skills for better planning, review, and execution of functional API tests.
+### Workspaces and `.gemini` Folders
 
-#### 1. Platform API Test Planner (`platform-api-test-planner`)
+If you use Gemini CLI, its local session state is managed in `.gemini` folders. These folders have been added to the project's root `.gitignore` to prevent leaking temporary AI context, user preferences, or session logs into the repository.
 
-This skill is responsible for researching, evaluating, and planning functional tests for Platform API features. It outputs a formal test plan into the `documentation/quality-assurance/api-test-plans/` directory.
+### Pre-packaged AI Tools
 
-#### 2. Platform API Test Implementer (`platform-api-test-implementer`)
+We maintain a suite of specialized commands to automate complex tasks (like API enrichment and test generation) using Gemini CLI. These tools combine lightweight command definitions with detailed procedural instructions.
 
-This skill executes the test plan. It creates or updates Gherkin feature files, step bindings, and JSON data files using strict assertions and a fail-first approach, subsequently logging the changes back to the test plan.
+*(Note: Even if you do not use Gemini CLI, you can manually copy the markdown files in `ai-tools/instructions/` and use them as highly effective system prompts in your LLM of choice.)*
 
-#### Installation
-
-For new developers or after a fresh clone, install the skills into your local workspace:
-
-```bash
-gemini skills install skills/platform-api-metadata-enricher.skill --scope workspace
-gemini skills install skills/platform-api-test-planner.skill --scope workspace
-gemini skills install skills/platform-api-test-implementer.skill --scope workspace
-```
-
-After installation, you must reload your interactive Gemini session to enable the skills:
-
-```bash
-/skills reload
-```
-
-#### Usage
-
-First, use the enricher to prepare the API metadata:
-
-- "Use the metadata enricher on the Accounts feature of the School API"
-- "Enrich the metadata for the Insight feature in the Trust API"
-
-Then, ask Gemini CLI to research and create a test plan:
-
-- "Plan API tests for the Search feature in the School API"
-- "Create a test plan for the LocalAuthority module API endpoints"
-
-Once the test plan is generated and reviewed, trigger the implementer:
-
-- "Implement the test plan for the Search feature"
-- "Execute the test plan we just created for the LocalAuthority module"
-
-## Context Control (GEMINI.md)
-
-This project makes extensive use of `GEMINI.md` files located throughout the repository. These files are standard operating procedures (SOPs) and context references specifically for AI agents.
-
-When interacting with the repository using Gemini CLI, the agent will automatically read the relevant `GEMINI.md` files for the module you are working in. This ensures the AI adheres to the specific architectural rules, tech stack constraints, and formatting guidelines of the local module.
+**For a complete list of available CLI commands, setup instructions, and usage guidelines, please see the [AI Tools Readme](../../ai-tools/README.md).**

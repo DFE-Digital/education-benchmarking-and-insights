@@ -1,22 +1,10 @@
 # Platform Module: Agent Mandates
 
-This file defines specialized mandates and procedural constraints for AI agents working within the `platform` module.
+This file defines AI-specific operational guidelines for agents working within the `platform` module.
+For all human-readable architecture, tech stack, development standards, and anti-patterns, refer to the `README.md` in this directory.
 
-## Development Standards
+## AI Operational Guidelines
 
-- **Vertical Slices**: Keep all components of a feature (Functions, Services, Models, Validators) within the feature's directory.
-- **Shared over Duplication**: Before defining a new cross-cutting interface, check the `abstractions` project (e.g., `Platform.Search`, `Platform.Messaging`) to reuse existing infrastructure.
-- **Testing Strategy**: Use `xUnit` and `Moq` for unit testing logic within feature services. Use `Reqnroll` for behavioral/acceptance testing of API endpoints. Always place tests in the `platform/tests/` directory mirroring the corresponding API namespace.
-- **SQL-First**: Prefer writing clean, optimized SQL via Dapper over complex ORM abstractions like Entity Framework.
-- **Centralized Dependencies**: All NuGet package versions must be managed in `Directory.Packages.props`.
-- **Async/Await**: Use asynchronous programming throughout the entire call stack.
-- **Validation**: Every input request must be validated using `FluentValidation` before processing.
-- **OpenAPI**: All public Function endpoints must be decorated with `OpenApi` attributes for documentation.
-
-## Anti-Patterns
-
-- **Fat Functions**: Avoid putting domain logic directly in Azure Function triggers; always delegate to a service.
-- **Complex ORMs**: Do not introduce Entity Framework or other heavy ORMs; stick to Dapper for predictability and performance.
-- **Hardcoded Connection Strings**: Never hardcode configuration; use `IOptions` or environment variables managed by Azure Key Vault.
-- **Bypassing Service Layer**: Avoid direct database access from Function triggers; always go through the service layer.
-- **Ignoring CancellationToken**: Always propagate `CancellationToken` through all async calls to support request cancellation.
+- **Feature Directories**: When generating new platform functionality, ensure all related files (Functions, Services, Models, Validators) are grouped together in a cohesive vertical slice within the target Feature directory.
+- **OpenAPI**: Always generate appropriate `OpenApi` attributes when creating or modifying Function endpoints.
+- **Asynchronous Execution**: When creating or modifying code within this module, ensure you are utilizing the `Async` counterparts for all I/O or database operations.

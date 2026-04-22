@@ -1,6 +1,9 @@
 # Agent Mandates & Guidelines
 
-This file defines foundational mandates and operational guidelines for AI agents interacting with the FBIT repository. These instructions ensure consistent, safe, and high-quality contributions across the monorepo.
+**Target Audience: AI Agents**
+*(Human developers should refer to the root `README.md`)*
+
+This file defines strictly AI-specific operational guidelines and guardrails for agents interacting with the FBIT repository. For general architectural guidelines, tech stack details, and monorepo structure, **both humans and AI should refer to the root `README.md`.**
 
 ## Foundational Mandates
 
@@ -12,7 +15,7 @@ This file defines foundational mandates and operational guidelines for AI agents
 
 ## Module-Specific Agent Guidance
 
-For specialized rules, procedural workflows, and constraints within each module, refer to their respective `AGENTS.md` files:
+For specialized rules and procedural workflows, refer to their respective `AGENTS.md` files. For all human-readable development standards, anti-patterns, and architecture, refer to the module `README.md` files:
 
 - [Core Infrastructure](./core-infrastructure/AGENTS.md)
 - [Data Pipeline](./data-pipeline/AGENTS.md)

@@ -7,6 +7,24 @@ The Financial Benchmarking and Insights Tool (FBIT) is to provide a single servi
 - A way to identify areas of improvement to support better financial planning and consequently improved outcomes for pupils
 - A way to support Governors & Trustees in their role in holding organisations to account
 
+## Monorepo Structure
+
+- **`web/`**: ASP.NET Core MVC portal (Vue 3 for interactive features).
+- **`platform/`**: .NET Azure Functions REST APIs (Backend data access).
+- **`front-end-components/`**: React/TypeScript visualization library.
+- **`data-pipeline/`**: Python/Pandas processing engine.
+- **`core-infrastructure/`**: Terraform IaC and .NET DbUp migrations.
+- **`pipelines/`**: YAML-based CI/CD pipeline definitions for Azure DevOps.
+- **`support-analytics/`**: Log Analytics queries and KQL for operational monitoring.
+- **`documentation/`**: Central repository for architecture, design, and operational guides.
+
+## Core Architecture & Data Flow
+
+1. **Ingestion**: Raw CSV/Excel data is uploaded to Azure Blob Storage.
+2. **Processing**: `data-pipeline` (Python) transforms data and persists to Azure SQL.
+3. **Serving**: `platform` (Azure Functions) exposes data via RESTful APIs.
+4. **Presentation**: `web` (ASP.NET MVC) portal renders dashboards using `front-end-components`.
+
 ## Documentation
 
 1. [Architecture](./documentation/architecture)

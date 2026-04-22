@@ -3,6 +3,45 @@
 This project contains the platform APIs as consumed by other components within the monorepo.
 Each .NET project is deployed as an independent Azure Function App.
 
+## Module Context
+
+The backend API layer providing core benchmarking, school/trust insights, and search capabilities.
+
+### Tech Stack
+
+- **Framework:** .NET 8/9 (C#)
+- **Hosting:** Azure Functions (Isolated Worker Process)
+- **Data Access:** Dapper (Micro-ORM)
+- **Search:** Azure AI Search
+- **Caching:** Redis
+- **Validation:** FluentValidation
+
+### Core Architecture
+
+1. **API Topology:** Segmented into domain-specific Azure Function applications (e.g., `Platform.Api.Benchmark`). Shared kernel in `platform/src/abstractions`.
+2. **Feature Routing:** Requests are routed to specific "Features" directories.
+3. **Service Layer:** Functions delegate domain logic to specialized services.
+4. **Data Access:** Services use `IDatabaseFactory` and Dapper or `ISearchService`.
+
+## Development Standards
+
+- **Vertical Slices**: Keep all components of a feature (Functions, Services, Models, Validators) within the feature's directory.
+- **Shared over Duplication**: Before defining a new cross-cutting interface, check the `abstractions` project (e.g., `Platform.Search`, `Platform.Messaging`) to reuse existing infrastructure.
+- **Testing Strategy**: Use `xUnit` and `Moq` for unit testing logic within feature services. Use `Reqnroll` for behavioral/acceptance testing of API endpoints. Always place tests in the `platform/tests/` directory mirroring the corresponding API namespace.
+- **SQL-First**: Prefer writing clean, optimized SQL via Dapper over complex ORM abstractions like Entity Framework.
+- **Centralized Dependencies**: All NuGet package versions must be managed in `Directory.Packages.props`.
+- **Async/Await**: Use asynchronous programming throughout the entire call stack.
+- **Validation**: Every input request must be validated using `FluentValidation` before processing.
+- **OpenAPI**: All public Function endpoints must be decorated with `OpenApi` attributes for documentation.
+
+## Anti-Patterns
+
+- **Fat Functions**: Avoid putting domain logic directly in Azure Function triggers; always delegate to a service.
+- **Complex ORMs**: Do not introduce Entity Framework or other heavy ORMs; stick to Dapper for predictability and performance.
+- **Hardcoded Connection Strings**: Never hardcode configuration; use `IOptions` or environment variables managed by Azure Key Vault.
+- **Bypassing Service Layer**: Avoid direct database access from Function triggers; always go through the service layer.
+- **Ignoring CancellationToken**: Always propagate `CancellationToken` through all async calls to support request cancellation.
+
 ## Prerequisites
 
 1. Install [.NET 8.0 SDK](https://dotnet.microsoft.com/en-us/download/dotnet/8.0)
