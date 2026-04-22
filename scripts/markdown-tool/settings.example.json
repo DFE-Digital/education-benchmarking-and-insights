@@ -1,0 +1,35 @@
+{
+  "BaseDestination": "collected_markdown",
+  "FoldersToMerge": [
+    "documentation/developers",
+    "documentation/architecture",
+    "documentation/features",
+    "documentation/quality-assurance",
+    "documentation/operational",
+    "documentation/data",
+    "documentation/guides/cfr-file-generation",
+    "documentation/guides/monthly-reporting",
+    "documentation/guides/chart-principles",
+    "documentation/guides/chart-development-workflow"
+  ],
+  "IgnoreFolders": [
+    ".pytest_cache",
+    "templates",
+    "prototype",
+    "node_modules",
+    ".git",
+    ".idea",
+    "dist",
+    "bin",
+    "obj",
+    "collected_markdown",
+    ".github",
+    ".gemini",
+    ".terraform",
+    "terraform"
+  ],
+  "IgnoreFiles": [
+    "CONTRIBUTING.md",
+    "GEMINI.md"
+  ]
+}

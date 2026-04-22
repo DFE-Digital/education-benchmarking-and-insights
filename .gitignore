@@ -30,8 +30,7 @@ Thumbs.db
 
 # ==========================================
 # Scripts
-scripts/api-env.json
-scripts/api-tests-env.json
+scripts/**/settings.json
 
 # .NET / Visual Studio
 # ==========================================
