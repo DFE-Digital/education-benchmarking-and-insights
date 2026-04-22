@@ -1,0 +1,9 @@
+description = "Implement functional API tests based on a formal test plan"
+prompt = """
+Execute the procedural steps defined in `.gemini/instructions/test-implementation.md`.
+
+Target API and Feature:
+'{{args}}'
+
+NOTE: You MUST provide both an API name and a Feature name (e.g., 'School Search'). If '{{args}}' is incomplete, or if the strict discovery process (defined in `.gemini/instructions/shared-api-discovery.md`) cannot find the target, STOP and ask me to clarify.
+"""
