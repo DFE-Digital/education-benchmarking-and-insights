@@ -6,7 +6,7 @@ This procedural guide details how to implement 100% functional test coverage wit
 
 ### 1. Discovery & Load Test Plan
 
-- **Mandatory Discovery Rules**: Read and follow the discovery and validation rules in `.gemini/instructions/shared-api-discovery.md` to resolve the target **API** and **Feature** from the provided input.
+- **Mandatory Discovery Rules**: Read and follow the discovery and validation rules in `ai-tools/instructions/shared-api-discovery.md` to resolve the target **API** and **Feature** from the provided input.
 - If either the API name or the Feature name is missing, or if the target cannot be found, you **MUST STOP** and follow the **Fallback & Clarification** rules in the discovery document.
 - Locate and read the corresponding test plan in `documentation/quality-assurance/api-test-plans/[API]-[Feature].md`.
 - Identify the scenarios, versions, and validation rules to be implemented.

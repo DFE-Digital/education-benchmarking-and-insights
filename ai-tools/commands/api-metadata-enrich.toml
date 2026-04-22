@@ -1,9 +1,10 @@
-﻿description = "Enrich a Platform API Feature with OpenAPI metadata (Summary, Description, etc.)"
+name = "api-metadata-enrich"
+description = "Enrich a Platform API Feature with OpenAPI metadata (Summary, Description, etc.)"
 prompt = """
 Execute the following metadata enrichment procedure:
 
 <metadata_enrichment_procedure>
-@{ .gemini/instructions/metadata-enrichment.md}
+@{ai-tools/instructions/metadata-enrichment.md}
 </metadata_enrichment_procedure>
 
 Target API and Feature:
@@ -12,6 +13,6 @@ Target API and Feature:
 NOTE: You MUST provide both an API name and a Feature name (e.g., 'School Search'). If '{{args}}' is incomplete, or if the strict discovery process below cannot find the target, STOP and ask me to clarify.
 
 <discovery_rules>
-@{ .gemini/instructions/shared-api-discovery.md}
+@{ai-tools/instructions/shared-api-discovery.md}
 </discovery_rules>
 """

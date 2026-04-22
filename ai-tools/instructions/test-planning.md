@@ -6,7 +6,7 @@ This procedural guide details how to research and plan 100% functional test cove
 
 ### 1. Research & Dependency Mapping
 
-- **Mandatory Discovery Rules**: Read and follow the discovery and validation rules in `.gemini/instructions/shared-api-discovery.md` to resolve the target **API** and **Feature** from the provided input to its directory path (e.g., `platform/src/apis/Platform.Api.[API]/Features/[FeatureName]`).
+- **Mandatory Discovery Rules**: Read and follow the discovery and validation rules in `ai-tools/instructions/shared-api-discovery.md` to resolve the target **API** and **Feature** from the provided input to its directory path (e.g., `platform/src/apis/Platform.Api.[API]/Features/[FeatureName]`).
 - If either the API name or the Feature name is missing, or if the target cannot be found, you **MUST STOP** and follow the **Fallback & Clarification** rules in the discovery document.
 - **Endpoints & Verbs:** Read `Routes.cs` to identify all public route strings. Then, scan the `Functions/` directory for `[HttpTrigger]` attributes to correctly map the HTTP Verbs (e.g., `GET`, `POST`) to those routes.
 - **Validation Rules:** Read all `Validator` classes in the feature's `Validators/` folder. Document every validation rule found. *Crucially, look out for `Include(new SomeOtherValidator())` statements to ensure you capture inherited FluentValidation rules from parent validators.*
@@ -24,10 +24,16 @@ Define the scenarios required for 100% functional coverage:
 
 ### 3. Create/Update Test Plan
 
-Create a Markdown file in `documentation\quality-assurance\api-test-plans\[API]-[Feature].md`.
+Create or update a Markdown file in `documentation\quality-assurance\api-test-plans\[API]-[Feature].md`.
 *Note: Derive the `[API]` name by stripping `Platform.Api.` from the project namespace (e.g., `Platform.Api.School` becomes `School`).*
 
-**Strict Format:** You MUST use the template defined in `.gemini/templates/test-plan-template.md` for the document structure.
+**Safe Merge Protocol:**
+
+- **Check for Existence:** Before writing to the file, check if it already exists.
+- **Preserve Human Notes:** If the file exists, read its contents first. Identify and preserve any custom test scenarios, edge cases, or specific notes added by a human developer.
+- **Merge intelligently:** Merge your new technical findings (e.g., new validation rules or routes) with the existing document rather than blindly overwriting it.
+
+**Strict Format:** You MUST use the template defined in `ai-tools/templates/test-plan-template.md` for the document structure.
 
 ### 4. Verification
 
@@ -37,3 +43,7 @@ Create a Markdown file in `documentation\quality-assurance\api-test-plans\[API]-
 ## Key Files to Reference
 
 - `platform/tests/Platform.ApiTests/README.md`: Root testing mandates for Platform API.
+
+## Constraint
+
+- Do not include any manual change logs, timestamps, or author metadata. Rely entirely on Git for version history.

@@ -1,9 +1,10 @@
-﻿description = "Implement functional API tests based on a formal test plan"
+name = "api-test-implement"
+description = "Implement functional API tests based on a formal test plan"
 prompt = """
 Execute the following test implementation procedure:
 
 <test_implementation_procedure>
-@{ .gemini/instructions/test-implementation.md}
+@{ai-tools/instructions/test-implementation.md}
 </test_implementation_procedure>
 
 Target API and Feature:
@@ -12,6 +13,6 @@ Target API and Feature:
 NOTE: You MUST provide both an API name and a Feature name (e.g., 'School Search'). If '{{args}}' is incomplete, or if the strict discovery process below cannot find the target, STOP and ask me to clarify.
 
 <discovery_rules>
-@{ .gemini/instructions/shared-api-discovery.md}
+@{ai-tools/instructions/shared-api-discovery.md}
 </discovery_rules>
 """

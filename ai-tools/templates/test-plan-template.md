@@ -18,6 +18,3 @@ Feature: [Feature Name]
     - Request with an invalid `x-api-version` header.
   - **404 Not Found**:
     - [Not found scenario 1, if applicable]
-
----
-*Constraint: Do not include any manual change logs, timestamps, or author metadata. Rely entirely on Git for version history.*

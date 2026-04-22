@@ -7,7 +7,7 @@ This procedural guide details how to enhance the OpenAPI documentation of a spec
 ### 1. Scope & Discovery
 
 - Identify the target API and Feature from the provided input.
-- **Mandatory Discovery Rules**: Read and follow the discovery and validation rules in `.gemini/instructions/shared-api-discovery.md` to resolve the `<api_name>` and `<feature_name>` to a specific directory path (e.g., `platform/src/apis/Platform.Api.School/Features/Search`).
+- **Mandatory Discovery Rules**: Read and follow the discovery and validation rules in `ai-tools/instructions/shared-api-discovery.md` to resolve the `<api_name>` and `<feature_name>` to a specific directory path (e.g., `platform/src/apis/Platform.Api.School/Features/Search`).
 - If the target cannot be found or if either name is missing, follow the **Fallback & Clarification** rules in the discovery document before proceeding.
 - Once validated, scan ONLY the specified `Features/[Feature_Name]` directory (and its subdirectories) to locate:
   - Azure Function endpoints (files containing `[HttpTrigger]`).
