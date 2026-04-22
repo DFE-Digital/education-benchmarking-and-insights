@@ -1,0 +1,92 @@
+@using Web.App.Domain.LocalAuthorities
+@using Web.App.ViewModels
+@model Web.App.ViewModels.LocalAuthorityEducationHealthCarePlansViewModel
+
+<div class="app-filter">
+    <div class="app-filter__header">
+        <h2 class="govuk-heading-m govuk-!-margin-0">
+            Filters
+        </h2>
+    </div>
+
+    @if (Model.SelectedSubCategories.Length > 0)
+    {
+        <div class="app-filter__selected">
+            <div class="app-filter__selected-header">
+                <h2 class="govuk-heading-m">
+                    Selected filters
+                </h2>
+                <a href="@Url.Action("Index", "LocalAuthorityEducationHealthCarePlans", new { Model.Code, viewAs = (int)Model.ViewAs })"
+                   class="govuk-link govuk-link--no-visited-state">Clear</a>
+            </div>
+            <h3 class="govuk-heading-s">
+                EHC Plans
+            </h3>
+            <ul class="govuk-list">
+                @foreach (var category in Model.SelectedSubCategories)
+                {
+                    <li>
+                        <a href="@Url.Action("Index", "LocalAuthorityEducationHealthCarePlans", new { Model.Code, viewAs = (int)Model.ViewAs, selectedSubCategories = Model.SelectedSubCategories.Where(x => x != category).Select(x => (int)x) })"
+                           class="app-filter__tag">
+                            @category.GetFilterDescription()
+                        </a>
+                    </li>
+                }
+            </ul>
+        </div>
+    }
+    <div class="app-filter__body">
+        @using (Html.BeginForm(FormMethod.Post, true, new { novalidate = "novalidate", role = "search" }))
+        {
+            <input type="hidden"
+                   name="@nameof(LocalAuthorityEducationHealthCarePlansViewModel.SelectedSubCategories)"
+                   value="@Model.SelectedSubCategories"/>
+
+            <div class="govuk-accordion" data-module="govuk-accordion" id="accordion-default">
+                <div class="govuk-accordion__section govuk-accordion__section--expanded">
+                    <div class="govuk-accordion__section-header">
+                        <h2 class="govuk-accordion__section-heading">
+                            <span class="govuk-accordion__section-button" id="accordion-default-heading-1">
+                                EHC Plans
+                                @if (Model.SelectedSubCategories.Length > 0)
+                                {
+                                    <span
+                                        class="govuk-hint app-filter__selected-hint">@($"{Model.SelectedSubCategories.Length} selected")</span>
+                                }
+                            </span>
+                        </h2>
+                    </div>
+                    <div id="accordion-default-content-1" class="govuk-accordion__section-content">
+                        <div class="govuk-form-group">
+                            <fieldset class="govuk-fieldset">
+                                <div class="govuk-checkboxes govuk-checkboxes--small"
+                                     data-module="govuk-checkboxes">
+                                    @foreach (var category in EducationHealthCarePlansCategories.All)
+                                    {
+                                        <div class="govuk-checkboxes__item">
+                                            <input class="govuk-checkboxes__input"
+                                                   id="category-@category"
+                                                   name="@nameof(Model.SelectedSubCategories)"
+                                                   value="@((int)category)"
+                                                   type="checkbox"
+                                                   @(Model.SelectedSubCategories.Contains(category) ? "checked" : "")>
+                                            <label class="govuk-label govuk-checkboxes__label"
+                                                   for="category-@category">
+                                                @category.GetFilterDescription()
+                                            </label>
+                                        </div>
+                                    }
+                                </div>
+                            </fieldset>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <button type="submit" class="govuk-button govuk-!-margin-bottom-3" data-module="govuk-button">
+                Apply filters
+            </button>
+        }
+
+    </div>
+</div>

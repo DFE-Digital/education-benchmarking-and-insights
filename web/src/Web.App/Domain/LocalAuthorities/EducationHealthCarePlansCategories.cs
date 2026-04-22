@@ -26,6 +26,19 @@ public static class EducationHealthCarePlansCategories
         SubCategoryFilter.Other
     ];
 
+    public static string GetFilterDescription(this SubCategoryFilter filter) => filter switch
+    {
+        SubCategoryFilter.Total => "Total EHC plans",
+        SubCategoryFilter.Mainstream => "Mainstream schools or academies",
+        SubCategoryFilter.Resourced => "Resourced provision or SEN units",
+        SubCategoryFilter.Special => "Maintained special school or special academies",
+        SubCategoryFilter.Independent => "NMSS or independent schools",
+        SubCategoryFilter.Hospital => "Hospital schools or alternative provisions",
+        SubCategoryFilter.Post16 => "Post 16",
+        SubCategoryFilter.Other => "Other",
+        _ => ""
+    };
+
     public static string GetHeading(this SubCategoryFilter filter) => filter switch
     {
         SubCategoryFilter.Total => "Total pupils with EHC plans",

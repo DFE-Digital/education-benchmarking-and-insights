@@ -24,6 +24,7 @@ public class LocalAuthorityEducationHealthCarePlansController(
     [HttpGet]
     public async Task<IActionResult> Index(
         string code,
+        EducationHealthCarePlansCategories.SubCategoryFilter[] selectedSubCategories,
         Views.ViewAsOptions viewAs = Views.ViewAsOptions.Chart)
     {
         using (logger.BeginScope(new { code }))
@@ -47,7 +48,7 @@ public class LocalAuthorityEducationHealthCarePlansController(
                     .QueryEhcpAsync(query)
                     .GetResultOrThrow<EducationHealthCarePlans[]>();
 
-                var subCategories = new EducationHealthCarePlansComparisonSubCategoriesViewModel(plans, EducationHealthCarePlansCategories.All);
+                var subCategories = new EducationHealthCarePlansComparisonSubCategoriesViewModel(plans, selectedSubCategories);
 
                 var charts = await BuildCharts(code, subCategories);
 
@@ -62,6 +63,7 @@ public class LocalAuthorityEducationHealthCarePlansController(
 
                 var viewModel = new LocalAuthorityEducationHealthCarePlansViewModel(la, set, subCategories)
                 {
+                    SelectedSubCategories = selectedSubCategories,
                     ViewAs = viewAs,
                 };
 
@@ -76,9 +78,10 @@ public class LocalAuthorityEducationHealthCarePlansController(
     }
 
     [HttpPost]
-    public IActionResult Index(string code, int viewAs, int resultAs) => RedirectToAction("Index", new
+    public IActionResult Index(string code, int viewAs, int[]? selectedSubCategories) => RedirectToAction("Index", new
     {
         code,
+        selectedSubCategories,
         viewAs
     });
 
