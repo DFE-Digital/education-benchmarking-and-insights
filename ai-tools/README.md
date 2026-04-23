@@ -22,6 +22,12 @@ Separated into two distinct commands for better planning, review, and execution 
 1. **Platform API Test Planner (`/api-test-plan`)**: Researches, evaluates, and plans functional tests for Platform API features. Outputs a formal test plan into the `documentation/quality-assurance/api-test-plans/` directory using a standardized template.
 2. **Platform API Test Implementer (`/api-test-implement`)**: Executes the test plan. It creates or updates Gherkin feature files, step bindings, and JSON data files using strict assertions and a fail-first approach, subsequently logging the changes back to the test plan.
 
+### Git Tools
+
+#### Staged Commit Message Generator (`/staged-commit`)
+
+Proposes a concise, one-line commit message based on your currently staged changes. It follows the [Conventional Commits](https://www.conventionalcommits.org) standard and looks at the last 3 commits in your history to ensure consistency with the project's style.
+
 ## Setup & Installation
 
 For new developers or after a fresh clone, run the installation script from the root of the repository. This will copy the necessary commands, instructions, and templates into your local `.gemini/` folder.
@@ -58,6 +64,10 @@ The tools follow a consistent pattern: `/[command] [API Name] [Feature Name]`.
    Once the test plan is reviewed, execute it to generate the code.
    - `/api-test-implement School Search`
    - `/api-test-implement LocalAuthority Finances`
+
+4. **Generate Commit Message:**
+   Propose a message for your currently staged changes.
+   - `/staged-commit`
 
 ## How it Works
 
