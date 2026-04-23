@@ -20,11 +20,6 @@ data "azurerm_windows_function_app" "benchmark-api" {
   resource_group_name = "${var.environment-prefix}-ebis-platform"
 }
 
-data "azurerm_windows_function_app" "establishment-api" {
-  name                = "${var.environment-prefix}-ebis-establishment-fa"
-  resource_group_name = "${var.environment-prefix}-ebis-platform"
-}
-
 data "azurerm_windows_function_app" "insight-api" {
   name                = "${var.environment-prefix}-ebis-insight-fa"
   resource_group_name = "${var.environment-prefix}-ebis-platform"
