@@ -5,7 +5,6 @@ using Platform.ApiTests.Drivers;
 using Platform.ApiTests.TestDataHelpers;
 using Platform.Infrastructure;
 using Platform.Json;
-using Platform.Search;
 
 namespace Platform.ApiTests.Steps.LocalAuthority;
 
@@ -62,14 +61,14 @@ public class SearchSteps(LocalAuthorityApiDriver api)
         string orderByField,
         string orderByValue)
     {
-        var content = new SearchRequest
+        var content = new
         {
             SearchText = searchText,
             Page = page,
             PageSize = size,
             OrderBy = string.IsNullOrEmpty(orderByField) && string.IsNullOrEmpty(orderByValue)
                 ? null
-                : new OrderByCriteria
+                : new
                 {
                     Field = orderByField,
                     Value = orderByValue
@@ -92,14 +91,14 @@ public class SearchSteps(LocalAuthorityApiDriver api)
         string orderByField,
         string orderByValue)
     {
-        var content = new SearchRequest
+        var content = new
         {
             SearchText = string.IsNullOrWhiteSpace(searchText) ? null : searchText,
             Page = page,
             PageSize = size,
             OrderBy = string.IsNullOrEmpty(orderByField) && string.IsNullOrEmpty(orderByValue)
                 ? null
-                : new OrderByCriteria
+                : new
                 {
                     Field = orderByField,
                     Value = orderByValue

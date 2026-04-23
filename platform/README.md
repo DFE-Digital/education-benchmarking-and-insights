@@ -134,30 +134,6 @@ Add configuration in `local.settings.json` for `Platform.Api.Trust`
 }
 ```
 
-#### Establishment Function App
-
-Add configuration in `local.settings.json` for `Platform.Api.Establishment`
-
-```json
-{
-  "IsEncrypted": false,
-  "Values": {
-    "FUNCTIONS_WORKER_RUNTIME": "dotnet-isolated",
-    "ASPNETCORE_ENVIRONMENT": "Development",
-    "Search__Name": "s198d01-ebis-search",
-    "Search__Key": "[INSERT KEY VALUE]",
-    "Sql__ConnectionString": "[INSERT CONNECTION STRING VALUE]",
-    "Sql__TelemetryEnabled": true,
-    "AzureFunctionsJobHost__logging__logLevel__default": "Information",
-    "AzureFunctionsJobHost__logging__logLevel__Function": "Information"
-  },
-  "Host": {
-    "CORS": "*",
-    "LocalHttpPort": 7073
-  }
-}
-```
-
 #### Benchmark Function App
 
 Add configuration in `local.settings.json` for `Platform.Api.Benchmark`
@@ -411,11 +387,7 @@ Add configuration in `appsetings.local.json` for `Platform.ApiTests`
       "Host": "http://localhost:7072",
       "Key": "xxx"
    },
-   "Establishment": {
-      "Host": "http://localhost:7073",
-      "Key": "xxx"
-   },
-   "ChartRendering": {
+   "NonFinancial": {
       "Host": "http://localhost:7076",
       "Key": "xxx"
    },

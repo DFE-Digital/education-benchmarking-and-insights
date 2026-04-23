@@ -1,0 +1,15 @@
+name = "staged-commit"
+description = "Generates a one-line commit message based on staged changes."
+prompt = """
+Propose a concise, one-line commit message based on the following staged changes:
+
+<staged_diff>
+!{git diff --staged}
+</staged_diff>
+
+Use the project's commit style (lowercase, descriptive). For context, here are the 3 most recent commits:
+
+<recent_history>
+!{git log -n 3 --oneline}
+</recent_history>
+"""

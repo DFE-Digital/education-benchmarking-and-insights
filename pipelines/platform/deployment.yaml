@@ -77,19 +77,6 @@ jobs:
                 deploymentMethod: 'runFromPackage'
 
             - task: AzureFunctionApp@2
-              displayName: 'Deploy establishment function app'
-              inputs:
-                azureSubscription: ${{ parameters.subscription }}
-                appType: functionApp
-                appName: '${{ parameters.environmentPrefix }}-ebis-establishment-fa'
-                deployToSlotOrASE: true
-                resourceGroupName: '${{ parameters.environmentPrefix }}-ebis-platform'
-                package: '${{ parameters.workspaceDir }}/platform-apis/Platform.Api.Establishment.zip'
-                slotName: production
-                appSettings: '-WEBSITE_RUN_FROM_PACKAGE 1'
-                deploymentMethod: 'runFromPackage'
-
-            - task: AzureFunctionApp@2
               displayName: 'Deploy chart rendering function app'
               inputs:
                 azureSubscription: ${{ parameters.subscription }}
@@ -194,8 +181,6 @@ jobs:
           alias: 'benchmark'
         - name: '${{ parameters.environmentPrefix }}-ebis-insight-fa'
           alias: 'insight'
-        - name: '${{ parameters.environmentPrefix }}-ebis-establishment-fa'
-          alias: 'establishment'
         - name: '${{ parameters.environmentPrefix }}-ebis-chart-rendering-fa'
           alias: 'chart_rendering'
         - name: '${{ parameters.environmentPrefix }}-ebis-content-fa'
