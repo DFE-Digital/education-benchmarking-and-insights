@@ -13,6 +13,15 @@ This file defines strictly AI-specific operational guidelines and guardrails for
 - **Surgical Updates**: Prioritize localized, targeted changes over broad refactors. Align strictly with the established architectural direction of the module being modified.
 - **Verification is Mandatory**: A task is not complete until its behavioral correctness is verified through automated tests and its structural integrity is confirmed within the project context.
 
+## Documentation Standards
+
+When generating or modifying documentation, adhere to the following rules:
+
+- **UK English**: Always use UK English spelling and terminology (e.g., 'standardise', 'organisations', 'licence').
+- **No Em Dashes**: Do not use em dashes (—). Use colons, commas, or parentheses as appropriate.
+- **No Horizontal Rules**: Do not use horizontal rules (---) to separate sections. Rely on hierarchical headings (`##`, `###`) or list structures to maintain logical flow.
+- **Consistency**: Ensure terminology and formatting align with existing documentation in the module you are modifying.
+
 ## Module-Specific Agent Guidance
 
 For specialized rules and procedural workflows, refer to their respective `AGENTS.md` files. For all human-readable development standards, anti-patterns, and architecture, refer to the module `README.md` files:
