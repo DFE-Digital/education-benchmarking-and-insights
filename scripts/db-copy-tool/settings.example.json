@@ -1,0 +1,8 @@
+{
+  "SourceConnectionString": "Server=localhost,1433;Database=source_db;User Id=SA;Password=your_password;Encrypt=False;",
+  "TargetConnectionString": "Server=localhost,1433;Database=target_db;User Id=SA;Password=your_password;Encrypt=False;",
+  "IgnoredTables": [
+    "dbo.sysdiagrams",
+    "dbo.__EFMigrationsHistory"
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "Modules": [
+    "core-infrastructure/terraform",
+    "data-pipeline/terraform",
+    "platform/terraform",
+    "web/terraform",
+    "prototype/terraform",
+    "performance-tests/terraform",
+    "support-analytics/terraform"
+  ],
+  "EnableTFLint": false,
+  "EnableCheckov": false
+}

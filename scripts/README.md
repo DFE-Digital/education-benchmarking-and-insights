@@ -1,111 +1,105 @@
 # Development Scripts
 
-This directory contains PowerShell scripts to assist with local development and environment management.
+This directory contains utility scripts to assist with local development, environment management, and documentation. All scripts are standalone C# applications that follow a standard execution pattern:
 
-## Environment Switching
+```bash
+dotnet run scripts/[tool-name]/app.cs [arguments]
+```
 
-These scripts allow you to quickly switch the configuration of the Platform APIs and the API Tests between local development and test environment dependencies.
+## Environment Management
 
-### Platform API Environment Switcher
+### Environment Switcher Tool
 
-`switch-api-env.ps1` updates the `local.settings.json` files for all Platform API projects in `platform/src/apis`.
+Updates local configuration files for Platform APIs and API Tests.
 
 **Usage:**
 
-```powershell
-.\switch-api-env.ps1 -Environment test
+1. Navigate to the root of the repository.
+2. Ensure `scripts/env-tool/settings.json` is populated (copy from `settings.example.json`).
+3. Run the script:
+
+   ```bash
+   dotnet run scripts/env-tool/app.cs <api|tests|all> <environment>
+   ```
+
+**Example:**
+
+```bash
+dotnet run scripts/env-tool/app.cs all local
 ```
 
-**Configuration:**
-Create a file named `api-env.json` in this directory. This file is ignored by Git to prevent secrets from leaking.
+**Features:**
 
-**Example `api-env.json`:**
+- **Unified Configuration:** Manage settings for both APIs and Tests in a single `settings.json` file.
+- **Dynamic Updates:** Automatically identifies and updates the `Values` section in `local.settings.json` and nested properties in `appsettings.local.json`.
+- **Target Selection:** Switch settings for APIs, Tests, or both simultaneously.
 
-```json
-{
-  "ApiTargets": [
-    "Platform.Api.Benchmark",
-    "Platform.Api.ChartRendering",
-    "Platform.Api.Content",
-    "Platform.Api.Insight",
-    "Platform.Api.LocalAuthority",
-    "Platform.Api.NonFinancial",
-    "Platform.Api.School",
-    "Platform.Api.Trust",
-    "Platform.MaintenanceTasks",
-    "Platform.Orchestrator"
-  ],
-  "Environments": {
-    "dev": {
-      "Sql__ConnectionString": "Server=localhost,1433;Database=data;User Id=SA;Password=mystrong!Pa55word;Encrypt=False;",
-      "Search__Name": "[INSERT_NAME]",
-      "Search__Key": "[INSERT_KEY]",
-      "Cache__Host": "localhost"
-    },
-    "test": {
-      "Sql__ConnectionString": "[INSERT_CONNECTION_STRING]",
-      "Search__Name": "[INSERT_NAME]",
-      "Search__Key": "[INSERT_KEY]",
-      "Cache__Host": "[INSERT_HOST]"
-    }
-  }
-}
-```
+### Terraform Helper Tool
 
-### API Tests Environment Switcher
+Automates formatting, validation, and documentation for Terraform modules across the monorepo.
 
-`switch-api-tests-env.ps1` updates the `appsettings.local.json` file for the `Platform.ApiTests` project.
+**Prerequisites:**
+
+- [Terraform CLI](https://developer.hashicorp.com/terraform/install) installed.
+- [terraform-docs](https://terraform-docs.io/user-guide/installation/) installed.
 
 **Usage:**
 
-```powershell
-.\switch-api-tests-env.ps1 -Environment local
-```
+1. Ensure `scripts/terraform-tool/settings.json` is populated (copy from `settings.example.json`).
+2. Run the script:
 
-**Configuration:**
-Create a file named `api-tests-env.json` in this directory. This file is ignored by Git.
+   ```bash
+   dotnet run scripts/terraform-tool/app.cs
+   ```
 
-**Example `api-tests-env.json`:**
+**Features:**
 
-```json
-{
-  "Environments": {
-    "local": {
-      "School:Host": "http://localhost:7302",
-      "School:Key": "[INSERT_KEY]",
-      "Trust:Host": "http://localhost:7303",
-      "Trust:Key": "[INSERT_KEY]",
-      "LocalAuthority:Host": "http://localhost:7301",
-      "LocalAuthority:Key": "[INSERT_KEY]",
-      "Insight:Host": "http://localhost:7071",
-      "Insight:Key": "[INSERT_KEY]",
-      "Benchmark:Host": "http://localhost:7072",
-      "Benchmark:Key": "[INSERT_KEY]",
-      "NonFinancial:Host": "http://localhost:7075",
-      "NonFinancial:Key": "[INSERT_KEY]",
-      "ChartRendering:Host": "http://localhost:7076",
-      "ChartRendering:Key": "[INSERT_KEY]",
-      "Content:Host": "http://localhost:7077",
-      "Content:Key": "[INSERT_KEY]"
-    },
-    "test": {
-      "School:Host": "[INSERT_URL]",
-      "School:Key": "[INSERT_KEY]",
-      "Trust:Host": "[INSERT_URL]",
-      "Trust:Key": "[INSERT_KEY]",
-      "LocalAuthority:Host": "[INSERT_URL]",
-      "LocalAuthority:Key": "[INSERT_KEY]",
-      "Insight:Host": "[INSERT_URL]",
-      "Insight:Key": "[INSERT_KEY]",
-      "Benchmark:Host": "[INSERT_URL]",
-      "Benchmark:Key": "[INSERT_KEY]",
-      "NonFinancial:Host": "[INSERT_URL]",
-      "NonFinancial:Key": "[INSERT_KEY]",
-      "ChartRendering:Host": "[INSERT_URL]",
-      "ChartRendering:Key": "[INSERT_KEY]",
-      "Content:Host": "[INSERT_URL]",
-      "Content:Key": "[INSERT_KEY]"
-    }
-  }
-}
-```
+- **Parallel Execution:** Runs operations concurrently across all modules for maximum speed.
+- **Dynamic Discovery:** Automatically scans for `terraform/` directories if no modules are specified in `settings.json`.
+- **Comprehensive Summary:** Outputs a Pass/Fail table covering formatting, initialization, validation, and documentation.
+- **Extensible:** Support for static analysis tools like TFLint and Checkov (configurable in `settings.json`).
+
+## Database Utilities
+
+### Database Copy Script
+
+Copies data between two SQL databases using `SqlBulkCopy`.
+
+**Usage:**
+
+1. Ensure `scripts/db-copy-tool/settings.json` is populated (copy from `settings.example.json`).
+2. Run the script:
+
+   ```bash
+   dotnet run scripts/db-copy-tool/app.cs
+   ```
+
+**Features:**
+
+- **Surgical Copy:** Only copies data for tables that exist in both the source and target databases.
+- **Safety First:** Skips any target table that already contains data to prevent accidental overwrites.
+- **Efficient Transfer:** Uses `SqlBulkCopy` for high-performance data movement.
+- **Reporting:** Provides a detailed summary of copied, skipped, and failed tables at the end of the run.
+
+## Documentation Utilities
+
+### Markdown Collection Tool
+
+Aggregates repository documentation for ingestion into tools like **NotebookLM**. It discovers markdown files, merges specific directory contents into unified documents, and flattens others into a timestamped destination.
+
+**Usage:**
+
+1. Ensure `scripts/markdown-tool/settings.json` is populated (copy from `settings.example.json`).
+2. Run the script:
+
+   ```bash
+   dotnet run scripts/markdown-tool/app.cs
+   ```
+
+**Features:**
+
+- **NotebookLM Optimized:** Inserts clear source headers (e.g., `# Source: path/to/file.md`) into merged documents to help AI models with grounding and citations.
+- **Smart Merging:** Concatenates files from specified directories (e.g., `architecture/`, `features/`) into single documents to stay within source limits.
+- **Flattening:** Automatically flattens and copies non-merged markdown files by encoding their path into the filename (e.g., `web-src-README.md`).
+- **Ignore Logic:** Supports excluding specific files and entire directory trees (e.g., `node_modules`, `.git`).
+- **Summary Report:** Provides a count of scanned, copied, and merged items at the end.
