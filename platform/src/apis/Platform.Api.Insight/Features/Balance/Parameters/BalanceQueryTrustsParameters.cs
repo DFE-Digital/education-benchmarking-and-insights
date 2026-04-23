@@ -13,4 +13,3 @@ public record BalanceQueryTrustsParameters : BalanceParameters
         Trusts = query["companyNumbers"]?.Split(',') ?? [];
     }
 }
-

@@ -48,4 +48,3 @@ public abstract record ExpenditureModel
     public decimal? CommunityFocusedSchoolStaff { get; set; }
     public decimal? CommunityFocusedSchoolCosts { get; set; }
 }
-

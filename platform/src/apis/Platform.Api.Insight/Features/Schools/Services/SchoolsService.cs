@@ -38,4 +38,3 @@ public class SchoolsService(IDatabaseFactory dbFactory) : ISchoolsService
         return await conn.QueryFirstOrDefaultAsync<SchoolCharacteristic>(sql, parameters, cancellationToken);
     }
 }
-

@@ -47,6 +47,3 @@ public class GetExpenditureTrustHistoryFunction(IExpenditureService service, IVa
             : await req.CreateJsonResponseAsync(years.MapToApiResponse(rows), cancellationToken);
     }
 }
-
-
-

@@ -6,4 +6,3 @@ public static class Routes
     public const string TrustsItSpend = "it-spend/trusts";
     public const string TrustItSpendForecast = "it-spend/trust/{companyNumber}/forecast";
 }
-

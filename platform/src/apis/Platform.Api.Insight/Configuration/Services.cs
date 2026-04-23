@@ -82,4 +82,3 @@ internal static class Services
         .AddSchoolsFeature()
         .AddTrustsFeature();
 }
-

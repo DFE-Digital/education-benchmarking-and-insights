@@ -48,6 +48,3 @@ public class GetExpenditureTrustFunction(IExpenditureService service, IValidator
             : await req.CreateJsonResponseAsync(result.MapToApiResponse(queryParams.Category), cancellationToken);
     }
 }
-
-
-

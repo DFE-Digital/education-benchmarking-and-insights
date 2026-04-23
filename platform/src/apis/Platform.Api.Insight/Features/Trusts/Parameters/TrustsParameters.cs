@@ -12,4 +12,3 @@ public record TrustsParameters : QueryParameters
         Trusts = query["companyNumbers"]?.Split(',') ?? [];
     }
 }
-

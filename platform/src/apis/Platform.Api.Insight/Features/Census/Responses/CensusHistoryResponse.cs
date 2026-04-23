@@ -10,4 +10,3 @@ public record CensusHistoryResponse
     public int? EndYear { get; set; }
     public IEnumerable<CensusHistoryRowResponse> Rows { get; set; } = [];
 }
-

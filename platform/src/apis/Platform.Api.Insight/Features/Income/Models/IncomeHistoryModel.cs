@@ -7,4 +7,3 @@ public record IncomeHistoryModel : IncomeModel
 {
     public int? RunId { get; set; }
 }
-

@@ -40,5 +40,3 @@ public static class Mapper
         return response;
     }
 }
-
-

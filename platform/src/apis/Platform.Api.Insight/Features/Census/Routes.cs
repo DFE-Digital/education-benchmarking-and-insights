@@ -9,4 +9,3 @@ public static class Routes
     public const string SchoolHistoryNationalAverage = "census/history/national-average";
     public const string SchoolsQuery = "census";
 }
-

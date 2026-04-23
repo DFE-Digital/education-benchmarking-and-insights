@@ -15,5 +15,3 @@ public static class BudgetForecastFeature
         return serviceCollection;
     }
 }
-
-

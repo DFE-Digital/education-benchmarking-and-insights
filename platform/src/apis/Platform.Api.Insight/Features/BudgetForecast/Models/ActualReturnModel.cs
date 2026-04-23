@@ -9,4 +9,3 @@ public record ActualReturnModel
     public decimal? Value { get; set; }
     public decimal? TotalPupils { get; set; }
 }
-

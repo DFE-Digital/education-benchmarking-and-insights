@@ -15,4 +15,3 @@ public record ExpenditureNationalAvgParameters : ExpenditureParameters
         OverallPhase = query["phase"] ?? string.Empty;
     }
 }
-

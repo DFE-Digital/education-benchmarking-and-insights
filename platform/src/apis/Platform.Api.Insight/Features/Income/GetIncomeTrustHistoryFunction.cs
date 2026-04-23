@@ -45,5 +45,3 @@ public class GetIncomeTrustHistoryFunction(IIncomeService service, IValidator<In
             : await req.CreateJsonResponseAsync(years.MapToApiResponse(rows), cancellationToken);
     }
 }
-
-

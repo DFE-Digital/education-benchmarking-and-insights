@@ -33,5 +33,3 @@ public class GetTrustsCharacteristicsFunction(ITrustsService service)
         return await req.CreateJsonResponseAsync(trusts, cancellationToken);
     }
 }
-
-

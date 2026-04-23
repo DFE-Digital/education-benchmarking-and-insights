@@ -15,4 +15,3 @@ public record ExpenditureParameters : QueryParameters
         Category = query["category"];
     }
 }
-

@@ -16,4 +16,3 @@ public class ExpenditureQueryTrustParametersValidator : AbstractValidator<Expend
             .WithMessage("A collection of company numbers must be specified");
     }
 }
-

@@ -13,4 +13,3 @@ public abstract record ItSpendResponse
     public decimal? OtherHardware { get; set; }
     public decimal? ItSupport { get; set; }
 }
-

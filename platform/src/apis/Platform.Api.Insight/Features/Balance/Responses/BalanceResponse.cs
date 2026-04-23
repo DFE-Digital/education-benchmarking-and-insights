@@ -11,4 +11,3 @@ public abstract record BalanceResponse
     public decimal? InYearBalance { get; set; }
     public decimal? RevenueReserve { get; set; }
 }
-

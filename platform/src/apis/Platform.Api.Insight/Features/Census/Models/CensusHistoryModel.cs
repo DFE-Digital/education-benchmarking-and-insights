@@ -10,4 +10,3 @@ public record CensusHistoryModel : CensusModel
 {
     public int? RunId { get; set; }
 }
-

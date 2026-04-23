@@ -47,6 +47,3 @@ public class GetCensusHistoryFunction(ICensusService service, IValidator<CensusP
             : await req.CreateJsonResponseAsync(years.MapToApiResponse(rows), cancellationToken);
     }
 }
-
-
-

@@ -31,5 +31,3 @@ public class GetBalanceSchoolFunction(IBalanceService service)
             : await req.CreateJsonResponseAsync(result.MapToApiResponse(), cancellationToken);
     }
 }
-
-

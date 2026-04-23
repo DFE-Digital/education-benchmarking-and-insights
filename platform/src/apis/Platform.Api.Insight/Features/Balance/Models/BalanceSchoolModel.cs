@@ -15,4 +15,3 @@ public record BalanceSchoolModel : BalanceModel
     public string? LAName { get; set; }
     public int? PeriodCoveredByReturn { get; set; }
 }
-

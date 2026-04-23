@@ -16,5 +16,3 @@ internal class OpenApiConfigurationOptions : DefaultOpenApiConfigurationOptions
     public override OpenApiInfo Info { get; set; } = OpenApiConfiguration.GetOpenApiInfo(AssemblyDetails);
     public override OpenApiVersionType OpenApiVersion { get; set; } = OpenApiVersionType.V3;
 }
-
-

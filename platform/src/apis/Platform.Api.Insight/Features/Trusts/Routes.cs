@@ -4,4 +4,3 @@ public static class Routes
 {
     public const string Characteristics = "trusts/characteristics";
 }
-

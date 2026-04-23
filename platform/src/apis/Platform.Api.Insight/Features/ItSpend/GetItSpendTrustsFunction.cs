@@ -41,5 +41,3 @@ public class GetItSpendTrustsFunction(IItSpendService service, IValidator<ItSpen
         return await req.CreateJsonResponseAsync(result, cancellationToken);
     }
 }
-
-

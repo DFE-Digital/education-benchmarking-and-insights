@@ -48,6 +48,3 @@ public class GetCensusHistoryNationalAverageFunction(ICensusService service, IVa
             : await req.CreateJsonResponseAsync(years.MapToApiResponse(rows), cancellationToken);
     }
 }
-
-
-

@@ -387,4 +387,3 @@ public static class Mapper
 
     private static bool ShouldDisplay(string? category, string match) => string.IsNullOrEmpty(category) || category == match;
 }
-

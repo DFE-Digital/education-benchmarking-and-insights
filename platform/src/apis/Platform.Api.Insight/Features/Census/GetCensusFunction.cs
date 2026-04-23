@@ -31,5 +31,3 @@ public class GetCensusFunction(ICensusService service)
             : await req.CreateJsonResponseAsync(result.MapToApiResponse(), cancellationToken);
     }
 }
-
-

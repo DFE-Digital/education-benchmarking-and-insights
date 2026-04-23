@@ -14,4 +14,3 @@ public record BalanceSchoolResponse : BalanceResponse
     public string? LAName { get; set; }
     public int? PeriodCoveredByReturn { get; set; }
 }
-

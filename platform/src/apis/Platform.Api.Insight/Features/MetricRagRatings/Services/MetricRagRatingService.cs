@@ -148,4 +148,3 @@ public class MetricRagRatingsService(IDatabaseFactory dbFactory) : IMetricRagRat
         return await conn.QueryAsync<MetricRagRating>(template.RawSql, template.Parameters, cancellationToken);
     }
 }
-

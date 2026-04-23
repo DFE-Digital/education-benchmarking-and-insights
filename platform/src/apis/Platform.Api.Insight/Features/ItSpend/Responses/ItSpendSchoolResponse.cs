@@ -12,4 +12,3 @@ public record ItSpendSchoolResponse : ItSpendResponse
     public int? PeriodCoveredByReturn { get; set; }
     public decimal? TotalPupils { get; set; }
 }
-

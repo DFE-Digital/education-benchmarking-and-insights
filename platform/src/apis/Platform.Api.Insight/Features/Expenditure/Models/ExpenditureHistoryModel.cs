@@ -7,4 +7,3 @@ public record ExpenditureHistoryModel : ExpenditureModel
 {
     public int? RunId { get; set; }
 }
-

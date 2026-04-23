@@ -11,4 +11,3 @@ public record IncomeSchoolModel : IncomeModel
     public string? LAName { get; set; }
     public int? PeriodCoveredByReturn { get; set; }
 }
-

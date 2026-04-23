@@ -23,4 +23,3 @@ public abstract record IncomeModel
     public decimal? InvestmentIncome { get; set; }
     public decimal? OtherSelfGeneratedIncome { get; set; }
 }
-

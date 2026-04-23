@@ -20,4 +20,3 @@ public static class ItSpendFeature
         return serviceCollection;
     }
 }
-

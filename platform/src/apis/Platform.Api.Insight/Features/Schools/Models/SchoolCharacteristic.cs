@@ -49,4 +49,3 @@ public record SchoolCharacteristic
         AddressPostcode
     }.Where(x => !string.IsNullOrEmpty(x)));
 }
-

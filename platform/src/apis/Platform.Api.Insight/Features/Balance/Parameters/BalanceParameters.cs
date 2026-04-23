@@ -13,4 +13,3 @@ public record BalanceParameters : QueryParameters
         Dimension = query["dimension"] ?? Dimensions.Finance.Actuals;
     }
 }
-

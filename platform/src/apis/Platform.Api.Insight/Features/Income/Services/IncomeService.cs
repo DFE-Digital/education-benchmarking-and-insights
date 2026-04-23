@@ -63,4 +63,3 @@ public class IncomeService(IDatabaseFactory dbFactory) : IIncomeService
         return (years, await conn.QueryAsync<IncomeHistoryModel>(historyBuilder, cancellationToken));
     }
 }
-

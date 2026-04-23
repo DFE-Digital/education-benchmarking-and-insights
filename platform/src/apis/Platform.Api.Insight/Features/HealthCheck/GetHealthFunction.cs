@@ -26,5 +26,3 @@ public class GetHealthFunction(HealthCheckService healthCheck)
         return await req.CreateObjectResponseAsync(Enum.GetName(typeof(HealthStatus), healthStatus.Status) ?? string.Empty);
     }
 }
-
-

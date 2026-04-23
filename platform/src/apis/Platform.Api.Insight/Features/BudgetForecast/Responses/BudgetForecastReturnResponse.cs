@@ -21,4 +21,3 @@ public record BudgetForecastReturnResponse
         _ => null
     };
 }
-

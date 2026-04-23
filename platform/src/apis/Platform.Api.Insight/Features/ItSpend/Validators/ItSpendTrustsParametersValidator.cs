@@ -13,4 +13,3 @@ public class ItSpendTrustsParametersValidator : AbstractValidator<ItSpendTrustsP
             .NotEmpty();
     }
 }
-

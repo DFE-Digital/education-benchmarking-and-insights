@@ -12,7 +12,7 @@ namespace Platform.Generators
     public class OpenApiExampleGenerator : IIncrementalGenerator
     {
         private const string BaseAttributeNamespace = "Platform.OpenApi.Attributes";
-        private static readonly string[] TargetAttributes = 
+        private static readonly string[] TargetAttributes =
         {
             $"{BaseAttributeNamespace}.GenerateOpenApiExampleAttribute",
             $"{BaseAttributeNamespace}.GenerateOpenApiPropertiesExampleAttribute",
@@ -88,7 +88,7 @@ namespace Platform.Generators
                 {
                     var attributeName = attr.AttributeClass?.ToDisplayString();
                     var namedArgs = attr.NamedArguments.ToImmutableDictionary();
-                    
+
                     if (!namedArgs.TryGetValue("Name", out var nameArg) || nameArg.IsNull) continue;
                     string name = (string)nameArg.Value!;
 
@@ -119,7 +119,7 @@ namespace Platform.Generators
 
         private static void GenerateCollectionExample(StringBuilder sb, string name, ImmutableDictionary<string, TypedConstant> namedArgs)
         {
-            if (!namedArgs.TryGetValue("SourceType", out var sourceTypeArg) || 
+            if (!namedArgs.TryGetValue("SourceType", out var sourceTypeArg) ||
                 !namedArgs.TryGetValue("SourceProperty", out var sourcePropArg) ||
                 sourceTypeArg.IsNull || sourcePropArg.IsNull) return;
 
@@ -142,7 +142,7 @@ namespace Platform.Generators
 
         private static void GeneratePropertiesExample(StringBuilder sb, string name, ImmutableDictionary<string, TypedConstant> namedArgs)
         {
-            if (!namedArgs.TryGetValue("SourceType", out var sourceTypeArg) || 
+            if (!namedArgs.TryGetValue("SourceType", out var sourceTypeArg) ||
                 !namedArgs.TryGetValue("Properties", out var propsArg) ||
                 sourceTypeArg.IsNull || propsArg.Values.IsDefaultOrEmpty) return;
 
@@ -165,7 +165,7 @@ namespace Platform.Generators
 
         private static void GenerateValuesExample(StringBuilder sb, string name, ImmutableDictionary<string, TypedConstant> namedArgs, string type)
         {
-            if (!namedArgs.TryGetValue("Labels", out var labelsArg) || 
+            if (!namedArgs.TryGetValue("Labels", out var labelsArg) ||
                 !namedArgs.TryGetValue("Values", out var valuesArg) ||
                 labelsArg.Values.Length != valuesArg.Values.Length) return;
 

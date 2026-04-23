@@ -47,5 +47,3 @@ public class GetExpenditureSchoolHistoryComparatorSetAverageFunction(IExpenditur
             : await req.CreateJsonResponseAsync(years.MapToApiResponse(rows), cancellationToken);
     }
 }
-
-

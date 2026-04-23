@@ -13,4 +13,3 @@ public record BalanceHistoryResponse
     public int? EndYear { get; set; }
     public IEnumerable<BalanceHistoryRowResponse> Rows { get; set; } = [];
 }
-

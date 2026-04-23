@@ -15,4 +15,3 @@ public record CensusParameters : QueryParameters
         Category = query["category"];
     }
 }
-

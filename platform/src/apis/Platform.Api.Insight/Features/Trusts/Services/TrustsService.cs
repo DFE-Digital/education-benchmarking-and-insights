@@ -25,4 +25,3 @@ public class TrustsService(IDatabaseFactory dbFactory) : ITrustsService
         return await conn.QueryAsync<TrustCharacteristic>(builder, cancellationToken);
     }
 }
-

@@ -46,5 +46,3 @@ public class GetDefaultMetricRagRatingsSummaryFunction(
         return await req.CreateJsonResponseAsync(result, cancellationToken);
     }
 }
-
-

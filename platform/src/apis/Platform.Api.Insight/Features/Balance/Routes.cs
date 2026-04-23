@@ -8,4 +8,3 @@ public static class Routes
     public const string SchoolHistory = "balance/school/{urn}/history";
     public const string School = "balance/school/{urn}";
 }
-

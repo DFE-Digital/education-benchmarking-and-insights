@@ -14,4 +14,3 @@ public record MetricRagRatingParameters : QueryParameters
         DataContext = query.ToBool("useCustomData") ? Pipeline.RunType.Custom : Pipeline.RunType.Default;
     }
 }
-

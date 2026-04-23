@@ -15,4 +15,3 @@ public record ItSpendSchoolsParameters : QueryParameters
         Dimension = query["dimension"] ?? Dimensions.Finance.Actuals;
     }
 }
-

@@ -12,4 +12,3 @@ public static class Routes
     public const string TrustHistory = "expenditure/trust/{companyNumber}/history";
     public const string Trusts = "expenditure/trusts";
 }
-

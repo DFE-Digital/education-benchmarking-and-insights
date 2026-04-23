@@ -93,4 +93,3 @@ public record ExpenditureTrustModel : ExpenditureModel
     public string? EmlBand { get; set; }
     public decimal? TotalPupils { get; set; }
 }
-

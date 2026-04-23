@@ -33,4 +33,3 @@ public class CensusQuerySchoolsParametersValidator : AbstractValidator<CensusQue
 
     private static bool BeAValidPhase(string? phase) => OverallPhase.IsValid(phase);
 }
-

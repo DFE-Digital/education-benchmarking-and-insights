@@ -11,4 +11,3 @@ public record BalanceHistoryModel : BalanceModel
 {
     public int? RunId { get; set; }
 }
-

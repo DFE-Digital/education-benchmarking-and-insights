@@ -8,4 +8,3 @@ public record TrustPhase
     public string? Phase { get; set; }
     public int? Count { get; set; }
 }
-

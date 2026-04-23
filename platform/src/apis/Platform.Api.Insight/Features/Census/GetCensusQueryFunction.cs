@@ -48,6 +48,3 @@ public class GetCensusQueryFunction(ICensusService service, IValidator<CensusQue
         return await req.CreateJsonResponseAsync(result.MapToApiResponse(queryParams.Category), cancellationToken);
     }
 }
-
-
-

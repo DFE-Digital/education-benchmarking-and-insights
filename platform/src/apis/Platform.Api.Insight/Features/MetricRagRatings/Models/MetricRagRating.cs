@@ -18,4 +18,3 @@ public record MetricRagRating
     public decimal? Decile { get; set; }
     public string? RAG { get; set; }
 }
-

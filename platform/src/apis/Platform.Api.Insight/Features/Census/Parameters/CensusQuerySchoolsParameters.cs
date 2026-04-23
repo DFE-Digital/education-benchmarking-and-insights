@@ -19,4 +19,3 @@ public record CensusQuerySchoolsParameters : CensusParameters
         LaCode = query["laCode"];
     }
 }
-

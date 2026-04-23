@@ -93,4 +93,3 @@ public record ExpenditureTrustResponse : ExpenditureResponse
     public int? HighestSalaryEmolumentBandValue { get; set; }
     public decimal? TotalPupils { get; set; }
 }
-

@@ -19,4 +19,3 @@ public record MetricRagRatingsParameters : QueryParameters
         CompanyNumber = query["companyNumber"];
     }
 }
-

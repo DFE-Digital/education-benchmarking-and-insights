@@ -7,4 +7,3 @@ public record CensusHistoryRowResponse : CensusResponse
 {
     public int? Year { get; set; }
 }
-

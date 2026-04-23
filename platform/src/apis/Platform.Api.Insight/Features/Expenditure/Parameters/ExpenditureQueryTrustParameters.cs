@@ -15,4 +15,3 @@ public record ExpenditureQueryTrustParameters : ExpenditureParameters
         ExcludeCentralServices = bool.TryParse(query["excludeCentralServices"], out var result) && result;
     }
 }
-

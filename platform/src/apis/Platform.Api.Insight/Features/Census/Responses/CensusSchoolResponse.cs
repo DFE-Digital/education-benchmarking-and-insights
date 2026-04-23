@@ -10,4 +10,3 @@ public record CensusSchoolResponse : CensusResponse
     public string? SchoolType { get; set; }
     public string? LAName { get; set; }
 }
-

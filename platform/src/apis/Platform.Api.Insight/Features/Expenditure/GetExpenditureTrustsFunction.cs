@@ -47,6 +47,3 @@ public class GetExpenditureTrustsFunction(IExpenditureService service, IValidato
             queryParams.ExcludeCentralServices), cancellationToken);
     }
 }
-
-
-

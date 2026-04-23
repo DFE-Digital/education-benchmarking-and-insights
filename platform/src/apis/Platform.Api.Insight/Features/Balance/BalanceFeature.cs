@@ -15,4 +15,3 @@ public static class BalanceFeature
         return serviceCollection;
     }
 }
-

@@ -42,5 +42,3 @@ public class GetItSpendSchoolsFunction(IItSpendService service, IValidator<ItSpe
         return await req.CreateJsonResponseAsync(result, cancellationToken);
     }
 }
-
-

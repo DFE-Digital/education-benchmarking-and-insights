@@ -46,5 +46,3 @@ public class GetDefaultMetricRagRatingsFunction(
         return await req.CreateJsonResponseAsync(result, cancellationToken);
     }
 }
-
-

@@ -13,4 +13,3 @@ public record SchoolsParameters : QueryParameters
         Schools = query.ToStringArray("urns");
     }
 }
-

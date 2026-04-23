@@ -31,5 +31,3 @@ public class GetBalanceTrustFunction(IBalanceService service)
             : await req.CreateJsonResponseAsync(result.MapToApiResponse(), cancellationToken);
     }
 }
-
-

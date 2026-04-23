@@ -19,4 +19,3 @@ public static class IncomeFeature
         return serviceCollection;
     }
 }
-

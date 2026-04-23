@@ -36,5 +36,3 @@ public class GetItSpendTrustForecastFunction(IItSpendService service)
             : await req.CreateJsonResponseAsync(result, cancellationToken);
     }
 }
-
-

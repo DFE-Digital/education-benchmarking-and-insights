@@ -22,4 +22,3 @@ public class CensusParametersValidator : AbstractValidator<CensusParameters>
     private static bool BeAnEmptyOrValidCategory(string? category) => string.IsNullOrWhiteSpace(category) || Categories.Census.IsValid(category);
     private static bool BeAValidDimension(string? dimension) => Dimensions.Census.IsValid(dimension);
 }
-

@@ -17,4 +17,3 @@ public class ItSpendSchoolsParametersValidator : AbstractValidator<ItSpendSchool
 
     private static bool BeAValidDimension(string? dimension) => Dimensions.Finance.IsValid(dimension);
 }
-

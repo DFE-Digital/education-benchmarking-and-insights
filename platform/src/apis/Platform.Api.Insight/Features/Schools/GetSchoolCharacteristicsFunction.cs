@@ -30,5 +30,3 @@ public class GetSchoolCharacteristicsFunction(ISchoolsService service)
             : await req.CreateJsonResponseAsync(result, cancellationToken);
     }
 }
-
-

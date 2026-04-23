@@ -13,4 +13,3 @@ public record BalanceTrustResponse : BalanceResponse
     public decimal? SchoolInYearBalance { get; set; }
     public decimal? CentralInYearBalance { get; set; }
 }
-

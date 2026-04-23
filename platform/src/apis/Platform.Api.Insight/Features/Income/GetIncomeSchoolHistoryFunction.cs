@@ -45,5 +45,3 @@ public class GetIncomeSchoolHistoryFunction(IIncomeService service, IValidator<I
             : await req.CreateJsonResponseAsync(years.MapToApiResponse(rows), cancellationToken);
     }
 }
-
-

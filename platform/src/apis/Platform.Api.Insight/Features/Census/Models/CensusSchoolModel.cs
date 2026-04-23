@@ -14,4 +14,3 @@ public record CensusSchoolModel : CensusModel
     public string? SchoolType { get; set; }
     public string? LAName { get; set; }
 }
-

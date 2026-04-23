@@ -19,4 +19,3 @@ public record ExpenditureQuerySchoolParameters : ExpenditureParameters
         LaCode = query["laCode"];
     }
 }
-

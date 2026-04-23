@@ -6,4 +6,3 @@ public static class Routes
     public const string Summary = "metric-rag/summary";
     public const string UserDefined = "metric-rag/{identifier}";
 }
-

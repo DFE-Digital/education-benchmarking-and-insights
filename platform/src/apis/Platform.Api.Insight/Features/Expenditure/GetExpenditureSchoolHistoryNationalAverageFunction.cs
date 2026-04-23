@@ -49,6 +49,3 @@ public class GetExpenditureSchoolHistoryNationalAverageFunction(IExpenditureServ
             : await req.CreateJsonResponseAsync(years.MapToApiResponse(rows), cancellationToken);
     }
 }
-
-
-

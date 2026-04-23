@@ -18,4 +18,3 @@ public class MetricRagRatingSummaryParametersValidator : AbstractValidator<Metri
     }
     private static bool BeMissingOrAValidOverallPhase(string? overallPhase) => string.IsNullOrWhiteSpace(overallPhase) || OverallPhase.IsValid(overallPhase);
 }
-

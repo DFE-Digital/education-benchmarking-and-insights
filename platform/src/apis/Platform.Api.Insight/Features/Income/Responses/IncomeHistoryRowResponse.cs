@@ -7,4 +7,3 @@ public record IncomeHistoryRowResponse : IncomeResponse
 {
     public int? Year { get; set; }
 }
-

@@ -50,6 +50,3 @@ public class GetCensusCustomFunction(ICensusService service, IValidator<CensusPa
             : await req.CreateJsonResponseAsync(result.MapToApiResponse(queryParams.Category), cancellationToken);
     }
 }
-
-
-

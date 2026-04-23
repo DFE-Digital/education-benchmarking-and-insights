@@ -48,5 +48,3 @@ public class GetExpenditureSchoolCustomFunction(IExpenditureService service, IVa
             : await req.CreateJsonResponseAsync(result.MapToApiResponse(queryParams.Category), cancellationToken);
     }
 }
-
-

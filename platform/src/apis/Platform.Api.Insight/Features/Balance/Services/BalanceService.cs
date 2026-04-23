@@ -83,4 +83,3 @@ public class BalanceService(IDatabaseFactory dbFactory) : IBalanceService
         return await conn.QueryAsync<BalanceTrustModel>(builder, cancellationToken);
     }
 }
-

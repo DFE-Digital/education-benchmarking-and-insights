@@ -38,5 +38,3 @@ public class GetBalanceSchoolHistoryFunction(IBalanceService service)
             : await req.CreateJsonResponseAsync(years.MapToApiResponse(rows), cancellationToken);
     }
 }
-
-

@@ -33,5 +33,3 @@ public class GetUserDefinedMetricRagRatingsFunction(IMetricRagRatingsService ser
         return await req.CreateJsonResponseAsync(result, cancellationToken);
     }
 }
-
-

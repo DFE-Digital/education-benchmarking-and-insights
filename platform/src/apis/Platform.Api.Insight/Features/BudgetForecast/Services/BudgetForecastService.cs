@@ -115,4 +115,3 @@ public class BudgetForecastService(IDatabaseFactory dbFactory) : IBudgetForecast
         return await conn.QueryAsync<ActualReturnModel>(sql, parameters, cancellationToken);
     }
 }
-

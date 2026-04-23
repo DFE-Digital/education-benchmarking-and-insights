@@ -22,4 +22,3 @@ public static class ExpenditureFeature
         return serviceCollection;
     }
 }
-

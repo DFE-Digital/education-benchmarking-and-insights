@@ -37,5 +37,3 @@ public class GetBalanceTrustHistoryFunction(IBalanceService service)
             : await req.CreateJsonResponseAsync(years.MapToApiResponse(rows), cancellationToken);
     }
 }
-
-

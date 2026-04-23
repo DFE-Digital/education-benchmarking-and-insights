@@ -33,4 +33,3 @@ public record TrustCharacteristic
                 Phase = p
             }).ToArray();
 }
-

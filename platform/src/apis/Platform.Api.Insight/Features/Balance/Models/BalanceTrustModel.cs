@@ -14,4 +14,3 @@ public record BalanceTrustModel : BalanceModel
     public decimal? InYearBalanceSchool { get; set; }
     public decimal? InYearBalanceCS { get; set; }
 }
-

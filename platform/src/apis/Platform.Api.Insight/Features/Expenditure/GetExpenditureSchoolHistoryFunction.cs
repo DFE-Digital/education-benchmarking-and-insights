@@ -47,6 +47,3 @@ public class GetExpenditureSchoolHistoryFunction(IExpenditureService service, IV
             : await req.CreateJsonResponseAsync(years.MapToApiResponse(rows), cancellationToken);
     }
 }
-
-
-

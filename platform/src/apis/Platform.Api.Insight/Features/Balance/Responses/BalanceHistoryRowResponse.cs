@@ -10,4 +10,3 @@ public record BalanceHistoryRowResponse : BalanceResponse
 {
     public int? Year { get; set; }
 }
-

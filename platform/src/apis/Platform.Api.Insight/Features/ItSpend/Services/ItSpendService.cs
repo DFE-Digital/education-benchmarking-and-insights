@@ -68,4 +68,3 @@ public class ItSpendService(IDatabaseFactory dbFactory) : IItSpendService
         return await conn.QueryAsync<ItSpendTrustForecastResponse>(builder, cancellationToken);
     }
 }
-

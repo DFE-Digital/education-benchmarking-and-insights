@@ -15,4 +15,3 @@ public record CensusNationalAvgParameters : CensusParameters
         OverallPhase = query["phase"] ?? string.Empty;
     }
 }
-

@@ -13,4 +13,3 @@ public record ExpenditureSchoolModel : ExpenditureModel
     public decimal? TotalPupils { get; set; }
     public decimal? TotalInternalFloorArea { get; set; }
 }
-

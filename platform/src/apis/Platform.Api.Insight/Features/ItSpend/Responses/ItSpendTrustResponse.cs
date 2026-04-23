@@ -8,4 +8,3 @@ public record ItSpendTrustResponse : ItSpendResponse
     public string? CompanyNumber { get; set; }
     public string? TrustName { get; set; }
 }
-

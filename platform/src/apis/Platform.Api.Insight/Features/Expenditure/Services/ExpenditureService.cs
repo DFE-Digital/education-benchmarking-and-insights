@@ -171,4 +171,3 @@ public class ExpenditureService(IDatabaseFactory dbFactory, ICacheKeyFactory cac
         return await conn.QueryAsync<ExpenditureHistoryModel>(historyBuilder, cancellationToken);
     }
 }
-

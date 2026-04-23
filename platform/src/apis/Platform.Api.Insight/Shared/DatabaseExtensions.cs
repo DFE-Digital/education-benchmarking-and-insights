@@ -37,4 +37,3 @@ public static class DatabaseExtensions
         return await conn.QueryFirstOrDefaultAsync<YearsModel>(builder, cancellationToken);
     }
 }
-

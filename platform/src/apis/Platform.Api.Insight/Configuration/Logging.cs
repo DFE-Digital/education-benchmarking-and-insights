@@ -12,4 +12,3 @@ internal static class Logging
         builder.Services.Configure<LoggerFilterOptions>(_ => { });
     }
 }
-

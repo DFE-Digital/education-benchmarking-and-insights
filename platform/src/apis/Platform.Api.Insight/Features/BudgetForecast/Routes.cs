@@ -6,5 +6,3 @@ public static class Routes
     public const string Metrics = "budget-forecast/{companyNumber}/metrics";
     public const string Return = "budget-forecast/{companyNumber}";
 }
-
-

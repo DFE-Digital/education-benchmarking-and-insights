@@ -47,6 +47,3 @@ public class GetExpenditureSchoolsFunction(IExpenditureService service, IValidat
         return await req.CreateJsonResponseAsync(result.MapToApiResponse(queryParams.Category), cancellationToken);
     }
 }
-
-
-

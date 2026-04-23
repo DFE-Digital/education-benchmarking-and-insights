@@ -31,5 +31,3 @@ public class GetIncomeSchoolFunction(IIncomeService service)
             : await req.CreateJsonResponseAsync(result.MapToApiResponse(), cancellationToken);
     }
 }
-
-

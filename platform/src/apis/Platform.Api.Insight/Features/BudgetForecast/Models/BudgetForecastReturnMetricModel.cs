@@ -9,4 +9,3 @@ public record BudgetForecastReturnMetricModel
     public string? Metric { get; set; }
     public decimal? Value { get; set; }
 }
-

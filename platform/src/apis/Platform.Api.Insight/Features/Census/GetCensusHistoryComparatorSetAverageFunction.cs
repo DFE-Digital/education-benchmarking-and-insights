@@ -46,6 +46,3 @@ public class GetCensusHistoryComparatorSetAverageFunctions(ICensusService servic
             : await req.CreateJsonResponseAsync(years.MapToApiResponse(rows), cancellationToken);
     }
 }
-
-
-
