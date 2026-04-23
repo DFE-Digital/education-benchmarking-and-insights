@@ -33,7 +33,7 @@ def test_la_outturn(la_outturn: pd.DataFrame):
         encoding="cp1252",
     )
 
-    assert len(la_outturn) == 15
+    assert len(la_outturn) == 20
     assert len(result.index) == 1
 
 
@@ -67,5 +67,5 @@ def test_la_outturn_year(la_outturn: pd.DataFrame):
         encoding="cp1252",
     )
 
-    assert len(combined) == 30
+    assert len(combined) == 40
     assert len(result.index) == 1

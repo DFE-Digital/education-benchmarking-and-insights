@@ -68,6 +68,11 @@ la_section_251_category_prefixes = {
         "1.2.9 ",
         "1.4.11 ",
         "1.9.3 ",
+        "2.1.4 ",
+        "2.1.6 ",
+        "2.1.7 ",
+        "2.1.1 ",
+        "2.1.2 ",
     )
 }
 la_budget_pivot = {
@@ -129,6 +134,7 @@ la_outturn_pivot = {
     }
 }
 
+# Used to standardise the names of budget and outturn lines
 la_budget_column_mappings = {
     "default": {
         "1.0.2 High needs place funding within Individual Schools Budget, including all pre- and post-16 place funding for maintained schools and academies__early_years_establishments": "1.0.2 EarlyYears",
@@ -172,6 +178,11 @@ la_budget_column_mappings = {
         "1.2.2 Top-up funding – academies, free schools and colleges__net_per_capita_planned_expenditure": "1.2.2 Top-up funding - academies, free schools and colleges__net_per_capita_planned_expenditure",
         "1.4.11 SEN transport__net_planned_expenditure": "1.4.11 SEN transport Net total",
         "1.9.3 Dedicated Schools Grant carried forward to next year__gross_planned_expenditure": "1.9.3 DSG Carried Forward",
+        "2.1.4 Home to school transport (pre 16): SEN transport expenditure__net_planned_expenditure": "2.1.4 Home to school transport (pre-16)",
+        "2.1.6 Home to post-16 provision: SEN/ LLDD transport expenditure (aged 16-18)__net_planned_expenditure": "2.1.6 Home to school transport (16-18)",
+        "2.1.7 Home to post-16 provision: SEN/ LLDD transport expenditure (aged 19-25)__net_planned_expenditure": "2.1.7 Home to school transport (19-25)",
+        "2.1.1 Educational psychology service__net_planned_expenditure": "2.1.1 Educational psychology service",
+        "2.1.2 SEN administration, assessment and coordination and monitoring__net_planned_expenditure": "2.1.2 SEN Admin",
     }
 }
 la_outturn_column_mappings = {
@@ -217,6 +228,11 @@ la_outturn_column_mappings = {
         "1.2.2 Top-up funding – academies, free schools and colleges__net_per_capita_expenditure": "1.2.2 Top-up funding - academies, free schools and colleges__net_per_capita_expenditure",
         "1.4.11 SEN transport__net_expenditure": "1.4.11 SEN transport Net total",
         "1.9.3 Dedicated Schools Grant carried forward to next year__gross_expenditure": "1.9.3 DSG Carried Forward",
+        "2.1.4 Home to school transport (pre 16): SEN transport expenditure__net_expenditure": "2.1.4 Home to school transport (pre-16)",
+        "2.1.6 Home to post-16 provision: SEN/ LLDD transport expenditure (aged 16-18)__net_expenditure": "2.1.6 Home to school transport (16-18)",
+        "2.1.7 Home to post-16 provision: SEN/ LLDD transport expenditure (aged 19-25)__net_expenditure": "2.1.7 Home to school transport (19-25)",
+        "2.1.1 Educational psychology service__net_expenditure": "2.1.1 Educational psychology service",
+        "2.1.2 SEN administration, assessment and coordination and monitoring__net_expenditure": "2.1.2 SEN Admin",
     },
     2025: {
         "1.0.2 High needs place funding within Individual Schools Budget__early_years_establishments": "1.0.2 EarlyYears",
@@ -268,9 +284,15 @@ la_outturn_column_mappings = {
         "1.2.5 SEN support services__income": "1.2.5 SEN support service__income",
         "1.4.11 SEN transport__net_expenditure": "1.4.11 SEN transport Net total",
         "1.9.3 Dedicated Schools Grant carried forward to next year__gross_expenditure": "1.9.3 DSG Carried Forward",
+        "2.1.4 Home to school transport (pre 16): SEN transport expenditure__net_expenditure": "2.1.4 Home to school transport (pre-16)",
+        "2.1.6 Home to post-16 provision: SEN/ LLDD transport expenditure (aged 16-18)__net_expenditure": "2.1.6 Home to school transport (16-18)",
+        "2.1.7 Home to post-16 provision: SEN/ LLDD transport expenditure (aged 19-25)__net_expenditure": "2.1.7 Home to school transport (19-25)",
+        "2.1.1 Educational psychology service__net_expenditure": "2.1.1 Educational psychology service",
+        "2.1.2 SEN administration, assessment and coordination and monitoring__net_expenditure": "2.1.2 SEN Admin",
     },
 }
 
+# Define aggregated columns
 la_budget_column_eval = {
     "default": {
         "1.0.2 SENSpecial and APPRU": "`1.0.2 SENSpecial`.fillna(0.0) + `1.0.2 APPRU`.fillna(0.0)",
@@ -388,6 +410,7 @@ la_outturn_column_eval = {
     },
 }
 
+# Convert standardised budget/outturn lines to db friendly strings
 la_section_251_column_mappings = {
     "default": {
         "1.0.2 SENSpecial and APPRU": "TotalPlaceFunding",
@@ -416,9 +439,16 @@ la_section_251_column_mappings = {
         "1.0.2 SENSpecial": "PlaceFundingSpecial",
         "1.0.2 APPRU": "PlaceFundingAlternativeProvision",
         "1.9.3 DSG Carried Forward": "DSGCarriedForward",
+        "1.4.11 SEN transport Net total": "SENTransportDSG",
+        "2.1.4 Home to school transport (pre-16)": "HometoSchoolTransportPre16",
+        "2.1.6 Home to school transport (16-18)": "HometoSchoolTransport1618",
+        "2.1.7 Home to school transport (19-25)": "HometoSchoolTransport1925",
+        "2.1.1 Educational psychology service": "EdPsychologyService",
+        "2.1.2 SEN Admin": "SENAdmin",
     },
 }
 
+# This aggregated field is the same for budget/outturn
 la_section_251_column_eval = {
     "default": {
         "TotalHighNeeds": (
@@ -429,7 +459,7 @@ la_section_251_column_eval = {
             "TotalHospitalServices + "
             "TotalOtherHealthServices + "
             "`1.0.2 Net total` + "
-            "`1.4.11 SEN transport Net total`"
+            "SENTransportDSG"
         ),
     }
 }
@@ -463,6 +493,12 @@ la_section_251_columns = {
         "PlaceFundingSpecial",
         "PlaceFundingAlternativeProvision",
         "DSGCarriedForward",
+        "SENTransportDSG", 
+        "HometoSchoolTransportPre16", 
+        "HometoSchoolTransport1618",
+        "HometoSchoolTransport1925",
+        "EdPsychologyService", 
+        "SENAdmin", 
     ]
 }
 

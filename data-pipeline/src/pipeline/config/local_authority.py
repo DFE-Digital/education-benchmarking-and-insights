@@ -31,6 +31,12 @@ la_db_financial_projections = {
     "OutturnPlaceFundingSpecial": "OutturnPlaceFundingSpecial",
     "OutturnPlaceFundingAlternativeProvision": "OutturnPlaceFundingAlternativeProvision",
     "OutturnDSGCarriedForward": "OutturnDSGCarriedForward",
+    "OutturnSENTransportDSG": "OutturnSENTransportDSG", 
+    "OutturnHometoSchoolTransportPre16": "OutturnHometoSchoolTransportPre16", 
+    "OutturnHometoSchoolTransport1618": "OutturnHometoSchoolTransport1618",
+    "OutturnHometoSchoolTransport1925": "OutturnHometoSchoolTransport1925",
+    "OutturnEdPsychologyService": "OutturnEdPsychologyService", 
+    "OutturnSENAdmin": "OutturnSENAdmin", 
     "DSGRecoupmentServiceTotal": "DSGRecoupmentServiceTotal",
     "DSGPrimaryAcademyPlaceFunding": "DSGPrimaryAcademyPlaceFunding",
     "DSGSecondaryAcademyPlaceFunding": "DSGSecondaryAcademyPlaceFunding",
@@ -69,6 +75,12 @@ la_db_financial_projections = {
     "BudgetPlaceFundingSecondary": "BudgetPlaceFundingSecondary",
     "BudgetPlaceFundingSpecial": "BudgetPlaceFundingSpecial",
     "BudgetPlaceFundingAlternativeProvision": "BudgetPlaceFundingAlternativeProvision",
+    "BudgetSENTransportDSG": "BudgetSENTransportDSG",
+    "BudgetHometoSchoolTransportPre16": "BudgetHometoSchoolTransportPre16",
+    "BudgetHometoSchoolTransport1618": "BudgetHometoSchoolTransport1618",
+    "BudgetHometoSchoolTransport1925": "BudgetHometoSchoolTransport1925",
+    "BudgetEdPsychologyService": "BudgetEdPsychologyService",
+    "BudgetSENAdmin": "BudgetSENAdmin",
 }
 
 la_db_non_financial_projections = {
