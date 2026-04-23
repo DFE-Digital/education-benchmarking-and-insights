@@ -33,7 +33,7 @@ Now you can go on to update the report.
 3. In the `Data` Ribbon of excel, locate `Get Data` button, click on the drop down to select `Data Source Settings`.
 4. As seen below, select `Edit Permissions` and provide credentials for access to data source.
 
-    - _Use `organization account` for log analytics and `database` for Azure SQL connection_
+    - *Use `organization account` for log analytics and `database` for Azure SQL connection*
 
     ![Data source settings](./images/monthly-data-source-settings.png)
 
@@ -42,7 +42,7 @@ Now you can go on to update the report.
 5. Upon successful credential log-in, still on the `Data` ribbon, locate and select the `Queries & Connections` button.
 6. Confirm the seven queries in the `Queries & Connections` view by the right hand side of excel work book.
 
-    _The image below signifies successful access to the data sources_
+    *The image below signifies successful access to the data sources*
 
    ![Queries & Connections](./images/monthly-queries-and-connections.png)
 7. On the Data ribbon, locate and select the `Refresh All` button to refresh all seven queries.
@@ -63,9 +63,9 @@ The workbook's `CfpData` sheet is updated and loaded (overwrite) after a success
 1. In the `SpendingPrioritiesRequestData` sheet of the workbook, navigate to the end of the existing `SpendingPrioritiesRequestData` table and select an empty cell preferably in column F.
 2. Load the `SchoolEngagement` query to the existing worksheet.
 
-    - _To achieve this step, right click on the `SchoolEngagement` query under the `Queries & Connections` view,_
-    - _Select `Load to`,_
-    - _In the Import Data pop-up view, select the options as shown in the below image and click on the `OK` button to initiate load_
+    - *To achieve this step, right click on the `SchoolEngagement` query under the `Queries & Connections` view,*
+    - *Select `Load to`,*
+    - *In the Import Data pop-up view, select the options as shown in the below image and click on the `OK` button to initiate load*
 
    ![Load SchoolEngagement](./images/monthly-load-school-engagement.png)
 
@@ -89,9 +89,9 @@ The workbook's `CfpData` sheet is updated and loaded (overwrite) after a success
 1. In the `Summary` sheet of the workbook, select preferably cell `H4`.
 2. Load the `SchoolFeatures` query to the existing worksheet.
 
-    - _To achieve this step, right click on the `SchoolFeatures` query under the `Queries & Connections` view,_
-    - _Select `Load to`,_
-    - _In the Import Data pop-up view, select the options as shown in the below image and click on the `OK` button to initiate load_
+    - *To achieve this step, right click on the `SchoolFeatures` query under the `Queries & Connections` view,*
+    - *Select `Load to`,*
+    - *In the Import Data pop-up view, select the options as shown in the below image and click on the `OK` button to initiate load*
 
    ![Load SchoolFeatures](./images/monthly-load-school-features.png)
 
@@ -103,12 +103,12 @@ The workbook's `CfpData` sheet is updated and loaded (overwrite) after a success
 6. Manually update the bar chart next to the School Engagement table on the Summary tab by extending the data range and resizing.
 7. Manually update the time series chart underneath the School Engagement table by adding the figures from the Percentage row in teh School Engagement table to the AcquisitionOverTime sheet, extending the data range of the chart there, then copying and pasting that chart into the Summary sheet.
 8. Manually update the values of the CFP completion table on the Summary tab from the figures in the two relevant pivot tables on the PivotTables sheet.
-7. Save the Excel workbook.
-8. Make a copy of the saved file and save to the same [DfE Sharepoint Location](https://educationgovuk.sharepoint.com/:f:/r/sites/DfEFinancialBenchmarking/Shared%20Documents/FBIT%20Product/Analytics).
+9. Save the Excel workbook.
+10. Make a copy of the saved file and save to the same [DfE Sharepoint Location](https://educationgovuk.sharepoint.com/:f:/r/sites/DfEFinancialBenchmarking/Shared%20Documents/FBIT%20Product/Analytics).
 
-    - _Rename file to match `FBIT Report - yyyy-mm`, for instance, if reporting for the month of June in the year 2025, file name should be `FBIT Report - 2025-05`_
+    - *Rename file to match `FBIT Report - yyyy-mm`, for instance, if reporting for the month of June in the year 2025, file name should be `FBIT Report - 2025-05`*
 
-8. Inform / share report with stakeholder(s).
+11. Inform / share report with stakeholder(s).
 
 ### Report Queries
 
@@ -259,10 +259,9 @@ GetSfbReferrerRequests
     by IsDeepLink, Month = format_datetime(startofmonth(TimeGenerated),'yyyy/MM')
 ```
 
-_**TIPS!!**_
+***TIPS!!***
+*To integrate, update or change log analytics query in Excel see [External Reference](https://learn.microsoft.com/en-us/azure/azure-monitor/logs/log-excel)*
 
-_To integrate, update or change log analytics query in Excel see [External Reference](https://learn.microsoft.com/en-us/azure/azure-monitor/logs/log-excel)_
-
-_To integrate, update or change SQL query in Excel see [External Reference](https://learn.microsoft.com/en-us/power-query/power-query-ui)_
+*To integrate, update or change SQL query in Excel see [External Reference](https://learn.microsoft.com/en-us/power-query/power-query-ui)*
 <!-- Leave the rest of this page blank -->
 \newpage
