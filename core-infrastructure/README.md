@@ -21,6 +21,7 @@ Foundation for the Financial Benchmarking and Insights Tool (FBIT), managing Azu
 - **IaC Only**: Zero manual resource creation in the Azure Portal; all infrastructure drift is a defect.
 - **Documentation Quality**: All Markdown files must adhere to the repository-wide linting standards enforced via pre-commit hooks and CI checks.
 - **Atomic Migrations**: Each SQL script in `Scripts/` must perform a single logical change and be named sequentially.
+- **Defensive Scripts**: All database scripts must be idempotent and defensive to handle partial execution and environment drift. Refer to the [Database Migrations guide](../documentation/developers/20_Database-Migrations-and-Scripts.md) for standards and examples.
 - **Centralized Configuration**: Utilize `Directory.Packages.props` for .NET version management and `Directory.Build.props` for global build properties. Avoid duplicating these settings in individual `.csproj` files.
 - **Resource Tagging**: All Azure resources must inherit the `common-tags` defined in `main.tf`.
 - **Local Dev**: Use local Docker containers (SQL Server, Azurite) for testing rather than connecting to cloud resources.
@@ -29,6 +30,7 @@ Foundation for the Financial Benchmarking and Insights Tool (FBIT), managing Azu
 
 - **Direct Schema Edits**: Modifying the database via SSMS/DataGrip instead of through `Core.Database` migration scripts.
 - **Modifying Applied Scripts**: Altering a script in `Scripts/*.sql` after deployment (always create a new, sequential script).
+- **Undocumented Exceptions**: Creating non-idempotent or non-defensive scripts without documenting the rationale and recovery path.
 - **Cleartext Secrets**: Hardcoding secrets in `.tf` or `.tfvars`; always use Azure Key Vault or Terraform sensitive variables.
 - **Environment Drift**: Manually configuring environments instead of leveraging Terraform variable files.
 
@@ -57,7 +59,7 @@ dotnet run --project core-infrastructure/src/db/Core.Database -- -c "[CONNECTION
 #### Creating a New Migration
 
 1. **Schema Changes (DDL):** Add a new SQL file to `src/db/Core.Database/Scripts/` following the `NNN-Description.sql` naming convention.
-2. **View Changes:** Update the existing view in `src/db/Core.Database/Views/` or create a new one using `CREATE OR ALTER`.
+2. **View Changes:** Update the existing view in `src/db/Core.Database/Views/` or create a new one using the `DROP VIEW IF EXISTS ... GO \n CREATE VIEW ... GO` pattern. Refer to the [Database Migrations guide](../documentation/developers/20_Database-Migrations-and-Scripts.md) for full examples.
 
 ## Infrastructure Management (Terraform)
 
