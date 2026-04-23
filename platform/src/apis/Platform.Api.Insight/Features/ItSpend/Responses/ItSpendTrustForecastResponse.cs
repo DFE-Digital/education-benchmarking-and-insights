@@ -8,3 +8,4 @@ public record ItSpendTrustForecastResponse : ItSpendResponse
 {
     public int? Year { get; set; }
 }
+

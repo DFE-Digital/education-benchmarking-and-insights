@@ -1,4 +1,4 @@
-﻿using System.Net;
+using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using FluentValidation;
@@ -9,11 +9,10 @@ using Microsoft.OpenApi.Models;
 using Platform.Api.Insight.Features.MetricRagRatings.Models;
 using Platform.Api.Insight.Features.MetricRagRatings.Parameters;
 using Platform.Api.Insight.Features.MetricRagRatings.Services;
-using Platform.Api.Insight.OpenApi.Examples;
+using Platform.Api.Insight.OpenApi;
 using Platform.Functions;
 using Platform.Functions.Extensions;
-using Platform.Functions.OpenApi;
-using Platform.Functions.OpenApi.Examples;
+using Platform.OpenApi;
 
 namespace Platform.Api.Insight.Features.MetricRagRatings;
 
@@ -25,8 +24,8 @@ public class GetDefaultMetricRagRatingsFunction(
     [OpenApiOperation(nameof(GetDefaultMetricRagRatingsFunction), "Metric RAG Ratings", Deprecated = true)]
     [OpenApiParameter("urns", In = ParameterLocation.Query, Description = "List of school URNs", Type = typeof(string[]), Required = false)]
     [OpenApiParameter("companyNumber", In = ParameterLocation.Query, Description = "Eight digit trust company number", Type = typeof(string))]
-    [OpenApiParameter("categories", In = ParameterLocation.Query, Description = "List of cost category", Type = typeof(string[]), Example = typeof(ExampleCategoryCost))]
-    [OpenApiParameter("statuses", In = ParameterLocation.Query, Description = "List of RAG statuses", Type = typeof(string[]), Example = typeof(ExampleRagStatuses))]
+    [OpenApiParameter("categories", In = ParameterLocation.Query, Description = "List of cost category", Type = typeof(string[]), Example = typeof(OpenApiExamples.CategoryCost))]
+    [OpenApiParameter("statuses", In = ParameterLocation.Query, Description = "List of RAG statuses", Type = typeof(string[]), Example = typeof(OpenApiExamples.RagStatuses))]
     [OpenApiSecurityHeader]
     [OpenApiResponseWithBody(HttpStatusCode.OK, "application/json", typeof(MetricRagRating[]))]
     [OpenApiResponseWithBody(HttpStatusCode.BadRequest, "application/json", typeof(ValidationError[]))]
@@ -47,3 +46,5 @@ public class GetDefaultMetricRagRatingsFunction(
         return await req.CreateJsonResponseAsync(result, cancellationToken);
     }
 }
+
+

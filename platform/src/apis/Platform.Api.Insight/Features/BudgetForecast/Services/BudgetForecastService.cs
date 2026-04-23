@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
@@ -115,3 +115,4 @@ public class BudgetForecastService(IDatabaseFactory dbFactory) : IBudgetForecast
         return await conn.QueryAsync<ActualReturnModel>(sql, parameters, cancellationToken);
     }
 }
+

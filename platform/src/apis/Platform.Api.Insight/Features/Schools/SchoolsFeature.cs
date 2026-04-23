@@ -1,4 +1,4 @@
-﻿using System.Diagnostics.CodeAnalysis;
+using System.Diagnostics.CodeAnalysis;
 using Microsoft.Extensions.DependencyInjection;
 using Platform.Api.Insight.Features.Schools.Services;
 
@@ -15,3 +15,4 @@ public static class SchoolsFeature
         return serviceCollection;
     }
 }
+

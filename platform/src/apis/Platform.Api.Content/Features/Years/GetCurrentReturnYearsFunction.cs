@@ -10,7 +10,7 @@ using Microsoft.OpenApi.Models;
 using Platform.Api.Content.Features.Years.Handlers;
 using Platform.Api.Content.Features.Years.Models;
 using Platform.Functions;
-using Platform.Functions.OpenApi;
+using Platform.OpenApi;
 
 namespace Platform.Api.Content.Features.Years;
 
@@ -19,7 +19,7 @@ public class GetCurrentReturnYearsFunction(IEnumerable<IGetCurrentReturnYearsHan
     [Function(nameof(GetCurrentReturnYearsFunction))]
     [OpenApiSecurityHeader]
     [OpenApiOperation(nameof(GetCurrentReturnYearsFunction), Constants.Features.Years)]
-    [OpenApiParameter(Functions.Constants.ApiVersion, Type = typeof(string), In = ParameterLocation.Header)]
+    [OpenApiParameter(Platform.Domain.Constants.ApiVersion, Type = typeof(string), In = ParameterLocation.Header)]
     [OpenApiResponseWithBody(HttpStatusCode.OK, ContentType.ApplicationJson, typeof(FinanceYears))]
     [OpenApiResponseWithBody(HttpStatusCode.BadRequest, ContentType.ApplicationJsonProblem, typeof(ProblemDetails))]
     public async Task<HttpResponseData> RunAsync(

@@ -1,4 +1,4 @@
-﻿namespace Platform.Api.Insight.Features.BudgetForecast;
+namespace Platform.Api.Insight.Features.BudgetForecast;
 
 public static class Routes
 {
@@ -6,3 +6,5 @@ public static class Routes
     public const string Metrics = "budget-forecast/{companyNumber}/metrics";
     public const string Return = "budget-forecast/{companyNumber}";
 }
+
+

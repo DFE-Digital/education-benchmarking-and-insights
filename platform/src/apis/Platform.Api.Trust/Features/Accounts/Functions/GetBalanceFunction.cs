@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
@@ -10,7 +10,7 @@ using Microsoft.OpenApi.Models;
 using Platform.Api.Trust.Features.Accounts.Handlers;
 using Platform.Api.Trust.Features.Accounts.Models;
 using Platform.Functions;
-using Platform.Functions.OpenApi;
+using Platform.OpenApi;
 
 namespace Platform.Api.Trust.Features.Accounts.Functions;
 
@@ -20,7 +20,7 @@ public class GetBalanceFunction(IEnumerable<IGetBalanceHandler> handlers) : Vers
     [OpenApiSecurityHeader]
     [OpenApiOperation(nameof(GetBalanceFunction), Constants.Features.Accounts)]
     [OpenApiParameter("companyNumber", Type = typeof(string), Required = true)]
-    [OpenApiParameter(Platform.Functions.Constants.ApiVersion, Type = typeof(string), Required = false, In = ParameterLocation.Header)]
+    [OpenApiParameter(Domain.Constants.ApiVersion, Type = typeof(string), Required = false, In = ParameterLocation.Header)]
     [OpenApiResponseWithBody(HttpStatusCode.OK, ContentType.ApplicationJson, typeof(BalanceResponse))]
     [OpenApiResponseWithBody(HttpStatusCode.BadRequest, ContentType.ApplicationJsonProblem, typeof(ProblemDetails))]
     [OpenApiResponseWithoutBody(HttpStatusCode.NotFound)]

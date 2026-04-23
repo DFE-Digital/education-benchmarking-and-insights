@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Middleware;
+using Platform.Domain;
 using Platform.Functions.Extensions;
 
 // ReSharper disable ClassNeverInstantiated.Global

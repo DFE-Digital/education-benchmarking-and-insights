@@ -1,10 +1,10 @@
-﻿using System.Diagnostics;
+using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Configurations;
 using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Enums;
 using Microsoft.OpenApi.Models;
-using Platform.Functions.OpenApi;
+using Platform.OpenApi;
 
 namespace Platform.Api.Insight.OpenApi;
 
@@ -16,3 +16,5 @@ internal class OpenApiConfigurationOptions : DefaultOpenApiConfigurationOptions
     public override OpenApiInfo Info { get; set; } = OpenApiConfiguration.GetOpenApiInfo(AssemblyDetails);
     public override OpenApiVersionType OpenApiVersion { get; set; } = OpenApiVersionType.V3;
 }
+
+

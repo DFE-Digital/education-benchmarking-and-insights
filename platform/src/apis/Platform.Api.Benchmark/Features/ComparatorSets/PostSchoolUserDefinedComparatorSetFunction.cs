@@ -13,7 +13,8 @@ using Platform.Api.Benchmark.Shared;
 using Platform.Domain;
 using Platform.Domain.Messages;
 using Platform.Functions.Extensions;
-using Platform.Functions.OpenApi;
+using Platform.OpenApi;
+using Platform.OpenApi.Attributes;
 using Platform.Json;
 
 namespace Platform.Api.Benchmark.Features.ComparatorSets;
@@ -22,7 +23,7 @@ public class PostSchoolUserDefinedComparatorSetFunction(IComparatorSetsService s
 {
     [Function(nameof(PostSchoolUserDefinedComparatorSetFunction))]
     [OpenApiOperation(nameof(PostSchoolUserDefinedComparatorSetFunction), Constants.Features.ComparatorSets)]
-    [OpenApiParameter("urn", Type = typeof(string), Required = true)]
+    [OpenApiUrnParameter]
     [OpenApiSecurityHeader]
     [OpenApiRequestBody("application/json", typeof(ComparatorSetUserDefinedRequest), Description = "The user defined set of schools object")]
     [OpenApiResponseWithoutBody(HttpStatusCode.Accepted)]

@@ -12,7 +12,7 @@ using Platform.Api.Insight.Features.ItSpend.Responses;
 using Platform.Api.Insight.Features.ItSpend.Services;
 using Platform.Functions;
 using Platform.Functions.Extensions;
-using Platform.Functions.OpenApi;
+using Platform.OpenApi;
 
 namespace Platform.Api.Insight.Features.ItSpend;
 
@@ -41,3 +41,5 @@ public class GetItSpendTrustsFunction(IItSpendService service, IValidator<ItSpen
         return await req.CreateJsonResponseAsync(result, cancellationToken);
     }
 }
+
+

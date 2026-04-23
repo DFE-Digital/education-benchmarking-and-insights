@@ -1,4 +1,4 @@
-﻿using System.Diagnostics.CodeAnalysis;
+using System.Diagnostics.CodeAnalysis;
 
 // ReSharper disable ClassNeverInstantiated.Global
 // ReSharper disable PropertyCanBeMadeInitOnly.Global
@@ -19,3 +19,4 @@ public abstract record CensusModel
     public decimal? AuxiliaryStaff { get; set; }
     public decimal? PercentTeacherWithQualifiedStatus { get; set; }
 }
+

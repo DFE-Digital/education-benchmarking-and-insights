@@ -1,4 +1,4 @@
-﻿using System.Diagnostics.CodeAnalysis;
+using System.Diagnostics.CodeAnalysis;
 using FluentValidation;
 using Platform.Api.Insight.Features.Expenditure.Parameters;
 
@@ -16,3 +16,4 @@ public class ExpenditureQueryTrustParametersValidator : AbstractValidator<Expend
             .WithMessage("A collection of company numbers must be specified");
     }
 }
+

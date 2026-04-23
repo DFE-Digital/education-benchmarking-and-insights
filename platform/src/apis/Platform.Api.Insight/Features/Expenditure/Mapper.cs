@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Platform.Api.Insight.Features.Expenditure.Models;
@@ -387,3 +387,4 @@ public static class Mapper
 
     private static bool ShouldDisplay(string? category, string match) => string.IsNullOrEmpty(category) || category == match;
 }
+

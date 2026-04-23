@@ -1,4 +1,4 @@
-﻿using System.Diagnostics.CodeAnalysis;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Platform.Api.Insight.Shared;
 
@@ -8,3 +8,4 @@ public record YearsModel
     public int StartYear { get; set; }
     public int EndYear { get; set; }
 }
+

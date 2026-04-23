@@ -1,4 +1,4 @@
-﻿namespace Platform.Api.Insight.Features.BudgetForecast.Responses;
+namespace Platform.Api.Insight.Features.BudgetForecast.Responses;
 
 public record BudgetForecastReturnResponse
 {
@@ -21,3 +21,4 @@ public record BudgetForecastReturnResponse
         _ => null
     };
 }
+

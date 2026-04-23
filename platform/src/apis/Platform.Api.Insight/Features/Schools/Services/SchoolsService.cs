@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Platform.Api.Insight.Features.Schools.Models;
@@ -38,3 +38,4 @@ public class SchoolsService(IDatabaseFactory dbFactory) : ISchoolsService
         return await conn.QueryFirstOrDefaultAsync<SchoolCharacteristic>(sql, parameters, cancellationToken);
     }
 }
+

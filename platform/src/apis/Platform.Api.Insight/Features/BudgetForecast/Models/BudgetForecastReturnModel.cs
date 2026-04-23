@@ -1,4 +1,4 @@
-﻿using System.Diagnostics.CodeAnalysis;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Platform.Api.Insight.Features.BudgetForecast.Models;
 
@@ -9,3 +9,4 @@ public record BudgetForecastReturnModel
     public decimal? Value { get; set; }
     public decimal? TotalPupils { get; set; }
 }
+

@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
@@ -8,7 +8,7 @@ using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Attributes;
 using Microsoft.OpenApi.Models;
 using Platform.Api.Content.Features.News.Handlers;
 using Platform.Functions;
-using Platform.Functions.OpenApi;
+using Platform.OpenApi;
 
 namespace Platform.Api.Content.Features.News;
 
@@ -17,7 +17,7 @@ public class GetNewsFunction(IEnumerable<IGetNewsHandler> handlers) : VersionedF
     [Function(nameof(GetNewsFunction))]
     [OpenApiSecurityHeader]
     [OpenApiOperation(nameof(GetNewsFunction), Constants.Features.News)]
-    [OpenApiParameter(Functions.Constants.ApiVersion, Type = typeof(string), In = ParameterLocation.Header)]
+    [OpenApiParameter(Platform.Domain.Constants.ApiVersion, Type = typeof(string), In = ParameterLocation.Header)]
     [OpenApiResponseWithBody(HttpStatusCode.OK, ContentType.ApplicationJson, typeof(Models.News[]))]
     public async Task<HttpResponseData> RunAsync(
         [HttpTrigger(AuthorizationLevel.Admin, MethodType.Get, Route = Routes.News)] HttpRequestData req,

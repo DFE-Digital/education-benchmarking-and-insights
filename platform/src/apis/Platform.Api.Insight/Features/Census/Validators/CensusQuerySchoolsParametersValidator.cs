@@ -1,4 +1,4 @@
-﻿using System.Diagnostics.CodeAnalysis;
+using System.Diagnostics.CodeAnalysis;
 using FluentValidation;
 using Platform.Api.Insight.Features.Census.Parameters;
 using Platform.Domain;
@@ -33,3 +33,4 @@ public class CensusQuerySchoolsParametersValidator : AbstractValidator<CensusQue
 
     private static bool BeAValidPhase(string? phase) => OverallPhase.IsValid(phase);
 }
+

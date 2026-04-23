@@ -1,4 +1,4 @@
-﻿using System.Diagnostics.CodeAnalysis;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Platform.Api.Insight.Features.Expenditure.Responses;
 
@@ -7,3 +7,4 @@ public record ExpenditureHistoryRowResponse : ExpenditureResponse
 {
     public int? Year { get; set; }
 }
+

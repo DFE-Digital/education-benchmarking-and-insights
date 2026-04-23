@@ -7,8 +7,9 @@ using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Attributes;
 using Platform.Api.Benchmark.Features.FinancialPlans.Models;
 using Platform.Api.Benchmark.Features.FinancialPlans.Services;
 using Platform.Functions.Extensions;
-using Platform.Functions.OpenApi;
-using Platform.Functions.OpenApi.Examples;
+using Platform.OpenApi;
+using Platform.OpenApi.Attributes;
+using Platform.Api.Benchmark.OpenApi;
 
 namespace Platform.Api.Benchmark.Features.FinancialPlans;
 
@@ -16,8 +17,8 @@ public class PutFinancialPlanFunction(IFinancialPlansService service)
 {
     [Function(nameof(PutFinancialPlanFunction))]
     [OpenApiOperation(nameof(PutFinancialPlanFunction), Constants.Features.FinancialPlans)]
-    [OpenApiParameter("urn", Type = typeof(string), Required = true)]
-    [OpenApiParameter("year", Type = typeof(int), Required = true, Example = typeof(ExampleYear))]
+    [OpenApiUrnParameter]
+    [OpenApiParameter("year", Type = typeof(int), Required = true, Example = typeof(OpenApiExamples.ExampleYear))]
     [OpenApiSecurityHeader]
     [OpenApiRequestBody("application/json", typeof(FinancialPlanDetails), Description = "The financial plan object")]
     [OpenApiResponseWithBody(HttpStatusCode.Created, "application/json", typeof(FinancialPlanDetails))]

@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
@@ -10,7 +10,7 @@ using Microsoft.OpenApi.Models;
 using Platform.Api.Trust.Features.BudgetForecast.Handlers;
 using Platform.Api.Trust.Features.BudgetForecast.Models;
 using Platform.Functions;
-using Platform.Functions.OpenApi;
+using Platform.OpenApi;
 
 namespace Platform.Api.Trust.Features.BudgetForecast.Functions;
 
@@ -20,7 +20,7 @@ public class GetForecastRiskFunction(IEnumerable<IGetForecastRiskMHandler> handl
     [OpenApiSecurityHeader]
     [OpenApiOperation(nameof(GetForecastRiskFunction), Constants.Features.BudgetForecast)]
     [OpenApiParameter("companyNumber", Type = typeof(string), Required = true)]
-    [OpenApiParameter(Platform.Functions.Constants.ApiVersion, Type = typeof(string), Required = false, In = ParameterLocation.Header)]
+    [OpenApiParameter(Domain.Constants.ApiVersion, Type = typeof(string), Required = false, In = ParameterLocation.Header)]
     [OpenApiParameter("runType", In = ParameterLocation.Query, Description = "Forecast run type", Type = typeof(string), Example = typeof(OpenApiExamples.BudgetForecastRunType))]
     [OpenApiParameter("category", In = ParameterLocation.Query, Description = "Forecast run category", Type = typeof(string), Required = false, Example = typeof(OpenApiExamples.BudgetForecastRunCategory))]
     [OpenApiParameter("runId", In = ParameterLocation.Query, Description = "Forecast run identifier or year", Type = typeof(string), Required = true, Example = typeof(OpenApiExamples.BudgetForecastRunId))]

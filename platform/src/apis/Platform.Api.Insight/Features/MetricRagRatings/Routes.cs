@@ -1,4 +1,4 @@
-﻿namespace Platform.Api.Insight.Features.MetricRagRatings;
+namespace Platform.Api.Insight.Features.MetricRagRatings;
 
 public static class Routes
 {
@@ -6,3 +6,4 @@ public static class Routes
     public const string Summary = "metric-rag/summary";
     public const string UserDefined = "metric-rag/{identifier}";
 }
+

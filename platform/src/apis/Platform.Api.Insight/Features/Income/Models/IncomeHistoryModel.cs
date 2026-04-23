@@ -1,4 +1,4 @@
-﻿using System.Diagnostics.CodeAnalysis;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Platform.Api.Insight.Features.Income.Models;
 
@@ -7,3 +7,4 @@ public record IncomeHistoryModel : IncomeModel
 {
     public int? RunId { get; set; }
 }
+

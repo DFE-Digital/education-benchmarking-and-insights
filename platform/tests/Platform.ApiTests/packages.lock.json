@@ -1990,6 +1990,7 @@
           "Platform.Functions": "[1.0.0, )",
           "Platform.Infrastructure": "[1.0.0, )",
           "Platform.Json": "[1.0.0, )",
+          "Platform.OpenApi": "[1.0.0, )",
           "Platform.Sql": "[1.0.0, )"
         }
       },
@@ -2006,26 +2007,7 @@
           "Platform.Functions": "[1.0.0, )",
           "Platform.Infrastructure": "[1.0.0, )",
           "Platform.Json": "[1.0.0, )",
-          "Platform.Sql": "[1.0.0, )"
-        }
-      },
-      "platform.api.establishment": {
-        "type": "Project",
-        "dependencies": {
-          "Dapper.Contrib": "[2.0.78, )",
-          "Dapper.SqlBuilder": "[2.1.66, )",
-          "Microsoft.ApplicationInsights.WorkerService": "[2.23.0, )",
-          "Microsoft.Azure.Functions.Worker": "[2.51.0, )",
-          "Microsoft.Azure.Functions.Worker.ApplicationInsights": "[2.50.0, )",
-          "Microsoft.Azure.Functions.Worker.Extensions.Http": "[3.3.0, )",
-          "Microsoft.Azure.Functions.Worker.Extensions.OpenApi": "[1.6.0, )",
-          "Microsoft.Azure.Functions.Worker.Extensions.Storage": "[6.8.1, )",
-          "Microsoft.Azure.Functions.Worker.Sdk": "[2.0.7, )",
-          "Microsoft.Azure.WebJobs": "[3.0.45, )",
-          "Platform.Functions": "[1.0.0, )",
-          "Platform.Infrastructure": "[1.0.0, )",
-          "Platform.Json": "[1.0.0, )",
-          "Platform.Search": "[1.0.0, )",
+          "Platform.OpenApi": "[1.0.0, )",
           "Platform.Sql": "[1.0.0, )"
         }
       },
@@ -2045,44 +2027,7 @@
           "Platform.Domain": "[1.0.0, )",
           "Platform.Functions": "[1.0.0, )",
           "Platform.Json": "[1.0.0, )",
-          "Platform.Sql": "[1.0.0, )"
-        }
-      },
-      "platform.api.nonfinancial": {
-        "type": "Project",
-        "dependencies": {
-          "Dapper.Contrib": "[2.0.78, )",
-          "Dapper.SqlBuilder": "[2.1.66, )",
-          "Microsoft.ApplicationInsights.WorkerService": "[2.23.0, )",
-          "Microsoft.Azure.Functions.Worker": "[2.51.0, )",
-          "Microsoft.Azure.Functions.Worker.ApplicationInsights": "[2.50.0, )",
-          "Microsoft.Azure.Functions.Worker.Extensions.Http": "[3.3.0, )",
-          "Microsoft.Azure.Functions.Worker.Extensions.OpenApi": "[1.6.0, )",
-          "Microsoft.Azure.Functions.Worker.Extensions.Storage": "[6.8.1, )",
-          "Microsoft.Azure.Functions.Worker.Sdk": "[2.0.7, )",
-          "Platform.Functions": "[1.0.0, )",
-          "Platform.Infrastructure": "[1.0.0, )",
-          "Platform.Json": "[1.0.0, )",
-          "Platform.Sql": "[1.0.0, )"
-        }
-      },
-      "platform.api.school": {
-        "type": "Project",
-        "dependencies": {
-          "Dapper.Contrib": "[2.0.78, )",
-          "Dapper.SqlBuilder": "[2.1.66, )",
-          "Microsoft.ApplicationInsights.WorkerService": "[2.23.0, )",
-          "Microsoft.Azure.Functions.Worker": "[2.51.0, )",
-          "Microsoft.Azure.Functions.Worker.ApplicationInsights": "[2.50.0, )",
-          "Microsoft.Azure.Functions.Worker.Extensions.Http": "[3.3.0, )",
-          "Microsoft.Azure.Functions.Worker.Extensions.OpenApi": "[1.6.0, )",
-          "Microsoft.Azure.Functions.Worker.Extensions.Storage": "[6.8.1, )",
-          "Microsoft.Azure.Functions.Worker.Sdk": "[2.0.7, )",
-          "Platform.Cache": "[1.0.0, )",
-          "Platform.Functions": "[1.0.0, )",
-          "Platform.Infrastructure": "[1.0.0, )",
-          "Platform.Json": "[1.0.0, )",
-          "Platform.Search": "[1.0.0, )",
+          "Platform.OpenApi": "[1.0.0, )",
           "Platform.Sql": "[1.0.0, )"
         }
       },
@@ -2112,7 +2057,6 @@
           "Microsoft.Azure.Core.NewtonsoftJson": "[2.0.0, )",
           "Microsoft.Azure.Functions.Worker.Core": "[2.51.0, )",
           "Microsoft.Azure.WebJobs": "[3.0.45, )",
-          "Microsoft.Azure.WebJobs.Extensions.OpenApi.Core": "[1.6.0, )",
           "Microsoft.Data.SqlClient": "[6.1.4, )",
           "Microsoft.Extensions.Configuration.Binder": "[10.0.4, )",
           "Microsoft.Extensions.Logging.Abstractions": "[10.0.4, )",
@@ -2130,16 +2074,10 @@
           "Newtonsoft.Json": "[13.0.4, )"
         }
       },
-      "platform.search": {
+      "platform.openapi": {
         "type": "Project",
         "dependencies": {
-          "AspNetCore.HealthChecks.AzureSearch": "[9.0.0, )",
-          "Azure.Search.Documents": "[11.7.0, )",
-          "FluentValidation": "[12.1.1, )",
-          "Microsoft.ApplicationInsights": "[2.23.0, )",
-          "Microsoft.Extensions.DependencyInjection.Abstractions": "[10.0.4, )",
-          "Microsoft.Extensions.Diagnostics.HealthChecks": "[10.0.4, )",
-          "Platform.Infrastructure": "[1.0.0, )"
+          "Microsoft.Azure.WebJobs.Extensions.OpenApi.Core": "[1.6.0, )"
         }
       },
       "platform.sql": {
@@ -2153,16 +2091,6 @@
           "Microsoft.Extensions.DependencyInjection.Abstractions": "[10.0.4, )",
           "Microsoft.Extensions.Diagnostics.HealthChecks": "[10.0.4, )",
           "Platform.Domain": "[1.0.0, )"
-        }
-      },
-      "AspNetCore.HealthChecks.AzureSearch": {
-        "type": "CentralTransitive",
-        "requested": "[9.0.0, )",
-        "resolved": "9.0.0",
-        "contentHash": "+S8xLA2tAfVO+pYtLEYsGO+LnOuT3njdGBFZF6ENZ31e5X9BaybBmdM0FKqGP+281L+Qo+VCPV/e9GKAcCznHA==",
-        "dependencies": {
-          "Azure.Search.Documents": "11.5.0",
-          "Microsoft.Extensions.Diagnostics.HealthChecks": "8.0.11"
         }
       },
       "AspNetCore.HealthChecks.Redis": {
@@ -2183,15 +2111,6 @@
         "dependencies": {
           "Microsoft.Data.SqlClient": "5.2.2",
           "Microsoft.Extensions.Diagnostics.HealthChecks": "8.0.11"
-        }
-      },
-      "Azure.Search.Documents": {
-        "type": "CentralTransitive",
-        "requested": "[11.7.0, )",
-        "resolved": "11.7.0",
-        "contentHash": "48yBLnsf8SSgowe/OQDCNg9+G9WjzRmLX6Bghjlshxu+5Mhh4maTXvSWKi4o568ZqV6GoOYhiKPbCm/QYoufwA==",
-        "dependencies": {
-          "Azure.Core": "1.49.0"
         }
       },
       "Azure.Storage.Queues": {

@@ -9,9 +9,10 @@ using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Attributes;
 using Microsoft.OpenApi.Models;
 using Platform.Api.Benchmark.Features.UserData.Parameters;
 using Platform.Api.Benchmark.Features.UserData.Services;
-using Platform.Api.Benchmark.OpenApi.Examples;
+using Platform.Api.Benchmark.OpenApi;
 using Platform.Functions.Extensions;
-using Platform.Functions.OpenApi;
+using Platform.OpenApi;
+using Platform.OpenApi.Attributes;
 
 namespace Platform.Api.Benchmark.Features.UserData;
 
@@ -20,10 +21,10 @@ public class GetUserDataFunction(IUserDataService service, IValidator<UserDataPa
     [Function(nameof(GetUserDataFunction))]
     [OpenApiOperation(nameof(GetUserDataFunction), Constants.Features.UserData)]
     [OpenApiParameter("userId", In = ParameterLocation.Query, Description = "User Id as a Guid", Type = typeof(string), Required = true)]
-    [OpenApiParameter("type", In = ParameterLocation.Query, Description = "Type", Type = typeof(string), Required = false, Example = typeof(ExampleUserDataType))]
-    [OpenApiParameter("organisationType", In = ParameterLocation.Query, Description = "Organisation Type", Type = typeof(string), Required = false, Example = typeof(ExampleOrganisationType))]
+    [OpenApiParameter("type", In = ParameterLocation.Query, Description = "Type", Type = typeof(string), Required = false, Example = typeof(OpenApiExamples.UserDataType))]
+    [OpenApiParameter("organisationType", In = ParameterLocation.Query, Description = "Organisation Type", Type = typeof(string), Required = false, Example = typeof(OpenApiExamples.OrganisationType))]
     [OpenApiParameter("organisationId", In = ParameterLocation.Query, Description = "Organisation Id", Type = typeof(string), Required = false)]
-    [OpenApiParameter("status", In = ParameterLocation.Query, Description = "Status", Type = typeof(string), Required = false, Example = typeof(ExampleUserDataStatus))]
+    [OpenApiParameter("status", In = ParameterLocation.Query, Description = "Status", Type = typeof(string), Required = false, Example = typeof(OpenApiExamples.UserDataStatus))]
     [OpenApiParameter("id", In = ParameterLocation.Query, Description = "Identifier", Type = typeof(string), Required = false)]
     [OpenApiSecurityHeader]
     [OpenApiResponseWithBody(HttpStatusCode.OK, "application/json", typeof(IEnumerable<Models.UserData>))]

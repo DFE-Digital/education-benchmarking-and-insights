@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 using Platform.Api.Insight.Features.BudgetForecast.Models;
 using Platform.Api.Insight.Features.BudgetForecast.Responses;
@@ -40,3 +40,5 @@ public static class Mapper
         return response;
     }
 }
+
+

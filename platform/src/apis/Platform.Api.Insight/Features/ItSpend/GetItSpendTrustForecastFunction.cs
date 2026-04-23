@@ -12,7 +12,7 @@ using Platform.Api.Insight.Features.ItSpend.Responses;
 using Platform.Api.Insight.Features.ItSpend.Services;
 using Platform.Functions;
 using Platform.Functions.Extensions;
-using Platform.Functions.OpenApi;
+using Platform.OpenApi;
 
 namespace Platform.Api.Insight.Features.ItSpend;
 
@@ -36,3 +36,5 @@ public class GetItSpendTrustForecastFunction(IItSpendService service)
             : await req.CreateJsonResponseAsync(result, cancellationToken);
     }
 }
+
+

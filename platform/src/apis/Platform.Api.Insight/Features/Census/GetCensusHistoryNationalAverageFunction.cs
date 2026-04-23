@@ -1,4 +1,4 @@
-﻿using System.Net;
+using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using FluentValidation;
@@ -9,11 +9,13 @@ using Microsoft.OpenApi.Models;
 using Platform.Api.Insight.Features.Census.Parameters;
 using Platform.Api.Insight.Features.Census.Responses;
 using Platform.Api.Insight.Features.Census.Services;
-using Platform.Api.Insight.OpenApi.Examples;
+using Platform.Api.Insight.OpenApi;
 using Platform.Functions;
 using Platform.Functions.Extensions;
-using Platform.Functions.OpenApi;
-using Platform.Functions.OpenApi.Examples;
+using Platform.OpenApi;
+
+
+using Platform.Api.Insight.OpenApi;
 
 namespace Platform.Api.Insight.Features.Census;
 
@@ -22,9 +24,9 @@ public class GetCensusHistoryNationalAverageFunction(ICensusService service, IVa
     [Function(nameof(GetCensusHistoryNationalAverageFunction))]
     [OpenApiSecurityHeader]
     [OpenApiOperation(nameof(GetCensusHistoryNationalAverageFunction), Constants.Features.Census, Deprecated = true)]
-    [OpenApiParameter("dimension", In = ParameterLocation.Query, Description = "Dimension for response values", Type = typeof(string), Required = true, Example = typeof(ExampleDimensionCensus))]
-    [OpenApiParameter("phase", In = ParameterLocation.Query, Description = "Overall phase for response values", Type = typeof(string), Required = true, Example = typeof(ExampleOverallPhase))]
-    [OpenApiParameter("financeType", In = ParameterLocation.Query, Description = "Finance type for response values", Type = typeof(string), Required = true, Example = typeof(ExampleFinanceTypes))]
+    [OpenApiParameter("dimension", In = ParameterLocation.Query, Description = "Dimension for response values", Type = typeof(string), Required = true, Example = typeof(OpenApiExamples.DimensionCensus))]
+    [OpenApiParameter("phase", In = ParameterLocation.Query, Description = "Overall phase for response values", Type = typeof(string), Required = true, Example = typeof(OpenApiExamples.OverallPhase))]
+    [OpenApiParameter("financeType", In = ParameterLocation.Query, Description = "Finance type for response values", Type = typeof(string), Required = true, Example = typeof(OpenApiExamples.FinanceTypes))]
     [OpenApiResponseWithBody(HttpStatusCode.OK, ContentType.ApplicationJson, typeof(CensusHistoryResponse))]
     [OpenApiResponseWithBody(HttpStatusCode.BadRequest, ContentType.ApplicationJson, typeof(ValidationError[]))]
     public async Task<HttpResponseData> RunAsync(
@@ -46,3 +48,6 @@ public class GetCensusHistoryNationalAverageFunction(ICensusService service, IVa
             : await req.CreateJsonResponseAsync(years.MapToApiResponse(rows), cancellationToken);
     }
 }
+
+
+

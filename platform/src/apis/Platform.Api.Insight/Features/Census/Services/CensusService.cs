@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Threading;
@@ -132,3 +132,4 @@ public class CensusService(IDatabaseFactory dbFactory, ICacheKeyFactory cacheKey
         return await conn.QueryAsync<CensusHistoryModel>(historyBuilder, cancellationToken);
     }
 }
+

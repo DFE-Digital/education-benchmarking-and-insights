@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 
 namespace Platform.Api.Insight.Features.Expenditure.Responses;
@@ -10,3 +10,4 @@ public record ExpenditureHistoryResponse
     public int? EndYear { get; set; }
     public IEnumerable<ExpenditureHistoryRowResponse> Rows { get; set; } = [];
 }
+

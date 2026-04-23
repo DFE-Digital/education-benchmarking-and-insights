@@ -1,4 +1,4 @@
-﻿using System.Net;
+using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using FluentValidation;
@@ -11,8 +11,10 @@ using Platform.Api.Insight.Features.Census.Responses;
 using Platform.Api.Insight.Features.Census.Services;
 using Platform.Functions;
 using Platform.Functions.Extensions;
-using Platform.Functions.OpenApi;
-using Platform.Functions.OpenApi.Examples;
+using Platform.OpenApi;
+
+
+using Platform.Api.Insight.OpenApi;
 
 namespace Platform.Api.Insight.Features.Census;
 
@@ -23,8 +25,8 @@ public class GetCensusCustomFunction(ICensusService service, IValidator<CensusPa
     [OpenApiOperation(nameof(GetCensusCustomFunction), Constants.Features.Census, Deprecated = true)]
     [OpenApiParameter("urn", Type = typeof(string), Required = true)]
     [OpenApiParameter("identifier", Type = typeof(string), Required = true)]
-    [OpenApiParameter("category", In = ParameterLocation.Query, Description = "Census category", Type = typeof(string), Required = false, Example = typeof(ExampleCategoryCensus))]
-    [OpenApiParameter("dimension", In = ParameterLocation.Query, Description = "Dimension for response values", Type = typeof(string), Example = typeof(ExampleDimensionCensus))]
+    [OpenApiParameter("category", In = ParameterLocation.Query, Description = "Census category", Type = typeof(string), Required = false, Example = typeof(OpenApiExamples.CategoryCensus))]
+    [OpenApiParameter("dimension", In = ParameterLocation.Query, Description = "Dimension for response values", Type = typeof(string), Example = typeof(OpenApiExamples.DimensionCensus))]
     [OpenApiResponseWithBody(HttpStatusCode.OK, ContentType.ApplicationJson, typeof(CensusResponse))]
     [OpenApiResponseWithBody(HttpStatusCode.BadRequest, ContentType.ApplicationJson, typeof(ValidationError[]))]
     [OpenApiResponseWithoutBody(HttpStatusCode.NotFound)]
@@ -48,3 +50,6 @@ public class GetCensusCustomFunction(ICensusService service, IValidator<CensusPa
             : await req.CreateJsonResponseAsync(result.MapToApiResponse(queryParams.Category), cancellationToken);
     }
 }
+
+
+

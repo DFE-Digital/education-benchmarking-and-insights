@@ -41,6 +41,8 @@
     <PackageVersion Include="Microsoft.Azure.StackExchangeRedis" Version="3.3.0" />
     <PackageVersion Include="Microsoft.Azure.WebJobs" Version="3.0.45" />
     <PackageVersion Include="Microsoft.Azure.WebJobs.Extensions.OpenApi.Core" Version="1.6.0" />
+    <PackageVersion Include="Microsoft.CodeAnalysis.Analyzers" Version="3.3.4" />
+    <PackageVersion Include="Microsoft.CodeAnalysis.CSharp" Version="4.8.0" />
     <PackageVersion Include="Microsoft.Data.SqlClient" Version="6.1.4" />
     <PackageVersion Include="Microsoft.Extensions.Configuration" Version="8.0.0" />
     <PackageVersion Include="Microsoft.Extensions.Configuration.Binder" Version="10.0.4" />

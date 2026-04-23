@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
@@ -10,8 +10,8 @@ using Microsoft.OpenApi.Models;
 using Platform.Api.LocalAuthority.Features.StatisticalNeighbours.Handlers;
 using Platform.Api.LocalAuthority.Features.StatisticalNeighbours.Models;
 using Platform.Functions;
-using Platform.Functions.OpenApi;
-using Platform.Functions.OpenApi.Attributes;
+using Platform.OpenApi;
+using Platform.OpenApi.Attributes;
 
 namespace Platform.Api.LocalAuthority.Features.StatisticalNeighbours.Functions;
 

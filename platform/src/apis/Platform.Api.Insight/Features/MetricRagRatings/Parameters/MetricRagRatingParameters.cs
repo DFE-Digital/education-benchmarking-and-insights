@@ -1,4 +1,4 @@
-﻿using System.Collections.Specialized;
+using System.Collections.Specialized;
 using Platform.Domain;
 using Platform.Functions;
 using Platform.Functions.Extensions;
@@ -14,3 +14,4 @@ public record MetricRagRatingParameters : QueryParameters
         DataContext = query.ToBool("useCustomData") ? Pipeline.RunType.Custom : Pipeline.RunType.Default;
     }
 }
+

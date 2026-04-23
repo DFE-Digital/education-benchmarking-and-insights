@@ -1,4 +1,4 @@
-﻿using System.Diagnostics.CodeAnalysis;
+using System.Diagnostics.CodeAnalysis;
 using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
 using Platform.Api.Insight.Features.MetricRagRatings.Parameters;
@@ -20,3 +20,4 @@ public static class MetricRagRatingsFeature
         return serviceCollection;
     }
 }
+

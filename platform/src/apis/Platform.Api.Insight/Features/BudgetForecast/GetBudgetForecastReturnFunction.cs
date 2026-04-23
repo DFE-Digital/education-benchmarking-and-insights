@@ -1,4 +1,4 @@
-﻿using System.Net;
+using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Azure.Functions.Worker;
@@ -8,9 +8,9 @@ using Microsoft.OpenApi.Models;
 using Platform.Api.Insight.Features.BudgetForecast.Parameters;
 using Platform.Api.Insight.Features.BudgetForecast.Responses;
 using Platform.Api.Insight.Features.BudgetForecast.Services;
-using Platform.Api.Insight.OpenApi.Examples;
 using Platform.Functions.Extensions;
-using Platform.Functions.OpenApi;
+using Platform.OpenApi;
+using Platform.Api.Insight.OpenApi;
 
 namespace Platform.Api.Insight.Features.BudgetForecast;
 
@@ -19,9 +19,9 @@ public class GetBudgetForecastReturnFunction(IBudgetForecastService service)
     [Function(nameof(GetBudgetForecastReturnFunction))]
     [OpenApiOperation(nameof(GetBudgetForecastReturnFunction), Constants.Features.BudgetForecast, Deprecated = true)]
     [OpenApiParameter("companyNumber", Type = typeof(string), Required = true)]
-    [OpenApiParameter("runType", In = ParameterLocation.Query, Description = "Forecast run type", Type = typeof(string), Example = typeof(ExampleBudgetForecastRunType))]
-    [OpenApiParameter("category", In = ParameterLocation.Query, Description = "Forecast run category", Type = typeof(string), Required = false, Example = typeof(ExampleBudgetForecastRunCategory))]
-    [OpenApiParameter("runId", In = ParameterLocation.Query, Description = "Forecast run identifier or year", Type = typeof(string), Required = true, Example = typeof(ExampleBudgetForecastRunId))]
+    [OpenApiParameter("runType", In = ParameterLocation.Query, Description = "Forecast run type", Type = typeof(string), Example = typeof(OpenApiExamples.BudgetForecastRunType))]
+    [OpenApiParameter("category", In = ParameterLocation.Query, Description = "Forecast run category", Type = typeof(string), Required = false, Example = typeof(OpenApiExamples.BudgetForecastRunCategory))]
+    [OpenApiParameter("runId", In = ParameterLocation.Query, Description = "Forecast run identifier or year", Type = typeof(string), Required = true, Example = typeof(OpenApiExamples.BudgetForecastRunId))]
     [OpenApiSecurityHeader]
     [OpenApiResponseWithBody(HttpStatusCode.OK, "application/json", typeof(BudgetForecastReturnResponse[]))]
     [OpenApiResponseWithoutBody(HttpStatusCode.InternalServerError)]
@@ -39,3 +39,4 @@ public class GetBudgetForecastReturnFunction(IBudgetForecastService service)
         return await req.CreateJsonResponseAsync(Mapper.MapToApiResponse(bfr, ar), cancellationToken);
     }
 }
+

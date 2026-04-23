@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Threading;
 using System.Threading.Tasks;
@@ -83,3 +83,4 @@ public class BalanceService(IDatabaseFactory dbFactory) : IBalanceService
         return await conn.QueryAsync<BalanceTrustModel>(builder, cancellationToken);
     }
 }
+

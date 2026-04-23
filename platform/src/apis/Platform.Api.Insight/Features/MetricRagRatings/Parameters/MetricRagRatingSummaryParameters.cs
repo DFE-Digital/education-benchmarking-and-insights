@@ -19,3 +19,4 @@ public record MetricRagRatingSummaryParameters : QueryParameters
         OverallPhase = query["overallPhase"];
     }
 }
+

@@ -1,4 +1,4 @@
-﻿using System.Collections.Specialized;
+using System.Collections.Specialized;
 
 namespace Platform.Api.Insight.Features.Census.Parameters;
 
@@ -19,3 +19,4 @@ public record CensusQuerySchoolsParameters : CensusParameters
         LaCode = query["laCode"];
     }
 }
+

@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
@@ -10,7 +10,7 @@ using Microsoft.OpenApi.Models;
 using Platform.Api.Content.Features.Banners.Handlers;
 using Platform.Api.Content.Features.Banners.Models;
 using Platform.Functions;
-using Platform.Functions.OpenApi;
+using Platform.OpenApi;
 
 namespace Platform.Api.Content.Features.Banners;
 
@@ -20,7 +20,7 @@ public class GetBannerFunction(IEnumerable<IGetBannerHandler> handlers) : Versio
     [OpenApiSecurityHeader]
     [OpenApiOperation(nameof(GetBannerFunction), Constants.Features.Banners)]
     [OpenApiParameter("target", Type = typeof(string), Required = true)]
-    [OpenApiParameter(Functions.Constants.ApiVersion, Type = typeof(string), In = ParameterLocation.Header)]
+    [OpenApiParameter(Platform.Domain.Constants.ApiVersion, Type = typeof(string), In = ParameterLocation.Header)]
     [OpenApiResponseWithBody(HttpStatusCode.OK, ContentType.ApplicationJson, typeof(Banner))]
     [OpenApiResponseWithBody(HttpStatusCode.BadRequest, ContentType.ApplicationJsonProblem, typeof(ProblemDetails))]
     [OpenApiResponseWithoutBody(HttpStatusCode.NotFound)]

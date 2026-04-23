@@ -1,4 +1,4 @@
-﻿using System.Net;
+using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using FluentValidation;
@@ -11,8 +11,10 @@ using Platform.Api.Insight.Features.Expenditure.Responses;
 using Platform.Api.Insight.Features.Expenditure.Services;
 using Platform.Functions;
 using Platform.Functions.Extensions;
-using Platform.Functions.OpenApi;
-using Platform.Functions.OpenApi.Examples;
+using Platform.OpenApi;
+
+
+using Platform.Api.Insight.OpenApi;
 
 namespace Platform.Api.Insight.Features.Expenditure;
 
@@ -22,7 +24,7 @@ public class GetExpenditureSchoolHistoryComparatorSetAverageFunction(IExpenditur
     [OpenApiSecurityHeader]
     [OpenApiOperation(nameof(GetExpenditureSchoolHistoryComparatorSetAverageFunction), Constants.Features.Expenditure, Deprecated = true)]
     [OpenApiParameter("urn", Type = typeof(string), Required = true)]
-    [OpenApiParameter("dimension", In = ParameterLocation.Query, Description = "Dimension for response values", Type = typeof(string), Required = true, Example = typeof(ExampleDimensionFinance))]
+    [OpenApiParameter("dimension", In = ParameterLocation.Query, Description = "Dimension for response values", Type = typeof(string), Required = true, Example = typeof(OpenApiExamples.DimensionFinance))]
     [OpenApiResponseWithBody(HttpStatusCode.OK, ContentType.ApplicationJson, typeof(ExpenditureHistoryResponse))]
     [OpenApiResponseWithBody(HttpStatusCode.BadRequest, ContentType.ApplicationJson, typeof(ValidationError[]))]
     [OpenApiResponseWithoutBody(HttpStatusCode.NotFound)]
@@ -45,3 +47,5 @@ public class GetExpenditureSchoolHistoryComparatorSetAverageFunction(IExpenditur
             : await req.CreateJsonResponseAsync(years.MapToApiResponse(rows), cancellationToken);
     }
 }
+
+

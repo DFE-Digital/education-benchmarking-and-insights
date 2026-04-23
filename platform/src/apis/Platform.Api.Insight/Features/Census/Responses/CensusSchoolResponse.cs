@@ -1,4 +1,4 @@
-﻿using System.Diagnostics.CodeAnalysis;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Platform.Api.Insight.Features.Census.Responses;
 
@@ -10,3 +10,4 @@ public record CensusSchoolResponse : CensusResponse
     public string? SchoolType { get; set; }
     public string? LAName { get; set; }
 }
+

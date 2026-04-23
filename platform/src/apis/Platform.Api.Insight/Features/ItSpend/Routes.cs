@@ -1,4 +1,4 @@
-﻿namespace Platform.Api.Insight.Features.ItSpend;
+namespace Platform.Api.Insight.Features.ItSpend;
 
 public static class Routes
 {
@@ -6,3 +6,4 @@ public static class Routes
     public const string TrustsItSpend = "it-spend/trusts";
     public const string TrustItSpendForecast = "it-spend/trust/{companyNumber}/forecast";
 }
+

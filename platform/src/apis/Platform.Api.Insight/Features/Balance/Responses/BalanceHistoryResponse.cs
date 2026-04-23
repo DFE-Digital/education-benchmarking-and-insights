@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 
 // ReSharper disable UnusedAutoPropertyAccessor.Global
@@ -13,3 +13,4 @@ public record BalanceHistoryResponse
     public int? EndYear { get; set; }
     public IEnumerable<BalanceHistoryRowResponse> Rows { get; set; } = [];
 }
+

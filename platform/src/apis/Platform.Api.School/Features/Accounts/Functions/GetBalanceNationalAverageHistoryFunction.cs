@@ -6,12 +6,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Attributes;
-using Microsoft.OpenApi.Models;
 using Platform.Api.School.Features.Accounts.Handlers;
 using Platform.Api.School.Features.Accounts.Models;
 using Platform.Functions;
-using Platform.Functions.OpenApi;
-using Platform.Functions.OpenApi.Attributes;
+using Platform.OpenApi;
+using Platform.OpenApi.Attributes;
 
 namespace Platform.Api.School.Features.Accounts.Functions;
 

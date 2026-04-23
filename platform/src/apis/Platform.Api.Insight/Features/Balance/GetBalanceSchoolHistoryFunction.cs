@@ -1,4 +1,4 @@
-﻿using System.Net;
+using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Azure.Functions.Worker;
@@ -10,8 +10,8 @@ using Platform.Api.Insight.Features.Balance.Responses;
 using Platform.Api.Insight.Features.Balance.Services;
 using Platform.Functions;
 using Platform.Functions.Extensions;
-using Platform.Functions.OpenApi;
-using Platform.Functions.OpenApi.Examples;
+using Platform.OpenApi;
+using Platform.Api.Insight.OpenApi;
 
 namespace Platform.Api.Insight.Features.Balance;
 
@@ -22,7 +22,7 @@ public class GetBalanceSchoolHistoryFunction(IBalanceService service)
     [OpenApiSecurityHeader]
     [OpenApiOperation(nameof(GetBalanceSchoolHistoryFunction), Constants.Features.Balance, Deprecated = true)]
     [OpenApiParameter("urn", Type = typeof(string), Required = true)]
-    [OpenApiParameter("dimension", In = ParameterLocation.Query, Description = "Dimension for response values", Type = typeof(string), Example = typeof(ExampleDimensionFinance))]
+    [OpenApiParameter("dimension", In = ParameterLocation.Query, Description = "Dimension for response values", Type = typeof(string), Example = typeof(OpenApiExamples.DimensionFinance))]
     [OpenApiResponseWithBody(HttpStatusCode.OK, ContentType.ApplicationJson, typeof(BalanceHistoryResponse))]
     [OpenApiResponseWithoutBody(HttpStatusCode.NotFound)]
     public async Task<HttpResponseData> RunAsync(
@@ -38,3 +38,5 @@ public class GetBalanceSchoolHistoryFunction(IBalanceService service)
             : await req.CreateJsonResponseAsync(years.MapToApiResponse(rows), cancellationToken);
     }
 }
+
+

@@ -1,4 +1,4 @@
-﻿using System.Diagnostics.CodeAnalysis;
+using System.Diagnostics.CodeAnalysis;
 
 // ReSharper disable UnusedAutoPropertyAccessor.Global
 // ReSharper disable InconsistentNaming
@@ -10,3 +10,4 @@ public record BalanceHistoryRowResponse : BalanceResponse
 {
     public int? Year { get; set; }
 }
+

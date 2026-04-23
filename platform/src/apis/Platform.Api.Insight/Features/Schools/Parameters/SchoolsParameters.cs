@@ -1,4 +1,4 @@
-﻿using System.Collections.Specialized;
+using System.Collections.Specialized;
 using Platform.Functions;
 using Platform.Functions.Extensions;
 
@@ -13,3 +13,4 @@ public record SchoolsParameters : QueryParameters
         Schools = query.ToStringArray("urns");
     }
 }
+

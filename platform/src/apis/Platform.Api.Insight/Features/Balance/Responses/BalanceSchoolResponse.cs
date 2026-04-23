@@ -1,4 +1,4 @@
-﻿using System.Diagnostics.CodeAnalysis;
+using System.Diagnostics.CodeAnalysis;
 
 // ReSharper disable UnusedAutoPropertyAccessor.Global
 // ReSharper disable InconsistentNaming
@@ -14,3 +14,4 @@ public record BalanceSchoolResponse : BalanceResponse
     public string? LAName { get; set; }
     public int? PeriodCoveredByReturn { get; set; }
 }
+

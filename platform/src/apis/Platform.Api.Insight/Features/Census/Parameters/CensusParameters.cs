@@ -1,4 +1,4 @@
-﻿using System.Collections.Specialized;
+using System.Collections.Specialized;
 using Platform.Domain;
 using Platform.Functions;
 
@@ -15,3 +15,4 @@ public record CensusParameters : QueryParameters
         Category = query["category"];
     }
 }
+

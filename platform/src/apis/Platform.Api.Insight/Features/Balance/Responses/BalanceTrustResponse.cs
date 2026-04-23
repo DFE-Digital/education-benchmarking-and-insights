@@ -1,4 +1,4 @@
-﻿using System.Diagnostics.CodeAnalysis;
+using System.Diagnostics.CodeAnalysis;
 
 // ReSharper disable UnusedAutoPropertyAccessor.Global
 // ReSharper disable InconsistentNaming
@@ -13,3 +13,4 @@ public record BalanceTrustResponse : BalanceResponse
     public decimal? SchoolInYearBalance { get; set; }
     public decimal? CentralInYearBalance { get; set; }
 }
+

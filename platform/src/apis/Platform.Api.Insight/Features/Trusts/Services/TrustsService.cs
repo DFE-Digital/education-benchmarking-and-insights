@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Threading;
 using System.Threading.Tasks;
@@ -25,3 +25,4 @@ public class TrustsService(IDatabaseFactory dbFactory) : ITrustsService
         return await conn.QueryAsync<TrustCharacteristic>(builder, cancellationToken);
     }
 }
+

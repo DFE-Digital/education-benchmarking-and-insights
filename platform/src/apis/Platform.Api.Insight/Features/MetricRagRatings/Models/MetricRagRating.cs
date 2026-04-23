@@ -1,4 +1,4 @@
-﻿using System.Diagnostics.CodeAnalysis;
+using System.Diagnostics.CodeAnalysis;
 
 // ReSharper disable UnusedMember.Global
 // ReSharper disable InconsistentNaming
@@ -18,3 +18,4 @@ public record MetricRagRating
     public decimal? Decile { get; set; }
     public string? RAG { get; set; }
 }
+

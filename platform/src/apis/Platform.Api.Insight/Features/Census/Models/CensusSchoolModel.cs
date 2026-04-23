@@ -1,4 +1,4 @@
-﻿using System.Diagnostics.CodeAnalysis;
+using System.Diagnostics.CodeAnalysis;
 
 // ReSharper disable InconsistentNaming
 // ReSharper disable ClassNeverInstantiated.Global
@@ -14,3 +14,4 @@ public record CensusSchoolModel : CensusModel
     public string? SchoolType { get; set; }
     public string? LAName { get; set; }
 }
+

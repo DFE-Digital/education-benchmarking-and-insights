@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Threading;
@@ -68,3 +68,4 @@ public class ItSpendService(IDatabaseFactory dbFactory) : IItSpendService
         return await conn.QueryAsync<ItSpendTrustForecastResponse>(builder, cancellationToken);
     }
 }
+

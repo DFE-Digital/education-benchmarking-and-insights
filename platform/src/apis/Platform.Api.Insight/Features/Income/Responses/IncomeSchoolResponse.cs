@@ -1,4 +1,4 @@
-﻿using System.Diagnostics.CodeAnalysis;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Platform.Api.Insight.Features.Income.Responses;
 
@@ -11,3 +11,4 @@ public record IncomeSchoolResponse : IncomeResponse
     public string? LAName { get; set; }
     public int? PeriodCoveredByReturn { get; set; }
 }
+

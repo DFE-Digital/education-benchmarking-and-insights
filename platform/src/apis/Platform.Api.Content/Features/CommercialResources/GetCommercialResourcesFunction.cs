@@ -10,7 +10,7 @@ using Microsoft.OpenApi.Models;
 using Platform.Api.Content.Features.CommercialResources.Handlers;
 using Platform.Api.Content.Features.CommercialResources.Models;
 using Platform.Functions;
-using Platform.Functions.OpenApi;
+using Platform.OpenApi;
 
 namespace Platform.Api.Content.Features.CommercialResources;
 
@@ -19,7 +19,7 @@ public class GetCommercialResourcesFunction(IEnumerable<IGetCommercialResourcesH
     [Function(nameof(GetCommercialResourcesFunction))]
     [OpenApiSecurityHeader]
     [OpenApiOperation(nameof(GetCommercialResourcesFunction), Constants.Features.CommercialResources)]
-    [OpenApiParameter(Functions.Constants.ApiVersion, Type = typeof(string), In = ParameterLocation.Header)]
+    [OpenApiParameter(Platform.Domain.Constants.ApiVersion, Type = typeof(string), In = ParameterLocation.Header)]
     [OpenApiResponseWithBody(HttpStatusCode.OK, ContentType.ApplicationJson, typeof(CommercialResource[]))]
     [OpenApiResponseWithBody(HttpStatusCode.BadRequest, ContentType.ApplicationJsonProblem, typeof(ProblemDetails))]
     public async Task<HttpResponseData> RunAsync(

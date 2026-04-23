@@ -13,3 +13,4 @@ public record ItSpendTrustsParameters : QueryParameters
         CompanyNumbers = query.ToStringArray("companyNumbers");
     }
 }
+

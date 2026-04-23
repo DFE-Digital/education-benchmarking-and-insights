@@ -1,4 +1,4 @@
-﻿using System.Collections.Specialized;
+using System.Collections.Specialized;
 
 namespace Platform.Api.Insight.Features.Census.Parameters;
 
@@ -15,3 +15,4 @@ public record CensusNationalAvgParameters : CensusParameters
         OverallPhase = query["phase"] ?? string.Empty;
     }
 }
+

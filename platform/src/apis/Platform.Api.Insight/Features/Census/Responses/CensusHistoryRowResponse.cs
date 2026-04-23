@@ -1,4 +1,4 @@
-﻿using System.Diagnostics.CodeAnalysis;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Platform.Api.Insight.Features.Census.Responses;
 
@@ -7,3 +7,4 @@ public record CensusHistoryRowResponse : CensusResponse
 {
     public int? Year { get; set; }
 }
+

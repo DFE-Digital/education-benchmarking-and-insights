@@ -1,4 +1,4 @@
-﻿using System.Collections.Specialized;
+using System.Collections.Specialized;
 
 namespace Platform.Api.Insight.Features.Expenditure.Parameters;
 
@@ -15,3 +15,4 @@ public record ExpenditureQueryTrustParameters : ExpenditureParameters
         ExcludeCentralServices = bool.TryParse(query["excludeCentralServices"], out var result) && result;
     }
 }
+

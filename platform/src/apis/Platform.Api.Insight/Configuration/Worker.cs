@@ -1,4 +1,4 @@
-﻿using System.Diagnostics.CodeAnalysis;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Extensions.Hosting;
@@ -22,3 +22,4 @@ internal static class Worker
 
     internal static void Options(WorkerOptions options) { }
 }
+

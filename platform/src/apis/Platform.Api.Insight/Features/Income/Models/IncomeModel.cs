@@ -1,4 +1,4 @@
-﻿using System.Diagnostics.CodeAnalysis;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Platform.Api.Insight.Features.Income.Models;
 
@@ -23,3 +23,4 @@ public abstract record IncomeModel
     public decimal? InvestmentIncome { get; set; }
     public decimal? OtherSelfGeneratedIncome { get; set; }
 }
+

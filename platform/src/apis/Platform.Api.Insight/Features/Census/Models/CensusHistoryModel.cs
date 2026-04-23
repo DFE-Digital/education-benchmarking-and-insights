@@ -1,4 +1,4 @@
-﻿using System.Diagnostics.CodeAnalysis;
+using System.Diagnostics.CodeAnalysis;
 
 // ReSharper disable ClassNeverInstantiated.Global
 // ReSharper disable UnusedAutoPropertyAccessor.Global
@@ -10,3 +10,4 @@ public record CensusHistoryModel : CensusModel
 {
     public int? RunId { get; set; }
 }
+

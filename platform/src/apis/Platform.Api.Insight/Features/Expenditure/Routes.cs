@@ -1,4 +1,4 @@
-﻿namespace Platform.Api.Insight.Features.Expenditure;
+namespace Platform.Api.Insight.Features.Expenditure;
 
 public static class Routes
 {
@@ -12,3 +12,4 @@ public static class Routes
     public const string TrustHistory = "expenditure/trust/{companyNumber}/history";
     public const string Trusts = "expenditure/trusts";
 }
+

@@ -1,4 +1,4 @@
-﻿using System.Collections.Specialized;
+using System.Collections.Specialized;
 using Platform.Functions;
 
 namespace Platform.Api.Insight.Features.Trusts.Parameters;
@@ -12,3 +12,4 @@ public record TrustsParameters : QueryParameters
         Trusts = query["companyNumbers"]?.Split(',') ?? [];
     }
 }
+

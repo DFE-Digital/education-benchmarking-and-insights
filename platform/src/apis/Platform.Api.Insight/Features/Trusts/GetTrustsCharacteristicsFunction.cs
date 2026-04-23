@@ -1,4 +1,4 @@
-﻿using System.Net;
+using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Azure.Functions.Worker;
@@ -10,7 +10,7 @@ using Platform.Api.Insight.Features.Trusts.Parameters;
 using Platform.Api.Insight.Features.Trusts.Services;
 using Platform.Functions;
 using Platform.Functions.Extensions;
-using Platform.Functions.OpenApi;
+using Platform.OpenApi;
 
 namespace Platform.Api.Insight.Features.Trusts;
 
@@ -33,3 +33,5 @@ public class GetTrustsCharacteristicsFunction(ITrustsService service)
         return await req.CreateJsonResponseAsync(trusts, cancellationToken);
     }
 }
+
+

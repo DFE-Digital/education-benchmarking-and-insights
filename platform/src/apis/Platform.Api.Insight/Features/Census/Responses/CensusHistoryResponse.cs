@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 
 namespace Platform.Api.Insight.Features.Census.Responses;
@@ -10,3 +10,4 @@ public record CensusHistoryResponse
     public int? EndYear { get; set; }
     public IEnumerable<CensusHistoryRowResponse> Rows { get; set; } = [];
 }
+

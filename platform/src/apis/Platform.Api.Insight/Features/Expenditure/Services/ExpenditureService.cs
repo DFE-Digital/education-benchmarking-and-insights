@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Threading;
@@ -171,3 +171,4 @@ public class ExpenditureService(IDatabaseFactory dbFactory, ICacheKeyFactory cac
         return await conn.QueryAsync<ExpenditureHistoryModel>(historyBuilder, cancellationToken);
     }
 }
+

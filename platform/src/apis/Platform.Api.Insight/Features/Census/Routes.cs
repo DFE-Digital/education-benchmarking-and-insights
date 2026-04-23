@@ -1,4 +1,4 @@
-﻿namespace Platform.Api.Insight.Features.Census;
+namespace Platform.Api.Insight.Features.Census;
 
 public static class Routes
 {
@@ -9,3 +9,4 @@ public static class Routes
     public const string SchoolHistoryNationalAverage = "census/history/national-average";
     public const string SchoolsQuery = "census";
 }
+

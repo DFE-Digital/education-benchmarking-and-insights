@@ -1,4 +1,4 @@
-﻿using System.Collections.Specialized;
+using System.Collections.Specialized;
 using Platform.Domain;
 using Platform.Functions;
 
@@ -13,3 +13,4 @@ public record BalanceParameters : QueryParameters
         Dimension = query["dimension"] ?? Dimensions.Finance.Actuals;
     }
 }
+

@@ -13,3 +13,4 @@ public record MetricRagRatingSummary
     public int AmberCount { get; set; }
     public int GreenCount { get; set; }
 }
+

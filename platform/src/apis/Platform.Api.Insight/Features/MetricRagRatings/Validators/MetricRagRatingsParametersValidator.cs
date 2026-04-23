@@ -1,4 +1,4 @@
-﻿using System.Linq;
+using System.Linq;
 using FluentValidation;
 using Platform.Api.Insight.Features.MetricRagRatings.Parameters;
 using Platform.Domain;
@@ -26,3 +26,4 @@ public class MetricRagRatingsParametersValidator : AbstractValidator<MetricRagRa
     private static bool ContainValidCategories(string[] categories) => categories.All(CostCategories.IsValid);
     private static bool ContainValidStatuses(string[] statuses) => statuses.All(RagRating.IsValid);
 }
+

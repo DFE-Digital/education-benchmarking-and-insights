@@ -1,4 +1,4 @@
-﻿using System.Diagnostics.CodeAnalysis;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Platform.Api.Insight.Features.Expenditure.Responses;
 
@@ -13,3 +13,4 @@ public record ExpenditureSchoolResponse : ExpenditureResponse
     public decimal? TotalPupils { get; set; }
     public decimal? TotalInternalFloorArea { get; set; }
 }
+

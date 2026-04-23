@@ -1,4 +1,4 @@
-﻿using System.Diagnostics.CodeAnalysis;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Platform.Api.Insight.Features.ItSpend.Responses;
 
@@ -13,3 +13,4 @@ public abstract record ItSpendResponse
     public decimal? OtherHardware { get; set; }
     public decimal? ItSupport { get; set; }
 }
+

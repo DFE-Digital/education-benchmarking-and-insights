@@ -1,4 +1,4 @@
-﻿using System.Collections.Specialized;
+using System.Collections.Specialized;
 using Platform.Functions;
 using Platform.Functions.Extensions;
 
@@ -19,3 +19,4 @@ public record MetricRagRatingsParameters : QueryParameters
         CompanyNumber = query["companyNumber"];
     }
 }
+

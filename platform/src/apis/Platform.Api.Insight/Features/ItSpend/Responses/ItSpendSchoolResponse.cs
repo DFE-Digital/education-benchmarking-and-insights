@@ -1,4 +1,4 @@
-﻿using System.Diagnostics.CodeAnalysis;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Platform.Api.Insight.Features.ItSpend.Responses;
 
@@ -12,3 +12,4 @@ public record ItSpendSchoolResponse : ItSpendResponse
     public int? PeriodCoveredByReturn { get; set; }
     public decimal? TotalPupils { get; set; }
 }
+

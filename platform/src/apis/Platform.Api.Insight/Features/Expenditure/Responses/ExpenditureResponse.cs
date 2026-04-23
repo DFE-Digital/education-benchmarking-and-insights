@@ -1,4 +1,4 @@
-﻿using System.Diagnostics.CodeAnalysis;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Platform.Api.Insight.Features.Expenditure.Responses;
 
@@ -48,3 +48,4 @@ public abstract record ExpenditureResponse
     public decimal? CommunityFocusedSchoolStaff { get; set; }
     public decimal? CommunityFocusedSchoolCosts { get; set; }
 }
+

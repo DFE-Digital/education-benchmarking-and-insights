@@ -1,4 +1,4 @@
-﻿using System.Diagnostics.CodeAnalysis;
+using System.Diagnostics.CodeAnalysis;
 
 // ReSharper disable PropertyCanBeMadeInitOnly.Global
 // ReSharper disable ClassNeverInstantiated.Global
@@ -14,3 +14,4 @@ public record BalanceTrustModel : BalanceModel
     public decimal? InYearBalanceSchool { get; set; }
     public decimal? InYearBalanceCS { get; set; }
 }
+

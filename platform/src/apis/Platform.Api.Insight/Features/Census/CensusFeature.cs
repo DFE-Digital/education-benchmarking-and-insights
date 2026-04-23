@@ -1,4 +1,4 @@
-﻿using System.Diagnostics.CodeAnalysis;
+using System.Diagnostics.CodeAnalysis;
 using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
 using Platform.Api.Insight.Features.Census.Parameters;
@@ -21,3 +21,4 @@ public static class CensusFeature
         return serviceCollection;
     }
 }
+

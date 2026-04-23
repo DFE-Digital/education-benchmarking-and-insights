@@ -1,4 +1,4 @@
-﻿namespace Platform.Api.Insight.Features.Balance;
+namespace Platform.Api.Insight.Features.Balance;
 
 public static class Routes
 {
@@ -8,3 +8,4 @@ public static class Routes
     public const string SchoolHistory = "balance/school/{urn}/history";
     public const string School = "balance/school/{urn}";
 }
+

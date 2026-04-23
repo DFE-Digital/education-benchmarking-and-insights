@@ -1,4 +1,4 @@
-﻿using System.Net;
+using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Azure.Functions.Worker;
@@ -7,7 +7,7 @@ using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Attributes;
 using Platform.Api.Insight.Features.Schools.Models;
 using Platform.Api.Insight.Features.Schools.Services;
 using Platform.Functions.Extensions;
-using Platform.Functions.OpenApi;
+using Platform.OpenApi;
 
 namespace Platform.Api.Insight.Features.Schools;
 
@@ -30,3 +30,5 @@ public class GetSchoolCharacteristicsFunction(ISchoolsService service)
             : await req.CreateJsonResponseAsync(result, cancellationToken);
     }
 }
+
+

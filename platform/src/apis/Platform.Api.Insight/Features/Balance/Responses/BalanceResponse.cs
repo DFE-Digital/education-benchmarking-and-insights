@@ -1,4 +1,4 @@
-﻿using System.Diagnostics.CodeAnalysis;
+using System.Diagnostics.CodeAnalysis;
 
 // ReSharper disable UnusedAutoPropertyAccessor.Global
 // ReSharper disable InconsistentNaming
@@ -11,3 +11,4 @@ public abstract record BalanceResponse
     public decimal? InYearBalance { get; set; }
     public decimal? RevenueReserve { get; set; }
 }
+

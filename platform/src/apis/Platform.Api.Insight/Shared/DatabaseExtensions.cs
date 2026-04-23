@@ -1,4 +1,4 @@
-﻿using System.Diagnostics.CodeAnalysis;
+using System.Diagnostics.CodeAnalysis;
 using System.Threading;
 using System.Threading.Tasks;
 using Platform.Sql;
@@ -37,3 +37,4 @@ public static class DatabaseExtensions
         return await conn.QueryFirstOrDefaultAsync<YearsModel>(builder, cancellationToken);
     }
 }
+
