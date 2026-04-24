@@ -1,4 +1,4 @@
-﻿namespace Platform.Api.Insight.Features.Census;
+namespace Platform.Api.Insight.Features.Census;
 
 public static class Routes
 {

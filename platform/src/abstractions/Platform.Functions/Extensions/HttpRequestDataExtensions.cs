@@ -4,6 +4,7 @@ using System.Text;
 using FluentValidation.Results;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.Functions.Worker.Http;
+using Platform.Domain;
 
 namespace Platform.Functions.Extensions;
 

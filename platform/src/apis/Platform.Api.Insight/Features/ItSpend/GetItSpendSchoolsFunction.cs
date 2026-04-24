@@ -1,4 +1,4 @@
-﻿using System.Net;
+using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using FluentValidation;
@@ -11,8 +11,8 @@ using Platform.Api.Insight.Features.ItSpend.Responses;
 using Platform.Api.Insight.Features.ItSpend.Services;
 using Platform.Functions;
 using Platform.Functions.Extensions;
-using Platform.Functions.OpenApi;
-using Platform.Functions.OpenApi.Examples;
+using Platform.OpenApi;
+using Platform.Api.Insight.OpenApi;
 
 namespace Platform.Api.Insight.Features.ItSpend;
 
@@ -22,7 +22,7 @@ public class GetItSpendSchoolsFunction(IItSpendService service, IValidator<ItSpe
     [OpenApiSecurityHeader]
     [OpenApiOperation(nameof(GetItSpendSchoolsFunction), Constants.Features.ItSpend, Deprecated = true)]
     [OpenApiParameter("urns", In = ParameterLocation.Query, Description = "List of school URNs", Type = typeof(string[]), Required = false)]
-    [OpenApiParameter("dimension", In = ParameterLocation.Query, Description = "Dimension for response values", Type = typeof(string), Example = typeof(ExampleDimensionFinance))]
+    [OpenApiParameter("dimension", In = ParameterLocation.Query, Description = "Dimension for response values", Type = typeof(string), Example = typeof(OpenApiExamples.DimensionFinance))]
     [OpenApiResponseWithBody(HttpStatusCode.OK, ContentType.ApplicationJson, typeof(ItSpendSchoolResponse[]))]
     [OpenApiResponseWithBody(HttpStatusCode.BadRequest, ContentType.ApplicationJson, typeof(ValidationError[]))]
     public async Task<HttpResponseData> RunAsync(

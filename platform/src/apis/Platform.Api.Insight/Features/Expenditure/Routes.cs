@@ -1,4 +1,4 @@
-﻿namespace Platform.Api.Insight.Features.Expenditure;
+namespace Platform.Api.Insight.Features.Expenditure;
 
 public static class Routes
 {

@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
@@ -9,8 +9,8 @@ using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Attributes;
 using Platform.Api.LocalAuthority.Features.Details.Handlers;
 using Platform.Api.LocalAuthority.Features.Details.Models;
 using Platform.Functions;
-using Platform.Functions.OpenApi;
-using Platform.Functions.OpenApi.Attributes;
+using Platform.OpenApi;
+using Platform.OpenApi.Attributes;
 
 namespace Platform.Api.LocalAuthority.Features.Details.Functions;
 

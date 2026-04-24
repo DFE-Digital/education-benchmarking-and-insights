@@ -1,4 +1,4 @@
-﻿using System.Net;
+using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Azure.Functions.Worker;
@@ -9,7 +9,7 @@ using Platform.Api.Insight.Features.MetricRagRatings.Models;
 using Platform.Api.Insight.Features.MetricRagRatings.Parameters;
 using Platform.Api.Insight.Features.MetricRagRatings.Services;
 using Platform.Functions.Extensions;
-using Platform.Functions.OpenApi;
+using Platform.OpenApi;
 
 namespace Platform.Api.Insight.Features.MetricRagRatings;
 

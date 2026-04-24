@@ -10,7 +10,8 @@ using Microsoft.OpenApi.Models;
 using Platform.Api.Benchmark.Features.FinancialPlans.Models;
 using Platform.Api.Benchmark.Features.FinancialPlans.Services;
 using Platform.Functions.Extensions;
-using Platform.Functions.OpenApi;
+using Platform.OpenApi;
+using Platform.OpenApi.Attributes;
 
 namespace Platform.Api.Benchmark.Features.FinancialPlans;
 
@@ -18,7 +19,7 @@ public class GetFinancialPlansFunction(IFinancialPlansService service)
 {
     [Function(nameof(GetFinancialPlansFunction))]
     [OpenApiOperation(nameof(GetFinancialPlansFunction), Constants.Features.FinancialPlans)]
-    [OpenApiParameter("urns", In = ParameterLocation.Query, Description = "List of school URNs to include", Type = typeof(string[]), Required = true)]
+    [OpenApiUrnsParameter]
     [OpenApiSecurityHeader]
     [OpenApiResponseWithBody(HttpStatusCode.OK, "application/json", typeof(IEnumerable<FinancialPlanSummary>))]
     [OpenApiResponseWithoutBody(HttpStatusCode.InternalServerError)]

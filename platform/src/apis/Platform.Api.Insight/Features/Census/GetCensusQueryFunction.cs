@@ -1,4 +1,4 @@
-﻿using System.Net;
+using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using FluentValidation;
@@ -11,8 +11,10 @@ using Platform.Api.Insight.Features.Census.Responses;
 using Platform.Api.Insight.Features.Census.Services;
 using Platform.Functions;
 using Platform.Functions.Extensions;
-using Platform.Functions.OpenApi;
-using Platform.Functions.OpenApi.Examples;
+using Platform.OpenApi;
+
+
+using Platform.Api.Insight.OpenApi;
 
 namespace Platform.Api.Insight.Features.Census;
 
@@ -23,11 +25,11 @@ public class GetCensusQueryFunction(ICensusService service, IValidator<CensusQue
     [OpenApiSecurityHeader]
     [OpenApiOperation(nameof(GetCensusQueryFunction), Constants.Features.Census, Deprecated = true)]
     [OpenApiParameter("urns", In = ParameterLocation.Query, Description = "List of school URNs", Type = typeof(string[]), Required = false)]
-    [OpenApiParameter("phase", In = ParameterLocation.Query, Description = "School overall phase", Type = typeof(string), Example = typeof(ExampleOverallPhase))]
+    [OpenApiParameter("phase", In = ParameterLocation.Query, Description = "School overall phase", Type = typeof(string), Example = typeof(OpenApiExamples.OverallPhase))]
     [OpenApiParameter("companyNumber", In = ParameterLocation.Query, Description = "Eight digit trust company number", Type = typeof(string))]
     [OpenApiParameter("laCode", In = ParameterLocation.Query, Description = "Local authority three digit code", Type = typeof(string))]
-    [OpenApiParameter("category", In = ParameterLocation.Query, Description = "Census category", Type = typeof(string), Required = true, Example = typeof(ExampleCategoryCensus))]
-    [OpenApiParameter("dimension", In = ParameterLocation.Query, Description = "Value dimension", Type = typeof(string), Required = true, Example = typeof(ExampleDimensionCensus))]
+    [OpenApiParameter("category", In = ParameterLocation.Query, Description = "Census category", Type = typeof(string), Required = true, Example = typeof(OpenApiExamples.CategoryCensus))]
+    [OpenApiParameter("dimension", In = ParameterLocation.Query, Description = "Value dimension", Type = typeof(string), Required = true, Example = typeof(OpenApiExamples.DimensionCensus))]
     [OpenApiResponseWithBody(HttpStatusCode.OK, ContentType.ApplicationJson, typeof(CensusResponse[]))]
     [OpenApiResponseWithBody(HttpStatusCode.BadRequest, ContentType.ApplicationJson, typeof(ValidationError[]))]
     public async Task<HttpResponseData> RunAsync(

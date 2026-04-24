@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
@@ -12,7 +12,8 @@ using Platform.Api.Benchmark.Shared;
 using Platform.Domain;
 using Platform.Domain.Messages;
 using Platform.Functions.Extensions;
-using Platform.Functions.OpenApi;
+using Platform.OpenApi;
+using Platform.OpenApi.Attributes;
 using Platform.Json;
 
 namespace Platform.Api.Benchmark.Features.CustomData;
@@ -21,7 +22,7 @@ public class PostSchoolCustomDataFunction(ICustomDataService service)
 {
     [Function(nameof(PostSchoolCustomDataFunction))]
     [OpenApiOperation(nameof(PostSchoolCustomDataFunction), Constants.Features.CustomData)]
-    [OpenApiParameter("urn", Type = typeof(string), Required = true)]
+    [OpenApiUrnParameter]
     [OpenApiSecurityHeader]
     [OpenApiRequestBody("application/json", typeof(CustomDataRequest), Description = "The user defined set of schools object")]
     [OpenApiResponseWithoutBody(HttpStatusCode.Accepted)]

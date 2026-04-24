@@ -1,4 +1,4 @@
-﻿using System.Diagnostics.CodeAnalysis;
+using System.Diagnostics.CodeAnalysis;
 using FluentValidation;
 using Platform.Api.Insight.Features.ItSpend.Parameters;
 using Platform.Domain;

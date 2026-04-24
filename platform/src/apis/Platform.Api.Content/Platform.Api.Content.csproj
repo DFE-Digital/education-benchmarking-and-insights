@@ -26,6 +26,8 @@
         <PackageReference Include="Microsoft.Azure.Functions.Worker.Extensions.Http"/>
         <PackageReference Include="Microsoft.Azure.Functions.Worker.Sdk"/>
         <ProjectReference Include="..\..\abstractions\Platform.Functions\Platform.Functions.csproj"/>
+        <ProjectReference Include="..\..\abstractions\Platform.OpenApi\Platform.OpenApi.csproj" />
+        <ProjectReference Include="..\..\abstractions\Platform.Generators\Platform.Generators.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
         <ProjectReference Include="..\..\abstractions\Platform.Infrastructure\Platform.Infrastructure.csproj"/>
         <ProjectReference Include="..\..\abstractions\Platform.Json\Platform.Json.csproj"/>
         <ProjectReference Include="..\..\abstractions\Platform.Sql\Platform.Sql.csproj"/>

@@ -1,4 +1,4 @@
-﻿using System.Linq;
+using System.Linq;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
@@ -9,7 +9,7 @@ using Platform.Api.Insight.Features.BudgetForecast.Responses;
 using Platform.Api.Insight.Features.BudgetForecast.Services;
 using Platform.Domain;
 using Platform.Functions.Extensions;
-using Platform.Functions.OpenApi;
+using Platform.OpenApi;
 
 namespace Platform.Api.Insight.Features.BudgetForecast;
 

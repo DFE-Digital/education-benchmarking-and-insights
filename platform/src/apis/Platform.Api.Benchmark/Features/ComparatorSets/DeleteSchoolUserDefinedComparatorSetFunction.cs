@@ -6,7 +6,8 @@ using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Attributes;
 using Platform.Api.Benchmark.Features.ComparatorSets.Services;
 using Platform.Functions.Extensions;
-using Platform.Functions.OpenApi;
+using Platform.OpenApi;
+using Platform.OpenApi.Attributes;
 
 namespace Platform.Api.Benchmark.Features.ComparatorSets;
 
@@ -14,8 +15,8 @@ public class DeleteSchoolUserDefinedComparatorSetFunction(IComparatorSetsService
 {
     [Function(nameof(DeleteSchoolUserDefinedComparatorSetFunction))]
     [OpenApiOperation(nameof(DeleteSchoolUserDefinedComparatorSetFunction), Constants.Features.ComparatorSets)]
-    [OpenApiParameter("urn", Type = typeof(string), Required = true)]
-    [OpenApiParameter("identifier", Type = typeof(string), Required = true)]
+    [OpenApiUrnParameter]
+    [OpenApiIdentifierParameter]
     [OpenApiSecurityHeader]
     [OpenApiResponseWithoutBody(HttpStatusCode.OK)]
     [OpenApiResponseWithoutBody(HttpStatusCode.NotFound)]

@@ -1,4 +1,4 @@
-﻿using System.Diagnostics.CodeAnalysis;
+using System.Diagnostics.CodeAnalysis;
 
 // ReSharper disable UnusedMember.Global
 // ReSharper disable InconsistentNaming

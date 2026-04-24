@@ -1,4 +1,4 @@
-﻿namespace Platform.Api.Insight.Features.BudgetForecast;
+namespace Platform.Api.Insight.Features.BudgetForecast;
 
 public static class Routes
 {

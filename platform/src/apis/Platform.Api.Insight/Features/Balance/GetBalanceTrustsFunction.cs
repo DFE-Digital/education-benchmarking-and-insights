@@ -1,4 +1,4 @@
-﻿using System.Net;
+using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Azure.Functions.Worker;
@@ -10,8 +10,8 @@ using Platform.Api.Insight.Features.Balance.Responses;
 using Platform.Api.Insight.Features.Balance.Services;
 using Platform.Functions;
 using Platform.Functions.Extensions;
-using Platform.Functions.OpenApi;
-using Platform.Functions.OpenApi.Examples;
+using Platform.OpenApi;
+using Platform.Api.Insight.OpenApi;
 
 namespace Platform.Api.Insight.Features.Balance;
 
@@ -23,7 +23,7 @@ public class GetBalanceTrustsFunction(IBalanceService service)
     [OpenApiSecurityHeader]
     [OpenApiOperation(nameof(GetBalanceTrustsFunction), Constants.Features.Balance, Deprecated = true)]
     [OpenApiParameter("companyNumbers", In = ParameterLocation.Query, Description = "List of trust company numbers", Type = typeof(string[]), Required = true)]
-    [OpenApiParameter("dimension", In = ParameterLocation.Query, Description = "Value dimension", Type = typeof(string), Required = true, Example = typeof(ExampleDimensionFinance))]
+    [OpenApiParameter("dimension", In = ParameterLocation.Query, Description = "Value dimension", Type = typeof(string), Required = true, Example = typeof(OpenApiExamples.DimensionFinance))]
     [OpenApiResponseWithBody(HttpStatusCode.OK, ContentType.ApplicationJson, typeof(BalanceTrustResponse[]))]
     public async Task<HttpResponseData> RunAsync(
         [HttpTrigger(AuthorizationLevel.Admin, MethodType.Get, Route = Routes.Trusts)] HttpRequestData req,

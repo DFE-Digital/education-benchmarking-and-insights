@@ -1,4 +1,4 @@
-﻿using System.Linq;
+using System.Linq;
 using FluentValidation;
 using Platform.Api.Insight.Features.MetricRagRatings.Parameters;
 using Platform.Domain;

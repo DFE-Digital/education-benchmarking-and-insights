@@ -1,74 +1,13 @@
-﻿using System.Diagnostics.CodeAnalysis;
-using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Abstractions;
-using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Resolvers;
-using Newtonsoft.Json.Serialization;
 using Platform.Domain;
+using Platform.OpenApi.Attributes;
 
 namespace Platform.Api.School.Features.Census;
 
-[ExcludeFromCodeCoverage]
-public static class OpenApiExamples
+[GenerateOpenApiExample(Name = "Dimension", SourceType = typeof(Dimensions.Census), SourceProperty = "All")]
+[GenerateOpenApiExample(Name = "Category", SourceType = typeof(Categories.Census), SourceProperty = "All")]
+[GenerateOpenApiExample(Name = "Phase", SourceType = typeof(OverallPhase), SourceProperty = "All")]
+[GenerateOpenApiExample(Name = "FinanceTypes", SourceType = typeof(FinanceType), SourceProperty = "All")]
+[GenerateOpenApiPropertiesExample(Name = "SeniorLeadershipDimension", SourceType = typeof(Dimensions.Census), Properties = new[] { "Total", "PercentWorkforce" })]
+public static partial class OpenApiExamples
 {
-    public class Dimension : OpenApiExample<string>
-    {
-        public override IOpenApiExample<string> Build(NamingStrategy namingStrategy = null!)
-        {
-            foreach (var dimension in Dimensions.Census.All)
-            {
-                Examples.Add(OpenApiExampleResolver.Resolve(dimension, dimension, namingStrategy));
-            }
-
-            return this;
-        }
-    }
-
-    public class Category : OpenApiExample<string>
-    {
-        public override IOpenApiExample<string> Build(NamingStrategy namingStrategy = null!)
-        {
-            foreach (var dimension in Categories.Census.All)
-            {
-                Examples.Add(OpenApiExampleResolver.Resolve(dimension, dimension, namingStrategy));
-            }
-
-            return this;
-        }
-    }
-
-    public class Phase : OpenApiExample<string>
-    {
-        public override IOpenApiExample<string> Build(NamingStrategy namingStrategy = null!)
-        {
-            foreach (var phase in OverallPhase.All)
-            {
-                Examples.Add(OpenApiExampleResolver.Resolve(phase, phase, namingStrategy));
-            }
-
-            return this;
-        }
-    }
-
-    internal class FinanceTypes : OpenApiExample<string>
-    {
-        public override IOpenApiExample<string> Build(NamingStrategy namingStrategy = null!)
-        {
-            foreach (var type in FinanceType.All)
-            {
-                Examples.Add(OpenApiExampleResolver.Resolve(type, type, namingStrategy));
-            }
-
-            return this;
-        }
-    }
-
-    public class SeniorLeadershipDimension : OpenApiExample<string>
-    {
-        public override IOpenApiExample<string> Build(NamingStrategy namingStrategy = null!)
-        {
-            Examples.Add(OpenApiExampleResolver.Resolve(Dimensions.Census.Total, Dimensions.Census.Total, namingStrategy));
-            Examples.Add(OpenApiExampleResolver.Resolve(Dimensions.Census.PercentWorkforce, Dimensions.Census.PercentWorkforce, namingStrategy));
-
-            return this;
-        }
-    }
 }

@@ -1,4 +1,4 @@
-﻿namespace Platform.Api.Insight.Features.HealthCheck;
+namespace Platform.Api.Insight.Features.HealthCheck;
 
 public static class Routes
 {

@@ -1,4 +1,4 @@
-﻿using System.Net;
+using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using FluentValidation;
@@ -11,8 +11,10 @@ using Platform.Api.Insight.Features.Expenditure.Responses;
 using Platform.Api.Insight.Features.Expenditure.Services;
 using Platform.Functions;
 using Platform.Functions.Extensions;
-using Platform.Functions.OpenApi;
-using Platform.Functions.OpenApi.Examples;
+using Platform.OpenApi;
+
+
+using Platform.Api.Insight.OpenApi;
 
 namespace Platform.Api.Insight.Features.Expenditure;
 
@@ -22,8 +24,8 @@ public class GetExpenditureTrustFunction(IExpenditureService service, IValidator
     [OpenApiSecurityHeader]
     [OpenApiOperation(nameof(GetExpenditureTrustFunction), Constants.Features.Expenditure, Deprecated = true)]
     [OpenApiParameter("companyNumber", Type = typeof(string), Required = true)]
-    [OpenApiParameter("category", In = ParameterLocation.Query, Description = "Expenditure category", Type = typeof(string), Example = typeof(ExampleCategoryCost))]
-    [OpenApiParameter("dimension", In = ParameterLocation.Query, Description = "Dimension for response values", Type = typeof(string), Example = typeof(ExampleDimensionFinance))]
+    [OpenApiParameter("category", In = ParameterLocation.Query, Description = "Expenditure category", Type = typeof(string), Example = typeof(OpenApiExamples.CategoryCost))]
+    [OpenApiParameter("dimension", In = ParameterLocation.Query, Description = "Dimension for response values", Type = typeof(string), Example = typeof(OpenApiExamples.DimensionFinance))]
     [OpenApiResponseWithBody(HttpStatusCode.OK, ContentType.ApplicationJson, typeof(ExpenditureTrustResponse))]
     [OpenApiResponseWithBody(HttpStatusCode.BadRequest, ContentType.ApplicationJson, typeof(ValidationError[]))]
     [OpenApiResponseWithoutBody(HttpStatusCode.NotFound)]

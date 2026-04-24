@@ -1,4 +1,4 @@
-﻿namespace Platform.Api.Insight.Features.Balance;
+namespace Platform.Api.Insight.Features.Balance;
 
 public static class Routes
 {

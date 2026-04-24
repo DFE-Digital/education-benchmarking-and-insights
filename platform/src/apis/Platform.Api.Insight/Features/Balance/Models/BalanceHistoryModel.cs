@@ -1,4 +1,4 @@
-﻿using System.Diagnostics.CodeAnalysis;
+using System.Diagnostics.CodeAnalysis;
 
 // ReSharper disable PropertyCanBeMadeInitOnly.Global
 // ReSharper disable ClassNeverInstantiated.Global

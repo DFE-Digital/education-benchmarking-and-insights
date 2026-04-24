@@ -1,4 +1,4 @@
-﻿using System.Collections.Specialized;
+using System.Collections.Specialized;
 
 namespace Platform.Api.Insight.Features.Balance.Parameters;
 

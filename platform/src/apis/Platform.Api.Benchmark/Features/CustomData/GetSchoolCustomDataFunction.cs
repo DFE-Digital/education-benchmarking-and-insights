@@ -1,4 +1,4 @@
-﻿using System.Net;
+using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Azure.Functions.Worker;
@@ -7,7 +7,8 @@ using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Attributes;
 using Platform.Api.Benchmark.Features.CustomData.Models;
 using Platform.Api.Benchmark.Features.CustomData.Services;
 using Platform.Functions.Extensions;
-using Platform.Functions.OpenApi;
+using Platform.OpenApi;
+using Platform.OpenApi.Attributes;
 
 namespace Platform.Api.Benchmark.Features.CustomData;
 
@@ -15,8 +16,8 @@ public class GetSchoolCustomDataFunction(ICustomDataService service)
 {
     [Function(nameof(GetSchoolCustomDataFunction))]
     [OpenApiOperation(nameof(GetSchoolCustomDataFunction), Constants.Features.CustomData)]
-    [OpenApiParameter("urn", Type = typeof(string), Required = true)]
-    [OpenApiParameter("identifier", Type = typeof(string), Required = true)]
+    [OpenApiUrnParameter]
+    [OpenApiIdentifierParameter]
     [OpenApiSecurityHeader]
     [OpenApiResponseWithBody(HttpStatusCode.OK, "application/json", typeof(CustomDataSchool))]
     [OpenApiResponseWithoutBody(HttpStatusCode.NotFound)]

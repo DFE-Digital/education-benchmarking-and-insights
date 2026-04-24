@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
@@ -10,7 +10,7 @@ using Microsoft.OpenApi.Models;
 using Platform.Api.Trust.Features.Accounts.Handlers;
 using Platform.Api.Trust.Features.Accounts.Models;
 using Platform.Functions;
-using Platform.Functions.OpenApi;
+using Platform.OpenApi;
 
 namespace Platform.Api.Trust.Features.Accounts.Functions;
 
@@ -21,7 +21,7 @@ public class QueryBalanceFunction(IEnumerable<IQueryBalanceHandler> handlers) : 
     [Function(nameof(QueryBalanceFunction))]
     [OpenApiSecurityHeader]
     [OpenApiOperation(nameof(QueryBalanceFunction), Constants.Features.Accounts)]
-    [OpenApiParameter(Platform.Functions.Constants.ApiVersion, Type = typeof(string), Required = false, In = ParameterLocation.Header)]
+    [OpenApiParameter(Domain.Constants.ApiVersion, Type = typeof(string), Required = false, In = ParameterLocation.Header)]
     [OpenApiParameter("companyNumbers", In = ParameterLocation.Query, Description = "List of trust company numbers", Type = typeof(string[]), Required = true)]
     [OpenApiParameter("dimension", In = ParameterLocation.Query, Description = "Value dimension", Type = typeof(string), Required = true, Example = typeof(OpenApiExamples.DimensionFinance))]
     [OpenApiResponseWithBody(HttpStatusCode.OK, ContentType.ApplicationJson, typeof(BalanceResponse[]))]

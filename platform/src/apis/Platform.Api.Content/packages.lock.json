@@ -1899,7 +1899,6 @@
           "Microsoft.Azure.Core.NewtonsoftJson": "[2.0.0, )",
           "Microsoft.Azure.Functions.Worker.Core": "[2.51.0, )",
           "Microsoft.Azure.WebJobs": "[3.0.45, )",
-          "Microsoft.Azure.WebJobs.Extensions.OpenApi.Core": "[1.6.0, )",
           "Microsoft.Data.SqlClient": "[6.1.4, )",
           "Microsoft.Extensions.Configuration.Binder": "[10.0.4, )",
           "Microsoft.Extensions.Logging.Abstractions": "[10.0.4, )",
@@ -1915,6 +1914,12 @@
         "type": "Project",
         "dependencies": {
           "Newtonsoft.Json": "[13.0.4, )"
+        }
+      },
+      "platform.openapi": {
+        "type": "Project",
+        "dependencies": {
+          "Microsoft.Azure.WebJobs.Extensions.OpenApi.Core": "[1.6.0, )"
         }
       },
       "platform.sql": {

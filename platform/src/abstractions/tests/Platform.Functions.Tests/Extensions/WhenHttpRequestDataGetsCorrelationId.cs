@@ -1,4 +1,5 @@
-﻿using Platform.Functions.Extensions;
+﻿using Platform.Domain;
+using Platform.Functions.Extensions;
 using Platform.Test.Mocks;
 using Xunit;
 

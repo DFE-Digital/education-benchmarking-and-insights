@@ -20,6 +20,8 @@
         <ProjectReference Include="..\..\abstractions\Platform.Cache\Platform.Cache.csproj"/>
         <ProjectReference Include="..\..\abstractions\Platform.Domain\Platform.Domain.csproj" />
         <ProjectReference Include="..\..\abstractions\Platform.Functions\Platform.Functions.csproj"/>
+        <ProjectReference Include="..\..\abstractions\Platform.OpenApi\Platform.OpenApi.csproj" />
+        <ProjectReference Include="..\..\abstractions\Platform.Generators\Platform.Generators.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
         <PackageReference Include="Dapper.SqlBuilder"/>
         <PackageReference Include="Microsoft.ApplicationInsights.WorkerService"/>
         <PackageReference Include="Microsoft.Azure.Functions.Worker"/>

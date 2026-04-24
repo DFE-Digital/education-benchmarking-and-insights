@@ -11,8 +11,8 @@ using Platform.Api.Insight.Features.MetricRagRatings.Parameters;
 using Platform.Api.Insight.Features.MetricRagRatings.Services;
 using Platform.Functions;
 using Platform.Functions.Extensions;
-using Platform.Functions.OpenApi;
-using Platform.Functions.OpenApi.Examples;
+using Platform.OpenApi;
+using Platform.Api.Insight.OpenApi;
 
 namespace Platform.Api.Insight.Features.MetricRagRatings;
 
@@ -25,7 +25,7 @@ public class GetDefaultMetricRagRatingsSummaryFunction(
     [OpenApiParameter("urns", In = ParameterLocation.Query, Description = "List of school URNs", Type = typeof(string[]))]
     [OpenApiParameter("companyNumber", In = ParameterLocation.Query, Description = "Eight digit trust company number", Type = typeof(string))]
     [OpenApiParameter("laCode", In = ParameterLocation.Query, Description = "Three digit Local Authority code", Type = typeof(string))]
-    [OpenApiParameter("overallPhase", In = ParameterLocation.Query, Description = "School overall phase", Type = typeof(string), Required = false, Example = typeof(ExampleOverallPhase))]
+    [OpenApiParameter("overallPhase", In = ParameterLocation.Query, Description = "School overall phase", Type = typeof(string), Required = false, Example = typeof(OpenApiExamples.OverallPhase))]
     [OpenApiSecurityHeader]
     [OpenApiResponseWithBody(HttpStatusCode.OK, "application/json", typeof(MetricRagRatingSummary[]))]
     [OpenApiResponseWithBody(HttpStatusCode.BadRequest, "application/json", typeof(ValidationError[]))]

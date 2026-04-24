@@ -11,7 +11,8 @@ using Platform.Api.Benchmark.Features.ComparatorSets.Requests;
 using Platform.Api.Benchmark.Features.ComparatorSets.Services;
 using Platform.Domain;
 using Platform.Functions.Extensions;
-using Platform.Functions.OpenApi;
+using Platform.OpenApi;
+using Platform.OpenApi.Attributes;
 
 namespace Platform.Api.Benchmark.Features.ComparatorSets;
 
@@ -19,7 +20,7 @@ public class PostTrustUserDefinedComparatorSetFunction(IComparatorSetsService se
 {
     [Function(nameof(PostTrustUserDefinedComparatorSetFunction))]
     [OpenApiOperation(nameof(PostTrustUserDefinedComparatorSetFunction), Constants.Features.ComparatorSets)]
-    [OpenApiParameter("companyNumber", Type = typeof(string), Required = true)]
+    [OpenApiCompanyNumberParameter(location: Microsoft.OpenApi.Models.ParameterLocation.Path)]
     [OpenApiSecurityHeader]
     [OpenApiRequestBody("application/json", typeof(ComparatorSetUserDefinedRequest), Description = "The user defined set of schools object")]
     [OpenApiResponseWithoutBody(HttpStatusCode.Accepted)]

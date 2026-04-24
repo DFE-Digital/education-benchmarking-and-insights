@@ -1,4 +1,4 @@
-﻿namespace Platform.Api.Insight.Features.Schools;
+namespace Platform.Api.Insight.Features.Schools;
 
 public static class Routes
 {

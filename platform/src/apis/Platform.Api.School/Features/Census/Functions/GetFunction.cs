@@ -9,8 +9,8 @@ using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Attributes;
 using Platform.Api.School.Features.Census.Handlers;
 using Platform.Api.School.Features.Census.Models;
 using Platform.Functions;
-using Platform.Functions.OpenApi;
-using Platform.Functions.OpenApi.Attributes;
+using Platform.OpenApi;
+using Platform.OpenApi.Attributes;
 
 namespace Platform.Api.School.Features.Census.Functions;
 

@@ -1,24 +1,9 @@
-﻿using System.Diagnostics.CodeAnalysis;
-using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Abstractions;
-using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Resolvers;
-using Newtonsoft.Json.Serialization;
+using System.Diagnostics.CodeAnalysis;
 using Platform.Domain;
+using Platform.OpenApi.Attributes;
 
 namespace Platform.Api.LocalAuthority.Features.EducationHealthCarePlans;
 
 [ExcludeFromCodeCoverage]
-public static class OpenApiExamples
-{
-    internal class Dimension : OpenApiExample<string>
-    {
-        public override IOpenApiExample<string> Build(NamingStrategy namingStrategy = null!)
-        {
-            foreach (var dimension in Dimensions.EducationHealthCarePlans.All)
-            {
-                Examples.Add(OpenApiExampleResolver.Resolve(dimension, dimension, namingStrategy));
-            }
-
-            return this;
-        }
-    }
-}
+[GenerateOpenApiExample(Name = "Dimension", SourceType = typeof(Dimensions.EducationHealthCarePlans), SourceProperty = "All")]
+public partial class OpenApiExamples;

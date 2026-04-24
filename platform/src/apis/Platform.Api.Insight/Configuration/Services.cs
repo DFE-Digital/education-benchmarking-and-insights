@@ -1,4 +1,4 @@
-ï»¿using System;
+using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Text.Json;
 using Microsoft.ApplicationInsights.DependencyCollector;
@@ -53,8 +53,8 @@ internal static class Services
     {
         //TODO: Add serilog configuration AB#227696
         // App Insights must be BEFORE any keyed services:
-        // â€¢ https://github.com/microsoft/ApplicationInsights-dotnet/issues/2828
-        // â€¢ https://github.com/microsoft/ApplicationInsights-dotnet/issues/2879
+        // • https://github.com/microsoft/ApplicationInsights-dotnet/issues/2828
+        // • https://github.com/microsoft/ApplicationInsights-dotnet/issues/2879
         var sqlTelemetryEnabled = Environment.GetEnvironmentVariable("Sql__TelemetryEnabled");
         serviceCollection
             .AddApplicationInsightsTelemetryWorkerService()

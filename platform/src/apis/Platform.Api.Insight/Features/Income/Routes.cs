@@ -1,4 +1,4 @@
-﻿namespace Platform.Api.Insight.Features.Income;
+namespace Platform.Api.Insight.Features.Income;
 
 public static class Routes
 {

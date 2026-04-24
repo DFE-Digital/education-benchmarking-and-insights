@@ -1,4 +1,4 @@
-﻿namespace Platform.Api.Insight.Features.MetricRagRatings;
+namespace Platform.Api.Insight.Features.MetricRagRatings;
 
 public static class Routes
 {

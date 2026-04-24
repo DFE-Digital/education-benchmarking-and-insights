@@ -7,7 +7,8 @@ using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Attributes;
 using Platform.Api.Benchmark.Features.ComparatorSets.Services;
 using Platform.Api.Benchmark.OpenApi;
 using Platform.Functions.Extensions;
-using Platform.Functions.OpenApi;
+using Platform.OpenApi;
+using Platform.OpenApi.Attributes;
 
 namespace Platform.Api.Benchmark.Features.ComparatorSets;
 
@@ -15,8 +16,8 @@ public class GetTrustUserDefinedComparatorSetFunction(IComparatorSetsService ser
 {
     [Function(nameof(GetTrustUserDefinedComparatorSetFunction))]
     [OpenApiOperation(nameof(GetTrustUserDefinedComparatorSetFunction), Constants.Features.ComparatorSets)]
-    [OpenApiParameter("companyNumber", Type = typeof(string), Required = true)]
-    [OpenApiParameter("identifier", Type = typeof(string), Required = true)]
+    [OpenApiCompanyNumberParameter(location: Microsoft.OpenApi.Models.ParameterLocation.Path)]
+    [OpenApiIdentifierParameter]
     [OpenApiSecurityHeader]
     [OpenApiResponseWithBody(HttpStatusCode.OK, "application/json", typeof(IComparatorSetUserDefinedTrust))]
     [OpenApiResponseWithoutBody(HttpStatusCode.NotFound)]
