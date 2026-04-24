@@ -1,4 +1,8 @@
 resource "azurerm_search_service" "search" {
+  #checkov:skip=CKV_AZURE_124:See ADO backlog AB#206514
+  #checkov:skip=CKV_AZURE_207:See ADO backlog AB#206514
+  #checkov:skip=CKV_AZURE_208:See ADO backlog AB#206514
+  #checkov:skip=CKV_AZURE_209:See ADO backlog AB#206514
   #checkov:skip=CKV_AZURE_124:Search is currently public facing
   name                          = "${var.environment-prefix}-ebis-search"
   resource_group_name           = azurerm_resource_group.resource-group.name
