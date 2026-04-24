@@ -67,9 +67,5 @@
 
 ## Outputs
 
-| Name | Description |
-|------|-------------|
-| <a name="output_function_apps"></a> [function\_apps](#output\_function\_apps) | Detailed attributes for all deployed platform Function Apps. |
-| <a name="output_redis_cache"></a> [redis\_cache](#output\_redis\_cache) | Attributes for the platform Redis cache. |
-| <a name="output_storage_accounts"></a> [storage\_accounts](#output\_storage\_accounts) | Attributes for the platform storage accounts. |
+No outputs.
 <!-- END_TF_DOCS -->

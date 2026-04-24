@@ -105,7 +105,7 @@ module "insight-fa" {
 module "chart-rendering-fa" {
   source = "./modules/functions"
   app-settings = merge(local.default_app_settings, {
-    "FUNCTIONS_WORKER_PROCESS_COUNT"      = module.config.app_service_plan.worker_process_count
+    "FUNCTIONS_WORKER_PROCESS_COUNT"      = 1
     "WEBSITES_ENABLE_APP_SERVICE_STORAGE" = true
   })
 
@@ -118,10 +118,8 @@ module "chart-rendering-fa" {
   networking      = local.shared_networking
 
   service_plan = {
-    os_type                        = "Linux"
-    size                           = module.config.app_service_plan.sku
-    maximum_elastic_worker_count   = module.config.app_service_plan.elastic_max_workers
-    minimum_elastic_instance_count = module.config.app_service_plan.elastic_min_instances
+    os_type = "Linux"
+    size    = "Y1"
   }
 
   application_stack = {
