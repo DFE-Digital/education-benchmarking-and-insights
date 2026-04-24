@@ -20,7 +20,6 @@
 | <a name="module_benchmark-fa"></a> [benchmark-fa](#module\_benchmark-fa) | ./modules/functions | n/a |
 | <a name="module_chart-rendering-fa"></a> [chart-rendering-fa](#module\_chart-rendering-fa) | ./modules/functions | n/a |
 | <a name="module_content-fa"></a> [content-fa](#module\_content-fa) | ./modules/functions | n/a |
-| <a name="module_establishment-fa"></a> [establishment-fa](#module\_establishment-fa) | ./modules/functions | n/a |
 | <a name="module_insight-fa"></a> [insight-fa](#module\_insight-fa) | ./modules/functions | n/a |
 | <a name="module_local-authority-fa"></a> [local-authority-fa](#module\_local-authority-fa) | ./modules/functions | n/a |
 | <a name="module_maintenance-tasks-fa"></a> [maintenance-tasks-fa](#module\_maintenance-tasks-fa) | ./modules/functions | n/a |

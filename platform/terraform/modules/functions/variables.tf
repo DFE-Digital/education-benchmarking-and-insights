@@ -1,146 +1,81 @@
-variable "function-name" {
-  type = string
+variable "core" {
+  type = object({
+    environment_prefix  = string
+    name                = string
+    location            = string
+    resource_group_name = string
+    tags                = map(string)
+  })
+}
+
+variable "monitoring" {
+  type = object({
+    log_analytics_id                  = string
+    instrumentation_connection_string = optional(string)
+  })
+}
+
+variable "key_vault" {
+  type = object({
+    id            = string
+    requires_keys = optional(bool, true)
+  })
 }
 
 variable "app-settings" {
   type = map(string)
 }
 
-variable "sku" {
+variable "service_plan" {
   type = object({
-    size = string
+    os_type                        = optional(string, "Windows")
+    size                           = optional(string, "Y1")
+    maximum_elastic_worker_count   = optional(number)
+    minimum_elastic_instance_count = optional(number)
   })
-  default = {
-    size = "Y1"
-  }
+  default = {}
 }
 
-variable "requires-keys" {
-  type    = bool
-  default = true
+variable "networking" {
+  type = object({
+    enable_restrictions = bool
+    subnet_ids          = list(string)
+  })
 }
 
-variable "always-on" {
-  type    = bool
-  default = false
+variable "storage_account" {
+  type = object({
+    id   = string
+    name = string
+    key  = optional(string)
+  })
 }
 
-variable "environment-prefix" {
-  type = string
+variable "sql_server" {
+  type = object({
+    fqdn     = string
+    username = string
+    password = string
+  })
 }
 
-variable "key-vault-id" {
-  type = string
+variable "application_stack" {
+  type = object({
+    worker_runtime       = optional(string, "dotnet-isolated")
+    use_32_bit_worker    = optional(bool, false)
+    dotnet_version       = optional(string, "v8.0")
+    use_isolated_runtime = optional(bool, true)
+    node_version         = optional(string, "22")
+    always_on            = optional(bool, false)
+  })
+  default = {}
 }
 
-variable "subnet_ids" {
-  type = list(string)
-}
-
-variable "instrumentation-conn-string" {
-  type     = string
-  nullable = true
-  default  = null
-}
-
-variable "log-analytics-id" {
-  type = string
-}
-
-variable "location" {
-  type = string
-}
-
-variable "resource-group-name" {
-  type = string
-}
-
-variable "storage-account-id" {
-  type = string
-}
-
-variable "storage-account-name" {
-  type = string
-}
-
-variable "storage-account-key" {
-  type     = string
-  nullable = true
-  default  = null
-}
-
-variable "common-tags" {
-  type = map(string)
-}
-
-variable "enable-restrictions" {
-  type = bool
-}
-
-variable "sql-server-fqdn" {
-  type = string
-}
-
-variable "sql-server-username" {
-  type = string
-}
-
-variable "sql-server-password" {
-  type      = string
-  sensitive = true
-}
-
-variable "dotnet-version" {
-  type    = string
-  default = "v8.0"
-}
-
-variable "use-32-bit-worker" {
-  type    = bool
-  default = false
-}
-
-variable "worker-runtime" {
-  type    = string
-  default = "dotnet-isolated"
-}
-
-variable "use-isolated-runtime" {
-  type    = bool
-  default = true
-}
-
-variable "cache-contributor" {
-  type    = bool
-  default = false
-}
-
-variable "cache-owner" {
-  type    = bool
-  default = false
-}
-
-variable "redis-cache-id" {
-  type    = string
-  default = null
-}
-
-variable "os-type" {
-  type    = string
-  default = "Windows"
-}
-
-variable "node-version" {
-  type    = string
-  default = "22"
-}
-
-variable "maximum-elastic-worker-count" {
-  type    = number
-  default = null
-}
-
-variable "minimum-elastic-instance-count" {
-  type    = number
-  default = null
+variable "redis_cache" {
+  type = object({
+    id          = optional(string)
+    contributor = optional(bool, false)
+    owner       = optional(bool, false)
+  })
+  default = {}
 }

@@ -1,274 +1,210 @@
 module "local-authority-fa" {
-  source                      = "./modules/functions"
-  function-name               = "local-authority"
-  common-tags                 = local.common-tags
-  environment-prefix          = var.environment-prefix
-  resource-group-name         = azurerm_resource_group.resource-group.name
-  storage-account-name        = azurerm_storage_account.platform-storage.name
-  storage-account-id          = azurerm_storage_account.platform-storage.id
-  storage-account-key         = azurerm_storage_account.platform-storage.primary_access_key
-  key-vault-id                = data.azurerm_key_vault.key-vault.id
-  location                    = var.location
-  enable-restrictions         = lower(var.cip-environment) != "dev"
-  instrumentation-conn-string = data.azurerm_application_insights.application-insights.connection_string
-  log-analytics-id            = data.azurerm_log_analytics_workspace.application-insights-workspace.id
+  source = "./modules/functions"
   app-settings = merge(local.default_app_settings, {
-    "Search__Name"                           = azurerm_search_service.search.name
-    "Search__Key"                            = "@Microsoft.KeyVault(SecretUri=${azurerm_key_vault_secret.platform-search-key.versionless_id})"
-    "Sql__ConnectionString"                  = "@Microsoft.KeyVault(SecretUri=${data.azurerm_key_vault_secret.core-sql-connection-string.versionless_id})"
-    "WEBSITE_USE_PLACEHOLDER_DOTNETISOLATED" = 1
+    "Search__Name"                           = local.shared_app_settings.search_name
+    "Search__Key"                            = local.shared_app_settings.search_key
+    "Sql__ConnectionString"                  = local.shared_app_settings.sql_connection
+    "WEBSITE_USE_PLACEHOLDER_DOTNETISOLATED" = local.shared_app_settings.use_dotnet_isolated
   })
-  subnet_ids = [
-    data.azurerm_subnet.web-app-subnet.id,
-    data.azurerm_subnet.load-test-subnet.id
-  ]
-  sql-server-fqdn     = data.azurerm_mssql_server.sql-server.fully_qualified_domain_name
-  sql-server-username = data.azurerm_key_vault_secret.sql-user-name.value
-  sql-server-password = data.azurerm_key_vault_secret.sql-password.value
+
+  core       = { name = "local-authority", environment_prefix = var.environment-prefix, resource_group_name = azurerm_resource_group.resource-group.name, location = var.location, tags = local.common-tags }
+  monitoring = local.shared_monitoring
+  key_vault  = local.shared_key_vault
+  sql_server = local.shared_sql_server
+
+  storage_account = local.shared_platform_storage
+  networking      = local.shared_networking
 }
 
 module "school-fa" {
-  source                      = "./modules/functions"
-  function-name               = "school"
-  common-tags                 = local.common-tags
-  environment-prefix          = var.environment-prefix
-  resource-group-name         = azurerm_resource_group.resource-group.name
-  storage-account-name        = azurerm_storage_account.platform-storage.name
-  storage-account-id          = azurerm_storage_account.platform-storage.id
-  storage-account-key         = azurerm_storage_account.platform-storage.primary_access_key
-  key-vault-id                = data.azurerm_key_vault.key-vault.id
-  location                    = var.location
-  enable-restrictions         = lower(var.cip-environment) != "dev"
-  instrumentation-conn-string = data.azurerm_application_insights.application-insights.connection_string
-  log-analytics-id            = data.azurerm_log_analytics_workspace.application-insights-workspace.id
+  source = "./modules/functions"
   app-settings = merge(local.default_app_settings, {
-    "Search__Name"                           = azurerm_search_service.search.name
-    "Search__Key"                            = "@Microsoft.KeyVault(SecretUri=${azurerm_key_vault_secret.platform-search-key.versionless_id})"
-    "Sql__ConnectionString"                  = "@Microsoft.KeyVault(SecretUri=${data.azurerm_key_vault_secret.core-sql-connection-string.versionless_id})"
-    "Cache__Host"                            = "@Microsoft.KeyVault(SecretUri=${azurerm_key_vault_secret.cache-host-name.versionless_id})"
-    "Cache__Port"                            = "@Microsoft.KeyVault(SecretUri=${azurerm_key_vault_secret.cache-ssl-port.versionless_id})"
-    "WEBSITE_USE_PLACEHOLDER_DOTNETISOLATED" = 1
+    "Search__Name"                           = local.shared_app_settings.search_name
+    "Search__Key"                            = local.shared_app_settings.search_key
+    "Sql__ConnectionString"                  = local.shared_app_settings.sql_connection
+    "Cache__Host"                            = local.shared_app_settings.cache_host
+    "Cache__Port"                            = local.shared_app_settings.cache_port
+    "WEBSITE_USE_PLACEHOLDER_DOTNETISOLATED" = local.shared_app_settings.use_dotnet_isolated
   })
-  subnet_ids = [
-    data.azurerm_subnet.web-app-subnet.id,
-    data.azurerm_subnet.load-test-subnet.id
-  ]
-  sql-server-fqdn     = data.azurerm_mssql_server.sql-server.fully_qualified_domain_name
-  sql-server-username = data.azurerm_key_vault_secret.sql-user-name.value
-  sql-server-password = data.azurerm_key_vault_secret.sql-password.value
-  redis-cache-id      = azurerm_redis_cache.cache.id
-  cache-contributor   = true
+
+  core       = { name = "school", environment_prefix = var.environment-prefix, resource_group_name = azurerm_resource_group.resource-group.name, location = var.location, tags = local.common-tags }
+  monitoring = local.shared_monitoring
+  key_vault  = local.shared_key_vault
+  sql_server = local.shared_sql_server
+
+  storage_account = local.shared_platform_storage
+  networking      = local.shared_networking
+
+  redis_cache = {
+    id          = azurerm_redis_cache.cache.id
+    contributor = true
+  }
 }
 
 module "trust-fa" {
-  source                      = "./modules/functions"
-  function-name               = "trust"
-  common-tags                 = local.common-tags
-  environment-prefix          = var.environment-prefix
-  resource-group-name         = azurerm_resource_group.resource-group.name
-  storage-account-name        = azurerm_storage_account.platform-storage.name
-  storage-account-id          = azurerm_storage_account.platform-storage.id
-  storage-account-key         = azurerm_storage_account.platform-storage.primary_access_key
-  key-vault-id                = data.azurerm_key_vault.key-vault.id
-  location                    = var.location
-  enable-restrictions         = lower(var.cip-environment) != "dev"
-  instrumentation-conn-string = data.azurerm_application_insights.application-insights.connection_string
-  log-analytics-id            = data.azurerm_log_analytics_workspace.application-insights-workspace.id
+  source = "./modules/functions"
   app-settings = merge(local.default_app_settings, {
-    "Search__Name"                           = azurerm_search_service.search.name
-    "Search__Key"                            = "@Microsoft.KeyVault(SecretUri=${azurerm_key_vault_secret.platform-search-key.versionless_id})"
-    "Sql__ConnectionString"                  = "@Microsoft.KeyVault(SecretUri=${data.azurerm_key_vault_secret.core-sql-connection-string.versionless_id})"
-    "WEBSITE_USE_PLACEHOLDER_DOTNETISOLATED" = 1
+    "Search__Name"                           = local.shared_app_settings.search_name
+    "Search__Key"                            = local.shared_app_settings.search_key
+    "Sql__ConnectionString"                  = local.shared_app_settings.sql_connection
+    "WEBSITE_USE_PLACEHOLDER_DOTNETISOLATED" = local.shared_app_settings.use_dotnet_isolated
   })
-  subnet_ids = [
-    data.azurerm_subnet.web-app-subnet.id,
-    data.azurerm_subnet.load-test-subnet.id
-  ]
-  sql-server-fqdn     = data.azurerm_mssql_server.sql-server.fully_qualified_domain_name
-  sql-server-username = data.azurerm_key_vault_secret.sql-user-name.value
-  sql-server-password = data.azurerm_key_vault_secret.sql-password.value
+
+  core       = { name = "trust", environment_prefix = var.environment-prefix, resource_group_name = azurerm_resource_group.resource-group.name, location = var.location, tags = local.common-tags }
+  monitoring = local.shared_monitoring
+  key_vault  = local.shared_key_vault
+  sql_server = local.shared_sql_server
+
+  storage_account = local.shared_platform_storage
+  networking      = local.shared_networking
 }
 
 module "benchmark-fa" {
-  source                      = "./modules/functions"
-  function-name               = "benchmark"
-  common-tags                 = local.common-tags
-  environment-prefix          = var.environment-prefix
-  resource-group-name         = azurerm_resource_group.resource-group.name
-  storage-account-name        = azurerm_storage_account.platform-storage.name
-  storage-account-id          = azurerm_storage_account.platform-storage.id
-  storage-account-key         = azurerm_storage_account.platform-storage.primary_access_key
-  key-vault-id                = data.azurerm_key_vault.key-vault.id
-  location                    = var.location
-  enable-restrictions         = lower(var.cip-environment) != "dev"
-  instrumentation-conn-string = data.azurerm_application_insights.application-insights.connection_string
-  log-analytics-id            = data.azurerm_log_analytics_workspace.application-insights-workspace.id
+  source = "./modules/functions"
   app-settings = merge(local.default_app_settings, {
-    "Search__Name"                           = azurerm_search_service.search.name
-    "Search__Key"                            = "@Microsoft.KeyVault(SecretUri=${azurerm_key_vault_secret.platform-search-key.versionless_id})"
-    "Sql__ConnectionString"                  = "@Microsoft.KeyVault(SecretUri=${data.azurerm_key_vault_secret.core-sql-connection-string.versionless_id})"
+    "Search__Name"                           = local.shared_app_settings.search_name
+    "Search__Key"                            = local.shared_app_settings.search_key
+    "Sql__ConnectionString"                  = local.shared_app_settings.sql_connection
     "PipelineMessageHub__ConnectionString"   = "@Microsoft.KeyVault(SecretUri=${data.azurerm_key_vault_secret.pipeline-message-hub-storage-connection-string.versionless_id})"
     "PipelineMessageHub__JobPendingQueue"    = "data-pipeline-job-pending"
-    "WEBSITE_USE_PLACEHOLDER_DOTNETISOLATED" = 1
+    "WEBSITE_USE_PLACEHOLDER_DOTNETISOLATED" = local.shared_app_settings.use_dotnet_isolated
   })
-  subnet_ids = [
-    data.azurerm_subnet.web-app-subnet.id,
-    data.azurerm_subnet.load-test-subnet.id
-  ]
-  sql-server-fqdn     = data.azurerm_mssql_server.sql-server.fully_qualified_domain_name
-  sql-server-username = data.azurerm_key_vault_secret.sql-user-name.value
-  sql-server-password = data.azurerm_key_vault_secret.sql-password.value
+
+  core       = { name = "benchmark", environment_prefix = var.environment-prefix, resource_group_name = azurerm_resource_group.resource-group.name, location = var.location, tags = local.common-tags }
+  monitoring = local.shared_monitoring
+  key_vault  = local.shared_key_vault
+  sql_server = local.shared_sql_server
+
+  storage_account = local.shared_platform_storage
+  networking      = local.shared_networking
 }
 
 module "insight-fa" {
-  source                      = "./modules/functions"
-  function-name               = "insight"
-  common-tags                 = local.common-tags
-  environment-prefix          = var.environment-prefix
-  resource-group-name         = azurerm_resource_group.resource-group.name
-  storage-account-name        = azurerm_storage_account.platform-storage.name
-  storage-account-id          = azurerm_storage_account.platform-storage.id
-  storage-account-key         = azurerm_storage_account.platform-storage.primary_access_key
-  key-vault-id                = data.azurerm_key_vault.key-vault.id
-  location                    = var.location
-  enable-restrictions         = lower(var.cip-environment) != "dev"
-  instrumentation-conn-string = data.azurerm_application_insights.application-insights.connection_string
-  log-analytics-id            = data.azurerm_log_analytics_workspace.application-insights-workspace.id
+  source = "./modules/functions"
   app-settings = merge(local.default_app_settings, {
-    "Sql__ConnectionString"                  = "@Microsoft.KeyVault(SecretUri=${data.azurerm_key_vault_secret.core-sql-connection-string.versionless_id})"
-    "WEBSITE_USE_PLACEHOLDER_DOTNETISOLATED" = 1
-    "Cache__Host"                            = "@Microsoft.KeyVault(SecretUri=${azurerm_key_vault_secret.cache-host-name.versionless_id})"
-    "Cache__Port"                            = "@Microsoft.KeyVault(SecretUri=${azurerm_key_vault_secret.cache-ssl-port.versionless_id})"
+    "Sql__ConnectionString"                  = local.shared_app_settings.sql_connection
+    "WEBSITE_USE_PLACEHOLDER_DOTNETISOLATED" = local.shared_app_settings.use_dotnet_isolated
+    "Cache__Host"                            = local.shared_app_settings.cache_host
+    "Cache__Port"                            = local.shared_app_settings.cache_port
   })
-  subnet_ids = [
-    data.azurerm_subnet.web-app-subnet.id,
-    data.azurerm_subnet.load-test-subnet.id
-  ]
-  sql-server-fqdn     = data.azurerm_mssql_server.sql-server.fully_qualified_domain_name
-  sql-server-username = data.azurerm_key_vault_secret.sql-user-name.value
-  sql-server-password = data.azurerm_key_vault_secret.sql-password.value
-  redis-cache-id      = azurerm_redis_cache.cache.id
-  cache-contributor   = true
+
+  core       = { name = "insight", environment_prefix = var.environment-prefix, resource_group_name = azurerm_resource_group.resource-group.name, location = var.location, tags = local.common-tags }
+  monitoring = local.shared_monitoring
+  key_vault  = local.shared_key_vault
+  sql_server = local.shared_sql_server
+
+  storage_account = local.shared_platform_storage
+  networking      = local.shared_networking
+
+  redis_cache = {
+    id          = azurerm_redis_cache.cache.id
+    contributor = true
+  }
 }
 
 module "chart-rendering-fa" {
-  source                      = "./modules/functions"
-  function-name               = "chart-rendering"
-  common-tags                 = local.common-tags
-  environment-prefix          = var.environment-prefix
-  resource-group-name         = azurerm_resource_group.resource-group.name
-  storage-account-name        = azurerm_storage_account.platform-storage.name
-  storage-account-id          = azurerm_storage_account.platform-storage.id
-  storage-account-key         = azurerm_storage_account.platform-storage.primary_access_key
-  key-vault-id                = data.azurerm_key_vault.key-vault.id
-  location                    = var.location
-  enable-restrictions         = lower(var.cip-environment) != "dev"
-  instrumentation-conn-string = data.azurerm_application_insights.application-insights.connection_string
-  log-analytics-id            = data.azurerm_log_analytics_workspace.application-insights-workspace.id
+  source = "./modules/functions"
   app-settings = merge(local.default_app_settings, {
     "FUNCTIONS_WORKER_PROCESS_COUNT"      = var.configuration[var.environment].ssr_fa_worker_process_count
     "WEBSITES_ENABLE_APP_SERVICE_STORAGE" = true
   })
-  subnet_ids = [
-    data.azurerm_subnet.web-app-subnet.id,
-    data.azurerm_subnet.load-test-subnet.id
-  ]
-  sql-server-fqdn     = data.azurerm_mssql_server.sql-server.fully_qualified_domain_name
-  sql-server-username = data.azurerm_key_vault_secret.sql-user-name.value
-  sql-server-password = data.azurerm_key_vault_secret.sql-password.value
-  os-type             = "Linux"
-  worker-runtime      = "node"
-  sku = {
-    size = var.configuration[var.environment].ssr_fa_sku
+
+  core       = { name = "chart-rendering", environment_prefix = var.environment-prefix, resource_group_name = azurerm_resource_group.resource-group.name, location = var.location, tags = local.common-tags }
+  monitoring = local.shared_monitoring
+  key_vault  = local.shared_key_vault
+  sql_server = local.shared_sql_server
+
+  storage_account = local.shared_platform_storage
+  networking      = local.shared_networking
+
+  service_plan = {
+    os_type                        = "Linux"
+    size                           = var.configuration[var.environment].ssr_fa_sku
+    maximum_elastic_worker_count   = var.configuration[var.environment].ssr_fa_elastic_max_workers
+    minimum_elastic_instance_count = var.configuration[var.environment].ssr_fa_elastic_min_instances
   }
-  maximum-elastic-worker-count   = var.configuration[var.environment].ssr_fa_elastic_max_workers
-  minimum-elastic-instance-count = var.configuration[var.environment].ssr_fa_elastic_min_instances
+
+  application_stack = {
+    worker_runtime = "node"
+    node_version   = "22"
+  }
 }
 
 module "content-fa" {
-  source                      = "./modules/functions"
-  function-name               = "content"
-  common-tags                 = local.common-tags
-  environment-prefix          = var.environment-prefix
-  resource-group-name         = azurerm_resource_group.resource-group.name
-  storage-account-name        = azurerm_storage_account.platform-storage.name
-  storage-account-id          = azurerm_storage_account.platform-storage.id
-  storage-account-key         = azurerm_storage_account.platform-storage.primary_access_key
-  key-vault-id                = data.azurerm_key_vault.key-vault.id
-  location                    = var.location
-  enable-restrictions         = lower(var.cip-environment) != "dev"
-  instrumentation-conn-string = data.azurerm_application_insights.application-insights.connection_string
-  log-analytics-id            = data.azurerm_log_analytics_workspace.application-insights-workspace.id
+  source = "./modules/functions"
   app-settings = merge(local.default_app_settings, {
-    "Sql__ConnectionString"                  = "@Microsoft.KeyVault(SecretUri=${data.azurerm_key_vault_secret.core-sql-connection-string.versionless_id})"
-    "WEBSITE_USE_PLACEHOLDER_DOTNETISOLATED" = 1
+    "Sql__ConnectionString"                  = local.shared_app_settings.sql_connection
+    "WEBSITE_USE_PLACEHOLDER_DOTNETISOLATED" = local.shared_app_settings.use_dotnet_isolated
   })
-  subnet_ids = [
-    data.azurerm_subnet.web-app-subnet.id,
-    data.azurerm_subnet.load-test-subnet.id
-  ]
-  sql-server-fqdn     = data.azurerm_mssql_server.sql-server.fully_qualified_domain_name
-  sql-server-username = data.azurerm_key_vault_secret.sql-user-name.value
-  sql-server-password = data.azurerm_key_vault_secret.sql-password.value
+
+  core       = { name = "content", environment_prefix = var.environment-prefix, resource_group_name = azurerm_resource_group.resource-group.name, location = var.location, tags = local.common-tags }
+  monitoring = local.shared_monitoring
+  key_vault  = local.shared_key_vault
+  sql_server = local.shared_sql_server
+
+  storage_account = local.shared_platform_storage
+  networking      = local.shared_networking
 }
 
 module "maintenance-tasks-fa" {
-  source                      = "./modules/functions"
-  function-name               = "maintenance-tasks"
-  common-tags                 = local.common-tags
-  environment-prefix          = var.environment-prefix
-  resource-group-name         = azurerm_resource_group.resource-group.name
-  storage-account-name        = azurerm_storage_account.platform-storage.name
-  storage-account-id          = azurerm_storage_account.platform-storage.id
-  storage-account-key         = azurerm_storage_account.platform-storage.primary_access_key
-  key-vault-id                = data.azurerm_key_vault.key-vault.id
-  location                    = var.location
-  enable-restrictions         = false
-  instrumentation-conn-string = data.azurerm_application_insights.application-insights.connection_string
-  log-analytics-id            = data.azurerm_log_analytics_workspace.application-insights-workspace.id
+  source = "./modules/functions"
   app-settings = merge(local.default_app_settings, {
-    "Sql__ConnectionString" = "@Microsoft.KeyVault(SecretUri=${data.azurerm_key_vault_secret.core-sql-connection-string.versionless_id})"
+    "Sql__ConnectionString" = local.shared_app_settings.sql_connection
   })
-  subnet_ids          = [data.azurerm_subnet.web-app-subnet.id]
-  sql-server-fqdn     = data.azurerm_mssql_server.sql-server.fully_qualified_domain_name
-  sql-server-username = data.azurerm_key_vault_secret.sql-user-name.value
-  sql-server-password = data.azurerm_key_vault_secret.sql-password.value
+
+  core       = { name = "maintenance-tasks", environment_prefix = var.environment-prefix, resource_group_name = azurerm_resource_group.resource-group.name, location = var.location, tags = local.common-tags }
+  monitoring = local.shared_monitoring
+  key_vault  = local.shared_key_vault
+  sql_server = local.shared_sql_server
+
+  storage_account = local.shared_platform_storage
+  networking = {
+    enable_restrictions = false
+    subnet_ids          = [data.azurerm_subnet.web-app-subnet.id]
+  }
 }
 
 module "orchestrator-fa" {
-  source               = "./modules/functions"
-  function-name        = "orchestrator"
-  common-tags          = local.common-tags
-  environment-prefix   = var.environment-prefix
-  resource-group-name  = azurerm_resource_group.resource-group.name
-  storage-account-name = azurerm_storage_account.orchestrator-storage.name
-  storage-account-id   = azurerm_storage_account.orchestrator-storage.id
-  storage-account-key  = azurerm_storage_account.orchestrator-storage.primary_access_key
-  key-vault-id         = data.azurerm_key_vault.key-vault.id
-  location             = var.location
-  enable-restrictions  = lower(var.cip-environment) != "dev"
-  always-on            = true
-  sku = {
-    size = "P0v3"
-  }
-  instrumentation-conn-string = data.azurerm_application_insights.application-insights.connection_string
-  log-analytics-id            = data.azurerm_log_analytics_workspace.application-insights-workspace.id
+  source = "./modules/functions"
   app-settings = merge(local.default_app_settings, {
     "PipelineMessageHub__ConnectionString"     = "@Microsoft.KeyVault(SecretUri=${data.azurerm_key_vault_secret.pipeline-message-hub-storage-connection-string.versionless_id})"
     "PipelineMessageHub__JobFinishedQueue"     = "data-pipeline-job-finished"
     "PipelineMessageHub__JobCustomStartQueue"  = "data-pipeline-job-custom-start"
     "PipelineMessageHub__JobDefaultStartQueue" = "data-pipeline-job-default-start"
     "PipelineMessageHub__JobPendingQueue"      = "data-pipeline-job-pending"
-    "Sql__ConnectionString"                    = "@Microsoft.KeyVault(SecretUri=${data.azurerm_key_vault_secret.core-sql-connection-string.versionless_id})"
-    "Search__Name"                             = azurerm_search_service.search.name
-    "Search__Key"                              = "@Microsoft.KeyVault(SecretUri=${azurerm_key_vault_secret.platform-search-key.versionless_id})"
-    "Cache__Host"                              = "@Microsoft.KeyVault(SecretUri=${azurerm_key_vault_secret.cache-host-name.versionless_id})"
-    "Cache__Port"                              = "@Microsoft.KeyVault(SecretUri=${azurerm_key_vault_secret.cache-ssl-port.versionless_id})"
+    "Sql__ConnectionString"                    = local.shared_app_settings.sql_connection
+    "Search__Name"                             = local.shared_app_settings.search_name
+    "Search__Key"                              = local.shared_app_settings.search_key
+    "Cache__Host"                              = local.shared_app_settings.cache_host
+    "Cache__Port"                              = local.shared_app_settings.cache_port
   })
-  subnet_ids          = [data.azurerm_subnet.web-app-subnet.id]
-  sql-server-fqdn     = data.azurerm_mssql_server.sql-server.fully_qualified_domain_name
-  sql-server-username = data.azurerm_key_vault_secret.sql-user-name.value
-  sql-server-password = data.azurerm_key_vault_secret.sql-password.value
-  redis-cache-id      = azurerm_redis_cache.cache.id
-  cache-contributor   = true
+
+  core       = { name = "orchestrator", environment_prefix = var.environment-prefix, resource_group_name = azurerm_resource_group.resource-group.name, location = var.location, tags = local.common-tags }
+  monitoring = local.shared_monitoring
+  key_vault  = local.shared_key_vault
+  sql_server = local.shared_sql_server
+
+  storage_account = {
+    id   = azurerm_storage_account.orchestrator-storage.id
+    name = azurerm_storage_account.orchestrator-storage.name
+    key  = azurerm_storage_account.orchestrator-storage.primary_access_key
+  }
+
+  networking = {
+    enable_restrictions = lower(var.cip-environment) != "dev"
+    subnet_ids          = [data.azurerm_subnet.web-app-subnet.id]
+  }
+
+  service_plan = {
+    size = "P0v3"
+  }
+
+  application_stack = {
+    always_on = true
+  }
+
+  redis_cache = {
+    id          = azurerm_redis_cache.cache.id
+    contributor = true
+  }
 }
