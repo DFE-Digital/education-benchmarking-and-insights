@@ -63,3 +63,28 @@ resource "azurerm_monitor_diagnostic_setting" "storage-blob" {
     category = "StorageRead"
   }
 }
+
+moved {
+  from = azurerm_storage_account.platform-storage
+  to   = azurerm_storage_account.storage["platformstorage"]
+}
+
+moved {
+  from = azurerm_storage_account.orchestrator-storage
+  to   = azurerm_storage_account.storage["orchestrator"]
+}
+
+moved {
+  from = azurerm_storage_account_queue_properties.platform-storage-queue-properties
+  to   = azurerm_storage_account_queue_properties.storage-queue-properties["platformstorage"]
+}
+
+moved {
+  from = azurerm_storage_account_queue_properties.orchestrator-storage-properties
+  to   = azurerm_storage_account_queue_properties.storage-queue-properties["orchestrator"]
+}
+
+moved {
+  from = azurerm_monitor_diagnostic_setting.platform-storage-blob
+  to   = azurerm_monitor_diagnostic_setting.storage-blob["platformstorage"]
+}
