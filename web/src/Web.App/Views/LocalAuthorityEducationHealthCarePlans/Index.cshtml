@@ -1,6 +1,7 @@
 @using Web.App.Domain.Charts
 @using Web.App.Extensions
 @using Web.App.ViewModels
+@using Web.App.ViewModels.Enhancements
 @model Web.App.ViewModels.LocalAuthorityEducationHealthCarePlansViewModel
 @{
     ViewData[ViewDataKeys.Title] = PageTitles.LocalAuthorityEducationHealthCarePlans;
@@ -42,6 +43,23 @@
         @await Html.PartialAsync("_PlansFilter", Model)
     </div>
     <div class="govuk-grid-column-two-thirds">
+        <div class="page-actions-wrapper-horizontal">
+            <div class="page-actions">
+                @if (Model.ViewAs == Views.ViewAsOptions.Chart)
+                {
+                    <div id="page-actions-button"></div>
+                }
+                <a href="@Url.Action("Download", "LocalAuthorityEducationHealthCarePlans", new
+                         {
+                             code = Model.Code
+                         })" role="button"
+                   class="govuk-button govuk-button--secondary" data-module="govuk-button">
+                    Download page data
+                </a>
+            </div>
+        </div>
+        <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
+
         @using (Html.BeginForm(FormMethod.Post, true, new
                 {
                     @class = "actions-form",
@@ -102,3 +120,17 @@
         }
     </div>
 </div>
+
+@section scripts
+{
+
+    @await Html.PartialAsync("Enhancements/_PageActions", new PageActionsViewModel
+    {
+        All = true,
+        ElementId = "page-actions-button",
+        SaveClassName = "costs-chart-container",
+        SaveFileName = $"benchmark-education-health-care-plans-{Model.Code}.zip",
+        SaveTitleAttr = "data-title",
+        StartImmediately = true
+    })
+}
