@@ -10,6 +10,7 @@
     <ItemGroup>
         <PackageReference Include="AspNetCore.HealthChecks.Redis"/>
         <PackageReference Include="Microsoft.Azure.StackExchangeRedis"/>
+    <PackageReference Include="Microsoft.Extensions.Configuration.Binder" VersionOverride="10.0.7" />
         <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions"/>
         <PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks" />
         <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" />
