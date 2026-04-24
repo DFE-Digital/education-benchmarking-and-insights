@@ -65,8 +65,8 @@ module "benchmark-fa" {
     "Search__Name"                           = local.shared_app_settings.search_name
     "Search__Key"                            = local.shared_app_settings.search_key
     "Sql__ConnectionString"                  = local.shared_app_settings.sql_connection
-    "PipelineMessageHub__ConnectionString"   = "@Microsoft.KeyVault(SecretUri=${data.azurerm_key_vault_secret.pipeline-message-hub-storage-connection-string.versionless_id})"
-    "PipelineMessageHub__JobPendingQueue"    = "data-pipeline-job-pending"
+    "PipelineMessageHub__ConnectionString"   = local.shared_app_settings.pipeline_hub_connection
+    "PipelineMessageHub__JobPendingQueue"    = local.shared_app_settings.pipeline_hub_pending
     "WEBSITE_USE_PLACEHOLDER_DOTNETISOLATED" = local.shared_app_settings.use_dotnet_isolated
   })
 
@@ -105,7 +105,7 @@ module "insight-fa" {
 module "chart-rendering-fa" {
   source = "./modules/functions"
   app-settings = merge(local.default_app_settings, {
-    "FUNCTIONS_WORKER_PROCESS_COUNT"      = var.configuration[var.environment].ssr_fa_worker_process_count
+    "FUNCTIONS_WORKER_PROCESS_COUNT"      = module.config.app_service_plan.worker_process_count
     "WEBSITES_ENABLE_APP_SERVICE_STORAGE" = true
   })
 
@@ -119,9 +119,9 @@ module "chart-rendering-fa" {
 
   service_plan = {
     os_type                        = "Linux"
-    size                           = var.configuration[var.environment].ssr_fa_sku
-    maximum_elastic_worker_count   = var.configuration[var.environment].ssr_fa_elastic_max_workers
-    minimum_elastic_instance_count = var.configuration[var.environment].ssr_fa_elastic_min_instances
+    size                           = module.config.app_service_plan.sku
+    maximum_elastic_worker_count   = module.config.app_service_plan.elastic_max_workers
+    minimum_elastic_instance_count = module.config.app_service_plan.elastic_min_instances
   }
 
   application_stack = {
@@ -167,11 +167,11 @@ module "maintenance-tasks-fa" {
 module "orchestrator-fa" {
   source = "./modules/functions"
   app-settings = merge(local.default_app_settings, {
-    "PipelineMessageHub__ConnectionString"     = "@Microsoft.KeyVault(SecretUri=${data.azurerm_key_vault_secret.pipeline-message-hub-storage-connection-string.versionless_id})"
-    "PipelineMessageHub__JobFinishedQueue"     = "data-pipeline-job-finished"
-    "PipelineMessageHub__JobCustomStartQueue"  = "data-pipeline-job-custom-start"
-    "PipelineMessageHub__JobDefaultStartQueue" = "data-pipeline-job-default-start"
-    "PipelineMessageHub__JobPendingQueue"      = "data-pipeline-job-pending"
+    "PipelineMessageHub__ConnectionString"     = local.shared_app_settings.pipeline_hub_connection
+    "PipelineMessageHub__JobFinishedQueue"     = local.shared_app_settings.pipeline_hub_finished
+    "PipelineMessageHub__JobCustomStartQueue"  = local.shared_app_settings.pipeline_hub_custom
+    "PipelineMessageHub__JobDefaultStartQueue" = local.shared_app_settings.pipeline_hub_default
+    "PipelineMessageHub__JobPendingQueue"      = local.shared_app_settings.pipeline_hub_pending
     "Sql__ConnectionString"                    = local.shared_app_settings.sql_connection
     "Search__Name"                             = local.shared_app_settings.search_name
     "Search__Key"                              = local.shared_app_settings.search_key
@@ -185,13 +185,13 @@ module "orchestrator-fa" {
   sql_server = local.shared_sql_server
 
   storage_account = {
-    id   = azurerm_storage_account.orchestrator-storage.id
-    name = azurerm_storage_account.orchestrator-storage.name
-    key  = azurerm_storage_account.orchestrator-storage.primary_access_key
+    id   = azurerm_storage_account.storage["orchestrator"].id
+    name = azurerm_storage_account.storage["orchestrator"].name
+    key  = azurerm_storage_account.storage["orchestrator"].primary_access_key
   }
 
   networking = {
-    enable_restrictions = lower(var.cip-environment) != "dev"
+    enable_restrictions = module.config.enable_ip_restrictions
     subnet_ids          = [data.azurerm_subnet.web-app-subnet.id]
   }
 

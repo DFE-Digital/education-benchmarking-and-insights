@@ -1,14 +1,14 @@
 resource "azurerm_search_service" "search" {
-  #checkov:skip=CKV_AZURE_124:See ADO backlog AB#206514
-  #checkov:skip=CKV_AZURE_207:See ADO backlog AB#206514
-  #checkov:skip=CKV_AZURE_208:See ADO backlog AB#206514
-  #checkov:skip=CKV_AZURE_209:See ADO backlog AB#206514
-  name                = "${var.environment-prefix}-ebis-search"
-  location            = azurerm_resource_group.resource-group.location
-  resource_group_name = azurerm_resource_group.resource-group.name
-  sku                 = var.configuration[var.environment].search_sku
-  tags                = local.common-tags
-  replica_count       = var.configuration[var.environment].search_replica_count
+  #checkov:skip=CKV_AZURE_124:Search is currently public facing
+  name                          = "${var.environment-prefix}-ebis-search"
+  resource_group_name           = azurerm_resource_group.resource-group.name
+  location                      = azurerm_resource_group.resource-group.location
+  sku                           = module.config.search.sku
+  replica_count                 = module.config.search.replica_count
+  partition_count               = 1
+  public_network_access_enabled = true
+  local_authentication_enabled  = true
+  tags                          = local.common-tags
 }
 
 resource "azurerm_key_vault_secret" "platform-search-key" {

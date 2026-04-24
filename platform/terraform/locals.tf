@@ -6,10 +6,17 @@ locals {
     "Source"           = "terraform"
     "Context"          = var.environment
   }
+
   default_app_settings = {
     "WEBSITE_RUN_FROM_PACKAGE" = "0"
-    "Sql__TelemetryEnabled"    = var.configuration[var.environment].sql_telemetry_enabled
+    "Sql__TelemetryEnabled"    = module.config.sql.telemetry_enabled
   }
+
+  # Storage account definitions
+  storage_accounts = toset([
+    "platformstorage",
+    "orchestrator"
+  ])
 
   # Shared configuration blocks for Function App modules
   shared_monitoring = {
@@ -25,12 +32,12 @@ locals {
     password = data.azurerm_key_vault_secret.sql-password.value
   }
   shared_platform_storage = {
-    id   = azurerm_storage_account.platform-storage.id
-    name = azurerm_storage_account.platform-storage.name
-    key  = azurerm_storage_account.platform-storage.primary_access_key
+    id   = azurerm_storage_account.storage["platformstorage"].id
+    name = azurerm_storage_account.storage["platformstorage"].name
+    key  = azurerm_storage_account.storage["platformstorage"].primary_access_key
   }
   shared_networking = {
-    enable_restrictions = lower(var.cip-environment) != "dev"
+    enable_restrictions = module.config.enable_ip_restrictions
     subnet_ids = [
       data.azurerm_subnet.web-app-subnet.id,
       data.azurerm_subnet.load-test-subnet.id
@@ -39,11 +46,16 @@ locals {
 
   # Shared Key Vault references for app settings
   shared_app_settings = {
-    search_name         = azurerm_search_service.search.name
-    search_key          = "@Microsoft.KeyVault(SecretUri=${azurerm_key_vault_secret.platform-search-key.versionless_id})"
-    sql_connection      = "@Microsoft.KeyVault(SecretUri=${data.azurerm_key_vault_secret.core-sql-connection-string.versionless_id})"
-    cache_host          = "@Microsoft.KeyVault(SecretUri=${azurerm_key_vault_secret.cache-host-name.versionless_id})"
-    cache_port          = "@Microsoft.KeyVault(SecretUri=${azurerm_key_vault_secret.cache-ssl-port.versionless_id})"
-    use_dotnet_isolated = 1
+    search_name             = azurerm_search_service.search.name
+    search_key              = "@Microsoft.KeyVault(SecretUri=${azurerm_key_vault_secret.platform-search-key.versionless_id})"
+    sql_connection          = "@Microsoft.KeyVault(SecretUri=${data.azurerm_key_vault_secret.core-sql-connection-string.versionless_id})"
+    cache_host              = "@Microsoft.KeyVault(SecretUri=${azurerm_key_vault_secret.cache-host-name.versionless_id})"
+    cache_port              = "@Microsoft.KeyVault(SecretUri=${azurerm_key_vault_secret.cache-ssl-port.versionless_id})"
+    pipeline_hub_connection = "@Microsoft.KeyVault(SecretUri=${data.azurerm_key_vault_secret.pipeline-message-hub-storage-connection-string.versionless_id})"
+    pipeline_hub_pending    = "data-pipeline-job-pending"
+    pipeline_hub_finished   = "data-pipeline-job-finished"
+    pipeline_hub_custom     = "data-pipeline-job-custom-start"
+    pipeline_hub_default    = "data-pipeline-job-default-start"
+    use_dotnet_isolated     = 1
   }
 }

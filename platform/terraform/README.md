@@ -19,6 +19,7 @@
 |------|--------|---------|
 | <a name="module_benchmark-fa"></a> [benchmark-fa](#module\_benchmark-fa) | ./modules/functions | n/a |
 | <a name="module_chart-rendering-fa"></a> [chart-rendering-fa](#module\_chart-rendering-fa) | ./modules/functions | n/a |
+| <a name="module_config"></a> [config](#module\_config) | ./modules/config | n/a |
 | <a name="module_content-fa"></a> [content-fa](#module\_content-fa) | ./modules/functions | n/a |
 | <a name="module_insight-fa"></a> [insight-fa](#module\_insight-fa) | ./modules/functions | n/a |
 | <a name="module_local-authority-fa"></a> [local-authority-fa](#module\_local-authority-fa) | ./modules/functions | n/a |
@@ -34,15 +35,13 @@
 | [azurerm_key_vault_secret.cache-host-name](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/key_vault_secret) | resource |
 | [azurerm_key_vault_secret.cache-ssl-port](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/key_vault_secret) | resource |
 | [azurerm_key_vault_secret.platform-search-key](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/key_vault_secret) | resource |
-| [azurerm_monitor_diagnostic_setting.platform-storage-blob](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/monitor_diagnostic_setting) | resource |
+| [azurerm_monitor_diagnostic_setting.storage-blob](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/monitor_diagnostic_setting) | resource |
 | [azurerm_redis_cache.cache](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/redis_cache) | resource |
 | [azurerm_redis_cache_access_policy_assignment.owner](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/redis_cache_access_policy_assignment) | resource |
 | [azurerm_resource_group.resource-group](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/resource_group) | resource |
 | [azurerm_search_service.search](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/search_service) | resource |
-| [azurerm_storage_account.orchestrator-storage](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/storage_account) | resource |
-| [azurerm_storage_account.platform-storage](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/storage_account) | resource |
-| [azurerm_storage_account_queue_properties.orchestrator-storage-properties](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/storage_account_queue_properties) | resource |
-| [azurerm_storage_account_queue_properties.platform-storage-queue-properties](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/storage_account_queue_properties) | resource |
+| [azurerm_storage_account.storage](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/storage_account) | resource |
+| [azurerm_storage_account_queue_properties.storage-queue-properties](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/storage_account_queue_properties) | resource |
 | [azurerm_application_insights.application-insights](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/application_insights) | data source |
 | [azurerm_client_config.client](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/client_config) | data source |
 | [azurerm_key_vault.key-vault](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/key_vault) | data source |
@@ -62,12 +61,15 @@
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | <a name="input_cip-environment"></a> [cip-environment](#input\_cip-environment) | n/a | `any` | n/a | yes |
-| <a name="input_configuration"></a> [configuration](#input\_configuration) | n/a | <pre>map(object({<br>    search_sku                   = string<br>    search_replica_count         = number<br>    sql_telemetry_enabled        = bool<br>    cache_sku                    = string<br>    cache_capacity               = number<br>    ssr_fa_worker_process_count  = number<br>    ssr_fa_sku                   = string<br>    ssr_fa_elastic_max_workers   = number # only relevant if ssr_fa_sku<br>    ssr_fa_elastic_min_instances = number #  is the elastic plan (EPx)<br>  }))</pre> | <pre>{<br>  "automated-test": {<br>    "cache_capacity": 1,<br>    "cache_sku": "Basic",<br>    "search_replica_count": 1,<br>    "search_sku": "basic",<br>    "sql_telemetry_enabled": false,<br>    "ssr_fa_elastic_max_workers": 1,<br>    "ssr_fa_elastic_min_instances": 0,<br>    "ssr_fa_sku": "Y1",<br>    "ssr_fa_worker_process_count": 1<br>  },<br>  "development": {<br>    "cache_capacity": 1,<br>    "cache_sku": "Basic",<br>    "search_replica_count": 1,<br>    "search_sku": "basic",<br>    "sql_telemetry_enabled": true,<br>    "ssr_fa_elastic_max_workers": 1,<br>    "ssr_fa_elastic_min_instances": 0,<br>    "ssr_fa_sku": "Y1",<br>    "ssr_fa_worker_process_count": 1<br>  },<br>  "feature": {<br>    "cache_capacity": 1,<br>    "cache_sku": "Basic",<br>    "search_replica_count": 1,<br>    "search_sku": "basic",<br>    "sql_telemetry_enabled": true,<br>    "ssr_fa_elastic_max_workers": 1,<br>    "ssr_fa_elastic_min_instances": 0,<br>    "ssr_fa_sku": "Y1",<br>    "ssr_fa_worker_process_count": 1<br>  },<br>  "pre-production": {<br>    "cache_capacity": 1,<br>    "cache_sku": "Standard",<br>    "search_replica_count": 1,<br>    "search_sku": "basic",<br>    "sql_telemetry_enabled": false,<br>    "ssr_fa_elastic_max_workers": 1,<br>    "ssr_fa_elastic_min_instances": 0,<br>    "ssr_fa_sku": "Y1",<br>    "ssr_fa_worker_process_count": 1<br>  },<br>  "production": {<br>    "cache_capacity": 1,<br>    "cache_sku": "Standard",<br>    "search_replica_count": 3,<br>    "search_sku": "basic",<br>    "sql_telemetry_enabled": false,<br>    "ssr_fa_elastic_max_workers": 1,<br>    "ssr_fa_elastic_min_instances": 0,<br>    "ssr_fa_sku": "Y1",<br>    "ssr_fa_worker_process_count": 1<br>  },<br>  "test": {<br>    "cache_capacity": 1,<br>    "cache_sku": "Standard",<br>    "search_replica_count": 1,<br>    "search_sku": "basic",<br>    "sql_telemetry_enabled": false,<br>    "ssr_fa_elastic_max_workers": 1,<br>    "ssr_fa_elastic_min_instances": 0,<br>    "ssr_fa_sku": "Y1",<br>    "ssr_fa_worker_process_count": 1<br>  }<br>}</pre> | no |
 | <a name="input_environment"></a> [environment](#input\_environment) | n/a | `any` | n/a | yes |
 | <a name="input_environment-prefix"></a> [environment-prefix](#input\_environment-prefix) | n/a | `any` | n/a | yes |
 | <a name="input_location"></a> [location](#input\_location) | n/a | `any` | n/a | yes |
 
 ## Outputs
 
-No outputs.
+| Name | Description |
+|------|-------------|
+| <a name="output_function_apps"></a> [function\_apps](#output\_function\_apps) | Detailed attributes for all deployed platform Function Apps. |
+| <a name="output_redis_cache"></a> [redis\_cache](#output\_redis\_cache) | Attributes for the platform Redis cache. |
+| <a name="output_storage_accounts"></a> [storage\_accounts](#output\_storage\_accounts) | Attributes for the platform storage accounts. |
 <!-- END_TF_DOCS -->

@@ -3,9 +3,9 @@ resource "azurerm_redis_cache" "cache" {
   name                               = "${var.environment-prefix}-ebis-cache"
   location                           = azurerm_resource_group.resource-group.location
   resource_group_name                = azurerm_resource_group.resource-group.name
-  capacity                           = var.configuration[var.environment].cache_capacity
-  family                             = var.configuration[var.environment].cache_sku == "Premium" ? "P" : "C"
-  sku_name                           = var.configuration[var.environment].cache_sku
+  capacity                           = module.config.cache.capacity
+  family                             = module.config.cache.family
+  sku_name                           = module.config.cache.sku
   non_ssl_port_enabled               = false
   minimum_tls_version                = "1.2"
   public_network_access_enabled      = true
