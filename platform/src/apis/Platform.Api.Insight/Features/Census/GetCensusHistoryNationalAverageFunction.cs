@@ -14,9 +14,6 @@ using Platform.Functions;
 using Platform.Functions.Extensions;
 using Platform.OpenApi;
 
-
-using Platform.Api.Insight.OpenApi;
-
 namespace Platform.Api.Insight.Features.Census;
 
 public class GetCensusHistoryNationalAverageFunction(ICensusService service, IValidator<CensusNationalAvgParameters> validator)

@@ -14,9 +14,6 @@ using Platform.Functions;
 using Platform.Functions.Extensions;
 using Platform.OpenApi;
 
-
-using Platform.Api.Insight.OpenApi;
-
 namespace Platform.Api.Insight.Features.Expenditure;
 
 public class GetExpenditureSchoolHistoryNationalAverageFunction(IExpenditureService service, IValidator<ExpenditureNationalAvgParameters> validator)
