@@ -64,7 +64,7 @@ def _build_bfr_historical_data(
     ).withColumn(
         "TotalPupilsInTrust",
         coalesce(
-            # col("TotalPupilsInTrust"), 
+            col("TotalPupilsInTrust"), 
             col("SofaPupilsInTrust"),
             lit(0).cast(IntegerType())
         )
