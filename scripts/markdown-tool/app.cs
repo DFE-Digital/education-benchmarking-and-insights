@@ -4,8 +4,11 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.Json;
+using System.Runtime.CompilerServices;
 
-const string ConfigFileName = "settings.json";
+string GetScriptDirectory([CallerFilePath] string path = "") => Path.GetDirectoryName(path) ?? throw new InvalidOperationException("Could not resolve script directory.");
+var scriptDir = GetScriptDirectory();
+var ConfigFileName = Path.Combine(scriptDir, "settings.json");
 
 if (!File.Exists(ConfigFileName))
 {
@@ -47,7 +50,7 @@ string GetProperty(JsonElement element, string name)
     return "";
 }
 
-var repoRoot = Path.GetFullPath(Path.Combine(Directory.GetCurrentDirectory(), "..", ".."));
+var repoRoot = Path.GetFullPath(Path.Combine(scriptDir, "..", ".."));
 var destinationRoot = Path.Combine(repoRoot, config.BaseDestination);
 var timestamp = DateTime.Now.ToString("yyyyMMdd-HHmmss");
 var destination = Path.Combine(destinationRoot, timestamp);

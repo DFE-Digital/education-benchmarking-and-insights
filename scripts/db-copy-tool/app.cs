@@ -6,9 +6,12 @@ using System.Data;
 using System.IO;
 using System.Linq;
 using System.Text.Json;
+using System.Runtime.CompilerServices;
 using Microsoft.Data.SqlClient;
 
-const string ConfigFileName = "settings.json";
+string GetScriptDirectory([CallerFilePath] string path = "") => Path.GetDirectoryName(path) ?? throw new InvalidOperationException("Could not resolve script directory.");
+var scriptDir = GetScriptDirectory();
+var ConfigFileName = Path.Combine(scriptDir, "settings.json");
 
 if (!File.Exists(ConfigFileName))
 {

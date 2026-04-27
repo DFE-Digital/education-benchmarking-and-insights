@@ -1,10 +1,13 @@
 using System;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text.Json;
 using System.Text.Json.Nodes;
 
-const string ConfigFileName = "settings.json";
+string GetScriptDirectory([CallerFilePath] string path = "") => Path.GetDirectoryName(path) ?? throw new InvalidOperationException("Could not resolve script directory.");
+var scriptDir = GetScriptDirectory();
+var ConfigFileName = Path.Combine(scriptDir, "settings.json");
 
 if (args.Length < 2)
 {
@@ -63,12 +66,12 @@ if (envKey == null)
     return;
 }
 
-var envConfig = environments[envKey];
+var envConfig = environments![envKey];
 if (envConfig == null) return;
 
 environment = envKey; // Use the actual case from the config for reporting
 
-var repoRoot = Path.GetFullPath(Path.Combine(Directory.GetCurrentDirectory(), "..", ".."));
+var repoRoot = Path.GetFullPath(Path.Combine(scriptDir, "..", ".."));
 var apiRoot = Path.Combine(repoRoot, "platform", "src", "apis");
 var testsPath = Path.Combine(repoRoot, "platform", "tests", "Platform.ApiTests", "appsettings.local.json");
 

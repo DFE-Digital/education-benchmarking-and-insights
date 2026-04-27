@@ -5,8 +5,11 @@ using System.IO;
 using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
+using System.Runtime.CompilerServices;
 
-const string ConfigFileName = "settings.json";
+string GetScriptDirectory([CallerFilePath] string path = "") => Path.GetDirectoryName(path) ?? throw new InvalidOperationException("Could not resolve script directory.");
+var scriptDir = GetScriptDirectory();
+var ConfigFileName = Path.Combine(scriptDir, "settings.json");
 
 if (!File.Exists(ConfigFileName))
 {
@@ -31,7 +34,7 @@ using (var doc = JsonDocument.Parse(configJson))
     };
 }
 
-var repoRoot = Path.GetFullPath(Path.Combine(Directory.GetCurrentDirectory(), "..", ".."));
+var repoRoot = Path.GetFullPath(Path.Combine(scriptDir, "..", ".."));
 var modulesToProcess = config.Modules.Select(m => Path.Combine(repoRoot, m)).ToList();
 
 if (modulesToProcess.Count == 0)
