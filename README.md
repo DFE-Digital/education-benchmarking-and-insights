@@ -1,13 +1,43 @@
 # Financial Benchmarking and Insights Tool
 
-The Financial Benchmarking and Insights Tool (FBIT) is to provide a single service for the management of schools financial data. At a high-level the management of schools financial data includes but is not limited to:
+The Financial Benchmarking and Insights Tool (FBIT) provides a single service for the management of schools' financial data.
 
-- A way to compare their use of resources against other schools
-- A way to interrogate their own financial data
-- A way to identify areas of improvement to support better financial planning and consequently improved outcomes for pupils
-- A way to support Governors & Trustees in their role in holding organisations to account
+- **Benchmarking**: Compare resource use against similar schools.
+- **Insights**: Interrogate financial data to identify planning improvements.
+- **Outcomes**: Support better financial planning for improved pupil outcomes.
+- **Accountability**: Support Governors and Trustees in their oversight roles.
 
-## Monorepo Structure
+## Primary Resources
+
+- 🚀 **[Getting Started](./documentation/developers/01_Getting-Started.md)**: Onboarding instructions, local environment setup, and common `make` commands.
+- 📚 **[Documentation Index](./documentation/README.md)**: Full directory of architecture, design, and operational guides.
+- 🛠️ **[Contributing](./CONTRIBUTING.md)**: Guidelines for opening issues and pull requests.
+
+## Project Status
+
+### Project Backlog
+
+[![Board Status](https://dfe-ssp.visualstudio.com/a14e55df-4fbf-4a2f-a11d-22b187178343/32a624e7-aa96-43ef-95a2-de5dfe4479a3/_apis/work/boardbadge/a1b5a131-4e4b-43d3-b301-e7451d1652d4)](https://dfe-ssp.visualstudio.com/a14e55df-4fbf-4a2f-a11d-22b187178343/_boards/board/t/32a624e7-aa96-43ef-95a2-de5dfe4479a3/Stories/)
+
+### Build Status (CI)
+
+| Pipeline | Build | Automated Test | Test |
+| :--- | :--- | :--- | :--- |
+| Core infrastructure | [![Build Status](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_apis/build/status%2FDevelopment%2FCore%20infrastructure?branchName=main&stageName=Build%20artifacts)](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_build/latest?definitionId=2862&branchName=main) | [![Build Status](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_apis/build/status%2FDevelopment%2FCore%20infrastructure?branchName=main&stageName=Automated%20test)](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_build/latest?definitionId=2862&branchName=main) | [![Build Status](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_apis/build/status%2FDevelopment%2FCore%20infrastructure?branchName=main&stageName=Test)](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_build/latest?definitionId=2862&branchName=main) |
+| Data pipeline | [![Build Status](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_apis/build/status%2FDevelopment%2FPlatform?branchName=main&stageName=Build%20artifacts)](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_build/latest?definitionId=2879&branchName=main) | [![Build Status](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_apis/build/status%2FDevelopment%2FData%20pipeline?branchName=main&stageName=Automated%20test)](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_build/latest?definitionId=2879&branchName=main) | [![Build Status](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_apis/build/status%2FDevelopment%2FData%20pipeline?branchName=main&stageName=Test)](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_build/latest?definitionId=2879&branchName=main) |
+| Platform | [![Build Status](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_apis/build/status%2FDevelopment%2FData%20pipeline?branchName=main&stageName=Build)](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_build/latest?definitionId=2865&branchName=main) | [![Build Status](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_apis/build/status%2FDevelopment%2FPlatform?branchName=main&stageName=Automated%20test)](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_build/latest?definitionId=2865&branchName=main) | [![Build Status](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_apis/build/status%2FDevelopment%2FPlatform?branchName=main&stageName=Test)](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_build/latest?definitionId=2865&branchName=main) |
+| Front-end components | [![Build Status](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_apis/build/status%2FDevelopment%2FFront-end%20components?branchName=main)](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_build/latest?definitionId=2863&branchName=main) | | |
+| Web | [![Build Status](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_apis/build/status%2FDevelopment%2FWeb?branchName=main&stageName=Build%20artifacts)](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_build/latest?definitionId=2866&branchName=main) | [![Build Status](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_apis/build/status%2FDevelopment%2FWeb?branchName=main&stageName=Automated%20test)](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_build/latest?definitionId=2866&branchName=main) | [![Build Status](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_apis/build/status%2FDevelopment%2FWeb?branchName=main&stageName=Test)](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_build/latest?definitionId=2866&branchName=main) |
+
+### Release Status (CD)
+
+| Pre-production | Production |
+| :--- | :--- |
+| [![Build Status](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_apis/build/status%2FProduction%2FRelease?branchName=main&stageName=Pre-production)](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_build/latest?definitionId=2878&branchName=main) | [![Build Status](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_apis/build/status%2FProduction%2FRelease?branchName=main&stageName=Production)](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_build/latest?definitionId=2878&branchName=main) |
+
+## System Overview
+
+### Monorepo Structure
 
 - **`web/`**: ASP.NET Core MVC portal (Vue 3 for interactive features).
 - **`platform/`**: .NET Azure Functions REST APIs (Backend data access).
@@ -16,45 +46,11 @@ The Financial Benchmarking and Insights Tool (FBIT) is to provide a single servi
 - **`core-infrastructure/`**: Terraform IaC and .NET DbUp migrations.
 - **`pipelines/`**: YAML-based CI/CD pipeline definitions for Azure DevOps.
 - **`support-analytics/`**: Log Analytics queries and KQL for operational monitoring.
-- **`documentation/`**: Central repository for architecture, design, and operational guides.
+- **`documentation/`**: Docs-as-code generation pipeline (Markdown/Pandoc).
 
-## Core Architecture & Data Flow
+### Core Architecture & Data Flow
 
 1. **Ingestion**: Raw CSV/Excel data is uploaded to Azure Blob Storage.
 2. **Processing**: `data-pipeline` (Python) transforms data and persists to Azure SQL.
 3. **Serving**: `platform` (Azure Functions) exposes data via RESTful APIs.
 4. **Presentation**: `web` (ASP.NET MVC) portal renders dashboards using `front-end-components`.
-
-## Documentation
-
-1. [Architecture](./documentation/architecture)
-2. [Data](./documentation/data)
-3. [Developers](./documentation/developers)
-4. [Operational](./documentation/operational)
-5. [Prototype](./documentation/prototype)
-6. [Features](./documentation/features)
-7. [Design](./documentation/design)
-8. [Testing](./documentation/testing)
-9. [Glossary](./documentation/glossary.md)
-
-## Build status
-
-| Pipeline             | Build                                                                                                                                                                                                                                                                                                  | Automated Test                                                                                                                                                                                                                                                                                        | Test                                                                                                                                                                                                                                                                                      |
-|----------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Core infrastructure  | [![Build Status](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_apis/build/status%2FDevelopment%2FCore%20infrastructure?branchName=main&stageName=Build%20artifacts)](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_build/latest?definitionId=2862&branchName=main) | [![Build Status](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_apis/build/status%2FDevelopment%2FCore%20infrastructure?branchName=main&stageName=Automated%20test)](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_build/latest?definitionId=2862&branchName=main) | [![Build Status](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_apis/build/status%2FDevelopment%2FCore%20infrastructure?branchName=main&stageName=Test)](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_build/latest?definitionId=2862&branchName=main) |
-| Data pipeline        | [![Build Status](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_apis/build/status%2FDevelopment%2FPlatform?branchName=main&stageName=Build%20artifacts)](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_build/latest?definitionId=2879&branchName=main)              | [![Build Status](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_apis/build/status%2FDevelopment%2FData%20pipeline?branchName=main&stageName=Automated%20test)](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_build/latest?definitionId=2879&branchName=main)       | [![Build Status](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_apis/build/status%2FDevelopment%2FData%20pipeline?branchName=main&stageName=Test)](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_build/latest?definitionId=2879&branchName=main)       |
-| Platform             | [![Build Status](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_apis/build/status%2FDevelopment%2FData%20pipeline?branchName=main&stageName=Build)](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_build/latest?definitionId=2865&branchName=main)                   | [![Build Status](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_apis/build/status%2FDevelopment%2FPlatform?branchName=main&stageName=Automated%20test)](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_build/latest?definitionId=2865&branchName=main)              | [![Build Status](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_apis/build/status%2FDevelopment%2FPlatform?branchName=main&stageName=Test)](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_build/latest?definitionId=2865&branchName=main)              |
-| Front-end components | [![Build Status](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_apis/build/status%2FDevelopment%2FFront-end%20components?branchName=main)](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_build/latest?definitionId=2863&branchName=main)                            |                                                                                                                                                                                                                                                                                                       |                                                                                                                                                                                                                                                                                           |
-| Web                  | [![Build Status](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_apis/build/status%2FDevelopment%2FWeb?branchName=main&stageName=Build%20artifacts)](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_build/latest?definitionId=2866&branchName=main)                   | [![Build Status](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_apis/build/status%2FDevelopment%2FWeb?branchName=main&stageName=Automated%20test)](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_build/latest?definitionId=2866&branchName=main)                   | [![Build Status](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_apis/build/status%2FDevelopment%2FWeb?branchName=main&stageName=Test)](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_build/latest?definitionId=2866&branchName=main)                   |
-| Prototype            | [![Build Status](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_apis/build/status%2FDevelopment%2FPrototype?branchName=main)](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_build/latest?definitionId=2876&branchName=main)                                         |                                                                                                                                                                                                                                                                                                       |                                                                                                                                                                                                                                                                                           |
-| Documentation        | [![Build Status](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_apis/build/status%2FDevelopment%2FDocumentation?branchName=main)](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_build/latest?definitionId=2917&branchName=main)                                     |                                                                                                                                                                                                                                                                                                       |                                                                                                                                                                                                                                                                                           |
-
-## Release status
-
-| Pre-production                                                                                                                                                                                                                                                                       | Production                                                                                                                                                                                                                                                                       |
-|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| [![Build Status](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_apis/build/status%2FProduction%2FRelease?branchName=main&stageName=Pre-production)](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_build/latest?definitionId=2878&branchName=main) | [![Build Status](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_apis/build/status%2FProduction%2FRelease?branchName=main&stageName=Production)](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_build/latest?definitionId=2878&branchName=main) |
-
-## Project backlog
-
-[![Board Status](https://dfe-ssp.visualstudio.com/a14e55df-4fbf-4a2f-a11d-22b187178343/32a624e7-aa96-43ef-95a2-de5dfe4479a3/_apis/work/boardbadge/a1b5a131-4e4b-43d3-b301-e7451d1652d4)](https://dfe-ssp.visualstudio.com/a14e55df-4fbf-4a2f-a11d-22b187178343/_boards/board/t/32a624e7-aa96-43ef-95a2-de5dfe4479a3/Stories/)

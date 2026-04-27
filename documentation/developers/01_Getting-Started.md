@@ -21,9 +21,12 @@ Before starting, ensure the following tools are installed on your machine:
 - **.NET 8.0 SDK:** Required for Platform components.
 - **Node.js 22 (LTS):** Required for Front-end and Web components.
 - **Terraform:** Required for infrastructure management.
+- **terraform-docs:** Required for generating infrastructure documentation (used by `make tf-check`).
+- **Make:** Required to run the root `Makefile` and component scripts.
+- **Git Bash (Windows):** Required for Windows users to execute `make` commands correctly in a Bash environment.
 - **Python 3.x:** Required for certain build scripts and pre-commit hooks.
 - **pre-commit:** For running local quality checks before committing.
-- **Docker:** Recommended for running local dependencies (SQL Server, Redis, etc.). See the [Local Environment with Docker guide](06_Local-Environment-with-Docker.md) for setup instructions.
+- **Docker & Docker Compose:** Required for running local dependencies (SQL Server, Redis, etc.) and the data pipeline. See the [Local Environment with Docker guide](06_Local-Environment-with-Docker.md) for setup instructions.
 
 ### Recommended IDEs
 
@@ -65,11 +68,41 @@ Follow these steps to set up the repository for local development:
    pre-commit install
    ```
 
-3. **Navigate to a component:**
+3. **Configure custom scripts:**
+   Some repository tools require local `settings.json` files. Copy the examples provided:
+
+   ```sh
+   cp scripts/env-tool/settings.example.json scripts/env-tool/settings.json
+   cp scripts/terraform-tool/settings.example.json scripts/terraform-tool/settings.json
+   ```
+
+   *Note: Populate these files with your specific local or environment-specific values as needed.*
+
+4. **Navigate to a component:**
    Choose the component you wish to work on and follow its specific README instructions:
    - For the main website: [web/README.md](../../web/README.md)
    - For APIs: [platform/README.md](../../platform/README.md)
    - For React components: [front-end-components/README.md](../../front-end-components/README.md)
+
+## Local Development
+
+A root `Makefile` is provided to consolidate common infrastructure and tooling commands.
+
+### Common Commands
+
+Run `make help` to see all available commands.
+
+- `make up`: Start local Docker dependencies (Azurite, SQL Server, Redis).
+- `make down`: Stop local Docker dependencies.
+- `make build-pipeline`: Force a rebuild of the data-pipeline Docker image.
+- `make lint-md`: Lint and fix all markdown files in the repository.
+- `make kill-dotnet`: Kill any hanging dotnet processes.
+- `make tf-check`: Run the custom Terraform validation helper (format, validate, lint, docs).
+- `make set-env ARGS="all local"`: Run the environment switcher tool.
+
+### Using Make on Windows
+
+To ensure a seamless experience on Windows, execute all `make` commands from **Git Bash**. This provides the necessary environment for the Makefile's shell commands to run correctly.
 
 ## Build & deployment
 
