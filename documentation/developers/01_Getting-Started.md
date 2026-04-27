@@ -98,7 +98,7 @@ Run `make help` to see all available commands.
 - `make lint-md`: Lint and fix all markdown files in the repository.
 - `make kill-dotnet`: Kill any hanging dotnet processes.
 - `make tf-check`: Run the custom Terraform validation helper (format, validate, lint, docs).
-- `make set-env ARGS="all local"`: Run the environment switcher tool.
+- `make set-env all local`: Switch the local environment settings.
 
 ### Using Make on Windows
 

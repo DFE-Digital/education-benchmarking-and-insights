@@ -1,6 +1,13 @@
 # This is the default target when running 'make' without arguments
 .PHONY: help up down build-pipeline lint-md kill-dotnet tf-check set-env
 
+# Capture any arguments passed after the target
+# This allows 'make set-env all local' instead of 'make set-env ARGS="all local"'
+ifeq (set-env,$(firstword $(MAKECMDGOALS)))
+  RUN_ARGS := $(wordlist 2,$(words $(MAKECMDGOALS)),$(MAKECMDGOALS))
+  $(eval $(RUN_ARGS):;@:)
+endif
+
 help: ## Show this help
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
 
@@ -23,5 +30,5 @@ kill-dotnet: ## Kill all running dotnet processes
 tf-check: ## Run the terraform helper tool (format, validate, lint, docs)
 	dotnet run scripts/terraform-tool/app.cs
 
-set-env: ## Run the environment switcher tool (usage: make set-env ARGS="all local")
-	dotnet run scripts/env-tool/app.cs $(ARGS)
+set-env: ## Switch environment (usage: make set-env all local)
+	dotnet run scripts/env-tool/app.cs $(RUN_ARGS)
