@@ -64,7 +64,7 @@ def _build_bfr_historical_data(
     ).withColumn(
         "TotalPupilsInTrust",
         coalesce(
-            col("TotalPupilsInTrust"), 
+            # col("TotalPupilsInTrust"), 
             col("SofaPupilsInTrust"),
             lit(0).cast(IntegerType())
         )
@@ -461,8 +461,8 @@ def historic_bfr_y2_with_historical_data():
 def merged_bfr_with_2y_historic_data():
     return _prepare_merged_bfr_for_forecast_and_risk(
         dp.read("merged_bfr_with_crn"),
-        dp.read("academies_y2"),
-        dp.read("academies_y1"),
+        dp.read("academies_historical_y2_processed"),
+        dp.read("academies_historical_y1_processed"),
     )
 
 
