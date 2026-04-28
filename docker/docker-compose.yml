@@ -1,17 +1,38 @@
 name: 'fbit-services'
 
 services:
-
   azurite:
     container_name: "azurite"
     hostname: "azurite"
     image: "mcr.microsoft.com/azure-storage/azurite"
+    command: "azurite --blobHost 0.0.0.0 --queueHost 0.0.0.0 --tableHost 0.0.0.0 --skipApiVersionCheck"
     ports:
       - "10000:10000"
       - "10001:10001"
       - "10002:10002"
     volumes:
       - "./azurite/data:/data"
+
+  azurite-init:
+    image: mcr.microsoft.com/azure-cli
+    depends_on:
+      azurite:
+        condition: service_started
+    environment:
+      AZURITE_CONNECTION_STRING: "DefaultEndpointsProtocol=http;AccountName=devstoreaccount1;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;BlobEndpoint=http://azurite:10000/devstoreaccount1;QueueEndpoint=http://azurite:10001/devstoreaccount1;TableEndpoint=http://azurite:10002/devstoreaccount1;"
+    entrypoint: /bin/sh
+    command: >
+      -c '
+      set -e;
+      for c in comparator-sets metric-rag pre-processed raw; do
+        az storage container create --name "$$c" --connection-string "$$AZURITE_CONNECTION_STRING" --only-show-errors >/dev/null;
+      done;
+      for q in data-pipeline-job-default-start data-pipeline-job-custom-start data-pipeline-job-finished data-pipeline-job-dlq; do
+        az storage queue create --name "$$q" --connection-string "$$AZURITE_CONNECTION_STRING" --only-show-errors >/dev/null;
+      done;
+      echo "Azurite bootstrap complete";
+      '
+    restart: "no"
 
   mssql:
     container_name: "azure-sql-edge"
@@ -25,6 +46,29 @@ services:
       - "./sql/data:/var/opt/mssql/data"
       - "./sql/log:/var/opt/mssql/log"
       - "./sql/secrets:/var/opt/mssql/secrets"
+
+  mssql-init:
+    image: mcr.microsoft.com/mssql-tools
+    depends_on:
+      mssql:
+        condition: service_started
+    entrypoint: /bin/sh
+    command: >
+      -c "/opt/mssql-tools/bin/sqlcmd -S mssql,1433 -U sa -P 'mystrong!Pa55word' -Q \"IF DB_ID('data') IS NULL CREATE DATABASE data;\" && echo 'Database creation complete'"
+    restart: "no"
+
+  db-migrate:
+    image: mcr.microsoft.com/dotnet/sdk:10.0
+    depends_on:
+      mssql-init:
+        condition: service_completed_successfully
+    working_dir: /workspace
+    volumes:
+      - "..:/workspace"
+    entrypoint: /bin/sh
+    command: >
+      -c "dotnet run --project core-infrastructure/src/db/Core.Database -- -c \"Server=mssql,1433;Database=data;User Id=SA;Password=mystrong!Pa55word;Encrypt=False;\""
+    restart: "no"
 
   redis:
     container_name: "redis"
