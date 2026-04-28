@@ -1,3 +1,4 @@
+using Microsoft.Azure.Cosmos.Linq;
 using Web.App.Infrastructure.Apis;
 
 // ReSharper disable ClassNeverInstantiated.Global
@@ -10,7 +11,7 @@ public record EducationHealthCarePlanHorizontalBarChartRequest : PostHorizontalB
         string uuid,
         string code,
         EducationHealthCarePlansComparisonDatum[] filteredData,
-        Func<string, string?> linkFormatter)
+        Func<string, string?>? linkFormatter = null)
     {
         BarHeight = 22;
         Data = filteredData;
@@ -19,7 +20,9 @@ public record EducationHealthCarePlanHorizontalBarChartRequest : PostHorizontalB
         KeyField = nameof(EducationHealthCarePlansComparisonDatum.Code).ToLower();
         LabelField = "name";
         LabelFormat = "%2$s";
-        LinkFormat = linkFormatter("%1$s");
+        LinkFormat = linkFormatter == null
+            ? string.Empty
+            : linkFormatter.Invoke("%1$s");
         Sort = "desc";
         Width = 610;
         ValueField = nameof(EducationHealthCarePlansComparisonDatum.Plans).ToLower();

@@ -136,18 +136,13 @@ public class LocalAuthorityEducationHealthCarePlansController(
         return query;
     }
 
-    private async Task<ChartResponse[]> BuildCharts(string urn,
+    private async Task<ChartResponse[]> BuildCharts(string code,
         EducationHealthCarePlansComparisonSubCategoriesViewModel subCategories)
     {
         var requests = subCategories.Items.Select(c => new EducationHealthCarePlanHorizontalBarChartRequest(
             c.Uuid!,
-            urn,
-            c.Data!,
-            format => Uri.UnescapeDataString(
-                Url.Action("Index", "School", new
-                {
-                    urn = format
-                }) ?? string.Empty)
+            code,
+            c.Data!
         ));
 
         ChartResponse[] charts = [];
