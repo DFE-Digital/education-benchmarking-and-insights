@@ -10,8 +10,8 @@ namespace Web.Integration.Tests.Pages.LocalAuthorities;
 
 public class WhenViewingEducationHealthCarePlans(SchoolBenchmarkingWebAppClient client) : PageBase<SchoolBenchmarkingWebAppClient>(client)
 {
-    # region Tests
-    
+    #region Tests
+
     [Fact]
     public async Task CanDisplay()
     {
@@ -68,8 +68,8 @@ public class WhenViewingEducationHealthCarePlans(SchoolBenchmarkingWebAppClient 
             viewAs: viewAs,
             expectedQueryParams: expectedQueryParams);
     }
-    
-    
+
+
     [Fact]
     public async Task CanDisplayChartWarningWhenChartApiFails()
     {
@@ -82,7 +82,7 @@ public class WhenViewingEducationHealthCarePlans(SchoolBenchmarkingWebAppClient 
             viewAs: (int)Views.ViewAsOptions.Chart,
             chartApiError: true);
     }
-    
+
     [Theory]
     [InlineData(0, "?selectedSubCategories=0&viewAs=0")]
     [InlineData(1, "?selectedSubCategories=1&viewAs=0")]
@@ -145,11 +145,11 @@ public class WhenViewingEducationHealthCarePlans(SchoolBenchmarkingWebAppClient 
             Assert.Null(button);
         }
     }
-    
-    # endregion
-    
-    # region Methods
-    
+
+    #endregion
+
+    #region Methods
+
     private async Task<(
         IHtmlDocument page,
         LocalAuthority authority,
@@ -170,7 +170,7 @@ public class WhenViewingEducationHealthCarePlans(SchoolBenchmarkingWebAppClient 
         {
             Html = "<svg />"
         };
-        
+
         var client = Client.SetupInsights()
             .SetupLocalAuthorityEndpoints(authority, plans)
             .SetupLocalAuthoritiesComparators(authority.Code, ["123", "124"])
@@ -344,7 +344,7 @@ public class WhenViewingEducationHealthCarePlans(SchoolBenchmarkingWebAppClient 
         new("Post 16", "Placement of pupils with EHC plans in post 16", 6),
         new("Other", "Placement of pupils with EHC plans in other types of provisions", 7)
     ];
-    
+
     private static ExpectedSubCategory[] BuildExpectedSubCategories(params int[]? ids)
     {
         if (ids is null || ids.Length == 0)
@@ -367,6 +367,6 @@ public class WhenViewingEducationHealthCarePlans(SchoolBenchmarkingWebAppClient 
             ["EHC plans in Post 16 (per 1000 pupils)"] = p => p.Post16,
             ["EHC plans in other types of provisions (per 1000 pupils)"] = p => p.Other
         };
-    
-    # endregion
+
+    #endregion
 }
