@@ -21,6 +21,11 @@ public record LocalAuthority<T> : LocalAuthorityBase
     /// The budget financial data.
     /// </summary>
     public T? Budget { get; set; }
+
+    /// <summary>
+    /// The selected financial data selected based on the request parameters (e.g. budget or outturn).
+    /// </summary>
+    public T? Result { get; set; }
 }
 
 /// <summary>

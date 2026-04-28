@@ -17,8 +17,10 @@ public static class ServiceCollection
         serviceCollection
             .AddSingleton<IQueryHighNeedsHandler, QueryHighNeedsV1Handler>()
             .AddSingleton<IQueryHighNeedsHistoryHandler, QueryHighNeedsHistoryV1Handler>()
+            .AddSingleton<IQueryHighNeedsByTransactionTypeHandler, QueryHighNeedsByTransactionTypeV1Handler>()
             .AddSingleton<IHighNeedsService, HighNeedsService>()
-            .AddTransient<IValidator<HighNeedsParameters>, HighNeedsParametersValidator>();
+            .AddTransient<IValidator<HighNeedsParameters>, HighNeedsParametersValidator>()
+            .AddTransient<IValidator<HighNeedsByTransactionTypeParameters>, HighNeedsByTransactionTypeParametersValidator>();
 
         return serviceCollection;
     }

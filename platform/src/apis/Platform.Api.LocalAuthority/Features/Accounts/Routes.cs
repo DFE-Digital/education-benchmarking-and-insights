@@ -7,4 +7,5 @@ public static class Routes
 {
     public const string HighNeeds = "local-authorities/accounts/high-needs";
     public const string HighNeedsHistory = "local-authorities/accounts/high-needs/history";
+    public const string HighNeedsByTransactionType = "local-authorities/accounts/high-needs/by-transaction-type";
 }
