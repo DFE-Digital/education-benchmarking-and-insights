@@ -15,8 +15,8 @@ public class HighNeedsParametersValidator : AbstractValidator<HighNeedsParameter
 
         RuleFor(x => x.Dimension)
             .Must(BeAValidDimension)
-            .WithMessage($"{{PropertyName}} must be empty or one of the supported values: {string.Join(", ", Dimensions.HighNeeds.All)}");
+            .WithMessage($"{{PropertyName}} must be empty or one of the supported values: {string.Join(", ", Dimensions.HighNeeds.Population)}");
     }
 
-    private static bool BeAValidDimension(string dimension) => Dimensions.HighNeeds.IsValid(dimension);
+    private static bool BeAValidDimension(string dimension) => Dimensions.HighNeeds.IsValidPopulation(dimension);
 }

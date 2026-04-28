@@ -30,6 +30,16 @@ public record HighNeeds : HighNeedsBase
     /// Place funding breakdown.
     /// </summary>
     public PlaceFunding? PlaceFunding { get; set; }
+
+    /// <summary>
+    /// SEN transport breakdown.
+    /// </summary>
+    public SenTransport? SenTransport { get; set; }
+
+    /// <summary>
+    /// SEN services breakdown.
+    /// </summary>
+    public CentralSenServices? CentralSenServices { get; set; }
 }
 
 /// <summary>

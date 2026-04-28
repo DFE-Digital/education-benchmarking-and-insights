@@ -85,4 +85,35 @@ public static class Mapper
                 PlaceFunding = budgetPlaceFunding
             });
     }
+
+    public static LocalAuthority<HighNeeds> MultiMapToHighNeedsByTransactionType(object[] objects)
+    {
+        var localAuthority = objects[0] as LocalAuthorityBase;
+        var highNeedsBase = objects[1] as HighNeedsBase;
+        var highNeedsAmount = objects[2] as HighNeedsAmount;
+        var topFundingMaintained = objects[3] as TopFunding;
+        var topFundingNonMaintained = objects[4] as TopFunding;
+        var placeFunding = objects[5] as PlaceFunding;
+        var senTransport = objects[6] as SenTransport;
+        var centralSenServices = objects[7] as CentralSenServices;
+
+
+        return new LocalAuthority<HighNeeds>
+        {
+            Code = localAuthority?.Code,
+            Name = localAuthority?.Name,
+            Population2To18 = localAuthority?.Population2To18,
+            TotalPupils = localAuthority?.TotalPupils,
+            Result = new HighNeeds
+            {
+                Total = highNeedsBase?.Total,
+                HighNeedsAmount = highNeedsAmount,
+                Maintained = topFundingMaintained,
+                NonMaintained = topFundingNonMaintained,
+                PlaceFunding = placeFunding,
+                SenTransport = senTransport,
+                CentralSenServices = centralSenServices
+            }
+        };
+    }
 }
