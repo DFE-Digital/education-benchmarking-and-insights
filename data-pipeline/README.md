@@ -93,11 +93,11 @@ To run the pipeline locally, follow these steps:
     Start the backing services (Azurite and SQL Server) via the centralized Docker Compose setup.
     See the [Local Environment with Docker guide](../documentation/developers/06_Local-Environment-with-Docker.md) for instructions.
 
-1. Add data to azurite:
+1. Add data to Azurite:
 
-    Using Azure Storage Explorer (default settings), connect to the local Azurite emulator and manually upload the `default` folder from one of the live environments, say test.
+    Using Azure Storage Explorer (default settings), connect to the local Azurite emulator and manually upload the `default` folder from one of the live environments to the `raw` container in Azurite, say test.
 
-1. Once the pipeline is running and there's data for the pipeline to process, start processing files placed in the `raw` container by adding the following message to the `data-pipeline-job-default-start` queue as UTF-8:
+1. Once the pipeline is running and there's data for the pipeline to process, trigger the pipeline by adding the following message to the `data-pipeline-job-default-start` queue as UTF-8:
 
     ```json
     {
