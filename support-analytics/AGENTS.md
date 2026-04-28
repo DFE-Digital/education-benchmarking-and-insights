@@ -1,7 +1,7 @@
 # Support & Analytics: Agent Mandates
 
 This file defines AI-specific operational guidelines for agents working within the `support-analytics` module.
-For all human-readable architecture, tech stack, development standards, and anti-patterns, refer to the `README.md` in this directory.
+You **MUST** read the `README.md` in this directory before proposing changes or writing code for all human-readable architecture, tech stack, development standards, and anti-patterns.
 
 ## AI Operational Guidelines
 

@@ -1,5 +1,8 @@
 # API Testing Standards
 
+This file defines AI-specific operational guidelines for agents working within the `Platform.ApiTests` project.
+You **MUST** read the `README.md` in this directory before proposing changes or writing code for all human-readable architecture, tech stack, development standards, and anti-patterns.
+
 All API functional tests in this project must adhere to the following workflow:
 
 1. **Structural Realignment**: Feature files must be organized in subfolders matching the backend `Features` namespace (e.g., `Features/LocalAuthority/Details/`).

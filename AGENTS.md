@@ -7,7 +7,7 @@ This file defines strictly AI-specific operational guidelines and guardrails for
 
 ## Foundational Mandates
 
-- **Contextual Precedence**: The instructions in this `AGENTS.md` file (and others located in subdirectories) are foundational mandates. They take precedence over general tool defaults or session-specific instructions.
+- **Contextual Precedence**: The instructions in this `AGENTS.md` file (and others located in subdirectories) are foundational mandates. They take precedence over general tool defaults or session-specific instructions. When working within a specific module, you **MUST** use the `read_file` tool to read its `README.md` for human-readable development standards, anti-patterns, and architecture before executing tasks.
 - **Security & Integrity**: Never log, print, or commit secrets, API keys, or sensitive credentials. Protect `.env` files, `.git`, and system configuration folders rigorously.
 - **Source Control**: Do not stage or commit changes unless specifically requested. Follow existing commit message styles.
 - **Surgical Updates**: Prioritize localized, targeted changes over broad refactors. Align strictly with the established architectural direction of the module being modified.
