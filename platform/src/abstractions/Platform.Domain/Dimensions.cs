@@ -53,15 +53,41 @@ public static class Dimensions
         public const string PerHead = nameof(PerHead);
         /// <summary>Monetary values calculated per pupil.</summary>
         public const string PerPupil = nameof(PerPupil);
+        /// <summary>Monetary values calculated per EHC plan.</summary>
+        public const string PerEhcp = nameof(PerEhcp);
+        /// <summary>Monetary values calculated per SEN Support.</summary>
+        public const string PerSenSupport = nameof(PerSenSupport);
+        /// <summary>Monetary values calculated per EHC plan and SEN Support.</summary>
+        public const string PerTotalSupport = nameof(PerTotalSupport);
 
         public static readonly string[] All =
+        [
+            Actuals,
+            PerHead,
+            PerPupil,
+            PerEhcp,
+            PerSenSupport,
+            PerTotalSupport
+        ];
+
+        public static readonly string[] Population =
         [
             Actuals,
             PerHead,
             PerPupil
         ];
 
+        public static readonly string[] Support =
+        [
+            PerPupil,
+            PerEhcp,
+            PerSenSupport,
+            PerTotalSupport
+        ];
+
         public static bool IsValid(string? dimension) => All.Any(a => a == dimension);
+        public static bool IsValidPopulation(string? dimension) => Population.Any(a => a == dimension);
+        public static bool IsValidSupport(string? dimension) => Support.Any(a => a == dimension);
     }
 
     public static class EducationHealthCarePlans
