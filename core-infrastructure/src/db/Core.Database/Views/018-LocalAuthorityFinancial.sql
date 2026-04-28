@@ -304,7 +304,7 @@ SELECT f.RunId,
        IIF(n.EHCPTotal > 0.0, f.BudgetEdPsychologyService / n.EHCPTotal, NULL) AS BudgetEdPsychologyService,
        IIF(n.EHCPTotal > 0.0, f.BudgetSENAdmin / n.EHCPTotal, NULL) AS BudgetSENAdmin
 FROM LocalAuthorityFinancial f
-    LEFT JOIN LocalAuthorityNonFinancial n ON n.LaCode = f.LaCode
+    LEFT JOIN LocalAuthorityNonFinancial n ON n.LaCode = f.LaCode AND f.RunId = n.RunId
 GO
 
 DROP VIEW IF EXISTS VW_LocalAuthorityFinancialPerSENSupport
@@ -382,7 +382,7 @@ SELECT f.RunId,
        IIF(n.SENSupport > 0.0, f.BudgetEdPsychologyService / n.SENSupport, NULL) AS BudgetEdPsychologyService,
        IIF(n.SENSupport > 0.0, f.BudgetSENAdmin / n.SENSupport, NULL) AS BudgetSENAdmin
 FROM LocalAuthorityFinancial f
-     LEFT JOIN LocalAuthorityNonFinancial n ON n.LaCode = f.LaCode
+     LEFT JOIN LocalAuthorityNonFinancial n ON n.LaCode = f.LaCode AND f.RunId = n.RunId
 GO
 
 DROP VIEW IF EXISTS VW_LocalAuthorityFinancialPerSENSupportAndEHCP
@@ -461,7 +461,7 @@ SELECT f.RunId,
        IIF(x.TotalSupport > 0.0, f.BudgetEdPsychologyService / x.TotalSupport, NULL) AS BudgetEdPsychologyService,
        IIF(x.TotalSupport > 0.0, f.BudgetSENAdmin / x.TotalSupport, NULL) AS BudgetSENAdmin
 FROM LocalAuthorityFinancial f
-    LEFT JOIN LocalAuthorityNonFinancial n ON n.LaCode = f.LaCode
+    LEFT JOIN LocalAuthorityNonFinancial n ON n.LaCode = f.LaCode AND f.RunId = n.RunId
     CROSS APPLY (
         SELECT n.EHCPTotal + n.SENSupport AS TotalSupport
 ) x
@@ -498,6 +498,9 @@ AS
     WHERE RunType = 'default'
 GO
 
+DROP VIEW IF EXISTS VW_LocalAuthorityFinancialDefaultPerEHCP
+GO
+
 CREATE VIEW VW_LocalAuthorityFinancialDefaultPerEHCP
 AS
     SELECT *
@@ -505,11 +508,17 @@ AS
     WHERE RunType = 'default'
 GO
 
+DROP VIEW IF EXISTS VW_LocalAuthorityFinancialDefaultPerSENSupport
+GO
+
 CREATE VIEW VW_LocalAuthorityFinancialDefaultPerSENSupport
 AS
     SELECT *
     FROM VW_LocalAuthorityFinancialPerSENSupport
     WHERE RunType = 'default'
+GO
+
+DROP VIEW IF EXISTS VW_LocalAuthorityFinancialDefaultPerSENSupportAndEHCP
 GO
 
 CREATE VIEW VW_LocalAuthorityFinancialDefaultPerSENSupportAndEHCP
@@ -561,6 +570,9 @@ AS
     WHERE Name = 'CurrentYear')
 GO
 
+DROP VIEW IF EXISTS VW_LocalAuthorityFinancialDefaultCurrentPerEHCP
+GO
+
 CREATE VIEW VW_LocalAuthorityFinancialDefaultCurrentPerEHCP
 AS
     SELECT c.*,
@@ -572,6 +584,9 @@ AS
     WHERE Name = 'CurrentYear')
 GO
 
+DROP VIEW IF EXISTS VW_LocalAuthorityFinancialDefaultCurrentPerSENSupport
+GO
+
 CREATE VIEW VW_LocalAuthorityFinancialDefaultCurrentPerSENSupport
 AS
     SELECT c.*,
@@ -581,6 +596,9 @@ AS
     WHERE c.RunId = (SELECT Value
     FROM Parameters
     WHERE Name = 'CurrentYear')
+GO
+
+DROP VIEW IF EXISTS VW_LocalAuthorityFinancialDefaultCurrentPerSENSupportAndEHCP
 GO
 
 CREATE VIEW VW_LocalAuthorityFinancialDefaultCurrentPerSENSupportAndEHCP
