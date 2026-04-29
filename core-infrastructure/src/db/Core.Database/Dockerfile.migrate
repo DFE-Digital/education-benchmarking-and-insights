@@ -2,7 +2,6 @@
 FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build
 WORKDIR /src
 
-# copy repo so project references resolve
 COPY . .
 
 RUN dotnet restore core-infrastructure/src/db/Core.Database/Core.Database.csproj
@@ -13,5 +12,4 @@ FROM mcr.microsoft.com/dotnet/runtime:10.0
 WORKDIR /app
 COPY --from=build /app/publish .
 
-# default entrypoint for migration
 ENTRYPOINT ["dotnet", "Core.Database.dll"]
