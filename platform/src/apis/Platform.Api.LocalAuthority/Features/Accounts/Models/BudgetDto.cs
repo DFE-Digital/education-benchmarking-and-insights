@@ -35,7 +35,7 @@ public record BudgetDto
     public string? BudgetPlaceFundingSecondary { get; set; }
     public string? BudgetPlaceFundingSpecial { get; set; }
     public string? BudgetPlaceFundingAlternativeProvision { get; set; }
-    public string? BudgetSENTransport { get; set; }
+    public string? BudgetSENTransportDSG { get; set; }
     public string? BudgetHometoSchoolTransportPre16 { get; set; }
     public string? BudgetHometoSchoolTransport1618 { get; set; }
     public string? BudgetHometoSchoolTransport1925 { get; set; }
@@ -72,7 +72,7 @@ public record BudgetDto
         nameof(BudgetPlaceFundingSecondary),
         nameof(BudgetPlaceFundingSpecial),
         nameof(BudgetPlaceFundingAlternativeProvision),
-        nameof(BudgetSENTransport),
+        nameof(BudgetSENTransportDSG),
         nameof(BudgetHometoSchoolTransportPre16),
         nameof(BudgetHometoSchoolTransport1618),
         nameof(BudgetHometoSchoolTransport1925),

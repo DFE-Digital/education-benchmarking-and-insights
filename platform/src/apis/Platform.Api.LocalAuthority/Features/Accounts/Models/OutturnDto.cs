@@ -36,7 +36,7 @@ public record OutturnDto
     public string? OutturnPlaceFundingSecondary { get; set; }
     public string? OutturnPlaceFundingSpecial { get; set; }
     public string? OutturnPlaceFundingAlternativeProvision { get; set; }
-    public string? OutturnSENTransport { get; set; }
+    public string? OutturnSENTransportDSG { get; set; }
     public string? OutturnHometoSchoolTransportPre16 { get; set; }
     public string? OutturnHometoSchoolTransport1618 { get; set; }
     public string? OutturnHometoSchoolTransport1925 { get; set; }
@@ -74,7 +74,7 @@ public record OutturnDto
         nameof(OutturnPlaceFundingSecondary),
         nameof(OutturnPlaceFundingSpecial),
         nameof(OutturnPlaceFundingAlternativeProvision),
-        nameof(OutturnSENTransport),
+        nameof(OutturnSENTransportDSG),
         nameof(OutturnHometoSchoolTransportPre16),
         nameof(OutturnHometoSchoolTransport1618),
         nameof(OutturnHometoSchoolTransport1925),

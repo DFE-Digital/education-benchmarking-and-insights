@@ -33,7 +33,7 @@ public record HighNeedsResponse
     public string? PlaceFundingSecondary { get; set; }
     public string? PlaceFundingSpecial { get; set; }
     public string? PlaceFundingAlternativeProvision { get; set; }
-    public string? SenTransport { get; set; }
+    public string? SenTransportDsg { get; set; }
     public string? HometoSchoolTransportPre16 { get; set; }
     public string? HometoSchoolTransport1618 { get; set; }
     public string? HometoSchoolTransport1925 { get; set; }
