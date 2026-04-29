@@ -104,17 +104,17 @@ services:
       context: ../data-pipeline
       dockerfile: ../data-pipeline/pipeline-worker/Dockerfile
     environment:
-      - STORAGE_CONNECTION_STRING=${AZURITE_CONNECTION_STRING}
-      - WORKER_QUEUE_NAME=data-pipeline-job-default-start
-      - COMPLETE_QUEUE_NAME=data-pipeline-job-finished
-      - RAW_DATA_CONTAINER=raw
-      - DB_PORT=1433
-      - DB_ARGS=Encrypt=no;TrustServerCertificate=no;Connection Timeout=30
-      - DB_HOST=mssql
-      - DB_NAME=${DB_NAME}
-      - DB_USER=${MSSQL_USER}
-      - DB_PWD=${SA_PASSWORD}
-      - ENV=dev
+      STORAGE_CONNECTION_STRING: ${AZURITE_CONNECTION_STRING}
+      WORKER_QUEUE_NAME: data-pipeline-job-default-start
+      COMPLETE_QUEUE_NAME: data-pipeline-job-finished
+      RAW_DATA_CONTAINER: raw
+      DB_PORT: 1433
+      DB_ARGS: Encrypt=no;TrustServerCertificate=no;Connection Timeout=30
+      DB_HOST: mssql
+      DB_NAME: ${DB_NAME}
+      DB_USER: ${MSSQL_USER}
+      DB_PWD: ${SA_PASSWORD}
+      ENV: dev
     depends_on:
       azurite:
         condition: service_healthy
