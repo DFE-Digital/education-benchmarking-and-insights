@@ -44,7 +44,7 @@ services:
     ports:
       - "1433:1433"
     environment:
-      SA_PASSWORD: "${SA_PASSWORD:-mystrong!Pa55word}"
+      SA_PASSWORD: "${SA_PASSWORD}"
       ACCEPT_EULA: Y
     volumes:
       - "./sql/data:/var/opt/mssql/data"
@@ -63,7 +63,7 @@ services:
         condition: service_healthy
     entrypoint: /bin/sh
     command: >
-      -c "/opt/mssql-tools/bin/sqlcmd -S mssql,1433 -U ${MSSQL_USER:-sa} -P '${SA_PASSWORD:-mystrong!Pa55word}' -Q \"IF DB_ID('${DB_NAME:-data}') IS NULL CREATE DATABASE ${DB_NAME:-data};\" && echo 'Database creation complete'"
+      -c "/opt/mssql-tools/bin/sqlcmd -S mssql,1433 -U ${MSSQL_USER} -P '${SA_PASSWORD}' -Q \"IF DB_ID('${DB_NAME}') IS NULL CREATE DATABASE ${DB_NAME};\" && echo 'Database creation complete'"
     restart: "no"
 
   db-migrate:
@@ -75,7 +75,7 @@ services:
         condition: service_completed_successfully
     command:
       - -c
-      - "Server=mssql,1433;Database=${DB_NAME:-data};User Id=${MSSQL_USER:-SA};Password=${SA_PASSWORD:-mystrong!Pa55word};Encrypt=False;"
+      - "Server=mssql,1433;Database=${DB_NAME};User Id=${MSSQL_USER};Password=${SA_PASSWORD};Encrypt=False;"
     restart: "no"
 
   redis:
@@ -111,9 +111,9 @@ services:
       - DB_PORT=1433
       - DB_ARGS=Encrypt=no;TrustServerCertificate=no;Connection Timeout=30
       - DB_HOST=mssql
-      - DB_NAME=${DB_NAME:-data}
-      - DB_USER=${MSSQL_USER:-sa}
-      - DB_PWD=${SA_PASSWORD:-mystrong!Pa55word}
+      - DB_NAME=${DB_NAME}
+      - DB_USER=${MSSQL_USER}
+      - DB_PWD=${SA_PASSWORD}
       - ENV=dev
     depends_on:
       azurite:
