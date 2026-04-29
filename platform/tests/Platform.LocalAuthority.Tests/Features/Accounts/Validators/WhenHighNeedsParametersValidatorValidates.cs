@@ -18,11 +18,11 @@ public class WhenHighNeedsParametersValidatorValidates
         { string.Join(",", Enumerable.Range(1, 30).Select(i => $"code{i}")), "PerHead" }
     };
 
-    public static TheoryData<string, string> InvalidCases => new()
+    public static TheoryData<string, string, string> InvalidCases => new()
     {
-        { "", "PerHead" },
-        { string.Join(",", Enumerable.Range(1, 31).Select(i => $"code{i}")), "PerHead" },
-        { "code1", "invalid" }
+        { "", "PerHead", "'Codes' must not be empty" },
+        { string.Join(",", Enumerable.Range(1, 31).Select(i => $"code{i}")), "PerHead", "Between 1 and 30 local authority codes must be supplied" },
+        { "code1", "invalid", "must be empty or one of the supported values" }
     };
 
     [Theory]
@@ -43,7 +43,7 @@ public class WhenHighNeedsParametersValidatorValidates
 
     [Theory]
     [MemberData(nameof(InvalidCases))]
-    public async Task ShouldValidateAndEvaluateBadParametersAsInvalid(string codes, string dimension)
+    public async Task ShouldValidateAndEvaluateBadParametersAsInvalid(string codes, string dimension, string expectedMessage)
     {
         var parameters = new HighNeedsParameters();
         parameters.SetValues(new NameValueCollection
@@ -55,5 +55,6 @@ public class WhenHighNeedsParametersValidatorValidates
         var actual = await _validator.ValidateAsync(parameters);
         Assert.False(actual.IsValid);
         Assert.NotEmpty(actual.Errors);
+        Assert.Contains(actual.Errors, e => e.ErrorMessage.Contains(expectedMessage));
     }
 }

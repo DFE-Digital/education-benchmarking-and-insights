@@ -18,11 +18,11 @@ public class WhenEducationHealthCarePlansParametersValidatorValidates
         { string.Join(",", Enumerable.Range(1, 30).Select(i => $"code{i}")), "Per1000" }
     };
 
-    public static TheoryData<string, string> InvalidCases => new()
+    public static TheoryData<string, string, string> InvalidCases => new()
     {
-        { "", "Per1000" },
-        { string.Join(",", Enumerable.Range(1, 31).Select(i => $"code{i}")), "Per1000Pupil" },
-        { "code1", "invalid" }
+        { "", "Per1000", "Between 1 and 30 local authority codes must be supplied" },
+        { string.Join(",", Enumerable.Range(1, 31).Select(i => $"code{i}")), "Per1000Pupil", "Between 1 and 30 local authority codes must be supplied" },
+        { "code1", "invalid", "must be empty or one of the supported values" }
     };
 
     [Theory]
@@ -43,7 +43,7 @@ public class WhenEducationHealthCarePlansParametersValidatorValidates
 
     [Theory]
     [MemberData(nameof(InvalidCases))]
-    public async Task ShouldValidateAndEvaluateBadParametersAsInvalid(string codes, string dimension)
+    public async Task ShouldValidateAndEvaluateBadParametersAsInvalid(string codes, string dimension, string expectedMessage)
     {
         var parameters = new EducationHealthCarePlansParameters();
         parameters.SetValues(new NameValueCollection
@@ -55,5 +55,6 @@ public class WhenEducationHealthCarePlansParametersValidatorValidates
         var actual = await _validator.ValidateAsync(parameters);
         Assert.False(actual.IsValid);
         Assert.NotEmpty(actual.Errors);
+        Assert.Contains(actual.Errors, e => e.ErrorMessage.Contains(expectedMessage));
     }
 }
