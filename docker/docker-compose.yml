@@ -22,9 +22,12 @@ services:
     depends_on:
       azurite:
         condition: service_healthy
+    environment:
+      AZURITE_CONNECTION_STRING: ${AZURITE_CONNECTION_STRING}
     entrypoint: /bin/sh
     command: >
       -c '
+      set -e;
       for c in comparator-sets metric-rag pre-processed raw; do
         az storage container create --name "$$c" --connection-string "$$AZURITE_CONNECTION_STRING" --only-show-errors >/dev/null;
       done;
@@ -85,7 +88,7 @@ services:
       - -c
       - redis-server --save 20 1 --loglevel warning --requirepass "$${REDIS_PASSWORD:?REDIS_PASSWORD variable is not set}"
     env_file:
-      - redis.env
+      - .env
     volumes:
       - "./redis/data:/data"
     healthcheck:

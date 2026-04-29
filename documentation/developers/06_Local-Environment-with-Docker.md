@@ -17,12 +17,6 @@ The shared Docker Compose configuration is located in the `docker` directory at 
    cd docker
    ```
 
-1. Set up the Redis password. The compose file expects a `redis.env` file containing a `REDIS_PASSWORD`:
-
-   ```sh
-   echo "REDIS_PASSWORD=a_password_of_your_choice" > redis.env
-   ```
-
 1. Create a `.env` file for the docker-compose with the same contents as the example file `.env.example`.
 
 1. Start the services in detached mode:
