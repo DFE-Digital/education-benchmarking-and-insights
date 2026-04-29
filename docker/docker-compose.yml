@@ -12,12 +12,16 @@ services:
       - "10002:10002"
     volumes:
       - "./azurite/data:/data"
+    healthcheck:
+      test: ["CMD-SHELL", "nc 127.0.0.1 10000 -z && nc 127.0.0.1 10001 -z && nc 127.0.0.1 10002 -z"]
+      interval: 1s
+      retries: 30
 
   azurite-init:
     image: mcr.microsoft.com/azure-cli
     depends_on:
       azurite:
-        condition: service_started
+        condition: service_healthy
     environment:
       AZURITE_CONNECTION_STRING: "DefaultEndpointsProtocol=http;AccountName=devstoreaccount1;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;BlobEndpoint=http://azurite:10000/devstoreaccount1;QueueEndpoint=http://azurite:10001/devstoreaccount1;TableEndpoint=http://azurite:10002/devstoreaccount1;"
     entrypoint: /bin/sh
@@ -40,34 +44,38 @@ services:
     ports:
       - "1433:1433"
     environment:
-      SA_PASSWORD: "mystrong!Pa55word"
+      SA_PASSWORD: "${SA_PASSWORD:-mystrong!Pa55word}"
       ACCEPT_EULA: Y
     volumes:
       - "./sql/data:/var/opt/mssql/data"
       - "./sql/log:/var/opt/mssql/log"
       - "./sql/secrets:/var/opt/mssql/secrets"
+    # Check the container is listening on 1433
+    healthcheck:
+      test: ["CMD-SHELL", "/bin/bash -c '</dev/tcp/localhost/1433'"]
+      interval: 1s
+      retries: 30
 
   mssql-init:
     image: mcr.microsoft.com/mssql-tools
     depends_on:
       mssql:
-        condition: service_started
+        condition: service_healthy
     entrypoint: /bin/sh
     command: >
-      -c "/opt/mssql-tools/bin/sqlcmd -S mssql,1433 -U sa -P 'mystrong!Pa55word' -Q \"IF DB_ID('data') IS NULL CREATE DATABASE data;\" && echo 'Database creation complete'"
+      -c "/opt/mssql-tools/bin/sqlcmd -S mssql,1433 -U ${MSSQL_USER:-sa} -P '${SA_PASSWORD:-mystrong!Pa55word}' -Q \"IF DB_ID('${DB_NAME:-data}') IS NULL CREATE DATABASE ${DB_NAME:-data};\" && echo 'Database creation complete'"
     restart: "no"
 
   db-migrate:
-    image: mcr.microsoft.com/dotnet/sdk:10.0
+    build:
+      context: ..
+      dockerfile: core-infrastructure/src/db/Core.Database/Dockerfile.migrate
     depends_on:
       mssql-init:
         condition: service_completed_successfully
-    working_dir: /workspace
-    volumes:
-      - "..:/workspace"
-    entrypoint: /bin/sh
-    command: >
-      -c "dotnet run --project core-infrastructure/src/db/Core.Database -- -c \"Server=mssql,1433;Database=data;User Id=SA;Password=mystrong!Pa55word;Encrypt=False;\""
+    command:
+      - -c
+      - "Server=mssql,1433;Database=${DB_NAME:-data};User Id=${MSSQL_USER:-SA};Password=${SA_PASSWORD:-mystrong!Pa55word};Encrypt=False;"
     restart: "no"
 
   redis:
@@ -83,6 +91,12 @@ services:
       - redis.env
     volumes:
       - "./redis/data:/data"
+    healthcheck:
+      test: ["CMD-SHELL", "redis-cli -a \"$$REDIS_PASSWORD\" ping | grep -q PONG"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+      start_period: 5s
 
   pipeline:
     container_name: "pipeline"
@@ -94,15 +108,17 @@ services:
       - WORKER_QUEUE_NAME=data-pipeline-job-default-start
       - COMPLETE_QUEUE_NAME=data-pipeline-job-finished
       - RAW_DATA_CONTAINER=raw
-      - DB_NAME=data
       - DB_PORT=1433
       - DB_ARGS=Encrypt=no;TrustServerCertificate=no;Connection Timeout=30
       - DB_HOST=mssql
-      - DB_USER=sa
-      - DB_PWD=mystrong!Pa55word
+      - DB_NAME=${DB_NAME:-data}
+      - DB_USER=${MSSQL_USER:-sa}
+      - DB_PWD=${SA_PASSWORD:-mystrong!Pa55word}
       - ENV=dev
     depends_on:
-      - azurite
-      - mssql
-      - redis
-
+      azurite:
+        condition: service_healthy
+      mssql:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
