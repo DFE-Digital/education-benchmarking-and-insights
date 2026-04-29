@@ -12,13 +12,13 @@ using Xunit;
 
 namespace Platform.LocalAuthority.Tests.Features.Details.Handlers;
 
-public class QueryLocalAuthoritiesV1HandlerTests : HandlerTestBase
+public class WhenQueryLocalAuthoritiesV1HandlerHandles : HandlerTestBase
 {
     private readonly Fixture _fixture = new();
     private readonly Mock<ILocalAuthorityDetailsService> _service = new();
     private readonly QueryLocalAuthoritiesV1Handler _handler;
 
-    public QueryLocalAuthoritiesV1HandlerTests()
+    public WhenQueryLocalAuthoritiesV1HandlerHandles()
     {
         _handler = new QueryLocalAuthoritiesV1Handler(_service.Object);
     }

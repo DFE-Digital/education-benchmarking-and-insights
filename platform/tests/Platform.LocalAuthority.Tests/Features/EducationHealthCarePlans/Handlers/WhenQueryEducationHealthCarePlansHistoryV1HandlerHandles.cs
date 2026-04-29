@@ -16,14 +16,14 @@ using Xunit;
 
 namespace Platform.LocalAuthority.Tests.Features.EducationHealthCarePlans.Handlers;
 
-public class QueryEducationHealthCarePlansHistoryV1HandlerTests : HandlerTestBase
+public class WhenQueryEducationHealthCarePlansHistoryV1HandlerHandles : HandlerTestBase
 {
     private readonly Fixture _fixture = new();
     private readonly Mock<IEducationHealthCarePlansService> _service = new();
     private readonly Mock<IValidator<EducationHealthCarePlansParameters>> _validator = new();
     private readonly QueryEducationHealthCarePlansHistoryV1Handler _handler;
 
-    public QueryEducationHealthCarePlansHistoryV1HandlerTests()
+    public WhenQueryEducationHealthCarePlansHistoryV1HandlerHandles()
     {
         _handler = new QueryEducationHealthCarePlansHistoryV1Handler(_service.Object, _validator.Object);
     }

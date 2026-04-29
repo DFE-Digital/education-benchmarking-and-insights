@@ -6,18 +6,18 @@ using Xunit;
 
 namespace Platform.LocalAuthority.Tests.Features.Details.Parameters;
 
-public class WorkforceSummaryParametersTests
+public class GivenFinanceSummaryParameters
 {
     [Fact]
     public void ShouldSetDefaultValuesWhenQueryIsEmpty()
     {
         var query = new NameValueCollection();
-        var parameters = new WorkforceSummaryParameters();
+        var parameters = new FinanceSummaryParameters();
 
         parameters.SetValues(query);
 
-        Assert.Equal(Dimensions.SchoolsSummaryWorkforce.Actuals, parameters.Dimension);
-        Assert.Equal(WorkforceSummarySortFields.SchoolName, parameters.SortField);
+        Assert.Equal(Dimensions.Finance.Actuals, parameters.Dimension);
+        Assert.Equal(FinanceSummarySortFields.SchoolName, parameters.SortField);
         Assert.Equal(SortDirection.Asc, parameters.SortOrder);
         Assert.Empty(parameters.OverallPhase);
         Assert.Empty(parameters.NurseryProvision);
@@ -41,7 +41,7 @@ public class WorkforceSummaryParametersTests
             { "limit", "10" }
         };
 
-        var parameters = new WorkforceSummaryParameters();
+        var parameters = new FinanceSummaryParameters();
         parameters.SetValues(query);
 
         Assert.Equal("testDimension", parameters.Dimension);

@@ -5,7 +5,7 @@ using Xunit;
 
 namespace Platform.LocalAuthority.Tests.Features.EducationHealthCarePlans.Parameters;
 
-public class EducationHealthCarePlansParametersTests
+public class GivenEducationHealthCarePlansParameters
 {
     [Fact]
     public void ShouldSetValuesFromQuery()

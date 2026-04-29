@@ -16,14 +16,14 @@ using Xunit;
 
 namespace Platform.LocalAuthority.Tests.Features.Details.Handlers;
 
-public class QueryMaintainedSchoolFinanceV1HandlerTests : HandlerTestBase
+public class WhenQueryMaintainedSchoolFinanceV1HandlerHandles : HandlerTestBase
 {
     private readonly Fixture _fixture = new();
     private readonly Mock<IMaintainedSchoolsService> _service = new();
     private readonly Mock<IValidator<FinanceSummaryParameters>> _validator = new();
     private readonly QueryMaintainedSchoolFinanceV1Handler _handler;
 
-    public QueryMaintainedSchoolFinanceV1HandlerTests()
+    public WhenQueryMaintainedSchoolFinanceV1HandlerHandles()
     {
         _handler = new QueryMaintainedSchoolFinanceV1Handler(_service.Object, _validator.Object);
     }

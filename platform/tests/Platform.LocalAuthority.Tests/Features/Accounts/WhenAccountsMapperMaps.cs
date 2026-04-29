@@ -5,7 +5,7 @@ using Xunit;
 
 namespace Platform.LocalAuthority.Tests.Features.Accounts;
 
-public class MapperTests
+public class WhenAccountsMapperMaps
 {
     private readonly Fixture _fixture = new();
 

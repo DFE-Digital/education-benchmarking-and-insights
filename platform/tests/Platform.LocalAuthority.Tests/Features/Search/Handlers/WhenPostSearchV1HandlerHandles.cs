@@ -15,14 +15,14 @@ using Xunit;
 
 namespace Platform.LocalAuthority.Tests.Features.Search.Handlers;
 
-public class PostSearchV1HandlerTests : HandlerTestBase
+public class WhenPostSearchV1HandlerHandles : HandlerTestBase
 {
     private readonly Fixture _fixture = new();
     private readonly Mock<ILocalAuthoritySearchService> _service = new();
     private readonly Mock<IValidator<SearchRequest>> _validator = new();
     private readonly PostSearchV1Handler _handler;
 
-    public PostSearchV1HandlerTests()
+    public WhenPostSearchV1HandlerHandles()
     {
         _handler = new PostSearchV1Handler(_service.Object, _validator.Object);
     }

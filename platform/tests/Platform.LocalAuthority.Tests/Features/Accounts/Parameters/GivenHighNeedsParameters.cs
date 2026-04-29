@@ -5,7 +5,7 @@ using Xunit;
 
 namespace Platform.LocalAuthority.Tests.Features.Accounts.Parameters;
 
-public class HighNeedsParametersTests
+public class GivenHighNeedsParameters
 {
     [Fact]
     public void ShouldSetDefaultValuesWhenQueryIsEmpty()

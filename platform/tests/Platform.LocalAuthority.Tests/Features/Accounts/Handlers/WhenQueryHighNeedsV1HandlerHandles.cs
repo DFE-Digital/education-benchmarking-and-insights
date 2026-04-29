@@ -16,16 +16,16 @@ using Xunit;
 
 namespace Platform.LocalAuthority.Tests.Features.Accounts.Handlers;
 
-public class QueryHighNeedsHistoryV1HandlerTests : HandlerTestBase
+public class WhenQueryHighNeedsV1HandlerHandles : HandlerTestBase
 {
     private readonly Fixture _fixture = new();
     private readonly Mock<IHighNeedsService> _service = new();
     private readonly Mock<IValidator<HighNeedsParameters>> _validator = new();
-    private readonly QueryHighNeedsHistoryV1Handler _handler;
+    private readonly QueryHighNeedsV1Handler _handler;
 
-    public QueryHighNeedsHistoryV1HandlerTests()
+    public WhenQueryHighNeedsV1HandlerHandles()
     {
-        _handler = new QueryHighNeedsHistoryV1Handler(_service.Object, _validator.Object);
+        _handler = new QueryHighNeedsV1Handler(_service.Object, _validator.Object);
     }
 
     [Fact]
@@ -37,52 +37,49 @@ public class QueryHighNeedsHistoryV1HandlerTests : HandlerTestBase
     [Fact]
     public async Task ShouldReturn200OnValidRequest()
     {
-        var history = _fixture.Create<History<HighNeedsYear>>();
+        var dtos = _fixture.CreateMany<LocalAuthority<HighNeeds>>().ToArray();
         var token = CancellationToken.None;
-        var query = new Dictionary<string, StringValues> { { "code", "LA1" }, { "dimension", "Actuals" } };
+        var query = new Dictionary<string, StringValues>
+        {
+            { "code", "LA1" },
+            { "dimension", "Actuals" }
+        };
         var request = MockHttpRequestData.Create(query, null);
         var context = new BasicContext(request, token);
 
-        _validator.Setup(v => v.ValidateAsync(It.IsAny<HighNeedsParameters>(), token)).ReturnsAsync(new ValidationResult());
-        _service.Setup(s => s.QueryHistoryAsync(It.IsAny<string[]>(), It.IsAny<string>(), token)).ReturnsAsync(history);
+        _validator
+            .Setup(v => v.ValidateAsync(It.IsAny<HighNeedsParameters>(), token))
+            .ReturnsAsync(new ValidationResult());
+
+        _service
+            .Setup(s => s.QueryAsync(It.IsAny<string[]>(), It.IsAny<string>(), token))
+            .ReturnsAsync(dtos);
 
         var result = await _handler.HandleAsync(context);
 
         Assert.NotNull(result);
         Assert.Equal(HttpStatusCode.OK, result.StatusCode);
 
-        var body = await result.ReadAsJsonAsync<History<HighNeedsYear>>();
+        var body = await result.ReadAsJsonAsync<LocalAuthority<HighNeeds>[]>();
         Assert.NotNull(body);
-        Assert.Equal(history.StartYear, body.StartYear);
-    }
-
-    [Fact]
-    public async Task ShouldReturn404WhenYearsNotFound()
-    {
-        var token = CancellationToken.None;
-        var query = new Dictionary<string, StringValues> { { "code", "LA1" } };
-        var request = MockHttpRequestData.Create(query, null);
-        var context = new BasicContext(request, token);
-
-        _validator.Setup(v => v.ValidateAsync(It.IsAny<HighNeedsParameters>(), token)).ReturnsAsync(new ValidationResult());
-        _service.Setup(s => s.QueryHistoryAsync(It.IsAny<string[]>(), It.IsAny<string>(), token)).ReturnsAsync((History<HighNeedsYear>?)null);
-
-        var result = await _handler.HandleAsync(context);
-
-        Assert.NotNull(result);
-        Assert.Equal(HttpStatusCode.NotFound, result.StatusCode);
+        Assert.Equal(dtos.Length, body.Length);
     }
 
     [Fact]
     public async Task ShouldReturn400OnValidationError()
     {
         var token = CancellationToken.None;
-        var query = new Dictionary<string, StringValues> { { "code", "" } };
+        var query = new Dictionary<string, StringValues>
+        {
+            { "code", "" }
+        };
         var request = MockHttpRequestData.Create(query, null);
         var context = new BasicContext(request, token);
 
         var validationFailures = new[] { new ValidationFailure("Codes", "Error message") };
-        _validator.Setup(v => v.ValidateAsync(It.IsAny<HighNeedsParameters>(), token)).ReturnsAsync(new ValidationResult(validationFailures));
+        _validator
+            .Setup(v => v.ValidateAsync(It.IsAny<HighNeedsParameters>(), token))
+            .ReturnsAsync(new ValidationResult(validationFailures));
 
         var result = await _handler.HandleAsync(context);
 

@@ -5,7 +5,7 @@ using Xunit;
 
 namespace Platform.LocalAuthority.Tests.Features.EducationHealthCarePlans;
 
-public class MapperTests
+public class WhenEducationHealthCarePlansMapperMaps
 {
     private readonly Fixture _fixture = new();
 
