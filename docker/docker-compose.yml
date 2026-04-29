@@ -22,8 +22,6 @@ services:
     depends_on:
       azurite:
         condition: service_healthy
-    environment:
-      AZURITE_CONNECTION_STRING: ${AZURITE_CONNECTION_STRING}
     entrypoint: /bin/sh
     command: >
       -c '
