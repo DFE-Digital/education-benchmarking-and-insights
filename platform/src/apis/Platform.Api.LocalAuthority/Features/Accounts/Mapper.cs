@@ -86,34 +86,79 @@ public static class Mapper
             });
     }
 
-    public static LocalAuthority<HighNeeds> MultiMapToHighNeedsByTransactionType(object[] objects)
+    public static HighNeedsResponse MapBudget(BudgetDto dto) => new()
     {
-        var localAuthority = objects[0] as LocalAuthorityBase;
-        var highNeedsBase = objects[1] as HighNeedsBase;
-        var highNeedsAmount = objects[2] as HighNeedsAmount;
-        var topFundingMaintained = objects[3] as TopFunding;
-        var topFundingNonMaintained = objects[4] as TopFunding;
-        var placeFunding = objects[5] as PlaceFunding;
-        var senTransport = objects[6] as SenTransport;
-        var centralSenServices = objects[7] as CentralSenServices;
+        Code = dto.LaCode,
+        TotalPupils = dto.TotalPupils,
+        TotalHighNeeds = dto.BudgetTotalHighNeeds,
+        TotalPlaceFunding = dto.BudgetTotalPlaceFunding,
+        TotalTopUpFundingMaintained = dto.BudgetTotalTopUpFundingMaintained,
+        TotalTopUpFundingNonMaintained = dto.BudgetTotalTopUpFundingNonMaintained,
+        TotalSenServices = dto.BudgetTotalSenServices,
+        TotalAlternativeProvisionServices = dto.BudgetTotalAlternativeProvisionServices,
+        TotalHospitalServices = dto.BudgetTotalHospitalServices,
+        TotalOtherHealthServices = dto.BudgetTotalOtherHealthServices,
+        TopFundingMaintainedEarlyYears = dto.BudgetTopFundingMaintainedEarlyYears,
+        TopFundingMaintainedPrimary = dto.BudgetTopFundingMaintainedPrimary,
+        TopFundingMaintainedSecondary = dto.BudgetTopFundingMaintainedSecondary,
+        TopFundingMaintainedSpecial = dto.BudgetTopFundingMaintainedSpecial,
+        TopFundingMaintainedAlternativeProvision = dto.BudgetTopFundingMaintainedAlternativeProvision,
+        TopFundingMaintainedPostSchool = dto.BudgetTopFundingMaintainedPostSchool,
+        TopFundingMaintainedIncome = dto.BudgetTopFundingMaintainedIncome,
+        TopFundingNonMaintainedEarlyYears = dto.BudgetTopFundingNonMaintainedEarlyYears,
+        TopFundingNonMaintainedPrimary = dto.BudgetTopFundingNonMaintainedPrimary,
+        TopFundingNonMaintainedSecondary = dto.BudgetTopFundingNonMaintainedSecondary,
+        TopFundingNonMaintainedSpecial = dto.BudgetTopFundingNonMaintainedSpecial,
+        TopFundingNonMaintainedAlternativeProvision = dto.BudgetTopFundingNonMaintainedAlternativeProvision,
+        TopFundingNonMaintainedPostSchool = dto.BudgetTopFundingNonMaintainedPostSchool,
+        TopFundingNonMaintainedIncome = dto.BudgetTopFundingNonMaintainedIncome,
+        PlaceFundingPrimary = dto.BudgetPlaceFundingPrimary,
+        PlaceFundingSecondary = dto.BudgetPlaceFundingSecondary,
+        PlaceFundingSpecial = dto.BudgetPlaceFundingSpecial,
+        PlaceFundingAlternativeProvision = dto.BudgetPlaceFundingAlternativeProvision,
+        SenTransport = dto.BudgetSENTransport,
+        HometoSchoolTransportPre16 = dto.BudgetHometoSchoolTransportPre16,
+        HometoSchoolTransport1618 = dto.BudgetHometoSchoolTransport1618,
+        HometoSchoolTransport1925 = dto.BudgetHometoSchoolTransport1925,
+        EdPsychologyService = dto.BudgetEdPsychologyService,
+        SenAdmin = dto.BudgetSENAdmin
+    };
 
-
-        return new LocalAuthority<HighNeeds>
-        {
-            Code = localAuthority?.Code,
-            Name = localAuthority?.Name,
-            Population2To18 = localAuthority?.Population2To18,
-            TotalPupils = localAuthority?.TotalPupils,
-            Result = new HighNeeds
-            {
-                Total = highNeedsBase?.Total,
-                HighNeedsAmount = highNeedsAmount,
-                Maintained = topFundingMaintained,
-                NonMaintained = topFundingNonMaintained,
-                PlaceFunding = placeFunding,
-                SenTransport = senTransport,
-                CentralSenServices = centralSenServices
-            }
-        };
-    }
+    public static HighNeedsResponse MapOutturn(OutturnDto dto) => new()
+    {
+        Code = dto.LaCode,
+        TotalPupils = dto.TotalPupils,
+        TotalHighNeeds = dto.OutturnTotalHighNeeds,
+        TotalPlaceFunding = dto.OutturnTotalPlaceFunding,
+        TotalTopUpFundingMaintained = dto.OutturnTotalTopUpFundingMaintained,
+        TotalTopUpFundingNonMaintained = dto.OutturnTotalTopUpFundingNonMaintained,
+        TotalSenServices = dto.OutturnTotalSenServices,
+        TotalAlternativeProvisionServices = dto.OutturnTotalAlternativeProvisionServices,
+        TotalHospitalServices = dto.OutturnTotalHospitalServices,
+        TotalOtherHealthServices = dto.OutturnTotalOtherHealthServices,
+        TopFundingMaintainedEarlyYears = dto.OutturnTopFundingMaintainedEarlyYears,
+        TopFundingMaintainedPrimary = dto.OutturnTopFundingMaintainedPrimary,
+        TopFundingMaintainedSecondary = dto.OutturnTopFundingMaintainedSecondary,
+        TopFundingMaintainedSpecial = dto.OutturnTopFundingMaintainedSpecial,
+        TopFundingMaintainedAlternativeProvision = dto.OutturnTopFundingMaintainedAlternativeProvision,
+        TopFundingMaintainedPostSchool = dto.OutturnTopFundingMaintainedPostSchool,
+        TopFundingMaintainedIncome = dto.OutturnTopFundingMaintainedIncome,
+        TopFundingNonMaintainedEarlyYears = dto.OutturnTopFundingNonMaintainedEarlyYears,
+        TopFundingNonMaintainedPrimary = dto.OutturnTopFundingNonMaintainedPrimary,
+        TopFundingNonMaintainedSecondary = dto.OutturnTopFundingNonMaintainedSecondary,
+        TopFundingNonMaintainedSpecial = dto.OutturnTopFundingNonMaintainedSpecial,
+        TopFundingNonMaintainedAlternativeProvision = dto.OutturnTopFundingNonMaintainedAlternativeProvision,
+        TopFundingNonMaintainedPostSchool = dto.OutturnTopFundingNonMaintainedPostSchool,
+        TopFundingNonMaintainedIncome = dto.OutturnTopFundingNonMaintainedIncome,
+        PlaceFundingPrimary = dto.OutturnPlaceFundingPrimary,
+        PlaceFundingSecondary = dto.OutturnPlaceFundingSecondary,
+        PlaceFundingSpecial = dto.OutturnPlaceFundingSpecial,
+        PlaceFundingAlternativeProvision = dto.OutturnPlaceFundingAlternativeProvision,
+        SenTransport = dto.OutturnSENTransport,
+        HometoSchoolTransportPre16 = dto.OutturnHometoSchoolTransportPre16,
+        HometoSchoolTransport1618 = dto.OutturnHometoSchoolTransport1618,
+        HometoSchoolTransport1925 = dto.OutturnHometoSchoolTransport1925,
+        EdPsychologyService = dto.OutturnEdPsychologyService,
+        SenAdmin = dto.OutturnSENAdmin
+    };
 }
