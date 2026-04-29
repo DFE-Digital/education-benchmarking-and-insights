@@ -25,7 +25,6 @@ services:
     entrypoint: /bin/sh
     command: >
       -c '
-      set -e;
       for c in comparator-sets metric-rag pre-processed raw; do
         az storage container create --name "$$c" --connection-string "$$AZURITE_CONNECTION_STRING" --only-show-errors >/dev/null;
       done;
