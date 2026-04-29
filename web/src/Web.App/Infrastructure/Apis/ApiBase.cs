@@ -24,7 +24,7 @@ public abstract class ApiBase
         RequestUri = new Uri(requestUri, UriKind.Relative),
         Headers = { { "x-api-version", version } }
     }, cancellationToken);
-    
+
     protected async Task<ApiResult> PutAsync(string requestUri, JsonContent content) => await _httpClient.PutAsync(requestUri, content).ToApiResult();
 
     protected async Task<ApiResult> PostAsync(string requestUri, JsonContent content, CancellationToken cancellationToken = default) => await _httpClient.PostAsync(requestUri, content, cancellationToken).ToApiResult(cancellationToken);
