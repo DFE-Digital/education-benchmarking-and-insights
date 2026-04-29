@@ -10,13 +10,13 @@ namespace Platform.Api.LocalAuthority.Features.Accounts.Handlers;
 
 public interface IQueryHighNeedsHandler : IVersionedHandler<BasicContext>;
 
-public class QueryHighNeedsV1Handler(IHighNeedsService service, IValidator<HighNeedsParameters> validator) : IQueryHighNeedsHandler
+public class QueryHighNeedsV1Handler(IHighNeedsService service, IValidator<HighNeedsParametersV1> validator) : IQueryHighNeedsHandler
 {
     public string Version => "1.0";
 
     public async Task<HttpResponseData> HandleAsync(BasicContext context)
     {
-        var queryParams = context.Request.GetParameters<HighNeedsParameters>();
+        var queryParams = context.Request.GetParameters<HighNeedsParametersV1>();
 
         var validationResult = await validator.ValidateAsync(queryParams, context.Token);
         if (!validationResult.IsValid)
@@ -25,6 +25,25 @@ public class QueryHighNeedsV1Handler(IHighNeedsService service, IValidator<HighN
         }
 
         var highNeeds = await service.QueryAsync(queryParams.Codes, queryParams.Dimension, context.Token);
+        return await context.Request.CreateJsonResponseAsync(highNeeds, context.Token);
+    }
+}
+
+public class QueryHighNeedsV2Handler(IHighNeedsService service, IValidator<HighNeedsParametersV2> validator) : IQueryHighNeedsHandler
+{
+    public string Version => "2.0";
+
+    public async Task<HttpResponseData> HandleAsync(BasicContext context)
+    {
+        var queryParams = context.Request.GetParameters<HighNeedsParametersV2>();
+
+        var validationResult = await validator.ValidateAsync(queryParams, context.Token);
+        if (!validationResult.IsValid)
+        {
+            return await context.Request.CreateValidationErrorsResponseAsync(validationResult, context.Token);
+        }
+
+        var highNeeds = await service.QueryByTransactionTypeAsync(queryParams.Codes, queryParams.Dimension, queryParams.Type, context.Token);
         return await context.Request.CreateJsonResponseAsync(highNeeds, context.Token);
     }
 }

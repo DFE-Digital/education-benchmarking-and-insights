@@ -11,13 +11,13 @@ namespace Platform.Api.LocalAuthority.Features.Accounts.Handlers;
 
 public interface IQueryHighNeedsHistoryHandler : IVersionedHandler<BasicContext>;
 
-public class QueryHighNeedsHistoryV1Handler(IHighNeedsService service, IValidator<HighNeedsParameters> validator) : IQueryHighNeedsHistoryHandler
+public class QueryHighNeedsHistoryV1Handler(IHighNeedsService service, IValidator<HighNeedsParametersV1> validator) : IQueryHighNeedsHistoryHandler
 {
     public string Version => "1.0";
 
     public async Task<HttpResponseData> HandleAsync(BasicContext context)
     {
-        var queryParams = context.Request.GetParameters<HighNeedsParameters>();
+        var queryParams = context.Request.GetParameters<HighNeedsParametersV1>();
 
         var validationResult = await validator.ValidateAsync(queryParams, context.Token);
         if (!validationResult.IsValid)

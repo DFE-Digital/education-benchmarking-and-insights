@@ -69,25 +69,6 @@ public static class Dimensions
             PerSenSupport,
             PerTotalSupport
         ];
-
-        public static readonly string[] Population =
-        [
-            Actuals,
-            PerHead,
-            PerPupil
-        ];
-
-        public static readonly string[] Support =
-        [
-            PerPupil,
-            PerEhcp,
-            PerSenSupport,
-            PerTotalSupport
-        ];
-
-        public static bool IsValid(string? dimension) => All.Any(a => a == dimension);
-        public static bool IsValidPopulation(string? dimension) => Population.Any(a => a == dimension);
-        public static bool IsValidSupport(string? dimension) => Support.Any(a => a == dimension);
     }
 
     public static class EducationHealthCarePlans

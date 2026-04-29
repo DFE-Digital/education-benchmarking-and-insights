@@ -5,7 +5,7 @@ using Platform.Functions.Extensions;
 
 namespace Platform.Api.LocalAuthority.Features.Accounts.Parameters;
 
-public record HighNeedsByTransactionTypeParameters : QueryParameters
+public record HighNeedsParametersV2 : QueryParameters
 {
     public string[] Codes { get; private set; } = [];
     public string Dimension { get; private set; } = Dimensions.HighNeeds.PerPupil;
