@@ -38,7 +38,7 @@ public class WhenEducationHealthCarePlansServiceQueries
         Assert.Equal(expected, actual);
         Assert.NotNull(actualQuery);
         Assert.Contains("VW_LocalAuthorityEducationHealthCarePlansDefaultCurrentActual", actualQuery.QueryTemplate.RawSql);
-        
+
         var templateParams = actualQuery.QueryTemplate.Parameters?.GetTemplateParameters("LaCodes");
         Assert.NotNull(templateParams);
         Assert.Equal(codes, templateParams["LaCodes"]);
@@ -65,13 +65,13 @@ public class WhenEducationHealthCarePlansServiceQueries
 
         Assert.Equal(years, actualYears);
         Assert.Equal(expectedResults, actualResults);
-        
+
         Assert.NotNull(actualYearsQuery);
         Assert.Contains("VW_YearsLocalAuthority", actualYearsQuery.QueryTemplate.RawSql);
-        
+
         Assert.NotNull(actualHistoryQuery);
         Assert.Contains("VW_LocalAuthorityEducationHealthCarePlansDefaultPerPopulation", actualHistoryQuery.QueryTemplate.RawSql);
-        
+
         var historyParams = actualHistoryQuery.QueryTemplate.Parameters?.GetTemplateParameters("StartYear", "EndYear");
         Assert.NotNull(historyParams);
         Assert.Equal(years.StartYear, historyParams["StartYear"]);

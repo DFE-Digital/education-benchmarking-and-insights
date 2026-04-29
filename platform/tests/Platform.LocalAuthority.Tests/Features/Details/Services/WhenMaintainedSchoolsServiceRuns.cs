@@ -34,7 +34,7 @@ public class WhenMaintainedSchoolsServiceRuns
         Assert.Contains("SELECT *", actualQuery.QueryTemplate.RawSql);
         Assert.DoesNotContain("TOP", actualQuery.QueryTemplate.RawSql);
         Assert.Contains("ORDER BY SchoolName ASC", actualQuery.QueryTemplate.RawSql);
-        
+
         var laCodeParam = actualQuery.QueryTemplate.Parameters?.GetTemplateParameters("LaCode");
         Assert.NotNull(laCodeParam);
         Assert.Equal("LA1", laCodeParam["LaCode"]);
@@ -49,21 +49,21 @@ public class WhenMaintainedSchoolsServiceRuns
             .ReturnsAsync(new List<LocalAuthoritySchoolFinanceSummaryResponse>());
 
         await _service.GetFinanceSummaryAsync(
-            "LA1", 
-            Dimensions.Finance.Actuals, 
-            ["Nursery"], 
-            ["SixthForm"], 
-            ["Special"], 
-            50, 
-            "TotalPupils", 
-            SortDirection.Desc, 
-            ["Primary"], 
+            "LA1",
+            Dimensions.Finance.Actuals,
+            ["Nursery"],
+            ["SixthForm"],
+            ["Special"],
+            50,
+            "TotalPupils",
+            SortDirection.Desc,
+            ["Primary"],
             CancellationToken.None);
 
         Assert.NotNull(actualQuery);
         Assert.Contains("SELECT TOP(50) *", actualQuery.QueryTemplate.RawSql);
         Assert.Contains("ORDER BY TotalPupils DESC", actualQuery.QueryTemplate.RawSql);
-        
+
         var parameters = actualQuery.QueryTemplate.Parameters?.GetTemplateParameters("Phase", "NurseryProvision", "SixthFormProvision", "SpecialClassProvision");
         Assert.NotNull(parameters);
         Assert.Equal(new[] { "Primary" }, parameters["Phase"]);
@@ -78,7 +78,7 @@ public class WhenMaintainedSchoolsServiceRuns
     [InlineData(101)]
     public async Task GetFinanceSummaryAsyncShouldThrowArgumentOutOfRangeExceptionForInvalidLimit(int invalidLimit)
     {
-        await Assert.ThrowsAsync<ArgumentOutOfRangeException>(() => 
+        await Assert.ThrowsAsync<ArgumentOutOfRangeException>(() =>
             _service.GetFinanceSummaryAsync("LA1", Dimensions.Finance.Actuals, [], [], [], invalidLimit, "SchoolName", SortDirection.Asc, [], CancellationToken.None));
     }
 
@@ -107,15 +107,15 @@ public class WhenMaintainedSchoolsServiceRuns
             .ReturnsAsync(new List<LocalAuthoritySchoolWorkforceSummaryResponse>());
 
         await _service.GetWorkforceSummaryAsync(
-            "LA1", 
-            Dimensions.SchoolsSummaryWorkforce.Actuals, 
-            ["Nursery"], 
-            ["SixthForm"], 
-            ["Special"], 
-            25, 
-            "PupilTeacherRatio", 
-            SortDirection.Desc, 
-            ["Secondary"], 
+            "LA1",
+            Dimensions.SchoolsSummaryWorkforce.Actuals,
+            ["Nursery"],
+            ["SixthForm"],
+            ["Special"],
+            25,
+            "PupilTeacherRatio",
+            SortDirection.Desc,
+            ["Secondary"],
             CancellationToken.None);
 
         Assert.NotNull(actualQuery);
@@ -133,7 +133,7 @@ public class WhenMaintainedSchoolsServiceRuns
     [InlineData(101)]
     public async Task GetWorkforceSummaryAsyncShouldThrowArgumentOutOfRangeExceptionForInvalidLimit(int invalidLimit)
     {
-        await Assert.ThrowsAsync<ArgumentOutOfRangeException>(() => 
+        await Assert.ThrowsAsync<ArgumentOutOfRangeException>(() =>
             _service.GetWorkforceSummaryAsync("LA1", Dimensions.SchoolsSummaryWorkforce.Actuals, [], [], [], invalidLimit, "SchoolName", SortDirection.Asc, [], CancellationToken.None));
     }
 }

@@ -55,7 +55,7 @@ public class WhenLocalAuthoritySearchServiceRuns
         var request = _fixture.Build<LocalAuthoritySuggestRequest>()
             .With(x => x.Exclude, Array.Empty<string>())
             .Create();
-        
+
         var results = _fixture.CreateMany<LocalAuthoritySummaryResponse>(3).ToList();
         var suggestions = results.Select(r => SearchModelFactory.SearchSuggestion(r, r.Name)).ToList();
         var suggestResults = SearchModelFactory.SuggestResults(suggestions, 1.0);
@@ -63,9 +63,9 @@ public class WhenLocalAuthoritySearchServiceRuns
         SuggestOptions? actualOptions = null;
         _client
             .Setup(c => c.SuggestAsync<LocalAuthoritySummaryResponse>(
-                It.IsAny<string>(), 
-                It.IsAny<string>(), 
-                It.IsAny<SuggestOptions>(), 
+                It.IsAny<string>(),
+                It.IsAny<string>(),
+                It.IsAny<SuggestOptions>(),
                 It.IsAny<CancellationToken>()))
             .Callback<string?, string?, SuggestOptions, CancellationToken>((_, _, options, _) => actualOptions = options)
             .ReturnsAsync(Response.FromValue(suggestResults, Mock.Of<Response>()));
@@ -86,7 +86,7 @@ public class WhenLocalAuthoritySearchServiceRuns
         var request = _fixture.Build<LocalAuthoritySuggestRequest>()
             .With(x => x.Exclude, excludeNames)
             .Create();
-        
+
         var results = _fixture.CreateMany<LocalAuthoritySummaryResponse>(1).ToList();
         var suggestions = results.Select(r => SearchModelFactory.SearchSuggestion(r, r.Name)).ToList();
         var suggestResults = SearchModelFactory.SuggestResults(suggestions, 1.0);
@@ -94,9 +94,9 @@ public class WhenLocalAuthoritySearchServiceRuns
         SuggestOptions? actualOptions = null;
         _client
             .Setup(c => c.SuggestAsync<LocalAuthoritySummaryResponse>(
-                It.IsAny<string>(), 
-                It.IsAny<string>(), 
-                It.IsAny<SuggestOptions>(), 
+                It.IsAny<string>(),
+                It.IsAny<string>(),
+                It.IsAny<SuggestOptions>(),
                 It.IsAny<CancellationToken>()))
             .Callback<string?, string?, SuggestOptions, CancellationToken>((_, _, options, _) => actualOptions = options)
             .ReturnsAsync(Response.FromValue(suggestResults, Mock.Of<Response>()));

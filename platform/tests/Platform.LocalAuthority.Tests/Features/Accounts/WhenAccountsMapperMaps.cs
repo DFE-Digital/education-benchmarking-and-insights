@@ -26,16 +26,16 @@ public class WhenAccountsMapperMaps
 
         object[] input =
         [
-            laBase, 
-            outturnBase, 
-            outturnHighNeedsAmount, 
-            outturnTopFundingMaintained, 
-            outturnTopFundingNonMaintained, 
-            outturnPlaceFunding, 
-            budgetBase, 
-            budgetHighNeedsAmount, 
-            budgetTopFundingMaintained, 
-            budgetTopFundingNonMaintained, 
+            laBase,
+            outturnBase,
+            outturnHighNeedsAmount,
+            outturnTopFundingMaintained,
+            outturnTopFundingNonMaintained,
+            outturnPlaceFunding,
+            budgetBase,
+            budgetHighNeedsAmount,
+            budgetTopFundingMaintained,
+            budgetTopFundingNonMaintained,
             budgetPlaceFunding
         ];
 
@@ -78,16 +78,16 @@ public class WhenAccountsMapperMaps
 
         object[] input =
         [
-            yearBase, 
-            outturnBase, 
-            outturnHighNeedsAmount, 
-            outturnTopFundingMaintained, 
-            outturnTopFundingNonMaintained, 
-            outturnPlaceFunding, 
-            budgetBase, 
-            budgetHighNeedsAmount, 
-            budgetTopFundingMaintained, 
-            budgetTopFundingNonMaintained, 
+            yearBase,
+            outturnBase,
+            outturnHighNeedsAmount,
+            outturnTopFundingMaintained,
+            outturnTopFundingNonMaintained,
+            outturnPlaceFunding,
+            budgetBase,
+            budgetHighNeedsAmount,
+            budgetTopFundingMaintained,
+            budgetTopFundingNonMaintained,
             budgetPlaceFunding
         ];
 
@@ -105,7 +105,7 @@ public class WhenAccountsMapperMaps
     public void MultiMapToHighNeedsYearShouldHandleInvalidYear()
     {
         var yearBase = _fixture.Build<HighNeedsYearBase>().With(x => x.RunId, "not_a_year").Create();
-        
+
         object[] input = new object[11];
         input[0] = yearBase;
 

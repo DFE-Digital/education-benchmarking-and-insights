@@ -20,9 +20,9 @@ public class WhenLocalAuthoritiesSearchValidatorValidates
                 Value = "asc"
             }
         };
-        
+
         var result = _validator.Validate(request);
-        
+
         Assert.True(result.IsValid);
     }
 
@@ -34,9 +34,9 @@ public class WhenLocalAuthoritiesSearchValidatorValidates
             SearchText = "test",
             OrderBy = null
         };
-        
+
         var result = _validator.Validate(request);
-        
+
         Assert.True(result.IsValid);
     }
 
@@ -51,9 +51,9 @@ public class WhenLocalAuthoritiesSearchValidatorValidates
                 Field = "InvalidField"
             }
         };
-        
+
         var result = _validator.Validate(request);
-        
+
         Assert.False(result.IsValid);
         Assert.Contains(result.Errors, e => e.ErrorMessage == "OrderBy Field must be LocalAuthorityNameSortable");
     }
@@ -69,9 +69,9 @@ public class WhenLocalAuthoritiesSearchValidatorValidates
                 Field = null
             }
         };
-        
+
         var result = _validator.Validate(request);
-        
+
         Assert.False(result.IsValid);
         Assert.Contains(result.Errors, e => e.ErrorMessage == "OrderBy Field must be LocalAuthorityNameSortable");
     }
@@ -84,9 +84,9 @@ public class WhenLocalAuthoritiesSearchValidatorValidates
             SearchText = "te",
             OrderBy = null
         };
-        
+
         var result = _validator.Validate(request);
-        
+
         Assert.False(result.IsValid);
         Assert.Contains(result.Errors, e => e.PropertyName == "SearchText");
     }

@@ -43,7 +43,7 @@ public class WhenHighNeedsServiceQueries
         Assert.Equal(expected, actual);
         Assert.NotNull(actualQuery);
         Assert.Contains("VW_LocalAuthorityFinancialDefaultCurrentActual", actualQuery.QueryTemplate.RawSql);
-        
+
         var templateParams = actualQuery.QueryTemplate.Parameters?.GetTemplateParameters("LaCodes");
         Assert.NotNull(templateParams);
         Assert.Equal(codes, templateParams["LaCodes"]);
@@ -78,13 +78,13 @@ public class WhenHighNeedsServiceQueries
         Assert.Equal(years.EndYear, actual.EndYear);
         Assert.Equal(expectedResults.Count, actual.Outturn!.Length);
         Assert.Equal(expectedResults.Count, actual.Budget!.Length);
-        
+
         Assert.NotNull(actualYearsQuery);
         Assert.Contains("VW_YearsLocalAuthority", actualYearsQuery.QueryTemplate.RawSql);
-        
+
         Assert.NotNull(actualHistoryQuery);
         Assert.Contains("VW_LocalAuthorityFinancialDefaultPerPopulation", actualHistoryQuery.QueryTemplate.RawSql);
-        
+
         var historyParams = actualHistoryQuery.QueryTemplate.Parameters?.GetTemplateParameters("StartYear", "EndYear");
         Assert.NotNull(historyParams);
         Assert.Equal(years.StartYear, historyParams["StartYear"]);
