@@ -17,19 +17,25 @@ The shared Docker Compose configuration is located in the `docker` directory at 
    cd docker
    ```
 
-2. Set up the Redis password. The compose file expects a `redis.env` file containing a `REDIS_PASSWORD`:
+1. Create a `.env` file for the docker-compose with the same contents as the example file `.env.example`.
 
-   ```sh
-   echo "REDIS_PASSWORD=a_password_of_your_choice" > redis.env
-   ```
-
-3. Start the services in detached mode:
+1. Start the services in detached mode:
 
    ```sh
    docker-compose up -d
    # Or depending on your Docker version:
    docker compose up -d
    ```
+
+## Debugging the data pipeline
+
+Also included is configuration to run the data pipeline in debug mode. Your local `pipeline` folder will be mounted inside the pipeline container, so the container can be tweaked to test solutions.
+
+```sh
+make build-pipeline-debug
+```
+
+If using VS Code, there is a configuration to add to your `.vscode/launch.json` to attach the VS Code debugger to the running data pipeline container and debug it under `docker/launch.json.example`.
 
 ## Services Provided
 

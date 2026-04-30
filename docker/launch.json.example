@@ -1,0 +1,22 @@
+// Add this configuration to your .vscode/launch.json to attach to the running data pipeline container and debug it
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Attach data pipeline (Docker)",
+      "type": "debugpy",
+      "request": "attach",
+      "connect": {
+        "host": "localhost",
+        "port": 5678
+      },
+      "pathMappings": [
+        {
+          "localRoot": "${workspaceFolder}/data-pipeline/src/pipeline",
+          "remoteRoot": "/pipeline"
+        }
+      ],
+      "justMyCode": true
+    }
+  ]
+}

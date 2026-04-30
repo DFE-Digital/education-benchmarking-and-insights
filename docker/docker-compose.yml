@@ -1,17 +1,44 @@
 name: 'fbit-services'
 
 services:
-
   azurite:
     container_name: "azurite"
     hostname: "azurite"
     image: "mcr.microsoft.com/azure-storage/azurite"
+    command: "azurite --blobHost 0.0.0.0 --queueHost 0.0.0.0 --tableHost 0.0.0.0 --skipApiVersionCheck"
     ports:
       - "10000:10000"
       - "10001:10001"
       - "10002:10002"
     volumes:
       - "./azurite/data:/data"
+    healthcheck:
+      test: ["CMD-SHELL", "nc 127.0.0.1 10000 -z && nc 127.0.0.1 10001 -z && nc 127.0.0.1 10002 -z"]
+      interval: 1s
+      retries: 30
+
+  azurite-init:
+    image: mcr.microsoft.com/azure-cli
+    depends_on:
+      azurite:
+        condition: service_healthy
+    environment:
+      AZURITE_CONNECTION_STRING: ${AZURITE_CONNECTION_STRING}
+      AZURITE_CONTAINER_NAMES: ${AZURITE_CONTAINER_NAMES}
+      AZURITE_QUEUE_NAMES: ${AZURITE_QUEUE_NAMES}
+    entrypoint: /bin/sh
+    command: >
+      -c '
+      set -e;
+      for c in $$AZURITE_CONTAINER_NAMES; do
+        az storage container create --name "$$c" --connection-string "$$AZURITE_CONNECTION_STRING" --only-show-errors >/dev/null;
+      done;
+      for q in $$AZURITE_QUEUE_NAMES; do
+        az storage queue create --name "$$q" --connection-string "$$AZURITE_CONNECTION_STRING" --only-show-errors >/dev/null;
+      done;
+      echo "Azurite bootstrap complete";
+      '
+    restart: "no"
 
   mssql:
     container_name: "azure-sql-edge"
@@ -19,12 +46,39 @@ services:
     ports:
       - "1433:1433"
     environment:
-      SA_PASSWORD: "mystrong!Pa55word"
+      SA_PASSWORD: "${SA_PASSWORD}"
       ACCEPT_EULA: Y
     volumes:
       - "./sql/data:/var/opt/mssql/data"
       - "./sql/log:/var/opt/mssql/log"
       - "./sql/secrets:/var/opt/mssql/secrets"
+    # Check the container is listening on 1433
+    healthcheck:
+      test: ["CMD-SHELL", "/bin/bash -c '</dev/tcp/localhost/1433'"]
+      interval: 1s
+      retries: 30
+
+  mssql-init:
+    image: mcr.microsoft.com/mssql-tools
+    depends_on:
+      mssql:
+        condition: service_healthy
+    entrypoint: /bin/sh
+    command: >
+      -c "/opt/mssql-tools/bin/sqlcmd -S mssql,1433 -U ${MSSQL_USER} -P '${SA_PASSWORD}' -Q \"IF DB_ID('${DB_NAME}') IS NULL CREATE DATABASE ${DB_NAME};\" && echo 'Database creation complete'"
+    restart: "no"
+
+  db-migrate:
+    build:
+      context: ..
+      dockerfile: core-infrastructure/src/db/Core.Database/Dockerfile.migrate
+    depends_on:
+      mssql-init:
+        condition: service_completed_successfully
+    command:
+      - -c
+      - "Server=mssql,1433;Database=${DB_NAME};User Id=${MSSQL_USER};Password=${SA_PASSWORD};Encrypt=False;"
+    restart: "no"
 
   redis:
     container_name: "redis"
@@ -36,9 +90,15 @@ services:
       - -c
       - redis-server --save 20 1 --loglevel warning --requirepass "$${REDIS_PASSWORD:?REDIS_PASSWORD variable is not set}"
     env_file:
-      - redis.env
+      - .env
     volumes:
       - "./redis/data:/data"
+    healthcheck:
+      test: ["CMD-SHELL", "redis-cli -a \"$$REDIS_PASSWORD\" ping | grep -q PONG"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+      start_period: 5s
 
   pipeline:
     container_name: "pipeline"
@@ -46,19 +106,27 @@ services:
       context: ../data-pipeline
       dockerfile: ../data-pipeline/pipeline-worker/Dockerfile
     environment:
-      - STORAGE_CONNECTION_STRING=DefaultEndpointsProtocol=http;AccountName=devstoreaccount1;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;BlobEndpoint=http://azurite:10000/devstoreaccount1;QueueEndpoint=http://azurite:10001/devstoreaccount1;TableEndpoint=http://azurite:10002/devstoreaccount1;
-      - WORKER_QUEUE_NAME=data-pipeline-job-default-start
-      - COMPLETE_QUEUE_NAME=data-pipeline-job-finished
-      - RAW_DATA_CONTAINER=raw
-      - DB_NAME=data
-      - DB_PORT=1433
-      - DB_ARGS=Encrypt=no;TrustServerCertificate=no;Connection Timeout=30
-      - DB_HOST=mssql
-      - DB_USER=sa
-      - DB_PWD=mystrong!Pa55word
-      - ENV=dev
+      STORAGE_CONNECTION_STRING: ${AZURITE_CONNECTION_STRING}
+      WORKER_QUEUE_NAME: data-pipeline-job-default-start
+      COMPLETE_QUEUE_NAME: data-pipeline-job-finished
+      RAW_DATA_CONTAINER: raw
+      DB_PORT: 1433
+      DB_ARGS: Encrypt=no;TrustServerCertificate=no;Connection Timeout=30
+      DB_HOST: mssql
+      DB_NAME: ${DB_NAME}
+      DB_USER: ${MSSQL_USER}
+      DB_PWD: ${SA_PASSWORD}
+      ENV: dev
     depends_on:
-      - azurite
-      - mssql
-      - redis
-
+      azurite:
+        condition: service_healthy
+      mssql:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      azurite-init:
+        condition: service_completed_successfully
+      mssql-init:
+        condition: service_completed_successfully
+      db-migrate:
+        condition: service_completed_successfully
