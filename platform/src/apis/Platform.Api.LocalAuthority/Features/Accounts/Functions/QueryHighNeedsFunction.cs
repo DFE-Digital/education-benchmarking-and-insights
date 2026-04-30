@@ -23,7 +23,7 @@ public class QueryHighNeedsFunction(IEnumerable<IQueryHighNeedsHandler> handlers
     [OpenApiApiVersionParameter]
     [OpenApiLaCodesParameter("code", isRequired: true)]
     [OpenApiDimensionParameter(Required = true, Example = typeof(OpenApiExamples.DimensionHighNeeds))]
-    [OpenApiParameter("type", In = ParameterLocation.Query, Required = false, Description = "Transaction type")]
+    [OpenApiParameter("type", In = ParameterLocation.Query, Required = false, Description = "Submission type")]
     [OpenApiResponseWithBody(HttpStatusCode.OK, ContentType.ApplicationJson, typeof(LocalAuthority<HighNeedsYear>[]), Description = "The high needs data for the requested local authorities")]
     [OpenApiResponseWithBody(HttpStatusCode.BadRequest, ContentType.ApplicationJsonProblem, typeof(ValidationProblemDetails), Description = "The request was invalid")]
     [OpenApiResponseWithoutBody(HttpStatusCode.NotFound, Description = "The requested local authorities could not be found")]
