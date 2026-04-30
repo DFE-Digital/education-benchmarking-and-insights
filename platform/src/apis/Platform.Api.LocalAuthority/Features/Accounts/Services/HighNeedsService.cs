@@ -253,8 +253,8 @@ public class HighNeedsService(IDatabaseFactory dbFactory) : IHighNeedsService
     {
         return type switch
         {
-            TransactionType.Budget => await QueryAndMapAsync(QueryBudgetAsync, Mapper.MapBudget, codes, dimension, cancellationToken),
-            TransactionType.Outturn => await QueryAndMapAsync(QueryOutturnAsync, Mapper.MapOutturn, codes, dimension, cancellationToken),
+            SubmissionType.Budget => await QueryAndMapAsync(QueryBudgetAsync, Mapper.MapBudget, codes, dimension, cancellationToken),
+            SubmissionType.Outturn => await QueryAndMapAsync(QueryOutturnAsync, Mapper.MapOutturn, codes, dimension, cancellationToken),
             _ => []
         };
     }

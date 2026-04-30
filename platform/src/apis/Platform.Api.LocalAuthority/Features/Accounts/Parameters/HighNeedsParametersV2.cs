@@ -9,7 +9,7 @@ public record HighNeedsParametersV2 : QueryParameters
 {
     public string[] Codes { get; private set; } = [];
     public string Dimension { get; private set; } = Dimensions.HighNeeds.PerPupil;
-    public string Type { get; private set; } = TransactionType.Budget;
+    public string Type { get; private set; } = SubmissionType.Budget;
 
     public override void SetValues(NameValueCollection query)
     {

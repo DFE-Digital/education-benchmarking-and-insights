@@ -33,8 +33,8 @@ public class HighNeedsParametersValidatorV2 : AbstractValidator<HighNeedsParamet
 
     private static readonly string[] ValidTransactionTypes =
     [
-        TransactionType.Budget,
-        TransactionType.Outturn,
+        SubmissionType.Budget,
+        SubmissionType.Outturn,
     ];
 
     private static bool BeAValidDimension(string dimension) => ValidDimensions.Any(d => d == dimension);
