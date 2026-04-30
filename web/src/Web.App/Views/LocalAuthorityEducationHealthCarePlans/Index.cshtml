@@ -110,11 +110,11 @@
 
                 @if (Model.ViewAs == Views.ViewAsOptions.Chart)
                 {
-                    @await Html.PartialAsync("_EhcPlanChart", new LocalAuthorityEducationHealthCarePlansChartViewModel(subCategory))
+                    @await Html.PartialAsync("_EhcPlanChart", new LocalAuthorityEducationHealthCarePlansDataViewModel(subCategory))
                 }
                 else
                 {
-                    @await Html.PartialAsync("_EhcPlanTable", new LocalAuthorityEducationHealthCarePlansTableViewModel(subCategory))
+                    @await Html.PartialAsync("_EhcPlanTable", new LocalAuthorityEducationHealthCarePlansDataViewModel(subCategory))
                 }
             </section>
         }
