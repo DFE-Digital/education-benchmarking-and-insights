@@ -266,12 +266,12 @@ export default class HorizontalBarChartTemplate {
     };
 
     const templateTickText = (datum: string, index: number) => {
-      let label = formatTick(datum, index);
+      const label = formatTick(datum, index);
 
       const classAttr = classnames("text-tick", {
         "text-tick__highlight": datum === highlightKey,
       });
-      
+
       const labelParts = truncateLabel(
         label,
         isAllCaps(label) ? truncateLabelAt - 4 : truncateLabelAt
@@ -302,7 +302,6 @@ export default class HorizontalBarChartTemplate {
     }
 
     const yAxisChartTicks = normalisedData.map((d, i) => {
-      const value = formatTick(d[keyField] as string, i);
       const yAttr = y(d[keyField] as string)! + y.bandwidth() / 2;
 
       return `<g class="chart-tick" transform="translate(0,${yAttr})">
