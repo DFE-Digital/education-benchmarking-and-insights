@@ -20,7 +20,7 @@ public class WhenQueryHighNeedsHistoryV1HandlerHandles : HandlerTestBase
 {
     private readonly Fixture _fixture = new();
     private readonly Mock<IHighNeedsService> _service = new();
-    private readonly Mock<IValidator<HighNeedsParameters>> _validator = new();
+    private readonly Mock<IValidator<HighNeedsParametersV1>> _validator = new();
     private readonly QueryHighNeedsHistoryV1Handler _handler;
 
     public WhenQueryHighNeedsHistoryV1HandlerHandles()
@@ -43,7 +43,7 @@ public class WhenQueryHighNeedsHistoryV1HandlerHandles : HandlerTestBase
         var request = MockHttpRequestData.Create(query, null);
         var context = new BasicContext(request, token);
 
-        _validator.Setup(v => v.ValidateAsync(It.IsAny<HighNeedsParameters>(), token)).ReturnsAsync(new ValidationResult());
+        _validator.Setup(v => v.ValidateAsync(It.IsAny<HighNeedsParametersV1>(), token)).ReturnsAsync(new ValidationResult());
         _service.Setup(s => s.QueryHistoryAsync(It.IsAny<string[]>(), It.IsAny<string>(), token)).ReturnsAsync(history);
 
         var result = await _handler.HandleAsync(context);
@@ -64,7 +64,7 @@ public class WhenQueryHighNeedsHistoryV1HandlerHandles : HandlerTestBase
         var request = MockHttpRequestData.Create(query, null);
         var context = new BasicContext(request, token);
 
-        _validator.Setup(v => v.ValidateAsync(It.IsAny<HighNeedsParameters>(), token)).ReturnsAsync(new ValidationResult());
+        _validator.Setup(v => v.ValidateAsync(It.IsAny<HighNeedsParametersV1>(), token)).ReturnsAsync(new ValidationResult());
         _service.Setup(s => s.QueryHistoryAsync(It.IsAny<string[]>(), It.IsAny<string>(), token)).ReturnsAsync((History<HighNeedsYear>?)null);
 
         var result = await _handler.HandleAsync(context);
@@ -82,7 +82,7 @@ public class WhenQueryHighNeedsHistoryV1HandlerHandles : HandlerTestBase
         var context = new BasicContext(request, token);
 
         var validationFailures = new[] { new ValidationFailure("Codes", "Error message") };
-        _validator.Setup(v => v.ValidateAsync(It.IsAny<HighNeedsParameters>(), token)).ReturnsAsync(new ValidationResult(validationFailures));
+        _validator.Setup(v => v.ValidateAsync(It.IsAny<HighNeedsParametersV1>(), token)).ReturnsAsync(new ValidationResult(validationFailures));
 
         var result = await _handler.HandleAsync(context);
 
