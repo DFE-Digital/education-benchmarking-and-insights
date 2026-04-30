@@ -265,6 +265,25 @@ export default class HorizontalBarChartTemplate {
       return `${focusRect}${textLink}`;
     };
 
+    const templateTickText = (datum: string, index: number) => {
+      let label = formatTick(datum, index);
+
+      const classAttr = classnames("text-tick", {
+        "text-tick__highlight": datum === highlightKey,
+      });
+      
+      const labelParts = truncateLabel(
+        label,
+        isAllCaps(label) ? truncateLabelAt - 4 : truncateLabelAt
+      )
+        .split(" ")
+        .join(` </tspan><tspan>`);
+
+      return `<text x="-${tickSize + 3}" dy="0.32em" class="${classAttr}">
+    <tspan>${labelParts}</tspan>
+</text>`;
+    };
+
     function truncateLabel(label: string, maxLength: number) {
       if (label.length <= maxLength) {
         return label;
@@ -291,7 +310,7 @@ export default class HorizontalBarChartTemplate {
   ${
     linkFormat
       ? templateTickLink(d[keyField] as string, i)
-      : `<text x="-9" dy="0.32em">${escapeXml(value)}</text>`
+      : templateTickText(d[keyField] as string, i)
   }
 </g>`;
     });
