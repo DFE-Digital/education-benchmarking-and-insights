@@ -27,6 +27,16 @@ The shared Docker Compose configuration is located in the `docker` directory at 
    docker compose up -d
    ```
 
+## Debugging the data pipeline
+
+Also included is configuration to run the data pipeline in debug mode. Your local `pipeline` folder will be mounted inside the pipeline container, so the container can be tweaked to test solutions.
+
+```sh
+make build-pipeline-debug
+```
+
+If using VS Code, there is a configuration to add to your `.vscode/launch.json` to attach the VS Code debugger to the running data pipeline container and debug it under `docker/launch.json.example`.
+
 ## Services Provided
 
 The `docker-compose.yml` file provisions the following services:

@@ -20,6 +20,9 @@ down: ## Stop local Docker dependencies
 build-pipeline: ## Force rebuild of the data-pipeline container
 	docker-compose -f docker/docker-compose.yml build pipeline
 
+build-pipeline-debug: ## Run data pipeline in debug mode
+	docker-compose -f docker/docker-compose.yml -f docker/docker-compose.debug-data-pipeline.yml up pipeline
+
 lint-md: ## Lint and fix markdown files
 	npx markdownlint-cli2 --fix "**/*.md" --verbose
 
