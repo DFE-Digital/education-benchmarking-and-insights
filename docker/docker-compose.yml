@@ -24,14 +24,16 @@ services:
         condition: service_healthy
     environment:
       AZURITE_CONNECTION_STRING: ${AZURITE_CONNECTION_STRING}
+      AZURITE_CONTAINER_NAMES: ${AZURITE_CONTAINER_NAMES}
+      AZURITE_QUEUE_NAMES: ${AZURITE_QUEUE_NAMES}
     entrypoint: /bin/sh
     command: >
       -c '
       set -e;
-      for c in comparator-sets metric-rag pre-processed raw; do
+      for c in $$AZURITE_CONTAINER_NAMES; do
         az storage container create --name "$$c" --connection-string "$$AZURITE_CONNECTION_STRING" --only-show-errors >/dev/null;
       done;
-      for q in data-pipeline-job-default-start data-pipeline-job-custom-start data-pipeline-job-finished data-pipeline-job-dlq; do
+      for q in $$AZURITE_QUEUE_NAMES; do
         az storage queue create --name "$$q" --connection-string "$$AZURITE_CONNECTION_STRING" --only-show-errors >/dev/null;
       done;
       echo "Azurite bootstrap complete";
