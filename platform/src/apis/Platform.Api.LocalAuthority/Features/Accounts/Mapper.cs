@@ -89,6 +89,7 @@ public static class Mapper
     public static HighNeedsResponse MapBudget(BudgetDto dto) => new()
     {
         Code = dto.LaCode,
+        Name = dto.Name,
         TotalPupils = dto.TotalPupils,
         TotalHighNeeds = dto.BudgetTotalHighNeeds,
         TotalPlaceFunding = dto.BudgetTotalPlaceFunding,
@@ -127,6 +128,7 @@ public static class Mapper
     public static HighNeedsResponse MapOutturn(OutturnDto dto) => new()
     {
         Code = dto.LaCode,
+        Name = dto.Name,
         TotalPupils = dto.TotalPupils,
         TotalHighNeeds = dto.OutturnTotalHighNeeds,
         TotalPlaceFunding = dto.OutturnTotalPlaceFunding,

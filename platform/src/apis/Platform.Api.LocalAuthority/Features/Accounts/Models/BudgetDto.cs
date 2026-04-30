@@ -8,43 +8,45 @@ namespace Platform.Api.LocalAuthority.Features.Accounts.Models;
 public record BudgetDto
 {
     public string? LaCode { get; set; }
-    public string? TotalPupils { get; set; }
-    public string? BudgetTotalHighNeeds { get; set; }
-    public string? BudgetTotalPlaceFunding { get; set; }
-    public string? BudgetTotalTopUpFundingMaintained { get; set; }
-    public string? BudgetTotalTopUpFundingNonMaintained { get; set; }
-    public string? BudgetTotalSenServices { get; set; }
-    public string? BudgetTotalAlternativeProvisionServices { get; set; }
-    public string? BudgetTotalHospitalServices { get; set; }
-    public string? BudgetTotalOtherHealthServices { get; set; }
-    public string? BudgetTopFundingMaintainedEarlyYears { get; set; }
-    public string? BudgetTopFundingMaintainedPrimary { get; set; }
-    public string? BudgetTopFundingMaintainedSecondary { get; set; }
-    public string? BudgetTopFundingMaintainedSpecial { get; set; }
-    public string? BudgetTopFundingMaintainedAlternativeProvision { get; set; }
-    public string? BudgetTopFundingMaintainedPostSchool { get; set; }
-    public string? BudgetTopFundingMaintainedIncome { get; set; }
-    public string? BudgetTopFundingNonMaintainedEarlyYears { get; set; }
-    public string? BudgetTopFundingNonMaintainedPrimary { get; set; }
-    public string? BudgetTopFundingNonMaintainedSecondary { get; set; }
-    public string? BudgetTopFundingNonMaintainedSpecial { get; set; }
-    public string? BudgetTopFundingNonMaintainedAlternativeProvision { get; set; }
-    public string? BudgetTopFundingNonMaintainedPostSchool { get; set; }
-    public string? BudgetTopFundingNonMaintainedIncome { get; set; }
-    public string? BudgetPlaceFundingPrimary { get; set; }
-    public string? BudgetPlaceFundingSecondary { get; set; }
-    public string? BudgetPlaceFundingSpecial { get; set; }
-    public string? BudgetPlaceFundingAlternativeProvision { get; set; }
-    public string? BudgetSENTransportDSG { get; set; }
-    public string? BudgetHometoSchoolTransportPre16 { get; set; }
-    public string? BudgetHometoSchoolTransport1618 { get; set; }
-    public string? BudgetHometoSchoolTransport1925 { get; set; }
-    public string? BudgetEdPsychologyService { get; set; }
-    public string? BudgetSENAdmin { get; set; }
+    public string? Name { get; set; }
+    public decimal? TotalPupils { get; set; }
+    public decimal? BudgetTotalHighNeeds { get; set; }
+    public decimal? BudgetTotalPlaceFunding { get; set; }
+    public decimal? BudgetTotalTopUpFundingMaintained { get; set; }
+    public decimal? BudgetTotalTopUpFundingNonMaintained { get; set; }
+    public decimal? BudgetTotalSenServices { get; set; }
+    public decimal? BudgetTotalAlternativeProvisionServices { get; set; }
+    public decimal? BudgetTotalHospitalServices { get; set; }
+    public decimal? BudgetTotalOtherHealthServices { get; set; }
+    public decimal? BudgetTopFundingMaintainedEarlyYears { get; set; }
+    public decimal? BudgetTopFundingMaintainedPrimary { get; set; }
+    public decimal? BudgetTopFundingMaintainedSecondary { get; set; }
+    public decimal? BudgetTopFundingMaintainedSpecial { get; set; }
+    public decimal? BudgetTopFundingMaintainedAlternativeProvision { get; set; }
+    public decimal? BudgetTopFundingMaintainedPostSchool { get; set; }
+    public decimal? BudgetTopFundingMaintainedIncome { get; set; }
+    public decimal? BudgetTopFundingNonMaintainedEarlyYears { get; set; }
+    public decimal? BudgetTopFundingNonMaintainedPrimary { get; set; }
+    public decimal? BudgetTopFundingNonMaintainedSecondary { get; set; }
+    public decimal? BudgetTopFundingNonMaintainedSpecial { get; set; }
+    public decimal? BudgetTopFundingNonMaintainedAlternativeProvision { get; set; }
+    public decimal? BudgetTopFundingNonMaintainedPostSchool { get; set; }
+    public decimal? BudgetTopFundingNonMaintainedIncome { get; set; }
+    public decimal? BudgetPlaceFundingPrimary { get; set; }
+    public decimal? BudgetPlaceFundingSecondary { get; set; }
+    public decimal? BudgetPlaceFundingSpecial { get; set; }
+    public decimal? BudgetPlaceFundingAlternativeProvision { get; set; }
+    public decimal? BudgetSENTransportDSG { get; set; }
+    public decimal? BudgetHometoSchoolTransportPre16 { get; set; }
+    public decimal? BudgetHometoSchoolTransport1618 { get; set; }
+    public decimal? BudgetHometoSchoolTransport1925 { get; set; }
+    public decimal? BudgetEdPsychologyService { get; set; }
+    public decimal? BudgetSENAdmin { get; set; }
 
     public static readonly string[] Fields =
     [
         nameof(LaCode),
+        nameof(Name),
         nameof(TotalPupils),
         nameof(BudgetTotalHighNeeds),
         nameof(BudgetTotalPlaceFunding),

@@ -9,39 +9,39 @@ public record OutturnDto
 {
     public string? LaCode { get; set; }
     public string? Name { get; set; }
-    public string? TotalPupils { get; set; }
-    public string? OutturnTotalHighNeeds { get; set; }
-    public string? OutturnTotalPlaceFunding { get; set; }
-    public string? OutturnTotalTopUpFundingMaintained { get; set; }
-    public string? OutturnTotalTopUpFundingNonMaintained { get; set; }
-    public string? OutturnTotalSenServices { get; set; }
-    public string? OutturnTotalAlternativeProvisionServices { get; set; }
-    public string? OutturnTotalHospitalServices { get; set; }
-    public string? OutturnTotalOtherHealthServices { get; set; }
-    public string? OutturnTopFundingMaintainedEarlyYears { get; set; }
-    public string? OutturnTopFundingMaintainedPrimary { get; set; }
-    public string? OutturnTopFundingMaintainedSecondary { get; set; }
-    public string? OutturnTopFundingMaintainedSpecial { get; set; }
-    public string? OutturnTopFundingMaintainedAlternativeProvision { get; set; }
-    public string? OutturnTopFundingMaintainedPostSchool { get; set; }
-    public string? OutturnTopFundingMaintainedIncome { get; set; }
-    public string? OutturnTopFundingNonMaintainedEarlyYears { get; set; }
-    public string? OutturnTopFundingNonMaintainedPrimary { get; set; }
-    public string? OutturnTopFundingNonMaintainedSecondary { get; set; }
-    public string? OutturnTopFundingNonMaintainedSpecial { get; set; }
-    public string? OutturnTopFundingNonMaintainedAlternativeProvision { get; set; }
-    public string? OutturnTopFundingNonMaintainedPostSchool { get; set; }
-    public string? OutturnTopFundingNonMaintainedIncome { get; set; }
-    public string? OutturnPlaceFundingPrimary { get; set; }
-    public string? OutturnPlaceFundingSecondary { get; set; }
-    public string? OutturnPlaceFundingSpecial { get; set; }
-    public string? OutturnPlaceFundingAlternativeProvision { get; set; }
-    public string? OutturnSENTransportDSG { get; set; }
-    public string? OutturnHometoSchoolTransportPre16 { get; set; }
-    public string? OutturnHometoSchoolTransport1618 { get; set; }
-    public string? OutturnHometoSchoolTransport1925 { get; set; }
-    public string? OutturnEdPsychologyService { get; set; }
-    public string? OutturnSENAdmin { get; set; }
+    public decimal? TotalPupils { get; set; }
+    public decimal? OutturnTotalHighNeeds { get; set; }
+    public decimal? OutturnTotalPlaceFunding { get; set; }
+    public decimal? OutturnTotalTopUpFundingMaintained { get; set; }
+    public decimal? OutturnTotalTopUpFundingNonMaintained { get; set; }
+    public decimal? OutturnTotalSenServices { get; set; }
+    public decimal? OutturnTotalAlternativeProvisionServices { get; set; }
+    public decimal? OutturnTotalHospitalServices { get; set; }
+    public decimal? OutturnTotalOtherHealthServices { get; set; }
+    public decimal? OutturnTopFundingMaintainedEarlyYears { get; set; }
+    public decimal? OutturnTopFundingMaintainedPrimary { get; set; }
+    public decimal? OutturnTopFundingMaintainedSecondary { get; set; }
+    public decimal? OutturnTopFundingMaintainedSpecial { get; set; }
+    public decimal? OutturnTopFundingMaintainedAlternativeProvision { get; set; }
+    public decimal? OutturnTopFundingMaintainedPostSchool { get; set; }
+    public decimal? OutturnTopFundingMaintainedIncome { get; set; }
+    public decimal? OutturnTopFundingNonMaintainedEarlyYears { get; set; }
+    public decimal? OutturnTopFundingNonMaintainedPrimary { get; set; }
+    public decimal? OutturnTopFundingNonMaintainedSecondary { get; set; }
+    public decimal? OutturnTopFundingNonMaintainedSpecial { get; set; }
+    public decimal? OutturnTopFundingNonMaintainedAlternativeProvision { get; set; }
+    public decimal? OutturnTopFundingNonMaintainedPostSchool { get; set; }
+    public decimal? OutturnTopFundingNonMaintainedIncome { get; set; }
+    public decimal? OutturnPlaceFundingPrimary { get; set; }
+    public decimal? OutturnPlaceFundingSecondary { get; set; }
+    public decimal? OutturnPlaceFundingSpecial { get; set; }
+    public decimal? OutturnPlaceFundingAlternativeProvision { get; set; }
+    public decimal? OutturnSENTransportDSG { get; set; }
+    public decimal? OutturnHometoSchoolTransportPre16 { get; set; }
+    public decimal? OutturnHometoSchoolTransport1618 { get; set; }
+    public decimal? OutturnHometoSchoolTransport1925 { get; set; }
+    public decimal? OutturnEdPsychologyService { get; set; }
+    public decimal? OutturnSENAdmin { get; set; }
 
     public static readonly string[] Fields =
     [
