@@ -937,6 +937,12 @@ table#current-comparators-la {
         .chart-tick {
           text-anchor: end;
 
+          .text-tick {
+            &.text-tick__highlight {
+              font-weight: bold;
+            }
+          }
+
           .link-tick {
             &.link-tick__highlight {
               font-weight: bold;
