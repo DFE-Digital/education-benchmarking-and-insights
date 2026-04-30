@@ -44,6 +44,8 @@ public class QueryHighNeedsV2Handler(IHighNeedsService service, IValidator<HighN
         }
 
         var highNeeds = await service.QueryByTransactionTypeAsync(queryParams.Codes, queryParams.Dimension, queryParams.Type, context.Token);
-        return await context.Request.CreateJsonResponseAsync(highNeeds, context.Token);
+        return highNeeds.Length == 0
+         ? context.Request.CreateNotFoundResponse()
+        : await context.Request.CreateJsonResponseAsync(highNeeds, context.Token);
     }
 }
