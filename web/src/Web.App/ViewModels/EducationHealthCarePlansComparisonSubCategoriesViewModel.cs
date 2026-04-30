@@ -8,17 +8,18 @@ public class EducationHealthCarePlansComparisonSubCategoriesViewModel
     public List<BenchmarkingViewModelCostSubCategory<EducationHealthCarePlansComparisonDatum>> Items { get; set; } = [];
 
     public EducationHealthCarePlansComparisonSubCategoriesViewModel(EducationHealthCarePlans[] plans,
-        EducationHealthCarePlansCategories.SubCategoryFilter[] filters)
+        EducationHealthCarePlansCategories.SubCategoryFilter[] filters,
+        string code)
     {
         filters = filters.Length > 0 ? filters : EducationHealthCarePlansCategories.All;
 
         foreach (var filter in filters)
         {
-            AddSubCategory(filter, plans);
+            AddSubCategory(filter, plans, code);
         }
     }
 
-    private void AddSubCategory(EducationHealthCarePlansCategories.SubCategoryFilter filter, EducationHealthCarePlans[] plans)
+    private void AddSubCategory(EducationHealthCarePlansCategories.SubCategoryFilter filter, EducationHealthCarePlans[] plans, string code)
     {
         var data = plans
             .Select(p => new EducationHealthCarePlansComparisonDatum
@@ -28,6 +29,7 @@ public class EducationHealthCarePlansComparisonSubCategoriesViewModel
                 Plans = filter.GetValue(p),
                 TotalPupils = p.TotalPupils
             })
+            .Where(x => x.Code == code || x.Plans != null)
             .OrderByDescending(x => x.Plans)
             .ToArray();
 
