@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Attributes;
+using Microsoft.OpenApi.Models;
 using Platform.Api.LocalAuthority.Features.Accounts.Handlers;
 using Platform.Api.LocalAuthority.Features.Accounts.Models;
 using Platform.Functions;
@@ -22,6 +23,7 @@ public class QueryHighNeedsFunction(IEnumerable<IQueryHighNeedsHandler> handlers
     [OpenApiApiVersionParameter]
     [OpenApiLaCodesParameter("code", isRequired: true)]
     [OpenApiDimensionParameter(Required = true, Example = typeof(OpenApiExamples.DimensionHighNeeds))]
+    [OpenApiParameter("type", In = ParameterLocation.Query, Required = false, Description = "Submission type")]
     [OpenApiResponseWithBody(HttpStatusCode.OK, ContentType.ApplicationJson, typeof(LocalAuthority<HighNeedsYear>[]), Description = "The high needs data for the requested local authorities")]
     [OpenApiResponseWithBody(HttpStatusCode.BadRequest, ContentType.ApplicationJsonProblem, typeof(ValidationProblemDetails), Description = "The request was invalid")]
     [OpenApiResponseWithoutBody(HttpStatusCode.NotFound, Description = "The requested local authorities could not be found")]

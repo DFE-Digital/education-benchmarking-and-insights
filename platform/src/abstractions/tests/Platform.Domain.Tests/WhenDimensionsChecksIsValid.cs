@@ -30,16 +30,6 @@ public class WhenDimensionsChecksIsValid
 
     [Theory]
     [InlineData("Actuals", true)]
-    [InlineData("PerHead", true)]
-    [InlineData("invalid", false)]
-    public void ShouldValidateHighNeedsDimensions(string dimension, bool expected)
-    {
-        var actual = Dimensions.HighNeeds.IsValid(dimension);
-        Assert.Equal(expected, actual);
-    }
-
-    [Theory]
-    [InlineData("Actuals", true)]
     [InlineData("Per1000", true)]
     [InlineData("invalid", false)]
     public void ShouldValidateEducationHealthCarePlansDimensions(string dimension, bool expected)

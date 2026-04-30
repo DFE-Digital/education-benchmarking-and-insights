@@ -31,7 +31,7 @@ public class LocalAuthorityApi(HttpClient httpClient, string? key = null) : ApiB
 
     public Task<ApiResult> QueryEhcpHistoryAsync(ApiQuery? query = null, CancellationToken cancellationToken = default) => GetAsync($"{Routes.QueryEhcpHistory}{query?.ToQueryString()}", cancellationToken);
 
-    public Task<ApiResult> QueryHighNeedsAsync(ApiQuery? query = null, CancellationToken cancellationToken = default) => GetAsync($"{Routes.QueryHighNeeds}{query?.ToQueryString()}", cancellationToken);
+    public Task<ApiResult> QueryHighNeedsAsync(ApiQuery? query = null, CancellationToken cancellationToken = default) => GetVersionedAsync($"{Routes.QueryHighNeeds}{query?.ToQueryString()}", "1.0", cancellationToken);
 
     public Task<ApiResult> QueryHighNeedsHistoryAsync(ApiQuery? query = null, CancellationToken cancellationToken = default) => GetAsync($"{Routes.QueryHighNeedsHistory}{query?.ToQueryString()}", cancellationToken);
 

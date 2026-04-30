@@ -11,7 +11,7 @@ public class GivenHighNeedsParameters
     public void ShouldSetDefaultValuesWhenQueryIsEmpty()
     {
         var query = new NameValueCollection();
-        var parameters = new HighNeedsParameters();
+        var parameters = new HighNeedsParametersV1();
 
         parameters.SetValues(query);
 
@@ -28,7 +28,7 @@ public class GivenHighNeedsParameters
             { "dimension", "PerHead" }
         };
 
-        var parameters = new HighNeedsParameters();
+        var parameters = new HighNeedsParametersV1();
         parameters.SetValues(query);
 
         Assert.Equal(new[] { "LA1", "LA2" }, parameters.Codes);

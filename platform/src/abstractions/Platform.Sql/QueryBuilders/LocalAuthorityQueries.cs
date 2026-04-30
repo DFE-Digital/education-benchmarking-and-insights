@@ -30,6 +30,9 @@ public class LocalAuthorityFinancialDefaultCurrentQuery : PlatformQuery
             Dimensions.HighNeeds.Actuals => $"SELECT {select} FROM VW_LocalAuthorityFinancialDefaultCurrentActual /**where**/",
             Dimensions.HighNeeds.PerHead => $"SELECT {select} FROM VW_LocalAuthorityFinancialDefaultCurrentPerPopulation /**where**/",
             Dimensions.HighNeeds.PerPupil => $"SELECT {select} FROM VW_LocalAuthorityFinancialDefaultCurrentPerPupil /**where**/",
+            Dimensions.HighNeeds.PerEhcp => $"SELECT {select} FROM VW_LocalAuthorityFinancialDefaultCurrentPerEHCP /**where**/",
+            Dimensions.HighNeeds.PerSenSupport => $"SELECT {select} FROM VW_LocalAuthorityFinancialDefaultCurrentPerSENSupport /**where**/",
+            Dimensions.HighNeeds.PerTotalSupport => $"SELECT {select} FROM VW_LocalAuthorityFinancialDefaultCurrentPerSENSupportAndEHCP /**where**/",
             _ => throw new ArgumentOutOfRangeException(nameof(dimension), "Unknown dimension")
         };
     }

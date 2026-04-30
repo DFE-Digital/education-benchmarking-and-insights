@@ -20,7 +20,7 @@ public class WhenQueryHighNeedsV1HandlerHandles : HandlerTestBase
 {
     private readonly Fixture _fixture = new();
     private readonly Mock<IHighNeedsService> _service = new();
-    private readonly Mock<IValidator<HighNeedsParameters>> _validator = new();
+    private readonly Mock<IValidator<HighNeedsParametersV1>> _validator = new();
     private readonly QueryHighNeedsV1Handler _handler;
 
     public WhenQueryHighNeedsV1HandlerHandles()
@@ -48,7 +48,7 @@ public class WhenQueryHighNeedsV1HandlerHandles : HandlerTestBase
         var context = new BasicContext(request, token);
 
         _validator
-            .Setup(v => v.ValidateAsync(It.IsAny<HighNeedsParameters>(), token))
+            .Setup(v => v.ValidateAsync(It.IsAny<HighNeedsParametersV1>(), token))
             .ReturnsAsync(new ValidationResult());
 
         _service
@@ -78,7 +78,7 @@ public class WhenQueryHighNeedsV1HandlerHandles : HandlerTestBase
 
         var validationFailures = new[] { new ValidationFailure("Codes", "Error message") };
         _validator
-            .Setup(v => v.ValidateAsync(It.IsAny<HighNeedsParameters>(), token))
+            .Setup(v => v.ValidateAsync(It.IsAny<HighNeedsParametersV1>(), token))
             .ReturnsAsync(new ValidationResult(validationFailures));
 
         var result = await _handler.HandleAsync(context);

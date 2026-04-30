@@ -7,7 +7,7 @@ namespace Platform.LocalAuthority.Tests.Features.Accounts.Validators;
 
 public class WhenHighNeedsParametersValidatorValidates
 {
-    private readonly HighNeedsParametersValidator _validator = new();
+    private readonly HighNeedsParametersValidatorV1 _validator = new();
 
     public static TheoryData<string, string> ValidCases => new()
     {
@@ -29,7 +29,7 @@ public class WhenHighNeedsParametersValidatorValidates
     [MemberData(nameof(ValidCases))]
     public async Task ShouldValidateAndEvaluateGoodParametersAsValid(string codes, string dimension)
     {
-        var parameters = new HighNeedsParameters();
+        var parameters = new HighNeedsParametersV1();
         parameters.SetValues(new NameValueCollection
         {
             { "code", codes },
@@ -45,7 +45,7 @@ public class WhenHighNeedsParametersValidatorValidates
     [MemberData(nameof(InvalidCases))]
     public async Task ShouldValidateAndEvaluateBadParametersAsInvalid(string codes, string dimension, string expectedMessage)
     {
-        var parameters = new HighNeedsParameters();
+        var parameters = new HighNeedsParametersV1();
         parameters.SetValues(new NameValueCollection
         {
             { "code", codes },

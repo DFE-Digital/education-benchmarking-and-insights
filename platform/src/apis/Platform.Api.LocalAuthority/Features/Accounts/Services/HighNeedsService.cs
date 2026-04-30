@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Platform.Api.LocalAuthority.Features.Accounts.Models;
+using Platform.Domain;
 using Platform.Sql;
 using Platform.Sql.QueryBuilders;
 
@@ -12,6 +13,7 @@ public interface IHighNeedsService
 {
     Task<LocalAuthority<HighNeeds>[]> QueryAsync(string[] codes, string dimension, CancellationToken cancellationToken = default);
     Task<History<HighNeedsYear>?> QueryHistoryAsync(string[] codes, string dimension, CancellationToken cancellationToken = default);
+    Task<HighNeedsResponse[]> QueryByTransactionTypeAsync(string[] codes, string dimension, string type, CancellationToken cancellationToken = default);
 }
 
 public class HighNeedsService(IDatabaseFactory dbFactory) : IHighNeedsService
@@ -245,6 +247,48 @@ public class HighNeedsService(IDatabaseFactory dbFactory) : IHighNeedsService
             Outturn = results.Select(r => r.outturn).ToArray(),
             Budget = results.Select(r => r.budget).ToArray()
         };
+    }
+
+    public async Task<HighNeedsResponse[]> QueryByTransactionTypeAsync(string[] codes, string dimension, string type, CancellationToken cancellationToken = default)
+    {
+        return type switch
+        {
+            SubmissionType.Budget => await QueryAndMapAsync(QueryBudgetAsync, Mapper.MapBudget, codes, dimension, cancellationToken),
+            SubmissionType.Outturn => await QueryAndMapAsync(QueryOutturnAsync, Mapper.MapOutturn, codes, dimension, cancellationToken),
+            _ => []
+        };
+    }
+
+    private static async Task<HighNeedsResponse[]> QueryAndMapAsync<TDto>(
+        Func<string[], string, CancellationToken, Task<TDto[]>> queryAsync,
+        Func<TDto, HighNeedsResponse> map, string[] codes, string dimension, CancellationToken cancellationToken)
+    {
+        var dtos = await queryAsync(codes, dimension, cancellationToken);
+        return dtos.Select(map).ToArray();
+    }
+
+    private async Task<OutturnDto[]> QueryOutturnAsync(string[] codes, string dimension, CancellationToken cancellationToken)
+    {
+        var fields = OutturnDto.Fields;
+
+        using var conn = await dbFactory.GetConnection();
+        var laBuilder = new LocalAuthorityFinancialDefaultCurrentQuery(dimension, fields)
+            .WhereLaCodesIn(codes);
+
+        var result = await conn.QueryAsync<OutturnDto>(laBuilder, cancellationToken);
+        return result.ToArray();
+    }
+
+    private async Task<BudgetDto[]> QueryBudgetAsync(string[] codes, string dimension, CancellationToken cancellationToken)
+    {
+        var fields = BudgetDto.Fields;
+
+        using var conn = await dbFactory.GetConnection();
+        var laBuilder = new LocalAuthorityFinancialDefaultCurrentQuery(dimension, fields)
+            .WhereLaCodesIn(codes);
+
+        var result = await conn.QueryAsync<BudgetDto>(laBuilder, cancellationToken);
+        return result.ToArray();
     }
 
     private static async Task<YearsModelDto?> QueryYearsLocalAuthorityAsync(IDatabaseConnection conn, string code, CancellationToken cancellationToken = default)

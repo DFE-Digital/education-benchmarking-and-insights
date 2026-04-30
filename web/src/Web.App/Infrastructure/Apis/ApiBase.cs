@@ -18,6 +18,13 @@ public abstract class ApiBase
 
     protected async Task<ApiResult> GetAsync(string requestUri, CancellationToken cancellationToken = default) => await _httpClient.GetAsync(requestUri, cancellationToken).ToApiResult(cancellationToken);
 
+    protected async Task<ApiResult> GetVersionedAsync(string requestUri, string version, CancellationToken cancellationToken = default) => await SendAsync(new HttpRequestMessage
+    {
+        Method = HttpMethod.Get,
+        RequestUri = new Uri(requestUri, UriKind.Relative),
+        Headers = { { "x-api-version", version } }
+    }, cancellationToken);
+
     protected async Task<ApiResult> PutAsync(string requestUri, JsonContent content) => await _httpClient.PutAsync(requestUri, content).ToApiResult();
 
     protected async Task<ApiResult> PostAsync(string requestUri, JsonContent content, CancellationToken cancellationToken = default) => await _httpClient.PostAsync(requestUri, content, cancellationToken).ToApiResult(cancellationToken);
