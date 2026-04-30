@@ -49,7 +49,7 @@ public class LocalAuthorityEducationHealthCarePlansController(
                     .QueryEhcpAsync(query)
                     .GetResultOrThrow<EducationHealthCarePlans[]>();
 
-                var subCategories = new EducationHealthCarePlansComparisonSubCategoriesViewModel(plans, selectedSubCategories);
+                var subCategories = new EducationHealthCarePlansComparisonSubCategoriesViewModel(plans, selectedSubCategories, code);
 
                 var charts = await BuildCharts(code, subCategories);
 
