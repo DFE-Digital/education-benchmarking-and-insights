@@ -4,7 +4,7 @@
   "instance": "/api/local-authorities/accounts/high-needs",
   "errors": {
     "Dimension": [
-      "Dimension must be empty or one of the supported values: Actuals, PerHead, PerPupil"
+      "Dimension must be empty or one of the supported values: PerPupil, PerEhcp, PerSenSupport, PerTotalSupport"
     ]
   }
 }

@@ -129,6 +129,13 @@ public class AccountsHighNeedsSteps(LocalAuthorityApiDriver api)
         AssertHttpResponse.IsNotFound(response);
     }
 
+    [Then("the result should be not found")]
+    public void ThenTheResultShouldBeNotFound()
+    {
+        var response = api[Key].Response;
+        AssertHttpResponse.IsNotFound(response);
+    }
+
     [Then("the result should be bad request and match the expected output in '(.*)'")]
     public async Task ThenTheResultShouldBeBadRequestAndMatchTheExpectedOutputIn(string testFile)
     {
