@@ -23,6 +23,7 @@ public record EducationHealthCarePlanHorizontalBarChartRequest : PostHorizontalB
         LinkFormat = linkFormatter == null
             ? string.Empty
             : linkFormatter.Invoke("%1$s");
+        MissingDataLabel = "No data submitted";
         Sort = "desc";
         Width = 610;
         ValueField = nameof(EducationHealthCarePlansComparisonDatum.Plans).ToLower();
