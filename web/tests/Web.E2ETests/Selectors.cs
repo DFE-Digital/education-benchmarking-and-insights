@@ -38,6 +38,7 @@ public static class Selectors
 
     public const string ModeChart = "#mode-chart";
     public const string ModeTable = "#mode-table";
+    public const string ViewAsTable = "#view-Table";
     public const string SpendingModeTable = "#spending-mode-table";
     public const string CentralSpendingModeExclude = "#spending-exclude-breakdown";
     public const string SectionTable = ".govuk-accordion__section .govuk-table";

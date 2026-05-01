@@ -61,4 +61,10 @@ public class ChooseLocalAuthoritiesToComparePage(IPage page)
         await SaveAndContinueButton.ClickAsync();
         return new HighNeedsBenchmarkingPage(page);
     }
+
+    public async Task<EducationHealthCarePlanBenchmarkingPage> ClickStartBenchmarkingButton()
+    {
+        await SaveAndContinueButton.ClickAsync();
+        return new EducationHealthCarePlanBenchmarkingPage(page);
+    }
 }
