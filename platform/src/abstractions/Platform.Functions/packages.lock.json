@@ -20,9 +20,9 @@
       },
       "Microsoft.Azure.Functions.Worker.Core": {
         "type": "Direct",
-        "requested": "[2.51.0, )",
-        "resolved": "2.51.0",
-        "contentHash": "pylJZ9EYML6rRphvWUrx4exsyHME0TlbMgruE3NkDqNGn1kgunO4Qd+np/iFITr4Qlxn/3tTqxW5/puoDugvfA==",
+        "requested": "[2.52.0, )",
+        "resolved": "2.52.0",
+        "contentHash": "VCn3dZK2OxnRxLv6DO/uIQdXzOfaxyPJKyfkfO5ZLb3qA3QlcQZNk/heSWsvE1sqIb1HpVMvN5QadjiX1o7qhA==",
         "dependencies": {
           "Azure.Core": "1.44.1",
           "Microsoft.Extensions.Hosting": "10.0.0"
