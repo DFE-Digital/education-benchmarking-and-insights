@@ -114,7 +114,7 @@
                 }
                 else
                 {
-                    @await Html.PartialAsync("_EhcPlanTable", new LocalAuthorityEducationHealthCarePlansDataViewModel(subCategory))
+                    @await Html.PartialAsync("_EhcPlanTable", new LocalAuthorityEducationHealthCarePlansDataViewModel(subCategory, Model.Code))
                 }
             </section>
         }
