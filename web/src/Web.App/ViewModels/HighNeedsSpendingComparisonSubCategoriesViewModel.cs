@@ -35,7 +35,7 @@ public class HighNeedsSpendingComparisonSubCategoriesViewModel
         }
     }
 
-    private BenchmarkingViewModelCostSubCategory<HighNeedsSpendingComparisonDatum> BuildSubCategory(
+    private static BenchmarkingViewModelCostSubCategory<HighNeedsSpendingComparisonDatum> BuildSubCategory(
         HighNeedsSpendingCategories.SubCategoryFilter filter,
         HighNeedsSpending[] expenditures,
         string code)
