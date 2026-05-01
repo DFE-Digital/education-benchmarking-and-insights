@@ -24,7 +24,9 @@ public class LocalAuthorityEducationHealthCarePlansViewModel(
 }
 
 public class LocalAuthorityEducationHealthCarePlansDataViewModel(
-    BenchmarkingViewModelCostSubCategory<EducationHealthCarePlansComparisonDatum> subCategory)
+    BenchmarkingViewModelCostSubCategory<EducationHealthCarePlansComparisonDatum> subCategory,
+    string? code = null)
 {
+    public string? Code => code;
     public BenchmarkingViewModelCostSubCategory<EducationHealthCarePlansComparisonDatum> SubCategory => subCategory;
 }
