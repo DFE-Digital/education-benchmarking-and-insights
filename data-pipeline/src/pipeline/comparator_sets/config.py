@@ -14,7 +14,7 @@ SELECTION_METHOD = "distance_boarding_pfi" # Pick the 30 with the absolute small
 #this will affect write up of analysis and temporary storage of files etc.
 
 #Weight scheme/features
-WEIGHT_SCHEME = "pupils_gifa_geog"
+WEIGHT_SCHEME = "ruralscore_gifa_age_buildingcount_geog"
 #"geog_dist"
 #"baseline"
 #swc
@@ -131,118 +131,118 @@ elif WEIGHT_SCHEME == "geog_dist":
 
 elif WEIGHT_SCHEME == "ew_with_geog":
     #pupil weights (non-special)
-    PUPILS_WEIGHT = 1/5
-    FSM_WEIGHT = 1/5
-    SEN_WEIGHT = 1/5
+    PUPILS_WEIGHT = 2/8 #1/5 #replace with 2/8
+    FSM_WEIGHT = 2/8 #1/5
+    SEN_WEIGHT = 2/8 #1/5
     OVERCAPACITY_WEIGHT = 0
     UNDERCAPACITY_WEIGHT = 0
     RURALSCORE_WEIGHT = 0
-    EASTING_WEIGHT = 1/5
-    NORTHING_WEIGHT = 1/5
+    EASTING_WEIGHT = 1/8 #1/5 #replace with 1/8
+    NORTHING_WEIGHT = 1/8 #1/5
 
     #pupil weights (special)
-    SPECIAL_PUPILS_WEIGHT = 1/4
-    SPECIAL_FSM_WEIGHT = 1/4
-    EASTING_WEIGHT = 1/4
-    NORTHING_WEIGHT = 1/4
+    SPECIAL_PUPILS_WEIGHT = 2/6 #1/4 #replace with 2/6
+    SPECIAL_FSM_WEIGHT = 2/6 #1/4
+    EASTING_WEIGHT = 1/6 #1/4 #replace with 1/6
+    NORTHING_WEIGHT = 1/6 #1/4
 
     #building weights
-    GIFA_WEIGHT = 1/4
-    AGE_WEIGHT = 1/4
+    GIFA_WEIGHT = 2/6 #1/4 #replace with 2/6
+    AGE_WEIGHT = 2/6 #1/4
     OLDESTBUILDINGAGE_WEIGHT = 0
     NEWESTBUILDINGAGE_WEIGHT = 0
     BUILDINGCOUNT_WEIGHT = 0
-    EASTING_WEIGHT = 1/4
-    NORTHING_WEIGHT = 1/4
+    EASTING_WEIGHT = 1/6 #1/4 #replace with 1/6
+    NORTHING_WEIGHT = 1/6 #1/4
 
 elif WEIGHT_SCHEME == "afe_with_geog":
     #pupil weights (non-special)
-    PUPILS_WEIGHT = 1/8
-    FSM_WEIGHT = 1/8
-    SEN_WEIGHT = 1/8
-    OVERCAPACITY_WEIGHT = 1/8
-    UNDERCAPACITY_WEIGHT = 1/8
-    RURALSCORE_WEIGHT = 1/8
-    EASTING_WEIGHT = 1/8
-    NORTHING_WEIGHT = 1/8
+    PUPILS_WEIGHT = 2/14 #1/8 #replace with 2/14
+    FSM_WEIGHT = 2/14 #1/8
+    SEN_WEIGHT = 2/14 #1/8
+    OVERCAPACITY_WEIGHT = 2/14 #1/8
+    UNDERCAPACITY_WEIGHT = 2/14 #1/8
+    RURALSCORE_WEIGHT = 2/14 #1/8
+    EASTING_WEIGHT = 1/14 #1/8 # replace with 1/14
+    NORTHING_WEIGHT = 1/14 #1/8
 
     #pupil weights (special)
-    SPECIAL_PUPILS_WEIGHT = 1/4
-    SPECIAL_FSM_WEIGHT = 1/4
-    EASTING_WEIGHT = 1/4
-    NORTHING_WEIGHT = 1/4
+    SPECIAL_PUPILS_WEIGHT = 2/6 #1/4 #replace with 2/6
+    SPECIAL_FSM_WEIGHT = 2/6 #1/4
+    EASTING_WEIGHT = 1/6 #1/4 #replace with 1/6
+    NORTHING_WEIGHT = 1/6 #1/4
 
     #building weights
-    GIFA_WEIGHT = 1/7
-    AGE_WEIGHT = 1/7
-    OLDESTBUILDINGAGE_WEIGHT = 1/7
-    NEWESTBUILDINGAGE_WEIGHT = 1/7
-    BUILDINGCOUNT_WEIGHT = 1/7
-    EASTING_WEIGHT = 1/7
-    NORTHING_WEIGHT = 1/7
+    GIFA_WEIGHT = 2/12 #1/7 #replace with 2/12
+    AGE_WEIGHT = 2/12 #1/7
+    OLDESTBUILDINGAGE_WEIGHT = 2/12 #1/7
+    NEWESTBUILDINGAGE_WEIGHT = 2/12 #1/7
+    BUILDINGCOUNT_WEIGHT = 2/12 #1/7
+    EASTING_WEIGHT = 1/12 #1/7 #replace with 1/12
+    NORTHING_WEIGHT = 1/12 #1/7
 
 elif WEIGHT_SCHEME == "pupils_gifa_geog":
     #pupil weights (non-special)
-    PUPILS_WEIGHT = 1/3
+    PUPILS_WEIGHT = 2/4 #1/3 #replace with 2/4
     FSM_WEIGHT = 0
     SEN_WEIGHT = 0
     OVERCAPACITY_WEIGHT = 0
     UNDERCAPACITY_WEIGHT = 0
     RURALSCORE_WEIGHT = 0
-    EASTING_WEIGHT = 1/3
-    NORTHING_WEIGHT = 1/3
+    EASTING_WEIGHT = 1/4 #1/3 #replace with 1/4
+    NORTHING_WEIGHT = 1/4 #1/3
 
     #pupil weights (special)
-    SPECIAL_PUPILS_WEIGHT = 1/3
+    SPECIAL_PUPILS_WEIGHT = 2/4 #1/3 #replace with 2/4
     SPECIAL_FSM_WEIGHT = 0
-    EASTING_WEIGHT = 1/3
-    NORTHING_WEIGHT = 1/3
+    EASTING_WEIGHT = 1/4 #1/3 #replace with 1/4
+    NORTHING_WEIGHT = 1/4 #1/3
 
     #building weights
-    GIFA_WEIGHT = 1/3
+    GIFA_WEIGHT = 2/4 #1/3 #replace with 2/4
     AGE_WEIGHT = 0
     OLDESTBUILDINGAGE_WEIGHT = 0
     NEWESTBUILDINGAGE_WEIGHT = 0
     BUILDINGCOUNT_WEIGHT = 0
-    EASTING_WEIGHT = 1/3
-    NORTHING_WEIGHT = 1/3
+    EASTING_WEIGHT = 1/4 #1/3 #replace with 1/4
+    NORTHING_WEIGHT = 1/4 #1/3
 
 elif WEIGHT_SCHEME == "fsm_age_geog":
     #pupil weights (non-special)
     PUPILS_WEIGHT = 0
-    FSM_WEIGHT = 1/3
+    FSM_WEIGHT = 2/4 #1/3 #replace with 2/4
     SEN_WEIGHT = 0
     OVERCAPACITY_WEIGHT = 0
     UNDERCAPACITY_WEIGHT = 0
     RURALSCORE_WEIGHT = 0
-    EASTING_WEIGHT = 1/3
-    NORTHING_WEIGHT = 1/3
+    EASTING_WEIGHT = 1/4 #1/3 #replace with 1/4
+    NORTHING_WEIGHT = 1/4 #1/3
 
     #pupil weights (special)
     SPECIAL_PUPILS_WEIGHT = 0
-    SPECIAL_FSM_WEIGHT = 1/3
-    EASTING_WEIGHT = 1/3
-    NORTHING_WEIGHT = 1/3
+    SPECIAL_FSM_WEIGHT = 2/4 #1/3 #replace with 2/4
+    EASTING_WEIGHT = 1/4 #1/3 #replace with 1/4
+    NORTHING_WEIGHT = 1/4 #1/3
 
     #building weights
     GIFA_WEIGHT = 0
-    AGE_WEIGHT = 1/3
+    AGE_WEIGHT = 2/4 #1/3 #replace with 2/4
     OLDESTBUILDINGAGE_WEIGHT = 0
     NEWESTBUILDINGAGE_WEIGHT = 0
     BUILDINGCOUNT_WEIGHT = 0
-    EASTING_WEIGHT = 1/3
-    NORTHING_WEIGHT = 1/3
+    EASTING_WEIGHT = 1/4 #1/3 #replace with 1/4
+    NORTHING_WEIGHT = 1/4 #1/3
 
 elif WEIGHT_SCHEME == "sen_oldest_geog":
     #pupil weights (non-special)
     PUPILS_WEIGHT = 0
     FSM_WEIGHT = 0
-    SEN_WEIGHT = 1/3
+    SEN_WEIGHT = 2/4 #1/3 #replace with 2/4
     OVERCAPACITY_WEIGHT = 0
     UNDERCAPACITY_WEIGHT = 0
     RURALSCORE_WEIGHT = 0
-    EASTING_WEIGHT = 1/3
-    NORTHING_WEIGHT = 1/3
+    EASTING_WEIGHT = 1/4 #1/3 #replace with 1/4
+    NORTHING_WEIGHT = 1/4 #1/3
 
     #pupil weights (special)
     SPECIAL_PUPILS_WEIGHT = 0
@@ -253,22 +253,22 @@ elif WEIGHT_SCHEME == "sen_oldest_geog":
     #building weights
     GIFA_WEIGHT = 0
     AGE_WEIGHT = 0
-    OLDESTBUILDINGAGE_WEIGHT = 1/3
+    OLDESTBUILDINGAGE_WEIGHT = 2/4 #1/3 #replace with 2/4
     NEWESTBUILDINGAGE_WEIGHT = 0
     BUILDINGCOUNT_WEIGHT = 0
-    EASTING_WEIGHT = 1/3
-    NORTHING_WEIGHT = 1/3
+    EASTING_WEIGHT = 1/4 #1/3 #replace with 1/4
+    NORTHING_WEIGHT = 1/4 #1/3
 
 elif WEIGHT_SCHEME == "overcapacity_newest_geog":
     #pupil weights (non-special)
     PUPILS_WEIGHT = 0
     FSM_WEIGHT = 0
     SEN_WEIGHT = 0
-    OVERCAPACITY_WEIGHT = 1/3
+    OVERCAPACITY_WEIGHT = 2/4 #1/3 #replace with 2/4
     UNDERCAPACITY_WEIGHT = 0
     RURALSCORE_WEIGHT = 0
-    EASTING_WEIGHT = 1/3
-    NORTHING_WEIGHT = 1/3
+    EASTING_WEIGHT = 1/4 #1/3 #replace with 1/4
+    NORTHING_WEIGHT = 1/4 #1/3
 
     #pupil weights (special)
     SPECIAL_PUPILS_WEIGHT = 0
@@ -280,10 +280,10 @@ elif WEIGHT_SCHEME == "overcapacity_newest_geog":
     GIFA_WEIGHT = 0
     AGE_WEIGHT = 0
     OLDESTBUILDINGAGE_WEIGHT = 0
-    NEWESTBUILDINGAGE_WEIGHT = 1/3
+    NEWESTBUILDINGAGE_WEIGHT = 2/4 #1/3 #replace with 2/4
     BUILDINGCOUNT_WEIGHT = 0
-    EASTING_WEIGHT = 1/3
-    NORTHING_WEIGHT = 1/3
+    EASTING_WEIGHT = 1/4 #1/3 #replace with 1/4
+    NORTHING_WEIGHT = 1/4 #1/3
 
 elif WEIGHT_SCHEME == "undercapacity_buildingcount_geog":
     #pupil weights (non-special)
@@ -291,10 +291,10 @@ elif WEIGHT_SCHEME == "undercapacity_buildingcount_geog":
     FSM_WEIGHT = 0
     SEN_WEIGHT = 0
     OVERCAPACITY_WEIGHT = 0
-    UNDERCAPACITY_WEIGHT = 1/3
+    UNDERCAPACITY_WEIGHT = 2/4 #1/3 #replace with 2/4
     RURALSCORE_WEIGHT = 0
-    EASTING_WEIGHT = 1/3
-    NORTHING_WEIGHT = 1/3
+    EASTING_WEIGHT = 1/4 #1/3 #replace with 1/4
+    NORTHING_WEIGHT = 1/4 #1/3
 
     #pupil weights (special)
     SPECIAL_PUPILS_WEIGHT = 0
@@ -307,9 +307,9 @@ elif WEIGHT_SCHEME == "undercapacity_buildingcount_geog":
     AGE_WEIGHT = 0
     OLDESTBUILDINGAGE_WEIGHT = 0
     NEWESTBUILDINGAGE_WEIGHT = 0
-    BUILDINGCOUNT_WEIGHT = 1/3
-    EASTING_WEIGHT = 1/3
-    NORTHING_WEIGHT = 1/3
+    BUILDINGCOUNT_WEIGHT = 2/4 #1/3 #replace with 2/4
+    EASTING_WEIGHT = 1/4 #1/3 #replace with 1/4
+    NORTHING_WEIGHT = 1/4 #1/3
 
 elif WEIGHT_SCHEME == "ruralscore_gifa_age_buildingcount_geog":
     #pupil weights (non-special)
@@ -318,24 +318,24 @@ elif WEIGHT_SCHEME == "ruralscore_gifa_age_buildingcount_geog":
     SEN_WEIGHT = 0
     OVERCAPACITY_WEIGHT = 0
     UNDERCAPACITY_WEIGHT = 0
-    RURALSCORE_WEIGHT = 1/3
-    EASTING_WEIGHT = 1/3
-    NORTHING_WEIGHT = 1/3
+    RURALSCORE_WEIGHT = 2/4 #1/3 #replace with 2/4
+    EASTING_WEIGHT = 1/4 #1/3 #replace with 1/4
+    NORTHING_WEIGHT = 1/4 #1/3
 
     #pupil weights (special)
     SPECIAL_PUPILS_WEIGHT = 0
     SPECIAL_FSM_WEIGHT = 0
-    EASTING_WEIGHT = 1/3
-    NORTHING_WEIGHT = 1/3
+    EASTING_WEIGHT = 1/2
+    NORTHING_WEIGHT = 1/2
 
     #building weights
-    GIFA_WEIGHT = 1/5
-    AGE_WEIGHT = 1/5
+    GIFA_WEIGHT = 2/8 #1/5 #replace with 2/8
+    AGE_WEIGHT = 2/8 #1/5
     OLDESTBUILDINGAGE_WEIGHT = 0
     NEWESTBUILDINGAGE_WEIGHT = 0
-    BUILDINGCOUNT_WEIGHT = 1/5
-    EASTING_WEIGHT = 1/5
-    NORTHING_WEIGHT = 1/5
+    BUILDINGCOUNT_WEIGHT = 2/8 #1/5
+    EASTING_WEIGHT = 1/8 #1/5 # replace with 1/8
+    NORTHING_WEIGHT = 1/8 #1/5
 
 #need to add in weight schemes which include split site and sparsity, once that data is avaialble
 
