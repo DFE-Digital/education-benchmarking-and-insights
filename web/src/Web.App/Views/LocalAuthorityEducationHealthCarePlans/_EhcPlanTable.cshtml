@@ -28,7 +28,7 @@
         {
             <tr class="govuk-table__row">
                 <td class="govuk-table__cell">@row.Name</td>
-                <td class="govuk-table__cell">@row.Plans.ToSimpleDisplay()</td>
+                <td class="govuk-table__cell">@(row.Plans == null ? "No data submitted" : row.Plans.ToSimpleDisplay())</td>
                 <td class="govuk-table__cell govuk-table__cell--numeric">@(row.TotalPupils?.ToString("N0"))</td>
             </tr>
         }
