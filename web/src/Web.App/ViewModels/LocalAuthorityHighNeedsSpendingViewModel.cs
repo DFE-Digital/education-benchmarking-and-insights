@@ -21,7 +21,7 @@ public class LocalAuthorityHighNeedsSpendingViewModel(
 
     public HighNeedsSpendingCategories.SubCategoryFilter[] SelectedSubCategories { get; set; } = [];
 
-    public Views.ViewAsOptions ViewAs { get; set; } = Views.ViewAsOptions.Table;
+    public Views.ViewAsOptions ViewAs { get; set; } = Views.ViewAsOptions.Chart;
 
     public HighNeedsDimensions.ResultAsOptions ResultAs { get; set; } = HighNeedsDimensions.ResultAsOptions.PerPupil;
 
