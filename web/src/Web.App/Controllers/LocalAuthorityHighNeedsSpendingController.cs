@@ -22,8 +22,10 @@ public class LocalAuthorityHighNeedsSpendingController(
 {
     [HttpGet]
     public async Task<IActionResult> Index(string code,
+        HighNeedsSpendingCategories.SubCategoryFilter[] selectedSubCategories,
         Views.ViewAsOptions viewAs = Views.ViewAsOptions.Chart,
-        HighNeedsDimensions.ResultAsOptions resultAs = HighNeedsDimensions.ResultAsOptions.PerPupil)
+        HighNeedsDimensions.ResultAsOptions resultAs = HighNeedsDimensions.ResultAsOptions.PerPupil,
+        HighNeedsDimensions.SubmissionTypeOptions type = HighNeedsDimensions.SubmissionTypeOptions.Outturn)
     {
         using (logger.BeginScope(new { code }))
         {
@@ -42,21 +44,22 @@ public class LocalAuthorityHighNeedsSpendingController(
                 {
                     code
                 }.Concat(set).ToArray(),
-                    HighNeedsDimensions.ResultAsOptions.PerPupil.GetResultAsQueryParam(),
-                    HighNeedsDimensions.SubmissionTypeOptions.Outturn.GetSubmissionTypeQueryParam());
+                resultAs.GetResultAsQueryParam(),
+                type.GetSubmissionTypeQueryParam());
 
 
                 var expenditures = await api
                     .QueryHighNeedsV2Async(query)
                     .GetResultOrThrow<HighNeedsSpending[]>();
 
-                var subCategories = new HighNeedsSpendingComparisonSubCategoriesViewModel(expenditures, HighNeedsSpendingCategories.All, code);
+                var subCategories = new HighNeedsSpendingComparisonSubCategoriesViewModel(expenditures, selectedSubCategories, code);
 
                 var viewModel = new LocalAuthorityHighNeedsSpendingViewModel(la, set, subCategories)
                 {
-                    SelectedSubCategories = HighNeedsSpendingCategories.All,
+                    SelectedSubCategories = selectedSubCategories,
                     ViewAs = viewAs,
-                    ResultAs = resultAs
+                    ResultAs = resultAs,
+                    Type = type
                 };
 
                 return View(viewModel);
@@ -68,13 +71,15 @@ public class LocalAuthorityHighNeedsSpendingController(
             }
         }
     }
-    
+
     [HttpPost]
-    public IActionResult Index(string code, int viewAs, int resultAs) => RedirectToAction("Index", new
+    public IActionResult Index(string code, int[]? selectedSubCategories, int viewAs, int resultAs, int type) => RedirectToAction("Index", new
     {
         code,
+        selectedSubCategories,
         viewAs,
-        resultAs
+        resultAs,
+        type
     });
 
     private static ApiQuery BuildQuery(string[] codes, string dimension, string submissionType)

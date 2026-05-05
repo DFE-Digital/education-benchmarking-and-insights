@@ -12,7 +12,7 @@ public static class HighNeedsDimensions
         PerSenSupport = 2,
         PerTotalSupport = 3
     }
-    
+
     public static readonly ResultAsOptions[] AllResultsAsOptions =
     [
         ResultAsOptions.PerPupil,
@@ -23,14 +23,14 @@ public static class HighNeedsDimensions
 
     public enum SubmissionTypeOptions
     {
-        Budget = 0,
-        Outturn = 1
+        Outturn = 0,
+        Budget = 1
     }
-    
+
     public static readonly SubmissionTypeOptions[] AllSubmissionTypeOptions =
     [
-        SubmissionTypeOptions.Budget,
-        SubmissionTypeOptions.Outturn
+        SubmissionTypeOptions.Outturn,
+        SubmissionTypeOptions.Budget
     ];
 
     public static string GetSubmissionTypeQueryParam(this SubmissionTypeOptions option) => option switch

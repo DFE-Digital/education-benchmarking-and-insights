@@ -56,6 +56,7 @@ public class HighNeedsSpendingComparisonSubCategoriesViewModel
         {
             Uuid = Guid.NewGuid().ToString(),
             SubCategory = filter.GetHeading(),
+            SubCategoryId = (int)filter,
             Data = data
         };
     }
