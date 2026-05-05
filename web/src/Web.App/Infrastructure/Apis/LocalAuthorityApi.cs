@@ -33,6 +33,8 @@ public class LocalAuthorityApi(HttpClient httpClient, string? key = null) : ApiB
 
     public Task<ApiResult> QueryHighNeedsAsync(ApiQuery? query = null, CancellationToken cancellationToken = default) => GetVersionedAsync($"{Routes.QueryHighNeeds}{query?.ToQueryString()}", "1.0", cancellationToken);
 
+    public Task<ApiResult> QueryHighNeedsV2Async(ApiQuery? query = null, CancellationToken cancellationToken = default) => GetVersionedAsync($"{Routes.QueryHighNeeds}{query?.ToQueryString()}", "2.0", cancellationToken);
+
     public Task<ApiResult> QueryHighNeedsHistoryAsync(ApiQuery? query = null, CancellationToken cancellationToken = default) => GetAsync($"{Routes.QueryHighNeedsHistory}{query?.ToQueryString()}", cancellationToken);
 
     public Task<ApiResult> QueryMaintainedSchoolsFinanceAsync(string code, ApiQuery? query = null, CancellationToken cancellationToken = default) => GetAsync($"{Routes.QueryMaintainedSchoolsFinance(code)}{query?.ToQueryString()}", cancellationToken);
@@ -67,6 +69,7 @@ public interface ILocalAuthorityApi
     Task<ApiResult> QueryEhcpAsync(ApiQuery? query = null, CancellationToken cancellationToken = default);
     Task<ApiResult> QueryEhcpHistoryAsync(ApiQuery? query = null, CancellationToken cancellationToken = default);
     Task<ApiResult> QueryHighNeedsAsync(ApiQuery? query = null, CancellationToken cancellationToken = default);
+    Task<ApiResult> QueryHighNeedsV2Async(ApiQuery? query = null, CancellationToken cancellationToken = default);
     Task<ApiResult> QueryHighNeedsHistoryAsync(ApiQuery? query = null, CancellationToken cancellationToken = default);
     Task<ApiResult> QueryMaintainedSchoolsFinanceAsync(string code, ApiQuery? query = null, CancellationToken cancellationToken = default);
     Task<ApiResult> QueryMaintainedSchoolsWorkforceAsync(string code, ApiQuery? query = null, CancellationToken cancellationToken = default);

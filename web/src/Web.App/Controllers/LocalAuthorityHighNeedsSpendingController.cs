@@ -1,11 +1,13 @@
 ﻿using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Web.App.Attributes;
-using Web.App.Domain;
+using Web.App.Domain.Charts;
+using Web.App.Domain.LocalAuthorities;
 using Web.App.Infrastructure.Apis;
 using Web.App.Infrastructure.Extensions;
 using Web.App.Services;
 using Web.App.ViewModels;
+using LocalAuthority = Web.App.Domain.LocalAuthority;
 
 namespace Web.App.Controllers;
 
@@ -34,7 +36,26 @@ public class LocalAuthorityHighNeedsSpendingController(
                     return RedirectToAction("Index", "LocalAuthorityComparators", new { code, type = LocalAuthorityBenchmarkType.HighNeedsSpending });
                 }
 
-                return View(new LocalAuthorityHighNeedsSpendingViewModel(la, set));
+                var query = BuildQuery(new[]
+                {
+                    code
+                }.Concat(set).ToArray(),
+                    HighNeedsDimensions.ResultAsOptions.PerEhcp.GetResultAsQueryParam(),
+                    HighNeedsDimensions.SubmissionTypeOptions.Budget.GetSubmissionTypeQueryParam());
+
+
+                var expenditures = await api
+                    .QueryHighNeedsV2Async(query)
+                    .GetResultOrThrow<HighNeedsSpending[]>();
+
+                var subCategories = new HighNeedsSpendingComparisonSubCategoriesViewModel(expenditures, HighNeedsSpendingCategories.All, code);
+
+                var viewModel = new LocalAuthorityHighNeedsSpendingViewModel(la, set, subCategories)
+                {
+                    SelectedSubCategories = HighNeedsSpendingCategories.All,
+                };
+
+                return View(viewModel);
             }
             catch (Exception e)
             {
@@ -42,5 +63,20 @@ public class LocalAuthorityHighNeedsSpendingController(
                 return e is StatusCodeException s ? StatusCode((int)s.Status) : StatusCode(500);
             }
         }
+    }
+
+    private static ApiQuery BuildQuery(string[] codes, string dimension, string submissionType)
+    {
+        var query = new ApiQuery();
+        foreach (var c in codes)
+        {
+            query.AddIfNotNull("code", c);
+        }
+
+        query.AddIfNotNull("dimension", dimension);
+
+        query.AddIfNotNull("type", submissionType);
+
+        return query;
     }
 }

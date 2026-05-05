@@ -3,6 +3,6 @@ namespace Platform.Domain;
 
 public static class SubmissionType
 {
-    public const string Budget = "budget";
-    public const string Outturn = "outturn";
+    public const string Budget = nameof(Budget);
+    public const string Outturn = nameof(Outturn);
 }

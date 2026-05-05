@@ -1,8 +1,13 @@
-using Web.App.Domain;
+using Web.App.Domain.Charts;
+using Web.App.Domain.LocalAuthorities;
+using LocalAuthority = Web.App.Domain.LocalAuthority;
 
 namespace Web.App.ViewModels;
 
-public class LocalAuthorityHighNeedsSpendingViewModel(LocalAuthority localAuthority, string[] comparators)
+public class LocalAuthorityHighNeedsSpendingViewModel(
+    LocalAuthority localAuthority,
+    string[] comparators,
+    HighNeedsSpendingComparisonSubCategoriesViewModel subCategories)
 {
     public string? Code => localAuthority.Code;
     public string? Name => localAuthority.Name;
@@ -11,4 +16,20 @@ public class LocalAuthorityHighNeedsSpendingViewModel(LocalAuthority localAuthor
         .Where(c => c != Code)
         .Distinct()
         .ToArray();
+
+    public List<HighNeedsSpendingComparisonGroup> Groups => subCategories.Groups;
+
+    public HighNeedsSpendingCategories.SubCategoryFilter[] SelectedSubCategories { get; set; } = [];
+
+    public Views.ViewAsOptions ViewAs { get; set; } = Views.ViewAsOptions.Chart;
+
+    public HighNeedsDimensions.ResultAsOptions ResultAs { get; set; } = HighNeedsDimensions.ResultAsOptions.PerPupil;
+
+    public HighNeedsDimensions.SubmissionTypeOptions Type { get; set; } = HighNeedsDimensions.SubmissionTypeOptions.Budget;
+}
+
+public class LocalAuthorityHighNeedsSpendingDataViewModel(
+    BenchmarkingViewModelCostSubCategory<HighNeedsSpendingComparisonDatum> subCategory)
+{
+    public BenchmarkingViewModelCostSubCategory<HighNeedsSpendingComparisonDatum> SubCategory => subCategory;
 }
