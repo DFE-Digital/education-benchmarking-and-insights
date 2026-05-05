@@ -2,11 +2,11 @@
 Feature: Local Authority Education Health Care Plan Benchmarking
 
     Background:
-        Given I am on education health care plan comparators selection page for local authority with code '202'
+        Given I am on education health care plan comparators selection page for local authority with code '211'
         When I click the Start Benchmarking button
 
     Scenario: Page displays all education health care plan charts
-        Given I am on education health care plan benchmarking page for local authority with code '20'
+        Given I am on education health care plan benchmarking page for local authority with code '211'
         Then I should see all the education health care plan charts displayed:
             | Chart name                                                                        |
             | Total pupils with EHC plans                                                       |
@@ -19,7 +19,7 @@ Feature: Local Authority Education Health Care Plan Benchmarking
             | Placement of pupils with EHC plans in other types of provisions                   |
 
     Scenario: Total pupils with EHC plans table displays correct data
-        Given I am on education health care plan benchmarking page for local authority with code '202'
+        Given I am on education health care plan benchmarking page for local authority with code '211'
         When I change view to table
         Then the following is shown for 'Total pupils with EHC plans'
             | Local Authority        | Total pupils with EHC plans (per 1000 pupils) | Pupils |
@@ -27,4 +27,4 @@ Feature: Local Authority Education Health Care Plan Benchmarking
             | Greenwich              | 34.14                                         | 63,850 |
             | City of London         | 11.52                                         | 1,650  |
             | Hammersmith and Fulham | 0                                             | 18,500 |
-            | Camden                 | No data submitted                             | 50,101 |
+            | Tower Hamlets          | No data submitted                             | 28     |
