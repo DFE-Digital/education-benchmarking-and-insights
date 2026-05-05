@@ -25,7 +25,7 @@ public class LocalAuthorityHighNeedsSpendingViewModel(
 
     public HighNeedsDimensions.ResultAsOptions ResultAs { get; set; } = HighNeedsDimensions.ResultAsOptions.PerPupil;
 
-    public HighNeedsDimensions.SubmissionTypeOptions Type { get; set; } = HighNeedsDimensions.SubmissionTypeOptions.Budget;
+    public HighNeedsDimensions.SubmissionTypeOptions Type { get; set; } = HighNeedsDimensions.SubmissionTypeOptions.Outturn;
 }
 
 public class LocalAuthorityHighNeedsSpendingDataViewModel(
