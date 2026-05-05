@@ -3,7 +3,9 @@ using System.Diagnostics.CodeAnalysis;
 using System.Text.Json;
 using Microsoft.ApplicationInsights.DependencyCollector;
 using Microsoft.Azure.Functions.Worker;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Platform.Api.Insight.Features.Balance;
 using Platform.Api.Insight.Features.BudgetForecast;
 using Platform.Api.Insight.Features.Census;
@@ -25,25 +27,27 @@ namespace Platform.Api.Insight.Configuration;
 [ExcludeFromCodeCoverage]
 internal static class Services
 {
-    internal static void Configure(IServiceCollection serviceCollection)
+    internal static void Configure(HostBuilderContext context, IServiceCollection serviceCollection)
     {
+        var configuration = context.Configuration;
+
         serviceCollection
             .AddSingleton<IFunctionContextDataProvider, FunctionContextDataProvider>();
 
         serviceCollection
             .AddTelemetry()
-            .AddHealthCheckServices()
-            .AddPlatformServices()
+            .AddHealthCheckServices(configuration)
+            .AddPlatformServices(configuration)
             .AddFeatures();
 
         serviceCollection.Configure<JsonSerializerOptions>(SystemTextJsonExtensions.Options);
     }
 
-    private static IServiceCollection AddHealthCheckServices(this IServiceCollection serviceCollection)
+    private static IServiceCollection AddHealthCheckServices(this IServiceCollection serviceCollection, IConfiguration configuration)
     {
         serviceCollection
             .AddHealthChecks()
-            .AddPlatformSql()
+            .AddPlatformSql(configuration)
             .AddPlatformCache();
 
         return serviceCollection;
@@ -53,8 +57,8 @@ internal static class Services
     {
         //TODO: Add serilog configuration AB#227696
         // App Insights must be BEFORE any keyed services:
-        // • https://github.com/microsoft/ApplicationInsights-dotnet/issues/2828
-        // • https://github.com/microsoft/ApplicationInsights-dotnet/issues/2879
+        // ï¿½ https://github.com/microsoft/ApplicationInsights-dotnet/issues/2828
+        // ï¿½ https://github.com/microsoft/ApplicationInsights-dotnet/issues/2879
         var sqlTelemetryEnabled = Environment.GetEnvironmentVariable("Sql__TelemetryEnabled");
         serviceCollection
             .AddApplicationInsightsTelemetryWorkerService()
@@ -67,9 +71,9 @@ internal static class Services
         return serviceCollection;
     }
 
-    private static IServiceCollection AddPlatformServices(this IServiceCollection serviceCollection) => serviceCollection
-        .AddPlatformCache()
-        .AddPlatformSql();
+    private static IServiceCollection AddPlatformServices(this IServiceCollection serviceCollection, IConfiguration configuration) => serviceCollection
+        .AddPlatformCache(configuration)
+        .AddPlatformSql(configuration);
 
     private static IServiceCollection AddFeatures(this IServiceCollection serviceCollection) => serviceCollection
         .AddBalanceFeature()

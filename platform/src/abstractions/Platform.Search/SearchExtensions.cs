@@ -2,6 +2,7 @@
 using Azure;
 using FluentValidation;
 using HealthChecks.AzureSearch.DependencyInjection;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Platform.Infrastructure;
@@ -13,9 +14,9 @@ namespace Platform.Search;
 [ExcludeFromCodeCoverage]
 public static class SearchExtensions
 {
-    public static IServiceCollection AddPlatformSearch(this IServiceCollection serviceCollection)
+    public static IServiceCollection AddPlatformSearch(this IServiceCollection serviceCollection, IConfiguration configuration)
     {
-        var options = GetOptions();
+        var options = GetOptions(configuration);
 
         serviceCollection
             .AddSingleton(Options.Create(options))
@@ -30,9 +31,9 @@ public static class SearchExtensions
         return serviceCollection;
     }
 
-    public static IHealthChecksBuilder AddPlatformSearch(this IHealthChecksBuilder builder)
+    public static IHealthChecksBuilder AddPlatformSearch(this IHealthChecksBuilder builder, IConfiguration configuration)
     {
-        var options = GetOptions();
+        var options = GetOptions(configuration);
 
         foreach (var index in ResourceNames.Search.Indexes.All)
         {
@@ -47,10 +48,10 @@ public static class SearchExtensions
         return builder;
     }
 
-    private static PlatformSearchOptions GetOptions()
+    private static PlatformSearchOptions GetOptions(IConfiguration configuration)
     {
-        var name = Environment.GetEnvironmentVariable("Search__Name");
-        var key = Environment.GetEnvironmentVariable("Search__Key");
+        var name = configuration["Search__Name"];
+        var key = configuration["Search__Key"];
         ArgumentNullException.ThrowIfNull(name);
         ArgumentNullException.ThrowIfNull(key);
 

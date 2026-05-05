@@ -4,14 +4,15 @@
 
 namespace Platform.ApiTests;
 
+public enum Environments { Local, Development, Test }
+
 public static class TestConfiguration
 {
+    private const Environments Sut = Environments.Local;
+
     private static IConfiguration Instance => new ConfigurationBuilder()
-#if !DEBUG
-            .AddJsonFile("appsettings.json", optional: false)
-#else
-        .AddJsonFile("appsettings.local.json", false)
-#endif
+        .AddJsonFile("appsettings.json", optional: false)
+        .AddUserSecrets($"platform-api-tests-{Sut.ToString().ToLower()}")
         .Build();
 
     public static ApiEndpoint Insight => Instance.GetSection(nameof(Insight)).Get<ApiEndpoint>() ?? throw new ArgumentNullException(nameof(Insight));

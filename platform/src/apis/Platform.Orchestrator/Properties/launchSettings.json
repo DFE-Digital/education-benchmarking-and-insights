@@ -1,0 +1,19 @@
+{
+  "profiles": {
+    "Local": {
+      "commandName": "Project",
+      "commandLineArgs": "--port 7081",
+      "launchBrowser": false,
+      "environmentVariables": {
+        "AZURE_FUNCTIONS_ENVIRONMENT" : "Local",
+        "AzureWebJobsStorage": "UseDevelopmentStorage=true",
+        "FUNCTIONS_WORKER_RUNTIME": "dotnet-isolated",
+        "PipelineMessageHub__ConnectionString": "UseDevelopmentStorage=true",
+        "PipelineMessageHub__JobFinishedQueue": "data-pipeline-job-finished",
+        "PipelineMessageHub__JobCustomStartQueue": "data-pipeline-job-custom-start",
+        "PipelineMessageHub__JobDefaultStartQueue": "data-pipeline-job-default-start",
+        "PipelineMessageHub__JobPendingQueue": "data-pipeline-job-pending"
+      }
+    }
+  }
+}

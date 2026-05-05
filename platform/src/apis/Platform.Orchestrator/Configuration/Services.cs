@@ -4,6 +4,7 @@ using System.Text.Json;
 using Microsoft.ApplicationInsights.DependencyCollector;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Platform.Cache;
 using Platform.Json;
 using Platform.Orchestrator.Search;
@@ -16,10 +17,12 @@ namespace Platform.Orchestrator.Configuration;
 [ExcludeFromCodeCoverage]
 internal static class Services
 {
-    internal static void Configure(IServiceCollection serviceCollection)
+    internal static void Configure(HostBuilderContext context, IServiceCollection serviceCollection)
     {
-        var searchName = Environment.GetEnvironmentVariable("Search__Name");
-        var searchKey = Environment.GetEnvironmentVariable("Search__Key");
+        var configuration = context.Configuration;
+
+        var searchName = configuration["Search__Name"];
+        var searchKey = configuration["Search__Key"];
 
         ArgumentNullException.ThrowIfNull(searchName);
         ArgumentNullException.ThrowIfNull(searchKey);
@@ -49,7 +52,7 @@ internal static class Services
         });
 
         serviceCollection
-            .AddPlatformSql()
-            .AddPlatformCache();
+            .AddPlatformSql(configuration)
+            .AddPlatformCache(configuration);
     }
 }
