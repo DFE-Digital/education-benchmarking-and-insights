@@ -36,6 +36,7 @@
         Then the table for 'Number aged up to 25 with SEN statement or EHC plan' contains the following SEND2 values:
           | Name                   | Amount | NumberPupils |
           | City of London         | 11.52  | 1,650        |
+          | Camden                 | 28.74  | 50,101       |
           | Greenwich              | 34.14  | 63,850       |
           | Hackney                | 53.3   | 57,444       |
           | Hammersmith and Fulham | 0      | 18,500       |            
