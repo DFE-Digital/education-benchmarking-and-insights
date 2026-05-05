@@ -29,18 +29,22 @@ RUN apt-get update \
         rm -rf /var/lib/apt/lists/*
 
 # Install Poetry - respects $POETRY_VERSION & $POETRY_HOME
+COPY poetry-ca.crt /usr/local/share/ca-certificates/poetry-ca.crt
+RUN apt-get update && apt-get install -y ca-certificates && update-ca-certificates
+RUN echo "Acquire::https::Verify-Peer \"false\";" > /etc/apt/apt.conf.d/99ssl-workaround
 RUN curl -sSL https://install.python-poetry.org | python
 
 # Install and cache runtime dependencies with poetry
 WORKDIR $PYSETUP_PATH
 COPY ./poetry.lock ./pyproject.toml ./
-RUN poetry install --only=main --no-root && \
-    poetry cache clear pypi --all
+RUN $POETRY_HOME/bin/poetry install --only=main --no-root && \
+    $POETRY_HOME/bin/poetry cache clear pypi --all
 
 # 'production' stage uses the clean 'python-base' stage and copies
 # in only our runtime deps that were installed in the 'builder-base'
 FROM python-base AS production
 
+RUN echo "Acquire::https::Verify-Peer \"false\";" > /etc/apt/apt.conf.d/99ssl-workaround
 RUN apt-get update && \
     apt-get install --no-install-recommends -y \
         curl \

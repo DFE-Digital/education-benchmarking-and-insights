@@ -43,6 +43,7 @@ services:
   mssql:
     container_name: "azure-sql-edge"
     image: mcr.microsoft.com/azure-sql-edge
+    user: root
     ports:
       - "1433:1433"
     environment:
