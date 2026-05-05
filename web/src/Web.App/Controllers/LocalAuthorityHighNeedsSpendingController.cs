@@ -21,7 +21,9 @@ public class LocalAuthorityHighNeedsSpendingController(
     : Controller
 {
     [HttpGet]
-    public async Task<IActionResult> Index(string code)
+    public async Task<IActionResult> Index(string code,
+        Views.ViewAsOptions viewAs = Views.ViewAsOptions.Chart,
+        HighNeedsDimensions.ResultAsOptions resultAs = HighNeedsDimensions.ResultAsOptions.PerPupil)
     {
         using (logger.BeginScope(new { code }))
         {
@@ -53,6 +55,8 @@ public class LocalAuthorityHighNeedsSpendingController(
                 var viewModel = new LocalAuthorityHighNeedsSpendingViewModel(la, set, subCategories)
                 {
                     SelectedSubCategories = HighNeedsSpendingCategories.All,
+                    ViewAs = viewAs,
+                    ResultAs = resultAs
                 };
 
                 return View(viewModel);
@@ -64,6 +68,14 @@ public class LocalAuthorityHighNeedsSpendingController(
             }
         }
     }
+    
+    [HttpPost]
+    public IActionResult Index(string code, int viewAs, int resultAs) => RedirectToAction("Index", new
+    {
+        code,
+        viewAs,
+        resultAs
+    });
 
     private static ApiQuery BuildQuery(string[] codes, string dimension, string submissionType)
     {
