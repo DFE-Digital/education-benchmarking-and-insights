@@ -40,8 +40,8 @@ public class LocalAuthorityHighNeedsSpendingController(
                 {
                     code
                 }.Concat(set).ToArray(),
-                    HighNeedsDimensions.ResultAsOptions.PerEhcp.GetResultAsQueryParam(),
-                    HighNeedsDimensions.SubmissionTypeOptions.Budget.GetSubmissionTypeQueryParam());
+                    HighNeedsDimensions.ResultAsOptions.PerPupil.GetResultAsQueryParam(),
+                    HighNeedsDimensions.SubmissionTypeOptions.Outturn.GetSubmissionTypeQueryParam());
 
 
                 var expenditures = await api

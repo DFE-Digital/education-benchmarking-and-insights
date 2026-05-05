@@ -25,11 +25,17 @@ public class LocalAuthorityHighNeedsSpendingViewModel(
 
     public HighNeedsDimensions.ResultAsOptions ResultAs { get; set; } = HighNeedsDimensions.ResultAsOptions.PerPupil;
 
-    public HighNeedsDimensions.SubmissionTypeOptions Type { get; set; } = HighNeedsDimensions.SubmissionTypeOptions.Budget;
+    public HighNeedsDimensions.SubmissionTypeOptions Type { get; set; } = HighNeedsDimensions.SubmissionTypeOptions.Outturn;
 }
 
 public class LocalAuthorityHighNeedsSpendingDataViewModel(
-    BenchmarkingViewModelCostSubCategory<HighNeedsSpendingComparisonDatum> subCategory)
+    BenchmarkingViewModelCostSubCategory<HighNeedsSpendingComparisonDatum> subCategory,
+    HighNeedsDimensions.ResultAsOptions resultAs,
+    HighNeedsDimensions.SubmissionTypeOptions type,
+    string code)
 {
     public BenchmarkingViewModelCostSubCategory<HighNeedsSpendingComparisonDatum> SubCategory => subCategory;
+    public HighNeedsDimensions.ResultAsOptions ResultAs => resultAs;
+    public HighNeedsDimensions.SubmissionTypeOptions Type => type;
+    public string? Code => code;
 }
