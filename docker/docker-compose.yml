@@ -43,7 +43,7 @@ services:
   mssql:
     container_name: "azure-sql-edge"
     image: mcr.microsoft.com/azure-sql-edge
-    user: root
+    user: root # This is unsuitable for production but a workaround for file permissions on DfE kit locally
     ports:
       - "1433:1433"
     environment:
