@@ -31,7 +31,6 @@ RUN apt-get update \
 # Install Poetry - respects $POETRY_VERSION & $POETRY_HOME
 COPY poetry-ca.crt /usr/local/share/ca-certificates/poetry-ca.crt
 RUN apt-get update && apt-get install -y ca-certificates && update-ca-certificates
-RUN echo "Acquire::https::Verify-Peer \"false\";" > /etc/apt/apt.conf.d/99ssl-workaround
 RUN curl -sSL https://install.python-poetry.org | python
 
 # Install and cache runtime dependencies with poetry
