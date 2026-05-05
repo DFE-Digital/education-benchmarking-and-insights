@@ -76,11 +76,6 @@ coverage*.info
 *.nuget.targets
 project.lock.json
 
-# Local / User Settings
-appsettings.local.json
-*.settings.json
-appsettings.Test.json
-
 # SQL Server
 *.mdf
 *.ldf
@@ -159,3 +154,4 @@ web/src/Web.Shutter/src/assets
 data-pipeline/workbooks/data
 data-pipeline/workbooks/output
 data-pipeline/tests/output/
+web/**/appsettings.*.json

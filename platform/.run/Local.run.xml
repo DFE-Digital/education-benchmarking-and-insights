@@ -1,0 +1,14 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Local" type="CompoundRunConfigurationType">
+    <toRun name="Platform.Api.Benchmark: Local" type="AzureFunctionAppRun" />
+    <toRun name="Platform.Api.Content: Local" type="AzureFunctionAppRun" />
+    <toRun name="Platform.Api.Insight: Local" type="AzureFunctionAppRun" />
+    <toRun name="Platform.Api.LocalAuthority: Local" type="AzureFunctionAppRun" />
+    <toRun name="Platform.Api.School: Local" type="AzureFunctionAppRun" />
+    <toRun name="Platform.Api.Trust: Local" type="AzureFunctionAppRun" />
+    <toRun name="Platform.MaintenanceTasks: Local" type="AzureFunctionAppRun" />
+    <toRun name="Platform.Orchestrator: Local" type="AzureFunctionAppRun" />
+    <toRun name="Platform.Api.ChartRendering" type="js.build_tools.npm" />
+    <method v="2" />
+  </configuration>
+</component>

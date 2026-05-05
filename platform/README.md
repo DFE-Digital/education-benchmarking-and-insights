@@ -50,393 +50,92 @@ The backend API layer providing core benchmarking, school/trust insights, and se
 3. Install Visual Studio 2022 Professional (with C# and Azure Workflows) or Rider 2025
 4. Clone the project `git clone https://github.com/DFE-Digital/education-benchmarking-and-insights.git`
 
-> **Note:** Ensure that, if cloning to a DfE user area, the root folder is outside any of the 'OneDrive'
+> **Note:** Ensure that if cloning to a user area the root folder is outside any of the 'OneDrive'
 > folders to prevent 'too long path name' errors at build time.
 
 ## Getting started
 
 > Local dependencies (SQL Server, Azurite, and Redis) are managed via Docker Compose. See the [Local Environment with Docker guide](../documentation/developers/06_Local-Environment-with-Docker.md) for setup instructions.
 
+### Environment Profiles
+
+Both the Platform APIs and the API Functional Tests are designed to support multiple environments/profiles.
+
+Supported profiles for both include:
+
+- `local`
+- `development`
+- `test`
+
+When targeting a different environment, ensure you populate the corresponding User Secrets ID (e.g., `--id "platform-development"` or `--id "platform-api-tests-development"`).
+
 ### Running Platform APIs
 
-#### Local Authority Function App
+The Platform APIs use Azure Functions (Isolated Worker Process), which intentionally separates the Azure Functions Host/Binding configuration from the .NET Worker application configuration.
 
-Add configuration in `local.settings.json` for `Platform.Api.LocalAuthority`
+#### Required Local Secrets
 
-```json
-{
-  "IsEncrypted": false,
-  "Values": {
-    "FUNCTIONS_WORKER_RUNTIME": "dotnet-isolated",
-    "ASPNETCORE_ENVIRONMENT": "Development",
-    "Sql__ConnectionString": "[INSERT CONNECTION STRING VALUE]",
-    "Sql__TelemetryEnabled": true,
-    "AzureFunctionsJobHost__logging__logLevel__default": "Information",
-    "AzureFunctionsJobHost__logging__logLevel__Function": "Information",
-    "Search__Name": "s198d01-ebis-search",
-    "Search__Key": "[INSERT KEY VALUE]"
-  },
-  "Host": {
-    "CORS": "*",
-    "LocalHttpPort": 7301
-  }
-}
+The following secrets must be configured for the `platform-local` environment using the `dotnet user-secrets` tool:
+
+```bash
+dotnet user-secrets set "Sql:ConnectionString" "[value]" --id "platform-local"
+dotnet user-secrets set "Cache:Host" "[value]" --id "platform-local"
+dotnet user-secrets set "Cache:Port" "[value]" --id "platform-local"
+dotnet user-secrets set "Cache:Password" "[value]" --id "platform-local"
+dotnet user-secrets set "Search:Name" "[value]" --id "platform-local"
+dotnet user-secrets set "Search:Key" "[value]" --id "platform-local"
 ```
 
-#### School Function App
-
-Add configuration in `local.settings.json` for `Platform.Api.School`
-
-```json
-{
-  "IsEncrypted": false,
-  "Values": {
-    "FUNCTIONS_WORKER_RUNTIME": "dotnet-isolated",
-    "ASPNETCORE_ENVIRONMENT": "Development",
-    "Sql__ConnectionString": "[INSERT CONNECTION STRING VALUE]",
-    "Sql__TelemetryEnabled": true,
-    "AzureFunctionsJobHost__logging__logLevel__default": "Information",
-    "AzureFunctionsJobHost__logging__logLevel__Function": "Information",
-    "Cache__Host": "localhost",
-    "Cache__Port": "6379",
-    "Cache__Password": "[PASSWORD DEFINED ABOVE IN redis.env]",
-    "Search__Name": "s198d01-ebis-search",
-    "Search__Key": "[INSERT KEY VALUE]"
-  },
-  "Host": {
-    "CORS": "*",
-    "LocalHttpPort": 7302
-  }
-}
-```
-
-#### Trust Function App
-
-Add configuration in `local.settings.json` for `Platform.Api.Trust`
-
-```json
-{
-  "IsEncrypted": false,
-  "Values": {
-    "FUNCTIONS_WORKER_RUNTIME": "dotnet-isolated",
-    "ASPNETCORE_ENVIRONMENT": "Development",
-    "Sql__ConnectionString": "[INSERT CONNECTION STRING VALUE]",
-    "Sql__TelemetryEnabled": true,
-    "AzureFunctionsJobHost__logging__logLevel__default": "Information",
-    "AzureFunctionsJobHost__logging__logLevel__Function": "Information",
-    "Search__Name": "s198d01-ebis-search",
-    "Search__Key": "[INSERT KEY VALUE]"
-  },
-  "Host": {
-    "CORS": "*",
-    "LocalHttpPort": 7303
-  }
-}
-```
-
-#### Benchmark Function App
-
-Add configuration in `local.settings.json` for `Platform.Api.Benchmark`
-
-```json
-{
-  "IsEncrypted": false,
-  "Values": {
-    "FUNCTIONS_WORKER_RUNTIME": "dotnet-isolated",
-    "ASPNETCORE_ENVIRONMENT": "Development",
-    "Sql__ConnectionString": "[INSERT CONNECTION STRING VALUE]",
-    "Sql__TelemetryEnabled": true,
-    "PipelineMessageHub__ConnectionString": "UseDevelopmentStorage=true",
-    "PipelineMessageHub__JobPendingQueue": "data-pipeline-job-pending",
-    "AzureFunctionsJobHost__logging__logLevel__default": "Information",
-    "AzureFunctionsJobHost__logging__logLevel__Function": "Information"
-  },
-  "Host": {
-    "CORS": "*",
-    "LocalHttpPort": 7072
-  }
-}
-```
-
-#### Insight Function App
-
-Add configuration in `local.settings.json` for `Platform.Api.Insight`
-
-```json
-{
-  "IsEncrypted": false,
-  "Values": {
-    "FUNCTIONS_WORKER_RUNTIME": "dotnet-isolated",
-    "ASPNETCORE_ENVIRONMENT": "Development",
-    "Sql__ConnectionString": "[INSERT CONNECTION STRING VALUE]",
-    "Sql__TelemetryEnabled": true,
-    "AzureFunctionsJobHost__logging__logLevel__default": "Information",
-    "AzureFunctionsJobHost__logging__logLevel__Function": "Information",
-    "Cache__Host": "localhost",
-    "Cache__Port": "6379",
-    "Cache__Password": "[PASSWORD DEFINED ABOVE IN redis.env]"
-  },
-  "Host": {
-    "CORS": "*",
-    "LocalHttpPort": 7071
-  }
-}
-```
-
-#### ChartRendering Function App
-
-Install [Azure Functions Core Tools](https://learn.microsoft.com/en-us/azure/azure-functions/functions-run-local?tabs=windows%2Cisolated-process%2Cnode-v4%2Cpython-v2%2Chttp-trigger%2Ccontainer-apps&pivots=programming-language-javascript)
-
-Add configuration in `local.settings.json` for `Platform.Api.ChartRendering`
-
-```json
-{
-  "IsEncrypted": false,
-  "Values": {
-    "AzureWebJobsStorage": "UseDevelopmentStorage=true",
-    "FUNCTIONS_WORKER_RUNTIME": "node",
-    "APPLICATIONINSIGHTS_CONNECTION_STRING": ""
-  }
-}
-```
-
-#### Content Function App
-
-Add configuration in `local.settings.json` for `Platform.Api.Content`
-
-```json
-{
-  "IsEncrypted": false,
-  "Values": {
-    "FUNCTIONS_WORKER_RUNTIME": "dotnet-isolated",
-    "ASPNETCORE_ENVIRONMENT": "Development",
-    "Sql__ConnectionString": "[INSERT CONNECTION STRING VALUE]",
-    "Sql__TelemetryEnabled": true,
-    "AzureFunctionsJobHost__logging__logLevel__default": "Information",
-    "AzureFunctionsJobHost__logging__logLevel__Function": "Information"
-  },
-  "Host": {
-    "CORS": "*",
-    "LocalHttpPort": 7077
-  }
-}
-```
-
-#### Orchestrator Function App
-
-For local development it's assumed Azurite will be used. More information can be
-found [in Microsoft docs](https://learn.microsoft.com/en-us/azure/storage/common/storage-use-azurite?tabs=visual-studio%2Cblob-storage).
-
-Add configuration in `local.settings.json` for `Platform.Orchestrator`
-
-```json
-{
-    "IsEncrypted": false,
-    "Values": {
-        "AzureWebJobsStorage": "UseDevelopmentStorage=true",
-        "FUNCTIONS_WORKER_RUNTIME": "dotnet-isolated",
-        "ASPNETCORE_ENVIRONMENT": "Development",
-        "PipelineMessageHub__ConnectionString": "UseDevelopmentStorage=true",
-        "PipelineMessageHub__JobFinishedQueue": "data-pipeline-job-finished",
-        "PipelineMessageHub__JobCustomStartQueue": "data-pipeline-job-custom-start",
-        "PipelineMessageHub__JobDefaultStartQueue": "data-pipeline-job-default-start",
-        "PipelineMessageHub__JobPendingQueue": "data-pipeline-job-pending",
-        "Sql__ConnectionString": "[INSERT CONNECTION STRING VALUE]",
-        "Sql__TelemetryEnabled": true,
-        "AzureFunctionsJobHost__logging__logLevel__default": "Information",
-        "AzureFunctionsJobHost__logging__logLevel__Function": "Information",
-        "Search__Name": "s198d01-ebis-search",
-        "Search__Key": "[INSERT KEY VALUE]",
-        "Cache__Host": "localhost",
-        "Cache__Port": "6379",
-        "Cache__Password": "[PASSWORD DEFINED ABOVE IN redis.env]"
-    },
-    "Host": {
-        "CORS": "*",
-        "LocalHttpPort": 7081
-    }
-}
-```
-
-#### Maintenance Tasks Function App
-
-For local development it's assumed Azurite will be used. More information can be
-found [in Microsoft docs](https://learn.microsoft.com/en-us/azure/storage/common/storage-use-azurite?tabs=visual-studio%2Cblob-storage).
-
-Add configuration in `local.settings.json` for `Platform.MaintenanceTasks`
-
-```json
-{
-    "IsEncrypted": false,
-    "Values": {
-        "AzureWebJobsStorage": "UseDevelopmentStorage=true",
-        "FUNCTIONS_WORKER_RUNTIME": "dotnet-isolated",
-        "ASPNETCORE_ENVIRONMENT": "Development",
-        "Sql__ConnectionString": "[INSERT CONNECTION STRING VALUE]",
-        "Sql__TelemetryEnabled": true,
-        "AzureFunctionsJobHost__logging__logLevel__default": "Information",
-        "AzureFunctionsJobHost__logging__logLevel__Function": "Information"
-    },
-    "Host": {
-        "CORS": "*",
-        "LocalHttpPort": 7082
-    }
-}
-```
-
-#### Search Index App
-
-For local development it's assumed deployed instance of Azure Search will be used.
-
-The following program arguments are required to run the search index sync app
-
-```bat
--s 's198d01-ebis-search' -k '[INSERT SEARCH KEY]' -c '[INSERT CONNECTION STRING VALUE]'
-```
-
-##### Azurite dependencies
-
-Dependencies when `UseDevelopmentStorage=true` is configured may be managed by connecting directly to Azurite
-with a tool such as [Azure Storage Explorer](https://azure.microsoft.com/en-us/products/storage/storage-explorer)
-using
-the [well-known connection strings](https://learn.microsoft.com/en-us/azure/storage/common/storage-use-azurite?tabs=visual-studio%2Cblob-storage#connection-strings)
-or by
-following [these instructions](https://learn.microsoft.com/en-us/azure/storage/common/storage-use-azurite?tabs=visual-studio%2Cblob-storage#microsoft-azure-storage-explorer).
-If nothing seems to be available locally on ports `10000` to `10002` then ensure Docker is running.
-
-The following items should be created:
-
-| Type  | Name                              | Config |
-|-------|-----------------------------------|--------|
-| Queue | `data-pipeline-job-finished`      |        |
-| Queue | `data-pipeline-job-custom-start`  |        |
-| Queue | `data-pipeline-job-default-start` |        |
-| Queue | `data-pipeline-job-pending`       |        |
-
-When running the `Orchestrator` API, errors such as:
-
-```text
-Request [0213b688-3f54-4ff5-9b54-4ff3988c672d] GET http://127.0.0.1:10001/devstoreaccount1/data-pipeline-job-finished?comp=metadata
-Error response [0213b688-3f54-4ff5-9b54-4ff3988c672d] 404 The specified queue does not exist. (00.0s)
-Server:Azurite-Queue/3.29.0
-x-ms-error-code:QueueNotFound
-x-ms-request-id:b18ea35b-56f4-4e2d-91ea-a4ae82ba59d3
-x-ms-version:2024-02-04
-```
-
-will be resolved with responses such as:
-
-```text
-Request [d33a363d-1dc1-42b3-a847-cfb7f10e8116] GET http://127.0.0.1:10001/devstoreaccount1/data-pipeline-job-finished/messages?numofmessages=16&visibilitytimeout=600
-Response [d33a363d-1dc1-42b3-a847-cfb7f10e8116] 200 OK (00.0s)
-Server:Azurite-Queue/3.29.0
-x-ms-client-request-id:d33a363d-1dc1-42b3-a847-cfb7f10e8116
-x-ms-request-id:8a505a9f-64bf-4491-aafc-a6cb1af997e7
-x-ms-version:2024-02-04
-```
-
-if everything is running as expected.
-
-#### Debugging Redis locally
-
-To debug Redis running in a Docker container, connect interactively and enter:
-
-```sh
-redis-cli -a [PASSWORD DEFINED ABOVE IN redis.env]
-```
-
-Redis commands may then be executed, e.g.:
-
-```redis
-SET test:key Hello
-GET test:key
-DEL test:key
-```
-
-Incoming requests may also be tracked with the command:
-
-```redis
-MONITOR
-```
+For full details on local environment profiles and managing `local.settings.json`, please read the **Configuration Management** section in the [Platform APIs Developer Guide](../documentation/developers/11_Platform-APIs.md#configuration-management).
 
 ### Running tests
 
-Tests will run when creating new Pull Requests and when code is merged into the main branch.
-
 #### Unit Tests
 
-From the root of the `platform` run
+From the root of the `platform` run:
 
-```bat
-dotnet test tests\Platform.Tests
+```bash
+dotnet test --filter "FullyQualifiedName~.Tests"
 ```
 
 #### Functional Tests
 
-Add configuration in `appsetings.local.json` for `Platform.ApiTests`
+Add the required configuration for `Platform.ApiTests` using the `dotnet user-secrets` tool:
 
-```json
-{
-   "OutputPageResponse": true,
-   "Headless": false,
-   "Insight": {
-      "Host": "http://localhost:7071",
-      "Key": "xxx"
-   },
-   "Benchmark": {
-      "Host": "http://localhost:7072",
-      "Key": "xxx"
-   },
-   "NonFinancial": {
-      "Host": "http://localhost:7076",
-      "Key": "xxx"
-   },
-   "Content": {
-      "Host": "http://localhost:7077",
-      "Key": "xxx"
-   }
-}
+```bash
+dotnet user-secrets set "School:Host" "http://localhost:7302" --id "platform-api-tests-local"
+dotnet user-secrets set "School:Key" "x" --id "platform-api-tests-local"
+
+dotnet user-secrets set "Trust:Host" "http://localhost:7303" --id "platform-api-tests-local"
+dotnet user-secrets set "Trust:Key" "x" --id "platform-api-tests-local"
+
+dotnet user-secrets set "LocalAuthority:Host" "http://localhost:7301" --id "platform-api-tests-local"
+dotnet user-secrets set "LocalAuthority:Key" "x" --id "platform-api-tests-local"
+
+dotnet user-secrets set "Insight:Host" "http://localhost:7071" --id "platform-api-tests-local"
+dotnet user-secrets set "Insight:Key" "x" --id "platform-api-tests-local"
+
+dotnet user-secrets set "Benchmark:Host" "http://localhost:7072" --id "platform-api-tests-local"
+dotnet user-secrets set "Benchmark:Key" "x" --id "platform-api-tests-local"
+
+dotnet user-secrets set "Establishment:Host" "http://localhost:7073" --id "platform-api-tests-local"
+dotnet user-secrets set "Establishment:Key" "x" --id "platform-api-tests-local"
+
+dotnet user-secrets set "ChartRendering:Host" "http://localhost:7076" --id "platform-api-tests-local"
+dotnet user-secrets set "ChartRendering:Key" "x" --id "platform-api-tests-local"
+
+dotnet user-secrets set "Content:Host" "http://localhost:7077" --id "platform-api-tests-local"
+dotnet user-secrets set "Content:Key" "x" --id "platform-api-tests-local"
 ```
 
-From the root of the `platform` run
+From the root of the `platform` run:
 
-```bat
-dotnet test tests\Platform.ApiTests
+```bash
+dotnet test tests/Platform.ApiTests
 ```
 
-### Deploying Platform APIs
+## Deploying Platform APIs
 
 As per the other projects in this monorepo, the Platform APIs are deployed using Terraform via use of the `functions`
 module under `./terraform/modules/functions`. The root project at `./terraform` contains the Function App configuration
 at each environment level, as well as other supporting resources such as Azure Search and Blob Storage.
-
-#### Environment-specific configuration
-
-| Variable                       | Type   | Description                                                                                                                                                                            |
-|--------------------------------|--------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `search_sku` `                 | string |                                                                                                                                                                                        |
-| `search_replica_count`         | number |                                                                                                                                                                                        |
-| `sql_telemetry_enabled`        | bool   |                                                                                                                                                                                        |
-| `cache_sku`                    | string |                                                                                                                                                                                        |
-| `cache_capacity`               | number |                                                                                                                                                                                        |
-| `ssr_fa_worker_process_count`  | number | [FUNCTIONS_WORKER_PROCESS_COUNT](https://learn.microsoft.com/en-us/azure/azure-functions/functions-app-settings#functions_worker_process_count) for Chart Rendering (SSR) function app |
-| `ssr_fa_sku`                   | string | SKU for the Chart Rendering (SSR) function app                                                                                                                                         |
-| `ssr_fa_elastic_max_workers`   | number | Maximum number of total workers allowed for the app service plan (if an elastic plan)                                                                                                  |
-| `ssr_fa_elastic_min_instances` | number | Minimum number of instances for the app service (if an elastic plan). May be set to `0` to scale down to zero if no load is present.                                                   |
-
-## 🧹 Managing code formatting
-
-The solution uses [EditorConfig](https://editorconfig.org/) to manage code formatting using a set of rules agreed
-by the development team. ReSharper/Rider first applies its
-[DotSettings](https://www.jetbrains.com/help/resharper/Sharing_Configuration_Options.html) config, then the EditorConfig
-settings, plus any local (uncommitted) user-defined settings. To prevent duplication of settings files in the repo
-only use `DotSettings` for custom dictionary entries, or those rules that should take priority and instead use
-`.editorconfig` file for the formatting settings. When editing settings in Rider the option to merge into
-`.editorconfig` is under `Save ▽` > `.editorconfig`.
-
-The `dotnet format` command can be used to apply the settings to the code base using the `.editorconfig` file.
-This is also performed automatically by the CI/CD pipeline. In ReSharper/Rider, the solution context menu item
-`Reformat and Cleanup...` may be used to apply the settings using the layering order above. This may also be achieved
-in the IDE at a project or file level or via the keyboard shortcut `Ctrl+E, C`.
-
-- **Markdown & Pre-commit:** Markdown files are linted via [pre-commit hooks](../documentation/developers/04_Pre-commit-Hooks.md). Developers are encouraged to install pre-commit locally to catch these issues before pushing.

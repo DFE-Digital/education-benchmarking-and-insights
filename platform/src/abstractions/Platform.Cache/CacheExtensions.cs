@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics.CodeAnalysis;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 
@@ -9,9 +10,9 @@ namespace Platform.Cache;
 [ExcludeFromCodeCoverage]
 public static class CacheExtensions
 {
-    public static IServiceCollection AddPlatformCache(this IServiceCollection serviceCollection)
+    public static IServiceCollection AddPlatformCache(this IServiceCollection serviceCollection, IConfiguration configuration)
     {
-        var options = GetOptions();
+        var options = GetOptions(configuration);
 
         serviceCollection
             .AddSingleton(Options.Create(options))
@@ -33,12 +34,12 @@ public static class CacheExtensions
         return healthChecks;
     }
 
-    private static RedisCacheOptions GetOptions()
+    private static RedisCacheOptions GetOptions(IConfiguration configuration)
     {
-        var cacheHost = Environment.GetEnvironmentVariable("Cache__Host");
-        var cachePort = Environment.GetEnvironmentVariable("Cache__Port");
-        var cachePassword = Environment.GetEnvironmentVariable("Cache__Password");
-        var cacheAllowAdmin = Environment.GetEnvironmentVariable("Cache__AllowAdmin");
+        var cacheHost = configuration["Cache__Host"];
+        var cachePort = configuration["Cache__Port"];
+        var cachePassword = configuration["Cache__Password"];
+        var cacheAllowAdmin = configuration["Cache__AllowAdmin"];
         ArgumentNullException.ThrowIfNull(cacheHost);
         ArgumentNullException.ThrowIfNull(cachePort);
 
