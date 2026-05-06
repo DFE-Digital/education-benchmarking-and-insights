@@ -29,12 +29,14 @@
                     {
                         <li>
                             <a href="@Url.Action("Index", new {
-                                         Model.Code,
-                                         viewAs = (int)Model.ViewAs,
-                                selectedSubCategories = Model.SelectedSubCategories
-                                    .Where(x => (int)x != item.SubCategoryId)
-                                    .Select(x => (int)x)
-                                     })"
+                                        Model.Code,
+                                        viewAs = (int)Model.ViewAs,
+                                        resultAs = (int)Model.ResultAs,
+                                        type = (int)Model.Type,
+                                        selectedSubCategories = Model.SelectedSubCategories
+                                            .Where(x => (int)x != item.SubCategoryId)
+                                            .Select(x => (int)x)
+                                             })"
                            class="app-filter__tag">
                             @item.SubCategory
                         </a>
