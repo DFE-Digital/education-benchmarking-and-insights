@@ -1201,6 +1201,35 @@ table#current-comparators-la {
   }
 }
 
+.options-form {
+  display: flex;
+  align-items: flex-start;
+  gap: govuk-spacing(3);
+
+  @include govuk-media-query($until: tablet) {
+    flex-direction: column;
+    gap: govuk-spacing(1);
+  }
+}
+
+.options-form__view-as {
+  margin-right: govuk-spacing(4);
+}
+
+.options-form__compare-by {
+  margin-right: govuk-spacing(6);
+}
+
+.options-form__apply {
+  margin-top: govuk-spacing(6);
+
+  @include govuk-media-query($until: tablet) {
+    margin-top: govuk-spacing(1);
+    width: 100%;
+  }
+}
+
+
 .actions-form
 {
   display: flex;

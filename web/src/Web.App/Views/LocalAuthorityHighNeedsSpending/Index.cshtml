@@ -47,17 +47,17 @@
 
         @using (Html.BeginForm(FormMethod.Post, true, new
             {
-                @class = "actions-form",
+                @class = "options-form",
                 novalidate = "novalidate",
                 role = "search"
             }))
         {
-            <div class="govuk-form-group">
+            <div class="options-form__view-as">
                 <fieldset class="govuk-fieldset">
                     <legend class="govuk-label govuk-!-font-weight-bold">
                         View as
                     </legend>
-                    <div class="govuk-radios govuk-radios--inline govuk-radios--small" data-module="govuk-radios"
+                    <div class="govuk-radios govuk-radios--small" data-module="govuk-radios"
                          id="@nameof(LocalAuthorityHighNeedsSpendingViewModel.ViewAs)">
                         @foreach (var view in Views.All)
                         {
@@ -77,7 +77,7 @@
                 </fieldset>
             </div>
 
-            <div class="govuk-form-group">
+            <div class="options-form__compare-by">
                 <label class="govuk-label govuk-!-font-weight-bold" for="@nameof(LocalAuthorityHighNeedsSpendingViewModel.ResultAs)">
                     Compare by
                 </label>
@@ -93,7 +93,7 @@
                 </select>
             </div>
 
-            <div class="actions-form__button">
+            <div class="options-form__apply">
                 <button type="submit" class="govuk-button govuk-button--secondary" data-module="govuk-button">
                     Apply
                 </button>
