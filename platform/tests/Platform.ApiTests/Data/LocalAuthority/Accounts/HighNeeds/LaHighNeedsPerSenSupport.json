@@ -1,14 +1,17 @@
 ﻿[
   {
     "code": "201",
-    "totalPupils": "1650"
+    "name": "City of London",
+    "totalPupils": 1650
   },
   {
     "code": "202",
-    "totalPupils": "50101"
+    "name": "Camden",
+    "totalPupils": 50101
   },
   {
     "code": "203",
-    "totalPupils": "63850"
+    "name": "Greenwich",
+    "totalPupils": 63850
   }
 ]
