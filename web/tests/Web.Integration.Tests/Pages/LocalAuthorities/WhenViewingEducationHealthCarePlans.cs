@@ -202,7 +202,7 @@ public class WhenViewingEducationHealthCarePlans(SchoolBenchmarkingWebAppClient 
         Assert.NotNull(authority.Name);
         DocumentAssert.TitleAndH1(page, "Benchmark education, health care plans - Financial Benchmarking and Insights Tool - GOV.UK", "Benchmark education, health care plans");
 
-        var form = page.QuerySelector(".actions-form");
+        var form = page.QuerySelector(".options-form");
         Assert.NotNull(form);
 
         AssertFormOptions(form, viewAs);
@@ -214,7 +214,6 @@ public class WhenViewingEducationHealthCarePlans(SchoolBenchmarkingWebAppClient 
 
         if (viewAs == 0)
         {
-            //TODO: asserts chart once implemented
             AssertChartSection(page, plans, chartApiError);
         }
         else
