@@ -41,27 +41,14 @@ public static class EducationHealthCarePlansCategories
 
     public static string GetHeading(this SubCategoryFilter filter) => filter switch
     {
-        SubCategoryFilter.Total => "Total pupils with EHC plans",
-        SubCategoryFilter.Mainstream => "Placement of pupils with EHC plans in mainstream schools or academies",
-        SubCategoryFilter.Resourced => "Placement of pupils with EHC plans resourced provision or SEN units",
-        SubCategoryFilter.Special => "Placement of pupils with EHC plans maintained special school or special academies",
-        SubCategoryFilter.Independent => "Placement of pupils with EHC plans NMSS or independent schools",
-        SubCategoryFilter.Hospital => "Placement of pupils with EHC plans in hospital schools or alternative provisions",
-        SubCategoryFilter.Post16 => "Placement of pupils with EHC plans in post 16",
-        SubCategoryFilter.Other => "Placement of pupils with EHC plans in other types of provisions",
-        _ => ""
-    };
-
-    public static string GetTableHeading(this SubCategoryFilter filter) => filter switch
-    {
-        SubCategoryFilter.Total => "Total pupils with EHC plans (per 1000 pupils)",
-        SubCategoryFilter.Mainstream => "EHC plans in Mainstream schools or academies (per 1000 pupils)",
-        SubCategoryFilter.Resourced => "EHC plans in Resourced provision or SEN units (per 1000 pupils)",
-        SubCategoryFilter.Special => "EHC plans in Maintained special school or special academies (per 1000 pupils)",
-        SubCategoryFilter.Independent => "EHC plans in NMSS or independent schools (per 1000 pupils)",
-        SubCategoryFilter.Hospital => "EHC plans in Hospital schools or alternative provisions (per 1000 pupils)",
-        SubCategoryFilter.Post16 => "EHC plans in Post 16 (per 1000 pupils)",
-        SubCategoryFilter.Other => "EHC plans in other types of provisions (per 1000 pupils)",
+        SubCategoryFilter.Total => "Total EHC plans",
+        SubCategoryFilter.Mainstream => "EHC plans supported in mainstream schools or academies",
+        SubCategoryFilter.Resourced => "EHC plans supported in resourced provision or SEN units",
+        SubCategoryFilter.Special => "EHC plans supported in maintained special schools or special academies",
+        SubCategoryFilter.Independent => "EHC plans supported in NMSS or independent schools",
+        SubCategoryFilter.Hospital => "EHC plans supported in hospital schools or alternative provisions",
+        SubCategoryFilter.Post16 => "EHC plans supported in post 16",
+        SubCategoryFilter.Other => "EHC plans supported in other settings",
         _ => ""
     };
 

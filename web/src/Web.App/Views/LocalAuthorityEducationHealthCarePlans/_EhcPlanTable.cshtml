@@ -18,18 +18,18 @@
     <table class="govuk-table">
         <thead class="govuk-table__head">
         <tr class="govuk-table__row">
-            <th scope="col" class="govuk-table__header">Local Authority</th>
-            <th scope="col" class="govuk-table__header">@Model.SubCategory.TableHeading</th>
-            <th scope="col" class="govuk-table__header">Pupils</th>
+            <th scope="col" class="govuk-table__header">Local authority</th>
+            <th scope="col" class="govuk-table__header govuk-table__header--numeric">Number of pupils</th>
+            <th scope="col" class="govuk-table__header govuk-table__header--numeric">EHC plans per 1,000 pupils</th>
         </tr>
         </thead>
         <tbody class="govuk-table__body">
         @foreach (var row in Model.SubCategory.Data)
         {
-            <tr class="govuk-table__row@(row.Code == Model.Code ? " govuk-table__header" : "")">
+            <tr class="govuk-table__row@(row.Code == Model.Code ? " govuk-!-font-weight-bold" : "")">
                 <td class="govuk-table__cell">@row.Name</td>
-                <td class="govuk-table__cell">@(row.Plans == null ? "No data submitted" : row.Plans.ToSimpleDisplay())</td>
                 <td class="govuk-table__cell govuk-table__cell--numeric">@(row.TotalPupils?.ToString("N0"))</td>
+                <td class="govuk-table__cell govuk-table__cell--numeric">@(row.Plans == null ? "No data submitted" : row.Plans.ToSimpleDisplay())</td>
             </tr>
         }
         </tbody>
