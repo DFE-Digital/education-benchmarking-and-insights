@@ -56,6 +56,7 @@ public class HighNeedsSpendingComparisonSubCategoriesViewModel
         {
             Uuid = Guid.NewGuid().ToString(),
             SubCategory = filter.GetHeading(),
+            SubCategoryId = (int)filter,
             Data = data
         };
     }
@@ -63,14 +64,18 @@ public class HighNeedsSpendingComparisonSubCategoriesViewModel
 
 public class HighNeedsSpendingComparisonGroup
 {
-    public string Group { get; set; } = "";
-    public List<BenchmarkingViewModelCostSubCategory<HighNeedsSpendingComparisonDatum>> Items { get; set; } = [];
+    public string Group { get; init; } = "";
+    public List<BenchmarkingViewModelCostSubCategory<HighNeedsSpendingComparisonDatum>> Items { get; init; } = [];
+    public int SelectedCount(HashSet<int> selectedIds) =>
+        Items.Count(i => i.SubCategoryId.HasValue && selectedIds.Contains(i.SubCategoryId.Value));
+    public IEnumerable<BenchmarkingViewModelCostSubCategory<HighNeedsSpendingComparisonDatum>> SelectedItems(HashSet<int> selectedIds) =>
+        Items.Where(i => i.SubCategoryId.HasValue && selectedIds.Contains(i.SubCategoryId.Value));
 }
 
 public class HighNeedsSpendingComparisonDatum
 {
-    public string? Code { get; set; }
-    public string? Name { get; set; }
-    public decimal? Expenditure { get; set; }
-    public decimal? TotalPupils { get; set; }
+    public string? Code { get; init; }
+    public string? Name { get; init; }
+    public decimal? Expenditure { get; init; }
+    public decimal? TotalPupils { get; init; }
 }

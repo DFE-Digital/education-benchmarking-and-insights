@@ -21,7 +21,11 @@ public class LocalAuthorityHighNeedsSpendingController(
     : Controller
 {
     [HttpGet]
-    public async Task<IActionResult> Index(string code)
+    public async Task<IActionResult> Index(string code,
+        HighNeedsSpendingCategories.SubCategoryFilter[] selectedSubCategories,
+        Views.ViewAsOptions viewAs = Views.ViewAsOptions.Chart,
+        HighNeedsDimensions.ResultAsOptions resultAs = HighNeedsDimensions.ResultAsOptions.PerPupil,
+        HighNeedsDimensions.SubmissionTypeOptions type = HighNeedsDimensions.SubmissionTypeOptions.Outturn)
     {
         using (logger.BeginScope(new { code }))
         {
@@ -40,19 +44,22 @@ public class LocalAuthorityHighNeedsSpendingController(
                 {
                     code
                 }.Concat(set).ToArray(),
-                    HighNeedsDimensions.ResultAsOptions.PerPupil.GetResultAsQueryParam(),
-                    HighNeedsDimensions.SubmissionTypeOptions.Outturn.GetSubmissionTypeQueryParam());
+                resultAs,
+                type);
 
 
                 var expenditures = await api
                     .QueryHighNeedsV2Async(query)
                     .GetResultOrThrow<HighNeedsSpending[]>();
 
-                var subCategories = new HighNeedsSpendingComparisonSubCategoriesViewModel(expenditures, HighNeedsSpendingCategories.All, code);
+                var subCategories = new HighNeedsSpendingComparisonSubCategoriesViewModel(expenditures, selectedSubCategories, code);
 
                 var viewModel = new LocalAuthorityHighNeedsSpendingViewModel(la, set, subCategories)
                 {
-                    SelectedSubCategories = HighNeedsSpendingCategories.All,
+                    SelectedSubCategories = selectedSubCategories,
+                    ViewAs = viewAs,
+                    ResultAs = resultAs,
+                    Type = type
                 };
 
                 return View(viewModel);
@@ -65,7 +72,20 @@ public class LocalAuthorityHighNeedsSpendingController(
         }
     }
 
-    private static ApiQuery BuildQuery(string[] codes, string dimension, string submissionType)
+    [HttpPost]
+    public IActionResult Index(string code, int[]? selectedSubCategories, int viewAs, int resultAs, int type) => RedirectToAction("Index", new
+    {
+        code,
+        selectedSubCategories,
+        viewAs,
+        resultAs,
+        type
+    });
+
+    private static ApiQuery BuildQuery(
+        string[] codes,
+        HighNeedsDimensions.ResultAsOptions dimension,
+        HighNeedsDimensions.SubmissionTypeOptions submissionType)
     {
         var query = new ApiQuery();
         foreach (var c in codes)
@@ -73,9 +93,9 @@ public class LocalAuthorityHighNeedsSpendingController(
             query.AddIfNotNull("code", c);
         }
 
-        query.AddIfNotNull("dimension", dimension);
+        query.AddIfNotNull("dimension", dimension.GetResultAsQueryParam());
 
-        query.AddIfNotNull("type", submissionType);
+        query.AddIfNotNull("type", submissionType.GetSubmissionTypeQueryParam());
 
         return query;
     }

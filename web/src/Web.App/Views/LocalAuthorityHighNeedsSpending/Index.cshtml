@@ -39,13 +39,66 @@
 
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-one-third">
-        <p class="govuk-body">filters under construction</p>
+        @await Html.PartialAsync("_Filter", Model)
     </div>
     <div class="govuk-grid-column-two-thirds">
         <p class="govuk-body">page actions under construction</p>
         <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
 
-        <p class="govuk-body">form actions under construction</p>
+        @using (Html.BeginForm(FormMethod.Post, true, new
+            {
+                @class = "options-form",
+                novalidate = "novalidate",
+                role = "search"
+            }))
+        {
+            <div class="options-form__view-as">
+                <fieldset class="govuk-fieldset">
+                    <legend class="govuk-label govuk-!-font-weight-bold">
+                        View as
+                    </legend>
+                    <div class="govuk-radios govuk-radios--small" data-module="govuk-radios"
+                         id="@nameof(LocalAuthorityHighNeedsSpendingViewModel.ViewAs)">
+                        @foreach (var view in Views.All)
+                        {
+                            <div class="govuk-radios__item">
+                                <input class="govuk-radios__input"
+                                       id="view-@view"
+                                       name="@nameof(LocalAuthorityHighNeedsSpendingViewModel.ViewAs)" type="radio"
+                                       value="@((int)view)"
+                                       @(Model.ViewAs == view ? "checked" : "")>
+                                <label class="govuk-label govuk-radios__label"
+                                       for="view-@view">
+                                    @view.GetDescription()
+                                </label>
+                            </div>
+                        }
+                    </div>
+                </fieldset>
+            </div>
+
+            <div class="options-form__compare-by">
+                <label class="govuk-label govuk-!-font-weight-bold" for="@nameof(LocalAuthorityHighNeedsSpendingViewModel.ResultAs)">
+                    Compare by
+                </label>
+                <select class="govuk-select" id="@nameof(LocalAuthorityHighNeedsSpendingViewModel.ResultAs)" name="@nameof(LocalAuthorityHighNeedsSpendingViewModel.ResultAs)">
+                    @foreach (var option in HighNeedsDimensions.AllResultsAsOptions)
+                    {
+                        <option
+                            value="@((int)option)"
+                            selected="@(Model.ResultAs == option ? "selected" : null)">
+                            @option.GetResultAsDescription()
+                        </option>
+                    }
+                </select>
+            </div>
+
+            <div class="options-form__apply">
+                <button type="submit" class="govuk-button govuk-button--secondary" data-module="govuk-button">
+                    Apply
+                </button>
+            </div>
+        }
         <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
 
         @foreach (var group in Model.Groups.Where(group => group.Items.Any()))
