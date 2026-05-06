@@ -3,6 +3,7 @@ using Xunit;
 using Xunit.Abstractions;
 
 namespace Web.A11yTests.Pages.LocalAuthority;
+
 [Trait("Category", "HighNeedsBenchmarkingFlagEnabled")]
 public class WhenViewingHighNeedsBenchmarking(
     ITestOutputHelper testOutputHelper,
@@ -12,9 +13,9 @@ public class WhenViewingHighNeedsBenchmarking(
     protected override string PageUrl => $"/local-authority/{TestConfiguration.LocalAuthority}/comparators?type=HighNeedsSpending";
     [Fact]
     public async Task ThenThereAreNoAccessibilityIssues()
-    { 
+    {
         await GoToPage();
-        await EvaluatePage(); 
+        await EvaluatePage();
         await Page.Locator("#LaInput").FillAsync("Hackney");
         await Page.Locator("button[type=submit][name=action][value=add]").ClickAsync();
         await EvaluatePage();
