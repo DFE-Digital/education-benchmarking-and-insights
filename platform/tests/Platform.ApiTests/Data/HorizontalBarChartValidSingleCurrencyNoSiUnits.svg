@@ -64,59 +64,87 @@
         <path class="domain" stroke="currentColor" d="M0,20.5H0.5V302.5H0" transform="translate(0,0)" />
         <g class="chart-tick" transform="translate(0,30.071428571428562)">
             <line x2="-6" />
-            <text x="-9" dy="0.32em">123460</text>
+            <text x="-9" dy="0.32em" class="text-tick">
+                <tspan>123460</tspan>
+            </text>
         </g>
         <g class="chart-tick" transform="translate(0,50.2142857142857)">
             <line x2="-6" />
-            <text x="-9" dy="0.32em">123461</text>
+            <text x="-9" dy="0.32em" class="text-tick">
+                <tspan>123461</tspan>
+            </text>
         </g>
         <g class="chart-tick" transform="translate(0,70.35714285714285)">
             <line x2="-6" />
-            <text x="-9" dy="0.32em">123455</text>
+            <text x="-9" dy="0.32em" class="text-tick">
+                <tspan>123455</tspan>
+            </text>
         </g>
         <g class="chart-tick" transform="translate(0,90.5)">
             <line x2="-6" />
-            <text x="-9" dy="0.32em">123459</text>
+            <text x="-9" dy="0.32em" class="text-tick">
+                <tspan>123459</tspan>
+            </text>
         </g>
         <g class="chart-tick" transform="translate(0,110.64285714285714)">
             <line x2="-6" />
-            <text x="-9" dy="0.32em">123454</text>
+            <text x="-9" dy="0.32em" class="text-tick">
+                <tspan>123454</tspan>
+            </text>
         </g>
         <g class="chart-tick" transform="translate(0,130.78571428571428)">
             <line x2="-6" />
-            <text x="-9" dy="0.32em">123458</text>
+            <text x="-9" dy="0.32em" class="text-tick">
+                <tspan>123458</tspan>
+            </text>
         </g>
         <g class="chart-tick" transform="translate(0,150.92857142857142)">
             <line x2="-6" />
-            <text x="-9" dy="0.32em">123453</text>
+            <text x="-9" dy="0.32em" class="text-tick">
+                <tspan>123453</tspan>
+            </text>
         </g>
         <g class="chart-tick" transform="translate(0,171.07142857142856)">
             <line x2="-6" />
-            <text x="-9" dy="0.32em">123456</text>
+            <text x="-9" dy="0.32em" class="text-tick text-tick__highlight">
+                <tspan>123456</tspan>
+            </text>
         </g>
         <g class="chart-tick" transform="translate(0,191.2142857142857)">
             <line x2="-6" />
-            <text x="-9" dy="0.32em">123463</text>
+            <text x="-9" dy="0.32em" class="text-tick">
+                <tspan>123463</tspan>
+            </text>
         </g>
         <g class="chart-tick" transform="translate(0,211.35714285714283)">
             <line x2="-6" />
-            <text x="-9" dy="0.32em">123452</text>
+            <text x="-9" dy="0.32em" class="text-tick">
+                <tspan>123452</tspan>
+            </text>
         </g>
         <g class="chart-tick" transform="translate(0,231.49999999999997)">
             <line x2="-6" />
-            <text x="-9" dy="0.32em">123457</text>
+            <text x="-9" dy="0.32em" class="text-tick">
+                <tspan>123457</tspan>
+            </text>
         </g>
         <g class="chart-tick" transform="translate(0,251.6428571428571)">
             <line x2="-6" />
-            <text x="-9" dy="0.32em">123450</text>
+            <text x="-9" dy="0.32em" class="text-tick">
+                <tspan>123450</tspan>
+            </text>
         </g>
         <g class="chart-tick" transform="translate(0,271.7857142857143)">
             <line x2="-6" />
-            <text x="-9" dy="0.32em">123462</text>
+            <text x="-9" dy="0.32em" class="text-tick">
+                <tspan>123462</tspan>
+            </text>
         </g>
         <g class="chart-tick" transform="translate(0,291.9285714285714)">
             <line x2="-6" />
-            <text x="-9" dy="0.32em">123451</text>
+            <text x="-9" dy="0.32em" class="text-tick">
+                <tspan>123451</tspan>
+            </text>
         </g>
     </g>
 </svg>
