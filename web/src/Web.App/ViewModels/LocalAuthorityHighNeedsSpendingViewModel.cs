@@ -17,15 +17,23 @@ public class LocalAuthorityHighNeedsSpendingViewModel(
         .Distinct()
         .ToArray();
 
+    public KeyValuePair<HighNeedsSpendingCategories.CategoryGroup, HighNeedsSpendingCategories.SubCategoryFilter[]>[] AllGroups =>
+        HighNeedsSpendingCategories.Groups.ToArray();
     public List<HighNeedsSpendingComparisonGroup> Groups => subCategories.Groups;
+    public HighNeedsSpendingCategories.SubCategoryFilter[] SelectedSubCategories { get; init; } = [];
+    public HashSet<int> SelectedIds =>
+        SelectedSubCategories
+            .Select(x => (int)x)
+            .ToHashSet();
 
-    public HighNeedsSpendingCategories.SubCategoryFilter[] SelectedSubCategories { get; set; } = [];
+    public IEnumerable<HighNeedsSpendingComparisonGroup> SelectedGroups =>
+        Groups.Where(g => g.SelectedCount(SelectedIds) > 0);
 
-    public Views.ViewAsOptions ViewAs { get; set; } = Views.ViewAsOptions.Chart;
+    public Views.ViewAsOptions ViewAs { get; init; } = Views.ViewAsOptions.Chart;
 
-    public HighNeedsDimensions.ResultAsOptions ResultAs { get; set; } = HighNeedsDimensions.ResultAsOptions.PerPupil;
+    public HighNeedsDimensions.ResultAsOptions ResultAs { get; init; } = HighNeedsDimensions.ResultAsOptions.PerPupil;
 
-    public HighNeedsDimensions.SubmissionTypeOptions Type { get; set; } = HighNeedsDimensions.SubmissionTypeOptions.Outturn;
+    public HighNeedsDimensions.SubmissionTypeOptions Type { get; init; } = HighNeedsDimensions.SubmissionTypeOptions.Outturn;
 }
 
 public class LocalAuthorityHighNeedsSpendingDataViewModel(
@@ -37,5 +45,5 @@ public class LocalAuthorityHighNeedsSpendingDataViewModel(
     public BenchmarkingViewModelCostSubCategory<HighNeedsSpendingComparisonDatum> SubCategory => subCategory;
     public HighNeedsDimensions.ResultAsOptions ResultAs => resultAs;
     public HighNeedsDimensions.SubmissionTypeOptions Type => type;
-    public string? Code => code;
+    public string Code => code;
 }

@@ -3,14 +3,6 @@
 @using Web.App.ViewModels
 @model Web.App.ViewModels.LocalAuthorityHighNeedsSpendingViewModel
 
-@{
-    var selectedIds = Model.SelectedSubCategories
-        .Select(x => (int)x)
-        .ToHashSet();
-
-    var index = 1;
-}
-
 <div class="app-filter">
     <div class="app-filter__header">
         <h2 class="govuk-heading-m govuk-!-margin-0">
@@ -28,16 +20,12 @@
                 <a href="@Url.Action("Index", "LocalAuthorityHighNeedsSpending", new { Model.Code, viewAs = (int)Model.ViewAs, resultAs = (int)Model.ResultAs }))"
                    class="govuk-link govuk-link--no-visited-state">Clear</a>
             </div>
-            @foreach (var group in Model.Groups.Where(g =>
-                          g.Items.Any(i => i.SubCategoryId.HasValue && selectedIds.Contains(i.SubCategoryId.Value))
-                      ))
+            @foreach (var group in Model.SelectedGroups)
             {
                 <h3 class="govuk-heading-s">@group.Group</h3>
 
                 <ul class="govuk-list">
-                    @foreach (var item in group.Items.Where(i =>
-                                  i.SubCategoryId.HasValue && selectedIds.Contains(i.SubCategoryId.Value)
-                              ))
+                    @foreach (var item in group.SelectedItems(Model.SelectedIds))
                     {
                         <li>
                             <a href="@Url.Action("Index", new {
@@ -64,12 +52,13 @@
                    value="@Model.SelectedSubCategories"/>
 
             <div class="govuk-accordion" data-module="govuk-accordion" id="accordion-default">
-                @foreach (var group in HighNeedsSpendingCategories.Groups)
+                @for (var i = 0; i < Model.AllGroups.Length; i++)
                 {
-                    var headingId = $"accordion-default-heading-{index}";
-                    var contentId = $"accordion-default-content-{index}";
+                    var group = Model.AllGroups[i];
+                    var headingId = $"accordion-default-heading-{i + 1}";
+                    var contentId = $"accordion-default-content-{i + 1}";
 
-                    var groupSelectedCount = group.Value.Count(x => selectedIds.Contains((int)x));
+                    var groupSelectedCount = group.Value.Count(x => Model.SelectedIds.Contains((int)x));
                     
                     <div class="govuk-accordion__section">
                         <div class="govuk-accordion__section-header">
@@ -97,7 +86,7 @@
                                         @foreach (var sub in group.Value)
                                         {
                                             var id = (int)sub;
-                                            var isChecked = selectedIds.Contains(id);
+                                            var isChecked = Model.SelectedIds.Contains(id);
 
                                             <div class="govuk-checkboxes__item">
                                                 <input class="govuk-checkboxes__input"
@@ -119,8 +108,6 @@
                             </div>
                         </div>
                     </div>
-
-                    index++;
                 }
             </div>
             <div class="govuk-form-group">
