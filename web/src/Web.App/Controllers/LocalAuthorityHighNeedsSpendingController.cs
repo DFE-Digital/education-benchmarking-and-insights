@@ -44,8 +44,8 @@ public class LocalAuthorityHighNeedsSpendingController(
                 {
                     code
                 }.Concat(set).ToArray(),
-                resultAs.GetResultAsQueryParam(),
-                type.GetSubmissionTypeQueryParam());
+                resultAs,
+                type);
 
 
                 var expenditures = await api
@@ -82,7 +82,10 @@ public class LocalAuthorityHighNeedsSpendingController(
         type
     });
 
-    private static ApiQuery BuildQuery(string[] codes, string dimension, string submissionType)
+    private static ApiQuery BuildQuery(
+        string[] codes,
+        HighNeedsDimensions.ResultAsOptions dimension,
+        HighNeedsDimensions.SubmissionTypeOptions submissionType)
     {
         var query = new ApiQuery();
         foreach (var c in codes)
@@ -90,9 +93,9 @@ public class LocalAuthorityHighNeedsSpendingController(
             query.AddIfNotNull("code", c);
         }
 
-        query.AddIfNotNull("dimension", dimension);
+        query.AddIfNotNull("dimension", dimension.GetResultAsQueryParam());
 
-        query.AddIfNotNull("type", submissionType);
+        query.AddIfNotNull("type", submissionType.GetSubmissionTypeQueryParam());
 
         return query;
     }
