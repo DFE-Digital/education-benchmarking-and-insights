@@ -39,7 +39,6 @@ public class EducationHealthCarePlansComparisonSubCategoriesViewModel
         {
             Uuid = uuid,
             SubCategory = filter.GetHeading(),
-            TableHeading = filter.GetTableHeading(),
             Data = data
         });
     }
