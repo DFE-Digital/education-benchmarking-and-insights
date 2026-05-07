@@ -17,6 +17,7 @@ namespace Web.App.Controllers;
 public class LocalAuthorityHighNeedsSpendingController(
     ILogger<LocalAuthorityHighNeedsSpendingController> logger,
     ILocalAuthorityApi api,
+    IChartRenderingApi chartRenderingApi,
     ILocalAuthorityComparatorSetService comparatorSetService)
     : Controller
 {
@@ -46,14 +47,27 @@ public class LocalAuthorityHighNeedsSpendingController(
                 }.Concat(set).ToArray(),
                 resultAs,
                 type);
-
-
+                
                 var expenditures = await api
                     .QueryHighNeedsV2Async(query)
                     .GetResultOrThrow<HighNeedsSpending[]>();
 
                 var subCategories = new HighNeedsSpendingComparisonSubCategoriesViewModel(expenditures, selectedSubCategories, code);
 
+                var charts = await BuildCharts(code, subCategories, resultAs, type);
+
+                subCategories.Groups.ForEach(group =>
+                {
+                    group.Items.ForEach(item =>
+                    {
+                        var chart = charts.FirstOrDefault(c => c.Id != null && c.Id == item.Uuid);
+                        if (chart != null)
+                        {
+                            item.ChartSvg = chart.Html;
+                        }
+                    });
+                });
+                
                 var viewModel = new LocalAuthorityHighNeedsSpendingViewModel(la, set, subCategories)
                 {
                     SelectedSubCategories = selectedSubCategories,
@@ -99,4 +113,35 @@ public class LocalAuthorityHighNeedsSpendingController(
 
         return query;
     }
+    
+    private async Task<ChartResponse[]> BuildCharts(string code,
+        HighNeedsSpendingComparisonSubCategoriesViewModel subCategories,
+        HighNeedsDimensions.ResultAsOptions resultAs,
+        HighNeedsDimensions.SubmissionTypeOptions type)
+    {
+        var requests = subCategories
+            .Groups
+            .SelectMany(x => x.Items)
+            .Select(x => new HighNeedsSpendingHorizontalBarChartRequest(
+                x.Uuid!,
+                code,
+                x.Data!,
+                resultAs,
+                type));
+            
+        ChartResponse[] charts = [];
+        try
+        {
+            charts = await chartRenderingApi
+                .PostHorizontalBarCharts(new PostHorizontalBarChartsRequest<HighNeedsSpendingComparisonDatum>(requests))
+                .GetResultOrDefault<ChartResponse[]>() ?? [];
+        }
+        catch (Exception e)
+        {
+            logger.LogWarning(e, "Unable to load charts from API");
+        }
+
+        return charts;
+    }
+
 }

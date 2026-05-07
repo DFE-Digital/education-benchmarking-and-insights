@@ -115,7 +115,7 @@
 
                         @if (Model.ViewAs == Views.ViewAsOptions.Chart)
                         {
-                            <p class="govuk-body">chart partial under construction</p>
+                            @await Html.PartialAsync("_HighNeedsSpendingChart", new LocalAuthorityHighNeedsSpendingDataViewModel(subCategory, Model.ResultAs, Model.Type, Model.Code!))
                         }
                         else
                         {
