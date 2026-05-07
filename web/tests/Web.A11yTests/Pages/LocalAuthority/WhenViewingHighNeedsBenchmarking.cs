@@ -12,7 +12,7 @@ public class WhenViewingHighNeedsBenchmarking(
 {
     protected override string PageUrl => $"/local-authority/{TestConfiguration.LocalAuthority}/comparators?type=HighNeedsSpending";
     [Fact]
-    public async Task ThenThereAreNoAccessibilityIssues()
+    public async Task ThenThereAreNoAccessibilityIssuesInTheJourney()
     {
         await GoToPage();
         await EvaluatePage();
