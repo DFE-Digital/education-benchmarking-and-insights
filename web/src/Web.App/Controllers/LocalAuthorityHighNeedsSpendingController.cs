@@ -47,7 +47,7 @@ public class LocalAuthorityHighNeedsSpendingController(
                 }.Concat(set).ToArray(),
                 resultAs,
                 type);
-                
+
                 var expenditures = await api
                     .QueryHighNeedsV2Async(query)
                     .GetResultOrThrow<HighNeedsSpending[]>();
@@ -67,7 +67,7 @@ public class LocalAuthorityHighNeedsSpendingController(
                         }
                     });
                 });
-                
+
                 var viewModel = new LocalAuthorityHighNeedsSpendingViewModel(la, set, subCategories)
                 {
                     SelectedSubCategories = selectedSubCategories,
@@ -113,7 +113,7 @@ public class LocalAuthorityHighNeedsSpendingController(
 
         return query;
     }
-    
+
     private async Task<ChartResponse[]> BuildCharts(string code,
         HighNeedsSpendingComparisonSubCategoriesViewModel subCategories,
         HighNeedsDimensions.ResultAsOptions resultAs,
@@ -128,7 +128,7 @@ public class LocalAuthorityHighNeedsSpendingController(
                 x.Data!,
                 resultAs,
                 type));
-            
+
         ChartResponse[] charts = [];
         try
         {
