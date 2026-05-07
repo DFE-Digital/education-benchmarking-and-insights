@@ -279,30 +279,26 @@ public class WhenViewingEducationHealthCarePlans(SchoolBenchmarkingWebAppClient 
 
     private static void AssertTableSection(IHtmlDocument page, EducationHealthCarePlans[] plans)
     {
-        var tables = page.QuerySelectorAll(".govuk-table");
-        Assert.NotNull(tables);
+        var sections = page.QuerySelectorAll("[id*=\"cost-sub-category-\"]");
+        Assert.NotEmpty(sections);
 
-        foreach (var table in tables)
+        foreach (var section in sections)
         {
-            var heading = table.QuerySelector("thead th:nth-child(2)")!.TextContent.Trim();
-
-            // get required prop from table heading to later extract expected value from plan
-            Assert.True(HeadingToValue.TryGetValue(heading, out var extractor),
-                $"Unknown heading: {heading}");
-
-            var rows = table.QuerySelectorAll("tbody tr");
+            Assert.NotNull(section.Id);
+            var match = Sections.Single(s => section.Id.Contains(s.Id));
+            
+            var rows = section.QuerySelectorAll("tbody tr");
             Assert.Equal(plans.Length, rows.Length);
 
             foreach (var row in rows)
             {
                 var cells = row.TableCells();
-
-                var expected = plans.FirstOrDefault(g => g.Name == cells[0]);
-                Assert.NotNull(expected);
+                var expected = plans.Single(p => p.Name == cells[0]);
 
                 Assert.Equal(cells[0], expected.Name);
-                Assert.Equal(cells[1], extractor(expected).ToString());
-                Assert.Equal(cells[2], expected.TotalPupils.ToString());
+                Assert.Equal(cells[1], expected.TotalPupils.ToString());
+                var value = match.Select(expected);
+                Assert.Equal(cells[2], value?.ToString());
             }
         }
     }
@@ -353,19 +349,18 @@ public class WhenViewingEducationHealthCarePlans(SchoolBenchmarkingWebAppClient 
 
         return ids.Select(id => AllSubCategories.First(c => c.Id == id)).ToArray();
     }
-
-    private static readonly Dictionary<string, Func<EducationHealthCarePlans, decimal?>> HeadingToValue =
-        new()
-        {
-            ["Total pupils with EHC plans (per 1000 pupils)"] = p => p.Total,
-            ["EHC plans in Mainstream schools or academies (per 1000 pupils)"] = p => p.Mainstream,
-            ["EHC plans in Resourced provision or SEN units (per 1000 pupils)"] = p => p.Resourced,
-            ["EHC plans in Maintained special school or special academies (per 1000 pupils)"] = p => p.Special,
-            ["EHC plans in NMSS or independent schools (per 1000 pupils)"] = p => p.Independent,
-            ["EHC plans in Hospital schools or alternative provisions (per 1000 pupils)"] = p => p.Hospital,
-            ["EHC plans in Post 16 (per 1000 pupils)"] = p => p.Post16,
-            ["EHC plans in other types of provisions (per 1000 pupils)"] = p => p.Other
-        };
+    
+    private static readonly (string Id, Func<EducationHealthCarePlans, decimal?> Select)[] Sections =
+    [
+        ("cost-sub-category-total-ehc-plans", p => p.Total),
+        ("cost-sub-category-ehc-plans-supported-in-mainstream-schools-or-academies", p => p.Mainstream),
+        ("cost-sub-category-ehc-plans-supported-in-resourced-provision-or-sen-units", p => p.Resourced),
+        ("cost-sub-category-ehc-plans-supported-in-maintained-special-schools-or-special-academies", p => p.Special),
+        ("cost-sub-category-ehc-plans-supported-in-nmss-or-independent-schools", p => p.Independent),
+        ("cost-sub-category-ehc-plans-supported-in-hospital-schools-or-alternative-provisions", p => p.Hospital),
+        ("cost-sub-category-ehc-plans-supported-in-post-16", p => p.Post16),
+        ("cost-sub-category-ehc-plans-supported-in-other-settings", p => p.Other)
+    ];
 
     #endregion
 }
