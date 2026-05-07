@@ -1,3 +1,4 @@
+using Web.App.Domain.Charts;
 using Web.App.Domain.LocalAuthorities;
 
 namespace Web.App.ViewModels;
@@ -70,12 +71,4 @@ public class HighNeedsSpendingComparisonGroup
         Items.Count(i => i.SubCategoryId.HasValue && selectedIds.Contains(i.SubCategoryId.Value));
     public IEnumerable<BenchmarkingViewModelCostSubCategory<HighNeedsSpendingComparisonDatum>> SelectedItems(HashSet<int> selectedIds) =>
         Items.Where(i => i.SubCategoryId.HasValue && selectedIds.Contains(i.SubCategoryId.Value));
-}
-
-public class HighNeedsSpendingComparisonDatum
-{
-    public string? Code { get; init; }
-    public string? Name { get; init; }
-    public decimal? Expenditure { get; init; }
-    public decimal? TotalPupils { get; init; }
 }
