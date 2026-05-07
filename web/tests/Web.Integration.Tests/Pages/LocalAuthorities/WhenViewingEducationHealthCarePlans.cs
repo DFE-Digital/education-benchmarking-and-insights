@@ -286,7 +286,7 @@ public class WhenViewingEducationHealthCarePlans(SchoolBenchmarkingWebAppClient 
         {
             Assert.NotNull(section.Id);
             var match = Sections.Single(s => section.Id.Contains(s.Id));
-            
+
             var rows = section.QuerySelectorAll("tbody tr");
             Assert.Equal(plans.Length, rows.Length);
 
@@ -349,7 +349,7 @@ public class WhenViewingEducationHealthCarePlans(SchoolBenchmarkingWebAppClient 
 
         return ids.Select(id => AllSubCategories.First(c => c.Id == id)).ToArray();
     }
-    
+
     private static readonly (string Id, Func<EducationHealthCarePlans, decimal?> Select)[] Sections =
     [
         ("cost-sub-category-total-ehc-plans", p => p.Total),
