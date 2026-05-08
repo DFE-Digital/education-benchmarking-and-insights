@@ -1,0 +1,43 @@
+parameters:
+  subscription: ''
+  environmentPrefix: ''
+  environment: ''
+  cipEnvironment: ''
+  workspaceDir: '$(Pipeline.Workspace)'
+  dependsOn: []
+
+jobs:
+  - deployment: ChartRendererDeployment
+    displayName: 'ChartRenderer deployment'
+    dependsOn: ${{ parameters.dependsOn }}
+    pool:
+      vmImage: ubuntu-latest
+    environment: ${{ parameters.environment }}
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+            - checkout: none
+
+            - download: current
+
+            # Terraform deployment is skipped for now as per plan
+            # - template: ..\common\run-terraform.yaml
+            #   parameters:
+            #     subscription: ${{ parameters.subscription }}
+            #     environmentPrefix: ${{ parameters.environmentPrefix }}
+            #     environment: ${{ parameters.environment }}
+            #     cipEnvironment: ${{ parameters.cipEnvironment }}
+            #     module: 'chart-renderer'    
+
+            # Deployment steps commented out until infrastructure is provisioned via Terraform
+            # - task: AzureFunctionApp@2
+            #   displayName: 'Deploy chart renderer function app'
+            #   inputs:
+            #     azureSubscription: ${{ parameters.subscription }}
+            #     appType: functionAppLinux
+            #     appName: '${{ parameters.environmentPrefix }}-ebis-chart-renderer-fa'
+            #     deployToSlotOrASE: true
+            #     resourceGroupName: '${{ parameters.environmentPrefix }}-ebis-chart-renderer'
+            #     package: '${{ parameters.workspaceDir }}/chart-renderer-apis/ChartRenderer.Api.zip'
+            #     slotName: production

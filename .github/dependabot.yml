@@ -141,10 +141,24 @@
       schedule:
         interval: "monthly"
       commit-message:
-        prefix: "chore: "
+        prefix: "chore"
+        include: "scope"
       labels:
         - "dependencies"
         - "platform"
+        - "javascript"
+        - "npm"
+
+    - package-ecosystem: "npm"
+      directory: "/chart-renderer"
+      schedule:
+        interval: "monthly"
+      commit-message:
+        prefix: "chore"
+        include: "scope"
+      labels:
+        - "dependencies"
+        - "chart-renderer"
         - "javascript"
         - "npm"
 

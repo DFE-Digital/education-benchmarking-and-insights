@@ -1,0 +1,8 @@
+{
+  "extends": "./tsconfig",
+  "exclude": [
+    "node_modules",
+    "tests",
+    "src/openapi"
+  ] // for dev build, overwrite base `excludes` to enable `d3` 'DOM' functions and swagger function/assets
+}

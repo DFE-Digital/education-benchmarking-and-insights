@@ -47,6 +47,10 @@ To address these challenges, the following improvements were adopted:
   - Significant cost savings by moving from EP1 to Y1 without performance degradation.
   - More efficient and predictable API performance.
 
+## Migration Note
+
+As of May 2026, the Chart Rendering service is being migrated from the `platform` module to its own dedicated root-level module, `chart-renderer`. This move reflects its status as a standalone service rather than a core Platform API. During the transition, the service is being duplicated as `ChartRenderer.Api` within the new module to ensure a safe decommissioning process.
+
 - Negative / Trade-offs:
   - D3’s flexibility for complex SVG manipulation is no longer leveraged.
 
