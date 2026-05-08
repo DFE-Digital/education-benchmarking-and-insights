@@ -52,8 +52,8 @@
                 <a href="@Url.Action("Download", "LocalAuthorityHighNeedsSpending", new
                          {
                              code = Model.Code,
-                             resultAs = Model.ResultAs,
-                             type = Model.Type
+                             resultAs = (int)Model.ResultAs,
+                             type = (int)Model.Type
                          })" role="button"
                    class="govuk-button govuk-button--secondary" data-module="govuk-button">
                     Download page data
@@ -126,7 +126,8 @@
                 @foreach (var subCategory in group.Items)
                 {
                     <section id="highneeds-subcategory-@subCategory.SubCategory?.ToSlug()"
-                             class="govuk-!-margin-bottom-4">
+                             class="govuk-!-margin-bottom-4"
+                             data-testid="subcategory-section">
 
                         <h3 class="govuk-heading-s">@subCategory.SubCategory</h3>
 
