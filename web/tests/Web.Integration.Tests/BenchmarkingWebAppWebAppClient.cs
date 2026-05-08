@@ -925,11 +925,13 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
 
     public BenchmarkingWebAppClient SetupLocalAuthorityEndpoints(
         Web.App.Domain.LocalAuthorities.LocalAuthority localAuthority,
-        EducationHealthCarePlans[]? educationHealthCarePlans = null)
+        EducationHealthCarePlans[]? educationHealthCarePlans = null,
+        HighNeedsSpending[]? highNeedsSpendings = null)
     {
         LocalAuthorityApi.Reset();
         LocalAuthorityApi.Setup(api => api.SingleAsync(It.IsAny<string>(), It.IsAny<CancellationToken>())).ReturnsAsync(ApiResult.Ok(localAuthority));
         LocalAuthorityApi.Setup(api => api.QueryEhcpAsync(It.IsAny<ApiQuery?>(), It.IsAny<CancellationToken>())).ReturnsAsync(ApiResult.Ok(educationHealthCarePlans ?? []));
+        LocalAuthorityApi.Setup(api => api.QueryHighNeedsV2Async(It.IsAny<ApiQuery?>(), It.IsAny<CancellationToken>())).ReturnsAsync(ApiResult.Ok(highNeedsSpendings ?? []));
         return this;
     }
 
