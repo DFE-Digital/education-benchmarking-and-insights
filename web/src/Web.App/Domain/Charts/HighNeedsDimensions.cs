@@ -56,6 +56,13 @@ public static class HighNeedsDimensions
         _ => throw new ArgumentOutOfRangeException(nameof(option))
     };
 
+    public static string GetSubmissionTypeFileName(this SubmissionTypeOptions option) => option switch
+    {
+        SubmissionTypeOptions.Budget => "planned-expenditure",
+        SubmissionTypeOptions.Outturn => "outturn",
+        _ => throw new ArgumentOutOfRangeException(nameof(option))
+    };
+
     public static string GetResultAsDescription(this ResultAsOptions option) => option switch
     {
         ResultAsOptions.PerPupil => "£ per pupil",

@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
+using Web.App.ActionResults;
 using Web.App.Attributes;
 using Web.App.Domain.Charts;
 using Web.App.Domain.LocalAuthorities;
+using Web.App.Extensions;
 using Web.App.Infrastructure.Apis;
 using Web.App.Infrastructure.Extensions;
 using Web.App.Services;
@@ -95,6 +97,53 @@ public class LocalAuthorityHighNeedsSpendingController(
         resultAs,
         type
     });
+
+    [HttpGet]
+    [Produces("application/zip")]
+    [ProducesResponseType<byte[]>(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    [Route("download")]
+    public async Task<IActionResult> Download(
+        string code,
+        HighNeedsDimensions.ResultAsOptions resultAs = HighNeedsDimensions.ResultAsOptions.PerPupil,
+        HighNeedsDimensions.SubmissionTypeOptions type = HighNeedsDimensions.SubmissionTypeOptions.Outturn)
+    {
+        using (logger.BeginScope(new
+        {
+            code
+        }))
+        {
+            try
+            {
+                var set = comparatorSetService.ReadUserDefinedComparatorSetFromSession(code).Set;
+                if (set.Length == 0)
+                {
+                    return RedirectToAction("Index", "LocalAuthorityComparators", new { code, type = LocalAuthorityBenchmarkType.EducationHealthCarePlans });
+                }
+
+                var query = BuildQuery(new[]
+                    {
+                        code
+                    }.Concat(set).ToArray(),
+                    resultAs,
+                    type);
+
+                var expenditures = await api
+                    .QueryHighNeedsV2Async(query)
+                    .GetResultOrThrow<HighNeedsSpending[]>();
+
+                var typeLabel = type.GetSubmissionTypeDescription().ToSlug();
+                var resultAsLabel = resultAs.GetResultAsDescription().TrimStart('£').ToSlug();
+
+                return new CsvResults([new CsvResult(expenditures, $"benchmark-high-needs-spending-{typeLabel}-{resultAsLabel}-{code}.csv")], $"benchmark-high-needs-spending-{typeLabel}-{resultAsLabel}-{code}.zip");
+            }
+            catch (Exception e)
+            {
+                logger.LogError(e, "An error downloading high needs spending data: {DisplayUrl}", Request.GetDisplayUrl());
+                return StatusCode(500);
+            }
+        }
+    }
 
     private static ApiQuery BuildQuery(
         string[] codes,

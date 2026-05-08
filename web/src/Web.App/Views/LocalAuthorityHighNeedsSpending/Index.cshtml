@@ -49,7 +49,15 @@
                 {
                     <div id="page-actions-button"></div>
                 }
-                @*TODO: download data*@
+                <a href="@Url.Action("Download", "LocalAuthorityHighNeedsSpending", new
+                         {
+                             code = Model.Code,
+                             resultAs = Model.ResultAs,
+                             type = Model.Type
+                         })" role="button"
+                   class="govuk-button govuk-button--secondary" data-module="govuk-button">
+                    Download page data
+                </a>
             </div>
         </div>
         <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
