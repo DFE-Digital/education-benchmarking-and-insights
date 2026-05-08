@@ -20,7 +20,8 @@ public class LocalAuthorityHighNeedsSpendingController(
     ILogger<LocalAuthorityHighNeedsSpendingController> logger,
     ILocalAuthorityApi api,
     IChartRenderingApi chartRenderingApi,
-    ILocalAuthorityComparatorSetService comparatorSetService)
+    ILocalAuthorityComparatorSetService comparatorSetService,
+    IFinanceService financeService)
     : Controller
 {
     [HttpGet]
@@ -58,6 +59,8 @@ public class LocalAuthorityHighNeedsSpendingController(
 
                 var charts = await BuildCharts(code, subCategories, resultAs, type);
 
+                var years = await financeService.GetYears();
+
                 subCategories.Groups.ForEach(group =>
                 {
                     group.Items.ForEach(item =>
@@ -75,7 +78,8 @@ public class LocalAuthorityHighNeedsSpendingController(
                     SelectedSubCategories = selectedSubCategories,
                     ViewAs = viewAs,
                     ResultAs = resultAs,
-                    Type = type
+                    Type = type,
+                    Year = years.S251
                 };
 
                 return View(viewModel);

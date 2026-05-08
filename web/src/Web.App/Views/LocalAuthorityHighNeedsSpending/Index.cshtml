@@ -132,7 +132,7 @@
 
                         @if (Model.ViewAs == Views.ViewAsOptions.Chart)
                         {
-                            @await Html.PartialAsync("_HighNeedsSpendingChart", new LocalAuthorityHighNeedsSpendingDataViewModel(subCategory, Model.ResultAs, Model.Type, Model.Code!))
+                            @await Html.PartialAsync("_HighNeedsSpendingChart", new LocalAuthorityHighNeedsSpendingDataViewModel(subCategory, Model.ResultAs, Model.Type, Model.Code!, Model.Year))
                         }
                         else
                         {

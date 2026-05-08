@@ -255,4 +255,58 @@ public static class HighNeedsSpendingCategories
             SubCategoryFilter.SenAdmin => s.SenAdmin,
             _ => null
         };
+
+    public static string[] GetLineCodes(this SubCategoryFilter filter) => filter switch
+    {
+        SubCategoryFilter.TotalPlaceFunding => ["1.0.2"],
+        SubCategoryFilter.TotalTopUpFundingMaintained => ["1.2.1", "1.2.2", "1.2.4", "1.2.11"],
+        SubCategoryFilter.TotalTopUpFundingNonMaintained => ["1.2.3"],
+        SubCategoryFilter.TotalSenServices => ["1.2.5", "1.2.8", "1.2.9"],
+        SubCategoryFilter.TotalAlternativeProvisionServices => ["1.2.7"],
+        SubCategoryFilter.TotalHospitalServices => ["1.2.6"],
+        SubCategoryFilter.TotalOtherHealthServices => ["1.2.13"],
+        SubCategoryFilter.PlaceFundingPrimary => ["1.0.2"],
+        SubCategoryFilter.PlaceFundingSecondary => ["1.0.2"],
+        SubCategoryFilter.PlaceFundingSpecial => ["1.0.2"],
+        SubCategoryFilter.PlaceFundingAlternativeProvision => ["1.0.2"],
+        SubCategoryFilter.TopFundingMaintainedEarlyYears => ["1.2.1", "1.2.2", "1.2.4", "1.2.11"],
+        SubCategoryFilter.TopFundingMaintainedPrimary => ["1.2.1", "1.2.2", "1.2.4", "1.2.11"],
+        SubCategoryFilter.TopFundingMaintainedSecondary => ["1.2.1", "1.2.2", "1.2.4", "1.2.11"],
+        SubCategoryFilter.TopFundingMaintainedSpecial => ["1.2.1", "1.2.2", "1.2.4", "1.2.11"],
+        SubCategoryFilter.TopFundingMaintainedAlternativeProvision => ["1.2.1", "1.2.2", "1.2.4", "1.2.11"],
+        SubCategoryFilter.TopFundingMaintainedPostSchool => ["1.2.1", "1.2.2", "1.2.4", "1.2.11"],
+        SubCategoryFilter.TopFundingMaintainedIncome => ["1.2.1", "1.2.2", "1.2.4", "1.2.11"],
+        SubCategoryFilter.TopFundingNonMaintainedEarlyYears => ["1.2.3"],
+        SubCategoryFilter.TopFundingNonMaintainedPrimary => ["1.2.3"],
+        SubCategoryFilter.TopFundingNonMaintainedSecondary => ["1.2.3"],
+        SubCategoryFilter.TopFundingNonMaintainedSpecial => ["1.2.3"],
+        SubCategoryFilter.TopFundingNonMaintainedAlternativeProvision => ["1.2.3"],
+        SubCategoryFilter.TopFundingNonMaintainedPostSchool => ["1.2.3"],
+        SubCategoryFilter.TopFundingNonMaintainedIncome => ["1.2.3"],
+        SubCategoryFilter.HometoSchoolTransportPre16 => ["2.1.4"],
+        SubCategoryFilter.HometoSchoolTransport1618 => ["2.1.6"],
+        SubCategoryFilter.HometoSchoolTransport1925 => ["2.1.7"],
+        SubCategoryFilter.SenTransportDsg => ["1.4.11"],
+        SubCategoryFilter.EdPsychologyService => ["2.1.1"],
+        SubCategoryFilter.SenAdmin => ["2.1.2"],
+        _ => []
+    };
+
+    public static HighNeedsSpendingDataSourceInfoType GetAdditionalInfo(this SubCategoryFilter filter) => filter switch
+    {
+        SubCategoryFilter.TotalPlaceFunding => HighNeedsSpendingDataSourceInfoType.Glossary,
+        SubCategoryFilter.TotalHospitalServices => HighNeedsSpendingDataSourceInfoType.Hospital,
+        SubCategoryFilter.PlaceFundingPrimary => HighNeedsSpendingDataSourceInfoType.Glossary,
+        SubCategoryFilter.PlaceFundingSecondary => HighNeedsSpendingDataSourceInfoType.Glossary,
+        SubCategoryFilter.PlaceFundingSpecial => HighNeedsSpendingDataSourceInfoType.Glossary,
+        SubCategoryFilter.PlaceFundingAlternativeProvision => HighNeedsSpendingDataSourceInfoType.Glossary,
+        _ => HighNeedsSpendingDataSourceInfoType.None
+    };
+
+    public enum HighNeedsSpendingDataSourceInfoType
+    {
+        Glossary,
+        Hospital,
+        None
+    }
 }

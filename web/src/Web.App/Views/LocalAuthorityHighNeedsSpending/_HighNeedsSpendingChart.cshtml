@@ -1,3 +1,5 @@
+@using Web.App.Domain.LocalAuthorities
+
 @model Web.App.ViewModels.LocalAuthorityHighNeedsSpendingDataViewModel
 
 @if (string.IsNullOrWhiteSpace(Model.SubCategory.ChartSvg))
@@ -19,4 +21,37 @@
             @Html.Raw(Model.SubCategory.ChartSvg)
         </div>
     </div>
+</div>
+
+<div class="govuk-!-margin-bottom-7 app-source-info">
+    @if (Model.SubCategory.AdditionalInfo == HighNeedsSpendingCategories.HighNeedsSpendingDataSourceInfoType.None)
+    {
+        <p class="govuk-body-s govuk-!-margin-bottom-1">
+            Source: @await Html.PartialAsync("_HighNeedsSpendingLineCodes", Model) 
+        </p>
+    }
+    else
+    {
+        <p class="govuk-body-s govuk-!-margin-bottom-1">Sources:</p>
+        <ul class="govuk-list govuk-list--bullet">
+            <li class="govuk-body-s">
+                @await Html.PartialAsync("_HighNeedsSpendingLineCodes", Model)
+            </li>
+            <li class="govuk-body-s">
+                @if (Model.SubCategory.AdditionalInfo == HighNeedsSpendingCategories.HighNeedsSpendingDataSourceInfoType.Glossary)
+                {
+                    <text>
+                        Place funding for academies. You can read about how we calculate this in the
+                        <a href="/guidance/high-needs-glossary" class="govuk-link govuk-link--no-visited-state">
+                            glossary
+                        </a>
+                    </text>
+                }
+                else if (Model.SubCategory.AdditionalInfo == HighNeedsSpendingCategories.HighNeedsSpendingDataSourceInfoType.Hospital)
+                {
+                    <text>Dedicated Schools Grant (@(Model.Year - 1)/@(Model.Year)): total hospital education deductions</text>
+                }
+            </li>
+        </ul>
+    }
 </div>

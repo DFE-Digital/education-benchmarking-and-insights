@@ -1,0 +1,19 @@
+@model Web.App.ViewModels.LocalAuthorityHighNeedsSpendingDataViewModel
+
+Section 251 (@(Model.Year - 1)/@(Model.Year)),
+@if (Model.SubCategory.LineCodes!.Length > 1)
+{
+    <text>lines</text>
+}
+else
+{ 
+    <text>line</text>
+}
+@foreach (var (i, code) in Model.SubCategory.LineCodes.Select((code, i) => (i, code)))
+{
+    <text> @(code)</text>
+    if (i + 1 < Model.SubCategory.LineCodes.Length)
+    {
+        <text>,</text>
+    }
+}
