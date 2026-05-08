@@ -154,4 +154,8 @@ web/src/Web.Shutter/src/assets
 data-pipeline/workbooks/data
 data-pipeline/workbooks/output
 data-pipeline/tests/output/
+
+
 web/**/appsettings.*.json
+chart-renderer/local.settings.json
+platform/**/local.settings.json

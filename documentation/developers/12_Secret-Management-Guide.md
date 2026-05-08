@@ -19,7 +19,9 @@ For the specific `dotnet user-secrets` commands and project-specific IDs used in
 
 ### Azure Functions: `local.settings.json`
 
-Azure Functions bindings require environment variables, often provided via `local.settings.json`. To comply with our security principles, this file **MUST** be encrypted whenever it contains sensitive information.
+Azure Functions bindings require environment variables, often provided via `local.settings.json`. This file is ignored by source control, so developers must create it by copying the provided `local.settings.example.json`.
+
+To comply with our security principles, `local.settings.json` **MUST** be encrypted at rest on your local machine whenever it contains sensitive information, despite being ignored by git.
 
 For instructions on adding, encrypting, and decrypting host settings, see the [Encrypted local.settings.json section in the Platform APIs Guide](./11_Platform-APIs.md#encrypted-localsettingsjson).
 
@@ -27,12 +29,11 @@ For instructions on adding, encrypting, and decrypting host settings, see the [E
 
 ## Git Configuration & Settings Files
 
-**Important**: Standard settings files (such as `local.settings.json`) are **NOT** ignored by `.gitignore`. They are tracked by source control to share non-sensitive configuration across the team.
+**Important**: Standard settings files (such as `appsettings.json` or `launchSettings.json`) are **NOT** ignored by `.gitignore`. They are tracked by source control to share non-sensitive configuration across the team.
 
-Because these files are tracked, it is strictly prohibited to place plaintext secrets within them. You must either:
+Because these files are tracked, it is strictly prohibited to place plaintext secrets within them. You must move the secret entirely out of the workspace using .NET User Secrets.
 
-1. Move the secret entirely out of the workspace using .NET User Secrets.
-2. Ensure the file is encrypted at rest using `func settings encrypt` before committing.
+*(Note: While `local.settings.json` is ignored by source control, it must still be encrypted at rest within your local workspace as described above).*
 
 ### Pre-commit Hooks
 
