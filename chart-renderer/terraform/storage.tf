@@ -4,10 +4,16 @@ resource "azurerm_storage_account" "storage" {
   location                        = azurerm_resource_group.chart-renderer.location
   account_tier                    = "Standard"
   account_replication_type        = "LRS"
-  public_network_access_enabled   = false
-  shared_access_key_enabled       = false # Forcing Managed Identity
+  public_network_access_enabled   = true # Changed to true to allow temporary whitelisting from pipeline
+  shared_access_key_enabled       = false
   local_user_enabled              = false
   tags                            = local.common-tags
+
+  network_rules {
+    default_action             = "Deny"
+    virtual_network_subnet_ids = [data.azurerm_subnet.outbound.id]
+    bypass                     = ["AzureServices"]
+  }
 }
 
 resource "azurerm_storage_container" "deployment" {

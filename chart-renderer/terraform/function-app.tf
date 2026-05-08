@@ -51,10 +51,10 @@ resource "azurerm_function_app_flex_consumption" "function-app" {
   runtime_version = "20"
 
   # Networking
-  public_network_access_enabled = false
+  public_network_access_enabled = true # Changed to true to allow temporary whitelisting from pipeline
   virtual_network_subnet_id     = data.azurerm_subnet.outbound.id
 
-  # Security (Required by Azure Policy)
+  # Security
   https_only = true
 
   identity {
@@ -68,7 +68,21 @@ resource "azurerm_function_app_flex_consumption" "function-app" {
     "AzureWebJobsSecretStorageKeyVaultClientId" = azurerm_user_assigned_identity.func-identity.client_id
   }
 
-  site_config {}
+  site_config {
+    # Default restrictions to deny public access (overridden by pipeline whitelisting)
+    ip_restriction {
+      action      = "Deny"
+      ip_address  = "0.0.0.0/0"
+      name        = "DenyAll"
+      priority    = 2147483647
+    }
+    scm_ip_restriction {
+      action      = "Deny"
+      ip_address  = "0.0.0.0/0"
+      name        = "DenyAll"
+      priority    = 2147483647
+    }
+  }
 
   tags = local.common-tags
 
