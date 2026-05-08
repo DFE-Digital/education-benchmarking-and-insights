@@ -40,14 +40,17 @@ resource "azurerm_function_app_flex_consumption" "function-app" {
   location            = azurerm_resource_group.chart-renderer.location
   service_plan_id     = azurerm_service_plan.flex.id
 
-  public_network_access_enabled = false
-  virtual_network_subnet_id     = data.azurerm_subnet.outbound.id
+  # Storage configuration (Required at top level for Flex in azurerm 4.x)
+  storage_container_type      = "blobContainer"
+  storage_container_endpoint  = "${azurerm_storage_account.storage.primary_blob_endpoint}${azurerm_storage_container.deployment.name}"
+  storage_authentication_type = "UserAssignedIdentity"
+  storage_user_assigned_identity_id = azurerm_user_assigned_identity.func-identity.id
 
-  storage {
-    authentication_type       = "UserAssignedIdentity"
-    container_endpoint        = "${azurerm_storage_account.storage.primary_blob_endpoint}${azurerm_storage_container.deployment.name}"
-    user_assigned_identity_id = azurerm_user_assigned_identity.func-identity.id
-  }
+  # Runtime configuration (Required at top level for Flex in azurerm 4.x)
+  runtime_name    = "node"
+  runtime_version = "20"
+
+  public_network_access_enabled = false
 
   identity {
     type         = "UserAssigned"
@@ -61,8 +64,8 @@ resource "azurerm_function_app_flex_consumption" "function-app" {
   }
 
   site_config {
-    runtime_name    = "node"
-    runtime_version = "20"
+    # VNet integration moved inside site_config for azurerm 4.x Flex Consumption
+    virtual_network_subnet_id = data.azurerm_subnet.outbound.id
   }
 
   tags = local.common-tags
