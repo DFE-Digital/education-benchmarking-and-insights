@@ -54,6 +54,9 @@ resource "azurerm_function_app_flex_consumption" "function-app" {
   public_network_access_enabled = false
   virtual_network_subnet_id     = data.azurerm_subnet.outbound.id
 
+  # Security (Required by Azure Policy)
+  https_only = true
+
   identity {
     type         = "UserAssigned"
     identity_ids = [azurerm_user_assigned_identity.func-identity.id]
