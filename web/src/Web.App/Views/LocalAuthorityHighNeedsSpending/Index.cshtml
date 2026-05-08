@@ -1,6 +1,7 @@
 @using Web.App.Domain.Charts
 @using Web.App.Extensions
 @using Web.App.ViewModels
+@using Web.App.ViewModels.Enhancements
 @model Web.App.ViewModels.LocalAuthorityHighNeedsSpendingViewModel
 @{
     ViewData[ViewDataKeys.Title] = PageTitles.LocalAuthorityHighNeedsSpending;
@@ -42,7 +43,23 @@
         @await Html.PartialAsync("_Filter", Model)
     </div>
     <div class="govuk-grid-column-two-thirds">
-        <p class="govuk-body">page actions under construction</p>
+        <div class="page-actions-wrapper-horizontal">
+            <div class="page-actions">
+                @if (Model.ViewAs == Views.ViewAsOptions.Chart)
+                {
+                    <div id="page-actions-button"></div>
+                }
+                <a href="@Url.Action("Download", "LocalAuthorityHighNeedsSpending", new
+                         {
+                             code = Model.Code,
+                             resultAs = Model.ResultAs,
+                             type = Model.Type
+                         })" role="button"
+                   class="govuk-button govuk-button--secondary" data-module="govuk-button">
+                    Download page data
+                </a>
+            </div>
+        </div>
         <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
 
         @using (Html.BeginForm(FormMethod.Post, true, new
@@ -131,3 +148,17 @@
 <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
 
 @await Component.InvokeAsync("LocalAuthorityHighNeedsHelp")
+
+@section scripts
+{
+
+    @await Html.PartialAsync("Enhancements/_PageActions", new PageActionsViewModel
+    {
+        All = true,
+        ElementId = "page-actions-button",
+        SaveClassName = "costs-chart-container",
+        SaveFileName = $"benchmark-high-needs-spending-{Model.Code}.zip",
+        SaveTitleAttr = "data-title",
+        StartImmediately = true
+    })
+}
