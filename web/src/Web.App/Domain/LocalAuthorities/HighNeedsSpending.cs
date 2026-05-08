@@ -1,3 +1,4 @@
+// ReSharper disable ClassNeverInstantiated.Global
 namespace Web.App.Domain.LocalAuthorities;
 
 public record HighNeedsSpending
@@ -5,7 +6,6 @@ public record HighNeedsSpending
     public string? Code { get; set; }
     public string? Name { get; set; }
     public decimal? TotalPupils { get; set; }
-    public decimal? TotalHighNeeds { get; set; }
     public decimal? TotalPlaceFunding { get; set; }
     public decimal? TotalTopUpFundingMaintained { get; set; }
     public decimal? TotalTopUpFundingNonMaintained { get; set; }
