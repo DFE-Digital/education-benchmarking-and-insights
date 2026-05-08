@@ -138,6 +138,8 @@
                         {
                             @await Html.PartialAsync("_HighNeedsSpendingTable", new LocalAuthorityHighNeedsSpendingDataViewModel(subCategory, Model.ResultAs, Model.Type, Model.Code!))
                         }
+                        
+                        @await Html.PartialAsync("_HighNeedsSpendingDataSources", new LocalAuthorityHighNeedsSpendingDataViewModel(subCategory, Model.ResultAs, Model.Type, Model.Code!, Model.Year))
                     </section>
                 }
             </section>
