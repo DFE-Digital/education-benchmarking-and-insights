@@ -14,7 +14,7 @@ SELECTION_METHOD = "distance_boarding_pfi" # Pick the 30 with the absolute small
 #this will affect write up of analysis and temporary storage of files etc.
 
 #Weight scheme/features
-WEIGHT_SCHEME = "ruralscore_gifa_age_buildingcount_geog"
+WEIGHT_SCHEME = "ruralscore_split-site_geog"
 #"geog_dist"
 #"baseline"
 #swc
@@ -48,6 +48,7 @@ if WEIGHT_SCHEME == "baseline":
     OLDESTBUILDINGAGE_WEIGHT = 0
     NEWESTBUILDINGAGE_WEIGHT = 0
     BUILDINGCOUNT_WEIGHT = 0
+    SPLITSITE = 0
     EASTING_WEIGHT = 0
     NORTHING_WEIGHT = 0
 
@@ -74,6 +75,7 @@ elif WEIGHT_SCHEME == "ew":
     OLDESTBUILDINGAGE_WEIGHT = 0
     NEWESTBUILDINGAGE_WEIGHT = 0
     BUILDINGCOUNT_WEIGHT = 0
+    SPLITSITE = 0
     EASTING_WEIGHT = 0
     NORTHING_WEIGHT = 0
 
@@ -126,6 +128,7 @@ elif WEIGHT_SCHEME == "geog_dist":
     OLDESTBUILDINGAGE_WEIGHT = 0
     NEWESTBUILDINGAGE_WEIGHT = 0
     BUILDINGCOUNT_WEIGHT = 0
+    SPLITSITE = 0
     EASTING_WEIGHT = 1/2
     NORTHING_WEIGHT = 1/2
 
@@ -152,6 +155,7 @@ elif WEIGHT_SCHEME == "ew_with_geog":
     OLDESTBUILDINGAGE_WEIGHT = 0
     NEWESTBUILDINGAGE_WEIGHT = 0
     BUILDINGCOUNT_WEIGHT = 0
+    SPLITSITE = 0
     EASTING_WEIGHT = 1/6 #1/4 #replace with 1/6
     NORTHING_WEIGHT = 1/6 #1/4
 
@@ -173,13 +177,14 @@ elif WEIGHT_SCHEME == "afe_with_geog":
     NORTHING_WEIGHT = 1/6 #1/4
 
     #building weights
-    GIFA_WEIGHT = 2/12 #1/7 #replace with 2/12
-    AGE_WEIGHT = 2/12 #1/7
-    OLDESTBUILDINGAGE_WEIGHT = 2/12 #1/7
-    NEWESTBUILDINGAGE_WEIGHT = 2/12 #1/7
-    BUILDINGCOUNT_WEIGHT = 2/12 #1/7
-    EASTING_WEIGHT = 1/12 #1/7 #replace with 1/12
-    NORTHING_WEIGHT = 1/12 #1/7
+    GIFA_WEIGHT = 2/14#2/12 #1/7 #replace with 2/12
+    AGE_WEIGHT = 2/14 #2/12 #1/7
+    OLDESTBUILDINGAGE_WEIGHT = 2/14 #2/12 #1/7
+    NEWESTBUILDINGAGE_WEIGHT = 2/14 #2/12 #1/7
+    BUILDINGCOUNT_WEIGHT = 2/14 #2/12 #1/7
+    SPLITSITE = 2/24
+    EASTING_WEIGHT = 1/14 #1/12 #1/7 #replace with 1/12
+    NORTHING_WEIGHT = 1/14 #1/12 #1/7
 
 elif WEIGHT_SCHEME == "pupils_gifa_geog":
     #pupil weights (non-special)
@@ -204,6 +209,7 @@ elif WEIGHT_SCHEME == "pupils_gifa_geog":
     OLDESTBUILDINGAGE_WEIGHT = 0
     NEWESTBUILDINGAGE_WEIGHT = 0
     BUILDINGCOUNT_WEIGHT = 0
+    SPLITSITE = 0
     EASTING_WEIGHT = 1/4 #1/3 #replace with 1/4
     NORTHING_WEIGHT = 1/4 #1/3
 
@@ -230,6 +236,7 @@ elif WEIGHT_SCHEME == "fsm_age_geog":
     OLDESTBUILDINGAGE_WEIGHT = 0
     NEWESTBUILDINGAGE_WEIGHT = 0
     BUILDINGCOUNT_WEIGHT = 0
+    SPLITSITE = 0
     EASTING_WEIGHT = 1/4 #1/3 #replace with 1/4
     NORTHING_WEIGHT = 1/4 #1/3
 
@@ -256,6 +263,7 @@ elif WEIGHT_SCHEME == "sen_oldest_geog":
     OLDESTBUILDINGAGE_WEIGHT = 2/4 #1/3 #replace with 2/4
     NEWESTBUILDINGAGE_WEIGHT = 0
     BUILDINGCOUNT_WEIGHT = 0
+    SPLITSITE = 0
     EASTING_WEIGHT = 1/4 #1/3 #replace with 1/4
     NORTHING_WEIGHT = 1/4 #1/3
 
@@ -282,6 +290,7 @@ elif WEIGHT_SCHEME == "overcapacity_newest_geog":
     OLDESTBUILDINGAGE_WEIGHT = 0
     NEWESTBUILDINGAGE_WEIGHT = 2/4 #1/3 #replace with 2/4
     BUILDINGCOUNT_WEIGHT = 0
+    SPLITSITE = 0
     EASTING_WEIGHT = 1/4 #1/3 #replace with 1/4
     NORTHING_WEIGHT = 1/4 #1/3
 
@@ -308,10 +317,11 @@ elif WEIGHT_SCHEME == "undercapacity_buildingcount_geog":
     OLDESTBUILDINGAGE_WEIGHT = 0
     NEWESTBUILDINGAGE_WEIGHT = 0
     BUILDINGCOUNT_WEIGHT = 2/4 #1/3 #replace with 2/4
+    SPLITSITE = 0
     EASTING_WEIGHT = 1/4 #1/3 #replace with 1/4
     NORTHING_WEIGHT = 1/4 #1/3
 
-elif WEIGHT_SCHEME == "ruralscore_gifa_age_buildingcount_geog":
+elif WEIGHT_SCHEME == "ruralscore_split-site_geog":
     #pupil weights (non-special)
     PUPILS_WEIGHT = 0
     FSM_WEIGHT = 0
@@ -329,15 +339,16 @@ elif WEIGHT_SCHEME == "ruralscore_gifa_age_buildingcount_geog":
     NORTHING_WEIGHT = 1/2
 
     #building weights
-    GIFA_WEIGHT = 2/8 #1/5 #replace with 2/8
-    AGE_WEIGHT = 2/8 #1/5
+    GIFA_WEIGHT = 0 #1/5 #replace with 2/8
+    AGE_WEIGHT = 0 #1/5
     OLDESTBUILDINGAGE_WEIGHT = 0
     NEWESTBUILDINGAGE_WEIGHT = 0
-    BUILDINGCOUNT_WEIGHT = 2/8 #1/5
-    EASTING_WEIGHT = 1/8 #1/5 # replace with 1/8
-    NORTHING_WEIGHT = 1/8 #1/5
+    BUILDINGCOUNT_WEIGHT = 0 #1/5
+    SPLITSITE = 2/4
+    EASTING_WEIGHT = 1/4 #1/5 # replace with 1/8
+    NORTHING_WEIGHT = 1/4 #1/5
 
-#need to add in weight schemes which include split site and sparsity, once that data is avaialble
+#need to add in weight schemes which include sparsity, once that data is avaialble
 
 else:
    raise ValueError("Weight scheme not recognised") 
@@ -379,6 +390,7 @@ class ColumnNames:
     RURALSCORE = "RuralScore"
     EASTING = "Easting"
     NORTHING = "Northing"
+    SPLITSITE = "SplitSiteScore"
 
 
 cols_for_comparators_parquet = [
@@ -416,5 +428,6 @@ cols_for_comparators_parquet = [
     "BuildingCount",
     "RuralScore",
     "Easting",
-    "Northing"
+    "Northing",
+    "SplitSiteScore"
 ]

@@ -13,7 +13,9 @@ def create_master_list(
     cdc: pd.DataFrame,
     ks2: pd.DataFrame,
     ks4: pd.DataFrame,
-    year: str,
+    split_site: pd.DataFrame,
+    year: str
+
 ) -> pd.DataFrame:
 
     maintained_schools_list["Did Not Supply flag"] = maintained_schools_list[
@@ -43,6 +45,7 @@ def create_master_list(
         .merge(cdc, on="URN", how="left")
         .merge(ks2, on="URN", how="left")
         .merge(ks4, on="URN", how="left")
+        .merge(split_site, on="URN", how="left")
     )
 
 

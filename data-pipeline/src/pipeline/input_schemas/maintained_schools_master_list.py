@@ -128,7 +128,7 @@ maintained_schools_master_list_cols = {
         "Direct Grant": "float",
         "Targeted Grants": "float",
         "Community Grants": "float",
-        "Self Generated Funding": "float",
+        "Self Generated Funding": "float"
     },
 }
 maintained_schools_master_list_column_eval = {

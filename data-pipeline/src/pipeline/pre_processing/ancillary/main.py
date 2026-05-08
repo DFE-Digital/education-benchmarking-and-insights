@@ -279,3 +279,16 @@ def pre_process_central_services(
         return central_services
 
     return None
+
+
+#tmp addition of bespoke split site dataset - this is a stopgap, as it should be being added to cdc
+def pre_process_split_site(run_type: str, year: int, run_id: str) -> pd.DataFrame:
+    logger.info(f"Processing Split Site Data: {run_type}/{year}/split_site_score.csv")
+
+    split_site_data = get_blob(raw_container, f"{run_type}/{year}/split_site_score.csv", encoding="utf-8")
+
+    split_site_data = pd.read_csv(split_site_data, encoding="utf-8")
+
+    write_blob("pre-processed", f"{run_type}/{run_id}/split_site_data.parquet", split_site_data.to_parquet())
+
+    return split_site_data

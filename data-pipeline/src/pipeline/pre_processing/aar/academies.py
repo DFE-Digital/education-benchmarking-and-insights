@@ -211,6 +211,8 @@ def build_academy_data(
     gias_links: pd.DataFrame,
     high_exec_pay: pd.DataFrame,
     ilr: pd.DataFrame,
+    #temporary workaround to get split site data in - ultimately being added to cdc
+    split_site: pd.DataFrame,
 ):
     """
     Build the Academy dataset.
@@ -260,6 +262,13 @@ def build_academy_data(
             cfo,
             left_on="Company Registration Number",
             right_on="Companies House Number",
+            how="left",
+        )
+
+        #temporary workaroud to get split site data in - eventually to be added to cdc
+        .merge(
+            split_site,
+            on="URN",
             how="left",
         )
     )

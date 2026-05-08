@@ -35,6 +35,8 @@ def build_maintained_school_data(
     ks4,
     gias_links,
     ilr,
+    #temporary workaround to get split site data in - eventually to be added to cdc
+    split_site
 ):
     maintained_school_schema = input_schemas.maintained_schools_master_list_cols.get(
         year, input_schemas.maintained_schools_master_list_cols["default"]
@@ -49,7 +51,7 @@ def build_maintained_school_data(
     )
 
     maintained_schools = create_master_list(
-        maintained_schools_list, gias, sen, census, cdc, ks2, ks4, year
+        maintained_schools_list, gias, sen, census, cdc, ks2, ks4, split_site, year
     )
 
     maintained_schools = ensure_it_spend_breakdown_columns_are_present(
