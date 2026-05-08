@@ -12,10 +12,6 @@
         <None Update="host.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
-        <None Update="local.settings.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-            <CopyToPublishDirectory>Never</CopyToPublishDirectory>
-        </None>
         <ProjectReference Include="..\..\abstractions\Platform.Functions\Platform.Functions.csproj" />
         <PackageReference Include="Dapper.Contrib" />
         <PackageReference Include="Microsoft.ApplicationInsights.WorkerService" />

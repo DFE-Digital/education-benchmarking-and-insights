@@ -14,10 +14,6 @@
         <None Update="host.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
-        <None Update="local.settings.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-            <CopyToPublishDirectory>Never</CopyToPublishDirectory>
-        </None>
         <PackageReference Include="Microsoft.ApplicationInsights.WorkerService"/>
         <PackageReference Include="Microsoft.Azure.Functions.Worker"/>
         <PackageReference Include="Microsoft.Azure.Functions.Worker.ApplicationInsights"/>

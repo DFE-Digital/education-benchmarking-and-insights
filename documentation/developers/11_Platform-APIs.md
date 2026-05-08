@@ -6,7 +6,7 @@ This guide details the architectural patterns and development standards for APIs
 
 The APIs are implemented using a Vertical Slice Architecture. Instead of traditional horizontal layers (Data, Logic, Presentation) that group code by technical concern, this approach groups code by functional requirement.
 
-* Self-Contained Features: All code required to fulfill a specific request—including the Azure Function trigger, DTOs, and business logic—resides within a single feature folder.
+* Self-Contained Features: All code required to fulfill a specific request (including the Azure Function trigger, DTOs, and business logic) resides within a single feature folder.
 * Isolation: Changes to one slice (e.g., "Accounts") are isolated from others (e.g., "Search"), reducing technical debt and the risk of side effects.
 * Scalability: New features can be added as new folders without modifying existing complex service layers.
 
@@ -101,7 +101,7 @@ flowchart TD
 
 * `launchSettings.json` is used for local developer profiles, non-secret environment configuration, environment switching, and IDE/debug configuration, including environment selection, feature flags, non-sensitive local overrides, and debug/runtime settings. It should not be used for secrets.
 * **User Secrets** are used for per-developer application secrets and `IConfiguration`-backed application configuration, such as SQL connection strings, API keys, external service credentials, and Redis credentials. They are intended for ASP.NET Core configuration, application services, repositories, and options binding, but are not used by Azure Functions bindings.
-* `local.settings.json` is used for Azure Functions host/bootstrap configuration and binding-required environment variables that should be encrypted at rest, because Azure Functions bindings are resolved before the .NET worker starts and read environment variables directly. Therefore, this file should remain minimal and only contain values required by the Functions host, required by bindings, needed before the worker starts, or requiring encryption at rest. Non-secret host/runtime values should instead be placed in `launchSettings.json`, and normal application configuration should not be duplicated here.
+* `local.settings.json` is used for Azure Functions host/bootstrap configuration and binding-required environment variables that should be encrypted at rest, because Azure Functions bindings are resolved before the .NET worker starts and read environment variables directly. This file is ignored by source control; developers should copy `local.settings.example.json` to `local.settings.json` to configure their local environment. Therefore, this file should remain minimal and only contain values required by the Functions host, required by bindings, needed before the worker starts, or requiring encryption at rest. Non-secret host/runtime values should instead be placed in `launchSettings.json`, and normal application configuration should not be duplicated here.
 
 ### Environment Profiles
 
@@ -125,7 +125,7 @@ dotnet user-secrets set "Sql:ConnectionString" "Server=..." --id "platform-local
 
 ### Encrypted local.settings.json
 
-Azure Functions Core Tools supports encrypting `local.settings.json`.
+Azure Functions Core Tools supports encrypting `local.settings.json`. Even though the file is ignored by source control, it **must** remain encrypted at rest within the workspace to comply with security principles.
 
 1. **Add/Update Secret**:
 
