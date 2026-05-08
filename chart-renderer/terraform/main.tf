@@ -5,7 +5,7 @@ resource "azurerm_resource_group" "chart-renderer" {
 }
 
 data "azurerm_resource_group" "core" {
-  name = "${var.environment-prefix}-rg"
+  name = "${var.environment-prefix}-ebis-core"
 }
 
 data "azurerm_subnet" "outbound" {
