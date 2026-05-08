@@ -40,17 +40,19 @@ resource "azurerm_function_app_flex_consumption" "function-app" {
   location            = azurerm_resource_group.chart-renderer.location
   service_plan_id     = azurerm_service_plan.flex.id
 
-  # Storage configuration (Required at top level for Flex in azurerm 4.x)
+  # Storage configuration
   storage_container_type      = "blobContainer"
   storage_container_endpoint  = "${azurerm_storage_account.storage.primary_blob_endpoint}${azurerm_storage_container.deployment.name}"
   storage_authentication_type = "UserAssignedIdentity"
   storage_user_assigned_identity_id = azurerm_user_assigned_identity.func-identity.id
 
-  # Runtime configuration (Required at top level for Flex in azurerm 4.x)
+  # Runtime configuration
   runtime_name    = "node"
   runtime_version = "20"
 
+  # Networking
   public_network_access_enabled = false
+  virtual_network_subnet_id     = data.azurerm_subnet.outbound.id
 
   identity {
     type         = "UserAssigned"
@@ -63,10 +65,7 @@ resource "azurerm_function_app_flex_consumption" "function-app" {
     "AzureWebJobsSecretStorageKeyVaultClientId" = azurerm_user_assigned_identity.func-identity.client_id
   }
 
-  site_config {
-    # VNet integration moved inside site_config for azurerm 4.x Flex Consumption
-    virtual_network_subnet_id = data.azurerm_subnet.outbound.id
-  }
+  site_config {}
 
   tags = local.common-tags
 
