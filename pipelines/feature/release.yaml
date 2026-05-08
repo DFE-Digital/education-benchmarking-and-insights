@@ -54,6 +54,8 @@ variables:
     value: 'platform'
   - name: WorkingDir.Web
     value: 'web'
+  - name: WorkingDir.ChartRenderer
+    value: 'chart-renderer'
   - name: WorkingDir.DataPipeline
     value: 'data-pipeline'
   - name: NUGET_PLUGIN_HANDSHAKE_TIMEOUT_IN_SECONDS
@@ -156,6 +158,36 @@ stages:
           importImage: false
           buildNumber: $(Version.BuildNumber)
           dependsOn: [BuildAndPushDataPipeline]
+
+  - stage: BuildChartRenderer
+    dependsOn: [BuildNumber, DeployCore]
+    displayName: 'Chart Renderer : Build and Deploy'
+    variables:
+      environmentPrefix: $[ stageDependencies.BuildNumber.SetBuildNumber.outputs['outputVars.Environment_Prefix'] ]
+    jobs:
+      - job: ZipStaticChartRendererArtifacts
+        displayName: 'Zip static artifacts'
+        steps:
+          - template: ..\common\publish-terraform-artifacts.yaml
+            parameters:
+              TerraformFolder: '$(System.DefaultWorkingDirectory)/$(WorkingDir.ChartRenderer)/terraform'
+              Module: 'chart-renderer'
+
+      - job: BuildChartRenderer
+        displayName: 'Chart Renderer : Build'
+        steps:
+          - template: ../chart-renderer/steps/build.yaml
+            parameters:
+              BuildVersion: $(Version.BuildVersion)
+              BuildNumber: $(Version.BuildNumber)
+
+      - template: ../chart-renderer/deployment.yaml
+        parameters:
+          subscription: $(Subscription)
+          environmentPrefix: $(environmentPrefix)
+          environment: $(Pipeline.Environment)
+          cipEnvironment: 'Dev'
+          dependsOn: [ZipStaticChartRendererArtifacts, BuildChartRenderer]
 
   - stage: BuildPlatform
     dependsOn: [BuildNumber, DeployCore, BuildDataPipeline]

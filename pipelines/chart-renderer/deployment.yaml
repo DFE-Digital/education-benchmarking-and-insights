@@ -21,23 +21,21 @@ jobs:
 
             - download: current
 
-            # Terraform deployment is skipped for now as per plan
-            # - template: ..\common\run-terraform.yaml
-            #   parameters:
-            #     subscription: ${{ parameters.subscription }}
-            #     environmentPrefix: ${{ parameters.environmentPrefix }}
-            #     environment: ${{ parameters.environment }}
-            #     cipEnvironment: ${{ parameters.cipEnvironment }}
-            #     module: 'chart-renderer'    
+            - template: ..\common\run-terraform.yaml
+              parameters:
+                subscription: ${{ parameters.subscription }}
+                environmentPrefix: ${{ parameters.environmentPrefix }}
+                environment: ${{ parameters.environment }}
+                cipEnvironment: ${{ parameters.cipEnvironment }}
+                module: 'chart-renderer'    
 
-            # Deployment steps commented out until infrastructure is provisioned via Terraform
-            # - task: AzureFunctionApp@2
-            #   displayName: 'Deploy chart renderer function app'
-            #   inputs:
-            #     azureSubscription: ${{ parameters.subscription }}
-            #     appType: functionAppLinux
-            #     appName: '${{ parameters.environmentPrefix }}-ebis-chart-renderer-fa'
-            #     deployToSlotOrASE: true
-            #     resourceGroupName: '${{ parameters.environmentPrefix }}-ebis-chart-renderer'
-            #     package: '${{ parameters.workspaceDir }}/chart-renderer-apis/ChartRenderer.Api.zip'
-            #     slotName: production
+            - task: AzureFunctionApp@2
+              displayName: 'Deploy chart renderer function app'
+              inputs:
+                azureSubscription: ${{ parameters.subscription }}
+                appType: functionAppLinux
+                appName: '${{ parameters.environmentPrefix }}-ebis-chart-renderer-fa'
+                deployToSlotOrASE: true
+                resourceGroupName: '${{ parameters.environmentPrefix }}-ebis-chart-renderer'
+                package: '${{ parameters.workspaceDir }}/chart-renderer-apis/ChartRenderer.Api.zip'
+                slotName: production

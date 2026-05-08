@@ -1,0 +1,39 @@
+parameters:
+  BuildVersion: ''
+  BuildNumber: ''
+
+steps:
+  - task: Npm@1
+    displayName: 'Update ChartRenderer version number'
+    condition: and(succeeded(), eq(variables['ShouldDeploy'],'true'))
+    inputs:
+      command: 'custom'
+      customCommand: 'version ${{ parameters.BuildVersion }}'
+      workingDir: 'chart-renderer'
+      verbose: false
+
+  - task: Npm@1
+    displayName: 'Restore npm packages'
+    inputs:
+      command: 'install'
+      workingDir: 'chart-renderer'
+
+  - task: Npm@1
+    displayName: 'Build ChartRenderer api'
+    inputs:
+      command: 'custom'
+      customCommand: 'run build'
+      workingDir: 'chart-renderer'
+
+  - task: ArchiveFiles@2
+    displayName: 'Archive ChartRenderer'
+    inputs:
+      rootFolderOrFile: 'chart-renderer'
+      includeRootFolder: false
+      archiveType: 'zip'
+      archiveFile: '$(Build.ArtifactStagingDirectory)/ChartRenderer.Api.zip'
+      replaceExistingArchive: true
+
+  - publish: '$(Build.ArtifactStagingDirectory)/ChartRenderer.Api.zip'
+    displayName: 'Publish ChartRenderer artifact'
+    artifact: 'chart-renderer-apis'

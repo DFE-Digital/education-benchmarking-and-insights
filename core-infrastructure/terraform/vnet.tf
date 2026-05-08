@@ -67,3 +67,55 @@ resource "azurerm_subnet_network_security_group_association" "load-test-subnet-n
   subnet_id                 = azurerm_subnet.load-test-subnet.id
   network_security_group_id = azurerm_network_security_group.network-security-group.id
 }
+
+resource "azurerm_subnet" "chart-renderer-subnet" {
+  name                 = "${var.environment-prefix}-chart-renderer-subnet"
+  resource_group_name  = azurerm_resource_group.resource-group.name
+  virtual_network_name = azurerm_virtual_network.app-service-network.name
+  address_prefixes     = ["10.0.4.0/24"]
+
+  delegation {
+    name = "delegation"
+
+    service_delegation {
+      name    = "Microsoft.App/environments"
+      actions = ["Microsoft.Network/virtualNetworks/subnets/action"]
+    }
+  }
+
+  service_endpoints = [
+    "Microsoft.Storage",
+    "Microsoft.KeyVault"
+  ]
+}
+
+resource "azurerm_subnet_network_security_group_association" "chart-renderer-subnet-nsg-association" {
+  subnet_id                 = azurerm_subnet.chart-renderer-subnet.id
+  network_security_group_id = azurerm_network_security_group.network-security-group.id
+}
+
+resource "azurerm_private_dns_zone" "app-service-dns-zone" {
+  name                = "privatelink.azurewebsites.net"
+  resource_group_name = azurerm_resource_group.resource-group.name
+  tags                = local.common-tags
+}
+
+resource "azurerm_private_dns_zone_virtual_network_link" "app-service-dns-zone-vnet-link" {
+  name                  = "${var.environment-prefix}-app-service-dns-zone-vnet-link"
+  resource_group_name   = azurerm_resource_group.resource-group.name
+  private_dns_zone_name = azurerm_private_dns_zone.app-service-dns-zone.name
+  virtual_network_id    = azurerm_virtual_network.app-service-network.id
+}
+
+resource "azurerm_private_dns_zone" "blob-storage-dns-zone" {
+  name                = "privatelink.blob.core.windows.net"
+  resource_group_name = azurerm_resource_group.resource-group.name
+  tags                = local.common-tags
+}
+
+resource "azurerm_private_dns_zone_virtual_network_link" "blob-storage-dns-zone-vnet-link" {
+  name                  = "${var.environment-prefix}-blob-storage-dns-zone-vnet-link"
+  resource_group_name   = azurerm_resource_group.resource-group.name
+  private_dns_zone_name = azurerm_private_dns_zone.blob-storage-dns-zone.name
+  virtual_network_id    = azurerm_virtual_network.app-service-network.id
+}
