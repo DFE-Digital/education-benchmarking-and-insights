@@ -5,9 +5,11 @@ variable "location" {}
 
 locals {
   common-tags = {
-    Environment    = var.environment
-    Service        = "Education Benchmarking and Insights"
-    Component      = "Chart Renderer"
-    CIP-Environment = var.cip-environment
+    "Environment"      = var.cip-environment
+    "Service Offering" = "DfE Financial Benchmarking service"
+    "Product"          = "DfE Financial Benchmarking service"
+    "Source"           = "terraform"
+    "Component"        = "Chart Renderer"
+    "Context"          = var.environment
   }
 }
