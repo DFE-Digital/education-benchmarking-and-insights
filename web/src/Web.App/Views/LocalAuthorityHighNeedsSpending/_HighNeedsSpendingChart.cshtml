@@ -21,4 +21,6 @@
             @Html.Raw(Model.SubCategory.ChartSvg)
         </div>
     </div>
+    
+    @await Html.PartialAsync("_HighNeedsSpendingDataSources", Model)
 </div>
