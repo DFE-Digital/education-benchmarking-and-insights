@@ -14,6 +14,7 @@
         Given I am on local authority homepage for local authority with code '204'
         Then the service banner displays the title 'Local authority home page', heading 'Banner on local authority home page' and body 'This banner has been configured on the automated test environment for the local authority home page only'
 
+    @HighNeedsBenchmarkingFlagDisabled
     Scenario: Go to High needs benchmarking data page
         Given I am on local authority homepage for local authority with code '204'
         When I click on benchmark high needs
