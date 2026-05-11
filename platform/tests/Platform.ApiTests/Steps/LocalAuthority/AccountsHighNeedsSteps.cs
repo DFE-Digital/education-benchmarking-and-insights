@@ -27,13 +27,13 @@ public class AccountsHighNeedsSteps(LocalAuthorityApiDriver api)
         });
     }
 
-    [Given("a valid request with dimension '(.*)' and LA codes:")]
-    public void GivenAValidRequestWithDimensionAndLACodes(string dimension, DataTable table)
+    [Given("a valid request with dimension '(.*)' type '(.*)' and LA codes:")]
+    public void GivenAValidRequestWithDimensionAndTypeAndLACodes(string dimension, string type, DataTable table)
     {
         var codes = table.Rows.Select(r => r["Code"]);
         api.CreateRequest(Key, new HttpRequestMessage
         {
-            RequestUri = new Uri($"/api/local-authorities/accounts/high-needs?code={string.Join("&code=", codes)}&dimension={dimension}", UriKind.Relative),
+            RequestUri = new Uri($"/api/local-authorities/accounts/high-needs?code={string.Join("&code=", codes)}&dimension={dimension}&type={type}", UriKind.Relative),
             Method = HttpMethod.Get
         });
     }

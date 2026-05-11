@@ -31,8 +31,8 @@ Feature: Local Authority Accounts - High Needs
         When I submit the request
         Then the history result should be not found
 
-    Scenario Outline: High needs request with dimension '<Dimension>' returns 200 OK and expected data
-        Given a valid request with dimension '<Dimension>' and LA codes:
+    Scenario Outline: High needs request with dimension '<Dimension>' and type '<Type>' returns 200 OK and expected data
+        Given a valid request with dimension '<Dimension>' type '<Type>' and LA codes:
           | Code |
           |  201 |
           |  202 |
@@ -43,10 +43,15 @@ Feature: Local Authority Accounts - High Needs
     # TODO: seed d02 with values for new columns update tests
     # note missing dimension PerTotalSupport
     Examples:
-      | Result                        | Dimension     |
-      | LaHighNeedsPerPupil.json      | PerPupil      |
-      | LaHighNeedsPerEhcp.json       | PerEhcp       |
-      | LaHighNeedsPerSenSupport.json | PerSenSupport |
+      | Result                                 | Type    | Dimension       |
+      | LaHighNeedsBudgetPerPupil.json         | Budget  | PerPupil        | 
+      | LaHighNeedsBudgetPerEhcp.json          | Budget  | PerEhcp         |
+      | LaHighNeedsBudgetPerSenSupport.json    | Budget  | PerSenSupport   |
+      | LaHighNeedsBudgetPerTotalSupport.json  | Budget  | PerTotalSupport |
+      | LaHighNeedsOutturnPerPupil.json        | Outturn | PerPupil        | 
+      | LaHighNeedsOutturnPerEhcp.json         | Outturn | PerEhcp         |
+      | LaHighNeedsOutturnPerSenSupport.json   | Outturn | PerSenSupport   |
+      | LaHighNeedsOutturnPerTotalSupport.json | Outturn | PerTotalSupport |
 
     Scenario Outline: High needs request with invalid parameters '<Issue>' returns 400 Bad Request
         Given an invalid request with '<Issue>'
