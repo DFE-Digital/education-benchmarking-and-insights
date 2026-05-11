@@ -1,4 +1,5 @@
-﻿Feature: Local Authority high needs benchmarking
+﻿@HighNeedsBenchmarkingFlagEnabled
+Feature: Local Authority high needs benchmarking
 
     Background:
         Given I am on local authority high needs start benchmarking for local authority with code '201'
@@ -11,36 +12,30 @@
 
     Scenario: Can view local authority benchmarking charts
         Given I am on local authority high needs benchmarking for local authority with code '201'
-        Then chart view is visible, showing '33' charts
+        Then chart view is visible, showing '31' charts
         And the legend is visible on all s251 charts
 
     Scenario: Can view local authority benchmarking tables
         Given I am on local authority high needs benchmarking for local authority with code '201'
         When I click on view as table
-        Then table view is visible, showing '33' tables
+        Then table view is visible, showing '31' tables
 
     Scenario: Can view local authority benchmarking table data for S251
         Given I am on local authority high needs benchmarking for local authority with code '201'
         When I click on view as table
-        Then the table for 'High needs amount per pupil' contains the following S251 values:
-          | Name                   | Actual | Planned | NumberPupils |
-          | City of London         | £0     | £0      | 1,650        |
-          | Camden                 | £150   | £151    | 50,101       |
-          | Greenwich              | £36    | £106    | 63,850       |
-          | Hackney                | £120   | £118    | 57,444       |
-          | Hammersmith and Fulham | £0     | £0      | 18,500       |
-
-    Scenario: Can view local authority benchmarking table data for SEND2
-        Given I am on local authority high needs benchmarking for local authority with code '201'
-        When I click on view as table
-        Then the table for 'Number aged up to 25 with SEN statement or EHC plan' contains the following SEND2 values:
-          | Name                   | Amount | NumberPupils |
-          | City of London         | 11.52  | 1,650        |
-          | Camden                 | 28.74  | 50,101       |
-          | Greenwich              | 34.14  | 63,850       |
-          | Hackney                | 53.3   | 57,444       |
-          | Hammersmith and Fulham | 0      | 18,500       |            
+        Then the following is shown for 'Total place funding for special schools and AP/PRUs'
+          | Local Authority        | Number of pupils | Outturn (£ per pupil) |
+          | Camden                 | 50,101           | £150                  |
+          | Hackney                | 57,444           | £120                  |
+          | Greenwich              | 63,850           | £36                   |
+          | City of London         | 1,650            | £0                    |
+          | Hammersmith and Fulham | 18,500           | £0                    |           
 
     Scenario: Line codes are displayed
         Given I am on local authority high needs benchmarking for local authority with code '201'
         Then the line codes are present
+        
+    Scenario: Clicking download button downloads .zip file
+        Given I am on local authority high needs benchmarking for local authority with code '201'
+        When I click on download data
+        Then the file 'benchmark-high-needs-spending-outturn-per-pupil-201.zip' is downloaded

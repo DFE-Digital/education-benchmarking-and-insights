@@ -7,14 +7,25 @@ namespace Web.E2ETests.Pages.LocalAuthority;
 public class HighNeedsBenchmarkingPage(IPage page)
 {
     private ILocator PageH1Heading => page.Locator($"main {Selectors.H1}");
-    private ILocator ViewAsTableRadio => page.Locator(Selectors.ModeTable);
+    private ILocator ViewAsTableRadio => page.Locator(Selectors.ViewAsTable);
     private ILocator ViewAsChartRadio => page.Locator(Selectors.ModeChart);
     private ILocator Charts => page.Locator(Selectors.Charts);
+    private ILocator ChartContainers => page.Locator(Selectors.SsrChartContainer);
     private ILocator Tables => page.Locator(Selectors.GovTable);
     private ILocator ChangeComparatorsLink => page.Locator(".govuk-link", new PageLocatorOptions
     {
         HasText = "Change local authorities to benchmark against"
     });
+    private ILocator ApplyCta => page.Locator(Selectors.GovButton, new PageLocatorOptions
+    {
+        HasText = "Apply"
+
+    });
+    private ILocator DownloadDataButton =>
+        page.GetByRole(AriaRole.Button, new PageGetByRoleOptions
+        {
+            Name = "Download page data"
+        });
 
     private static ILocator ChartLegend(ILocator chart) => chart.Locator("//following-sibling::div[1]/ul");
 
@@ -36,7 +47,7 @@ public class HighNeedsBenchmarkingPage(IPage page)
 
     public async Task AreChartsDisplayed(int count)
     {
-        var charts = await Charts.AllAsync();
+        var charts = await ChartContainers.AllAsync();
         Assert.Equal(count, charts.Count);
         await charts.ShouldBeVisible();
     }
@@ -57,9 +68,11 @@ public class HighNeedsBenchmarkingPage(IPage page)
         }
     }
 
-    public async Task ClickViewAsTable()
+    public async Task ClickViewAsTableAndApply()
     {
         await ViewAsTableRadio.Click();
+        await ApplyCta.Nth(1).Click();
+        await Tables.First.ShouldBeVisible();
     }
 
     public async Task AreTablesDisplayed(int count)
@@ -122,8 +135,8 @@ public class HighNeedsBenchmarkingPage(IPage page)
 
     public async Task LineCodesArePresent()
     {
-        var lineCodeItems = await page.Locator("[data-test-id='line-code-source']").AllAsync();
-        Assert.Equal(25, lineCodeItems.Count);
+        var lineCodeItems = await page.Locator(".app-source-info").AllAsync();
+        Assert.Equal(31, lineCodeItems.Count);
 
         Assert.NotEmpty(lineCodeItems);
 
@@ -131,5 +144,21 @@ public class HighNeedsBenchmarkingPage(IPage page)
         {
             Assert.True(await item.IsVisibleAsync());
         }
+    }
+
+    public async Task IsTableDataForChartDisplayed(string chartHeading, List<List<string>> expectedData)
+    {
+        var table = page.Locator("h3", new PageLocatorOptions { HasText = chartHeading })
+            .Locator("../..")
+            .Locator(Selectors.GovTable)
+            .First;
+
+        await table.ShouldBeVisible();
+        await table.ShouldHaveTableContent(expectedData, true);
+    }
+
+    public async Task ClickDownloadDataButton()
+    {
+        await DownloadDataButton.Click();
     }
 }
