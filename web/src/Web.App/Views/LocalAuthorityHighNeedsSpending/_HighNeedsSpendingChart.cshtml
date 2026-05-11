@@ -1,3 +1,5 @@
+@using Web.App.Domain.LocalAuthorities
+
 @model Web.App.ViewModels.LocalAuthorityHighNeedsSpendingDataViewModel
 
 @if (string.IsNullOrWhiteSpace(Model.SubCategory.ChartSvg))
@@ -19,4 +21,6 @@
             @Html.Raw(Model.SubCategory.ChartSvg)
         </div>
     </div>
+    
+    @await Html.PartialAsync("_HighNeedsSpendingDataSources", Model)
 </div>
