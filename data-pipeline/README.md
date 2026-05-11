@@ -91,7 +91,7 @@ For local development secret variables like API credentials and DB access keys a
 
 1. Ensure `direnv` is installed and [hooked into your shell](https://direnv.net/docs/hook.html).
 
-```bash
+```zsh
 brew install direnv
 echo 'eval "$(direnv hook zsh)"' >> ~/.zshrc
 ```
