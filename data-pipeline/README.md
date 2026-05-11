@@ -90,6 +90,15 @@ The data pipeline uses environment variables from your shell.
 For local development secret variables like API credentials and DB access keys are stored outside of the repository structure to prevent secret leakage by use of LLM coding tools.
 
 1. Ensure `direnv` is installed and [hooked into your shell](https://direnv.net/docs/hook.html).
+
+```bash
+brew install direnv
+```
+
+```powershell
+winget install -e --id direnv.direnv
+```
+
 1. Create a local-only secrets file outside this repository, for example:
 
 ```bash
