@@ -9,16 +9,16 @@ using Xunit;
 
 namespace Web.Integration.Tests.Pages.LocalAuthorities;
 
-public class WhenViewingHighNeedsSpendingPlans(SchoolBenchmarkingWebAppClient client) : PageBase<SchoolBenchmarkingWebAppClient>(client)
+public class WhenViewingHighNeedsSpending(SchoolBenchmarkingWebAppClient client) : PageBase<SchoolBenchmarkingWebAppClient>(client)
 {
     #region Tests
 
     [Fact]
     public async Task CanDisplay()
     {
-        var (page, authority, plans) = await SetupNavigateInitPage();
+        var (page, authority, expenditures) = await SetupNavigateInitPage();
 
-        AssertPageLayout(page, authority, plans);
+        AssertPageLayout(page, authority, expenditures);
     }
 
     [Fact]
@@ -48,7 +48,7 @@ public class WhenViewingHighNeedsSpendingPlans(SchoolBenchmarkingWebAppClient cl
     [InlineData(1, "?viewAs=1&resultAs=0&type=0")]
     public async Task CanSubmitOptionsForViewAs(int viewAs, string expectedQueryParams)
     {
-        var (page, authority, plans) = await SetupNavigateInitPage(expectedQueryParams);
+        var (page, authority, expenditures) = await SetupNavigateInitPage(expectedQueryParams);
 
         var action = page.QuerySelectorAll("button").FirstOrDefault(x => x.TextContent.Trim() == "Apply");
         Assert.NotNull(action);
@@ -65,7 +65,7 @@ public class WhenViewingHighNeedsSpendingPlans(SchoolBenchmarkingWebAppClient cl
         AssertPageLayout(
             page,
             authority,
-            plans,
+            expenditures,
             viewAs: viewAs,
             expectedQueryParams: expectedQueryParams);
     }
@@ -77,7 +77,7 @@ public class WhenViewingHighNeedsSpendingPlans(SchoolBenchmarkingWebAppClient cl
     [InlineData(3, "?viewAs=0&resultAs=3&type=0")]
     public async Task CanSubmitOptionsForResultsAsAs(int resultAs, string expectedQueryParams)
     {
-        var (page, authority, plans) = await SetupNavigateInitPage(expectedQueryParams);
+        var (page, authority, expenditures) = await SetupNavigateInitPage(expectedQueryParams);
 
         var action = page.QuerySelectorAll("button").FirstOrDefault(x => x.TextContent.Trim() == "Apply");
         Assert.NotNull(action);
@@ -94,7 +94,7 @@ public class WhenViewingHighNeedsSpendingPlans(SchoolBenchmarkingWebAppClient cl
         AssertPageLayout(
             page,
             authority,
-            plans,
+            expenditures,
             resultAs: resultAs,
             expectedQueryParams: expectedQueryParams);
     }
@@ -103,12 +103,12 @@ public class WhenViewingHighNeedsSpendingPlans(SchoolBenchmarkingWebAppClient cl
     [Fact]
     public async Task CanDisplayChartWarningWhenChartApiFails()
     {
-        var (page, authority, plans) = await SetupNavigateInitPage(chartApiError: true);
+        var (page, authority, expenditures) = await SetupNavigateInitPage(chartApiError: true);
 
         AssertPageLayout(
             page,
             authority,
-            plans,
+            expenditures,
             viewAs: (int)Views.ViewAsOptions.Chart,
             chartApiError: true);
     }
@@ -121,7 +121,7 @@ public class WhenViewingHighNeedsSpendingPlans(SchoolBenchmarkingWebAppClient cl
     [InlineData(20, 0, "?selectedSubCategories=20&viewAs=0&resultAs=0&type=0")]
     public async Task CanSubmitFilterOptionsForSubCategoriesAndType(int expectedSubCategoryId, int type, string expectedQueryParams)
     {
-        var (page, authority, plans) = await SetupNavigateInitPage();
+        var (page, authority, expenditures) = await SetupNavigateInitPage();
 
         var action = page.QuerySelectorAll("button").FirstOrDefault(x => x.TextContent.Trim() == "Apply filters");
         Assert.NotNull(action);
@@ -138,7 +138,7 @@ public class WhenViewingHighNeedsSpendingPlans(SchoolBenchmarkingWebAppClient cl
         AssertPageLayout(
             page,
             authority,
-            plans,
+            expenditures,
             expectedSubCategories: BuildExpectedSubCategories(expectedSubCategoryId),
             expectedQueryParams: expectedQueryParams);
     }
@@ -218,7 +218,7 @@ public class WhenViewingHighNeedsSpendingPlans(SchoolBenchmarkingWebAppClient cl
     private static void AssertPageLayout(
         IHtmlDocument page,
         LocalAuthority authority,
-        HighNeedsSpending[] plans,
+        HighNeedsSpending[] expenditures,
         int viewAs = 0,
         int resultAs = 0,
         string expectedQueryParams = "",
@@ -248,7 +248,7 @@ public class WhenViewingHighNeedsSpendingPlans(SchoolBenchmarkingWebAppClient cl
         }
         else
         {
-            AssertTableSection(page, plans);
+            AssertTableSection(page, expenditures);
         }
     }
 
