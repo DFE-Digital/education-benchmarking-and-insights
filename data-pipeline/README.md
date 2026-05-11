@@ -92,17 +92,16 @@ For local development secret variables like API credentials and DB access keys a
 1. Ensure `direnv` is installed and [hooked into your shell](https://direnv.net/docs/hook.html).
 1. Create a local-only secrets file outside this repository, for example:
 
-```zsh
+```bash
 touch ~/.config/fbit/data-pipeline.secrets.env
 ```
 
 1. Load secrets to this file with local values to start:
 
-```zsh
+```bash
 cat > ~/.config/fbit/data-pipeline.secrets.env <<'EOF'
 export STORAGE_CONNECTION_STRING="DefaultEndpointsProtocol=http;AccountName=devstoreaccount1;AccountKey=...;BlobEndpoint=http://127.0.0.1:10000/devstoreaccount1;QueueEndpoint=http://127.0.0.1:10001/devstoreaccount1;TableEndpoint=http://127.0.0.1:10002/devstoreaccount1;SkipApiVersionCheck=True"
 export DB_NAME="data"
-export DB_PORT="1433"
 export DB_HOST="127.0.0.1"
 export DB_USER="sa"
 export DB_PWD='mystrong!Pa55word'
