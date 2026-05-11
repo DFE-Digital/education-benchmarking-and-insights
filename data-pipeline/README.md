@@ -93,6 +93,7 @@ For local development secret variables like API credentials and DB access keys a
 
 ```bash
 brew install direnv
+echo 'eval "$(direnv hook zsh)"' >> ~/.zshrc
 ```
 
 ```powershell
