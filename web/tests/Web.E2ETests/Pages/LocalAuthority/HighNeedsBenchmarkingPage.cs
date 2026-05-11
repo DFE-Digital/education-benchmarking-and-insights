@@ -82,56 +82,6 @@ public class HighNeedsBenchmarkingPage(IPage page)
         await tables.ShouldBeVisible();
     }
 
-    public async Task TableContainsSection251(int index, DataTable expected)
-    {
-        var table = Tables.Nth(index);
-        await table.ShouldBeVisible();
-        var rows = await table.Locator("tbody > tr").AllAsync();
-
-        var set = new List<dynamic>();
-
-        foreach (var row in rows)
-        {
-            var cells = await row.Locator("td").AllAsync();
-
-            set.Add(new
-            {
-                Name = await Get(0),
-                Actual = await Get(1),
-                Planned = await Get(2),
-                NumberPupils = await Get(3)
-            });
-            continue;
-
-            // S251 rows render only three <td> elements when values are missing.
-            // This helper safely returns an empty string instead of throwing.
-            async Task<string> Get(int i) =>
-                i < cells.Count ? (await cells[i].InnerTextAsync()).Trim() : "";
-        }
-
-        expected.CompareToDynamicSet(set, false);
-    }
-
-    public async Task TableContainsSend2(int index, DataTable expected)
-    {
-        var table = Tables.Nth(index);
-        await table.ShouldBeVisible();
-        var rows = await table.Locator("tbody > tr").AllAsync();
-
-        var set = new List<dynamic>();
-        foreach (var row in rows)
-        {
-            var cells = await row.Locator("td").AllAsync();
-            set.Add(new
-            {
-                Name = await cells.ElementAt(0).InnerTextAsync(),
-                Amount = await cells.ElementAt(1).InnerTextAsync(),
-                NumberPupils = await cells.ElementAt(2).InnerTextAsync()
-            });
-        }
-
-        expected.CompareToDynamicSet(set, false);
-    }
 
     public async Task LineCodesArePresent()
     {

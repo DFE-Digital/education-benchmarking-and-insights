@@ -71,20 +71,6 @@ public class HighNeedsBenchmarkingSteps(PageDriver driver)
         await _highNeedsBenchmarkingPage.AreTablesDisplayed(int.Parse(tables));
     }
 
-    [Then("the table for 'High needs amount per pupil' contains the following S251 values:")]
-    public async Task ThenTheTableForContainsTheFollowingSValues(DataTable table)
-    {
-        Assert.NotNull(_highNeedsBenchmarkingPage);
-        await _highNeedsBenchmarkingPage.TableContainsSection251(0, table);
-    }
-
-    [Then("the table for 'Number aged up to 25 with SEN statement or EHC plan' contains the following SEND2 values:")]
-    public async Task ThenTheTableForContainsTheFollowingSendValues(DataTable table)
-    {
-        Assert.NotNull(_highNeedsBenchmarkingPage);
-        await _highNeedsBenchmarkingPage.TableContainsSend2(25, table);
-    }
-
     [Then(@"the following is shown for '(.*)'")]
     public async Task ThenTheFollowingIisShownFor(string chartName, Table table)
     {
