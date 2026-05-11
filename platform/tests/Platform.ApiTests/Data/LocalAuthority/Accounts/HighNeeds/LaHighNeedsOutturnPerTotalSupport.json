@@ -20,7 +20,7 @@
     "topFundingMaintainedIncome": 0.0,
     "topFundingNonMaintainedEarlyYears": 0.0,
     "topFundingNonMaintainedPrimary": 0.0,
-    "topFundingNonMaintainedSecondary": 3400,
+    "topFundingNonMaintainedSecondary": 3400.0,
     "topFundingNonMaintainedSpecial": 4821.620689655172,
     "topFundingNonMaintainedAlternativeProvision": 0.0,
     "topFundingNonMaintainedPostSchool": 1255.0689655172414,
@@ -28,7 +28,7 @@
     "placeFundingPrimary": 0.0,
     "placeFundingSecondary": 0.0,
     "placeFundingSpecial": 0.0,
-    "placeFundingAlternativeProvision": 0
+    "placeFundingAlternativeProvision": 0.0
   },
   {
     "code": "202",
