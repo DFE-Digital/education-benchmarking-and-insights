@@ -21,10 +21,11 @@ Feature: Local Authority Education Health Care Plan Benchmarking
     Scenario: Total pupils with EHC plans table displays correct data
         Given I am on education health care plan benchmarking page for local authority with code '211'
         When I change view to table
-        Then the following is shown for 'Total pupils with EHC plans'
-            | Local Authority        | Total pupils with EHC plans (per 1000 pupils) | Pupils |
-            | Hackney                | 53.3                                          | 57,444 |
-            | Greenwich              | 34.14                                         | 63,850 |
-            | City of London         | 11.52                                         | 1,650  |
-            | Hammersmith and Fulham | 0                                             | 18,500 |
-            | Tower Hamlets          | No data submitted                             | 28     |
+        Then the following is shown for 'Total EHC plans'
+          | Local authority        | Number of pupils | EHC plans per 1,000 pupils |
+          | Hackney                | 57,444           | 53.3                       |
+          | Greenwich              | 63,850           | 34.14                      |
+          | City of London         | 1,650            | 11.52                      |
+          | Hammersmith and Fulham | 18,500           | 0                          |
+          | Tower Hamlets          | 28               | No data submitted          |
+
