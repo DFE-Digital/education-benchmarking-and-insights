@@ -9,14 +9,14 @@ public class EducationHealthCarePlanBenchmarkingPage(IPage page)
         {
             HasText = "Benchmark education, health care plans"
         });
-    private ILocator TotalEhcPlansSection => page.Locator("#cost-sub-category-total-pupils-with-ehc-plans");
-    private ILocator MainstreamSection => page.Locator("#cost-sub-category-placement-of-pupils-with-ehc-plans-in-mainstream-schools-or-academies");
-    private ILocator ResourcedSection => page.Locator("#cost-sub-category-placement-of-pupils-with-ehc-plans-resourced-provision-or-sen-units");
-    private ILocator SpecialSection => page.Locator("#cost-sub-category-placement-of-pupils-with-ehc-plans-maintained-special-school-or-special-academies");
-    private ILocator IndependentSection => page.Locator("#cost-sub-category-placement-of-pupils-with-ehc-plans-nmss-or-independent-schools");
-    private ILocator HospitalSection => page.Locator("#cost-sub-category-placement-of-pupils-with-ehc-plans-in-hospital-schools-or-alternative-provisions");
-    private ILocator Post16Section => page.Locator("#cost-sub-category-placement-of-pupils-with-ehc-plans-in-post-16");
-    private ILocator OtherSection => page.Locator("#cost-sub-category-placement-of-pupils-with-ehc-plans-in-other-types-of-provisions");
+    private ILocator TotalEhcPlansSection => page.Locator("#cost-sub-category-total-ehc-plans");
+    private ILocator MainstreamSection => page.Locator("#cost-sub-category-ehc-plans-supported-in-mainstream-schools-or-academies");
+    private ILocator ResourcedSection => page.Locator("#cost-sub-category-ehc-plans-supported-in-resourced-provision-or-sen-units");
+    private ILocator SpecialSection => page.Locator("#cost-sub-category-ehc-plans-supported-in-maintained-special-schools-or-special-academies");
+    private ILocator IndependentSection => page.Locator("#cost-sub-category-ehc-plans-supported-in-nmss-or-independent-schools");
+    private ILocator HospitalSection => page.Locator("#cost-sub-category-ehc-plans-supported-in-hospital-schools-or-alternative-provisions");
+    private ILocator Post16Section => page.Locator("#cost-sub-category-ehc-plans-supported-in-post-16");
+    private ILocator OtherSection => page.Locator("#cost-sub-category-ehc-plans-supported-in-other-settings");
 
     private ILocator Tables => page.Locator(Selectors.GovTable);
     private ILocator ViewAsTableRadio => page.Locator(Selectors.ViewAsTable);
