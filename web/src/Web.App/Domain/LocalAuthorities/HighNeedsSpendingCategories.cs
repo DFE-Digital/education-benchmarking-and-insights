@@ -147,6 +147,13 @@ public static class HighNeedsSpendingCategories
         _ => ""
     };
 
+    public static string? GetCategoryGroupAdditionalText(this CategoryGroup group) => group switch
+    {
+        CategoryGroup.TopUpFundingMaintained => "Maintained schools, academies, free schools and colleges. This section is split by phase (for mainstream) and type of institution (for specialist provision).",
+        CategoryGroup.TopUpFundingNonMaintained => "Non-maintained schools and independent schools and colleges. This section is split by phase (for mainstream) and type of institution (for specialist provision).",
+        _ => null
+    };
+
     public static string GetSubCategoryFilterDescription(this SubCategoryFilter filter) => filter switch
     {
         SubCategoryFilter.TotalPlaceFunding => "Total place funding for special schools and AP/PRUs",
