@@ -20,10 +20,10 @@ public class HighNeedsParametersValidatorV2 : AbstractValidator<HighNeedsParamet
 
         RuleFor(x => x.Type)
             .Must(BeAValidType)
-            .WithMessage($"{{PropertyName}} must be empty or one of the supported values: {string.Join(", ", ValidTransactionTypes)}");
+            .WithMessage($"{{PropertyName}} must be empty or one of the supported values: {string.Join(", ", ValidSubmissionTypes)}");
     }
 
-    private static readonly string[] ValidDimensions =
+    internal static readonly string[] ValidDimensions =
     [
         Dimensions.HighNeeds.PerPupil,
         Dimensions.HighNeeds.PerEhcp,
@@ -31,12 +31,19 @@ public class HighNeedsParametersValidatorV2 : AbstractValidator<HighNeedsParamet
         Dimensions.HighNeeds.PerTotalSupport
     ];
 
-    private static readonly string[] ValidTransactionTypes =
+    internal static readonly string[] ValidSubmissionTypes =
     [
         SubmissionType.Budget,
         SubmissionType.Outturn,
     ];
 
     private static bool BeAValidDimension(string dimension) => ValidDimensions.Any(d => d == dimension);
-    private static bool BeAValidType(string type) => ValidTransactionTypes.Any(t => t == type);
+    private static bool BeAValidType(string type) => ValidSubmissionTypes.Any(t => t == type);
+}
+
+// expose the validator values for use in the swagger docs
+public static class HighNeedsValidatorV2Values
+{
+    public static string[] Dimensions => HighNeedsParametersValidatorV2.ValidDimensions;
+    public static string[] Types => HighNeedsParametersValidatorV2.ValidSubmissionTypes;
 }
