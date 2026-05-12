@@ -40,8 +40,6 @@ Feature: Local Authority Accounts - High Needs
         When I submit the request
         Then the result should be ok and match the expected output of '<Result>'
 
-    # TODO: seed d02 with values for new columns update tests
-    # note missing dimension PerTotalSupport
     Examples:
       | Result                                 | Type    | Dimension       |
       | LaHighNeedsBudgetPerPupil.json         | Budget  | PerPupil        | 
