@@ -27,6 +27,12 @@ public class HighNeedsBenchmarkingPage(IPage page)
             Name = "Download page data"
         });
 
+    private ILocator SaveChartImagesButton =>
+        page.Locator(Selectors.Button, new PageLocatorOptions
+        {
+            HasText = "Save chart images"
+        });
+
     private static ILocator ChartLegend(ILocator chart) => chart.Locator("//following-sibling::div[1]/ul");
 
     public async Task IsDisplayed()
@@ -110,5 +116,10 @@ public class HighNeedsBenchmarkingPage(IPage page)
     public async Task ClickDownloadDataButton()
     {
         await DownloadDataButton.Click();
+    }
+
+    public async Task ClickSaveChartImagesButton()
+    {
+        await SaveChartImagesButton.Click();
     }
 }

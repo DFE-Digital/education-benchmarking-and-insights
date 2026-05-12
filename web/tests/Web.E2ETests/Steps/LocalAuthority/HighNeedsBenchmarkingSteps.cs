@@ -117,6 +117,17 @@ public class HighNeedsBenchmarkingSteps(PageDriver driver)
         _download = await downloadTask;
     }
 
+    [When("I click on save chart images")]
+    public async Task WhenIClickOnSaveChartImages()
+    {
+        Assert.NotNull(_highNeedsBenchmarkingPage);
+        var page = await driver.Current;
+        var downloadTask = page.WaitForDownloadAsync();
+
+        await _highNeedsBenchmarkingPage.ClickSaveChartImagesButton();
+        _download = await downloadTask;
+    }
+
     [Then(@"the file '(.*)' is downloaded")]
     public void ThenTheFileIsDownloaded(string fileName)
     {

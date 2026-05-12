@@ -39,3 +39,8 @@ Feature: Local Authority high needs benchmarking
         Given I am on local authority high needs benchmarking for local authority with code '201'
         When I click on download data
         Then the file 'benchmark-high-needs-spending-outturn-per-pupil-201.zip' is downloaded
+        
+    Scenario: Clicking Save chart images downloads .zip file
+        Given I am on local authority high needs benchmarking for local authority with code '201'
+        When I click on save chart images
+        Then the file 'benchmark-high-needs-spending-201.zip' is downloaded
