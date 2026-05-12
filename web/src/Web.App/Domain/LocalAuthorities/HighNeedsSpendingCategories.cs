@@ -149,8 +149,8 @@ public static class HighNeedsSpendingCategories
 
     public static string? GetCategoryGroupAdditionalText(this CategoryGroup group) => group switch
     {
-        CategoryGroup.TopUpFundingMaintained => "Maintained schools, academies, free schools and colleges. This section is split by phase (for mainstream) and type of institution (for specialist provision).",
-        CategoryGroup.TopUpFundingNonMaintained => "Non-maintained schools and independent schools and colleges. This section is split by phase (for mainstream) and type of institution (for specialist provision).",
+        CategoryGroup.TopUpFundingMaintained => "Maintained schools, academies, free schools and colleges.",
+        CategoryGroup.TopUpFundingNonMaintained => "Non-maintained schools and independent schools and colleges.",
         _ => null
     };
 
