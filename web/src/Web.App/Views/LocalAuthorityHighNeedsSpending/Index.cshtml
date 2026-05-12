@@ -122,6 +122,10 @@
         {
             <section id="highneeds-subcategory-@group.Group.ToSlug()">
                 <h2 class="govuk-heading-m">@group.Group</h2>
+                @if (group.AdditionalText != null)
+                {
+                    <p class="govuk-body">@group.AdditionalText</p>
+                }
 
                 @foreach (var subCategory in group.Items)
                 {

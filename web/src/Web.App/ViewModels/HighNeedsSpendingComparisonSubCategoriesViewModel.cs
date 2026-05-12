@@ -23,6 +23,7 @@ public class HighNeedsSpendingComparisonSubCategoriesViewModel
             var groupVm = new HighNeedsSpendingComparisonGroup
             {
                 Group = group.GetCategoryGroupDescription(),
+                AdditionalText = group.GetCategoryGroupAdditionalText(),
                 Items = []
             };
 
@@ -68,6 +69,7 @@ public class HighNeedsSpendingComparisonSubCategoriesViewModel
 public class HighNeedsSpendingComparisonGroup
 {
     public string Group { get; init; } = "";
+    public string? AdditionalText { get; set; }
     public List<BenchmarkingViewModelCostSubCategory<HighNeedsSpendingComparisonDatum>> Items { get; init; } = [];
     public int SelectedCount(HashSet<int> selectedIds) =>
         Items.Count(i => i.SubCategoryId.HasValue && selectedIds.Contains(i.SubCategoryId.Value));
