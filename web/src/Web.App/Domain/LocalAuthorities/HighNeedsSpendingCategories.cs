@@ -199,7 +199,7 @@ public static class HighNeedsSpendingCategories
         SubCategoryFilter.TotalAlternativeProvisionServices => "Alternative provision services",
         SubCategoryFilter.TotalHospitalServices => "Hospital education services",
         SubCategoryFilter.TotalOtherHealthServices => "Therapies and other health related services",
-        SubCategoryFilter.PlaceFundingPrimary => "Place funding",
+        SubCategoryFilter.PlaceFundingPrimary => "Primary place funding",
         SubCategoryFilter.PlaceFundingSecondary => "Secondary place funding",
         SubCategoryFilter.PlaceFundingSpecial => "Special place funding",
         SubCategoryFilter.PlaceFundingAlternativeProvision => "PRU and alternative provision place funding",

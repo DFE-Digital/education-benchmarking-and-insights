@@ -240,7 +240,7 @@ public class WhenViewingHighNeedsSpending(SchoolBenchmarkingWebAppClient client)
         var filterSection = page.QuerySelector(".app-filter");
         Assert.NotNull(filterSection);
 
-        AssertFilterSection(filterSection, viewAs, expectedSubCategories);
+        AssertFilterSection(filterSection, expectedSubCategories);
 
         if (viewAs == 0)
         {
@@ -298,7 +298,6 @@ public class WhenViewingHighNeedsSpending(SchoolBenchmarkingWebAppClient client)
 
     private static void AssertFilterSection(
         IElement filterSection,
-        int viewAs,
         SubCategoryId[] expectedSubCategories)
     {
         var applyFiltersButton = filterSection.QuerySelectorAll("button")
@@ -408,7 +407,7 @@ public class WhenViewingHighNeedsSpending(SchoolBenchmarkingWebAppClient client)
         s => s.TotalHospitalServices),
     ("highneeds-subcategory-therapies-and-other-health-related-services",
         s => s.TotalOtherHealthServices),
-    ("highneeds-subcategory-place-funding",
+    ("highneeds-subcategory-primary-place-funding",
         s => s.PlaceFundingPrimary),
     ("highneeds-subcategory-secondary-place-funding",
         s => s.PlaceFundingSecondary),
