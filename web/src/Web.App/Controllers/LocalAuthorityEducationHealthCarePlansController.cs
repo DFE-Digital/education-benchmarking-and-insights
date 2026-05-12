@@ -53,7 +53,7 @@ public class LocalAuthorityEducationHealthCarePlansController(
 
                 var charts = await BuildCharts(code, subCategories);
 
-                subCategories.Items!.ForEach(i =>
+                subCategories.Items.ForEach(i =>
                 {
                     var chart = charts.FirstOrDefault(c => c.Id != null && c.Id == i.Uuid);
                     if (chart != null)
