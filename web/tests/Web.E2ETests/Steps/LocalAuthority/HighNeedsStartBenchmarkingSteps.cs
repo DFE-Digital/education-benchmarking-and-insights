@@ -103,4 +103,5 @@ public class HighNeedsStartBenchmarkingSteps(PageDriver driver, PageDriverWithJa
 
         return $"{TestConfiguration.ServiceUrl}/local-authority/{laCode}/comparators{suffix}";
     }
+
 }

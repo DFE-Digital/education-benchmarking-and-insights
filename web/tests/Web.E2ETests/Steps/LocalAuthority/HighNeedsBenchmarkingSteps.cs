@@ -1,3 +1,4 @@
+using Microsoft.Playwright;
 using Web.E2ETests.Drivers;
 using Web.E2ETests.Pages.LocalAuthority;
 using Xunit;
@@ -10,6 +11,8 @@ public class HighNeedsBenchmarkingSteps(PageDriver driver)
 {
     private HighNeedsBenchmarkingPage? _highNeedsBenchmarkingPage;
     private ChooseLocalAuthoritiesToComparePage? _highNeedsStartBenchmarkingPage;
+    private IDownload? _download;
+
 
     [Given("I am on local authority high needs start benchmarking for local authority with code '(.*)'")]
     public async Task GivenIAmOnLocalAuthorityHighNeedsStartBenchmarkingForLocalAuthorityWithCode(string laCode)
@@ -44,7 +47,7 @@ public class HighNeedsBenchmarkingSteps(PageDriver driver)
     public async Task WhenIClickOnViewAsTable()
     {
         Assert.NotNull(_highNeedsBenchmarkingPage);
-        await _highNeedsBenchmarkingPage.ClickViewAsTable();
+        await _highNeedsBenchmarkingPage.ClickViewAsTableAndApply();
     }
 
     [Then("chart view is visible, showing '(\\d+)' charts")]
@@ -68,18 +71,18 @@ public class HighNeedsBenchmarkingSteps(PageDriver driver)
         await _highNeedsBenchmarkingPage.AreTablesDisplayed(int.Parse(tables));
     }
 
-    [Then("the table for 'High needs amount per pupil' contains the following S251 values:")]
-    public async Task ThenTheTableForContainsTheFollowingSValues(DataTable table)
+    [Then(@"the following is shown for '(.*)'")]
+    public async Task ThenTheFollowingIisShownFor(string chartName, Table table)
     {
-        Assert.NotNull(_highNeedsBenchmarkingPage);
-        await _highNeedsBenchmarkingPage.TableContainsSection251(0, table);
-    }
+        var expected = new List<List<string>>();
+        {
+            var headers = table.Header.ToList();
+            expected.Add(headers);
+            expected.AddRange(table.Rows.Select(row => row.Select(cell => cell.Value).ToList()));
+        }
 
-    [Then("the table for 'Number aged up to 25 with SEN statement or EHC plan' contains the following SEND2 values:")]
-    public async Task ThenTheTableForContainsTheFollowingSendValues(DataTable table)
-    {
         Assert.NotNull(_highNeedsBenchmarkingPage);
-        await _highNeedsBenchmarkingPage.TableContainsSend2(25, table);
+        await _highNeedsBenchmarkingPage.IsTableDataForChartDisplayed(chartName, expected);
     }
 
     [When("I click the Change comparators link")]
@@ -103,8 +106,39 @@ public class HighNeedsBenchmarkingSteps(PageDriver driver)
 
         await _highNeedsBenchmarkingPage.LineCodesArePresent();
     }
+    [When("I click on download data")]
+    public async Task WhenIClickOnDownloadData()
+    {
+        Assert.NotNull(_highNeedsBenchmarkingPage);
+        var page = await driver.Current;
+        var downloadTask = page.WaitForDownloadAsync();
 
-    private static string LocalAuthorityHighNeedsBenchmarkingUrl(string laCode) => $"{TestConfiguration.ServiceUrl}/local-authority/{laCode}/high-needs/benchmarking";
+        await _highNeedsBenchmarkingPage.ClickDownloadDataButton();
+        _download = await downloadTask;
+    }
+
+    [When("I click on save chart images")]
+    public async Task WhenIClickOnSaveChartImages()
+    {
+        Assert.NotNull(_highNeedsBenchmarkingPage);
+        var page = await driver.Current;
+        var downloadTask = page.WaitForDownloadAsync();
+
+        await _highNeedsBenchmarkingPage.ClickSaveChartImagesButton();
+        _download = await downloadTask;
+    }
+
+    [Then(@"the file '(.*)' is downloaded")]
+    public void ThenTheFileIsDownloaded(string fileName)
+    {
+        Assert.NotNull(_highNeedsBenchmarkingPage);
+        Assert.NotNull(_download);
+        var downloadedFilePath = _download.SuggestedFilename;
+        Assert.Equal(fileName, downloadedFilePath);
+    }
+
+    private static string LocalAuthorityHighNeedsBenchmarkingUrl(string laCode) => $"{TestConfiguration.ServiceUrl}/local-authority/{laCode}/high-needs-spending";
 
     private static string LocalAuthorityHighNeedsStartBenchmarkingUrl(string laCode) => $"{TestConfiguration.ServiceUrl}/local-authority/{laCode}/comparators";
+
 }
