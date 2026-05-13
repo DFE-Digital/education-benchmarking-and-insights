@@ -1,0 +1,236 @@
+﻿[
+  {
+    "outturn": {
+      "highNeedsAmount": {
+        "totalPlaceFunding": 0,
+        "topUpFundingMaintained": 59325,
+        "topUpFundingNonMaintained": 274823,
+        "senServices": 130891,
+        "alternativeProvisionServices": 0,
+        "hospitalServices": 0,
+        "otherHealthServices": 11655
+      },
+      "maintained": {
+        "earlyYears": 0,
+        "primary": 59325,
+        "secondary": 0,
+        "special": 0,
+        "alternativeProvision": 0,
+        "postSchool": 0,
+        "income": 0
+      },
+      "nonMaintained": {
+        "earlyYears": 0,
+        "primary": 0,
+        "secondary": 98600,
+        "special": 139827,
+        "alternativeProvision": 0,
+        "postSchool": 36397,
+        "income": 0
+      },
+      "placeFunding": {
+        "primary": 0,
+        "secondary": 0,
+        "special": 0,
+        "alternativeProvision": 0
+      },
+      "total": 476694
+    },
+    "budget": {
+      "highNeedsAmount": {
+        "totalPlaceFunding": 0,
+        "topUpFundingMaintained": 317000,
+        "topUpFundingNonMaintained": 194000,
+        "senServices": 130000,
+        "alternativeProvisionServices": 0,
+        "hospitalServices": 0,
+        "otherHealthServices": 0
+      },
+      "maintained": {
+        "earlyYears": 0,
+        "primary": 69000,
+        "secondary": 54000,
+        "special": 194000,
+        "alternativeProvision": 0,
+        "postSchool": 0,
+        "income": 0
+      },
+      "nonMaintained": {
+        "earlyYears": 0,
+        "primary": 0,
+        "secondary": 0,
+        "special": 194000,
+        "alternativeProvision": 0,
+        "postSchool": 0,
+        "income": 0
+      },
+      "placeFunding": {
+        "primary": 0,
+        "secondary": 0,
+        "special": 0,
+        "alternativeProvision": 0
+      },
+      "total": 641000
+    },
+    "code": "201",
+    "name": "City of London",
+    "population2To18": 1756,
+    "totalPupils": 1650
+  },
+  {
+    "outturn": {
+      "highNeedsAmount": {
+        "totalPlaceFunding": 7491974,
+        "topUpFundingMaintained": 23021590,
+        "topUpFundingNonMaintained": 4991123,
+        "senServices": 2249193,
+        "alternativeProvisionServices": 287729,
+        "hospitalServices": 40876,
+        "otherHealthServices": 277533
+      },
+      "maintained": {
+        "earlyYears": 0,
+        "primary": 6112180,
+        "secondary": 4588372,
+        "special": 7911797,
+        "alternativeProvision": 2223271,
+        "postSchool": 2185970,
+        "income": 0
+      },
+      "nonMaintained": {
+        "earlyYears": 291507,
+        "primary": 178138,
+        "secondary": 70895,
+        "special": 3942796,
+        "alternativeProvision": 0,
+        "postSchool": 981195,
+        "income": 473408
+      },
+      "placeFunding": {
+        "primary": 378000,
+        "secondary": 144000,
+        "special": 6641974,
+        "alternativeProvision": 850000
+      },
+      "total": 38882018
+    },
+    "budget": {
+      "highNeedsAmount": {
+        "totalPlaceFunding": 7569774,
+        "topUpFundingMaintained": 25099635,
+        "topUpFundingNonMaintained": 3722000,
+        "senServices": 2276553,
+        "alternativeProvisionServices": 255000,
+        "hospitalServices": 45000,
+        "otherHealthServices": 380000
+      },
+      "maintained": {
+        "earlyYears": 0,
+        "primary": 6738635,
+        "secondary": 4868450,
+        "special": 7910908,
+        "alternativeProvision": 2281642,
+        "postSchool": 3300000,
+        "income": 0
+      },
+      "nonMaintained": {
+        "earlyYears": 196230,
+        "primary": 180540,
+        "secondary": 45230,
+        "special": 3300000,
+        "alternativeProvision": 0,
+        "postSchool": 0,
+        "income": 0
+      },
+      "placeFunding": {
+        "primary": 406000,
+        "secondary": 144000,
+        "special": 6699774,
+        "alternativeProvision": 870000
+      },
+      "total": 39897962
+    },
+    "code": "202",
+    "name": "Camden",
+    "population2To18": 52239,
+    "totalPupils": 50101
+  },
+  {
+    "outturn": {
+      "highNeedsAmount": {
+        "totalPlaceFunding": 2307923,
+        "topUpFundingMaintained": 26138037,
+        "topUpFundingNonMaintained": 7760448,
+        "senServices": 9901271,
+        "alternativeProvisionServices": 2798323,
+        "hospitalServices": 463431,
+        "otherHealthServices": 960436
+      },
+      "maintained": {
+        "earlyYears": 22456,
+        "primary": 4724464,
+        "secondary": 5376308,
+        "special": 13976288,
+        "alternativeProvision": 1255105,
+        "postSchool": 783416,
+        "income": 0
+      },
+      "nonMaintained": {
+        "earlyYears": 0,
+        "primary": 0,
+        "secondary": 0,
+        "special": 7760448,
+        "alternativeProvision": 0,
+        "postSchool": 0,
+        "income": 0
+      },
+      "placeFunding": {
+        "primary": 374000,
+        "secondary": 512000,
+        "special": 1081012,
+        "alternativeProvision": 1226911
+      },
+      "total": 51215869
+    },
+    "budget": {
+      "highNeedsAmount": {
+        "totalPlaceFunding": 6775000,
+        "topUpFundingMaintained": 26105225,
+        "topUpFundingNonMaintained": 5219022,
+        "senServices": 13643660,
+        "alternativeProvisionServices": 2831652,
+        "hospitalServices": 463431,
+        "otherHealthServices": 0
+      },
+      "maintained": {
+        "earlyYears": 32348,
+        "primary": 4426619,
+        "secondary": 4595926,
+        "special": 14598922,
+        "alternativeProvision": 1177683,
+        "postSchool": 1273726,
+        "income": 0
+      },
+      "nonMaintained": {
+        "earlyYears": 0,
+        "primary": 0,
+        "secondary": 0,
+        "special": 5219022,
+        "alternativeProvision": 0,
+        "postSchool": 0,
+        "income": 0
+      },
+      "placeFunding": {
+        "primary": 618000,
+        "secondary": 883667,
+        "special": 5555000,
+        "alternativeProvision": 1220000
+      },
+      "total": 56539657
+    },
+    "code": "203",
+    "name": "Greenwich",
+    "population2To18": 65643,
+    "totalPupils": 63850
+  }
+]

@@ -1,3 +1,4 @@
+using System.Text;
 using Newtonsoft.Json.Linq;
 using Platform.ApiTests.Assertion;
 using Platform.ApiTests.Drivers;
@@ -27,15 +28,26 @@ public class AccountsHighNeedsSteps(LocalAuthorityApiDriver api)
         });
     }
 
-    [Given("a valid request with dimension '(.*)' and LA codes:")]
-    public void GivenAValidRequestWithDimensionAndLACodes(string dimension, DataTable table)
+
+    [Given("a valid request to endpoint version '(.*)' with dimension '(.*)' type '(.*)' and LA codes:")]
+    public void GivenAValidRequestWithDimensionAndTypeAndLACodes(string endpointVersion, string dimension, string type, DataTable table)
     {
-        var codes = table.Rows.Select(r => r["Code"]);
-        api.CreateRequest(Key, new HttpRequestMessage
+        var codes = table.Rows.Select(r => r["Code"]).ToList();
+        var uri = new StringBuilder("/api/local-authorities/accounts/high-needs?");
+        uri.Append($"code={string.Join("&code=", codes)}");
+        uri.Append($"&dimension={dimension}");
+        if (endpointVersion == "2.0")
         {
-            RequestUri = new Uri($"/api/local-authorities/accounts/high-needs?code={string.Join("&code=", codes)}&dimension={dimension}", UriKind.Relative),
+            uri.Append($"&type={type}");
+        }
+
+        var request = new HttpRequestMessage
+        {
+            RequestUri = new Uri(uri.ToString(), UriKind.Relative),
             Method = HttpMethod.Get
-        });
+        };
+        request.Headers.Add("x-api-version", endpointVersion);
+        api.CreateRequest(Key, request);
     }
 
     [Given("an invalid history request with '(.*)'")]
@@ -56,8 +68,8 @@ public class AccountsHighNeedsSteps(LocalAuthorityApiDriver api)
         });
     }
 
-    [Given("an invalid request with '(.*)'")]
-    public void GivenAnInvalidRequestWith(string issue)
+    [Given("an invalid request with '(.*)' to endpoint version '(.*)'")]
+    public void GivenAnInvalidRequestWith(string issue, string endpointVersion)
     {
         var uri = issue switch
         {
@@ -67,11 +79,13 @@ public class AccountsHighNeedsSteps(LocalAuthorityApiDriver api)
             _ => throw new ArgumentOutOfRangeException(nameof(issue), issue, null)
         };
 
-        api.CreateRequest(Key, new HttpRequestMessage
+        var request = new HttpRequestMessage
         {
             RequestUri = new Uri(uri, UriKind.Relative),
             Method = HttpMethod.Get
-        });
+        };
+        request.Headers.Add("x-api-version", endpointVersion);
+        api.CreateRequest(Key, request);
     }
 
     [When("I submit the request")]
@@ -129,11 +143,18 @@ public class AccountsHighNeedsSteps(LocalAuthorityApiDriver api)
         AssertHttpResponse.IsNotFound(response);
     }
 
-    [Then("the result should be not found")]
-    public void ThenTheResultShouldBeNotFound()
+    [Then("the result should match '(.*)'")]
+    public void ThenTheResultShouldMatch(string expectedResponse)
     {
         var response = api[Key].Response;
-        AssertHttpResponse.IsNotFound(response);
+        switch (expectedResponse)
+        {
+            case "OK":
+                AssertHttpResponse.IsOk(response); break;
+            case "Not Found":
+                AssertHttpResponse.IsNotFound(response); break;
+
+        }
     }
 
     [Then("the result should be bad request and match the expected output in '(.*)'")]
