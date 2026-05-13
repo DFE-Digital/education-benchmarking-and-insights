@@ -22,9 +22,9 @@
   },
   "dependencies": {
     "@azure/monitor-opentelemetry-exporter": "^1.0.0-beta.32",
-    "@opentelemetry/auto-instrumentations-node": "^0.72.0",
+    "@opentelemetry/auto-instrumentations-node": "^0.76.0",
     "@opentelemetry/resources": "^2.5.0",
-    "@opentelemetry/sdk-node": "^0.216.0",
+    "@opentelemetry/sdk-node": "^0.218.0",
     "@opentelemetry/sdk-trace-node": "^2.6.0",
     "@opentelemetry/semantic-conventions": "^1.40.0",
     "@opentelemetry/winston-transport": "^0.24.0",
@@ -36,7 +36,7 @@
     "winston": "^3.19.0"
   },
   "devDependencies": {
-    "@dotenvx/dotenvx": "^1.51.4",
+    "@dotenvx/dotenvx": "^1.65.0",
     "@types/express": "^5.0.5",
     "@types/node": "^25.5.0",
     "@types/nunjucks": "^3.2.6",
@@ -56,6 +56,6 @@
     "node": ">=22.15.0"
   },
   "overrides": {
-    "tmp" : "^0.2.4"
+    "tmp": "^0.2.4"
   }
 }
