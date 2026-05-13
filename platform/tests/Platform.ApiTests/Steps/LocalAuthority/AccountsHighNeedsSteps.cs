@@ -28,7 +28,7 @@ public class AccountsHighNeedsSteps(LocalAuthorityApiDriver api)
         });
     }
 
-   
+
     [Given("a valid request to endpoint version '(.*)' with dimension '(.*)' type '(.*)' and LA codes:")]
     public void GivenAValidRequestWithDimensionAndTypeAndLACodes(string endpointVersion, string dimension, string type, DataTable table)
     {
@@ -153,7 +153,7 @@ public class AccountsHighNeedsSteps(LocalAuthorityApiDriver api)
                 AssertHttpResponse.IsOk(response); break;
             case "Not Found":
                 AssertHttpResponse.IsNotFound(response); break;
-            
+
         }
     }
 
