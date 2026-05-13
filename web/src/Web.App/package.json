@@ -30,8 +30,8 @@
     "@vue/eslint-config-prettier": "^10.2.0",
     "@vue/eslint-config-typescript": "^14.7.0",
     "@vue/test-utils": "^2.4.6",
-    "@vue/tsconfig": "^0.9.0",
-    "eslint": "^10.0.3",
+    "@vue/tsconfig": "^0.9.1",
+    "eslint": "^10.3.0",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-prettier": "^5.5.5",
     "eslint-plugin-vue": "^10.8.0",
@@ -46,15 +46,15 @@
     "prettier": "^3.6.2",
     "typescript": "^5.9.3",
     "typescript-eslint": "^8.57.0",
-    "vite": "^7.3.1",
-    "vite-plugin-vue-devtools": "^8.0.7",
+    "vite": "^7.3.2",
+    "vite-plugin-vue-devtools": "^8.1.2",
     "vitest": "^4.0.18",
     "vue-eslint-parser": "^10.4.0",
-    "vue-tsc": "^3.2.5"
+    "vue-tsc": "^3.2.8"
   },
   "overrides": {
     "glob-parent": "^6.0.2",
-    "postcss": ">=8.4.31"
+    "postcss": ">=8.5.10"
   },
   "scripts": {
     "dev": "vite --open /AssetSrc/ts/index.html",
