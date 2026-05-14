@@ -34,13 +34,12 @@ Validation will occur through:
 
 ## Comparison Table Based on Decision Drivers
 
-| Decision Driver               | Option 1: Mock/Bypass MFA (Known) | Option 2: Email‑Based MFA (Graph API / Mailosaur) |
-|-------------------------------|-----------------------------------|---------------------------------------------------|
-| **Engineering & Test Effort** | Low                               | High                                              |
-| **Implementation Complexity** | Low                               | Medium-High                                       |
-| **Cost**                      | None                              | other options are licensed based                  |
-| **Risks**                     | Medium                            | Low                                               |
-| **Long‑Term Maintainability** | High                              | Depends on chosen service and integration         |
+| Decision Driver                             | Option 1: Mock/Bypass MFA (Known) | Option 2: Email‑Based MFA (Graph API / Mailosaur) |
+|---------------------------------------------|-----------------------------------|---------------------------------------------------|
+| **Engineering & Implementation Complexity** | Low                               | Medium-High                                       |
+| **Cost**                                    | None                              | other options are licensed based                  |
+| **Risks**                                   | Medium                            | Low                                               |
+| **Long‑Term Maintainability**               | High                              | Depends on chosen service and integration         |
 
 ## Pros and Cons of the Options
 
