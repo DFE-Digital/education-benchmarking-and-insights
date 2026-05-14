@@ -1551,6 +1551,7 @@
         "dependencies": {
           "AspNetCore.HealthChecks.Redis": "[9.0.0, )",
           "Microsoft.Azure.StackExchangeRedis": "[3.3.0, )",
+          "Microsoft.Extensions.Configuration.Binder": "[10.0.8, )",
           "Microsoft.Extensions.DependencyInjection.Abstractions": "[10.0.8, )",
           "Microsoft.Extensions.Diagnostics.HealthChecks": "[10.0.8, )",
           "Microsoft.Extensions.Logging.Abstractions": "[10.0.8, )",

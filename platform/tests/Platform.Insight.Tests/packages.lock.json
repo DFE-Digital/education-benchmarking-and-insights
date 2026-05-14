@@ -1972,6 +1972,7 @@
         "dependencies": {
           "AspNetCore.HealthChecks.Redis": "[9.0.0, )",
           "Microsoft.Azure.StackExchangeRedis": "[3.3.0, )",
+          "Microsoft.Extensions.Configuration.Binder": "[10.0.8, )",
           "Microsoft.Extensions.DependencyInjection.Abstractions": "[10.0.8, )",
           "Microsoft.Extensions.Diagnostics.HealthChecks": "[10.0.8, )",
           "Microsoft.Extensions.Logging.Abstractions": "[10.0.8, )",
@@ -2010,7 +2011,11 @@
       "platform.openapi": {
         "type": "Project",
         "dependencies": {
-          "Microsoft.Azure.WebJobs.Extensions.OpenApi.Core": "[1.6.0, )"
+          "Microsoft.Azure.WebJobs.Extensions.OpenApi.Core": "[1.6.0, )",
+          "Microsoft.Extensions.Configuration.Binder": "[10.0.8, )",
+          "Microsoft.Extensions.DependencyInjection.Abstractions": "[10.0.8, )",
+          "Microsoft.Extensions.Options": "[10.0.8, )",
+          "Microsoft.Extensions.Options.ConfigurationExtensions": "[10.0.8, )"
         }
       },
       "platform.sql": {
