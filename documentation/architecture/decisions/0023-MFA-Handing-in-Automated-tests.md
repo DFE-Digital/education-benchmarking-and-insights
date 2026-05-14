@@ -2,7 +2,7 @@
 
 ## Context and Problem Statement
 
-Our automated end‑to‑end tests require authentication through DfE Sign‑in, which enforces Multi‑Factor Authentication (MFA). MFA blocks automation unless we adopt a strategy to either bypass MFA or automate the retrieval of MFA codes.
+Our automated end‑to‑end tests require authentication through DfE Sign‑in, which enforces Multi‑Factor Authentication (MFA). MFA blocks automation unless we adopt a strategy to either mock MFA or automate the retrieval of MFA codes.
 
 ## Decision Drivers
 
@@ -43,7 +43,7 @@ Validation will occur through:
 
 ## Pros and Cons of the Options
 
-### Option 1: Mock/Bypass DfE Sign‑in MFA
+### Option 1: Mock DfE Sign‑in MFA
 
 A mocking of MFA for automated tests, while retaining real MFA validation in manual smoke tests.
 
