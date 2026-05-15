@@ -21,19 +21,6 @@ resource "azurerm_role_assignment" "storage-data-owner" {
   principal_type       = "ServicePrincipal"
 }
 
-resource "azurerm_key_vault_access_policy" "func-kv-access" {
-  key_vault_id = data.azurerm_key_vault.core.id
-  tenant_id    = data.azurerm_client_config.current.tenant_id
-  object_id    = azurerm_user_assigned_identity.func-identity.principal_id
-
-  secret_permissions = [
-    "Get",
-    "List",
-    "Set",
-    "Delete"
-  ]
-}
-
 resource "azurerm_function_app_flex_consumption" "function-app" {
   name                = "${var.environment-prefix}-ebis-chart-renderer-fa"
   resource_group_name = azurerm_resource_group.chart-renderer.name
@@ -64,7 +51,7 @@ resource "azurerm_function_app_flex_consumption" "function-app" {
 
   app_settings = {
     "AzureWebJobsSecretStorageType"             = "keyvault"
-    "AzureWebJobsSecretStorageKeyVaultUri"      = data.azurerm_key_vault.core.vault_uri
+    "AzureWebJobsSecretStorageKeyVaultUri"      = azurerm_key_vault.chart-renderer-kv.vault_uri
     "AzureWebJobsSecretStorageKeyVaultClientId" = azurerm_user_assigned_identity.func-identity.client_id
   }
 

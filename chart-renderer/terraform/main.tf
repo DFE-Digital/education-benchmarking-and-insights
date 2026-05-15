@@ -30,3 +30,15 @@ data "azurerm_private_dns_zone" "blob" {
   name                = "privatelink.blob.core.windows.net"
   resource_group_name = "${var.environment-prefix}-ebis-core"
 }
+
+resource "azurerm_key_vault_secret" "chart-rendering-host-key" {
+  name         = "chart-rendering-host-key"
+  value        = random_password.function-key.result
+  key_vault_id = data.azurerm_key_vault.core.id
+}
+
+resource "azurerm_key_vault_secret" "chart-rendering-host" {
+  name         = "chart-rendering-host"
+  value        = "https://${azurerm_function_app_flex_consumption.function-app.default_hostname}"
+  key_vault_id = data.azurerm_key_vault.core.id
+}
