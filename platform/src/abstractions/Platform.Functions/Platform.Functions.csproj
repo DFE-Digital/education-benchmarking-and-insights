@@ -16,6 +16,7 @@
         <PackageReference Include="Microsoft.Azure.Functions.Worker.Core"/>
         <PackageReference Include="Microsoft.Azure.WebJobs"/>
         <PackageReference Include="Microsoft.Data.SqlClient"/>
+        <PackageReference Include="Microsoft.Data.SqlClient.Extensions.Azure" />
         <PackageReference Include="Microsoft.Extensions.Configuration.Binder">
             <TreatAsUsed>true</TreatAsUsed>
         </PackageReference>
