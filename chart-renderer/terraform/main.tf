@@ -14,8 +14,8 @@ data "azurerm_subnet" "outbound" {
   resource_group_name  = data.azurerm_resource_group.core.name
 }
 
-data "azurerm_subnet" "endpoints" {
-  name                 = "${var.environment-prefix}-chart-renderer-endpoints-subnet"
+data "azurerm_subnet" "platform" {
+  name                 = "${var.environment-prefix}-platform-subnet"
   virtual_network_name = "${var.environment-prefix}-app-service-network"
   resource_group_name  = data.azurerm_resource_group.core.name
 }
@@ -32,15 +32,5 @@ data "azurerm_private_dns_zone" "app-service" {
 
 data "azurerm_private_dns_zone" "blob" {
   name                = "privatelink.blob.core.windows.net"
-  resource_group_name = data.azurerm_resource_group.core.name
-}
-
-data "azurerm_private_dns_zone" "queue" {
-  name                = "privatelink.queue.core.windows.net"
-  resource_group_name = data.azurerm_resource_group.core.name
-}
-
-data "azurerm_private_dns_zone" "table" {
-  name                = "privatelink.table.core.windows.net"
   resource_group_name = data.azurerm_resource_group.core.name
 }

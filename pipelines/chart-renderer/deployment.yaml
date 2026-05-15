@@ -21,6 +21,14 @@ jobs:
 
             - download: current
 
+            - template: ..\common\run-terraform.yaml
+              parameters:
+                subscription: ${{ parameters.subscription }}
+                environmentPrefix: ${{ parameters.environmentPrefix }}
+                environment: ${{ parameters.environment }}
+                cipEnvironment: ${{ parameters.cipEnvironment }}
+                module: 'chart-renderer'    
+
             - task: AzureCLI@2
               displayName: 'Whitelist Agent IP'
               inputs:
@@ -32,22 +40,26 @@ jobs:
                   echo "Agent IP: $agentIP"
                   
                   storageName=$(az storage account list -g ${{ parameters.environmentPrefix }}-ebis-chart-renderer --query "[0].name" -o tsv)
+                  appName="${{ parameters.environmentPrefix }}-ebis-chart-renderer-fa"
                   rgName="${{ parameters.environmentPrefix }}-ebis-chart-renderer"
                   
                   echo "Whitelisting $agentIP on Storage: $storageName"
                   az storage account network-rule add --account-name $storageName --resource-group $rgName --ip-address $agentIP
                   
+                  echo "Whitelisting $agentIP on Function App: $appName"
+                  az functionapp config access-restriction add --name $appName --resource-group $rgName --rule-name "PipelineAgent" --action Allow --ip-address $agentIP/32 --priority 100 --scm-site true
+                  
                   # Small delay to allow DNS/Firewall propagation
                   sleep 30
 
-            - template: ..\common\run-terraform.yaml
-              parameters:
-                subscription: ${{ parameters.subscription }}
-                environmentPrefix: ${{ parameters.environmentPrefix }}
-                environment: ${{ parameters.environment }}
-                cipEnvironment: ${{ parameters.cipEnvironment }}
-                module: 'chart-renderer'
-                packagePath: '${{ parameters.workspaceDir }}/chart-renderer-apis/ChartRenderer.Api.zip'
+            - task: AzureFunctionApp@2
+              displayName: 'Deploy chart renderer function app'
+              inputs:
+                azureSubscription: ${{ parameters.subscription }}
+                appType: functionAppLinux
+                appName: '${{ parameters.environmentPrefix }}-ebis-chart-renderer-fa'
+                isFlexConsumption: true
+                package: '${{ parameters.workspaceDir }}/chart-renderer-apis/ChartRenderer.Api.zip'
 
             - task: AzureCLI@2
               displayName: 'Remove Whitelist'
@@ -58,7 +70,11 @@ jobs:
                 scriptLocation: 'inlineScript'
                 inlineScript: |
                   storageName=$(az storage account list -g ${{ parameters.environmentPrefix }}-ebis-chart-renderer --query "[0].name" -o tsv)
+                  appName="${{ parameters.environmentPrefix }}-ebis-chart-renderer-fa"
                   rgName="${{ parameters.environmentPrefix }}-ebis-chart-renderer"
                   
-                  echo "Removing agent IP from Storage: $storageName"
+                  echo "Removing $agentIP from Storage: $storageName"
                   az storage account network-rule remove --account-name $storageName --resource-group $rgName --ip-address $(curl -s https://api.ipify.org)
+                  
+                  echo "Removing $agentIP from Function App: $appName"
+                  az functionapp config access-restriction remove --name $appName --resource-group $rgName --rule-name "PipelineAgent" --scm-site true

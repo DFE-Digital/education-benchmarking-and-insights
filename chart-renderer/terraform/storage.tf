@@ -11,7 +11,7 @@ resource "azurerm_storage_account" "storage" {
 
   network_rules {
     default_action             = "Deny"
-    virtual_network_subnet_ids = [data.azurerm_subnet.outbound.id, data.azurerm_subnet.endpoints.id]
+    virtual_network_subnet_ids = [data.azurerm_subnet.outbound.id]
     bypass                     = ["AzureServices"]
   }
 }
@@ -26,7 +26,7 @@ resource "azurerm_private_endpoint" "storage-blob-endpoint" {
   name                = "${azurerm_storage_account.storage.name}-blob-endpoint"
   location            = azurerm_resource_group.chart-renderer.location
   resource_group_name = azurerm_resource_group.chart-renderer.name
-  subnet_id           = data.azurerm_subnet.endpoints.id
+  subnet_id           = data.azurerm_subnet.platform.id
   tags                = local.common-tags
 
   private_service_connection {
@@ -39,45 +39,5 @@ resource "azurerm_private_endpoint" "storage-blob-endpoint" {
   private_dns_zone_group {
     name                 = "storage-blob-dns-zone-group"
     private_dns_zone_ids = [data.azurerm_private_dns_zone.blob.id]
-  }
-}
-
-resource "azurerm_private_endpoint" "storage-queue-endpoint" {
-  name                = "${azurerm_storage_account.storage.name}-queue-endpoint"
-  location            = azurerm_resource_group.chart-renderer.location
-  resource_group_name = azurerm_resource_group.chart-renderer.name
-  subnet_id           = data.azurerm_subnet.endpoints.id
-  tags                = local.common-tags
-
-  private_service_connection {
-    name                           = "${azurerm_storage_account.storage.name}-queue-connection"
-    private_connection_resource_id = azurerm_storage_account.storage.id
-    is_manual_connection           = false
-    subresource_names              = ["queue"]
-  }
-
-  private_dns_zone_group {
-    name                 = "storage-queue-dns-zone-group"
-    private_dns_zone_ids = [data.azurerm_private_dns_zone.queue.id]
-  }
-}
-
-resource "azurerm_private_endpoint" "storage-table-endpoint" {
-  name                = "${azurerm_storage_account.storage.name}-table-endpoint"
-  location            = azurerm_resource_group.chart-renderer.location
-  resource_group_name = azurerm_resource_group.chart-renderer.name
-  subnet_id           = data.azurerm_subnet.endpoints.id
-  tags                = local.common-tags
-
-  private_service_connection {
-    name                           = "${azurerm_storage_account.storage.name}-table-connection"
-    private_connection_resource_id = azurerm_storage_account.storage.id
-    is_manual_connection           = false
-    subresource_names              = ["table"]
-  }
-
-  private_dns_zone_group {
-    name                 = "storage-table-dns-zone-group"
-    private_dns_zone_ids = [data.azurerm_private_dns_zone.table.id]
   }
 }
