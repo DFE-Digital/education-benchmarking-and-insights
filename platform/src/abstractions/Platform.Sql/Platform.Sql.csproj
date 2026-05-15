@@ -13,6 +13,7 @@
         <PackageReference Include="Dapper.Contrib"/>
         <PackageReference Include="Dapper.SqlBuilder"/>
         <PackageReference Include="Microsoft.Data.SqlClient"/>
+        <PackageReference Include="Microsoft.Data.SqlClient.Extensions.Azure" />
         <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions"/>
         <PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks"/>
         <PackageReference Include="AspNetCore.HealthChecks.SqlServer"/>
