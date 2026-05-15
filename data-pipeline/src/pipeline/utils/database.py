@@ -76,14 +76,12 @@ def _get_table_columns(
     :param table: DB table for which to retrieve columns
     :return: column names
     """
-    sql = textwrap.dedent(
-        """
+    sql = textwrap.dedent("""
     SELECT COLUMN_NAME
       FROM INFORMATION_SCHEMA.COLUMNS
      WHERE TABLE_NAME = :table
     ;
-    """
-    ).strip()
+    """).strip()
 
     with engine.begin() as cnx:
         results = (
@@ -140,15 +138,13 @@ def _get_temp_table(
     temp_table_name = _get_temp_table_name(table, run_id)
 
     logger.info(f"Creating temp. table: {temp_table_name}.")
-    sql = textwrap.dedent(
-        f"""
+    sql = textwrap.dedent(f"""
     SELECT *
       INTO {temp_table_name}
       FROM {table}
      WHERE 1=0
     ;
-    """
-    ).strip()
+    """).strip()
     with engine.begin() as cnx:
         cnx.execute(sqlalchemy.text(sql))
 
@@ -206,8 +202,7 @@ def _write_data(
         f"Wrote {len(df.index):,} rows to {temp_table} in {int(time.time() - start):,} seconds."
     )
 
-    sql = textwrap.dedent(
-        f"""
+    sql = textwrap.dedent(f"""
     BEGIN TRANSACTION;
 
     DELETE
@@ -223,8 +218,7 @@ def _write_data(
     ;
 
     COMMIT;
-    """
-    ).strip()
+    """).strip()
 
     logger.info(f"Writing to {table} ({run_id}).")
     start = time.time()
