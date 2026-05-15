@@ -1,9 +1,8 @@
-@using Microsoft.IdentityModel.Tokens
 @using Web.App.Domain.Charts
 @using Web.App.Extensions
 @model Web.App.ViewModels.SchoolSeniorLeadershipViewModel
 
-@if (Model.Group.IsNullOrEmpty())
+@if (Model.Group.Length == 0)
 {
     <div
         class="govuk-warning-text govuk-!-margin-top-2 govuk-!-margin-bottom-2 ssr-chart-warning">
