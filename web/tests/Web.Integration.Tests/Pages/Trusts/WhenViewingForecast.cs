@@ -143,11 +143,11 @@ public class WhenViewingForecast(SchoolBenchmarkingWebAppClient client) : PageBa
             var metricsRows = metricsTable.GetElementsByTagName("tr");
             Assert.Equal(4, metricsRows.Length);
 
-            Assert.Equal($"Revenue reserves as a percentage of income {metrics.Single(m => m.Metric == BudgetForecastReturnMetricType.RevenueReserveAsPercentageOfIncome).Value}%", metricsRows.ElementAt(0).GetInnerText().Trim());
-            Assert.Equal($"Staff costs as a percentage of income {metrics.Single(m => m.Metric == BudgetForecastReturnMetricType.StaffCostsAsPercentageOfIncome).Value}%", metricsRows.ElementAt(1).GetInnerText().Trim());
-            Assert.Equal($"Expenditure as percentage of income {metrics.Single(m => m.Metric == BudgetForecastReturnMetricType.ExpenditureAsPercentageOfIncome).Value}%", metricsRows.ElementAt(2).GetInnerText().Trim());
+            Assert.Equal($"Revenue reserves as a percentage of income\t{metrics.Single(m => m.Metric == BudgetForecastReturnMetricType.RevenueReserveAsPercentageOfIncome).Value}%", metricsRows.ElementAt(0).GetInnerText().Trim());
+            Assert.Equal($"Staff costs as a percentage of income\t{metrics.Single(m => m.Metric == BudgetForecastReturnMetricType.StaffCostsAsPercentageOfIncome).Value}%", metricsRows.ElementAt(1).GetInnerText().Trim());
+            Assert.Equal($"Expenditure as percentage of income\t{metrics.Single(m => m.Metric == BudgetForecastReturnMetricType.ExpenditureAsPercentageOfIncome).Value}%", metricsRows.ElementAt(2).GetInnerText().Trim());
             Assert.Equal(
-                $"Self-generated income vs grant funding {metrics.Single(m => m.Metric == BudgetForecastReturnMetricType.SelfGeneratedIncomeAsPercentageOfIncome).Value}% / {metrics.Single(m => m.Metric == BudgetForecastReturnMetricType.GrantFundingAsPercentageOfIncome).Value}%",
+                $"Self-generated income vs grant funding\t{metrics.Single(m => m.Metric == BudgetForecastReturnMetricType.SelfGeneratedIncomeAsPercentageOfIncome).Value}% / {metrics.Single(m => m.Metric == BudgetForecastReturnMetricType.GrantFundingAsPercentageOfIncome).Value}%",
                 metricsRows.ElementAt(3).GetInnerText().Trim());
         }
         else

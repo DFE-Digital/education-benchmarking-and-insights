@@ -148,7 +148,7 @@ public partial class WhenViewingSpending(SchoolBenchmarkingWebAppClient client) 
         foreach (var table in tables)
         {
             var head = table.QuerySelector("thead");
-            Assert.Equal("Rank School Expenditure", head.GetInnerText().Trim());
+            Assert.Equal("Rank\tSchool\tExpenditure", head.GetInnerText().Trim());
 
             var rows = table.QuerySelectorAll("tbody tr");
             foreach (var row in rows)
