@@ -68,8 +68,8 @@ resource "azurerm_subnet_network_security_group_association" "load-test-subnet-n
   network_security_group_id = azurerm_network_security_group.network-security-group.id
 }
 
-resource "azurerm_subnet" "chart-renderer-subnet" {
-  name                 = "${var.environment-prefix}-chart-renderer-subnet"
+resource "azurerm_subnet" "chart-renderer-compute-subnet" {
+  name                 = "${var.environment-prefix}-chart-renderer-compute-subnet"
   resource_group_name  = azurerm_resource_group.resource-group.name
   virtual_network_name = azurerm_virtual_network.app-service-network.name
   address_prefixes     = ["10.0.4.0/24"]
@@ -89,8 +89,20 @@ resource "azurerm_subnet" "chart-renderer-subnet" {
   ]
 }
 
-resource "azurerm_subnet_network_security_group_association" "chart-renderer-subnet-nsg-association" {
-  subnet_id                 = azurerm_subnet.chart-renderer-subnet.id
+resource "azurerm_subnet_network_security_group_association" "chart-renderer-compute-subnet-nsg-association" {
+  subnet_id                 = azurerm_subnet.chart-renderer-compute-subnet.id
+  network_security_group_id = azurerm_network_security_group.network-security-group.id
+}
+
+resource "azurerm_subnet" "chart-renderer-inbound-subnet" {
+  name                 = "${var.environment-prefix}-chart-renderer-inbound-subnet"
+  resource_group_name  = azurerm_resource_group.resource-group.name
+  virtual_network_name = azurerm_virtual_network.app-service-network.name
+  address_prefixes     = ["10.0.5.0/24"]
+}
+
+resource "azurerm_subnet_network_security_group_association" "chart-renderer-inbound-subnet-nsg-association" {
+  subnet_id                 = azurerm_subnet.chart-renderer-inbound-subnet.id
   network_security_group_id = azurerm_network_security_group.network-security-group.id
 }
 

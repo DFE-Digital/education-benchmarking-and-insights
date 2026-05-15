@@ -41,9 +41,9 @@ resource "azurerm_function_app_flex_consumption" "function-app" {
   service_plan_id     = azurerm_service_plan.flex.id
 
   # Storage configuration
-  storage_container_type      = "blobContainer"
-  storage_container_endpoint  = "${azurerm_storage_account.storage.primary_blob_endpoint}${azurerm_storage_container.deployment.name}"
-  storage_authentication_type = "UserAssignedIdentity"
+  storage_container_type            = "blobContainer"
+  storage_container_endpoint        = "${azurerm_storage_account.storage.primary_blob_endpoint}${azurerm_storage_container.deployment.name}"
+  storage_authentication_type       = "UserAssignedIdentity"
   storage_user_assigned_identity_id = azurerm_user_assigned_identity.func-identity.id
 
   # Runtime configuration
@@ -52,7 +52,7 @@ resource "azurerm_function_app_flex_consumption" "function-app" {
 
   # Networking
   public_network_access_enabled = true # Allowed for temporary pipeline whitelisting
-  virtual_network_subnet_id     = data.azurerm_subnet.outbound.id
+  virtual_network_subnet_id     = data.azurerm_subnet.compute.id
 
   # Security
   https_only = true
@@ -87,7 +87,7 @@ resource "azurerm_private_endpoint" "function-app-endpoint" {
   name                = "${azurerm_function_app_flex_consumption.function-app.name}-endpoint"
   location            = azurerm_resource_group.chart-renderer.location
   resource_group_name = azurerm_resource_group.chart-renderer.name
-  subnet_id           = data.azurerm_subnet.platform.id
+  subnet_id           = data.azurerm_subnet.inbound.id
   tags                = local.common-tags
 
   private_service_connection {

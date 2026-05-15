@@ -1,18 +1,18 @@
 resource "azurerm_storage_account" "storage" {
-  name                            = "${replace(var.environment-prefix, "-", "")}chrtrendst"
-  resource_group_name             = azurerm_resource_group.chart-renderer.name
-  location                        = azurerm_resource_group.chart-renderer.location
-  account_tier                    = "Standard"
-  account_replication_type        = "LRS"
-  public_network_access_enabled   = true # Changed to true to allow temporary whitelisting from pipeline
-  shared_access_key_enabled       = false
-  local_user_enabled              = false
-  tags                            = local.common-tags
+  name                          = "${replace(var.environment-prefix, "-", "")}chrtrendst"
+  resource_group_name           = azurerm_resource_group.chart-renderer.name
+  location                      = azurerm_resource_group.chart-renderer.location
+  account_tier                  = "Standard"
+  account_replication_type      = "LRS"
+  public_network_access_enabled = true # Changed to true to allow temporary whitelisting from pipeline
+  shared_access_key_enabled     = false
+  local_user_enabled            = false
+  tags                          = local.common-tags
 
   network_rules {
     default_action             = "Deny"
-    virtual_network_subnet_ids = [data.azurerm_subnet.outbound.id]
-    bypass                     = ["AzureServices"]
+    virtual_network_subnet_ids = [data.azurerm_subnet.compute.id]
+    bypass                     = ["None"]
   }
 }
 
@@ -26,7 +26,7 @@ resource "azurerm_private_endpoint" "storage-blob-endpoint" {
   name                = "${azurerm_storage_account.storage.name}-blob-endpoint"
   location            = azurerm_resource_group.chart-renderer.location
   resource_group_name = azurerm_resource_group.chart-renderer.name
-  subnet_id           = data.azurerm_subnet.platform.id
+  subnet_id           = data.azurerm_subnet.inbound.id
   tags                = local.common-tags
 
   private_service_connection {
