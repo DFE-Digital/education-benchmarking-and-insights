@@ -40,9 +40,12 @@ from .ancillary.main import (
     pre_process_ons_population_estimates,
     pre_process_sen,
     pre_process_sen2,
+    pre_process_pru_data,
+    pre_process_hospital_schools_data,
 )
 from .bfr.trusts import build_bfr_data, build_bfr_historical_data
 from .cfr.maintained_schools import build_maintained_school_data
+from .cfr.scratch import recreate_ms_file
 from .s251.local_authority import build_local_authorities
 
 logger = setup_logger(__name__)
@@ -83,6 +86,7 @@ def pre_process_data(
 
     academies_data_ref = get_aar_ancillary_data(run_id, aar_year)
     maintained_data_ref = get_cfr_ancillary_data(run_id, cfr_year)
+    maintained_data_ref_for_last_year = get_cfr_ancillary_data(run_id, (cfr_year-1))
 
     academies = pre_process_academies_data(
         run_type,
@@ -95,6 +99,7 @@ def pre_process_data(
         run_id,
         cfr_year,
         maintained_data_ref,
+        maintained_data_ref_for_last_year,
     )
     stats_collector.collect_aar_academy_counts(academies, aar_year)
     stats_collector.collect_cfr_la_maintained_school_counts(
@@ -244,9 +249,29 @@ def pre_process_maintained_schools_data(
     run_id: str,
     year: int,
     cfr_ancillary_data: Mapping,
+    cfr_ancillary_data_for_last_year: Mapping,
 ) -> pd.DataFrame:
     logger.info("Building Maintained School Set")
     logger.info(f"Processing CFR data - {run_id} - {year}.")
+
+    # Read raw CFR file
+    cfr_raw_blob = get_blob(
+        raw_container,
+        f"{run_type}/{year}/CFR_24-25_Data.csv",
+    )
+
+    recreated_maintained_schools_file = recreate_ms_file(
+        cfr_raw_blob,
+        gias=cfr_ancillary_data["gias"],
+        pru=cfr_ancillary_data["pru"],
+        hospital_schools=cfr_ancillary_data["hospital_schools"],
+        sen=cfr_ancillary_data["sen"],
+        census=cfr_ancillary_data["census"],
+        census_last_year=cfr_ancillary_data_for_last_year["census"],
+        sen_last_year=cfr_ancillary_data_for_last_year["sen"],
+        pru_last_year=cfr_ancillary_data_for_last_year["pru"],
+        hospital_schools_last_year=cfr_ancillary_data_for_last_year["hospital_schools"],
+    )
 
     maintained_schools_data = get_blob(
         raw_container,
@@ -633,6 +658,8 @@ def get_cfr_ancillary_data(
         "ks4": pre_process_ks4(run_type, cfr_year, run_id),
         "gias_links": pre_process_gias_links(run_type, cfr_year, run_id),
         "ilr": pre_process_ilr_data(run_type, cfr_year, run_id, gias),
+        "hospital_schools": pre_process_hospital_schools_data(run_type, cfr_year),
+        "pru": pre_process_pru_data(run_type, cfr_year),
     }
     stats_collector.collect_cfr_ancillary_data_shapes(cfr_ancillary_data, cfr_year)
 

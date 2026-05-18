@@ -79,6 +79,8 @@ gias = {
         "LA (name)": "string",
         "EstablishmentNumber": "Int64",
         "EstablishmentName": "string",
+        "EstablishmentStatus (name)": "string",
+        "EstablishmentTypeGroup (name)": "string",
         "TypeOfEstablishment (code)": "Int64",
         "TypeOfEstablishment (name)": "string",
         "OpenDate": "string",

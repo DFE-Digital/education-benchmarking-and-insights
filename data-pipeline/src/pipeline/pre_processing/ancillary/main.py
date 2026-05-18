@@ -21,6 +21,8 @@ from .high_needs_places import prepare_high_needs_places_data
 from .ilr import build_ilr_data
 from .ks2 import prepare_ks2_data
 from .ks4 import prepare_ks4_data
+from .pru import prepare_pru_data
+from .hospital_schools import prepare_hospital_schools_data
 from .la_statistical_neighbours import prepare_la_statistical_neighbours
 from .ons_population_estimates import prepare_ons_population_estimates
 from .sen import prepare_sen_data
@@ -349,4 +351,18 @@ def pre_process_high_needs_places(s251_year):
         logger.info(f"Preprocessed high needs places data for {s251_year}")
         return high_needs_places
     logger.info(f"High needs places data for {s251_year} not found")
+    return None
+
+def pre_process_pru_data(run_type, cfr_year):
+    last_year = int(cfr_year) - 1
+    if pru_blob_this_year := try_get_blob(raw_container, f"default/{cfr_year}/pru.csv"):
+        # pru_blob_last_year = try_get_blob(raw_container, f"default/{last_year}/pru.csv")
+        return prepare_pru_data(pru_blob_this_year)
+    return None
+
+def pre_process_hospital_schools_data(run_type, cfr_year):
+    last_year = int(cfr_year) - 1
+    if hospital_schools_blob_this_year := try_get_blob(raw_container, f"default/{cfr_year}/hospital_schools.csv"):
+        # hospital_schools_blob_last_year = try_get_blob(raw_container, f"default/{last_year}/hospital_schools.csv")
+        return prepare_hospital_schools_data(hospital_schools_blob_this_year)
     return None

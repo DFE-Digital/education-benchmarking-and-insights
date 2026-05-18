@@ -84,4 +84,7 @@ def prepare_sen_data(sen_path):
         (sen["Primary Need OTH"] / sen["Total pupils"]) * 100.0
     ).fillna(0)
 
-    return sen[config.sen_generated_columns]
+    return sen[[
+        "Total pupils",
+        *config.sen_generated_columns
+    ]]
