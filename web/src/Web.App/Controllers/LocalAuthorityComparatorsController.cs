@@ -72,29 +72,29 @@ public class LocalAuthorityComparatorsController(
                         else if (comparators.Count >= 19)
                         {
                             ModelState.AddModelError(nameof(viewModel.LaInput), "Select up to 19 comparator local authorities");
-                           
+
                         }
                         else
                         {
                             comparators.Add(viewModel.LaInput);
                         }
                         break;
-                    
+
                     case FormAction.Remove:
                         if (!string.IsNullOrWhiteSpace(action.Identifier))
                         {
                             comparators.Remove(action.Identifier);
                         }
                         break;
-                    
+
                     case FormAction.Continue when comparators.Count is < 1 or > 19:
                         ModelState.AddModelError(nameof(viewModel.LaInput), "Select between 1 and 19 comparator local authorities");
                         break;
-                    
+
                     case FormAction.Reset:
                         comparators = InitialComparatorSetFromNeighbours(localAuthority.StatisticalNeighbours).ToHashSet();
                         break;
-                    
+
                     case FormAction.Clear:
                         comparators = [];
                         break;
@@ -113,7 +113,7 @@ public class LocalAuthorityComparatorsController(
                 }
 
                 return View(nameof(Index), new LocalAuthorityComparatorsViewModel(localAuthority, comparators.ToArray(), type, viewModel.Referrer));
-               
+
             }
             catch (Exception e)
             {
