@@ -27,6 +27,7 @@ variable "configuration" {
       KS4ProgressBandingSchoolHome      = optional(bool, true)
       SeniorLeadership                  = optional(bool, true)
       HighNeedsBenchmarking             = optional(bool, false)
+      SchoolComparisonFilter            = optional(bool, false)
     })
     CacheOptions = object({
       ReturnYears = object({
