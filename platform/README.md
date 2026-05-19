@@ -9,7 +9,7 @@ The backend API layer providing core benchmarking, school/trust insights, and se
 
 ### Tech Stack
 
-- **Framework:** .NET 8/9 (C#)
+- **Framework:** .NET 10 (C#)
 - **Hosting:** Azure Functions (Isolated Worker Process)
 - **Data Access:** Dapper (Micro-ORM)
 - **Search:** Azure AI Search
@@ -44,7 +44,7 @@ The backend API layer providing core benchmarking, school/trust insights, and se
 
 ## Prerequisites
 
-1. Install [.NET 8.0 SDK](https://dotnet.microsoft.com/en-us/download/dotnet/8.0)
+1. Install [.NET 10.0 SDK](https://dotnet.microsoft.com/en-us/download/dotnet/10.0)
 2. Install [Node 22](https://nodejs.org/en/download) and/or switch to that version
    using [nvm](https://github.com/nvm-sh/nvm)
 3. Install Visual Studio 2022 Professional (with C# and Azure Workflows) or Rider 2025
