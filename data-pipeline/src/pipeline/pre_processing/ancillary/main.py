@@ -292,3 +292,14 @@ def pre_process_split_site(run_type: str, year: int, run_id: str) -> pd.DataFram
     write_blob("pre-processed", f"{run_type}/{run_id}/split_site_data.parquet", split_site_data.to_parquet())
 
     return split_site_data
+
+def pre_process_capacity(run_type: str, year: int, run_id: str) -> pd.DataFrame:
+    logger.info(f"Processing Capacity Data: {run_type}/{year}/capacity_2025.csv")
+
+    capacity_data = get_blob(raw_container, f"{run_type}/{year}/capacity_2025.csv", encoding="utf-8")
+
+    capacity_data = pd.read_csv(capacity_data, encoding="utf-8")
+    
+    write_blob("pre-processed", f"{run_type}/{run_id}/capacity.parquet", capacity_data.to_parquet())
+
+    return capacity_data

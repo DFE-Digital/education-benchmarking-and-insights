@@ -37,7 +37,8 @@ from .ancillary.main import (
     pre_process_ks4,
     pre_process_sen,
     #temporary addition of split site data - should be being added to cdc eventually
-    pre_process_split_site
+    pre_process_split_site,
+    pre_process_capacity
 )
 from .bfr.trusts import build_bfr_data, build_bfr_historical_data
 from .cfr.maintained_schools import build_maintained_school_data
@@ -282,10 +283,10 @@ def pre_process_maintained_schools_data(
         #https://explore-education-statistics.service.gov.uk/data-catalogue/data-set/1e4a1ca4-9e8b-405c-bf0c-6a3bf548db9f - 6th forms
         #https://explore-education-statistics.service.gov.uk/data-catalogue/data-set/64be036b-167b-4870-a26d-e7389a23c9e0 - special schools
 
-    maintained_schools.loc[:,"OverCapacity"] = maintained_schools.loc[:,"Number of pupils"] - maintained_schools.loc[:,"SchoolCapacity"]
-    maintained_schools.loc[:,"OverCapacity"] = maintained_schools.loc[:,"OverCapacity"].clip(lower=0).fillna(0)
-    maintained_schools.loc[:,"UnderCapacity"] = maintained_schools.loc[:,"SchoolCapacity"] - maintained_schools.loc[:,"Number of pupils"]
-    maintained_schools.loc[:,"UnderCapacity"] = maintained_schools.loc[:,"UnderCapacity"].clip(lower=0).fillna(0)
+    #maintained_schools.loc[:,"OverCapacity"] = maintained_schools.loc[:,"Number of pupils"] - maintained_schools.loc[:,"SchoolCapacity"]
+    #maintained_schools.loc[:,"UnderCapacity"] = maintained_schools.loc[:,"SchoolCapacity"] - maintained_schools.loc[:,"Number of pupils"]
+    #maintained_schools.loc[:,"OverCapacity"] = maintained_schools.loc[:,"OverCapacity"].clip(lower=0).fillna(0)
+    #maintained_schools.loc[:,"UnderCapacity"] = maintained_schools.loc[:,"UnderCapacity"].clip(lower=0).fillna(0)
 
     maintained_schools.loc[:,"RuralScore"] = 0
     maintained_schools.loc[:,"RuralScore"] = maintained_schools.loc[:,"RuralScore"].case_when([
@@ -353,10 +354,10 @@ def pre_process_all_schools(run_type, run_id, data_ref):
     mask = academies.index.duplicated(keep=False) & ~academies["Valid To"].isna()
     academies = academies[~mask]
     #WARNINIG - see note above in maintained schools section - GIAS capacity figures may be unreliable, use alternative published sources
-    academies.loc[:,"OverCapacity"] = academies.loc[:,"Number of pupils"] - academies.loc[:,"SchoolCapacity"]
-    academies.loc[:,"OverCapacity"] = academies.loc[:,"OverCapacity"].clip(lower=0).fillna(0)
-    academies.loc[:,"UnderCapacity"] = academies.loc[:,"SchoolCapacity"] - academies.loc[:,"Number of pupils"]
-    academies.loc[:,"UnderCapacity"] = academies.loc[:,"UnderCapacity"].clip(lower=0).fillna(0)
+    #academies.loc[:,"OverCapacity"] = academies.loc[:,"Number of pupils"] - academies.loc[:,"SchoolCapacity"]
+    #academies.loc[:,"OverCapacity"] = academies.loc[:,"OverCapacity"].clip(lower=0).fillna(0)
+    #academies.loc[:,"UnderCapacity"] = academies.loc[:,"SchoolCapacity"] - academies.loc[:,"Number of pupils"]
+    #academies.loc[:,"UnderCapacity"] = academies.loc[:,"UnderCapacity"].clip(lower=0).fillna(0)
 
     academies.loc[:,"RuralScore"] = 0
     academies.loc[:,"RuralScore"] = academies.loc[:,"RuralScore"].case_when(
@@ -666,6 +667,7 @@ def get_aar_ancillary_data(
         "ilr": pre_process_ilr_data(run_type, aar_year, run_id, gias),
         #temporary workaround for split site data - eventually being added to cdc
         "split_site": pre_process_split_site(run_type, aar_year, run_id),
+        "capacity": pre_process_capacity(run_type, aar_year, run_id),
     }
     stats_collector.collect_aar_ancillary_data_shapes(aar_ancillary_data, aar_year)
 
@@ -699,6 +701,7 @@ def get_cfr_ancillary_data(
         "ilr": pre_process_ilr_data(run_type, cfr_year, run_id, gias),
         #temporary workaround for split site data - eventually being added to cdc
         "split_site": pre_process_split_site(run_type, cfr_year, run_id),
+        "capacity": pre_process_capacity(run_type, cfr_year, run_id)
     }
     stats_collector.collect_cfr_ancillary_data_shapes(cfr_ancillary_data, cfr_year)
 

@@ -213,6 +213,7 @@ def build_academy_data(
     ilr: pd.DataFrame,
     #temporary workaround to get split site data in - ultimately being added to cdc
     split_site: pd.DataFrame,
+    capacity: pd.DataFrame,
 ):
     """
     Build the Academy dataset.
@@ -270,6 +271,11 @@ def build_academy_data(
             split_site,
             on="URN",
             how="left",
+        )
+
+        .merge(capacity,
+               on="URN",
+               how="left",
         )
     )
 

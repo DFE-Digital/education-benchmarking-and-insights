@@ -14,17 +14,17 @@ SELECTION_METHOD = "distance_boarding_pfi" # Pick the 30 with the absolute small
 #this will affect write up of analysis and temporary storage of files etc.
 
 #Weight scheme/features
-WEIGHT_SCHEME = "ruralscore_split-site_geog"
-#"geog_dist"
-#"baseline"
-#swc
-#ew
-#afe
-#geog_dist
+WEIGHT_SCHEME = "baseline_geog"
+#baseline - calculated with the features and weights used by the current FBIT service - should be used with the "legacy" selection method to replicate this
+#geog_dist - as the crow flies distance as the only feature, use with with "distance_only" or "distance_boarding_pfi" selection method
+#ew - as per baseline, but the weights have been set equally between features
+#afe - all of the original and all of the additional features, weighted equally, but not including geographic distance
+#afe_with_geog - as per afe, but using as the crow flies distance - use with the "distance_boarding_pfi" or "distance_only" selection methods
+#ew_with_geog - baseline features, but with as the crow flies distance and each feature is equally weighted - use with the "distance_boarding_pfi" or "distance_only" selection methods
+#
 
 SAVE_SIMILARITY_DISTANCES = False
 
-# Pupil Calculation Weights (Non-Special)
 if WEIGHT_SCHEME == "baseline":
     #pupil weights (non-special)
     PUPILS_WEIGHT = 0.5
@@ -51,6 +51,33 @@ if WEIGHT_SCHEME == "baseline":
     SPLITSITE = 0
     EASTING_WEIGHT = 0
     NORTHING_WEIGHT = 0
+
+if WEIGHT_SCHEME == "baseline_geog":
+    #pupil weights (non-special)
+    PUPILS_WEIGHT = 1/4 * 0.5
+    FSM_WEIGHT = 1/4 * 0.4
+    SEN_WEIGHT = 1/4 * 0.1
+    OVERCAPACITY_WEIGHT = 0
+    UNDERCAPACITY_WEIGHT = 0
+    RURALSCORE_WEIGHT = 0
+    EASTING_WEIGHT = 1/8
+    NORTHING_WEIGHT = 1/8
+
+    #pupil weights (special)
+    SPECIAL_PUPILS_WEIGHT = 1/3 *0.6
+    SPECIAL_FSM_WEIGHT = 1/3 * 0.4
+    EASTING_WEIGHT = 1/6
+    NORTHING_WEIGHT = 1/6
+
+    #building weights
+    GIFA_WEIGHT = 1/3 * 0.8
+    AGE_WEIGHT = 1/3 * 0.2
+    OLDESTBUILDINGAGE_WEIGHT = 0
+    NEWESTBUILDINGAGE_WEIGHT = 0
+    BUILDINGCOUNT_WEIGHT = 0
+    SPLITSITE = 0
+    EASTING_WEIGHT = 1/6
+    NORTHING_WEIGHT = 1/6
 
 elif WEIGHT_SCHEME == "ew":
     #pupil weights (non-special)
@@ -382,8 +409,8 @@ class ColumnNames:
         "Percentage Primary Need ASD",
         "Percentage Primary Need OTH",
     ]
-    OVERCAPACITY = "OverCapacity"
-    UNDERCAPACITY = "UnderCapacity"
+    OVERCAPACITY = "pupils_over_capacity_count" #"OverCapacity"
+    UNDERCAPACITY = "unfilled_places_count" #"UnderCapacity"
     OLDESTBUILDINGAGE = "OldestBuildingAge"
     NEWESTBUILDINGAGE = "NewestBuildingAge"
     BUILDINGCOUNT = "BuildingCount"
@@ -421,8 +448,8 @@ cols_for_comparators_parquet = [
     "Did Not Submit",
     "Pupil",
     "Building",
-    "OverCapacity",
-    "UnderCapacity",
+    "pupils_over_capacity_count",
+    "unfilled_places_count",
     "OldestBuildingAge",
     "NewestBuildingAge",
     "BuildingCount",
