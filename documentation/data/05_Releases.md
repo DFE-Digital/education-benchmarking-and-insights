@@ -44,11 +44,11 @@ timeline
         section Academic year - 2022/23 <br>Financial year - 2021/22
             Data drop 1 <br> Aug <br> (BFR) :  AAR (2021) : CFR (2021) : BFR (2022)
             Data drop 2 <br> Sept <br> (CFR) : AAR (2021) : CFR (2022) : BFR (2022)
-            Data drop 3 <br> Feb <br> (AAR) :  AAR (2022) : CFR (2022) : BFR (2022)    
+            Data drop 3 <br> Feb <br> (AAR) :  AAR (2022) : CFR (2022) : BFR (2022)
         section Academic year - 2023/24 <br>Financial year - 2022/23
             Data drop 1 <br> Aug <br> (BFR) :  AAR (2022) : CFR (2022) : BFR (2023)
             Data drop 2 <br> Sept <br> (CFR) : AAR (2022) : CFR (2023) : BFR (2023)
-            Data drop 3 <br> Feb <br> (AAR) :  AAR (2023) : CFR (2023) : BFR (2023) 
+            Data drop 3 <br> Feb <br> (AAR) :  AAR (2023) : CFR (2023) : BFR (2023)
 ```
 
 ## Running the pipelines

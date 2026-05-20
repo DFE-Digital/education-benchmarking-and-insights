@@ -19,7 +19,7 @@ Feature: Local Authority Details - Maintained Schools
       | 334  | LaSchoolsFinanceFilteredSpecial.json    | SpecialClassesProvision | Has Special Classes |                |                 |
       | 334  | LaSchoolsFinanceFilteredPhase.json      | OverallPhase            | Secondary           |                |                 |
       | 201  | LaSchoolsFinanceSortedTotalExpDesc.json | SortField               | TotalExpenditure    | SortOrder      |  DESC           |
-        
+
 
     Scenario: invalid finance summary request
         Given a finance summary request with code '<Code>' and query parameters:
@@ -29,7 +29,7 @@ Feature: Local Authority Details - Maintained Schools
         Then the result should be bad request and match the expected output in '<Result>'
 
     Examples:
-      | Code | Result                                         | ParameterName1          | ParameterValue1 |  
+      | Code | Result                                         | ParameterName1          | ParameterValue1 |
       | 201  | LaSchoolsFinanceInvalidLimit.json              | Limit                   | invalid         |
       | 201  | LaSchoolsFinanceLimit0.json                    | Limit                   | 0               |
       | 201  | LaSchoolsFinanceLimit101.json                  | Limit                   | 101             |
@@ -39,13 +39,13 @@ Feature: Local Authority Details - Maintained Schools
       | 201  | LaSchoolsFinanceInvalidSpecialProvision.json   | SpecialClassesProvision | invalid         |
       | 201  | LaSchoolsFinanceInvalidSortField.json          | SortField               | invalid         |
       | 201  | LaSchoolsFinanceInvalidSortOrder.json          | SortOrder               | invalid         |
-      | 201  | LaSchoolsFinanceInvalidPhase.json              | OverallPhase            | invalid         |                     
-      
-    Scenario: non found finance summary request 
+      | 201  | LaSchoolsFinanceInvalidPhase.json              | OverallPhase            | invalid         |
+
+    Scenario: non found finance summary request
         Given a finance summary request with code 'willNotBeFound'
         When I submit the request
         Then the result should be not found
-      
+
     Scenario: valid workforce summary request
         Given a workforce summary request with code '<Code>' and query parameters:
           | ParameterName    | ParameterValue    |
@@ -72,7 +72,7 @@ Feature: Local Authority Details - Maintained Schools
         Then the result should be bad request and match the expected output in '<Result>'
 
     Examples:
-      | Code | Result                                           | ParameterName1          | ParameterValue1 |  
+      | Code | Result                                           | ParameterName1          | ParameterValue1 |
       | 201  | LaSchoolsWorkforceInvalidLimit.json              | Limit                   | invalid         |
       | 201  | LaSchoolsWorkforceLimit0.json                    | Limit                   | 0               |
       | 201  | LaSchoolsWorkforceLimit101.json                  | Limit                   | 101             |
@@ -84,7 +84,7 @@ Feature: Local Authority Details - Maintained Schools
       | 201  | LaSchoolsWorkforceInvalidSortOrder.json          | SortOrder               | invalid         |
       | 201  | LaSchoolsWorkforceInvalidPhase.json              | OverallPhase            | invalid         |
 
-    Scenario: non found workforce summary request 
+    Scenario: non found workforce summary request
         Given a workforce summary request with code 'willNotBeFound'
         When I submit the request
         Then the result should be not found

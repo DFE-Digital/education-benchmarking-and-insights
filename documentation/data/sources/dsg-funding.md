@@ -2,7 +2,7 @@
 
 The Dedicated Schools Grant (DSG) provides revenue funding for local authorities, to support expenditure on schools, early years and children and young people with high needs. The grant is made under section 14 of the Education Act 2002.  The grant is paid in to local authorities to support the schools budget it is the main source of income for the schools.
 
-Local authorities are responsible for determining the split of the grant between central expenditure and the individual schools budget (ISB) in conjunction with local schools forums. Local authorities are responsible for allocating the ISB to individual schools in accordance with the local schools’ funding formula.  
+Local authorities are responsible for determining the split of the grant between central expenditure and the individual schools budget (ISB) in conjunction with local schools forums. Local authorities are responsible for allocating the ISB to individual schools in accordance with the local schools’ funding formula.
 
 The DSG is made oup of 4 distinct blocks of funding, each using different methods of calculating the awarded amount and each to be used for specific purposes.
 
@@ -57,12 +57,12 @@ timeline
     Dec 23 : DfE announces DSG - <br>Includes Schools block, EY block, High Needs block and guidance updates
     Feb 23 : DfE issues High Needs places in AR / Free Schools
     Mar 23 : DSG March publication for upcoming budget period is published. <br>Includes expected recoupment amounts. (30/03/23 for the period 23-34) LA's are instructed to align the s251 budget return with this DSG publication
-    May 23 : s251 Budget Submission.<br>27th May 23 Collect open for s251 budget returns, submission deadline is 9th May 
+    May 23 : s251 Budget Submission.<br>27th May 23 Collect open for s251 budget returns, submission deadline is 9th May
     July 23 : DSG 23/24 Updated. <br>Updated for in-year HN deductions. EY block update
     Aug 23 : s251 Budget Publication. <br>28th August 23 the s251 23/24 planned expenditure return is published
     Mar 24 : DSG 23/24 Updated. <br>DSG is re-published with the final updates for in-year recoupment and HN deductions.  LA's are instructed to align the s251 outturn return with this amended DSG publication
     Aug 24 : s251 outturn submission. <br>27th August 24 the s251 expenditure (outturn) return for 23/24 is submitted
-    Dec 24 : s251 outturn publication   
+    Dec 24 : s251 outturn publication
 ```
 
 ## Use of DSG in FBIT

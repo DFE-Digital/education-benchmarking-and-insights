@@ -25,7 +25,7 @@
           | CFR 2021/22 | CFR_2021-22_Full_Data_Workbook.xlsx |
           | CFR 2022/23 | CFR_2022-23_Full_Data_Workbook.xlsx |
           | CFR 2023/24 | CFR_2023-24_Full_Data_Workbook.xlsx |
-          
+
     Scenario: Sending a valid transparency files request for unsupported API version
         Given a transparency files request with API version 'invalid'
         When I submit the files request

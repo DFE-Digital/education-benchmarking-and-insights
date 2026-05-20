@@ -58,14 +58,14 @@ let id4 = step4
     | extend
         STEP = fourthStepName,
         rate =  iff(userCount == 0, 0.0, todouble(100 * userCount / step1Count));
-union 
-    id1, 
-    id2, 
-    id3, 
+union
+    id1,
+    id2,
+    id3,
     id4
-| project 
-    ['Step'] = STEP, 
-    ['Count'] = userCount, 
+| project
+    ['Step'] = STEP,
+    ['Count'] = userCount,
     ['Funnel %'] = rate
-| order by 
+| order by
     Step asc

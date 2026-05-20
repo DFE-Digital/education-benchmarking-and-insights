@@ -6,14 +6,14 @@ WITH currentSchools AS (SELECT URN
                         FROM Financial
                         WHERE RunId = (SELECT Value FROM Parameters WHERE Name = 'CurrentYear')
                           AND RunType = 'default'),
-    schools AS (SELECT TrustCompanyNumber AS 'CompanyNumber', 
-                        COUNT(URN) AS 'SchoolsInTrust' 
+    schools AS (SELECT TrustCompanyNumber AS 'CompanyNumber',
+                        COUNT(URN) AS 'SchoolsInTrust'
                  FROM School
                  WHERE TrustCompanyNumber IS NOT NULL
                  AND URN IN (SELECT URN FROM currentSchools)
                  GROUP BY TrustCompanyNumber),
-    phasesCount AS (SELECT DISTINCT TrustCompanyNumber AS 'CompanyNumber', 
-                                    OverallPhase, 
+    phasesCount AS (SELECT DISTINCT TrustCompanyNumber AS 'CompanyNumber',
+                                    OverallPhase,
                                     COUNT(OverallPhase) AS 'Count'
                     FROM School
                     WHERE TrustCompanyNumber IS NOT NULL
@@ -42,7 +42,7 @@ WITH currentSchools AS (SELECT URN
     SELECT t.CompanyNumber,
            t.TrustName,
            tf.TotalIncome,
-           tnf.TotalPupils, 
+           tnf.TotalPupils,
            st.SchoolsInTrust,
            t.OpenDate,
            tnf.PercentFreeSchoolMeals,
@@ -55,4 +55,3 @@ WITH currentSchools AS (SELECT URN
              LEFT OUTER JOIN census tnf ON tnf.CompanyNumber = t.CompanyNumber
              LEFT OUTER JOIN income tf ON tf.CompanyNumber = t.CompanyNumber
 GO
-

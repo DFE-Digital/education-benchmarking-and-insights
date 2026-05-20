@@ -57,7 +57,7 @@
         if (window.setAppInsightsCookieEnabled !== undefined) {
             window.setAppInsightsCookieEnabled(enabled);
         }
-        
+
         document.cookie = `@Model.CookieName=${enabled ? "enabled" : "disabled"}; path=/; max-age=${60 * 60 * 24 * 365}; secure;`;
         document.getElementById("unselected-cookies-banner").setAttribute("hidden", "hidden");
         if (enabled) {
@@ -70,17 +70,17 @@
             }
         }
     }
-    
+
     var cookiesBanner = document.getElementById("cookies-banner");
     if (cookiesBanner !== undefined) {
         cookiesBanner.removeAttribute("hidden");
-    
+
         var acceptButton = document.getElementById("accept-cookies");
         acceptButton.addEventListener("click", (e) => { e.preventDefault(); acceptOrRejectClick(true); });
-        
+
         var rejectButton = document.getElementById("reject-cookies");
         rejectButton.addEventListener("click", (e) => { e.preventDefault(); acceptOrRejectClick(false); });
-        
+
         var hideCookiesButtons = document.getElementsByClassName("hide-cookies");
         for (var i = 0; i < hideCookiesButtons.length; i++) {
             hideCookiesButtons[i].addEventListener("click", () => cookiesBanner.setAttribute("hidden", "hidden"));

@@ -24,7 +24,7 @@
         Given a valid school expenditure history request with urn '990000'
         When I submit the insights expenditure request
         Then the school expenditure response should be ok, contain a JSON object and match the expected output of 'SchoolExpenditureHistory.json'
-        
+
     Scenario: Sending a valid school expenditure query request with URNs
         Given a valid school expenditure query request with urns:
           | Urn    |
@@ -33,17 +33,17 @@
           | 990002 |
         When I submit the insights expenditure request
         Then the school expenditure response should be ok, contain a JSON array and match the expected output of 'SchoolExpenditureMultipleUrns.json'
-        
+
     Scenario: Sending a valid school expenditure query request with company number and phase
         Given a valid school expenditure query request with company number '08104190' and phase 'Secondary'
         When I submit the insights expenditure request
         Then the school expenditure response should be ok, contain a JSON array and match the expected output of 'SchoolExpenditureTrustSecondary.json'
-        
+
     Scenario: Sending a valid school expenditure query request with LA code and phase
         Given a valid school expenditure query request with LA code '205' and phase 'Primary'
         When I submit the insights expenditure request
         Then the school expenditure response should be ok, contain a JSON array and match the expected output of 'SchoolExpenditureLAPrimary.json'
-        
+
     Scenario: Sending a valid trust expenditure request with category and dimension
         Given a trust expenditure request with company number '10192252', category 'TotalExpenditure' and dimension 'Actuals'
         When I submit the insights expenditure request
@@ -83,7 +83,7 @@
         Given a valid trust expenditure history request with company number '10192252'
         When I submit the insights expenditure request
         Then the trust expenditure response should be ok, contain a JSON object and match the expected output of 'TrustExpenditureHistory.json'
-        
+
     Scenario: Sending a valid trust expenditure query request
         Given a valid trust expenditure query request with company numbers:
           | CompanyNumber |
@@ -97,22 +97,22 @@
         Given a school average across comparator set expenditure history request with urn '990000' and dimension 'Actuals'
         When I submit the insights expenditure request
         Then the school expenditure response should be ok, contain a JSON object and match the expected output of 'SchoolExpenditureAverageAcrossComparatorSetActuals.json'
-        
+
     Scenario: Sending a valid school average across comparator set expenditure history request with dimension PerUnit
         Given a school average across comparator set expenditure history request with urn '990000' and dimension 'PerUnit'
         When I submit the insights expenditure request
         Then the school expenditure response should be ok, contain a JSON object and match the expected output of 'SchoolExpenditureAverageAcrossComparatorSetPerUnit.json'
-        
+
     Scenario: Sending a valid school average across comparator set expenditure history request with dimension PercentIncome
         Given a school average across comparator set expenditure history request with urn '990000' and dimension 'PercentIncome'
         When I submit the insights expenditure request
         Then the school expenditure response should be ok, contain a JSON object and match the expected output of 'SchoolExpenditureAverageAcrossComparatorSetPercentIncome.json'
-        
+
     Scenario: Sending a valid school average across comparator set expenditure history request with dimension PercentExpenditure
         Given a school average across comparator set expenditure history request with urn '990000' and dimension 'PercentExpenditure'
         When I submit the insights expenditure request
         Then the school expenditure response should be ok, contain a JSON object and match the expected output of 'SchoolExpenditureAverageAcrossComparatorSetPercentExpenditure.json'
-        
+
     Scenario: Sending an invalid school average across comparator set expenditure history request
         Given a school average across comparator set expenditure history request with urn '990000' and dimension 'invalid'
         When I submit the insights expenditure request
@@ -122,32 +122,32 @@
         Given a school national average expenditure history request with dimension 'Actuals', phase 'Primary', financeType 'Maintained'
         When I submit the insights expenditure request
         Then the school expenditure response should be ok, contain a JSON object and match the expected output of 'SchoolExpenditureNationalAvgHistoryActualsPrimaryMaintained.json'
-        
+
     Scenario: Sending a valid school national average expenditure history request with dimension PerUnit, phase Primary, financeType Maintained
         Given a school national average expenditure history request with dimension 'PerUnit', phase 'Primary', financeType 'Maintained'
         When I submit the insights expenditure request
         Then the school expenditure response should be ok, contain a JSON object and match the expected output of 'SchoolExpenditureNationalAvgHistoryPerUnitPrimaryMaintained.json'
-        
+
     Scenario: Sending a valid school national average expenditure history request with dimension PercentIncome, phase Primary, financeType Maintained
         Given a school national average expenditure history request with dimension 'PercentIncome', phase 'Primary', financeType 'Maintained'
         When I submit the insights expenditure request
         Then the school expenditure response should be ok, contain a JSON object and match the expected output of 'SchoolExpenditureNationalAvgHistoryPercentIncomePrimaryMaintained.json'
-        
+
     Scenario: Sending a valid school national average expenditure history request with dimension PercentExpenditure, phase Primary, financeType Maintained
         Given a school national average expenditure history request with dimension 'PercentExpenditure', phase 'Primary', financeType 'Maintained'
         When I submit the insights expenditure request
         Then the school expenditure response should be ok, contain a JSON object and match the expected output of 'SchoolExpenditureNationalAvgHistoryPercentExpenditurePrimaryMaintained.json'
-        
+
     Scenario: Sending a valid school national average expenditure history request with dimension Actuals, phase Secondary, financeType Academy
         Given a school national average expenditure history request with dimension 'Actuals', phase 'Secondary', financeType 'Academy'
         When I submit the insights expenditure request
         Then the school expenditure response should be ok, contain a JSON object and match the expected output of 'SchoolExpenditureNationalAvgHistoryActualsSecondaryAcademy.json'
-        
+
     Scenario: Sending a valid school national average expenditure history request with dimension PerUnit, phase Special, financeType Academy
         Given a school national average expenditure history request with dimension 'PerUnit', phase 'Special', financeType 'Academy'
         When I submit the insights expenditure request
         Then the school expenditure response should be ok, contain a JSON object and match the expected output of 'SchoolExpenditureNationalAvgHistoryPerUnitSpecialAcademy.json'
-        
+
     Scenario: Sending an invalid school national average expenditure history request with invalid dimension, phase Primary, financeType Maintained
         Given a school national average expenditure history request with dimension 'invalid', phase 'Primary', financeType 'Maintained'
         When I submit the insights expenditure request

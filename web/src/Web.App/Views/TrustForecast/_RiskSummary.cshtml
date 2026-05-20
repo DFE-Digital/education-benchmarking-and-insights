@@ -21,13 +21,13 @@
                 <span>
                     @if (Model.BalancesInDeficit || Model.BalancesForecastingDeficit)
                     {
-                        @:Your trust balances indicate that you are in 
+                        @:Your trust balances indicate that you are in
                         @:deficit@(Model.BalancesForecastingDeficit ? " or forecasting a deficit within the next year" : string.Empty).
                     }
 
                     @if (Model.SteepDeclineInBalances || Model.SteepDeclineInBalancesAndHighProportionStaffCosts)
                     {
-                        @:Using your latest AR and BFR submissions, your trust is forecasting a steep decline in 
+                        @:Using your latest AR and BFR submissions, your trust is forecasting a steep decline in
                         @:balances@(Model.SteepDeclineInBalancesAndHighProportionStaffCosts ? " and has a high proportion of staff costs" : string.Empty).
                     }
 

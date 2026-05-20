@@ -14,7 +14,7 @@
         When I click on compare your costs
         Then the compare your costs page is displayed
 
-    @DSISignIn    
+    @DSISignIn
     Scenario: Go to curriculum and financial planning page
         Given I am on school homepage for school with urn '777042'
         And I have signed in with organisation '01: FBIT TEST - Community School (Open)'
@@ -62,11 +62,11 @@
     Scenario: RAG guidance is displayed
         Given I am on school homepage for school with urn '777042'
         Then the RAG guidance is visible
-        
+
     Scenario: Service banner is displayed for academy
         Given I am on academy homepage for school with urn '990250' and trust name 'FBIT Multi Academy Trust'
         Then the service banner displays the title 'Academy home page', heading 'Banner on academy home page' and body 'This banner has been configured on the automated test environment for the academy home page only'
-        
+
     Scenario: Service banner is displayed for maintained school
         Given I am on school homepage for school with urn '777042'
         Then the service banner displays the title 'Maintained school home page', heading 'Banner on maintained school home page' and body 'This banner has been configured on the automated test environment for the maintained school home page only'

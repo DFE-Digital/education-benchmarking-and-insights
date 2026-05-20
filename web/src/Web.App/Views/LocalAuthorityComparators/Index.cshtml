@@ -3,7 +3,7 @@
 @model Web.App.ViewModels.LocalAuthorityComparatorsViewModel
 @{
     ViewData[ViewDataKeys.Title] = PageTitles.LocalAuthorityHighNeedsStartBenchmarking;
-    var referrerController = Model.Referrer switch  
+    var referrerController = Model.Referrer switch
     {
         Referrers.BenchmarkHighNeeds => "LocalAuthorityHighNeedsBenchmarking",
         Referrers.BenchmarkEducationHealthCarePlans => "LocalAuthorityEducationHealthCarePlans",
@@ -36,7 +36,7 @@
                 <li>add or remove other local authorities</li>
             </ul>
         </div>
-        
+
         <div class="govuk-grid-column-two-thirds">
             <details class="govuk-details">
                 <summary class="govuk-details__summary">
@@ -82,7 +82,7 @@
     {
         <input name="@nameof(LocalAuthorityComparatorsViewModel.Referrer)" value="@Model.Referrer" type="hidden"/>
     }
-    
+
     @await Component.InvokeAsync("LocalAuthorityComparators", new
     {
         Model.Code,

@@ -48,8 +48,8 @@
 </div>
 
 <div class="govuk-button-group">
-    <button 
-        type="submit" 
+    <button
+        type="submit"
         class="govuk-button govuk-button--secondary"
         data-module="govuk-button"
         name="action"
@@ -58,8 +58,8 @@
     </button>
     @if (Model.SelectedNeighbours.Any() || Model.SelectedOthers.Any())
     {
-        <button 
-            type="submit" 
+        <button
+            type="submit"
             class="govuk-button govuk-button--secondary"
             data-module="govuk-button"
             name="action"
@@ -78,14 +78,14 @@
     <h4 class="govuk-heading-s">
         Statistical neighbours
     </h4>
-    
+
     <p class="govuk-body">
         Your statistical neighbours are listed in order with the statistically closest at the top.
     </p>
-    
-    @await Html.PartialAsync("_RemovableItemCardGrid", 
+
+    @await Html.PartialAsync("_RemovableItemCardGrid",
         new RemovableItemCardGridViewModel {
-            Cards = Model.SelectedNeighbours, 
+            Cards = Model.SelectedNeighbours,
             InputName = nameof(LocalAuthorityComparatorSelectionViewModel.Selected),
             Id = "current-comparators-neighbours"
         })
@@ -95,7 +95,7 @@ else if (Model.SelectedOthers.Any())
     <h4 class="govuk-heading-s">
         Statistical neighbours
     </h4>
-    
+
     <p class="govuk-body">
         No statistical neighbour local authorities have been added.
     </p>
@@ -112,13 +112,11 @@ else
     <h4 class="govuk-heading-s">
         Other local authorities
     </h4>
-    
-    @await Html.PartialAsync("_RemovableItemCardGrid", 
+
+    @await Html.PartialAsync("_RemovableItemCardGrid",
         new RemovableItemCardGridViewModel {
-            Cards = Model.SelectedOthers, 
+            Cards = Model.SelectedOthers,
             InputName = nameof(LocalAuthorityComparatorSelectionViewModel.Selected),
             Id = "current-comparators-others"
         })
 }
-
-

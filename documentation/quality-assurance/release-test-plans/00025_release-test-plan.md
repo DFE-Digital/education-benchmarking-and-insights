@@ -1,6 +1,6 @@
 ﻿# Release Test Plan: 2025.11.0
 
-**Release Date:** 2025/11/20  
+**Release Date:** 2025/11/20
 **Release Label:** 2025.11.0
 
 ## Introduction
@@ -15,7 +15,7 @@ This release delivers a combination of enhancements, custom data generation fix 
 - **Enhancements**
   - Local authority home page updated to show pupil, workforce, financial and priority schools RAG ratings.
   - Progress 8 score added on benchmark spending page giving users a combined view of spend vs outcomes.
-  
+
 - **Bug Fixes**
   - Issues with custom data generation has also been fixed.
 
@@ -95,12 +95,12 @@ The release was completed successfully with no issues. Manual WAF changes were m
 
 **Summary of results:**
 
-| Test Category           | Total Tests | Passed | Failed | Pass Rate |  
-|-------------------------|:-----------:|:------:|:------:|:---------:|  
-| Smoke Tests - Prod      |      1      |   1    |   0    |   100%    |  
-| Sanity Tests - Pre Prod |     29      |   29   |   0    |   100%    |  
-| UAT - Pre Prod          |      1      |   1    |   0    |   100%    |  
-| Total                   |     31      |   31   |   0    |   100%    |  
+| Test Category           | Total Tests | Passed | Failed | Pass Rate |
+|-------------------------|:-----------:|:------:|:------:|:---------:|
+| Smoke Tests - Prod      |      1      |   1    |   0    |   100%    |
+| Sanity Tests - Pre Prod |     29      |   29   |   0    |   100%    |
+| UAT - Pre Prod          |      1      |   1    |   0    |   100%    |
+| Total                   |     31      |   31   |   0    |   100%    |
 
 <!-- Leave the rest of this page blank -->
 \newpage

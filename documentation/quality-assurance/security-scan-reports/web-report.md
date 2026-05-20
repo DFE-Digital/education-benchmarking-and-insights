@@ -1019,7 +1019,7 @@ Repeated GET requests: drop a different cookie each time, followed by normal req
   * Attack: ``
   * Evidence: ``
   * Other Info: `Cookies that don't have expected effects can reveal flaws in application logic. In the worst case, this can reveal where authentication via cookie token(s) is not actually enforced.
-These cookies affected the response: 
+These cookies affected the response:
 These cookies did NOT affect the response: .AspNetCore.Antiforgery.cdV5uW_Ejgc
 `
 * URL: https://s198d01-education-benchmarking-d8a2cna4f9btahaz.a02.azurefd.net/cookies
@@ -1044,7 +1044,7 @@ These cookies did NOT affect the response: .AspNetCore.Antiforgery.cdV5uW_Ejgc,.
   * Attack: ``
   * Evidence: ``
   * Other Info: `Cookies that don't have expected effects can reveal flaws in application logic. In the worst case, this can reveal where authentication via cookie token(s) is not actually enforced.
-These cookies affected the response: 
+These cookies affected the response:
 These cookies did NOT affect the response: .AspNetCore.Antiforgery.cdV5uW_Ejgc
 `
 * URL: https://s198d01-education-benchmarking-d8a2cna4f9btahaz.a02.azurefd.net/js/govuk-frontend.min.js
@@ -1053,7 +1053,7 @@ These cookies did NOT affect the response: .AspNetCore.Antiforgery.cdV5uW_Ejgc
   * Attack: ``
   * Evidence: ``
   * Other Info: `Cookies that don't have expected effects can reveal flaws in application logic. In the worst case, this can reveal where authentication via cookie token(s) is not actually enforced.
-These cookies affected the response: 
+These cookies affected the response:
 These cookies did NOT affect the response: .AspNetCore.Antiforgery.cdV5uW_Ejgc
 `
 * URL: https://s198d01-education-benchmarking-d8a2cna4f9btahaz.a02.azurefd.net/sign-in%3FredirectUri=%252F
@@ -1062,7 +1062,7 @@ These cookies did NOT affect the response: .AspNetCore.Antiforgery.cdV5uW_Ejgc
   * Attack: ``
   * Evidence: ``
   * Other Info: `Cookies that don't have expected effects can reveal flaws in application logic. In the worst case, this can reveal where authentication via cookie token(s) is not actually enforced.
-These cookies affected the response: 
+These cookies affected the response:
 These cookies did NOT affect the response: .AspNetCore.Correlation.9tGXT24RoZ27bsvS--X-xjmpSiJSo3-SauJrCO4sT10,.AspNetCore.OpenIdConnect.Nonce.CfDJ8Epa28AQ8o1JszkO6BYP-bqS4mcOJXgNsU7e4Ki-K3PqLlZv4wyJsEQg0IFUYuJRt_flNCyqhNjXEQCaIHplMLlA80rObAKbIn7O_I5CZdx_aqJNzhQBfoP6QmJ4dMZ_ApW-7Nuykyu4BylTpH8eLdb9-wjtx16oZ0xFySYO4XImgG3mobHOMXAp6FdTdaw8J1RMg2p1C1Im6AeeVXQdMh1xE8brol7nXCAMCqoqU99JNmCOZbdvD07J6KlVh3ubne2DFJW5YAmKNwFspv5DcDI
 `
 * URL: https://s198d01-education-benchmarking-d8a2cna4f9btahaz.a02.azurefd.net/cookies
@@ -1071,7 +1071,7 @@ These cookies did NOT affect the response: .AspNetCore.Correlation.9tGXT24RoZ27b
   * Attack: ``
   * Evidence: ``
   * Other Info: `Cookies that don't have expected effects can reveal flaws in application logic. In the worst case, this can reveal where authentication via cookie token(s) is not actually enforced.
-These cookies affected the response: 
+These cookies affected the response:
 These cookies did NOT affect the response: .AspNetCore.Antiforgery.cdV5uW_Ejgc,cookie_policy
 `
 

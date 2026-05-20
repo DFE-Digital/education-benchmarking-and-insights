@@ -1,24 +1,24 @@
 # Metric: LA Homepage High Needs Comparators Usage
 
-**Category:**  
+**Category:**
 User Insight
 
-**Data Source:**  
+**Data Source:**
 Web server logs
 
-**Purpose:**  
+**Purpose:**
 Measure the number of clicks on the high needs comparators from the LA Homepage.
 
-**Actionability:**  
+**Actionability:**
 If click-through to high needs from the LA Homepage is low, consider moving the link to a more prominent location.
 
-**Target / Threshold:**  
+**Target / Threshold:**
 If the ratio of page views to click throughs to benchmarking local authorities is below 30%, change the location of the link to be more prominent.
 
-**Reporting Frequency:**  
+**Reporting Frequency:**
 Report after 1 month from release
 
-**Notes / Links:**  
+**Notes / Links:**
 At least 1,000 page visits will give better statistical significance.
 
 <!-- Leave the rest of this page blank -->

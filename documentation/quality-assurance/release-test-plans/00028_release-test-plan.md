@@ -1,11 +1,11 @@
 ﻿# Release Test Plan: 2025.12.3
 
-**Release Date:** 2025/12/18  
+**Release Date:** 2025/12/18
 **Release Label:** 2025.12.3
 
 ## Introduction
 
-This plan defines the approach for testing release `2025.12.3`, covering smoke and sanity testing activities.  
+This plan defines the approach for testing release `2025.12.3`, covering smoke and sanity testing activities.
 This release delivers a combination of accessibility and behaviour fixes to the accordion component used in filter across the service, along with content updates to replace the term *priority* with *focus* based on user feedback.
 
 ## Scope
@@ -16,7 +16,7 @@ This release delivers a combination of accessibility and behaviour fixes to the 
   - Removal of the word *priority* across the service and replacement with *focus* to reflect updated terminology and user feedback.
 
 - **Bug Fixes**
-  - Fix applied to ensure the accordion within the filter component behaves correctly when JavaScript is turned off, aligning with standard GDS behaviour.  
+  - Fix applied to ensure the accordion within the filter component behaves correctly when JavaScript is turned off, aligning with standard GDS behaviour.
     This update applies to all pages where the filter component is used.
 
 **Out-of-Scope:**
@@ -82,14 +82,14 @@ This release includes a fix to ensure GDS‑compliant behaviour for accordion co
 
 ### Test Summary Report
 
-**Summary of results:**  
+**Summary of results:**
 release completed successfully with no issues.
 
-| Test Category           | Total Tests | Passed | Failed | Pass Rate |  
-|-------------------------|:-----------:|:------:|:------:|:---------:|  
-| Smoke Tests - Prod      |      1      |   1    |   0    |   100%    |  
-| Sanity Tests - Pre Prod |      1      |   1    |   0    |   100%    |  
-| Total                   |      2      |   2    |   0    |   100%    |  
+| Test Category           | Total Tests | Passed | Failed | Pass Rate |
+|-------------------------|:-----------:|:------:|:------:|:---------:|
+| Smoke Tests - Prod      |      1      |   1    |   0    |   100%    |
+| Sanity Tests - Pre Prod |      1      |   1    |   0    |   100%    |
+| Total                   |      2      |   2    |   0    |   100%    |
 
 <!-- Leave the rest of this page blank -->
 \newpage

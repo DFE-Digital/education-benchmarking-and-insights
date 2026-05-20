@@ -115,7 +115,7 @@ The initial work with the virtual DOM helped to identify how each chart element'
 ```mermaid
 flowchart TD
     accDescr: Horizontal bar chart request
-    
+
     A[Request received] --> B{Payload parsed?}
     B -->|No| C[Return 400]
     B -->|Yes| D{Payload validated?}
@@ -131,7 +131,7 @@ flowchart TD
     L --> M{Missing labels configured?}
     M -->|Yes| N[Build missing label &lt;rect&gt; and &lt;text&gt; templates]
     M -->|No| O[Build x-axis tick &lt;line&gt; and &lt;text&gt; templates]
-    N --> O    
+    N --> O
     O --> P[Build y-axis tick &lt;line&gt; and &lt;text&gt; templates]
     P --> Q[Render templates to &lt;svg&gt;]
     Q --> R[Return 200]
@@ -227,7 +227,7 @@ The 'build template' steps below refer to standard JavaScript string templates a
 ```mermaid
 flowchart TD
     accDescr: Vertical bar chart request
-    
+
     A[Request received] --> B{Payload parsed?}
     B -->|No| C[Return 400]
     B -->|Yes| D{Payload validated?}

@@ -160,4 +160,4 @@ IF NOT EXISTS(SELECT *
         CREATE INDEX School_TrustCompanyNumber ON School (TrustCompanyNumber)
         CREATE INDEX School_FederationLeadURN ON School (FederationLeadURN)
         CREATE INDEX School_LACode ON School (LACode)
-    END;       
+    END;

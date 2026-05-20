@@ -278,5 +278,3 @@ SELECT URN,
 FROM VW_SchoolsFinancialSummaryDefaultPercentIncome
 WHERE RunId = (SELECT Value FROM Parameters WHERE Name = 'CurrentYear')
     GO
-
-

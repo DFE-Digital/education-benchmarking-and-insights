@@ -4,7 +4,7 @@ AppTraces
     Source = tostring(Properties["Source"]),
     StatusCode = tostring(Properties["StatusCode"]),
     Uri = tostring(Properties["Uri"])
-| where 
+| where
     isempty(SyntheticSource)
 | where
     SeverityLevel == 2

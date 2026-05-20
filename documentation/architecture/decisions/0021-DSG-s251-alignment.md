@@ -20,7 +20,7 @@ The category comparison charts for s251 budget and outturn data, shown in the Hi
 
 ## Context and Problem Statement
 
-The current values for the Place Funding charts are taken directly from the s251 outturn publication, as this only covers sending made directly by the LA this does not include the amount given to academies.  
+The current values for the Place Funding charts are taken directly from the s251 outturn publication, as this only covers sending made directly by the LA this does not include the amount given to academies.
 
 **The Problem:**
 The reason the outturn does not include the place funding in academies is that the money is given directly to these schools by DfE as there funding is not managed by LA's.  The funding amount is however included in the Dedicated Schools Grant (DSG) and is therefore in the s251 at the budgeting stage to enable it to be reconciled to the grant.  To enable the outturn to be reconcile to the grant and s251 budget the place funding amount for academies will be added into the outturn value within FBIT.  The solutions will be assessed against the following criteria;
@@ -34,7 +34,7 @@ The reason the outturn does not include the place funding in academies is that t
 The following sources were evaluated:
 
 1. Do nothing
-2. Include values for each category of place funding on the LocalAuthorityFinancial table, these values will be calculate using the school level [High Needs Places](https://www.gov.uk/government/publications/high-needs-allocated-place-numbers) publication and the Schools table to determine whether the school is a Primary or secondary school  
+2. Include values for each category of place funding on the LocalAuthorityFinancial table, these values will be calculate using the school level [High Needs Places](https://www.gov.uk/government/publications/high-needs-allocated-place-numbers) publication and the Schools table to determine whether the school is a Primary or secondary school
 3. Additionally to changes described in option 2 the LocalAuthority table will be amended to include the number of places funded in each category at the £6000 and £10000 level, to enable this number to be added to the service to add transparency of the values used in the calculation.  The 'Provider Category' of each school as per the 'High Needs Places' publication will also be added to the Schools table to enable this to be used elsewhere in the service when alignment to the s251 publication is required.
 
 ## Recommendation: Option

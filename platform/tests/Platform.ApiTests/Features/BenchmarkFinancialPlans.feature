@@ -1,5 +1,5 @@
 ﻿Feature: Benchmark financial plans Endpoint Testing
-    
+
     Scenario: Getting financial plans successfully
         Given I have a valid financial plans get request for school id '990000' in year '2023' containing:
           | Key                | Value |
@@ -46,24 +46,24 @@
           | TargetContactRatio | 1.23  |
         When I submit the financial plans request
         Then the financial plans response should return created or no content
-        
+
     Scenario: Deleting financial plans successfully
         Given I have a valid financial plans delete request for school id '990000' in year '2023' containing:
           | Key                | Value |
           | TargetContactRatio | 1.23  |
         When I submit the financial plans request
         Then the financial plans response should return ok
-        
+
     Scenario: Deleting financial plans unsuccessfully
         Given I have an invalid financial plans delete request for school id '990000' in year '2000'
         When I submit the financial plans request
         Then the financial plans response should return internal server error
-        
+
     Scenario: Getting deployed financial plan unsuccessfully
         Given I do not have a deployed financial plan for school id '990000' in year '2023'
         When I submit the financial plan deployment request
         Then the financial plan deployment response should return not found
-        
+
     Scenario: Getting all financial plans successfully
         Given I have a valid financial plans get request including school id '990000' in year '2023' but excluding:
           | Urn    | Year |

@@ -32,7 +32,7 @@ public class WhenViewingCookies(SchoolBenchmarkingWebAppClient client) : PageBas
             });
         });
 
-        // `checked` attribute will be `null` if not present, or `string.Empty` if present 
+        // `checked` attribute will be `null` if not present, or `string.Empty` if present
         Assert.Equal(accept ? string.Empty : null, page.QuerySelector("#AnalyticsCookiesEnabled-accept")?.Attributes.GetNamedItem("checked")?.Value);
         Assert.Equal(accept ? null : string.Empty, page.QuerySelector("#AnalyticsCookiesEnabled-reject")?.Attributes.GetNamedItem("checked")?.Value);
     }
@@ -57,7 +57,7 @@ public class WhenViewingCookies(SchoolBenchmarkingWebAppClient client) : PageBas
             });
         });
 
-        // `checked` attribute will be `null` if not present, or `string.Empty` if present 
+        // `checked` attribute will be `null` if not present, or `string.Empty` if present
         Assert.Equal(accept ? string.Empty : null, page.QuerySelector("#AnalyticsCookiesEnabled-accept")?.Attributes.GetNamedItem("checked")?.Value);
         Assert.Equal(accept ? null : string.Empty, page.QuerySelector("#AnalyticsCookiesEnabled-reject")?.Attributes.GetNamedItem("checked")?.Value);
     }

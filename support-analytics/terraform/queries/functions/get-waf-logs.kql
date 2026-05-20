@@ -1,7 +1,7 @@
 AzureDiagnostics
 | where
-    ResourceProvider == "MICROSOFT.CDN" 
-| where 
+    ResourceProvider == "MICROSOFT.CDN"
+| where
     Category == "FrontDoorWebApplicationFirewallLog"
-| extend 
+| extend
     ParsedUrl = parseurl(requestUri_s)

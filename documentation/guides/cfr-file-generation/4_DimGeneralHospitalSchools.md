@@ -9,7 +9,7 @@ The CFR data is processed along with a few dimension data to create the downstre
 - Special Education Needs (SEN)
 - School Workforce Census
 
-A list of general hospital schools is required. General hospital schools return data as part of the School Level Annual School Census (SLASC). There are only a few of these, typically attached to major children’s hospitals.  The data uses headcounts for both sole and dual registrations, this is due to funding which is by per place not per pupil.  
+A list of general hospital schools is required. General hospital schools return data as part of the School Level Annual School Census (SLASC). There are only a few of these, typically attached to major children’s hospitals.  The data uses headcounts for both sole and dual registrations, this is due to funding which is by per place not per pupil.
 
 ## Getting General Hospital Schools Data
 
@@ -24,7 +24,7 @@ A list of general hospital schools is required. General hospital schools return 
     ,b.[DRBoyTot]
     ,b.[DRGirlTot]
     ,a.[SRBoyTot] + a.[SRGirlTot] + b.[DRBoyTot] + b.[DRGirlTot] as [TotalHeadcount]
-    ,'GHS' as [GHS_indicator] 
+    ,'GHS' as [GHS_indicator]
     FROM [GeneralHospitalSchool2025].[dbo].[GEN_Approved_SoleRegByAge] as a
     LEFT JOIN [GeneralHospitalSchool2025].[dbo].[GEN_Approved_DualRegByAge] as b
     ON a.[LA] = b.[LA] AND a.[Estab] = b.[Estab]
@@ -43,7 +43,7 @@ A list of general hospital schools is required. General hospital schools return 
     ,b.[DRBoyTot]
     ,b.[DRGirlTot]
     ,a.[SRBoyTot] + a.[SRGirlTot] + b.[DRBoyTot] + b.[DRGirlTot] as [TotalHeadcount]
-    ,'GHS' as [GHS_indicator] 
+    ,'GHS' as [GHS_indicator]
     FROM [GeneralHospitalSchool2024].[dbo].[GEN_Approved_SoleRegByAge] as a
     LEFT JOIN [GeneralHospitalSchool2024].[dbo].[GEN_Approved_DualRegByAge] as b
     ON a.[LA] = b.[LA] AND a.[Estab] = b.[Estab]

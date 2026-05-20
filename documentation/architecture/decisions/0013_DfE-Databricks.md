@@ -23,41 +23,41 @@ flowchart LR
     %% Data Sources
     DB[(Database Data)]
     STATIC[(Static Data)]
-    
+
     %% Bronze Layer
     subgraph BRONZE ["🥉 BRONZE LAYER"]
         RAW[Raw Data]
     end
-    
+
     %% Silver Layer
     subgraph SILVER ["🥈 SILVER LAYER"]
         MERGE[Merged/Processed Data]
     end
-    
+
     %% Gold Layer
     subgraph GOLD ["🥇 GOLD LAYER"]
         AGGR[Lowest grain user-ready data]
     end
-    
+
     %% Data Mart
     subgraph MART ["📊 DATA MART"]
         COMP[Comparator Sets]
         RAG[RAG System]
     end
-    
+
     %% Flow connections with transformation labels
     DB -->|Ingest & Filter| BRONZE
     STATIC -->|Ingest & Clean| BRONZE
     BRONZE -->|Merge & Transform| SILVER
     SILVER -->|Link| GOLD
     GOLD -->|Serve & Index| MART
-    
+
     %% Styling
     classDef bronzeStyle fill:#CD7F32,stroke:#8B4513,stroke-width:2px,color:#fff
     classDef silverStyle fill:#C0C0C0,stroke:#808080,stroke-width:2px,color:#000
     classDef goldStyle fill:#FFD700,stroke:#DAA520,stroke-width:2px,color:#000
     classDef martStyle fill:#4CAF50,stroke:#2E7D32,stroke-width:2px,color:#fff
-    
+
     class BRONZE bronzeStyle
     class SILVER silverStyle
     class GOLD goldStyle

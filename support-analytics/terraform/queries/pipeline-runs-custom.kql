@@ -5,11 +5,11 @@ ContainerAppConsoleLogs_CL
     TimeGenerated = todatetime(replace_string(tostring(LogData.asctime), ",", ".")),
     Message = tostring(LogData.message),
     Level = tostring(LogData.levelname)
-| where 
+| where
     RevisionName_s matches regex "s198[ptd]\\d{2}-ebis-pipeline-custom"
-| where 
+| where
     TimeGenerated between (ago(1d)..now())
-| project 
+| project
     TimeGenerated,
     Level,
     Message,
@@ -18,6 +18,6 @@ ContainerAppConsoleLogs_CL
     ContainerAppName_s,
     Type,
     Log_s
-| order by 
+| order by
     TimeGenerated desc,
     Log_s desc

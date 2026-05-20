@@ -53,7 +53,7 @@ The client rendered charts for each cost category makes its expenditure `fetch()
 ```mermaid
 sequenceDiagram
     accDescr: Progress 8 data (server)
-    
+
     participant School comparator page
     participant School comparison controller
     participant Comparator set API
@@ -66,7 +66,7 @@ sequenceDiagram
     activate School comparison controller
     School comparison controller->>Comparator set API: Get default comparator set
     activate Comparator set API
-    Comparator set API->>School comparison controller: 
+    Comparator set API->>School comparison controller:
     deactivate Comparator set API
     School comparison controller->>User data service: Check user defined comparator set
     activate User data service
@@ -75,7 +75,7 @@ sequenceDiagram
     alt has user defined comparator set
         School comparison controller->>Comparator set API: Get user defined comparator set
         activate Comparator set API
-        Comparator set API->>School comparison controller: 
+        Comparator set API->>School comparison controller:
         deactivate Comparator set API
         School comparison controller->>Progress bandings service: Get user defined comparator set bandings
         activate Progress bandings service
@@ -97,7 +97,7 @@ sequenceDiagram
 ```mermaid
 sequenceDiagram
     accDescr: Progress 8 data (client)
-    
+
     participant School comparator page
     participant React
     participant Expenditure API

@@ -29,8 +29,8 @@
         Given I am on local authority homepage for local authority with code '201'
         Then the headline statistics are displayed containing the following figures:
            | Allocation | TotalOutturn | Percentage | CarriedForward | PreviousPeriod |
-           | £123,456   | £790,987     | 640.7%     | £198,981       | £789,987       |    
-        
+           | £123,456   | £790,987     | 640.7%     | £198,981       | £789,987       |
+
     @LocalAuthorityHomepageV2FlagDisabled
     Scenario: Schools accordion is displayed when feature is disabled
         Given I am on local authority homepage for local authority with code '204'
@@ -62,7 +62,7 @@
         Then I should see the following table data in financial tab
           | School name     | Pupils | Expenditure (%) | Staffing spend (%) | Revenue reserves (%) |
           | Test school 102 | 212    | 98.3%           | 71.4%              | 10.1%                |
-          
+
     @LocalAuthorityHomepageV2FlagEnabled
     Scenario: Can apply filters on the workforce tab
         Given I am on local authority homepage for local authority with code '201'
@@ -77,7 +77,7 @@
         Then I should see the following table data in workforce tab
           | School name     | Pupils | Pupil:teacher ratio | EHC plan (%) | SEN support (%) |
           | Test school 237 | 225    | 1.89                | 1.8%         | 5.3%            |
-          
+
     @HighNeedsBenchmarkingFlagEnabled
     Scenario: Go to bechmark education, health and care plan page
         Given I am on local authority homepage for local authority with code '202'

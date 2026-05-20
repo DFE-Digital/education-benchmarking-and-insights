@@ -149,7 +149,7 @@
           | 2019 to 2020 |            |                               |                                    |
           | 2020 to 2021 |            |                               |                                    |
           | 2021 to 2022 | 284.4%     | 444.2%                        | 422.1%                             |
-          
+
     Scenario: Change Total income chart to table view when dimension set to per unit
         Given I am on 'income' history page for school with URN '777042'
         When I change 'income' dimension to '£ per pupil'
@@ -161,7 +161,7 @@
           | 2019 to 2020 |        |                               |                                    |
           | 2020 to 2021 | £7,072 |                               | £10,936                            |
           | 2021 to 2022 | £7,615 | £8,088                        | £11,333                            |
-          
+
     Scenario: Change Total income chart to table view when dimension set to percentage of expenditure
         Given I am on 'income' history page for school with URN '777042'
         When I change 'income' dimension to 'percentage of expenditure'
@@ -173,7 +173,7 @@
           | 2019 to 2020 |            |                               |                                    |
           | 2020 to 2021 | 98.1%      |                               | 101.6%                             |
           | 2021 to 2022 | 101.7%     | 99.8%                         | 100.7%                             |
-          
+
     Scenario: Change Total income chart to table view when dimension set to percentage of income
         Given I am on 'income' history page for school with URN '777042'
         When I change 'income' dimension to 'percentage of income'
@@ -185,7 +185,7 @@
           | 2019 to 2020 |            |                               |                                    |
           | 2020 to 2021 | 100%       |                               | 100%                               |
           | 2021 to 2022 | 100%       | 100%                          | 100%                               |
-          
+
     Scenario: Change Total income chart to table view
         Given I am on 'income' history page for school with URN '777042'
         When I change 'income' dimension to 'actuals'
@@ -197,7 +197,7 @@
           | 2019 to 2020 |            |                               |                                    |
           | 2020 to 2021 | £3,097,397 |                               | £3,193,335                         |
           | 2021 to 2022 | £1,614,419 | £2,929,442                    | £3,632,526                         |
-          
+
     Scenario: Change balance chart to table view when dimension set to per unit
         Given I am on 'balance' history page for school with URN '777042'
         When I change 'balance' dimension to '£ per pupil'
@@ -209,7 +209,7 @@
           | 2019 to 2020 |         |                               |                                    |
           | 2020 to 2021 | -£137   |                               | £529                               |
           | 2021 to 2022 | £128    | £176                          | £693                               |
-          
+
     Scenario: Change balance chart to table view when dimension set to percentage of expenditure
         Given I am on 'balance' history page for school with URN '777042'
         When I change 'balance' dimension to 'percentage of expenditure'
@@ -221,7 +221,7 @@
           | 2019 to 2020 |            |                               |                                    |
           | 2020 to 2021 | -1.9%      |                               | 4.4%                               |
           | 2021 to 2022 | 1.7%       | 2.3%                          | 3%                                 |
-          
+
     Scenario: Change balance chart to table view when dimension set to percentage of income
         Given I am on 'balance' history page for school with URN '777042'
         When I change 'balance' dimension to 'percentage of income'
@@ -233,7 +233,7 @@
           | 2019 to 2020 |            |                               |                                    |
           | 2020 to 2021 | -1.9%      |                               | 4.2%                               |
           | 2021 to 2022 | 1.7%       | 2.2%                          | 2.8%                               |
-          
+
     Scenario: Change balance chart to table view
         Given I am on 'balance' history page for school with URN '777042'
         When I change 'balance' dimension to 'actuals'

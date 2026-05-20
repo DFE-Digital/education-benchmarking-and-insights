@@ -43,7 +43,7 @@ Feature: View Trust comparator set
           | AdministrativeSupplies         | £ per pupil, actuals, percentage of expenditure, percentage of income |
           | CateringStaffAndServices       | £ per pupil, actuals, percentage of expenditure, percentage of income |
           | Other                          | £ per pupil, actuals, percentage of expenditure, percentage of income |
-         
+
     @HighExecutivePayFlagEnabled
     Scenario: High executive pay chart table is displayed and correct and only shows rows where pay band data is available
         When I click on show all sections

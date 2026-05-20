@@ -1,6 +1,6 @@
 # Platform API Test Plan: LocalAuthority - HealthCheck
 
-API: LocalAuthority  
+API: LocalAuthority
 Feature: HealthCheck
 
 ## Test Scenarios by Endpoint

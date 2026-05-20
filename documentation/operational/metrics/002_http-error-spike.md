@@ -1,15 +1,15 @@
 # Metric: HTTP Error Spike
 
-**Category:**  
+**Category:**
 Operational
 
-**Data Source:**  
-Web server logs / monitoring tools  
+**Data Source:**
+Web server logs / monitoring tools
 
-**Purpose:**  
+**Purpose:**
 Detect server-side failures that prevent successful request completion. Even a small number of 5xx errors can signal backend issues, causing user-facing errors and loss of trust. Monitoring this helps maintain service reliability and quickly addresses systemic faults.
 
-**Actionability:**  
+**Actionability:**
 Investigate server errors promptly to minimise impact and prevent wider outages. When the 5xx error count exceeds the threshold:
 
 1. Check logs to identify which endpoint(s) are failing.
@@ -18,13 +18,13 @@ Investigate server errors promptly to minimise impact and prevent wider outages.
 4. If caused by a dependency, contact the relevant team for resolution.
 5. Monitor closely after mitigation to confirm resolution.
 
-**Target / Threshold:**  
+**Target / Threshold:**
 No more than 1 HTTP 5xx error in the alerting window
 
-**Reporting Frequency:**  
+**Reporting Frequency:**
 Continuous monitoring with immediate alerting
 
-**Notes / Links:**  
+**Notes / Links:**
 
 <!-- Leave the rest of this page blank -->
 \newpage

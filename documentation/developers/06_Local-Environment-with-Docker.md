@@ -73,7 +73,7 @@ Provides distributed caching for the Platform APIs.
   - **Password:** The password you defined in `redis.env`
 - **Debugging Locally:**
   To debug or view Redis commands, you can attach to the container:
-  
+
   ```sh
   # Open redis-cli inside the container
   docker exec -it redis redis-cli -a a_password_of_your_choice

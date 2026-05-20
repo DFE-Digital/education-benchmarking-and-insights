@@ -2,13 +2,13 @@ IF EXISTS (
 SELECT *
 FROM INFORMATION_SCHEMA.TABLES
 WHERE table_name = 'MetricRAG'
-) 
+)
 BEGIN
     IF EXISTS (
     SELECT 1
     FROM sys.columns
     WHERE Name = N'Mean' AND Object_ID = Object_ID(N'dbo.MetricRAG')
-    ) 
+    )
     BEGIN
        EXEC sp_rename 'dbo.MetricRAG.Mean', 'Median', 'COLUMN';
     END
@@ -17,7 +17,7 @@ BEGIN
     SELECT 1
     FROM sys.columns
     WHERE Name = N'DiffMean' AND Object_ID = Object_ID(N'dbo.MetricRAG')
-    ) 
+    )
     BEGIN
        EXEC sp_rename 'dbo.MetricRAG.DiffMean', 'DiffMedian', 'COLUMN';
     END

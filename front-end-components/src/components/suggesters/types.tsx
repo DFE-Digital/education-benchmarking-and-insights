@@ -24,7 +24,7 @@ export type LaInputProps = {
 };
 
 /**
- * @example 
+ * @example
     {
       "text": "*Harrow* Way Community School",
       "document": {

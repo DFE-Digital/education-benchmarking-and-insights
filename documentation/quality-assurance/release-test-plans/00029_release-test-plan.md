@@ -5,7 +5,7 @@
 
 ## Introduction
 
-This plan defines the approach for testing release `2026.01.1`, covering smoke and sanity testing activities.  
+This plan defines the approach for testing release `2026.01.1`, covering smoke and sanity testing activities.
 This release delivers the benchmark senior leadership feature behind a feature flag.
 
 ## Scope
@@ -18,7 +18,7 @@ This release delivers the benchmark senior leadership feature behind a feature f
 **Out-of-Scope:**
 
 - Resolve dotnet format issues in CI pipeline with dotnet SDK versions >= 9
-- Front Door WAF Policy: SQLI false positive on form post  
+- Front Door WAF Policy: SQLI false positive on form post
 
 ## Test Strategy
 
@@ -80,16 +80,16 @@ The release completed successfully with no issues.
 
 ### Test Summary Report
 
-**Summary of results:**  
+**Summary of results:**
 
 Release completed successfully with no issues.
 
-| Test Category                | Total Tests | Passed | Failed | Pass Rate |  
-|------------------------------|:-----------:|:------:|:------:|:---------:|  
-| Smoke Tests - Prod           |      1      |   -    |   -    |   -       |  
+| Test Category                | Total Tests | Passed | Failed | Pass Rate |
+|------------------------------|:-----------:|:------:|:------:|:---------:|
+| Smoke Tests - Prod           |      1      |   -    |   -    |   -       |
 | Smoke Tests - Pre Prod       |      1      |   1    |   0    |   100%    |
-| Regression Tests - Pre Prod  |      1      |   1    |   0    |   100%    |  
-| Total                        |      3      |   3    |   0    |   100%    |  
+| Regression Tests - Pre Prod  |      1      |   1    |   0    |   100%    |
+| Total                        |      3      |   3    |   0    |   100%    |
 
 <!-- Leave the rest of this page blank -->
 \newpage

@@ -45,7 +45,7 @@ GO
 
 CREATE VIEW VW_CensusSchoolPercentWorkforce AS
 SELECT RunId,
-       RunType,       
+       RunType,
        URN,
        OverallPhase,
        FinanceType,
@@ -66,7 +66,7 @@ GO
 
 CREATE VIEW VW_CensusSchoolPupilsPerStaffRole AS
 SELECT RunId,
-       RunType,       
+       RunType,
        URN,
        OverallPhase,
        FinanceType,

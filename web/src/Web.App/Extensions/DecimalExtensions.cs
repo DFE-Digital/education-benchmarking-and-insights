@@ -17,7 +17,7 @@ public static class DecimalExtensions
 
     public static string ToHeadlineStatisticCurrency(this decimal value)
     {
-        if (Math.Abs(value) <= 999999) // only handle values that round to less than a million with straight currency formatting. 999999.99 rounds to 1000000 but should be displayed as "£1 million" 
+        if (Math.Abs(value) <= 999999) // only handle values that round to less than a million with straight currency formatting. 999999.99 rounds to 1000000 but should be displayed as "£1 million"
         {
             return value.ToCurrency();
         }

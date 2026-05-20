@@ -75,13 +75,13 @@ The following diagrams are a logical representation of the types of data that ar
 ```mermaid
 flowchart TD
     ppstore[["Pre processing store"]]
-    
+
     subgraph raw [Raw Data]
         subgraph cdc [CDC]
             tifa_income("Total internal floor area")
             aas_balance("Age average score")
         end
-        
+
         subgraph GIAS [Schools]
             gias[["Base Data"]]
             links[["Link Data"]]
@@ -121,7 +121,7 @@ flowchart TD
             asd("Percentage ASD")
             oth("Percentage OTH")
         end
-        
+
         subgraph ks [Key stage 2/4 data]
             ks2[["Key stage 2"]]
             ks4[["Key stage 4"]]
@@ -140,7 +140,7 @@ flowchart TD
             bfr_bfr[["BFR"]]
             bfr_metrics[["BFR Metrics"]]
         end
-        
+
         cdc --> ppstore
         gias --> ppstore
         AML --> ppstore
@@ -161,7 +161,7 @@ flowchart TD
     trust_data[["Trusts"]]
     ppstore[["Pre processing store"]]
     result[["Academies and Trusts"]]
-    
+
     subgraph raw [Raw Data]
         cdc[["CDC"]]
         gias[["Schools"]]
@@ -174,8 +174,8 @@ flowchart TD
     subgraph acad [Academy/trust Data Process]
         aml[["Academy master list"]]
         cost("Create cost series")
-        
-        
+
+
         cdc --joined (Academy UPIN)--> aml
         gias --joined (Academy UPIN)--> aml
         sen --joined (Academy UPIN)--> aml
@@ -201,7 +201,7 @@ flowchart TD
     fed_data[["Federations"]]
     ppstore[["Pre processing store"]]
     result[["Maintained Schools and Federations"]]
-    
+
     subgraph raw [Raw Data]
         cdc[["CDC"]]
         gias[["Schools"]]
@@ -280,7 +280,7 @@ flowchart TD
     select_N(Select 30-N next nearest\nfrom other regions)
     select_closest_30(Select top 30 nearest)
     comparator_Set[[Comparator Set]]
-    
+
     federations --> ms
     academies --> as
     ms --> as
@@ -297,7 +297,7 @@ flowchart TD
             select_region -- < 30 --> select_N --> comparator_Set
             select_region -- = 30 --> comparator_Set
             select_region -- &gt; 30 --> select_closest_30 --> comparator_Set
-        end 
+        end
 
         dist -- Non PFI/Boarding school --> select_top_60
         dist -- PFI/Boarding school --> select_pfi_boarding

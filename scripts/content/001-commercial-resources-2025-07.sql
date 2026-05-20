@@ -1,5 +1,5 @@
 /*
- * July 2025 pass on Commercial Resources due to move from `find-dfe-approved-framework.service.gov.uk` 
+ * July 2025 pass on Commercial Resources due to move from `find-dfe-approved-framework.service.gov.uk`
  * to `get-help-buying-for-schools.education.gov.uk` as per work item 266678.
  */
 

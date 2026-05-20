@@ -1,5 +1,5 @@
 AppServiceHTTPLogs
-| where 
+| where
     CsHost == "schools-financial-benchmarking.service.gov.uk"
 | extend
     UriQuery = trim_end("&", replace_regex(CsUriQuery, @'X-ARR-LOG-ID=[a-z0-9\-]{36}', '')),

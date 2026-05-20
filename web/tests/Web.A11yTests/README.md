@@ -1,7 +1,7 @@
 ﻿# Running Accessibility (A11y) Tests Locally
 
 This guide provides an overview for setting up and running accessibility (A11y) tests for the project,
-consistent with the CI/CD pipeline configuration.  
+consistent with the CI/CD pipeline configuration.
 It complements the detailed setup instructions already available in [`web/README.md`](../../README.md#accessibility-tests).
 
 ## 🚀 Getting Started
@@ -25,7 +25,7 @@ Ensure you:
 
 Fetch any other required variable values from the same library.
 
-- **Benchmark Host and Key** must be retrieved from **Azure Key Vault**.  
+- **Benchmark Host and Key** must be retrieved from **Azure Key Vault**.
 
 ### 3. Running the Tests
 

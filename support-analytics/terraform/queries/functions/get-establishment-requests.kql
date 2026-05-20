@@ -5,9 +5,9 @@ AppRequests
     Code = tostring(Properties["Code"]),
     Establishment = tostring(Properties["Establishment"]),
     Feature = tostring(Properties["Feature"])
-| where 
+| where
     isnotempty(Establishment)
-| where 
+| where
     isempty(SyntheticSource)
 | project
     TimeGenerated,

@@ -2,12 +2,12 @@
 
 _*Release version updated to 2025.09.2 after addressing a last-minute regression issue related to number rounding. The original 2025.08.0 release had an issue with the user-defined comparator set, which was patched in 2025.08.1, and further fixes identified during UAT were delivered in 2025.09.0._*
 
-**Release Date:** 03/09/2025  
+**Release Date:** 03/09/2025
 **Release Label:** 2025.09.2
 
 ## Introduction
 
-This plan defines the approach for testing release `2025.09.2`, covering smoke, sanity, data ingestion, and UAT testing activities required for the data pipeline.  
+This plan defines the approach for testing release `2025.09.2`, covering smoke, sanity, data ingestion, and UAT testing activities required for the data pipeline.
 This release delivers enhancements to the data pipeline to support the CFR 2025 data drop and modularisation for maintainability.
 
 ## Scope
@@ -93,8 +93,8 @@ This release delivers enhancements to the data pipeline to support the CFR 2025 
 
 **Release Overview:**
 
-This release is user-facing with the 2025 CFR data drop and new IT spending cost breakdown preparation.  
-Sanity and data ingestion testing will be performed in pre-production.  
+This release is user-facing with the 2025 CFR data drop and new IT spending cost breakdown preparation.
+Sanity and data ingestion testing will be performed in pre-production.
 Benchmarking IT spending charts will remain behind a feature flag (off by default).
 
 **Release (First Update):**
@@ -156,12 +156,12 @@ A last-minute regression issue was identified where figures in thousands/million
 
 **Summary of results (to be completed post-testing):**
 
-| Test Category           | Total Tests | Passed | Failed | Pass Rate |  
-|-------------------------|:-----------:|:------:|:------:|:---------:|  
-| Smoke Tests - Prod      |      1      |   1    |   0    |   100%    |  
-| Sanity Tests - Pre Prod |      8      |   8    |   0    |   100%    |  
-| Data Ingestion Tests    |      6      |   6    |   0    |   100%    |  
-| Total                   |     15      |   15   |   0    |   100%    |  
+| Test Category           | Total Tests | Passed | Failed | Pass Rate |
+|-------------------------|:-----------:|:------:|:------:|:---------:|
+| Smoke Tests - Prod      |      1      |   1    |   0    |   100%    |
+| Sanity Tests - Pre Prod |      8      |   8    |   0    |   100%    |
+| Data Ingestion Tests    |      6      |   6    |   0    |   100%    |
+| Total                   |     15      |   15   |   0    |   100%    |
 
 <!-- Leave the rest of this page blank -->
 \newpage

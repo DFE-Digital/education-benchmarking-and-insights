@@ -14,8 +14,8 @@ resource "azurerm_service_plan" "shutter-asp" {
   zone_balancing_enabled = var.configuration[var.environment].zone_balancing_enabled
 }
 
-# ideally azurerm_app_service_custom_hostname_binding resource would be used to manage the custom domain 
-# ahead of time in the case when Front Door is also unavailable, but Azure requires the CNAME & TXT DNS 
+# ideally azurerm_app_service_custom_hostname_binding resource would be used to manage the custom domain
+# ahead of time in the case when Front Door is also unavailable, but Azure requires the CNAME & TXT DNS
 # changes to be made and validated before the binding can be added
 resource "azurerm_linux_web_app" "shutter" {
   #checkov:skip=CKV_AZURE_17:Ensure the web app has 'Client Certificates (Incoming client certificates)' set
@@ -46,7 +46,7 @@ resource "azurerm_linux_web_app" "shutter" {
     health_check_path                 = "/health"
     health_check_eviction_time_in_min = 2
     http2_enabled                     = true
-    use_32_bit_worker                 = true # required for `F1` ASP 
+    use_32_bit_worker                 = true # required for `F1` ASP
     worker_count                      = 1
   }
 

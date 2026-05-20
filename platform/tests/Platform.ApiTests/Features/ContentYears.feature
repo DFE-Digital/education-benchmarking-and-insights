@@ -9,7 +9,7 @@
         Given a current return years request with API version '1.0'
         When I submit the request
         Then the current return years result should be ok and match the expected output of 'ContentCurrentYears.json'
-          
+
     Scenario: Sending a valid request for unsupported API version
         Given a current return years request with API version 'version'
         When I submit the request

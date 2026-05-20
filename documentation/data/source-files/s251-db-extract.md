@@ -10,7 +10,7 @@ Format: SQL Server database table
 
 | Month    | Data published |
 |----------|----------------|
-| December | Settled        |  
+| December | Settled        |
 
 For example; for financial year ending Mar 2024, database data is closed off December 2024.
 
@@ -21,7 +21,7 @@ For example; for financial year ending Mar 2024, database data is closed off Dec
 3. Save results to csv file (utf-8) called s251_alleducation_la_regional_national.csv
 4. The new_la_code is not available in the db view but is required in the file, to add this field the LA_Lookup sheet from the statistical neighbours publication was used.
 5. Add a sheet to the s251_alleducation_la_regional_national.csv, called LALookup.  Copy the 'old la code' and 'new la code' lists form the statistical neighbours publication into the new sheet.
-6. Add a column that will replace the 'new_la_code' in the s251_alleducation_la_regional_national.csv data.  
+6. Add a column that will replace the 'new_la_code' in the s251_alleducation_la_regional_national.csv data.
 7. Run the following lookup in the new column
     - =VLOOKUP(*cellref*,LALookup!A1:B153,2,FALSE).  *where the old_la_code is in the second column of LALookup*
 8. Paste the values into the 'new_la_code' column.

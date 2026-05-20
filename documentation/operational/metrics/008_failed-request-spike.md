@@ -1,15 +1,15 @@
 # Metric: Failed Request/Dependency Spike
 
-**Category:**  
+**Category:**
 Operational
 
-**Data Source:**  
+**Data Source:**
 Monitoring systems / logs
 
-**Purpose:**  
+**Purpose:**
 Detect abnormal rises in failed external or internal service calls, indicating possible network issues, service outages, or capacity problems. Early alerts enable prompt diagnosis and mitigation, preserving system integrity.
 
-**Actionability:**  
+**Actionability:**
 Investigate failures and mitigate causes to restore service health. If failed requests or dependency calls increase sharply:
 
 1. Identify which service(s) or endpoint(s) are failing.
@@ -18,13 +18,13 @@ Investigate failures and mitigate causes to restore service health. If failed re
 4. Notify dependency owners if the issue is external.
 5. Implement mitigation steps such as load shedding or failover routing.
 
-**Target / Threshold:**  
+**Target / Threshold:**
 Failure rates remain within historical norms
 
-**Reporting Frequency:**  
+**Reporting Frequency:**
 Real-time alerting
 
-**Notes / Links:**  
+**Notes / Links:**
 
 <!-- Leave the rest of this page blank -->
 \newpage

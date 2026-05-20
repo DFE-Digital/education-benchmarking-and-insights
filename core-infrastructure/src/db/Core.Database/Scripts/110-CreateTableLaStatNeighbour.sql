@@ -15,5 +15,3 @@ IF NOT EXISTS(SELECT *
             CONSTRAINT PK_LocalAuthorityStatisticalNeighbour PRIMARY KEY (RunType, RunId, LaCode, NeighbourPosition)
         );
     END;
- 
-

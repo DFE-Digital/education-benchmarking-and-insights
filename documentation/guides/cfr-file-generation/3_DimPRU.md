@@ -18,15 +18,15 @@ Pupil Referral Units (PRUs) are a type of Alternative Provision (AP) used to edu
 1. Connect to [iStore SQL Server](https://educationgovuk.sharepoint.com/:w:/r/sites/DfEFinancialBenchmarking/_layouts/15/Doc.aspx?sourcedoc=%7BA47507F6-2C23-487A-98EC-0B6C75A7471A%7D&file=CFR%20source%20data%20access%20request.docx&action=default&mobileredirect=true) to run the below query against the database that references the end of the reporting academic year. For instance, when generating 2024-2025 CFR downstream dataset, use [SchoolCensus2025_Spring_SPSSViews]
 
     ```sql
-    SELECT a.[LAEstab]  
+    SELECT a.[LAEstab]
         ,a.[Phase]
         ,COUNT (distinct b.[UPN]) as 'Headcount'
-        ,SUM (b.[HNentitlement]) as 'FTE' 
-    FROM [SchoolCensus2025_Spring_SPSSViews].[dbo].[Approved_School] as a  
+        ,SUM (b.[HNentitlement]) as 'FTE'
+    FROM [SchoolCensus2025_Spring_SPSSViews].[dbo].[Approved_School] as a
     LEFT JOIN [SchoolCensus2025_Spring_SPSSViews].[dbo].[Approved_PupilOnRoll] as b
-    ON a.[LAEstab] = b.[LAEstab] 
-    WHERE a.[Phase] = 'PR' 
-    GROUP BY a.[LAEstab], a.[Phase] 
+    ON a.[LAEstab] = b.[LAEstab]
+    WHERE a.[Phase] = 'PR'
+    GROUP BY a.[LAEstab], a.[Phase]
     ```
 
 2. Either by using a database GUI Tool or CSV export, ingest result of the query into the created local database. Name the table `Dim_PRU_Pupils_SchoolLevel_20YY` where 20YY represents the end of the reporting academic year. For instance `Dim_PRU_Pupils_SchoolLevel_2025` for 2024-2025 academic year.
@@ -36,15 +36,15 @@ Pupil Referral Units (PRUs) are a type of Alternative Provision (AP) used to edu
 1. Run the below query against the database that references the end of the previous academic year (end of reporting academic year minus one), for instance, when generating PRU SCD data to create 2024-2025 CFR downstream dataset, use [SchoolCensus2024_Spring_SPSSViews]
 
     ```sql
-    SELECT a.[LAEstab]  
+    SELECT a.[LAEstab]
         ,a.[Phase]
         ,COUNT (distinct b.[UPN]) as 'Headcount'
-        ,SUM (b.[HNentitlement]) as 'FTE' 
-    FROM [SchoolCensus2024_Spring_SPSSViews].[dbo].[Approved_School] as a  
+        ,SUM (b.[HNentitlement]) as 'FTE'
+    FROM [SchoolCensus2024_Spring_SPSSViews].[dbo].[Approved_School] as a
     LEFT JOIN [SchoolCensus2024_Spring_SPSSViews].[dbo].[Approved_PupilOnRoll] as b
-    ON a.[LAEstab] = b.[LAEstab] 
-    WHERE a.[Phase] = 'PR' 
-    GROUP BY a.[LAEstab], a.[Phase] 
+    ON a.[LAEstab] = b.[LAEstab]
+    WHERE a.[Phase] = 'PR'
+    GROUP BY a.[LAEstab], a.[Phase]
     ```
 
 2. Either by using a database GUI Tool or CSV export, ingest result of the query into the created local database. Name the table `Dim_PRU_Pupils_SchoolLevel_20YY` where 20YY represents end of previous academic year (end of reporting academic year minus one). For instance, when generating PRU SCD data to create 2024-2025 CFR downstream dataset, use `Dim_PRU_Pupils_SchoolLevel_2024`

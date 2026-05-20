@@ -31,8 +31,8 @@
         Then the tooltip for 'Test school 176' is correctly displayed
         When I press tab to select the school with urn '990027' in a chart
         Then the tooltip for 'Test school 215' is correctly displayed
-    
-    @SeniorLeadershipFlagEnabled    
+
+    @SeniorLeadershipFlagEnabled
     Scenario: Save as image button starts download
         Given I am on school senior leadership page for school with URN '990002'
         When I click on save as image

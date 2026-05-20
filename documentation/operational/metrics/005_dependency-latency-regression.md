@@ -1,15 +1,15 @@
 # Metric: Dependency Latency Regression
 
-**Category:**  
+**Category:**
 Operational
 
-**Data Source:**  
+**Data Source:**
 Service tracing / monitoring tools
 
-**Purpose:**  
+**Purpose:**
 Track if downstream service calls are becoming slower than expected, as this can cascade to impact overall system responsiveness. Early detection allows teams to engage with dependency owners or adjust timeouts and retries before user experience degrades.
 
-**Actionability:**  
+**Actionability:**
 Investigate and resolve causes of increased latency in dependent services. If dependency calls slow down significantly:
 
 1. Verify latency data in service tracing tools.
@@ -18,13 +18,13 @@ Investigate and resolve causes of increased latency in dependent services. If de
 4. Implement retries with exponential backoff if safe.
 5. Monitor after changes to ensure latency returns to baseline.
 
-**Target / Threshold:**  
+**Target / Threshold:**
 Maintain dependency call latency within acceptable historical range
 
-**Reporting Frequency:**  
+**Reporting Frequency:**
 Continuous monitoring with alerts on deviation
 
-**Notes / Links:**  
+**Notes / Links:**
 
 <!-- Leave the rest of this page blank -->
 \newpage

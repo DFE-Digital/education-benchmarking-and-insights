@@ -4,11 +4,11 @@ AppRequests
     Establishment = tostring(Properties["Establishment"]),
     Feature = tostring(Properties["Feature"]),
     Referrer = tostring(Properties["Referrer"])
-| where 
+| where
     Establishment == "school"
 | where
     Feature == "financial-benchmarking-insights-summary"
-| where 
+| where
     isempty(SyntheticSource)
 | project
     TimeGenerated,

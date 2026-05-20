@@ -204,4 +204,3 @@ alter view SchoolIncome as
     FROM School s
              LEFT JOIN CurrentDefaultFinancial f on f.URN = s.URN
 go
-

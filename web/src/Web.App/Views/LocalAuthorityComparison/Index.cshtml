@@ -7,11 +7,11 @@
 
 @await Component.InvokeAsync("EstablishmentHeading", new { title = ViewData[ViewDataKeys.Title], name = Model.Name, id = Model.Code, kind = OrganisationTypes.LocalAuthority })
 
-@await Component.InvokeAsync("DataSource", new 
-    { 
+@await Component.InvokeAsync("DataSource", new
+    {
         organisationType = OrganisationTypes.LocalAuthority,
         sourceType = DataSourceTypes.Spending,
-        additionText = new[] { "View the spending for schools in this local authority." } 
+        additionText = new[] { "View the spending for schools in this local authority." }
     })
 
 @if (Model.NumberOfSchools > 0)

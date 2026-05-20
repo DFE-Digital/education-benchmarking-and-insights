@@ -21,17 +21,17 @@ e.g.:
         <tr>
             <th scope="col" aria-sort="ascending" aria-label="Sort by Field 1">
                 <button aria-pressed="true" aria-label="Sort by Field 1, descending" aria-controls="table-id">
-                    Field 1 ▲        
+                    Field 1 ▲
                 </button>
             </th>
             <th scope="col" aria-sort="none" aria-label="Sort by Field 2">
                 <button aria-pressed="false" aria-label="Sort by Field 2, ascending" aria-controls="table-id">
-                    Field 2 ▴▾        
+                    Field 2 ▴▾
                 </button>
             </th>
             <th scope="col" aria-sort="none" aria-label="Sort by Field 3">
                 <button aria-pressed="false" aria-label="Sort by Field 3, ascending" aria-controls="table-id">
-                    Field 3 ▴▾        
+                    Field 3 ▴▾
                 </button>
             </th>
         </tr>

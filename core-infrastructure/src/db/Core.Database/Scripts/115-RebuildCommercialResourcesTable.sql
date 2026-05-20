@@ -1,5 +1,5 @@
 IF EXISTS(
-   SELECT * 
+   SELECT *
         FROM INFORMATION_SCHEMA.COLUMNS
             WHERE table_name = 'CommercialResources'
             AND column_name = 'Id'
@@ -23,7 +23,7 @@ IF NOT EXISTS(
             SubCategory nvarchar(max)   NOT NULL,
             ValidFrom   datetimeoffset NOT NULL DEFAULT GETUTCDATE(),
             ValidTo     datetimeoffset NULL
-        
+
             CONSTRAINT PK_CommercialResources PRIMARY KEY (Title),
         );
         INSERT INTO [dbo].[CommercialResources] (Category, SubCategory, Title, Url)

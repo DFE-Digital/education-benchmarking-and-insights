@@ -10,8 +10,8 @@ Format: XLSX
 
 | Month    | Data published |
 |----------|----------------|
-| October  | Provisional    |  
-| February | Revised        |  
+| October  | Provisional    |
+| February | Revised        |
 
 For example; for academic year ending July 2024 data is published on October 2024.
 

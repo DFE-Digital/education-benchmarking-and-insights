@@ -16,7 +16,7 @@ AS
            CONVERT(float, f.TotalPupils) AS TotalPupils,
            CONVERT(float, s.SchoolsInTrust) AS SchoolsInTrust,
            -- Adds a lowercased TrustName column to support case-insensitive sorting in Azure Search.
-           -- This field is included in the TrustIndex for optional use in the 'orderBy' field of the POST body 
+           -- This field is included in the TrustIndex for optional use in the 'orderBy' field of the POST body
            -- for consumers such as the POST /api/trusts/search endpoint.
            -- This avoids relying on Azure Search normalizers, which are still in public preview as of April 2025.
            -- See: https://learn.microsoft.com/en-us/azure/search/search-normalizers

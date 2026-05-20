@@ -604,7 +604,7 @@ resource "azapi_update_resource" "data-front-door-origin-group-authentication" {
 }
 
 # The below may raise the error `argument "principal_id" is required, but no definition was found` even
-# when used with `skip_service_principal_aad_check = true`. Manually assigning the system assigned 
+# when used with `skip_service_principal_aad_check = true`. Manually assigning the system assigned
 # managed identity and re-running should resolve, but this is not an ideal manual intervention.
 resource "azurerm_role_assignment" "front-door-profile-web-assets-storage-reader" {
   scope                = azurerm_storage_account.web-assets-storage.id

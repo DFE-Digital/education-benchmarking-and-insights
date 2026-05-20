@@ -46,7 +46,7 @@ resource "azurerm_automation_job_schedule" "backup-database-runbook-daily-schedu
   runbook_name            = azurerm_automation_runbook.backup-database-runbook.name
   schedule_name           = azurerm_automation_schedule.daily-schedule.name
 
-  # Due to a bug in the implementation of Runbooks in Azure, the parameter names need to be specified in lowercase only. 
+  # Due to a bug in the implementation of Runbooks in Azure, the parameter names need to be specified in lowercase only.
   # https://github.com/Azure/azure-sdk-for-go/issues/4780
   parameters = {
     subscriptionname       = data.azurerm_subscription.current.display_name
@@ -86,7 +86,7 @@ resource "azurerm_automation_job_schedule" "backup-raw-data-runbook-daily-schedu
   runbook_name            = azurerm_automation_runbook.backup-raw-data-runbook.name
   schedule_name           = azurerm_automation_schedule.daily-schedule.name
 
-  # Due to a bug in the implementation of Runbooks in Azure, the parameter names need to be specified in lowercase only. 
+  # Due to a bug in the implementation of Runbooks in Azure, the parameter names need to be specified in lowercase only.
   # https://github.com/Azure/azure-sdk-for-go/issues/4780
   parameters = {
     subscriptionname         = data.azurerm_subscription.current.display_name

@@ -16,4 +16,3 @@ IF EXISTS(SELECT 1
             OutturnEdPsychologyService        DECIMAL(16,2) NULL,
             OutturnSENAdmin                   DECIMAL(16,2) NULL
     END;
-

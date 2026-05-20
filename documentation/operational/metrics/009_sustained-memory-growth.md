@@ -1,15 +1,15 @@
 # Metric: Sustained Memory Growth
 
-**Category:**  
+**Category:**
 Operational
 
-**Data Source:**  
+**Data Source:**
 Monitoring system / metrics platform
 
-**Purpose:**  
+**Purpose:**
 Identify memory leaks or inefficient resource use by tracking long-term upward trends in memory usage. Sustained growth may not trigger immediate alarms but can cause future outages if left unchecked.
 
-**Actionability:**  
+**Actionability:**
 Investigate causes of memory growth and remediate leaks or inefficiencies. If memory usage trends upward over time:
 
 1. Analyse memory profiling data to identify potential leaks.
@@ -18,13 +18,13 @@ Investigate causes of memory growth and remediate leaks or inefficiencies. If me
 4. Optimise memory usage in code where possible.
 5. Increase capacity only after root cause analysis confirms it is needed.
 
-**Target / Threshold:**  
+**Target / Threshold:**
 Memory usage stable or decreasing over time
 
-**Reporting Frequency:**  
+**Reporting Frequency:**
 Periodic monitoring with alerts on trend changes
 
-**Notes / Links:**  
+**Notes / Links:**
 
 <!-- Leave the rest of this page blank -->
 \newpage

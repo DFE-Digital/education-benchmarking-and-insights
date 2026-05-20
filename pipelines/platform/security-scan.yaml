@@ -19,7 +19,7 @@ jobs:
     displayName: 'Set build tags'
     steps:
       - checkout: none
-      - bash: |        
+      - bash: |
           echo "##vso[build.addbuildtag]Platform"
           echo "##vso[build.addbuildtag]ZAP"
 

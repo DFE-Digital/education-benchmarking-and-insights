@@ -2,12 +2,12 @@
 
 _*Release version updated to 2025.10.3 following resolution of deployment failures caused by WAF configuration updates. The initial 2025.10.1 release encountered production deployment issues, which were partially addressed in 2025.10.2, and fully resolved in 2025.10.3 after successful pre-production smoke testing._*
 
-**Release Date:** 2025/10/22  
+**Release Date:** 2025/10/22
 **Release Label:** 2025.10.3
 
 ## Introduction
 
-This plan defines the approach for testing release `2025.10.3`, covering smoke, sanity, and data testing activities required for the platform and data pipeline.  
+This plan defines the approach for testing release `2025.10.3`, covering smoke, sanity, and data testing activities required for the platform and data pipeline.
 This release delivers a combination of new features, enhancements, refactoring, and maintenance updates to improve performance, maintainability, and user experience across the platform.
 
 ## Scope
@@ -93,8 +93,8 @@ This release delivers a combination of new features, enhancements, refactoring, 
 
 **Release Overview:**
 
-This release introduces several user-facing enhancements and backend refactoring to improve reliability, maintainability, and overall data accuracy.  
-New trust-level pages and improved comparator logic have been validated in test environments with production datasets.  
+This release introduces several user-facing enhancements and backend refactoring to improve reliability, maintainability, and overall data accuracy.
+New trust-level pages and improved comparator logic have been validated in test environments with production datasets.
 Nightly link monitoring and performance improvements have been included as part of ongoing maintenance.
 
 **Release (First Update):**
@@ -148,13 +148,13 @@ A follow-up release was initiated with the WAF fix included. However, the 2025.1
 
 **Summary of results:**
 
-| Test Category           | Total Tests | Passed | Failed |  Pass Rate  |  
-|-------------------------|:-----------:|:------:|:------:|:-----------:|  
-| Smoke Tests - Prod      |      1      |   1    |   0    |    100%     |  
+| Test Category           | Total Tests | Passed | Failed |  Pass Rate  |
+|-------------------------|:-----------:|:------:|:------:|:-----------:|
+| Smoke Tests - Prod      |      1      |   1    |   0    |    100%     |
 | Smoke Tests - Pre Prod  |      2      |   2    |   0    |    100%     |
-| Sanity Tests - Pre Prod |     16      |   16   |   0    |    100%     |  
-| Data Smoke Tests        |      2      |   2    |   0    |    100%     |  
-| Total                   |     21      |   21   |   0    |    100%     |  
+| Sanity Tests - Pre Prod |     16      |   16   |   0    |    100%     |
+| Data Smoke Tests        |      2      |   2    |   0    |    100%     |
+| Total                   |     21      |   21   |   0    |    100%     |
 
 <!-- Leave the rest of this page blank -->
 \newpage

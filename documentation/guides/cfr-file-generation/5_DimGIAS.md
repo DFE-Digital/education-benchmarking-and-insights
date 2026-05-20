@@ -41,14 +41,14 @@ Get Information about Schools (GIAS) is the Department for Education’s registe
 
      ```sql
      --Save table name as Dim_GIAS_OpenSchools_20YY where 20YY rep end of reporting academic year. For instance, Dim_GIAS_OpenSchools_2025 for 2024-2024 academic year
-     SELECT * 
+     SELECT *
      FROM [CFR25].[dbo].[GIAS20250722]
      WHERE [EstablishmentStatus (name)] IN ('Open', 'Open, but proposed to close', 'Proposed to open')
       ```
 
      ```sql
      --Save table name as Dim_GIAS_ClosedSchools_20YY where 20YY rep end of reporting academic year. For instance, Dim_GIAS_ClosedSchools_2025 for 2024-2024 academic year
-     SELECT * 
+     SELECT *
      FROM [CFR25].[dbo].[GIAS20250722]
      WHERE [EstablishmentStatus (name)] = 'Closed'
       ```

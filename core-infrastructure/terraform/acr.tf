@@ -24,7 +24,7 @@ resource "azurerm_container_registry" "acr" {
     type = "SystemAssigned"
   }
 
-  #TODO: Review as premium is required for trust policy  
+  #TODO: Review as premium is required for trust policy
   trust_policy_enabled = false
 
   tags = local.common-tags

@@ -29,17 +29,17 @@ Feature: Local Authority high needs benchmarking
           | Hackney                | 57,444           | £120                  |
           | Greenwich              | 63,850           | £36                   |
           | City of London         | 1,650            | £0                    |
-          | Hammersmith and Fulham | 18,500           | £0                    |           
+          | Hammersmith and Fulham | 18,500           | £0                    |
 
     Scenario: Line codes are displayed
         Given I am on local authority high needs benchmarking for local authority with code '201'
         Then the line codes are present
-        
+
     Scenario: Clicking download button downloads .zip file
         Given I am on local authority high needs benchmarking for local authority with code '201'
         When I click on download data
         Then the file 'benchmark-high-needs-spending-outturn-per-pupil-201.zip' is downloaded
-        
+
     Scenario: Clicking Save chart images downloads .zip file
         Given I am on local authority high needs benchmarking for local authority with code '201'
         When I click on save chart images

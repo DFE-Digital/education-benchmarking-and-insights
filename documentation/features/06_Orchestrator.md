@@ -28,14 +28,14 @@ sequenceDiagram
     participant data-pipeline-job-default-start
     end
     participant Data pipeline
-    box Purple Storage queue    
+    box Purple Storage queue
     participant data-pipeline-job-finished
     end
 
     Platform API->>data-pipeline-job-pending: Produce
     Note over Platform API,data-pipeline-job-pending: Platform API generated message<br/>with the 'custom' message schema
-    data-pipeline-job-pending-->>PipelineJobOrchestrator: Consume 
-    
+    data-pipeline-job-pending-->>PipelineJobOrchestrator: Consume
+
     Developer->>data-pipeline-job-pending: Produce
     Note over Developer,data-pipeline-job-pending: Manually generated message <br/>with the 'default' message schema
     data-pipeline-job-pending-->>PipelineJobOrchestrator: Consume
@@ -63,15 +63,15 @@ sequenceDiagram
 ### PipelineJobDefaultFinished
 
 ```mermaid
-sequenceDiagram   
+sequenceDiagram
     External-->>PipelineJobDefaultFinished: Consume
 
     alt is success status
         par
             PipelineJobDefaultFinished->>Azure Search: Run indexers
-        and 
+        and
             PipelineJobDefaultFinished->>Distributed Cache: Clear cache
-        and 
+        and
             PipelineJobDefaultFinished->>Database: De-activate UserData
         end
     end

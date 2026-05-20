@@ -4,4 +4,4 @@ IF EXISTS(SELECT *
     BEGIN
         ALTER TABLE dbo.Trust
             ADD TrustUPIN nvarchar(6) NULL;
-    END;  
+    END;

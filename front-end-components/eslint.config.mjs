@@ -49,7 +49,7 @@ export default defineConfig(
         },
       ],
 
-      // Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. 
+      // Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended.
       // (https://react.dev/learn/you-might-not-need-an-effect).
       // ---
       // Ignore the above rule, as priority is the gradual move over to server side rendered components

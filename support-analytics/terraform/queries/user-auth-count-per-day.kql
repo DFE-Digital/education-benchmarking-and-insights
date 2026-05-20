@@ -1,6 +1,6 @@
 GetAuthUsers
-| summarize 
+| summarize
     Count = count_distinct(UserAuthenticatedId)
     by bin(TimeGenerated, 1d)
-| order by 
+| order by
     TimeGenerated asc

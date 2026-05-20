@@ -19,7 +19,7 @@ public class CsvService : ICsvService
 {
     public string SaveToCsv(IEnumerable<object?> items, params string[] exclude)
     {
-        // get properties       
+        // get properties
         var rows = items.Where(i => i != null).Cast<object>().ToArray();
         var objectType = rows.FirstOrDefault()?.GetType();
         if (objectType == null)

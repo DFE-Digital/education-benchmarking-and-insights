@@ -26,14 +26,14 @@ using (var doc = JsonDocument.Parse(configJson))
     config = new Config
     {
         BaseDestination = GetProperty(root, "BaseDestination"),
-        FoldersToMerge = root.TryGetProperty("FoldersToMerge", out var merge) 
-            ? merge.EnumerateArray().Select(x => x.GetString() ?? "").Where(s => !string.IsNullOrEmpty(s)).ToArray() 
+        FoldersToMerge = root.TryGetProperty("FoldersToMerge", out var merge)
+            ? merge.EnumerateArray().Select(x => x.GetString() ?? "").Where(s => !string.IsNullOrEmpty(s)).ToArray()
             : Array.Empty<string>(),
-        IgnoreFolders = root.TryGetProperty("IgnoreFolders", out var ignoreFoldersProp) 
-            ? ignoreFoldersProp.EnumerateArray().Select(x => x.GetString() ?? "").Where(s => !string.IsNullOrEmpty(s)).ToArray() 
+        IgnoreFolders = root.TryGetProperty("IgnoreFolders", out var ignoreFoldersProp)
+            ? ignoreFoldersProp.EnumerateArray().Select(x => x.GetString() ?? "").Where(s => !string.IsNullOrEmpty(s)).ToArray()
             : Array.Empty<string>(),
-        IgnoreFiles = root.TryGetProperty("IgnoreFiles", out var ignoreFilesProp) 
-            ? ignoreFilesProp.EnumerateArray().Select(x => x.GetString() ?? "").Where(s => !string.IsNullOrEmpty(s)).ToArray() 
+        IgnoreFiles = root.TryGetProperty("IgnoreFiles", out var ignoreFilesProp)
+            ? ignoreFilesProp.EnumerateArray().Select(x => x.GetString() ?? "").Where(s => !string.IsNullOrEmpty(s)).ToArray()
             : Array.Empty<string>()
     };
 }
@@ -88,7 +88,7 @@ int mergedCount = 0;
 foreach (var filePath in allFiles)
 {
     var fileName = Path.GetFileName(filePath);
-    
+
     // 1. Ignore specific files
     if (ignoreFiles.Contains(fileName)) continue;
 

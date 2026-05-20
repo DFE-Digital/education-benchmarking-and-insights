@@ -1,10 +1,10 @@
 GetWafLogs
-| summarize 
+| summarize
     RequestCount = count()
-    by Host = tostring(ParsedUrl.Host), 
-    Path = tostring(ParsedUrl.Path), 
+    by Host = tostring(ParsedUrl.Host),
+    Path = tostring(ParsedUrl.Path),
     RuleName = ruleName_s,
-    Action = action_s, 
+    Action = action_s,
     ResourceId
-| order by 
+| order by
     RequestCount desc

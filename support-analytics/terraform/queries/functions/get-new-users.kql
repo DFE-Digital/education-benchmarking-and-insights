@@ -1,11 +1,11 @@
 let timeRangeStart = toscalar(AppRequests | summarize MinTS=min(TimeGenerated));
-AppRequests 
+AppRequests
 | where
     UserId != ""
-| where 
+| where
     isempty(SyntheticSource)
-| summarize 
+| summarize
     arg_min(TimeGenerated, *)
     by UserId
-| where 
+| where
     TimeGenerated > timeRangeStart

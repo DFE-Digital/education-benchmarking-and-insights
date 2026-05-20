@@ -1,37 +1,37 @@
 <#
     .SYNOPSIS
         Backup an Azure SQL database to Blob storage.
- 
+
     .DESCRIPTION
         Generate a .bacpac file and push to blob storage with an expiration specified in seconds.
 
     .PARAMETER SubscriptionName
         The Azure Subscription name where the databases exists to backup.
- 
+
     .PARAMETER ResourceGroup
         The resource group name where the source database exists to backup.
- 
+
     .PARAMETER KeyVaultName
         The key vault name where secrets may be resolved from.
 
     .PARAMETER ServerName
-        The SQL Server that contain the database that you want to backup. 
- 
+        The SQL Server that contain the database that you want to backup.
+
     .PARAMETER DatabaseName
         Name of the database that should be backed up.
- 
+
     .PARAMETER DatabaseUsernameSecret
         Key Vault secret name coresponding to the destination SQL Server administrator username.
- 
+
     .PARAMETER DatabasePasswordSecret
         Key Vault secret name coresponding to the destination SQL Server administrator password.
- 
+
     .PARAMETER StorageAccountName
-        The StorageAccount that should hold the BACPAC file for backup. 
+        The StorageAccount that should hold the BACPAC file for backup.
 
     .PARAMETER StorageKeySecret
         Key Vault secret name coresponding to the storage account access key.
- 
+
     .PARAMETER ContainerName
         The StorageAccount container name that should hold the BACPAC file backup.
 

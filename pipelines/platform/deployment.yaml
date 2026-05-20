@@ -28,7 +28,7 @@ jobs:
                 environmentPrefix: ${{ parameters.environmentPrefix }}
                 environment: ${{ parameters.environment }}
                 cipEnvironment: ${{ parameters.cipEnvironment }}
-                module: 'platform'    
+                module: 'platform'
 
             - task: AzureKeyVault@2
               inputs:

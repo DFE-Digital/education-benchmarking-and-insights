@@ -47,7 +47,7 @@ It also includes some manual tasks related to SFB decommissioning due to restric
 **Entry Criteria:**
 
 - All code changes for the release are completed and deployed to the pre-production environment.
-  
+
   - Manual infrastructure changes made to Front Door in pre-production environment (see [#264856](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_workitems/edit/264856))
 - Pipeline run is completed for the current year with the new ILR file in the storage.
 

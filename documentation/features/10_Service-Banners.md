@@ -118,7 +118,7 @@ An optional argument `columnClass` may also be set to ensure the banner width ma
 @section banner {
     @await Component.InvokeAsync("Banner", new
     {
-        target = BannerTargets.ServiceHome, 
+        target = BannerTargets.ServiceHome,
         columnClass = "govuk-grid-column-two-thirds"
     })
 }

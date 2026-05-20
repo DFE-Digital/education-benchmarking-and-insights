@@ -1,11 +1,11 @@
 ﻿# Release Test Plan: 2026.3.0
 
-**Release Date:** 30/03/2026  
+**Release Date:** 30/03/2026
 **Release Label:** 2026.3.0
 
 ## Introduction
 
-This plan defines the approach for testing release `2026.3.0`, covering smoke, sanity testing activities.  
+This plan defines the approach for testing release `2026.3.0`, covering smoke, sanity testing activities.
 This release delivers a combination of dependency updates, financial methodology improvements, data corrections, WAF-related fixes, and enhancements to funding and recoupment calculations across the service.
 
 ## Scope
@@ -111,14 +111,14 @@ The release completed successfully with no issues.
 
 ### Test Summary Report
 
-**Summary of results:**  
+**Summary of results:**
 
-| Test Category           | Total Tests | Passed | Failed | Pass Rate |  
-|-------------------------|:-----------:|:------:|:------:|:---------:|  
-| Smoke Tests - Prod      |      1      |   1    |   0    |   100%    |  
+| Test Category           | Total Tests | Passed | Failed | Pass Rate |
+|-------------------------|:-----------:|:------:|:------:|:---------:|
+| Smoke Tests - Prod      |      1      |   1    |   0    |   100%    |
 | Smoke Tests - Pre Prod  |      1      |   1    |   0    |   100%    |
-| Sanity Tests - Pre Prod |      1      |   1    |   0    |   100%    |  
-| Total                   |      3      |   3    |   0    |   100%    |  
+| Sanity Tests - Pre Prod |      1      |   1    |   0    |   100%    |
+| Total                   |      3      |   3    |   0    |   100%    |
 
 <!-- Leave the rest of this page blank -->
 \newpage

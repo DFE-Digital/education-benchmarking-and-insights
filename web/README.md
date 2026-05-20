@@ -82,19 +82,19 @@ following section to `secrets.json`, with URLs and keys obtained from Key Vault.
 
 ```json
 {
-  "Apis": 
+  "Apis":
   {
-    "Insight": 
+    "Insight":
     {
       "Url": "[INSERT URL VALUE]",
       "Key": "[INSERT KEY VALUE]"
     },
-    "Benchmark": 
+    "Benchmark":
     {
       "Url": "[INSERT URL VALUE]",
       "Key": "[INSERT KEY VALUE]"
     },
-    "LocalAuthorityFinances": 
+    "LocalAuthorityFinances":
     {
       "Url": "[INSERT URL VALUE]",
       "Key": "[INSERT KEY VALUE]"
@@ -145,7 +145,7 @@ The cache for each type may also be bypassed by setting `"Disabled": true`.
 
 ```json
 {
-  "CacheOptions": 
+  "CacheOptions":
   {
     "ReturnYears": {
       "SlidingExpiration": 10,
@@ -169,7 +169,7 @@ Having initialised the secret storage, add the following section to `secrets.jso
 
 ```json
 {
-  "DFESignInSettings": 
+  "DFESignInSettings":
   {
     "APISecret": "[INSERT API SECRET VALUE]",
     "APIUri": "[INSERT URL VALUE]",
@@ -192,7 +192,7 @@ Having initialised the secret storage, add the following section to `secrets.jso
 
 ```json
 {
-  "WebAssets": 
+  "WebAssets":
   {
     "FilesBaseUrl": "https://front-door-endpoint.a02.azurefd.net/files",
     "ImagesBaseUrl": "https://front-door-endpoint.a02.azurefd.net/images"

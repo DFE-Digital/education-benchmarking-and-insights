@@ -1,4 +1,4 @@
 GetSessions
-| summarize 
+| summarize
     Count = count_distinct(SessionId)
     by bin(TimeGenerated, 1d)

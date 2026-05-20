@@ -7,12 +7,12 @@ SELECT  RunId,
         URN,
         TotalPupils,
         PeriodCoveredByReturn,
-        ConnectivityCosts                       AS Connectivity, 
-        OnsiteServersCosts                      AS OnsiteServers, 
+        ConnectivityCosts                       AS Connectivity,
+        OnsiteServersCosts                      AS OnsiteServers,
         ItLearningResourcesCosts                AS ItLearningResources,
-        AdministrationSoftwareAndSystemsCosts   AS AdministrationSoftwareAndSystems, 
-        LaptopsDesktopsAndTabletsCosts          AS LaptopsDesktopsAndTablets, 
-        OtherHardwareCosts                      AS OtherHardware, 
+        AdministrationSoftwareAndSystemsCosts   AS AdministrationSoftwareAndSystems,
+        LaptopsDesktopsAndTabletsCosts          AS LaptopsDesktopsAndTablets,
+        OtherHardwareCosts                      AS OtherHardware,
         ItSupportCosts                          AS ItSupport
 FROM Financial
     GO

@@ -122,7 +122,7 @@ System.DivideByZeroException:
 
 ```sql
 requests
-| where timestamp > datetime("2024-09-10T09:15:00.000Z") 
+| where timestamp > datetime("2024-09-10T09:15:00.000Z")
     and timestamp < datetime("2024-09-10T09:20:00.000Z")
 | where duration > 500
 | where isempty(application_Version) == false

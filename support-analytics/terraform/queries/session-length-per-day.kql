@@ -1,6 +1,6 @@
 GetSessionLength
-| summarize 
+| summarize
     Percentile = percentile(sessionDurationSeconds, 50),
-    ["Standard Deviation"] = stdev(sessionDurationSeconds), 
+    ["Standard Deviation"] = stdev(sessionDurationSeconds),
     Average = avg(sessionDurationSeconds)
     by bin(TimeGenerated, 1d)

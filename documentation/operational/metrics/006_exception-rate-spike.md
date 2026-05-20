@@ -1,15 +1,15 @@
 # Metric: Exception Rate Spike
 
-**Category:**  
+**Category:**
 Operational
 
-**Data Source:**  
+**Data Source:**
 Application logs / error tracking systems
 
-**Purpose:**  
+**Purpose:**
 Monitor sudden increases in unhandled exceptions or errors within the application, which often precede outages or major bugs. Identifying spikes quickly enables targeted fixes before problems escalate.
 
-**Actionability:**  
+**Actionability:**
 Investigate root causes and fix bugs causing the exceptions. When exception rates spike:
 
 1. Check logs to identify the exception type(s) and frequency.
@@ -18,13 +18,13 @@ Investigate root causes and fix bugs causing the exceptions. When exception rate
 4. Add additional error handling where appropriate.
 5. Document findings in incident reports for learning and prevention.
 
-**Target / Threshold:**  
+**Target / Threshold:**
 Exception rate remains within normal baseline ranges
 
-**Reporting Frequency:**  
+**Reporting Frequency:**
 Real-time alerting
 
-**Notes / Links:**  
+**Notes / Links:**
 
 <!-- Leave the rest of this page blank -->
 \newpage

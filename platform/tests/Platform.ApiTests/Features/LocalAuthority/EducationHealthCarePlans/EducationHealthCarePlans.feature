@@ -6,7 +6,7 @@ Feature: Local Authority Education Health Care Plans
           | 201  |
         When I submit the request
         Then the history result should be ok and match the expected output of '<result>'
-        
+
         Examples:
           | dimension      | result                        |
           | Actuals        | EchpHistoryActuals.json        |
@@ -21,7 +21,7 @@ Feature: Local Authority Education Health Care Plans
           | 203  |
         When I submit the request
         Then the result should be ok and match the expected output of '<result>'
-        
+
         Examples:
           | dimension      | result              |
           | Actuals        | EchpActuals.json     |
@@ -32,7 +32,7 @@ Feature: Local Authority Education Health Care Plans
         Given a history request with <issue>
         When I submit the request
         Then the history result should be bad request and match the expected output of '<result>'
-        
+
         Examples:
           | issue              | result                            |
           | no codes           | EchpHistoryEmptyCodes.json         |
@@ -43,7 +43,7 @@ Feature: Local Authority Education Health Care Plans
         Given a request with <issue>
         When I submit the request
         Then the result should be bad request and match the expected output of '<result>'
-        
+
         Examples:
           | issue              | result                      |
           | no codes           | EchpEmptyCodes.json          |

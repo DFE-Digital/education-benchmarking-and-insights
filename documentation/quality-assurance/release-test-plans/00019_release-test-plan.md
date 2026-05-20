@@ -7,7 +7,7 @@ _*Release version updated to 2025.05.1 after 2025.05.0 was adjusted to Enable th
 
 ## Introduction
 
-This plan defines the approach for testing release `2025.05.1`, covering all functional, smoke testing necessary.  
+This plan defines the approach for testing release `2025.05.1`, covering all functional, smoke testing necessary.
 Ensure that enhancements, and updates in `2025.05.1` are functioning as expected without adversely impacting existing functionality.
 
 This release primarily focuses on implementing Front Door redirection changes required for SFB decommissioning, along with selected tech debt updates. Certain features included in the release will remain disabled in production.
@@ -55,7 +55,7 @@ This release primarily focuses on implementing Front Door redirection changes re
 
 ## Risk Analysis
 
-- **Risk:** Making DNS changes for SFB in production carries potential risks, as testing is only feasible within the live environment.  
+- **Risk:** Making DNS changes for SFB in production carries potential risks, as testing is only feasible within the live environment.
   - **Mitigation:** Front door services have been tested using feature environments. If any issues arise, redirects will be manually rolled back to minimise impact.
 
 - **Risk:** Bugs & Defects in Production. Unexpected software defects can cause system crashes, data corruption, or functional failures.

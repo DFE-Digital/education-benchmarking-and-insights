@@ -92,20 +92,20 @@ The workbook's `CfpData` sheet is updated and loaded (overwrite) after a success
 On `p01` Log Analytics workspace, run the following KQL query to cover whole of the last month. The maximum number of rows being shown needs to be updated in the query results in order for them to not be truncated.
 
 ```kql
-let time_start = startofmonth(datetime(now), -1); 
+let time_start = startofmonth(datetime(now), -1);
 let time_end = endofmonth(datetime(now), -1);
 GetEstablishmentRequests
-| where 
-    Establishment == "school" 
-| where 
+| where
+    Establishment == "school"
+| where
     ResultCode == 200
-| where 
+| where
     Feature == "spending-priorities"
 | where
     TimeGenerated between (time_start .. time_end)
-| order by 
+| order by
     TimeGenerated asc
-| project 
+| project
     Urn = Identifier,
     ExcelDate = format_datetime(TimeGenerated, 'dd/MM/yyyy HH:mm:ss')
 ```
@@ -131,23 +131,23 @@ ORDER BY [URN]
 On `p01` Log Analytics workspace, run the following KQL query to cover whole of the year up to the end of the last month:
 
 ```kql
-let time_start = startofmonth(datetime(now), -12); 
+let time_start = startofmonth(datetime(now), -12);
 let time_end = endofmonth(datetime(now), -1);
 GetEstablishmentRequests
-| where 
-    Establishment == "school" 
-| where 
+| where
+    Establishment == "school"
+| where
     ResultCode == 200
 | where
     TimeGenerated between (time_start .. time_end)
-| project 
-    TimeGenerated, 
-    Feature, 
+| project
+    TimeGenerated,
+    Feature,
     Identifier
-| summarize 
+| summarize
     Visits=count(), UniqueVisits=count_distinct(Identifier)
     by Feature
-| sort by 
+| sort by
     Visits desc
 ```
 
@@ -156,23 +156,23 @@ GetEstablishmentRequests
 On `p01` Log Analytics workspace, run the following KQL query to cover whole of the year up to the end of the last month:
 
 ```kql
-let time_start = startofmonth(datetime(now), -12); 
+let time_start = startofmonth(datetime(now), -12);
 let time_end = endofmonth(datetime(now), -1);
 GetEstablishmentRequests
-| where 
-    Establishment == "trust" 
-| where 
+| where
+    Establishment == "trust"
+| where
     ResultCode == 200
 | where
     TimeGenerated between (time_start .. time_end)
-| project 
-    TimeGenerated, 
-    Feature, 
+| project
+    TimeGenerated,
+    Feature,
     Identifier
-| summarize 
+| summarize
     Visits=count(), UniqueVisits=count_distinct(Identifier)
     by Feature
-| sort by 
+| sort by
     Visits desc
 ```
 
@@ -181,23 +181,23 @@ GetEstablishmentRequests
 On `p01` Log Analytics workspace, run the following KQL query to cover whole of the year up to the end of the last month:
 
 ```kql
-let time_start = startofmonth(datetime(now), -12); 
+let time_start = startofmonth(datetime(now), -12);
 let time_end = endofmonth(datetime(now), -1);
 GetEstablishmentRequests
-| where 
-    Establishment == "local-authority" 
-| where 
+| where
+    Establishment == "local-authority"
+| where
     ResultCode == 200
 | where
     TimeGenerated between (time_start .. time_end)
-| project 
-    TimeGenerated, 
-    Feature, 
+| project
+    TimeGenerated,
+    Feature,
     Identifier
-| summarize 
+| summarize
     Visits=count(), UniqueVisits=count_distinct(Identifier)
     by Feature
-| sort by 
+| sort by
     Visits desc
 ```
 
@@ -221,15 +221,15 @@ ORDER BY [URN], [Year]
 On `p01` Log Analytics workspace, run the following KQL query to cover whole of the year up to the end of the last month:
 
 ```kql
-let time_start = startofmonth(datetime(now), -12); 
+let time_start = startofmonth(datetime(now), -12);
 let time_end = endofmonth(datetime(now), -1);
 GetSfbReferrerRequests
 | where
     TimeGenerated between (time_start .. time_end)
-| project 
+| project
     TimeGenerated,
     IsDeepLink
-| summarize 
+| summarize
     Visits=count()
     by IsDeepLink, Month = format_datetime(startofmonth(TimeGenerated),'yyyy/MM')
 ```

@@ -1,11 +1,11 @@
-AppEvents 
+AppEvents
 | extend
     TargetUri = tostring(parse_json (Properties["targetUri"]))
-| where 
+| where
     Name == "commercial-resource"
-| project 
-    TimeGenerated, 
-    OperationName, 
+| project
+    TimeGenerated,
+    OperationName,
     TargetUri
-| order by 
+| order by
     TimeGenerated asc

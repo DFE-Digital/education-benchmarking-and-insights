@@ -61,21 +61,21 @@
                     var contentId = $"accordion-default-content-{i + 1}";
 
                     var groupSelectedCount = group.Value.Count(x => Model.SelectedIds.Contains((int)x));
-                    
+
                     <div class="govuk-accordion__section">
                         <div class="govuk-accordion__section-header">
                             <h2 class="govuk-accordion__section-heading">
                                 <span class="govuk-accordion__section-button"
                                       id="@headingId">
                                     @group.Key.GetCategoryGroupDescription()
-                                    
+
                                     @if (groupSelectedCount > 0)
                                     {
                                         <span class="govuk-hint app-filter__selected-hint">
                                             @($"{groupSelectedCount} selected")
                                         </span>
                                     }
-                                    
+
                                 </span>
                             </h2>
                         </div>

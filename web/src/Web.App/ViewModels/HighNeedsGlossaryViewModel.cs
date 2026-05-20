@@ -10,12 +10,12 @@ public class HighNeedsGlossaryViewModel : GlossaryViewModel
         {
             Term = "Balance carried forward",
             Meaning = """
-                      Balance carried forward is a cumulative number that is 
-                      decreased each year by any shortfall amount and 
-                      increased each year by any excess amount.   
+                      Balance carried forward is a cumulative number that is
+                      decreased each year by any shortfall amount and
+                      increased each year by any excess amount.
 
-                      The s251 outturn statement will show the overall deficit 
-                      or surplus the local authority is carrying compared to the 
+                      The s251 outturn statement will show the overall deficit
+                      or surplus the local authority is carrying compared to the
                       funding they receive for the provision of education.
                       """
         },
@@ -23,30 +23,30 @@ public class HighNeedsGlossaryViewModel : GlossaryViewModel
         {
             Term = "DSG allocation",
             Meaning = """
-                      Dedicated Schools Grant. Money allocated by 
-                      Department for Education to local authorities for specific 
-                      education related services. 
+                      Dedicated Schools Grant. Money allocated by
+                      Department for Education to local authorities for specific
+                      education related services.
 
-                      This is divided into the blocks it should be spent in and 
-                      includes: 
+                      This is divided into the blocks it should be spent in and
+                      includes:
 
                       * schools block (calculated based on national funding formula)
                       * high needs block
                       * early years block
-                      * central school services block 
+                      * central school services block
                       """
         },
         new()
         {
             Term = "In year balance",
             Meaning = """
-                      The financial balance of a school or a local authority 
-                      within a specific year, considering both income and 
-                      expenditure.  
+                      The financial balance of a school or a local authority
+                      within a specific year, considering both income and
+                      expenditure.
 
-                      The in-year balance determines whether the school or 
-                      authority has a surplus (spending less than income) or a 
-                      deficit (spending more than income) for that particular 
+                      The in-year balance determines whether the school or
+                      authority has a surplus (spending less than income) or a
+                      deficit (spending more than income) for that particular
                       year.
                       """
         },
@@ -54,31 +54,31 @@ public class HighNeedsGlossaryViewModel : GlossaryViewModel
         {
             Term = "National Funding Formula",
             Meaning = """
-                      The methodology used by the DfE to determine the per 
-                      pupil amount allocated to the schools block for each local 
-                      authority.  
+                      The methodology used by the DfE to determine the per
+                      pupil amount allocated to the schools block for each local
+                      authority.
                       """
         },
         new()
         {
             Term = "Outturn",
             Meaning = """
-                      The outturn is the actual amount spent on high needs by 
-                      local authorities in each financial year.  This is taken from 
+                      The outturn is the actual amount spent on high needs by
+                      local authorities in each financial year.  This is taken from
                       the s251 outturn statement.
 
-                      **Place funding in academies (recoupment)** 
+                      **Place funding in academies (recoupment)**
 
-                      Where the outturn refers to place funding, or total outturn for 
-                      the local authority, we have included place funding for pupils 
+                      Where the outturn refers to place funding, or total outturn for
+                      the local authority, we have included place funding for pupils
                       with special educational needs taught in academies.
-                      
-                      While the s251 outturn only records direct Local Authority 
-                      spending, our methodology integrates academy-level data from the 
-                      [High Needs Places](https://www.gov.uk/government/publications/high-needs-allocated-place-numbers) 
-                      publication. We map each academy to its respective category 
-                      (Primary, Secondary, Special, or Alternative Provision). 
-                      We then calculate the total place funding for these academies 
+
+                      While the s251 outturn only records direct Local Authority
+                      spending, our methodology integrates academy-level data from the
+                      [High Needs Places](https://www.gov.uk/government/publications/high-needs-allocated-place-numbers)
+                      publication. We map each academy to its respective category
+                      (Primary, Secondary, Special, or Alternative Provision).
+                      We then calculate the total place funding for these academies
                       and add it into the outturn.
                       """
         },
@@ -86,12 +86,12 @@ public class HighNeedsGlossaryViewModel : GlossaryViewModel
         {
             Term = "Place funding",
             Meaning = """
-                      Place funding is allocated as an annual amount of core 
-                      high needs funding for schools and colleges.  
+                      Place funding is allocated as an annual amount of core
+                      high needs funding for schools and colleges.
 
-                      Place funding is allocated at a standard rate for a number 
-                      of places, reflecting the number of high needs 
-                      placements which commissioning local authorities are 
+                      Place funding is allocated at a standard rate for a number
+                      of places, reflecting the number of high needs
+                      placements which commissioning local authorities are
                       expected to require in the period.
                       """
         },
@@ -99,21 +99,21 @@ public class HighNeedsGlossaryViewModel : GlossaryViewModel
         {
             Term = "Planned expenditure",
             Meaning = """
-                      A financial plan outlining how allocated funds will be 
-                      spent over the upcoming period. In this service this refers 
-                      to the s251 budget statement. 
+                      A financial plan outlining how allocated funds will be
+                      spent over the upcoming period. In this service this refers
+                      to the s251 budget statement.
 
-                      The budget calculations are carried out inclusive of the 
-                      academy allocation. 
+                      The budget calculations are carried out inclusive of the
+                      academy allocation.
                       """
         },
         new()
         {
             Term = "S251",
             Meaning = """
-                      The regulatory requirement to prepare and submit 
-                      annual, education and children and young people's 
-                      services, budget and outturn statements for each 
+                      The regulatory requirement to prepare and submit
+                      annual, education and children and young people's
+                      services, budget and outturn statements for each
                       financial year.
                       """
         },
@@ -121,10 +121,10 @@ public class HighNeedsGlossaryViewModel : GlossaryViewModel
         {
             Term = "Top-up funding",
             Meaning = """
-                      The additional financial support allocated by local 
-                      authorities to schools for pupils with Education, Health, 
-                      and Care Plans (EHCPs). This makes up the difference 
-                      between the cost of meeting the needs in the EHCP and 
+                      The additional financial support allocated by local
+                      authorities to schools for pupils with Education, Health,
+                      and Care Plans (EHCPs). This makes up the difference
+                      between the cost of meeting the needs in the EHCP and
                       the place funding element of high needs for each pupil.
                       """
         }
@@ -153,8 +153,8 @@ public class GlossaryViewModel
         {
             Term = "BFR",
             Meaning = """
-                      Budget forecast return. Data collected for academic and 
-                      financial year analysis by Department for Education.  This 
+                      Budget forecast return. Data collected for academic and
+                      financial year analysis by Department for Education.  This
                       applies to the academy sector only.
                       """
         },
@@ -162,10 +162,10 @@ public class GlossaryViewModel
         {
             Term = "CFP",
             Meaning = """
-                      Curriculum and Financial Planning. This is a management 
-                      process that has been tailored for FBIT from the Integrated 
-                      Curriculum and Financial Planning (ICFP) process. This 
-                      helps schools plan the best curriculum for their pupils with 
+                      Curriculum and Financial Planning. This is a management
+                      process that has been tailored for FBIT from the Integrated
+                      Curriculum and Financial Planning (ICFP) process. This
+                      helps schools plan the best curriculum for their pupils with
                       the funding they have available.
                       """
         },
@@ -173,11 +173,11 @@ public class GlossaryViewModel
         {
             Term = "CFR",
             Meaning = """
-                      Consistent Financial Reporting. The consistent financial 
-                      reporting (CFR) framework provides a standard template 
-                      for schools to collect information about their income and 
-                      expenditure by financial years. Maintained schools then 
-                      provide this information to their local authorities in a 
+                      Consistent Financial Reporting. The consistent financial
+                      reporting (CFR) framework provides a standard template
+                      for schools to collect information about their income and
+                      expenditure by financial years. Maintained schools then
+                      provide this information to their local authorities in a
                       financial statement each year
                       """
         },
@@ -201,7 +201,7 @@ public class GlossaryViewModel
         {
             Term = "High executive pay",
             Meaning = """
-                      Financial compensation for senior executive staff in 
+                      Financial compensation for senior executive staff in
                       academy trusts.
                       """
         },
@@ -237,7 +237,7 @@ public class GlossaryViewModel
         {
             Term = "National funding formula",
             Meaning = """
-                      The way government decides how much core funding 
+                      The way government decides how much core funding
                       should be allocated for mainstream state funded schools.
                       """
         },
@@ -245,7 +245,7 @@ public class GlossaryViewModel
         {
             Term = "NMSS",
             Meaning = """
-                      Non maintained special school (or independent special 
+                      Non maintained special school (or independent special
                       school)
                       """
         },
@@ -253,8 +253,8 @@ public class GlossaryViewModel
         {
             Term = "Ofsted rating",
             Meaning = """
-                      A grade given to schools and other educational 
-                      establishments by the Office for Standards in Education, 
+                      A grade given to schools and other educational
+                      establishments by the Office for Standards in Education,
                       Children's Services and Skills.
                       """
         },
@@ -269,10 +269,10 @@ public class GlossaryViewModel
         {
             Term = "Post-school",
             Meaning = """
-                      Further education (FE) colleges, sixth form colleges, 
-                      independent colleges, special post-16 institutions and 
-                      other post-16 providers that do not provide for pupils of 
-                      compulsory school age, including 16-19 maintained 
+                      Further education (FE) colleges, sixth form colleges,
+                      independent colleges, special post-16 institutions and
+                      other post-16 providers that do not provide for pupils of
+                      compulsory school age, including 16-19 maintained
                       schools and academies.
                       """
         },
@@ -287,18 +287,18 @@ public class GlossaryViewModel
         {
             Term = "RAG",
             Meaning = """
-                      Red, amber and green (RAG) priority ratings are shown 
-                      to give an indication of the spending compared to similar 
-                      schools. 
-                              
+                      Red, amber and green (RAG) priority ratings are shown
+                      to give an indication of the spending compared to similar
+                      schools.
+
                       The rating is not an indication of performance. It is used to
-                      display if spending is significantly more or less than similar 
-                      schools. This does not consider any individual spending 
-                      strategies which might apply. 
-                              
-                      The ratings are intended for schools and trusts to identify 
-                      potential areas to help them make informed spending 
-                      decisions. 
+                      display if spending is significantly more or less than similar
+                      schools. This does not consider any individual spending
+                      strategies which might apply.
+
+                      The ratings are intended for schools and trusts to identify
+                      potential areas to help them make informed spending
+                      decisions.
                       """
         },
         new()
@@ -312,7 +312,7 @@ public class GlossaryViewModel
         {
             Term = "SEN2",
             Meaning = """
-                      A statutory annual data collection of special educational 
+                      A statutory annual data collection of special educational
                       needs.
                       """
         },

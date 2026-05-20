@@ -1,6 +1,6 @@
 # Platform API Test Plan: LocalAuthority - Search
 
-API: LocalAuthority  
+API: LocalAuthority
 Feature: Search
 
 ## Test Scenarios by Endpoint

@@ -1,7 +1,7 @@
-AppRequests 
-| where 
+AppRequests
+| where
     SessionId != ""
-| where 
+| where
     isempty(SyntheticSource)
-| order by 
+| order by
     TimeGenerated asc

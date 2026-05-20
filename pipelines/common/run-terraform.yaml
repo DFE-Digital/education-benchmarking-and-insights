@@ -29,17 +29,17 @@ steps:
       inlineScript: |
         az group create --location ${{ parameters.location }} --name ${{ parameters.environmentPrefix }}-ebis-terraform --tags "Environment=${{ parameters.cipEnvironment }}" "Product=DfE Financial Benchmarking service"
         echo "Resource group created"
-        
+
         storageAccountName=${{ parameters.environmentPrefix }}storagetf
         az storage account create --name $storageAccountName --resource-group ${{ parameters.environmentPrefix }}-ebis-terraform --location ${{ parameters.location }} --sku Standard_LRS --min-tls-version TLS1_2
         echo "Storage account created"
-        
+
         az storage account blob-service-properties update --account-name $storageAccountName --resource-group ${{ parameters.environmentPrefix }}-ebis-terraform --enable-delete-retention true --delete-retention-days 7 --container-retention true --container-days 7 --enable-versioning true
         echo "Storage account properties updated"
 
         az storage container create --auth-mode login --name tfstate --account-name $storageAccountName
         echo "Storage container created"
-        
+
         echo "##vso[task.setvariable variable=environmentPrefix]${{ parameters.environmentPrefix }}"
         echo "##vso[task.setvariable variable=environment]${{ parameters.environment }}"
         echo "##vso[task.setvariable variable=cipEnvironment]${{ parameters.cipEnvironment }}"

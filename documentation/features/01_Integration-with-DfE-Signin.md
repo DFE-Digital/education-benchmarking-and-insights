@@ -5,7 +5,7 @@
 ```mermaid
 sequenceDiagram
     accDescr: DfE Sign-in sequence
-    
+
     participant User
     participant Web App
     participant DfE Sign-In login

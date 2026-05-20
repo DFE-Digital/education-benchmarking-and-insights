@@ -1,6 +1,6 @@
 # Platform API Test Plan: [API] - [Feature]
 
-API: [API Name]  
+API: [API Name]
 Feature: [Feature Name]
 
 ## Test Scenarios by Endpoint

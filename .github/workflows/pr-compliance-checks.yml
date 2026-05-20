@@ -48,7 +48,7 @@ jobs:
             const branchRegex = /^(feature|bugfix|hotfix|exp|tech-debt|docs|prototype|dependabot|chore)(\/[0-9]+)?\/.+$/;
             const branchMatch = branchName.match(branchRegex);
             const branchValid = branchMatch !== null;
-            
+
             // 2. Auto-assign Labels based on Branch Prefix
             if (branchMatch && context.payload.action === 'opened') {
               const category = branchMatch[1];
@@ -64,7 +64,7 @@ jobs:
                 'dependabot': 'dependencies'
               };
               const labelToAdd = labelMap[category];
-              
+
               if (labelToAdd && !currentLabels.includes(labelToAdd)) {
                 try {
                   await github.rest.issues.addLabels({
@@ -83,24 +83,24 @@ jobs:
 
             // 3. PR Labels validation
             const labelsValid = currentLabels.length > 0;
-            
+
             // 4. Commit Title Standards (PR Title)
             const titleRegex = /^(feat|fix|docs|style|refactor|perf|test|chore)(\([a-zA-Z0-9_-]+\))?!?: .+/;
             const titleValid = titleRegex.test(title);
-            
+
             // 5. Ticket Linking
             const isDependabot = branchName.startsWith('dependabot/');
-            
+
             const commits = await github.paginate(github.rest.pulls.listCommits, {
               owner: context.repo.owner,
               repo: context.repo.repo,
               pull_number: pr.number,
             });
             const commitMessages = commits.map(c => c.commit.message).join(" ");
-            
+
             const bodyTitleCommits = body + " " + title + " " + commitMessages;
             const ticketValid = isDependabot || /AB#\d+/.test(bodyTitleCommits);
-            
+
             // 6. Markdown lint check
             const markdownValid = process.env.MARKDOWN_LINT_SUCCESS === 'true';
 
@@ -109,8 +109,8 @@ jobs:
             // 7. PR Size Check
             const totalLines = pr.additions + pr.deletions;
             const isLarge = totalLines > 400;
-            const sizeWarning = isLarge 
-              ? `\n\n> ⚠️ **Size Warning:** This PR changes **${totalLines} lines**. Our guidelines recommend keeping PRs under 400 lines to support Trunk-based development and faster reviews. Consider breaking this down if possible.` 
+            const sizeWarning = isLarge
+              ? `\n\n> ⚠️ **Size Warning:** This PR changes **${totalLines} lines**. Our guidelines recommend keeping PRs under 400 lines to support Trunk-based development and faster reviews. Consider breaking this down if possible.`
               : "";
 
             const checklist = [

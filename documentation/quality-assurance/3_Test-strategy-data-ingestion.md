@@ -2,10 +2,10 @@
 
 ## Purpose
 
-This document outlines the strategy for testing **data ingestion** within the FBIT platform.  
+This document outlines the strategy for testing **data ingestion** within the FBIT platform.
 Each data ingestion cycle involves receiving structured datasets from upstream providers, processing them through the ingestion pipeline, storing the results in the database, and exposing the data to the service layer for end users.
 
-The goal of this strategy is to ensure that every ingestion is **accurate, complete, and non-disruptive to existing data**.  
+The goal of this strategy is to ensure that every ingestion is **accurate, complete, and non-disruptive to existing data**.
 This document defines **how ingestion testing is approached**, including the scope, objectives, responsibilities, and validation methods.
 
 ## Scope

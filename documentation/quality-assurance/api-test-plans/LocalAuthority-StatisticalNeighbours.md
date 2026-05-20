@@ -1,6 +1,6 @@
 # Platform API Test Plan: LocalAuthority - StatisticalNeighbours
 
-API: LocalAuthority  
+API: LocalAuthority
 Feature: StatisticalNeighbours
 
 ## Test Scenarios by Endpoint

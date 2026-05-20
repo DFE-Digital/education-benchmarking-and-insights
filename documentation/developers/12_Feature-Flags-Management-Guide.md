@@ -38,11 +38,11 @@ To ensure that features are properly tested before they are live, we should foll
 Below is a list of feature flags currently implemented in our service at the time of writing this document:
 
 ``` text
-CfrItSpendBreakdown 
+CfrItSpendBreakdown
 HighExecutivePay
 HighNeeds
 News
-SchoolSpendingPrioritiesSsrCharts  
+SchoolSpendingPrioritiesSsrCharts
 ```
 
 These flags are typically managed via App Service configuration.

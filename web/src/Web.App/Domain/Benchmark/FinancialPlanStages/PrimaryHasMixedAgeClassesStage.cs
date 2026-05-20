@@ -31,7 +31,7 @@ public class PrimaryHasMixedAgeClassesStage : Stage
             planInput.TeachersMixedYear4Year5 = null;
             planInput.TeachersMixedYear5Year6 = null;
 
-            //TODO : Set teaching assistant figures 
+            //TODO : Set teaching assistant figures
         }
     }
 }

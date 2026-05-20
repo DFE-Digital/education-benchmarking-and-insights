@@ -108,7 +108,7 @@ stages:
               targetPath: '$(WorkingDir)/pub'
               artifact: 'docs'
               publishLocation: 'pipeline'
-              
+
       - job: SharePointPublish
         displayName: 'Publish artifacts to SharePoint'
         dependsOn: [ BuildDocumentation ]

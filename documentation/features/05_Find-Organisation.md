@@ -63,7 +63,7 @@ This feature has monorepo dependencies on:
 ```mermaid
 flowchart TD
   accDescr: suggester API flow - happy path
-  
+
   A([✏️ Enter search criteria]) --> B[GET\n /api/suggest?type=school&search=XXX ]
     B --> C[Proxy to Establishment API]
     C --> D["POST\n /api/schools/suggest{ 'searchText': 'XXX', 'size': 10, 'suggesterName': 'school-suggester' }"]

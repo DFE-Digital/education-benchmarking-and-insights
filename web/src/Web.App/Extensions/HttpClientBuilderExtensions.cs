@@ -50,7 +50,7 @@ public static class HttpClientBuilderExtensions
     {
         return HttpPolicyExtensions
             .HandleTransientHttpError()
-            // AB#248424 - Transient 429 errors from Platform API should be allowed to be 
+            // AB#248424 - Transient 429 errors from Platform API should be allowed to be
             //             retried based on RetryAfter header, if present in the response
             .OrResult(response => response.StatusCode == HttpStatusCode.TooManyRequests)
             .WaitAndRetryAsync(

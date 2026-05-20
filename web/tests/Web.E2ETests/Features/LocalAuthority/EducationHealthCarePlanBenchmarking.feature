@@ -28,4 +28,3 @@ Feature: Local Authority Education Health Care Plan Benchmarking
           | City of London         | 1,650            | 11.52                      |
           | Hammersmith and Fulham | 18,500           | 0                          |
           | Tower Hamlets          | 28               | No data submitted          |
-

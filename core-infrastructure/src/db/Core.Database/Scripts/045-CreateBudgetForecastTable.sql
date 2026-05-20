@@ -21,4 +21,4 @@ IF NOT EXISTS(SELECT *
 
             CONSTRAINT PK_BudgetForecastReturn PRIMARY KEY (RunType, RunId, CompanyNumber, Year, Category)
         );
-    END;  
+    END;

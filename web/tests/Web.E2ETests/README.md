@@ -1,7 +1,7 @@
 ﻿# Running Automated End-to-End (E2E) Tests Locally
 
 This guide provides an overview for setting up and running automated E2E tests for the project, aligned with the CI/CD
-pipeline setup.  
+pipeline setup.
 It complements the more detailed instructions already available in [`web/README.md`](../../README.md#end-to-end-tests).
 
 ## 🚀 Getting Started
