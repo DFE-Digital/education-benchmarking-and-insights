@@ -84,6 +84,49 @@ These steps will avoid SSL errors due to DfE kit/VPN.
 
     * `poetry install`
 
+### Local environment variables with direnv
+
+The data pipeline uses environment variables from your shell.  
+For local development secret variables like API credentials and DB access keys are stored outside of the repository structure to prevent secret leakage by use of LLM coding tools.
+
+1. Ensure `direnv` is installed and [hooked into your shell](https://direnv.net/docs/hook.html).
+
+```zsh
+brew install direnv
+echo 'eval "$(direnv hook zsh)"' >> ~/.zshrc
+```
+
+```powershell
+winget install -e --id direnv.direnv
+```
+
+1. Create a local-only secrets file outside this repository, for example:
+
+```bash
+touch ~/.config/fbit/data-pipeline.secrets.env
+```
+
+1. Load secrets to this file with local values to start:
+
+```bash
+cat > ~/.config/fbit/data-pipeline.secrets.env <<'EOF'
+export STORAGE_CONNECTION_STRING="DefaultEndpointsProtocol=http;AccountName=devstoreaccount1;AccountKey=...;BlobEndpoint=http://127.0.0.1:10000/devstoreaccount1;QueueEndpoint=http://127.0.0.1:10001/devstoreaccount1;TableEndpoint=http://127.0.0.1:10002/devstoreaccount1;SkipApiVersionCheck=True"
+export DB_NAME="data"
+export DB_HOST="127.0.0.1"
+export DB_USER="sa"
+export DB_PWD='mystrong!Pa55word'
+EOF
+chmod 600 ~/.config/fbit/data-pipeline.secrets.env
+```
+
+1. From the `data-pipeline` directory, run:
+
+```direnv allow```
+
+1. You should see that direnv has loaded all the environment variables
+
+```> direnv: export +DB_ARGS +DB_HOST +DB_NAME +DB_PORT +DB_PWD +DB_USER +ENV +RAW_DATA_CONTAINER +STORAGE_CONNECTION_STRING```
+
 ### Running the pipeline
 
 To run the pipeline locally, follow these steps:
