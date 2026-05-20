@@ -14,7 +14,7 @@ This release delivers a combination of Local Authority (LA) journey updates incl
 
 - **Enhancements**
   - Implementing server-side rendering architecture for multi-series horizontal bar charts to optimise front-end visualisation performance.
-  - Enchanged High needs benchmarking page with additional data points and standardisation options to provide deeper insights into LA spending patterns.
+  - Enhanced High needs benchmarking page with additional data points and standardisation options to provide deeper insights into LA spending patterns.
   - Executing structural revisions on the Local Authority homepage layout to optimise navigation.
   - Separating the education, health, and care plans (EHCP) into a dedicated individual area.
 
@@ -84,6 +84,7 @@ This release delivers a combination of Local Authority (LA) journey updates incl
 **Release Overview:**
 
 {add notes here}
+
 **Azure DevOps tickets included in this release:**
 
 - [286015 - High needs - additional data (iteration for s251)](https://dfe-ssp.visualstudio.com/_workitems/edit/286015)
