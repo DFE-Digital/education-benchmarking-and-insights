@@ -19,6 +19,7 @@ repos:
       - id: trailing-whitespace
       - id: check-merge-conflict
       - id: mixed-line-ending
+        args: [--fix=lf]
       - id: check-added-large-files
       - id: no-commit-to-branch
         args: [ --branch, main ]
