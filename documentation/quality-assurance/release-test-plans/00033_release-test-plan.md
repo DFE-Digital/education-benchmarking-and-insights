@@ -6,23 +6,23 @@
 ## Introduction
 
 This plan defines the approach for testing release `2026.5.0`, covering smoke, sanity testing activities.  
-This release delivers a combination of Local Authority (LA) journey updates including revised high needs benchmarking frameworks, separated education healthcare plans, server-side chart rendering components, and platform dependency updates.
+This release delivers improvements across High Needs and EHCP benchmarking, expanding available data, improving navigation for Local Authorities, and giving users more flexible ways to analyse spending and plan information.
 
 ## Scope
 
 **In-scope:**
 
 - **Enhancements**
-  - Implementing server-side rendering architecture for multi-series horizontal bar charts to optimise front-end visualisation performance.
-  - Enhanced High needs benchmarking page with additional data points and standardisation options to provide deeper insights into LA spending patterns.
-  - Executing structural revisions on the Local Authority homepage layout to optimise navigation.
-  - Separating the education, health, and care plans (EHCP) into a dedicated individual area.
+  - Added new S251 data points to enrich High Needs benchmarking and improve comparison accuracy.
+  - Introduced dimension options (e.g., per pupil, per EHCP) so users can view High Needs data through multiple analytical lenses.
+  - Created a dedicated benchmarking area for Education, Health and Care Plans to seperate it from the main High Needs benchmarking area and make it easier to find.
+  - Updated the Local Authority homepage to show separate links for High Needs benchmarking and EHCP benchmarking for clearer navigation.
 
 - **Bug Fixes**
   - N/A - No specific bug fixes are included in this release.
 
 - **Maintenance**
-  - Reviewing and merging the critical May '26 platform and package dependency updates.
+  - Reviewing and merging the critical April and May '26 platform and package dependency updates.
 
 **Out-of-Scope:**
 
@@ -88,12 +88,12 @@ This release delivers a combination of Local Authority (LA) journey updates incl
 **Azure DevOps tickets included in this release:**
 
 - [286015 - High needs - additional data (iteration for s251)](https://dfe-ssp.visualstudio.com/_workitems/edit/286015)
-- [287958 - Server side rendering of multi series horizontal bar charts](https://dfe-ssp.visualstudio.com/_workitems/edit/287958)
 - [295178 - Benchmark high needs spending standardisation options](https://dfe-ssp.visualstudio.com/_workitems/edit/295178)
 - [295179 - Benchmark high needs spending](https://dfe-ssp.visualstudio.com/_workitems/edit/295179)
 - [299439 - LA Homepage revision](https://dfe-ssp.visualstudio.com/_workitems/edit/299439)
 - [299498 - Benchmark education, health and care plans](https://dfe-ssp.visualstudio.com/_workitems/edit/299498)
 - [312542 - Review & merge May '26 dependency updates](https://dfe-ssp.visualstudio.com/_workitems/edit/312542)
+- [290285 - Execute April '26 dependency updates](https://dfe-ssp.visualstudio.com/_workitems/edit/290285)
 
 ## Appendix
 
