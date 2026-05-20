@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http.Extensions;
+﻿using FluentValidation;
+using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Web.App.Attributes;
 using Web.App.Domain;
@@ -17,7 +18,8 @@ namespace Web.App.Controllers;
 public class LocalAuthorityComparatorsController(
     ILogger<LocalAuthorityComparatorsController> logger,
     IEstablishmentApi establishmentApi,
-    ILocalAuthorityComparatorSetService localAuthorityComparatorSetService)
+    ILocalAuthorityComparatorSetService localAuthorityComparatorSetService,
+    IValidator<LocalAuthorityComparatorSelectionViewModel> validator)
     : Controller
 {
     [HttpGet]
@@ -58,46 +60,48 @@ public class LocalAuthorityComparatorsController(
             try
             {
                 var localAuthority = await LocalAuthorityStatisticalNeighbours(code);
+                var comparators = new HashSet<string>(viewModel.Selected);
+                var result = await validator.ValidateAsync(viewModel);
 
-                var comparators = new List<string>(viewModel.Selected);
-                FormAction action = viewModel.Action ?? throw new ArgumentNullException(nameof(viewModel));
-
-                switch (action.Action)
+                if (!result.IsValid)
                 {
-                    case FormAction.Add when string.IsNullOrWhiteSpace(viewModel.LaInput):
-                        ModelState.AddModelError(nameof(viewModel.LaInput), "Select a local authority");
-                        break;
-                    case FormAction.Add when comparators.Count >= 19:
-                        ModelState.AddModelError(nameof(viewModel.LaInput), "Select up to 19 comparator local authorities");
-                        break;
-                    case FormAction.Add:
-                        comparators.Add(viewModel.LaInput);
-                        break;
-                    case FormAction.Remove when !string.IsNullOrWhiteSpace(action.Identifier):
-                        comparators.Remove(action.Identifier);
-                        break;
-                    case FormAction.Continue when comparators.Count is < 1 or > 19:
-                        ModelState.AddModelError(nameof(viewModel.LaInput), "Select between 1 and 19 comparator local authorities");
-                        break;
-                    case FormAction.Reset:
-                        comparators = InitialComparatorSetFromNeighbours(localAuthority.StatisticalNeighbours);
-                        break;
-                    case FormAction.Clear:
-                        comparators = [];
-                        break;
-                }
-
-                if (!ModelState.IsValid)
-                {
+                    result.AddToModelState(ModelState);
                     logger.LogDebug("Posted local authorities comparators failed validation: {ModelState}",
                         ModelState.Where(m => m.Value != null && m.Value.Errors.Any()).ToJson());
+
+                    return View(nameof(Index), new LocalAuthorityComparatorsViewModel(localAuthority, comparators.ToArray(), type, viewModel.Referrer));
                 }
-                else if (action.Action == FormAction.Continue)
+
+                FormAction action = viewModel.Action ?? throw new ArgumentNullException(nameof(viewModel));
+                
+                if (action.Action == FormAction.Continue)
                 {
                     localAuthorityComparatorSetService.SetUserDefinedComparatorSetInSession(code, new UserDefinedLocalAuthorityComparatorSet { Set = comparators.ToArray() });
                     return ContinueActionResult(code, type);
                 }
+                
+                switch (action.Action)
+                {
+                    case FormAction.Add:
+                        comparators.Add(viewModel.LaInput!);
+                        break;
 
+                    case FormAction.Remove:
+                        if (!string.IsNullOrWhiteSpace(action.Identifier))
+                        {
+                            comparators.Remove(action.Identifier);
+                        }
+                        break;
+
+                    case FormAction.Reset:
+                        comparators = InitialComparatorSetFromNeighbours(localAuthority.StatisticalNeighbours).ToHashSet();
+                        break;
+
+                    case FormAction.Clear:
+                        comparators = [];
+                        break;
+                }
+                
                 return View(nameof(Index), new LocalAuthorityComparatorsViewModel(localAuthority, comparators.ToArray(), type, viewModel.Referrer));
 
             }

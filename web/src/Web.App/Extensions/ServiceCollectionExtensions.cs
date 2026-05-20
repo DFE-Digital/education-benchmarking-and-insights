@@ -25,6 +25,7 @@ using Web.App.Middleware.Markdown;
 using Web.App.Services;
 using Web.App.Telemetry;
 using Web.App.Validators;
+using Web.App.ViewModels;
 using Westwind.AspNetCore.Markdown;
 using UriBuilder = Web.App.Builders.UriBuilder;
 
@@ -367,7 +368,8 @@ public static class ServiceCollectionExtensions
 
     public static IServiceCollection AddValidation(this IServiceCollection services) => services
         .AddScoped<IFinancialPlanStageValidator, FinancialPlanStageValidator>()
-        .AddScoped<IValidator<OrganisationIdentifier>, OrganisationIdentifierValidator>();
+        .AddScoped<IValidator<OrganisationIdentifier>, OrganisationIdentifierValidator>()
+        .AddScoped<IValidator<LocalAuthorityComparatorSelectionViewModel>, LocalAuthorityComparatorSelectionViewModelValidator>();
 
     public static IServiceCollection AddUriBuilder(this IServiceCollection services)
     {
