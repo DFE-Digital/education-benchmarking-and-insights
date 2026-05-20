@@ -126,6 +126,7 @@ dotnet user-secrets set "Sql:ConnectionString" "Server=..." --id "platform-local
 ### Encrypted local.settings.json
 
 Azure Functions Core Tools supports encrypting `local.settings.json`. Even though the file is ignored by source control, it **must** remain encrypted at rest within the workspace to comply with security principles.
+Any `func settings` commands should be run only from the Function App directory, and encryption-based local settings should be treated strictly as a last resort for bootstrapped environment variables required by the Functions runtime when user secrets cannot be used.
 
 1. **Add/Update Secret**:
 
