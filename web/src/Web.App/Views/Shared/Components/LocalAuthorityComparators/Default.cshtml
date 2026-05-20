@@ -3,7 +3,7 @@
 @using Web.App.ViewModels
 @model Web.App.ViewModels.Components.LocalAuthorityComparatorsViewModel
 @{
-    var hasLaInputError = ViewData.ModelState.HasError(nameof(LocalAuthorityComparatorSelectionViewModel.LaInput));
+    var hasLaInputError = ViewData.ModelState.ErrorCount > 0;
 }
 
 <div class="select-row govuk-!-margin-bottom-0">
@@ -16,9 +16,12 @@
             </label>
             @if (hasLaInputError)
             {
-                <p id="@nameof(LocalAuthorityComparatorSelectionViewModel.LaInput)-error" class="govuk-error-message">
+                var error = ViewData.ModelState.HasError(nameof(LocalAuthorityComparatorSelectionViewModel.LaInput))
+                    ? ViewData.ModelState[nameof(LocalAuthorityComparatorSelectionViewModel.LaInput)]?.Errors.First().ErrorMessage
+                    : ViewData.ModelState[nameof(LocalAuthorityComparatorSelectionViewModel.Selected)]?.Errors.First().ErrorMessage;
+                          <p id="@nameof(LocalAuthorityComparatorSelectionViewModel.LaInput)-error" class="govuk-error-message">
                     <span class="govuk-visually-hidden">Error:</span>
-                    @ViewData.ModelState[nameof(LocalAuthorityComparatorSelectionViewModel.LaInput)]?.Errors.First().ErrorMessage
+                    @error
                 </p>
             }
             <select

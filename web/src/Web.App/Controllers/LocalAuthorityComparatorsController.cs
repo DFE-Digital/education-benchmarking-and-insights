@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http.Extensions;
+﻿using FluentValidation;
+using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Web.App.Attributes;
 using Web.App.Domain;
@@ -17,7 +18,8 @@ namespace Web.App.Controllers;
 public class LocalAuthorityComparatorsController(
     ILogger<LocalAuthorityComparatorsController> logger,
     IEstablishmentApi establishmentApi,
-    ILocalAuthorityComparatorSetService localAuthorityComparatorSetService)
+    ILocalAuthorityComparatorSetService localAuthorityComparatorSetService,
+    IValidator<LocalAuthorityComparatorSelectionViewModel> validator)
     : Controller
 {
     [HttpGet]
@@ -58,26 +60,24 @@ public class LocalAuthorityComparatorsController(
             try
             {
                 var localAuthority = await LocalAuthorityStatisticalNeighbours(code);
-
                 var comparators = new HashSet<string>(viewModel.Selected);
+                var result = await validator.ValidateAsync(viewModel);
+
+                if (!result.IsValid)
+                {
+                    result.AddToModelState(ModelState);
+                    logger.LogDebug("Posted local authorities comparators failed validation: {ModelState}",
+                        ModelState.Where(m => m.Value != null && m.Value.Errors.Any()).ToJson());
+
+                    return View(nameof(Index), new LocalAuthorityComparatorsViewModel(localAuthority, comparators.ToArray(), type, viewModel.Referrer));
+                }
+
                 FormAction action = viewModel.Action ?? throw new ArgumentNullException(nameof(viewModel));
 
                 switch (action.Action)
                 {
                     case FormAction.Add:
-                        if (string.IsNullOrWhiteSpace(viewModel.LaInput))
-                        {
-                            ModelState.AddModelError(nameof(viewModel.LaInput), "Select a local authority");
-                        }
-                        else if (comparators.Count >= 19)
-                        {
-                            ModelState.AddModelError(nameof(viewModel.LaInput), "Select up to 19 comparator local authorities");
-
-                        }
-                        else
-                        {
-                            comparators.Add(viewModel.LaInput);
-                        }
+                        comparators.Add(viewModel.LaInput!);
                         break;
 
                     case FormAction.Remove:
@@ -85,10 +85,6 @@ public class LocalAuthorityComparatorsController(
                         {
                             comparators.Remove(action.Identifier);
                         }
-                        break;
-
-                    case FormAction.Continue when comparators.Count is < 1 or > 19:
-                        ModelState.AddModelError(nameof(viewModel.LaInput), "Select between 1 and 19 comparator local authorities");
                         break;
 
                     case FormAction.Reset:
@@ -100,16 +96,10 @@ public class LocalAuthorityComparatorsController(
                         break;
                 }
 
-                if (ModelState.IsValid && action.Action == FormAction.Continue)
+                if (action.Action == FormAction.Continue)
                 {
                     localAuthorityComparatorSetService.SetUserDefinedComparatorSetInSession(code, new UserDefinedLocalAuthorityComparatorSet { Set = comparators.ToArray() });
                     return ContinueActionResult(code, type);
-                }
-
-                if (!ModelState.IsValid)
-                {
-                    logger.LogDebug("Posted local authorities comparators failed validation: {ModelState}",
-                        ModelState.Where(m => m.Value != null && m.Value.Errors.Any()).ToJson());
                 }
 
                 return View(nameof(Index), new LocalAuthorityComparatorsViewModel(localAuthority, comparators.ToArray(), type, viewModel.Referrer));
