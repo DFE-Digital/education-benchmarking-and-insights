@@ -15,6 +15,7 @@ def create_master_list(
     ks4: pd.DataFrame,
     split_site: pd.DataFrame,
     capacity: pd.DataFrame,
+    sparsity: pd.DataFrame,
     year: str
 
 ) -> pd.DataFrame:
@@ -48,6 +49,7 @@ def create_master_list(
         .merge(ks4, on="URN", how="left")
         .merge(split_site, on="URN", how="left")
         .merge(capacity, on="URN", how="left")
+        .merge(sparsity, on="URN", how="left")
     )
 
 

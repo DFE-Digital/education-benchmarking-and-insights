@@ -38,6 +38,8 @@ def prepare_data(data: pd.DataFrame) -> pd.DataFrame:
         ColumnNames.RURALSCORE,
         ColumnNames.EASTING,
         ColumnNames.NORTHING,
+        ColumnNames.SPLITSITE,
+        ColumnNames.SPARSITY,
     ] + ColumnNames.SEN_NEEDS
 
     for col in cols_to_fill:
@@ -110,6 +112,7 @@ class ComparatorCalculator:
                 ColumnNames.OVERCAPACITY: OVERCAPACITY_WEIGHT, 
                 ColumnNames.UNDERCAPACITY: UNDERCAPACITY_WEIGHT,
                 ColumnNames.RURALSCORE: RURALSCORE_WEIGHT,
+                ColumnNames.SPARSITY: SPARSITY_WEIGHT,
                 ColumnNames.EASTING: EASTING_WEIGHT,
                 ColumnNames.NORTHING: NORTHING_WEIGHT
             }
@@ -123,6 +126,7 @@ class ComparatorCalculator:
             ColumnNames.OLDESTBUILDINGAGE: OLDESTBUILDINGAGE_WEIGHT,
             ColumnNames.NEWESTBUILDINGAGE: NEWESTBUILDINGAGE_WEIGHT,
             ColumnNames.BUILDINGCOUNT: BUILDINGCOUNT_WEIGHT,
+            ColumnNames.SPLITSITE: SPLITSITE_WEIGHT,
             ColumnNames.EASTING: EASTING_WEIGHT,
             ColumnNames.NORTHING: NORTHING_WEIGHT
         }

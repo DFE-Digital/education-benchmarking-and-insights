@@ -214,6 +214,7 @@ def build_academy_data(
     #temporary workaround to get split site data in - ultimately being added to cdc
     split_site: pd.DataFrame,
     capacity: pd.DataFrame,
+    sparsity: pd.DataFrame
 ):
     """
     Build the Academy dataset.
@@ -277,6 +278,10 @@ def build_academy_data(
                on="URN",
                how="left",
         )
+
+        .merge(sparsity,
+               on="URN",
+               how="left")
     )
 
     if ks2 is not None:

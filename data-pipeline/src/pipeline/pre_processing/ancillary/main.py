@@ -303,3 +303,14 @@ def pre_process_capacity(run_type: str, year: int, run_id: str) -> pd.DataFrame:
     write_blob("pre-processed", f"{run_type}/{run_id}/capacity.parquet", capacity_data.to_parquet())
 
     return capacity_data
+
+def pre_process_sparsity(run_type: str, year: int, run_id: str) -> pd.DataFrame:
+    logger.info(f"Processing Sparsity Data: {run_type}/{year}/sparsity.csv")
+
+    sparsity_data = get_blob(raw_container, f"{run_type}/{year}/sparsity.csv", encoding="utf-8")
+
+    sparsity_data = pd.read_csv(sparsity_data, encoding="utf-8")
+
+    write_blob("pre-processed", f"{run_type}/{run_id}/sparsity.parquet", sparsity_data.to_parquet())
+
+    return sparsity_data
