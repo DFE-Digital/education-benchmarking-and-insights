@@ -12,36 +12,50 @@ public class WhenViewingComparison(SchoolBenchmarkingWebAppClient client)
     : PageBase<SchoolBenchmarkingWebAppClient>(client)
 {
     [Theory]
-    [InlineData(EstablishmentTypes.Academies, true, false)]
-    [InlineData(EstablishmentTypes.Maintained, true, false)]
-    [InlineData(EstablishmentTypes.Maintained, true, true)]
-    [InlineData(EstablishmentTypes.Academies, true, true)]
-    [InlineData(EstablishmentTypes.Academies, false, false)]
-    [InlineData(EstablishmentTypes.Maintained, false, false)]
-    [InlineData(EstablishmentTypes.Maintained, false, true)]
-    [InlineData(EstablishmentTypes.Academies, false, true)]
-    public async Task CanDisplay(string financeType, bool ks4ProgressBandingEnabled, bool hasProgressIndicators)
+    [InlineData(EstablishmentTypes.Academies, true, true, true)]
+    [InlineData(EstablishmentTypes.Academies, true, true, false)]
+    [InlineData(EstablishmentTypes.Academies, true, false, true)]
+    [InlineData(EstablishmentTypes.Academies, true, false, false)]
+    [InlineData(EstablishmentTypes.Academies, false, true, true)]
+    [InlineData(EstablishmentTypes.Academies, false, true, false)]
+    [InlineData(EstablishmentTypes.Academies, false, false, true)]
+    [InlineData(EstablishmentTypes.Academies, false, false, false)]
+    [InlineData(EstablishmentTypes.Maintained, true, true, false)]
+    [InlineData(EstablishmentTypes.Maintained, true, true, true)]
+    [InlineData(EstablishmentTypes.Maintained, true, false, true)]
+    [InlineData(EstablishmentTypes.Maintained, true, false, false)]
+    [InlineData(EstablishmentTypes.Maintained, false, true, true)]
+    [InlineData(EstablishmentTypes.Maintained, false, true, false)]
+    [InlineData(EstablishmentTypes.Maintained, false, false, true)]
+    [InlineData(EstablishmentTypes.Maintained, false, false, false)]
+    public async Task CanDisplay(string financeType, bool ks4ProgressBandingEnabled, bool filtersEnabled, bool hasProgressIndicators)
     {
-        var (page, school) = await SetupNavigateInitPage(financeType, ks4ProgressBandingEnabled, hasProgressIndicators);
+        var (page, school) = await SetupNavigateInitPage(financeType, ks4ProgressBandingEnabled, filtersEnabled, hasProgressIndicators);
 
-        AssertPageLayout(page, school, ks4ProgressBandingEnabled, hasProgressIndicators);
+        AssertPageLayout(page, school, ks4ProgressBandingEnabled, filtersEnabled, hasProgressIndicators);
     }
 
     [Theory]
-    [InlineData(true, false, false)]
-    [InlineData(false, false, false)]
-    [InlineData(true, true, false)]
-    [InlineData(false, true, false)]
-    [InlineData(true, false, true)]
-    [InlineData(false, false, true)]
+    [InlineData(true, true, true, false)]
+    [InlineData(true, true, false, true)]
+    [InlineData(true, true, false, false)]
+    [InlineData(true, false, true, false)]
+    [InlineData(true, false, false, true)]
+    [InlineData(true, false, false, false)]
+    [InlineData(false, false, true, false)]
+    [InlineData(false, false, false, true)]
+    [InlineData(false, false, false, false)]
+
     public async Task CanDisplayCorrectComparatorSetDetails(
         bool ks4ProgressBandingEnabled,
+        bool filtersEnabled,
         bool withCustomUserData,
         bool withUserDefinedUserData)
     {
         var (page, school) = await SetupNavigateInitPage(
             EstablishmentTypes.Maintained,
             ks4ProgressBandingEnabled,
+            filtersEnabled,
             true,
             withCustomUserData,
             withUserDefinedUserData);
@@ -50,25 +64,29 @@ public class WhenViewingComparison(SchoolBenchmarkingWebAppClient client)
             page,
             school,
             ks4ProgressBandingEnabled,
+            filtersEnabled,
             true,
             withCustomUserData,
             withUserDefinedUserData);
     }
 
     [Theory]
-    [InlineData(true)]
-    [InlineData(false)]
-    public async Task CanDisplayCorrectComparatorSetDetailsWhenMissingComparatorSet(bool ks4ProgressBandingEnabled)
+    [InlineData(true, true)]
+    [InlineData(true, false)]
+    [InlineData(false, false)]
+    [InlineData(false, true)]
+    public async Task CanDisplayCorrectComparatorSetDetailsWhenMissingComparatorSet(bool ks4ProgressBandingEnabled, bool filtersEnabled)
     {
         var (page, school) = await SetupNavigateInitPage(
             EstablishmentTypes.Maintained,
             ks4ProgressBandingEnabled,
+            filtersEnabled,
             withEmptyComparatorSet: true);
 
         var comparatorSetDetailsElement = page.QuerySelector("[data-testid=comparator-set-details]"); ;
         Assert.NotNull(comparatorSetDetailsElement);
 
-        AssertMissingComparatorSetCreatedComparatorSetDetailsContent(comparatorSetDetailsElement, school, ks4ProgressBandingEnabled);
+        AssertMissingComparatorSetCreatedComparatorSetDetailsContent(comparatorSetDetailsElement, school, ks4ProgressBandingEnabled, filtersEnabled);
     }
 
     [Theory]
@@ -144,6 +162,7 @@ public class WhenViewingComparison(SchoolBenchmarkingWebAppClient client)
     private async Task<(IHtmlDocument page, School school)> SetupNavigateInitPage(
         string financeType,
         bool ks4ProgressBandingEnabled = true,
+        bool filtersEnabled = true,
         bool hasProgressIndicators = true,
         bool withCustomUserData = false,
         bool withUserDefinedUserData = false,
@@ -189,9 +208,18 @@ public class WhenViewingComparison(SchoolBenchmarkingWebAppClient client)
             }
         };
 
-        string[] features = ks4ProgressBandingEnabled ? [] : [FeatureFlags.KS4ProgressBanding];
+        var disabledFeatures = new List<string>();
+        if (!ks4ProgressBandingEnabled)
+        {
+            disabledFeatures.Add(FeatureFlags.KS4ProgressBanding);
+        }
+        if (!filtersEnabled)
+        {
+            disabledFeatures.Add(FeatureFlags.SchoolComparisonFilter);
+        }
+
         var page = await Client
-            .SetupDisableFeatureFlags(features)
+            .SetupDisableFeatureFlags(disabledFeatures.ToArray())
             .SetupEstablishment(school)
             .SetupSchool(school)
             .SetupInsights()
@@ -211,6 +239,7 @@ public class WhenViewingComparison(SchoolBenchmarkingWebAppClient client)
         IHtmlDocument page,
         School school,
         bool ks4ProgressBandingEnabled = true,
+        bool filtersEnabled = true,
         bool hasProgressIndicators = true,
         bool withCustomUserData = false,
         bool withUserDefinedUserData = false)
@@ -228,14 +257,13 @@ public class WhenViewingComparison(SchoolBenchmarkingWebAppClient client)
 
         var dataSourceElement = page.QuerySelector("div[data-test-id='data-source-wrapper']");
         Assert.NotNull(dataSourceElement);
-        AssertDataSource(dataSourceElement, school, ks4ProgressBandingEnabled, hasProgressIndicators);
+        AssertDataSource(dataSourceElement, school, ks4ProgressBandingEnabled, filtersEnabled, hasProgressIndicators);
 
         var comparatorSetDetailsElement = page.QuerySelector("[data-testid=comparator-set-details]");
         Assert.NotNull(comparatorSetDetailsElement);
-        AssertComparatorSetDetails(comparatorSetDetailsElement, school, ks4ProgressBandingEnabled, withCustomUserData, withUserDefinedUserData, false);
+        AssertComparatorSetDetails(comparatorSetDetailsElement, school, ks4ProgressBandingEnabled, filtersEnabled, withCustomUserData, withUserDefinedUserData, false);
 
-        var comparisonComponent = page.GetElementById(ks4ProgressBandingEnabled ? "compare-your-costs-2" : "compare-your-costs");
-        Assert.NotNull(comparisonComponent);
+        AssertComparisonComponent(page, ks4ProgressBandingEnabled, filtersEnabled);
 
         var toolsListSection = page.GetElementById("benchmarking-and-planning-tools");
         Assert.NotNull(toolsListSection);
@@ -249,57 +277,108 @@ public class WhenViewingComparison(SchoolBenchmarkingWebAppClient client)
         DocumentAssert.Link(toolsLinks[1], "Benchmark pupil and workforce data", Paths.SchoolCensus(school.URN).ToAbsolute());
     }
 
-    private static void AssertDataSource(IElement dataSourceElement, School school, bool ks4ProgressBandingEnabled, bool hasProgressIndicators)
+    private static void AssertComparisonComponent(
+        IHtmlDocument page,
+        bool ks4ProgressBandingEnabled,
+        bool filtersEnabled)
     {
-        switch (ks4ProgressBandingEnabled)
+        if (filtersEnabled)
         {
-            case true when hasProgressIndicators:
-                {
-                    if (school.IsPartOfTrust)
-                        SchoolDocumentAssert.AssertAcademyWithIndicators(dataSourceElement, school.URN!);
-                    else
-                        SchoolDocumentAssert.AssertMaintainedSchoolWithIndicators(dataSourceElement, school.URN!);
-                    break;
-                }
-            case true:
-                {
-                    if (school.IsPartOfTrust)
-                        SchoolDocumentAssert.AssertAcademyNoIndicators(dataSourceElement);
-                    else
-                        SchoolDocumentAssert.AssertMaintainedSchoolNoIndicators(dataSourceElement);
-                    break;
-                }
-            default:
-                {
-                    const string additionalText = "Benchmark your spending against similar schools.";
-                    if (school.IsPartOfTrust)
-                        SchoolDocumentAssert.AssertAcademyNoBanding(dataSourceElement, additionalText);
-                    else
-                        SchoolDocumentAssert.AssertMaintainedSchoolNoBanding(dataSourceElement, additionalText);
-                    break;
-                }
+            // TODO: implement this test with layout assertions once the filters/options etc are implemented
+            //AssertFilteredComparisonComponent(page);
+            return;
         }
+
+        var id = ks4ProgressBandingEnabled
+            ? "compare-your-costs-2"
+            : "compare-your-costs";
+
+        var comparisonComponent = page.GetElementById(id);
+        Assert.NotNull(comparisonComponent);
     }
 
-    private static void AssertComparatorSetDetails(IElement comparatorSetDetailsElement, School school, bool ks4ProgressBandingEnabled, bool withCustomUserData, bool withUserDefinedUserData, bool emptyComparatorSet)
+    private static void AssertDataSource(IElement dataSourceElement, School school, bool ks4ProgressBandingEnabled, bool filtersEnabled, bool hasProgressIndicators)
     {
-        if (withCustomUserData)
+        var isAcademy = school.IsPartOfTrust;
+        var urn = school.URN;
+        Assert.NotNull(urn);
+
+        if (ks4ProgressBandingEnabled)
         {
-            AssertCustomDataCreatedComparatorSetDetailsContent(comparatorSetDetailsElement, school, ks4ProgressBandingEnabled);
+            if (hasProgressIndicators)
+                AssertWithIndicators(dataSourceElement, urn, isAcademy);
+            else
+                AssertNoIndicators(dataSourceElement, isAcademy);
+
+            return;
         }
-        else if (withUserDefinedUserData)
+
+        if (filtersEnabled)
         {
-            AssertUserDefinedSetCreatedComparatorSetDetailsContent(comparatorSetDetailsElement, school, ks4ProgressBandingEnabled);
+            AssertNoIndicators(dataSourceElement, isAcademy);
+            return;
+        }
+
+        AssertNoBanding(dataSourceElement, isAcademy);
+    }
+
+    private static void AssertNoBanding(IElement dataSourceElement, bool isAcademy)
+    {
+        const string additionalText = "Benchmark your spending against similar schools.";
+        if (isAcademy)
+        {
+            SchoolDocumentAssert.AssertAcademyNoBanding(dataSourceElement, additionalText);
         }
         else
         {
-            AssertComparatorSetDetailsDefaultContent(comparatorSetDetailsElement, school, ks4ProgressBandingEnabled);
+            SchoolDocumentAssert.AssertMaintainedSchoolNoBanding(dataSourceElement, additionalText);
         }
     }
 
-    private static void AssertComparatorSetDetailsDefaultContent(IElement comparatorSetDetailsElement, School school, bool ks4ProgressBandingEnabled)
+    private static void AssertNoIndicators(IElement dataSourceElement, bool isAcademy)
     {
-        if (ks4ProgressBandingEnabled)
+        if (isAcademy)
+        {
+            if (isAcademy)
+                SchoolDocumentAssert.AssertAcademyNoIndicators(dataSourceElement);
+        }
+        else
+        {
+            SchoolDocumentAssert.AssertMaintainedSchoolNoIndicators(dataSourceElement);
+        }
+    }
+
+    private static void AssertWithIndicators(IElement dataSourceElement, string urn, bool isAcademy)
+    {
+        if (isAcademy)
+        {
+            SchoolDocumentAssert.AssertAcademyWithIndicators(dataSourceElement, urn);
+        }
+        else
+        {
+            SchoolDocumentAssert.AssertMaintainedSchoolWithIndicators(dataSourceElement, urn);
+        }
+    }
+
+    private static void AssertComparatorSetDetails(IElement comparatorSetDetailsElement, School school, bool ks4ProgressBandingEnabled, bool filtersEnabled, bool withCustomUserData, bool withUserDefinedUserData, bool emptyComparatorSet)
+    {
+        if (withCustomUserData)
+        {
+            AssertCustomDataCreatedComparatorSetDetailsContent(comparatorSetDetailsElement, school, ks4ProgressBandingEnabled, filtersEnabled);
+        }
+        else if (withUserDefinedUserData)
+        {
+            AssertUserDefinedSetCreatedComparatorSetDetailsContent(comparatorSetDetailsElement, school, ks4ProgressBandingEnabled, filtersEnabled);
+        }
+        else
+        {
+            AssertComparatorSetDetailsDefaultContent(comparatorSetDetailsElement, school, ks4ProgressBandingEnabled, filtersEnabled);
+        }
+    }
+
+    private static void AssertComparatorSetDetailsDefaultContent(IElement comparatorSetDetailsElement, School school, bool ks4ProgressBandingEnabled, bool filtersEnabled)
+    {
+        if (ks4ProgressBandingEnabled || filtersEnabled)
         {
             var introParagraphs = comparatorSetDetailsElement.QuerySelectorAll("p.govuk-body");
             Assert.Equal(2, introParagraphs.Length);
@@ -334,9 +413,9 @@ public class WhenViewingComparison(SchoolBenchmarkingWebAppClient client)
         }
     }
 
-    private static void AssertMissingComparatorSetCreatedComparatorSetDetailsContent(IElement comparatorSetDetailsElement, School school, bool ks4ProgressBandingEnabled)
+    private static void AssertMissingComparatorSetCreatedComparatorSetDetailsContent(IElement comparatorSetDetailsElement, School school, bool ks4ProgressBandingEnabled, bool filtersEnabled)
     {
-        if (ks4ProgressBandingEnabled)
+        if (ks4ProgressBandingEnabled || filtersEnabled)
         {
             var introParagraphs = comparatorSetDetailsElement.QuerySelectorAll("p.govuk-body");
             Assert.Equal(2, introParagraphs.Length);
@@ -372,9 +451,9 @@ public class WhenViewingComparison(SchoolBenchmarkingWebAppClient client)
         }
     }
 
-    private static void AssertUserDefinedSetCreatedComparatorSetDetailsContent(IElement comparatorSetDetailsElement, School school, bool ks4ProgressBandingEnabled)
+    private static void AssertUserDefinedSetCreatedComparatorSetDetailsContent(IElement comparatorSetDetailsElement, School school, bool ks4ProgressBandingEnabled, bool filtersEnabled)
     {
-        if (ks4ProgressBandingEnabled)
+        if (ks4ProgressBandingEnabled || filtersEnabled)
         {
             var paragraphs = comparatorSetDetailsElement.QuerySelectorAll(":scope > p.govuk-body");
             Assert.NotNull(paragraphs);
@@ -397,9 +476,9 @@ public class WhenViewingComparison(SchoolBenchmarkingWebAppClient client)
         }
     }
 
-    private static void AssertCustomDataCreatedComparatorSetDetailsContent(IElement comparatorSetDetailsElement, School school, bool ks4ProgressBandingEnabled)
+    private static void AssertCustomDataCreatedComparatorSetDetailsContent(IElement comparatorSetDetailsElement, School school, bool ks4ProgressBandingEnabled, bool filtersEnabled)
     {
-        if (ks4ProgressBandingEnabled)
+        if (ks4ProgressBandingEnabled || filtersEnabled)
         {
             var paragraphs = comparatorSetDetailsElement.QuerySelectorAll(":scope > p.govuk-body");
             Assert.NotNull(paragraphs);
