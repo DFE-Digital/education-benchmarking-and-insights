@@ -26,7 +26,7 @@ variable "configuration" {
       KS4ProgressBanding                = optional(bool, true)
       KS4ProgressBandingSchoolHome      = optional(bool, true)
       SeniorLeadership                  = optional(bool, true)
-      HighNeedsBenchmarking             = optional(bool, false)
+      HighNeedsBenchmarking             = optional(bool, true)
       SchoolComparisonFilter            = optional(bool, false)
     })
     CacheOptions = object({
@@ -54,8 +54,7 @@ variable "configuration" {
       front_door_waf_policy_sku_name = "Standard_AzureFrontDoor"
       waf_mode                       = "Detection"
       features = {
-        News                  = true,
-        HighNeedsBenchmarking = true
+        News = true
       },
       CacheOptions = {
         ReturnYears = {
@@ -81,8 +80,7 @@ variable "configuration" {
       front_door_waf_policy_sku_name = "Standard_AzureFrontDoor"
       waf_mode                       = "Detection"
       features = {
-        News                  = true,
-        HighNeedsBenchmarking = true
+        News = true
       },
       CacheOptions = {
         ReturnYears = {
@@ -134,8 +132,7 @@ variable "configuration" {
       front_door_waf_policy_sku_name = "Standard_AzureFrontDoor"
       waf_mode                       = "Detection"
       features = {
-        News                  = true,
-        HighNeedsBenchmarking = true
+        News = true
       },
       CacheOptions = {
         ReturnYears = {
