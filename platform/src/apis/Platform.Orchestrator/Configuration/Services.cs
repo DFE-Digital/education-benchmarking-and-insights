@@ -3,6 +3,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Text.Json;
 using Microsoft.ApplicationInsights.DependencyCollector;
 using Microsoft.Azure.Functions.Worker;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Platform.Cache;
@@ -21,8 +22,9 @@ internal static class Services
     {
         var configuration = context.Configuration;
 
-        var searchName = configuration["Search__Name"];
-        var searchKey = configuration["Search__Key"];
+        var section = configuration.GetSection("Search");
+        var searchName = section.GetValue<string>("Name");
+        var searchKey = section.GetValue<string>("Key");
 
         ArgumentNullException.ThrowIfNull(searchName);
         ArgumentNullException.ThrowIfNull(searchKey);
@@ -34,7 +36,7 @@ internal static class Services
             .AddSingleton<ITelemetryService, TelemetryService>();
 
         //TODO: Add serilog configuration AB#227696
-        var sqlTelemetryEnabled = Environment.GetEnvironmentVariable("Sql__TelemetryEnabled");
+        var sqlTelemetryEnabled = configuration.GetSection("Sql").GetValue<string>("TelemetryEnabled");
         serviceCollection
             .AddApplicationInsightsTelemetryWorkerService()
             .ConfigureFunctionsApplicationInsights()

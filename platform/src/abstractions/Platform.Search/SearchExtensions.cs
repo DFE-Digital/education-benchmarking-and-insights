@@ -50,8 +50,11 @@ public static class SearchExtensions
 
     private static PlatformSearchOptions GetOptions(IConfiguration configuration)
     {
-        var name = configuration["Search__Name"];
-        var key = configuration["Search__Key"];
+        var section = configuration.GetSection("Search");
+
+        var name = section.GetValue<string>("Name");
+        var key = section.GetValue<string>("Key");
+
         ArgumentNullException.ThrowIfNull(name);
         ArgumentNullException.ThrowIfNull(key);
 

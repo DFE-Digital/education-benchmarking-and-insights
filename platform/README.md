@@ -78,12 +78,12 @@ The Platform APIs use Azure Functions (Isolated Worker Process), which intention
 The following secrets must be configured for the `platform-local` environment using the `dotnet user-secrets` tool:
 
 ```bash
-dotnet user-secrets set "Sql__ConnectionString" "[value]" --id "platform-local"
-dotnet user-secrets set "Cache__Host" "[value]" --id "platform-local"
-dotnet user-secrets set "Cache__Port" "[value]" --id "platform-local"
-dotnet user-secrets set "Cache__Password" "[value]" --id "platform-local"
-dotnet user-secrets set "Search__Name" "[value]" --id "platform-local"
-dotnet user-secrets set "Search__Key" "[value]" --id "platform-local"
+dotnet user-secrets set "Sql:ConnectionString" "[value]" --id "platform-local"
+dotnet user-secrets set "Cache:Host" "[value]" --id "platform-local"
+dotnet user-secrets set "Cache:Port" "[value]" --id "platform-local"
+dotnet user-secrets set "Cache:Password" "[value]" --id "platform-local"
+dotnet user-secrets set "Search:Name" "[value]" --id "platform-local"
+dotnet user-secrets set "Search:Key" "[value]" --id "platform-local"
 ```
 
 For full details on local environment profiles and managing `local.settings.json`, please read the **Configuration Management** section in the [Platform APIs Developer Guide](../documentation/developers/11_Platform-APIs.md#configuration-management).
@@ -103,29 +103,29 @@ dotnet test --filter "FullyQualifiedName~.Tests"
 Add the required configuration for `Platform.ApiTests` using the `dotnet user-secrets` tool:
 
 ```bash
-dotnet user-secrets set "School__Host" "http://localhost:7302" --id "platform-api-tests-local"
-dotnet user-secrets set "School__Key" "x" --id "platform-api-tests-local"
+dotnet user-secrets set "School:Host" "http://localhost:7302" --id "platform-api-tests-local"
+dotnet user-secrets set "School:Key" "x" --id "platform-api-tests-local"
 
-dotnet user-secrets set "Trust__Host" "http://localhost:7303" --id "platform-api-tests-local"
-dotnet user-secrets set "Trust__Key" "x" --id "platform-api-tests-local"
+dotnet user-secrets set "Trust:Host" "http://localhost:7303" --id "platform-api-tests-local"
+dotnet user-secrets set "Trust:Key" "x" --id "platform-api-tests-local"
 
-dotnet user-secrets set "LocalAuthority__Host" "http://localhost:7301" --id "platform-api-tests-local"
-dotnet user-secrets set "LocalAuthority__Key" "x" --id "platform-api-tests-local"
+dotnet user-secrets set "LocalAuthority:Host" "http://localhost:7301" --id "platform-api-tests-local"
+dotnet user-secrets set "LocalAuthority:Key" "x" --id "platform-api-tests-local"
 
-dotnet user-secrets set "Insight__Host" "http://localhost:7071" --id "platform-api-tests-local"
-dotnet user-secrets set "Insight__Key" "x" --id "platform-api-tests-local"
+dotnet user-secrets set "Insight:Host" "http://localhost:7071" --id "platform-api-tests-local"
+dotnet user-secrets set "Insight:Key" "x" --id "platform-api-tests-local"
 
-dotnet user-secrets set "Benchmark__Host" "http://localhost:7072" --id "platform-api-tests-local"
-dotnet user-secrets set "Benchmark__Key" "x" --id "platform-api-tests-local"
+dotnet user-secrets set "Benchmark:Host" "http://localhost:7072" --id "platform-api-tests-local"
+dotnet user-secrets set "Benchmark:Key" "x" --id "platform-api-tests-local"
 
-dotnet user-secrets set "Establishment__Host" "http://localhost:7073" --id "platform-api-tests-local"
-dotnet user-secrets set "Establishment__Key" "x" --id "platform-api-tests-local"
+dotnet user-secrets set "Establishment:Host" "http://localhost:7073" --id "platform-api-tests-local"
+dotnet user-secrets set "Establishment:Key" "x" --id "platform-api-tests-local"
 
-dotnet user-secrets set "ChartRendering__Host" "http://localhost:7076" --id "platform-api-tests-local"
-dotnet user-secrets set "ChartRendering__Key" "x" --id "platform-api-tests-local"
+dotnet user-secrets set "ChartRendering:Host" "http://localhost:7076" --id "platform-api-tests-local"
+dotnet user-secrets set "ChartRendering:Key" "x" --id "platform-api-tests-local"
 
-dotnet user-secrets set "Content__Host" "http://localhost:7077" --id "platform-api-tests-local"
-dotnet user-secrets set "Content__Key" "x" --id "platform-api-tests-local"
+dotnet user-secrets set "Content:Host" "http://localhost:7077" --id "platform-api-tests-local"
+dotnet user-secrets set "Content:Key" "x" --id "platform-api-tests-local"
 ```
 
 From the root of the `platform` run:

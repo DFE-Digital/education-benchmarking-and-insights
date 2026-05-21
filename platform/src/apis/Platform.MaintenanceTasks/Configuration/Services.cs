@@ -24,15 +24,15 @@ internal static class Services
 
         serviceCollection
             .AddPlatformServices(configuration)
-            .AddTelemetry()
+            .AddTelemetry(configuration)
             .AddFeatures();
 
         serviceCollection.Configure<JsonSerializerOptions>(SystemTextJsonExtensions.Options);
     }
 
-    private static IServiceCollection AddTelemetry(this IServiceCollection serviceCollection)
+    private static IServiceCollection AddTelemetry(this IServiceCollection serviceCollection, IConfiguration configuration)
     {
-        var sqlTelemetryEnabled = Environment.GetEnvironmentVariable("Sql__TelemetryEnabled");
+        var sqlTelemetryEnabled = configuration.GetSection("Sql").GetValue<string>("TelemetryEnabled");
         serviceCollection
             .AddApplicationInsightsTelemetryWorkerService()
             .ConfigureFunctionsApplicationInsights()

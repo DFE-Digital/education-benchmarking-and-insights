@@ -15,7 +15,9 @@ var hostBuilder = new HostBuilder()
     .ConfigureAppConfiguration((context, builder) =>
     {
         var env = context.HostingEnvironment.EnvironmentName.ToLower();
-        builder.AddUserSecrets($"platform-{env}");
+        builder
+            .AddEnvironmentVariables()
+            .AddUserSecrets($"platform-{env}");
     });
 
 

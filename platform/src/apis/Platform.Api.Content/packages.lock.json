@@ -1962,6 +1962,7 @@
           "Dapper.SqlBuilder": "[2.1.66, )",
           "Microsoft.Data.SqlClient": "[7.0.1, )",
           "Microsoft.Data.SqlClient.Extensions.Azure": "[1.0.0, )",
+          "Microsoft.Extensions.Configuration.Binder": "[10.0.8, )",
           "Microsoft.Extensions.DependencyInjection.Abstractions": "[10.0.8, )",
           "Microsoft.Extensions.Diagnostics.HealthChecks": "[10.0.8, )",
           "Platform.Domain": "[1.0.0, )"

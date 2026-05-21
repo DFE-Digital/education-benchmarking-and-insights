@@ -14,6 +14,7 @@
         <PackageReference Include="Microsoft.ApplicationInsights"/>
         <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" />
         <PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks" />
+        <PackageReference Include="Microsoft.Extensions.Configuration.Binder"/>
         <PackageReference Include="AspNetCore.HealthChecks.AzureSearch"/>
     </ItemGroup>
     <ItemGroup>
