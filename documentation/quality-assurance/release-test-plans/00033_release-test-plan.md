@@ -103,9 +103,9 @@ This release delivers improvements across High Needs and EHCP benchmarking, expa
 
 | Test Category           | Total Tests | Passed | Failed | Pass Rate |  
 |-------------------------|:-----------:|:------:|:------:|:---------:|  
-| Smoke Tests - Prod      |      0      |   0    |   0    |    0%     |  
-| Smoke Tests - Pre Prod  |      0      |   0    |   0    |    0%     |  
-| Sanity Tests - Pre Prod |      0      |   0    |   0    |    0%     |  
+| Smoke Tests - Prod      |      1      |   x    |   x    |    x%     |  
+| Smoke Tests - Pre Prod  |      1      |   1    |   0    |   100%    |  
+| Sanity Tests - Pre Prod |      4      |   4    |   0    |   100%    |  
 | Total                   |      0      |   0    |   0    |    0%     |  
 
 \newpage
