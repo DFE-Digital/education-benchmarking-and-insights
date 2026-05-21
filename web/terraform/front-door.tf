@@ -338,6 +338,42 @@ resource "azurerm_cdn_frontdoor_firewall_policy" "web-app-front-door-waf" {
       }
 
       override {
+        rule_group_name = "RCE"
+
+        rule {
+          rule_id = "932110"
+          action  = "AnomalyScoring"
+          enabled = true
+
+          exclusion {
+            match_variable = "RequestBodyPostArgNames"
+            operator       = "Contains"
+            selector       = "term"
+          }
+          exclusion {
+            match_variable = "RequestBodyPostArgNames"
+            operator       = "Contains"
+            selector       = "search"
+          }
+          exclusion {
+            match_variable = "RequestBodyPostArgNames"
+            operator       = "Contains"
+            selector       = "Term"
+          }
+          exclusion {
+            match_variable = "QueryStringArgNames"
+            operator       = "Contains"
+            selector       = "term"
+          }
+          exclusion {
+            match_variable = "QueryStringArgNames"
+            operator       = "Contains"
+            selector       = "search"
+          }
+        }
+      }
+
+      override {
         rule_group_name = "RFI"
         rule {
           rule_id = "931130"
