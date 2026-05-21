@@ -36,7 +36,7 @@
     "winston": "^3.19.0"
   },
   "devDependencies": {
-    "@dotenvx/dotenvx": "^1.65.0",
+    "@dotenvx/dotenvx": "^1.66.0",
     "@types/express": "^5.0.5",
     "@types/node": "^25.5.0",
     "@types/nunjucks": "^3.2.6",
