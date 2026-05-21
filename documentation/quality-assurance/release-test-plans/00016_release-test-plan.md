@@ -2,12 +2,12 @@
 
 _*Release version incremented to 2025.02.5 after 2025.02.4 was canceled due to an issue spotted in pre-production. The increment also addresses an error encountered during the deployment of 2025.02.3 to pre-production._
 
-**Release Date:** 20/02/2025  
+**Release Date:** 20/02/2025
 **Release Label:** 2025.02.5
 
 ## Introduction
 
-This plan defines the approach for testing release `2025.02.5`, covering all testing necessary.  
+This plan defines the approach for testing release `2025.02.5`, covering all testing necessary.
 Ensure the enhancements, and bug fixes in `2025.02.5` are functioning as expected without adversely impacting existing functionality.
 The release encompasses the standard code release, which incorporates all enhancements, and bug fixes.
 
@@ -126,12 +126,12 @@ A deployment error required us to increment the release number. During pre-produ
 
 ### Test Summary Report
 
-| Test Category     | Total Tests | Passed | Failed | Pass Rate |  
-|-------------------|:-----------:|:------:|:------:|:---------:|  
-| Functional Tests  |     13      |   13   |   0    |   100%    |  
-| Smoke Tests       |     20      |   20   |   0    |   100%    |  
-| Sanity Tests      |      2      |   2    |   0    |   100%    |  
-| Total             |     35      |   35   |   0    |   100%    |  
+| Test Category     | Total Tests | Passed | Failed | Pass Rate |
+|-------------------|:-----------:|:------:|:------:|:---------:|
+| Functional Tests  |     13      |   13   |   0    |   100%    |
+| Smoke Tests       |     20      |   20   |   0    |   100%    |
+| Sanity Tests      |      2      |   2    |   0    |   100%    |
+| Total             |     35      |   35   |   0    |   100%    |
 
-<!-- Leave the rest of this page blank -->  
-\newpage  
+<!-- Leave the rest of this page blank -->
+\newpage

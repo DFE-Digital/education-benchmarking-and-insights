@@ -96,11 +96,11 @@ if (config.EnableFmt || config.EnableValidate || config.EnableTFLint)
         {
             // Init is required for Validate
             var initSuccess = await RunCommand("terraform", "init -backend=false -upgrade", path);
-            result.Validate = initSuccess 
+            result.Validate = initSuccess
                 ? await RunCommand("terraform", "validate", path)
                 : false;
         }
-        
+
         if (config.EnableTFLint) result.TFLint = await RunCommand("tflint", "", path);
 
         lock (results) { results.Add(result); }
@@ -117,7 +117,7 @@ if (config.EnableDocs)
     {
         var moduleName = Path.GetRelativePath(repoRoot, path);
         var success = await RunCommand("terraform-docs", "markdown table --output-file README.md .", path);
-        
+
         lock (results)
         {
             var existing = results.FirstOrDefault(r => r.ModuleName == moduleName);
@@ -223,7 +223,7 @@ async Task<bool> RunCommand(string command, string args, string workingDir)
             UseShellExecute = false,
             CreateNoWindow = true
         };
-        
+
         if (command == "docker")
         {
             startInfo.EnvironmentVariables["MSYS_NO_PATHCONV"] = "1";
@@ -231,13 +231,13 @@ async Task<bool> RunCommand(string command, string args, string workingDir)
 
         using var process = new Process { StartInfo = startInfo };
         process.Start();
-        
+
         var consumeOut = process.StandardOutput.ReadToEndAsync();
         var consumeErr = process.StandardError.ReadToEndAsync();
-        
+
         await process.WaitForExitAsync();
         await Task.WhenAll(consumeOut, consumeErr);
-        
+
         return process.ExitCode == 0;
     }
     catch { return false; }

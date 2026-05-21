@@ -88,9 +88,9 @@ IF EXISTS(SELECT *
             ALTER COLUMN PercentWithHI                                 decimal(16, 2);
         ALTER TABLE NonFinancial
             ALTER COLUMN PercentWithASD                                decimal(16, 2);
-    END    
-    
-    
+    END
+
+
 IF EXISTS(SELECT *
           FROM INFORMATION_SCHEMA.TABLES
           WHERE table_name = 'Financial')
@@ -352,5 +352,3 @@ IF EXISTS(SELECT *
         ALTER TABLE Financial
             ALTER COLUMN CommunityFocusedSchoolCostsCS decimal(16, 2);
     END
-    
-    

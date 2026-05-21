@@ -1,19 +1,19 @@
-let ["Unique Users"] = view() { 
+let ["Unique Users"] = view() {
     GetUsers
-    | summarize 
+    | summarize
         Count = count_distinctif(UserId, UserId != UserAuthenticatedId or (UserId == UserAuthenticatedId and isnotempty(UserId)))
 };
 let ["New Unique Users"] = view() {
     GetNewUsers
-    | summarize 
+    | summarize
         Count = count_distinctif(UserId, UserId != UserAuthenticatedId or (UserId == UserAuthenticatedId and isnotempty(UserId)))
 };
 let ["Authenticated Users"] = view() {
     GetAuthUsers
-    | summarize 
+    | summarize
         Count = count_distinctif(UserAuthenticatedId, UserId != UserAuthenticatedId or (UserId == UserAuthenticatedId and isnotempty(UserId)))
 };
 union withsource=Type
-    ["Unique Users"], 
+    ["Unique Users"],
     ["New Unique Users"],
     ["Authenticated Users"]

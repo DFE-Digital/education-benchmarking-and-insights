@@ -8,10 +8,10 @@ All relevant data files are now stored in the repository under the `test-data` f
 
 ## Steps to Update Data for Tests
 
-1. **Access the File in the Repository**  
+1. **Access the File in the Repository**
    Navigate to the `test-data` folder in the repository to locate the file you need updating.
 
-2. **Modify the Data**  
+2. **Modify the Data**
    Open the file and make the required changes to the data for your test scenarios.
 
 3. **Prepare for Data Upload**
@@ -22,10 +22,10 @@ All relevant data files are now stored in the repository under the `test-data` f
 
 ### Step-by-Step Guide
 
-1. **Open Microsoft SQL Server Management Studio**  
+1. **Open Microsoft SQL Server Management Studio**
    Connect to the `d02` SQL database using the connection details from the Azure `d02` resource (get the server name, username, and password from the resource settings).
 
-2. **Clear the Target Table**  
+2. **Clear the Target Table**
    Before importing the new data, ensure that you clear the table you are updating.
 
 3. **Launch the Import Wizard**
@@ -45,10 +45,10 @@ All relevant data files are now stored in the repository under the `test-data` f
     - Click `Next` and follow the wizard steps to map the columns from your data file to the SQL table.
     - Review the mappings and finish the import process.
 
-7. **Verify Data**  
+7. **Verify Data**
    After the data is imported, verify that the changes are reflected in the database by querying the table.
 
-8. **Commit and Push Changes to Repository**  
+8. **Commit and Push Changes to Repository**
    Once the data changes are complete, **commit the updated file back to the repository** in the `test-data` folder. This ensures that the latest version is available for future use.
 
 ---

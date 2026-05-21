@@ -1,16 +1,16 @@
 GetEstablishmentRequests
-| where 
-    Establishment == "school" 
-| where 
+| where
+    Establishment == "school"
+| where
     ResultCode == 200
-| project 
-    TimeGenerated, 
-    Feature, 
+| project
+    TimeGenerated,
+    Feature,
     Urn = Identifier
-| summarize 
+| summarize
     Count=count()
-    by Urn, 
+    by Urn,
     Feature
-| sort by 
+| sort by
     Count desc
 | take(50)

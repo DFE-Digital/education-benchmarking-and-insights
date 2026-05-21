@@ -30,8 +30,8 @@ using (var doc = JsonDocument.Parse(configJson))
     {
         SourceConnectionString = GetProperty(root, "SourceConnectionString"),
         TargetConnectionString = GetProperty(root, "TargetConnectionString"),
-        IgnoredTables = root.TryGetProperty("IgnoredTables", out var ignored) 
-            ? ignored.EnumerateArray().Select(x => x.GetString() ?? "").ToArray() 
+        IgnoredTables = root.TryGetProperty("IgnoredTables", out var ignored)
+            ? ignored.EnumerateArray().Select(x => x.GetString() ?? "").ToArray()
             : Array.Empty<string>()
     };
 }
@@ -64,8 +64,8 @@ var failedTables = new List<(string Table, string Error)>();
 Console.WriteLine("Discovering tables from source...");
 
 var sourceTables = GetSourceTables(config.SourceConnectionString);
-var filteredTables = sourceTables.Where(t => 
-    !ignoredTables.Contains(t.Name) && 
+var filteredTables = sourceTables.Where(t =>
+    !ignoredTables.Contains(t.Name) &&
     !ignoredTables.Contains($"{t.Schema}.{t.Name}")).ToList();
 
 Console.WriteLine($"Found {filteredTables.Count} tables to process (ignored {sourceTables.Count - filteredTables.Count}).");

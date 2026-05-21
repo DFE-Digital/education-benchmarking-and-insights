@@ -44,7 +44,7 @@ As well as, document the key activities carried out to ensure the release is exe
 **Fixes to be tested:**
 
 - [234656 - Updated cost category guidance](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_workitems/edit/234656)
-- [234628 - Prevent building comparator and invalid RAG ratings being created when no building information](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_workitems/edit/234628)  
+- [234628 - Prevent building comparator and invalid RAG ratings being created when no building information](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_workitems/edit/234628)
 - [234612 - Banner messaging for lead federation school](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_workitems/edit/234612)
 
 ## Test Deliverables
@@ -56,7 +56,7 @@ As well as, document the key activities carried out to ensure the release is exe
 - Manual test scripts
   - [234828 - Updated cost category guidance](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_testPlans/define?planId=218463&suiteId=234828)
   - [234655 - Prevent building comparator and invalid RAG ratings being created when no building information](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_testPlans/define?planId=218463&suiteId=234655)
-  - [234825 - Banner messaging for lead federation school](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_testPlans/define?planId=218463&suiteId=234825)  
+  - [234825 - Banner messaging for lead federation school](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_testPlans/define?planId=218463&suiteId=234825)
 
 **Reports:**
 

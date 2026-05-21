@@ -1,16 +1,16 @@
 GetFeatureRequests
-| where 
+| where
     ResultCode == 200
-| project 
-    TimeGenerated, 
+| project
+    TimeGenerated,
     Establishment,
     Feature
-| summarize 
+| summarize
     Count=count()
-    by Establishment, 
+    by Establishment,
     Feature
-| sort by 
+| sort by
     Count desc
-| render 
+| render
 columnchart
     with(title="Application features by Establishment type")

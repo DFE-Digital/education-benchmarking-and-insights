@@ -59,22 +59,22 @@ Since DLT cannot be debugged locally, our strategy is to maximize testable non-D
 
 ### Step-by-Step Process
 
-1. **Create a feature branch**  
+1. **Create a feature branch**
    Branch from `main` following the naming convention `feature/<ticket-id>-<description>` or `bugfix/<ticket-id>-<description>`
 
-2. **Write PySpark transformation functions**  
+2. **Write PySpark transformation functions**
    Develop pure PySpark functions that accept and return DataFrames. Keep these functions free of DLT decorators to enable local testing.
 
-3. **Write unit tests**  
+3. **Write unit tests**
    Create pytest unit tests for your transformation functions using local Spark sessions or mocked DataFrames. Tests should live in `tests/unit/` and mirror the source structure.
 
-4. **Compose DLT tables**  
+4. **Compose DLT tables**
    Wrap your tested transformation functions with DLT decorators (`@dlt.table`, `@dlt.view`) to define pipeline tables and their dependencies.
 
-5. **Validate the bundle locally**  
+5. **Validate the bundle locally**
    Run `databricks bundle validate` to check for configuration errors before deploying to Databricks.
 
-6. **Deploy to development environment**  
+6. **Deploy to development environment**
    Deploy the bundle to your development workspace:
 
    ```bash
@@ -83,13 +83,13 @@ Since DLT cannot be debugged locally, our strategy is to maximize testable non-D
 
    This creates or updates pipeline definitions, jobs, and associated resources in the `dev` catalog/schema.
 
-7. **Run integration tests on Databricks**  
+7. **Run integration tests on Databricks**
    Trigger the deployed pipeline manually via the Databricks UI or CLI to run integration and end-to-end tests against the cluster. Monitor the DLT DAG for errors and data quality failures.
 
-8. **Iterate as needed**  
+8. **Iterate as needed**
    If issues arise, fix them locally in your PySpark functions, update tests, revalidate, and redeploy. Repeat steps 6-7 until the pipeline executes successfully.
 
-9. **Open a pull request**  
+9. **Open a pull request**
    Once the pipeline is validated on Databricks, open a PR against `main` with:
    - Description of changes and ticket reference
    - Evidence that unit tests pass
@@ -119,7 +119,7 @@ graph LR
   H --> I[Deploy to Dev]
   I --> J{Manual Approval}
   J --> K[Deploy to Prod]
-  
+
   style A fill:#e1f5ff
   style F fill:#e1f5ff
   style K fill:#ffebe6

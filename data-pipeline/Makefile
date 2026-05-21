@@ -1,6 +1,6 @@
 install:
 	poetry install
-	
+
 run-pipeline:
 	poetry run python -m pipeline.main
 
@@ -8,7 +8,7 @@ run-pipeline-dev-mode:
 	export ENV=dev;\
     poetry run python -m pipeline.main
 
-build: 
+build:
 	docker build $(tags) --file pipeline-worker/Dockerfile . --platform="linux/amd64"
 
 unit-test:
@@ -34,7 +34,7 @@ lint-check:
 	poetry run black --config ./pyproject.toml --check --diff src/ tests/;\
     poetry run isort --settings-path ./pyproject.toml --check-only --diff src/ tests/
 
-lint-tf: 
+lint-tf:
 	terraform fmt --diff --recursive
 
 checkov:
@@ -42,4 +42,3 @@ checkov:
 
 run-docker:
 	docker run -d -p 8000:8000 --name fbit-data-pipeline  fbit-data-pipeline:latest
-

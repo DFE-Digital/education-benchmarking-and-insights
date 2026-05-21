@@ -16,15 +16,15 @@ gantt
         section SEN
             TODO         :a1, 01-04-2023, 1d
         section GIAS
-            TODO         :a1, 01-04-2023, 1d        
+            TODO         :a1, 01-04-2023, 1d
         section Key stage 2/4
-            TODO         :a1, 01-04-2023, 1d    
+            TODO         :a1, 01-04-2023, 1d
         section Pupil Census
-            TODO         :a1, 01-04-2023, 1d         
+            TODO         :a1, 01-04-2023, 1d
         section Workforce Census
-            TODO         :a1, 01-04-2023, 1d   
+            TODO         :a1, 01-04-2023, 1d
         section BFR
-            TODO         :a1, 01-04-2023, 1d    
+            TODO         :a1, 01-04-2023, 1d
 ```
 
 **Dataset period:**
@@ -32,14 +32,14 @@ gantt
 | Dataset              | Period                      |
 |:---------------------|:----------------------------|
 | **GIAS**             |                             |
-| **CDC**              |                             |  
+| **CDC**              |                             |
 | **SEN**              |                             |
 | **AAR**              | 1st September - 31th August |
 | **CFR**              | 1st April - 31th March      |
 | **Key stage 2/4**    |                             |
-| **Pupil Census**     |                             |  
+| **Pupil Census**     |                             |
 | **Workforce Census** |                             |
-| **BFR**              |                             |  
+| **BFR**              |                             |
 
 <!-- Leave the rest of this page blank -->
 \newpage

@@ -19,7 +19,7 @@ steps:
     inputs:
       command: restore
       projects: |
-        web/tests/Web.E2ETests/Web.E2ETests.csproj      
+        web/tests/Web.E2ETests/Web.E2ETests.csproj
         web/tests/Web.A11yTests/Web.A11yTests.csproj
       packagesDirectory: $(WEBTESTS_NUGET_CACHE)
       feedsToUse: 'config'

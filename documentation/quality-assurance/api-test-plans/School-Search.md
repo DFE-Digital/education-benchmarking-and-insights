@@ -1,7 +1,7 @@
 # Platform API Test Plan: School - Search
 
-API: School  
-Feature: Search  
+API: School
+Feature: Search
 
 ## Test Scenarios by Endpoint
 

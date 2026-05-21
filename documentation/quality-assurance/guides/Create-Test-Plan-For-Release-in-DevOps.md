@@ -2,7 +2,7 @@
 
 ## Purpose
 
-This document outlines the process for creating and executing a test plan in Azure DevOps for each release.  
+This document outlines the process for creating and executing a test plan in Azure DevOps for each release.
 Following this guide ensures that all necessary test cases are systematically added, executed, and documented to maintain quality and reliability in each release.
 
 For each release, we will add a new test plan in the [Azure Test Plans Area](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_testManagement/new).

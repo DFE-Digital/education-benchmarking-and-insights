@@ -493,12 +493,12 @@ la_section_251_columns = {
         "PlaceFundingSpecial",
         "PlaceFundingAlternativeProvision",
         "DSGCarriedForward",
-        "SENTransportDSG", 
-        "HometoSchoolTransportPre16", 
+        "SENTransportDSG",
+        "HometoSchoolTransportPre16",
         "HometoSchoolTransport1618",
         "HometoSchoolTransport1925",
-        "EdPsychologyService", 
-        "SENAdmin", 
+        "EdPsychologyService",
+        "SENAdmin",
     ]
 }
 

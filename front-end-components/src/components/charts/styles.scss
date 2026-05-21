@@ -39,7 +39,7 @@ $progress-well-above-average-colour: govuk-colour("turquoise");
       stroke: $series-0-active-colour;
 
       &:not(
-        .chart-cell-highlight, 
+        .chart-cell-highlight,
         .chart-cell.chart-cell-part-year,
         .chart-cell.chart-cell-warning,
         .chart-cell.chart-cell-progress-above-average,
@@ -330,7 +330,7 @@ $progress-well-above-average-colour: govuk-colour("turquoise");
     .recharts-legend-progress-indicator-wrapper {
       margin-top: 20px;
 
-      .recharts-legend-item { 
+      .recharts-legend-item {
         &.legend-item-0 {
           .recharts-symbols {
             fill: $chart-series-0-colour;

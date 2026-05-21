@@ -2,7 +2,7 @@
 
 ## Introduction
 
-The purpose of this document is to provide an overview of the data architecture principles that will be followed when migrating and updating the FBIT data model.  Documenting these principles will enable a shared understanding so that, as the service evolves, and changes to the data model are required, enhancements will be done in a controlled way that adheres to the guidelines in spite of inevitable changes to the development team.  
+The purpose of this document is to provide an overview of the data architecture principles that will be followed when migrating and updating the FBIT data model.  Documenting these principles will enable a shared understanding so that, as the service evolves, and changes to the data model are required, enhancements will be done in a controlled way that adheres to the guidelines in spite of inevitable changes to the development team.
 
 The overarching architectural data model that has been implemented in the service is a medallion architecture which has been popularized by the Databricks platform.  The following section will cover this.
 
@@ -31,7 +31,7 @@ Is a focused, subset of data for a particular business unit, department, or subj
 
 ### Presentation Layer
 
-Data queried from the data-lake will be mirrored into the FBIT application, this data will be used to serve the service API and subsequently the web application.  
+Data queried from the data-lake will be mirrored into the FBIT application, this data will be used to serve the service API and subsequently the web application.
 
 ## Data Architecture Diagram
 
@@ -42,27 +42,27 @@ flowchart LR
     %% Data Sources
     DB[(Measured Data)]
     STATIC[(Reference Data)]
-    
+
     %% Bronze Layer
     subgraph BRONZE ["🥉 BRONZE LAYER"]
         RAW[Raw Data]
     end
-    
+
     %% Silver Layer
     subgraph SILVER ["🥈 SILVER LAYER"]
         MERGE[Merged/Processed Data]
     end
-    
+
     %% Gold Layer
     subgraph GOLD ["🥇 GOLD LAYER"]
         AGGReg[User-ready data held at lowest grain plus reuseable aggregations]
         COMP[Data Marts]
     end
-    
+
     %% Presentation
     subgraph PRESENTATION ["PRESENTATION"]
         api[api]
-        new[Web App]  
+        new[Web App]
     end
 
     %% Flow connections with transformation labels
@@ -71,14 +71,14 @@ flowchart LR
     BRONZE -->|Rename, Clean and Validate, light transformation| SILVER
     SILVER -->|Transform to represent Business Entities and provide universal aggregations for performance| GOLD
     GOLD -->|Filter as required| PRESENTATION
-    
+
     %% Styling
     classDef bronzeStyle fill:#CD7F32,stroke:#8B4513,stroke-width:2px,color:#fff
     classDef silverStyle fill:#C0C0C0,stroke:#808080,stroke-width:2px,color:#000
     classDef goldStyle fill:#FFD700,stroke:#DAA520,stroke-width:2px,color:#000
     classDef martStyle fill:#4CAF50,stroke:#2E7D32,stroke-width:2px,color:#fff
     classDef presStyle fill:#4CAAEF,stroke:#2E7D32,stroke-width:2px,color:#ffa
-    
+
     class BRONZE bronzeStyle
     class SILVER silverStyle
     class GOLD goldStyle

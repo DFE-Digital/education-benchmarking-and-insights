@@ -3,7 +3,7 @@ AppEvents
     Properties["baseTypeSource"] == "ClickEvent"
 | where
     Name in (${trackedEvents})
-| where 
+| where
     isempty(SyntheticSource)
 | extend
     Source = tostring(Properties["uri"]),
@@ -21,5 +21,5 @@ AppEvents
     Establishment,
     Feature,
     Identifier
-| order by 
+| order by
     TimeGenerated asc

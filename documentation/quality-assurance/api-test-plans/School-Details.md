@@ -1,6 +1,6 @@
 # Platform API Test Plan: School - Details
 
-API: School  
+API: School
 Feature: Details
 
 ## Test Scenarios by Endpoint

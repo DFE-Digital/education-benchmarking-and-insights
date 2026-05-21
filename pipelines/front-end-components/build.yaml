@@ -75,7 +75,7 @@ steps:
       command: 'custom'
       customCommand: 'run lint'
       workingDir: $(WorkingDir)
-      
+
   - task: Npm@1
     displayName: 'Build project'
     inputs:

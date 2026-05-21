@@ -1,11 +1,11 @@
-AppRequests 
-| where 
+AppRequests
+| where
     isempty(SyntheticSource)
 | where
-    Name startswith "GET " 
-| where 
+    Name startswith "GET "
+| where
     not(Name startswith "GET /")
-| where 
+| where
     not(Url contains "/api/")
-| where 
+| where
     Url startswith "https://${hostName}" or Url startswith "https://${environmentPrefix}-education-benchmarking-"

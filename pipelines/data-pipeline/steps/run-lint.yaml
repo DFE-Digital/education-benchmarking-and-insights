@@ -21,4 +21,3 @@ steps:
       make lint-check
     displayName: 'Run lint'
     workingDirectory: data-pipeline
-    

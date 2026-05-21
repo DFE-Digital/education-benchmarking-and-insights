@@ -52,7 +52,7 @@ includes the bumped dependency version as per the process below:
 ```mermaid
 sequenceDiagram
     accDescr: Bump front-end and create Pull Request
-    
+
     participant Local dev
     participant Git repo
     participant GitHub
@@ -82,7 +82,7 @@ sequenceDiagram
         Front-end components dependents ADO pipeline->>Git repo: Create and push tag
 
         Git repo->>GitHub: Action triggered off tag
-        GitHub->>GitHub: Action creates pull request 
+        GitHub->>GitHub: Action creates pull request
         Note over GitHub: 🏁 Pull request reviewed and merged
     else
         Note over Front-end components dependents ADO pipeline: 🏁 Nothing to commit

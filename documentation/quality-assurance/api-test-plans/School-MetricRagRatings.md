@@ -1,6 +1,6 @@
 # Platform API Test Plan: School - MetricRagRatings
 
-API: School  
+API: School
 Feature: MetricRagRatings
 
 ## Test Scenarios by Endpoint

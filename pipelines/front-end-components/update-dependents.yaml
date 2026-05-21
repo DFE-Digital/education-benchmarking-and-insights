@@ -1,6 +1,6 @@
 pool:
   vmImage: 'ubuntu-latest'
-  
+
 trigger: none
 
 pr: none
@@ -9,7 +9,7 @@ resources:
   pipelines:
     - pipeline: frontend
       source: '\Development\Front-end components'
-      trigger: 
+      trigger:
         branches:
           include:
             - main

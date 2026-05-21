@@ -53,7 +53,7 @@ public class TrustForecastViewModel(
                            || DeclineInBalancesButAboveForecastHistory
                            || SteepInclineInBalancesForecastButBelowForecastHistory;
 
-    // Trust has positive balances, and year-on-year change is less or equal to 10% 
+    // Trust has positive balances, and year-on-year change is less or equal to 10%
     public bool BalancesStableAndPositive => !BalancesForecastingDeficit
                                              && currentReturns.Any(r => r.Year == bfrYear - 1 && r.Actual > 0)
                                              && currentReturns.Any(r => r.Year == bfrYear && r.Actual > 0)

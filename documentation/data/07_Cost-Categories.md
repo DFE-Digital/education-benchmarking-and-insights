@@ -21,7 +21,7 @@ This document maps each category type from the Financial Benchmarking & Insights
 | Educational ICT                     | ICT learning resources costs                    |     E20A,E20B, E20C, E20E, E20F & E20G     |   BAE210    |                         |
 | Premises staff and services         | Cleaning and caretaking costs                   |                    E14                     |   BAE130    |                         |
 | Premises staff and services         | Maintenance of premises costs                   |                    E12                     |   BAE120    |                         |
-| Premises staff and services         | Other occupation costs                          |                    E18                     |   BAE180    |                         |  
+| Premises staff and services         | Other occupation costs                          |                    E18                     |   BAE180    |                         |
 | Premises staff and services         | Premises staff costs                            |                    E04                     |   BAE050    |                         |
 | Utilities                           | Energy costs                                    |                    E16                     |   BAE150    |                         |
 | Utilities                           | Water and sewerage costs                        |                    E15                     |   BAE140    |                         |
@@ -29,7 +29,7 @@ This document maps each category type from the Financial Benchmarking & Insights
 | Catering staff and services         | Catering staff costs                            |                    E06                     |   BAE060    |                         |
 | Catering staff and services         | Catering supplies costs                         |                    E25                     |   BAE250    |                         |
 | Other costs                         | Grounds maintenance costs                       |                    E13                     |   BAE320    |                         |
-| Other costs                         | Indirect employee expenses costs                |                    E08                     |   BAE080    |                         |  
+| Other costs                         | Indirect employee expenses costs                |                    E08                     |   BAE080    |                         |
 | Other costs                         | Interest charges for loan and bank costs        |                    E29                     |   BAE320    |                         |
 | Other costs                         | Other insurance premiums costs                  |                    E23                     |   BAE270    |                         |
 | Other costs                         | PFI charges costs                               |                    E28b                    |   BAE310    |                         |

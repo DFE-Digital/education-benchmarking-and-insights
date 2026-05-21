@@ -13,4 +13,4 @@ IF NOT EXISTS(SELECT *
         INSERT INTO Parameters VALUES ('CurrentYear', '2022');
         INSERT INTO Parameters VALUES ('LatestCFRYear', '2023');
         INSERT INTO Parameters VALUES ('LatestAARYear', '2022');
-    END;     
+    END;

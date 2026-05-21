@@ -116,9 +116,9 @@
             //   3. add 'custom' value, if valid, otherwise 'current' value to 'custom' expenditure totals
             for (let input of inputs) {
                 const currentValueElement = document.getElementById(`current-${input.id}`);
-                if (!currentValueElement 
-                    || input.type === "hidden" 
-                    || input.id === "TotalIncome" 
+                if (!currentValueElement
+                    || input.type === "hidden"
+                    || input.id === "TotalIncome"
                     || input.id === "RevenueReserve") {
                     continue;
                 }
@@ -149,21 +149,21 @@
         let currentExpenditure = 0;
         for (let input of inputs) {
             const currentValueElement = document.getElementById(`current-${input.id}`);
-            if (!currentValueElement 
-                || input.type === "hidden" 
-                || input.id === "TotalIncome" 
+            if (!currentValueElement
+                || input.type === "hidden"
+                || input.id === "TotalIncome"
                 || input.id === "RevenueReserve") {
                 continue;
             }
 
             input.addEventListener("blur", recalculateAndSetTotals);
-            
+
             const value = parseFloat(currentValueElement.dataset.value);
             currentExpenditure += value;
             console.debug("Adding", value, "for", input.id, "totalling", currentExpenditure);
         }
 
-        // then calculate the base income/expenditure values to use when calculating the 'custom' values 
+        // then calculate the base income/expenditure values to use when calculating the 'custom' values
         baseExpenditure = currentTotalExpenditure - currentExpenditure;
         console.debug("New base expenditure", baseExpenditure, "=", currentTotalExpenditure, "-", currentExpenditure);
     </script>

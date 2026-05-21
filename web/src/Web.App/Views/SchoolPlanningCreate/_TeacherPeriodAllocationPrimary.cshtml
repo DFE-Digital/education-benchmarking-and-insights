@@ -4,7 +4,7 @@
 @if (Model.PlanInput?.PupilsNursery is > 0)
 {
     <input type="hidden" name="@nameof(Model.PlanInput.PupilsNursery)" value="@Model.PlanInput.PupilsNursery"/>
-    
+
     <div class="@(ViewData.ModelState.HasError(nameof(Model.PlanInput.TeachersNursery)) ? "govuk-form-group govuk-form-group--error" : "govuk-form-group")">
         <label class="govuk-label govuk-label--m" for="@nameof(Model.PlanInput.TeachersNursery)">
             Teacher period allocation figures from nursery
@@ -27,7 +27,7 @@
 @if (Model.PlanInput?.PupilsMixedReceptionYear1.ToInt() is > 0)
 {
     <input type="hidden" name="@nameof(Model.PlanInput.PupilsMixedReceptionYear1)" value="@Model.PlanInput.PupilsMixedReceptionYear1"/>
-    
+
     <div class="@(ViewData.ModelState.HasError(nameof(Model.PlanInput.TeachersMixedReceptionYear1)) ? "govuk-form-group govuk-form-group--error" : "govuk-form-group")">
         <label class="govuk-label govuk-label--m" for="@nameof(Model.PlanInput.TeachersMixedReceptionYear1)">
             Teacher period allocation figures from reception and year 1
@@ -50,7 +50,7 @@
 @if (Model.PlanInput?.PupilsMixedYear1Year2.ToInt() is > 0)
 {
     <input type="hidden" name="@nameof(Model.PlanInput.PupilsMixedYear1Year2)" value="@Model.PlanInput.PupilsMixedYear1Year2"/>
-    
+
     <div class="@(ViewData.ModelState.HasError(nameof(Model.PlanInput.TeachersMixedYear1Year2)) ? "govuk-form-group govuk-form-group--error" : "govuk-form-group")">
         <label class="govuk-label govuk-label--m" for="@nameof(Model.PlanInput.TeachersMixedYear1Year2)">
             Teacher period allocation figures from year 1 and year 2
@@ -73,7 +73,7 @@
 @if (Model.PlanInput?.PupilsMixedYear2Year3.ToInt() is > 0)
 {
     <input type="hidden" name="@nameof(Model.PlanInput.PupilsMixedYear2Year3)" value="@Model.PlanInput.PupilsMixedYear2Year3"/>
-    
+
     <div class="@(ViewData.ModelState.HasError(nameof(Model.PlanInput.TeachersMixedYear2Year3)) ? "govuk-form-group govuk-form-group--error" : "govuk-form-group")">
         <label class="govuk-label govuk-label--m" for="@nameof(Model.PlanInput.TeachersMixedYear2Year3)">
             Teacher period allocation figures from year 2 and year 3
@@ -96,7 +96,7 @@
 @if (Model.PlanInput?.PupilsMixedYear3Year4.ToInt() is > 0)
 {
     <input type="hidden" name="@nameof(Model.PlanInput.PupilsMixedYear3Year4)" value="@Model.PlanInput.PupilsMixedYear3Year4"/>
-    
+
     <div class="@(ViewData.ModelState.HasError(nameof(Model.PlanInput.TeachersMixedYear3Year4)) ? "govuk-form-group govuk-form-group--error" : "govuk-form-group")">
         <label class="govuk-label govuk-label--m" for="@nameof(Model.PlanInput.TeachersMixedYear3Year4)">
             Teacher period allocation figures from year 3 and year 4
@@ -119,7 +119,7 @@
 @if (Model.PlanInput?.PupilsMixedYear4Year5.ToInt() is > 0)
 {
     <input type="hidden" name="@nameof(Model.PlanInput.PupilsMixedYear4Year5)" value="@Model.PlanInput.PupilsMixedYear4Year5"/>
-    
+
     <div class="@(ViewData.ModelState.HasError(nameof(Model.PlanInput.TeachersMixedYear4Year5)) ? "govuk-form-group govuk-form-group--error" : "govuk-form-group")">
         <label class="govuk-label govuk-label--m" for="@nameof(Model.PlanInput.TeachersMixedYear4Year5)">
             Teacher period allocation figures from year 4 and year 5
@@ -142,7 +142,7 @@
 @if (Model.PlanInput?.PupilsMixedYear5Year6.ToInt() is > 0)
 {
     <input type="hidden" name="@nameof(Model.PlanInput.PupilsMixedYear5Year6)" value="@Model.PlanInput.PupilsMixedYear5Year6"/>
-    
+
     <div class="@(ViewData.ModelState.HasError(nameof(Model.PlanInput.TeachersMixedYear5Year6)) ? "govuk-form-group govuk-form-group--error" : "govuk-form-group")">
         <label class="govuk-label govuk-label--m" for="@nameof(Model.PlanInput.TeachersMixedYear5Year6)">
             Teacher period allocation figures from year 5 and year 6
@@ -165,7 +165,7 @@
 @if (Model.PlanInput?.PupilsReception.ToInt() is > 0)
 {
     <input type="hidden" name="@nameof(Model.PlanInput.PupilsReception)" value="@Model.PlanInput.PupilsReception"/>
-    
+
     <div class="@(ViewData.ModelState.HasError(nameof(Model.PlanInput.TeachersReception)) ? "govuk-form-group govuk-form-group--error" : "govuk-form-group")">
         <label class="govuk-label govuk-label--m" for="@nameof(Model.PlanInput.TeachersReception)">
             Teacher period allocation figures from reception
@@ -188,7 +188,7 @@
 @if (Model.PlanInput?.PupilsYear1.ToInt() is > 0)
 {
     <input type="hidden" name="@nameof(Model.PlanInput.PupilsYear1)" value="@Model.PlanInput.PupilsYear1"/>
-    
+
     <div class="@(ViewData.ModelState.HasError(nameof(Model.PlanInput.TeachersYear1)) ? "govuk-form-group govuk-form-group--error" : "govuk-form-group")">
         <label class="govuk-label govuk-label--m" for="@nameof(Model.PlanInput.TeachersYear1)">
             Teacher period allocation figures from year 1
@@ -211,7 +211,7 @@
 @if (Model.PlanInput?.PupilsYear2.ToInt() is > 0)
 {
     <input type="hidden" name="@nameof(Model.PlanInput.PupilsYear2)" value="@Model.PlanInput.PupilsYear2"/>
-    
+
     <div class="@(ViewData.ModelState.HasError(nameof(Model.PlanInput.TeachersYear2)) ? "govuk-form-group govuk-form-group--error" : "govuk-form-group")">
         <label class="govuk-label govuk-label--m" for="@nameof(Model.PlanInput.TeachersYear2)">
             Teacher period allocation figures from year 2
@@ -234,7 +234,7 @@
 @if (Model.PlanInput?.PupilsYear3.ToInt() is > 0)
 {
     <input type="hidden" name="@nameof(Model.PlanInput.PupilsYear3)" value="@Model.PlanInput.PupilsYear3"/>
-    
+
     <div class="@(ViewData.ModelState.HasError(nameof(Model.PlanInput.TeachersYear3)) ? "govuk-form-group govuk-form-group--error" : "govuk-form-group")">
         <label class="govuk-label govuk-label--m" for="@nameof(Model.PlanInput.TeachersYear3)">
             Teacher period allocation figures from year 3
@@ -257,7 +257,7 @@
 @if (Model.PlanInput?.PupilsYear4.ToInt() is > 0)
 {
     <input type="hidden" name="@nameof(Model.PlanInput.PupilsYear4)" value="@Model.PlanInput.PupilsYear4"/>
-    
+
     <div class="@(ViewData.ModelState.HasError(nameof(Model.PlanInput.TeachersYear4)) ? "govuk-form-group govuk-form-group--error" : "govuk-form-group")">
         <label class="govuk-label govuk-label--m" for="@nameof(Model.PlanInput.TeachersYear4)">
             Teacher period allocation figures from year 4
@@ -280,7 +280,7 @@
 @if (Model.PlanInput?.PupilsYear5.ToInt() is > 0)
 {
     <input type="hidden" name="@nameof(Model.PlanInput.PupilsYear5)" value="@Model.PlanInput.PupilsYear5"/>
-    
+
     <div class="@(ViewData.ModelState.HasError(nameof(Model.PlanInput.TeachersYear5)) ? "govuk-form-group govuk-form-group--error" : "govuk-form-group")">
         <label class="govuk-label govuk-label--m" for="@nameof(Model.PlanInput.TeachersYear5)">
             Teacher period allocation figures from year 5
@@ -303,7 +303,7 @@
 @if (Model.PlanInput?.PupilsYear6.ToInt() is > 0)
 {
     <input type="hidden" name="@nameof(Model.PlanInput.PupilsYear6)" value="@Model.PlanInput.PupilsYear6"/>
-    
+
     <div class="@(ViewData.ModelState.HasError(nameof(Model.PlanInput.TeachersYear6)) ? "govuk-form-group govuk-form-group--error" : "govuk-form-group")">
         <label class="govuk-label govuk-label--m" for="@nameof(Model.PlanInput.TeachersYear6)">
             Teacher period allocation figures from year 6

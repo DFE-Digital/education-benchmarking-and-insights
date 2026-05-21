@@ -1,15 +1,15 @@
 let ["User Requests"] = view() {
     GetRequests
-    | where 
+    | where
         UserId != ""
-    | summarize 
+    | summarize
         Count = count_distinct(OperationId)
 };
 let ["Anonymous Requests"] = view() {
     GetRequests
-    | where 
+    | where
         UserId == ""
-    | summarize 
+    | summarize
         Count = count_distinct(OperationId)
 };
 union withsource=Type

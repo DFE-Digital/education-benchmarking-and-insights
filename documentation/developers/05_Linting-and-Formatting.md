@@ -49,7 +49,7 @@ For the Vue.js (Web module) and React (Front-end Components module) front-end co
 
 For the data engineering components in the `data-pipeline` module, we use **Black** and **isort**.
 
-- **Enforcement:** Executed automatically via pre-commit hooks. Note that our pre-commit hook is configured with the `--check` flag. This means it will *fail* the commit if formatting is incorrect rather than silently modifying your files, encouraging developers to run the formatter themselves.
+- **Enforcement:** Black formatting is executed automatically via pre-commit hooks. Note that our pre-commit hook is configured with the `--check` flag. This means it will *fail* the commit if formatting is incorrect rather than silently modifying your files, encouraging developers to run the formatter themselves. isort is available for manual execution.
 - **Manual Execution:** Run the following commands from the `data-pipeline/` directory:
   - `make lint` to automatically format files using Black and isort.
   - `make lint-check` to verify formatting without modifying files.
@@ -61,7 +61,7 @@ For the data engineering components in the `data-pipeline` module, we use **Blac
 
 For our Infrastructure as Code, we use the built-in Terraform formatting tools.
 
-- **Enforcement:** Enforced in CI pipelines and pre-commit hooks.
+- **Enforcement:** Enforced in CI pipelines.
 - **Manual Execution:** Run `terraform fmt -recursive` from the root of the repository or within any specific module containing Terraform files (e.g., `core-infrastructure/terraform/`).
 
 <!-- Leave the rest of this page blank -->

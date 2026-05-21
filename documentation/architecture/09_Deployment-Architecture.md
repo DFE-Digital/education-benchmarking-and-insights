@@ -56,7 +56,7 @@ This pipeline is linked to the `feature` environment.
 ```mermaid
 flowchart TD
     accDescr: Feature pipeline flow
-    
+
     A[Provision Terraform Dependencies] --> B[Build, Provision and Deploy Core Infrastructure]
     B --> C[Build, Provision and Deploy Data Pipeline Infrastructure]
     C --> D[Build, Provision and Deploy Platform Infrastructure]
@@ -71,8 +71,8 @@ flowchart TD
 Deploying to a feature environment that has been used in the past sometimes leads to conflicts on resources that were not properly destroyed previously. This is most commonly seen on Diagnostic Setting and Smart Detector Alert Rule resources. e.g.:
 
 ```text
-Error: creating/updating Monitor Smart Detector Alert Rule 
-(Subscription: "xxx", Resource Group Name: "xxx-ebis-support" Smart Detector Alert Rule Name: "failure-anomalies"): 
+Error: creating/updating Monitor Smart Detector Alert Rule
+(Subscription: "xxx", Resource Group Name: "xxx-ebis-support" Smart Detector Alert Rule Name: "failure-anomalies"):
 
 unexpected status 409 (409 Conflict) with error: ScopeInUse: A FailureAnomaliesDetector alert rule with id '/subscriptions/xxx/resourcegroups/xxx-ebis-core/providers/microsoft.alertsmanagement/smartdetectoralertrules/failure anomalies - xxx-ebis-ai' is already defined on the resource '/subscriptions/xxx/resourcegroups/xxx-ebis-core/providers/microsoft.insights/components/xxx-ebis-ai'. Only a single FailureAnomaliesDetector alert rule can be define for the same resource.
 ```
@@ -94,7 +94,7 @@ This pipeline is linked to the `destroy` environment, which itself has an approv
 ```mermaid
 flowchart TD
     accDescr: Destroy pipeline flow
-    
+
     A[Destroy Web Infrastructure] --> B[Destroy Platform Infrastructure]
     B --> C[Destroy Data Pipeline Infrastructure]
     C --> D[Destroy Core Infrastructure]

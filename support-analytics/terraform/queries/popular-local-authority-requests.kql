@@ -1,16 +1,16 @@
 GetEstablishmentRequests
-| where 
+| where
     Establishment == "local-authority"
-| where 
+| where
     ResultCode == 200
-| project 
-    TimeGenerated, 
-    Feature, 
+| project
+    TimeGenerated,
+    Feature,
     Code = Identifier
-| summarize 
+| summarize
     Count=count()
-    by Code, 
+    by Code,
     Feature
-| sort by 
+| sort by
     Count desc
 | take(50)

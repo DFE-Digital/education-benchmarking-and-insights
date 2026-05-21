@@ -5,26 +5,26 @@ setup:
 architecture-pdf:
 	./tools/make-pdf.sh architecture architecture $(OUTPUT)
 
-architecture-docx: 
+architecture-docx:
 	./tools/make-docx.sh architecture architecture $(OUTPUT)
 
-architecture-jira: 
+architecture-jira:
 	./tools/make-jira.sh architecture architecture $(OUTPUT)
 
-testing-pdf: 
+testing-pdf:
 	./tools/make-pdf.sh testing architecture $(OUTPUT)
 
-testing-docx: 
+testing-docx:
 	./tools/make-docx.sh testing architecture $(OUTPUT)
 
-testing-jira: 
+testing-jira:
 	./tools/make-jira.sh testing architecture $(OUTPUT)
 
-design-pdf: 
+design-pdf:
 	./tools/make-pdf.sh design design $(OUTPUT)
 
-design-docx: 
+design-docx:
 	./tools/make-docx.sh design design $(OUTPUT)
 
-design-jira: 
+design-jira:
 	./tools/make-jira.sh design design $(OUTPUT)

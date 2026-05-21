@@ -44,7 +44,7 @@ $TargetFolderURL = ""
 $ItemName = ""
 Try {
     Write-Host "Connecting to $SiteUrl"
-    Connect-PnPOnline -Url $SiteUrl -ClientId $ClientId -ClientSecret $ClientSecret -WarningAction Ignore 
+    Connect-PnPOnline -Url $SiteUrl -ClientId $ClientId -ClientSecret $ClientSecret -WarningAction Ignore
 
     # Get the Target Folder to Upload
     Write-Host "Resolving list $LibraryName"
@@ -69,7 +69,7 @@ Try {
         # Calculate Target Folder URL
         $TargetFolderURL = (Split-Path $_.TargetItemURL -Parent).Replace("\", "/")
         $ItemName = Split-Path $_.FullName -leaf
-                
+
         # Replace Invalid Characters
         $ItemName = [RegEx]::Replace($ItemName, "[{0}]" -f ([RegEx]::Escape([String]'\*:<>?/\|')), '_')
 
@@ -84,14 +84,14 @@ Try {
         }
         Else {
             # Upload File
-            If ($TargetFolderURL.StartsWith("/")) { 
-                $TargetFolderURL = $TargetFolderURL.Remove(0, 1) 
+            If ($TargetFolderURL.StartsWith("/")) {
+                $TargetFolderURL = $TargetFolderURL.Remove(0, 1)
             }
 
             $null = Add-PnPFile -Path $_.FullName -Folder $TargetFolderURL
             Write-Host "Uploaded '$($_.FullName)' to $($Web.Url)/$TargetFolderURL"
         }
-        
+
         $Counter++
     }
 }

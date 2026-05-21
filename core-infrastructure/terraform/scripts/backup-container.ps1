@@ -1,34 +1,34 @@
 <#
     .SYNOPSIS
         Backup a Blob storage container to another Blob storage location.
- 
+
     .DESCRIPTION
         Copies files from a storage container to another storage container as a timestamped backup.
 
     .PARAMETER SubscriptionName
         The Azure Subscription name where the storage accounts exists to backup.
- 
+
     .PARAMETER ResourceGroup
         The resource group name where the storage accounts exists to backup.
- 
+
     .PARAMETER KeyVaultName
         The key vault name where secrets may be resolved from.
 
     .PARAMETER SourceStorageAccountName
-        The StorageAccount that contains the files to back up. 
+        The StorageAccount that contains the files to back up.
 
     .PARAMETER SourceStorageKeySecret
         Key Vault secret name coresponding to the source storage account access key.
- 
+
     .PARAMETER SourceContainerName
         The StorageAccount container name that contains the files to back up.
- 
+
     .PARAMETER TargetStorageAccountName
-        The StorageAccount that should hold the backed up files. 
+        The StorageAccount that should hold the backed up files.
 
     .PARAMETER TargetStorageKeySecret
         Key Vault secret name coresponding to the target storage account access key.
- 
+
     .PARAMETER TargetContainerName
         The StorageAccount container name that should hold the backed up files.
 
@@ -81,14 +81,14 @@ foreach ($Blob in $blobs) {
     $blobName = $Blob.Name
     if ($TargetFolderTimestamp -eq $True) {
         $targetBlobName = "$timestamp/$blobName"
-    } 
-    
+    }
+
     Write-Output "Copying $SourceContainerName/$blobName to $targetContainerName/$targetBlobName"
     $blobCopy = Start-AzStorageBlobCopy -Context $sourceStorageContext -SrcContainer $SourceContainerName -SrcBlob $blobName -DestContext $targetStorageContext -DestContainer $SourceContainerName -DestBlob $TargetBlobName
     $copiedBlobs += $blobCopy
 }
 
-# Start-AzStorageBlobCopy is asynchronous, so need to poll state until all are successful 
+# Start-AzStorageBlobCopy is asynchronous, so need to poll state until all are successful
 $completeBlobs = @()
 while ($completeBlobs.Length -lt $copiedBlobs.Length) {
     Start-Sleep -Seconds 60
@@ -109,7 +109,7 @@ while ($completeBlobs.Length -lt $copiedBlobs.Length) {
         }
 
         if ($null -ne $copyState) {
-            $message = $copyState.Source.AbsolutePath + " " + $copyState.Status + " {0:N2}%" -f (($copyState.BytesCopied / $copyState.TotalBytes) * 100) 
+            $message = $copyState.Source.AbsolutePath + " " + $copyState.Status + " {0:N2}%" -f (($copyState.BytesCopied / $copyState.TotalBytes) * 100)
             Write-Verbose $message
         }
 

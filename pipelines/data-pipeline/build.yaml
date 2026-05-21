@@ -71,7 +71,7 @@ stages:
             parameters:
               TerraformFolder: $(TerraformFolder)
               Module: 'data-pipeline'
-      
+
       - job: RunLint
         displayName: 'Run lint'
         steps:
@@ -86,7 +86,7 @@ stages:
         dependsOn: [ SetBuildNumber, RunTests ]
         displayName: 'Build and push image'
         condition: and(succeeded(), eq(variables['ShouldDeploy'],'true'))
-        steps: 
+        steps:
           - template: steps/build-push-image.yaml
             parameters:
               buildNumber: $(Version.BuildNumber)

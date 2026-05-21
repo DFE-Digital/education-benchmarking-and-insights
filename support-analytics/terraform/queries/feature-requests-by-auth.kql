@@ -1,15 +1,15 @@
 GetFeatureRequests
-| where 
+| where
     ResultCode == 200
-| project 
-    TimeGenerated, 
+| project
+    TimeGenerated,
     Establishment,
-    Feature, 
+    Feature,
     IsAuthenticated = isnotempty(UserAuthenticatedId)
-| summarize 
+| summarize
     Count=count()
-    by Establishment, 
+    by Establishment,
     Feature,
     IsAuthenticated
-| sort by 
+| sort by
     Count desc

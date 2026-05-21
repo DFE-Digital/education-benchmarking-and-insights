@@ -1,11 +1,11 @@
 ﻿# Release Test Plan: 2025.03.0
 
-**Release Date:** 10/03/2025  
+**Release Date:** 10/03/2025
 **Release Label:** 2025.03.0
 
 ## Introduction
 
-This plan defines the approach for testing release `2025.03.0`, covering all testing necessary.  
+This plan defines the approach for testing release `2025.03.0`, covering all testing necessary.
 Ensure that the enhancement, and critical bug fix in `2025.3.0` are functioning as expected without adversely impacting existing
 functionality.
 
@@ -106,5 +106,5 @@ functionality.
 | Sanity Tests  |      1      |   1    |   0    |   100%    |
 | Total         |      2      |   2    |   0    |   100%    |
 
-<!-- Leave the rest of this page blank -->  
-\newpage  
+<!-- Leave the rest of this page blank -->
+\newpage

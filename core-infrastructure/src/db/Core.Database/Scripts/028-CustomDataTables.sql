@@ -10,4 +10,4 @@ IF NOT EXISTS(SELECT *
 
             CONSTRAINT PK_CustomDataSchool PRIMARY KEY (Id)
         );
-    END;   
+    END;

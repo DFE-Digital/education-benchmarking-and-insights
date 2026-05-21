@@ -17,18 +17,18 @@
         urn = Model.Urn,
         customDataId = Model.CustomDataId
     });
-    
-    var elementId = await FeatureManager.IsEnabledAsync(FeatureFlags.KS4ProgressBanding) 
-        ? "compare-your-census-2" 
-        : "compare-your-census"; 
-    var progressIndicators = await FeatureManager.IsEnabledAsync(FeatureFlags.KS4ProgressBanding) 
-        ? Model.WellOrAboveAverageKS4ProgressBandingsInComparatorSet.ToJson(Formatting.None) 
+
+    var elementId = await FeatureManager.IsEnabledAsync(FeatureFlags.KS4ProgressBanding)
+        ? "compare-your-census-2"
+        : "compare-your-census";
+    var progressIndicators = await FeatureManager.IsEnabledAsync(FeatureFlags.KS4ProgressBanding)
+        ? Model.WellOrAboveAverageKS4ProgressBandingsInComparatorSet.ToJson(Formatting.None)
         : null;
-    var seniorLeadershipUrl = await FeatureManager.IsEnabledAsync(FeatureFlags.SeniorLeadership) 
+    var seniorLeadershipUrl = await FeatureManager.IsEnabledAsync(FeatureFlags.SeniorLeadership)
         ? Url.ActionLink("SeniorLeadership", "SchoolCensus", new
         {
             urn = Model.Urn
-        }) 
+        })
         : null;
 }
 
@@ -101,12 +101,12 @@
 
       @if (!hasMissingComparatorSet)
       {
-          <div 
-        id="@elementId" 
-        data-type="@OrganisationTypes.School" 
-        data-id="@Model.Urn" 
-        data-progress-indicators="@progressIndicators" 
-        data-senior-leadership-url="@seniorLeadershipUrl" 
+          <div
+        id="@elementId"
+        data-type="@OrganisationTypes.School"
+        data-id="@Model.Urn"
+        data-progress-indicators="@progressIndicators"
+        data-senior-leadership-url="@seniorLeadershipUrl"
         data-download-link="@downloadLink"> </div>
       }
 

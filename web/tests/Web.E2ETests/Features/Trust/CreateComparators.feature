@@ -24,7 +24,7 @@ Feature: Trust create comparator set
         And I click the choose trust button
         And I click the create set button
         Then the trust benchmark spending page is displayed
-        
+
     Scenario: Can view redirectUri at end of journey
         Given I am on compare by page with redirectUri '/cookies' for trust with company number '00000001'
         When I select the option By Name and click continue

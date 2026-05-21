@@ -16,9 +16,9 @@
 
 @if (Model.NumberOfSchools > 0)
 {
-    <div id="compare-your-census" 
-         data-type="@OrganisationTypes.Trust" 
-         data-id="@Model.CompanyNumber" 
+    <div id="compare-your-census"
+         data-type="@OrganisationTypes.Trust"
+         data-id="@Model.CompanyNumber"
          data-phases="@Model.Phases.ToJson(Formatting.None)">
     </div>
 }

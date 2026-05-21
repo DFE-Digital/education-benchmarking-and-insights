@@ -45,7 +45,7 @@ GetWafLogs
 | extend
     matchVariableName  = tostring(details.matchVariableName),
     matchVariableValue = tostring(details.matchVariableValue)
-| summarize Count = count() 
+| summarize Count = count()
     by ruleName_s, path, matchVariableName, matchVariableValue, action_s
 | order by Count desc
 ```

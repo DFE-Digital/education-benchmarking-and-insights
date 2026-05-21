@@ -33,7 +33,7 @@ This test plan covers the testing in pre production and production to validate a
 **Issues/Updates to be Tested:**
 
 1. [212855 Accessibility statement page content](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/212855) - added a new page for accessibility statement. Tested in test and will be checked again in pre production.
-2. [228013 Show actual data for Part Year schools](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/228013) - updated part years schools to show information about not having full year submission. We have validated this in test and will be checked again in pre production.  
+2. [228013 Show actual data for Part Year schools](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/228013) - updated part years schools to show information about not having full year submission. We have validated this in test and will be checked again in pre production.
 3. [228227 Net Catering cost is incorrect](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/228227) - The issue with net costs is now fixed. This has been tested in test and will be checked again in pre production.
 4. [218588 Trust-trust missing confirmation banner](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/218588) - Confirmation banner is now added on trust to trust comparison journey. This has been tested in test and will be checked again in pre production.
 5. [229260 UTC Phase type not showing on trust Homepage](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/229260) - This was identified as a regression of previous release and have been fixed and tested in test. Will be checked again in pre production.

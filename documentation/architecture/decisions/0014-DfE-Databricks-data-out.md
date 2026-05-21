@@ -14,13 +14,13 @@ As Databricks is hosted on Azure, compute in Databricks can be configured to wri
 ```mermaid
 graph LR
     DB[Databricks] --> Decision{Extract Method}
-    
+
     Decision -->|Option 1| FBIT[FBIT Databricks Workspace Job]
     Decision -->|Option 2| ADF[Azure Data Factory]
-    
+
     FBIT --> Storage[Azure Blob Storage]
     ADF --> Storage
-    
+
     style DB fill:#f3e5f5
     style Decision fill:#fff3e0
     style FBIT fill:#e1f5fe

@@ -1,15 +1,15 @@
 # Metric: Failed Pipeline Messages
 
-**Category:**  
+**Category:**
 Operational
 
-**Data Source:**  
+**Data Source:**
 Pipeline monitoring tools
 
-**Purpose:**  
+**Purpose:**
 Ensure data processing pipelines function correctly by tracking message failures. Pipeline failures can cause data loss, delays, or incorrect processing, affecting downstream analytics, reporting, or operational decisions.
 
-**Actionability:**  
+**Actionability:**
 Investigate pipeline failures and resolve errors to maintain data flow. When failed pipeline messages exceed 1:
 
 1. Review error logs for pipeline components.
@@ -18,13 +18,13 @@ Investigate pipeline failures and resolve errors to maintain data flow. When fai
 4. Patch or fix the specific processing stage causing failure.
 5. Monitor pipeline throughput after remediation.
 
-**Target / Threshold:**  
+**Target / Threshold:**
 Zero failed pipeline messages during processing
 
-**Reporting Frequency:**  
+**Reporting Frequency:**
 Continuous monitoring with alerting
 
-**Notes / Links:**  
+**Notes / Links:**
 
 <!-- Leave the rest of this page blank -->
 \newpage

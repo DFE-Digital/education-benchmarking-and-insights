@@ -55,7 +55,7 @@ flowchart TD
     success_response["File response (200) 3️⃣"]
     error_response["Error response (400/404) 4️⃣"]
 
-    request --> pattern 
+    request --> pattern
     pattern -- Path matches /files/* --> origin_files -- Origin authentication 2️⃣ --> storage_files --> blob
     pattern -- Path matches /images/* --> origin_images -- Origin authentication 2️⃣ --> storage_images --> blob
     pattern -- Any other path --> origin_app_service --> app_service

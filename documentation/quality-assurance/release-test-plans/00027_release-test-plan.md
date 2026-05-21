@@ -2,12 +2,12 @@
 
 _*Release version updated to 2025.12.2 following resolution of TotalPupils count for local authorities which have federations which was incorrectly computed previously._*
 
-**Release Date:** 12/12/2025  
+**Release Date:** 12/12/2025
 **Release Label:** 2025.12.2
 
 ## Introduction
 
-This plan defines the approach for testing release `2025.12.2`, covering smoke, sanity, and UAT testing activities.  
+This plan defines the approach for testing release `2025.12.2`, covering smoke, sanity, and UAT testing activities.
 This release delivers a combination of dependency updates, branding alignment with the GOV.UK and DfE Design Systems, S251 data refresh, and a change to normalisation methodology for Pupil count in LAs.
 
 ## Scope
@@ -107,14 +107,14 @@ The initial release encountered an issue with TotalPupils calculations for LAs. 
 
 ### Test Summary Report
 
-**Summary of results:**  
+**Summary of results:**
 
-| Test Category           | Total Tests | Passed | Failed | Pass Rate |  
-|-------------------------|:-----------:|:------:|:------:|:---------:|  
-| Smoke Tests - Prod      |      1      |   1    |   0    |   100%    |  
-| Sanity Tests - Pre Prod |      2      |   2    |   0    |   100%    |  
-| UAT - Pre Prod          |      1      |   1    |   0    |   100%    |  
-| Total                   |      1      |   1    |   0    |   100%    |  
+| Test Category           | Total Tests | Passed | Failed | Pass Rate |
+|-------------------------|:-----------:|:------:|:------:|:---------:|
+| Smoke Tests - Prod      |      1      |   1    |   0    |   100%    |
+| Sanity Tests - Pre Prod |      2      |   2    |   0    |   100%    |
+| UAT - Pre Prod          |      1      |   1    |   0    |   100%    |
+| Total                   |      1      |   1    |   0    |   100%    |
 
 <!-- Leave the rest of this page blank -->
 \newpage

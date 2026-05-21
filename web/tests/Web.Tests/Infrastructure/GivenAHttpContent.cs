@@ -28,7 +28,7 @@ public class GivenAHttpContent
     [Fact]
     public async Task ShouldReturnPagedJsonResponseBody()
     {
-        // arrange       
+        // arrange
         var expected = Encoding.UTF8.GetBytes("test");
         var testHttpContent = new ByteArrayContent(expected);
         testHttpContent.Headers.ContentType = new MediaTypeHeaderValue("application/json+paged");
@@ -46,7 +46,7 @@ public class GivenAHttpContent
     [Fact]
     public async Task ShouldReturnTextResponseBody()
     {
-        // arrange       
+        // arrange
         var expected = Encoding.UTF8.GetBytes("test");
         var testHttpContent = new ByteArrayContent(expected);
         testHttpContent.Headers.ContentType = new MediaTypeHeaderValue("text/plain");
@@ -80,7 +80,7 @@ public class GivenAHttpContent
     [Fact]
     public async Task ShouldReturnCsvResponseBody()
     {
-        // arrange       
+        // arrange
         var expected = Encoding.UTF8.GetBytes("test");
         var testHttpContent = new ByteArrayContent(expected);
         testHttpContent.Headers.ContentType = new MediaTypeHeaderValue("text/csv");
@@ -98,7 +98,7 @@ public class GivenAHttpContent
     [Fact]
     public async Task ShouldReturnPdfResponseBody()
     {
-        // arrange       
+        // arrange
         var expected = Encoding.UTF8.GetBytes("test");
         var testHttpContent = new ByteArrayContent(expected);
         testHttpContent.Headers.ContentType = new MediaTypeHeaderValue("application/pdf");
@@ -116,7 +116,7 @@ public class GivenAHttpContent
     [Fact]
     public async Task ShouldReturnEmptyResponseBodyWhenContentLengthZero()
     {
-        // arrange       
+        // arrange
         var testHttpContent = new ByteArrayContent(Encoding.UTF8.GetBytes(""));
 
         // act
@@ -131,7 +131,7 @@ public class GivenAHttpContent
     [Fact]
     public async Task ShouldThrowException()
     {
-        // arrange       
+        // arrange
         var testHttpContent = new ByteArrayContent(Encoding.UTF8.GetBytes("test"));
 
         // act + assert

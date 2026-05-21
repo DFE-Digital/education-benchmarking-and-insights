@@ -59,4 +59,4 @@ IF NOT EXISTS(SELECT *
 
             CONSTRAINT PK_UserDefinedTrustComparatorSet PRIMARY KEY (RunType, RunId, CompanyNumber)
         );
-    END;       
+    END;

@@ -55,5 +55,5 @@ CREATE VIEW SchoolExpenditureAvgComparatorSet AS
       ON (
                pupilExpenditureAvgComparatorSet.URN = buildingExpenditureAvgComparatorSet.URN
            AND pupilExpenditureAvgComparatorSet.RunId = buildingExpenditureAvgComparatorSet.RunId
-         )     
+         )
 GO

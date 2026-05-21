@@ -46,14 +46,14 @@
         Then the trust balance history result should be ok and contain:
           | Year | InYearBalance | RevenueReserve |
           | 2022 | 364946.00     | 871095.00      |
-          
+
     Scenario: Sending a valid trust balance history request with PercentIncome dimension
         Given a valid trust balance history request with company number '10192252', dimension 'PercentIncome'
         When I submit the insights balance request
         Then the trust balance history result should be ok and contain:
           | Year | InYearBalance        | RevenueReserve        |
           | 2022 | 6.696835634786052150 | 15.984775932011738990 |
-          
+
     Scenario: Sending a valid trust balance history request with PercentExpenditure dimension
         Given a valid trust balance history request with company number '10192252', dimension 'PercentExpenditure'
         When I submit the insights balance request

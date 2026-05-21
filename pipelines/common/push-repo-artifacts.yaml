@@ -13,7 +13,7 @@ steps:
       cd $(Agent.BuildDirectory)/s
       git status
       git remote update
-      git fetch 
+      git fetch
       git checkout --track origin/main
       git checkout --no-track -b ${{ parameters.BranchName }} origin/main
     displayName: 'Set default identity and create branch'
@@ -24,7 +24,7 @@ steps:
       buildType: current
       targetPath: $(Build.SourcesDirectory)/${{ parameters.TargetPath }}
       itemPattern: ${{ parameters.ArtifactPattern }}
-  
+
   - script: |
       cd $(Build.SourcesDirectory)/${{ parameters.TargetPath }}
       ${{ parameters.PostProcessScript }}
@@ -37,4 +37,3 @@ steps:
       git tag -a ${{ parameters.CommitTag }}/$(Build.BuildId) -m "Tagged with build ID for GitHub Actions trigger"
       git push --atomic origin "refs/heads/${{ parameters.BranchName }}" ${{ parameters.CommitTag }}/$(Build.BuildId)
     displayName: 'Commit changes'
-

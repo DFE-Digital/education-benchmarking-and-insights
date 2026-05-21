@@ -2,7 +2,7 @@
 Feature: School create comparator set
 
     Background:
-        Given I am on create comparators page for school with URN '777042'       
+        Given I am on create comparators page for school with URN '777042'
         And I have signed in with organisation '01: FBIT TEST - Community School (Open)'
 
     Scenario: Can view create comparator set page

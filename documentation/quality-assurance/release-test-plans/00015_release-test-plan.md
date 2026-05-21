@@ -2,7 +2,7 @@
 
 _*Release version incremented to critical issues identified during testing of 2025.01.1._
 
-**Release Date:** 06/02/2025  
+**Release Date:** 06/02/2025
 **Release Label:** 2025.02.2
 
 ## Introduction

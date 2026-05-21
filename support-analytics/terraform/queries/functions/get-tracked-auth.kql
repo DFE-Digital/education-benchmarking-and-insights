@@ -42,5 +42,5 @@ AppEvents
     Identifier,
     OperationId,
     UserId
-| order by 
+| order by
     TimeGenerated asc

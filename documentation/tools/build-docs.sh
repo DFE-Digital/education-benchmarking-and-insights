@@ -34,7 +34,7 @@ do
     # See: https://github.com/mermaid-js/mermaid-cli/blob/340561040b6b0621a486e3fc96723139e5718268/docs/linux-sandbox-issue.md
     # https://github.com/mermaid-js/mermaid-cli/issues/730
     mmdc -e png -i $(pwd)/$fname -o work/$fname -p "$SCRIPT_DIR/puppeteer-config.json"
-done 
+done
 
 cp -a images/. work/images
 cd work

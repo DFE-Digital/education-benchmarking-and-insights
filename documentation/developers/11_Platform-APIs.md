@@ -110,7 +110,7 @@ This solution supports multiple local environments using `launchSettings` profil
 ```text
 platform-local
 platform-development
-platform-test 
+platform-test
 ```
 
 ### Adding User Secrets

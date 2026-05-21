@@ -1,6 +1,6 @@
 # Platform API Test Plan: School - Comparators
 
-API: School  
+API: School
 Feature: Comparators
 
 ## Test Scenarios by Endpoint

@@ -18,7 +18,7 @@ GO
 
 CREATE VIEW VW_BalanceTrustDefaultCurrentPercentExpenditure AS
 SELECT t.CompanyNumber,
-       t.TrustName,   
+       t.TrustName,
        IIF(f.TotalExpenditure != 0, (f.InYearBalance / f.TotalExpenditure) * 100, NULL) AS 'InYearBalance',
        IIF(f.TotalExpenditureCS != 0, (f.InYearBalanceCS / f.TotalExpenditureCS) * 100, NULL) AS 'InYearBalanceCS',
        IIF(f.TotalExpenditureSchool != 0, (f.InYearBalanceSchool / f.TotalExpenditureSchool) * 100, NULL) AS 'InYearBalanceSchool',
@@ -61,7 +61,7 @@ GO
 CREATE VIEW VW_BalanceTrustDefaultActual AS
 SELECT CompanyNumber,
        RunId,
-       InYearBalance,    
+       InYearBalance,
        RevenueReserve
 FROM VW_TrustFinancialDefault
 GO

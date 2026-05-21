@@ -7,7 +7,11 @@ We use [pre-commit](https://pre-commit.com/) to automatically run a set of quali
 The following hooks are currently configured in `.pre-commit-config.yaml`:
 
 - **Black:** Automatically checks Python code in the `data-pipeline` directory for formatting issues (using the `--check` flag).
+- **Standard Checks:** Validates YAML syntax, trims trailing whitespace, ensures files end with newlines, and prevents large files from being committed.
+- **Branch Protection:** Prevents direct commits to the `main` branch.
 - **markdownlint-cli2:** Checks Markdown files for style and formatting issues, following the rules defined in `.markdownlint-cli2.jsonc`.
+- **Gitleaks:** Scans staged changes to prevent hardcoded secrets and credentials from being committed.
+- **Conventional Commits:** Enforces standard commit message formatting (e.g., `feat:`, `fix:`).
 
 > **Note:** For instructions on configuring your IDE (VS Code, Rider, etc.) to format files on save or show linting errors as you type, please see the [Linting and Formatting Guide](./05_Linting-and-Formatting.md).
 

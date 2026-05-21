@@ -46,7 +46,7 @@ IF NOT EXISTS(SELECT *
             CompanyNumber nvarchar(8)    NOT NULL,
             Metric        nvarchar(50)   NOT NULL,
             Value         decimal(16, 2) NULL,
-            
+
             CONSTRAINT PK_BudgetForecastReturnMetric PRIMARY KEY (RunType, RunId, CompanyNumber, Year, Metric)
         );
-    END;    
+    END;

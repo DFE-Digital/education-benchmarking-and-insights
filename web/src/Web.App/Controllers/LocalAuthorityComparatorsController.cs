@@ -73,13 +73,13 @@ public class LocalAuthorityComparatorsController(
                 }
 
                 FormAction action = viewModel.Action ?? throw new ArgumentNullException(nameof(viewModel));
-                
+
                 if (action.Action == FormAction.Continue)
                 {
                     localAuthorityComparatorSetService.SetUserDefinedComparatorSetInSession(code, new UserDefinedLocalAuthorityComparatorSet { Set = comparators.ToArray() });
                     return ContinueActionResult(code, type);
                 }
-                
+
                 switch (action.Action)
                 {
                     case FormAction.Add:
@@ -101,7 +101,7 @@ public class LocalAuthorityComparatorsController(
                         comparators = [];
                         break;
                 }
-                
+
                 return View(nameof(Index), new LocalAuthorityComparatorsViewModel(localAuthority, comparators.ToArray(), type, viewModel.Referrer));
 
             }

@@ -5,7 +5,7 @@
 
 ## Introduction
 
-This plan defines the approach for testing release `2026.02.0`, covering smoke and sanity testing activities.  
+This plan defines the approach for testing release `2026.02.0`, covering smoke and sanity testing activities.
 This release delivers an enhancement to the high needs benchmarking journey with a redesign for the selection of comparators. Statistical neighbours for the local authority are now pre-selected as default and the layout of the page has been updated.
 
 ## Scope
@@ -86,15 +86,15 @@ The release completed successfully with no issues.
 
 ### Test Summary Report
 
-**Summary of results:**  
+**Summary of results:**
 
 Release completed successfully with no issues.
 
-| Test Category                | Total Tests | Passed | Failed | Pass Rate |  
-|------------------------------|:-----------:|:------:|:------:|:---------:|  
+| Test Category                | Total Tests | Passed | Failed | Pass Rate |
+|------------------------------|:-----------:|:------:|:------:|:---------:|
 | Sanity tests - Pre-Prod      |      1      |   1    |   0    |   100%    |
 | Smoke tests - Prod           |      1      |   1    |   0    |   100%    |
-| Total                        |      2      |   2    |   0    |   100%    |  
+| Total                        |      2      |   2    |   0    |   100%    |
 
 <!-- Leave the rest of this page blank -->
 \newpage

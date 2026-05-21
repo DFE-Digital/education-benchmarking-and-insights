@@ -214,7 +214,7 @@ View Name = `CFR_yy-yy_Data` where yy-yy represent reporting academic year, for 
 
     ```sql
     UPDATE [CFR2y].[dbo].[CFR_2y2y]
-    SET [Federated Flag] = 'No' 
+    SET [Federated Flag] = 'No'
     WHERE [LEAEstab] IN (8761005, 8761007);
     ```
 

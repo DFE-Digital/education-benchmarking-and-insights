@@ -1,11 +1,11 @@
 ﻿# Release Test Plan: 2025.11.1
 
-**Release Date:** 2025/12/01  
+**Release Date:** 2025/12/01
 **Release Label:** 2025.11.1
 
 ## Introduction
 
-This plan defines the approach for testing release `2025.11.1`, covering smoke and sanity testing activities.  
+This plan defines the approach for testing release `2025.11.1`, covering smoke and sanity testing activities.
 This release delivers a combination of enhancements of Progress 8 data, updating survey link, bug fixes, and content updates on benchmarking pages.
 
 ## Scope
@@ -95,12 +95,12 @@ The release was completed successfully with no issues and progress 8 feature tur
 
 **Summary of results:**
 
-| Test Category           | Total Tests | Passed | Failed | Pass Rate |  
-|-------------------------|:-----------:|:------:|:------:|:---------:|  
-| Smoke Tests - Prod      |      1      |   1    |   0    |   100%    |  
-| Sanity Tests - Pre Prod |      6      |   6    |   0    |   100%    |  
-| UAT - Pre Prod          |      1      |   1    |   0    |   100%    |  
-| Total                   |      8      |   8    |   0    |   100%    |  
+| Test Category           | Total Tests | Passed | Failed | Pass Rate |
+|-------------------------|:-----------:|:------:|:------:|:---------:|
+| Smoke Tests - Prod      |      1      |   1    |   0    |   100%    |
+| Sanity Tests - Pre Prod |      6      |   6    |   0    |   100%    |
+| UAT - Pre Prod          |      1      |   1    |   0    |   100%    |
+| Total                   |      8      |   8    |   0    |   100%    |
 
 <!-- Leave the rest of this page blank -->
 \newpage

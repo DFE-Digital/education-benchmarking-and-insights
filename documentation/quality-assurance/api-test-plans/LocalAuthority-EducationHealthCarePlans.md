@@ -1,6 +1,6 @@
 # Platform API Test Plan: LocalAuthority - EducationHealthCarePlans
 
-API: LocalAuthority  
+API: LocalAuthority
 Feature: EducationHealthCarePlans
 
 ## Test Scenarios by Endpoint

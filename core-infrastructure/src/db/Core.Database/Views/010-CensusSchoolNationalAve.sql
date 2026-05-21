@@ -64,7 +64,7 @@ FROM VW_CensusSchoolDefaultNormalisedPercentWorkforce
 GROUP
     BY RunId
      , FinanceType
-     , OverallPhase    
+     , OverallPhase
 GO
 
 DROP VIEW IF EXISTS VW_CensusSchoolDefaultNationalAvePupilsPerStaffRole

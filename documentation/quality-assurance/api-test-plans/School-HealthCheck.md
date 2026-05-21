@@ -1,6 +1,6 @@
 # Platform API Test Plan: School - HealthCheck
 
-API: School  
+API: School
 Feature: HealthCheck
 
 ## Test Scenarios by Endpoint

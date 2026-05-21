@@ -1,6 +1,6 @@
 # Platform API Test Plan: School - Census
 
-API: School  
+API: School
 Feature: Census
 
 ## Test Scenarios by Endpoint

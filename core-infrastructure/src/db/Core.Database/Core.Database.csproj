@@ -9,7 +9,7 @@
         <PackageReference Include="dbup-sqlserver" />
 
         <AssemblyAttribute Include="System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute"/>
-        
+
         <EmbeddedResource Include="Scripts/*.sql" />
         <EmbeddedResource Include="Views/*.sql" />
     </ItemGroup>
@@ -28,7 +28,7 @@
             051-InsertBFRParam.sql
         </IgnoredDuplicateScripts>
     </PropertyGroup>
-    
+
     <UsingTask TaskName="CheckDuplicateScripts" TaskFactory="RoslynCodeTaskFactory" AssemblyFile="$(MSBuildToolsPath)/Microsoft.Build.Tasks.Core.dll">
         <ParameterGroup>
             <ScriptsDir ParameterType="System.String" Required="true" />
@@ -68,7 +68,7 @@
             </Code>
         </Task>
     </UsingTask>
-    
+
     <Target Name="ValidateScriptsCompileTime" BeforeTargets="PreBuildEvent">
         <CheckDuplicateScripts ScriptsDir="$(ScriptsDir)" IgnoredFiles="$(IgnoredDuplicateScripts)" />
         <CheckDuplicateScripts ScriptsDir="$(ViewsDir)" />

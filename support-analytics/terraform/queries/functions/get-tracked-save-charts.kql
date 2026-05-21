@@ -3,13 +3,13 @@ AppEvents
     Properties["baseTypeSource"] == "ClickEvent"
 | where
     Name == "save-chart-as-image"
-| where 
+| where
     isempty(SyntheticSource)
-| extend 
+| extend
     content=parsejson(tostring(Properties.['content']))
-| mv-expand 
+| mv-expand
     content
-| extend 
+| extend
     ChartName = content["chart-name"]
 | join kind=leftouter
     GetEstablishmentRequests
@@ -23,5 +23,5 @@ AppEvents
     Establishment,
     Feature,
     Identifier
-| order by 
+| order by
     TimeGenerated asc

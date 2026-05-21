@@ -145,7 +145,7 @@ resource "azurerm_resource_group_template_deployment" "function_keys" {
       "outputs": {
           "functionkey": {
               "type": "String",
-              "value": "[listkeys(concat(variables('functionAppId'), '/host/default'), '2018-11-01').masterKey]"                                                                                
+              "value": "[listkeys(concat(variables('functionAppId'), '/host/default'), '2018-11-01').masterKey]"
             }
        }
   }

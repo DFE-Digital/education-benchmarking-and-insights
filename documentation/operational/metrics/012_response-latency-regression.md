@@ -1,15 +1,15 @@
 # Metric: Response Latency Regression
 
-**Category:**  
+**Category:**
 Operational
 
-**Data Source:**  
-Monitoring and tracing systems  
+**Data Source:**
+Monitoring and tracing systems
 
-**Purpose:**  
+**Purpose:**
 Track increases in response times for user requests, which directly affect user satisfaction and perceived performance. Detecting regressions allows investigation of recent changes or load conditions causing slowness.
 
-**Actionability:**  
+**Actionability:**
 Investigate performance regressions and implement optimisations. When request latency increases:
 
 1. Compare latency before/after recent deployments.
@@ -18,13 +18,13 @@ Investigate performance regressions and implement optimisations. When request la
 4. Optimise queries, caching, or code paths causing delays.
 5. Monitor after changes to confirm improvement.
 
-**Target / Threshold:**  
+**Target / Threshold:**
 Maintain response times within baseline ranges
 
-**Reporting Frequency:**  
+**Reporting Frequency:**
 Real-time with alerting
 
-**Notes / Links:**  
+**Notes / Links:**
 
 <!-- Leave the rest of this page blank -->
 \newpage

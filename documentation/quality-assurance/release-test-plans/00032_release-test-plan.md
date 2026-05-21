@@ -1,11 +1,11 @@
 ﻿# Release Test Plan: 2026.04.0
 
-**Release Date:** 01/04/2026  
+**Release Date:** 01/04/2026
 **Release Label:** 2026.04.0
 
 ## Introduction
 
-This plan defines the approach for testing release `2026.04.0`, covering smoke and sanity testing activities.  
+This plan defines the approach for testing release `2026.04.0`, covering smoke and sanity testing activities.
 This release delivers a single enhancement to improve how DSG carried forward balances are represented on the LA homepage, providing a clearer and more accurate picture of the underlying deficit position.
 
 ## Scope
@@ -13,7 +13,7 @@ This release delivers a single enhancement to improve how DSG carried forward ba
 **In-scope:**
 
 - **Enhancements**
-  - Update to the LA homepage to improve the presentation of High Needs DSG carried forward balances, ensuring the displayed position better reflects the actual deficit.  
+  - Update to the LA homepage to improve the presentation of High Needs DSG carried forward balances, ensuring the displayed position better reflects the actual deficit.
 
 **Out-of-Scope:**
 
@@ -79,11 +79,11 @@ Release completed successfully with no issues.
 
 **Summary of results:**
 
-| Test Category           | Total Tests | Passed | Failed | Pass Rate |  
-|-------------------------|:-----------:|:------:|:------:|:---------:|  
-| Smoke Tests - Prod      |      1      |   1    |   0    |   100%    |  
-| Sanity Tests - Pre Prod |      1      |   1    |   0    |   100%    |  
-| Total                   |      2      |   2    |   0    |   100%    |  
+| Test Category           | Total Tests | Passed | Failed | Pass Rate |
+|-------------------------|:-----------:|:------:|:------:|:---------:|
+| Smoke Tests - Prod      |      1      |   1    |   0    |   100%    |
+| Sanity Tests - Pre Prod |      1      |   1    |   0    |   100%    |
+| Total                   |      2      |   2    |   0    |   100%    |
 
 <!-- Leave the rest of this page blank -->
 \newpage

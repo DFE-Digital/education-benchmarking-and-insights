@@ -30,7 +30,7 @@ Feature: Local Authority Accounts - High Needs
           |  000 |
         When I submit the request
         Then the history result should be not found
-        
+
     Scenario Outline: High needs request with dimension '<Dimension>' and type '<Type>' returns 200 OK and expected data
         Given a valid request to endpoint version '<Endpoint Version>' with dimension '<Dimension>' type '<Type>' and LA codes:
           | Code |
@@ -74,7 +74,7 @@ Feature: Local Authority Accounts - High Needs
           |  000 |
         When I submit the request
         Then the result should match '<Response>'
-    
+
     Examples:
       | Endpoint Version | Response  |
       | 1.0              | OK        |

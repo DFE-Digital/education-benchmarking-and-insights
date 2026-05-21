@@ -1,16 +1,16 @@
 GetEstablishmentRequests
-| where 
-    Establishment == "trust" 
-| where 
+| where
+    Establishment == "trust"
+| where
     ResultCode == 200
-| project 
-    TimeGenerated, 
-    Feature, 
+| project
+    TimeGenerated,
+    Feature,
     CompanyNumber = Identifier
-| summarize 
+| summarize
     Count=count()
-    by CompanyNumber, 
+    by CompanyNumber,
     Feature
-| sort by 
+| sort by
     Count desc
 | take(50)

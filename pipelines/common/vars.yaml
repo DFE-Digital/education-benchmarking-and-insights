@@ -28,7 +28,7 @@ variables:
       value: '.'
     ${{ else }}:
       value: '-'
-  - name: Version.BuildNumber 
+  - name: Version.BuildNumber
     value: $(Version)$(Version.Revision.Separator)$(Version.Revision)
   - name: Version.BuildVersion
     value: $(Version.BuildNumber)

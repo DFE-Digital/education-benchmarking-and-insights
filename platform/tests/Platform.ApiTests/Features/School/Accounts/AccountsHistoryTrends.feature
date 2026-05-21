@@ -30,7 +30,7 @@ Feature: School Accounts - History Trends
       | BalanceNationalAverageHistoryInvalidDimension.json   | Dimension      | Invalid            | Phase          | Primary         | FinanceType    | Maintained      |
       | BalanceNationalAverageHistoryInvalidPhase.json       | Dimension      | PercentIncome      | Phase          | Invalid         | FinanceType    | Academy         |
       | BalanceNationalAverageHistoryInvalidFinanceType.json | Dimension      | PercentExpenditure | Phase          | All-Through     | FinanceType    | Invalid         |
-      
+
     Scenario: valid income national average history request
         Given an income national average history request with query parameters:
           | ParameterName    | ParameterValue    |
@@ -61,7 +61,7 @@ Feature: School Accounts - History Trends
       | IncomeNationalAverageHistoryInvalidDimension.json   | Dimension      | Invalid            | Phase          | Primary         | FinanceType    | Maintained      |
       | IncomeNationalAverageHistoryInvalidPhase.json       | Dimension      | PercentIncome      | Phase          | Invalid         | FinanceType    | Academy         |
       | IncomeNationalAverageHistoryInvalidFinanceType.json | Dimension      | PercentExpenditure | Phase          | All-Through     | FinanceType    | Invalid         |
-      
+
     Scenario: valid balance comparator set average history request
         Given a balance comparator set average history request with URN '777042' and dimension '<Dimension>'
         When I submit the request
@@ -78,7 +78,7 @@ Feature: School Accounts - History Trends
         Given a balance comparator set average history request with URN '777042' and dimension 'Invalid'
         When I submit the request
         Then the 'balance comparator set average history' result should be 'bad request' and match the expected output in 'BalanceSetAverageHistoryInvalidDimension.json'
-      
+
     Scenario: valid income comparator set average history request
         Given an income comparator set average history request with URN '777042' and dimension '<Dimension>'
         When I submit the request

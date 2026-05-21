@@ -1,11 +1,11 @@
 ﻿# Release Test Plan: 2025.07.1
 
-**Release Date:** 30/07/2025  
+**Release Date:** 30/07/2025
 **Release Label:** 2025.07.1
 
 ## Introduction
 
-This plan defines the approach for testing release `2025.07.1`, covering all functional and smoke testing necessary.  
+This plan defines the approach for testing release `2025.07.1`, covering all functional and smoke testing necessary.
 This release includes backend infrastructure improvements, security-related updates, enhancements to data ingestion and pipeline performance, and content changes across the site.
 
 Key changes include upgrading the data pipeline to Python 3.13, SSR fixes on the Spending Priorities page, and displaying updated high executive pay content.

@@ -21,4 +21,4 @@ IF EXISTS(SELECT *
             ADD AddressCounty nvarchar(50) NULL;
         ALTER TABLE dbo.School
             ADD AddressPostcode nvarchar(10) NULL;
-    END;       
+    END;

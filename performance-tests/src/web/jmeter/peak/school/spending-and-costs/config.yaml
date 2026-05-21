@@ -7,7 +7,7 @@ testType: JMX
 splitAllCSVs: False
 configurationFiles:
 - schools.csv
-failureCriteria: 
+failureCriteria:
 - percentage(error) > 0.1
 referenceIdentities:
 - kind: Metrics

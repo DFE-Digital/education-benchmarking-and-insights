@@ -466,8 +466,8 @@ FROM LocalAuthorityFinancial f
         SELECT n.EHCPTotal + n.SENSupport AS TotalSupport
 ) x
 GO
-    
-    
+
+
 DROP VIEW IF EXISTS VW_LocalAuthorityFinancialDefaultActual
 GO
 
@@ -612,7 +612,7 @@ AS
     WHERE Name = 'CurrentYear')
 GO
 
-DROP VIEW IF EXISTS VW_LocalAuthorityFinancialDefaultCurrentSpendAsPercentageOfBudget 
+DROP VIEW IF EXISTS VW_LocalAuthorityFinancialDefaultCurrentSpendAsPercentageOfBudget
 GO
 
 DROP VIEW IF EXISTS VW_LocalAuthorityFinancialHeadlineStatistics

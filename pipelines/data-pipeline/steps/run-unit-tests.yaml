@@ -31,7 +31,3 @@ steps:
     inputs:
       summaryFileLocation: 'data-pipeline/tests/output/coverage.xml'
       pathToSources: '$(Build.SourcesDirectory)/data-pipeline/src'
-
-  
-
-    

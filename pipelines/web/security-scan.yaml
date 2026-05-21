@@ -9,7 +9,7 @@ variables:
   - name: 'ShouldPublish'
     value: $[and(eq(variables['Build.SourceBranch'], 'refs/heads/main'), ne(variables['Build.Reason'], 'PullRequest'))]
   - group: 'security scan settings'
-     
+
 trigger: none
 
 pr: none

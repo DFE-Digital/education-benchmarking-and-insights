@@ -14,7 +14,7 @@ let churnSeriesWithHllsToInclude = materialize(range d from 0d to timeRange step
     | project Day, ThisMonth, LastMonth);
 churnSeriesWithHllsToInclude
 | extend DaysToMerge = ThisMonth
-| join kind= inner (hlls) on DaysToMerge 
+| join kind= inner (hlls) on DaysToMerge
 | project Day, ThisMonthHlls = Hlls
 | union (
     churnSeriesWithHllsToInclude
