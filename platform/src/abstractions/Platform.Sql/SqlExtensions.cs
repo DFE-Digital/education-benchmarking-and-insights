@@ -30,7 +30,8 @@ public static class SqlExtensions
 
     private static PlatformSqlOptions GetOptions(IConfiguration configuration)
     {
-        var conn = configuration["Sql__ConnectionString"];
+        var conn = configuration.GetSection("Sql").GetValue<string>("ConnectionString");
+
         ArgumentNullException.ThrowIfNull(conn);
 
         return new PlatformSqlOptions(conn);

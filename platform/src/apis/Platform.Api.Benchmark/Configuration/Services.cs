@@ -25,7 +25,7 @@ internal static class Services
         var configuration = context.Configuration;
 
         serviceCollection
-            .AddTelemetry()
+            .AddTelemetry(configuration)
             .AddHealthCheckServices(configuration)
             .AddPlatformServices(configuration)
             .AddFeatures();
@@ -42,13 +42,13 @@ internal static class Services
         return serviceCollection;
     }
 
-    private static IServiceCollection AddTelemetry(this IServiceCollection serviceCollection)
+    private static IServiceCollection AddTelemetry(this IServiceCollection serviceCollection, IConfiguration configuration)
     {
         //TODO: Add serilog configuration AB#227696
         // App Insights must be BEFORE any keyed services:
         // • https://github.com/microsoft/ApplicationInsights-dotnet/issues/2828
         // • https://github.com/microsoft/ApplicationInsights-dotnet/issues/2879
-        var sqlTelemetryEnabled = Environment.GetEnvironmentVariable("Sql__TelemetryEnabled");
+        var sqlTelemetryEnabled = configuration.GetSection("Sql").GetValue<string>("TelemetryEnabled");
         serviceCollection
             .AddApplicationInsightsTelemetryWorkerService()
             .ConfigureFunctionsApplicationInsights()

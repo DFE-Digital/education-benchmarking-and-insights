@@ -36,10 +36,13 @@ public static class CacheExtensions
 
     private static RedisCacheOptions GetOptions(IConfiguration configuration)
     {
-        var cacheHost = configuration["Cache__Host"];
-        var cachePort = configuration["Cache__Port"];
-        var cachePassword = configuration["Cache__Password"];
-        var cacheAllowAdmin = configuration["Cache__AllowAdmin"];
+        var section = configuration.GetSection("Cache");
+
+        var cacheHost = section.GetValue<string>("Host");
+        var cachePort = section.GetValue<string>("Port");
+        var cachePassword = section.GetValue<string>("Password");
+        var cacheAllowAdmin = section.GetValue<string>("AllowAdmin");
+
         ArgumentNullException.ThrowIfNull(cacheHost);
         ArgumentNullException.ThrowIfNull(cachePort);
 
