@@ -3,7 +3,9 @@ using System.Diagnostics.CodeAnalysis;
 using System.Text.Json;
 using Microsoft.ApplicationInsights.DependencyCollector;
 using Microsoft.Azure.Functions.Worker;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Platform.Api.Benchmark.Features.ComparatorSets;
 using Platform.Api.Benchmark.Features.CustomData;
 using Platform.Api.Benchmark.Features.FinancialPlans;
@@ -18,22 +20,24 @@ namespace Platform.Api.Benchmark.Configuration;
 [ExcludeFromCodeCoverage]
 internal static class Services
 {
-    internal static void Configure(IServiceCollection serviceCollection)
+    internal static void Configure(HostBuilderContext context, IServiceCollection serviceCollection)
     {
+        var configuration = context.Configuration;
+
         serviceCollection
             .AddTelemetry()
-            .AddHealthCheckServices()
-            .AddPlatformServices()
+            .AddHealthCheckServices(configuration)
+            .AddPlatformServices(configuration)
             .AddFeatures();
 
         serviceCollection.Configure<JsonSerializerOptions>(SystemTextJsonExtensions.Options);
     }
 
-    private static IServiceCollection AddHealthCheckServices(this IServiceCollection serviceCollection)
+    private static IServiceCollection AddHealthCheckServices(this IServiceCollection serviceCollection, IConfiguration configuration)
     {
         serviceCollection
             .AddHealthChecks()
-            .AddPlatformSql();
+            .AddPlatformSql(configuration);
 
         return serviceCollection;
     }
@@ -56,8 +60,8 @@ internal static class Services
         return serviceCollection;
     }
 
-    private static IServiceCollection AddPlatformServices(this IServiceCollection serviceCollection) => serviceCollection
-        .AddPlatformSql();
+    private static IServiceCollection AddPlatformServices(this IServiceCollection serviceCollection, IConfiguration configuration) => serviceCollection
+        .AddPlatformSql(configuration);
 
     private static IServiceCollection AddFeatures(this IServiceCollection serviceCollection) => serviceCollection
         .AddComparatorSetsFeature()

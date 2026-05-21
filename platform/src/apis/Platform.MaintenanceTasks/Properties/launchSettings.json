@@ -1,9 +1,14 @@
 {
   "profiles": {
-    "Platform.MaintenanceTasks": {
+    "Local": {
       "commandName": "Project",
       "commandLineArgs": "--port 7289",
-      "launchBrowser": false
+      "launchBrowser": false,
+      "environmentVariables": {
+        "AZURE_FUNCTIONS_ENVIRONMENT" : "Local",
+        "AzureWebJobsStorage": "UseDevelopmentStorage=true",
+        "FUNCTIONS_WORKER_RUNTIME": "dotnet-isolated"
+      }
     }
   }
 }

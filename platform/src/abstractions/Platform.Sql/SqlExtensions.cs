@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics.CodeAnalysis;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 
@@ -7,9 +8,9 @@ namespace Platform.Sql;
 [ExcludeFromCodeCoverage]
 public static class SqlExtensions
 {
-    public static IServiceCollection AddPlatformSql(this IServiceCollection serviceCollection)
+    public static IServiceCollection AddPlatformSql(this IServiceCollection serviceCollection, IConfiguration configuration)
     {
-        var options = GetOptions();
+        var options = GetOptions(configuration);
 
         serviceCollection
             .AddSingleton(Options.Create(options))
@@ -18,18 +19,18 @@ public static class SqlExtensions
         return serviceCollection;
     }
 
-    public static IHealthChecksBuilder AddPlatformSql(this IHealthChecksBuilder builder)
+    public static IHealthChecksBuilder AddPlatformSql(this IHealthChecksBuilder builder, IConfiguration configuration)
     {
-        var options = GetOptions();
+        var options = GetOptions(configuration);
 
         builder.AddSqlServer(options.ConnectionString);
 
         return builder;
     }
 
-    private static PlatformSqlOptions GetOptions()
+    private static PlatformSqlOptions GetOptions(IConfiguration configuration)
     {
-        var conn = Environment.GetEnvironmentVariable("Sql__ConnectionString");
+        var conn = configuration["Sql__ConnectionString"];
         ArgumentNullException.ThrowIfNull(conn);
 
         return new PlatformSqlOptions(conn);

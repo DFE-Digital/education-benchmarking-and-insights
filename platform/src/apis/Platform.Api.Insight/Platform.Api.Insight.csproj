@@ -12,10 +12,6 @@
         <None Update="host.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
-        <None Update="local.settings.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-            <CopyToPublishDirectory>Never</CopyToPublishDirectory>
-        </None>
         <PackageReference Include="Microsoft.Azure.WebJobs"/>
         <ProjectReference Include="..\..\abstractions\Platform.Cache\Platform.Cache.csproj"/>
         <ProjectReference Include="..\..\abstractions\Platform.Domain\Platform.Domain.csproj" />

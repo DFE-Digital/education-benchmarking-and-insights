@@ -8,32 +8,6 @@ dotnet run scripts/[tool-name]/app.cs [arguments]
 
 ## Environment Management
 
-### Environment Switcher Tool
-
-Updates local configuration files for Platform APIs and API Tests.
-
-**Usage:**
-
-1. Navigate to the root of the repository.
-2. Ensure `scripts/env-tool/settings.json` is populated (copy from `settings.example.json`).
-3. Run the script:
-
-   ```bash
-   dotnet run scripts/env-tool/app.cs <api|tests|all> <environment>
-   ```
-
-**Example:**
-
-```bash
-dotnet run scripts/env-tool/app.cs all local
-```
-
-**Features:**
-
-- **Unified Configuration:** Manage settings for both APIs and Tests in a single `settings.json` file.
-- **Dynamic Updates:** Automatically identifies and updates the `Values` section in `local.settings.json` and nested properties in `appsettings.local.json`.
-- **Target Selection:** Switch settings for APIs, Tests, or both simultaneously.
-
 ### Terraform Helper Tool
 
 Automates formatting, validation, and documentation for Terraform modules across the monorepo.

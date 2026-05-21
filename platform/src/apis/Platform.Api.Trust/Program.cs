@@ -1,5 +1,6 @@
 using System.Diagnostics.CodeAnalysis;
 using Microsoft.Azure.Functions.Worker.Extensions.OpenApi.Extensions;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Platform.Api.Trust.Configuration;
 
@@ -7,7 +8,13 @@ var hostBuilder = new HostBuilder()
     .ConfigureFunctionsWorkerDefaults(Worker.Configure, Worker.Options)
     .ConfigureServices(Services.Configure)
     .ConfigureLogging(Logging.Configure)
-    .ConfigureOpenApi();
+    .ConfigureOpenApi()
+    .ConfigureAppConfiguration((context, builder) =>
+    {
+        var env = context.HostingEnvironment.EnvironmentName.ToLower();
+        builder.AddUserSecrets($"platform-{env}");
+    });
+
 
 hostBuilder.Build().Run();
 

@@ -12,10 +12,6 @@
         <None Update="host.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
-        <None Update="local.settings.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-            <CopyToPublishDirectory>Never</CopyToPublishDirectory>
-        </None>
         <ProjectReference Include="..\..\abstractions\Platform.Functions\Platform.Functions.csproj" />
         <PackageReference Include="Dapper.Contrib" />
         <PackageReference Include="Microsoft.ApplicationInsights.WorkerService" />
@@ -25,6 +21,10 @@
         <PackageReference Include="Microsoft.Azure.Functions.Worker.Extensions.Timer" />
         <ProjectReference Include="..\..\abstractions\Platform.Json\Platform.Json.csproj" />
         <ProjectReference Include="..\..\abstractions\Platform.Sql\Platform.Sql.csproj" />
+        <None Update="local.settings.json">
+          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+          <CopyToPublishDirectory>Never</CopyToPublishDirectory>
+        </None>
     </ItemGroup>
     <ItemGroup>
         <Using Include="System.Threading.ExecutionContext" Alias="ExecutionContext" />
