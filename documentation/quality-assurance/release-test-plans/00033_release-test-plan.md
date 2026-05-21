@@ -1,6 +1,6 @@
 ﻿# Release Test Plan: 2026.05.0
 
-**Release Date:** TBC  
+**Release Date:** 21/05/2026  
 **Release Label:** 2026.05.0
 
 ## Introduction
@@ -83,7 +83,7 @@ This release delivers improvements across High Needs and EHCP benchmarking, expa
 
 **Release Overview:**
 
-{add notes here}
+release completed successfully with no issues.
 
 **Azure DevOps tickets included in this release:**
 
@@ -103,9 +103,9 @@ This release delivers improvements across High Needs and EHCP benchmarking, expa
 
 | Test Category           | Total Tests | Passed | Failed | Pass Rate |  
 |-------------------------|:-----------:|:------:|:------:|:---------:|  
-| Smoke Tests - Prod      |      1      |   x    |   x    |    x%     |  
+| Smoke Tests - Prod      |      1      |   1    |   0    |   100%    |  
 | Smoke Tests - Pre Prod  |      1      |   1    |   0    |   100%    |  
 | Sanity Tests - Pre Prod |      4      |   4    |   0    |   100%    |  
-| Total                   |      0      |   0    |   0    |    0%     |  
+| Total                   |      6      |   6    |   0    |   100%    |  
 
 \newpage
