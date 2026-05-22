@@ -1,0 +1,9 @@
+pandas
+numpy
+geopandas
+matplotlib
+seaborn
+contextily
+python-pptx
+pyyaml
+pyarrow

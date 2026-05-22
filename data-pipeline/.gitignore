@@ -29,3 +29,10 @@ tests/output/
 !/tests/e2e/.env
 
 __azurite*.json
+
+# For the ad_hoc_comparator_analysis - not part of main pipeline
+/ad_hoc_comparator_analysis/data/*
+/ad_hoc_comparator_analysis/data/.gitkeep
+/ad_hoc_comparator_analysis/outputs/*
+/ad_hoc_comparator_analysis/outputs/.gitkeep
+/ad_hoc_comparator_analysis/__pycache__/

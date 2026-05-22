@@ -1,0 +1,37 @@
+# Comparator datasets to include
+# n.b. each file contains both a pupils comparator set and a buildings comparator set, which are caculated differently
+# Set 'enabled' to True/False to control which files are included in a run
+datasets:
+  1_baseline:
+    path: "./data/"
+    enabled: false
+  2_baseline_geog:
+    path: "./data/"
+    enabled: false
+  3_baseline_equal_geog:
+    path: "./data/"
+    enabled: false
+  4_additional_features_geog:
+    path: "./data/"
+    enabled: false
+  geog_only:
+    path: "./data/"
+    enabled: false
+  pupils_gifa_geog:
+    path: "./data/"
+    enabled: false
+  fsm_age_geog:
+    path: "./data/"
+    enabled: false
+
+
+# Contextual Data (remains the same between runs)
+context:
+  schools: "./data/"
+  non_financial: "./data/"
+  academy_pq: "./data/"
+  maintained_pq: "./data/"
+
+# Output target school (URN) - was going to have an option here for different report formats (Powerpoint, PDF etc.) but decided to default to Powerpoint
+reporting:
+  default_target_urn: 
