@@ -27,6 +27,7 @@ from .la_statistical_neighbours import prepare_la_statistical_neighbours
 from .ons_population_estimates import prepare_ons_population_estimates
 from .sen import prepare_sen_data
 from .sen2 import prepare_sen2_data
+from .lookup_la import prepare_lookup_la_data
 
 logger = setup_logger("preprocessing-ancillary")
 
@@ -365,4 +366,9 @@ def pre_process_hospital_schools_data(run_type, cfr_year):
     if hospital_schools_blob_this_year := try_get_blob(raw_container, f"default/{cfr_year}/hospital_schools.csv"):
         # hospital_schools_blob_last_year = try_get_blob(raw_container, f"default/{last_year}/hospital_schools.csv")
         return prepare_hospital_schools_data(hospital_schools_blob_this_year)
+    return None
+
+def pre_process_lookup_la_data(run_type, cfr_year):
+    if lookup_la_blob := try_get_blob(raw_container, f"default/{cfr_year}/Lookup_LACodes.csv"):
+        return prepare_lookup_la_data(lookup_la_blob)
     return None

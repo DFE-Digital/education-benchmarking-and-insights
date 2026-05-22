@@ -108,5 +108,11 @@ gias = {
         "Town": "string",
         "County (name)": "string",
         "SpecialClasses (name)": "string",
+        "UrbanRural (name)": "string",
+        "Easting": "Int64",
+        "Northing": "Int64",
+        "Gender (name)": "string",
+        "Federations (code)": "string",
+        "Federations (name)": "string",
     },
 }

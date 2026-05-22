@@ -42,10 +42,11 @@ from .ancillary.main import (
     pre_process_sen2,
     pre_process_pru_data,
     pre_process_hospital_schools_data,
+    pre_process_lookup_la_data,
 )
 from .bfr.trusts import build_bfr_data, build_bfr_historical_data
 from .cfr.maintained_schools import build_maintained_school_data
-from .cfr.scratch import recreate_ms_file
+from .cfr.transparency_file.generator import build_transparency_files
 from .s251.local_authority import build_local_authorities
 
 logger = setup_logger(__name__)
@@ -260,17 +261,31 @@ def pre_process_maintained_schools_data(
         f"{run_type}/{year}/CFR_24-25_Data.csv",
     )
 
-    recreated_maintained_schools_file = recreate_ms_file(
+    master_list, transparency_file = build_transparency_files(
         cfr_raw_blob,
         gias=cfr_ancillary_data["gias"],
         pru=cfr_ancillary_data["pru"],
         hospital_schools=cfr_ancillary_data["hospital_schools"],
         sen=cfr_ancillary_data["sen"],
         census=cfr_ancillary_data["census"],
+        lookup_la=cfr_ancillary_data["lookup_la"],
         census_last_year=cfr_ancillary_data_for_last_year["census"],
         sen_last_year=cfr_ancillary_data_for_last_year["sen"],
         pru_last_year=cfr_ancillary_data_for_last_year["pru"],
         hospital_schools_last_year=cfr_ancillary_data_for_last_year["hospital_schools"],
+        year=year,
+    )
+
+    write_blob(
+        "pre-processed",
+        f"{run_type}/{year}/cfr_transparency_file.csv",
+        transparency_file.to_csv(index=False)
+    )
+
+    write_blob(
+        raw_container,
+        f"{run_type}/{year}/maintained_schools_master_list.csv",
+        master_list.to_csv(encoding="cp1252")
     )
 
     maintained_schools_data = get_blob(
@@ -660,6 +675,7 @@ def get_cfr_ancillary_data(
         "ilr": pre_process_ilr_data(run_type, cfr_year, run_id, gias),
         "hospital_schools": pre_process_hospital_schools_data(run_type, cfr_year),
         "pru": pre_process_pru_data(run_type, cfr_year),
+        "lookup_la": pre_process_lookup_la_data(run_type, cfr_year)
     }
     stats_collector.collect_cfr_ancillary_data_shapes(cfr_ancillary_data, cfr_year)
 
