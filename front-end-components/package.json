@@ -19,7 +19,7 @@
   "dependencies": {
     "accessible-autocomplete": "^3.0.0",
     "classnames": "^2.5.1",
-    "date-fns": "^4.1.0",
+    "date-fns": "^4.2.1",
     "file-saver": "^2.0.5",
     "govuk-frontend": "^5.13.0",
     "html-to-image": "1.11.11",
@@ -30,7 +30,7 @@
     "recharts": "^2.15.4",
     "stats-lite": "^2.2.0",
     "usehooks-ts": "^3.1.0",
-    "uuid": "^13.0.1"
+    "uuid": "^14.0.0"
   },
   "devDependencies": {
     "@babel/preset-env": "^7.29.5",
@@ -43,14 +43,14 @@
     "@testing-library/react": "^16.3.1",
     "@types/file-saver": "^2.0.7",
     "@types/jest": "^30.0.0",
-    "@types/node": "^25.7.0",
+    "@types/node": "^25.9.1",
     "@types/react": "^18.3.11",
     "@types/react-dom": "^18.3.1",
     "@types/stats-lite": "^2.2.2",
     "@types/testing-library__react": "^10.2.0",
     "@types/uuid": "^11.0.0",
-    "@typescript-eslint/eslint-plugin": "^8.59.3",
-    "@typescript-eslint/parser": "^8.59.3",
+    "@typescript-eslint/eslint-plugin": "^8.59.4",
+    "@typescript-eslint/parser": "^8.59.4",
     "@vitejs/plugin-react": "^5.2.0",
     "eslint": "^9.39.2",
     "eslint-config-prettier": "^10.1.8",
@@ -64,7 +64,7 @@
     "prettier": "^3.7.4",
     "sass-embedded": "^1.99.0",
     "typescript": "^6.0.3",
-    "typescript-eslint": "^8.59.3",
+    "typescript-eslint": "^8.59.4",
     "vite": "^7.3.3"
   }
 }
