@@ -169,13 +169,11 @@ def build_federation_context(
 
     # Calculate individual FTE in fedmatched for aggregation
     fedmatched["FTE"] = np.where(
-        fedmatched["TypeOfEstablishment (name)"]
-        .eq("Pupil referral unit")
-        .fillna(False),
+        fedmatched["TypeOfEstablishment (name)"].eq("Pupil referral unit").fillna(False),
         fedmatched["PRU_Headcount"],
         fedmatched["Total pupils"],
     )
-    fedmatched["VIthForm"] = 0  # Match SQL's '0 as VIthForm'
+    fedmatched["VIthForm"] = 0
 
     # 3. Aggregate lead schools
     agg_cols = [
