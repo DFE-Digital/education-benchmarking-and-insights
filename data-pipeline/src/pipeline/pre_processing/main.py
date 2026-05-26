@@ -33,16 +33,16 @@ from .ancillary.main import (
     pre_process_gias_links,
     pre_process_high_exec_pay,
     pre_process_high_needs_places,
+    pre_process_hospital_schools_data,
     pre_process_ilr_data,
     pre_process_ks2,
     pre_process_ks4,
     pre_process_la_statistical_neighbours,
+    pre_process_lookup_la_data,
     pre_process_ons_population_estimates,
+    pre_process_pru_data,
     pre_process_sen,
     pre_process_sen2,
-    pre_process_pru_data,
-    pre_process_hospital_schools_data,
-    pre_process_lookup_la_data,
 )
 from .bfr.trusts import build_bfr_data, build_bfr_historical_data
 from .cfr.maintained_schools import build_maintained_school_data
@@ -87,7 +87,7 @@ def pre_process_data(
 
     academies_data_ref = get_aar_ancillary_data(run_id, aar_year)
     maintained_data_ref = get_cfr_ancillary_data(run_id, cfr_year)
-    maintained_data_ref_for_last_year = get_cfr_ancillary_data(run_id, (cfr_year-1))
+    maintained_data_ref_for_last_year = get_cfr_ancillary_data(run_id, (cfr_year - 1))
 
     academies = pre_process_academies_data(
         run_type,
@@ -279,13 +279,13 @@ def pre_process_maintained_schools_data(
     write_blob(
         "pre-processed",
         f"{run_type}/{year}/cfr_transparency_file.csv",
-        transparency_file.to_csv(index=False)
+        transparency_file.to_csv(index=False),
     )
 
     write_blob(
         raw_container,
         f"{run_type}/{year}/maintained_schools_master_list.csv",
-        master_list.to_csv(encoding="cp1252")
+        master_list.to_csv(encoding="cp1252"),
     )
 
     maintained_schools_data = get_blob(
@@ -675,7 +675,7 @@ def get_cfr_ancillary_data(
         "ilr": pre_process_ilr_data(run_type, cfr_year, run_id, gias),
         "hospital_schools": pre_process_hospital_schools_data(run_type, cfr_year),
         "pru": pre_process_pru_data(run_type, cfr_year),
-        "lookup_la": pre_process_lookup_la_data(run_type, cfr_year)
+        "lookup_la": pre_process_lookup_la_data(run_type, cfr_year),
     }
     stats_collector.collect_cfr_ancillary_data_shapes(cfr_ancillary_data, cfr_year)
 

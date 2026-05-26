@@ -1,24 +1,31 @@
 import numpy as np
 import pandas as pd
 
+
 def format_dns(sfb: pd.DataFrame, series: pd.Series, decimals: int = 0) -> pd.Series:
     """Helper function to format numeric columns and apply DNS masking."""
-    formatted = series.round(decimals).astype(str) if decimals > 0 else series.round(decimals).astype("Int64", errors="ignore").astype(str)
+    formatted = (
+        series.round(decimals).astype(str)
+        if decimals > 0
+        else series.round(decimals).astype("Int64", errors="ignore").astype(str)
+    )
     formatted = formatted.replace("<NA>", np.nan)
     return np.where(sfb["Did Not Supply flag"] == "DNS", "DNS", formatted)
 
 
-def build_sfb_maintained(mergedworking: pd.DataFrame, lookup_la: pd.DataFrame) -> pd.DataFrame:
+def build_sfb_maintained(
+    mergedworking: pd.DataFrame, lookup_la: pd.DataFrame
+) -> pd.DataFrame:
     """Final mapping to SFB_Maintained schema (Step 3 SQL: [dbo].[SFB_Maintained_2024-25])."""
     # Merge LA Name from lookup
     a = mergedworking.merge(lookup_la, left_on="LA", right_on="old_la_code", how="left")
 
     out = pd.DataFrame()
-    out["LA"] = pd.to_numeric(a["LA"], errors='coerce').astype('Int64')
+    out["LA"] = pd.to_numeric(a["LA"], errors="coerce").astype("Int64")
     out["LA Name"] = a["LA (name)"]
     out["Region"] = a["Region"]
     out["London Borough"] = a["London Borough"]
-    out["Estab"] = pd.to_numeric(a["Estab"], errors='coerce').astype('Int64')
+    out["Estab"] = pd.to_numeric(a["Estab"], errors="coerce").astype("Int64")
     out["LAEstab"] = a["LAEstab"]
     out["URN"] = a["URN"]
     out["School Name"] = a["EstablishmentName"]
@@ -28,26 +35,30 @@ def build_sfb_maintained(mergedworking: pd.DataFrame, lookup_la: pd.DataFrame) -
     out["Highest age of pupils"] = a["StatutoryHighAge"]
     out["Type"] = a["TypeOfEstablishment (name)"]
     out["UrbanRural"] = a["UrbanRural (name)"]
-    
+
     out["Period covered by return"] = a["Period Covered"]
-    out["Did Not Supply flag"] = a["DNS"].map({"n/a": "0", "LeadSchool": "0", "DNS": "DNS"})
-    out["FederatedSubmission"] = a["DNS"].map({
-        "n/a": "No", "LeadSchool": "Lead school", "DNS": "Non returning school"
-    })
+    out["Did Not Supply flag"] = a["DNS"].map(
+        {"n/a": "0", "LeadSchool": "0", "DNS": "DNS"}
+    )
+    out["FederatedSubmission"] = a["DNS"].map(
+        {"n/a": "No", "LeadSchool": "Lead school", "DNS": "Non returning school"}
+    )
     out["Lead school in federation"] = np.select(
         [a["DNS"] == "LeadSchool", a["DNS"] == "DNS"],
         [a["LAEstab"], a["Lead_school"]],
         default=0,
     )
-    out["General Hospital School Indicator"] = np.where(a["GHSIndicator"] == "GHS", "Y", "N")
-    
+    out["General Hospital School Indicator"] = np.where(
+        (a["GHSIndicator"] == "GHS").fillna(False), "Y", "N"
+    )
+
     out["IndividualPupilsFTE"] = a["Ind. Pupils FTE"]
     out["AggregatedPupilsFTE"] = a["Aggregated Pupils FTE"]
     out["IndTeachers_FTE"] = a.get("Total Number of Teachers (Full-Time Equivalent)", 0)
     out["AggregatedTeachersFTE"] = a["Teachers FTE_agg"]
     out["Gender"] = a["Gender (name)"]
     out["London Weighting"] = a["London Borough"]
-    
+
     out["Ind_PC_FSM"] = a.get("% of pupils eligible for FSM_ind", np.nan)
     out["Aggregated_PC_FSM"] = a.get("% of pupils eligible for FSM_agg", np.nan)
     out["Ind_PC_EHCP"] = a.get("% of pupils with EHCP_ind", np.nan)
@@ -58,13 +69,15 @@ def build_sfb_maintained(mergedworking: pd.DataFrame, lookup_la: pd.DataFrame) -
     out["Aggregated_PC_EAL"] = a.get("% of pupils with EAL_agg", np.nan)
     out["Ind_PC_Boarders"] = a.get("% of pupils who are Boarders_ind", np.nan)
     out["Aggregated_PC_Boarders"] = a.get("% of pupils who are Boarders_agg", np.nan)
-    
+
     out["Admissions_Policy"] = a["AdmissionsPolicy (name)"]
     out["PFI"] = a["PFI Funding"]
     out["Has a 6th form"] = a["OfficialSixthForm (name)"]
     out["Ind_VIthForm"] = a.get("No of pupils in 6th form_ind", 0)
     out["Aggregated_VIthForm"] = a.get("No of pupils in 6th form_agg", 0)
-    out["Ind_TA_FTE"] = a.get("Total Number of Teaching Assistants (Full-Time Equivalent)", 0)
+    out["Ind_TA_FTE"] = a.get(
+        "Total Number of Teaching Assistants (Full-Time Equivalent)", 0
+    )
     out["Aggregated_TA_FTE"] = a.get("FTE of Teaching Assistants_agg", 0)
     out["Teachers_PC_QTS"] = a.get("Teachers_PC_QTS", np.nan)
 
@@ -271,14 +284,16 @@ def build_maintained_schools_master_list(sfb: pd.DataFrame) -> pd.DataFrame:
         "Brought in Professional Sevices": "Brought in Professional Sevices: (E27 + E28a)",
         "Cost of Finance": None,
         "Community Exp": "Community Exp: E31 + E32",
-        "Total Expenditure": "Total Expenditure excluding E30"
+        "Total Expenditure": "Total Expenditure excluding E30",
     }
 
     for target_col, source_col in fin_mappings.items():
         if source_col is None:
             out[target_col] = format_dns(sfb, pd.Series(0, index=sfb.index))
         else:
-            out[target_col] = format_dns(sfb, pd.to_numeric(sfb[source_col], errors='coerce').fillna(0))
+            out[target_col] = format_dns(
+                sfb, pd.to_numeric(sfb[source_col], errors="coerce").fillna(0)
+            )
 
     return out
 
@@ -316,7 +331,9 @@ def build_maintained_schools_download_file(sfb: pd.DataFrame) -> pd.DataFrame:
 
     out["% of pupils with EHCP"] = sfb["Aggregated_PC_EHCP"].round(1)
     out["% of pupils with SEN support"] = sfb["Aggregated_PC_SEN_Support"].round(1)
-    out["% of pupils with English as an additional language"] = sfb["Aggregated_PC_EAL"].round(1)
+    out["% of pupils with English as an additional language"] = sfb[
+        "Aggregated_PC_EAL"
+    ].round(1)
     out["% of pupils who are boarders"] = sfb["Aggregated_PC_Boarders"].round(1)
     out["Admissions policy"] = sfb["Admissions_Policy"]
     out["PFI"] = sfb["PFI"]
@@ -428,12 +445,14 @@ def build_maintained_schools_download_file(sfb: pd.DataFrame) -> pd.DataFrame:
         "Educational Supplies: (E19:E21)": "Educational Supplies: (E19:E21)",
         "Brought in Professional Services: (E27 + E28a)": "Brought in Professional Sevices: (E27 + E28a)",
         "Community Exp: E31 + E32": "Community Exp: E31 + E32",
-        "Total Expenditure: (E01:E29 + E31 + E32)": "Total Expenditure excluding E30"
+        "Total Expenditure: (E01:E29 + E31 + E32)": "Total Expenditure excluding E30",
     }
 
     for target_col, source_col in fin_mappings.items():
-        out[target_col] = format_dns(sfb, pd.to_numeric(sfb[source_col], errors='coerce').fillna(0))
-    
+        out[target_col] = format_dns(
+            sfb, pd.to_numeric(sfb[source_col], errors="coerce").fillna(0)
+        )
+
     out_sorted = out.sort_values(by=["LA", "LAEstab"])
 
     return out_sorted
