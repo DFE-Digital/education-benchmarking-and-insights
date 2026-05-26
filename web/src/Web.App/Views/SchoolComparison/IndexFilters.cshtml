@@ -1,0 +1,52 @@
+@model Web.App.ViewModels.SchoolComparisonViewModel
+@{
+    ViewData[ViewDataKeys.Title] = PageTitles.Comparison;
+    var hasUserDefinedSet = !string.IsNullOrEmpty(Model.UserDefinedSetId);
+    var hasCustomData = !string.IsNullOrEmpty(Model.CustomDataId);
+    var hasMissingComparatorSet = !hasUserDefinedSet && !Model.HasDefaultComparatorSet;
+}
+
+@await Component.InvokeAsync("EstablishmentHeading", new
+{
+    title = ViewData[ViewDataKeys.Title],
+    name = Model.Name,
+    id = Model.Urn,
+    kind = OrganisationTypes.School
+})
+
+@await Component.InvokeAsync("DataSourceInset", new
+{
+    organisationType = OrganisationTypes.School,
+    sourceType = DataSourceTypes.Spending,
+    isPartOfTrust = Model.IsPartOfTrust,
+    showKs4Progress = Model.HasProgressIndicators,
+    urn = Model.Urn
+})
+
+@await Component.InvokeAsync("ComparatorSetDetails", new
+{
+    identifier = Model.Urn,
+    hasUserDefinedSet,
+    hasCustomData,
+    hasMissingComparatorSet,
+    showAsBulletedList = true
+})
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-one-third">
+        <p class="govuk-body">filters under construction</p>
+    </div>
+    <div class="govuk-grid-column-two-thirds">
+        <p class="govuk-body">page actions under construction</p>
+        <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
+
+        <p class="govuk-body">form options under construction</p>
+        <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
+
+        <p class="govuk-body">charts and tables under construction</p>
+    </div>
+</div>
+
+<hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+
+@await Html.PartialAsync("FinanceTools/_School", Model.Tools)

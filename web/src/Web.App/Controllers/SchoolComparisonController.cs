@@ -63,7 +63,8 @@ public class SchoolComparisonController(
                     : null;
                 var viewModel = new SchoolComparisonViewModel(school, costCodes, userData.ComparatorSet, userData.CustomData, expenditure, defaultComparatorSet, bandings);
 
-                return View(viewModel);
+                var viewName = await GetViewName(nameof(Index));
+                return View(viewName, viewModel);
             }
             catch (Exception e)
             {
@@ -248,6 +249,12 @@ public class SchoolComparisonController(
         }
 
         return expenditures.Select(e => new SchoolExpenditureWithProgress(e, bandings[e.URN]));
+    }
+
+    private async Task<string> GetViewName(string baseViewName)
+    {
+        var useFilters = await featureManager.IsEnabledAsync(FeatureFlags.SchoolComparisonFilter);
+        return useFilters ? $"{baseViewName}Filters" : baseViewName;
     }
 
     private record SchoolExpenditureWithProgress : SchoolExpenditure
