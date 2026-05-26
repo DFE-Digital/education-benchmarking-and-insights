@@ -52,17 +52,12 @@ resource "azurerm_windows_web_app" "education-benchmarking-as" {
   virtual_network_subnet_id = data.azurerm_subnet.web-app-subnet.id
 
   logs {
-    failed_request_tracing  = var.configuration[var.environment].sku_name != "B1"
-    detailed_error_messages = var.configuration[var.environment].sku_name != "B1"
-
-    dynamic "http_logs" {
-      for_each = var.configuration[var.environment].sku_name != "B1" ? [1] : []
-
-      content {
-        file_system {
-          retention_in_days = 0
-          retention_in_mb   = 25
-        }
+    failed_request_tracing  = true
+    detailed_error_messages = true
+    http_logs {
+      file_system {
+        retention_in_days = 0
+        retention_in_mb   = 25
       }
     }
   }
