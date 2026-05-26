@@ -5,6 +5,8 @@ using Web.App.ActionResults;
 using Web.App.Attributes;
 using Web.App.Attributes.RequestTelemetry;
 using Web.App.Domain;
+using Web.App.Domain.Charts;
+using Web.App.Domain.Schools;
 using Web.App.Infrastructure.Apis;
 using Web.App.Infrastructure.Apis.Benchmark;
 using Web.App.Infrastructure.Apis.Establishment;
@@ -33,7 +35,11 @@ public class SchoolComparisonController(
 {
     [HttpGet]
     [SchoolRequestTelemetry(TrackedRequestFeature.BenchmarkCosts)]
-    public async Task<IActionResult> Index(string urn)
+    public async Task<IActionResult> Index(
+        string urn,
+        // TODO: this should default to chart but until functionality to toggle view as options is implemented we default to table
+        Views.ViewAsOptions viewAs = Views.ViewAsOptions.Table,
+        SchoolSpendingDimensions.ResultAsOptions resultAs = SchoolSpendingDimensions.ResultAsOptions.SpendPerUnit)
     {
         using (logger.BeginScope(new
         {
@@ -61,7 +67,30 @@ public class SchoolComparisonController(
                 var bandings = await featureManager.IsEnabledAsync(FeatureFlags.KS4ProgressBanding)
                     ? await progressBandingsService.GetKS4ProgressBandings(customComparatorSet ?? defaultComparatorSet?.All ?? [])
                     : null;
-                var viewModel = new SchoolComparisonViewModel(school, costCodes, userData.ComparatorSet, userData.CustomData, expenditure, defaultComparatorSet, bandings);
+
+                SpendingComparisonSubCategoriesViewModel? subCategories = null;
+
+                if (await featureManager.IsEnabledAsync(FeatureFlags.SchoolComparisonFilter))
+                {
+                    var buildingResult = await GetDefaultSchoolExpenditure(urn, true, resultAs);
+                    var pupilResult = await GetDefaultSchoolExpenditure(urn, false, resultAs);
+                    // TODO: replace SpendingCategories.All with selectedSubCategories once filters are implemented
+                    subCategories = new SpendingComparisonSubCategoriesViewModel(buildingResult, pupilResult, SchoolSpendingCategories.All, urn);
+                }
+
+                var viewModel = new SchoolComparisonViewModel(
+                    school,
+                    costCodes,
+                    userData.ComparatorSet,
+                    userData.CustomData,
+                    expenditure,
+                    defaultComparatorSet,
+                    bandings,
+                    subCategories)
+                {
+                    ViewAs = viewAs,
+                    ResultAs = resultAs
+                };
 
                 var viewName = await GetViewName(nameof(Index));
                 return View(viewName, viewModel);
@@ -193,7 +222,10 @@ public class SchoolComparisonController(
             : defaultResult;
     }
 
-    private async Task<SchoolExpenditure[]> GetDefaultSchoolExpenditure(string urn, bool useBuildingSet)
+    private async Task<SchoolExpenditure[]> GetDefaultSchoolExpenditure(
+        string urn,
+        bool useBuildingSet,
+        SchoolSpendingDimensions.ResultAsOptions resultAs = SchoolSpendingDimensions.ResultAsOptions.Actuals)
     {
         var userData = await userDataService.GetSchoolDataAsync(User, urn);
         if (string.IsNullOrEmpty(userData.ComparatorSet))
@@ -209,7 +241,7 @@ public class SchoolComparisonController(
             }
 
             var defaultResult = await expenditureApi
-                .QuerySchools(BuildApiQuery(set))
+                .QuerySchools(BuildApiQuery(set, resultAs))
                 .GetResultOrThrow<SchoolExpenditure[]>();
 
             return defaultResult;
@@ -228,10 +260,12 @@ public class SchoolComparisonController(
         return userDefinedResult;
     }
 
-    private static ApiQuery BuildApiQuery(IEnumerable<string>? urns = null, string? dimension = "Actuals")
+    private static ApiQuery BuildApiQuery(
+        IEnumerable<string>? urns = null,
+        SchoolSpendingDimensions.ResultAsOptions resultAs = SchoolSpendingDimensions.ResultAsOptions.Actuals)
     {
         var query = new ApiQuery()
-            .AddIfNotNull("dimension", dimension);
+            .AddIfNotNull("dimension", resultAs.GetQueryParam());
 
         foreach (var urn in urns ?? [])
         {
