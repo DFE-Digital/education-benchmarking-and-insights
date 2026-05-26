@@ -96,5 +96,5 @@ cfr_raw_cols = {
 }
 cfr_raw_index_col = None
 cfr_raw_filenames = {
-    2025: "CFR_24-25_Data"
+    2025: "CFR_24-25_Data.csv"
 }

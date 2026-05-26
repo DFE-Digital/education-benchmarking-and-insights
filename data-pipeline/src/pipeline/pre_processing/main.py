@@ -258,7 +258,7 @@ def pre_process_maintained_schools_data(
 
     # From 2025 we are able to generate the CFR transparency file from raw inputs
     if year >= 2025:
-        cfr_raw_filename = cfr_raw_filenames.get(year, cfr_raw_filenames["default"])
+        cfr_raw_filename = cfr_raw_filenames.get(year)
         cfr_raw_blob = get_blob(raw_container, f"{run_type}/{year}/{cfr_raw_filename}")
         master_list, transparency_file = build_transparency_files(
             cfr_raw_blob,
