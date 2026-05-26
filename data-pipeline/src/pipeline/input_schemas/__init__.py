@@ -82,6 +82,7 @@ from .local_authority import (  # noqa
 )
 from .lookup_la import lookup_la_cols, lookup_la_index_col
 from .pru import pru_cols, pru_index_col
+from .maintained_schools_master_list import maintained_schools_master_list_cols, maintained_schools_master_list_column_eval, maintained_schools_master_list_index_col
 
 gias_links_index_col = "URN"
 gias_links = {
