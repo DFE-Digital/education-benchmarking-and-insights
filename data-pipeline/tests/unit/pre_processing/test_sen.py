@@ -9,6 +9,7 @@ def test_prepare_sen_data_has_correct_output_columns(sen_data):
     result = prepare_sen_data(StringIO(sen_data.to_csv()))
 
     assert list(result.columns) == [
+        "Total pupils",
         "EHC plan",
         "SEN support",
         "Percentage SEN",
