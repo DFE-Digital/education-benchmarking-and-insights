@@ -15,6 +15,7 @@ from pipeline.utils.database import (
     insert_trust_financial_data,
     insert_trusts,
 )
+from pipeline.input_schemas import cfr_raw_filenames
 from pipeline.utils.log import setup_logger
 from pipeline.utils.stats import stats_collector
 from pipeline.utils.storage import get_blob, raw_container, try_get_blob, write_blob
@@ -255,38 +256,36 @@ def pre_process_maintained_schools_data(
     logger.info("Building Maintained School Set")
     logger.info(f"Processing CFR data - {run_id} - {year}.")
 
-    # Read raw CFR file
-    cfr_raw_blob = get_blob(
-        raw_container,
-        f"{run_type}/{year}/CFR_24-25_Data.csv",
-    )
+    # From 2025 we are able to generate the CFR transparency file from raw inputs
+    if year >= 2025:
+        cfr_raw_filename = cfr_raw_filenames.get(year, cfr_raw_filenames["default"])
+        cfr_raw_blob = get_blob(raw_container, f"{run_type}/{year}/{cfr_raw_filename}")
+        master_list, transparency_file = build_transparency_files(
+            cfr_raw_blob,
+            gias=cfr_ancillary_data["gias"],
+            pru=cfr_ancillary_data["pru"],
+            hospital_schools=cfr_ancillary_data["hospital_schools"],
+            sen=cfr_ancillary_data["sen"],
+            census=cfr_ancillary_data["census"],
+            lookup_la=cfr_ancillary_data["lookup_la"],
+            census_last_year=cfr_ancillary_data_for_last_year["census"],
+            sen_last_year=cfr_ancillary_data_for_last_year["sen"],
+            pru_last_year=cfr_ancillary_data_for_last_year["pru"],
+            hospital_schools_last_year=cfr_ancillary_data_for_last_year["hospital_schools"],
+            year=year,
+        )
 
-    master_list, transparency_file = build_transparency_files(
-        cfr_raw_blob,
-        gias=cfr_ancillary_data["gias"],
-        pru=cfr_ancillary_data["pru"],
-        hospital_schools=cfr_ancillary_data["hospital_schools"],
-        sen=cfr_ancillary_data["sen"],
-        census=cfr_ancillary_data["census"],
-        lookup_la=cfr_ancillary_data["lookup_la"],
-        census_last_year=cfr_ancillary_data_for_last_year["census"],
-        sen_last_year=cfr_ancillary_data_for_last_year["sen"],
-        pru_last_year=cfr_ancillary_data_for_last_year["pru"],
-        hospital_schools_last_year=cfr_ancillary_data_for_last_year["hospital_schools"],
-        year=year,
-    )
+        write_blob(
+            "pre-processed",
+            f"{run_type}/{year}/cfr_transparency_file.csv",
+            transparency_file.to_csv(index=False),
+        )
 
-    write_blob(
-        "pre-processed",
-        f"{run_type}/{year}/cfr_transparency_file.csv",
-        transparency_file.to_csv(index=False),
-    )
-
-    write_blob(
-        raw_container,
-        f"{run_type}/{year}/maintained_schools_master_list.csv",
-        master_list.to_csv(encoding="cp1252"),
-    )
+        write_blob(
+            raw_container,
+            f"{run_type}/{year}/maintained_schools_master_list.csv",
+            master_list.to_csv(encoding="cp1252", index=False),
+        )
 
     maintained_schools_data = get_blob(
         raw_container,
