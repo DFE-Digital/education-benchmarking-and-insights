@@ -256,7 +256,7 @@ def pre_process_maintained_schools_data(
     logger.info("Building Maintained School Set")
     logger.info(f"Processing CFR data - {run_id} - {year}.")
 
-    # From 2025 we are able to generate the CFR transparency file from raw inputs
+    # From 2025 we will generate the CFR transparency file from raw inputs
     if year >= 2025:
         cfr_raw_filename = cfr_raw_filenames.get(year)
         cfr_raw_blob = get_blob(raw_container, f"{run_type}/{year}/{cfr_raw_filename}")

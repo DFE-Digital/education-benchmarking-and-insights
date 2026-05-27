@@ -20,9 +20,9 @@ CAPITAL_RAW = [
 def add_financials(merged: pd.DataFrame) -> pd.DataFrame:
     m = merged.copy()
 
-    # Pre-cast all financial columns to numeric
-    for c in INCOME_RAW + EXPENSE_RAW + CAPITAL_RAW + ["E30"]:
-        m[c] = pd.to_numeric(m[c], errors="coerce").fillna(0)
+    # # Pre-cast all financial columns to numeric
+    # for c in INCOME_RAW + EXPENSE_RAW + CAPITAL_RAW + ["E30"]:
+    #     m[c] = pd.to_numeric(m[c], errors="coerce")
 
     m["I01 Pre-16 Funding"] = m["I01"]
     m["I02 Post-16 Funding"] = m["I02"]
@@ -100,7 +100,7 @@ def add_financials(merged: pd.DataFrame) -> pd.DataFrame:
     m["CE02 New construction, conversion and renovation"] = m["CE02"]
     m["CE03 Vehicles, plant, equipment and machinery"] = m["CE03"]
     m["CE04 Information and communication technology"] = m[
-        ["CE04A", "CE04B", "CE04C", "CE04D", "CE04E"]].fillna(0).sum(axis=1)
+        ["CE04A", "CE04B", "CE04C", "CE04D", "CE04E"]].sum(axis=1)
     m["CE04A Connectivity"] = m["CE04A"]
     m["CE04B Onsite servers"] = m["CE04B"]
     m["CE04C Administration software and systems"] = m["CE04C"]

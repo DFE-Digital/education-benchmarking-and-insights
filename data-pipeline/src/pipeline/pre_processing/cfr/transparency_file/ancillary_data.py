@@ -360,8 +360,14 @@ def build_federation_context(
         how="left",
     )
 
-    working["Ind. Pupils FTE"] = _fallback(
-        working["IndPupils_FTE25"], working["IndPupils_FTE24"]
+    # Workforce Aggregation
+    use_24_pupils = working["IndPupils_FTE25"].isna()
+    use_24_teachers = working["Total Number of Teachers (Full-Time Equivalent)"].isna()
+
+    working["Ind. Pupils FTE"] = np.where(
+        use_24_pupils & (working["IndPupils_FTE24"] > 0),
+        working["IndPupils_FTE24"],
+        working["IndPupils_FTE25"],
     )
     working["Aggregated Pupils FTE"] = np.where(
         working["DNS"] == "LeadSchool",
@@ -369,70 +375,85 @@ def build_federation_context(
         working["Ind. Pupils FTE"],
     )
 
-    # Workforce Aggregation
+    working["PRU pupil nums"] = np.where(
+        (working["Overall Phase"] == "Pupil referral unit")
+        & (working["PRU_Headcount_24"] > 0),
+        working["PRU_Headcount_24"],
+        0,
+    )
+
+    working["Ind. Pupils Headcount"] = np.where(
+        working["Total pupils"].isna() & (working["Total pupils_24"] > 0),
+        working["Total pupils_24"],
+        working["Total pupils"],
+    )
+
     working["Teachers FTE_agg"] = np.where(
         working["Lead_school"] > 0,
         working["Federation_FTETeachers"],
-        _fallback(
-            working["Total Number of Teachers (Full-Time Equivalent)"],
-            working["Total Number of Teachers (Full-Time Equivalent)_24"],
-        ),
+        np.where(
+            working["DNS"] == "n/a",
+            np.where(
+                use_24_teachers & (working["Total Number of Teachers (Full-Time Equivalent)_24"] > 0),
+                working["Total Number of Teachers (Full-Time Equivalent)_24"],
+                working["Total Number of Teachers (Full-Time Equivalent)"]
+            ),
+            working["Total Number of Teachers (Full-Time Equivalent)"]
+        )
     )
 
-    # Percentage Derivations
-    fsm_num = _fallback(
-        working["number of pupils known to be eligible for free school meals"],
-        working.get(
-            "number of pupils known to be eligible for free school meals_24", np.nan
-        ),
+    working["% of pupils eligible for FSM_ind"] = np.where(
+        use_24_pupils,
+        working["Percentage Free school meals_24"],
+        working["Percentage Free school meals"],
     )
-    fsm_den = _fallback(working["FTE"], working.get("Total pupils_24", np.nan))
-    working["% of pupils eligible for FSM_ind"] = _pct(fsm_num, fsm_den)
     working["% of pupils eligible for FSM_agg"] = np.where(
         working["DNS"] == "LeadSchool",
         working["Federation_FSM"],
         working["% of pupils eligible for FSM_ind"],
     )
 
-    ehcp_num = _fallback(working["EHC plan"], working.get("EHC plan_24", np.nan))
-    ehcp_den = _fallback(
-        working["Total pupils"], working.get("Total pupils_24", np.nan)
+    ehcp_val = np.where(
+        use_24_pupils & (working["Total pupils_24"] > 0),
+        _pct(working["EHC plan_24"], working["Total pupils_24"]),
+        _pct(working["EHC plan"], working["Total pupils"])
     )
-    working["% of pupils with EHCP_ind"] = _pct(ehcp_num, ehcp_den)
+    working["% of pupils with EHCP_ind"] = ehcp_val
     working["% of pupils with EHCP_agg"] = np.where(
         working["DNS"] == "LeadSchool",
         working["Federation_EHCP"],
         working["% of pupils with EHCP_ind"],
     )
 
-    sen_num = _fallback(working["SEN support"], working.get("SEN support_24", np.nan))
-    working["% of pupils with SEN Support_ind"] = _pct(sen_num, ehcp_den)
+    sen_val = np.where(
+        use_24_pupils & (working["Total pupils_24"] > 0),
+        _pct(working["SEN support_24"], working["Total pupils_24"]),
+        _pct(working["SEN support"], working["Total pupils"])
+    )
+    working["% of pupils with SEN Support_ind"] = sen_val
     working["% of pupils with SEN Support_agg"] = np.where(
         working["DNS"] == "LeadSchool",
         working["Federation_SEN"],
         working["% of pupils with SEN Support_ind"],
     )
 
-    eal_num = _fallback(
-        working[
-            "number of pupils whose first language is known or believed to be other than English"
-        ],
-        working.get(
-            "number of pupils whose first language is known or believed to be other than English_24",
-            np.nan,
-        ),
+    working["% of pupils with EAL_ind"] = np.where(
+        use_24_pupils,
+        working["% of pupils whose first language is known or believed to be other than English_24"],
+        working["% of pupils whose first language is known or believed to be other than English"],
     )
-    working["% of pupils with EAL_ind"] = _pct(eal_num, fsm_den)
     working["% of pupils with EAL_agg"] = np.where(
         working["DNS"] == "LeadSchool",
         working["Federations_EAL"],
-        working["% of pupils with EAL_ind"],
+        working["% of pupils whose first language is known or believed to be other than English"],
     )
 
-    boarders_num = _fallback(
-        working["total boarders"], working.get("total boarders_24", np.nan)
+    boarders_val = np.where(
+        use_24_pupils & (working["IndPupils_FTE24"] > 0),
+        _pct(working["total boarders_24"], working["IndPupils_FTE24"]),
+        _pct(working["total boarders"], working["IndPupils_FTE25"])
     )
-    working["% of pupils who are Boarders_ind"] = _pct(boarders_num, fsm_den)
+    working["% of pupils who are Boarders_ind"] = boarders_val
     working["% of pupils who are Boarders_agg"] = np.where(
         working["DNS"] == "LeadSchool",
         working["Federation_boarders"],
@@ -442,6 +463,6 @@ def build_federation_context(
     qts_col = "Teachers with Qualified Teacher Status (%) (Headcount)"
     qts_25 = working.get(qts_col, pd.Series(np.nan, index=working.index))
     qts_24 = working.get(f"{qts_col}_24", pd.Series(np.nan, index=working.index))
-    working["Teachers_PC_QTS"] = _fallback(qts_25, qts_24)
+    working["Teachers_PC_QTS"] = np.where(use_24_teachers, qts_24, qts_25)
 
     return working.copy()

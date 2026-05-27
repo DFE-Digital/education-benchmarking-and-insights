@@ -10,7 +10,11 @@ def format_dns(sfb: pd.DataFrame, series: pd.Series, decimals: int = 0) -> pd.Se
         else series.round(decimals).astype("Int64", errors="ignore").astype(str)
     )
     formatted = formatted.replace("<NA>", np.nan)
-    return np.where(sfb["Did Not Supply flag"] == "DNS", "DNS", formatted)
+    return np.where(
+        sfb["Did Not Supply flag"] == "DNS",
+        "DNS",
+        np.where(formatted.isna() | (formatted == "nan"), "DNS", formatted),
+    )
 
 
 def build_sfb_maintained(
@@ -184,7 +188,7 @@ def build_maintained_schools_master_list(sfb: pd.DataFrame) -> pd.DataFrame:
     out["No of pupils in 6th form"] = sfb["Ind_VIthForm"].round(0)
 
     out["% of teachers with QTS"] = format_dns(sfb, sfb["Teachers_PC_QTS"])
-    out["FTE of Teaching Assistants"] = format_dns(sfb, sfb["Ind_TA_FTE"].fillna(0))
+    out["FTE of Teaching Assistants"] = format_dns(sfb, sfb["Ind_TA_FTE"])
     out["FTE of Support Staff"] = format_dns(sfb, pd.Series(0, index=sfb.index))
     out["FTE of Admin Staff"] = format_dns(sfb, pd.Series(0, index=sfb.index))
 
@@ -292,7 +296,7 @@ def build_maintained_schools_master_list(sfb: pd.DataFrame) -> pd.DataFrame:
             out[target_col] = format_dns(sfb, pd.Series(0, index=sfb.index))
         else:
             out[target_col] = format_dns(
-                sfb, pd.to_numeric(sfb[source_col], errors="coerce").fillna(0)
+                sfb, pd.to_numeric(sfb[source_col], errors="coerce")
             )
 
     return out
@@ -450,7 +454,7 @@ def build_maintained_schools_download_file(sfb: pd.DataFrame) -> pd.DataFrame:
 
     for target_col, source_col in fin_mappings.items():
         out[target_col] = format_dns(
-            sfb, pd.to_numeric(sfb[source_col], errors="coerce").fillna(0)
+            sfb, pd.to_numeric(sfb[source_col], errors="coerce")
         )
 
     out_sorted = out.sort_values(by=["LA", "LAEstab"])

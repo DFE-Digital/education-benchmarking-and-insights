@@ -24,9 +24,8 @@ from .census_workforce import (  # noqa
     workforce_census_header_row,
     workforce_census_index_col,
 )
-from .cfr_raw import cfr_raw_filenames
 from .cfo import cfo, cfo_column_eval, cfo_column_mappings  # noqa
-from .cfr_raw import cfr_raw_cols, cfr_raw_index_col
+from .cfr_raw import cfr_raw_cols, cfr_raw_index_col, cfr_raw_filenames
 from .dsg import dsg_filenames
 from .gias import gias, gias_index_col  # noqa
 from .high_exec_pay import high_exec_pay, high_exec_pay_column_mappings  # noqa
