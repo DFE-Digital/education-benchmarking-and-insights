@@ -324,19 +324,19 @@ def build_federation_context(
         left_on="URN",
         right_index=True,
         how="left",
-        suffixes=("", "_24"),
+        suffixes=("", "_last_year"),
     )
     working = working.merge(
-        sen_last_year, left_on="URN", right_index=True, how="left", suffixes=("", "_24")
+        sen_last_year, left_on="URN", right_index=True, how="left", suffixes=("", "_last_year")
     )
     working = working.merge(
-        pru_last_year, on="LAEstab", how="left", suffixes=("", "_24")
+        pru_last_year, on="LAEstab", how="left", suffixes=("", "_last_year")
     )
     working = working.merge(
         hospital_schools_last_year,
         on="LAEstab",
         how="left",
-        suffixes=("", "_ghs24"),
+        suffixes=("", "_ghs_last_year"),
     )
 
     def ind_pupils(df, suffix=""):
@@ -345,12 +345,12 @@ def build_federation_context(
         )
         c_ghs = (df["GHSIndicator"] == "GHS").fillna(False)
         pru_hc = "PRU_Headcount" + suffix
-        ghs_hc = "TotalHeadcount" if suffix == "" else "TotalHeadcount_ghs24"
-        pup_fte = "Total pupils" if suffix == "" else "Total pupils_24"
+        ghs_hc = "TotalHeadcount" if suffix == "" else "TotalHeadcount_ghs_last_year"
+        pup_fte = "Total pupils" if suffix == "" else "Total pupils_last_year"
         return np.select([c_pru, c_ghs], [df[pru_hc], df[ghs_hc]], default=df[pup_fte])
 
-    working["IndPupils_FTE25"] = working["FTE"]
-    working["IndPupils_FTE24"] = ind_pupils(working, "_24")
+    working["IndPupils_FTE"] = working["FTE"]
+    working["IndPupils_FTE_last_year"] = ind_pupils(working, "_last_year")
 
     # Join Aggregated Federation Data
     working = working.merge(
@@ -361,13 +361,13 @@ def build_federation_context(
     )
 
     # Workforce Aggregation
-    use_24_pupils = working["IndPupils_FTE25"].isna()
-    use_24_teachers = working["Total Number of Teachers (Full-Time Equivalent)"].isna()
+    use_last_year_pupils = working["IndPupils_FTE"].isna()
+    use_last_year_teachers = working["Total Number of Teachers (Full-Time Equivalent)"].isna()
 
     working["Ind. Pupils FTE"] = np.where(
-        use_24_pupils & (working["IndPupils_FTE24"] > 0),
-        working["IndPupils_FTE24"],
-        working["IndPupils_FTE25"],
+        use_last_year_pupils & (working["IndPupils_FTE_last_year"] > 0),
+        working["IndPupils_FTE_last_year"],
+        working["IndPupils_FTE"],
     )
     working["Aggregated Pupils FTE"] = np.where(
         working["DNS"] == "LeadSchool",
@@ -377,14 +377,14 @@ def build_federation_context(
 
     working["PRU pupil nums"] = np.where(
         (working["Overall Phase"] == "Pupil referral unit")
-        & (working["PRU_Headcount_24"] > 0),
-        working["PRU_Headcount_24"],
+        & (working["PRU_Headcount_last_year"] > 0),
+        working["PRU_Headcount_last_year"],
         0,
     )
 
     working["Ind. Pupils Headcount"] = np.where(
-        working["Total pupils"].isna() & (working["Total pupils_24"] > 0),
-        working["Total pupils_24"],
+        working["Total pupils"].isna() & (working["Total pupils_last_year"] > 0),
+        working["Total pupils_last_year"],
         working["Total pupils"],
     )
 
@@ -394,8 +394,8 @@ def build_federation_context(
         np.where(
             working["DNS"] == "n/a",
             np.where(
-                use_24_teachers & (working["Total Number of Teachers (Full-Time Equivalent)_24"] > 0),
-                working["Total Number of Teachers (Full-Time Equivalent)_24"],
+                use_last_year_teachers & (working["Total Number of Teachers (Full-Time Equivalent)_last_year"] > 0),
+                working["Total Number of Teachers (Full-Time Equivalent)_last_year"],
                 working["Total Number of Teachers (Full-Time Equivalent)"]
             ),
             working["Total Number of Teachers (Full-Time Equivalent)"]
@@ -403,8 +403,8 @@ def build_federation_context(
     )
 
     working["% of pupils eligible for FSM_ind"] = np.where(
-        use_24_pupils,
-        working["Percentage Free school meals_24"],
+        use_last_year_pupils,
+        working["Percentage Free school meals_last_year"],
         working["Percentage Free school meals"],
     )
     working["% of pupils eligible for FSM_agg"] = np.where(
@@ -414,8 +414,8 @@ def build_federation_context(
     )
 
     ehcp_val = np.where(
-        use_24_pupils & (working["Total pupils_24"] > 0),
-        _pct(working["EHC plan_24"], working["Total pupils_24"]),
+        use_last_year_pupils & (working["Total pupils_last_year"] > 0),
+        _pct(working["EHC plan_last_year"], working["Total pupils_last_year"]),
         _pct(working["EHC plan"], working["Total pupils"])
     )
     working["% of pupils with EHCP_ind"] = ehcp_val
@@ -426,8 +426,8 @@ def build_federation_context(
     )
 
     sen_val = np.where(
-        use_24_pupils & (working["Total pupils_24"] > 0),
-        _pct(working["SEN support_24"], working["Total pupils_24"]),
+        use_last_year_pupils & (working["Total pupils_last_year"] > 0),
+        _pct(working["SEN support_last_year"], working["Total pupils_last_year"]),
         _pct(working["SEN support"], working["Total pupils"])
     )
     working["% of pupils with SEN Support_ind"] = sen_val
@@ -438,8 +438,8 @@ def build_federation_context(
     )
 
     working["% of pupils with EAL_ind"] = np.where(
-        use_24_pupils,
-        working["% of pupils whose first language is known or believed to be other than English_24"],
+        use_last_year_pupils,
+        working["% of pupils whose first language is known or believed to be other than English_last_year"],
         working["% of pupils whose first language is known or believed to be other than English"],
     )
     working["% of pupils with EAL_agg"] = np.where(
@@ -449,9 +449,9 @@ def build_federation_context(
     )
 
     boarders_val = np.where(
-        use_24_pupils & (working["IndPupils_FTE24"] > 0),
-        _pct(working["total boarders_24"], working["IndPupils_FTE24"]),
-        _pct(working["total boarders"], working["IndPupils_FTE25"])
+        use_last_year_pupils & (working["IndPupils_FTE_last_year"] > 0),
+        _pct(working["total boarders_last_year"], working["IndPupils_FTE_last_year"]),
+        _pct(working["total boarders"], working["IndPupils_FTE"])
     )
     working["% of pupils who are Boarders_ind"] = boarders_val
     working["% of pupils who are Boarders_agg"] = np.where(
@@ -461,8 +461,8 @@ def build_federation_context(
     )
 
     qts_col = "Teachers with Qualified Teacher Status (%) (Headcount)"
-    qts_25 = working.get(qts_col, pd.Series(np.nan, index=working.index))
-    qts_24 = working.get(f"{qts_col}_24", pd.Series(np.nan, index=working.index))
-    working["Teachers_PC_QTS"] = np.where(use_24_teachers, qts_24, qts_25)
+    qts_curr = working.get(qts_col, pd.Series(np.nan, index=working.index))
+    qts_prev = working.get(f"{qts_col}_last_year", pd.Series(np.nan, index=working.index))
+    working["Teachers_PC_QTS"] = np.where(use_last_year_teachers, qts_prev, qts_curr)
 
     return working.copy()
