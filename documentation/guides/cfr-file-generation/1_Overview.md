@@ -5,12 +5,7 @@ Consistent Financial Reporting (CFR) is one of the four financial data used in t
 This documentation outlines input data, quality assurance, data sourcing, cleansing and transformation procedures required to generate downstream datasets for deployment in the FBIT data pipelines.
 
 > **Note: Automated Generation (2024-2025 Onwards)**
->
-> Starting from the 2024-2025 academic year, the generation of the `maintained_schools_master_list.csv` and transparency files is **fully automated** within the core FBIT Python data pipeline.
->
-> The pipeline automatically reads the raw `CFR_YY-YY_Data.csv` and ancillary datasets (GIAS, Census, SEN, etc.) from Azure Blob Storage and performs all necessary mapping, federation aggregations, and DNS masking natively.
->
-> The SQL-based manual generation steps (steps 1 through 5) documented below are now considered **legacy** and are only required for processing or regenerating historical CFR data prior to the 2024-2025 academic year.
+> Starting from the 2024-2025 academic year, the generation of the `maintained_schools_master_list.csv` and transparency files is **fully automated** within the core FBIT Python data pipeline. The pipeline automatically reads the raw `CFR_YY-YY_Data.csv` and ancillary datasets (GIAS, Census, SEN, etc.) from Azure Blob Storage and performs all necessary mapping, federation aggregations, and DNS masking natively.The SQL-based manual generation steps (steps 1 through 5) documented below are now considered **legacy** and are only required for processing or regenerating historical CFR data prior to the 2024-2025 academic year.
 
 ## Prerequisite (Legacy SQL Process)
 
