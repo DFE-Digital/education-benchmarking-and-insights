@@ -1,5 +1,6 @@
 using Web.App.Domain;
 using Web.App.Domain.Charts;
+using Web.App.Domain.Schools;
 using Web.App.ViewModels.Shared;
 
 namespace Web.App.ViewModels;

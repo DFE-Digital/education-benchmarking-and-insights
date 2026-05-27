@@ -11,6 +11,7 @@ using Web.App.Domain.Charts;
 using Web.App.Domain.Content;
 using Web.App.Domain.LocalAuthorities;
 using Web.App.Domain.NonFinancial;
+using Web.App.Domain.Schools;
 using Web.App.Infrastructure.Apis;
 using Web.App.Infrastructure.Apis.Benchmark;
 using Web.App.Infrastructure.Apis.Content;
@@ -488,7 +489,10 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
         return this;
     }
 
-    public BenchmarkingWebAppClient SetupExpenditure(School school, SchoolExpenditure? expenditure = null)
+    public BenchmarkingWebAppClient SetupExpenditure(
+        School school,
+        SchoolExpenditure? expenditure = null,
+        SchoolExpenditure[]? expenditures = null)
     {
         ExpenditureApi.Reset();
         ExpenditureApi
@@ -497,15 +501,9 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
             {
                 PeriodCoveredByReturn = 12
             }));
-        return this;
-    }
-
-    public BenchmarkingWebAppClient SetupExpenditure(SchoolExpenditure[] expenditures)
-    {
-        ExpenditureApi.Reset();
         ExpenditureApi
             .Setup(api => api.QuerySchools(It.IsAny<ApiQuery?>(), It.IsAny<CancellationToken>()))
-            .ReturnsAsync(ApiResult.Ok(expenditures));
+            .ReturnsAsync(ApiResult.Ok(expenditures ?? []));
         return this;
     }
 

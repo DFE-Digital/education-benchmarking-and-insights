@@ -1,4 +1,5 @@
 ﻿using System.Text.Json;
+using Web.App.Domain.Schools;
 using Web.App.Infrastructure.Apis;
 
 // ReSharper disable ClassNeverInstantiated.Global

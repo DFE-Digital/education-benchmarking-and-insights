@@ -1,3 +1,6 @@
+@using Web.App.Domain.Charts
+@using Web.App.Extensions
+@using Web.App.ViewModels
 @model Web.App.ViewModels.SchoolComparisonViewModel
 @{
     ViewData[ViewDataKeys.Title] = PageTitles.Comparison;
@@ -32,20 +35,47 @@
     showAsBulletedList = true
 })
 
-<div class="govuk-grid-row">
-    <div class="govuk-grid-column-one-third">
-        <p class="govuk-body">filters under construction</p>
-    </div>
-    <div class="govuk-grid-column-two-thirds">
-        <p class="govuk-body">page actions under construction</p>
-        <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
+@if (!hasMissingComparatorSet)
+{
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-one-third">
+            <p class="govuk-body">filters under construction</p>
+        </div>
+        <div class="govuk-grid-column-two-thirds">
+            <p class="govuk-body">page actions under construction</p>
+            <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
 
-        <p class="govuk-body">form options under construction</p>
-        <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
+            <p class="govuk-body">form options under construction</p>
+            <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
 
-        <p class="govuk-body">charts and tables under construction</p>
+            @foreach (var group in Model.Groups.Where(group => group.Items.Any()))
+            {
+                <section id="school-subcategory-@group.Group.ToSlug()">
+                    <h2 class="govuk-heading-m">@group.Group</h2>
+
+                    @foreach (var subCategory in group.Items)
+                    {
+                        <section id="school-subcategory-@subCategory.SubCategory?.ToSlug()"
+                                 class="govuk-!-margin-bottom-4"
+                                 data-testid="subcategory-section">
+
+                            <h3 class="govuk-heading-s">@subCategory.SubCategory</h3>
+
+                            @if (Model.ViewAs == Views.ViewAsOptions.Chart)
+                            {
+                                <p class="govuk-body">charts under construction</p>
+                            }
+                            else
+                            {
+                                @await Html.PartialAsync("_SchoolComparisonTable", new SchoolSpendingDataViewModel(subCategory, Model.ResultAs, Model.Urn!))
+                            }
+                        </section>
+                    }
+                </section>
+            }
+        </div>
     </div>
-</div>
+}
 
 <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
 

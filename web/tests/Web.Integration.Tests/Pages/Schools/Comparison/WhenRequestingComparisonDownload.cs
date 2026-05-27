@@ -35,7 +35,7 @@ public class WhenRequestingComparisonDownload : PageBase<SchoolBenchmarkingWebAp
         var response = await _client
             .SetupDisableFeatureFlags(features)
             .SetupComparatorSet(school, comparatorSet)
-            .SetupExpenditure(_schoolExpenditures)
+            .SetupExpenditure(school, expenditures: _schoolExpenditures)
             .Get(Paths.SchoolComparisonDownload(school.URN!));
 
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);
@@ -86,7 +86,7 @@ public class WhenRequestingComparisonDownload : PageBase<SchoolBenchmarkingWebAp
         var response = await _client
             .SetupDisableFeatureFlags(features)
             .SetupComparatorSet(school, comparatorSet)
-            .SetupExpenditure(_schoolExpenditures)
+            .SetupExpenditure(school, expenditures: _schoolExpenditures)
             .SetupUserData(userData)
             .Get(Paths.SchoolComparisonDownload(school.URN!));
 
@@ -137,7 +137,7 @@ public class WhenRequestingComparisonDownload : PageBase<SchoolBenchmarkingWebAp
         var response = await _client
             .SetupDisableFeatureFlags(features)
             .SetupCustomComparatorSet(school, comparatorSet, userDefinedComparatorSet)
-            .SetupExpenditure(_schoolExpenditures)
+            .SetupExpenditure(school, expenditures: _schoolExpenditures)
             .SetupExpenditureForCustomData(school, school.URN!, expenditure)
             .Get(Paths.SchoolComparisonDownload(school.URN!, customDataId));
 

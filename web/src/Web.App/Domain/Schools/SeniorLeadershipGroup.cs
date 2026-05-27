@@ -1,6 +1,6 @@
 using System.Diagnostics.CodeAnalysis;
 
-namespace Web.App.Domain;
+namespace Web.App.Domain.Schools;
 
 [ExcludeFromCodeCoverage]
 public record SeniorLeadershipGroup

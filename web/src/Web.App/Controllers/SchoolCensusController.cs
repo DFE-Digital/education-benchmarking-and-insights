@@ -7,6 +7,7 @@ using Web.App.Attributes;
 using Web.App.Attributes.RequestTelemetry;
 using Web.App.Domain;
 using Web.App.Domain.Charts;
+using Web.App.Domain.Schools;
 using Web.App.Infrastructure.Apis;
 using Web.App.Infrastructure.Apis.Benchmark;
 using Web.App.Infrastructure.Apis.Insight;
