@@ -37,6 +37,7 @@ public class SchoolComparisonController(
     [SchoolRequestTelemetry(TrackedRequestFeature.BenchmarkCosts)]
     public async Task<IActionResult> Index(
         string urn,
+        SchoolSpendingCategories.SubCategoryFilter[] selectedSubCategories,
         // TODO: this should default to chart but until functionality to toggle view as options is implemented we default to table
         Views.ViewAsOptions viewAs = Views.ViewAsOptions.Table,
         SchoolSpendingDimensions.ResultAsOptions resultAs = SchoolSpendingDimensions.ResultAsOptions.SpendPerUnit)
@@ -74,8 +75,7 @@ public class SchoolComparisonController(
                 {
                     var buildingResult = await GetDefaultSchoolExpenditure(urn, true, resultAs);
                     var pupilResult = await GetDefaultSchoolExpenditure(urn, false, resultAs);
-                    // TODO: replace SpendingCategories.All with selectedSubCategories once filters are implemented
-                    subCategories = new SpendingComparisonSubCategoriesViewModel(buildingResult, pupilResult, SchoolSpendingCategories.All, urn);
+                    subCategories = new SpendingComparisonSubCategoriesViewModel(buildingResult, pupilResult, selectedSubCategories, urn);
                 }
 
                 var viewModel = new SchoolComparisonViewModel(
@@ -88,6 +88,7 @@ public class SchoolComparisonController(
                     bandings,
                     subCategories)
                 {
+                    SelectedSubCategories = selectedSubCategories,
                     ViewAs = viewAs,
                     ResultAs = resultAs
                 };
@@ -102,6 +103,14 @@ public class SchoolComparisonController(
             }
         }
     }
+
+    // TODO: once to form options have been implemented this should pass viewAs and resultAs as route values
+    [HttpPost]
+    public IActionResult Index(string urn, int[]? selectedSubCategories, int viewAs, int resultAs) => RedirectToAction("Index", new
+    {
+        urn,
+        selectedSubCategories
+    });
 
     [HttpGet]
     [Route("custom-data")]
