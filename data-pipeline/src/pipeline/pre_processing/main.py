@@ -3,6 +3,7 @@ from typing import Mapping
 
 import pandas as pd
 
+from pipeline.input_schemas import cfr_raw_filenames
 from pipeline.utils.database import (
     insert_bfr,
     insert_bfr_metrics,
@@ -15,7 +16,6 @@ from pipeline.utils.database import (
     insert_trust_financial_data,
     insert_trusts,
 )
-from pipeline.input_schemas import cfr_raw_filenames
 from pipeline.utils.log import setup_logger
 from pipeline.utils.stats import stats_collector
 from pipeline.utils.storage import get_blob, raw_container, try_get_blob, write_blob
