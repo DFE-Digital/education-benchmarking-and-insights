@@ -25,7 +25,7 @@ from .census_workforce import (  # noqa
     workforce_census_index_col,
 )
 from .cfo import cfo, cfo_column_eval, cfo_column_mappings  # noqa
-from .cfr_raw import cfr_raw_cols, cfr_raw_index_col, cfr_raw_filenames
+from .cfr_raw import cfr_raw_cols, cfr_raw_filenames, cfr_raw_index_col
 from .dsg import dsg_filenames
 from .gias import gias, gias_index_col  # noqa
 from .high_exec_pay import high_exec_pay, high_exec_pay_column_mappings  # noqa
@@ -40,7 +40,11 @@ from .high_needs_places import (
     primary,
     secondary,
 )
-from .hospital_schools import hospital_schools_cols, hospital_schools_index_col, hospital_schools_column_mappings
+from .hospital_schools import (
+    hospital_schools_cols,
+    hospital_schools_column_mappings,
+    hospital_schools_index_col,
+)
 from .ilr import (
     ilr_column_mappings,
     ilr_ehcp,
@@ -81,8 +85,12 @@ from .local_authority import (  # noqa
     la_statistical_neighbours_index_col,
 )
 from .lookup_la import lookup_la_cols, lookup_la_index_col
+from .maintained_schools_master_list import (
+    maintained_schools_master_list_cols,
+    maintained_schools_master_list_column_eval,
+    maintained_schools_master_list_index_col,
+)
 from .pru import pru_cols, pru_index_col
-from .maintained_schools_master_list import maintained_schools_master_list_cols, maintained_schools_master_list_column_eval, maintained_schools_master_list_index_col
 
 gias_links_index_col = "URN"
 gias_links = {
