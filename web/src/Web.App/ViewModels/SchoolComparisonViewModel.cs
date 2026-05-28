@@ -37,14 +37,14 @@ public class SchoolComparisonViewModel(
 
     public KeyValuePair<SchoolSpendingCategories.CategoryGroup, SchoolSpendingCategories.SubCategoryFilter[]>[] AllGroups =>
         SchoolSpendingCategories.Groups.ToArray();
-    public List<SpendingComparisonGroup> Groups => subCategories?.Groups ?? [];
+    public List<SchoolSpendingComparisonGroup> Groups => subCategories?.Groups ?? [];
     public SchoolSpendingCategories.SubCategoryFilter[] SelectedSubCategories { get; init; } = [];
     public HashSet<int> SelectedIds =>
         SelectedSubCategories
             .Select(x => (int)x)
             .ToHashSet();
 
-    public IEnumerable<SpendingComparisonGroup> SelectedGroups =>
+    public IEnumerable<SchoolSpendingComparisonGroup> SelectedGroups =>
         Groups.Where(g => g.SelectedCount(SelectedIds) > 0);
 
     public Views.ViewAsOptions ViewAs { get; init; } = Views.ViewAsOptions.Chart;

@@ -116,7 +116,7 @@
 
                             @if (Model.ViewAs == Views.ViewAsOptions.Chart)
                             {
-                                <p class="govuk-body">charts under construction</p>
+                                @await Html.PartialAsync("_SchoolComparisonChart", new SchoolSpendingDataViewModel(subCategory, Model.ResultAs, Model.Urn!))
                             }
                             else
                             {
