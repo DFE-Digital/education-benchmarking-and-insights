@@ -25,6 +25,7 @@ public class SchoolComparisonController(
     IEstablishmentApi establishmentApi,
     IExpenditureApi expenditureApi,
     IComparatorSetApi comparatorSetApi,
+    IChartRenderingApi chartRenderingApi,
     ILogger<SchoolComparisonController> logger,
     IUserDataService userDataService,
     ISchoolComparatorSetService schoolComparatorSetService,
@@ -75,6 +76,20 @@ public class SchoolComparisonController(
                     var buildingResult = await GetDefaultSchoolExpenditure(urn, true, resultAs);
                     var pupilResult = await GetDefaultSchoolExpenditure(urn, false, resultAs);
                     subCategories = new SpendingComparisonSubCategoriesViewModel(buildingResult, pupilResult, selectedSubCategories, urn);
+
+                    var charts = await BuildCharts(urn, subCategories, resultAs);
+
+                    subCategories.Groups.ForEach(group =>
+                    {
+                        group.Items.ForEach(item =>
+                        {
+                            var chart = charts.FirstOrDefault(c => c.Id != null && c.Id == item.Uuid);
+                            if (chart != null)
+                            {
+                                item.ChartSvg = chart.Html;
+                            }
+                        });
+                    });
                 }
 
                 var viewModel = new SchoolComparisonViewModel(
@@ -101,6 +116,38 @@ public class SchoolComparisonController(
                 return e is StatusCodeException s ? StatusCode((int)s.Status) : StatusCode(500);
             }
         }
+    }
+
+    private async Task<ChartResponse[]> BuildCharts(string urn, SpendingComparisonSubCategoriesViewModel subCategories, SchoolSpendingDimensions.ResultAsOptions resultAs)
+    {
+        var requests = subCategories
+            .Groups
+            .SelectMany(group => group.Items.Select(item => new { group, item }))
+            .Select(x => new SchoolComparisonHorizontalBarChartRequest(
+                x.item.Uuid!,
+                urn,
+                x.item.Data!,
+                format => Uri.UnescapeDataString(
+                    Url.Action("Index", "School", new
+                    {
+                        urn = format
+                    }) ?? string.Empty),
+                resultAs,
+                x.group.ComparatorSetType));
+
+        ChartResponse[] charts = [];
+        try
+        {
+            charts = await chartRenderingApi
+                .PostHorizontalBarCharts(new PostHorizontalBarChartsRequest<SchoolComparisonDatum>(requests))
+                .GetResultOrDefault<ChartResponse[]>() ?? [];
+        }
+        catch (Exception e)
+        {
+            logger.LogWarning(e, "Unable to load charts from API");
+        }
+
+        return charts;
     }
 
     [HttpPost]

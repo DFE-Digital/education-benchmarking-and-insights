@@ -6,7 +6,7 @@ namespace Web.App.ViewModels;
 
 public class SpendingComparisonSubCategoriesViewModel
 {
-    public List<SpendingComparisonGroup> Groups { get; } = [];
+    public List<SchoolSpendingComparisonGroup> Groups { get; } = [];
 
     public SpendingComparisonSubCategoriesViewModel(
         SchoolExpenditure[] buildingResult,
@@ -22,13 +22,16 @@ public class SpendingComparisonSubCategoriesViewModel
             if (activeChildren.Length == 0)
                 continue;
 
-            var groupVm = new SpendingComparisonGroup
+            var comparatorSetType = group.GetCategoryGroupSetType();
+
+            var groupVm = new SchoolSpendingComparisonGroup
             {
                 Group = group.GetCategoryGroupDescription(),
+                ComparatorSetType = comparatorSetType,
                 Items = []
             };
 
-            var expenditures = group.GetCategoryGroupSetType() == ComparatorSetTypes.Building ? buildingResult : pupilResult;
+            var expenditures = comparatorSetType == ComparatorSetTypes.Building ? buildingResult : pupilResult;
 
             foreach (var filter in activeChildren)
             {
@@ -70,9 +73,10 @@ public class SpendingComparisonSubCategoriesViewModel
     }
 }
 
-public class SpendingComparisonGroup
+public class SchoolSpendingComparisonGroup
 {
     public string Group { get; init; } = "";
+    public string ComparatorSetType { get; init; } = "";
     public List<BenchmarkingViewModelCostSubCategory<SchoolComparisonDatum>> Items { get; init; } = [];
     public int SelectedCount(HashSet<int> selectedIds) =>
         Items.Count(i => i.SubCategoryId.HasValue && selectedIds.Contains(i.SubCategoryId.Value));
