@@ -1,0 +1,118 @@
+@using Web.App.Domain.Schools
+@using Web.App.ViewModels
+@model Web.App.ViewModels.SchoolComparisonViewModel
+
+<div class="app-filter">
+    <div class="app-filter__header">
+        <h2 class="govuk-heading-m govuk-!-margin-0">
+            Filters
+        </h2>
+    </div>
+
+    @if (Model.SelectedSubCategories.Length > 0)
+    {
+        <div class="app-filter__selected">
+            <div class="app-filter__selected-header">
+                <h2 class="govuk-heading-m">
+                    Selected filters
+                </h2>
+                <a href="@Url.Action("Index", "SchoolComparison", new { Model.Urn, viewAs = (int)Model.ViewAs, resultAs = (int)Model.ResultAs }))"
+                   class="govuk-link govuk-link--no-visited-state">Clear</a>
+            </div>
+            @foreach (var group in Model.SelectedGroups)
+            {
+                <h3 class="govuk-heading-s">@group.Group</h3>
+
+                <ul class="govuk-list">
+                    @foreach (var item in group.SelectedItems(Model.SelectedIds))
+                    {
+                        <li>
+                            <a href="@Url.Action("Index", new {
+                                        Model.Urn,
+                                        viewAs = (int)Model.ViewAs,
+                                        resultAs = (int)Model.ResultAs,
+                                        selectedSubCategories = Model.SelectedSubCategories
+                                            .Where(x => (int)x != item.SubCategoryId)
+                                            .Select(x => (int)x)
+                                             })"
+                           class="app-filter__tag">
+                            @item.SubCategory
+                        </a>
+                        </li>
+                    }
+                </ul>
+            }
+        </div>
+    }
+    <div class="app-filter__body">
+        @using (Html.BeginForm(FormMethod.Post, true, new { novalidate = "novalidate", role = "search" }))
+        {
+            <input type="hidden"
+                   name="@nameof(LocalAuthorityHighNeedsSpendingViewModel.SelectedSubCategories)"
+                   value="@Model.SelectedSubCategories"/>
+
+            <div class="govuk-accordion" data-module="govuk-accordion" id="accordion-default">
+                @for (var i = 0; i < Model.AllGroups.Length; i++)
+                {
+                    var group = Model.AllGroups[i];
+                    var headingId = $"accordion-default-heading-{i + 1}";
+                    var contentId = $"accordion-default-content-{i + 1}";
+
+                    var groupSelectedCount = group.Value.Count(x => Model.SelectedIds.Contains((int)x));
+
+                    <div class="govuk-accordion__section">
+                        <div class="govuk-accordion__section-header">
+                            <h2 class="govuk-accordion__section-heading">
+                                <span class="govuk-accordion__section-button"
+                                      id="@headingId">
+                                    @group.Key.GetCategoryGroupDescription()
+
+                                    @if (groupSelectedCount > 0)
+                                    {
+                                        <span class="govuk-hint app-filter__selected-hint">
+                                            @($"{groupSelectedCount} selected")
+                                        </span>
+                                    }
+
+                                </span>
+                            </h2>
+                        </div>
+
+                        <div id="@contentId" class="govuk-accordion__section-content">
+                            <div class="govuk-form-group">
+                                <fieldset class="govuk-fieldset">
+                                    <div class="govuk-checkboxes govuk-checkboxes--small" data-module="govuk-checkboxes">
+
+                                        @foreach (var sub in group.Value)
+                                        {
+                                            var id = (int)sub;
+                                            var isChecked = Model.SelectedIds.Contains(id);
+
+                                            <div class="govuk-checkboxes__item">
+                                                <input class="govuk-checkboxes__input"
+                                                       id="subcategory-@id"
+                                                       name="@nameof(Model.SelectedSubCategories)"
+                                                       value="@id"
+                                                       type="checkbox"
+                                                       @(isChecked ? "checked" : "") />
+
+                                                <label class="govuk-label govuk-checkboxes__label"
+                                                       for="subcategory-@id">
+                                                    @sub.GetHeading()
+                                                </label>
+                                            </div>
+                                        }
+
+                                    </div>
+                                </fieldset>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+            <button type="submit" class="govuk-button govuk-!-margin-top-4 govuk-!-margin-bottom-1" data-module="govuk-button">
+                Apply filters
+            </button>
+        }
+    </div>
+</div>
