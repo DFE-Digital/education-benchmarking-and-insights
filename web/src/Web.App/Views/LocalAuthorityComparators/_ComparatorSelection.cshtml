@@ -1,7 +1,7 @@
-﻿@using Web.App.Domain
+@using Web.App.Domain
 @using Web.App.Extensions
 @using Web.App.ViewModels
-@model Web.App.ViewModels.Components.LocalAuthorityComparatorsViewModel
+@model Web.App.ViewModels.LocalAuthorityComparatorsViewModel
 @{
     var hasLaInputError = ViewData.ModelState.ErrorCount > 0;
 }
@@ -56,7 +56,7 @@
         value="@FormAction.Reset">
         Reset to statistical neighbours
     </button>
-    @if (Model.SelectedNeighbours.Any() || Model.SelectedOthers.Any())
+    @if (Model.NeighbourComparators.Any() || Model.OtherComparators.Any())
     {
         <button
             type="submit"
@@ -73,7 +73,7 @@
     Local authorities you are comparing with
 </h3>
 
-@if (Model.SelectedNeighbours.Any())
+@if (Model.NeighbourComparators.Any())
 {
     <h4 class="govuk-heading-s">
         Statistical neighbours
@@ -85,12 +85,12 @@
 
     @await Html.PartialAsync("_RemovableItemCardGrid",
         new RemovableItemCardGridViewModel {
-            Cards = Model.SelectedNeighbours,
+            Cards = Model.NeighbourComparators,
             InputName = nameof(LocalAuthorityComparatorSelectionViewModel.Selected),
             Id = "current-comparators-neighbours"
         })
 }
-else if (Model.SelectedOthers.Any())
+else if (Model.OtherComparators.Any())
 {
     <h4 class="govuk-heading-s">
         Statistical neighbours
@@ -107,7 +107,7 @@ else
     </p>
 }
 
-@if (Model.SelectedOthers.Any())
+@if (Model.OtherComparators.Any())
 {
     <h4 class="govuk-heading-s">
         Other local authorities
@@ -115,7 +115,7 @@ else
 
     @await Html.PartialAsync("_RemovableItemCardGrid",
         new RemovableItemCardGridViewModel {
-            Cards = Model.SelectedOthers,
+            Cards = Model.OtherComparators,
             InputName = nameof(LocalAuthorityComparatorSelectionViewModel.Selected),
             Id = "current-comparators-others"
         })

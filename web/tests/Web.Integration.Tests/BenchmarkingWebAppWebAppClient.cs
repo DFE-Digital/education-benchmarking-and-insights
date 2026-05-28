@@ -22,7 +22,6 @@ using Web.App.Infrastructure.WebAssets;
 using Web.App.Services;
 using Xunit.Abstractions;
 using File = Web.App.Domain.Content.File;
-using LocalAuthority = Web.App.Domain.LocalAuthority;
 using UriBuilder = Web.App.Builders.UriBuilder;
 
 // ReSharper disable MemberCanBePrivate.Global
@@ -259,6 +258,8 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
 
         LocalAuthorityApi.Reset();
         LocalAuthorityApi.Setup(api => api.SingleAsync(authority.Code, It.IsAny<CancellationToken>())).ReturnsAsync(ApiResult.Ok(authorities.First()));
+        LocalAuthorityApi.Setup(api => api.QueryAsync(It.IsAny<CancellationToken>())).ReturnsAsync(ApiResult.Ok(authorities));
+        LocalAuthorityApi.Setup(api => api.StatisticalNeighboursAsync(authority.Code, It.IsAny<CancellationToken>())).ReturnsAsync(ApiResult.Ok(authority));
 
         return this;
     }
