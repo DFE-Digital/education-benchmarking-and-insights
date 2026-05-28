@@ -42,7 +42,7 @@ def build_sfb_maintained(
 
     out["Period covered by return"] = a["Period Covered"]
     out["Did Not Supply flag"] = a["DNS"].map(
-        {"n/a": "N", "LeadSchool": "N", "DNS": "Y"}
+        {"n/a": "N", "LeadSchool": "N", "DNS": "DNS"}
     )
     out["FederatedSubmission"] = a["DNS"].map(
         {"n/a": "No", "LeadSchool": "Lead school", "DNS": "Non returning school"}
@@ -308,7 +308,7 @@ def build_maintained_schools_download_file(sfb: pd.DataFrame) -> pd.DataFrame:
     out["LA Name"] = sfb["LA Name"]
     out["Estab"] = sfb["Estab"]
     out["LAEstab"] = sfb["LAEstab"]
-    out["Did Not Supply flag"] = sfb["Did Not Supply flag"]
+    out["Did Not Supply flag"] = sfb["Did Not Supply flag"].str.replace("DNS", "Y")
     out["Lead school in federation"] = sfb["Lead school in federation"]
     out["London Weighting"] = sfb["London Weighting"]
     out["No pupils"] = sfb["AggregatedPupilsFTE"].round(1)
