@@ -9,8 +9,7 @@ resource "azurerm_key_vault" "key-vault" {
   enabled_for_template_deployment = true
   tenant_id                       = data.azurerm_client_config.client.tenant_id
   sku_name                        = "standard"
-  purge_protection_enabled        = var.disable-purge-protection == "true" ? false : true
-  soft_delete_retention_days      = 7
+  purge_protection_enabled        = false
 
   network_acls {
     default_action = "Allow"
@@ -18,10 +17,6 @@ resource "azurerm_key_vault" "key-vault" {
   }
 
   tags = local.common-tags
-
-  lifecycle {
-    prevent_destroy = true
-  }
 }
 
 resource "azurerm_key_vault_access_policy" "terraform_sp_access" {
