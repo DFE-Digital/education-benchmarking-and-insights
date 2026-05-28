@@ -14,7 +14,7 @@ The FBIT service updates underlying data four times a year: for AAR, BFR, CFR, a
 
 * Create a central release thread on Teams to broadcast updates about the release. If specific issues need further discussion, have a dedicated thread for it. Note Teams DMs currently delete after a few weeks - keep relevant discussion off DMs.
 
-* CFR and AAR have an accompanying transparency file. This is released separately to the main FBIT service, but ideally they should align as much as possible. Schema validations of the transparency file and checks between FBIT data and the transparency file should rechecked as early as possible before the release.
+* CFR and AAR have an accompanying transparency file. This is released separately to the main FBIT service, but ideally they should align as much as possible. Schema validations of the transparency file and checks between FBIT data and the transparency file should rechecked after the kickoff session and before the release.
 
 ## Things to do immediately before and during the release
 
