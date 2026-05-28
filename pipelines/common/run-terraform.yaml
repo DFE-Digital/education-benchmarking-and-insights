@@ -39,7 +39,17 @@ steps:
 
         az storage container create --auth-mode login --name tfstate --account-name $storageAccountName
         echo "Storage container created"
-        
+
+        # --- TEMPORARY CLEANUP ---
+        az keyvault purge --name ${{ parameters.environmentPrefix }}-ebis-keyvault || true
+        # Ensure the orphaned diagnostic setting is removed from the storage account queue service
+        az monitor diagnostic-settings delete \
+          --name ${{ parameters.environmentPrefix }}data-queue-logs \
+          --resource "/subscriptions/$(az account show --query id -o tsv)/resourceGroups/${{
+        parameters.environmentPrefix }}-ebis-core/providers/Microsoft.Storage/storageAccounts/${{
+        parameters.environmentPrefix }}data/queueServices/default" || true
+        # ---------------------------------------
+
         echo "##vso[task.setvariable variable=environmentPrefix]${{ parameters.environmentPrefix }}"
         echo "##vso[task.setvariable variable=environment]${{ parameters.environment }}"
         echo "##vso[task.setvariable variable=cipEnvironment]${{ parameters.cipEnvironment }}"
