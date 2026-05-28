@@ -42,7 +42,7 @@ def build_sfb_maintained(
 
     out["Period covered by return"] = a["Period Covered"]
     out["Did Not Supply flag"] = a["DNS"].map(
-        {"n/a": "0", "LeadSchool": "0", "DNS": "DNS"}
+        {"n/a": "N", "LeadSchool": "N", "DNS": "Y"}
     )
     out["FederatedSubmission"] = a["DNS"].map(
         {"n/a": "No", "LeadSchool": "Lead school", "DNS": "Non returning school"}
@@ -58,8 +58,8 @@ def build_sfb_maintained(
 
     out["IndividualPupilsFTE"] = a["Ind. Pupils FTE"]
     out["AggregatedPupilsFTE"] = a["Aggregated Pupils FTE"]
-    out["IndTeachers_FTE"] = a.get("Total Number of Teachers (Full-Time Equivalent)", 0)
-    out["AggregatedTeachersFTE"] = a["Teachers FTE_agg"]
+    out["IndTeachers_FTE"] = a.get("Teachers FTE_ind", 0)
+    out["AggregatedTeachersFTE"] = a.get("Teachers FTE_agg", 0)
     out["Gender"] = a["Gender (name)"]
     out["London Weighting"] = a["London Borough"]
 
@@ -79,9 +79,7 @@ def build_sfb_maintained(
     out["Has a 6th form"] = a["OfficialSixthForm (name)"]
     out["Ind_VIthForm"] = a.get("No of pupils in 6th form_ind", 0)
     out["Aggregated_VIthForm"] = a.get("No of pupils in 6th form_agg", 0)
-    out["Ind_TA_FTE"] = a.get(
-        "Total Number of Teaching Assistants (Full-Time Equivalent)", 0
-    )
+    out["Ind_TA_FTE"] = a.get("FTE of Teaching Assistants_ind", 0)
     out["Aggregated_TA_FTE"] = a.get("FTE of Teaching Assistants_agg", 0)
     out["Teachers_PC_QTS"] = a.get("Teachers_PC_QTS", np.nan)
 
@@ -308,42 +306,24 @@ def build_maintained_schools_download_file(sfb: pd.DataFrame) -> pd.DataFrame:
 
     out["LA"] = sfb["LA"]
     out["LA Name"] = sfb["LA Name"]
-    out["Region"] = sfb["Region"]
-    out["London Borough"] = sfb["London Borough"]
     out["Estab"] = sfb["Estab"]
     out["LAEstab"] = sfb["LAEstab"]
-    out["URN"] = sfb["URN"]
-    out["School Name"] = sfb["School Name"]
-    out["Phase"] = sfb["Phase"]
-    out["Overall Phase"] = sfb["Overall Phase"]
-    out["Lowest age of pupils"] = sfb["Lowest age of pupils"]
-    out["Highest age of pupils"] = sfb["Highest age of pupils"]
-    out["Type"] = sfb["Type"]
-
-    out["No pupils"] = sfb["AggregatedPupilsFTE"].round(1)
-    out["% of pupils eligible for FSM"] = sfb["Aggregated_PC_FSM"].round(1)
-
-    out["Period covered by return"] = sfb["Period covered by return"]
     out["Did Not Supply flag"] = sfb["Did Not Supply flag"]
-    out["Federated submission"] = sfb["FederatedSubmission"]
     out["Lead school in federation"] = sfb["Lead school in federation"]
-
-    out["FTE Number of teachers"] = sfb["AggregatedTeachersFTE"].round(1)
-    out["Gender"] = sfb["Gender"]
-    out["Urban /Rural"] = sfb["UrbanRural"]
     out["London Weighting"] = sfb["London Weighting"]
-
-    out["% of pupils with EHCP"] = sfb["Aggregated_PC_EHCP"].round(1)
+    out["No pupils"] = sfb["AggregatedPupilsFTE"].round(1)
+    out["Overall Phase"] = sfb["Overall Phase"]
+    out["% of pupils eligible for FSM"] = sfb["Aggregated_PC_FSM"].round(1)
     out["% of pupils with SEN support"] = sfb["Aggregated_PC_SEN_Support"].round(1)
-    out["% of pupils with English as an additional language"] = sfb[
-        "Aggregated_PC_EAL"
-    ].round(1)
-    out["% of pupils who are boarders"] = sfb["Aggregated_PC_Boarders"].round(1)
-    out["Admissions policy"] = sfb["Admissions_Policy"]
-    out["PFI"] = sfb["PFI"]
-    out["Has a 6th form"] = sfb["Has a 6th form"]
-
+    out["% of pupils with EHCP"] = sfb["Aggregated_PC_EHCP"].round(1)
+    out["School Name"] = sfb["School Name"]
+    out["FTE Number of teachers"] = sfb["AggregatedTeachersFTE"].round(1)
     out["Number of pupils in 6th form"] = sfb["Aggregated_VIthForm"].round(0)
+    out["Type"] = sfb["Type"]
+    out["URN"] = sfb["URN"]
+    out["Admissions policy"] = sfb["Admissions_Policy"]
+    out["Period covered by return"] = sfb["Period covered by return"]
+    out["Federated submission"] = sfb["FederatedSubmission"]
 
     fin_mappings = {
         "I01 Funds delegated by the LA": "I01 Pre-16 Funding",

@@ -361,8 +361,9 @@ def build_federation_context(
     )
 
     # Workforce Aggregation
+    fte_teachers_col = "Total Number of Teachers (Full-Time Equivalent)"
     use_last_year_pupils = working["IndPupils_FTE"].isna()
-    use_last_year_teachers = working["Total Number of Teachers (Full-Time Equivalent)"].isna()
+    use_last_year_teachers = working[fte_teachers_col].isna()
 
     working["Ind. Pupils FTE"] = np.where(
         use_last_year_pupils & (working["IndPupils_FTE_last_year"] > 0),
@@ -394,14 +395,51 @@ def build_federation_context(
         np.where(
             working["DNS"] == "n/a",
             np.where(
-                use_last_year_teachers & (working["Total Number of Teachers (Full-Time Equivalent)_last_year"] > 0),
-                working["Total Number of Teachers (Full-Time Equivalent)_last_year"],
-                working["Total Number of Teachers (Full-Time Equivalent)"]
+                use_last_year_teachers & (working[f"{fte_teachers_col}_last_year"] > 0),
+                working[f"{fte_teachers_col}_last_year"],
+                working[fte_teachers_col]
             ),
-            working["Total Number of Teachers (Full-Time Equivalent)"]
+            working[fte_teachers_col]
         )
     )
 
+    working["Teachers FTE_ind"] = np.where(
+        working["DNS"] == "LeadSchool",
+        working[fte_teachers_col],
+        np.where(
+            working["DNS"] == "n/a",
+            np.where(
+                use_last_year_teachers & (working[f"{fte_teachers_col}_last_year"] > 0),
+                working[f"{fte_teachers_col}_last_year"],
+                working[fte_teachers_col]
+            ),
+            working[fte_teachers_col]
+        )
+    )
+
+    # TA FTE Derivations
+    ta_fte_col = "Total Number of Teaching Assistants (Full-Time Equivalent)"
+    working["FTE of Teaching Assistants_agg"] = np.where(
+        working["DNS"] == "LeadSchool",
+        working["Federation_FTE_TAs"],
+        np.where(
+            use_last_year_teachers & (working[f"{ta_fte_col}_last_year"] > 0),
+            working[f"{ta_fte_col}_last_year"],
+            working[ta_fte_col]
+        )
+    )
+
+    working["FTE of Teaching Assistants_ind"] = np.where(
+        working["DNS"] == "LeadSchool",
+        working[f"{ta_fte_col}_last_year"],  # SQL Step 2 logic for LeadSchool ind
+        np.where(
+            use_last_year_teachers & (working[f"{ta_fte_col}_last_year"] > 0),
+            working[f"{ta_fte_col}_last_year"],
+            working[ta_fte_col]
+        )
+    )
+
+    # Percentage Derivations - aligned with SQL triggers
     working["% of pupils eligible for FSM_ind"] = np.where(
         use_last_year_pupils,
         working["Percentage Free school meals_last_year"],
