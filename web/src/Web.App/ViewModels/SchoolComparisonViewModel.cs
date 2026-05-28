@@ -47,8 +47,7 @@ public class SchoolComparisonViewModel(
     public IEnumerable<SpendingComparisonGroup> SelectedGroups =>
         Groups.Where(g => g.SelectedCount(SelectedIds) > 0);
 
-    // TODO: this should default to chart but until functionality to toggle view as options is implemented we default to table
-    public Views.ViewAsOptions ViewAs { get; init; } = Views.ViewAsOptions.Table;
+    public Views.ViewAsOptions ViewAs { get; init; } = Views.ViewAsOptions.Chart;
 
     public SchoolSpendingDimensions.ResultAsOptions ResultAs { get; init; } = SchoolSpendingDimensions.ResultAsOptions.SpendPerUnit;
 

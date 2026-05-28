@@ -38,8 +38,7 @@ public class SchoolComparisonController(
     public async Task<IActionResult> Index(
         string urn,
         SchoolSpendingCategories.SubCategoryFilter[] selectedSubCategories,
-        // TODO: this should default to chart but until functionality to toggle view as options is implemented we default to table
-        Views.ViewAsOptions viewAs = Views.ViewAsOptions.Table,
+        Views.ViewAsOptions viewAs = Views.ViewAsOptions.Chart,
         SchoolSpendingDimensions.ResultAsOptions resultAs = SchoolSpendingDimensions.ResultAsOptions.SpendPerUnit)
     {
         using (logger.BeginScope(new
@@ -104,12 +103,13 @@ public class SchoolComparisonController(
         }
     }
 
-    // TODO: once to form options have been implemented this should pass viewAs and resultAs as route values
     [HttpPost]
     public IActionResult Index(string urn, int[]? selectedSubCategories, int viewAs, int resultAs) => RedirectToAction("Index", new
     {
         urn,
-        selectedSubCategories
+        selectedSubCategories,
+        viewAs,
+        resultAs
     });
 
     [HttpGet]
