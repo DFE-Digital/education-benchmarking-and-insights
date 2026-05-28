@@ -5,7 +5,6 @@ using Web.App.Attributes;
 using Web.App.Domain;
 using Web.App.Extensions;
 using Web.App.Infrastructure.Apis;
-using Web.App.Infrastructure.Apis.Establishment;
 using Web.App.Infrastructure.Extensions;
 using Web.App.Services;
 using Web.App.ViewModels;
@@ -17,7 +16,7 @@ namespace Web.App.Controllers;
 [ValidateLaCode]
 public class LocalAuthorityComparatorsController(
     ILogger<LocalAuthorityComparatorsController> logger,
-    IEstablishmentApi establishmentApi,
+    ILocalAuthorityApi localAuthorityApi,
     ILocalAuthorityComparatorSetService localAuthorityComparatorSetService,
     IValidator<LocalAuthorityComparatorSelectionViewModel> validator)
     : Controller
@@ -33,11 +32,13 @@ public class LocalAuthorityComparatorsController(
                 ViewData[ViewDataKeys.BreadcrumbNode] = BreadcrumbNodes.LocalAuthorityHome(code);
 
                 var localAuthority = await LocalAuthorityStatisticalNeighbours(code);
+                var allLocalAuthorities = await GetAllLocalAuthorities();
                 var viewModel = new LocalAuthorityComparatorsViewModel(
                     localAuthority,
                     GetComparators(localAuthority.StatisticalNeighbours, code),
                     type,
-                    referrer);
+                    referrer,
+                    allLocalAuthorities);
                 return View(viewModel);
             }
             catch (Exception e)
@@ -60,6 +61,7 @@ public class LocalAuthorityComparatorsController(
             try
             {
                 var localAuthority = await LocalAuthorityStatisticalNeighbours(code);
+                var allLocalAuthorities = await GetAllLocalAuthorities();
                 var comparators = new HashSet<string>(viewModel.Selected);
                 var result = await validator.ValidateAsync(viewModel);
 
@@ -69,7 +71,7 @@ public class LocalAuthorityComparatorsController(
                     logger.LogDebug("Posted local authorities comparators failed validation: {ModelState}",
                         ModelState.Where(m => m.Value != null && m.Value.Errors.Any()).ToJson());
 
-                    return View(nameof(Index), new LocalAuthorityComparatorsViewModel(localAuthority, comparators.ToArray(), type, viewModel.Referrer));
+                    return View(nameof(Index), new LocalAuthorityComparatorsViewModel(localAuthority, comparators.ToArray(), type, viewModel.Referrer, allLocalAuthorities));
                 }
 
                 FormAction action = viewModel.Action ?? throw new ArgumentNullException(nameof(viewModel));
@@ -102,7 +104,7 @@ public class LocalAuthorityComparatorsController(
                         break;
                 }
 
-                return View(nameof(Index), new LocalAuthorityComparatorsViewModel(localAuthority, comparators.ToArray(), type, viewModel.Referrer));
+                return View(nameof(Index), new LocalAuthorityComparatorsViewModel(localAuthority, comparators.ToArray(), type, viewModel.Referrer, allLocalAuthorities));
 
             }
             catch (Exception e)
@@ -129,6 +131,13 @@ public class LocalAuthorityComparatorsController(
 
     }
 
+    private async Task<IEnumerable<LocalAuthority>> GetAllLocalAuthorities()
+    {
+        return await localAuthorityApi
+            .QueryAsync()
+            .GetResultOrThrow<IEnumerable<LocalAuthority>>();
+    }
+
     private string[] GetComparators(IEnumerable<LocalAuthorityStatisticalNeighbour>? neighbours, string code)
     {
         var sessionComparators = localAuthorityComparatorSetService
@@ -140,8 +149,8 @@ public class LocalAuthorityComparatorsController(
             : InitialComparatorSetFromNeighbours(neighbours).ToArray();
     }
 
-    private async Task<LocalAuthorityStatisticalNeighbours> LocalAuthorityStatisticalNeighbours(string code) => await establishmentApi
-        .GetLocalAuthorityStatisticalNeighbours(code)
+    private async Task<LocalAuthorityStatisticalNeighbours> LocalAuthorityStatisticalNeighbours(string code) => await localAuthorityApi
+        .StatisticalNeighboursAsync(code)
         .GetResultOrThrow<LocalAuthorityStatisticalNeighbours>();
 
     private static List<string> InitialComparatorSetFromNeighbours(IEnumerable<LocalAuthorityStatisticalNeighbour>? neighbours) => (neighbours ?? [])

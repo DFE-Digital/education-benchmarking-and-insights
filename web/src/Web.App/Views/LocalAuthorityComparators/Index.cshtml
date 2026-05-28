@@ -83,13 +83,7 @@
         <input name="@nameof(LocalAuthorityComparatorsViewModel.Referrer)" value="@Model.Referrer" type="hidden"/>
     }
 
-    @await Component.InvokeAsync("LocalAuthorityComparators", new
-    {
-        Model.Code,
-        Model.Comparators,
-        Model.NeighbourComparators,
-        Model.OtherComparators
-    })
+    @await Html.PartialAsync("_ComparatorSelection", Model)
 
 </form>
 
