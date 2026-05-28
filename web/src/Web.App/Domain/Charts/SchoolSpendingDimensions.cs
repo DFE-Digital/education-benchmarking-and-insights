@@ -13,6 +13,14 @@ public static class SchoolSpendingDimensions
         PercentIncome = 3
     }
 
+    public static readonly ResultAsOptions[] AllResultsAsOptions =
+    [
+        ResultAsOptions.SpendPerUnit,
+        ResultAsOptions.Actuals,
+        ResultAsOptions.PercentExpenditure,
+        ResultAsOptions.PercentIncome,
+    ];
+
     public static string GetQueryParam(this ResultAsOptions option) => option switch
     {
         ResultAsOptions.SpendPerUnit => "PerUnit",
@@ -54,7 +62,7 @@ public static class SchoolSpendingDimensions
 
     public static string GetDescription(this ResultAsOptions option) => option switch
     {
-        ResultAsOptions.SpendPerUnit => "£ per pupil",
+        ResultAsOptions.SpendPerUnit => "£ per unit",
         ResultAsOptions.Actuals => "actuals",
         ResultAsOptions.PercentExpenditure => "% of expenditure",
         ResultAsOptions.PercentIncome => "% of income",
