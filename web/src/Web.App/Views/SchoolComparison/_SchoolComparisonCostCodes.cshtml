@@ -1,0 +1,16 @@
+@model Web.App.ViewModels.SchoolSpendingDataViewModel
+
+@if (Model.SubCategory.LineCodes == null || Model.SubCategory.LineCodes.Length == 0)
+{
+    return;
+}
+
+<div class="app-cost-code-list">
+    <p class="govuk-body">Cost category codes:</p>
+    <ul class="govuk-list">
+        @foreach (var costCode in Model.SubCategory.LineCodes)
+        {
+            <li><strong class="cost-code-item">@costCode</strong></li>
+        }
+    </ul>
+</div>

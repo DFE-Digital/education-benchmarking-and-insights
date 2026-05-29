@@ -301,4 +301,109 @@ public static class SchoolSpendingCategories
             SubCategoryFilter.CommunityFocusedSchoolCosts => e.CommunityFocusedSchoolCosts,
             _ => null
         };
+
+    public static string[] GetCostCodes(this SubCategoryFilter filter, CostCodes costCodes)
+    {
+        return filter
+            .GetSubCategoriesListForCostCodes()
+            .SelectMany(s => costCodes.GetCostCodes(s))
+            .Where(code => code is not null)
+            .Select(code => code!)
+            .ToArray();
+    }
+
+    private static string[] GetSubCategoriesListForCostCodes(this SubCategoryFilter filter) => filter switch
+    {
+        SubCategoryFilter.TotalTeachingSupportStaffCosts => [
+            SubCostCategories.TeachingStaff.TeachingStaffCosts,
+            SubCostCategories.TeachingStaff.SupplyTeachingStaffCosts,
+            SubCostCategories.TeachingStaff.EducationalConsultancyCosts,
+            SubCostCategories.TeachingStaff.EducationSupportStaffCosts,
+            SubCostCategories.TeachingStaff.AgencySupplyTeachingStaffCosts
+        ],
+        SubCategoryFilter.TeachingStaffCosts => [SubCostCategories.TeachingStaff.TeachingStaffCosts],
+        SubCategoryFilter.SupplyTeachingStaffCosts => [SubCostCategories.TeachingStaff.SupplyTeachingStaffCosts],
+        SubCategoryFilter.EducationalConsultancyCosts => [SubCostCategories.TeachingStaff.EducationalConsultancyCosts],
+        SubCategoryFilter.EducationSupportStaffCosts => [SubCostCategories.TeachingStaff.EducationSupportStaffCosts],
+        SubCategoryFilter.AgencySupplyTeachingStaffCosts => [SubCostCategories.TeachingStaff.AgencySupplyTeachingStaffCosts],
+
+        SubCategoryFilter.TotalNonEducationalSupportStaffCosts => [
+            SubCostCategories.NonEducationalSupportStaff.AdministrativeClericalStaffCosts,
+            SubCostCategories.NonEducationalSupportStaff.AuditorsCosts,
+            SubCostCategories.NonEducationalSupportStaff.OtherStaffCosts,
+            SubCostCategories.NonEducationalSupportStaff.ProfessionalServicesNonCurriculumCosts
+        ],
+        SubCategoryFilter.AdministrativeClericalStaffCosts => [SubCostCategories.NonEducationalSupportStaff.AdministrativeClericalStaffCosts],
+        SubCategoryFilter.AuditorsCosts => [SubCostCategories.NonEducationalSupportStaff.AuditorsCosts],
+        SubCategoryFilter.OtherStaffCosts => [SubCostCategories.NonEducationalSupportStaff.OtherStaffCosts],
+        SubCategoryFilter.ProfessionalServicesNonCurriculumCosts => [SubCostCategories.NonEducationalSupportStaff.ProfessionalServicesNonCurriculumCosts],
+
+        SubCategoryFilter.TotalEducationalSuppliesCosts => [
+            SubCostCategories.EducationalSupplies.ExaminationFeesCosts,
+            SubCostCategories.EducationalSupplies.LearningResourcesNonIctCosts
+        ],
+        SubCategoryFilter.ExaminationFeesCosts => [SubCostCategories.EducationalSupplies.ExaminationFeesCosts],
+        SubCategoryFilter.LearningResourcesNonIctCosts => [SubCostCategories.EducationalSupplies.LearningResourcesNonIctCosts],
+
+        SubCategoryFilter.LearningResourcesIctCosts => [SubCostCategories.EducationalIct.LearningResourcesIctCosts],
+
+        SubCategoryFilter.TotalPremisesStaffServiceCosts => [
+            SubCostCategories.PremisesStaffServices.CleaningCaretakingCosts,
+            SubCostCategories.PremisesStaffServices.MaintenancePremisesCosts,
+            SubCostCategories.PremisesStaffServices.OtherOccupationCosts,
+            SubCostCategories.PremisesStaffServices.PremisesStaffCosts
+        ],
+        SubCategoryFilter.CleaningCaretakingCosts => [SubCostCategories.PremisesStaffServices.CleaningCaretakingCosts],
+        SubCategoryFilter.MaintenancePremisesCosts => [SubCostCategories.PremisesStaffServices.MaintenancePremisesCosts],
+        SubCategoryFilter.OtherOccupationCosts => [SubCostCategories.PremisesStaffServices.OtherOccupationCosts],
+        SubCategoryFilter.PremisesStaffCosts => [SubCostCategories.PremisesStaffServices.PremisesStaffCosts],
+
+        SubCategoryFilter.TotalUtilitiesCosts => [
+            SubCostCategories.Utilities.EnergyCosts,
+            SubCostCategories.Utilities.WaterSewerageCosts
+        ],
+        SubCategoryFilter.EnergyCosts => [SubCostCategories.Utilities.EnergyCosts],
+        SubCategoryFilter.WaterSewerageCosts => [SubCostCategories.Utilities.WaterSewerageCosts],
+
+        SubCategoryFilter.AdministrativeSuppliesNonEducationalCosts => [SubCostCategories.AdministrativeSupplies.AdministrativeSuppliesNonEducationalCosts],
+
+        SubCategoryFilter.TotalGrossCateringCosts => [
+            SubCostCategories.CateringStaffServices.CateringStaffCosts,
+            SubCostCategories.CateringStaffServices.CateringSuppliesCosts
+        ],
+        SubCategoryFilter.TotalNetCateringCosts => [
+            SubCostCategories.CateringStaffServices.CateringStaffCosts,
+            SubCostCategories.CateringStaffServices.CateringSuppliesCosts
+        ],
+        SubCategoryFilter.CateringStaffCosts => [SubCostCategories.CateringStaffServices.CateringStaffCosts],
+        SubCategoryFilter.CateringSuppliesCosts => [SubCostCategories.CateringStaffServices.CateringSuppliesCosts],
+
+        SubCategoryFilter.TotalOtherCosts => [
+            SubCostCategories.Other.OtherInsurancePremiumsCosts,
+            SubCostCategories.Other.GroundsMaintenanceCosts,
+            SubCostCategories.Other.IndirectEmployeeExpenses,
+            SubCostCategories.Other.InterestChargesLoanBank,
+            SubCostCategories.Other.PrivateFinanceInitiativeCharges,
+            SubCostCategories.Other.RentRatesCosts,
+            SubCostCategories.Other.SpecialFacilitiesCosts,
+            SubCostCategories.Other.StaffDevelopmentTrainingCosts,
+            SubCostCategories.Other.StaffRelatedInsuranceCosts,
+            SubCostCategories.Other.SupplyTeacherInsurableCosts,
+            SubCostCategories.Other.CommunityFocusedSchoolCosts,
+            SubCostCategories.Other.CommunityFocusedSchoolStaff
+        ],
+        SubCategoryFilter.OtherInsurancePremiumsCosts => [SubCostCategories.Other.OtherInsurancePremiumsCosts],
+        SubCategoryFilter.GroundsMaintenanceCosts => [SubCostCategories.Other.GroundsMaintenanceCosts],
+        SubCategoryFilter.IndirectEmployeeExpenses => [SubCostCategories.Other.IndirectEmployeeExpenses],
+        SubCategoryFilter.InterestChargesLoanBank => [SubCostCategories.Other.InterestChargesLoanBank],
+        SubCategoryFilter.PrivateFinanceInitiativeCharges => [SubCostCategories.Other.PrivateFinanceInitiativeCharges],
+        SubCategoryFilter.RentRatesCosts => [SubCostCategories.Other.RentRatesCosts],
+        SubCategoryFilter.SpecialFacilitiesCosts => [SubCostCategories.Other.SpecialFacilitiesCosts],
+        SubCategoryFilter.StaffDevelopmentTrainingCosts => [SubCostCategories.Other.StaffDevelopmentTrainingCosts],
+        SubCategoryFilter.StaffRelatedInsuranceCosts => [SubCostCategories.Other.StaffRelatedInsuranceCosts],
+        SubCategoryFilter.SupplyTeacherInsurableCosts => [SubCostCategories.Other.SupplyTeacherInsurableCosts],
+        SubCategoryFilter.CommunityFocusedSchoolStaff => [SubCostCategories.Other.CommunityFocusedSchoolCosts],
+        SubCategoryFilter.CommunityFocusedSchoolCosts => [SubCostCategories.Other.CommunityFocusedSchoolStaff],
+        _ => []
+    };
 }
