@@ -1,0 +1,9 @@
+@using Web.App.Domain
+@model Web.App.ViewModels.ProgressBandingCellViewModel
+
+@if (Model.ShouldShowTag)
+{
+    <strong class="govuk-tag govuk-tag--@Model.ProgressBanding.ToGdsColour() govuk-!-font-size-16">
+        @Model.ProgressBanding.ToStringValue()
+    </strong>
+}

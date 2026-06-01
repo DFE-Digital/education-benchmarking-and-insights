@@ -903,6 +903,16 @@ table#current-comparators-la {
       stroke: govuk-colour("red");
     }
 
+    &.chart-cell__group-banding-well-above-average {
+      fill: govuk-colour("turquoise");
+      stroke: govuk-colour("turquoise");
+    }
+
+    &.chart-cell__group-banding-above-average {
+      fill: govuk-colour("light-blue");
+      stroke: govuk-colour("light-blue");
+    }
+
     &.chart-data-stack-0 {
       fill: govuk-colour("light-blue");
       stroke: govuk-colour("light-blue");

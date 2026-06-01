@@ -35,6 +35,15 @@ public class SchoolComparisonViewModel(
         .ToArray() ?? [];
     public bool HasProgressIndicators => WellOrAboveAverageKS4ProgressBandingsInComparatorSet.Length > 0;
 
+    public SchoolSpendingDimensions.BandingsAsOptions[] AvailableBandingsAs =>
+        WellOrAboveAverageKS4ProgressBandingsInComparatorSet
+            .Select(x => ToBandingsAsOption(x.Banding))
+            .Where(x => x.HasValue)
+            .Select(x => x!.Value)
+            .Distinct()
+            .OrderBy(x => x)
+            .ToArray();
+
     public KeyValuePair<SchoolSpendingCategories.CategoryGroup, SchoolSpendingCategories.SubCategoryFilter[]>[] AllGroups =>
         SchoolSpendingCategories.Groups.ToArray();
     public List<SchoolSpendingComparisonGroup> Groups => subCategories?.Groups ?? [];
@@ -51,6 +60,8 @@ public class SchoolComparisonViewModel(
 
     public SchoolSpendingDimensions.ResultAsOptions ResultAs { get; init; } = SchoolSpendingDimensions.ResultAsOptions.SpendPerUnit;
 
+    public SchoolSpendingDimensions.BandingsAsOptions[] BandingsAs { get; init; } = [];
+
     public FinanceToolsViewModel Tools => new(
         school.URN,
         FinanceTools.FinancialPlanning,
@@ -61,14 +72,45 @@ public class SchoolComparisonViewModel(
         FinanceTools.SpendingComparison,
         FinanceTools.Spending,
         FinanceTools.BenchmarkCensus);
+
+    private static SchoolSpendingDimensions.BandingsAsOptions? ToBandingsAsOption(KS4ProgressBandings.Banding banding)
+    {
+        return banding switch
+        {
+            KS4ProgressBandings.Banding.WellAboveAverage => SchoolSpendingDimensions.BandingsAsOptions.WellAbove,
+            KS4ProgressBandings.Banding.AboveAverage => SchoolSpendingDimensions.BandingsAsOptions.Above,
+            _ => null
+        };
+    }
 }
 
 public class SchoolSpendingDataViewModel(
     BenchmarkingViewModelCostSubCategory<SchoolComparisonDatum> subCategory,
     SchoolSpendingDimensions.ResultAsOptions resultAs,
-    string urn)
+    string urn,
+    SchoolSpendingDimensions.BandingsAsOptions[]? bandingsAs = null)
 {
     public BenchmarkingViewModelCostSubCategory<SchoolComparisonDatum> SubCategory => subCategory;
     public SchoolSpendingDimensions.ResultAsOptions ResultAs => resultAs;
+    public SchoolSpendingDimensions.BandingsAsOptions[]? BandingsAs => bandingsAs;
     public string Urn => urn;
+}
+
+public class ProgressBandingCellViewModel(
+    SchoolSpendingDimensions.BandingsAsOptions[] selectedBandings,
+    string? progressBanding
+    )
+{
+    public KS4ProgressBandings.Banding ProgressBanding { get; init; } = progressBanding.ToBanding() ?? KS4ProgressBandings.Banding.Unknown;
+    public SchoolSpendingDimensions.BandingsAsOptions[] SelectedBandings => selectedBandings;
+
+    public bool ShouldShowTag =>
+        ProgressBanding switch
+        {
+            KS4ProgressBandings.Banding.WellAboveAverage =>
+                SelectedBandings.Contains(SchoolSpendingDimensions.BandingsAsOptions.WellAbove),
+            KS4ProgressBandings.Banding.AboveAverage =>
+                SelectedBandings.Contains(SchoolSpendingDimensions.BandingsAsOptions.Above),
+            _ => false
+        };
 }

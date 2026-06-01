@@ -39,6 +39,7 @@ public class SchoolComparisonController(
     public async Task<IActionResult> Index(
         string urn,
         SchoolSpendingCategories.SubCategoryFilter[] selectedSubCategories,
+        SchoolSpendingDimensions.BandingsAsOptions[] bandingsAs,
         Views.ViewAsOptions viewAs = Views.ViewAsOptions.Chart,
         SchoolSpendingDimensions.ResultAsOptions resultAs = SchoolSpendingDimensions.ResultAsOptions.SpendPerUnit)
     {
@@ -73,11 +74,17 @@ public class SchoolComparisonController(
 
                 if (await featureManager.IsEnabledAsync(FeatureFlags.SchoolComparisonFilter))
                 {
-                    var buildingResult = await GetDefaultSchoolExpenditure(urn, true, resultAs);
-                    var pupilResult = await GetDefaultSchoolExpenditure(urn, false, resultAs);
-                    subCategories = new SpendingComparisonSubCategoriesViewModel(buildingResult, pupilResult, selectedSubCategories, urn, costCodes);
+                    var buildingResult = MergeProgressBandings(await GetDefaultSchoolExpenditure(urn, true, resultAs), bandings);
+                    var pupilResult = MergeProgressBandings(await GetDefaultSchoolExpenditure(urn, false, resultAs), bandings);
 
-                    var charts = await BuildCharts(urn, subCategories, resultAs);
+                    subCategories = new SpendingComparisonSubCategoriesViewModel(
+                        buildingResult,
+                        pupilResult,
+                        selectedSubCategories,
+                        urn,
+                        costCodes);
+
+                    var charts = await BuildCharts(urn, subCategories, resultAs, bandingsAs);
 
                     subCategories.Groups.ForEach(group =>
                     {
@@ -104,7 +111,8 @@ public class SchoolComparisonController(
                 {
                     SelectedSubCategories = selectedSubCategories,
                     ViewAs = viewAs,
-                    ResultAs = resultAs
+                    ResultAs = resultAs,
+                    BandingsAs = bandingsAs
                 };
 
                 var viewName = await GetViewName(nameof(Index));
@@ -118,7 +126,11 @@ public class SchoolComparisonController(
         }
     }
 
-    private async Task<ChartResponse[]> BuildCharts(string urn, SpendingComparisonSubCategoriesViewModel subCategories, SchoolSpendingDimensions.ResultAsOptions resultAs)
+    private async Task<ChartResponse[]> BuildCharts(
+        string urn,
+        SpendingComparisonSubCategoriesViewModel subCategories,
+        SchoolSpendingDimensions.ResultAsOptions resultAs,
+        SchoolSpendingDimensions.BandingsAsOptions[] bandingsAs)
     {
         var requests = subCategories
             .Groups
@@ -133,7 +145,8 @@ public class SchoolComparisonController(
                         urn = format
                     }) ?? string.Empty),
                 resultAs,
-                x.group.ComparatorSetType));
+                x.group.ComparatorSetType,
+                bandingsAs));
 
         ChartResponse[] charts = [];
         try
@@ -151,12 +164,13 @@ public class SchoolComparisonController(
     }
 
     [HttpPost]
-    public IActionResult Index(string urn, int[]? selectedSubCategories, int viewAs, int resultAs) => RedirectToAction("Index", new
+    public IActionResult Index(string urn, int[]? selectedSubCategories, int viewAs, int resultAs, int[]? bandingsAs) => RedirectToAction("Index", new
     {
         urn,
         selectedSubCategories,
         viewAs,
-        resultAs
+        resultAs,
+        bandingsAs
     });
 
     [HttpGet]
@@ -236,7 +250,10 @@ public class SchoolComparisonController(
                     bandings = await progressBandingsService.GetKS4ProgressBandings(urns?.ToArray() ?? []);
                 }
 
-                string[] exclude = [nameof(SchoolExpenditure.TotalInternalFloorArea)];
+                string[] exclude = bandings == null || bandings.Items.Length == 0
+                    ? [nameof(SchoolExpenditure.TotalInternalFloorArea), nameof(SchoolExpenditureWithProgress.ProgressBanding)]
+                    : [nameof(SchoolExpenditure.TotalInternalFloorArea)];
+
                 IEnumerable<CsvResult> csvResults =
                 [
                     new(MergeProgressBandings(buildingResult, bandings), $"comparison-{urn}-building.csv", exclude),
@@ -331,84 +348,20 @@ public class SchoolComparisonController(
         return query;
     }
 
-    private static IEnumerable<object>? MergeProgressBandings(SchoolExpenditure[]? expenditures, KS4ProgressBandings? bandings)
+    private static SchoolExpenditureWithProgress[] MergeProgressBandings(SchoolExpenditure[]? expenditures, KS4ProgressBandings? bandings)
     {
-        if (expenditures == null || bandings == null)
+        if (expenditures == null)
         {
-            return expenditures;
+            return [];
         }
-
-        return expenditures.Select(e => new SchoolExpenditureWithProgress(e, bandings[e.URN]));
+        return bandings == null
+            ? expenditures.Select(e => new SchoolExpenditureWithProgress(e, null)).ToArray()
+            : expenditures.Select(e => new SchoolExpenditureWithProgress(e, bandings[e.URN])).ToArray();
     }
 
     private async Task<string> GetViewName(string baseViewName)
     {
         var useFilters = await featureManager.IsEnabledAsync(FeatureFlags.SchoolComparisonFilter);
         return useFilters ? $"{baseViewName}Filters" : baseViewName;
-    }
-
-    private record SchoolExpenditureWithProgress : SchoolExpenditure
-    {
-        public SchoolExpenditureWithProgress(SchoolExpenditure expenditure, KS4ProgressBanding? banding) : base(expenditure)
-        {
-            TotalExpenditure = expenditure.TotalExpenditure;
-            TotalTeachingSupportStaffCosts = expenditure.TotalTeachingSupportStaffCosts;
-            TeachingStaffCosts = expenditure.TeachingStaffCosts;
-            SupplyTeachingStaffCosts = expenditure.SupplyTeachingStaffCosts;
-            EducationalConsultancyCosts = expenditure.EducationalConsultancyCosts;
-            EducationSupportStaffCosts = expenditure.EducationSupportStaffCosts;
-            AgencySupplyTeachingStaffCosts = expenditure.AgencySupplyTeachingStaffCosts;
-            TotalNonEducationalSupportStaffCosts = expenditure.TotalNonEducationalSupportStaffCosts;
-            AdministrativeClericalStaffCosts = expenditure.AdministrativeClericalStaffCosts;
-            AuditorsCosts = expenditure.AuditorsCosts;
-            OtherStaffCosts = expenditure.OtherStaffCosts;
-            ProfessionalServicesNonCurriculumCosts = expenditure.ProfessionalServicesNonCurriculumCosts;
-            TotalEducationalSuppliesCosts = expenditure.TotalEducationalSuppliesCosts;
-            ExaminationFeesCosts = expenditure.ExaminationFeesCosts;
-            LearningResourcesNonIctCosts = expenditure.LearningResourcesNonIctCosts;
-            LearningResourcesIctCosts = expenditure.LearningResourcesIctCosts;
-            TotalPremisesStaffServiceCosts = expenditure.TotalPremisesStaffServiceCosts;
-            CleaningCaretakingCosts = expenditure.CleaningCaretakingCosts;
-            MaintenancePremisesCosts = expenditure.MaintenancePremisesCosts;
-            OtherOccupationCosts = expenditure.OtherOccupationCosts;
-            PremisesStaffCosts = expenditure.PremisesStaffCosts;
-            TotalUtilitiesCosts = expenditure.TotalUtilitiesCosts;
-            EnergyCosts = expenditure.EnergyCosts;
-            WaterSewerageCosts = expenditure.WaterSewerageCosts;
-            AdministrativeSuppliesNonEducationalCosts = expenditure.AdministrativeSuppliesNonEducationalCosts;
-            TotalGrossCateringCosts = expenditure.TotalGrossCateringCosts;
-            TotalNetCateringCosts = expenditure.TotalNetCateringCosts;
-            CateringStaffCosts = expenditure.CateringStaffCosts;
-            CateringSuppliesCosts = expenditure.CateringSuppliesCosts;
-            TotalOtherCosts = expenditure.TotalOtherCosts;
-            GroundsMaintenanceCosts = expenditure.GroundsMaintenanceCosts;
-            IndirectEmployeeExpenses = expenditure.IndirectEmployeeExpenses;
-            InterestChargesLoanBank = expenditure.InterestChargesLoanBank;
-            OtherInsurancePremiumsCosts = expenditure.OtherInsurancePremiumsCosts;
-            PrivateFinanceInitiativeCharges = expenditure.PrivateFinanceInitiativeCharges;
-            RentRatesCosts = expenditure.RentRatesCosts;
-            SpecialFacilitiesCosts = expenditure.SpecialFacilitiesCosts;
-            StaffDevelopmentTrainingCosts = expenditure.StaffDevelopmentTrainingCosts;
-            StaffRelatedInsuranceCosts = expenditure.StaffRelatedInsuranceCosts;
-            SupplyTeacherInsurableCosts = expenditure.SupplyTeacherInsurableCosts;
-            CommunityFocusedSchoolStaff = expenditure.CommunityFocusedSchoolStaff;
-            CommunityFocusedSchoolCosts = expenditure.CommunityFocusedSchoolCosts;
-
-            URN = expenditure.URN;
-            SchoolName = expenditure.SchoolName;
-            SchoolType = expenditure.SchoolType;
-            LAName = expenditure.LAName;
-            PeriodCoveredByReturn = expenditure.PeriodCoveredByReturn;
-            TotalPupils = expenditure.TotalPupils;
-            TotalInternalFloorArea = expenditure.TotalInternalFloorArea;
-
-            if (banding?.Banding is KS4ProgressBandings.Banding.AboveAverage or KS4ProgressBandings.Banding.WellAboveAverage)
-            {
-                ProgressBanding = banding.Banding.ToStringValue();
-            }
-        }
-
-        [PropertyOrder(int.MaxValue)]
-        public string? ProgressBanding { get; set; }
     }
 }
