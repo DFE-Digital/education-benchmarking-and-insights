@@ -28,7 +28,7 @@
     "@opentelemetry/sdk-trace-node": "^2.6.0",
     "@opentelemetry/semantic-conventions": "^1.40.0",
     "@opentelemetry/winston-transport": "^0.24.0",
-    "express": "^5.1.0",
+    "express": "^5.2.1",
     "govuk-frontend": "^6.1.0",
     "isomorphic-dompurify": "^3.14.0",
     "marked": "^18.0.4",
@@ -37,7 +37,7 @@
   },
   "devDependencies": {
     "@dotenvx/dotenvx": "^1.66.0",
-    "@types/express": "^5.0.5",
+    "@types/express": "^5.0.6",
     "@types/node": "^25.9.1",
     "@types/nunjucks": "^3.2.6",
     "@types/trusted-types": "^2.0.7",
