@@ -88,8 +88,11 @@ def pre_process_data(
 
     academies_data_ref = get_aar_ancillary_data(run_id, aar_year)
     maintained_data_ref = get_cfr_ancillary_data(run_id, cfr_year)
-    maintained_data_ref_for_last_year = get_cfr_ancillary_data(run_id, (cfr_year - 1))
-
+    # Last year's data is used as fallbacks for the CFR transparency file
+    maintained_data_ref_for_last_year = (
+        get_cfr_ancillary_data(run_id, (cfr_year - 1)) if cfr_year >= 2025 else {}
+    )
+    
     academies = pre_process_academies_data(
         run_type,
         run_id,
@@ -271,7 +274,9 @@ def pre_process_maintained_schools_data(
             census_last_year=cfr_ancillary_data_for_last_year["census"],
             sen_last_year=cfr_ancillary_data_for_last_year["sen"],
             pru_last_year=cfr_ancillary_data_for_last_year["pru"],
-            hospital_schools_last_year=cfr_ancillary_data_for_last_year["hospital_schools"],
+            hospital_schools_last_year=cfr_ancillary_data_for_last_year[
+                "hospital_schools"
+            ],
             year=year,
         )
 
