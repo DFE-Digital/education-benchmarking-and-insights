@@ -14,6 +14,8 @@
     return;
 }
 <div>
+    @await Html.PartialAsync("_SchoolComparisonCostCodes", Model)
+
     <table class="govuk-table">
         <thead class="govuk-table__head">
         <tr class="govuk-table__row">
@@ -29,7 +31,10 @@
         {
             <tr class="govuk-table__row">
                 <td class="govuk-table__cell @(row.Urn == Model.Urn ? " govuk-!-font-weight-bold" : "")">
-                    <a class="govuk-link govuk-link--no-visited-state" href="@Url.ActionLink("Index", "School", new { urn = row.Urn })">@row.SchoolName</a>
+                    <a class="govuk-link govuk-link--no-visited-state" href="@Url.ActionLink("Index", "School", new
+                                                                             {
+                                                                                 urn = row.Urn
+                                                                             })">@row.SchoolName</a>
                     @if (row.PeriodCoveredByReturn is not 12)
                     {
                         <p class="govuk-table__cell_commentary">

@@ -75,7 +75,7 @@ public class SchoolComparisonController(
                 {
                     var buildingResult = await GetDefaultSchoolExpenditure(urn, true, resultAs);
                     var pupilResult = await GetDefaultSchoolExpenditure(urn, false, resultAs);
-                    subCategories = new SpendingComparisonSubCategoriesViewModel(buildingResult, pupilResult, selectedSubCategories, urn);
+                    subCategories = new SpendingComparisonSubCategoriesViewModel(buildingResult, pupilResult, selectedSubCategories, urn, costCodes);
 
                     var charts = await BuildCharts(urn, subCategories, resultAs);
 

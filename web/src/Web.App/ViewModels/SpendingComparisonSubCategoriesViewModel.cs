@@ -12,7 +12,8 @@ public class SpendingComparisonSubCategoriesViewModel
         SchoolExpenditure[] buildingResult,
         SchoolExpenditure[] pupilResult,
         SchoolSpendingCategories.SubCategoryFilter[] filters,
-        string urn)
+        string urn,
+        CostCodes costCodes)
     {
         filters = filters.Length > 0 ? filters : SchoolSpendingCategories.All;
 
@@ -35,7 +36,8 @@ public class SpendingComparisonSubCategoriesViewModel
 
             foreach (var filter in activeChildren)
             {
-                var sub = BuildSubCategory(filter, expenditures, urn);
+                var codes = filter.GetCostCodes(costCodes);
+                var sub = BuildSubCategory(filter, expenditures, urn, codes);
                 groupVm.Items.Add(sub);
             }
 
@@ -46,7 +48,8 @@ public class SpendingComparisonSubCategoriesViewModel
     private static BenchmarkingViewModelCostSubCategory<SchoolComparisonDatum> BuildSubCategory(
         SchoolSpendingCategories.SubCategoryFilter filter,
         SchoolExpenditure[] expenditures,
-        string urn)
+        string urn,
+        string[] costCodes)
     {
         var data = expenditures
             .Select(e => new SchoolComparisonDatum
@@ -68,7 +71,8 @@ public class SpendingComparisonSubCategoriesViewModel
             Uuid = Guid.NewGuid().ToString(),
             SubCategory = filter.GetHeading(),
             SubCategoryId = (int)filter,
-            Data = data
+            Data = data,
+            LineCodes = costCodes
         };
     }
 }
