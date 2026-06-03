@@ -62,7 +62,7 @@ public class SpendingComparisonSubCategoriesViewModel
                 TotalPupils = e.TotalPupils,
                 PeriodCoveredByReturn = e.PeriodCoveredByReturn
             })
-            .Where(x => x.Urn == urn || x.Expenditure != null)
+            .Where(x => x.Urn == urn || x.Expenditure is > 0)
             .OrderByDescending(x => x.Expenditure)
             .ToArray();
 
