@@ -1239,6 +1239,9 @@ table#current-comparators-la {
   }
 }
 
+.options-form .govuk-checkboxes__item {
+  white-space: nowrap;
+}
 
 .actions-form
 {
@@ -1305,4 +1308,10 @@ table#current-comparators-la {
 
 .min-height-two-lines {
   min-height: 2lh;
+}
+
+.wide-page {
+  .govuk-width-container {
+    @include govuk-width-container(1200px);
+  }
 }

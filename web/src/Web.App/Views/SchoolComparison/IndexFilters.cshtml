@@ -5,6 +5,7 @@
 @model Web.App.ViewModels.SchoolComparisonViewModel
 @{
     ViewData[ViewDataKeys.Title] = PageTitles.Comparison;
+    ViewData[ViewDataKeys.BodyClass] = LayoutClass.WidePage;
     var hasUserDefinedSet = !string.IsNullOrEmpty(Model.UserDefinedSetId);
     var hasCustomData = !string.IsNullOrEmpty(Model.CustomDataId);
     var hasMissingComparatorSet = !hasUserDefinedSet && !Model.HasDefaultComparatorSet;
