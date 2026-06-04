@@ -3,6 +3,7 @@ from typing import Mapping
 
 import pandas as pd
 
+from pipeline.input_schemas import cfr_raw_filenames
 from pipeline.utils.database import (
     insert_bfr,
     insert_bfr_metrics,
@@ -33,16 +34,20 @@ from .ancillary.main import (
     pre_process_gias_links,
     pre_process_high_exec_pay,
     pre_process_high_needs_places,
+    pre_process_hospital_schools_data,
     pre_process_ilr_data,
     pre_process_ks2,
     pre_process_ks4,
     pre_process_la_statistical_neighbours,
+    pre_process_lookup_la_data,
     pre_process_ons_population_estimates,
+    pre_process_pru_data,
     pre_process_sen,
     pre_process_sen2,
 )
 from .bfr.trusts import build_bfr_data, build_bfr_historical_data
 from .cfr.maintained_schools import build_maintained_school_data
+from .cfr.transparency_file.generator import build_transparency_files
 from .s251.local_authority import build_local_authorities
 
 logger = setup_logger(__name__)
@@ -83,7 +88,11 @@ def pre_process_data(
 
     academies_data_ref = get_aar_ancillary_data(run_id, aar_year)
     maintained_data_ref = get_cfr_ancillary_data(run_id, cfr_year)
-
+    # Last year's data is used as fallbacks for the CFR transparency file
+    maintained_data_ref_for_last_year = (
+        get_cfr_ancillary_data(run_id, (cfr_year - 1)) if cfr_year >= 2025 else {}
+    )
+    
     academies = pre_process_academies_data(
         run_type,
         run_id,
@@ -95,6 +104,7 @@ def pre_process_data(
         run_id,
         cfr_year,
         maintained_data_ref,
+        maintained_data_ref_for_last_year,
     )
     stats_collector.collect_aar_academy_counts(academies, aar_year)
     stats_collector.collect_cfr_la_maintained_school_counts(
@@ -244,9 +254,43 @@ def pre_process_maintained_schools_data(
     run_id: str,
     year: int,
     cfr_ancillary_data: Mapping,
+    cfr_ancillary_data_for_last_year: Mapping,
 ) -> pd.DataFrame:
     logger.info("Building Maintained School Set")
     logger.info(f"Processing CFR data - {run_id} - {year}.")
+
+    # From 2025 we will generate the CFR transparency file from raw inputs
+    if year >= 2025:
+        cfr_raw_filename = cfr_raw_filenames.get(year)
+        cfr_raw_blob = get_blob(raw_container, f"{run_type}/{year}/{cfr_raw_filename}")
+        master_list, transparency_file = build_transparency_files(
+            cfr_raw_blob,
+            gias=cfr_ancillary_data["gias"],
+            pru=cfr_ancillary_data["pru"],
+            hospital_schools=cfr_ancillary_data["hospital_schools"],
+            sen=cfr_ancillary_data["sen"],
+            census=cfr_ancillary_data["census"],
+            lookup_la=cfr_ancillary_data["lookup_la"],
+            census_last_year=cfr_ancillary_data_for_last_year["census"],
+            sen_last_year=cfr_ancillary_data_for_last_year["sen"],
+            pru_last_year=cfr_ancillary_data_for_last_year["pru"],
+            hospital_schools_last_year=cfr_ancillary_data_for_last_year[
+                "hospital_schools"
+            ],
+            year=year,
+        )
+
+        write_blob(
+            "pre-processed",
+            f"{run_type}/{year}/cfr_transparency_file.csv",
+            transparency_file.to_csv(index=False),
+        )
+
+        write_blob(
+            raw_container,
+            f"{run_type}/{year}/maintained_schools_master_list.csv",
+            master_list.to_csv(encoding="cp1252", index=False),
+        )
 
     maintained_schools_data = get_blob(
         raw_container,
@@ -633,6 +677,9 @@ def get_cfr_ancillary_data(
         "ks4": pre_process_ks4(run_type, cfr_year, run_id),
         "gias_links": pre_process_gias_links(run_type, cfr_year, run_id),
         "ilr": pre_process_ilr_data(run_type, cfr_year, run_id, gias),
+        "hospital_schools": pre_process_hospital_schools_data(run_type, cfr_year),
+        "pru": pre_process_pru_data(run_type, cfr_year),
+        "lookup_la": pre_process_lookup_la_data(run_type, cfr_year),
     }
     stats_collector.collect_cfr_ancillary_data_shapes(cfr_ancillary_data, cfr_year)
 

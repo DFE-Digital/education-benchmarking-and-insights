@@ -4,24 +4,22 @@ Consistent Financial Reporting (CFR) is one of the four financial data used in t
 
 This documentation outlines input data, quality assurance, data sourcing, cleansing and transformation procedures required to generate downstream datasets for deployment in the FBIT data pipelines.
 
-> **Note**
->
-> At the point of this documentation, the data source for CFR is SQL server.
-> Data cleansing commerces after data is exported from the iStore SQL server and ingested into a local working environment. This means that the raw data is retained in SQL server.
+> **Note: Automated Generation (2024-2025 Onwards)**
+> Starting from the 2024-2025 academic year, the generation of the `maintained_schools_master_list.csv` and transparency files is **fully automated** within the core FBIT Python data pipeline. The pipeline automatically reads the raw `CFR_YY-YY_Data.csv` and ancillary datasets (GIAS, Census, SEN, etc.) from Azure Blob Storage and performs all necessary mapping, federation aggregations, and DNS masking natively.The SQL-based manual generation steps (steps 1 through 5) documented below are now considered **legacy** and are only required for processing or regenerating historical CFR data prior to the 2024-2025 academic year.
 
-## Prerequisite
+## Prerequisite (Legacy SQL Process)
 
 1. Read and write access to [DfE Financial Benchmark Sharepoint](https://educationgovuk.sharepoint.com/sites/DfEFinancialBenchmarking/Shared%20Documents/Forms/AllItems.aspx?viewid=7afed90f%2D9f2f%2D431a%2D93ce%2D48075c0e93d8&csf=1&web=1&e=boXhxD&CID=0fb7a62d%2De68f%2D4f86%2Dac15%2D27e9c4f7b4a6&FolderCTID=0x012000B007B75DE8F91C4B82D20FE8B354FCBD).
 
 2. Read and write access to [Azure blob storage](https://educationgovuk.sharepoint.com/:w:/r/sites/DfEFinancialBenchmarking/Shared%20Documents/Runbooks/DfE%20Benchmarking%20Service%20Azure%20Directory.docx?d=w6bf9bad25b9c4ea8b5e9b35cee3f664a&csf=1&web=1&e=vtehLJ) within DfE Platform Identity directory.
 
-3. In Azure blob storage, create a folder with the naming convention `20YY` in [default folder](https://educationgovuk.sharepoint.com/:w:/r/sites/DfEFinancialBenchmarking/Shared%20Documents/Runbooks/DfE%20Benchmarking%20Service%20Azure%20Directory.docx?d=w6bf9bad25b9c4ea8b5e9b35cee3f664a&csf=1&web=1&e=vtehLJ) that represents the end of the reporting academic year. For instance, `2025` for `2024-2025` academic year.
+3. In Azure blob storage, ensure a folder with the naming convention `20YY` exists in the [default folder](https://educationgovuk.sharepoint.com/:w:/r/sites/DfEFinancialBenchmarking/Shared%20Documents/Runbooks/DfE%20Benchmarking%20Service%20Azure%20Directory.docx?d=w6bf9bad25b9c4ea8b5e9b35cee3f664a&csf=1&web=1&e=vtehLJ) that represents the end of the reporting academic year. For instance, `2025` for the `2024-2025` academic year. This folder must contain the raw `CFR_YY-YY_Data.csv` and all ancillary `.csv` dimension files.
 
 4. Access to [DfE iStore, the server where all COLLECT data is stored)](https://educationgovuk.sharepoint.com/:w:/r/sites/DfEFinancialBenchmarking/_layouts/15/Doc.aspx?sourcedoc=%7BA47507F6-2C23-487A-98EC-0B6C75A7471A%7D&file=CFR%20source%20data%20access%20request.docx&action=default&mobileredirect=true).
 
-5. Create a folder with the naming convention `yy-yy` in [CFR Data Procurement Process Sharepoint location](https://educationgovuk.sharepoint.com/sites/DfEFinancialBenchmarking/Shared%20Documents/Forms/AllItems.aspx?id=%2Fsites%2FDfEFinancialBenchmarking%2FShared%20Documents%2FCFR%20Data%20Procurement%20Process&viewid=7afed90f%2D9f2f%2D431a%2D93ce%2D48075c0e93d8&csf=1&web=1&e=boXhxD&CID=0fb7a62d%2De68f%2D4f86%2Dac15%2D27e9c4f7b4a6&FolderCTID=0x012000B007B75DE8F91C4B82D20FE8B354FCBD) that represent the reporting academic year. For instance, `24-25` for `2024-2025` academic year.
+5. For historical processing only: Create a folder with the naming convention `yy-yy` in [CFR Data Procurement Process Sharepoint location](https://educationgovuk.sharepoint.com/sites/DfEFinancialBenchmarking/Shared%20Documents/Forms/AllItems.aspx?id=%2Fsites%2FDfEFinancialBenchmarking%2FShared%20Documents%2FCFR%20Data%20Procurement%20Process&viewid=7afed90f%2D9f2f%2D431a%2D93ce%2D48075c0e93d8&csf=1&web=1&e=boXhxD&CID=0fb7a62d%2De68f%2D4f86%2Dac15%2D27e9c4f7b4a6&FolderCTID=0x012000B007B75DE8F91C4B82D20FE8B354FCBD) that represent the reporting academic year. For instance, `24-25` for `2024-2025` academic year.
 
-6. Copy the five (5) `.sql` files over from the previous academic reporting year's folder to newly created academic reporting year's folder. The file are;
+6. For historical processing only: Copy the five (5) `.sql` files over from the previous academic reporting year's folder to newly created academic reporting year's folder. The files are;
 
     - My_Step1.sql
     - My_Step2.sql
@@ -29,7 +27,7 @@ This documentation outlines input data, quality assurance, data sourcing, cleans
     - My_Step4.sql
     - My_Step5.sql
 
-7. Create a local Database to be named `CFRyy` where yy represents the end of the reporting academic year, for instance `CFR25` for `2024-2025` academic year.
+7. For historical processing only: Create a local Database to be named `CFRyy` where yy represents the end of the reporting academic year.
 
 <!-- Leave the rest of this page blank -->
 \newpage

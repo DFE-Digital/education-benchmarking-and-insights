@@ -302,6 +302,7 @@ def _aggregate_fbit_pupil_numbers_to_la_level(
     ).agg({"Number of pupils": "sum"})
     return pupils_per_la
 
+
 def _aggregate_sen_support_to_la_level(all_schools: pd.DataFrame):
     """SEN Support isn't aggregated in _federation_lead_school_agg() so can be directly calculated"""
     return all_schools.groupby("LA Code").agg({"SEN support": "sum"})

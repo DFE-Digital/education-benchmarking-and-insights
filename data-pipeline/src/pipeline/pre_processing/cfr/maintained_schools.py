@@ -37,6 +37,9 @@ def build_maintained_school_data(
     ks4,
     gias_links,
     ilr,
+    hospital_schools,
+    pru,
+    lookup_la,
 ):
     maintained_school_schema = input_schemas.maintained_schools_master_list_cols.get(
         year, input_schemas.maintained_schools_master_list_cols["default"]
