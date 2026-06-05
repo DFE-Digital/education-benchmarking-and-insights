@@ -30,7 +30,7 @@
     <link rel="stylesheet" href="/css/enhancements.css" asp-append-version="true"/>
     @await Component.InvokeAsync("Analytics")
 </head>
-<body class="govuk-template__body">
+<body class="govuk-template__body @(ViewData[ViewDataKeys.BodyClass])">
 <script add-nonce="true">
     document.body.className += ' js-enabled' + ('noModule' in HTMLScriptElement.prototype ? ' govuk-frontend-supported' : '');
 </script>

@@ -12,7 +12,8 @@ public record SchoolComparisonHorizontalBarChartRequest : PostHorizontalBarChart
         SchoolComparisonDatum[] filteredData,
         Func<string, string?> linkFormatter,
         SchoolSpendingDimensions.ResultAsOptions resultsAs,
-        string comparatorSetType)
+        string comparatorSetType,
+        SchoolSpendingDimensions.BandingsAsOptions[] bandingsAs)
     {
         BarHeight = 22;
         Data = filteredData;
@@ -29,16 +30,57 @@ public record SchoolComparisonHorizontalBarChartRequest : PostHorizontalBarChart
         ValueType = resultsAs.GetValueType();
         XAxisLabel = resultsAs.GetXAxisLabel(comparatorSetType);
 
+        GroupedKeys = new ChartRequestGroupedKeys();
+
         var partYear = filteredData
             .Where(x => x.PeriodCoveredByReturn is not 12)
             .Select(x => x.Urn!)
             .ToArray();
         if (partYear.Length > 0)
         {
-            GroupedKeys = new ChartRequestGroupedKeys
-            {
-                [GroupType.PartYear] = partYear
-            };
+            GroupedKeys[GroupType.PartYear] = partYear;
+        }
+
+        if (bandingsAs.Length == 0)
+        {
+            return;
+        }
+
+        // use only full year records for banding groups to prevent overlap with part‑year grouping
+        var fullYearData = filteredData
+            .Where(x => x.PeriodCoveredByReturn == 12)
+            .ToArray();
+
+        if (bandingsAs.Contains(SchoolSpendingDimensions.BandingsAsOptions.WellAbove))
+        {
+            AddBandingGroup(
+                fullYearData,
+                KS4ProgressBandings.Banding.WellAboveAverage,
+                GroupType.Progress8WellAboveAverage);
+        }
+
+        if (bandingsAs.Contains(SchoolSpendingDimensions.BandingsAsOptions.Above))
+        {
+            AddBandingGroup(
+                fullYearData,
+                KS4ProgressBandings.Banding.AboveAverage,
+                GroupType.Progress8AboveAverage);
+        }
+    }
+
+    private void AddBandingGroup(
+        SchoolComparisonDatum[] data,
+        KS4ProgressBandings.Banding banding,
+        string groupType)
+    {
+        var items = data
+            .Where(x => x.ProgressBanding == banding.ToStringValue())
+            .Select(x => x.Urn!)
+            .ToArray();
+
+        if (items.Length > 0)
+        {
+            GroupedKeys?[groupType] = items;
         }
     }
 }

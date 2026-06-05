@@ -125,7 +125,9 @@ public class WhenRequestingCensusDownload : PageBase<SchoolBenchmarkingWebAppCli
             .SetupDisableFeatureFlags(features)
             .SetupCustomComparatorSet(school, comparatorSet, userDefinedComparatorSet)
             .SetupCensus(_censuses)
-            .SetupExpenditureForCustomData(school, school.URN!, expenditure)
+            .SetupExpenditure(school,
+                customDataIdentifier: customDataId,
+                customDataExpenditure: expenditure)
             .Get(Paths.SchoolCensusDownload(school.URN!, customDataId));
 
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);

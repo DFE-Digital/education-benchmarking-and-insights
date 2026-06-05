@@ -9,4 +9,5 @@ public class SchoolComparisonDatum
     public string? SchoolType { get; init; }
     public decimal? TotalPupils { get; init; }
     public int? PeriodCoveredByReturn { get; init; }
+    public string? ProgressBanding { get; init; }
 }

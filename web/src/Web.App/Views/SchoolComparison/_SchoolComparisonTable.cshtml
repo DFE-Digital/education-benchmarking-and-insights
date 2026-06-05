@@ -1,4 +1,5 @@
 @using Web.App.Domain.Charts
+@using Web.App.ViewModels
 @model Web.App.ViewModels.SchoolSpendingDataViewModel
 
 @if (Model.SubCategory.Data is null)
@@ -24,6 +25,10 @@
             <th scope="col" class="govuk-table__header">School type</th>
             <th scope="col" class="govuk-table__header govuk-table__header--numeric">Number of pupils</th>
             <th scope="col" class="govuk-table__header govuk-table__header--numeric">@Model.ResultAs.GetTableHeader()</th>
+            @if (Model.BandingsAs?.Length > 0)
+            {
+                <th scope="col" class="govuk-table__header">Progress 8 banding</th>
+            }
         </tr>
         </thead>
         <tbody class="govuk-table__body">
@@ -49,6 +54,12 @@
                 <td class="govuk-table__cell">@row.SchoolType</td>
                 <td class="govuk-table__cell govuk-table__cell--numeric">@(row.TotalPupils?.ToString("N0"))</td>
                 <td class="govuk-table__cell govuk-table__cell--numeric">@Model.ResultAs.GetFormattedValue(row.Expenditure)</td>
+                @if (Model.BandingsAs?.Length > 0)
+                {
+                    <td class="govuk-table__cell">
+                        @await Html.PartialAsync("_ProgressBandingCell", new ProgressBandingCellViewModel(Model.BandingsAs, row.ProgressBanding))
+                    </td>
+                }
             </tr>
         }
         </tbody>

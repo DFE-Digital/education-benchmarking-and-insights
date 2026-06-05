@@ -26,6 +26,10 @@ public class WhenRequestingComparisonDownload : PageBase<SchoolBenchmarkingWebAp
             .With(x => x.URN, "123456")
             .Create();
 
+        var characteristics = Fixture.Build<SchoolCharacteristic>()
+            .With(x => x.KS4ProgressBanding, "Well above average")
+            .CreateMany().ToArray();
+
         var comparatorSet = Fixture.Build<SchoolComparatorSet>()
             .With(x => x.Pupil, ["pupil"])
             .With(x => x.Building, ["building"])
@@ -36,6 +40,7 @@ public class WhenRequestingComparisonDownload : PageBase<SchoolBenchmarkingWebAp
             .SetupDisableFeatureFlags(features)
             .SetupComparatorSet(school, comparatorSet)
             .SetupExpenditure(school, expenditures: _schoolExpenditures)
+            .SetupSchoolInsight(characteristics)
             .Get(Paths.SchoolComparisonDownload(school.URN!));
 
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);
@@ -70,6 +75,10 @@ public class WhenRequestingComparisonDownload : PageBase<SchoolBenchmarkingWebAp
             .With(x => x.URN, "123456")
             .Create();
 
+        var characteristics = Fixture.Build<SchoolCharacteristic>()
+            .With(x => x.KS4ProgressBanding, "Well above average")
+            .CreateMany().ToArray();
+
         var comparatorSet = Fixture.Build<UserDefinedSchoolComparatorSet>()
             .Create();
 
@@ -87,6 +96,7 @@ public class WhenRequestingComparisonDownload : PageBase<SchoolBenchmarkingWebAp
             .SetupDisableFeatureFlags(features)
             .SetupComparatorSet(school, comparatorSet)
             .SetupExpenditure(school, expenditures: _schoolExpenditures)
+            .SetupSchoolInsight(characteristics)
             .SetupUserData(userData)
             .Get(Paths.SchoolComparisonDownload(school.URN!));
 
@@ -119,8 +129,9 @@ public class WhenRequestingComparisonDownload : PageBase<SchoolBenchmarkingWebAp
     public async Task CanReturnOkForCustomDataComparatorSet(bool ks4ProgressBandingEnabled)
     {
         const string customDataId = nameof(customDataId);
+        const string schoolUrn = "123456";
         var school = Fixture.Build<School>()
-            .With(x => x.URN, "123456")
+            .With(x => x.URN, schoolUrn)
             .Create();
 
         var userDefinedComparatorSet = Fixture.Build<UserDefinedSchoolComparatorSet>()
@@ -131,14 +142,25 @@ public class WhenRequestingComparisonDownload : PageBase<SchoolBenchmarkingWebAp
             .With(x => x.Building, ["building"])
             .Create();
 
-        var expenditure = Fixture.Build<SchoolExpenditure>().Create();
+
+        var customDataExpenditure = Fixture.Build<SchoolExpenditure>()
+            .With(x => x.URN, schoolUrn)
+            .Create();
+
+        var characteristics = Fixture.Build<SchoolCharacteristic>()
+            .With(x => x.KS4ProgressBanding, "Well above average")
+            .CreateMany().ToArray();
 
         string[] features = ks4ProgressBandingEnabled ? [] : [FeatureFlags.KS4ProgressBanding];
         var response = await _client
             .SetupDisableFeatureFlags(features)
             .SetupCustomComparatorSet(school, comparatorSet, userDefinedComparatorSet)
-            .SetupExpenditure(school, expenditures: _schoolExpenditures)
-            .SetupExpenditureForCustomData(school, school.URN!, expenditure)
+            .SetupExpenditure(
+                school,
+                expenditures: _schoolExpenditures,
+                customDataExpenditure: customDataExpenditure,
+                customDataIdentifier: customDataId)
+            .SetupSchoolInsight(characteristics)
             .Get(Paths.SchoolComparisonDownload(school.URN!, customDataId));
 
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);
@@ -159,8 +181,11 @@ public class WhenRequestingComparisonDownload : PageBase<SchoolBenchmarkingWebAp
                 expectedColumns += ",ProgressBanding";
             }
 
+            // expenditures + custom data
+            var expectedLength = _schoolExpenditures.Length + 1;
+
             Assert.Equal(expectedColumns, csvLines.First());
-            Assert.Equal(_schoolExpenditures.Length, csvLines.Length - 1);
+            Assert.Equal(expectedLength, csvLines.Length - 1);
         }
     }
 

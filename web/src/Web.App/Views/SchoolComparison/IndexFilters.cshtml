@@ -5,6 +5,7 @@
 @model Web.App.ViewModels.SchoolComparisonViewModel
 @{
     ViewData[ViewDataKeys.Title] = PageTitles.Comparison;
+    ViewData[ViewDataKeys.BodyClass] = LayoutClass.WidePage;
     var hasUserDefinedSet = !string.IsNullOrEmpty(Model.UserDefinedSetId);
     var hasCustomData = !string.IsNullOrEmpty(Model.CustomDataId);
     var hasMissingComparatorSet = !hasUserDefinedSet && !Model.HasDefaultComparatorSet;
@@ -102,12 +103,43 @@
                         <option
                             value="@((int)option)"
                             selected="@(Model.ResultAs == option ? "selected" : null)">
-                            @option.GetDescription()
+                            @option.GetResultsAsDescription()
                         </option>
                     }
                 </select>
             </div>
 
+            @if (Model.HasProgressIndicators)
+            {
+                <div class="govuk-form-group">
+                    <fieldset class="govuk-fieldset">
+                        <legend class="govuk-label">
+                            School performance
+                        </legend>
+                        <div class="govuk-checkboxes govuk-checkboxes--small progress-checkboxes" data-module="govuk-checkboxes">
+                            <input type="hidden" name="@nameof(SchoolComparisonViewModel.BandingsAs)" value="" />
+                            @foreach (var option in Model.AvailableBandingsAs)
+                            {
+                                var id = $"banding-{option}";
+                                var isChecked = Model.BandingsAs.Contains(option);
+
+                                <div class="govuk-checkboxes__item">
+                                    <input class="govuk-checkboxes__input"
+                                           id="@id"
+                                           name="@nameof(SchoolComparisonViewModel.BandingsAs)"
+                                           type="checkbox"
+                                           value="@((int)option)"
+                                           @(isChecked ? "checked" : "") />
+
+                                    <label class="govuk-label govuk-checkboxes__label" for="@id">
+                                        @option.GetBandingAsDescription()
+                                    </label>
+                                </div>
+                            }
+                        </div>
+                    </fieldset>
+                </div>
+            }
             <div class="options-form__apply">
                 <button type="submit" class="govuk-button govuk-button--secondary" data-module="govuk-button">
                     Apply
@@ -135,7 +167,7 @@
                             }
                             else
                             {
-                                @await Html.PartialAsync("_SchoolComparisonTable", new SchoolSpendingDataViewModel(subCategory, Model.ResultAs, Model.Urn!))
+                                @await Html.PartialAsync("_SchoolComparisonTable", new SchoolSpendingDataViewModel(subCategory, Model.ResultAs, Model.Urn!, Model.BandingsAs))
                             }
                         </section>
                     }

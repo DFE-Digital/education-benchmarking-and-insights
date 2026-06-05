@@ -903,6 +903,16 @@ table#current-comparators-la {
       stroke: govuk-colour("red");
     }
 
+    &.chart-cell__group-banding-well-above-average {
+      fill: govuk-colour("turquoise");
+      stroke: govuk-colour("turquoise");
+    }
+
+    &.chart-cell__group-banding-above-average {
+      fill: govuk-colour("light-blue");
+      stroke: govuk-colour("light-blue");
+    }
+
     &.chart-data-stack-0 {
       fill: govuk-colour("light-blue");
       stroke: govuk-colour("light-blue");
@@ -1229,6 +1239,9 @@ table#current-comparators-la {
   }
 }
 
+.options-form .govuk-checkboxes__item {
+  white-space: nowrap;
+}
 
 .actions-form
 {
@@ -1295,4 +1308,10 @@ table#current-comparators-la {
 
 .min-height-two-lines {
   min-height: 2lh;
+}
+
+.wide-page {
+  .govuk-width-container {
+    @include govuk-width-container(1200px);
+  }
 }

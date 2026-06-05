@@ -21,6 +21,18 @@ public static class SchoolSpendingDimensions
         ResultAsOptions.PercentIncome,
     ];
 
+    public enum BandingsAsOptions
+    {
+        WellAbove = 0,
+        Above = 1
+    }
+
+    public static readonly BandingsAsOptions[] AllBandingsAsOptions =
+    [
+        BandingsAsOptions.WellAbove,
+        BandingsAsOptions.Above
+    ];
+
     public static string GetQueryParam(this ResultAsOptions option) => option switch
     {
         ResultAsOptions.SpendPerUnit => "PerUnit",
@@ -60,12 +72,19 @@ public static class SchoolSpendingDimensions
         _ => throw new ArgumentOutOfRangeException(nameof(option))
     };
 
-    public static string GetDescription(this ResultAsOptions option) => option switch
+    public static string GetResultsAsDescription(this ResultAsOptions option) => option switch
     {
         ResultAsOptions.SpendPerUnit => "£ per unit",
         ResultAsOptions.Actuals => "actuals",
         ResultAsOptions.PercentExpenditure => "% of expenditure",
         ResultAsOptions.PercentIncome => "% of income",
+        _ => throw new ArgumentOutOfRangeException(nameof(option))
+    };
+
+    public static string GetBandingAsDescription(this BandingsAsOptions option) => option switch
+    {
+        BandingsAsOptions.WellAbove => "Well above average",
+        BandingsAsOptions.Above => "Above average",
         _ => throw new ArgumentOutOfRangeException(nameof(option))
     };
 }

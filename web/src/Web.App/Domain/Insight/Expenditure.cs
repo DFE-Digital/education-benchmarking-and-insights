@@ -3,6 +3,8 @@
 // ReSharper disable UnusedAutoPropertyAccessor.Global
 // ReSharper disable UnusedMember.Global
 
+using Web.App.Attributes;
+
 namespace Web.App.Domain;
 
 public abstract record ExpenditureBase
@@ -163,4 +165,69 @@ public record ExpenditureHistoryRows
     public int? StartYear { get; set; }
     public int? EndYear { get; set; }
     public IEnumerable<ExpenditureHistory> Rows { get; set; } = [];
+}
+
+public record SchoolExpenditureWithProgress : SchoolExpenditure
+{
+    public SchoolExpenditureWithProgress(SchoolExpenditure expenditure, KS4ProgressBanding? banding) : base(expenditure)
+    {
+        TotalExpenditure = expenditure.TotalExpenditure;
+        TotalTeachingSupportStaffCosts = expenditure.TotalTeachingSupportStaffCosts;
+        TeachingStaffCosts = expenditure.TeachingStaffCosts;
+        SupplyTeachingStaffCosts = expenditure.SupplyTeachingStaffCosts;
+        EducationalConsultancyCosts = expenditure.EducationalConsultancyCosts;
+        EducationSupportStaffCosts = expenditure.EducationSupportStaffCosts;
+        AgencySupplyTeachingStaffCosts = expenditure.AgencySupplyTeachingStaffCosts;
+        TotalNonEducationalSupportStaffCosts = expenditure.TotalNonEducationalSupportStaffCosts;
+        AdministrativeClericalStaffCosts = expenditure.AdministrativeClericalStaffCosts;
+        AuditorsCosts = expenditure.AuditorsCosts;
+        OtherStaffCosts = expenditure.OtherStaffCosts;
+        ProfessionalServicesNonCurriculumCosts = expenditure.ProfessionalServicesNonCurriculumCosts;
+        TotalEducationalSuppliesCosts = expenditure.TotalEducationalSuppliesCosts;
+        ExaminationFeesCosts = expenditure.ExaminationFeesCosts;
+        LearningResourcesNonIctCosts = expenditure.LearningResourcesNonIctCosts;
+        LearningResourcesIctCosts = expenditure.LearningResourcesIctCosts;
+        TotalPremisesStaffServiceCosts = expenditure.TotalPremisesStaffServiceCosts;
+        CleaningCaretakingCosts = expenditure.CleaningCaretakingCosts;
+        MaintenancePremisesCosts = expenditure.MaintenancePremisesCosts;
+        OtherOccupationCosts = expenditure.OtherOccupationCosts;
+        PremisesStaffCosts = expenditure.PremisesStaffCosts;
+        TotalUtilitiesCosts = expenditure.TotalUtilitiesCosts;
+        EnergyCosts = expenditure.EnergyCosts;
+        WaterSewerageCosts = expenditure.WaterSewerageCosts;
+        AdministrativeSuppliesNonEducationalCosts = expenditure.AdministrativeSuppliesNonEducationalCosts;
+        TotalGrossCateringCosts = expenditure.TotalGrossCateringCosts;
+        TotalNetCateringCosts = expenditure.TotalNetCateringCosts;
+        CateringStaffCosts = expenditure.CateringStaffCosts;
+        CateringSuppliesCosts = expenditure.CateringSuppliesCosts;
+        TotalOtherCosts = expenditure.TotalOtherCosts;
+        GroundsMaintenanceCosts = expenditure.GroundsMaintenanceCosts;
+        IndirectEmployeeExpenses = expenditure.IndirectEmployeeExpenses;
+        InterestChargesLoanBank = expenditure.InterestChargesLoanBank;
+        OtherInsurancePremiumsCosts = expenditure.OtherInsurancePremiumsCosts;
+        PrivateFinanceInitiativeCharges = expenditure.PrivateFinanceInitiativeCharges;
+        RentRatesCosts = expenditure.RentRatesCosts;
+        SpecialFacilitiesCosts = expenditure.SpecialFacilitiesCosts;
+        StaffDevelopmentTrainingCosts = expenditure.StaffDevelopmentTrainingCosts;
+        StaffRelatedInsuranceCosts = expenditure.StaffRelatedInsuranceCosts;
+        SupplyTeacherInsurableCosts = expenditure.SupplyTeacherInsurableCosts;
+        CommunityFocusedSchoolStaff = expenditure.CommunityFocusedSchoolStaff;
+        CommunityFocusedSchoolCosts = expenditure.CommunityFocusedSchoolCosts;
+
+        URN = expenditure.URN;
+        SchoolName = expenditure.SchoolName;
+        SchoolType = expenditure.SchoolType;
+        LAName = expenditure.LAName;
+        PeriodCoveredByReturn = expenditure.PeriodCoveredByReturn;
+        TotalPupils = expenditure.TotalPupils;
+        TotalInternalFloorArea = expenditure.TotalInternalFloorArea;
+
+        if (banding?.Banding is KS4ProgressBandings.Banding.AboveAverage or KS4ProgressBandings.Banding.WellAboveAverage)
+        {
+            ProgressBanding = banding.Banding.ToStringValue();
+        }
+    }
+
+    [PropertyOrder(int.MaxValue)]
+    public string? ProgressBanding { get; set; }
 }
