@@ -166,10 +166,10 @@ public class WhenViewingComparison(SchoolBenchmarkingWebAppClient client)
     }
 
     [Theory]
-    [InlineData(EstablishmentTypes.Academies,0, "?viewAs=0&resultAs=0")]
-    [InlineData(EstablishmentTypes.Academies,1, "?viewAs=1&resultAs=0")]
-    [InlineData(EstablishmentTypes.Maintained,0, "?viewAs=0&resultAs=0")]
-    [InlineData(EstablishmentTypes.Maintained,1, "?viewAs=1&resultAs=0")]
+    [InlineData(EstablishmentTypes.Academies, 0, "?viewAs=0&resultAs=0")]
+    [InlineData(EstablishmentTypes.Academies, 1, "?viewAs=1&resultAs=0")]
+    [InlineData(EstablishmentTypes.Maintained, 0, "?viewAs=0&resultAs=0")]
+    [InlineData(EstablishmentTypes.Maintained, 1, "?viewAs=1&resultAs=0")]
     public async Task CanSubmitOptionsForViewAs(string financeType, int viewAs, string expectedQueryParams)
     {
         var (page, school, expenditure) = await SetupNavigateInitPage(financeType);
@@ -197,13 +197,13 @@ public class WhenViewingComparison(SchoolBenchmarkingWebAppClient client)
 
     [Theory]
     [InlineData(EstablishmentTypes.Academies, 0, "?viewAs=0&resultAs=0")]
-    [InlineData(EstablishmentTypes.Academies,1, "?viewAs=0&resultAs=1")]
-    [InlineData(EstablishmentTypes.Academies,2, "?viewAs=0&resultAs=2")]
-    [InlineData(EstablishmentTypes.Academies,3, "?viewAs=0&resultAs=3")]
+    [InlineData(EstablishmentTypes.Academies, 1, "?viewAs=0&resultAs=1")]
+    [InlineData(EstablishmentTypes.Academies, 2, "?viewAs=0&resultAs=2")]
+    [InlineData(EstablishmentTypes.Academies, 3, "?viewAs=0&resultAs=3")]
     [InlineData(EstablishmentTypes.Maintained, 0, "?viewAs=0&resultAs=0")]
-    [InlineData(EstablishmentTypes.Maintained,1, "?viewAs=0&resultAs=1")]
-    [InlineData(EstablishmentTypes.Maintained,2, "?viewAs=0&resultAs=2")]
-    [InlineData(EstablishmentTypes.Maintained,3, "?viewAs=0&resultAs=3")]
+    [InlineData(EstablishmentTypes.Maintained, 1, "?viewAs=0&resultAs=1")]
+    [InlineData(EstablishmentTypes.Maintained, 2, "?viewAs=0&resultAs=2")]
+    [InlineData(EstablishmentTypes.Maintained, 3, "?viewAs=0&resultAs=3")]
     public async Task CanSubmitOptionsForResultsAs(string financeType, int resultAs, string expectedQueryParams)
     {
         var (page, school, expenditure) = await SetupNavigateInitPage(financeType);
