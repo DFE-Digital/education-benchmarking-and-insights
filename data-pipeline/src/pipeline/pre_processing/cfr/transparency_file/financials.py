@@ -111,7 +111,6 @@ def add_financials(merged: pd.DataFrame) -> pd.DataFrame:
     m["Revenue Reserve: B01 + B02 + B06"] = m[["B01", "B02", "B06"]].sum(axis=1)
 
     # Aggregated Financial Totals
-    income_core = m[["I01", "I02", "I03", "I04", "I05", "I06", "I07", "I08a", "I08b"]].sum(axis=1)
     income_full = m[INCOME_RAW].sum(axis=1)
     expense_total = m[EXPENSE_RAW].sum(axis=1)
     expense_net = expense_total - m[["I09", "I10", "I16", "I17"]].sum(axis=1)
