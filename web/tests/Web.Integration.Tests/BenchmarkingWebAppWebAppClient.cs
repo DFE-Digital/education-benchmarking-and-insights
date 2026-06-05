@@ -493,7 +493,10 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
     public BenchmarkingWebAppClient SetupExpenditure(
         School school,
         SchoolExpenditure? expenditure = null,
-        SchoolExpenditure[]? expenditures = null)
+        SchoolExpenditure[]? expenditures = null,
+        SchoolExpenditure? customDataExpenditure = null,
+        string? customDataIdentifier = null
+        )
     {
         ExpenditureApi.Reset();
         ExpenditureApi
@@ -505,15 +508,12 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
         ExpenditureApi
             .Setup(api => api.QuerySchools(It.IsAny<ApiQuery?>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(ApiResult.Ok(expenditures ?? []));
-        return this;
-    }
-
-    public BenchmarkingWebAppClient SetupExpenditureForCustomData(School school, string identifier, SchoolExpenditure expenditure)
-    {
-        ExpenditureApi.Reset();
-        ExpenditureApi
-            .Setup(api => api.SchoolCustom(school.URN, identifier, It.IsAny<ApiQuery?>(), It.IsAny<CancellationToken>()))
-            .ReturnsAsync(ApiResult.Ok(expenditure));
+        if (customDataIdentifier != null)
+        {
+            ExpenditureApi
+                .Setup(api => api.SchoolCustom(school.URN, customDataIdentifier, It.IsAny<ApiQuery?>(), It.IsAny<CancellationToken>()))
+                .ReturnsAsync(ApiResult.Ok(customDataExpenditure));
+        }
         return this;
     }
 

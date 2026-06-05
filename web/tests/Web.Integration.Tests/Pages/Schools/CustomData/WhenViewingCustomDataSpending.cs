@@ -200,7 +200,9 @@ public class WhenViewingCustomDataSpending(SchoolBenchmarkingWebAppClient client
             page = await Client
                 .SetupUserData(userData)
                 .SetupMetricRagRatingIncCustom(customDataId, rating)
-                .SetupExpenditureForCustomData(school, customDataId, expenditure)
+                .SetupExpenditure(school,
+                    customDataIdentifier: customDataId,
+                    customDataExpenditure: expenditure)
                 .Navigate(Paths.SchoolSpendingCustomData(school.URN));
         }
         else
