@@ -272,7 +272,7 @@ def test_build_transparency_files_structure():
         "Did Not Supply flag",
         "Lead school in federation",
         "London Weighting",
-        "No pupils",
+        "No pupils (including dual registrations)",
         "Overall Phase",
         "% of pupils eligible for FSM",
         "% of pupils with SEN support",

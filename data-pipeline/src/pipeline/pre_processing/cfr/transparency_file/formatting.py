@@ -311,7 +311,7 @@ def build_maintained_schools_download_file(sfb: pd.DataFrame) -> pd.DataFrame:
     out["Did Not Supply flag"] = sfb["Did Not Supply flag"].str.replace("DNS", "Y")
     out["Lead school in federation"] = sfb["Lead school in federation"]
     out["London Weighting"] = sfb["London Weighting"]
-    out["No pupils"] = sfb["AggregatedPupilsFTE"].round(1)
+    out["No pupils (including dual registrations)"] = sfb["AggregatedPupilsFTE"].round(1)
     out["Overall Phase"] = sfb["Overall Phase"]
     out["% of pupils eligible for FSM"] = sfb["Aggregated_PC_FSM"].round(1)
     out["% of pupils with SEN support"] = sfb["Aggregated_PC_SEN_Support"].round(1)
