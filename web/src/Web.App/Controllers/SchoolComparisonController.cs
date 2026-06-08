@@ -41,7 +41,8 @@ public class SchoolComparisonController(
         SchoolSpendingCategories.SubCategoryFilter[] selectedSubCategories,
         SchoolSpendingDimensions.BandingsAsOptions[] bandingsAs,
         Views.ViewAsOptions viewAs = Views.ViewAsOptions.Chart,
-        SchoolSpendingDimensions.ResultAsOptions resultAs = SchoolSpendingDimensions.ResultAsOptions.SpendPerUnit)
+        SchoolSpendingDimensions.ResultAsOptions resultAs = SchoolSpendingDimensions.ResultAsOptions.SpendPerUnit,
+        SchoolSpendingCategories.CategoryGroup? expandFilterGroup = null)
     {
         using (logger.BeginScope(new
         {
@@ -112,7 +113,8 @@ public class SchoolComparisonController(
                     SelectedSubCategories = selectedSubCategories,
                     ViewAs = viewAs,
                     ResultAs = resultAs,
-                    BandingsAs = bandingsAs
+                    BandingsAs = bandingsAs,
+                    ExpandFilterGroup = expandFilterGroup
                 };
 
                 var viewName = await GetViewName(nameof(Index));

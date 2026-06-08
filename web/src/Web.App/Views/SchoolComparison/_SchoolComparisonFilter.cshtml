@@ -55,12 +55,13 @@
                 @for (var i = 0; i < Model.AllGroups.Length; i++)
                 {
                     var group = Model.AllGroups[i];
+                    var expandAccordion = group.Key.GetOpenByDefault() || Model.ExpandFilterGroup == group.Key;
                     var headingId = $"accordion-default-heading-{i + 1}";
                     var contentId = $"accordion-default-content-{i + 1}";
 
                     var groupSelectedCount = group.Value.Count(x => Model.SelectedIds.Contains((int)x));
 
-                    <div class="govuk-accordion__section@(group.Key.GetOpenByDefault() ? " govuk-accordion__section--expanded" : "")">
+                    <div class="govuk-accordion__section@(expandAccordion ? " govuk-accordion__section--expanded" : "")">
                         <div class="govuk-accordion__section-header">
                             <h2 class="govuk-accordion__section-heading">
                                 <span class="govuk-accordion__section-button"
