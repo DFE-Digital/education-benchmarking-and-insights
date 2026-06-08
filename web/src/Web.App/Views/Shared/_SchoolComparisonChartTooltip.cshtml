@@ -1,0 +1,15 @@
+@using Web.App.Extensions
+@model Web.App.ViewModels.SchoolComparisonChartTooltipViewModel
+
+<script type="module" add-nonce="true">
+    import {createApp, SchoolComparisonChartTooltips} from "@Html.FileVersionedPath("/js/main.js")";
+
+    const data = @Html.Raw(Json.Serialize(Model.Data));
+
+    const container = document.createElement("div");
+    const main = document.querySelector("main");
+    main.appendChild(container);
+
+    const app = createApp(SchoolComparisonChartTooltips, {data});
+    const vm = app.mount(container);
+</script>

@@ -14,8 +14,9 @@ public class SchoolComparisonViewModel(
     SchoolExpenditure? expenditure = null,
     SchoolComparatorSet? defaultComparatorSet = null,
     KS4ProgressBandings? ks4ProgressBandings = null,
-    SpendingComparisonSubCategoriesViewModel? subCategories = null
-    )
+    SpendingComparisonSubCategoriesViewModel? subCategories = null,
+    SchoolExpenditureWithProgress[]? buildingResult = null,
+    SchoolExpenditureWithProgress[]? pupilResult = null)
 {
     public string? Urn => school.URN;
     public string? Name => school.SchoolName;
@@ -37,7 +38,7 @@ public class SchoolComparisonViewModel(
 
     public SchoolSpendingDimensions.BandingsAsOptions[] AvailableBandingsAs =>
         WellOrAboveAverageKS4ProgressBandingsInComparatorSet
-            .Select(x => ToBandingsAsOption(x.Banding))
+            .Select(x => KS4ProgressBandings.ToSchoolSpendingBandingsAsOption(x.Banding))
             .Where(x => x.HasValue)
             .Select(x => x!.Value)
             .Distinct()
@@ -73,15 +74,27 @@ public class SchoolComparisonViewModel(
         FinanceTools.Spending,
         FinanceTools.BenchmarkCensus);
 
-    private static SchoolSpendingDimensions.BandingsAsOptions? ToBandingsAsOption(KS4ProgressBandings.Banding banding)
-    {
-        return banding switch
+    public SchoolComparisonChartTooltipData[] TooltipData =>
+        (pupilResult?.Concat(buildingResult!) ?? [])
+        .Select(x =>
         {
-            KS4ProgressBandings.Banding.WellAboveAverage => SchoolSpendingDimensions.BandingsAsOptions.WellAbove,
-            KS4ProgressBandings.Banding.AboveAverage => SchoolSpendingDimensions.BandingsAsOptions.Above,
-            _ => null
-        };
-    }
+            var banding = x.ProgressBanding.ToBanding() ?? KS4ProgressBandings.Banding.Unknown;
+
+            return new SchoolComparisonChartTooltipData
+            {
+                Urn = x.URN,
+                SchoolName = x.SchoolName,
+                SchoolType = x.SchoolType,
+                LAName = x.LAName,
+                TotalPupils = x.TotalPupils,
+                PeriodCoveredByReturn = x.PeriodCoveredByReturn,
+                ProgressBanding = x.ProgressBanding,
+                ProgressBandingColour = banding.ToGdsColour(),
+                ShouldShowTag = KS4ProgressBandings.ShouldShowTagForSchoolSpending(banding, BandingsAs)
+            };
+        })
+        .Distinct()
+        .ToArray();
 }
 
 public class SchoolSpendingDataViewModel(
@@ -104,13 +117,5 @@ public class ProgressBandingCellViewModel(
     public KS4ProgressBandings.Banding ProgressBanding { get; init; } = progressBanding.ToBanding() ?? KS4ProgressBandings.Banding.Unknown;
     public SchoolSpendingDimensions.BandingsAsOptions[] SelectedBandings => selectedBandings;
 
-    public bool ShouldShowTag =>
-        ProgressBanding switch
-        {
-            KS4ProgressBandings.Banding.WellAboveAverage =>
-                SelectedBandings.Contains(SchoolSpendingDimensions.BandingsAsOptions.WellAbove),
-            KS4ProgressBandings.Banding.AboveAverage =>
-                SelectedBandings.Contains(SchoolSpendingDimensions.BandingsAsOptions.Above),
-            _ => false
-        };
+    public bool ShouldShowTag => KS4ProgressBandings.ShouldShowTagForSchoolSpending(ProgressBanding, SelectedBandings);
 }

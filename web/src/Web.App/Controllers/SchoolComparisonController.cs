@@ -72,10 +72,13 @@ public class SchoolComparisonController(
 
                 SpendingComparisonSubCategoriesViewModel? subCategories = null;
 
+                SchoolExpenditureWithProgress[]? buildingResult = null;
+                SchoolExpenditureWithProgress[]? pupilResult = null;
+
                 if (await featureManager.IsEnabledAsync(FeatureFlags.SchoolComparisonFilter))
                 {
-                    var buildingResult = MergeProgressBandings(await GetDefaultSchoolExpenditure(urn, true, resultAs), bandings);
-                    var pupilResult = MergeProgressBandings(await GetDefaultSchoolExpenditure(urn, false, resultAs), bandings);
+                    buildingResult = MergeProgressBandings(await GetDefaultSchoolExpenditure(urn, true, resultAs), bandings);
+                    pupilResult = MergeProgressBandings(await GetDefaultSchoolExpenditure(urn, false, resultAs), bandings);
 
                     subCategories = new SpendingComparisonSubCategoriesViewModel(
                         buildingResult,
@@ -107,7 +110,9 @@ public class SchoolComparisonController(
                     expenditure,
                     defaultComparatorSet,
                     bandings,
-                    subCategories)
+                    subCategories,
+                    buildingResult,
+                    pupilResult)
                 {
                     SelectedSubCategories = selectedSubCategories,
                     ViewAs = viewAs,

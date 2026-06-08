@@ -5,6 +5,8 @@ import PageActions from "./components/page-actions/PageActions.vue";
 import ProgressIndicator from "./components/progress-indicator/ProgressIndicator.vue";
 import SchoolChartTooltip from "./components/school-chart-tooltip/SchoolChartTooltip.vue";
 import SchoolChartTooltips from "./components/school-chart-tooltip/SchoolChartTooltips.vue";
+import SchoolComparisonChartTooltip from "./components/school-comparison-chart-tooltip/SchoolComparisonChartTooltip.vue";
+import SchoolComparisonChartTooltips from "./components/school-comparison-chart-tooltip/SchoolComparisonChartTooltips.vue";
 import SeniorLeadershipChartTooltip from "./components/senior-leadership-chart-tooltip/SeniorLeadershipChartTooltip.vue";
 import SeniorLeadershipChartTooltips from "./components/senior-leadership-chart-tooltip/SeniorLeadershipChartTooltips.vue";
 import { Suggester } from "./components/suggester/Suggester.ts";
@@ -16,6 +18,8 @@ export { ChartActions,
          ProgressIndicator,
          SchoolChartTooltip,
          SchoolChartTooltips,
+         SchoolComparisonChartTooltip,
+         SchoolComparisonChartTooltips,
          SeniorLeadershipChartTooltip,
          SeniorLeadershipChartTooltips,
          Suggester

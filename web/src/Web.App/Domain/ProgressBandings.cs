@@ -1,6 +1,7 @@
 ﻿// ReSharper disable NotAccessedPositionalProperty.Global
 
 using System.Runtime.Serialization;
+using Web.App.Domain.Charts;
 
 namespace Web.App.Domain;
 
@@ -53,6 +54,23 @@ public class KS4ProgressBandings : ISerializable
     {
         info.AddValue(nameof(Items), Items);
     }
+
+    public static bool ShouldShowTagForSchoolSpending(
+        Banding banding,
+        SchoolSpendingDimensions.BandingsAsOptions[] selected)
+    {
+        var option = ToSchoolSpendingBandingsAsOption(banding);
+        return option.HasValue && selected.Contains(option.Value);
+    }
+
+    public static SchoolSpendingDimensions.BandingsAsOptions? ToSchoolSpendingBandingsAsOption(
+        Banding banding)
+        => banding switch
+        {
+            Banding.WellAboveAverage => SchoolSpendingDimensions.BandingsAsOptions.WellAbove,
+            Banding.AboveAverage => SchoolSpendingDimensions.BandingsAsOptions.Above,
+            _ => null
+        };
 }
 
 [Serializable]
