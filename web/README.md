@@ -134,6 +134,8 @@ Feature flags may also be defined in the `FeatureManagement` section:
 | `KS4ProgressBanding`                | Displays KS4 progress bandings on cost comparison and workforce comparison pages                                                   |
 | `KS4ProgressBandingSchoolHome`      | Displays KS4 progress bandings on School homepage                                                                                  |
 | `SeniorLeadership`                  | Displays Benchmark senior leadership group page                                                                                  |
+| `HighNeedsBenchmarking`             | Toggles the alternative Local Authority High Needs benchmarking with separate EHCP and High Needs spending pages, including filters                                                                                  |
+| `SchoolComparisonFilter`                  | Toggles the alternative School Benchmark Spending page with filters |
 
 #### CacheOptions
 
