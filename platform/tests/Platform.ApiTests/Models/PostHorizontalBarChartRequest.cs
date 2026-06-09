@@ -17,6 +17,7 @@ public record PostHorizontalBarChartRequest<T> : ChartRequest<T>
     public string? ValueField { get; set; }
     public string? ValueType { get; set; }
     public string? XAxisLabel { get; set; }
+    public string[]? LegendLabels { get; set; }
 }
 
 public class PostHorizontalBarChartsRequest<T>(IEnumerable<PostHorizontalBarChartRequest<T>> collection) : List<PostHorizontalBarChartRequest<T>>(collection);
