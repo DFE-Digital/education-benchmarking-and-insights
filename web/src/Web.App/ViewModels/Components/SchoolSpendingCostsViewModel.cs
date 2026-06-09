@@ -31,6 +31,8 @@ public class SchoolSpendingCostsViewModelCostCategory<T>
     public string? ChartSvg { get; set; }
     public bool HasNegativeOrZeroValues { get; init; }
     public T[]? Data { get; init; }
+    public int CategoryGroup { get; init; }
+    public int[] CategoryFilters { get; init; } = [];
 }
 
 public class SchoolSpendingCostsViewModelCostCategories : List<SchoolSpendingCostsViewModelCostCategory<PriorityCostCategoryDatum>>
@@ -53,7 +55,9 @@ public class SchoolSpendingCostsViewModelCostCategories : List<SchoolSpendingCos
                 Uuid = uuid,
                 Category = costCategory,
                 HasNegativeOrZeroValues = hasNegativeOrZeroValues,
-                Data = filteredData
+                Data = filteredData,
+                CategoryGroup = (int)costCategory.SubCategoryGroup,
+                CategoryFilters = costCategory.SubCategoryFilters.Select(x => (int)x).ToArray()
             });
         }
     }

@@ -66,11 +66,13 @@ public class WhenViewingSpending(SchoolBenchmarkingWebAppClient client)
     }
 
     [Theory]
-    [InlineData(true)]
-    [InlineData(false)]
-    public async Task CanNavigateUsingViewAllCategories(bool isPartOfTrust)
+    [InlineData(true, true)]
+    [InlineData(false, true)]
+    [InlineData(false, false)]
+    [InlineData(true, false)]
+    public async Task CanNavigateUsingViewAllCategories(bool isPartOfTrust, bool schoolComparisonFilterEnabled)
     {
-        var (page, school, _, _) = await SetupNavigateInitPage(isPartOfTrust);
+        var (page, school, _, _) = await SetupNavigateInitPage(isPartOfTrust, ssrFeatureEnabled: true, schoolComparisonFilterEnabled: schoolComparisonFilterEnabled);
 
         var categorySections = page.QuerySelectorAll("main section");
 
@@ -83,18 +85,38 @@ public class WhenViewingSpending(SchoolBenchmarkingWebAppClient client)
             var sectionHeading = section.QuerySelector("h3")?.TextContent;
             Assert.NotNull(sectionHeading);
 
-            var id = CategoryHeadingToIdMap[sectionHeading];
-
             var anchor = section.QuerySelector(".govuk-link");
             Assert.NotNull(anchor);
 
             var targetPage = await Client.Follow(anchor);
 
+            if (schoolComparisonFilterEnabled)
+            {
+                var expectedQueryParams = CategoryHeadingToQueryParamsMap[sectionHeading];
+                DocumentAssert.AssertPageUrl(targetPage, $"{expectedUrl}{expectedQueryParams}".ToAbsolute());
+                DocumentAssert.TitleAndH1(targetPage, "Benchmark spending - Financial Benchmarking and Insights Tool - GOV.UK",
+                    "Benchmark spending");
+                return;
+            }
+
+            var id = CategoryHeadingToIdMap[sectionHeading];
             DocumentAssert.AssertPageUrl(targetPage, $"{expectedUrl}#{id}".ToAbsolute());
             DocumentAssert.TitleAndH1(targetPage, "Benchmark spending - Financial Benchmarking and Insights Tool - GOV.UK",
                 "Benchmark spending");
         }
     }
+
+    private static Dictionary<string, string> CategoryHeadingToQueryParamsMap => new()
+    {
+        { "Teaching and Teaching support staff", "?selectedSubCategories=1&selectedSubCategories=2&selectedSubCategories=3&selectedSubCategories=4&selectedSubCategories=5&selectedSubCategories=6&expandFilterGroup=1" },
+        { "Non-educational support staff", "?selectedSubCategories=7&selectedSubCategories=8&selectedSubCategories=9&selectedSubCategories=10&selectedSubCategories=11&expandFilterGroup=2" },
+        { "Educational supplies", "?selectedSubCategories=12&selectedSubCategories=13&selectedSubCategories=14&expandFilterGroup=3" },
+        { "Educational ICT", "?selectedSubCategories=15&expandFilterGroup=4" },
+        { "Premises staff and services", "?selectedSubCategories=16&selectedSubCategories=17&selectedSubCategories=18&selectedSubCategories=19&selectedSubCategories=20&expandFilterGroup=5" },
+        { "Utilities", "?selectedSubCategories=21&selectedSubCategories=22&selectedSubCategories=23&expandFilterGroup=6" },
+        { "Administrative supplies", "?selectedSubCategories=24&expandFilterGroup=7" },
+        { "Catering staff and supplies", "?selectedSubCategories=25&selectedSubCategories=26&selectedSubCategories=27&selectedSubCategories=28&expandFilterGroup=8" }
+    };
 
     [Theory]
     [InlineData(true)]
@@ -159,7 +181,8 @@ public class WhenViewingSpending(SchoolBenchmarkingWebAppClient client)
         SchoolComparatorSet? comparatorSet = null,
         bool ssrFeatureEnabled = false,
         bool chartApiException = false,
-        bool cfrItSpendBreakdownEnabled = false)
+        bool cfrItSpendBreakdownEnabled = false,
+        bool schoolComparisonFilterEnabled = false)
     {
         var school = Fixture.Build<School>()
             .With(x => x.URN, "123456")
@@ -188,6 +211,11 @@ public class WhenViewingSpending(SchoolBenchmarkingWebAppClient client)
         if (!cfrItSpendBreakdownEnabled)
         {
             disabledFeatureFlags.Add(FeatureFlags.CfrItSpendBreakdown);
+        }
+
+        if (!schoolComparisonFilterEnabled)
+        {
+            disabledFeatureFlags.Add(FeatureFlags.SchoolComparisonFilter);
         }
 
         var client = Client

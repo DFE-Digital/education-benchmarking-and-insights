@@ -1,9 +1,11 @@
-﻿@using Microsoft.Extensions.Primitives
+﻿@using Microsoft.FeatureManagement
 @using Newtonsoft.Json
 @using Web.App.Domain
 @using Web.App.Extensions
 @using Web.App.ViewModels
 @model Web.App.ViewModels.Components.SchoolSpendingCostsViewModel
+
+@inject IFeatureManager FeatureManager
 
 @if (Model.Costs.Any())
 {
@@ -16,9 +18,25 @@
             ? "Non-educational support staff"
             : category?.Rating.Category;
 
+        var isFiltersEnabled = await FeatureManager.IsEnabledAsync(FeatureFlags.SchoolComparisonFilter);
+
+        var anchorId = !isFiltersEnabled ? $"#{category?.Rating.CostCategoryAnchorId}" : "";
         var categoryUri = Model.IsCustomData
-            ? Url.Action("CustomData", "SchoolComparison", new { urn = Model.Urn })
-            : Url.Action("Index", "SchoolComparison", new { urn = Model.Urn });
+            ? Url.Action("CustomData", "SchoolComparison", new
+            {
+                urn = Model.Urn
+            })
+            : isFiltersEnabled
+                ? Url.Action("Index", "SchoolComparison", new
+                {
+                    urn = Model.Urn,
+                    selectedSubCategories = cost?.CategoryFilters,
+                    expandFilterGroup = cost?.CategoryGroup,
+                })
+                : Url.Action("Index", "SchoolComparison", new
+                {
+                    urn = Model.Urn
+                });
 
         var costCodes = category?.SubCategories
             .SelectMany(c => Model.CostCodes.GetCostCodes(c).ToArray())
@@ -147,7 +165,7 @@
                         var subCategories = category?.SubCategories ?? [];
                     }
                     <p class="govuk-body category-commentary">
-                        <a href="@categoryUri#@category?.Rating.CostCategoryAnchorId"
+                        <a href="@categoryUri@anchorId"
                            class="govuk-link govuk-link--no-visited-state">View
                             all @category?.Rating.Category?.ToLower(true) costs</a>@(subCategories.Any() ? ". " : string.Empty)
                         @if (subCategories.Any())

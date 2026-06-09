@@ -60,7 +60,7 @@ public static class SchoolSpendingCategories
         StaffRelatedInsuranceCosts = 38,
         SupplyTeacherInsurableCosts = 39,
         CommunityFocusedSchoolStaff = 40,
-        CommunityFocusedSchoolCosts = 41,
+        CommunityFocusedSchoolCosts = 41
     }
 
     public static readonly SubCategoryFilter[] All =

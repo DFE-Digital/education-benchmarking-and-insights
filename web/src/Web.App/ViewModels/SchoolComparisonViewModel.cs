@@ -48,6 +48,7 @@ public class SchoolComparisonViewModel(
     public KeyValuePair<SchoolSpendingCategories.CategoryGroup, SchoolSpendingCategories.SubCategoryFilter[]>[] AllGroups =>
         SchoolSpendingCategories.Groups.ToArray();
     public List<SchoolSpendingComparisonGroup> Groups => subCategories?.Groups ?? [];
+    public SchoolSpendingCategories.CategoryGroup? ExpandFilterGroup { get; init; }
     public SchoolSpendingCategories.SubCategoryFilter[] SelectedSubCategories { get; init; } = [];
     public HashSet<int> SelectedIds =>
         SelectedSubCategories

@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using Web.App.Domain.Schools;
 using Web.App.Extensions;
 
 namespace Web.App.Domain;
@@ -98,6 +99,8 @@ public abstract class CostCategory(RagRating rating)
     public ReadOnlyDictionary<string, Category> Values => _values.AsReadOnly();
 
     public abstract string[] SubCategories { get; }
+    public abstract SchoolSpendingCategories.CategoryGroup SubCategoryGroup { get; }
+    public abstract SchoolSpendingCategories.SubCategoryFilter[] SubCategoryFilters { get; }
 
     public virtual bool CanShowCommercialResources => Rating.RAG != "green";
     public abstract void Add(string urn, SchoolExpenditure expenditure);
@@ -106,6 +109,8 @@ public abstract class CostCategory(RagRating rating)
 public class AdministrativeSupplies(RagRating rating) : CostCategory(rating)
 {
     public override string[] SubCategories => SubCostCategories.AdministrativeSupplies.SubCategories;
+    public override SchoolSpendingCategories.CategoryGroup SubCategoryGroup => SubCostCategories.AdministrativeSupplies.SubCategoryGroup;
+    public override SchoolSpendingCategories.SubCategoryFilter[] SubCategoryFilters => SubCostCategories.AdministrativeSupplies.SubCategoryFilters;
 
     public override void Add(string urn, SchoolExpenditure expenditure)
     {
@@ -116,6 +121,8 @@ public class AdministrativeSupplies(RagRating rating) : CostCategory(rating)
 public class CateringStaffServices(RagRating rating) : CostCategory(rating)
 {
     public override string[] SubCategories => SubCostCategories.CateringStaffServices.SubCategories;
+    public override SchoolSpendingCategories.CategoryGroup SubCategoryGroup => SubCostCategories.CateringStaffServices.SubCategoryGroup;
+    public override SchoolSpendingCategories.SubCategoryFilter[] SubCategoryFilters => SubCostCategories.CateringStaffServices.SubCategoryFilters;
 
     public override void Add(string urn, SchoolExpenditure expenditure)
     {
@@ -126,6 +133,8 @@ public class CateringStaffServices(RagRating rating) : CostCategory(rating)
 public class EducationalIct(RagRating rating) : CostCategory(rating)
 {
     public override string[] SubCategories => SubCostCategories.EducationalIct.SubCategories;
+    public override SchoolSpendingCategories.CategoryGroup SubCategoryGroup => SubCostCategories.EducationalIct.SubCategoryGroup;
+    public override SchoolSpendingCategories.SubCategoryFilter[] SubCategoryFilters => SubCostCategories.EducationalIct.SubCategoryFilters;
 
     public override bool CanShowCommercialResources => base.CanShowCommercialResources && Rating.Value >= Rating.Median;
 
@@ -138,6 +147,8 @@ public class EducationalIct(RagRating rating) : CostCategory(rating)
 public class EducationalSupplies(RagRating rating) : CostCategory(rating)
 {
     public override string[] SubCategories => SubCostCategories.EducationalSupplies.SubCategories;
+    public override SchoolSpendingCategories.CategoryGroup SubCategoryGroup => SubCostCategories.EducationalSupplies.SubCategoryGroup;
+    public override SchoolSpendingCategories.SubCategoryFilter[] SubCategoryFilters => SubCostCategories.EducationalSupplies.SubCategoryFilters;
 
     public override bool CanShowCommercialResources => base.CanShowCommercialResources && Rating.Value >= Rating.Median;
 
@@ -150,6 +161,8 @@ public class EducationalSupplies(RagRating rating) : CostCategory(rating)
 public class NonEducationalSupportStaff(RagRating rating) : CostCategory(rating)
 {
     public override string[] SubCategories => SubCostCategories.NonEducationalSupportStaff.SubCategories;
+    public override SchoolSpendingCategories.CategoryGroup SubCategoryGroup => SubCostCategories.NonEducationalSupportStaff.SubCategoryGroup;
+    public override SchoolSpendingCategories.SubCategoryFilter[] SubCategoryFilters => SubCostCategories.NonEducationalSupportStaff.SubCategoryFilters;
 
     public override void Add(string urn, SchoolExpenditure expenditure)
     {
@@ -160,6 +173,8 @@ public class NonEducationalSupportStaff(RagRating rating) : CostCategory(rating)
 public class TeachingStaff(RagRating rating) : CostCategory(rating)
 {
     public override string[] SubCategories => SubCostCategories.TeachingStaff.SubCategories;
+    public override SchoolSpendingCategories.CategoryGroup SubCategoryGroup => SubCostCategories.TeachingStaff.SubCategoryGroup;
+    public override SchoolSpendingCategories.SubCategoryFilter[] SubCategoryFilters => SubCostCategories.TeachingStaff.SubCategoryFilters;
 
     public override bool CanShowCommercialResources => base.CanShowCommercialResources && Rating.Value >= Rating.Median;
 
@@ -172,6 +187,8 @@ public class TeachingStaff(RagRating rating) : CostCategory(rating)
 public class Other(RagRating rating) : CostCategory(rating)
 {
     public override string[] SubCategories => SubCostCategories.Other.SubCategories;
+    public override SchoolSpendingCategories.CategoryGroup SubCategoryGroup => SubCostCategories.Other.SubCategoryGroup;
+    public override SchoolSpendingCategories.SubCategoryFilter[] SubCategoryFilters => SubCostCategories.Other.SubCategoryFilters;
 
     public override void Add(string urn, SchoolExpenditure expenditure)
     {
@@ -182,6 +199,8 @@ public class Other(RagRating rating) : CostCategory(rating)
 public class PremisesStaffServices(RagRating rating) : CostCategory(rating)
 {
     public override string[] SubCategories => SubCostCategories.PremisesStaffServices.SubCategories;
+    public override SchoolSpendingCategories.CategoryGroup SubCategoryGroup => SubCostCategories.PremisesStaffServices.SubCategoryGroup;
+    public override SchoolSpendingCategories.SubCategoryFilter[] SubCategoryFilters => SubCostCategories.PremisesStaffServices.SubCategoryFilters;
 
     public override void Add(string urn, SchoolExpenditure expenditure)
     {
@@ -192,6 +211,8 @@ public class PremisesStaffServices(RagRating rating) : CostCategory(rating)
 public class Utilities(RagRating rating) : CostCategory(rating)
 {
     public override string[] SubCategories => SubCostCategories.Utilities.SubCategories;
+    public override SchoolSpendingCategories.CategoryGroup SubCategoryGroup => SubCostCategories.Utilities.SubCategoryGroup;
+    public override SchoolSpendingCategories.SubCategoryFilter[] SubCategoryFilters => SubCostCategories.Utilities.SubCategoryFilters;
 
     public override void Add(string urn, SchoolExpenditure expenditure)
     {
@@ -299,7 +320,24 @@ public static class SubCostCategories
         public const string EducationSupportStaffCosts = "Education support staff";
         public const string EducationalConsultancyCosts = "Educational consultancy";
 
-        public static string[] SubCategories { get; } = [TeachingStaffCosts, SupplyTeachingStaffCosts, AgencySupplyTeachingStaffCosts, EducationSupportStaffCosts, EducationalConsultancyCosts];
+        public static string[] SubCategories { get; } =
+            [
+                TeachingStaffCosts,
+                SupplyTeachingStaffCosts,
+                AgencySupplyTeachingStaffCosts,
+                EducationSupportStaffCosts,
+                EducationalConsultancyCosts
+            ];
+        public static SchoolSpendingCategories.CategoryGroup SubCategoryGroup { get; } = SchoolSpendingCategories.CategoryGroup.TeachingStaff;
+        public static SchoolSpendingCategories.SubCategoryFilter[] SubCategoryFilters { get; } =
+            [
+                SchoolSpendingCategories.SubCategoryFilter.TotalTeachingSupportStaffCosts,
+                SchoolSpendingCategories.SubCategoryFilter.TeachingStaffCosts,
+                SchoolSpendingCategories.SubCategoryFilter.SupplyTeachingStaffCosts,
+                SchoolSpendingCategories.SubCategoryFilter.EducationalConsultancyCosts,
+                SchoolSpendingCategories.SubCategoryFilter.EducationSupportStaffCosts,
+                SchoolSpendingCategories.SubCategoryFilter.AgencySupplyTeachingStaffCosts
+            ];
     }
 
     public static class NonEducationalSupportStaff
@@ -309,7 +347,22 @@ public static class SubCostCategories
         public const string OtherStaffCosts = "Other staff";
         public const string ProfessionalServicesNonCurriculumCosts = "Professional services (non-curriculum)";
 
-        public static string[] SubCategories { get; } = [AdministrativeClericalStaffCosts, AuditorsCosts, OtherStaffCosts, ProfessionalServicesNonCurriculumCosts];
+        public static string[] SubCategories { get; } =
+            [
+                AdministrativeClericalStaffCosts,
+                AuditorsCosts,
+                OtherStaffCosts,
+                ProfessionalServicesNonCurriculumCosts
+            ];
+        public static SchoolSpendingCategories.CategoryGroup SubCategoryGroup { get; } = SchoolSpendingCategories.CategoryGroup.NonEducationalSupportStaff;
+        public static SchoolSpendingCategories.SubCategoryFilter[] SubCategoryFilters { get; } =
+        [
+            SchoolSpendingCategories.SubCategoryFilter.TotalNonEducationalSupportStaffCosts,
+            SchoolSpendingCategories.SubCategoryFilter.AdministrativeClericalStaffCosts,
+            SchoolSpendingCategories.SubCategoryFilter.AuditorsCosts,
+            SchoolSpendingCategories.SubCategoryFilter.OtherStaffCosts,
+            SchoolSpendingCategories.SubCategoryFilter.ProfessionalServicesNonCurriculumCosts
+        ];
     }
 
     public static class EducationalSupplies
@@ -317,7 +370,18 @@ public static class SubCostCategories
         public const string ExaminationFeesCosts = "Examination fees";
         public const string LearningResourcesNonIctCosts = "Learning resources (not ICT equipment)";
 
-        public static string[] SubCategories { get; } = [ExaminationFeesCosts, LearningResourcesNonIctCosts];
+        public static string[] SubCategories { get; } =
+            [
+                ExaminationFeesCosts,
+                LearningResourcesNonIctCosts
+            ];
+        public static SchoolSpendingCategories.CategoryGroup SubCategoryGroup { get; } = SchoolSpendingCategories.CategoryGroup.EducationalSupplies;
+        public static SchoolSpendingCategories.SubCategoryFilter[] SubCategoryFilters { get; } =
+        [
+            SchoolSpendingCategories.SubCategoryFilter.TotalEducationalSuppliesCosts,
+            SchoolSpendingCategories.SubCategoryFilter.ExaminationFeesCosts,
+            SchoolSpendingCategories.SubCategoryFilter.LearningResourcesNonIctCosts,
+        ];
     }
 
     public static class EducationalIct
@@ -325,6 +389,8 @@ public static class SubCostCategories
         public const string LearningResourcesIctCosts = "ICT learning resources";
 
         public static string[] SubCategories { get; } = [LearningResourcesIctCosts];
+        public static SchoolSpendingCategories.CategoryGroup SubCategoryGroup { get; } = SchoolSpendingCategories.CategoryGroup.EducationalIct;
+        public static SchoolSpendingCategories.SubCategoryFilter[] SubCategoryFilters { get; } = [SchoolSpendingCategories.SubCategoryFilter.LearningResourcesIctCosts];
     }
 
     public static class PremisesStaffServices
@@ -334,7 +400,22 @@ public static class SubCostCategories
         public const string OtherOccupationCosts = "Other occupation costs";
         public const string PremisesStaffCosts = "Premises staff";
 
-        public static string[] SubCategories { get; } = [CleaningCaretakingCosts, MaintenancePremisesCosts, OtherOccupationCosts, PremisesStaffCosts];
+        public static string[] SubCategories { get; } =
+            [
+                CleaningCaretakingCosts,
+                MaintenancePremisesCosts,
+                OtherOccupationCosts,
+                PremisesStaffCosts
+            ];
+        public static SchoolSpendingCategories.CategoryGroup SubCategoryGroup { get; } = SchoolSpendingCategories.CategoryGroup.PremisesStaffServices;
+        public static SchoolSpendingCategories.SubCategoryFilter[] SubCategoryFilters { get; } =
+        [
+            SchoolSpendingCategories.SubCategoryFilter.TotalPremisesStaffServiceCosts,
+            SchoolSpendingCategories.SubCategoryFilter.CleaningCaretakingCosts,
+            SchoolSpendingCategories.SubCategoryFilter.MaintenancePremisesCosts,
+            SchoolSpendingCategories.SubCategoryFilter.OtherOccupationCosts,
+            SchoolSpendingCategories.SubCategoryFilter.PremisesStaffCosts,
+        ];
     }
 
     public static class Utilities
@@ -342,7 +423,18 @@ public static class SubCostCategories
         public const string EnergyCosts = "Energy";
         public const string WaterSewerageCosts = "Water and sewerage";
 
-        public static string[] SubCategories { get; } = [EnergyCosts, WaterSewerageCosts];
+        public static string[] SubCategories { get; } =
+            [
+                EnergyCosts,
+                WaterSewerageCosts
+            ];
+        public static SchoolSpendingCategories.CategoryGroup SubCategoryGroup { get; } = SchoolSpendingCategories.CategoryGroup.Utilities;
+        public static SchoolSpendingCategories.SubCategoryFilter[] SubCategoryFilters { get; } =
+        [
+            SchoolSpendingCategories.SubCategoryFilter.TotalUtilitiesCosts,
+            SchoolSpendingCategories.SubCategoryFilter.EnergyCosts,
+            SchoolSpendingCategories.SubCategoryFilter.WaterSewerageCosts
+        ];
     }
 
     public static class AdministrativeSupplies
@@ -350,6 +442,8 @@ public static class SubCostCategories
         public const string AdministrativeSuppliesNonEducationalCosts = "Administrative supplies (non-educational)";
 
         public static string[] SubCategories { get; } = [AdministrativeSuppliesNonEducationalCosts];
+        public static SchoolSpendingCategories.CategoryGroup SubCategoryGroup { get; } = SchoolSpendingCategories.CategoryGroup.AdministrativeSupplies;
+        public static SchoolSpendingCategories.SubCategoryFilter[] SubCategoryFilters { get; } = [SchoolSpendingCategories.SubCategoryFilter.AdministrativeSuppliesNonEducationalCosts];
     }
 
     public static class CateringStaffServices
@@ -357,7 +451,19 @@ public static class SubCostCategories
         public const string CateringStaffCosts = "Catering staff";
         public const string CateringSuppliesCosts = "Catering supplies";
 
-        public static string[] SubCategories { get; } = [CateringStaffCosts, CateringSuppliesCosts];
+        public static string[] SubCategories { get; } =
+            [
+                CateringStaffCosts,
+                CateringSuppliesCosts
+            ];
+        public static SchoolSpendingCategories.CategoryGroup SubCategoryGroup { get; } = SchoolSpendingCategories.CategoryGroup.CateringStaffServices;
+        public static SchoolSpendingCategories.SubCategoryFilter[] SubCategoryFilters { get; } =
+        [
+            SchoolSpendingCategories.SubCategoryFilter.TotalGrossCateringCosts,
+            SchoolSpendingCategories.SubCategoryFilter.TotalNetCateringCosts,
+            SchoolSpendingCategories.SubCategoryFilter.CateringStaffCosts,
+            SchoolSpendingCategories.SubCategoryFilter.CateringSuppliesCosts
+        ];
     }
 
     public static class Other
@@ -390,6 +496,24 @@ public static class SubCostCategories
             SupplyTeacherInsurableCosts,
             CommunityFocusedSchoolStaff,
             CommunityFocusedSchoolCosts
+        ];
+        public static SchoolSpendingCategories.CategoryGroup SubCategoryGroup { get; } = SchoolSpendingCategories.CategoryGroup.Other;
+        public static SchoolSpendingCategories.SubCategoryFilter[] SubCategoryFilters { get; } =
+        [
+            SchoolSpendingCategories.SubCategoryFilter.TotalOtherCosts,
+            SchoolSpendingCategories.SubCategoryFilter.OtherInsurancePremiumsCosts,
+            SchoolSpendingCategories.SubCategoryFilter.GroundsMaintenanceCosts,
+            SchoolSpendingCategories.SubCategoryFilter.IndirectEmployeeExpenses,
+            SchoolSpendingCategories.SubCategoryFilter.InterestChargesLoanBank,
+            SchoolSpendingCategories.SubCategoryFilter.PrivateFinanceInitiativeCharges,
+            SchoolSpendingCategories.SubCategoryFilter.RentRatesCosts,
+            SchoolSpendingCategories.SubCategoryFilter.SpecialFacilitiesCosts,
+            SchoolSpendingCategories.SubCategoryFilter.StaffDevelopmentTrainingCosts,
+            SchoolSpendingCategories.SubCategoryFilter.StaffRelatedInsuranceCosts,
+            SchoolSpendingCategories.SubCategoryFilter.StaffRelatedInsuranceCosts,
+            SchoolSpendingCategories.SubCategoryFilter.SupplyTeacherInsurableCosts,
+            SchoolSpendingCategories.SubCategoryFilter.CommunityFocusedSchoolStaff,
+            SchoolSpendingCategories.SubCategoryFilter.CommunityFocusedSchoolCosts
         ];
     }
 }
