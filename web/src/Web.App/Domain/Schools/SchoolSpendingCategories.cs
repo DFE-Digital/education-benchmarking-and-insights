@@ -207,14 +207,6 @@ public static class SchoolSpendingCategories
         _ => ComparatorSetTypes.Pupil
     };
 
-    public static bool GetOpenByDefault(this CategoryGroup group) => group switch
-    {
-        CategoryGroup.TotalExpenditure => true,
-        CategoryGroup.EducationalIct => true,
-        CategoryGroup.AdministrativeSupplies => true,
-        _ => false
-    };
-
     public static string GetHeading(this SubCategoryFilter filter) => filter switch
     {
         SubCategoryFilter.TotalExpenditure => "Total expenditure",
