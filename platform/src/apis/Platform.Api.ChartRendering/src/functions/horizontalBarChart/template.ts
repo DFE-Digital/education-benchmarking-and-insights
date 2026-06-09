@@ -52,9 +52,10 @@ export default class HorizontalBarChartTemplate {
       valueFields = [valueField];
     }
 
-    const stackedChart: boolean = valueFields.length > 1;
-    const hasGroupedKeys: boolean = Object.keys(groupedKeys as Record<string, DatumKey[]>).length > 0;
-    const requiresLegend: boolean = stackedChart || hasGroupedKeys;
+    const isStackedChart: boolean = valueFields.length > 1;
+    const hasGroupedKeys: boolean = groupedKeys !== undefined && Object.keys(groupedKeys as Record<string, DatumKey[]>).length > 0;
+    const hasLegendLabels: boolean = legendLabels !== undefined && legendLabels.length > 0;
+    const requiresLegend: boolean = isStackedChart || (hasGroupedKeys && hasLegendLabels);
 
     // Declare the chart dimensions and margins.
     const legendRows = requiresLegend
@@ -143,13 +144,13 @@ export default class HorizontalBarChartTemplate {
           const widthAttr = x(d[1]) - xAttr; // increasing width for each bar (render order determines layering)
           const heightAttr = y.bandwidth();
           const dataKeyAttr = d.data[keyField] as string;
-          const stackCss = stackedChart ? "chart-data-stack-" + i : "";
+          const stackCss = isStackedChart ? "chart-data-stack-" + i : "";
           const classAttr = classnames(
             "chart-cell",
             "chart-cell__series-0",
             {
               "chart-cell__highlight":
-                d.data[keyField] === highlightKey && !stackedChart,
+                d.data[keyField] === highlightKey && !isStackedChart,
             },
             groups(d.data[keyField] as DatumKey).map(
               (g) => `chart-cell__group-${g}`
@@ -342,7 +343,7 @@ export default class HorizontalBarChartTemplate {
         }
 
         const field = f as string;
-        const cssClass: string = stackedChart
+        const cssClass: string = isStackedChart
           ? `chart-data-stack-${i}`
           : `chart-legend-${legendToClassName(field)}`;
         const box: string = `<rect class="chart-cell ${cssClass}" height="${boxDim}" width="${boxDim}" x="${xPos}" y="${yPos}" />`;
