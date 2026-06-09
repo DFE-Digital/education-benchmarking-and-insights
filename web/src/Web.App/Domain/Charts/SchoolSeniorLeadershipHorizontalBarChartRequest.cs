@@ -8,11 +8,8 @@ namespace Web.App.Domain.Charts;
 
 public record SchoolSeniorLeadershipHorizontalBarChartRequest : PostHorizontalBarChartRequest<SeniorLeadershipGroup>
 {
-    // TODO: Move these into the base type once the Web Chart Rendering contract is finalised.
-    // They may become a single combined type for easier mapping.
-    // For now, LegendLabels must align with ValueField by index.
+    // TODO: potentially move ValueField into the base type once the Web Chart Rendering contract is finalised.
     public new string[]? ValueField { get; set; }
-    public string[]? LegendLabels { get; set; }
 
     public SchoolSeniorLeadershipHorizontalBarChartRequest(
         string uuid,

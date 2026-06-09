@@ -53,12 +53,14 @@ export default class HorizontalBarChartTemplate {
     }
 
     const stackedChart: boolean = valueFields.length > 1;
+    const hasGroupedKeys: boolean = Object.keys(groupedKeys as Record<string, DatumKey[]>).length > 0;
+    const requiresLegend: boolean = stackedChart || hasGroupedKeys;
 
     // Declare the chart dimensions and margins.
-    const legendRows = stackedChart
+    const legendRows = requiresLegend
       ? Math.floor((legendLabels.length + 1) / 2) // two legend labels per row
       : 0;
-    const legendHeight = stackedChart ? legendRows * 25 + 10 : 0;
+    const legendHeight = requiresLegend ? legendRows * 25 + 10 : 0;
     const marginTop = 20;
     const marginRight = 40;
     const marginLeft = 3;
@@ -319,13 +321,20 @@ export default class HorizontalBarChartTemplate {
   ${yAxisChartTicks.join("")}
 </g>`;
 
+    function legendToClassName (legendText: string)
+    {
+      return legendText
+        .replace(/ /g, "-")
+        .toLowerCase();
+    }
+
     // Create a legend
     let legend: string = "";
     const boxDim: number = y.bandwidth() / 2;
     let xPos: number = 0;
     let yPos: number = 0;
 
-    if (stackedChart) {
+    if (requiresLegend) {
       const rectsAndLabels = legendLabels.map((f, i) => {
         if (i % 2 == 0) {
           xPos = 0;
@@ -333,7 +342,10 @@ export default class HorizontalBarChartTemplate {
         }
 
         const field = f as string;
-        const box: string = `<rect class="chart-cell chart-data-stack-${i}" height="${boxDim}" width="${boxDim}" x="${xPos}" y="${yPos}" />`;
+        const cssClass: string = stackedChart
+          ? `chart-data-stack-${i}`
+          : `chart-legend-${legendToClassName(field)}`;
+        const box: string = `<rect class="chart-cell ${cssClass}" height="${boxDim}" width="${boxDim}" x="${xPos}" y="${yPos}" />`;
         xPos += boxDim + 5;
         const label: string = `<text x="${xPos}" y="${yPos}" dy="${boxDim}">${field}</text>`;
         xPos += 180;
