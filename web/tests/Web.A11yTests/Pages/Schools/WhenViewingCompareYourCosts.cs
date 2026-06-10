@@ -57,12 +57,12 @@ public class WhenViewingCompareYourCosts(
         await Page
             .Locator(".app-filter")
             .GetByRole(AriaRole.Button, new LocatorGetByRoleOptions { Name = "Total expenditure" })
-            .CheckAsync();
+            .ClickAsync();
 
         // tick checkbox
         await Page
             .Locator(".app-filter")
-            .GetByLabel("Total expenditure")
+            .GetByRole(AriaRole.Checkbox, new LocatorGetByRoleOptions { Name = "Total expenditure" })
             .CheckAsync();
 
         // submit filters
