@@ -1213,6 +1213,7 @@ table#current-comparators-la {
 
 .options-form {
   display: flex;
+  flex-wrap: wrap;
   align-items: flex-start;
   gap: govuk-spacing(3);
 
@@ -1239,8 +1240,9 @@ table#current-comparators-la {
   }
 }
 
-.options-form .govuk-checkboxes__item {
-  white-space: nowrap;
+.options-form .options-form__checkboxes {
+  flex: 0.5 1 auto;
+  min-width: 0;
 }
 
 .actions-form
