@@ -1,3 +1,4 @@
+@SchoolComparisonFilterDisabled
 Feature: School compare your costs
 
     Scenario: Download total expenditure chart
