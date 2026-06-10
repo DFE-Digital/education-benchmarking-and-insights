@@ -39,6 +39,7 @@ public static class Selectors
     public const string ModeChart = "#mode-chart";
     public const string ModeTable = "#mode-table";
     public const string ViewAsTable = "#view-Table";
+    public const string ViewAsChart = "#view-Chart";
     public const string SpendingModeTable = "#spending-mode-table";
     public const string CentralSpendingModeExclude = "#spending-exclude-breakdown";
     public const string SectionTable = ".govuk-accordion__section .govuk-table";
@@ -241,4 +242,8 @@ public static class Selectors
     public const string ApplyFiltersBtnLAFinancialTab = "[data-testid='apply-financial-filters']";
     public const string ApplyFiltersBtnLAWorkforceTab = "[data-testid='apply-workforce-filters']";
     public const string MissingComparatorSetMessage = "[data-testid='missing-comparator-set-message']";
+
+    public const string BenchmarkSpendingChartsAndTables = "[data-title].costs-chart-container";
+    public const string BenchmarkSpendingChartBars = "[data-title] .horizontal-bar-chart rect";
+    public const string BenchmarkSpendingResultAs = "#ResultAs";
 }
