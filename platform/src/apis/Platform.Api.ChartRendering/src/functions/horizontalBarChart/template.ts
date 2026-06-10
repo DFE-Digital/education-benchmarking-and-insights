@@ -52,13 +52,20 @@ export default class HorizontalBarChartTemplate {
       valueFields = [valueField];
     }
 
-    const stackedChart: boolean = valueFields.length > 1;
+    const isStackedChart: boolean = valueFields.length > 1;
+    const hasGroupedKeys: boolean =
+      groupedKeys !== undefined &&
+      Object.keys(groupedKeys as Record<string, DatumKey[]>).length > 0;
+    const hasLegendLabels: boolean =
+      legendLabels !== undefined && legendLabels.length > 0;
+    const requiresLegend: boolean =
+      isStackedChart || (hasGroupedKeys && hasLegendLabels);
 
     // Declare the chart dimensions and margins.
-    const legendRows = stackedChart
+    const legendRows = requiresLegend
       ? Math.floor((legendLabels.length + 1) / 2) // two legend labels per row
       : 0;
-    const legendHeight = stackedChart ? legendRows * 25 + 10 : 0;
+    const legendHeight = requiresLegend ? legendRows * 25 + 10 : 0;
     const marginTop = 20;
     const marginRight = 40;
     const marginLeft = 3;
@@ -141,13 +148,13 @@ export default class HorizontalBarChartTemplate {
           const widthAttr = x(d[1]) - xAttr; // increasing width for each bar (render order determines layering)
           const heightAttr = y.bandwidth();
           const dataKeyAttr = d.data[keyField] as string;
-          const stackCss = stackedChart ? "chart-data-stack-" + i : "";
+          const stackCss = isStackedChart ? "chart-data-stack-" + i : "";
           const classAttr = classnames(
             "chart-cell",
             "chart-cell__series-0",
             {
               "chart-cell__highlight":
-                d.data[keyField] === highlightKey && !stackedChart,
+                d.data[keyField] === highlightKey && !isStackedChart,
             },
             groups(d.data[keyField] as DatumKey).map(
               (g) => `chart-cell__group-${g}`
@@ -319,13 +326,17 @@ export default class HorizontalBarChartTemplate {
   ${yAxisChartTicks.join("")}
 </g>`;
 
+    function legendToClassName(legendText: string) {
+      return legendText.replace(/ /g, "-").toLowerCase();
+    }
+
     // Create a legend
     let legend: string = "";
     const boxDim: number = y.bandwidth() / 2;
     let xPos: number = 0;
     let yPos: number = 0;
 
-    if (stackedChart) {
+    if (requiresLegend) {
       const rectsAndLabels = legendLabels.map((f, i) => {
         if (i % 2 == 0) {
           xPos = 0;
@@ -333,7 +344,10 @@ export default class HorizontalBarChartTemplate {
         }
 
         const field = f as string;
-        const box: string = `<rect class="chart-cell chart-data-stack-${i}" height="${boxDim}" width="${boxDim}" x="${xPos}" y="${yPos}" />`;
+        const cssClass: string = isStackedChart
+          ? `chart-data-stack-${i}`
+          : `chart-legend-${legendToClassName(field)}`;
+        const box: string = `<rect class="chart-cell ${cssClass}" height="${boxDim}" width="${boxDim}" x="${xPos}" y="${yPos}" />`;
         xPos += boxDim + 5;
         const label: string = `<text x="${xPos}" y="${yPos}" dy="${boxDim}">${field}</text>`;
         xPos += 180;

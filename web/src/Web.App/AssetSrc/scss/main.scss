@@ -929,6 +929,18 @@ table#current-comparators-la {
       fill: govuk-colour("dark-blue");
       stroke: govuk-colour("dark-blue");
     }
+    &.chart-legend-your-chosen-school {
+      fill: govuk-colour("dark-blue");
+      stroke: govuk-colour("dark-blue");
+    }
+    &.chart-legend-well-above-average {
+      fill: govuk-colour("turquoise");
+      stroke: govuk-colour("turquoise");
+    }
+    &.chart-legend-above-average {
+      fill: govuk-colour("light-blue");
+      stroke: govuk-colour("light-blue");
+    }
   }
 
   .chart-label {

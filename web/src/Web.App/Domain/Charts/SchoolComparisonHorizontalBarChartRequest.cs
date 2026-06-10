@@ -46,6 +46,11 @@ public record SchoolComparisonHorizontalBarChartRequest : PostHorizontalBarChart
             return;
         }
 
+        var legendLabels = new List<string>
+        {
+            "Your chosen school"
+        };
+
         // use only full year records for banding groups to prevent overlap with part‑year grouping
         var fullYearData = filteredData
             .Where(x => x.PeriodCoveredByReturn == 12)
@@ -57,6 +62,7 @@ public record SchoolComparisonHorizontalBarChartRequest : PostHorizontalBarChart
                 fullYearData,
                 KS4ProgressBandings.Banding.WellAboveAverage,
                 GroupType.Progress8WellAboveAverage);
+            legendLabels.Add(KS4ProgressBandings.Banding.WellAboveAverage.ToStringValue());
         }
 
         if (bandingsAs.Contains(SchoolSpendingDimensions.BandingsAsOptions.Above))
@@ -65,7 +71,10 @@ public record SchoolComparisonHorizontalBarChartRequest : PostHorizontalBarChart
                 fullYearData,
                 KS4ProgressBandings.Banding.AboveAverage,
                 GroupType.Progress8AboveAverage);
+            legendLabels.Add(KS4ProgressBandings.Banding.AboveAverage.ToStringValue());
         }
+
+        LegendLabels = legendLabels.ToArray();
     }
 
     private void AddBandingGroup(

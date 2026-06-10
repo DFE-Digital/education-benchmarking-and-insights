@@ -349,7 +349,12 @@ When support for stacked bar charts was added, it was decided that all horizonta
 
 ### Chart legend
 
-The legend on a stacked horizontal bar chart is built using the `legendLabels` request property. The `valueField` property must be an array of strings, each string being a property on objects in `data`.  `legendLabels` should contain the names of these properties, eg.:
+Legends are displayed on single data stack horizontal bar charts with grouped keys, and on horizontal bar charts with
+multiple data stacks, but without grouped keys.  Multiple data stacks are not compatible with grouped keys.
+Legends for both scenarios are built using the `legendLabels` request property.
+
+For charts with multiple data stacks the `valueField` property must be an array of strings, each string being a property
+on objects in `data`, and `legendLabels` should contain the names of these properties, eg.:
 
 ```json
 {
@@ -369,6 +374,52 @@ The legend on a stacked horizontal bar chart is built using the `legendLabels` r
   ]
 
   ...
+}
+```
+
+For charts with a single data stack and grouped keys the site scss must contain specifically named css classes to
+to provide each legend with the appropriate colour. The CSS class providing the colour should be inside the class
+hierarchy `ssr-chart` > `chart-cell`, and  named `chart-legend-` followed by the text of the legend label, with spaces
+replaced by hyphens, and in lower case. Care should be taken to align these css classes with those that provide the
+colour for the bars themselves.  For example, if `legendLabels` contains the following ...
+
+```json
+  ...
+
+  "legendLabels": [
+    "Well above average",
+    "Above average"
+  ]
+
+  ...
+
+```
+
+... the SCSS should contain classes like this ...
+
+```css
+.ssr-chart {
+    .chart-cell {
+        &.chart-cell__group-banding-well-above-average {
+            fill: govuk-colour("turquoise");
+            stroke: govuk-colour("turquoise");
+        }
+
+        &.chart-cell__group-banding-above-average {
+            fill: govuk-colour("light-blue");
+            stroke: govuk-colour("light-blue");
+        }
+
+        &.chart-legend-well-above-average {
+            fill: govuk-colour("turquoise");
+            stroke: govuk-colour("turquoise");
+        }
+
+        &.chart-legend-above-average {
+            fill: govuk-colour("light-blue");
+            stroke: govuk-colour("light-blue");
+        }
+    }
 }
 ```
 
