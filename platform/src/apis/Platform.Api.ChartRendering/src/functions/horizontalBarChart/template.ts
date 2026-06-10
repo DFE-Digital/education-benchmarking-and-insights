@@ -53,9 +53,13 @@ export default class HorizontalBarChartTemplate {
     }
 
     const isStackedChart: boolean = valueFields.length > 1;
-    const hasGroupedKeys: boolean = groupedKeys !== undefined && Object.keys(groupedKeys as Record<string, DatumKey[]>).length > 0;
-    const hasLegendLabels: boolean = legendLabels !== undefined && legendLabels.length > 0;
-    const requiresLegend: boolean = isStackedChart || (hasGroupedKeys && hasLegendLabels);
+    const hasGroupedKeys: boolean =
+      groupedKeys !== undefined &&
+      Object.keys(groupedKeys as Record<string, DatumKey[]>).length > 0;
+    const hasLegendLabels: boolean =
+      legendLabels !== undefined && legendLabels.length > 0;
+    const requiresLegend: boolean =
+      isStackedChart || (hasGroupedKeys && hasLegendLabels);
 
     // Declare the chart dimensions and margins.
     const legendRows = requiresLegend
@@ -322,11 +326,8 @@ export default class HorizontalBarChartTemplate {
   ${yAxisChartTicks.join("")}
 </g>`;
 
-    function legendToClassName (legendText: string)
-    {
-      return legendText
-        .replace(/ /g, "-")
-        .toLowerCase();
+    function legendToClassName(legendText: string) {
+      return legendText.replace(/ /g, "-").toLowerCase();
     }
 
     // Create a legend
