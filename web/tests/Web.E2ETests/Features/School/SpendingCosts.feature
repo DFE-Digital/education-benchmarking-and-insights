@@ -128,7 +128,7 @@
             | Administrative supplies             | Administrative supplies                    |
             | Educational supplies                | Educational supplies                       |
             | Catering staff and supplies         | Catering staff services                    |
-            | Premises staff and services         | Premises staff and services                |
+            | Premises staff and services         | Premises and staff services                |
             | Utilities                           | Utilities                                  |
             | Educational ICT                     | Educational ICT                            |
 
