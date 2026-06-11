@@ -31,8 +31,8 @@ public class TrustApi(HttpClient httpClient, string? key = null) : ApiBase(httpC
 
     public async Task<ApiResult> ItSpendingForecastAsync(string? companyNumber, CancellationToken cancellationToken = default) => await GetAsync(Routes.ItSpendingForecast(companyNumber), cancellationToken);
 
-    public async Task<ApiResult> QueryIncomeHistoryAsync(string? companyNumber, ApiQuery? query = null, CancellationToken cancellationToken = default) => await GetAsync(Routes.QueryIncomeHistory(companyNumber), cancellationToken);
-    public async Task<ApiResult> QueryBalanceHistoryAsync(string? companyNumber, ApiQuery? query = null, CancellationToken cancellationToken = default) => await GetAsync(Routes.QueryBalanceHistory(companyNumber), cancellationToken);
+    public async Task<ApiResult> QueryIncomeHistoryAsync(string? companyNumber, ApiQuery? query = null, CancellationToken cancellationToken = default) => await GetAsync($"{Routes.QueryIncomeHistory(companyNumber)}{query?.ToQueryString()}", cancellationToken);
+    public async Task<ApiResult> QueryBalanceHistoryAsync(string? companyNumber, ApiQuery? query = null, CancellationToken cancellationToken = default) => await GetAsync($"{Routes.QueryBalanceHistory(companyNumber)}{query?.ToQueryString()}", cancellationToken);
 
     private static class Routes
     {
