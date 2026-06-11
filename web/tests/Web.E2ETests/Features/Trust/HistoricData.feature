@@ -31,9 +31,9 @@
 
         Examples:
           | tab      | charts | warnings |
-          | spending | 34     | 5        |
-          | income   | 11     | 5        |
-          | balance  | 2      | 0        |
+          | spending |     34 |        5 |
+          | income   |     11 |        5 |
+          | balance  |      2 |        0 |
 
     Scenario Outline: Change all charts to table view
         Given I am on '<tab>' history page for trust with company number '04464331'
@@ -76,3 +76,27 @@
           | 2019 to 2020 |        |
           | 2020 to 2021 |        |
           | 2021 to 2022 | £6,927 |
+
+    Scenario: Change Total income chart to table view and dimension set to per unit
+        Given I am on 'income' history page for trust with company number '04464331'
+        When I change 'income' dimension to '£ per pupil'
+        And I click on view as table on 'income' tab
+        Then the table on the 'income' tab 'Total income' chart contains:
+            | Year         | Amount |
+            | 2017 to 2018 |        |
+            | 2018 to 2019 |        |
+            | 2019 to 2020 |        |
+            | 2020 to 2021 |        |
+            | 2021 to 2022 | £7,035 |
+
+    Scenario: Change In-year balance chart to table view and dimension set to per unit
+        Given I am on 'balance' history page for trust with company number '04464331'
+        When I change 'balance' dimension to '£ per pupil'
+        And I click on view as table on 'balance' tab
+        Then the table on the 'balance' tab 'In-year balance' chart contains:
+            | Year         | Amount |
+            | 2017 to 2018 |        |
+            | 2018 to 2019 |        |
+            | 2019 to 2020 |        |
+            | 2020 to 2021 |        |
+            | 2021 to 2022 | £108   |
