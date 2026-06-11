@@ -207,6 +207,25 @@ public partial class SpendingCostsPage(IPage page)
         return new CompareYourCostsPage(page);
     }
 
+    public async Task<BenchmarkSpendingPage> ClickOnLinkWhileSpendingComparisonFilterIsEnabled(CostCategoryNames costCategory)
+    {
+        var linkToClick = costCategory switch
+        {
+            CostCategoryNames.TeachingAndTeachingSupplyStaff => TeachingAndTeachingSupplyStaffLink,
+            CostCategoryNames.AdministrativeSupplies => AdministrativeSuppliesLink,
+            CostCategoryNames.CateringStaffAndServices => CateringStaffAndServicesLink,
+            CostCategoryNames.EducationalIct => EducationalIctLink,
+            CostCategoryNames.EducationalSupplies => EducationalSuppliesLink,
+            CostCategoryNames.NonEducationalSupportStaff => NonEducationalSupportStaffLink,
+            CostCategoryNames.Other => OtherLink,
+            CostCategoryNames.PremisesStaffAndServices => PremisesStaffAndServicesLink,
+            CostCategoryNames.Utilities => UtilitiesLink,
+            _ => throw new ArgumentOutOfRangeException(nameof(costCategory))
+        };
+        await linkToClick.Click();
+        return new BenchmarkSpendingPage(page);
+    }
+
     public async Task<CostCategoriesGuidancePage> ClickOnCostCategoriesGuidanceLink()
     {
         await page.Locator("#cost-categories-guidance").ClickAsync();

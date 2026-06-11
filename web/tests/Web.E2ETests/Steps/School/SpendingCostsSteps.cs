@@ -10,6 +10,7 @@ namespace Web.E2ETests.Steps.School;
 public class SpendingCostsSteps(PageDriver driver)
 {
     private CompareYourCostsPage? _compareYourCostsPage;
+    private BenchmarkSpendingPage? _benchmarkSpendingPage;
     private CostCategoriesGuidancePage? _costCategoriesGuidancePage;
     private SpendingCostsPage? _spendingCostsPage;
 
@@ -102,11 +103,25 @@ public class SpendingCostsSteps(PageDriver driver)
         _costCategoriesGuidancePage = await _spendingCostsPage.ClickOnCostCategoriesGuidanceLink();
     }
 
+    [When("I click on view all '(.*)' link while feature SpendingComparisonFilters is enabled")]
+    public async Task WhenIClickOnViewAllLinkWhileFeatureSpendingComparisonFiltersIsEnabled(string linkToClick)
+    {
+        Assert.NotNull(_spendingCostsPage);
+        _benchmarkSpendingPage = await _spendingCostsPage.ClickOnLinkWhileSpendingComparisonFilterIsEnabled(CostCategoryFromFriendlyName(linkToClick));
+    }
+
     [Then("I am directed to compare your costs page")]
     public async Task ThenIAmDirectedToCompareYourCostsPage()
     {
         Assert.NotNull(_compareYourCostsPage);
-        await _compareYourCostsPage.IsDisplayed();
+        await _compareYourCostsPage.VerifyPageLoadedByHeading();
+    }
+
+    [Then("I am directed to the benchmark spending page")]
+    public async Task ThenIAmDirectedToTheBenchmarkSpendingPage()
+    {
+        Assert.NotNull(_benchmarkSpendingPage);
+        await _benchmarkSpendingPage.VerifyPageLoadedByHeading();
     }
 
     [Then("the accordion '(.*)'is expanded")]
@@ -114,6 +129,13 @@ public class SpendingCostsSteps(PageDriver driver)
     {
         Assert.NotNull(_compareYourCostsPage);
         await _compareYourCostsPage.IsSectionVisible(ChartNameFromFriendlyName(chartName), true, "Hide", "chart");
+    }
+
+    [Then("the filter accordion '(.*)'is expanded")]
+    public async Task ThenTheFilterAccordionIsExpanded(string filterCategory)
+    {
+        Assert.NotNull(_benchmarkSpendingPage);
+        await _benchmarkSpendingPage.AccordionIsExpanded(filterCategory);
     }
 
     [Then("I am directed to cost categories guidance page")]

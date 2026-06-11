@@ -18,6 +18,9 @@ public class BenchmarkSpendingPage(IPage page)
     private ILocator SchoolLinksInCharts => page.Locator(Selectors.SsrOrgNamesLinksInCharts);
     private ILocator ChartBars => page.Locator(Selectors.BenchmarkSpendingChartBars);
     private ILocator ChartTooltip => page.Locator(Selectors.EnhancementSchoolChartTooltip);
+    private ILocator FilterAccordionButton(string categoryName) =>
+        page.Locator(Selectors.AppFilter)
+            .GetByRole(AriaRole.Button, new LocatorGetByRoleOptions { Name = categoryName });
 
     private ILocator ComparatorSetDetails =>
         page.Locator(Selectors.GovLink,
@@ -38,7 +41,7 @@ public class BenchmarkSpendingPage(IPage page)
 
     public async Task IsDisplayed(bool isMissingComparatorSet = false)
     {
-        await PageH1Heading.ShouldBeVisible();
+        await VerifyPageLoadedByHeading();
 
         if (!isMissingComparatorSet)
         {
@@ -53,6 +56,11 @@ public class BenchmarkSpendingPage(IPage page)
 
         await MissingComparatorSetMessage.ShouldContainText(
             "There is not enough information available to create a set of similar schools.");
+    }
+
+    public async Task VerifyPageLoadedByHeading()
+    {
+        await PageH1Heading.ShouldBeVisible();
     }
 
     public async Task ClickViewAsTable()
@@ -174,5 +182,12 @@ public class BenchmarkSpendingPage(IPage page)
     {
         await ApplyButton.Click();
         await page.WaitForLoadStateAsync(LoadState.NetworkIdle);
+    }
+
+    public async Task AccordionIsExpanded(string filterCategory)
+    {
+        var button = FilterAccordionButton(filterCategory);
+        await button.ShouldBeVisible();
+        await button.ShouldHaveAttribute("aria-expanded", "true");
     }
 }

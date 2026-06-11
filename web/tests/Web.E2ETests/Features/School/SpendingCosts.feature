@@ -96,6 +96,7 @@
           | Utilities                           | View all utilities costs. This includes energy and water and sewerage.                                                                                                                      |
           | Educational ICT                     | View all educational ICT costs. This includes ICT learning resources.                                                                                                                       |
 
+    @SchoolComparisonFilterDisabled
     Scenario Outline: Click on view all links for each chart
         Given I am on spending and costs page for school with URN '777042'
         When I click on view all '<CostCategory>' link
@@ -103,15 +104,33 @@
         And the accordion '<CostCategory>'is expanded
 
         Examples:
-          | CostCategory                        |
-          | Teaching and Teaching support staff |
-          | Non-educational support staff       |
-          | Administrative supplies             |
-          | Educational supplies                |
-          | Catering staff and supplies         |
-          | Premises staff and services         |
-          | Utilities                           |
-          | Educational ICT                     |
+            | CostCategory                        |
+            | Teaching and Teaching support staff |
+            | Non-educational support staff       |
+            | Administrative supplies             |
+            | Educational supplies                |
+            | Catering staff and supplies         |
+            | Premises staff and services         |
+            | Utilities                           |
+            | Educational ICT                     |
+
+    @SchoolComparisonFilterEnabled
+    Scenario Outline: Click on view all links for each chart when SchoolComparisonFilter feature is enabled
+        Given I am on spending and costs page for school with URN '777042'
+        When I click on view all '<CostCategory>' link while feature SpendingComparisonFilters is enabled
+        Then I am directed to the benchmark spending page
+        And the filter accordion '<FilterCategory>'is expanded
+
+        Examples:
+            | CostCategory                        | FilterCategory                             |
+            | Teaching and Teaching support staff | Teaching and Teaching support staff        |
+            | Non-educational support staff       | Non-educational support staff and services |
+            | Administrative supplies             | Administrative supplies                    |
+            | Educational supplies                | Educational supplies                       |
+            | Catering staff and supplies         | Catering staff services                    |
+            | Premises staff and services         | Premises and staff services                |
+            | Utilities                           | Utilities                                  |
+            | Educational ICT                     | Educational ICT                            |
 
     Scenario Outline: Click on View more details on cost categories link
         Given I am on spending and costs page for school with URN '777042'

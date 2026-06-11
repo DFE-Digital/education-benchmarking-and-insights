@@ -246,4 +246,6 @@ public static class Selectors
     public const string BenchmarkSpendingChartsAndTables = "[data-title].costs-chart-container";
     public const string BenchmarkSpendingChartBars = "[data-title] .horizontal-bar-chart rect";
     public const string BenchmarkSpendingResultAs = "#ResultAs";
+
+    public const string AppFilter = ".app-filter";
 }
