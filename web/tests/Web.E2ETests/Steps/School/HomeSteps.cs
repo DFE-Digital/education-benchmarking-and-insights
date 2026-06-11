@@ -76,14 +76,14 @@ public class HomeSteps(PageDriver driver)
     public async Task ThenTheCompareYourCostsPageIsDisplayed()
     {
         Assert.NotNull(_compareYourCostsPage);
-        await _compareYourCostsPage.IsDisplayed();
+        await _compareYourCostsPage.VerifyPageLoadedByHeading();
     }
 
     [Then("the compare your costs page is displayed for part year")]
     public async Task ThenTheCompareYourCostsPageIsDisplayedForPartYear()
     {
         Assert.NotNull(_compareYourCostsPage);
-        await _compareYourCostsPage.IsDisplayed();
+        await _compareYourCostsPage.VerifyPageLoadedByHeading();
     }
 
     [When("I click on curriculum and financial planning")]

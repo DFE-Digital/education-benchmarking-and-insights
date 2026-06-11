@@ -140,8 +140,7 @@ public class CompareYourCostsPage(IPage page)
 
     public async Task IsDisplayed(bool isMissingComparatorSet = false)
     {
-        await PageH1Heading.ShouldBeVisible();
-        //await Breadcrumbs.ShouldBeVisible();
+        await VerifyPageLoadedByHeading();
 
         if (!isMissingComparatorSet)
         {
@@ -167,6 +166,11 @@ public class CompareYourCostsPage(IPage page)
 
         await MissingComparatorSetMessage.ShouldContainText(
             "There is not enough information available to create a set of similar schools.");
+    }
+
+    public async Task VerifyPageLoadedByHeading()
+    {
+        await PageH1Heading.ShouldBeVisible();
     }
 
     public async Task ClickSaveAsImage(ComparisonChartNames chartName)

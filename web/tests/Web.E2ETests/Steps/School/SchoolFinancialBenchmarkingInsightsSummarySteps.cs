@@ -153,7 +153,7 @@ public class SchoolFinancialBenchmarkingInsightsSummarySteps(PageDriver driver)
     public async Task ThenIAmDirectedToSchoolComparisonPageForTheSchoolWithUrn(string urn)
     {
         Assert.NotNull(_comparisonPage);
-        await _comparisonPage.IsDisplayed();
+        await _comparisonPage.VerifyPageLoadedByHeading();
     }
 
     [When("I click on the financial benchmarking and insight tool link under pupil and workforce metrics")]

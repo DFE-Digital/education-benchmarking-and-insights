@@ -106,7 +106,7 @@ public class SpendingCostsSteps(PageDriver driver)
     public async Task ThenIAmDirectedToCompareYourCostsPage()
     {
         Assert.NotNull(_compareYourCostsPage);
-        await _compareYourCostsPage.IsDisplayed();
+        await _compareYourCostsPage.VerifyPageLoadedByHeading();
     }
 
     [Then("the accordion '(.*)'is expanded")]
