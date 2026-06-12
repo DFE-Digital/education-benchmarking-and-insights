@@ -1,6 +1,6 @@
 # AAR Specific notes
 
-AAR has a transparency file which is released alongside the AAR data.
+AAR has a transparency file which is released alongside the AAR data. This is created through a separate set of [SQL scripts on sharepoint.](https://educationgovuk.sharepoint.com/:f:/r/sites/DfEFinancialBenchmarking/Shared%20Documents/CFR%20Data%20Procurement%20Process/24-25/aar?csf=1&web=1&e=ahBZZC)
 
 ## Gotchas
 
