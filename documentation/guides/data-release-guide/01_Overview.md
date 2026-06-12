@@ -6,8 +6,8 @@ The FBIT service updates underlying data four times a year: for AAR, BFR, CFR, a
 
 * At least 2 sprints before the release date, have a kickoff session with the engineers and project team members. Engineers should run the session. It should run through things like:
 
-  * What data sources are going to be refeshed? Check the [data sources docs.](../../data/02_Sources.md)
-  * Is any additional data access is required to access this data?
+  * What data sources are going to be refreshed? Check the [data sources docs.](../../data/02_Sources.md) This page also lists the SQL server locations for the main financial releases.
+  * Is any additional data access is required to access this data? Most ancillary data is publically available on gov.uk.
   * Does the team foresee any blockers in the release?
 
 * An output of the kickoff session is tickets for the release preparation and execution on team management software (e.g. Azure DevOps). This provides a timeline and audit trail from the preparations through to the data fully released on FBIT.
@@ -20,7 +20,11 @@ The FBIT service updates underlying data four times a year: for AAR, BFR, CFR, a
 
 * Daily updates on submission volumes from schools/LAs leading up to the release keeps team focus and opens discussions about when to enact the submission cutoff and run the release.
 
-* After the submission cutoff has been decided, one engineer should use the [test plans](../../quality-assurance/data-release-test-plans/) to orchestrate the rest of the team to release and test the new data.
+* After the submission cutoff has been decided, one engineer should use the [test plans](../../quality-assurance/data-release-test-plans/) to orchestrate the rest of the team to release and test the new data. These test plans are UAT guides for manual verification of the new data.
+
+* The submission cutoff is enacted by taking a snapshot of the approved submissions table in SQL as of a decided date. Any submissions made after this date are excluded from the release, even if they appear in SQL shortly after.
+
+* To trigger the pipeline run once the data is prepared, follow the instructions in the [data-pipeline README](../../../data-pipeline/README.md#running-the-pipeline).
 
 ## Release specific notes
 
