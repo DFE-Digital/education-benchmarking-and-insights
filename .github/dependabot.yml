@@ -42,8 +42,6 @@
       # Feb 2025 html-to-image versions after 1.11.11 cause issues for
       # the styling of front-end-components charts in images.
       # Ignore until resolved.
-      # Mar 2026 govuk-frontend see AB#305693
-      # Mar 2026 eslint and @eslint/js see AB#305699
       ignore:
         - dependency-name: "react"
           versions: [">=19.0.0"]
@@ -58,10 +56,6 @@
           versions: [">=3.0.0"]
         - dependency-name: "govuk-frontend"
           versions: [">=6.0.0"]
-        - dependency-name: "eslint"
-          versions: [">=10.0.0"]
-        - dependency-name: "@eslint/js"
-          versions: [">=10.0.0"]
       labels:
         - "dependencies"
         - "front-end-components"
