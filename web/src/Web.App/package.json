@@ -33,7 +33,7 @@
     "@vue/tsconfig": "^0.9.1",
     "eslint": "^10.3.0",
     "eslint-config-prettier": "^10.1.8",
-    "eslint-plugin-prettier": "^5.5.5",
+    "eslint-plugin-prettier": "^5.5.6",
     "eslint-plugin-vue": "^10.8.0",
     "gulp": "^5.0.0",
     "gulp-clean-css": "^4.3.0",
@@ -41,16 +41,16 @@
     "gulp-rename": "^2.0.0",
     "gulp-sourcemaps": "^3.0.0",
     "jiti": "^2.4.2",
-    "jsdom": "^28.1.0",
-    "npm-run-all2": "^8.0.4",
+    "jsdom": "^29.1.1",
+    "npm-run-all2": "^9.0.1",
     "prettier": "^3.6.2",
     "typescript": "^5.9.3",
     "typescript-eslint": "^8.59.4",
-    "vite": "^7.3.2",
+    "vite": "^8.0.16",
     "vite-plugin-vue-devtools": "^8.1.2",
-    "vitest": "^4.1.7",
+    "vitest": "^4.1.8",
     "vue-eslint-parser": "^10.4.0",
-    "vue-tsc": "^3.2.8"
+    "vue-tsc": "^3.3.3"
   },
   "overrides": {
     "glob-parent": "^6.0.2",
@@ -72,6 +72,6 @@
   "type": "module",
   "types": "./types",
   "engines": {
-    "node": ">=22"
+    "node": ">=22.22.2"
   }
 }
