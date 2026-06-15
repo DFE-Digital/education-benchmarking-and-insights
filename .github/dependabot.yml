@@ -42,6 +42,7 @@
       # Feb 2025 html-to-image versions after 1.11.11 cause issues for
       # the styling of front-end-components charts in images.
       # Ignore until resolved.
+      # Jun 2026 vite and @vitejs/plugin-react see AB#312826
       ignore:
         - dependency-name: "react"
           versions: [">=19.0.0"]
@@ -56,6 +57,10 @@
           versions: [">=3.0.0"]
         - dependency-name: "govuk-frontend"
           versions: [">=6.0.0"]
+        - dependency-name: "@vitejs/plugin-react"
+          versions: [">=6.0.0"]
+        - dependency-name: "vite"
+          versions: [">=8.0.0"]
       labels:
         - "dependencies"
         - "front-end-components"
