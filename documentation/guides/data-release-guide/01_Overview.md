@@ -7,14 +7,14 @@ The FBIT service updates underlying data four times a year: for AAR, BFR, CFR, a
 * At least 2 sprints before the release date, have a kickoff session with the engineers and project team members. Engineers should run the session. It should run through things like:
 
   * What data sources are going to be refreshed? Check the [data sources docs.](../../data/02_Sources.md) This page also lists the SQL server locations for the main financial releases.
-  * Is any additional data access is required to access this data? Most ancillary data is publically available on gov.uk.
+  * Is any additional data access required to access this data? Most ancillary data is publicly available on gov.uk.
   * Does the team foresee any blockers in the release?
 
 * An output of the kickoff session is tickets for the release preparation and execution on team management software (e.g. Azure DevOps). This provides a timeline and audit trail from the preparations through to the data fully released on FBIT.
 
 * Create a central release thread on Teams to broadcast updates about the release. If specific issues need further discussion, have a dedicated thread for it. Note Teams DMs currently delete after a few weeks - keep relevant discussion off DMs.
 
-* CFR and AAR have an accompanying transparency file. This is released separately to the main FBIT service, but ideally they should align as much as possible. Schema validations of the transparency file and checks between FBIT data and the transparency file should performed after the kickoff session and before the release.
+* CFR and AAR have an accompanying transparency file. This is released separately to the main FBIT service, but ideally they should align as much as possible. Schema validations of the transparency file and checks between FBIT data and the transparency file should be performed after the kickoff session and before the release.
 
 ## Things to do immediately before and during the release
 

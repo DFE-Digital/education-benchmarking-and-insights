@@ -4,7 +4,7 @@ BFR data is used for the forecast and risk tool. It doesn't need any ancillary d
 
 ## Gotchas
 
-* BFR uses it's own pupil number which is different to the census one.
-* BFR uses previous year's BFR data to show spend over time. The manner in which it does this and business context [is described in other docs](../../data/sources/bfr.md)
+* BFR uses its own pupil number which is different to the census one.
+* BFR uses previous year's BFR data to show spend over time. The manner in which it does this and business context [is described in other docs.](../../data/sources/bfr.md)
 
 \newpage
