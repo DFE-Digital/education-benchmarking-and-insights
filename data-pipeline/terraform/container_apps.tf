@@ -61,3 +61,10 @@ module "container_app_custom" {
 
   common-tags = local.common-tags
 }
+
+resource "azurerm_mssql_firewall_rule" "cae-fw-rule" {
+  name             = "${var.environment-prefix}-ebis-cae-fw"
+  server_id        = data.azurerm_mssql_server.sql-server.id
+  start_ip_address = azurerm_container_app_environment.main.static_ip_address
+  end_ip_address   = azurerm_container_app_environment.main.static_ip_address
+}
