@@ -6,6 +6,7 @@ parameters:
   environment: ''
   cipEnvironment: ''
   buildNumber: ''
+  useSecondaryLocation: 'false'
   workspaceDir: '$(Pipeline.Workspace)'
   importImage: true
   sourceEnvironmentPrefix: ''
@@ -54,5 +55,6 @@ jobs:
                 environmentPrefix: ${{ parameters.environmentPrefix }}
                 environment: ${{ parameters.environment }}
                 cipEnvironment: ${{ parameters.cipEnvironment }}
+                useSecondaryLocation: ${{ parameters.useSecondaryLocation }}
                 module: 'data-pipeline'
                 imageName: 'fbit-data-pipeline:${{ parameters.buildNumber }}'

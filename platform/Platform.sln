@@ -30,6 +30,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "terraform", "terraform", "{
 		terraform\README.md = terraform\README.md
 		terraform\data.tf = terraform\data.tf
 		terraform\cache.tf = terraform\cache.tf
+		terraform\locals.tf = terraform\locals.tf
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "abstractions", "abstractions", "{D52455F1-3BF5-46F4-9833-633817248295}"
@@ -37,14 +38,17 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Platform.ApiTests", "tests\Platform.ApiTests\Platform.ApiTests.csproj", "{1919CD09-11A6-43E5-9C78-52C2BB264631}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "modules", "modules", "{4150CD4C-2835-410D-BB90-B10FD04C6BE5}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "functions", "functions", "{D1FD7A16-3B98-4294-89D0-E77539D0E593}"
 	ProjectSection(SolutionItems) = preProject
-		terraform\modules\functions\main.tf = terraform\modules\functions\main.tf
-		terraform\modules\functions\output.tf = terraform\modules\functions\output.tf
-		terraform\modules\functions\README.md = terraform\modules\functions\README.md
-		terraform\modules\functions\variables.tf = terraform\modules\functions\variables.tf
-		terraform\modules\functions\provider.tf = terraform\modules\functions\provider.tf
+		terraform\modules\function_app\variables.tf = terraform\modules\function_app\variables.tf
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "fc_function_app", "fc_function_app", "{D1FD7A16-3B98-4294-89D0-E77539D0E593}"
+	ProjectSection(SolutionItems) = preProject
+		terraform\modules\fc_function_app\locals.tf = terraform\modules\fc_function_app\locals.tf
+		terraform\modules\fc_function_app\main.tf = terraform\modules\fc_function_app\main.tf
+		terraform\modules\fc_function_app\output.tf = terraform\modules\fc_function_app\output.tf
+		terraform\modules\fc_function_app\provider.tf = terraform\modules\fc_function_app\provider.tf
+		terraform\modules\fc_function_app\variables.tf = terraform\modules\fc_function_app\variables.tf
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Platform.Search.Resources", "src\search\Platform.Search.Resources\Platform.Search.Resources.csproj", "{B6991DB1-7945-4348-86ED-B00A3AC8B889}"
@@ -128,6 +132,22 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Platform.OpenApi", "src\abstractions\Platform.OpenApi\Platform.OpenApi.csproj", "{6649B269-28FA-4167-A4EE-5E48DA731B94}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Platform.Generators", "src\abstractions\Platform.Generators\Platform.Generators.csproj", "{6D5DFA24-74D5-473A-8233-F1DEAA28DAFB}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "function_app", "function_app", "{040B913B-998B-48D5-AD4A-CE961D5660D7}"
+	ProjectSection(SolutionItems) = preProject
+		terraform\modules\function_app\locals.tf = terraform\modules\function_app\locals.tf
+		terraform\modules\function_app\main.tf = terraform\modules\function_app\main.tf
+		terraform\modules\function_app\output.tf = terraform\modules\function_app\output.tf
+		terraform\modules\function_app\provider.tf = terraform\modules\function_app\provider.tf
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "config", "config", "{2FB04641-73AD-4A29-BD5D-249BDC6FE475}"
+	ProjectSection(SolutionItems) = preProject
+		terraform\modules\config\README.md = terraform\modules\config\README.md
+		terraform\modules\config\outputs.tf = terraform\modules\config\outputs.tf
+		terraform\modules\config\variables.tf = terraform\modules\config\variables.tf
+		terraform\modules\config\main.tf = terraform\modules\config\main.tf
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -605,5 +625,7 @@ Global
 		{33C93C3A-3067-48D8-AE89-36A0B9C2A56D} = {88E9B775-3937-45F6-9899-F0ECDD635145}
 		{6649B269-28FA-4167-A4EE-5E48DA731B94} = {D52455F1-3BF5-46F4-9833-633817248295}
 		{6D5DFA24-74D5-473A-8233-F1DEAA28DAFB} = {D52455F1-3BF5-46F4-9833-633817248295}
+		{040B913B-998B-48D5-AD4A-CE961D5660D7} = {4150CD4C-2835-410D-BB90-B10FD04C6BE5}
+		{2FB04641-73AD-4A29-BD5D-249BDC6FE475} = {4150CD4C-2835-410D-BB90-B10FD04C6BE5}
 	EndGlobalSection
 EndGlobal

@@ -31,6 +31,12 @@ data "azurerm_subnet" "load-test-subnet" {
   resource_group_name  = "${var.environment-prefix}-ebis-core"
 }
 
+data "azurerm_subnet" "orchestrator-subnet" {
+  name                 = "${var.environment-prefix}-orchestrator-subnet"
+  virtual_network_name = "${var.environment-prefix}-app-service-network"
+  resource_group_name  = "${var.environment-prefix}-ebis-core"
+}
+
 data "azurerm_client_config" "client" {}
 
 data "external" "agent_ip_address" {

@@ -10,6 +10,6 @@ locals {
 
 resource "azurerm_resource_group" "resource-group" {
   name     = "${var.environment-prefix}-ebis-pipelines"
-  location = var.location
+  location = var.use-secondary-location == "true" ? var.secondary-location : var.location
   tags     = local.common-tags
 }

@@ -53,12 +53,26 @@ jobs:
                 archiveFilePatterns: '${{ parameters.workspaceDir }}/core-db/Core.Database.zip'
                 destinationFolder: '${{ parameters.workspaceDir }}/db'
 
-#            - task: AzureCLI@2
-#              inputs:
-#                azureSubscription: ${{ parameters.subscription }}
-#                scriptType: 'bash'
-#                scriptLocation: 'inlineScript'
-#                inlineScript: az login
+            - bash: |
+                AGENT_IP=$(curl -s https://ifconfig.me)
+                echo "##vso[task.setvariable variable=agent-ip]$AGENT_IP"
+                echo "Pipeline Runner IP: $AGENT_IP"
+              displayName: 'Get pipeline runner IP'
+
+            - task: AzureCLI@2
+              displayName: 'Set firewall rule for SQL server network access'
+              inputs:
+                azureSubscription: ${{ parameters.subscription }}
+                scriptType: 'bash'
+                scriptLocation: 'inlineScript'
+                inlineScript: |
+                  echo "Adding firewall rule for pipeline runner IP"
+                  az sql server firewall-rule create \
+                    --resource-group $(core-sql-server-resource-group) \
+                    --server $(core-sql-server-name) \
+                    --name pipeline-runner-ip \
+                    --start-ip-address $(agent-ip) \
+                    --end-ip-address $(agent-ip)
 
             - task: AzureCLI@1
               displayName: 'Run core database migrations'
@@ -73,3 +87,17 @@ jobs:
 #              workingDirectory: '${{ parameters.workspaceDir }}/db'
 #              failOnStderr: true
 #              displayName: 'Run core database migrations'
+
+            - task: AzureCLI@2
+              displayName: 'Remove firewall rule for SQL server network access'
+              condition: always()
+              inputs:
+                azureSubscription: ${{ parameters.subscription }}
+                scriptType: 'bash'
+                scriptLocation: 'inlineScript'
+                inlineScript: |
+                  echo "Removing firewall rule for pipeline runner IP"
+                  az sql server firewall-rule delete \
+                    --resource-group $(core-sql-server-resource-group) \
+                    --server $(core-sql-server-name) \
+                    --name pipeline-runner-ip
