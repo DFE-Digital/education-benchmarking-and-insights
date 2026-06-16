@@ -102,6 +102,7 @@ module "insight-fa" {
   }
 }
 
+/*
 module "chart-rendering-fa" {
   source = "./modules/functions"
   app-settings = merge(local.default_app_settings, {
@@ -127,6 +128,7 @@ module "chart-rendering-fa" {
     node_version   = "22"
   }
 }
+*/
 
 module "content-fa" {
   source = "./modules/functions"
