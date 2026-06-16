@@ -19,7 +19,7 @@
   "dependencies": {
     "accessible-autocomplete": "^3.0.0",
     "classnames": "^2.5.1",
-    "date-fns": "^4.2.1",
+    "date-fns": "^4.4.0",
     "file-saver": "^2.0.5",
     "govuk-frontend": "^5.13.0",
     "html-to-image": "1.11.11",
@@ -33,12 +33,12 @@
     "uuid": "^14.0.0"
   },
   "devDependencies": {
-    "@babel/preset-env": "^7.29.5",
-    "@babel/preset-react": "^7.27.1",
-    "@babel/preset-typescript": "^7.27.1",
+    "@babel/preset-env": "^7.29.7",
+    "@babel/preset-react": "^7.27.29.7",
+    "@babel/preset-typescript": "^7.29.7",
     "@eslint/compat": "^2.0.3",
     "@eslint/eslintrc": "^3.3.5",
-    "@eslint/js": "^9.39.2",
+    "@eslint/js": "^10.0.1",
     "@testing-library/jest-dom": "^6.8.0",
     "@testing-library/react": "^16.3.1",
     "@types/file-saver": "^2.0.7",
@@ -49,12 +49,12 @@
     "@types/stats-lite": "^2.2.2",
     "@types/testing-library__react": "^10.2.0",
     "@types/uuid": "^11.0.0",
-    "@typescript-eslint/eslint-plugin": "^8.59.4",
-    "@typescript-eslint/parser": "^8.59.4",
+    "@typescript-eslint/eslint-plugin": "^8.60.1",
+    "@typescript-eslint/parser": "^8.60.1",
     "@vitejs/plugin-react": "^5.2.0",
-    "eslint": "^9.39.2",
+    "eslint": "^10.5.0",
     "eslint-config-prettier": "^10.1.8",
-    "eslint-plugin-prettier": "^5.5.3",
+    "eslint-plugin-prettier": "^5.5.6",
     "eslint-plugin-react-hooks": "^7.0.1",
     "eslint-plugin-react-refresh": "^0.5.2",
     "globals": "^17.4.0",
@@ -64,7 +64,10 @@
     "prettier": "^3.7.4",
     "sass-embedded": "^1.99.0",
     "typescript": "^6.0.3",
-    "typescript-eslint": "^8.59.4",
+    "typescript-eslint": "^8.60.1",
     "vite": "^7.3.3"
+  },
+  "overrides": {
+    "esbuild": "0.28.1"
   }
 }
