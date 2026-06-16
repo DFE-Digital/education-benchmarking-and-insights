@@ -20,12 +20,12 @@
       },
       "Microsoft.NET.Test.Sdk": {
         "type": "Direct",
-        "requested": "[18.5.1, )",
-        "resolved": "18.5.1",
-        "contentHash": "SfqVaLiIqAbRWuPg5BP4QFwBIirQj/YIL8Dhxl6zntBKbXp0cQykoV480SmwG+yRMiWptxEI6NbHQuGSZ8b97w==",
+        "requested": "[18.6.0, )",
+        "resolved": "18.6.0",
+        "contentHash": "kAIBt0MsYR0o2RULmlW5BhQ1ha50aGEgLKG4f1p0kePBGLJCprqs3S+NxRrYN8UH7mSQRPKpeiH9mwPMEKUObQ==",
         "dependencies": {
-          "Microsoft.CodeCoverage": "18.5.1",
-          "Microsoft.TestPlatform.TestHost": "18.5.1"
+          "Microsoft.CodeCoverage": "18.6.0",
+          "Microsoft.TestPlatform.TestHost": "18.6.0"
         }
       },
       "Moq": {
@@ -141,8 +141,8 @@
       },
       "Microsoft.Azure.WebJobs.Core": {
         "type": "Transitive",
-        "resolved": "3.0.45",
-        "contentHash": "rlBMok9U4aqVT6B4guCmilW2dbw6qcxltckcaCOLSZTvbJOcHcuIpXSjqUMKieph+JHLUCmRt28AXHn5ew6YIQ==",
+        "resolved": "3.0.47",
+        "contentHash": "LV7HvnsjyHpluKzDwoay96jGKgy50gIDUWcuHxAkEoNGPMlTXSxvqEE5qgYuMQdYSdFMdnwQoWKUx6xEtQOGow==",
         "dependencies": {
           "System.ComponentModel.Annotations": "4.4.0",
           "System.Memory.Data": "1.0.2"
@@ -160,8 +160,8 @@
       },
       "Microsoft.CodeCoverage": {
         "type": "Transitive",
-        "resolved": "18.5.1",
-        "contentHash": "vMFDR1ZjqzzgKmM0zrPie7Gv9Y+ZppjODB5Quzu9Eq0TlIusUfUCYFPEawO91zQuqwzvdFbJSU7WHNtjStffJQ=="
+        "resolved": "18.6.0",
+        "contentHash": "bkmCXn/65Cd0LdO2zTb/ValGAJ1H8y/CgYOiBb3jsDyHI3Y1ljKx6RBvhvn3e5D/4R4I00RRwLf+Bd2Sn6bJjA=="
       },
       "Microsoft.Data.SqlClient.Extensions.Abstractions": {
         "type": "Transitive",
@@ -477,15 +477,15 @@
       },
       "Microsoft.TestPlatform.ObjectModel": {
         "type": "Transitive",
-        "resolved": "18.5.1",
-        "contentHash": "KNZd+M0S0rz5eNAln0pbZX+A/RbokYZCbGKx4fN4CkhtWhkz6nSJDO+9LGYjRE4d0WPVriJ2JnVubkjt3+PpMg=="
+        "resolved": "18.6.0",
+        "contentHash": "gQTW4BIfM2ZLxixo9ITXoulLKjn20FiiHtqTsx9PENqTrX7368ZeJ5L0QZJyReXDWORPRV8jXwZR6Aar8JOyaA=="
       },
       "Microsoft.TestPlatform.TestHost": {
         "type": "Transitive",
-        "resolved": "18.5.1",
-        "contentHash": "RM+3JNHEoHOCFXzVntUcIiYxzPjzBN0N8wto6HYXi76YyBTZ/3CeRL8U+Pk5zx3AUrOmHxDvKJwGUCdElU9bJg==",
+        "resolved": "18.6.0",
+        "contentHash": "em1eLz5Q46+hsCtAXdXggWAPd9gQyT4ngdsQ7k1eWvQgpsjtS/wAOJ/5TteieFdiAvrEq1iVn00LtusAxRaVmQ==",
         "dependencies": {
-          "Microsoft.TestPlatform.ObjectModel": "18.5.1",
+          "Microsoft.TestPlatform.ObjectModel": "18.6.0",
           "Newtonsoft.Json": "13.0.3"
         }
       },
@@ -586,7 +586,7 @@
           "FluentValidation": "[12.1.1, )",
           "Microsoft.Azure.Core.NewtonsoftJson": "[2.0.0, )",
           "Microsoft.Azure.Functions.Worker.Core": "[2.52.0, )",
-          "Microsoft.Azure.WebJobs": "[3.0.45, )",
+          "Microsoft.Azure.WebJobs": "[3.0.47, )",
           "Microsoft.Data.SqlClient": "[7.0.1, )",
           "Microsoft.Data.SqlClient.Extensions.Azure": "[1.0.0, )",
           "Platform.Domain": "[1.0.0, )"
@@ -604,7 +604,7 @@
           "AutoFixture": "[4.18.1, )",
           "Microsoft.ApplicationInsights": "[2.23.0, )",
           "Microsoft.Azure.Functions.Worker": "[2.52.0, )",
-          "Microsoft.NET.Test.Sdk": "[18.5.1, )",
+          "Microsoft.NET.Test.Sdk": "[18.6.0, )",
           "Moq": "[4.20.72, )",
           "Platform.Functions": "[1.0.0, )",
           "xunit.abstractions": "[2.0.3, )",
@@ -670,11 +670,11 @@
       },
       "Microsoft.Azure.WebJobs": {
         "type": "CentralTransitive",
-        "requested": "[3.0.45, )",
-        "resolved": "3.0.45",
-        "contentHash": "SpAKlnv86/D3wwpTAHYvKk/abV47rIKw3kLYITv899Tek/exuD0WOtwdCe2fWjExeYxm8kuXDAIuTAvZCZDrZg==",
+        "requested": "[3.0.47, )",
+        "resolved": "3.0.47",
+        "contentHash": "7yF+6kacdtCdWTzCE5KQlcx6RpzwPc3RjHKzXL1LH7v0XBiAkk6dOZuGah/G70M798b4zSig9eEcDXutOT473g==",
         "dependencies": {
-          "Microsoft.Azure.WebJobs.Core": "3.0.45",
+          "Microsoft.Azure.WebJobs.Core": "3.0.47",
           "Microsoft.Extensions.Configuration": "2.1.1",
           "Microsoft.Extensions.Configuration.Abstractions": "2.1.1",
           "Microsoft.Extensions.Configuration.EnvironmentVariables": "2.1.0",
