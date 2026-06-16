@@ -32,7 +32,7 @@
     "@eslint/js": "^10.0.1",
     "@jest/globals": "^30.2.0",
     "@types/d3": "^7.4.3",
-    "@types/jsdom": "28.0.1",
+    "@types/jsdom": "28.0.3",
     "@types/node": "^25.9.1",
     "@types/pg": "^8.20.0",
     "@types/sprintf-js": "^1.1.4",
