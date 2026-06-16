@@ -56,6 +56,7 @@
     "node": ">=22.15.0"
   },
   "overrides": {
-    "tmp": "^0.2.6"
+    "tmp": "^0.2.6",
+    "@typespec/ts-http-runtime": "^0.3.6"
   }
 }
