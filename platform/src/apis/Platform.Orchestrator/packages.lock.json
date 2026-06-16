@@ -270,8 +270,8 @@
       },
       "Microsoft.Azure.WebJobs.Core": {
         "type": "Transitive",
-        "resolved": "3.0.45",
-        "contentHash": "rlBMok9U4aqVT6B4guCmilW2dbw6qcxltckcaCOLSZTvbJOcHcuIpXSjqUMKieph+JHLUCmRt28AXHn5ew6YIQ==",
+        "resolved": "3.0.47",
+        "contentHash": "LV7HvnsjyHpluKzDwoay96jGKgy50gIDUWcuHxAkEoNGPMlTXSxvqEE5qgYuMQdYSdFMdnwQoWKUx6xEtQOGow==",
         "dependencies": {
           "System.ComponentModel.Annotations": "4.4.0",
           "System.Memory.Data": "1.0.2"
@@ -848,7 +848,7 @@
           "FluentValidation": "[12.1.1, )",
           "Microsoft.Azure.Core.NewtonsoftJson": "[2.0.0, )",
           "Microsoft.Azure.Functions.Worker.Core": "[2.52.0, )",
-          "Microsoft.Azure.WebJobs": "[3.0.45, )",
+          "Microsoft.Azure.WebJobs": "[3.0.47, )",
           "Microsoft.Data.SqlClient": "[7.0.1, )",
           "Microsoft.Data.SqlClient.Extensions.Azure": "[1.0.0, )",
           "Platform.Domain": "[1.0.0, )"
@@ -867,7 +867,7 @@
         "type": "Project",
         "dependencies": {
           "AspNetCore.HealthChecks.SqlServer": "[9.0.0, )",
-          "Dapper": "[2.1.72, )",
+          "Dapper": "[2.1.79, )",
           "Dapper.Contrib": "[2.0.78, )",
           "Dapper.SqlBuilder": "[2.1.66, )",
           "Microsoft.Data.SqlClient": "[7.0.1, )",
@@ -910,9 +910,9 @@
       },
       "Dapper": {
         "type": "CentralTransitive",
-        "requested": "[2.1.72, )",
-        "resolved": "2.1.72",
-        "contentHash": "ns4mGqQd9a/MhP8m6w556vVlZIa0/MfUu03zrxjZC/jlr1uVCsUac8bkdB+Fs98Llbd56rRSo1eZH5VVmeGZyw=="
+        "requested": "[2.1.79, )",
+        "resolved": "2.1.79",
+        "contentHash": "8YijbzgTfmqmQOnVNorYM6K++pxqnW3nJ4aC1sRHzxUA2CcuoJ9gsTem3kgBnPRMc38zZHl4Esb6hAezXIEEuw=="
       },
       "Dapper.SqlBuilder": {
         "type": "CentralTransitive",
@@ -975,11 +975,11 @@
       },
       "Microsoft.Azure.WebJobs": {
         "type": "CentralTransitive",
-        "requested": "[3.0.45, )",
-        "resolved": "3.0.45",
-        "contentHash": "SpAKlnv86/D3wwpTAHYvKk/abV47rIKw3kLYITv899Tek/exuD0WOtwdCe2fWjExeYxm8kuXDAIuTAvZCZDrZg==",
+        "requested": "[3.0.47, )",
+        "resolved": "3.0.47",
+        "contentHash": "7yF+6kacdtCdWTzCE5KQlcx6RpzwPc3RjHKzXL1LH7v0XBiAkk6dOZuGah/G70M798b4zSig9eEcDXutOT473g==",
         "dependencies": {
-          "Microsoft.Azure.WebJobs.Core": "3.0.45",
+          "Microsoft.Azure.WebJobs.Core": "3.0.47",
           "Microsoft.Extensions.Configuration": "2.1.1",
           "Microsoft.Extensions.Configuration.Abstractions": "2.1.1",
           "Microsoft.Extensions.Configuration.EnvironmentVariables": "2.1.0",
