@@ -141,6 +141,10 @@
         interval: "monthly"
       commit-message:
         prefix: "chore: "
+      # Jun 2026 @types/jsdom see AB#316927
+      ignore:
+        - dependency-name: "@types/jsdom"
+          versions: [">=28.0.1"]
       labels:
         - "dependencies"
         - "platform"
