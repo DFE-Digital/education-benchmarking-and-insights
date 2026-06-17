@@ -152,18 +152,6 @@
         - "npm"
 
     - package-ecosystem: "nuget"
-      directory: "/platform/src/apis/Platform.Api.Establishment"
-      schedule:
-        interval: "monthly"
-      commit-message:
-        prefix: "chore: "
-      labels:
-        - "dependencies"
-        - "platform"
-        - "dotnet"
-        - "nuget"
-
-    - package-ecosystem: "nuget"
       directory: "/platform/src/apis/Platform.Api.Insight"
       schedule:
         interval: "monthly"
@@ -173,30 +161,6 @@
       ignore:
         - dependency-name: "Microsoft.ApplicationInsights.WorkerService"
           versions: [">=3.0.0"]
-      labels:
-        - "dependencies"
-        - "platform"
-        - "dotnet"
-        - "nuget"
-
-    - package-ecosystem: "nuget"
-      directory: "/platform/src/apis/Platform.Api.LocalAuthorityFinances"
-      schedule:
-        interval: "monthly"
-      commit-message:
-        prefix: "chore: "
-      labels:
-        - "dependencies"
-        - "platform"
-        - "dotnet"
-        - "nuget"
-
-    - package-ecosystem: "nuget"
-      directory: "/platform/src/apis/Platform.Api.NonFinancial"
-      schedule:
-        interval: "monthly"
-      commit-message:
-        prefix: "chore: "
       labels:
         - "dependencies"
         - "platform"
