@@ -306,6 +306,10 @@
         interval: "monthly"
       commit-message:
         prefix: "chore: "
+      # Jun 2026 Microsoft.ApplicationInsights.AspNetCore see AB#316989
+      ignore:
+        - dependency-name: "Microsoft.ApplicationInsights.AspNetCore"
+          versions: [">=3.0.0"]
       labels:
         - "dependencies"
         - "web"
