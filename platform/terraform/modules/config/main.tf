@@ -39,7 +39,7 @@ variable "env_configs" {
       search                 = { sku = "basic", replica_count = 1 }
       sql                    = { telemetry_enabled = true }
       cache                  = { sku = "Basic", capacity = 1, family = "C" }
-      enable_ip_restrictions = true
+      enable_ip_restrictions = false
     }
     pre-production = {
       search                 = { sku = "basic", replica_count = 1 }
