@@ -52,27 +52,27 @@ resource "azurerm_storage_account_queue_properties" "data-queue-properties" {
 
 resource "azurerm_storage_queue" "pipeline-message-pending-queue" {
   name               = "data-pipeline-job-pending"
-  storage_account_id = azurerm_storage_account.data.name
+  storage_account_id = azurerm_storage_account.data.id
 }
 
 resource "azurerm_storage_queue" "pipeline-message-default-start-queue" {
   name               = "data-pipeline-job-default-start"
-  storage_account_id = azurerm_storage_account.data.name
+  storage_account_id = azurerm_storage_account.data.id
 }
 
 resource "azurerm_storage_queue" "pipeline-message-custom-start-queue" {
   name               = "data-pipeline-job-custom-start"
-  storage_account_id = azurerm_storage_account.data.name
+  storage_account_id = azurerm_storage_account.data.id
 }
 
 resource "azurerm_storage_queue" "pipeline-message-finished-queue" {
   name               = "data-pipeline-job-finished"
-  storage_account_id = azurerm_storage_account.data.name
+  storage_account_id = azurerm_storage_account.data.id
 }
 
 resource "azurerm_storage_queue" "pipeline-message-dead-letter-queue" {
   name               = "data-pipeline-job-dlq"
-  storage_account_id = azurerm_storage_account.data.name
+  storage_account_id = azurerm_storage_account.data.id
 }
 
 resource "azurerm_storage_container" "pipeline-raw-data" {
