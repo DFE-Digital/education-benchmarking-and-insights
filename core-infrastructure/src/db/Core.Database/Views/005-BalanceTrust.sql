@@ -20,8 +20,8 @@ CREATE VIEW VW_BalanceTrustDefaultCurrentPercentExpenditure AS
 SELECT t.CompanyNumber,
        t.TrustName,
        IIF(f.TotalExpenditure != 0, (f.InYearBalance / f.TotalExpenditure) * 100, NULL) AS 'InYearBalance',
-       IIF(f.TotalExpenditureCS != 0, (f.InYearBalanceCS / f.TotalExpenditureCS) * 100, NULL) AS 'InYearBalanceCS',
-       IIF(f.TotalExpenditureSchool != 0, (f.InYearBalanceSchool / f.TotalExpenditureSchool) * 100, NULL) AS 'InYearBalanceSchool',
+       IIF(f.TotalExpenditure != 0, (f.InYearBalanceCS / f.TotalExpenditure) * 100, NULL) AS 'InYearBalanceCS',
+       IIF(f.TotalExpenditure != 0, (f.InYearBalanceSchool / f.TotalExpenditure) * 100, NULL) AS 'InYearBalanceSchool',
        IIF(f.TotalExpenditure != 0, (f.RevenueReserve / f.TotalExpenditure) * 100, NULL) AS 'RevenueReserve'
 FROM Trust t
          LEFT JOIN VW_TrustFinancialDefaultCurrent f on f.CompanyNumber = t.CompanyNumber
@@ -34,9 +34,9 @@ CREATE VIEW VW_BalanceTrustDefaultCurrentPercentIncome AS
 SELECT t.CompanyNumber,
        t.TrustName,
        IIF(f.TotalIncome != 0, (f.InYearBalance / f.TotalIncome) * 100, NULL) AS 'InYearBalance',
-       IIF(f.TotalIncomeCS != 0, (f.InYearBalanceCS / f.TotalIncomeCS) * 100, NULL) AS 'InYearBalanceCS',
-       IIF(f.TotalIncomeSchool != 0, (f.InYearBalanceSchool / f.TotalIncomeSchool) * 100, NULL) AS 'InYearBalanceSchool',
-       IIF(f.TotalIncome != 0, (f.RevenueReserve / f.TotalExpenditure) * 100, NULL) AS 'RevenueReserve'
+       IIF(f.TotalIncome != 0, (f.InYearBalanceCS / f.TotalIncome) * 100, NULL) AS 'InYearBalanceCS',
+       IIF(f.TotalIncome != 0, (f.InYearBalanceSchool / f.TotalIncome) * 100, NULL) AS 'InYearBalanceSchool',
+       IIF(f.TotalIncome != 0, (f.RevenueReserve / f.TotalIncome) * 100, NULL) AS 'RevenueReserve'
 FROM Trust t
          LEFT JOIN VW_TrustFinancialDefaultCurrent f on f.CompanyNumber = t.CompanyNumber
 GO
