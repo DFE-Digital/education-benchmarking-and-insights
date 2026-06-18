@@ -152,6 +152,7 @@ stages:
           sourceServicePrincipal: 's198d.azdo-deployment'
           environmentPrefix: $(environmentPrefix)
           environment: $(Pipeline.Environment)
+          useSecondaryLocation: 'true'
           cipEnvironment: 'Dev'
           importImage: false
           buildNumber: $(Version.BuildNumber)
