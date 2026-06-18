@@ -45,6 +45,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "functions", "functions", "{
 		terraform\modules\functions\README.md = terraform\modules\functions\README.md
 		terraform\modules\functions\variables.tf = terraform\modules\functions\variables.tf
 		terraform\modules\functions\provider.tf = terraform\modules\functions\provider.tf
+		terraform\modules\functions\locals.tf = terraform\modules\functions\locals.tf
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Platform.Search.Resources", "src\search\Platform.Search.Resources\Platform.Search.Resources.csproj", "{B6991DB1-7945-4348-86ED-B00A3AC8B889}"
@@ -128,6 +129,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Platform.OpenApi", "src\abstractions\Platform.OpenApi\Platform.OpenApi.csproj", "{6649B269-28FA-4167-A4EE-5E48DA731B94}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Platform.Generators", "src\abstractions\Platform.Generators\Platform.Generators.csproj", "{6D5DFA24-74D5-473A-8233-F1DEAA28DAFB}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "function_app", "function_app", "{8F0FBFB1-D9DD-4586-9D4B-6086888ACF0F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -605,5 +608,6 @@ Global
 		{33C93C3A-3067-48D8-AE89-36A0B9C2A56D} = {88E9B775-3937-45F6-9899-F0ECDD635145}
 		{6649B269-28FA-4167-A4EE-5E48DA731B94} = {D52455F1-3BF5-46F4-9833-633817248295}
 		{6D5DFA24-74D5-473A-8233-F1DEAA28DAFB} = {D52455F1-3BF5-46F4-9833-633817248295}
+		{8F0FBFB1-D9DD-4586-9D4B-6086888ACF0F} = {4150CD4C-2835-410D-BB90-B10FD04C6BE5}
 	EndGlobalSection
 EndGlobal
