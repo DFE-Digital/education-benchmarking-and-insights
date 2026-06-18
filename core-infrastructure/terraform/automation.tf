@@ -35,7 +35,7 @@ resource "azurerm_automation_runbook" "backup-database-runbook" {
   log_verbose             = "true"
   log_progress            = "true"
   description             = "Performs a backup of the given database to the specified blob storage container"
-  runbook_type            = "PowerShell72"
+  runbook_type            = "PowerShell"
   tags                    = local.common-tags
   content                 = data.local_file.backup-database-script.content
 }
@@ -75,7 +75,7 @@ resource "azurerm_automation_runbook" "backup-raw-data-runbook" {
   log_verbose             = "true"
   log_progress            = "true"
   description             = "Performs a backup of the given container to the specified blob storage container"
-  runbook_type            = "PowerShell72"
+  runbook_type            = "PowerShell"
   tags                    = local.common-tags
   content                 = data.local_file.backup-container-script.content
 }
