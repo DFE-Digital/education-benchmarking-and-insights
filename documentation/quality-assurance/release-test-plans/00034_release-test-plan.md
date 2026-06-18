@@ -1,6 +1,6 @@
 ﻿# Release Test Plan: 2026.06.0
 
-Release Date: TBC
+Release Date: 19/09/2026
 Release Label: 2026.06.0
 
 ## Introduction
@@ -17,10 +17,11 @@ This release introduces improvements to school benchmarking filtering, refactors
 
 - **Bug Fixes**
   - Corrected dimension data issues on the trust historic page to ensure income and balance charts display accurately.
+  - Corrected the trust-to-trust benchmarking page to display accurate percentages for all dimensions.
 
 - **Maintenance**
   - Refactored the local authority comparator selection logic to improve code maintainability and simplify view models.
-  - Reviewed and merged critical May 2026 platform and package dependency updates.
+  - Reviewed and merged critical May and June 2026 platform and package dependency updates.
 
 **Out-of-Scope:**
 
@@ -75,11 +76,19 @@ This release introduces improvements to school benchmarking filtering, refactors
 
 ## Notes
 
+**Release Overview:**
+
+{to be added here}
+
+**Azure DevOps tickets included in this release:**
+
 - [298070 - School Benchmark Spending - Implement filters](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/298070)
 - [300765 - Refactor LA Comparator selection Controller Flow and Simplify View Models](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/300765)
 - [313835 - Review and merge additional May '26 dependency updates](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/313835)
 - [316452 - Trust Historic data for Income/Balance charts view graph as options](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/316452)
 - [313865 - Convert CFR file generation SQL to python](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/313865)
+- [316607 - Fix incorrect percentages in trust-to-trust benchmarking](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/316607)
+- [316634 - Review and merge additional June '26 dependency updates](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/316634)
 
 ## Appendix
 
@@ -87,11 +96,11 @@ This release introduces improvements to school benchmarking filtering, refactors
 
 **Summary of results:**
 
-| Test Type               | Passed | Failed | Blocked | Not Run |
-|-------------------------|--------|--------|---------|---------|
-| Smoke Tests - Prod      | 0      | 0      | 0       | 0       |
-| Smoke Tests - Pre Prod  | 0      | 0      | 0       | 0       |
-| Sanity Tests - Pre Prod | 0      | 0      | 0       | 0       |
-| Total                   | 0      | 0      | 0       | 0       |
+| Test Category           | Total Tests | Passed | Failed | Pass Rate |
+|-------------------------|:-----------:|:------:|:------:|:---------:|
+| Smoke Tests - Prod      |      1      |   x    |   x    |    0%     |
+| Smoke Tests - Pre Prod  |      1      |   x    |   x    |    0%     |
+| Sanity Tests - Pre Prod |      1      |   x    |   x    |    0%     |
+| Total                   |      3      |   x    |   x    |    0%     |
 
 \newpagepage
