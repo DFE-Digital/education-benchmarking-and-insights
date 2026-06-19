@@ -22,3 +22,11 @@ resource "azurerm_key_vault_secret" "platform-search-key" {
   key_vault_id = data.azurerm_key_vault.key-vault.id
   content_type = "key"
 }
+
+resource "azurerm_search_shared_private_link_service" "search-sql-link" {
+  name               = "search-to-sql-link"
+  search_service_id  = azurerm_search_service.search.id
+  target_resource_id = data.azurerm_mssql_server.sql-server.id
+  subresource_name   = "sqlServer"
+  request_message    = "Shared Private Link connection from Search Service to SQL Database"
+}
