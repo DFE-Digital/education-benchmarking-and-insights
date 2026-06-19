@@ -140,7 +140,7 @@ SQL snippets to help judge data linkage percentages are included in release spec
 
 ### The "parameters table"/post-release data flags
 
-The `Parameters` table in SQL is very small and looks like the data pipeline intitation json. It is used by the frontend to display which year of financial data is used in benchmarking. After running a new year of data into prod, the year for the data release needs to be incremented in the parameters table to display to users that a new year of data is being shown.
+The `Parameters` table in SQL is very small and looks like the data pipeline intitation json. It is used by the frontend to display which year of financial data is used in benchmarking. After running a new year of data into prod, the year for the data release needs to be incremented in the parameters table to display to users that a new year of data is being shown. With a SQL password from KeyVault, this can be done via the Azure console.
 
 ## Release specific notes
 
