@@ -136,21 +136,7 @@ GROUP BY RunId;
 
 SQL snippets to help judge data linkage percentages are included in release specific guides.
 
-### 3. Constraint and Uniqueness Validations
-
-Prevent duplicate records on the front-end by ensuring there are zero constraint violations in the persistent tables.
-
-* **Checks:**
-  * Validate that no duplicate combination of school identifiers (`URN`, `CompanyNumber`, `LAEstab`) exists under the same `RunId`.
-* **SQL Query Example:**
-
-  ```sql
-  -- Checking for duplicate URN entries in a single run
-  SELECT URN, Count(*) FROM [dbo].[Financial] 
-  WHERE RunId = '<year>' AND RunType = 'default' 
-  GROUP BY URN 
-  HAVING Count(*) > 1;
-  ```
+## Post-deployment
 
 ### The "parameters table"/post-release data flags
 
