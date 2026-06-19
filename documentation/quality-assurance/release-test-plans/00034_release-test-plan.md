@@ -6,7 +6,7 @@ Release Label: 2026.06.0
 ## Introduction
 
 This document outlines the approach of testing release `2026.06.0` covering the necessary testing activities.
-This release introduces improvements to school benchmarking filtering, refactors comparator selection logic, includes dependency updates, and fixes historic trust data visualisation issues.
+This release introduces filtering to school benchmarking page, refactors comparator selection logic, includes dependency updates, fixes historic trust data visualisation issues and fix to data on trust to trust benchmarking page.
 
 ## Scope
 
@@ -78,7 +78,7 @@ This release introduces improvements to school benchmarking filtering, refactors
 
 **Release Overview:**
 
-{to be added here}
+Release commpleted successfully and all smoke and sanity tests passed. Filters have been implemented on the school benchmarking page, local authority comparator selection logic has been refactored, and critical dependency updates have been merged. Bug fixes for trust historic data visualisation and trust-to-trust benchmarking percentages have been applied.
 
 **Azure DevOps tickets included in this release:**
 
@@ -98,9 +98,9 @@ This release introduces improvements to school benchmarking filtering, refactors
 
 | Test Category           | Total Tests | Passed | Failed | Pass Rate |
 |-------------------------|:-----------:|:------:|:------:|:---------:|
-| Smoke Tests - Prod      |      1      |   x    |   x    |    0%     |
-| Smoke Tests - Pre Prod  |      1      |   x    |   x    |    0%     |
-| Sanity Tests - Pre Prod |      1      |   x    |   x    |    0%     |
-| Total                   |      3      |   x    |   x    |    0%     |
+| Smoke Tests - Prod      |      1      |   1    |   0    |   100%    |
+| Smoke Tests - Pre Prod  |      1      |   1    |   0    |   100%    |
+| Sanity Tests - Pre Prod |      1      |   1    |   0    |   100%    |
+| Total                   |      3      |   3    |   0    |   100%    |
 
 \newpagepage
