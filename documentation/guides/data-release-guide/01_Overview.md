@@ -79,19 +79,26 @@ And so on. The RunId should be the highest of the years of the 4 releases, and i
 
 The year for a release corresponds to a directory location in the `raw` container. For the pipeline to run correctly the correct data must be in the right directory in the `raw` container.
 
+## Checking for schema changes
+
+* New files in the service will often need code config changes to define their schema for the data pipeline.
+* If there are schema changes to last year, or the contents of the files is very different to last year, this should be flagged to the business as part of the data drop report as early as possible. The business will advise on how to handle these changes.
+* Schema changes and filenames with dates need to be registered in the data pipeline to process the new data correctly. Conceptually there is a file name, a file schema, and a mapping of raw schema names to regularised pipeline names. All of these may need to be updated to get a new file to run in the pipeline. For example, `data-pipeline.src.pipeline.input_schemas.census_workforce.py` allows per-year configuration of: header rows, file schema, filename, column mappings (renaming inconsistent columns so they can be predictable processed in the pipeline), and a column eval config to define derived columns.
+* If a schema is not defined for a year, the data pipeline will error.
+
 ### Testing locally
 
 Testing that new data passes the data pipeline as run on a local machine first is a good idea to debug problems before testing it on deployed infrastructure. To do this, familiarity with Docker, Python, and SQL are needed.
 
 * [First set up the data pipeline locally.](../../../data-pipeline/README.md)
-* Then put the new data into blob storage locally.
+* Then put the new data into blob storage locally. The year for a release corresponds to a directory location in the `raw` container. For the pipeline to run correctly the correct data must be in the right directory in the `raw` container.
 * Then trigger a pipeline run locally by adding a message to the `data-pipeline-job-default-start` queue as UTF-8.
 * You can tell the pipeline is running by debugging messages which display through the running of it. Errors will also display alongside the debugging messages if they occur. If the run is successful, a message will say "Pipeline run successful!"
 * Check the results of the pipeline run by querying the SQL database after a run.
 
 ### Testing on deployed infrastructure
 
-We have a few sets of deployed infrastructure: `dev` (prefixed with `s198d01` in Azure), `test` (`s198t01`), `preprod` (`s198p02`), and `prod` (`s198p01`). Test in `test`, then do any second round of testing in `preprod` before the live `prod` environment. The equivalents of the local testing allow you to run, observe, and validate outputs from the data pipeline in the Azure console:
+We have a few sets of deployed infrastructure: `dev` (with resources prefixed with `s198d01` in our Azure cloud), `test` (`s198t01`), `preprod` (`s198p02`), and `prod` (`s198p01`). Test in `test`, then do any second round of testing in `preprod` before the live `prod` environment. The equivalents of the local testing allow you to run, observe, and validate outputs from the data pipeline in the Azure console:
 
 * First scale the database for the relevant environment so that the processing of the data pipeline doesn't prevent other users getting responses from it. Search for `s198t01-sql`, click on the `data` database, click on Settings > Compute and Storage and set the DTUs to 200. Wait for this to take effect.
 * Add data to data storage blobs (search eg `s198t01data` in the azure console for the resource)
@@ -102,7 +109,7 @@ We have a few sets of deployed infrastructure: `dev` (prefixed with `s198d01` in
 
 ### The "parameters table"/post-release data flags
 
-The `Parameters` table in SQL is very small and is used by the frontend to display messages to alert users to which year of financial data is used in benchmarking. Post each release, the year for the data release needs to be incremented in the parameters table to display to users that a new year of data is being shown.
+The `Parameters` table in SQL is very small and looks like the data pipeline intitation json. It is used by the frontend to display which year of financial data is used in benchmarking. After running a new year of data into prod, the year for the data release needs to be incremented in the parameters table to display to users that a new year of data is being shown.
 
 ## Release specific notes
 
