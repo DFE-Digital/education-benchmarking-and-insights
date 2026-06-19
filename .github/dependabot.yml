@@ -1,355 +1,327 @@
-  version: 2
-  registries:
-    npm-azure-artifacts:
-      type: npm-registry
-      url: https://dfe-ssp.pkgs.visualstudio.com/s198-DfE-Benchmarking-service/_packaging/education-benchmarking/npm/registry/
-      username: ${{ secrets.AZURE_DEVOPS_USER }}
-      password: ${{ secrets.AZURE_DEVOPS_PAT }}
+version: 2
+registries:
+  npm-azure-artifacts:
+    type: npm-registry
+    url: https://dfe-ssp.pkgs.visualstudio.com/s198-DfE-Benchmarking-service/_packaging/education-benchmarking/npm/registry/
+    username: ${{ secrets.AZURE_DEVOPS_USER }}
+    password: ${{ secrets.AZURE_DEVOPS_PAT }}
 
-  updates:
-    - package-ecosystem: "terraform"
-      directory: "/core-infrastructure/terraform"
-      schedule:
-        interval: "monthly"
-      commit-message:
-        prefix: "chore: "
-      labels:
-        - "dependencies"
-        - "core-infrastructure"
-        - "terraform"
+updates:
+  - package-ecosystem: "terraform"
+    directory: "/core-infrastructure/terraform"
+    schedule:
+      interval: "monthly"
+    cooldown:
+      default-days: 7
+    rebase-strategy: auto
+    commit-message:
+      prefix: "chore: "
+    ignore:
+      - dependency-name: "*"
+        update-types: ["version-update:semver-major"]
+    groups:
+      patch-updates:
+        update-types:
+          - "patch"
+      vendor-minor-updates:
+        patterns:
+          - "hashicorp/*"
+        update-types:
+          - "minor"
+    labels:
+      - "dependencies"
+      - "core-infrastructure"
+      - "terraform"
 
-    - package-ecosystem: "nuget"
-      directory: "core-infrastructure/src/db/Core.Database"
-      schedule:
-        interval: "monthly"
-      commit-message:
-        prefix: "chore: "
-      labels:
-        - "dependencies"
-        - "core-infrastructure"
-        - "dotnet"
-        - "nuget"
+  - package-ecosystem: "nuget"
+    directory: "core-infrastructure"
+    schedule:
+      interval: "monthly"
+    cooldown:
+      default-days: 7
+    rebase-strategy: auto
+    commit-message:
+      prefix: "chore: "
+    ignore:
+      - dependency-name: "*"
+        update-types: ["version-update:semver-major"]
+    groups:
+      patch-updates:
+        update-types:
+          - "patch"
+      vendor-minor-updates:
+        patterns:
+          - "Microsoft.*"
+          - "System.*"
+          - "Azure.*"
+        update-types:
+          - "minor"
+    labels:
+      - "dependencies"
+      - "core-infrastructure"
+      - "dotnet"
+      - "nuget"
 
-    - package-ecosystem: "npm"
-      directory: "/front-end-components"
-      schedule:
-        interval: "monthly"
-      commit-message:
-        prefix: "chore: "
-      open-pull-requests-limit: 10
-      # React v18 to v19 major version upgrade affects other packages as at
-      # Feb 2025 due to broken peer dependencies. Ignore for the time being.
-      # Feb 2025 html-to-image versions after 1.11.11 cause issues for
-      # the styling of front-end-components charts in images.
-      # Ignore until resolved.
-      # Jun 2026 vite and @vitejs/plugin-react see AB#312826
-      ignore:
-        - dependency-name: "react"
-          versions: [">=19.0.0"]
-        - dependency-name: "react-dom"
-          versions: [">=19.0.0"]
-        - dependency-name: "@types/react"
-          versions: [">=19.0.0"]
-        - dependency-name: "@types/react-dom"
-          versions: [">=19.0.0"]
-        - dependency-name: "html-to-image"
-        - dependency-name: "recharts"
-          versions: [">=3.0.0"]
-        - dependency-name: "govuk-frontend"
-          versions: [">=6.0.0"]
-        - dependency-name: "@vitejs/plugin-react"
-          versions: [">=6.0.0"]
-        - dependency-name: "vite"
-          versions: [">=8.0.0"]
-      labels:
-        - "dependencies"
-        - "front-end-components"
-        - "javascript"
-        - "npm"
+  - package-ecosystem: "npm"
+    directory: "/front-end-components"
+    schedule:
+      interval: "monthly"
+    cooldown:
+      default-days: 7
+    rebase-strategy: auto
+    commit-message:
+      prefix: "chore: "
+    open-pull-requests-limit: 10
+    # React v18 to v19 major version upgrade affects other packages as at
+    # Feb 2025 due to broken peer dependencies. Ignore for the time being.
+    # Feb 2025 html-to-image versions after 1.11.11 cause issues for
+    # the styling of front-end-components charts in images.
+    # Ignore until resolved.
+    # Jun 2026 vite and @vitejs/plugin-react see AB#312826
+    ignore:
+      - dependency-name: "react"
+        versions: [">=19.0.0"]
+      - dependency-name: "react-dom"
+        versions: [">=19.0.0"]
+      - dependency-name: "@types/react"
+        versions: [">=19.0.0"]
+      - dependency-name: "@types/react-dom"
+        versions: [">=19.0.0"]
+      - dependency-name: "html-to-image"
+      - dependency-name: "recharts"
+        versions: [">=3.0.0"]
+      - dependency-name: "govuk-frontend"
+        versions: [">=6.0.0"]
+      - dependency-name: "@vitejs/plugin-react"
+        versions: [">=6.0.0"]
+      - dependency-name: "vite"
+        versions: [">=8.0.0"]
+      - dependency-name: "*"
+        update-types: ["version-update:semver-major"]
+    groups:
+      patch-updates:
+        update-types:
+          - "patch"
+      vendor-minor-updates:
+        patterns:
+          - "@*/*"
+        update-types:
+          - "minor"
+    labels:
+      - "dependencies"
+      - "front-end-components"
+      - "javascript"
+      - "npm"
 
-    - package-ecosystem: "terraform"
-      directory: "/platform/terraform"
-      schedule:
-        interval: "monthly"
-      commit-message:
-        prefix: "chore: "
-      labels:
-        - "dependencies"
-        - "platform"
-        - "terraform"
+  - package-ecosystem: "terraform"
+    directory: "/platform/terraform"
+    schedule:
+      interval: "monthly"
+    cooldown:
+      default-days: 7
+    rebase-strategy: auto
+    commit-message:
+      prefix: "chore: "
+    ignore:
+      - dependency-name: "*"
+        update-types: ["version-update:semver-major"]
+    groups:
+      patch-updates:
+        update-types:
+          - "patch"
+      vendor-minor-updates:
+        patterns:
+          - "hashicorp/*"
+        update-types:
+          - "minor"
+    labels:
+      - "dependencies"
+      - "platform"
+      - "terraform"
 
-    - package-ecosystem: "nuget"
-      directory: "/platform/src/abstractions/Platform.Functions"
-      schedule:
-        interval: "monthly"
-      commit-message:
-        prefix: "chore: "
-      labels:
-        - "dependencies"
-        - "platform"
-        - "dotnet"
-        - "nuget"
+  - package-ecosystem: "nuget"
+    directory: "/platform"
+    schedule:
+      interval: "monthly"
+    cooldown:
+      default-days: 7
+    rebase-strategy: auto
+    commit-message:
+      prefix: "chore: "
+    # Mar 2026 Microsoft.Azure.StackExchangeRedis issues with our test setup following version 3.3.1, ignored pending work on AB#305821
+    # Mar 2026 Microsoft.ApplicationInsights.WorkerService breaking changes 3.x ignored pending work on AB#305698
+    ignore:
+      - dependency-name: "Microsoft.Azure.StackExchangeRedis"
+        versions: [">=3.3.1"]
+      - dependency-name: "Microsoft.ApplicationInsights.WorkerService"
+        versions: [">=3.0.0"]
+      - dependency-name: "*"
+        update-types: ["version-update:semver-major"]
+    groups:
+      patch-updates:
+        update-types:
+          - "patch"
+      vendor-minor-updates:
+        patterns:
+          - "Microsoft.*"
+          - "System.*"
+          - "Azure.*"
+        update-types:
+          - "minor"
+    labels:
+      - "dependencies"
+      - "platform"
+      - "dotnet"
+      - "nuget"
 
-    - package-ecosystem: "nuget"
-      directory: "/platform/src/abstractions/Platform.Infrastructure"
-      schedule:
-        interval: "monthly"
-      commit-message:
-        prefix: "chore: "
-      labels:
-        - "dependencies"
-        - "platform"
-        - "dotnet"
-        - "nuget"
+  - package-ecosystem: "npm"
+    directory: "/platform/src/apis/Platform.Api.ChartRendering"
+    schedule:
+      interval: "monthly"
+    cooldown:
+      default-days: 7
+    rebase-strategy: auto
+    commit-message:
+      prefix: "chore: "
+    # Jun 2026 @types/jsdom see AB#316927
+    ignore:
+      - dependency-name: "@types/jsdom"
+        versions: [">=28.0.1"]
+      - dependency-name: "*"
+        update-types: ["version-update:semver-major"]
+    groups:
+      patch-updates:
+        update-types:
+          - "patch"
+      vendor-minor-updates:
+        patterns:
+          - "@*/*"
+        update-types:
+          - "minor"
+    labels:
+      - "dependencies"
+      - "platform"
+      - "javascript"
+      - "npm"
 
-    - package-ecosystem: "nuget"
-      directory: "/platform/src/abstractions/Platform.Cache"
-      schedule:
-        interval: "monthly"
-      commit-message:
-        prefix: "chore: "
-      # Mar 2026 Microsoft.Azure.StackExchangeRedis issues with our test setup following
-      # version 3.3.1, ignored pending work on AB#305821
-      ignore:
-        - dependency-name: "Microsoft.Azure.StackExchangeRedis"
-          versions: [">=3.3.1"]
-      labels:
-        - "dependencies"
-        - "platform"
-        - "dotnet"
-        - "nuget"
+  - package-ecosystem: "npm"
+    directory: "/web/src/Web.App"
+    registries:
+      - npm-azure-artifacts
+    schedule:
+      interval: "monthly"
+    cooldown:
+      default-days: 7
+    rebase-strategy: auto
+    commit-message:
+      prefix: "chore: "
+    # Mar 2026 govuk-frontend see AB#305693
+    ignore:
+      - dependency-name: "govuk-frontend"
+        versions: [">=6.0.0"]
+      - dependency-name: "*"
+        update-types: ["version-update:semver-major"]
+    groups:
+      patch-updates:
+        update-types:
+          - "patch"
+      vendor-minor-updates:
+        patterns:
+          - "@*/*"
+        update-types:
+          - "minor"
+    labels:
+      - "dependencies"
+      - "web"
+      - "javascript"
+      - "npm"
 
-    - package-ecosystem: "nuget"
-      directory: "/platform/src/apis/Platform.Api.Benchmark"
-      schedule:
-        interval: "monthly"
-      commit-message:
-        prefix: "chore: "
-      # Mar 2026 Microsoft.ApplicationInsights.WorkerService breaking changes 3.x ignored pending work on AB#305698
-      ignore:
-        - dependency-name: "Microsoft.ApplicationInsights.WorkerService"
-          versions: [">=3.0.0"]
-      labels:
-        - "dependencies"
-        - "platform"
-        - "dotnet"
-        - "nuget"
+  - package-ecosystem: "terraform"
+    directory: "/web/terraform"
+    schedule:
+      interval: "monthly"
+    cooldown:
+      default-days: 7
+    rebase-strategy: auto
+    commit-message:
+      prefix: "chore: "
+    ignore:
+      - dependency-name: "*"
+        update-types: ["version-update:semver-major"]
+    groups:
+      patch-updates:
+        update-types:
+          - "patch"
+      vendor-minor-updates:
+        patterns:
+          - "hashicorp/*"
+        update-types:
+          - "minor"
+    labels:
+      - "dependencies"
+      - "web"
+      - "terraform"
 
-    - package-ecosystem: "npm"
-      directory: "/platform/src/apis/Platform.Api.ChartRendering"
-      schedule:
-        interval: "monthly"
-      commit-message:
-        prefix: "chore: "
-      # Jun 2026 @types/jsdom see AB#316927
-      ignore:
-        - dependency-name: "@types/jsdom"
-          versions: [">=28.0.1"]
-      labels:
-        - "dependencies"
-        - "platform"
-        - "javascript"
-        - "npm"
+  - package-ecosystem: "nuget"
+    directory: "/web"
+    schedule:
+      interval: "monthly"
+    cooldown:
+      default-days: 7
+    rebase-strategy: auto
+    commit-message:
+      prefix: "chore: "
+    # Jun 2026 Microsoft.ApplicationInsights.AspNetCore see AB#316989
+    ignore:
+      - dependency-name: "Microsoft.ApplicationInsights.AspNetCore"
+        versions: [">=3.0.0"]
+      - dependency-name: "*"
+        update-types: ["version-update:semver-major"]
+    groups:
+      patch-updates:
+        update-types:
+          - "patch"
+      vendor-minor-updates:
+        patterns:
+          - "Microsoft.*"
+          - "System.*"
+          - "Azure.*"
+        update-types:
+          - "minor"
+    labels:
+      - "dependencies"
+      - "web"
+      - "dotnet"
+      - "nuget"
 
-    - package-ecosystem: "nuget"
-      directory: "/platform/src/apis/Platform.Api.Insight"
-      schedule:
-        interval: "monthly"
-      commit-message:
-        prefix: "chore: "
-      # Mar 2026 Microsoft.ApplicationInsights.WorkerService breaking changes 3.x ignored pending work on AB#305698
-      ignore:
-        - dependency-name: "Microsoft.ApplicationInsights.WorkerService"
-          versions: [">=3.0.0"]
-      labels:
-        - "dependencies"
-        - "platform"
-        - "dotnet"
-        - "nuget"
-
-    - package-ecosystem: "nuget"
-      directory: "/platform/src/apis/Platform.Api.Content"
-      schedule:
-        interval: "monthly"
-      commit-message:
-        prefix: "chore: "
-      # Mar 2026 Microsoft.ApplicationInsights.WorkerService breaking changes 3.x ignored pending work on AB#305698
-      ignore:
-        - dependency-name: "Microsoft.ApplicationInsights.WorkerService"
-          versions: [">=3.0.0"]
-      labels:
-        - "dependencies"
-        - "platform"
-        - "dotnet"
-        - "nuget"
-
-    - package-ecosystem: "nuget"
-      directory: "/platform/src/search/Platform.Search"
-      schedule:
-        interval: "monthly"
-      commit-message:
-        prefix: "chore: "
-      labels:
-        - "dependencies"
-        - "platform"
-        - "nuget"
-        - "dotnet"
-
-    - package-ecosystem: "nuget"
-      directory: "/platform/src/search/Platform.Search.App"
-      schedule:
-        interval: "monthly"
-      commit-message:
-        prefix: "chore: "
-      labels:
-        - "dependencies"
-        - "platform"
-        - "dotnet"
-        - "nuget"
-
-    - package-ecosystem: "nuget"
-      directory: "/platform/src/search/Platform.Search.Processor"
-      schedule:
-        interval: "monthly"
-      commit-message:
-        prefix: "chore: "
-      labels:
-        - "dependencies"
-        - "platform"
-        - "dotnet"
-        - "nuget"
-
-    - package-ecosystem: "nuget"
-      directory: "/platform/tests/Platform.ApiTests"
-      schedule:
-        interval: "monthly"
-      commit-message:
-        prefix: "chore: "
-      labels:
-        - "dependencies"
-        - "platform"
-        - "dotnet"
-        - "nuget"
-
-    - package-ecosystem: "nuget"
-      directory: "/platform/tests/Platform.Tests"
-      schedule:
-        interval: "monthly"
-      commit-message:
-        prefix: "chore: "
-      labels:
-        - "dependencies"
-        - "platform"
-        - "dotnet"
-        - "nuget"
-
-    - package-ecosystem: "npm"
-      directory: "/web/src/Web.App"
-      registries:
-        - npm-azure-artifacts
-      schedule:
-        interval: "monthly"
-      commit-message:
-        prefix: "chore: "
-      # Mar 2026 govuk-frontend see AB#305693
-      ignore:
-        - dependency-name: "govuk-frontend"
-          versions: [">=6.0.0"]
-      labels:
-        - "dependencies"
-        - "web"
-        - "javascript"
-        - "npm"
-
-    - package-ecosystem: "terraform"
-      directory: "/web/terraform"
-      schedule:
-        interval: "monthly"
-      commit-message:
-        prefix: "chore: "
-      labels:
-        - "dependencies"
-        - "web"
-        - "terraform"
-
-    - package-ecosystem: "nuget"
-      directory: "/web/src/Web.App"
-      schedule:
-        interval: "monthly"
-      commit-message:
-        prefix: "chore: "
-      # Jun 2026 Microsoft.ApplicationInsights.AspNetCore see AB#316989
-      ignore:
-        - dependency-name: "Microsoft.ApplicationInsights.AspNetCore"
-          versions: [">=3.0.0"]
-      labels:
-        - "dependencies"
-        - "web"
-        - "dotnet"
-        - "nuget"
-
-    - package-ecosystem: "npm"
-      directory: "/web/src/Web.Shutter"
-      registries:
-        - npm-azure-artifacts
-      schedule:
-        interval: "monthly"
-      commit-message:
-        prefix: "chore: "
-      ignore:
+  - package-ecosystem: "npm"
+    directory: "/web/src/Web.Shutter"
+    registries:
+      - npm-azure-artifacts
+    schedule:
+      interval: "monthly"
+    cooldown:
+      default-days: 7
+    rebase-strategy: auto
+    commit-message:
+      prefix: "chore: "
+    ignore:
       # Feb 2026 - See AB#295988
-        - dependency-name: "gts"
-          versions: [">=7.0.0"]
-      labels:
-        - "dependencies"
-        - "web"
-        - "javascript"
-        - "npm"
-
-    - package-ecosystem: "nuget"
-      directory: "/web/tests/Web.A11yTests"
-      schedule:
-        interval: "monthly"
-      commit-message:
-        prefix: "chore: "
-      labels:
-        - "dependencies"
-        - "web"
-        - "dotnet"
-        - "nuget"
-
-    - package-ecosystem: "nuget"
-      directory: "/web/tests/Web.E2ETests"
-      schedule:
-        interval: "monthly"
-      commit-message:
-        prefix: "chore: "
-      labels:
-        - "dependencies"
-        - "web"
-        - "dotnet"
-        - "nuget"
-
-    - package-ecosystem: "nuget"
-      directory: "/web/tests/Web.Integration.Tests"
-      schedule:
-        interval: "monthly"
-      commit-message:
-        prefix: "chore: "
-      labels:
-        - "dependencies"
-        - "web"
-        - "dotnet"
-        - "nuget"
-
-    - package-ecosystem: "nuget"
-      directory: "/web/tests/Web.Tests"
-      schedule:
-        interval: "monthly"
-      commit-message:
-        prefix: "chore: "
-      labels:
-        - "dependencies"
-        - "web"
-        - "dotnet"
-        - "nuget"
+      - dependency-name: "gts"
+        versions: [">=7.0.0"]
+      - dependency-name: "*"
+        update-types: ["version-update:semver-major"]
+    groups:
+      patch-updates:
+        update-types:
+          - "patch"
+      vendor-minor-updates:
+        patterns:
+          - "@*/*"
+        update-types:
+          - "minor"
+    labels:
+      - "dependencies"
+      - "web"
+      - "javascript"
+      - "npm"
