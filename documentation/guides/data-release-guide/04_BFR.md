@@ -28,6 +28,17 @@ SELECT * FROM [dbo].[BudgetForecastReturnMetric]
 WHERE RunId like '<year>' AND RunType like 'default'
 ```
 
+## Check the outputs
+
+To assure the quality of the BFR ingestion pipeline do some spot checks on forecasts and pupil numbers. BFR uses specific row/line mappings (`EFALineNo`) in `BFR_SOFA_raw.csv` and `BFR_3Y_raw.csv` to compute Statement of Financial Activities (SOFA) and multi-year forecasts.
+
+* Select 3 Multi-Academy Trusts in the source CSV and record their values for key `EFALineNo` fields (such as line numbers for total income, staff costs, and total forecasted expenditure).
+* Query the `BudgetForecastReturn` and `BudgetForecastReturnMetric` tables for those specific trusts and verify that the financial amounts written correspond exactly to [those line numbers](../../data/sources/bfr.md#efalineno).
+
+### 2. BFR-Specific Pupil Count Validation
+
+BFR uses its own, dedicated forecast pupil number which can differ from the standard School Census headcount. Check the BFR tables have the BFR pupil number in.
+
 ## Gotchas
 
 * BFR uses its own pupil number which is different to the census one.

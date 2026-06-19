@@ -32,16 +32,18 @@ The FBIT service updates underlying data four times a year: for AAR, BFR, CFR, a
   {
     "type": "default",
     "runId": <year>,
-      "year": {
-          "aar": <year>,
-          "cfr": <year>,
-          "bfr": <year>,
-          "s251": <year>
-      }
+    "year": {
+      "aar": <year>,
+      "cfr": <year>,
+      "bfr": <year>,
+      "s251": <year>
+    }
   }
   ```
 
 ## Step-by-step process
+
+Get files > Process files locally > Check outputs locally > Deploy changes to remote > Test changes on remote with product owners > Promote through remote environments.
 
 ### What year to use in data pipeline runs
 
@@ -51,12 +53,12 @@ Most of FBIT is not historical. School benchmarking on FBIT shows data for only 
 {
   "type": "default",
   "runId": 2026,
-    "year": {
-        "aar": 2025,
-        "cfr": 2026,
-        "bfr": 2025,
-        "s251": 2025
-    }
+  "year": {
+    "aar": 2025,
+    "cfr": 2026,
+    "bfr": 2025,
+    "s251": 2025
+  }
 }
 ```
 
@@ -66,12 +68,12 @@ Then when BFR gets released:
 {
   "type": "default",
   "runId": 2026,
-    "year": {
-        "aar": 2025,
-        "cfr": 2026,
-        "bfr": 2026,
-        "s251": 2025
-    }
+  "year": {
+    "aar": 2025,
+    "cfr": 2026,
+    "bfr": 2026,
+    "s251": 2025
+  }
 }
 ```
 
@@ -83,7 +85,7 @@ The year for a release corresponds to a directory location in the `raw` containe
 
 * New files in the service will often need code config changes to define their schema for the data pipeline.
 * If there are schema changes to last year, or the contents of the files is very different to last year, this should be flagged to the business as part of the data drop report as early as possible. The business will advise on how to handle these changes.
-* Schema changes and filenames with dates need to be registered in the data pipeline to process the new data correctly. Conceptually there is a file name, a file schema, and a mapping of raw schema names to regularised pipeline names. All of these may need to be updated to get a new file to run in the pipeline. For example, `data-pipeline.src.pipeline.input_schemas.census_workforce.py` allows per-year configuration of: header rows, file schema, filename, column mappings (renaming inconsistent columns so they can be predictable processed in the pipeline), and a column eval config to define derived columns.
+* Schema changes and filenames with dates need to be registered in the data pipeline to process the new data correctly. Conceptually there is a file name, a file schema, and a mapping of raw schema names to regularised pipeline names. All of these may need to be updated to get a new file to run in the pipeline. For example, `data-pipeline/src/pipeline/input_schemas/census_workforce.py` allows per-year configuration of: header rows, file schema, filename, column mappings (renaming inconsistent columns so they can be predictable processed in the pipeline), and a column eval config to define derived columns.
 * If a schema is not defined for a year, the data pipeline will error.
 
 ### Testing locally
@@ -106,6 +108,49 @@ We have a few sets of deployed infrastructure: `dev` (with resources prefixed wi
 * View the running of the data pipeline by viewing the container logs. Search for `s198t01-ebis-aiw`, click on logs, and search for "default" in the queries hub. Run the "Recent default pipeline runs" query to see the logs/errors from that pipeline run.
 * View the relevant database by connecting to it locally via a connection string, as is stored in keyvault `s198t01-ebis-keyvault`, or get login credentials to SQL from the keyvault and log in on the azure console.
 * After a pipeline run, descale the database to what it was before.
+
+## Assuring Pipeline Outputs (General Checks)
+
+Before concluding any data release and updating the `Parameters` table, do some logical checks to guarantee dataset completeness and mathematical correctness.
+
+### 1. Database Row Count & Ingestion Integrity
+
+Compare the total number of records in the raw input files against the number of rows deposited in the target SQL database tables.
+
+* Count total active schools from the primary input file (e.g., `aar.csv` or `maintained_schools_master_list.csv`).
+* Verify that this matches the count of rows successfully written in `dbo.Financial` and `dbo.NonFinancial` for the target `RunId`.
+
+```sql
+-- Financial rows check
+SELECT Count(*), RunId FROM [dbo].[Financial] 
+WHERE RunId = '<year>' AND RunType = 'default' 
+GROUP BY RunId;
+
+-- Non-Financial rows check
+SELECT Count(*), RunId FROM [dbo].[NonFinancial] 
+WHERE RunId = '<year>' AND RunType = 'default' 
+GROUP BY RunId;
+```
+
+### 2. Data completeness
+
+SQL snippets to help judge data linkage percentages are included in release specific guides.
+
+### 3. Constraint and Uniqueness Validations
+
+Prevent duplicate records on the front-end by ensuring there are zero constraint violations in the persistent tables.
+
+* **Checks:**
+  * Validate that no duplicate combination of school identifiers (`URN`, `CompanyNumber`, `LAEstab`) exists under the same `RunId`.
+* **SQL Query Example:**
+
+  ```sql
+  -- Checking for duplicate URN entries in a single run
+  SELECT URN, Count(*) FROM [dbo].[Financial] 
+  WHERE RunId = '<year>' AND RunType = 'default' 
+  GROUP BY URN 
+  HAVING Count(*) > 1;
+  ```
 
 ### The "parameters table"/post-release data flags
 

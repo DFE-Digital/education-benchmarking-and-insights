@@ -38,6 +38,71 @@ SELECT * FROM [dbo].[Financial] WHERE RunId like '<year>' AND RunType like 'defa
 SELECT * FROM [dbo].[NonFinancial] WHERE RunId like '<year>' AND RunType like 'default'
 ```
 
+## Check the outputs
+
+To assure the quality of the CFR ingestion pipeline, specific logical checks targeting Federated Schools must be performed to prevent double-counting.
+
+### 1. Federated School Aggregations & View Exclusions
+
+Maintained schools in a federation submit their financial data under a combined return led by a single "lead" school.
+
+* **The Logic:**
+  * The lead school's database record holds the aggregated financial and workforce metrics (e.g., pupil numbers, FTE, total expenditure) for the entire federation.
+  * Member schools have individual entries pointing to the lead school's URN, but their financial metrics are empty or non-applicable in the final views to avoid duplicate counts.
+* **Checks:**
+  * Identify a federation in the raw `maintained_schools_master_list.csv` or by searching for schools with a non-zero "Lead school in federation" LAEstab.
+  * Query the database to ensure the lead school contains the aggregated metrics, and member schools have `FederationLeadURN` pointing to the lead school's URN.
+  * Execute a validation query against views `030-SchoolsFinancialSummary.sql` and `031-SchoolsWorkforceSummary.sql` to confirm that non-lead federation schools are correctly filtered out using:
+    `WHERE s.FederationLeadURN = s.URN -- lead school` OR `s.FederationLeadURN IS NULL -- not federated`
+* **SQL Verification Query:**
+
+  ```sql
+  -- Checking federation topology and lead school mappings
+  SELECT URN, SchoolName, FederationLeadURN, TotalExpenditure 
+  FROM [dbo].[School] s
+  JOIN [dbo].[Financial] f ON s.URN = f.URN
+  WHERE (s.FederationLeadURN = '<LeadURN>' OR s.URN = '<LeadURN>') AND f.RunId = '<year>';
+  ```
+
+### 2. Transparency File DNS & Federation Flags Check
+
+* **Checks:**
+  * Validate that the CFR Transparency File generator correctly tags member schools with the "DNS" (Did Not Submit) or federated submission status where their financials are combined into the lead school.
+  * Check that the sum of the transparency file's school expenditures matches the totals computed on the FBIT database for active lead schools.
+
+### Completeness checks compared to last year
+
+```sql
+-- Compare total maintained school counts and coverage percentage of key fields against the previous year's run
+SELECT
+    f_curr.RunId AS Run,
+    Count(f_curr.URN) AS Total_Schools,
+    Count(f_curr.KS2Progress) * 100 / Count(*) AS KS2_coverage,
+    Count(f_curr.KS4Progress) * 100 / Count(*) AS KS4_coverage,
+    Count(f_curr.TotalPupils) * 100 / Count(*) AS Pupils_coverage,
+    Count(f_curr.TeachersFTE) * 100 / Count(*) AS Teachers_coverage,
+    Count(f_curr.TotalInternalFloorArea) * 100 / Count(*) AS CDC_Floor_coverage,
+    Count(f_curr.PercentFreeSchoolMeals) * 100 / Count(*) AS FSM_coverage,
+    Count(f_curr.PercentSpecialEducationNeeds) * 100 / Count(*) AS SEN_coverage
+FROM [dbo].[NonFinancial] f_curr
+WHERE f_curr.RunId = '2025' AND f_curr.RunType = 'default' AND f_curr.FinanceType = 'Maintained'
+GROUP BY f_curr.RunId
+UNION ALL
+SELECT
+    f_prev.RunId AS Run,
+    Count(f_prev.URN) AS Total_Schools,
+    Count(f_prev.KS2Progress) * 100 / Count(*) AS KS2_coverage,
+    Count(f_prev.KS4Progress) * 100 / Count(*) AS KS4_coverage,
+    Count(f_prev.TotalPupils) * 100 / Count(*) AS Pupils_coverage,
+    Count(f_prev.TeachersFTE) * 100 / Count(*) AS Teachers_coverage,
+    Count(f_prev.TotalInternalFloorArea) * 100 / Count(*) AS CDC_Floor_coverage,
+    Count(f_prev.PercentFreeSchoolMeals) * 100 / Count(*) AS FSM_coverage,
+    Count(f_prev.PercentSpecialEducationNeeds) * 100 / Count(*) AS SEN_coverage
+FROM [dbo].[NonFinancial] f_prev
+WHERE f_prev.RunId = '2024' AND f_prev.RunType = 'default' AND f_prev.FinanceType = 'Maintained'
+GROUP BY f_prev.RunId;
+```
+
 ## Gotchas
 
 * Find all the ancillary data used in the CFR release in `get_cfr_ancillary_data()`.
