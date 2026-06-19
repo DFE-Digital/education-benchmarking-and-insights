@@ -78,7 +78,7 @@ This release introduces filtering to school benchmarking page, refactors compara
 
 **Release Overview:**
 
-Release commpleted successfully and all smoke and sanity tests passed. Filters have been implemented on the school benchmarking page, local authority comparator selection logic has been refactored, and critical dependency updates have been merged. Bug fixes for trust historic data visualisation and trust-to-trust benchmarking percentages have been applied.
+Release completed successfully and all smoke and sanity tests passed. Filters have been implemented on the school benchmarking page, local authority comparator selection logic has been refactored, and critical dependency updates have been merged. Bug fixes for trust historic data visualisation and trust-to-trust benchmarking percentages have been applied.
 
 **Azure DevOps tickets included in this release:**
 
