@@ -2,7 +2,9 @@
 
 The FBIT service updates underlying data four times a year: for AAR, BFR, CFR, and S251. Over successive releases the team has established processes for how to plan, communicate, and execute an FBIT data release smoothly from retrospectives run post-release.
 
-## Things to do before the release
+## Process notes
+
+### Things to do before the release
 
 * At least 2 sprints before the release date, have a kickoff session with the engineers and project team members. Engineers should run the session. It should run through things like:
 
@@ -16,7 +18,7 @@ The FBIT service updates underlying data four times a year: for AAR, BFR, CFR, a
 
 * CFR and AAR have an accompanying transparency file. This is released separately to the main FBIT service, but ideally they should align as much as possible. Schema validations of the transparency file and checks between FBIT data and the transparency file should be performed after the kickoff session and before the release.
 
-## Things to do immediately before and during the release
+### Things to do immediately before and during the release
 
 * Daily updates on submission volumes from schools/LAs leading up to the release keeps team focus and opens discussions about when to enact the submission cutoff and run the release.
 
@@ -24,7 +26,83 @@ The FBIT service updates underlying data four times a year: for AAR, BFR, CFR, a
 
 * The submission cutoff is enacted by taking a snapshot of the approved submissions table in SQL as of a decided date. Any submissions made after this date are excluded from the release, even if they appear in SQL shortly after.
 
-* To trigger the pipeline run once the data is prepared, follow the instructions in the [data-pipeline README](../../../data-pipeline/README.md#running-the-pipeline).
+* To trigger the pipeline run once the data is prepared, follow the instructions in the [data-pipeline README](../../../data-pipeline/README.md#running-the-pipeline). This involves adding the a message to the `data-pipeline-job-default-start` Azure queue as UTF-8 in this form:
+
+  ```json
+  {
+    "type": "default",
+    "runId": <year>,
+      "year": {
+          "aar": <year>,
+          "cfr": <year>,
+          "bfr": <year>,
+          "s251": <year>
+      }
+  }
+  ```
+
+## Step-by-step process
+
+### What year to use in data pipeline runs
+
+Most of FBIT is not historical. School benchmarking on FBIT shows data for only one year's worth of data. FBIT uses year identifiers to set off data pipeline runs to specify which year of data we want for each of our 4 financial data sources. For example CFR gets released earliest, so to set a data pipeline run with the new CFR data we would increment the CFR year and the runId only:
+
+```json
+{
+  "type": "default",
+  "runId": 2026,
+    "year": {
+        "aar": 2025,
+        "cfr": 2026,
+        "bfr": 2025,
+        "s251": 2025
+    }
+}
+```
+
+Then when BFR gets released:
+
+```json
+{
+  "type": "default",
+  "runId": 2026,
+    "year": {
+        "aar": 2025,
+        "cfr": 2026,
+        "bfr": 2026,
+        "s251": 2025
+    }
+}
+```
+
+And so on. The RunId should be the highest of the years of the 4 releases, and is used as a database identifier to retrieve data on the frontend. As an aside: for some parts of FBIT eg Custom Data runs the runId isn't a number - it is still used to retrieve data rows from the database.
+
+The year for a release corresponds to a directory location in the `raw` container. For the pipeline to run correctly the correct data must be in the right directory in the `raw` container.
+
+### Testing locally
+
+Testing that new data passes the data pipeline as run on a local machine first is a good idea to debug problems before testing it on deployed infrastructure. To do this, familiarity with Docker, Python, and SQL are needed.
+
+* [First set up the data pipeline locally.](../../../data-pipeline/README.md)
+* Then put the new data into blob storage locally.
+* Then trigger a pipeline run locally by adding a message to the `data-pipeline-job-default-start` queue as UTF-8.
+* You can tell the pipeline is running by debugging messages which display through the running of it. Errors will also display alongside the debugging messages if they occur. If the run is successful, a message will say "Pipeline run successful!"
+* Check the results of the pipeline run by querying the SQL database after a run.
+
+### Testing on deployed infrastructure
+
+We have a few sets of deployed infrastructure: `dev` (prefixed with `s198d01` in Azure), `test` (`s198t01`), `preprod` (`s198p02`), and `prod` (`s198p01`). Test in `test`, then do any second round of testing in `preprod` before the live `prod` environment. The equivalents of the local testing allow you to run, observe, and validate outputs from the data pipeline in the Azure console:
+
+* First scale the database for the relevant environment so that the processing of the data pipeline doesn't prevent other users getting responses from it. Search for `s198t01-sql`, click on the `data` database, click on Settings > Compute and Storage and set the DTUs to 200. Wait for this to take effect.
+* Add data to data storage blobs (search eg `s198t01data` in the azure console for the resource)
+* Trigger a pipeline run (`data-pipeline-job-default-start` in `s198t01data`)
+* View the running of the data pipeline by viewing the container logs. Search for `s198t01-ebis-aiw`, click on logs, and search for "default" in the queries hub. Run the "Recent default pipeline runs" query to see the logs/errors from that pipeline run.
+* View the relevant database by connecting to it locally via a connection string, as is stored in keyvault `s198t01-ebis-keyvault`, or get login credentials to SQL from the keyvault and log in on the azure console.
+* After a pipeline run, descale the database to what it was before.
+
+### The "parameters table"/post-release data flags
+
+The `Parameters` table in SQL is very small and is used by the frontend to display messages to alert users to which year of financial data is used in benchmarking. Post each release, the year for the data release needs to be incremented in the parameters table to display to users that a new year of data is being shown.
 
 ## Release specific notes
 
