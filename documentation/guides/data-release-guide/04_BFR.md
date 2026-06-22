@@ -15,7 +15,7 @@ BFR data is simply exported from the SQL tables outlined in the [data sources pa
 * Add the new data to the relevant year folder in Azure
 * [Configure the schemas for the new files](./01_Overview.md#checking-for-schema-changes) in `data-pipeline.src.pipeline.input_schemas.bfr`. For BFR, it may not be necessary.
 * Run the pipeline to test the new data. Debug and fix any issues, eg misconfigured schemas.
-* After configuration, run the pipeline successfully
+* After configuration, run the pipeline successfully.
 * Check that the pipeline has deposited rows in SQL by querying the database tables for BFR (fill in the year):
 
 ```sql
@@ -30,7 +30,7 @@ WHERE RunId like '<year>' AND RunType like 'default'
 
 ## Check the outputs
 
-To assure the quality of the BFR ingestion pipeline do some spot checks on forecasts and pupil numbers. BFR uses specific row/line mappings (`EFALineNo`) in `BFR_SOFA_raw.csv` and `BFR_3Y_raw.csv` to compute Statement of Financial Activities (SOFA) and multi-year forecasts.
+To assure the quality of the BFR ingestion pipeline do some spot checks on forecasts and pupil numbers. BFR uses [specific row/line mappings](../../data/sources/bfr.md) (`EFALineNo`) in `BFR_SOFA_raw.csv` and `BFR_3Y_raw.csv` to compute Statement of Financial Activities (SOFA) and multi-year forecasts.
 
 * Select 3 Multi-Academy Trusts in the source CSV and record their values for key `EFALineNo` fields (such as line numbers for total income, staff costs, and total forecasted expenditure).
 * Query the `BudgetForecastReturn` and `BudgetForecastReturnMetric` tables for those specific trusts and verify that the financial amounts written correspond exactly to [those line numbers](../../data/sources/bfr.md#efalineno).

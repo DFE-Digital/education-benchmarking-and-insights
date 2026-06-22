@@ -48,13 +48,13 @@ SELECT * FROM [dbo].[TrustFinancial] WHERE RunId like '<year>' AND RunType like 
 * The transparency file has some extra features compared to the outputs on FBIT, but it should line up with the numbers in FBIT. Take 5 random schools and check that where the columns overlap, they are the same in the transparency file and in FBIT. Start conversations with the business early about if any schema changes to the transparency file are required.
 * **Checks:**
   * Select 5 random schools representing different categories (e.g., small, large, federated, or multi-academy trust members).
-  * Manually cross-check their overlapping metrics between the transparency file and the database outputs to verify zero variance.
+  * Manually cross-check their overlapping metrics between the transparency file and the database outputs to verify they are the same.
 
 ## Check the outputs
 
-Do some general checks on outputs, and more specific checks on [academy apportionments](./../../data/09_Academy-Apportionments.md) and the transparency file.
-
 ### Completeness checks compared to last year
+
+These checks check the volume of submissions, and how well non-financial data links to this year's submissions.
 
 ```sql
 -- Compare total academy counts and coverage percentage of key fields against the previous year's run
@@ -91,64 +91,52 @@ WHERE f_prev.RunId = '2024' AND f_prev.RunType = 'default' AND f_prev.FinanceTyp
 GROUP BY f_prev.RunId;
 ```
 
-### 1. Central Service Apportionment Validation (MAT-level splits)
+### Apportionments and part-year schools
 
-Except for revenue reserves, trust-level central expenditure is distributed (apportioned) to its active member academies.
+The most complicated checks in AAR are on on [academy central service apportionments](./../../data/09_Academy-Apportionments.md), and how this is affected by trust leavers and joiners.
+
+Except for revenue reserves, trust-level central expenditure is distributed (apportioned) to member academies at the start of the year (even if it left part way through the year). Most cost categories are distributed using pupil numbers, but a couple of categories like utilities are distributed using floor area. There are three categories to check: cost apportionments by pupil number, cost apportionments by floor area, and the special case of trust revenue reserves. The idea here is to recalculate apportionments from the input data to check against the database values as calculated by the data pipeline.
 
 * **Checks:**
-  * Select a Multi-Academy Trust (MAT) with a significant central expenditure balance in the `aar_cs.csv` input.
-  * Query the academies in that trust from the database and calculate their pupil headcount proportions:
-    $$\text{Academy Proportion} = \frac{\text{Academy Pupils}}{\sum \text{Trust Pupils}}$$
-  * Verify that the apportioned expenditure figures written into the database for each academy map exactly to this proportion of the trust's total central services cost.
+  * Select a Multi-Academy Trust (MAT) with a significant central expenditure balance in the `aar_cs.csv` input. Take school from that trust and get it's URN to plug into the query below. Also replace the year with the current year's data.
+  * Verify that the apportioned expenditure figures written into the database for each academy map exactly to this proportion of the trust's total central services cost. For the query below, `ApportionedTeachingStaffCostsCS` should equal `RecalculatedTeachingApportionment`, and the same with utilities.
 
 ```sql
--- Extract raw vs apportioned expenditure to verify proportions
-SELECT URN, TrustCompanyNumber, TotalExpenditure, CentralFundsApportioned 
-FROM [dbo].[Financial] 
-WHERE TrustCompanyNumber = '<TrustCompanyNumber>' AND RunId = '<year>' AND RunType = 'default';
+SELECT f.[URN]
+      ,f.[TeachingStaffCostsCS] as ApportionedTeachingStaffCostsCS
+      ,f.[TotalUtilitiesCostsCS] as ApportionedUtilitiesCostsCS
+      ,f.RevenueReserve
+      ,tf.TeachingStaffCostsCS * (f.[TotalPupils] * f.PeriodCoveredByReturn / 12) / prt.TrustProRataPupilTotal AS RecalculatedTeachingApportionment
+      ,tf.TotalUtilitiesCostsCS * (f.[TotalInternalFloorArea] * f.PeriodCoveredByReturn / 12) / prt.TrustProRataFloorAreaTotal AS RecaculatedUtilityApportionment
+  FROM [dbo].[Financial] f
+  -- get trust company number
+  LEFT JOIN dbo.School s ON f.URN = s.URN
+  -- pro-rata trust totals
+  LEFT JOIN (
+    SELECT s.TrustCompanyNumber
+    ,SUM(f.TotalPupils * f.PeriodCoveredByReturn / 12) as TrustProRataPupilTotal
+    ,SUM(f.TotalInternalFloorArea * f.PeriodCoveredByReturn / 12) as TrustProRataFloorAreaTotal
+    FROM dbo.Financial f
+    LEFT JOIN dbo.School s ON f.URN = s.URN
+    WHERE f.RunId like '2025'
+    AND f.RunType like 'default'
+    AND f.FinanceType like 'academy'
+    GROUP BY s.TrustCompanyNumber
+  ) prt ON prt.TrustCompanyNumber = s.TrustCompanyNumber
+  -- get trust CS totals
+  LEFT JOIN dbo.TrustFinancial tf on s.TrustCompanyNumber = tf.CompanyNumber
+  WHERE f.RunId like '2025'
+  AND f.RunType like 'default'
+  AND f.URN like 131065
+  AND tf.RunId like '2025'
+  AND tf.RunType like 'default'
 ```
 
-### 2. Part-Year Ingestions
+### Trust Revenue Reserves Check
 
-Academies that join or move between trusts mid-year have adjusted apportionments.
+Because Revenue Reserves represent balance sheet items at a specific point in time (the year-end), they are only apportioned to academies that are active, current members of a trust at year-end (based on trust pupil numbers at year end). Academies that left or closed during the year must receive exactly `0.0` for their apportioned revenue reserve.
 
-* **Checks for Joiners:**
-  * Verify that "Mid-year Joiners" have their trust-level apportionment scaled pro-rata based on the exact fraction of the financial year they belonged to that trust.
-  * Formula: $\text{Apportioned Cost} \times \frac{\text{Days as Member}}{365 \text{ (or 366)}}$
-* **Checks for Leavers & Transfers (Trust Changes):**
-  * Check that when an academy transfers from Trust A to Trust B mid-cycle, its apportioned costs are correctly split across both trusts according to the days spent in each, ensuring that the total combined apportionment exactly matches 100% of its membership days without any overlap or double-counting.
-* **Revenue Reserve Apportionment Check:**
-  * Revenue reserve is a year-end balance sheet item (not in-year spend).
-  * Check that revenue reserves are **only allocated to academies active in the trust at year-end**.
-  * Confirm that academies that left or closed during the year receive **exactly zero** apportioned revenue reserves from their former trust.
-
-## Completeness checks
-
-```sql
-SELECT
-    f_curr.RunId AS Run,
-    Count(f_curr.URN) AS Total_Schools,
-    Count(f_curr.KS2Progress) * 100 / Count(*) AS KS2_coverage,
-    Count(f_curr.KS4Progress) * 100 / Count(*) AS KS4_coverage,
-    Count(f_curr.TotalPupils) * 100 / Count(*) AS Pupils_coverage,
-    Count(f_curr.TeachersFTE) * 100 / Count(*) AS Teachers_coverage,
-    Count(f_curr.TotalInternalFloorArea) * 100 / Count(*) AS CDC_coverage
-FROM [dbo].[NonFinancial] f_curr
-WHERE f_curr.RunId = '2025' AND f_curr.RunType = 'default'
-GROUP BY f_curr.RunId
-UNION ALL
-SELECT
-    f_prev.RunId AS Run,
-    Count(f_prev.URN) AS Total_Schools,
-    Count(f_prev.KS2Progress) * 100 / Count(*) AS KS2_coverage,
-    Count(f_prev.KS4Progress) * 100 / Count(*) AS KS4_coverage,
-    Count(f_prev.TotalPupils) * 100 / Count(*) AS Pupils_coverage,
-    Count(f_prev.TeachersFTE) * 100 / Count(*) AS Teachers_coverage,
-    Count(f_prev.TotalInternalFloorArea) * 100 / Count(*) AS CDC_coverage
-FROM [dbo].[NonFinancial] f_prev
-WHERE f_prev.RunId = '2024' AND f_prev.RunType = 'default'
-GROUP BY f_prev.RunId;
-```
+* **Check:** Take a trust from the CS file, and note it's revenue reserves. Take a member academy from `aar.csv` and calculate it's apportioned revenue reserve based on which academies are members of the trust at the end of the year (revenue reserve + central revenue reserve * academy pupils / end of year trust pupils). This should line up with the revenue reserve field in `Financial`.
 
 ## Deploy the working code through deployment environments
 
