@@ -68,3 +68,18 @@ resource "azurerm_mssql_firewall_rule" "cae-fw-rule" {
   start_ip_address = azurerm_container_app_environment.main.static_ip_address
   end_ip_address   = azurerm_container_app_environment.main.static_ip_address
 }
+
+locals {
+  container_app_outbound_ips = toset(concat(
+    module.container_app_default.outbound_ip_addresses,
+    module.container_app_custom.outbound_ip_addresses
+  ))
+}
+
+resource "azurerm_mssql_firewall_rule" "ca-fw-rule" {
+  for_each         = local.container_app_outbound_ips
+  name             = "${var.environment-prefix}-ebis-ca-fw-${replace(each.value, ".", "-")}"
+  server_id        = data.azurerm_mssql_server.sql-server.id
+  start_ip_address = each.value
+  end_ip_address   = each.value
+}
