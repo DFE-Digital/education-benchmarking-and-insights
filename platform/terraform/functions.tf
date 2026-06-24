@@ -208,3 +208,21 @@ module "orchestrator-fa" {
     contributor = true
   }
 }
+
+module "content-fc-fa" {
+  source = "./modules/function_app"
+  app-settings = merge(local.default_app_settings, {
+    "Sql__ConnectionString"                  = local.shared_app_settings.sql_connection
+    "WEBSITE_USE_PLACEHOLDER_DOTNETISOLATED" = local.shared_app_settings.use_dotnet_isolated
+  })
+
+  core       = { name = "content-fc", environment_prefix = var.environment-prefix, resource_group_name = azurerm_resource_group.resource-group.name, location = var.location, tags = local.common-tags }
+  monitoring = local.shared_monitoring
+  shared_key_vault  = local.shared_key_vault
+  sql_server = local.shared_sql_server
+  networking      = local.shared_networking
+  identity = {
+    tenant_id = data.azurerm_client_config.client.tenant_id
+    object_id = data.azurerm_client_config.client.object_id
+  }
+}
