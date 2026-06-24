@@ -216,7 +216,14 @@ module "content-fc-fa" {
     "WEBSITE_USE_PLACEHOLDER_DOTNETISOLATED" = local.shared_app_settings.use_dotnet_isolated
   })
 
-  core       = { name = "content-fc", environment_prefix = var.environment-prefix, resource_group_name = azurerm_resource_group.resource-group.name, location = var.location, tags = local.common-tags }
+  core = {
+    name = "content-fc",
+    short_name = "cnt",
+    environment_prefix = var.environment-prefix,
+    resource_group_name = azurerm_resource_group.resource-group.name,
+    location = var.location,
+    tags = local.common-tags
+  }
   monitoring = local.shared_monitoring
   shared_key_vault  = local.shared_key_vault
   sql_server = local.shared_sql_server
