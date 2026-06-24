@@ -63,6 +63,23 @@ Once the cutoff data is prepared, one engineer should orchestrate the rest of th
 
 ## Reference
 
+### Triggering a pipeline run
+
+To trigger a pipeline run once data is prepared, add a message to the `data-pipeline-job-default-start` Azure queue as UTF-8, in this form:
+
+```json
+{
+  "type": "default",
+  "runId": <year>,
+  "year": {
+    "aar": <year>,
+    "cfr": <year>,
+    "bfr": <year>,
+    "s251": <year>
+  }
+}
+```
+
 ### What year to use in data pipeline runs
 
 Most of FBIT is not historical — school benchmarking on FBIT shows only one year's worth of data. FBIT uses year identifiers to set off data pipeline runs, specifying which year of data is wanted for each of the 4 financial data sources.
@@ -100,23 +117,6 @@ Then when BFR is released:
 And so on. `runId` should be the highest of the years of the 4 releases, and is used as a database identifier to retrieve data on the frontend. Aside: for some parts of FBIT, e.g. Custom Data runs, `runId` isn't a number — it's still used to retrieve data rows from the database.
 
 The year for a release corresponds to a directory location in the `raw` container. For the pipeline to run correctly, the correct data must be in the right directory in the `raw` container.
-
-### Triggering a pipeline run
-
-To trigger a pipeline run once data is prepared, add a message to the `data-pipeline-job-default-start` Azure queue as UTF-8, in this form:
-
-```json
-{
-  "type": "default",
-  "runId": <year>,
-  "year": {
-    "aar": <year>,
-    "cfr": <year>,
-    "bfr": <year>,
-    "s251": <year>
-  }
-}
-```
 
 ### Checking for schema changes
 
