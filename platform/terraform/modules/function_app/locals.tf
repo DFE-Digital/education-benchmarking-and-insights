@@ -9,8 +9,8 @@ locals {
   })
 
   function-app-name = "${var.core.environment_prefix}-ebis-${var.core.name}-fa"
-  storage-account-name = "${var.core.environment_prefix}-ebis-${var.core.short_name}-sa"
-  key-vault-name = "${var.core.environment_prefix}-ebis-${var.core.name}-kv"
+  storage-account-name = "${var.core.environment_prefix}ebis${var.core.short_name}sa"
+  key-vault-name = "${var.core.environment_prefix}-ebis-${var.core.short_name}-kv"
   identity_name = "${var.core.environment_prefix}-ebis-${var.core.name}-identity"
 
   storage_account_tier = "Standard"
