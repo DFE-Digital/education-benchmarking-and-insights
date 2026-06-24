@@ -37,7 +37,7 @@ Below is the complete chronological sequence from planning through to go-live, w
 
 2. **Enact Cutoff Snapshot.** Take a static snapshot of the approved submissions table in SQL as of the decided cutoff date. Any returns submitted after this date are excluded from the release cycle, even if they appear in SQL shortly after.
 
-3. **Prepare Raw Data Directory.** Land the final primary and ancillary files inside the correct year directory within the Azure `raw` container (e.g. `raw/default/2026/...`). The pipeline reads from this directory location, so the correct data must be in the right place for the run to work — see [What year to use in data pipeline runs](#what-year-to-use-in-data-pipeline-runs) below.
+3. **Prepare Raw Data Directory.** Land the final primary and ancillary files inside the correct year directory within the Azure `raw` container (e.g. `raw/default/2026/...`) using the Azure console's upload file functionality. The pipeline reads from this directory location, so the correct data must be in the right place for the run to work — see [What year to use in data pipeline runs](#what-year-to-use-in-data-pipeline-runs) below.
 
 ## Phase 3: Ingestion & Verification (Release Day)
 
