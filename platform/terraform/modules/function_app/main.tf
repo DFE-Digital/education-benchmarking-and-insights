@@ -154,7 +154,6 @@ resource "azurerm_function_app_flex_consumption" "func-app" {
   runtime_name                = var.application_stack.worker_runtime
   runtime_version             = var.application_stack.runtime_version
   https_only                 = true
-  builtin_logging_enabled    = false
 
   identity {
     type         = "UserAssigned"
@@ -162,7 +161,6 @@ resource "azurerm_function_app_flex_consumption" "func-app" {
   }
 
   site_config {
-    always_on                              = var.application_stack.always_on
     http2_enabled                          = true
     application_insights_connection_string = var.monitoring.instrumentation_connection_string
     use_32_bit_worker                      = var.application_stack.use_32_bit_worker
