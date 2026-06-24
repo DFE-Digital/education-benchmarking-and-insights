@@ -57,7 +57,7 @@ Once the cutoff data is prepared, one engineer should orchestrate the rest of th
 
 1. **Promote Environments.** Merge the schema/config pull requests on GitHub, triggering FBIT CI/CD deployment. Promote through `dev` → `test` → `preprod` → `prod`.
 
-2. **Update Parameter Flags.** Update the SQL `dbo.Parameters` table to increment the active year identifiers. This instantly publishes the fresh data live on the frontend — see [The Parameters table](#the-parameters-tablepost-release-data-flags) below.
+2. **Update Parameter Flags.** Update the SQL `dbo.Parameters` table to increment the active year identifiers. This instantly labels the fresh data live on the frontend — see [The Parameters table](#2-data-completeness) below.
 
 ---
 
