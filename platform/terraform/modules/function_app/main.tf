@@ -10,7 +10,7 @@ resource "azurerm_storage_account" "func_app_sa" {
 
 # Create a storage container
 resource "azurerm_storage_container" "func_app_sc" {
-  name                  = "func_app"
+  name                  = "func-app"
   storage_account_id    = azurerm_storage_account.func_app_sa.id
   container_access_type = "private"
 }
