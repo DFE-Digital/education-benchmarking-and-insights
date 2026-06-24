@@ -19,7 +19,7 @@
 * HExP.csv
 * ILR R06 cut with FSM and EHCP.xlsx
 
-Download all of these data, checking for updates in publicly available datasets. Use the latest data. AAR columns have changed since we first ran the data and there is a small pivot we do from the SQL data which renames some columns and prepares the data for the data pipeline. [The script to do this is stored on sharepoint here.](https://educationgovuk.sharepoint.com/:u:/r/sites/DfEFinancialBenchmarking/Shared%20Documents/CFR%20Data%20Procurement%20Process/24-25/aar/Academies_Returns_202425.sql?csf=1&web=1&e=gzNOTL)
+Download all of these data, checking for updates in publicly available datasets. Use the latest data. AAR column codes have changed since we first ran the data and there is a small pivot we do from the SQL data which renames some columns and prepares the data for the data pipeline. [The script to do this is stored on sharepoint here.](https://educationgovuk.sharepoint.com/:u:/r/sites/DfEFinancialBenchmarking/Shared%20Documents/CFR%20Data%20Procurement%20Process/24-25/aar/Academies_Returns_202425.sql?csf=1&web=1&e=gzNOTL)
 
 ## Test the data pipeline runs locally
 
