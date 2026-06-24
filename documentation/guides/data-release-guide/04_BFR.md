@@ -43,5 +43,6 @@ BFR uses its own, dedicated forecast pupil number which can differ from the stan
 
 * BFR uses its own pupil number which is different to the census one.
 * BFR uses previous year's BFR data to show spend over time. The manner in which it does this and business context [is described in other docs.](../../data/sources/bfr.md)
+* [BFR Test Plans](../../quality-assurance/data-release-test-plans/00003_BFR-2024-2025-data-release.md)
 
 \newpage

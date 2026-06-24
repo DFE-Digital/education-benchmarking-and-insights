@@ -107,5 +107,6 @@ GROUP BY f_prev.RunId;
 
 * Find all the ancillary data used in the CFR release in `get_cfr_ancillary_data()`.
 * Dealing with federations is a complex part of CFR. Do some spot checks on federated maintained schools to check their numbers are being handled correctly.
+* [CFR test plans](../../quality-assurance/data-release-test-plans/00002_CFR-2024-2025-data-release.md)
 
 \newpage
