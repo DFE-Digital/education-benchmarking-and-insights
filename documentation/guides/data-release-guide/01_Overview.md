@@ -4,14 +4,14 @@ The FBIT service updates underlying data four times a year: for AAR, BFR, CFR, a
 
 Because data drops require making schema adjustments, modifying pipeline configuration files, and debugging code-level transformation issues on local Docker instances, **it is highly advised that an engineer familiar with Python, Docker, and SQL executes the data drop.**
 
-Below is the complete chronological sequence from planning through to go-live, with detailed guidance under each step.
+Below is the complete chronological sequence from planning through to go-live, with detailed guidance under each step. CFR or BFR will "kick off" a new full year of data, and AAR will come last. As an example, when CFR is published, only CFR data and CFR ancillary data is needed in the new data folder. When AAR comes, since AAR and CFR share some ancillary data sources like GIAS, some CFR ancillary data gets updated. This is intended.
 
 ## Release specific notes
 
-* [AAR](./02_AAR.md)
-* [CFR](./03_CFR.md)
-* [BFR](./04_BFR.md)
-* [S251](./05_S251.md)
+* [CFR](./03_CFR.md) (August/September)
+* [BFR](./04_BFR.md) (August)
+* [S251 (Budget/Outturn)](./05_S251.md) (September)
+* [AAR](./02_AAR.md) (January/February)
 
 ---
 
