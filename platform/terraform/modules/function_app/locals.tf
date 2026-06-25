@@ -1,7 +1,7 @@
 locals {
 
-
   function-app-settings = merge(var.app-settings, {
+    "WEBSITE_WEBDEPLOY_USE_SCM" = false,
     "AzureWebJobsDisableHomepage" = true
     "AzureWebJobsSecretStorageType" = "keyvault"
     "AzureWebJobsSecretStorageKeyVaultUri" = azurerm_key_vault.func_app_kv.vault_uri
