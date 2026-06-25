@@ -110,7 +110,6 @@ jobs:
                 resourceGroupName: '${{ parameters.environmentPrefix }}-ebis-platform'
                 package: '${{ parameters.workspaceDir }}/platform-apis/Platform.Api.Content.zip'
                 appSettings: '-WEBSITE_RUN_FROM_PACKAGE 1'
-                deploymentMethod: 'runFromPackage'
                 isFlexConsumption: true
 
             - task: AzureFunctionApp@2
