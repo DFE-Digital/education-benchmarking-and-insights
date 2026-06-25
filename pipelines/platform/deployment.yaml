@@ -106,10 +106,9 @@ jobs:
                 azureSubscription: ${{ parameters.subscription }}
                 appType: functionAppLinux
                 appName: '${{ parameters.environmentPrefix }}-ebis-content-fc-fa'
-                deployToSlotOrASE: true
+                deployToSlotOrASE: false
                 resourceGroupName: '${{ parameters.environmentPrefix }}-ebis-platform'
                 package: '${{ parameters.workspaceDir }}/platform-apis/Platform.Api.Content.zip'
-                slotName: production
                 appSettings: '-WEBSITE_RUN_FROM_PACKAGE 1'
                 deploymentMethod: 'runFromPackage'
                 isFlexConsumption: true
