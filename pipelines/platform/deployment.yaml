@@ -104,7 +104,7 @@ jobs:
               displayName: 'Deploy content app (flex consumption)'
               inputs:
                 azureSubscription: ${{ parameters.subscription }}
-                appType: functionApp
+                appType: functionAppLinux
                 appName: '${{ parameters.environmentPrefix }}-ebis-content-fc-fa'
                 deployToSlotOrASE: true
                 resourceGroupName: '${{ parameters.environmentPrefix }}-ebis-platform'
