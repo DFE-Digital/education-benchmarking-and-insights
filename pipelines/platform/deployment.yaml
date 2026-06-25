@@ -112,6 +112,7 @@ jobs:
                 slotName: production
                 appSettings: '-WEBSITE_RUN_FROM_PACKAGE 1'
                 deploymentMethod: 'runFromPackage'
+                isFlexConsumption: true
 
             - task: AzureFunctionApp@2
               displayName: 'Deploy orchestrator function app'
