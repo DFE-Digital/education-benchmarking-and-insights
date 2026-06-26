@@ -62,7 +62,7 @@ variable "application_stack" {
   type = object({
     worker_runtime       = optional(string, "dotnet-isolated")
     use_32_bit_worker    = optional(bool, false)
-    runtime_version      = optional(string, "10.0")
+    runtime_version      = optional(string, "8.0")
     use_isolated_runtime = optional(bool, true)
     always_on            = optional(bool, false)
   })
