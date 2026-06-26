@@ -212,7 +212,7 @@ module "orchestrator-fa" {
 module "content-fc-fa" {
   source = "./modules/function_app"
   app-settings = {
-      "Sql__ConnectionString" = local.shared_app_settings.sql_connection
+    "Sql__ConnectionString" = local.shared_app_settings.sql_connection
     }
 
   core = {
