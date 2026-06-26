@@ -211,9 +211,9 @@ module "orchestrator-fa" {
 
 module "content-fc-fa" {
   source = "./modules/function_app"
-  app-settings = merge(local.default_app_settings, {
-    "Sql__ConnectionString"                  = local.shared_app_settings.sql_connection
-  })
+  app-settings = {
+      "Sql__ConnectionString" = local.shared_app_settings.sql_connection
+    }
 
   core = {
     name = "content-fc",
