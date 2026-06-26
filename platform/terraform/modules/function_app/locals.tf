@@ -1,7 +1,6 @@
 locals {
 
   function-app-settings = merge(var.app-settings, {
-    "WEBSITE_RUN_FROM_PACKAGE" = "1"
     "AzureWebJobsSecretStorageType" = "keyvault"
     "AzureWebJobsSecretStorageKeyVaultUri" = azurerm_key_vault.func_app_kv.vault_uri
     "AzureWebJobsSecretStorageKeyVaultClientId" = azurerm_user_assigned_identity.func-identity.client_id
