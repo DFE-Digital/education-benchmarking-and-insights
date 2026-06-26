@@ -47,7 +47,7 @@ steps:
     inputs:
       command: publish
       publishWebProjects: false
-      packagesDirec   tory: $(PLATFORM_NUGET_CACHE)
+      packagesDirectory: $(PLATFORM_NUGET_CACHE)
       projects: |
         platform/src/apis/Platform.Api.LocalAuthority/Platform.Api.LocalAuthority.csproj
         platform/src/apis/Platform.Api.School/Platform.Api.School.csproj
@@ -67,7 +67,7 @@ steps:
     inputs:
       command: publish
       publishWebProjects: false
-      packagesDirec   tory: $(PLATFORM_NUGET_CACHE)
+      packagesDirectory: $(PLATFORM_NUGET_CACHE)
       projects: |
         platform/src/apis/Platform.Api.LocalAuthority/Platform.Api.LocalAuthority.csproj
         platform/src/apis/Platform.Api.School/Platform.Api.School.csproj
