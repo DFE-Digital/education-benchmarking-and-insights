@@ -143,17 +143,18 @@ resource "azurerm_service_plan" "func-asp" {
 # Create the function app
 resource "azurerm_function_app_flex_consumption" "func-app" {
   #checkov:skip=CKV_AZURE_221:See ADO backlog AB#206517
-  name                       = local.function-app-name
-  location                   = var.core.location
-  resource_group_name        = var.core.resource_group_name
-  service_plan_id            = azurerm_service_plan.func-asp.id
-  storage_container_type      = "blobContainer"
-  storage_container_endpoint  = "${azurerm_storage_account.func_app_sa.primary_blob_endpoint}${azurerm_storage_container.func_app_sc.name}"
-  storage_authentication_type = "UserAssignedIdentity"
+  name                              = local.function-app-name
+  location                          = var.core.location
+  resource_group_name               = var.core.resource_group_name
+  service_plan_id                   = azurerm_service_plan.func-asp.id
+  storage_container_type            = "blobContainer"
+  storage_container_endpoint        = "${azurerm_storage_account.func_app_sa.primary_blob_endpoint}${azurerm_storage_container.func_app_sc.name}"
+  storage_authentication_type       = "UserAssignedIdentity"
   storage_user_assigned_identity_id = azurerm_user_assigned_identity.func-identity.id
-  runtime_name                = var.application_stack.worker_runtime
-  runtime_version             = var.application_stack.runtime_version
-  https_only                 = true
+  public_network_access_enabled     = true # Allowed for temporary pipeline whitelisting
+  runtime_name                      = var.application_stack.worker_runtime
+  runtime_version                   = var.application_stack.runtime_version
+  https_only                        = true
 
   identity {
     type         = "UserAssigned"
@@ -161,8 +162,8 @@ resource "azurerm_function_app_flex_consumption" "func-app" {
   }
 
   site_config {
-    application_insights_connection_string = var.monitoring.instrumentation_connection_string
 
+    application_insights_connection_string = var.monitoring.instrumentation_connection_string
     ip_restriction_default_action = local.ip_default_action
 
     dynamic "ip_restriction" {
@@ -176,6 +177,10 @@ resource "azurerm_function_app_flex_consumption" "func-app" {
   app_settings = local.function-app-settings
   tags         = var.core.tags
 
+  depends_on = [
+    azurerm_role_assignment.storage-data-owner,
+    azurerm_key_vault_access_policy.func-kv-access,
+  ]
 }
 
 resource "mssql_user" "app-service-user" {
