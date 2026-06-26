@@ -106,7 +106,7 @@ jobs:
                 azureSubscription: ${{ parameters.subscription }}
                 appType: functionAppLinux
                 appName: '${{ parameters.environmentPrefix }}-ebis-content-fc-fa'
-                package: '${{ parameters.workspaceDir }}/platform-apis/Platform.Api.Content.zip'
+                package: '${{ parameters.workspaceDir }}/platform-apis-linux/Platform.Api.Content.zip'
                 isFlexConsumption: true
 
             - task: AzureFunctionApp@2

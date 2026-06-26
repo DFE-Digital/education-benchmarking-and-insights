@@ -43,11 +43,11 @@ steps:
       modifyOutputPath: true
 
   - task: DotNetCoreCLI@2
-    displayName: 'Build platform apis'
+    displayName: 'Build platform apis (win64)'
     inputs:
       command: publish
       publishWebProjects: false
-      packagesDirectory: $(PLATFORM_NUGET_CACHE)
+      packagesDirec   tory: $(PLATFORM_NUGET_CACHE)
       projects: |
         platform/src/apis/Platform.Api.LocalAuthority/Platform.Api.LocalAuthority.csproj
         platform/src/apis/Platform.Api.School/Platform.Api.School.csproj
@@ -59,6 +59,26 @@ steps:
         platform/src/apis/Platform.Orchestrator/Platform.Orchestrator.csproj
         platform/src/apis/Platform.MaintenanceTasks/Platform.MaintenanceTasks.csproj
       arguments: '-c Release -r win-x64 -p:PublishReadyToRun=true -o $(Build.ArtifactStagingDirectory)/platform-apis /p:Version=${{ parameters.BuildVersion }} /p:InformationalVersion=${{ parameters.BuildNumber }}'
+      zipAfterPublish: true
+      modifyOutputPath: true
+
+  - task: DotNetCoreCLI@2
+    displayName: 'Build platform apis (linux)'
+    inputs:
+      command: publish
+      publishWebProjects: false
+      packagesDirec   tory: $(PLATFORM_NUGET_CACHE)
+      projects: |
+        platform/src/apis/Platform.Api.LocalAuthority/Platform.Api.LocalAuthority.csproj
+        platform/src/apis/Platform.Api.School/Platform.Api.School.csproj
+        platform/src/apis/Platform.Api.Trust/Platform.Api.Trust.csproj
+        platform/src/apis/Platform.Api.Benchmark/Platform.Api.Benchmark.csproj
+        platform/src/apis/Platform.Api.Insight/Platform.Api.Insight.csproj
+        platform/src/apis/Platform.Api.LocalAuthorityFinances/Platform.Api.LocalAuthorityFinances.csproj
+        platform/src/apis/Platform.Api.Content/Platform.Api.Content.csproj
+        platform/src/apis/Platform.Orchestrator/Platform.Orchestrator.csproj
+        platform/src/apis/Platform.MaintenanceTasks/Platform.MaintenanceTasks.csproj
+      arguments: '-c Release -r linux-x64 -p:PublishReadyToRun=true -o $(Build.ArtifactStagingDirectory)/platform-apis-linux /p:Version=${{ parameters.BuildVersion }} /p:InformationalVersion=${{ parameters.BuildNumber }}'
       zipAfterPublish: true
       modifyOutputPath: true
 
