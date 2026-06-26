@@ -161,10 +161,7 @@ resource "azurerm_function_app_flex_consumption" "func-app" {
   }
 
   site_config {
-    http2_enabled                          = true
     application_insights_connection_string = var.monitoring.instrumentation_connection_string
-    use_32_bit_worker                      = var.application_stack.use_32_bit_worker
-    elastic_instance_minimum               = var.service_plan.minimum_elastic_instance_count
 
     ip_restriction_default_action = local.ip_default_action
 
@@ -179,13 +176,6 @@ resource "azurerm_function_app_flex_consumption" "func-app" {
   app_settings = local.function-app-settings
   tags         = var.core.tags
 
-  lifecycle {
-    ignore_changes = [
-      app_settings["FUNCTIONS_EXTENSION_VERSION"],
-      app_settings["WEBSITE_ENABLE_SYNC_UPDATE_SITE"],
-      app_settings["WEBSITE_RUN_FROM_PACKAGE"],
-    ]
-  }
 }
 
 resource "mssql_user" "app-service-user" {
