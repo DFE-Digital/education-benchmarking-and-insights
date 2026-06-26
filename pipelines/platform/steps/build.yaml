@@ -108,5 +108,9 @@ steps:
     artifact: platform-search
 
   - publish: $(build.artifactstagingdirectory)/platform-apis
-    displayName: 'Publish platform apis artifacts'
+    displayName: 'Publish platform apis (win64) artifacts'
     artifact: platform-apis
+
+  - publish: $(build.artifactstagingdirectory)/platform-apis-linux
+    displayName: 'Publish platform apis (linux) artifacts'
+    artifact: platform-apis-linux
