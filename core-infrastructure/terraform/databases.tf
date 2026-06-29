@@ -36,6 +36,7 @@ resource "azurerm_key_vault_secret" "sql-connection-string-default" {
 }
 
 resource "azurerm_key_vault_secret" "sql-server-name" {
+  #checkov:skip=CKV_AZURE_41:See ADO backlog AB#206511
   name         = "core-sql-server-name"
   value        = azurerm_mssql_server.sql-server.name
   key_vault_id = azurerm_key_vault.key-vault.id
@@ -44,6 +45,7 @@ resource "azurerm_key_vault_secret" "sql-server-name" {
 }
 
 resource "azurerm_key_vault_secret" "sql-server-resource-group" {
+  #checkov:skip=CKV_AZURE_41:See ADO backlog AB#206511
   name         = "core-sql-server-resource-group"
   value        = azurerm_resource_group.resource-group.name
   key_vault_id = azurerm_key_vault.key-vault.id
