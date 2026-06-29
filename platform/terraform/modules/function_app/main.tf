@@ -81,8 +81,8 @@ resource "azurerm_user_assigned_identity" "func-identity" {
 
 resource "azurerm_key_vault_access_policy" "func-kv-access" {
   key_vault_id = azurerm_key_vault.func_app_kv.id
-  tenant_id    = var.identity.tenant_id
-  object_id    = azurerm_user_assigned_identity.func-identity.principal_id
+  tenant_id    = azurerm_function_app_flex_consumption.func-app.identity[0].tenant_id
+  object_id    = azurerm_function_app_flex_consumption.func-app.identity[0].tenant_id
 
   secret_permissions = [
     "Get",
