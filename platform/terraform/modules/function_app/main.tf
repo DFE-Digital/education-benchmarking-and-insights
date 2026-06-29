@@ -114,7 +114,7 @@ resource "azurerm_key_vault_access_policy" "shared_key_vault_policy" {
 resource "azurerm_key_vault_secret" "fa-key" {
   #checkov:skip=CKV_AZURE_41:See ADO backlog AB#206511
   name         = "${var.core.name}-host-key"
-  value        = random_password.function_key.result
+  value        = azurerm_key_vault_secret.default-function-key.value
   key_vault_id = var.shared_key_vault.id
   content_type = "key"
 }
