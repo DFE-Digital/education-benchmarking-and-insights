@@ -107,7 +107,7 @@ resource "azurerm_key_vault_secret" "default-function-key" {
 resource "azurerm_key_vault_access_policy" "shared_key_vault_policy" {
   key_vault_id       = var.shared_key_vault.id
   tenant_id          = azurerm_function_app_flex_consumption.func-app.identity[0].tenant_id
-  object_id          = azurerm_function_app_flex_consumption.func-app.identity[0].tenant_id
+  object_id          = azurerm_function_app_flex_consumption.func-app.identity[0].principal_id
   secret_permissions = ["Get", "List", "Set", "Delete"]
 }
 
