@@ -161,6 +161,10 @@ resource "azurerm_function_app_flex_consumption" "func-app" {
     identity_ids = [azurerm_user_assigned_identity.func-identity.id]
   }
 
+  identity {
+    type = "SystemAssigned"
+  }
+
   site_config {
 
     application_insights_connection_string = var.monitoring.instrumentation_connection_string
