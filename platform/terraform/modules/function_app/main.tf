@@ -157,13 +157,11 @@ resource "azurerm_function_app_flex_consumption" "func-app" {
   https_only                        = true
 
   identity {
-    type         = "UserAssigned"
+    type         = "SystemAssigned, UserAssigned"
     identity_ids = [azurerm_user_assigned_identity.func-identity.id]
   }
 
-  identity {
-    type = "SystemAssigned"
-  }
+
 
   site_config {
 
