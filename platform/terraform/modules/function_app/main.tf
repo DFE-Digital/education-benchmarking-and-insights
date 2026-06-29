@@ -180,8 +180,7 @@ resource "azurerm_function_app_flex_consumption" "func-app" {
   tags         = var.core.tags
 
   depends_on = [
-    azurerm_role_assignment.storage-data-owner,
-    azurerm_key_vault_access_policy.func-kv-access,
+    azurerm_role_assignment.storage-data-owner
   ]
 }
 
