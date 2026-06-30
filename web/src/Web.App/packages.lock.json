@@ -199,11 +199,11 @@
       },
       "Westwind.AspNetCore.Markdown": {
         "type": "Direct",
-        "requested": "[3.40.0, )",
-        "resolved": "3.40.0",
-        "contentHash": "NHxlqClCdubo+GVgs0YaQ0dy6K9ne/2Gm/83EP+ctoGAzmAzLGgJ1pv8yCDdHIounHdH7dq2FsAVgLfkR+qplQ==",
+        "requested": "[3.41.0, )",
+        "resolved": "3.41.0",
+        "contentHash": "2xwbsUPBJZiHp887/MVdAtWxVbiMB9TAyDB2q0Z75RUiRNpwn52jQXRjqCLpNhWOvnhLEfKzOR1rlqkzkPqNmA==",
         "dependencies": {
-          "Markdig": "1.1.2"
+          "Markdig": "1.2.0"
         }
       },
       "Azure.Core": {
@@ -229,8 +229,8 @@
       },
       "Markdig": {
         "type": "Transitive",
-        "resolved": "1.1.2",
-        "contentHash": "mXh6Ah5p/jtryn7o96B2knDDJVgZ775HnFLObcVxuyWcfeHlsI95WUjiJH0m7ZOYGdCLvwRTwMhv023jUZoEAA=="
+        "resolved": "1.2.0",
+        "contentHash": "LoBVOgeDWfHthWTPzQJkjDkxImqBXRA5XpuTyjdM4SAURyWQGG1CbEEbfPbmvAavggnAZPaTYpbhIPUurWvIXA=="
       },
       "Microsoft.ApplicationInsights": {
         "type": "Transitive",
