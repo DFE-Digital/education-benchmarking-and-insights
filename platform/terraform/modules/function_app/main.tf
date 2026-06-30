@@ -47,7 +47,16 @@ resource "time_rotating" "function_key_rotation" {
   rotation_days = 90
 }
 
-resource "random_password" "function_key" {
+resource "random_password" "default_function_key" {
+  length           = 32
+  special          = true
+  override_special = "-_"
+  keepers = {
+    rotation_id = time_rotating.function_key_rotation.id
+  }
+}
+
+resource "random_password" "master_function_key" {
   length           = 32
   special          = true
   override_special = "-_"
@@ -95,7 +104,7 @@ resource "azurerm_key_vault_access_policy" "func-kv-access" {
 # Add the default function key to the dedicated key vault
 resource "azurerm_key_vault_secret" "default-function-key" {
   name         = "host--functionKey--default"
-  value        = random_password.function_key.result
+  value        = random_password.default_function_key.result
   key_vault_id = azurerm_key_vault.func_app_kv.id
 
   depends_on = [
@@ -103,7 +112,18 @@ resource "azurerm_key_vault_secret" "default-function-key" {
   ]
 }
 
-# Add the default function key to the shared key vault
+# Add the master function key to the dedicated key vault
+resource "azurerm_key_vault_secret" "master-function-key" {
+  name         = "host--masterKey--master"
+  value        = random_password.master_function_key.result
+  key_vault_id = azurerm_key_vault.func_app_kv.id
+
+  depends_on = [
+    azurerm_key_vault_access_policy.terraform-agent-kv-access
+  ]
+}
+
+# Add the master function key to the shared key vault
 resource "azurerm_key_vault_access_policy" "shared_key_vault_policy" {
   key_vault_id       = var.shared_key_vault.id
   tenant_id          = azurerm_function_app_flex_consumption.func-app.identity[0].tenant_id
@@ -114,7 +134,7 @@ resource "azurerm_key_vault_access_policy" "shared_key_vault_policy" {
 resource "azurerm_key_vault_secret" "fa-key" {
   #checkov:skip=CKV_AZURE_41:See ADO backlog AB#206511
   name         = "${var.core.name}-host-key"
-  value        = azurerm_key_vault_secret.default-function-key.value
+  value        = azurerm_key_vault_secret.master-function-key.value
   key_vault_id = var.shared_key_vault.id
   content_type = "key"
 }
