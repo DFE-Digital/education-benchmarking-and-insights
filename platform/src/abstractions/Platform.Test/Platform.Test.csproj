@@ -11,6 +11,7 @@
         <PackageReference Include="AutoFixture" />
         <PackageReference Include="Microsoft.ApplicationInsights"/>
         <PackageReference Include="Microsoft.Azure.Functions.Worker"/>
+        <PackageReference Include="Microsoft.Extensions.Primitives" VersionOverride="10.0.9" />
         <PackageReference Include="Microsoft.NET.Test.Sdk"/>
         <PackageReference Include="Moq"/>
         <AssemblyAttribute Include="System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute"/>
