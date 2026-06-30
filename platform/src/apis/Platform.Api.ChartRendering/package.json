@@ -36,7 +36,7 @@
     "@types/node": "^25.9.1",
     "@types/pg": "^8.20.0",
     "@types/sprintf-js": "^1.1.4",
-    "@typescript-eslint/eslint-plugin": "^8.59.4",
+    "@typescript-eslint/eslint-plugin": "^8.62.0",
     "@typescript-eslint/parser": "^8.60.1",
     "copyfiles": "^2.4.1",
     "eslint": "^10.0.3",
