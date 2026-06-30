@@ -88,18 +88,16 @@ jobs:
 #              failOnStderr: true
 #              displayName: 'Run core database migrations'
 
-            # Disable temporarily for validation purposes
-            # TODO: uncomment following validation
-            # - task: AzureCLI@2
-            #   displayName: 'Remove firewall rule for SQL server network access'
-            #   condition: always()
-            #   inputs:
-            #     azureSubscription: ${{ parameters.subscription }}
-            #     scriptType: 'bash'
-            #     scriptLocation: 'inlineScript'
-            #     inlineScript: |
-            #       echo "Removing firewall rule for pipeline runner IP"
-            #       az sql server firewall-rule delete \
-            #         --resource-group $(core-sql-server-resource-group) \
-            #         --server $(core-sql-server-name) \
-            #         --name pipeline-runner-ip
+            - task: AzureCLI@2
+              displayName: 'Remove firewall rule for SQL server network access'
+              condition: always()
+              inputs:
+                azureSubscription: ${{ parameters.subscription }}
+                scriptType: 'bash'
+                scriptLocation: 'inlineScript'
+                inlineScript: |
+                  echo "Removing firewall rule for pipeline runner IP"
+                  az sql server firewall-rule delete \
+                    --resource-group $(core-sql-server-resource-group) \
+                    --server $(core-sql-server-name) \
+                    --name pipeline-runner-ip
