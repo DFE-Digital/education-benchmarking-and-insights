@@ -209,6 +209,11 @@ module "orchestrator-fa" {
   }
 }
 
+import {
+  to = module.content-fc-fa.azurerm_key_vault_secret.master-function-key
+  id = "/subscriptions/f155d7d4-a235-4563-b077-c19686c7c92a/resourceGroups/s198d14-ebis-platform/providers/Microsoft.KeyVault/vaults/s198d14-ebis-cnt-kv/secrets/host--masterKey--master"
+}
+
 module "content-fc-fa" {
   source = "./modules/function_app"
   app-settings = {
