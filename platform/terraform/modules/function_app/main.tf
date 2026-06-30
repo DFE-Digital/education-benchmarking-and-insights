@@ -121,12 +121,6 @@ resource "azurerm_key_vault_secret" "master-function-key" {
   depends_on = [
     azurerm_key_vault_access_policy.terraform-agent-kv-access
   ]
-
-  lifecycle {
-    ignore_changes = [
-      value
-    ]
-  }
 }
 
 # Add the master function key to the shared key vault
