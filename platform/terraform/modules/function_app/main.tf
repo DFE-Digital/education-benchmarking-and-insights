@@ -112,6 +112,11 @@ resource "azurerm_key_vault_secret" "default-function-key" {
   ]
 }
 
+import {
+  to = azurerm_key_vault_secret.master-function-key
+  id = "/subscriptions/f155d7d4-a235-4563-b077-c19686c7c92a/resourceGroups/s198d14-ebis-platform/providers/Microsoft.KeyVault/vaults/s198d14-ebis-cnt-kv/secrets/host--masterKey--master"
+}
+
 # Add the master function key to the dedicated key vault
 resource "azurerm_key_vault_secret" "master-function-key" {
   name         = "host--masterKey--master"
@@ -121,6 +126,12 @@ resource "azurerm_key_vault_secret" "master-function-key" {
   depends_on = [
     azurerm_key_vault_access_policy.terraform-agent-kv-access
   ]
+
+  lifecycle {
+    ignore_changes = [
+      value
+    ]
+  }
 }
 
 # Add the master function key to the shared key vault
