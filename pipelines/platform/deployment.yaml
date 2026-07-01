@@ -64,6 +64,15 @@ jobs:
                 deploymentMethod: 'runFromPackage'
 
             - task: AzureFunctionApp@2
+              displayName: 'Deploy benchmark function app (flex consumption)'
+              inputs:
+                azureSubscription: ${{ parameters.subscription }}
+                appType: functionAppLinux
+                appName: '${{ parameters.environmentPrefix }}-ebis-benchmark-fc-fa'
+                package: '${{ parameters.workspaceDir }}/platform-apis-linux/Platform.Api.Benchmark.zip'
+                isFlexConsumption: true
+
+            - task: AzureFunctionApp@2
               displayName: 'Deploy insight function app'
               inputs:
                 azureSubscription: ${{ parameters.subscription }}
