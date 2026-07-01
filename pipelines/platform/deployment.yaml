@@ -169,6 +169,15 @@ jobs:
                 deploymentMethod: 'runFromPackage'
 
             - task: AzureFunctionApp@2
+              displayName: 'Deploy school function app (flex consumption)'
+              inputs:
+                azureSubscription: ${{ parameters.subscription }}
+                appType: functionAppLinux
+                appName: '${{ parameters.environmentPrefix }}-ebis-school-fc-fa'
+                package: '${{ parameters.workspaceDir }}/platform-apis-linux/Platform.Api.School.zip'
+                isFlexConsumption: true
+
+            - task: AzureFunctionApp@2
               displayName: 'Deploy trust function app'
               inputs:
                 azureSubscription: ${{ parameters.subscription }}
