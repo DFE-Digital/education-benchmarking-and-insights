@@ -28,6 +28,14 @@ def build_aar_transparency_file(academies: pd.DataFrame, year: int) -> pd.DataFr
     borough_choices = ["Inner", "Outer"]
     df["London Borough"] = np.select(borough_conditions, borough_choices, default="Neither")
 
+    mats_and_sats = df["Company Registration Number"].value_counts()
+    mats = mats_and_sats[mats_and_sats > 1].index
+    df["MAT SAT or Central Services"] = np.where(
+        df["Company Registration Number"].isin(mats),
+        "Multi Academy Trust (MAT)",
+        "Single Academy Trust (SAT)"
+    )
+
     # Transparency file rollups
     df["Community Grants"] = df[[
         "Income_Academies",
