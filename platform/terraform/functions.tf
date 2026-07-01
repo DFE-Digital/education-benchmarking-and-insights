@@ -336,19 +336,52 @@ module "benchmark-fc-fa" {
     "PipelineMessageHub__JobPendingQueue"    = local.shared_app_settings.pipeline_hub_pending
   }
 
-  core       = {
-    name = "benchmark-fc",
-    short_name = "ben"
-    environment_prefix = var.environment-prefix,
+  core = {
+    name                = "benchmark-fc",
+    short_name          = "ben"
+    environment_prefix  = var.environment-prefix,
     resource_group_name = azurerm_resource_group.resource-group.name,
-    location = var.location,
-    tags = local.common-tags
+    location            = var.location,
+    tags                = local.common-tags
+  }
+
+  monitoring        = local.shared_monitoring
+  shared_key_vault  = local.shared_key_vault
+  sql_server        = local.shared_sql_server
+  networking        = local.shared_networking
+
+  identity = {
+    tenant_id = data.azurerm_client_config.client.tenant_id
+    object_id = data.azurerm_client_config.client.object_id
+  }
+}
+
+module "insight-fc-fa" {
+  source = "./modules/function_app"
+  app-settings = {
+    "Sql__ConnectionString" = local.shared_app_settings.sql_connection
+    "Cache__Host"           = local.shared_app_settings.cache_host
+    "Cache__Port"           = local.shared_app_settings.cache_port
+  }
+
+  core = {
+    name                = "insight-fc",
+    short_name          = "ins"
+    environment_prefix  = var.environment-prefix,
+    resource_group_name = azurerm_resource_group.resource-group.name,
+    location            = var.location,
+    tags                = local.common-tags
   }
 
   monitoring = local.shared_monitoring
   shared_key_vault  = local.shared_key_vault
   sql_server = local.shared_sql_server
   networking      = local.shared_networking
+
+  redis_cache = {
+    id          = azurerm_redis_cache.cache.id
+    contributor = true
+  }
 
   identity = {
     tenant_id = data.azurerm_client_config.client.tenant_id

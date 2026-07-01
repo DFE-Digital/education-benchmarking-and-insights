@@ -85,6 +85,15 @@ jobs:
                 appSettings: '-WEBSITE_RUN_FROM_PACKAGE 1'
                 deploymentMethod: 'runFromPackage'
 
+            - task: AzureFunctionApp@2
+              displayName: 'Deploy insight function app (flex consumption)'
+              inputs:
+                azureSubscription: ${{ parameters.subscription }}
+                appType: functionAppLinux
+                appName: '${{ parameters.environmentPrefix }}-ebis-insight-fc-fa'
+                package: '${{ parameters.workspaceDir }}/platform-apis-linux/Platform.Api.Insight.zip'
+                isFlexConsumption: true
+
 #            - task: AzureFunctionApp@2
 #              displayName: 'Deploy chart rendering function app'
 #              inputs:
