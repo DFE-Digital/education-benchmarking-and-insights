@@ -204,6 +204,15 @@ resource "azurerm_function_app_flex_consumption" "func-app" {
   ]
 }
 
+# ClientId rather than PrincipalId required for managed identity user in SQL database:
+# https://github.com/betr-io/terraform-provider-mssql/issues/54#issuecomment-1632638595
+data "azapi_resource" "app-service-identity" {
+  name                   = "default"
+  parent_id              = azurerm_function_app_flex_consumption.func-app.id
+  type                   = "Microsoft.ManagedIdentity/identities@2018-11-30"
+  response_export_values = ["properties.clientId"]
+}
+
 resource "mssql_user" "app-service-user" {
   server {
     host = var.sql_server.fqdn
@@ -215,7 +224,7 @@ resource "mssql_user" "app-service-user" {
 
   database  = "data"
   username  = azurerm_function_app_flex_consumption.func-app.name
-  object_id = azurerm_function_app_flex_consumption.func-app.identity[0].principal_id
+  object_id = data.azapi_resource.app-service-identity.output.properties.clientId
   roles     = ["db_datareader", "db_datawriter"]
 }
 
