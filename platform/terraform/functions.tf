@@ -297,3 +297,31 @@ module "school-fc-fa" {
     object_id = data.azurerm_client_config.client.object_id
   }
 }
+
+module "trust-fc-fa" {
+  source = "./modules/function_app"
+  app-settings = {
+    "Search__Name"                           = local.shared_app_settings.search_name
+    "Search__Key"                            = local.shared_app_settings.search_key
+    "Sql__ConnectionString"                  = local.shared_app_settings.sql_connection
+  }
+
+  core = {
+    name = "trust-fc",
+    short_name = "tru"
+    environment_prefix = var.environment-prefix,
+    resource_group_name = azurerm_resource_group.resource-group.name,
+    location = var.location,
+    tags = local.common-tags
+  }
+
+  monitoring       = local.shared_monitoring
+  shared_key_vault = local.shared_key_vault
+  sql_server       = local.shared_sql_server
+  networking       = local.shared_networking
+
+  identity = {
+    tenant_id = data.azurerm_client_config.client.tenant_id
+    object_id = data.azurerm_client_config.client.object_id
+  }
+}

@@ -190,6 +190,15 @@ jobs:
                 appSettings: '-WEBSITE_RUN_FROM_PACKAGE 1'
                 deploymentMethod: 'runFromPackage'
 
+            - task: AzureFunctionApp@2
+              displayName: 'Deploy trust function app (flex consumption)'
+              inputs:
+                azureSubscription: ${{ parameters.subscription }}
+                appType: functionAppLinux
+                appName: '${{ parameters.environmentPrefix }}-ebis-trust-fc-fa'
+                package: '${{ parameters.workspaceDir }}/platform-apis-linux/Platform.Api.Trust.zip'
+                isFlexConsumption: true
+
   - template: ../common/app-service-settings-refresh.yaml
     parameters:
       subscription: ${{ parameters.subscription }}
