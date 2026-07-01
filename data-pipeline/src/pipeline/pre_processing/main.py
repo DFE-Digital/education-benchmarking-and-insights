@@ -21,6 +21,10 @@ from pipeline.utils.stats import stats_collector
 from pipeline.utils.storage import get_blob, raw_container, try_get_blob, write_blob
 
 from .aar.academies import build_academy_data, map_academy_data
+from .aar.transparency_file.transparency import (
+    build_aar_central_services_transparency_file,
+    build_aar_transparency_file,
+)
 from .aar.trusts import build_trust_data
 from .ancillary.custom_data import update_custom_data
 from .ancillary.main import (
@@ -92,7 +96,7 @@ def pre_process_data(
     maintained_data_ref_for_last_year = (
         get_cfr_ancillary_data(run_id, (cfr_year - 1)) if cfr_year >= 2025 else {}
     )
-    
+
     academies = pre_process_academies_data(
         run_type,
         run_id,
@@ -249,7 +253,6 @@ def pre_process_academies_data(
     )
     # From 2025 we will generate the CFR transparency file from raw inputs
     if year >= 2025:
-        from .aar.transparency_file.transparency import build_aar_transparency_file
         logger.info("Generating AAR Transparency File")
         transparency_file = build_aar_transparency_file(academies, year)
         write_blob(
@@ -350,9 +353,10 @@ def pre_process_trust_data(
     )
 
     if year >= 2025:
-        from .aar.transparency_file.transparency import build_aar_central_services_transparency_file
         logger.info("Generating AAR Central Services Transparency File")
-        cs_transparency_file = build_aar_central_services_transparency_file(trusts, academies, central_services)
+        cs_transparency_file = build_aar_central_services_transparency_file(
+            trusts, academies, central_services
+        )
         write_blob(
             "pre-processed",
             f"{run_type}/{year}/aar_central_services_transparency_file.csv",
