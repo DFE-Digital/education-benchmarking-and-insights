@@ -237,11 +237,11 @@ module "content-fc-fa" {
 
 module "local-authority-fc-fa" {
   source = "./modules/function_app"
-  app-settings = merge(local.default_app_settings, {
+  app-settings = {
     "Search__Name"          = local.shared_app_settings.search_name
     "Search__Key"           = local.shared_app_settings.search_key
     "Sql__ConnectionString" = local.shared_app_settings.sql_connection
-  })
+  }
 
   core = {
     name                = "local-authority-fc",
