@@ -216,17 +216,47 @@ module "content-fc-fa" {
     }
 
   core = {
-    name = "content-fc",
-    short_name = "cn",
-    environment_prefix = var.environment-prefix,
+    name                = "content-fc",
+    short_name          = "con",
+    environment_prefix  = var.environment-prefix,
     resource_group_name = azurerm_resource_group.resource-group.name,
-    location = var.location,
-    tags = local.common-tags
+    location            = var.location,
+    tags                = local.common-tags
   }
-  monitoring = local.shared_monitoring
-  shared_key_vault  = local.shared_key_vault
-  sql_server = local.shared_sql_server
-  networking      = local.shared_networking
+
+  monitoring       = local.shared_monitoring
+  shared_key_vault = local.shared_key_vault
+  sql_server       = local.shared_sql_server
+  networking       = local.shared_networking
+
+  identity = {
+    tenant_id = data.azurerm_client_config.client.tenant_id
+    object_id = data.azurerm_client_config.client.object_id
+  }
+}
+
+module "local-authority-fc-fa" {
+  source = "./modules/function_app"
+  app-settings = merge(local.default_app_settings, {
+    "Search__Name"          = local.shared_app_settings.search_name
+    "Search__Key"           = local.shared_app_settings.search_key
+    "Sql__ConnectionString" = local.shared_app_settings.sql_connection
+  })
+
+  core = {
+    name                = "local-authority-fc",
+    short_name          = "la"
+    environment_prefix  = var.environment-prefix,
+    resource_group_name = azurerm_resource_group.resource-group.name,
+    location            = var.location,
+    tags                = local.common-tags
+  }
+
+  monitoring       = local.shared_monitoring
+  shared_key_vault = local.shared_key_vault
+  sql_server       = local.shared_sql_server
+  networking       = local.shared_networking
+
   identity = {
     tenant_id = data.azurerm_client_config.client.tenant_id
     object_id = data.azurerm_client_config.client.object_id
