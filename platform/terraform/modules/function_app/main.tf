@@ -215,7 +215,7 @@ resource "mssql_user" "app-service-user" {
 
   database  = "data"
   username  = azurerm_function_app_flex_consumption.func-app.name
-  object_id = azurerm_user_assigned_identity.func-identity.client_id
+  object_id = azurerm_function_app_flex_consumption.func-app.identity[0].principal_id
   roles     = ["db_datareader", "db_datawriter"]
 }
 
