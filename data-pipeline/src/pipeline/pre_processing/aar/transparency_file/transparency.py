@@ -1,7 +1,8 @@
-import pandas as pd
 import numpy as np
-from pipeline.utils.log import setup_logger
+import pandas as pd
+
 from pipeline.pre_processing.common import mappings
+from pipeline.utils.log import setup_logger
 
 logger = setup_logger(__name__)
 
@@ -19,85 +20,128 @@ def build_aar_transparency_file(academies: pd.DataFrame, year: int) -> pd.DataFr
     df["% of pupils who are Boarders"] = np.where(
         df["Total pupils"] > 1,
         df["total boarders"] / df["Number of pupils (headcount)"] * 100,
-        0
+        0,
     )
     borough_conditions = [
-        df["LA"].isin([201, 202, 204, 205, 206, 207, 208, 209, 210, 211, 212, 213, 309, 316]),
-        df["LA"].isin([203, 301, 302, 303, 304, 305, 306, 307, 308, 310, 311, 312, 313, 314, 315, 317, 318, 319, 320])
+        df["LA"].isin(
+            [201, 202, 204, 205, 206, 207, 208, 209, 210, 211, 212, 213, 309, 316]
+        ),
+        df["LA"].isin(
+            [
+                203,
+                301,
+                302,
+                303,
+                304,
+                305,
+                306,
+                307,
+                308,
+                310,
+                311,
+                312,
+                313,
+                314,
+                315,
+                317,
+                318,
+                319,
+                320,
+            ]
+        ),
     ]
     borough_choices = ["Inner", "Outer"]
-    df["London Borough"] = np.select(borough_conditions, borough_choices, default="Neither")
+    df["London Borough"] = np.select(
+        borough_conditions, borough_choices, default="Neither"
+    )
 
     mats_and_sats = df["Company Registration Number"].value_counts()
     mats = mats_and_sats[mats_and_sats > 1].index
     df["MAT SAT or Central Services"] = np.where(
         df["Company Registration Number"].isin(mats),
         "Multi Academy Trust (MAT)",
-        "Single Academy Trust (SAT)"
+        "Single Academy Trust (SAT)",
     )
 
     # Transparency file rollups
-    df["Community Grants"] = df[[
-        "Income_Academies",
-        "BNCH11163 (Non- Government)"
-    ]].sum(axis=1)
-    df["Supply Staff Costs"] = df[[
-        "Teaching and Teaching support staff_Supply teaching staff", 
-        "Other costs_Supply teacher insurance",
-        "Teaching and Teaching support staff_Agency supply teaching staff"
-    ]].sum(axis=1)
-    df["Other Staff Costs"] = df[[
-        "Non-educational support staff and services_Other staff",
-        "Other costs_Indirect employee expenses", 
-        "Other costs_Staff development and training",
-        "Other costs_Staff-related insurance"
-    ]].sum(axis=1)
-    df["Maintenance & Improvement Costs"] = df[[
-        "Premises staff and services_Maintenance of premises", 
-        "Other costs_Grounds maintenance",
-    ]].sum(axis=1)
-    df["Premises Costs"] = df[[
-        "Premises staff and services_Maintenance of premises",
-        "Other costs_Grounds maintenance",
-        "Premises staff and services_Premises staff",
-        "Premises staff and services_Cleaning and caretaking",
-        "Other costs_PFI charges",
-    ]].sum(axis=1)
-    df["Catering Expenses"] = df[[
-        "Catering staff and supplies_Catering staff",                         # BNCH21106
-        "Catering staff and supplies_Catering supplies",                      # BNCH21701
-    ]].sum(axis=1)
-    df["Occupation Costs"] = df[[
-        "Catering staff and supplies_Catering staff",                         # BNCH21106
-        "Catering staff and supplies_Catering supplies",                      # BNCH21701
-        "Utilities_Water and sewerage",                                       # BNCH21402
-        "Utilities_Energy",                                                   # BNCH21403
-        "Other costs_Rent and rates",                                         # BNCH21404
-        "Premises staff and services_Other occupation costs",                 # BNCH21406
-        "Other costs_Other insurance premiums"                                # BNCH21705
-    ]].sum(axis=1)
+    df["Community Grants"] = df[
+        ["Income_Academies", "BNCH11163 (Non- Government)"]
+    ].sum(axis=1)
+    df["Supply Staff Costs"] = df[
+        [
+            "Teaching and Teaching support staff_Supply teaching staff",
+            "Other costs_Supply teacher insurance",
+            "Teaching and Teaching support staff_Agency supply teaching staff",
+        ]
+    ].sum(axis=1)
+    df["Other Staff Costs"] = df[
+        [
+            "Non-educational support staff and services_Other staff",
+            "Other costs_Indirect employee expenses",
+            "Other costs_Staff development and training",
+            "Other costs_Staff-related insurance",
+        ]
+    ].sum(axis=1)
+    df["Maintenance & Improvement Costs"] = df[
+        [
+            "Premises staff and services_Maintenance of premises",
+            "Other costs_Grounds maintenance",
+        ]
+    ].sum(axis=1)
+    df["Premises Costs"] = df[
+        [
+            "Premises staff and services_Maintenance of premises",
+            "Other costs_Grounds maintenance",
+            "Premises staff and services_Premises staff",
+            "Premises staff and services_Cleaning and caretaking",
+            "Other costs_PFI charges",
+        ]
+    ].sum(axis=1)
+    df["Catering Expenses"] = df[
+        [
+            "Catering staff and supplies_Catering staff",  # BNCH21106
+            "Catering staff and supplies_Catering supplies",  # BNCH21701
+        ]
+    ].sum(axis=1)
+    df["Occupation Costs"] = df[
+        [
+            "Catering staff and supplies_Catering staff",  # BNCH21106
+            "Catering staff and supplies_Catering supplies",  # BNCH21701
+            "Utilities_Water and sewerage",  # BNCH21402
+            "Utilities_Energy",  # BNCH21403
+            "Other costs_Rent and rates",  # BNCH21404
+            "Premises staff and services_Other occupation costs",  # BNCH21406
+            "Other costs_Other insurance premiums",  # BNCH21705
+        ]
+    ].sum(axis=1)
 
-    df["Total Costs of Supplies and Services"] = df[[
-        "Educational supplies_Learning resources (not ICT equipment)",        # BNCH21601
-        "Educational ICT_ICT learning resources",                             # BNCH21602
-        "Educational supplies_Examination fees",                              # BNCH21603
-        "Teaching and Teaching support staff_Educational consultancy",        # BNCH21604
-        "Administrative supplies_Administrative supplies (non educational)",  # BNCH21706
-        "Non-educational support staff and services_Professional services (non-curriculum)", # BNCH21702
-        "Non-educational support staff and services_Audit cost"                # BNCH21703
-    ]].sum(axis=1)
+    df["Total Costs of Supplies and Services"] = df[
+        [
+            "Educational supplies_Learning resources (not ICT equipment)",  # BNCH21601
+            "Educational ICT_ICT learning resources",  # BNCH21602
+            "Educational supplies_Examination fees",  # BNCH21603
+            "Teaching and Teaching support staff_Educational consultancy",  # BNCH21604
+            "Administrative supplies_Administrative supplies (non educational)",  # BNCH21706
+            "Non-educational support staff and services_Professional services (non-curriculum)",  # BNCH21702
+            "Non-educational support staff and services_Audit cost",  # BNCH21703
+        ]
+    ].sum(axis=1)
 
-    df["Total Costs of Educational Supplies"] = df[[
-        "Educational supplies_Learning resources (not ICT equipment)",        # BNCH21601
-        "Educational ICT_ICT learning resources",                             # BNCH21602
-        "Educational supplies_Examination fees"                               # BNCH21603
-    ]].sum(axis=1)
+    df["Total Costs of Educational Supplies"] = df[
+        [
+            "Educational supplies_Learning resources (not ICT equipment)",  # BNCH21601
+            "Educational ICT_ICT learning resources",  # BNCH21602
+            "Educational supplies_Examination fees",  # BNCH21603
+        ]
+    ].sum(axis=1)
 
-    df["Costs of Brought in Professional Services"] = df[[
-        "Teaching and Teaching support staff_Educational consultancy",        # BNCH21604
-        "Non-educational support staff and services_Professional services (non-curriculum)", # BNCH21702
-        "Non-educational support staff and services_Audit cost"                # BNCH21703
-    ]].sum(axis=1)
+    df["Costs of Brought in Professional Services"] = df[
+        [
+            "Teaching and Teaching support staff_Educational consultancy",  # BNCH21604
+            "Non-educational support staff and services_Professional services (non-curriculum)",  # BNCH21702
+            "Non-educational support staff and services_Audit cost",  # BNCH21703
+        ]
+    ].sum(axis=1)
 
     # Map the columns exactly as requested in the SQL file, and handle missing ones
     transparency_cols = {
@@ -208,20 +252,25 @@ def build_aar_transparency_file(academies: pd.DataFrame, year: int) -> pd.DataFr
         "Total Expenditure": "Total Expenditure",
         "Academy Revenue Reserve": "RRpropperpupil",
     }
-    
+
     # Handle any missing gracefully by creating them as empty or null
     for col in transparency_cols.keys():
         if col not in df.columns:
-            logger.info(f"Column {col} not found for AAR transparency file, setting to nan")
+            logger.info(
+                f"Column {col} not found for AAR transparency file, setting to nan"
+            )
             df[col] = pd.NA
-            
-    transparency_df = df[list(transparency_cols.keys())].rename(columns=transparency_cols)
+
+    transparency_df = df[list(transparency_cols.keys())].rename(
+        columns=transparency_cols
+    )
 
     return transparency_df
 
 
 def build_aar_central_services_transparency_file(
-        trusts: pd.DataFrame, academies: pd.DataFrame, central_services: pd.DataFrame | None) -> pd.DataFrame:
+    trusts: pd.DataFrame, academies: pd.DataFrame, central_services: pd.DataFrame | None
+) -> pd.DataFrame:
     """
     Generates the AAR Central Services (Trust) transparency file from the pre-processed trusts and academies DataFrames.
     """
@@ -233,47 +282,68 @@ def build_aar_central_services_transparency_file(
     ].map(mappings.map_company_number)
 
     # Get MAT level variables from academies (distinct for trust level mapping)
-    trust_meta = academies_copy.groupby("Company Registration Number").agg(
-        # uid=("UID", "first"),
-        trust_name=("Trust Name", "first"),
-    ).reset_index()
-    
+    trust_meta = (
+        academies_copy.groupby("Company Registration Number")
+        .agg(
+            # uid=("UID", "first"),
+            trust_name=("Trust Name", "first"),
+        )
+        .reset_index()
+    )
+
     df = df.merge(trust_meta, on="Company Registration Number", how="left")
 
     # Replicate logic for CCAdditionalData percentages from academies dataframe
     grouped = academies_copy.groupby("Company Registration Number")
-    
+
     trust_pupil_counts = grouped.agg(
         total_pupils=("Number of pupils", "sum"),
-        total_fsm=("number of pupils known to be eligible for free school meals", "sum"),
+        total_fsm=(
+            "number of pupils known to be eligible for free school meals",
+            "sum",
+        ),
         total_ehcp=("EHC plan", "sum"),
         total_sen=("SEN support", "sum"),
-        total_eal=("number of pupils whose first language is known or believed to be other than English", "sum"),
+        total_eal=(
+            "number of pupils whose first language is known or believed to be other than English",
+            "sum",
+        ),
         total_boarders=("total boarders", "sum"),
         total_sixth_form=("TotalPupilsSixthForm", "sum"),
         total_teachers=("Total Number of Teachers (Headcount)", "sum"),
         total_prop_pupils=("Number of pupils_pro_rata_end_of_period", "sum"),
-        sum_of_academy_rr=("Academy Revenue Reserve", "sum")
+        sum_of_academy_rr=("Academy Revenue Reserve", "sum"),
     ).reset_index()
 
     df = df.merge(trust_pupil_counts, on="Company Registration Number", how="left")
-    
+
     df["%_pupils_FSM"] = (df["total_fsm"] / df["total_pupils"].replace(0, pd.NA)) * 100
-    df["%_pupils_EHCP"] = (df["total_ehcp"] / df["total_pupils"].replace(0, pd.NA)) * 100
+    df["%_pupils_EHCP"] = (
+        df["total_ehcp"] / df["total_pupils"].replace(0, pd.NA)
+    ) * 100
     df["%_pupils_SEN"] = (df["total_sen"] / df["total_pupils"].replace(0, pd.NA)) * 100
     df["%_pupils_EAL"] = (df["total_eal"] / df["total_pupils"].replace(0, pd.NA)) * 100
-    df["%_pupils_boarders"] = (df["total_boarders"] / df["total_pupils"].replace(0, pd.NA)) * 100
+    df["%_pupils_boarders"] = (
+        df["total_boarders"] / df["total_pupils"].replace(0, pd.NA)
+    ) * 100
 
     # Calculate Central Services RR per pupil based on prop_pupils
-    df["Central Services Revenue Reserve per pupil at end of period based on time in trust"] = (
-        df["Revenue reserve"] / df["total_prop_pupils"]
-    )
+    df[
+        "Central Services Revenue Reserve per pupil at end of period based on time in trust"
+    ] = (df["Revenue reserve"] / df["total_prop_pupils"])
 
-    df["Sum of Trust + Academy Revenue Reserve"] = df["sum_of_academy_rr"] + df["Revenue reserve"]
-    df["trust_type"] = 'Central services'
+    df["Sum of Trust + Academy Revenue Reserve"] = (
+        df["sum_of_academy_rr"] + df["Revenue reserve"]
+    )
+    df["trust_type"] = "Central services"
 
     # Grab some items from the CS return not used in FBIT eg the BNCH codes here
-    df = df.merge(central_services_copy, on="Company Registration Number", how="left", suffixes=["", "_cs"])
+    df = df.merge(
+        central_services_copy,
+        on="Company Registration Number",
+        how="left",
+        suffixes=["", "_cs"],
+    )
     cs_cols = {
         "trust_type": "MAT SAT or Central Services",
         "uid": "UID",
@@ -354,33 +424,37 @@ def build_aar_central_services_transparency_file(
         "Supplies and Services": "Supplies and Services",
         "Educational supplies_Total": "Educational Supplies",
         "Brought in Professional Services": "Bought in Professional Services",
-        "Total Expenditure": "Total Expenditure"
+        "Total Expenditure": "Total Expenditure",
     }
 
     # Transparency file rollups
-    df["Maintenance & Improvement"] = (
-        df["Premises staff and services_Maintenance of premises"].fillna(0) 
-        + df["Other costs_Grounds maintenance"].fillna(0)
-    )
+    df["Maintenance & Improvement"] = df[
+        "Premises staff and services_Maintenance of premises"
+    ].fillna(0) + df["Other costs_Grounds maintenance"].fillna(0)
     df["Premises"] = (
-        df["Premises staff and services_Cleaning and caretaking"].fillna(0) 
-        + df["Utilities_Water and sewerage"].fillna(0) 
-        + df["Utilities_Energy"].fillna(0) 
+        df["Premises staff and services_Cleaning and caretaking"].fillna(0)
+        + df["Utilities_Water and sewerage"].fillna(0)
+        + df["Utilities_Energy"].fillna(0)
         + df["Other costs_Rent and rates"].fillna(0)
     )
-    df["Occupation"] = df["Premises staff and services_Other occupation costs"].fillna(0)
-    df["Supplies and Services"] = df["Administrative supplies_Administrative supplies (non educational)"].fillna(0)
-    df["Brought in Professional Services"] = (
-        df["Non-educational support staff and services_Professional services (non-curriculum)"].fillna(0) 
-        + df["Non-educational support staff and services_Audit cost"].fillna(0)
+    df["Occupation"] = df["Premises staff and services_Other occupation costs"].fillna(
+        0
     )
-    
+    df["Supplies and Services"] = df[
+        "Administrative supplies_Administrative supplies (non educational)"
+    ].fillna(0)
+    df["Brought in Professional Services"] = df[
+        "Non-educational support staff and services_Professional services (non-curriculum)"
+    ].fillna(0) + df["Non-educational support staff and services_Audit cost"].fillna(0)
+
     # Keep only the matched columns, handling any missing gracefully
     for col in cs_cols.keys():
         if col not in df.columns:
-            logger.info(f"Column {col} not found for AAR CS transparency file, setting to nan")
+            logger.info(
+                f"Column {col} not found for AAR CS transparency file, setting to nan"
+            )
             df[col] = pd.NA
-            
+
     transparency_df = df[list(cs_cols.keys())].rename(columns=cs_cols)
 
     return transparency_df
