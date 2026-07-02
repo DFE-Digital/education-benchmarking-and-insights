@@ -418,3 +418,50 @@ module "maintenance-tasks-fc-fa" {
     object_id = data.azurerm_client_config.client.object_id
   }
 }
+
+module "orchestrator-fc-fa" {
+  source = "./modules/function_app"
+  app-settings = {
+    "PipelineMessageHub__ConnectionString"     = local.shared_app_settings.pipeline_hub_connection
+    "PipelineMessageHub__JobFinishedQueue"     = local.shared_app_settings.pipeline_hub_finished
+    "PipelineMessageHub__JobCustomStartQueue"  = local.shared_app_settings.pipeline_hub_custom
+    "PipelineMessageHub__JobDefaultStartQueue" = local.shared_app_settings.pipeline_hub_default
+    "PipelineMessageHub__JobPendingQueue"      = local.shared_app_settings.pipeline_hub_pending
+    "Sql__ConnectionString"                    = local.shared_app_settings.sql_connection
+    "Search__Name"                             = local.shared_app_settings.search_name
+    "Search__Key"                              = local.shared_app_settings.search_key
+    "Cache__Host"                              = local.shared_app_settings.cache_host
+    "Cache__Port"                              = local.shared_app_settings.cache_port
+  }
+
+  core = {
+    name                = "orchestrator-fc"
+    short_name          = "orc"
+    environment_prefix  = var.environment-prefix
+    resource_group_name = azurerm_resource_group.resource-group.name
+    location            = var.location
+    tags                = local.common-tags
+  }
+
+  monitoring       = local.shared_monitoring
+  shared_key_vault = local.shared_key_vault
+  sql_server       = local.shared_sql_server
+
+  networking = {
+    enable_restrictions = module.config.enable_ip_restrictions
+    subnet_ids          = [data.azurerm_subnet.web-app-subnet.id]
+  }
+
+  service_plan = {
+    size = "P0v3"
+  }
+
+  application_stack = {
+    always_on = true
+  }
+
+  redis_cache = {
+    id          = azurerm_redis_cache.cache.id
+    contributor = true
+  }
+}
