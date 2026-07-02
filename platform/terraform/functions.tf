@@ -388,3 +388,33 @@ module "insight-fc-fa" {
     object_id = data.azurerm_client_config.client.object_id
   }
 }
+
+module "maintenance-tasks-fc-fa" {
+  source = "./modules/function_app"
+  app-settings = {
+    "Sql__ConnectionString" = local.shared_app_settings.sql_connection
+  }
+
+  core = {
+    name = "maintenance-tasks",
+    short_name = "mt"
+    environment_prefix = var.environment-prefix,
+    resource_group_name = azurerm_resource_group.resource-group.name,
+    location = var.location,
+    tags = local.common-tags
+  }
+
+  monitoring        = local.shared_monitoring
+  shared_key_vault  = local.shared_key_vault
+  sql_server        = local.shared_sql_server
+
+  networking = {
+    enable_restrictions = false
+    subnet_ids          = [data.azurerm_subnet.web-app-subnet.id]
+  }
+
+  identity = {
+    tenant_id = data.azurerm_client_config.client.tenant_id
+    object_id = data.azurerm_client_config.client.object_id
+  }
+}

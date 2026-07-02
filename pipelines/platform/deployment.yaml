@@ -154,6 +154,15 @@ jobs:
                 deploymentMethod: 'runFromPackage'
 
             - task: AzureFunctionApp@2
+              displayName: 'Deploy maintenance tasks function app (flex consumption)'
+              inputs:
+                azureSubscription: ${{ parameters.subscription }}
+                appType: functionAppLinux
+                appName: '${{ parameters.environmentPrefix }}-ebis-maintenance-tasks-fc-fa'
+                package: '${{ parameters.workspaceDir }}/platform-apis-linux/Platform.MaintenanceTasks.zip'
+                isFlexConsumption: true
+
+            - task: AzureFunctionApp@2
               displayName: 'Deploy local authority function app'
               inputs:
                 azureSubscription: ${{ parameters.subscription }}
