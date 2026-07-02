@@ -141,15 +141,6 @@ jobs:
                 deploymentMethod: 'runFromPackage'
 
             - task: AzureFunctionApp@2
-              displayName: 'Deploy orchestrator function app (flex consumption)'
-              inputs:
-                azureSubscription: ${{ parameters.subscription }}
-                appType: functionAppLinux
-                appName: '${{ parameters.environmentPrefix }}-ebis-orchestrator-fc-fa'
-                package: '${{ parameters.workspaceDir }}/platform-apis-linux/Platform.Orchestrator.zip'
-                isFlexConsumption: true
-
-            - task: AzureFunctionApp@2
               displayName: 'Deploy maintenance tasks function app'
               inputs:
                 azureSubscription: ${{ parameters.subscription }}

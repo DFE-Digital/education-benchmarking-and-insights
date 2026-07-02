@@ -1,5 +1,8 @@
+/*
+  REMOVE THIS ONCE FLEX CONSUMPTION FUNCTION APP IMPLEMENTED
+ */
 module "local-authority-fa" {
-  source = "./modules/functions"
+  source = "./modules/function_app"
   app-settings = merge(local.default_app_settings, {
     "Search__Name"                           = local.shared_app_settings.search_name
     "Search__Key"                            = local.shared_app_settings.search_key
@@ -16,8 +19,11 @@ module "local-authority-fa" {
   networking      = local.shared_networking
 }
 
+/*
+  REMOVE THIS ONCE FLEX CONSUMPTION FUNCTION APP IMPLEMENTED
+ */
 module "school-fa" {
-  source = "./modules/functions"
+  source = "./modules/function_app"
   app-settings = merge(local.default_app_settings, {
     "Search__Name"                           = local.shared_app_settings.search_name
     "Search__Key"                            = local.shared_app_settings.search_key
@@ -41,8 +47,11 @@ module "school-fa" {
   }
 }
 
+/*
+  REMOVE THIS ONCE FLEX CONSUMPTION FUNCTION APP IMPLEMENTED
+ */
 module "trust-fa" {
-  source = "./modules/functions"
+  source = "./modules/function_app"
   app-settings = merge(local.default_app_settings, {
     "Search__Name"                           = local.shared_app_settings.search_name
     "Search__Key"                            = local.shared_app_settings.search_key
@@ -59,8 +68,11 @@ module "trust-fa" {
   networking      = local.shared_networking
 }
 
+/*
+  REMOVE THIS ONCE FLEX CONSUMPTION FUNCTION APP IMPLEMENTED
+ */
 module "benchmark-fa" {
-  source = "./modules/functions"
+  source = "./modules/function_app"
   app-settings = merge(local.default_app_settings, {
     "Search__Name"                           = local.shared_app_settings.search_name
     "Search__Key"                            = local.shared_app_settings.search_key
@@ -79,8 +91,11 @@ module "benchmark-fa" {
   networking      = local.shared_networking
 }
 
+/*
+  REMOVE THIS ONCE FLEX CONSUMPTION FUNCTION APP IMPLEMENTED
+ */
 module "insight-fa" {
-  source = "./modules/functions"
+  source = "./modules/function_app"
   app-settings = merge(local.default_app_settings, {
     "Sql__ConnectionString"                  = local.shared_app_settings.sql_connection
     "WEBSITE_USE_PLACEHOLDER_DOTNETISOLATED" = local.shared_app_settings.use_dotnet_isolated
@@ -103,6 +118,8 @@ module "insight-fa" {
 }
 
 /*
+  REMOVE THIS ONCE FLEX CONSUMPTION FUNCTION APP IMPLEMENTED
+
 module "chart-rendering-fa" {
   source = "./modules/functions"
   app-settings = merge(local.default_app_settings, {
@@ -130,8 +147,11 @@ module "chart-rendering-fa" {
 }
 */
 
+/*
+  REMOVE THIS ONCE FLEX CONSUMPTION FUNCTION APP IMPLEMENTED
+ */
 module "content-fa" {
-  source = "./modules/functions"
+  source = "./modules/function_app"
   app-settings = merge(local.default_app_settings, {
     "Sql__ConnectionString"                  = local.shared_app_settings.sql_connection
     "WEBSITE_USE_PLACEHOLDER_DOTNETISOLATED" = local.shared_app_settings.use_dotnet_isolated
@@ -146,8 +166,11 @@ module "content-fa" {
   networking      = local.shared_networking
 }
 
+/*
+  REMOVE THIS ONCE FLEX CONSUMPTION FUNCTION APP IMPLEMENTED
+ */
 module "maintenance-tasks-fa" {
-  source = "./modules/functions"
+  source = "./modules/function_app"
   app-settings = merge(local.default_app_settings, {
     "Sql__ConnectionString" = local.shared_app_settings.sql_connection
   })
@@ -164,8 +187,11 @@ module "maintenance-tasks-fa" {
   }
 }
 
+/*
+  KEEP THIS EVEN AFTER FLEX CONSUMPTION FUNCTION APPS IMPLEMENTED
+ */
 module "orchestrator-fa" {
-  source = "./modules/functions"
+  source = "./modules/function_app"
   app-settings = merge(local.default_app_settings, {
     "PipelineMessageHub__ConnectionString"     = local.shared_app_settings.pipeline_hub_connection
     "PipelineMessageHub__JobFinishedQueue"     = local.shared_app_settings.pipeline_hub_finished
@@ -210,7 +236,7 @@ module "orchestrator-fa" {
 }
 
 module "content-fc-fa" {
-  source = "./modules/function_app"
+  source = "./modules/fc_function_app"
   app-settings = {
     "Sql__ConnectionString" = local.shared_app_settings.sql_connection
     }
@@ -236,7 +262,7 @@ module "content-fc-fa" {
 }
 
 module "local-authority-fc-fa" {
-  source = "./modules/function_app"
+  source = "./modules/fc_function_app"
   app-settings = {
     "Search__Name"          = local.shared_app_settings.search_name
     "Search__Key"           = local.shared_app_settings.search_key
@@ -264,7 +290,7 @@ module "local-authority-fc-fa" {
 }
 
 module "school-fc-fa" {
-  source = "./modules/function_app"
+  source = "./modules/fc_function_app"
   app-settings = {
     "Search__Name"          = local.shared_app_settings.search_name
     "Search__Key"           = local.shared_app_settings.search_key
@@ -299,7 +325,7 @@ module "school-fc-fa" {
 }
 
 module "trust-fc-fa" {
-  source = "./modules/function_app"
+  source = "./modules/fc_function_app"
   app-settings = {
     "Search__Name"                           = local.shared_app_settings.search_name
     "Search__Key"                            = local.shared_app_settings.search_key
@@ -327,7 +353,7 @@ module "trust-fc-fa" {
 }
 
 module "benchmark-fc-fa" {
-  source = "./modules/function_app"
+  source = "./modules/fc_function_app"
   app-settings = {
     "Search__Name"                           = local.shared_app_settings.search_name
     "Search__Key"                            = local.shared_app_settings.search_key
@@ -357,7 +383,7 @@ module "benchmark-fc-fa" {
 }
 
 module "insight-fc-fa" {
-  source = "./modules/function_app"
+  source = "./modules/fc_function_app"
   app-settings = {
     "Sql__ConnectionString" = local.shared_app_settings.sql_connection
     "Cache__Host"           = local.shared_app_settings.cache_host
@@ -390,7 +416,7 @@ module "insight-fc-fa" {
 }
 
 module "maintenance-tasks-fc-fa" {
-  source = "./modules/function_app"
+  source = "./modules/fc_function_app"
   app-settings = {
     "Sql__ConnectionString" = local.shared_app_settings.sql_connection
   }
@@ -419,50 +445,30 @@ module "maintenance-tasks-fc-fa" {
   }
 }
 
-module "orchestrator-fc-fa" {
-  source = "./modules/function_app"
-  app-settings = {
-    "PipelineMessageHub__ConnectionString"     = local.shared_app_settings.pipeline_hub_connection
-    "PipelineMessageHub__JobFinishedQueue"     = local.shared_app_settings.pipeline_hub_finished
-    "PipelineMessageHub__JobCustomStartQueue"  = local.shared_app_settings.pipeline_hub_custom
-    "PipelineMessageHub__JobDefaultStartQueue" = local.shared_app_settings.pipeline_hub_default
-    "PipelineMessageHub__JobPendingQueue"      = local.shared_app_settings.pipeline_hub_pending
-    "Sql__ConnectionString"                    = local.shared_app_settings.sql_connection
-    "Search__Name"                             = local.shared_app_settings.search_name
-    "Search__Key"                              = local.shared_app_settings.search_key
-    "Cache__Host"                              = local.shared_app_settings.cache_host
-    "Cache__Port"                              = local.shared_app_settings.cache_port
-  }
+/*
+module "chart-rendering-fc-fa" {
+  source = "./modules/fc_function_app"
+  app-settings = merge(local.default_app_settings, {
+    "FUNCTIONS_WORKER_PROCESS_COUNT"      = 1
+    "WEBSITES_ENABLE_APP_SERVICE_STORAGE" = true
+  })
 
-  core = {
-    name                = "orchestrator-fc"
-    short_name          = "orc"
-    environment_prefix  = var.environment-prefix
-    resource_group_name = azurerm_resource_group.resource-group.name
-    location            = var.location
-    tags                = local.common-tags
-  }
+  core       = { name = "chart-rendering", environment_prefix = var.environment-prefix, resource_group_name = azurerm_resource_group.resource-group.name, location = var.location, tags = local.common-tags }
+  monitoring = local.shared_monitoring
+  key_vault  = local.shared_key_vault
+  sql_server = local.shared_sql_server
 
-  monitoring       = local.shared_monitoring
-  shared_key_vault = local.shared_key_vault
-  sql_server       = local.shared_sql_server
+  storage_account = local.shared_platform_storage
+  networking      = local.shared_networking
 
-  networking = {
-    enable_restrictions = module.config.enable_ip_restrictions
-    subnet_ids          = [data.azurerm_subnet.web-app-subnet.id]
+  service_plan = {
+    os_type = "Linux"
+    size    = "Y1"
   }
 
   application_stack = {
-    always_on = true
-  }
-
-  redis_cache = {
-    id          = azurerm_redis_cache.cache.id
-    contributor = true
-  }
-
-  identity = {
-    tenant_id = data.azurerm_client_config.client.tenant_id
-    object_id = data.azurerm_client_config.client.object_id
+    worker_runtime = "node"
+    node_version   = "22"
   }
 }
+*/

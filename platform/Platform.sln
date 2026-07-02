@@ -37,6 +37,13 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Platform.ApiTests", "tests\Platform.ApiTests\Platform.ApiTests.csproj", "{1919CD09-11A6-43E5-9C78-52C2BB264631}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "modules", "modules", "{4150CD4C-2835-410D-BB90-B10FD04C6BE5}"
+	ProjectSection(SolutionItems) = preProject
+		terraform\modules\function_app\output.tf = terraform\modules\function_app\output.tf
+		terraform\modules\function_app\locals.tf = terraform\modules\function_app\locals.tf
+		terraform\modules\function_app\main.tf = terraform\modules\function_app\main.tf
+		terraform\modules\function_app\variables.tf = terraform\modules\function_app\variables.tf
+		terraform\modules\function_app\provider.tf = terraform\modules\function_app\provider.tf
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "functions", "functions", "{D1FD7A16-3B98-4294-89D0-E77539D0E593}"
 	ProjectSection(SolutionItems) = preProject

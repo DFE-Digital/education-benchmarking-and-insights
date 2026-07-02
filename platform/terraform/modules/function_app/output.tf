@@ -8,5 +8,5 @@ output "function-host-key" {
 }
 
 output "function-resource-id" {
-  value = azurerm_function_app_flex_consumption.func-app.id
+  value = local.func_app_id
 }
