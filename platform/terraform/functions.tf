@@ -464,4 +464,9 @@ module "orchestrator-fc-fa" {
     id          = azurerm_redis_cache.cache.id
     contributor = true
   }
+
+  identity = {
+    tenant_id = data.azurerm_client_config.client.tenant_id
+    object_id = data.azurerm_client_config.client.object_id
+  }
 }
