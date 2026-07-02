@@ -452,10 +452,6 @@ module "orchestrator-fc-fa" {
     subnet_ids          = [data.azurerm_subnet.web-app-subnet.id]
   }
 
-  service_plan = {
-    size = "P0v3"
-  }
-
   application_stack = {
     always_on = true
   }
