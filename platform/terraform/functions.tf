@@ -399,10 +399,10 @@ module "insight-fc-fa" {
     tags                = local.common-tags
   }
 
-  monitoring = local.shared_monitoring
+  monitoring        = local.shared_monitoring
   shared_key_vault  = local.shared_key_vault
-  sql_server = local.shared_sql_server
-  networking      = local.shared_networking
+  sql_server        = local.shared_sql_server
+  networking        = local.shared_networking
 
   redis_cache = {
     id          = azurerm_redis_cache.cache.id
@@ -445,30 +445,29 @@ module "maintenance-tasks-fc-fa" {
   }
 }
 
-/*
 module "chart-rendering-fc-fa" {
   source = "./modules/fc_function_app"
-  app-settings = merge(local.default_app_settings, {
+  app-settings = {
     "FUNCTIONS_WORKER_PROCESS_COUNT"      = 1
     "WEBSITES_ENABLE_APP_SERVICE_STORAGE" = true
-  })
-
-  core       = { name = "chart-rendering", environment_prefix = var.environment-prefix, resource_group_name = azurerm_resource_group.resource-group.name, location = var.location, tags = local.common-tags }
-  monitoring = local.shared_monitoring
-  key_vault  = local.shared_key_vault
-  sql_server = local.shared_sql_server
-
-  storage_account = local.shared_platform_storage
-  networking      = local.shared_networking
-
-  service_plan = {
-    os_type = "Linux"
-    size    = "Y1"
   }
+
+  core = {
+    name                = "chart-rendering-fc"
+    short_name          = "cha"
+    environment_prefix  = var.environment-prefix
+    resource_group_name = azurerm_resource_group.resource-group.name
+    location            = var.location
+    tags                = local.common-tags
+  }
+
+  monitoring        = local.shared_monitoring
+  shared_key_vault  = local.shared_key_vault
+  sql_server        = local.shared_sql_server
+  networking        = local.shared_networking
 
   application_stack = {
-    worker_runtime = "node"
-    node_version   = "22"
+    worker_runtime  = "node"
+    runtime_version = "22"
   }
 }
-*/

@@ -101,7 +101,7 @@ steps:
       rootFolderOrFile: 'platform/src/apis/Platform.Api.ChartRendering/out'
       includeRootFolder: false
       archiveType: 'zip'
-      archiveFile: '$(Build.ArtifactStagingDirectory)/platform-apis/Platform.Api.ChartRendering.zip'
+      archiveFile: '$(Build.ArtifactStagingDirectory)/platform-apis-linux/Platform.Api.ChartRendering.zip'
 
   - publish: $(build.artifactstagingdirectory)/platform-search
     displayName: 'Publish platform search artifacts'

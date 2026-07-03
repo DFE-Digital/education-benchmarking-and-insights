@@ -64,15 +64,6 @@ jobs:
                 deploymentMethod: 'runFromPackage'
 
             - task: AzureFunctionApp@2
-              displayName: 'Deploy benchmark function app (flex consumption)'
-              inputs:
-                azureSubscription: ${{ parameters.subscription }}
-                appType: functionAppLinux
-                appName: '${{ parameters.environmentPrefix }}-ebis-benchmark-fc-fa'
-                package: '${{ parameters.workspaceDir }}/platform-apis-linux/Platform.Api.Benchmark.zip'
-                isFlexConsumption: true
-
-            - task: AzureFunctionApp@2
               displayName: 'Deploy insight function app'
               inputs:
                 azureSubscription: ${{ parameters.subscription }}
@@ -84,15 +75,6 @@ jobs:
                 slotName: production
                 appSettings: '-WEBSITE_RUN_FROM_PACKAGE 1'
                 deploymentMethod: 'runFromPackage'
-
-            - task: AzureFunctionApp@2
-              displayName: 'Deploy insight function app (flex consumption)'
-              inputs:
-                azureSubscription: ${{ parameters.subscription }}
-                appType: functionAppLinux
-                appName: '${{ parameters.environmentPrefix }}-ebis-insight-fc-fa'
-                package: '${{ parameters.workspaceDir }}/platform-apis-linux/Platform.Api.Insight.zip'
-                isFlexConsumption: true
 
 #            - task: AzureFunctionApp@2
 #              displayName: 'Deploy chart rendering function app'
@@ -117,15 +99,6 @@ jobs:
                 slotName: production
                 appSettings: '-WEBSITE_RUN_FROM_PACKAGE 1'
                 deploymentMethod: 'runFromPackage'
-
-            - task: AzureFunctionApp@2
-              displayName: 'Deploy content app (flex consumption)'
-              inputs:
-                azureSubscription: ${{ parameters.subscription }}
-                appType: functionAppLinux
-                appName: '${{ parameters.environmentPrefix }}-ebis-content-fc-fa'
-                package: '${{ parameters.workspaceDir }}/platform-apis-linux/Platform.Api.Content.zip'
-                isFlexConsumption: true
 
             - task: AzureFunctionApp@2
               displayName: 'Deploy orchestrator function app'
@@ -154,15 +127,6 @@ jobs:
                 deploymentMethod: 'runFromPackage'
 
             - task: AzureFunctionApp@2
-              displayName: 'Deploy maintenance tasks function app (flex consumption)'
-              inputs:
-                azureSubscription: ${{ parameters.subscription }}
-                appType: functionAppLinux
-                appName: '${{ parameters.environmentPrefix }}-ebis-maintenance-tasks-fc-fa'
-                package: '${{ parameters.workspaceDir }}/platform-apis-linux/Platform.MaintenanceTasks.zip'
-                isFlexConsumption: true
-
-            - task: AzureFunctionApp@2
               displayName: 'Deploy local authority function app'
               inputs:
                 azureSubscription: ${{ parameters.subscription }}
@@ -172,15 +136,6 @@ jobs:
                 slotName: production
                 appSettings: '-WEBSITE_RUN_FROM_PACKAGE 1'
                 deploymentMethod: 'runFromPackage'
-
-            - task: AzureFunctionApp@2
-              displayName: 'Deploy local authority function app (flex consumption)'
-              inputs:
-                azureSubscription: ${{ parameters.subscription }}
-                appType: functionAppLinux
-                appName: '${{ parameters.environmentPrefix }}-ebis-local-authority-fc-fa'
-                package: '${{ parameters.workspaceDir }}/platform-apis-linux/Platform.Api.LocalAuthority.zip'
-                isFlexConsumption: true
 
             - task: AzureFunctionApp@2
               displayName: 'Deploy school function app'
@@ -196,15 +151,6 @@ jobs:
                 deploymentMethod: 'runFromPackage'
 
             - task: AzureFunctionApp@2
-              displayName: 'Deploy school function app (flex consumption)'
-              inputs:
-                azureSubscription: ${{ parameters.subscription }}
-                appType: functionAppLinux
-                appName: '${{ parameters.environmentPrefix }}-ebis-school-fc-fa'
-                package: '${{ parameters.workspaceDir }}/platform-apis-linux/Platform.Api.School.zip'
-                isFlexConsumption: true
-
-            - task: AzureFunctionApp@2
               displayName: 'Deploy trust function app'
               inputs:
                 azureSubscription: ${{ parameters.subscription }}
@@ -218,12 +164,75 @@ jobs:
                 deploymentMethod: 'runFromPackage'
 
             - task: AzureFunctionApp@2
+              displayName: 'Deploy benchmark function app (flex consumption)'
+              inputs:
+                azureSubscription: ${{ parameters.subscription }}
+                appType: functionAppLinux
+                appName: '${{ parameters.environmentPrefix }}-ebis-benchmark-fc-fa'
+                package: '${{ parameters.workspaceDir }}/platform-apis-linux/Platform.Api.Benchmark.zip'
+                isFlexConsumption: true
+
+            - task: AzureFunctionApp@2
+              displayName: 'Deploy insight function app (flex consumption)'
+              inputs:
+                azureSubscription: ${{ parameters.subscription }}
+                appType: functionAppLinux
+                appName: '${{ parameters.environmentPrefix }}-ebis-insight-fc-fa'
+                package: '${{ parameters.workspaceDir }}/platform-apis-linux/Platform.Api.Insight.zip'
+                isFlexConsumption: true
+
+            - task: AzureFunctionApp@2
+              displayName: 'Deploy content app (flex consumption)'
+              inputs:
+                azureSubscription: ${{ parameters.subscription }}
+                appType: functionAppLinux
+                appName: '${{ parameters.environmentPrefix }}-ebis-content-fc-fa'
+                package: '${{ parameters.workspaceDir }}/platform-apis-linux/Platform.Api.Content.zip'
+                isFlexConsumption: true
+
+            - task: AzureFunctionApp@2
+              displayName: 'Deploy maintenance tasks function app (flex consumption)'
+              inputs:
+                azureSubscription: ${{ parameters.subscription }}
+                appType: functionAppLinux
+                appName: '${{ parameters.environmentPrefix }}-ebis-maintenance-tasks-fc-fa'
+                package: '${{ parameters.workspaceDir }}/platform-apis-linux/Platform.MaintenanceTasks.zip'
+                isFlexConsumption: true
+
+            - task: AzureFunctionApp@2
+              displayName: 'Deploy local authority function app (flex consumption)'
+              inputs:
+                azureSubscription: ${{ parameters.subscription }}
+                appType: functionAppLinux
+                appName: '${{ parameters.environmentPrefix }}-ebis-local-authority-fc-fa'
+                package: '${{ parameters.workspaceDir }}/platform-apis-linux/Platform.Api.LocalAuthority.zip'
+                isFlexConsumption: true
+
+            - task: AzureFunctionApp@2
+              displayName: 'Deploy school function app (flex consumption)'
+              inputs:
+                azureSubscription: ${{ parameters.subscription }}
+                appType: functionAppLinux
+                appName: '${{ parameters.environmentPrefix }}-ebis-school-fc-fa'
+                package: '${{ parameters.workspaceDir }}/platform-apis-linux/Platform.Api.School.zip'
+                isFlexConsumption: true
+
+            - task: AzureFunctionApp@2
               displayName: 'Deploy trust function app (flex consumption)'
               inputs:
                 azureSubscription: ${{ parameters.subscription }}
                 appType: functionAppLinux
                 appName: '${{ parameters.environmentPrefix }}-ebis-trust-fc-fa'
                 package: '${{ parameters.workspaceDir }}/platform-apis-linux/Platform.Api.Trust.zip'
+                isFlexConsumption: true
+
+            - task: AzureFunctionApp@2
+              displayName: 'Deploy chart rendering function app (flex consumption)'
+              inputs:
+                azureSubscription: ${{ parameters.subscription }}
+                appType: functionAppLinux
+                appName: '${{ parameters.environmentPrefix }}-ebis-chart-rendering-fc-fa'
+                package: '${{ parameters.workspaceDir }}/platform-apis-linux/Platform.Api.ChartRendering.zip'
                 isFlexConsumption: true
 
   - template: ../common/app-service-settings-refresh.yaml
@@ -242,8 +251,8 @@ jobs:
           alias: 'benchmark'
         - name: '${{ parameters.environmentPrefix }}-ebis-insight-fa'
           alias: 'insight'
-#        - name: '${{ parameters.environmentPrefix }}-ebis-chart-rendering-fa'
-#          alias: 'chart_rendering'
+        - name: '${{ parameters.environmentPrefix }}-ebis-chart-rendering-fa'
+          alias: 'chart_rendering'
         - name: '${{ parameters.environmentPrefix }}-ebis-content-fa'
           alias: 'content'
         - name: '${{ parameters.environmentPrefix }}-ebis-orchestrator-fa'
