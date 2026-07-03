@@ -15,7 +15,7 @@ public class WhenRedisDistributedCacheSetsStrings(ITestOutputHelper testOutputHe
             .Setup(d => d.StringSetAsync(new[]
             {
                 new KeyValuePair<RedisKey, RedisValue>(key, value)
-            }, StackExchange.Redis.When.Always, CommandFlags.None))
+            }, StackExchange.Redis.When.Always, It.IsAny<Expiration>(), CommandFlags.None))
             .ReturnsAsync(true)
             .Verifiable(Times.Once);
 
@@ -31,7 +31,10 @@ public class WhenRedisDistributedCacheSetsStrings(ITestOutputHelper testOutputHe
         const string key = nameof(key);
         const string value = nameof(value);
         Database
-            .Setup(d => d.StringSetAsync(It.IsAny<KeyValuePair<RedisKey, RedisValue>[]>(), StackExchange.Redis.When.Always, CommandFlags.None))
+            .Setup(d => d.StringSetAsync(new[]
+            {
+                new KeyValuePair<RedisKey, RedisValue>(key, value)
+            }, StackExchange.Redis.When.Always, It.IsAny<Expiration>(), CommandFlags.None))
             .ThrowsAsync(new RedisConnectionException(ConnectionFailureType.UnableToConnect, "Unable to connect to Redis"))
             .Verifiable(Times.Once);
 

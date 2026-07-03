@@ -101,9 +101,14 @@ public class WhenRedisDistributedCacheGetSetsObject(ITestOutputHelper testOutput
 
         var actualEncoded = string.Empty;
         Database
-            .Setup(d => d.StringSetAsync(input.Key, It.IsAny<RedisValue>(), null, false, StackExchange.Redis.When.NotExists, CommandFlags.None))
+            .Setup(d => d.StringSetAsync(
+                input.Key,
+                It.IsAny<RedisValue>(),
+                It.IsAny<Expiration>(),
+                ValueCondition.NotExists,
+                CommandFlags.None))
             .ReturnsAsync(true)
-            .Callback<RedisKey, RedisValue, TimeSpan?, bool, StackExchange.Redis.When, CommandFlags>((_, value, _, _, _, _) =>
+            .Callback<RedisKey, RedisValue, Expiration, ValueCondition, CommandFlags>((_, value, _, _, _) =>
             {
                 actualEncoded = value;
             }).Verifiable(Times.Once);
