@@ -448,7 +448,6 @@ module "maintenance-tasks-fc-fa" {
 module "chart-rendering-fc-fa" {
   source = "./modules/fc_function_app"
   app-settings = {
-    "FUNCTIONS_WORKER_PROCESS_COUNT"      = 1
     "WEBSITES_ENABLE_APP_SERVICE_STORAGE" = true
   }
 
