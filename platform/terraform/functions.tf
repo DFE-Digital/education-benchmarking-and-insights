@@ -470,4 +470,9 @@ module "chart-rendering-fc-fa" {
     worker_runtime  = "node"
     runtime_version = "22"
   }
+
+  identity = {
+    tenant_id = data.azurerm_client_config.client.tenant_id
+    object_id = data.azurerm_client_config.client.object_id
+  }
 }
