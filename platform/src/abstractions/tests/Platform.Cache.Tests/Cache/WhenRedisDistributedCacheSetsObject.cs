@@ -28,9 +28,14 @@ public class WhenRedisDistributedCacheSetsObject(ITestOutputHelper testOutputHel
     {
         var actualEncoded = string.Empty;
         Database
-            .Setup(d => d.StringSetAsync(input.Key, It.IsAny<RedisValue>(), null, false, StackExchange.Redis.When.Always, CommandFlags.None))
+            .Setup(d => d.StringSetAsync(
+                input.Key,
+                It.IsAny<RedisValue>(),
+                It.IsAny<Expiration>(),
+                ValueCondition.Always,
+                CommandFlags.None))
             .ReturnsAsync(true)
-            .Callback<RedisKey, RedisValue, TimeSpan?, bool, StackExchange.Redis.When, CommandFlags>((_, value, _, _, _, _) =>
+            .Callback<RedisKey, RedisValue, Expiration, ValueCondition, CommandFlags>((_, value, _, _, _) =>
             {
                 actualEncoded = value;
             })
@@ -49,9 +54,14 @@ public class WhenRedisDistributedCacheSetsObject(ITestOutputHelper testOutputHel
     {
         var actualEncoded = string.Empty;
         Database
-            .Setup(d => d.StringSetAsync(input.Key, It.IsAny<RedisValue>(), null, false, StackExchange.Redis.When.Always, CommandFlags.None))
+            .Setup(d => d.StringSetAsync(
+                input.Key,
+                It.IsAny<RedisValue>(),
+                It.IsAny<Expiration>(),
+                ValueCondition.Always,
+                CommandFlags.None))
             .ReturnsAsync(true)
-            .Callback<RedisKey, RedisValue, TimeSpan?, bool, StackExchange.Redis.When, CommandFlags>((_, value, _, _, _, _) =>
+            .Callback<RedisKey, RedisValue, Expiration, ValueCondition, CommandFlags>((_, value, _, _, _) =>
             {
                 actualEncoded = value;
             })
@@ -70,7 +80,12 @@ public class WhenRedisDistributedCacheSetsObject(ITestOutputHelper testOutputHel
         const string key = nameof(key);
         var value = new TestObject("value");
         Database
-            .Setup(d => d.StringSetAsync(key, It.IsAny<RedisValue>(), null, false, StackExchange.Redis.When.Always, CommandFlags.None))
+            .Setup(d => d.StringSetAsync(
+                It.IsAny<RedisKey>(),
+                It.IsAny<RedisValue>(),
+                It.IsAny<Expiration>(),
+                ValueCondition.Always,
+                CommandFlags.None))
             .ThrowsAsync(new RedisConnectionException(ConnectionFailureType.UnableToConnect, "Unable to connect to Redis"))
             .Verifiable(Times.Once);
 

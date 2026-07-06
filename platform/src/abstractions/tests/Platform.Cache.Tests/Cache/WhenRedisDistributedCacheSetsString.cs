@@ -12,7 +12,12 @@ public class WhenRedisDistributedCacheSetsString(ITestOutputHelper testOutputHel
     public async Task ShouldSetValueInCache(string key, string value)
     {
         Database
-            .Setup(d => d.StringSetAsync(key, value, null, false, StackExchange.Redis.When.Always, CommandFlags.None))
+            .Setup(d => d.StringSetAsync(
+                key,
+                value,
+                It.IsAny<Expiration>(),
+                ValueCondition.Always,
+                CommandFlags.None))
             .ReturnsAsync(true)
             .Verifiable(Times.Once);
 
@@ -28,7 +33,12 @@ public class WhenRedisDistributedCacheSetsString(ITestOutputHelper testOutputHel
         const string key = nameof(key);
         const string value = nameof(value);
         Database
-            .Setup(d => d.StringSetAsync(key, value, null, false, StackExchange.Redis.When.Always, CommandFlags.None))
+            .Setup(d => d.StringSetAsync(
+                key,
+                value,
+                It.IsAny<Expiration>(),
+                ValueCondition.Always,
+                CommandFlags.None))
             .ThrowsAsync(new RedisConnectionException(ConnectionFailureType.UnableToConnect, "Unable to connect to Redis"))
             .Verifiable(Times.Once);
 
