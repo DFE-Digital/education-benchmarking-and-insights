@@ -49,9 +49,9 @@ Since there are only 6 new datapoints we add them to `NonFinancial` to keep all 
 
 This is a decent option, but still introduces latency to the views for the main service. If more risk indicators get added, new data fields would add even more latency, so it's not as extensible as it could be.
 
-### Schema option C: Store no data in the database, add normalised tables to the database for headline and breakdown risk indicators
+### Schema option C: Store no data in the database, add denormalised tables to the database for headline and breakdown risk indicators
 
-For larger datasets, normalised tables (narrow and long rather than wide) are very performant and can be easily extended. With two new normalised tables for the headline risk scores and the breakdown of risk scores extensibility and view latency are both minimised.
+For larger datasets, denormalised tables (narrow and long rather than wide) are very performant and can be easily extended. With two new denormalised tables for the headline risk scores and the breakdown of risk scores extensibility and view latency are both minimised.
 
 This option also includes storing none of the new datapoints in the database. QA would be done purely on input data files, a parquet saved from the data pipeline at the time of calculation, and the data download file available on the risk indicator webpage (this would contain data as well as risk scores).
 
