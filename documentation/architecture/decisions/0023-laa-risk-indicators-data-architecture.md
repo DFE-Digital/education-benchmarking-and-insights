@@ -66,3 +66,6 @@ This option fulfils our problem statement. It is extensible, versions risk score
 ### Risks
 
 * **No ad-hoc queryability of raw inputs:** Analysts or support staff who need to investigate an anomalous risk score can't query the raw non-financial datapoints in the database — they have to locate and open the relevant parquet file.
+
+<!-- Leave the rest of this page blank -->
+\newpage
