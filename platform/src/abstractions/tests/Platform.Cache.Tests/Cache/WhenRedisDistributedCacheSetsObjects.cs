@@ -20,8 +20,13 @@ public class WhenRedisDistributedCacheSetsObjects(ITestOutputHelper testOutputHe
     {
         var actualValues = Array.Empty<KeyValuePair<RedisKey, RedisValue>>();
         Database
-            .Setup(d => d.StringSetAsync(It.IsAny<KeyValuePair<RedisKey, RedisValue>[]>(), StackExchange.Redis.When.Always, CommandFlags.None))
-            .Callback((KeyValuePair<RedisKey, RedisValue>[] v, StackExchange.Redis.When _, CommandFlags _) =>
+            .Setup(d => d.StringSetAsync(
+                It.IsAny<KeyValuePair<RedisKey,
+                    RedisValue>[]>(),
+                StackExchange.Redis.When.Always,
+                It.IsAny<Expiration>(),
+                CommandFlags.None))
+            .Callback((KeyValuePair<RedisKey, RedisValue>[] v, StackExchange.Redis.When _, Expiration _, CommandFlags _) =>
             {
                 actualValues = v;
             })
@@ -48,7 +53,12 @@ public class WhenRedisDistributedCacheSetsObjects(ITestOutputHelper testOutputHe
         const string key = nameof(key);
         const string value = nameof(value);
         Database
-            .Setup(d => d.StringSetAsync(It.IsAny<KeyValuePair<RedisKey, RedisValue>[]>(), StackExchange.Redis.When.Always, CommandFlags.None))
+            .Setup(d => d.StringSetAsync(
+                It.IsAny<KeyValuePair<RedisKey,
+                    RedisValue>[]>(),
+                StackExchange.Redis.When.Always,
+                It.IsAny<Expiration>(),
+                CommandFlags.None))
             .ThrowsAsync(new RedisConnectionException(ConnectionFailureType.UnableToConnect, "Unable to connect to Redis"))
             .Verifiable(Times.Once);
 
