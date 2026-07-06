@@ -251,10 +251,10 @@ def pre_process_academies_data(
         f"{run_type}/{run_id}/academies.parquet",
         academies.to_parquet(),
     )
-    # From 2025 we will generate the CFR transparency file from raw inputs
+
     if year >= 2025:
         logger.info("Generating AAR Transparency File")
-        transparency_file = build_aar_transparency_file(academies, year)
+        transparency_file = build_aar_transparency_file(academies, aar_ancillary_data["aar"])
         write_blob(
             "pre-processed",
             f"{run_type}/{year}/aar_transparency_file.csv",
