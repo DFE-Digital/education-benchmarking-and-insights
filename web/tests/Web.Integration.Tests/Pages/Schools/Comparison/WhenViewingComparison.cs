@@ -2,10 +2,12 @@
 using AngleSharp.Dom;
 using AngleSharp.Html.Dom;
 using AutoFixture;
+using Moq;
 using Web.App;
 using Web.App.Domain;
 using Web.App.Domain.Charts;
 using Web.App.Extensions;
+using Web.App.Infrastructure.Apis;
 using Xunit;
 
 namespace Web.Integration.Tests.Pages.Schools.Comparison;
@@ -366,6 +368,91 @@ public class WhenViewingComparison(SchoolBenchmarkingWebAppClient client)
             filtersEnabled: true,
             hasProgressIndicatorsWellAboveAverage: hasProgressIndicatorsWellAboveAverage,
             hasProgressIndicatorsAboveAverage: hasProgressIndicatorsAboveAverage);
+    }
+
+    [Theory]
+    [InlineData(0, true, "PerUnit")]
+    [InlineData(1, true, "Actuals")]
+    [InlineData(2, true, "PercentExpenditure")]
+    [InlineData(3, true, "PercentIncome")]
+    [InlineData(0, false, "PerUnit")]
+    [InlineData(1, false, "Actuals")]
+    [InlineData(2, false, "PercentExpenditure")]
+    [InlineData(3, false, "PercentIncome")]
+    public async Task CanPassResultAsDimensionToApiQuery(
+        int resultAs,
+        bool withUserDefinedSet,
+        string expected)
+    {
+        var school = Fixture.Build<School>()
+            .With(x => x.URN, "123456")
+            .Create();
+
+        var comparatorSet = Fixture.Build<SchoolComparatorSet>()
+            .With(x => x.Building, ["building"])
+            .Create();
+
+        var expenditures = Fixture.Build<SchoolExpenditure>()
+            .With(f => f.PeriodCoveredByReturn, 12)
+            .CreateMany(3)
+            .ToArray();
+
+        expenditures[0].URN = school.URN;
+
+        var userDefinedSetUserData = new[]
+        {
+            new UserData
+            {
+                Type = "comparator-set",
+                Id = "456"
+            }
+        };
+
+        var horizontalBarChart = new ChartResponse
+        {
+            Html = "<svg />"
+        };
+
+        ApiQuery? capturedQuery = null;
+
+        Client.ExpenditureApi.Reset();
+
+        Client.ExpenditureApi
+            .Setup(api => api.School(school.URN, It.IsAny<ApiQuery?>(), It.IsAny<CancellationToken>()))
+            .ReturnsAsync(ApiResult.Ok(new SchoolExpenditure
+            {
+                PeriodCoveredByReturn = 12
+            }));
+
+        Client.ExpenditureApi
+            .Setup(api => api.QuerySchools(It.IsAny<ApiQuery?>(), It.IsAny<CancellationToken>()))
+            .Callback<ApiQuery?, CancellationToken>((query, _) =>
+            {
+                capturedQuery = query;
+            })
+            .ReturnsAsync(ApiResult.Ok(expenditures));
+
+        var client = Client
+            .SetupEstablishment(school)
+            .SetupSchool(school)
+            .SetupInsights()
+            .SetupSchoolInsight()
+            .SetupUserData(withUserDefinedSet ? userDefinedSetUserData : null)
+            .SetupComparatorSet(school, comparatorSet)
+            .SetupChartRendering<SchoolComparisonDatum>(horizontalBarChart);
+
+        if (withUserDefinedSet)
+        {
+            var userDefinedComparatorSet = Fixture.Build<UserDefinedSchoolComparatorSet>().Create();
+
+            client.SetupComparatorSet(school, userDefinedComparatorSet);
+        }
+
+        await client.Navigate($"{Paths.SchoolComparison(school.URN)}?viewAs=1&resultAs={resultAs}".ToAbsolute());
+
+        Assert.NotNull(capturedQuery);
+        Assert.Contains(capturedQuery, p => p.Key == "dimension");
+        Assert.Equal(expected, capturedQuery.First(p => p.Key == "dimension").Value);
     }
 
     #endregion
