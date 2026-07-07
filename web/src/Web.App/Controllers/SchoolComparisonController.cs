@@ -334,7 +334,7 @@ public class SchoolComparisonController(
         }
 
         var userDefinedResult = await expenditureApi
-            .QuerySchools(BuildApiQuery(userDefinedSet.Set))
+            .QuerySchools(BuildApiQuery(userDefinedSet.Set, resultAs))
             .GetResultOrThrow<SchoolExpenditure[]>();
 
         return userDefinedResult;
