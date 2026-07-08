@@ -20,7 +20,7 @@
   "dependencies": {
     "@azure/functions": "^4.16.1",
     "@xmldom/xmldom": "^0.9.10",
-    "applicationinsights": "^3.15.0",
+    "applicationinsights": "^3.15.1",
     "classnames": "^2.5.1",
     "d3": "^7.9.0",
     "query-selector": "^2.0.0",
@@ -36,7 +36,7 @@
     "@types/node": "^25.9.4",
     "@types/pg": "^8.20.0",
     "@types/sprintf-js": "^1.1.4",
-    "@typescript-eslint/eslint-plugin": "^8.62.0",
+    "@typescript-eslint/eslint-plugin": "^8.62.1",
     "@typescript-eslint/parser": "^8.60.1",
     "copyfiles": "^2.4.1",
     "eslint": "^10.0.3",
