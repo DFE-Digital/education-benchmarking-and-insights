@@ -183,7 +183,7 @@ resource "azurerm_function_app_flex_consumption" "func-app" {
 
   site_config {
     application_insights_connection_string = var.monitoring.instrumentation_connection_string
-    ip_restriction_default_action = local.ip_default_action
+    ip_restriction_default_action          = local.ip_default_action
 
     dynamic "ip_restriction" {
       for_each = local.ip_restrictions

@@ -239,7 +239,7 @@ module "content-fc-fa" {
   source = "./modules/fc_function_app"
   app-settings = {
     "Sql__ConnectionString" = local.shared_app_settings.sql_connection
-    }
+  }
 
   core = {
     name                = "content-fc",
@@ -308,10 +308,10 @@ module "school-fc-fa" {
     tags                = local.common-tags
   }
 
-  monitoring        = local.shared_monitoring
-  shared_key_vault  = local.shared_key_vault
-  sql_server        = local.shared_sql_server
-  networking        = local.shared_networking
+  monitoring       = local.shared_monitoring
+  shared_key_vault = local.shared_key_vault
+  sql_server       = local.shared_sql_server
+  networking       = local.shared_networking
 
   redis_cache = {
     id          = azurerm_redis_cache.cache.id
@@ -327,18 +327,18 @@ module "school-fc-fa" {
 module "trust-fc-fa" {
   source = "./modules/fc_function_app"
   app-settings = {
-    "Search__Name"                           = local.shared_app_settings.search_name
-    "Search__Key"                            = local.shared_app_settings.search_key
-    "Sql__ConnectionString"                  = local.shared_app_settings.sql_connection
+    "Search__Name"          = local.shared_app_settings.search_name
+    "Search__Key"           = local.shared_app_settings.search_key
+    "Sql__ConnectionString" = local.shared_app_settings.sql_connection
   }
 
   core = {
-    name = "trust-fc",
-    short_name = "tru"
-    environment_prefix = var.environment-prefix,
+    name                = "trust-fc",
+    short_name          = "tru"
+    environment_prefix  = var.environment-prefix,
     resource_group_name = azurerm_resource_group.resource-group.name,
-    location = var.location,
-    tags = local.common-tags
+    location            = var.location,
+    tags                = local.common-tags
   }
 
   monitoring       = local.shared_monitoring
@@ -355,11 +355,11 @@ module "trust-fc-fa" {
 module "benchmark-fc-fa" {
   source = "./modules/fc_function_app"
   app-settings = {
-    "Search__Name"                           = local.shared_app_settings.search_name
-    "Search__Key"                            = local.shared_app_settings.search_key
-    "Sql__ConnectionString"                  = local.shared_app_settings.sql_connection
-    "PipelineMessageHub__ConnectionString"   = local.shared_app_settings.pipeline_hub_connection
-    "PipelineMessageHub__JobPendingQueue"    = local.shared_app_settings.pipeline_hub_pending
+    "Search__Name"                         = local.shared_app_settings.search_name
+    "Search__Key"                          = local.shared_app_settings.search_key
+    "Sql__ConnectionString"                = local.shared_app_settings.sql_connection
+    "PipelineMessageHub__ConnectionString" = local.shared_app_settings.pipeline_hub_connection
+    "PipelineMessageHub__JobPendingQueue"  = local.shared_app_settings.pipeline_hub_pending
   }
 
   core = {
@@ -371,10 +371,10 @@ module "benchmark-fc-fa" {
     tags                = local.common-tags
   }
 
-  monitoring        = local.shared_monitoring
-  shared_key_vault  = local.shared_key_vault
-  sql_server        = local.shared_sql_server
-  networking        = local.shared_networking
+  monitoring       = local.shared_monitoring
+  shared_key_vault = local.shared_key_vault
+  sql_server       = local.shared_sql_server
+  networking       = local.shared_networking
 
   identity = {
     tenant_id = data.azurerm_client_config.client.tenant_id
@@ -399,10 +399,10 @@ module "insight-fc-fa" {
     tags                = local.common-tags
   }
 
-  monitoring        = local.shared_monitoring
-  shared_key_vault  = local.shared_key_vault
-  sql_server        = local.shared_sql_server
-  networking        = local.shared_networking
+  monitoring       = local.shared_monitoring
+  shared_key_vault = local.shared_key_vault
+  sql_server       = local.shared_sql_server
+  networking       = local.shared_networking
 
   redis_cache = {
     id          = azurerm_redis_cache.cache.id
@@ -422,17 +422,17 @@ module "maintenance-tasks-fc-fa" {
   }
 
   core = {
-    name = "maintenance-tasks-fc",
-    short_name = "mt"
-    environment_prefix = var.environment-prefix,
+    name                = "maintenance-tasks-fc",
+    short_name          = "mt"
+    environment_prefix  = var.environment-prefix,
     resource_group_name = azurerm_resource_group.resource-group.name,
-    location = var.location,
-    tags = local.common-tags
+    location            = var.location,
+    tags                = local.common-tags
   }
 
-  monitoring        = local.shared_monitoring
-  shared_key_vault  = local.shared_key_vault
-  sql_server        = local.shared_sql_server
+  monitoring       = local.shared_monitoring
+  shared_key_vault = local.shared_key_vault
+  sql_server       = local.shared_sql_server
 
   networking = {
     enable_restrictions = false
@@ -460,10 +460,10 @@ module "chart-rendering-fc-fa" {
     tags                = local.common-tags
   }
 
-  monitoring        = local.shared_monitoring
-  shared_key_vault  = local.shared_key_vault
-  sql_server        = local.shared_sql_server
-  networking        = local.shared_networking
+  monitoring       = local.shared_monitoring
+  shared_key_vault = local.shared_key_vault
+  sql_server       = local.shared_sql_server
+  networking       = local.shared_networking
 
   application_stack = {
     worker_runtime  = "node"

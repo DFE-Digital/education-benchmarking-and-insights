@@ -11,8 +11,8 @@ variable "core" {
 
 variable "identity" {
   type = object({
-    tenant_id           = string
-    object_id           = string
+    tenant_id = string
+    object_id = string
   })
 }
 
