@@ -39,9 +39,7 @@ export const TableChart: React.FC<
   const resolvedValueFormatter = valueFormatter ?? fullValueFormatter;
 
   const dataPointKey = (trust ? "totalValue" : "value") as keyof (
-    | SchoolChartData
-    | TrustChartData
-    | LaChartData
+    SchoolChartData | TrustChartData | LaChartData
   );
 
   const keyField = (

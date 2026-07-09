@@ -19,10 +19,7 @@ export type HistoricData2ViewProps = ViewProps &
   };
 
 export type HistoricData2SectionName =
-  | "spending"
-  | "income"
-  | "balance"
-  | "census";
+  "spending" | "income" | "balance" | "census";
 
 export type HistoricData2Section<T extends HistoryBase> = {
   heading: string;
