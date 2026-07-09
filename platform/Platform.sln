@@ -43,17 +43,14 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "modules", "modules", "{4150
 		terraform\modules\function_app\main.tf = terraform\modules\function_app\main.tf
 		terraform\modules\function_app\variables.tf = terraform\modules\function_app\variables.tf
 		terraform\modules\function_app\provider.tf = terraform\modules\function_app\provider.tf
+		terraform\modules\fc_function_app\output.tf = terraform\modules\fc_function_app\output.tf
+		terraform\modules\fc_function_app\locals.tf = terraform\modules\fc_function_app\locals.tf
+		terraform\modules\fc_function_app\main.tf = terraform\modules\fc_function_app\main.tf
+		terraform\modules\fc_function_app\variables.tf = terraform\modules\fc_function_app\variables.tf
+		terraform\modules\fc_function_app\provider.tf = terraform\modules\fc_function_app\provider.tf
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "functions", "functions", "{D1FD7A16-3B98-4294-89D0-E77539D0E593}"
-	ProjectSection(SolutionItems) = preProject
-		terraform\modules\functions\main.tf = terraform\modules\functions\main.tf
-		terraform\modules\functions\output.tf = terraform\modules\functions\output.tf
-		terraform\modules\functions\README.md = terraform\modules\functions\README.md
-		terraform\modules\functions\variables.tf = terraform\modules\functions\variables.tf
-		terraform\modules\functions\provider.tf = terraform\modules\functions\provider.tf
-		terraform\modules\functions\locals.tf = terraform\modules\functions\locals.tf
-	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Platform.Search.Resources", "src\search\Platform.Search.Resources\Platform.Search.Resources.csproj", "{B6991DB1-7945-4348-86ED-B00A3AC8B889}"
 EndProject
