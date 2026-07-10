@@ -16,6 +16,7 @@ resource "azurerm_storage_account" "func_app_sa" {
   account_tier                    = local.storage_account_tier
   account_replication_type        = local.storage_account_replication_type
   allow_nested_items_to_be_public = false
+  min_tls_version                 = "TLS1_2"
 }
 
 # Create a storage container
