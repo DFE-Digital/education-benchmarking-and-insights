@@ -1,11 +1,12 @@
 
 # Create a storage account
 resource "azurerm_storage_account" "func_app_sa" {
-  name                     = local.storage-account-name
-  resource_group_name      = var.core.resource_group_name
-  location                 = var.core.location
-  account_tier             = local.storage_account_tier
-  account_replication_type = local.storage_account_replication_type
+  name                            = local.storage-account-name
+  resource_group_name             = var.core.resource_group_name
+  location                        = var.core.location
+  account_tier                    = local.storage_account_tier
+  account_replication_type        = local.storage_account_replication_type
+  allow_nested_items_to_be_public = false
 }
 
 # Create a storage container
@@ -33,6 +34,7 @@ resource "azurerm_key_vault" "func_app_kv" {
   sku_name                        = "standard"
   purge_protection_enabled        = true
   soft_delete_retention_days      = 7
+  public_network_access_enabled   = false
 
   network_acls {
     default_action = "Allow"
