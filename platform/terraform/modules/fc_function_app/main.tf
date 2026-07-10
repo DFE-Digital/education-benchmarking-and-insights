@@ -17,6 +17,16 @@ resource "azurerm_storage_account" "func_app_sa" {
   account_replication_type        = local.storage_account_replication_type
   allow_nested_items_to_be_public = false
   min_tls_version                 = "TLS1_2"
+
+  blob_properties {
+    delete_retention_policy {
+      days = 7
+    }
+    container_delete_retention_policy {
+      days = 7
+    }
+    versioning_enabled = true
+  }
 }
 
 # Create a storage container
