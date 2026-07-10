@@ -1,6 +1,15 @@
 
 # Create a storage account
 resource "azurerm_storage_account" "func_app_sa" {
+  # implementing same analysis configuration as shared storage account
+  #checkov:skip=CKV_AZURE_43:False positive on storage account adhering to the naming rules
+  #checkov:skip=CKV2_AZURE_33:See ADO backlog AB#206389
+  #checkov:skip=CKV2_AZURE_1:See ADO backlog AB#206389
+  #checkov:skip=CKV2_AZURE_40:See ADO backlog AB#206389
+  #checkov:skip=CKV2_AZURE_41:See ADO backlog AB#206389
+  #checkov:skip=CKV_AZURE_59:See ADO backlog AB#206389
+  #checkov:skip=CKV2_AZURE_50:potential false positive https://github.com/bridgecrewio/checkov/issues/6388
+  #checkov:skip=CKV_AZURE_33:False positive on queue logging due to new azurerm_storage_account_queue_properties resource (https://github.com/bridgecrewio/checkov/issues/7174)
   name                            = local.storage-account-name
   resource_group_name             = var.core.resource_group_name
   location                        = var.core.location
