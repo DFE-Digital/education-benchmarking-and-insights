@@ -119,6 +119,7 @@ resource "azurerm_key_vault_access_policy" "func-kv-access" {
 
 # Add the default function key to the dedicated key vault
 resource "azurerm_key_vault_secret" "default-function-key" {
+  #checkov:skip=CKV_AZURE_41:See ADO backlog AB#206511
   name         = "host--functionKey--default"
   value        = random_password.default_function_key.result
   key_vault_id = azurerm_key_vault.func_app_kv.id
@@ -131,6 +132,7 @@ resource "azurerm_key_vault_secret" "default-function-key" {
 
 # Add the master function key to the dedicated key vault
 resource "azurerm_key_vault_secret" "master-function-key" {
+  #checkov:skip=CKV_AZURE_41:See ADO backlog AB#206511
   name         = "host--masterKey--master"
   value        = random_password.master_function_key.result
   key_vault_id = azurerm_key_vault.func_app_kv.id
