@@ -35,6 +35,10 @@ resource "azurerm_role_assignment" "storage-data-owner" {
 
 # Create a key vault
 resource "azurerm_key_vault" "func_app_kv" {
+  # implementing same analysis exclusions as shared key vault
+  #checkov:skip=CKV_AZURE_109:See ADO backlog AB#206344
+  #checkov:skip=CKV_AZURE_189:See ADO backlog AB#206344
+  #checkov:skip=CKV2_AZURE_32:See ADO backlog AB#206344
   name                            = local.key-vault-name
   location                        = var.core.location
   resource_group_name             = var.core.resource_group_name
@@ -118,6 +122,7 @@ resource "azurerm_key_vault_secret" "default-function-key" {
   name         = "host--functionKey--default"
   value        = random_password.default_function_key.result
   key_vault_id = azurerm_key_vault.func_app_kv.id
+  content_type = "key"
 
   depends_on = [
     azurerm_key_vault_access_policy.terraform-agent-kv-access
@@ -129,6 +134,7 @@ resource "azurerm_key_vault_secret" "master-function-key" {
   name         = "host--masterKey--master"
   value        = random_password.master_function_key.result
   key_vault_id = azurerm_key_vault.func_app_kv.id
+  content_type = "key"
 
   depends_on = [
     azurerm_key_vault_access_policy.terraform-agent-kv-access
