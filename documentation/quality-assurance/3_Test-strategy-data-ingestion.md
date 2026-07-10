@@ -1,4 +1,4 @@
-﻿# Test Strategy: Data Ingestion
+# Test Strategy: Data Ingestion
 
 ## Purpose
 
@@ -79,6 +79,23 @@ This document defines **how ingestion testing is approached**, including the sco
 - Check key metrics, filters, and year switching functionality
 - Perform stakeholder review on representative data sets
 
+## Data Releases
+
+The service performs four data releases each year: S251, BFR, CFR and AAR. From the 2025-2026 cycle the Local Authority Risk Analysis (LAA) risk indicators are refreshed alongside CFR (see [decision 0023](../architecture/decisions/0023-laa-risk-indicators-data-architecture.md)).
+
+These releases all follow the ingestion validation model above, but differ in their primary files, ancillary datasets and business logic. Release timings, sourcing and the pipeline trigger are in [data/05_Releases.md](../data/05_Releases.md); acronyms are in the [glossary](../glossary.md) and the full source file list is in [data/02_Sources.md](../data/02_Sources.md).
+
+| Aspect                     | BFR                                  | CFR                                            | S251                                                     | AAR                                                                 |
+|----------------------------|--------------------------------------|------------------------------------------------|----------------------------------------------------------|---------------------------------------------------------------------|
+| **Primary files**          | `BFR_SOFA_raw.csv`, `BFR_3Y_raw.csv` | `maintained_schools_master_list.csv`           | Budget and outturn files                                 | `aar.csv`, `aar_cs.csv`                                             |
+| **Ancillary datasets**     | None                                 | GIAS, GIAS_Links, Census, SEN, CDC, KS2/4, ILR | EHCP (`sen2_estab_caseload.csv`), Statistical Neighbours | GIAS, Census, SEN, CDC, KS2/4, CFO, ILR, High Exec Pay, Workforce   |
+| **Unique business logic**  | Three year forecast aggregation      | Schema and reconciliation focused              | Budget and outturn integration, LA level mapping         | Trust CS fund apportionment (pupil ratio, part year, new academies) |
+| **Transparency file**      | No                                   | Yes                                            | No                                                       | Yes                                                                 |
+| **LAA risk indicators**    | No                                   | Yes (from 2025-2026)                           | No                                                       | No                                                                  |
+| **Completeness reporting** | Not required                         | Required                                       | Required                                                 | Required                                                            |
+
+How QA works through a release is described in the [Data Release Test Approach](./10_Data-Release-Test-Approach.md), and the reusable template for an individual release plan is in the [Data Release Test Plan](./11_Data-Release-Test-Plan.md). The individual dated plans live in [`data-release-test-plans/`](./data-release-test-plans/).
+
 ## Risk Mitigation
 
 | Risk                                      | Mitigation                                                |
@@ -86,6 +103,7 @@ This document defines **how ingestion testing is approached**, including the sco
 | Upstream schema or format change          | Validate files pre-ingestion and update mapping if needed |
 | Pipeline or job failure                   | Test run locally followed by in test                      |
 | Regression in existing data               | Execute 1-2 year regression script                        |
+| LAA raw non-financial inputs not stored in the database   | Assure figures via input files, the parquet saved at calculation time, and the risk indicator webpage data download |
 
 ## Supporting Documents
 
