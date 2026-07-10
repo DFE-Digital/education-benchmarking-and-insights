@@ -59,7 +59,6 @@ resource "azurerm_key_vault" "func_app_kv" {
   sku_name                        = "standard"
   purge_protection_enabled        = true
   soft_delete_retention_days      = 7
-  public_network_access_enabled   = false
 
   network_acls {
     default_action = "Allow"
