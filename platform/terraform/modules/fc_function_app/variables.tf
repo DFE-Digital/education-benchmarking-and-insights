@@ -46,7 +46,7 @@ variable "service_plan" {
 variable "networking" {
   type = object({
     enable_restrictions = bool
-    subnet_ids          = list(string)
+    subnet_id           = string
   })
 }
 
