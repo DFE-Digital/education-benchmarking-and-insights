@@ -46,8 +46,12 @@ variable "service_plan" {
 variable "networking" {
   type = object({
     enable_restrictions = bool
+<<<<<<< HEAD
     allow_subnet_ids    = list(string)
     join_subnet_id      = string
+=======
+    subnet_ids          = list(string)
+>>>>>>> 70195b500 (feat: function apps on flex consumption plan (#4371))
   })
 }
 
