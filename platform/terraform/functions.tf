@@ -256,7 +256,7 @@ module "content-fc-fa" {
 
   networking = {
     enable_restrictions = module.config.enable_ip_restrictions,
-    subnet_id           = data.azurerm_subnet.platform-subnet
+    subnet_id           = data.azurerm_subnet.platform-subnet.id
   }
 
   identity = {
@@ -288,7 +288,7 @@ module "local-authority-fc-fa" {
 
   networking = {
     enable_restrictions = module.config.enable_ip_restrictions,
-    subnet_id           = data.azurerm_subnet.platform-subnet
+    subnet_id           = data.azurerm_subnet.platform-subnet.id
   }
 
   identity = {
@@ -322,7 +322,7 @@ module "school-fc-fa" {
 
   networking = {
     enable_restrictions = module.config.enable_ip_restrictions,
-    subnet_id           = data.azurerm_subnet.platform-subnet
+    subnet_id           = data.azurerm_subnet.platform-subnet.id
   }
 
   redis_cache = {
@@ -359,7 +359,7 @@ module "trust-fc-fa" {
 
   networking = {
     enable_restrictions = module.config.enable_ip_restrictions,
-    subnet_id           = data.azurerm_subnet.platform-subnet
+    subnet_id           = data.azurerm_subnet.platform-subnet.id
   }
 
   identity = {
@@ -393,7 +393,7 @@ module "benchmark-fc-fa" {
 
   networking = {
     enable_restrictions = module.config.enable_ip_restrictions,
-    subnet_id           = data.azurerm_subnet.platform-subnet
+    subnet_id           = data.azurerm_subnet.platform-subnet.id
   }
 
   identity = {
@@ -425,7 +425,7 @@ module "insight-fc-fa" {
 
   networking = {
     enable_restrictions = module.config.enable_ip_restrictions,
-    subnet_id           = data.azurerm_subnet.platform-subnet
+    subnet_id           = data.azurerm_subnet.platform-subnet.id
   }
 
   redis_cache = {
@@ -458,10 +458,9 @@ module "maintenance-tasks-fc-fa" {
   shared_key_vault = local.shared_key_vault
   sql_server       = local.shared_sql_server
 
-
   networking = {
     enable_restrictions = false,
-    subnet_id           = data.azurerm_subnet.platform-subnet
+    subnet_id           = data.azurerm_subnet.platform-subnet.id
   }
 
   identity = {
@@ -491,7 +490,7 @@ module "chart-rendering-fc-fa" {
 
   networking = {
     enable_restrictions = module.config.enable_ip_restrictions,
-    subnet_id           = data.azurerm_subnet.platform-subnet
+    subnet_id           = data.azurerm_subnet.platform-subnet.id
   }
 
   application_stack = {
