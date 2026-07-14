@@ -256,7 +256,11 @@ module "content-fc-fa" {
 
   networking = {
     enable_restrictions = module.config.enable_ip_restrictions,
-    subnet_id           = data.azurerm_subnet.platform-subnet.id
+    join_subnet_id      = data.azurerm_subnet.platform-subnet.id
+    allow_subnet_ids    = [
+      data.azurerm_subnet.web-app-subnet.id,
+      data.azurerm_subnet.load-test-subnet.id
+    ]
   }
 
   identity = {
@@ -288,7 +292,11 @@ module "local-authority-fc-fa" {
 
   networking = {
     enable_restrictions = module.config.enable_ip_restrictions,
-    subnet_id           = data.azurerm_subnet.platform-subnet.id
+    join_subnet_id      = data.azurerm_subnet.platform-subnet.id
+    allow_subnet_ids    = [
+      data.azurerm_subnet.web-app-subnet.id,
+      data.azurerm_subnet.load-test-subnet.id
+    ]
   }
 
   identity = {
@@ -322,7 +330,11 @@ module "school-fc-fa" {
 
   networking = {
     enable_restrictions = module.config.enable_ip_restrictions,
-    subnet_id           = data.azurerm_subnet.platform-subnet.id
+    join_subnet_id      = data.azurerm_subnet.platform-subnet.id
+    allow_subnet_ids    = [
+      data.azurerm_subnet.web-app-subnet.id,
+      data.azurerm_subnet.load-test-subnet.id
+    ]
   }
 
   redis_cache = {
@@ -359,7 +371,11 @@ module "trust-fc-fa" {
 
   networking = {
     enable_restrictions = module.config.enable_ip_restrictions,
-    subnet_id           = data.azurerm_subnet.platform-subnet.id
+    join_subnet_id      = data.azurerm_subnet.platform-subnet.id
+    allow_subnet_ids    = [
+      data.azurerm_subnet.web-app-subnet.id,
+      data.azurerm_subnet.load-test-subnet.id
+    ]
   }
 
   identity = {
@@ -393,7 +409,11 @@ module "benchmark-fc-fa" {
 
   networking = {
     enable_restrictions = module.config.enable_ip_restrictions,
-    subnet_id           = data.azurerm_subnet.platform-subnet.id
+    join_subnet_id      = data.azurerm_subnet.platform-subnet.id
+    allow_subnet_ids    = [
+      data.azurerm_subnet.web-app-subnet.id,
+      data.azurerm_subnet.load-test-subnet.id
+    ]
   }
 
   identity = {
@@ -425,7 +445,11 @@ module "insight-fc-fa" {
 
   networking = {
     enable_restrictions = module.config.enable_ip_restrictions,
-    subnet_id           = data.azurerm_subnet.platform-subnet.id
+    join_subnet_id      = data.azurerm_subnet.platform-subnet.id
+    allow_subnet_ids    = [
+      data.azurerm_subnet.web-app-subnet.id,
+      data.azurerm_subnet.load-test-subnet.id
+    ]
   }
 
   redis_cache = {
@@ -460,7 +484,8 @@ module "maintenance-tasks-fc-fa" {
 
   networking = {
     enable_restrictions = false,
-    subnet_id           = data.azurerm_subnet.platform-subnet.id
+    join_subnet_id      = data.azurerm_subnet.platform-subnet.id
+    allow_subnet_ids    = [ data.azurerm_subnet.web-app-subnet.id ]
   }
 
   identity = {
@@ -490,7 +515,11 @@ module "chart-rendering-fc-fa" {
 
   networking = {
     enable_restrictions = module.config.enable_ip_restrictions,
-    subnet_id           = data.azurerm_subnet.platform-subnet.id
+    join_subnet_id      = data.azurerm_subnet.platform-subnet.id
+    allow_subnet_ids    = [
+      data.azurerm_subnet.web-app-subnet.id,
+      data.azurerm_subnet.load-test-subnet.id
+    ]
   }
 
   application_stack = {
