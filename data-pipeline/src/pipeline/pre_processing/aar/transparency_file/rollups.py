@@ -25,13 +25,13 @@ def calculate_transparency_file_rollups(df: pd.DataFrame) -> pd.DataFrame:
             "Teaching and Teaching support staff_Teaching staff",
             "Teaching and Teaching support staff_Education support staff",
             "Non-educational support staff and services_Administrative and clerical staff",
-            "Non-educational support staff and services_Other staff", # Other Staff Costs
+            "Non-educational support staff and services_Other staff",  # Other Staff Costs
             "Other costs_Indirect employee expenses",
             "Other costs_Staff development and training",
-            "Other costs_Staff-related insurance", # \Other Staff Costs
-            "Teaching and Teaching support staff_Supply teaching staff", # Supply Staff Costs
+            "Other costs_Staff-related insurance",  # \Other Staff Costs
+            "Teaching and Teaching support staff_Supply teaching staff",  # Supply Staff Costs
             "Other costs_Supply teacher insurance",
-            "Teaching and Teaching support staff_Agency supply teaching staff", # \Supply Staff Costs
+            "Teaching and Teaching support staff_Agency supply teaching staff",  # \Supply Staff Costs
         ]
     ].sum(axis=1)
     df["Maintenance & Improvement Costs"] = df[
@@ -107,29 +107,56 @@ def calculate_transparency_file_rollups(df: pd.DataFrame) -> pd.DataFrame:
 
 
 def calculate_cs_transparency_file_rollups(cs_df: pd.DataFrame) -> pd.DataFrame:
-    cs_df["Maintenance & Improvement"] = cs_df[[
-        "Premises staff and services_Maintenance of premises",
-        "Other costs_Grounds maintenance"
-    ]].sum(axis=1)
-    cs_df["Premises"] = cs_df[[
-       "Premises staff and services_Cleaning and caretaking",
-       "Utilities_Water and sewerage",
-       "Utilities_Energy",
-       "Other costs_Rent and rates",
-    ]].sum(axis=1)
+    cs_df["Maintenance & Improvement"] = cs_df[
+        [
+            "Premises staff and services_Maintenance of premises",
+            "Other costs_Grounds maintenance",
+        ]
+    ].sum(axis=1)
+    cs_df["Premises"] = cs_df[
+        [
+            "Premises staff and services_Maintenance of premises",
+            "Other costs_Grounds maintenance",
+            "Premises staff and services_Premises staff",
+            "Premises staff and services_Cleaning and caretaking",
+            "Other costs_PFI charges",
+        ]
+    ].sum(axis=1)
     cs_df["Occupation"] = cs_df[
-        "Premises staff and services_Other occupation costs"].fillna(0)
+        [
+            "Catering staff and supplies_Catering staff",  # BNCH21106
+            "Catering staff and supplies_Catering supplies",  # BNCH21701
+            "Utilities_Water and sewerage",  # BNCH21402
+            "Utilities_Energy",  # BNCH21403
+            "Other costs_Rent and rates",  # BNCH21404
+            "Premises staff and services_Other occupation costs",  # BNCH21406
+            "Other costs_Other insurance premiums",  # BNCH21705
+        ]
+    ].sum(axis=1)
     cs_df["Supplies and Services"] = cs_df[
-        "Administrative supplies_Administrative supplies (non educational)"
-    ].fillna(0)
-    cs_df["Brought in Professional Services"] = cs_df[[
-        "Non-educational support staff and services_Professional services (non-curriculum)",
-        "Non-educational support staff and services_Audit cost"
-    ]].sum(axis=1)
-    cs_df["Catering Exp"] = cs_df[        [
-        "Catering staff and supplies_Catering staff",  # BNCH21106
-        "Catering staff and supplies_Catering supplies",  # BNCH21701
-    ]].sum(axis=1)
+        [
+            "Educational supplies_Learning resources (not ICT equipment)",  # BNCH21601
+            "Educational ICT_ICT learning resources",  # BNCH21602
+            "Educational supplies_Examination fees",  # BNCH21603
+            "Teaching and Teaching support staff_Educational consultancy",  # BNCH21604
+            "Administrative supplies_Administrative supplies (non educational)",  # BNCH21706
+            "Non-educational support staff and services_Professional services (non-curriculum)",  # BNCH21702
+            "Non-educational support staff and services_Audit cost",  # BNCH21703
+        ]
+    ].sum(axis=1)
+    cs_df["Brought in Professional Services"] = cs_df[
+        [
+            "Teaching and Teaching support staff_Educational consultancy",
+            "Non-educational support staff and services_Professional services (non-curriculum)",
+            "Non-educational support staff and services_Audit cost",
+        ]
+    ].sum(axis=1)
+    cs_df["Catering Exp"] = cs_df[
+        [
+            "Catering staff and supplies_Catering staff",  # BNCH21106
+            "Catering staff and supplies_Catering supplies",  # BNCH21701
+        ]
+    ].sum(axis=1)
     cs_df["Educational Supplies"] = cs_df[
         [
             "Educational supplies_Learning resources (not ICT equipment)",  # BNCH21601
@@ -142,13 +169,28 @@ def calculate_cs_transparency_file_rollups(cs_df: pd.DataFrame) -> pd.DataFrame:
             "Teaching and Teaching support staff_Teaching staff",
             "Teaching and Teaching support staff_Education support staff",
             "Non-educational support staff and services_Administrative and clerical staff",
-            "Non-educational support staff and services_Other staff", # Other Staff Costs
+            "Non-educational support staff and services_Other staff",  # Other Staff Costs
             "Other costs_Indirect employee expenses",
             "Other costs_Staff development and training",
-            "Other costs_Staff-related insurance", # \Other Staff Costs
-            "Teaching and Teaching support staff_Supply teaching staff", # Supply Staff Costs
+            "Other costs_Staff-related insurance",  # \Other Staff Costs
+            "Teaching and Teaching support staff_Supply teaching staff",  # Supply Staff Costs
             "Other costs_Supply teacher insurance",
-            "Teaching and Teaching support staff_Agency supply teaching staff", # \Supply Staff Costs
+            "Teaching and Teaching support staff_Agency supply teaching staff",  # \Supply Staff Costs
+        ]
+    ].sum(axis=1)
+    cs_df["Supply Staff"] = cs_df[
+        [
+            "Teaching and Teaching support staff_Supply teaching staff",
+            "Other costs_Supply teacher insurance",
+            "Teaching and Teaching support staff_Agency supply teaching staff",
+        ]
+    ].sum(axis=1)
+    cs_df["Other Staff Costs"] = cs_df[
+        [
+            "Non-educational support staff and services_Other staff",
+            "Other costs_Indirect employee expenses",
+            "Other costs_Staff development and training",
+            "Other costs_Staff-related insurance",
         ]
     ].sum(axis=1)
 
