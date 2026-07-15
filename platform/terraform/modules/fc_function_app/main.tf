@@ -301,7 +301,7 @@ resource "azurerm_monitor_diagnostic_setting" "func-app-service" {
   }
 }
 
-# join the func app onto the platform subnet
+# join the func app onto the required vnet
 resource "azurerm_app_service_virtual_network_swift_connection" "func-app-subnet" {
   app_service_id = azurerm_function_app_flex_consumption.func-app.id
   subnet_id      = var.networking.join_subnet_id

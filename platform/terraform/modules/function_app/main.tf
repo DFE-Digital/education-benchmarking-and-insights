@@ -235,3 +235,10 @@ resource "azurerm_monitor_diagnostic_setting" "func-app-service" {
     category = "AllMetrics"
   }
 }
+
+# conditionally join the func app onto a vnet
+resource "azurerm_app_service_virtual_network_swift_connection" "func-app-subnet" {
+  count          = var.networking.join_subnet_id == "" ? 0 : 1
+  app_service_id = local.func_app_id
+  subnet_id      = var.networking.join_subnet_id
+}
