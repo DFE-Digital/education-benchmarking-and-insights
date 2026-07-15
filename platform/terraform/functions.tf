@@ -219,7 +219,7 @@ module "orchestrator-fa" {
   networking = {
     enable_restrictions = module.config.enable_ip_restrictions
     subnet_ids          = [data.azurerm_subnet.web-app-subnet.id]
-    join_subnet_id      = data.azurerm_subnet.platform-subnet.id
+    join_subnet_id      = data.azurerm_subnet.orchestrator-subnet.id
   }
 
   service_plan = {

@@ -40,6 +40,14 @@ resource "azurerm_subnet" "platform-subnet" {
   }
 }
 
+resource "azurerm_subnet" "orchestrator-subnet" {
+  name                 = "${var.environment-prefix}-orchestrator-subnet"
+  resource_group_name  = azurerm_resource_group.resource-group.name
+  virtual_network_name = azurerm_virtual_network.app-service-network.name
+  address_prefixes     = ["10.0.4.0/24"]
+  service_endpoints    = ["Microsoft.Sql", "Microsoft.Storage"]
+}
+
 resource "azurerm_subnet" "web-app-subnet" {
   name                 = "${var.environment-prefix}-web-app-subnet"
   resource_group_name  = azurerm_resource_group.resource-group.name
