@@ -40,6 +40,7 @@ variable "networking" {
   type = object({
     enable_restrictions = bool
     subnet_ids          = list(string)
+    join_subnet_id      = optional(string, "")
   })
 }
 

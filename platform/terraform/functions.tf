@@ -219,6 +219,7 @@ module "orchestrator-fa" {
   networking = {
     enable_restrictions = module.config.enable_ip_restrictions
     subnet_ids          = [data.azurerm_subnet.web-app-subnet.id]
+    join_subnet_id      = data.azurerm_subnet.orchestrator-subnet.id
   }
 
   service_plan = {
@@ -253,7 +254,15 @@ module "content-fc-fa" {
   monitoring       = local.shared_monitoring
   shared_key_vault = local.shared_key_vault
   sql_server       = local.shared_sql_server
-  networking       = local.shared_networking
+
+  networking = {
+    enable_restrictions = module.config.enable_ip_restrictions,
+    join_subnet_id      = data.azurerm_subnet.platform-subnet.id
+    allow_subnet_ids = [
+      data.azurerm_subnet.web-app-subnet.id,
+      data.azurerm_subnet.load-test-subnet.id
+    ]
+  }
 
   identity = {
     tenant_id = data.azurerm_client_config.client.tenant_id
@@ -281,7 +290,15 @@ module "local-authority-fc-fa" {
   monitoring       = local.shared_monitoring
   shared_key_vault = local.shared_key_vault
   sql_server       = local.shared_sql_server
-  networking       = local.shared_networking
+
+  networking = {
+    enable_restrictions = module.config.enable_ip_restrictions,
+    join_subnet_id      = data.azurerm_subnet.platform-subnet.id
+    allow_subnet_ids = [
+      data.azurerm_subnet.web-app-subnet.id,
+      data.azurerm_subnet.load-test-subnet.id
+    ]
+  }
 
   identity = {
     tenant_id = data.azurerm_client_config.client.tenant_id
@@ -311,7 +328,15 @@ module "school-fc-fa" {
   monitoring       = local.shared_monitoring
   shared_key_vault = local.shared_key_vault
   sql_server       = local.shared_sql_server
-  networking       = local.shared_networking
+
+  networking = {
+    enable_restrictions = module.config.enable_ip_restrictions,
+    join_subnet_id      = data.azurerm_subnet.platform-subnet.id
+    allow_subnet_ids = [
+      data.azurerm_subnet.web-app-subnet.id,
+      data.azurerm_subnet.load-test-subnet.id
+    ]
+  }
 
   redis_cache = {
     id          = azurerm_redis_cache.cache.id
@@ -344,7 +369,15 @@ module "trust-fc-fa" {
   monitoring       = local.shared_monitoring
   shared_key_vault = local.shared_key_vault
   sql_server       = local.shared_sql_server
-  networking       = local.shared_networking
+
+  networking = {
+    enable_restrictions = module.config.enable_ip_restrictions,
+    join_subnet_id      = data.azurerm_subnet.platform-subnet.id
+    allow_subnet_ids = [
+      data.azurerm_subnet.web-app-subnet.id,
+      data.azurerm_subnet.load-test-subnet.id
+    ]
+  }
 
   identity = {
     tenant_id = data.azurerm_client_config.client.tenant_id
@@ -374,7 +407,15 @@ module "benchmark-fc-fa" {
   monitoring       = local.shared_monitoring
   shared_key_vault = local.shared_key_vault
   sql_server       = local.shared_sql_server
-  networking       = local.shared_networking
+
+  networking = {
+    enable_restrictions = module.config.enable_ip_restrictions,
+    join_subnet_id      = data.azurerm_subnet.platform-subnet.id
+    allow_subnet_ids = [
+      data.azurerm_subnet.web-app-subnet.id,
+      data.azurerm_subnet.load-test-subnet.id
+    ]
+  }
 
   identity = {
     tenant_id = data.azurerm_client_config.client.tenant_id
@@ -402,7 +443,15 @@ module "insight-fc-fa" {
   monitoring       = local.shared_monitoring
   shared_key_vault = local.shared_key_vault
   sql_server       = local.shared_sql_server
-  networking       = local.shared_networking
+
+  networking = {
+    enable_restrictions = module.config.enable_ip_restrictions,
+    join_subnet_id      = data.azurerm_subnet.platform-subnet.id
+    allow_subnet_ids = [
+      data.azurerm_subnet.web-app-subnet.id,
+      data.azurerm_subnet.load-test-subnet.id
+    ]
+  }
 
   redis_cache = {
     id          = azurerm_redis_cache.cache.id
@@ -435,8 +484,9 @@ module "maintenance-tasks-fc-fa" {
   sql_server       = local.shared_sql_server
 
   networking = {
-    enable_restrictions = false
-    subnet_ids          = [data.azurerm_subnet.web-app-subnet.id]
+    enable_restrictions = false,
+    join_subnet_id      = data.azurerm_subnet.platform-subnet.id
+    allow_subnet_ids    = [data.azurerm_subnet.web-app-subnet.id]
   }
 
   identity = {
@@ -463,7 +513,15 @@ module "chart-rendering-fc-fa" {
   monitoring       = local.shared_monitoring
   shared_key_vault = local.shared_key_vault
   sql_server       = local.shared_sql_server
-  networking       = local.shared_networking
+
+  networking = {
+    enable_restrictions = module.config.enable_ip_restrictions,
+    join_subnet_id      = data.azurerm_subnet.platform-subnet.id
+    allow_subnet_ids = [
+      data.azurerm_subnet.web-app-subnet.id,
+      data.azurerm_subnet.load-test-subnet.id
+    ]
+  }
 
   application_stack = {
     worker_runtime  = "node"
