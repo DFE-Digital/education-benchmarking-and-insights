@@ -258,7 +258,7 @@ module "content-fc-fa" {
   networking = {
     enable_restrictions = module.config.enable_ip_restrictions,
     join_subnet_id      = data.azurerm_subnet.platform-subnet.id
-    allow_subnet_ids    = [
+    allow_subnet_ids = [
       data.azurerm_subnet.web-app-subnet.id,
       data.azurerm_subnet.load-test-subnet.id
     ]
@@ -294,7 +294,7 @@ module "local-authority-fc-fa" {
   networking = {
     enable_restrictions = module.config.enable_ip_restrictions,
     join_subnet_id      = data.azurerm_subnet.platform-subnet.id
-    allow_subnet_ids    = [
+    allow_subnet_ids = [
       data.azurerm_subnet.web-app-subnet.id,
       data.azurerm_subnet.load-test-subnet.id
     ]
@@ -332,7 +332,7 @@ module "school-fc-fa" {
   networking = {
     enable_restrictions = module.config.enable_ip_restrictions,
     join_subnet_id      = data.azurerm_subnet.platform-subnet.id
-    allow_subnet_ids    = [
+    allow_subnet_ids = [
       data.azurerm_subnet.web-app-subnet.id,
       data.azurerm_subnet.load-test-subnet.id
     ]
@@ -373,7 +373,7 @@ module "trust-fc-fa" {
   networking = {
     enable_restrictions = module.config.enable_ip_restrictions,
     join_subnet_id      = data.azurerm_subnet.platform-subnet.id
-    allow_subnet_ids    = [
+    allow_subnet_ids = [
       data.azurerm_subnet.web-app-subnet.id,
       data.azurerm_subnet.load-test-subnet.id
     ]
@@ -411,7 +411,7 @@ module "benchmark-fc-fa" {
   networking = {
     enable_restrictions = module.config.enable_ip_restrictions,
     join_subnet_id      = data.azurerm_subnet.platform-subnet.id
-    allow_subnet_ids    = [
+    allow_subnet_ids = [
       data.azurerm_subnet.web-app-subnet.id,
       data.azurerm_subnet.load-test-subnet.id
     ]
@@ -447,7 +447,7 @@ module "insight-fc-fa" {
   networking = {
     enable_restrictions = module.config.enable_ip_restrictions,
     join_subnet_id      = data.azurerm_subnet.platform-subnet.id
-    allow_subnet_ids    = [
+    allow_subnet_ids = [
       data.azurerm_subnet.web-app-subnet.id,
       data.azurerm_subnet.load-test-subnet.id
     ]
@@ -486,7 +486,7 @@ module "maintenance-tasks-fc-fa" {
   networking = {
     enable_restrictions = false,
     join_subnet_id      = data.azurerm_subnet.platform-subnet.id
-    allow_subnet_ids    = [ data.azurerm_subnet.web-app-subnet.id ]
+    allow_subnet_ids    = [data.azurerm_subnet.web-app-subnet.id]
   }
 
   identity = {
@@ -517,7 +517,7 @@ module "chart-rendering-fc-fa" {
   networking = {
     enable_restrictions = module.config.enable_ip_restrictions,
     join_subnet_id      = data.azurerm_subnet.platform-subnet.id
-    allow_subnet_ids    = [
+    allow_subnet_ids = [
       data.azurerm_subnet.web-app-subnet.id,
       data.azurerm_subnet.load-test-subnet.id
     ]
