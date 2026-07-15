@@ -46,6 +46,15 @@ resource "azurerm_subnet" "orchestrator-subnet" {
   virtual_network_name = azurerm_virtual_network.app-service-network.name
   address_prefixes     = ["10.0.4.0/24"]
   service_endpoints    = ["Microsoft.Sql", "Microsoft.Storage"]
+
+  delegation {
+    name = "delegation"
+
+    service_delegation {
+      name    = "Microsoft.Web/serverFarms"
+      actions = ["Microsoft.Network/virtualNetworks/subnets/action"]
+    }
+  }
 }
 
 resource "azurerm_subnet" "web-app-subnet" {
