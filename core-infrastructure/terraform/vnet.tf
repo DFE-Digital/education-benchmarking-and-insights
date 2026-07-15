@@ -15,6 +15,16 @@ resource "azurerm_subnet_network_security_group_association" "platform-subnet-ns
   network_security_group_id = azurerm_network_security_group.network-security-group.id
 }
 
+resource "azurerm_subnet_network_security_group_association" "orchestrator-subnet-nsg-association" {
+  subnet_id                 = azurerm_subnet.orchestrator-subnet.id
+  network_security_group_id = azurerm_network_security_group.network-security-group.id
+}
+
+resource "azurerm_subnet_network_security_group_association" "load-test-subnet-nsg-association" {
+  subnet_id                 = azurerm_subnet.load-test-subnet.id
+  network_security_group_id = azurerm_network_security_group.network-security-group.id
+}
+
 resource "azurerm_virtual_network" "app-service-network" {
   name                = "${var.environment-prefix}-app-service-network"
   address_space       = ["10.0.0.0/16"]
@@ -87,9 +97,4 @@ resource "azurerm_subnet" "load-test-subnet" {
   service_endpoints = [
     "Microsoft.Web"
   ]
-}
-
-resource "azurerm_subnet_network_security_group_association" "load-test-subnet-nsg-association" {
-  subnet_id                 = azurerm_subnet.load-test-subnet.id
-  network_security_group_id = azurerm_network_security_group.network-security-group.id
 }
