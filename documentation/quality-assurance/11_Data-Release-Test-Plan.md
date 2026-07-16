@@ -50,7 +50,7 @@ This plan defines the QA strategy to validate the Data Release for the **<full r
 
 ### Out of Scope
 
-- Accuracy of the raw source data (upstream responsibility of Data Analysts).
+- Accuracy of the raw source data (upstream responsibility of the source data owners).
 
 ## Test Data Profile
 
