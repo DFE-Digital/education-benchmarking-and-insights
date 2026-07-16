@@ -51,9 +51,10 @@ During the run QA carries out the validation model defined in the strategy by wo
 
 - QA runs the schema and file checks on the incoming files, raising anything off spec with the analyst before the pipeline runs.
 - QA and the engineer trigger the pipeline, watch the logs, and reconcile the database against source totals; QA runs the completeness report and reviews the gaps with the analyst.
-- QA verifies the release specific business logic (for example AAR fund apportionment, CFR data, S251 budget and outturn) with the analyst who owns the rules.
+- QA verifies the release specific business logic (for example AAR fund apportionment, BFR forecast, S251 budget and outturn) with the analyst who owns the rules.
 - QA spot checks the service for the reporting year.
 - QA runs the regression checks with the engineer to confirm historical data is untouched, and verifies the transparency file with the analyst where the release has one.
+- Where the release refreshes the LAA risk indicators (CFR), QA runs the file based assurance defined in [Test Strategy: Data Ingestion](./3_Test-strategy-data-ingestion.md) with the engineer and analyst.
 
 QA records the outcome of each check against the plan as it goes, so the plan doubles as the evidence trail.
 
@@ -64,16 +65,6 @@ QA reuses the same assets each cycle rather than rebuilding them.
 - The assurance, reconciliation and coverage queries in the [data release guide](../guides/data-release-guide/01_Overview.md).
 - The completeness report script in SharePoint under `Documents > General > Analytics Discovery > Completeness Report - Data Drops`.
 - The regression comparison queries over prior years, and the transparency file verification.
-
-## Assuring the LAA Risk Indicators (CFR)
-
-From the 2025-2026 cycle the CFR release also refreshes the LAA risk indicators (see [decision 0023](../architecture/decisions/0023-laa-risk-indicators-data-architecture.md)). Because the raw inputs are not stored in the database, QA assures these figures through files rather than queries, which changes how QA works with the team.
-
-- QA confirms with the engineer that LAA processing runs after the CFR refresh, and takes the parquet saved at calculation time as the QA artefact.
-- QA works with the analyst to check the figures against the input files and the webpage data download, since the six non-financial datapoints cannot be queried in the database.
-- QA and the engineer confirm the headline and breakdown tables populate the new pages, and the regression checks.
-
-The specific checks are captured in the LAA block of the plan template.
 
 ## Defect Handling and Evidence
 
