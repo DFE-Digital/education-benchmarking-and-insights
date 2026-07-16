@@ -100,14 +100,11 @@ export function HorizontalBarChartWrapper<
   // if a `sort` is not provided, the default sorting method will be used (value DESC)
   const sortedDataPoints = useMemo(() => {
     let dataPoint = "value" as keyof (
-      | SchoolChartData
-      | TrustChartData
-      | LaChartData
+      SchoolChartData | TrustChartData | LaChartData
     );
     if (trust) {
       dataPoint = "totalValue" as keyof (
-        | SchoolChartData
-        | Omit<TrustChartData, "totalPupils">
+        SchoolChartData | Omit<TrustChartData, "totalPupils">
       );
     }
 
