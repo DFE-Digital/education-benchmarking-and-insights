@@ -82,4 +82,9 @@ resource "azurerm_mssql_firewall_rule" "ca-fw-rule" {
   server_id        = data.azurerm_mssql_server.sql-server.id
   start_ip_address = each.value
   end_ip_address   = each.value
+
+  depends_on = [
+    module.container_app_default,
+    module.container_app_custom
+  ]
 }
