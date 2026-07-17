@@ -37,8 +37,3 @@ data "azurerm_mssql_server" "sql-server" {
   name                = "${var.environment-prefix}-sql"
   resource_group_name = "${var.environment-prefix}-ebis-core"
 }
-
-data "azurerm_container_app_environment" "main" {
-  name                = "${var.environment-prefix}-ebis-cae"
-  resource_group_name = "${var.environment-prefix}-ebis-core"
-}
