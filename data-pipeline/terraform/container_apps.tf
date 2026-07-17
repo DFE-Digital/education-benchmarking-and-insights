@@ -84,7 +84,7 @@ resource "azurerm_mssql_firewall_rule" "ca-fw-rule" {
   end_ip_address   = each.value
 
   depends_on = [
-    module.container_app_default,
-    module.container_app_custom
+    module.container_app_default.azurerm_container_app.data-pipeline,
+    module.container_app_custom.azurerm_container_app.data-pipeline
   ]
 }
