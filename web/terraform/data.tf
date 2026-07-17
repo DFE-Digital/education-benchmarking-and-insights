@@ -70,12 +70,12 @@ data "azurerm_key_vault_secret" "benchmark-api-host" {
 }
 
 data "azurerm_key_vault_secret" "chart-rendering-api-key" {
-  name         = "chart-rendering-host-key"
+  name         = "chart-rendering-fc-host-key"
   key_vault_id = data.azurerm_key_vault.key-vault.id
 }
 
 data "azurerm_key_vault_secret" "chart-rendering-api-host" {
-  name         = "chart-rendering-host"
+  name         = "chart-rendering-fc-host"
   key_vault_id = data.azurerm_key_vault.key-vault.id
 }
 
