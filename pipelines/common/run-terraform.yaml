@@ -23,6 +23,27 @@ steps:
       archiveFilePatterns: '$(Pipeline.Workspace)/${{ parameters.module }}-terraform/terraform.zip'
       destinationFolder: '${{ parameters.workspaceDir }}/tf'
 
+  - bash: |
+      AGENT_IP=$(curl -s https://ifconfig.me)
+      echo "##vso[task.setvariable variable=agent-ip]$AGENT_IP"
+      echo "Pipeline Runner IP: $AGENT_IP"
+    displayName: 'Get pipeline runner IP'
+
+  - task: AzureCLI@2
+    displayName: 'Set firewall rule for SQL server network access'
+    inputs:
+      azureSubscription: ${{ parameters.subscription }}
+      scriptType: 'bash'
+      scriptLocation: 'inlineScript'
+      inlineScript: |
+        echo "Adding firewall rule for pipeline runner IP"
+        az sql server firewall-rule create \
+          --resource-group ${{ parameters.environmentPrefix }}-ebis-core \
+          --server ${{ parameters.environmentPrefix }}-sql \
+          --name pipeline-runner-ip \
+          --start-ip-address $(agent-ip) \
+          --end-ip-address $(agent-ip)
+
   - task: AzureCLI@1
     displayName: 'Create terraform dependencies'
     inputs:
