@@ -20,52 +20,52 @@ data "azurerm_key_vault" "key-vault" {
 }
 
 data "azurerm_key_vault_secret" "school-api-key" {
-  name         = "school-host-key"
+  name         = "school-fc-host-key"
   key_vault_id = data.azurerm_key_vault.key-vault.id
 }
 
 data "azurerm_key_vault_secret" "school-api-host" {
-  name         = "school-host"
+  name         = "school-fc-host"
   key_vault_id = data.azurerm_key_vault.key-vault.id
 }
 
 data "azurerm_key_vault_secret" "trust-api-key" {
-  name         = "trust-host-key"
+  name         = "trust-fc-host-key"
   key_vault_id = data.azurerm_key_vault.key-vault.id
 }
 
 data "azurerm_key_vault_secret" "trust-api-host" {
-  name         = "trust-host"
+  name         = "trust-fc-host"
   key_vault_id = data.azurerm_key_vault.key-vault.id
 }
 
 data "azurerm_key_vault_secret" "local-authority-api-key" {
-  name         = "local-authority-host-key"
+  name         = "local-authority-fc-host-key"
   key_vault_id = data.azurerm_key_vault.key-vault.id
 }
 
 data "azurerm_key_vault_secret" "local-authority-api-host" {
-  name         = "local-authority-host"
+  name         = "local-authority-fc-host"
   key_vault_id = data.azurerm_key_vault.key-vault.id
 }
 
 data "azurerm_key_vault_secret" "insight-api-key" {
-  name         = "insight-host-key"
+  name         = "insight-fc-host-key"
   key_vault_id = data.azurerm_key_vault.key-vault.id
 }
 
 data "azurerm_key_vault_secret" "insight-api-host" {
-  name         = "insight-host"
+  name         = "insight-fc-host"
   key_vault_id = data.azurerm_key_vault.key-vault.id
 }
 
 data "azurerm_key_vault_secret" "benchmark-api-key" {
-  name         = "benchmark-host-key"
+  name         = "benchmark-fc-host-key"
   key_vault_id = data.azurerm_key_vault.key-vault.id
 }
 
 data "azurerm_key_vault_secret" "benchmark-api-host" {
-  name         = "benchmark-host"
+  name         = "benchmark-fc-host"
   key_vault_id = data.azurerm_key_vault.key-vault.id
 }
 
@@ -80,11 +80,11 @@ data "azurerm_key_vault_secret" "chart-rendering-api-host" {
 }
 
 data "azurerm_key_vault_secret" "content-api-key" {
-  name         = "content-host-key"
+  name         = "content-fc-host-key"
   key_vault_id = data.azurerm_key_vault.key-vault.id
 }
 
 data "azurerm_key_vault_secret" "content-api-host" {
-  name         = "content-host"
+  name         = "content-fc-host"
   key_vault_id = data.azurerm_key_vault.key-vault.id
 }
