@@ -150,14 +150,6 @@ resource "azurerm_mssql_database_extended_auditing_policy" "db-audit-policy" {
   log_monitoring_enabled                  = true
 }
 
-resource "azurerm_mssql_firewall_rule" "sql-server-fw-azure-services" {
-  #checkov:skip=CKV2_AZURE_34:See ADO backlog AB#206493
-  name             = "allow_azure_services_fw"
-  server_id        = azurerm_mssql_server.sql-server.id
-  start_ip_address = "0.0.0.0"
-  end_ip_address   = "0.0.0.0"
-}
-
 resource "azurerm_mssql_firewall_rule" "sql-server-fw-dfe-remote" {
   count            = var.environment == "production" ? 0 : 1
   name             = "DFE_VPN_Remote"
