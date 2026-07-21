@@ -2,7 +2,7 @@ DROP VIEW IF EXISTS VW_MBTemp
 GO
 
 CREATE VIEW VW_MBTemp AS
-SELECT RunId,
+SELECT RunId
 FROM TrustFinancial
 WHERE RunType = 'default'
 GO
