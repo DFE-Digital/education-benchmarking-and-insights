@@ -126,7 +126,7 @@ def pre_process_data(
             trusts,
             academies_data_ref["central_services"],
             academies,
-            academies_data_ref["aar"]
+            academies_data_ref["aar"],
         )
         write_blob(
             "pre-processed",
