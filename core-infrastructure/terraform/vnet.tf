@@ -98,3 +98,15 @@ resource "azurerm_subnet" "load-test-subnet" {
     "Microsoft.Web"
   ]
 }
+
+resource "azurerm_mssql_virtual_network_rule" "platform-subnet-sql-access" {
+  name      = "platform-subnet-sql-access-rule"
+  server_id = azurerm_mssql_server.sql-server.id
+  subnet_id = azurerm_subnet.platform-subnet.id
+}
+
+resource "azurerm_mssql_virtual_network_rule" "orchestrator-subnet-sql-access" {
+  name      = "orchestrator-subnet-sql-access-rule"
+  server_id = azurerm_mssql_server.sql-server.id
+  subnet_id = azurerm_subnet.orchestrator-subnet.id
+}
