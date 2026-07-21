@@ -1,12 +1,3 @@
-DROP VIEW IF EXISTS VW_MBTemp
-GO
-
-CREATE VIEW VW_MBTemp AS
-SELECT RunId
-FROM TrustFinancial
-WHERE RunType = 'default'
-GO
-
 DROP VIEW IF EXISTS VW_TrustFinancialDefault
 GO
 
