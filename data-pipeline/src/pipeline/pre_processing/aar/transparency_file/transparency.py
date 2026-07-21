@@ -61,14 +61,6 @@ def build_aar_transparency_file(
         borough_conditions, borough_choices, default="Neither"
     )
 
-    mats_and_sats = df_apportioned["Company Registration Number"].value_counts()
-    mats = mats_and_sats[mats_and_sats > 1].index
-    df_apportioned["MAT SAT or Central Services"] = np.where(
-        df_apportioned["Company Registration Number"].isin(mats),
-        "Multi Academy Trust (MAT)",
-        "Single Academy Trust (SAT)",
-    )
-
     df_raw["Company Registration Number"] = df_raw[
         "Company Registration Number"
     ].str.zfill(8)
@@ -180,7 +172,6 @@ def build_aar_central_services_transparency_file(
     ).round(
         0
     )
-    cs_transparency_file_df["trust_type"] = "Central services"
 
     output_mappings = cs_transparency_file_cols.get("default")
     formatted_cs_transparency_file_df = (

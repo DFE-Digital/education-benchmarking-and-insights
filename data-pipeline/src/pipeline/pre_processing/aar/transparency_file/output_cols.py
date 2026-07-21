@@ -1,6 +1,5 @@
 cs_transparency_file_cols = {
     "default": {
-        "trust_type": "MAT SAT or Central Services",
         "Company Registration Number": "Company Number",
         "trust_name": "Company Name",
         "%_pupils_FSM": "Percentage of pupils in trust eligible for FSM",
@@ -91,8 +90,6 @@ transparency_file_cols = {
         "Academy UPIN": "Academy UPIN",
         "EstablishmentName": "School Name",
         "Period covered by return": "Period covered by return",
-        "MAT SAT or Central Services": "MAT SAT or Central Services",
-        # "Group Identifier": "UID",
         "Company Registration Number": "Company Number",
         "Trust Name": "Trust or Company Name",
         "OpenDate": "Date opened",
@@ -109,7 +106,6 @@ transparency_file_cols = {
         "GOR (name)": "Region",
         "London Borough": "London Borough",
         "London Weighting": "London Weighting",
-        "AdmissionsPolicy (name)": "Admissions policy",
         "Is PFI": "PFI",
         "Percentage Free school meals": "% of pupils eligible for FSM",
         "Percentage with EHC": "% of pupils with EHCP",
@@ -131,7 +127,7 @@ transparency_file_cols = {
         "Income_Academies": "Academies",
         "BNCH11163 (Non- Government)": "Non-Government",
         "BNCH11201 (Income from facilities and services)": "Income from rentals and lettings",
-        "BNCH11205 (Other Income from facilities and services)": "Other Income from Facilities and Services",
+        "BNCH11205 (Other Income from facilities and services)": "Income from facilities and services - other",
         "Income_Catering services": "Income from catering",
         "Income_Receipts supply teacher insurance": "Receipts from supply teacher insurance claims",
         "Income_Other self-generated income": "Other self-generated income",
