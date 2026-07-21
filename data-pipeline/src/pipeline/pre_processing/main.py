@@ -21,10 +21,7 @@ from pipeline.utils.stats import stats_collector
 from pipeline.utils.storage import get_blob, raw_container, try_get_blob, write_blob
 
 from .aar.academies import build_academy_data, map_academy_data
-from .aar.transparency_file.transparency import (
-    build_aar_central_services_transparency_file,
-    build_aar_transparency_file,
-)
+from .aar.transparency_file.transparency import create_aar_transparency_file_excel
 from .aar.trusts import build_trust_data
 from .ancillary.custom_data import update_custom_data
 from .ancillary.main import (
@@ -123,6 +120,20 @@ def pre_process_data(
         academies_data_ref["high_exec_pay"],
         academies_data_ref["central_services"],
     )
+
+    if aar_year >= 2025:
+        buffer = create_aar_transparency_file_excel(
+            trusts,
+            academies_data_ref["central_services"],
+            academies,
+            academies_data_ref["aar"]
+        )
+        write_blob(
+            "pre-processed",
+            f"{run_type}/{aar_year}/aar_transparency_file.xlsx",
+            buffer.getvalue(),
+        )
+        logger.info("Written AAR Transparency File")
 
     all_schools = pre_process_all_schools(
         run_type,
@@ -252,15 +263,6 @@ def pre_process_academies_data(
         academies.to_parquet(),
     )
 
-    if year >= 2025:
-        logger.info("Generating AAR Transparency File")
-        transparency_file = build_aar_transparency_file(academies, aar_ancillary_data["aar"])
-        write_blob(
-            "pre-processed",
-            f"{run_type}/{year}/aar_transparency_file.csv",
-            transparency_file.to_csv(index=False),
-        )
-
     return academies
 
 
@@ -351,17 +353,6 @@ def pre_process_trust_data(
         f"{run_type}/{run_id}/trusts.parquet",
         trusts.to_parquet(),
     )
-
-    if year >= 2025:
-        logger.info("Generating AAR Central Services Transparency File")
-        cs_transparency_file = build_aar_central_services_transparency_file(
-            trusts, academies, central_services
-        )
-        write_blob(
-            "pre-processed",
-            f"{run_type}/{year}/aar_central_services_transparency_file.csv",
-            cs_transparency_file.to_csv(index=False),
-        )
 
     return trusts
 

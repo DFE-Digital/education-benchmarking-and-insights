@@ -1,5 +1,6 @@
 import numpy as np
 import pandas as pd
+import io
 
 from pipeline.pre_processing.common import mappings
 from pipeline.utils.log import setup_logger
@@ -11,6 +12,25 @@ from .rollups import (
 )
 
 logger = setup_logger(__name__)
+
+
+def create_aar_transparency_file_excel(
+        trusts, trusts_preprocessed, 
+        academies_with_apportionments, academies_preprocessed, 
+) -> io.BytesIO:
+    aar_transparency_df = build_aar_transparency_file(
+        academies_with_apportionments, academies_preprocessed
+    )
+    logger.info("Built Academy level AAR transparency file")
+    aar_cs_transparency_df = build_aar_central_services_transparency_file(
+        trusts, academies_with_apportionments, trusts_preprocessed
+    )
+    logger.info("Built Central Service level AAR transparency file")
+    buffer = io.BytesIO()
+    with pd.ExcelWriter(buffer, engine='openpyxl') as writer:
+        aar_transparency_df.to_excel(writer, sheet_name='Academies', index=False)
+        aar_cs_transparency_df.to_excel(writer, sheet_name='Central Services', index=False)
+    return buffer
 
 
 def build_aar_transparency_file(
@@ -78,6 +98,8 @@ def build_aar_transparency_file(
     transparency_df_all_values["Revenue reserve_app"] = transparency_df_all_values[
         "Revenue reserve_app"
     ].round(0)
+    transparency_df_all_values["OpenDate"] = transparency_df_all_values["OpenDate"].dt.strftime("%Y-%m-%d")
+    transparency_df_all_values["CloseDate"] = transparency_df_all_values["CloseDate"].dt.strftime("%Y-%m-%d")
 
     output_mappings = transparency_file_cols.get("default")
     transparency_df = (
