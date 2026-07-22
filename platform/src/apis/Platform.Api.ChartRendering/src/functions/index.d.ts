@@ -3,9 +3,6 @@ type ChartDefinition = {
   valueField: string | string[];
 };
 
-/**
- * @examples require('../openapi/verticalBarChart/examples.ts').examples
- */
 export type VerticalBarChartDefinition = Pick<
   VerticalBarChartBuilderOptions<unknown>,
   "data"
@@ -25,9 +22,6 @@ export type VerticalBarChartDefinition = Pick<
   > &
   ChartDefinition;
 
-/**
- * @examples require('../openapi/horizontalBarChart/examples.ts').examples
- */
 export type HorizontalBarChartDefinition = Pick<
   HorizontalBarChartBuilderOptions<unknown>,
   "data"
