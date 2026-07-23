@@ -255,7 +255,7 @@ jobs:
           alias: 'chart_rendering'
         - name: '${{ parameters.environmentPrefix }}-ebis-content-fc-fa'
           alias: 'content'
-        - name: '${{ parameters.environmentPrefix }}-ebis-orchestrator-fc-fa'
+        - name: '${{ parameters.environmentPrefix }}-ebis-orchestrator-fa'
           alias: 'orchestrator'
         - name: '${{ parameters.environmentPrefix }}-ebis-maintenance-tasks-fc-fa'
           alias: 'maintenance_tasks'
