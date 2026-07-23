@@ -45,7 +45,7 @@ Once the cutoff data is prepared, one engineer should orchestrate the rest of th
 
 1. **Scale Target SQL Database.** Scale the destination Azure SQL database (e.g. `s198t01-sql`) to **200 DTUs** via Settings > Compute and Storage, so the pipeline load doesn't impact the web service or other developers. Wait for this to take effect before proceeding.
 
-2. **Send Start Trigger Message.** Post the UTF-8 trigger message to the `data-pipeline-job-default-start` Azure queue in the target storage account. See [trigger schema](#triggering-a-pipeline-run) below. Full instructions are in the [data-pipeline README](../../../data-pipeline/README.md#running-the-pipeline).
+2. **Send Start Trigger Message.** Post the UTF-8 trigger message to the `data-pipeline-job-pending` Azure queue in the target storage account. See [trigger schema](#triggering-a-pipeline-run) below. Full instructions are in the [data-pipeline README](../../../data-pipeline/README.md#running-the-pipeline).
 
 3. **Monitor Logs.** Watch execution logs in the container logs queries hub (`s198t01-ebis-aiw`): search logs, then search "default" in the queries hub and run the "Recent default pipeline runs" query. A successful run displays "Pipeline run successful!"
 
@@ -65,7 +65,7 @@ Once the cutoff data is prepared, one engineer should orchestrate the rest of th
 
 ### Triggering a pipeline run
 
-To trigger a pipeline run once data is prepared, add a message to the `data-pipeline-job-default-start` Azure queue as UTF-8, in this form:
+To trigger a pipeline run once data is prepared, add a message to the `data-pipeline-job-pending` Azure queue as UTF-8, in this form:
 
 ```json
 {
@@ -141,7 +141,7 @@ There are several sets of deployed infrastructure: `dev` (resources prefixed `s1
 
 1. Scale the database for the relevant environment so pipeline processing doesn't prevent other users getting responses. Search for `s198t01-sql`, click the `data` database, go to Settings > Compute and Storage, and set DTUs to 200. Wait for this to take effect.
 2. Add data to data storage blobs (search e.g. `s198t01data` in the Azure console).
-3. Trigger a pipeline run (`data-pipeline-job-default-start` in `s198t01data`).
+3. Trigger a pipeline run (`data-pipeline-job-pending` in `s198t01data`).
 4. View the pipeline run via container logs: search `s198t01-ebis-aiw`, click logs, search "default" in the queries hub, and run the "Recent default pipeline runs" query to see logs/errors from that run.
 5. View the relevant database by connecting locally via a connection string (stored in keyvault `s198t01-ebis-keyvault`), or get login credentials from the keyvault and log in via the Azure console.
 6. After the run, descale the database back to its prior setting.
