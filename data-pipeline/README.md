@@ -84,7 +84,9 @@ These steps will avoid SSL errors due to DfE kit/VPN.
 
     * `poetry install`
 
-### Running the pipeline
+### Running the pipeline locally
+
+> **Warning:** These instructions run the pipeline **locally only**, against the Azurite emulator. Do not use them to run the pipeline on a deployed environment. To run the pipeline, follow the [Running the pipeline doc](../documentation/data/05_Releases.md), which triggers the run through the `data-pipeline-job-pending` queue and the Orchestrator. Triggering the pipeline by posting directly to `data-pipeline-job-default-start` bypasses the Orchestrator and risks the service not operating correctly.
 
 To run the pipeline locally, follow these steps:
 
