@@ -226,13 +226,10 @@ resource "azurerm_function_app_flex_consumption" "func-app" {
   app_settings = local.function-app-settings
   tags         = var.core.tags
 
-<<<<<<< HEAD
   lifecycle {
     ignore_changes = [virtual_network_subnet_id]
   }
 
-=======
->>>>>>> 70195b500 (feat: function apps on flex consumption plan (#4371))
   depends_on = [
     azurerm_role_assignment.storage-data-owner
   ]
@@ -303,12 +300,9 @@ resource "azurerm_monitor_diagnostic_setting" "func-app-service" {
     category = "AllMetrics"
   }
 }
-<<<<<<< HEAD
 
 # join the func app onto the required vnet
 resource "azurerm_app_service_virtual_network_swift_connection" "func-app-subnet" {
   app_service_id = azurerm_function_app_flex_consumption.func-app.id
   subnet_id      = var.networking.join_subnet_id
 }
-=======
->>>>>>> 70195b500 (feat: function apps on flex consumption plan (#4371))

@@ -19,11 +19,7 @@ locals {
   host = "https://${azurerm_function_app_flex_consumption.func-app.default_hostname}"
 
   ip_default_action = var.networking.enable_restrictions ? "Deny" : "Allow"
-<<<<<<< HEAD
   ip_restrictions   = var.networking.enable_restrictions ? var.networking.allow_subnet_ids : []
-=======
-  ip_restrictions   = var.networking.enable_restrictions ? var.networking.subnet_ids : []
->>>>>>> 70195b500 (feat: function apps on flex consumption plan (#4371))
 
   redis_contributor_count = var.redis_cache.contributor ? 1 : 0
   redis_owner_count       = var.redis_cache.owner ? 1 : 0
