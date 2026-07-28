@@ -35,6 +35,23 @@ resource "azurerm_key_vault_secret" "sql-connection-string-default" {
   depends_on   = [azurerm_key_vault_access_policy.terraform_sp_access]
 }
 
+resource "azurerm_key_vault_secret" "sql-server-name" {
+  #checkov:skip=CKV_AZURE_41:See ADO backlog AB#206511
+  name         = "core-sql-server-name"
+  value        = azurerm_mssql_server.sql-server.name
+  key_vault_id = azurerm_key_vault.key-vault.id
+  content_type = "text/plain"
+  depends_on   = [azurerm_key_vault_access_policy.terraform_sp_access]
+}
+
+resource "azurerm_key_vault_secret" "sql-server-resource-group" {
+  #checkov:skip=CKV_AZURE_41:See ADO backlog AB#206511
+  name         = "core-sql-server-resource-group"
+  value        = azurerm_resource_group.resource-group.name
+  key_vault_id = azurerm_key_vault.key-vault.id
+  content_type = "text/plain"
+  depends_on   = [azurerm_key_vault_access_policy.terraform_sp_access]
+}
 
 resource "azurerm_key_vault_secret" "sql-domain-name" {
   #checkov:skip=CKV_AZURE_41:See ADO backlog AB#206511
@@ -148,14 +165,6 @@ resource "azurerm_mssql_database_extended_auditing_policy" "db-audit-policy" {
   storage_account_access_key_is_secondary = false
   retention_in_days                       = 120
   log_monitoring_enabled                  = true
-}
-
-resource "azurerm_mssql_firewall_rule" "sql-server-fw-azure-services" {
-  #checkov:skip=CKV2_AZURE_34:See ADO backlog AB#206493
-  name             = "allow_azure_services_fw"
-  server_id        = azurerm_mssql_server.sql-server.id
-  start_ip_address = "0.0.0.0"
-  end_ip_address   = "0.0.0.0"
 }
 
 resource "azurerm_mssql_firewall_rule" "sql-server-fw-dfe-remote" {

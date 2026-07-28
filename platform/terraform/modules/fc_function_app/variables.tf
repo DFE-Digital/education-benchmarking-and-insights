@@ -2,9 +2,17 @@ variable "core" {
   type = object({
     environment_prefix  = string
     name                = string
+    short_name          = string
     location            = string
     resource_group_name = string
     tags                = map(string)
+  })
+}
+
+variable "identity" {
+  type = object({
+    tenant_id = string
+    object_id = string
   })
 }
 
@@ -15,7 +23,7 @@ variable "monitoring" {
   })
 }
 
-variable "key_vault" {
+variable "shared_key_vault" {
   type = object({
     id            = string
     requires_keys = optional(bool, true)
@@ -26,28 +34,11 @@ variable "app-settings" {
   type = map(string)
 }
 
-variable "service_plan" {
-  type = object({
-    os_type                        = optional(string, "Windows")
-    size                           = optional(string, "Y1")
-    maximum_elastic_worker_count   = optional(number)
-    minimum_elastic_instance_count = optional(number)
-  })
-  default = {}
-}
-
 variable "networking" {
   type = object({
     enable_restrictions = bool
-    subnet_ids          = list(string)
-  })
-}
-
-variable "storage_account" {
-  type = object({
-    id   = string
-    name = string
-    key  = optional(string)
+    allow_subnet_ids    = list(string)
+    join_subnet_id      = string
   })
 }
 
@@ -61,12 +52,8 @@ variable "sql_server" {
 
 variable "application_stack" {
   type = object({
-    worker_runtime       = optional(string, "dotnet-isolated")
-    use_32_bit_worker    = optional(bool, false)
-    dotnet_version       = optional(string, "v8.0")
-    use_isolated_runtime = optional(bool, true)
-    node_version         = optional(string, "22")
-    always_on            = optional(bool, false)
+    worker_runtime  = optional(string, "dotnet-isolated")
+    runtime_version = optional(string, "8.0")
   })
   default = {}
 }

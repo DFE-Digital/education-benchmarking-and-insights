@@ -114,3 +114,10 @@ resource "azurerm_container_app" "data-pipeline" {
 
   tags = var.common-tags
 }
+
+resource "azurerm_mssql_firewall_rule" "ca-fw-rule" {
+  name             = "${var.environment-prefix}-ebis-ca-fw-${var.container-app-name-suffix}"
+  server_id        = data.azurerm_mssql_server.sql-server.id
+  start_ip_address = azurerm_container_app.data-pipeline.outbound_ip_addresses[0]
+  end_ip_address   = azurerm_container_app.data-pipeline.outbound_ip_addresses[0]
+}
