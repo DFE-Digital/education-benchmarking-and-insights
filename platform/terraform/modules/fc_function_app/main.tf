@@ -181,12 +181,12 @@ resource "azurerm_key_vault_secret" "fa-host" {
 resource "azurerm_service_plan" "func-asp" {
   #checkov:skip=CKV_AZURE_212:See ADO backlog AB#206517
   #checkov:skip=CKV_AZURE_225:See ADO backlog AB#206517
-  name                         = "${var.core.environment_prefix}-ebis-${var.core.name}-function-asp"
-  location                     = var.core.location
-  resource_group_name          = var.core.resource_group_name
-  os_type                      = "Linux"
-  sku_name                     = "FC1"
-  tags                         = var.core.tags
+  name                = "${var.core.environment_prefix}-ebis-${var.core.name}-function-asp"
+  location            = var.core.location
+  resource_group_name = var.core.resource_group_name
+  os_type             = "Linux"
+  sku_name            = "FC1"
+  tags                = var.core.tags
 }
 
 # Create the function app

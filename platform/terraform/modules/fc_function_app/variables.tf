@@ -52,8 +52,8 @@ variable "sql_server" {
 
 variable "application_stack" {
   type = object({
-    worker_runtime       = optional(string, "dotnet-isolated")
-    runtime_version      = optional(string, "8.0")
+    worker_runtime  = optional(string, "dotnet-isolated")
+    runtime_version = optional(string, "8.0")
   })
   default = {}
 }
