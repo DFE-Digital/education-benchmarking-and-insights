@@ -34,15 +34,6 @@ variable "app-settings" {
   type = map(string)
 }
 
-variable "service_plan" {
-  type = object({
-    size                           = optional(string, "FC1")
-    maximum_elastic_worker_count   = optional(number)
-    minimum_elastic_instance_count = optional(number)
-  })
-  default = {}
-}
-
 variable "networking" {
   type = object({
     enable_restrictions = bool
@@ -62,10 +53,7 @@ variable "sql_server" {
 variable "application_stack" {
   type = object({
     worker_runtime       = optional(string, "dotnet-isolated")
-    use_32_bit_worker    = optional(bool, false)
     runtime_version      = optional(string, "8.0")
-    use_isolated_runtime = optional(bool, true)
-    always_on            = optional(bool, false)
   })
   default = {}
 }

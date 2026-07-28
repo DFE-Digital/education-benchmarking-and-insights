@@ -185,9 +185,8 @@ resource "azurerm_service_plan" "func-asp" {
   location                     = var.core.location
   resource_group_name          = var.core.resource_group_name
   os_type                      = "Linux"
-  sku_name                     = var.service_plan.size
+  sku_name                     = "FC1"
   tags                         = var.core.tags
-  maximum_elastic_worker_count = var.service_plan.maximum_elastic_worker_count
 }
 
 # Create the function app
