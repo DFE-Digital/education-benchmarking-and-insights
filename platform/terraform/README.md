@@ -15,18 +15,18 @@
 
 ## Modules
 
-| Name | Source | Version |
-|------|--------|---------|
-| <a name="module_benchmark-fa"></a> [benchmark-fa](#module\_benchmark-fa) | ./modules/functions | n/a |
-| <a name="module_chart-rendering-fa"></a> [chart-rendering-fa](#module\_chart-rendering-fa) | ./modules/functions | n/a |
-| <a name="module_config"></a> [config](#module\_config) | ./modules/config | n/a |
-| <a name="module_content-fa"></a> [content-fa](#module\_content-fa) | ./modules/functions | n/a |
-| <a name="module_insight-fa"></a> [insight-fa](#module\_insight-fa) | ./modules/functions | n/a |
-| <a name="module_local-authority-fa"></a> [local-authority-fa](#module\_local-authority-fa) | ./modules/functions | n/a |
-| <a name="module_maintenance-tasks-fa"></a> [maintenance-tasks-fa](#module\_maintenance-tasks-fa) | ./modules/functions | n/a |
-| <a name="module_orchestrator-fa"></a> [orchestrator-fa](#module\_orchestrator-fa) | ./modules/functions | n/a |
-| <a name="module_school-fa"></a> [school-fa](#module\_school-fa) | ./modules/functions | n/a |
-| <a name="module_trust-fa"></a> [trust-fa](#module\_trust-fa) | ./modules/functions | n/a |
+| Name                                                                                             | Source                    | Version |
+|--------------------------------------------------------------------------------------------------|---------------------------|---------|
+| <a name="module_benchmark-fc-fa"></a> [benchmark-fc-fa](#module\_benchmark-fa)                      | ./modules/fc_function_app | n/a |
+| <a name="module_chart-rendering-fc-fa"></a> [chart-rendering-fc-fa](#module\_chart-rendering-fa)       | ./modules/fc_function_app | n/a |
+| <a name="module_content-fc-fa"></a> [content-fc-fa](#module\_content-fa)                               | ./modules/fc_function_app | n/a |
+| <a name="module_insight-fc-fa"></a> [insight-fc-fa](#module\_insight-fa)                               | ./modules/fc_function_app | n/a |
+| <a name="module_local-authority-fc-fa"></a> [local-authority-fc-fa](#module\_local-authority-fa)       | ./modules/fc_function_app | n/a |
+| <a name="module_maintenance-tasks-fc-fa"></a> [maintenance-tasks-fc-fa](#module\_maintenance-tasks-fa) | ./modules/fc_function_app | n/a |
+| <a name="module_school-fc-fa"></a> [school-fc-fa](#module\_school-fa)                                  | ./modules/fc_function_app | n/a |
+| <a name="module_trust-fc-fa"></a> [trust-fc-fa](#module\_trust-fa)                                     | ./modules/fc_function_app | n/a |
+| <a name="module_orchestrator-fa"></a> [orchestrator-fa](#module\_orchestrator-fa)                | ./modules/function_app    | n/a |
+| <a name="module_config"></a> [config](#module\_config)                                           | ./modules/config          | n/a |
 
 ## Resources
 

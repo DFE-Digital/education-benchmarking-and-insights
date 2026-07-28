@@ -49,6 +49,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "fc_function_app", "fc_funct
 		terraform\modules\fc_function_app\output.tf = terraform\modules\fc_function_app\output.tf
 		terraform\modules\fc_function_app\provider.tf = terraform\modules\fc_function_app\provider.tf
 		terraform\modules\fc_function_app\variables.tf = terraform\modules\fc_function_app\variables.tf
+		terraform\modules\fc_function_app\README.md = terraform\modules\fc_function_app\README.md
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Platform.Search.Resources", "src\search\Platform.Search.Resources\Platform.Search.Resources.csproj", "{B6991DB1-7945-4348-86ED-B00A3AC8B889}"
@@ -139,6 +140,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "function_app", "function_ap
 		terraform\modules\function_app\main.tf = terraform\modules\function_app\main.tf
 		terraform\modules\function_app\output.tf = terraform\modules\function_app\output.tf
 		terraform\modules\function_app\provider.tf = terraform\modules\function_app\provider.tf
+		terraform\modules\function_app\README.md = terraform\modules\function_app\README.md
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "config", "config", "{2FB04641-73AD-4A29-BD5D-249BDC6FE475}"

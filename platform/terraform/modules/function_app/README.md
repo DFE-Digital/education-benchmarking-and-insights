@@ -1,4 +1,4 @@
-# Functions Module
+# Function App Module
 
 Terraform module to deploy Azure Function Apps (Windows or Linux) for the Financial Benchmarking and Insights platform.
 
@@ -12,7 +12,7 @@ Terraform module to deploy Azure Function Apps (Windows or Linux) for the Financ
 
 ```terraform
 module "my-function" {
-  source       = "./modules/functions"
+  source       = "./modules/function_app"
   app-settings = {
     "MySetting" = "Value"
   }
@@ -129,18 +129,18 @@ No modules.
 
 ## Inputs
 
-| Name | Description | Type | Default | Required |
-|------|-------------|------|---------|:--------:|
-| <a name="input_app-settings"></a> [app-settings](#input\_app-settings) | n/a | `map(string)` | n/a | yes |
+| Name | Description | Type                                                                                                                                                                                                                                                                                                                                                                        | Default | Required |
+|------|-------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|:--------:|
+| <a name="input_app-settings"></a> [app-settings](#input\_app-settings) | n/a | `map(string)`                                                                                                                                                                                                                                                                                                                                                               | n/a | yes |
 | <a name="input_application_stack"></a> [application\_stack](#input\_application\_stack) | n/a | <pre>object({<br/>    worker_runtime       = optional(string, "dotnet-isolated")<br/>    use_32_bit_worker    = optional(bool, false)<br/>    dotnet_version       = optional(string, "v8.0")<br/>    use_isolated_runtime = optional(bool, true)<br/>    node_version         = optional(string, "22")<br/>    always_on            = optional(bool, false)<br/>  })</pre> | `{}` | no |
-| <a name="input_core"></a> [core](#input\_core) | n/a | <pre>object({<br/>    environment_prefix  = string<br/>    name                = string<br/>    location            = string<br/>    resource_group_name = string<br/>    tags                = map(string)<br/>  })</pre> | n/a | yes |
-| <a name="input_key_vault"></a> [key\_vault](#input\_key\_vault) | n/a | <pre>object({<br/>    id            = string<br/>    requires_keys = optional(bool, true)<br/>  })</pre> | n/a | yes |
-| <a name="input_monitoring"></a> [monitoring](#input\_monitoring) | n/a | <pre>object({<br/>    log_analytics_id                  = string<br/>    instrumentation_connection_string = optional(string)<br/>  })</pre> | n/a | yes |
-| <a name="input_networking"></a> [networking](#input\_networking) | n/a | <pre>object({<br/>    enable_restrictions = bool<br/>    subnet_ids          = list(string)<br/>  })</pre> | n/a | yes |
-| <a name="input_redis_cache"></a> [redis\_cache](#input\_redis\_cache) | n/a | <pre>object({<br/>    id          = optional(string)<br/>    contributor = optional(bool, false)<br/>    owner       = optional(bool, false)<br/>  })</pre> | `{}` | no |
-| <a name="input_service_plan"></a> [service\_plan](#input\_service\_plan) | n/a | <pre>object({<br/>    os_type                        = optional(string, "Windows")<br/>    size                           = optional(string, "Y1")<br/>    maximum_elastic_worker_count   = optional(number)<br/>    minimum_elastic_instance_count = optional(number)<br/>  })</pre> | `{}` | no |
-| <a name="input_sql_server"></a> [sql\_server](#input\_sql\_server) | n/a | <pre>object({<br/>    fqdn     = string<br/>    username = string<br/>    password = string<br/>  })</pre> | n/a | yes |
-| <a name="input_storage_account"></a> [storage\_account](#input\_storage\_account) | n/a | <pre>object({<br/>    id   = string<br/>    name = string<br/>    key  = optional(string)<br/>  })</pre> | n/a | yes |
+| <a name="input_core"></a> [core](#input\_core) | n/a | <pre>object({<br/>    environment_prefix  = string<br/>    name                = string<br/>    location            = string<br/>    resource_group_name = string<br/>    tags                = map(string)<br/>  })</pre>                                                                                                                                                  | n/a | yes |
+| <a name="input_key_vault"></a> [key\_vault](#input\_key\_vault) | n/a | <pre>object({<br/>    id            = string<br/>    requires_keys = optional(bool, true)<br/>  })</pre>                                                                                                                                                                                                                                                                    | n/a | yes |
+| <a name="input_monitoring"></a> [monitoring](#input\_monitoring) | n/a | <pre>object({<br/>    log_analytics_id                  = string<br/>    instrumentation_connection_string = optional(string)<br/>  })</pre>                                                                                                                                                                                                                                | n/a | yes |
+| <a name="input_networking"></a> [networking](#input\_networking) | n/a | <pre>object({<br/>    enable_restrictions = bool<br/>    subnet_ids          = list(string)<br/>    join_subnet_id      = string<br/>  })</pre>                                                                                                                                                                                                                             | n/a | yes |
+| <a name="input_redis_cache"></a> [redis\_cache](#input\_redis\_cache) | n/a | <pre>object({<br/>    id          = optional(string)<br/>    contributor = optional(bool, false)<br/>    owner       = optional(bool, false)<br/>  })</pre>                                                                                                                                                                                                                 | `{}` | no |
+| <a name="input_service_plan"></a> [service\_plan](#input\_service\_plan) | n/a | <pre>object({<br/>    os_type                        = optional(string, "Windows")<br/>    size                           = optional(string, "Y1")<br/>    maximum_elastic_worker_count   = optional(number)<br/>    minimum_elastic_instance_count = optional(number)<br/>  })</pre>                                                                                       | `{}` | no |
+| <a name="input_sql_server"></a> [sql\_server](#input\_sql\_server) | n/a | <pre>object({<br/>    fqdn     = string<br/>    username = string<br/>    password = string<br/>  })</pre>                                                                                                                                                                                                                                                                  | n/a | yes |
+| <a name="input_storage_account"></a> [storage\_account](#input\_storage\_account) | n/a | <pre>object({<br/>    id   = string<br/>    name = string<br/>    key  = optional(string)<br/>  })</pre>                                                                                                                                                                                                                                                                    | n/a | yes |
 
 ## Outputs
 
