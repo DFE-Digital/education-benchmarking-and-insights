@@ -16,7 +16,13 @@ from pipeline.comparator_sets import run_comparator_sets_pipeline
 from pipeline.pre_processing import pre_process_custom_data, pre_process_data
 from pipeline.rag import run_rag_pipeline, run_user_defined_rag_pipeline
 from pipeline.utils.log import setup_logger
-from pipeline.utils.message import MessageType, get_message_type, get_run_until, PipelineEarlyExit, check_run_until_gate
+from pipeline.utils.message import (
+    MessageType,
+    PipelineEarlyExit,
+    check_run_until_gate,
+    get_message_type,
+    get_run_until,
+)
 from pipeline.utils.storage import (
     complete_queue_name,
     connect_to_queue,

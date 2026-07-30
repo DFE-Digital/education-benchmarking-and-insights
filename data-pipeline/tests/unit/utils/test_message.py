@@ -2,9 +2,9 @@ import pytest
 
 from pipeline.utils.message import (
     MessageType,
-    get_message_type,
     PipelineEarlyExit,
     check_run_until_gate,
+    get_message_type,
 )
 
 
@@ -25,7 +25,9 @@ def test_message(body: dict, expected: MessageType):
 def test_check_run_until_gate_matches():
     with pytest.raises(PipelineEarlyExit) as exc_info:
         check_run_until_gate("pre-processing", "pre-processing")
-    assert "Pipeline stopped after pre-processing as requested by runUntil." in str(exc_info.value)
+    assert "Pipeline stopped after pre-processing as requested by runUntil." in str(
+        exc_info.value
+    )
 
 
 def test_check_run_until_gate_different():

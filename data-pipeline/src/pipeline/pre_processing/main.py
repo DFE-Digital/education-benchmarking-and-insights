@@ -17,9 +17,9 @@ from pipeline.utils.database import (
     insert_trusts,
 )
 from pipeline.utils.log import setup_logger
+from pipeline.utils.message import check_run_until_gate
 from pipeline.utils.stats import stats_collector
 from pipeline.utils.storage import get_blob, raw_container, try_get_blob, write_blob
-from pipeline.utils.message import check_run_until_gate
 
 from .aar.academies import build_academy_data, map_academy_data
 from .aar.trusts import build_trust_data
@@ -95,7 +95,7 @@ def pre_process_data(
     maintained_data_ref_for_last_year = (
         get_cfr_ancillary_data(run_id, (cfr_year - 1)) if cfr_year >= 2025 else {}
     )
-    
+
     academies = pre_process_academies_data(
         run_type,
         run_id,

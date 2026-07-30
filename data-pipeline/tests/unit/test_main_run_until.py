@@ -11,13 +11,8 @@ def test_handle_msg_invalid_run_until():
     # Arrange
     msg_payload = {
         "runId": 2023,
-        "year": {
-            "aar": 2022,
-            "cfr": 2023,
-            "bfr": 2022,
-            "s251": 2021
-        },
-        "runUntil": "invalid-stage"
+        "year": {"aar": 2022, "cfr": 2023, "bfr": 2022, "s251": 2021},
+        "runUntil": "invalid-stage",
     }
 
     mock_msg = MagicMock(spec=QueueMessage)
@@ -41,17 +36,14 @@ def test_handle_msg_invalid_run_until():
 @patch("pipeline.main.pre_process_data")
 @patch("pipeline.main.run_comparator_sets_pipeline")
 @patch("pipeline.main.run_rag_pipeline")
-def test_handle_msg_run_until_preprocessing(mock_rag, mock_comparators, mock_pre_process):
+def test_handle_msg_run_until_preprocessing(
+    mock_rag, mock_comparators, mock_pre_process
+):
     # Arrange
     msg_payload = {
         "runId": 2023,
-        "year": {
-            "aar": 2022,
-            "cfr": 2023,
-            "bfr": 2022,
-            "s251": 2021
-        },
-        "runUntil": "pre-processing"
+        "year": {"aar": 2022, "cfr": 2023, "bfr": 2022, "s251": 2021},
+        "runUntil": "pre-processing",
     }
 
     mock_msg = MagicMock(spec=QueueMessage)
@@ -75,7 +67,7 @@ def test_handle_msg_run_until_preprocessing(mock_rag, mock_comparators, mock_pre
         cfr_year=2023,
         bfr_year=2022,
         s251_year=2021,
-        run_until="pre-processing"
+        run_until="pre-processing",
     )
     # RAG and Comparators should NOT be called
     mock_comparators.assert_not_called()
@@ -94,13 +86,8 @@ def test_handle_msg_run_until_comparators(mock_rag, mock_comparators, mock_pre_p
     # Arrange
     msg_payload = {
         "runId": 2023,
-        "year": {
-            "aar": 2022,
-            "cfr": 2023,
-            "bfr": 2022,
-            "s251": 2021
-        },
-        "runUntil": "comparators"
+        "year": {"aar": 2022, "cfr": 2023, "bfr": 2022, "s251": 2021},
+        "runUntil": "comparators",
     }
 
     mock_msg = MagicMock(spec=QueueMessage)
@@ -137,12 +124,7 @@ def test_handle_msg_normal_execution(mock_rag, mock_comparators, mock_pre_proces
     # Arrange
     msg_payload = {
         "runId": 2023,
-        "year": {
-            "aar": 2022,
-            "cfr": 2023,
-            "bfr": 2022,
-            "s251": 2021
-        }
+        "year": {"aar": 2022, "cfr": 2023, "bfr": 2022, "s251": 2021},
     }
 
     mock_msg = MagicMock(spec=QueueMessage)
