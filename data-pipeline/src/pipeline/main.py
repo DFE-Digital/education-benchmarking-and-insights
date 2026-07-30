@@ -16,7 +16,7 @@ from pipeline.comparator_sets import run_comparator_sets_pipeline
 from pipeline.pre_processing import pre_process_custom_data, pre_process_data
 from pipeline.rag import run_rag_pipeline, run_user_defined_rag_pipeline
 from pipeline.utils.log import setup_logger
-from pipeline.utils.message import MessageType, get_message_type
+from pipeline.utils.message import MessageType, get_message_type, get_run_until, PipelineEarlyExit, check_run_until_gate
 from pipeline.utils.storage import (
     complete_queue_name,
     connect_to_queue,
@@ -55,13 +55,7 @@ def handle_msg(
             case MessageType.Default:
                 logger.info("Starting default pipeline run...")
                 stats_collector.start_pipeline_run()
-                run_until = msg_payload.get("runUntil")
-                if run_until is not None:
-                    allowed_values = {"transparency-file", "pre-processing", "comparators"}
-                    if run_until not in allowed_values:
-                        raise ValueError(
-                            f"Invalid runUntil value: '{run_until}'. Must be one of {allowed_values}"
-                        )
+                run_until = get_run_until(msg_payload.get("runUntil", None))
 
                 msg_payload["pre_process_duration"] = pre_process_data(
                     run_id=str(msg_payload["runId"]),
@@ -71,17 +65,13 @@ def handle_msg(
                     s251_year=msg_payload["year"]["s251"],
                     run_until=run_until,
                 )
-                if run_until == "pre-processing":
-                    logger.info("runUntil is set to pre-processing. Stopping execution.")
-                    raise Exception("Pipeline stopped after pre-processing as requested by runUntil.")
+                check_run_until_gate("pre-processing", run_until)
 
                 msg_payload["comparator_set_duration"] = run_comparator_sets_pipeline(
                     run_type=run_type,
                     run_id=str(msg_payload["runId"]),
                 )
-                if run_until == "comparators":
-                    logger.info("runUntil is set to comparators. Stopping execution.")
-                    raise Exception("Pipeline stopped after comparators as requested by runUntil.")
+                check_run_until_gate("comparators", run_until)
 
                 msg_payload["rag_duration"] = run_rag_pipeline(
                     run_type=run_type,
@@ -124,6 +114,9 @@ def handle_msg(
                 msg_payload["stats"] = stats_collector.get_stats()
                 logger.info("Custom pipeline run completed!")
 
+        msg_payload["success"] = True
+    except PipelineEarlyExit as exit_info:
+        logger.info(f"Pipeline stopped early: {exit_info}")
         msg_payload["success"] = True
     except Exception as error:
         logger.exception(

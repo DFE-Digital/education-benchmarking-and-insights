@@ -19,6 +19,7 @@ from pipeline.utils.database import (
 from pipeline.utils.log import setup_logger
 from pipeline.utils.stats import stats_collector
 from pipeline.utils.storage import get_blob, raw_container, try_get_blob, write_blob
+from pipeline.utils.message import check_run_until_gate
 
 from .aar.academies import build_academy_data, map_academy_data
 from .aar.trusts import build_trust_data
@@ -296,9 +297,7 @@ def pre_process_maintained_schools_data(
             master_list.to_csv(encoding="cp1252", index=False),
         )
 
-    if run_until == "transparency-file":
-        logger.info("runUntil is set to transparency-file. Stopping execution.")
-        raise Exception("Pipeline stopped after transparency-file generation as requested by runUntil.")
+    check_run_until_gate("transparency-file", run_until)
 
     maintained_schools_data = get_blob(
         raw_container,

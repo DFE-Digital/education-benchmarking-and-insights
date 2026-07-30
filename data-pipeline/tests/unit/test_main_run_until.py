@@ -66,8 +66,8 @@ def test_handle_msg_run_until_preprocessing(mock_rag, mock_comparators, mock_pre
     result = handle_msg(mock_msg, mock_worker_queue, mock_complete_queue)
 
     # Assert
-    assert result["success"] is False
-    assert "Pipeline stopped after pre-processing as requested by runUntil." in result["error"]
+    assert result["success"] is True
+    assert "error" not in result
 
     mock_pre_process.assert_called_once_with(
         run_id="2023",
@@ -116,8 +116,8 @@ def test_handle_msg_run_until_comparators(mock_rag, mock_comparators, mock_pre_p
     result = handle_msg(mock_msg, mock_worker_queue, mock_complete_queue)
 
     # Assert
-    assert result["success"] is False
-    assert "Pipeline stopped after comparators as requested by runUntil." in result["error"]
+    assert result["success"] is True
+    assert "error" not in result
 
     mock_pre_process.assert_called_once()
     mock_comparators.assert_called_once()
