@@ -21,7 +21,7 @@ from pipeline.utils.message import (
     PipelineEarlyExit,
     check_run_until_gate,
     get_message_type,
-    get_run_until,
+    validate_run_until,
 )
 from pipeline.utils.storage import (
     complete_queue_name,
@@ -61,7 +61,7 @@ def handle_msg(
             case MessageType.Default:
                 logger.info("Starting default pipeline run...")
                 stats_collector.start_pipeline_run()
-                run_until = get_run_until(msg_payload.get("runUntil", None))
+                run_until = validate_run_until(msg_payload.get("runUntil", None))
 
                 msg_payload["pre_process_duration"] = pre_process_data(
                     run_id=str(msg_payload["runId"]),

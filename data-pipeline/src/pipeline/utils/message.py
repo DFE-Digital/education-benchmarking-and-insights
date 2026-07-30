@@ -157,7 +157,7 @@ def get_message_type(message: dict) -> MessageType:
             return MessageType.Default
 
 
-def get_run_until(
+def validate_run_until(
     run_until,
 ) -> None | Literal["transparency-file", "pre-processing", "comparators"]:
     """runUntil should be one of the 3 allowed gates, or absent to run the full pipeline"""
