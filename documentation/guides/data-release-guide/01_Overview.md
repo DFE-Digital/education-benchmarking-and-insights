@@ -76,9 +76,12 @@ To trigger a pipeline run once data is prepared, add a message to the `data-pipe
     "cfr": <year>,
     "bfr": <year>,
     "s251": <year>
-  }
+  },
+  "runUntil": "transparency-file"
 }
 ```
+
+> **Note:** The `runUntil` parameter is optional. Allowed values are `"transparency-file"`, `"pre-processing"`, or `"comparators"` to stop the pipeline early after the specified stage. Omitting the parameter will run the pipeline to completion (full run).
 
 ### What year to use in data pipeline runs
 

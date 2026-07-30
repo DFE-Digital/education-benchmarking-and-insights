@@ -64,9 +64,12 @@ Once the respective data has been loaded to the Azure Storage Container, the pip
         "cfr": <YYYY>,
         "bfr": <YYYY>,
         "s251": <YYYY>
-    }
+    },
+    "runUntil": "transparency-file"
 }
  ```
+
+> **Note:** The `runUntil` parameter is optional. Allowed values are `"transparency-file"`, `"pre-processing"`, or `"comparators"` to stop the pipeline early after the specified stage. Omitting the parameter will run the pipeline to completion (full run).
 
 where `<YYYY>` is to be replaced by the respective submission year, for example, for `2022-2023`, `<YYYY>` would take the value of `2023`. Ensure that `Store As` is assigned as `Plain UTF-8`, and set the `Time to live` value to `Expire in` with some period, e.g. 1 Day. Click `OK` to queue the message. This should then be picked up and the pipeline executed. You can monitor the pipeline in the respective Application Insights logs through the Azure portal.
 
