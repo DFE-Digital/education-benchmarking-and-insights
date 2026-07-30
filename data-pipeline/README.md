@@ -117,7 +117,6 @@ To run the pipeline locally, follow these steps:
 
     > **Note:** The `runUntil` parameter is optional. Allowed values are `"transparency-file"`, `"pre-processing"`, or `"comparators"` to stop the pipeline early after the specified stage. Omitting the parameter will run the pipeline to completion (full run).
 
-
 ### Testing locally
 
 Once the environment is set up as above, and you can successfully run the pipeline it is possible to run the unit and e2e tests locally.
