@@ -157,7 +157,9 @@ def get_message_type(message: dict) -> MessageType:
             return MessageType.Default
 
 
-def get_run_until(run_until) -> None | Literal["transparency-file", "pre-processing", "comparators"]:
+def get_run_until(
+    run_until,
+) -> None | Literal["transparency-file", "pre-processing", "comparators"]:
     """runUntil should be one of the 3 allowed gates, or absent to run the full pipeline"""
     if run_until is not None:
         allowed_values = {"transparency-file", "pre-processing", "comparators"}
@@ -170,6 +172,7 @@ def get_run_until(run_until) -> None | Literal["transparency-file", "pre-process
 
 class PipelineEarlyExit(Exception):
     """Raised when the pipeline exits early at a requested runUntil gate."""
+
     pass
 
 
