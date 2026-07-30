@@ -110,9 +110,12 @@ To run the pipeline locally, follow these steps:
             "cfr": <year>,
             "bfr": <year>,
             "s251": <year>
-        }
+        },
+        "runUntil": "comparators"
     }
     ```
+
+    > **Note:** The `runUntil` parameter is optional. Allowed values are `"transparency-file"`, `"pre-processing"`, or `"comparators"` to stop the pipeline early after the specified stage. Omitting the parameter will run the pipeline to completion (full run).
 
 ### Testing locally
 

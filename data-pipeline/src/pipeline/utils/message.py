@@ -1,4 +1,5 @@
 from enum import Enum, auto
+from typing import Literal
 
 from .log import setup_logger
 
@@ -154,3 +155,33 @@ def get_message_type(message: dict) -> MessageType:
             return MessageType.Custom
         case _:
             return MessageType.Default
+
+
+def validate_run_until(
+    run_until,
+) -> None | Literal["transparency-file", "pre-processing", "comparators"]:
+    """runUntil should be one of the 3 allowed gates, or absent to run the full pipeline"""
+    if run_until is not None:
+        allowed_values = {"transparency-file", "pre-processing", "comparators"}
+        if run_until not in allowed_values:
+            raise ValueError(
+                f"Invalid runUntil value: '{run_until}'. Must be one of {allowed_values}"
+            )
+    return run_until
+
+
+class PipelineEarlyExit(Exception):
+    """Raised when the pipeline exits early at a requested runUntil gate."""
+
+    pass
+
+
+def check_run_until_gate(
+    current_gate: Literal["transparency-file", "pre-processing", "comparators"],
+    target_gate: None | Literal["transparency-file", "pre-processing", "comparators"],
+) -> None:
+    if target_gate == current_gate:
+        logger.info(f"runUntil is set to '{current_gate}'. Stopping execution.")
+        raise PipelineEarlyExit(
+            f"Pipeline stopped after {current_gate} as requested by runUntil."
+        )

@@ -16,7 +16,13 @@ from pipeline.comparator_sets import run_comparator_sets_pipeline
 from pipeline.pre_processing import pre_process_custom_data, pre_process_data
 from pipeline.rag import run_rag_pipeline, run_user_defined_rag_pipeline
 from pipeline.utils.log import setup_logger
-from pipeline.utils.message import MessageType, get_message_type
+from pipeline.utils.message import (
+    MessageType,
+    PipelineEarlyExit,
+    check_run_until_gate,
+    get_message_type,
+    validate_run_until,
+)
 from pipeline.utils.storage import (
     complete_queue_name,
     connect_to_queue,
@@ -55,17 +61,24 @@ def handle_msg(
             case MessageType.Default:
                 logger.info("Starting default pipeline run...")
                 stats_collector.start_pipeline_run()
+                run_until = validate_run_until(msg_payload.get("runUntil", None))
+
                 msg_payload["pre_process_duration"] = pre_process_data(
                     run_id=str(msg_payload["runId"]),
                     aar_year=msg_payload["year"]["aar"],
                     cfr_year=msg_payload["year"]["cfr"],
                     bfr_year=msg_payload["year"]["bfr"],
                     s251_year=msg_payload["year"]["s251"],
+                    run_until=run_until,
                 )
+                check_run_until_gate("pre-processing", run_until)
+
                 msg_payload["comparator_set_duration"] = run_comparator_sets_pipeline(
                     run_type=run_type,
                     run_id=str(msg_payload["runId"]),
                 )
+                check_run_until_gate("comparators", run_until)
+
                 msg_payload["rag_duration"] = run_rag_pipeline(
                     run_type=run_type,
                     run_id=str(msg_payload["runId"]),
@@ -107,6 +120,9 @@ def handle_msg(
                 msg_payload["stats"] = stats_collector.get_stats()
                 logger.info("Custom pipeline run completed!")
 
+        msg_payload["success"] = True
+    except PipelineEarlyExit as exit_info:
+        logger.info(f"Pipeline stopped early: {exit_info}")
         msg_payload["success"] = True
     except Exception as error:
         logger.exception(

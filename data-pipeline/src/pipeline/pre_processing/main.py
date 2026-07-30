@@ -1,5 +1,5 @@
 import time
-from typing import Mapping
+from typing import Mapping, Optional
 
 import pandas as pd
 
@@ -17,6 +17,7 @@ from pipeline.utils.database import (
     insert_trusts,
 )
 from pipeline.utils.log import setup_logger
+from pipeline.utils.message import check_run_until_gate
 from pipeline.utils.stats import stats_collector
 from pipeline.utils.storage import get_blob, raw_container, try_get_blob, write_blob
 
@@ -59,6 +60,7 @@ def pre_process_data(
     cfr_year: int,
     bfr_year: int,
     s251_year: int,
+    run_until: Optional[str] = None,
 ):
     """
     Process data necessary for Academies, Maintained Schools BFR and Trusts.
@@ -79,6 +81,7 @@ def pre_process_data(
     :param cfr_year: Maintained School financial year/source
     :param bfr_year: BFR year/source
     :param s251_year: Section 251 year/source
+    :param run_until: optional stage at which to stop execution
     :return: duration of processing
     """
     run_type = "default"
@@ -92,7 +95,7 @@ def pre_process_data(
     maintained_data_ref_for_last_year = (
         get_cfr_ancillary_data(run_id, (cfr_year - 1)) if cfr_year >= 2025 else {}
     )
-    
+
     academies = pre_process_academies_data(
         run_type,
         run_id,
@@ -105,6 +108,7 @@ def pre_process_data(
         cfr_year,
         maintained_data_ref,
         maintained_data_ref_for_last_year,
+        run_until=run_until,
     )
     stats_collector.collect_aar_academy_counts(academies, aar_year)
     stats_collector.collect_cfr_la_maintained_school_counts(
@@ -255,6 +259,7 @@ def pre_process_maintained_schools_data(
     year: int,
     cfr_ancillary_data: Mapping,
     cfr_ancillary_data_for_last_year: Mapping,
+    run_until: Optional[str] = None,
 ) -> pd.DataFrame:
     logger.info("Building Maintained School Set")
     logger.info(f"Processing CFR data - {run_id} - {year}.")
@@ -291,6 +296,8 @@ def pre_process_maintained_schools_data(
             f"{run_type}/{year}/maintained_schools_master_list.csv",
             master_list.to_csv(encoding="cp1252", index=False),
         )
+
+    check_run_until_gate("transparency-file", run_until)
 
     maintained_schools_data = get_blob(
         raw_container,
