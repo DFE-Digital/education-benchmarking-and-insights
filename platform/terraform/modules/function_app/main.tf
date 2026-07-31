@@ -78,7 +78,7 @@ resource "azurerm_linux_function_app" "func-app" {
   storage_account_access_key = var.storage_account.key
   https_only                 = true
   builtin_logging_enabled    = false
-  virtual_network_subnet_id  = var.networking.join_subnet_id
+  virtual_network_subnet_id  = var.networking.join_subnet_id == "" ? null : var.networking.join_subnet_id
 
   identity {
     type = "SystemAssigned"
