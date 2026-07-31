@@ -90,7 +90,7 @@ def test_handle_msg_generate_cfr_transparency_true(
     msg_payload = {
         "runId": 2023,
         "year": {"aar": 2022, "cfr": 2023, "bfr": 2022, "s251": 2021},
-        "generateCFRTransparencyFile": True,
+        "generateTransparencyFilesAndPrecursorFiles": True,
     }
 
     mock_msg = MagicMock(spec=QueueMessage)

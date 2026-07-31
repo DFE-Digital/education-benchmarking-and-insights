@@ -188,10 +188,10 @@ class DefaultMessage:
         # 3. Validate runUntil
         self.run_until = self._validate_run_until(payload.get("runUntil"))
 
-        # 4. Validate generateCFRTransparencyFile
+        # 4. Validate generateTransparencyFilesAndPrecursorFiles
         self.generate_cfr_transparency_file = (
             self._validate_generate_cfr_transparency_file(
-                payload.get("generateCFRTransparencyFile", False)
+                payload.get("generateTransparencyFilesAndPrecursorFiles", False)
             )
         )
 
@@ -209,7 +209,7 @@ class DefaultMessage:
     def _validate_generate_cfr_transparency_file(self, generate) -> bool:
         if not isinstance(generate, bool):
             raise ValueError(
-                f"Invalid generateCFRTransparencyFile value: '{generate}'. Must be a boolean (True/False)."
+                f"Invalid generateTransparencyFilesAndPrecursorFiles value: '{generate}'. Must be a boolean (True/False)."
             )
         return generate
 

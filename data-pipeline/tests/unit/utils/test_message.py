@@ -46,7 +46,7 @@ def test_default_message_validation_success():
         "runId": 2026,
         "year": {"aar": 2025, "cfr": 2026, "bfr": 2026, "s251": 2025},
         "runUntil": "pre-processing",
-        "generateCFRTransparencyFile": True,
+        "generateTransparencyFilesAndPrecursorFiles": True,
     }
     msg = DefaultMessage(payload)
     assert msg.run_id == "2026"
@@ -135,8 +135,8 @@ def test_default_message_invalid_generate_cfr():
     payload = {
         "runId": 2026,
         "year": {"aar": 2025, "cfr": 2026, "bfr": 2026, "s251": 2025},
-        "generateCFRTransparencyFile": "not-a-bool",
+        "generateTransparencyFilesAndPrecursorFiles": "not-a-bool",
     }
     with pytest.raises(ValueError) as exc:
         DefaultMessage(payload)
-    assert "generateCFRTransparencyFile value" in str(exc.value)
+    assert "generateTransparencyFilesAndPrecursorFiles value" in str(exc.value)
