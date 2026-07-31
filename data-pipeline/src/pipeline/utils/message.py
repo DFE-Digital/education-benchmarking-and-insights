@@ -157,17 +157,59 @@ def get_message_type(message: dict) -> MessageType:
             return MessageType.Default
 
 
-def validate_run_until(
-    run_until,
-) -> None | Literal["transparency-file", "pre-processing", "comparators"]:
-    """runUntil should be one of the 3 allowed gates, or absent to run the full pipeline"""
-    if run_until is not None:
-        allowed_values = {"transparency-file", "pre-processing", "comparators"}
-        if run_until not in allowed_values:
+class DefaultMessage:
+    def __init__(self, payload: dict):
+        self.payload = payload
+
+        # 1. Validate runId
+        raw_run_id = payload.get("runId")
+        if raw_run_id is None or raw_run_id == "":
+            raise ValueError("runId is required for default pipeline runs")
+        self.run_id = str(raw_run_id)
+
+        # 2. Validate year dictionary structure
+        year_payload = payload.get("year", {})
+        if not isinstance(year_payload, dict):
+            raise ValueError("year must be a dictionary")
+
+        required_years = {"aar", "cfr", "bfr", "s251"}
+        missing_years = required_years - year_payload.keys()
+        if missing_years:
+            raise ValueError(f"Missing required years: {missing_years}")
+
+        try:
+            self.aar_year = int(year_payload["aar"])
+            self.cfr_year = int(year_payload["cfr"])
+            self.bfr_year = int(year_payload["bfr"])
+            self.s251_year = int(year_payload["s251"])
+        except (ValueError, TypeError) as e:
+            raise ValueError(f"Year fields must be integers: {e}")
+
+        # 3. Validate runUntil
+        self.run_until = self._validate_run_until(payload.get("runUntil"))
+
+        # 4. Validate generateCFRTransparencyFile
+        self.generate_cfr_transparency_file = self._validate_generate_cfr_transparency_file(
+            payload.get("generateCFRTransparencyFile", False)
+        )
+
+    def _validate_run_until(
+        self, run_until
+    ) -> None | Literal["transparency-file", "pre-processing", "comparators"]:
+        if run_until is not None:
+            allowed_values = {"transparency-file", "pre-processing", "comparators"}
+            if run_until not in allowed_values:
+                raise ValueError(
+                    f"Invalid runUntil value: '{run_until}'. Must be one of {allowed_values}"
+                )
+        return run_until
+
+    def _validate_generate_cfr_transparency_file(self, generate) -> bool:
+        if not isinstance(generate, bool):
             raise ValueError(
-                f"Invalid runUntil value: '{run_until}'. Must be one of {allowed_values}"
+                f"Invalid generateCFRTransparencyFile value: '{generate}'. Must be a boolean (True/False)."
             )
-    return run_until
+        return generate
 
 
 class PipelineEarlyExit(Exception):

@@ -111,11 +111,14 @@ To run the pipeline locally, follow these steps:
             "bfr": <year>,
             "s251": <year>
         },
-        "runUntil": "comparators"
+        "runUntil": <runUntilValue>,
+        "generateCFRTransparencyFile": <bool>,
     }
     ```
 
     > **Note:** The `runUntil` parameter is optional. Allowed values are `"transparency-file"`, `"pre-processing"`, or `"comparators"` to stop the pipeline early after the specified stage. Omitting the parameter will run the pipeline to completion (full run).
+
+    > **Note:** The `generateCFRTransparencyFile` parameter is an optional boolean defaulting to `false`. When set to `true`, the pipeline will regenerate the CFR transparency file (including Master List and Download File) from raw inputs during pre-processing. If omitted or set to `false`, the pipeline will skip generation and directly load the pre-existing master list.
 
 ### Testing locally
 
