@@ -39,7 +39,9 @@ public record PipelineStartCustom : PipelineStart
             RunId = input.RunId?.ToString(),
             Year = year,
             URN = input.URN,
-            Payload = input.Payload
+            Payload = input.Payload,
+            RunUntil = input.RunUntil,
+            GenerateTransparencyFilesAndPrecursorFiles = input.GenerateTransparencyFilesAndPrecursorFiles
         };
     }
 }

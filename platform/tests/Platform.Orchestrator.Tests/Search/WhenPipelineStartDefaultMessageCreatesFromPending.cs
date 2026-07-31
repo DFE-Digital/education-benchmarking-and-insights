@@ -15,12 +15,16 @@ public class WhenPipelineStartDefaultMessageCreatesFromPending
     {
         const int runId = 2024;
         const string type = Pipeline.JobType.Default;
+        const string runUntil = "pre-processing";
+        const bool generateTransparencyFilesAndPrecursorFiles = true;
         var year = _fixture.Create<PipelineMessageYears>();
 
         var input = new PipelinePending
         {
             RunId = runId,
             Type = type,
+            RunUntil = runUntil,
+            GenerateTransparencyFilesAndPrecursorFiles = generateTransparencyFilesAndPrecursorFiles,
             Year = JObject.FromObject(year)
         };
 
@@ -28,6 +32,8 @@ public class WhenPipelineStartDefaultMessageCreatesFromPending
         Assert.Equal(runId, result.RunId);
         Assert.Equal(type, result.Type);
         Assert.Equal(year, result.Year);
+        Assert.Equal(runUntil, result.RunUntil);
+        Assert.Equal(generateTransparencyFilesAndPrecursorFiles, result.GenerateTransparencyFilesAndPrecursorFiles);
     }
 
     [Theory]
