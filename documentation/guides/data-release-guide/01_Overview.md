@@ -78,7 +78,7 @@ To trigger a pipeline run once data is prepared, add a message to the `data-pipe
     "s251": <year>
   },
   "runUntil": <runUntilValue>,
-  "generateCFRTransparencyFile": <bool>,
+  "generateCFRTransparencyFile": <bool>
 }
 ```
 

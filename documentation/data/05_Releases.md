@@ -66,7 +66,7 @@ Once the respective data has been loaded to the Azure Storage Container, the pip
         "s251": <YYYY>
     },
     "runUntil": <runUntilValue>,
-    "generateCFRTransparencyFile": <bool>,
+    "generateCFRTransparencyFile": <bool>
 }
  ```
 

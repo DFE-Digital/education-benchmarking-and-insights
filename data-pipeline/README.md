@@ -112,7 +112,7 @@ To run the pipeline locally, follow these steps:
             "s251": <year>
         },
         "runUntil": <runUntilValue>,
-        "generateCFRTransparencyFile": <bool>,
+        "generateCFRTransparencyFile": <bool>
     }
     ```
 
