@@ -204,6 +204,7 @@ resource "azurerm_function_app_flex_consumption" "func-app" {
   runtime_name                      = var.application_stack.worker_runtime
   runtime_version                   = var.application_stack.runtime_version
   https_only                        = true
+  virtual_network_subnet_id         = var.networking.join_subnet_id == "" ? null : var.networking.join_subnet_id
 
   identity {
     type         = "SystemAssigned, UserAssigned"
@@ -224,10 +225,6 @@ resource "azurerm_function_app_flex_consumption" "func-app" {
 
   app_settings = local.function-app-settings
   tags         = var.core.tags
-
-  lifecycle {
-    ignore_changes = [virtual_network_subnet_id]
-  }
 
   depends_on = [
     azurerm_role_assignment.storage-data-owner
@@ -298,10 +295,4 @@ resource "azurerm_monitor_diagnostic_setting" "func-app-service" {
   enabled_metric {
     category = "AllMetrics"
   }
-}
-
-# join the func app onto the required vnet
-resource "azurerm_app_service_virtual_network_swift_connection" "func-app-subnet" {
-  app_service_id = azurerm_function_app_flex_consumption.func-app.id
-  subnet_id      = var.networking.join_subnet_id
 }

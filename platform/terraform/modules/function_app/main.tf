@@ -28,6 +28,7 @@ resource "azurerm_windows_function_app" "func-app" {
   storage_account_access_key = var.storage_account.key
   https_only                 = true
   builtin_logging_enabled    = false
+  virtual_network_subnet_id  = var.networking.join_subnet_id == "" ? null : var.networking.join_subnet_id
 
   identity {
     type = "SystemAssigned"
@@ -78,6 +79,7 @@ resource "azurerm_linux_function_app" "func-app" {
   storage_account_access_key = var.storage_account.key
   https_only                 = true
   builtin_logging_enabled    = false
+  virtual_network_subnet_id  = var.networking.join_subnet_id == "" ? null : var.networking.join_subnet_id
 
   identity {
     type = "SystemAssigned"
@@ -234,11 +236,4 @@ resource "azurerm_monitor_diagnostic_setting" "func-app-service" {
   enabled_metric {
     category = "AllMetrics"
   }
-}
-
-# conditionally join the func app onto a vnet
-resource "azurerm_app_service_virtual_network_swift_connection" "func-app-subnet" {
-  count          = var.networking.join_subnet_id == "" ? 0 : 1
-  app_service_id = local.func_app_id
-  subnet_id      = var.networking.join_subnet_id
 }
