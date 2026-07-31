@@ -76,5 +76,22 @@ Once the respective data has been loaded to the Azure Storage Container, the pip
 
 where `<YYYY>` is to be replaced by the respective submission year, for example, for `2022-2023`, `<YYYY>` would take the value of `2023`. Ensure that `Store As` is assigned as `Plain UTF-8`, and set the `Time to live` value to `Expire in` with some period, e.g. 1 Day. Click `OK` to queue the message. This should then be picked up and the pipeline executed. You can monitor the pipeline in the respective Application Insights logs through the Azure portal.
 
+### Triggering LAA Risk Scores Derivations
+
+School risk scores are computed and versioned via the **Local Authority Risk Analysis (LAA)** tool. LAA calculations are run as a custom workload separate from the main pipeline to prevent view lag and overhead on default runs.
+
+Once the primary CFR pipeline execution successfully completes on Phase 3 of Release Day, you must manually queue the custom trigger message for LAA risk derivations.
+
+To do this, navigate back to the `data-pipeline-job-pending` queue in Microsoft Azure Storage Explorer, click `Add`, and submit a message in the following format:
+
+```json
+{
+  "runType": "derive-laa-risk-scores",
+  "runId": <YYYY>
+}
+```
+
+Replace `<YYYY>` with the target year (e.g., `2026`). Ensure that `Store As` is assigned as `Plain UTF-8`. When processed, the pipeline reads from the raw inputs, computes the risk indicators, and writes them to the `LASchoolRiskIndicators` and `LASchoolRiskIndicatorsHeaders` tables.
+
 <!-- Leave the rest of this page blank -->
 \newpage

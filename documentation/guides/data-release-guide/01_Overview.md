@@ -49,9 +49,11 @@ Once the cutoff data is prepared, one engineer should orchestrate the rest of th
 
 3. **Monitor Logs.** Watch execution logs in the container logs queries hub (`s198t01-ebis-aiw`): search logs, then search "default" in the queries hub and run the "Recent default pipeline runs" query. A successful run displays "Pipeline run successful!"
 
-4. **Execute Assurance & Coverage Queries.** Run the general checklist (row count verification, comparative non-null coverage checks, duplicate constraint checks) and release-specific logic validations — see [Assuring Pipeline Outputs](#assuring-pipeline-outputs-general-checks) below and the [test plan](../../quality-assurance/3_Test-strategy-data-ingestion.md).
+4. **Trigger LAA Risk Derivations (CFR Only).** If this is a CFR release , post the UTF-8 trigger message to the `data-pipeline-job-pending` queue with `"runType": "derive-laa-risk-scores"` (see [Triggering LAA Risk Scores Derivations](#triggering-laa-risk-scores-derivations-cfr-only) below) once the main CFR run completes. Watch execution logs to confirm that the LAA risk scores pipeline completes successfully.
 
-5. **Descale SQL Database.** Restore the Azure SQL database DTUs to its original baseline.
+5. **Execute Assurance & Coverage Queries.** Run the general checklist (row count verification, comparative non-null coverage checks, duplicate constraint checks) and release-specific logic validations — see [Assuring Pipeline Outputs](#assuring-pipeline-outputs-general-checks) below and the [test plan](../../quality-assurance/3_Test-strategy-data-ingestion.md).
+
+6. **Descale SQL Database.** Restore the Azure SQL database DTUs to its original baseline.
 
 ## Phase 4: Release Promotion & Go-Live (Go-Live Day)
 
@@ -85,6 +87,16 @@ To trigger a pipeline run once data is prepared, add a message to the `data-pipe
 > **Note:** The `runUntil` parameter is optional. Allowed values are `"transparency-file"`, `"pre-processing"`, or `"comparators"` to stop the pipeline early after the specified stage. Omitting the parameter will run the pipeline to completion (full run).
 
 > **Note:** The `generateTransparencyFilesAndPrecursorFiles` parameter is an optional boolean defaulting to `false`. When set to `true`, the pipeline will regenerate the CFR transparency file (including Master List and Download File) from raw inputs during pre-processing. If omitted or set to `false`, the pipeline will skip generation and directly load the pre-existing master list.
+#### Triggering LAA Risk Scores Derivations (CFR Only)
+
+From the 2025–2026 cycle onward, once the CFR `default` pipeline run successfully completes, you must queue a separate custom trigger message to run the Local Authority Risk Analysis (LAA) calculations:
+
+```json
+{
+  "runType": "derive-laa-risk-scores",
+  "runId": <year>
+}
+```
 
 ### What year to use in data pipeline runs
 

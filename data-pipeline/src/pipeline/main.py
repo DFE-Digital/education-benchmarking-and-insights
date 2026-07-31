@@ -13,6 +13,7 @@ from pipeline.utils.stats import stats_collector
 load_dotenv()
 
 from pipeline.comparator_sets import run_comparator_sets_pipeline
+from pipeline.laa_risk_scores import run_laa_risk_scores_pipeline
 from pipeline.pre_processing import pre_process_custom_data, pre_process_data
 from pipeline.rag import run_rag_pipeline, run_user_defined_rag_pipeline
 from pipeline.utils.log import setup_logger
@@ -120,6 +121,17 @@ def handle_msg(
                 )
                 msg_payload["stats"] = stats_collector.get_stats()
                 logger.info("Custom pipeline run completed!")
+            
+            case MessageType.DeriveLAARiskScores:
+                try:
+                    run_year: int = int(msg_payload.get("runId", None))
+                except TypeError:
+                    slug = "runId needs to be a year to derive risk scores eg \"2021\""
+                    logger.error(slug)
+                    raise ValueError(slug)
+                logger.info(f"Starting derivation of {run_year} LA School risk scores...")
+                run_laa_risk_scores_pipeline(run_year)
+                logger.info(f"Finished derivation of {run_year} LA School risk scores...")
 
         msg_payload["success"] = True
     except PipelineEarlyExit as exit_info:

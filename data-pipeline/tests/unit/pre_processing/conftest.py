@@ -116,6 +116,7 @@ def ks2_data() -> pd.DataFrame:
             "READPROG": ["0.1", "SUPP", "LOWCOV"],
             "WRITPROG": ["0.1", "SUPP", "LOWCOV"],
             "MATPROG": ["0.1", "SUPP", "LOWCOV"],
+            "PTRWM_EXP": ["1.0", "1.0", "1.0"],
         }
     )
 

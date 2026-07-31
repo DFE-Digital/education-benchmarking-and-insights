@@ -25,10 +25,14 @@ def prepare_ks2_data(ks2_path):
             + ks2["MATPROG"].astype(float)
             + ks2["WRITPROG"].astype(float)
         )
-        ks2 = ks2[["URN", "Ks2Progress"]].dropna().drop_duplicates()
+        ks2 = ks2[["URN", "Ks2Progress", "PTRWM_EXP"]].dropna().drop_duplicates()
     else:
         ks2 = pd.DataFrame(
-            {"URN": pd.Series(dtype="Int64"), "Ks2Progress": pd.Series(dtype="float")}
+            {
+                "URN": pd.Series(dtype="Int64"),
+                "Ks2Progress": pd.Series(dtype="float"),
+                "PTRWM_EXP": pd.Series(dtype="string")
+            }
         )
 
     ks2_with_index = ks2.set_index("URN")

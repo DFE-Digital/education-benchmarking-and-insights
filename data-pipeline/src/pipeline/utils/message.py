@@ -18,6 +18,7 @@ class MessageType(Enum):
     Default = auto()
     DefaultUserDefined = auto()
     Custom = auto()
+    DeriveLAARiskScores = auto()
 
 
 def get_message_type(message: dict) -> MessageType:
@@ -143,11 +144,20 @@ def get_message_type(message: dict) -> MessageType:
             "workforceHeadcount": 0.0
         }
     }
+
+    LAA risk scores will be of the form:
+    {
+        "runType": "derive-laa-risk-scores",
+        "runId": 2025
+    }
     ```
 
     :param message: incoming message
     :return: type of incoming message
     """
+    if message.get("runType", "") == "derive-laa-risk-scores":
+        return MessageType.DeriveLAARiskScores
+    
     match message.get("payload", {}).get("kind"):
         case "ComparatorSetPayload":
             return MessageType.DefaultUserDefined
