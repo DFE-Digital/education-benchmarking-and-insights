@@ -189,8 +189,10 @@ class DefaultMessage:
         self.run_until = self._validate_run_until(payload.get("runUntil"))
 
         # 4. Validate generateCFRTransparencyFile
-        self.generate_cfr_transparency_file = self._validate_generate_cfr_transparency_file(
-            payload.get("generateCFRTransparencyFile", False)
+        self.generate_cfr_transparency_file = (
+            self._validate_generate_cfr_transparency_file(
+                payload.get("generateCFRTransparencyFile", False)
+            )
         )
 
     def _validate_run_until(
