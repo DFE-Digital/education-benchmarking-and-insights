@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
@@ -30,7 +30,8 @@ public class OrchestratorFunctions(ILogger<OrchestratorFunctions> logger, ITelem
                 });
             }
 
-            switch (input?.Type)
+            var jobType = input?.Type ?? input?.RunType;
+            switch (jobType)
             {
                 case Pipeline.JobType.ComparatorSet:
                 case Pipeline.JobType.CustomData:
@@ -38,6 +39,9 @@ public class OrchestratorFunctions(ILogger<OrchestratorFunctions> logger, ITelem
                     break;
                 case Pipeline.JobType.Default:
                     await OrchestrateDefaultMessage(context, input);
+                    break;
+                case Pipeline.JobType.DeriveLAARiskScores:
+                    await OrchestrateDeriveLAARiskScoresMessage(context, input);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(PipelinePending.Type));
@@ -105,5 +109,25 @@ public class OrchestratorFunctions(ILogger<OrchestratorFunctions> logger, ITelem
             RunId = message.RunId,
             Success = success
         });
+    }
+
+    private async Task OrchestrateDeriveLAARiskScoresMessage(TaskOrchestrationContext context, PipelinePending input)
+    {
+        var message = PipelineStartDeriveLAARiskScores.FromPending(input);
+        await context.CallActivityAsync<string[]>(nameof(ActivityTriggerFunctions.OnStartDeriveLAARiskScoresJobTrigger), message);
+
+        logger.LogInformation("Waiting for finished event for LAA Risk Scores derivation message {JobId}", message.JobId);
+        var success = await context.WaitForExternalEvent<bool>(nameof(PipelineQueueTriggerFunctions.PipelineJobFinished));
+        logger.LogInformation("Received finished event for LAA Risk Scores derivation message {JobId} with success: {Success}", message.JobId, success);
+
+        if (success)
+        {
+            await context.CallActivityAsync(nameof(ActivityTriggerFunctions.ClearCacheTrigger), new PipelineStatus
+            {
+                JobId = message.JobId,
+                RunId = message.RunId.ToString(),
+                Success = success
+            });
+        }
     }
 }

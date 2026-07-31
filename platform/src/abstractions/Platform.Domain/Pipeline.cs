@@ -1,4 +1,4 @@
-﻿namespace Platform.Domain;
+namespace Platform.Domain;
 
 //TODO: Consider converting these to enums
 public static class Pipeline
@@ -14,6 +14,7 @@ public static class Pipeline
         public const string Default = "default";
         public const string ComparatorSet = "comparator-set";
         public const string CustomData = "custom-data";
+        public const string DeriveLAARiskScores = "derive-laa-risk-scores";
     }
 
     public static class JobStatus

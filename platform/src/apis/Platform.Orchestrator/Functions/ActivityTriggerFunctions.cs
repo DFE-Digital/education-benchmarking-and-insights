@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Extensions.Logging;
@@ -50,6 +50,18 @@ public class ActivityTriggerFunctions(
         {
             telemetryService.TrackEvent(Pipeline.Events.PipelineStartCustomMessageReceived, message.JobId);
             logger.LogInformation("Forwarding {JobId} to {StartQueue} start queue", message.JobId, "custom");
+            return [message.ToJson()];
+        }
+    }
+
+    [Function(nameof(OnStartDeriveLAARiskScoresJobTrigger))]
+    [QueueOutput("%PipelineMessageHub:JobDefaultStartQueue%", Connection = "PipelineMessageHub:ConnectionString")]
+    public string[] OnStartDeriveLAARiskScoresJobTrigger([ActivityTrigger] PipelineStartDeriveLAARiskScores message)
+    {
+        using (logger.BeginApplicationScope(message.JobId))
+        {
+            telemetryService.TrackEvent(Pipeline.Events.PipelineStartDefaultMessageReceived, message.JobId);
+            logger.LogInformation("Forwarding {JobId} to default start queue", message.JobId);
             return [message.ToJson()];
         }
     }
