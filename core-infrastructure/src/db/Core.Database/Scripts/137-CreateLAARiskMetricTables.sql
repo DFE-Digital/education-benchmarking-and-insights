@@ -7,13 +7,13 @@ IF NOT EXISTS(SELECT *
             URN                        nvarchar(6)  NOT NULL,
             RunId                      nvarchar(50) NOT NULL,
             RiskGroup                  nvarchar(50) NULL,
-            RiskIndicator              nvarchar(50) NOT NULL,
+            RiskIndicator              nvarchar(50) NULL,
             RiskIndicatorValue         decimal      NULL,
             RiskIndicatorFlag          nvarchar(50) NULL,
             RiskIndicatorContribution    decimal      NULL,
             RiskIndicatorContributionMax decimal      NULL,
 
-            CONSTRAINT PK_LASchoolRiskIndicators PRIMARY KEY (URN, RunId, RiskIndicator)
+            CONSTRAINT PK_LASchoolRiskIndicators PRIMARY KEY (URN, RunId)
         );
     END;
 
