@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json.Linq;
+using Newtonsoft.Json.Linq;
 using Platform.Domain.Messages;
 using Xunit;
 
@@ -15,6 +15,8 @@ public class WhenPipelineStartDefaultCreatesFromPending
             RunId = 2020,
             RunType = "runType",
             Type = "type",
+            RunUntil = "pre-processing",
+            GenerateTransparencyFilesAndPrecursorFiles = true,
             Year = JObject.FromObject(new PipelineMessageYears
             {
                 Aar = 2021,
@@ -32,6 +34,8 @@ public class WhenPipelineStartDefaultCreatesFromPending
             RunId = 2020,
             RunType = "runType",
             Type = "type",
+            RunUntil = "pre-processing",
+            GenerateTransparencyFilesAndPrecursorFiles = true,
             Year = new PipelineMessageYears
             {
                 Aar = 2021,

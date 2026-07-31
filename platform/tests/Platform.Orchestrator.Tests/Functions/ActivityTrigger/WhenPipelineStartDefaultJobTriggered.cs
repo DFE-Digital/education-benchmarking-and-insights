@@ -1,4 +1,4 @@
-﻿using Microsoft.Azure.Functions.Worker;
+using Microsoft.Azure.Functions.Worker;
 using Platform.Domain.Messages;
 using Platform.Orchestrator.Functions;
 using Xunit;
@@ -29,6 +29,58 @@ public class WhenPipelineStartDefaultJobTriggered(ITestOutputHelper testOutputHe
         var result = Functions.OnStartDefaultJobTrigger(message);
 
         const string expected = """{"runId":2020,"year":{"aar":2021,"cfr":2023,"bfr":2022,"s251":2024},"jobId":"jobId","type":"type","runType":"runType"}""";
+        Assert.Single(result);
+        Assert.Equal(expected, result.Single());
+    }
+
+    [Fact]
+    public void ShouldReturnSerializedMessageArrayWithRunUntil()
+    {
+        var message = new PipelineStartDefault
+        {
+            JobId = "jobId",
+            RunId = 2020,
+            RunType = "runType",
+            Type = "type",
+            RunUntil = "pre-processing",
+            Year = new PipelineMessageYears
+            {
+                Aar = 2021,
+                Bfr = 2022,
+                Cfr = 2023,
+                S251 = 2024
+            }
+        };
+
+        var result = Functions.OnStartDefaultJobTrigger(message);
+
+        const string expected = """{"runId":2020,"year":{"aar":2021,"cfr":2023,"bfr":2022,"s251":2024},"jobId":"jobId","type":"type","runType":"runType","runUntil":"pre-processing"}""";
+        Assert.Single(result);
+        Assert.Equal(expected, result.Single());
+    }
+
+    [Fact]
+    public void ShouldReturnSerializedMessageArrayWithGenerateTransparencyFilesAndPrecursorFiles()
+    {
+        var message = new PipelineStartDefault
+        {
+            JobId = "jobId",
+            RunId = 2020,
+            RunType = "runType",
+            Type = "type",
+            GenerateTransparencyFilesAndPrecursorFiles = true,
+            Year = new PipelineMessageYears
+            {
+                Aar = 2021,
+                Bfr = 2022,
+                Cfr = 2023,
+                S251 = 2024
+            }
+        };
+
+        var result = Functions.OnStartDefaultJobTrigger(message);
+
+        const string expected = """{"runId":2020,"year":{"aar":2021,"cfr":2023,"bfr":2022,"s251":2024},"jobId":"jobId","type":"type","runType":"runType","generateTransparencyFilesAndPrecursorFiles":true}""";
         Assert.Single(result);
         Assert.Equal(expected, result.Single());
     }

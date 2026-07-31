@@ -27,4 +27,8 @@ public abstract record PipelineStart
     /// |
     /// <c>custom</c>
     public string? RunType { get; set; }
+
+    public string? RunUntil { get; set; }
+
+    public bool? GenerateTransparencyFilesAndPrecursorFiles { get; set; }
 }

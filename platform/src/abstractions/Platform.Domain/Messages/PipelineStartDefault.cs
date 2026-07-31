@@ -1,4 +1,4 @@
-﻿using System.Diagnostics.CodeAnalysis;
+using System.Diagnostics.CodeAnalysis;
 using Newtonsoft.Json.Linq;
 
 // ReSharper disable MemberCanBePrivate.Global
@@ -46,7 +46,9 @@ public record PipelineStartDefault : PipelineStart
             Type = input.Type,
             RunType = input.RunType,
             RunId = runId,
-            Year = year
+            Year = year,
+            RunUntil = input.RunUntil,
+            GenerateTransparencyFilesAndPrecursorFiles = input.GenerateTransparencyFilesAndPrecursorFiles
         };
     }
 }
