@@ -1,10 +1,10 @@
 import pandas as pd
 
+from pipeline.utils.database import insert_laa_risk_scores
 from pipeline.utils.log import setup_logger
 
 from .engine import derive_laa_risk_scores
 from .loader import load_laa_risk_score_data
-from pipeline.utils.database import insert_laa_risk_scores
 
 logger = setup_logger(__name__)
 
