@@ -1,4 +1,5 @@
 from typing import List
+
 import numpy as np
 
 from .metrics import *
@@ -18,14 +19,14 @@ DEFAULT_RISK_CONFIG: list = [
             MetricRule(-0.075, -0.06, 2.0, "Major", "right"),
             MetricRule(-0.09, -0.075, 2.5, "Major", "right"),
             MetricRule(-np.inf, -0.09, 3.0, "Major", "both"),
-        ]
+        ],
     ),
     InterestOnLoanFlagMetric(
         name="InterestOnLoanFlag",
         risk_group=RiskGroup.FINANCIAL,
         risk_score_maximum=0.25,
         score_when_1=0.25,
-        risk_when_1="Minor"
+        risk_when_1="Minor",
     ),
     PercentExpenditureOnPremisesMetric(
         name="PercentExpenditureOnPremises",
@@ -35,7 +36,7 @@ DEFAULT_RISK_CONFIG: list = [
             MetricRule(0, 0.09999, 0.0, "No Risk", "both"),
             MetricRule(0.1, 0.149999, 0.25, "Minor", "both"),
             MetricRule(0.15, 1.0, 0.5, "Minor", "both"),
-        ]
+        ],
     ),
     PercentExpenditureOnStaffMetric(
         name="PercentExpenditureOnStaff",
@@ -47,10 +48,10 @@ DEFAULT_RISK_CONFIG: list = [
             MetricRule(0.85, 0.899, 1.0, "Minor", "both"),
             MetricRule(0.9, 0.9499, 1.25, "Minor", "both"),
             MetricRule(0.95, 1000000, 1.5, "Minor", "both"),
-        ]
+        ],
     ),
-    ChangeInExpenditurePerPupilOver4YearsMetric(
-        name="ChangeInExpenditurePerPupilOver4YearsAsAPercentageOfIncomePerPupil",
+    ChangeInExpenditureOver4YearsMetric(
+        name="ChangeInExpenditureOver4YearsAsAPercentageOfIncome",
         risk_group=RiskGroup.FINANCIAL,
         risk_score_maximum=1.5,
         rules=[
@@ -58,14 +59,14 @@ DEFAULT_RISK_CONFIG: list = [
             MetricRule(0.150000001, 0.20, 0.5, "Minor", "both"),
             MetricRule(0.200000001, 0.30, 1.0, "Minor", "both"),
             MetricRule(0.300000001, 1000000.0, 1.5, "Major", "both"),
-        ]
+        ],
     ),
     DeficitInLast4YearsFlagMetric(
         name="DeficitInLast4YearsFlag",
         risk_group=RiskGroup.FINANCIAL,
         risk_score_maximum=3.0,
         score_when_1=3.0,
-        risk_when_1="Major"
+        risk_when_1="Major",
     ),
     CurrentLongTermSurplusABoveThresholdFor5YearsMetric(
         name="CurrentLongTermSurplusABoveThresholdFor5Years",
@@ -73,7 +74,7 @@ DEFAULT_RISK_CONFIG: list = [
         risk_score_maximum=1.0,
         threshold=0.15,
         score_when_1=1.0,
-        risk_when_1="Major"
+        risk_when_1="Major",
     ),
     PreviousLongTermBalanceDeficitMetric(
         name="PreviousLongTermBalanceDeficit",
@@ -81,7 +82,7 @@ DEFAULT_RISK_CONFIG: list = [
         risk_score_maximum=2.0,
         threshold=0.04,
         score_when_1=2.0,
-        risk_when_1="Major"
+        risk_when_1="Major",
     ),
     OverspendMetric(
         name="Overspend",
@@ -97,14 +98,14 @@ DEFAULT_RISK_CONFIG: list = [
             MetricRule(-0.02499999, -0.01, 0.5, "Minor", "both"),
             MetricRule(-0.00999999, -0.00000001, 0.25, "Minor", "both"),
             MetricRule(0.0, 10000000.0, 0.0, "None", "both"),
-        ]
+        ],
     ),
     LargeDecreaseInBalanceMetric(
         name="LargeDecreaseInBalanceWithoutLargeSurplus",
         risk_group=RiskGroup.FINANCIAL,
         risk_score_maximum=1.5,
         score_when_1=1.5,
-        risk_when_1="Major"
+        risk_when_1="Major",
     ),
     PupilNumberVarianceFromCapacityMetric(
         name="PupilNumberVarianceFromCapacity",
@@ -120,7 +121,7 @@ DEFAULT_RISK_CONFIG: list = [
             MetricRule(0.65, 0.69999999, 0.3, "Minor", "both"),
             MetricRule(0.70, 0.74999999, 0.15, "Minor", "both"),
             MetricRule(0.75, 1000.0, 0.0, "None", "both"),
-        ]
+        ],
     ),
     PupilChangeOver1YearMetric(
         name="PupilChangeOver1Year",
@@ -135,7 +136,7 @@ DEFAULT_RISK_CONFIG: list = [
             MetricRule(-0.05999999, -0.04, 0.4, "Minor", "both"),
             MetricRule(-0.03999999, -0.02, 0.2, "Minor", "both"),
             MetricRule(-0.01999999, 100000.0, 0.0, "None", "both"),
-        ]
+        ],
     ),
     PupilChangeOver4YearsMetric(
         name="PupilChangeOver4Years",
@@ -150,7 +151,7 @@ DEFAULT_RISK_CONFIG: list = [
             MetricRule(-0.05999999, -0.04, 0.4, "Minor", "both"),
             MetricRule(-0.03999999, -0.02, 0.2, "Minor", "both"),
             MetricRule(-0.01999999, 100000.0, 0.0, "None", "both"),
-        ]
+        ],
     ),
     TotalPupilsSixthFormMetric(
         name="TotalPupilsSixthForm",
@@ -164,10 +165,10 @@ DEFAULT_RISK_CONFIG: list = [
             MetricRule(100.0, 124.99999999, 0.2, "Minor", "both"),
             MetricRule(125.0, 149.99999999, 0.1, "Minor", "both"),
             MetricRule(150.0, 100000000.0, 0.0, "None", "both"),
-        ]
+        ],
     ),
-    SessOverallPercentMetric(
-        name="sess_overall_percent",
+    PupilAbsenceMetric(
+        name="PupilAbsence",
         risk_group=RiskGroup.EDUCATIONAL_PERFORMANCE,
         risk_score_maximum=0.5,
         condition_column="TypeOfEstablishment (code)",
@@ -181,10 +182,10 @@ DEFAULT_RISK_CONFIG: list = [
             MetricRule(0, 0.15, 0.0, "No Risk", "left"),
             MetricRule(0.15, 0.25, 0.25, "Minor Risk", "left"),
             MetricRule(0.25, np.inf, 0.5, "Minor Risk", "both"),
-        ]
+        ],
     ),
-    Proportion1stPrefsVsTotalOffersMetric(
-        name="proportion_1stprefs_v_totaloffers",
+    ParentalPreferenceMetric(
+        name="ParentalPreference",
         risk_group=RiskGroup.SCHOOL_CHARACTERISTICS,
         risk_score_maximum=1.5,
         rules=[
@@ -196,7 +197,7 @@ DEFAULT_RISK_CONFIG: list = [
             MetricRule(0.80, 0.84999990, 0.4, "Minor", "both"),
             MetricRule(0.85, 0.89999999, 0.2, "Minor", "both"),
             MetricRule(0.90, 10000.0, 0.0, "None", "both"),
-        ]
+        ],
     ),
     PerformanceTablesProgressScoreMetric(
         name="PerformanceTablesProgressScore",
@@ -205,7 +206,7 @@ DEFAULT_RISK_CONFIG: list = [
         rules=[
             MetricRule(-100.0, -0.11000001, 0.25, "Minor", "both"),
             MetricRule(-0.11000000, 100.0, 0.0, "None", "both"),
-        ]
+        ],
     ),
     PerformanceTablesAchievementScoreMetric(
         name="PerformanceTablesAchievementScore",
@@ -214,8 +215,8 @@ DEFAULT_RISK_CONFIG: list = [
         rules=[
             MetricRule(0.0, 0.45999990, 0.25, "Minor", "both"),
             MetricRule(0.46000000, 1.0, 0.0, "None", "both"),
-        ]
-    )
+        ],
+    ),
 ]
 
 # The grading engine uses np.select, which evaluates conditions sequentially (first-match-wins).
@@ -276,11 +277,10 @@ DEFAULT_GRADING_THRESHOLDS: List[GradeThreshold] = [
 
 
 def get_yearly_risk_config(year: int) -> List[BaseRiskMetric]:
-    # Fallback to the default config list.
+    # Optionally route years to configs
     return DEFAULT_RISK_CONFIG
 
 
 def get_yearly_grading_thresholds(year: int) -> List[GradeThreshold]:
-    # Fallback to the default grading thresholds list.
+    # Optionally route years to configs
     return DEFAULT_GRADING_THRESHOLDS
-

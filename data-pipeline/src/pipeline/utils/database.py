@@ -891,3 +891,34 @@ def insert_la_statistical_neighbours(
         run_id=run_id,
         engine=engine,
     )
+
+
+def insert_laa_risk_scores(
+    run_id: int,
+    indicators_df: pd.DataFrame,
+    headers_df: pd.DataFrame,
+    engine: sqlalchemy.engine.Engine | None = None,
+):
+    """
+    Persist LAA risk scores to the database.
+
+    :param run_id: unique identifier for processing (the year)
+    :param indicators_df: Melted risk indicators DataFrame
+    :param headers_df: Melted risk indicators headers DataFrame
+    :param engine: (optional) SQLAlchemy Engine
+    """
+    logger.info(f"Writing LAA risk scores to database for run {run_id}.")
+
+    _write_data(
+        df=indicators_df,
+        table="LASchoolRiskIndicators",
+        run_id=str(run_id),
+        engine=engine,
+    )
+
+    _write_data(
+        df=headers_df,
+        table="LASchoolRiskIndicatorsHeaders",
+        run_id=str(run_id),
+        engine=engine,
+    )

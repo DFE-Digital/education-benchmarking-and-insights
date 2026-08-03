@@ -157,7 +157,7 @@ def get_message_type(message: dict) -> MessageType:
     """
     if message.get("runType", "") == "derive-laa-risk-scores":
         return MessageType.DeriveLAARiskScores
-    
+
     match message.get("payload", {}).get("kind"):
         case "ComparatorSetPayload":
             return MessageType.DefaultUserDefined

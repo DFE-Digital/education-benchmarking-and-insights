@@ -145,7 +145,7 @@ ks2 = {
     "READPROG": "string",
     "WRITPROG": "string",
     "MATPROG": "string",
-    "PTRWM_EXP": "string"
+    "PTRWM_EXP": "string",
 }
 
 ks4_index_col = "URN"

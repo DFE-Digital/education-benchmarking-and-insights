@@ -100,16 +100,13 @@ class RangeRiskMetric(BaseRiskMetric):
 
 @dataclass
 class EndYearBalanceMetric(RangeRiskMetric):
-    prev_year_column: str = "EndYearBalanceAsPercentageIncomePerPupil_y_minus_one"
+    prev_year_column: str = "EndYearBalanceAsPercentageIncome_y_minus_one"
 
     def derive_value(self, df: pd.DataFrame) -> pd.Series:
-        total_income_per_pupil = df["Total Income"] / df["Number of pupils"]
-        return df["Revenue reserve"] / total_income_per_pupil
+        return df["Revenue reserve"] / df["Total Income"]
 
     def derive_prev_year_value(self, df: pd.DataFrame) -> pd.Series:
-        return df["Revenue reserve_y_minus_one"] / (
-            df["Total Income_y_minus_one"] / df["Number of pupils_y_minus_one"]
-        )
+        return df["Revenue reserve_y_minus_one"] / df["Total Income_y_minus_one"]
 
     def execute(self, df: pd.DataFrame) -> None:
         super().execute(df)
@@ -215,12 +212,9 @@ class PercentExpenditureOnStaffMetric(RangeRiskMetric):
 
 
 @dataclass
-class ChangeInExpenditurePerPupilOver4YearsMetric(RangeRiskMetric):
+class ChangeInExpenditureOver4YearsMetric(RangeRiskMetric):
     def derive_value(self, df: pd.DataFrame) -> pd.Series:
-        total_income_per_pupil = df["Total Income"] / df["Number of pupils"]
-        total_expenditure_per_pupil = df["Total Expenditure"] / df["Number of pupils"]
-        exp_four_years_ago = df["Total Expenditure_y_minus_four"] / df["Number of pupils_y_minus_four"]
-        return (total_expenditure_per_pupil - exp_four_years_ago) / total_income_per_pupil
+        return (df["Total Expenditure"] - df["Total Expenditure_y_minus_four"]) / df["Total Expenditure"]
 
 
 @dataclass
@@ -261,9 +255,7 @@ class PreviousLongTermBalanceDeficitMetric(BinaryRiskMetric):
 @dataclass
 class OverspendMetric(RangeRiskMetric):
     def derive_value(self, df: pd.DataFrame) -> pd.Series:
-        total_income_per_pupil = df["Total Income"] / df["Number of pupils"]
-        total_expenditure_per_pupil = df["Total Expenditure"] / df["Number of pupils"]
-        return (total_income_per_pupil - total_expenditure_per_pupil) / total_income_per_pupil
+        return (df["Total Income"] - df["Total Expenditure"]) / df["Total Income"]
 
 
 @dataclass
@@ -300,13 +292,13 @@ class TotalPupilsSixthFormMetric(RangeRiskMetric):
 
 
 @dataclass
-class SessOverallPercentMetric(ConditionalRiskMetric):
+class PupilAbsenceMetric(ConditionalRiskMetric):
     def derive_value(self, df: pd.DataFrame) -> pd.Series:
         return df["sess_overall_percent"]
 
 
 @dataclass
-class Proportion1stPrefsVsTotalOffersMetric(RangeRiskMetric):
+class ParentalPreferenceMetric(RangeRiskMetric):
     def derive_value(self, df: pd.DataFrame) -> pd.Series:
         return df["proportion_1stprefs_v_totaloffers"]
 
