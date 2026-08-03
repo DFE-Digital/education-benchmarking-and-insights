@@ -87,6 +87,7 @@ To trigger a pipeline run once data is prepared, add a message to the `data-pipe
 > **Note:** The `runUntil` parameter is optional. Allowed values are `"transparency-file"`, `"pre-processing"`, or `"comparators"` to stop the pipeline early after the specified stage. Omitting the parameter will run the pipeline to completion (full run).
 
 > **Note:** The `generateTransparencyFilesAndPrecursorFiles` parameter is an optional boolean defaulting to `false`. When set to `true`, the pipeline will regenerate the CFR transparency file (including Master List and Download File) from raw inputs during pre-processing. If omitted or set to `false`, the pipeline will skip generation and directly load the pre-existing master list.
+
 #### Triggering LAA Risk Scores Derivations (CFR Only)
 
 From the 2025–2026 cycle onward, once the CFR `default` pipeline run successfully completes, you must queue a separate custom trigger message to run the Local Authority Risk Analysis (LAA) calculations:
