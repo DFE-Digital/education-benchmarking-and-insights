@@ -35,8 +35,8 @@ def load_laa_extra_ancillary_data(run_year: int):
     parental_preference_cols = ["time_period", "school_urn", "proportion_1stprefs_v_totaloffers"]
     parental_preference_df = pd.read_csv(get_blob("raw", parental_preference_data_path), usecols=parental_preference_cols)
     parental_preference_df_filtered = parental_preference_df[parental_preference_df["time_period"]==time_period]
-    # Ancillary data has 2 rows for primary/secondary places. This is 1 all through school in CFR,
-    # so the parental preference figures are aggregated
+    # Ancillary data has 2 rows for primary/secondary places in one URN. This is 1 all-through school in CFR,
+    # so the parental preference figures need to be aggregated to properly join to CFR.
     parental_preference_df_aggregated = parental_preference_df_filtered \
         .groupby("school_urn", as_index=False)["proportion_1stprefs_v_totaloffers"].sum()
 
