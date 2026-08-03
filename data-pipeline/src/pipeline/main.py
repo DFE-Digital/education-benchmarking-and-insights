@@ -17,11 +17,11 @@ from pipeline.pre_processing import pre_process_custom_data, pre_process_data
 from pipeline.rag import run_rag_pipeline, run_user_defined_rag_pipeline
 from pipeline.utils.log import setup_logger
 from pipeline.utils.message import (
+    DefaultMessage,
     MessageType,
     PipelineEarlyExit,
     check_run_until_gate,
     get_message_type,
-    validate_run_until,
 )
 from pipeline.utils.storage import (
     complete_queue_name,
@@ -61,27 +61,28 @@ def handle_msg(
             case MessageType.Default:
                 logger.info("Starting default pipeline run...")
                 stats_collector.start_pipeline_run()
-                run_until = validate_run_until(msg_payload.get("runUntil", None))
+                default_msg = DefaultMessage(msg_payload)
 
                 msg_payload["pre_process_duration"] = pre_process_data(
-                    run_id=str(msg_payload["runId"]),
-                    aar_year=msg_payload["year"]["aar"],
-                    cfr_year=msg_payload["year"]["cfr"],
-                    bfr_year=msg_payload["year"]["bfr"],
-                    s251_year=msg_payload["year"]["s251"],
-                    run_until=run_until,
+                    run_id=default_msg.run_id,
+                    aar_year=default_msg.aar_year,
+                    cfr_year=default_msg.cfr_year,
+                    bfr_year=default_msg.bfr_year,
+                    s251_year=default_msg.s251_year,
+                    run_until=default_msg.run_until,
+                    generate_cfr_transparency_file=default_msg.generate_cfr_transparency_file,
                 )
-                check_run_until_gate("pre-processing", run_until)
+                check_run_until_gate("pre-processing", default_msg.run_until)
 
                 msg_payload["comparator_set_duration"] = run_comparator_sets_pipeline(
                     run_type=run_type,
-                    run_id=str(msg_payload["runId"]),
+                    run_id=default_msg.run_id,
                 )
-                check_run_until_gate("comparators", run_until)
+                check_run_until_gate("comparators", default_msg.run_until)
 
                 msg_payload["rag_duration"] = run_rag_pipeline(
                     run_type=run_type,
-                    run_id=str(msg_payload["runId"]),
+                    run_id=default_msg.run_id,
                 )
                 msg_payload["stats"] = stats_collector.get_stats()
                 logger.info("Default pipeline run completed!")
