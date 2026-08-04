@@ -85,6 +85,19 @@ def handle_msg(
                     run_type=run_type,
                     run_id=default_msg.run_id,
                 )
+
+                if default_msg.derive_laa_risk_scores:
+                    logger.info(
+                        f"Starting derivation of {default_msg.cfr_year} LA School risk scores (RunId: {default_msg.run_id})..."
+                    )
+                    run_laa_risk_scores_pipeline(
+                        run_year=default_msg.cfr_year,
+                        run_id=default_msg.run_id
+                    )
+                    logger.info(
+                        f"Completed derivation of {default_msg.cfr_year} LA School risk scores (RunId: {default_msg.run_id})."
+                    )
+
                 msg_payload["stats"] = stats_collector.get_stats()
                 logger.info("Default pipeline run completed!")
 
@@ -121,21 +134,6 @@ def handle_msg(
                 )
                 msg_payload["stats"] = stats_collector.get_stats()
                 logger.info("Custom pipeline run completed!")
-
-            case MessageType.DeriveLAARiskScores:
-                try:
-                    run_year: int = int(msg_payload.get("runId", None))
-                except TypeError:
-                    slug = 'runId needs to be a year to derive risk scores eg "2021"'
-                    logger.error(slug)
-                    raise ValueError(slug)
-                logger.info(
-                    f"Starting derivation of {run_year} LA School risk scores..."
-                )
-                run_laa_risk_scores_pipeline(run_year)
-                logger.info(
-                    f"Finished derivation of {run_year} LA School risk scores..."
-                )
 
         msg_payload["success"] = True
     except PipelineEarlyExit as exit_info:

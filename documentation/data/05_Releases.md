@@ -70,7 +70,7 @@ Once the respective data has been loaded to the Azure Storage Container, the pip
 }
  ```
 
-> **Note:** The `runUntil` parameter is optional. Allowed values are `"transparency-file"`, `"pre-processing"`, or `"comparators"` to stop the pipeline early after the specified stage. Omitting the parameter will run the pipeline to completion (full run).
+> **Note:** The `runUntil` parameter is optional. Allowed values are `"transparency-file"`, `"pre-processing"`, `"comparators"`, or `"rag"` to stop the pipeline early after the specified stage. Omitting the parameter will run the pipeline to completion (full run).
 
 > **Note:** The `generateTransparencyFilesAndPrecursorFiles` parameter is an optional boolean defaulting to `false`. When set to `true`, the pipeline will regenerate the CFR transparency file (including Master List and Download File) from raw inputs during pre-processing. If omitted or set to `false`, the pipeline will skip generation and directly load the pre-existing master list.
 
@@ -78,20 +78,25 @@ where `<YYYY>` is to be replaced by the respective submission year, for example,
 
 ### Triggering LAA Risk Scores Derivations
 
-School risk scores are computed and versioned via the **Local Authority Risk Analysis (LAA)** tool. LAA calculations are run as a custom workload separate from the main pipeline to prevent view lag and overhead on default runs.
+School risk scores are computed and versioned via the **Local Authority Risk Analysis (LAA)** tool. LAA calculations are run as part of the default pipeline run to ensure consistent versioning and prevent view lag.
 
-Once the primary CFR pipeline execution successfully completes on Phase 3 of Release Day, you must manually queue the custom trigger message for LAA risk derivations.
-
-To do this, navigate back to the `data-pipeline-job-pending` queue in Microsoft Azure Storage Explorer, click `Add`, and submit a message in the following format:
+To execute the LAA risk scores derivations, set the `"deriveLaaRiskScores": true` parameter in your default start trigger message:
 
 ```json
 {
-  "runType": "derive-laa-risk-scores",
-  "runId": <YYYY>
+  "type": "default",
+  "runId": 2026,
+  "year": {
+    "aar": 2025,
+    "cfr": 2026,
+    "bfr": 2025,
+    "s251": 2025
+  },
+  "deriveLaaRiskScores": true
 }
 ```
 
-Replace `<YYYY>` with the target year (e.g., `2026`). Ensure that `Store As` is assigned as `Plain UTF-8`. When processed, the pipeline reads from the raw inputs, computes the risk indicators, and writes them to the `LASchoolRiskIndicators` and `LASchoolRiskIndicatorsHeaders` tables.
+When processed, the pipeline will automatically execute the LAA risk scores derivations module (Maintained School Multi-Factor Risk Calculations) at the end of the standard default pipeline execution, write indicators to the `LASchoolRiskIndicators` and `LASchoolRiskIndicatorsHeaders` tables, and generate the necessary files.
 
 <!-- Leave the rest of this page blank -->
 \newpage

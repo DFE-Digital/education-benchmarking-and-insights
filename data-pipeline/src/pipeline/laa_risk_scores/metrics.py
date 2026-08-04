@@ -1,6 +1,7 @@
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import List, Tuple, Optional
+from typing import List, Optional, Tuple
+
 import numpy as np
 import pandas as pd
 
@@ -9,6 +10,14 @@ class RiskGroup(Enum):
     FINANCIAL = "Financial"
     EDUCATIONAL_PERFORMANCE = "Educational Performance"
     SCHOOL_CHARACTERISTICS = "School Characteristics"
+
+
+class RiskFlag(str, Enum):
+    NONE = "None"
+    MINOR = "Minor"
+    MAJOR = "Major"
+    NO_RISK = "No Risk"
+    MINOR_RISK = "Minor Risk"
 
 
 @dataclass
@@ -54,7 +63,9 @@ class BaseRiskMetric:
         """
         return df[self.value_column]
 
-    def derive_risk_score(self, df: pd.DataFrame, value_series: pd.Series) -> Tuple[pd.Series, pd.Series]:
+    def derive_risk_score(
+        self, df: pd.DataFrame, value_series: pd.Series
+    ) -> Tuple[pd.Series, pd.Series]:
         """Derives the risk score and risk flag (string) from the derived value.
         Override in subclasses to implement specific scoring logic.
         """
@@ -69,12 +80,12 @@ class BaseRiskMetric:
             value_series = pd.Series(value_series, index=df.index)
         df[self.value_column] = value_series
         score_series, flag_series = self.derive_risk_score(df, value_series)
-        
+
         is_missing = value_series.isna()
         if is_missing.any():
             score_series = score_series.mask(is_missing, self.risk_score_maximum)
-            flag_series = flag_series.mask(is_missing, "Major")
-            
+            flag_series = flag_series.mask(is_missing, RiskFlag.MAJOR.value)
+
         df[self.score_column] = score_series
         df[self.flag_column] = flag_series
 
@@ -89,12 +100,27 @@ class RangeRiskMetric(BaseRiskMetric):
         if self.default_score is None:
             self.default_score = self.risk_score_maximum
         if self.default_risk is None:
-            self.default_risk = "Major"
+            self.default_risk = RiskFlag.MAJOR.value
 
-    def derive_risk_score(self, df: pd.DataFrame, value_series: pd.Series) -> Tuple[pd.Series, pd.Series]:
-        conditions = [value_series.between(r.lower, r.upper, inclusive=r.inclusive) for r in self.rules]
-        score_series = pd.Series(np.select(conditions, [r.score for r in self.rules], default=self.default_score), index=df.index)
-        flag_series = pd.Series(np.select(conditions, [r.risk for r in self.rules], default=self.default_risk), index=df.index)
+    def derive_risk_score(
+        self, df: pd.DataFrame, value_series: pd.Series
+    ) -> Tuple[pd.Series, pd.Series]:
+        conditions = [
+            value_series.between(r.lower, r.upper, inclusive=r.inclusive)
+            for r in self.rules
+        ]
+        score_series = pd.Series(
+            np.select(
+                conditions, [r.score for r in self.rules], default=self.default_score
+            ),
+            index=df.index,
+        )
+        flag_series = pd.Series(
+            np.select(
+                conditions, [r.risk for r in self.rules], default=self.default_risk
+            ),
+            index=df.index,
+        )
         return score_series, flag_series
 
 
@@ -112,13 +138,22 @@ class EndYearBalanceMetric(RangeRiskMetric):
         super().execute(df)
         prev_series = self.derive_prev_year_value(df)
         df[self.prev_year_column] = prev_series
-        
-        conditions = [prev_series.between(r.lower, r.upper, inclusive=r.inclusive) for r in self.rules]
-        df[f"{self.prev_year_column}_Score"] = np.select(conditions, [r.score for r in self.rules], default=self.default_score)
-        df[f"{self.prev_year_column}_Risk"] = np.select(conditions, [r.risk for r in self.rules], default=self.default_risk)
+
+        conditions = [
+            prev_series.between(r.lower, r.upper, inclusive=r.inclusive)
+            for r in self.rules
+        ]
+        df[f"{self.prev_year_column}_Score"] = np.select(
+            conditions, [r.score for r in self.rules], default=self.default_score
+        )
+        df[f"{self.prev_year_column}_Risk"] = np.select(
+            conditions, [r.risk for r in self.rules], default=self.default_risk
+        )
 
         # 3. Blend previous year score with current year score (weighted)
-        df[self.score_column] = (df[self.score_column] + df[f"{self.prev_year_column}_Score"] / 2).clip(upper=self.risk_score_maximum)
+        df[self.score_column] = (
+            df[self.score_column] + df[f"{self.prev_year_column}_Score"] / 2
+        ).clip(upper=self.risk_score_maximum)
 
 
 @dataclass
@@ -126,9 +161,15 @@ class BinaryRiskMetric(BaseRiskMetric):
     score_when_1: float
     risk_when_1: str
 
-    def derive_risk_score(self, df: pd.DataFrame, value_series: pd.Series) -> Tuple[pd.Series, pd.Series]:
-        score_series = pd.Series(np.where(value_series, float(self.score_when_1), 0.0), index=df.index)
-        flag_series = pd.Series(np.where(value_series, self.risk_when_1, "None"), index=df.index)
+    def derive_risk_score(
+        self, df: pd.DataFrame, value_series: pd.Series
+    ) -> Tuple[pd.Series, pd.Series]:
+        score_series = pd.Series(
+            np.where(value_series, float(self.score_when_1), 0.0), index=df.index
+        )
+        flag_series = pd.Series(
+            np.where(value_series, self.risk_when_1, RiskFlag.NONE.value), index=df.index
+        )
         return score_series, flag_series
 
 
@@ -139,94 +180,85 @@ class ConditionalRiskMetric(BaseRiskMetric):
     standard_rules: List[MetricRule]
     special_rules: List[MetricRule]
 
-    def derive_risk_score(self, df: pd.DataFrame, value_series: pd.Series) -> Tuple[pd.Series, pd.Series]:
+    def derive_risk_score(
+        self, df: pd.DataFrame, value_series: pd.Series
+    ) -> Tuple[pd.Series, pd.Series]:
         is_special = df[self.condition_column].isin(self.special_values)
-        
+
         # Standard scoring
-        conds_std = [value_series.between(r.lower, r.upper, inclusive=r.inclusive) for r in self.standard_rules]
-        score_std = np.select(conds_std, [r.score for r in self.standard_rules], default=0.0)
-        risk_std = np.select(conds_std, [r.risk for r in self.standard_rules], default="None")
+        conds_std = [
+            value_series.between(r.lower, r.upper, inclusive=r.inclusive)
+            for r in self.standard_rules
+        ]
+        score_std = np.select(
+            conds_std, [r.score for r in self.standard_rules], default=0.0
+        )
+        risk_std = np.select(
+            conds_std, [r.risk for r in self.standard_rules], default=RiskFlag.NONE.value
+        )
 
         # Special scoring
-        conds_spec = [value_series.between(r.lower, r.upper, inclusive=r.inclusive) for r in self.special_rules]
-        score_spec = np.select(conds_spec, [r.score for r in self.special_rules], default=0.0)
-        risk_spec = np.select(conds_spec, [r.risk for r in self.special_rules], default="None")
+        conds_spec = [
+            value_series.between(r.lower, r.upper, inclusive=r.inclusive)
+            for r in self.special_rules
+        ]
+        score_spec = np.select(
+            conds_spec, [r.score for r in self.special_rules], default=0.0
+        )
+        risk_spec = np.select(
+            conds_spec, [r.risk for r in self.special_rules], default=RiskFlag.NONE.value
+        )
 
-        score_series = pd.Series(np.where(is_special, score_spec, score_std), index=df.index)
-        flag_series = pd.Series(np.where(is_special, risk_spec, risk_std), index=df.index)
+        score_series = pd.Series(
+            np.where(is_special, score_spec, score_std), index=df.index
+        )
+        flag_series = pd.Series(
+            np.where(is_special, risk_spec, risk_std), index=df.index
+        )
         return score_series, flag_series
 
 
 @dataclass
 class InterestOnLoanFlagMetric(BinaryRiskMetric):
     def derive_value(self, df: pd.DataFrame) -> pd.Series:
-        return df['Other costs_Interest charges for loan and bank'] > 0
+        return df["Other costs_Interest charges for loan and bank"] > 0
 
 
 @dataclass
 class PercentExpenditureOnPremisesMetric(RangeRiskMetric):
     def derive_value(self, df: pd.DataFrame) -> pd.Series:
-        net_expenditure = df["Total Expenditure"] - df[[
-            "Income_Receipts supply teacher insurance",
-            "Income_Catering services",
-            "Income_Other Revenue Income",
-        ]].sum(axis=1)
-        premises_staff_and_services = df[[
-            "Premises staff and services_Premises staff",
-            "Premises staff and services_Maintenance of premises",
-            "Other costs_Grounds maintenance",
-            "Premises staff and services_Cleaning and caretaking",
-            "Utilities_Water and sewerage",
-            "Premises staff and services_Other occupation costs"
-        ]].sum(axis=1)
-        return premises_staff_and_services / net_expenditure
+        return df["LAAPremisesExpenditureRollup"] / df["NetExpenditure"]
 
 
 @dataclass
 class PercentExpenditureOnStaffMetric(RangeRiskMetric):
     def derive_value(self, df: pd.DataFrame) -> pd.Series:
-        staff_expenditure = df[[
-            "Teaching and Teaching support staff_Teaching staff",
-            "Teaching and Teaching support staff_Supply teaching staff",
-            "Teaching and Teaching support staff_Education support staff",
-            "Non-educational support staff and services_Administrative and clerical staff",
-            "Non-educational support staff and services_Other staff",
-            "Other costs_Indirect employee expenses",
-            "Other costs_Staff development and training",
-            "Other costs_Supply teacher insurance",
-            "Other costs_Staff-related insurance",
-            "Administrative supplies_Administrative supplies (non educational)",
-            "Teaching and Teaching support staff_Agency supply teaching staff",
-            "Non-educational support staff and services_Professional services (non-curriculum)",
-            "Other costs_PFI charges"
-        ]].sum(axis=1) - df[
-            "Income_Receipts supply teacher insurance"
-        ]
-
-        net_expenditure = df["Total Expenditure"] - df[[
-            "Income_Receipts supply teacher insurance",
-            "Income_Catering services",
-            "Income_Other Revenue Income",
-        ]].sum(axis=1)
-        return staff_expenditure / net_expenditure
+        return df["LAAStaffExpenditureRollup"] / df["NetExpenditure"]
 
 
 @dataclass
 class ChangeInExpenditureOver4YearsMetric(RangeRiskMetric):
     def derive_value(self, df: pd.DataFrame) -> pd.Series:
-        return (df["Total Expenditure"] - df["Total Expenditure_y_minus_four"]) / df["Total Expenditure"]
+        return (df["Total Expenditure"] - df["Total Expenditure_y_minus_four"]) / df[
+            "Total Expenditure"
+        ]
 
 
 @dataclass
 class DeficitInLast4YearsFlagMetric(BinaryRiskMetric):
     def derive_value(self, df: pd.DataFrame) -> pd.Series:
-        return (df[[
-            "Revenue reserve",
-            "Revenue reserve_y_minus_one",
-            "Revenue reserve_y_minus_two",
-            "Revenue reserve_y_minus_three",
-            "Revenue reserve_y_minus_four"
-        ]] < 0).any(axis=1)
+        return (
+            df[
+                [
+                    "Revenue reserve",
+                    "Revenue reserve_y_minus_one",
+                    "Revenue reserve_y_minus_two",
+                    "Revenue reserve_y_minus_three",
+                    "Revenue reserve_y_minus_four",
+                ]
+            ]
+            < 0
+        ).any(axis=1)
 
 
 @dataclass
@@ -237,10 +269,22 @@ class CurrentLongTermSurplusABoveThresholdFor5YearsMetric(BinaryRiskMetric):
         t = self.threshold
         return (
             ((df["Revenue reserve"] / df["Total Income"]) >= t)
-            & ((df["Revenue reserve_y_minus_one"] / df["Total Income_y_minus_one"]) >= t)
-            & ((df["Revenue reserve_y_minus_two"] / df["Total Income_y_minus_two"]) >= t)
-            & ((df["Revenue reserve_y_minus_three"] / df["Total Income_y_minus_three"]) >= t)
-            & ((df["Revenue reserve_y_minus_four"] / df["Total Income_y_minus_four"]) >= t)
+            & (
+                (df["Revenue reserve_y_minus_one"] / df["Total Income_y_minus_one"])
+                >= t
+            )
+            & (
+                (df["Revenue reserve_y_minus_two"] / df["Total Income_y_minus_two"])
+                >= t
+            )
+            & (
+                (df["Revenue reserve_y_minus_three"] / df["Total Income_y_minus_three"])
+                >= t
+            )
+            & (
+                (df["Revenue reserve_y_minus_four"] / df["Total Income_y_minus_four"])
+                >= t
+            )
         )
 
 
@@ -276,13 +320,17 @@ class PupilNumberVarianceFromCapacityMetric(RangeRiskMetric):
 @dataclass
 class PupilChangeOver1YearMetric(RangeRiskMetric):
     def derive_value(self, df: pd.DataFrame) -> pd.Series:
-        return (df["Number of pupils"] - df["Number of pupils_y_minus_one"]) / df["Number of pupils_y_minus_one"]
+        return (df["Number of pupils"] - df["Number of pupils_y_minus_one"]) / df[
+            "Number of pupils_y_minus_one"
+        ]
 
 
 @dataclass
 class PupilChangeOver4YearsMetric(RangeRiskMetric):
     def derive_value(self, df: pd.DataFrame) -> pd.Series:
-        return (df["Number of pupils"] - df["Number of pupils_y_minus_four"]) / df["Number of pupils_y_minus_four"]
+        return (df["Number of pupils"] - df["Number of pupils_y_minus_four"]) / df[
+            "Number of pupils_y_minus_four"
+        ]
 
 
 @dataclass
@@ -306,16 +354,26 @@ class ParentalPreferenceMetric(RangeRiskMetric):
 @dataclass
 class PerformanceTablesProgressScoreMetric(RangeRiskMetric):
     def derive_value(self, df: pd.DataFrame) -> pd.Series:
-        primary_secondary_condition = [df["Overall Phase"] == "Primary", df["Overall Phase"] == "Secondary"]
+        primary_secondary_condition = [
+            df["Overall Phase"] == "Primary",
+            df["Overall Phase"] == "Secondary",
+        ]
         progress_score_choices = [(df["Ks2Progress"] / 3), df["Progress8Measure"]]
-        result = np.select(primary_secondary_condition, progress_score_choices, default=np.nan)
+        result = np.select(
+            primary_secondary_condition, progress_score_choices, default=np.nan
+        )
         return pd.Series(result, index=df.index)
 
 
 @dataclass
 class PerformanceTablesAchievementScoreMetric(RangeRiskMetric):
     def derive_value(self, df: pd.DataFrame) -> pd.Series:
-        primary_secondary_condition = [df["Overall Phase"] == "Primary", df["Overall Phase"] == "Secondary"]
+        primary_secondary_condition = [
+            df["Overall Phase"] == "Primary",
+            df["Overall Phase"] == "Secondary",
+        ]
         achievement_score_choices = [df["PTRWM_EXP"], df["AverageAttainment"]]
-        result = np.select(primary_secondary_condition, achievement_score_choices, default=np.nan)
+        result = np.select(
+            primary_secondary_condition, achievement_score_choices, default=np.nan
+        )
         return pd.Series(result, index=df.index)

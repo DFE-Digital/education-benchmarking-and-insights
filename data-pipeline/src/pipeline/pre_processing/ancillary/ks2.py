@@ -31,7 +31,7 @@ def prepare_ks2_data(ks2_path):
             {
                 "URN": pd.Series(dtype="Int64"),
                 "Ks2Progress": pd.Series(dtype="float"),
-                "PTRWM_EXP": pd.Series(dtype="string")
+                "PTRWM_EXP": pd.Series(dtype="string"),
             }
         )
 

@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Mapping
 
 import numpy as np
 
@@ -10,15 +10,15 @@ DEFAULT_RISK_CONFIG: list = [
         risk_group=RiskGroup.FINANCIAL,
         risk_score_maximum=4.5,
         rules=[
-            MetricRule(0, np.inf, 0.0, "NoRisk", "both"),
-            MetricRule(-0.01, 0, 0.25, "Minor", "neither"),
-            MetricRule(-0.025, -0.01, 0.5, "Minor", "right"),
-            MetricRule(-0.04, -0.025, 1.0, "Minor", "right"),
-            MetricRule(-0.05, -0.04, 1.25, "Minor", "right"),
-            MetricRule(-0.06, -0.05, 1.75, "Major", "right"),
-            MetricRule(-0.075, -0.06, 2.0, "Major", "right"),
-            MetricRule(-0.09, -0.075, 2.5, "Major", "right"),
-            MetricRule(-np.inf, -0.09, 3.0, "Major", "both"),
+            MetricRule(0, np.inf, 0.0, RiskFlag.NONE.value, "both"),
+            MetricRule(-0.01, 0, 0.25, RiskFlag.MINOR.value, "neither"),
+            MetricRule(-0.025, -0.01, 0.5, RiskFlag.MINOR.value, "right"),
+            MetricRule(-0.04, -0.025, 1.0, RiskFlag.MINOR.value, "right"),
+            MetricRule(-0.05, -0.04, 1.25, RiskFlag.MINOR.value, "right"),
+            MetricRule(-0.06, -0.05, 1.75, RiskFlag.MAJOR.value, "right"),
+            MetricRule(-0.075, -0.06, 2.0, RiskFlag.MAJOR.value, "right"),
+            MetricRule(-0.09, -0.075, 2.5, RiskFlag.MAJOR.value, "right"),
+            MetricRule(-np.inf, -0.09, 3.0, RiskFlag.MAJOR.value, "both"),
         ],
     ),
     InterestOnLoanFlagMetric(
@@ -26,16 +26,16 @@ DEFAULT_RISK_CONFIG: list = [
         risk_group=RiskGroup.FINANCIAL,
         risk_score_maximum=0.25,
         score_when_1=0.25,
-        risk_when_1="Minor",
+        risk_when_1=RiskFlag.MINOR.value,
     ),
     PercentExpenditureOnPremisesMetric(
         name="PercentExpenditureOnPremises",
         risk_group=RiskGroup.FINANCIAL,
         risk_score_maximum=0.5,
         rules=[
-            MetricRule(0, 0.09999, 0.0, "No Risk", "both"),
-            MetricRule(0.1, 0.149999, 0.25, "Minor", "both"),
-            MetricRule(0.15, 1.0, 0.5, "Minor", "both"),
+            MetricRule(0, 0.09999, 0.0, RiskFlag.NO_RISK.value, "both"),
+            MetricRule(0.1, 0.149999, 0.25, RiskFlag.MINOR.value, "both"),
+            MetricRule(0.15, 1.0, 0.5, RiskFlag.MINOR.value, "both"),
         ],
     ),
     PercentExpenditureOnStaffMetric(
@@ -43,11 +43,11 @@ DEFAULT_RISK_CONFIG: list = [
         risk_group=RiskGroup.FINANCIAL,
         risk_score_maximum=1.5,
         rules=[
-            MetricRule(0, 0.799999, 0.0, "No Risk", "both"),
-            MetricRule(0.8, 0.8499, 0.75, "Minor", "both"),
-            MetricRule(0.85, 0.899, 1.0, "Minor", "both"),
-            MetricRule(0.9, 0.9499, 1.25, "Minor", "both"),
-            MetricRule(0.95, 1000000, 1.5, "Minor", "both"),
+            MetricRule(0, 0.799999, 0.0, RiskFlag.NO_RISK.value, "both"),
+            MetricRule(0.8, 0.8499, 0.75, RiskFlag.MINOR.value, "both"),
+            MetricRule(0.85, 0.899, 1.0, RiskFlag.MINOR.value, "both"),
+            MetricRule(0.9, 0.9499, 1.25, RiskFlag.MINOR.value, "both"),
+            MetricRule(0.95, 1000000, 1.5, RiskFlag.MINOR.value, "both"),
         ],
     ),
     ChangeInExpenditureOver4YearsMetric(
@@ -55,10 +55,10 @@ DEFAULT_RISK_CONFIG: list = [
         risk_group=RiskGroup.FINANCIAL,
         risk_score_maximum=1.5,
         rules=[
-            MetricRule(-1000000.0, 0.15, 0.0, "None", "both"),
-            MetricRule(0.150000001, 0.20, 0.5, "Minor", "both"),
-            MetricRule(0.200000001, 0.30, 1.0, "Minor", "both"),
-            MetricRule(0.300000001, 1000000.0, 1.5, "Major", "both"),
+            MetricRule(-1000000.0, 0.15, 0.0, RiskFlag.NONE.value, "both"),
+            MetricRule(0.150000001, 0.20, 0.5, RiskFlag.MINOR.value, "both"),
+            MetricRule(0.200000001, 0.30, 1.0, RiskFlag.MINOR.value, "both"),
+            MetricRule(0.300000001, 1000000.0, 1.5, RiskFlag.MAJOR.value, "both"),
         ],
     ),
     DeficitInLast4YearsFlagMetric(
@@ -66,7 +66,7 @@ DEFAULT_RISK_CONFIG: list = [
         risk_group=RiskGroup.FINANCIAL,
         risk_score_maximum=3.0,
         score_when_1=3.0,
-        risk_when_1="Major",
+        risk_when_1=RiskFlag.MAJOR.value,
     ),
     CurrentLongTermSurplusABoveThresholdFor5YearsMetric(
         name="CurrentLongTermSurplusABoveThresholdFor5Years",
@@ -74,7 +74,7 @@ DEFAULT_RISK_CONFIG: list = [
         risk_score_maximum=1.0,
         threshold=0.15,
         score_when_1=1.0,
-        risk_when_1="Major",
+        risk_when_1=RiskFlag.MAJOR.value,
     ),
     PreviousLongTermBalanceDeficitMetric(
         name="PreviousLongTermBalanceDeficit",
@@ -82,22 +82,22 @@ DEFAULT_RISK_CONFIG: list = [
         risk_score_maximum=2.0,
         threshold=0.04,
         score_when_1=2.0,
-        risk_when_1="Major",
+        risk_when_1=RiskFlag.MAJOR.value,
     ),
     OverspendMetric(
         name="Overspend",
         risk_group=RiskGroup.FINANCIAL,
         risk_score_maximum=3.0,
         rules=[
-            MetricRule(-1000000.0, -0.09, 3.0, "Major", "both"),
-            MetricRule(-0.08999999, -0.075, 2.5, "Major", "both"),
-            MetricRule(-0.07499999, -0.06, 2.0, "Major", "both"),
-            MetricRule(-0.05999999, -0.05, 1.75, "Major", "both"),
-            MetricRule(-0.04999999, -0.04, 1.25, "Minor", "both"),
-            MetricRule(-0.03999999, -0.025, 1.0, "Minor", "both"),
-            MetricRule(-0.02499999, -0.01, 0.5, "Minor", "both"),
-            MetricRule(-0.00999999, -0.00000001, 0.25, "Minor", "both"),
-            MetricRule(0.0, 10000000.0, 0.0, "None", "both"),
+            MetricRule(-1000000.0, -0.09, 3.0, RiskFlag.MAJOR.value, "both"),
+            MetricRule(-0.08999999, -0.075, 2.5, RiskFlag.MAJOR.value, "both"),
+            MetricRule(-0.07499999, -0.06, 2.0, RiskFlag.MAJOR.value, "both"),
+            MetricRule(-0.05999999, -0.05, 1.75, RiskFlag.MAJOR.value, "both"),
+            MetricRule(-0.04999999, -0.04, 1.25, RiskFlag.MINOR.value, "both"),
+            MetricRule(-0.03999999, -0.025, 1.0, RiskFlag.MINOR.value, "both"),
+            MetricRule(-0.02499999, -0.01, 0.5, RiskFlag.MINOR.value, "both"),
+            MetricRule(-0.00999999, -0.00000001, 0.25, RiskFlag.MINOR.value, "both"),
+            MetricRule(0.0, 10000000.0, 0.0, RiskFlag.NONE.value, "both"),
         ],
     ),
     LargeDecreaseInBalanceMetric(
@@ -105,22 +105,22 @@ DEFAULT_RISK_CONFIG: list = [
         risk_group=RiskGroup.FINANCIAL,
         risk_score_maximum=1.5,
         score_when_1=1.5,
-        risk_when_1="Major",
+        risk_when_1=RiskFlag.MAJOR.value,
     ),
     PupilNumberVarianceFromCapacityMetric(
         name="PupilNumberVarianceFromCapacity",
         risk_group=RiskGroup.SCHOOL_CHARACTERISTICS,
         risk_score_maximum=1.5,
         rules=[
-            MetricRule(0.0, 0.39999999, 1.5, "Major", "both"),
-            MetricRule(0.40, 0.44999999, 1.25, "Major", "both"),
-            MetricRule(0.45, 0.49999999, 1.0, "Major", "both"),
-            MetricRule(0.50, 0.54999999, 0.75, "Minor", "both"),
-            MetricRule(0.55, 0.59999999, 0.6, "Minor", "both"),
-            MetricRule(0.60, 0.64999990, 0.45, "Minor", "both"),
-            MetricRule(0.65, 0.69999999, 0.3, "Minor", "both"),
-            MetricRule(0.70, 0.74999999, 0.15, "Minor", "both"),
-            MetricRule(0.75, 1000.0, 0.0, "None", "both"),
+            MetricRule(0.0, 0.39999999, 1.5, RiskFlag.MAJOR.value, "both"),
+            MetricRule(0.40, 0.44999999, 1.25, RiskFlag.MAJOR.value, "both"),
+            MetricRule(0.45, 0.49999999, 1.0, RiskFlag.MAJOR.value, "both"),
+            MetricRule(0.50, 0.54999999, 0.75, RiskFlag.MINOR.value, "both"),
+            MetricRule(0.55, 0.59999999, 0.6, RiskFlag.MINOR.value, "both"),
+            MetricRule(0.60, 0.64999990, 0.45, RiskFlag.MINOR.value, "both"),
+            MetricRule(0.65, 0.69999999, 0.3, RiskFlag.MINOR.value, "both"),
+            MetricRule(0.70, 0.74999999, 0.15, RiskFlag.MINOR.value, "both"),
+            MetricRule(0.75, 1000.0, 0.0, RiskFlag.NONE.value, "both"),
         ],
     ),
     PupilChangeOver1YearMetric(
@@ -128,14 +128,14 @@ DEFAULT_RISK_CONFIG: list = [
         risk_group=RiskGroup.SCHOOL_CHARACTERISTICS,
         risk_score_maximum=1.5,
         rules=[
-            MetricRule(-10000.0, -0.15, 1.5, "Major", "both"),
-            MetricRule(-0.14999999, -0.125, 1.25, "Major", "both"),
-            MetricRule(-0.12499990, -0.10, 1.0, "Major", "both"),
-            MetricRule(-0.09999999, -0.08, 0.8, "Minor", "both"),
-            MetricRule(-0.07999999, -0.06, 0.6, "Minor", "both"),
-            MetricRule(-0.05999999, -0.04, 0.4, "Minor", "both"),
-            MetricRule(-0.03999999, -0.02, 0.2, "Minor", "both"),
-            MetricRule(-0.01999999, 100000.0, 0.0, "None", "both"),
+            MetricRule(-10000.0, -0.15, 1.5, RiskFlag.MAJOR.value, "both"),
+            MetricRule(-0.14999999, -0.125, 1.25, RiskFlag.MAJOR.value, "both"),
+            MetricRule(-0.12499990, -0.10, 1.0, RiskFlag.MAJOR.value, "both"),
+            MetricRule(-0.09999999, -0.08, 0.8, RiskFlag.MINOR.value, "both"),
+            MetricRule(-0.07999999, -0.06, 0.6, RiskFlag.MINOR.value, "both"),
+            MetricRule(-0.05999999, -0.04, 0.4, RiskFlag.MINOR.value, "both"),
+            MetricRule(-0.03999999, -0.02, 0.2, RiskFlag.MINOR.value, "both"),
+            MetricRule(-0.01999999, 100000.0, 0.0, RiskFlag.NONE.value, "both"),
         ],
     ),
     PupilChangeOver4YearsMetric(
@@ -143,14 +143,14 @@ DEFAULT_RISK_CONFIG: list = [
         risk_group=RiskGroup.SCHOOL_CHARACTERISTICS,
         risk_score_maximum=1.5,
         rules=[
-            MetricRule(-10000.0, -0.15, 1.5, "Major", "both"),
-            MetricRule(-0.14999999, -0.125, 1.25, "Minor", "both"),
-            MetricRule(-0.12499990, -0.10, 1.0, "Minor", "both"),
-            MetricRule(-0.09999999, -0.08, 0.8, "Minor", "both"),
-            MetricRule(-0.07999999, -0.06, 0.6, "Minor", "both"),
-            MetricRule(-0.05999999, -0.04, 0.4, "Minor", "both"),
-            MetricRule(-0.03999999, -0.02, 0.2, "Minor", "both"),
-            MetricRule(-0.01999999, 100000.0, 0.0, "None", "both"),
+            MetricRule(-10000.0, -0.15, 1.5, RiskFlag.MAJOR.value, "both"),
+            MetricRule(-0.14999999, -0.125, 1.25, RiskFlag.MINOR.value, "both"),
+            MetricRule(-0.12499990, -0.10, 1.0, RiskFlag.MINOR.value, "both"),
+            MetricRule(-0.09999999, -0.08, 0.8, RiskFlag.MINOR.value, "both"),
+            MetricRule(-0.07999999, -0.06, 0.6, RiskFlag.MINOR.value, "both"),
+            MetricRule(-0.05999999, -0.04, 0.4, RiskFlag.MINOR.value, "both"),
+            MetricRule(-0.03999999, -0.02, 0.2, RiskFlag.MINOR.value, "both"),
+            MetricRule(-0.01999999, 100000.0, 0.0, RiskFlag.NONE.value, "both"),
         ],
     ),
     TotalPupilsSixthFormMetric(
@@ -158,13 +158,13 @@ DEFAULT_RISK_CONFIG: list = [
         risk_group=RiskGroup.SCHOOL_CHARACTERISTICS,
         risk_score_maximum=0.5,
         rules=[
-            MetricRule(0, 0, 0.0, "None", "both"),
-            MetricRule(1.0, 49.99999999, 0.5, "Minor", "both"),
-            MetricRule(50.0, 74.99999999, 0.4, "Minor", "both"),
-            MetricRule(75.0, 99.99999999, 0.3, "Minor", "both"),
-            MetricRule(100.0, 124.99999999, 0.2, "Minor", "both"),
-            MetricRule(125.0, 149.99999999, 0.1, "Minor", "both"),
-            MetricRule(150.0, 100000000.0, 0.0, "None", "both"),
+            MetricRule(0, 0, 0.0, RiskFlag.NONE.value, "both"),
+            MetricRule(1.0, 49.99999999, 0.5, RiskFlag.MINOR.value, "both"),
+            MetricRule(50.0, 74.99999999, 0.4, RiskFlag.MINOR.value, "both"),
+            MetricRule(75.0, 99.99999999, 0.3, RiskFlag.MINOR.value, "both"),
+            MetricRule(100.0, 124.99999999, 0.2, RiskFlag.MINOR.value, "both"),
+            MetricRule(125.0, 149.99999999, 0.1, RiskFlag.MINOR.value, "both"),
+            MetricRule(150.0, 100000000.0, 0.0, RiskFlag.NONE.value, "both"),
         ],
     ),
     PupilAbsenceMetric(
@@ -174,14 +174,14 @@ DEFAULT_RISK_CONFIG: list = [
         condition_column="TypeOfEstablishment (code)",
         special_values=[7, 8, 12, 42, 44],
         standard_rules=[
-            MetricRule(0, 0.05, 0.0, "No Risk", "left"),
-            MetricRule(0.05, 0.06, 0.25, "Minor Risk", "left"),
-            MetricRule(0.06, np.inf, 0.5, "Minor Risk", "both"),
+            MetricRule(0, 0.05, 0.0, RiskFlag.NO_RISK.value, "left"),
+            MetricRule(0.05, 0.06, 0.25, RiskFlag.MINOR_RISK.value, "left"),
+            MetricRule(0.06, np.inf, 0.5, RiskFlag.MINOR_RISK.value, "both"),
         ],
         special_rules=[
-            MetricRule(0, 0.15, 0.0, "No Risk", "left"),
-            MetricRule(0.15, 0.25, 0.25, "Minor Risk", "left"),
-            MetricRule(0.25, np.inf, 0.5, "Minor Risk", "both"),
+            MetricRule(0, 0.15, 0.0, RiskFlag.NO_RISK.value, "left"),
+            MetricRule(0.15, 0.25, 0.25, RiskFlag.MINOR_RISK.value, "left"),
+            MetricRule(0.25, np.inf, 0.5, RiskFlag.MINOR_RISK.value, "both"),
         ],
     ),
     ParentalPreferenceMetric(
@@ -189,14 +189,14 @@ DEFAULT_RISK_CONFIG: list = [
         risk_group=RiskGroup.SCHOOL_CHARACTERISTICS,
         risk_score_maximum=1.5,
         rules=[
-            MetricRule(0.0, 0.59999999, 1.5, "Major", "both"),
-            MetricRule(0.60, 0.64999999, 1.2, "Major", "both"),
-            MetricRule(0.65, 0.69999999, 1.0, "Major", "both"),
-            MetricRule(0.70, 0.74999999, 0.8, "Minor", "both"),
-            MetricRule(0.75, 0.79999999, 0.6, "Minor", "both"),
-            MetricRule(0.80, 0.84999990, 0.4, "Minor", "both"),
-            MetricRule(0.85, 0.89999999, 0.2, "Minor", "both"),
-            MetricRule(0.90, 10000.0, 0.0, "None", "both"),
+            MetricRule(0.0, 0.59999999, 1.5, RiskFlag.MAJOR.value, "both"),
+            MetricRule(0.60, 0.64999999, 1.2, RiskFlag.MAJOR.value, "both"),
+            MetricRule(0.65, 0.69999999, 1.0, RiskFlag.MAJOR.value, "both"),
+            MetricRule(0.70, 0.74999999, 0.8, RiskFlag.MINOR.value, "both"),
+            MetricRule(0.75, 0.79999999, 0.6, RiskFlag.MINOR.value, "both"),
+            MetricRule(0.80, 0.84999990, 0.4, RiskFlag.MINOR.value, "both"),
+            MetricRule(0.85, 0.89999999, 0.2, RiskFlag.MINOR.value, "both"),
+            MetricRule(0.90, 10000.0, 0.0, RiskFlag.NONE.value, "both"),
         ],
     ),
     PerformanceTablesProgressScoreMetric(
@@ -204,8 +204,8 @@ DEFAULT_RISK_CONFIG: list = [
         risk_group=RiskGroup.EDUCATIONAL_PERFORMANCE,
         risk_score_maximum=0.25,
         rules=[
-            MetricRule(-100.0, -0.11000001, 0.25, "Minor", "both"),
-            MetricRule(-0.11000000, 100.0, 0.0, "None", "both"),
+            MetricRule(-100.0, -0.11000001, 0.25, RiskFlag.MINOR.value, "both"),
+            MetricRule(-0.11000000, 100.0, 0.0, RiskFlag.NONE.value, "both"),
         ],
     ),
     PerformanceTablesAchievementScoreMetric(
@@ -213,8 +213,8 @@ DEFAULT_RISK_CONFIG: list = [
         risk_group=RiskGroup.EDUCATIONAL_PERFORMANCE,
         risk_score_maximum=0.25,
         rules=[
-            MetricRule(0.0, 0.45999990, 0.25, "Minor", "both"),
-            MetricRule(0.46000000, 1.0, 0.0, "None", "both"),
+            MetricRule(0.0, 0.45999990, 0.25, RiskFlag.MINOR.value, "both"),
+            MetricRule(0.46000000, 1.0, 0.0, RiskFlag.NONE.value, "both"),
         ],
     ),
 ]
@@ -284,3 +284,71 @@ def get_yearly_risk_config(year: int) -> List[BaseRiskMetric]:
 def get_yearly_grading_thresholds(year: int) -> List[GradeThreshold]:
     # Optionally route years to configs
     return DEFAULT_GRADING_THRESHOLDS
+
+
+laa_ancillary_files = {
+    "default": {
+        "absences": "Absence_2term_school.csv",
+        "capacity": "capacity_school_200910-202425.csv",
+        "parental_preference": "AppsandOffers_2025_SchoolLevel07102025.csv",
+    }
+}
+
+def get_laa_ancillary_files(year: int) -> Mapping:
+    # Optionally route years to configs
+    return laa_ancillary_files["default"]
+
+laa_ancillary_columns = {
+    "default": {
+        "absences": ["time_period", "school_urn", "sess_overall_percent"],
+        "capacity": ["time_period", "school_urn", "school_places"],
+        "parental_preference": ["time_period", "school_urn", "proportion_1stprefs_v_totaloffers"],
+    }
+}
+
+def get_laa_ancillary_columns(year: int) -> Mapping:
+    # Optionally route years to configs
+    return laa_ancillary_columns["default"]
+
+laa_risk_scores_column_eval = {
+    "default": {
+        "TotalIncomePerPupil": "`Total Income` / `Number of pupils`",
+        "TotalExpenditurePerPupil": "`Total Expenditure` / `Number of pupils`",
+        "LAAStaffExpenditureRollup": (
+            "`Teaching and Teaching support staff_Teaching staff` + "
+            "`Teaching and Teaching support staff_Supply teaching staff` + "
+            "`Teaching and Teaching support staff_Education support staff` + "
+            "`Non-educational support staff and services_Administrative and clerical staff` + "
+            "`Non-educational support staff and services_Other staff` + "
+            "`Other costs_Indirect employee expenses` + "
+            "`Other costs_Staff development and training` + "
+            "`Other costs_Supply teacher insurance` + "
+            "`Other costs_Staff-related insurance` + "
+            "`Administrative supplies_Administrative supplies (non educational)` + "
+            "`Teaching and Teaching support staff_Agency supply teaching staff` + "
+            "`Non-educational support staff and services_Professional services (non-curriculum)` + "
+            "`Other costs_PFI charges` - "
+            "`Income_Receipts supply teacher insurance`"
+        ),
+        "NetExpenditure": (
+            "`Total Expenditure` - ("
+            "`Income_Receipts supply teacher insurance` + "
+            "`Income_Catering services` + "
+            "`Income_Other Revenue Income`"
+            ")"
+        ),
+        "LAAPremisesExpenditureRollup": (
+            "`Premises staff and services_Premises staff` + "
+            "`Premises staff and services_Maintenance of premises` + "
+            "`Other costs_Grounds maintenance` + "
+            "`Premises staff and services_Cleaning and caretaking` + "
+            "`Utilities_Water and sewerage` + "
+            "`Premises staff and services_Other occupation costs`"
+        )
+    }
+}
+
+def get_laa_column_eval(year: int) -> Mapping:
+    # Optionally route years to configs
+    return laa_risk_scores_column_eval["default"]
+

@@ -112,21 +112,16 @@ To run the pipeline locally, follow these steps:
             "s251": <year>
         },
         "runUntil": <runUntilValue>,
-        "generateTransparencyFilesAndPrecursorFiles": <bool>
+        "generateTransparencyFilesAndPrecursorFiles": <bool>,
+        "deriveLaaRiskScores": <bool>
     }
     ```
 
-    > **Note:** The `runUntil` parameter is optional. Allowed values are `"transparency-file"`, `"pre-processing"`, or `"comparators"` to stop the pipeline early after the specified stage. Omitting the parameter will run the pipeline to completion (full run).
+    > **Note:** The `runUntil` parameter is optional. Allowed values are `"transparency-file"`, `"pre-processing"`, `"comparators"`, or `"rag"` to stop the pipeline early after the specified stage. Omitting the parameter will run the pipeline to completion (full run).
 
     > **Note:** The `generateTransparencyFilesAndPrecursorFiles` parameter is an optional boolean defaulting to `false`. When set to `true`, the pipeline will regenerate the CFR transparency file (including Master List and Download File) from raw inputs during pre-processing. If omitted or set to `false`, the pipeline will skip generation and directly load the pre-existing master list.
-    Alternatively, to trigger **LAA risk scores derivations**, send a message in the following format:
 
-    ```json
-    {
-      "runType": "derive-laa-risk-scores",
-      "runId": <year>
-    }
-    ```
+    > **Note:** The `deriveLaaRiskScores` parameter is an optional boolean defaulting to `false`. When set to `true`, the pipeline will execute the LAA risk scores derivations module (Maintained School Multi-Factor Risk Calculations) at the end of the standard default pipeline execution.
 
 ### Testing locally
 

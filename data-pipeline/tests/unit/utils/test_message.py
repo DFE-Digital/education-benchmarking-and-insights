@@ -56,6 +56,7 @@ def test_default_message_validation_success():
     assert msg.s251_year == 2025
     assert msg.run_until == "pre-processing"
     assert msg.generate_cfr_transparency_file is True
+    assert msg.derive_laa_risk_scores is False
 
 
 def test_default_message_defaults():
@@ -67,6 +68,7 @@ def test_default_message_defaults():
     assert msg.run_id == "2026-run"
     assert msg.generate_cfr_transparency_file is False
     assert msg.run_until is None
+    assert msg.derive_laa_risk_scores is False
 
 
 def test_default_message_missing_run_id():
@@ -140,3 +142,25 @@ def test_default_message_invalid_generate_cfr():
     with pytest.raises(ValueError) as exc:
         DefaultMessage(payload)
     assert "generateTransparencyFilesAndPrecursorFiles value" in str(exc.value)
+
+
+def test_default_message_invalid_derive_laa():
+    payload = {
+        "runId": 2026,
+        "year": {"aar": 2025, "cfr": 2026, "bfr": 2026, "s251": 2025},
+        "deriveLaaRiskScores": "not-a-bool",
+    }
+    with pytest.raises(ValueError) as exc:
+        DefaultMessage(payload)
+    assert "deriveLaaRiskScores value" in str(exc.value)
+
+
+def test_default_message_derive_laa_true():
+    payload = {
+        "runId": 2026,
+        "year": {"aar": 2025, "cfr": 2026, "bfr": 2026, "s251": 2025},
+        "deriveLaaRiskScores": True,
+    }
+    msg = DefaultMessage(payload)
+    assert msg.derive_laa_risk_scores is True
+

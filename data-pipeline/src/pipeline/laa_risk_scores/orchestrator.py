@@ -14,12 +14,12 @@ def create_laa_risk_scores_download_file(headers_df: pd.DataFrame):
     pass
 
 
-def run_laa_risk_scores_pipeline(run_year: int):
-    logger.info(f"Starting LAA risk scores pipeline for year {run_year}...")
+def run_laa_risk_scores_pipeline(run_year: int, run_id: str):
+    logger.info(f"Starting LAA risk scores pipeline for year {run_year} (RunId: {run_id})...")
     cfr_with_all_extra_data = load_laa_risk_score_data(run_year)
     indicators_df, headers_df = derive_laa_risk_scores(
-        cfr_with_all_extra_data, run_year=run_year
+        cfr_with_all_extra_data, run_year=run_year, run_id=run_id
     )
-    insert_laa_risk_scores(run_year, indicators_df, headers_df)
+    insert_laa_risk_scores(run_id, indicators_df, headers_df)
     create_laa_risk_scores_download_file(headers_df)
-    logger.info(f"Completed LAA risk scores pipeline for year {run_year}.")
+    logger.info(f"Completed LAA risk scores pipeline for year {run_year} (RunId: {run_id}).")
