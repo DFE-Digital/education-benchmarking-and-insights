@@ -13,6 +13,7 @@ from pipeline.utils.stats import stats_collector
 load_dotenv()
 
 from pipeline.comparator_sets import run_comparator_sets_pipeline
+from pipeline.laa_risk_scores import run_laa_risk_scores_pipeline
 from pipeline.pre_processing import pre_process_custom_data, pre_process_data
 from pipeline.rag import run_rag_pipeline, run_user_defined_rag_pipeline
 from pipeline.utils.log import setup_logger
@@ -84,6 +85,18 @@ def handle_msg(
                     run_type=run_type,
                     run_id=default_msg.run_id,
                 )
+
+                if default_msg.derive_laa_risk_scores:
+                    logger.info(
+                        f"Starting derivation of {default_msg.cfr_year} LA School risk scores (RunId: {default_msg.run_id})..."
+                    )
+                    run_laa_risk_scores_pipeline(
+                        run_year=default_msg.cfr_year, run_id=default_msg.run_id
+                    )
+                    logger.info(
+                        f"Completed derivation of {default_msg.cfr_year} LA School risk scores (RunId: {default_msg.run_id})."
+                    )
+
                 msg_payload["stats"] = stats_collector.get_stats()
                 logger.info("Default pipeline run completed!")
 

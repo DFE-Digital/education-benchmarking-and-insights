@@ -5,6 +5,8 @@ from .log import setup_logger
 
 logger = setup_logger(__name__)
 
+RUN_UNTIL_VALUES = ["transparency-file", "pre-processing", "comparators", "rag"]
+
 
 class MessageType(Enum):
     """
@@ -161,13 +163,11 @@ class DefaultMessage:
     def __init__(self, payload: dict):
         self.payload = payload
 
-        # 1. Validate runId
         raw_run_id = payload.get("runId")
         if raw_run_id is None or raw_run_id == "":
             raise ValueError("runId is required for default pipeline runs")
         self.run_id = str(raw_run_id)
 
-        # 2. Validate year dictionary structure
         year_payload = payload.get("year", {})
         if not isinstance(year_payload, dict):
             raise ValueError("year must be a dictionary")
@@ -185,24 +185,23 @@ class DefaultMessage:
         except (ValueError, TypeError) as e:
             raise ValueError(f"Year fields must be integers: {e}")
 
-        # 3. Validate runUntil
         self.run_until = self._validate_run_until(payload.get("runUntil"))
 
-        # 4. Validate generateTransparencyFilesAndPrecursorFiles
         self.generate_cfr_transparency_file = (
             self._validate_generate_cfr_transparency_file(
                 payload.get("generateTransparencyFilesAndPrecursorFiles", False)
             )
         )
 
-    def _validate_run_until(
-        self, run_until
-    ) -> None | Literal["transparency-file", "pre-processing", "comparators"]:
+        self.derive_laa_risk_scores = self._validate_derive_laa_risk_scores(
+            payload.get("deriveLaaRiskScores", False)
+        )
+
+    def _validate_run_until(self, run_until) -> None | str:
         if run_until is not None:
-            allowed_values = {"transparency-file", "pre-processing", "comparators"}
-            if run_until not in allowed_values:
+            if run_until not in RUN_UNTIL_VALUES:
                 raise ValueError(
-                    f"Invalid runUntil value: '{run_until}'. Must be one of {allowed_values}"
+                    f"Invalid runUntil value: '{run_until}'. Must be one of {RUN_UNTIL_VALUES=}"
                 )
         return run_until
 
@@ -213,6 +212,13 @@ class DefaultMessage:
             )
         return generate
 
+    def _validate_derive_laa_risk_scores(self, derive) -> bool:
+        if not isinstance(derive, bool):
+            raise ValueError(
+                f"Invalid deriveLaaRiskScores value: '{derive}'. Must be a boolean (True/False)."
+            )
+        return derive
+
 
 class PipelineEarlyExit(Exception):
     """Raised when the pipeline exits early at a requested runUntil gate."""
@@ -220,10 +226,7 @@ class PipelineEarlyExit(Exception):
     pass
 
 
-def check_run_until_gate(
-    current_gate: Literal["transparency-file", "pre-processing", "comparators"],
-    target_gate: None | Literal["transparency-file", "pre-processing", "comparators"],
-) -> None:
+def check_run_until_gate(current_gate: str, target_gate: None | str) -> None:
     if target_gate == current_gate:
         logger.info(f"runUntil is set to '{current_gate}'. Stopping execution.")
         raise PipelineEarlyExit(
