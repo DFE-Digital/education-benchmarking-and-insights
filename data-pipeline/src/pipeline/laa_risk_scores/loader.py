@@ -68,11 +68,21 @@ def load_laa_extra_ancillary_data(run_year: int):
 def load_laa_risk_score_data(run_year: int) -> pd.DataFrame:
     logger.info(f"Loading {run_year} LAA risk score data...")
 
-    cfr_data_this_year = load_preprocessed_cfr_parquet_for_laa_risk_derivations(run_year)
-    cfr_data_year_minus_one = load_preprocessed_cfr_parquet_for_laa_risk_derivations(run_year - 1)
-    cfr_data_year_minus_two = load_preprocessed_cfr_parquet_for_laa_risk_derivations(run_year - 2)
-    cfr_data_year_minus_three = load_preprocessed_cfr_parquet_for_laa_risk_derivations(run_year - 3)
-    cfr_data_year_minus_four = load_preprocessed_cfr_parquet_for_laa_risk_derivations(run_year - 4)
+    cfr_data_this_year = load_preprocessed_cfr_parquet_for_laa_risk_derivations(
+        run_year
+    )
+    cfr_data_year_minus_one = load_preprocessed_cfr_parquet_for_laa_risk_derivations(
+        run_year - 1
+    )
+    cfr_data_year_minus_two = load_preprocessed_cfr_parquet_for_laa_risk_derivations(
+        run_year - 2
+    )
+    cfr_data_year_minus_three = load_preprocessed_cfr_parquet_for_laa_risk_derivations(
+        run_year - 3
+    )
+    cfr_data_year_minus_four = load_preprocessed_cfr_parquet_for_laa_risk_derivations(
+        run_year - 4
+    )
     absences, capacity, parental_preference = load_laa_extra_ancillary_data(run_year)
     logger.info(f"Loaded {run_year} LAA risk score data.")
 
