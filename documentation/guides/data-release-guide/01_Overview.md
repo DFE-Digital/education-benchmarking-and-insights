@@ -49,9 +49,11 @@ Once the cutoff data is prepared, one engineer should orchestrate the rest of th
 
 3. **Monitor Logs.** Watch execution logs in the container logs queries hub (`s198t01-ebis-aiw`): search logs, then search "default" in the queries hub and run the "Recent default pipeline runs" query. A successful run displays "Pipeline run successful!"
 
-4. **Execute Assurance & Coverage Queries.** Run the general checklist (row count verification, comparative non-null coverage checks, duplicate constraint checks) and release-specific logic validations — see [Assuring Pipeline Outputs](#assuring-pipeline-outputs-general-checks) below and the [test plan](../../quality-assurance/3_Test-strategy-data-ingestion.md).
+4. **Trigger LAA Risk Derivations (CFR Only).** If this is a CFR release, you can optionally enable the `"deriveLaaRiskScores": true` parameter in your default start trigger message. This will automatically execute the LAA risk scores derivation pipeline at the end of the standard default pipeline run.
 
-5. **Descale SQL Database.** Restore the Azure SQL database DTUs to its original baseline.
+5. **Execute Assurance & Coverage Queries.** Run the general checklist (row count verification, comparative non-null coverage checks, duplicate constraint checks) and release-specific logic validations — see [Assuring Pipeline Outputs](#assuring-pipeline-outputs-general-checks) below and the [test plan](../../quality-assurance/3_Test-strategy-data-ingestion.md).
+
+6. **Descale SQL Database.** Restore the Azure SQL database DTUs to its original baseline.
 
 ## Phase 4: Release Promotion & Go-Live (Go-Live Day)
 
@@ -78,13 +80,16 @@ To trigger a pipeline run once data is prepared, add a message to the `data-pipe
     "s251": <year>
   },
   "runUntil": <runUntilValue>,
-  "generateTransparencyFilesAndPrecursorFiles": <bool>
+  "generateTransparencyFilesAndPrecursorFiles": <bool>,
+  "deriveLaaRiskScores": <bool>
 }
 ```
 
-> **Note:** The `runUntil` parameter is optional. Allowed values are `"transparency-file"`, `"pre-processing"`, or `"comparators"` to stop the pipeline early after the specified stage. Omitting the parameter will run the pipeline to completion (full run).
+> **Note:** The `runUntil` parameter is optional. Allowed values are `"transparency-file"`, `"pre-processing"`, `"comparators"`, or `"rag"` to stop the pipeline early after the specified stage. Omitting the parameter will run the pipeline to completion (full run).
 
 > **Note:** The `generateTransparencyFilesAndPrecursorFiles` parameter is an optional boolean defaulting to `false`. When set to `true`, the pipeline will regenerate the CFR transparency file (including Master List and Download File) from raw inputs during pre-processing. If omitted or set to `false`, the pipeline will skip generation and directly load the pre-existing master list.
+
+> **Note:** The `deriveLaaRiskScores` parameter is an optional boolean defaulting to `false`. When set to `true`, the pipeline will execute the LAA risk scores derivations module (Maintained School Multi-Factor Risk Calculations) at the end of the standard default pipeline execution.
 
 ### What year to use in data pipeline runs
 
