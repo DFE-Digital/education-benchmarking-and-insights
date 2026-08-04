@@ -1,6 +1,5 @@
 from typing import Mapping
 
-
 laa_ancillary_files = {
     "default": {
         "absences": "Absence_2term_school.csv",
