@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
@@ -21,12 +21,6 @@ public class OrchestratorFunctions(ILogger<OrchestratorFunctions> logger, ITelem
         using (logger.BeginApplicationScope())
         {
             var input = context.GetInput<PipelinePending>();
-            if (input == null)
-            {
-                logger.LogWarning("Unable to get input from orchestration context {InstanceId}", context.InstanceId);
-                return;
-            }
-
             if (!context.IsReplaying)
             {
                 telemetryService.TrackEvent(Pipeline.Events.PipelinePendingMessageOrchestrated, input?.JobId, new Dictionary<string, string?>
@@ -36,8 +30,7 @@ public class OrchestratorFunctions(ILogger<OrchestratorFunctions> logger, ITelem
                 });
             }
 
-            var jobType = input?.Type ?? input?.RunType;
-            switch (jobType)
+            switch (input?.Type)
             {
                 case Pipeline.JobType.ComparatorSet:
                 case Pipeline.JobType.CustomData:

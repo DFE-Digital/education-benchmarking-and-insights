@@ -1,4 +1,4 @@
-namespace Platform.Domain;
+﻿namespace Platform.Domain;
 
 //TODO: Consider converting these to enums
 public static class Pipeline
