@@ -2,19 +2,20 @@
 
 ## Context and Problem Statement
 
-Our automated end‑to‑end tests require authentication through DfE Sign‑in, which enforces Multi‑Factor Authentication (MFA). MFA blocks automation unless we adopt a strategy to either mock MFA or automate the retrieval of MFA codes.
+Our automated end‑to‑end tests require authentication through DfE Sign‑in (DSI), which enforces Multi‑Factor Authentication (MFA). MFA blocks automation unless we adopt a strategy to either mock MFA or automate the retrieval of MFA codes.
 
 ## Decision Drivers
 
 * Engineering and implementation effort required
-* Risks associated with the approach
 * Reliability and stability of automated tests
+* Risks associated with the approach, both coverage risk and operational risk
 * Cost and licensing implications
+* Long‑term maintainability
 
 ## Considered Options
 
 * **Option 1: Mock DfE Sign‑in MFA**
-* **Option 2: Email‑Based MFA Handling**
+* **Option 2: Email‑Based MFA Handling (Graph API or Mailosaur)**
 
 ## Decision Outcome
 
@@ -34,18 +35,20 @@ Validation will occur through:
 
 ## Comparison Table Based on Decision Drivers
 
-| Decision Driver                             | Option 1: Mock/Bypass MFA (Known) | Option 2: Email‑Based MFA (Graph API / Mailosaur) |
-|---------------------------------------------|-----------------------------------|---------------------------------------------------|
-| **Engineering & Implementation Complexity** | Low                               | Medium-High                                       |
-| **Cost**                                    | None                              | other options are licensed based                  |
-| **Risks**                                   | Medium                            | Low                                               |
-| **Long‑Term Maintainability**               | High                              | Depends on chosen service and integration         |
+| Decision Driver                         | Option 1: Mock DfE Sign‑in MFA  | Option 2: Email‑Based MFA (Graph API / Mailosaur)      |
+|-----------------------------------------|---------------------------------|--------------------------------------------------------|
+| **Engineering & implementation effort** | Low                             | Medium to High                                         |
+| **Reliability & stability**             | High (no external dependencies) | Medium (depends on email delivery / external service)  |
+| **Coverage risk**                       | Higher (does not test real MFA) | Lower (exercises the real authentication flow)         |
+| **Operational risk**                    | Lower                           | Higher (external dependency and code delivery latency) |
+| **Cost & licensing**                    | None                            | Paid / licensing required                              |
+| **Long‑term maintainability**           | High                            | Depends on chosen service and integration              |
 
 ## Pros and Cons of the Options
 
 ### Option 1: Mock DfE Sign‑in MFA
 
-A mocking of MFA for automated tests, while retaining real MFA validation in manual smoke tests.
+In our integration tests, DfE Sign‑in is replaced with a stubbed authentication scheme that signs tests in as a pre‑authenticated user, so they never reach the DSI login or its MFA step. We will use the same approach to mock MFA for the end‑to‑end tests.
 
 * Good, because it is a known, feasible solution that works with Microsoft‑hosted agents
 * Good, because it requires minimal engineering and test effort
