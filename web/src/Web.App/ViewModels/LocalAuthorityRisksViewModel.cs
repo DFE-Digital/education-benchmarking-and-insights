@@ -6,5 +6,5 @@ public class LocalAuthorityRisksViewModel(LocalAuthority localAuthority, int cfr
 {
     public string? Code => localAuthority.Code;
     public string? Name => localAuthority.Name;
-    public int? CfrYear => cfrYear;
+    public int CfrYear => cfrYear;
 }
