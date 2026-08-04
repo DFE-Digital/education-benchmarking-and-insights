@@ -294,21 +294,29 @@ laa_ancillary_files = {
     }
 }
 
+
 def get_laa_ancillary_files(year: int) -> Mapping:
     # Optionally route years to configs
     return laa_ancillary_files["default"]
+
 
 laa_ancillary_columns = {
     "default": {
         "absences": ["time_period", "school_urn", "sess_overall_percent"],
         "capacity": ["time_period", "school_urn", "school_places"],
-        "parental_preference": ["time_period", "school_urn", "proportion_1stprefs_v_totaloffers"],
+        "parental_preference": [
+            "time_period",
+            "school_urn",
+            "proportion_1stprefs_v_totaloffers",
+        ],
     }
 }
+
 
 def get_laa_ancillary_columns(year: int) -> Mapping:
     # Optionally route years to configs
     return laa_ancillary_columns["default"]
+
 
 laa_risk_scores_column_eval = {
     "default": {
@@ -344,11 +352,11 @@ laa_risk_scores_column_eval = {
             "`Premises staff and services_Cleaning and caretaking` + "
             "`Utilities_Water and sewerage` + "
             "`Premises staff and services_Other occupation costs`"
-        )
+        ),
     }
 }
+
 
 def get_laa_column_eval(year: int) -> Mapping:
     # Optionally route years to configs
     return laa_risk_scores_column_eval["default"]
-

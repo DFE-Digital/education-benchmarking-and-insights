@@ -7,6 +7,7 @@ logger = setup_logger(__name__)
 
 RUN_UNTIL_VALUES = ["transparency-file", "pre-processing", "comparators", "rag"]
 
+
 class MessageType(Enum):
     """
     Various types of incoming message:
@@ -192,10 +193,8 @@ class DefaultMessage:
             )
         )
 
-        self.derive_laa_risk_scores = (
-            self._validate_derive_laa_risk_scores(
-                payload.get("deriveLaaRiskScores", False)
-            )
+        self.derive_laa_risk_scores = self._validate_derive_laa_risk_scores(
+            payload.get("deriveLaaRiskScores", False)
         )
 
     def _validate_run_until(self, run_until) -> None | str:

@@ -3,6 +3,7 @@ from azure.core.exceptions import ResourceNotFoundError
 
 from pipeline.utils.log import setup_logger
 from pipeline.utils.storage import get_blob
+
 from .config import get_laa_ancillary_columns, get_laa_ancillary_files
 
 logger = setup_logger(__name__)
@@ -27,20 +28,27 @@ def load_laa_extra_ancillary_data(run_year: int):
     columns_config = get_laa_ancillary_columns(run_year)
 
     absences_data_path = f"default/{run_year}/{file_config['absences']}"
-    absences_df = pd.read_csv(get_blob("raw", absences_data_path), usecols=columns_config['absences'])
+    absences_df = pd.read_csv(
+        get_blob("raw", absences_data_path), usecols=columns_config["absences"]
+    )
     absences_df_filtered = absences_df[absences_df["time_period"] == time_period]
 
     capacity_data_path = f"default/{run_year}/{file_config['capacity']}"
-    capacity_df = pd.read_csv(get_blob("raw", capacity_data_path), usecols=columns_config['capacity'])
+    capacity_df = pd.read_csv(
+        get_blob("raw", capacity_data_path), usecols=columns_config["capacity"]
+    )
     capacity_df_filtered = capacity_df[capacity_df["time_period"] == time_period]
     # Some all-through schools from CFR are split into primary/secondary
-    capacity_df_aggregated = capacity_df_filtered.groupby(
-        "school_urn", as_index=False
-    )["school_places"].sum()
+    capacity_df_aggregated = capacity_df_filtered.groupby("school_urn", as_index=False)[
+        "school_places"
+    ].sum()
 
-    parental_preference_data_path = f"default/{run_year}/{file_config['parental_preference']}"
+    parental_preference_data_path = (
+        f"default/{run_year}/{file_config['parental_preference']}"
+    )
     parental_preference_df = pd.read_csv(
-        get_blob("raw", parental_preference_data_path), usecols=columns_config['parental_preference']
+        get_blob("raw", parental_preference_data_path),
+        usecols=columns_config["parental_preference"],
     )
     parental_preference_df_filtered = parental_preference_df[
         parental_preference_df["time_period"] == time_period

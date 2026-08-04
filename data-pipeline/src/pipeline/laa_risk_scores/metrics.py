@@ -168,7 +168,8 @@ class BinaryRiskMetric(BaseRiskMetric):
             np.where(value_series, float(self.score_when_1), 0.0), index=df.index
         )
         flag_series = pd.Series(
-            np.where(value_series, self.risk_when_1, RiskFlag.NONE.value), index=df.index
+            np.where(value_series, self.risk_when_1, RiskFlag.NONE.value),
+            index=df.index,
         )
         return score_series, flag_series
 
@@ -194,7 +195,9 @@ class ConditionalRiskMetric(BaseRiskMetric):
             conds_std, [r.score for r in self.standard_rules], default=0.0
         )
         risk_std = np.select(
-            conds_std, [r.risk for r in self.standard_rules], default=RiskFlag.NONE.value
+            conds_std,
+            [r.risk for r in self.standard_rules],
+            default=RiskFlag.NONE.value,
         )
 
         # Special scoring
@@ -206,7 +209,9 @@ class ConditionalRiskMetric(BaseRiskMetric):
             conds_spec, [r.score for r in self.special_rules], default=0.0
         )
         risk_spec = np.select(
-            conds_spec, [r.risk for r in self.special_rules], default=RiskFlag.NONE.value
+            conds_spec,
+            [r.risk for r in self.special_rules],
+            default=RiskFlag.NONE.value,
         )
 
         score_series = pd.Series(

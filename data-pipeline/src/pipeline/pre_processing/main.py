@@ -95,7 +95,9 @@ def pre_process_data(
     maintained_data_ref = get_cfr_ancillary_data(run_id, cfr_year)
     # Last year's data is used as fallbacks for the CFR transparency file
     maintained_data_ref_for_last_year = (
-        get_cfr_ancillary_data(run_id, (cfr_year - 1)) if generate_cfr_transparency_file else {}
+        get_cfr_ancillary_data(run_id, (cfr_year - 1))
+        if generate_cfr_transparency_file
+        else {}
     )
 
     academies = pre_process_academies_data(

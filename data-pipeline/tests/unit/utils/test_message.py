@@ -163,4 +163,3 @@ def test_default_message_derive_laa_true():
     }
     msg = DefaultMessage(payload)
     assert msg.derive_laa_risk_scores is True
-

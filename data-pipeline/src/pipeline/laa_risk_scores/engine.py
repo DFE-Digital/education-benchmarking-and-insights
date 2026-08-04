@@ -3,8 +3,12 @@ from typing import List, Optional, Tuple
 import numpy as np
 import pandas as pd
 
-from .config import get_yearly_grading_thresholds, get_yearly_risk_config, get_laa_column_eval
-from .metrics import BaseRiskMetric, GradeThreshold, RiskGroup, RiskFlag
+from .config import (
+    get_laa_column_eval,
+    get_yearly_grading_thresholds,
+    get_yearly_risk_config,
+)
+from .metrics import BaseRiskMetric, GradeThreshold, RiskFlag, RiskGroup
 
 
 def derive_laa_risk_scores(
@@ -66,7 +70,11 @@ def roll_up_laa_risk_scores_to_headlines(
     risk_cols = [metric.flag_column for metric in evaluators]
 
     total_score = df[score_cols].sum(axis=1)
-    total_risks = df[risk_cols].isin([RiskFlag.MINOR.value, RiskFlag.MINOR_RISK.value, RiskFlag.MAJOR.value]).sum(axis=1)
+    total_risks = (
+        df[risk_cols]
+        .isin([RiskFlag.MINOR.value, RiskFlag.MINOR_RISK.value, RiskFlag.MAJOR.value])
+        .sum(axis=1)
+    )
     total_major_risks = df[risk_cols].isin([RiskFlag.MAJOR.value]).sum(axis=1)
 
     parental_pref = df["proportion_1stprefs_v_totaloffers"]
@@ -125,13 +133,37 @@ def melt_laa_risk_scores(
 
     la_school_risk_indicators = pd.concat(melted_dfs, ignore_index=True)
 
-    financial_cols = [metric.score_column for metric in evaluators if metric.risk_group == RiskGroup.FINANCIAL]
-    financial_max = sum(metric.risk_score_maximum for metric in evaluators if metric.risk_group == RiskGroup.FINANCIAL)
-    school_and_pupil_cols = [metric.score_column for metric in evaluators if metric.risk_group == RiskGroup.SCHOOL_CHARACTERISTICS]
-    school_and_pupil_max = sum(metric.risk_score_maximum for metric in evaluators if metric.risk_group == RiskGroup.SCHOOL_CHARACTERISTICS)
-    
-    educational_perf_cols = [metric.score_column for metric in evaluators if metric.risk_group == RiskGroup.EDUCATIONAL_PERFORMANCE]
-    educational_perf_max = sum(metric.risk_score_maximum for metric in evaluators if metric.risk_group == RiskGroup.EDUCATIONAL_PERFORMANCE)
+    financial_cols = [
+        metric.score_column
+        for metric in evaluators
+        if metric.risk_group == RiskGroup.FINANCIAL
+    ]
+    financial_max = sum(
+        metric.risk_score_maximum
+        for metric in evaluators
+        if metric.risk_group == RiskGroup.FINANCIAL
+    )
+    school_and_pupil_cols = [
+        metric.score_column
+        for metric in evaluators
+        if metric.risk_group == RiskGroup.SCHOOL_CHARACTERISTICS
+    ]
+    school_and_pupil_max = sum(
+        metric.risk_score_maximum
+        for metric in evaluators
+        if metric.risk_group == RiskGroup.SCHOOL_CHARACTERISTICS
+    )
+
+    educational_perf_cols = [
+        metric.score_column
+        for metric in evaluators
+        if metric.risk_group == RiskGroup.EDUCATIONAL_PERFORMANCE
+    ]
+    educational_perf_max = sum(
+        metric.risk_score_maximum
+        for metric in evaluators
+        if metric.risk_group == RiskGroup.EDUCATIONAL_PERFORMANCE
+    )
 
     la_school_risk_indicators_headers = pd.DataFrame()
     la_school_risk_indicators_headers["URN"] = df["URN"]

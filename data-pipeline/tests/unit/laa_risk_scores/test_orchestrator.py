@@ -84,6 +84,7 @@ def test_insert_laa_risk_scores_mapping():
 
 from pipeline.laa_risk_scores.orchestrator import run_laa_risk_scores_pipeline
 
+
 @patch("pipeline.laa_risk_scores.orchestrator.load_laa_risk_score_data")
 @patch("pipeline.laa_risk_scores.orchestrator.derive_laa_risk_scores")
 @patch("pipeline.laa_risk_scores.orchestrator.insert_laa_risk_scores")
@@ -95,12 +96,18 @@ def test_run_laa_risk_scores_pipeline_coordination(
     mock_load_data,
 ):
     mock_load_data.return_value = pd.DataFrame({"URN": [123]})
-    mock_derive.return_value = (pd.DataFrame({"indicators": [1]}), pd.DataFrame({"headers": [2]}))
+    mock_derive.return_value = (
+        pd.DataFrame({"indicators": [1]}),
+        pd.DataFrame({"headers": [2]}),
+    )
 
     run_laa_risk_scores_pipeline(2025, "test-run-guid")
 
     mock_load_data.assert_called_once_with(2025)
-    mock_derive.assert_called_once_with(mock_load_data.return_value, run_year=2025, run_id="test-run-guid")
-    mock_insert_db.assert_called_once_with("test-run-guid", mock_derive.return_value[0], mock_derive.return_value[1])
+    mock_derive.assert_called_once_with(
+        mock_load_data.return_value, run_year=2025, run_id="test-run-guid"
+    )
+    mock_insert_db.assert_called_once_with(
+        "test-run-guid", mock_derive.return_value[0], mock_derive.return_value[1]
+    )
     mock_create_download.assert_called_once_with(mock_derive.return_value[1])
-

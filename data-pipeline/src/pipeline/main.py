@@ -91,8 +91,7 @@ def handle_msg(
                         f"Starting derivation of {default_msg.cfr_year} LA School risk scores (RunId: {default_msg.run_id})..."
                     )
                     run_laa_risk_scores_pipeline(
-                        run_year=default_msg.cfr_year,
-                        run_id=default_msg.run_id
+                        run_year=default_msg.cfr_year, run_id=default_msg.run_id
                     )
                     logger.info(
                         f"Completed derivation of {default_msg.cfr_year} LA School risk scores (RunId: {default_msg.run_id})."
