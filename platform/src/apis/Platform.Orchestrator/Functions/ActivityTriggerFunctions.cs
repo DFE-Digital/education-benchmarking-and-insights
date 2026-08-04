@@ -54,18 +54,6 @@ public class ActivityTriggerFunctions(
         }
     }
 
-    [Function(nameof(OnStartDeriveLAARiskScoresJobTrigger))]
-    [QueueOutput("%PipelineMessageHub:JobDefaultStartQueue%", Connection = "PipelineMessageHub:ConnectionString")]
-    public string[] OnStartDeriveLAARiskScoresJobTrigger([ActivityTrigger] PipelineStartDeriveLAARiskScores message)
-    {
-        using (logger.BeginApplicationScope(message.JobId))
-        {
-            telemetryService.TrackEvent(Pipeline.Events.PipelineStartDefaultMessageReceived, message.JobId);
-            logger.LogInformation("Forwarding {JobId} to default start queue", message.JobId);
-            return [message.ToJson()];
-        }
-    }
-
     [Function(nameof(UpdateStatusTrigger))]
     public async Task UpdateStatusTrigger([ActivityTrigger] PipelineStatus status)
     {
