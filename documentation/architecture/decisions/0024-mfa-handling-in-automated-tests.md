@@ -10,7 +10,7 @@ Our automated end‑to‑end tests require authentication through DfE Sign‑in 
 * Reliability and stability of automated tests
 * Risks associated with the approach, both coverage risk and operational risk
 * Cost and licensing implications
-* Long‑term maintainability
+* Long‑term maintenance effort
 
 ## Considered Options
 
@@ -42,7 +42,7 @@ Validation will occur through:
 | **Coverage risk**                       | Higher (does not test real MFA) | Lower (exercises the real authentication flow)         |
 | **Operational risk**                    | Lower                           | Higher (external dependency and code delivery latency) |
 | **Cost & licensing**                    | None                            | Paid / licensing required                              |
-| **Long‑term maintainability**           | High                            | Depends on chosen service and integration              |
+| **Long‑term maintenance effort**        | Low (no DSI dependency)         | Medium to High                                         |
 
 ## Pros and Cons of the Options
 
