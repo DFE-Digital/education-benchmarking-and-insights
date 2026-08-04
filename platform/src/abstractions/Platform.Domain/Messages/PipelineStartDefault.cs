@@ -48,8 +48,10 @@ public record PipelineStartDefault : PipelineStart
             RunId = runId,
             Year = year,
             RunUntil = input.RunUntil,
-            GenerateTransparencyFilesAndPrecursorFiles = input.GenerateTransparencyFilesAndPrecursorFiles
+            GenerateTransparencyFilesAndPrecursorFiles = input.GenerateTransparencyFilesAndPrecursorFiles,
+            DeriveLaaRiskScores = input.DeriveLaaRiskScores
         };
+
     }
 }
 

@@ -31,4 +31,6 @@ public abstract record PipelineStart
     public string? RunUntil { get; set; }
 
     public bool? GenerateTransparencyFilesAndPrecursorFiles { get; set; }
+
+    public bool? DeriveLaaRiskScores { get; set; }
 }
