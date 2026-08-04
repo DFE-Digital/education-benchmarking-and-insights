@@ -17,6 +17,7 @@ public class WhenPipelineStartDefaultCreatesFromPending
             Type = "type",
             RunUntil = "pre-processing",
             GenerateTransparencyFilesAndPrecursorFiles = true,
+            DeriveLaaRiskScores = true,
             Year = JObject.FromObject(new PipelineMessageYears
             {
                 Aar = 2021,
@@ -36,6 +37,7 @@ public class WhenPipelineStartDefaultCreatesFromPending
             Type = "type",
             RunUntil = "pre-processing",
             GenerateTransparencyFilesAndPrecursorFiles = true,
+            DeriveLaaRiskScores = true,
             Year = new PipelineMessageYears
             {
                 Aar = 2021,
