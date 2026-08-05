@@ -13,7 +13,7 @@ from .metrics import BaseRiskMetric, GradeThreshold, RiskFlag, RiskGroup
 
 def derive_laa_risk_scores(
     cfr_with_all_extra_data: pd.DataFrame, run_year: int, run_id: str
-) -> Tuple[pd.DataFrame, pd.DataFrame]:
+) -> Tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame]:
     """Coordinating dynamic metric execution, scoring, grading, and db melting."""
     df = cfr_with_all_extra_data.copy()
 
@@ -52,7 +52,7 @@ def derive_laa_risk_scores(
         risk_scores_headlines, evaluators, run_id=run_id
     )
 
-    return indicators, headers
+    return risk_metrics, indicators, headers
 
 
 def roll_up_laa_risk_scores_to_headlines(
