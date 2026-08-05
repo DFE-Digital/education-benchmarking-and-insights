@@ -11,8 +11,9 @@ import sqlalchemy
 from sqlalchemy import URL, create_engine, event
 
 from pipeline import config
+from pipeline.utils.log import setup_logger
 
-logger = logging.getLogger(__name__)
+logger = setup_logger(__name__)
 
 
 def get_engine() -> sqlalchemy.engine.Engine:
@@ -137,7 +138,7 @@ def _get_temp_table(
     """
     temp_table_name = _get_temp_table_name(table, run_id)
 
-    logger.info(f"Creating temp. table: {temp_table_name}.")
+    logger.debug(f"Creating temp. table: {temp_table_name}.")
     sql = textwrap.dedent(f"""
     SELECT *
       INTO {temp_table_name}
@@ -189,7 +190,7 @@ def _write_data(
         engine=engine,
     )
 
-    logger.info(f"Writing to temp. table: {temp_table}.")
+    logger.debug(f"Writing to temp. table: {temp_table}.")
     start = time.time()
     df.to_sql(
         name=temp_table.name,
@@ -198,7 +199,7 @@ def _write_data(
         index=df.index.name is not None,
         chunksize=int(os.getenv("SQL_CHUNKSIZE", 10_000)),
     )
-    logger.info(
+    logger.debug(
         f"Wrote {len(df.index):,} rows to {temp_table} in {int(time.time() - start):,} seconds."
     )
 
@@ -220,7 +221,7 @@ def _write_data(
     COMMIT;
     """).strip()
 
-    logger.info(f"Writing to {table} ({run_id}).")
+    logger.debug(f"Writing to {table} ({run_id}).")
     start = time.time()
     with engine.begin() as cnx:
         cnx.execute(sqlalchemy.text(sql), parameters={"run_id": run_id})
@@ -242,7 +243,7 @@ def upsert(
     if engine is None:
         engine = get_engine()
 
-    logger.info(f"Connecting to database {engine.url}")
+    logger.debug(f"Connecting to database {engine.url}")
 
     # Drop duplicates, including the index if specifically set.
     if _index := df.index.name:
@@ -889,5 +890,36 @@ def insert_la_statistical_neighbours(
         df=write_frame,
         table="LocalAuthorityStatisticalNeighbour",
         run_id=run_id,
+        engine=engine,
+    )
+
+
+def insert_laa_risk_scores(
+    run_id: int,
+    indicators_df: pd.DataFrame,
+    headers_df: pd.DataFrame,
+    engine: sqlalchemy.engine.Engine | None = None,
+):
+    """
+    Persist LAA risk scores to the database.
+
+    :param run_id: unique identifier for processing (the year)
+    :param indicators_df: Melted risk indicators DataFrame
+    :param headers_df: Melted risk indicators headers DataFrame
+    :param engine: (optional) SQLAlchemy Engine
+    """
+    logger.info(f"Writing LAA risk scores to database for run {run_id}.")
+
+    _write_data(
+        df=indicators_df,
+        table="LASchoolRiskIndicators",
+        run_id=str(run_id),
+        engine=engine,
+    )
+
+    _write_data(
+        df=headers_df,
+        table="LASchoolRiskIndicatorsHeaders",
+        run_id=str(run_id),
         engine=engine,
     )
