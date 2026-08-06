@@ -6,7 +6,7 @@ from .metrics import *
 
 DEFAULT_RISK_CONFIG: list = [
     EndYearBalanceMetric(
-        name="EndYearBalanceAsPercentageIncomePerPupil",
+        name="EndYearBalanceAsPercentageIncome",
         risk_group=RiskGroup.FINANCIAL,
         risk_score_maximum=4.5,
         rules=[
