@@ -1,6 +1,6 @@
-# Pipeline Payload Definitions and Schema Nuances
+# Pipeline Trigger Message
 
-The Financial Benchmarking and Insights Tool (FBIT) data-processing pipeline relies on queue-triggered messages (payloads) to execute data processing runs. These payloads coordinate official baseline data releases as well as interactive user-defined calculations.
+The Financial Benchmarking and Insights Tool (FBIT) data-processing pipeline relies on queue-triggered messages (payloads) in `data-pipeline-job-pending` to execute data processing runs. These payloads coordinate official baseline data releases as well as interactive user-defined calculations.
 
 ---
 
@@ -12,12 +12,11 @@ All incoming pipeline messages adhere to a structured schema defined by the back
 | :--- | :--- | :--- | :--- | :--- |
 | **Job Type** | `"type"` | String | `"default"`, `"comparator-set"`, `"custom-data"` | Defines the high-level operational workflow (corresponds to `Pipeline.JobType` in C#). Dictates how the queue trigger parses and routes the message. |
 | **Run Type** | `"runType"` | String | `"default"`, `"custom"` | Defines data classification and isolation (corresponds to `Pipeline.RunType` in C#). Dictates SQL table write targets (`RunType` column) and Parquet storage directories. |
-| **Job ID** | `"jobId"` | String (UUID) | UUID String | A unique transactional identifier used to track and monitor the status of background task orchestration. |
 | **Run ID** | `"runId"` | Integer or String | Integer Year (Default) or UUID String (Custom) | The database primary/composite key under which processed output is saved and queried by the frontend. |
 | **Year** | `"year"` | Dictionary or Integer | Nested Dictionary (Default) or Integer Year (Custom) | Specifies either the directory paths of raw source files to read (for default runs) or the baseline year of comparison (for custom runs). |
 | **URN** | `"urn"` | String | 6-digit URN string | Unique Reference Number identifying the "anchor" school. Only required for user-defined or custom runs. |
-| **Run Until Gate** | `"runUntil"` | String | `"transparency-file"`, `"pre-processing"`, `"comparators"` | Optional. Halts pipeline execution early after specified boundaries for development/debugging purposes. |
-| **Generate Transparency** | `"generateTransparencyFilesAndPrecursorFiles"` | Boolean | `true`, `false` | Optional (defaults to `false`). Directs CFR pre-processing to rebuild transparency spreadsheets from raw inputs rather than loading pre-existing master lists. |
+| **Run Until** | `"runUntil"` | String | `"transparency-file"`, `"pre-processing"`, `"comparators"` | Optional. Halts pipeline execution early after specified boundaries for development/debugging purposes. |
+| **Generate Transparency Files** | `"generateTransparencyFilesAndPrecursorFiles"` | Boolean | `true`, `false` | Optional (defaults to `false`). Directs pre-processing to rebuild transparency spreadsheets from raw inputs rather than loading pre-existing master lists. |
 | **Derive LAA Risk** | `"deriveLaaRiskScores"` | Boolean | `true`, `false` | Optional (defaults to `false`). Indicates whether Local Authority Risk Assessment scores should be derived during pipeline execution. |
 | **Payload Data** | `"payload"` | Object | Schema-dependent object | Job-specific payload containing either the custom comparator set (`"ComparatorSetPayload"`) or custom financial metrics (`"CustomDataPayload"`). |
 
@@ -33,7 +32,6 @@ Used by systems administrators to run a full system-wide baseline compilation wh
 
 ```json
 {
-  "jobId": "24463424-9642-4314-bb55-45424af6e812",
   "type": "default",
   "runType": "default",
   "runId": 2026,
@@ -55,7 +53,6 @@ Triggered when a frontend user creates a custom comparator group of schools.
 
 ```json
 {
-  "jobId": "7af1abc5-88a9-4447-bdf7-92f4f95dc772",
   "type": "comparator-set",
   "runType": "default",
   "runId": "a6db019c-d45f-44f3-8af0-71d82c1c6257",
@@ -81,7 +78,6 @@ Triggered when a frontend user inputs revised hypothetical financial or characte
 
 ```json
 {
-  "jobId": "79ca4d18-d065-4180-9e0d-10c9b3fdd1a8",
   "type": "custom-data",
   "runType": "custom",
   "runId": "c321ef6a-3b1c-4ce2-8e32-0d0167bf2fa7",
@@ -101,6 +97,8 @@ Triggered when a frontend user inputs revised hypothetical financial or characte
 
 ## 3. Notes
 
+* **jobId**:
+  The orchestrator adds a `jobId` to each job's message, which is a unique transactional identifier used to track and monitor the status of background task orchestration. As it's auto-generated, don't include it in your trigger.
 * **Decoupling of `runId` and `year`**:
   While both parameters represent timeline-related data, they are architecturally decoupled. `runId` serves as the database partition key to group and query outputs, while `year` serves as the directory reference to locate input source files.
 * **Mismatched DfE Timelines**:
@@ -108,7 +106,7 @@ Triggered when a frontend user inputs revised hypothetical financial or characte
 * **User-Calculation Isolation**:
   To isolate and protect official system-wide calculations, any custom or user-defined run uses a temporary UUID string for `runId` and `"custom"` for `runType`. This partitions the custom rows safely in both blob storage and relational SQL tables, allowing simple, isolated cleanups without affecting default datasets.
 * **Comparison Anchoring**:
-  In user-defined RAG and custom-data runs, the `year` parameter is flattened to a single integer. This serves as the "anchor year," defining which default baseline dataset (`RunId = <year>` and `RunType = 'default'`) the custom school or comparator group should be evaluated against.
+  In user-defined RAG and custom-data runs, the `year` parameter is flattened to a single integer. This serves as the "anchor year", defining which default baseline dataset (`RunId = <year>` and `RunType = 'default'`) the custom school or comparator group should be evaluated against.
 
 <!-- Leave the rest of this page blank -->
 \newpage

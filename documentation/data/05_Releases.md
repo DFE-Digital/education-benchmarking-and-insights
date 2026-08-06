@@ -74,6 +74,8 @@ Once the respective data has been loaded to the Azure Storage Container, the pip
 
 > **Note:** The `generateTransparencyFilesAndPrecursorFiles` parameter is an optional boolean defaulting to `false`. When set to `true`, the pipeline will regenerate the CFR transparency file (including Master List and Download File) from raw inputs during pre-processing. If omitted or set to `false`, the pipeline will skip generation and directly load the pre-existing master list.
 
+For detailed payload schema definitions, optional parameters, and custom run examples, please refer to the [Pipeline Payload Definitions and Schema Nuances](./13_Pipeline-Payload-Definitions.md) reference page.
+
 where `<YYYY>` is to be replaced by the respective submission year, for example, for `2022-2023`, `<YYYY>` would take the value of `2023`. Ensure that `Store As` is assigned as `Plain UTF-8`, and set the `Time to live` value to `Expire in` with some period, e.g. 1 Day. Click `OK` to queue the message. This should then be picked up and the pipeline executed. You can monitor the pipeline in the respective Application Insights logs through the Azure portal.
 
 <!-- Leave the rest of this page blank -->
