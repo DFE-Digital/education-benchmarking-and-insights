@@ -70,11 +70,33 @@ Once the respective data has been loaded to the Azure Storage Container, the pip
 }
  ```
 
-> **Note:** The `runUntil` parameter is optional. Allowed values are `"transparency-file"`, `"pre-processing"`, or `"comparators"` to stop the pipeline early after the specified stage. Omitting the parameter will run the pipeline to completion (full run).
+> **Note:** The `runUntil` parameter is optional. Allowed values are `"transparency-file"`, `"pre-processing"`, `"comparators"`, or `"rag"` to stop the pipeline early after the specified stage. Omitting the parameter will run the pipeline to completion (full run).
 
 > **Note:** The `generateTransparencyFilesAndPrecursorFiles` parameter is an optional boolean defaulting to `false`. When set to `true`, the pipeline will regenerate the CFR transparency file (including Master List and Download File) from raw inputs during pre-processing. If omitted or set to `false`, the pipeline will skip generation and directly load the pre-existing master list.
 
 where `<YYYY>` is to be replaced by the respective submission year, for example, for `2022-2023`, `<YYYY>` would take the value of `2023`. Ensure that `Store As` is assigned as `Plain UTF-8`, and set the `Time to live` value to `Expire in` with some period, e.g. 1 Day. Click `OK` to queue the message. This should then be picked up and the pipeline executed. You can monitor the pipeline in the respective Application Insights logs through the Azure portal.
+
+### Triggering LAA Risk Scores Derivations
+
+School risk scores are computed and versioned via the **Local Authority Risk Analysis (LAA)** tool. LAA calculations are run as part of the default pipeline run to ensure consistent versioning and prevent view lag.
+
+To execute the LAA risk scores derivations, set the `"deriveLaaRiskScores": true` parameter in your default start trigger message:
+
+```json
+{
+  "type": "default",
+  "runId": 2026,
+  "year": {
+    "aar": 2025,
+    "cfr": 2026,
+    "bfr": 2025,
+    "s251": 2025
+  },
+  "deriveLaaRiskScores": true
+}
+```
+
+When processed, the pipeline will automatically execute the LAA risk scores derivations module (Maintained School Multi-Factor Risk Calculations) at the end of the standard default pipeline execution, write indicators to the `LASchoolRiskIndicators` and `LASchoolRiskIndicatorsHeaders` tables, and generate the necessary files.
 
 <!-- Leave the rest of this page blank -->
 \newpage
