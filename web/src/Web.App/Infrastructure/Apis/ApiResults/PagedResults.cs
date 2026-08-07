@@ -10,4 +10,5 @@ public record PagedResults<T>
     public int PageSize { get; set; }
     public int PageCount => (int)Math.Ceiling(TotalResults / (float)Math.Max(1, PageSize));
     public IEnumerable<T>? Results { get; set; }
+    public bool HasNextPage => Page < PageCount;
 }

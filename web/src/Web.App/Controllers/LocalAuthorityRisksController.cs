@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.FeatureManagement.Mvc;
+using Web.App.ActionResults;
 using Web.App.Attributes;
 using Web.App.Domain;
 using Web.App.Domain.LocalAuthorities;
@@ -81,23 +82,96 @@ public class LocalAuthorityRisksController(
         });
     }
 
+    [HttpGet]
+    [Produces("application/zip")]
+    [ProducesResponseType<byte[]>(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    [Route("download")]
+    public async Task<IActionResult> Download(
+        string code,
+        string? selectedPhaseOption)
+    {
+        using (logger.BeginScope(new
+        {
+            code
+        }))
+        {
+            try
+            {
+                selectedPhaseOption ??= OverallPhaseTypes.AllPhasesLabel;
+
+                var risks = await GetAllRisks(code, selectedPhaseOption);
+
+                var csvRows = risks.Select(r => new LocalAuthorityRiskIndicatorsCsv
+                {
+                    SchoolName = r.SchoolName,
+                    Urn = r.Urn,
+                    OverallRiskScore = r.Overall,
+                    FinancialRiskScore = r.Financial,
+                    PupilAndWorkforceRiskScore = r.SchoolAndPupil,
+                    EducationalPerformanceRiskScore = r.EducationalPerformance
+                });
+
+                return new CsvResults([new CsvResult(csvRows, $"{code}-schools-risk-overview.csv")], $"{code}-schools-risk-overview.zip");
+            }
+            catch (Exception e)
+            {
+                logger.LogError(e, "An error downloading local authority risk indicators: {DisplayUrl}", Request.GetDisplayUrl());
+                return StatusCode(500);
+            }
+        }
+    }
+
+    private async Task<LocalAuthorityRiskIndicators[]> GetAllRisks(string code, string selectedPhaseOption)
+    {
+        var la = await api.SingleAsync(code).GetResultOrThrow<LocalAuthority>();
+
+        var page = 1;
+        var shouldGetNextPage = true;
+        List<LocalAuthorityRiskIndicators> allRisks = [];
+
+        while (shouldGetNextPage)
+        {
+            var risksQuery = BuildQuery(la.Code!, null, null, page, selectedPhaseOption, pageSize: 100);
+            var result = await api.QueryRisksAsync(risksQuery).GetPagedResultOrThrow<LocalAuthorityRiskIndicators>();
+            var risks = result.Results?.ToList() ?? [];
+
+            allRisks.AddRange(risks);
+            shouldGetNextPage = result.HasNextPage;
+            page++;
+        }
+
+        return allRisks.ToArray();
+    }
 
     private static ApiQuery BuildQuery(
         string code,
         string? sortField,
         string? sortOrder,
         int? page,
-        string? selectedPhase = OverallPhaseTypes.AllPhasesLabel)
+        string? selectedPhase = OverallPhaseTypes.AllPhasesLabel,
+        int? pageSize = null)
     {
         var query = new ApiQuery();
         query.AddIfNotNull("code", code);
         query.AddIfNotNull("sortField", sortField);
         query.AddIfNotNull("sortOrder", sortOrder);
         query.AddIfNotNull("page", page.ToString());
+        query.AddIfNotNull("pageSize", pageSize?.ToString());
         if (selectedPhase != OverallPhaseTypes.AllPhasesLabel)
         {
             query.AddIfNotNull("phase", selectedPhase);
         }
         return query;
     }
+}
+
+public class LocalAuthorityRiskIndicatorsCsv
+{
+    public string SchoolName { get; set; } = string.Empty;
+    public string Urn { get; set; } = string.Empty;
+    public decimal OverallRiskScore { get; set; }
+    public decimal FinancialRiskScore { get; set; }
+    public decimal PupilAndWorkforceRiskScore { get; set; }
+    public decimal EducationalPerformanceRiskScore { get; set; }
 }
