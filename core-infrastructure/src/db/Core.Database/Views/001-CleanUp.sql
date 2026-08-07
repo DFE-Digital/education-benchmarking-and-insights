@@ -56,3 +56,9 @@ DROP VIEW IF EXISTS SchoolExpenditureAvgPercentageOfExpenditureComparatorSet
 
 DROP VIEW IF EXISTS SchoolExpenditureAvgPercentageOfIncomeComparatorSet
     GO
+
+DROP VIEW IF EXISTS VW_LASchoolRisksOverviewDefault
+    GO
+
+DROP VIEW IF EXISTS VW_LASchoolRisksOverviewDefaultCurrent
+    GO
