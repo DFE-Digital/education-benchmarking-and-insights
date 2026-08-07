@@ -1,0 +1,14 @@
+using System.Diagnostics.CodeAnalysis;
+
+namespace Platform.Functions;
+
+[ExcludeFromCodeCoverage]
+public record PagedResult<T>
+{
+    public IReadOnlyList<T> Items { get; init; } = [];
+    public int Page { get; init; }
+    public int PageSize { get; init; }
+    public int TotalCount { get; init; }
+    public bool HasNextPage => Page * PageSize < TotalCount;
+    public bool HasPreviousPage => Page > 1;
+}

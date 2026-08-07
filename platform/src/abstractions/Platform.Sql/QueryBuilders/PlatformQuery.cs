@@ -210,6 +210,13 @@ public abstract class PlatformQuery : SqlBuilder
         return this;
     }
 
+    public PlatformQuery OrderBy(string column, string direction)
+    {
+        var sql = $"{column} {direction.ToUpperInvariant()}";
+        base.OrderBy(sql);
+        return this;
+    }
+
     public PlatformQuery WhereUserIdEqual(string userId)
     {
         const string sql = "UserId = @UserId";
@@ -442,6 +449,30 @@ public abstract class PlatformQuery : SqlBuilder
         };
 
         Where(sql, parameters);
+        return this;
+    }
+
+    public PlatformQuery Offset(int offset)
+    {
+        AddClause(
+        name: "offset",
+        sql: "OFFSET @Offset ROWS",
+        parameters: new { Offset = offset },
+        joiner: " "
+    );
+
+        return this;
+    }
+
+    public PlatformQuery Fetch(int pageSize)
+    {
+        AddClause(
+        name: "fetch",
+        sql: "FETCH NEXT @PageSize ROWS ONLY",
+        parameters: new { PageSize = pageSize },
+        joiner: " "
+    );
+
         return this;
     }
 }

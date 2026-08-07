@@ -9,6 +9,7 @@ using Microsoft.Extensions.Hosting;
 using Platform.Api.LocalAuthority.Features.Accounts;
 using Platform.Api.LocalAuthority.Features.Details;
 using Platform.Api.LocalAuthority.Features.EducationHealthCarePlans;
+using Platform.Api.LocalAuthority.Features.Risks;
 using Platform.Api.LocalAuthority.Features.Search;
 using Platform.Api.LocalAuthority.Features.StatisticalNeighbours;
 using Platform.Functions;
@@ -76,5 +77,6 @@ internal static class Services
         .AddStatisticalNeighboursFeature()
         .AddEducationHealthCarePlansFeature()
         .AddAccountsFeature()
-        .AddSearchFeature();
+        .AddSearchFeature()
+        .AddRisksFeature();
 }
