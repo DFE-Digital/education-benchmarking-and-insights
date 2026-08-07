@@ -69,4 +69,9 @@ public static class DecimalExtensions
             : null;
     public static decimal? SafePercentageOf(this decimal value, decimal total)
         => (value * 100m).SafeDivide(total);
+
+    public static string ToFixedPrecision(this decimal? value, int dp)
+        => value.HasValue ? value.Value.ToFixedPrecision(dp) : string.Empty;
+    public static string ToFixedPrecision(this decimal value, int dp)
+        => value.ToString($"0.{new string('0', dp)}");
 }

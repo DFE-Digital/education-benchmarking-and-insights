@@ -1,0 +1,113 @@
+@model Web.App.ViewModels.LocalAuthorityRisksViewModel
+@using Web.App.Domain.LocalAuthorities
+@using Web.App.Extensions
+@using Web.App.ViewModels
+@{
+    Func<int, string?> urlBuilder = page =>
+        Url.Action("Index", "LocalAuthorityRisks", new
+        {
+            code = Model.Code,
+            sortField = Model.SortField,
+            sortOrder = Model.SortOrder,
+            page,
+            selectedPhaseOption = Model.SelectedPhaseOption
+        });
+}
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
+
+        @using (Html.BeginForm(FormMethod.Post, true, new
+                {
+                    novalidate = "novalidate",
+                    role = "search"
+                }))
+        {
+            <table class="govuk-table">
+                <thead class="govuk-table__head">
+                <tr class="govuk-table__row">
+                    @await Component.InvokeAsync("SortableTableHeaderCell", new
+                    {
+                        label = "School name",
+                        sortField = nameof(LocalAuthorityRiskIndicators.SchoolName),
+                        className = "govuk-!-width-one-quarter",
+                        defaultSort = Model.CurrentSort.StartsWith(nameof(LocalAuthorityRiskIndicators.SchoolName)) ? Model.CurrentSort : null
+                    })
+                    @await Component.InvokeAsync("SortableTableHeaderCell", new
+                    {
+                        label = "URN",
+                        sortField = nameof(LocalAuthorityRiskIndicators.Urn),
+                        className = "govuk-table__header--numeric",
+                        defaultSort = Model.CurrentSort.StartsWith(nameof(LocalAuthorityRiskIndicators.Urn)) ? Model.CurrentSort : null
+                    })
+                    @await Component.InvokeAsync("SortableTableHeaderCell", new
+                    {
+                        label = "Overall",
+                        sortField = nameof(LocalAuthorityRiskIndicators.Overall),
+                        className = "govuk-table__header--numeric",
+                        defaultSort = Model.CurrentSort.StartsWith(nameof(LocalAuthorityRiskIndicators.Overall)) ? Model.CurrentSort : null
+                    })
+                    @await Component.InvokeAsync("SortableTableHeaderCell", new
+                    {
+                        label = "Financial",
+                        sortField = nameof(LocalAuthorityRiskIndicators.Financial),
+                        className = "govuk-table__header--numeric",
+                        defaultSort = Model.CurrentSort.StartsWith(nameof(LocalAuthorityRiskIndicators.Financial)) ? Model.CurrentSort : null
+                    })
+                    @await Component.InvokeAsync("SortableTableHeaderCell", new
+                    {
+                        label = "Pupil & school",
+                        sortField = nameof(LocalAuthorityRiskIndicators.SchoolAndPupil),
+                        className = "govuk-table__header--numeric",
+                        defaultSort = Model.CurrentSort.StartsWith(nameof(LocalAuthorityRiskIndicators.SchoolAndPupil)) ? Model.CurrentSort : null
+                    })
+                    @await Component.InvokeAsync("SortableTableHeaderCell", new
+                    {
+                        label = "Educational performance",
+                        sortField = nameof(LocalAuthorityRiskIndicators.EducationalPerformance),
+                        className = "govuk-table__header--numeric",
+                        defaultSort = Model.CurrentSort.StartsWith(nameof(LocalAuthorityRiskIndicators.EducationalPerformance)) ? Model.CurrentSort : null
+                    })
+                </tr>
+                </thead>
+                <tbody class="govuk-table__body">
+                @foreach (var row in Model.Results)
+                {
+                    <tr class="govuk-table__row">
+                        <td class="govuk-table__cell">
+                            <a class="govuk-link govuk-link--no-visited-state" href="#">@row.SchoolName</a>
+                        </td>
+                        <td class="govuk-table__cell govuk-table__cell--numeric">
+                            @row.Urn
+                        </td>
+                        <td class="govuk-table__cell govuk-table__cell--numeric">
+
+                            @await Component.InvokeAsync("Tag", new
+                            {
+                                rating = new RatingViewModel(row.OverallRating, row.Overall.ToFixedPrecision(2))
+                            })
+                        </td>
+                        <td class="govuk-table__cell govuk-table__cell--numeric">
+                            @row.Financial.ToFixedPrecision(2)
+                        </td>
+                        <td class="govuk-table__cell govuk-table__cell--numeric">
+                            @row.SchoolAndPupil.ToFixedPrecision(2)
+                        </td>
+                        <td class="govuk-table__cell govuk-table__cell--numeric">
+                            @row.EducationalPerformance.ToFixedPrecision(2)
+                        </td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+
+            @await Component.InvokeAsync("Pagination", new
+            {
+                totalResults = Model.TotalResults,
+                pageNumber = Model.Page,
+                pageSize = Model.PageSize,
+                urlBuilder
+            })
+        }
+    </div>
+</div>

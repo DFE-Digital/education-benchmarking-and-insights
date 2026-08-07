@@ -41,6 +41,8 @@ public class LocalAuthorityApi(HttpClient httpClient, string? key = null) : ApiB
 
     public Task<ApiResult> QueryMaintainedSchoolsWorkforceAsync(string code, ApiQuery? query = null, CancellationToken cancellationToken = default) => GetAsync($"{Routes.QueryMaintainedSchoolsWorkforce(code)}{query?.ToQueryString()}", cancellationToken);
 
+    public Task<ApiResult> QueryRisksAsync(ApiQuery? query = null, CancellationToken cancellationToken = default) => GetAsync($"{Routes.QueryRisks}{query?.ToQueryString()}", cancellationToken);
+
     private static class Routes
     {
         private const string Base = "api/local-authorities";
@@ -56,6 +58,7 @@ public class LocalAuthorityApi(HttpClient httpClient, string? key = null) : ApiB
         public static string QueryHighNeedsHistory => $"{Base}/accounts/high-needs/history";
         public static string QueryMaintainedSchoolsFinance(string? identifier) => $"{Base}/{identifier}/maintained-schools/finance";
         public static string QueryMaintainedSchoolsWorkforce(string? identifier) => $"{Base}/{identifier}/maintained-schools/workforce";
+        public static string QueryRisks => $"{Base}/risks";
     }
 }
 
@@ -73,4 +76,5 @@ public interface ILocalAuthorityApi
     Task<ApiResult> QueryHighNeedsHistoryAsync(ApiQuery? query = null, CancellationToken cancellationToken = default);
     Task<ApiResult> QueryMaintainedSchoolsFinanceAsync(string code, ApiQuery? query = null, CancellationToken cancellationToken = default);
     Task<ApiResult> QueryMaintainedSchoolsWorkforceAsync(string code, ApiQuery? query = null, CancellationToken cancellationToken = default);
+    Task<ApiResult> QueryRisksAsync(ApiQuery? query = null, CancellationToken cancellationToken = default);
 }

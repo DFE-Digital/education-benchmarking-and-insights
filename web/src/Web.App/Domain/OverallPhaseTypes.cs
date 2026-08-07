@@ -96,4 +96,6 @@ public static class OverallPhaseTypes
         OverallPhaseTypeFilter.UniversityTechnicalCollege => UniversityTechnicalCollege,
         _ => throw new ArgumentOutOfRangeException(nameof(filter))
     };
+
+    public const string AllPhasesLabel = "All phases";
 }
