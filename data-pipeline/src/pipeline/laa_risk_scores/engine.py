@@ -21,38 +21,15 @@ def derive_laa_risk_scores(
     for col, expr in column_eval.items():
         df[col] = df.eval(expr)
 
-    risk_metrics = pd.DataFrame()
-    risk_metrics["URN"] = df["URN"]
-    risk_metrics["TypeOfEstablishment (code)"] = df["TypeOfEstablishment (code)"]
-    risk_metrics["Overall Phase"] = df["Overall Phase"]
-    risk_metrics["proportion_1stprefs_v_totaloffers"] = df[
-        "proportion_1stprefs_v_totaloffers"
-    ]
-
     evaluators = get_yearly_risk_config(run_year)
-
     for metric in evaluators:
         metric.execute(df)
 
-        risk_metrics[metric.value_column] = df[metric.value_column]
-        risk_metrics[metric.score_column] = df[metric.score_column]
-        risk_metrics[metric.flag_column] = df[metric.flag_column]
-
-        if hasattr(metric, "prev_year_column"):
-            prev_col = metric.prev_year_column
-            risk_metrics[prev_col] = df[prev_col]
-            risk_metrics[f"{prev_col}_Score"] = df[f"{prev_col}_Score"]
-            risk_metrics[f"{prev_col}_Risk"] = df[f"{prev_col}_Risk"]
-
     grading_thresholds = get_yearly_grading_thresholds(run_year)
-    risk_scores_headlines = roll_up_laa_risk_scores_to_headlines(
-        risk_metrics, evaluators, grading_thresholds
-    )
-    indicators, headers = melt_laa_risk_scores(
-        risk_scores_headlines, evaluators, run_id=run_id
-    )
+    df_graded = roll_up_laa_risk_scores_to_headlines(df, evaluators, grading_thresholds)
+    indicators, headers = melt_laa_risk_scores(df_graded, evaluators, run_id=run_id)
 
-    return risk_metrics, indicators, headers
+    return df_graded, indicators, headers
 
 
 def roll_up_laa_risk_scores_to_headlines(

@@ -360,3 +360,73 @@ laa_risk_scores_column_eval = {
 def get_laa_column_eval(year: int) -> Mapping:
     # Optionally route years to configs
     return laa_risk_scores_column_eval["default"]
+
+
+laa_download_schemas = {
+    "default": [
+        "URN",
+        "TypeOfEstablishment (code)",
+        "Overall Phase",
+        "Revenue reserve",
+        "Revenue reserve_y_minus_one",
+        "Revenue reserve_y_minus_two",
+        "Revenue reserve_y_minus_three",
+        "Revenue reserve_y_minus_four",
+        "Total Income",
+        "Total Income_y_minus_one",
+        "Total Income_y_minus_two",
+        "Total Income_y_minus_three",
+        "Total Income_y_minus_four",
+        "Total Expenditure",
+        "Total Expenditure_y_minus_four",
+        "Number of pupils",
+        "Number of pupils_y_minus_one",
+        "Number of pupils_y_minus_four",
+        "Other costs_Interest charges for loan and bank",
+        "TotalPupilsSixthForm",
+        "Ks2Progress",
+        "Progress8Measure",
+        "PTRWM_EXP",
+        "AverageAttainment",
+        "LAAStaffExpenditureRollup",
+        "LAAPremisesExpenditureRollup",
+        "NetExpenditure",
+        "Teaching and Teaching support staff_Teaching staff",
+        "Teaching and Teaching support staff_Supply teaching staff",
+        "Teaching and Teaching support staff_Education support staff",
+        "Non-educational support staff and services_Administrative and clerical staff",
+        "Non-educational support staff and services_Other staff",
+        "Other costs_Indirect employee expenses",
+        "Other costs_Staff development and training",
+        "Other costs_Supply teacher insurance",
+        "Other costs_Staff-related insurance",
+        "Administrative supplies_Administrative supplies (non educational)",
+        "Teaching and Teaching support staff_Agency supply teaching staff",
+        "Non-educational support staff and services_Professional services (non-curriculum)",
+        "Other costs_PFI charges",
+        "Income_Receipts supply teacher insurance",
+        "Income_Catering services",
+        "Income_Other Revenue Income",
+        "Premises staff and services_Premises staff",
+        "Premises staff and services_Maintenance of premises",
+        "Other costs_Grounds maintenance",
+        "Premises staff and services_Cleaning and caretaking",
+        "Utilities_Water and sewerage",
+        "Premises staff and services_Other occupation costs",
+        "school_places",
+        "sess_overall_percent",
+        "proportion_1stprefs_v_totaloffers"
+    ]
+}
+
+
+def get_download_file_schema(year: int) -> List[str]:
+    # Optionally route years to configs
+    columns = laa_download_schemas.get(year, laa_download_schemas["default"])
+
+    evaluators = get_yearly_risk_config(year)
+    metric_cols = []
+    for metric in evaluators:
+        metric_cols.extend(metric.get_all_cols())
+
+    return columns + metric_cols
