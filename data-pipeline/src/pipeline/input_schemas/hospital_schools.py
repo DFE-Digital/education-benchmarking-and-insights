@@ -11,9 +11,6 @@ hospital_schools_cols = {
     },
 }
 hospital_schools_column_mappings = {
-    2024: {
-        "LAESTAB": "LAEstab",
-        "GHS_indicator": "GHSIndicator"
-    }
+    2024: {"LAESTAB": "LAEstab", "GHS_indicator": "GHSIndicator"}
 }
 hospital_schools_index_col = "LAEstab"
