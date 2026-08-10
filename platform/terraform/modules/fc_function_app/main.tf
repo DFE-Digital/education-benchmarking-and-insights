@@ -27,6 +27,14 @@ resource "azurerm_storage_account" "func_app_sa" {
     }
     versioning_enabled = true
   }
+
+  network_rules {
+    default_action = "Allow"
+
+    virtual_network_subnet_ids = [
+      var.networking.join_subnet_id
+    ]
+  }
 }
 
 # Create a storage container
@@ -229,13 +237,6 @@ resource "azurerm_function_app_flex_consumption" "func-app" {
   depends_on = [
     azurerm_role_assignment.storage-data-owner
   ]
-}
-
-# network rules to allow the func app to access the storage account
-resource "azurerm_storage_account_network_rules" "func_app_storage_access" {
-  storage_account_id         = azurerm_storage_account.func_app_sa.id
-  default_action             = "Deny"
-  virtual_network_subnet_ids = [var.networking.join_subnet_id]
 }
 
 # ClientId rather than PrincipalId required for managed identity user in SQL database:
