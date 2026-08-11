@@ -5,7 +5,6 @@ locals {
     "AzureWebJobsSecretStorageType"             = "keyvault"
     "AzureWebJobsSecretStorageKeyVaultUri"      = azurerm_key_vault.func_app_kv.vault_uri
     "AzureWebJobsSecretStorageKeyVaultClientId" = azurerm_user_assigned_identity.func-identity.client_id
-    "AzureWebJobsStorage__accountName"          = "${var.core.environment_prefix}ebis${var.core.short_name}sa"
   })
 
   function-app-name    = "${var.core.environment_prefix}-ebis-${var.core.name}-fa"
