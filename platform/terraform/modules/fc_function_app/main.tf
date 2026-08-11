@@ -29,7 +29,7 @@ resource "azurerm_storage_account" "func_app_sa" {
   }
 
   network_rules {
-    default_action = "Allow"
+    default_action = "Deny"
 
     virtual_network_subnet_ids = [
       var.networking.join_subnet_id
