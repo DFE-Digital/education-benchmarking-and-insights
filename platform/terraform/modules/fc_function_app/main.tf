@@ -27,6 +27,14 @@ resource "azurerm_storage_account" "func_app_sa" {
     }
     versioning_enabled = true
   }
+
+  network_rules {
+    default_action = "Deny"
+
+    virtual_network_subnet_ids = [
+      var.networking.join_subnet_id
+    ]
+  }
 }
 
 # Create a storage container
@@ -200,6 +208,7 @@ resource "azurerm_function_app_flex_consumption" "func-app" {
   storage_container_endpoint        = "${azurerm_storage_account.func_app_sa.primary_blob_endpoint}${azurerm_storage_container.func_app_sc.name}"
   storage_authentication_type       = "UserAssignedIdentity"
   storage_user_assigned_identity_id = azurerm_user_assigned_identity.func-identity.id
+  storage_access_key                = azurerm_storage_account.func_app_sa.primary_access_key
   public_network_access_enabled     = true # Allowed for temporary pipeline whitelisting
   runtime_name                      = var.application_stack.worker_runtime
   runtime_version                   = var.application_stack.runtime_version

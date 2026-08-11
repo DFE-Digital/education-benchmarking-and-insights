@@ -19,7 +19,7 @@ public class MonitorCommercialResourcesFunction(IDatabaseFactory dbFactory,
     private readonly HttpClient _client = httpClientFactory.CreateClient("NoRedirects");
 
     [Function("MonitorCommercialResourcesFunction")]
-    public async Task RunAsync([TimerTrigger("0 0 2 * * *")] TimerInfo timer)
+    public async Task RunAsync([TimerTrigger("0 0 */1 * * *")] TimerInfo timer)
     {
         using (logger.BeginScope(new Dictionary<string, object>
                {
