@@ -35,11 +35,6 @@ resource "azurerm_storage_account" "func_app_sa" {
       var.networking.join_subnet_id
     ]
   }
-
-  identity {
-    type = null
-    identity_ids = null
-  }
 }
 
 # Create a storage container
