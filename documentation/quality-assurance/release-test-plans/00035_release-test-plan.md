@@ -26,7 +26,6 @@ This release focuses on database security configuration changes (removing Azure 
 - **Maintenance**
   - Updated `Platform.Cache.Tests` mocks to support the API changes in `Microsoft.Azure.StackExchangeRedis 3.3.1`.
   - Reviewed and merged July 2026 platform and package dependency updates.
-  - Added an SOP document for CFR/BFR/AAR/S251.
 
 **Out-of-Scope:**
 
@@ -88,7 +87,6 @@ This release focuses on database security configuration changes (removing Azure 
 
 - [316772 - Remove azure service access from database security configuration](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/316772)
 - [305821 - Update Platform.Cache.Tests mocks to support API changes in Microsoft.Azure.StackExchangeRedis 3.3.1](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/305821)
-- [313860 - SOP Document for CFR/BFR/AAR/S251](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/313860)
 - [318282 - User defined comparators - dimension not updating](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/318282)
 - [318286 - Improve page referrer tracking and reporting](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/318286)
 - [319567 - Review and merge Jul '26 dependency updates](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/319567)
