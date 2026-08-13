@@ -25,12 +25,20 @@ export default function(eleventyConfig) {
       serviceName: 'Financial Benchmarking and Insights Tool',
       navigation: [
         {
-          text: 'Developers',
-          href: '/developers/'
+          text: 'Tutorials',
+          href: '/tutorials/'
         },
         {
-          text: 'Architecture',
-          href: '/architecture/'
+          text: 'How-to guides',
+          href: '/how-to/'
+        },
+        {
+          text: 'Reference',
+          href: '/reference/'
+        },
+        {
+          text: 'Explanation',
+          href: '/explanation/'
         },
       ]
     },
