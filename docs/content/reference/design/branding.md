@@ -1,6 +1,12 @@
-# Branding and Design System
-
-## Introduction
+---
+title: Branding and Design System
+layout: sub-navigation
+sectionKey: Reference
+includeInBreadcrumbs: true
+eleventyNavigation:
+  key: Branding and Design System
+  parent: Design Reference
+---
 
 This document outlines the branding strategy, visual identity alignment, and integration of the GOV.UK Design System (GDS) and DfE Branding across the Financial Benchmarking and Insights Tool (FBIT).
 
@@ -12,13 +18,13 @@ As a service hosted on the `education.gov.uk` domain, FBIT is required to adhere
 
 The service is fully branded according to the [DfE design system](https://design.education.gov.uk/design-system).
 
-![Ultimate DfE branding](./images/dfe-rebrand.png)
+![Ultimate DfE branding](/assets/images/dfe-rebrand.png)
 
 ### Secondary Goals
 
 Maintain interim branding compliance using the [GDS June 2025 visual identity](https://design-system.service.gov.uk/get-started/), while supporting progressively enhanced components and passing all automated accessibility and visual regression tests.
 
-![Interim GDS branding](./images/gds-rebrand.png)
+![Interim GDS branding](/assets/images/gds-rebrand.png)
 
 ## Brand Refresh Details
 
@@ -31,7 +37,7 @@ The [GDS guidelines](https://frontend.design-system.service.gov.uk/brand-refresh
 - **Footer:** Implemented the refreshed [Footer](https://design-system.service.gov.uk/components/footer/).
 - **Assets:** Synchronized [fonts and images](https://frontend.design-system.service.gov.uk/import-font-and-images-assets).
 
-> ðŸ“… The deadline for the GDS rebrand effort was [31 December 2025](https://design.education.gov.uk/design-system/govuk-rebrand#what-you-need-to-do)
+> 📅 The deadline for the GDS rebrand effort was [31 December 2025](https://design.education.gov.uk/design-system/govuk-rebrand#what-you-need-to-do)
 
 ### DfE Refresh
 
@@ -41,7 +47,7 @@ The [DfE guidelines](https://design.education.gov.uk/design-system/govuk-rebrand
 - **Footer:** Removed the small left-hand crown logo to meet DfE standards.
 - **Typeface:** Aligned typography with the [DfE styles](https://design.education.gov.uk/design-system/styles/typography).
 
-> ðŸ“… The deadline for the DfE rebrand effort was [31 March 2026](https://design.education.gov.uk/design-system/govuk-rebrand#what-you-need-to-do)
+> 📅 The deadline for the DfE rebrand effort was [31 March 2026](https://design.education.gov.uk/design-system/govuk-rebrand#what-you-need-to-do)
 
 ## Development Guidelines & Anti-Patterns
 
@@ -55,7 +61,7 @@ To ensure consistent application of the GOV.UK and DfE Design Systems, developer
 
 ### Dynamic Content Rendering
 
-For content managed via the database (such as [Service Banners](../features/10_Service-Banners.md)), Markdown is converted to HTML at runtime.
+For content managed via the database (such as [Service Banners](../features/service-banners.md)), Markdown is converted to HTML at runtime.
 
 - Use the `GdsMarkdownExtension` (via the `markdig` library) to ensure that GDS classes (e.g., `govuk-link`, `govuk-list`) are applied to the generated HTML nodes.
 - This ensures that even user-generated or content-managed text maintains visual consistency with the rest of the service.
@@ -88,7 +94,7 @@ Instead, assets and CSS modifications should be applied manually by following th
 
 The move of the Sign in/out button to the [Service Navigation](https://design-system.service.gov.uk/components/service-navigation/) component introduces a responsive view that collapses into a drop-down menu when JavaScript is enabled.
 
-![Interim GDS branding](./images/gds-rebrand-progressive.png)
+![Interim GDS branding](/assets/images/gds-rebrand-progressive.png)
 
 This requires every server-rendered view to register GDS components using `initAll()` in `_Layout.cshtml`. This global initialization can conflict with the mounting of `front-end` (Vue.js) client-side components, resulting in console errors such as:
 
@@ -113,6 +119,3 @@ Alternatively, developers can scope the Service Navigation component directly in
 
 - **Vite Dev Server Lifecycle:** The `already initialised` error mentioned above may still occur when running the [Vite](https://vite.dev/) dev server locally. This is [by design](https://react.dev/reference/react/useEffect#my-effect-runs-twice-when-the-component-mounts) due to React/Vue lifecycle events running multiple times in strict mode during development. This does not occur in production builds.
 - **Test Fragility:** Moving the location of the Sign in/out buttons to the Service Navigation component may break existing End-to-End (E2E) and integration tests.
-
-<!-- Leave the rest of this page blank -->
-\newpage

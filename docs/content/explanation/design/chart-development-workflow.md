@@ -1,6 +1,14 @@
-# Chart Development Workflow
+---
+title: Chart Development Workflow
+layout: sub-navigation
+sectionKey: Explanation
+includeInBreadcrumbs: true
+eleventyNavigation:
+  key: Chart Development Workflow
+  parent: Design Explanation
+---
 
-Developing data visualizations for the Financial Benchmarking and Insights Tool (FBIT) requires a highly collaborative process. Because our charts are server-side rendered as SVGs via a dedicated API, this approach integrates **Designers**, **Engineers**, and **Data Analysts** to ensure charts are visually compelling, technically robust, and data-accurate before hitting production.
+Developing data visualisations for the Financial Benchmarking and Insights Tool (FBIT) requires a highly collaborative process. Because our charts are server-side rendered as SVGs via a dedicated API, this approach integrates Designers, Engineers, and Data Analysts to ensure charts are visually compelling, technically robust, and data-accurate before hitting production.
 
 ## Responsibilities
 
@@ -14,13 +22,13 @@ Developing data visualizations for the Financial Benchmarking and Insights Tool 
 
 ## Research & Discovery (Design / Engineers / Data Analysts)
 
-**Designers & Data Analysts:**
+**Designers & Data Analysts**:
 
 - Explore D3 gallery for chart types.
 - Sketch layout, labels, and interactions.
-- Define accessibility (**WCAG 2.2 AA**) and usability requirements in line with the **GOV.UK Design System**.
+- Define accessibility (WCAG 2.2 AA) and usability requirements in line with the GOV.UK Design System.
 - Examine data sources: types, distributions, hierarchies.
-- Identify transformations needed for visualization (aggregations, normalization).
+- Identify transformations needed for visualisation (aggregations, normalisation).
 - Highlight edge cases (nulls, outliers, sparse data).
 
 **Developers:**
@@ -29,7 +37,8 @@ Developing data visualizations for the Financial Benchmarking and Insights Tool 
 - Identify core D3 constructs needed (scales, layouts).
 - Define preliminary API input schema.
 
-📌 Output: Chart concept brief with visual requirements, data considerations, and API schema draft.
+> [!IMPORTANT]
+> **Output:** Chart concept brief with visual requirements, data considerations, and API schema draft.
 
 ## Spike / Prototype (Design / Engineers / Data Analysts)
 
@@ -39,7 +48,8 @@ Developing data visualizations for the Financial Benchmarking and Insights Tool 
   - Data Analysts validate that chart logic correctly represents the data and highlights patterns of interest.
 - Explore multiple variants (e.g., stacked vs grouped bar, logarithmic vs linear scales).
 
-📌 Output: Working prototype SVGs validated by all three roles.
+> [!IMPORTANT]
+> **Output:** Working prototype SVGs validated by all three roles.
 
 ## Template & API Draft (Engineers + Data Analysts)
 
@@ -49,7 +59,8 @@ Developing data visualizations for the Financial Benchmarking and Insights Tool 
 - Data Analysts check that the template supports all required data types and structures.
 - Designers confirm visual fidelity.
 
-📌 Output: Draft API + template, validated across roles.
+> [!IMPORTANT]
+> **Output:** Draft API + template, validated across roles.
 
 ## Productionisation (Engineers)
 
@@ -57,14 +68,12 @@ Developing data visualizations for the Financial Benchmarking and Insights Tool 
 - Wrap in API endpoint
 - Add tests: SVG structure, input validation.
 
-📌 Output: Stable, test-covered chart renderer integrated into API.
+> [!IMPORTANT]
+> **Output:** Stable, test-covered chart renderer integrated into API.
 
 ## Documentation
 
 - Document API inputs, outputs, and example SVGs.
 - Designers confirm visual compliance.
 - Analysts validate that chart conveys the correct data story.
-- [Chart principles guide](../guides/chart-principles/01_Introduction.md) updated.
-
-<!-- Leave the rest of this page blank -->
-\newpage
+- [Chart principles guide](../../reference/design/chart-principles.md) updated.
