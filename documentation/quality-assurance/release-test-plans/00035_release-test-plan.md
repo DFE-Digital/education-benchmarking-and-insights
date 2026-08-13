@@ -12,10 +12,8 @@ This release focuses on database security configuration changes (removing Azure 
 
 **In-scope:**
 
-- **Database & Security Configuration**
-  - Removed Azure service access from the database security configuration to enhance security and reduce unnecessary access.
-
 - **Enhancements**
+  - Removed Azure service access from the database security configuration to enhance security and reduce unnecessary access.
   - Improved page referrer tracking and reporting to provide better insights into user navigation and behavior.
   - Enabled the data pipeline to run from the point of having the maintained master schools list file to improve data processing efficiency.
   - Added break points into the data pipeline to facilitate debugging and monitoring of data processing stages.
