@@ -62,6 +62,8 @@ This release focuses on database security configuration changes (removing Azure 
   - **Mitigation:** Validate database connectivity and service access immediately after deployment as part of pre-production smoke testing before promoting to production.
 - **Risk:** July '26 dependency updates could introduce regressions or dependency conflicts across unrelated platform paths.
   - **Mitigation:** Run extended smoke checks on critical user journeys.
+- **Risk:** The first deployment of the release will fail as configuration changes are applied.
+  - **Mitigation:** Execute a second deployment immediately after configuration application, which is expected to succeed (green deployment).
 
 ## Test Deliverables
 
