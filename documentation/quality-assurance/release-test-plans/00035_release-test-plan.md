@@ -1,11 +1,11 @@
-# Release Test Plan: 2026.08.0
+# Release Test Plan: 2026.08.1
 
 Release Date: TBC
-Release Label: 2026.08.0
+Release Label: 2026.08.1
 
 ## Introduction
 
-This document outlines the approach of testing release `2026.08.0` covering the necessary testing activities.
+This document outlines the approach of testing release `2026.08.1` covering the necessary testing activities.
 This release focuses on database security configuration changes (removing Azure service access from the database security configuration), alongside data pipeline enhancements, improved page referrer tracking and reporting, a fix to user-defined comparators, dependency updates and supporting documentation.
 
 ## Scope
