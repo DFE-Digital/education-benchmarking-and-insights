@@ -60,10 +60,10 @@ public class SchoolRisksService(IDatabaseFactory dbFactory) : ISchoolRisksServic
 
         return new PagedResult<SchoolRiskResponse>
         {
-            Items = items,
+            Results = items,
             Page = page,
             PageSize = pageSize,
-            TotalCount = totalCount
+            TotalResults = totalCount
         };
     }
 }
