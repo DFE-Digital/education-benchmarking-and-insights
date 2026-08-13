@@ -1,6 +1,6 @@
 ---
 title: Explanation
-layout: page
+layout: sub-navigation
 sectionKey: Explanation
 includeInBreadcrumbs: true
 eleventyNavigation:

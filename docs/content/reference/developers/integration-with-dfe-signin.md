@@ -1,6 +1,14 @@
-# Integration with DfE Sign In (DSI)
+---
+title: Integration with DfE Sign In (DSI)
+layout: sub-navigation
+sectionKey: Reference
+includeInBreadcrumbs: true
+eleventyNavigation:
+  key: Integration with DfE Sign In (DSI)
+  parent: Developers Reference
+---
 
-## The authorization flow (‘code’ response type)
+## The authorisation flow (‘code’ response type)
 
 ```mermaid
 sequenceDiagram
@@ -131,8 +139,7 @@ For any requests on DfE manage console, you will need to provide a JSON Web Toke
 
 ### API secret
 
-The API secret is a value that acts as a password for accessing the DfE Sign-in public API.
-DfE manage console automatically creates the API secret when configuring a service. It:
+The API secret is a value that acts as a password for accessing the DfE Sign-in public API. DfE manage console automatically creates the API secret when configuring a service. It:
 
 - is usually 25 characters long
 - can be changed
@@ -145,34 +152,20 @@ You can view or change the API secret on the ‘Edit service configuraJon’ pag
 
 Configuring DSI requires the following steps:
 
-1. **Account Requirement:**
+1. Account Requirement:
    - You need a DSI pre-production or production account.
    - Submit an access request to the Financial Benchmarking and Insights Tool management portal. Separate requests may be necessary for pre-production and production environments.
-
-2. **Required Roles:**
+2. Required Roles:
    - Service Configuration
    - Service Access Management
    - Service Support
    - Service Banner
-
-3. **Accessing the Manage Portal:**
-   Once permissions are granted, you will find the DfE Sign-in Manage service in your DfE Sign-in my services portal. Alternatively, you can access the manage portals directly:
+3. Accessing the Manage Portal: Once permissions are granted, you will find the DfE Sign-in Manage service in your DfE Sign-in my services portal. Alternatively, you can access the manage portals directly:
    - [Pre-production Manage Portal](https://pp-manage.signin.education.gov.uk/)
    - [Production Manage Portal](https://manage.signin.education.gov.uk/)
-
-4. **Configuring the Service:**
-   Use the Manage portal with the appropriate access to configure the service.
-
-   - **Adding Redirect URLs:**
-     You can add multiple redirect URLs if needed, as the pre-production account can link to multiple environments. Navigate to Configuration -> Redirect URL -> click "Add URL" to enter a new URL. Ensure the URL is entered correctly for it to function properly.
-
-   - **Adding Logout Redirect URLs:**
-     Similarly, multiple logout redirect URLs can be added. Navigate to Configuration -> Redirect URL -> click "Add URL" to enter a new URL. Ensure the URL is entered accurately for it to work correctly.
-
-5. **Saving Changes:**
-   Once configurations are complete, save the changes to finalise setup.
+4. Configuring the Service: Use the Manage portal with the appropriate access to configure the service.
+   - Adding Redirect URLs: You can add multiple redirect URLs if needed, as the pre-production account can link to multiple environments. Navigate to Configuration -> Redirect URL -> click "Add URL" to enter a new URL. Ensure the URL is entered correctly for it to function properly.
+   - Adding Logout Redirect URLs: Similarly, multiple logout redirect URLs can be added. Navigate to Configuration -> Redirect URL -> click "Add URL" to enter a new URL. Ensure the URL is entered accurately for it to work correctly.
+5. Saving Changes: Once configurations are complete, save the changes to finalise setup.
 
 This process ensures your DSI configuration is correctly set up and ready for use.
-
-<!-- Leave the rest of this page blank -->
-\newpage

@@ -1,6 +1,12 @@
-# Developer Feature Documentation: Model Validation
-
-## Introduction
+---
+title: Model Validation
+layout: sub-navigation
+sectionKey: Reference
+includeInBreadcrumbs: true
+eleventyNavigation:
+  key: Model Validation
+  parent: Developers Reference
+---
 
 This document provides a summary of when, where and how model validation should be applied within the solution.
 
@@ -19,6 +25,3 @@ This type of model validation is used far more often in the `Web` project compar
 FluentValidation should be used where complex validation is required, on potentially much larger models with dependencies. [Inheritance](https://docs.fluentvalidation.net/en/latest/including-rules.html) is encouraged where possible, to avoid duplication. `AbstractValidator<T>` instances should be registered in the service collection and consumed using `IValidator<T>`. These validations should be verified via unit tests.
 
 This type of model validation is used far more often in the `Platform` project compared to elsewhere.
-
-<!-- Leave the rest of this page blank -->
-\newpage

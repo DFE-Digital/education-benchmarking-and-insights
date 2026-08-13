@@ -1,4 +1,12 @@
-# Developer Feature Documentation: Progressive Enhancements
+---
+title: Progressive Enhancements
+layout: sub-navigation
+sectionKey: Reference
+includeInBreadcrumbs: true
+eleventyNavigation:
+  key: Progressive Enhancements
+  parent: Developers Reference
+---
 
 As discussed in [ADR 0009](../architecture/decisions/0009-js-library.md), the move to server side rendered (SSR) charts will help support the minority of users who are unable to run JavaScript in their web browser. For those with JavaScript, components within the Web application rendered via Razor views may be enhanced for a value-added user experience.
 
@@ -147,6 +155,3 @@ Component styling specific to progressive enhancements should be either added to
 ## Debugging
 
 When running the Vue dev server, the [Vue DevTools](https://devtools.vuejs.org/) are enabled by default. These may be used to mutate state to validate reactiveness, for example. The standard browser dev tools may also be used in conjunction with this. For a production build, source maps have been configured making it easy to step through `.vue` or other utility `.ts` files.
-
-<!-- Leave the rest of this page blank -->
-\newpage

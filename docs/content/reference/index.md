@@ -1,6 +1,6 @@
 ---
 title: Reference
-layout: page
+layout: sub-navigation
 sectionKey: Reference
 includeInBreadcrumbs: true
 eleventyNavigation:
@@ -12,3 +12,7 @@ Reference documentation is information-oriented description, describing the mach
 ## [Design](/reference/design/)
 
 Access technical specifications, branding guides, and styling rules used to maintain visual consistency across our applications. This section includes details on the GDS and DfE June 2025 branding refreshes, component priorities, and frontend initialisation guidelines.
+
+## [Developers](/reference/developers/)
+
+Access technical specifications, API documentation, and feature reference guides for developers working on the FBIT platform.

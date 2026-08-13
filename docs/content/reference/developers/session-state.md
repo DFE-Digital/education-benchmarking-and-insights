@@ -1,4 +1,12 @@
-# Session State
+---
+title: Session State
+layout: sub-navigation
+sectionKey: Reference
+includeInBreadcrumbs: true
+eleventyNavigation:
+  key: Session State
+  parent: Developers Reference
+---
 
 The web app needs to maintain/store user data across requests - specifically modifications to comparator sets.
 Given these actions can be performed by any user (authenticated and non-authenticated) options for storing this data were limited.
@@ -48,6 +56,3 @@ The follow settings will enable Redis to be used as the backing data store.
     }
 }
 ```
-
-<!-- Leave the rest of this page blank -->
-\newpage

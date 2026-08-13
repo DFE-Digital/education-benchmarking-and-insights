@@ -1,7 +1,12 @@
-# Developer Feature Documentation: Service Banners
-
-## Introduction
-
+---
+title: Service Banners
+layout: sub-navigation
+sectionKey: Reference
+includeInBreadcrumbs: true
+eleventyNavigation:
+  key: Service Banners
+  parent: Developers Reference
+---
 This document provides detailed information for developers about the implementation, usage, and integration of the Service Banners feature within the system.
 
 ## Overview
@@ -170,6 +175,3 @@ There are no deployment considerations for this feature. It is not managed via a
 
 - The notification banner is intentionally implemented using the default 'blue' version only.
 - Only the most common GDS classes are rendered from the body/heading markdown.
-
-<!-- Leave the rest of this page blank -->
-\newpage
