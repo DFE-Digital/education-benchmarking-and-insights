@@ -26,7 +26,7 @@ public class QueryPagedSchoolRisksFunction(IEnumerable<IQueryPagedSchoolRisksHan
     [OpenApiSortFieldParameter(Required = false, Example = typeof(OpenApiExamples.PagedSchoolRisksSortField), Description = "Optional. Field to sort by. If omitted, will be sorted by 'Overall'")]
     [OpenApiSortOrderParameter(Required = false, Example = typeof(OpenApiExamples.PagedSchoolRisksSortOrder), Description = "Optional. Sort direction: 'asc' or 'desc'. If omitted, will be sorted 'desc'.")]
     [OpenApiPhaseParameter(Required = false, Example = typeof(OpenApiExamples.PagedSchoolRisksPhase), Description = "Optional. Overall phase for response values. If omitted, all phases will be included.")]
-    [OpenApiResponseWithBody(HttpStatusCode.OK, ContentType.ApplicationJson, typeof(PagedResult<SchoolRiskResponse>), Description = "The school risks data for the requested local authorities")]
+    [OpenApiResponseWithBody(HttpStatusCode.OK, ContentType.ApplicationJsonPaged, typeof(PagedResult<SchoolRiskResponse>), Description = "The school risks data for the requested local authorities")]
     [OpenApiResponseWithBody(HttpStatusCode.BadRequest, ContentType.ApplicationJsonProblem, typeof(ValidationProblemDetails), Description = "The request was invalid")]
     public async Task<HttpResponseData> RunAsync(
         [HttpTrigger(AuthorizationLevel.Admin, MethodType.Get, Route = Routes.PagedSchoolRisks)] HttpRequestData req,

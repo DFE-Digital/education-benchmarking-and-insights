@@ -136,4 +136,20 @@ public static class HttpRequestDataExtensions
     public static HttpResponseData CreateErrorResponse(this HttpRequestData req, int statusCode = (int)HttpStatusCode.InternalServerError) => req.CreateResponse((HttpStatusCode)statusCode);
 
     public static HttpResponseData CreateNotFoundResponse(this HttpRequestData req) => req.CreateResponse(HttpStatusCode.NotFound);
+
+    public static async Task<HttpResponseData> CreatePagedJsonResponseAsync(
+        this HttpRequestData req,
+        object obj,
+        HttpStatusCode statusCode = HttpStatusCode.OK,
+        CancellationToken cancellationToken = default)
+    {
+        var response = req.CreateResponse(statusCode);
+
+        await response.WriteAsJsonAsync(
+            obj,
+            contentType: "application/json+paged",
+            cancellationToken: cancellationToken);
+
+        return response;
+    }
 }

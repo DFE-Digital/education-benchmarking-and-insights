@@ -32,6 +32,7 @@ public class QueryPagedSchoolRisksHandlerV1(ISchoolRisksService service, IValida
             queryParams.SortOrder,
             queryParams.Phase,
             context.Token);
-        return await context.Request.CreateJsonResponseAsync(result, context.Token);
+
+        return await context.Request.CreatePagedJsonResponseAsync(result, cancellationToken: context.Token);
     }
 }
