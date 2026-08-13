@@ -12,6 +12,19 @@ This project follows a Documentation as Code approach. Our documentation is:
 * Theming: The site utilises the [X-GOVUK plugin](https://x-govuk.github.io/govuk-eleventy-plugin/) to ensure DfE-branded styling.
 * Format: All documentation is written in Markdown (`.md`).
 
+## Documentation Structure (Diátaxis Framework)
+
+This repository structures its documentation in accordance with the [Diátaxis framework](https://diataxis.fr/), a systematic approach to technical documentation.
+
+By categorising documentation into four distinct quadrants based on user needs, we ensure that information is clear, findable, and tailored to specific tasks:
+
+* **Tutorials (Learning-oriented):** End-to-end lessons that guide new contributors through a complete task to build early confidence and understand the basic workflow.
+* **How-to Guides (Task-oriented):** Practical, step-by-step recipes that help experienced developers solve specific, real-world problems.
+* **Reference (Information-oriented):** Precise, structured descriptions of the underlying system, technical details, APIs, and schemas.
+* **Explanation (Understanding-oriented):** Discussions and deep dives that explain why things are structured the way they are, including design principles and architectural context.
+
+All documentation content is managed under the `docs/content/` directory, split across these four distinct quadrants.
+
 ## Writing Guidelines
 
 ### Front Matter Requirements
