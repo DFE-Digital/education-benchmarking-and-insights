@@ -128,6 +128,9 @@ stages:
           - publish: $(workspaceDir)/platform-apis
             artifact: platform-apis
 
+          - publish: $(workspaceDir)/platform-apis-linux
+            artifact: platform-apis-linux
+
           - publish: $(workspaceDir)/platform-search
             artifact: platform-search
 
