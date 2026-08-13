@@ -1,0 +1,22 @@
+{
+  "name": "education-benchmarking-and-insights-docs",
+  "version": "1.0.0",
+  "description": "Documentation for the Financial Benchmarking and Insights Tool",
+  "type": "module",
+  "scripts": {
+    "prebuild:css": "node generate-sass-prefix.js",
+    "build": "npm run prebuild:css && eleventy",
+    "start": "npm run prebuild:css && eleventy --serve"
+  },
+  "devDependencies": {
+    "@11ty/eleventy": "^3.1.6",
+    "@x-govuk/govuk-eleventy-plugin": "^9.0.2"
+  },
+  "dependencies": {
+    "@11ty/eleventy-navigation": "^1.0.5"
+  },
+  "overrides": {
+    "js-yaml": "^3.15.1",
+    "brace-expansion": "^2.0.2"
+  }
+}

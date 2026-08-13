@@ -52,6 +52,8 @@ bld/
 Generated\ Files/
 BenchmarkDotNet.Artifacts/
 artifacts/
+docs/_site/
+docs/node_modules/
 
 # Testing & Coverage
 [Tt]est[Rr]esult*/
