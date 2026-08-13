@@ -13,12 +13,12 @@ This release focuses on database security configuration changes (removing Azure 
 **In-scope:**
 
 - **Database & Security Configuration**
-  - Removed Azure service access from the database security configuration.
+  - Removed Azure service access from the database security configuration to enhance security and reduce unnecessary access.
 
 - **Enhancements**
-  - Improved page referrer tracking and reporting.
-  - Enabled the data pipeline to run from the point of having the maintained master schools list file.
-  - Added break points into the data pipeline.
+  - Improved page referrer tracking and reporting to provide better insights into user navigation and behavior.
+  - Enabled the data pipeline to run from the point of having the maintained master schools list file to improve data processing efficiency.
+  - Added break points into the data pipeline to facilitate debugging and monitoring of data processing stages.
 
 - **Bug Fixes**
   - Corrected user-defined comparators so the selected dimension updates correctly.
@@ -34,7 +34,7 @@ This release focuses on database security configuration changes (removing Azure 
 ## Test Strategy
 
 - **Smoke Testing (Pre-Prod):** Verify that all core functionalities behind login are accessible and working as expected in the pre-production environment, including database connectivity following the security configuration change.
-- **Sanity Testing (Production):** Validate that newly released features are functioning correctly in the production environment.
+- **Sanity Testing (Pre-Prod):** Validate that newly released features are functioning correctly in the production environment.
 - **Smoke Testing (Production):** Perform basic post-deployment checks to confirm system stability and availability.
 
 ## Entry and Exit Criteria
