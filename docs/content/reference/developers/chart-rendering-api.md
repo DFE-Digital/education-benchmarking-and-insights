@@ -1,13 +1,19 @@
-# Developer Feature Documentation: Chart Rendering API
-
-## Introduction
+---
+title: Chart Rendering API
+layout: sub-navigation
+sectionKey: Reference
+includeInBreadcrumbs: true
+eleventyNavigation:
+  key: Chart Rendering API
+  parent: Developers Reference
+---
 
 This document provides detailed information for developers about the implementation, usage, and integration of the Chart Rendering API feature within the system.
 
 See also:
 
 - [Guide: Chart Development Workflow](../design/01_Chart-Development-Workflow.md)
-- [Feature: Progressive Enhancements](../features/8_Progressive_Enhancements.md)
+- [Feature: Progressive Enhancements](./progressive-enhancements.md)
 - [ADR006: Rendering of Charts](../architecture/decisions/0006-chart-rendering.md)
 - [ADR007: Deployment Options for SVG Service for Rendering Charts](../architecture/decisions/0007-deployment-options-rendering-charts-service.md)
 - [ADR009: JavaScript Library Selection for ASP.NET Core](../architecture/decisions/0009-js-library.md)
@@ -60,35 +66,36 @@ Support future extensibility through backwards-compatible configuration.
 
 The payload expected by this endpoint is either a single or multiple `HorizontalBarChartDefinition` types:
 
-| Required Property | Type                    | Definition                                                                      |
-|-------------------|-------------------------|---------------------------------------------------------------------------------|
+| Required Property | Type                                | Definition                                                                      |
+|-------------------|-------------------------------------|---------------------------------------------------------------------------------|
 | `data`            | object[]                            | Array of items to render                                                        |
 | `keyField`        | string                              | Key identifier. Must resolve to a property on object types in `data`.           |
 | `valueField`      | string or string[]                  | Value identifier(s). Each must resolve to a property on object types in `data`. |
 | `valueType`       | `percent`, `currency`, or `numeric` | Describes how values on the chart should be interpreted and formatted           |
 
-> ℹ️ If multiple definitions are supplied, the `id` property below is mandatory for each so as to not fail validation.
-> ℹ️ Where an array of strings is passed in `valueField`, each value will be represented as a "stack" on the chart
+> [!IMPORTANT]
+> If multiple definitions are supplied, the `id` property below is mandatory for each so as to not fail validation.
+> Where an array of strings is passed in `valueField`, each value will be represented as a "stack" on the chart
 
-| Optional Property       | Type            | Default                | Definition                                                                                 |
-|-------------------------|-----------------|------------------------|--------------------------------------------------------------------------------------------|
-| `barHeight`             | number          | `25`                   | Height of horizontal bars                                                                  |
-| `domainMax`             | number          | Maximum resolved value | Maximum value for the chart domain. Value may be normalised in case out-of-range.          |
-| `domainMin`             | number          | `0`                    | Minimum value for the chart domain. Value may be normalised in case out-of-range.          |
-| `groupedKeys`           | object          |                        | Dictionary of group name to array of key values within that group to apply known styles to |
-| `highlightKey`          | string          |                        | Key of an item in `data` to assign highlight styles to                                     |
-| `id`                    | string          | New UUID v4            | Unique identifier of the chart data/configuration combination                              |
-| `labelField`            | string          |                        | Keyed off object types in `data`                                                           |
-| `labelFormat`           | string          |                        | Format string to use for labels on y-axis, where `%1` is the key and `%2` is the label     |
+| Optional Property       | Type            | Default                | Definition                                                                                                                      |
+|-------------------------|-----------------|------------------------|---------------------------------------------------------------------------------------------------------------------------------|
+| `barHeight`             | number          | `25`                   | Height of horizontal bars                                                                                                       |
+| `domainMax`             | number          | Maximum resolved value | Maximum value for the chart domain. Value may be normalised in case out-of-range.                                               |
+| `domainMin`             | number          | `0`                    | Minimum value for the chart domain. Value may be normalised in case out-of-range.                                               |
+| `groupedKeys`           | object          |                        | Dictionary of group name to array of key values within that group to apply known styles to                                      |
+| `highlightKey`          | string          |                        | Key of an item in `data` to assign highlight styles to                                                                          |
+| `id`                    | string          | New UUID v4            | Unique identifier of the chart data/configuration combination                                                                   |
+| `labelField`            | string          |                        | Keyed off object types in `data`                                                                                                |
+| `labelFormat`           | string          |                        | Format string to use for labels on y-axis, where `%1` is the key and `%2` is the label                                          |
 | `legendLabels`          | string[]        |                        | Array of strings to display in the legend of a stacked bar chart.  Array order must match the entries in the `valueField` array |
-| `linkFormat`            | string          |                        | Format string to use for rendering y-axis labels as links, where `%1` is the key           |
-| `missingDataLabel`      | string          |                        | Label to render in the case of a data point containing null or undefined value             |
-| `missingDataLabelWidth` | number          |                        | Width in pixels of the above label (for positioning, due to unpredictable typeface)        |
-| `paddingInner`          | number          | `0.2`                  | The ratio of the range for blank space between bands                                       |
-| `paddingOuter`          | number          | `0.1`                  | The ratio of the range for blank space before the first and after the last band            |
-| `sort`                  | `asc` or `desc` |                        | Sort `data` by resolved values after normalisation                                         |
-| `width`                 | number          | `928`                  | Width of chart surface                                                                     |
-| `xAxisLabel`            | string          |                        | Label to render on the x-axis                                                              |
+| `linkFormat`            | string          |                        | Format string to use for rendering y-axis labels as links, where `%1` is the key                                                |
+| `missingDataLabel`      | string          |                        | Label to render in the case of a data point containing null or undefined value                                                  |
+| `missingDataLabelWidth` | number          |                        | Width in pixels of the above label (for positioning, due to unpredictable typeface)                                             |
+| `paddingInner`          | number          | `0.2`                  | The ratio of the range for blank space between bands                                                                            |
+| `paddingOuter`          | number          | `0.1`                  | The ratio of the range for blank space before the first and after the last band                                                 |
+| `sort`                  | `asc` or `desc` |                        | Sort `data` by resolved values after normalisation                                                                              |
+| `width`                 | number          | `928`                  | Width of chart surface                                                                                                          |
+| `xAxisLabel`            | string          |                        | Label to render on the x-axis                                                                                                   |
 
 #### Output
 
@@ -179,11 +186,11 @@ curl -X 'POST' \
 
 ##### Response body as raw SVG
 
-![Horizontal bar chart response](./images/horizontal-bar-chart-response.svg)
+![Horizontal bar chart response](/assets/images/developers/horizontal-bar-chart-response.svg)
 
 ##### Response body as styled SVG (from browser style sheet)
 
-![Horizontal bar chart response](./images/horizontal-bar-chart-response.png)
+![Horizontal bar chart response](/assets/images/developers/horizontal-bar-chart-response.png)
 
 ### `POST api/verticalBarChart`
 
@@ -197,7 +204,8 @@ The payload expected by this endpoint is either a single or multiple `VerticalBa
 | `keyField`        | string   | Key identifier. Must resolve to a property on object types in `data`.   |
 | `valueField`      | string   | Value identifier. Must resolve to a property on object types in `data`. |
 
-> ℹ️ If multiple definitions are supplied, the `id` property below is mandatory for each so as to not fail validation.
+> [!IMPORTANT]
+> If multiple definitions are supplied, the `id` property below is mandatory for each so as to not fail validation.
 
 | Optional Property | Type            | Default                | Definition                                                                        |
 |-------------------|-----------------|------------------------|-----------------------------------------------------------------------------------|
@@ -282,11 +290,11 @@ curl -X 'POST' \
 
 ##### Response body as raw SVG
 
-![Vertical bar chart response](./images/vertical-bar-chart-response.svg)
+![Vertical bar chart response](/assets/images/developers/vertical-bar-chart-response.svg)
 
 ##### Response body as styled SVG (from browser style sheet)
 
-![Vertical bar chart response](./images/vertical-bar-chart-response.png)
+![Vertical bar chart response](/assets/images/developers/vertical-bar-chart-response.png)
 
 ### `GET api/health`
 
@@ -302,7 +310,8 @@ Resolves [Swagger UI](https://swagger.io/tools/swagger-ui/) assets to host `http
 
 ### `POST api/horizontalBarChart/dom` (local development)
 
-> ⚠️ This endpoint is excluded from production builds via [TSConfig](https://www.typescriptlang.org/tsconfig/).
+> [!WARNING]
+> This endpoint is excluded from production builds via [TSConfig](https://www.typescriptlang.org/tsconfig/).
 
 During initial rapid development of this chart type, D3 was used to render directly to a virtual DOM using [d3-selection](https://d3js.org/d3-selection) and [xmldom](https://github.com/xmldom/xmldom). Performance of using a virtual DOM was not suitable for production use even with explicit worker management (see ADRs above) but the endpoint remains for local development.
 
@@ -313,7 +322,8 @@ See also:
 
 ### `POST api/verticalBarChart/dom` (local development)
 
-> ⚠️ This endpoint is excluded from production builds via [TSConfig](https://www.typescriptlang.org/tsconfig/).
+> [!WARNING]
+> This endpoint is excluded from production builds via [TSConfig](https://www.typescriptlang.org/tsconfig/).
 
 See above.
 
@@ -322,9 +332,9 @@ See above.
 The Chart Rendering function app is deployed and managed along with the other function apps in the Platform solution within the monorepo. The Terraform is slightly different due to this being a Node rather than .NET function app, but this is all managed within the `functions` TF module:
 
 1. `azurerm_linux_function_app` resource type used instead of `azurerm_windows_function_app` along with `22` for the `node_version`
-1. Above resource's identity assigned to dependent service access policies instead of the `windows` equivalent
-1. Optional (elastic/standard) worker count variables supported for fine-tuning configuration
-1. Separate SKU variable (from `windows` equivalent) to support alternative app service plans per environment
+2. Above resource's identity assigned to dependent service access policies instead of the `windows` equivalent
+3. Optional (elastic/standard) worker count variables supported for fine-tuning configuration
+4. Separate SKU variable (from `windows` equivalent) to support alternative app service plans per environment
 
 ### API Tests
 
@@ -341,7 +351,7 @@ API tests against the Chart Rendering endpoints takes place within pipeline runs
 ### Vertical bar chart
 
 1. Vertical bars only are the only rendered elements at this time as relative entries alone required by consumer.
-1. Negative values may cause unexpected behaviour due to lack of data normalisation.
+2. Negative values may cause unexpected behaviour due to lack of data normalisation.
 
 ## Horizontal stacked bar charts
 
@@ -349,12 +359,9 @@ When support for stacked bar charts was added, it was decided that all horizonta
 
 ### Chart legend
 
-Legends are displayed on single data stack horizontal bar charts with grouped keys, and on horizontal bar charts with
-multiple data stacks, but without grouped keys.  Multiple data stacks are not compatible with grouped keys.
-Legends for both scenarios are built using the `legendLabels` request property.
+Legends are displayed on single data stack horizontal bar charts with grouped keys, and on horizontal bar charts with multiple data stacks, but without grouped keys.  Multiple data stacks are not compatible with grouped keys. Legends for both scenarios are built using the `legendLabels` request property.
 
-For charts with multiple data stacks the `valueField` property must be an array of strings, each string being a property
-on objects in `data`, and `legendLabels` should contain the names of these properties, eg.:
+For charts with multiple data stacks the `valueField` property must be an array of strings, each string being a property on objects in `data`, and `legendLabels` should contain the names of these properties, eg.:
 
 ```json
 {
@@ -377,11 +384,7 @@ on objects in `data`, and `legendLabels` should contain the names of these prope
 }
 ```
 
-For charts with a single data stack and grouped keys the site scss must contain specifically named css classes to
-to provide each legend with the appropriate colour. The CSS class providing the colour should be inside the class
-hierarchy `ssr-chart` > `chart-cell`, and  named `chart-legend-` followed by the text of the legend label, with spaces
-replaced by hyphens, and in lower case. Care should be taken to align these css classes with those that provide the
-colour for the bars themselves.  For example, if `legendLabels` contains the following ...
+For charts with a single data stack and grouped keys the site scss must contain specifically named css classes to to provide each legend with the appropriate colour. The CSS class providing the colour should be inside the class hierarchy `ssr-chart` > `chart-cell`, and  named `chart-legend-` followed by the text of the legend label, with spaces replaced by hyphens, and in lower case. Care should be taken to align these css classes with those that provide the colour for the bars themselves.  For example, if `legendLabels` contains the following ...
 
 ```json
   ...
@@ -427,16 +430,9 @@ colour for the bars themselves.  For example, if `legendLabels` contains the fol
 
 ### Clustered ("multi-series") horizontal bar chart
 
-The horizontal bar charts only support a single series, by design. To support multiple series the input configuration
-will need to be modified. In `front-end-components` a separate chart type has been defined for this purpose, which
-should be avoided unless absolutely necessary for the production-ready version. Prototyping using the existing
-`d3-selection`/virtual DOM endpoint would be acceptable in order to identify what changes would need to be merged into
-the 'string template' version.
+The horizontal bar charts only support a single series, by design. To support multiple series the input configuration will need to be modified. In `front-end-components` a separate chart type has been defined for this purpose, which should be avoided unless absolutely necessary for the production-ready version. Prototyping using the existing `d3-selection`/virtual DOM endpoint would be acceptable in order to identify what changes would need to be merged into the 'string template' version.
 
-Looking at [various](https://observablehq.com/@slowkow/horizontal-grouped-bar-chart)
-[examples](https://gist.github.com/erikvullings/51cc5332439939f1f292) there appear to be many ways of formatting
-a clustered bar chart. To provide backwards compatibility with single-series charts the best solution would probably
-be to:
+Looking at [various](https://observablehq.com/@slowkow/horizontal-grouped-bar-chart) [examples](https://gist.github.com/erikvullings/51cc5332439939f1f292) there appear to be many ways of formatting a clustered bar chart. To provide backwards compatibility with single-series charts the best solution would probably be to:
 
 - Include multiple series (including padding) in surface height calculation.
 - Modify the `<rect>` string templates for bars to loop through all keys defined in the multi series configuration. Calculate `y` to be relative to the key index (achieved with a separate scale band for `y` using the series keys for the domain), to allow offset from the parent `<g>` (see below).
@@ -481,7 +477,7 @@ be to:
 </svg>
 ```
 
-![Current SVG snippet](./images/multi-chart-1.svg)
+![Current SVG snippet](/assets/images/developers/multi-chart-1.svg)
 
 ```xml
 <!-- proposed single series -->
@@ -503,7 +499,7 @@ be to:
 </svg>
 ```
 
-![Proposed SVG snippet](./images/multi-chart-2.svg)
+![Proposed SVG snippet](/assets/images/developers/multi-chart-2.svg)
 
 ```xml
 <!-- proposed multi series -->
@@ -531,7 +527,7 @@ be to:
 </svg>
 ```
 
-![Proposed multi series SVG snippet](./images/multi-chart-3.svg)
+![Proposed multi series SVG snippet](/assets/images/developers/multi-chart-3.svg)
 
 #### Other things to note
 
@@ -542,14 +538,9 @@ be to:
 
 #### Altering the API interface
 
-There are a couple of ways we could change the chart request to support clustered charts.  We already support the
-`valueField` being an array of fields, which tells the renderer to use the different fields to build a stacked chart.
-We could introduce a new request field which controls how the renderer should treat an array of `valueField` fields -
-either as multiple stacks, or as multiple series in a clustered chart.
+There are a couple of ways we could change the chart request to support clustered charts.  We already support the `valueField` being an array of fields, which tells the renderer to use the different fields to build a stacked chart. We could introduce a new request field which controls how the renderer should treat an array of `valueField` fields - either as multiple stacks, or as multiple series in a clustered chart.
 
-Alternatively we could allow the `valueField` request property to contain an array of arrays of fields.  Each array of
-fields would represent a data series in a cluster, with each individual field representing a data field in a stacked
-bar.  Therefore the following formats of request would create the follwoing types of chart:
+Alternatively we could allow the `valueField` request property to contain an array of arrays of fields.  Each array of fields would represent a data series in a cluster, with each individual field representing a data field in a stacked bar.  Therefore the following formats of request would create the follwoing types of chart:
 
 ##### Standard horizontal bar chart with a single data value per bar
 
@@ -585,13 +576,11 @@ bar.  Therefore the following formats of request would create the follwoing type
 ]
 ```
 
-It isn't clear that there is a requirement for the final bar chart type there - clustered and stacked - and the
-argument can be made that the complexity in developing it isn't worth the benefits.
+It isn't clear that there is a requirement for the final bar chart type there - clustered and stacked - and the argument can be made that the complexity in developing it isn't worth the benefits.
 
 Should that type of chart be created, there are a number of considerations in the code.
 
-- Summations of the total value of each stacked bar will need to be stored in an array, to match each series in the
-   data
+- Summations of the total value of each stacked bar will need to be stored in an array, to match each series in the data
 
 ```ts
    const summationField: keyof T = "valueFieldSum" as [keyof T];
@@ -599,30 +588,27 @@ Should that type of chart be created, there are a number of considerations in th
    sumValueFields(normalisedData, valueFields, summationField);
 ```
 
-- The summation field is used to calculate the domain of the x-axis of the chart in `utils.getDomain()`, so this will
-need to be updated to handle an array of summation fields, and for each data item, select the largest value.
-- The `legendLabels` request field will need to contain labels for fields in all data series. This could either be
-done with a single array as at present, or with an array of labels per data series, if the presentation of labels
-needs to take into account the different series visually.
+- The summation field is used to calculate the domain of the x-axis of the chart in `utils.getDomain()`, so this will need to be updated to handle an array of summation fields, and for each data item, select the largest value.
+- The `legendLabels` request field will need to contain labels for fields in all data series. This could either be done with a single array as at present, or with an array of labels per data series, if the presentation of labels needs to take into account the different series visually.
 
 ### Line chart
 
 This chart type does not yet exist in the Chart Rendering API. When implementing, the following features must be configurable:
 
 1. Single/multi series
-1. X-axis label (values/visibility)
-1. X-axis tick formatter
-1. Legend (values/visibility/position)
-1. Value type
-1. Value dots (visibility)
-1. Value labels (visibility)
+2. X-axis label (values/visibility)
+3. X-axis tick formatter
+4. Legend (values/visibility/position)
+5. Value type
+6. Value dots (visibility)
+7. Value labels (visibility)
 
 The following features must always be supported:
 
 1. Y-axis ticks
-1. X-axis ticks
-1. Horizontal grid lines
-1. Domain management (will be different from that used for bar charts; see [#233948](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_workitems/edit/233948) and associated existing implementation)
+2. X-axis ticks
+3. Horizontal grid lines
+4. Domain management (will be different from that used for bar charts; see [#233948](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_workitems/edit/233948) and associated existing implementation)
 
 The current implementation in `front-end-components` includes all of the above features.
 
@@ -631,8 +617,8 @@ The current implementation in `front-end-components` includes all of the above f
 As per other guidance above, best practice would be to first implement this new chart type based on existing examples using D3 and the virtual DOM. Once this has been completed and the expected SVG outputted the rewrite to use string templates may proceed. Below are some examples to use as a starting point:
 
 1. [Line chart, multiple series](https://observablehq.com/@d3/multi-line-chart/2)
-1. [Line chart](https://observablehq.com/@d3/line-chart/2)
-1. [Line chart gallery](https://d3-graph-gallery.com/line.html)
+2. [Line chart](https://observablehq.com/@d3/line-chart/2)
+3. [Line chart gallery](https://d3-graph-gallery.com/line.html)
 
 #### Styles
 
@@ -669,7 +655,4 @@ This CSS definition could also then be re-used in the legend for consistency.
 
 #### Progressive enhancement
 
-The existing client side line charts optionally support tooltips when the mouse enters a value dot. As per the [Progressive Enhancements](../features/8_Progressive_Enhancements.md) feature, this should be added in once the server rendered chart has been implemented.
-
-<!-- Leave the rest of this page blank -->
-\newpage
+The existing client side line charts optionally support tooltips when the mouse enters a value dot. As per the [Progressive Enhancements](./progressive-enhancements.md) feature, this should be added in once the server rendered chart has been implemented.

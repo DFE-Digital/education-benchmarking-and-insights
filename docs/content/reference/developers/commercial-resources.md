@@ -1,6 +1,12 @@
-# Developer Feature Documentation: Commercial Resources
-
-## Introduction
+---
+title: Commercial Resources
+layout: sub-navigation
+sectionKey: Reference
+includeInBreadcrumbs: true
+eleventyNavigation:
+  key: Commercial Resources
+  parent: Developers Reference
+---
 
 This document provides detailed information for developers about the implementation, usage, and integration of the Commercial Resources feature within the system.
 
@@ -28,7 +34,7 @@ These resources are displayed as links in three key areas across the service.
 
 When a school's spending exceeds the median of its comparator set, relevant resources are displayed next to the corresponding category chart. In this view, resources are grouped by category but not further divided into subcategories.
 
-See [Spending and Costs](./4_Spending-and-Costs.md) for details of the implementation of this feature.
+See [Spending and Costs](./spending-and-costs.md) for details of the implementation of this feature.
 
 ### Find ways to spend less
 
@@ -145,5 +151,3 @@ See `Commercial resource check failures detected alert` in the [Monitoring and A
 In order to track the history of updates, relevant SQL scripts should be persisted to the repo in the [scripts/content](../../scripts/content) folder.
 
 In the future the management of commercial resources, and other resources handled by the Content API, will be done by an administrative front-end. This supports self-service of parts of the platform via a paired-down CMS to reduce the dependency on the development team.
-
-\newpage

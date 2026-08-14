@@ -1,6 +1,12 @@
-# Developer Feature Documentation: Pipeline Orchestrator
-
-## Introduction
+---
+title: Pipeline Orchestrator
+layout: sub-navigation
+sectionKey: Reference
+includeInBreadcrumbs: true
+eleventyNavigation:
+  key: Pipeline Orchestrator
+  parent: Developers Reference
+---
 
 This document provides detailed information for developers about the implementation, usage and integration of the Pipeline Orchestrator feature within the system.
 
@@ -84,6 +90,3 @@ sequenceDiagram
 ## Known Issues
 
 //TODO
-
-<!-- Leave the rest of this page blank -->
-\newpage

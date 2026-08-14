@@ -61,7 +61,7 @@ To ensure consistent application of the GOV.UK and DfE Design Systems, developer
 
 ### Dynamic Content Rendering
 
-For content managed via the database (such as [Service Banners](../features/service-banners.md)), Markdown is converted to HTML at runtime.
+For content managed via the database (such as [Service Banners](../developers/service-banners.md)), Markdown is converted to HTML at runtime.
 
 - Use the `GdsMarkdownExtension` (via the `markdig` library) to ensure that GDS classes (e.g., `govuk-link`, `govuk-list`) are applied to the generated HTML nodes.
 - This ensures that even user-generated or content-managed text maintains visual consistency with the rest of the service.
