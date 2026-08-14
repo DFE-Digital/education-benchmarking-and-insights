@@ -9,7 +9,7 @@
                     role = "search"
                 }))
     {
-        @Html.Hidden("sort", Model.CurrentSort)
+        @Html.Hidden(nameof(Model.CurrentSort), Model.CurrentSort)
         <fieldset class="govuk-fieldset">
             <legend class="govuk-label govuk-!-font-weight-bold">
                 School phase

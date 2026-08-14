@@ -30,6 +30,7 @@
                     {
                         label = "School name",
                         sortField = nameof(LocalAuthorityRiskIndicators.SchoolName),
+                        sortKey = nameof(Model.CurrentSort),
                         className = "govuk-!-width-one-quarter",
                         defaultSort = Model.CurrentSort.StartsWith(nameof(LocalAuthorityRiskIndicators.SchoolName)) ? Model.CurrentSort : null
                     })
@@ -37,6 +38,7 @@
                     {
                         label = "URN",
                         sortField = nameof(LocalAuthorityRiskIndicators.Urn),
+                        sortKey = nameof(Model.CurrentSort),
                         className = "govuk-table__header--numeric",
                         defaultSort = Model.CurrentSort.StartsWith(nameof(LocalAuthorityRiskIndicators.Urn)) ? Model.CurrentSort : null
                     })
@@ -44,6 +46,7 @@
                     {
                         label = "Overall",
                         sortField = nameof(LocalAuthorityRiskIndicators.Overall),
+                        sortKey = nameof(Model.CurrentSort),
                         className = "govuk-table__header--numeric",
                         defaultSort = Model.CurrentSort.StartsWith(nameof(LocalAuthorityRiskIndicators.Overall)) ? Model.CurrentSort : null
                     })
@@ -51,6 +54,7 @@
                     {
                         label = "Financial",
                         sortField = nameof(LocalAuthorityRiskIndicators.Financial),
+                        sortKey = nameof(Model.CurrentSort),
                         className = "govuk-table__header--numeric",
                         defaultSort = Model.CurrentSort.StartsWith(nameof(LocalAuthorityRiskIndicators.Financial)) ? Model.CurrentSort : null
                     })
@@ -58,6 +62,7 @@
                     {
                         label = "Pupil & school",
                         sortField = nameof(LocalAuthorityRiskIndicators.SchoolAndPupil),
+                        sortKey = nameof(Model.CurrentSort),
                         className = "govuk-table__header--numeric",
                         defaultSort = Model.CurrentSort.StartsWith(nameof(LocalAuthorityRiskIndicators.SchoolAndPupil)) ? Model.CurrentSort : null
                     })
@@ -65,6 +70,7 @@
                     {
                         label = "Educational performance",
                         sortField = nameof(LocalAuthorityRiskIndicators.EducationalPerformance),
+                        sortKey = nameof(Model.CurrentSort),
                         className = "govuk-table__header--numeric",
                         defaultSort = Model.CurrentSort.StartsWith(nameof(LocalAuthorityRiskIndicators.EducationalPerformance)) ? Model.CurrentSort : null
                     })

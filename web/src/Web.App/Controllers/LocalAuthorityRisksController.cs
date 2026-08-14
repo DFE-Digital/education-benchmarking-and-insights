@@ -65,10 +65,10 @@ public class LocalAuthorityRisksController(
     [HttpPost]
     public IActionResult Index(
         string code,
-        string? sort,
+        string? currentSort,
         string? selectedPhaseOption)
     {
-        var parts = sort?.Split('~');
+        var parts = currentSort?.Split('~');
         var sortField = parts?[0];
         var sortOrder = parts?[1];
 
