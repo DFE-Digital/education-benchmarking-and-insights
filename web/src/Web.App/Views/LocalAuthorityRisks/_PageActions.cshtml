@@ -1,0 +1,43 @@
+@model Web.App.ViewModels.LocalAuthorityRisksViewModel
+@using Web.App.ViewModels
+
+<div class="full-table-page-actions govuk-!-margin-bottom-4">
+    @using (Html.BeginForm(
+                FormMethod.Post, true, new
+                {
+                    novalidate = "novalidate",
+                    role = "search"
+                }))
+    {
+        @Html.Hidden(nameof(Model.CurrentSort), Model.CurrentSort)
+        <fieldset class="govuk-fieldset">
+            <legend class="govuk-label govuk-!-font-weight-bold">
+                School phase
+            </legend>
+            <div class="table-options-form">
+                <label class="govuk-visually-hidden" for="@nameof(LocalAuthorityRisksViewModel.SelectedPhaseOption)">
+                    Select School phase
+                </label>
+                <select class="govuk-select" id="@nameof(LocalAuthorityRisksViewModel.SelectedPhaseOption)" name="@nameof(LocalAuthorityRisksViewModel.SelectedPhaseOption)">
+                    @foreach (var option in Model.ValidPhasesOptions)
+                    {
+                        <option
+                            value="@(option)"
+                            selected="@(Model.SelectedPhaseOption == option ? "selected" : null)">
+                            @option
+                        </option>
+                    }
+                </select>
+
+                <button type="submit" class="govuk-button govuk-button--secondary govuk-!-margin-bottom-0" data-module="govuk-button">
+                    Apply
+                </button>
+            </div>
+        </fieldset>
+    }
+
+    <a href="#" role="button"
+       class="govuk-button govuk-button--secondary govuk-!-margin-bottom-0" data-module="govuk-button">
+        Placeholder
+    </a>
+</div>

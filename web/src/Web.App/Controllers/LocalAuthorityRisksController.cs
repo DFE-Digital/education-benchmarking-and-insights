@@ -2,6 +2,8 @@ using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.FeatureManagement.Mvc;
 using Web.App.Attributes;
+using Web.App.Domain;
+using Web.App.Domain.LocalAuthorities;
 using Web.App.Infrastructure.Apis;
 using Web.App.Infrastructure.Extensions;
 using Web.App.Services;
@@ -21,17 +23,34 @@ public class LocalAuthorityRisksController(
     : Controller
 {
     [HttpGet]
-    public async Task<IActionResult> Index(string code)
+    public async Task<IActionResult> Index(
+        string code,
+        string? sortField,
+        string? sortOrder,
+        int? page,
+        string? selectedPhaseOption)
     {
         using (logger.BeginScope(new { code }))
         {
             try
             {
-                var la = await api.SingleAsync(code).GetResultOrThrow<LocalAuthority>();
+                sortField ??= nameof(LocalAuthorityRiskIndicators.Overall);
+                sortOrder ??= "desc";
+                page ??= 1;
+                selectedPhaseOption ??= OverallPhaseTypes.AllPhasesLabel;
 
+                var la = await api.SingleAsync(code).GetResultOrThrow<LocalAuthority>();
                 var years = await financeService.GetYears();
 
-                var viewModel = new LocalAuthorityRisksViewModel(la, years.Cfr);
+                var risksQuery = BuildQuery(code, sortField, sortOrder, page, selectedPhaseOption);
+                var result = await api.QueryRisksAsync(risksQuery).GetPagedResultOrThrow<LocalAuthorityRiskIndicators>();
+
+                var viewModel = new LocalAuthorityRisksViewModel(la, years.Cfr, result)
+                {
+                    SortField = sortField,
+                    SortOrder = sortOrder,
+                    SelectedPhaseOption = selectedPhaseOption
+                };
 
                 return View(viewModel);
             }
@@ -41,5 +60,44 @@ public class LocalAuthorityRisksController(
                 return e is StatusCodeException s ? StatusCode((int)s.Status) : StatusCode(500);
             }
         }
+    }
+
+    [HttpPost]
+    public IActionResult Index(
+        string code,
+        string? currentSort,
+        string? selectedPhaseOption)
+    {
+        var parts = currentSort?.Split('~');
+        var sortField = parts?[0];
+        var sortOrder = parts?[1];
+
+        return RedirectToAction("Index", new
+        {
+            code,
+            sortField,
+            sortOrder,
+            selectedPhaseOption
+        });
+    }
+
+
+    private static ApiQuery BuildQuery(
+        string code,
+        string? sortField,
+        string? sortOrder,
+        int? page,
+        string? selectedPhase = OverallPhaseTypes.AllPhasesLabel)
+    {
+        var query = new ApiQuery();
+        query.AddIfNotNull("code", code);
+        query.AddIfNotNull("sortField", sortField);
+        query.AddIfNotNull("sortOrder", sortOrder);
+        query.AddIfNotNull("page", page.ToString());
+        if (selectedPhase != OverallPhaseTypes.AllPhasesLabel)
+        {
+            query.AddIfNotNull("phase", selectedPhase);
+        }
+        return query;
     }
 }

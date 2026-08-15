@@ -1287,6 +1287,32 @@ table#current-comparators-la {
   }
 }
 
+.full-table-page-actions
+{
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+
+  @include govuk-media-query($until: tablet) {
+    flex-direction: column;
+    align-items: stretch;
+    gap: govuk-spacing(3);
+  }
+}
+
+.table-options-form
+{
+  display: flex;
+  align-items: flex-start;
+  gap: govuk-spacing(2);
+
+  @include govuk-media-query($until: tablet) {
+    flex-direction: column;
+    align-items: stretch;
+    gap: govuk-spacing(2);
+  }
+}
+
 .app-card-row {
   display: flex;
   flex-wrap: wrap;
