@@ -9,7 +9,6 @@ using Web.App.Domain.Charts;
 using Web.App.Domain.LocalAuthorities;
 using Web.App.Extensions;
 using Web.App.Infrastructure.Apis;
-using Web.App.Infrastructure.Apis.Establishment;
 using Web.App.Infrastructure.Apis.Insight;
 using Web.App.Infrastructure.Apis.LocalAuthorityFinances;
 using Web.App.Infrastructure.Extensions;
@@ -44,12 +43,16 @@ public class LocalAuthorityController(
             try
             {
                 ViewData[ViewDataKeys.BreadcrumbNode] = BreadcrumbNodes.LocalAuthorityHome(code);
+                const string referrerKey = ReferrerKeys.LocalAuthorityHome;
 
                 var authority = await LocalAuthority(code);
                 var ragRatings = await RagRatings(code);
                 var years = await financeService.GetYears();
 
-                var viewModel = new LocalAuthorityViewModel(authority, ragRatings, years);
+                var viewModel = new LocalAuthorityViewModel(authority, ragRatings, years)
+                {
+                    ReferrerKey = referrerKey
+                };
                 return View(viewModel);
             }
             catch (Exception e)

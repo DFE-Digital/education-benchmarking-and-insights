@@ -4,6 +4,7 @@ public class FinanceToolsViewModel(string? identifier, params FinanceTools[] too
 {
     public IEnumerable<FinanceTools> Tools => tools;
     public string? Identifier => identifier;
+    public string? ReferrerKey { get; init; }
 }
 
 public enum FinanceTools
@@ -15,5 +16,6 @@ public enum FinanceTools
     ForecastRisk,
     SpendingComparison,
     SpendingComparisonIt,
-    Spending
+    Spending,
+    Risks
 }
