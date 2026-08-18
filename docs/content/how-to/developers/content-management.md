@@ -1,9 +1,18 @@
-# Content Management
+---
+title: "Content Management"
+layout: sub-navigation
+sectionKey: "How-to guides"
+includeInBreadcrumbs: true
+eleventyNavigation:
+  key: "Content Management"
+  parent: "Developers How-to"
+---
 
 Various 'static' pages and banners within the platform are backed by content managed via the core database.
 These are all resolved via the Content API and it is the intention that these will be managed by the client via a user interface.
 For the time being, any changes to content managed here should be carried out manually in the database which does carry an element of risk and lack of auditing.
 
+> [!IMPORTANT]
 > 💡 This documentation will be updated when additional CMS features are supported. This should cover the proposed admin application, auditing, authentication, caching etc.
 
 ## Current return years
@@ -111,6 +120,3 @@ In order to track the history of updates, relevant SQL scripts should be persist
   - Perform a basic check to ensure any associated links function correctly.
 
 This process ensures dynamic content updates are safely reviewed, tested, and promoted with full traceability and sign-off.
-
-<!-- Leave the rest of this page blank -->
-\newpage

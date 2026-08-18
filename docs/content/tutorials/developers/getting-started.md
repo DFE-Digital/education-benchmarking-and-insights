@@ -1,4 +1,12 @@
-# Getting Started
+---
+title: "Getting Started"
+layout: sub-navigation
+sectionKey: "Tutorials"
+includeInBreadcrumbs: true
+eleventyNavigation:
+  key: "Getting Started"
+  parent: "Developers Tutorials"
+---
 
 The repository is a monorepo which contains multiple components, structured to streamline collaboration while providing autonomy and tailored workflows without the overhead of multiple repositories.
 
@@ -139,6 +147,3 @@ The following quality checks are automated in the pipelines (PR and merge) and s
 #### Static Analysis (Checkov)
 
 [Checkov](https://www.checkov.io/) is used for scanning IaC files for misconfigurations and security issues.
-
-<!-- Leave the rest of this page blank -->
-\newpage

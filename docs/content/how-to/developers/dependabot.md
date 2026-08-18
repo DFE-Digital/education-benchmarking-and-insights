@@ -1,4 +1,12 @@
-# Dependabot Alerts Management
+---
+title: "Dependabot Alerts Management"
+layout: sub-navigation
+sectionKey: "How-to guides"
+includeInBreadcrumbs: true
+eleventyNavigation:
+  key: "Dependabot Alerts"
+  parent: "Developers How-to"
+---
 
 This process is designed to ensure that dependency updates are handled systematically, securely, and with minimal disruption. The high level workflow is:
 
@@ -48,6 +56,3 @@ After merging, closely monitor the application for any issues, such as performan
 If the update resolves a bug or an open issue, ensure those issues are closed, and reference the Dependabot PR for traceability.
 
 Check if there are any upcoming updates for the same dependency (e.g., a beta or release candidate) that might affect your project soon.
-
-<!-- Leave the rest of this page blank -->
-\newpage

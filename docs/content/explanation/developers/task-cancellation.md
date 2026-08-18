@@ -1,4 +1,12 @@
-# Task Cancellation within FBIT
+---
+title: "Task Cancellation"
+layout: sub-navigation
+sectionKey: "Explanation"
+includeInBreadcrumbs: true
+eleventyNavigation:
+  key: "Task Cancellation"
+  parent: "Developers Explanation"
+---
 
 .NET supports the cancellation of asynchronous tasks via [`CancellationToken`](https://learn.microsoft.com/en-us/dotnet/api/system.threading.cancellationtoken)s. This has been implemented across FBIT for client side requests from the [`fetch` API](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API) (with [`signal`](https://developer.mozilla.org/en-US/docs/Web/API/Request/signal)), through Web and down to the underlying dependent services accessed via the API, such as [`DbDataReader.ReadAsync()`](https://learn.microsoft.com/en-us/dotnet/api/system.data.common.dbdatareader.readasync) (via [Dapper](https://github.com/DapperLib/Dapper)).
 
@@ -252,6 +260,3 @@ sequenceDiagram
     Web Proxy->>Browser (fetch): 200 front end response
     Note over Browser (fetch): Response discarded
 ```
-
-<!-- Leave the rest of this page blank -->
-\newpage

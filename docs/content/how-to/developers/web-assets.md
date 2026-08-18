@@ -1,4 +1,12 @@
-# Web Assets
+---
+title: "Web Assets"
+layout: sub-navigation
+sectionKey: "How-to guides"
+includeInBreadcrumbs: true
+eleventyNavigation:
+  key: "Web Assets"
+  parent: "Developers How-to"
+---
 
 Static assets within the website are managed in two ways:
 
@@ -116,6 +124,3 @@ Re-running the failed task allows `terraform plan` to succeed.
 #### `terraform apply` fails with `Please make sure that the originGroup is created successfully and at least one enabled origin is created under the origin group.`
 
 This is due to a race condition when the Front Door origin changes are being applied. Re-running the failed task after a short while allows `terraform apply` to succeed.
-
-<!-- Leave the rest of this page blank -->
-\newpage

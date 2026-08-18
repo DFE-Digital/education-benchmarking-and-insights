@@ -1,4 +1,12 @@
-# Local Environment with Docker
+---
+title: "Local Environment with Docker"
+layout: sub-navigation
+sectionKey: "How-to guides"
+includeInBreadcrumbs: true
+eleventyNavigation:
+  key: "Local Environment with Docker"
+  parent: "Developers How-to"
+---
 
 To simplify local development, the FBIT repository includes a centralized Docker Compose setup. This allows you to quickly stand up the necessary backing services (Database, Storage, Caching, etc.) required to run the Platform APIs, Data Pipeline, and Web application locally.
 
@@ -101,4 +109,5 @@ To stop the services and remove the containers, run the following from the `dock
 docker-compose down
 ```
 
-*Note: Data volumes for SQL, Azurite, and Redis are mapped to local folders within the `docker` directory (e.g., `docker/sql/data`, `docker/azurite/data`). This means your data will persist between restarts. If you wish to completely wipe your local data, you can delete these mapped directories after stopping the containers.*
+> [!TIP]
+> *Note: Data volumes for SQL, Azurite, and Redis are mapped to local folders within the `docker` directory (e.g., `docker/sql/data`, `docker/azurite/data`). This means your data will persist between restarts. If you wish to completely wipe your local data, you can delete these mapped directories after stopping the containers.*

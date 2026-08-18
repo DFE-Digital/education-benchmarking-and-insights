@@ -1,4 +1,12 @@
-# Code Management & Quality Standards
+---
+title: "Code Management & Quality Standards"
+layout: sub-navigation
+sectionKey: "How-to guides"
+includeInBreadcrumbs: true
+eleventyNavigation:
+  key: "Code Management"
+  parent: "Developers How-to"
+---
 
 These are our shared standards for managing our code, from initial repository access to merging into the main branch. Our goal is to maintain a secure, high-quality, and fast-moving codebase while fostering a culture of continuous learning and transparent collaboration.
 
@@ -51,6 +59,3 @@ We use automation to handle repetitive tasks, allowing the team to focus on logi
   * **Example:** `feat(auth): add login validation`
 * **Ticket Linking:** Every PR must be linked to an Azure DevOps (ADO) ticket. This provides "traceability," connecting our code changes directly to the original task or requirement. To automatically link a ticket, include `AB#<ticket-number>` (e.g., `AB#1234`) in the PR description or commit message.
 * **Squash and Merge Method:** GitHub is configured to only allow "Squash and merge." This keeps our Git history clean by combining multiple small commits into one polished update upon merging.
-
-<!-- Leave the rest of this page blank -->
-\newpage

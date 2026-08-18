@@ -1,4 +1,12 @@
-# Secret Management
+---
+title: "Secret Management"
+layout: sub-navigation
+sectionKey: "How-to guides"
+includeInBreadcrumbs: true
+eleventyNavigation:
+  key: "Secret Management"
+  parent: "Developers How-to"
+---
 
 This guide outlines the principles and procedures for handling sensitive information (API keys, connection strings, credentials) within this project.
 
@@ -51,6 +59,3 @@ In non-local environments (Development, Test, Production), secrets are never sto
 - Accessed by the application using **Managed Identities**, ensuring no credentials exist in the application code or configuration.
 
 *For more information on setting up your local environment, see [Getting Started](./01_Getting-Started.md).*
-
-<!-- Leave the rest of this page blank -->
-\newpage

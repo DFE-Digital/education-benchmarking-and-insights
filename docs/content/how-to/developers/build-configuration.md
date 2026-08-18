@@ -1,4 +1,12 @@
-# Build Configuration Overview
+---
+title: "Build Configuration"
+layout: sub-navigation
+sectionKey: "How-to guides"
+includeInBreadcrumbs: true
+eleventyNavigation:
+  key: "Build Configuration"
+  parent: "Developers How-to"
+---
 
 This repository uses standardised module-level MSBuild configuration via `Directory.Build.props`, `Directory.Build.targets`, and `Directory.Packages.props` to enforce consistency, security, and build standards across projects within a specific module—integrated with Azure DevOps (ADO) pipelines.
 

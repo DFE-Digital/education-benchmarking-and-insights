@@ -1,4 +1,12 @@
-# Linting and Formatting
+---
+title: "Linting and Formatting"
+layout: sub-navigation
+sectionKey: "How-to guides"
+includeInBreadcrumbs: true
+eleventyNavigation:
+  key: "Linting and Formatting"
+  parent: "Developers How-to"
+---
 
 The Education Benchmarking and Insights platform is a monorepo consisting of multiple modules written in different languages. To maintain code quality and consistency across these diverse stacks, we employ several language-specific linting and formatting tools.
 
@@ -63,6 +71,3 @@ For our Infrastructure as Code, we use the built-in Terraform formatting tools.
 
 - **Enforcement:** Enforced in CI pipelines.
 - **Manual Execution:** Run `terraform fmt -recursive` from the root of the repository or within any specific module containing Terraform files (e.g., `core-infrastructure/terraform/`).
-
-<!-- Leave the rest of this page blank -->
-\newpage

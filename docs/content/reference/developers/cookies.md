@@ -1,6 +1,12 @@
-﻿# Cookies
-
-## Introduction
+---
+title: "Cookies"
+layout: sub-navigation
+sectionKey: "Reference"
+includeInBreadcrumbs: true
+eleventyNavigation:
+  key: "Cookies"
+  parent: "Developers Reference"
+---
 
 This section provides a summary of the cookies used in the application, along with their purposes and expiry details. It aims to assist developers in understanding the functionality and usage of each cookie within the context of the application's architecture.
 
@@ -42,6 +48,3 @@ More details about the `ai_session` cookie and Application Insights can be found
 The `ai_user` cookie is utilized by Application Insights to identify unique users across their different sessions or visits to a web application. It helps in distinguishing one user from another and tracking their activities over time.
 
 More details about the `ai_user` cookie and Application Insights can be found [here](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/app-state?view=aspnetcore-8.0#session-options).
-
-<!-- Leave the rest of this page blank -->
-\newpage
