@@ -16,8 +16,8 @@ public class PagedSchoolRisksParametersValidator : AbstractValidator<PagedSchool
             .WithMessage("Between 1 and 30 local authority codes must be supplied");
 
         RuleFor(x => x.Page)
-            .Must(integer => integer is >= 1 and <= 100)
-            .WithMessage("{{PropertyName}} must be an int >=1 and <= 100");
+            .Must(integer => integer >= 1)
+            .WithMessage("{{PropertyName}} must be an int >=1");
 
         RuleFor(x => x.PageSize)
             .Must(integer => integer >= 1)
