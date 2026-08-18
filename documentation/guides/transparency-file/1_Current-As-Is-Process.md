@@ -58,7 +58,7 @@ The CFR and AAR transparency files are produced by running their respective SQL 
 
 ### 4. Internal QA
 
-The file is checked internally before release. Checks include reconciling the totals against FBIT, confirming federation and DNS handling so schools are not double-counted, and checking completeness against the previous year. Manual corrections are applied at this stage when something is found to be wrong, or when DfE ask for a field to be updated to align with FBIT. If issues are found, the file is corrected, regenerated, and re-checked.
+The file is checked internally before release. Checks include reconciling the totals against FBIT, confirming federation and DNS handling so schools are not double-counted, and checking completeness against the previous year. When something is found to be wrong, or when DfE ask for a field to be updated to align with FBIT, the correction is made in the script, and the file is then regenerated and checked again.
 
 ### 5. DfE review
 
@@ -78,7 +78,7 @@ QA does a final check to confirm the correct file is now available on the servic
 
 ## Corrections after publication
 
-The file is not frozen once published; it has been revised after release on more than one occasion. When a correction is needed, the file is checked internally, the version number is updated, and the corrected file is made live. This is a lighter-weight internal update and does not go back through the full DfE review and sign-off.
+If the file needs to be updated after it has been published to the service, the script is updated based on the changes and the file is regenerated. It then goes through internal QA, and DfE confirm whether they want to UAT the change. If they do not, the file is promoted to production. The version number is updated as part of this.
 
 <!-- Leave the rest of this page blank -->
 \newpage
