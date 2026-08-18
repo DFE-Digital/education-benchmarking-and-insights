@@ -16,7 +16,7 @@ It contains:
 
 Assembling the file involves federation and DNS (Did Not Submit) handling, ancillary joins, and roll-ups. Where columns overlap with FBIT, the figures reconcile with the service.
 
-CFR and AAR run as two separate annual cycles. Each file follows its own financial return (the CFR return becomes available around September and the AAR return around January) and is published later, once the national statistics publication allows.
+CFR and AAR run as two separate annual cycles. Each file follows its own financial return (the CFR return becomes available around August and the AAR return around January) and is published later, once the national statistics publication allows.
 
 The primary users are DfE analysts, but because publishing the file is a legal requirement it is available to any concerned party.
 
@@ -26,7 +26,7 @@ These are the drivers behind the process, not incidental details. They are not a
 
 * **Statutory transparency.** Publishing the underlying financial data in a downloadable form is a legal requirement. The transparency file is how that obligation is met, which is why it is governed far more tightly than an ordinary service download.
 * **More than an FBIT export.** The file includes ancillary data that the service does not surface, so it is a statutory publication in its own right rather than a copy of FBIT. Where the data does overlap, the two must reconcile.
-* **Separate from, and released later than, the FBIT data.** The transparency file has never been released alongside the FBIT data. Publication is gated by the national statistics publication and cannot happen before it, so the two have always run on separate timelines. A file is often generated, checked, and signed off well before it can be published, and is then held until release is allowed. As a result, the service data and the published file are frequently out of step for a period.
+* **Created and released independently of the FBIT data.** The transparency files are created and released independently of the service data releases. Stakeholders approve when to publish each file in the service, so that wider business context and impact can be taken into account. For example, the CFR transparency file is usually published after the national statistics publication.
 * **Independently assured and human-gated.** Because errors in a statutory publication carry external, legal, and reputational consequences, the file is verified independently before it goes live, through internal QA, DfE review, and DfE sign-off. It does not pass through the lower environments; it is produced and checked independently, and is only updated in pre-production and production.
 * **Versioned.** The file is updated once for each release, and after that only on a need basis, when there is a reason to update it. For example, when a data fix is made after release, the same fix is applied to the file. Each update produces a new version, carrying a version number and an index tab telling consumers which cut of the data they hold and what has changed. Populating the index tab (version and change summary) is a shared responsibility, and QA confirms it has been added before the file is considered done.
 
