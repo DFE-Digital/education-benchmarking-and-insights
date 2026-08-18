@@ -32,7 +32,7 @@ These are the drivers behind the process, not incidental details. They are not a
 
 ## Roles
 
-The process is a single, end-to-end flow that spans the FBIT team and DfE. DfE are participants in the flow, providing assurance and the statutory sign-off, not simply an external gate.
+The following roles are involved across the process.
 
 | Role          | Responsibility                                                                                          |
 |:--------------|:-------------------------------------------------------------------------------------------------------|
@@ -58,7 +58,7 @@ The CFR and AAR transparency files are produced by running their respective SQL 
 
 ### 4. Internal QA
 
-The file is checked internally before release. Checks include reconciling the totals against FBIT, confirming federation and DNS handling so schools are not double-counted, and checking completeness against the previous year. Manual corrections are applied at this stage when something is found to be wrong, or when a requirement comes from the client (DfE) to update a field to align with FBIT. If issues are found, the file is corrected, regenerated, and re-checked.
+The file is checked internally before release. Checks include reconciling the totals against FBIT, confirming federation and DNS handling so schools are not double-counted, and checking completeness against the previous year. Manual corrections are applied at this stage when something is found to be wrong, or when DfE ask for a field to be updated to align with FBIT. If issues are found, the file is corrected, regenerated, and re-checked.
 
 ### 5. DfE review
 
