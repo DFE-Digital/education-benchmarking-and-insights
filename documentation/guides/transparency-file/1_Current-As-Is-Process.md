@@ -46,11 +46,11 @@ The process is a single, end-to-end flow that spans the FBIT team and DfE. DfE a
 
 ### 1. Go-ahead and data cut
 
-Once the financial return data (CFR or AAR) is available, the Product Owner gives the go-ahead to start. The Product Owner does not provide the data itself; the team sources the cut of return data from source, and that cut is the basis for the release.
+Once the financial return data (CFR or AAR) is available, the Product Owner gives the go-ahead to start. The team sources the cut of return data from source, and that cut is the basis for the release.
 
 ### 2. Source the ancillary data
 
-All ancillary sources (for example GIAS, Census, SEN, PRU, and hospital schools) are sourced and collected into the local database. These provide the contextual data about each school that aligns with the return, and must be in place before the file is generated.
+All ancillary sources are sourced and collected into the local database. These provide the contextual data about each school that aligns with the return, and must be in place before the file is generated.
 
 ### 3. Generate the file
 
