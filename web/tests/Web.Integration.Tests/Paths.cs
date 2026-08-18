@@ -294,6 +294,8 @@ public static class Paths
     public static string LocalAuthorityHighNeedsBenchmarking(string? code) => $"/local-authority/{code}/high-needs/benchmarking";
     public static string LocalAuthorityEducationHealthCarePlans(string? code) => $"/local-authority/{code}/education-health-care-plans";
     public static string LocalAuthorityEducationHealthCarePlansDownload(string? code) => $"/local-authority/{code}/education-health-care-plans/download";
+    public static string LocalAuthorityRisks(string? code) => $"/local-authority/{code}/risks";
+    public static string LocalAuthorityRisksDownload(string? code) => $"/local-authority/{code}/risks/download";
     public static string LocalAuthorityHighNeedsSpending(string? code) => $"/local-authority/{code}/high-needs-spending";
     public static string LocalAuthorityHighNeedsSpendingDownload(string? code) => $"/local-authority/{code}/high-needs-spending/download";
     public static string LocalAuthorityHighNeedsStartBenchmarking(string? code, LocalAuthorityBenchmarkType type, string? referrer = null) => string.IsNullOrWhiteSpace(referrer)

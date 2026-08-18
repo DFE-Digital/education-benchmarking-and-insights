@@ -36,8 +36,12 @@
         </fieldset>
     }
 
-    <a href="#" role="button"
+    <a href="@Url.Action("Download", "LocalAuthorityRisks", new
+              {
+                  code = Model.Code,
+                  selectedPhaseOption = Model.SelectedPhaseOption
+              })" role="button"
        class="govuk-button govuk-button--secondary govuk-!-margin-bottom-0" data-module="govuk-button">
-        Placeholder
+        Download page data
     </a>
 </div>
