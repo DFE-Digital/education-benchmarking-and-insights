@@ -1,4 +1,12 @@
-# Source Files: School workforce
+---
+title: "School Workforce"
+layout: sub-navigation
+sectionKey: "Reference"
+includeInBreadcrumbs: true
+eleventyNavigation:
+  key: "School Workforce Source"
+  parent: "Source Files Reference"
+---
 
 Source: <https://explore-education-statistics.service.gov.uk/find-statistics/school-workforce-in-england>
 
@@ -43,6 +51,3 @@ Format: XLSX
 **Validation:**
 
 //TODO
-
-<!-- Leave the rest of this page blank -->
-\newpage

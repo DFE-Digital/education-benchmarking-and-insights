@@ -1,6 +1,12 @@
-# FBIT Data Architecture
-
-## Introduction
+---
+title: "Data Architecture"
+layout: sub-navigation
+sectionKey: "Explanation"
+includeInBreadcrumbs: true
+eleventyNavigation:
+  key: "Data Architecture"
+  parent: "Data Sources Explanation"
+---
 
 The purpose of this document is to provide an overview of the data architecture principles that will be followed when migrating and updating the FBIT data model.  Documenting these principles will enable a shared understanding so that, as the service evolves, and changes to the data model are required, enhancements will be done in a controlled way that adheres to the guidelines in spite of inevitable changes to the development team.
 

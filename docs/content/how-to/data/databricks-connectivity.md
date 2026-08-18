@@ -1,4 +1,12 @@
-# Databricks Connectivity to s198
+---
+title: "Databricks Connectivity"
+layout: sub-navigation
+sectionKey: "How-to guides"
+includeInBreadcrumbs: true
+eleventyNavigation:
+  key: "Databricks Connectivity"
+  parent: "Data How-to"
+---
 
 Databricks and FBIT are both hosted in [CIP](https://docs.education.gov.uk/gettingStartedCIP/). To move our data preprocessing into Databricks, we needed two things: network connectivity between the Databricks and FBIT subscriptions in CIP, and a way for Databricks to write to FBIT storage. The latter is achieved using [Databricks Access Connectors](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/databricks_access_connector), which allow an FBIT storage container to be mounted as a Databricks volume.
 
@@ -16,6 +24,3 @@ This is one of two architecturally approved patterns I know of for this use case
 The storage containers which act as landing zones for Databricks are defined in terraform in our service. However the cross-subscription permissions which allow the databricks connectors to write to our Azure area were set up by Infra-ops for us, with the permission of the central Databricks service wrapper team ADA. This is so they could keep control over revoking any access if they wanted to. Note these permissions were manually defined and hardcode the current resource names in them.
 
 If permissions need to be recreated, raise a generic CIP ServiceNow request with resource names of the databricks connectors and the corresponding storage accounts they need write access to. The initial completed ticket ref is `SCTASK0705295`, to refer to for a precedent.
-
-<!-- Leave the rest of this page blank -->
-\newpage

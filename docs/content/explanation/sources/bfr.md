@@ -1,4 +1,12 @@
-# Budget Forecast Return (BFR)
+---
+title: "Budget Forecast Return (BFR)"
+layout: sub-navigation
+sectionKey: "Explanation"
+includeInBreadcrumbs: true
+eleventyNavigation:
+  key: "Budget Forecast Return (BFR)"
+  parent: "Data Sources Explanation"
+---
 
 The [Budget Forecast Return](https://www.gov.uk/guidance/academies-budget-forecast-return) (BFR) is a financial information submitted yearly by academy trusts detailing their past, current and budget forecasts for the next three academic years. This data is one of the four key financial data used in the Financial Benchmarking and Insights Tool (FBIT). _See [FBIT Domain](/documentation/data/01_Domain.md) and [FBIT Sources](/documentation/data/02_Sources.md) for more information on FBIT data._
 

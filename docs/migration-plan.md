@@ -89,34 +89,6 @@ The following tables specify exactly where each file from the old `documentation
 | `11_Decisions.md` | `docs/content/reference/architecture/decisions/index.md` | Listing page for Architectural Decision Records. |
 | `decisions/` (Folder) | `docs/content/reference/architecture/decisions/` | ADRs are pure reference material detailing what was decided. |
 
-### 2. Data Document Mapping (`documentation/data/`)
-
-| Current File | Target Location | Rationale |
-| :--- | :--- | :--- |
-| `01_Domain.md` | `docs/content/explanation/data/domain.md` | Explanation of the domain context and data philosophy. |
-| `02_Sources.md` | `docs/content/reference/data/sources.md` | Structured data listing inputs and sources. |
-| `03_Models.md` | `docs/content/reference/data/models.md` | Technical descriptions of data schemas and fields. |
-| `04_Processing.md` | `docs/content/explanation/data/processing.md` | Explaining how and why data processing flows are designed. |
-| `05_Releases.md` | `docs/content/reference/data/releases.md` | History, metadata, and schedule of data releases. |
-| `06_Timeline.md` | `docs/content/reference/data/timeline.md` | Timeline schemas and timing rules. |
-| `07_Cost-Categories.md` | `docs/content/reference/data/cost-categories.md` | Reference mapping and rules for cost classification. |
-| `08_User-Generated-Calculations.md` | `docs/content/explanation/data/user-generated-calculations.md` | Explaining the background logic for calculations. |
-| `09_Academy-Apportionments.md` | `docs/content/explanation/data/academy-apportionments.md` | Theoretical and financial context for apportionment rules. |
-| `10_Databricks-Development.md` | `docs/content/how-to/data/databricks-development.md` | Concrete guide on how to perform Databricks development. |
-| `11_Databricks-Data-Additions.md` | `docs/content/how-to/data/databricks-data-additions.md` | Steps for adding new data sources into Databricks. |
-| `12_Databricks-Connectivity-To-s198.md` | `docs/content/how-to/data/databricks-connectivity.md` | Procedural network/connectivity steps. |
-
-### 4. Guides Mapping (`documentation/guides/`)
-
-| Current Directory | Target Location | Rationale |
-| :--- | :--- | :--- |
-| `cfr-file-generation/` | `docs/content/how-to/data/cfr-file-generation.md` | Step-by-step instructions for data operators. |
-| `chart-inconsistency-rationale/` | `docs/content/explanation/data/chart-inconsistency-rationale.md` | Theoretical context for discrepancies. |
-| `chart-principles/` | `docs/content/reference/design/chart-principles.md` | Standards for layout and presentation. |
-| `data-release-guide/` | `docs/content/how-to/data/data-release-guide.md` | Guide on releasing dataset versions. |
-| `monthly-reporting/` | `content/how-to/monthly-reporting.md` | Standard operational report process. |
-| `s251-file-generation/` | `content/how-to/s251-file-generation.md` | Operator tasks. |
-
 ### 5. Operational Document Mapping (`documentation/operational/`)
 
 | Current File | Target Location | Rationale |

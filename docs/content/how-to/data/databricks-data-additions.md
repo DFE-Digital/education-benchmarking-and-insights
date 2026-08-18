@@ -1,4 +1,12 @@
-# Adding Data to Databricks
+---
+title: "Databricks Data Additions"
+layout: sub-navigation
+sectionKey: "How-to guides"
+includeInBreadcrumbs: true
+eleventyNavigation:
+  key: "Databricks Data Additions"
+  parent: "Data How-to"
+---
 
 (As of Feb 2026)
 
@@ -20,6 +28,3 @@ Once approved, ADA will set up an ADF pipeline that refreshes the data approxima
 ## Manual Uploads
 
 Smaller or static datasets don't need a formal mirror. These can be uploaded directly to Databricks without involving ADA. Bear in mind that manually uploaded datasets have no automated refresh — whoever uploads them is responsible for keeping them up to date.
-
-<!-- Leave the rest of this page blank -->
-\newpage

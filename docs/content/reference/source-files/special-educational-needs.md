@@ -1,4 +1,12 @@
-# Source Files: Special educational needs
+---
+title: "Special Educational Needs"
+layout: sub-navigation
+sectionKey: "Reference"
+includeInBreadcrumbs: true
+eleventyNavigation:
+  key: "Special Educational Needs Source"
+  parent: "Source Files Reference"
+---
 
 Source: <https://explore-education-statistics.service.gov.uk/find-statistics/special-educational-needs-in-england>
 
@@ -59,6 +67,3 @@ For example; for academic year ending July 2024 data is published on June 2024.
 **Validation:**
 
 //TODO
-
-<!-- Leave the rest of this page blank -->
-\newpage

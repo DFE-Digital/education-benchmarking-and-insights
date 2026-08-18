@@ -1,4 +1,12 @@
-# Sources
+---
+title: "Sources"
+layout: sub-navigation
+sectionKey: "Reference"
+includeInBreadcrumbs: true
+eleventyNavigation:
+  key: "Sources"
+  parent: "Data Reference"
+---
 
 There are two main data types used in the Financial Benchmarking and Insights Tool (FBIT) service: Financial and Non-Financial data. Both are obtained from a range of sources within the Department for Education. This document outlines the list of raw data files used within the service, their update frequency, and information on how to retrieve them.
 
@@ -76,6 +84,3 @@ The table below provides an overview of the LAA-specific non-financial ancillary
 For help with any of the data sources used in this service, please reach out to the respective contact point, who can be found in the following [sharepoint file](https://educationgovuk.sharepoint.com/:x:/r/sites/DfEFinancialBenchmarking/Shared%20Documents/General/Technical%20Team/Data%20Pipelines/FBIT%20data%20source%20contacts.xlsx?d=w01b573949f8a487dba9cf8e450b8cbf5&csf=1&web=1&e=kt1SMJ).
 
 \* This data is restricted to users and requires a login to access.
-
-<!-- Leave the rest of this page blank -->
-\newpage

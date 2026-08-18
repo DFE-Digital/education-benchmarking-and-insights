@@ -1,4 +1,12 @@
-# Source Files: Schools, pupils and their characteristics
+---
+title: "Schools, pupils and their characteristicss"
+layout: sub-navigation
+sectionKey: "Reference"
+includeInBreadcrumbs: true
+eleventyNavigation:
+  key: "Pupil Census"
+  parent: "Source Files Reference"
+---
 
 Source: <https://explore-education-statistics.service.gov.uk/find-statistics/school-pupils-and-their-characteristics>
 
@@ -45,6 +53,3 @@ For example; for academic year ending July 2024 data is published on June 2024.
 **Validation:**
 
 //TODO
-
-<!-- Leave the rest of this page blank -->
-\newpage
