@@ -143,7 +143,6 @@ __azurite*.json
 # ==========================================
 # Project Specific
 # ==========================================
-.gemini/
 *.env
 *.feature.cs
 **/playwright/.auth

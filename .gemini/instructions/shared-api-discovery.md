@@ -18,7 +18,7 @@ When executing commands that target Platform APIs and Features, you **MUST** str
 
 - **Validation**: Before proceeding with any detailed research or modification, you **MUST** use the `list_directory` or `glob` tool to verify that the exact combined path exists.
 - **Failure**: If the directory `platform/src/apis/Platform.Api.[API_NAME]/Features/[Feature_Name]` cannot be found, you **MUST STOP**.
-- **Clarification**: Prompt the user with a list of available APIs (from `platform/src/apis/`) or available features within the chosen API if they are unsure.
+- **Clarification**: Prompt the user with a list of available APIs (from `../../platform/src/apis`) or available features within the chosen API if they are unsure.
 
 ## 4. Absolute Scope Containment
 
