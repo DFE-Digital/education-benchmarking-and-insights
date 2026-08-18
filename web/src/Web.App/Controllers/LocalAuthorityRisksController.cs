@@ -100,7 +100,11 @@ public class LocalAuthorityRisksController(
             {
                 selectedPhaseOption ??= OverallPhaseTypes.AllPhasesLabel;
 
-                var risks = await GetAllRisks(code, selectedPhaseOption);
+                var la = await api.SingleAsync(code).GetResultOrThrow<LocalAuthority>();
+
+                var risksQuery = BuildQuery(la.Code!, null, null, 1, selectedPhaseOption, pageSize: 10_000);
+                var result = await api.QueryRisksAsync(risksQuery).GetPagedResultOrThrow<LocalAuthorityRiskIndicators>();
+                var risks = result.Results ?? [];
 
                 var csvRows = risks.Select(r => new LocalAuthorityRiskIndicatorsCsv
                 {
@@ -120,28 +124,6 @@ public class LocalAuthorityRisksController(
                 return StatusCode(500);
             }
         }
-    }
-
-    private async Task<LocalAuthorityRiskIndicators[]> GetAllRisks(string code, string selectedPhaseOption)
-    {
-        var la = await api.SingleAsync(code).GetResultOrThrow<LocalAuthority>();
-
-        var page = 1;
-        var shouldGetNextPage = true;
-        List<LocalAuthorityRiskIndicators> allRisks = [];
-
-        while (shouldGetNextPage)
-        {
-            var risksQuery = BuildQuery(la.Code!, null, null, page, selectedPhaseOption, pageSize: 100);
-            var result = await api.QueryRisksAsync(risksQuery).GetPagedResultOrThrow<LocalAuthorityRiskIndicators>();
-            var risks = result.Results?.ToList() ?? [];
-
-            allRisks.AddRange(risks);
-            shouldGetNextPage = result.HasNextPage;
-            page++;
-        }
-
-        return allRisks.ToArray();
     }
 
     private static ApiQuery BuildQuery(
