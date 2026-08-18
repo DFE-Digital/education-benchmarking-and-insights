@@ -1,4 +1,12 @@
-# AI-Assisted Engineering
+---
+title: "AI Assisted Engineering"
+layout: sub-navigation
+sectionKey: "Explanation"
+includeInBreadcrumbs: true
+eleventyNavigation:
+  key: "AI Assisted Engineering"
+  parent: "Developers Explanation"
+---
 
 This repository supports AI-assisted engineering by incorporating guidelines, context files, and optional toolset configurations. Developers are free to use any AI assistant they prefer (such as GitHub Copilot, Cursor, ChatGPT, or Gemini). This guide outlines how to get the most out of your AI tools within this monorepo.
 

@@ -1,4 +1,12 @@
-# Authentication & Authorisation
+---
+title: "Authentication and Authorisation"
+layout: sub-navigation
+sectionKey: "Explanation"
+includeInBreadcrumbs: true
+eleventyNavigation:
+  key: "Authentication & Authorisation"
+  parent: "Developers Explanation"
+---
 
 The **Financial Benchmarking and Insights Tool (FBIT)** provides schools, trusts, local authorities, and other approved organisations with benchmarking and financial insights.
 
@@ -90,6 +98,3 @@ The service supports four organisation types:
 
 * ICFP (Trust summary)
 * Forecast and risk
-
-<!-- Leave the rest of this page blank -->
-\newpage

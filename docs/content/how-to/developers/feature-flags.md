@@ -1,4 +1,12 @@
-﻿# Feature Flags Management Guide
+---
+title: "Feature Flags"
+layout: sub-navigation
+sectionKey: "How-to guides"
+includeInBreadcrumbs: true
+eleventyNavigation:
+  key: "Feature Flags"
+  parent: "Developers How-to"
+---
 
 ## Purpose
 
@@ -125,6 +133,3 @@ disabledFlags = [FeatureFlags.FeatureName];
 ## Conclusion
 
 Feature flags are a powerful tool when used correctly. This guide ensures that we enable features safely, maintain high quality, and protect the stability of our production environment. Always follow the environment rollout rules and treat feature flags as part of your deployment and testing strategy.
-
-<!-- Leave the rest of this page blank -->
-\newpage

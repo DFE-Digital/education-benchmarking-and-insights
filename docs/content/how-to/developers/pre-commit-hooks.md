@@ -1,4 +1,12 @@
-# Pre-commit Hooks
+---
+title: "Pre-commit Hooks"
+layout: sub-navigation
+sectionKey: "How-to guides"
+includeInBreadcrumbs: true
+eleventyNavigation:
+  key: "Pre-commit Hooks"
+  parent: "Developers How-to"
+---
 
 We use [pre-commit](https://pre-commit.com/) to automatically run a set of quality checks before every commit. This helps catch common issues early and ensures our codebase remains clean and consistent.
 
@@ -13,6 +21,7 @@ The following hooks are currently configured in `.pre-commit-config.yaml`:
 - **Gitleaks:** Scans staged changes to prevent hardcoded secrets and credentials from being committed.
 - **Conventional Commits:** Enforces standard commit message formatting (e.g., `feat:`, `fix:`).
 
+> [!IMPORTANT]
 > **Note:** For instructions on configuring your IDE (VS Code, Rider, etc.) to format files on save or show linting errors as you type, please see the [Linting and Formatting Guide](./05_Linting-and-Formatting.md).
 
 ## Setup
@@ -45,6 +54,3 @@ To use pre-commit hooks locally, follow these steps:
 When you run `git commit`, pre-commit automatically runs the configured hooks. If any hook fails, the commit will be blocked. You must resolve the issues reported by the hooks before you can successfully commit your changes.
 
 Note that our current configuration for `black` uses the `--check` flag, which means it will only report formatting issues rather than automatically fixing them. This encourages developers to format their code correctly before attempting a commit.
-
-<!-- Leave the rest of this page blank -->
-\newpage

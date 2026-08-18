@@ -106,35 +106,6 @@ The following tables specify exactly where each file from the old `documentation
 | `11_Databricks-Data-Additions.md` | `docs/content/how-to/data/databricks-data-additions.md` | Steps for adding new data sources into Databricks. |
 | `12_Databricks-Connectivity-To-s198.md` | `docs/content/how-to/data/databricks-connectivity.md` | Procedural network/connectivity steps. |
 
-### 3. Developer Document Mapping (`documentation/developers/`)
-
-| Current File | Target Location | Rationale |
-| :--- | :--- | :--- |
-| `01_Getting-Started.md` | `docs/content/tutorials/developers/getting-started.md` | Interactive walkthrough for newcomers to build confidence. |
-| `02_Code-Management.md` | `docs/content/how-to/developers/code-management.md` | Instructions on standard workflow tasks. |
-| `03_Build-Configuration.md` | `docs/content/how-to/developers/build-configuration.md` | How to configure builds. |
-| `04_Pre-commit-Hooks.md` | `docs/content/how-to/developers/pre-commit-hooks.md` | How to set up and manage local hooks. |
-| `05_Linting-and-Formatting.md` | `docs/content/how-to/developers/linting-and-formatting.md` | Concrete guide to check style standards locally. |
-| `06_Local-Environment-with-Docker.md` | `docs/content/how-to/developers/local-docker.md` | Guide on setting up and starting local Docker stacks. |
-| `10_Task_Cancellation.md` | `docs/content/explanation/developers/task-cancellation.md` | Explains the complex "why" behind handling process cancellation. |
-| `11_Platform-APIs.md` | `docs/content/reference/api/platform-apis.md` | List of endpoints, requests, and response schemas. |
-| `12_Feature-Flags-Management-Guide.md`| `docs/content/how-to/developers/feature-flags.md` | Step-by-step tasks to toggle features. |
-| `12_Secret-Management-Guide.md` | `docs/content/how-to/developers/secret-management.md` | Steps for provisioning secrets. |
-| `13_Content-Management.md` | `docs/content/how-to/developers/content-management.md` | Steps for updating site content files. |
-| `14_Authentication-Authorisation.md` | `docs/content/explanation/developers/auth-authz.md` | Underlying system design for authentication flow. |
-| `15_Web-Assets.md` | `docs/content/how-to/developers/web-assets.md` | How to package and bundle CSS/JS assets. |
-| `16_Azure-DevOps-Workflow.md` | `docs/content/how-to/developers/azure-devops-workflow.md` | Step-by-step CI/CD usage instructions. |
-| `17_Azure-Front-Door-Review.md` | `docs/content/reference/architecture/azure-front-door.md` | Configuration reference for network entry point. |
-| `18_Sortable-Html-Tables.md` | `docs/content/how-to/developers/sortable-tables.md` | Implementation guide for interactive elements. |
-| `19_AI_Assisted_Engineering.md` | `docs/content/explanation/developers/ai-assisted-engineering.md` | Strategic context and rules for AI usage in development. |
-| `20_Database-Migrations-and-Scripts.md`| `docs/content/how-to/developers/database-migrations.md` | Guide on executing and writing migrations. |
-| `4_API_Management.md` | `docs/content/how-to/developers/api-management.md` | Routine tasks for endpoint configuration. |
-| `5_Dependabot-Alerts-Management.md` | `docs/content/how-to/developers/dependabot.md` | Procedures to address alerts. |
-| `6_Cookies.md` | `docs/content/reference/developers/cookies.md` | Exact cookies schema, lifetimes, and naming rules. |
-| `7_Troubleshooting.md` | `docs/content/how-to/developers/troubleshooting.md` | Steps for identifying common dev system failures. |
-| `8_Additional-Resources.md` | `docs/content/reference/developers/additional-resources.md`| List of helpful external documents. |
-| `9_Rider-Configuration.md` | `docs/content/how-to/developers/rider-configuration.md` | IDE configuration recipe. |
-
 ### 4. Guides Mapping (`documentation/guides/`)
 
 | Current Directory | Target Location | Rationale |
@@ -176,34 +147,3 @@ The following tables specify exactly where each file from the old `documentation
 | `data-release-test-plans/` | `docs/content/reference/qa/data-release-test-plans/` | Reference checklists for release validation. |
 | `performance-test-plans/` | `docs/content/reference/qa/performance-test-plans/` | Load scripts and performance target configurations. |
 | `release-test-plans/` | `docs/content/reference/qa/release-test-plans/` | Standard checklist before release approval. |
-
-### 7. Design Document Mapping (`documentation/design/`)
-
-| Current File | Target Location | Rationale |
-| :--- | :--- | :--- |
-| `01_Chart-Development-Workflow.md` | `docs/content/explanation/design/chart-development-workflow.md`| Conceptual reasoning behind layout iterations. |
-| `02_User-Testing.md` | `docs/content/explanation/design/user-testing.md` | Historical user insight synthesis. |
-| `03_Progressive-Enhancement.md` | `docs/content/explanation/design/progressive-enhancement.md`| Architectural philosophy behind lightweight clients. |
-| `04_Branding.md` | `docs/content/reference/design/branding.md` | Layout, colors, and typography specifications. |
-
-### 8. Features Document Mapping (`documentation/features/`)
-
-All files within `documentation/features/` describe specific system features in terms of operational parameters, business logic, and specification details. Thus, they should be located under:
-
-`docs/content/reference/features/`
-
-| Current File | Target Location |
-| :--- | :--- |
-| `01_Integration-with-DfE-Signin.md` | `docs/content/reference/features/integration-with-dfe-signin.md` |
-| `02_Session-State.md` | `docs/content/reference/features/session-state.md` |
-| `03_Incomplete-Data.md` | `docs/content/reference/features/incomplete-data.md` |
-| `04_Spending-and-Costs.md` | `docs/content/reference/features/spending-and-costs.md` |
-| `05_Find-Organisation.md` | `docs/content/reference/features/find-organisation.md` |
-| `06_Orchestrator.md` | `docs/content/reference/features/orchestrator.md` |
-| `07_Validation.md` | `docs/content/reference/features/validation.md` |
-| `08_Progressive_Enhancements.md` | `docs/content/reference/features/progressive-enhancements.md` |
-| `09_Commercial-Resources.md` | `docs/content/reference/features/commercial-resources.md` |
-| `10_Service-Banners.md` | `docs/content/reference/features/service-banners.md` |
-| `11_Progress-Bandings.md` | `docs/content/reference/features/progress-bandings.md` |
-| `13_Chart-Rendering-Api.md` | `docs/content/reference/features/chart-rendering-api.md` |
-| `14_Rounding-off-rules-in-service.md`| `docs/content/reference/features/rounding-off-rules-in-service.md`|

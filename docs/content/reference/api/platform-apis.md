@@ -1,4 +1,12 @@
-# Platform APIs
+---
+title: "Platform APIs"
+layout: sub-navigation
+sectionKey: "Reference"
+includeInBreadcrumbs: true
+eleventyNavigation:
+  key: "Platform APIs"
+  parent: "API Reference"
+---
 
 This guide details the architectural patterns and development standards for APIs.
 
@@ -162,6 +170,3 @@ Bindings **only** read:
 * `local.settings.json`
 
 **Application code should use `IConfiguration`**
-
-<!-- Leave the rest of this page blank -->
-\newpage

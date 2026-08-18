@@ -1,4 +1,12 @@
-# Database Migrations and Scripts
+---
+title: "Database Migrations and Scripts"
+layout: sub-navigation
+sectionKey: "How-to guides"
+includeInBreadcrumbs: true
+eleventyNavigation:
+  key: "Database Migrations"
+  parent: "Developers How-to"
+---
 
 This guide sets out the standards and examples for creating safe, defensive, and idempotent database migration scripts within the FBIT repository.
 
@@ -122,4 +130,5 @@ WHERE IsActive = 1
 GO
 ```
 
+> [!IMPORTANT]
 > **Note:** While `CREATE OR ALTER` is available in newer versions of SQL Server, the established pattern in this repository is `DROP ... IF EXISTS` to ensure a clean slate for every deployment.

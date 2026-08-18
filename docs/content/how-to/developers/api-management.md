@@ -1,4 +1,12 @@
-# API Management Strategy
+---
+title: "API Management Strategy"
+layout: sub-navigation
+sectionKey: "How-to guides"
+includeInBreadcrumbs: true
+eleventyNavigation:
+  key: "API Management"
+  parent: "Developers How-to"
+---
 
 This document outlines the management strategy for APIs to ensure efficiency, security, and scalability across the service.
 
@@ -44,6 +52,3 @@ This document outlines the management strategy for APIs to ensure efficiency, se
 
 - **Code Reviews**: Enforce peer code reviews for all API changes to ensure security and consistency.
 - **Audits**: Conduct regular audits of API usage and security.
-
-<!-- Leave the rest of this page blank -->
-\newpage

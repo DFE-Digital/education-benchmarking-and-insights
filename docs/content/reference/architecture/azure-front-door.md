@@ -1,4 +1,12 @@
-# Azure Front Door Review & WAF Log Analysis Guide
+---
+title: "Azure Front Door Review"
+layout: sub-navigation
+sectionKey: "Reference"
+includeInBreadcrumbs: true
+eleventyNavigation:
+  key: "Azure Front Door"
+  parent: "Architecture Reference"
+---
 
 This document unifies two complementary practices:
 
@@ -91,6 +99,3 @@ This ensures repeatability, traceability and reduces configuration drift.
 | 6. IaC update & review       | Update corresponding IaC definitions (Bicep/Terraform/ARM), include change in PR.  |
 | 7. Deployment & monitor      | Deploy, monitor WAF logs and application behaviour.                                |
 | 8. Post-deployment review    | Confirm no regressions, acceptable false-positive rate, revisit after any release. |
-
-<!-- Leave the rest of this page blank -->
-\newpage

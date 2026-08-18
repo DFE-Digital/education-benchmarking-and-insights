@@ -1,7 +1,16 @@
-# Azure DevOps Workflow Guide
+---
+title: "Azure DevOps Workflow Guide"
+layout: sub-navigation
+sectionKey: "How-to guides"
+includeInBreadcrumbs: true
+eleventyNavigation:
+  key: "Azure DevOps Workflow"
+  parent: "Developers How-to"
+---
 
 This document describes the **workflow states** used in our Azure DevOps process. Please follow these definitions to ensure smooth collaboration between developers, BAs, Tech Leads, and Product Owners.
 
+>[!TIP]
 >**Note:** There will be exceptions to the flow when necessary, but this represents the **standard process**.
 
 ## Workflow States
@@ -65,6 +74,3 @@ flowchart LR
     E --> F[Resolved]
     F --> G[Closed]
 ```
-
-<!-- Leave the rest of this page blank -->
-\newpage
