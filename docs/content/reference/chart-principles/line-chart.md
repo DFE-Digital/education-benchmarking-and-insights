@@ -1,4 +1,12 @@
-# Line Chart
+---
+title: "Line Chart"
+layout: sub-navigation
+sectionKey: "Reference"
+includeInBreadcrumbs: true
+eleventyNavigation:
+  key: "Line Chart"
+  parent: "Chart Principles"
+---
 
 Across the Financial Benchmarking and Insight Tool (FBIT) platform, line charts have become the standard method for displaying time-series financial data. Line charts plot quantitative values on a continuous axis, connecting data points in sequence. This document explores in depth how line charts:
 
@@ -129,6 +137,3 @@ While both line and clustered bar charts can represent the same data,
 
 - The line chart is the clear choice when the primary goal is to illustrate how values evolve over time. By connecting each point in sequence, it makes the upward trajectory immediately apparent and highlights where growth peaks, slows or decline.
 - The line chart better serves our goals of illustrating temporal trends and forecast trajectories. Its continuity, ease of cross platform comparison, and natural handling of missing or negative values make it the preferred visual for summarising return balances over time.
-
-<!-- Leave the rest of this page blank -->
-\newpage

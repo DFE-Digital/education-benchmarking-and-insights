@@ -1,4 +1,12 @@
-# Introduction
+---
+title: "Chart Principles"
+layout: sub-navigation
+sectionKey: "Reference"
+includeInBreadcrumbs: true
+eleventyNavigation:
+  key: "Chart Principles"
+  parent: "Reference"
+---
 
 This guide defines a consistent and user-centred approach to charting and data visualisation within the service.
 
@@ -38,6 +46,3 @@ This guide defines a consistent and user-centred approach to charting and data v
 
 - Provide practical, prioritised suggestions for enhancing visual consistency, accuracy, and usability.
 - Align improvement suggestions with user needs and research findings.
-
-<!-- Leave the rest of this page blank -->
-\newpage

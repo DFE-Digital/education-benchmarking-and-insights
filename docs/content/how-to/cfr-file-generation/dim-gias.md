@@ -1,4 +1,12 @@
-# GIAS - Dimension Data
+---
+title: "GIAS - Dimension Data"
+layout: sub-navigation
+sectionKey: "How-to guides"
+includeInBreadcrumbs: true
+eleventyNavigation:
+  key: "DimGIAS"
+  parent: "CFR File Generation"
+---
 
 The CFR data is processed along with a few dimension data to create the downstream dataset named `maintained_schools_master_list` and an accompanying transparency file. These dimension data are:
 
@@ -129,6 +137,3 @@ Get Information about Schools (GIAS) is the Department for Education’s registe
 |LSOA (code)                        | nvarchar  |
 |FSM                                | float     |
 |**LAEstab**                        | float     |
-
-<!-- Leave the rest of this page blank -->
-\newpage

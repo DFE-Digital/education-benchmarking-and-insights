@@ -1,4 +1,12 @@
-# CFR Specific notes
+---
+title: "CFR"
+layout: sub-navigation
+sectionKey: "How-to guides"
+includeInBreadcrumbs: true
+eleventyNavigation:
+  key: "CFR Release"
+  parent: "Data Release Guide"
+---
 
 CFR has a transparency file which is released alongside the CFR data.
 
@@ -59,7 +67,7 @@ Maintained schools in a federation submit their financial data under a combined 
 
   ```sql
   -- Checking federation topology and lead school mappings
-  SELECT URN, SchoolName, FederationLeadURN, TotalExpenditure 
+  SELECT URN, SchoolName, FederationLeadURN, TotalExpenditure
   FROM [dbo].[School] s
   JOIN [dbo].[Financial] f ON s.URN = f.URN
   WHERE (s.FederationLeadURN = '<LeadURN>' OR s.URN = '<LeadURN>') AND f.RunId = '<year>';
@@ -110,5 +118,3 @@ GROUP BY f_prev.RunId;
 * **LAA Risk Derivations:** Remember to trigger LAA risk derivations right after CFR runs successfully. Verify that both denormalised target tables (`LASchoolRiskIndicators` and `LASchoolRiskIndicatorsHeaders`) are populated and match the expectations in the [LAA Risk Indicator Validation](../../quality-assurance/11_Data-Release-Test-Plan.md#laa-risk-indicator-validation) block.
 * Dealing with federations is a complex part of CFR. Do some spot checks on federated maintained schools to check their numbers are being handled correctly.
 * [CFR test plans](../../quality-assurance/data-release-test-plans/00002_CFR-2024-2025-data-release.md)
-
-\newpage

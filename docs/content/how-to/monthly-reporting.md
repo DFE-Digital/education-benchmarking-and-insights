@@ -1,14 +1,20 @@
-# Monthly Analytics Reporting
-
-## Overview
+---
+title: Monthly Reporting
+layout: sub-navigation
+sectionKey: How-to guides
+includeInBreadcrumbs: true
+eleventyNavigation:
+  key: Monthly Reporting
+  parent: How-to guides
+---
 
 There is capability to report user interactions based on visited school pages within the FBIT service by harnessing transactional data from Azure monitor logs (via a log analytics workspace) and relational store in Azure SQL database. An automated ETL process implemented in Excel's Get & Transform (Power Query) facilitates the production of a monthly summary report for intended stakeholder(s).
 
-### Stakeholder(s)
+## Stakeholder(s)
 
 - Product Owner - Schools Financial Benchmarking
 
-### Get started
+## Get started
 
 1. Locate the [FBIT Report TEMPLATE.xlsx](https://educationgovuk.sharepoint.com/:x:/r/sites/DfEFinancialBenchmarking/Shared%20Documents/FBIT%20Product/Analytics/FBIT%20Report%20TEMPLATE.xlsx?d=wa14a57315df54d14b49a90969d898a9e&csf=1&web=1&e=EvhFNn) file found in this [DfE Sharepoint Location](https://educationgovuk.sharepoint.com/:f:/r/sites/DfEFinancialBenchmarking/Shared%20Documents/FBIT%20Product/Analytics).
 2. Open the report with the `Open in app` option and not the browser option.
@@ -28,17 +34,17 @@ There is capability to report user interactions based on visited school pages wi
 7. On the Data ribbon, locate and select the `Refresh All` button to refresh all seven queries.
 8. Confirm refresh by hovering on each query to see `Last refreshed` timestamp, ignore `Load status` and `Data Sources` values as it has no correlation with the data refresh status.
 
-### Prepare Report
+## Prepare Report
 
-#### Total Schools
+### Total Schools
 
 The workbook's `SchoolData` sheet is updated and loaded (overwrite) after a successful refresh. The `Financial` table in the `data` SQL database is updated after a new financial data load with a corresponding RunId. This ensures that we are reporting only on schools that made financial submission for the reporting year. It is typical to have the same records of school data loaded through out an academic/financial year.
 
-#### CFP Completion
+### CFP Completion
 
 The workbook's `CfpData` sheet is updated and loaded (overwrite) after a successful refresh.
 
-#### School Engagement
+### School Engagement
 
 1. In the `SpendingPrioritiesRequestData` sheet of the workbook, navigate to the end of the existing `SpendingPrioritiesRequestData` table and select an empty cell preferably in column F.
 2. Load the `SchoolEngagement` query to the existing worksheet.
@@ -52,7 +58,7 @@ The workbook's `CfpData` sheet is updated and loaded (overwrite) after a success
 3. Copy the loaded data excluding headers and paste value at the end of existing table to append data.
 4. Delete the loaded data after append.
 
-#### Pivot Tables
+### Pivot Tables
 
 1. In the `PivotTables` sheet of the workbook, refresh all four pivot tables.
 2. In the `Summary` sheet of the workbook, insert a row above `Total Unique Schools` of the School Engagement summary.
@@ -64,7 +70,7 @@ The workbook's `CfpData` sheet is updated and loaded (overwrite) after a success
    >
    > For CFP completion summary, `Total plans created` and `# Schools with plans` are calculated rows, do not overwrite but update formula if required.
 
-#### School Features, Trust Features, LA Features and SfpData
+### School Features, Trust Features, LA Features and SfpData
 
 1. In the `Summary` sheet of the workbook, select preferably cell `H4`.
 2. Load the `SchoolFeatures` query to the existing worksheet.
@@ -85,9 +91,9 @@ The workbook's `CfpData` sheet is updated and loaded (overwrite) after a success
 
 8. Inform / share report with stakeholder(s).
 
-### Report Queries
+## Report Queries
 
-#### School Engagement
+### School Engagement
 
 On `p01` Log Analytics workspace, run the following KQL query to cover whole of the last month. The maximum number of rows being shown needs to be updated in the query results in order for them to not be truncated.
 
@@ -112,7 +118,7 @@ GetEstablishmentRequests
 
 > **NOTE:** Although the query above could be modified to capture the whole of the past year, this is not advised due to potentially exceeding the row limit if executing from within Log Analytics in Azure Portal.
 
-#### Total Schools
+### Total Schools
 
 On `p01` database run the following SQL query, remember to update RunId to match the reporting year.
 
@@ -126,7 +132,7 @@ WHERE [RunId] = '2025' -- update RunId value to match the reporting year
 ORDER BY [URN]
 ```
 
-#### School features
+### School features
 
 On `p01` Log Analytics workspace, run the following KQL query to cover whole of the year up to the end of the last month:
 
@@ -151,7 +157,7 @@ GetEstablishmentRequests
     Visits desc
 ```
 
-#### Trust features
+### Trust features
 
 On `p01` Log Analytics workspace, run the following KQL query to cover whole of the year up to the end of the last month:
 
@@ -176,7 +182,7 @@ GetEstablishmentRequests
     Visits desc
 ```
 
-#### Local Authority features
+### Local Authority features
 
 On `p01` Log Analytics workspace, run the following KQL query to cover whole of the year up to the end of the last month:
 
@@ -201,7 +207,7 @@ GetEstablishmentRequests
     Visits desc
 ```
 
-#### CFP Completion
+### CFP Completion
 
 On `p01` SQL database, obtain the CFP records for the whole year up to the end of the last month:
 
@@ -216,7 +222,7 @@ WHERE   [UpdatedAt] > CAST(DATEADD(MONTH, -12, DATEADD(day, 1 - DAY(GETDATE()), 
 ORDER BY [URN], [Year]
 ```
 
-#### SFB Decommissioning
+### SFB Decommissioning
 
 On `p01` Log Analytics workspace, run the following KQL query to cover whole of the year up to the end of the last month:
 
@@ -239,5 +245,3 @@ _**TIPS!!**_
 _To integrate, update or change log analytics query in Excel see [External Reference](https://learn.microsoft.com/en-us/azure/azure-monitor/logs/log-excel)_
 
 _To integrate, update or change SQL query in Excel see [External Reference](https://learn.microsoft.com/en-us/power-query/power-query-ui)_
-<!-- Leave the rest of this page blank -->
-\newpage

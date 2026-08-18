@@ -1,4 +1,12 @@
-# Overview
+---
+title: "CFR File Generation"
+layout: sub-navigation
+sectionKey: "How-to guides"
+includeInBreadcrumbs: true
+eleventyNavigation:
+  key: "CFR File Generation"
+  parent: "How-to guides"
+---
 
 Consistent Financial Reporting (CFR) is one of the four financial data used in the Financial Benchmarking and Insights Tool (FBIT) service. The CFR data is typically received yearly by mid/late August when Local Authorities require maintained schools to complete their financial returns. This financial data is processed along with a few dimensional data (non-financial data) to generate the School Financial Benchmark (SFB) dataset named `maintained_schools_master_list` and an accompanying transparency file. _See [FBIT Domain](/documentation/data/01_Domain.md) for more information on FBIT Financial data._
 
@@ -28,6 +36,3 @@ This documentation outlines input data, quality assurance, data sourcing, cleans
     - My_Step5.sql
 
 7. For historical processing only: Create a local Database to be named `CFRyy` where yy represents the end of the reporting academic year.
-
-<!-- Leave the rest of this page blank -->
-\newpage

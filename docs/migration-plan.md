@@ -114,8 +114,8 @@ The following tables specify exactly where each file from the old `documentation
 | `chart-inconsistency-rationale/` | `docs/content/explanation/data/chart-inconsistency-rationale.md` | Theoretical context for discrepancies. |
 | `chart-principles/` | `docs/content/reference/design/chart-principles.md` | Standards for layout and presentation. |
 | `data-release-guide/` | `docs/content/how-to/data/data-release-guide.md` | Guide on releasing dataset versions. |
-| `monthly-reporting/` | `docs/content/how-to/operational/monthly-reporting.md` | Standard operational report process. |
-| `s251-file-generation/` | `docs/content/how-to/data/s251-file-generation.md` | Operator tasks. |
+| `monthly-reporting/` | `content/how-to/monthly-reporting.md` | Standard operational report process. |
+| `s251-file-generation/` | `content/how-to/s251-file-generation.md` | Operator tasks. |
 
 ### 5. Operational Document Mapping (`documentation/operational/`)
 

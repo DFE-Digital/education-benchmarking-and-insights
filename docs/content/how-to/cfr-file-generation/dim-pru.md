@@ -1,4 +1,12 @@
-# Pupil Referral Unit (Alternative Provision) - Dimension Data
+---
+title: "Pupil Referral Unit (Alternative Provision) - Dimension Data"
+layout: sub-navigation
+sectionKey: "How-to guides"
+includeInBreadcrumbs: true
+eleventyNavigation:
+  key: "DimPRU"
+  parent: "CFR File Generation"
+---
 
 The CFR data is processed along with a few dimension data to create the downstream dataset named `maintained_schools_master_list` and an accompanying transparency file. These dimension data are:
 
@@ -57,6 +65,3 @@ Pupil Referral Units (PRUs) are a type of Alternative Provision (AP) used to edu
 |Phase                              | nvarchar  |
 |Headcount                          | float     |
 |FTE                                | float     |
-
-<!-- Leave the rest of this page blank -->
-\newpage

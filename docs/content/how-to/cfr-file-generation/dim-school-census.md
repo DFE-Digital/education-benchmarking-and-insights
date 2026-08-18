@@ -1,4 +1,12 @@
-# School Census - Dimension Data
+---
+title: "School Census - Dimension Data"
+layout: sub-navigation
+sectionKey: "How-to guides"
+includeInBreadcrumbs: true
+eleventyNavigation:
+  key: "DimSchoolCensus"
+  parent: "CFR File Generation"
+---
 
 The CFR data is processed along with a few dimension data to create the downstream dataset named `maintained_schools_master_list` and an accompanying transparency file. These dimension data are:
 
@@ -143,6 +151,3 @@ Using a database GUI Tool, ingest both flat files as a tables into the newly cre
 | number of pupils who are a young carer                                              | nvarchar  |
 | number_of_dual_subsidiary_registrations                                             | nvarchar  |
 | school_time                                                                         | nvarchar  |
-
-<!-- Leave the rest of this page blank -->
-\newpage
