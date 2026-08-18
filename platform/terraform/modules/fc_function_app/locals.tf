@@ -1,7 +1,7 @@
 locals {
 
   function-app-settings = merge(var.app-settings, {
-    "AZURE_CLIENT_ID"                           = azurerm_user_assigned_identity.func-identity.client_id
+    "AZURE_CLIENT_ID" = azurerm_user_assigned_identity.func-identity.client_id
     #checkov:skip=CKV_SECRET_6: AzureWebJobsSecretStorageType is not a secret
     "AzureWebJobsSecretStorageType"             = "keyvault"
     "AzureWebJobsSecretStorageKeyVaultUri"      = azurerm_key_vault.func_app_kv.vault_uri
