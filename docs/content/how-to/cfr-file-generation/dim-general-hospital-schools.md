@@ -1,4 +1,12 @@
-# General Hospital Schools - Dimension Data
+---
+title: "General Hospital Schools - Dimension Data"
+layout: sub-navigation
+sectionKey: "How-to guides"
+includeInBreadcrumbs: true
+eleventyNavigation:
+  key: "DimGeneralHospitalSchools"
+  parent: "CFR File Generation"
+---
 
 The CFR data is processed along with a few dimension data to create the downstream dataset named `maintained_schools_master_list` and an accompanying transparency file. These dimension data are:
 
@@ -62,6 +70,3 @@ A list of general hospital schools is required. General hospital schools return 
 |DRGirl                             |float      |
 |TotalHeadcount                     |float      |
 |GHSIndicator                       |varchar    |
-
-<!-- Leave the rest of this page blank -->
-\newpage

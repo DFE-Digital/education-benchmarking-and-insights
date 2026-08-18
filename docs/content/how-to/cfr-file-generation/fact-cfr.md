@@ -1,4 +1,12 @@
-# Data Sourcing and Validation for Consistent Financial Reporting (CFR) Data
+---
+title: "Data Sourcing and Validation for Consistent Financial Reporting (CFR) Data"
+layout: sub-navigation
+sectionKey: "How-to guides"
+includeInBreadcrumbs: true
+eleventyNavigation:
+  key: "FactCFR"
+  parent: "CFR File Generation"
+---
 
 This documentation details the necessary steps to process the Consistent Financial Reporting (CFR) data extract. The core of this process involves rigorous data validation and cleansing to ensure the accuracy and integrity of the final output.
 
@@ -332,6 +340,3 @@ View Name = `CFR_yy-yy_Data` where yy-yy represent reporting academic year, for 
 |CashOrAccruals                     |nvarchar   |
 |F109                               |nvarchar   |
 |F110                               |nvarchar   |
-
-<!-- Leave the rest of this page blank -->
-\newpage

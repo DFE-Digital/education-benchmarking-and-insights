@@ -1,4 +1,12 @@
-# School Workforce Census - Dimension Data
+---
+title: "School Workforce Census - Dimension Data"
+layout: sub-navigation
+sectionKey: "How-to guides"
+includeInBreadcrumbs: true
+eleventyNavigation:
+  key: "DimSchoolWorkforceCensus"
+  parent: "CFR File Generation"
+---
 
 The CFR data is processed along with a few dimension data to create the downstream dataset named `maintained_schools_master_list` and an accompanying transparency file. These dimension data are:
 
@@ -118,6 +126,3 @@ Using a database GUI Tool, ingest both flat files as a tables into the created l
 | Rate of Teacher Vacancies - Demoninator is an addition of both teachers and vacancies (%)                                   | float     |
 | Number of Temporarily Filled Teacher Posts                                                                                  | float     |
 | Rate of Temporarily Filled Teacher Posts - Demoninator is an addition of both teachers and vacancies (%)                    | float     |
-
-<!-- Leave the rest of this page blank -->
-\newpage

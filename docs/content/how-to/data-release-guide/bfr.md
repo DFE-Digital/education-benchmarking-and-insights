@@ -1,4 +1,12 @@
-# BFR Specific notes
+---
+title: "BFR"
+layout: sub-navigation
+sectionKey: "How-to guides"
+includeInBreadcrumbs: true
+eleventyNavigation:
+  key: "BFR Release"
+  parent: "Data Release Guide"
+---
 
 BFR data is used for the forecast and risk tool. It doesn't need any ancillary data and just needs to be run through the data pipeline directly from the SQL tables. Increment the `bfr_year` when starting the data pipeline and place the new data in the new year's folder in blob storage.
 
@@ -19,7 +27,7 @@ BFR data is simply exported from the SQL tables outlined in the [data sources pa
 * Check that the pipeline has deposited rows in SQL by querying the database tables for BFR (fill in the year):
 
 ```sql
-SELECT * FROM [dbo].[BudgetForecastReturn] 
+SELECT * FROM [dbo].[BudgetForecastReturn]
 WHERE RunId like '<year>' AND RunType like 'default'
 ```
 
@@ -44,5 +52,3 @@ BFR uses its own, dedicated forecast pupil number which can differ from the stan
 * BFR uses its own pupil number which is different to the census one.
 * BFR uses previous year's BFR data to show spend over time. The manner in which it does this and business context [is described in other docs.](../../data/sources/bfr.md)
 * [BFR Test Plans](../../quality-assurance/data-release-test-plans/00003_BFR-2024-2025-data-release.md)
-
-\newpage

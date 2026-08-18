@@ -1,4 +1,12 @@
-# Overview
+---
+title: "Data Release Guide"
+layout: sub-navigation
+sectionKey: "How-to guides"
+includeInBreadcrumbs: true
+eleventyNavigation:
+  key: "Data Release Guide"
+  parent: "How-to guides"
+---
 
 The FBIT service updates underlying data four times a year: for AAR, BFR, CFR, and S251. Over successive releases the team has established processes for how to plan, communicate, and execute an FBIT data release smoothly, drawn from retrospectives run post-release.
 
@@ -133,7 +141,7 @@ The year for a release corresponds to a directory location in the `raw` containe
 
 * New files in the service will often need code config changes to define their schema for the data pipeline.
 * If there are schema changes from last year, or the contents of the files are very different to last year, flag this to the business as part of the data drop report as early as possible. The business will advise on how to handle these changes.
-* Schema changes and filenames with dates need to be registered in the data pipeline to process the new data correctly. Conceptually there is a file name, a file schema, and a mapping of raw schema names to regularised pipeline names — all of these may need to be updated to get a new file to run in the pipeline. For example, `data-pipeline/src/pipeline/input_schemas/census_workforce.py` allows per-year configuration of: header rows, file schema, filename, column mappings (renaming inconsistent columns for predictable processing), and a column eval config to define derived columns.
+* Schema changes and filenames with dates need to be registered in the data pipeline to process the new data correctly. Conceptually there is a file name, a file schema, and a mapping of raw schema names to regularised pipeline names — all of these may need to be updated to get a new file to run in the pipeline. For example, `../../../../data-pipeline/src/pipeline/input_schemas/census_workforce.py` allows per-year configuration of: header rows, file schema, filename, column mappings (renaming inconsistent columns for predictable processing), and a column eval config to define derived columns.
 * If a schema is not defined for a year, the data pipeline will error.
 
 ### Testing locally
@@ -170,13 +178,13 @@ Compare the total number of records in the raw input files against the number of
 
 ```sql
 -- Financial rows check
-SELECT Count(*), RunId FROM [dbo].[Financial] 
-WHERE RunId = '<year>' AND RunType = 'default' 
+SELECT Count(*), RunId FROM [dbo].[Financial]
+WHERE RunId = '<year>' AND RunType = 'default'
 GROUP BY RunId;
 
 -- Non-Financial rows check
-SELECT Count(*), RunId FROM [dbo].[NonFinancial] 
-WHERE RunId = '<year>' AND RunType = 'default' 
+SELECT Count(*), RunId FROM [dbo].[NonFinancial]
+WHERE RunId = '<year>' AND RunType = 'default'
 GROUP BY RunId;
 ```
 
