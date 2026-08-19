@@ -1,4 +1,12 @@
-# Releases
+---
+title: "Releases"
+layout: sub-navigation
+sectionKey: "Reference"
+includeInBreadcrumbs: true
+eleventyNavigation:
+  key: "Releases"
+  parent: "Data Reference"
+---
 
 The process of releasing data on the service is the responsibility of the developers / maintainers of the service at that given time. This document aims to guide those team members in how to release the financial return data on the service.
 
@@ -97,6 +105,3 @@ To execute the LAA risk scores derivations, set the `"deriveLaaRiskScores": true
 ```
 
 When processed, the pipeline will automatically execute the LAA risk scores derivations module (Maintained School Multi-Factor Risk Calculations) at the end of the standard default pipeline execution, write indicators to the `LASchoolRiskIndicators` and `LASchoolRiskIndicatorsHeaders` tables, and generate the necessary files.
-
-<!-- Leave the rest of this page blank -->
-\newpage

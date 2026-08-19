@@ -1,4 +1,12 @@
-# Academy Apportionments
+---
+title: "Academy Apportionments"
+layout: sub-navigation
+sectionKey: "Explanation"
+includeInBreadcrumbs: true
+eleventyNavigation:
+  key: "Academy Apportionments"
+  parent: "Data Explanation"
+---
 
 ## What are Academy Trusts?
 

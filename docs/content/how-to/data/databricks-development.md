@@ -1,6 +1,12 @@
-# Databricks Development
-
-## Overview
+---
+title: "Databricks Development"
+layout: sub-navigation
+sectionKey: "How-to guides"
+includeInBreadcrumbs: true
+eleventyNavigation:
+  key: "Databricks Development"
+  parent: "Data How-to"
+---
 
 This document outlines the development workflow for FBIT data preprocessing pipelines in Databricks, using Databricks Asset Bundles (DABs) and Delta Live Tables (DLT) to enable source-controlled, testable, and reproducible data engineering.
 

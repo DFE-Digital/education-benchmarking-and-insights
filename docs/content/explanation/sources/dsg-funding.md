@@ -1,4 +1,12 @@
-# Dedicated Schools Grant (DSG)
+---
+title: "Dedicated Schools Grant (DSG)"
+layout: sub-navigation
+sectionKey: "Explanation"
+includeInBreadcrumbs: true
+eleventyNavigation:
+  key: "Dedicated Schools Grant (DSG)"
+  parent: "Data Sources Explanation"
+---
 
 The Dedicated Schools Grant (DSG) provides revenue funding for local authorities, to support expenditure on schools, early years and children and young people with high needs. The grant is made under section 14 of the Education Act 2002.  The grant is paid in to local authorities to support the schools budget it is the main source of income for the schools.
 

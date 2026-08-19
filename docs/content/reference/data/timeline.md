@@ -1,4 +1,12 @@
-# Timeline
+---
+title: "Timeline"
+layout: sub-navigation
+sectionKey: "Reference"
+includeInBreadcrumbs: true
+eleventyNavigation:
+  key: "Timeline"
+  parent: "Data Reference"
+---
 
 The data processing pipeline takes the raw data from various source that cover differing time periods
 
@@ -40,6 +48,3 @@ gantt
 | **Pupil Census**     |                             |
 | **Workforce Census** |                             |
 | **BFR**              |                             |
-
-<!-- Leave the rest of this page blank -->
-\newpage

@@ -1,4 +1,12 @@
-# Cost Categories
+---
+title: "Cost Categories"
+layout: sub-navigation
+sectionKey: "Reference"
+includeInBreadcrumbs: true
+eleventyNavigation:
+  key: "Cost Categories"
+  parent: "Data Reference"
+---
 
 This document maps each category type from the Financial Benchmarking & Insights Tool to the respective **CFR**
 (Consistent Financial Reporting) and **AAR** (Academies’ Accounts Returns) codes.
@@ -68,6 +76,3 @@ This document maps each category type from the Financial Benchmarking & Insights
 | Revenue reserve |                     B01, B02, B06                      |     BAB030     | Calculated - sum of codes             |
 
 > Need to confirm calculation for total income and total expenditure for CFR.
-
-<!-- Leave the rest of this page blank -->
-\newpage

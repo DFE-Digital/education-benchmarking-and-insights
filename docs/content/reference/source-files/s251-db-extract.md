@@ -1,4 +1,12 @@
-# Source Files: s251_alleducation_la_regional_national.csv
+---
+title: "S251 DB Extract"
+layout: sub-navigation
+sectionKey: "Reference"
+includeInBreadcrumbs: true
+eleventyNavigation:
+  key: "S251 DB Extract"
+  parent: "Source Files Reference"
+---
 
 Source: Collect Server
 
@@ -87,6 +95,3 @@ SELECT '202425' as 'time_period'
 **Validation:**
 
 //TODO
-
-<!-- Leave the rest of this page blank -->
-\newpage

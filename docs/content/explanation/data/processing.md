@@ -1,5 +1,12 @@
-# Processing
-
+---
+title: "Processing"
+layout: sub-navigation
+sectionKey: "Explanation"
+includeInBreadcrumbs: true
+eleventyNavigation:
+  key: "Processing"
+  parent: "Data Explanation"
+---
 The data processing pipeline has the following key stages:
 
 * Pre-processing
@@ -545,6 +552,3 @@ class UserDefinedComparatorSet {
    nvarchar(6) URN
 }
 ```
-
-<!-- Leave the rest of this page blank -->
-\newpage

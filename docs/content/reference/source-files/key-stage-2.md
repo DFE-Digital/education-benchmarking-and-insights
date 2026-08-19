@@ -1,4 +1,12 @@
-# Source Files: Key stage 4 results
+---
+title: "Key Stage 2 Results"
+layout: sub-navigation
+sectionKey: "Reference"
+includeInBreadcrumbs: true
+eleventyNavigation:
+  key: "Key Stage 2"
+  parent: "Source Files Reference"
+---
 
 Source: <https://www.compare-school-performance.service.gov.uk/>
 
@@ -20,23 +28,20 @@ For example; for academic year ending July 2024 data is published on October 202
 1. Data tables
 2. Download data(for example, keystage measures, pupil destinations, absence data etc. in csv or xls format) for all of England or a local authority
 3. All of England
-4. Performance > Key stage 4 results
+4. Performance > Key stage 2 results
 
 **File schema:**
 
 >[!CAUTION]
 > Needs to be validated
 
-| Column     |  Type  | Key |
-|------------|:------:|:---:|
-| URN        | Int64  |  Y  |
-| ATT8SCR    | float  |     |
-| P8MEA      | float  |     |
-| P8_BANDING | string |     |
+| Column   |  Type  | Key |
+|----------|:------:|:---:|
+| URN      | Int64  |  Y  |
+| READPROG | string |     |
+| WRITPROG | string |     |
+| MATPROG  | string |     |
 
 **Validation:**
 
 //TODO
-
-<!-- Leave the rest of this page blank -->
-\newpage
