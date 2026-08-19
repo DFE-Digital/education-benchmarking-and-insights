@@ -14,6 +14,7 @@ using LocalAuthority = Web.App.Domain.LocalAuthority;
 namespace Web.App.Controllers;
 
 [Controller]
+[LocalAuthorityAuthorization]
 [Route("local-authority/{code}/risks")]
 [ValidateLaCode]
 [FeatureGate(FeatureFlags.LocalAuthorityRiskIndicators)]

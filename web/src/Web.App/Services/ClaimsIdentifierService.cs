@@ -7,15 +7,16 @@ namespace Web.App.Services;
 
 public interface IClaimsIdentifierService
 {
-    Task<(string[] schools, string[] trusts)> IdentifyValidClaims(Organisation? organisation);
+    Task<(string[] schools, string[] trusts, string[] localAuthorities)> IdentifyValidClaims(Organisation? organisation);
 }
 
 public class ClaimsIdentifierService(IEstablishmentApi api) : IClaimsIdentifierService
 {
-    public async Task<(string[] schools, string[] trusts)> IdentifyValidClaims(Organisation? organisation)
+    public async Task<(string[] schools, string[] trusts, string[] localAuthorities)> IdentifyValidClaims(Organisation? organisation)
     {
         var schools = Array.Empty<string>();
         var trusts = Array.Empty<string>();
+        var localAuthorities = Array.Empty<string>();
 
         if (organisation is { Category.Id: { } orgCategoryId })
         {
@@ -26,7 +27,7 @@ public class ClaimsIdentifierService(IEstablishmentApi api) : IClaimsIdentifierS
                     (schools, trusts) = await HandleTrustSchoolsAsync(organisation);
                     break;
                 case OrganisationCategories.LocalAuthority:
-                    schools = await HandleLocalAuthoritySchoolsAsync(organisation);
+                    (schools, localAuthorities) = await HandleLocalAuthoritySchoolsAsync(organisation);
                     break;
                 default:
                     (schools, trusts) = await HandleSchoolAsync(organisation);
@@ -34,7 +35,7 @@ public class ClaimsIdentifierService(IEstablishmentApi api) : IClaimsIdentifierS
             }
         }
 
-        return (schools, trusts);
+        return (schools, trusts, localAuthorities);
     }
 
     private async Task<(string[] schools, string[] trusts)> HandleTrustSchoolsAsync(Organisation organisation)
@@ -53,18 +54,20 @@ public class ClaimsIdentifierService(IEstablishmentApi api) : IClaimsIdentifierS
         return (schools, trusts);
     }
 
-    private async Task<string[]> HandleLocalAuthoritySchoolsAsync(Organisation organisation)
+    private async Task<(string[] schools, string[] localAuthorities)> HandleLocalAuthoritySchoolsAsync(Organisation organisation)
     {
         var schools = Array.Empty<string>();
+        var localAuthorities = Array.Empty<string>();
 
         var laCode = organisation.EstablishmentNumber?.ToString("000");
         if (laCode != null)
         {
             var la = await api.GetLocalAuthority(laCode).GetResultOrDefault<LocalAuthority>();
+            localAuthorities = [laCode];
             schools = la?.Schools.Select(x => x.URN).OfType<string>().ToArray() ?? [];
         }
 
-        return schools;
+        return (schools, localAuthorities);
     }
 
     private async Task<(string[] schools, string[] trusts)> HandleSchoolAsync(Organisation organisation)

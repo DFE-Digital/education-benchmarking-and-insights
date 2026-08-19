@@ -39,7 +39,7 @@ public class WhenClaimsIdentifierServiceIsCalled
             .ReturnsAsync(ApiResult.Ok(response));
         var service = new ClaimsIdentifierService(_mockApi.Object);
 
-        var (schools, trusts) = await service.IdentifyValidClaims(organisation);
+        var (schools, trusts, _) = await service.IdentifyValidClaims(organisation);
 
         Assert.Single(schools);
         Assert.Contains("123456", schools);
@@ -78,7 +78,7 @@ public class WhenClaimsIdentifierServiceIsCalled
             .ReturnsAsync(ApiResult.Ok(response));
         var service = new ClaimsIdentifierService(_mockApi.Object);
 
-        var (schools, trusts) = await service.IdentifyValidClaims(organisation);
+        var (schools, trusts, _) = await service.IdentifyValidClaims(organisation);
 
         Assert.Equal(2, schools.Length);
         Assert.Contains("123456", schools);
@@ -88,7 +88,7 @@ public class WhenClaimsIdentifierServiceIsCalled
     }
 
     [Fact]
-    public async Task ShouldReturnLaSchoolsCorrectlyWhenLocalAuthority()
+    public async Task ShouldReturnSchoolsAndLocalAuthorityCorrectlyWhenLocalAuthority()
     {
         var organisationItem = new OrganisationItem
         {
@@ -117,12 +117,13 @@ public class WhenClaimsIdentifierServiceIsCalled
             .ReturnsAsync(ApiResult.Ok(response));
         var service = new ClaimsIdentifierService(_mockApi.Object);
 
-        var (schools, trusts) = await service.IdentifyValidClaims(organisation);
+        var (schools, trusts, localAuthorities) = await service.IdentifyValidClaims(organisation);
 
         Assert.Equal(2, schools.Length);
         Assert.Contains("123456", schools);
         Assert.Contains("987654", schools);
         Assert.Empty(trusts);
+        Assert.Contains("123", localAuthorities);
     }
 
     [Fact]
@@ -147,7 +148,7 @@ public class WhenClaimsIdentifierServiceIsCalled
             .ReturnsAsync(ApiResult.Ok(response));
         var service = new ClaimsIdentifierService(_mockApi.Object);
 
-        var (schools, trusts) = await service.IdentifyValidClaims(organisation);
+        var (schools, trusts, _) = await service.IdentifyValidClaims(organisation);
 
         Assert.Single(schools);
         Assert.Contains("123456", schools);
@@ -176,7 +177,7 @@ public class WhenClaimsIdentifierServiceIsCalled
             .ReturnsAsync(ApiResult.Ok(response));
         var service = new ClaimsIdentifierService(_mockApi.Object);
 
-        var (schools, trusts) = await service.IdentifyValidClaims(organisation);
+        var (schools, trusts, _) = await service.IdentifyValidClaims(organisation);
 
         Assert.Single(schools);
         Assert.Contains("123456", schools);
@@ -197,7 +198,7 @@ public class WhenClaimsIdentifierServiceIsCalled
             .ReturnsAsync(ApiResult.Ok());
         var service = new ClaimsIdentifierService(_mockApi.Object);
 
-        var (schools, trusts) = await service.IdentifyValidClaims(organisation);
+        var (schools, trusts, _) = await service.IdentifyValidClaims(organisation);
 
         Assert.Empty(schools);
         Assert.Empty(trusts);

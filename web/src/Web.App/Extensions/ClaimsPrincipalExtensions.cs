@@ -126,7 +126,12 @@ public static class ClaimsPrincipalExtensions
     }
 
 
-    public static ClaimsPrincipal ApplyClaims(this ClaimsPrincipal principal, string? accessToken, IEnumerable<string> schools, IEnumerable<string> trusts)
+    public static ClaimsPrincipal ApplyClaims(
+        this ClaimsPrincipal principal,
+        string? accessToken,
+        IEnumerable<string> schools,
+        IEnumerable<string> trusts,
+        IEnumerable<string> localAuthorities)
     {
         if (principal.Identity is ClaimsIdentity identity)
         {
@@ -138,6 +143,11 @@ public static class ClaimsPrincipalExtensions
             foreach (var trust in trusts)
             {
                 identity.AddClaim(new Claim(ClaimNames.Trusts, trust));
+            }
+
+            foreach (var localAuthority in localAuthorities)
+            {
+                identity.AddClaim(new Claim(ClaimNames.LocalAuthorities, localAuthority));
             }
 
             identity.AddClaim(new Claim(ClaimNames.UserId, principal.UserId()));
@@ -160,5 +170,16 @@ public static class ClaimsPrincipalExtensions
 
         return principal.Claims.Any(c =>
             companyNumber != null && c.Type == ClaimNames.Trusts && c.Value.Contains(companyNumber));
+    }
+
+    public static bool HasLocalAuthorityAuthorisation(this ClaimsPrincipal principal, string? code, IConfiguration configuration)
+    {
+        if (configuration.GetValue<bool>(EnvironmentVariables.DisableOrganisationClaimCheck))
+        {
+            return true;
+        }
+
+        return principal.Claims.Any(c =>
+            code != null && c.Type == ClaimNames.LocalAuthorities && c.Value.Contains(code));
     }
 }

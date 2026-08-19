@@ -346,9 +346,9 @@ public static class ServiceCollectionExtensions
                             telemetry.TrackUserSignedInEvent(context, organisation);
 
                             var service = context.HttpContext.RequestServices.GetRequiredService<IClaimsIdentifierService>();
-                            var (schools, trusts) = await service.IdentifyValidClaims(organisation);
+                            var (schools, trusts, localAuthorities) = await service.IdentifyValidClaims(organisation);
 
-                            context.Principal?.ApplyClaims(context.TokenEndpointResponse?.AccessToken, schools, trusts);
+                            context.Principal?.ApplyClaims(context.TokenEndpointResponse?.AccessToken, schools, trusts, localAuthorities);
                             opts.Events.OnValidatedPrincipal(context);
                         }
                         catch (Exception ex)
