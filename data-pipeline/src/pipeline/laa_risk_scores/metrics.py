@@ -160,7 +160,7 @@ class EndYearBalanceMetric(RangeRiskMetric):
             conditions, [r.risk for r in self.rules], default=self.default_risk
         )
 
-        # 3. Blend previous year score with current year score (weighted)
+        # Blend previous year score with current year score (weighted)
         df[self.score_column] = (
             df[self.score_column] + df[f"{self.prev_year_column}_Score"] / 2
         ).clip(upper=self.risk_score_maximum)
