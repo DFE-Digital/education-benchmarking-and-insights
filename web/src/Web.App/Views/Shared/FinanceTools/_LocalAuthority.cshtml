@@ -36,6 +36,25 @@
                             </p>
                         </li>
                         break;
+                    case FinanceTools.Risks:
+                        <feature name="@FeatureFlags.LocalAuthorityRiskIndicators">
+                            <li>
+                                <h3 class="govuk-heading-s">
+                                    <a href="@Url.Action("Index", "LocalAuthorityRisks", new
+                                             {
+                                                 code = Model.Identifier,
+                                                 referrer = Model.ReferrerKey
+                                             })" class="govuk-link govuk-link--no-visited-state">View schools risk scores</a>
+                                </h3>
+                                <p class="govuk-body">
+                                    View the risk scores and indicator data for maintained schools in this local authority.
+                                </p>
+                                <strong class="govuk-tag govuk-tag--grey govuk-!-margin-bottom-3">
+                                    Requires login
+                                </strong>
+                            </li>
+                        </feature>
+                        break;
                 }
             }
         </ul>

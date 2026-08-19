@@ -29,12 +29,29 @@ public class LocalAuthorityRisksController(
         string? sortField,
         string? sortOrder,
         int? page,
-        string? selectedPhaseOption)
+        string? selectedPhaseOption,
+        string? referrer = null)
     {
         using (logger.BeginScope(new { code }))
         {
             try
             {
+                if (referrer == ReferrerKeys.LocalAuthorityHome)
+                {
+                    var refererUrl = Request.Headers.Referer;
+                    var query = string.Empty;
+
+                    if (!string.IsNullOrWhiteSpace(refererUrl))
+                    {
+                        if (Uri.TryCreate(refererUrl, UriKind.Absolute, out var uri))
+                        {
+                            query = uri.Query;
+                        }
+                    }
+
+                    HttpContext.Session.SetString("BackQuery:Risks", query);
+                }
+
                 sortField ??= nameof(LocalAuthorityRiskIndicators.Overall);
                 sortOrder ??= "desc";
                 page ??= 1;
@@ -80,6 +97,20 @@ public class LocalAuthorityRisksController(
             sortOrder,
             selectedPhaseOption
         });
+    }
+
+    [HttpGet]
+    [Route("back")]
+    public IActionResult Back(string code)
+    {
+        var query = HttpContext.Session.GetString("BackQuery:Risks");
+
+        var baseUrl = Url.Action("Index", "LocalAuthority", new
+        {
+            code
+        });
+
+        return Redirect(string.IsNullOrWhiteSpace(query) ? $"{baseUrl}" : $"{baseUrl}{query}");
     }
 
     [HttpGet]

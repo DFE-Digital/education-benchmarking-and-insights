@@ -9,6 +9,8 @@ using Web.App.Domain.LocalAuthorities;
 using Web.App.Extensions;
 using Web.App.ViewModels;
 using Xunit;
+using LocalAuthority = Web.App.Domain.LocalAuthorities.LocalAuthority;
+using LocalAuthoritySchool = Web.App.Domain.LocalAuthorities.LocalAuthoritySchool;
 
 namespace Web.Integration.Tests.Pages.LocalAuthorities;
 
@@ -42,7 +44,7 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
     [InlineData(true, true, OverallPhaseTypes.Primary, OverallPhaseTypes.Secondary, OverallPhaseTypes.Special, OverallPhaseTypes.PupilReferralUnit)]
     public async Task CanDisplay(bool showBanner, bool hasMissingRag, params string[] phaseTypes)
     {
-        var (page, authority, schools, ratings, banner, _, _) = await SetupNavigateInitPage(showBanner, true, hasMissingRag, null, null, null, phaseTypes: phaseTypes);
+        var (page, authority, schools, ratings, banner, _, _) = await SetupNavigateInitPage(showBanner, true, hasMissingRag, phaseTypes: phaseTypes);
 
         AssertPageLayout(page, authority, schools, ratings, banner, true);
     }
@@ -60,7 +62,7 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
     [InlineData(true, OverallPhaseTypes.Primary, OverallPhaseTypes.Secondary, OverallPhaseTypes.Special, OverallPhaseTypes.PupilReferralUnit)]
     public async Task CanDisplayWhenAuthorityHomepageV2Disabled(bool showBanner, params string[] phaseTypes)
     {
-        var (page, authority, schools, _, banner, _, _) = await SetupNavigateInitPage(showBanner, false, false, null, null, null, phaseTypes: phaseTypes);
+        var (page, authority, schools, _, banner, _, _) = await SetupNavigateInitPage(showBanner, phaseTypes: phaseTypes);
 
         AssertPageLayout(page, authority, schools, [], banner, false);
     }
@@ -1045,10 +1047,21 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
 
     }
 
+    [Fact]
+    public async Task CanDisplayCorrectToolsWhenRisksAreEnabled()
+    {
+        var (page, authority, _, _, _, _, _) = await SetupNavigateInitPage(
+            localAuthorityRisksEnabled: true);
+
+        DocumentAssert.AssertPageUrl(page, Paths.LocalAuthorityHome(authority.Code).ToAbsolute());
+
+        AssertToolsSection(page, true);
+    }
+
     private async Task<(
         IHtmlDocument page,
-        App.Domain.LocalAuthorities.LocalAuthority authority,
-        App.Domain.LocalAuthorities.LocalAuthoritySchool[] schools,
+        LocalAuthority authority,
+        LocalAuthoritySchool[] schools,
         RagRatingSummary[] ratings,
         Banner? banner,
         LocalAuthoritySchoolFinancial[] schoolFinancials,
@@ -1061,13 +1074,14 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
         string? queryString = null,
         decimal? positionCarriedForward = null,
         decimal? positionCarriedForwardPreviousPeriod = null,
+        bool localAuthorityRisksEnabled = false,
         params string[] phaseTypes)
     {
-        var authority = Fixture.Build<App.Domain.LocalAuthorities.LocalAuthority>()
+        var authority = Fixture.Build<LocalAuthority>()
             .With(a => a.Code, "123")
             .With(a => a.HeadlineStatistics, new LocalAuthorityHeadlineStatistics
             {
-                DsgHighNeedsAllocation = (decimal)999999,
+                DsgHighNeedsAllocation = 999999,
                 OutturnTotalHighNeeds = 1100000,
                 OutturnDsgCarriedForward = positionCarriedForward ?? 1234567,
                 OutturnDsgCarriedForwardPreviousPeriod = positionCarriedForwardPreviousPeriod ?? 1122233
@@ -1122,9 +1136,19 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
                 .ToArray();
         }
 
+        var disabledFeatures = new List<string>();
+        if (!localAuthorityHomepageV2Enabled)
+        {
+            disabledFeatures.Add(FeatureFlags.LocalAuthorityHomepageV2);
+        }
+        if (!localAuthorityRisksEnabled)
+        {
+            disabledFeatures.Add(FeatureFlags.LocalAuthorityRiskIndicators);
+        }
+
         var path = Paths.LocalAuthorityHome(authority.Code);
         var page = await Client
-            .SetupDisableFeatureFlags(localAuthorityHomepageV2Enabled ? [] : [FeatureFlags.LocalAuthorityHomepageV2])
+            .SetupDisableFeatureFlags(disabledFeatures.ToArray())
             .SetupHttpContextAccessor(null, path, queryString)
             .SetupEstablishment(authorityWithNeighbours, [authority])
             .SetupInsights()
@@ -1137,9 +1161,9 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
         return (page, authority, schools, ratings, banner, schoolFinancials, schoolWorkforces);
     }
 
-    private App.Domain.LocalAuthorities.LocalAuthoritySchool[] GenerateSchools(string phaseType)
+    private LocalAuthoritySchool[] GenerateSchools(string phaseType)
     {
-        return Fixture.Build<App.Domain.LocalAuthorities.LocalAuthoritySchool>()
+        return Fixture.Build<LocalAuthoritySchool>()
             .With(x => x.OverallPhase, phaseType)
             .CreateMany(10)
             .ToArray();
@@ -1147,8 +1171,8 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
 
     private static void AssertPageLayout(
         IHtmlDocument page,
-        App.Domain.LocalAuthorities.LocalAuthority authority,
-        App.Domain.LocalAuthorities.LocalAuthoritySchool[] schools,
+        LocalAuthority authority,
+        LocalAuthoritySchool[] schools,
         RagRatingSummary[] ratings,
         Banner? banner,
         bool localAuthorityHomepageV2Enabled)
@@ -1195,7 +1219,7 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
         AssertResourcesSection(page);
     }
 
-    private static void AssertAccordionSection(IElement? accordion, App.Domain.LocalAuthorities.LocalAuthoritySchool[] schools)
+    private static void AssertAccordionSection(IElement? accordion, LocalAuthoritySchool[] schools)
     {
         Assert.NotNull(accordion);
         var accordionSections = accordion.QuerySelectorAll(".govuk-accordion__section");
@@ -1214,7 +1238,7 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
         }
     }
 
-    private static void AssertAccordionContent(IElement element, App.Domain.LocalAuthorities.LocalAuthoritySchool[] schools, string expectedPhaseType)
+    private static void AssertAccordionContent(IElement element, LocalAuthoritySchool[] schools, string expectedPhaseType)
     {
         var expectedSchools = schools.Where(x => x.OverallPhase == expectedPhaseType);
 
@@ -1231,13 +1255,17 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
         }
     }
 
-    private static void AssertToolsSection(IHtmlDocument page)
+    private static void AssertToolsSection(IHtmlDocument page, bool localAuthorityRisksEnabled = false)
     {
         var links = page.QuerySelectorAll("#finance-tools .app-links > li a");
-        Assert.Equal(2, links.Length);
+        Assert.Equal(localAuthorityRisksEnabled ? 3 : 2, links.Length);
 
         Assert.Equal("View school spending", links.ElementAt(0).TextContent.Trim());
         Assert.Equal("View pupil and workforce data", links.ElementAt(1).TextContent.Trim());
+        if (localAuthorityRisksEnabled)
+        {
+            Assert.Equal("View schools risk scores", links.ElementAt(2).TextContent.Trim());
+        }
     }
 
     private static void AssertHighNeedsSection(IHtmlDocument page)

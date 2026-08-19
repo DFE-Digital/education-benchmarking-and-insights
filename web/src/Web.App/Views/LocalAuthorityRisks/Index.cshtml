@@ -3,6 +3,13 @@
     ViewData[ViewDataKeys.Title] = PageTitles.LocalAuthorityRisksOverview;
 }
 
+@section Backlink {
+    <a class="govuk-back-link"
+       href="@Url.Action("Back", "LocalAuthorityRisks", new { code = Model.Code })">
+        Back
+    </a>
+}
+
 @await Component.InvokeAsync("EstablishmentHeading", new { title = ViewData[ViewDataKeys.Title], name = Model.Name, id = Model.Code, kind = OrganisationTypes.LocalAuthority })
 
 <div class="govuk-grid-row">

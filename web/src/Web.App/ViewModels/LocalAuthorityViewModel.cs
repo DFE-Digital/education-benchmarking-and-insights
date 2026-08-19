@@ -11,6 +11,7 @@ public class LocalAuthorityViewModel(Domain.LocalAuthorities.LocalAuthority loca
     public string? Code => localAuthority.Code;
     public string? Name => localAuthority.Name;
     public int? NumberOfSchools => localAuthority.Schools.Length;
+    public string? ReferrerKey { get; init; }
 
     public LocalAuthorityHeadlineStatisticsViewModel? HeadlineStatistics => new LocalAuthorityHeadlineStatisticsViewModel()
     {
@@ -46,7 +47,11 @@ public class LocalAuthorityViewModel(Domain.LocalAuthorities.LocalAuthority loca
     public FinanceToolsViewModel Tools => new(
         localAuthority.Code,
         FinanceTools.CompareYourCosts,
-        FinanceTools.BenchmarkCensus);
+        FinanceTools.BenchmarkCensus,
+        FinanceTools.Risks)
+    {
+        ReferrerKey = ReferrerKey
+    };
 
     private static int GetLaPhaseOrder(string? phase)
     {
