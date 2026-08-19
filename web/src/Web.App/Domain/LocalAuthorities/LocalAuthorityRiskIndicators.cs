@@ -17,9 +17,9 @@ public record LocalAuthorityRiskIndicators
     private static string MapGradeToTagColour(string? grade) =>
         grade switch
         {
-            "G" => "green",
-            "A" => "yellow",
-            "R" => "red",
+            "A*" or "A" or "B" or "C" => "green",
+            "D" or "E" => "yellow",
+            "F" or "G" => "red",
             _ => "grey"
         };
 }
