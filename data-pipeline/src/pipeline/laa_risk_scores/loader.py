@@ -48,7 +48,6 @@ def load_laa_risk_score_data(run_year: int):
         cfr_data_year_minus_four,
     )
 
-
 def load_laa_extra_ancillary_data(run_year: int):
     file_config = get_laa_ancillary_filenames(run_year)
     columns_config = get_laa_ancillary_columns(run_year)
