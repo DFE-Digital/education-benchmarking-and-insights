@@ -1,0 +1,10 @@
+﻿{
+  "title": "Validation failed.",
+  "status": 400,
+  "instance": "/api/local-authorities/risks",
+  "errors": {
+    "Phase": [
+      "Phase must be empty or one of the supported values: Nursery, Primary, Secondary, Special, Pupil Referral Unit, All-through"
+    ]
+  }
+}
