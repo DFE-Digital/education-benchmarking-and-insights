@@ -1,6 +1,16 @@
-# Pipeline Trigger Message
+---
+title: "Pipeline Trigger Message"
+layout: sub-navigation
+sectionKey: "Reference"
+includeInBreadcrumbs: true
+eleventyNavigation:
+  key: "Pipeline Trigger Message"
+  parent: "Data Reference"
+---
 
-The Financial Benchmarking and Insights Tool (FBIT) data-processing pipeline relies on queue-triggered messages (payloads) in `data-pipeline-job-pending` to execute data processing runs. These payloads coordinate official baseline data releases as well as interactive user-defined calculations.
+## Pipeline Trigger Message
+
+The Financial Benchmarking and Insights Tool (FBIT) data-processing pipeline relies on queue-triggered messages in `data-pipeline-job-pending` to execute data processing runs. These payloads coordinate official baseline data releases as well as interactive user-defined calculations.
 
 ---
 
@@ -107,6 +117,3 @@ Triggered when a frontend user inputs revised hypothetical financial or characte
   To isolate and protect official system-wide calculations, any custom or user-defined run uses a temporary UUID string for `runId` and `"custom"` for `runType`. This partitions the custom rows safely in both blob storage and relational SQL tables, allowing simple, isolated cleanups without affecting default datasets.
 * **Comparison Anchoring**:
   In user-defined RAG and custom-data runs, the `year` parameter is flattened to a single integer. This serves as the "anchor year", defining which default baseline dataset (`RunId = <year>` and `RunType = 'default'`) the custom school or comparator group should be evaluated against.
-
-<!-- Leave the rest of this page blank -->
-\newpage
