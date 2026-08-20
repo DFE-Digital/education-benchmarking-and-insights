@@ -21,6 +21,7 @@ When generating or modifying documentation, adhere to the following rules:
 - **No Em Dashes**: Do not use em dashes (—). Use colons, commas, or parentheses as appropriate.
 - **No Horizontal Rules**: Do not use horizontal rules (---) to separate sections. Rely on hierarchical headings (`##`, `###`) or list structures to maintain logical flow.
 - **Consistency**: Ensure terminology and formatting align with existing documentation in the module you are modifying.
+- **Diátaxis Alignment**: When creating, editing, or reviewing documentation, actively challenge the user if the content does not align conceptually with the [Diátaxis framework](https://diataxis.fr/) (Tutorials, How-to Guides, Reference, Explanation). Ensure Tutorials are learning-oriented, How-to Guides are task-oriented, Reference is information-oriented, and Explanation is understanding-oriented. Propose structural changes to align with these quadrants when discrepancies are found.
 
 ## Module-Specific Agent Guidance
 
