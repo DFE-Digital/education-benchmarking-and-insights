@@ -349,7 +349,7 @@ class PupilChangeOver4YearsMetric(RangeRiskMetric):
 
 
 @dataclass
-class TotalPupilsSixthFormMetric(RangeRiskMetric):
+class PupilsSixthFormMetric(RangeRiskMetric):
     def derive_value(self, df: pd.DataFrame) -> pd.Series:
         return df["TotalPupilsSixthForm"]
 

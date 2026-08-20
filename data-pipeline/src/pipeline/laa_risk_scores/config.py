@@ -153,8 +153,8 @@ DEFAULT_RISK_CONFIG: list = [
             MetricRule(-0.01999999, 100000.0, 0.0, RiskFlag.NONE.value, "both"),
         ],
     ),
-    TotalPupilsSixthFormMetric(
-        name="TotalPupilsSixthForm",
+    PupilsSixthFormMetric(
+        name="PupilsSixthForm",
         risk_group=RiskGroup.SCHOOL_CHARACTERISTICS,
         risk_score_maximum=0.5,
         rules=[
