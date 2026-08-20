@@ -81,6 +81,7 @@ class BaseRiskMetric:
         value_series = self.derive_value(df)
         if not isinstance(value_series, pd.Series):
             value_series = pd.Series(value_series, index=df.index)
+        value_series = value_series.replace([np.inf, -np.inf], np.nan)
         df[self.value_column] = value_series
         score_series, flag_series = self.derive_risk_score(df, value_series)
 
