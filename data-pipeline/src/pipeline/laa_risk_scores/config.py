@@ -33,7 +33,7 @@ DEFAULT_RISK_CONFIG: list = [
         risk_group=RiskGroup.FINANCIAL,
         risk_score_maximum=0.5,
         rules=[
-            MetricRule(0, 0.09999, 0.0, RiskFlag.NO_RISK.value, "both"),
+            MetricRule(0, 0.09999, 0.0, RiskFlag.NONE.value, "both"),
             MetricRule(0.1, 0.149999, 0.25, RiskFlag.MINOR.value, "both"),
             MetricRule(0.15, 1.0, 0.5, RiskFlag.MINOR.value, "both"),
         ],
@@ -43,7 +43,7 @@ DEFAULT_RISK_CONFIG: list = [
         risk_group=RiskGroup.FINANCIAL,
         risk_score_maximum=1.5,
         rules=[
-            MetricRule(0, 0.799999, 0.0, RiskFlag.NO_RISK.value, "both"),
+            MetricRule(0, 0.799999, 0.0, RiskFlag.NONE.value, "both"),
             MetricRule(0.8, 0.8499, 0.75, RiskFlag.MINOR.value, "both"),
             MetricRule(0.85, 0.899, 1.0, RiskFlag.MINOR.value, "both"),
             MetricRule(0.9, 0.9499, 1.25, RiskFlag.MINOR.value, "both"),
@@ -174,12 +174,12 @@ DEFAULT_RISK_CONFIG: list = [
         condition_column="TypeOfEstablishment (code)",
         special_values=[7, 8, 12, 42, 44],
         standard_rules=[
-            MetricRule(0, 5, 0.0, RiskFlag.NO_RISK.value, "left"),
+            MetricRule(0, 5, 0.0, RiskFlag.NONE.value, "left"),
             MetricRule(5, 6, 0.25, RiskFlag.MINOR_RISK.value, "left"),
             MetricRule(6, np.inf, 0.5, RiskFlag.MINOR_RISK.value, "both"),
         ],
         special_rules=[
-            MetricRule(0, 15, 0.0, RiskFlag.NO_RISK.value, "left"),
+            MetricRule(0, 15, 0.0, RiskFlag.NONE.value, "left"),
             MetricRule(15, 25, 0.25, RiskFlag.MINOR_RISK.value, "left"),
             MetricRule(25, np.inf, 0.5, RiskFlag.MINOR_RISK.value, "both"),
         ],
