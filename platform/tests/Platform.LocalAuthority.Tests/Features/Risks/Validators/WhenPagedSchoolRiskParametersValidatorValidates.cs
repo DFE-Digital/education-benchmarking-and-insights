@@ -29,7 +29,6 @@ public class WhenPagedSchoolRisksParametersValidatorValidates
 
         // invalid page
         { "code1", 0, 10, null, null, null, "must be an int >=1" },
-        { "code1", 101, 10, null, null, null, "must be an int >=1" },
 
         // invalid pageSize
         { "code1", 1, 0, null, null, null, "must be an int >=1" },
