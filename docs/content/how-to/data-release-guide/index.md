@@ -139,7 +139,7 @@ And so on. `runId` should be the highest of the years of the 4 releases, and is 
 
 The year for a release corresponds to a directory location in the `raw` container. For the pipeline to run correctly, the correct data must be in the right directory in the `raw` container.
 
-For an in-depth explanation of the decoupling of `runId` and `year`, mismatched timelines, and user calculation isolation, see the [Pipeline Payload Definitions and Schema Nuances](../../reference/data/pipeline-trigger-message.md) reference page.
+For an in-depth explanation of the decoupling of `runId` and `year`, mismatched timelines, and user calculation isolation, see the [Pipeline Trigger Message Concepts](../../explanation/data/pipeline-trigger-message.md) explanation page.
 
 ### Checking for schema changes
 

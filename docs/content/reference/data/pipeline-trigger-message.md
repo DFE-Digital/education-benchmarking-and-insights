@@ -1,5 +1,5 @@
 ---
-title: "Pipeline Trigger Message"
+title: "Pipeline Trigger Message Schema"
 layout: sub-navigation
 sectionKey: "Reference"
 includeInBreadcrumbs: true
@@ -8,9 +8,11 @@ eleventyNavigation:
   parent: "Data Reference"
 ---
 
-## Pipeline Trigger Message
+## Pipeline Trigger Message Schema
 
 The Financial Benchmarking and Insights Tool (FBIT) data-processing pipeline relies on queue-triggered messages in `data-pipeline-job-pending` to execute data processing runs. These payloads coordinate official baseline data releases as well as interactive user-defined calculations.
+
+For an in-depth discussion on the architectural and conceptual decisions behind these parameter designs (such as isolation levels, decoupling, and mismatched timelines), see the [Pipeline Trigger Message Concepts](../../../explanation/data/pipeline-trigger-message.md) explanation page.
 
 ---
 
@@ -32,7 +34,7 @@ All incoming pipeline messages adhere to a structured schema defined by the back
 
 ---
 
-## 2. Examples
+## 2. Payload Examples
 
 The three primary use cases in FBIT use the following distinct payload schemas:
 
@@ -102,18 +104,3 @@ Triggered when a frontend user inputs revised hypothetical financial or characte
   }
 }
 ```
-
----
-
-## 3. Notes
-
-* **jobId**:
-  The orchestrator adds a `jobId` to each job's message, which is a unique transactional identifier used to track and monitor the status of background task orchestration. As it's auto-generated, don't include it in your trigger.
-* **Decoupling of `runId` and `year`**:
-  While both parameters represent timeline-related data, they are architecturally decoupled. `runId` serves as the database partition key to group and query outputs, while `year` serves as the directory reference to locate input source files.
-* **Mismatched DfE Timelines**:
-  DfE updates (AAR, CFR, BFR, S251) are released on independent annual cycles. Consequently, the latest official "baseline" system state at any given point (e.g. `RunId = 2026`) requires pulling from mismatched years across raw datasets (e.g. `cfr` 2026, but `aar` 2025). Grouping these source years under a nested `"year"` dictionary enables the default pipeline run to load files from correct raw container directories while storing everything under a unified `RunId` output.
-* **User-Calculation Isolation**:
-  To isolate and protect official system-wide calculations, any custom or user-defined run uses a temporary UUID string for `runId` and `"custom"` for `runType`. This partitions the custom rows safely in both blob storage and relational SQL tables, allowing simple, isolated cleanups without affecting default datasets.
-* **Comparison Anchoring**:
-  In user-defined RAG and custom-data runs, the `year` parameter is flattened to a single integer. This serves as the "anchor year", defining which default baseline dataset (`RunId = <year>` and `RunType = 'default'`) the custom school or comparator group should be evaluated against.
