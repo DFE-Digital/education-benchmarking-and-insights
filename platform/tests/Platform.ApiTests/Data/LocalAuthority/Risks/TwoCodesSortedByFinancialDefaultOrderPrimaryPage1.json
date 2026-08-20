@@ -1,0 +1,19 @@
+﻿{
+  "results": [
+    {
+      "urn": "990148",
+      "schoolName": "Test school 238",
+      "laCode": "202",
+      "overallGrade": "G",
+      "overall": 4.88,
+      "financial": 17.73,
+      "schoolAndPupil": 4.24,
+      "educationalPerformance": 0.52
+    }
+  ],
+  "page": 1,
+  "pageSize": 1,
+  "totalResults": 3,
+  "hasNextPage": true,
+  "hasPreviousPage": false
+}

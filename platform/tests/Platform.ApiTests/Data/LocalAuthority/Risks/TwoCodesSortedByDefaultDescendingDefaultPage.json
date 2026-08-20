@@ -1,0 +1,29 @@
+﻿{
+  "results": [
+    {
+      "urn": "990133",
+      "schoolName": "Test school 10",
+      "laCode": "202",
+      "overallGrade": "A",
+      "overall": 13.17,
+      "financial": 1.22,
+      "schoolAndPupil": 0.55,
+      "educationalPerformance": 1.59
+    },
+    {
+      "urn": "990148",
+      "schoolName": "Test school 238",
+      "laCode": "202",
+      "overallGrade": "G",
+      "overall": 4.88,
+      "financial": 17.73,
+      "schoolAndPupil": 4.24,
+      "educationalPerformance": 0.52
+    }
+  ],
+  "page": 1,
+  "pageSize": 10,
+  "totalResults": 2,
+  "hasNextPage": false,
+  "hasPreviousPage": false
+}
