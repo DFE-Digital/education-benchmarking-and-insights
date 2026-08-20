@@ -50,7 +50,7 @@
     "swagger-ui-dist": "^5.32.8",
     "ts-jest": "^29.4.9",
     "ts-oas": "0.6.0",
-    "tsc-alias": "^1.8.17",
+    "tsc-alias": "^1.9.1",
     "typescript": "^5.9.2"
   },
   "overrides": {
