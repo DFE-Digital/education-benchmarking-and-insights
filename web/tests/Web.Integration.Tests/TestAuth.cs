@@ -12,6 +12,7 @@ public class TestAuthOptions : AuthenticationSchemeOptions
 {
     public int URN { get; set; }
     public int CompanyNumber { get; set; }
+    public int Code { get; set; }
     public bool AllowAuth { get; set; } = true;
 }
 
@@ -24,7 +25,7 @@ public class Auth : AuthenticationHandler<TestAuthOptions>
 
     public Auth(IOptionsMonitor<TestAuthOptions> options, ILoggerFactory logger, UrlEncoder encoder) : base(options, logger, encoder) { }
 
-    public static ClaimsPrincipal GetUser(int urn, int companyNumber, string authType = "Test")
+    public static ClaimsPrincipal GetUser(int urn, int companyNumber, int code, string authType = "Test")
     {
         var claims = new List<Claim>
         {
@@ -39,6 +40,7 @@ public class Auth : AuthenticationHandler<TestAuthOptions>
                 URN = urn
             })),
             new(ClaimNames.Trusts, companyNumber.ToString()),
+            new(ClaimNames.LocalAuthorities, code.ToString()),
             new(ClaimTypes.NameIdentifier, Guid.Empty.ToString())
         };
 
@@ -48,7 +50,7 @@ public class Auth : AuthenticationHandler<TestAuthOptions>
 
     protected override Task<AuthenticateResult> HandleAuthenticateAsync()
     {
-        var principal = GetUser(Options.URN, Options.CompanyNumber);
+        var principal = GetUser(Options.URN, Options.CompanyNumber, Options.Code);
         var ticket = new AuthenticationTicket(principal, "Test");
 
         var result = Options.AllowAuth

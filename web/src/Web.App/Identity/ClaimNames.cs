@@ -15,4 +15,5 @@ public static class ClaimNames
 
     public const string Schools = "schools";
     public const string Trusts = "trusts";
+    public const string LocalAuthorities = "localAuthorities";
 }

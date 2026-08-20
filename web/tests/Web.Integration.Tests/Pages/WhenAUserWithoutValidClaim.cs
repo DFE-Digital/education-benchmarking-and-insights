@@ -8,6 +8,7 @@ public class WhenAUserWithoutValidClaims(SchoolBenchmarkingWebAppClient client)
 {
     private const string Urn = "654321";
     private const string CompanyNumber = "12345678";
+    private const string Code = "321";
 
     [Fact]
     public async Task SchoolFinancialPlanningRedirectsToForbidden()
@@ -47,5 +48,15 @@ public class WhenAUserWithoutValidClaims(SchoolBenchmarkingWebAppClient client)
 
         PageAssert.IsForbiddenPage(page);
         DocumentAssert.AssertPageUrl(page, Paths.TrustForecast(CompanyNumber).ToAbsolute(), HttpStatusCode.Forbidden);
+    }
+
+    [Fact]
+    public async Task LocalAuthorityRisksRedirectsToForbidden()
+    {
+        var page = await Client
+            .Navigate(Paths.LocalAuthorityRisks(Code));
+
+        PageAssert.IsForbiddenPage(page);
+        DocumentAssert.AssertPageUrl(page, Paths.LocalAuthorityRisks(Code).ToAbsolute(), HttpStatusCode.Forbidden);
     }
 }

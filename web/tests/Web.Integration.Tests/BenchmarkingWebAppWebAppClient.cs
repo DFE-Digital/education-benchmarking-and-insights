@@ -36,6 +36,7 @@ public class SchoolBenchmarkingWebAppClient : BenchmarkingWebAppClient
     {
         auth.URN = 123456;
         auth.CompanyNumber = 87654321;
+        auth.Code = 123;
     })
     { }
 }

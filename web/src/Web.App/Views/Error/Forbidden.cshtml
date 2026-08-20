@@ -1,5 +1,9 @@
-﻿@{
+﻿@using Microsoft.FeatureManagement
+@inject IFeatureManager FeatureManager
+@{
     ViewData[ViewDataKeys.Title] = PageTitles.ErrorAccessDenied;
+    var isRisksEnabled = await FeatureManager.IsEnabledAsync(FeatureFlags.LocalAuthorityRiskIndicators);
+    var organisations = isRisksEnabled ? "school or trust" : "school, trust or local authority";
 }
 
 <div class="govuk-grid-row">
@@ -11,7 +15,7 @@
         </p>
 
             <ul class="govuk-list govuk-list--bullet">
-                <li>the school or trust was not selected when signing in</li>
+                <li>the @organisations was not selected when signing in</li>
             </ul>
 
         <p class="govuk-body">
@@ -19,11 +23,11 @@
         </p>
 
         <ul class="govuk-list govuk-list--bullet">
-            <li>you do not have permission to access this trust or school</li>
+            <li>you do not have permission to access this @organisations</li>
         </ul>
 
         <p class="govuk-body">
-            If you believe you do have the correct access, try to sign in again and ensure the school or trust is selected.
+            If you believe you do have the correct access, try to sign in again and ensure the @organisations is selected.
         </p>
 
         <p class="govuk-body">
