@@ -188,7 +188,9 @@ DEFAULT_RISK_CONFIG: list = [
         name="ParentalPreference",
         risk_group=RiskGroup.SCHOOL_CHARACTERISTICS,
         risk_score_maximum=1.5,
-        rules=[
+        condition_column="TypeOfEstablishment (code)",
+        special_values=[7, 12],
+        standard_rules=[
             MetricRule(0.0, 0.59999999, 1.5, RiskFlag.MAJOR.value, "both"),
             MetricRule(0.60, 0.64999999, 1.2, RiskFlag.MAJOR.value, "both"),
             MetricRule(0.65, 0.69999999, 1.0, RiskFlag.MAJOR.value, "both"),
@@ -197,6 +199,9 @@ DEFAULT_RISK_CONFIG: list = [
             MetricRule(0.80, 0.84999990, 0.4, RiskFlag.MINOR.value, "both"),
             MetricRule(0.85, 0.89999999, 0.2, RiskFlag.MINOR.value, "both"),
             MetricRule(0.90, 10000.0, 0.0, RiskFlag.NONE.value, "both"),
+        ],
+        special_rules=[
+            MetricRule(0.0, 10000.0, 0.0, RiskFlag.NONE.value, "both"),
         ],
     ),
     PerformanceTablesProgressScoreMetric(

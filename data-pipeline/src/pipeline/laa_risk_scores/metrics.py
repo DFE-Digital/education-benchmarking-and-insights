@@ -361,9 +361,18 @@ class PupilAbsenceMetric(ConditionalRiskMetric):
 
 
 @dataclass
-class ParentalPreferenceMetric(RangeRiskMetric):
+class ParentalPreferenceMetric(ConditionalRiskMetric):
     def derive_value(self, df: pd.DataFrame) -> pd.Series:
         return df["proportion_1stprefs_v_totaloffers"]
+
+    def execute(self, df: pd.DataFrame) -> None:
+        super().execute(df)
+
+        # Override for special values to bypass missing value masking as major risk
+        is_special = df[self.condition_column].isin(self.special_values)
+        if is_special.any():
+            df.loc[is_special, self.score_column] = 0.0
+            df.loc[is_special, self.flag_column] = RiskFlag.NONE.value
 
 
 @dataclass
