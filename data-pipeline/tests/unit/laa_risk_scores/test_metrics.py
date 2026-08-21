@@ -1,5 +1,6 @@
 import numpy as np
 import pandas as pd
+
 from pipeline.laa_risk_scores.config import DEFAULT_RISK_CONFIG
 
 
