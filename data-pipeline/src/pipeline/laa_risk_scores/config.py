@@ -175,13 +175,13 @@ DEFAULT_RISK_CONFIG: list = [
         special_values=[7, 8, 12, 42, 44],
         standard_rules=[
             MetricRule(0, 5, 0.0, RiskFlag.NONE.value, "left"),
-            MetricRule(5, 6, 0.25, RiskFlag.MINOR_RISK.value, "left"),
-            MetricRule(6, np.inf, 0.5, RiskFlag.MINOR_RISK.value, "both"),
+            MetricRule(5, 6, 0.25, RiskFlag.MINOR.value, "left"),
+            MetricRule(6, np.inf, 0.5, RiskFlag.MINOR.value, "both"),
         ],
         special_rules=[
             MetricRule(0, 15, 0.0, RiskFlag.NONE.value, "left"),
-            MetricRule(15, 25, 0.25, RiskFlag.MINOR_RISK.value, "left"),
-            MetricRule(25, np.inf, 0.5, RiskFlag.MINOR_RISK.value, "both"),
+            MetricRule(15, 25, 0.25, RiskFlag.MINOR.value, "left"),
+            MetricRule(25, np.inf, 0.5, RiskFlag.MINOR.value, "both"),
         ],
     ),
     ParentalPreferenceMetric(
@@ -218,8 +218,8 @@ DEFAULT_RISK_CONFIG: list = [
         risk_group=RiskGroup.EDUCATIONAL_PERFORMANCE,
         risk_score_maximum=0.25,
         rules=[
-            MetricRule(0.0, 0.45999990, 0.25, RiskFlag.MINOR.value, "both"),
-            MetricRule(0.46000000, 1.0, 0.0, RiskFlag.NONE.value, "both"),
+            MetricRule(0, 45.999990, 0.25, RiskFlag.MINOR.value, "both"),
+            MetricRule(46, 1.0, 0.0, RiskFlag.NONE.value, "both"),
         ],
     ),
 ]

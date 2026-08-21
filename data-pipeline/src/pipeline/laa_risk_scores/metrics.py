@@ -16,7 +16,6 @@ class RiskFlag(str, Enum):
     NONE = "None"
     MINOR = "Minor"
     MAJOR = "Major"
-    MINOR_RISK = "Minor Risk"
 
 
 @dataclass
