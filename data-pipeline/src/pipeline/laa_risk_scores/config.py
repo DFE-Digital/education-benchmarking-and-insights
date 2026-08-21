@@ -430,7 +430,7 @@ laa_download_schemas = {
         "Premises staff and services_Other occupation costs",
         "school_places",
         "sess_overall_percent",
-        "proportion_1stprefs_v_totaloffers"
+        "proportion_1stprefs_v_totaloffers",
     ]
 }
 
