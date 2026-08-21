@@ -1,0 +1,19 @@
+﻿{
+  "results": [
+    {
+      "urn": "990116",
+      "schoolName": "Test school 237",
+      "laCode": "201",
+      "overallGrade": "A*",
+      "overall": 13.74,
+      "financial": 8.74,
+      "schoolAndPupil": 3.73,
+      "educationalPerformance": 1.49
+    }
+  ],
+  "page": 1,
+  "pageSize": 1,
+  "totalResults": 3,
+  "hasNextPage": true,
+  "hasPreviousPage": false
+}
