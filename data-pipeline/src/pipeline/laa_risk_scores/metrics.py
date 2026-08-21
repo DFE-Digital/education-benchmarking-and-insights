@@ -254,7 +254,7 @@ class PercentExpenditureOnStaffMetric(RangeRiskMetric):
 class ChangeInExpenditureOver4YearsMetric(RangeRiskMetric):
     def derive_value(self, df: pd.DataFrame) -> pd.Series:
         return (df["Total Expenditure"] - df["Total Expenditure_y_minus_four"]) / df[
-            "Total Expenditure"
+            "Total Income"
         ]
 
 
