@@ -49,7 +49,7 @@ def roll_up_laa_risk_scores_to_headlines(
     total_score = df[score_cols].sum(axis=1)
     total_risks = (
         df[risk_cols]
-        .isin([RiskFlag.MINOR.value, RiskFlag.MINOR_RISK.value, RiskFlag.MAJOR.value])
+        .isin([RiskFlag.MINOR.value, RiskFlag.MAJOR.value])
         .sum(axis=1)
     )
     total_major_risks = df[risk_cols].isin([RiskFlag.MAJOR.value]).sum(axis=1)
