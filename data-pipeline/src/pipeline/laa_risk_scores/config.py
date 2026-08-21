@@ -219,7 +219,7 @@ DEFAULT_RISK_CONFIG: list = [
         risk_score_maximum=0.25,
         rules=[
             MetricRule(0, 45.999990, 0.25, RiskFlag.MINOR.value, "both"),
-            MetricRule(46, 1.0, 0.0, RiskFlag.NONE.value, "both"),
+            MetricRule(46, 100, 0.0, RiskFlag.NONE.value, "both"),
         ],
     ),
 ]
