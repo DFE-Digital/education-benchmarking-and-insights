@@ -6,14 +6,14 @@ This procedural guide details how to implement 100% functional test coverage wit
 
 ### 1. Discovery & Load Test Plan
 
-- **Mandatory Discovery Rules**: Read and follow the discovery and validation rules in `ai-tools/instructions/shared-api-discovery.md` to resolve the target **API** and **Feature** from the provided input.
+- **Mandatory Discovery Rules**: Read and follow the discovery and validation rules in `md` to resolve the target **API** and **Feature** from the provided input.
 - If either the API name or the Feature name is missing, or if the target cannot be found, you **MUST STOP** and follow the **Fallback & Clarification** rules in the discovery document.
 - Locate and read the corresponding test plan in `documentation/quality-assurance/api-test-plans/[API]-[Feature].md`.
 - Identify the scenarios, versions, and validation rules to be implemented.
 
 ### 2. Structural Realignment
 
-- Verify the feature file location in `platform/tests/Platform.ApiTests/Features/`.
+- Verify the feature file location in `../../platform/tests/Platform.ApiTests/Features`.
 - **Mandate:** Feature files MUST reside in subfolders matching the backend namespace (e.g., `Features/LocalAuthority/Details/`).
 - If feature files are flat in a module folder, move them into the appropriate sub-directory and update their `Feature:` header to include the parent grouping (e.g., `Feature: Local Authority Details - Maintained Schools`).
 - Ensure the corresponding Step Binding classes have the correct `[Scope(Feature = "...")]` attribute.
@@ -34,7 +34,7 @@ This procedural guide details how to implement 100% functional test coverage wit
 
 When creating or updating expected JSON data files, use the built-in recording infrastructure:
 
-1. **Initialize Placeholders:** Create a placeholder JSON file (containing exactly `{}` or `[]`) in the appropriate `Data/` subfolder (e.g., `platform/tests/Platform.ApiTests/Data/School/Search/`) prior to running the suite. *Crucial: If you skip this, the Embedded Resource loader will crash the test before it can reach your recording logic.*
+1. **Initialize Placeholders:** Create a placeholder JSON file (containing exactly `{}` or `[]`) in the appropriate `Data/` subfolder (e.g., `../../platform/tests/Platform.ApiTests/Data/School/Search`) prior to running the suite. *Crucial: If you skip this, the Embedded Resource loader will crash the test before it can reach your recording logic.*
 2. **Inject Recording Hook:** In your C# step binding, wrap a call to the permanent helper method in a compiler directive block just before the `AssertDeepEquals` check:
 
    ```csharp
@@ -51,6 +51,6 @@ When creating or updating expected JSON data files, use the built-in recording i
 
 ## Key Files to Reference
 
-- `platform/tests/Platform.ApiTests/TestDataHelpers/TestDataProvider.cs`: Used for loading expected JSON.
-- `platform/tests/Platform.ApiTests/Assertion/AssertionExtensions.cs`: Contains `AssertDeepEquals`.
+- `../../platform/tests/Platform.ApiTests/TestDataHelpers/TestDataProvider.cs`: Used for loading expected JSON.
+- `../../platform/tests/Platform.ApiTests/Assertion/AssertionExtensions.cs`: Contains `AssertDeepEquals`.
 - `platform/tests/Platform.ApiTests/README.md`: Root testing mandates for Platform API.
