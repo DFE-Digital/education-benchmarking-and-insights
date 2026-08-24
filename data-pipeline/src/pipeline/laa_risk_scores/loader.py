@@ -45,7 +45,7 @@ def load_laa_risk_score_data(run_year: int):
         cfr_data_year_minus_one,
         cfr_data_year_minus_two,
         cfr_data_year_minus_three,
-        cfr_data_year_minus_four
+        cfr_data_year_minus_four,
     )
 
 
@@ -57,18 +57,14 @@ def load_laa_extra_ancillary_data(run_year: int):
     absences_data_path = f"default/{run_year}/{file_config['absences']}"
     absences_blob = get_blob("raw", absences_data_path)
     absences_df = pd.read_csv(
-        absences_blob,
-        usecols=absences_schema.keys(),
-        dtype=absences_schema
+        absences_blob, usecols=absences_schema.keys(), dtype=absences_schema
     )
 
     capacity_schema = columns_config["capacity"]
     capacity_data_path = f"default/{run_year}/{file_config['capacity']}"
     capacity_blob = get_blob("raw", capacity_data_path)
     capacity_df = pd.read_csv(
-        capacity_blob,
-        usecols=capacity_schema.keys(),
-        dtype=capacity_schema
+        capacity_blob, usecols=capacity_schema.keys(), dtype=capacity_schema
     )
 
     capacity_special_schema = columns_config["capacity_special"]
@@ -77,16 +73,18 @@ def load_laa_extra_ancillary_data(run_year: int):
     capacity_special_df = pd.read_csv(
         capacity_special_blob,
         usecols=capacity_special_schema.keys(),
-        dtype=capacity_special_schema
+        dtype=capacity_special_schema,
     )
 
     parental_preference_schema = columns_config["parental_preference"]
-    parental_preference_data_path = f"default/{run_year}/{file_config['parental_preference']}"
+    parental_preference_data_path = (
+        f"default/{run_year}/{file_config['parental_preference']}"
+    )
     parental_preference_blob = get_blob("raw", parental_preference_data_path)
     parental_preference_df = pd.read_csv(
         parental_preference_blob,
         usecols=parental_preference_schema.keys(),
-        dtype=parental_preference_schema
+        dtype=parental_preference_schema,
     )
 
     return {
@@ -94,5 +92,5 @@ def load_laa_extra_ancillary_data(run_year: int):
         "capacity_raw": capacity_df,
         "capacity_special_raw": capacity_special_df,
         "parental_preference_raw": parental_preference_df,
-        "run_year": run_year
+        "run_year": run_year,
     }

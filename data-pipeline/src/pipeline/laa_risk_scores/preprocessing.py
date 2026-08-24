@@ -14,7 +14,7 @@ def preprocess_laa_data(
     absences,
     capacity,
     parental_preference,
-    run_year: int
+    run_year: int,
 ):
     logger.info(f"Merging {run_year} LAA risk score data with ancillary data...")
     cfr_with_one_historic_year = pd.merge(
@@ -72,7 +72,7 @@ def preprocess_laa_data(
         parental_preference,
         how="left",
         left_on="URN",
-        right_on="school_urn"
+        right_on="school_urn",
     )
 
     unfederated_schools = cfr_with_all_extra_data["Lead school in federation"] == "0"
@@ -86,14 +86,14 @@ def preprocess_laa_extra_ancillary_data(
     capacity_raw,
     capacity_special_raw,
     parental_preference_raw,
-    run_year: int
+    run_year: int,
 ):
     time_period = int(f"{run_year - 1}{str(run_year)[-2:]}")
     preprocessed_absences = absences_raw[absences_raw["time_period"] == time_period]
 
     all_capacity = pd.concat([capacity_raw, capacity_special_raw])
     capacity_df_filtered = all_capacity[all_capacity["time_period"] == time_period]
-    
+
     # Some all-through schools from CFR are split into primary/secondary
     preprocessed_capacity = capacity_df_filtered.groupby("school_urn", as_index=False)[
         "school_places"
@@ -102,7 +102,7 @@ def preprocess_laa_extra_ancillary_data(
     parental_preference_df_filtered = parental_preference_raw[
         parental_preference_raw["time_period"] == time_period
     ]
-    
+
     # Some all-through schools from CFR are split into primary/secondary
     preprocessed_parental_preference = parental_preference_df_filtered.groupby(
         "school_urn", as_index=False
@@ -111,7 +111,13 @@ def preprocess_laa_extra_ancillary_data(
     places_offered = preprocessed_parental_preference["total_number_places_offered"]
     times_1st_pref = preprocessed_parental_preference["times_put_as_1st_preference"]
     preprocessed_parental_preference["proportion_1stprefs_v_totaloffers"] = (
-        times_1st_pref.div(places_offered.replace(0, pd.NA))
-    ).fillna(0.0).astype("float")
+        (times_1st_pref.div(places_offered.replace(0, pd.NA)))
+        .fillna(0.0)
+        .astype("float")
+    )
 
-    return preprocessed_absences, preprocessed_capacity, preprocessed_parental_preference
+    return (
+        preprocessed_absences,
+        preprocessed_capacity,
+        preprocessed_parental_preference,
+    )

@@ -17,7 +17,7 @@ def run_laa_risk_scores_pipeline(run_year: int, run_id: str):
         capacity_raw=raw_ancillary["capacity_raw"],
         capacity_special_raw=raw_ancillary["capacity_special_raw"],
         parental_preference_raw=raw_ancillary["parental_preference_raw"],
-        run_year=run_year
+        run_year=run_year,
     )
 
     cfr_dfs = load_laa_risk_score_data(run_year)
@@ -30,11 +30,11 @@ def run_laa_risk_scores_pipeline(run_year: int, run_id: str):
         absences=absences,
         capacity=capacity,
         parental_preference=parental_preference,
-        run_year=run_year
+        run_year=run_year,
     )
-    
+
     logger.info(
         f"LAA risk scores data-loading pipeline completed for year {run_year} (RunId: {run_id})."
     )
-    
+
     return cfr_with_all_extra_data
