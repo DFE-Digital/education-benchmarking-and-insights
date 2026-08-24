@@ -19,6 +19,7 @@ Feature: Local Authority Risks
         |   202 |       |      |          | URN       |           |         | SingleCodeSortedByUrnDefaultOrderDefaultPage.json      |
         |   201 | 202   |      | 1        | Financial |           | Primary | TwoCodesSortedByFinancialDefaultOrderPrimaryPage1.json |
         |   201 | 202   |      |          |           | DESC      |         | TwoCodesSortedByDefaultDescendingDefaultPage.json      |
+        |   201 |       | 2    | 10       |           | DESC      |         | SingleCodePageBeyondResults.json                       |
 
     Scenario Outline: Invalid paged school risks request
         Given a paged school risks request with codes:
