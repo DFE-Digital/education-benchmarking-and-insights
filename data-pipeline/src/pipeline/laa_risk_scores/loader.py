@@ -129,7 +129,11 @@ def load_laa_risk_score_data(run_year: int) -> pd.DataFrame:
         cfr_with_absences, capacity, how="left", left_on="URN", right_on="school_urn"
     )
     cfr_with_all_extra_data = pd.merge(
-        cfr_with_capacity, parental_preference, how="left", left_on="URN", right_on="school_urn"
+        cfr_with_capacity,
+        parental_preference,
+        how="left",
+        left_on="URN",
+        right_on="school_urn"
     )
     logger.info(f"Merged {run_year} LAA risk score data with ancillary data.")
 
