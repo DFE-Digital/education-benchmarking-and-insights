@@ -19,23 +19,16 @@ def prepare_ks2_data(ks2_path):
         ks2["READPROG"] = ks2["READPROG"].replace({"SUPP": "0", "LOWCOV": "0"})
         ks2["MATPROG"] = ks2["MATPROG"].replace({"SUPP": "0", "LOWCOV": "0"})
         ks2["WRITPROG"] = ks2["WRITPROG"].replace({"SUPP": "0", "LOWCOV": "0"})
-        ks2["PTRWM_EXP"] = (
-            ks2["PTRWM_EXP"]
-            .replace({"SUPP": "0", "LOWCOV": "0"})
-            .str.replace("%", "")
-            .astype(float)
-        )
+        ks2["PTRWM_EXP"] = ks2["PTRWM_EXP"].replace(
+            {"SUPP": "0", "LOWCOV": "0"}
+        ).str.replace("%", "").astype(float)
 
         ks2["Ks2Progress"] = (
             ks2["READPROG"].astype(float)
             + ks2["MATPROG"].astype(float)
             + ks2["WRITPROG"].astype(float)
         )
-        ks2 = (
-            ks2[["URN", "Ks2Progress", "PTRWM_EXP"]]
-            .dropna(subset="URN")
-            .drop_duplicates()
-        )
+        ks2 = ks2[["URN", "Ks2Progress", "PTRWM_EXP"]].dropna(subset="URN").drop_duplicates()
     else:
         ks2 = pd.DataFrame(
             {
