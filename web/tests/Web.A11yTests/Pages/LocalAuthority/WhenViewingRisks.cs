@@ -4,7 +4,9 @@ using Xunit.Abstractions;
 
 namespace Web.A11yTests.Pages.LocalAuthority;
 
-[Trait("Category", "LocalAuthorityRisksEnabled")]
+// Requires correct organisation assigned to DSI account
+
+/*[Trait("Category", "LocalAuthorityRisksEnabled")]
 public class WhenViewingLocalAuthorityRisks(
     ITestOutputHelper testOutputHelper,
     WebDriver webDriver)
@@ -28,4 +30,4 @@ public class WhenViewingLocalAuthorityRisks(
         await Page.Locator("th:has-text(\"URN\") button").ClickAsync();
         await EvaluatePage();
     }
-}
+}*/
