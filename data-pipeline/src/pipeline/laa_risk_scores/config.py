@@ -440,7 +440,7 @@ laa_download_schemas = {
 }
 
 
-def get_download_file_schema(year: int) -> List[str]:
+def get_laa_download_file_schema(year: int) -> List[str]:
     # Optionally route years to configs
     columns = laa_download_schemas.get(year, laa_download_schemas["default"])
 
