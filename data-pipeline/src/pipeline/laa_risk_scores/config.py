@@ -25,6 +25,7 @@ DEFAULT_RISK_CONFIG: list = [
         name="InterestOnLoanFlag",
         risk_group=RiskGroup.FINANCIAL,
         risk_score_maximum=0.25,
+        risk_flag_maximum=RiskFlag.MINOR.value,
         score_when_1=0.25,
         risk_when_1=RiskFlag.MINOR.value,
     ),
@@ -32,6 +33,7 @@ DEFAULT_RISK_CONFIG: list = [
         name="PercentExpenditureOnPremises",
         risk_group=RiskGroup.FINANCIAL,
         risk_score_maximum=0.5,
+        risk_flag_maximum=RiskFlag.MINOR.value,
         rules=[
             MetricRule(0, 0.09999, 0.0, RiskFlag.NONE.value, "both"),
             MetricRule(0.1, 0.149999, 0.25, RiskFlag.MINOR.value, "both"),
@@ -42,6 +44,7 @@ DEFAULT_RISK_CONFIG: list = [
         name="PercentExpenditureOnStaff",
         risk_group=RiskGroup.FINANCIAL,
         risk_score_maximum=1.5,
+        risk_flag_maximum=RiskFlag.MINOR.value,
         rules=[
             MetricRule(0, 0.799999, 0.0, RiskFlag.NONE.value, "both"),
             MetricRule(0.8, 0.8499, 0.75, RiskFlag.MINOR.value, "both"),
@@ -157,6 +160,7 @@ DEFAULT_RISK_CONFIG: list = [
         name="PupilsSixthForm",
         risk_group=RiskGroup.SCHOOL_CHARACTERISTICS,
         risk_score_maximum=0.5,
+        risk_flag_maximum=RiskFlag.MINOR.value,
         rules=[
             MetricRule(0, 0, 0.0, RiskFlag.NONE.value, "both"),
             MetricRule(1.0, 49.99999999, 0.5, RiskFlag.MINOR.value, "both"),
@@ -171,6 +175,7 @@ DEFAULT_RISK_CONFIG: list = [
         name="PupilAbsence",
         risk_group=RiskGroup.EDUCATIONAL_PERFORMANCE,
         risk_score_maximum=0.5,
+        risk_flag_maximum=RiskFlag.MINOR.value,
         condition_column="TypeOfEstablishment (code)",
         special_values=[7, 8, 12, 42, 44],
         standard_rules=[
@@ -208,6 +213,7 @@ DEFAULT_RISK_CONFIG: list = [
         name="PerformanceTablesProgressScore",
         risk_group=RiskGroup.EDUCATIONAL_PERFORMANCE,
         risk_score_maximum=0.25,
+        risk_flag_maximum=RiskFlag.MINOR.value,
         rules=[
             MetricRule(-100.0, -0.11000001, 0.25, RiskFlag.MINOR.value, "both"),
             MetricRule(-0.11000000, 100.0, 0.0, RiskFlag.NONE.value, "both"),
@@ -217,6 +223,7 @@ DEFAULT_RISK_CONFIG: list = [
         name="PerformanceTablesAchievementScore",
         risk_group=RiskGroup.EDUCATIONAL_PERFORMANCE,
         risk_score_maximum=0.25,
+        risk_flag_maximum=RiskFlag.MINOR.value,
         rules=[
             MetricRule(0, 45.999990, 0.25, RiskFlag.MINOR.value, "both"),
             MetricRule(46, 100, 0.0, RiskFlag.NONE.value, "both"),

@@ -42,6 +42,7 @@ class BaseRiskMetric:
     name: str
     risk_group: RiskGroup
     risk_score_maximum: float
+    risk_flag_maximum: str = field(default=RiskFlag.MAJOR.value, kw_only=True)
 
     @property
     def value_column(self) -> str:
@@ -87,7 +88,7 @@ class BaseRiskMetric:
         is_missing = value_series.isna()
         if is_missing.any():
             score_series = score_series.mask(is_missing, self.risk_score_maximum)
-            flag_series = flag_series.mask(is_missing, RiskFlag.MAJOR.value)
+            flag_series = flag_series.mask(is_missing, self.risk_flag_maximum)
 
         df[self.score_column] = score_series
         df[self.flag_column] = flag_series
@@ -103,7 +104,7 @@ class RangeRiskMetric(BaseRiskMetric):
         if self.default_score is None:
             self.default_score = self.risk_score_maximum
         if self.default_risk is None:
-            self.default_risk = RiskFlag.MAJOR.value
+            self.default_risk = self.risk_flag_maximum
 
     def derive_risk_score(
         self, df: pd.DataFrame, value_series: pd.Series

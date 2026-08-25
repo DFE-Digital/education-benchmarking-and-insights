@@ -88,3 +88,90 @@ def test_parental_preference_metric_scoring():
     # 6. School with TypeOfEstablishment = 10 (not 7 or 12) and value 0.5 -> RiskScore 1.5, Major
     assert df.loc[5, "ParentalPreference_Score"] == 1.5
     assert df.loc[5, "ParentalPreference_Risk"] == "Major"
+
+
+def test_metric_na_default_risk_flags():
+    # Arrange: Create a DataFrame with NaN values for the metrics we want to test
+    df = pd.DataFrame(
+        {
+            "URN": [1001],
+            "Revenue reserve": [np.nan],
+            "Total Income": [np.nan],
+            "Revenue reserve_y_minus_one": [np.nan],
+            "Total Income_y_minus_one": [np.nan],
+            "Other costs_Interest charges for loan and bank": [np.nan],
+            "LAAPremisesExpenditureRollup": [np.nan],
+            "NetExpenditure": [np.nan],
+            "LAAStaffExpenditureRollup": [np.nan],
+            "TotalPupilsSixthForm": [np.nan],
+            "sess_overall_percent": [np.nan],
+            "TypeOfEstablishment (code)": [1],
+            "Overall Phase": ["Primary"],
+            "Ks2Progress": [np.nan],
+            "Progress8Measure": [np.nan],
+            "PTRWM_EXP": [np.nan],
+            "AverageAttainment": [np.nan],
+        }
+    )
+
+    # Find the metrics we want to test from DEFAULT_RISK_CONFIG
+    interest_on_loan = next(
+        m for m in DEFAULT_RISK_CONFIG if m.name == "InterestOnLoanFlag"
+    )
+    premises_exp = next(
+        m for m in DEFAULT_RISK_CONFIG if m.name == "PercentExpenditureOnPremises"
+    )
+    staff_exp = next(
+        m for m in DEFAULT_RISK_CONFIG if m.name == "PercentExpenditureOnStaff"
+    )
+    sixth_form = next(m for m in DEFAULT_RISK_CONFIG if m.name == "PupilsSixthForm")
+    absence = next(m for m in DEFAULT_RISK_CONFIG if m.name == "PupilAbsence")
+    progress_score = next(
+        m for m in DEFAULT_RISK_CONFIG if m.name == "PerformanceTablesProgressScore"
+    )
+    achievement_score = next(
+        m for m in DEFAULT_RISK_CONFIG if m.name == "PerformanceTablesAchievementScore"
+    )
+
+    # Also test one that should still default to Major
+    end_year_balance = next(
+        m for m in DEFAULT_RISK_CONFIG if m.name == "EndYearBalanceAsPercentageIncome"
+    )
+
+    # Act: execute each metric on our DataFrame
+    for metric in [
+        interest_on_loan,
+        premises_exp,
+        staff_exp,
+        sixth_form,
+        absence,
+        progress_score,
+        achievement_score,
+        end_year_balance,
+    ]:
+        metric.execute(df)
+
+    # Assert: verify they default to the correct metric-specific maximum score and flag
+    assert df.loc[0, "InterestOnLoanFlag_Risk"] == "None"
+    assert df.loc[0, "InterestOnLoanFlag_Score"] == 0.0
+
+    assert df.loc[0, "PercentExpenditureOnPremises_Risk"] == "Minor"
+    assert df.loc[0, "PercentExpenditureOnPremises_Score"] == 0.5
+
+    assert df.loc[0, "PercentExpenditureOnStaff_Risk"] == "Minor"
+    assert df.loc[0, "PercentExpenditureOnStaff_Score"] == 1.5
+
+    assert df.loc[0, "PupilsSixthForm_Risk"] == "Minor"
+    assert df.loc[0, "PupilsSixthForm_Score"] == 0.5
+
+    assert df.loc[0, "PupilAbsence_Risk"] == "Minor"
+    assert df.loc[0, "PupilAbsence_Score"] == 0.5
+
+    assert df.loc[0, "PerformanceTablesProgressScore_Risk"] == "Minor"
+    assert df.loc[0, "PerformanceTablesProgressScore_Score"] == 0.25
+
+    assert df.loc[0, "PerformanceTablesAchievementScore_Risk"] == "Minor"
+    assert df.loc[0, "PerformanceTablesAchievementScore_Score"] == 0.25
+
+    # This one has no risk_flag_maximum override, so it should default to Major
+    assert df.loc[0, "EndYearBalanceAsPercentageIncome_Risk"] == "Major"
