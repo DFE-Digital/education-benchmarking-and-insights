@@ -86,6 +86,9 @@ from pipeline.laa_risk_scores.orchestrator import run_laa_risk_scores_pipeline
 
 
 @patch("pipeline.laa_risk_scores.orchestrator.load_laa_risk_score_data")
+@patch("pipeline.laa_risk_scores.orchestrator.load_laa_extra_ancillary_data")
+@patch("pipeline.laa_risk_scores.orchestrator.preprocess_laa_extra_ancillary_data")
+@patch("pipeline.laa_risk_scores.orchestrator.preprocess_laa_data")
 @patch("pipeline.laa_risk_scores.orchestrator.derive_laa_risk_scores")
 @patch("pipeline.laa_risk_scores.orchestrator.insert_laa_risk_scores")
 @patch("pipeline.laa_risk_scores.orchestrator.create_laa_risk_scores_download_file")
@@ -93,9 +96,30 @@ def test_run_laa_risk_scores_pipeline_coordination(
     mock_create_download,
     mock_insert_db,
     mock_derive,
+    mock_preprocess_laa_data,
+    mock_preprocess_ancillary,
+    mock_load_ancillary,
     mock_load_data,
 ):
-    mock_load_data.return_value = pd.DataFrame({"URN": [123]})
+    mock_load_ancillary.return_value = {
+        "absences_raw": pd.DataFrame({"URN": [1]}),
+        "capacity_raw": pd.DataFrame({"URN": [2]}),
+        "capacity_special_raw": pd.DataFrame({"URN": [3]}),
+        "parental_preference_raw": pd.DataFrame({"URN": [4]}),
+    }
+    mock_preprocess_ancillary.return_value = (
+        pd.DataFrame({"abs": [1]}),
+        pd.DataFrame({"cap": [2]}),
+        pd.DataFrame({"pref": [3]}),
+    )
+    mock_load_data.return_value = (
+        pd.DataFrame({"c1": [1]}),
+        pd.DataFrame({"c2": [2]}),
+        pd.DataFrame({"c3": [3]}),
+        pd.DataFrame({"c4": [4]}),
+        pd.DataFrame({"c5": [5]}),
+    )
+    mock_preprocess_laa_data.return_value = pd.DataFrame({"preprocessed": [1]})
     mock_derive.return_value = (
         pd.DataFrame({"raw_with_metrics": [0]}),
         pd.DataFrame({"indicators": [1]}),
@@ -104,9 +128,28 @@ def test_run_laa_risk_scores_pipeline_coordination(
 
     run_laa_risk_scores_pipeline(2025, "test-run-guid")
 
+    mock_load_ancillary.assert_called_once_with(2025)
+    mock_preprocess_ancillary.assert_called_once_with(
+        absences_raw=mock_load_ancillary.return_value["absences_raw"],
+        capacity_raw=mock_load_ancillary.return_value["capacity_raw"],
+        capacity_special_raw=mock_load_ancillary.return_value["capacity_special_raw"],
+        parental_preference_raw=mock_load_ancillary.return_value["parental_preference_raw"],
+        run_year=2025,
+    )
     mock_load_data.assert_called_once_with(2025)
+    mock_preprocess_laa_data.assert_called_once_with(
+        cfr_data_this_year=mock_load_data.return_value[0],
+        cfr_data_year_minus_one=mock_load_data.return_value[1],
+        cfr_data_year_minus_two=mock_load_data.return_value[2],
+        cfr_data_year_minus_three=mock_load_data.return_value[3],
+        cfr_data_year_minus_four=mock_load_data.return_value[4],
+        absences=mock_preprocess_ancillary.return_value[0],
+        capacity=mock_preprocess_ancillary.return_value[1],
+        parental_preference=mock_preprocess_ancillary.return_value[2],
+        run_year=2025,
+    )
     mock_derive.assert_called_once_with(
-        mock_load_data.return_value, run_year=2025, run_id="test-run-guid"
+        mock_preprocess_laa_data.return_value, run_year=2025, run_id="test-run-guid"
     )
     mock_insert_db.assert_called_once_with(
         "test-run-guid", mock_derive.return_value[1], mock_derive.return_value[2]
