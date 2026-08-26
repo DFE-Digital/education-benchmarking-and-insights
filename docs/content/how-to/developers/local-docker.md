@@ -58,7 +58,7 @@ Provides local emulation for Azure Blob Storage, Queue Storage, and Table Storag
   - Blob: `10000`
   - Queue: `10001`
   - Table: `10002`
-- **Interacting:** Use [Azure Storage Explorer](https://azure.microsoft.com/en-us/products/storage/storage-explorer/) and connect to the local emulator.
+- **Interacting:** Use [Azure Storage Explorer](https://azure.microsoft.com/en-us/products/storage/storage-explorer/) and connect to the local emulator. The local emulator automatically bootstraps standard containers, including `raw`, `pre-processed`, `comparator-sets`, `metric-rag`, and `artifacts`.
 
 ### 2. Azure SQL Edge
 
