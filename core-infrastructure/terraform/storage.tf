@@ -85,6 +85,16 @@ resource "azurerm_storage_container" "pipeline-raw-data" {
   }
 }
 
+resource "azurerm_storage_container" "pipeline-downloads" {
+  #checkov:skip=CKV2_AZURE_21:See ADO backlog AB#206507
+  name               = "downloads"
+  storage_account_id = azurerm_storage_account.data.id
+
+  lifecycle {
+    prevent_destroy = true
+  }
+}
+
 resource "azurerm_key_vault_secret" "data-storage-connection-string" {
   #checkov:skip=CKV_AZURE_41:See ADO backlog AB#206511
   name         = "data-storage-connection-string"
@@ -182,6 +192,16 @@ resource "azurerm_storage_container" "pipeline-database-backup" {
 resource "azurerm_storage_container" "pipeline-raw-data-backup" {
   #checkov:skip=CKV2_AZURE_21:See ADO backlog AB#206507
   name               = "raw"
+  storage_account_id = azurerm_storage_account.backup.id
+
+  lifecycle {
+    prevent_destroy = true
+  }
+}
+
+resource "azurerm_storage_container" "pipeline-downloads-backup" {
+  #checkov:skip=CKV2_AZURE_21:See ADO backlog AB#206507
+  name               = "downloads"
   storage_account_id = azurerm_storage_account.backup.id
 
   lifecycle {
