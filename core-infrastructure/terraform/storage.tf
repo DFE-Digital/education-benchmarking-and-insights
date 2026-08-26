@@ -199,16 +199,6 @@ resource "azurerm_storage_container" "pipeline-raw-data-backup" {
   }
 }
 
-resource "azurerm_storage_container" "pipeline-artifacts-backup" {
-  #checkov:skip=CKV2_AZURE_21:See ADO backlog AB#206507
-  name               = "artifacts"
-  storage_account_id = azurerm_storage_account.backup.id
-
-  lifecycle {
-    prevent_destroy = true
-  }
-}
-
 resource "azurerm_key_vault_secret" "backup-storage-connection-string" {
   #checkov:skip=CKV_AZURE_41:See ADO backlog AB#206511
   name         = "backup-storage-connection-string"
