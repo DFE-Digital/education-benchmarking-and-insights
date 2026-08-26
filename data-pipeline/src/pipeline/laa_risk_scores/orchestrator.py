@@ -12,17 +12,17 @@ from .preprocessing import preprocess_laa_data, preprocess_laa_extra_ancillary_d
 logger = setup_logger(__name__)
 
 
-def create_laa_risk_scores_download_file(df: pd.DataFrame, run_year: int):
-    logger.info(f"Creating LAA risk scores download file for {run_year}...")
+def create_laa_risk_scores_download_file(df: pd.DataFrame, run_year: int, run_id: int):
+    logger.info(f"Creating LAA risk scores download file for {run_id=}, {run_year=}...")
 
     columns_to_export = get_laa_download_file_schema(run_year)
 
     export_cols = [col for col in columns_to_export if col in df.columns]
     export_df = df[export_cols]
 
-    blob_path = f"default/{run_year}/laa_risk_scores_download.csv"
+    blob_path = f"default/{run_id}/laa_risk_scores_download.csv"
     write_blob(
-        "pre-processed",
+        "artifacts",
         blob_path,
         export_df.to_csv(index=False),
     )
@@ -64,7 +64,7 @@ def run_laa_risk_scores_pipeline(run_year: int, run_id: str):
         )
     )
     insert_laa_risk_scores(run_id, melted_indicators_df, melted_headers_df)
-    create_laa_risk_scores_download_file(risk_metrics_with_raw_data, run_year)
+    create_laa_risk_scores_download_file(risk_metrics_with_raw_data, run_id)
 
     logger.info(
         f"LAA risk scores data-loading pipeline completed for year {run_year} (RunId: {run_id})."
