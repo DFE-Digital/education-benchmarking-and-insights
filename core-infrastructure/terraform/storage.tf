@@ -85,9 +85,9 @@ resource "azurerm_storage_container" "pipeline-raw-data" {
   }
 }
 
-resource "azurerm_storage_container" "pipeline-downloads" {
+resource "azurerm_storage_container" "pipeline-artifacts" {
   #checkov:skip=CKV2_AZURE_21:See ADO backlog AB#206507
-  name               = "downloads"
+  name               = "artifacts"
   storage_account_id = azurerm_storage_account.data.id
 
   lifecycle {
@@ -199,9 +199,9 @@ resource "azurerm_storage_container" "pipeline-raw-data-backup" {
   }
 }
 
-resource "azurerm_storage_container" "pipeline-downloads-backup" {
+resource "azurerm_storage_container" "pipeline-artifacts-backup" {
   #checkov:skip=CKV2_AZURE_21:See ADO backlog AB#206507
-  name               = "downloads"
+  name               = "artifacts"
   storage_account_id = azurerm_storage_account.backup.id
 
   lifecycle {
