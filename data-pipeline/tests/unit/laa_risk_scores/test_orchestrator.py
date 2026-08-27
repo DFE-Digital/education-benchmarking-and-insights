@@ -154,10 +154,14 @@ def test_run_laa_risk_scores_pipeline_coordination(
         mock_preprocess_laa_data.return_value, run_year=2025, run_id="2026"
     )
     mock_insert_db.assert_called_once()
-    insert_args, _ = mock_insert_db.call_args
-    pd.testing.assert_frame_equal(insert_args[0], mock_derive.return_value[1])
-    pd.testing.assert_frame_equal(insert_args[1], mock_derive.return_value[2])
-    assert insert_args[2] == 2026
+    insert_kwargs = mock_insert_db.call_args.kwargs
+    pd.testing.assert_frame_equal(
+        insert_kwargs["indicators_df"], mock_derive.return_value[1]
+    )
+    pd.testing.assert_frame_equal(
+        insert_kwargs["headers_df"], mock_derive.return_value[2]
+    )
+    assert insert_kwargs["run_id"] == 2026
 
     mock_create_download.assert_called_once()
     download_args, _ = mock_create_download.call_args

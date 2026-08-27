@@ -63,7 +63,11 @@ def run_laa_risk_scores_pipeline(run_year: int, run_id: str):
             cfr_with_all_extra_data, run_year=run_year, run_id=run_id
         )
     )
-    insert_laa_risk_scores(melted_indicators_df, melted_headers_df, int(run_id))
+    insert_laa_risk_scores(
+        run_id=int(run_id),
+        indicators_df=melted_indicators_df,
+        headers_df=melted_headers_df,
+    )
     create_laa_risk_scores_download_file(
         risk_metrics_with_raw_data, run_year, int(run_id)
     )
