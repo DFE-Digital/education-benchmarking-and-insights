@@ -1,0 +1,49 @@
+﻿{
+  "results": [
+    {
+      "urn": "990134",
+      "schoolName": "Test school 1",
+      "laCode": "201",
+      "overallGrade": "F",
+      "overall": 17.47,
+      "financial": 0.73,
+      "schoolAndPupil": 4.38,
+      "educationalPerformance": 0.28
+    },
+    {
+      "urn": "990116",
+      "schoolName": "Test school 237",
+      "laCode": "201",
+      "overallGrade": "A*",
+      "overall": 13.74,
+      "financial": 8.74,
+      "schoolAndPupil": 3.73,
+      "educationalPerformance": 1.49
+    },
+    {
+      "urn": "990133",
+      "schoolName": "Test school 10",
+      "laCode": "202",
+      "overallGrade": "A",
+      "overall": 13.17,
+      "financial": 1.22,
+      "schoolAndPupil": 0.55,
+      "educationalPerformance": 1.59
+    },
+    {
+      "urn": "990148",
+      "schoolName": "Test school 238",
+      "laCode": "202",
+      "overallGrade": "G",
+      "overall": 4.88,
+      "financial": 17.73,
+      "schoolAndPupil": 4.24,
+      "educationalPerformance": 0.52
+    }
+  ],
+  "page": 1,
+  "pageSize": 10,
+  "totalResults": 4,
+  "hasNextPage": false,
+  "hasPreviousPage": false
+}
