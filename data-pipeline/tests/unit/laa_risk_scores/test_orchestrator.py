@@ -133,7 +133,9 @@ def test_run_laa_risk_scores_pipeline_coordination(
         absences_raw=mock_load_ancillary.return_value["absences_raw"],
         capacity_raw=mock_load_ancillary.return_value["capacity_raw"],
         capacity_special_raw=mock_load_ancillary.return_value["capacity_special_raw"],
-        parental_preference_raw=mock_load_ancillary.return_value["parental_preference_raw"],
+        parental_preference_raw=mock_load_ancillary.return_value[
+            "parental_preference_raw"
+        ],
         run_year=2025,
     )
     mock_load_data.assert_called_once_with(2025)
