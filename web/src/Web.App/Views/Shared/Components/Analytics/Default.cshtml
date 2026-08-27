@@ -42,9 +42,10 @@
                 @:sdk.setAuthenticatedUserContext("@User.UserGuid()");
             }
             sdk.addTelemetryInitializer(function (envelope) {
-                envelope.data.baseData.properties = {
-                    ...envelope.data.baseData.properties,
-                    tracking_consent_status: getConsentStatus()
+                const consent = getConsentStatus();
+                envelope.data.properties = {
+                    ...envelope.data.properties,
+                    tracking_consent_status: consent
                 };
             });
 
