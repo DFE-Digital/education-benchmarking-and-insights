@@ -91,7 +91,7 @@ def try_get_blob(
         io_blob_content = get_blob(container_name, blob_name, encoding)
         return io_blob_content
     except ResourceNotFoundError:
-        logger.info(f"'{blob_name=}' does not exist, skipping download")
+        logger.debug(f"'{blob_name=}' does not exist, skipping download")
         return None
 
 

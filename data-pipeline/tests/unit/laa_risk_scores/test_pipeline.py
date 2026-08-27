@@ -159,7 +159,16 @@ def test_preprocess_laa_data_merges_and_aligns_urn_index():
 
 @patch("pipeline.laa_risk_scores.orchestrator.load_laa_risk_score_data")
 @patch("pipeline.laa_risk_scores.orchestrator.load_laa_extra_ancillary_data")
-def test_orchestrator_pipeline(mock_load_ancillary, mock_load_cfr):
+@patch("pipeline.laa_risk_scores.orchestrator.derive_laa_risk_scores")
+@patch("pipeline.laa_risk_scores.orchestrator.insert_laa_risk_scores")
+@patch("pipeline.laa_risk_scores.orchestrator.create_laa_risk_scores_download_file")
+def test_orchestrator_pipeline(
+    mock_create_download,
+    mock_insert_db,
+    mock_derive,
+    mock_load_ancillary,
+    mock_load_cfr,
+):
     # Setup mocks
     cfr_df = pd.DataFrame(
         {"Lead school in federation": ["0"], "Value": [100.0]}, index=[1001]
@@ -167,6 +176,7 @@ def test_orchestrator_pipeline(mock_load_ancillary, mock_load_cfr):
     cfr_df.index.name = "URN"
 
     mock_load_cfr.return_value = (cfr_df, cfr_df, cfr_df, cfr_df, cfr_df)
+    mock_derive.return_value = (pd.DataFrame(), pd.DataFrame(), pd.DataFrame())
 
     mock_load_ancillary.return_value = {
         "absences_raw": pd.DataFrame(
@@ -193,7 +203,7 @@ def test_orchestrator_pipeline(mock_load_ancillary, mock_load_cfr):
         "run_year": 2025,
     }
 
-    result = run_laa_risk_scores_pipeline(run_year=2025, run_id="test-run")
+    result = run_laa_risk_scores_pipeline(run_year=2025, run_id="2026")
 
     assert result is not None
     assert len(result) == 1
