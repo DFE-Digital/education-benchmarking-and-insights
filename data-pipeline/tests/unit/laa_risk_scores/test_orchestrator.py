@@ -153,10 +153,17 @@ def test_run_laa_risk_scores_pipeline_coordination(
     mock_derive.assert_called_once_with(
         mock_preprocess_laa_data.return_value, run_year=2025, run_id="2026"
     )
-    mock_insert_db.assert_called_once_with(
-        "test-run-guid", mock_derive.return_value[1], mock_derive.return_value[2]
-    )
-    mock_create_download.assert_called_once_with(mock_derive.return_value[0], 2025)
+    mock_insert_db.assert_called_once()
+    insert_args, _ = mock_insert_db.call_args
+    pd.testing.assert_frame_equal(insert_args[0], mock_derive.return_value[1])
+    pd.testing.assert_frame_equal(insert_args[1], mock_derive.return_value[2])
+    assert insert_args[2] == 2026
+
+    mock_create_download.assert_called_once()
+    download_args, _ = mock_create_download.call_args
+    pd.testing.assert_frame_equal(download_args[0], mock_derive.return_value[0])
+    assert download_args[1] == 2025
+    assert download_args[2] == 2026
 
 
 from pipeline.laa_risk_scores.orchestrator import create_laa_risk_scores_download_file
@@ -181,13 +188,13 @@ def test_create_laa_risk_scores_download_file(mock_write_blob):
         }
     )
 
-    create_laa_risk_scores_download_file(df, 2026)
+    create_laa_risk_scores_download_file(df, 2026, 2026)
 
     # Verify write_blob coordination
     mock_write_blob.assert_called_once()
     call_args = mock_write_blob.call_args[0]
 
-    assert call_args[0] == "pre-processed"
+    assert call_args[0] == "artifacts"
     assert call_args[1] == "default/2026/laa_risk_scores_download.csv"
 
     # Let's convert the output string back to a DataFrame to verify columns and rows
