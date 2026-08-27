@@ -126,7 +126,7 @@ def test_run_laa_risk_scores_pipeline_coordination(
         pd.DataFrame({"headers": [2]}),
     )
 
-    run_laa_risk_scores_pipeline(2025, "test-run-guid")
+    run_laa_risk_scores_pipeline(2025, "2026")
 
     mock_load_ancillary.assert_called_once_with(2025)
     mock_preprocess_ancillary.assert_called_once_with(
@@ -151,7 +151,7 @@ def test_run_laa_risk_scores_pipeline_coordination(
         run_year=2025,
     )
     mock_derive.assert_called_once_with(
-        mock_preprocess_laa_data.return_value, run_year=2025, run_id="test-run-guid"
+        mock_preprocess_laa_data.return_value, run_year=2025, run_id="2026"
     )
     mock_insert_db.assert_called_once_with(
         "test-run-guid", mock_derive.return_value[1], mock_derive.return_value[2]

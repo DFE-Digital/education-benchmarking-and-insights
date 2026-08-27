@@ -203,7 +203,7 @@ def test_orchestrator_pipeline(
         "run_year": 2025,
     }
 
-    result = run_laa_risk_scores_pipeline(run_year=2025, run_id="test-run")
+    result = run_laa_risk_scores_pipeline(run_year=2025, run_id="2026")
 
     assert result is not None
     assert len(result) == 1
