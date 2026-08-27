@@ -41,7 +41,19 @@
             {
                 @:sdk.setAuthenticatedUserContext("@User.UserGuid()");
             }
-        },
+            sdk.addTelemetryInitializer(function (envelope) {
+                envelope.data.baseData.properties = {
+                    ...envelope.data.baseData.properties,
+                    tracking_consent_status: getConsentStatus()
+                };
+            });
+
+             function getConsentStatus() {
+                const match = document.cookie.match(/cookie_policy=(enabled|disabled)/);
+                if (!match) return "opt_out_implicit";
+                return match[1] === "enabled" ? "opt_in" : "opt_out_explicit";
+            }
+        }
     });
     if (window !== undefined) {
         window.setAppInsightsCookieEnabled = function (enabled) {
