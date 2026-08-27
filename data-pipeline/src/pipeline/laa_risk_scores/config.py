@@ -226,7 +226,7 @@ DEFAULT_RISK_CONFIG: list = [
         risk_flag_maximum=RiskFlag.MINOR.value,
         rules=[
             MetricRule(0, 46, 0.25, RiskFlag.MINOR.value, "left"),
-            MetricRule(46, 100, 0.0, RiskFlag.NONE.value, "left"),
+            MetricRule(46, 100, 0.0, RiskFlag.NONE.value, "both"),
         ],
     ),
 ]
