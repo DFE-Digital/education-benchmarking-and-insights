@@ -86,13 +86,13 @@ resource "azurerm_storage_account" "func_app_sa" {
 resource "azurerm_storage_container" "func_app_sc" {
   #checkov:skip=CKV2_AZURE_21:See ADO backlog AB#206507
   name                  = "func-app"
-  storage_account_name  = azurerm_storage_account.func_app_sa.name
+  storage_account_id  = azurerm_storage_account.func_app_sa.id
   container_access_type = "private"
 }
 
 # Storage Role Assignments for Managed Identity
 resource "azurerm_role_assignment" "storage_data_owner_func" {
-  scope                = azurerm_storage_account.func_app_sa.name
+  scope                = azurerm_storage_account.func_app_sa.id
   role_definition_name = "Storage Blob Data Owner"
   principal_id         = azurerm_user_assigned_identity.func_identity.principal_id
   principal_type       = "ServicePrincipal"
@@ -100,7 +100,7 @@ resource "azurerm_role_assignment" "storage_data_owner_func" {
 
 # Permissions
 resource "azurerm_role_assignment" "storage_data_owner_analytics" {
-  scope                = azurerm_storage_account.analytics_storage.name
+  scope                = azurerm_storage_account.analytics_storage.id
   role_definition_name = "Storage Blob Data Owner"
   principal_id         = azurerm_user_assigned_identity.func_identity.principal_id
   principal_type       = "ServicePrincipal"
