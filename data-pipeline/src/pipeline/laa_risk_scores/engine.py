@@ -61,10 +61,11 @@ def roll_up_laa_risk_scores_to_headlines(
     )
     conditions = []
     choices = []
+    epsilon = 1e-9 # The grading tolerance for floating point errors
 
     for gt in grading_thresholds:
         cond = (
-            (total_score <= gt.max_score)
+            (total_score - epsilon <= gt.max_score)
             & (total_risks <= gt.max_risks)
             & (total_major_risks <= gt.max_major_risks)
         )
