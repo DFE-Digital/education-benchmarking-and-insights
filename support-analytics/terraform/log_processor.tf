@@ -62,6 +62,7 @@ resource "azurerm_storage_account" "func_app_sa" {
   account_tier                    = "Standard"
   account_replication_type        = "GRS"
   allow_nested_items_to_be_public = false
+  public_network_access_enabled   = true
   min_tls_version                 = "TLS1_2"
   tags                            = var.core.tags
 
@@ -85,13 +86,13 @@ resource "azurerm_storage_account" "func_app_sa" {
 resource "azurerm_storage_container" "func_app_sc" {
   #checkov:skip=CKV2_AZURE_21:See ADO backlog AB#206507
   name                  = "func-app"
-  storage_account_id    = azurerm_storage_account.func_app_sa.id
+  storage_account_name  = azurerm_storage_account.func_app_sa.name
   container_access_type = "private"
 }
 
 # Storage Role Assignments for Managed Identity
 resource "azurerm_role_assignment" "storage_data_owner_func" {
-  scope                = azurerm_storage_account.func_app_sa.id
+  scope                = azurerm_storage_account.func_app_sa.name
   role_definition_name = "Storage Blob Data Owner"
   principal_id         = azurerm_user_assigned_identity.func_identity.principal_id
   principal_type       = "ServicePrincipal"
@@ -99,7 +100,7 @@ resource "azurerm_role_assignment" "storage_data_owner_func" {
 
 # Permissions
 resource "azurerm_role_assignment" "storage_data_owner_analytics" {
-  scope                = azurerm_storage_account.analytics_storage.id
+  scope                = azurerm_storage_account.analytics_storage.name
   role_definition_name = "Storage Blob Data Owner"
   principal_id         = azurerm_user_assigned_identity.func_identity.principal_id
   principal_type       = "ServicePrincipal"
@@ -120,20 +121,20 @@ resource "azurerm_service_plan" "func_asp" {
 # Function App
 resource "azurerm_function_app_flex_consumption" "func_app" {
   #checkov:skip=CKV_AZURE_221:See ADO backlog AB#206517
-  name                               = "${var.core.environment_prefix}-ebis-analytics-function-app"
-  location                           = var.core.location
-  resource_group_name                = var.core.resource_group_name
-  service_plan_id                    = azurerm_service_plan.func_asp.id
-  storage_container_type             = "blobContainer"
-  storage_container_endpoint         = "${azurerm_storage_account.func_app_sa.primary_blob_endpoint}${azurerm_storage_container.func_app_sc.name}"
-  storage_authentication_type        = "UserAssignedIdentity"
-  storage_user_assigned_identity_id  = azurerm_user_assigned_identity.func_identity.id
-  storage_access_key                 = azurerm_storage_account.func_app_sa.primary_access_key
-  public_network_access_enabled      = true
-  runtime_name                       = "python"
-  runtime_version                    = "3.11"
-  https_only                          = true
-  virtual_network_subnet_id          = var.networking.join_subnet_id == "" ? null : var.networking.join_subnet_id
+  name                              = "${var.core.environment_prefix}-ebis-analytics-function-app"
+  location                          = var.core.location
+  resource_group_name               = var.core.resource_group_name
+  service_plan_id                   = azurerm_service_plan.func_asp.id
+  storage_container_type            = "blobContainer"
+  storage_container_endpoint        = "${azurerm_storage_account.func_app_sa.primary_blob_endpoint}${azurerm_storage_container.func_app_sc.name}"
+  storage_authentication_type       = "UserAssignedIdentity"
+  storage_user_assigned_identity_id = azurerm_user_assigned_identity.func_identity.id
+  storage_access_key                = azurerm_storage_account.func_app_sa.primary_access_key
+  public_network_access_enabled     = true
+  runtime_name                      = "python"
+  runtime_version                   = "3.11"
+  https_only                        = true
+  virtual_network_subnet_id         = var.networking.join_subnet_id == "" ? null : var.networking.join_subnet_id
 
   identity {
     type         = "SystemAssigned, UserAssigned"
@@ -145,10 +146,10 @@ resource "azurerm_function_app_flex_consumption" "func_app" {
   }
 
   app_settings = {
-    "FUNCTIONS_WORKER_RUNTIME"    = "python"
-    "BLOB_CONTAINER_NAME"        = azurerm_storage_container.log_outputs.name
-    "STORAGE_CONNECTION_STRING"  = azurerm_storage_account.analytics_storage.primary_connection_string
-    "Sql__ConnectionString"      = var.sql_connection_string
+    "FUNCTIONS_WORKER_RUNTIME"  = "python"
+    "BLOB_CONTAINER_NAME"       = azurerm_storage_container.log_outputs.name
+    "STORAGE_CONNECTION_STRING" = azurerm_storage_account.analytics_storage.primary_connection_string
+    "Sql__ConnectionString"     = var.sql_connection_string
   }
 
   tags = var.core.tags
