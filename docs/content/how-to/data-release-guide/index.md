@@ -69,6 +69,35 @@ Once the cutoff data is prepared, one engineer should orchestrate the rest of th
 
 2. **Update Parameter Flags.** Update the SQL `dbo.Parameters` table to increment the active year identifiers. This instantly labels the fresh data live on the frontend — see [The Parameters table](#2-data-completeness) below.
 
+## Phase 5: Corrections
+
+Sometimes there will be changes to either the pipeline logic or data which need to happen soon after the official go-live:
+
+* **Logic Changes (Release Required):** Any changes to data transformation logic, schemas, configurations, or processing code—whether in the main data pipeline or the transparency file generators—must go through a formal code change and deployment/release cycle.
+* **Input Data Changes (No Release Required):** If the correction only involves correcting or updating the raw input data files in the Azure Blob Storage `raw` container, you only need to trigger a rerun of the pipeline without performing any code release.
+
+If a logic-related correction or regeneration is required, you can execute a targeted, expedited release of the data pipeline module. This bypasses the full application-wide release cycle and avoids being blocked by unrelated codebase changes (such as pending web/frontend updates).
+
+1. **Commit Code Changes.** Commit the required data pipeline changes to the repository's main branch. This will generate a CI/CD pipeline to create a new version of the data pipeline module.
+2. **Perform a Targeted Release.** Deploy only the new data-pipeline module to production. Keep the other modules of the architecture at the same version.
+3. **Trigger Regeneration.** Add a message to the `data-pipeline-job-pending` Azure queue with `"generateTransparencyFilesAndPrecursorFiles": true` to regenerate the corrected CFR transparency files from the raw inputs:
+
+   ```json
+   {
+     "type": "default",
+     "runId": <year>,
+     "year": {
+       "aar": <year>,
+       "cfr": <year>,
+       "bfr": <year>,
+       "s251": <year>
+     },
+     "generateTransparencyFilesAndPrecursorFiles": true
+   }
+   ```
+
+4. **Verify and Promote.** Run the assurance queries on the generated database outputs and check that the updated transparency files are available on the consuming endpoints.
+
 ---
 
 ## Reference
