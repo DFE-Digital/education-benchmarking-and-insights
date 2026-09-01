@@ -126,7 +126,7 @@ resource "azurerm_function_app_flex_consumption" "func_app" {
   public_network_access_enabled      = true
   runtime_name                       = "python"
   runtime_version                    = "3.11"
-  https_only                          = true
+  https_only                         = true
 
   identity {
     type         = "SystemAssigned, UserAssigned"
