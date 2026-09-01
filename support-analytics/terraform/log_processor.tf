@@ -128,15 +128,17 @@ resource "azurerm_function_app_flex_consumption" "func_app" {
   runtime_version                   = "3.11"
   https_only                        = true
 
+  site_config {}
+
   identity {
     type         = "SystemAssigned, UserAssigned"
     identity_ids = [azurerm_user_assigned_identity.func_identity.id]
   }
 
   app_settings = {
-    "FUNCTIONS_WORKER_RUNTIME"   = "python"
-    "BLOB_CONTAINER_NAME"        = azurerm_storage_container.log_outputs.name
-    "STORAGE_CONNECTION_STRING"  = azurerm_storage_account.analytics_storage.primary_connection_string
+    "FUNCTIONS_WORKER_RUNTIME"  = "python"
+    "BLOB_CONTAINER_NAME"       = azurerm_storage_container.log_outputs.name
+    "STORAGE_CONNECTION_STRING" = azurerm_storage_account.analytics_storage.primary_connection_string
   }
 
   tags = local.common-tags
