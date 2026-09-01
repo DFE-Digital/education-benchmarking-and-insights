@@ -114,19 +114,19 @@ resource "azurerm_service_plan" "func_asp" {
 }
 
 resource "azurerm_function_app_flex_consumption" "func_app" {
-  name                               = "${var.environment-prefix}-ebis-analytics-function-app"
-  location                           = var.location
-  resource_group_name                = azurerm_resource_group.resource-group.name
-  service_plan_id                    = azurerm_service_plan.func_asp.id
-  storage_container_type             = "blobContainer"
-  storage_container_endpoint         = "${azurerm_storage_account.func_app_sa.primary_blob_endpoint}${azurerm_storage_container.func_app_sc.name}"
-  storage_authentication_type        = "UserAssignedIdentity"
-  storage_user_assigned_identity_id  = azurerm_user_assigned_identity.func_identity.id
-  storage_access_key                 = azurerm_storage_account.func_app_sa.primary_access_key
-  public_network_access_enabled      = true
-  runtime_name                       = "python"
-  runtime_version                    = "3.11"
-  https_only                         = true
+  name                              = "${var.environment-prefix}-ebis-analytics-function-app"
+  location                          = var.location
+  resource_group_name               = azurerm_resource_group.resource-group.name
+  service_plan_id                   = azurerm_service_plan.func_asp.id
+  storage_container_type            = "blobContainer"
+  storage_container_endpoint        = "${azurerm_storage_account.func_app_sa.primary_blob_endpoint}${azurerm_storage_container.func_app_sc.name}"
+  storage_authentication_type       = "UserAssignedIdentity"
+  storage_user_assigned_identity_id = azurerm_user_assigned_identity.func_identity.id
+  storage_access_key                = azurerm_storage_account.func_app_sa.primary_access_key
+  public_network_access_enabled     = true
+  runtime_name                      = "python"
+  runtime_version                   = "3.11"
+  https_only                        = true
 
   identity {
     type         = "SystemAssigned, UserAssigned"
@@ -135,8 +135,8 @@ resource "azurerm_function_app_flex_consumption" "func_app" {
 
   app_settings = {
     "FUNCTIONS_WORKER_RUNTIME"   = "python"
-    "BLOB_CONTAINER_NAME"       = azurerm_storage_container.log_outputs.name
-    "STORAGE_CONNECTION_STRING" = azurerm_storage_account.analytics_storage.primary_connection_string
+    "BLOB_CONTAINER_NAME"        = azurerm_storage_container.log_outputs.name
+    "STORAGE_CONNECTION_STRING"  = azurerm_storage_account.analytics_storage.primary_connection_string
   }
 
   tags = local.common-tags
