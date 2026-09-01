@@ -95,7 +95,7 @@ workforce_census = {
         "Total Number of Teachers in the Leadership Group (Headcount)": "float",
         "Total Number of Auxiliary Staff (FTE)": "float",
         "Total Number of Auxiliary Staff (Headcount)": "float",
-    }
+    },
 }
 
 workforce_census_column_mappings = {
@@ -156,13 +156,10 @@ head_teacher_breakdowns_filenames = {
     2023: "Workforce_2010_2024_fte_hc_nat_reg_la_sch.csv",
     2024: "Workforce_2010_2024_fte_hc_nat_reg_la_sch.csv",
     2025: "Workforce_2010_2024_fte_hc_nat_reg_la_sch.csv",
-    2026: "Workforce_2010_2025_fte_hc_sch.csv"
+    2026: "Workforce_2010_2025_fte_hc_sch.csv",
 }
 
-head_teacher_breakdowns_file_encodings = {
-    "default": "latin-1",
-    2026: None
-}
+head_teacher_breakdowns_file_encodings = {"default": "latin-1", 2026: None}
 
 head_teacher_breakdowns = {
     "default": {
