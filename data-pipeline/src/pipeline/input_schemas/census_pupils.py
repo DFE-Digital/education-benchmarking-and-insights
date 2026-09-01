@@ -58,27 +58,39 @@ pupil_census = {
         "full-time female Year group 13": "float",
         "number_of_dual_subsidiary_registrations": "float",
     },
+    2026: {
+        "urn": "Int64",
+        "number of pupils known to be eligible for free school meals": "float",
+        "% of pupils known to be eligible for free school meals": "float",
+        "number of pupils whose first language is known or believed to be other than English": "float",
+        "% of pupils whose first language is known or believed to be other than English": "float",
+        "headcount of pupils": "float",
+        "total boarders": "float",
+        "fte pupils": "float",
+        "Number of early year pupils (years E1 and E2)": "float",
+        "Number of nursery pupils (years N1 and N2)": "float",
+        "full-time male Year group 12": "float",
+        "full-time female Year group 12": "float",
+        "full-time male Year group 13": "float",
+        "full-time female Year group 13": "float",
+        "number_of_dual_subsidiary_registrations": "float",
+    },
 }
 
+_pupil_census_mappings_change_2024 = {
+    "urn": "URN",
+    "full-time male Year group 12": "Full time boys Year group 12",
+    "full-time female Year group 12": "Full time girls Year group 12",
+    "full-time male Year group 13": "Full time boys Year group 13",
+    "full-time female Year group 13": "Full time girls Year group 13",
+    "number_of_dual_subsidiary_registrations": "Pupil Dual Registrations",
+}
 pupil_census_column_mappings = {
     "default": {},
     2023: {
         "number_of_dual_subsidiary_registrations": "Pupil Dual Registrations",
     },
-    2024: {
-        "urn": "URN",
-        "full-time male Year group 12": "Full time boys Year group 12",
-        "full-time female Year group 12": "Full time girls Year group 12",
-        "full-time male Year group 13": "Full time boys Year group 13",
-        "full-time female Year group 13": "Full time girls Year group 13",
-        "number_of_dual_subsidiary_registrations": "Pupil Dual Registrations",
-    },
-    2025: {
-        "urn": "URN",
-        "full-time male Year group 12": "Full time boys Year group 12",
-        "full-time female Year group 12": "Full time girls Year group 12",
-        "full-time male Year group 13": "Full time boys Year group 13",
-        "full-time female Year group 13": "Full time girls Year group 13",
-        "number_of_dual_subsidiary_registrations": "Pupil Dual Registrations",
-    },
+    2024: _pupil_census_mappings_change_2024,
+    2025: _pupil_census_mappings_change_2024,
+    2026: _pupil_census_mappings_change_2024,
 }
