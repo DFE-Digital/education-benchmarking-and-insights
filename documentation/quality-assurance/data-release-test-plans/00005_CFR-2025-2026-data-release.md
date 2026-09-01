@@ -35,7 +35,7 @@ Two additional considerations apply to this release compared to prior years:
 
 | Category                           | Files / Sources                                                                        |
 |:-----------------------------------|:---------------------------------------------------------------------------------------|
-| **Primary CFR (input)**            | maintained_schools_master_list.csv.csv                                                 |
+| **Primary CFR (input)**            | CFR_25-26_Data.csv                                                 |
 | **Maintained Schools Master List** | Pipeline-produced master list + SQL-produced master list (parity baseline)             |
 | **Organisational**                 | gias.csv, gias_links.csv                                                               |
 | **Census Data**                    | census_pupils.csv, census_workforce.xlsx, sen.csv                                      |
