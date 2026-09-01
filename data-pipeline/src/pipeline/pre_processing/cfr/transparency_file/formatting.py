@@ -244,13 +244,9 @@ _master_list_base_mappings = {
     "Total Expenditure": "Total Expenditure excluding E30",
 }
 
-_master_list_2026_mappings = _master_list_base_mappings.copy()
-_master_list_2026_mappings.pop("I18  Additional grant for schools", None)
-_master_list_2026_mappings.pop("Total Income   I01 to I08, I11 to I15, I18", None)
-
 master_list_mappings = {
     "default": _master_list_base_mappings,
-    2026: _master_list_2026_mappings,
+    2026: _master_list_base_mappings,
 }
 
 # Year-on-year Download File Mapping Configurations
