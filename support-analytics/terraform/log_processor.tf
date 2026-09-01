@@ -134,7 +134,6 @@ resource "azurerm_function_app_flex_consumption" "func_app" {
   runtime_name                      = "python"
   runtime_version                   = "3.11"
   https_only                        = true
-  virtual_network_subnet_id         = var.networking.join_subnet_id == "" ? null : var.networking.join_subnet_id
 
   identity {
     type         = "SystemAssigned, UserAssigned"
