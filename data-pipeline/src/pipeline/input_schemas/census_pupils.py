@@ -66,4 +66,3 @@ pupil_census_column_mappings = {
     2025: _pupil_census_mappings_change_2024,
     2026: _pupil_census_mappings_change_2024,
 }
-

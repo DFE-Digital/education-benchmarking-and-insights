@@ -644,4 +644,3 @@ def test_build_transparency_files_structure_2026():
     )
     assert "I18d Income from other additional grants" not in transparency_file.columns
     assert "I18 Total additional grant for schools" not in transparency_file.columns
-

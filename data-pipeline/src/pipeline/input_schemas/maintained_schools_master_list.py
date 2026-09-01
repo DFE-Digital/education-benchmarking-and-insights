@@ -66,15 +66,17 @@ _maintained_default = {
 # Starting in 2025, E20 (ICT learning resources) was split into multiple subcategories (E20A-E20G)
 _maintained_split_ict = _maintained_default.copy()
 _maintained_split_ict.pop("E20  ICT learning resources", None)
-_maintained_split_ict.update({
-    "E20A  Connectivity": "float",
-    "E20B  Onsite servers": "float",
-    "E20C  IT learning resources": "float",
-    "E20D  Administration software and systems": "float",
-    "E20E  Laptops, desktops and tablets": "float",
-    "E20F  Other hardware": "float",
-    "E20G  IT support": "float",
-})
+_maintained_split_ict.update(
+    {
+        "E20A  Connectivity": "float",
+        "E20B  Onsite servers": "float",
+        "E20C  IT learning resources": "float",
+        "E20D  Administration software and systems": "float",
+        "E20E  Laptops, desktops and tablets": "float",
+        "E20F  Other hardware": "float",
+        "E20G  IT support": "float",
+    }
+)
 
 maintained_schools_master_list_cols = {
     "default": _maintained_default,

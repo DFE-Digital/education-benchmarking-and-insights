@@ -104,7 +104,4 @@ cfr_raw_cols = {
 }
 
 cfr_raw_index_col = None
-cfr_raw_filenames = {
-    2025: "CFR_24-25_Data.csv",
-    2026: "CFR_25-26_Data.csv"
-}
+cfr_raw_filenames = {2025: "CFR_24-25_Data.csv", 2026: "CFR_25-26_Data.csv"}

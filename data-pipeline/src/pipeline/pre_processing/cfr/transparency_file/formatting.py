@@ -85,58 +85,115 @@ def build_sfb_maintained(
 
     # Financial columns
     fin_cols = [
-        "I01 Pre-16 Funding", "I02 Post-16 Funding", "I01/2 Pre and Post-16 Funding",
-        "I03 SEN", "I04 Funding for minority ethnic pupils", "I05 Pupil Premium",
-        "I06 Other DfE/EFA Revenue Grants", "I07 Other income (LA & other Government grants)",
-        "I08a Income from lettings", "I08b Income from facilities and services",
-        "I08a/b Income from facilities and services", "I09 Income from catering",
-        "I10 Receipts from supply teacher insurance claims", "I11 Receipts from other insurance claims",
-        "I12 Income from contributions to visits etc", "I13 Donations and/or voluntary funds",
+        "I01 Pre-16 Funding",
+        "I02 Post-16 Funding",
+        "I01/2 Pre and Post-16 Funding",
+        "I03 SEN",
+        "I04 Funding for minority ethnic pupils",
+        "I05 Pupil Premium",
+        "I06 Other DfE/EFA Revenue Grants",
+        "I07 Other income (LA & other Government grants)",
+        "I08a Income from lettings",
+        "I08b Income from facilities and services",
+        "I08a/b Income from facilities and services",
+        "I09 Income from catering",
+        "I10 Receipts from supply teacher insurance claims",
+        "I11 Receipts from other insurance claims",
+        "I12 Income from contributions to visits etc",
+        "I13 Donations and/or voluntary funds",
         "I15 Pupil focussed extended school funding and/or grants",
         "I16 Community focussed school funding and/or grants",
         "I17 Community focused school facilities income",
         "I18c Income from the £1bn COVID-19 catch-up package announced on 20 July 2020",
-        "I18d Income from other additional grants", "I18 Total additional grant for schools",
-        "Total Income: I01 to I08, I11 to I15, I18 minus E30", "Total Income: I01 to I18 minus E30",
-        "E01 Teaching staff", "E02 Supply teaching staff", "E03 Education support staff",
-        "E04 Premises staff", "E05 Administrative and clerical staff", "E06 Catering staff",
-        "E07 Other staff", "E08 Indirect employee expenses", "E09 Staff development and training",
-        "E10 Supply teacher insurance", "E11 Staff-related insurance",
-        "E12 Building maintenance and improvement", "E13 Grounds maintenance and improvement",
-        "E14 Cleaning and caretaking", "E15 Water and sewerage", "E16 Energy", "E17 Rates",
-        "E18 Other occupation costs", "E19 Learning resources (not ICT equipment)",
-        "E20A Connectivity", "E20B Onsite servers", "E20C IT learning resources",
-        "E20D Administration software and systems", "E20E Laptops, desktops and tablets",
-        "E20F Other hardware", "E20G IT support", "E21 Examination fees",
-        "E22 Administrative supplies - non educational", "E23 Other insurance premiums",
-        "E24 Special facilities", "E25 Catering supplies", "E26 Agency supply teaching staff",
-        "E27 Educational Consultancy", "E28a Bought in professional services, other, not PFI",
-        "E28b Bought in professional services, other, PFI", "E28a/b Bought in professional services",
+        "I18d Income from other additional grants",
+        "I18 Total additional grant for schools",
+        "Total Income: I01 to I08, I11 to I15, I18 minus E30",
+        "Total Income: I01 to I18 minus E30",
+        "E01 Teaching staff",
+        "E02 Supply teaching staff",
+        "E03 Education support staff",
+        "E04 Premises staff",
+        "E05 Administrative and clerical staff",
+        "E06 Catering staff",
+        "E07 Other staff",
+        "E08 Indirect employee expenses",
+        "E09 Staff development and training",
+        "E10 Supply teacher insurance",
+        "E11 Staff-related insurance",
+        "E12 Building maintenance and improvement",
+        "E13 Grounds maintenance and improvement",
+        "E14 Cleaning and caretaking",
+        "E15 Water and sewerage",
+        "E16 Energy",
+        "E17 Rates",
+        "E18 Other occupation costs",
+        "E19 Learning resources (not ICT equipment)",
+        "E20A Connectivity",
+        "E20B Onsite servers",
+        "E20C IT learning resources",
+        "E20D Administration software and systems",
+        "E20E Laptops, desktops and tablets",
+        "E20F Other hardware",
+        "E20G IT support",
+        "E21 Examination fees",
+        "E22 Administrative supplies - non educational",
+        "E23 Other insurance premiums",
+        "E24 Special facilities",
+        "E25 Catering supplies",
+        "E26 Agency supply teaching staff",
+        "E27 Educational Consultancy",
+        "E28a Bought in professional services, other, not PFI",
+        "E28b Bought in professional services, other, PFI",
+        "E28a/b Bought in professional services",
         "E29 Interest charges for Loan and Bank",
         "E30 Direct revenue financing (Revenue contributions to capital)",
-        "E31 Community focused school staff", "E32 Community focused school costs",
+        "E31 Community focused school staff",
+        "E32 Community focused school costs",
         "Total Expenditure:E01 to E29 and E31 to E32 minus I9, I10, I16 and I17",
         "Total Expenditure:E01 to E29 and E31 to E32",
-        "OB01 Opening pupil-focused revenue balance", "OB02 Opening community-focused revenue balance",
-        "OB03 Opening capital balance", "CI01 Capital income", "CI03 Voluntary or private income",
-        "CI04 Direct revenue financing", "CE01 Acquisition of land and existing buildings",
-        "CE02 New construction, conversion and renovation", "CE03 Vehicles, plant, equipment and machinery",
-        "CE04 Information and communication technology", "CE04A Connectivity", "CE04B Onsite servers",
-        "CE04C Administration software and systems", "CE04D Laptops desktops and tablets",
-        "CE04E Other hardware", "B01 Committed revenue balances", "B02 Uncommitted revenue balances",
-        "B03 Devolved formula capital balance", "B05 Other capital balances",
-        "B06 Community-focused school revenue balances", "B07 Outstanding balance on capital loans to school",
-        "Revenue Reserve: B01 + B02 + B06", "In-year Balance",
-        "Grant Funding: (I01:I07) + I15 + I16 + I18a/b/c/d", "Direct Grants: I01:I02 + I06:I07",
-        "Community Grants: I16+I18", "Targetted Grants: I03:I05 + I15",
-        "Self Generated Funding: (I08a/b:I13) + I17", "Total income", "Teaching Staff: E01",
-        "Supply Staff: E02 + E10 + E26", "Education support staff: E03",
-        "Other Staff Costs: (E07:E09) + E11", "Staff Total: (E01:E03) + E05 + (E07: E11) + E26",
-        "Maintenance & Improvement: E12 + E13", "Premises: (E12:E14) + E04 + E28b",
-        "Catering Expenses: E06 + E25", "Occupation: E06 + (E15:E18) + E23 + E25",
-        "Supplies and Services: (E19:E22) + (E27:E28b)", "Educational Supplies: (E19:E21)",
-        "Brought in Professional Sevices: (E27 + E28a)", "Community Exp: E31 + E32",
-        "Total Expenditure excluding E30"
+        "OB01 Opening pupil-focused revenue balance",
+        "OB02 Opening community-focused revenue balance",
+        "OB03 Opening capital balance",
+        "CI01 Capital income",
+        "CI03 Voluntary or private income",
+        "CI04 Direct revenue financing",
+        "CE01 Acquisition of land and existing buildings",
+        "CE02 New construction, conversion and renovation",
+        "CE03 Vehicles, plant, equipment and machinery",
+        "CE04 Information and communication technology",
+        "CE04A Connectivity",
+        "CE04B Onsite servers",
+        "CE04C Administration software and systems",
+        "CE04D Laptops desktops and tablets",
+        "CE04E Other hardware",
+        "B01 Committed revenue balances",
+        "B02 Uncommitted revenue balances",
+        "B03 Devolved formula capital balance",
+        "B05 Other capital balances",
+        "B06 Community-focused school revenue balances",
+        "B07 Outstanding balance on capital loans to school",
+        "Revenue Reserve: B01 + B02 + B06",
+        "In-year Balance",
+        "Grant Funding: (I01:I07) + I15 + I16 + I18a/b/c/d",
+        "Direct Grants: I01:I02 + I06:I07",
+        "Community Grants: I16+I18",
+        "Targetted Grants: I03:I05 + I15",
+        "Self Generated Funding: (I08a/b:I13) + I17",
+        "Total income",
+        "Teaching Staff: E01",
+        "Supply Staff: E02 + E10 + E26",
+        "Education support staff: E03",
+        "Other Staff Costs: (E07:E09) + E11",
+        "Staff Total: (E01:E03) + E05 + (E07: E11) + E26",
+        "Maintenance & Improvement: E12 + E13",
+        "Premises: (E12:E14) + E04 + E28b",
+        "Catering Expenses: E06 + E25",
+        "Occupation: E06 + (E15:E18) + E23 + E25",
+        "Supplies and Services: (E19:E22) + (E27:E28b)",
+        "Educational Supplies: (E19:E21)",
+        "Brought in Professional Sevices: (E27 + E28a)",
+        "Community Exp: E31 + E32",
+        "Total Expenditure excluding E30",
     ]
     for col in fin_cols:
         out[col] = a.get(col, 0)
@@ -362,7 +419,10 @@ _download_file_base_mappings = {
 }
 
 _download_file_2026_mappings = _download_file_base_mappings.copy()
-_download_file_2026_mappings.pop("I18c Income from the £1bn COVID-19 catch-up package announced on 20 July 2020", None)
+_download_file_2026_mappings.pop(
+    "I18c Income from the £1bn COVID-19 catch-up package announced on 20 July 2020",
+    None,
+)
 _download_file_2026_mappings.pop("I18d Income from other additional grants", None)
 _download_file_2026_mappings.pop("I18 Total additional grant for schools", None)
 
@@ -372,7 +432,9 @@ download_file_mappings = {
 }
 
 
-def build_maintained_schools_master_list(sfb: pd.DataFrame, year: int = 2025) -> pd.DataFrame:
+def build_maintained_schools_master_list(
+    sfb: pd.DataFrame, year: int = 2025
+) -> pd.DataFrame:
     """Replicates My_Step4.sql: final formatting for the master list."""
     out = pd.DataFrame()
 
@@ -431,7 +493,9 @@ def build_maintained_schools_master_list(sfb: pd.DataFrame, year: int = 2025) ->
     return out
 
 
-def build_maintained_schools_download_file(sfb: pd.DataFrame, year: int = 2025) -> pd.DataFrame:
+def build_maintained_schools_download_file(
+    sfb: pd.DataFrame, year: int = 2025
+) -> pd.DataFrame:
     """Replicates My_Step5.sql: final formatting for the download file."""
     out = pd.DataFrame()
 
@@ -442,7 +506,9 @@ def build_maintained_schools_download_file(sfb: pd.DataFrame, year: int = 2025) 
     out["Did Not Supply flag"] = sfb["Did Not Supply flag"].str.replace("DNS", "Y")
     out["Lead school in federation"] = sfb["Lead school in federation"]
     out["London Weighting"] = sfb["London Weighting"]
-    out["No pupils (including dual registrations)"] = sfb["AggregatedPupilsFTE"].round(1)
+    out["No pupils (including dual registrations)"] = sfb["AggregatedPupilsFTE"].round(
+        1
+    )
     out["Overall Phase"] = sfb["Overall Phase"]
     out["% of pupils eligible for FSM"] = sfb["Aggregated_PC_FSM"].round(1)
     out["% of pupils with SEN support"] = sfb["Aggregated_PC_SEN_Support"].round(1)
