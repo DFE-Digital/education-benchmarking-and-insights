@@ -34,7 +34,7 @@ resource "azurerm_storage_account" "analytics_storage" {
 resource "azurerm_storage_container" "log_outputs" {
   #checkov:skip=CKV2_AZURE_21:See ADO backlog AB#206507
   name                  = "transformed-log-data"
-  storage_account_name  = azurerm_storage_account.analytics_storage.name
+  storage_account_id    = azurerm_storage_account.analytics_storage.id
   container_access_type = "private"
 }
 
