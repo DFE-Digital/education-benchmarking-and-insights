@@ -80,4 +80,3 @@ joined_census_column_eval = {
         "LAEstab": "`LAEstab_workforce`.fillna(`LAEstab_pupil`)"
     }
 }
-

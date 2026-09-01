@@ -2,18 +2,87 @@ import numpy as np
 import pandas as pd
 
 INCOME_RAW = [
-    "I01", "I02", "I03", "I04", "I05", "I06", "I07", "I08a", "I08b", "I09", "I10", 
-    "I11", "I12", "I13", "I15", "I16", "I17", "I18c", "I18d",
+    "I01",
+    "I02",
+    "I03",
+    "I04",
+    "I05",
+    "I06",
+    "I07",
+    "I08a",
+    "I08b",
+    "I09",
+    "I10",
+    "I11",
+    "I12",
+    "I13",
+    "I15",
+    "I16",
+    "I17",
+    "I18c",
+    "I18d",
 ]
 EXPENSE_RAW = [
-    "E01", "E02", "E03", "E04", "E05", "E06", "E07", "E08", "E09", "E10", "E11",
-    "E12", "E13", "E14", "E15", "E16", "E17", "E18", "E19", "E20A", "E20B", "E20C",
-    "E20D", "E20E", "E20F", "E20G", "E21", "E22", "E23", "E24", "E25", "E26", "E27",
-    "E28a", "E28b", "E29", "E31", "E32",
+    "E01",
+    "E02",
+    "E03",
+    "E04",
+    "E05",
+    "E06",
+    "E07",
+    "E08",
+    "E09",
+    "E10",
+    "E11",
+    "E12",
+    "E13",
+    "E14",
+    "E15",
+    "E16",
+    "E17",
+    "E18",
+    "E19",
+    "E20A",
+    "E20B",
+    "E20C",
+    "E20D",
+    "E20E",
+    "E20F",
+    "E20G",
+    "E21",
+    "E22",
+    "E23",
+    "E24",
+    "E25",
+    "E26",
+    "E27",
+    "E28a",
+    "E28b",
+    "E29",
+    "E31",
+    "E32",
 ]
 CAPITAL_RAW = [
-    "OB01", "OB02", "OB03", "CI01", "CI03", "CI04", "CE01", "CE02", "CE03", "CE04A",
-    "CE04B", "CE04C", "CE04D", "CE04E", "B01", "B02", "B03", "B05", "B06", "B07",
+    "OB01",
+    "OB02",
+    "OB03",
+    "CI01",
+    "CI03",
+    "CI04",
+    "CE01",
+    "CE02",
+    "CE03",
+    "CE04A",
+    "CE04B",
+    "CE04C",
+    "CE04D",
+    "CE04E",
+    "B01",
+    "B02",
+    "B03",
+    "B05",
+    "B06",
+    "B07",
 ]
 
 
@@ -101,7 +170,8 @@ def add_financials(merged: pd.DataFrame) -> pd.DataFrame:
     m["CE02 New construction, conversion and renovation"] = m["CE02"]
     m["CE03 Vehicles, plant, equipment and machinery"] = m["CE03"]
     m["CE04 Information and communication technology"] = m[
-        ["CE04A", "CE04B", "CE04C", "CE04D", "CE04E"]].sum(axis=1)
+        ["CE04A", "CE04B", "CE04C", "CE04D", "CE04E"]
+    ].sum(axis=1)
     m["CE04A Connectivity"] = m["CE04A"]
     m["CE04B Onsite servers"] = m["CE04B"]
     m["CE04C Administration software and systems"] = m["CE04C"]
@@ -120,10 +190,25 @@ def add_financials(merged: pd.DataFrame) -> pd.DataFrame:
     expense_total = m[EXPENSE_RAW].sum(axis=1)
     expense_net = expense_total - m[["I09", "I10", "I16", "I17"]].sum(axis=1)
 
-    m["Total Income: I01 to I08, I11 to I15, I18 minus E30"] = (
-        m[["I01", "I02", "I03", "I04", "I05", "I06", "I07", "I08a", "I08b", "I11", "I12", "I13", "I15", "I18c", "I18d"]].sum(axis=1)
-        - m["E30"].fillna(0)
-    )
+    m["Total Income: I01 to I08, I11 to I15, I18 minus E30"] = m[
+        [
+            "I01",
+            "I02",
+            "I03",
+            "I04",
+            "I05",
+            "I06",
+            "I07",
+            "I08a",
+            "I08b",
+            "I11",
+            "I12",
+            "I13",
+            "I15",
+            "I18c",
+            "I18d",
+        ]
+    ].sum(axis=1) - m["E30"].fillna(0)
     m["Total Income: I01 to I18 minus E30"] = income_full - m["E30"].fillna(0)
     m["Total Expenditure:E01 to E29 and E31 to E32 minus I9, I10, I16 and I17"] = (
         expense_net
@@ -143,18 +228,36 @@ def add_financials(merged: pd.DataFrame) -> pd.DataFrame:
     m["Teaching Staff: E01"] = m["E01"]
     m["Supply Staff: E02 + E10 + E26"] = m[["E02", "E10", "E26"]].sum(axis=1)
     m["Education support staff: E03"] = m["E03"]
-    m["Other Staff Costs: (E07:E09) + E11"] = m[["E07", "E08", "E09", "E11"]].sum(axis=1)
+    m["Other Staff Costs: (E07:E09) + E11"] = m[["E07", "E08", "E09", "E11"]].sum(
+        axis=1
+    )
     m["Staff Total: (E01:E03) + E05 + (E07: E11) + E26"] = m[
         ["E01", "E02", "E03", "E05", "E07", "E08", "E09", "E10", "E11", "E26"]
     ].sum(axis=1)
     m["Maintenance & Improvement: E12 + E13"] = m[["E12", "E13"]].sum(axis=1)
-    m["Premises: (E12:E14) + E04 + E28b"] = m[["E12", "E13", "E14", "E04", "E28b"]].sum(axis=1)
+    m["Premises: (E12:E14) + E04 + E28b"] = m[["E12", "E13", "E14", "E04", "E28b"]].sum(
+        axis=1
+    )
     m["Catering Expenses: E06 + E25"] = m[["E06", "E25"]].sum(axis=1)
     m["Occupation: E06 + (E15:E18) + E23 + E25"] = m[
         ["E06", "E15", "E16", "E17", "E18", "E23", "E25"]
     ].sum(axis=1)
     m["Supplies and Services: (E19:E22) + (E27:E28b)"] = m[
-        ["E19", "E20A", "E20B", "E20C", "E20D", "E20E", "E20F", "E20G", "E21", "E22", "E27", "E28a", "E28b"]
+        [
+            "E19",
+            "E20A",
+            "E20B",
+            "E20C",
+            "E20D",
+            "E20E",
+            "E20F",
+            "E20G",
+            "E21",
+            "E22",
+            "E27",
+            "E28a",
+            "E28b",
+        ]
     ].sum(axis=1)
     m["Educational Supplies: (E19:E21)"] = m[
         ["E19", "E20A", "E20B", "E20C", "E20D", "E20E", "E20F", "E20G", "E21"]
