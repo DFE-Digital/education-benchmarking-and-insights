@@ -7,7 +7,7 @@
     <PackageVersion Include="Microsoft.Data.SqlClient.Extensions.Azure" Version="1.0.0" />
     <PackageVersion Include="Microsoft.Extensions.Primitives" Version="10.0.10" />
     <PackageVersion Include="Newtonsoft.Json" Version="13.0.4" />
-    <PackageVersion Include="JsonSubTypes" Version="2.0.1" />
+    <PackageVersion Include="JsonSubTypes" Version="2.1.0" />
     <PackageVersion Include="AspNetCore.HealthChecks.AzureSearch" Version="9.0.0" />
     <PackageVersion Include="AspNetCore.HealthChecks.Redis" Version="9.0.0" />
     <PackageVersion Include="AspNetCore.HealthChecks.SqlServer" Version="9.0.0" />
