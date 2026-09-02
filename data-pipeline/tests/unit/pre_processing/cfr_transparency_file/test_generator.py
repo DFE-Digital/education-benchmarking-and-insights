@@ -251,6 +251,9 @@ def test_build_transparency_files_structure():
     assert school_3["Federated submission"] == "Non returning school"
     # Ensure financials are masked for DNS school
     assert school_3["I01 Funds delegated by the LA"] == "DNS"
+    assert school_3["No pupils (including dual registrations)"] == 50.0
+    assert school_3["% of pupils eligible for FSM"] == 20.0
+    assert school_3["FTE Number of teachers"] == 2.5
 
     # Check normal school
     school_1 = transparency_file[transparency_file["LAEstab"] == 1001001].iloc[0]

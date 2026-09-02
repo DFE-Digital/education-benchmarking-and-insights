@@ -390,15 +390,11 @@ def build_federation_context(
     )
 
     working["Teachers FTE_agg"] = np.where(
-        working["Lead_school"] > 0,
+        working["DNS"] == "LeadSchool",
         working["Federation_FTETeachers"],
         np.where(
-            working["DNS"] == "n/a",
-            np.where(
-                use_last_year_teachers & (working[f"{fte_teachers_col}_last_year"] > 0),
-                working[f"{fte_teachers_col}_last_year"],
-                working[fte_teachers_col]
-            ),
+            use_last_year_teachers & (working[f"{fte_teachers_col}_last_year"] > 0),
+            working[f"{fte_teachers_col}_last_year"],
             working[fte_teachers_col]
         )
     )
@@ -407,12 +403,8 @@ def build_federation_context(
         working["DNS"] == "LeadSchool",
         working[fte_teachers_col],
         np.where(
-            working["DNS"] == "n/a",
-            np.where(
-                use_last_year_teachers & (working[f"{fte_teachers_col}_last_year"] > 0),
-                working[f"{fte_teachers_col}_last_year"],
-                working[fte_teachers_col]
-            ),
+            use_last_year_teachers & (working[f"{fte_teachers_col}_last_year"] > 0),
+            working[f"{fte_teachers_col}_last_year"],
             working[fte_teachers_col]
         )
     )
