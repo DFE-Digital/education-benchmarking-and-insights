@@ -68,10 +68,10 @@ Maintained schools in a federation submit their financial data under a combined 
 
   ```sql
   -- Checking federation topology and lead school mappings
-  SELECT URN, SchoolName, FederationLeadURN, TotalExpenditure
+  SELECT s.URN, SchoolName, TotalPupils, FederationLeadURN, TotalExpenditure
   FROM [dbo].[School] s
   JOIN [dbo].[Financial] f ON s.URN = f.URN
-  WHERE (s.FederationLeadURN = '<LeadURN>' OR s.URN = '<LeadURN>') AND f.RunId = '<year>';
+  WHERE (s.FederationLeadURN = <LeadURN> OR s.URN = <LeadURN>) AND f.RunId = '<year>';
   ```
 
 ### 2. Transparency File DNS & Federation Flags Check
