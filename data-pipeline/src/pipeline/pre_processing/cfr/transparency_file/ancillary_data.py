@@ -157,11 +157,19 @@ def build_federation_context(
     # 1 & 2: Topology and Base Context Merge
     gias_subset = _filter_gias(gias, anchors["ref_date"])
     all_federations = _extract_federation_topology(cfr_raw)
+    # Aggregate census metrics at the LAEstab level (preserving NaNs using min_count=1)
+    # to prevent row duplication during the merge.
+    #
+    # This is necessary because when a maintained school academises during the year, 
+    # a single LAEstab can represent different URNs across the pupil and workforce 
+    # censuses (e.g., 2 URNs). Since these censuses are taken at different points, 
+    # the pupil data is sometimes attributable to one URN and the workforce to another.
+    census_for_laestab_join = census.groupby("LAEstab").sum(min_count=1).reset_index()
 
     fedmatched = (
         all_federations.merge(gias_subset.reset_index(), on="LAEstab", how="left")
         .merge(pru, on="LAEstab", how="left")
-        .merge(census, on="LAEstab", how="left")
+        .merge(census_for_laestab_join, on="LAEstab", how="left")
         .merge(sen, on="URN", how="left")
         .merge(hospital_schools, on="LAEstab", how="left")
         .merge(lookup_la, left_on="LA", right_on="old_la_code", how="left")

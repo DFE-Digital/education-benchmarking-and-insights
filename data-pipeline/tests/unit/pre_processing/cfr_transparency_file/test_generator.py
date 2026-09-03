@@ -165,6 +165,7 @@ def test_build_transparency_files_structure():
         pd.DataFrame(
             {
                 "URN": [1, 2, 3],
+                "LAEstab": [1001001, 1001002, 1001003],
                 "total boarders": [0, 0, 0],
                 "number of pupils known to be eligible for free school meals": [
                     20,
@@ -197,6 +198,7 @@ def test_build_transparency_files_structure():
         )
         .astype(
             {
+                "LAEstab": "Int64",
                 "total boarders": float,
                 "number of pupils known to be eligible for free school meals": float,
                 "number of pupils whose first language is known or believed to be other than English": float,
@@ -555,6 +557,7 @@ def test_build_transparency_files_structure_2026():
         pd.DataFrame(
             {
                 "URN": [1, 2, 3],
+                "LAEstab": [1001001, 1001002, 1001003],
                 "total boarders": [0, 0, 0],
                 "number of pupils known to be eligible for free school meals": [
                     20,
@@ -587,6 +590,7 @@ def test_build_transparency_files_structure_2026():
         )
         .astype(
             {
+                "LAEstab": "Int64",
                 "total boarders": float,
                 "number of pupils known to be eligible for free school meals": float,
                 "number of pupils whose first language is known or believed to be other than English": float,
