@@ -19,15 +19,15 @@ public class CustomResponseHeadersMiddleware(RequestDelegate next)
         csp.Append("default-src 'self';");
 
         // if web assets images resolves to an absolute URL, ensure its host name is included in the CORS policy
-        csp.Append($"img-src 'self' data:{(webAssetsOptions.Value.ImagesBaseHostName == null ? string.Empty : $" {webAssetsOptions.Value.ImagesBaseHostName}")};");
+        csp.Append($"img-src 'self' data:{(webAssetsOptions.Value.ImagesBaseHostName == null ? string.Empty : $" {webAssetsOptions.Value.ImagesBaseHostName}")} https://*.clarity.ms;");
 
         csp.Append("style-src 'self';");
-        csp.Append($"script-src 'self' 'nonce-{context.Items["csp-nonce"]}' https://js.monitor.azure.com/scripts/b/ai.3.gbl.min.js https://js.monitor.azure.com/scripts/b/ext/ai.clck.2.min.js;");
+        csp.Append($"script-src 'self' 'nonce-{context.Items["csp-nonce"]}' https://js.monitor.azure.com/scripts/b/ai.3.gbl.min.js https://js.monitor.azure.com/scripts/b/ext/ai.clck.2.min.js https://www.clarity.ms;");
         csp.Append("object-src 'none';");
         csp.Append("worker-src 'none';");
         csp.Append("frame-ancestors 'self';");
         csp.Append("form-action 'self' https://*.signin.education.gov.uk;");
-        csp.Append("connect-src dc.services.visualstudio.com *.in.applicationinsights.azure.com js.monitor.azure.com 'self';");
+        csp.Append("connect-src https://*.clarity.ms dc.services.visualstudio.com *.in.applicationinsights.azure.com js.monitor.azure.com 'self';");
 
         context.Response.Headers.ContentSecurityPolicy = csp.ToString();
         context.Response.Headers.XFrameOptions = "SAMEORIGIN";

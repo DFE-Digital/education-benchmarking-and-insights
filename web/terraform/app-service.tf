@@ -117,6 +117,7 @@ resource "azurerm_windows_web_app" "education-benchmarking-as" {
     "CacheOptions__CommercialResources__AbsoluteExpiration" = var.configuration[var.environment].CacheOptions.CommercialResources.AbsoluteExpiration
     "CacheOptions__Banners__SlidingExpiration"              = var.configuration[var.environment].CacheOptions.Banners.SlidingExpiration
     "CacheOptions__Banners__AbsoluteExpiration"             = var.configuration[var.environment].CacheOptions.Banners.AbsoluteExpiration
+    "ClarityOptions__ProjectId"                             = try(var.configuration[var.environment].ClarityOptions.ProjectId, null)
   }
   tags = local.common-tags
 }
