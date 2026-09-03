@@ -161,7 +161,7 @@ def build_federation_context(
     fedmatched = (
         all_federations.merge(gias_subset.reset_index(), on="LAEstab", how="left")
         .merge(pru, on="LAEstab", how="left")
-        .merge(census.reset_index(), on="URN", how="left")
+        .merge(census, on="LAEstab", how="left")
         .merge(sen, on="URN", how="left")
         .merge(hospital_schools, on="LAEstab", how="left")
         .merge(lookup_la, left_on="LA", right_on="old_la_code", how="left")
