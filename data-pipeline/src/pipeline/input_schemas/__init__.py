@@ -11,6 +11,7 @@ from .aar_central_services import (  # noqa
     aar_central_services_index_col,
 )
 from .census_pupils import (  # noqa
+    joined_census_column_eval,
     pupil_census,
     pupil_census_column_mappings,
     pupil_census_index_col,

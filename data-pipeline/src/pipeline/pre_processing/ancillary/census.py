@@ -107,6 +107,11 @@ def prepare_census_data(
         .rename(columns=config.census_column_map)
     )
 
+    for column, eval_ in input_schemas.joined_census_column_eval.get(
+        year, input_schemas.joined_census_column_eval["default"]
+    ).items():
+        census[column] = census.eval(eval_)
+
     census["Number of pupils"] = (
         census["Number of pupils"] + census["Pupil Dual Registrations"]
     )

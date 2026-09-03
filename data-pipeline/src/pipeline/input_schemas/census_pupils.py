@@ -43,6 +43,7 @@ pupil_census = {
     },
     2025: {
         "urn": "Int64",
+        "laestab": "Int64",
         "number of pupils known to be eligible for free school meals": "float",
         "% of pupils known to be eligible for free school meals": "float",
         "number of pupils whose first language is known or believed to be other than English": "float",
@@ -60,6 +61,7 @@ pupil_census = {
     },
     2026: {
         "urn": "Int64",
+        "laestab": "Int64",
         "number of pupils known to be eligible for free school meals": "float",
         "% of pupils known to be eligible for free school meals": "float",
         "number of pupils whose first language is known or believed to be other than English": "float",
@@ -85,12 +87,27 @@ _pupil_census_mappings_change_2024 = {
     "full-time female Year group 13": "Full time girls Year group 13",
     "number_of_dual_subsidiary_registrations": "Pupil Dual Registrations",
 }
+_pupil_census_mappings_change_2025 = {
+    **_pupil_census_mappings_change_2024,
+    "laestab": "LAEstab",
+}
 pupil_census_column_mappings = {
     "default": {},
     2023: {
         "number_of_dual_subsidiary_registrations": "Pupil Dual Registrations",
     },
     2024: _pupil_census_mappings_change_2024,
-    2025: _pupil_census_mappings_change_2024,
-    2026: _pupil_census_mappings_change_2024,
+    2025: _pupil_census_mappings_change_2025,
+    2026: _pupil_census_mappings_change_2025,
 }
+
+joined_census_column_eval = {
+    "default": {},
+    2025: {
+        "LAEstab": "`LAEstab_workforce`.fillna(`LAEstab_pupil`)"
+    },
+    2026: {
+        "LAEstab": "`LAEstab_workforce`.fillna(`LAEstab_pupil`)"
+    }
+}
+

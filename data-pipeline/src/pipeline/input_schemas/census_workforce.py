@@ -50,6 +50,7 @@ workforce_census = {
     },
     2025: {
         "URN": "Int64",
+        "LAEstab": "Int64",
         "Total Number of Other School Support Staff (FTE)": "float",
         "Total Number of Other School Support Staff (Headcount)": "float",
         "Total Number of Technicians (FTE)": "float",
@@ -74,6 +75,7 @@ workforce_census = {
     },
     2026: {
         "URN": "Int64",
+        "LAEstab": "Int64",
         "Total Number of Other School Support Staff (FTE)": "float",
         "Total Number of Other School Support Staff (Headcount)": "float",
         "Total Number of Technicians (FTE)": "float",
