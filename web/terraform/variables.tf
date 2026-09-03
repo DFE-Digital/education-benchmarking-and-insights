@@ -44,6 +44,9 @@ variable "configuration" {
         AbsoluteExpiration = number
       })
     })
+    ClarityOptions = optional(object({
+      ProjectId = string
+    }))
     DISABLE_ORG_CLAIM_CHECK = optional(bool, false)
   }))
   default = {
@@ -71,6 +74,9 @@ variable "configuration" {
           SlidingExpiration  = 10
           AbsoluteExpiration = 60
         }
+      },
+      ClarityOptions = {
+        ProjectId = "ycebn7ial9"
       },
       DISABLE_ORG_CLAIM_CHECK = true
     }
@@ -125,6 +131,9 @@ variable "configuration" {
           AbsoluteExpiration = 60
         }
       },
+      ClarityOptions = {
+        ProjectId = "ycx3zpgwd7"
+      },
       DISABLE_ORG_CLAIM_CHECK = true
     }
     feature = {
@@ -176,6 +185,9 @@ variable "configuration" {
           SlidingExpiration  = 10
           AbsoluteExpiration = 60
         }
+      },
+      ClarityOptions = {
+        ProjectId = "ycx4gt7lq2"
       }
     }
     production = {
@@ -200,6 +212,9 @@ variable "configuration" {
           SlidingExpiration  = 10
           AbsoluteExpiration = 60
         }
+      },
+      ClarityOptions = {
+        ProjectId = "ycebn7ial9"
       }
     }
   }

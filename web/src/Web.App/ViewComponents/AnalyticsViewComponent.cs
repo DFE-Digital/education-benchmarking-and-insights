@@ -1,10 +1,12 @@
 ﻿using Microsoft.ApplicationInsights.DataContracts;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
+using Web.App.Clarity;
 using Web.App.ViewModels.Components;
 
 namespace Web.App.ViewComponents;
 
-public class AnalyticsViewComponent : ViewComponent
+public class AnalyticsViewComponent(IOptions<ClarityOptions> clarity) : ViewComponent
 {
     public IViewComponentResult Invoke()
     {
@@ -15,7 +17,10 @@ public class AnalyticsViewComponent : ViewComponent
         }
 
         var cookiePolicy = HttpContext.Request.Cookies[Constants.CookieSettingsName];
-        var vm = new AnalyticsViewModel(connectionString, cookiePolicy == "enabled");
+        var vm = new AnalyticsViewModel(
+            connectionString,
+            cookiePolicy == "enabled",
+            clarity.Value.ProjectId);
 
         var telemetry = HttpContext.Features.Get<RequestTelemetry>();
         if (telemetry != null)

@@ -49,7 +49,7 @@
                 };
             });
 
-             function getConsentStatus() {
+            function getConsentStatus() {
                 const match = document.cookie.match(/cookie_policy=(enabled|disabled)/);
                 if (!match) return "opt_out_implicit";
                 return match[1] === "enabled" ? "opt_in" : "opt_out_explicit";
@@ -63,3 +63,30 @@
         }
     }
 </script>
+@if (!string.IsNullOrWhiteSpace(Model.ClarityProjectId) && Model.AnalyticsCookiesEnabled)
+{
+    <script type="text/javascript" add-nonce="true">
+        (function(c,l,a,r,i,t,y){
+            c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+            t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+            y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+            clarity('consentv2', {
+                ad_storage: "denied",
+                analytics_storage: "granted"
+            });
+        })(window, document, "clarity", "script", "@Model.ClarityProjectId");
+    </script>
+}
+else
+{
+    <script add-nonce="true">
+        (function() {
+            if (window.clarity) {
+                window.clarity("consentv2", {
+                    ad_storage: "denied",
+                    analytics_storage: "denied"
+                });
+            }
+        })();
+    </script>
+}
