@@ -179,7 +179,7 @@ def build_federation_context(
     fedmatched["FTE"] = np.where(
         fedmatched["TypeOfEstablishment (name)"].eq("Pupil referral unit").fillna(False),
         fedmatched["PRU_Headcount"],
-        fedmatched["Total pupils"],
+        fedmatched["Number of pupils"],
     )
     fedmatched["VIthForm"] = 0
 
@@ -191,6 +191,8 @@ def build_federation_context(
         "number of pupils known to be eligible for free school meals",
         "number of pupils whose first language is known or believed to be other than English",
         "Total pupils",
+        "Number of pupils",
+        "Number of pupils (headcount)",
         "SEN support",
         "EHC plan",
         "VIthForm",
@@ -354,7 +356,7 @@ def build_federation_context(
         c_ghs = (df["GHSIndicator"] == "GHS").fillna(False)
         pru_hc = "PRU_Headcount" + suffix
         ghs_hc = "TotalHeadcount" if suffix == "" else "TotalHeadcount_ghs_last_year"
-        pup_fte = "Total pupils" if suffix == "" else "Total pupils_last_year"
+        pup_fte = "Number of pupils" if suffix == "" else "Number of pupils_last_year"
         return np.select([c_pru, c_ghs], [df[pru_hc], df[ghs_hc]], default=df[pup_fte])
 
     working["IndPupils_FTE"] = working["FTE"]
@@ -392,9 +394,9 @@ def build_federation_context(
     )
 
     working["Ind. Pupils Headcount"] = np.where(
-        working["Total pupils"].isna() & (working["Total pupils_last_year"] > 0),
-        working["Total pupils_last_year"],
-        working["Total pupils"],
+        working["Number of pupils (headcount)"].isna() & (working["Number of pupils (headcount)_last_year"] > 0),
+        working["Number of pupils (headcount)_last_year"],
+        working["Number of pupils (headcount)"],
     )
 
     working["Teachers FTE_agg"] = np.where(
@@ -441,7 +443,7 @@ def build_federation_context(
 
     # Percentage Derivations - aligned with SQL triggers
     working["% of pupils eligible for FSM_ind"] = np.where(
-        use_last_year_pupils,
+        working["Percentage Free school meals"].isna(),
         working["Percentage Free school meals_last_year"],
         working["Percentage Free school meals"],
     )
@@ -451,47 +453,51 @@ def build_federation_context(
         working["% of pupils eligible for FSM_ind"],
     )
 
-    ehcp_val = np.where(
-        use_last_year_pupils & (working["Total pupils_last_year"] > 0),
-        _pct(working["EHC plan_last_year"], working["Total pupils_last_year"]),
-        _pct(working["EHC plan"], working["Total pupils"])
+    ehcp_curr = _pct(working["EHC plan"], working["Total pupils"])
+    ehcp_prev = _pct(working["EHC plan_last_year"], working["Total pupils_last_year"])
+    working["% of pupils with EHCP_ind"] = np.where(
+        ehcp_curr.isna(),
+        ehcp_prev,
+        ehcp_curr
     )
-    working["% of pupils with EHCP_ind"] = ehcp_val
     working["% of pupils with EHCP_agg"] = np.where(
         working["DNS"] == "LeadSchool",
         working["Federation_EHCP"],
         working["% of pupils with EHCP_ind"],
     )
 
-    sen_val = np.where(
-        use_last_year_pupils & (working["Total pupils_last_year"] > 0),
-        _pct(working["SEN support_last_year"], working["Total pupils_last_year"]),
-        _pct(working["SEN support"], working["Total pupils"])
+    sen_curr = _pct(working["SEN support"], working["Total pupils"])
+    sen_prev = _pct(working["SEN support_last_year"], working["Total pupils_last_year"])
+    working["% of pupils with SEN Support_ind"] = np.where(
+        sen_curr.isna(),
+        sen_prev,
+        sen_curr
     )
-    working["% of pupils with SEN Support_ind"] = sen_val
     working["% of pupils with SEN Support_agg"] = np.where(
         working["DNS"] == "LeadSchool",
         working["Federation_SEN"],
         working["% of pupils with SEN Support_ind"],
     )
 
+    eal_col = "% of pupils whose first language is known or believed to be other than English"
     working["% of pupils with EAL_ind"] = np.where(
-        use_last_year_pupils,
-        working["% of pupils whose first language is known or believed to be other than English_last_year"],
-        working["% of pupils whose first language is known or believed to be other than English"],
+        working[eal_col].isna(),
+        working[f"{eal_col}_last_year"],
+        working[eal_col],
     )
     working["% of pupils with EAL_agg"] = np.where(
         working["DNS"] == "LeadSchool",
         working["Federations_EAL"],
-        working["% of pupils whose first language is known or believed to be other than English"],
+        working["% of pupils with EAL_ind"],
     )
 
-    boarders_val = np.where(
-        use_last_year_pupils & (working["IndPupils_FTE_last_year"] > 0),
-        _pct(working["total boarders_last_year"], working["IndPupils_FTE_last_year"]),
-        _pct(working["total boarders"], working["IndPupils_FTE"])
+    boarders_curr = _pct(working["total boarders"], working["IndPupils_FTE"])
+    boarders_prev = _pct(working["total boarders_last_year"], working["IndPupils_FTE_last_year"])
+    working["% of pupils who are Boarders_ind"] = np.where(
+        boarders_curr.isna(),
+        boarders_prev,
+        boarders_curr
     )
-    working["% of pupils who are Boarders_ind"] = boarders_val
     working["% of pupils who are Boarders_agg"] = np.where(
         working["DNS"] == "LeadSchool",
         working["Federation_boarders"],
