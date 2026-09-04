@@ -1,12 +1,10 @@
 namespace Web.App.ViewModels.Components;
 
-public class AnalyticsViewModel(
+public class AppInsightsViewModel(
     string connectionString,
-    bool analyticsCookiesEnabled,
-    string? clarityProjectId)
+    bool analyticsCookiesEnabled)
 {
     public string ConnectionString => connectionString;
     public string? OperationId { get; set; }
     public bool AnalyticsCookiesEnabled => analyticsCookiesEnabled;
-    public string? ClarityProjectId => clarityProjectId;
 }
