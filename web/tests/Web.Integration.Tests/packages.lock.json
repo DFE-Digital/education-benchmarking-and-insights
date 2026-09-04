@@ -634,13 +634,13 @@
           "CorrelationId": "[3.0.1, )",
           "FluentValidation": "[12.1.1, )",
           "IdentityModel": "[7.0.0, )",
-          "JsonSubTypes": "[2.0.1, )",
+          "JsonSubTypes": "[2.1.0, )",
           "Microsoft.ApplicationInsights.AspNetCore": "[2.23.0, )",
           "Microsoft.AspNetCore.Authentication.OpenIdConnect": "[10.0.11, )",
           "Microsoft.AspNetCore.Mvc.NewtonsoftJson": "[10.0.11, )",
           "Microsoft.Extensions.Caching.Cosmos": "[1.8.0, )",
           "Microsoft.Extensions.Caching.StackExchangeRedis": "[10.0.11, )",
-          "Microsoft.Extensions.Http.Polly": "[10.0.10, )",
+          "Microsoft.Extensions.Http.Polly": "[10.0.11, )",
           "Microsoft.FeatureManagement.AspNetCore": "[4.5.0, )",
           "Newtonsoft.Json": "[13.0.4, )",
           "Serilog.AspNetCore": "[10.0.0, )",
@@ -690,11 +690,11 @@
       },
       "JsonSubTypes": {
         "type": "CentralTransitive",
-        "requested": "[2.0.1, )",
-        "resolved": "2.0.1",
-        "contentHash": "1Po+Ypf0SjCeEKx5+C89Nb5OgTcqNvfS3uTI46MUM+KEp6Rq/M0h+vVsTUt/6DFRwZMTpsAJM4yJrZmEObVANA==",
+        "requested": "[2.1.0, )",
+        "resolved": "2.1.0",
+        "contentHash": "nkH+ezOpWFBBPSNZGteLliUTG6O36zsPuvvvXv/LV2LxSlLay+3hyXuzyBUXLK1FJmj9Q1zrfDYXoogNFaINAg==",
         "dependencies": {
-          "Newtonsoft.Json": "13.0.1"
+          "Newtonsoft.Json": "13.0.4"
         }
       },
       "Microsoft.ApplicationInsights.AspNetCore": {
@@ -753,9 +753,9 @@
       },
       "Microsoft.Extensions.Http.Polly": {
         "type": "CentralTransitive",
-        "requested": "[10.0.10, )",
-        "resolved": "10.0.10",
-        "contentHash": "ceKyX9V/C+mtapMfXQ0ClKRkxDHAW2AAJoDgTcsh7UdOteCQKB5wRTFgHJ82Lh/3O+UlPA47LRGEZkRxtz/lCA==",
+        "requested": "[10.0.11, )",
+        "resolved": "10.0.11",
+        "contentHash": "DIxaTXWdbjRJihAIutpDIgPbpD9PwW8lW0EIawlNH4zs7coCgwPnd9rYlzXYkuKKphnjcKYlo6gXFeg6z15GLg==",
         "dependencies": {
           "Polly": "7.2.4",
           "Polly.Extensions.Http": "3.0.0"
