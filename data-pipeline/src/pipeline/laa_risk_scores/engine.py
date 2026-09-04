@@ -10,6 +10,8 @@ from .config import (
 )
 from .metrics import BaseRiskMetric, GradeThreshold, RiskFlag, RiskGroup
 
+GRADING_EPSILON = 1e-9
+
 
 def derive_laa_risk_scores(
     cfr_with_all_extra_data: pd.DataFrame, run_year: int, run_id: str
@@ -64,14 +66,14 @@ def roll_up_laa_risk_scores_to_headlines(
 
     for gt in grading_thresholds:
         cond = (
-            (total_score <= gt.max_score)
+            (total_score - GRADING_EPSILON <= gt.max_score)
             & (total_risks <= gt.max_risks)
             & (total_major_risks <= gt.max_major_risks)
         )
         if gt.min_parental_pref is not None:
-            cond = cond & (parental_pref >= gt.min_parental_pref)
+            cond = cond & (parental_pref + GRADING_EPSILON >= gt.min_parental_pref)
         if gt.min_attainment is not None:
-            cond = cond & (attainment >= gt.min_attainment)
+            cond = cond & (attainment + GRADING_EPSILON >= gt.min_attainment)
 
         conditions.append(cond)
         choices.append(gt.grade)
