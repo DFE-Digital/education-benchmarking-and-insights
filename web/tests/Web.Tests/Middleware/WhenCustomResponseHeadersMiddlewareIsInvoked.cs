@@ -54,7 +54,10 @@ public class WhenCustomResponseHeadersMiddlewareIsInvoked
             "form-action 'self' https://*.signin.education.gov.uk",
             "connect-src https://*.clarity.ms dc.services.visualstudio.com *.in.applicationinsights.azure.com js.monitor.azure.com 'self'"
         ];
-        var actual = _context.Response.Headers.ContentSecurityPolicy.ToString().Split(';', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);
+        var actual = _context.Response.Headers.ContentSecurityPolicy
+            .ToString()
+            .Replace("  ", " ")
+            .Split(';', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);
         Assert.Equal(expected, actual);
     }
 
