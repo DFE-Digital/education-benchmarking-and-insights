@@ -392,3 +392,255 @@ def test_build_transparency_files_structure():
     ]
 
     assert list(transparency_file.columns) == expected_order
+
+
+def test_build_transparency_files_structure_2026():
+    # 1. Setup Mock Inputs
+    year = 2026
+
+    # For 2026, I18c and I18d are merged into I06 and removed from schema
+    all_cols = [
+        "LANumber",
+        "LEAEstab",
+        "Estab",
+        "Federated Flag",
+        "LAEstab of School in Federation 1",
+        "LAEstab of School in Federation 2",
+        "LAEstab of School in Federation 3",
+        "LAEstab of School in Federation 4",
+        "LAEstab of School in Federation 5",
+        "LAEstab of School in Federation 6",
+        "LAEstab of School in Federation 7",
+        "LAEstab of School in Federation 8",
+        "LAEstab of School in Federation 9",
+        "LAEstab of School in Federation 10",
+        "I01",
+        "I02",
+        "I03",
+        "I04",
+        "I05",
+        "I06",
+        "I07",
+        "I08a",
+        "I08b",
+        "I09",
+        "I10",
+        "I11",
+        "I12",
+        "I13",
+        "I15",
+        "I16",
+        "I17",
+        "E01",
+        "E02",
+        "E03",
+        "E04",
+        "E05",
+        "E06",
+        "E07",
+        "E08",
+        "E09",
+        "E10",
+        "E11",
+        "E12",
+        "E13",
+        "E14",
+        "E15",
+        "E16",
+        "E17",
+        "E18",
+        "E19",
+        "E20A",
+        "E20B",
+        "E20C",
+        "E20D",
+        "E20E",
+        "E20F",
+        "E20G",
+        "E21",
+        "E22",
+        "E23",
+        "E24",
+        "E25",
+        "E26",
+        "E27",
+        "E28a",
+        "E28b",
+        "E29",
+        "E30",
+        "E31",
+        "E32",
+        "OB01",
+        "OB02",
+        "OB03",
+        "CI01",
+        "CI03",
+        "CI04",
+        "CE01",
+        "CE02",
+        "CE03",
+        "CE04A",
+        "CE04B",
+        "CE04C",
+        "CE04D",
+        "CE04E",
+        "B01",
+        "B02",
+        "B03",
+        "B05",
+        "B06",
+        "B07",
+    ]
+
+    header = ",".join(all_cols)
+    # Set I06 to 5000, representing merged grants
+    row1 = (
+        ["100", "1001001", "1001", "No"] + ["0"] * 10 + ["1000"] * (len(all_cols) - 14)
+    )
+    i06_idx = all_cols.index("I06")
+    row1[i06_idx] = "5000"
+
+    row2 = (
+        ["100", "1001002", "1002", "Yes"]
+        + ["1001003"]
+        + ["0"] * 9
+        + ["2000"] * (len(all_cols) - 14)
+    )
+
+    full_cfr_csv = header + "\n" + ",".join(row1) + "\n" + ",".join(row2)
+    cfr_raw_blob = io.StringIO(full_cfr_csv)
+
+    gias = pd.DataFrame(
+        {
+            "LA (code)": [100, 100, 100],
+            "LA (name)": ["Test LA", "Test LA", "Test LA"],
+            "EstablishmentNumber": [1001, 1002, 1003],
+            "LAEstab": [1001001, 1001002, 1001003],
+            "URN": [1, 2, 3],
+            "EstablishmentName": ["School 1", "School 2", "School 3"],
+            "EstablishmentStatus (name)": ["Open", "Open", "Open"],
+            "EstablishmentTypeGroup (name)": ["Local authority maintained schools"] * 3,
+            "TypeOfEstablishment (name)": ["Community school"] * 3,
+            "PhaseOfEducation (name)": ["Primary"] * 3,
+            "StatutoryLowAge": [5] * 3,
+            "StatutoryHighAge": [11] * 3,
+            "Gender (name)": ["Mixed"] * 3,
+            "AdmissionsPolicy (name)": ["Non-selective"] * 3,
+            "OfficialSixthForm (name)": ["Has no sixth form"] * 3,
+            "UrbanRural (name)": ["Urban"] * 3,
+            "CloseDate": [np.nan] * 3,
+            "OpenDate": ["2000-01-01"] * 3,
+        }
+    )
+
+    pru = pd.DataFrame(columns=["LAEstab", "Headcount"]).astype(
+        {"LAEstab": "Int64", "Headcount": float}
+    )
+    hospital_schools = pd.DataFrame(
+        columns=["LAEstab", "GHSIndicator", "TotalHeadcount"]
+    ).astype({"LAEstab": "Int64", "GHSIndicator": "string", "TotalHeadcount": float})
+    sen = pd.DataFrame(
+        {
+            "URN": [1, 2, 3],
+            "Total pupils": [100, 200, 50],
+            "SEN support": [10, 20, 5],
+            "EHC plan": [2, 4, 1],
+        }
+    ).astype({"Total pupils": float, "SEN support": float, "EHC plan": float})
+
+    census = (
+        pd.DataFrame(
+            {
+                "URN": [1, 2, 3],
+                "total boarders": [0, 0, 0],
+                "number of pupils known to be eligible for free school meals": [
+                    20,
+                    40,
+                    10,
+                ],
+                "number of pupils whose first language is known or believed to be other than English": [
+                    5,
+                    10,
+                    2,
+                ],
+                "Percentage Free school meals": [20.0, 20.0, 20.0],
+                "% of pupils whose first language is known or believed to be other than English": [
+                    5.0,
+                    5.0,
+                    4.0,
+                ],
+                "Total Number of Teachers (Full-Time Equivalent)": [5.0, 10.0, 2.5],
+                "Total Number of Teaching Assistants (Full-Time Equivalent)": [
+                    2.0,
+                    4.0,
+                    1.0,
+                ],
+                "Teachers with Qualified Teacher Status (%) (Headcount)": [
+                    90.0,
+                    95.0,
+                    100.0,
+                ],
+            }
+        )
+        .astype(
+            {
+                "total boarders": float,
+                "number of pupils known to be eligible for free school meals": float,
+                "number of pupils whose first language is known or believed to be other than English": float,
+                "Percentage Free school meals": float,
+                "% of pupils whose first language is known or believed to be other than English": float,
+                "Total Number of Teachers (Full-Time Equivalent)": float,
+                "Total Number of Teaching Assistants (Full-Time Equivalent)": float,
+                "Teachers with Qualified Teacher Status (%) (Headcount)": float,
+            }
+        )
+        .set_index("URN")
+    )
+
+    lookup_la = pd.DataFrame(
+        {
+            "old_la_code": [100],
+            "LA (name)": ["Test LA"],
+            "region_name": ["Inner London"],
+        }
+    )
+
+    census_ly = census.copy()
+    sen_ly = sen.set_index("URN").copy()
+    pru_ly = pru.copy()
+    hospital_ly = hospital_schools.copy()
+
+    # Execute
+    master_list, transparency_file = build_transparency_files(
+        cfr_raw_blob=cfr_raw_blob,
+        gias=gias,
+        pru=pru,
+        hospital_schools=hospital_schools,
+        sen=sen,
+        census=census,
+        lookup_la=lookup_la,
+        census_last_year=census_ly,
+        sen_last_year=sen_ly,
+        pru_last_year=pru_ly,
+        hospital_schools_last_year=hospital_ly,
+        year=year,
+    )
+
+    # Assertions
+    assert isinstance(master_list, pd.DataFrame)
+    assert isinstance(transparency_file, pd.DataFrame)
+
+    # Check normal school
+    school_1 = transparency_file[transparency_file["LAEstab"] == 1001001].iloc[0]
+    assert school_1["Did Not Supply flag"] == "N"
+
+    # I06 Other government grants should be "5000" (the custom value we passed, formatted by format_dns)
+    assert school_1["I06 Other government grants"] == "5000"
+
+    # I18c, I18d and I18 Total columns should not be present in the 2026 transparency file
+    assert (
+        "I18c Income from the £1bn COVID-19 catch-up package announced on 20 July 2020"
+        not in transparency_file.columns
+    )
+    assert "I18d Income from other additional grants" not in transparency_file.columns
+    assert "I18 Total additional grant for schools" not in transparency_file.columns

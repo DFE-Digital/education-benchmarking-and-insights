@@ -17,6 +17,7 @@ from .census_pupils import (  # noqa
 )
 from .census_workforce import (  # noqa
     head_teacher_breakdowns,
+    head_teacher_breakdowns_file_encodings,
     head_teacher_breakdowns_filenames,
     workforce_census,
     workforce_census_column_eval,

@@ -28,6 +28,7 @@ CFR has a transparency file which is released alongside the CFR data.
 * hospital_schools.csv
 * pru.csv
 * lookup_la.csv
+* workforce_2010_2025_fte_hc_nat_reg_la.csv
 
 ## Test the data pipeline runs locally
 

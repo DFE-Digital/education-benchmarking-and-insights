@@ -290,7 +290,7 @@ def pre_process_maintained_schools_data(
         )
 
         write_blob(
-            "pre-processed",
+            "artifacts",
             f"{run_type}/{year}/cfr_transparency_file.csv",
             transparency_file.to_csv(index=False),
         )
