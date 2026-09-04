@@ -27,7 +27,8 @@ CFR has a transparency file which is released alongside the CFR data.
 * ILR R06 cut with FSM and EHCP.xlsx
 * hospital_schools.csv
 * pru.csv
-* lookup_la.csv
+* Lookup_LACodes.csv
+* workforce_2010_2025_fte_hc_nat_reg_la.csv
 
 ## Test the data pipeline runs locally
 
@@ -67,10 +68,10 @@ Maintained schools in a federation submit their financial data under a combined 
 
   ```sql
   -- Checking federation topology and lead school mappings
-  SELECT URN, SchoolName, FederationLeadURN, TotalExpenditure
+  SELECT s.URN, SchoolName, TotalPupils, FederationLeadURN, TotalExpenditure
   FROM [dbo].[School] s
   JOIN [dbo].[Financial] f ON s.URN = f.URN
-  WHERE (s.FederationLeadURN = '<LeadURN>' OR s.URN = '<LeadURN>') AND f.RunId = '<year>';
+  WHERE (s.FederationLeadURN = <LeadURN> OR s.URN = <LeadURN>) AND f.RunId = '<year>';
   ```
 
 ### 2. Transparency File DNS & Federation Flags Check

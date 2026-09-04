@@ -71,8 +71,8 @@ def build_transparency_files(
     # 4. Format final dataframe for the transparency file and data pipeline
     logger.info("Formatting final dataframes for SFB Maintained, Master List, and Download File...")
     sfb_maintained = build_sfb_maintained(mergedworking, lookup_la)
-    master_list = build_maintained_schools_master_list(sfb_maintained)
-    download_file = build_maintained_schools_download_file(sfb_maintained)
+    master_list = build_maintained_schools_master_list(sfb_maintained, year=year)
+    download_file = build_maintained_schools_download_file(sfb_maintained, year=year)
     logger.info(f"Completed generating CFR transparency files for year {year}. ")
 
     return master_list, download_file

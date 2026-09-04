@@ -20,6 +20,11 @@ CAPITAL_RAW = [
 def add_financials(merged: pd.DataFrame) -> pd.DataFrame:
     m = merged.copy()
 
+    # Ensure all expected raw columns exist (such as I18c/d which are merged into I06 in 2026)
+    for col in INCOME_RAW + EXPENSE_RAW + CAPITAL_RAW:
+        if col not in m.columns:
+            m[col] = 0.0
+
     m["I01 Pre-16 Funding"] = m["I01"]
     m["I02 Post-16 Funding"] = m["I02"]
     m["I01/2 Pre and Post-16 Funding"] = m[["I01", "I02"]].sum(axis=1)

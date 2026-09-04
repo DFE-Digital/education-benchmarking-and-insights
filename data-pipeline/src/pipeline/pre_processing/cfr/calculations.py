@@ -39,7 +39,7 @@ def create_master_list(
 
     return (
         maintained_schools.merge(sen, on="URN", how="left")
-        .merge(census, on="URN", how="left")
+        .merge(census, on="URN", how="left", suffixes=("", "_census"))
         .merge(cdc, on="URN", how="left")
         .merge(ks2, on="URN", how="left")
         .merge(ks4, on="URN", how="left")
