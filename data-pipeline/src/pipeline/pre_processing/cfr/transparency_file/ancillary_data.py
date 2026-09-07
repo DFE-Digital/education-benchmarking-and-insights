@@ -160,9 +160,9 @@ def build_federation_context(
     # Aggregate census metrics at the LAEstab level (preserving NaNs using min_count=1)
     # to prevent row duplication during the merge.
     #
-    # This is necessary because when a maintained school academises during the year, 
-    # a single LAEstab can represent different URNs across the pupil and workforce 
-    # censuses (e.g., 2 URNs). Since these censuses are taken at different points, 
+    # This is necessary because when a maintained school academises during the year,
+    # a single LAEstab can represent different URNs across the pupil and workforce
+    # censuses (e.g., 2 URNs). Since these censuses are taken at different points,
     # the pupil data is sometimes attributable to one URN and the workforce to another.
     census_for_laestab_join = census.groupby("LAEstab").sum(min_count=1).reset_index()
 
@@ -177,7 +177,9 @@ def build_federation_context(
 
     # Calculate individual FTE in fedmatched for aggregation
     fedmatched["FTE"] = np.where(
-        fedmatched["TypeOfEstablishment (name)"].eq("Pupil referral unit").fillna(False),
+        fedmatched["TypeOfEstablishment (name)"]
+        .eq("Pupil referral unit")
+        .fillna(False),
         fedmatched["PRU_Headcount"],
         fedmatched["Number of pupils"],
     )
@@ -295,8 +297,22 @@ def build_federation_context(
     cond_nursery = working["PhaseOfEducation (name)"].fillna("") == "Nursery"
 
     working["Overall Phase"] = np.select(
-        [cond_pru, cond_special, cond_all_through, cond_primary, cond_secondary, cond_nursery],
-        ["Pupil referral unit", "Special", "All-through", "Primary", "Secondary", "Nursery",],
+        [
+            cond_pru,
+            cond_special,
+            cond_all_through,
+            cond_primary,
+            cond_secondary,
+            cond_nursery,
+        ],
+        [
+            "Pupil referral unit",
+            "Special",
+            "All-through",
+            "Primary",
+            "Secondary",
+            "Nursery",
+        ],
         default=None,
     )
 
@@ -323,7 +339,11 @@ def build_federation_context(
         suffixes=("", "_last_year"),
     )
     working = working.merge(
-        sen_last_year, left_on="URN", right_index=True, how="left", suffixes=("", "_last_year")
+        sen_last_year,
+        left_on="URN",
+        right_index=True,
+        how="left",
+        suffixes=("", "_last_year"),
     )
     working = working.merge(
         pru_last_year, on="LAEstab", how="left", suffixes=("", "_last_year")
@@ -380,7 +400,8 @@ def build_federation_context(
     )
 
     working["Ind. Pupils Headcount"] = np.where(
-        working["Number of pupils (headcount)"].isna() & (working["Number of pupils (headcount)_last_year"] > 0),
+        working["Number of pupils (headcount)"].isna()
+        & (working["Number of pupils (headcount)_last_year"] > 0),
         working["Number of pupils (headcount)_last_year"],
         working["Number of pupils (headcount)"],
     )
@@ -391,8 +412,8 @@ def build_federation_context(
         np.where(
             use_last_year_teachers & (working[f"{fte_teachers_col}_last_year"] > 0),
             working[f"{fte_teachers_col}_last_year"],
-            working[fte_teachers_col]
-        )
+            working[fte_teachers_col],
+        ),
     )
 
     working["Teachers FTE_ind"] = np.where(
@@ -401,8 +422,8 @@ def build_federation_context(
         np.where(
             use_last_year_teachers & (working[f"{fte_teachers_col}_last_year"] > 0),
             working[f"{fte_teachers_col}_last_year"],
-            working[fte_teachers_col]
-        )
+            working[fte_teachers_col],
+        ),
     )
 
     # TA FTE Derivations
@@ -413,8 +434,8 @@ def build_federation_context(
         np.where(
             use_last_year_teachers & (working[f"{ta_fte_col}_last_year"] > 0),
             working[f"{ta_fte_col}_last_year"],
-            working[ta_fte_col]
-        )
+            working[ta_fte_col],
+        ),
     )
 
     working["FTE of Teaching Assistants_ind"] = np.where(
@@ -423,8 +444,8 @@ def build_federation_context(
         np.where(
             use_last_year_teachers & (working[f"{ta_fte_col}_last_year"] > 0),
             working[f"{ta_fte_col}_last_year"],
-            working[ta_fte_col]
-        )
+            working[ta_fte_col],
+        ),
     )
 
     # Percentage Derivations - aligned with SQL triggers
@@ -442,9 +463,7 @@ def build_federation_context(
     ehcp_curr = _pct(working["EHC plan"], working["Total pupils"])
     ehcp_prev = _pct(working["EHC plan_last_year"], working["Total pupils_last_year"])
     working["% of pupils with EHCP_ind"] = np.where(
-        ehcp_curr.isna(),
-        ehcp_prev,
-        ehcp_curr
+        ehcp_curr.isna(), ehcp_prev, ehcp_curr
     )
     working["% of pupils with EHCP_agg"] = np.where(
         working["DNS"] == "LeadSchool",
@@ -455,9 +474,7 @@ def build_federation_context(
     sen_curr = _pct(working["SEN support"], working["Total pupils"])
     sen_prev = _pct(working["SEN support_last_year"], working["Total pupils_last_year"])
     working["% of pupils with SEN Support_ind"] = np.where(
-        sen_curr.isna(),
-        sen_prev,
-        sen_curr
+        sen_curr.isna(), sen_prev, sen_curr
     )
     working["% of pupils with SEN Support_agg"] = np.where(
         working["DNS"] == "LeadSchool",
@@ -465,7 +482,9 @@ def build_federation_context(
         working["% of pupils with SEN Support_ind"],
     )
 
-    eal_col = "% of pupils whose first language is known or believed to be other than English"
+    eal_col = (
+        "% of pupils whose first language is known or believed to be other than English"
+    )
     working["% of pupils with EAL_ind"] = np.where(
         working[eal_col].isna(),
         working[f"{eal_col}_last_year"],
@@ -478,11 +497,11 @@ def build_federation_context(
     )
 
     boarders_curr = _pct(working["total boarders"], working["IndPupils_FTE"])
-    boarders_prev = _pct(working["total boarders_last_year"], working["IndPupils_FTE_last_year"])
+    boarders_prev = _pct(
+        working["total boarders_last_year"], working["IndPupils_FTE_last_year"]
+    )
     working["% of pupils who are Boarders_ind"] = np.where(
-        boarders_curr.isna(),
-        boarders_prev,
-        boarders_curr
+        boarders_curr.isna(), boarders_prev, boarders_curr
     )
     working["% of pupils who are Boarders_agg"] = np.where(
         working["DNS"] == "LeadSchool",
@@ -492,7 +511,9 @@ def build_federation_context(
 
     qts_col = "Teachers with Qualified Teacher Status (%) (Headcount)"
     qts_curr = working.get(qts_col, pd.Series(np.nan, index=working.index))
-    qts_prev = working.get(f"{qts_col}_last_year", pd.Series(np.nan, index=working.index))
+    qts_prev = working.get(
+        f"{qts_col}_last_year", pd.Series(np.nan, index=working.index)
+    )
     working["Teachers_PC_QTS"] = np.where(use_last_year_teachers, qts_prev, qts_curr)
 
     return working.copy()
