@@ -107,6 +107,11 @@ def prepare_census_data(
         .rename(columns=config.census_column_map)
     )
 
+    for column, eval_ in input_schemas.joined_census_column_eval.get(
+        year, input_schemas.joined_census_column_eval["default"]
+    ).items():
+        census[column] = census.eval(eval_)
+
     census["Number of pupils"] = (
         census["Number of pupils"] + census["Pupil Dual Registrations"]
     )
@@ -130,11 +135,14 @@ def get_census_head_teacher_breakdowns(
     head_teacher_breakdowns_path,
     year: int,
 ) -> pd.DataFrame:
+    encoding = input_schemas.head_teacher_breakdowns_file_encodings.get(
+        year, input_schemas.head_teacher_breakdowns_file_encodings["default"]
+    )
     head_teacher_breakdowns = pd.read_csv(
         head_teacher_breakdowns_path,
         usecols=input_schemas.head_teacher_breakdowns["default"].keys(),
         dtype=input_schemas.head_teacher_breakdowns["default"],
-        encoding="latin-1",
+        encoding=encoding,
         na_values=["x"],
     )
 
