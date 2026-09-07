@@ -10,6 +10,7 @@ using Microsoft.FeatureManagement;
 using Serilog;
 using SmartBreadcrumbs.Extensions;
 using Web.App.Cache;
+using Web.App.Clarity;
 using Web.App.Extensions;
 using Web.App.Handlers;
 using Web.App.HealthChecks;
@@ -72,6 +73,7 @@ builder.Services.AddBreadcrumbs(Assembly.GetExecutingAssembly(), options =>
 builder.Services.AddMemoryCache();
 
 builder.Services.Configure<CacheOptions>(builder.Configuration.GetSection("CacheOptions"));
+builder.Services.Configure<ClarityOptions>(builder.Configuration.GetSection("ClarityOptions"));
 
 builder.AddSessionService();
 

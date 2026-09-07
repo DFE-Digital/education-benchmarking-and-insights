@@ -4,7 +4,7 @@ using Web.App.ViewModels.Components;
 
 namespace Web.App.ViewComponents;
 
-public class AnalyticsViewComponent : ViewComponent
+public class AppInsightsViewComponent : ViewComponent
 {
     public IViewComponentResult Invoke()
     {
@@ -15,7 +15,9 @@ public class AnalyticsViewComponent : ViewComponent
         }
 
         var cookiePolicy = HttpContext.Request.Cookies[Constants.CookieSettingsName];
-        var vm = new AnalyticsViewModel(connectionString, cookiePolicy == "enabled");
+        var vm = new AppInsightsViewModel(
+            connectionString,
+            cookiePolicy == "enabled");
 
         var telemetry = HttpContext.Features.Get<RequestTelemetry>();
         if (telemetry != null)

@@ -28,7 +28,7 @@
     <link rel="stylesheet" href="/css/front-end.css" asp-append-version="true"/>
     <link rel="stylesheet" href="/css/main.css" asp-append-version="true"/>
     <link rel="stylesheet" href="/css/enhancements.css" asp-append-version="true"/>
-    @await Component.InvokeAsync("Analytics")
+    @await Html.PartialAsync("_Analytics")
 </head>
 <body class="govuk-template__body @(ViewData[ViewDataKeys.BodyClass])">
 <script add-nonce="true">

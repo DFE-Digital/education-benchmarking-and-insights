@@ -45,16 +45,19 @@ public class WhenCustomResponseHeadersMiddlewareIsInvoked
         string[] expected =
         [
             "default-src 'self'",
-            $"img-src {expectedImgSrcPolicy}",
+            $"img-src {expectedImgSrcPolicy} https://*.clarity.ms",
             "style-src 'self'",
-            $"script-src 'self' 'nonce-{_context.Items["csp-nonce"]}' https://js.monitor.azure.com/scripts/b/ai.3.gbl.min.js https://js.monitor.azure.com/scripts/b/ext/ai.clck.2.min.js",
+            $"script-src 'self' 'nonce-{_context.Items["csp-nonce"]}' https://js.monitor.azure.com/scripts/b/ai.3.gbl.min.js https://js.monitor.azure.com/scripts/b/ext/ai.clck.2.min.js https://www.clarity.ms",
             "object-src 'none'",
             "worker-src 'none'",
             "frame-ancestors 'self'",
             "form-action 'self' https://*.signin.education.gov.uk",
-            "connect-src dc.services.visualstudio.com *.in.applicationinsights.azure.com js.monitor.azure.com 'self'"
+            "connect-src https://*.clarity.ms dc.services.visualstudio.com *.in.applicationinsights.azure.com js.monitor.azure.com 'self'"
         ];
-        var actual = _context.Response.Headers.ContentSecurityPolicy.ToString().Split(';', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);
+        var actual = _context.Response.Headers.ContentSecurityPolicy
+            .ToString()
+            .Replace("  ", " ")
+            .Split(';', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);
         Assert.Equal(expected, actual);
     }
 

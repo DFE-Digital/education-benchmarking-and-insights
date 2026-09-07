@@ -1,6 +1,5 @@
 ﻿@using Web.App.Extensions
-@using Web.App.TagHelpers
-@model Web.App.ViewModels.Components.AnalyticsViewModel
+@model Web.App.ViewModels.Components.AppInsightsViewModel
 
 @* There is currently no alternative to providing the App Insights connection string directly *@
 @* on client side without going to such lengths as (e.g.) implementing a reverse proxy:       *@
@@ -49,7 +48,7 @@
                 };
             });
 
-             function getConsentStatus() {
+            function getConsentStatus() {
                 const match = document.cookie.match(/cookie_policy=(enabled|disabled)/);
                 if (!match) return "opt_out_implicit";
                 return match[1] === "enabled" ? "opt_in" : "opt_out_explicit";
