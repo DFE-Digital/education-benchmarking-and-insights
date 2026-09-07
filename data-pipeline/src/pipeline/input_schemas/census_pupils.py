@@ -73,10 +73,6 @@ pupil_census_column_mappings = {
 
 joined_census_column_eval = {
     "default": {},
-    2025: {
-        "LAEstab": "`LAEstab_workforce`.fillna(`LAEstab_pupil`)"
-    },
-    2026: {
-        "LAEstab": "`LAEstab_workforce`.fillna(`LAEstab_pupil`)"
-    }
+    2025: {"LAEstab": "`LAEstab_workforce`.fillna(`LAEstab_pupil`)"},
+    2026: {"LAEstab": "`LAEstab_workforce`.fillna(`LAEstab_pupil`)"},
 }

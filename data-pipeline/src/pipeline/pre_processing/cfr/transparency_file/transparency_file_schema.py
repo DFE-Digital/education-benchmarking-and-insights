@@ -119,6 +119,7 @@ download_file_mappings = {
     2026: _transparency_file_2026_mappings,
 }
 
+
 def get_transparency_file_schema(year):
     match year:
         case 2026:

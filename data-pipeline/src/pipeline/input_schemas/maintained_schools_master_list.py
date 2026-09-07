@@ -219,6 +219,7 @@ master_list_mappings = {
     2026: _master_list_2026_mappings,
 }
 
+
 def get_master_list_mappings(year):
     match year:
         case 2026:

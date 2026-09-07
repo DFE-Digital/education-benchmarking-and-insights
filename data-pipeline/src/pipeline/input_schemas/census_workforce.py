@@ -51,8 +51,7 @@ _workforce_columns_old = {
 }
 
 workforce_census = {
-    "default": _workforce_columns_old
-,
+    "default": _workforce_columns_old,
     2024: _workforce_base_cols,
     2025: _workforce_base_cols,
     2026: _workforce_base_cols,
