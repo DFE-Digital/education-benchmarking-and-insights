@@ -103,8 +103,6 @@ head_teacher_breakdowns_filenames = {
 
 head_teacher_breakdowns_file_encodings = {"default": "latin-1", 2026: None}
 
-head_teacher_breakdowns_file_encodings = {"default": "latin-1", 2026: None}
-
 head_teacher_breakdowns = {
     "default": {
         "time_period": "Int64",
