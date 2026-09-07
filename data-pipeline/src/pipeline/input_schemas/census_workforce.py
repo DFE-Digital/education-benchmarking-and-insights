@@ -9,6 +9,7 @@ workforce_census_index_col = "URN"
 
 _workforce_base_cols = {
     "URN": "Int64",
+    "LAEstab": "Int64",
     "Total Number of Other School Support Staff (FTE)": "float",
     "Total Number of Other School Support Staff (Headcount)": "float",
     "Total Number of Technicians (FTE)": "float",
@@ -32,7 +33,7 @@ _workforce_base_cols = {
     "Total Number of Auxiliary Staff (Headcount)": "float",
 }
 
-_workforce_default = {
+_workforce_columns_old = {
     "URN": "Int64",
     "Total Number of Non-Classroom-based School Support Staff, (Other school support staff plus Administrative staff plus Technicians and excluding Auxiliary staff (Full-Time Equivalent)": "float",
     "Total Number of Non Classroom-based School Support Staff, Excluding Auxiliary Staff (Headcount)": "float",
@@ -50,7 +51,8 @@ _workforce_default = {
 }
 
 workforce_census = {
-    "default": _workforce_default,
+    "default": _workforce_columns_old
+,
     2024: _workforce_base_cols,
     2025: _workforce_base_cols,
     2026: _workforce_base_cols,

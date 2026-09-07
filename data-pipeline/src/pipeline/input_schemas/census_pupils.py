@@ -35,6 +35,7 @@ _pupil_census_2024 = {
 }
 
 _pupil_census_2025 = {
+    "laestab": "Int64",
     "number of pupils known to be eligible for free school meals": "float",
     "number of pupils whose first language is known or believed to be other than English": "float",
     "% of pupils whose first language is known or believed to be other than English": "float",
