@@ -295,22 +295,8 @@ def build_federation_context(
     cond_nursery = working["PhaseOfEducation (name)"].fillna("") == "Nursery"
 
     working["Overall Phase"] = np.select(
-        [
-            cond_pru,
-            cond_special,
-            cond_all_through,
-            cond_primary,
-            cond_secondary,
-            cond_nursery,
-        ],
-        [
-            "Pupil referral unit",
-            "Special",
-            "All-through",
-            "Primary",
-            "Secondary",
-            "Nursery",
-        ],
+        [cond_pru, cond_special, cond_all_through, cond_primary, cond_secondary, cond_nursery],
+        ["Pupil referral unit", "Special", "All-through", "Primary", "Secondary", "Nursery",],
         default=None,
     )
 

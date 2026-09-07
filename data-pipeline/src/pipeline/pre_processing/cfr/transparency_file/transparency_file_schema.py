@@ -1,5 +1,5 @@
 # Year-on-year Download File Mapping Configurations
-_download_file_base_mappings = {
+_transparency_file_base_mappings = {
     "I01 Funds delegated by the LA": "I01 Pre-16 Funding",
     "I02 Funding for 6th form students": "I02 Post-16 Funding",
     "I01/2 Total pre and Post-16 Funding": "I01/2 Pre and Post-16 Funding",
@@ -106,15 +106,21 @@ _download_file_base_mappings = {
     "Total Expenditure: (E01:E29 + E31 + E32)": "Total Expenditure excluding E30",
 }
 
-_download_file_2026_mappings = _download_file_base_mappings.copy()
-_download_file_2026_mappings.pop(
+_transparency_file_2026_mappings = _transparency_file_base_mappings.copy()
+_transparency_file_2026_mappings.pop(
     "I18c Income from the £1bn COVID-19 catch-up package announced on 20 July 2020",
     None,
 )
-_download_file_2026_mappings.pop("I18d Income from other additional grants", None)
-_download_file_2026_mappings.pop("I18 Total additional grant for schools", None)
+_transparency_file_2026_mappings.pop("I18d Income from other additional grants", None)
+_transparency_file_2026_mappings.pop("I18 Total additional grant for schools", None)
 
 download_file_mappings = {
-    "default": _download_file_base_mappings,
-    2026: _download_file_2026_mappings,
+    "default": _transparency_file_base_mappings,
+    2026: _transparency_file_2026_mappings,
 }
+
+def get_transparency_file_schema(year):
+    match year:
+        case 2026:
+            return download_file_mappings[2026]
+    return download_file_mappings["default"]
