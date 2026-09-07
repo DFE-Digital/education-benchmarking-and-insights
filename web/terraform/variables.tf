@@ -44,9 +44,9 @@ variable "configuration" {
         AbsoluteExpiration = number
       })
     })
-    ClarityOptions = optional(object({
-      ProjectId = string
-    }))
+    ClarityOptions = object({
+      ProjectId = optional(string)
+    })
     DISABLE_ORG_CLAIM_CHECK = optional(bool, false)
   }))
   default = {
@@ -105,6 +105,7 @@ variable "configuration" {
           AbsoluteExpiration = 60
         }
       },
+      ClarityOptions = {}
     }
     test = {
       sku_name                       = "P0v3"
@@ -161,6 +162,7 @@ variable "configuration" {
           AbsoluteExpiration = 60
         }
       },
+      ClarityOptions          = {},
       DISABLE_ORG_CLAIM_CHECK = true
     }
     pre-production = {
