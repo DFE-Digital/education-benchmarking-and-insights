@@ -47,7 +47,7 @@ public class WhenCustomResponseHeadersMiddlewareIsInvoked
             "default-src 'self'",
             $"img-src {expectedImgSrcPolicy} https://*.clarity.ms",
             "style-src 'self'",
-            $"script-src 'self' 'nonce-{_context.Items["csp-nonce"]}' https://js.monitor.azure.com/scripts/b/ai.3.gbl.min.js https://js.monitor.azure.com/scripts/b/ext/ai.clck.2.min.js https://www.clarity.ms",
+            $"script-src 'self' 'nonce-{_context.Items["csp-nonce"]}' https://js.monitor.azure.com/scripts/b/ai.3.gbl.min.js https://js.monitor.azure.com/scripts/b/ext/ai.clck.2.min.js https://www.clarity.ms https://scripts.clarity.ms",
             "object-src 'none'",
             "worker-src 'none'",
             "frame-ancestors 'self'",

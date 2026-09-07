@@ -22,7 +22,7 @@ public class CustomResponseHeadersMiddleware(RequestDelegate next)
         csp.Append($"img-src 'self' data:{(webAssetsOptions.Value.ImagesBaseHostName == null ? string.Empty : $" {webAssetsOptions.Value.ImagesBaseHostName}")} https://*.clarity.ms;");
 
         csp.Append("style-src 'self';");
-        csp.Append($"script-src 'self' 'nonce-{context.Items["csp-nonce"]}' https://js.monitor.azure.com/scripts/b/ai.3.gbl.min.js https://js.monitor.azure.com/scripts/b/ext/ai.clck.2.min.js https://www.clarity.ms;");
+        csp.Append($"script-src 'self' 'nonce-{context.Items["csp-nonce"]}' https://js.monitor.azure.com/scripts/b/ai.3.gbl.min.js https://js.monitor.azure.com/scripts/b/ext/ai.clck.2.min.js https://www.clarity.ms https://scripts.clarity.ms;");
         csp.Append("object-src 'none';");
         csp.Append("worker-src 'none';");
         csp.Append("frame-ancestors 'self';");
