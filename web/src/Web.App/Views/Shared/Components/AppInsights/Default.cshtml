@@ -41,10 +41,9 @@
                 @:sdk.setAuthenticatedUserContext("@User.UserGuid()");
             }
             sdk.addTelemetryInitializer(function (envelope) {
-                const consent = getConsentStatus();
-                envelope.data.properties = {
-                    ...envelope.data.properties,
-                    tracking_consent_status: consent
+                envelope.data = {
+                    ...envelope.data,
+                    tracking_consent_status: getConsentStatus()
                 };
             });
 
