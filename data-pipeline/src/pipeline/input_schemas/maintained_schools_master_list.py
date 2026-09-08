@@ -214,14 +214,9 @@ _master_list_2026_mappings = _master_list_base_mappings.copy()
 _master_list_2026_mappings.pop("I18  Additional grant for schools", None)
 _master_list_2026_mappings.pop("Total Income   I01 to I08, I11 to I15, I18", None)
 
-master_list_mappings = {
-    "default": _master_list_base_mappings,
-    2026: _master_list_2026_mappings,
-}
-
 
 def get_master_list_mappings(year):
     match year:
         case 2026:
-            return master_list_mappings[2026]
-    return master_list_mappings["default"]
+            return _master_list_2026_mappings
+    return _master_list_base_mappings

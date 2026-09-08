@@ -114,14 +114,9 @@ _transparency_file_2026_mappings.pop(
 _transparency_file_2026_mappings.pop("I18d Income from other additional grants", None)
 _transparency_file_2026_mappings.pop("I18 Total additional grant for schools", None)
 
-download_file_mappings = {
-    "default": _transparency_file_base_mappings,
-    2026: _transparency_file_2026_mappings,
-}
-
 
 def get_transparency_file_schema(year):
     match year:
         case 2026:
-            return download_file_mappings[2026]
-    return download_file_mappings["default"]
+            return _transparency_file_2026_mappings
+    return _transparency_file_base_mappings
