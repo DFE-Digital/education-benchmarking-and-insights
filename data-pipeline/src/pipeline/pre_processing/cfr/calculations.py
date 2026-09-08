@@ -1,9 +1,9 @@
 import numpy as np
 import pandas as pd
 
-from pipeline.config.cfr_federations import get_federation_lead_school_aggregations
 import pipeline.input_schemas as input_schemas
 import pipeline.pre_processing.common.mappings as mappings
+from pipeline.config.cfr_federations import get_federation_lead_school_aggregations
 
 
 def create_master_list(

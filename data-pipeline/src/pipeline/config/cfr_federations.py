@@ -34,7 +34,7 @@ aggregations_2024 = {
 
 def get_federation_lead_school_aggregations(year: int | None) -> dict:
     match year:
-        case 2024 | 2025 | 2026 :
+        case 2024 | 2025 | 2026:
             return aggregations_2024
         case _:
             return aggregations_default
