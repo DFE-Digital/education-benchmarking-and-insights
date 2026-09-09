@@ -9,8 +9,8 @@
             t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
             y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
             clarity('consentv2', {
-                ad_storage: "denied",
-                analytics_storage: "granted"
+                ad_Storage: "denied",
+                analytics_Storage: "granted"
             });
         })(window, document, "clarity", "script", "@Model.ClarityProjectId");
     </script>
@@ -21,8 +21,8 @@ else
         (function() {
             if (window.clarity) {
                 window.clarity("consentv2", {
-                    ad_storage: "denied",
-                    analytics_storage: "denied"
+                    ad_Storage: "denied",
+                    analytics_Storage: "denied"
                 });
             }
         })();
