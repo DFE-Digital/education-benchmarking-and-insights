@@ -189,7 +189,7 @@ variable "configuration" {
         }
       },
       ClarityOptions = {
-        ProjectId = "ycx4gt7lq2"
+        ProjectId = "yg0ezglmfi"
       }
     }
     production = {
@@ -216,7 +216,7 @@ variable "configuration" {
         }
       },
       ClarityOptions = {
-        ProjectId = "ycebn7ial9"
+        ProjectId = "ycx4gt7lq2"
       }
     }
   }
