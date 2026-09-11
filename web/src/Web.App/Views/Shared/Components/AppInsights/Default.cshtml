@@ -43,15 +43,9 @@
             sdk.addTelemetryInitializer(function (envelope) {
                 envelope.data = {
                     ...envelope.data,
-                    tracking_consent_status: getConsentStatus()
+                    tracking_consent_status: "@Model.ConsentStatus"
                 };
             });
-
-            function getConsentStatus() {
-                const match = document.cookie.match(/cookie_policy=(enabled|disabled)/);
-                if (!match) return "opt_out_implicit";
-                return match[1] === "enabled" ? "opt_in" : "opt_out_explicit";
-            }
         }
     });
     if (window !== undefined) {

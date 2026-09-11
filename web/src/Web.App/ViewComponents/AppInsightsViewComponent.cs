@@ -17,7 +17,7 @@ public class AppInsightsViewComponent : ViewComponent
         var cookiePolicy = HttpContext.Request.Cookies[Constants.CookieSettingsName];
         var vm = new AppInsightsViewModel(
             connectionString,
-            cookiePolicy == "enabled");
+            cookiePolicy);
 
         var telemetry = HttpContext.Features.Get<RequestTelemetry>();
         if (telemetry != null)
