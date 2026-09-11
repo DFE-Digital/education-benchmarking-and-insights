@@ -56,4 +56,24 @@ public class WhenAFeatureIsDisabled(SchoolBenchmarkingWebAppClient client)
         PageAssert.IsFeatureDisabledPage(page);
         DocumentAssert.AssertPageUrl(page, Paths.LocalAuthorityRisksOverview("123").ToAbsolute(), HttpStatusCode.Forbidden);
     }
+
+    [Fact]
+    public async Task LocalAuthoritySchoolRisksRedirectsToFeatureDisabled()
+    {
+        var page = await Client.SetupDisableFeatureFlags(FeatureFlags.LocalAuthorityRiskIndicators)
+            .Navigate(Paths.LocalAuthoritySchoolRisks("123", "123456"));
+
+        PageAssert.IsFeatureDisabledPage(page);
+        DocumentAssert.AssertPageUrl(page, Paths.LocalAuthoritySchoolRisks("123", "123456").ToAbsolute(), HttpStatusCode.Forbidden);
+    }
+
+    [Fact]
+    public async Task LocalAuthoritySchoolRisksHistoryRedirectsToFeatureDisabled()
+    {
+        var page = await Client.SetupDisableFeatureFlags(FeatureFlags.LocalAuthorityRiskIndicators)
+            .Navigate(Paths.LocalAuthoritySchoolRisksHistory("123", "123456"));
+
+        PageAssert.IsFeatureDisabledPage(page);
+        DocumentAssert.AssertPageUrl(page, Paths.LocalAuthoritySchoolRisksHistory("123", "123456").ToAbsolute(), HttpStatusCode.Forbidden);
+    }
 }

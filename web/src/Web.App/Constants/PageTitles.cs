@@ -64,6 +64,8 @@ public static class PageTitles
     public const string SchoolChangeDataSubmit = "Generating custom data";
     public const string SchoolCustomisedData = "Use your customised data";
     public const string SchoolSpendingComparison = "Side-by-side comparison";
+    public const string SchoolRisks = "School risk score";
+    public const string SchoolRisksHistory = "Trend in risk scores";
     public const string LocalAuthorityHome = "Your local authority";
     public const string LocalAuthorityComparison = "View school spending";
     public const string LocalAuthorityCensus = "View pupil and workforce data";
