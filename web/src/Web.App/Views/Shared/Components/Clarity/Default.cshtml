@@ -15,16 +15,3 @@
         })(window, document, "clarity", "script", "@Model.ClarityProjectId");
     </script>
 }
-else
-{
-    <script add-nonce="true">
-        (function() {
-            if (window.clarity) {
-                window.clarity("consentv2", {
-                    ad_Storage: "denied",
-                    analytics_Storage: "denied"
-                });
-            }
-        })();
-    </script>
-}
