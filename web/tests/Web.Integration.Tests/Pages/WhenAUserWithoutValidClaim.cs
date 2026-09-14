@@ -59,4 +59,24 @@ public class WhenAUserWithoutValidClaims(SchoolBenchmarkingWebAppClient client)
         PageAssert.IsForbiddenPage(page);
         DocumentAssert.AssertPageUrl(page, Paths.LocalAuthorityRisks(Code).ToAbsolute(), HttpStatusCode.Forbidden);
     }
+
+    [Fact]
+    public async Task LocalAuthoritySchoolRisksRedirectsToForbidden()
+    {
+        var page = await Client
+            .Navigate(Paths.LocalAuthoritySchoolRisks(Code, Urn));
+
+        PageAssert.IsForbiddenPage(page);
+        DocumentAssert.AssertPageUrl(page, Paths.LocalAuthoritySchoolRisks(Code, Urn).ToAbsolute(), HttpStatusCode.Forbidden);
+    }
+
+    [Fact]
+    public async Task LocalAuthoritySchoolRisksHistoryRedirectsToForbidden()
+    {
+        var page = await Client
+            .Navigate(Paths.LocalAuthoritySchoolRisksHistory(Code, Urn));
+
+        PageAssert.IsForbiddenPage(page);
+        DocumentAssert.AssertPageUrl(page, Paths.LocalAuthoritySchoolRisksHistory(Code, Urn).ToAbsolute(), HttpStatusCode.Forbidden);
+    }
 }
