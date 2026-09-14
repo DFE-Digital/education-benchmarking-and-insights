@@ -11,6 +11,7 @@ using Platform.Api.School.Features.Census;
 using Platform.Api.School.Features.Comparators;
 using Platform.Api.School.Features.Details;
 using Platform.Api.School.Features.MetricRagRatings;
+using Platform.Api.School.Features.Risks;
 using Platform.Api.School.Features.Search;
 using Platform.Cache;
 using Platform.Functions;
@@ -81,5 +82,6 @@ internal static class Services
         .AddMetricRagRatingsFeature()
         .AddAccountsFeature()
         .AddCensusFeature()
-        .AddSearchFeature();
+        .AddSearchFeature()
+        .AddRisksFeature();
 }

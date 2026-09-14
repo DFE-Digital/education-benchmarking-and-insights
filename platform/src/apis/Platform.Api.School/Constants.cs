@@ -38,5 +38,9 @@ public static class Constants
         /// Feature for school census and workforce data.
         /// </summary>
         public const string Census = "Census";
+        /// <summary>
+        /// Feature for school risk indicators.
+        /// </summary>
+        public const string Risks = "Risks";
     }
 }
