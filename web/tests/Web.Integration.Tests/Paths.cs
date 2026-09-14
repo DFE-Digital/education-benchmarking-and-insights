@@ -306,6 +306,8 @@ public static class Paths
     public static string LocalAuthoritySchoolsFinanceDownload(string? code) => $"/local-authority/{code}/download/schools/finance";
     public static string LocalAuthoritySchoolsWorkforceDownload(string? code) => $"/local-authority/{code}/download/schools/workforce";
     public static string LocalAuthorityRisksOverview(string? code) => $"/local-authority/{code}/risks";
+    public static string LocalAuthoritySchoolRisks(string? code, string? urn) => $"/local-authority/{code}/risks/school/{urn}";
+    public static string LocalAuthoritySchoolRisksHistory(string? code, string? urn) => $"/local-authority/{code}/risks/school/{urn}/history";
     public static string SchoolResources(string? urn) => $"/school/{urn}/find-ways-to-spend-less";
 
     public static string News(string? slug = null) => $"/news/{slug}".TrimEnd('/');

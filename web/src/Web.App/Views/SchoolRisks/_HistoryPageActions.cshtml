@@ -1,0 +1,50 @@
+@using Web.App.Domain.Charts
+@using Web.App.ViewModels
+
+<div class="govuk-!-margin-top-6 options-form-and-page-actions">
+    @using (Html.BeginForm(FormMethod.Post, true, new
+            {
+                @class = "options-form",
+                novalidate = "novalidate",
+                role = "search"
+            }))
+    {
+        <div class="options-form__view-as">
+            <fieldset class="govuk-fieldset">
+                <legend class="govuk-label govuk-!-font-weight-bold">
+                    View as
+                </legend>
+                <div class="govuk-radios govuk-radios--small" data-module="govuk-radios"
+                     id="@nameof(SchoolRisksHistoryViewModel.ViewAs)">
+                    @foreach (var view in Views.All)
+                    {
+                        <div class="govuk-radios__item">
+                            <input class="govuk-radios__input"
+                                   id="view-@view"
+                                   name="@nameof(SchoolRisksHistoryViewModel.ViewAs)" type="radio"
+                                   value="@((int)view)"
+                                   @(Model.ViewAs == view ? "checked" : "")>
+                            <label class="govuk-label govuk-radios__label"
+                                   for="view-@view">
+                                @view.GetDescription()
+                            </label>
+                        </div>
+                    }
+                </div>
+            </fieldset>
+        </div>
+
+        <div class="options-form__apply">
+            <button type="submit" class="govuk-button govuk-button--secondary" data-module="govuk-button">
+                Apply
+            </button>
+        </div>
+    }
+
+    <div>
+        @*TODO: replace with page actions component, styling likely required - AB#328168*@
+        <p class="govuk-body">
+            Page actions placeholder
+        </p>
+    </div>
+</div>
