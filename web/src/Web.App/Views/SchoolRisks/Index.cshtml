@@ -1,0 +1,13 @@
+@model Web.App.ViewModels.SchoolRisksViewModel
+
+@{
+    ViewData[ViewDataKeys.Title] = PageTitles.SchoolRisks;
+}
+
+@await Component.InvokeAsync("EstablishmentHeading", new
+{
+    title = PageTitles.SchoolRisks,
+    name = Model.Name,
+    id = Model.Urn,
+    kind = OrganisationTypes.School
+})
