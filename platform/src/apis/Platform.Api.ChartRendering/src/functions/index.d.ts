@@ -50,6 +50,37 @@ export type HorizontalBarChartDefinition = Pick<
   > &
   ChartDefinition;
 
+export type LineChartBuilderOptions<T> = Omit<
+  ChartBuilderOptions<T>,
+  "legendLabels"
+> & {
+  height: number;
+  xAxisLabel?: string;
+  legendLabels?: string[];
+  showValueDots?: boolean;
+  showValueLabels?: boolean;
+};
+
+export type LineChartDefinition = Pick<
+  LineChartBuilderOptions<unknown>,
+  "data"
+> &
+  Partial<
+    Pick<
+      LineChartBuilderOptions<unknown>,
+      "height" | "xAxisLabel" | "showValueDots" | "showValueLabels"
+    >
+  > &
+  Partial<
+    Pick<
+      ChartBuilderOptions<unknown>,
+      "domainMax" | "domainMin" | "highlightKey" | "id" | "sort" | "width"
+    >
+  > &
+  ChartDefinition;
+
+export type LineChartPayload = LineChartDefinition | LineChartDefinition[];
+
 export type DatumKey = string | undefined;
 export type Group = string;
 

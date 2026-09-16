@@ -308,6 +308,64 @@
           }
         }
       }
+    },
+    "/api/lineChart/dom": {
+      "post": {
+        "operationId": "GetLineChartDomApi",
+        "tags": [
+          "DOM"
+        ],
+        "description": "Generates a single or multiple line chart(s) based on whether payload is a single object or an array",
+        "summary": "Builds a line chart using D3 in the DOM",
+        "requestBody": {
+          "description": "Line chart payload",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LineChartPayload"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "anyOf": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "$ref": "#/components/schemas/ChartBuilderResult"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "title": "error"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -576,6 +634,98 @@
                   "type": "string"
                 },
                 "title": "legendLabels"
+              }
+            }
+          },
+          {
+            "$ref": "#/components/schemas/ChartDefinition"
+          }
+        ]
+      },
+      "LineChartPayload": {
+        "title": "LineChartPayload",
+        "anyOf": [
+          {
+            "$ref": "#/components/schemas/LineChartDefinition"
+          },
+          {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/LineChartDefinition"
+            }
+          }
+        ]
+      },
+      "LineChartDefinition": {
+        "title": "LineChartDefinition",
+        "allOf": [
+          {
+            "type": "object",
+            "properties": {
+              "data": {
+                "type": "array",
+                "items": {},
+                "title": "data"
+              }
+            },
+            "required": [
+              "data"
+            ]
+          },
+          {
+            "type": "object",
+            "properties": {
+              "height": {
+                "type": "number",
+                "title": "height"
+              },
+              "xAxisLabel": {
+                "type": "string",
+                "title": "xAxisLabel"
+              },
+              "showValueDots": {
+                "type": "boolean",
+                "title": "showValueDots"
+              },
+              "showValueLabels": {
+                "type": "boolean",
+                "title": "showValueLabels"
+              }
+            }
+          },
+          {
+            "type": "object",
+            "properties": {
+              "sort": {
+                "enum": [
+                  "asc",
+                  "desc"
+                ],
+                "type": "string",
+                "title": "sort"
+              },
+              "id": {
+                "type": "string",
+                "title": "id"
+              },
+              "width": {
+                "type": "number",
+                "title": "width"
+              },
+              "domainMax": {
+                "description": "Maximum value for the domain of the linear scaled chart.\nDefaults to the maximum value from the provided data set.\nValues less than the maximum value from the provided data set are not allowed and instead will be treated as that maximum value.",
+                "type": "number",
+                "title": "domainMax"
+              },
+              "domainMin": {
+                "description": "Minimum value for the domain of the linear scaled chart.\nNegative values are not allowed at this time and instead will be treated as `0`.\nValues more than the minimum value from the provided data set are not allowed and instead will be treated as that minimum value.",
+                "default": 0,
+                "type": "number",
+                "title": "domainMin"
+              },
+              "highlightKey": {
+                "type": "string",
+                "title": "highlightKey"
               }
             }
           },
