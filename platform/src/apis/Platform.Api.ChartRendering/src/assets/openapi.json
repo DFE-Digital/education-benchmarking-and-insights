@@ -309,6 +309,90 @@
         }
       }
     },
+    "/api/lineChart": {
+      "post": {
+        "operationId": "GetLineChartApi",
+        "tags": [
+          "Charts"
+        ],
+        "description": "Generates a single or multiple line chart(s) based on whether payload is a single object or an array",
+        "summary": "Builds a line chart",
+        "requestBody": {
+          "description": "Line chart payload",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LineChartPayload"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "anyOf": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "$ref": "#/components/schemas/ChartBuilderResult"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "title": "error"
+                    },
+                    "errors": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      },
+                      "title": "errors"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ]
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "title": "error"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/lineChart/dom": {
       "post": {
         "operationId": "GetLineChartDomApi",
