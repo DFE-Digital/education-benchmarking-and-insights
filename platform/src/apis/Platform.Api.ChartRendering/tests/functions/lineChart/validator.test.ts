@@ -111,9 +111,7 @@ describe("line chart validator", () => {
     describe("with unsupported payload", () => {
       test("returns error", () => {
         const expected: string[] = ["Missing chart data"];
-        expect(validatePayload({} as LineChartPayload)).toStrictEqual(
-          expected
-        );
+        expect(validatePayload({} as LineChartPayload)).toStrictEqual(expected);
       });
     });
   });
