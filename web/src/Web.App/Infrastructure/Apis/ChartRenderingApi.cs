@@ -20,10 +20,21 @@ public class ChartRenderingApi(HttpClient httpClient, string? key = null) : ApiB
 
     public Task<ApiResult> PostVerticalBarCharts<T>(PostVerticalBarChartsRequest<T> request, CancellationToken cancellationToken = default) => PostAsync(Routes.VerticalBarChart, new JsonContent(request.ToArray()), cancellationToken);
 
+    public Task<ApiResult> PostLineChart<T>(PostLineChartRequest<T> request, CancellationToken cancellationToken = default)
+    {
+        var content = new JsonContent(request);
+        content.Headers.Add("x-accept", "image/svg+xml");
+        return PostAsync(Routes.LineChart, content, cancellationToken);
+    }
+
+    public Task<ApiResult> PostLineCharts<T>(PostLineChartsRequest<T> request, CancellationToken cancellationToken = default) => PostAsync(Routes.LineChart, new JsonContent(request.ToArray()), cancellationToken);
+
+
     private static class Routes
     {
         public static string HorizontalBarChart => "api/horizontalBarChart";
         public static string VerticalBarChart => "api/verticalBarChart";
+        public static string LineChart => "api/lineChart";
     }
 }
 
@@ -33,4 +44,6 @@ public interface IChartRenderingApi
     Task<ApiResult> PostHorizontalBarCharts<T>(PostHorizontalBarChartsRequest<T> request, CancellationToken cancellationToken = default);
     Task<ApiResult> PostVerticalBarChart<T>(PostVerticalBarChartRequest<T> request, CancellationToken cancellationToken = default);
     Task<ApiResult> PostVerticalBarCharts<T>(PostVerticalBarChartsRequest<T> request, CancellationToken cancellationToken = default);
+    Task<ApiResult> PostLineChart<T>(PostLineChartRequest<T> request, CancellationToken cancellationToken = default);
+    Task<ApiResult> PostLineCharts<T>(PostLineChartsRequest<T> request, CancellationToken cancellationToken = default);
 }

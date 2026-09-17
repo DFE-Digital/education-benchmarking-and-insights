@@ -1,0 +1,29 @@
+@using Web.App.Domain.Charts
+@model Web.App.ViewModels.SchoolRisksHistoryViewModel
+
+@for (var i = 0; i < Model.Sections.Count; i++)
+{
+    var riskSection = Model.Sections[i];
+    var isLast = i == Model.Sections.Count - 1;
+
+    <h2 class="govuk-heading-m">@riskSection.Title</h2>
+
+    @if (Model.ViewAs == Views.ViewAsOptions.Chart)
+    {
+        @await Html.PartialAsync("_DisplayHistoryChart", riskSection)
+    }
+    else
+    {
+        @await Html.PartialAsync("_DisplayHistoryTable", riskSection)
+    }
+
+    @if (!string.IsNullOrEmpty(riskSection.Footnote))
+    {
+        <p class="govuk-body">@riskSection.Footnote</p>
+    }
+
+    @if (!isLast)
+    {
+        <hr class="govuk-section-break govuk-section-break--xl govuk-section-break--visible">
+    }
+}

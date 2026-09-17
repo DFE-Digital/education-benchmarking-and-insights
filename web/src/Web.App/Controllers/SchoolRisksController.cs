@@ -4,6 +4,7 @@ using Microsoft.FeatureManagement.Mvc;
 using Web.App.Attributes;
 using Web.App.Domain;
 using Web.App.Domain.Charts;
+using Web.App.Domain.LocalAuthorities;
 using Web.App.Infrastructure.Apis;
 using Web.App.Infrastructure.Extensions;
 using Web.App.ViewModels;
@@ -17,7 +18,8 @@ namespace Web.App.Controllers;
 [FeatureGate(FeatureFlags.LocalAuthorityRiskIndicators)]
 public class SchoolRisksController(
     ILogger<SchoolRisksController> logger,
-    ISchoolApi schoolApi)
+    ISchoolApi schoolApi,
+    IChartRenderingApi chartRenderingApi)
     : Controller
 {
     [HttpGet]
@@ -61,7 +63,16 @@ public class SchoolRisksController(
                 {
                     return NotFound();
                 }
-                var viewModel = new SchoolRisksHistoryViewModel(school)
+
+                var risksHistoryRows = await schoolApi.RisksHistoryAsync(urn).GetResultOrThrow<LocalAuthorityRiskIndicatorsHistoryRows>();
+                var risksHistory = risksHistoryRows.ToTrends();
+
+                if (viewAs == Views.ViewAsOptions.Chart)
+                {
+                    await BuildHistoryChartsAndHydrateSeries(risksHistory);
+                }
+
+                var viewModel = new SchoolRisksHistoryViewModel(school, risksHistory)
                 {
                     ViewAs = viewAs
                 };
@@ -89,5 +100,45 @@ public class SchoolRisksController(
             urn,
             viewAs
         });
+    }
+
+    private async Task BuildHistoryChartsAndHydrateSeries(RiskHistoryTrends metrics)
+    {
+        var seriesList = new[]
+        {
+            metrics.Overall,
+            metrics.Financial,
+            metrics.EducationalPerformance,
+            metrics.SchoolAndPupil
+        };
+
+        var chartRequests = seriesList.Select(series => new PostLineChartRequest<RiskHistoryData>
+        {
+            Id = Guid.NewGuid().ToString(),
+            Width = 600,
+            Height = 300,
+            XAxisLabel = "Financial year",
+            ValueField = "value",
+            KeyField = "year",
+            ShowValueDots = true,
+            ShowValueLabels = true,
+            Data = series.Data.ToArray()
+        });
+
+        var payload = new PostLineChartsRequest<RiskHistoryData>(chartRequests);
+
+        var chartResponses = await chartRenderingApi.PostLineCharts(payload)
+            .GetResultOrThrow<ChartResponse[]>();
+
+        HydrateSeriesWithHistoryCharts(seriesList, chartResponses);
+    }
+
+    private static void HydrateSeriesWithHistoryCharts(RiskHistorySeries[] seriesList, ChartResponse[] chartResponses)
+    {
+        for (var i = 0; i < seriesList.Length; i++)
+        {
+            seriesList[i].Uuid = chartResponses[i].Id;
+            seriesList[i].ChartSvg = chartResponses[i].Html;
+        }
     }
 }

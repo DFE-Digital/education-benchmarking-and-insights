@@ -33,9 +33,13 @@ public static class Mapper
             SchoolName = model.SchoolName,
             OverallGrade = model.OverallGrade,
             Overall = model.Overall,
+            OverallMax = model.OverallMax,
             Financial = model.Financial,
+            FinancialMax = model.FinancialMax,
             SchoolAndPupil = model.SchoolAndPupil,
+            SchoolAndPupilMax = model.SchoolAndPupilMax,
             EducationalPerformance = model.EducationalPerformance,
+            EducationalPerformanceMax = model.EducationalPerformanceMax,
         };
     }
 }

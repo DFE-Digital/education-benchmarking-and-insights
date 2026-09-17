@@ -1,0 +1,33 @@
+@model Web.App.ViewModels.RiskSectionViewModel
+
+@if (!Model.Series.Data.Any())
+{
+    <div
+        class="govuk-warning-text govuk-!-margin-top-2 govuk-!-margin-bottom-2 ssr-chart-warning">
+        <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
+        <strong class="govuk-warning-text__text">
+            <span class="govuk-visually-hidden">Warning</span>
+            Unable to display data
+        </strong>
+    </div>
+    return;
+}
+<div class="govuk-!-margin-top-2 govuk-!-margin-bottom-2">
+    <table class="govuk-table">
+        <thead class="govuk-table__head">
+        <tr class="govuk-table__row">
+            <th scope="col" class="govuk-table__header">Financial year</th>
+            <th scope="col" class="govuk-table__header govuk-table__header--numeric">Score (out of @Model.Series.MaxValue)</th>
+        </tr>
+        </thead>
+        <tbody class="govuk-table__body">
+        @foreach (var row in Model.Series.Data)
+        {
+            <tr class="govuk-table__row">
+                <td class="govuk-table__cell">@row.Year</td>
+                <td class="govuk-table__cell govuk-table__cell--numeric">@row.Value</td>
+            </tr>
+        }
+        </tbody>
+    </table>
+</div>

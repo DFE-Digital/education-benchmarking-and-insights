@@ -1,4 +1,3 @@
-@using Web.App.Domain.Charts
 @model Web.App.ViewModels.SchoolRisksHistoryViewModel
 
 @{
@@ -22,19 +21,6 @@
         @await Html.PartialAsync("_HistoryIntroduction")
         @await Html.PartialAsync("_HistoryPageActions")
         <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
-        @if (Model.ViewAs == Views.ViewAsOptions.Chart)
-        {
-            @*TODO: replace with charts partial - AB#328172*@
-            <p class="govuk-body">
-                Charts placeholder
-            </p>
-        }
-        else
-        {
-            @*TODO: replace with tables partial - AB#328169*@
-            <p class="govuk-body">
-                Tables placeholder
-            </p>
-        }
+        @await Html.PartialAsync("_DisplayHistorySections")
     </div>
 </div>

@@ -1,0 +1,22 @@
+@model Web.App.ViewModels.RiskSectionViewModel
+
+@if (string.IsNullOrWhiteSpace(Model.Series.ChartSvg))
+{
+    <div
+        class="govuk-warning-text govuk-!-margin-top-2 govuk-!-margin-bottom-2 ssr-chart-warning">
+        <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
+        <strong class="govuk-warning-text__text">
+            <span class="govuk-visually-hidden">Warning</span>
+            Unable to display chart
+        </strong>
+    </div>
+    return;
+}
+
+<div id="@Model.Series.Uuid" class="costs-chart-container govuk-!-margin-top-8 govuk-!-margin-bottom-4" data-title="@Model.Series.Uuid">
+    <div class="costs-chart-wrapper">
+        <div class="govuk-!-margin-bottom-2 ssr-chart line-chart">
+            @Html.Raw(Model.Series.ChartSvg)
+        </div>
+    </div>
+</div>
