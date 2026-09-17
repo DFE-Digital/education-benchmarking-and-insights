@@ -7,3 +7,4 @@ export {
   GetVerticalBarChartApi,
   GetVerticalBarChartDomApi,
 } from "./verticalBarChart/api";
+export { GetLineChartApi, GetLineChartDomApi } from "./lineChart/api";

@@ -1,0 +1,132 @@
+import {
+  HttpRequest,
+  HttpResponseInit,
+  InvocationContext,
+} from "@azure/functions";
+import appInsights from "applicationinsights";
+import { ChartBuilderResult } from "..";
+import { LineChartPayload } from ".";
+import { validatePayload } from "./validator";
+import { v4 as uuidv4 } from "uuid";
+import LineChartTemplate from "./template";
+
+const client = appInsights.defaultClient;
+
+export async function lineChart(
+  request: HttpRequest,
+  context: InvocationContext
+): Promise<HttpResponseInit> {
+  const startTime = Date.now();
+  const lineChartTemplate = new LineChartTemplate();
+
+  context.debug(`Received HTTP request for line chart`);
+
+  let payload: LineChartPayload | undefined;
+  try {
+    payload = (await request.json()) as LineChartPayload;
+  } catch (e) {
+    return {
+      jsonBody: {
+        error: "Bad request",
+        errors: [(e as Error)?.message ?? e],
+      },
+      status: 400,
+    };
+  }
+
+  const validationErrors = validatePayload(payload);
+  if (validationErrors.length > 0) {
+    return {
+      jsonBody: { error: "Bad request", errors: validationErrors },
+      status: 400,
+    };
+  }
+
+  // eslint-disable-next-line no-useless-assignment
+  let charts: ChartBuilderResult[] = [];
+  const definitions = Array.isArray(payload) ? payload : [payload];
+
+  try {
+    charts = definitions.map(
+      ({
+        data,
+        height,
+        id,
+        keyField,
+        valueField,
+        width,
+        xAxisLabel,
+        showValueDots,
+        showValueLabels,
+        ...rest
+      }) =>
+        lineChartTemplate.buildChart({
+          data,
+          height: height || 300,
+          id: id || uuidv4(),
+          keyField: keyField as never,
+          valueField: valueField as never,
+          width: width || 928,
+          xAxisLabel: xAxisLabel as never,
+          showValueDots: showValueDots ?? true,
+          showValueLabels: showValueLabels ?? true,
+          ...rest,
+        })
+    );
+  } catch (e) {
+    context.error(e);
+
+    try {
+      const duration = Date.now() - startTime;
+      client.trackDependency({
+        name: "lineChartWorker",
+        duration: duration,
+        success: false,
+        time: new Date(startTime),
+      });
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    } catch (_e) {
+      // do not pollute logs with dependency tracking issues within this exception block
+    }
+
+    return {
+      jsonBody: { error: [(e as Error)?.message ?? e] },
+      status: 500,
+    };
+  }
+
+  let result: HttpResponseInit;
+  if (Array.isArray(payload)) {
+    result = {
+      jsonBody: charts,
+    };
+  } else if (request.headers.get("x-accept") === "image/svg+xml") {
+    // for single chart requests with HTML requested, just return the chart element
+    const body = charts[0].html ?? "<svg />";
+    return {
+      body,
+      headers: {
+        "Content-Length": Buffer.byteLength(body, "utf-8").toString(),
+        "Content-Type": "image/svg+xml; charset=utf-8",
+      },
+    };
+  } else {
+    result = {
+      jsonBody: charts[0],
+    };
+  }
+
+  try {
+    const duration = Date.now() - startTime;
+    client.trackDependency({
+      name: "lineChartWorker",
+      duration: duration,
+      success: true,
+      time: new Date(startTime),
+    });
+  } catch (e) {
+    context.warn(e);
+  }
+
+  return result;
+}
