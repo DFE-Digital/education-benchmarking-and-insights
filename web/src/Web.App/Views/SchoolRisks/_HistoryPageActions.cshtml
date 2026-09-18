@@ -1,6 +1,8 @@
 @using Web.App.Domain.Charts
 @using Web.App.ViewModels
 
+@model Web.App.ViewModels.SchoolRisksHistoryViewModel
+
 <div class="govuk-!-margin-top-6 options-form-and-page-actions">
     @using (Html.BeginForm(FormMethod.Post, true, new
             {
@@ -41,10 +43,14 @@
         </div>
     }
 
-    <div>
-        @*TODO: replace with page actions component, styling likely required - AB#328168*@
-        <p class="govuk-body">
-            Page actions placeholder
-        </p>
+    <div class="page-actions-stack-end">
+        @if (Model.ViewAs == Views.ViewAsOptions.Chart)
+        {
+            <div id="page-actions-button" class="govuk-!-margin-bottom-0"></div>
+        }
+        <a href="@Url.Action("HistoryDownload", "SchoolRisks", new { code = Model.LaCode, urn = Model.Urn })"
+           role="button"
+           class="govuk-button govuk-button--secondary govuk-!-margin-bottom-0"
+           data-module="govuk-button">Download page data</a>
     </div>
 </div>

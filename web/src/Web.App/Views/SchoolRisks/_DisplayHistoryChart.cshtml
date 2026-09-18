@@ -13,7 +13,7 @@
     return;
 }
 
-<div id="@Model.Series.Uuid" class="costs-chart-container govuk-!-margin-top-8 govuk-!-margin-bottom-4" data-title="@Model.Series.Uuid">
+<div id="@Model.Series.Uuid" class="costs-chart-container govuk-!-margin-top-8 govuk-!-margin-bottom-4" data-title="@Model.Title">
     <div class="costs-chart-wrapper">
         <div class="govuk-!-margin-bottom-2 ssr-chart line-chart">
             @Html.Raw(Model.Series.ChartSvg)
