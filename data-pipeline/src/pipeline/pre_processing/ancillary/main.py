@@ -372,6 +372,8 @@ def pre_process_hospital_schools_data(run_type, cfr_year):
 
 
 def pre_process_lookup_la_data(run_type, cfr_year):
-    if lookup_la_blob := try_get_blob(raw_container, f"default/{cfr_year}/Lookup_LACodes.csv"):
+    if lookup_la_blob := try_get_blob(
+        raw_container, f"default/{cfr_year}/Lookup_LACodes.csv"
+    ):
         return prepare_lookup_la_data(lookup_la_blob, year=cfr_year)
     return None
