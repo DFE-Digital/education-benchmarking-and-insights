@@ -100,7 +100,7 @@ As a prerequisite to this release (outside the release test scope), two outputs 
 
 | Role                | Responsibility                                                                                            |
 |:--------------------|:----------------------------------------------------------------------------------------------------------|
-| **Data Analyst(s)** | Produce and review source CFR and ancillary files for accuracy before the data release.                   |
+| **Data Analyst(s)** | Produce and review source CFR and ancillary files for schema/structure before the data release.           |
 | **Data Engineer**   | Execute pipeline runs, provide logs, and support technical testing activities.                            |
 | **QA Lead**         | Prepare test plans/scripts; manage overall execution of schema validation and completeness reporting.     |
 | **Engineer(s)**     | Assist in test execution, running validation scripts, and performing regression checks under QA guidance. |
