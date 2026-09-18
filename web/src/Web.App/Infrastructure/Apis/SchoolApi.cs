@@ -51,6 +51,8 @@ public class SchoolApi(HttpClient httpClient, string? key = null) : ApiBase(http
 
     public async Task<ApiResult> QueryBalanceNationalAverageHistoryAsync(ApiQuery? query = null, CancellationToken cancellationToken = default) => await GetAsync($"{Routes.QueryBalanceNationalAverageHistory}{query?.ToQueryString()}", cancellationToken);
 
+    public async Task<ApiResult> RisksHistoryAsync(string? identifier, CancellationToken cancellationToken = default) => await GetAsync(Routes.RisksHistory(identifier), cancellationToken);
+
     private static class Routes
     {
         private const string Base = "api/schools";
@@ -72,6 +74,7 @@ public class SchoolApi(HttpClient httpClient, string? key = null) : ApiBase(http
         public static string QueryBalanceHistory(string? identifier) => $"{Base}/{identifier}/accounts/balance/history";
         public static string QueryBalanceComparatorSetAverageHistory(string? identifier) => $"{Base}/{identifier}/comparator-set-average/accounts/balance/history";
         public static string QueryBalanceNationalAverageHistory => $"{Base}/national-average/accounts/balance/history";
+        public static string RisksHistory(string? identifier) => $"{Base}/{identifier}/risks/history";
     }
 }
 
@@ -94,4 +97,5 @@ public interface ISchoolApi
     Task<ApiResult> QueryBalanceHistoryAsync(string identifier, ApiQuery? query = null, CancellationToken cancellationToken = default);
     Task<ApiResult> QueryBalanceComparatorSetAverageHistoryAsync(string identifier, ApiQuery? query = null, CancellationToken cancellationToken = default);
     Task<ApiResult> QueryBalanceNationalAverageHistoryAsync(ApiQuery? query = null, CancellationToken cancellationToken = default);
+    Task<ApiResult> RisksHistoryAsync(string? identifier, CancellationToken cancellationToken = default);
 }
