@@ -1,6 +1,6 @@
 # Release Test Plan: 2026.09.1
 
-Release Date: TBC
+Release Date: 18/09/2026
 
 Release Label: 2026.09.1
 
@@ -26,6 +26,7 @@ Detailed validation of the CFR data content is covered by the CFR data-release t
 **Out-of-Scope:**
 
 - **Non-data-pipeline dependency updates** from the August and September 2026 batches. Deferred; only data-pipeline-related dependencies are released here.
+- **LAA risk score page** the work has been done for it but the feature is turned off in production.
 
 ## Test Strategy
 
@@ -90,6 +91,8 @@ To be completed post-release.
 - [326615 - Data pipeline config and dry run with 2026 CFR data (CFR data release main ticket)](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/326615)
 - [326253 - Review and merge Aug '26 dependency updates (partial: data-pipeline dependencies only)](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/326253)
 - [327284 - Review and merge Sep '26 dependency updates (partial: data-pipeline dependencies only)](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/327284)
+- [314478 - Surface consent flag in log files](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/314478)
+- [317736 - LAA - Create Schools risk score overview page](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_workitems/edit/317736)
 
 ## Appendix
 
@@ -99,11 +102,11 @@ To be completed post-release.
 
 | Test Category           | Total Tests | Passed | Failed | Pass Rate |
 |-------------------------|:-----------:|:------:|:------:|:---------:|
-| Sanity Tests - Pre Prod |     TBC     |  TBC   |  TBC   |    TBC    |
-| Smoke Tests - Pre Prod  |     TBC     |  TBC   |  TBC   |    TBC    |
-| Smoke Tests - Prod      |     TBC     |  TBC   |  TBC   |    TBC    |
-| Total                   |     TBC     |  TBC   |  TBC   |    TBC    |
+| Sanity Tests - Pre Prod |      1      |   1    |   0    |   100%    |
+| Smoke Tests - Pre Prod  |      1      |   1    |   0    |   100%    |
+| Smoke Tests - Prod      |      1      |   1    |   1    |   100%    |
+| Total                   |      3      |   3    |   3    |   100%    |
 
-**User Acceptance Testing (UAT):** Conducted by clients/stakeholders and recorded as an acceptance sign-off rather than a test count. Outcome: TBC (see Approval).
+**User Acceptance Testing (UAT):** Conducted by clients/stakeholders and recorded as an acceptance sign-off rather than a test count. Outcome: passed.
 
 \newpage

@@ -98,15 +98,15 @@ As a prerequisite to this release (outside the release test scope), two outputs 
 
 ### Responsibilities
 
-| Role | Responsibility |
-| :--- | :--- |
-| **Data Analyst(s)** | Produce and review source CFR and ancillary files for accuracy before the data release. |
-| **Data Engineer** | Execute pipeline runs, provide logs, and support technical testing activities. |
-| **QA Lead** | Prepare test plans/scripts; manage overall execution of schema validation and completeness reporting. |
-| **Engineer(s)** | Assist in test execution, running validation scripts, and performing regression checks under QA guidance. |
-| **Technical Lead** | Oversee the technical quality and architectural integrity of the CFR ingestion pipeline. |
-| **Stakeholders** | Conduct User Acceptance Testing (UAT) and provide formal sign-off on data integrity. |
-| **Project Lead** | Final Go/No-Go decision for the Data Release. |
+| Role                | Responsibility                                                                                            |
+|:--------------------|:----------------------------------------------------------------------------------------------------------|
+| **Data Analyst(s)** | Produce and review source CFR and ancillary files for accuracy before the data release.                   |
+| **Data Engineer**   | Execute pipeline runs, provide logs, and support technical testing activities.                            |
+| **QA Lead**         | Prepare test plans/scripts; manage overall execution of schema validation and completeness reporting.     |
+| **Engineer(s)**     | Assist in test execution, running validation scripts, and performing regression checks under QA guidance. |
+| **Technical Lead**  | Oversee the technical quality and architectural integrity of the CFR ingestion pipeline.                  |
+| **Stakeholders**    | Conduct User Acceptance Testing (UAT) and provide formal sign-off on data integrity.                      |
+| **Project Lead**    | Final Go/No-Go decision for the Data Release.                                                             |
 
 ### Environments
 
@@ -115,11 +115,11 @@ As a prerequisite to this release (outside the release test scope), two outputs 
 
 ## Exit Criteria (Sign-off Requirements)
 
-- [ ] All primary and ancillary schemas pass validation
-- [ ] Completeness report generated and reviewed by Stakeholders
-- [ ] Pipeline completes E2E with no High or Critical errors
-- [ ] Pipeline run with `DeriveLaaRiskScores = false` completes CFR with no LAA artifacts produced and no impact on CFR outputs
-- [ ] Database reflects accurate 2025-2026 CFR data with expected mappings
-- [ ] Regression tests confirm historical data integrity
-- [ ] CFR 2025-2026 Transparency file successfully verified against input files
-- [ ] UI displays CFR 2026 data accurately across all metrics and filters
+- [x] All primary and ancillary schemas pass validation
+- [x] Completeness report generated and reviewed by Stakeholders
+- [x] Pipeline completes E2E with no High or Critical errors
+- [x] Pipeline run with `DeriveLaaRiskScores = false` completes CFR with no LAA artifacts produced and no impact on CFR outputs
+- [x] Database reflects accurate 2025-2026 CFR data with expected mappings
+- [x] Regression tests confirm historical data integrity
+- [x] CFR 2025-2026 Transparency file successfully verified against input files
+- [x] UI displays CFR 2026 data accurately across all metrics and filters
