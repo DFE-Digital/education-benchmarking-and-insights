@@ -31,14 +31,14 @@ Two additional considerations apply to this release compared to prior years:
 
 ## Test Data Profile
 
-| Category                           | Files / Sources                                                                        |
-|:-----------------------------------|:---------------------------------------------------------------------------------------|
+| Category                           | Files / Sources                                                 |
+|:-----------------------------------|:----------------------------------------------------------------|
 | **Primary CFR (input)**            | CFR_25-26_Data.csv                                              |
-| **Maintained Schools Master List** | maintained_schools_master_list                                 |
-| **Organisational**                 | gias.csv, gias_links.csv                                       |
-| **Census Data**                    | census_pupils.csv, census_workforce.xlsx, sen.csv             |
+| **Maintained Schools Master List** | maintained_schools_master_list                                  |
+| **Organisational**                 | gias.csv, gias_links.csv                                        |
+| **Census Data**                    | census_pupils.csv, census_workforce.xlsx, sen.csv               |
 | **Educational/Financial**          | cdc.csv, ks2.xlsx, ks4.xlsx, ILR R06 cut with FSM and EHCP.xlsx |
-| **Transparency**                   | CFR 2025-2026 Transparency File                                |
+| **Transparency**                   | CFR 2025-2026 Transparency File                                 |
 
 ## Pre-Requisites
 
