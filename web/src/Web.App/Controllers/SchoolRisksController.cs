@@ -162,10 +162,20 @@ public class SchoolRisksController(
 
         var payload = new PostLineChartsRequest<RiskHistoryData>(chartRequests);
 
-        var chartResponses = await chartRenderingApi.PostLineCharts(payload)
-            .GetResultOrThrow<ChartResponse[]>();
+        try
+        {
+            var chartResponses = await chartRenderingApi.PostLineCharts(payload)
+                .GetResultOrDefault<ChartResponse[]>();
 
-        HydrateSeriesWithHistoryCharts(seriesList, chartResponses);
+            if (chartResponses != null)
+            {
+                HydrateSeriesWithHistoryCharts(seriesList, chartResponses);
+            }
+        }
+        catch (Exception e)
+        {
+            logger.LogWarning(e, "Unable to load charts from API");
+        }
     }
 
     private static void HydrateSeriesWithHistoryCharts(RiskHistorySeries[] seriesList, ChartResponse[] chartResponses)
