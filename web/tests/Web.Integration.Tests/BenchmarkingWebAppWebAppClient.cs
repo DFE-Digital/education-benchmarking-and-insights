@@ -761,7 +761,10 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
     public BenchmarkingWebAppClient SetupChartRendering<T>(ChartResponse chartResponse)
     {
         ChartResponse[] chartResponses = [];
+
         ChartRenderingApi.Reset();
+
+        // HorizontalBarCharts
         ChartRenderingApi
             .Setup(api => api.PostHorizontalBarCharts(It.IsAny<PostHorizontalBarChartsRequest<T>>(), It.IsAny<CancellationToken>()))
             .Callback<PostHorizontalBarChartsRequest<T>, CancellationToken>((request, _) =>
@@ -777,6 +780,8 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
             })
             .ReturnsAsync(() => ApiResult.Ok(chartResponses));
         ChartRenderingApi.Setup(api => api.PostHorizontalBarChart(It.IsAny<PostHorizontalBarChartRequest<T>>(), It.IsAny<CancellationToken>())).ReturnsAsync(ApiResult.Ok(chartResponse));
+
+        //VerticalBarCharts
         ChartRenderingApi
             .Setup(api => api.PostVerticalBarCharts(It.IsAny<PostVerticalBarChartsRequest<T>>(), It.IsAny<CancellationToken>()))
             .Callback<PostVerticalBarChartsRequest<T>, CancellationToken>((request, _) =>
@@ -792,6 +797,24 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
             })
             .ReturnsAsync(() => ApiResult.Ok(chartResponses));
         ChartRenderingApi.Setup(api => api.PostVerticalBarChart(It.IsAny<PostVerticalBarChartRequest<T>>(), It.IsAny<CancellationToken>())).ReturnsAsync(ApiResult.Ok(chartResponse));
+
+        // LineCharts
+        ChartRenderingApi
+            .Setup(api => api.PostLineCharts(It.IsAny<PostLineChartsRequest<T>>(), It.IsAny<CancellationToken>()))
+            .Callback<PostLineChartsRequest<T>, CancellationToken>((request, _) =>
+            {
+                // cross-reference POST-ed Id with response Id
+                chartResponses = request
+                    .Select(r => new ChartResponse
+                    {
+                        Id = r.Id,
+                        Html = chartResponse.Html
+                    })
+                    .ToArray();
+            })
+            .ReturnsAsync(() => ApiResult.Ok(chartResponses));
+        ChartRenderingApi.Setup(api => api.PostLineChart(It.IsAny<PostLineChartRequest<T>>(), It.IsAny<CancellationToken>())).ReturnsAsync(ApiResult.Ok(chartResponse));
+
         return this;
     }
 
@@ -846,6 +869,8 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
         ChartRenderingApi.Setup(api => api.PostHorizontalBarCharts(It.IsAny<PostHorizontalBarChartsRequest<T>>(), It.IsAny<CancellationToken>())).Throws(new Exception());
         ChartRenderingApi.Setup(api => api.PostVerticalBarChart(It.IsAny<PostVerticalBarChartRequest<T>>(), It.IsAny<CancellationToken>())).Throws(new Exception());
         ChartRenderingApi.Setup(api => api.PostVerticalBarCharts(It.IsAny<PostVerticalBarChartsRequest<T>>(), It.IsAny<CancellationToken>())).Throws(new Exception());
+        ChartRenderingApi.Setup(api => api.PostLineChart(It.IsAny<PostLineChartRequest<T>>(), It.IsAny<CancellationToken>())).Throws(new Exception());
+        ChartRenderingApi.Setup(api => api.PostLineCharts(It.IsAny<PostLineChartsRequest<T>>(), It.IsAny<CancellationToken>())).Throws(new Exception());
         return this;
     }
 
