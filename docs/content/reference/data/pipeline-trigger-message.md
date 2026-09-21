@@ -8,8 +8,6 @@ eleventyNavigation:
   parent: "Data Reference"
 ---
 
-## Pipeline Trigger Message Schema
-
 The Financial Benchmarking and Insights Tool (FBIT) data-processing pipeline relies on queue-triggered messages in `data-pipeline-job-pending` to execute data processing runs. These payloads coordinate official baseline data releases as well as interactive user-defined calculations.
 
 For an in-depth discussion on the architectural and conceptual decisions behind these parameter designs (such as isolation levels, decoupling, and mismatched timelines), see the [Pipeline Trigger Message Concepts](../../../explanation/data/pipeline-trigger-message.md) explanation page.
@@ -31,8 +29,6 @@ All incoming pipeline messages adhere to a structured schema defined by the back
 | **Generate Transparency Files** | `"generateTransparencyFilesAndPrecursorFiles"` | Boolean | `true`, `false` | Optional (defaults to `false`). Directs pre-processing to rebuild transparency spreadsheets from raw inputs rather than loading pre-existing master lists. |
 | **Derive LAA Risk** | `"deriveLaaRiskScores"` | Boolean | `true`, `false` | Optional (defaults to `false`). Indicates whether Local Authority Risk Assessment scores should be derived during pipeline execution. |
 | **Payload Data** | `"payload"` | Object | Schema-dependent object | Job-specific payload containing either the custom comparator set (`"ComparatorSetPayload"`) or custom financial metrics (`"CustomDataPayload"`). |
-
----
 
 ## 2. Payload Examples
 
