@@ -8,8 +8,6 @@ eleventyNavigation:
   parent: "Data Explanation"
 ---
 
-## Pipeline Trigger Message Concepts
-
 This document explains the background logic, design choices, and architectural principles behind the Financial Benchmarking and Insights Tool (FBIT) pipeline trigger message parameters.
 
 For the factual parameters list and JSON schema specifications, see the [Pipeline Trigger Message Reference](../../reference/data/pipeline-trigger-message/).
@@ -25,8 +23,6 @@ While both parameters represent timeline-related data, they are architecturally 
 
 This separation prevents hardcoding data ingestion structures to output schemas, offering flexibility when naming system-wide database releases.
 
----
-
 ## 2. Mismatched DfE Timelines
 
 Department for Education (DfE) raw datasets (AAR, CFR, BFR, S251) are released on independent annual cycles. Consequently, the latest official "baseline" system state at any given point (e.g., `RunId = 2026`) requires pulling from mismatched years across raw datasets.
@@ -40,8 +36,6 @@ For example, a valid default baseline compiler run might need:
 
 Grouping these source years under a nested `"year"` dictionary enables the default pipeline run to load files from the correct respective raw container directories while storing the entire standardized result set under a unified `RunId` database partition.
 
----
-
 ## 3. User-Calculation & Run Isolation
 
 To isolate and protect official system-wide calculations from ad-hoc user interactions, FBIT enforces strict isolation rules:
@@ -51,15 +45,11 @@ To isolate and protect official system-wide calculations from ad-hoc user intera
 
 This design partitions custom rows safely in both blob storage containers and relational database tables, allowing simple, isolated data cleanup or expiration without impacting the core default baseline datasets.
 
----
-
 ## 4. Comparison Anchoring
 
 In user-defined RAG and custom-data runs, the complex nested `"year"` dictionary is flattened into a single integer (e.g., `year: 2025`).
 
 This integer serves as the **"anchor year"**. It defines the baseline dataset (`RunId = <year>` and `RunType = 'default'`) against which the custom school or comparator group should be evaluated. This allows the system to compare a user's simulated or custom metrics with official, pre-calculated peer school distributions of that specific baseline year.
-
----
 
 ## 5. Automated `jobId` injection
 
