@@ -6,7 +6,7 @@
     var riskSection = Model.Sections[i];
     var isLast = i == Model.Sections.Count - 1;
 
-    <h2 class="govuk-heading-m">@riskSection.Title</h2>
+    <h2 class="govuk-heading-m" data-testid="risk-history-heading">@riskSection.Title</h2>
 
     @if (Model.ViewAs == Views.ViewAsOptions.Chart)
     {

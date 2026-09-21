@@ -1,3 +1,4 @@
+@using Web.App.Extensions
 @model Web.App.ViewModels.RiskSectionViewModel
 
 @if (!Model.Series.Data.Any())
@@ -12,12 +13,17 @@
     </div>
     return;
 }
+
+@{
+    var maxScoreFormatted = Model.Series.MaxValue.ToFixedPrecision(2);
+}
+
 <div class="govuk-!-margin-top-2 govuk-!-margin-bottom-2">
     <table class="govuk-table">
         <thead class="govuk-table__head">
         <tr class="govuk-table__row">
             <th scope="col" class="govuk-table__header">Financial year</th>
-            <th scope="col" class="govuk-table__header govuk-table__header--numeric">Score (out of @Model.Series.MaxValue)</th>
+            <th scope="col" class="govuk-table__header govuk-table__header--numeric">Score (out of @maxScoreFormatted)</th>
         </tr>
         </thead>
         <tbody class="govuk-table__body">
@@ -25,7 +31,7 @@
         {
             <tr class="govuk-table__row">
                 <td class="govuk-table__cell">@row.Year</td>
-                <td class="govuk-table__cell govuk-table__cell--numeric">@row.Value</td>
+                <td class="govuk-table__cell govuk-table__cell--numeric">@row.Value.ToFixedPrecision(2)</td>
             </tr>
         }
         </tbody>
