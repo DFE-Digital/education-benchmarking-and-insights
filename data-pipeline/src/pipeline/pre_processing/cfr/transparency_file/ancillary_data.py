@@ -1,6 +1,9 @@
 import numpy as np
 import pandas as pd
 
+from pipeline.pre_processing.ancillary.ilr import patch_missing_sixth_form_data
+from pipeline.pre_processing.common import mappings
+
 
 def _get_financial_year_anchors(year: int):
     """Derive temporal anchors from the reporting year (e.g., '2025' for 2024/25)."""
@@ -177,27 +180,14 @@ def build_federation_context(
         .merge(lookup_la, left_on="LA", right_on="old_la_code", how="left")
     )
 
-    # Derive SchoolPhaseType for patching and 6th-form headcounts
-    if "TypeOfEstablishment (code)" in fedmatched.columns and "PhaseOfEducation (code)" in fedmatched.columns:
-        from pipeline.pre_processing.common import mappings
-        fedmatched["SchoolPhaseType"] = fedmatched.apply(
-            lambda row: mappings.map_phase_type(
-                establishment_code=row["TypeOfEstablishment (code)"],
-                phase_code=row["PhaseOfEducation (code)"],
-            ),
-            axis=1,
-        )
-    else:
-        # Fallback for unit tests where codes might be missing
-        fedmatched["SchoolPhaseType"] = fedmatched.get("PhaseOfEducation (name)")
-
-    # Patch missing 6th-form/pupil census data with ILR data if present
-    from pipeline.pre_processing.ancillary.ilr import patch_missing_sixth_form_data
-    if ilr is not None and gias_links is not None:
-        for col in ["Number of pupils", "Percentage Free school meals", "Percentage SEN"]:
-            if col not in fedmatched.columns:
-                fedmatched[col] = np.nan
-        fedmatched = patch_missing_sixth_form_data(fedmatched, ilr, gias_links)
+    fedmatched["SchoolPhaseType"] = fedmatched.apply(
+        lambda row: mappings.map_phase_type(
+            establishment_code=row["TypeOfEstablishment (code)"],
+            phase_code=row["PhaseOfEducation (code)"],
+        ),
+        axis=1,
+    )
+    fedmatched = patch_missing_sixth_form_data(fedmatched, ilr, gias_links)
 
     # Calculate individual FTE in fedmatched for aggregation
     fedmatched["FTE"] = np.where(

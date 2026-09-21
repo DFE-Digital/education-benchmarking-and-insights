@@ -144,8 +144,6 @@ def build_sfb_maintained(
         fin_dict[col] = a.get(col, 0)
     
     out = pd.concat([out, pd.DataFrame(fin_dict)], axis=1)
-
-    # Cleanly remove any schools that lack a URN from both transparency files
     out = out.dropna(subset=["URN"])
 
     return out
