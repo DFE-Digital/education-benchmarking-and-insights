@@ -1,3 +1,4 @@
+@using Web.App.ViewModels.Enhancements
 @model Web.App.ViewModels.SchoolRisksHistoryViewModel
 
 @{
@@ -24,3 +25,16 @@
         @await Html.PartialAsync("_DisplayHistorySections")
     </div>
 </div>
+
+@section scripts
+{
+    @await Html.PartialAsync("Enhancements/_PageActions", new PageActionsViewModel
+    {
+        All = true,
+        ElementId = "page-actions-button",
+        SaveClassName = "costs-chart-container",
+        SaveFileName = $"{Model.Name}-trend-in-risk-scores-charts.zip",
+        SaveTitleAttr = "data-title",
+        StartImmediately = true
+    })
+}

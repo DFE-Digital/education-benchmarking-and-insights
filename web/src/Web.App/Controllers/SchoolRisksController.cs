@@ -1,6 +1,8 @@
+using System.Net;
 using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.FeatureManagement.Mvc;
+using Web.App.ActionResults;
 using Web.App.Attributes;
 using Web.App.Domain;
 using Web.App.Domain.Charts;
@@ -100,6 +102,39 @@ public class SchoolRisksController(
             urn,
             viewAs
         });
+    }
+
+    [HttpGet]
+    [Produces("application/zip")]
+    [ProducesResponseType<byte[]>(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    [Route("history/download")]
+    public async Task<IActionResult> HistoryDownload(string code, string urn)
+    {
+        using (logger.BeginScope(new
+        {
+            code,
+            urn
+        }))
+        {
+            try
+            {
+                var school = await schoolApi.SingleAsync(urn).GetResultOrThrow<School>();
+                if (school.LACode != code)
+                {
+                    return StatusCode((int)HttpStatusCode.NotFound);
+                }
+
+                var risksHistoryRows = await schoolApi.RisksHistoryAsync(urn).GetResultOrThrow<LocalAuthorityRiskIndicatorsHistoryRows>();
+
+                return new CsvResults([new CsvResult(risksHistoryRows.Rows, $"{school.SchoolName}-trend-in-risk-scores.csv")], $"{school.SchoolName}-trend-in-risk-scores.zip");
+            }
+            catch (Exception e)
+            {
+                logger.LogError(e, "An error downloading school risk indicators history data: {DisplayUrl}", Request.GetDisplayUrl());
+                return StatusCode(500);
+            }
+        }
     }
 
     private async Task BuildHistoryChartsAndHydrateSeries(RiskHistoryTrends metrics)
