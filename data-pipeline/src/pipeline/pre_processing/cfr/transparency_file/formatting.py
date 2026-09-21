@@ -39,6 +39,7 @@ def build_sfb_maintained(
     out["Highest age of pupils"] = a["StatutoryHighAge"]
     out["Type"] = a["TypeOfEstablishment (name)"]
     out["UrbanRural"] = a["UrbanRural (name)"]
+    out["EstablishmentStatus"] = a["EstablishmentStatus (name)"]
 
     out["Period covered by return"] = a["Period Covered"]
     out["Did Not Supply flag"] = a["DNS"].map(
@@ -138,8 +139,14 @@ def build_sfb_maintained(
         "Brought in Professional Sevices: (E27 + E28a)", "Community Exp: E31 + E32",
         "Total Expenditure excluding E30"
     ]
+    fin_dict = {}
     for col in fin_cols:
-        out[col] = a.get(col, 0)
+        fin_dict[col] = a.get(col, 0)
+    
+    out = pd.concat([out, pd.DataFrame(fin_dict)], axis=1)
+
+    # Cleanly remove any schools that lack a URN from both transparency files
+    out = out.dropna(subset=["URN"])
 
     return out
 
@@ -431,6 +438,8 @@ def build_maintained_schools_download_file(sfb: pd.DataFrame, year: int = 2025) 
     """Replicates My_Step5.sql: final formatting for the download file."""
     out = pd.DataFrame()
 
+    is_closed = sfb["EstablishmentStatus"].eq("Closed")
+
     out["LA"] = sfb["LA"]
     out["LA Name"] = sfb["LA Name"]
     out["Estab"] = sfb["Estab"]
@@ -438,14 +447,26 @@ def build_maintained_schools_download_file(sfb: pd.DataFrame, year: int = 2025) 
     out["Did Not Supply flag"] = sfb["Did Not Supply flag"].str.replace("DNS", "Y")
     out["Lead school in federation"] = sfb["Lead school in federation"]
     out["London Weighting"] = sfb["London Weighting"]
-    out["No pupils (including dual registrations)"] = sfb["AggregatedPupilsFTE"].round(1)
+    out["No pupils (including dual registrations)"] = np.where(
+        is_closed, np.nan, sfb["AggregatedPupilsFTE"].round(1)
+    )
     out["Overall Phase"] = sfb["Overall Phase"]
-    out["% of pupils eligible for FSM"] = sfb["Aggregated_PC_FSM"].round(1)
-    out["% of pupils with SEN support"] = sfb["Aggregated_PC_SEN_Support"].round(1)
-    out["% of pupils with EHCP"] = sfb["Aggregated_PC_EHCP"].round(1)
+    out["% of pupils eligible for FSM"] = np.where(
+        is_closed, np.nan, sfb["Aggregated_PC_FSM"].round(1)
+    )
+    out["% of pupils with SEN support"] = np.where(
+        is_closed, np.nan, sfb["Aggregated_PC_SEN_Support"].round(1)
+    )
+    out["% of pupils with EHCP"] = np.where(
+        is_closed, np.nan, sfb["Aggregated_PC_EHCP"].round(1)
+    )
     out["School Name"] = sfb["School Name"]
-    out["FTE Number of teachers"] = sfb["AggregatedTeachersFTE"].round(1)
-    out["Number of pupils in 6th form"] = sfb["Aggregated_VIthForm"].round(0)
+    out["FTE Number of teachers"] = np.where(
+        is_closed, np.nan, sfb["AggregatedTeachersFTE"].round(1)
+    )
+    out["Number of pupils in 6th form"] = np.where(
+        is_closed, np.nan, sfb["Aggregated_VIthForm"].round(0)
+    )
     out["Type"] = sfb["Type"]
     out["URN"] = sfb["URN"]
     out["Admissions policy"] = sfb["Admissions_Policy"]

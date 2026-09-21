@@ -43,6 +43,10 @@ def test_ofsted_rating(rating, expected):
         (6, 1_000, "Post-16"),
         (7, 1_000, "All-through"),
         (8, 1_000, "Unknown"),
+        (pd.NA, 1_000, "Unknown"),
+        (0, pd.NA, "Unknown"),
+        (4, pd.NA, "Secondary"),
+        (pd.NA, pd.NA, "Unknown"),
     ],
 )
 def test_map_phase_type(phase_code, establishment_code, expected):

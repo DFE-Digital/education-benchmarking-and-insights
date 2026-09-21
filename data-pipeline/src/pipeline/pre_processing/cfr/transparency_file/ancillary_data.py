@@ -143,6 +143,8 @@ def build_federation_context(
     pru_last_year: pd.DataFrame,
     hospital_schools_last_year: pd.DataFrame,
     year: int,
+    ilr: pd.DataFrame,
+    gias_links: pd.DataFrame,
 ) -> pd.DataFrame:
     """
     Build the base context dataframe merging GIAS, Census, SEN, and PRU data
@@ -175,13 +177,43 @@ def build_federation_context(
         .merge(lookup_la, left_on="LA", right_on="old_la_code", how="left")
     )
 
+    # Derive SchoolPhaseType for patching and 6th-form headcounts
+    if "TypeOfEstablishment (code)" in fedmatched.columns and "PhaseOfEducation (code)" in fedmatched.columns:
+        from pipeline.pre_processing.common import mappings
+        fedmatched["SchoolPhaseType"] = fedmatched.apply(
+            lambda row: mappings.map_phase_type(
+                establishment_code=row["TypeOfEstablishment (code)"],
+                phase_code=row["PhaseOfEducation (code)"],
+            ),
+            axis=1,
+        )
+    else:
+        # Fallback for unit tests where codes might be missing
+        fedmatched["SchoolPhaseType"] = fedmatched.get("PhaseOfEducation (name)")
+
+    # Patch missing 6th-form/pupil census data with ILR data if present
+    from pipeline.pre_processing.ancillary.ilr import patch_missing_sixth_form_data
+    if ilr is not None and gias_links is not None:
+        for col in ["Number of pupils", "Percentage Free school meals", "Percentage SEN"]:
+            if col not in fedmatched.columns:
+                fedmatched[col] = np.nan
+        fedmatched = patch_missing_sixth_form_data(fedmatched, ilr, gias_links)
+
     # Calculate individual FTE in fedmatched for aggregation
     fedmatched["FTE"] = np.where(
         fedmatched["TypeOfEstablishment (name)"].eq("Pupil referral unit").fillna(False),
         fedmatched["PRU_Headcount"],
         fedmatched["Number of pupils"],
     )
-    fedmatched["VIthForm"] = 0
+
+    # Calculate 6th form headcount dynamically based on SchoolPhaseType and ILR/census data
+    post_16_mask = fedmatched["SchoolPhaseType"].isin(["Post-16", "University Technical College"])
+    census_6th_form = fedmatched.get("TotalPupilsSixthForm", pd.Series(0.0, index=fedmatched.index)).fillna(0)
+    fedmatched["VIthForm"] = np.where(
+        post_16_mask,
+        fedmatched["Number of pupils"].fillna(0),
+        census_6th_form
+    )
 
     # 3. Aggregate lead schools
     agg_cols = [
@@ -502,6 +534,13 @@ def build_federation_context(
         working["DNS"] == "LeadSchool",
         working["Federation_boarders"],
         working["% of pupils who are Boarders_ind"],
+    )
+
+    working["No of pupils in 6th form_ind"] = working["VIthForm"]
+    working["No of pupils in 6th form_agg"] = np.where(
+        working["DNS"] == "LeadSchool",
+        working["Federation_VIthForm"],
+        working["No of pupils in 6th form_ind"]
     )
 
     qts_col = "Teachers with Qualified Teacher Status (%) (Headcount)"

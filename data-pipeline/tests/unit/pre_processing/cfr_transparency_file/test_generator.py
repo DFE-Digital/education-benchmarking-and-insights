@@ -244,6 +244,8 @@ def test_build_transparency_files_structure():
         pru_last_year=pru_ly,
         hospital_schools_last_year=hospital_ly,
         year=year,
+        ilr=None,
+        gias_links=None,
     )
 
     # 3. Assertions
@@ -639,6 +641,8 @@ def test_build_transparency_files_structure_2026():
         pru_last_year=pru_ly,
         hospital_schools_last_year=hospital_ly,
         year=year,
+        ilr=None,
+        gias_links=None,
     )
 
     # Assertions
