@@ -84,6 +84,9 @@ def build_sfb_maintained(
     out["Aggregated_TA_FTE"] = a.get("FTE of Teaching Assistants_agg", 0)
     out["Teachers_PC_QTS"] = a.get("Teachers_PC_QTS", np.nan)
 
+    out["HasCurrentPupilCensus"] = a["FTE"].notna()
+    out["HasCurrentWorkforceCensus"] = a["Total Number of Teachers (Full-Time Equivalent)"].notna()
+
     # Financial columns
     fin_cols = [
         "I01 Pre-16 Funding", "I02 Post-16 Funding", "I01/2 Pre and Post-16 Funding",
@@ -437,6 +440,8 @@ def build_maintained_schools_download_file(sfb: pd.DataFrame, year: int = 2025) 
     out = pd.DataFrame()
 
     is_closed = sfb["EstablishmentStatus"].eq("Closed")
+    hide_pupil_data = is_closed & ~sfb["HasCurrentPupilCensus"]
+    hide_workforce_data = is_closed & ~sfb["HasCurrentWorkforceCensus"]
 
     out["LA"] = sfb["LA"]
     out["LA Name"] = sfb["LA Name"]
@@ -446,22 +451,24 @@ def build_maintained_schools_download_file(sfb: pd.DataFrame, year: int = 2025) 
     out["Lead school in federation"] = sfb["Lead school in federation"]
     out["London Weighting"] = sfb["London Weighting"]
     out["No pupils (including dual registrations)"] = np.where(
-        is_closed, np.nan, sfb["AggregatedPupilsFTE"].round(1)
+        hide_pupil_data, np.nan, sfb["AggregatedPupilsFTE"].round(1)
     )
     out["Overall Phase"] = sfb["Overall Phase"]
     out["% of pupils eligible for FSM"] = np.where(
-        is_closed, np.nan, sfb["Aggregated_PC_FSM"].round(1)
+        hide_pupil_data, np.nan, sfb["Aggregated_PC_FSM"].round(1)
     )
     out["% of pupils with SEN support"] = np.where(
-        is_closed, np.nan, sfb["Aggregated_PC_SEN_Support"].round(1)
+        hide_pupil_data, np.nan, sfb["Aggregated_PC_SEN_Support"].round(1)
     )
     out["% of pupils with EHCP"] = np.where(
-        is_closed, np.nan, sfb["Aggregated_PC_EHCP"].round(1)
+        hide_pupil_data, np.nan, sfb["Aggregated_PC_EHCP"].round(1)
     )
     out["School Name"] = sfb["School Name"]
-    out["FTE Number of teachers"] = sfb["AggregatedTeachersFTE"].round(1)
+    out["FTE Number of teachers"] = np.where(
+        hide_workforce_data, np.nan, sfb["AggregatedTeachersFTE"].round(1)
+    )
     out["Number of pupils in 6th form"] = np.where(
-        is_closed, np.nan, sfb["Aggregated_VIthForm"].round(0)
+        hide_pupil_data, np.nan, sfb["Aggregated_VIthForm"].round(0)
     )
     out["Type"] = sfb["Type"]
     out["URN"] = sfb["URN"]
