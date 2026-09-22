@@ -459,9 +459,7 @@ def build_maintained_schools_download_file(sfb: pd.DataFrame, year: int = 2025) 
         is_closed, np.nan, sfb["Aggregated_PC_EHCP"].round(1)
     )
     out["School Name"] = sfb["School Name"]
-    out["FTE Number of teachers"] = np.where(
-        is_closed, np.nan, sfb["AggregatedTeachersFTE"].round(1)
-    )
+    out["FTE Number of teachers"] = sfb["AggregatedTeachersFTE"].round(1)
     out["Number of pupils in 6th form"] = np.where(
         is_closed, np.nan, sfb["Aggregated_VIthForm"].round(0)
     )
