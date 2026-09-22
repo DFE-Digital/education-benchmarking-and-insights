@@ -8,6 +8,25 @@ from pipeline.pre_processing.cfr.transparency_file.generator import (
     build_transparency_files,
 )
 
+_PUPIL_COMPARATOR_COLUMNS = [
+    "NonClassroomSupportStaffFTE",
+    "NonClassroomSupportStaffHeadcount",
+    "Percentage Primary Need SLD",
+    "Percentage Primary Need SPLD",
+    "Percentage Primary Need VI",
+    "Percentage Primary Need PD",
+    "Percentage Primary Need SLCN",
+    "Percentage Primary Need OTH",
+    "Percentage with EHC",
+    "Percentage Primary Need ASD",
+    "Percentage Primary Need SEMH",
+    "Percentage without EHC",
+    "Percentage Primary Need PMLD",
+    "Percentage Primary Need HI",
+    "Percentage Primary Need MLD",
+    "Percentage Primary Need MSI",
+]
+
 
 def test_build_transparency_files_structure():
     # 1. Setup Mock Inputs
@@ -133,7 +152,9 @@ def test_build_transparency_files_structure():
             "EstablishmentName": ["School 1", "School 2", "School 3"],
             "EstablishmentStatus (name)": ["Open", "Open", "Open"],
             "EstablishmentTypeGroup (name)": ["Local authority maintained schools"] * 3,
+            "TypeOfEstablishment (code)": [1, 1, 1],
             "TypeOfEstablishment (name)": ["Community school"] * 3,
+            "PhaseOfEducation (code)": [2, 2, 2],
             "PhaseOfEducation (name)": ["Primary"] * 3,
             "StatutoryLowAge": [5] * 3,
             "StatutoryHighAge": [11] * 3,
@@ -158,8 +179,9 @@ def test_build_transparency_files_structure():
             "Total pupils": [100, 200, 50],
             "SEN support": [10, 20, 5],
             "EHC plan": [2, 4, 1],
+            "Percentage SEN": [12.0, 12.0, 12.0],
         }
-    ).astype({"Total pupils": float, "SEN support": float, "EHC plan": float})
+    )
 
     census = (
         pd.DataFrame(
@@ -197,6 +219,7 @@ def test_build_transparency_files_structure():
                     100.0,
                 ],
             }
+            | {col: [np.nan] * 3 for col in _PUPIL_COMPARATOR_COLUMNS}
         )
         .astype(
             {
@@ -244,8 +267,8 @@ def test_build_transparency_files_structure():
         pru_last_year=pru_ly,
         hospital_schools_last_year=hospital_ly,
         year=year,
-        ilr=None,
-        gias_links=None,
+        ilr=pd.DataFrame(columns=["URN"]),
+        gias_links=pd.DataFrame(columns=["URN", "LinkURN"]),
     )
 
     # 3. Assertions
@@ -531,7 +554,9 @@ def test_build_transparency_files_structure_2026():
             "EstablishmentName": ["School 1", "School 2", "School 3"],
             "EstablishmentStatus (name)": ["Open", "Open", "Open"],
             "EstablishmentTypeGroup (name)": ["Local authority maintained schools"] * 3,
+            "TypeOfEstablishment (code)": [1, 1, 1],
             "TypeOfEstablishment (name)": ["Community school"] * 3,
+            "PhaseOfEducation (code)": [2, 2, 2],
             "PhaseOfEducation (name)": ["Primary"] * 3,
             "StatutoryLowAge": [5] * 3,
             "StatutoryHighAge": [11] * 3,
@@ -556,8 +581,9 @@ def test_build_transparency_files_structure_2026():
             "Total pupils": [100, 200, 50],
             "SEN support": [10, 20, 5],
             "EHC plan": [2, 4, 1],
+            "Percentage SEN": [12.0, 12.0, 12.0],
         }
-    ).astype({"Total pupils": float, "SEN support": float, "EHC plan": float})
+    )
 
     census = (
         pd.DataFrame(
@@ -595,6 +621,7 @@ def test_build_transparency_files_structure_2026():
                     100.0,
                 ],
             }
+            | {col: [np.nan] * 3 for col in _PUPIL_COMPARATOR_COLUMNS}
         )
         .astype(
             {
@@ -641,8 +668,8 @@ def test_build_transparency_files_structure_2026():
         pru_last_year=pru_ly,
         hospital_schools_last_year=hospital_ly,
         year=year,
-        ilr=None,
-        gias_links=None,
+        ilr=pd.DataFrame(columns=["URN"]),
+        gias_links=pd.DataFrame(columns=["URN", "LinkURN"]),
     )
 
     # Assertions
