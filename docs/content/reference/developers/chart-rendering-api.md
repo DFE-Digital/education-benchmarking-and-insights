@@ -327,6 +327,87 @@ See also:
 
 See above.
 
+### `POST api/lineChart`
+
+#### Input
+
+The payload expected by this endpoint is either a single or multiple `LineChartDefinition` types:
+
+| Required Property | Type     | Definition                                                                       |
+|-------------------|----------|----------------------------------------------------------------------------------|
+| `data`            | object[] | Array of items to render                                                         |
+| `keyField`        | string   | Key identifier (X-axis). Must resolve to a property on object types in `data`.   |
+| `valueField`      | string   | Value identifier (Y-axis). Must resolve to a property on object types in `data`. |
+
+> [!IMPORTANT]
+> If multiple definitions are supplied, the `id` property below is mandatory for each so as to not fail validation.
+
+| Optional Property | Type            | Default                | Definition                                                                        |
+|-------------------|-----------------|------------------------|-----------------------------------------------------------------------------------|
+| `height`          | number          | `500`                  | Height of chart surface                                                           |
+| `width`           | number          | `928`                  | Width of chart surface          |
+| `id`              | string          | New UUID v4            | Unique identifier of the chart data/configuration combination                     |
+| `showValueDots`   | boolean         | `true`                  | Whether to display data point dots on the trendline                                                            |
+| `showValueDots`   | boolean         | `true`                  | Whether to display data point dots on the trendline                                                            |
+| `showValueLabels` | boolean         | `true`                  | Whether to display numeric labels above data points                                                            |
+| `xAxisLabel`   | string         |                 | Label to render beneath the X-axis                                                            |
+
+#### Minimal example
+
+##### Request
+
+```sh
+curl -X 'POST' \
+  'http://localhost:7076/api/lineChart' \
+  -H 'accept: application/json' \
+  -H 'Content-Type: application/json' \
+  -d '[
+  {
+    "id": "line-test-1",
+    "width": 600,
+    "height": 300,
+    "valueField": "value",
+    "keyField": "year",
+    "data": [
+      { "year": "2020/21", "value": 41.0 },
+      { "year": "2021/22", "value": 50.0 },
+      { "year": "2022/23", "value": 30.0 },
+      { "year": "2023/24", "value": 40.5 },
+      { "year": "2024/25", "value": 33.3 }
+    ]
+  },
+  {
+    "id": "line-test-2",
+    "width": 600,
+    "height": 300,
+    "valueField": "value",
+    "keyField": "year",
+    "data": [
+      { "year": "2020/21", "value": 2.0 },
+      { "year": "2021/22", "value": 3.0 },
+      { "year": "2022/23", "value": 4.0 },
+      { "year": "2023/24", "value": 5.5 },
+      { "year": "2024/25", "value": 6.5 }
+    ]
+  }
+]'
+```
+
+##### Response body
+
+```json
+[
+  {
+    "id": "line-test-1",
+    "html": "<svg class=\"line-chart\" width=\"600\" height=\"300\" viewBox=\"0,0,600,300\" data-chart-id=\"line-test-1\" xmlns=\"http://www.w3.org/2000/svg\"><g transform=\"translate(40,20)\"><g class=\"chart-gridlines\"><line x1=\"0\" x2=\"520\" y1=\"235\" y2=\"235\"/><line x1=\"0\" x2=\"520\" y1=\"176.25\" y2=\"176.25\"/><line x1=\"0\" x2=\"520\" y1=\"117.5\" y2=\"117.5\"/><line x1=\"0\" x2=\"520\" y1=\"58.75\" y2=\"58.75\"/><line x1=\"0\" x2=\"520\" y1=\"0\" y2=\"0\"/></g><g class=\"chart-line chart-line-series-1\"><path class=\"line-curve\" fill=\"none\" d=\"M52,42.3L156,0L260,94L364,44.65L468,78.49\"/><g class=\"chart-value-dots\"><circle class=\"chart-value-dot\" cx=\"52\" cy=\"42.30000000000001\" r=\"6\"/><circle class=\"chart-value-dot\" cx=\"156\" cy=\"0\" r=\"6\"/><circle class=\"chart-value-dot\" cx=\"260\" cy=\"94\" r=\"6\"/><circle class=\"chart-value-dot\" cx=\"364\" cy=\"44.649999999999984\" r=\"6\"/><circle class=\"chart-value-dot\" cx=\"468\" cy=\"78.49000000000002\" r=\"6\"/></g><g class=\"chart-value-labels\"><text class=\"chart-value-label\" x=\"52\" y=\"27.30000000000001\">41</text><text class=\"chart-value-label\" x=\"156\" y=\"20\">50</text><text class=\"chart-value-label\" x=\"260\" y=\"79\">30</text><text class=\"chart-value-label\" x=\"364\" y=\"29.649999999999984\">40.5</text><text class=\"chart-value-label\" x=\"468\" y=\"63.49000000000002\">33.3</text></g></g><g class=\"chart-axis chart-axis-x\" transform=\"translate(0,235)\"><path class=\"domain\" d=\"M0,6V0.5H520V6\"/><g class=\"chart-tick\" transform=\"translate(52,0)\"><line y2=\"6\"/><text y=\"9\" dy=\"0.71em\">2020/21</text></g><g class=\"chart-tick\" transform=\"translate(156,0)\"><line y2=\"6\"/><text y=\"9\" dy=\"0.71em\">2021/22</text></g><g class=\"chart-tick\" transform=\"translate(260,0)\"><line y2=\"6\"/><text y=\"9\" dy=\"0.71em\">2022/23</text></g><g class=\"chart-tick\" transform=\"translate(364,0)\"><line y2=\"6\"/><text y=\"9\" dy=\"0.71em\">2023/24</text></g><g class=\"chart-tick\" transform=\"translate(468,0)\"><line y2=\"6\"/><text y=\"9\" dy=\"0.71em\">2024/25</text></g></g><g class=\"chart-axis chart-axis-y\"><g class=\"chart-tick\" transform=\"translate(0,235)\"><text x=\"-9\" dy=\"0.32em\">0</text></g><g class=\"chart-tick\" transform=\"translate(0,176.25)\"><text x=\"-9\" dy=\"0.32em\">12.5</text></g><g class=\"chart-tick\" transform=\"translate(0,117.5)\"><text x=\"-9\" dy=\"0.32em\">25</text></g><g class=\"chart-tick\" transform=\"translate(0,58.75)\"><text x=\"-9\" dy=\"0.32em\">37.5</text></g><g class=\"chart-tick\" transform=\"translate(0,0)\"><text x=\"-9\" dy=\"0.32em\">50</text></g></g></g></svg>"
+  },
+  {
+    "id": "line-test-2",
+    "html": "<svg class=\"line-chart\" width=\"600\" height=\"300\" viewBox=\"0,0,600,300\" data-chart-id=\"line-test-2\" xmlns=\"http://www.w3.org/2000/svg\"><g transform=\"translate(40,20)\"><g class=\"chart-gridlines\"><line x1=\"0\" x2=\"520\" y1=\"235\" y2=\"235\"/><line x1=\"0\" x2=\"520\" y1=\"176.25\" y2=\"176.25\"/><line x1=\"0\" x2=\"520\" y1=\"117.5\" y2=\"117.5\"/><line x1=\"0\" x2=\"520\" y1=\"58.75\" y2=\"58.75\"/><line x1=\"0\" x2=\"520\" y1=\"0\" y2=\"0\"/></g><g class=\"chart-line chart-line-series-1\"><path class=\"line-curve\" fill=\"none\" d=\"M52,167.857L156,134.286L260,100.714L364,50.357L468,16.786\"/><g class=\"chart-value-dots\"><circle class=\"chart-value-dot\" cx=\"52\" cy=\"167.85714285714286\" r=\"6\"/><circle class=\"chart-value-dot\" cx=\"156\" cy=\"134.28571428571428\" r=\"6\"/><circle class=\"chart-value-dot\" cx=\"260\" cy=\"100.71428571428572\" r=\"6\"/><circle class=\"chart-value-dot\" cx=\"364\" cy=\"50.35714285714286\" r=\"6\"/><circle class=\"chart-value-dot\" cx=\"468\" cy=\"16.785714285714278\" r=\"6\"/></g><g class=\"chart-value-labels\"><text class=\"chart-value-label\" x=\"52\" y=\"152.85714285714286\">2</text><text class=\"chart-value-label\" x=\"156\" y=\"119.28571428571428\">3</text><text class=\"chart-value-label\" x=\"260\" y=\"85.71428571428572\">4</text><text class=\"chart-value-label\" x=\"364\" y=\"35.35714285714286\">5.5</text><text class=\"chart-value-label\" x=\"468\" y=\"36.78571428571428\">6.5</text></g></g><g class=\"chart-axis chart-axis-x\" transform=\"translate(0,235)\"><path class=\"domain\" d=\"M0,6V0.5H520V6\"/><g class=\"chart-tick\" transform=\"translate(52,0)\"><line y2=\"6\"/><text y=\"9\" dy=\"0.71em\">2020/21</text></g><g class=\"chart-tick\" transform=\"translate(156,0)\"><line y2=\"6\"/><text y=\"9\" dy=\"0.71em\">2021/22</text></g><g class=\"chart-tick\" transform=\"translate(260,0)\"><line y2=\"6\"/><text y=\"9\" dy=\"0.71em\">2022/23</text></g><g class=\"chart-tick\" transform=\"translate(364,0)\"><line y2=\"6\"/><text y=\"9\" dy=\"0.71em\">2023/24</text></g><g class=\"chart-tick\" transform=\"translate(468,0)\"><line y2=\"6\"/><text y=\"9\" dy=\"0.71em\">2024/25</text></g></g><g class=\"chart-axis chart-axis-y\"><g class=\"chart-tick\" transform=\"translate(0,235)\"><text x=\"-9\" dy=\"0.32em\">0</text></g><g class=\"chart-tick\" transform=\"translate(0,176.25)\"><text x=\"-9\" dy=\"0.32em\">1.75</text></g><g class=\"chart-tick\" transform=\"translate(0,117.5)\"><text x=\"-9\" dy=\"0.32em\">3.5</text></g><g class=\"chart-tick\" transform=\"translate(0,58.75)\"><text x=\"-9\" dy=\"0.32em\">5.25</text></g><g class=\"chart-tick\" transform=\"translate(0,0)\"><text x=\"-9\" dy=\"0.32em\">7</text></g></g></g></svg>"
+  }
+]
+```
+
 ## Deployment
 
 The Chart Rendering function app is deployed and managed along with the other function apps in the Platform solution within the monorepo. The Terraform is slightly different due to this being a Node rather than .NET function app, but this is all managed within the `functions` TF module:
@@ -352,6 +433,13 @@ API tests against the Chart Rendering endpoints takes place within pipeline runs
 
 1. Vertical bars only are the only rendered elements at this time as relative entries alone required by consumer.
 2. Negative values may cause unexpected behaviour due to lack of data normalisation.
+
+### Line chart
+
+1. Negative values: Negative data values are not currently supported; data normalisation and scale domains expect non-negative values.
+2. Value types: Formatting is currently restricted to numeric value types; percent and currency formatting for Y-axis ticks and data labels are not yet implemented.
+3. Y-axis domain baseline: The Y-axis scale domain baseline always defaults to starting at zero.
+4. Series support: Only single-series trendlines are supported; multi-series rendering is not yet implemented.
 
 ## Horizontal stacked bar charts
 
@@ -593,7 +681,8 @@ Should that type of chart be created, there are a number of considerations in th
 
 ### Line chart
 
-This chart type does not yet exist in the Chart Rendering API. When implementing, the following features must be configurable:
+> [!NOTE]
+> Implementation Status: Single-series line charts with basic Y-axis ticks, X-axis labels, horizontal gridlines, value dots, and value labels have been partially implemented in the API. The guidance below is retained to inform future extensions (e.g., multi-series support, legends, interactive tooltips, and dynamic value formatting).
 
 1. Single/multi series
 2. X-axis label (values/visibility)
