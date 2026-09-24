@@ -66,7 +66,7 @@ public record LocalAuthorityRiskIndicatorsHistoryRows
         {
             MaxValue = maxSelector(orderedRows.First()),
             Data = orderedRows.Select(r => new RiskHistoryData(
-                Year: $"{r.Year - 1}/{r.Year}",
+                Year: $"{r.Year - 1} to {r.Year}",
                 Value: valueSelector(r)
             ))
         };

@@ -12,16 +12,17 @@ public class SchoolRisksHistoryViewModel(School school, RiskHistoryTrends risksH
     public RiskHistoryTrends RisksHistory => risksHistory;
     public IReadOnlyList<RiskSectionViewModel> Sections { get; } =
     [
-        new("Overall risk score", risksHistory.Overall),
-        new("Financial risk score", risksHistory.Financial),
-        new("Educational performance risk score*", risksHistory.EducationalPerformance,
+        new("Overall risk score", risksHistory.Overall.MaxValue , risksHistory.Overall),
+        new("Financial risk score", risksHistory.Financial.MaxValue, risksHistory.Financial),
+        new("Educational performance risk score", risksHistory.EducationalPerformance.MaxValue, risksHistory.EducationalPerformance,
             "*From financial year 2024/25, OFSTED risk has been removed from the risk score calculation. Also, KS2 progress score is not available for academic years 2023/24 and 2024/25. KS4 progress score is not available for academic year 2024/25. You may see a decrease in the educational performance risk score as a result."),
-        new("School & pupil risk score", risksHistory.SchoolAndPupil)
+        new("School & pupil risk score", risksHistory.SchoolAndPupil.MaxValue, risksHistory.SchoolAndPupil)
     ];
     public Views.ViewAsOptions ViewAs { get; init; } = Views.ViewAsOptions.Chart;
 }
 
 public record RiskSectionViewModel(
     string Title,
+    decimal MaxValue,
     RiskHistorySeries Series,
     string? Footnote = null);
