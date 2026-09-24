@@ -11,8 +11,33 @@ def test_bfr_metric_data_has_correct_output_columns(prepared_bfr_data: pd.DataFr
         "Category",
         "Value",
         "Trust UPIN",
-        "value",
     ]
+
+
+def test_bfr_slope_and_slope_flag_resolve_correctly(prepared_bfr_data: pd.DataFrame):
+    # 1. BudgetForecastReturn table data (prepared_bfr_data[0])
+    bfr_df = prepared_bfr_data[0]
+    assert "Slope" not in bfr_df["Category"].values
+    assert "Slope flag" not in bfr_df["Category"].values
+
+    # 2. BudgetForecastReturnMetric table data (prepared_bfr_data[1])
+    bfr_metrics_df = prepared_bfr_data[1]
+
+    slope_rows = bfr_metrics_df[bfr_metrics_df["Category"] == "Slope"]
+    slope_flag_rows = bfr_metrics_df[bfr_metrics_df["Category"] == "Slope flag"]
+
+    assert not slope_rows.empty, "Slope category should be present in BFR metrics"
+    assert not slope_flag_rows.empty, "Slope flag category should be present in BFR metrics"
+
+    # Assert that the "Value" (uppercase) column resolves to correct non-null float values for these rows
+    # (Since "Value" is the projected database column for metric values, mapping it correctly
+    # ensures it writes to the database as correct non-null numbers).
+    assert not slope_rows["Value"].isna().any(), "Slope value should not be null/NaN"
+    assert not slope_flag_rows["Value"].isna().any(), "Slope flag value should not be null/NaN"
+
+    # Check exact calculated values in the test fixture dataset
+    assert slope_rows["Value"].iloc[0] == pytest.approx(41560.0)
+    assert slope_flag_rows["Value"].iloc[0] == pytest.approx(0.0)
 
 
 def test_bfr_output_data_has_correct_output_columns(
