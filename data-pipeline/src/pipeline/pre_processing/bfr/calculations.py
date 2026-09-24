@@ -93,6 +93,7 @@ def slope_analysis(bfr):
         .melt(
             id_vars=["Company Registration Number", "Trust UPIN"],
             value_vars=["Slope", "Slope flag"],
+            value_name="Value",
         )
         .rename(columns={"variable": "Category"})
         .set_index("Company Registration Number")
