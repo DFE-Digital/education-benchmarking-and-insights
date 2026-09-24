@@ -55,8 +55,8 @@ export type LineChartBuilderOptions<T> = Omit<
   "legendLabels"
 > & {
   height: number;
+  valueType: ValueType;
   xAxisLabel?: string;
-  legendLabels?: string[];
   showValueDots?: boolean;
   showValueLabels?: boolean;
 };
@@ -68,14 +68,15 @@ export type LineChartDefinition = Pick<
   Partial<
     Pick<
       LineChartBuilderOptions<unknown>,
-      "height" | "xAxisLabel" | "showValueDots" | "showValueLabels"
+      | "height"
+      | "xAxisLabel"
+      | "showValueDots"
+      | "showValueLabels"
+      | "valueType"
     >
   > &
   Partial<
-    Pick<
-      ChartBuilderOptions<unknown>,
-      "domainMax" | "domainMin" | "highlightKey" | "id" | "sort" | "width"
-    >
+    Pick<ChartBuilderOptions<unknown>, "highlightKey" | "id" | "sort" | "width">
   > &
   ChartDefinition;
 

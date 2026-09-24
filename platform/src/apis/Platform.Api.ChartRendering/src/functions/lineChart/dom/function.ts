@@ -30,6 +30,7 @@ export async function lineChartDom(
       xAxisLabel,
       showValueDots,
       showValueLabels,
+      valueType,
       ...rest
     }) =>
       lineChartBuilder.buildChart({
@@ -42,6 +43,7 @@ export async function lineChartDom(
         xAxisLabel: xAxisLabel as never,
         showValueDots: showValueDots ?? true,
         showValueLabels: showValueLabels ?? true,
+        valueType: valueType ?? "numeric",
         ...rest,
       })
   );

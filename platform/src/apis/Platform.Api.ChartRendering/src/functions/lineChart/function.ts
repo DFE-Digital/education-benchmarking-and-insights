@@ -58,6 +58,7 @@ export async function lineChart(
         xAxisLabel,
         showValueDots,
         showValueLabels,
+        valueType,
         ...rest
       }) =>
         lineChartTemplate.buildChart({
@@ -70,6 +71,7 @@ export async function lineChart(
           xAxisLabel: xAxisLabel as never,
           showValueDots: showValueDots ?? true,
           showValueLabels: showValueLabels ?? true,
+          valueType: valueType ?? "numeric",
           ...rest,
         })
     );

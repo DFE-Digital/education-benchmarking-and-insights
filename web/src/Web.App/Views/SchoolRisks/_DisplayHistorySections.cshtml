@@ -1,12 +1,15 @@
 @using Web.App.Domain.Charts
+@using Web.App.Extensions
 @model Web.App.ViewModels.SchoolRisksHistoryViewModel
 
 @for (var i = 0; i < Model.Sections.Count; i++)
 {
     var riskSection = Model.Sections[i];
     var isLast = i == Model.Sections.Count - 1;
+    var hasFootnote = !string.IsNullOrEmpty(riskSection.Footnote);
+    var heading = $"{riskSection.Title}{(hasFootnote ? "*" : "")} (out of {riskSection.MaxValue.ToSimpleDisplay()})";
 
-    <h2 class="govuk-heading-m" data-testid="risk-history-heading">@riskSection.Title</h2>
+    <h2 class="govuk-heading-m" data-testid="risk-history-heading">@heading</h2>
 
     @if (Model.ViewAs == Views.ViewAsOptions.Chart)
     {
