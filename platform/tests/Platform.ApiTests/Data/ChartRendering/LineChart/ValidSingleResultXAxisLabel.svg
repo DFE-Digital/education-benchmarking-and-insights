@@ -1,0 +1,69 @@
+﻿<svg class="line-chart" width="600" height="300" viewBox="0,0,600,300" data-chart-id="line-test" xmlns="http://www.w3.org/2000/svg">
+    <g transform="translate(40,20)">
+        <g class="chart-gridlines">
+            <line x1="0" x2="520" y1="200" y2="200" />
+            <line x1="0" x2="520" y1="150" y2="150" />
+            <line x1="0" x2="520" y1="100" y2="100" />
+            <line x1="0" x2="520" y1="50" y2="50" />
+            <line x1="0" x2="520" y1="0" y2="0" />
+        </g>
+        <g class="chart-line chart-line-series-1">
+            <path class="line-curve" fill="none" d="M52,36L156,0L260,80L364,38L468,66.8" />
+            <g class="chart-value-dots">
+                <circle class="chart-value-dot" cx="52" cy="36.00000000000001" r="6" />
+                <circle class="chart-value-dot" cx="156" cy="0" r="6" />
+                <circle class="chart-value-dot" cx="260" cy="80" r="6" />
+                <circle class="chart-value-dot" cx="364" cy="37.999999999999986" r="6" />
+                <circle class="chart-value-dot" cx="468" cy="66.80000000000001" r="6" />
+            </g>
+            <g class="chart-value-labels">
+                <text class="chart-value-label" x="52" y="21.000000000000007">41</text>
+                <text class="chart-value-label" x="156" y="20">50</text>
+                <text class="chart-value-label" x="260" y="65">30</text>
+                <text class="chart-value-label" x="364" y="22.999999999999986">40.5</text>
+                <text class="chart-value-label" x="468" y="51.80000000000001">33.3</text>
+            </g>
+        </g>
+        <g class="chart-axis chart-axis-x" transform="translate(0,200)">
+            <path class="domain" d="M0,6V0.5H520V6" />
+            <g class="chart-tick" transform="translate(52,0)">
+                <line y2="6" />
+                <text y="9" dy="0.71em">2020/21</text>
+            </g>
+            <g class="chart-tick" transform="translate(156,0)">
+                <line y2="6" />
+                <text y="9" dy="0.71em">2021/22</text>
+            </g>
+            <g class="chart-tick" transform="translate(260,0)">
+                <line y2="6" />
+                <text y="9" dy="0.71em">2022/23</text>
+            </g>
+            <g class="chart-tick" transform="translate(364,0)">
+                <line y2="6" />
+                <text y="9" dy="0.71em">2023/24</text>
+            </g>
+            <g class="chart-tick" transform="translate(468,0)">
+                <line y2="6" />
+                <text y="9" dy="0.71em">2024/25</text>
+            </g>
+            <text class="chart-axis-label" x="260" y="45">test</text>
+        </g>
+        <g class="chart-axis chart-axis-y">
+            <g class="chart-tick" transform="translate(0,200)">
+                <text x="-9" dy="0.32em">0</text>
+            </g>
+            <g class="chart-tick" transform="translate(0,150)">
+                <text x="-9" dy="0.32em">12.5</text>
+            </g>
+            <g class="chart-tick" transform="translate(0,100)">
+                <text x="-9" dy="0.32em">25</text>
+            </g>
+            <g class="chart-tick" transform="translate(0,50)">
+                <text x="-9" dy="0.32em">37.5</text>
+            </g>
+            <g class="chart-tick" transform="translate(0,0)">
+                <text x="-9" dy="0.32em">50</text>
+            </g>
+        </g>
+    </g>
+</svg>

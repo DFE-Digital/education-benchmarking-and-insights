@@ -1,0 +1,28 @@
+﻿[
+  {
+    "width": 600,
+    "height": 300,
+    "valueField": "value",
+    "keyField": "year",
+    "data": [
+      { "year": "2020/21", "value": 41.0 },
+      { "year": "2021/22", "value": 50.0 },
+      { "year": "2022/23", "value": 30.0 },
+      { "year": "2023/24", "value": 40.5 },
+      { "year": "2024/25", "value": 33.3 }
+    ]
+  },
+  {
+    "width": 600,
+    "height": 300,
+    "valueField": "value",
+    "keyField": "year",
+    "data": [
+      { "year": "2020/21", "value": 2.0 },
+      { "year": "2021/22", "value": 3.0 },
+      { "year": "2022/23", "value": 4.0 },
+      { "year": "2023/24", "value": 5.5 },
+      { "year": "2024/25", "value": 6.5 }
+    ]
+  }
+]
