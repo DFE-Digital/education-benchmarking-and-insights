@@ -134,7 +134,7 @@ def add_financials(merged: pd.DataFrame) -> pd.DataFrame:
         ["I01", "I02", "I03", "I04", "I05", "I06", "I07", "I15", "I16", "I18c", "I18d"]
     ].sum(axis=1)
     m["Direct Grants: I01:I02 + I06:I07"] = m[["I01", "I02", "I06", "I07"]].sum(axis=1)
-    m["Community Grants: I16+I18"] = m[["I16", "I18c", "I18d"]].sum(axis=1)
+    m["Community Grants: I16+I17"] = m[["I16", "I17"]].sum(axis=1)
     m["Targetted Grants: I03:I05 + I15"] = m[["I03", "I04", "I05", "I15"]].sum(axis=1)
     m["Self Generated Funding: (I08a/b:I13) + I17"] = m[
         ["I08a", "I08b", "I09", "I10", "I11", "I12", "I13", "I17"]
