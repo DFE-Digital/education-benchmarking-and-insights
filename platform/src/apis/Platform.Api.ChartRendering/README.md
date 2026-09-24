@@ -27,17 +27,17 @@ Data is processed through either a high-performance **Template** (string-based) 
 
 ## Key Definitions
 
-- `HorizontalBarChartDefinition` / `VerticalBarChartDefinition`: The primary public-facing contracts defining data points, layout, formatting, and axes. These are explicitly exported and annotated for OpenAPI generation.
+- `HorizontalBarChartDefinition` / `VerticalBarChartDefinition` / `LineChartDefinition`: The primary public-facing contracts defining data points, layout, formatting, and axes. These are explicitly exported and annotated for OpenAPI generation.
 - `ChartBuilderResult`: The standard output containing the unique chart `id` and the generated `html` (SVG) string.
 - `ValueType`: Enum (`percent`, `currency`, `numeric`) determining how data is normalized and axes are formatted.
-- `HorizontalBarChartTemplate`: Optimized class for rendering horizontal bar charts via manual XML string building.
-- `HorizontalBarChartBuilder`: Alternative renderer using a virtual DOM for complex D3 manipulations.
+- `HorizontalBarChartTemplate` / `LineChartTemplate` : Optimized class for rendering via manual XML string building.
+- `HorizontalBarChartBuilder` / `LineChartBuilder` : Alternative renderer using a virtual DOM for complex D3 manipulations.
 - `normaliseData`: Utility that handles percentage division and null-value defaults across different data types.
 
 ## Integration Points
 
 - **Inbound:** Triggered by frontend components or PDF generation services requiring static chart assets.
-- **Outbound:** Telemetry sent to **Application Insights** (tracks `horizontalBarChartWorker` and `verticalBarChartWorker` dependencies).
+- **Outbound:** Telemetry sent to **Application Insights** (tracks `horizontalBarChartWorker`, `verticalBarChartWorker` `lineChartWorker` dependencies).
 - **Internal:** Relies on `src/functions/utils.ts` for shared mathematical and formatting logic.
 
 ## Development Standards
