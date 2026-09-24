@@ -106,6 +106,7 @@ _transparency_file_base_mappings = {
     "Total Expenditure: (E01:E29 + E31 + E32)": "Total Expenditure excluding E30",
 }
 
+# 2026 CFR has no I18 column, so references in column names need to be removed
 _transparency_file_2026_mappings = _transparency_file_base_mappings.copy()
 _transparency_file_2026_mappings.pop(
     "I18c Income from the £1bn COVID-19 catch-up package announced on 20 July 2020",
@@ -113,7 +114,17 @@ _transparency_file_2026_mappings.pop(
 )
 _transparency_file_2026_mappings.pop("I18d Income from other additional grants", None)
 _transparency_file_2026_mappings.pop("I18 Total additional grant for schools", None)
-
+_transparency_file_2026_mappings[
+    "In-year Balance: Total Income (I01:I17 - E30) - Total Expenditure (E01:E29 + E31 + E32)"
+] = _transparency_file_2026_mappings.pop(
+    "In-year Balance: Total Income (I01:I18 - E30) - Total Expenditure (E01:E29 + E31 + E32)"
+)
+_transparency_file_2026_mappings[
+    "Grant Funding: (I01:I07) + I15 + I16"] = _transparency_file_2026_mappings.pop(
+    "Grant Funding: (I01:I07) + I15 + I16 + I18a/b/c/d")
+_transparency_file_2026_mappings[
+    "Total Income: I01:I17 - E30"] = _transparency_file_2026_mappings.pop(
+    "Total Income: I01:I18 - E30")
 
 def get_transparency_file_schema(year):
     match year:
