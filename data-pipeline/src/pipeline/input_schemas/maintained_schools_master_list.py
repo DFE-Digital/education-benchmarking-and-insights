@@ -1,3 +1,5 @@
+from .utils import evolve_schema
+
 maintained_schools_master_list_index_col = "URN"
 
 _maintained_default = {
@@ -64,10 +66,10 @@ _maintained_default = {
 }
 
 # Starting in 2025, E20 (ICT learning resources) was split into multiple subcategories (E20A-E20G)
-_maintained_split_ict = _maintained_default.copy()
-_maintained_split_ict.pop("E20  ICT learning resources", None)
-_maintained_split_ict.update(
-    {
+_maintained_split_ict = evolve_schema(
+    _maintained_default,
+    removals=["E20  ICT learning resources"],
+    additions={
         "E20A  Connectivity": "float",
         "E20B  Onsite servers": "float",
         "E20C  IT learning resources": "float",
@@ -75,7 +77,7 @@ _maintained_split_ict.update(
         "E20E  Laptops, desktops and tablets": "float",
         "E20F  Other hardware": "float",
         "E20G  IT support": "float",
-    }
+    },
 )
 
 maintained_schools_master_list_cols = {
@@ -210,9 +212,13 @@ _master_list_base_mappings = {
     "Total Expenditure": "Total Expenditure excluding E30",
 }
 
-_master_list_2026_mappings = _master_list_base_mappings.copy()
-_master_list_2026_mappings.pop("I18  Additional grant for schools", None)
-_master_list_2026_mappings.pop("Total Income   I01 to I08, I11 to I15, I18", None)
+_master_list_2026_mappings = evolve_schema(
+    _master_list_base_mappings,
+    removals=[
+        "I18  Additional grant for schools",
+        "Total Income   I01 to I08, I11 to I15, I18",
+    ],
+)
 
 
 def get_master_list_mappings(year):

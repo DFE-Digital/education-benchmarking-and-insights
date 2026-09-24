@@ -94,6 +94,7 @@ from .maintained_schools_master_list import (
     maintained_schools_master_list_index_col,
 )
 from .pru import pru_cols, pru_index_col
+from .utils import evolve_schema
 
 gias_links_index_col = "URN"
 gias_links = {
