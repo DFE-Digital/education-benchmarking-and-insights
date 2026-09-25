@@ -405,7 +405,7 @@ def test_build_transparency_files_structure():
         "In-year Balance: Total Income (I01:I18 - E30) - Total Expenditure (E01:E29 + E31 + E32)",
         "Grant Funding: (I01:I07) + I15 + I16 + I18a/b/c/d",
         "Direct Grants: I01:I02 + I06:I07",
-        "Community Grants: I16+I17",
+        "Community Grants: I16+I18",
         "Targetted Grants: I03:I05 + I15",
         "Self Generated Funding: (I08a/b:I13) + I17",
         "Total Income: I01:I18 - E30",

@@ -193,7 +193,7 @@ _master_list_base_mappings = {
     "In-year Balance   Total Income (I01 to I18) minus Total Expenditure (E01 to E32)": "In-year Balance",
     "Grant Funding": "Grant Funding: (I01:I07) + I15 + I16 + I18a/b/c/d",
     "Direct Grant": "Direct Grants: I01:I02 + I06:I07",
-    "Community Grants": "Community Grants: I16+I17",
+    "Community Grants": "Community Grants: I16+I18",
     "Targeted Grants": "Targetted Grants: I03:I05 + I15",
     "Self Generated Funding": "Self Generated Funding: (I08a/b:I13) + I17",
     "Total Income ": "Total income",

@@ -136,7 +136,7 @@ def build_sfb_maintained(
         "B06 Community-focused school revenue balances", "B07 Outstanding balance on capital loans to school",
         "Revenue Reserve: B01 + B02 + B06", "In-year Balance",
         "Grant Funding: (I01:I07) + I15 + I16 + I18a/b/c/d", "Direct Grants: I01:I02 + I06:I07",
-        "Community Grants: I16+I17", "Targetted Grants: I03:I05 + I15",
+        "Community Grants: I16+I18", "Targetted Grants: I03:I05 + I15",
         "Self Generated Funding: (I08a/b:I13) + I17", "Total income", "Teaching Staff: E01",
         "Supply Staff: E02 + E10 + E26", "Education support staff: E03",
         "Other Staff Costs: (E07:E09) + E11", "Staff Total: (E01:E03) + E05 + (E07: E11) + E26",

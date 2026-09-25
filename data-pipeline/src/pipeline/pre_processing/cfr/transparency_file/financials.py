@@ -134,7 +134,7 @@ def add_financials(merged: pd.DataFrame) -> pd.DataFrame:
         ["I01", "I02", "I03", "I04", "I05", "I06", "I07", "I15", "I16", "I18c", "I18d"]
     ].sum(axis=1)
     m["Direct Grants: I01:I02 + I06:I07"] = m[["I01", "I02", "I06", "I07"]].sum(axis=1)
-    m["Community Grants: I16+I17"] = m[["I16", "I17"]].sum(axis=1)
+    m["Community Grants: I16+I18"] = m[["I16", "I18c", "I18d"]].sum(axis=1)
     m["Targetted Grants: I03:I05 + I15"] = m[["I03", "I04", "I05", "I15"]].sum(axis=1)
     m["Self Generated Funding: (I08a/b:I13) + I17"] = m[
         ["I08a", "I08b", "I09", "I10", "I11", "I12", "I13", "I17"]
@@ -156,8 +156,8 @@ def add_financials(merged: pd.DataFrame) -> pd.DataFrame:
     m["Supplies and Services: (E19:E22) + (E27:E28b)"] = m[
         ["E19", "E20A", "E20B", "E20C", "E20D", "E20E", "E20F", "E20G", "E21", "E22", "E27", "E28a", "E28b"]
     ].sum(axis=1)
-    m["Educational Supplies: (E19:E21)"] = m[
-        ["E19", "E20A", "E20B", "E20C", "E20D", "E20E", "E20F", "E20G", "E21"]
+    m["Educational Supplies: (E19:E20C) + (E20E:E21)"] = m[
+        ["E19", "E20A", "E20B", "E20C", "E20E", "E20F", "E20G", "E21"]
     ].sum(axis=1)
     m["Brought in Professional Sevices: (E27 + E28a)"] = m[["E27", "E28a"]].sum(axis=1)
     m["Community Exp: E31 + E32"] = m[["E31", "E32"]].sum(axis=1)
