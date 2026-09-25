@@ -100,7 +100,7 @@ def map_admission_policy(admission_policy: str):
         case "selective":
             return "Selective"
         case "non-selective" | "not applicable":
-            return "HI selective"
+            return "N/A"
         case _:
             return "Unknown"
 
