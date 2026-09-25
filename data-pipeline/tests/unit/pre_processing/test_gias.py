@@ -163,7 +163,7 @@ def test_boarders_is_mapped_correctly(
 
 @pytest.mark.parametrize(
     "urn,expected",
-    [(100150, "HI selective"), (100152, "HI selective"), (100153, "Selective")],
+    [(100150, "N/A"), (100152, "N/A"), (100153, "Selective")],
 )
 def test_admissions_policy_is_mapped_correctly(
     urn, expected, prepared_schools_data: pd.DataFrame

@@ -106,8 +106,8 @@ def test_map_has_nursery(nursery, expected):
     "admission_policy,expected",
     [
         ("Selective", "Selective"),
-        ("Non-Selective", "HI selective"),
-        ("Not applicable", "HI selective"),
+        ("Non-Selective", "N/A"),
+        ("Not applicable", "N/A"),
         ("Other", "Unknown"),
     ],
 )
