@@ -205,7 +205,7 @@ _master_list_base_mappings = {
     "Catering Exp": "Catering Expenses: E06 + E25",
     "Occupation": "Occupation: E06 + (E15:E18) + E23 + E25",
     "Supplies and Services": "Supplies and Services: (E19:E22) + (E27:E28b)",
-    "Educational Supplies": "Educational Supplies: (E19:E21)",
+    "Educational Supplies": "Educational Supplies: (E19:E20C) + (E20E:E21)",
     "Brought in Professional Sevices": "Brought in Professional Sevices: (E27 + E28a)",
     "Cost of Finance": None,
     "Community Exp": "Community Exp: E31 + E32",

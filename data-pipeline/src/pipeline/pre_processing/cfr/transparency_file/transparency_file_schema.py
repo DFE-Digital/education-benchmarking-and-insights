@@ -102,7 +102,7 @@ _transparency_file_base_mappings = {
     "Catering Expenses: E06 + E25": "Catering Expenses: E06 + E25",
     "Occupation: E06 + (E15:E18) + E23 + E25": "Occupation: E06 + (E15:E18) + E23 + E25",
     "Supplies and Services: (E19:E22) + (E27:E28b)": "Supplies and Services: (E19:E22) + (E27:E28b)",
-    "Educational Supplies: (E19:E21)": "Educational Supplies: (E19:E21)",
+    "Educational Supplies: (E19:E20C) + (E20E:E21)": "Educational Supplies: (E19:E20C) + (E20E:E21)",
     "Brought in Professional Services: (E27 + E28a)": "Brought in Professional Sevices: (E27 + E28a)",
     "Community Exp: E31 + E32": "Community Exp: E31 + E32",
     "Total Expenditure: (E01:E29 + E31 + E32)": "Total Expenditure excluding E30",

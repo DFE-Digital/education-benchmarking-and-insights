@@ -419,7 +419,7 @@ def test_build_transparency_files_structure():
         "Catering Expenses: E06 + E25",
         "Occupation: E06 + (E15:E18) + E23 + E25",
         "Supplies and Services: (E19:E22) + (E27:E28b)",
-        "Educational Supplies: (E19:E21)",
+        "Educational Supplies: (E19:E20C) + (E20E:E21)",
         "Brought in Professional Services: (E27 + E28a)",
         "Community Exp: E31 + E32",
         "Total Expenditure: (E01:E29 + E31 + E32)",
@@ -675,6 +675,11 @@ def test_build_transparency_files_structure_2026():
     # Assertions
     assert isinstance(master_list, pd.DataFrame)
     assert isinstance(transparency_file, pd.DataFrame)
+
+    # Check master list contains Educational Supplies
+    assert "Educational Supplies" in master_list.columns
+    school_1_ml = master_list[master_list["LAEstab"] == 1001001].iloc[0]
+    assert school_1_ml["Educational Supplies"] != "DNS"
 
     # Check normal school
     school_1 = transparency_file[transparency_file["LAEstab"] == 1001001].iloc[0]

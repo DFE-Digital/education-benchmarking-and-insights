@@ -142,7 +142,7 @@ def build_sfb_maintained(
         "Other Staff Costs: (E07:E09) + E11", "Staff Total: (E01:E03) + E05 + (E07: E11) + E26",
         "Maintenance & Improvement: E12 + E13", "Premises: (E12:E14) + E04 + E28b",
         "Catering Expenses: E06 + E25", "Occupation: E06 + (E15:E18) + E23 + E25",
-        "Supplies and Services: (E19:E22) + (E27:E28b)", "Educational Supplies: (E19:E21)",
+        "Supplies and Services: (E19:E22) + (E27:E28b)", "Educational Supplies: (E19:E20C) + (E20E:E21)",
         "Brought in Professional Sevices: (E27 + E28a)", "Community Exp: E31 + E32",
         "Total Expenditure excluding E30"
     ]
