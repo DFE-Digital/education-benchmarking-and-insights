@@ -29,6 +29,8 @@ def build_transparency_files(
     pru_last_year: pd.DataFrame,
     hospital_schools_last_year: pd.DataFrame,
     year: int,
+    ilr: pd.DataFrame,
+    gias_links: pd.DataFrame,
 ) -> tuple[pd.DataFrame, pd.DataFrame]:
     """
     Coordinates the generation of the CFR transparency files (Master List and Download File).
@@ -56,6 +58,8 @@ def build_transparency_files(
         pru_last_year=pru_last_year,
         hospital_schools_last_year=hospital_schools_last_year,
         year=year,
+        ilr=ilr,
+        gias_links=gias_links,
     )
     logger.info(f"Built federation context. Shape: {cfr_federations_with_context.shape}")
 

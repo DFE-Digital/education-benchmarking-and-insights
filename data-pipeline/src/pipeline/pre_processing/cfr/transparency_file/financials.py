@@ -156,8 +156,8 @@ def add_financials(merged: pd.DataFrame) -> pd.DataFrame:
     m["Supplies and Services: (E19:E22) + (E27:E28b)"] = m[
         ["E19", "E20A", "E20B", "E20C", "E20D", "E20E", "E20F", "E20G", "E21", "E22", "E27", "E28a", "E28b"]
     ].sum(axis=1)
-    m["Educational Supplies: (E19:E21)"] = m[
-        ["E19", "E20A", "E20B", "E20C", "E20D", "E20E", "E20F", "E20G", "E21"]
+    m["Educational Supplies: (E19:E20C) + (E20E:E21)"] = m[
+        ["E19", "E20A", "E20B", "E20C", "E20E", "E20F", "E20G", "E21"]
     ].sum(axis=1)
     m["Brought in Professional Sevices: (E27 + E28a)"] = m[["E27", "E28a"]].sum(axis=1)
     m["Community Exp: E31 + E32"] = m[["E31", "E32"]].sum(axis=1)

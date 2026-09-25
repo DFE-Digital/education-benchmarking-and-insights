@@ -8,6 +8,25 @@ from pipeline.pre_processing.cfr.transparency_file.generator import (
     build_transparency_files,
 )
 
+_PUPIL_COMPARATOR_COLUMNS = [
+    "NonClassroomSupportStaffFTE",
+    "NonClassroomSupportStaffHeadcount",
+    "Percentage Primary Need SLD",
+    "Percentage Primary Need SPLD",
+    "Percentage Primary Need VI",
+    "Percentage Primary Need PD",
+    "Percentage Primary Need SLCN",
+    "Percentage Primary Need OTH",
+    "Percentage with EHC",
+    "Percentage Primary Need ASD",
+    "Percentage Primary Need SEMH",
+    "Percentage without EHC",
+    "Percentage Primary Need PMLD",
+    "Percentage Primary Need HI",
+    "Percentage Primary Need MLD",
+    "Percentage Primary Need MSI",
+]
+
 
 def test_build_transparency_files_structure():
     # 1. Setup Mock Inputs
@@ -133,7 +152,9 @@ def test_build_transparency_files_structure():
             "EstablishmentName": ["School 1", "School 2", "School 3"],
             "EstablishmentStatus (name)": ["Open", "Open", "Open"],
             "EstablishmentTypeGroup (name)": ["Local authority maintained schools"] * 3,
+            "TypeOfEstablishment (code)": [1, 1, 1],
             "TypeOfEstablishment (name)": ["Community school"] * 3,
+            "PhaseOfEducation (code)": [2, 2, 2],
             "PhaseOfEducation (name)": ["Primary"] * 3,
             "StatutoryLowAge": [5] * 3,
             "StatutoryHighAge": [11] * 3,
@@ -158,8 +179,9 @@ def test_build_transparency_files_structure():
             "Total pupils": [100, 200, 50],
             "SEN support": [10, 20, 5],
             "EHC plan": [2, 4, 1],
+            "Percentage SEN": [12.0, 12.0, 12.0],
         }
-    ).astype({"Total pupils": float, "SEN support": float, "EHC plan": float})
+    )
 
     census = (
         pd.DataFrame(
@@ -197,6 +219,7 @@ def test_build_transparency_files_structure():
                     100.0,
                 ],
             }
+            | {col: [np.nan] * 3 for col in _PUPIL_COMPARATOR_COLUMNS}
         )
         .astype(
             {
@@ -244,6 +267,8 @@ def test_build_transparency_files_structure():
         pru_last_year=pru_ly,
         hospital_schools_last_year=hospital_ly,
         year=year,
+        ilr=pd.DataFrame(columns=["URN"]),
+        gias_links=pd.DataFrame(columns=["URN", "LinkURN"]),
     )
 
     # 3. Assertions
@@ -394,7 +419,7 @@ def test_build_transparency_files_structure():
         "Catering Expenses: E06 + E25",
         "Occupation: E06 + (E15:E18) + E23 + E25",
         "Supplies and Services: (E19:E22) + (E27:E28b)",
-        "Educational Supplies: (E19:E21)",
+        "Educational Supplies: (E19:E20C) + (E20E:E21)",
         "Brought in Professional Services: (E27 + E28a)",
         "Community Exp: E31 + E32",
         "Total Expenditure: (E01:E29 + E31 + E32)",
@@ -529,7 +554,9 @@ def test_build_transparency_files_structure_2026():
             "EstablishmentName": ["School 1", "School 2", "School 3"],
             "EstablishmentStatus (name)": ["Open", "Open", "Open"],
             "EstablishmentTypeGroup (name)": ["Local authority maintained schools"] * 3,
+            "TypeOfEstablishment (code)": [1, 1, 1],
             "TypeOfEstablishment (name)": ["Community school"] * 3,
+            "PhaseOfEducation (code)": [2, 2, 2],
             "PhaseOfEducation (name)": ["Primary"] * 3,
             "StatutoryLowAge": [5] * 3,
             "StatutoryHighAge": [11] * 3,
@@ -554,8 +581,9 @@ def test_build_transparency_files_structure_2026():
             "Total pupils": [100, 200, 50],
             "SEN support": [10, 20, 5],
             "EHC plan": [2, 4, 1],
+            "Percentage SEN": [12.0, 12.0, 12.0],
         }
-    ).astype({"Total pupils": float, "SEN support": float, "EHC plan": float})
+    )
 
     census = (
         pd.DataFrame(
@@ -593,6 +621,7 @@ def test_build_transparency_files_structure_2026():
                     100.0,
                 ],
             }
+            | {col: [np.nan] * 3 for col in _PUPIL_COMPARATOR_COLUMNS}
         )
         .astype(
             {
@@ -639,11 +668,18 @@ def test_build_transparency_files_structure_2026():
         pru_last_year=pru_ly,
         hospital_schools_last_year=hospital_ly,
         year=year,
+        ilr=pd.DataFrame(columns=["URN"]),
+        gias_links=pd.DataFrame(columns=["URN", "LinkURN"]),
     )
 
     # Assertions
     assert isinstance(master_list, pd.DataFrame)
     assert isinstance(transparency_file, pd.DataFrame)
+
+    # Check master list contains Educational Supplies
+    assert "Educational Supplies" in master_list.columns
+    school_1_ml = master_list[master_list["LAEstab"] == 1001001].iloc[0]
+    assert school_1_ml["Educational Supplies"] != "DNS"
 
     # Check normal school
     school_1 = transparency_file[transparency_file["LAEstab"] == 1001001].iloc[0]
@@ -659,3 +695,173 @@ def test_build_transparency_files_structure_2026():
     )
     assert "I18d Income from other additional grants" not in transparency_file.columns
     assert "I18 Total additional grant for schools" not in transparency_file.columns
+
+
+def test_closed_school_download_file_census_presence():
+    # 1. Setup Mock Inputs
+    year = 2025
+
+    # Minimal raw CFR CSV
+    all_cols = ["LANumber", "LEAEstab", "Estab", "Federated Flag", "LAEstab of School in Federation 1", "LAEstab of School in Federation 2", "LAEstab of School in Federation 3", "LAEstab of School in Federation 4", "LAEstab of School in Federation 5", "LAEstab of School in Federation 6", "LAEstab of School in Federation 7", "LAEstab of School in Federation 8", "LAEstab of School in Federation 9", "LAEstab of School in Federation 10", "LAEstab of School in Federation 11", "LAEstab of School in Federation 12", "LAEstab of School in Federation 13", "LAEstab of School in Federation 14", "LAEstab of School in Federation 15", "LAEstab of School in Federation 16", "LAEstab of School in Federation 17", "LAEstab of School in Federation 18", "LAEstab of School in Federation 19", "LAEstab of School in Federation 20", "Did Not Submit"] + [
+        "I01", "I02", "I03", "I04", "I05", "I06", "I07", "I08a", "I08b", "I09", "I10", "I11", "I12", "I13", "I15", "I16", "I17", "I18c", "I18d",
+        "E01", "E02", "E03", "E04", "E05", "E06", "E07", "E08", "E09", "E10", "E11", "E12", "E13", "E14", "E15", "E16", "E17", "E18", "E19", "E20A", "E20B", "E20C", "E20D", "E20E", "E20F", "E20G", "E21", "E22", "E23", "E24", "E25", "E26", "E27", "E28a", "E28b", "E29", "E30", "E31", "E32",
+        "OB01", "OB02", "OB03", "CI01", "CI03", "CI04", "CE01", "CE02", "CE03", "CE04A", "CE04B", "CE04C", "CE04D", "CE04E", "B01", "B02", "B03", "B05", "B06", "B07",
+    ]
+    header = ",".join(all_cols)
+    row1 = ["100", "1001001", "1001", "No"] + ["0"] * 20 + ["n/a"] + ["1000"] * (len(all_cols) - 25)
+    row2 = ["100", "1001002", "1002", "No"] + ["0"] * 20 + ["n/a"] + ["2000"] * (len(all_cols) - 25)
+    row3 = ["100", "1001003", "1003", "No"] + ["0"] * 20 + ["n/a"] + ["3000"] * (len(all_cols) - 25)
+
+    full_cfr_csv = header + "\n" + ",".join(row1) + "\n" + ",".join(row2) + "\n" + ",".join(row3)
+    cfr_raw_blob = io.StringIO(full_cfr_csv)
+
+    gias = pd.DataFrame(
+        {
+            "LA (code)": [100, 100, 100],
+            "LA (name)": ["Test LA", "Test LA", "Test LA"],
+            "EstablishmentNumber": [1001, 1002, 1003],
+            "LAEstab": [1001001, 1001002, 1001003],
+            "URN": [1, 2, 3],
+            "EstablishmentName": ["School 1", "School 2", "School 3"],
+            "EstablishmentStatus (name)": ["Open", "Closed", "Closed"],
+            "EstablishmentTypeGroup (name)": ["Local authority maintained schools"] * 3,
+            "TypeOfEstablishment (code)": [1, 1, 1],
+            "TypeOfEstablishment (name)": ["Community school"] * 3,
+            "PhaseOfEducation (code)": [2, 2, 2],
+            "PhaseOfEducation (name)": ["Primary"] * 3,
+            "StatutoryLowAge": [5] * 3,
+            "StatutoryHighAge": [11] * 3,
+            "Gender (name)": ["Mixed"] * 3,
+            "AdmissionsPolicy (name)": ["Non-selective"] * 3,
+            "OfficialSixthForm (name)": ["Has no sixth form"] * 3,
+            "UrbanRural (name)": ["Urban"] * 3,
+            "CloseDate": [np.nan, "2024-08-31", "2024-08-31"],
+            "OpenDate": ["2000-01-01"] * 3,
+        }
+    )
+
+    pru = pd.DataFrame(columns=["LAEstab", "Headcount"]).astype({"LAEstab": "Int64", "Headcount": float})
+    hospital_schools = pd.DataFrame(columns=["LAEstab", "GHSIndicator", "TotalHeadcount"]).astype({"LAEstab": "Int64", "GHSIndicator": "string", "TotalHeadcount": float})
+    sen = pd.DataFrame({"URN": [1, 2, 3], "Total pupils": [100, 200, 50], "SEN support": [10, 20, 5], "EHC plan": [2, 4, 1], "Percentage SEN": [12.0, 12.0, 12.0]})
+
+    # Current year census only has School 2 (URN=2)
+    # School 1 (URN=1) and School 3 (URN=3) do not appear in current year census
+    census = (
+        pd.DataFrame(
+            {
+                "URN": [2],
+                "LAEstab": [1001002],
+                "Number of pupils": [200.0],
+                "Number of pupils (headcount)": [200.0],
+                "total boarders": [0.0],
+                "number of pupils known to be eligible for free school meals": [40.0],
+                "number of pupils whose first language is known or believed to be other than English": [10.0],
+                "Percentage Free school meals": [20.0],
+                "% of pupils whose first language is known or believed to be other than English": [5.0],
+                "Total Number of Teachers (Full-Time Equivalent)": [10.0],
+                "Total Number of Teaching Assistants (Full-Time Equivalent)": [4.0],
+                "Teachers with Qualified Teacher Status (%) (Headcount)": [95.0],
+            }
+            | {col: [np.nan] for col in _PUPIL_COMPARATOR_COLUMNS}
+        )
+        .astype(
+            {
+                "LAEstab": "Int64",
+                "Number of pupils": float,
+                "Number of pupils (headcount)": float,
+                "total boarders": float,
+                "number of pupils known to be eligible for free school meals": float,
+                "number of pupils whose first language is known or believed to be other than English": float,
+                "Percentage Free school meals": float,
+                "% of pupils whose first language is known or believed to be other than English": float,
+                "Total Number of Teachers (Full-Time Equivalent)": float,
+                "Total Number of Teaching Assistants (Full-Time Equivalent)": float,
+                "Teachers with Qualified Teacher Status (%) (Headcount)": float,
+            }
+        )
+        .set_index("URN")
+    )
+
+    # Last year's census has all 3 schools
+    census_ly = (
+        pd.DataFrame(
+            {
+                "URN": [1, 2, 3],
+                "LAEstab": [1001001, 1001002, 1001003],
+                "Number of pupils": [100.0, 200.0, 50.0],
+                "Number of pupils (headcount)": [100.0, 200.0, 50.0],
+                "total boarders": [0.0, 0.0, 0.0],
+                "number of pupils known to be eligible for free school meals": [20.0, 40.0, 10.0],
+                "number of pupils whose first language is known or believed to be other than English": [5.0, 10.0, 2.0],
+                "Percentage Free school meals": [20.0, 20.0, 20.0],
+                "% of pupils whose first language is known or believed to be other than English": [5.0, 5.0, 4.0],
+                "Total Number of Teachers (Full-Time Equivalent)": [5.0, 10.0, 2.5],
+                "Total Number of Teaching Assistants (Full-Time Equivalent)": [2.0, 4.0, 1.0],
+                "Teachers with Qualified Teacher Status (%) (Headcount)": [90.0, 95.0, 100.0],
+            }
+            | {col: [np.nan] * 3 for col in _PUPIL_COMPARATOR_COLUMNS}
+        )
+        .astype(
+            {
+                "LAEstab": "Int64",
+                "Number of pupils": float,
+                "Number of pupils (headcount)": float,
+                "total boarders": float,
+                "number of pupils known to be eligible for free school meals": float,
+                "number of pupils whose first language is known or believed to be other than English": float,
+                "Percentage Free school meals": float,
+                "% of pupils whose first language is known or believed to be other than English": float,
+                "Total Number of Teachers (Full-Time Equivalent)": float,
+                "Total Number of Teaching Assistants (Full-Time Equivalent)": float,
+                "Teachers with Qualified Teacher Status (%) (Headcount)": float,
+            }
+        )
+        .set_index("URN")
+    )
+
+    lookup_la = pd.DataFrame({"old_la_code": [100], "LA (name)": ["Test LA"], "region_name": ["Inner London"]})
+    sen_ly = sen.set_index("URN").copy()
+    pru_ly = pru.copy()
+    hospital_ly = hospital_schools.copy()
+
+    # Execute
+    master_list, transparency_file = build_transparency_files(
+        cfr_raw_blob=cfr_raw_blob,
+        gias=gias,
+        pru=pru,
+        hospital_schools=hospital_schools,
+        sen=sen,
+        census=census,
+        lookup_la=lookup_la,
+        census_last_year=census_ly,
+        sen_last_year=sen_ly,
+        pru_last_year=pru_ly,
+        hospital_schools_last_year=hospital_ly,
+        year=year,
+        ilr=pd.DataFrame(columns=["URN"]),
+        gias_links=pd.DataFrame(columns=["URN", "LinkURN"]),
+    )
+
+    # Assertions for Download File:
+    # School 1 is Open, but not in current-year census -> falls back to last-year census for download file
+    school_1_dl = transparency_file[transparency_file["LAEstab"] == 1001001].iloc[0]
+    assert school_1_dl["No pupils (including dual registrations)"] == 100.0
+    assert school_1_dl["FTE Number of teachers"] == 5.0
+
+    # School 2 is Closed, and IS in current-year census -> shows current-year census values in download file
+    school_2_dl = transparency_file[transparency_file["LAEstab"] == 1001002].iloc[0]
+    assert school_2_dl["No pupils (including dual registrations)"] == 200.0
+    assert school_2_dl["FTE Number of teachers"] == 10.0
+
+    # School 3 is Closed, and NOT in current-year census -> masks to NaN, preventing historic fallback in download file
+    school_3_dl = transparency_file[transparency_file["LAEstab"] == 1001003].iloc[0]
+    assert pd.isna(school_3_dl["No pupils (including dual registrations)"])
+    assert pd.isna(school_3_dl["FTE Number of teachers"])
+
+    # Assertions for Master List:
+    # Master List should be completely unaffected:
+    # School 3 is Closed and NOT in current-year census, but since Master List is unaffected, it still falls back to last-year census normally.
+    school_3_ml = master_list[master_list["LAEstab"] == 1001003].iloc[0]
+    assert school_3_ml["No Pupils"] == 50.0
+    assert school_3_ml["No Teachers"] == 2.5
+
