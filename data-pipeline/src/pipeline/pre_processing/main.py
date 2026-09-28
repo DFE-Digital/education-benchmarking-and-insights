@@ -288,6 +288,8 @@ def pre_process_maintained_schools_data(
             hospital_schools_last_year=cfr_ancillary_data_for_last_year[
                 "hospital_schools"
             ],
+            ilr=cfr_ancillary_data["ilr"],
+            gias_links=cfr_ancillary_data["gias_links"],
             year=year,
         )
 

@@ -15,6 +15,8 @@ def map_ofsted_rating(rating: str):
 
 
 def _map_secondary_phases(establishment_code: int) -> str:
+    if pd.isnull(establishment_code):
+        return "Secondary"
     match establishment_code:
         case 40:
             return "University Technical College"
@@ -23,6 +25,8 @@ def _map_secondary_phases(establishment_code: int) -> str:
 
 
 def _map_not_applicable_phases(establishment_code: int) -> str:
+    if pd.isnull(establishment_code):
+        return "Unknown"
     match establishment_code:
         case 6:
             return "University Technical College"
@@ -40,6 +44,8 @@ def map_phase_type(
     establishment_code: int,
     phase_code: int,
 ) -> str:
+    if pd.isnull(phase_code):
+        return "Unknown"
     match phase_code:
         case 0:
             return _map_not_applicable_phases(establishment_code)
@@ -94,7 +100,7 @@ def map_admission_policy(admission_policy: str):
         case "selective":
             return "Selective"
         case "non-selective" | "not applicable":
-            return "HI selective"
+            return "N/A"
         case _:
             return "Unknown"
 
