@@ -95,7 +95,9 @@ def pre_process_data(
     maintained_data_ref = get_cfr_ancillary_data(run_id, cfr_year)
     # Last year's data is used as fallbacks for the CFR transparency file
     maintained_data_ref_for_last_year = (
-        get_cfr_ancillary_data(run_id, (cfr_year - 1)) if generate_cfr_transparency_file else {}
+        get_cfr_ancillary_data(run_id, (cfr_year - 1))
+        if generate_cfr_transparency_file
+        else {}
     )
 
     academies = pre_process_academies_data(
@@ -271,7 +273,9 @@ def pre_process_maintained_schools_data(
     # Generate the CFR transparency file from raw inputs if requested
     if generate_cfr_transparency_file:
         if year < 2025:
-            logger.warning(f"Generating CFR transparency file for {year=} - this process is only assured for 2025 onwards")
+            logger.warning(
+                f"Generating CFR transparency file for {year=} - this process is only assured for 2025 onwards"
+            )
         cfr_raw_filename = cfr_raw_filenames.get(year)
         cfr_raw_blob = get_blob(raw_container, f"{run_type}/{year}/{cfr_raw_filename}")
         master_list, transparency_file = build_transparency_files(
