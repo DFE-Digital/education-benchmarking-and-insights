@@ -1,0 +1,34 @@
+﻿{
+  "startYear": 2018,
+  "endYear": 2022,
+  "rows": [
+    {
+      "year": 2021,
+      "urn": "990116",
+      "schoolName": "Test school 237",
+      "overallGrade": "A",
+      "overall": 13.84,
+      "overallMax": 25.5,
+      "financial": 8.84,
+      "financialMax": 18.0,
+      "schoolAndPupil": 3.83,
+      "schoolAndPupilMax": 35.5,
+      "educationalPerformance": 1.59,
+      "educationalPerformanceMax": 2.0
+    },
+    {
+      "year": 2022,
+      "urn": "990116",
+      "schoolName": "Test school 237",
+      "overallGrade": "A*",
+      "overall": 13.74,
+      "overallMax": 25.5,
+      "financial": 8.74,
+      "financialMax": 18.0,
+      "schoolAndPupil": 3.73,
+      "schoolAndPupilMax": 35.5,
+      "educationalPerformance": 1.49,
+      "educationalPerformanceMax": 2.0
+    }
+  ]
+}
