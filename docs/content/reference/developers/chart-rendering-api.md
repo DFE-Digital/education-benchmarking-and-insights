@@ -344,7 +344,7 @@ The payload expected by this endpoint is either a single or multiple `LineChartD
 
 | Optional Property | Type            | Default                | Definition                                                                        |
 |-------------------|-----------------|------------------------|-----------------------------------------------------------------------------------|
-| `height`          | number          | `500`                  | Height of chart surface                                                           |
+| `height`          | number          | `300`                  | Height of chart surface                                                           |
 | `width`           | number          | `928`                  | Width of chart surface          |
 | `id`              | string          | New UUID v4            | Unique identifier of the chart data/configuration combination                     |
 | `showValueDots`   | boolean         | `true`                  | Whether to display data point dots on the trendline                                                            |
