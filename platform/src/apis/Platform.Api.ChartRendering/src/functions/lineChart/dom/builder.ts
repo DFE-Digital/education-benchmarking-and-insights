@@ -4,6 +4,7 @@ import querySelector from "query-selector";
 import enGB from "d3-format/locale/en-GB" with { type: "json" };
 import { ChartBuilderResult, LineChartBuilderOptions } from "../..";
 import { FormatLocaleDefinition } from "d3";
+import { shortValueFormatter } from "../../utils";
 
 export default class LineChartBuilder {
   async buildChart<T>({
@@ -16,6 +17,7 @@ export default class LineChartBuilder {
     xAxisLabel,
     showValueDots = true,
     showValueLabels = true,
+    valueType = "numeric",
   }: LineChartBuilderOptions<T>): Promise<ChartBuilderResult> {
     const document = new DOMImplementation().createDocument(
       "http://www.w3.org/2000/svg",
@@ -39,10 +41,10 @@ export default class LineChartBuilder {
     const vField = valueField as keyof T;
     const kField = keyField as keyof T;
 
-    // Adjusted margins to fit x-axis tick labels and axis title
+    // Dimensions and margins
     const marginTop = 20;
     const marginRight = 40;
-    const marginBottom = xAxisLabel ? 60 : 45;
+    const marginBottom = xAxisLabel ? 80 : 45;
     const marginLeft = 40;
 
     const innerWidth = width - marginLeft - marginRight;
@@ -57,9 +59,22 @@ export default class LineChartBuilder {
       .range([0, innerWidth])
       .padding(0.5);
 
-    const yMax = d3.max(data, (d) => Number(d[vField])) ?? 0;
+    const rawYMax = d3.max(data, (d) => Number(d[vField])) ?? 0;
+    const calculatedYMax = rawYMax > 0 ? rawYMax : 1;
+    const yMin = 0;
 
-    const y = d3.scaleLinear().domain([0, yMax]).nice().range([innerHeight, 0]);
+    const y = d3
+      .scaleLinear()
+      .domain([yMin, calculatedYMax])
+      .nice(5)
+      .range([innerHeight, 0]);
+
+    // Force 5 evenly spaced ticks across nice domain bounds
+    const [niceMin, niceMax] = y.domain();
+    const count = 5;
+    const yTicks = Array.from({ length: count }, (_, i) => {
+      return niceMin + (i / (count - 1)) * (niceMax - niceMin);
+    });
 
     // Line generator
     const line = d3
@@ -70,6 +85,7 @@ export default class LineChartBuilder {
     // SVG root
     const svg = d3
       .select(document.documentElement as unknown as Element)
+      .attr("class", "line-chart")
       .attr("width", width)
       .attr("height", height)
       .attr("viewBox", [0, 0, width, height])
@@ -81,10 +97,6 @@ export default class LineChartBuilder {
       .attr("transform", `translate(${marginLeft},${marginTop})`);
 
     // Gridlines
-    const tickCount = Math.max(3, Math.floor(innerHeight / 80));
-    const yAxis = d3.axisLeft(y).ticks(tickCount);
-    const yTicks = y.ticks(tickCount);
-
     g.append("g")
       .attr("class", "chart-gridlines")
       .selectAll("line")
@@ -132,11 +144,10 @@ export default class LineChartBuilder {
         .attr("x", (d) => x(String(d[kField]))!)
         .attr("y", (d) => {
           const yPos = y(Number(d[vField]));
-          // If the label is within 20px of the top margin, render it below the point
           return yPos < 20 ? yPos + 20 : yPos - 15;
         })
         .attr("text-anchor", "middle")
-        .text((d) => Number(d[vField]).toFixed(2));
+        .text((d) => shortValueFormatter(Number(d[vField]), valueType));
     }
 
     // X-axis
@@ -151,14 +162,25 @@ export default class LineChartBuilder {
         .append("text")
         .attr("class", "chart-axis-label")
         .attr("x", innerWidth / 2)
-        .attr("y", 35)
+        .attr("y", 45)
         .attr("fill", "currentColor")
         .attr("text-anchor", "middle")
         .text(xAxisLabel);
     }
 
     // Y-axis
-    g.append("g").attr("class", "chart-axis chart-axis-y").call(yAxis);
+    const yAxis = d3
+      .axisLeft(y)
+      .tickValues(yTicks)
+      .tickSize(0)
+      .tickFormat((d) => shortValueFormatter(Number(d), valueType));
+
+    const yAxisGroup = g
+      .append("g")
+      .attr("class", "chart-axis chart-axis-y")
+      .call(yAxis);
+
+    yAxisGroup.select(".domain").remove();
 
     const html = svg.node()?.toString() || undefined;
     return { id, html };

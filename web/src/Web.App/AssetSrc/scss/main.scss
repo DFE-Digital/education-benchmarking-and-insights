@@ -1388,63 +1388,69 @@ table#current-comparators-la {
   }
 }
 
-.chart-axis {
-  @include govuk-font($size: 14);
+.line-chart {
+  .chart-axis {
+    @include govuk-font($size: 14);
 
-  path.domain,
-  .chart-tick line {
-    fill: none;
-    stroke: govuk-colour("dark-grey");
-    stroke-width: 1px;
-    shape-rendering: crispEdges;
+    path.domain,
+    .chart-tick line {
+      fill: none;
+      stroke: $govuk-border-colour;
+      stroke-width: 1px;
+    }
+
+    path.domain {
+      stroke: $govuk-border-colour;
+      stroke-width: 2px;
+    }
+
+    .chart-tick text {
+      fill: govuk-colour("dark-grey");
+    }
   }
 
-  .chart-tick text {
+  .chart-axis-x {
+    .chart-tick text {
+      text-anchor: middle;
+    }
+  }
+
+  .chart-axis-y {
+    .chart-tick text {
+      text-anchor: end;
+    }
+  }
+
+  .chart-axis-label {
+    @include govuk-font($size: 14);
     fill: govuk-colour("dark-grey");
-  }
-}
-
-.chart-axis-x {
-  .chart-tick text {
     text-anchor: middle;
   }
-}
 
-.chart-axis-y {
-  .chart-tick text {
-    text-anchor: end;
+  .chart-line.chart-line-series-1 > .line-curve {
+    fill: none;
+    stroke: govuk-colour("blue");
+    stroke-width: 2px;
   }
-}
 
-.chart-axis-label {
-  @include govuk-font($size: 14);
-  fill: govuk-colour("dark-grey");
-  text-anchor: middle;
-}
+  .chart-value-dot {
+    fill: govuk-colour("blue");
+  }
 
-.chart-line.chart-line-series-1 > .line-curve {
-  fill: none;
-  stroke: govuk-colour("blue");
-  stroke-width: 2px;
-}
+  .chart-value-label {
+    @include govuk-font($size: 14, $weight: bold);
+    fill: govuk-colour("dark-grey");
+    paint-order: stroke fill;
+    stroke: govuk-colour("white");
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 4px;
+    text-anchor: middle;
+  }
 
-.chart-value-dot {
-  fill: govuk-colour("blue");
-}
-
-.chart-value-label {
-  @include govuk-font($size: 16, $weight: bold);
-  fill: govuk-colour("dark-grey");
-  paint-order: stroke fill;
-  stroke: govuk-colour("white");
-  stroke-linecap: round;
-  stroke-linejoin: round;
-  stroke-width: 4px;
-  text-anchor: middle;
-}
-
-.chart-gridlines line {
-  stroke: $govuk-border-colour;
-  stroke-width: 1px;
-  shape-rendering: crispEdges;
+  .chart-gridlines line {
+    stroke: $govuk-border-colour;
+    stroke-width: 1px;
+    vector-effect: non-scaling-stroke;
+  }
 }

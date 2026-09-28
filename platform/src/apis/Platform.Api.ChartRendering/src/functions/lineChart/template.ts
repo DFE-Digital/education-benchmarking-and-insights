@@ -2,6 +2,7 @@ import { scalePoint, scaleLinear } from "d3-scale";
 import { line } from "d3-shape";
 import { max } from "d3-array";
 import { ChartBuilderResult, LineChartBuilderOptions } from "..";
+import { shortValueFormatter } from "../utils";
 
 export default class LineChartTemplate {
   buildChart<T>({
@@ -14,8 +15,7 @@ export default class LineChartTemplate {
     xAxisLabel,
     showValueDots = true,
     showValueLabels = true,
-    domainMin,
-    domainMax,
+    valueType = "numeric",
   }: LineChartBuilderOptions<T>): ChartBuilderResult {
     const vField = valueField as keyof T;
     const kField = keyField as keyof T;
@@ -23,7 +23,7 @@ export default class LineChartTemplate {
     // Dimensions and margins
     const marginTop = 20;
     const marginRight = 40;
-    const marginBottom = xAxisLabel ? 60 : 45;
+    const marginBottom = xAxisLabel ? 80 : 45;
     const marginLeft = 40;
 
     const innerWidth = width - marginLeft - marginRight;
@@ -39,10 +39,19 @@ export default class LineChartTemplate {
 
     const rawYMax = max(data, (d) => Number(d[vField])) ?? 0;
     const calculatedYMax = rawYMax > 0 ? rawYMax : 1;
-    const yMax = domainMax ?? calculatedYMax;
-    const yMin = domainMin ?? 0;
+    const yMin = 0;
 
-    const y = scaleLinear().domain([yMin, yMax]).nice().range([innerHeight, 0]);
+    const y = scaleLinear()
+      .domain([yMin, calculatedYMax])
+      .nice(5)
+      .range([innerHeight, 0]);
+
+    // Force 5 evenly spaced ticks across nice domain bounds
+    const [niceMin, niceMax] = y.domain();
+    const count = 5;
+    const yTicks = Array.from({ length: count }, (_, i) => {
+      return niceMin + (i / (count - 1)) * (niceMax - niceMin);
+    });
 
     // Line Path Generator
     const lineGenerator = line<T>()
@@ -51,10 +60,7 @@ export default class LineChartTemplate {
 
     const linePathD = lineGenerator(data) ?? "";
 
-    // Gridlines & Y-Axis Ticks
-    const tickCount = Math.max(3, Math.floor(innerHeight / 80));
-    const yTicks = y.ticks(tickCount);
-
+    // Gridlines
     const gridlines = yTicks
       .map((t) => {
         const yPos = y(t);
@@ -86,7 +92,7 @@ export default class LineChartTemplate {
         .map((d) => {
           const cx = x(String(d[kField]))!;
           const yPos = y(Number(d[vField]));
-          const val = Number(d[vField]).toFixed(2);
+          const val = shortValueFormatter(Number(d[vField]), valueType);
           const labelY = yPos < 20 ? yPos + 20 : yPos - 15;
 
           return `<text class="chart-value-label" x="${cx}" y="${labelY}">${val}</text>`;
@@ -108,7 +114,7 @@ export default class LineChartTemplate {
       .join("");
 
     const xAxisLabelSvg = xAxisLabel
-      ? `<text class="chart-axis-label" x="${innerWidth / 2}" y="35">${xAxisLabel}</text>`
+      ? `<text class="chart-axis-label" x="${innerWidth / 2}" y="45">${xAxisLabel}</text>`
       : "";
 
     const xAxisSvg = `<g class="chart-axis chart-axis-x" transform="translate(0,${innerHeight})">
@@ -117,24 +123,23 @@ export default class LineChartTemplate {
   ${xAxisLabelSvg}
 </g>`;
 
-    // Y-Axis & Ticks
+    // Y-Axis Ticks
     const yAxisTicks = yTicks
       .map((t) => {
         const yPos = y(t);
+        const formattedTick = shortValueFormatter(t, valueType);
         return `<g class="chart-tick" transform="translate(0,${yPos})">
-  <line x2="-6"/>
-  <text x="-9" dy="0.32em">${t}</text>
+  <text x="-9" dy="0.32em">${formattedTick}</text>
 </g>`;
       })
       .join("");
 
     const yAxisSvg = `<g class="chart-axis chart-axis-y">
-  <path class="domain" d="M-6,${innerHeight}H0.5V0.5H-6"/>
   ${yAxisTicks}
 </g>`;
 
     // Outer SVG Assembly
-    const svg = `<svg width="${width}" height="${height}" viewBox="0,0,${width},${height}" data-chart-id="${id}" xmlns="http://www.w3.org/2000/svg">
+    const svg = `<svg class="line-chart" width="${width}" height="${height}" viewBox="0,0,${width},${height}" data-chart-id="${id}" xmlns="http://www.w3.org/2000/svg">
   <g transform="translate(${marginLeft},${marginTop})">
     <g class="chart-gridlines">${gridlines}</g>
     <g class="chart-line chart-line-series-1">

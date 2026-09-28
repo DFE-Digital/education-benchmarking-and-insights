@@ -228,7 +228,7 @@ public class WhenViewingRisksHistory(SchoolBenchmarkingWebAppClient client)
 
         if (viewAs == Views.ViewAsOptions.Chart)
         {
-            AssertChartSection(page, chartApiError);
+            AssertChartSection(page, risksHistoryRows, chartApiError);
         }
         else
         {
@@ -275,7 +275,7 @@ public class WhenViewingRisksHistory(SchoolBenchmarkingWebAppClient client)
         Assert.Equal("Download page data", downloadLink.TextContent.Trim());
     }
 
-    private static void AssertChartSection(IHtmlDocument page, bool chartApiError)
+    private static void AssertChartSection(IHtmlDocument page, LocalAuthorityRiskIndicatorsHistoryRows risksHistoryRows, bool chartApiError)
     {
         var expectedTitles = new[]
         {
@@ -285,14 +285,16 @@ public class WhenViewingRisksHistory(SchoolBenchmarkingWebAppClient client)
             "School & pupil risk score"
         };
 
-        var sections = page.QuerySelectorAll("h2.govuk-heading-m")
-            .Select(h => h.TextContent.Trim())
-            .ToArray();
-
-        foreach (var title in expectedTitles)
+        var trends = risksHistoryRows.ToTrends();
+        var trendSeries = new[]
         {
-            Assert.Contains(title, sections);
-        }
+            trends.Overall,
+            trends.Financial,
+            trends.EducationalPerformance,
+            trends.SchoolAndPupil
+        };
+
+        AssertHeadingTitles(page, expectedTitles, trendSeries);
 
         var chartContainers = page.QuerySelectorAll(".costs-chart-container");
         var chartWarnings = page.QuerySelectorAll(".ssr-chart-warning");
@@ -315,6 +317,21 @@ public class WhenViewingRisksHistory(SchoolBenchmarkingWebAppClient client)
         }
     }
 
+    private static void AssertHeadingTitles(IHtmlDocument page, string[] expectedTitles, RiskHistorySeries[] trendSeries)
+    {
+        var headings = page.QuerySelectorAll("h2[data-testid='risk-history-heading']");
+
+        for (var i = 0; i < expectedTitles.Length; i++)
+        {
+            var actualHeading = headings[i].TextContent.Trim();
+            var series = trendSeries[i];
+            var expectedTitle = expectedTitles[i];
+
+            var expectedMax = series.MaxValue.ToString("0.##");
+            Assert.Equal($"{expectedTitle} (out of {expectedMax})", actualHeading);
+        }
+    }
+
     private static void AssertTableSection(
         IHtmlDocument page,
         LocalAuthorityRiskIndicatorsHistoryRows risksHistoryRows)
@@ -327,17 +344,6 @@ public class WhenViewingRisksHistory(SchoolBenchmarkingWebAppClient client)
             "School & pupil risk score"
         };
 
-        var headings = page.QuerySelectorAll("h2[data-testid='risk-history-heading']");
-        Assert.Equal(expectedTitles.Length, headings.Length);
-
-        for (var i = 0; i < expectedTitles.Length; i++)
-        {
-            Assert.Equal(expectedTitles[i], headings[i].TextContent.Trim());
-        }
-
-        var tables = page.QuerySelectorAll("table.govuk-table");
-        Assert.Equal(expectedTitles.Length, tables.Length);
-
         var trends = risksHistoryRows.ToTrends();
         var trendSeries = new[]
         {
@@ -347,16 +353,15 @@ public class WhenViewingRisksHistory(SchoolBenchmarkingWebAppClient client)
             trends.SchoolAndPupil
         };
 
+        AssertHeadingTitles(page, expectedTitles, trendSeries);
+
+        var tables = page.QuerySelectorAll("table.govuk-table");
+        Assert.Equal(expectedTitles.Length, tables.Length);
+
         for (var i = 0; i < expectedTitles.Length; i++)
         {
             var table = tables[i];
             var series = trendSeries[i];
-
-            var header = table.QuerySelector("thead tr th.govuk-table__header--numeric");
-            Assert.NotNull(header);
-
-            var expectedMaxFormatted = series.MaxValue.ToString($"0.{new string('0', 2)}");
-            Assert.Contains($"Score (out of {expectedMaxFormatted})", header.TextContent);
 
             var rows = table.QuerySelectorAll("tbody tr");
             var expectedData = series.Data.ToArray();

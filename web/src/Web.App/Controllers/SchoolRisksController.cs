@@ -151,7 +151,6 @@ public class SchoolRisksController(
         {
             Id = Guid.NewGuid().ToString(),
             Width = 600,
-            Height = 300,
             XAxisLabel = "Financial year",
             ValueField = "value",
             KeyField = "year",
