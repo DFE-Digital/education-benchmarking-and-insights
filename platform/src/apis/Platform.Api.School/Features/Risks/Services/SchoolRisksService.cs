@@ -10,10 +10,21 @@ namespace Platform.Api.School.Features.Risks.Services;
 public interface ISchoolRisksService
 {
     Task<(YearsModelDto?, IEnumerable<RisksHistoryModelDto>)> GetHistoryAsync(string urn, CancellationToken cancellationToken = default);
+    Task<SchoolRisksResponse?> GetAsync(string urn, CancellationToken cancellationToken = default);
 }
 
 public class SchoolRisksService(IDatabaseFactory dbFactory) : ISchoolRisksService
 {
+    public async Task<SchoolRisksResponse?> GetAsync(string urn, CancellationToken cancellationToken = default)
+    {
+        using var conn = await dbFactory.GetConnection();
+
+        var builder = new SchoolRisksDefaultCurrentQuery()
+            .WhereUrnEqual(urn);
+
+        return await conn.QueryFirstOrDefaultAsync<SchoolRisksResponse>(builder, cancellationToken);
+    }
+
     public async Task<(YearsModelDto?, IEnumerable<RisksHistoryModelDto>)> GetHistoryAsync(string urn, CancellationToken cancellationToken = default)
     {
         using var conn = await dbFactory.GetConnection();
