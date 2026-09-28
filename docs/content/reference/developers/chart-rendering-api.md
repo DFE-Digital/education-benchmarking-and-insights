@@ -348,7 +348,6 @@ The payload expected by this endpoint is either a single or multiple `LineChartD
 | `width`           | number          | `928`                  | Width of chart surface          |
 | `id`              | string          | New UUID v4            | Unique identifier of the chart data/configuration combination                     |
 | `showValueDots`   | boolean         | `true`                  | Whether to display data point dots on the trendline                                                            |
-| `showValueDots`   | boolean         | `true`                  | Whether to display data point dots on the trendline                                                            |
 | `showValueLabels` | boolean         | `true`                  | Whether to display numeric labels above data points                                                            |
 | `xAxisLabel`   | string         |                 | Label to render beneath the X-axis                                                            |
 
