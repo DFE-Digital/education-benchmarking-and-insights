@@ -43,12 +43,8 @@ public class CookiesController : Controller
         });
         if (analyticsCookiesEnabled == false)
         {
-            // Remove App Insights cookies
             HttpContext.Response.Cookies.Delete("ai_session");
             HttpContext.Response.Cookies.Delete("ai_user");
-            // Remove any existing Clarity cookies
-            HttpContext.Response.Cookies.Delete("_clck");
-            HttpContext.Response.Cookies.Delete("_clsk");
         }
 
         return RedirectToAction("Index", new Dictionary<string, string>

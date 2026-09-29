@@ -135,26 +135,26 @@
             </tr>
             </thead>
             <tbody class="govuk-table__body">
-                <tr class="govuk-table__row">
-                    <td class="govuk-table__cell left">_clck</td>
-                    <td class="govuk-table__cell left">Checks if you've visited the Financial Benchmarking and Insights Tool before and makes sure you're given the same ID</td>
-                    <td class="govuk-table__cell left">1 year</td>
-                </tr>
-                <tr class="govuk-table__row">
-                    <td class="govuk-table__cell left">_clsk</td>
-                    <td class="govuk-table__cell left">Connects a user's page views into a single session recording</td>
-                    <td class="govuk-table__cell left">1 day</td>
-                </tr>
-                <tr class="govuk-table__row">
-                    <td class="govuk-table__cell left">CLID</td>
-                    <td class="govuk-table__cell left">	Identifies the first time Microsoft Clarity saw this user on any website that uses Microsoft Clarity</td>
-                    <td class="govuk-table__cell left">1 year</td>
-                </tr>
-                <tr class="govuk-table__row">
-                    <td class="govuk-table__cell left">MUID</td>
-                    <td class="govuk-table__cell left">Identifies unique web browsers visiting Microsoft sites. These cookies are used for advertising, analytics and operational purposes</td>
-                    <td class="govuk-table__cell left">1 year</td>
-                </tr>
+            <tr class="govuk-table__row">
+                <td class="govuk-table__cell left">_clck</td>
+                <td class="govuk-table__cell left">Checks if you've visited the Financial Benchmarking and Insights Tool before and makes sure you're given the same ID</td>
+                <td class="govuk-table__cell left">1 year</td>
+            </tr>
+            <tr class="govuk-table__row">
+                <td class="govuk-table__cell left">_clsk</td>
+                <td class="govuk-table__cell left">Connects a user's page views into a single session recording</td>
+                <td class="govuk-table__cell left">1 day</td>
+            </tr>
+            <tr class="govuk-table__row">
+                <td class="govuk-table__cell left">CLID</td>
+                <td class="govuk-table__cell left">	Identifies the first time Microsoft Clarity saw this user on any website that uses Microsoft Clarity</td>
+                <td class="govuk-table__cell left">1 year</td>
+            </tr>
+            <tr class="govuk-table__row">
+                <td class="govuk-table__cell left">MUID</td>
+                <td class="govuk-table__cell left">Identifies unique web browsers visiting Microsoft sites. These cookies are used for advertising, analytics and operational purposes</td>
+                <td class="govuk-table__cell left">1 year</td>
+            </tr>
             </tbody>
         </table>
 
@@ -201,3 +201,18 @@
         }
     </div>
 </div>
+
+<script add-nonce="true">
+    document.getElementById("cookie-settings-form")
+        .addEventListener("submit", function () {
+            const reject = document.getElementById("@(nameof(Model.AnalyticsCookiesEnabled))-reject");
+            if (reject && reject.checked) {
+                if (typeof window.clarity === "function") {
+                    window.clarity("consentv2", {
+                        ad_Storage: "denied",
+                        analytics_Storage: "denied"
+                    });
+                }
+            }
+        });
+</script>
