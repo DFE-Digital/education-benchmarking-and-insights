@@ -162,7 +162,9 @@ variable "configuration" {
           AbsoluteExpiration = 60
         }
       },
-      ClarityOptions          = {},
+      "ClarityOptions": {
+        "ProjectId": "ycx1c9ws75"
+      },
       DISABLE_ORG_CLAIM_CHECK = true
     }
     pre-production = {
