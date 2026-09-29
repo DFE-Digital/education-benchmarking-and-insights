@@ -21,6 +21,13 @@ locals {
       origin-host   = "${azurerm_storage_account.web-assets-storage.name}.blob.core.windows.net"
       origin-path   = "/images"
     }
+    sitemap = {
+      route-pattern = "/sitemap/*"
+      base-url      = "/sitemap"
+      container     = "sitemap"
+      origin-host   = "${azurerm_storage_account.web-assets-storage.name}.blob.core.windows.net"
+      origin-path   = "/sitemap"
+    }
   })
 }
 
