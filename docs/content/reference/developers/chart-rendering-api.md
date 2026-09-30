@@ -12,12 +12,12 @@ This document provides detailed information for developers about the implementat
 
 See also:
 
-- [Guide: Chart Development Workflow](../design/01_Chart-Development-Workflow.md)
+- [Guide: Chart Development Workflow](/explanation/design/chart-development-workflow/)
 - [Feature: Progressive Enhancements](./progressive-enhancements.md)
-- [ADR006: Rendering of Charts](../architecture/decisions/0006-chart-rendering.md)
-- [ADR007: Deployment Options for SVG Service for Rendering Charts](../architecture/decisions/0007-deployment-options-rendering-charts-service.md)
-- [ADR009: JavaScript Library Selection for ASP.NET Core](../architecture/decisions/0009-js-library.md)
-- [ADR015: Chart Rendering API Performance and Scalability Improvements](../architecture/decisions/0015-chart-svg-generation.md)
+- [ADR006: Rendering of Charts](/reference/decisions/0006-chart-rendering/)
+- [ADR007: Deployment Options for SVG Service for Rendering Charts](/reference/decisions/0007-deployment-options-rendering-charts-service/)
+- [ADR009: JavaScript Library Selection for ASP.NET Core](/reference/decisions/0009-js-library/)
+- [ADR015: Chart Rendering API Performance and Scalability Improvements](/reference/decisions/0015-chart-svg-generation/)
 
 ## Overview
 

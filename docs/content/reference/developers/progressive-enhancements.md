@@ -8,7 +8,7 @@ eleventyNavigation:
   parent: Developers Reference
 ---
 
-As discussed in [ADR 0009](../architecture/decisions/0009-js-library.md), the move to server side rendered (SSR) charts will help support the minority of users who are unable to run JavaScript in their web browser. For those with JavaScript, components within the Web application rendered via Razor views may be enhanced for a value-added user experience.
+As discussed in [ADR 0009](/reference/decisions/0009-js-library/), the move to server side rendered (SSR) charts will help support the minority of users who are unable to run JavaScript in their web browser. For those with JavaScript, components within the Web application rendered via Razor views may be enhanced for a value-added user experience.
 
 ## Vue.js
 
