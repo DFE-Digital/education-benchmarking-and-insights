@@ -1,16 +1,22 @@
 # Release Test Plan: 2026.10.0
 
-Release Date: 29/09/2026
+Release Date: 30/09/2026
 
-Release Label: 2026.10.0
+Release Label: 2026.09.3
 
 ## Introduction
 
-This document outlines the approach of testing release `2026.10.0` covering the necessary testing activities.
+This document outlines the approach of testing release `2026.09.3` covering the necessary testing activities.
 
-This is the BFR release. It focuses on the Budget Forecast Return (BFR) 2025-2026 data drop: the data pipeline configuration and dry run required to ingest and process the 2026 BFR data, together with the data-pipeline-related dependency updates that go out alongside it. For this release we are only releasing the data pipeline code and the associated dependency updates.
+This is the BFR release. It focuses on the Budget Forecast Return (BFR) 2025-2026 data drop: the data pipeline configuration and dry run required to ingest and process the 2026 BFR data, together with the data-pipeline-related dependency updates that go out alongside it.
 
 This release also covers some tweaks to the CFR transparency file generation.
+
+In addition this release includes:
+
+- Microsoft Clarity integration to improve user behavior and analytics tracking.
+- Expanded consent flag tracking within telemetry for richer analytics insights.
+- Initial Google Search Console configuration for LA pages, which includes adding the mandatory site meta tag and generating an initial sitemap.
 
 Detailed validation of the BFR data content is covered by the BFR data-release test plan ([00006 - BFR Data Release 2025-2026](../data-release-test-plans/00006_BFR-2025-2026-data-release.md)); this plan covers the software and configuration release and the pipeline execution.
 
@@ -19,12 +25,26 @@ Detailed validation of the BFR data content is covered by the BFR data-release t
 **In-scope:**
 
 - **Data pipeline (BFR 2026 data release)**
-  - Data pipeline configuration and dry run with the 2026 BFR data, enabling ingestion and processing of the BFR 2025-2026 data drop across all supported years.
-  - Bug fix for BFR metrics table.
-  - Tweaks for the CFR transparency file generation.
+  - Data pipeline configuration and dry run with the 2026 BFR data, enabling ingestion and processing of the BFR 2025-2026 data drop across all supported years. [329998](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_workitems/edit/329680)
+  - Bug fix for BFR metrics table. ([329680](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_workitems/edit/329680))
 
-- **Maintenance (partial dependency releases)**
-  - September 2026 dependency updates.
+- **Tweaks for the CFR transparency file generation.** ([328999](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_workitems/edit/328999))
+
+- **Maintenance**
+  - September 2026 dependency updates. ([327284](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_workitems/edit/327284))
+  - August 2026 dependency updates. ([326253](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_workitems/edit/326253))
+
+- **Analytics**
+  - Microsoft Clarity. ([316479](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_workitems/edit/316479))
+  - Consent flag tracking. ([314478](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_workitems/edit/314478))
+
+- **Google Search Console configuration**
+  - Site map for LA landing pages. ([327358](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_workitems/edit/327358))
+  - Add Google meta tags to site header. ([328518](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_workitems/edit/328518))
+
+**Out-of-Scope:**
+
+LAA pages currently in development. These are behind a feature flag and are not included within this release.
 
 ## Test Strategy
 
@@ -81,9 +101,15 @@ To be completed post-release.
 
 **Azure DevOps tickets included in this release:**
 
-- [328999 - CFR Transparency file changes](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_boards/board/t/FBIT/Stories?workitem=328999)
-- [329998 - BFR 2026 Schemas](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_sprints/taskboard/FBIT/s198-DfE-Benchmarking-service/Sprint%2074?workitem=329342)
-- [329680 - BFR bugfix: Slope/Slope Flag metrics resolve as null](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_boards/board/t/FBIT/Stories?workitem=329680)
+- [328999 - CFR Transparency file changes](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_workitems/edit/328999)
+- [329998 - BFR 2026 Schemas](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_workitems/edit/329342)
+- [329680 - BFR bugfix: Slope/Slope Flag metrics resolve as null](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_workitems/edit/329680)
+- [327284 - Review and merge Sep '26 dependency updates](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_workitems/edit/327284)
+- [326253 - Review and merge Aug '26 dependency updates](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_workitems/edit/326253)
+- [316479 - Implement Microsoft Clarity](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_workitems/edit/316479)
+- [314478- Surface consent flag in log files]((https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_workitems/edit/314478))
+- [327358 - Create site map for LA landing pages](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_workitems/edit/327358)
+- [328518 - Add Google meta tags to site header](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_workitems/edit/328518)
 
 ## Appendix
 
