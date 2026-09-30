@@ -12,6 +12,7 @@ public static class ServiceCollection
     {
         serviceCollection
             .AddSingleton<IGetSchoolRisksHistoryHandler, GetSchoolRisksHistoryHandlerV1>()
+            .AddSingleton<IGetSchoolRisksHandler, GetSchoolRisksHandlerV1>()
             .AddSingleton<ISchoolRisksService, SchoolRisksService>();
 
         return serviceCollection;
