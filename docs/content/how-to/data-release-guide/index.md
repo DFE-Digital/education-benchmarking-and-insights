@@ -49,7 +49,7 @@ Below is the complete chronological sequence from planning through to go-live, w
 
 ## Phase 3: Ingestion & Verification (Release Day)
 
-Once the cutoff data is prepared, one engineer should orchestrate the rest of the team through release and testing using the [test plans](../../quality-assurance/data-release-test-plans/) — UAT guides for manual verification of the new data.
+Once the cutoff data is prepared, one engineer should orchestrate the rest of the team through release and testing using the [test plans](/reference/data-release-test-plans/): UAT guides for manual verification of the new data.
 
 1. **Scale Target SQL Database.** Scale the destination Azure SQL database (e.g. `s198t01-sql`) to **200 DTUs** via Settings > Compute and Storage, so the pipeline load doesn't impact the web service or other developers. Wait for this to take effect before proceeding.
 
@@ -59,7 +59,7 @@ Once the cutoff data is prepared, one engineer should orchestrate the rest of th
 
 4. **Trigger LAA Risk Derivations (CFR Only).** If this is a CFR release, you can optionally enable the `"deriveLaaRiskScores": true` parameter in your default start trigger message. This will automatically execute the LAA risk scores derivation pipeline at the end of the standard default pipeline run.
 
-5. **Execute Assurance & Coverage Queries.** Run the general checklist (row count verification, comparative non-null coverage checks, duplicate constraint checks) and release-specific logic validations — see [Assuring Pipeline Outputs](#assuring-pipeline-outputs-general-checks) below and the [test plan](../../quality-assurance/3_Test-strategy-data-ingestion.md).
+5. **Execute Assurance & Coverage Queries.** Run the general checklist (row count verification, comparative non-null coverage checks, duplicate constraint checks) and release-specific logic validations (see [Assuring Pipeline Outputs](#assuring-pipeline-outputs-general-checks) below and the [Data Ingestion Test Strategy](/reference/qa/test-strategy-data-ingestion/)).
 
 6. **Descale SQL Database.** Restore the Azure SQL database DTUs to its original baseline.
 
