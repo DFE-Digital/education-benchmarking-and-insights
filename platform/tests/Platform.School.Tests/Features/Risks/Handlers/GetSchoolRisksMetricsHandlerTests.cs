@@ -42,7 +42,8 @@ public class WhenGetSchoolRisksMetricsV1HandlerHandles : HandlerTestBase
                 Urn = "123456",
                 RiskGroup = "foo",
                 RiskIndicator = "bar",
-                RiskIndicatorValue = 1.0m,
+                RiskIndicatorValue = "Low",
+                RiskIndicatorValueFormatting = "String",
                 RiskIndicatorFlag = "baz",
                 RiskIndicatorContribution = 2.0m,
                 RiskIndicatorContributionMax = 3.0m
@@ -52,7 +53,8 @@ public class WhenGetSchoolRisksMetricsV1HandlerHandles : HandlerTestBase
                 Urn = "123456",
                 RiskGroup = "baz",
                 RiskIndicator = "bar",
-                RiskIndicatorValue = 4.0m,
+                RiskIndicatorValue = "High",
+                RiskIndicatorValueFormatting = "String",
                 RiskIndicatorFlag = "foo",
                 RiskIndicatorContribution = 5.0m,
                 RiskIndicatorContributionMax = 6.0m

@@ -3,7 +3,7 @@
 @{
     ViewData[ViewDataKeys.Title] = PageTitles.ErrorAccessDenied;
     var isRisksEnabled = await FeatureManager.IsEnabledAsync(FeatureFlags.LocalAuthorityRiskIndicators);
-    var organisations = isRisksEnabled ? "school or trust" : "school, trust or local authority";
+    var organisations = isRisksEnabled ? "school, trust or local authority" : "school or trust";
 }
 
 <div class="govuk-grid-row">

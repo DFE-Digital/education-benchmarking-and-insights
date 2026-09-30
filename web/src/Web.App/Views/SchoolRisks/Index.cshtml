@@ -4,6 +4,10 @@
     ViewData[ViewDataKeys.Title] = PageTitles.SchoolRisks;
 }
 
+@section Backlink {
+    <a class="govuk-back-link" href="@Url.Action("Index", "LocalAuthorityRisks", new { code = Model.LaCode })">Back</a>
+}
+
 @await Component.InvokeAsync("EstablishmentHeading", new
 {
     title = PageTitles.SchoolRisks,
@@ -11,3 +15,23 @@
     id = Model.Urn,
     kind = OrganisationTypes.School
 })
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        <p class="govuk-body govuk-!-margin-bottom-6"><span class="govuk-!-font-weight-regular">Overall score:</span>
+            <strong class="govuk-tag govuk-tag--@Model.Risks.OverallGradeColour">@Model.Risks.Overall</strong>
+            / @Model.Risks.OverallMax
+        </p>
+        @await Html.PartialAsync("_Introduction")
+        <div class="page-actions-stack-end">
+            <a href="@Url.Action("Download", "SchoolRisks", new { code = Model.LaCode, urn = Model.Urn })"
+               role="button"
+               class="govuk-button govuk-button--secondary"
+               data-module="govuk-button">Download page data</a>
+        </div>
+        @foreach (var riskGroup in Model.RiskGroups)
+        {
+            @await Html.PartialAsync("_RiskGroupSection", riskGroup)
+        }
+    </div>
+</div>

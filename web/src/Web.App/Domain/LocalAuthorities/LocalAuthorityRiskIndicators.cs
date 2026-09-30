@@ -9,6 +9,7 @@ public record LocalAuthorityRiskIndicators
 {
     public string Urn { get; init; } = string.Empty;
     public string SchoolName { get; init; } = string.Empty;
+    // ReSharper disable once MemberCanBePrivate.Global
     public string OverallGrade { get; init; } = string.Empty;
     public decimal Overall { get; init; }
     public decimal OverallMax { get; init; }
@@ -88,3 +89,15 @@ public class RiskHistorySeries
 }
 
 public record RiskHistoryData(string Year, decimal Value);
+
+public record RisksMetrics
+{
+    public string Urn { get; init; } = string.Empty;
+    public string RiskGroup { get; init; } = string.Empty;
+    public string RiskIndicator { get; init; } = string.Empty;
+    public string? RiskIndicatorValue { get; init; }
+    public string RiskIndicatorValueFormatting { get; init; } = string.Empty;
+    public string RiskIndicatorFlag { get; init; } = string.Empty;
+    public decimal RiskIndicatorContribution { get; init; }
+    public decimal RiskIndicatorContributionMax { get; init; }
+}

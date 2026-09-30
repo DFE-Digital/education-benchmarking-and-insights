@@ -9,7 +9,8 @@ public record SchoolRisksMetricsResponse
     public string Urn { get; init; } = string.Empty;
     public string RiskGroup { get; init; } = string.Empty;
     public string RiskIndicator { get; init; } = string.Empty;
-    public decimal RiskIndicatorValue { get; init; }
+    public string? RiskIndicatorValue { get; init; }
+    public string RiskIndicatorValueFormatting { get; init; } = string.Empty;
     public string RiskIndicatorFlag { get; init; } = string.Empty;
     public decimal RiskIndicatorContribution { get; init; }
     public decimal RiskIndicatorContributionMax { get; init; }

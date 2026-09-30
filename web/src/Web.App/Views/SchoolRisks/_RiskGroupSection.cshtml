@@ -1,0 +1,54 @@
+@using Web.App.Extensions
+@model Web.App.ViewModels.RiskGroupViewModel
+
+<div class="govuk-!-margin-top-8">
+    <h2 class="govuk-heading-m govuk-!-margin-bottom-1">@Model.Title risk</h2>
+
+    @if (Model is { GroupValue: not null, GroupMax: not null })
+    {
+        <p class="govuk-body govuk-!-margin-bottom-4">
+            @Model.Title risk score: <strong>@Model.GroupValue.Value.ToFixedPrecision(2) / @Model.GroupMax.Value.ToFixedPrecision(2)</strong>
+        </p>
+    }
+
+    <table class="govuk-table">
+        <thead class="govuk-table__head">
+        <tr class="govuk-table__row">
+            <th scope="col" class="govuk-table__header">Risk indicator</th>
+            <th scope="col" class="govuk-table__header">Value</th>
+            <th scope="col" class="govuk-table__header">Flag</th>
+            <th scope="col" class="govuk-table__header govuk-table__header--numeric">Risk contribution</th>
+        </tr>
+        </thead>
+        <tbody class="govuk-table__body">
+        @foreach (var metric in Model.Metrics)
+        {
+            <tr class="govuk-table__row">
+                <td class="govuk-table__cell">
+                    @metric.RiskIndicator
+                </td>
+                <td class="govuk-table__cell">
+                    @metric.ValueDisplay
+                </td>
+                <td class="govuk-table__cell">
+                    @if (metric.RiskIndicatorFlag == LocalAuthorityRiskFlags.NoFlag)
+                    {
+                        @metric.RiskIndicatorFlag
+                    }
+                    else
+                    {
+                        <strong class="govuk-tag @metric.TagColourClass">
+                            @metric.RiskIndicatorFlag
+                        </strong>
+                    }
+                </td>
+                <td class="govuk-table__cell govuk-table__cell--numeric">
+                    @metric.RiskIndicatorContribution.ToFixedPrecision(2) / @metric.RiskIndicatorContributionMax.ToFixedPrecision(2)
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+
+    @await Html.PartialAsync("_RiskGroupDetail")
+</div>
