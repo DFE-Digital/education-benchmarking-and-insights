@@ -72,17 +72,6 @@ Future migration efforts should execute the following steps for each target file
 
 The following tables specify exactly where each file from the old `documentation/` folder should be migrated.
 
-### 5. Operational Document Mapping (`documentation/operational/`)
-
-| Current File | Target Location | Rationale |
-| :--- | :--- | :--- |
-| `2_Service-Conditions.md` | `docs/content/reference/operational/service-conditions.md` | Formal details of constraints and SLAs. |
-| `3_Incident_Management.md` | `docs/content/how-to/operational/incident-management.md`| Tasks for incident response. |
-| `4_Root-Cause-Analysis.md` | `docs/content/how-to/operational/root-cause-analysis.md` | Post-incident analysis procedure. |
-| `5_Runbooks.md` (and subfiles) | `docs/content/how-to/operational/runbooks/` | System-operation recipes. |
-| `6_Monitoring-Alerting.md` | `docs/content/how-to/operational/monitoring-alerting.md` | Steps for configuring alert levels. |
-| `7_Metrics.md` | `docs/content/reference/operational/metrics.md` | Complete lists of KPIs, log sources, and system metrics. |
-
 ### 6. Quality Assurance Document Mapping (`documentation/quality-assurance/`)
 
 | Current File/Folder | Target Location | Rationale |
