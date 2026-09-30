@@ -37,7 +37,7 @@ Joiners are apportioned on a part-year, pro-rata basis for the period they belon
 
 Under normal circumstances, adding up all the apportioned central service expenditure for the academies in a trust equals the trust's total central expenditure. However, this total can be less than the trust's actual spend when membership changes during the financial year.
 
-![Apportionment diagram](./images/apportionments.png)
+![Apportionment diagram](/assets/images/data/apportionments.png)
 
 **Why this happens**: When an academy leaves a trust partway through a year, the trust's central expenditure includes money spent while that academy was still a member. Since the end-of-year members are different, summing their apportioned central service shares may be less than the total central spend.
 

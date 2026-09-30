@@ -34,8 +34,6 @@ These resources are displayed as links in three key areas across the service.
 
 When a school's spending exceeds the median of its comparator set, relevant resources are displayed next to the corresponding category chart. In this view, resources are grouped by category but not further divided into subcategories.
 
-See [Spending and Costs](./spending-and-costs.md) for details of the implementation of this feature.
-
 ### Find ways to spend less
 
 On the Find Ways to Spend Less page, the data is presented using a GDS tab component when viewed from a selected school. Each section is explained below. When viewed from a selected trust or local authority, only the All Resources section is displayed, and the tab component is omitted.
@@ -105,42 +103,42 @@ The following controllers, view models, and views manage this feature:
 <!-- TODO validate links and lines-->
 School resources.
 
-- [Controller](../../web/src/Web.App/Controllers/SchoolController.cs#L126)
-- [View Model](../../web/src/Web.App/ViewModels/SchoolResourcesViewModel.cs)
-- [View](../../web/src/Web.App/Views/School/Resources.cshtml)
+- [Controller](https://github.com/DFE-Digital/education-benchmarking-and-insights/blob/main/web/src/Web.App/Controllers/SchoolController.cs#L126)
+- [View Model](https://github.com/DFE-Digital/education-benchmarking-and-insights/blob/main/web/src/Web.App/ViewModels/SchoolResourcesViewModel.cs)
+- [View](https://github.com/DFE-Digital/education-benchmarking-and-insights/blob/main/web/src/Web.App/Views/School/Resources.cshtml)
 
 Trust resources.
 
-- [Controller](../../web/src/Web.App/Controllers/TrustController.cs#L109)
-- [View Model](../../web/src/Web.App/ViewModels/TrustResourcesViewModel.cs)
-- [View](../../web/src/Web.App/Views/Trust/Resources.cshtml)
+- [Controller](https://github.com/DFE-Digital/education-benchmarking-and-insights/blob/main/web/src/Web.App/Controllers/TrustController.cs#L109)
+- [View Model](https://github.com/DFE-Digital/education-benchmarking-and-insights/blob/main/web/src/Web.App/ViewModels/TrustResourcesViewModel.cs)
+- [View](https://github.com/DFE-Digital/education-benchmarking-and-insights/blob/main/web/src/Web.App/Views/Trust/Resources.cshtml)
 
 Local Authority resources.
 
-- [Controller](../../web/src/Web.App/Controllers/LocalAuthorityController.cs#L109)
-- [View Model](../../web/src/Web.App/ViewModels/LocalAuthorityResourcesViewModel.cs)
-- [View](../../web/src/Web.App/Views/LocalAuthority/Resources.cshtml)
+- [Controller](https://github.com/DFE-Digital/education-benchmarking-and-insights/blob/main/web/src/Web.App/Controllers/LocalAuthorityController.cs#L109)
+- [View Model](https://github.com/DFE-Digital/education-benchmarking-and-insights/blob/main/web/src/Web.App/ViewModels/LocalAuthorityResourcesViewModel.cs)
+- [View](https://github.com/DFE-Digital/education-benchmarking-and-insights/blob/main/web/src/Web.App/Views/LocalAuthority/Resources.cshtml)
 
 Spending Priorities.
 
-- [Controller](../../web/src/Web.App/Controllers/SchoolSpendingController.cs)
-- [View Model](../../web/src/Web.App/ViewModels/SchoolSpendingViewModel.cs)
-- [View](../../web/src/Web.App/Views/SchoolSpending/Index.cshtml)
+- [Controller](https://github.com/DFE-Digital/education-benchmarking-and-insights/blob/main/web/src/Web.App/Controllers/SchoolSpendingController.cs)
+- [View Model](https://github.com/DFE-Digital/education-benchmarking-and-insights/blob/main/web/src/Web.App/ViewModels/SchoolSpendingViewModel.cs)
+- [View](https://github.com/DFE-Digital/education-benchmarking-and-insights/blob/main/web/src/Web.App/Views/SchoolSpending/Index.cshtml)
 
-Resources retrieved via the Content API call ([see API Reference](#api-reference)) are cached in-memory, as they are infrequently updated. See `CommercialResourcesService` [here](../../web/src/Web.App/Services/CommercialResourcesService.cs)
+Resources retrieved via the Content API call ([see API Reference](#api-reference)) are cached in-memory, as they are infrequently updated. See `CommercialResourcesService` [here](https://github.com/DFE-Digital/education-benchmarking-and-insights/blob/main/web/src/Web.App/Services/CommercialResourcesService.cs)
 
-`CommercialResourcesBuilder` groups and sorts the resources. See [here](../../web/src/Web.App/Domain/CommercialResources.cs#L11)
+`CommercialResourcesBuilder` groups and sorts the resources. See [here](https://github.com/DFE-Digital/education-benchmarking-and-insights/blob/main/web/src/Web.App/Domain/CommercialResources.cs#L11)
 
 Within each of the views listed above, partials display:
 
--[Recommended resources](../../web/src/Web.App/Views/School/_RecommendedResources.cshtml)
--[All resources](../../web/src/Web.App/Views/Shared/CommercialResource/AllResources.cshtml)
+-[Recommended resources](https://github.com/DFE-Digital/education-benchmarking-and-insights/blob/main/web/src/Web.App/Views/School/_RecommendedResources.cshtml)
+-[All resources](https://github.com/DFE-Digital/education-benchmarking-and-insights/blob/main/web/src/Web.App/Views/Shared/CommercialResource/AllResources.cshtml)
 
 Resources for each category are managed using view components, view models, and views.
 
--[View Component](../../web/src/Web.App/ViewComponents/CommercialResourceViewComponent.cs)
--[View Model](../../web/src/Web.App/ViewModels/Components/CommercialResourceViewModel.cs)
--[View Component](../../web/src/Web.App/Views/Shared/Components/CommercialResource/Default.cshtml)
+-[View Component](https://github.com/DFE-Digital/education-benchmarking-and-insights/blob/main/web/src/Web.App/ViewComponents/CommercialResourceViewComponent.cs)
+-[View Model](https://github.com/DFE-Digital/education-benchmarking-and-insights/blob/main/web/src/Web.App/ViewModels/Components/CommercialResourceViewModel.cs)
+-[View Component](https://github.com/DFE-Digital/education-benchmarking-and-insights/blob/main/web/src/Web.App/Views/Shared/Components/CommercialResource/Default.cshtml)
 
 ## Updating resources
 
@@ -148,6 +146,6 @@ From time-to-time the commercial resources will need to be updated. An alert is 
 
 See `Commercial resource check failures detected alert` in the [Monitoring and Alerting runbook](https://educationgovuk.sharepoint.com/:w:/r/sites/DfEFinancialBenchmarking/Shared%20Documents/Runbooks/Monitoring%20and%20Alerting.docx?d=wecb5ba87e68f486fa6fe919d5b921214&csf=1&web=1&e=yFckI0) for more information. Note this SharePoint resource requires authentication.
 
-In order to track the history of updates, relevant SQL scripts should be persisted to the repo in the [scripts/content](../../scripts/content) folder.
+In order to track the history of updates, relevant SQL scripts should be persisted to the repo in the [scripts/content](https://github.com/DFE-Digital/education-benchmarking-and-insights/tree/main/scripts/content) folder.
 
 In the future the management of commercial resources, and other resources handled by the Content API, will be done by an administrative front-end. This supports self-service of parts of the platform via a paired-down CMS to reduce the dependency on the development team.

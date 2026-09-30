@@ -95,7 +95,7 @@ When files are required to be managed within the storage account, it is acceptab
 
 ### Route and origin management
 
-To add additional routing and origins, extend the `custom-origins` `local` in [front-door.tf](../../web/terraform/front-door.tf). This is defined as:
+To add additional routing and origins, extend the `custom-origins` `local` in [front-door.tf](https://github.com/DFE-Digital/education-benchmarking-and-insights/blob/main/web/terraform/front-door.tf). This is defined as:
 
 | Property        | Purpose                                                              | Example                                        |
 |-----------------|----------------------------------------------------------------------|------------------------------------------------|

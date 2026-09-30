@@ -12,7 +12,7 @@ CFR has a transparency file which is released alongside the CFR data.
 
 ## Get the data
 
-[CFR](https://www.gov.uk/guidance/consistent-financial-reporting-framework-cfr) is the framework by which local authority schools submit their data to DfE. Data is submitted via an online form, as in AAR. Local authorities do their own checks on CFR data as they are responsible for funding LA schools, in contrast to academies who are funded directly from DfE. Schools have a deadline to submit their returns and not all schools submit at the same time, so product owners in FBIT make a call as to when enough schools have submitted, and that frozen "cut" of the submission tables is what gets used in FBIT. FBIT combines this financial with other data sources in the data pipeline. CFR uses inputs from the [data sources page.](../../data/02_Sources.md) The data sources page links to where to source these files:
+[CFR](https://www.gov.uk/guidance/consistent-financial-reporting-framework-cfr) is the framework by which local authority schools submit their data to DfE. Data is submitted via an online form, as in AAR. Local authorities do their own checks on CFR data as they are responsible for funding LA schools, in contrast to academies who are funded directly from DfE. Schools have a deadline to submit their returns and not all schools submit at the same time, so product owners in FBIT make a call as to when enough schools have submitted, and that frozen "cut" of the submission tables is what gets used in FBIT. FBIT combines this financial with other data sources in the data pipeline. CFR uses inputs from the [data sources page.](/explanation/sources/) The data sources page links to where to source these files:
 
 * CFR_24-25_Data.csv
 * gias.csv
@@ -32,12 +32,12 @@ CFR has a transparency file which is released alongside the CFR data.
 
 ## Test the data pipeline runs locally
 
-* [Set up the pipeline locally](./01_Overview.md#testing-locally).
+* [Set up the pipeline locally](/how-to/data-release-guide/#testing-locally).
 * Add the new data to the relevant year folder in Azure
-* [Configure the schemas for the new files](./01_Overview.md#checking-for-schema-changes) in `data-pipeline.src.pipeline.input_schemas`
+* [Configure the schemas for the new files](/how-to/data-release-guide/#checking-for-schema-changes) in `data-pipeline.src.pipeline.input_schemas`
 * Run the pipeline to test the new data. Debug and fix any issues, eg misconfigured schemas.
 * After configuration, run the pipeline successfully
-* **Run the LAA risk scores derivation pipeline:** Once the CFR run is complete, trigger the LAA calculations locally (see [running the pipeline locally](../../../data-pipeline/README.md#running-the-pipeline-locally) for trigger formats) to verify that school risk scores are generated and loaded correctly.
+* **Run the LAA risk scores derivation pipeline:** Once the CFR run is complete, trigger the LAA calculations locally (see [running the pipeline locally](https://github.com/DFE-Digital/education-benchmarking-and-insights/blob/main/data-pipeline/README.md#running-the-pipeline-locally) for trigger formats) to verify that school risk scores are generated and loaded correctly.
 * Check that the pipeline has deposited rows in SQL by querying the database tables for schools (fill in the year):
 
 ```sql

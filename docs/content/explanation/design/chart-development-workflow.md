@@ -76,4 +76,4 @@ Developing data visualisations for the Financial Benchmarking and Insights Tool 
 - Document API inputs, outputs, and example SVGs.
 - Designers confirm visual compliance.
 - Analysts validate that chart conveys the correct data story.
-- [Chart principles guide](../../reference/design/chart-principles.md) updated.
+- [Chart principles guide](/reference/chart-principles/) updated.

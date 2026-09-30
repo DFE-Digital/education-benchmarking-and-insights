@@ -43,4 +43,4 @@ We maintain a suite of specialized commands to automate complex tasks (like API 
 
 *(Note: Even if you do not use Gemini CLI, you can manually copy the markdown files in `ai-tools/instructions/` and use them as highly effective system prompts in your LLM of choice.)*
 
-**For a complete list of available CLI commands, setup instructions, and usage guidelines, please see the [AI Tools Readme](../../ai-tools/README.md).**
+**For a complete list of available CLI commands, setup instructions, and usage guidelines, please see the [AI Guidelines](https://github.com/DFE-Digital/education-benchmarking-and-insights/blob/main/AGENTS.md).**

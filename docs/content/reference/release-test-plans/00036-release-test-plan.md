@@ -19,7 +19,7 @@ This document outlines the approach of testing release `2026.09.1` covering the 
 
 This is the CFR release. It focuses on the Consistent Financial Reporting (CFR) 2025-2026 data drop: the data pipeline configuration and dry run required to ingest and process the 2026 CFR data, together with the data-pipeline-related dependency updates that go out alongside it. For this release we are only releasing the data pipeline code and the associated dependency updates.
 
-Detailed validation of the CFR data content is covered by the CFR data-release test plan ([00005 - CFR Data Release 2025-2026](../data-release-test-plans/00005_CFR-2025-2026-data-release.md)); this plan covers the software and configuration release and the pipeline execution.
+Detailed validation of the CFR data content is covered by the CFR data-release test plan ([00005 - CFR Data Release 2025-2026](/reference/data-release-test-plans/00005-cfr-2025-2026-data-release/)); this plan covers the software and configuration release and the pipeline execution.
 
 ## Scope
 

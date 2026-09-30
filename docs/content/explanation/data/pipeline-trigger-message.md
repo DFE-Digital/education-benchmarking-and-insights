@@ -10,9 +10,7 @@ eleventyNavigation:
 
 This document explains the background logic, design choices, and architectural principles behind the Financial Benchmarking and Insights Tool (FBIT) pipeline trigger message parameters.
 
-For the factual parameters list and JSON schema specifications, see the [Pipeline Trigger Message Reference](../../reference/data/pipeline-trigger-message/).
-
----
+For the factual parameters list and JSON schema specifications, see the [Pipeline Trigger Message Reference](/reference/data/pipeline-trigger-message/).
 
 ## 1. Decoupling of `runId` and `year`
 

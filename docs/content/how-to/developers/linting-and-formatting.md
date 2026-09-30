@@ -14,7 +14,7 @@ This document serves as the single source of truth for code style enforcement.
 
 ## Centralized Enforcement (Pre-commit Hooks & CI)
 
-Most of our code style rules are enforced automatically using [pre-commit hooks](./04_Pre-commit-Hooks.md) and our central Azure DevOps CI pipelines (specifically the `pr-compliance-checks` workflow).
+Most of our code style rules are enforced automatically using [pre-commit hooks](/how-to/developers/pre-commit-hooks/) and our central Azure DevOps CI pipelines (specifically the `pr-compliance-checks` workflow).
 
 If a formatting check fails during a Pull Request build, check the pipeline logs to see which tool flagged the issue and apply the required fixes locally before pushing again.
 
@@ -37,7 +37,7 @@ For the `web`, `platform`, and `core-infrastructure` modules, we use standard .N
 - **Manual Execution:** Run `dotnet format` from the respective module root directory (`web/`, `platform/`, or `core-infrastructure/`).
 - **IDE Integration (Recommended):**
   - **Rider / Visual Studio:** Both natively support `.editorconfig`. Formatting on save or using the built-in "Reformat Code" shortcut will automatically apply these rules.
-  - See [Rider Configuration](./9_Rider-Configuration.md) for more details.
+  - See [Rider Configuration](/how-to/developers/rider-configuration/) for more details.
 
 ## TypeScript & JavaScript (Front-end Components & Web)
 

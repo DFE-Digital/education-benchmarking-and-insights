@@ -13,7 +13,7 @@ This document provides detailed information for developers about the implementat
 See also:
 
 - [Guide: Chart Development Workflow](/explanation/design/chart-development-workflow/)
-- [Feature: Progressive Enhancements](./progressive-enhancements.md)
+- [Feature: Progressive Enhancements](/reference/developers/progressive-enhancements/)
 - [ADR006: Rendering of Charts](/reference/decisions/0006-chart-rendering/)
 - [ADR007: Deployment Options for SVG Service for Rendering Charts](/reference/decisions/0007-deployment-options-rendering-charts-service/)
 - [ADR009: JavaScript Library Selection for ASP.NET Core](/reference/decisions/0009-js-library/)
@@ -743,4 +743,4 @@ This CSS definition could also then be re-used in the legend for consistency.
 
 #### Progressive enhancement
 
-The existing client side line charts optionally support tooltips when the mouse enters a value dot. As per the [Progressive Enhancements](./progressive-enhancements.md) feature, this should be added in once the server rendered chart has been implemented.
+The existing client side line charts optionally support tooltips when the mouse enters a value dot. As per the [Progressive Enhancements](/reference/developers/progressive-enhancements/) feature, this should be added in once the server rendered chart has been implemented.

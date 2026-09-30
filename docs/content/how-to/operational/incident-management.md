@@ -36,4 +36,4 @@ Once the incident has been resolved, a final communication will be sent confirmi
 
 ## Root cause analysis
 
-Following an incident, the team [root cause analysis process](./root-cause-analysis.md) will be followed to identify what could be changed in future to help avoid similar incidents recurring.
+Following an incident, the team [root cause analysis process](/how-to/operational/root-cause-analysis/) will be followed to identify what could be changed in future to help avoid similar incidents recurring.

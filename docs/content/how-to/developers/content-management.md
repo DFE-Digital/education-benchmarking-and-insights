@@ -95,7 +95,7 @@ The script includes:
 - Validity dates
 - A comment header with Date and associated work item
 
-In order to track the history of updates, relevant SQL scripts should be persisted to the repo in the [scripts/content](../../scripts/content) folder.
+In order to track the history of updates, relevant SQL scripts should be persisted to the repo in the [scripts/content](https://github.com/DFE-Digital/education-benchmarking-and-insights/tree/main/scripts/content) folder.
 
 **Apply to Pre-Prod:**
 

@@ -43,7 +43,7 @@ A user with write access to the database who may configure the banner(s) as requ
 
 - Database migrations should have been run to create the new table and view
 - Content API must be running
-- Cache should be configured (see [web README](../../web/README.md))
+- Cache should be configured (see [web README](https://github.com/DFE-Digital/education-benchmarking-and-insights/blob/main/web/README.md))
   - For development purposes, cache may also be disabled by setting `"Disabled": true`
 
 ## Usage

@@ -10,13 +10,13 @@ eleventyNavigation:
 
 The repository is a monorepo which contains multiple components, structured to streamline collaboration while providing autonomy and tailored workflows without the overhead of multiple repositories.
 
-- [Core infrastructure](../../core-infrastructure/README.md)
-- [Front-end components](../../front-end-components/README.md)
-- [Data pipeline](../../data-pipeline/README.md)
-- [Platform](../../platform/README.md)
-- [Web](../../web/README.md)
-- [Prototype](../../prototype/README.md)
-- [Support & analytics](../../support-analytics/README.md)
+- [Core infrastructure](https://github.com/DFE-Digital/education-benchmarking-and-insights/blob/main/core-infrastructure/README.md)
+- [Front-end components](https://github.com/DFE-Digital/education-benchmarking-and-insights/blob/main/front-end-components/README.md)
+- [Data pipeline](https://github.com/DFE-Digital/education-benchmarking-and-insights/blob/main/data-pipeline/README.md)
+- [Platform](https://github.com/DFE-Digital/education-benchmarking-and-insights/blob/main/platform/README.md)
+- [Web](https://github.com/DFE-Digital/education-benchmarking-and-insights/blob/main/web/README.md)
+- [Prototype](https://github.com/DFE-Digital/education-benchmarking-and-insights/blob/main/archive/prototype.zip)
+- [Support & analytics](https://github.com/DFE-Digital/education-benchmarking-and-insights/blob/main/support-analytics/README.md)
 
 Each component contains its own README with specific, detailed getting started instructions.
 
@@ -87,9 +87,9 @@ Follow these steps to set up the repository for local development:
 
 4. **Navigate to a component:**
    Choose the component you wish to work on and follow its specific README instructions:
-   - For the main website: [web/README.md](../../web/README.md)
-   - For APIs: [platform/README.md](../../platform/README.md)
-   - For React components: [front-end-components/README.md](../../front-end-components/README.md)
+   - For the main website: [web/README.md](https://github.com/DFE-Digital/education-benchmarking-and-insights/blob/main/web/README.md)
+   - For APIs: [platform/README.md](https://github.com/DFE-Digital/education-benchmarking-and-insights/blob/main/platform/README.md)
+   - For React components: [front-end-components/README.md](https://github.com/DFE-Digital/education-benchmarking-and-insights/blob/main/front-end-components/README.md)
 
 ## Local Development
 

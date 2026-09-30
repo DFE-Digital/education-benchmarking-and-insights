@@ -10,9 +10,7 @@ eleventyNavigation:
 
 The Financial Benchmarking and Insights Tool (FBIT) data-processing pipeline relies on queue-triggered messages in `data-pipeline-job-pending` to execute data processing runs. These payloads coordinate official baseline data releases as well as interactive user-defined calculations.
 
-For an in-depth discussion on the architectural and conceptual decisions behind these parameter designs (such as isolation levels, decoupling, and mismatched timelines), see the [Pipeline Trigger Message Concepts](../../../explanation/data/pipeline-trigger-message.md) explanation page.
-
----
+For an in-depth discussion on the architectural and conceptual decisions behind these parameter designs (such as isolation levels, decoupling, and mismatched timelines), see the [Pipeline Trigger Message Concepts](/explanation/data/pipeline-trigger-message/) explanation page.
 
 ## 1. Overall Schema & Definitions
 
