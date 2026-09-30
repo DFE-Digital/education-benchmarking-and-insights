@@ -138,11 +138,11 @@ variable "configuration" {
       DISABLE_ORG_CLAIM_CHECK = true
     }
     feature = {
-      sku_name                       = "B1"
+      sku_name                       = "P1v3"
       zone_balancing_enabled         = false
       worker_count                   = 1
-      front_door_profile_sku_name    = "Standard_AzureFrontDoor"
-      front_door_waf_policy_sku_name = "Standard_AzureFrontDoor"
+      front_door_profile_sku_name    = "Premium_AzureFrontDoor"
+      front_door_waf_policy_sku_name = "Premium_AzureFrontDoor"
       waf_mode                       = "Detection"
       features = {
         News                         = true,
