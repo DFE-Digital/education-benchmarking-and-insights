@@ -79,7 +79,7 @@ When adding a new functional slice:
 
 This project intentionally separates the configuration model to keep it predictable and avoid mixing application configuration, secrets, and Azure Functions host variables.
 
-**Important**: All secret management must strictly adhere to the [Secret Management Guide](./12_Secret-Management-Guide.md).
+**Important**: All secret management must strictly adhere to the [Secret Management Guide](/how-to/developers/secret-management/).
 
 Azure Functions has two separate configuration systems. The important distinction:
 
@@ -123,7 +123,7 @@ platform-test
 
 ### Adding User Secrets
 
-Add the required secrets to your local environment (using the `platform-local` ID). Please refer to the [Platform README](../../platform/README.md#required-local-secrets) for the full list of required keys.
+Add the required secrets to your local environment (using the `platform-local` ID). Please refer to the [Platform README](https://github.com/DFE-Digital/education-benchmarking-and-insights/blob/main/platform/README.md#required-local-secrets) for the full list of required keys.
 
 Example command to add a secret:
 

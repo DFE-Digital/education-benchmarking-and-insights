@@ -16,17 +16,15 @@ Below is the complete chronological sequence from planning through to go-live, w
 
 ## Release specific notes
 
-* [CFR](./03_CFR.md) (August/September)
-* [BFR](./04_BFR.md) (August)
-* [S251 (Budget/Outturn)](./05_S251.md) (September)
-* [AAR](./02_AAR.md) (January/February)
-
----
+* [CFR](/how-to/data-release-guide/cfr/) (August/September)
+* [BFR](/how-to/data-release-guide/bfr/) (August)
+* [S251 (Budget/Outturn)](/how-to/data-release-guide/s251/) (September)
+* [AAR](/how-to/data-release-guide/aar/) (January/February)
 
 ## Phase 1: Pre-Release (At least 2 Sprints Before)
 
 1. **Kickoff Meeting.** Hold a release kickoff session, run by engineers, with the engineering and project teams. Cover:
-   * Which data sources are being refreshed — check the [data sources docs](../../data/02_Sources.md). This page also lists the SQL server locations for the main financial releases.
+   * Which data sources are being refreshed (check the [data sources docs](/explanation/sources/)). This page also lists the SQL server locations for the main financial releases.
    * Whether any additional data access is required. Most ancillary data is publicly available on gov.uk.
    * Any blockers the team foresees in the release, for example large schema changes.
 
@@ -53,7 +51,7 @@ Once the cutoff data is prepared, one engineer should orchestrate the rest of th
 
 1. **Scale Target SQL Database.** Scale the destination Azure SQL database (e.g. `s198t01-sql`) to **200 DTUs** via Settings > Compute and Storage, so the pipeline load doesn't impact the web service or other developers. Wait for this to take effect before proceeding.
 
-2. **Send Start Trigger Message.** Post the UTF-8 trigger message to the `data-pipeline-job-pending` Azure queue in the target storage account. See [trigger schema](#triggering-a-pipeline-run) below. Full instructions are in the [data-pipeline README](../../../data-pipeline/README.md#running-the-pipeline).
+2. **Send Start Trigger Message.** Post the UTF-8 trigger message to the `data-pipeline-job-pending` Azure queue in the target storage account. See [trigger schema](#triggering-a-pipeline-run) below. Full instructions are in the [data-pipeline README](https://github.com/DFE-Digital/education-benchmarking-and-insights/blob/main/data-pipeline/README.md#running-the-pipeline).
 
 3. **Monitor Logs.** Watch execution logs in the container logs queries hub (`s198t01-ebis-aiw`): search logs, then search "default" in the queries hub and run the "Recent default pipeline runs" query. A successful run displays "Pipeline run successful!"
 
@@ -128,7 +126,7 @@ To trigger a pipeline run once data is prepared, add a message to the `data-pipe
 
 > **Note:** The `deriveLaaRiskScores` parameter is an optional boolean defaulting to `false`. When set to `true`, the pipeline will execute the LAA risk scores derivations module (Maintained School Multi-Factor Risk Calculations) at the end of the standard default pipeline execution.
 
-For the full trigger payload schema definitions, optional parameter options, and concrete examples, please refer to the [Pipeline Payload Definitions and Schema Nuances](../../reference/data/pipeline-trigger-message.md) reference page.
+For the full trigger payload schema definitions, optional parameter options, and concrete examples, please refer to the [Pipeline Payload Definitions and Schema Nuances](/reference/data/pipeline-trigger-message/) reference page.
 
 ### What year to use in data pipeline runs
 
@@ -168,20 +166,20 @@ And so on. `runId` should be the highest of the years of the 4 releases, and is 
 
 The year for a release corresponds to a directory location in the `raw` container. For the pipeline to run correctly, the correct data must be in the right directory in the `raw` container.
 
-For an in-depth explanation of the decoupling of `runId` and `year`, mismatched timelines, and user calculation isolation, see the [Pipeline Trigger Message Concepts](../../explanation/data/pipeline-trigger-message.md) explanation page.
+For an in-depth explanation of the decoupling of `runId` and `year`, mismatched timelines, and user calculation isolation, see the [Pipeline Trigger Message Concepts](/explanation/data/pipeline-trigger-message/) explanation page.
 
 ### Checking for schema changes
 
 * New files in the service will often need code config changes to define their schema for the data pipeline.
 * If there are schema changes from last year, or the contents of the files are very different to last year, flag this to the business as part of the data drop report as early as possible. The business will advise on how to handle these changes.
-* Schema changes and filenames with dates need to be registered in the data pipeline to process the new data correctly. Conceptually there is a file name, a file schema, and a mapping of raw schema names to regularised pipeline names — all of these may need to be updated to get a new file to run in the pipeline. For example, `../../../../data-pipeline/src/pipeline/input_schemas/census_workforce.py` allows per-year configuration of: header rows, file schema, filename, column mappings (renaming inconsistent columns for predictable processing), and a column eval config to define derived columns.
+* Schema changes and filenames with dates need to be registered in the data pipeline to process the new data correctly. Conceptually there is a file name, a file schema, and a mapping of raw schema names to regularised pipeline names — all of these may need to be updated to get a new file to run in the pipeline. For example, `https://github.com/DFE-Digital/education-benchmarking-and-insights/blob/main/data-pipeline/src/pipeline/input_schemas/census_workforce.py` allows per-year configuration of: header rows, file schema, filename, column mappings (renaming inconsistent columns for predictable processing), and a column eval config to define derived columns.
 * If a schema is not defined for a year, the data pipeline will error.
 
 ### Testing locally
 
 Testing that new data passes the data pipeline on a local machine first is a good way to debug problems before testing on deployed infrastructure. Familiarity with Docker, Python, and SQL is needed.
 
-1. [Set up the data pipeline locally.](../../../data-pipeline/README.md)
+1. [Set up the data pipeline locally.](https://github.com/DFE-Digital/education-benchmarking-and-insights/blob/main/data-pipeline/README.md)
 2. Put the new data into blob storage locally. The year for a release corresponds to a directory location in the `raw` container — the correct data must be in the right directory for the pipeline to run correctly.
 3. Trigger a pipeline run locally by adding a message to the `data-pipeline-job-default-start` queue as UTF-8 (see [Triggering a pipeline run](#triggering-a-pipeline-run)).
 4. Debugging messages display as the pipeline runs; errors display alongside them if they occur. A successful run shows "Pipeline run successful!"

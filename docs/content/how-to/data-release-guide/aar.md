@@ -10,7 +10,7 @@ eleventyNavigation:
 
 ## Get the data
 
-[AAR](https://www.gov.uk/guidance/academies-accounts-return) is academy returns data on a academy and trust level. Academies and trusts ("central services") are different types of organisation, so submit their returns separately. They submit in a big online form: AAR. These returns get ingested into an operational database in DfE behind their forms service, then gradually get approved by DfE and filter through to SQL views which we consume in FBIT. Schools have a deadline to submit their returns and not all schools submit at the same time, so product owners in FBIT make a call as to when enough schools have submitted, and that frozen "cut" of the submission tables is what gets used in FBIT. FBIT combines this financial with other data sources in the data pipeline. AAR uses inputs from the [data sources page.](../../data/02_Sources.md) The data sources page links to where to source these files:
+[AAR](https://www.gov.uk/guidance/academies-accounts-return) is academy returns data on a academy and trust level. Academies and trusts ("central services") are different types of organisation, so submit their returns separately. They submit in a big online form: AAR. These returns get ingested into an operational database in DfE behind their forms service, then gradually get approved by DfE and filter through to SQL views which we consume in FBIT. Schools have a deadline to submit their returns and not all schools submit at the same time, so product owners in FBIT make a call as to when enough schools have submitted, and that frozen "cut" of the submission tables is what gets used in FBIT. FBIT combines this financial with other data sources in the data pipeline. AAR uses inputs from the [data sources page.](/explanation/sources/) The data sources page links to where to source these files:
 
 * aar.csv
 * aar_cs.csv
@@ -31,9 +31,9 @@ Download all of these data, checking for updates in publicly available datasets.
 
 ## Test the data pipeline runs locally
 
-* [Set up the pipeline locally](./01_Overview.md#testing-locally).
+* [Set up the pipeline locally](/how-to/data-release-guide/#testing-locally).
 * Add the new data to the relevant year folder in Azure
-* [Configure the schemas for the new files](./01_Overview.md#checking-for-schema-changes) in `data-pipeline.src.pipeline.input_schemas`
+* [Configure the schemas for the new files](/how-to/data-release-guide/#checking-for-schema-changes) in `data-pipeline.src.pipeline.input_schemas`
 * Run the pipeline to test the new data. Debug and fix any issues, eg misconfigured schemas.
 * After configuration, run the pipeline successfully
 * Check that the pipeline has deposited rows in SQL by querying the database tables for academies and trusts (fill in the year):
@@ -101,7 +101,7 @@ GROUP BY f_prev.RunId;
 
 ### Apportionments and part-year schools
 
-The most complicated checks in AAR are on on [academy central service apportionments](./../../data/09_Academy-Apportionments.md), and how this is affected by trust leavers and joiners.
+The most complicated checks in AAR are on on [academy central service apportionments](/explanation/data/academy-apportionments/), and how this is affected by trust leavers and joiners.
 
 Except for revenue reserves, trust-level central expenditure is distributed (apportioned) to member academies at the start of the year (even if it left part way through the year). Most cost categories are distributed using pupil numbers, but a couple of categories like utilities are distributed using floor area. There are three categories to check: cost apportionments by pupil number, cost apportionments by floor area, and the special case of trust revenue reserves. The idea here is to recalculate apportionments from the input data to check against the database values as calculated by the data pipeline.
 
@@ -149,13 +149,13 @@ Because Revenue Reserves represent balance sheet items at a specific point in ti
 ## Deploy the working code through deployment environments
 
 * Open a pull request on GitHub with the schema changes required to run the new year's data.
-* FBIT CICD will deploy these changes to test when they are merged. Follow the [guide to test on deployed infrastructure](./01_Overview.md#testing-on-deployed-infrastructure) to run the changes into test for wider testing.
+* FBIT CICD will deploy these changes to test when they are merged. Follow the [guide to test on deployed infrastructure](/how-to/data-release-guide/#testing-on-deployed-infrastructure) to run the changes into test for wider testing.
 
 ## Gotchas + tips
 
 * Find all the ancillary data used in the AAR release in `get_aar_ancillary_data()`.
 * SQL views for AAR submissions update midmorning on weekdays.
-* A specific thing to check thoroughly in AAR is the system to apportion central service spend to academies. [There are a few docs on this at a business level](../../data/09_Academy-Apportionments.md). Manually check these figures for at least 1 school/trust.
+* A specific thing to check thoroughly in AAR is the system to apportion central service spend to academies. [There are a few docs on this at a business level](/explanation/data/academy-apportionments/). Manually check these figures for at least 1 school/trust.
 * The old and new building data collections CDC and CDC2 are combined to the file used in FBIT using [this python file](https://educationgovuk.sharepoint.com/:u:/r/sites/DfEFinancialBenchmarking/Shared%20Documents/FBIT%20Source%20Data/CDC/2025/cdc_combination.py?csf=1&web=1&e=AuQFas). DfE provide us with a cut of CDC2
 * The High Exec Pay file can be generated from AAR data in SQL Server using [this sql query](https://educationgovuk.sharepoint.com/:u:/r/sites/DfEFinancialBenchmarking/Shared%20Documents/FBIT%20Source%20Data/High%20Exec%20Pay%20query/high_exec_pay_query.sql?csf=1&web=1&e=K11UI5).
 * [Test plans for AAR](/reference/data-release-test-plans/00001-aar-2024-2025-data-release/)

@@ -37,7 +37,7 @@ Effective Legends: Position the legend where it does not obstruct the data and t
 
 The Trust Historical Data is located within the `Resources` section of the FBIT platform Trust view. It allows for trust stakeholders to view `Spending`, `Income` and `Balance` financial data of various categories. The line chart visualisation used here illustrates the year-end account return balance for the last five consecutive financial periods.
 
-![Trusted Schools Alliance - Income](./images/trust-historic-data.png)
+![Trusted Schools Alliance - Income](/assets/images/chart-principles/trust-historic-data.png)
 
 **Why a line charts is the best choice for the Trust Historical Data use case:**
 
@@ -52,7 +52,7 @@ The Trust Historical Data is located within the `Resources` section of the FBIT 
 
 The Trust Forecast and Risk is located within the `Forecast and risks` feature of the FBIT platform Trust view. It holds financial data, metrics information and recommendations for the future financial position of trusts. The line chart visualisation illustrates the year-end Account return balance vs Budget forecast return of a Trust.
 
-![Acorn Multi Academy Trust](./images/trust-forecast-and-risks.png)
+![Acorn Multi Academy Trust](/assets/images/chart-principles/trust-forecast-and-risks.png)
 
 **Why a line charts is the best choice for the Trust Forecast & Risk use case:**
 
@@ -74,9 +74,9 @@ The High Needs Historical Data is located within the `High needs benchmarking` f
 > **Note**
 > The `Section 251` view utilises a line chart to display two data series while `Special Educational Needs (SEN)` view employ a line chart to represent a single data series.
 
-![Southampton - Section 251](./images/high-needs-historical-data-section251.png)
+![Southampton - Section 251](/assets/images/chart-principles/high-needs-historical-data-section251.png)
 
-![Southampton - SEN](./images/high-needs-historical-data-send2.png)
+![Southampton - SEN](/assets/images/chart-principles/high-needs-historical-data-send2.png)
 
 **Why a line charts is the best choice for the High Needs Historical Data use case:**
 
@@ -95,7 +95,7 @@ The School Historical Data is located within the `Resources` section of the FBIT
 > **Note**
 > The `Spending` and `Pupil and workforce` views utilises a line chart to display three data series while `Income` and `Balance` views each employ a line chart to represent a single data series.
 
-![Banister Primary School - Spending](./images/school-historic-data-spending.png)
+![Banister Primary School - Spending](/assets/images/chart-principles/school-historic-data-spending.png)
 
 **Why a line charts is the best choice for the High Needs Historical Data use case:**
 
@@ -113,11 +113,11 @@ Casing will be standardised on data labels and tooltip text in all chat interfac
 
 **Trust Historic Data:**
 
-![Trusted Schools Alliance](./images/trust-historic-data-alternative-consideration.png)
+![Trusted Schools Alliance](/assets/images/chart-principles/trust-historic-data-alternative-consideration.png)
 
 **Trust Forecast and Risk:**
 
-![Acorn Multi Academy Trust](./images/trust-forecast-and-risks-alternative-consideration.png)
+![Acorn Multi Academy Trust](/assets/images/chart-principles/trust-forecast-and-risks-alternative-consideration.png)
 
 **Strengths:**
 

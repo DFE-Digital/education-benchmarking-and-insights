@@ -148,7 +148,7 @@ Extended durations were also reported from APIs when resolving the managed ident
 
 4️⃣ Comparator endpoints were refactored before this additional run took place.
 
-5️⃣ Get single Trust and Local Authority endpoints were refactored before these additional runs took place. Although some improvement was observed to the Local Authority home page, the Trust home page actually performed worse than before the change was implemented. [Peak load tests](./0005_Web-peak-load-test-plan.md) did perform better, however.
+5️⃣ Get single Trust and Local Authority endpoints were refactored before these additional runs took place. Although some improvement was observed to the Local Authority home page, the Trust home page actually performed worse than before the change was implemented. [Peak load tests](/reference/performance-test-plans/0005-web-peak-load-test-plan/) did perform better, however.
 
 **Possible causes:**
 

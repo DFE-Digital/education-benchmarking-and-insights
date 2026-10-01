@@ -22,7 +22,7 @@ The following hooks are currently configured in `.pre-commit-config.yaml`:
 - **Conventional Commits:** Enforces standard commit message formatting (e.g., `feat:`, `fix:`).
 
 > [!IMPORTANT]
-> **Note:** For instructions on configuring your IDE (VS Code, Rider, etc.) to format files on save or show linting errors as you type, please see the [Linting and Formatting Guide](./05_Linting-and-Formatting.md).
+> **Note:** For instructions on configuring your IDE (VS Code, Rider, etc.) to format files on save or show linting errors as you type, please see the [Linting and Formatting Guide](/how-to/developers/linting-and-formatting/).
 
 ## Setup
 
