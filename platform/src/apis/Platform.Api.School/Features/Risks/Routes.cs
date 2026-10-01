@@ -6,5 +6,6 @@ namespace Platform.Api.School.Features.Risks;
 public static class Routes
 {
     public const string History = $"schools/{Constants.UrnParam}/risks/history";
+    public const string Metrics = $"schools/{Constants.UrnParam}/risks/metrics";
     public const string Risks = $"schools/{Constants.UrnParam}/risks";
 }
