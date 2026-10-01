@@ -72,23 +72,6 @@ Future migration efforts should execute the following steps for each target file
 
 The following tables specify exactly where each file from the old `documentation/` folder should be migrated.
 
-### 1. Architecture Document Mapping (`documentation/architecture/`)
-
-| Current File | Target Location | Rationale |
-| :--- | :--- | :--- |
-| `01_Introduction.md` | `docs/content/explanation/architecture/introduction.md` | Focuses on high-level understanding of the system context. |
-| `02_Business-Context.md` | `docs/content/explanation/architecture/business-context.md` | Explains the "why" and strategic reasoning behind the platform. |
-| `03_Constraints-and-Principals.md` | `docs/content/explanation/architecture/constraints-and-principles.md` | Explains the constraints and design principles that guide architecture. |
-| `04_Non-Functional-Requirements.md` | `docs/content/reference/architecture/non-functional-requirements.md` | Structured details of system limits, requirements, and compliance. |
-| `05_Volumetrics-Demand.md` | `docs/content/explanation/architecture/volumetrics-demand.md` | Concept analysis of usage load and demand models. |
-| `06_Information-Architecture.md` | `docs/content/explanation/architecture/information-architecture.md` | High-level structural description of how information is stored. |
-| `07_Application-Architecture.md` | `docs/content/explanation/architecture/application-architecture.md` | Deep dive explaining components and system interaction. |
-| `08_Logical-Architecture.md` | `docs/content/explanation/architecture/logical-architecture.md` | Narrative structure of logical groupings and design. |
-| `09_Deployment-Architecture.md` | `docs/content/explanation/architecture/deployment-architecture.md` | Detailed overview of infrastructure deployment strategies. |
-| `10_Security-Architecture.md` | `docs/content/reference/architecture/security-architecture.md` | Concrete list of security controls, requirements, and configurations. |
-| `11_Decisions.md` | `docs/content/reference/architecture/decisions/index.md` | Listing page for Architectural Decision Records. |
-| `decisions/` (Folder) | `docs/content/reference/architecture/decisions/` | ADRs are pure reference material detailing what was decided. |
-
 ### 5. Operational Document Mapping (`documentation/operational/`)
 
 | Current File | Target Location | Rationale |
