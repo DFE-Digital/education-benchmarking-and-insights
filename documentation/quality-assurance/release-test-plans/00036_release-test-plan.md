@@ -104,8 +104,8 @@ To be completed post-release.
 |-------------------------|:-----------:|:------:|:------:|:---------:|
 | Sanity Tests - Pre Prod |      1      |   1    |   0    |   100%    |
 | Smoke Tests - Pre Prod  |      1      |   1    |   0    |   100%    |
-| Smoke Tests - Prod      |      1      |   1    |   1    |   100%    |
-| Total                   |      3      |   3    |   3    |   100%    |
+| Smoke Tests - Prod      |      1      |   1    |   0    |   100%    |
+| Total                   |      3      |   3    |   0    |   100%    |
 
 **User Acceptance Testing (UAT):** Conducted by clients/stakeholders and recorded as an acceptance sign-off rather than a test count. Outcome: passed.
 
