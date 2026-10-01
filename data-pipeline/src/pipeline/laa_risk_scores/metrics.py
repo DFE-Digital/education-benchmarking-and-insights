@@ -13,7 +13,7 @@ class RiskGroup(Enum):
 
 
 class RiskFlag(str, Enum):
-    NONE = "None"
+    NO_FLAG = "No flag"
     MINOR = "Minor"
     MAJOR = "Major"
 
@@ -178,7 +178,7 @@ class BinaryRiskMetric(BaseRiskMetric):
             np.where(value_series, float(self.score_when_1), 0.0), index=df.index
         )
         flag_series = pd.Series(
-            np.where(value_series, self.risk_when_1, RiskFlag.NONE.value),
+            np.where(value_series, self.risk_when_1, RiskFlag.NO_FLAG.value),
             index=df.index,
         )
         return score_series, flag_series
@@ -207,7 +207,7 @@ class ConditionalRiskMetric(BaseRiskMetric):
         risk_std = np.select(
             conds_std,
             [r.risk for r in self.standard_rules],
-            default=RiskFlag.NONE.value,
+            default=RiskFlag.NO_FLAG.value,
         )
 
         # Special scoring
@@ -221,7 +221,7 @@ class ConditionalRiskMetric(BaseRiskMetric):
         risk_spec = np.select(
             conds_spec,
             [r.risk for r in self.special_rules],
-            default=RiskFlag.NONE.value,
+            default=RiskFlag.NO_FLAG.value,
         )
 
         score_series = pd.Series(
@@ -372,7 +372,7 @@ class ParentalPreferenceMetric(ConditionalRiskMetric):
         is_special = df[self.condition_column].isin(self.special_values)
         if is_special.any():
             df.loc[is_special, self.score_column] = 0.0
-            df.loc[is_special, self.flag_column] = RiskFlag.NONE.value
+            df.loc[is_special, self.flag_column] = RiskFlag.NO_FLAG.value
 
 
 @dataclass
