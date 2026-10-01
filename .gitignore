@@ -12,6 +12,8 @@ Thumbs.db
 # ==========================================
 # IDEs & Editors
 # ==========================================
+.agents
+skills-lock.json
 .idea/
 **/.idea/
 .vscode/*
