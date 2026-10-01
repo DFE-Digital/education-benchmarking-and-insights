@@ -24,3 +24,11 @@ Access technical specifications, branding guides, and styling rules used to main
 ## [Developers](/reference/developers/)
 
 Access technical specifications, API documentation, and feature reference guides for developers working on the FBIT platform.
+
+## [Operational](/reference/operational/)
+
+Access operational specifications, service conditions, risk mitigations, and operational constraints for the service.
+
+## [Service Metrics](/reference/metrics/)
+
+Review quantifiable operational and user insight metrics, purpose definitions, alert thresholds, and diagnostic queries.
