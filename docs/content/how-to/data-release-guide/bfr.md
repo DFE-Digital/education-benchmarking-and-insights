@@ -53,4 +53,4 @@ BFR uses its own, dedicated forecast pupil number which can differ from the stan
 * Not all BFR trusts in the raw submission get shown in FBIT. AAR is the primary driver of FBIT. Only trusts present in AAR will be shown in FBIT, so Trusts created or amalgamated in the time between last year's AAR and the new BFR release will not show up in `BudgetForecastReturn` in the database. Typically this is only 1-2% of trusts.
 * The cost categories are IT Spend and Revenue reserve. IT Spend rows use the BFR pupil number while revenue reserve rows use the AAR (census) pupil number. This is because BFR revenue reserves are used to compare to AAR actuals and both figures need to be regularised per pupil by the same amount. IT spend rows don't compare to AAR actual spend so just use the BFR pupil number.
 * BFR uses previous year's BFR data to show spend over time. The manner in which it does this and business context [is described in other docs.](../../data/sources/bfr.md)
-* [BFR Test Plans](../../quality-assurance/data-release-test-plans/00003_BFR-2024-2025-data-release.md)
+* [BFR Test Plans](/reference/data-release-test-plans/00003-bfr-2024-2025-data-release/)

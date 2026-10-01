@@ -317,8 +317,8 @@ During initial rapid development of this chart type, D3 was used to render direc
 
 See also:
 
-- [Performance test plan 0007](../quality-assurance/performance-test-plans/0007_API-Web-ssr-charts-load-test-plan.md)
-- [Performance test plan 0010](../quality-assurance/performance-test-plans/0010_Web-Bencmark-IT-Spending-load-test-plan.md)
+- [Performance test plan 0007](/reference/performance-test-plans/0007-api-web-ssr-charts-load-test-plan/)
+- [Performance test plan 0010](/reference/performance-test-plans/0010-web-benchmark-it-spending-load-test-plan/)
 
 ### `POST api/verticalBarChart/dom` (local development)
 
