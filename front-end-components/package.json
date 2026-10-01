@@ -64,7 +64,7 @@
     "prettier": "^3.9.6",
     "sass-embedded": "^1.103.1",
     "typescript": "^6.0.3",
-    "typescript-eslint": "^8.68.0",
+    "typescript-eslint": "^8.70.1",
     "vite": "^7.3.6"
   },
   "overrides": {
