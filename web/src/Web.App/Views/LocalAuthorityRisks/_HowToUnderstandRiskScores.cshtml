@@ -28,8 +28,7 @@
             <li>Educational performance risk (up to 2.00)</li>
         </ul>
         <p class="govuk-body govuk-!-margin-top-4">
-            @*TODO: update href once methodology page is created*@
-            <a href="#" class="govuk-link govuk-link--no-visited-state">Read about how we define these risk indicators and RAG-rate the scores</a>
+            <a href="@Url.Action("Methodology", "LocalAuthorityRisks", new { code = Model.Code })" class="govuk-link govuk-link--no-visited-state">Read about how we define these risk indicators and RAG-rate the scores</a>
         </p>
     </div>
 </details>

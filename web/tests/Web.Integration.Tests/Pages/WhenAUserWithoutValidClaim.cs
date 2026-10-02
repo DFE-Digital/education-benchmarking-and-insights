@@ -61,6 +61,16 @@ public class WhenAUserWithoutValidClaims(SchoolBenchmarkingWebAppClient client)
     }
 
     [Fact]
+    public async Task LocalAuthorityRisksMethodologyRedirectsToForbidden()
+    {
+        var page = await Client
+            .Navigate(Paths.LocalAuthorityRisksMethodology(Code));
+
+        PageAssert.IsForbiddenPage(page);
+        DocumentAssert.AssertPageUrl(page, Paths.LocalAuthorityRisksMethodology(Code).ToAbsolute(), HttpStatusCode.Forbidden);
+    }
+
+    [Fact]
     public async Task LocalAuthoritySchoolRisksRedirectsToForbidden()
     {
         var page = await Client

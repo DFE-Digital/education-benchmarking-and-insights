@@ -1,0 +1,345 @@
+@{
+    ViewData[ViewDataKeys.Title] = PageTitles.LocalAuthorityRisksMethodology;
+
+    const string progress8GuidanceUrl = "https://www.gov.uk/government/publications/progress-8-school-performance-measure/secondary-accountability-measures-2025-guidance-for-maintained-secondary-schools-academies-and-free-schools";
+    const string compareSchoolPerformanceDownloadDataUrl = "https://www.compare-school-performance.service.gov.uk/download-data";
+    const string schoolApplicationsAndOffersUrl = "https://www.gov.uk/government/statistics/primary-and-secondary-school-applications-and-offers-2026";
+    const string schoolPupilsCharacteristicsUrl = "https://explore-education-statistics.service.gov.uk/find-statistics/school-pupils-and-their-characteristics";
+    const string pupilAbsenceStatsUrl = "https://www.gov.uk/government/collections/statistics-pupil-absence";
+    const string schoolCapacityStatsUrl = "https://www.gov.uk/government/collections/statistics-school-capacity";
+}
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+        <h1 class="govuk-heading-xl">
+            Risk score methodology
+        </h1>
+
+        <p class="govuk-body">
+            This guidance explains how risk scores, risk indicators and RAG ratings are calculated.
+        </p>
+
+        @*RAG ratings*@
+        <h2 class="govuk-heading-l">RAG ratings</h2>
+
+
+        <p class="govuk-body">RAG ratings are based on:</p>
+
+        <ul class="govuk-list govuk-list--bullet">
+            <li>the total score for all indicators listed in the risk indicators section</li>
+            <li>the number of indicators identified as having risks</li>
+            <li>of those identified as having risks, how many are classified as major risks</li>
+        </ul>
+
+        <p class="govuk-body">
+            A rating is determined where any one of the criteria for that rating is met.
+        </p>
+
+        <h3 class="govuk-heading-m">Green</h3>
+        <p class="govuk-body">
+            A total indicator score of up to 2.5, no more than 4 indicators identified as having risks. Of these, no more than 1 can be classified as a major risk.
+        </p>
+
+        <h3 class="govuk-heading-m">Amber</h3>
+        <p class="govuk-body">
+            A total indicator score of up to 5, no more than 8 indicators identified as having risks. Of these, no more than 3 can be classified as major risks.
+        </p>
+
+        <h3 class="govuk-heading-m">Red</h3>
+        <p class="govuk-body">Any of the following:</p>
+        <ul class="govuk-list govuk-list--bullet">
+            <li>total indicator score above 5</li>
+            <li>more than 8 indicators identified as having risks</li>
+            <li>more than 3 indicators classified as major risks</li>
+        </ul>
+
+
+        @*Overall*@
+        <h2 class="govuk-heading-l">Overall indicator score and risks</h2>
+
+        <p class="govuk-body">
+            The LAA uses 19 indicators to help local authority colleagues identify areas of concern in schools.
+        </p>
+
+        <p class="govuk-body">The 19 indicators are grouped into 3 categories:</p>
+        <ul class="govuk-list govuk-list--bullet">
+            <li>financial (11 indicators)</li>
+            <li>educational performance (3 indicators)</li>
+            <li>school and pupil characteristics (5 indicators)</li>
+        </ul>
+
+        <p class="govuk-body">Indicator scores that meet specific thresholds are identified as having risk. Scores above a higher threshold are identified as a major risk.</p>
+
+        <p class="govuk-body">The overall indicator score is calculated by adding the scores from all 19 indicators. This score is combined with the number of indicators identified as having risk to determine the RAG rating.</p>
+
+        <p class="govuk-body">In this guidance, “most recent year” refers to the most recent financial or academic year for which data is available.</p>
+
+        @*Financial performance*@
+        <h2 class="govuk-heading-l">Financial performance indicators</h2>
+
+        <p class="govuk-body">Data for all financial indicators is available on the <a href="/" class="govuk-link govuk-link--no-visited-state">Financial benchmarking and insights tool</a>. </p>
+
+        <h3 class="govuk-heading-m">Recent and previous year balances</h3>
+
+        <p class="govuk-body">The most recent and previous year balance indicators are the total revenue balance, expressed as a percentage of total revenue income at the end of each financial year.  </p>
+
+        <p class="govuk-body">The following thresholds determine the indicator scores and whether the indicators are flagged as having risk:</p>
+        <ul class="govuk-list govuk-list--bullet">
+            <li>values greater than or equal to 0 contribute a score of 0 and are not identified as having risk
+            <li>values greater than -1% and less than 0 contribute a score of 0.25 for the most recent year and 0.125 for the previous year, and are identified as having risk</li>
+            <li>values greater than -2.5% and less than or equal to -0.01 contribute a score of 0.5 for the most recent year and 0.25 for the previous year, and are identified as having risk</li>
+            <li>values greater than -4% and less than or equal to -0.025 contribute a score of 1.0 for the most recent year and 0.5 for the previous year, and are identified as having risk</li>
+            <li>values greater than -5% and less than or equal to -0.04 contribute a score of 1.25 for the most recent year and 0.675 for the previous year, and are identified as having risk</li>
+            <li>values greater than -6% and less than or equal to -0.05 contribute a score of 1.75 for the most recent year and 0.875 for the previous year, and are identified as major risks</li>
+            <li>values greater than -7.5% and less than or equal to -0.06 contribute a score of 2.0 for the most recent year and 1.0 for the previous year, and are identified as major risks</li>
+            <li>values greater than -9% and less than or equal to -0.075 contribute a score of 2.5 for the most recent year and 1.25 for the previous year, and are identified as major risks</li>
+            <li>values less than or equal to -9% contribute a score of 3.0 for the most recent year and 1.5 for the previous year, and are identified as major risks</li>
+        </ul>
+
+        <h3 class="govuk-heading-m">Overspend</h3>
+
+        <p class="govuk-body">The overspend indicator shows the percentage of income per pupil remaining after expenditure in the most recent financial year. </p>
+
+        <p class="govuk-body">The following thresholds determine the indicator score and whether the indicator is flagged as having risk:</p>
+        <ul class="govuk-list govuk-list--bullet">
+            <li>values less than or equal to -9% contribute a score of 3 and are identified as a major risk</li>
+            <li>values greater than -9% and less than or equal to -7.5% contribute a score of 2.5 and are identified as a major risk</li>
+            <li>values greater than -7.5% and less than or equal to -6% contribute a score of 2 and are identified as a major risk</li>
+            <li>values greater than -6% and less than or equal to -5% contribute a score of 1.75 and are identified as a major risk</li>
+            <li>values greater than -5% and less than or equal to -4% contribute a score of 1.25 and are identified as having risk</li>
+            <li>values greater than -4% and less than or equal to -2.5% contribute a score of 1 and are identified as having risk</li>
+            <li>values greater than -2.5% and less than or equal to -1% contribute a score of 0.5 and are identified as having risk</li>
+            <li>values greater than -1% and less than 0 contribute a score of 0.25 and are identified as having risk</li>
+            <li>values greater than or equal to 0 contribute a score of 0 and are not identified as having risk</li>
+        </ul>
+
+        <h3 class="govuk-heading-m">Current long-term deficit</h3>
+
+        <p class="govuk-body">The current long-term deficit shows whether the school has been in deficit for 4 consecutive years, including the most recent year. </p>
+
+        <p class="govuk-body">If the school has been in deficit over this period, it contributes a score of 3 to the overall indicator score. The indicator is also flagged as a major risk. </p>
+
+        <h3 class="govuk-heading-m">Previous long-term deficit</h3>
+
+        <p class="govuk-body">The previous long-term deficit shows whether the school has had 4 consecutive years in deficit at any point in the last 10 years, excluding the most recent year. </p>
+
+        <p class="govuk-body">If the school has had a deficit meeting this condition, it contributes a score of 2 to the overall indicator score. The indicator is also flagged as a major risk. </p>
+
+        <h3 class="govuk-heading-m">Current long-term surplus above threshold</h3>
+
+        <p class="govuk-body">The current long-term surplus above threshold indicator shows whether the school has maintained a revenue surplus exceeding 15% of income for 5 continuous years, including the most recent year.  </p>
+
+        <p class="govuk-body">If the school has maintained a surplus meeting this condition, it contributes a score of 1 to the overall indicator score. The indicator is also flagged as a major risk. </p>
+
+        <h3 class="govuk-heading-m">Percentage spend on staff</h3>
+
+        <p class="govuk-body">The percentage spend on staff indicator shows the proportion of total spending used for staff in the most recent year. </p>
+
+        <p class="govuk-body">The following thresholds determine the indicator score and whether the indicator is flagged as having risk:</p>
+        <ul class="govuk-list govuk-list--bullet">
+            <li>values less than 80% contribute a score of 0 and are not identified as having risk</li>
+            <li>values greater than or equal to 80% and less than 85% contribute a score of 0.75 and are identified as having risk</li>
+            <li>values greater than or equal to 85% and less than 90% contribute a score of 1 and are identified as having risk</li>
+            <li>values greater than or equal to 90% and less than 95% contribute a score of 1.25 and are identified as having risk</li>
+            <li>values greater than or equal to 95% contribute a score of 1.5 and are identified as having risk</li>
+        </ul>
+
+        <p class="govuk-body">This indicator does not identify any major risks. </p>
+
+        <h3 class="govuk-heading-m">Large decrease in balance from the previous year</h3>
+
+        <p class="govuk-body">The large decrease in balance from the previous year indicator shows whether the school has a low financial buffer, defined as under 15% of income. It also shows whether the school is experiencing a significant change in its financial position compared to the previous year. </p>
+
+        <p class="govuk-body">If the school’s balance meets both conditions, it contributes a score of 1.5 to the overall indicator score. The indicator is also flagged as a major risk.  </p>
+
+        <h3 class="govuk-heading-m">Percentage spend on premises</h3>
+
+        <p class="govuk-body">The percentage spend on premises indicator shows the percentage of total spending used for school buildings and related costs, and flags potential risk if this percentage becomes relatively high.  </p>
+
+        <p class="govuk-body">The following thresholds determine the indicator score and whether the indicator is flagged as having risk:</p>
+        <ul class="govuk-list govuk-list--bullet">
+            <li>values less than 10% contribute a score of 0 and are not identified as having risk</li>
+            <li>values greater than or equal to 10% and less than 15% contribute a score of 0.25 and are identified as having risk</li>
+            <li>values greater than or equal to 15% contribute a score of 0.5 and are identified as having risk</li>
+        </ul>
+
+        <p class="govuk-body">This indicator does not identify any major risks.  </p>
+
+        <h3 class="govuk-heading-m">Change in spend per pupil over 4 years</h3>
+
+        <p class="govuk-body">The change in spend per pupil over 4 years indicator shows how spending per pupil has changed over the past 4 years, compared to the current level of income per pupil.  </p>
+
+        <p class="govuk-body">The following thresholds determine the indicator score and whether the indicator is flagged as having risk:</p>
+        <ul class="govuk-list govuk-list--bullet">
+            <li>values between -10% and less than 15% contribute a score of 0 and are not identified as having risk</li>
+            <li>values between 15% and less than 20% contribute a score of 0.5 and are identified as having risk</li>
+            <li>values between 20% and less than 30% contribute a score of 1.0 and are identified as having risk</li>
+            <li>values greater than or equal to 30% contribute a score of 1.5 and are identified as having major risk</li>
+        </ul>
+
+        <h3 class="govuk-heading-m">School has a loan</h3>
+
+        <p class="govuk-body">This indicator shows whether the school has a loan, identified by the presence of interest payments. </p>
+
+        <p class="govuk-body">If this condition is met, it contributes a score of 0.25 to the overall indicator score. The indicator is also flagged as having risk. This indicator does not identify any major risks.</p>
+
+        @*Educational performance*@
+        <h2 class="govuk-heading-l">Educational performance indicators</h2>
+
+        <h3 class="govuk-heading-m">Education attainment score (key stage 2 (KS2) and key stage 4 (KS4))</h3>
+
+        <p class="govuk-body">The indicator score is calculated differently for primary and secondary school phases.  </p>
+
+        <p class="govuk-body">For each phase:</p>
+        <ul class="govuk-list govuk-list--bullet">
+            <li>the primary phase (KS2) score is the percentage of pupils in the cohort reaching the expected standard in reading, writing and maths, using KS2 test results</li>
+            <li>the secondary phase (KS4) score is the school’s average Attainment 8 score per pupil. Details of how this is calculated are available on <a href="@progress8GuidanceUrl" class="govuk-link govuk-link--no-visited-state">GOV.UK</a> </li>
+        </ul>
+
+        <p class="govuk-body">Data for both attainment measures is available on the <a href="@compareSchoolPerformanceDownloadDataUrl" class="govuk-link govuk-link--no-visited-state">Compare school and college performance service</a>. </p>
+
+        <p class="govuk-body">For both phases, the indicator is compared against a threshold of 0.46. If it falls below this threshold, it contributes 0.25 to the overall indicator score. The indicator is also flagged as having risk.  </p>
+
+        <p class="govuk-body">This indicator does not identify any major risks.  </p>
+
+        <h3 class="govuk-heading-m">Education progress score (KS2 and KS4)</h3>
+
+        <p class="govuk-body">The indicator score is calculated differently for primary and secondary school phases.  </p>
+
+        <p class="govuk-body">For each phase:</p>
+        <ul class="govuk-list govuk-list--bullet">
+            <li>the primary phase score is the average of the reading, writing and maths progress measures, using KS2 test results</li>
+            <li>the secondary phase score is the school’s average Progress 8 score per pupil. Details of how this is calculated are available on <a href="@progress8GuidanceUrl" class="govuk-link govuk-link--no-visited-state">GOV.UK</a> </li>
+        </ul>
+
+        <p class="govuk-body">Data for both progress measures is available on the <a href="@compareSchoolPerformanceDownloadDataUrl" class="govuk-link govuk-link--no-visited-state">Compare school and college performance service</a>. </p>
+
+        <p class="govuk-body">For both phases, the indicator is compared against a threshold of -0.11. If it falls below this threshold, it contributes a score of 0.25 to the overall indicator score. The indicator is also flagged as having risk.   </p>
+
+        <p class="govuk-body">This indicator does not identify any major risks.  </p>
+
+        <h3 class="govuk-heading-m">Parental preference</h3>
+
+        <p class="govuk-body">The parental preference indicator is the percentage of parents who chose the school as their first choice compared to the number of places offered.  </p>
+
+        <p class="govuk-body">Data for this indicator is available on the <a href="@schoolApplicationsAndOffersUrl" class="govuk-link govuk-link--no-visited-state">Primary and secondary school applications and offers</a>. </p>
+
+        <p class="govuk-body">The parental preference indicator does not apply to pupil referral units, special and nursery schools. </p>
+
+        <p class="govuk-body">The following thresholds determine the indicator score and whether the indicator is flagged as a risk:</p>
+        <ul class="govuk-list govuk-list--bullet">
+            <li>values between 0 and less than 60% contribute a score of 1.5 and are identified as a major risk</li>
+            <li>values between 60% and less than 65% contribute a score of 1.2 and are identified as a major risk</li>
+            <li>values between 65% and less than 70% contribute a score of 1.0 and are identified as a major risk</li>
+            <li>values between 70% and less than 75% contribute a score of 0.8 and are identified as having risk</li>
+            <li>values between 75% and less than 80% contribute a score of 0.6 and are identified as having risk</li>
+            <li>values between 80% and less than 85% contribute a score of 0.4 and are identified as having risk</li>
+            <li>values between 85% and less than 90% contribute a score of 0.2 and are identified as having risk</li>
+            <li>values of 90% or above contribute a score of 0.0 and are not identified as having risk</li>
+        </ul>
+
+        @*School and pupil*@
+        <h2 class="govuk-heading-l">School and pupil characteristics</h2>
+
+        <h3 class="govuk-heading-m">Change in pupil numbers over 4 years</h3>
+
+        <p class="govuk-body">The change in pupil numbers over 4 years indicator shows how the number of pupils has changed over the past 4 years. This is expressed as a percentage of the pupil count at the start of the period.  </p>
+
+        <p class="govuk-body">Data for this indicator is available on the <a href="@schoolPupilsCharacteristicsUrl" class="govuk-link govuk-link--no-visited-state">Schools, pupils and their characteristics publication</a>. </p>
+
+        <p class="govuk-body">The following thresholds determine the indicator score and whether the indicator is flagged as having risk: </p>
+        <ul class="govuk-list govuk-list--bullet">
+            <li>values less than or equal to -15% contribute a score of 1.5 and are identified as having a major risk</li>
+            <li>values greater than -15% and less than or equal to -12.5% contribute a score of 1.25 and are identified as having risk</li>
+            <li>values greater than -12.5% and less than or equal to -8% contribute a score of 0.8 and are identified as having risk</li>
+            <li>values greater than -8% and less than or equal to -6% contribute a score of 0.6 and are identified as having risk</li>
+            <li>values greater than -6% and less than or equal to -4% contribute a score of 0.4 and are identified as having risk</li>
+            <li>values greater than -4% and less than or equal to -2% contribute a score of 0.2 and are identified as having risk</li>
+            <li>values greater than -2% contribute a score of 0 and are not identified as having risk</li>
+        </ul>
+
+        <h3 class="govuk-heading-m">Number of sixth form pupils</h3>
+
+        <p class="govuk-body">This indicator shows the number of pupils on roll in sixth form. </p>
+
+        <p class="govuk-body">Data for this indicator is available on the <a href="@schoolPupilsCharacteristicsUrl" class="govuk-link govuk-link--no-visited-state"
+>Schools, pupils and their characteristics publication</a>. </p>
+
+        <p class="govuk-body">The following thresholds determine the indicator score and whether the indicator is flagged as having risk: </p>
+        <ul class="govuk-list govuk-list--bullet">
+            <li>values equal to 0 contribute a score of 0 and are not identified as having risk</li>
+            <li>values greater than 0 and less than or equal to 50 contribute a score of 0.5 and are identified as having risk</li>
+            <li>values greater than 50 and less than or equal to 75 contribute a score of 0.4 and are identified as having risk</li>
+            <li>values greater than 75 and less than or equal to 100 contribute a score of 0.3 and are identified as having risk</li>
+            <li>values greater than 100 and less than or equal to 125 contribute a score of 0.2 and are identified as having risk</li>
+            <li>values greater than 125 and less than or equal to 150 contribute a score of 0.1 and are identified as having risk</li>
+            <li>values greater than 150 contribute a score of 0 and are not identified as having risk</li>
+        </ul>
+
+        <p class="govuk-body">This indicator does not identify any major risks. </p>
+
+        <h3 class="govuk-heading-m">Pupil absence rate</h3>
+
+        <p class="govuk-body">The pupil absence rate shows the percentage of sessions pupils missed out of those they could have attended.  </p>
+
+        <p class="govuk-body">Data for this indicator is available on the <a href="@pupilAbsenceStatsUrl" class="govuk-link govuk-link--no-visited-state">Pupil attendance and absence publication</a>.  </p>
+
+        <h3 class="govuk-heading-m">Special school providers</h3>
+
+        <p class="govuk-body">The following thresholds apply:</p>
+        <ul class="govuk-list govuk-list--bullet">
+            <li>values greater than or equal to 0 and less than 15% contribute a score of 0 and are not identified as having risk</li>
+            <li>values greater than or equal to 15% and less than 25% contribute a score of 0.25 and are identified as having risk</li>
+            <li>values greater than or equal to 25% contribute a score of 0.5 and are identified as having risk</li>
+        </ul>
+
+        <h3 class="govuk-heading-m">All other school providers</h3>
+
+        <p class="govuk-body">The following thresholds apply:</p>
+        <ul class="govuk-list govuk-list--bullet">
+            <li>values greater than or equal to 0 and less than 5% contribute a score of 0 and are not identified as having risk</li>
+            <li>values greater than or equal to 5% and less than 6% contribute a score of 0.25 and are identified as having risk</li>
+            <li>values greater than or equal to 6% contribute a score of 0.5 and are identified as having risk</li>
+        </ul>
+
+        <p class="govuk-body">This indicator does not identify any major risks.</p>
+
+        <h3 class="govuk-heading-m">Pupil capacity</h3>
+
+        <p class="govuk-body">The pupil capacity shows the percentage of available places that are filled.</p>
+
+        <p class="govuk-body">Data for this indicator is available on the <a href="@schoolPupilsCharacteristicsUrl" class="govuk-link govuk-link--no-visited-state">Schools, pupils and their characteristics publication</a> and <a href="@schoolCapacityStatsUrl" class="govuk-link govuk-link--no-visited-state">School capacity publication</a>. </p>
+
+        <p class="govuk-body">The following thresholds determine the indicator score and whether the indicator is flagged as having risk:</p>
+        <ul class="govuk-list govuk-list--bullet">
+            <li>values less than or equal to 40% contribute a score of 1.5 and are identified as a major risk</li>
+            <li>values greater than 40% and less than or equal to 45% contribute a score of 1.25 and are identified as a major risk</li>
+            <li>values greater than 45% and less than or equal to 50% contribute a score of 1 and are identified as a major risk</li>
+            <li>values greater than 50% and less than or equal to 55% contribute a score of 0.75 and are identified as having risk</li>
+            <li>values greater than 55% and less than or equal to 60% contribute a score of 0.6 and are identified as having risk</li>
+            <li>values greater than 60% and less than or equal to 65% contribute a score of 0.45 and are identified as having risk</li>
+            <li>values greater than 65% and less than or equal to 70% contribute a score of 0.3 and are identified as having risk</li>
+            <li>values greater than 70% and less than or equal to 75% contribute a score of 0.15 and are identified as having risk</li>
+            <li>values greater than 75% contribute a score of 0 and are not identified as having risk</li>
+        </ul>
+
+        <h3 class="govuk-heading-m">Change in pupil numbers compared to the previous year</h3>
+
+        <p class="govuk-body">This indicator shows how the number of pupils has changed compared to the previous year. This is expressed as a percentage of the previous year’s pupil count. </p>
+
+        <p class="govuk-body">Data for this indicator is available on the <a href="@schoolPupilsCharacteristicsUrl" class="govuk-link govuk-link--no-visited-state">Schools, pupils and their characteristics publication</a>.</p>
+
+        <p class="govuk-body">The following thresholds determine the indicator score and whether the indicator is flagged as having risk:</p>
+        <ul class="govuk-list govuk-list--bullet">
+            <li>values less than or equal to -15% contribute a score of 1.5 and are identified as a major risk</li>
+            <li>values greater than -15% and less than or equal to -12.5% contribute a score of 1.25 and are identified as a major risk</li>
+            <li>values greater than -12.5% and less than or equal to -10% contribute a score of 1 and are identified as a major risk</li>
+            <li>values greater than -10% and less than or equal to -8% contribute a score of 0.8 and are identified as having risk</li>
+            <li>values greater than -8% and less than or equal to -6% contribute a score of 0.6 and are identified as having risk</li>
+            <li>values greater than -6% and less than or equal to -4% contribute a score of 0.4 and are identified as having risk</li>
+            <li>values greater than -4% and less than or equal to -2% contribute a score of 0.2 and are identified as having risk</li>
+            <li>values greater than -2% contribute a score of 0 and are not identified as having risk</li>
+        </ul>
+    </div>
+</div>
