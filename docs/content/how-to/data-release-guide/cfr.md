@@ -12,7 +12,7 @@ CFR has a transparency file which is released alongside the CFR data.
 
 ## Get the data
 
-[CFR](https://www.gov.uk/guidance/consistent-financial-reporting-framework-cfr) is the framework by which local authority schools submit their data to DfE. Data is submitted via an online form, as in AAR. Local authorities do their own checks on CFR data as they are responsible for funding LA schools, in contrast to academies who are funded directly from DfE. Schools have a deadline to submit their returns and not all schools submit at the same time, so product owners in FBIT make a call as to when enough schools have submitted, and that frozen "cut" of the submission tables is what gets used in FBIT. FBIT combines this financial with other data sources in the data pipeline. CFR uses inputs from the [data sources page.](/explanation/sources/) The data sources page links to where to source these files:
+[CFR](https://www.gov.uk/guidance/consistent-financial-reporting-framework-cfr) is the framework by which local authority schools submit their data to DfE. Data is submitted via an online form, as in AAR. Local authorities do their own checks on CFR data as they are responsible for funding LA schools, in contrast to academies who are funded directly from DfE. Schools have a deadline to submit their returns and not all schools submit at the same time, so product owners in FBIT make a call as to when enough schools have submitted, and that frozen "cut" of the submission tables is what gets used in FBIT. FBIT combines this financial with other data sources in the data pipeline. CFR uses inputs from the [data sources page.](/reference/sources/) The data sources page links to where to source these files:
 
 * CFR_24-25_Data.csv
 * gias.csv
@@ -116,6 +116,6 @@ GROUP BY f_prev.RunId;
 ## Gotchas
 
 * Find all the ancillary data used in the CFR release in `get_cfr_ancillary_data()`.
-* **LAA Risk Derivations:** Remember to trigger LAA risk derivations right after CFR runs successfully. Verify that both denormalised target tables (`LASchoolRiskIndicators` and `LASchoolRiskIndicatorsHeaders`) are populated and match the expectations in the [LAA Risk Indicator Validation](/how-to/qa/data-release-test-plan/#laa-risk-indicator-validation) block.
+* **LAA Risk Derivations:** Remember to trigger LAA risk derivations right after CFR runs successfully. Verify that both denormalised target tables (`LASchoolRiskIndicators` and `LASchoolRiskIndicatorsHeaders`) are populated and match the expectations in the [LAA Risk Indicator Validation](/how-to/data-release-test-plan/#laa-risk-indicator-validation) block.
 * Dealing with federations is a complex part of CFR. Do some spot checks on federated maintained schools to check their numbers are being handled correctly.
 * [CFR test plans](/reference/data-release-test-plans/00002-cfr-2024-2025-data-release/)
