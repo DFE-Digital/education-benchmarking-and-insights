@@ -13,7 +13,8 @@ def test_insert_laa_risk_scores_mapping():
             "RunId": ["2026"],
             "RiskGroup": ["Financial"],
             "RiskIndicator": ["MetricA"],
-            "RiskIndicatorValue": [10.5],
+            "RiskIndicatorValue": ["10.5"],
+            "RiskIndicatorValueFormatting": ["Percentage"],
             "RiskIndicatorFlag": ["Minor"],
             "RiskIndicatorContribution": [2.0],
             "RiskIndicatorContributionMax": [5.0],
@@ -53,6 +54,7 @@ def test_insert_laa_risk_scores_mapping():
             "RiskGroup",
             "RiskIndicator",
             "RiskIndicatorValue",
+            "RiskIndicatorValueFormatting",
             "RiskIndicatorFlag",
             "RiskIndicatorContribution",
             "RiskIndicatorContributionMax",
@@ -185,9 +187,9 @@ def test_create_laa_risk_scores_download_file(mock_write_blob):
             "Total Income": [1000000.0, 500000.0],
             "LAAStaffExpenditureRollup": [800000.0, 420000.0],
             "NetExpenditure": [950000.0, 480000.0],
-            "EndYearBalanceAsPercentageIncome": [0.15, -0.024],
-            "EndYearBalanceAsPercentageIncome_Score": [0.0, 0.5],
-            "EndYearBalanceAsPercentageIncome_Risk": ["No Risk", "Minor"],
+            "Balance 24-25": [0.15, -0.024],
+            "Balance 24-25_Score": [0.0, 0.5],
+            "Balance 24-25_Risk": ["No Risk", "Minor"],
             "SomeUnrelatedColumn": ["unrelated1", "unrelated2"],
         }
     )
@@ -218,9 +220,9 @@ def test_create_laa_risk_scores_download_file(mock_write_blob):
         "Total Income",
         "LAAStaffExpenditureRollup",
         "NetExpenditure",
-        "EndYearBalanceAsPercentageIncome",
-        "EndYearBalanceAsPercentageIncome_Score",
-        "EndYearBalanceAsPercentageIncome_Risk",
+        "Balance 24-25",
+        "Balance 24-25_Score",
+        "Balance 24-25_Risk",
     ]
     assert list(written_df.columns) == expected_cols
     assert "SomeUnrelatedColumn" not in written_df.columns
