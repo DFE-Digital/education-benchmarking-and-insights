@@ -10,9 +10,9 @@
       },
       "AngleSharp.Css": {
         "type": "Direct",
-        "requested": "[1.0.2, )",
-        "resolved": "1.0.2",
-        "contentHash": "XeBxh0h/73+MWFsGfeMwiK7xbzAK3YeHFdUIrMH1P90amIrDFD/vUDIrPlF3CixqaMH5MRIUvT6Ux+2zvhJ3SA==",
+        "requested": "[1.1.2, )",
+        "resolved": "1.1.2",
+        "contentHash": "7o5yCTuURjxmjy+O5/2EDQihTwnVlbeg9cIO+Zq8zDLt/7AZWebOfIxij+cejBGUBMad95wl5VlY3XFo3VQuCg==",
         "dependencies": {
           "AngleSharp": "[1.5.0, 2.0.0)"
         }
@@ -640,7 +640,7 @@
           "Microsoft.AspNetCore.Mvc.NewtonsoftJson": "[10.0.11, )",
           "Microsoft.Extensions.Caching.Cosmos": "[1.8.0, )",
           "Microsoft.Extensions.Caching.StackExchangeRedis": "[10.0.11, )",
-          "Microsoft.Extensions.Http.Polly": "[10.0.10, )",
+          "Microsoft.Extensions.Http.Polly": "[10.0.11, )",
           "Microsoft.FeatureManagement.AspNetCore": "[4.5.0, )",
           "Newtonsoft.Json": "[13.0.4, )",
           "Serilog.AspNetCore": "[10.0.0, )",
@@ -753,9 +753,9 @@
       },
       "Microsoft.Extensions.Http.Polly": {
         "type": "CentralTransitive",
-        "requested": "[10.0.10, )",
-        "resolved": "10.0.10",
-        "contentHash": "ceKyX9V/C+mtapMfXQ0ClKRkxDHAW2AAJoDgTcsh7UdOteCQKB5wRTFgHJ82Lh/3O+UlPA47LRGEZkRxtz/lCA==",
+        "requested": "[10.0.11, )",
+        "resolved": "10.0.11",
+        "contentHash": "DIxaTXWdbjRJihAIutpDIgPbpD9PwW8lW0EIawlNH4zs7coCgwPnd9rYlzXYkuKKphnjcKYlo6gXFeg6z15GLg==",
         "dependencies": {
           "Polly": "7.2.4",
           "Polly.Extensions.Http": "3.0.0"
